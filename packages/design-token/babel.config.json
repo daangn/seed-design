@@ -1,0 +1,28 @@
+{
+  "presets": [
+    "@babel/preset-typescript"
+  ],
+  "env": {
+    "commonjs": {
+      "presets": [
+        ["@babel/preset-env", {
+          "targets": "defaults, ie > 11, node >= 14",
+          "corejs": 3,
+          "useBuiltIns": "usage",
+          "shippedProposals": true
+        }]
+      ]
+    },
+    "esmodule": {
+      "presets": [
+        "@babel/preset-modules"
+      ],
+      "plugins": [
+        ["babel-plugin-module-extension-resolver", {
+          "srcExtensions": [".js", ".ts"],
+          "dstExtension": [".mjs"]
+        }]
+      ]
+    }
+  }
+}

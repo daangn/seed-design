@@ -1,0 +1,6 @@
+.DS_Store
+.nyc_output/
+*.log
+*.tsbuildinfo
+
+**/node_modules/
