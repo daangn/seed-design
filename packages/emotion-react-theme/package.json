@@ -1,6 +1,6 @@
 {
   "name": "@daangn/emotion-react-theme",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "source": "src/index.ts",
   "main": "lib/index.js",
   "module": "lib/index.module.js",
@@ -35,7 +35,7 @@
     "react": "^16.8.0 || ^17.0.0"
   },
   "dependencies": {
-    "@daangn/design-token": "workspace:packages/design-token"
+    "@daangn/design-token": "workspace:^0.1.1"
   },
   "devDependencies": {
     "@emotion/react": "^11.1.5",

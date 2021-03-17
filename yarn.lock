@@ -1580,7 +1580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@daangn/design-token@workspace:packages/design-token":
+"@daangn/design-token@workspace:^0.1.0, @daangn/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@daangn/design-token@workspace:packages/design-token"
   dependencies:
@@ -1605,7 +1605,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@daangn/emotion-react-theme@workspace:packages/emotion-react-theme"
   dependencies:
-    "@daangn/design-token": "workspace:packages/design-token"
+    "@daangn/design-token": "workspace:^0.1.0"
     "@emotion/react": ^11.1.5
     "@types/node": ^14.14.35
     "@types/react": ^17.0.3
