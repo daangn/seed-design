@@ -1,14 +1,9 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "strict": true,
     "rootDir": "src",
-    "outDir": "lib",
-    "declarationDir": "lib",
-    "composite": true,
-    "incremental": true
+    "declaration": true,
+    "declarationDir": "lib"
   },
   "include": [
     "src"
