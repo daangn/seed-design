@@ -1,7 +1,9 @@
-.DS_Store
-.nyc_output/
+*.DS_Store
 *.log
 *.tsbuildinfo
+.ultra.cache.json
+
+.nyc_output/
 
 .yarn/*
 !.yarn/cache
