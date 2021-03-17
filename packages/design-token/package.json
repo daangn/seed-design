@@ -1,16 +1,29 @@
 {
-  "name": "@karrotmarket/design-token",
-  "version": "0.0.1",
+  "name": "@daangn/design-token",
+  "version": "0.1.0",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/design-system",
+    "directory": "packages/design-token"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "scripts": {
     "test": "tap",
     "build": "concurrently \"yarn:build:*\"",
     "build:tsc": "tsc --emitDeclarationOnly",
-    "build:cjs": "babel src --env-name commonjs -d lib -x .ts",
-    "build:esm": "babel src --env-name esmodule -d lib -x .ts --out-file-extension .mjs",
-    "postbuild": "node ./export-css.mjs"
+    "build:cjs": "babel src --env-name commonjs -d lib -x .ts --source-maps true",
+    "build:esm": "babel src --env-name esmodule -d lib -x .ts --source-maps true --out-file-extension .mjs",
+    "postbuild": "node ./export-css.mjs",
+    "prepack": "yarn build"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "dependencies": {
     "core-js": "^3.9.1"
   },
@@ -18,11 +31,12 @@
     "@babel/cli": "^7.13.10",
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
+    "@babel/preset-modules": "^0.1.4",
     "@babel/preset-typescript": "^7.13.0",
     "@types/common-tags": "^1.8.0",
     "@types/tap": "^14.10.3",
     "babel-plugin-module-extension-resolver": "^1.0.0-rc.2",
-    "babel-preset-modules": "^0.0.2",
+    "babel-preset-minify": "^0.5.1",
     "common-tags": "^1.8.0",
     "concurrently": "^6.0.0",
     "tap": "^14.11.0",
