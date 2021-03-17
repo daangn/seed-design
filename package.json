@@ -8,5 +8,9 @@
   "resolutions": {
     "typescript": "^4.2.3"
   },
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "@yarnpkg/pnpify": "^2.4.0",
+    "typescript": "^4.2.3"
+  }
 }
