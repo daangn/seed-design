@@ -20,10 +20,15 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "scripts": {
     "ultra": "ultra --root",
     "build": "microbundle",
-    "dev": "microbundle --watch"
+    "dev": "microbundle --watch",
+    "prepack": "yarn ultra build"
   },
   "peerDependencies": {
     "@emotion/react": "^11.0.0",
