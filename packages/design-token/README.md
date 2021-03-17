@@ -35,3 +35,40 @@ import { colors } from '@daangn/design-token';
 ```ts
 import '@daangn/design-token/colors/light.css';
 ```
+
+전역에 다음과 같이 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/var()) 값이 추가됩니다.
+
+```css
+:root {
+  --gray100: #F2F3F6;
+  --gray200: #EAEBEE;
+  --gray300: #DCDEE3;
+  --gray400: #D1D3D8;
+  --gray500: #ADB1BA;
+  --gray600: #868B94;
+  --gray650: #6D717A;
+  --gray700: #4D5159;
+  --gray800: #393C42;
+  --gray850: #2B2E33;
+  --gray900: #212124;
+  --carrot50: #FFF5F0;
+  --carrot100: #FFE2D2;
+  --carrot200: #FFD2B9;
+  --carrot300: #FFBC97;
+  --carrot400: #FF9E66;
+  --carrot500: #FF7E36;
+  --carrot600: #FA6616;
+  --yellow50: #FFF7E6;
+  --yellow500: #FFC552;
+  --yellow800: #CF6400;
+  --green50: #E8FAF6;
+  --green500: #00B493;
+  --green800: #00BC72;
+  --red50: #FFF3F2;
+  --red800: #E81300;
+  --blue50: #EBF7FA;
+  --blue800: #0A86B7;
+}
+```
+
+CSS 에서 `color: var(--carrot400)` 처럼 쓸 수 있습니다. 
