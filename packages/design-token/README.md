@@ -34,6 +34,9 @@ import { colors } from '@daangn/design-token';
 
 ```ts
 import '@daangn/design-token/colors/light.css';
+
+// [conditional exports](https://nodejs.org/api/packages.html#packages_conditional_exports) 기능이 지원되지 않는 환경이라면 다음과 같이 사용하세요.
+import '@daangn/design-token/lib/colors/light.css';
 ```
 
 전역에 다음과 같이 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/var()) 값이 추가됩니다.
