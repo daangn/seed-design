@@ -59,7 +59,6 @@ export function isKnownColorGroup(str: string): str is KnownColorGroup {
   return knownColorGroupNames.includes(str as KnownColorGroup);
 }
 
-
 type ColorValue = [Token: ColorToken, Group: KnownColorGroup, Lightness: number];
 export function parseToken(token: string): ColorValue {
   const COLOR_TOKEN_REGEXP = /\$(?<Group>[a-z]+)(?<Lightness>\d+)$/;
