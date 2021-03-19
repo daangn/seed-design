@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "tap",
-    "build": "microbundle",
+    "build": "microbundle && node ./export-css.js",
     "dev": "microbundle watch",
     "prepack": "yarn build"
   },

@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
+const fs = require('fs/promises');
+const path = require('path');
 
-import { colors } from './lib/index.mjs';
+const { colors } = require('./lib/index.js');
 
 const render = vars => `:root {
   ${Object.entries(vars)
@@ -22,5 +22,6 @@ const makeVars = scheme => {
 const lightTheme = render(makeVars(colors.light));
 const lightThemePath = path.resolve('./lib/colors/light.css');
 
-await fs.mkdir(path.dirname(lightThemePath), { recursive: true });
-await fs.writeFile(lightThemePath, lightTheme, 'utf-8');
+fs.mkdir(path.dirname(lightThemePath), { recursive: true }).then(
+  fs.writeFile(lightThemePath, lightTheme, 'utf-8')
+)
