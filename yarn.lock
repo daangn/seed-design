@@ -1580,7 +1580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@daangn/design-token@workspace:^0.1.0, @daangn/design-token@workspace:packages/design-token":
+"@daangn/design-token@workspace:^0.1.1, @daangn/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@daangn/design-token@workspace:packages/design-token"
   dependencies:
@@ -1605,7 +1605,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@daangn/emotion-react-theme@workspace:packages/emotion-react-theme"
   dependencies:
-    "@daangn/design-token": "workspace:^0.1.0"
+    "@daangn/design-token": "workspace:^0.1.1"
     "@emotion/react": ^11.1.5
     "@types/node": ^14.14.35
     "@types/react": ^17.0.3
@@ -4221,6 +4221,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"diff@npm:*":
+  version: 5.0.0
+  resolution: "diff@npm:5.0.0"
+  checksum: ef241d3b20017b8a1a6f20d184035b836de662203638e16eb57267653a56392ea82e1f9c12b28836e6e22aa25c28c59847aaeb35dd65e77e75c822c7e848e7e8
+  languageName: node
+  linkType: hard
+
 "diff@npm:^4.0.1":
   version: 4.0.2
   resolution: "diff@npm:4.0.2"
@@ -6746,6 +6753,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"mkdirp@npm:*, mkdirp@npm:^1.0.3":
+  version: 1.0.4
+  resolution: "mkdirp@npm:1.0.4"
+  bin:
+    mkdirp: bin/cmd.js
+  checksum: 1aa3a6a2d7514f094a91329ec09994f5d32d2955a4985ecbb3d86f2aaeafc4aa11521f98d606144c1d49cd9835004d9a73342709b8c692c92e59eacf37412468
+  languageName: node
+  linkType: hard
+
 "mkdirp@npm:^0.5.0, mkdirp@npm:^0.5.1, mkdirp@npm:^0.5.4, mkdirp@npm:~0.5.1":
   version: 0.5.5
   resolution: "mkdirp@npm:0.5.5"
@@ -6754,15 +6770,6 @@ fsevents@~2.3.1:
   bin:
     mkdirp: bin/cmd.js
   checksum: 9dd9792e891927b14ca02226dbe1daeb717b9517a001620d5e2658bbc72c5e4f06887b6cbcbb60595fa5a56e701073cf250f1ed69c1988a6b89faf9fd6a4d049
-  languageName: node
-  linkType: hard
-
-"mkdirp@npm:^1.0.3":
-  version: 1.0.4
-  resolution: "mkdirp@npm:1.0.4"
-  bin:
-    mkdirp: bin/cmd.js
-  checksum: 1aa3a6a2d7514f094a91329ec09994f5d32d2955a4985ecbb3d86f2aaeafc4aa11521f98d606144c1d49cd9835004d9a73342709b8c692c92e59eacf37412468
   languageName: node
   linkType: hard
 
@@ -9424,7 +9431,7 @@ resolve@1.17.0:
   languageName: node
   linkType: hard
 
-"tap-yaml@npm:^1.0.0":
+"tap-yaml@npm:*, tap-yaml@npm:^1.0.0":
   version: 1.0.0
   resolution: "tap-yaml@npm:1.0.0"
   dependencies:

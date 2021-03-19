@@ -5724,6 +5724,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["diff", "npm:4.0.2"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:5.0.0", {
+          "packageLocation": "./.yarn/cache/diff-npm-5.0.0-ad6900db18-ef241d3b20.zip/node_modules/diff/",
+          "packageDependencies": [
+            ["diff", "npm:5.0.0"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["diff-frag", [
@@ -7708,6 +7715,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["archy", "npm:1.0.0"],
             ["cross-spawn", "npm:6.0.5"],
             ["istanbul-lib-coverage", "npm:2.0.5"],
+            ["mkdirp", "npm:1.0.4"],
             ["rimraf", "npm:2.7.1"],
             ["uuid", "npm:3.4.0"]
           ],
@@ -11664,6 +11672,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tcompare-npm-3.0.5-d7c3cf16a2-99ddbf4094.zip/node_modules/tcompare/",
           "packageDependencies": [
             ["tcompare", "npm:3.0.5"],
+            ["diff", "npm:5.0.0"],
             ["diff-frag", "npm:1.0.1"]
           ],
           "linkType": "HARD",
@@ -11842,6 +11851,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:16.14.0"],
             ["string-length", "npm:3.1.0"],
             ["tap-parser", "npm:10.1.0"],
+            ["tap-yaml", "npm:1.0.0"],
             ["unicode-length", "npm:2.0.2"]
           ],
           "packagePeers": [
