@@ -28,11 +28,11 @@
   },
   "scripts": {
     "test": "tap",
-    "build": "rimraf lib && concurrently \"yarn:build:*\" && node ./export-css.mjs",
+    "build": "concurrently \"yarn:build:*\" && node ./export-css.mjs",
     "build:tsc": "tsc --emitDeclarationOnly",
     "build:cjs": "babel src --env-name commonjs -d lib -x .ts --source-maps true",
     "build:esm": "babel src --env-name esmodule -d lib -x .ts --source-maps true --out-file-extension .mjs",
-    "prepack": "yarn build"
+    "prepack": "rimraf lib && yarn build"
   },
   "files": [
     "src",
