@@ -2621,6 +2621,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["babel-preset-minify", "npm:0.5.1"],
             ["concurrently", "npm:6.0.0"],
             ["core-js", "npm:3.9.1"],
+            ["mkdirp", "npm:1.0.4"],
             ["rimraf", "npm:3.0.2"],
             ["tap", "npm:14.11.0"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]

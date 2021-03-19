@@ -29,7 +29,7 @@
   "scripts": {
     "test": "tap",
     "build": "concurrently \"yarn:build:*\" && node ./export-css.mjs",
-    "build:tsc": "tsc --emitDeclarationOnly",
+    "build:dts": "tsc --emitDeclarationOnly",
     "build:cjs": "babel src --env-name commonjs -d lib -x .ts --source-maps true",
     "build:esm": "babel src --env-name esmodule -d lib -x .ts --source-maps true --out-file-extension .mjs",
     "prepack": "rimraf lib && yarn build"
@@ -52,6 +52,7 @@
     "babel-plugin-module-extension-resolver": "^1.0.0-rc.2",
     "babel-preset-minify": "^0.5.1",
     "concurrently": "^6.0.0",
+    "mkdirp": "^1.0.4",
     "rimraf": "^3.0.2",
     "tap": "^14.11.0",
     "typescript": "^4.2.3"
