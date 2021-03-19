@@ -1,5 +1,11 @@
 # @daangn/design-token
 
+## 0.1.6
+
+### Patch Changes
+
+- 102a03c: 아... deno 쓰고싶다...
+
 ## 0.1.5
 
 ### Patch Changes
