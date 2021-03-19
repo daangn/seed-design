@@ -1,5 +1,11 @@
 # @daangn/design-token
 
+## 0.1.5
+
+### Patch Changes
+
+- 5e6f6ee: fix(design-token): bundle output
+
 ## 0.1.4
 
 ### Patch Changes
