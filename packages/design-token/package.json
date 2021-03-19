@@ -1,6 +1,6 @@
 {
   "name": "@daangn/design-token",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "sideEffects": false,
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",

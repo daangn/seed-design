@@ -1,5 +1,11 @@
 # @daangn/design-token
 
+## 0.1.3
+
+### Patch Changes
+
+- 633c991: fix(design-token): add missing dts output
+
 ## 0.1.2
 
 ### Patch Changes
