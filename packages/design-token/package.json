@@ -1,6 +1,6 @@
 {
   "name": "@daangn/design-token",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "sideEffects": false,
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
@@ -32,7 +32,7 @@
     "build:dts": "tsc --emitDeclarationOnly",
     "build:cjs": "babel src --env-name commonjs -d lib -x .ts --source-maps true",
     "build:esm": "babel src --env-name esmodule -d lib -x .ts --source-maps true --out-file-extension .mjs",
-    "prepack": "rimraf lib && yarn build"
+    "prepack": "yarn build"
   },
   "files": [
     "src",

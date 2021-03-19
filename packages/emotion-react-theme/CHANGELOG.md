@@ -1,5 +1,12 @@
 # @daangn/emotion-react-theme
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [22aedd0]
+  - @daangn/design-token@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
