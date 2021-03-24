@@ -1,6 +1,6 @@
 {
   "name": "@daangn/emotion-react-theme",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "source": "src/index.ts",
   "main": "lib/index.js",
   "module": "lib/index.module.js",

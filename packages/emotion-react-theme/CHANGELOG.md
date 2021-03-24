@@ -1,5 +1,11 @@
 # @daangn/emotion-react-theme
 
+## 0.2.0
+
+### Minor Changes
+
+- a39b424: Fix exports and interface change to allow token injection
+
 ## 0.1.6
 
 ### Patch Changes
