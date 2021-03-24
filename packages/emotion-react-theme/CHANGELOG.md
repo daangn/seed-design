@@ -1,5 +1,11 @@
 # @daangn/emotion-react-theme
 
+## 0.3.0
+
+### Minor Changes
+
+- 16edb8f: Fix bundle config for JSX, Emotion (react@^17.0.0 required)
+
 ## 0.2.1
 
 ### Patch Changes
