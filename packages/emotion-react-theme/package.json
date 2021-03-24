@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "module": "lib/index.module.js",
   "exports": "lib/index.modern.js",
+  "types": "lib/index.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
