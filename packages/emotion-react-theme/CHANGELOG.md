@@ -1,5 +1,11 @@
 # @daangn/emotion-react-theme
 
+## 0.2.1
+
+### Patch Changes
+
+- f35e953: make @daangn/design-token to peerDependency
+
 ## 0.2.0
 
 ### Minor Changes
