@@ -27,14 +27,14 @@
   ],
   "scripts": {
     "ultra": "ultra --root",
-    "build": "microbundle",
-    "dev": "microbundle --watch",
+    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@emotion/react=emotionReact",
+    "dev": "microbundle dev",
     "prepack": "yarn ultra build"
   },
   "peerDependencies": {
     "@daangn/design-token": "^0.1.6",
     "@emotion/react": "^11.0.0",
-    "react": "^16.8.0 || ^17.0.0"
+    "react": "^17.0.0"
   },
   "devDependencies": {
     "@daangn/design-token": "workspace:^0.1.6",

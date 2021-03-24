@@ -3,15 +3,15 @@
 ## Usage
 
 ```bash
-yarn add @daangn/emotion-react-theme @daangn/design-token
+yarn add @emotion/react @daangn/emotion-react-theme @daangn/design-token
 ```
 
 ```tsx
-import * as tokens from '@daangn/design-token';
+import { colors } from '@daangn/design-token';
 import { DaangnThemeProvider } from '@daangn/emotion-react-theme';
 
 // ...
-<DaangnThemeProvider {...tokens}>
+<DaangnThemeProvider colors={colors.light}>
   <MyThemedComponent />
 </DaangnThemeProvider>
 ```
