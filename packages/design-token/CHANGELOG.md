@@ -1,5 +1,11 @@
 # @daangn/design-token
 
+## 0.1.7
+
+### Patch Changes
+
+- 54d617f: Fix Green 800
+
 ## 0.1.6
 
 ### Patch Changes
