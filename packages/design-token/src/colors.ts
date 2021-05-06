@@ -40,7 +40,7 @@ export const light: Readonly<ColorScheme> = Object.freeze({
   // 긍정, 성공
   '$green50' : '#E8FAF6',
   '$green500': '#00B493',
-  '$green800': '#00BC72',
+  '$green800': '#008C72',
 
   // 경고, 위험
   '$red50' : '#FFF3F2',
