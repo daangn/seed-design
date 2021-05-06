@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/design-system",
+    "url": "git+https://github.com/daangn/karrot-ui",
     "directory": "packages/design-token"
   },
   "maintainers": [

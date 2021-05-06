@@ -1,15 +1,15 @@
 {
   "name": "@daangn/emotion-react-theme",
   "version": "0.3.0",
-  "source": "src/index.ts",
-  "main": "lib/index.js",
-  "module": "lib/index.module.js",
-  "exports": "lib/index.modern.js",
-  "types": "lib/index.d.ts",
+  "source": "./src/index.ts",
+  "main": "./lib/index.js",
+  "module": "./lib/index.module.js",
+  "exports": "./lib/index.modern.js",
+  "types": "./lib/index.d.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daangn/design-system",
+    "url": "git+https://github.com/daangn/karrot-ui",
     "directory": "packages/emotion-react-theme"
   },
   "maintainers": [
