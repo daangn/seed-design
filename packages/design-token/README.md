@@ -66,7 +66,7 @@ import '@daangn/design-token/lib/colors/light.css';
   --yellow800: #CF6400;
   --green50: #E8FAF6;
   --green500: #00B493;
-  --green800: #00BC72;
+  --green800: #008C72;
   --red50: #FFF3F2;
   --red800: #E81300;
   --blue50: #EBF7FA;

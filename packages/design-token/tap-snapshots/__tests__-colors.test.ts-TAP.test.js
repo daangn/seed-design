@@ -104,7 +104,7 @@ Object {
     ],
     Array [
       "$green800",
-      "#00BC72",
+      "#008C72",
     ],
   ],
   "red": Array [
