@@ -1390,7 +1390,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@karrotmarket/design-token@workspace:^0.1.7, @karrotmarket/design-token@workspace:packages/design-token":
+"@karrotmarket/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@karrotmarket/design-token@workspace:packages/design-token"
   dependencies:
@@ -1408,16 +1408,17 @@ __metadata:
   resolution: "@karrotmarket/react-emotion-theme@workspace:packages/react-emotion-theme"
   dependencies:
     "@emotion/react": ^11.1.5
-    "@karrotmarket/design-token": "workspace:^0.1.7"
+    "@karrotmarket/design-token": "workspace:packages/design-token"
     "@types/node": ^14.14.35
-    "@types/react": ^17.0.3
+    "@types/react": ^17.0.8
+    "@types/webpack-env": ^1.16.0
     microbundle: ^0.13.1
     react: ^17.0.1
     typescript: ^4.3.2
     ultra-runner: ^3.10.5
+    use-dark-mode: ^2.3.1
   peerDependencies:
     "@emotion/react": ^11.0.0
-    "@karrotmarket/design-token": ^0.1.7
     react: ^17.0.0
   languageName: unknown
   linkType: soft
@@ -1659,14 +1660,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.3":
-  version: 17.0.3
-  resolution: "@types/react@npm:17.0.3"
+"@types/react@npm:^17.0.8":
+  version: 17.0.8
+  resolution: "@types/react@npm:17.0.8"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 5bcaabadc90a23ad9008540eae98a5819b638c4cf1b968adc67be47d6a8dc8cb100061d877dae97618fb275e405dc484b37154080c7ac0ea7df5efcdd8f98c24
+  checksum: b59a3abafd240b2880f9e6a11b2b7f75165888260c56e95a77ed10a7dd55570b307fb2356eda7fde2a8e1255d2def11797e4ae9800ae114a1f578546acabda67
   languageName: node
   linkType: hard
 
@@ -1718,10 +1719,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webpack-env@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "@types/webpack-env@npm:1.16.0"
+  checksum: eaf62fb65ba18737174a520a444bb7407e5a6f32581690c5a7a687e6f86e9d4ce336fd9e79989aafa19e5f390046ad54b9100cd3d70a43dcf0ab0161d30cd5bd
+  languageName: node
+  linkType: hard
+
 "@types/yoga-layout@npm:1.9.2":
   version: 1.9.2
   resolution: "@types/yoga-layout@npm:1.9.2"
   checksum: a701328c5e3614847a92778b6b5e63e9d3fb8494f8aa807b21ef9359aff1b9b443c540e96fe7119008fc3572990afb8855d44864ddc250bc21a2aa1bd497f53c
+  languageName: node
+  linkType: hard
+
+"@use-it/event-listener@npm:^0.1.2":
+  version: 0.1.6
+  resolution: "@use-it/event-listener@npm:0.1.6"
+  peerDependencies:
+    react: ^16.8.0
+  checksum: 7ba9bb306cc25207eb3b67965c176ae892614250dea04d237d2b20222438ce277b4e0b5aececece8212cdcba68fd1b9b5e13bc2d5d3c15a377b664cff6587cde
   languageName: node
   linkType: hard
 
@@ -7750,6 +7767,29 @@ resolve@1.17.0:
   dependencies:
     punycode: ^2.1.0
   checksum: 7d8ae8e2d7b82480d7d337f3e53c9a89ffdc7ebb1c31f212da3df6349f2fd1e6a4361f5fb27369ecab33fa37aa85edc53aec6eb7c9a7c3207a9e0944e8c48802
+  languageName: node
+  linkType: hard
+
+"use-dark-mode@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "use-dark-mode@npm:2.3.1"
+  dependencies:
+    "@use-it/event-listener": ^0.1.2
+    use-persisted-state: ^0.3.0
+  peerDependencies:
+    react: ^16.8.0
+  checksum: ea12e45eee0025461fcb5f356f0ce46ef668364a10eeca9105a09326c72c943ca849d3a552b81468f4daeafca1a36d12c2813bef9f9d4ee6cc66de3f724d04c3
+  languageName: node
+  linkType: hard
+
+"use-persisted-state@npm:^0.3.0":
+  version: 0.3.3
+  resolution: "use-persisted-state@npm:0.3.3"
+  dependencies:
+    "@use-it/event-listener": ^0.1.2
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0
+  checksum: c767b3d24a611a6b919bbfa2ef9fc1743bd7fe015731d32e9e291f1d80c29f13f66758cc51a800f7a300455e77115110eaec07c4cc77e1e3a2ab2f97a7d6657f
   languageName: node
   linkType: hard
 

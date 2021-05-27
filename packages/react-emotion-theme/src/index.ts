@@ -1,1 +1,2 @@
-export * from './ThemeContext';
+export * from './KarrotThemeProvider';
+export * from './PreferenceStorageContext';
