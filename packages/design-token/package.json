@@ -43,6 +43,6 @@
     "@types/tap": "^14.10.3",
     "microbundle": "^0.13.0",
     "tap": "^14.11.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.3.2"
   }
 }
