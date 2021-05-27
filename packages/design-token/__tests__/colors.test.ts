@@ -20,7 +20,7 @@ t.test('theme', async t => {
     t.matchSnapshot(toStyleMap(colors.light));
   });
 
-  t.test('light', async () => {
+  t.test('dark', async () => {
     t.matchSnapshot(toStyleMap(colors.dark));
   });
 });
