@@ -51,8 +51,6 @@ export const light: Readonly<ColorScheme> = Object.freeze({
   '$blue800': '#0A86B7',
 });
 
-export default light;
-
 const knownColorGroupNames = ['gray', 'carrot', 'yellow', 'green', 'red', 'blue'] as const;
 type KnownColorGroup = typeof knownColorGroupNames[number];
 export function isKnownColorGroup(str: string): str is KnownColorGroup {
