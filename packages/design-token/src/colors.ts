@@ -79,13 +79,12 @@ export function parseToken(token: string): ColorValue {
 }
 
 type ColorStyle = [Token: ColorToken, Value: string];
-type ColorStyleMap = Record<KnownColorGroup, ColorStyle>;
+type ColorStyleMap = Record<KnownColorGroup, ColorStyle[]>;
 export function toStyleMap(scheme: ColorScheme): ColorStyleMap {
   return Object.entries(scheme).reduce((acc, [k, v]) => {
     const [token, group] = parseToken(k);
-    return {
-      ...acc,
-      [group]: [...acc[group] || [], [token, v]],
-    };
+    const style: ColorStyle = [token, v];
+    acc[group]?.push(style) ?? (acc[group] = [style]);
+    return acc;
   }, {} as ColorStyleMap);
 }
