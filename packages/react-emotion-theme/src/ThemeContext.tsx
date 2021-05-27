@@ -1,31 +1,26 @@
 import * as React from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import type { ColorScheme } from '@daangn/design-token';
-import type { DaangnColorScheme } from './colors';
-import { convertColorScheme } from './colors';
+import type { ColorScheme } from '@karrotmarket/design-token';
+import { colors } from '@karrotmarket/design-token';
 
-interface ThemeProps {
-  colors: ColorScheme;
-}
-
-interface DaangnTheme {
-  colors: DaangnColorScheme;
-}
+export type KarrotTheme = {
+  colors: ColorScheme,
+};
 
 declare module '@emotion/react' {
-  export interface Theme extends Readonly<DaangnTheme> {}
+  export interface Theme extends KarrotTheme {}
 }
 
-export const DaangnThemeProvider: React.FC<ThemeProps> = ({
+type KarrotThemeProviderProps = {
+  theme: KarrotTheme,
+};
+
+export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
-  ...themeProps
 }) => {
-  const theme = React.useMemo(() => {
-    const daangnTheme: Readonly<DaangnTheme> = Object.freeze({
-      colors: convertColorScheme(themeProps.colors),
-    });
-    return daangnTheme;
-  }, [themeProps]);
+  const theme = React.useMemo(() => ({
+    colors: colors.light,
+  }), []);
 
   return (
     <EmotionThemeProvider theme={theme}>
@@ -36,5 +31,5 @@ export const DaangnThemeProvider: React.FC<ThemeProps> = ({
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
-  DaangnThemeProvider.displayName = 'DaangnThemeProvider';
+  KarrotThemeProvider.displayName = 'KarrotThemeProvider';
 }
