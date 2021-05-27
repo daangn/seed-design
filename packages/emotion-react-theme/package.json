@@ -1,11 +1,7 @@
 {
   "name": "@daangn/emotion-react-theme",
   "version": "0.3.0",
-  "source": "./src/index.ts",
-  "main": "./lib/index.js",
-  "module": "./lib/index.module.js",
-  "exports": "./lib/index.modern.js",
-  "types": "./lib/index.d.ts",
+  "main": "./src/index.ts",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -19,7 +15,12 @@
     }
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com",
+    "source": "./src/index.ts",
+    "main": "./lib/index.js",
+    "module": "./lib/index.module.js",
+    "exports": "./lib/index.modern.js",
+    "types": "./lib/index.d.ts"
   },
   "files": [
     "src",

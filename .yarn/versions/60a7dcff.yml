@@ -1,5 +1,6 @@
 releases:
   "@daangn/design-token": minor
+  "@daangn/emotion-react-theme": minor
 
 undecided:
   - design-system
