@@ -28,14 +28,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       },
       {
         "name": "@karrotmarket/react-emotion-theme",
-        "reference": "workspace:packages/emotion-react-theme"
+        "reference": "workspace:packages/react-emotion-theme"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
       ["@karrotmarket/design-token", ["workspace:packages/design-token"]],
-      ["@karrotmarket/react-emotion-theme", ["workspace:packages/emotion-react-theme"]],
+      ["@karrotmarket/react-emotion-theme", ["workspace:packages/react-emotion-theme"]],
       ["design-system", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -2308,10 +2308,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5", {
-          "packageLocation": "./.yarn/$$virtual/@emotion-react-virtual-489710e1ab/0/cache/@emotion-react-npm-11.1.5-bb508e1993-4e78f694df.zip/node_modules/@emotion/react/",
+        ["virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:11.1.5", {
+          "packageLocation": "./.yarn/$$virtual/@emotion-react-virtual-40ae744165/0/cache/@emotion-react-npm-11.1.5-bb508e1993-4e78f694df.zip/node_modules/@emotion/react/",
           "packageDependencies": [
-            ["@emotion/react", "virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5"],
+            ["@emotion/react", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:11.1.5"],
             ["@babel/core", null],
             ["@babel/runtime", "npm:7.13.10"],
             ["@emotion/cache", "npm:11.1.3"],
@@ -2399,11 +2399,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@karrotmarket/react-emotion-theme", [
-        ["workspace:packages/emotion-react-theme", {
-          "packageLocation": "./packages/emotion-react-theme/",
+        ["workspace:packages/react-emotion-theme", {
+          "packageLocation": "./packages/react-emotion-theme/",
           "packageDependencies": [
-            ["@karrotmarket/react-emotion-theme", "workspace:packages/emotion-react-theme"],
-            ["@emotion/react", "virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5"],
+            ["@karrotmarket/react-emotion-theme", "workspace:packages/react-emotion-theme"],
+            ["@emotion/react", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:11.1.5"],
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
             ["@types/node", "npm:14.14.35"],
             ["@types/react", "npm:17.0.3"],

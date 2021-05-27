@@ -1403,9 +1403,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@karrotmarket/react-emotion-theme@workspace:packages/emotion-react-theme":
+"@karrotmarket/react-emotion-theme@workspace:packages/react-emotion-theme":
   version: 0.0.0-use.local
-  resolution: "@karrotmarket/react-emotion-theme@workspace:packages/emotion-react-theme"
+  resolution: "@karrotmarket/react-emotion-theme@workspace:packages/react-emotion-theme"
   dependencies:
     "@emotion/react": ^11.1.5
     "@karrotmarket/design-token": "workspace:^0.1.7"
