@@ -1,4 +1,4 @@
-# @daangn/design-token
+# @karrotmarket/design-token
 
 디자인 토큰이 무엇인가요?
 
@@ -21,7 +21,7 @@ Non-goals
 ## 사용법
 
 ```bash
-yarn add @daangn/design-token
+yarn add @karrotmarket/design-token
 ```
 
 ### JavaScript (TypeScript)
