@@ -2,15 +2,7 @@
   "name": "@daangn/design-token",
   "version": "0.1.7",
   "sideEffects": false,
-  "source": "./src/index.ts",
-  "types": "./lib/index.d.ts",
-  "main": "./lib/index.js",
-  "module": "./lib/index.module.js",
-  "unpkg": "./lib/index.umd.js",
-  "exports": {
-    ".": "./lib/index.modern.js",
-    "./colors/light.css": "./lib/colors/light.css"
-  },
+  "main": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/karrot-ui",
@@ -23,7 +15,20 @@
     }
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com",
+    "source": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "main": "./lib/index.js",
+    "module": "./lib/index.module.js",
+    "unpkg": "./lib/index.umd.js",
+    "exports": {
+      ".": {
+        "require": "./lib/index.js",
+        "import": "./lib/index.modern.js"
+      },
+      "./colors/light.css": "./lib/colors/light.css",
+      "./package.json": "./package.json"
+    }
   },
   "scripts": {
     "test": "tap",
