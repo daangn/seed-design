@@ -1,5 +1,6 @@
 {
-  "name": "@daangn/design-token",
+  "name": "@karrotmarket/design-token",
+  "amdName": "karrotDesignToken",
   "version": "0.1.7",
   "sideEffects": false,
   "main": "./src/index.ts",
@@ -10,12 +11,12 @@
   },
   "maintainers": [
     {
-      "name": "Tim K",
+      "name": "Tim Kim",
       "email": "tim@daangn.com"
     }
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
+    "access": "public",
     "source": "./src/index.ts",
     "types": "./lib/index.d.ts",
     "main": "./lib/index.js",

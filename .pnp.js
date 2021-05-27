@@ -23,19 +23,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:."
       },
       {
-        "name": "@daangn/design-token",
+        "name": "@karrotmarket/design-token",
         "reference": "workspace:packages/design-token"
       },
       {
-        "name": "@daangn/emotion-react-theme",
+        "name": "@karrotmarket/react-emotion-theme",
         "reference": "workspace:packages/emotion-react-theme"
       }
     ],
     "enableTopLevelFallback": true,
     "ignorePatternData": "(^(?:\\.yarn\\/sdks(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)|$))$)",
     "fallbackExclusionList": [
-      ["@daangn/design-token", ["workspace:packages/design-token"]],
-      ["@daangn/emotion-react-theme", ["workspace:packages/emotion-react-theme"]],
+      ["@karrotmarket/design-token", ["workspace:packages/design-token"]],
+      ["@karrotmarket/react-emotion-theme", ["workspace:packages/emotion-react-theme"]],
       ["design-system", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -2268,38 +2268,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@daangn/design-token", [
-        ["workspace:packages/design-token", {
-          "packageLocation": "./packages/design-token/",
-          "packageDependencies": [
-            ["@daangn/design-token", "workspace:packages/design-token"],
-            ["@types/common-tags", "npm:1.8.0"],
-            ["@types/tap", "npm:14.10.3"],
-            ["core-js", "npm:3.9.1"],
-            ["microbundle", "npm:0.13.1"],
-            ["tap", "npm:14.11.0"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@daangn/emotion-react-theme", [
-        ["workspace:packages/emotion-react-theme", {
-          "packageLocation": "./packages/emotion-react-theme/",
-          "packageDependencies": [
-            ["@daangn/emotion-react-theme", "workspace:packages/emotion-react-theme"],
-            ["@daangn/design-token", "workspace:packages/design-token"],
-            ["@emotion/react", "virtual:91e7652d2ba5f6ab85e97ed83dcb88f10663ef34f6481d9372f587b4d9fcd2b967cd9c463ce03e4992e61b7a501cae95e8cde09878c40914efd31b4adf553931#npm:11.1.5"],
-            ["@types/node", "npm:14.14.35"],
-            ["@types/react", "npm:17.0.3"],
-            ["microbundle", "npm:0.13.1"],
-            ["react", "npm:17.0.1"],
-            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
-            ["ultra-runner", "npm:3.10.5"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
       ["@emotion/cache", [
         ["npm:11.1.3", {
           "packageLocation": "./.yarn/cache/@emotion-cache-npm-11.1.3-47cf0c0b4d-1d206ecfe2.zip/node_modules/@emotion/cache/",
@@ -2340,10 +2308,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:91e7652d2ba5f6ab85e97ed83dcb88f10663ef34f6481d9372f587b4d9fcd2b967cd9c463ce03e4992e61b7a501cae95e8cde09878c40914efd31b4adf553931#npm:11.1.5", {
-          "packageLocation": "./.yarn/$$virtual/@emotion-react-virtual-c1e6d84dfa/0/cache/@emotion-react-npm-11.1.5-bb508e1993-4e78f694df.zip/node_modules/@emotion/react/",
+        ["virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5", {
+          "packageLocation": "./.yarn/$$virtual/@emotion-react-virtual-489710e1ab/0/cache/@emotion-react-npm-11.1.5-bb508e1993-4e78f694df.zip/node_modules/@emotion/react/",
           "packageDependencies": [
-            ["@emotion/react", "virtual:91e7652d2ba5f6ab85e97ed83dcb88f10663ef34f6481d9372f587b4d9fcd2b967cd9c463ce03e4992e61b7a501cae95e8cde09878c40914efd31b4adf553931#npm:11.1.5"],
+            ["@emotion/react", "virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5"],
             ["@babel/core", null],
             ["@babel/runtime", "npm:7.13.10"],
             ["@emotion/cache", "npm:11.1.3"],
@@ -2413,6 +2381,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@emotion/weak-memoize", "npm:0.2.5"]
           ],
           "linkType": "HARD",
+        }]
+      ]],
+      ["@karrotmarket/design-token", [
+        ["workspace:packages/design-token", {
+          "packageLocation": "./packages/design-token/",
+          "packageDependencies": [
+            ["@karrotmarket/design-token", "workspace:packages/design-token"],
+            ["@types/common-tags", "npm:1.8.0"],
+            ["@types/tap", "npm:14.10.3"],
+            ["core-js", "npm:3.9.1"],
+            ["microbundle", "npm:0.13.1"],
+            ["tap", "npm:14.11.0"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@karrotmarket/react-emotion-theme", [
+        ["workspace:packages/emotion-react-theme", {
+          "packageLocation": "./packages/emotion-react-theme/",
+          "packageDependencies": [
+            ["@karrotmarket/react-emotion-theme", "workspace:packages/emotion-react-theme"],
+            ["@emotion/react", "virtual:f8bddeedc85f10470cbf180b4803109d3e9c3ae742ca45d42342ce0f52ff45bd5d245321b2b141be9db8b7d8a847d953045c20f05dc88bdfa45c165199eb6009#npm:11.1.5"],
+            ["@karrotmarket/design-token", "workspace:packages/design-token"],
+            ["@types/node", "npm:14.14.35"],
+            ["@types/react", "npm:17.0.3"],
+            ["microbundle", "npm:0.13.1"],
+            ["react", "npm:17.0.1"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["ultra-runner", "npm:3.10.5"]
+          ],
+          "linkType": "SOFT",
         }]
       ]],
       ["@nodelib/fs.scandir", [

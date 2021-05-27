@@ -1,8 +1,9 @@
 {
-  "name": "@daangn/emotion-react-theme",
+  "name": "@karrotmarket/react-emotion-theme",
+  "amdName": "karrotReactEmotionTheme",
   "version": "0.3.0",
-  "main": "./src/index.ts",
   "sideEffects": false,
+  "main": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/karrot-ui",
@@ -10,36 +11,36 @@
   },
   "maintainers": [
     {
-      "name": "Tim K",
+      "name": "Tim Kim",
       "email": "tim@daangn.com"
     }
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
+    "access": "public",
     "source": "./src/index.ts",
     "main": "./lib/index.js",
     "module": "./lib/index.module.js",
     "exports": "./lib/index.modern.js",
     "types": "./lib/index.d.ts"
   },
-  "files": [
-    "src",
-    "lib"
-  ],
   "scripts": {
     "ultra": "ultra --root",
     "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@emotion/react=emotionReact",
     "dev": "microbundle dev",
     "prepack": "yarn ultra build"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "peerDependencies": {
-    "@daangn/design-token": "^0.1.7",
     "@emotion/react": "^11.0.0",
+    "@karrotmarket/design-token": "^0.1.7",
     "react": "^17.0.0"
   },
   "devDependencies": {
-    "@daangn/design-token": "workspace:^0.1.7",
     "@emotion/react": "^11.1.5",
+    "@karrotmarket/design-token": "workspace:^0.1.7",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",
     "microbundle": "^0.13.1",
