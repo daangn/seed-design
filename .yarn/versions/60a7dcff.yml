@@ -1,6 +1,6 @@
 releases:
-  "@daangn/design-token": minor
-  "@daangn/emotion-react-theme": minor
+  "@karrotmarket/design-token": prerelease
+  "@karrotmarket/react-emotion-theme": prerelease
 
 undecided:
   - design-system
