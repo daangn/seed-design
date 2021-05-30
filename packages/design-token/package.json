@@ -42,9 +42,6 @@
     "src",
     "lib"
   ],
-  "dependencies": {
-    "core-js": "^3.9.1"
-  },
   "devDependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/tap": "^14.10.3",

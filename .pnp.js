@@ -3981,7 +3981,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
             ["@types/common-tags", "npm:1.8.0"],
             ["@types/tap", "npm:14.10.3"],
-            ["core-js", "npm:3.9.1"],
             ["lodash.kebabcase", "npm:4.1.1"],
             ["microbundle", "npm:0.13.1"],
             ["tap", "npm:14.11.0"],
@@ -6073,15 +6072,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/copy-descriptor-npm-0.1.1-864db4ab66-c052cf571f.zip/node_modules/copy-descriptor/",
           "packageDependencies": [
             ["copy-descriptor", "npm:0.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["core-js", [
-        ["npm:3.9.1", {
-          "packageLocation": "./.yarn/unplugged/core-js-npm-3.9.1-5a7342ca0f/node_modules/core-js/",
-          "packageDependencies": [
-            ["core-js", "npm:3.9.1"]
           ],
           "linkType": "HARD",
         }]

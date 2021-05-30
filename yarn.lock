@@ -2047,7 +2047,6 @@ __metadata:
   dependencies:
     "@types/common-tags": ^1.8.0
     "@types/tap": ^14.10.3
-    core-js: ^3.9.1
     lodash.kebabcase: ^4.1.1
     microbundle: ^0.13.1
     tap: ^14.11.0
@@ -3787,13 +3786,6 @@ __metadata:
     browserslist: ^4.16.6
     semver: 7.0.0
   checksum: c04bc43c6ac189710dda37e8c31a5854dfd13c552392792437afb93196bfad86f6706f8968c2fe8536d28573d1f4e889a7f5bae9d7a351d96f157325711e414c
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.9.1":
-  version: 3.9.1
-  resolution: "core-js@npm:3.9.1"
-  checksum: 3f360466246e816ff745f349bf0ea0c54bc3a05203638d84c5f0eae3583f07e7d848d6aa9b69c30467efb418e526bae034a6da50bcfda8b2cd413e5144cd1444
   languageName: node
   linkType: hard
 
