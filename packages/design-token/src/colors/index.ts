@@ -44,7 +44,6 @@ export const light: Readonly<ColorTheme> = Object.freeze({
 
   // Note: getter 를 쓰면 this 참조를 통해 즉시 값을 populate 할 수 있으나, 값보다는 심볼을 사용하는 경우가 더 많아서 이대로 놔둠
   semanticScheme: {
-    white: '$white',
     background: '$white',
     backgroundLow: '$gray100',
   },
@@ -94,7 +93,6 @@ export const dark: Readonly<ColorTheme> = Object.freeze({
 
   // Note: getter 를 쓰면 this 참조를 통해 즉시 값을 populate 할 수 있으나, 값보다는 심볼을 사용하는 경우가 더 많아서 이대로 놔둠 
   semanticScheme: {
-    white: '$white',
     background: '$white',
     backgroundLow: '#17171A',
   },

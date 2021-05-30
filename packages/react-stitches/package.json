@@ -1,0 +1,64 @@
+{
+  "name": "@karrotmarket/react-stitches",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "exports": {
+    "./config": {
+      "require": "./config.js",
+      "import": "./config.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/karrot-ui",
+    "directory": "packages/react-stitches"
+  },
+  "maintainers": [
+    {
+      "name": "Tim Kim",
+      "email": "tim@daangn.com"
+    }
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "concurrently \"yarn:build:*\"",
+    "build:dts": "tsc --emitDeclarationOnly --skipLibCheck",
+    "build:cjs": "BABEL_ENV=commonjs babel src -d . -x .ts --out-file-extension .js --source-maps",
+    "build:mjs": "BABEL_ENV=esmodule babel src -d . -x .ts --out-file-extension .mjs --source-maps",
+    "prepack": "yarn build"
+  },
+  "files": [
+    "*.map",
+    "src",
+    "typings",
+    "colors.js",
+    "colors.mjs",
+    "colors.d.ts",
+    "config.js",
+    "config.mjs",
+    "config.d.ts"
+  ],
+  "dependencies": {
+    "@karrotmarket/design-token": "workspace:packages/design-token",
+    "@stitches/react": "^0.1.9",
+    "lodash.kebabcase": "^4.1.1",
+    "polished": "^4.1.2",
+    "type-fest": "^1.1.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-modules": "^0.1.4",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/react": "^17.0.8",
+    "@types/react-dom": "^17.0.5",
+    "@types/webpack-env": "^1.16.0",
+    "babel-plugin-polished": "^1.1.0",
+    "concurrently": "^6.2.0",
+    "typescript": "^4.3.2"
+  }
+}

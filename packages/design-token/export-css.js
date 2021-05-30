@@ -23,7 +23,6 @@ const makeColorVars = scheme => {
 const makeSemanticColorVars = (scheme, semanticScheme) => {
   const vars = {};
   for (const [key, value] of Object.entries(semanticScheme)) {
-    if (key === 'white') continue;
     const varName = `--color-${kebabcase(key)}`;
     if (scheme[value]) {
       const refVarName = value.replace('$', '--color-');
