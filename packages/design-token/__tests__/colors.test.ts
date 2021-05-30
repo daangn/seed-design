@@ -1,9 +1,9 @@
 import * as t from 'tap';
 
 import type { ColorToken, ColorScheme, KnownColorGroup } from '../src';
-import { colors, parseColorToken } from '../src';
+import { colors, parseColorToken, populateSemanticColors } from '../src';
 
-t.test('theme', async t => {
+t.test('color scheme', async t => {
   type ColorStyle = [Token: ColorToken, Value: string];
   type ColorStyleMap = Record<KnownColorGroup, ColorStyle>;
   function toStyleMap(scheme: ColorScheme) {
@@ -17,16 +17,26 @@ t.test('theme', async t => {
   }
 
   t.test('light', async () => {
-    t.matchSnapshot(toStyleMap(colors.light));
+    t.matchSnapshot(toStyleMap(colors.light.scheme));
   });
 
   t.test('dark', async () => {
-    t.matchSnapshot(toStyleMap(colors.dark));
+    t.matchSnapshot(toStyleMap(colors.dark.scheme));
+  });
+});
+
+t.test('semantic colors', async t => {
+  t.test('light', async _t => {
+    t.matchSnapshot(populateSemanticColors(colors.light.scheme, colors.light.semanticScheme));
+  });
+
+  t.test('dark', async _t => {
+    t.matchSnapshot(populateSemanticColors(colors.dark.scheme, colors.dark.semanticScheme));
   });
 });
 
 t.test('validate', async () => {
-  for (const token of Object.keys(colors.light)) {
+  for (const token of Object.keys(colors.light.scheme)) {
     t.notThrow(() => parseColorToken(token));
   }
 });
