@@ -1,4 +1,10 @@
 export * as colors from './colors';
-export type { ColorToken, ColorScheme, KnownColorGroup } from './colors/types';
-export type { SemanticColorScheme } from './colors/sematic';
+export type {
+  ColorToken,
+  ColorScheme,
+  KnownColorGroup,
+  SemanticColorKey,
+  SemanticColorScheme,
+} from './colors/types';
 export { parseColorToken } from './colors/token';
+export { populateSemanticColors } from './colors/utils';

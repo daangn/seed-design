@@ -16,3 +16,24 @@ export type ColorToken = (
 );
 
 export type ColorScheme = Record<ColorToken, string>;
+
+export type SemanticColorScheme = {
+  white: ColorToken | string,
+  background: ColorToken | string,
+  backgroundLow: ColorToken | string,
+};
+
+export type SemanticColorKey = keyof SemanticColorScheme;
+
+export type ColorTheme = {
+  /**
+   * Raw color tokens
+   */
+  scheme: ColorScheme,
+
+  /**
+   * Sematic color object (isn't eagerly populated)
+   */
+  semanticScheme: SemanticColorScheme,
+};
+

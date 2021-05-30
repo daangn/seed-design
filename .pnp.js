@@ -2391,6 +2391,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/common-tags", "npm:1.8.0"],
             ["@types/tap", "npm:14.10.3"],
             ["core-js", "npm:3.9.1"],
+            ["lodash.kebabcase", "npm:4.1.1"],
             ["microbundle", "npm:0.13.1"],
             ["tap", "npm:14.11.0"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
@@ -6408,6 +6409,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.flattendeep-npm-4.4.0-26b2b4cbd7-941b709524.zip/node_modules/lodash.flattendeep/",
           "packageDependencies": [
             ["lodash.flattendeep", "npm:4.4.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.kebabcase", [
+        ["npm:4.1.1", {
+          "packageLocation": "./.yarn/cache/lodash.kebabcase-npm-4.1.1-89ffca7e1f-cee7b365bf.zip/node_modules/lodash.kebabcase/",
+          "packageDependencies": [
+            ["lodash.kebabcase", "npm:4.1.1"]
           ],
           "linkType": "HARD",
         }]

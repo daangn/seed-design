@@ -28,6 +28,21 @@ const Box = styled.div(props => ({
 }));
 ```
 
+### Dark mode context
+
+```tsx
+import { useDarkMode } from '@karrotmarket/react-emotion-theme';
+
+function MyComponent() {
+  const {
+    value: isDarkMode,
+    toggle: toggleDarkMode,
+    enable: enableDarkMode,
+    disable: disableDarkMode,
+  } = useDarkMode();
+}
+```
+
 ### Usage with custom theme
 
 `KarrotThemeProvider` is just a [`ThemeProvider`](https://emotion.sh/docs/theming) with predefined types and dark-mode behavior.
@@ -35,8 +50,10 @@ const Box = styled.div(props => ({
 You can use `ThemeProvider` directly to opt-out the default behavior.
 
 ```tsx
+import { useDarkMode } from 'use-dark-mode';
 import type { ColorScheme } from '@karrotmarket/design-token';
 import { colors } from '@karrotmarket/design-token';
+import { DarkModeContext } from '@karrotmarket/react-emotion-theme';
 import { ThemeProvider } from '@emotion/react';
 
 type CustomTheme = {
@@ -45,7 +62,7 @@ type CustomTheme = {
 };
 
 const theme: CustomTheme = {
-  colors: colors.light,
+  colors: colors.light.scheme,
   myColors: {/* ... */},
 };
 
@@ -54,7 +71,13 @@ declare module '@emotion/react' {
 }
 
 // ...
-<ThemeProvider theme={theme}>
-  <MyThemedComponent />
-</ThemeProvider>
+
+// You should provide dark mode context and control its behavior since you did opt-out the default
+const darkMode = useDarkMode();
+
+<DarkModeContext.Provider value={darkMode}>
+  <ThemeProvider theme={theme}>
+    <MyThemedComponent />
+  </ThemeProvider>
+</DarkModeContext.Provider>
 ```

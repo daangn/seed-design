@@ -2,9 +2,10 @@ import * as React from 'react';
 import useDarkMode from 'use-dark-mode';
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
-import { colors } from '@karrotmarket/design-token';
+import { colors, populateSemanticColors } from '@karrotmarket/design-token';
 
-import { PreferenceStorageContext } from './PreferenceStorageContext';
+import { KarrotThemeStorageContext } from './KarrotThemeStorageContext';
+import { DarkModeContext } from './DarkModeContext';
 
 export type KarrotTheme = {
   colors: ColorScheme & SemanticColorScheme,
@@ -15,30 +16,35 @@ declare module '@emotion/react' {
 }
 
 type KarrotThemeProviderProps = {
-  theme: KarrotTheme,
+  children: React.ReactNode,
 };
 
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
 }) => {
-  const prefStorage = React.useContext(PreferenceStorageContext);
+  const storage = React.useContext(KarrotThemeStorageContext);
   const darkMode = useDarkMode(false, {
-    storageProvider: prefStorage,
+    storageProvider: storage,
+    classNameDark: 'dark-theme',
+    classNameLight: 'light-theme',
   });
-  const theme = React.useMemo(() => ({
-    colors: {
-      ...darkMode.value ? {
-        ...colors.dark,
-        ...colors.semantics.dark,
-      } : {
-        ...colors.light,
-        ...colors.semantics.light,
+
+  const theme = React.useMemo(() => {
+    const isDarkMode = darkMode.value;
+    const colorTheme = isDarkMode ? colors.dark : colors.light;
+    return {
+      colors: {
+        ...colorTheme.scheme,
+        ...populateSemanticColors(
+          colorTheme.scheme,
+          colorTheme.semanticScheme,
+        ),
       },
-    },
-  }), [darkMode.value]);
+    };
+  }, [darkMode.value]);
 
   return (
-    <EmotionThemeProvider theme={theme}>
+    <>
       {/* required for iOS */}
       <Global
         styles={css`
@@ -47,8 +53,12 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
           }
         `}
       />
-      {children}
-    </EmotionThemeProvider>
+      <DarkModeContext.Provider value={darkMode}>
+        <EmotionThemeProvider theme={theme}>
+          {children}
+        </EmotionThemeProvider>
+      </DarkModeContext.Provider>
+    </>
   );
 };
 

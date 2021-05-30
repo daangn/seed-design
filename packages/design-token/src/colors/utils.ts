@@ -1,12 +1,9 @@
-import type { ColorToken, ColorScheme } from './types';
-
-export type SemanticColorScheme = {
-  white: ColorToken | string,
-  background: ColorToken | string,
-  backgroundLow: ColorToken | string,
-};
-
-export type SemanticColorKey = keyof SemanticColorScheme;
+import type {
+  ColorToken,
+  ColorScheme,
+  SemanticColorKey,
+  SemanticColorScheme,
+} from './types';
 
 export function populateSemanticColors(colors: ColorScheme, semantics: SemanticColorScheme): Readonly<SemanticColorScheme> {
   const result = {} as SemanticColorScheme;

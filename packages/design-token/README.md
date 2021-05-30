@@ -28,6 +28,12 @@ yarn add @karrotmarket/design-token
 
 ```ts
 import { colors } from '@daangn/design-token';
+
+// raw token
+colors.light.scheme
+
+// semantic token
+colors.light.semanticScheme
 ```
 
 ### CSS (css-loader)
@@ -43,35 +49,35 @@ import '@daangn/design-token/lib/colors/light.css';
 
 ```css
 :root {
-  --gray100: #F2F3F6;
-  --gray200: #EAEBEE;
-  --gray300: #DCDEE3;
-  --gray400: #D1D3D8;
-  --gray500: #ADB1BA;
-  --gray600: #868B94;
-  --gray650: #6D717A;
-  --gray700: #4D5159;
-  --gray800: #393C42;
-  --gray850: #2B2E33;
-  --gray900: #212124;
-  --carrot50: #FFF5F0;
-  --carrot100: #FFE2D2;
-  --carrot200: #FFD2B9;
-  --carrot300: #FFBC97;
-  --carrot400: #FF9E66;
-  --carrot500: #FF7E36;
-  --carrot600: #FA6616;
-  --yellow50: #FFF7E6;
-  --yellow500: #FFC552;
-  --yellow800: #CF6400;
-  --green50: #E8FAF6;
-  --green500: #00B493;
-  --green800: #008C72;
-  --red50: #FFF3F2;
-  --red800: #E81300;
-  --blue50: #EBF7FA;
-  --blue800: #0A86B7;
+  --color-white: #fff;
+  --color-gray100: #F2F3F6;
+  --color-gray200: #EAEBEE;
+  --color-gray300: #DCDEE3;
+  --color-gray400: #D1D3D8;
+  --color-gray500: #ADB1BA;
+  --color-gray600: #868B94;
+  --color-gray700: #4D5159;
+  --color-gray900: #212124;
+  --color-carrot50: #FFF5F0;
+  --color-carrot100: #FFE2D2;
+  --color-carrot200: #FFD2B9;
+  --color-carrot300: #FFBC97;
+  --color-carrot400: #FF9E66;
+  --color-carrot500: #FF7E36;
+  --color-carrot600: #FA6616;
+  --color-yellow50: #FFF7E6;
+  --color-yellow500: #FFC552;
+  --color-yellow800: #CE6400;
+  --color-green50: #E8FAF6;
+  --color-green500: #00B493;
+  --color-green800: #008C72;
+  --color-red50: #FFF3F2;
+  --color-red800: #E81300;
+  --color-blue50: #EBF7FA;
+  --color-blue800: #0A86B7;
+  --color-background: var(--color-white);
+  --color-background-low: var(--color-gray100);
 }
 ```
 
-CSS 에서 `color: var(--carrot400)` 처럼 쓸 수 있습니다. 
+CSS 에서 `color: var(--color-carrot400)` 처럼 쓸 수 있습니다. 
