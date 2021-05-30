@@ -7,6 +7,6 @@
     "declarationDir": "./lib"
   },
   "include": [
-    "src"
+    "src/**/*"
   ]
 }
