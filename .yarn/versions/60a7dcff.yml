@@ -1,6 +1,0 @@
-releases:
-  "@karrotmarket/design-token": prerelease
-  "@karrotmarket/react-emotion-theme": prerelease
-
-undecided:
-  - design-system
