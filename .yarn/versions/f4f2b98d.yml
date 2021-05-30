@@ -1,0 +1,6 @@
+releases:
+  "@karrotmarket/design-token": prerelease
+  "@karrotmarket/react-stitches": prerelease
+
+declined:
+  - design-system

@@ -1,5 +1,6 @@
 export * as colors from './colors';
 export type {
+  ColorTheme,
   ColorToken,
   ColorScheme,
   KnownColorGroup,
