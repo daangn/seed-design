@@ -66,8 +66,8 @@ const theme: CustomTheme = {
   myColors: {/* ... */},
 };
 
-declare module '@emotion/react' {
-  interface Theme extends CustomTheme {}
+declare module 'styled-components' {
+  interface DefaultTheme extends CustomTheme {}
 }
 
 // ...
