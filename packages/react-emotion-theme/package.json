@@ -1,7 +1,7 @@
 {
   "name": "@karrotmarket/react-emotion-theme",
   "amdName": "karrotReactEmotionTheme",
-  "version": "0.3.1-0",
+  "version": "0.3.1-1",
   "sideEffects": false,
   "main": "./src/index.ts",
   "repository": {
