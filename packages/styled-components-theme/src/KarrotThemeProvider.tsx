@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useDarkMode from 'use-dark-mode';
-import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components';
 import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
 import { colors, populateSemanticColors } from '@karrotmarket/design-token';
 import { ThemeStorageContext, DarkModeContext } from '@karrotmarket/react-theming';
@@ -9,13 +9,20 @@ export type KarrotTheme = {
   colors: ColorScheme & SemanticColorScheme,
 };
 
-declare module '@emotion/react' {
-  export interface Theme extends KarrotTheme {}
+declare module 'styled-components' {
+  export interface DefaultTheme extends KarrotTheme {}
 }
 
 type KarrotThemeProviderProps = {
   children: React.ReactNode,
 };
+
+// required for iOS
+const GlobalStyle = createGlobalStyle`
+  :root {
+    color-scheme: light dark;
+  }
+`;
 
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
@@ -43,18 +50,11 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
   return (
     <>
-      {/* required for iOS */}
-      <Global
-        styles={css`
-          :root {
-            color-scheme: light dark;
-          }
-        `}
-      />
+      <GlobalStyle />
       <DarkModeContext.Provider value={darkMode}>
-        <EmotionThemeProvider theme={theme}>
+        <StyledComponentsThemeProvider theme={theme}>
           {children}
-        </EmotionThemeProvider>
+        </StyledComponentsThemeProvider>
       </DarkModeContext.Provider>
     </>
   );
@@ -62,5 +62,5 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'production') {
-  KarrotThemeProvider.displayName = 'KarrotThemeProvider(Emotion)';
+  KarrotThemeProvider.displayName = 'KarrotThemeProvider(StyledComponents)';
 }

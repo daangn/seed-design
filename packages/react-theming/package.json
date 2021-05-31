@@ -1,0 +1,56 @@
+{
+  "name": "@karrotmarket/react-theming",
+  "amdName": "karrotReactTheming",
+  "version": "0.1.0-0",
+  "sideEffects": false,
+  "main": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/karrot-ui",
+    "directory": "packages/react-theming"
+  },
+  "maintainers": [
+    {
+      "name": "Tim Kim",
+      "email": "tim@daangn.com"
+    }
+  ],
+  "publishConfig": {
+    "access": "public",
+    "source": "./src/index.ts",
+    "main": "./lib/index.js",
+    "module": "./lib.module.js",
+    "unpkg": "./lib/index.umd.js",
+    "types": "./lib/index.d.ts",
+    "exports": {
+      ".": {
+        "require": "./lib/index.js",
+        "import": "./lib/index.modern.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
+  "scripts": {
+    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@karrotmarket/design-token=karrotDesignToken",
+    "dev": "microbundle dev --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@karrotmarket/design-token=karrotDesignToken",
+    "prepack": "yarn build"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "peerDependencies": {
+    "react": "^17.0.0"
+  },
+  "dependencies": {
+    "@karrotmarket/design-token": "workspace:packages/design-token",
+    "use-dark-mode": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.8",
+    "@types/webpack-env": "^1.16.0",
+    "microbundle": "^0.13.1",
+    "react": "^17.0.2",
+    "typescript": "^4.3.2"
+  }
+}

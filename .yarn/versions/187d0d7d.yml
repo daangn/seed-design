@@ -1,0 +1,7 @@
+releases:
+  "@karrotmarket/react-emotion-theme": prerelease
+  "@karrotmarket/react-theming": prerelease
+
+declined:
+  - design-system
+  - "@karrotmarket/styled-components"
