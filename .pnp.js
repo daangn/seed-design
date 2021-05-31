@@ -33,6 +33,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@karrotmarket/react-stitches",
         "reference": "workspace:packages/react-stitches"
+      },
+      {
+        "name": "@karrotmarket/react-theming",
+        "reference": "workspace:packages/react-theming"
+      },
+      {
+        "name": "@karrotmarket/styled-components",
+        "reference": "workspace:packages/styled-components"
       }
     ],
     "enableTopLevelFallback": true,
@@ -41,6 +49,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@karrotmarket/design-token", ["workspace:packages/design-token"]],
       ["@karrotmarket/react-emotion-theme", ["workspace:packages/react-emotion-theme"]],
       ["@karrotmarket/react-stitches", ["workspace:packages/react-stitches"]],
+      ["@karrotmarket/react-theming", ["virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#workspace:packages/react-theming", "workspace:packages/react-theming"]],
+      ["@karrotmarket/styled-components", ["workspace:packages/styled-components"]],
       ["design-system", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -2645,6 +2655,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@karrotmarket/react-emotion-theme", "workspace:packages/react-emotion-theme"],
             ["@emotion/react", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:11.1.5"],
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
+            ["@karrotmarket/react-theming", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#workspace:packages/react-theming"],
             ["@types/node", "npm:14.14.35"],
             ["@types/react", "npm:17.0.8"],
             ["@types/webpack-env", "npm:1.16.0"],
@@ -2677,6 +2688,49 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["polished", "npm:4.1.2"],
             ["type-fest", "npm:1.1.3"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@karrotmarket/react-theming", [
+        ["virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#workspace:packages/react-theming", {
+          "packageLocation": "./.yarn/$$virtual/@karrotmarket-react-theming-virtual-d21757209a/1/packages/react-theming/",
+          "packageDependencies": [
+            ["@karrotmarket/react-theming", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#workspace:packages/react-theming"],
+            ["@karrotmarket/design-token", "workspace:packages/design-token"],
+            ["@types/react", "npm:17.0.8"],
+            ["@types/webpack-env", "npm:1.16.0"],
+            ["microbundle", "npm:0.13.1"],
+            ["react", "npm:17.0.2"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["use-dark-mode", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:2.3.1"]
+          ],
+          "packagePeers": [
+            "@types/react",
+            "react"
+          ],
+          "linkType": "SOFT",
+        }],
+        ["workspace:packages/react-theming", {
+          "packageLocation": "./packages/react-theming/",
+          "packageDependencies": [
+            ["@karrotmarket/react-theming", "workspace:packages/react-theming"],
+            ["@karrotmarket/design-token", "workspace:packages/design-token"],
+            ["@types/react", "npm:17.0.8"],
+            ["@types/webpack-env", "npm:1.16.0"],
+            ["microbundle", "npm:0.13.1"],
+            ["react", "npm:17.0.2"],
+            ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
+            ["use-dark-mode", "virtual:a303c4cd1fea015b7ee8a09ac263e327a30598432c336dd6a1586ac660c258680af47ccbb4b2ee5dfdac0fb0b70b4ba73ea901eea0398eb2bf490a77ac72e781#npm:2.3.1"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@karrotmarket/styled-components", [
+        ["workspace:packages/styled-components", {
+          "packageLocation": "./packages/styled-components/",
+          "packageDependencies": [
+            ["@karrotmarket/styled-components", "workspace:packages/styled-components"]
           ],
           "linkType": "SOFT",
         }]

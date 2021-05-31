@@ -24,8 +24,8 @@
     "types": "./lib/index.d.ts"
   },
   "scripts": {
-    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@emotion/react=emotionReact,@karrotmarket/design-token=karrotDesignToken",
-    "dev": "microbundle dev",
+    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@emotion/react=emotionReact,@karrotmarket/design-token=karrotDesignToken,@karrotmarket/react-theming=karrotReactTheming",
+    "dev": "microbundle dev --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@emotion/react=emotionReact,@karrotmarket/design-token=karrotDesignToken,@karrotmarket/react-theming=karrotReactTheming",
     "prepack": "yarn build"
   },
   "files": [
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@karrotmarket/design-token": "workspace:packages/design-token",
+    "@karrotmarket/react-theming": "workspace:packages/react-theming",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {

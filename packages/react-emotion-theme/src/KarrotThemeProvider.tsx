@@ -3,9 +3,7 @@ import useDarkMode from 'use-dark-mode';
 import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
 import { colors, populateSemanticColors } from '@karrotmarket/design-token';
-
-import { KarrotThemeStorageContext } from './KarrotThemeStorageContext';
-import { DarkModeContext } from './DarkModeContext';
+import { ThemeStorageContext, DarkModeContext } from '@karrotmarket/react-theming';
 
 export type KarrotTheme = {
   colors: ColorScheme & SemanticColorScheme,
@@ -22,7 +20,7 @@ type KarrotThemeProviderProps = {
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
 }) => {
-  const storage = React.useContext(KarrotThemeStorageContext);
+  const storage = React.useContext(ThemeStorageContext);
   const darkMode = useDarkMode(false, {
     storageProvider: storage,
     classNameDark: 'dark-theme',
