@@ -4,7 +4,7 @@ const kebabcase = require('lodash.kebabcase');
 
 const { colors } = require('./lib/index');
 
-const render = vars => `:root {
+const render = (scope, vars) => `${scope} {
   ${Object.entries(vars)
     .map(([name, value]) => `${name}: ${value};`)
     .join('\n  ')
@@ -36,7 +36,7 @@ const makeSemanticColorVars = (scheme, semanticScheme) => {
 
 const generateStyleSheet = async themeKey => {
   const { scheme, semanticScheme } = colors[themeKey];
-  const theme = render({
+  const theme = render(`.${themeKey}-theme`, {
     ...makeColorVars(scheme),
     ...makeSemanticColorVars(scheme, semanticScheme),
   });
