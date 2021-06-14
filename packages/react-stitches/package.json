@@ -7,6 +7,10 @@
       "require": "./config.js",
       "import": "./config.mjs"
     },
+    "./colors": {
+      "require": "./colors.js",
+      "import": "./colors.mjs"
+    },
     "./package.json": "./package.json"
   },
   "repository": {
