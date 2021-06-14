@@ -4,12 +4,17 @@ const kebabcase = require('lodash.kebabcase');
 
 const { colors } = require('./lib/index');
 
-const render = (scope, vars) => `${scope} {
-  ${Object.entries(vars)
-    .map(([name, value]) => `${name}: ${value};`)
-    .join('\n  ')
+const indent = depth => ' '.repeat(depth * 2);
+
+const render = (scope, vars, depth = 1) => `${scope} {
+${indent(depth)}${Object.entries(vars)
+    .map(([name, value]) => typeof value === 'object'
+      ? render(name, value, depth + 1)
+      : `${name}: ${value};`
+    )
+    .join('\n' + indent(depth))
   }
-}`;
+${indent(depth - 1)}}`;
 
 const makeColorVars = scheme => {
   const vars = {};
@@ -34,7 +39,7 @@ const makeSemanticColorVars = (scheme, semanticScheme) => {
   return vars;
 };
 
-const generateStyleSheet = async themeKey => {
+const generateThemeStyleSheet = async themeKey => {
   const { scheme, semanticScheme } = colors[themeKey];
   const theme = render(`.${themeKey}-theme`, {
     ...makeColorVars(scheme),
@@ -48,9 +53,35 @@ const generateStyleSheet = async themeKey => {
   return themePath;
 };
 
+const generateSystemStyleSheet = async () => {
+  const { scheme: lightScheme, semanticScheme: lightSemanticScheme } = colors['light'];
+  const lightTheme = render(`:root`, {
+    ...makeColorVars(lightScheme),
+    ...makeSemanticColorVars(lightScheme, lightSemanticScheme),
+  });
+
+  const { scheme: darkScheme, semanticScheme: darkSemanticScheme } = colors['dark'];
+  const darkTheme = render('@media (prefers-color-scheme: dark)', {
+    ':root': {
+      ...makeColorVars(darkScheme),
+      ...makeSemanticColorVars(darkScheme, darkSemanticScheme),
+    },
+  });
+
+  const theme = [lightTheme, darkTheme].join('\n\n');
+
+  const themePath = path.resolve(`./lib/colors/system.css`);
+
+  await fs.mkdir(path.dirname(themePath), { recursive: true });
+  await fs.writeFile(themePath, theme, 'utf-8');
+
+  return themePath;
+};
+
 Promise.all([
-  generateStyleSheet('light'),
-  generateStyleSheet('dark'),
+  generateThemeStyleSheet('light'),
+  generateThemeStyleSheet('dark'),
+  generateSystemStyleSheet(),
 ]).then(files => {
   console.log('stylesheets have successfully generated!');
   console.log(` - ${files
