@@ -48,7 +48,6 @@
   "dependencies": {
     "@karrotmarket/design-token": "workspace:packages/design-token",
     "@stitches/react": "^0.1.9",
-    "lodash.kebabcase": "^4.1.1",
     "polished": "^4.1.2",
     "type-fest": "^1.1.3"
   },

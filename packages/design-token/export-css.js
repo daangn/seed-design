@@ -1,9 +1,9 @@
 const fs = require('fs/promises');
 const path = require('path');
-const kebabcase = require('lodash.kebabcase');
 
 const { colors } = require('./lib/index');
 
+const kebabcase = str => str.replace(/[A-Z]/g, v => `-${v.toLowerCase()}`);
 const indent = depth => ' '.repeat(depth * 2);
 
 const render = (scope, vars, depth = 1) => `${scope} {

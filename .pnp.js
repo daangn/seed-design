@@ -2666,7 +2666,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
             ["@types/common-tags", "npm:1.8.0"],
             ["@types/tap", "npm:14.10.3"],
-            ["lodash.kebabcase", "npm:4.1.1"],
             ["microbundle", "npm:0.13.1"],
             ["tap", "virtual:deaef2575a794f449b4df4fa07c6e96b8c2ddbed14b7e89e638dce0e28a185dc21056e1ac427dfc461f0d3853738e7b1867126062b44c970f9552114931e1629#npm:15.0.9"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
@@ -2710,7 +2709,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-env", "npm:1.16.0"],
             ["babel-plugin-polished", "npm:1.1.0"],
             ["concurrently", "npm:6.2.0"],
-            ["lodash.kebabcase", "npm:4.1.1"],
             ["polished", "npm:4.1.2"],
             ["type-fest", "npm:1.1.3"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
@@ -7415,15 +7413,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash.flattendeep-npm-4.4.0-26b2b4cbd7-941b709524.zip/node_modules/lodash.flattendeep/",
           "packageDependencies": [
             ["lodash.flattendeep", "npm:4.4.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["lodash.kebabcase", [
-        ["npm:4.1.1", {
-          "packageLocation": "./.yarn/cache/lodash.kebabcase-npm-4.1.1-89ffca7e1f-cee7b365bf.zip/node_modules/lodash.kebabcase/",
-          "packageDependencies": [
-            ["lodash.kebabcase", "npm:4.1.1"]
           ],
           "linkType": "HARD",
         }]
