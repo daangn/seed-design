@@ -1,10 +1,13 @@
 import type { KebabCase } from 'type-fest';
-import kebabcase from 'lodash.kebabcase';
 import type {
   ColorTheme,
   ColorToken,
   SemanticColorKey,
 } from '@karrotmarket/design-token';
+
+function kebabcase<T extends string>(str: T): KebabCase<T> {
+  return str.replace(/[A-Z]/g, v => `-${v.toLowerCase()}`) as KebabCase<T>;
+}
 
 type RemoveTokenPrefix<Token> = Token extends `$${infer Rest}` ? Rest : Token;
 function removeTokenPrefix(token: ColorToken): RemoveTokenPrefix<ColorToken> {

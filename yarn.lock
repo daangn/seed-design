@@ -1551,7 +1551,6 @@ __metadata:
   dependencies:
     "@types/common-tags": ^1.8.0
     "@types/tap": ^14.10.3
-    lodash.kebabcase: ^4.1.1
     microbundle: ^0.13.1
     tap: ^15.0.9
     typescript: ^4.3.2
@@ -1588,16 +1587,17 @@ __metadata:
     "@babel/preset-modules": ^0.1.4
     "@babel/preset-typescript": ^7.13.0
     "@karrotmarket/design-token": "workspace:packages/design-token"
-    "@stitches/react": ^0.1.9
+    "@stitches/react": ^0.2.0-canary.7
     "@types/react": ^17.0.8
     "@types/react-dom": ^17.0.5
     "@types/webpack-env": ^1.16.0
     babel-plugin-polished: ^1.1.0
     concurrently: ^6.2.0
-    lodash.kebabcase: ^4.1.1
     polished: ^4.1.2
     type-fest: ^1.1.3
     typescript: ^4.3.2
+  peerDependencies:
+    "@stitches/react": ^0.1.0 || ^0.2.0
   languageName: unknown
   linkType: soft
 
@@ -1775,21 +1775,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stitches/core@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "@stitches/core@npm:0.1.9"
-  checksum: 23c06d2602c2fabee1491b1de7795fabc35dafc7b61789f814ffc88066b3f8471e67e628ef15afb8311498a0a437e453c5b83d52b10795ec16243520aea3ebf4
-  languageName: node
-  linkType: hard
-
-"@stitches/react@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "@stitches/react@npm:0.1.9"
-  dependencies:
-    "@stitches/core": ^0.1.9
+"@stitches/react@npm:^0.2.0-canary.7":
+  version: 0.2.0-canary.7
+  resolution: "@stitches/react@npm:0.2.0-canary.7"
   peerDependencies:
-    react: ">=17.0.0 <19.0.0"
-  checksum: 1aa64bf1b6bd2a08cfb7bda52e327e987b91e06965fb9d360452e5a18133e4f41214c41f1623e2a9224afdc2df1ceefcfc8ba2d973db83eff92a3f51b2661a19
+    react: ">= 17.0.0"
+  checksum: 4cf03a8755714b0599020a65ccfc08ea1900e0e3ed58c0320b98196415f55eaabea8d506eaeb2c7d230165b2555c59c96193e2cbda9f3da7f89f0eafcec15bba
   languageName: node
   linkType: hard
 
@@ -5590,13 +5581,6 @@ fsevents@~2.3.1:
   version: 4.4.0
   resolution: "lodash.flattendeep@npm:4.4.0"
   checksum: 941b709524bb7f16a06237a9b7041d8fc93054b5d3770bdf9e0edfaccf5666ef0c4dcc6866676774d8819cc1ec3a882eacafd42156befd470c35899e96fa4272
-  languageName: node
-  linkType: hard
-
-"lodash.kebabcase@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "lodash.kebabcase@npm:4.1.1"
-  checksum: cee7b365bf62c9ae357d8c5cbd1dc767ce626fecea31b8ff7919cb15adaf2c36652fb07688bf8d55e71c456ac8e5dc7c85bf12f88716114bde232645714d538f
   languageName: node
   linkType: hard
 
