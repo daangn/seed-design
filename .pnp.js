@@ -2703,7 +2703,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-modules", "virtual:83ab848ab116f0beb820c86ff095b8082f622b594e7d7a28b1df3109682e7629fd50c148c63d400aef7c02f7b503359bc6d18f768cc620ac166fc89f0ad614c8#npm:0.1.4"],
             ["@babel/preset-typescript", "virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:7.13.0"],
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
-            ["@stitches/react", "virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.1.9"],
+            ["@stitches/react", "virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.2.0-canary.7"],
             ["@types/react", "npm:17.0.8"],
             ["@types/react-dom", "npm:17.0.5"],
             ["@types/webpack-env", "npm:1.16.0"],
@@ -2987,28 +2987,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@stitches/core", [
-        ["npm:0.1.9", {
-          "packageLocation": "./.yarn/cache/@stitches-core-npm-0.1.9-4e611635e9-23c06d2602.zip/node_modules/@stitches/core/",
-          "packageDependencies": [
-            ["@stitches/core", "npm:0.1.9"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@stitches/react", [
-        ["npm:0.1.9", {
-          "packageLocation": "./.yarn/cache/@stitches-react-npm-0.1.9-16487b03d7-1aa64bf1b6.zip/node_modules/@stitches/react/",
+        ["npm:0.2.0-canary.7", {
+          "packageLocation": "./.yarn/cache/@stitches-react-npm-0.2.0-canary.7-74b0908ed7-4cf03a8755.zip/node_modules/@stitches/react/",
           "packageDependencies": [
-            ["@stitches/react", "npm:0.1.9"]
+            ["@stitches/react", "npm:0.2.0-canary.7"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.1.9", {
-          "packageLocation": "./.yarn/$$virtual/@stitches-react-virtual-2d5e0c9c29/0/cache/@stitches-react-npm-0.1.9-16487b03d7-1aa64bf1b6.zip/node_modules/@stitches/react/",
+        ["virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.2.0-canary.7", {
+          "packageLocation": "./.yarn/$$virtual/@stitches-react-virtual-6da9ee8286/0/cache/@stitches-react-npm-0.2.0-canary.7-74b0908ed7-4cf03a8755.zip/node_modules/@stitches/react/",
           "packageDependencies": [
-            ["@stitches/react", "virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.1.9"],
-            ["@stitches/core", "npm:0.1.9"],
+            ["@stitches/react", "virtual:da363efa89373662d4a14551503b61556aea781a2b3f84c033188b38c5b7d56faff1b0cdd22819360225d5e841a38a05622c9225291ec4b1a243163308bf95f4#npm:0.2.0-canary.7"],
             ["@types/react", "npm:17.0.8"],
             ["react", null]
           ],
