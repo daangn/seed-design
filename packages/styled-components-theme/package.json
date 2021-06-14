@@ -1,7 +1,7 @@
 {
   "name": "@karrotmarket/styled-components-theme",
   "amdName": "karrotStyledComponentsTheme",
-  "version": "0.1.0-0",
+  "version": "0.1.0-1",
   "sideEffects": false,
   "main": "./src/index.ts",
   "repository": {

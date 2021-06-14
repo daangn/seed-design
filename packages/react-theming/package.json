@@ -1,7 +1,7 @@
 {
   "name": "@karrotmarket/react-theming",
   "amdName": "karrotReactTheming",
-  "version": "0.1.0-1",
+  "version": "0.1.0-2",
   "sideEffects": false,
   "main": "./src/index.ts",
   "repository": {
