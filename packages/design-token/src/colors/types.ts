@@ -20,6 +20,7 @@ export type ColorScheme = Record<ColorToken, string>;
 export type SemanticColorScheme = {
   background: ColorToken | string,
   backgroundLow: ColorToken | string,
+  divider: string,
 };
 
 export type SemanticColorKey = keyof SemanticColorScheme;
