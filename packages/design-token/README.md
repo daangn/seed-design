@@ -27,7 +27,7 @@ yarn add @karrotmarket/design-token
 ### JavaScript (TypeScript)
 
 ```ts
-import { colors } from '@daangn/design-token';
+import { colors } from '@karrotmarket/design-token';
 
 // raw token
 colors.light.scheme
@@ -39,17 +39,22 @@ colors.light.semanticScheme
 ### CSS (css-loader)
 
 ```ts
-import '@daangn/design-token/colors/light.css';
-
-// [conditional exports](https://nodejs.org/api/packages.html#packages_conditional_exports) 기능이 지원되지 않는 환경이라면 다음과 같이 사용하세요.
-import '@daangn/design-token/lib/colors/light.css';
+import '@karrotmarket/design-token/colors/light.css';
+import '@karrotmarket/design-token/colors/dark.css';
 ```
 
-전역에 다음과 같이 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/var()) 값이 추가됩니다.
+[Conditional Exports](https://nodejs.org/api/packages.html#packages_conditional_exports) 기능이 지원되지 않는 환경이라면 다음과 같이 사용하세요.
+
+```ts
+import '@karrotmarket/design-token/lib/colors/light.css';
+import '@karrotmarket/design-token/lib/colors/dark.css';
+```
+
+다음과 같이 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/var()) 값이 추가됩니다.
 
 ```css
-:root {
-  --color-white: #fff;
+.light-theme {
+  --color-white: #FFF;
   --color-gray100: #F2F3F6;
   --color-gray200: #EAEBEE;
   --color-gray300: #DCDEE3;
@@ -78,6 +83,69 @@ import '@daangn/design-token/lib/colors/light.css';
   --color-background: var(--color-white);
   --color-background-low: var(--color-gray100);
 }
+
+.dark-theme {
+  --color-white: #212124;
+  --color-gray100: #2B2E33;
+  --color-gray200: #34373D;
+  --color-gray300: #43474F;
+  --color-gray400: #50545C;
+  --color-gray500: #6D717A;
+  --color-gray600: #868B94;
+  --color-gray700: #ADB1BA;
+  --color-gray900: #EAEBEE;
+  --color-carrot50: #EDE4E0;
+  --color-carrot100: #EDD3C4;
+  --color-carrot200: #EDC4AD;
+  --color-carrot300: #EDB08E;
+  --color-carrot400: #EE9561;
+  --color-carrot500: #ED7735;
+  --color-carrot600: #E96017;
+  --color-yellow50: #EDE6D6;
+  --color-yellow500: #EDB84E;
+  --color-yellow800: #C05F03;
+  --color-green50: #D8E9E5;
+  --color-green500: #03A88A;
+  --color-green800: #03836C;
+  --color-red50: #EDE2E2;
+  --color-red800: #D81403;
+  --color-blue50: #DBE6E9;
+  --color-blue800: #0C7EAB;
+  --color-background: var(--color-white);
+  --color-background-low: #17171A;
+}
 ```
 
 CSS 에서 `color: var(--color-carrot400)` 처럼 쓸 수 있습니다. 
+
+### Theme 적용하기
+
+```html
+<div class="light-theme">
+  Light 테마가 적용됩니다
+
+  <div class="dark-theme">
+    Dark 테마가 적용됩니다
+  </div>
+</div>
+```
+
+Application 환경에서는 JavaScript 를 통해 Theme 을 제어하는 것을 권장합니다.
+
+예시:
+
+```ts
+if (window.matchMedia('(prefers-color-scheme: dark)')) {
+  document.body.classList.remove('light-theme');
+  document.body.classList.add('dark-theme');
+} else {
+  document.body.classList.remove('dark-theme');
+  document.body.classList.add('light-theme');
+}
+```
+
+시스템 설정만 사용하는 웹 프로젝트에서는 미리 구성된 스타일시트를 import 해서 쓸 수 있습니다.
+
+```ts
+import '@karrotmarket/design-token/colors/system.css';
+```
