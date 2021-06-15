@@ -55,6 +55,8 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
   const darkMode = useDarkMode(usingDarkAsInitial, {
     storageProvider: storage,
+    classNameDark: 'dark-theme',
+    classNameLight: 'light-theme',
     onChange: (isDarkMode = false) => {
       const [nextClassName, prevClassName] = getColorTheme(mode, isDarkMode) === 'dark' 
         ? ['dark-theme', 'light-theme']
