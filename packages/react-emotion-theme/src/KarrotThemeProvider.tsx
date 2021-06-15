@@ -30,7 +30,7 @@ type KarrotThemeProviderProps = {
   mode?: BehaviorMode,
 };
 
-const getColorTheme = (mode: Required<KarrotThemeProviderProps>['mode'], isDarkMode: boolean) => {
+const getColorTheme = (mode: BehaviorMode, isDarkMode: boolean) => {
   switch (mode) {
     case 'auto': return isDarkMode ? 'dark' : 'light';
     case 'light-only': return 'light';
@@ -56,9 +56,9 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   const darkMode = useDarkMode(usingDarkAsInitial, {
     storageProvider: storage,
     onChange: (isDarkMode = false) => {
-      const { nextClassName, prevClassName } = getColorTheme(mode, isDarkMode) === 'dark'
-        ? { nextClassName: 'dark-theme', prevClassName: 'light-theme' }
-        : { nextClassName: 'light-theme', prevClassName: 'dark-theme' }
+      const [nextClassName, prevClassName] = getColorTheme(mode, isDarkMode) === 'dark' 
+        ? ['dark-theme', 'light-theme']
+        : ['light-theme', 'dark-theme']
 
       const body = document.body;
 
