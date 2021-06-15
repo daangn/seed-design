@@ -30,6 +30,14 @@ type KarrotThemeProviderProps = {
   mode?: BehaviorMode,
 };
 
+const getColorTheme = (mode: Required<KarrotThemeProviderProps>['mode'], isDarkMode: boolean) => {
+  switch (mode) {
+    case 'auto': return isDarkMode ? 'dark' : 'light';
+    case 'light-only': return 'light';
+    case 'dark-only': return 'dark';
+  }
+}
+
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
   mode = 'auto',
@@ -47,20 +55,22 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
   const darkMode = useDarkMode(usingDarkAsInitial, {
     storageProvider: storage,
-    classNameDark: 'dark-theme',
-    classNameLight: 'light-theme',
+    onChange: (isDarkMode = false) => {
+      const { nextClassName, prevClassName } = getColorTheme(mode, isDarkMode) === 'dark'
+        ? { nextClassName: 'dark-theme', prevClassName: 'light-theme' }
+        : { nextClassName: 'light-theme', prevClassName: 'dark-theme' }
+
+      const body = document.body;
+
+      body.classList.add(nextClassName);
+      body.classList.remove(prevClassName)
+    }
   });
 
   const theme = React.useMemo(() => {
     const isDarkMode = darkMode.value;
     // 아 패턴매칭 마렵네 진짜
-    const colorTheme = (() => {
-      switch (mode) {
-        case 'auto': return isDarkMode ? colors.dark : colors.light;
-        case 'light-only': return colors.light;
-        case 'dark-only': return colors.dark;
-      }
-    })();
+    const colorTheme = colors[getColorTheme(mode, isDarkMode)];
 
     return {
       colors: {
