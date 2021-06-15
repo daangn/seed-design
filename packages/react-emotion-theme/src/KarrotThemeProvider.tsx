@@ -13,11 +13,21 @@ declare module '@emotion/react' {
   export interface Theme extends KarrotTheme {}
 }
 
+type ThemeName = (
+  | 'light'
+  | 'dark'
+);
+
+type ThemeClassName = `${ThemeName}-theme`;
+
 type BehaviorMode = (
   | 'auto'
   | 'light-only'
   | 'dark-only'
 );
+
+const classNameLight: ThemeClassName = 'light-theme';
+const classNameDark: ThemeClassName = 'dark-theme';
 
 type KarrotThemeProviderProps = {
   children: React.ReactNode,
@@ -29,6 +39,14 @@ type KarrotThemeProviderProps = {
    */
   mode?: BehaviorMode,
 };
+
+const getThemeName = (mode: BehaviorMode, isDarkMode: boolean): ThemeName => {
+  switch (mode) {
+    case 'auto': return isDarkMode ? 'dark' : 'light';
+    case 'light-only': return 'light';
+    case 'dark-only': return 'dark';
+  }
+}
 
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
@@ -47,20 +65,24 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
   const darkMode = useDarkMode(usingDarkAsInitial, {
     storageProvider: storage,
-    classNameDark: 'dark-theme',
-    classNameLight: 'light-theme',
+    classNameDark,
+    classNameLight,
+    onChange: (isDarkMode = false) => {
+      const [nextClassName, prevClassName] = getThemeName(mode, isDarkMode) === 'dark' 
+        ? [classNameDark, classNameLight]
+        : [classNameLight, classNameDark]
+
+      const body = document.body;
+
+      body.classList.add(nextClassName);
+      body.classList.remove(prevClassName)
+    }
   });
 
   const theme = React.useMemo(() => {
     const isDarkMode = darkMode.value;
     // 아 패턴매칭 마렵네 진짜
-    const colorTheme = (() => {
-      switch (mode) {
-        case 'auto': return isDarkMode ? colors.dark : colors.light;
-        case 'light-only': return colors.light;
-        case 'dark-only': return colors.dark;
-      }
-    })();
+    const colorTheme = colors[getThemeName(mode, isDarkMode)];
 
     return {
       colors: {
