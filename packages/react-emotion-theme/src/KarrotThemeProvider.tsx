@@ -5,9 +5,9 @@ import { colors, populateSemanticColors } from '@karrotmarket/design-token';
 import type { BehaviorMode } from '@karrotmarket/react-theming';
 import {
   DarkModeContext,
+  getColorScheme,
   getThemeName,
   useDarkModeBehavior,
-  useColorScheme,
 } from '@karrotmarket/react-theming';
 
 export type KarrotTheme = {
@@ -34,7 +34,6 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   mode = 'auto',
 }) => {
   const darkMode = useDarkModeBehavior({ mode });
-  const colorScheme = useColorScheme({ mode });
 
   const theme = React.useMemo(() => {
     const isDarkMode = darkMode.value;
@@ -56,10 +55,11 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
       <Global
         styles={{
           ':root': {
-            colorScheme,
+            colorScheme: getColorScheme(mode),
           },
         }}
       />
+
       <DarkModeContext.Provider value={darkMode}>
         <EmotionThemeProvider theme={theme}>
           {children}

@@ -6,8 +6,8 @@ import type { BehaviorMode } from '@karrotmarket/react-theming';
 import {
   DarkModeContext,
   getThemeName,
+  getColorScheme,
   useDarkModeBehavior,
-  useColorScheme,
 } from '@karrotmarket/react-theming';
 
 export type KarrotTheme = {
@@ -35,7 +35,6 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   mode = 'auto',
 }) => {
   const darkMode = useDarkModeBehavior({ mode });
-  const colorScheme = useColorScheme({ mode });
 
   const theme = React.useMemo(() => {
     const isDarkMode = darkMode.value;
@@ -54,7 +53,7 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   return (
     <>
       {/* required for iOS */}
-      <GlobalStyle colorScheme={colorScheme} />
+      <GlobalStyle colorScheme={getColorScheme(mode)} />
 
       <DarkModeContext.Provider value={darkMode}>
         <StyledComponentsThemeProvider theme={theme}>
