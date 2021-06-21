@@ -1,5 +1,5 @@
 releases:
-  design-system: prerelease
+  "@karrotmarket/react-emotion-theme": prerelease
 
-undecided:
-  - "@karrotmarket/react-emotion-theme"
+declined:
+  - design-system
