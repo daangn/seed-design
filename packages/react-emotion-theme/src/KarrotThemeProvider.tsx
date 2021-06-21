@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useDarkMode from 'use-dark-mode';
-import { css, Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
 import { colors, populateSemanticColors } from '@karrotmarket/design-token';
 import { ThemeStorageContext, DarkModeContext } from '@karrotmarket/react-theming';
@@ -105,11 +105,11 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
     <>
       {/* required for iOS */}
       <Global
-        styles={css`
-          :root {
-            color-scheme: ${availableScheme[mode]};
+        styles={{
+          ':root': {
+            'colorScheme': availableScheme[mode],
           }
-        `}
+        }}
       />
       <DarkModeContext.Provider value={darkMode}>
         <EmotionThemeProvider theme={theme}>
