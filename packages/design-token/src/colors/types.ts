@@ -35,4 +35,3 @@ export type ColorTheme = {
    */
   semanticScheme: SemanticColorScheme,
 };
-
