@@ -38,10 +38,7 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
 
   const theme = React.useMemo(() => {
     const isDarkMode = darkMode.value;
-
-    // 아 패턴매칭 마렵네 진짜
     const colorTheme = colors[getThemeName(mode, isDarkMode)];
-
     return {
       colors: {
         ...colorTheme.scheme,
