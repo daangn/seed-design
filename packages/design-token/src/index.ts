@@ -23,4 +23,6 @@ export type {
   FontTheme,
   FontToken,
   FontScheme,
+  SemanticFontKey,
+  SemanticFontScheme,
 } from './fonts/types';

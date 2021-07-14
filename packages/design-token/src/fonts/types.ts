@@ -4,11 +4,13 @@ export type FontToken = (
 
 export type FontScheme = Record<FontToken, string>;
 
-export type FontTheme = {
+export type SemanticFontScheme = {
+  system: string,
+};
 
-  /**
-   * Font tokens are already defined in its semantic
-   * At least yet.
-   */
+export type SemanticFontKey = keyof SemanticFontScheme;
+
+export type FontTheme = {
   scheme: FontScheme,
+  semanticScheme: SemanticFontScheme,
 };
