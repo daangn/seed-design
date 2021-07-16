@@ -1551,6 +1551,7 @@ __metadata:
   dependencies:
     "@types/common-tags": ^1.8.0
     "@types/tap": ^14.10.3
+    esbuild-register: ^2.6.0
     microbundle: ^0.13.1
     tap: ^15.0.9
     typescript: ^4.3.2
@@ -3870,6 +3871,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild-register@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "esbuild-register@npm:2.6.0"
+  dependencies:
+    esbuild: ^0.12.8
+    jsonc-parser: ^3.0.0
+  checksum: 697d31415c85f96a67917c921e0dba9ced7c0c70ce18ebcdf0cec19b75811a786ef7f00720bea23f1e15feff8ec5bcfdecad9d35b8d33c07723c4df5eb4a1431
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.12.8":
+  version: 0.12.15
+  resolution: "esbuild@npm:0.12.15"
+  bin:
+    esbuild: bin/esbuild
+  checksum: 22ec14d41c8a9256934b476575f3dbb47437c3c9953c4e4e00560454449075822c0824fa982a51cb545c255c561a781908da9711081d57b4f3bca15341569906
+  languageName: node
+  linkType: hard
+
 "escalade@npm:^3.1.1":
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
@@ -5430,6 +5450,13 @@ fsevents@~2.3.1:
   bin:
     json5: lib/cli.js
   checksum: 07b1f90c2801dc52df2b0ac8d606cc400a85cda79130e754780fa2ab9805d0fb85a0e61b6a5cdd68e88e5d0c8f9109ec415af08283175556cdccaa8563853908
+  languageName: node
+  linkType: hard
+
+"jsonc-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "jsonc-parser@npm:3.0.0"
+  checksum: 36b9080a7e25f5052c7d551109c4ead564f3102d7ca0c5ee4a2f7debc18b2cd31896e0e369cfd1442d9d2d71fc1defaf094ba885bc9b43a6a3f2b3a9083fd2cb
   languageName: node
   linkType: hard
 

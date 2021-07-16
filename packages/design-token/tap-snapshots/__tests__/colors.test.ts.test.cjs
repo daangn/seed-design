@@ -255,7 +255,6 @@ exports[`__tests__/colors.test.ts TAP semantic colors > must match snapshot 1`] 
 Object {
   "background": "#FFF",
   "backgroundLow": "#F2F3F6",
-  "white": "#FFF",
 }
 `
 
@@ -263,6 +262,5 @@ exports[`__tests__/colors.test.ts TAP semantic colors > must match snapshot 2`] 
 Object {
   "background": "#212124",
   "backgroundLow": "#17171A",
-  "white": "#212124",
 }
 `
