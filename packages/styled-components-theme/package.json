@@ -33,7 +33,7 @@
     "lib"
   ],
   "peerDependencies": {
-    "react": "^17.0.0",
+    "react": "^16.8.0 || ^17.0.0",
     "styled-components": "^5.0.0"
   },
   "dependencies": {

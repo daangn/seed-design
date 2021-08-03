@@ -34,7 +34,7 @@
   ],
   "peerDependencies": {
     "@emotion/react": "^11.0.0",
-    "react": "^17.0.0"
+    "react": "^16.8.0 || ^17.0.0"
   },
   "dependencies": {
     "@karrotmarket/design-token": "workspace:packages/design-token",
