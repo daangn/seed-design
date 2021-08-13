@@ -2666,6 +2666,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@karrotmarket/design-token", "workspace:packages/design-token"],
             ["@types/common-tags", "npm:1.8.0"],
             ["@types/tap", "npm:14.10.3"],
+            ["esbuild-register", "npm:2.6.0"],
             ["microbundle", "npm:0.13.1"],
             ["tap", "virtual:deaef2575a794f449b4df4fa07c6e96b8c2ddbed14b7e89e638dce0e28a185dc21056e1ac427dfc461f0d3853738e7b1867126062b44c970f9552114931e1629#npm:15.0.9"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"]
@@ -5453,6 +5454,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["esbuild", [
+        ["npm:0.12.15", {
+          "packageLocation": "./.yarn/unplugged/esbuild-npm-0.12.15-7493c7de7f/node_modules/esbuild/",
+          "packageDependencies": [
+            ["esbuild", "npm:0.12.15"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["esbuild-register", [
+        ["npm:2.6.0", {
+          "packageLocation": "./.yarn/cache/esbuild-register-npm-2.6.0-c8bf47fefc-697d31415c.zip/node_modules/esbuild-register/",
+          "packageDependencies": [
+            ["esbuild-register", "npm:2.6.0"],
+            ["esbuild", "npm:0.12.15"],
+            ["jsonc-parser", "npm:3.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["escalade", [
         ["npm:3.1.1", {
           "packageLocation": "./.yarn/cache/escalade-npm-3.1.1-e02da076aa-1e31ff50d6.zip/node_modules/escalade/",
@@ -7230,6 +7251,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["json5", "npm:2.2.0"],
             ["minimist", "npm:1.2.5"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["jsonc-parser", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/jsonc-parser-npm-3.0.0-66e692e88a-36b9080a7e.zip/node_modules/jsonc-parser/",
+          "packageDependencies": [
+            ["jsonc-parser", "npm:3.0.0"]
           ],
           "linkType": "HARD",
         }]

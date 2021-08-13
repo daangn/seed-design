@@ -34,7 +34,7 @@
     }
   },
   "scripts": {
-    "test": "tap",
+    "test": "tap --node-arg=--require=esbuild-register",
     "build": "microbundle && node ./export-css.js",
     "dev": "microbundle watch",
     "prepack": "yarn build"
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/tap": "^14.10.3",
+    "esbuild-register": "^2.6.0",
     "microbundle": "^0.13.1",
     "tap": "^15.0.9",
     "typescript": "^4.3.2"
