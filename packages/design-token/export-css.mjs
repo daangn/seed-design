@@ -1,7 +1,7 @@
-const fs = require('fs/promises');
-const path = require('path');
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
-const { colors } = require('./lib/index');
+import { colors } from './lib/index.mjs';
 
 const kebabcase = str => str.replace(/[A-Z]/g, v => `-${v.toLowerCase()}`);
 const indent = depth => ' '.repeat(depth * 2);
@@ -78,14 +78,15 @@ const generateSystemStyleSheet = async () => {
   return themePath;
 };
 
-Promise.all([
+const files = await Promise.all([
   generateThemeStyleSheet('light'),
   generateThemeStyleSheet('dark'),
   generateSystemStyleSheet(),
-]).then(files => {
-  console.log('stylesheets have successfully generated!');
-  console.log(` - ${files
-    .map(file => path.relative(process.cwd(), file))
-    .join('\n - ')
-  }`);
-});
+]);
+
+console.log(`
+Stylesheets have successfully generated!
+- ${files
+  .map(file => path.relative(process.cwd(), file))
+  .join('\n- ')
+}`);
