@@ -1,9 +1,7 @@
 {
   "name": "@karrotmarket/react-theming",
-  "amdName": "karrotReactTheming",
   "version": "0.2.0",
   "sideEffects": false,
-  "main": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/karrot-ui",
@@ -11,34 +9,31 @@
   },
   "maintainers": [
     {
-      "name": "Tim Kim",
+      "name": "Hyeseong Kim",
       "email": "tim@daangn.com"
     }
   ],
+  "source": "./src/index.ts",
+  "main": "./src/index.ts",
   "publishConfig": {
     "access": "public",
-    "source": "./src/index.ts",
-    "main": "./lib/index.js",
-    "module": "./lib.module.js",
-    "unpkg": "./lib/index.umd.js",
+    "type": "module",
+    "main": "./lib/index.mjs",
+    "module": "./lib/index.mjs",
     "types": "./lib/index.d.ts",
     "exports": {
-      ".": {
-        "require": "./lib/index.js",
-        "import": "./lib/index.modern.js"
-      },
-      "./package.json": "./package.json"
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
     }
-  },
-  "scripts": {
-    "build": "microbundle --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@karrotmarket/design-token=karrotDesignToken",
-    "dev": "microbundle dev --jsx jsx --jsxImportSource react --globals react/jsx-runtime=jsx,@karrotmarket/design-token=karrotDesignToken",
-    "prepack": "yarn build"
   },
   "files": [
     "src",
     "lib"
   ],
+  "scripts": {
+    "build": "tsc --emitDeclarationOnly && nanobundle build",
+    "prepack": "yarn build"
+  },
   "peerDependencies": {
     "react": "^17.0.0"
   },
@@ -49,7 +44,7 @@
   "devDependencies": {
     "@types/react": "^17.0.20",
     "@types/webpack-env": "^1.16.2",
-    "microbundle": "^0.13.3",
+    "nanobundle": "^0.0.18",
     "react": "^17.0.2",
     "typescript": "^4.4.2"
   }
