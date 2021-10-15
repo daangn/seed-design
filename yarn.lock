@@ -1688,7 +1688,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@karrotmarket/design-token@workspace:packages/design-token":
+"@karrotmarket/design-token@workspace:^0.2.0, @karrotmarket/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@karrotmarket/design-token@workspace:packages/design-token"
   dependencies:
@@ -1706,8 +1706,8 @@ __metadata:
   resolution: "@karrotmarket/react-emotion-theme@workspace:packages/react-emotion-theme"
   dependencies:
     "@emotion/react": ^11.4.1
-    "@karrotmarket/design-token": "workspace:packages/design-token"
-    "@karrotmarket/react-theming": "workspace:packages/react-theming"
+    "@karrotmarket/design-token": "workspace:^0.2.0"
+    "@karrotmarket/react-theming": "workspace:^0.2.0"
     "@types/node": ^16.9.0
     "@types/react": ^17.0.20
     "@types/webpack-env": ^1.16.2
@@ -1721,11 +1721,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@karrotmarket/react-theming@workspace:packages/react-theming":
+"@karrotmarket/react-theming@workspace:^0.2.0, @karrotmarket/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@karrotmarket/react-theming@workspace:packages/react-theming"
   dependencies:
-    "@karrotmarket/design-token": "workspace:packages/design-token"
+    "@karrotmarket/design-token": "workspace:^0.2.0"
     "@types/react": ^17.0.20
     "@types/webpack-env": ^1.16.2
     microbundle: ^0.13.3
@@ -1741,8 +1741,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@karrotmarket/styled-components-theme@workspace:packages/styled-components-theme"
   dependencies:
-    "@karrotmarket/design-token": "workspace:packages/design-token"
-    "@karrotmarket/react-theming": "workspace:packages/react-theming"
+    "@karrotmarket/design-token": "workspace:^0.2.0"
+    "@karrotmarket/react-theming": "workspace:^0.2.0"
     "@types/react": ^17.0.20
     "@types/styled-components": ^5.1.14
     "@types/webpack-env": ^1.16.2

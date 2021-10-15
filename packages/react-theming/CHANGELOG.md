@@ -1,7 +1,6 @@
-# @karrotmarket/react-emotion-theme
+# @karrotmarket/react-theming
 
-## 0.4.0
-
+## 0.2.0
 ### Minor Changes
 
 - minor bump
@@ -10,4 +9,3 @@
 
 - Updated dependencies [undefined]
   - @karrotmarket/design-token@0.2.0
-  - @karrotmarket/react-theming@0.2.0

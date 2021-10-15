@@ -1,7 +1,7 @@
 {
   "name": "@karrotmarket/react-theming",
   "amdName": "karrotReactTheming",
-  "version": "0.1.0-2",
+  "version": "0.2.0",
   "sideEffects": false,
   "main": "./src/index.ts",
   "repository": {
@@ -43,7 +43,7 @@
     "react": "^17.0.0"
   },
   "dependencies": {
-    "@karrotmarket/design-token": "workspace:packages/design-token",
+    "@karrotmarket/design-token": "workspace:^0.2.0",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "@karrotmarket/styled-components-theme",
   "amdName": "karrotStyledComponentsTheme",
-  "version": "0.1.0-1",
+  "version": "0.2.0",
   "sideEffects": false,
   "main": "./src/index.ts",
   "repository": {
@@ -37,8 +37,8 @@
     "styled-components": "^5.0.0"
   },
   "dependencies": {
-    "@karrotmarket/design-token": "workspace:packages/design-token",
-    "@karrotmarket/react-theming": "workspace:packages/react-theming",
+    "@karrotmarket/design-token": "workspace:^0.2.0",
+    "@karrotmarket/react-theming": "workspace:^0.2.0",
     "use-dark-mode": "^2.3.1"
   },
   "devDependencies": {
