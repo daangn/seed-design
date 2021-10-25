@@ -1,5 +1,15 @@
 # @karrotmarket/styled-components-theme
 
+## 1.0.1
+
+### Patch Changes
+
+- a21b5f3: fix package.json to respect yarn's publishConfig field coverage
+- Updated dependencies [a21b5f3]
+- Updated dependencies [15d4e96]
+  - @karrotmarket/react-theming@1.0.1
+  - @karrotmarket/design-token@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # @karrotmarket/design-token
 
+## 1.0.1
+
+### Patch Changes
+
+- 15d4e96: fix manifest to respect yarn's publishConfig field coverage
+
 ## 1.0.0
 
 ### Major Changes
