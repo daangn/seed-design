@@ -15,21 +15,20 @@
   ],
   "source": "./src/index.ts",
   "main": "./src/index.ts",
+  "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public",
-    "type": "module",
     "main": "./lib/index.mjs",
-    "module": "./lib/index.mjs",
-    "types": "./lib/index.d.ts",
-    "exports": {
-      ".": {
-        "import": "./lib/index.mjs",
-        "require": "./lib/index.cjs"
-      },
-      "./colors/light.css": "./lib/colors/light.css",
-      "./colors/dark.css": "./lib/colors/dark.css",
-      "./colors/system.css": "./lib/colors/system.css"
-    }
+    "module": "./lib/index.mjs"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./colors/light.css": "./lib/colors/light.css",
+    "./colors/dark.css": "./lib/colors/dark.css",
+    "./colors/system.css": "./lib/colors/system.css"
   },
   "files": [
     "src",
