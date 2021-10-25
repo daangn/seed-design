@@ -15,15 +15,15 @@
   ],
   "source": "./src/index.ts",
   "main": "./src/index.ts",
+  "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public",
     "main": "./lib/index.mjs",
-    "module": "./lib/index.mjs",
-    "types": "./lib/index.d.ts",
-    "exports": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.cjs"
-    }
+    "module": "./lib/index.mjs"
+  },
+  "exports": {
+    "import": "./lib/index.mjs",
+    "require": "./lib/index.cjs"
   },
   "scripts": {
     "build": "tsc --emitDeclarationOnly && nanobundle build",
