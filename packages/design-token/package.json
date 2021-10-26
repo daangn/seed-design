@@ -42,6 +42,7 @@
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
     "@types/tap": "^15.0.5",
+    "esbuild": "^0.13.9",
     "esbuild-register": "^3.0.0",
     "nanobundle": "^0.0.18",
     "tap": "^15.0.9",
