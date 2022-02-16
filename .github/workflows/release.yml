@@ -32,7 +32,7 @@ jobs:
         run: yarn workspaces foreach -t run build
 
       - name: Create Release Pull Request or Publish to npm
-        uses: cometkim/yarn-changeset-action@v1-debug
+        uses: cometkim/yarn-changeset-action@v1
         with:
           autoPublish: true
         env:
