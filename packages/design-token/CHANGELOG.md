@@ -1,5 +1,11 @@
 # @karrotmarket/design-token
 
+## 1.0.2
+
+### Patch Changes
+
+- 26bdbf9: Update nanobundle
+
 ## 1.0.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @karrotmarket/react-theming
 
+## 1.0.2
+
+### Patch Changes
+
+- 26bdbf9: Update nanobundle
+- Updated dependencies [26bdbf9]
+  - @karrotmarket/design-token@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
