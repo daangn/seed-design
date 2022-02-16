@@ -26,7 +26,7 @@
     "require": "./lib/index.cjs"
   },
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && nanobundle build",
+    "build": "nanobundle build",
     "prepack": "yarn build"
   },
   "files": [
@@ -47,7 +47,7 @@
     "@types/node": "^16.9.0",
     "@types/react": "^17.0.20",
     "@types/webpack-env": "^1.16.2",
-    "nanobundle": "^0.0.18",
+    "nanobundle": "^0.0.25",
     "react": "^17.0.2",
     "typescript": "^4.4.2"
   }
