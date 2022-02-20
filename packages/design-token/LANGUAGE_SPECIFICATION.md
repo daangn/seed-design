@@ -60,11 +60,20 @@ $scale/color/carrot-400;
 $scale/color/carrot-500;
 ```
 
-`name` is *unique*, can contain alphanumeric (lowcase only), and `-`.
+An abstract structure may looks like this:
+
+```json
+scale {
+  "name": "carrot-100",
+  "target": "color"
+}
+```
+
+`name` is *unique*, can contain alphanumeric(lowcase only), and `-`.
 
 `target` is the pre-defined name associated with the actual display. 
 
-Definitions for scale tokens can contain value binding with `->`
+Definitions for scale tokens can contain value binding using `->`
 
 ```
 $scale/color/carrot-100 -> #FFF5F0;
@@ -72,6 +81,16 @@ $scale/color/carrot-200 -> #FFE2D2;
 $scale/color/carrot-300 -> #FFD2B9;
 $scale/color/carrot-400 -> #FFBC97;
 $scale/color/carrot-500 -> #FF9E66;
+```
+
+An abstract structure may looks like this:
+
+```json
+scale {
+  "name": "carrot-100",
+  "target": "color",
+  "value": "#FFF5F0"
+}
 ```
 
 The available value formats depend on the target.
@@ -96,15 +115,34 @@ $semantic/typography/title;
 $semantic/typography/subtitle;
 ```
 
+An abstract structure may looks like this:
+
+```json
+semantic {
+  "name": "primary",
+  "group": "color"
+}
+```
+
 The binding of the value of a semantic token is specified as reference to another tokens.
-
-#### Token References
-
-Depending on the context, other tokens can be referenced through the same syntax as declaration.
 
 ```
 $semantic/color/primary -> $scale/color/carrot-500;
 ```
+
+An abstract structure may looks like this:
+
+```json
+semantic {
+  "name": "primary",
+  "group": "color",
+  "ref": "$scale/color/carrot-500"
+}
+```
+
+#### Token References
+
+Depending on the context, other tokens can be referenced through the same syntax as declaration.
 
 #### Conditional Bindings
 
@@ -113,6 +151,25 @@ TBD
 #### Composed Bindings
 
 TBD
+
+#### Comment Bindings
+
+User can leave a single line of comment on a specific token using `#>`.
+
+```
+$semantic/color/primary #> This is primary color;
+```
+
+An abstract structure may looks like this:
+
+```json
+semantic {
+  ...
+  "description": "This is primary color"
+}
+```
+
+The description of every node is initialized to an empty string in the absence of an explicit binding.
 
 #### Handling Duplicated Definitions
 
@@ -126,10 +183,10 @@ Expressions is formated as `%{expression}`, for example `%query($scale/color/*$n
 
 Library:
 
-- `%get({reference})`: get value of the reference.
-- `%query({reference_pattern})`: get iterable for the pattern. it allows wildcard (`*`) in token name position.
+- `%get({at_rule*?}{reference})`: get value of the reference.
+- `%query({at_rule*?}{reference_pattern})`: get iterable for the pattern. it allows wildcard (`*`) in token name position.
 
 For Figma frames:
 
-- `%figma:color({reference})`: set frame color to the referencing value.
-- `%figma:text({reference})`: set frame text to the referencing value.
+- `%figma:color({at_rule*?}{reference})`: set frame color to the referencing value.
+- `%figma:text({at_rule*?}{reference})`: set frame text to the referencing value.
