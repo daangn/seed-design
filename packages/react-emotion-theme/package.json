@@ -25,14 +25,19 @@
     "import": "./lib/index.mjs",
     "require": "./lib/index.cjs"
   },
-  "scripts": {
-    "build": "nanobundle build",
-    "prepack": "yarn build"
-  },
   "files": [
     "src",
     "lib"
   ],
+  "browserslist": [
+    "defaults",
+    "safari >= 13",
+    "not ie 11"
+  ],
+  "scripts": {
+    "build": "nanobundle build",
+    "prepack": "yarn build"
+  },
   "peerDependencies": {
     "@emotion/react": "^11.0.0",
     "react": "^17.0.0"
