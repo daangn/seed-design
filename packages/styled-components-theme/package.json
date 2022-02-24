@@ -22,8 +22,11 @@
     "module": "./lib/index.mjs"
   },
   "exports": {
-    "import": "./lib/index.mjs",
-    "require": "./lib/index.cjs"
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "src",

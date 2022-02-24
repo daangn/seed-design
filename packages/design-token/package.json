@@ -26,6 +26,7 @@
       "import": "./lib/index.mjs",
       "require": "./lib/index.cjs"
     },
+    "./package.json": "./package.json",
     "./colors/light.css": "./lib/colors/light.css",
     "./colors/dark.css": "./lib/colors/dark.css",
     "./colors/system.css": "./lib/colors/system.css"
