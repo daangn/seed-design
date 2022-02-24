@@ -1,5 +1,15 @@
 # @karrotmarket/design-token
 
+## 1.1.0
+
+### Minor Changes
+
+- 5298e03: Fix browserslist query to support Safari 13 as target
+
+### Patch Changes
+
+- 26bdbf9: Update nanobundle
+
 ## 1.0.1
 
 ### Patch Changes
