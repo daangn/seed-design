@@ -1,5 +1,18 @@
 # @karrotmarket/react-theming
 
+## 1.1.0
+
+### Minor Changes
+
+- 5298e03: Fix browserslist query to support Safari 13 as target
+
+### Patch Changes
+
+- 26bdbf9: Update nanobundle
+- Updated dependencies [26bdbf9]
+- Updated dependencies [5298e03]
+  - @karrotmarket/design-token@1.1.0
+
 ## 1.0.1
 
 ### Patch Changes
