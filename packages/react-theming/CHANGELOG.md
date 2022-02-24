@@ -1,5 +1,13 @@
 # @karrotmarket/react-theming
 
+## 1.1.1
+
+### Patch Changes
+
+- 15b76f7: exposed package.json
+- Updated dependencies [15b76f7]
+  - @karrotmarket/design-token@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

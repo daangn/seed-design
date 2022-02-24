@@ -1,5 +1,11 @@
 # @karrotmarket/design-token
 
+## 1.1.1
+
+### Patch Changes
+
+- 15b76f7: exposed package.json
+
 ## 1.1.0
 
 ### Minor Changes
