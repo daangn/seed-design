@@ -1,6 +1,6 @@
-# Karrot Design Token Specification
+# Karrot Design Token (KDT) Specification
 
-Specification for Karrot Design Token (KDT) and its language.
+Specification for Karrot Design Token (KDT) and its language (KDTL).
 
 ## What is Design Token?
 
@@ -18,29 +18,29 @@ The KDT contains two types of tokens, **"scale tokens"** and **"semantic tokens"
 
 ### Content Type
 
-KDTs are usually stored in DB, but can be serialized to text. Serialized text contains only information about the schema and values of the design token and is stored in file with Design Token Definition Language (DTDL) format.
+KDTs are usually stored in DB, but can be serialized to text. Serialized text contains only information about the schema and values of the design token and is stored in file with KDTL format.
 
-DTDL is defined as a subset with only token definitions(`$`) in KDT. Its Extension of the file should be `.dtdl` and its MIME type should be `application/dtdl`.
+KDTL is defined as a subset with only token definitions(`$`) in KDT. Its Extension of the file should be `.kdtl` and its MIME type should be `application/design-tokens+kdtl`.
 
-### Concepts
+### Language Concepts
 
-#### Prefixing Syntax
+#### Prefixed Syntax
 
-Every syntax in KDT is started with specific prefix such like `$` or `%`. These prefixes can be used to identify meaningful definitions and expressions in different content types.
+Every syntax in KDTL is started with specific prefix such like `$` or `%`. These prefixes can be used to identify meaningful definitions and expressions in different content types.
 
 #### Declarative
 
-The KDT is a declarative DSL. It has much less expressive than other languages like SASS and focuses on design token use cases.
+The KDTL is a declarative DSL. It has much less expressive than other languages like SASS and focuses on design token use cases.
 
 #### Domain-specific
 
-Instead of being compatible with every possible cases, KDT focus more on the real problem. KDT provide some opinions on how to use Design Token.
+Instead of being compatible with every possible cases, KDTL focus more on the real problem. KDTL provide some opinions on how to use Design Token.
 
 It can still be exchangable with other formats with a wider range of expressions, such as the [DTCG format](https://design-tokens.github.io/community-group/format/).
 
 #### One-liner
 
-The syntax of KDT is designed so that you can express the same intent separately line by line. This feature allows the language to interoperate well with tools that don't support code editing, such as Figma.
+The syntax of KDTL is designed so that you can express the same intent separately line by line. This feature allows the language to interoperate well with tools that don't support code editing, such as Figma.
 
 ### Token Definitions (`$`)
 

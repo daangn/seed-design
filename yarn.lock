@@ -693,6 +693,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@karrot-ui/kdtl@workspace:packages/design-token-spec":
+  version: 0.0.0-use.local
+  resolution: "@karrot-ui/kdtl@workspace:packages/design-token-spec"
+  languageName: unknown
+  linkType: soft
+
 "@karrotmarket/design-token@workspace:^1.1.1, @karrotmarket/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@karrotmarket/design-token@workspace:packages/design-token"
