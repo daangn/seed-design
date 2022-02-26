@@ -1,127 +1,216 @@
-Definition 
-  = expressions:(_ (Binding / CommentBinding / Declare) Terminate)* {
-    return expressions.map(expr => expr[1])
-  }
-
-TokenDefinition = "$"
-
-SemanticDeclarePrefix = TokenDefinition "semantic"
-
-ScaleDeclarePrefix = TokenDefinition "scale" 
-
-Declare 
-  = (SemanticDeclare / ScaleDeclare)
-
-SemanticDeclare = SemanticDeclarePrefix group:Group name:Name {
-  return {
-    ...name,
-    ...group,
-    description: ''
+{
+  function stringifyToken(token) {
+    switch (token.prefix) {
+      case '$scale':
+        return [token.prefix, token.target, token.name].join('/');
+      case '$semantic':
+        return [token.prefix, token.group, token.value].join('/');
+    }
   }
 }
 
-ScaleDeclare
-  = ColorDeclare 
-    / OpacityDeclare 
-    / FontSizeDeclare 
-    / FontWeightDeclare 
-    / LineHeightDeclare
-
-ColorDeclare
-  = ScaleDeclarePrefix "/color" name:Name {
-    return {
-      ...name,
-      target: "color",
-      description: ''
-    }
-}
-
-OpacityDeclare
-  = ScaleDeclarePrefix "/opacity" name:Name {
-    return {
-      ...name,
-      target: "opacity",
-      description: ''
-    }  
+KDT
+  = "\n"* defs:Definition* EOF {
+    return defs;
   }
 
-FontSizeDeclare
-  = ScaleDeclarePrefix "/font-size" name:Name {
-    return {
-      ...name,
-      target: "font-size",
-      description: ''
-    }
+Definition
+  = ScaleTokenDefinition
+  / SemanticTokenDefinition
+  / CommentDefinition
+  / DeclarationOnly
+
+SemanticTokenDefinition
+  = token:Semantic _ op:BindOperator _ binding:Scale EOL {
+    return { op, token, binding };
   }
 
-FontWeightDeclare
-  = ScaleDeclarePrefix "/font-weight" name:Name {
-    return {
-      ...name,
-      target: "font-weight",
-      description: ''
-    }
+ScaleTokenDefinition
+  = ColorScaleTokenDefinition
+  / OpacityScaleTokenDefinition
+  / FontSizeScaleTokenDefinition
+  / FontWeightScaleTokenDefinition
+  / LineHeightScaleTokenDefinition
+
+
+ColorScaleTokenDefinition
+  = token:ColorScale _ op:BindOperator _ binding:ColorLit EOL {
+    return { op, token: stringifyToken(token), binding };
+  }
+  
+OpacityScaleTokenDefinition
+  = token:OpacityScale _ op:BindOperator _ binding:PercentLit EOL {
+    return { op, token: stringfyToken(token), binding };
   }
 
-LineHeightDeclare
-  = ScaleDeclarePrefix "/line-height" name:Name {
-    return {
-      ...name,
-      target: "line-height",
-      description: ''
-    }
+FontSizeScaleTokenDefinition
+  = token:FontSizeScale _ op:BindOperator _ binding:PointLit EOL {
+    return { op, token: stringifyToken(token), binding };
   }
 
-Group
-  = "/" group: Alphanumeric {
-    return {
-      group
-    }
+FontWeightScaleTokenDefinition
+  = token:FontWeightScale _ op:BindOperator _ binding:FontWeightLit EOL {
+    return { op, token: stringifyToken(token), binding };
   }
 
-Name 
-  = "/" name: Alphanumeric {
-    return {
-      name
-    }
+LineHeightScaleTokenDefinition
+  = token:LineHeightScale _ op:BindOperator _ binding:(PointLit / PercentLit) EOL {
+    return { op, token: stringifyToken(token), binding };
   }
 
-Binding
-  = (color:ColorDeclare _ "->" _ value:(HexColor / RGBColor) { return {...color, value }}) 
-  / (opacity:OpacityDeclare _ "->" _ value:Percentage { return { ...opacity, value }})
-  / (fontSize:FontSizeDeclare _ "->" _ value:DecimalPX { return { ...fontSize, value }})
-  / (fontWeight:FontWeightDeclare _ "->" _ value:FontWeightConst { return { ...fontWeight, value }})
-  / (lineHeight:LineHeightDeclare _ "->" _ value:(DecimalPX / Percentage) { return { ...lineHeight, value }})
-  / (semantic:SemanticDeclare _ "->" _ ref:(ScaleDeclare) { 
-      return { ...semantic, ref:`$scale/${ref.target}/${ref.name}` } 
-    })
-
-CommentBinding
-  = declare:Declare _ "#>" _ comment:AnyString {
-    return {
-      ...declare,
-      description: comment
-    }
+DeclarationOnly
+  = token:(Scale / Semantic) EOL {
+    return { token }
   }
 
-Terminate
-  = _ ";" _{
-    return ";"
+CommentDefinition
+  = token:(Scale / Semantic) _ op:CommentOperator _ comment:StringLit EOL {
+    return { type: "comment", token: stringifyToken(token), comment }
   }
 
-// Atomic expression
-FontWeightConst = "thin" / "regular" / "bold"
-Alphanumeric "alphanumeric" = chars:([a-z0-9\-]+) { return chars.join("")}
-HexColor "#FFFFFF" = hex:("#"[A-Z][A-Z][A-Z][A-Z][A-Z][A-Z]) { return hex.join("") }
-RGBColor "rgb(255, 255, 255)"
-  = rgb:("rgb" _ "(" _ [0-9][0-9]?[0-9]? _ "," _ [0-9][0-9]?[0-9]? _ "," _ [0-9][0-9]?[0-9]? _ ")") { 
-    return rgb.filter(el => el != null).join("")
+Semantic
+  = prefix:SemanticPrefix SLASH group:TokenName SLASH name:TokenName {
+    return { prefix, group, name };
   }
-Percentage "%" 
-  = percentage:([0-9]+"%") {
-    return [...percentage[0], percentage[1]].join("")
+
+Scale
+  = ColorScale
+  / OpacityScale
+  / FontSizeScale
+  / FontWeightScale
+  / LineHeightScale
+
+ColorScale
+  = prefix:ScalePrefix SLASH target:"color" SLASH name:TokenName {
+    return { prefix, target, name };
   }
-DecimalPX "px" = px:([0-9]+"px") { return [...px[0], px[1]].join("")}
-AnyString  = '"' chars:[^(")]* '"' { return chars.join("")}
-EOL "EndOfLine" = [\n]*
-_ "whitespace" = [ \t\n\r]*
+
+OpacityScale
+  = prefix:ScalePrefix SLASH target:"opacity" SLASH name:TokenName {
+    return { prefix, target, name };
+  }
+
+FontSizeScale
+  = prefix:ScalePrefix SLASH target:"font-size" SLASH name:TokenName {
+    return { prefix, target, name };
+  }
+
+FontWeightScale
+  = prefix:ScalePrefix SLASH target:"font-weight" SLASH name:TokenName {
+    return { prefix, target, name };
+  }
+
+LineHeightScale
+  = prefix:ScalePrefix SLASH target:"line-height" SLASH name:TokenName {
+    return { prefix, target, name };
+  }
+
+TokenName
+  = [a-z]+ ("-" [a-z]+)* {
+    return text();
+  }
+
+SemanticPrefix
+  = "$semantic" {
+    return text();
+  }
+
+ScalePrefix
+  = "$scale" {
+    return text();
+  }
+
+ExpressionPrefix
+  = "%"
+
+// operators
+
+BindOperator
+  = "->"
+
+CommentOperator
+  = "#>"
+
+// literals
+
+ColorLit
+  = ColorHexLit
+  / ColorRgbLit
+
+ColorHexLit "#FFFFFF"
+  = "#" HEXDIG HEXDIG HEXDIG HEXDIG HEXDIG HEXDIG {
+    return text();
+  }
+
+ColorRgbLit "rgb(R, G, B)"
+  = "rgb" FUNC_OPEN _ r:INTEGER _ SEP _ g:INTEGER _ SEP _ b:INTEGER _ FUNC_CLOSE {
+    if (r < 0 || r > 255) error('r must be 0 ~ 255');
+    if (g < 0 || g > 255) error('g must be 0 ~ 255');
+    if (b < 0 || b > 255) error('b must be 0 ~ 255');
+    return { r, g, b };
+  }
+
+FontWeightLit
+  = "thin"
+  / "regular"
+  / "bold"
+
+PointLit "point"
+  = value:INTEGER "pt" {
+    return { type: 'point', value } ;
+  }
+
+PercentLit "percent"
+  = value:NUMBER "%" {
+    return { type: 'percent', value };
+  }
+
+StringLit
+  = DoubleQuotedStringLit
+  / SingleQuotedStringLit
+
+DoubleQuotedStringLit
+  = '"' chars:([^\n\r\f"])* '"' {
+  	return chars.join('');
+  }
+
+SingleQuotedStringLit
+  = "'" chars:([^\n\r\f'])* "'" {
+  	return chars.join('');
+  }
+
+// macros
+
+FUNC_OPEN "function opening ("
+  = "("
+
+FUNC_CLOSE "function closing )"
+  = ")"
+  
+HEXDIG "hexadecimal"
+  = [0-9a-fA-F]
+
+NUMBER "number"
+  = INTEGER ("." [0-9]+)? (("e" / "E") ("+" / "-")? [0-9]+)? {
+    return parseFloat(text());
+  }
+
+INTEGER "integer"
+  = "-"? ("0" / ([1-9] [0-9]*)) {
+    return parseInt(text())
+  }
+
+SLASH
+  = "/"
+
+SEP "comma"
+  = ","
+  
+EOL "end of line"
+  = ";"? "\n"*
+
+EOF "end of file"
+  = "\n"*
+
+_ "space"
+  = " "*
