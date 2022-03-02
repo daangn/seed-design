@@ -1,0 +1,49 @@
+$scale/color/carrot50  @theme:light -> #fff5f0
+$scale/color/carrot100 @theme:light -> #ffe2d2
+$scale/color/carrot200 @theme:light -> #ffd2b9
+$scale/color/carrot300 @theme:light -> #ffbc97
+$scale/color/carrot400 @theme:light -> #ff9366
+$scale/color/carrot500 @theme:light -> #ff7e36
+$scale/color/carrot600 @theme:light -> #fa6616
+$scale/color/carrot700 @theme:light -> #f05705
+$scale/color/carrot800 @theme:light -> #cc4700
+$scale/color/carrot900 @theme:light -> #b44104
+$scale/color/carrot950 @theme:light -> #a03a03
+
+$scale/color/carrot50  @theme:dark -> #7a3814
+$scale/color/carrot100 @theme:dark -> #974011
+$scale/color/carrot200 @theme:dark -> #bf4c0d
+$scale/color/carrot300 @theme:dark -> #d15715
+$scale/color/carrot400 @theme:dark -> #e96017
+$scale/color/carrot500 @theme:dark -> #ed7735
+$scale/color/carrot600 @theme:dark -> #ee9561
+$scale/color/carrot700 @theme:dark -> #edb08e
+$scale/color/carrot800 @theme:dark -> #edc4ad
+$scale/color/carrot900 @theme:dark -> #edd3c4
+$scale/color/carrot950 @theme:dark -> #ede4e0
+
+$scale/color/blue50  @theme:light -> #ebf7fa
+$scale/color/blue100 @theme:light -> #c0e1eb
+$scale/color/blue800 @theme:light -> #0a85b5
+$scale/color/blue950 @theme:light -> #0f698c
+
+$scale/color/blue50  @theme:dark -> #055575
+$scale/color/blue100 @theme:dark -> #0c7eab
+$scale/color/blue800 @theme:dark -> #bad2d9
+$scale/color/blue950 @theme:dark -> #dbe6e9
+
+$semantic/color/primary -> $scale/color/carrot500
+$semantic/color/primary #> "가장 중요한, 눈에 잘 띄는, 활성 등 UI 전반의 주요 요소에 사용합니다"
+
+$semantic/color/primary-container @theme:light -> $scale/color/carrot50
+$semantic/color/primary-container @theme:dark  -> $scale/color/carrot950
+$semantic/color/primary-container #> "주요 색상(Primary)의 약한 강조로, 주요 영역을 표기할 때 사용합니다"
+
+$semantic/color/secondary @theme:light -> $scale/color/blue800
+$semantic/color/secondary @theme:dark  -> $scale/color/blue200
+$semantic/color/secondary #> "주요 색상(Primary)을 대체하거나 보조합니다."
+
+$semantic/color/secondary-container @theme:light -> $scale/color/blue50
+$semantic/color/secondary-container @theme:dark  -> $scale/color/blue950
+$semantic/color/secondary-container #> "보조 영역에 사용합니다."
+
