@@ -1,5 +1,11 @@
 # @karrotmarket/design-token
 
+## 1.1.2
+
+### Patch Changes
+
+- 9d496d8: set sideEffect true to use with css loaders
+
 ## 1.1.1
 
 ### Patch Changes
