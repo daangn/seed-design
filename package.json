@@ -1,5 +1,5 @@
 {
-  "name": "design-system",
+  "name": "@seed-design/project",
   "version": "0.0.0",
   "private": true,
   "workspaces": [

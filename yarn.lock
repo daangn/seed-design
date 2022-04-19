@@ -815,6 +815,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seed-design/project@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/project@workspace:."
+  dependencies:
+    "@changesets/cli": ^2.17.0
+    typescript: ^4.4.2
+  languageName: unknown
+  linkType: soft
+
 "@types/common-tags@npm:^1.8.1":
   version: 1.8.1
   resolution: "@types/common-tags@npm:1.8.1"
@@ -1863,15 +1872,6 @@ __metadata:
   checksum: a51744d9b53c164ba9c0492471a1a2ffa0b6727451bdc89e31627fdf4adda9d51277cfcbfb20f0a6f08ccb3c436f341df3e92631a3440226d93a8971724771fd
   languageName: node
   linkType: hard
-
-"design-system@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "design-system@workspace:."
-  dependencies:
-    "@changesets/cli": ^2.17.0
-    typescript: ^4.4.2
-  languageName: unknown
-  linkType: soft
 
 "detect-indent@npm:^6.0.0":
   version: 6.1.0
