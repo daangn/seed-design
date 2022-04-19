@@ -309,25 +309,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seed-design/base@workspace:packages/base":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/base@workspace:packages/base"
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/project@workspace:.":
   version: 0.0.0-use.local
   resolution: "@seed-design/project@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
-    typescript: ^4.6.3
-  languageName: unknown
-  linkType: soft
-
-"@seed-design/stylesheet@workspace:packages/stylesheet":
-  version: 0.0.0-use.local
-  resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
-  languageName: unknown
-  linkType: soft
-
-"@seed-design/vars@workspace:packages/vars":
-  version: 0.0.0-use.local
-  resolution: "@seed-design/vars@workspace:packages/vars"
-  dependencies:
     typescript: ^4.6.3
   languageName: unknown
   linkType: soft

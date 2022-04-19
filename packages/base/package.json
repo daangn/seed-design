@@ -1,0 +1,30 @@
+{
+  "name": "@seed-design/base",
+  "version": "1.0.0-alpha.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/base"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "require": "./index.cjs",
+      "import": "./index.mjs",
+      "types": "./index.d.ts"
+    },
+    "./vars": {
+      "require": "./vars.cjs",
+      "import": "./vars.mjs",
+      "types": "./vars.d.ts"
+    },
+    "./global.css": "./global.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "all.css"
+  ]
+}
