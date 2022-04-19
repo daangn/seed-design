@@ -35,7 +35,11 @@ Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로�
 
 웹팩 등 자바스크립트 번들러에 의해 처리되는 경우, [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 등으로 사전에 추출되어 [주요 렌더링 경로](https://developer.mozilla.org/ko/docs/Web/Performance/Critical_rendering_path)에 배치해야합니다.
 
-Seed Design 스타일시트는 사용하기 전에 **명시적인 초기화**가 필요합니다. 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
+```js
+import '@seed-design/stylesheet/global.css';
+```
+
+Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초기화**가 필요합니다. 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
 
 예시) HTML (권장)
 
