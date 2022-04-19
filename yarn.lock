@@ -324,6 +324,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/stylesheet@workspace:packages/stylesheet":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
+  languageName: unknown
+  linkType: soft
+
 "@types/minimist@npm:^1.2.0":
   version: 1.2.2
   resolution: "@types/minimist@npm:1.2.2"

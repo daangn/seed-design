@@ -12,19 +12,19 @@
   },
   "exports": {
     ".": {
-      "require": "./index.cjs",
-      "import": "./index.mjs",
-      "types": "./index.d.ts"
+      "require": "./lib/index.cjs",
+      "import": "./lib/index.mjs",
+      "types": "./lib/index.d.ts"
     },
     "./vars": {
-      "require": "./vars.cjs",
-      "import": "./vars.mjs",
-      "types": "./vars.d.ts"
+      "require": "./lib/vars.cjs",
+      "import": "./lib/vars.mjs",
+      "types": "./lib/vars.d.ts"
     },
-    "./global.css": "./global.css",
     "./package.json": "./package.json"
   },
   "files": [
-    "all.css"
+    "src",
+    "lib"
   ]
 }
