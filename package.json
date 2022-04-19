@@ -5,15 +5,12 @@
   "workspaces": [
     "packages/*"
   ],
-  "resolutions": {
-    "typescript": "^4.2.3"
-  },
   "scripts": {
     "build:all": "yarn workspaces foreach -t -p run build"
   },
   "devDependencies": {
     "@changesets/cli": "^2.17.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.6.3"
   },
   "packageManager": "yarn@3.1.0"
 }

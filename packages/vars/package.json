@@ -1,0 +1,7 @@
+{
+  "name": "@seed-design/vars",
+  "version": "1.0.0-alpha.0",
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
+}

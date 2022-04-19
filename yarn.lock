@@ -314,7 +314,21 @@ __metadata:
   resolution: "@seed-design/project@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
-    typescript: ^4.4.2
+    typescript: ^4.6.3
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/stylesheet@workspace:packages/stylesheet":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/vars@workspace:packages/vars":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/vars@workspace:packages/vars"
+  dependencies:
+    typescript: ^4.6.3
   languageName: unknown
   linkType: soft
 
@@ -1821,23 +1835,23 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "typescript@npm:4.2.3"
+"typescript@npm:^4.6.3":
+  version: 4.6.3
+  resolution: "typescript@npm:4.6.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: b4a2020c021211184ac15caf59936b2089c13e79685f340a31aaa839c9de2f73b44a5e3757292de6cdad2ed967aef80d4592161b814cc29c0570f261850c4bca
+  checksum: 255bb26c8cb846ca689dd1c3a56587af4f69055907aa2c154796ea28ee0dea871535b1c78f85a6212c77f2657843a269c3a742d09d81495b97b914bf7920415b
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.2.3#~builtin<compat/typescript>":
-  version: 4.2.3
-  resolution: "typescript@patch:typescript@npm%3A4.2.3#~builtin<compat/typescript>::version=4.2.3&hash=ddd1e8"
+"typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
+  version: 4.6.3
+  resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=ddd1e8"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f97b1f885444f13c340127a0918b17d0c4e5c248f99203a22712b3b43d7129c9c7b95437e4f1de99edf79d3046fa9e15356fb5d27d9d94e47a98158c8b18fda5
+  checksum: fe6bdc1afb2f145ddb7b0a3a31f96352209f6a5704d97f038414ea22ff9d8dd42f32cfb6652e30458d7d958d2d4e85de2df11c574899c6f750a6b3c0e90a3a76
   languageName: node
   linkType: hard
 
