@@ -1,4 +1,4 @@
-# Karrot UI -> Seed Design 마이그레이션 가이드
+# Karrot UI → Seed Design 마이그레이션 가이드
 
 ## 주요 변경 사항
 
@@ -6,6 +6,7 @@
 - 패키지 명이 `@seed-design/*` 으로 변경됩니다.
 - `@karrot-ui/*` packages are deprecated.
 - `color-scheme: light dark` 지원이 기본값이 됩니다.
+- 디자인 토큰이 [KDT](https://github.com/daangn/kdt/tree/main/language) 의미론을 따릅니다.
 
 ## 공통 가이드
 
@@ -23,7 +24,7 @@
 
 웹 브라우저에서 실행되는 경우 Seed Design 의 모든 속성 정의는 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/Using_CSS_custom_properties)를 통해 제공됩니다.
 
-seed의 스타일시트 리소스를 사용할 수 있도록 우선 로딩 해야합니다.
+Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로딩 해야합니다.
 
 ```html
 <!-- 브라우저가 자산을 우선적으로 처리하도록 preload 표시 -->
@@ -57,7 +58,7 @@ import { Helmet } from 'react-helmet-async';
 
 const Header = () => (
   <Helmet>
-    <html lang="ko" data-seed>
+    <html lang="ko" data-seed="">
   <Helmet>
 );
 ```
