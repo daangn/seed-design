@@ -46,9 +46,9 @@ import { vars } from '@seed-design/design-token';
 // 시맨틱 토큰
 vars.$semantic.color.primary;
 
-// 시맨틱 토큰
+// 스케일 토큰
 vars.$scale.color.carrot500;
 
-// 시맨틱 토큰
+// 스태틱(단일 스케일) 토큰
 vars.$static.color.carrot500;
 ```
