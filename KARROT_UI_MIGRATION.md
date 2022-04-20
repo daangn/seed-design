@@ -2,7 +2,7 @@
 
 ## 주요 변경 사항
 
-- 프로젝트/디자인 시스템 명이 **"Seed Design"**으로 리브랜딩 됩니다.
+- 프로젝트/디자인 시스템 명이 **Seed Design**으로 리브랜딩 됩니다.
 - 패키지 명이 `@seed-design/*` 으로 변경됩니다.
 - `@karrot-ui/*` packages are deprecated.
 - `color-scheme: light dark` 지원이 기본값이 됩니다.
@@ -39,15 +39,17 @@ Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로�
 import '@seed-design/stylesheet/global.css';
 ```
 
+#### 루트 엘리먼트(`<html>`) 초기화
+
 Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초기화**가 필요합니다. 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
 
-예시) HTML (권장)
+**예시) HTML (권장)**
 
 ```html
 <html lang="ko" data-seed>
 ```
 
-예시) DOM API 로 동적 초기화
+**예시) DOM API로 동적 초기화**
 
 (CSS-in-JS 라이브러리 통합 시, 또는 pre-hydration 스크립트에서 함께 초기화 될 수 있습니다)
 
@@ -55,7 +57,7 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 window.document.documentElement.dataset.seed = '';
 ```
 
-예시) [react-helmet-async](https://github.com/staylor/react-helmet-async) 로 동적 초기화
+**예시) [react-helmet-async](https://github.com/staylor/react-helmet-async)로 동적 초기화**
 
 ```jsx
 import { Helmet } from 'react-helmet-async';
