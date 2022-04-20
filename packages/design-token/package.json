@@ -1,11 +1,11 @@
 {
-  "name": "@seed-design/base",
+  "name": "@seed-design/design-token",
   "version": "1.0.0-alpha.0",
   "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/base"
+    "directory": "packages/design-token"
   },
   "publishConfig": {
     "access": "public"
