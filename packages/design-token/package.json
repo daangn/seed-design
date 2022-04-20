@@ -10,21 +10,23 @@
   "publishConfig": {
     "access": "public"
   },
+  "source": "./src/index.ts",
+  "types": "./lib/index.d.ts",
   "exports": {
     ".": {
       "require": "./lib/index.cjs",
-      "import": "./lib/index.mjs",
-      "types": "./lib/index.d.ts"
-    },
-    "./vars": {
-      "require": "./lib/vars.cjs",
-      "import": "./lib/vars.mjs",
-      "types": "./lib/vars.d.ts"
+      "import": "./lib/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "files": [
     "src",
     "lib"
-  ]
+  ],
+  "scripts": {
+    "build": "nanobundle build"
+  },
+  "devDependencies": {
+    "nanobundle": "^0.0.27"
+  }
 }
