@@ -2,10 +2,12 @@
   color-scheme: light dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root[data-seed] {
-    color-scheme: dark light;
-  }
+:root[data-seed=light-only] {
+  color-scheme: light;
+}
+
+:root[data-seed=dark-only] {
+  color-scheme: dark;
 }
 
 :root[data-seed] {
@@ -24,7 +26,7 @@
   --seed-static-color-blue-800: rgb(10, 133, 181);
 }
 
-:root[data-seed] [data-theme-light] {
+:root[data-seed]:not([data-seed=dark-only]) [data-seed-scale-color=light] {
   --seed-scale-color-gray-00: rgb(255, 255, 255);
   --seed-scale-color-gray-50: rgb(247, 248, 250);
   --seed-scale-color-gray-100: rgb(242, 243, 246);
@@ -124,7 +126,7 @@
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-pressed);
 }
 
-:root[data-seed] [data-theme-dark] {
+:root[data-seed]:not([data-seed=light-only]) [data-seed-scale-color=dark] {
   --seed-scale-color-gray-00: rgb(23, 23, 26);
   --seed-scale-color-gray-50: rgb(33, 33, 36);
   --seed-scale-color-gray-100: rgb(43, 46, 51);

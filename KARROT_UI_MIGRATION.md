@@ -41,37 +41,63 @@ import '@seed-design/stylesheet/global.css';
 
 #### 루트 엘리먼트(`<html>`) 초기화
 
-Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초기화**가 필요합니다. 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
+Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초기화**가 필요합니다.
 
-**예시) HTML (권장)**
+- 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
+- 사용자가 선호하는 컬러 스킴에 따라 `data-seed-color-scale` 어트리뷰트를 지정합니다.
+
+**예시) HTML (light-only)**
 
 ```html
-<html lang="ko" data-seed>
+<html lang="ko" data-seed="light-only" data-seed-color-scale="light">
+  <head>
+    <meta name="color-scheme" content="light">
+  </head>
+</html>
 ```
 
 **예시) DOM API로 동적 초기화**
 
-(CSS-in-JS 라이브러리 통합 시, 또는 pre-hydration 스크립트에서 함께 초기화 될 수 있습니다)
+(CSS-in-JS 라이브러리 통합 시, 또는 pre-hydration 스크립트에서 수행 될 수 있습니다)
 
 ```js
 window.document.documentElement.dataset.seed = '';
+
+var mq = window.matchMedia('(prefers-color-scheme: dark)');
+if (mq.matches) {
+  window.document.documentElement.dataset.seedColorScale = 'dark';
+} else {
+  window.document.documentElement.dataset.seedColorScale = 'light';
+}
 ```
 
 **예시) [react-helmet-async](https://github.com/staylor/react-helmet-async)로 동적 초기화**
 
 ```jsx
 import { Helmet } from 'react-helmet-async';
+import { useColorScale } from '@seed-design/react-dom-theminig';
 
-const Header = () => (
-  <Helmet>
-    <html lang="ko" data-seed="">
-  <Helmet>
-);
+const Header = () => {
+  const colorScale = useColorScale();
+  return (
+    <Helmet>
+      <html
+        lang="ko"
+        data-seed=""
+        data-seed-color-scale={colorScale}
+      >
+    <Helmet>
+  );
+};
 ```
 
 ## 프레임워크 별 가이드
 
-### Emotion / Styled-Components
+### Emotion
+
+TBD
+
+### Styled-Components
 
 TBD
 
