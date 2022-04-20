@@ -24,6 +24,7 @@
     "lib"
   ],
   "scripts": {
+    "prepack": "rm -rf lib && yarn build",
     "build": "nanobundle build"
   },
   "devDependencies": {
