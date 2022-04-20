@@ -111,7 +111,34 @@ TBD
 
 ### Stitches.js
 
-TBD
+```ts
+// stitches.config.ts
+
+import { vars, adapters } from '@seed-design/design-token';
+import { createStitches } from '@stitches/react';
+
+const theme = adapters.stitches.toStitchesTheme(vars);
+
+export const {
+  styled,
+  css,
+  globalCss,
+  keyframes,
+  getCssText,
+  theme,
+  createTheme,
+  config,
+} = createStitches({
+  theme: {
+    ...theme,
+    // ...overrides
+    colors: {
+      ...theme.colors,
+      // ...overrides
+    },
+  },
+});
+```
 
 ### Tailwind CSS
 
