@@ -26,6 +26,7 @@
   --seed-static-color-blue-800: rgb(10, 133, 181);
 }
 
+:root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
 :root[data-seed]:not([data-seed=dark-only]) [data-seed-scale-color=light] {
   --seed-scale-color-gray-00: rgb(255, 255, 255);
   --seed-scale-color-gray-50: rgb(247, 248, 250);
@@ -126,6 +127,7 @@
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-pressed);
 }
 
+:root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
 :root[data-seed]:not([data-seed=light-only]) [data-seed-scale-color=dark] {
   --seed-scale-color-gray-00: rgb(23, 23, 26);
   --seed-scale-color-gray-50: rgb(33, 33, 36);
