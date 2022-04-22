@@ -13,6 +13,8 @@
 :root[data-seed] {
   --seed-static-color-white: rgb(255, 255, 255);
   --seed-static-color-black: rgb(0, 0, 0);
+  --seed-static-color-black-alpha-200: rgba(0, 0, 0, 0.2);
+  --seed-static-color-black-alpha-500: rgba(0, 0, 0, 0.5);
   --seed-static-color-gray-900: rgb(33, 33, 36);
   --seed-static-color-carrot-50: rgb(255, 245, 240);
   --seed-static-color-carrot-800: rgb(204, 71, 0);
@@ -109,8 +111,8 @@
   --seed-semantic-color-divider1: var(--seed-scale-color-gray-alpha-50);
   --seed-semantic-color-divider2: var(--seed-scale-color-gray-200);
   --seed-semantic-color-divider3: var(--seed-scale-color-gray-300);
-  --seed-semantic-color-overlay-low: var(--seed-scale-color-gray-alpha-200);
-  --seed-semantic-color-overlay-dim: var(--seed-scale-color-gray-alpha-500);
+  --seed-semantic-color-overlay-low: var(--seed-static-color-black-alpha-200);
+  --seed-semantic-color-overlay-dim: var(--seed-static-color-black-alpha-500);
   --seed-semantic-color-paper-background: var(--seed-scale-color-gray-100);
   --seed-semantic-color-paper-default: var(--seed-scale-color-gray-00);
   --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-50);
@@ -210,6 +212,8 @@
   --seed-semantic-color-divider1: var(--seed-scale-color-gray-alpha-50);
   --seed-semantic-color-divider2: var(--seed-scale-color-gray-300);
   --seed-semantic-color-divider3: var(--seed-scale-color-gray-alpha-200);
+  --seed-semantic-color-overlay-low: var(--seed-static-color-black-alpha-200);
+  --seed-semantic-color-overlay-dim: var(--seed-static-color-black-alpha-500);
   --seed-semantic-color-paper-background: var(--seed-scale-color-gray-00);
   --seed-semantic-color-paper-default: var(--seed-scale-color-gray-50);
   --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-00);
