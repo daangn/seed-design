@@ -67,7 +67,7 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 
   function apply() {
     var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    el.dataset.seedColorScale = mq.matches ? 'dark' : 'light';
+    el.dataset.seedScaleColor = mq.matches ? 'dark' : 'light';
   }
   mq.addEventListener('change', apply);
   apply();
@@ -87,7 +87,7 @@ const Header = () => {
       <html
         lang="ko"
         data-seed=""
-        data-seed-color-scale={colorScale}
+        data-seed-scale-color={colorScale}
       >
     <Helmet>
   );
