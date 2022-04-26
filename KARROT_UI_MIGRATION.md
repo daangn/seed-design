@@ -62,17 +62,17 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 
 ```js
 (function() {
-  const el = document.documentElement;
+  var el = document.documentElement;
   el.dataset.seed = '';
 
   var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
   var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   if (prefersLight.matches) {
-    if ('addEventListener' in prefersDark) {
-      prefersDark.addEventListener('change', apply);
-    } else if ('addListener' in prefersDark) {
-      prefersDark.addListener(apply);
+    if ('addEventListener' in prefersLight) {
+      prefersLight.addEventListener('change', apply);
+    } else if ('addListener' in prefersLight) {
+      prefersLight.addListener(apply);
     }
   } else if (prefersDark.matches) {
     if ('addEventListener' in prefersDark) {
