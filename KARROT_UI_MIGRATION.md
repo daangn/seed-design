@@ -65,11 +65,20 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
   var el = document.documentElement;
   el.dataset.seed = '';
 
-  function apply() {
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    el.dataset.seedScaleColor = mq.matches ? 'dark' : 'light';
+  var matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+  if (matchMedia.matches) {
+    if ('addEventListener' in matchMedia) {
+      matchMedia.addEventListener('change', apply);
+    } else if ('addListener' in matchMedia) {
+      matchMedia.addListener(apply);
+    }
   }
-  mq.addEventListener('change', apply);
+
+  function apply() {
+    el.dataset.seedScaleColor = matchMedia.matches ? 'dark' : 'light';
+  }
+
   apply();
 })();
 ```
