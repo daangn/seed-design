@@ -62,21 +62,28 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 
 ```js
 (function() {
-  var el = document.documentElement;
+  const el = document.documentElement;
   el.dataset.seed = '';
 
-  var matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-  if (matchMedia.matches) {
-    if ('addEventListener' in matchMedia) {
-      matchMedia.addEventListener('change', apply);
-    } else if ('addListener' in matchMedia) {
-      matchMedia.addListener(apply);
+  if (prefersLight.matches) {
+    if ('addEventListener' in prefersDark) {
+      prefersDark.addEventListener('change', apply);
+    } else if ('addListener' in prefersDark) {
+      prefersDark.addListener(apply);
+    }
+  } else if (prefersDark.matches) {
+    if ('addEventListener' in prefersDark) {
+      prefersDark.addEventListener('change', apply);
+    } else if ('addListener' in prefersDark) {
+      prefersDark.addListener(apply);
     }
   }
 
   function apply() {
-    el.dataset.seedScaleColor = matchMedia.matches ? 'dark' : 'light';
+    el.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
   }
 
   apply();
