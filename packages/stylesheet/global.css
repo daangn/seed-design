@@ -114,6 +114,7 @@
   --seed-semantic-color-overlay-low: var(--seed-static-color-black-alpha-200);
   --seed-semantic-color-overlay-dim: var(--seed-static-color-black-alpha-500);
   --seed-semantic-color-paper-background: var(--seed-scale-color-gray-100);
+  --seed-semantic-color-paper-accent: var(--seed-scale-color-carrot-50);
   --seed-semantic-color-paper-default: var(--seed-scale-color-gray-00);
   --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-50);
   --seed-semantic-color-paper-floating: var(--seed-static-color-white);
@@ -215,6 +216,7 @@
   --seed-semantic-color-overlay-low: var(--seed-static-color-black-alpha-200);
   --seed-semantic-color-overlay-dim: var(--seed-static-color-black-alpha-500);
   --seed-semantic-color-paper-background: var(--seed-scale-color-gray-00);
+  --seed-semantic-color-paper-accent: var(--seed-scale-color-gray-100);
   --seed-semantic-color-paper-default: var(--seed-scale-color-gray-50);
   --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-00);
   --seed-semantic-color-paper-floating: var(--seed-scale-color-gray-100);
