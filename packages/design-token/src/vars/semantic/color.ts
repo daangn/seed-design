@@ -15,6 +15,7 @@ export const divider3 = 'var(--seed-semantic-color-divider3)';
 export const overlayLow = 'var(--seed-semantic-color-overlay-low)';
 export const overlayDim = 'var(--seed-semantic-color-overlay-dim)';
 export const paperBackground = 'var(--seed-semantic-color-paper-background)';
+export const paperAccent = 'var(--seed-semantic-color-paper-accent)';
 export const paperDefault = 'var(--seed-semantic-color-paper-default)';
 export const paperContents = 'var(--seed-semantic-color-paper-contents)';
 export const paperFloating = 'var(--seed-semantic-color-paper-floating)';
