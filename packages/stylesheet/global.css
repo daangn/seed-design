@@ -17,30 +17,22 @@
   --seed-static-color-static-carrot-50: #fff5f0;
   --seed-static-color-static-carrot-800: #cc4700;
   --seed-static-color-static-green-50: #e8faf6;
-  --seed-static-color-static-green-800: #008c72;
+  --seed-static-color-static-green-800: #008C72;
   --seed-static-color-static-yellow-50: #fff7e6;
   --seed-static-color-static-yellow-800: #ba5e02;
   --seed-static-color-static-red-50: #fff3f2;
-  --seed-static-color-static-red-800: #e81300;
+  --seed-static-color-static-red-800: #E81300;
   --seed-static-color-static-blue-50: #ebf7fa;
-  --seed-static-color-static-blue-800: #0a85b5;
+  --seed-static-color-static-blue-800: #0A85B5;
   --seed-static-color-static-black-alpha-200: #00000033;
   --seed-static-color-static-black-alpha-500: #00000080;
   --seed-static-color-static-white-alpha-50: #ffffff0d;
   --seed-static-color-static-white-alpha-200: #ffffff33;
   --seed-semantic-color-on-primary: var(--seed-static-color-static-white);
-  --seed-semantic-color-overlay-low: var(
-    --seed-static-color-static-black-alpha-200
-  );
-  --seed-semantic-color-overlay-dim: var(
-    --seed-static-color-static-black-alpha-500
-  );
-  --seed-semantic-color-on-primary-overlay-50: var(
-    --seed-static-color-static-white-alpha-50
-  );
-  --seed-semantic-color-on-primary-overlay-200: var(
-    --seed-static-color-static-white-alpha-200
-  );
+  --seed-semantic-color-overlay-low: var(--seed-static-color-static-black-alpha-200);
+  --seed-semantic-color-overlay-dim: var(--seed-static-color-static-black-alpha-500);
+  --seed-semantic-color-on-primary-overlay-50: var(--seed-static-color-static-white-alpha-50);
+  --seed-semantic-color-on-primary-overlay-200: var(--seed-static-color-static-white-alpha-200);
 }
 
 :root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
@@ -54,10 +46,10 @@
   --seed-scale-color-gray-500: #adb1ba;
   --seed-scale-color-gray-600: #868b94;
   --seed-scale-color-gray-700: #4d5159;
-  --seed-scale-color-gray-800: #393a40;
+  --seed-scale-color-gray-800: #393A40;
   --seed-scale-color-gray-900: #212124;
   --seed-scale-color-carrot-50: #fff5f0;
-  --seed-scale-color-carrot-100: #ffe2d2;
+  --seed-scale-color-carrot-100: #FFE2D2;
   --seed-scale-color-carrot-200: #ffd2b9;
   --seed-scale-color-carrot-300: #ffbc97;
   --seed-scale-color-carrot-400: #ff9e66;
@@ -67,72 +59,72 @@
   --seed-scale-color-carrot-800: #cc4700;
   --seed-scale-color-carrot-900: #b44104;
   --seed-scale-color-carrot-950: #a03a03;
-  --seed-scale-color-blue-50: #ebf7fa;
-  --seed-scale-color-blue-100: #d2edfa;
-  --seed-scale-color-blue-200: #b9e3fa;
-  --seed-scale-color-blue-300: #87d7ff;
-  --seed-scale-color-blue-400: #57c7ff;
-  --seed-scale-color-blue-500: #009ceb;
-  --seed-scale-color-blue-600: #0088cc;
-  --seed-scale-color-blue-700: #0077b2;
+  --seed-scale-color-blue-50: #EBF7FA;
+  --seed-scale-color-blue-100: #D2EDFA;
+  --seed-scale-color-blue-200: #B9E3FA;
+  --seed-scale-color-blue-300: #87D7FF;
+  --seed-scale-color-blue-400: #57C7FF;
+  --seed-scale-color-blue-500: #009CEB;
+  --seed-scale-color-blue-600: #0088CC;
+  --seed-scale-color-blue-700: #0077B2;
   --seed-scale-color-blue-800: #006199;
-  --seed-scale-color-blue-900: #004c73;
-  --seed-scale-color-blue-950: #003b59;
-  --seed-scale-color-red-50: #fff3f2;
-  --seed-scale-color-red-100: #ffe5e3;
-  --seed-scale-color-red-200: #fcd2cf;
-  --seed-scale-color-red-300: #ffaca6;
-  --seed-scale-color-red-400: #ff7e75;
-  --seed-scale-color-red-500: #ff4133;
-  --seed-scale-color-red-600: #fa2314;
-  --seed-scale-color-red-700: #e81607;
-  --seed-scale-color-red-800: #a62014;
-  --seed-scale-color-red-900: #910c00;
+  --seed-scale-color-blue-900: #004C73;
+  --seed-scale-color-blue-950: #003B59;
+  --seed-scale-color-red-50: #FFF3F2;
+  --seed-scale-color-red-100: #FFE5E3;
+  --seed-scale-color-red-200: #FCD2CF;
+  --seed-scale-color-red-300: #FFACA6;
+  --seed-scale-color-red-400: #FF7E75;
+  --seed-scale-color-red-500: #FF4133;
+  --seed-scale-color-red-600: #FA2314;
+  --seed-scale-color-red-700: #E81607;
+  --seed-scale-color-red-800: #A62014;
+  --seed-scale-color-red-900: #910C00;
   --seed-scale-color-red-950: #821006;
-  --seed-scale-color-green-50: #e8faf6;
-  --seed-scale-color-green-100: #c7f2e4;
-  --seed-scale-color-green-200: #96ebc3;
-  --seed-scale-color-green-300: #6adeac;
-  --seed-scale-color-green-400: #30c795;
-  --seed-scale-color-green-500: #1aa174;
-  --seed-scale-color-green-600: #128c6e;
-  --seed-scale-color-green-700: #077a5e;
-  --seed-scale-color-green-800: #06614a;
-  --seed-scale-color-green-900: #004f40;
+  --seed-scale-color-green-50: #E8FAF6;
+  --seed-scale-color-green-100: #C7F2E4;
+  --seed-scale-color-green-200: #96EBC3;
+  --seed-scale-color-green-300: #6ADEAC;
+  --seed-scale-color-green-400: #30C795;
+  --seed-scale-color-green-500: #1AA174;
+  --seed-scale-color-green-600: #128C6E;
+  --seed-scale-color-green-700: #077A5E;
+  --seed-scale-color-green-800: #06614A;
+  --seed-scale-color-green-900: #004F40;
   --seed-scale-color-green-950: #004034;
   --seed-scale-color-yellow-50: #fff7e6;
-  --seed-scale-color-yellow-100: #ffe3ba;
-  --seed-scale-color-yellow-200: #facc87;
-  --seed-scale-color-yellow-300: #f7be68;
-  --seed-scale-color-yellow-400: #dea651;
-  --seed-scale-color-yellow-500: #c27f29;
-  --seed-scale-color-yellow-600: #a66c21;
+  --seed-scale-color-yellow-100: #FFE3BA;
+  --seed-scale-color-yellow-200: #FACC87;
+  --seed-scale-color-yellow-300: #F7BE68;
+  --seed-scale-color-yellow-400: #DEA651;
+  --seed-scale-color-yellow-500: #C27F29;
+  --seed-scale-color-yellow-600: #A66C21;
   --seed-scale-color-yellow-700: #805217;
-  --seed-scale-color-yellow-800: #6b4717;
-  --seed-scale-color-yellow-900: #593d17;
-  --seed-scale-color-yellow-950: #4d361a;
-  --seed-scale-color-pink-50: #fff5f5;
-  --seed-scale-color-pink-100: #ffdddb;
-  --seed-scale-color-pink-200: #ffbfc5;
-  --seed-scale-color-pink-300: #ffadb4;
-  --seed-scale-color-pink-400: #ff8a9d;
-  --seed-scale-color-pink-500: #f0657c;
-  --seed-scale-color-pink-600: #db4b6a;
-  --seed-scale-color-pink-700: #bd2b5c;
-  --seed-scale-color-pink-800: #991c45;
-  --seed-scale-color-pink-900: #800d3d;
-  --seed-scale-color-pink-950: #660a30;
-  --seed-scale-color-purple-50: #f6f4fe;
-  --seed-scale-color-purple-100: #e3dafe;
-  --seed-scale-color-purple-200: #d5c7ff;
-  --seed-scale-color-purple-300: #cfbfff;
-  --seed-scale-color-purple-400: #b69eff;
-  --seed-scale-color-purple-500: #9675fa;
-  --seed-scale-color-purple-600: #8361e8;
-  --seed-scale-color-purple-700: #6748c7;
-  --seed-scale-color-purple-800: #4f3699;
-  --seed-scale-color-purple-900: #3f2687;
-  --seed-scale-color-purple-950: #331e70;
+  --seed-scale-color-yellow-800: #6B4717;
+  --seed-scale-color-yellow-900: #593D17;
+  --seed-scale-color-yellow-950: #4D361A;
+  --seed-scale-color-pink-50: #FFF5F5;
+  --seed-scale-color-pink-100: #FFDDDB;
+  --seed-scale-color-pink-200: #FFBFC5;
+  --seed-scale-color-pink-300: #FFADB4;
+  --seed-scale-color-pink-400: #FF8A9D;
+  --seed-scale-color-pink-500: #F0657C;
+  --seed-scale-color-pink-600: #DB4B6A;
+  --seed-scale-color-pink-700: #BD2B5C;
+  --seed-scale-color-pink-800: #991C45;
+  --seed-scale-color-pink-900: #800D3D;
+  --seed-scale-color-pink-950: #660A30;
+  --seed-scale-color-purple-50: #F6F4FE;
+  --seed-scale-color-purple-100: #E3DAFE;
+  --seed-scale-color-purple-200: #D5C7FF;
+  --seed-scale-color-purple-300: #CFBFFF;
+  --seed-scale-color-purple-400: #B69EFF;
+  --seed-scale-color-purple-500: #9675FA;
+  --seed-scale-color-purple-600: #8361E8;
+  --seed-scale-color-purple-700: #6748C7;
+  --seed-scale-color-purple-800: #4F3699;
+  --seed-scale-color-purple-900: #3F2687;
+  --seed-scale-color-purple-950: #331E70;
   --seed-scale-color-gray-alpha-50: #0000000d;
   --seed-scale-color-gray-alpha-100: #0000001a;
   --seed-scale-color-gray-alpha-200: #00000033;
@@ -140,20 +132,20 @@
   --seed-scale-color-carrot-alpha-50: #ff6f0f0d;
   --seed-scale-color-carrot-alpha-100: #ff6f0f24;
   --seed-scale-color-carrot-alpha-200: #ff6f0f33;
-  --seed-scale-color-blue-alpha-50: #009ceb0d;
-  --seed-scale-color-blue-alpha-100: #009ceb1a;
-  --seed-scale-color-blue-alpha-200: #009ceb33;
-  --seed-scale-color-red-alpha-50: #ff41330d;
-  --seed-scale-color-red-alpha-100: #ff41331a;
-  --seed-scale-color-red-alpha-200: #ff413333;
-  --seed-scale-color-yellow-alpha-50: #f7be6814;
-  --seed-scale-color-yellow-alpha-100: #f7be6824;
-  --seed-scale-color-yellow-alpha-200: #f7be683d;
-  --seed-scale-color-green-alpha-50: #1aa1740d;
-  --seed-scale-color-green-alpha-100: #1aa17424;
-  --seed-scale-color-green-alpha-200: #1aa17433;
+  --seed-scale-color-blue-alpha-50: #009CEB0d;
+  --seed-scale-color-blue-alpha-100: #009CEB1a;
+  --seed-scale-color-blue-alpha-200: #009CEB33;
+  --seed-scale-color-red-alpha-50: #FF41330d;
+  --seed-scale-color-red-alpha-100: #FF41331a;
+  --seed-scale-color-red-alpha-200: #FF413333;
+  --seed-scale-color-yellow-alpha-50: #F7BE6814;
+  --seed-scale-color-yellow-alpha-100: #F7BE6824;
+  --seed-scale-color-yellow-alpha-200: #F7BE683d;
+  --seed-scale-color-green-alpha-50: #1AA1740d;
+  --seed-scale-color-green-alpha-100: #1AA17424;
+  --seed-scale-color-green-alpha-200: #1AA17433;
   --seed-semantic-color-primary: var(--seed-scale-color-carrot-500);
-  --seed-semantic-color-primary-low: var(--seed-scale-color-carrot-alpha-50);
+  --seed-semantic-color-primary-low: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-secondary: var(--seed-scale-color-gray-900);
   --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-100);
   --seed-semantic-color-success: var(--seed-scale-color-green-500);
@@ -171,32 +163,16 @@
   --seed-semantic-color-paper-accent: var(--seed-scale-color-carrot-50);
   --seed-semantic-color-primary-hover: var(--seed-scale-color-carrot-400);
   --seed-semantic-color-primary-pressed: var(--seed-scale-color-carrot-400);
-  --seed-semantic-color-primary-low-hover: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-primary-low-active: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-primary-low-pressed: var(
-    --seed-scale-color-carrot-alpha-100
-  );
+  --seed-semantic-color-primary-low-hover: var(--seed-scale-color-carrot-alpha-200);
+  --seed-semantic-color-primary-low-active: var(--seed-scale-color-carrot-alpha-200);
+  --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-200);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-on-primary-low-overlay-50: var(
-    --seed-scale-color-carrot-alpha-50
-  );
-  --seed-semantic-color-on-primary-low-overlay-100: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-on-primary-low-overlay-200: var(
-    --seed-scale-color-carrot-alpha-200
-  );
-  --seed-semantic-color-on-gray-overlay-50: var(
-    --seed-scale-color-gray-alpha-50
-  );
-  --seed-semantic-color-on-gray-overlay-100: var(
-    --seed-scale-color-gray-alpha-100
-  );
+  --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
+  --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
+  --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
+  --seed-semantic-color-on-gray-overlay-50: var(--seed-scale-color-gray-alpha-50);
+  --seed-semantic-color-on-gray-overlay-100: var(--seed-scale-color-gray-alpha-100);
   --seed-semantic-color-text-selection: var(--seed-scale-color-carrot-50);
   --seed-semantic-color-divider-1: var(--seed-scale-color-gray-alpha-50);
   --seed-semantic-color-divider-2: var(--seed-scale-color-gray-200);
@@ -205,8 +181,9 @@
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
 }
-:root[data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
-:root[data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
+
+:root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
+:root[data-seed]:not([data-seed=light-only]) [data-seed-scale-color=dark] {
   --seed-scale-color-gray-00: #17171a;
   --seed-scale-color-gray-50: #212124;
   --seed-scale-color-gray-100: #2b2e33;
@@ -229,72 +206,72 @@
   --seed-scale-color-carrot-800: #edc4ad;
   --seed-scale-color-carrot-900: #edd3c4;
   --seed-scale-color-carrot-950: #ede4e0;
-  --seed-scale-color-blue-50: #09405c;
-  --seed-scale-color-blue-100: #0a4969;
-  --seed-scale-color-blue-200: #065d8f;
-  --seed-scale-color-blue-300: #0772a8;
-  --seed-scale-color-blue-400: #0685c4;
-  --seed-scale-color-blue-500: #079ae3;
-  --seed-scale-color-blue-600: #5ec4f7;
-  --seed-scale-color-blue-700: #8bd3f7;
-  --seed-scale-color-blue-800: #a8d7f0;
-  --seed-scale-color-blue-900: #c4e4f5;
-  --seed-scale-color-blue-950: #d7f3fa;
-  --seed-scale-color-red-50: #78130a;
-  --seed-scale-color-red-100: #870f04;
-  --seed-scale-color-red-200: #9e2419;
-  --seed-scale-color-red-300: #e01e10;
-  --seed-scale-color-red-400: #f2291b;
-  --seed-scale-color-red-500: #f74639;
-  --seed-scale-color-red-600: #f78279;
-  --seed-scale-color-red-700: #f5a59f;
-  --seed-scale-color-red-800: #f5c5c1;
-  --seed-scale-color-red-900: #f5d7d5;
-  --seed-scale-color-red-950: #f7e5e4;
-  --seed-scale-color-green-50: #053b31;
-  --seed-scale-color-green-100: #044a3d;
+  --seed-scale-color-blue-50: #09405C;
+  --seed-scale-color-blue-100: #0A4969;
+  --seed-scale-color-blue-200: #065D8F;
+  --seed-scale-color-blue-300: #0772A8;
+  --seed-scale-color-blue-400: #0685C4;
+  --seed-scale-color-blue-500: #079AE3;
+  --seed-scale-color-blue-600: #5EC4F7;
+  --seed-scale-color-blue-700: #8BD3F7;
+  --seed-scale-color-blue-800: #A8D7F0;
+  --seed-scale-color-blue-900: #C4E4F5;
+  --seed-scale-color-blue-950: #D7F3FA;
+  --seed-scale-color-red-50: #78130A;
+  --seed-scale-color-red-100: #870F04;
+  --seed-scale-color-red-200: #9E2419;
+  --seed-scale-color-red-300: #E01E10;
+  --seed-scale-color-red-400: #F2291B;
+  --seed-scale-color-red-500: #F74639;
+  --seed-scale-color-red-600: #F78279;
+  --seed-scale-color-red-700: #F5A59F;
+  --seed-scale-color-red-800: #F5C5C1;
+  --seed-scale-color-red-900: #F5D7D5;
+  --seed-scale-color-red-950: #F7E5E4;
+  --seed-scale-color-green-50: #053B31;
+  --seed-scale-color-green-100: #044A3D;
   --seed-scale-color-green-200: #085945;
-  --seed-scale-color-green-300: #0b755b;
+  --seed-scale-color-green-300: #0B755B;
   --seed-scale-color-green-400: #158569;
-  --seed-scale-color-green-500: #1e9c72;
-  --seed-scale-color-green-600: #34bf91;
-  --seed-scale-color-green-700: #6dd6a9;
-  --seed-scale-color-green-800: #98e3c0;
-  --seed-scale-color-green-900: #caede1;
-  --seed-scale-color-green-950: #d8ede8;
-  --seed-scale-color-yellow-50: #40301b;
-  --seed-scale-color-yellow-100: #543a18;
+  --seed-scale-color-green-500: #1E9C72;
+  --seed-scale-color-green-600: #34BF91;
+  --seed-scale-color-green-700: #6DD6A9;
+  --seed-scale-color-green-800: #98E3C0;
+  --seed-scale-color-green-900: #CAEDE1;
+  --seed-scale-color-green-950: #D8EDE8;
+  --seed-scale-color-yellow-50: #40301B;
+  --seed-scale-color-yellow-100: #543A18;
   --seed-scale-color-yellow-200: #664416;
-  --seed-scale-color-yellow-300: #80541c;
-  --seed-scale-color-yellow-400: #a16c27;
-  --seed-scale-color-yellow-500: #bd7f2f;
-  --seed-scale-color-yellow-600: #d4a257;
-  --seed-scale-color-yellow-700: #f0bb6c;
-  --seed-scale-color-yellow-800: #f7cb88;
-  --seed-scale-color-yellow-900: #fae0b9;
-  --seed-scale-color-yellow-950: #ede7da;
-  --seed-scale-color-pink-50: #52102c;
-  --seed-scale-color-pink-100: #730f39;
+  --seed-scale-color-yellow-300: #80541C;
+  --seed-scale-color-yellow-400: #A16C27;
+  --seed-scale-color-yellow-500: #BD7F2F;
+  --seed-scale-color-yellow-600: #D4A257;
+  --seed-scale-color-yellow-700: #F0BB6C;
+  --seed-scale-color-yellow-800: #F7CB88;
+  --seed-scale-color-yellow-900: #FAE0B9;
+  --seed-scale-color-yellow-950: #EDE7DA;
+  --seed-scale-color-pink-50: #52102C;
+  --seed-scale-color-pink-100: #730F39;
   --seed-scale-color-pink-200: #912449;
-  --seed-scale-color-pink-300: #b2305c;
-  --seed-scale-color-pink-400: #d14f6c;
-  --seed-scale-color-pink-500: #e56a7e;
-  --seed-scale-color-pink-600: #fa91a2;
-  --seed-scale-color-pink-700: #faafb5;
-  --seed-scale-color-pink-800: #fac0c5;
-  --seed-scale-color-pink-900: #f5dbda;
-  --seed-scale-color-pink-950: #f2e4e4;
-  --seed-scale-color-purple-50: #3c2a70;
+  --seed-scale-color-pink-300: #B2305C;
+  --seed-scale-color-pink-400: #D14F6C;
+  --seed-scale-color-pink-500: #E56A7E;
+  --seed-scale-color-pink-600: #FA91A2;
+  --seed-scale-color-pink-700: #FAAFB5;
+  --seed-scale-color-pink-800: #FAC0C5;
+  --seed-scale-color-pink-900: #F5DBDA;
+  --seed-scale-color-pink-950: #F2E4E4;
+  --seed-scale-color-purple-50: #3C2A70;
   --seed-scale-color-purple-100: #463080;
-  --seed-scale-color-purple-200: #553d99;
-  --seed-scale-color-purple-300: #694cc2;
-  --seed-scale-color-purple-400: #8667e0;
-  --seed-scale-color-purple-500: #987af0;
-  --seed-scale-color-purple-600: #b19bf2;
-  --seed-scale-color-purple-700: #ccbff5;
-  --seed-scale-color-purple-800: #d6cafa;
-  --seed-scale-color-purple-900: #e3dcfa;
-  --seed-scale-color-purple-950: #dad8e3;
+  --seed-scale-color-purple-200: #553D99;
+  --seed-scale-color-purple-300: #694CC2;
+  --seed-scale-color-purple-400: #8667E0;
+  --seed-scale-color-purple-500: #987AF0;
+  --seed-scale-color-purple-600: #B19BF2;
+  --seed-scale-color-purple-700: #CCBFF5;
+  --seed-scale-color-purple-800: #D6CAFA;
+  --seed-scale-color-purple-900: #E3DCFA;
+  --seed-scale-color-purple-950: #DAD8E3;
   --seed-scale-color-gray-alpha-50: #ffffff0d;
   --seed-scale-color-gray-alpha-100: #ffffff1a;
   --seed-scale-color-gray-alpha-200: #ffffff33;
@@ -302,18 +279,18 @@
   --seed-scale-color-carrot-alpha-50: #ff6e1d14;
   --seed-scale-color-carrot-alpha-100: #ff6e1d24;
   --seed-scale-color-carrot-alpha-200: #ff6e1d33;
-  --seed-scale-color-blue-alpha-50: #079ae30d;
-  --seed-scale-color-blue-alpha-100: #079ae31a;
-  --seed-scale-color-blue-alpha-200: #079ae333;
-  --seed-scale-color-red-alpha-50: #f746390d;
-  --seed-scale-color-red-alpha-100: #f746391a;
-  --seed-scale-color-red-alpha-200: #f7463933;
-  --seed-scale-color-yellow-alpha-50: #f0bb6c14;
-  --seed-scale-color-yellow-alpha-100: #f0bb6c24;
-  --seed-scale-color-yellow-alpha-200: #f0bb6c3d;
-  --seed-scale-color-green-alpha-50: #1e9c720d;
-  --seed-scale-color-green-alpha-100: #1e9c7224;
-  --seed-scale-color-green-alpha-200: #1e9c7233;
+  --seed-scale-color-blue-alpha-50: #079AE30d;
+  --seed-scale-color-blue-alpha-100: #079AE31a;
+  --seed-scale-color-blue-alpha-200: #079AE333;
+  --seed-scale-color-red-alpha-50: #F746390d;
+  --seed-scale-color-red-alpha-100: #F746391a;
+  --seed-scale-color-red-alpha-200: #F7463933;
+  --seed-scale-color-yellow-alpha-50: #F0BB6C14;
+  --seed-scale-color-yellow-alpha-100: #F0BB6C24;
+  --seed-scale-color-yellow-alpha-200: #F0BB6C3d;
+  --seed-scale-color-green-alpha-50: #1E9C720d;
+  --seed-scale-color-green-alpha-100: #1E9C7224;
+  --seed-scale-color-green-alpha-200: #1E9C7233;
   --seed-semantic-color-primary: var(--seed-scale-color-carrot-500);
   --seed-semantic-color-primary-low: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-secondary: var(--seed-scale-color-gray-900);
@@ -333,32 +310,16 @@
   --seed-semantic-color-paper-accent: var(--seed-scale-color-gray-100);
   --seed-semantic-color-primary-hover: var(--seed-scale-color-carrot-600);
   --seed-semantic-color-primary-pressed: var(--seed-scale-color-carrot-600);
-  --seed-semantic-color-primary-low-hover: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-primary-low-active: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-primary-low-pressed: var(
-    --seed-scale-color-carrot-alpha-100
-  );
+  --seed-semantic-color-primary-low-hover: var(--seed-scale-color-carrot-alpha-100);
+  --seed-semantic-color-primary-low-active: var(--seed-scale-color-carrot-alpha-100);
+  --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-on-primary-low-overlay-50: var(
-    --seed-scale-color-carrot-alpha-50
-  );
-  --seed-semantic-color-on-primary-low-overlay-100: var(
-    --seed-scale-color-carrot-alpha-100
-  );
-  --seed-semantic-color-on-primary-low-overlay-200: var(
-    --seed-scale-color-carrot-alpha-200
-  );
-  --seed-semantic-color-on-gray-overlay-50: var(
-    --seed-scale-color-gray-alpha-50
-  );
-  --seed-semantic-color-on-gray-overlay-100: var(
-    --seed-scale-color-gray-alpha-100
-  );
+  --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
+  --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
+  --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
+  --seed-semantic-color-on-gray-overlay-50: var(--seed-scale-color-gray-alpha-50);
+  --seed-semantic-color-on-gray-overlay-100: var(--seed-scale-color-gray-alpha-100);
   --seed-semantic-color-text-selection: var(--seed-scale-color-carrot-50);
   --seed-semantic-color-divider-1: var(--seed-scale-color-gray-alpha-50);
   --seed-semantic-color-divider-2: var(--seed-scale-color-gray-200);
