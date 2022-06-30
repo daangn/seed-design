@@ -150,7 +150,7 @@
   --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-100);
   --seed-semantic-color-success: var(--seed-scale-color-green-500);
   --seed-semantic-color-success-low: var(--seed-scale-color-green-alpha-50);
-  --seed-semantic-color-warning: var(--seed-scale-color-yellow-300);
+  --seed-semantic-color-warning: var(--seed-scale-color-yellow-400);
   --seed-semantic-color-warning-low: var(--seed-scale-color-yellow-alpha-100);
   --seed-semantic-color-danger: var(--seed-scale-color-red-600);
   --seed-semantic-color-danger-low: var(--seed-scale-color-red-alpha-50);
