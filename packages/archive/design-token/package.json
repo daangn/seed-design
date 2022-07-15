@@ -1,0 +1,56 @@
+{
+  "name": "@karrotmarket/design-token",
+  "version": "1.1.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/karrot-ui",
+    "directory": "packages/design-token"
+  },
+  "maintainers": [
+    {
+      "name": "Hyeseong Kim",
+      "email": "tim@daangn.com"
+    }
+  ],
+  "source": "./src/index.ts",
+  "main": "./src/index.ts",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "./lib/index.mjs",
+    "module": "./lib/index.mjs"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./colors/light.css": "./lib/colors/light.css",
+    "./colors/dark.css": "./lib/colors/dark.css",
+    "./colors/system.css": "./lib/colors/system.css"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "browserslist": [
+    "defaults",
+    "safari >= 13",
+    "not ie 11"
+  ],
+  "scripts": {
+    "test": "tap --node-arg=--require=esbuild-register",
+    "build": "nanobundle build && node ./export-css.mjs",
+    "prepack": "yarn build"
+  },
+  "devDependencies": {
+    "@types/common-tags": "^1.8.1",
+    "@types/tap": "^15.0.5",
+    "esbuild": "^0.13.9",
+    "esbuild-register": "^3.0.0",
+    "nanobundle": "^0.0.25",
+    "tap": "^15.0.9",
+    "typescript": "^4.4.2"
+  }
+}
