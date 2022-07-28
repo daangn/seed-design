@@ -33,6 +33,27 @@
   --seed-semantic-color-overlay-dim: var(--seed-static-color-static-black-alpha-500);
   --seed-semantic-color-on-primary-overlay-50: var(--seed-static-color-static-white-alpha-50);
   --seed-semantic-color-on-primary-overlay-200: var(--seed-static-color-static-white-alpha-200);
+  --seed-scale-dimension-font-size-10: 10px;
+  --seed-scale-dimension-font-size-25: 11px;
+  --seed-scale-dimension-font-size-50: 12px;
+  --seed-scale-dimension-font-size-75: 13px;
+  --seed-scale-dimension-font-size-100: 14px;
+  --seed-scale-dimension-font-size-150: 15px;
+  --seed-scale-dimension-font-size-200: 16px;
+  --seed-scale-dimension-font-size-300: 18px;
+  --seed-scale-dimension-font-size-400: 20px;
+  --seed-scale-dimension-font-size-500: 24px;
+  --seed-scale-dimension-font-size-600: 26px;
+  --seed-scale-dimension-font-size-700: 32px;
+  --seed-scale-dimension-font-size-800: 34px;
+  --seed-scale-dimension-font-size-900: 42px;
+  --seed-scale-dimension-font-size-1000: 48px;
+  --seed-scale-dimension-font-size-1100: 54px;
+  --seed-scale-dimension-font-size-1200: 60px;
+  --seed-scale-dimension-font-size-1300: 72px;
+  --seed-static-font-weight-bold: bold;
+  --seed-static-font-weight-regular: normal;
+  --seed-static-letter-spacing-none: 0;
 }
 
 :root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
@@ -327,4 +348,270 @@
   --seed-semantic-color-accent: var(--seed-scale-color-blue-500);
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
+}
+
+.seed-semantic-typography-h1 {
+  font-size: var(--seed-scale-dimension-font-size-1000);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 42px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-h2 {
+  font-size: var(--seed-scale-dimension-font-size-900);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 58px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-h3 {
+  font-size: var(--seed-scale-dimension-font-size-800);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 44px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-h4 {
+  font-size: var(--seed-scale-dimension-font-size-600);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 34px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title1-bold {
+  font-size: var(--seed-scale-dimension-font-size-500);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 32px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title1-regular {
+  font-size: var(--seed-scale-dimension-font-size-500);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 32px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title2-bold {
+  font-size: var(--seed-scale-dimension-font-size-400);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 26px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title2-regular {
+  font-size: var(--seed-scale-dimension-font-size-400);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 26px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title3-bold {
+  font-size: var(--seed-scale-dimension-font-size-300);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 24px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-title3-regular {
+  font-size: var(--seed-scale-dimension-font-size-300);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 24px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-subtitle1-bold {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-subtitle1-regular {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-subtitle2-bold {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-subtitle2-regular {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-l1-bold {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 26px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-l1-regular {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 26px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-l2-bold {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-l2-regular {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-m1-bold {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-m1-regular {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-m2-bold {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-body-m2-regular {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-caption1-bold {
+  font-size: var(--seed-scale-dimension-font-size-75);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-caption1-regular {
+  font-size: var(--seed-scale-dimension-font-size-75);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-caption2-bold {
+  font-size: var(--seed-scale-dimension-font-size-50);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-caption2-regular {
+  font-size: var(--seed-scale-dimension-font-size-50);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label1-bold {
+  font-size: var(--seed-scale-dimension-font-size-300);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 24px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label1-regular {
+  font-size: var(--seed-scale-dimension-font-size-300);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 24px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label2-bold {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label2-regular {
+  font-size: var(--seed-scale-dimension-font-size-200);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 22px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label3-bold {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label3-regular {
+  font-size: var(--seed-scale-dimension-font-size-100);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 20px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label4-bold {
+  font-size: var(--seed-scale-dimension-font-size-50);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label4-regular {
+  font-size: var(--seed-scale-dimension-font-size-50);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label5-bold {
+  font-size: var(--seed-scale-dimension-font-size-25);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label5-regular {
+  font-size: var(--seed-scale-dimension-font-size-25);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 16px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label6-bold {
+  font-size: var(--seed-scale-dimension-font-size-10);
+  font-weight: var(--seed-static-font-weight-bold);
+  line-height: 14px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
+}
+
+.seed-semantic-typography-label6-regular {
+  font-size: var(--seed-scale-dimension-font-size-10);
+  font-weight: var(--seed-static-font-weight-regular);
+  line-height: 14px;
+  letter-spacing: var(--seed-static-letter-spacing-none);
 }
