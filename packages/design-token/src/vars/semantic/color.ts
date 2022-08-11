@@ -27,6 +27,7 @@ export const primaryLowActive = 'var(--seed-semantic-color-primary-low-active)';
 export const primaryLowPressed = 'var(--seed-semantic-color-primary-low-pressed)';
 export const grayHover = 'var(--seed-semantic-color-gray-hover)';
 export const grayPressed = 'var(--seed-semantic-color-gray-pressed)';
+export const grayActive = 'var(--seed-semantic-color-gray-active)';
 export const onPrimaryLowOverlay50 = 'var(--seed-semantic-color-on-primary-low-overlay-50)';
 export const onPrimaryLowOverlay100 = 'var(--seed-semantic-color-on-primary-low-overlay-100)';
 export const onPrimaryLowOverlay200 = 'var(--seed-semantic-color-on-primary-low-overlay-200)';

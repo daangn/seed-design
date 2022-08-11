@@ -342,6 +342,7 @@
   --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-200);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
+  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
   --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
@@ -489,6 +490,7 @@
   --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
+  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
   --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
