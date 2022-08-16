@@ -1,0 +1,26 @@
+:root[data-seed] {
+  --seed-button-primary-background-color: var(--seed-semantic-color-primary);
+  --seed-button-primary-color: var(--seed-semantic-color-on-primary);
+  --seed-button-primary-active-background-color: var(--seed-semantic-color-primary-pressed);
+  --seed-button-primary-active-color: var(--seed-semantic-color-on-primary);
+  --seed-button-primary-low-background-color: var(--seed-semantic-color-primary-low);
+  --seed-button-primary-low-color: var(--seed-semantic-color-primary);
+  --seed-button-primary-low-active-background-color: var(--seed-semantic-color-primary-low-pressed);
+  --seed-button-primary-low-active-color: var(--seed-semantic-color-primary);
+}
+
+:root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
+:root[data-seed]:not([data-seed=dark-only]) [data-seed-scale-color=light] {
+  --seed-button-secondary-background-color: var(--seed-scale-color-gray-100);
+  --seed-button-secondary-color: var(--seed-scale-color-gray-900);
+  --seed-button-secondary-active-background-color: var(--seed-scale-color-gray-300);
+  --seed-button-secondary-active-color: var(--seed-scale-color-gray-900);
+}
+
+:root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
+:root[data-seed]:not([data-seed=light-only]) [data-seed-scale-color=dark] {
+  --seed-button-secondary-background-color: var(--seed-scale-color-gray-100);
+  --seed-button-secondary-color: var(--seed-scale-color-gray-900);
+  --seed-button-secondary-active-background-color: var(--seed-scale-color-gray-300);
+  --seed-button-secondary-active-color: var(--seed-scale-color-gray-900);
+}

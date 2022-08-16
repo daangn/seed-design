@@ -1,0 +1,58 @@
+.seed-button {
+  cursor: pointer;
+  border: none;
+}
+
+.seed-button-size-large {
+  min-width: 100px;
+  padding: 14px 20px;
+  border-radius: 6px;
+}
+
+.seed-button-size-medium {
+  min-width: 90px;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+
+.seed-button-size-small {
+  min-width: 80px;
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+.seed-button-size-xsmall {
+  min-width: 65px;
+  padding: 8px 10px;
+  border-radius: 4px;
+}
+
+.seed-button-color-primary {
+  background-color: var(--seed-button-primary-background-color);
+  color: var(--seed-button-primary-color);
+}
+
+.seed-button-color-primary:active {
+  background-color: var(--seed-button-primary-active-background-color);
+  color: var(--seed-button-primary-active-color);
+}
+
+.seed-button-color-primaryLow {
+  background-color: var(--seed-button-primary-low-background-color);
+  color: var(--seed-button-primary-low-color);
+}
+
+.seed-button-color-primaryLow:active {
+  background-color: var(--seed-button-primary-low-active-background-color);
+  color: var(--seed-button-primary-low-active-color);
+}
+
+.seed-button-color-secondary {
+  background-color: var(--seed-button-secondary-background-color);
+  color: var(--seed-button-secondary-color);
+}
+
+.seed-button-color-secondary:active {
+  background-color: var(--seed-button-secondary-low-background-color);
+  color: var(--seed-button-secondary-low-color);
+}

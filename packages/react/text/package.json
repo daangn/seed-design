@@ -1,0 +1,37 @@
+{
+  "name": "@seed-design/react-text",
+  "version": "1.0.0-beta.0",
+  "main": "lib/main.js",
+  "module": "lib/module.js",
+  "types": "lib/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "nanobundle build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react/text"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@seed-design/stylesheet": "workspace:^",
+    "nanobundle": "^0.0.27"
+  },
+  "dependencies": {
+    "@seed-design/react-utils": "workspace:^",
+    "change-case": "^4.1.2"
+  }
+}

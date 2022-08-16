@@ -1,0 +1,29 @@
+{
+  "name": "@seed-design/react-utils",
+  "version": "1.0.0-beta.0",
+  "main": "lib/main.js",
+  "module": "lib/module.js",
+  "types": "lib/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "nanobundle build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react/utils"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "nanobundle": "^0.0.27"
+  }
+}

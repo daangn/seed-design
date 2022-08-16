@@ -11,9 +11,11 @@
   },
   "exports": {
     "./global.css": "./global.css",
+    "./button.css": "./button.css",
     "./package.json": "./package.json"
   },
   "files": [
-    "global.css"
+    "global.css",
+    "button.css"
   ]
 }
