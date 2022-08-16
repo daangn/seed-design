@@ -7,14 +7,11 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "noEmit": true,
+    "declaration": true,
     "outDir": "lib",
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable"
-    ],
-  }
+    "lib": ["esnext", "dom", "dom.iterable"]
+  },
+  "include": ["src"]
 }

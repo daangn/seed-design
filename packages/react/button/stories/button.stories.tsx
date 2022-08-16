@@ -1,4 +1,3 @@
-import "@seed-design/stylesheet/button.css";
 import "@seed-design/stylesheet/global.css";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React from "react";

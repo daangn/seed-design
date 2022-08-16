@@ -10,25 +10,25 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Penguin',
+    title: 'Human',
     Svg: require('@site/static/img/stand.svg').default,
     description: (
       <>
-        Standing
+        사람
       </>
     ),
   },
   {
-    title: 'Penguin',
+    title: 'Evolving',
     Svg: require('@site/static/img/walk.svg').default,
     description: (
       <>
-        Walking
+        야옹
       </>
     ),
   },
   {
-    title: 'Penguin',
+    title: 'Listen',
     Svg: require('@site/static/img/drink.svg').default,
     description: (
       <>

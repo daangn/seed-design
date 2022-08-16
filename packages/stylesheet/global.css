@@ -207,6 +207,15 @@
   --seed-typography-label6-regular-font-weight: var(--seed-static-font-weight-regular);
   --seed-typography-label6-regular-line-height: 14px;
   --seed-typography-label6-regular-letter-spacing: var(--seed-static-letter-spacing-none);
+
+  --seed-button-primary-background-color: var(--seed-semantic-color-primary);
+  --seed-button-primary-color: var(--seed-semantic-color-on-primary);
+  --seed-button-primary-active-background-color: var(--seed-semantic-color-primary-pressed);
+  --seed-button-primary-active-color: var(--seed-semantic-color-on-primary);
+  --seed-button-primary-low-background-color: var(--seed-semantic-color-primary-low);
+  --seed-button-primary-low-color: var(--seed-semantic-color-primary);
+  --seed-button-primary-low-active-background-color: var(--seed-semantic-color-primary-low-pressed);
+  --seed-button-primary-low-active-color: var(--seed-semantic-color-primary);
 }
 
 :root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
@@ -355,6 +364,11 @@
   --seed-semantic-color-accent: var(--seed-scale-color-blue-500);
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
+
+  --seed-button-secondary-background-color: var(--seed-scale-color-gray-100);
+  --seed-button-secondary-color: var(--seed-scale-color-gray-900);
+  --seed-button-secondary-active-background-color: var(--seed-scale-color-gray-300);
+  --seed-button-secondary-active-color: var(--seed-scale-color-gray-900);
 }
 
 :root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
@@ -503,6 +517,11 @@
   --seed-semantic-color-accent: var(--seed-scale-color-blue-500);
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
+
+  --seed-button-secondary-background-color: var(--seed-scale-color-gray-100);
+  --seed-button-secondary-color: var(--seed-scale-color-gray-900);
+  --seed-button-secondary-active-background-color: var(--seed-scale-color-gray-300);
+  --seed-button-secondary-active-color: var(--seed-scale-color-gray-900);
 }
 
 .seed-typography-h1 {

@@ -1,4 +1,4 @@
-import { PolymorphicProps, PolymorphicRef } from "@seed-design/react-utils";
+import { PolymorphicProps, PolymorphicRef } from "@seed-design/react-shared";
 import React, { ElementType, ReactElement } from "react";
 
 type HeadingProps<E extends ElementType = "span"> = PolymorphicProps<E> & {

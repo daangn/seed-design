@@ -1,5 +1,6 @@
 import { Text } from "@seed-design/react-text";
-import { PolymorphicProps, PolymorphicRef } from "@seed-design/react-utils";
+import { PolymorphicProps, PolymorphicRef } from "@seed-design/react-shared";
+import { paramCase } from "change-case";
 import React, { ElementType, ReactElement } from "react";
 import "./button.css";
 
@@ -17,7 +18,9 @@ function Button<E extends ElementType = "button">(
   return (
     <Element
       ref={ref}
-      className={`seed-button seed-button-size-${props.size} seed-button-color-${props.color}`}
+      className={`seed-button seed-button-size-${
+        props.size
+      } seed-button-color-${paramCase(props.color)}`}
     >
       {typeof props.children === "string" ? (
         <Text type="label3" weight="bold">
