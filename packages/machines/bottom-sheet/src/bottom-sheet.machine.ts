@@ -1,0 +1,140 @@
+import { ariaHidden } from "@zag-js/aria-hidden"
+import { createMachine } from "@zag-js/core"
+import { trackDismissableElement } from "@zag-js/dismissable"
+import { nextTick, raf } from "@zag-js/dom-utils"
+import { preventBodyScroll } from "@zag-js/remove-scroll"
+import { runIfFn } from "@zag-js/utils"
+import { createFocusTrap, FocusTrap } from "focus-trap"
+import { dom } from "./bottom-sheet.dom"
+import type { MachineContext, MachineState, UserDefinedContext } from "./bottom-sheet.types"
+
+export function machine(ctx: UserDefinedContext) {
+  return createMachine<MachineContext, MachineState>(
+    {
+      id: "bottom-sheet",
+      initial: "unknown",
+
+      context: {
+        role: "dialog",
+        renderedElements: {
+          title: true,
+          description: true,
+        },
+        modal: true,
+        trapFocus: true,
+        preventScroll: true,
+        closeOnOutsideClick: true,
+        closeOnEsc: true,
+        restoreFocus: true,
+        removeDelay: 500,
+        ...ctx,
+      },
+
+      states: {
+        unknown: {
+          on: {
+            SETUP: ctx.defaultOpen ? "open" : "closed",
+          },
+        },
+        open: {
+          entry: ["checkRenderedElements"],
+          activities: ["trackDismissableElement", "trapFocus", "preventScroll", "hideContentBelow"],
+          on: {
+            CLOSE: "closing",
+            TOGGLE: "closing",
+          },
+        },
+        closing: {
+          after: {
+            REMOVE_DELAY: {
+              target: 'closed',
+            }
+          }
+        },
+        closed: {
+          entry: ["invokeOnClose"],
+          on: {
+            OPEN: "open",
+            TOGGLE: "open",
+          },
+        },
+      },
+    },
+    {
+      activities: {
+        trackDismissableElement(ctx, _evt, { send }) {
+          let cleanup: VoidFunction | undefined
+          nextTick(() => {
+            cleanup = trackDismissableElement(dom.getContentEl(ctx), {
+              pointerBlocking: ctx.modal,
+              exclude: [dom.getTriggerEl(ctx)],
+              onDismiss: () => send({ type: "CLOSE", src: "interact-outside" }),
+              onEscapeKeyDown(event) {
+                if (!ctx.closeOnEsc) {
+                  event.preventDefault()
+                } else {
+                  send({ type: "CLOSE", src: "escape-key" })
+                }
+                ctx.onEsc?.()
+              },
+              onPointerDownOutside(event) {
+                if (!ctx.closeOnOutsideClick) {
+                  event.preventDefault()
+                }
+                ctx.onOutsideClick?.()
+              },
+            })
+          })
+          return () => cleanup?.()
+        },
+        preventScroll(ctx) {
+          if (!ctx.preventScroll) return
+          return preventBodyScroll(dom.getDoc(ctx))
+        },
+        trapFocus(ctx) {
+          if (!ctx.trapFocus) return
+          let trap: FocusTrap
+          nextTick(() => {
+            const el = dom.getContentEl(ctx)
+            if (!el) return
+            trap = createFocusTrap(el, {
+              document: dom.getDoc(ctx),
+              escapeDeactivates: false,
+              fallbackFocus: el,
+              allowOutsideClick: true,
+              returnFocusOnDeactivate: ctx.restoreFocus,
+              initialFocus: runIfFn(ctx.initialFocusEl),
+              setReturnFocus: runIfFn(ctx.finalFocusEl),
+            })
+            try {
+              trap.activate()
+            } catch {}
+          })
+          return () => trap?.deactivate()
+        },
+        hideContentBelow(ctx) {
+          if (!ctx.modal) return
+          let cleanup: VoidFunction | undefined
+          nextTick(() => {
+            cleanup = ariaHidden([dom.getUnderlayEl(ctx)])
+          })
+          return () => cleanup?.()
+        },
+      },
+      delays: {
+        REMOVE_DELAY: (ctx) => ctx.removeDelay,
+      },
+      actions: {
+        checkRenderedElements(ctx) {
+          raf(() => {
+            ctx.renderedElements.title = !!dom.getTitleEl(ctx)
+            ctx.renderedElements.description = !!dom.getDescriptionEl(ctx)
+          })
+        },
+        invokeOnClose(ctx) {
+          ctx.onClose?.()
+        },
+      },
+    },
+  )
+}

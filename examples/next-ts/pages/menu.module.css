@@ -1,0 +1,36 @@
+.menuTrigger[data-part="trigger"] {
+  border: none;
+  cursor: pointer;
+  background-color: var(--seed-semantic-color-primary);
+  color: var(--seed-semantic-color-on-primary);
+  border-radius: var(--seed-scale-dimension-size-75);
+  padding: var(--seed-scale-dimension-size-175) var(--seed-scale-dimension-size-250);
+  font-size: var(--seed-semantic-typography-label3-bold-font-size);
+  font-weight: var(--seed-semantic-typography-label3-bold-font-weight);
+  letter-spacing: var(--seed-semantic-typography-label3-bold-letter-spacing);
+  line-height: var(--seed-semantic-typography-label3-bold-line-height);
+}
+
+.menuContent {
+  background: var(--seed-semantic-color-paper-sheet);
+  width: 240px;
+  padding: 8px 0px;
+  isolation: isolate;
+  list-style-type: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15), 0px 0px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.menuContent [data-part="item"] {
+  padding: 12px 16px;
+  font-size: var(--seed-semantic-typography-label3-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label3-regular-font-weight);
+  letter-spacing: var(--seed-semantic-typography-label3-regular-letter-spacing);
+  line-height: var(--seed-semantic-typography-label3-regular-line-height);
+}
+
+.menuContent [data-part="item"][data-focus] {
+  /* styles for focused state */
+  background-color: var(--seed-semantic-color-text-selection);
+  font-weight: var(--seed-semantic-typography-label3-bold-font-weight);
+}

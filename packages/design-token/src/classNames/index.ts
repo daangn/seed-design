@@ -1,1 +1,1 @@
-export * as $component from './component';
+export * as $semantic from './semantic';

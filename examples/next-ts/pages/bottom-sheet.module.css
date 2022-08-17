@@ -1,0 +1,94 @@
+.trigger[data-part="trigger"] {
+  border: none;
+  cursor: pointer;
+  background-color: var(--seed-semantic-color-primary);
+  color: var(--seed-semantic-color-on-primary);
+  border-radius: var(--seed-scale-dimension-size-75);
+  padding: var(--seed-scale-dimension-size-175) var(--seed-scale-dimension-size-250);
+  font-size: var(--seed-semantic-typography-label3-bold-font-size);
+  font-weight: var(--seed-semantic-typography-label3-bold-font-weight);
+  letter-spacing: var(--seed-semantic-typography-label3-bold-letter-spacing);
+  line-height: var(--seed-semantic-typography-label3-bold-line-height);
+}
+
+.backdrop[data-part="backdrop"] {
+  position: fixed;
+  inset: 0px;
+  background: var(--seed-semantic-color-overlay-low);
+  z-index: 1400;
+}
+
+.underlay[data-part="underlay"] {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: flex-end;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 1400;
+  inset: 0px;
+}
+
+.underlay [data-part="content"] {
+  /* styles for the content element */
+  background-color: var(--seed-semantic-color-paper-sheet);
+  min-height: 300px;
+  padding: 32px 24px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  max-height: calc(100vh - 18%);
+}
+
+.underlay [data-part="content"][data-open] {
+  /* styles for the content element */
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-name: bottomSheet-in;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+.underlay [data-part="content"]:not([data-open]) {
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-name: bottomSheet-out;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.06, 0.71, 0.55, 1);
+  transform: translateY(100%);
+}
+
+.underlay [data-part="title"] {
+  /* styles for the title element */
+  font-size: var(--seed-semantic-typography-h3-font-size);
+  font-weight: var(--seed-semantic-typography-h3-font-weight);
+  letter-spacing: var(--seed-semantic-typography-h3-letter-spacing);
+  line-height: var(--seed-semantic-typography-h3-line-height);
+}
+
+.underlay [data-part="description"] {
+  /* styles for the description element */
+  font-size: var(--seed-semantic-typography-body-l1-regular-font-size);
+  font-weight: var(--seed-semantic-typography-body-l1-regular-font-weight);
+  letter-spacing: var(
+    --seed-semantic-typography-body-l1-regular-letter-spacing
+  );
+  line-height: var(--seed-semantic-typography-body-l1-regular-line-height);
+}
+
+@keyframes bottomSheet-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bottomSheet-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
