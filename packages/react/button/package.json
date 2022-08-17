@@ -45,7 +45,8 @@
   "dependencies": {
     "@seed-design/react-shared": "workspace:^",
     "@seed-design/react-text": "workspace:^",
-    "change-case": "^4.1.2"
+    "change-case": "^4.1.2",
+    "clsx": "^1.2.1"
   },
   "ultra": {
     "concurrent": [

@@ -1,5 +1,6 @@
 import { PolymorphicProps, PolymorphicRef } from "@seed-design/react-shared";
-import { paramCase } from 'change-case';
+import { paramCase } from "change-case";
+import { clsx } from "clsx";
 import React, { ElementType, ReactElement } from "react";
 
 type TextProps<E extends ElementType = "span"> = PolymorphicProps<E> & {
@@ -26,7 +27,10 @@ function Text<E extends ElementType = "span">(
   return (
     <Element
       ref={ref}
-      className={`seed-typography-${paramCase(props.type)}-${props.weight}`}
+      className={clsx(
+        `seed-typography-${paramCase(props.type)}-${props.weight}`,
+        props.className
+      )}
     >
       {props.children}
     </Element>
