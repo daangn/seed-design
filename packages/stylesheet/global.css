@@ -321,7 +321,7 @@
   --seed-semantic-color-primary: var(--seed-scale-color-carrot-500);
   --seed-semantic-color-primary-low: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-secondary: var(--seed-scale-color-gray-900);
-  --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-100);
+  --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-alpha-50);
   --seed-semantic-color-success: var(--seed-scale-color-green-500);
   --seed-semantic-color-success-low: var(--seed-scale-color-green-alpha-50);
   --seed-semantic-color-warning: var(--seed-scale-color-yellow-400);
@@ -469,7 +469,7 @@
   --seed-semantic-color-primary: var(--seed-scale-color-carrot-500);
   --seed-semantic-color-primary-low: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-secondary: var(--seed-scale-color-gray-900);
-  --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-100);
+  --seed-semantic-color-secondary-low: var(--seed-scale-color-gray-alpha-100);
   --seed-semantic-color-success: var(--seed-scale-color-green-500);
   --seed-semantic-color-success-low: var(--seed-scale-color-green-alpha-50);
   --seed-semantic-color-warning: var(--seed-scale-color-yellow-700);
