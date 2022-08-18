@@ -28,9 +28,7 @@ Seed Design 의 디자인 토큰은 [KDT](https://github.com/daangn/kdt)를 통�
 
 **Scale Token**은 Raw value Scale 하나에 이름을 부여한 것 입니다. Scale 의 이름을 통해 전체 디자인에 사용되는 값을 유한하게 유지합니다. Scale은 미리 정의한 단위를 통해 값의 세부사항(출력장치)을 숨겨 이를 통해 특정 플랫폼에 불가지론적인 디자인을 유지할 수 있게 합니다.
 
-**Semantic Token**은 Scale Token
-
-**Component Token**은 Scale Token 및 Semantic Token의 조합(Composition)으로 디자인 의도를 표현한 단위이며, 실제 디자인과 개발과정에서 주요 빌딩블럭으로 사용됩니다. 여러개의 Scale 조합이 하나의 Semantic Token 을 구성할 수도 있고, 여러 Semantic 이 하나의 Scale를 재정의해서 사용될 수도 있습니다.
+**Semantic Token**은 Scale Token의 조합(Composition)으로 디자인 의도를 표현한 단위이며, 실제 디자인과 개발과정에서 주요 빌딩블럭으로 사용됩니다. 여러개의 Scale 조합이 하나의 Semantic Token 을 구성할 수도 있고, 여러 Semantic 이 하나의 Scale를 재정의해서 사용될 수도 있습니다.
 
 시스템에 존재하는 Scale 과 Semantic 정의가 전체 디자인의 스킴을 결정하고, 뷰포트나 플랫폼 등 외부 환경에 맞게 Scale에 적절한 값을 주입하는 것으로 스키마 변경없이 유연하게 스킴을 재정의할 수 있습니다.
 

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Getting Started
 
-SEED Design은 UX 가이드라인, 디자인 토큰, React 컴포넌트를 제공하는 오픈소스 디자인 시스템입니다.
+SEED Design은 UX 가이드라인, 디자인 토큰, UI 패턴을 제공하는 오픈소스 디자인 시스템입니다.
 
 ## 디자인 토큰 설치
 
