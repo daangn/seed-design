@@ -1,5 +1,5 @@
 import "@seed-design/stylesheet/global.css";
-import "./reset.css"
+import "./reset.css";
 
 import { dataAttr } from "@zag-js/dom-utils";
 import { AppProps } from "next/app";
@@ -7,6 +7,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 const routesData = [
+  { path: "/", label: "home" },
   {
     path: "/menu",
     label: "menu",
