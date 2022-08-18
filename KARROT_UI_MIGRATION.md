@@ -45,13 +45,26 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 
 - 페이지 루트 요소에 `data-seed` 어트리뷰트를 지정합니다.
 - 사용자가 선호하는 컬러 스킴에 따라 `data-seed-scale-color` 어트리뷰트를 지정합니다.
+- 디바이스 스케일에 따라 `data-seed-scale-dimension` 어트리뷰트를 지정합니다.
+  - 모바일 스케일 `large`
+  - 데스크톱 스케일 `medium`
+  - 모바일에서 더 큰 스케일을 가지는 것은 의도된 사항입니다.
+- 시스템 폰트에 적합한 타이포그래피를 적용하기 위해 `data-seed-scale-letter-spacing` 어트리뷰트를 지정합니다.
+  - ios
+  - android
 
 **예시) HTML (light-only)**
 
 ```html
-<html lang="ko" data-seed="light-only" data-seed-scale-color="light">
+<html
+  lang="ko"
+  data-seed="light-only"
+  data-seed-scale-color="light"
+  data-seed-scale-dimension="large"
+  data-seed-scale-letter-spacing="ios"
+>
   <head>
-    <meta name="color-scheme" content="light">
+    <meta name="color-scheme" content="light" />
   </head>
 </html>
 ```
@@ -63,111 +76,31 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 ```js
 (function() {
   var el = document.documentElement;
-  el.dataset.seed = '';
+  el.dataset.seed = "";
 
-  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var prefersLight = window.matchMedia("(prefers-color-scheme: light)");
+  var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   if (prefersLight.matches) {
-    if ('addEventListener' in prefersLight) {
-      prefersLight.addEventListener('change', apply);
-    } else if ('addListener' in prefersLight) {
+    if ("addEventListener" in prefersLight) {
+      prefersLight.addEventListener("change", apply);
+    } else if ("addListener" in prefersLight) {
       prefersLight.addListener(apply);
     }
   } else if (prefersDark.matches) {
-    if ('addEventListener' in prefersDark) {
-      prefersDark.addEventListener('change', apply);
-    } else if ('addListener' in prefersDark) {
+    if ("addEventListener" in prefersDark) {
+      prefersDark.addEventListener("change", apply);
+    } else if ("addListener" in prefersDark) {
       prefersDark.addListener(apply);
     }
   }
 
   function apply() {
-    el.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
+    el.dataset.seedScaleColor = prefersDark.matches ? "dark" : "light";
+    el.dataset.seedScaleDimension = "large";
+    el.dataset.seedScaleLetterSpacing = "ios";
   }
 
   apply();
 })();
 ```
-
-**예시) [react-helmet-async](https://github.com/staylor/react-helmet-async)로 동적 초기화**
-
-```jsx
-import { Helmet } from 'react-helmet-async';
-import { useColorScale } from '@seed-design/react-dom-theminig';
-
-const Header = () => {
-  const colorScale = useColorScale();
-  return (
-    <Helmet>
-      <html
-        lang="ko"
-        data-seed=""
-        data-seed-scale-color={colorScale}
-      >
-    <Helmet>
-  );
-};
-```
-
-## 프레임워크 별 가이드
-
-### Emotion
-
-TBD
-
-### Styled-Components
-
-TBD
-
-### Linaria
-
-TBD
-
-### vanilla-extract
-
-TBD
-
-### Stitches.js
-
-```ts
-// stitches.config.ts
-
-import { vars, adapters } from '@seed-design/design-token';
-import { createStitches } from '@stitches/react';
-
-const theme = adapters.stitches.toStitchesTheme(vars);
-
-export const {
-  styled,
-  css,
-  globalCss,
-  keyframes,
-  getCssText,
-  theme,
-  createTheme,
-  config,
-} = createStitches({
-  theme: {
-    ...theme,
-    // ...overrides
-    colors: {
-      ...theme.colors,
-      // ...overrides
-    },
-  },
-});
-```
-
-### Tailwind CSS
-
-TBD
-
-### React Native
-
-TBD
-
-## 서버 사이드 렌더링 가이드
-
-TBD
-
