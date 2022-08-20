@@ -38,7 +38,7 @@ Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로�
 웹팩 등 자바스크립트 번들러에 의해 처리되는 경우, [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 등으로 사전에 추출되어 [주요 렌더링 경로](https://developer.mozilla.org/ko/docs/Web/Performance/Critical_rendering_path)에 배치해야합니다.
 
 ```js
-import "@seed-design/stylesheet/global.css";
+import '@seed-design/stylesheet/global.css';
 ```
 
 #### 루트 엘리먼트(`<html>`) 초기화
@@ -73,28 +73,28 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 ```js
 (function() {
   var el = document.documentElement;
-  el.dataset.seed = "";
+  el.dataset.seed = '';
 
-  var prefersLight = window.matchMedia("(prefers-color-scheme: light)");
-  var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   if (prefersLight.matches) {
-    if ("addEventListener" in prefersLight) {
-      prefersLight.addEventListener("change", apply);
-    } else if ("addListener" in prefersLight) {
+    if ('addEventListener' in prefersLight) {
+      prefersLight.addEventListener('change', apply);
+    } else if ('addListener' in prefersLight) {
       prefersLight.addListener(apply);
     }
   } else if (prefersDark.matches) {
-    if ("addEventListener" in prefersDark) {
-      prefersDark.addEventListener("change", apply);
-    } else if ("addListener" in prefersDark) {
+    if ('addEventListener' in prefersDark) {
+      prefersDark.addEventListener('change', apply);
+    } else if ('addListener' in prefersDark) {
       prefersDark.addListener(apply);
     }
   }
 
   function apply() {
-    el.dataset.seedScaleColor = prefersDark.matches ? "dark" : "light";
-    el.dataset.seedScaleLetterSpacing = "ios";
+    el.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
+    el.dataset.seedScaleLetterSpacing = 'ios';
   }
 
   apply();

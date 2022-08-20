@@ -17,7 +17,7 @@
 애플리케이션이 지원하는 컬러 스킴을 브라우저에게 여러 방법으로 알릴 수 있습니다. 그 중 메타태그를 사용하는 것이 가장 빠른 방법이므로 가능한 경우 명시하는 것을 권장합니다.
 
 ```html
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light dark" />
 ```
 
 ### CSS 스타일시트 로딩하기 (DOM)
@@ -28,9 +28,9 @@ Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로�
 
 ```html
 <!-- 브라우저가 자산을 우선적으로 처리하도록 preload 표시 -->
-<link rel="preload" href="uri/to/global.css" as="style">
+<link rel="preload" href="uri/to/global.css" as="style" />
 
-<link rel="stylesheet" href="uri/to/global.css">
+<link rel="stylesheet" href="uri/to/global.css" />
 ```
 
 웹팩 등 자바스크립트 번들러에 의해 처리되는 경우, [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 등으로 사전에 추출되어 [주요 렌더링 경로](https://developer.mozilla.org/ko/docs/Web/Performance/Critical_rendering_path)에 배치해야합니다.
@@ -71,28 +71,28 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 ```js
 (function() {
   var el = document.documentElement;
-  el.dataset.seed = "";
+  el.dataset.seed = '';
 
-  var prefersLight = window.matchMedia("(prefers-color-scheme: light)");
-  var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
   if (prefersLight.matches) {
-    if ("addEventListener" in prefersLight) {
-      prefersLight.addEventListener("change", apply);
-    } else if ("addListener" in prefersLight) {
+    if ('addEventListener' in prefersLight) {
+      prefersLight.addEventListener('change', apply);
+    } else if ('addListener' in prefersLight) {
       prefersLight.addListener(apply);
     }
   } else if (prefersDark.matches) {
-    if ("addEventListener" in prefersDark) {
-      prefersDark.addEventListener("change", apply);
-    } else if ("addListener" in prefersDark) {
+    if ('addEventListener' in prefersDark) {
+      prefersDark.addEventListener('change', apply);
+    } else if ('addListener' in prefersDark) {
       prefersDark.addListener(apply);
     }
   }
 
   function apply() {
-    el.dataset.seedScaleColor = prefersDark.matches ? "dark" : "light";
-    el.dataset.seedScaleLetterSpacing = "ios";
+    el.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
+    el.dataset.seedScaleLetterSpacing = 'ios';
   }
 
   apply();
