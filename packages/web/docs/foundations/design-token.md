@@ -55,7 +55,4 @@ vars.$scale.color.carrot500;
 
 // 스태틱(단일 스케일) 토큰
 vars.$static.color.carrot500;
-
-// 컴포넌트 토큰
-vars.$component.typography.h1;
 ```

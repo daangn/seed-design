@@ -1,4 +1,4 @@
-import * as menu from "@seed-design/menu";
+import * as menu from "@zag-js/menu";
 import { normalizeProps, useMachine } from "@zag-js/react";
 import { useId } from "react";
 import { Portal } from "../components/Portal";

@@ -12,10 +12,6 @@ const routesData = [
     path: "/menu",
     label: "menu",
   },
-  {
-    path: "/bottom-sheet",
-    label: "bottom-sheet",
-  },
 ];
 
 export default function App({ Component, pageProps, router }: AppProps) {

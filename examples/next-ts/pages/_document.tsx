@@ -6,7 +6,6 @@ export default function Document() {
       lang="en"
       data-seed
       data-seed-scale-color="light"
-      data-seed-scale-dimension="large"
       data-seed-scale-letter-spacing="ios"
     >
       <Head />

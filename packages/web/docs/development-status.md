@@ -4,28 +4,16 @@ sidebar_position: 2
 
 # Development Status
 
-## Design Token Status
+## Design Token
 
-| Item            | Design      | Development | Docs        |
-| --------------- | ----------- | ----------- | ----------- |
-| Color           | Complete    | Complete    | In Progress |
-| Dimension       | -           | -           | -           |
-| Font Weight     | Complete    | Complete    | -           |
-| Line Height     | In Progress | In Progress | -           |
-| Letter Spacing  | Complete    | Complete    | -           |
-| Duration        | -           | -           | -           |
-| Timing Function | -           | -           | -           |
-| Typography      | In Progress | In Progress | -           |
-| Shadow          | In Progress | In Progress | -           |
-
-## Component Status
-
-| Item         | Design   | Development | Docs |
-| ------------ | -------- | ----------- | ---- |
-| Bottom Sheet | Complete | Complete    | -    |
-| Dropdown     | Complete | Complete    | -    |
-| Dialog       | Complete | -           | -    |
-| Slider       | Complete | -           | -    |
-| Tabs         | Complete | -           | -    |
-| Toast        | Complete | -           | -    |
-| Tooltip      | Complete | -           | -    |
+| Item            | Design         | Development    | Docs                                                                                                        |
+| --------------- | -------------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| Color           | Done           | Done           | [Figma](https://www.figma.com/file/x6GwR7JROD6A7aybguRG2e/Color-New-Beta?node-id=0%3A1)                     |
+| Dimension       | Font Size Done | Font Size Done | [Font Size - Figma](https://www.figma.com/file/dhQKnlDsLWaR9asJJjy9h7/Typography-New-Beta?node-id=12%3A630) |
+| Font Weight     | Done           | Done           | [Figma](https://www.figma.com/file/dhQKnlDsLWaR9asJJjy9h7/Typography-New-Beta?node-id=12%3A804)             |
+| Line Height     | Done           | Done           | [Figma](https://www.figma.com/file/dhQKnlDsLWaR9asJJjy9h7/Typography-New-Beta?node-id=12%3A834)             |
+| Letter Spacing  | Done           | Done           | [Figma](https://www.figma.com/file/dhQKnlDsLWaR9asJJjy9h7/Typography-New-Beta?node-id=12%3A873)             |
+| Duration        | -              | -              | -                                                                                                           |
+| Timing Function | -              | -              | -                                                                                                           |
+| Typography      | Done           | Done           | [Figma](https://www.figma.com/file/dhQKnlDsLWaR9asJJjy9h7/Typography-New-Beta?node-id=18%3A312)             |
+| Shadow          | -              | -              | -                                                                                                           |

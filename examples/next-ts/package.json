@@ -8,8 +8,6 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@seed-design/bottom-sheet": "workspace:^",
-    "@seed-design/menu": "workspace:^",
     "@seed-design/stylesheet": "^1.0.0-beta.4",
     "@zag-js/react": "^0.1.15",
     "next": "latest",
