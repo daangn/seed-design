@@ -1,14 +1,16 @@
-# Karrot UI → Seed Design 마이그레이션 가이드
+---
+sidebar_position: 1
+---
 
-## 주요 변경 사항
+# Getting Started
 
-- 프로젝트/디자인 시스템 명이 **Seed Design**으로 리브랜딩 됩니다.
-- 패키지 명이 `@seed-design/*` 으로 변경됩니다.
-- `@karrot-ui/*` packages are deprecated.
-- `color-scheme: light dark` 지원이 기본값이 됩니다.
-- 디자인 토큰이 [KDT](https://github.com/daangn/kdt/tree/main/language) 의미론을 따릅니다.
+SEED Design은 UX 가이드라인, 디자인 토큰, UI 패턴을 제공하는 오픈소스 디자인 시스템입니다.
 
-## 공통 가이드
+## 디자인 토큰 설치
+
+```bash
+yarn add @seed-design/stylesheet
+```
 
 ### HTML 메타태그 삽입하기
 

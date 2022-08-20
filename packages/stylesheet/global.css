@@ -51,162 +51,125 @@
   --seed-scale-dimension-font-size-1100: 54px;
   --seed-scale-dimension-font-size-1200: 60px;
   --seed-scale-dimension-font-size-1300: 72px;
-  --seed-static-font-weight-bold: bold;
+  --seed-semantic-typography-h1-font-size: var(--seed-scale-dimension-font-size-1000);
+  --seed-semantic-typography-h2-font-size: var(--seed-scale-dimension-font-size-900);
+  --seed-semantic-typography-h3-font-size: var(--seed-scale-dimension-font-size-800);
+  --seed-semantic-typography-h4-font-size: var(--seed-scale-dimension-font-size-600);
+  --seed-semantic-typography-title1-bold-font-size: var(--seed-scale-dimension-font-size-500);
+  --seed-semantic-typography-title1-regular-font-size: var(--seed-scale-dimension-font-size-500);
+  --seed-semantic-typography-title2-bold-font-size: var(--seed-scale-dimension-font-size-400);
+  --seed-semantic-typography-title2-regular-font-size: var(--seed-scale-dimension-font-size-400);
+  --seed-semantic-typography-title3-bold-font-size: var(--seed-scale-dimension-font-size-300);
+  --seed-semantic-typography-title3-regular-font-size: var(--seed-scale-dimension-font-size-300);
+  --seed-semantic-typography-subtitle1-bold-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-subtitle1-regular-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-subtitle2-bold-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-subtitle2-regular-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-body-l1-bold-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-body-l1-regular-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-body-l2-bold-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-body-l2-regular-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-body-m1-bold-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-body-m1-regular-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-body-m2-bold-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-body-m2-regular-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-caption1-bold-font-size: var(--seed-scale-dimension-font-size-75);
+  --seed-semantic-typography-caption1-regular-font-size: var(--seed-scale-dimension-font-size-75);
+  --seed-semantic-typography-caption2-bold-font-size: var(--seed-scale-dimension-font-size-50);
+  --seed-semantic-typography-caption2-regular-font-size: var(--seed-scale-dimension-font-size-50);
+  --seed-semantic-typography-label1-bold-font-size: var(--seed-scale-dimension-font-size-300);
+  --seed-semantic-typography-label1-regular-font-size: var(--seed-scale-dimension-font-size-300);
+  --seed-semantic-typography-label2-bold-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-label2-regular-font-size: var(--seed-scale-dimension-font-size-200);
+  --seed-semantic-typography-label3-bold-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-label3-regular-font-size: var(--seed-scale-dimension-font-size-100);
+  --seed-semantic-typography-label4-bold-font-size: var(--seed-scale-dimension-font-size-50);
+  --seed-semantic-typography-label4-regular-font-size: var(--seed-scale-dimension-font-size-50);
+  --seed-semantic-typography-label5-bold-font-size: var(--seed-scale-dimension-font-size-25);
+  --seed-semantic-typography-label5-regular-font-size: var(--seed-scale-dimension-font-size-25);
+  --seed-semantic-typography-label6-bold-font-size: var(--seed-scale-dimension-font-size-10);
+  --seed-semantic-typography-label6-regular-font-size: var(--seed-scale-dimension-font-size-10);
   --seed-static-font-weight-regular: normal;
-  --seed-static-letter-spacing-none: 0;
-
-  --seed-semantic-typography-h1-dimension: var(--seed-scale-dimension-font-size-1000);
+  --seed-static-font-weight-bold: bold;
   --seed-semantic-typography-h1-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-h1-line-height: 42px;
-  --seed-semantic-typography-h1-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-h2-dimension: var(--seed-scale-dimension-font-size-900);
   --seed-semantic-typography-h2-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-h2-line-height: 58px;
-  --seed-semantic-typography-h2-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-h3-dimension: var(--seed-scale-dimension-font-size-800);
   --seed-semantic-typography-h3-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-h3-line-height: 44px;
-  --seed-semantic-typography-h3-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-h4-dimension: var(--seed-scale-dimension-font-size-600);
   --seed-semantic-typography-h4-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-h4-line-height: 34px;
-  --seed-semantic-typography-h4-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title1-bold-dimension: var(--seed-scale-dimension-font-size-500);
   --seed-semantic-typography-title1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-title1-bold-line-height: 32px;
-  --seed-semantic-typography-title1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title1-regular-dimension: var(--seed-scale-dimension-font-size-500);
   --seed-semantic-typography-title1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-title1-regular-line-height: 32px;
-  --seed-semantic-typography-title1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title2-bold-dimension: var(--seed-scale-dimension-font-size-400);
   --seed-semantic-typography-title2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-title2-bold-line-height: 26px;
-  --seed-semantic-typography-title2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title2-regular-dimension: var(--seed-scale-dimension-font-size-400);
   --seed-semantic-typography-title2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-title2-regular-line-height: 26px;
-  --seed-semantic-typography-title2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title3-bold-dimension: var(--seed-scale-dimension-font-size-300);
   --seed-semantic-typography-title3-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-title3-bold-line-height: 24px;
-  --seed-semantic-typography-title3-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-title3-regular-dimension: var(--seed-scale-dimension-font-size-300);
   --seed-semantic-typography-title3-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-title3-regular-line-height: 24px;
-  --seed-semantic-typography-title3-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-subtitle1-bold-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-subtitle1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-subtitle1-bold-line-height: 22px;
-  --seed-semantic-typography-subtitle1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-subtitle1-regular-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-subtitle1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-subtitle1-regular-line-height: 22px;
-  --seed-semantic-typography-subtitle1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-subtitle2-bold-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-subtitle2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-subtitle2-bold-line-height: 20px;
-  --seed-semantic-typography-subtitle2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-subtitle2-regular-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-subtitle2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-subtitle2-regular-line-height: 20px;
-  --seed-semantic-typography-subtitle2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-l1-bold-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-body-l1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-body-l1-bold-line-height: 26px;
-  --seed-semantic-typography-body-l1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-l1-regular-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-body-l1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-body-l1-regular-line-height: 26px;
-  --seed-semantic-typography-body-l1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-l2-bold-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-body-l2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-body-l2-bold-line-height: 22px;
-  --seed-semantic-typography-body-l2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-l2-regular-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-body-l2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-body-l2-regular-line-height: 22px;
-  --seed-semantic-typography-body-l2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-m1-bold-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-body-m1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-body-m1-bold-line-height: 22px;
-  --seed-semantic-typography-body-m1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-m1-regular-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-body-m1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-body-m1-regular-line-height: 22px;
-  --seed-semantic-typography-body-m1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-m2-bold-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-body-m2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-body-m2-bold-line-height: 20px;
-  --seed-semantic-typography-body-m2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-body-m2-regular-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-body-m2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-body-m2-regular-line-height: 20px;
-  --seed-semantic-typography-body-m2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-caption1-bold-dimension: var(--seed-scale-dimension-font-size-75);
   --seed-semantic-typography-caption1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-caption1-bold-line-height: 20px;
-  --seed-semantic-typography-caption1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-caption1-regular-dimension: var(--seed-scale-dimension-font-size-75);
   --seed-semantic-typography-caption1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-caption1-regular-line-height: 20px;
-  --seed-semantic-typography-caption1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-caption2-bold-dimension: var(--seed-scale-dimension-font-size-50);
   --seed-semantic-typography-caption2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-caption2-bold-line-height: 16px;
-  --seed-semantic-typography-caption2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-caption2-regular-dimension: var(--seed-scale-dimension-font-size-50);
   --seed-semantic-typography-caption2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-caption2-regular-line-height: 16px;
-  --seed-semantic-typography-caption2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label1-bold-dimension: var(--seed-scale-dimension-font-size-300);
   --seed-semantic-typography-label1-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label1-bold-line-height: 24px;
-  --seed-semantic-typography-label1-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label1-regular-dimension: var(--seed-scale-dimension-font-size-300);
   --seed-semantic-typography-label1-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label1-regular-line-height: 24px;
-  --seed-semantic-typography-label1-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label2-bold-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-label2-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label2-bold-line-height: 22px;
-  --seed-semantic-typography-label2-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label2-regular-dimension: var(--seed-scale-dimension-font-size-200);
   --seed-semantic-typography-label2-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label2-regular-line-height: 22px;
-  --seed-semantic-typography-label2-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label3-bold-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-label3-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label3-bold-line-height: 20px;
-  --seed-semantic-typography-label3-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label3-regular-dimension: var(--seed-scale-dimension-font-size-100);
   --seed-semantic-typography-label3-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label3-regular-line-height: 20px;
-  --seed-semantic-typography-label3-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label4-bold-dimension: var(--seed-scale-dimension-font-size-50);
   --seed-semantic-typography-label4-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label4-bold-line-height: 16px;
-  --seed-semantic-typography-label4-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label4-regular-dimension: var(--seed-scale-dimension-font-size-50);
   --seed-semantic-typography-label4-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label4-regular-line-height: 16px;
-  --seed-semantic-typography-label4-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label5-bold-dimension: var(--seed-scale-dimension-font-size-25);
   --seed-semantic-typography-label5-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label5-bold-line-height: 16px;
-  --seed-semantic-typography-label5-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label5-regular-dimension: var(--seed-scale-dimension-font-size-25);
   --seed-semantic-typography-label5-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label5-regular-line-height: 16px;
-  --seed-semantic-typography-label5-regular-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label6-bold-dimension: var(--seed-scale-dimension-font-size-10);
   --seed-semantic-typography-label6-bold-font-weight: var(--seed-static-font-weight-bold);
-  --seed-semantic-typography-label6-bold-line-height: 14px;
-  --seed-semantic-typography-label6-bold-letter-spacing: var(--seed-static-letter-spacing-none);
-  --seed-semantic-typography-label6-regular-dimension: var(--seed-scale-dimension-font-size-10);
   --seed-semantic-typography-label6-regular-font-weight: var(--seed-static-font-weight-regular);
-  --seed-semantic-typography-label6-regular-line-height: 14px;
-  --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-static-letter-spacing-none);
+  --seed-static-line-height-static-small: 135%;
+  --seed-static-line-height-static-medium: 150%;
+  --seed-static-line-height-static-large: 162%;
+  --seed-semantic-typography-h1-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-h2-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-h3-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-h4-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title1-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title1-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title2-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title2-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title3-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-title3-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-subtitle1-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-subtitle1-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-subtitle2-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-subtitle2-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-body-l1-bold-line-height: var(--seed-static-line-height-static-large);
+  --seed-semantic-typography-body-l1-regular-line-height: var(--seed-static-line-height-static-large);
+  --seed-semantic-typography-body-l2-bold-line-height: var(--seed-static-line-height-static-medium);
+  --seed-semantic-typography-body-l2-regular-line-height: var(--seed-static-line-height-static-medium);
+  --seed-semantic-typography-body-m1-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-body-m1-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-body-m2-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-body-m2-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-caption1-bold-line-height: var(--seed-static-line-height-static-medium);
+  --seed-semantic-typography-caption1-regular-line-height: var(--seed-static-line-height-static-medium);
+  --seed-semantic-typography-caption2-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-caption2-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label1-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label1-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label2-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label2-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label3-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label3-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label4-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label4-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label5-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label5-regular-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label6-bold-line-height: var(--seed-static-line-height-static-small);
+  --seed-semantic-typography-label6-regular-line-height: var(--seed-static-line-height-static-small);
 }
 
 :root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
@@ -342,7 +305,6 @@
   --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-200);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
   --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
@@ -355,6 +317,7 @@
   --seed-semantic-color-accent: var(--seed-scale-color-blue-500);
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
+  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
 }
 
 :root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
@@ -490,7 +453,6 @@
   --seed-semantic-color-primary-low-pressed: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-gray-hover: var(--seed-scale-color-gray-100);
   --seed-semantic-color-gray-pressed: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
   --seed-semantic-color-on-primary-low-overlay-50: var(--seed-scale-color-carrot-alpha-50);
   --seed-semantic-color-on-primary-low-overlay-100: var(--seed-scale-color-carrot-alpha-100);
   --seed-semantic-color-on-primary-low-overlay-200: var(--seed-scale-color-carrot-alpha-200);
@@ -503,269 +465,360 @@
   --seed-semantic-color-accent: var(--seed-scale-color-blue-500);
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
+  --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
+}
+
+:root[data-seed][data-seed-scale-letter-spacing=ios] {
+  --seed-scale-letter-spacing-none: 0em;
+  --seed-scale-letter-spacing-narrow-200: -0.02em;
+  --seed-scale-letter-spacing-narrow-300: -0.03em;
+  --seed-scale-letter-spacing-narrow-400: -0.04em;
+  --seed-semantic-typography-h1-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-h2-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-h3-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-h4-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title3-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-title3-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-subtitle1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-subtitle1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-subtitle2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-subtitle2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-l1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-l1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-l2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-l2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-m1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-m1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-m2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-body-m2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-caption1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-caption1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-caption2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-caption2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label1-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label2-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label2-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label3-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label3-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label4-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label4-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label5-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label5-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label6-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
+}
+
+:root[data-seed][data-seed-scale-letter-spacing=android] {
+  --seed-scale-letter-spacing-none: 0em;
+  --seed-scale-letter-spacing-narrow-200: -0.02em;
+  --seed-scale-letter-spacing-narrow-300: -0.03em;
+  --seed-scale-letter-spacing-narrow-400: -0.04em;
+  --seed-semantic-typography-h1-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-h2-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-h3-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-h4-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title1-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title3-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-title3-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-300);
+  --seed-semantic-typography-subtitle1-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-subtitle1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-subtitle2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-subtitle2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-l1-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-l1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-l2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-l2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-m1-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-m1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-m2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-body-m2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-caption1-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-caption1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-caption2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-caption2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-400);
+  --seed-semantic-typography-label1-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label1-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label2-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label2-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label3-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label3-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label4-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label4-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label5-bold-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label5-regular-letter-spacing: var(--seed-scale-letter-spacing-narrow-200);
+  --seed-semantic-typography-label6-bold-letter-spacing: var(--seed-scale-letter-spacing-none);
+  --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
 }
 
 .seed-semantic-typography-h1 {
-  font-size: var(--seed-semantic-typography-h1-dimension);
+  font-size: var(--seed-semantic-typography-h1-font-size);
   font-weight: var(--seed-semantic-typography-h1-font-weight);
   line-height: var(--seed-semantic-typography-h1-line-height);
   letter-spacing: var(--seed-semantic-typography-h1-letter-spacing);
 }
 
 .seed-semantic-typography-h2 {
-  font-size: var(--seed-semantic-typography-h2-dimension);
+  font-size: var(--seed-semantic-typography-h2-font-size);
   font-weight: var(--seed-semantic-typography-h2-font-weight);
   line-height: var(--seed-semantic-typography-h2-line-height);
   letter-spacing: var(--seed-semantic-typography-h2-letter-spacing);
 }
 
 .seed-semantic-typography-h3 {
-  font-size: var(--seed-semantic-typography-h3-dimension);
+  font-size: var(--seed-semantic-typography-h3-font-size);
   font-weight: var(--seed-semantic-typography-h3-font-weight);
   line-height: var(--seed-semantic-typography-h3-line-height);
   letter-spacing: var(--seed-semantic-typography-h3-letter-spacing);
 }
 
 .seed-semantic-typography-h4 {
-  font-size: var(--seed-semantic-typography-h4-dimension);
+  font-size: var(--seed-semantic-typography-h4-font-size);
   font-weight: var(--seed-semantic-typography-h4-font-weight);
   line-height: var(--seed-semantic-typography-h4-line-height);
   letter-spacing: var(--seed-semantic-typography-h4-letter-spacing);
 }
 
 .seed-semantic-typography-title1-bold {
-  font-size: var(--seed-semantic-typography-title1-bold-dimension);
+  font-size: var(--seed-semantic-typography-title1-bold-font-size);
   font-weight: var(--seed-semantic-typography-title1-bold-font-weight);
   line-height: var(--seed-semantic-typography-title1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-title1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-title1-regular {
-  font-size: var(--seed-semantic-typography-title1-regular-dimension);
+  font-size: var(--seed-semantic-typography-title1-regular-font-size);
   font-weight: var(--seed-semantic-typography-title1-regular-font-weight);
   line-height: var(--seed-semantic-typography-title1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-title1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-title2-bold {
-  font-size: var(--seed-semantic-typography-title2-bold-dimension);
+  font-size: var(--seed-semantic-typography-title2-bold-font-size);
   font-weight: var(--seed-semantic-typography-title2-bold-font-weight);
   line-height: var(--seed-semantic-typography-title2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-title2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-title2-regular {
-  font-size: var(--seed-semantic-typography-title2-regular-dimension);
+  font-size: var(--seed-semantic-typography-title2-regular-font-size);
   font-weight: var(--seed-semantic-typography-title2-regular-font-weight);
   line-height: var(--seed-semantic-typography-title2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-title2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-title3-bold {
-  font-size: var(--seed-semantic-typography-title3-bold-dimension);
+  font-size: var(--seed-semantic-typography-title3-bold-font-size);
   font-weight: var(--seed-semantic-typography-title3-bold-font-weight);
   line-height: var(--seed-semantic-typography-title3-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-title3-bold-letter-spacing);
 }
 
 .seed-semantic-typography-title3-regular {
-  font-size: var(--seed-semantic-typography-title3-regular-dimension);
+  font-size: var(--seed-semantic-typography-title3-regular-font-size);
   font-weight: var(--seed-semantic-typography-title3-regular-font-weight);
   line-height: var(--seed-semantic-typography-title3-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-title3-regular-letter-spacing);
 }
 
 .seed-semantic-typography-subtitle1-bold {
-  font-size: var(--seed-semantic-typography-subtitle1-bold-dimension);
+  font-size: var(--seed-semantic-typography-subtitle1-bold-font-size);
   font-weight: var(--seed-semantic-typography-subtitle1-bold-font-weight);
   line-height: var(--seed-semantic-typography-subtitle1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-subtitle1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-subtitle1-regular {
-  font-size: var(--seed-semantic-typography-subtitle1-regular-dimension);
+  font-size: var(--seed-semantic-typography-subtitle1-regular-font-size);
   font-weight: var(--seed-semantic-typography-subtitle1-regular-font-weight);
   line-height: var(--seed-semantic-typography-subtitle1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-subtitle1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-subtitle2-bold {
-  font-size: var(--seed-semantic-typography-subtitle2-bold-dimension);
+  font-size: var(--seed-semantic-typography-subtitle2-bold-font-size);
   font-weight: var(--seed-semantic-typography-subtitle2-bold-font-weight);
   line-height: var(--seed-semantic-typography-subtitle2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-subtitle2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-subtitle2-regular {
-  font-size: var(--seed-semantic-typography-subtitle2-regular-dimension);
+  font-size: var(--seed-semantic-typography-subtitle2-regular-font-size);
   font-weight: var(--seed-semantic-typography-subtitle2-regular-font-weight);
   line-height: var(--seed-semantic-typography-subtitle2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-subtitle2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-body-l1-bold {
-  font-size: var(--seed-semantic-typography-body-l1-bold-dimension);
+  font-size: var(--seed-semantic-typography-body-l1-bold-font-size);
   font-weight: var(--seed-semantic-typography-body-l1-bold-font-weight);
   line-height: var(--seed-semantic-typography-body-l1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-body-l1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-body-l1-regular {
-  font-size: var(--seed-semantic-typography-body-l1-regular-dimension);
+  font-size: var(--seed-semantic-typography-body-l1-regular-font-size);
   font-weight: var(--seed-semantic-typography-body-l1-regular-font-weight);
   line-height: var(--seed-semantic-typography-body-l1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-body-l1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-body-l2-bold {
-  font-size: var(--seed-semantic-typography-body-l2-bold-dimension);
+  font-size: var(--seed-semantic-typography-body-l2-bold-font-size);
   font-weight: var(--seed-semantic-typography-body-l2-bold-font-weight);
   line-height: var(--seed-semantic-typography-body-l2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-body-l2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-body-l2-regular {
-  font-size: var(--seed-semantic-typography-body-l2-regular-dimension);
+  font-size: var(--seed-semantic-typography-body-l2-regular-font-size);
   font-weight: var(--seed-semantic-typography-body-l2-regular-font-weight);
   line-height: var(--seed-semantic-typography-body-l2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-body-l2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-body-m1-bold {
-  font-size: var(--seed-semantic-typography-body-m1-bold-dimension);
+  font-size: var(--seed-semantic-typography-body-m1-bold-font-size);
   font-weight: var(--seed-semantic-typography-body-m1-bold-font-weight);
   line-height: var(--seed-semantic-typography-body-m1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-body-m1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-body-m1-regular {
-  font-size: var(--seed-semantic-typography-body-m1-regular-dimension);
+  font-size: var(--seed-semantic-typography-body-m1-regular-font-size);
   font-weight: var(--seed-semantic-typography-body-m1-regular-font-weight);
   line-height: var(--seed-semantic-typography-body-m1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-body-m1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-body-m2-bold {
-  font-size: var(--seed-semantic-typography-body-m2-bold-dimension);
+  font-size: var(--seed-semantic-typography-body-m2-bold-font-size);
   font-weight: var(--seed-semantic-typography-body-m2-bold-font-weight);
   line-height: var(--seed-semantic-typography-body-m2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-body-m2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-body-m2-regular {
-  font-size: var(--seed-semantic-typography-body-m2-regular-dimension);
+  font-size: var(--seed-semantic-typography-body-m2-regular-font-size);
   font-weight: var(--seed-semantic-typography-body-m2-regular-font-weight);
   line-height: var(--seed-semantic-typography-body-m2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-body-m2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-caption1-bold {
-  font-size: var(--seed-semantic-typography-caption1-bold-dimension);
+  font-size: var(--seed-semantic-typography-caption1-bold-font-size);
   font-weight: var(--seed-semantic-typography-caption1-bold-font-weight);
   line-height: var(--seed-semantic-typography-caption1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-caption1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-caption1-regular {
-  font-size: var(--seed-semantic-typography-caption1-regular-dimension);
+  font-size: var(--seed-semantic-typography-caption1-regular-font-size);
   font-weight: var(--seed-semantic-typography-caption1-regular-font-weight);
   line-height: var(--seed-semantic-typography-caption1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-caption1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-caption2-bold {
-  font-size: var(--seed-semantic-typography-caption2-bold-dimension);
+  font-size: var(--seed-semantic-typography-caption2-bold-font-size);
   font-weight: var(--seed-semantic-typography-caption2-bold-font-weight);
   line-height: var(--seed-semantic-typography-caption2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-caption2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-caption2-regular {
-  font-size: var(--seed-semantic-typography-caption2-regular-dimension);
+  font-size: var(--seed-semantic-typography-caption2-regular-font-size);
   font-weight: var(--seed-semantic-typography-caption2-regular-font-weight);
   line-height: var(--seed-semantic-typography-caption2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-caption2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label1-bold {
-  font-size: var(--seed-semantic-typography-label1-bold-dimension);
+  font-size: var(--seed-semantic-typography-label1-bold-font-size);
   font-weight: var(--seed-semantic-typography-label1-bold-font-weight);
   line-height: var(--seed-semantic-typography-label1-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label1-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label1-regular {
-  font-size: var(--seed-semantic-typography-label1-regular-dimension);
+  font-size: var(--seed-semantic-typography-label1-regular-font-size);
   font-weight: var(--seed-semantic-typography-label1-regular-font-weight);
   line-height: var(--seed-semantic-typography-label1-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label1-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label2-bold {
-  font-size: var(--seed-semantic-typography-label2-bold-dimension);
+  font-size: var(--seed-semantic-typography-label2-bold-font-size);
   font-weight: var(--seed-semantic-typography-label2-bold-font-weight);
   line-height: var(--seed-semantic-typography-label2-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label2-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label2-regular {
-  font-size: var(--seed-semantic-typography-label2-regular-dimension);
+  font-size: var(--seed-semantic-typography-label2-regular-font-size);
   font-weight: var(--seed-semantic-typography-label2-regular-font-weight);
   line-height: var(--seed-semantic-typography-label2-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label2-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label3-bold {
-  font-size: var(--seed-semantic-typography-label3-bold-dimension);
+  font-size: var(--seed-semantic-typography-label3-bold-font-size);
   font-weight: var(--seed-semantic-typography-label3-bold-font-weight);
   line-height: var(--seed-semantic-typography-label3-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label3-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label3-regular {
-  font-size: var(--seed-semantic-typography-label3-regular-dimension);
+  font-size: var(--seed-semantic-typography-label3-regular-font-size);
   font-weight: var(--seed-semantic-typography-label3-regular-font-weight);
   line-height: var(--seed-semantic-typography-label3-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label3-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label4-bold {
-  font-size: var(--seed-semantic-typography-label4-bold-dimension);
+  font-size: var(--seed-semantic-typography-label4-bold-font-size);
   font-weight: var(--seed-semantic-typography-label4-bold-font-weight);
   line-height: var(--seed-semantic-typography-label4-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label4-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label4-regular {
-  font-size: var(--seed-semantic-typography-label4-regular-dimension);
+  font-size: var(--seed-semantic-typography-label4-regular-font-size);
   font-weight: var(--seed-semantic-typography-label4-regular-font-weight);
   line-height: var(--seed-semantic-typography-label4-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label4-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label5-bold {
-  font-size: var(--seed-semantic-typography-label5-bold-dimension);
+  font-size: var(--seed-semantic-typography-label5-bold-font-size);
   font-weight: var(--seed-semantic-typography-label5-bold-font-weight);
   line-height: var(--seed-semantic-typography-label5-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label5-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label5-regular {
-  font-size: var(--seed-semantic-typography-label5-regular-dimension);
+  font-size: var(--seed-semantic-typography-label5-regular-font-size);
   font-weight: var(--seed-semantic-typography-label5-regular-font-weight);
   line-height: var(--seed-semantic-typography-label5-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label5-regular-letter-spacing);
 }
 
 .seed-semantic-typography-label6-bold {
-  font-size: var(--seed-semantic-typography-label6-bold-dimension);
+  font-size: var(--seed-semantic-typography-label6-bold-font-size);
   font-weight: var(--seed-semantic-typography-label6-bold-font-weight);
   line-height: var(--seed-semantic-typography-label6-bold-line-height);
   letter-spacing: var(--seed-semantic-typography-label6-bold-letter-spacing);
 }
 
 .seed-semantic-typography-label6-regular {
-  font-size: var(--seed-semantic-typography-label6-regular-dimension);
+  font-size: var(--seed-semantic-typography-label6-regular-font-size);
   font-weight: var(--seed-semantic-typography-label6-regular-font-weight);
   line-height: var(--seed-semantic-typography-label6-regular-line-height);
   letter-spacing: var(--seed-semantic-typography-label6-regular-letter-spacing);
