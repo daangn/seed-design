@@ -1,46 +1,34 @@
-import React from 'react';
-import clsx from 'clsx';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import styles from "./styles.module.css";
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg: React.ComponentType<React.ComponentProps<"svg">>;
   description: JSX.Element;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Human',
-    Svg: require('@site/static/img/stand.svg').default,
-    description: (
-      <>
-        사람
-      </>
-    ),
+    title: "Penguin",
+    Svg: require("@site/static/img/stand.svg").default,
+    description: <></>,
   },
   {
-    title: 'Evolving',
-    Svg: require('@site/static/img/walk.svg').default,
-    description: (
-      <>
-        야옹
-      </>
-    ),
+    title: "is",
+    Svg: require("@site/static/img/walk.svg").default,
+    description: <></>,
   },
   {
-    title: 'Listen',
-    Svg: require('@site/static/img/drink.svg').default,
-    description: (
-      <>
-        Drinking
-      </>
-    ),
+    title: "Awesome",
+    Svg: require("@site/static/img/drink.svg").default,
+    description: <></>,
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({ title, Svg, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>

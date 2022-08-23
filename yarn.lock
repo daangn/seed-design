@@ -3568,6 +3568,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@zag-js/dom-utils@npm:^0.1.10":
+  version: 0.1.10
+  resolution: "@zag-js/dom-utils@npm:0.1.10"
+  dependencies:
+    "@zag-js/types": 0.2.4
+  checksum: 280284ca5bbe8fc0e3e90826510f1af0ff5d3dc57b65e513cca97fcb36c18c7a7c20615a5d9583696f4467a741789f3d00966f915770ad43aa90547774865db9
+  languageName: node
+  linkType: hard
+
 "@zag-js/interact-outside@npm:0.1.3":
   version: 0.1.3
   resolution: "@zag-js/interact-outside@npm:0.1.3"
@@ -8707,6 +8716,7 @@ __metadata:
     "@types/node": ^12.12.21
     "@types/react": ^18.0.0
     "@types/react-dom": ^18.0.0
+    "@zag-js/dom-utils": ^0.1.10
     "@zag-js/menu": ^0.1.13
     "@zag-js/react": ^0.1.15
     next: latest
