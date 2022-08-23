@@ -1,19 +1,24 @@
 {
-  "name": "design-system",
+  "name": "@seed-design/project",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/machines/*",
+    "examples/*",
+    "web"
   ],
-  "resolutions": {
-    "typescript": "^4.2.3"
-  },
   "scripts": {
-    "build:all": "yarn workspaces foreach -t -p run build"
+    "build": "ultra -r build",
+    "build:dts": "ultra -r --build build:dts",
+    "clean": "ultra -r clean",
+    "dev": "ultra -r dev"
   },
   "devDependencies": {
     "@changesets/cli": "^2.17.0",
-    "typescript": "^4.4.2"
+    "prettier": "^2.7.1",
+    "typescript": "^4.6.3",
+    "ultra-runner": "^3.10.5"
   },
-  "packageManager": "yarn@3.1.0"
+  "packageManager": "yarn@3.2.2"
 }

@@ -1,0 +1,19 @@
+{
+  "name": "@seed-design/stylesheet",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/stylesheet"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./global.css": "./global.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "global.css"
+  ]
+}

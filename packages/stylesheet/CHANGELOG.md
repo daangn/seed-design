@@ -1,4 +1,4 @@
-# @seed-design/design-token
+# @seed-design/stylesheet
 
 ## 1.0.0
 ### Major Changes

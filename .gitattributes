@@ -1,4 +1,2 @@
-.yarn/    linguist-vendored
-.pnp.js   binary linguist-vendored
-
-**/tap-snapshots/   linguist-generated
+.yarn/**           linguist-vendored
+.yarn/releases/*   binary linguist-vendored

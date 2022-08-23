@@ -1,4 +1,8 @@
-# @seed-design/design-token
+---
+sidebar_position: 1
+---
+
+# Design Token
 
 디자인 토큰이 무엇인가요?
 

@@ -1,0 +1,25 @@
+{
+  "name": "next-ts",
+  "private": true,
+  "scripts": {
+    "dev": "next --port=6007",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@seed-design/stylesheet": "^1.0.0-beta.4",
+    "@zag-js/dom-utils": "^0.1.10",
+    "@zag-js/menu": "^0.1.13",
+    "@zag-js/react": "^0.1.15",
+    "next": "latest",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.21",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.7.4"
+  }
+}

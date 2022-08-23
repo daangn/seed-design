@@ -1,12 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./lib",
-    "declaration": true,
-    "declarationDir": "./lib"
-  },
-  "include": [
-    "src/**/*"
-  ]
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "rootDir": "src",
+    "outDir": "lib"
+  }
 }

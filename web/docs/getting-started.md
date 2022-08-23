@@ -1,20 +1,16 @@
-# SEED Design
+---
+sidebar_position: 1
+---
 
-이 곳을 진실의 원천으로 삼고 동기화 작업에서 해방됩시다.
+# Getting Started
 
-- 🎨 컬러 스킴 라이브러리 제공
-- ⚙️ 토큰에 대한 TypeScript 지원
-- 🔄 Figma 프로토타이핑과 애플리케이션 형상 동기화
+SEED Design은 UX 가이드라인, 디자인 토큰, UI 패턴을 제공하는 오픈소스 디자인 시스템입니다.
 
-## Karrot UI → Seed Design 주요 변경 사항
+## 디자인 토큰 설치
 
-- 프로젝트/디자인 시스템 명이 **Seed Design**으로 리브랜딩 됩니다.
-- 패키지 명이 `@seed-design/*` 으로 변경됩니다.
-- `@karrot-ui/*` packages are deprecated.
-- `color-scheme: light dark` 지원이 기본값이 됩니다.
-- 디자인 토큰이 [KDT](https://github.com/daangn/kdt/tree/main/language) 의미론을 따릅니다.
-
-## 공통 가이드
+```bash
+yarn add @seed-design/stylesheet
+```
 
 ### HTML 메타태그 삽입하기
 
@@ -104,7 +100,3 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
   apply();
 })();
 ```
-
-## 사용법 (공통)
-
-[`packages`](./packages)에 있는 패키지들 사용법은 각 워크스페이스 `README.md`를 참고해주세요.
