@@ -2760,9 +2760,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/web@workspace:packages/web":
+"@seed-design/web@workspace:web":
   version: 0.0.0-use.local
-  resolution: "@seed-design/web@workspace:packages/web"
+  resolution: "@seed-design/web@workspace:web"
   dependencies:
     "@docusaurus/core": 2.0.1
     "@docusaurus/module-type-aliases": 2.0.1

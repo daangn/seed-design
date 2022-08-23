@@ -2,7 +2,7 @@
   "name": "next-ts",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next --port=6007",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc"

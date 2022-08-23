@@ -1,10 +1,17 @@
+.menuTrigger {
+  --seed-scale-dimension-size-65: 6px;
+  --seed-scale-dimension-size-130: 13px;
+  --seed-scale-dimension-size-200: 20px;
+}
+
 .menuTrigger[data-part="trigger"] {
   border: none;
   cursor: pointer;
   background-color: var(--seed-semantic-color-primary);
   color: var(--seed-semantic-color-on-primary);
   border-radius: var(--seed-scale-dimension-size-65);
-  padding: var(--seed-scale-dimension-size-130) var(--seed-scale-dimension-size-200);
+  padding: var(--seed-scale-dimension-size-130)
+    var(--seed-scale-dimension-size-200);
   font-size: var(--seed-semantic-typography-label3-bold-font-size);
   font-weight: var(--seed-semantic-typography-label3-bold-font-weight);
   letter-spacing: var(--seed-semantic-typography-label3-bold-letter-spacing);
