@@ -13,7 +13,7 @@ module.exports = {
     "json-format", 
     "simple-import-sort",
   ],
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'public', 'node_modules', '.cache', '.vscode'],
   rules: {
     "@typescript-eslint/consistent-type-imports": [
       "error",

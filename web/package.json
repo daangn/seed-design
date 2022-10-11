@@ -1,18 +1,20 @@
 {
   "name": "web",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "web",
-  "author": "junghyeonsu",
   "keywords": [
     "gatsby"
   ],
+  "author": "junghyeonsu",
   "scripts": {
-    "develop": "gatsby develop",
-    "dev": "gatsby develop",
     "build": "gatsby build",
-    "serve": "gatsby serve",
     "clean": "gatsby clean",
+    "dev": "gatsby develop",
+    "develop": "gatsby develop",
+    "format": "eslint --fix . --ext .ts,.tsx,.json",
+    "lint": "eslint . --ext .ts,.tsx,.json",
+    "serve": "gatsby serve",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
