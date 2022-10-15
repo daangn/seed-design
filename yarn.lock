@@ -2538,7 +2538,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/mdx@npm:^2.1.1":
+"@mdx-js/mdx@npm:^2.1.1, @mdx-js/mdx@npm:^2.1.5":
   version: 2.1.5
   resolution: "@mdx-js/mdx@npm:2.1.5"
   dependencies:
@@ -17176,6 +17176,7 @@ resolve@^1.10.0:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@mdx-js/mdx": ^2.1.5
     "@mdx-js/react": ^2.1.5
     "@types/node": ^17.0.45
     "@types/react": ^18.0.20

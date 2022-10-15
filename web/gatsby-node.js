@@ -1,5 +1,7 @@
 const path = require("path");
 
+const templateContent = path.resolve(`./src/templates/TemplateContent.tsx`);
+
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     query {
@@ -9,6 +11,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           frontmatter {
             slug
           }
+          internal {
+            contentFilePath
+          }
         }
       }
     }
@@ -17,7 +22,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   result.data.allMdx.nodes.forEach((node) => {
     createPage({
       path: node.frontmatter.slug,
-      component: path.resolve(`./src/templates/TemplatePost.tsx`),
+      component: `${templateContent}?__contentFilePath=${node.internal.contentFilePath}`,
       context: { id: node.id },
     });
   });

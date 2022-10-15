@@ -15,6 +15,7 @@ module.exports = {
   ],
   ignorePatterns: ['.eslintrc.js', 'public', 'node_modules', '.cache', '.vscode'],
   rules: {
+    "no-unused-vars": "error",
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {

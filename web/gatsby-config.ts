@@ -9,16 +9,14 @@ const config: GatsbyConfig = {
   siteMetadata: SITE_METADATA,
   graphqlTypegen: true,
   plugins: [
-    `gatsby-plugin-mdx`,
+    "gatsby-plugin-mdx",
+    "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `pages`,
+        name: `content`,
         path: `${__dirname}/content`,
       },
-    },
-    {
-      resolve: "gatsby-plugin-mdx-frontmatter",
     },
     {
       resolve: "gatsby-plugin-typegen",
