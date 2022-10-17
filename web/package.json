@@ -20,7 +20,9 @@
   "dependencies": {
     "@mdx-js/mdx": "^2.1.5",
     "@mdx-js/react": "^2.1.5",
+    "@seed-design/stylesheet": "workspace:^",
     "gatsby": "^4.23.1",
+    "gatsby-plugin-html-attributes": "^1.0.5",
     "gatsby-plugin-image": "^2.24.0",
     "gatsby-plugin-mdx": "^4.3.0",
     "gatsby-plugin-mdx-frontmatter": "^0.0.4",

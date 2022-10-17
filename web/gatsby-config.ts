@@ -43,6 +43,14 @@ const config: GatsbyConfig = {
         },
       },
     },
+    {
+      resolve: "gatsby-plugin-html-attributes",
+      options: {
+        "data-seed": "light-only",
+        "data-seed-scale-color": "light",
+        "data-seed-scale-letter-spacing": "ios",
+      },
+    },
   ],
 };
 
