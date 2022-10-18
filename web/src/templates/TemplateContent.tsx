@@ -1,3 +1,4 @@
+import type { HeadFC } from "gatsby";
 import React from "react";
 
 import Layout from "../components/Layout";
@@ -13,5 +14,7 @@ const TemplateContent: React.FC<TemplatePostProps> = ({ children }) => {
     </Layout>
   );
 };
+
+export const Head: HeadFC = () => <title>Component page</title>;
 
 export default TemplateContent;

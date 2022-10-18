@@ -1,4 +1,5 @@
 import "@seed-design/stylesheet/global.css";
+import "./src/styles/global.css";
 
 import React from "react";
 

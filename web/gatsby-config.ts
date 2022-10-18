@@ -18,6 +18,7 @@ const config: GatsbyConfig = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 900,
+              wrapperStyle: `margin: 25px 0px`,
             },
           },
         ],
@@ -43,6 +44,7 @@ const config: GatsbyConfig = {
         },
       },
     },
+    "gatsby-plugin-vanilla-extract",
     {
       resolve: "gatsby-plugin-html-attributes",
       options: {
