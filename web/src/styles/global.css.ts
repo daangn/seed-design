@@ -21,7 +21,6 @@ globalStyle(
     padding: "0",
     border: "0",
     fontSize: "100%",
-    font: "inherit",
     verticalAlign: "baseline",
     fontFamily:
       '-apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"',
