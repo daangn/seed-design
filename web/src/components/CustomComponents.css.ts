@@ -4,7 +4,7 @@ import { style } from "@vanilla-extract/css";
 import * as u from "../styles/utils.css";
 
 export const h1 = style({
-  fontSize: "72px",
+  fontSize: "66px",
   fontWeight: 700,
 
   marginTop: "35px",

@@ -35,12 +35,6 @@ export const customComponents = {
     />
   ),
 
-  // img: (props: Object) => {
-  //   console.log("props", props);
-
-  //   return <img {...props} />;
-  // },
-
   ol: (props: Object) => <ol className={clsx(style.ol)} {...props} />,
 
   li: (props: Object) => (

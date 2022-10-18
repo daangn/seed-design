@@ -10,7 +10,18 @@ interface TemplatePostProps {
 const TemplateContent: React.FC<TemplatePostProps> = ({ children }) => {
   return (
     <Layout>
-      <main style={{ maxWidth: "900px", margin: "auto" }}>{children}</main>
+      <main
+        style={{
+          maxWidth: "900px",
+          margin: "50px auto",
+          wordBreak: "keep-all",
+          overflowWrap: "break-word",
+          lineHeight: "1.7",
+          letterSpacing: "-0.04px",
+        }}
+      >
+        {children}
+      </main>
     </Layout>
   );
 };
