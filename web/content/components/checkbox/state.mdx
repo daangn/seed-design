@@ -10,6 +10,8 @@ slug: /components/checkbox/state
 
 </TitleDescription>
 
+<Spacer />
+
 ## Anatomy
 
 ![checkbox anatomy](./checkbox-anatomy.png)
@@ -17,6 +19,8 @@ slug: /components/checkbox/state
 1. Root : 체크박스 컴포넌트를 감싸는 최소단위 컨테이너 영역
 2. Control : 체크박스의 상태를 나타내는 시각 요소
 3. Label : 체크박스에 대한 정보를 전달하는 라벨
+
+<Spacer />
 
 ## States & Options
 
@@ -87,3 +91,60 @@ Option : 컴포넌트에 영향을 주는 외부 상황에 의해 결정되는 �
 	</TableBody>
 </Table>
 
+<Spacer />
+
+## Behaviors
+
+### Keyboard
+
+<Card>
+	<CardImageCell>
+		![checkbox behavior focus](./checkbox-behavior-1.png)
+	</CardImageCell>
+	<CardDescriptionCell>
+		<CardTitle>Focus</CardTitle>
+		<CardDescription>
+			<Keyboard>tab</Keyboard>키를 통해 포커스를 다음 Checkbox로 옮길 수 있습니다
+		</CardDescription>
+	</CardDescriptionCell>
+</Card>
+
+<Card>
+	<CardImageCell>
+		![checkbox behavior focus](./checkbox-behavior-2.png)
+	</CardImageCell>
+	<CardDescriptionCell>
+		<CardTitle>Checked ON/OFF</CardTitle>
+		<CardDescription>
+			<Keyboard>←</Keyboard><Keyboard>→</Keyboard>키를 통해 Tab item에 Focus 이동 시
+			Contents가 전환되지 않습니다. Tab item에 Focus된
+			상태에서<Keyboard>space</Keyboard><Keyboard>↩</Keyboard>키를 통해 해당 Tab item의
+			Contents로 전환할 수 있습니다.
+		</CardDescription>
+	</CardDescriptionCell>
+</Card>
+
+<Card>
+	<CardImageCell>
+		![checkbox behavior focus](./checkbox-behavior-3.png)
+	</CardImageCell>
+	<CardDescriptionCell>
+		<CardTitle>Disabled</CardTitle>
+		<CardDescription>
+			포커스 이동시 Disabled상태인 Checkbox는 인식하지 않습니다
+		</CardDescription>
+	</CardDescriptionCell>
+</Card>
+
+<Card>
+	<CardImageCell>
+		![checkbox behavior focus](./checkbox-behavior-4.png)
+	</CardImageCell>
+	<CardDescriptionCell>
+		<CardTitle>Indeterminate</CardTitle>
+		<CardDescription>
+			Checkbox가 Indeterminate 상태일 경우
+			<Keyboard>space</Keyboard>키를 통해 Checked False로 전환합니다
+		</CardDescription>
+	</CardDescriptionCell>
+</Card>

@@ -8,22 +8,22 @@ export const h1 = style({
   fontWeight: 700,
 
   marginTop: "35px",
-  marginBottom: "10px",
+  marginBottom: "20px",
 });
 
 export const h2 = style({
   marginTop: "25px",
-  marginBottom: "10px",
+  marginBottom: "20px",
 });
 
 export const h3 = style({
   marginTop: "20px",
-  marginBottom: "10px",
+  marginBottom: "20px",
 });
 
 export const h4 = style({
   marginTop: "15px",
-  marginBottom: "10px",
+  marginBottom: "20px",
 });
 
 export const ol = style([

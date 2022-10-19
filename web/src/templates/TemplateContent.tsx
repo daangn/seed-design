@@ -2,7 +2,7 @@ import type { HeadFC } from "gatsby";
 import React from "react";
 
 import ContentCard from "../components/ContentCard";
-import Darwer from "../components/Darwer";
+import Darwer from "../components/Drawer";
 import Layout from "../components/Layout";
 
 interface TemplatePostProps {
@@ -22,7 +22,11 @@ const TemplateContent: React.FC<TemplatePostProps> = ({
     <Layout>
       <Darwer>
         {pageContext.allMdx.nodes.map((node) => (
-          <ContentCard currentSlug={pageContext.slug} content={node} />
+          <ContentCard
+            key={node.frontmatter?.slug}
+            currentSlug={pageContext.slug}
+            content={node}
+          />
         ))}
       </Darwer>
       <main>

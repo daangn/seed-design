@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 import * as React from "react";
 
 import ContentCard from "../components/ContentCard";
-import Drawer from "../components/Darwer";
+import Drawer from "../components/Drawer";
 import * as style from "./index.css";
 
 export const query = graphql`
@@ -28,7 +28,7 @@ const IndexPage = ({ data }: IndexPageProps) => {
     <div className={clsx(style.container)}>
       <Drawer>
         {data.allMdx.nodes.map((node) => (
-          <ContentCard content={node} />
+          <ContentCard key={node.frontmatter?.slug} content={node} />
         ))}
       </Drawer>
       <h1 className={clsx(style.title)}>Seed Design</h1>
