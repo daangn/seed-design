@@ -22,3 +22,68 @@ slug: /components/checkbox/state
 
 State : 컴포넌트 자체가 가지는 상태값<br />
 Option : 컴포넌트에 영향을 주는 외부 상황에 의해 결정되는 상태값
+
+<Table>
+	<TableHead>
+		<TableRow>
+			<TableData>State</TableData>
+			<TableData>Value</TableData>
+			<TableData>Description</TableData>
+		</TableRow>
+	</TableHead>
+	<TableBody>
+		<TableRow>
+			<TableData>Checked</TableData>
+			<TableData>True / False</TableData>
+			<TableData>Checkbox가 체크된 상태일 때 True로 전환</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Hovered</TableData>
+			<TableData>True / False</TableData>
+			<TableData>PC환경에서 마우스 오버 상태일 때 True로 전환</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Pressed</TableData>
+			<TableData>True / False</TableData>
+			<TableData>마우스 또는 터치로 클릭 중인 상태일 때 True로 전환</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Focused</TableData>
+			<TableData>True / False</TableData>
+			<TableData>Checkbox 영역을 인식하고 상호작용하고 있는 상태일 때 True로 전환</TableData>
+		</TableRow>
+	</TableBody>
+</Table>
+
+<Table>
+	<TableHead>
+		<TableRow>
+			<TableData>Option</TableData>
+			<TableData>Value</TableData>
+			<TableData>Description</TableData>
+		</TableRow>
+	</TableHead>
+	<TableBody>
+		<TableRow>
+			<TableData>Disabled</TableData>
+			<TableData>True / False</TableData>
+			<TableData>True일 경우, Checkbox가 제어불가능한 상태. Focused state가 작동하지 않음</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Indeterminate</TableData>
+			<TableData>True / False</TableData>
+			<TableData>True일 경우, Checked 여부를 결정할 수 없음을 나타냄</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Invalid</TableData>
+			<TableData>True / False</TableData>
+			<TableData>True일 경우, 유효하지 않은 값임을 나타냄</TableData>
+		</TableRow>
+		<TableRow>
+			<TableData>Read Only</TableData>
+			<TableData>True / False</TableData>
+			<TableData>True일 경우, Checkbox가 제어불가능한 상태이나 Focused state는 작동하는 상태</TableData>
+		</TableRow>
+	</TableBody>
+</Table>
+

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import React from "react";
 
 import * as style from "./CustomComponents.css";
+import * as table from "./Table";
 import TitleDescription from "./TitleDescription";
 
 export const customComponents = {
@@ -46,4 +47,10 @@ export const customComponents = {
 
   /* MDX 전용 컴포넌트s */
   TitleDescription,
+
+  Table: table.Table,
+  TableHead: table.TableHead,
+  TableBody: table.TableBody,
+  TableRow: table.TableRow,
+  TableData: table.TableData,
 };
