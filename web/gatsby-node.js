@@ -31,7 +31,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     createPage({
       path: node.frontmatter.slug,
       component: `${templateContent}?__contentFilePath=${node.internal.contentFilePath}`,
-      context: { id: node.id },
+      context: {
+        id: node.id,
+        slug: node.frontmatter.slug,
+        allMdx: result.data.allMdx,
+      },
     });
   });
 };

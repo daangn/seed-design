@@ -2527,6 +2527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@karrotmarket/karrot-ui-icon@npm:^0.0.0-20220907.1":
+  version: 0.0.0-20220907.1
+  resolution: "@karrotmarket/karrot-ui-icon@npm:0.0.0-20220907.1"
+  checksum: 9ec5a229ceedfe5d4547f8e2af780423f40b0375def130eae0c8687b4bc1d7d333ceaba673a73359aa5b3750cce5b05e5dc3840a42447f862fc14086b3384f97
+  languageName: node
+  linkType: hard
+
 "@lezer/common@npm:^0.15.0, @lezer/common@npm:^0.15.7":
   version: 0.15.12
   resolution: "@lezer/common@npm:0.15.12"
@@ -3373,6 +3380,8 @@ __metadata:
   resolution: "@seed-design/project@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
+    "@karrotmarket/karrot-ui-icon": ^0.0.0-20220907.1
+    "@vanilla-extract/recipes": ^0.2.5
     prettier: ^2.7.1
     typescript: ^4.6.3
     ultra-runner: ^3.10.5
@@ -4237,6 +4246,15 @@ __metadata:
   version: 1.0.3
   resolution: "@vanilla-extract/private@npm:1.0.3"
   checksum: 866a71ba6804edeb0735684e7723ba78f5cf0bb40d4fb538fe6bf7d73928099e341312337b2a510ac0ce96ff8a4b39eb7f7a5fad0c842532353dd20e7278f29b
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/recipes@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@vanilla-extract/recipes@npm:0.2.5"
+  peerDependencies:
+    "@vanilla-extract/css": ^1.0.0
+  checksum: 474ab445f4166bded294d5f77e02ba9b10ec6effe08364c03396e2802848d904a2a1dd9b20466405ebda93449c5a634c2fe99cd1d12888b0f84accf4d2d72666
   languageName: node
   linkType: hard
 

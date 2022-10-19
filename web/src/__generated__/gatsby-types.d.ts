@@ -3347,5 +3347,10 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
+type ContentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type ContentsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly slug: string | null } | null }> } };
+
 
 }
