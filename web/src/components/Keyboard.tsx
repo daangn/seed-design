@@ -10,7 +10,12 @@ interface KeyboardProps {
 export default function Keyboard({ children }: KeyboardProps) {
   if (children === "↩") {
     return (
-      <kbd className={clsx(style.rightArrowCurvingLeftKey)}>{children}</kbd>
+      <kbd
+        className={clsx(style.rightArrowCurvingLeftKey)}
+        aria-label="Right Arrow Curving Left"
+      >
+        {children}
+      </kbd>
     );
   }
 
