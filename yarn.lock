@@ -3380,8 +3380,6 @@ __metadata:
   resolution: "@seed-design/project@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
-    "@karrotmarket/karrot-ui-icon": ^0.0.0-20220907.1
-    "@vanilla-extract/recipes": ^0.2.5
     prettier: ^2.7.1
     typescript: ^4.6.3
     ultra-runner: ^3.10.5
@@ -17833,6 +17831,7 @@ resolve@^1.10.0:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@karrotmarket/karrot-ui-icon": ^0.0.0-20220907.1
     "@mdx-js/mdx": ^2.1.5
     "@mdx-js/react": ^2.1.5
     "@seed-design/design-token": "workspace:^"
@@ -17843,6 +17842,7 @@ resolve@^1.10.0:
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@typescript-eslint/parser": ^5.39.0
     "@vanilla-extract/css": ^1.9.1
+    "@vanilla-extract/recipes": ^0.2.5
     "@vanilla-extract/webpack-plugin": ^2.2.0
     clsx: ^1.2.1
     eslint: ^8.24.0
