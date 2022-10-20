@@ -16,6 +16,13 @@ export const query = graphql`
         }
       }
     }
+    ogimage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
+      original {
+        height
+        src
+        width
+      }
+    }
   }
 `;
 
@@ -38,4 +45,12 @@ const IndexPage = ({ data }: IndexPageProps) => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => <title>Home Page</title>;
+export const Head: HeadFC<IndexPageProps["data"]> = ({ data }) => {
+  return (
+    <>
+      <title>Home Page</title>
+      <meta property="description" content="Seed Design" />
+      <meta property="og:image" content={data.ogimage?.original?.src || ""} />
+    </>
+  );
+};

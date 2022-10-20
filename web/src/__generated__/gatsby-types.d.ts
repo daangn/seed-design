@@ -3350,7 +3350,7 @@ type WebPOptions = {
 type ContentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ContentsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly slug: string | null } | null }> } };
+type ContentsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly slug: string | null } | null }> }, readonly ogimage: { readonly original: { readonly height: number | null, readonly src: string | null, readonly width: number | null } | null } | null };
 
 
 }
