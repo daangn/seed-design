@@ -1,3 +1,4 @@
+import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
 import * as u from "../styles/utils.css";
@@ -13,6 +14,9 @@ export const documentCard = style([
 
 export const documentCardImage = style({
   minWidth: "500px",
+  borderRadius: "8px",
+  border: `1px solid ${vars.$scale.color.gray300}`,
+  overflow: "hidden",
 });
 
 export const documentCardDescriptionCell = style({});

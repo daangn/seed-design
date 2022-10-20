@@ -1652,7 +1652,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10, @babel/template@npm:^7.18.6":
+"@babel/template@npm:^7.12.13, @babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10, @babel/template@npm:^7.18.6":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
   dependencies:
@@ -4203,6 +4203,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vanilla-extract/babel-plugin@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@vanilla-extract/babel-plugin@npm:1.2.0"
+  dependencies:
+    "@babel/core": ^7.13.10
+    "@babel/template": ^7.12.13
+    "@vanilla-extract/integration": ^5.0.0
+  checksum: a9871e9d374887e58d285ff3c628dd76af82116a21e601164c73182b3c0548ce329b75a24d10473e7731872cdbccd98038a2a1dd0d8675ed61ce6df1caa97093
+  languageName: node
+  linkType: hard
+
 "@vanilla-extract/css@npm:^1.7.2, @vanilla-extract/css@npm:^1.9.1":
   version: 1.9.1
   resolution: "@vanilla-extract/css@npm:1.9.1"
@@ -4219,6 +4230,21 @@ __metadata:
     media-query-parser: ^2.0.2
     outdent: ^0.8.0
   checksum: 91127d8e2eaaf521b155a39fb6a93e0fbfe5ddd5a8bdf1c732aba278cfdb9505cba24c755a982bc47682b9ff582a06d11e51e6f8d810404164ba098799ce6800
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/integration@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "@vanilla-extract/integration@npm:5.0.1"
+  dependencies:
+    "@vanilla-extract/css": ^1.7.2
+    esbuild: ^0.11.16
+    eval: 0.1.6
+    find-up: ^5.0.0
+    javascript-stringify: ^2.0.1
+    lodash: ^4.17.21
+    outdent: ^0.8.0
+  checksum: 3705151cd549669ab2e5287c5804d039cb936c89617ab800afd1638b3b101d2186461b9d24a7ea8552770ce61ca2dcbf8893d470ae8dba3dfa3cbb6436e46aaa
   languageName: node
   linkType: hard
 
@@ -17841,6 +17867,7 @@ resolve@^1.10.0:
     "@types/react-dom": ^18.0.6
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@typescript-eslint/parser": ^5.39.0
+    "@vanilla-extract/babel-plugin": ^1.2.0
     "@vanilla-extract/css": ^1.9.1
     "@vanilla-extract/recipes": ^0.2.5
     "@vanilla-extract/webpack-plugin": ^2.2.0

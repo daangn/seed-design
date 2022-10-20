@@ -5,7 +5,7 @@ import * as React from "react";
 
 import ContentCard from "../components/ContentCard";
 import Drawer from "../components/Drawer";
-import * as style from "./index.css";
+import * as style from "../styles/index.css";
 
 export const query = graphql`
   query Contents {
