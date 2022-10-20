@@ -1,12 +1,20 @@
-import type { GatsbyConfig } from "gatsby";
-import path from "path";
+const path = require(`path`);
 
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
   siteUrl: `https://www.yourdomain.tld`, // TODO:
 });
 
-const config: GatsbyConfig = {
+const wrapESMPlugin = (name) =>
+  function wrapESM(opts) {
+    return async (...args) => {
+      const mod = await import(name);
+      const plugin = mod.default(opts);
+      return plugin(...args);
+    };
+  };
+
+module.exports = {
   siteMetadata: SITE_METADATA,
   graphqlTypegen: true,
   plugins: [
@@ -22,6 +30,28 @@ const config: GatsbyConfig = {
             },
           },
         ],
+        mdxOptions: {
+          rehypePlugins: [
+            [wrapESMPlugin(`rehype-slug`)],
+            [
+              wrapESMPlugin(`rehype-autolink-headings`),
+              {
+                behavior: "append",
+                content: {
+                  type: `element`,
+                  tagName: `span`,
+                  properties: { className: `heading-anchor-icon` },
+                  children: [
+                    {
+                      type: `text`,
+                      value: `#`,
+                    },
+                  ],
+                },
+              },
+            ],
+          ],
+        },
       },
     },
     "gatsby-plugin-mdx-frontmatter",
@@ -53,7 +83,4 @@ const config: GatsbyConfig = {
         "data-seed-scale-letter-spacing": "ios",
       },
     },
-  ],
 };
-
-export default config;

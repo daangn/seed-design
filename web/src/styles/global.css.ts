@@ -46,3 +46,22 @@ globalStyle("a", {
   textDecoration: "none",
   color: "inherit",
 });
+
+globalStyle(
+  "h1 .heading-anchor-icon, h2 .heading-anchor-icon, h3 .heading-anchor-icon",
+  {
+    opacity: 0,
+    marginLeft: "10px",
+    color: vars.$scale.color.green600,
+    transition: "all 0.2s ease-in-out",
+  },
+);
+
+globalStyle(
+  "h1:hover .heading-anchor-icon, h2:hover .heading-anchor-icon, h3:hover .heading-anchor-icon",
+  {
+    opacity: 1,
+  },
+);
+
+globalStyle(".heading-anchor-icon", {});

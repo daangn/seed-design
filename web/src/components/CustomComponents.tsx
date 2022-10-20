@@ -5,7 +5,6 @@ import React from "react";
 import * as style from "./CustomComponents.css";
 import * as card from "./DocumentCard";
 import Keyboard from "./Keyboard";
-import Spacer from "./Spacer";
 import * as table from "./Table";
 import TitleDescription from "./TitleDescription";
 
@@ -51,8 +50,6 @@ export const customComponents = {
   /* MDX 전용 컴포넌트s */
   TitleDescription,
   Keyboard,
-
-  Spacer,
 
   Table: table.Table,
   TableHead: table.TableHead,

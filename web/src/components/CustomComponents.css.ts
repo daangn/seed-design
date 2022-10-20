@@ -8,11 +8,11 @@ export const h1 = style({
   fontWeight: 700,
 
   marginTop: "35px",
-  marginBottom: "20px",
+  marginBottom: "10px",
 });
 
 export const h2 = style({
-  marginTop: "25px",
+  marginTop: "55px",
   marginBottom: "20px",
 });
 

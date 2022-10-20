@@ -4,6 +4,9 @@ import { recipe } from "@vanilla-extract/recipes";
 
 import * as u from "../styles/utils.css";
 
+const TRANSITION_DURATION = "0.25s";
+const TRANSITION_TIMING_FUNCTION = "ease";
+
 export const drawerButton = style([
   u.cursorPointer,
   u.middleLayer,
@@ -23,7 +26,7 @@ export const drawer = recipe({
       top: 0,
       left: 0,
 
-      transition: "transform 0.3s ease, z-index 0.3s ease",
+      transition: `transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}, z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}`,
 
       width: "300px",
       height: "100vh",
@@ -63,7 +66,7 @@ export const overlay = recipe({
       height: "100vh",
 
       backgroundColor: vars.$scale.color.gray900,
-      transition: "opacity 0.3s ease, z-index 0.3s ease",
+      transition: `opacity ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}, z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}`,
     },
   ],
 
