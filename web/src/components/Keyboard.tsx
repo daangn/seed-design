@@ -8,5 +8,11 @@ interface KeyboardProps {
 }
 
 export default function Keyboard({ children }: KeyboardProps) {
-  return <span className={clsx(style.keyboard)}>{children}</span>;
+  if (children === "↩") {
+    return (
+      <kbd className={clsx(style.rightArrowCurvingLeftKey)}>{children}</kbd>
+    );
+  }
+
+  return <kbd className={clsx(style.keyboard)}>{children}</kbd>;
 }

@@ -24,14 +24,14 @@ export function DocumentCardDescriptionCell({ children }: PropsWithChildren) {
 
 export function DocumentCardTitle({ children }: PropsWithChildren) {
   return (
-    <h3
+    <h4
       className={clsx(
         style.documentCardTitle,
-        classNames.$semantic.typography.title3Regular,
+        classNames.$semantic.typography.h4,
       )}
     >
       {children}
-    </h3>
+    </h4>
   );
 }
 
