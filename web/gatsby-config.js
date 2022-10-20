@@ -83,4 +83,5 @@ module.exports = {
         "data-seed-scale-letter-spacing": "ios",
       },
     },
+  ],
 };
