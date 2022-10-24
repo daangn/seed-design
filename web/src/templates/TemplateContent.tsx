@@ -2,7 +2,8 @@ import type { HeadFC } from "gatsby";
 import React from "react";
 
 import ContentCard from "../components/ContentCard";
-import Darwer from "../components/Drawer";
+import DocumentEditLink from "../components/DocumentEditLink";
+import Drawer from "../components/Drawer";
 import Layout from "../components/Layout";
 
 interface TemplatePostProps {
@@ -20,7 +21,7 @@ const TemplateContent: React.FC<TemplatePostProps> = ({
 }) => {
   return (
     <Layout>
-      <Darwer>
+      <Drawer>
         {pageContext.allMdx.nodes.map((node) => (
           <ContentCard
             key={node.frontmatter?.slug}
@@ -28,7 +29,7 @@ const TemplateContent: React.FC<TemplatePostProps> = ({
             content={node}
           />
         ))}
-      </Darwer>
+      </Drawer>
       <main>
         <section
           style={{
@@ -41,6 +42,7 @@ const TemplateContent: React.FC<TemplatePostProps> = ({
           }}
         >
           {children}
+          <DocumentEditLink slug={pageContext.slug} />
         </section>
       </main>
     </Layout>
