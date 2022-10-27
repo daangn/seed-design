@@ -108,7 +108,7 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-sitemap",
+      resolve: "gatsby-plugin-advanced-sitemap",
       options: {
         query: `
         {
@@ -117,8 +117,13 @@ module.exports = {
               path
             }
           }
-        }
-      `,
+        }`,
+        mapping: {
+          allSitePage: {
+            sitemap: "pages",
+          },
+        },
+        exclude: [`/404`, `/404.html`],
       },
     },
   ],
