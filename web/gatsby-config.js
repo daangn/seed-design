@@ -107,6 +107,19 @@ module.exports = {
         "data-seed-scale-letter-spacing": "ios",
       },
     },
-    "gatsby-plugin-sitemap",
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        query: `
+        {
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+        }
+      `,
+      },
+    },
   ],
 };
