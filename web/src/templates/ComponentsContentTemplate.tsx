@@ -1,5 +1,3 @@
-import { classNames } from "@seed-design/design-token";
-import clsx from "clsx";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
@@ -26,37 +24,22 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   return (
     <Layout>
       <main className={style.main}>
-        <h1 className={clsx(classNames.$semantic.typography.h1, style.title)}>
-          {pageContext.title}
-        </h1>
-        <p
-          className={clsx(
-            classNames.$semantic.typography.title2Bold,
-            style.titleDescription,
-          )}
-        >
-          {pageContext.description}
-        </p>
+        <h1 className={style.title}>{pageContext.title}</h1>
+        <p className={style.titleDescription}>{pageContext.description}</p>
         <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
           <Link
             to={`${pageContext.slug}/primitive`}
-            className={clsx(
-              classNames.$semantic.typography.title2Bold,
-              style.tabLink({
-                active: pageContext.activeTab === "primitive",
-              }),
-            )}
+            className={style.tabLink({
+              active: pageContext.activeTab === "primitive",
+            })}
           >
             primitive
           </Link>
           <Link
             to={`${pageContext.slug}/visual`}
-            className={clsx(
-              classNames.$semantic.typography.title2Bold,
-              style.tabLink({
-                active: pageContext.activeTab === "visual",
-              }),
-            )}
+            className={style.tabLink({
+              active: pageContext.activeTab === "visual",
+            })}
           >
             visual
           </Link>

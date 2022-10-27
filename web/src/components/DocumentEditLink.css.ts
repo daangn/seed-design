@@ -10,6 +10,7 @@ export const link = style([
     gap: "10px",
     color: vars.$scale.color.gray600,
     transition: "color 0.25s",
+    marginTop: "30px",
 
     ":hover": {
       color: vars.$scale.color.gray800,
