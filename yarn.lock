@@ -3836,7 +3836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mdast@npm:^3.0.0, @types/mdast@npm:^3.0.3":
+"@types/mdast@npm:^3.0.0":
   version: 3.0.10
   resolution: "@types/mdast@npm:3.0.10"
   dependencies:
@@ -4053,7 +4053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/unist@npm:*, @types/unist@npm:^2.0.0, @types/unist@npm:^2.0.3":
+"@types/unist@npm:*, @types/unist@npm:^2.0.0":
   version: 2.0.6
   resolution: "@types/unist@npm:2.0.6"
   checksum: 25cb860ff10dde48b54622d58b23e66214211a61c84c0f15f88d38b61aa1b53d4d46e42b557924a93178c501c166aa37e28d7f6d994aba13d24685326272d5db
@@ -8650,7 +8650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"extend@npm:^3.0.0, extend@npm:^3.0.2":
+"extend@npm:^3.0.0":
   version: 3.0.2
   resolution: "extend@npm:3.0.2"
   checksum: a50a8309ca65ea5d426382ff09f33586527882cf532931cb08ca786ea3146c0553310bda688710ff61d7668eba9f96b923fe1420cdf56a2c3eaf30fcab87b515
@@ -9652,16 +9652,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-remark-table-of-contents@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "gatsby-remark-table-of-contents@npm:2.0.0"
-  dependencies:
-    js-yaml: ^3.14.1
-    mdast-util-toc: ^5.1.0
-  checksum: 2e02c8542954df9f4869ff7b9ed639d989b6c3d604f6baeed0155fb462e5e400012546fb4292e4930ebfd6ee7cbe6554e88c8ed25cd1aebbb279e73494409245
-  languageName: node
-  linkType: hard
-
 "gatsby-script@npm:^1.8.0":
   version: 1.8.0
   resolution: "gatsby-script@npm:1.8.0"
@@ -10082,13 +10072,6 @@ __metadata:
   version: 1.4.0
   resolution: "github-slugger@npm:1.4.0"
   checksum: 4f52e7a21f5c6a4c5328f01fe4fe13ae8881fea78bfe31f9e72c4038f97e3e70d52fb85aa7633a52c501dc2486874474d9abd22aa61cbe9b113099a495551c6b
-  languageName: node
-  linkType: hard
-
-"github-slugger@npm:^1.2.1":
-  version: 1.5.0
-  resolution: "github-slugger@npm:1.5.0"
-  checksum: c70988224578b3bdaa25df65973ffc8c24594a77a28550c3636e495e49d17aef5cdb04c04fa3f1744babef98c61eecc6a43299a13ea7f3cc33d680bf9053ffbe
   languageName: node
   linkType: hard
 
@@ -11583,7 +11566,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^3.13.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.14.1, js-yaml@npm:^3.6.1":
+"js-yaml@npm:^3.13.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.6.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
   dependencies:
@@ -12408,32 +12391,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-to-string@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "mdast-util-to-string@npm:2.0.0"
-  checksum: 0b2113ada10e002fbccb014170506dabe2f2ddacaacbe4bc1045c33f986652c5a162732a2c057c5335cdb58419e2ad23e368e5be226855d4d4e280b81c4e9ec2
-  languageName: node
-  linkType: hard
-
 "mdast-util-to-string@npm:^3.0.0, mdast-util-to-string@npm:^3.1.0":
   version: 3.1.0
   resolution: "mdast-util-to-string@npm:3.1.0"
   checksum: f42ddd4e22f2215a75715b92ea6e3149c4ba356e7781d7b94fc86ded1c79cec3f986afeecef3a4a80068c9b224a6520099783a12146b957de24f020a3e47dd29
-  languageName: node
-  linkType: hard
-
-"mdast-util-toc@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "mdast-util-toc@npm:5.1.0"
-  dependencies:
-    "@types/mdast": ^3.0.3
-    "@types/unist": ^2.0.3
-    extend: ^3.0.2
-    github-slugger: ^1.2.1
-    mdast-util-to-string: ^2.0.0
-    unist-util-is: ^4.0.0
-    unist-util-visit: ^2.0.0
-  checksum: dd1019f0f69deaa0985297f63ec97abcf7cc2f90c542bd513aa17055bc3784923bd8e8f5092e8d9e5ea736ffc55b315c25979939a718eca369224e4ade28ce57
   languageName: node
   linkType: hard
 
@@ -18168,7 +18129,6 @@ resolve@^1.10.0:
     gatsby-plugin-typegen: ^3.0.0
     gatsby-plugin-vanilla-extract: ^3.0.0
     gatsby-remark-images: ^6.24.0
-    gatsby-remark-table-of-contents: ^2.0.0
     gatsby-source-filesystem: ^4.24.0
     gatsby-transformer-json: ^4.24.0
     gatsby-transformer-sharp: ^4.24.0
