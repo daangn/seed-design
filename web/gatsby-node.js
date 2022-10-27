@@ -1,6 +1,11 @@
 const path = require("path");
 
-const templateContent = path.resolve(`./src/templates/TemplateContent.tsx`);
+const componentsContentTemplate = path.resolve(
+  `./src/templates/ComponentsContentTemplate.tsx`,
+);
+const overviewContentTemplate = path.resolve(
+  `./src/templates/OverviewContentTemplate.tsx`,
+);
 
 exports.onCreatePage = async ({ page, actions: { deletePage } }) => {
   const isVanillaExtractFile = page.path.includes(".css");
@@ -13,29 +18,69 @@ exports.onCreatePage = async ({ page, actions: { deletePage } }) => {
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     query {
-      allMdx {
+      overviews: allMdx(
+        filter: { internal: { contentFilePath: { regex: "/overview/" } } }
+      ) {
+        edges {
+          node {
+            internal {
+              contentFilePath
+            }
+            frontmatter {
+              slug
+            }
+          }
+        }
+      }
+      components: allFile(
+        filter: {
+          ext: { eq: ".json" }
+          relativeDirectory: { regex: "/components/" }
+        }
+      ) {
         nodes {
-          id
-          frontmatter {
+          childJson {
+            description
+            title
             slug
           }
-          internal {
-            contentFilePath
-          }
+          relativeDirectory
         }
       }
     }
   `);
 
-  result.data.allMdx.nodes.forEach((node) => {
+  result.data.overviews.edges.forEach(({ node }) => {
+    const { slug } = node.frontmatter;
+    const { contentFilePath } = node.internal;
+
     createPage({
-      path: node.frontmatter.slug,
-      component: `${templateContent}?__contentFilePath=${node.internal.contentFilePath}`,
+      path: slug,
+      component: `${overviewContentTemplate}?__contentFilePath=${contentFilePath}`,
       context: {
-        id: node.id,
-        slug: node.frontmatter.slug,
-        allMdx: result.data.allMdx,
+        slug,
       },
+    });
+  });
+
+  result.data.components.nodes.forEach((node) => {
+    const commonContext = {
+      title: node.childJson.title,
+      description: node.childJson.description,
+      slug: node.childJson.slug,
+    };
+
+    ["primitive", "visual"].forEach((tabName) => {
+      createPage({
+        path: `${node.childJson.slug}/${tabName}`,
+        component: `${componentsContentTemplate}?__contentFilePath=${require.resolve(
+          `./content/${node.relativeDirectory}/${tabName}.mdx`,
+        )}`,
+        context: {
+          ...commonContext,
+          activeTab: tabName,
+        },
+      });
     });
   });
 };

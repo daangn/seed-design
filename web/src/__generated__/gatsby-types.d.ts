@@ -431,11 +431,15 @@ type File = Node & {
   readonly changeTime: Scalars['Date'];
   /** Returns the first child node of type ImageSharp or null if there are no children of given type on this node */
   readonly childImageSharp: Maybe<ImageSharp>;
+  /** Returns the first child node of type Json or null if there are no children of given type on this node */
+  readonly childJson: Maybe<Json>;
   /** Returns the first child node of type Mdx or null if there are no children of given type on this node */
   readonly childMdx: Maybe<Mdx>;
   readonly children: ReadonlyArray<Node>;
   /** Returns all children nodes filtered by type ImageSharp */
   readonly childrenImageSharp: Maybe<ReadonlyArray<Maybe<ImageSharp>>>;
+  /** Returns all children nodes filtered by type Json */
+  readonly childrenJson: Maybe<ReadonlyArray<Maybe<Json>>>;
   /** Returns all children nodes filtered by type Mdx */
   readonly childrenMdx: Maybe<ReadonlyArray<Maybe<Mdx>>>;
   readonly ctime: Scalars['Date'];
@@ -653,6 +657,50 @@ type FileFieldsEnum =
   | 'childImageSharp.resize.src'
   | 'childImageSharp.resize.tracedSVG'
   | 'childImageSharp.resize.width'
+  | 'childJson.children'
+  | 'childJson.children.children'
+  | 'childJson.children.children.children'
+  | 'childJson.children.children.id'
+  | 'childJson.children.id'
+  | 'childJson.children.internal.content'
+  | 'childJson.children.internal.contentDigest'
+  | 'childJson.children.internal.contentFilePath'
+  | 'childJson.children.internal.description'
+  | 'childJson.children.internal.fieldOwners'
+  | 'childJson.children.internal.ignoreType'
+  | 'childJson.children.internal.mediaType'
+  | 'childJson.children.internal.owner'
+  | 'childJson.children.internal.type'
+  | 'childJson.children.parent.children'
+  | 'childJson.children.parent.id'
+  | 'childJson.description'
+  | 'childJson.id'
+  | 'childJson.internal.content'
+  | 'childJson.internal.contentDigest'
+  | 'childJson.internal.contentFilePath'
+  | 'childJson.internal.description'
+  | 'childJson.internal.fieldOwners'
+  | 'childJson.internal.ignoreType'
+  | 'childJson.internal.mediaType'
+  | 'childJson.internal.owner'
+  | 'childJson.internal.type'
+  | 'childJson.parent.children'
+  | 'childJson.parent.children.children'
+  | 'childJson.parent.children.id'
+  | 'childJson.parent.id'
+  | 'childJson.parent.internal.content'
+  | 'childJson.parent.internal.contentDigest'
+  | 'childJson.parent.internal.contentFilePath'
+  | 'childJson.parent.internal.description'
+  | 'childJson.parent.internal.fieldOwners'
+  | 'childJson.parent.internal.ignoreType'
+  | 'childJson.parent.internal.mediaType'
+  | 'childJson.parent.internal.owner'
+  | 'childJson.parent.internal.type'
+  | 'childJson.parent.parent.children'
+  | 'childJson.parent.parent.id'
+  | 'childJson.slug'
+  | 'childJson.title'
   | 'childMdx.body'
   | 'childMdx.children'
   | 'childMdx.children.children'
@@ -773,6 +821,51 @@ type FileFieldsEnum =
   | 'childrenImageSharp.resize.src'
   | 'childrenImageSharp.resize.tracedSVG'
   | 'childrenImageSharp.resize.width'
+  | 'childrenJson'
+  | 'childrenJson.children'
+  | 'childrenJson.children.children'
+  | 'childrenJson.children.children.children'
+  | 'childrenJson.children.children.id'
+  | 'childrenJson.children.id'
+  | 'childrenJson.children.internal.content'
+  | 'childrenJson.children.internal.contentDigest'
+  | 'childrenJson.children.internal.contentFilePath'
+  | 'childrenJson.children.internal.description'
+  | 'childrenJson.children.internal.fieldOwners'
+  | 'childrenJson.children.internal.ignoreType'
+  | 'childrenJson.children.internal.mediaType'
+  | 'childrenJson.children.internal.owner'
+  | 'childrenJson.children.internal.type'
+  | 'childrenJson.children.parent.children'
+  | 'childrenJson.children.parent.id'
+  | 'childrenJson.description'
+  | 'childrenJson.id'
+  | 'childrenJson.internal.content'
+  | 'childrenJson.internal.contentDigest'
+  | 'childrenJson.internal.contentFilePath'
+  | 'childrenJson.internal.description'
+  | 'childrenJson.internal.fieldOwners'
+  | 'childrenJson.internal.ignoreType'
+  | 'childrenJson.internal.mediaType'
+  | 'childrenJson.internal.owner'
+  | 'childrenJson.internal.type'
+  | 'childrenJson.parent.children'
+  | 'childrenJson.parent.children.children'
+  | 'childrenJson.parent.children.id'
+  | 'childrenJson.parent.id'
+  | 'childrenJson.parent.internal.content'
+  | 'childrenJson.parent.internal.contentDigest'
+  | 'childrenJson.parent.internal.contentFilePath'
+  | 'childrenJson.parent.internal.description'
+  | 'childrenJson.parent.internal.fieldOwners'
+  | 'childrenJson.parent.internal.ignoreType'
+  | 'childrenJson.parent.internal.mediaType'
+  | 'childrenJson.parent.internal.owner'
+  | 'childrenJson.parent.internal.type'
+  | 'childrenJson.parent.parent.children'
+  | 'childrenJson.parent.parent.id'
+  | 'childrenJson.slug'
+  | 'childrenJson.title'
   | 'childrenMdx'
   | 'childrenMdx.body'
   | 'childrenMdx.children'
@@ -948,9 +1041,11 @@ type FileFilterInput = {
   readonly blocks: InputMaybe<IntQueryOperatorInput>;
   readonly changeTime: InputMaybe<DateQueryOperatorInput>;
   readonly childImageSharp: InputMaybe<ImageSharpFilterInput>;
+  readonly childJson: InputMaybe<JsonFilterInput>;
   readonly childMdx: InputMaybe<MdxFilterInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
+  readonly childrenJson: InputMaybe<JsonFilterListInput>;
   readonly childrenMdx: InputMaybe<MdxFilterListInput>;
   readonly ctime: InputMaybe<DateQueryOperatorInput>;
   readonly ctimeMs: InputMaybe<FloatQueryOperatorInput>;
@@ -1576,6 +1671,219 @@ type JSONQueryOperatorInput = {
   readonly regex: InputMaybe<Scalars['JSON']>;
 };
 
+type Json = Node & {
+  readonly children: ReadonlyArray<Node>;
+  readonly description: Maybe<Scalars['String']>;
+  readonly id: Scalars['ID'];
+  readonly internal: Internal;
+  readonly parent: Maybe<Node>;
+  readonly slug: Maybe<Scalars['String']>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type JsonConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<JsonEdge>;
+  readonly group: ReadonlyArray<JsonGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<Json>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type JsonConnection_distinctArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonConnection_groupArgs = {
+  field: JsonFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type JsonConnection_maxArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonConnection_minArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonConnection_sumArgs = {
+  field: JsonFieldsEnum;
+};
+
+type JsonEdge = {
+  readonly next: Maybe<Json>;
+  readonly node: Json;
+  readonly previous: Maybe<Json>;
+};
+
+type JsonFieldsEnum =
+  | 'children'
+  | 'children.children'
+  | 'children.children.children'
+  | 'children.children.children.children'
+  | 'children.children.children.id'
+  | 'children.children.id'
+  | 'children.children.internal.content'
+  | 'children.children.internal.contentDigest'
+  | 'children.children.internal.contentFilePath'
+  | 'children.children.internal.description'
+  | 'children.children.internal.fieldOwners'
+  | 'children.children.internal.ignoreType'
+  | 'children.children.internal.mediaType'
+  | 'children.children.internal.owner'
+  | 'children.children.internal.type'
+  | 'children.children.parent.children'
+  | 'children.children.parent.id'
+  | 'children.id'
+  | 'children.internal.content'
+  | 'children.internal.contentDigest'
+  | 'children.internal.contentFilePath'
+  | 'children.internal.description'
+  | 'children.internal.fieldOwners'
+  | 'children.internal.ignoreType'
+  | 'children.internal.mediaType'
+  | 'children.internal.owner'
+  | 'children.internal.type'
+  | 'children.parent.children'
+  | 'children.parent.children.children'
+  | 'children.parent.children.id'
+  | 'children.parent.id'
+  | 'children.parent.internal.content'
+  | 'children.parent.internal.contentDigest'
+  | 'children.parent.internal.contentFilePath'
+  | 'children.parent.internal.description'
+  | 'children.parent.internal.fieldOwners'
+  | 'children.parent.internal.ignoreType'
+  | 'children.parent.internal.mediaType'
+  | 'children.parent.internal.owner'
+  | 'children.parent.internal.type'
+  | 'children.parent.parent.children'
+  | 'children.parent.parent.id'
+  | 'description'
+  | 'id'
+  | 'internal.content'
+  | 'internal.contentDigest'
+  | 'internal.contentFilePath'
+  | 'internal.description'
+  | 'internal.fieldOwners'
+  | 'internal.ignoreType'
+  | 'internal.mediaType'
+  | 'internal.owner'
+  | 'internal.type'
+  | 'parent.children'
+  | 'parent.children.children'
+  | 'parent.children.children.children'
+  | 'parent.children.children.id'
+  | 'parent.children.id'
+  | 'parent.children.internal.content'
+  | 'parent.children.internal.contentDigest'
+  | 'parent.children.internal.contentFilePath'
+  | 'parent.children.internal.description'
+  | 'parent.children.internal.fieldOwners'
+  | 'parent.children.internal.ignoreType'
+  | 'parent.children.internal.mediaType'
+  | 'parent.children.internal.owner'
+  | 'parent.children.internal.type'
+  | 'parent.children.parent.children'
+  | 'parent.children.parent.id'
+  | 'parent.id'
+  | 'parent.internal.content'
+  | 'parent.internal.contentDigest'
+  | 'parent.internal.contentFilePath'
+  | 'parent.internal.description'
+  | 'parent.internal.fieldOwners'
+  | 'parent.internal.ignoreType'
+  | 'parent.internal.mediaType'
+  | 'parent.internal.owner'
+  | 'parent.internal.type'
+  | 'parent.parent.children'
+  | 'parent.parent.children.children'
+  | 'parent.parent.children.id'
+  | 'parent.parent.id'
+  | 'parent.parent.internal.content'
+  | 'parent.parent.internal.contentDigest'
+  | 'parent.parent.internal.contentFilePath'
+  | 'parent.parent.internal.description'
+  | 'parent.parent.internal.fieldOwners'
+  | 'parent.parent.internal.ignoreType'
+  | 'parent.parent.internal.mediaType'
+  | 'parent.parent.internal.owner'
+  | 'parent.parent.internal.type'
+  | 'parent.parent.parent.children'
+  | 'parent.parent.parent.id'
+  | 'slug'
+  | 'title';
+
+type JsonFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly description: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type JsonFilterListInput = {
+  readonly elemMatch: InputMaybe<JsonFilterInput>;
+};
+
+type JsonGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<JsonEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<JsonGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<Json>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type JsonGroupConnection_distinctArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonGroupConnection_groupArgs = {
+  field: JsonFieldsEnum;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type JsonGroupConnection_maxArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonGroupConnection_minArgs = {
+  field: JsonFieldsEnum;
+};
+
+
+type JsonGroupConnection_sumArgs = {
+  field: JsonFieldsEnum;
+};
+
+type JsonSortInput = {
+  readonly fields: InputMaybe<ReadonlyArray<InputMaybe<JsonFieldsEnum>>>;
+  readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
+
 type Mdx = Node & {
   readonly body: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
@@ -1868,6 +2176,7 @@ type Query = {
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
   readonly allImageSharp: ImageSharpConnection;
+  readonly allJson: JsonConnection;
   readonly allMdx: MdxConnection;
   readonly allSite: SiteConnection;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
@@ -1877,6 +2186,7 @@ type Query = {
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
   readonly imageSharp: Maybe<ImageSharp>;
+  readonly json: Maybe<Json>;
   readonly mdx: Maybe<Mdx>;
   readonly site: Maybe<Site>;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
@@ -1907,6 +2217,14 @@ type Query_allImageSharpArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ImageSharpSortInput>;
+};
+
+
+type Query_allJsonArgs = {
+  filter: InputMaybe<JsonFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<JsonSortInput>;
 };
 
 
@@ -2010,9 +2328,11 @@ type Query_fileArgs = {
   blocks: InputMaybe<IntQueryOperatorInput>;
   changeTime: InputMaybe<DateQueryOperatorInput>;
   childImageSharp: InputMaybe<ImageSharpFilterInput>;
+  childJson: InputMaybe<JsonFilterInput>;
   childMdx: InputMaybe<MdxFilterInput>;
   children: InputMaybe<NodeFilterListInput>;
   childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
+  childrenJson: InputMaybe<JsonFilterListInput>;
   childrenMdx: InputMaybe<MdxFilterListInput>;
   ctime: InputMaybe<DateQueryOperatorInput>;
   ctimeMs: InputMaybe<FloatQueryOperatorInput>;
@@ -2053,6 +2373,17 @@ type Query_imageSharpArgs = {
   original: InputMaybe<ImageSharpOriginalFilterInput>;
   parent: InputMaybe<NodeFilterInput>;
   resize: InputMaybe<ImageSharpResizeFilterInput>;
+};
+
+
+type Query_jsonArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  description: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  slug: InputMaybe<StringQueryOperatorInput>;
+  title: InputMaybe<StringQueryOperatorInput>;
 };
 
 
@@ -2517,6 +2848,12 @@ type SiteFieldsEnum =
   | 'pathPrefix'
   | 'polyfill'
   | 'siteMetadata.description'
+  | 'siteMetadata.drawerLinks.components'
+  | 'siteMetadata.drawerLinks.components.slug'
+  | 'siteMetadata.drawerLinks.components.title'
+  | 'siteMetadata.drawerLinks.overview'
+  | 'siteMetadata.drawerLinks.overview.slug'
+  | 'siteMetadata.drawerLinks.overview.title'
   | 'siteMetadata.siteUrl'
   | 'siteMetadata.title'
   | 'trailingSlash';
@@ -3306,12 +3643,52 @@ type SitePluginSortInput = {
 
 type SiteSiteMetadata = {
   readonly description: Maybe<Scalars['String']>;
+  readonly drawerLinks: Maybe<SiteSiteMetadataDrawerLinks>;
   readonly siteUrl: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
 };
 
+type SiteSiteMetadataDrawerLinks = {
+  readonly components: Maybe<ReadonlyArray<Maybe<SiteSiteMetadataDrawerLinksComponents>>>;
+  readonly overview: Maybe<ReadonlyArray<Maybe<SiteSiteMetadataDrawerLinksOverview>>>;
+};
+
+type SiteSiteMetadataDrawerLinksComponents = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type SiteSiteMetadataDrawerLinksComponentsFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type SiteSiteMetadataDrawerLinksComponentsFilterListInput = {
+  readonly elemMatch: InputMaybe<SiteSiteMetadataDrawerLinksComponentsFilterInput>;
+};
+
+type SiteSiteMetadataDrawerLinksFilterInput = {
+  readonly components: InputMaybe<SiteSiteMetadataDrawerLinksComponentsFilterListInput>;
+  readonly overview: InputMaybe<SiteSiteMetadataDrawerLinksOverviewFilterListInput>;
+};
+
+type SiteSiteMetadataDrawerLinksOverview = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type SiteSiteMetadataDrawerLinksOverviewFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type SiteSiteMetadataDrawerLinksOverviewFilterListInput = {
+  readonly elemMatch: InputMaybe<SiteSiteMetadataDrawerLinksOverviewFilterInput>;
+};
+
 type SiteSiteMetadataFilterInput = {
   readonly description: InputMaybe<StringQueryOperatorInput>;
+  readonly drawerLinks: InputMaybe<SiteSiteMetadataDrawerLinksFilterInput>;
   readonly siteUrl: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
@@ -3350,7 +3727,12 @@ type WebPOptions = {
 type ContentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ContentsQuery = { readonly allMdx: { readonly nodes: ReadonlyArray<{ readonly frontmatter: { readonly slug: string | null } | null }> }, readonly ogimage: { readonly original: { readonly height: number | null, readonly src: string | null, readonly width: number | null } | null } | null };
+type ContentsQuery = { readonly ogimage: { readonly original: { readonly height: number | null, readonly src: string | null, readonly width: number | null } | null } | null };
+
+type DrawerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type DrawerQuery = { readonly site: { readonly siteMetadata: { readonly drawerLinks: { readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly overview: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null } | null } | null };
 
 
 }

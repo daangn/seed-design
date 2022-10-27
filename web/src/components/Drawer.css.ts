@@ -7,6 +7,59 @@ import * as u from "../styles/utils.css";
 const TRANSITION_DURATION = "0.25s";
 const TRANSITION_TIMING_FUNCTION = "ease";
 
+export const categoryTitle = style({
+  fontSize: "26px",
+  fontWeight: 700,
+  padding: "20px",
+  color: vars.$scale.color.gray00,
+});
+
+export const logo = style([
+  u.cursorPointer,
+  {
+    fontSize: "28px",
+    fontWeight: 700,
+    padding: "10px",
+    margin: "8px",
+    color: vars.$scale.color.gray00,
+    borderRadius: "10px",
+    transition: "background-color 0.3s ease",
+
+    ":hover": {
+      backgroundColor: vars.$scale.color.green700,
+    },
+  },
+]);
+
+export const drawerLink = recipe({
+  base: [
+    {
+      display: "flex",
+      alignItems: "center",
+      columnGap: "10px",
+      padding: "10px",
+      margin: "8px",
+      borderRadius: "10px",
+      color: vars.$scale.color.gray00,
+      transition: "background-color 0.3s ease",
+
+      ":hover": {
+        backgroundColor: vars.$scale.color.green700,
+      },
+    },
+  ],
+
+  variants: {
+    highlight: {
+      true: [
+        {
+          backgroundColor: vars.$scale.color.green600,
+        },
+      ],
+    },
+  },
+});
+
 export const drawerButton = style([
   u.cursorPointer,
   u.middleLayer,

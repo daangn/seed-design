@@ -3,6 +3,24 @@ const path = require(`path`);
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
   siteUrl: `https://www.yourdomain.tld`, // TODO:
+  drawerLinks: {
+    overview: [
+      {
+        title: "Get started",
+        slug: "/overview/get-started",
+      },
+    ],
+    components: [
+      {
+        title: "Checkbox",
+        slug: "/components/checkbox/primitive",
+      },
+      {
+        title: "Textfield",
+        slug: "/components/textfield/primitive",
+      },
+    ],
+  },
 });
 
 const wrapESMPlugin = (name) =>
@@ -55,6 +73,12 @@ module.exports = {
       },
     },
     "gatsby-plugin-mdx-frontmatter",
+    {
+      resolve: `gatsby-transformer-json`,
+      options: {
+        typeName: `Json`,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

@@ -1,15 +1,38 @@
 import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
+import NoteIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconNoteRegular";
 import clsx from "clsx";
+import { graphql, Link, StaticQuery } from "gatsby";
 import React, { useState } from "react";
 
 import * as style from "./Drawer.css";
-import Logo from "./Logo";
 
-interface DrawerProps {
-  children: React.ReactNode;
+interface DrawerLinkProps {
+  slug: string;
+  title: string;
+  active: boolean;
+  closeDrawer: () => void;
 }
 
-export default function Drawer({ children }: DrawerProps) {
+function Logo({ closeDrawer }: { closeDrawer: () => void }) {
+  return (
+    <Link to="/" onClick={closeDrawer}>
+      <div className={clsx(style.logo)}>SEED DESIGN</div>
+    </Link>
+  );
+}
+
+function DrawerLink({ slug, title, active, closeDrawer }: DrawerLinkProps) {
+  return (
+    <Link to={slug} onClick={closeDrawer}>
+      <div className={clsx(style.drawerLink({ highlight: active }))}>
+        <NoteIcon width={20} />
+        <h1>{title}</h1>
+      </div>
+    </Link>
+  );
+}
+
+export default function Drawer() {
   const [open, setOpen] = useState<boolean>(false);
 
   const closeDrawer = () => {
@@ -28,8 +51,59 @@ export default function Drawer({ children }: DrawerProps) {
         width={25}
       />
       <nav className={clsx(style.drawer({ open }))}>
-        <Logo />
-        {children}
+        <Logo closeDrawer={closeDrawer} />
+        <StaticQuery
+          query={graphql`
+            query Drawer {
+              site {
+                siteMetadata {
+                  drawerLinks {
+                    components {
+                      slug
+                      title
+                    }
+                    overview {
+                      slug
+                      title
+                    }
+                  }
+                }
+              }
+            }
+          `}
+          render={(data: GatsbyTypes.DrawerQuery) => {
+            if (!data.site?.siteMetadata?.drawerLinks) return;
+
+            const { drawerLinks } = data.site.siteMetadata;
+            const { overview, components } = drawerLinks;
+
+            return (
+              <>
+                <h1 className={style.categoryTitle}>Overview</h1>
+                {overview!.map((link) => (
+                  <DrawerLink
+                    key={link!.slug!}
+                    active={location.pathname === link!.slug}
+                    slug={link!.slug!}
+                    title={link!.title!}
+                    closeDrawer={closeDrawer}
+                  />
+                ))}
+
+                <h1 className={style.categoryTitle}>Components</h1>
+                {components!.map((link) => (
+                  <DrawerLink
+                    key={link!.slug!}
+                    active={location.pathname === link!.slug}
+                    slug={link!.slug!}
+                    title={link!.title!}
+                    closeDrawer={closeDrawer}
+                  />
+                ))}
+              </>
+            );
+          }}
+        />
       </nav>
       <div onClick={closeDrawer} className={clsx(style.overlay({ open }))} />
     </>

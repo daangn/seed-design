@@ -6,7 +6,6 @@ import * as style from "./CustomComponents.css";
 import * as card from "./DocumentCard";
 import Keyboard from "./Keyboard";
 import * as table from "./Table";
-import TitleDescription from "./TitleDescription";
 
 export const customComponents = {
   /* 커스텀 HTML Elements */
@@ -48,7 +47,6 @@ export const customComponents = {
   ),
 
   /* MDX 전용 컴포넌트s */
-  TitleDescription,
   Keyboard,
 
   Table: table.Table,
