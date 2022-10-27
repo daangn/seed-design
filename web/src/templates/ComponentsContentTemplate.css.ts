@@ -2,17 +2,13 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
-export const title = style({
-  fontSize: "66px",
-  fontWeight: 700,
+import * as t from "../styles/token.css";
 
-  marginTop: "35px",
-  marginBottom: "10px",
-});
+export const main = style([t.main]);
 
-export const titleDescription = style({
-  color: vars.$scale.color.gray500,
-});
+export const title = style([t.documentHeading1]);
+
+export const titleDescription = style([t.documentCaption1]);
 
 export const tabLink = recipe({
   base: {

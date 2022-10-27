@@ -25,66 +25,57 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
 }) => {
   return (
     <Layout>
-      <main>
-        <section
-          style={{
-            maxWidth: "900px",
-            margin: "50px auto",
-            wordBreak: "keep-all",
-            overflowWrap: "break-word",
-            lineHeight: "1.7",
-            letterSpacing: "-0.04px",
-          }}
+      <main className={style.main}>
+        <h1 className={clsx(classNames.$semantic.typography.h1, style.title)}>
+          {pageContext.title}
+        </h1>
+        <p
+          className={clsx(
+            classNames.$semantic.typography.title2Bold,
+            style.titleDescription,
+          )}
         >
-          <h1 className={clsx(classNames.$semantic.typography.h1, style.title)}>
-            {pageContext.title}
-          </h1>
-          <p
+          {pageContext.description}
+        </p>
+        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+          <Link
+            to={`${pageContext.slug}/primitive`}
             className={clsx(
               classNames.$semantic.typography.title2Bold,
-              style.titleDescription,
+              style.tabLink({
+                active: pageContext.activeTab === "primitive",
+              }),
             )}
           >
-            {pageContext.description}
-          </p>
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <Link
-              to={`${pageContext.slug}/primitive`}
-              className={clsx(
-                classNames.$semantic.typography.title2Bold,
-                style.tabLink({
-                  active: pageContext.activeTab === "primitive",
-                }),
-              )}
-            >
-              primitive
-            </Link>
-            <Link
-              to={`${pageContext.slug}/visual`}
-              className={clsx(
-                classNames.$semantic.typography.title2Bold,
-                style.tabLink({
-                  active: pageContext.activeTab === "visual",
-                }),
-              )}
-            >
-              visual
-            </Link>
-          </div>
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -10,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
+            primitive
+          </Link>
+          <Link
+            to={`${pageContext.slug}/visual`}
+            className={clsx(
+              classNames.$semantic.typography.title2Bold,
+              style.tabLink({
+                active: pageContext.activeTab === "visual",
+              }),
+            )}
           >
-            {children}
-          </motion.div>
-          <DocumentEditLink slug={pageContext.slug} />
-        </section>
+            visual
+          </Link>
+        </div>
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: -10,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
+          }}
+        >
+          {children}
+        </motion.div>
+        <DocumentEditLink
+          slug={`${pageContext.slug}/${pageContext.activeTab}`}
+        />
       </main>
     </Layout>
   );

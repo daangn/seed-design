@@ -77,56 +77,72 @@ Option : 컴포넌트에 영향을 주는 외부 상황에 의해 결정되는 �
 
 ## Behaviors
 
-### Keyboard
+### Touch / Mouse controls
 
-<Card>
-	<CardImageCell>
+<CardCaption>
+Touch area(Mobile)와 Mouse click area(PC)는 동일합니다.
+</CardCaption>
+
+<FullCard>
+	<FullCardImageCell>
+		![checkbox touch/mouse control](./checkbox-touch-mouse-control-1.png)
+	</FullCardImageCell>
+	<FullCardDescription>
+		마우스 클릭 또는 터치로 checkbox를 동작시킬 수 있는 영역입니다
+	</FullCardDescription>
+</FullCard>
+
+
+### Keyboard controls
+
+<HalfCard>
+	<HalfCardImageCell>
 		![checkbox behavior focus](./checkbox-behavior-1.png)
-	</CardImageCell>
-	<CardDescriptionCell>
-		<CardTitle>Focus</CardTitle>
-		<CardDescription>
+	</HalfCardImageCell>
+	<HalfCardDescriptionCell>
+		<HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
+		<HalfCardDescription>
 			<Keyboard>tab</Keyboard> 키를 통해 포커스를 다음 Checkbox로 옮길 수 있습니다
-		</CardDescription>
-	</CardDescriptionCell>
-</Card>
+		</HalfCardDescription>
+	</HalfCardDescriptionCell>
+</HalfCard>
 
-<Card>
-	<CardImageCell>
+<HalfCard>
+	<HalfCardImageCell>
 		![checkbox behavior focus](./checkbox-behavior-2.png)
-	</CardImageCell>
-	<CardDescriptionCell>
-		<CardTitle>Checked ON/OFF</CardTitle>
-		<CardDescription>
+	</HalfCardImageCell>
+	<HalfCardDescriptionCell>
+		<HalfCardDescriptionTitle>Checked ON/OFF</HalfCardDescriptionTitle>
+		<HalfCardDescription>
 			<Keyboard>←</Keyboard><Keyboard>→</Keyboard> 키를 통해 Tab item에 Focus 이동 시
 			Contents가 전환되지 않습니다. Tab item에 Focus된
 			상태에서 <Keyboard>space</Keyboard><Keyboard>↩</Keyboard> 키를 통해 해당 Tab item의
 			Contents로 전환할 수 있습니다.
-		</CardDescription>
-	</CardDescriptionCell>
-</Card>
+		</HalfCardDescription>
+	</HalfCardDescriptionCell>
+</HalfCard>
 
-<Card>
-	<CardImageCell>
+<HalfCard>
+	<HalfCardImageCell>
 		![checkbox behavior focus](./checkbox-behavior-3.png)
-	</CardImageCell>
-	<CardDescriptionCell>
-		<CardTitle>Disabled</CardTitle>
-		<CardDescription>
+	</HalfCardImageCell>
+	<HalfCardDescriptionCell>
+		<HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+		<HalfCardDescription>
 			포커스 이동시 Disabled상태인 Checkbox는 인식하지 않습니다
-		</CardDescription>
-	</CardDescriptionCell>
-</Card>
+		</HalfCardDescription>
+	</HalfCardDescriptionCell>
+</HalfCard>
 
-<Card>
-	<CardImageCell>
+<HalfCard>
+	<HalfCardImageCell>
 		![checkbox behavior focus](./checkbox-behavior-4.png)
-	</CardImageCell>
-	<CardDescriptionCell>
-		<CardTitle>Indeterminate</CardTitle>
-		<CardDescription>
+	</HalfCardImageCell>
+	<HalfCardDescriptionCell>
+		<HalfCardDescriptionTitle>Indeterminate</HalfCardDescriptionTitle>
+		<HalfCardDescription>
 			Checkbox가 Indeterminate 상태일 경우
 			<Keyboard>space</Keyboard> 키를 통해 Checked False로 전환합니다
-		</CardDescription>
-	</CardDescriptionCell>
-</Card>
+		</HalfCardDescription>
+	</HalfCardDescriptionCell>
+</HalfCard>

@@ -4,6 +4,11 @@ export const cursorPointer = style({
   cursor: "pointer",
 });
 
+export const fullScreen = style({
+  width: "100vw",
+  height: "100vh",
+});
+
 export const backLayer = style({ zIndex: -1 });
 export const baseLayer = style({ zIndex: 0 });
 export const middleLayer = style({ zIndex: 50 });

@@ -1,30 +1,16 @@
-import { vars } from "@seed-design/design-token";
+import { classNames, vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
+import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
 
-export const h1 = style({
-  fontSize: "66px",
-  fontWeight: 700,
+export const h1 = style([t.documentHeading1]);
 
-  marginTop: "35px",
-  marginBottom: "10px",
-});
+export const h2 = style([t.documentHeading2]);
 
-export const h2 = style({
-  marginTop: "55px",
-  marginBottom: "20px",
-});
+export const h3 = style([t.documentHeading3]);
 
-export const h3 = style({
-  marginTop: "20px",
-  marginBottom: "20px",
-});
-
-export const h4 = style({
-  marginTop: "15px",
-  marginBottom: "20px",
-});
+export const h4 = style([t.documentHeading4]);
 
 export const ol = style([
   {
@@ -33,6 +19,7 @@ export const ol = style([
 ]);
 
 export const oli = style([
+  classNames.$semantic.typography.bodyL1Regular,
   u.flexAlignCenter,
   {
     marginBottom: "8px",

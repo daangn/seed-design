@@ -8,25 +8,67 @@ interface PropsWithChildren {
   children: React.ReactNode;
 }
 
-export function DocumentCard({ children }: PropsWithChildren) {
-  return <article className={clsx(style.documentCard)}>{children}</article>;
-}
+/* Common */
 
-export function DocumentCardImageCell({ children }: PropsWithChildren) {
-  return <div className={clsx(style.documentCardImage)}>{children}</div>;
-}
-
-export function DocumentCardDescriptionCell({ children }: PropsWithChildren) {
+export function DocumentCardCaption({ children }: PropsWithChildren) {
   return (
-    <div className={clsx(style.documentCardDescriptionCell)}>{children}</div>
+    <div
+      className={clsx(
+        classNames.$semantic.typography.bodyL1Regular,
+        style.cardCaption,
+      )}
+    >
+      {children}
+    </div>
   );
 }
 
-export function DocumentCardTitle({ children }: PropsWithChildren) {
+/* Full Card */
+
+export function DocumentFullCard({ children }: PropsWithChildren) {
+  return <article className={clsx(style.fullCard)}>{children}</article>;
+}
+
+export function DocumentFullCardImageCell({ children }: PropsWithChildren) {
+  return <div className={clsx(style.fullCardImageCell)}>{children}</div>;
+}
+
+export function DocumentFullCardDescription({ children }: PropsWithChildren) {
+  return (
+    <div
+      className={clsx(
+        classNames.$semantic.typography.bodyL1Regular,
+        style.fullCardDescription,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+/* Half Card */
+
+export function DocumentHalfCard({ children }: PropsWithChildren) {
+  return <article className={clsx(style.halfCard)}>{children}</article>;
+}
+
+export function DocumentHalfCardImageCell({ children }: PropsWithChildren) {
+  return <div className={clsx(style.halfCardImageCell)}>{children}</div>;
+}
+
+export function DocumentHalfCardDescriptionCell({
+  children,
+}: PropsWithChildren) {
+  return <div className={clsx(style.halfCardDescriptionCell)}>{children}</div>;
+}
+
+export function DocumentHalfCardDescriptionTitle({
+  children,
+}: PropsWithChildren) {
   return (
     <h4
       className={clsx(
-        style.documentCardTitle,
+        style.halfCardDescriptionTitle,
         classNames.$semantic.typography.h4,
       )}
     >
@@ -35,11 +77,11 @@ export function DocumentCardTitle({ children }: PropsWithChildren) {
   );
 }
 
-export function DocumentCardDescription({ children }: PropsWithChildren) {
+export function DocumentHalfCardDescription({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
-        style.documentCardDescription,
+        style.halfCardDescription,
         classNames.$semantic.typography.bodyL1Regular,
       )}
     >

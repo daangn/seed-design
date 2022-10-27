@@ -4,6 +4,7 @@ import React from "react";
 
 import DocumentEditLink from "../components/DocumentEditLink";
 import Layout from "../components/Layout";
+import * as style from "./OverviewContentTemplate.css";
 
 interface TemplatePostProps {
   children: React.ReactNode;
@@ -18,31 +19,20 @@ const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
 }) => {
   return (
     <Layout>
-      <main>
-        <section
-          style={{
-            maxWidth: "900px",
-            margin: "50px auto",
-            wordBreak: "keep-all",
-            overflowWrap: "break-word",
-            lineHeight: "1.7",
-            letterSpacing: "-0.04px",
+      <main className={style.main}>
+        <motion.div
+          initial={{
+            opacity: 0,
+            x: -10,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
           }}
         >
-          <motion.div
-            initial={{
-              opacity: 0,
-              x: -10,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-          >
-            {children}
-          </motion.div>
-          <DocumentEditLink slug={pageContext.slug} />
-        </section>
+          {children}
+        </motion.div>
+        <DocumentEditLink slug={pageContext.slug} />
       </main>
     </Layout>
   );

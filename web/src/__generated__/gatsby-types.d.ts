@@ -3727,7 +3727,7 @@ type WebPOptions = {
 type ContentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ContentsQuery = { readonly ogimage: { readonly original: { readonly height: number | null, readonly src: string | null, readonly width: number | null } | null } | null };
+type ContentsQuery = { readonly ogimage: { readonly original: { readonly src: string | null } | null } | null };
 
 type DrawerQueryVariables = Exact<{ [key: string]: never; }>;
 

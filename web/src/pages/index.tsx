@@ -3,15 +3,14 @@ import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import React from "react";
 
-import * as style from "../styles/index.css";
+import * as t from "../styles/token.css";
+import * as u from "../styles/utils.css";
 
 export const query = graphql`
   query Contents {
     ogimage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
       original {
-        height
         src
-        width
       }
     }
   }
@@ -19,8 +18,8 @@ export const query = graphql`
 
 const IndexPage = () => {
   return (
-    <div className={clsx(style.container)}>
-      <h1 className={clsx(style.title)}>Seed Design</h1>
+    <div className={clsx(u.fullScreen, u.flexColumnCenter)}>
+      <h1 className={clsx(t.documentHeading1)}>Seed Design</h1>
     </div>
   );
 };
