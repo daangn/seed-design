@@ -110,7 +110,6 @@ module.exports = {
     {
       resolve: "gatsby-plugin-sitemap",
       options: {
-        output: "/sitemap.xml",
         query: `
         {
           allSitePage {
@@ -121,10 +120,10 @@ module.exports = {
         }
       `,
         resolveSiteUrl: () => SITE_METADATA.siteUrl,
-        resolvePages: ({ allSitePage: { nodes: allPages } }) => {
-          return allPages.map(({ path }) => {
-            return { path };
-          });
+        serialize: ({ path }) => {
+          return {
+            url: path,
+          };
         },
       },
     },
