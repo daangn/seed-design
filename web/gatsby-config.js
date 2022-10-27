@@ -2,7 +2,7 @@ const path = require(`path`);
 
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
-  siteUrl: `https://seed-design.pages.dev`, // TODO:
+  siteUrl: process.env.URL || "https://seed-design.pages.dev",
   drawerLinks: {
     overview: [
       {
@@ -108,8 +108,9 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-plugin-advanced-sitemap",
+      resolve: "gatsby-plugin-sitemap",
       options: {
+        output: "/sitemap.xml",
         query: `
         {
           allSitePage {
@@ -117,13 +118,14 @@ module.exports = {
               path
             }
           }
-        }`,
-        mapping: {
-          allSitePage: {
-            sitemap: "pages",
-          },
+        }
+      `,
+        resolveSiteUrl: () => SITE_METADATA.siteUrl,
+        resolvePages: ({ allSitePage: { nodes: allPages } }) => {
+          return allPages.map(({ path }) => {
+            return { path };
+          });
         },
-        exclude: [`/404`, `/404.html`],
       },
     },
   ],
