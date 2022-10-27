@@ -2,7 +2,7 @@ const path = require(`path`);
 
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
-  siteUrl: `https://www.yourdomain.tld`, // TODO:
+  siteUrl: `https://seed-design.pages.dev`, // TODO:
   drawerLinks: {
     overview: [
       {
@@ -107,5 +107,6 @@ module.exports = {
         "data-seed-scale-letter-spacing": "ios",
       },
     },
+    "gatsby-plugin-sitemap",
   ],
 };
