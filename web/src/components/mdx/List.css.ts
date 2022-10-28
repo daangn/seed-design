@@ -1,6 +1,7 @@
 import { classNames, vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
+import * as m from "../../styles/media.css";
 import * as u from "../../styles/utils.css";
 
 export const ol = style([
@@ -35,4 +36,13 @@ export const oli = style([
       color: vars.$scale.color.gray00,
     },
   },
+  m.small({
+    "::before": {
+      fontSize: "10px",
+      width: "20px",
+      height: "20px",
+    },
+
+    fontSize: "14px",
+  }),
 ]);

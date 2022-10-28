@@ -1,6 +1,8 @@
 import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
+import * as m from "../../styles/media.css";
+
 export const table = style({
   width: "100%",
   borderCollapse: "collapse",
@@ -10,15 +12,23 @@ export const table = style({
   overflow: "hidden",
 });
 
-export const tableCell = style({
-  border: `1px solid ${vars.$semantic.color.paperContents}`,
-  padding: "16px 30px",
-});
+export const tableCell = style([
+  {
+    border: `1px solid ${vars.$semantic.color.paperContents}`,
+    padding: "16px 30px",
+  },
+  m.small({
+    fontSize: "14px",
+    padding: "12px 24px",
+  }),
+]);
 
-export const tableHead = style({
-  fontWeight: "600",
-  backgroundColor: vars.$semantic.color.paperContents,
-});
+export const tableHead = style([
+  {
+    fontWeight: "600",
+    backgroundColor: vars.$semantic.color.paperContents,
+  },
+]);
 
 export const tableBody = style({});
 

@@ -1,8 +1,9 @@
 import * as card from "./Card";
 import * as heading from "./Heading";
 import Keyboard from "./Keyboard";
-import * as List from "./List";
+import * as list from "./List";
 import * as table from "./Table";
+import * as text from "./Text";
 
 export default {
   /* 커스텀 HTML Elements */
@@ -11,8 +12,10 @@ export default {
   h3: (props: Object) => heading.h3(props),
   h4: (props: Object) => heading.h4(props),
 
-  ol: (props: Object) => List.ol(props),
-  li: (props: Object) => List.oli(props),
+  p: (props: Object) => text.p(props),
+
+  ol: (props: Object) => list.ol(props),
+  li: (props: Object) => list.oli(props),
 
   /* MDX 전용 컴포넌트 */
   Keyboard,

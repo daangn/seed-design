@@ -81,7 +81,6 @@ export const drawer = recipe({
       height: "100vh",
 
       backgroundColor: vars.$scale.color.green800,
-      boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.5)",
     },
   ],
 

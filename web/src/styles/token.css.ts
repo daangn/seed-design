@@ -7,13 +7,17 @@ export const main = style([
   {
     maxWidth: "900px",
     margin: "50px auto",
-    padding: "10px",
     wordBreak: "keep-all",
     overflowWrap: "break-word",
     lineHeight: "1.7",
     letterSpacing: "-0.04px",
   },
-  m.small({}),
+  m.large({
+    padding: "30px",
+  }),
+  m.small({
+    padding: "20px",
+  }),
 ]);
 
 export const documentHeading1 = style([
@@ -24,6 +28,10 @@ export const documentHeading1 = style([
     marginTop: "85px",
     marginBottom: "10px",
   },
+  m.small({
+    fontSize: "50px",
+    marginTop: "60px",
+  }),
 ]);
 
 export const documentHeading2 = style([
@@ -33,6 +41,10 @@ export const documentHeading2 = style([
     marginTop: "75px",
     marginBottom: "20px",
   },
+  m.small({
+    fontSize: "36px",
+    marginTop: "60px",
+  }),
 ]);
 
 export const documentHeading3 = style([
@@ -42,6 +54,10 @@ export const documentHeading3 = style([
     marginTop: "40px",
     marginBottom: "20px",
   },
+  m.small({
+    fontSize: "30px",
+    marginBottom: "10px",
+  }),
 ]);
 
 export const documentHeading4 = style([
@@ -49,8 +65,19 @@ export const documentHeading4 = style([
   {
     fontWeight: 700,
     marginTop: "35px",
-    marginBottom: "20px",
+    marginBottom: "10px",
   },
+  m.small({
+    fontSize: "26px",
+    marginTop: "20px",
+  }),
+]);
+
+export const documentParagraph = style([
+  classNames.$semantic.typography.bodyL1Regular,
+  m.small({
+    fontSize: "16px",
+  }),
 ]);
 
 export const documentCaption1 = style([
@@ -58,6 +85,9 @@ export const documentCaption1 = style([
   {
     color: vars.$scale.color.gray600,
   },
+  m.small({
+    fontSize: "18px",
+  }),
 ]);
 
 export const documentCaption2 = style([
@@ -65,4 +95,7 @@ export const documentCaption2 = style([
   {
     color: vars.$scale.color.gray600,
   },
+  m.small({
+    fontSize: "16px",
+  }),
 ]);
