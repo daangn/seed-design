@@ -44,7 +44,7 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 900,
-              wrapperStyle: `margin: 25px 0px, z-index: 0`,
+              wrapperStyle: `margin: 25px 0px;z-index: 0;border-radius: 8px;overflow: hidden;`,
             },
           },
         ],
@@ -99,14 +99,6 @@ module.exports = {
       },
     },
     "gatsby-plugin-vanilla-extract",
-    {
-      resolve: "gatsby-plugin-html-attributes",
-      options: {
-        "data-seed": "light-only",
-        "data-seed-scale-color": "light",
-        "data-seed-scale-letter-spacing": "ios",
-      },
-    },
     {
       resolve: "gatsby-plugin-sitemap",
       options: {

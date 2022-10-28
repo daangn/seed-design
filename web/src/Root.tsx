@@ -1,6 +1,7 @@
 import React from "react";
 
-import Drawer from "./components/Drawer";
+import Header from "./components/Header";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 interface RootProps {
   children: React.ReactNode;
@@ -8,10 +9,10 @@ interface RootProps {
 
 const Root: React.FC<RootProps> = ({ children }) => {
   return (
-    <React.Fragment>
-      <Drawer />
+    <ThemeProvider>
+      <Header />
       {children}
-    </React.Fragment>
+    </ThemeProvider>
   );
 };
 

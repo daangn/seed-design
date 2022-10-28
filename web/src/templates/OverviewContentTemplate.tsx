@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import React from "react";
 
-import DocumentEditLink from "../components/DocumentEditLink";
-import Layout from "../components/Layout";
+import DocumentLayout from "../components/DocumentLayout";
+import EditLink from "../components/EditLink";
 import * as style from "./OverviewContentTemplate.css";
 
 interface TemplatePostProps {
@@ -18,7 +18,7 @@ const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
   children,
 }) => {
   return (
-    <Layout>
+    <DocumentLayout>
       <main className={style.main}>
         <motion.div
           initial={{
@@ -32,9 +32,9 @@ const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
         >
           {children}
         </motion.div>
-        <DocumentEditLink slug={pageContext.slug} />
+        <EditLink slug={pageContext.slug} />
       </main>
-    </Layout>
+    </DocumentLayout>
   );
 };
 

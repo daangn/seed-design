@@ -2,7 +2,7 @@ import { classNames } from "@seed-design/design-token";
 import clsx from "clsx";
 import React from "react";
 
-import * as style from "./DocumentCard.css";
+import * as style from "./Card.css";
 
 interface PropsWithChildren {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface PropsWithChildren {
 
 /* Common */
 
-export function DocumentCardCaption({ children }: PropsWithChildren) {
+export function CardCaption({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
@@ -25,15 +25,15 @@ export function DocumentCardCaption({ children }: PropsWithChildren) {
 
 /* Full Card */
 
-export function DocumentFullCard({ children }: PropsWithChildren) {
+export function FullCard({ children }: PropsWithChildren) {
   return <article className={clsx(style.fullCard)}>{children}</article>;
 }
 
-export function DocumentFullCardImageCell({ children }: PropsWithChildren) {
+export function FullCardImageCell({ children }: PropsWithChildren) {
   return <div className={clsx(style.fullCardImageCell)}>{children}</div>;
 }
 
-export function DocumentFullCardDescription({ children }: PropsWithChildren) {
+export function FullCardDescription({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(
@@ -48,23 +48,19 @@ export function DocumentFullCardDescription({ children }: PropsWithChildren) {
 
 /* Half Card */
 
-export function DocumentHalfCard({ children }: PropsWithChildren) {
+export function HalfCard({ children }: PropsWithChildren) {
   return <article className={clsx(style.halfCard)}>{children}</article>;
 }
 
-export function DocumentHalfCardImageCell({ children }: PropsWithChildren) {
+export function HalfCardImageCell({ children }: PropsWithChildren) {
   return <div className={clsx(style.halfCardImageCell)}>{children}</div>;
 }
 
-export function DocumentHalfCardDescriptionCell({
-  children,
-}: PropsWithChildren) {
+export function HalfCardDescriptionCell({ children }: PropsWithChildren) {
   return <div className={clsx(style.halfCardDescriptionCell)}>{children}</div>;
 }
 
-export function DocumentHalfCardDescriptionTitle({
-  children,
-}: PropsWithChildren) {
+export function HalfCardDescriptionTitle({ children }: PropsWithChildren) {
   return (
     <h4
       className={clsx(
@@ -77,7 +73,7 @@ export function DocumentHalfCardDescriptionTitle({
   );
 }
 
-export function DocumentHalfCardDescription({ children }: PropsWithChildren) {
+export function HalfCardDescription({ children }: PropsWithChildren) {
   return (
     <div
       className={clsx(

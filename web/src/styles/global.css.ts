@@ -12,6 +12,8 @@ globalStyle("body", {
   lineHeight: "1.3",
   WebkitFontSmoothing: "antialiased",
   MozOsxFontSmoothing: "grayscale",
+
+  transition: "background-color 0.2s ease, color 0.2s ease",
 });
 
 globalStyle(

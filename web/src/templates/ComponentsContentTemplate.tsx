@@ -3,8 +3,8 @@ import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
 import React from "react";
 
-import DocumentEditLink from "../components/DocumentEditLink";
-import Layout from "../components/Layout";
+import DocumentLayout from "../components/DocumentLayout";
+import EditLink from "../components/EditLink";
 import * as style from "./ComponentsContentTemplate.css";
 
 interface TemplatePostProps {
@@ -22,7 +22,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   children,
 }) => {
   return (
-    <Layout>
+    <DocumentLayout>
       <main className={style.main}>
         <h1 className={style.title}>{pageContext.title}</h1>
         <p className={style.titleDescription}>{pageContext.description}</p>
@@ -56,11 +56,9 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
         >
           {children}
         </motion.div>
-        <DocumentEditLink
-          slug={`${pageContext.slug}/${pageContext.activeTab}`}
-        />
+        <EditLink slug={`${pageContext.slug}/${pageContext.activeTab}`} />
       </main>
-    </Layout>
+    </DocumentLayout>
   );
 };
 

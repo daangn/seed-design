@@ -33,9 +33,8 @@ export const logo = style([
 
 export const drawerLink = recipe({
   base: [
+    u.flexAlignCenter,
     {
-      display: "flex",
-      alignItems: "center",
       columnGap: "10px",
       padding: "10px",
       margin: "8px",
@@ -64,10 +63,7 @@ export const drawerButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    margin: "10px",
+    margin: "20px",
   },
 ]);
 

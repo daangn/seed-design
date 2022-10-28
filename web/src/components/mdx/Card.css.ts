@@ -1,8 +1,8 @@
 import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
-import * as t from "../styles/token.css";
-import * as u from "../styles/utils.css";
+import * as t from "../../styles/token.css";
+import * as u from "../../styles/utils.css";
 
 /* Common */
 
@@ -16,6 +16,7 @@ export const fullCard = style([
     marginTop: "20px",
     borderRadius: "8px",
     border: `1px solid ${vars.$scale.color.gray300}`,
+    backgroundColor: vars.$semantic.color.onPrimary,
     overflow: "hidden",
   },
 ]);
@@ -26,7 +27,7 @@ export const fullCardImageCell = style({
 
 export const fullCardDescription = style({
   paddingBottom: "60px",
-  color: vars.$semantic.color.inkText,
+  color: vars.$static.color.staticBlack,
 });
 
 /* Half Card */
@@ -37,13 +38,15 @@ export const halfCard = style([
     justifyContent: "space-between",
     columnGap: "30px",
     margin: "40px 0px",
+    borderRadius: "8px",
   },
 ]);
 
 export const halfCardImageCell = style({
   minWidth: "500px",
-  borderRadius: "8px",
   border: `1px solid ${vars.$scale.color.gray300}`,
+  backgroundColor: vars.$semantic.color.onPrimary,
+  borderRadius: "8px",
   overflow: "hidden",
 });
 

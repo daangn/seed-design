@@ -1,14 +1,20 @@
 import { classNames, vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
-export const main = style({
-  maxWidth: "900px",
-  margin: "50px auto",
-  wordBreak: "keep-all",
-  overflowWrap: "break-word",
-  lineHeight: "1.7",
-  letterSpacing: "-0.04px",
-});
+import * as m from "./media.css";
+
+export const main = style([
+  {
+    maxWidth: "900px",
+    margin: "50px auto",
+    padding: "10px",
+    wordBreak: "keep-all",
+    overflowWrap: "break-word",
+    lineHeight: "1.7",
+    letterSpacing: "-0.04px",
+  },
+  m.small({}),
+]);
 
 export const documentHeading1 = style([
   classNames.$semantic.typography.h1,
