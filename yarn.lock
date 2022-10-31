@@ -1652,6 +1652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.3.1":
+  version: 7.20.0
+  resolution: "@babel/runtime@npm:7.20.0"
+  dependencies:
+    regenerator-runtime: ^0.13.10
+  checksum: 637fca51db34f3a59d329b7e0d01163769fe94915fdb04e4ac4ba62de9f1ca637ce3a564fe3b0166ccdd7f02f14b6a5707ee3e550b3e01c72327c6620d8e6a8b
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.12.13, @babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10, @babel/template@npm:^7.18.6":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
@@ -9450,6 +9459,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-plugin-portal@npm:^1.0.7":
+  version: 1.0.65
+  resolution: "gatsby-plugin-portal@npm:1.0.65"
+  dependencies:
+    "@babel/runtime": ^7.3.1
+  peerDependencies:
+    gatsby: ^2.0.0
+  checksum: e3794fe712faa3aa615b921d5160e8fc1b67a790629a7674b3677a162d7c0046760ff65ba55a591c402438990040d818d94eb44ed248f16f6d5a55676e7babc8
+  languageName: node
+  linkType: hard
+
 "gatsby-plugin-sharp@npm:^4.24.0":
   version: 4.24.0
   resolution: "gatsby-plugin-sharp@npm:4.24.0"
@@ -15384,6 +15404,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regenerator-runtime@npm:^0.13.10":
+  version: 0.13.10
+  resolution: "regenerator-runtime@npm:0.13.10"
+  checksum: 09893f5a9e82932642d9a999716b6c626dc53ef2a01307c952ebbf8e011802360163a37c304c18a6c358548be5a72b448e37209954a18696f21e438c81cbb4b9
+  languageName: node
+  linkType: hard
+
 "regenerator-runtime@npm:^0.13.4":
   version: 0.13.7
   resolution: "regenerator-runtime@npm:0.13.7"
@@ -18090,6 +18117,7 @@ resolve@^1.10.0:
     gatsby-plugin-image: ^2.24.0
     gatsby-plugin-mdx: ^4.3.0
     gatsby-plugin-mdx-frontmatter: ^0.0.4
+    gatsby-plugin-portal: ^1.0.7
     gatsby-plugin-sharp: ^4.24.0
     gatsby-plugin-sitemap: ^5.24.0
     gatsby-plugin-typegen: ^3.0.0

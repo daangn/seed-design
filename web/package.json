@@ -31,6 +31,7 @@
     "gatsby-plugin-image": "^2.24.0",
     "gatsby-plugin-mdx": "^4.3.0",
     "gatsby-plugin-mdx-frontmatter": "^0.0.4",
+    "gatsby-plugin-portal": "^1.0.7",
     "gatsby-plugin-sharp": "^4.24.0",
     "gatsby-plugin-sitemap": "^5.24.0",
     "gatsby-plugin-typegen": "^3.0.0",

@@ -6,34 +6,25 @@ import React, { useCallback } from "react";
 import { useThemeDispatch, useThemeState } from "../contexts/ThemeContext";
 import * as style from "./ThemeToggler.css";
 
+const commonMotion = {
+  initial: {
+    opacity: 0,
+    transform: "rotate(90deg)",
+  },
+  animate: {
+    opacity: 1,
+    transform: "rotate(0deg)",
+  },
+};
+
 const Sun = () => (
-  <motion.div
-    className={style.container}
-    initial={{
-      opacity: 0,
-      transform: "rotate(90deg)",
-    }}
-    animate={{
-      opacity: 1,
-      transform: "rotate(0deg)",
-    }}
-  >
+  <motion.div className={style.icon} {...commonMotion}>
     <SunIcon width={28} />
   </motion.div>
 );
 
 const Moon = () => (
-  <motion.div
-    className={style.container}
-    initial={{
-      opacity: 0,
-      transform: "rotate(90deg)",
-    }}
-    animate={{
-      opacity: 1,
-      transform: "rotate(0deg)",
-    }}
-  >
+  <motion.div className={style.icon} {...commonMotion}>
     <MoonIcon width={28} />
   </motion.div>
 );

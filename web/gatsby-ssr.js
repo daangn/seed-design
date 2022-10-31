@@ -1,4 +1,4 @@
-exports.onRenderBody = ({ setBodyAttributes, setHtmlAttributes }) => {
+export const onRenderBody = ({ setBodyAttributes, setHtmlAttributes }) => {
   setHtmlAttributes({
     "data-seed": "auto",
     lang: "ko",

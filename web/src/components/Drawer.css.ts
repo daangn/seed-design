@@ -64,6 +64,15 @@ export const drawerButton = style([
   u.middleLayer,
   {
     margin: "20px",
+    padding: "6px",
+    borderRadius: "50%",
+    width: "34px",
+    height: "34px",
+    transition: "background-color 0.2s ease",
+
+    ":hover": {
+      backgroundColor: vars.$scale.color.gray200,
+    },
   },
 ]);
 
