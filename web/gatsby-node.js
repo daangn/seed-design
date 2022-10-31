@@ -19,10 +19,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     query {
       ogImage: imageSharp(fluid: { originalName: { eq: "ogImage.png" } }) {
-        original {
-          src
-        }
+        gatsbyImageData(layout: FIXED)
       }
+
       overviews: allMdx(
         filter: { internal: { contentFilePath: { regex: "/overview/" } } }
       ) {
@@ -39,6 +38,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           }
         }
       }
+
       components: allMdx(
         filter: { frontmatter: { slug: { regex: "/components/" } } }
       ) {
@@ -57,7 +57,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
   `);
 
-  const ogImageSrc = result.data.ogImage.original.src;
+  const ogImage = result.data.ogImage.gatsbyImageData;
 
   result.data.overviews.edges.forEach(({ node }) => {
     const { slug, title, description } = node.frontmatter;
@@ -70,7 +70,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         slug,
         title,
         description,
-        ogImageSrc,
+        ogImage,
       },
     });
   });
@@ -83,7 +83,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         slug: node.frontmatter.slug,
         title: node.frontmatter.title,
         description: node.frontmatter.description,
-        ogImageSrc,
+        ogImage,
         activeTab:
           node.frontmatter.slug.split("/")[
             node.frontmatter.slug.split("/")?.length - 1

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
+import type { IGatsbyImageData } from "gatsby-plugin-image";
+import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
 import DocumentLayout from "../components/DocumentLayout";
@@ -12,7 +14,7 @@ interface TemplatePostProps {
     slug: string;
     title: string;
     description: string;
-    ogImageSrc: string;
+    ogImage: IGatsbyImageData;
   };
 }
 
@@ -52,7 +54,7 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
         content={`Seed Design | Overviews | ${pageContext.title}`}
       />
       <meta property="description" content={pageContext.description} />
-      <meta property="og:image" content={pageContext.ogImageSrc} />
+      <meta property="og:image" content={getSrc(pageContext.ogImage)} />
     </>
   );
 };
