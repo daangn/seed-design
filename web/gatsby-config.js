@@ -15,10 +15,6 @@ const SITE_METADATA = Object.freeze({
         title: "Checkbox",
         slug: "/components/checkbox/primitive",
       },
-      {
-        title: "Textfield",
-        slug: "/components/textfield/primitive",
-      },
     ],
   },
 });

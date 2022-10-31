@@ -10,6 +10,9 @@ interface TemplatePostProps {
   children: React.ReactNode;
   pageContext: {
     slug: string;
+    title: string;
+    description: string;
+    ogImageSrc: string;
   };
 }
 
@@ -38,6 +41,20 @@ const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
   );
 };
 
-export const Head: HeadFC = () => <title>Component page</title>;
+export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
+  pageContext,
+}) => {
+  return (
+    <>
+      <title>Overview - {pageContext.title}</title>
+      <meta
+        property="og:title"
+        content={`Seed Design | Overviews | ${pageContext.title}`}
+      />
+      <meta property="description" content={pageContext.description} />
+      <meta property="og:image" content={pageContext.ogImageSrc} />
+    </>
+  );
+};
 
 export default OverviewContentTemplate;

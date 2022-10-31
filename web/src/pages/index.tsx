@@ -8,7 +8,7 @@ import * as u from "../styles/utils.css";
 
 export const query = graphql`
   query Contents {
-    ogimage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
+    ogImage: imageSharp(fluid: { originalName: { eq: "ogImage.png" } }) {
       original {
         src
       }
@@ -31,7 +31,7 @@ export const Head: HeadFC<GatsbyTypes.ContentsQuery> = ({ data }) => {
     <>
       <title>Home Page</title>
       <meta property="description" content="Seed Design" />
-      <meta property="og:image" content={data.ogimage?.original?.src || ""} />
+      <meta property="og:image" content={data.ogImage?.original?.src || ""} />
     </>
   );
 };

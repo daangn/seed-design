@@ -14,6 +14,7 @@ interface TemplatePostProps {
     description: string;
     slug: string;
     activeTab: string;
+    ogImageSrc: string;
   };
 }
 
@@ -64,6 +65,20 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   );
 };
 
-export const Head: HeadFC = () => <title>Component page</title>;
+export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
+  pageContext,
+}) => {
+  return (
+    <>
+      <title>Components - {pageContext.title}</title>
+      <meta
+        property="og:title"
+        content={`Seed Design | Components | ${pageContext.title}`}
+      />
+      <meta property="description" content={pageContext.description} />
+      <meta property="og:image" content={pageContext.ogImageSrc} />
+    </>
+  );
+};
 
 export default ComponentsContentTemplate;
