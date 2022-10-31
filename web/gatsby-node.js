@@ -18,7 +18,7 @@ exports.onCreatePage = async ({ page, actions: { deletePage } }) => {
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     query {
-      ogImage: imageSharp(fluid: { originalName: { eq: "ogImage.png" } }) {
+      ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
         gatsbyImageData(layout: FIXED)
       }
 

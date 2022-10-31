@@ -3406,7 +3406,7 @@ type WebPOptions = {
 type ContentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ContentsQuery = { readonly ogImage: { readonly original: { readonly src: string | null } | null } | null };
+type ContentsQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type DrawerQueryVariables = Exact<{ [key: string]: never; }>;
 

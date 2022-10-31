@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
+import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
 import * as t from "../styles/token.css";
@@ -8,10 +9,8 @@ import * as u from "../styles/utils.css";
 
 export const query = graphql`
   query Contents {
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogImage.png" } }) {
-      original {
-        src
-      }
+    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
+      gatsbyImageData(layout: FIXED)
     }
   }
 `;
@@ -30,8 +29,12 @@ export const Head: HeadFC<GatsbyTypes.ContentsQuery> = ({ data }) => {
   return (
     <>
       <title>Home Page</title>
-      <meta property="description" content="Seed Design" />
-      <meta property="og:image" content={data.ogImage?.original?.src || ""} />
+      <meta property="og:title" content="Seed Design" />
+      <meta property="description" content="당근마켓 디자인시스템입니다." />
+      <meta
+        property="og:image"
+        content={getSrc(data.ogImage?.gatsbyImageData!)}
+      />
     </>
   );
 };
