@@ -21,6 +21,8 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
+  const commonPath = pageContext.slug.split("/").slice(0, 3).join("/");
+
   return (
     <DocumentLayout>
       <main className={style.main}>
@@ -28,7 +30,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
         <p className={style.titleDescription}>{pageContext.description}</p>
         <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
           <Link
-            to={`${pageContext.slug}/primitive`}
+            to={`${commonPath}/primitive`}
             className={style.tabLink({
               active: pageContext.activeTab === "primitive",
             })}
@@ -36,7 +38,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
             primitive
           </Link>
           <Link
-            to={`${pageContext.slug}/visual`}
+            to={`${commonPath}/visual`}
             className={style.tabLink({
               active: pageContext.activeTab === "visual",
             })}
@@ -56,7 +58,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
         >
           {children}
         </motion.div>
-        <EditLink slug={`${pageContext.slug}/${pageContext.activeTab}`} />
+        <EditLink slug={pageContext.slug} />
       </main>
     </DocumentLayout>
   );

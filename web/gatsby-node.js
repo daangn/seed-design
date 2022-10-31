@@ -32,19 +32,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           }
         }
       }
-      components: allFile(
-        filter: {
-          ext: { eq: ".json" }
-          relativeDirectory: { regex: "/components/" }
-        }
+      components: allMdx(
+        filter: { frontmatter: { slug: { regex: "/components/" } } }
       ) {
         nodes {
-          childJson {
+          internal {
+            contentFilePath
+          }
+          tableOfContents
+          frontmatter {
+            slug
             description
             title
-            slug
           }
-          relativeDirectory
         }
       }
     }
@@ -64,23 +64,18 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   });
 
   result.data.components.nodes.forEach((node) => {
-    const commonContext = {
-      title: node.childJson.title,
-      description: node.childJson.description,
-      slug: node.childJson.slug,
-    };
-
-    ["primitive", "visual"].forEach((tabName) => {
-      createPage({
-        path: `${node.childJson.slug}/${tabName}`,
-        component: `${componentsContentTemplate}?__contentFilePath=${require.resolve(
-          `./content/${node.relativeDirectory}/${tabName}.mdx`,
-        )}`,
-        context: {
-          ...commonContext,
-          activeTab: tabName,
-        },
-      });
+    createPage({
+      path: node.frontmatter.slug,
+      component: `${componentsContentTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
+      context: {
+        slug: node.frontmatter.slug,
+        title: node.frontmatter.title,
+        description: node.frontmatter.description,
+        activeTab:
+          node.frontmatter.slug.split("/")[
+            node.frontmatter.slug.split("/")?.length - 1
+          ],
+      },
     });
   });
 };
