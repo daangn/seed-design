@@ -4,19 +4,26 @@ import { style } from "@vanilla-extract/css";
 import * as m from "./media.css";
 
 export const main = style([
+  { position: "relative", width: "100%", display: "flex" },
+]);
+
+export const content = style([
   {
     maxWidth: "900px",
+    width: "100%",
     margin: "50px auto",
     wordBreak: "keep-all",
     overflowWrap: "break-word",
     lineHeight: "1.7",
     letterSpacing: "-0.04px",
   },
+
   m.large({
-    padding: "30px",
+    padding: "0px 30px",
   }),
+
   m.small({
-    padding: "20px",
+    padding: "0px 20px",
   }),
 ]);
 

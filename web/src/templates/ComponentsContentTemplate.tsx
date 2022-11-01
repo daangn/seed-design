@@ -7,6 +7,9 @@ import React from "react";
 
 import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
+import type { TableOfContentsType } from "../components/TableOfContents";
+import TableOfContents from "../components/TableOfContents";
+import { commonFadeInMotion } from "../constants";
 import * as style from "./ComponentsContentTemplate.css";
 
 interface TemplatePostProps {
@@ -17,6 +20,7 @@ interface TemplatePostProps {
     slug: string;
     activeTab: string;
     ogImage: IGatsbyImageData;
+    tableOfContents: TableOfContentsType;
   };
 }
 
@@ -29,39 +33,33 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   return (
     <DocumentLayout>
       <main className={style.main}>
-        <h1 className={style.title}>{pageContext.title}</h1>
-        <p className={style.titleDescription}>{pageContext.description}</p>
-        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-          <Link
-            to={`${commonPath}/primitive`}
-            className={style.tabLink({
-              active: pageContext.activeTab === "primitive",
-            })}
-          >
-            primitive
-          </Link>
-          <Link
-            to={`${commonPath}/visual`}
-            className={style.tabLink({
-              active: pageContext.activeTab === "visual",
-            })}
-          >
-            visual
-          </Link>
-        </div>
-        <motion.div
-          initial={{
-            opacity: 0,
-            x: -10,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-          }}
-        >
-          {children}
+        <article className={style.content}>
+          <h1 className={style.title}>{pageContext.title}</h1>
+          <p className={style.titleDescription}>{pageContext.description}</p>
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <Link
+              to={`${commonPath}/primitive`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "primitive",
+              })}
+            >
+              primitive
+            </Link>
+            <Link
+              to={`${commonPath}/visual`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "visual",
+              })}
+            >
+              visual
+            </Link>
+          </div>
+          <motion.div {...commonFadeInMotion}>{children}</motion.div>
+          <EditLink slug={pageContext.slug} />
+        </article>
+        <motion.div {...commonFadeInMotion}>
+          <TableOfContents tableOfContents={pageContext.tableOfContents} />
         </motion.div>
-        <EditLink slug={pageContext.slug} />
       </main>
     </DocumentLayout>
   );

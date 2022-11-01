@@ -6,6 +6,8 @@ import * as t from "../styles/token.css";
 
 export const main = style([t.main]);
 
+export const content = style([t.content]);
+
 export const title = style([t.documentHeading1]);
 
 export const titleDescription = style([t.documentCaption1]);

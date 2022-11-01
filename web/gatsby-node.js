@@ -35,6 +35,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
               title
               description
             }
+            tableOfContents
           }
         }
       }
@@ -43,15 +44,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         filter: { frontmatter: { slug: { regex: "/components/" } } }
       ) {
         nodes {
+          id
           internal {
             contentFilePath
           }
-          tableOfContents
           frontmatter {
             slug
             description
             title
           }
+          tableOfContents
         }
       }
     }
@@ -71,6 +73,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         title,
         description,
         ogImage,
+        tableOfContents: node.tableOfContents,
       },
     });
   });
@@ -80,9 +83,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: node.frontmatter.slug,
       component: `${componentsContentTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
       context: {
+        id: node.id,
         slug: node.frontmatter.slug,
         title: node.frontmatter.title,
         description: node.frontmatter.description,
+        tableOfContents: node.tableOfContents,
         ogImage,
         activeTab:
           node.frontmatter.slug.split("/")[

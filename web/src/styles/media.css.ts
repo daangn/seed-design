@@ -36,6 +36,15 @@ export function xlarge(token: StyleRule) {
   };
 }
 
+/* Extra extra large devices (large laptops and desktops, 1600px and up) */
+export function xxlarge(token: StyleRule) {
+  return {
+    "@media": {
+      "screen and (max-width: 1600px)": token,
+    },
+  };
+}
+
 export function dark(token: StyleRule) {
   return {
     "@media": {
