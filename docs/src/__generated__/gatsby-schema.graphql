@@ -2520,13 +2520,6 @@ enum SiteFieldsEnum {
   pathPrefix
   polyfill
   siteMetadata___description
-  siteMetadata___drawerLinks___components
-  siteMetadata___drawerLinks___components___slug
-  siteMetadata___drawerLinks___components___thumbnail
-  siteMetadata___drawerLinks___components___title
-  siteMetadata___drawerLinks___overview
-  siteMetadata___drawerLinks___overview___slug
-  siteMetadata___drawerLinks___overview___title
   siteMetadata___siteUrl
   siteMetadata___title
   trailingSlash
@@ -2905,54 +2898,12 @@ input SitePageSortInput {
 
 type SiteSiteMetadata {
   description: String
-  drawerLinks: SiteSiteMetadataDrawerLinks
   siteUrl: String
   title: String
 }
 
-type SiteSiteMetadataDrawerLinks {
-  components: [SiteSiteMetadataDrawerLinksComponents]
-  overview: [SiteSiteMetadataDrawerLinksOverview]
-}
-
-type SiteSiteMetadataDrawerLinksComponents {
-  slug: String
-  thumbnail: String
-  title: String
-}
-
-input SiteSiteMetadataDrawerLinksComponentsFilterInput {
-  slug: StringQueryOperatorInput
-  thumbnail: StringQueryOperatorInput
-  title: StringQueryOperatorInput
-}
-
-input SiteSiteMetadataDrawerLinksComponentsFilterListInput {
-  elemMatch: SiteSiteMetadataDrawerLinksComponentsFilterInput
-}
-
-input SiteSiteMetadataDrawerLinksFilterInput {
-  components: SiteSiteMetadataDrawerLinksComponentsFilterListInput
-  overview: SiteSiteMetadataDrawerLinksOverviewFilterListInput
-}
-
-type SiteSiteMetadataDrawerLinksOverview {
-  slug: String
-  title: String
-}
-
-input SiteSiteMetadataDrawerLinksOverviewFilterInput {
-  slug: StringQueryOperatorInput
-  title: StringQueryOperatorInput
-}
-
-input SiteSiteMetadataDrawerLinksOverviewFilterListInput {
-  elemMatch: SiteSiteMetadataDrawerLinksOverviewFilterInput
-}
-
 input SiteSiteMetadataFilterInput {
   description: StringQueryOperatorInput
-  drawerLinks: SiteSiteMetadataDrawerLinksFilterInput
   siteUrl: StringQueryOperatorInput
   title: StringQueryOperatorInput
 }

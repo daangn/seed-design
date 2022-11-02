@@ -31,7 +31,7 @@ export const logo = style([
   },
 ]);
 
-export const drawerTitleLink = recipe({
+export const sidebarTitleLink = recipe({
   base: [
     {
       margin: "8px",
@@ -56,7 +56,7 @@ export const drawerTitleLink = recipe({
   },
 });
 
-export const drawerLink = recipe({
+export const sidebarLink = recipe({
   base: [
     u.flexAlignCenter,
     {
@@ -84,7 +84,7 @@ export const drawerLink = recipe({
   },
 });
 
-export const drawerButton = style([
+export const sidebarButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
@@ -101,7 +101,7 @@ export const drawerButton = style([
   },
 ]);
 
-export const drawer = recipe({
+export const sidebar = recipe({
   base: [
     u.flexColumn,
     {
@@ -109,7 +109,10 @@ export const drawer = recipe({
       top: 0,
       left: 0,
 
-      transition: `transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}, z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}`,
+      transition: `
+        transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
+      `,
 
       width: "300px",
       height: "100vh",
@@ -120,35 +123,28 @@ export const drawer = recipe({
 
   variants: {
     open: {
-      true: [
-        u.topLayer,
-        {
-          transform: "translateX(0px)",
-        },
-      ],
-      false: [
-        u.backLayer,
-        {
-          transform: "translateX(-300px)",
-        },
-      ],
+      true: [u.topLayer],
+      false: [u.backLayer],
     },
   },
 });
 
 export const overlay = recipe({
   base: [
-    u.flexColumnCenter,
+    u.flexCenter,
     {
       position: "fixed",
       top: 0,
-      left: 0,
+      right: 0,
 
-      width: "100vw",
       height: "100vh",
 
-      backgroundColor: vars.$scale.color.gray900,
-      transition: `opacity ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}, z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}`,
+      transition: `
+        backgroundColor ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        opacity ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        width ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
+      `,
     },
   ],
 
@@ -157,13 +153,17 @@ export const overlay = recipe({
       true: [
         u.middleLayer,
         {
-          opacity: 0.6,
+          backgroundColor: vars.$scale.color.grayAlpha500,
+          opacity: 1,
+          width: "calc(100vw - 300px)",
         },
       ],
       false: [
         u.backLayer,
         {
+          backgroundColor: undefined,
           opacity: 0,
+          width: "100vw",
         },
       ],
     },

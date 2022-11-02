@@ -8,7 +8,7 @@ import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
-import { commonFadeInMotion } from "../constants";
+import { fadeInFromLeft } from "../framerMotion";
 import * as style from "./OverviewContentTemplate.css";
 
 interface TemplatePostProps {
@@ -30,10 +30,10 @@ const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
     <DocumentLayout>
       <main className={style.main}>
         <article className={style.content}>
-          <motion.div {...commonFadeInMotion}>{children}</motion.div>
+          <motion.div {...fadeInFromLeft}>{children}</motion.div>
           <EditLink slug={pageContext.slug} />
         </article>
-        <motion.div {...commonFadeInMotion}>
+        <motion.div {...fadeInFromLeft}>
           <TableOfContents tableOfContents={pageContext.tableOfContents} />
         </motion.div>
       </main>

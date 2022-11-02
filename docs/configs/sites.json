@@ -1,0 +1,20 @@
+{
+  "overview": [
+    {
+      "title": "Get started",
+      "slug": "/overview/get-started"
+    }
+  ],
+  "components": [
+    {
+      "title": "Checkbox",
+      "slug": "/components/checkbox/primitive",
+      "thumbnail": "../content/components/checkbox/thumbnail.png"
+    },
+    {
+      "title": "Text Field",
+      "slug": "/components/textfield/primitive",
+      "thumbnail": "../content/components/textfield/thumbnail.png"
+    }
+  ]
+}

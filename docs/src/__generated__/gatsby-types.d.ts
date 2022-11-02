@@ -3048,13 +3048,6 @@ type SiteFieldsEnum =
   | 'pathPrefix'
   | 'polyfill'
   | 'siteMetadata.description'
-  | 'siteMetadata.drawerLinks.components'
-  | 'siteMetadata.drawerLinks.components.slug'
-  | 'siteMetadata.drawerLinks.components.thumbnail'
-  | 'siteMetadata.drawerLinks.components.title'
-  | 'siteMetadata.drawerLinks.overview'
-  | 'siteMetadata.drawerLinks.overview.slug'
-  | 'siteMetadata.drawerLinks.overview.title'
   | 'siteMetadata.siteUrl'
   | 'siteMetadata.title'
   | 'trailingSlash';
@@ -3844,54 +3837,12 @@ type SitePluginSortInput = {
 
 type SiteSiteMetadata = {
   readonly description: Maybe<Scalars['String']>;
-  readonly drawerLinks: Maybe<SiteSiteMetadataDrawerLinks>;
   readonly siteUrl: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
 };
 
-type SiteSiteMetadataDrawerLinks = {
-  readonly components: Maybe<ReadonlyArray<Maybe<SiteSiteMetadataDrawerLinksComponents>>>;
-  readonly overview: Maybe<ReadonlyArray<Maybe<SiteSiteMetadataDrawerLinksOverview>>>;
-};
-
-type SiteSiteMetadataDrawerLinksComponents = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<Scalars['String']>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type SiteSiteMetadataDrawerLinksComponentsFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<StringQueryOperatorInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SiteSiteMetadataDrawerLinksComponentsFilterListInput = {
-  readonly elemMatch: InputMaybe<SiteSiteMetadataDrawerLinksComponentsFilterInput>;
-};
-
-type SiteSiteMetadataDrawerLinksFilterInput = {
-  readonly components: InputMaybe<SiteSiteMetadataDrawerLinksComponentsFilterListInput>;
-  readonly overview: InputMaybe<SiteSiteMetadataDrawerLinksOverviewFilterListInput>;
-};
-
-type SiteSiteMetadataDrawerLinksOverview = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type SiteSiteMetadataDrawerLinksOverviewFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type SiteSiteMetadataDrawerLinksOverviewFilterListInput = {
-  readonly elemMatch: InputMaybe<SiteSiteMetadataDrawerLinksOverviewFilterInput>;
-};
-
 type SiteSiteMetadataFilterInput = {
   readonly description: InputMaybe<StringQueryOperatorInput>;
-  readonly drawerLinks: InputMaybe<SiteSiteMetadataDrawerLinksFilterInput>;
   readonly siteUrl: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
@@ -3932,15 +3883,15 @@ type ComponentsPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type ComponentsPageQuery = { readonly json: { readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
 
-type DrawerQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type DrawerQuery = { readonly site: { readonly siteMetadata: { readonly drawerLinks: { readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly overview: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null } | null } | null };
-
 type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type IndexPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SidebarQuery = { readonly json: { readonly overview: ReadonlyArray<{ readonly title: string | null, readonly slug: string | null } | null> | null, readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
 
 
 }

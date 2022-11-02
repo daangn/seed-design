@@ -3,20 +3,6 @@ const path = require(`path`);
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
   siteUrl: process.env.URL || "https://seed-design.pages.dev",
-  drawerLinks: {
-    overview: [
-      {
-        title: "Get started",
-        slug: "/overview/get-started",
-      },
-    ],
-    components: [
-      {
-        title: "Checkbox",
-        slug: "/components/checkbox/primitive",
-      },
-    ],
-  },
 });
 
 const wrapESMPlugin = (name) =>
@@ -80,6 +66,13 @@ module.exports = {
       options: {
         name: `content`,
         path: path.resolve(__dirname, "./content"),
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `configs`,
+        path: path.resolve(__dirname, "./configs"),
       },
     },
     "gatsby-plugin-image",
