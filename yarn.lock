@@ -18084,9 +18084,9 @@ resolve@^1.10.0:
   languageName: node
   linkType: hard
 
-"web@workspace:web":
+"web@workspace:docs":
   version: 0.0.0-use.local
-  resolution: "web@workspace:web"
+  resolution: "web@workspace:docs"
   dependencies:
     "@karrotmarket/karrot-ui-icon": ^0.0.0-20220907.1
     "@mdx-js/mdx": ^2.1.5

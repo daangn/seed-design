@@ -6,7 +6,7 @@
     "packages/*",
     "packages/machines/*",
     "examples/*",
-    "web"
+    "docs"
   ],
   "scripts": {
     "build": "ultra -r build",
