@@ -6,7 +6,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react";
 
 import { fadeInFromTop } from "../framerMotion";
-import * as style from "../styles/components.css";
+import * as style from "../styles/components.page.css";
 
 interface ComponentsPageProps {
   data: GatsbyTypes.ComponentsPageQuery;

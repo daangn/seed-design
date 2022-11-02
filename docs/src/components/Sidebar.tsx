@@ -53,7 +53,7 @@ export default function Sidebar() {
   const closeSidebar = () => setOpen(false);
   const openSidebar = () => setOpen(true);
 
-  const x = useSpring(0, { duration: 0.2 });
+  const x = useSpring(-300, { duration: 0.2 });
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
