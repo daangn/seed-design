@@ -43,7 +43,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
                 active: pageContext.activeTab === "primitive",
               })}
             >
-              primitive
+              Primitive
             </Link>
             <Link
               to={`${commonPath}/visual`}
@@ -51,7 +51,7 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
                 active: pageContext.activeTab === "visual",
               })}
             >
-              visual
+              Visual
             </Link>
           </div>
           <motion.div {...commonFadeInMotion}>{children}</motion.div>
