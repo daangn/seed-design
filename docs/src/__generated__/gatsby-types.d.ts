@@ -3927,6 +3927,11 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
+type ComponentsPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type ComponentsPageQuery = { readonly json: { readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
+
 type DrawerQueryVariables = Exact<{ [key: string]: never; }>;
 
 

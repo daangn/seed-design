@@ -66,7 +66,7 @@ export const halfCardImageCell = style([
 
 export const halfCardDescriptionCell = style([
   m.medium({
-    marginBottom: "70px",
+    marginBottom: "50px",
   }),
 ]);
 
@@ -75,6 +75,11 @@ export const halfCardDescriptionTitle = style([
     fontSize: "20px",
     fontWeight: 700,
   },
+
+  m.small({
+    fontSize: "16px",
+  }),
+
   m.medium({
     marginTop: "20px",
   }),
