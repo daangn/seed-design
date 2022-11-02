@@ -1,6 +1,6 @@
 import type { StyleRule } from "@vanilla-extract/css";
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
+/* On screens that are 600px or less */
 export function small(token: StyleRule) {
   return {
     "@media": {
@@ -9,7 +9,7 @@ export function small(token: StyleRule) {
   };
 }
 
-/* Medium devices (landscape tablets, 768px and up) */
+/* On screens that are 768px or less */
 export function medium(token: StyleRule) {
   return {
     "@media": {
@@ -18,7 +18,7 @@ export function medium(token: StyleRule) {
   };
 }
 
-/* Large devices (laptops/desktops, 992px and up) */
+/* On screens that are 992px or less */
 export function large(token: StyleRule) {
   return {
     "@media": {
@@ -27,7 +27,7 @@ export function large(token: StyleRule) {
   };
 }
 
-/* Extra large devices (large laptops and desktops, 1200px and up) */
+/* On screens that are 1200px or less */
 export function xlarge(token: StyleRule) {
   return {
     "@media": {
@@ -36,7 +36,7 @@ export function xlarge(token: StyleRule) {
   };
 }
 
-/* Extra extra large devices (large laptops and desktops, 1600px and up) */
+/* On screens that are 1600px or less */
 export function xxlarge(token: StyleRule) {
   return {
     "@media": {

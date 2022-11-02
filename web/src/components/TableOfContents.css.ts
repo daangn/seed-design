@@ -4,20 +4,23 @@ import { recipe } from "@vanilla-extract/recipes";
 import * as m from "../styles/media.css";
 
 export const nav = style([
+  m.xlarge({
+    display: "none",
+  }),
+
+  m.xxlarge({
+    marginRight: "30px",
+  }),
+
   {
     position: "sticky",
     top: "150px",
-    right: "0",
 
     width: "250px",
 
     borderLeft: "1px solid #eaeaea",
-    marginRight: "150px",
+    marginRight: "250px",
   },
-
-  m.xlarge({
-    display: "none",
-  }),
 ]);
 
 export const list = style({

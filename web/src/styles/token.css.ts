@@ -33,7 +33,6 @@ export const documentHeading1 = style([
     fontSize: "66px",
     fontWeight: 700,
     marginTop: "85px",
-    marginBottom: "10px",
   },
   m.small({
     fontSize: "50px",
@@ -45,8 +44,7 @@ export const documentHeading2 = style([
   classNames.$semantic.typography.h2,
   {
     fontWeight: 700,
-    marginTop: "75px",
-    marginBottom: "20px",
+    marginTop: "120px",
   },
   m.small({
     fontSize: "36px",
@@ -58,13 +56,9 @@ export const documentHeading3 = style([
   classNames.$semantic.typography.h3,
   {
     fontWeight: 700,
+    fontSize: "28px",
     marginTop: "40px",
-    marginBottom: "20px",
   },
-  m.small({
-    fontSize: "30px",
-    marginBottom: "10px",
-  }),
 ]);
 
 export const documentHeading4 = style([
@@ -72,16 +66,19 @@ export const documentHeading4 = style([
   {
     fontWeight: 700,
     marginTop: "35px",
-    marginBottom: "10px",
   },
   m.small({
-    fontSize: "26px",
+    fontSize: "24px",
     marginTop: "20px",
   }),
 ]);
 
 export const documentParagraph = style([
   classNames.$semantic.typography.bodyL1Regular,
+  {
+    marginTop: "10px",
+  },
+
   m.small({
     fontSize: "16px",
   }),

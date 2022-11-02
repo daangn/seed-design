@@ -28,7 +28,7 @@ export const fullCardImageCell = style({
 
 export const fullCardDescription = style({
   padding: "20px",
-  paddingBottom: "60px",
+  paddingBottom: "40px",
   color: vars.$static.color.staticBlack,
 });
 
@@ -70,7 +70,6 @@ export const halfCardDescriptionTitle = style([
   {
     fontSize: "20px",
     fontWeight: 700,
-    marginBottom: "20px",
   },
   m.medium({
     marginTop: "20px",
