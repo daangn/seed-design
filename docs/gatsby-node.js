@@ -7,14 +7,6 @@ const overviewContentTemplate = path.resolve(
   `./src/templates/OverviewContentTemplate.tsx`,
 );
 
-exports.onCreatePage = async ({ page, actions: { deletePage } }) => {
-  const isVanillaExtractFile = page.path.includes(".css");
-
-  if (isVanillaExtractFile) {
-    deletePage(page);
-  }
-};
-
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     query {
