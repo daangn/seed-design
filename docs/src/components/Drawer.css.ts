@@ -31,6 +31,31 @@ export const logo = style([
   },
 ]);
 
+export const drawerTitleLink = recipe({
+  base: [
+    {
+      margin: "8px",
+      borderRadius: "10px",
+      color: vars.$scale.color.gray00,
+      transition: "background-color 0.2s ease",
+
+      ":hover": {
+        backgroundColor: vars.$scale.color.green700,
+      },
+    },
+  ],
+
+  variants: {
+    highlight: {
+      true: [
+        {
+          backgroundColor: vars.$scale.color.green600,
+        },
+      ],
+    },
+  },
+});
+
 export const drawerLink = recipe({
   base: [
     u.flexAlignCenter,
@@ -40,7 +65,7 @@ export const drawerLink = recipe({
       margin: "8px",
       borderRadius: "10px",
       color: vars.$scale.color.gray00,
-      transition: "background-color 0.3s ease",
+      transition: "background-color 0.2s ease",
 
       ":hover": {
         backgroundColor: vars.$scale.color.green700,

@@ -8,7 +8,7 @@ import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
 
 export const query = graphql`
-  query Contents {
+  query IndexPage {
     ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
       gatsbyImageData(layout: FIXED)
     }
@@ -25,10 +25,10 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC<GatsbyTypes.ContentsQuery> = ({ data }) => {
+export const Head: HeadFC<GatsbyTypes.IndexPageQuery> = ({ data }) => {
   return (
     <>
-      <title>Home Page</title>
+      <title>Seed Design</title>
       <meta property="og:title" content="Seed Design" />
       <meta property="description" content="당근마켓 디자인시스템입니다." />
       <meta

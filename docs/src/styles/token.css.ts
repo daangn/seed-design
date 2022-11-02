@@ -47,7 +47,7 @@ export const documentHeading2 = style([
     marginTop: "120px",
   },
   m.small({
-    fontSize: "36px",
+    fontSize: "26px",
     marginTop: "60px",
   }),
 ]);
@@ -59,6 +59,10 @@ export const documentHeading3 = style([
     fontSize: "28px",
     marginTop: "40px",
   },
+  m.small({
+    fontSize: "20px",
+    marginTop: "20px",
+  }),
 ]);
 
 export const documentHeading4 = style([
@@ -68,7 +72,7 @@ export const documentHeading4 = style([
     marginTop: "35px",
   },
   m.small({
-    fontSize: "24px",
+    fontSize: "20px",
     marginTop: "20px",
   }),
 ]);
@@ -87,7 +91,7 @@ export const documentParagraph = style([
 export const documentCaption1 = style([
   classNames.$semantic.typography.title2Bold,
   {
-    color: vars.$scale.color.gray600,
+    color: vars.$scale.color.gray500,
   },
   m.small({
     fontSize: "18px",

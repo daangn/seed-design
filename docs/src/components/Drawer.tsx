@@ -94,7 +94,16 @@ export default function Drawer() {
                     />
                   ))}
 
-                  <h1 className={style.categoryTitle}>Components</h1>
+                  <Link
+                    onClick={closeDrawer}
+                    className={style.drawerTitleLink({
+                      highlight: location.pathname === "/components",
+                    })}
+                    to="/components"
+                  >
+                    <h1 className={style.categoryTitle}>Components</h1>
+                  </Link>
+
                   {components!.map((link) => (
                     <DrawerLink
                       key={link!.slug!}

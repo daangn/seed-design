@@ -45,6 +45,10 @@ export const halfCard = style([
   m.medium({
     flexDirection: "column",
   }),
+
+  m.small({
+    margin: "20px 0px",
+  }),
 ]);
 
 export const halfCardImageCell = style([
