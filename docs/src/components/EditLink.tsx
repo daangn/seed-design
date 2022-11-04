@@ -5,14 +5,23 @@ import * as style from "./EditLink.css";
 
 interface DocumentEditLinkProps {
   slug: string;
+  file: string;
 }
 
-export default function DocumentEditLink({ slug }: DocumentEditLinkProps) {
+/**
+ *
+ * @param slug ex) /components/checkbox/primitive/
+ * @param file ex) primitive.mdx
+ */
+export default function DocumentEditLink({
+  slug,
+  file,
+}: DocumentEditLinkProps) {
   return (
     <a
       className={style.link}
       target="_blank"
-      href={`https://github.com/daangn/seed-design/edit/feat/seed-design-web/web/content${slug}.mdx`}
+      href={`https://github.com/daangn/seed-design/edit/feat/seed-design-web/web/content${slug}/${file}.mdx`}
     >
       <EditIcon width={20} />
       <span>Edit this page on github</span>

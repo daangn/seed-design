@@ -57,9 +57,6 @@ module.exports = {
     "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-transformer-json`,
-      options: {
-        typeName: `Json`,
-      },
     },
     {
       resolve: `gatsby-source-filesystem`,

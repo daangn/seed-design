@@ -55,36 +55,34 @@ export default function Sidebar() {
 
   const x = useSpring(-300, { duration: 0.2 });
 
+  useEffect(() => {
+    open ? x.set(0) : x.set(-300);
+  }, [open]);
+
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
-      json {
+      configsJson {
         overview {
-          title
           slug
+          title
         }
+
+        foundation {
+          slug
+          title
+        }
+
         components {
           slug
           title
-          thumbnail {
-            childImageSharp {
-              gatsbyImageData
-            }
-          }
         }
       }
     }
   `);
 
-  const overview = data.json?.overview;
-  const components = data.json?.components;
-
-  useEffect(() => {
-    if (open) {
-      x.set(0);
-    } else {
-      x.set(-300);
-    }
-  }, [open]);
+  const overview = data.configsJson?.overview;
+  const foundation = data.configsJson?.foundation;
+  const components = data.configsJson?.components;
 
   return (
     <>
@@ -99,6 +97,17 @@ export default function Sidebar() {
 
           <h1 className={style.categoryTitle}>Overview</h1>
           {overview!.map((link) => (
+            <SidebarLink
+              key={link!.slug!}
+              active={location.pathname === link!.slug}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          ))}
+
+          <h1 className={style.categoryTitle}>Foundation</h1>
+          {foundation!.map((link) => (
             <SidebarLink
               key={link!.slug!}
               active={location.pathname === link!.slug}

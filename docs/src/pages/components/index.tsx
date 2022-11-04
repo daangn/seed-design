@@ -5,8 +5,8 @@ import { graphql } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react";
 
-import { fadeInFromTop } from "../framerMotion";
-import * as style from "../styles/components.page.css";
+import { fadeInFromTop } from "../../framer-motions";
+import * as style from "../../styles/components.page.css";
 
 interface ComponentsPageProps {
   data: GatsbyTypes.ComponentsPageQuery;
@@ -14,7 +14,7 @@ interface ComponentsPageProps {
 
 export const query = graphql`
   query ComponentsPage {
-    json {
+    configsJson {
       components {
         slug
         title
@@ -29,9 +29,7 @@ export const query = graphql`
 `;
 
 const ComponentsPage = ({ data }: ComponentsPageProps) => {
-  const components = data.json?.components;
-
-  if (!components) return null;
+  const components = data.configsJson?.components!;
 
   return (
     <main>

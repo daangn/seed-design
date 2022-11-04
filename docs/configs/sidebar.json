@@ -1,0 +1,36 @@
+{
+  "overview": [
+    {
+      "title": "Get started",
+      "slug": "/overview/get-started/"
+    },
+    {
+      "title": "Principle",
+      "slug": "/overview/principle/"
+    }
+  ],
+
+  "foundation": [
+    {
+      "title": "Color",
+      "slug": "/foundation/color/"
+    },
+    {
+      "title": "Typography",
+      "slug": "/foundation/typography/"
+    }
+  ],
+
+  "components": [
+    {
+      "title": "Checkbox",
+      "slug": "/components/checkbox/primitive/",
+      "thumbnail": "../content/components/checkbox/thumbnail.png"
+    },
+    {
+      "title": "Text Field",
+      "slug": "/components/textfield/primitive/",
+      "thumbnail": "../content/components/textfield/thumbnail.png"
+    }
+  ]
+}

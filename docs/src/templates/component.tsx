@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
+import { Link } from "gatsby";
 import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
@@ -8,30 +9,54 @@ import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
-import { fadeInFromLeft } from "../framerMotion";
-import * as style from "./OverviewContentTemplate.css";
+import { fadeInFromLeft } from "../framer-motions";
+import * as style from "./component.css";
 
 interface TemplatePostProps {
   children: React.ReactNode;
   pageContext: {
-    slug: string;
     title: string;
     description: string;
+    slug: string;
+    activeTab: string;
     ogImage: IGatsbyImageData;
     tableOfContents: TableOfContentsType;
   };
 }
 
-const OverviewContentTemplate: React.FC<TemplatePostProps> = ({
+const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
+  // NOTE: /components/overview/primitive -> /components/overview
+  const commonPath = pageContext.slug.split("/").slice(0, 3).join("/");
+
   return (
     <DocumentLayout>
       <main className={style.main}>
         <article className={style.content}>
+          <h1 className={style.title}>{pageContext.title}</h1>
+          <p className={style.titleDescription}>{pageContext.description}</p>
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <Link
+              to={`${commonPath}/primitive`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "primitive",
+              })}
+            >
+              Primitive
+            </Link>
+            <Link
+              to={`${commonPath}/visual`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "visual",
+              })}
+            >
+              Visual
+            </Link>
+          </div>
           <motion.div {...fadeInFromLeft}>{children}</motion.div>
-          <EditLink slug={pageContext.slug} />
+          <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
         </article>
         <motion.div {...fadeInFromLeft}>
           <TableOfContents tableOfContents={pageContext.tableOfContents} />
@@ -46,10 +71,10 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
 }) => {
   return (
     <>
-      <title>Overview - {pageContext.title}</title>
+      <title>Components - {pageContext.title}</title>
       <meta
         property="og:title"
-        content={`Seed Design | Overviews | ${pageContext.title}`}
+        content={`Seed Design | Components | ${pageContext.title}`}
       />
       <meta property="description" content={pageContext.description} />
       <meta property="og:image" content={getSrc(pageContext.ogImage)} />
@@ -57,4 +82,4 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
   );
 };
 
-export default OverviewContentTemplate;
+export default ComponentsContentTemplate;
