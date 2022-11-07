@@ -12,7 +12,7 @@ export const ol = style([
 
 export const oli = style([
   classNames.$semantic.typography.bodyL1Regular,
-  u.flexAlignCenter,
+  u.flex,
   {
     marginBottom: "8px",
 
@@ -28,9 +28,12 @@ export const oli = style([
       fontWeight: "bold",
       width: "24px",
       height: "24px",
+      minWidth: "20px",
+      minHeight: "20px",
       borderRadius: "50%",
 
       marginRight: "8px",
+      marginTop: "2px",
 
       backgroundColor: vars.$scale.color.gray900,
       color: vars.$scale.color.gray00,
