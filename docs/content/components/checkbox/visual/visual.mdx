@@ -4,33 +4,160 @@ title: Checkbox
 description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있는 컨트롤입니다.
 ---
 
-## Visual guide
+## Anatomy
 
-### Style variants
+![checkbox visual anatomy](./checkbox-visual-anatomy.png)
 
-<FullCard>
-	<FullCardImageCell>
-		![checkbox-visual-style-variants](./checkbox-visual-style-variants.png)
-	</FullCardImageCell>
-</FullCard>
+1. Root : 체크박스 컴포넌트를 감싸는 컨테이너 영역
+2. Control : 체크박스의 상태를 나타내는 시각 요소
+3. Label : 체크박스에 대한 정보를 전달하는 라벨
+4. Icon: 체크박스의 상태를 표현하는 아이콘
 
-### Size variants
+### Visually Representated States
 
-<FullCard>
-	<FullCardImageCell>
-		![checkbox-visual-size-variants](./checkbox-visual-size-variants.png)
-	</FullCardImageCell>
-</FullCard>
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>State</TableData>
+      <TableData>Condition</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>enabled</TableData>
+      <TableData>
+        !isDisabled && !isHovered && !isFocused && !isPressed
+      </TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>disabled</TableData>
+      <TableData>isDisabled</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>hovered</TableData>
+      <TableData>!isDisabled && !isPressed && isHovered</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>focused</TableData>
+      <TableData>!isDisabled && !isPressed && isFocused</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>pressed</TableData>
+      <TableData>!isDisabled && isPressed</TableData>
+    </TableRow>
+  </TableBody>
+</Table>
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>State</TableData>
+      <TableData>Condition</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>unchecked</TableData>
+      <TableData>isIndeterminate === false && value === false</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>checked</TableData>
+      <TableData>isIndeterminate === false && value === true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>indeterminate</TableData>
+      <TableData>isIndeterminate === true</TableData>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### Design Decisions (Color)
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>Part</TableData>
+      <TableData>Attribute</TableData>
+      <TableData>Value</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>2. Control</TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>3. Label</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.ink-text</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>4. Icon</TableData>
+      <TableData>Color</TableData>
+      <TableData></TableData>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### Design Decisions (Layout)
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>Part</TableData>
+      <TableData>Attribute</TableData>
+      <TableData>Value</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>1. Root</TableData>
+      <TableData>Min Width</TableData>
+      <TableData>130px</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Min Height</TableData>
+      <TableData>28px</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>2. Control</TableData>
+      <TableData>Width</TableData>
+      <TableData>130px</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Height</TableData>
+      <TableData>28px</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>3. Label</TableData>
+      <TableData>Text Align</TableData>
+      <TableData>Start</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>4. Icon</TableData>
+      <TableData>Width</TableData>
+      <TableData>10px</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Height</TableData>
+      <TableData>10px</TableData>
+    </TableRow>
+  </TableBody>
+</Table>
 
 ### Overflow
 
 <FullCard>
-	<FullCardImageCell>
-		![checkbox-visual-overflow](./checkbox-visual-overflow.png)
-	</FullCardImageCell>
-	<FullCardDescription>
-		label이 2줄을 초과할 경우 텍스트 시작점을 기준으로 위와 같이 개행처리됩니다
-	</FullCardDescription>
+  <FullCardImageCell>
+    ![checkbox-visual-overflow](./checkbox-visual-overflow.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    label이 2줄을 초과할 경우 텍스트 시작점을 기준으로 위와 같이 개행처리됩니다
+  </FullCardDescription>
 </FullCard>
 
 ## Visual states
@@ -38,15 +165,7 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 ### Checkbox_Square
 
 <FullCard>
-	<FullCardImageCell>
-		![checkbox-visual-state-square](./checkbox-visual-state-square.png)
-	</FullCardImageCell>
-</FullCard>
-
-### Checkbox_Ghost
-
-<FullCard>
-	<FullCardImageCell>
-		![checkbox-visual-state-ghost](./checkbox-visual-state-ghost.png)
-	</FullCardImageCell>
+  <FullCardImageCell>
+    ![checkbox-visual-state-square](./checkbox-visual-state-square.png)
+  </FullCardImageCell>
 </FullCard>

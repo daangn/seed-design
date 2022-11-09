@@ -12,144 +12,207 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 2. Control : 체크박스의 상태를 나타내는 시각 요소
 3. Label : 체크박스에 대한 정보를 전달하는 라벨
 
-## States & Options
-
-State : 컴포넌트 자체가 가지는 상태값<br />
-Option : 컴포넌트에 영향을 주는 외부 상황에 의해 결정되는 상태값
+## Internal States
 
 <Table>
-	<TableHead>
-		<TableRow>
-			<TableData>State</TableData>
-			<TableData>Value</TableData>
-			<TableData>Description</TableData>
-		</TableRow>
-	</TableHead>
-	<TableBody>
-		<TableRow>
-			<TableData>Checked</TableData>
-			<TableData>True / False</TableData>
-			<TableData>Checkbox가 체크된 상태일 때 True로 전환</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Hovered</TableData>
-			<TableData>True / False</TableData>
-			<TableData>PC환경에서 마우스 오버 상태일 때 True로 전환</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Pressed</TableData>
-			<TableData>True / False</TableData>
-			<TableData>마우스 또는 터치로 클릭 중인 상태일 때 True로 전환</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Focused</TableData>
-			<TableData>True / False</TableData>
-			<TableData>Checkbox 영역을 인식하고 상호작용하고 있는 상태일 때 True로 전환</TableData>
-		</TableRow>
-	</TableBody>
+  <TableHead>
+    <TableRow>
+      <TableData>State</TableData>
+      <TableData>Values</TableData>
+      <TableData>Default Value</TableData>
+      <TableData>Description</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>isSelected</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isHovered</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isFocused</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isPressed</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+  </TableBody>
 </Table>
 
+## Contexts
+
 <Table>
-	<TableHead>
-		<TableRow>
-			<TableData>Option</TableData>
-			<TableData>Value</TableData>
-			<TableData>Description</TableData>
-		</TableRow>
-	</TableHead>
-	<TableBody>
-		<TableRow>
-			<TableData>Disabled</TableData>
-			<TableData>True / False</TableData>
-			<TableData>True일 경우, Checkbox가 제어불가능한 상태. Focused state가 작동하지 않음</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Indeterminate</TableData>
-			<TableData>True / False</TableData>
-			<TableData>True일 경우, Checked 여부를 결정할 수 없음을 나타냄</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Invalid</TableData>
-			<TableData>True / False</TableData>
-			<TableData>True일 경우, 유효하지 않은 값임을 나타냄</TableData>
-		</TableRow>
-		<TableRow>
-			<TableData>Read Only</TableData>
-			<TableData>True / False</TableData>
-			<TableData>True일 경우, Checkbox가 제어불가능한 상태이나 Focused state는 작동하는 상태</TableData>
-		</TableRow>
-	</TableBody>
+  <TableHead>
+    <TableRow>
+      <TableData>Context</TableData>
+      <TableData>Values</TableData>
+      <TableData>Default Value</TableData>
+      <TableData>Description</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>isDisabled</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isIndeterminate</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isInvalid</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>isReadonly</TableData>
+      <TableData>true | false</TableData>
+      <TableData>false</TableData>
+      <TableData></TableData>
+    </TableRow>
+  </TableBody>
+</Table>
+
+## Actions
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>Action</TableData>
+      <TableData>From</TableData>
+      <TableData>Condition</TableData>
+      <TableData>To</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>TOGGLE</TableData>
+      <TableData>isSelected = false</TableData>
+      <TableData>!isDisabled && !isReadonly</TableData>
+      <TableData>isSelected = true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>TOGGLE</TableData>
+      <TableData>isSelected = true</TableData>
+      <TableData>!isDisabled && !isReadonly</TableData>
+      <TableData>isSelected = false</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>FOCUS</TableData>
+      <TableData>isFocused = false</TableData>
+      <TableData>!isDisabled</TableData>
+      <TableData>isFocused = true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>BLUR</TableData>
+      <TableData>isFocused = true</TableData>
+      <TableData></TableData>
+      <TableData>isFocused = true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>HOVER_IN</TableData>
+      <TableData>isHovered = false</TableData>
+      <TableData>!isDisabled</TableData>
+      <TableData>isHovered = true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>HOVER_OUT</TableData>
+      <TableData>isHovered = true</TableData>
+      <TableData>!isDisabled</TableData>
+      <TableData>isHovered = false</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>PRESS_IN</TableData>
+      <TableData>isPressed = false</TableData>
+      <TableData>!isDisabled</TableData>
+      <TableData>isPressed = true</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>PRESS_OUT</TableData>
+      <TableData>isPressed = true</TableData>
+      <TableData>!isDisabled</TableData>
+      <TableData>isPressed = false</TableData>
+    </TableRow>
+  </TableBody>
 </Table>
 
 ## Behaviors
 
 ### Touch / Mouse controls
 
-<CardCaption>
-Touch area(Mobile)와 Mouse click area(PC)는 동일합니다.
-</CardCaption>
-
 <FullCard>
-	<FullCardImageCell>
-		![checkbox touch/mouse control](./checkbox-touch-mouse-control-1.png)
-	</FullCardImageCell>
-	<FullCardDescription>
-		마우스 클릭 또는 터치로 checkbox를 동작시킬 수 있는 영역입니다
-	</FullCardDescription>
+  <FullCardImageCell>
+    ![checkbox touch/mouse control](./checkbox-touch-mouse-control-1.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Mouse Up, Touch Up이 TOGGLE을 발생합니다.
+  </FullCardDescription>
 </FullCard>
 
-<br/>
+<FullCard>
+  <FullCardImageCell>
+    ![checkbox touch/mouse control](./checkbox-touch-mouse-control-1.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Mouse Up, Touch Up이 PRESS_OUT을 발생합니다.
+  </FullCardDescription>
+</FullCard>
+
+<br />
 
 ### Keyboard controls
 
 <HalfCard>
-	<HalfCardImageCell>
-		![checkbox behavior focus](./checkbox-behavior-1.png)
-	</HalfCardImageCell>
-	<HalfCardDescriptionCell>
-		<HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
-		<HalfCardDescription>
-			<Keyboard>tab</Keyboard> 키를 통해 포커스를 다음 Checkbox로 옮길 수 있습니다
-		</HalfCardDescription>
-	</HalfCardDescriptionCell>
+  <HalfCardImageCell>
+    ![checkbox behavior focus](./checkbox-behavior-1.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      <Keyboard>tab</Keyboard> 키를 통해 Checkbox로 Focus를 옮길 수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
 </HalfCard>
 
 <HalfCard>
-	<HalfCardImageCell>
-		![checkbox behavior focus](./checkbox-behavior-2.png)
-	</HalfCardImageCell>
-	<HalfCardDescriptionCell>
-		<HalfCardDescriptionTitle>Checked ON/OFF</HalfCardDescriptionTitle>
-		<HalfCardDescription>
-			<Keyboard>←</Keyboard><Keyboard>→</Keyboard> 키를 통해 Tab item에 Focus 이동 시
-			Contents가 전환되지 않습니다. Tab item에 Focus된
-			상태에서 <Keyboard>space</Keyboard><Keyboard>↩</Keyboard> 키를 통해 해당 Tab item의
-			Contents로 전환할 수 있습니다.
-		</HalfCardDescription>
-	</HalfCardDescriptionCell>
+  <HalfCardImageCell>
+    ![checkbox behavior focus](./checkbox-behavior-2.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Checked ON/OFF</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      <Keyboard>←</Keyboard>
+      <Keyboard>→</Keyboard> Focus된 상태에서 <Keyboard>space</Keyboard>
+      키를 통해 TOGGLE을 발생시킬 수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
 </HalfCard>
 
 <HalfCard>
-	<HalfCardImageCell>
-		![checkbox behavior focus](./checkbox-behavior-3.png)
-	</HalfCardImageCell>
-	<HalfCardDescriptionCell>
-		<HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
-		<HalfCardDescription>
-			포커스 이동시 Disabled상태인 Checkbox는 인식하지 않습니다
-		</HalfCardDescription>
-	</HalfCardDescriptionCell>
-</HalfCard>
-
-<HalfCard>
-	<HalfCardImageCell>
-		![checkbox behavior focus](./checkbox-behavior-4.png)
-	</HalfCardImageCell>
-	<HalfCardDescriptionCell>
-		<HalfCardDescriptionTitle>Indeterminate</HalfCardDescriptionTitle>
-		<HalfCardDescription>
-			Checkbox가 Indeterminate 상태일 경우
-			<Keyboard>space</Keyboard> 키를 통해 Checked False로 전환합니다
-		</HalfCardDescription>
-	</HalfCardDescriptionCell>
+  <HalfCardImageCell>
+    ![checkbox behavior focus](./checkbox-behavior-3.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      포커스 이동시 Disabled 상태인 Checkbox는 인식하지 않습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
 </HalfCard>
