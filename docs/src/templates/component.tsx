@@ -54,6 +54,14 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
             >
               Visual
             </Link>
+            <Link
+              to={`${commonPath}/usage`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "usage",
+              })}
+            >
+              Usage
+            </Link>
           </div>
           <motion.div {...fadeInFromLeft}>{children}</motion.div>
           <EditLink slug={pageContext.slug} file={pageContext.activeTab} />

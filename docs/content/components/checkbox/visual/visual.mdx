@@ -8,9 +8,9 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 
 ![checkbox visual anatomy](./checkbox-visual-anatomy.png)
 
-1. Root : 체크박스 컴포넌트를 감싸는 컨테이너 영역
-2. Control : 체크박스의 상태를 나타내는 시각 요소
-3. Label : 체크박스에 대한 정보를 전달하는 라벨
+1. Root : 체크박스 컴포넌트를 감싸는 컨테이너 영역 - Primitive.Root
+2. Control : 체크박스의 상태를 나타내는 시각 요소 - Primitive.Control
+3. Label : 체크박스에 대한 정보를 전달하는 라벨 - Primitive.Label
 4. Icon: 체크박스의 상태를 표현하는 아이콘
 
 ### Visually Representated States
@@ -57,11 +57,11 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
   </TableHead>
   <TableBody>
     <TableRow>
-      <TableData>unchecked</TableData>
+      <TableData>unselected</TableData>
       <TableData>isIndeterminate === false && value === false</TableData>
     </TableRow>
     <TableRow>
-      <TableData>checked</TableData>
+      <TableData>selected</TableData>
       <TableData>isIndeterminate === false && value === true</TableData>
     </TableRow>
     <TableRow>
@@ -71,11 +71,12 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
   </TableBody>
 </Table>
 
-### Design Decisions (Color)
+### 디자인 결정 (Color)
 
 <Table>
   <TableHead>
     <TableRow>
+      <TableData>State</TableData>
       <TableData>Part</TableData>
       <TableData>Attribute</TableData>
       <TableData>Value</TableData>
@@ -83,24 +84,153 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
   </TableHead>
   <TableBody>
     <TableRow>
-      <TableData>2. Control</TableData>
+      <TableData>Enabled</TableData>
+      <TableData>Control (unselected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>None</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
       <TableData>Outline Color</TableData>
       <TableData>$scale.color.gray-300</TableData>
     </TableRow>
     <TableRow>
-      <TableData>3. Label</TableData>
+      <TableData></TableData>
+      <TableData>Control (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.primary</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>None</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Label</TableData>
       <TableData>Color</TableData>
       <TableData>$semantic.color.ink-text</TableData>
     </TableRow>
     <TableRow>
-      <TableData>4. Icon</TableData>
-      <TableData>Color</TableData>
       <TableData></TableData>
+      <TableData>Icon (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.on-primary</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>Disabled</TableData>
+      <TableData>Control (unselected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$scale.color.gray-200</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Control (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>None</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Label</TableData>
+      <TableData>Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Icon (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.gray-500</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>Hovered</TableData>
+      <TableData>Control (unselected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.gray-hover</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Control (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.primary-hover</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>None</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Label</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.ink-text</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Icon (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.on-primary</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData>Pressed</TableData>
+      <TableData>Control (unselected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.gray-pressed</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>$scale.color.gray-300</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Control (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.primary-pressed</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData></TableData>
+      <TableData>Outline Color</TableData>
+      <TableData>None</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Label</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.ink-text</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Icon (selected)</TableData>
+      <TableData>Color</TableData>
+      <TableData>$semantic.color.on-primary</TableData>
     </TableRow>
   </TableBody>
 </Table>
 
-### Design Decisions (Layout)
+### 디자인 결정 (Typography)
 
 <Table>
   <TableHead>
@@ -112,7 +242,41 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
   </TableHead>
   <TableBody>
     <TableRow>
-      <TableData>1. Root</TableData>
+      <TableData>Label</TableData>
+      <TableData>Size</TableData>
+      <TableData>$scale.dimension.font-size-200</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Line Height</TableData>
+      <TableData>$static.line-height.static-small</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Weight</TableData>
+      <TableData>$static.font-weight.regular</TableData>
+    </TableRow>
+    <TableRow>
+      <TableData></TableData>
+      <TableData>Letter Spacing</TableData>
+      <TableData>$scale.letter-spacing.none</TableData>
+    </TableRow>
+  </TableBody>
+</Table>
+
+### 디자인 결정 (Layout)
+
+<Table>
+  <TableHead>
+    <TableRow>
+      <TableData>Part</TableData>
+      <TableData>Attribute</TableData>
+      <TableData>Value</TableData>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableData>Root</TableData>
       <TableData>Min Width</TableData>
       <TableData>130px</TableData>
     </TableRow>
@@ -122,29 +286,24 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
       <TableData>28px</TableData>
     </TableRow>
     <TableRow>
-      <TableData>2. Control</TableData>
-      <TableData>Width</TableData>
-      <TableData>130px</TableData>
+      <TableData>Control</TableData>
+      <TableData>Size</TableData>
+      <TableData>22px</TableData>
     </TableRow>
     <TableRow>
-      <TableData></TableData>
-      <TableData>Height</TableData>
-      <TableData>28px</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>3. Label</TableData>
+      <TableData>Label</TableData>
       <TableData>Text Align</TableData>
       <TableData>Start</TableData>
     </TableRow>
     <TableRow>
-      <TableData>4. Icon</TableData>
-      <TableData>Width</TableData>
+      <TableData>Icon</TableData>
+      <TableData>Size</TableData>
       <TableData>10px</TableData>
     </TableRow>
     <TableRow>
-      <TableData></TableData>
-      <TableData>Height</TableData>
-      <TableData>10px</TableData>
+      <TableData>Control / Icon</TableData>
+      <TableData>Padding</TableData>
+      <TableData>12px</TableData>
     </TableRow>
   </TableBody>
 </Table>
@@ -158,14 +317,4 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
   <FullCardDescription>
     label이 2줄을 초과할 경우 텍스트 시작점을 기준으로 위와 같이 개행처리됩니다
   </FullCardDescription>
-</FullCard>
-
-## Visual states
-
-### Checkbox_Square
-
-<FullCard>
-  <FullCardImageCell>
-    ![checkbox-visual-state-square](./checkbox-visual-state-square.png)
-  </FullCardImageCell>
 </FullCard>

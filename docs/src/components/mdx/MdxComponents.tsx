@@ -17,6 +17,12 @@ export default {
   ol: (props: Object) => list.ol(props),
   li: (props: Object) => list.oli(props),
 
+  table: (props: Object) => table.Table(props),
+  thead: (props: Object) => table.TableHead(props),
+  tbody: (props: Object) => table.TableBody(props),
+  tr: (props: Object) => table.TableRow(props),
+  td: (props: Object) => table.TableData(props),
+
   /* MDX 전용 컴포넌트 */
   Keyboard,
 

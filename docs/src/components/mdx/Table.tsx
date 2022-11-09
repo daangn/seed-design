@@ -3,26 +3,22 @@ import React from "react";
 
 import * as style from "./Table.css";
 
-interface PropsWithChildren {
-  children: React.ReactNode;
-}
-
-export const Table = ({ children }: PropsWithChildren) => (
-  <table className={clsx(style.table)}>{children}</table>
+export const Table = (props: Object) => (
+  <table className={clsx(style.table)} {...props}></table>
 );
 
-export const TableHead = ({ children }: PropsWithChildren) => (
-  <thead className={clsx(style.tableHead)}>{children}</thead>
+export const TableHead = (props: Object) => (
+  <thead className={clsx(style.tableHead)} {...props}></thead>
 );
 
-export const TableBody = ({ children }: PropsWithChildren) => (
-  <tbody className={clsx(style.tableBody)}>{children}</tbody>
+export const TableBody = (props: Object) => (
+  <tbody className={clsx(style.tableBody)} {...props}></tbody>
 );
 
-export const TableRow = ({ children }: PropsWithChildren) => (
-  <tr className={clsx(style.tableRow)}>{children}</tr>
+export const TableRow = (props: Object) => (
+  <tr className={clsx(style.tableRow)} {...props}></tr>
 );
 
-export const TableData = ({ children }: PropsWithChildren) => (
-  <td className={clsx(style.tableData)}>{children}</td>
+export const TableData = (props: Object) => (
+  <td className={clsx(style.tableData)} {...props}></td>
 );
