@@ -13,21 +13,27 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 3. Label : 체크박스에 대한 정보를 전달하는 라벨 - Primitive.Label
 4. Icon: 체크박스의 상태를 표현하는 아이콘
 
+### Visual Options
+
+| Property | Value                | Description |
+| -------- | -------------------- | ----------- |
+| size     | small, medium, large |             |
+
 ### Visually Representated States
 
-| State    | Condition                                             |
-| -------- | ----------------------------------------------------- |
-| enabled  | !isDisabled && !isHovered && !isFocused && !isPressed |
-| disabled | isDisabled                                            |
-| hovered  | !isDisabled && !isHovered && !isFocused               |
-| focused  | !isDisabled && !isHovered && !isFocused               |
-| pressed  | !isDisabled && !isHovered                             |
+| State    | Condition                                                   |
+| -------- | ----------------------------------------------------------- |
+| enabled  | isDisabled OFF, isHovered OFF, isFocused OFF, isPressed OFF |
+| disabled | isDisabled ON                                               |
+| hovered  | isDisabled OFF, isPressed OFF, isHovered ON                 |
+| focused  | isDisabled OFF, isPressed OFF, isFocused ON                 |
+| pressed  | isDisabled OFF, isPressed ON                                |
 
-| State         | Condition                                    |
-| ------------- | -------------------------------------------- |
-| unselected    | isIndeterminate === false && value === false |
-| selected      | isIndeterminate === false && value === true  |
-| indeterminate | isIndeterminate === true                     |
+| State         | Condition                           |
+| ------------- | ----------------------------------- |
+| unselected    | isIndeterminate OFF, isSelected OFF |
+| selected      | isIndeterminate OFF, isSelected ON  |
+| indeterminate | isIndeterminate ON                  |
 
 ### 디자인 결정 (Color)
 
