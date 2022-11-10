@@ -22,15 +22,10 @@ export default {
   tbody: (props: Object) => table.TableBody(props),
   tr: (props: Object) => table.TableRow(props),
   td: (props: Object) => table.TableData(props),
+  th: (props: Object) => table.TableData(props),
 
   /* MDX 전용 컴포넌트 */
   Keyboard,
-
-  Table: table.Table,
-  TableHead: table.TableHead,
-  TableBody: table.TableBody,
-  TableRow: table.TableRow,
-  TableData: table.TableData,
 
   CardCaption: card.CardCaption,
 

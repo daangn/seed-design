@@ -31,6 +31,7 @@ module.exports = {
           },
         ],
         mdxOptions: {
+          remarkPlugins: [require("remark-gfm")],
           rehypePlugins: [
             [wrapESMPlugin(`rehype-slug`)],
             [

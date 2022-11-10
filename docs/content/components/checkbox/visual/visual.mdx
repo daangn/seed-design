@@ -15,298 +15,68 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 
 ### Visually Representated States
 
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableData>State</TableData>
-      <TableData>Condition</TableData>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    <TableRow>
-      <TableData>enabled</TableData>
-      <TableData>
-        !isDisabled && !isHovered && !isFocused && !isPressed
-      </TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>disabled</TableData>
-      <TableData>isDisabled</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>hovered</TableData>
-      <TableData>!isDisabled && !isPressed && isHovered</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>focused</TableData>
-      <TableData>!isDisabled && !isPressed && isFocused</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>pressed</TableData>
-      <TableData>!isDisabled && isPressed</TableData>
-    </TableRow>
-  </TableBody>
-</Table>
+| State    | Condition                                             |
+| -------- | ----------------------------------------------------- |
+| enabled  | !isDisabled && !isHovered && !isFocused && !isPressed |
+| disabled | isDisabled                                            |
+| hovered  | !isDisabled && !isHovered && !isFocused               |
+| focused  | !isDisabled && !isHovered && !isFocused               |
+| pressed  | !isDisabled && !isHovered                             |
 
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableData>State</TableData>
-      <TableData>Condition</TableData>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    <TableRow>
-      <TableData>unselected</TableData>
-      <TableData>isIndeterminate === false && value === false</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>selected</TableData>
-      <TableData>isIndeterminate === false && value === true</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>indeterminate</TableData>
-      <TableData>isIndeterminate === true</TableData>
-    </TableRow>
-  </TableBody>
-</Table>
+| State         | Condition                                    |
+| ------------- | -------------------------------------------- |
+| unselected    | isIndeterminate === false && value === false |
+| selected      | isIndeterminate === false && value === true  |
+| indeterminate | isIndeterminate === true                     |
 
 ### 디자인 결정 (Color)
 
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableData>State</TableData>
-      <TableData>Part</TableData>
-      <TableData>Attribute</TableData>
-      <TableData>Value</TableData>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    <TableRow>
-      <TableData>Enabled</TableData>
-      <TableData>Control (unselected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>None</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Control (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.primary</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>None</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Label</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.ink-text</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Icon (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.on-primary</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Disabled</TableData>
-      <TableData>Control (unselected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$scale.color.gray-200</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Control (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>None</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Label</TableData>
-      <TableData>Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Icon (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.gray-500</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Hovered</TableData>
-      <TableData>Control (unselected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.gray-hover</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Control (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.primary-hover</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>None</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Label</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.ink-text</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Icon (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.on-primary</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Pressed</TableData>
-      <TableData>Control (unselected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.gray-pressed</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>$scale.color.gray-300</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Control (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.primary-pressed</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData></TableData>
-      <TableData>Outline Color</TableData>
-      <TableData>None</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Label</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.ink-text</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Icon (selected)</TableData>
-      <TableData>Color</TableData>
-      <TableData>$semantic.color.on-primary</TableData>
-    </TableRow>
-  </TableBody>
-</Table>
+| State    | Part                 | Attribute     | Value                           |
+| -------- | -------------------- | ------------- | ------------------------------- |
+| Enabled  | Control (unselected) | Color         | None                            |
+|          |                      | Outline Color | $scale.color.gray-300           |
+|          | Control (selected)   | Color         | $semantic.color.primary         |
+|          |                      | Outline Color | None                            |
+|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Icon (selected)      | Color         | $semantic.color.on-primary      |
+| Disabled | Control (unselected) | Color         | $scale.color.gray-200           |
+|          |                      | Outline Color | $scale.color.gray-300           |
+|          | Control (selected)   | Color         | $scale.color.gray-300           |
+|          |                      | Outline Color | None                            |
+|          | Label                | Color         | $scale.color.gray-300           |
+|          | Icon (selected)      | Color         | $scale.color.gray-500           |
+| Hovered  | Control (unselected) | Color         | $semantic.color.gray-hover      |
+|          |                      | Outline Color | $scale.color.gray-300           |
+|          | Control (selected)   | Color         | $semantic.color.primary-hover   |
+|          |                      | Outline Color | None                            |
+|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Icon (selected)      | Color         | $semantic.color.on-primary      |
+| Pressed  | Control (unselected) | Color         | $semantic.color.pray-pressed    |
+|          |                      | Outline Color | $scale.color.gray-300           |
+|          | Control (selected)   | Color         | $semantic.color.primary-pressed |
+|          |                      | Outline Color | None                            |
+|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Icon (selected)      | Color         | $semantic.color.on-primary      |
 
 ### 디자인 결정 (Typography)
 
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableData>Part</TableData>
-      <TableData>Attribute</TableData>
-      <TableData>Value</TableData>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    <TableRow>
-      <TableData>Label</TableData>
-      <TableData>Size</TableData>
-      <TableData>$scale.dimension.font-size-200</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Line Height</TableData>
-      <TableData>$static.line-height.static-small</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Weight</TableData>
-      <TableData>$static.font-weight.regular</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Letter Spacing</TableData>
-      <TableData>$scale.letter-spacing.none</TableData>
-    </TableRow>
-  </TableBody>
-</Table>
+| Part  | Attribute      | Value                            |
+| ----- | -------------- | -------------------------------- |
+| Label | Size           | $scale.dimension.font-size-200   |
+|       | Line Height    | $static.line-height.static-small |
+|       | Weight         | $static.font-weight.regular      |
+|       | Letter Spacing | $scale.letter-spacing.none       |
 
 ### 디자인 결정 (Layout)
 
-<Table>
-  <TableHead>
-    <TableRow>
-      <TableData>Part</TableData>
-      <TableData>Attribute</TableData>
-      <TableData>Value</TableData>
-    </TableRow>
-  </TableHead>
-  <TableBody>
-    <TableRow>
-      <TableData>Root</TableData>
-      <TableData>Min Width</TableData>
-      <TableData>130px</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData></TableData>
-      <TableData>Min Height</TableData>
-      <TableData>28px</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Control</TableData>
-      <TableData>Size</TableData>
-      <TableData>22px</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Label</TableData>
-      <TableData>Text Align</TableData>
-      <TableData>Start</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Icon</TableData>
-      <TableData>Size</TableData>
-      <TableData>10px</TableData>
-    </TableRow>
-    <TableRow>
-      <TableData>Control / Icon</TableData>
-      <TableData>Padding</TableData>
-      <TableData>12px</TableData>
-    </TableRow>
-  </TableBody>
-</Table>
+| Part           | Attribute  | Value |
+| -------------- | ---------- | ----- |
+| Root           | Min Width  | 130px |
+|                | Min Height | 28px  |
+| Control        | Size       | 22px  |
+| Label          | Text Align | Start |
+| Icon           | Size       | 10px  |
+| Control / Icon | Padding    | 12px  |
 
 ### Overflow
 

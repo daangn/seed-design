@@ -43,7 +43,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "rehype-autolink-headings": "^6.1.1",
-    "rehype-slug": "^5.0.1"
+    "rehype-slug": "^5.0.1",
+    "remark-gfm": "^1"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
