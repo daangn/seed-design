@@ -1,0 +1,3 @@
+{
+  "startCommand": "cd docs && npm run dev"
+}
