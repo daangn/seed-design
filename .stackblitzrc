@@ -1,3 +1,0 @@
-{
-  "startCommand": "yarn install && cd docs && yarn dev"
-}
