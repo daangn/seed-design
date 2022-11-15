@@ -38,30 +38,51 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
           <h1 className={style.title}>{pageContext.title}</h1>
           <p className={style.titleDescription}>{pageContext.description}</p>
           <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <Link
-              to={`${commonPath}/primitive`}
-              className={style.tabLink({
-                active: pageContext.activeTab === "primitive",
-              })}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                marginTop: "20px",
+              }}
             >
-              Primitive
-            </Link>
-            <Link
-              to={`${commonPath}/visual`}
-              className={style.tabLink({
-                active: pageContext.activeTab === "visual",
-              })}
+              <p style={{ textAlign: "center" }}>Guildlines</p>
+              <Link
+                to={`${commonPath}/usage`}
+                className={style.tabLink({
+                  active: pageContext.activeTab === "usage",
+                })}
+              >
+                Usage
+              </Link>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "10px",
+                marginTop: "20px",
+              }}
             >
-              Visual
-            </Link>
-            <Link
-              to={`${commonPath}/usage`}
-              className={style.tabLink({
-                active: pageContext.activeTab === "usage",
-              })}
-            >
-              Usage
-            </Link>
+              <p style={{ textAlign: "center" }}>Spec</p>
+              <Link
+                to={`${commonPath}/primitive`}
+                className={style.tabLink({
+                  active: pageContext.activeTab === "primitive",
+                })}
+              >
+                Primitive
+              </Link>
+              <Link
+                to={`${commonPath}/visual`}
+                className={style.tabLink({
+                  active: pageContext.activeTab === "visual",
+                })}
+              >
+                Visual
+              </Link>
+            </div>
           </div>
           <motion.div {...fadeInFromLeft}>{children}</motion.div>
           <EditLink slug={pageContext.slug} file={pageContext.activeTab} />

@@ -1,5 +1,4 @@
 import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
-import NoteIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconNoteRegular";
 import clsx from "clsx";
 import { motion, useSpring } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
@@ -40,7 +39,6 @@ function SidebarLink({
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
       <div className={clsx(style.sidebarLink({ highlight: active }))}>
-        <NoteIcon width={20} />
         <h1>{title}</h1>
       </div>
     </Link>

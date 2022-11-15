@@ -2,6 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
+// import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 const TRANSITION_DURATION = "0.25s";
@@ -11,7 +12,12 @@ export const categoryTitle = style({
   fontSize: "26px",
   fontWeight: 700,
   padding: "20px",
-  color: vars.$scale.color.gray00,
+  transition: "color 0.2s ease",
+  color: vars.$scale.color.gray900,
+
+  ":hover": {
+    color: vars.$semantic.color.primaryHover,
+  },
 });
 
 export const logo = style([
@@ -21,12 +27,12 @@ export const logo = style([
     fontWeight: 700,
     padding: "10px",
     margin: "8px",
-    color: vars.$scale.color.gray00,
+    color: vars.$scale.color.gray900,
     borderRadius: "10px",
-    transition: "background-color 0.3s ease",
+    transition: "color 0.2s ease",
 
     ":hover": {
-      backgroundColor: vars.$scale.color.green700,
+      color: vars.$semantic.color.primaryHover,
     },
   },
 ]);
@@ -36,11 +42,11 @@ export const sidebarTitleLink = recipe({
     {
       margin: "8px",
       borderRadius: "10px",
-      color: vars.$scale.color.gray00,
-      transition: "background-color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      transition: "color 0.2s ease",
 
       ":hover": {
-        backgroundColor: vars.$scale.color.green700,
+        color: vars.$semantic.color.primaryHover,
       },
     },
   ],
@@ -49,7 +55,7 @@ export const sidebarTitleLink = recipe({
     highlight: {
       true: [
         {
-          backgroundColor: vars.$scale.color.green600,
+          color: vars.$semantic.color.primary,
         },
       ],
     },
@@ -64,11 +70,11 @@ export const sidebarLink = recipe({
       padding: "10px",
       margin: "8px",
       borderRadius: "10px",
-      color: vars.$scale.color.gray00,
-      transition: "background-color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      transition: "color 0.2s ease",
 
       ":hover": {
-        backgroundColor: vars.$scale.color.green700,
+        color: vars.$semantic.color.primaryHover,
       },
     },
   ],
@@ -77,7 +83,7 @@ export const sidebarLink = recipe({
     highlight: {
       true: [
         {
-          backgroundColor: vars.$scale.color.green600,
+          color: vars.$semantic.color.primary,
         },
       ],
     },
@@ -117,7 +123,7 @@ export const sidebar = recipe({
       width: "300px",
       height: "100vh",
 
-      backgroundColor: vars.$scale.color.green800,
+      backgroundColor: vars.$scale.color.gray00,
     },
   ],
 
