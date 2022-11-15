@@ -47,7 +47,7 @@ export const documentHeading2 = style([
   },
   m.small({
     marginTop: "120px",
-    fontSize: "48px",
+    fontSize: "34px",
   }),
 ]);
 
@@ -59,7 +59,7 @@ export const documentHeading3 = style([
   },
   m.small({
     fontWeight: 700,
-    fontSize: "28px",
+    fontSize: "26px",
     marginTop: "40px",
   }),
 ]);
