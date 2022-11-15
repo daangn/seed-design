@@ -15,11 +15,18 @@ export const table = style({
 export const tableCell = style([
   {
     border: `1px solid ${vars.$semantic.color.paperContents}`,
-    padding: "16px 30px",
-  },
-  m.small({
-    fontSize: "14px",
     padding: "12px 24px",
+    fontSize: "12px",
+  },
+
+  m.xsmall({
+    fontSize: "14px",
+    padding: "12px 16px",
+  }),
+
+  m.small({
+    fontSize: "16px",
+    padding: "16px 30px",
   }),
 ]);
 

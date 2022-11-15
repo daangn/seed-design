@@ -37,51 +37,52 @@ export const fullCardDescription = style({
 export const halfCard = style([
   u.flex,
   {
+    flexDirection: "column",
     justifyContent: "space-between",
     columnGap: "30px",
-    margin: "40px 0px",
+    margin: "20px 0px",
     borderRadius: "8px",
   },
-  m.medium({
-    flexDirection: "column",
-  }),
 
-  m.small({
-    margin: "20px 0px",
+  m.large({
+    flexDirection: "row",
+    margin: "40px 0px",
   }),
 ]);
 
 export const halfCardImageCell = style([
   {
-    minWidth: "500px",
+    minWidth: "100%",
     border: `1px solid ${vars.$scale.color.gray300}`,
     backgroundColor: vars.$semantic.color.onPrimary,
     borderRadius: "8px",
     overflow: "hidden",
   },
-  m.medium({
-    minWidth: "100%",
+
+  m.large({
+    minWidth: "500px",
   }),
 ]);
 
 export const halfCardDescriptionCell = style([
-  m.medium({
+  {
     marginBottom: "50px",
+  },
+
+  m.large({
+    marginBottom: "0px",
   }),
 ]);
 
 export const halfCardDescriptionTitle = style([
   {
     fontSize: "20px",
+    marginTop: "20px",
     fontWeight: 700,
   },
 
-  m.small({
-    fontSize: "16px",
-  }),
-
-  m.medium({
-    marginTop: "20px",
+  m.large({
+    marginTop: "0px",
   }),
 ]);
 

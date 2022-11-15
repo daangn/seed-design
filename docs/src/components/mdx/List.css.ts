@@ -15,6 +15,7 @@ export const oli = style([
   u.flex,
   {
     marginBottom: "8px",
+    fontSize: "14px",
 
     "::before": {
       content: "counter(list-item)",
@@ -24,10 +25,11 @@ export const oli = style([
       alignItems: "center",
       justifyContent: "center",
 
-      fontSize: "12px",
+      fontSize: "10px",
       fontWeight: "bold",
-      width: "24px",
-      height: "24px",
+      width: "20px",
+      height: "20px",
+
       minWidth: "20px",
       minHeight: "20px",
       borderRadius: "50%",
@@ -41,11 +43,11 @@ export const oli = style([
   },
   m.small({
     "::before": {
-      fontSize: "10px",
-      width: "20px",
-      height: "20px",
+      fontSize: "12px",
+      width: "24px",
+      height: "24px",
     },
 
-    fontSize: "14px",
+    fontSize: "16px",
   }),
 ]);

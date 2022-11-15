@@ -1,46 +1,48 @@
 import type { StyleRule } from "@vanilla-extract/css";
 
-/* On screens that are 600px or less */
+// 모바일 우선 반응형으로 디자인합니다.
+
+// ~360px
+export function xsmall(token: StyleRule) {
+  return {
+    "@media": {
+      "screen and (min-width: 360px)": token,
+    },
+  };
+}
+
+// ~ 768px
 export function small(token: StyleRule) {
   return {
     "@media": {
-      "screen and (max-width: 600px)": token,
+      "screen and (min-width: 768px)": token,
     },
   };
 }
 
-/* On screens that are 768px or less */
+// ~ 992px
 export function medium(token: StyleRule) {
   return {
     "@media": {
-      "screen and (max-width: 768px)": token,
+      "screen and (min-width: 992px)": token,
     },
   };
 }
 
-/* On screens that are 992px or less */
+// ~ 1200px
 export function large(token: StyleRule) {
   return {
     "@media": {
-      "screen and (max-width: 992px)": token,
+      "screen and (min-width: 1280px)": token,
     },
   };
 }
 
-/* On screens that are 1200px or less */
+// ~ 1440px
 export function xlarge(token: StyleRule) {
   return {
     "@media": {
-      "screen and (max-width: 1200px)": token,
-    },
-  };
-}
-
-/* On screens that are 1600px or less */
-export function xxlarge(token: StyleRule) {
-  return {
-    "@media": {
-      "screen and (max-width: 1600px)": token,
+      "screen and (min-width: 1440px)": token,
     },
   };
 }
