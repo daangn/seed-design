@@ -49,28 +49,11 @@ type BooleanQueryOperatorInput = {
 
 type ConfigsJson = Node & {
   readonly children: ReadonlyArray<Node>;
-  readonly components: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponents>>>;
-  readonly foundation: Maybe<ReadonlyArray<Maybe<ConfigsJsonFoundation>>>;
+  readonly guidelines: Maybe<ReadonlyArray<Maybe<ConfigsJsonGuidelines>>>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
-  readonly overview: Maybe<ReadonlyArray<Maybe<ConfigsJsonOverview>>>;
   readonly parent: Maybe<Node>;
-};
-
-type ConfigsJsonComponents = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<File>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type ConfigsJsonComponentsFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<FileFilterInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type ConfigsJsonComponentsFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonComponentsFilterInput>;
+  readonly specs: Maybe<ReadonlyArray<Maybe<ConfigsJsonSpecs>>>;
 };
 
 type ConfigsJsonConnection = {
@@ -161,90 +144,85 @@ type ConfigsJsonFieldsEnum =
   | 'children.parent.internal.type'
   | 'children.parent.parent.children'
   | 'children.parent.parent.id'
-  | 'components'
-  | 'components.slug'
-  | 'components.thumbnail.absolutePath'
-  | 'components.thumbnail.accessTime'
-  | 'components.thumbnail.atime'
-  | 'components.thumbnail.atimeMs'
-  | 'components.thumbnail.base'
-  | 'components.thumbnail.birthTime'
-  | 'components.thumbnail.birthtime'
-  | 'components.thumbnail.birthtimeMs'
-  | 'components.thumbnail.blksize'
-  | 'components.thumbnail.blocks'
-  | 'components.thumbnail.changeTime'
-  | 'components.thumbnail.childConfigsJson.children'
-  | 'components.thumbnail.childConfigsJson.components'
-  | 'components.thumbnail.childConfigsJson.foundation'
-  | 'components.thumbnail.childConfigsJson.id'
-  | 'components.thumbnail.childConfigsJson.overview'
-  | 'components.thumbnail.childImageSharp.children'
-  | 'components.thumbnail.childImageSharp.gatsbyImageData'
-  | 'components.thumbnail.childImageSharp.id'
-  | 'components.thumbnail.childMdx.body'
-  | 'components.thumbnail.childMdx.children'
-  | 'components.thumbnail.childMdx.excerpt'
-  | 'components.thumbnail.childMdx.id'
-  | 'components.thumbnail.childMdx.tableOfContents'
-  | 'components.thumbnail.children'
-  | 'components.thumbnail.childrenConfigsJson'
-  | 'components.thumbnail.childrenConfigsJson.children'
-  | 'components.thumbnail.childrenConfigsJson.components'
-  | 'components.thumbnail.childrenConfigsJson.foundation'
-  | 'components.thumbnail.childrenConfigsJson.id'
-  | 'components.thumbnail.childrenConfigsJson.overview'
-  | 'components.thumbnail.childrenImageSharp'
-  | 'components.thumbnail.childrenImageSharp.children'
-  | 'components.thumbnail.childrenImageSharp.gatsbyImageData'
-  | 'components.thumbnail.childrenImageSharp.id'
-  | 'components.thumbnail.childrenMdx'
-  | 'components.thumbnail.childrenMdx.body'
-  | 'components.thumbnail.childrenMdx.children'
-  | 'components.thumbnail.childrenMdx.excerpt'
-  | 'components.thumbnail.childrenMdx.id'
-  | 'components.thumbnail.childrenMdx.tableOfContents'
-  | 'components.thumbnail.children.children'
-  | 'components.thumbnail.children.id'
-  | 'components.thumbnail.ctime'
-  | 'components.thumbnail.ctimeMs'
-  | 'components.thumbnail.dev'
-  | 'components.thumbnail.dir'
-  | 'components.thumbnail.ext'
-  | 'components.thumbnail.extension'
-  | 'components.thumbnail.gid'
-  | 'components.thumbnail.id'
-  | 'components.thumbnail.ino'
-  | 'components.thumbnail.internal.content'
-  | 'components.thumbnail.internal.contentDigest'
-  | 'components.thumbnail.internal.contentFilePath'
-  | 'components.thumbnail.internal.description'
-  | 'components.thumbnail.internal.fieldOwners'
-  | 'components.thumbnail.internal.ignoreType'
-  | 'components.thumbnail.internal.mediaType'
-  | 'components.thumbnail.internal.owner'
-  | 'components.thumbnail.internal.type'
-  | 'components.thumbnail.mode'
-  | 'components.thumbnail.modifiedTime'
-  | 'components.thumbnail.mtime'
-  | 'components.thumbnail.mtimeMs'
-  | 'components.thumbnail.name'
-  | 'components.thumbnail.nlink'
-  | 'components.thumbnail.parent.children'
-  | 'components.thumbnail.parent.id'
-  | 'components.thumbnail.prettySize'
-  | 'components.thumbnail.publicURL'
-  | 'components.thumbnail.rdev'
-  | 'components.thumbnail.relativeDirectory'
-  | 'components.thumbnail.relativePath'
-  | 'components.thumbnail.root'
-  | 'components.thumbnail.size'
-  | 'components.thumbnail.sourceInstanceName'
-  | 'components.thumbnail.uid'
-  | 'components.title'
-  | 'foundation'
-  | 'foundation.slug'
-  | 'foundation.title'
+  | 'guidelines'
+  | 'guidelines.slug'
+  | 'guidelines.thumbnail.absolutePath'
+  | 'guidelines.thumbnail.accessTime'
+  | 'guidelines.thumbnail.atime'
+  | 'guidelines.thumbnail.atimeMs'
+  | 'guidelines.thumbnail.base'
+  | 'guidelines.thumbnail.birthTime'
+  | 'guidelines.thumbnail.birthtime'
+  | 'guidelines.thumbnail.birthtimeMs'
+  | 'guidelines.thumbnail.blksize'
+  | 'guidelines.thumbnail.blocks'
+  | 'guidelines.thumbnail.changeTime'
+  | 'guidelines.thumbnail.childConfigsJson.children'
+  | 'guidelines.thumbnail.childConfigsJson.guidelines'
+  | 'guidelines.thumbnail.childConfigsJson.id'
+  | 'guidelines.thumbnail.childConfigsJson.specs'
+  | 'guidelines.thumbnail.childImageSharp.children'
+  | 'guidelines.thumbnail.childImageSharp.gatsbyImageData'
+  | 'guidelines.thumbnail.childImageSharp.id'
+  | 'guidelines.thumbnail.childMdx.body'
+  | 'guidelines.thumbnail.childMdx.children'
+  | 'guidelines.thumbnail.childMdx.excerpt'
+  | 'guidelines.thumbnail.childMdx.id'
+  | 'guidelines.thumbnail.childMdx.tableOfContents'
+  | 'guidelines.thumbnail.children'
+  | 'guidelines.thumbnail.childrenConfigsJson'
+  | 'guidelines.thumbnail.childrenConfigsJson.children'
+  | 'guidelines.thumbnail.childrenConfigsJson.guidelines'
+  | 'guidelines.thumbnail.childrenConfigsJson.id'
+  | 'guidelines.thumbnail.childrenConfigsJson.specs'
+  | 'guidelines.thumbnail.childrenImageSharp'
+  | 'guidelines.thumbnail.childrenImageSharp.children'
+  | 'guidelines.thumbnail.childrenImageSharp.gatsbyImageData'
+  | 'guidelines.thumbnail.childrenImageSharp.id'
+  | 'guidelines.thumbnail.childrenMdx'
+  | 'guidelines.thumbnail.childrenMdx.body'
+  | 'guidelines.thumbnail.childrenMdx.children'
+  | 'guidelines.thumbnail.childrenMdx.excerpt'
+  | 'guidelines.thumbnail.childrenMdx.id'
+  | 'guidelines.thumbnail.childrenMdx.tableOfContents'
+  | 'guidelines.thumbnail.children.children'
+  | 'guidelines.thumbnail.children.id'
+  | 'guidelines.thumbnail.ctime'
+  | 'guidelines.thumbnail.ctimeMs'
+  | 'guidelines.thumbnail.dev'
+  | 'guidelines.thumbnail.dir'
+  | 'guidelines.thumbnail.ext'
+  | 'guidelines.thumbnail.extension'
+  | 'guidelines.thumbnail.gid'
+  | 'guidelines.thumbnail.id'
+  | 'guidelines.thumbnail.ino'
+  | 'guidelines.thumbnail.internal.content'
+  | 'guidelines.thumbnail.internal.contentDigest'
+  | 'guidelines.thumbnail.internal.contentFilePath'
+  | 'guidelines.thumbnail.internal.description'
+  | 'guidelines.thumbnail.internal.fieldOwners'
+  | 'guidelines.thumbnail.internal.ignoreType'
+  | 'guidelines.thumbnail.internal.mediaType'
+  | 'guidelines.thumbnail.internal.owner'
+  | 'guidelines.thumbnail.internal.type'
+  | 'guidelines.thumbnail.mode'
+  | 'guidelines.thumbnail.modifiedTime'
+  | 'guidelines.thumbnail.mtime'
+  | 'guidelines.thumbnail.mtimeMs'
+  | 'guidelines.thumbnail.name'
+  | 'guidelines.thumbnail.nlink'
+  | 'guidelines.thumbnail.parent.children'
+  | 'guidelines.thumbnail.parent.id'
+  | 'guidelines.thumbnail.prettySize'
+  | 'guidelines.thumbnail.publicURL'
+  | 'guidelines.thumbnail.rdev'
+  | 'guidelines.thumbnail.relativeDirectory'
+  | 'guidelines.thumbnail.relativePath'
+  | 'guidelines.thumbnail.root'
+  | 'guidelines.thumbnail.size'
+  | 'guidelines.thumbnail.sourceInstanceName'
+  | 'guidelines.thumbnail.uid'
+  | 'guidelines.title'
   | 'id'
   | 'internal.content'
   | 'internal.contentDigest'
@@ -255,9 +233,6 @@ type ConfigsJsonFieldsEnum =
   | 'internal.mediaType'
   | 'internal.owner'
   | 'internal.type'
-  | 'overview'
-  | 'overview.slug'
-  | 'overview.title'
   | 'parent.children'
   | 'parent.children.children'
   | 'parent.children.children.children'
@@ -298,34 +273,98 @@ type ConfigsJsonFieldsEnum =
   | 'parent.parent.internal.owner'
   | 'parent.parent.internal.type'
   | 'parent.parent.parent.children'
-  | 'parent.parent.parent.id';
+  | 'parent.parent.parent.id'
+  | 'specs'
+  | 'specs.slug'
+  | 'specs.thumbnail.absolutePath'
+  | 'specs.thumbnail.accessTime'
+  | 'specs.thumbnail.atime'
+  | 'specs.thumbnail.atimeMs'
+  | 'specs.thumbnail.base'
+  | 'specs.thumbnail.birthTime'
+  | 'specs.thumbnail.birthtime'
+  | 'specs.thumbnail.birthtimeMs'
+  | 'specs.thumbnail.blksize'
+  | 'specs.thumbnail.blocks'
+  | 'specs.thumbnail.changeTime'
+  | 'specs.thumbnail.childConfigsJson.children'
+  | 'specs.thumbnail.childConfigsJson.guidelines'
+  | 'specs.thumbnail.childConfigsJson.id'
+  | 'specs.thumbnail.childConfigsJson.specs'
+  | 'specs.thumbnail.childImageSharp.children'
+  | 'specs.thumbnail.childImageSharp.gatsbyImageData'
+  | 'specs.thumbnail.childImageSharp.id'
+  | 'specs.thumbnail.childMdx.body'
+  | 'specs.thumbnail.childMdx.children'
+  | 'specs.thumbnail.childMdx.excerpt'
+  | 'specs.thumbnail.childMdx.id'
+  | 'specs.thumbnail.childMdx.tableOfContents'
+  | 'specs.thumbnail.children'
+  | 'specs.thumbnail.childrenConfigsJson'
+  | 'specs.thumbnail.childrenConfigsJson.children'
+  | 'specs.thumbnail.childrenConfigsJson.guidelines'
+  | 'specs.thumbnail.childrenConfigsJson.id'
+  | 'specs.thumbnail.childrenConfigsJson.specs'
+  | 'specs.thumbnail.childrenImageSharp'
+  | 'specs.thumbnail.childrenImageSharp.children'
+  | 'specs.thumbnail.childrenImageSharp.gatsbyImageData'
+  | 'specs.thumbnail.childrenImageSharp.id'
+  | 'specs.thumbnail.childrenMdx'
+  | 'specs.thumbnail.childrenMdx.body'
+  | 'specs.thumbnail.childrenMdx.children'
+  | 'specs.thumbnail.childrenMdx.excerpt'
+  | 'specs.thumbnail.childrenMdx.id'
+  | 'specs.thumbnail.childrenMdx.tableOfContents'
+  | 'specs.thumbnail.children.children'
+  | 'specs.thumbnail.children.id'
+  | 'specs.thumbnail.ctime'
+  | 'specs.thumbnail.ctimeMs'
+  | 'specs.thumbnail.dev'
+  | 'specs.thumbnail.dir'
+  | 'specs.thumbnail.ext'
+  | 'specs.thumbnail.extension'
+  | 'specs.thumbnail.gid'
+  | 'specs.thumbnail.id'
+  | 'specs.thumbnail.ino'
+  | 'specs.thumbnail.internal.content'
+  | 'specs.thumbnail.internal.contentDigest'
+  | 'specs.thumbnail.internal.contentFilePath'
+  | 'specs.thumbnail.internal.description'
+  | 'specs.thumbnail.internal.fieldOwners'
+  | 'specs.thumbnail.internal.ignoreType'
+  | 'specs.thumbnail.internal.mediaType'
+  | 'specs.thumbnail.internal.owner'
+  | 'specs.thumbnail.internal.type'
+  | 'specs.thumbnail.mode'
+  | 'specs.thumbnail.modifiedTime'
+  | 'specs.thumbnail.mtime'
+  | 'specs.thumbnail.mtimeMs'
+  | 'specs.thumbnail.name'
+  | 'specs.thumbnail.nlink'
+  | 'specs.thumbnail.parent.children'
+  | 'specs.thumbnail.parent.id'
+  | 'specs.thumbnail.prettySize'
+  | 'specs.thumbnail.publicURL'
+  | 'specs.thumbnail.rdev'
+  | 'specs.thumbnail.relativeDirectory'
+  | 'specs.thumbnail.relativePath'
+  | 'specs.thumbnail.root'
+  | 'specs.thumbnail.size'
+  | 'specs.thumbnail.sourceInstanceName'
+  | 'specs.thumbnail.uid'
+  | 'specs.title';
 
 type ConfigsJsonFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
-  readonly components: InputMaybe<ConfigsJsonComponentsFilterListInput>;
-  readonly foundation: InputMaybe<ConfigsJsonFoundationFilterListInput>;
+  readonly guidelines: InputMaybe<ConfigsJsonGuidelinesFilterListInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
-  readonly overview: InputMaybe<ConfigsJsonOverviewFilterListInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
+  readonly specs: InputMaybe<ConfigsJsonSpecsFilterListInput>;
 };
 
 type ConfigsJsonFilterListInput = {
   readonly elemMatch: InputMaybe<ConfigsJsonFilterInput>;
-};
-
-type ConfigsJsonFoundation = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type ConfigsJsonFoundationFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type ConfigsJsonFoundationFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonFoundationFilterInput>;
 };
 
 type ConfigsJsonGroupConnection = {
@@ -369,23 +408,41 @@ type ConfigsJsonGroupConnection_sumArgs = {
   field: ConfigsJsonFieldsEnum;
 };
 
-type ConfigsJsonOverview = {
+type ConfigsJsonGuidelines = {
   readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
   readonly title: Maybe<Scalars['String']>;
 };
 
-type ConfigsJsonOverviewFilterInput = {
+type ConfigsJsonGuidelinesFilterInput = {
   readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
-type ConfigsJsonOverviewFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonOverviewFilterInput>;
+type ConfigsJsonGuidelinesFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonGuidelinesFilterInput>;
 };
 
 type ConfigsJsonSortInput = {
   readonly fields: InputMaybe<ReadonlyArray<InputMaybe<ConfigsJsonFieldsEnum>>>;
   readonly order: InputMaybe<ReadonlyArray<InputMaybe<SortOrderEnum>>>;
+};
+
+type ConfigsJsonSpecs = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type ConfigsJsonSpecsFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ConfigsJsonSpecsFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonSpecsFilterInput>;
 };
 
 type DateQueryOperatorInput = {
@@ -941,51 +998,48 @@ type FileFieldsEnum =
   | 'childConfigsJson.children.internal.type'
   | 'childConfigsJson.children.parent.children'
   | 'childConfigsJson.children.parent.id'
-  | 'childConfigsJson.components'
-  | 'childConfigsJson.components.slug'
-  | 'childConfigsJson.components.thumbnail.absolutePath'
-  | 'childConfigsJson.components.thumbnail.accessTime'
-  | 'childConfigsJson.components.thumbnail.atime'
-  | 'childConfigsJson.components.thumbnail.atimeMs'
-  | 'childConfigsJson.components.thumbnail.base'
-  | 'childConfigsJson.components.thumbnail.birthTime'
-  | 'childConfigsJson.components.thumbnail.birthtime'
-  | 'childConfigsJson.components.thumbnail.birthtimeMs'
-  | 'childConfigsJson.components.thumbnail.blksize'
-  | 'childConfigsJson.components.thumbnail.blocks'
-  | 'childConfigsJson.components.thumbnail.changeTime'
-  | 'childConfigsJson.components.thumbnail.children'
-  | 'childConfigsJson.components.thumbnail.childrenConfigsJson'
-  | 'childConfigsJson.components.thumbnail.childrenImageSharp'
-  | 'childConfigsJson.components.thumbnail.childrenMdx'
-  | 'childConfigsJson.components.thumbnail.ctime'
-  | 'childConfigsJson.components.thumbnail.ctimeMs'
-  | 'childConfigsJson.components.thumbnail.dev'
-  | 'childConfigsJson.components.thumbnail.dir'
-  | 'childConfigsJson.components.thumbnail.ext'
-  | 'childConfigsJson.components.thumbnail.extension'
-  | 'childConfigsJson.components.thumbnail.gid'
-  | 'childConfigsJson.components.thumbnail.id'
-  | 'childConfigsJson.components.thumbnail.ino'
-  | 'childConfigsJson.components.thumbnail.mode'
-  | 'childConfigsJson.components.thumbnail.modifiedTime'
-  | 'childConfigsJson.components.thumbnail.mtime'
-  | 'childConfigsJson.components.thumbnail.mtimeMs'
-  | 'childConfigsJson.components.thumbnail.name'
-  | 'childConfigsJson.components.thumbnail.nlink'
-  | 'childConfigsJson.components.thumbnail.prettySize'
-  | 'childConfigsJson.components.thumbnail.publicURL'
-  | 'childConfigsJson.components.thumbnail.rdev'
-  | 'childConfigsJson.components.thumbnail.relativeDirectory'
-  | 'childConfigsJson.components.thumbnail.relativePath'
-  | 'childConfigsJson.components.thumbnail.root'
-  | 'childConfigsJson.components.thumbnail.size'
-  | 'childConfigsJson.components.thumbnail.sourceInstanceName'
-  | 'childConfigsJson.components.thumbnail.uid'
-  | 'childConfigsJson.components.title'
-  | 'childConfigsJson.foundation'
-  | 'childConfigsJson.foundation.slug'
-  | 'childConfigsJson.foundation.title'
+  | 'childConfigsJson.guidelines'
+  | 'childConfigsJson.guidelines.slug'
+  | 'childConfigsJson.guidelines.thumbnail.absolutePath'
+  | 'childConfigsJson.guidelines.thumbnail.accessTime'
+  | 'childConfigsJson.guidelines.thumbnail.atime'
+  | 'childConfigsJson.guidelines.thumbnail.atimeMs'
+  | 'childConfigsJson.guidelines.thumbnail.base'
+  | 'childConfigsJson.guidelines.thumbnail.birthTime'
+  | 'childConfigsJson.guidelines.thumbnail.birthtime'
+  | 'childConfigsJson.guidelines.thumbnail.birthtimeMs'
+  | 'childConfigsJson.guidelines.thumbnail.blksize'
+  | 'childConfigsJson.guidelines.thumbnail.blocks'
+  | 'childConfigsJson.guidelines.thumbnail.changeTime'
+  | 'childConfigsJson.guidelines.thumbnail.children'
+  | 'childConfigsJson.guidelines.thumbnail.childrenConfigsJson'
+  | 'childConfigsJson.guidelines.thumbnail.childrenImageSharp'
+  | 'childConfigsJson.guidelines.thumbnail.childrenMdx'
+  | 'childConfigsJson.guidelines.thumbnail.ctime'
+  | 'childConfigsJson.guidelines.thumbnail.ctimeMs'
+  | 'childConfigsJson.guidelines.thumbnail.dev'
+  | 'childConfigsJson.guidelines.thumbnail.dir'
+  | 'childConfigsJson.guidelines.thumbnail.ext'
+  | 'childConfigsJson.guidelines.thumbnail.extension'
+  | 'childConfigsJson.guidelines.thumbnail.gid'
+  | 'childConfigsJson.guidelines.thumbnail.id'
+  | 'childConfigsJson.guidelines.thumbnail.ino'
+  | 'childConfigsJson.guidelines.thumbnail.mode'
+  | 'childConfigsJson.guidelines.thumbnail.modifiedTime'
+  | 'childConfigsJson.guidelines.thumbnail.mtime'
+  | 'childConfigsJson.guidelines.thumbnail.mtimeMs'
+  | 'childConfigsJson.guidelines.thumbnail.name'
+  | 'childConfigsJson.guidelines.thumbnail.nlink'
+  | 'childConfigsJson.guidelines.thumbnail.prettySize'
+  | 'childConfigsJson.guidelines.thumbnail.publicURL'
+  | 'childConfigsJson.guidelines.thumbnail.rdev'
+  | 'childConfigsJson.guidelines.thumbnail.relativeDirectory'
+  | 'childConfigsJson.guidelines.thumbnail.relativePath'
+  | 'childConfigsJson.guidelines.thumbnail.root'
+  | 'childConfigsJson.guidelines.thumbnail.size'
+  | 'childConfigsJson.guidelines.thumbnail.sourceInstanceName'
+  | 'childConfigsJson.guidelines.thumbnail.uid'
+  | 'childConfigsJson.guidelines.title'
   | 'childConfigsJson.id'
   | 'childConfigsJson.internal.content'
   | 'childConfigsJson.internal.contentDigest'
@@ -996,9 +1050,6 @@ type FileFieldsEnum =
   | 'childConfigsJson.internal.mediaType'
   | 'childConfigsJson.internal.owner'
   | 'childConfigsJson.internal.type'
-  | 'childConfigsJson.overview'
-  | 'childConfigsJson.overview.slug'
-  | 'childConfigsJson.overview.title'
   | 'childConfigsJson.parent.children'
   | 'childConfigsJson.parent.children.children'
   | 'childConfigsJson.parent.children.id'
@@ -1014,6 +1065,48 @@ type FileFieldsEnum =
   | 'childConfigsJson.parent.internal.type'
   | 'childConfigsJson.parent.parent.children'
   | 'childConfigsJson.parent.parent.id'
+  | 'childConfigsJson.specs'
+  | 'childConfigsJson.specs.slug'
+  | 'childConfigsJson.specs.thumbnail.absolutePath'
+  | 'childConfigsJson.specs.thumbnail.accessTime'
+  | 'childConfigsJson.specs.thumbnail.atime'
+  | 'childConfigsJson.specs.thumbnail.atimeMs'
+  | 'childConfigsJson.specs.thumbnail.base'
+  | 'childConfigsJson.specs.thumbnail.birthTime'
+  | 'childConfigsJson.specs.thumbnail.birthtime'
+  | 'childConfigsJson.specs.thumbnail.birthtimeMs'
+  | 'childConfigsJson.specs.thumbnail.blksize'
+  | 'childConfigsJson.specs.thumbnail.blocks'
+  | 'childConfigsJson.specs.thumbnail.changeTime'
+  | 'childConfigsJson.specs.thumbnail.children'
+  | 'childConfigsJson.specs.thumbnail.childrenConfigsJson'
+  | 'childConfigsJson.specs.thumbnail.childrenImageSharp'
+  | 'childConfigsJson.specs.thumbnail.childrenMdx'
+  | 'childConfigsJson.specs.thumbnail.ctime'
+  | 'childConfigsJson.specs.thumbnail.ctimeMs'
+  | 'childConfigsJson.specs.thumbnail.dev'
+  | 'childConfigsJson.specs.thumbnail.dir'
+  | 'childConfigsJson.specs.thumbnail.ext'
+  | 'childConfigsJson.specs.thumbnail.extension'
+  | 'childConfigsJson.specs.thumbnail.gid'
+  | 'childConfigsJson.specs.thumbnail.id'
+  | 'childConfigsJson.specs.thumbnail.ino'
+  | 'childConfigsJson.specs.thumbnail.mode'
+  | 'childConfigsJson.specs.thumbnail.modifiedTime'
+  | 'childConfigsJson.specs.thumbnail.mtime'
+  | 'childConfigsJson.specs.thumbnail.mtimeMs'
+  | 'childConfigsJson.specs.thumbnail.name'
+  | 'childConfigsJson.specs.thumbnail.nlink'
+  | 'childConfigsJson.specs.thumbnail.prettySize'
+  | 'childConfigsJson.specs.thumbnail.publicURL'
+  | 'childConfigsJson.specs.thumbnail.rdev'
+  | 'childConfigsJson.specs.thumbnail.relativeDirectory'
+  | 'childConfigsJson.specs.thumbnail.relativePath'
+  | 'childConfigsJson.specs.thumbnail.root'
+  | 'childConfigsJson.specs.thumbnail.size'
+  | 'childConfigsJson.specs.thumbnail.sourceInstanceName'
+  | 'childConfigsJson.specs.thumbnail.uid'
+  | 'childConfigsJson.specs.title'
   | 'childImageSharp.children'
   | 'childImageSharp.children.children'
   | 'childImageSharp.children.children.children'
@@ -1152,51 +1245,48 @@ type FileFieldsEnum =
   | 'childrenConfigsJson.children.internal.type'
   | 'childrenConfigsJson.children.parent.children'
   | 'childrenConfigsJson.children.parent.id'
-  | 'childrenConfigsJson.components'
-  | 'childrenConfigsJson.components.slug'
-  | 'childrenConfigsJson.components.thumbnail.absolutePath'
-  | 'childrenConfigsJson.components.thumbnail.accessTime'
-  | 'childrenConfigsJson.components.thumbnail.atime'
-  | 'childrenConfigsJson.components.thumbnail.atimeMs'
-  | 'childrenConfigsJson.components.thumbnail.base'
-  | 'childrenConfigsJson.components.thumbnail.birthTime'
-  | 'childrenConfigsJson.components.thumbnail.birthtime'
-  | 'childrenConfigsJson.components.thumbnail.birthtimeMs'
-  | 'childrenConfigsJson.components.thumbnail.blksize'
-  | 'childrenConfigsJson.components.thumbnail.blocks'
-  | 'childrenConfigsJson.components.thumbnail.changeTime'
-  | 'childrenConfigsJson.components.thumbnail.children'
-  | 'childrenConfigsJson.components.thumbnail.childrenConfigsJson'
-  | 'childrenConfigsJson.components.thumbnail.childrenImageSharp'
-  | 'childrenConfigsJson.components.thumbnail.childrenMdx'
-  | 'childrenConfigsJson.components.thumbnail.ctime'
-  | 'childrenConfigsJson.components.thumbnail.ctimeMs'
-  | 'childrenConfigsJson.components.thumbnail.dev'
-  | 'childrenConfigsJson.components.thumbnail.dir'
-  | 'childrenConfigsJson.components.thumbnail.ext'
-  | 'childrenConfigsJson.components.thumbnail.extension'
-  | 'childrenConfigsJson.components.thumbnail.gid'
-  | 'childrenConfigsJson.components.thumbnail.id'
-  | 'childrenConfigsJson.components.thumbnail.ino'
-  | 'childrenConfigsJson.components.thumbnail.mode'
-  | 'childrenConfigsJson.components.thumbnail.modifiedTime'
-  | 'childrenConfigsJson.components.thumbnail.mtime'
-  | 'childrenConfigsJson.components.thumbnail.mtimeMs'
-  | 'childrenConfigsJson.components.thumbnail.name'
-  | 'childrenConfigsJson.components.thumbnail.nlink'
-  | 'childrenConfigsJson.components.thumbnail.prettySize'
-  | 'childrenConfigsJson.components.thumbnail.publicURL'
-  | 'childrenConfigsJson.components.thumbnail.rdev'
-  | 'childrenConfigsJson.components.thumbnail.relativeDirectory'
-  | 'childrenConfigsJson.components.thumbnail.relativePath'
-  | 'childrenConfigsJson.components.thumbnail.root'
-  | 'childrenConfigsJson.components.thumbnail.size'
-  | 'childrenConfigsJson.components.thumbnail.sourceInstanceName'
-  | 'childrenConfigsJson.components.thumbnail.uid'
-  | 'childrenConfigsJson.components.title'
-  | 'childrenConfigsJson.foundation'
-  | 'childrenConfigsJson.foundation.slug'
-  | 'childrenConfigsJson.foundation.title'
+  | 'childrenConfigsJson.guidelines'
+  | 'childrenConfigsJson.guidelines.slug'
+  | 'childrenConfigsJson.guidelines.thumbnail.absolutePath'
+  | 'childrenConfigsJson.guidelines.thumbnail.accessTime'
+  | 'childrenConfigsJson.guidelines.thumbnail.atime'
+  | 'childrenConfigsJson.guidelines.thumbnail.atimeMs'
+  | 'childrenConfigsJson.guidelines.thumbnail.base'
+  | 'childrenConfigsJson.guidelines.thumbnail.birthTime'
+  | 'childrenConfigsJson.guidelines.thumbnail.birthtime'
+  | 'childrenConfigsJson.guidelines.thumbnail.birthtimeMs'
+  | 'childrenConfigsJson.guidelines.thumbnail.blksize'
+  | 'childrenConfigsJson.guidelines.thumbnail.blocks'
+  | 'childrenConfigsJson.guidelines.thumbnail.changeTime'
+  | 'childrenConfigsJson.guidelines.thumbnail.children'
+  | 'childrenConfigsJson.guidelines.thumbnail.childrenConfigsJson'
+  | 'childrenConfigsJson.guidelines.thumbnail.childrenImageSharp'
+  | 'childrenConfigsJson.guidelines.thumbnail.childrenMdx'
+  | 'childrenConfigsJson.guidelines.thumbnail.ctime'
+  | 'childrenConfigsJson.guidelines.thumbnail.ctimeMs'
+  | 'childrenConfigsJson.guidelines.thumbnail.dev'
+  | 'childrenConfigsJson.guidelines.thumbnail.dir'
+  | 'childrenConfigsJson.guidelines.thumbnail.ext'
+  | 'childrenConfigsJson.guidelines.thumbnail.extension'
+  | 'childrenConfigsJson.guidelines.thumbnail.gid'
+  | 'childrenConfigsJson.guidelines.thumbnail.id'
+  | 'childrenConfigsJson.guidelines.thumbnail.ino'
+  | 'childrenConfigsJson.guidelines.thumbnail.mode'
+  | 'childrenConfigsJson.guidelines.thumbnail.modifiedTime'
+  | 'childrenConfigsJson.guidelines.thumbnail.mtime'
+  | 'childrenConfigsJson.guidelines.thumbnail.mtimeMs'
+  | 'childrenConfigsJson.guidelines.thumbnail.name'
+  | 'childrenConfigsJson.guidelines.thumbnail.nlink'
+  | 'childrenConfigsJson.guidelines.thumbnail.prettySize'
+  | 'childrenConfigsJson.guidelines.thumbnail.publicURL'
+  | 'childrenConfigsJson.guidelines.thumbnail.rdev'
+  | 'childrenConfigsJson.guidelines.thumbnail.relativeDirectory'
+  | 'childrenConfigsJson.guidelines.thumbnail.relativePath'
+  | 'childrenConfigsJson.guidelines.thumbnail.root'
+  | 'childrenConfigsJson.guidelines.thumbnail.size'
+  | 'childrenConfigsJson.guidelines.thumbnail.sourceInstanceName'
+  | 'childrenConfigsJson.guidelines.thumbnail.uid'
+  | 'childrenConfigsJson.guidelines.title'
   | 'childrenConfigsJson.id'
   | 'childrenConfigsJson.internal.content'
   | 'childrenConfigsJson.internal.contentDigest'
@@ -1207,9 +1297,6 @@ type FileFieldsEnum =
   | 'childrenConfigsJson.internal.mediaType'
   | 'childrenConfigsJson.internal.owner'
   | 'childrenConfigsJson.internal.type'
-  | 'childrenConfigsJson.overview'
-  | 'childrenConfigsJson.overview.slug'
-  | 'childrenConfigsJson.overview.title'
   | 'childrenConfigsJson.parent.children'
   | 'childrenConfigsJson.parent.children.children'
   | 'childrenConfigsJson.parent.children.id'
@@ -1225,6 +1312,48 @@ type FileFieldsEnum =
   | 'childrenConfigsJson.parent.internal.type'
   | 'childrenConfigsJson.parent.parent.children'
   | 'childrenConfigsJson.parent.parent.id'
+  | 'childrenConfigsJson.specs'
+  | 'childrenConfigsJson.specs.slug'
+  | 'childrenConfigsJson.specs.thumbnail.absolutePath'
+  | 'childrenConfigsJson.specs.thumbnail.accessTime'
+  | 'childrenConfigsJson.specs.thumbnail.atime'
+  | 'childrenConfigsJson.specs.thumbnail.atimeMs'
+  | 'childrenConfigsJson.specs.thumbnail.base'
+  | 'childrenConfigsJson.specs.thumbnail.birthTime'
+  | 'childrenConfigsJson.specs.thumbnail.birthtime'
+  | 'childrenConfigsJson.specs.thumbnail.birthtimeMs'
+  | 'childrenConfigsJson.specs.thumbnail.blksize'
+  | 'childrenConfigsJson.specs.thumbnail.blocks'
+  | 'childrenConfigsJson.specs.thumbnail.changeTime'
+  | 'childrenConfigsJson.specs.thumbnail.children'
+  | 'childrenConfigsJson.specs.thumbnail.childrenConfigsJson'
+  | 'childrenConfigsJson.specs.thumbnail.childrenImageSharp'
+  | 'childrenConfigsJson.specs.thumbnail.childrenMdx'
+  | 'childrenConfigsJson.specs.thumbnail.ctime'
+  | 'childrenConfigsJson.specs.thumbnail.ctimeMs'
+  | 'childrenConfigsJson.specs.thumbnail.dev'
+  | 'childrenConfigsJson.specs.thumbnail.dir'
+  | 'childrenConfigsJson.specs.thumbnail.ext'
+  | 'childrenConfigsJson.specs.thumbnail.extension'
+  | 'childrenConfigsJson.specs.thumbnail.gid'
+  | 'childrenConfigsJson.specs.thumbnail.id'
+  | 'childrenConfigsJson.specs.thumbnail.ino'
+  | 'childrenConfigsJson.specs.thumbnail.mode'
+  | 'childrenConfigsJson.specs.thumbnail.modifiedTime'
+  | 'childrenConfigsJson.specs.thumbnail.mtime'
+  | 'childrenConfigsJson.specs.thumbnail.mtimeMs'
+  | 'childrenConfigsJson.specs.thumbnail.name'
+  | 'childrenConfigsJson.specs.thumbnail.nlink'
+  | 'childrenConfigsJson.specs.thumbnail.prettySize'
+  | 'childrenConfigsJson.specs.thumbnail.publicURL'
+  | 'childrenConfigsJson.specs.thumbnail.rdev'
+  | 'childrenConfigsJson.specs.thumbnail.relativeDirectory'
+  | 'childrenConfigsJson.specs.thumbnail.relativePath'
+  | 'childrenConfigsJson.specs.thumbnail.root'
+  | 'childrenConfigsJson.specs.thumbnail.size'
+  | 'childrenConfigsJson.specs.thumbnail.sourceInstanceName'
+  | 'childrenConfigsJson.specs.thumbnail.uid'
+  | 'childrenConfigsJson.specs.title'
   | 'childrenImageSharp'
   | 'childrenImageSharp.children'
   | 'childrenImageSharp.children.children'
@@ -2506,12 +2635,11 @@ type Query_allSitePluginArgs = {
 
 type Query_configsJsonArgs = {
   children: InputMaybe<NodeFilterListInput>;
-  components: InputMaybe<ConfigsJsonComponentsFilterListInput>;
-  foundation: InputMaybe<ConfigsJsonFoundationFilterListInput>;
+  guidelines: InputMaybe<ConfigsJsonGuidelinesFilterListInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
-  overview: InputMaybe<ConfigsJsonOverviewFilterListInput>;
   parent: InputMaybe<NodeFilterInput>;
+  specs: InputMaybe<ConfigsJsonSpecsFilterListInput>;
 };
 
 
@@ -3906,11 +4034,6 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
-type ComponentsPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type ComponentsPageQuery = { readonly configsJson: { readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
-
 type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3926,6 +4049,11 @@ type GetStartedPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type GetStartedPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
+type GuidelinesPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type GuidelinesPageQuery = { readonly configsJson: { readonly guidelines: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
+
 type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3939,7 +4067,12 @@ type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly configsJson: { readonly overview: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly foundation: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly components: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null };
+type SidebarQuery = { readonly configsJson: { readonly guidelines: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly specs: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null };
+
+type SpecsPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SpecsPageQuery = { readonly configsJson: { readonly specs: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
 
 
 }

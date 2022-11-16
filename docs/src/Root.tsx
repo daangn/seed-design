@@ -1,6 +1,5 @@
 import React from "react";
 
-import Header from "./components/Header";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 interface RootProps {
@@ -8,12 +7,7 @@ interface RootProps {
 }
 
 const Root: React.FC<RootProps> = ({ children }) => {
-  return (
-    <ThemeProvider>
-      <Header />
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider>{children}</ThemeProvider>;
 };
 
 export default Root;

@@ -8,14 +8,14 @@ import React from "react";
 import { fadeInFromTop } from "../../framer-motions";
 import * as style from "../../styles/components.page.css";
 
-interface ComponentsPageProps {
-  data: GatsbyTypes.ComponentsPageQuery;
+interface PageProps {
+  data: GatsbyTypes.SpecsPage;
 }
 
 export const query = graphql`
-  query ComponentsPage {
+  query SpecsPage {
     configsJson {
-      components {
+      specs {
         slug
         title
         thumbnail {
@@ -28,14 +28,14 @@ export const query = graphql`
   }
 `;
 
-const ComponentsPage = ({ data }: ComponentsPageProps) => {
-  const components = data.configsJson?.components!;
+const Page = ({ data }: PageProps) => {
+  const specs = data.configsJson?.specs!;
 
   return (
     <main>
       <article className={style.content}>
         <motion.h1 {...fadeInFromTop} className={style.title}>
-          Components
+          사용 가이드
         </motion.h1>
         <motion.p
           transition={{ delay: 0.1 }}
@@ -46,8 +46,8 @@ const ComponentsPage = ({ data }: ComponentsPageProps) => {
           the... 대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
         </motion.p>
         <div className={style.grid}>
-          {components.map((component, index) => (
-            <Link key={component?.slug!} to={component?.slug!}>
+          {specs.map((spec, index) => (
+            <Link key={spec?.slug!} to={spec?.slug!}>
               <motion.div
                 initial={fadeInFromTop.initial}
                 animate={{
@@ -61,13 +61,11 @@ const ComponentsPage = ({ data }: ComponentsPageProps) => {
                 <div className={style.gridItemImage}>
                   <GatsbyImage
                     draggable={false}
-                    image={
-                      component?.thumbnail?.childImageSharp?.gatsbyImageData!
-                    }
-                    alt={component?.title!}
+                    image={spec?.thumbnail?.childImageSharp?.gatsbyImageData!}
+                    alt={spec?.title!}
                   />
                 </div>
-                <h2 className={style.gridItemTitle}>{component?.title}</h2>
+                <h2 className={style.gridItemTitle}>{spec?.title}</h2>
               </motion.div>
             </Link>
           ))}
@@ -77,14 +75,14 @@ const ComponentsPage = ({ data }: ComponentsPageProps) => {
   );
 };
 
-export const Head: HeadFC<GatsbyTypes.ComponentsPageQuery> = () => {
+export const Head: HeadFC<GatsbyTypes.SpecsPage> = () => {
   return (
     <>
-      <title>Seed Design | Components</title>
-      <meta property="og:title" content="Seed Design | Components" />
+      <title>Seed Design | 스펙</title>
+      <meta property="og:title" content="Seed Design | 스펙" />
       <meta property="description" content="당근마켓 디자인시스템입니다." />
     </>
   );
 };
 
-export default ComponentsPage;
+export default Page;

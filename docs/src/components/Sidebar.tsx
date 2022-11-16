@@ -1,12 +1,9 @@
 import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
 import clsx from "clsx";
-import { motion, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import type { PropsWithChildren } from "react";
-import { useEffect } from "react";
 import React, { useState } from "react";
-import { createPortal } from "react-dom";
 
 import * as style from "./Sidebar.css";
 
@@ -15,16 +12,28 @@ interface SidebarLinkProps {
   active: boolean;
 }
 
-function SidebarPortal({ children }: PropsWithChildren) {
-  const sidebar = document.querySelector("#portal");
-  if (!sidebar) throw new Error("#portal id div를 찾을 수 없어요");
-  return createPortal(children, sidebar);
-}
-
 function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
   return (
     <Link to={to} onClick={onClick}>
-      <div className={clsx(style.logo)}>SEED DESIGN</div>
+      <div className={clsx(style.logo)}>
+        <svg
+          width="99"
+          height="52"
+          viewBox="0 0 99 52"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M25.5059 21.6191H29.168C29.1094 18.0303 26.0479 15.4961 21.5508 15.4961C17.083 15.4961 13.7578 17.9863 13.7578 21.7363C13.7578 24.7832 15.9258 26.541 19.4121 27.4492L21.8145 28.0645C24.1143 28.6504 25.6377 29.3535 25.6523 31.0234C25.6377 32.8398 23.9092 34.0557 21.4043 34.0703C18.9873 34.0557 17.127 32.9717 16.9512 30.7598H13.2012C13.3623 34.9492 16.4971 37.3223 21.4336 37.3223C26.5166 37.3223 29.4609 34.7734 29.4609 31.0527C29.4609 27.3613 26.4141 25.6914 23.25 24.959L21.2578 24.4316C19.5 24.0215 17.6104 23.2891 17.625 21.502C17.6396 19.9053 19.0752 18.7334 21.4922 18.748C23.7773 18.7334 25.3154 19.7881 25.5059 21.6191ZM32.625 37H46.4824V33.7773H36.4336V27.9766H45.6914V24.7832H36.4336V18.9824H46.4238V15.7891H32.625V37ZM50.0859 37H63.9434V33.7773H53.8945V27.9766H63.1523V24.7832H53.8945V18.9824H63.8848V15.7891H50.0859V37ZM74.7539 37C81.1992 37 85.0225 33.001 85.0371 26.3652C85.0225 19.7588 81.1992 15.7891 74.8711 15.7891H67.5469V37H74.7539ZM71.3555 33.6895V19.0996H74.666C78.9873 19.085 81.2285 21.502 81.2285 26.3652C81.2285 31.2578 78.9873 33.7041 74.5488 33.6895H71.3555Z"
+            fill="black"
+          />
+          <path
+            d="M97 26C97 12.1986 79.8957 2 49.9847 2C20.0737 2 2 12.1986 2 26C2 39.8014 20.0737 50 49.9847 50C79.8957 50 97 39.8014 97 26Z"
+            stroke="black"
+            stroke-width="4"
+          />
+        </svg>
+      </div>
     </Link>
   );
 }
@@ -51,26 +60,15 @@ export default function Sidebar() {
   const closeSidebar = () => setOpen(false);
   const openSidebar = () => setOpen(true);
 
-  const x = useSpring(-300, { duration: 0.2 });
-
-  useEffect(() => {
-    open ? x.set(0) : x.set(-300);
-  }, [open]);
-
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
       configsJson {
-        overview {
+        guidelines {
           slug
           title
         }
 
-        foundation {
-          slug
-          title
-        }
-
-        components {
+        specs {
           slug
           title
         }
@@ -80,7 +78,7 @@ export default function Sidebar() {
 
   const overview = data.configsJson?.overview;
   const foundation = data.configsJson?.foundation;
-  const components = data.configsJson?.components;
+  // const components = data.configsJson?.components;
 
   return (
     <>
@@ -89,54 +87,32 @@ export default function Sidebar() {
         onClick={openSidebar}
         width={28}
       />
-      <SidebarPortal>
-        <motion.nav style={{ x }} className={clsx(style.sidebar({ open }))}>
-          <Logo to="/" onClick={closeSidebar} />
+      <motion.nav className={clsx(style.sidebar({ open }))}>
+        <Logo to="/" onClick={closeSidebar} />
 
-          <h1 className={style.categoryTitle}>Overview</h1>
-          {overview!.map((link) => (
-            <SidebarLink
-              key={link!.slug!}
-              active={location.pathname === link!.slug}
-              to={link!.slug!}
-              title={link!.title!}
-              onClick={closeSidebar}
-            />
-          ))}
-
-          <h1 className={style.categoryTitle}>Foundation</h1>
-          {foundation!.map((link) => (
-            <SidebarLink
-              key={link!.slug!}
-              active={location.pathname === link!.slug}
-              to={link!.slug!}
-              title={link!.title!}
-              onClick={closeSidebar}
-            />
-          ))}
-
-          <Link
+        <h1 className={style.categoryTitle}>사용 가이드</h1>
+        {overview!.map((link) => (
+          <SidebarLink
+            key={link!.slug!}
+            active={location.pathname === link!.slug}
+            to={link!.slug!}
+            title={link!.title!}
             onClick={closeSidebar}
-            className={style.sidebarTitleLink({
-              highlight: location.pathname === "/components",
-            })}
-            to="/components"
-          >
-            <h1 className={style.categoryTitle}>Components</h1>
-          </Link>
+          />
+        ))}
 
-          {components!.map((link) => (
-            <SidebarLink
-              key={link!.slug!}
-              active={location.pathname === link!.slug}
-              to={link!.slug!}
-              title={link!.title!}
-              onClick={closeSidebar}
-            />
-          ))}
-        </motion.nav>
-        <div onClick={closeSidebar} className={clsx(style.overlay({ open }))} />
-      </SidebarPortal>
+        <h1 className={style.categoryTitle}>스펙</h1>
+        {foundation!.map((link) => (
+          <SidebarLink
+            key={link!.slug!}
+            active={location.pathname === link!.slug}
+            to={link!.slug!}
+            title={link!.title!}
+            onClick={closeSidebar}
+          />
+        ))}
+      </motion.nav>
+      <div onClick={closeSidebar} className={clsx(style.overlay({ open }))} />
     </>
   );
 }

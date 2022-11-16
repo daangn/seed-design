@@ -8,9 +8,11 @@ export const header = style([
   {
     position: "fixed",
     top: 0,
-    left: 0,
 
-    justifyContent: "space-between",
+    justifyContent: "right",
     width: "100%",
+    maxWidth: "1400px",
+    height: "60px",
+    backdropFilter: "blur(5px)",
   },
 ]);

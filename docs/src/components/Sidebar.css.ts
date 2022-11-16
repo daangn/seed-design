@@ -2,18 +2,75 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
-// import * as m from "../styles/media.css";
+import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 const TRANSITION_DURATION = "0.25s";
 const TRANSITION_TIMING_FUNCTION = "ease";
+const SIDEBAR_WIDTH = "216px";
+
+export const sidebar = recipe({
+  base: [
+    u.flexColumn,
+    u.topLayer,
+    {
+      position: "fixed",
+      top: 0,
+      background: vars.$scale.color.gray00,
+      paddingLeft: "20px",
+
+      transition: `
+        left ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
+        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
+      `,
+
+      width: SIDEBAR_WIDTH,
+      height: "100vh",
+    },
+
+    m.large({
+      position: "sticky",
+      left: 0,
+      paddingLeft: "60px",
+    }),
+
+    m.xlarge({
+      paddingLeft: "0px",
+    }),
+  ],
+
+  variants: {
+    open: {
+      true: [
+        u.topLayer,
+        {
+          left: "0px",
+        },
+      ],
+      false: [
+        u.backLayer,
+        {
+          left: `-${SIDEBAR_WIDTH}`,
+        },
+
+        m.large({
+          zIndex: 100,
+          left: "0px",
+        }),
+      ],
+    },
+  },
+});
 
 export const categoryTitle = style({
   fontSize: "26px",
   fontWeight: 700,
-  padding: "20px",
+
+  width: "200px",
   transition: "color 0.2s ease",
   color: vars.$scale.color.gray900,
+  marginTop: "30px",
 
   ":hover": {
     color: vars.$semantic.color.primaryHover,
@@ -22,26 +79,12 @@ export const categoryTitle = style({
 
 export const logo = style([
   u.cursorPointer,
-  {
-    fontSize: "28px",
-    fontWeight: 700,
-    padding: "10px",
-    margin: "8px",
-    color: vars.$scale.color.gray900,
-    borderRadius: "10px",
-    transition: "color 0.2s ease",
-
-    ":hover": {
-      color: vars.$semantic.color.primaryHover,
-    },
-  },
+  { marginTop: "20px", marginBottom: "55px" },
 ]);
 
 export const sidebarTitleLink = recipe({
   base: [
     {
-      margin: "8px",
-      borderRadius: "10px",
       color: vars.$scale.color.gray900,
       transition: "color 0.2s ease",
 
@@ -64,14 +107,12 @@ export const sidebarTitleLink = recipe({
 
 export const sidebarLink = recipe({
   base: [
-    u.flexAlignCenter,
+    u.flex,
     {
-      columnGap: "10px",
-      padding: "10px",
-      margin: "8px",
-      borderRadius: "10px",
+      width: "200px",
       color: vars.$scale.color.gray900,
       transition: "color 0.2s ease",
+      marginTop: "6px",
 
       ":hover": {
         color: vars.$semantic.color.primaryHover,
@@ -94,6 +135,7 @@ export const sidebarButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
+    position: "fixed",
     margin: "20px",
     padding: "6px",
     borderRadius: "50%",
@@ -105,35 +147,11 @@ export const sidebarButton = style([
       backgroundColor: vars.$scale.color.gray200,
     },
   },
+
+  m.large({
+    display: "none",
+  }),
 ]);
-
-export const sidebar = recipe({
-  base: [
-    u.flexColumn,
-    {
-      position: "fixed",
-      top: 0,
-      left: 0,
-
-      transition: `
-        transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
-      `,
-
-      width: "300px",
-      height: "100vh",
-
-      backgroundColor: vars.$scale.color.gray00,
-    },
-  ],
-
-  variants: {
-    open: {
-      true: [u.topLayer],
-      false: [u.backLayer],
-    },
-  },
-});
 
 export const overlay = recipe({
   base: [
@@ -161,8 +179,15 @@ export const overlay = recipe({
         {
           backgroundColor: vars.$scale.color.grayAlpha500,
           opacity: 1,
-          width: "calc(100vw - 300px)",
+          width: `calc(100vw - ${SIDEBAR_WIDTH})`,
         },
+
+        m.large({
+          zIndex: -1,
+          backgroundColor: undefined,
+          opacity: 0,
+          width: "100vw",
+        }),
       ],
       false: [
         u.backLayer,

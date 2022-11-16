@@ -9,13 +9,11 @@ export const nav = style([
     position: "sticky",
     top: "150px",
     width: "250px",
-    marginRight: "250px",
     borderLeft: "1px solid #eaeaea",
   },
 
   m.xlarge({
     display: "block",
-    marginRight: "250px",
   }),
 ]);
 

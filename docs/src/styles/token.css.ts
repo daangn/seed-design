@@ -4,7 +4,17 @@ import { style } from "@vanilla-extract/css";
 import * as m from "./media.css";
 
 export const main = style([
-  { position: "relative", width: "100%", display: "flex" },
+  {
+    position: "relative",
+    width: "100%",
+    maxWidth: "1440px",
+    display: "flex",
+    margin: "auto",
+  },
+
+  m.large({
+    columnGap: "20px",
+  }),
 ]);
 
 export const content = style([
@@ -19,7 +29,7 @@ export const content = style([
     letterSpacing: "-0.04px",
   },
 
-  m.large({
+  m.medium({
     padding: "0px",
   }),
 ]);

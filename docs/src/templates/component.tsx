@@ -7,6 +7,8 @@ import React from "react";
 
 import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
 import { fadeInFromLeft } from "../framer-motions";
@@ -34,6 +36,8 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
   return (
     <DocumentLayout>
       <main className={style.main}>
+        <Header />
+        <Sidebar />
         <article className={style.content}>
           <h1 className={style.title}>{pageContext.title}</h1>
           <p className={style.titleDescription}>{pageContext.description}</p>
