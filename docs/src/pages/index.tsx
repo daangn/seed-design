@@ -4,7 +4,6 @@ import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
-import PageLayout from "../components/PageLayout";
 import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
 
@@ -18,13 +17,11 @@ export const query = graphql`
 
 const IndexPage = () => {
   return (
-    <PageLayout>
-      <div className={clsx(u.fullScreen, u.flexJustifyCenter)}>
-        <h1 style={{ marginTop: "130px" }} className={clsx(t.documentHeading1)}>
-          Seed Design
-        </h1>
-      </div>
-    </PageLayout>
+    <div className={clsx(u.fullScreen, u.flexJustifyCenter)}>
+      <h1 style={{ marginTop: "130px" }} className={clsx(t.documentHeading1)}>
+        Seed Design
+      </h1>
+    </div>
   );
 };
 

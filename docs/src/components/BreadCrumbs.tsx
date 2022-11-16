@@ -9,7 +9,11 @@ const word: Record<string, string> = {
 };
 
 const BreadCrumbs = () => {
-  const currentPath = window.location.pathname.split("/").slice(1, 5);
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const currentPath = location.pathname.split("/").slice(1, 5);
 
   return (
     <div className={style.breadcrumbs}>

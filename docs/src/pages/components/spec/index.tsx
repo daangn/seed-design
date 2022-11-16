@@ -5,7 +5,6 @@ import { graphql } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react";
 
-import PageLayout from "../../../components/PageLayout";
 import { fadeInFromTop } from "../../../framer-motions";
 import * as style from "../../../styles/components.page.css";
 
@@ -33,42 +32,40 @@ const Page = ({ data }: PageProps) => {
   const specs = data.configsJson?.spec!;
 
   return (
-    <PageLayout>
-      <article className={style.content}>
-        <motion.h1 {...fadeInFromTop} className={style.title}>
-          스펙
-        </motion.h1>
-        <motion.p
-          transition={{ delay: 0.1 }}
-          {...fadeInFromTop}
-          className={style.caption1}
-        >
-          Components are the building blocks of any design system. They are
-          the... 대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
-        </motion.p>
+    <article className={style.content}>
+      <motion.h1 {...fadeInFromTop} className={style.title}>
+        스펙
+      </motion.h1>
+      <motion.p
+        transition={{ delay: 0.1 }}
+        {...fadeInFromTop}
+        className={style.caption1}
+      >
+        Components are the building blocks of any design system. They are the...
+        대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
+      </motion.p>
 
-        <motion.div className={style.grid} {...fadeInFromTop}>
-          {specs.map((spec) => (
-            <Link key={spec?.slug!} to={spec?.slug!}>
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className={style.gridItem}
-              >
-                <div className={style.gridItemImage}>
-                  <GatsbyImage
-                    draggable={false}
-                    image={spec?.thumbnail?.childImageSharp?.gatsbyImageData!}
-                    alt={spec?.title!}
-                  />
-                </div>
-                <h2 className={style.gridItemTitle}>{spec?.title}</h2>
-              </motion.div>
-            </Link>
-          ))}
-        </motion.div>
-      </article>
-    </PageLayout>
+      <motion.div className={style.grid} {...fadeInFromTop}>
+        {specs.map((spec) => (
+          <Link key={spec?.slug!} to={spec?.slug!}>
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              className={style.gridItem}
+            >
+              <div className={style.gridItemImage}>
+                <GatsbyImage
+                  draggable={false}
+                  image={spec?.thumbnail?.childImageSharp?.gatsbyImageData!}
+                  alt={spec?.title!}
+                />
+              </div>
+              <h2 className={style.gridItemTitle}>{spec?.title}</h2>
+            </motion.div>
+          </Link>
+        ))}
+      </motion.div>
+    </article>
   );
 };
 
