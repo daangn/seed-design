@@ -5,7 +5,7 @@ import { recipe } from "@vanilla-extract/recipes";
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
-const TRANSITION_DURATION = "0.25s";
+const TRANSITION_DURATION = "0.2s";
 const TRANSITION_TIMING_FUNCTION = "ease";
 const SIDEBAR_WIDTH = "216px";
 
@@ -16,10 +16,11 @@ export const sidebar = recipe({
     {
       position: "fixed",
       top: 0,
-      background: vars.$scale.color.gray00,
+      background: vars.$semantic.color.paperDefault,
       paddingLeft: "20px",
 
       transition: `
+        background-color ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
         left ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
         transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
         z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
@@ -65,7 +66,20 @@ export const sidebar = recipe({
 
 export const logo = style([
   u.cursorPointer,
-  { marginTop: "20px", marginBottom: "30px" },
+  {
+    marginTop: "20px",
+    marginBottom: "30px",
+  },
+]);
+export const logoCircle = style([
+  {
+    fill: vars.$scale.color.gray900,
+  },
+]);
+export const logoText = style([
+  {
+    stroke: vars.$scale.color.gray900,
+  },
 ]);
 
 export const categoryTitle = recipe({

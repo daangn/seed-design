@@ -4069,11 +4069,6 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
-type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SidebarQuery = { readonly configsJson: { readonly guideline: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly spec: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null };
-
 type SpecPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 

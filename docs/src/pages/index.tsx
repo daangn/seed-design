@@ -19,7 +19,7 @@ export const query = graphql`
 const IndexPage = () => {
   return (
     <PageLayout>
-      <div className={clsx(u.fullScreen)}>
+      <div className={clsx(u.fullScreen, u.flexJustifyCenter)}>
         <h1 style={{ marginTop: "130px" }} className={clsx(t.documentHeading1)}>
           Seed Design
         </h1>
