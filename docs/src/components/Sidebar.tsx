@@ -76,9 +76,13 @@ export default function Sidebar() {
     }
   `);
 
-  const overview = data.configsJson?.overview;
-  const foundation = data.configsJson?.foundation;
-  // const components = data.configsJson?.components;
+  const guidelines = data.configsJson?.guidelines;
+  const specs = data.configsJson?.specs;
+
+  const currentPath =
+    typeof window !== "undefined"
+      ? window.location.pathname.split("/").slice(0, 4).join("/")
+      : "";
 
   return (
     <>
@@ -91,26 +95,30 @@ export default function Sidebar() {
         <Logo to="/" onClick={closeSidebar} />
 
         <h1 className={style.categoryTitle}>사용 가이드</h1>
-        {overview!.map((link) => (
-          <SidebarLink
-            key={link!.slug!}
-            active={location.pathname === link!.slug}
-            to={link!.slug!}
-            title={link!.title!}
-            onClick={closeSidebar}
-          />
-        ))}
+        {guidelines!.map((link) => {
+          return (
+            <SidebarLink
+              key={link!.slug!}
+              active={location.pathname === link!.slug}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
 
         <h1 className={style.categoryTitle}>스펙</h1>
-        {foundation!.map((link) => (
-          <SidebarLink
-            key={link!.slug!}
-            active={location.pathname === link!.slug}
-            to={link!.slug!}
-            title={link!.title!}
-            onClick={closeSidebar}
-          />
-        ))}
+        {specs!.map((link) => {
+          return (
+            <SidebarLink
+              key={link!.slug!}
+              active={link!.slug!.includes(currentPath)}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
       </motion.nav>
       <div onClick={closeSidebar} className={clsx(style.overlay({ open }))} />
     </>

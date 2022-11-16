@@ -12,7 +12,7 @@ import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
 import { fadeInFromLeft } from "../framer-motions";
-import * as style from "./component.css";
+import * as style from "./template.css";
 
 interface TemplatePostProps {
   children: React.ReactNode;
@@ -26,12 +26,12 @@ interface TemplatePostProps {
   };
 }
 
-const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
+const SpecTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
-  // NOTE: /components/overview/primitive -> /components/overview
-  const commonPath = pageContext.slug.split("/").slice(0, 3).join("/");
+  // NOTE: /components/overview/spec/primitive -> /components/overview/spec
+  const commonPath = pageContext.slug.split("/").slice(0, 4).join("/");
 
   return (
     <DocumentLayout>
@@ -42,51 +42,22 @@ const ComponentsContentTemplate: React.FC<TemplatePostProps> = ({
           <h1 className={style.title}>{pageContext.title}</h1>
           <p className={style.titleDescription}>{pageContext.description}</p>
           <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                marginTop: "20px",
-              }}
+            <Link
+              to={`${commonPath}/primitive`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "primitive",
+              })}
             >
-              <p style={{ textAlign: "center" }}>Guildlines</p>
-              <Link
-                to={`${commonPath}/usage`}
-                className={style.tabLink({
-                  active: pageContext.activeTab === "usage",
-                })}
-              >
-                Usage
-              </Link>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "10px",
-                marginTop: "20px",
-              }}
+              Primitive
+            </Link>
+            <Link
+              to={`${commonPath}/visual`}
+              className={style.tabLink({
+                active: pageContext.activeTab === "visual",
+              })}
             >
-              <p style={{ textAlign: "center" }}>Spec</p>
-              <Link
-                to={`${commonPath}/primitive`}
-                className={style.tabLink({
-                  active: pageContext.activeTab === "primitive",
-                })}
-              >
-                Primitive
-              </Link>
-              <Link
-                to={`${commonPath}/visual`}
-                className={style.tabLink({
-                  active: pageContext.activeTab === "visual",
-                })}
-              >
-                Visual
-              </Link>
-            </div>
+              Visual
+            </Link>
           </div>
           <motion.div {...fadeInFromLeft}>{children}</motion.div>
           <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
@@ -104,10 +75,10 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
 }) => {
   return (
     <>
-      <title>Components - {pageContext.title}</title>
+      <title>스펙 - {pageContext.title}</title>
       <meta
         property="og:title"
-        content={`Seed Design | Components | ${pageContext.title}`}
+        content={`Seed Design | 스펙 | ${pageContext.title}`}
       />
       <meta property="description" content={pageContext.description} />
       <meta property="og:image" content={getSrc(pageContext.ogImage)} />
@@ -115,4 +86,4 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
   );
 };
 
-export default ComponentsContentTemplate;
+export default SpecTemplate;

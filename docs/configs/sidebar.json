@@ -2,7 +2,7 @@
   "guidelines": [
     {
       "title": "Checkbox",
-      "slug": "/components/checkbox/usage",
+      "slug": "/components/checkbox/guideline/usage",
       "thumbnail": "../content/components/checkbox/thumbnail.png"
     }
   ],
@@ -10,7 +10,7 @@
   "specs": [
     {
       "title": "Checkbox",
-      "slug": "/components/checkbox/primitive",
+      "slug": "/components/checkbox/spec/primitive",
       "thumbnail": "../content/components/checkbox/thumbnail.png"
     }
   ]
