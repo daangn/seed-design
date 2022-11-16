@@ -4,10 +4,9 @@ import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
+import BreadCrumbs from "../components/BreadCrumbs";
 import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
 import { fadeInFromLeft } from "../framer-motions";
@@ -31,19 +30,16 @@ const GuidelineTemplate: React.FC<TemplatePostProps> = ({
 }) => {
   return (
     <DocumentLayout>
-      <main className={style.main}>
-        <Header />
-        <Sidebar />
-        <article className={style.content}>
-          <h1 className={style.title}>{pageContext.title}</h1>
-          <p className={style.titleDescription}>{pageContext.description}</p>
-          <motion.div {...fadeInFromLeft}>{children}</motion.div>
-          <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
-        </article>
-        <motion.div {...fadeInFromLeft}>
-          <TableOfContents tableOfContents={pageContext.tableOfContents} />
-        </motion.div>
-      </main>
+      <article className={style.content}>
+        <BreadCrumbs />
+        <h1 className={style.title}>{pageContext.title}</h1>
+        <p className={style.titleDescription}>{pageContext.description}</p>
+        <motion.div {...fadeInFromLeft}>{children}</motion.div>
+        <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
+      </article>
+      <motion.div {...fadeInFromLeft}>
+        <TableOfContents tableOfContents={pageContext.tableOfContents} />
+      </motion.div>
     </DocumentLayout>
   );
 };

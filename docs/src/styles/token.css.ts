@@ -21,7 +21,7 @@ export const content = style([
   {
     maxWidth: "900px",
     width: "100%",
-    margin: "50px auto",
+    margin: "150px auto",
     padding: "0px 20px",
     wordBreak: "keep-all",
     overflowWrap: "break-word",

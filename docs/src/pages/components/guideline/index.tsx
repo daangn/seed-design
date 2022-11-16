@@ -5,17 +5,18 @@ import { graphql } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 import React from "react";
 
-import { fadeInFromTop } from "../../framer-motions";
-import * as style from "../../styles/components.page.css";
+import PageLayout from "../../../components/PageLayout";
+import { fadeInFromTop } from "../../../framer-motions";
+import * as style from "../../../styles/components.page.css";
 
 interface PageProps {
-  data: GatsbyTypes.GuidelinesPageQuery;
+  data: GatsbyTypes.GuidelinePageQuery;
 }
 
 export const query = graphql`
-  query GuidelinesPage {
+  query GuidelinePage {
     configsJson {
-      guidelines {
+      guideline {
         slug
         title
         thumbnail {
@@ -29,10 +30,10 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const guidelines = data.configsJson?.guidelines!;
+  const guidelines = data.configsJson?.guideline!;
 
   return (
-    <main>
+    <PageLayout>
       <article className={style.content}>
         <motion.h1 {...fadeInFromTop} className={style.title}>
           사용 가이드
@@ -45,15 +46,10 @@ const Page = ({ data }: PageProps) => {
           Components are the building blocks of any design system. They are
           the... 대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
         </motion.p>
-        <div className={style.grid}>
-          {guidelines.map((guideline, index) => (
+        <motion.div className={style.grid} {...fadeInFromTop}>
+          {guidelines.map((guideline) => (
             <Link key={guideline?.slug!} to={guideline?.slug!}>
               <motion.div
-                initial={fadeInFromTop.initial}
-                animate={{
-                  ...fadeInFromTop.animate,
-                  transition: { delay: 0.2 + 0.05 * index },
-                }}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 className={style.gridItem}
@@ -71,13 +67,13 @@ const Page = ({ data }: PageProps) => {
               </motion.div>
             </Link>
           ))}
-        </div>
+        </motion.div>
       </article>
-    </main>
+    </PageLayout>
   );
 };
 
-export const Head: HeadFC<GatsbyTypes.GuidelinesPageQuery> = () => {
+export const Head: HeadFC<GatsbyTypes.GuidelinePageQuery> = () => {
   return (
     <>
       <title>Seed Design | 사용 가이드</title>

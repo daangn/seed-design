@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
+import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 export const header = style([
@@ -15,4 +16,8 @@ export const header = style([
     height: "60px",
     backdropFilter: "blur(5px)",
   },
+
+  m.large({
+    backdropFilter: "none",
+  }),
 ]);

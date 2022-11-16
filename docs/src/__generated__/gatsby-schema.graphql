@@ -61,11 +61,11 @@ input BooleanQueryOperatorInput {
 
 type ConfigsJson implements Node {
   children: [Node!]!
-  guidelines: [ConfigsJsonGuidelines]
+  guideline: [ConfigsJsonGuideline]
   id: ID!
   internal: Internal!
   parent: Node
-  specs: [ConfigsJsonSpecs]
+  spec: [ConfigsJsonSpec]
 }
 
 type ConfigsJsonConnection {
@@ -129,85 +129,85 @@ enum ConfigsJsonFieldsEnum {
   children___parent___internal___type
   children___parent___parent___children
   children___parent___parent___id
-  guidelines
-  guidelines___slug
-  guidelines___thumbnail___absolutePath
-  guidelines___thumbnail___accessTime
-  guidelines___thumbnail___atime
-  guidelines___thumbnail___atimeMs
-  guidelines___thumbnail___base
-  guidelines___thumbnail___birthTime
-  guidelines___thumbnail___birthtime
-  guidelines___thumbnail___birthtimeMs
-  guidelines___thumbnail___blksize
-  guidelines___thumbnail___blocks
-  guidelines___thumbnail___changeTime
-  guidelines___thumbnail___childConfigsJson___children
-  guidelines___thumbnail___childConfigsJson___guidelines
-  guidelines___thumbnail___childConfigsJson___id
-  guidelines___thumbnail___childConfigsJson___specs
-  guidelines___thumbnail___childImageSharp___children
-  guidelines___thumbnail___childImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___childImageSharp___id
-  guidelines___thumbnail___childMdx___body
-  guidelines___thumbnail___childMdx___children
-  guidelines___thumbnail___childMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___childMdx___id
-  guidelines___thumbnail___childMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___children
-  guidelines___thumbnail___childrenConfigsJson
-  guidelines___thumbnail___childrenConfigsJson___children
-  guidelines___thumbnail___childrenConfigsJson___guidelines
-  guidelines___thumbnail___childrenConfigsJson___id
-  guidelines___thumbnail___childrenConfigsJson___specs
-  guidelines___thumbnail___childrenImageSharp
-  guidelines___thumbnail___childrenImageSharp___children
-  guidelines___thumbnail___childrenImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___childrenImageSharp___id
-  guidelines___thumbnail___childrenMdx
-  guidelines___thumbnail___childrenMdx___body
-  guidelines___thumbnail___childrenMdx___children
-  guidelines___thumbnail___childrenMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___childrenMdx___id
-  guidelines___thumbnail___childrenMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  guidelines___thumbnail___children___children
-  guidelines___thumbnail___children___id
-  guidelines___thumbnail___ctime
-  guidelines___thumbnail___ctimeMs
-  guidelines___thumbnail___dev
-  guidelines___thumbnail___dir
-  guidelines___thumbnail___ext
-  guidelines___thumbnail___extension
-  guidelines___thumbnail___gid
-  guidelines___thumbnail___id
-  guidelines___thumbnail___ino
-  guidelines___thumbnail___internal___content
-  guidelines___thumbnail___internal___contentDigest
-  guidelines___thumbnail___internal___contentFilePath
-  guidelines___thumbnail___internal___description
-  guidelines___thumbnail___internal___fieldOwners
-  guidelines___thumbnail___internal___ignoreType
-  guidelines___thumbnail___internal___mediaType
-  guidelines___thumbnail___internal___owner
-  guidelines___thumbnail___internal___type
-  guidelines___thumbnail___mode
-  guidelines___thumbnail___modifiedTime
-  guidelines___thumbnail___mtime
-  guidelines___thumbnail___mtimeMs
-  guidelines___thumbnail___name
-  guidelines___thumbnail___nlink
-  guidelines___thumbnail___parent___children
-  guidelines___thumbnail___parent___id
-  guidelines___thumbnail___prettySize
-  guidelines___thumbnail___publicURL
-  guidelines___thumbnail___rdev
-  guidelines___thumbnail___relativeDirectory
-  guidelines___thumbnail___relativePath
-  guidelines___thumbnail___root
-  guidelines___thumbnail___size
-  guidelines___thumbnail___sourceInstanceName
-  guidelines___thumbnail___uid
-  guidelines___title
+  guideline
+  guideline___slug
+  guideline___thumbnail___absolutePath
+  guideline___thumbnail___accessTime
+  guideline___thumbnail___atime
+  guideline___thumbnail___atimeMs
+  guideline___thumbnail___base
+  guideline___thumbnail___birthTime
+  guideline___thumbnail___birthtime
+  guideline___thumbnail___birthtimeMs
+  guideline___thumbnail___blksize
+  guideline___thumbnail___blocks
+  guideline___thumbnail___changeTime
+  guideline___thumbnail___childConfigsJson___children
+  guideline___thumbnail___childConfigsJson___guideline
+  guideline___thumbnail___childConfigsJson___id
+  guideline___thumbnail___childConfigsJson___spec
+  guideline___thumbnail___childImageSharp___children
+  guideline___thumbnail___childImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___childImageSharp___id
+  guideline___thumbnail___childMdx___body
+  guideline___thumbnail___childMdx___children
+  guideline___thumbnail___childMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___childMdx___id
+  guideline___thumbnail___childMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___children
+  guideline___thumbnail___childrenConfigsJson
+  guideline___thumbnail___childrenConfigsJson___children
+  guideline___thumbnail___childrenConfigsJson___guideline
+  guideline___thumbnail___childrenConfigsJson___id
+  guideline___thumbnail___childrenConfigsJson___spec
+  guideline___thumbnail___childrenImageSharp
+  guideline___thumbnail___childrenImageSharp___children
+  guideline___thumbnail___childrenImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___childrenImageSharp___id
+  guideline___thumbnail___childrenMdx
+  guideline___thumbnail___childrenMdx___body
+  guideline___thumbnail___childrenMdx___children
+  guideline___thumbnail___childrenMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___childrenMdx___id
+  guideline___thumbnail___childrenMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  guideline___thumbnail___children___children
+  guideline___thumbnail___children___id
+  guideline___thumbnail___ctime
+  guideline___thumbnail___ctimeMs
+  guideline___thumbnail___dev
+  guideline___thumbnail___dir
+  guideline___thumbnail___ext
+  guideline___thumbnail___extension
+  guideline___thumbnail___gid
+  guideline___thumbnail___id
+  guideline___thumbnail___ino
+  guideline___thumbnail___internal___content
+  guideline___thumbnail___internal___contentDigest
+  guideline___thumbnail___internal___contentFilePath
+  guideline___thumbnail___internal___description
+  guideline___thumbnail___internal___fieldOwners
+  guideline___thumbnail___internal___ignoreType
+  guideline___thumbnail___internal___mediaType
+  guideline___thumbnail___internal___owner
+  guideline___thumbnail___internal___type
+  guideline___thumbnail___mode
+  guideline___thumbnail___modifiedTime
+  guideline___thumbnail___mtime
+  guideline___thumbnail___mtimeMs
+  guideline___thumbnail___name
+  guideline___thumbnail___nlink
+  guideline___thumbnail___parent___children
+  guideline___thumbnail___parent___id
+  guideline___thumbnail___prettySize
+  guideline___thumbnail___publicURL
+  guideline___thumbnail___rdev
+  guideline___thumbnail___relativeDirectory
+  guideline___thumbnail___relativePath
+  guideline___thumbnail___root
+  guideline___thumbnail___size
+  guideline___thumbnail___sourceInstanceName
+  guideline___thumbnail___uid
+  guideline___title
   id
   internal___content
   internal___contentDigest
@@ -259,94 +259,94 @@ enum ConfigsJsonFieldsEnum {
   parent___parent___internal___type
   parent___parent___parent___children
   parent___parent___parent___id
-  specs
-  specs___slug
-  specs___thumbnail___absolutePath
-  specs___thumbnail___accessTime
-  specs___thumbnail___atime
-  specs___thumbnail___atimeMs
-  specs___thumbnail___base
-  specs___thumbnail___birthTime
-  specs___thumbnail___birthtime
-  specs___thumbnail___birthtimeMs
-  specs___thumbnail___blksize
-  specs___thumbnail___blocks
-  specs___thumbnail___changeTime
-  specs___thumbnail___childConfigsJson___children
-  specs___thumbnail___childConfigsJson___guidelines
-  specs___thumbnail___childConfigsJson___id
-  specs___thumbnail___childConfigsJson___specs
-  specs___thumbnail___childImageSharp___children
-  specs___thumbnail___childImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___childImageSharp___id
-  specs___thumbnail___childMdx___body
-  specs___thumbnail___childMdx___children
-  specs___thumbnail___childMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___childMdx___id
-  specs___thumbnail___childMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___children
-  specs___thumbnail___childrenConfigsJson
-  specs___thumbnail___childrenConfigsJson___children
-  specs___thumbnail___childrenConfigsJson___guidelines
-  specs___thumbnail___childrenConfigsJson___id
-  specs___thumbnail___childrenConfigsJson___specs
-  specs___thumbnail___childrenImageSharp
-  specs___thumbnail___childrenImageSharp___children
-  specs___thumbnail___childrenImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___childrenImageSharp___id
-  specs___thumbnail___childrenMdx
-  specs___thumbnail___childrenMdx___body
-  specs___thumbnail___childrenMdx___children
-  specs___thumbnail___childrenMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___childrenMdx___id
-  specs___thumbnail___childrenMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  specs___thumbnail___children___children
-  specs___thumbnail___children___id
-  specs___thumbnail___ctime
-  specs___thumbnail___ctimeMs
-  specs___thumbnail___dev
-  specs___thumbnail___dir
-  specs___thumbnail___ext
-  specs___thumbnail___extension
-  specs___thumbnail___gid
-  specs___thumbnail___id
-  specs___thumbnail___ino
-  specs___thumbnail___internal___content
-  specs___thumbnail___internal___contentDigest
-  specs___thumbnail___internal___contentFilePath
-  specs___thumbnail___internal___description
-  specs___thumbnail___internal___fieldOwners
-  specs___thumbnail___internal___ignoreType
-  specs___thumbnail___internal___mediaType
-  specs___thumbnail___internal___owner
-  specs___thumbnail___internal___type
-  specs___thumbnail___mode
-  specs___thumbnail___modifiedTime
-  specs___thumbnail___mtime
-  specs___thumbnail___mtimeMs
-  specs___thumbnail___name
-  specs___thumbnail___nlink
-  specs___thumbnail___parent___children
-  specs___thumbnail___parent___id
-  specs___thumbnail___prettySize
-  specs___thumbnail___publicURL
-  specs___thumbnail___rdev
-  specs___thumbnail___relativeDirectory
-  specs___thumbnail___relativePath
-  specs___thumbnail___root
-  specs___thumbnail___size
-  specs___thumbnail___sourceInstanceName
-  specs___thumbnail___uid
-  specs___title
+  spec
+  spec___slug
+  spec___thumbnail___absolutePath
+  spec___thumbnail___accessTime
+  spec___thumbnail___atime
+  spec___thumbnail___atimeMs
+  spec___thumbnail___base
+  spec___thumbnail___birthTime
+  spec___thumbnail___birthtime
+  spec___thumbnail___birthtimeMs
+  spec___thumbnail___blksize
+  spec___thumbnail___blocks
+  spec___thumbnail___changeTime
+  spec___thumbnail___childConfigsJson___children
+  spec___thumbnail___childConfigsJson___guideline
+  spec___thumbnail___childConfigsJson___id
+  spec___thumbnail___childConfigsJson___spec
+  spec___thumbnail___childImageSharp___children
+  spec___thumbnail___childImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___childImageSharp___id
+  spec___thumbnail___childMdx___body
+  spec___thumbnail___childMdx___children
+  spec___thumbnail___childMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___childMdx___id
+  spec___thumbnail___childMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___children
+  spec___thumbnail___childrenConfigsJson
+  spec___thumbnail___childrenConfigsJson___children
+  spec___thumbnail___childrenConfigsJson___guideline
+  spec___thumbnail___childrenConfigsJson___id
+  spec___thumbnail___childrenConfigsJson___spec
+  spec___thumbnail___childrenImageSharp
+  spec___thumbnail___childrenImageSharp___children
+  spec___thumbnail___childrenImageSharp___gatsbyImageData @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___childrenImageSharp___id
+  spec___thumbnail___childrenMdx
+  spec___thumbnail___childrenMdx___body
+  spec___thumbnail___childrenMdx___children
+  spec___thumbnail___childrenMdx___excerpt @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___childrenMdx___id
+  spec___thumbnail___childrenMdx___tableOfContents @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
+  spec___thumbnail___children___children
+  spec___thumbnail___children___id
+  spec___thumbnail___ctime
+  spec___thumbnail___ctimeMs
+  spec___thumbnail___dev
+  spec___thumbnail___dir
+  spec___thumbnail___ext
+  spec___thumbnail___extension
+  spec___thumbnail___gid
+  spec___thumbnail___id
+  spec___thumbnail___ino
+  spec___thumbnail___internal___content
+  spec___thumbnail___internal___contentDigest
+  spec___thumbnail___internal___contentFilePath
+  spec___thumbnail___internal___description
+  spec___thumbnail___internal___fieldOwners
+  spec___thumbnail___internal___ignoreType
+  spec___thumbnail___internal___mediaType
+  spec___thumbnail___internal___owner
+  spec___thumbnail___internal___type
+  spec___thumbnail___mode
+  spec___thumbnail___modifiedTime
+  spec___thumbnail___mtime
+  spec___thumbnail___mtimeMs
+  spec___thumbnail___name
+  spec___thumbnail___nlink
+  spec___thumbnail___parent___children
+  spec___thumbnail___parent___id
+  spec___thumbnail___prettySize
+  spec___thumbnail___publicURL
+  spec___thumbnail___rdev
+  spec___thumbnail___relativeDirectory
+  spec___thumbnail___relativePath
+  spec___thumbnail___root
+  spec___thumbnail___size
+  spec___thumbnail___sourceInstanceName
+  spec___thumbnail___uid
+  spec___title
 }
 
 input ConfigsJsonFilterInput {
   children: NodeFilterListInput
-  guidelines: ConfigsJsonGuidelinesFilterListInput
+  guideline: ConfigsJsonGuidelineFilterListInput
   id: StringQueryOperatorInput
   internal: InternalFilterInput
   parent: NodeFilterInput
-  specs: ConfigsJsonSpecsFilterListInput
+  spec: ConfigsJsonSpecFilterListInput
 }
 
 input ConfigsJsonFilterListInput {
@@ -367,20 +367,20 @@ type ConfigsJsonGroupConnection {
   totalCount: Int!
 }
 
-type ConfigsJsonGuidelines {
+type ConfigsJsonGuideline {
   slug: String
   thumbnail: File
   title: String
 }
 
-input ConfigsJsonGuidelinesFilterInput {
+input ConfigsJsonGuidelineFilterInput {
   slug: StringQueryOperatorInput
   thumbnail: FileFilterInput
   title: StringQueryOperatorInput
 }
 
-input ConfigsJsonGuidelinesFilterListInput {
-  elemMatch: ConfigsJsonGuidelinesFilterInput
+input ConfigsJsonGuidelineFilterListInput {
+  elemMatch: ConfigsJsonGuidelineFilterInput
 }
 
 input ConfigsJsonSortInput {
@@ -388,20 +388,20 @@ input ConfigsJsonSortInput {
   order: [SortOrderEnum] = [ASC]
 }
 
-type ConfigsJsonSpecs {
+type ConfigsJsonSpec {
   slug: String
   thumbnail: File
   title: String
 }
 
-input ConfigsJsonSpecsFilterInput {
+input ConfigsJsonSpecFilterInput {
   slug: StringQueryOperatorInput
   thumbnail: FileFilterInput
   title: StringQueryOperatorInput
 }
 
-input ConfigsJsonSpecsFilterListInput {
-  elemMatch: ConfigsJsonSpecsFilterInput
+input ConfigsJsonSpecFilterListInput {
+  elemMatch: ConfigsJsonSpecFilterInput
 }
 
 # A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
@@ -939,48 +939,48 @@ enum FileFieldsEnum {
   childConfigsJson___children___internal___type
   childConfigsJson___children___parent___children
   childConfigsJson___children___parent___id
-  childConfigsJson___guidelines
-  childConfigsJson___guidelines___slug
-  childConfigsJson___guidelines___thumbnail___absolutePath
-  childConfigsJson___guidelines___thumbnail___accessTime
-  childConfigsJson___guidelines___thumbnail___atime
-  childConfigsJson___guidelines___thumbnail___atimeMs
-  childConfigsJson___guidelines___thumbnail___base
-  childConfigsJson___guidelines___thumbnail___birthTime
-  childConfigsJson___guidelines___thumbnail___birthtime
-  childConfigsJson___guidelines___thumbnail___birthtimeMs
-  childConfigsJson___guidelines___thumbnail___blksize
-  childConfigsJson___guidelines___thumbnail___blocks
-  childConfigsJson___guidelines___thumbnail___changeTime
-  childConfigsJson___guidelines___thumbnail___children
-  childConfigsJson___guidelines___thumbnail___childrenConfigsJson
-  childConfigsJson___guidelines___thumbnail___childrenImageSharp
-  childConfigsJson___guidelines___thumbnail___childrenMdx
-  childConfigsJson___guidelines___thumbnail___ctime
-  childConfigsJson___guidelines___thumbnail___ctimeMs
-  childConfigsJson___guidelines___thumbnail___dev
-  childConfigsJson___guidelines___thumbnail___dir
-  childConfigsJson___guidelines___thumbnail___ext
-  childConfigsJson___guidelines___thumbnail___extension
-  childConfigsJson___guidelines___thumbnail___gid
-  childConfigsJson___guidelines___thumbnail___id
-  childConfigsJson___guidelines___thumbnail___ino
-  childConfigsJson___guidelines___thumbnail___mode
-  childConfigsJson___guidelines___thumbnail___modifiedTime
-  childConfigsJson___guidelines___thumbnail___mtime
-  childConfigsJson___guidelines___thumbnail___mtimeMs
-  childConfigsJson___guidelines___thumbnail___name
-  childConfigsJson___guidelines___thumbnail___nlink
-  childConfigsJson___guidelines___thumbnail___prettySize
-  childConfigsJson___guidelines___thumbnail___publicURL
-  childConfigsJson___guidelines___thumbnail___rdev
-  childConfigsJson___guidelines___thumbnail___relativeDirectory
-  childConfigsJson___guidelines___thumbnail___relativePath
-  childConfigsJson___guidelines___thumbnail___root
-  childConfigsJson___guidelines___thumbnail___size
-  childConfigsJson___guidelines___thumbnail___sourceInstanceName
-  childConfigsJson___guidelines___thumbnail___uid
-  childConfigsJson___guidelines___title
+  childConfigsJson___guideline
+  childConfigsJson___guideline___slug
+  childConfigsJson___guideline___thumbnail___absolutePath
+  childConfigsJson___guideline___thumbnail___accessTime
+  childConfigsJson___guideline___thumbnail___atime
+  childConfigsJson___guideline___thumbnail___atimeMs
+  childConfigsJson___guideline___thumbnail___base
+  childConfigsJson___guideline___thumbnail___birthTime
+  childConfigsJson___guideline___thumbnail___birthtime
+  childConfigsJson___guideline___thumbnail___birthtimeMs
+  childConfigsJson___guideline___thumbnail___blksize
+  childConfigsJson___guideline___thumbnail___blocks
+  childConfigsJson___guideline___thumbnail___changeTime
+  childConfigsJson___guideline___thumbnail___children
+  childConfigsJson___guideline___thumbnail___childrenConfigsJson
+  childConfigsJson___guideline___thumbnail___childrenImageSharp
+  childConfigsJson___guideline___thumbnail___childrenMdx
+  childConfigsJson___guideline___thumbnail___ctime
+  childConfigsJson___guideline___thumbnail___ctimeMs
+  childConfigsJson___guideline___thumbnail___dev
+  childConfigsJson___guideline___thumbnail___dir
+  childConfigsJson___guideline___thumbnail___ext
+  childConfigsJson___guideline___thumbnail___extension
+  childConfigsJson___guideline___thumbnail___gid
+  childConfigsJson___guideline___thumbnail___id
+  childConfigsJson___guideline___thumbnail___ino
+  childConfigsJson___guideline___thumbnail___mode
+  childConfigsJson___guideline___thumbnail___modifiedTime
+  childConfigsJson___guideline___thumbnail___mtime
+  childConfigsJson___guideline___thumbnail___mtimeMs
+  childConfigsJson___guideline___thumbnail___name
+  childConfigsJson___guideline___thumbnail___nlink
+  childConfigsJson___guideline___thumbnail___prettySize
+  childConfigsJson___guideline___thumbnail___publicURL
+  childConfigsJson___guideline___thumbnail___rdev
+  childConfigsJson___guideline___thumbnail___relativeDirectory
+  childConfigsJson___guideline___thumbnail___relativePath
+  childConfigsJson___guideline___thumbnail___root
+  childConfigsJson___guideline___thumbnail___size
+  childConfigsJson___guideline___thumbnail___sourceInstanceName
+  childConfigsJson___guideline___thumbnail___uid
+  childConfigsJson___guideline___title
   childConfigsJson___id
   childConfigsJson___internal___content
   childConfigsJson___internal___contentDigest
@@ -1006,48 +1006,48 @@ enum FileFieldsEnum {
   childConfigsJson___parent___internal___type
   childConfigsJson___parent___parent___children
   childConfigsJson___parent___parent___id
-  childConfigsJson___specs
-  childConfigsJson___specs___slug
-  childConfigsJson___specs___thumbnail___absolutePath
-  childConfigsJson___specs___thumbnail___accessTime
-  childConfigsJson___specs___thumbnail___atime
-  childConfigsJson___specs___thumbnail___atimeMs
-  childConfigsJson___specs___thumbnail___base
-  childConfigsJson___specs___thumbnail___birthTime
-  childConfigsJson___specs___thumbnail___birthtime
-  childConfigsJson___specs___thumbnail___birthtimeMs
-  childConfigsJson___specs___thumbnail___blksize
-  childConfigsJson___specs___thumbnail___blocks
-  childConfigsJson___specs___thumbnail___changeTime
-  childConfigsJson___specs___thumbnail___children
-  childConfigsJson___specs___thumbnail___childrenConfigsJson
-  childConfigsJson___specs___thumbnail___childrenImageSharp
-  childConfigsJson___specs___thumbnail___childrenMdx
-  childConfigsJson___specs___thumbnail___ctime
-  childConfigsJson___specs___thumbnail___ctimeMs
-  childConfigsJson___specs___thumbnail___dev
-  childConfigsJson___specs___thumbnail___dir
-  childConfigsJson___specs___thumbnail___ext
-  childConfigsJson___specs___thumbnail___extension
-  childConfigsJson___specs___thumbnail___gid
-  childConfigsJson___specs___thumbnail___id
-  childConfigsJson___specs___thumbnail___ino
-  childConfigsJson___specs___thumbnail___mode
-  childConfigsJson___specs___thumbnail___modifiedTime
-  childConfigsJson___specs___thumbnail___mtime
-  childConfigsJson___specs___thumbnail___mtimeMs
-  childConfigsJson___specs___thumbnail___name
-  childConfigsJson___specs___thumbnail___nlink
-  childConfigsJson___specs___thumbnail___prettySize
-  childConfigsJson___specs___thumbnail___publicURL
-  childConfigsJson___specs___thumbnail___rdev
-  childConfigsJson___specs___thumbnail___relativeDirectory
-  childConfigsJson___specs___thumbnail___relativePath
-  childConfigsJson___specs___thumbnail___root
-  childConfigsJson___specs___thumbnail___size
-  childConfigsJson___specs___thumbnail___sourceInstanceName
-  childConfigsJson___specs___thumbnail___uid
-  childConfigsJson___specs___title
+  childConfigsJson___spec
+  childConfigsJson___spec___slug
+  childConfigsJson___spec___thumbnail___absolutePath
+  childConfigsJson___spec___thumbnail___accessTime
+  childConfigsJson___spec___thumbnail___atime
+  childConfigsJson___spec___thumbnail___atimeMs
+  childConfigsJson___spec___thumbnail___base
+  childConfigsJson___spec___thumbnail___birthTime
+  childConfigsJson___spec___thumbnail___birthtime
+  childConfigsJson___spec___thumbnail___birthtimeMs
+  childConfigsJson___spec___thumbnail___blksize
+  childConfigsJson___spec___thumbnail___blocks
+  childConfigsJson___spec___thumbnail___changeTime
+  childConfigsJson___spec___thumbnail___children
+  childConfigsJson___spec___thumbnail___childrenConfigsJson
+  childConfigsJson___spec___thumbnail___childrenImageSharp
+  childConfigsJson___spec___thumbnail___childrenMdx
+  childConfigsJson___spec___thumbnail___ctime
+  childConfigsJson___spec___thumbnail___ctimeMs
+  childConfigsJson___spec___thumbnail___dev
+  childConfigsJson___spec___thumbnail___dir
+  childConfigsJson___spec___thumbnail___ext
+  childConfigsJson___spec___thumbnail___extension
+  childConfigsJson___spec___thumbnail___gid
+  childConfigsJson___spec___thumbnail___id
+  childConfigsJson___spec___thumbnail___ino
+  childConfigsJson___spec___thumbnail___mode
+  childConfigsJson___spec___thumbnail___modifiedTime
+  childConfigsJson___spec___thumbnail___mtime
+  childConfigsJson___spec___thumbnail___mtimeMs
+  childConfigsJson___spec___thumbnail___name
+  childConfigsJson___spec___thumbnail___nlink
+  childConfigsJson___spec___thumbnail___prettySize
+  childConfigsJson___spec___thumbnail___publicURL
+  childConfigsJson___spec___thumbnail___rdev
+  childConfigsJson___spec___thumbnail___relativeDirectory
+  childConfigsJson___spec___thumbnail___relativePath
+  childConfigsJson___spec___thumbnail___root
+  childConfigsJson___spec___thumbnail___size
+  childConfigsJson___spec___thumbnail___sourceInstanceName
+  childConfigsJson___spec___thumbnail___uid
+  childConfigsJson___spec___title
   childImageSharp___children
   childImageSharp___children___children
   childImageSharp___children___children___children
@@ -1186,48 +1186,48 @@ enum FileFieldsEnum {
   childrenConfigsJson___children___internal___type
   childrenConfigsJson___children___parent___children
   childrenConfigsJson___children___parent___id
-  childrenConfigsJson___guidelines
-  childrenConfigsJson___guidelines___slug
-  childrenConfigsJson___guidelines___thumbnail___absolutePath
-  childrenConfigsJson___guidelines___thumbnail___accessTime
-  childrenConfigsJson___guidelines___thumbnail___atime
-  childrenConfigsJson___guidelines___thumbnail___atimeMs
-  childrenConfigsJson___guidelines___thumbnail___base
-  childrenConfigsJson___guidelines___thumbnail___birthTime
-  childrenConfigsJson___guidelines___thumbnail___birthtime
-  childrenConfigsJson___guidelines___thumbnail___birthtimeMs
-  childrenConfigsJson___guidelines___thumbnail___blksize
-  childrenConfigsJson___guidelines___thumbnail___blocks
-  childrenConfigsJson___guidelines___thumbnail___changeTime
-  childrenConfigsJson___guidelines___thumbnail___children
-  childrenConfigsJson___guidelines___thumbnail___childrenConfigsJson
-  childrenConfigsJson___guidelines___thumbnail___childrenImageSharp
-  childrenConfigsJson___guidelines___thumbnail___childrenMdx
-  childrenConfigsJson___guidelines___thumbnail___ctime
-  childrenConfigsJson___guidelines___thumbnail___ctimeMs
-  childrenConfigsJson___guidelines___thumbnail___dev
-  childrenConfigsJson___guidelines___thumbnail___dir
-  childrenConfigsJson___guidelines___thumbnail___ext
-  childrenConfigsJson___guidelines___thumbnail___extension
-  childrenConfigsJson___guidelines___thumbnail___gid
-  childrenConfigsJson___guidelines___thumbnail___id
-  childrenConfigsJson___guidelines___thumbnail___ino
-  childrenConfigsJson___guidelines___thumbnail___mode
-  childrenConfigsJson___guidelines___thumbnail___modifiedTime
-  childrenConfigsJson___guidelines___thumbnail___mtime
-  childrenConfigsJson___guidelines___thumbnail___mtimeMs
-  childrenConfigsJson___guidelines___thumbnail___name
-  childrenConfigsJson___guidelines___thumbnail___nlink
-  childrenConfigsJson___guidelines___thumbnail___prettySize
-  childrenConfigsJson___guidelines___thumbnail___publicURL
-  childrenConfigsJson___guidelines___thumbnail___rdev
-  childrenConfigsJson___guidelines___thumbnail___relativeDirectory
-  childrenConfigsJson___guidelines___thumbnail___relativePath
-  childrenConfigsJson___guidelines___thumbnail___root
-  childrenConfigsJson___guidelines___thumbnail___size
-  childrenConfigsJson___guidelines___thumbnail___sourceInstanceName
-  childrenConfigsJson___guidelines___thumbnail___uid
-  childrenConfigsJson___guidelines___title
+  childrenConfigsJson___guideline
+  childrenConfigsJson___guideline___slug
+  childrenConfigsJson___guideline___thumbnail___absolutePath
+  childrenConfigsJson___guideline___thumbnail___accessTime
+  childrenConfigsJson___guideline___thumbnail___atime
+  childrenConfigsJson___guideline___thumbnail___atimeMs
+  childrenConfigsJson___guideline___thumbnail___base
+  childrenConfigsJson___guideline___thumbnail___birthTime
+  childrenConfigsJson___guideline___thumbnail___birthtime
+  childrenConfigsJson___guideline___thumbnail___birthtimeMs
+  childrenConfigsJson___guideline___thumbnail___blksize
+  childrenConfigsJson___guideline___thumbnail___blocks
+  childrenConfigsJson___guideline___thumbnail___changeTime
+  childrenConfigsJson___guideline___thumbnail___children
+  childrenConfigsJson___guideline___thumbnail___childrenConfigsJson
+  childrenConfigsJson___guideline___thumbnail___childrenImageSharp
+  childrenConfigsJson___guideline___thumbnail___childrenMdx
+  childrenConfigsJson___guideline___thumbnail___ctime
+  childrenConfigsJson___guideline___thumbnail___ctimeMs
+  childrenConfigsJson___guideline___thumbnail___dev
+  childrenConfigsJson___guideline___thumbnail___dir
+  childrenConfigsJson___guideline___thumbnail___ext
+  childrenConfigsJson___guideline___thumbnail___extension
+  childrenConfigsJson___guideline___thumbnail___gid
+  childrenConfigsJson___guideline___thumbnail___id
+  childrenConfigsJson___guideline___thumbnail___ino
+  childrenConfigsJson___guideline___thumbnail___mode
+  childrenConfigsJson___guideline___thumbnail___modifiedTime
+  childrenConfigsJson___guideline___thumbnail___mtime
+  childrenConfigsJson___guideline___thumbnail___mtimeMs
+  childrenConfigsJson___guideline___thumbnail___name
+  childrenConfigsJson___guideline___thumbnail___nlink
+  childrenConfigsJson___guideline___thumbnail___prettySize
+  childrenConfigsJson___guideline___thumbnail___publicURL
+  childrenConfigsJson___guideline___thumbnail___rdev
+  childrenConfigsJson___guideline___thumbnail___relativeDirectory
+  childrenConfigsJson___guideline___thumbnail___relativePath
+  childrenConfigsJson___guideline___thumbnail___root
+  childrenConfigsJson___guideline___thumbnail___size
+  childrenConfigsJson___guideline___thumbnail___sourceInstanceName
+  childrenConfigsJson___guideline___thumbnail___uid
+  childrenConfigsJson___guideline___title
   childrenConfigsJson___id
   childrenConfigsJson___internal___content
   childrenConfigsJson___internal___contentDigest
@@ -1253,48 +1253,48 @@ enum FileFieldsEnum {
   childrenConfigsJson___parent___internal___type
   childrenConfigsJson___parent___parent___children
   childrenConfigsJson___parent___parent___id
-  childrenConfigsJson___specs
-  childrenConfigsJson___specs___slug
-  childrenConfigsJson___specs___thumbnail___absolutePath
-  childrenConfigsJson___specs___thumbnail___accessTime
-  childrenConfigsJson___specs___thumbnail___atime
-  childrenConfigsJson___specs___thumbnail___atimeMs
-  childrenConfigsJson___specs___thumbnail___base
-  childrenConfigsJson___specs___thumbnail___birthTime
-  childrenConfigsJson___specs___thumbnail___birthtime
-  childrenConfigsJson___specs___thumbnail___birthtimeMs
-  childrenConfigsJson___specs___thumbnail___blksize
-  childrenConfigsJson___specs___thumbnail___blocks
-  childrenConfigsJson___specs___thumbnail___changeTime
-  childrenConfigsJson___specs___thumbnail___children
-  childrenConfigsJson___specs___thumbnail___childrenConfigsJson
-  childrenConfigsJson___specs___thumbnail___childrenImageSharp
-  childrenConfigsJson___specs___thumbnail___childrenMdx
-  childrenConfigsJson___specs___thumbnail___ctime
-  childrenConfigsJson___specs___thumbnail___ctimeMs
-  childrenConfigsJson___specs___thumbnail___dev
-  childrenConfigsJson___specs___thumbnail___dir
-  childrenConfigsJson___specs___thumbnail___ext
-  childrenConfigsJson___specs___thumbnail___extension
-  childrenConfigsJson___specs___thumbnail___gid
-  childrenConfigsJson___specs___thumbnail___id
-  childrenConfigsJson___specs___thumbnail___ino
-  childrenConfigsJson___specs___thumbnail___mode
-  childrenConfigsJson___specs___thumbnail___modifiedTime
-  childrenConfigsJson___specs___thumbnail___mtime
-  childrenConfigsJson___specs___thumbnail___mtimeMs
-  childrenConfigsJson___specs___thumbnail___name
-  childrenConfigsJson___specs___thumbnail___nlink
-  childrenConfigsJson___specs___thumbnail___prettySize
-  childrenConfigsJson___specs___thumbnail___publicURL
-  childrenConfigsJson___specs___thumbnail___rdev
-  childrenConfigsJson___specs___thumbnail___relativeDirectory
-  childrenConfigsJson___specs___thumbnail___relativePath
-  childrenConfigsJson___specs___thumbnail___root
-  childrenConfigsJson___specs___thumbnail___size
-  childrenConfigsJson___specs___thumbnail___sourceInstanceName
-  childrenConfigsJson___specs___thumbnail___uid
-  childrenConfigsJson___specs___title
+  childrenConfigsJson___spec
+  childrenConfigsJson___spec___slug
+  childrenConfigsJson___spec___thumbnail___absolutePath
+  childrenConfigsJson___spec___thumbnail___accessTime
+  childrenConfigsJson___spec___thumbnail___atime
+  childrenConfigsJson___spec___thumbnail___atimeMs
+  childrenConfigsJson___spec___thumbnail___base
+  childrenConfigsJson___spec___thumbnail___birthTime
+  childrenConfigsJson___spec___thumbnail___birthtime
+  childrenConfigsJson___spec___thumbnail___birthtimeMs
+  childrenConfigsJson___spec___thumbnail___blksize
+  childrenConfigsJson___spec___thumbnail___blocks
+  childrenConfigsJson___spec___thumbnail___changeTime
+  childrenConfigsJson___spec___thumbnail___children
+  childrenConfigsJson___spec___thumbnail___childrenConfigsJson
+  childrenConfigsJson___spec___thumbnail___childrenImageSharp
+  childrenConfigsJson___spec___thumbnail___childrenMdx
+  childrenConfigsJson___spec___thumbnail___ctime
+  childrenConfigsJson___spec___thumbnail___ctimeMs
+  childrenConfigsJson___spec___thumbnail___dev
+  childrenConfigsJson___spec___thumbnail___dir
+  childrenConfigsJson___spec___thumbnail___ext
+  childrenConfigsJson___spec___thumbnail___extension
+  childrenConfigsJson___spec___thumbnail___gid
+  childrenConfigsJson___spec___thumbnail___id
+  childrenConfigsJson___spec___thumbnail___ino
+  childrenConfigsJson___spec___thumbnail___mode
+  childrenConfigsJson___spec___thumbnail___modifiedTime
+  childrenConfigsJson___spec___thumbnail___mtime
+  childrenConfigsJson___spec___thumbnail___mtimeMs
+  childrenConfigsJson___spec___thumbnail___name
+  childrenConfigsJson___spec___thumbnail___nlink
+  childrenConfigsJson___spec___thumbnail___prettySize
+  childrenConfigsJson___spec___thumbnail___publicURL
+  childrenConfigsJson___spec___thumbnail___rdev
+  childrenConfigsJson___spec___thumbnail___relativeDirectory
+  childrenConfigsJson___spec___thumbnail___relativePath
+  childrenConfigsJson___spec___thumbnail___root
+  childrenConfigsJson___spec___thumbnail___size
+  childrenConfigsJson___spec___thumbnail___sourceInstanceName
+  childrenConfigsJson___spec___thumbnail___uid
+  childrenConfigsJson___spec___title
   childrenImageSharp
   childrenImageSharp___children
   childrenImageSharp___children___children
@@ -2358,7 +2358,7 @@ type Query {
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, limit: Int, skip: Int, sort: SiteBuildMetadataSortInput): SiteBuildMetadataConnection!
   allSiteFunction(filter: SiteFunctionFilterInput, limit: Int, skip: Int, sort: SiteFunctionSortInput): SiteFunctionConnection!
   allSitePage(filter: SitePageFilterInput, limit: Int, skip: Int, sort: SitePageSortInput): SitePageConnection!
-  configsJson(children: NodeFilterListInput, guidelines: ConfigsJsonGuidelinesFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, specs: ConfigsJsonSpecsFilterListInput): ConfigsJson
+  configsJson(children: NodeFilterListInput, guideline: ConfigsJsonGuidelineFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, spec: ConfigsJsonSpecFilterListInput): ConfigsJson
   directory(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, changeTime: DateQueryOperatorInput, children: NodeFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): Directory
   file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childConfigsJson: ConfigsJsonFilterInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, children: NodeFilterListInput, childrenConfigsJson: ConfigsJsonFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
   imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: GatsbyImageDataQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp

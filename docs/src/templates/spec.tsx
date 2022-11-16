@@ -5,10 +5,9 @@ import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
+import BreadCrumbs from "../components/BreadCrumbs";
 import DocumentLayout from "../components/DocumentLayout";
 import EditLink from "../components/EditLink";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
 import { fadeInFromLeft } from "../framer-motions";
@@ -35,37 +34,34 @@ const SpecTemplate: React.FC<TemplatePostProps> = ({
 
   return (
     <DocumentLayout>
-      <main className={style.main}>
-        <Header />
-        <Sidebar />
-        <article className={style.content}>
-          <h1 className={style.title}>{pageContext.title}</h1>
-          <p className={style.titleDescription}>{pageContext.description}</p>
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <Link
-              to={`${commonPath}/primitive`}
-              className={style.tabLink({
-                active: pageContext.activeTab === "primitive",
-              })}
-            >
-              Primitive
-            </Link>
-            <Link
-              to={`${commonPath}/visual`}
-              className={style.tabLink({
-                active: pageContext.activeTab === "visual",
-              })}
-            >
-              Visual
-            </Link>
-          </div>
-          <motion.div {...fadeInFromLeft}>{children}</motion.div>
-          <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
-        </article>
-        <motion.div {...fadeInFromLeft}>
-          <TableOfContents tableOfContents={pageContext.tableOfContents} />
-        </motion.div>
-      </main>
+      <article className={style.content}>
+        <BreadCrumbs />
+        <h1 className={style.title}>{pageContext.title}</h1>
+        <p className={style.titleDescription}>{pageContext.description}</p>
+        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+          <Link
+            to={`${commonPath}/primitive`}
+            className={style.tabLink({
+              active: pageContext.activeTab === "primitive",
+            })}
+          >
+            Primitive
+          </Link>
+          <Link
+            to={`${commonPath}/visual`}
+            className={style.tabLink({
+              active: pageContext.activeTab === "visual",
+            })}
+          >
+            Visual
+          </Link>
+        </div>
+        <motion.div {...fadeInFromLeft}>{children}</motion.div>
+        <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
+      </article>
+      <motion.div {...fadeInFromLeft}>
+        <TableOfContents tableOfContents={pageContext.tableOfContents} />
+      </motion.div>
     </DocumentLayout>
   );
 };

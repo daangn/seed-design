@@ -29,7 +29,7 @@ const TableOfContentsItem: React.FC<{
           {tableOfContentsItem.title}
         </Link>
       </li>
-      {tableOfContentsItem.items && (
+      {/* {tableOfContentsItem.items && (
         <ul className={style.list}>
           {tableOfContentsItem.items.map((item) => (
             <TableOfContentsItem
@@ -39,7 +39,7 @@ const TableOfContentsItem: React.FC<{
             />
           ))}
         </ul>
-      )}
+      )} */}
     </>
   );
 };

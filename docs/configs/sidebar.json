@@ -1,17 +1,17 @@
 {
-  "guidelines": [
+  "guideline": [
     {
       "title": "Checkbox",
-      "slug": "/components/checkbox/guideline/usage",
-      "thumbnail": "../content/components/checkbox/thumbnail.png"
+      "slug": "/components/guideline/checkbox/usage",
+      "thumbnail": "../content/components/guideline/checkbox/thumbnail.png"
     }
   ],
 
-  "specs": [
+  "spec": [
     {
       "title": "Checkbox",
-      "slug": "/components/checkbox/spec/primitive",
-      "thumbnail": "../content/components/checkbox/thumbnail.png"
+      "slug": "/components/spec/checkbox/primitive",
+      "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
     }
   ]
 }

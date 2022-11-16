@@ -30,7 +30,7 @@ function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
           <path
             d="M97 26C97 12.1986 79.8957 2 49.9847 2C20.0737 2 2 12.1986 2 26C2 39.8014 20.0737 50 49.9847 50C79.8957 50 97 39.8014 97 26Z"
             stroke="black"
-            stroke-width="4"
+            strokeWidth="4"
           />
         </svg>
       </div>
@@ -48,7 +48,7 @@ function SidebarLink({
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
       <div className={clsx(style.sidebarLink({ highlight: active }))}>
-        <h1>{title}</h1>
+        {title}
       </div>
     </Link>
   );
@@ -63,12 +63,12 @@ export default function Sidebar() {
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
       configsJson {
-        guidelines {
+        guideline {
           slug
           title
         }
 
-        specs {
+        spec {
           slug
           title
         }
@@ -76,13 +76,10 @@ export default function Sidebar() {
     }
   `);
 
-  const guidelines = data.configsJson?.guidelines;
-  const specs = data.configsJson?.specs;
+  const guidelines = data.configsJson?.guideline;
+  const specs = data.configsJson?.spec;
 
-  const currentPath =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/").slice(0, 4).join("/")
-      : "";
+  const currentPath = location.pathname.split("/").slice(0, 4).join("/");
 
   return (
     <>
@@ -94,7 +91,15 @@ export default function Sidebar() {
       <motion.nav className={clsx(style.sidebar({ open }))}>
         <Logo to="/" onClick={closeSidebar} />
 
-        <h1 className={style.categoryTitle}>사용 가이드</h1>
+        <Link to="/components/guideline">
+          <h1
+            className={style.categoryTitle({
+              highlight: location.pathname === "/components/guideline",
+            })}
+          >
+            사용 가이드
+          </h1>
+        </Link>
         {guidelines!.map((link) => {
           return (
             <SidebarLink
@@ -107,12 +112,22 @@ export default function Sidebar() {
           );
         })}
 
-        <h1 className={style.categoryTitle}>스펙</h1>
+        <Link to="/components/spec">
+          <h1
+            className={style.categoryTitle({
+              highlight: location.pathname === "/components/spec",
+            })}
+          >
+            스펙
+          </h1>
+        </Link>
         {specs!.map((link) => {
           return (
             <SidebarLink
               key={link!.slug!}
-              active={link!.slug!.includes(currentPath)}
+              active={
+                link!.slug!.split("/").slice(0, 4).join("/") === currentPath
+              }
               to={link!.slug!}
               title={link!.title!}
               onClick={closeSidebar}

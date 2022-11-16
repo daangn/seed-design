@@ -63,24 +63,38 @@ export const sidebar = recipe({
   },
 });
 
-export const categoryTitle = style({
-  fontSize: "26px",
-  fontWeight: 700,
-
-  width: "200px",
-  transition: "color 0.2s ease",
-  color: vars.$scale.color.gray900,
-  marginTop: "30px",
-
-  ":hover": {
-    color: vars.$semantic.color.primaryHover,
-  },
-});
-
 export const logo = style([
   u.cursorPointer,
-  { marginTop: "20px", marginBottom: "55px" },
+  { marginTop: "20px", marginBottom: "30px" },
 ]);
+
+export const categoryTitle = recipe({
+  base: [
+    {
+      fontSize: "26px",
+      fontWeight: 700,
+
+      width: "200px",
+      transition: "color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      marginTop: "40px",
+
+      ":hover": {
+        color: vars.$semantic.color.primaryHover,
+      },
+    },
+  ],
+
+  variants: {
+    highlight: {
+      true: [
+        {
+          color: vars.$semantic.color.primary,
+        },
+      ],
+    },
+  },
+});
 
 export const sidebarTitleLink = recipe({
   base: [
@@ -110,9 +124,9 @@ export const sidebarLink = recipe({
     u.flex,
     {
       width: "200px",
-      color: vars.$scale.color.gray900,
+      color: vars.$scale.color.gray600,
       transition: "color 0.2s ease",
-      marginTop: "6px",
+      marginTop: "10px",
 
       ":hover": {
         color: vars.$semantic.color.primaryHover,

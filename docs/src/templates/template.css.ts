@@ -4,11 +4,9 @@ import { recipe } from "@vanilla-extract/recipes";
 
 import * as t from "../styles/token.css";
 
-export const main = style([t.main]);
-
 export const content = style([t.content]);
 
-export const title = style([t.documentHeading1]);
+export const title = style([t.documentHeading1, { marginTop: "20px" }]);
 
 export const titleDescription = style([t.documentCaption1]);
 
