@@ -10,7 +10,6 @@ interface RootProps {
 const Root: React.FC<RootProps> = ({ children }) => {
   return (
     // <ThemeProvider>
-    // {/* <Header /> */}
     <div>{children}</div>
     // </ThemeProvider>
   );
