@@ -5,5 +5,7 @@ export const breadcrumbs = style([
   classNames.$semantic.typography.label3Bold,
   {
     color: vars.$scale.color.gray600,
+    width: "100%",
+    height: "19px",
   },
 ]);
