@@ -9,6 +9,9 @@ export const header = style([
   {
     position: "fixed",
     top: 0,
+    left: 0,
+    right: 0,
+    margin: "auto",
 
     justifyContent: "right",
     width: "100%",

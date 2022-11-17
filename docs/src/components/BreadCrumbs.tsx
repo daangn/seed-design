@@ -8,20 +8,23 @@ const word: Record<string, string> = {
   guideline: "사용 가이드",
 };
 
-const BreadCrumbs = () => {
-  if (typeof window === "undefined") {
-    return <div className={style.breadcrumbs} />;
-  }
+interface BreadCrumbsProps {
+  slug: string;
+}
 
-  const currentPath = location.pathname.split("/").slice(1, 5);
+const BreadCrumbs = ({ slug }: BreadCrumbsProps) => {
+  // NOTE: /components/overview/spec/primitive -> ["components", "overview", "spec", "primitive"]
+  const currentPath = slug.split("/").slice(1, 5);
 
   return (
     <div className={style.breadcrumbs}>
       {currentPath.map((path, index) => {
-        if (index === 0) {
-          return <span key={path}>{word[path] || path} </span>;
-        }
-        return <span key={path}>/ {word[path] || path} </span>;
+        return (
+          <span key={path}>
+            {index === 0 ? "" : " / "}
+            {word[path] || path}
+          </span>
+        );
       })}
     </div>
   );
