@@ -1,11 +1,10 @@
-import clsx from "clsx";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
-import React from "react";
+import * as React from "react";
 
+import Sidebar from "../components/Sidebar";
 import * as t from "../styles/token.css";
-import * as u from "../styles/utils.css";
 
 export const query = graphql`
   query IndexPage {
@@ -17,11 +16,12 @@ export const query = graphql`
 
 const IndexPage = () => {
   return (
-    <div className={clsx(u.fullScreen, u.flexJustifyCenter)}>
-      <h1 style={{ marginTop: "130px" }} className={clsx(t.documentHeading1)}>
+    <main className={t.main}>
+      <Sidebar />
+      <h1 style={{ margin: "130px 50px" }} className={t.documentHeading1}>
         Seed Design
       </h1>
-    </div>
+    </main>
   );
 };
 

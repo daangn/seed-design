@@ -3,11 +3,12 @@ import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
 import { graphql } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
-import React from "react";
+import * as React from "react";
 
-import Layout from "../../../components/Layout";
+import Sidebar from "../../../components/Sidebar";
 import { fadeInFromTop } from "../../../framer-motions";
 import * as style from "../../../styles/components.page.css";
+import * as t from "../../../styles/token.css";
 
 interface PageProps {
   data: GatsbyTypes.SpecPageQuery;
@@ -33,7 +34,8 @@ const Page = ({ data }: PageProps) => {
   const specs = data.configsJson?.spec!;
 
   return (
-    <Layout>
+    <main className={t.main}>
+      <Sidebar />
       <article className={style.content}>
         <motion.h1 {...fadeInFromTop} className={style.title}>
           스펙
@@ -68,7 +70,7 @@ const Page = ({ data }: PageProps) => {
           ))}
         </motion.div>
       </article>
-    </Layout>
+    </main>
   );
 };
 

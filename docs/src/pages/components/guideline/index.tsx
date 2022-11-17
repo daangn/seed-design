@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
-import React from "react";
+import * as React from "react";
 
-import Layout from "../../../components/Layout";
+import Sidebar from "../../../components/Sidebar";
 import { fadeInFromTop } from "../../../framer-motions";
 import * as style from "../../../styles/components.page.css";
+import * as t from "../../../styles/token.css";
 
 interface PageProps {
   data: GatsbyTypes.GuidelinePageQuery;
@@ -33,7 +33,8 @@ const Page = ({ data }: PageProps) => {
   const guidelines = data.configsJson?.guideline!;
 
   return (
-    <Layout>
+    <main className={t.main}>
+      <Sidebar />
       <article className={style.content}>
         <motion.h1 {...fadeInFromTop} className={style.title}>
           사용 가이드
@@ -69,7 +70,7 @@ const Page = ({ data }: PageProps) => {
           ))}
         </motion.div>
       </article>
-    </Layout>
+    </main>
   );
 };
 

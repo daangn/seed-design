@@ -1,7 +1,7 @@
 import "@seed-design/stylesheet/global.css";
 import "./src/styles/global.css";
 
-import React from "react";
+import * as React from "react";
 
 import Root from "./src/Root";
 

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
-import React from "react";
+import * as React from "react";
 
 import { fadeInFromLeft } from "../../framer-motions";
 import * as style from "../../styles/get-started.page.css";

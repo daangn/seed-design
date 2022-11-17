@@ -17,6 +17,9 @@ const wrapESMPlugin = (name) =>
 module.exports = {
   siteMetadata: SITE_METADATA,
   graphqlTypegen: true,
+  flags: {
+    DEV_SSR: true,
+  },
   plugins: [
     {
       resolve: "gatsby-plugin-mdx",
@@ -106,6 +109,5 @@ module.exports = {
         },
       },
     },
-    `gatsby-plugin-portal`,
   ],
 };

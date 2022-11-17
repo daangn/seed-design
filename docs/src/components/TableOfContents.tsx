@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 
+import { fadeInFromLeft } from "../framer-motions";
 import * as style from "./TableOfContents.css";
 
 export type TableOfContentsItemType = {
@@ -73,17 +75,19 @@ export default function TableOfContents({
   }, [setActiveId]);
 
   return (
-    <nav className={style.nav}>
-      <h2 className={style.title}>ON THIS PAGE</h2>
-      <ul className={style.list}>
-        {tableOfContents.items.map((item) => (
-          <TableOfContentsItem
-            key={item.url}
-            activeId={activeId}
-            tableOfContentsItem={item}
-          />
-        ))}
-      </ul>
-    </nav>
+    <motion.div {...fadeInFromLeft}>
+      <nav className={style.nav}>
+        <h2 className={style.title}>ON THIS PAGE</h2>
+        <ul className={style.list}>
+          {tableOfContents.items.map((item) => (
+            <TableOfContentsItem
+              key={item.url}
+              activeId={activeId}
+              tableOfContentsItem={item}
+            />
+          ))}
+        </ul>
+      </nav>
+    </motion.div>
   );
 }

@@ -1,11 +1,14 @@
+import { MDXProvider } from "@mdx-js/react";
 import React from "react";
 
-import * as t from "../styles/token.css";
+import MdxComponents from "./mdx/MdxComponents";
 
-interface LayoutProps {
+interface Props {
   children: React.ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
-  return <main className={t.main}>{children}</main>;
-}
+const Layout = ({ children }: Props) => {
+  return <MDXProvider components={MdxComponents}>{children}</MDXProvider>;
+};
+
+export default Layout;

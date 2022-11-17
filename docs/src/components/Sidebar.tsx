@@ -76,7 +76,8 @@ export default function Sidebar() {
   const guidelines = data.configsJson?.guideline;
   const specs = data.configsJson?.spec;
 
-  const currentPath = location.pathname.split("/").slice(0, 4).join("/");
+  const currentPath = typeof window !== "undefined" ? location.pathname : "";
+  const slicedCurrentPath = currentPath.split("/").slice(0, 4).join("/");
 
   return (
     <>
@@ -91,7 +92,7 @@ export default function Sidebar() {
         <Link to="/components/guideline">
           <h1
             className={style.categoryTitle({
-              highlight: location.pathname === "/components/guideline",
+              highlight: currentPath === "/components/guideline",
             })}
           >
             사용 가이드
@@ -101,7 +102,7 @@ export default function Sidebar() {
           return (
             <SidebarLink
               key={link!.slug!}
-              active={location.pathname === link!.slug}
+              active={currentPath === link!.slug}
               to={link!.slug!}
               title={link!.title!}
               onClick={closeSidebar}
@@ -112,7 +113,7 @@ export default function Sidebar() {
         <Link to="/components/spec">
           <h1
             className={style.categoryTitle({
-              highlight: location.pathname === "/components/spec",
+              highlight: currentPath === "/components/spec",
             })}
           >
             스펙
@@ -123,7 +124,8 @@ export default function Sidebar() {
             <SidebarLink
               key={link!.slug!}
               active={
-                link!.slug!.split("/").slice(0, 4).join("/") === currentPath
+                link!.slug!.split("/").slice(0, 4).join("/") ===
+                slicedCurrentPath
               }
               to={link!.slug!}
               title={link!.title!}
