@@ -3447,7 +3447,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/react-theming@workspace:packages/react-theming":
+"@seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
   dependencies:
@@ -9667,6 +9667,18 @@ __metadata:
   checksum: 1ac0f7aff7ab121aa0c831e3541d3970bc2a0c2c95155eb5b4b4accc14576f3f005ceb4bd5c7b3ea410b41eadff4b36cdfb4afd08d6f4a555a8336ed224ac7f2
   languageName: node
   linkType: hard
+
+"gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design":
+  version: 0.0.0-use.local
+  resolution: "gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design"
+  dependencies:
+    "@seed-design/react-theming": "workspace:^"
+    "@seed-design/stylesheet": "workspace:^"
+    typescript: ^4.9.3
+  peerDependencies:
+    gatsby: ^3.0.0 || ^4.0.0 || ^5.0.0
+  languageName: unknown
+  linkType: soft
 
 "gatsby-plugin-sharp@npm:^5.0.0":
   version: 5.0.0
