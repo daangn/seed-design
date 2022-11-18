@@ -15,18 +15,18 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node.js 14.x
-        uses: actions/setup-node@v2
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 18.x
           
       - name: Use cached node_modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: nodeModules-${{ hashFiles('**/yarn.lock') }}
@@ -35,9 +35,6 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --immutable
-        
-      - name: Validate dependency tree
-        run: yarn workspaces foreach -t run build
 
       - name: Create Release Pull Request or Publish to npm
         uses: cometkim/yarn-changeset-action@v1
