@@ -27,15 +27,23 @@ export function useThemeBehavior({
   const themeContext = React.useMemo<ThemeContext>(() => ({ setColorVariant }), [colorVariant]);
   
   React.useEffect(() => {
-    document.documentElement.dataset.seedScaleColor = colorVariant;
-    if (storage) {
-      if (colorVariant === 'system') {
-        void storage.removeItem(StorageKey.COLOR);
-      } else {
-        void storage.setItem(StorageKey.COLOR, colorVariant);
+    if (mode === 'auto') {
+      document.documentElement.dataset.seedScaleColor = colorVariant;
+      if (storage) {
+        if (colorVariant === 'system') {
+          void storage.removeItem(StorageKey.COLOR);
+        } else {
+          void storage.setItem(StorageKey.COLOR, colorVariant);
+        }
+      }
+    } else { // mode === 'light-only' || mode === 'dark-only'
+      const variant = mode === 'light-only' ? 'light' : 'dark';
+      document.documentElement.dataset.seedScaleColor = variant;
+      if (storage) {
+        void storage.setItem(StorageKey.COLOR, variant);
       }
     }
-  }, [colorVariant]);
+  }, [colorVariant, mode]);
 
   React.useEffect(() => {
     if (!document.documentElement.dataset.seedPlatform) {
