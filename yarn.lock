@@ -3447,7 +3447,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
+"@seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
   dependencies:
