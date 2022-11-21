@@ -3447,7 +3447,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/react-theming@workspace:packages/react-theming":
+"@seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
   dependencies:
@@ -18421,7 +18421,7 @@ resolve@^1.10.0:
     "@mdx-js/mdx": ^2.1.5
     "@mdx-js/react": ^2.1.5
     "@seed-design/design-token": "workspace:^"
-    "@seed-design/stylesheet": "workspace:^"
+    "@seed-design/react-theming": "workspace:^"
     "@types/node": ^17.0.45
     "@types/react": ^18.0.20
     "@types/react-dom": ^18.0.6

@@ -5,6 +5,7 @@ export type ThemeContext = ReturnType<typeof useThemeBehavior>;
 
 const initialContext: ThemeContext = {
   setColorVariant: () => {},
+  colorVariant: undefined,
 };
 
 export const ThemeContext = React.createContext<ThemeContext>(initialContext);

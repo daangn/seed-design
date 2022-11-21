@@ -1,19 +1,20 @@
 import * as React from 'react';
 
-import { StorageKey, ThemeStorageContext } from './ThemeStorageContext';
 import {
+  StorageKey,
   type ColorMode,
 } from './common';
 
 type UseDarkModeProps = {
-  mode: ColorMode,
+  mode?: ColorMode,
 };
 
 export function useThemeBehavior({
-  mode,
+  mode = "auto",
 }: UseDarkModeProps) {
   type ThemeContext = {
     setColorVariant: (variant: ColorVariant) => void,
+    colorVariant: ColorVariant | undefined,
   };
 
   type ColorVariant = (
@@ -22,34 +23,38 @@ export function useThemeBehavior({
     | 'dark'
   );
 
-  const storage = React.useContext(ThemeStorageContext);
-  const [colorVariant, setColorVariant] = React.useState<ColorVariant>('system');
-  const themeContext = React.useMemo<ThemeContext>(() => ({ setColorVariant }), [colorVariant]);
-  
-  React.useEffect(() => {
-    if (mode === 'auto') {
-      document.documentElement.dataset.seedScaleColor = colorVariant;
-      if (storage) {
-        if (colorVariant === 'system') {
-          void storage.removeItem(StorageKey.COLOR);
-        } else {
-          void storage.setItem(StorageKey.COLOR, colorVariant);
-        }
-      }
-    } else { // mode === 'light-only' || mode === 'dark-only'
-      const variant = mode === 'light-only' ? 'light' : 'dark';
-      document.documentElement.dataset.seedScaleColor = variant;
-      if (storage) {
-        void storage.setItem(StorageKey.COLOR, variant);
-      }
-    }
-  }, [colorVariant, mode]);
+  const [colorVariant, setColorVariant] = React.useState<ColorVariant | undefined>(undefined);
+  const themeContext = React.useMemo<ThemeContext>(() => ({ colorVariant, setColorVariant }), [colorVariant]);
 
   React.useEffect(() => {
-    if (!document.documentElement.dataset.seedPlatform) {
-      document.documentElement.dataset.seedPlatform = 'unknown';
+    if (!document.body.dataset.seedPlatform) {
+      document.body.dataset.seedPlatform = 'unknown';
     }
   }, []);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const color = window.localStorage.getItem(StorageKey.COLOR);
+      setColorVariant(color ? (color as ColorVariant) : 'system');
+    }
+  }, []);
+  
+  React.useEffect(() => {
+    if (!colorVariant) return;
+
+    if (mode === 'auto') {
+      document.body.dataset.seedScaleColor = colorVariant;
+      if (colorVariant === 'system') {
+        window.localStorage.removeItem(StorageKey.COLOR);
+      } else {
+        window.localStorage.setItem(StorageKey.COLOR, colorVariant);
+      }
+    } else { // mode === 'light-only' || mode === 'dark-only'
+      const variant = mode === 'light-only' ? 'light' : 'dark';    
+      document.body.dataset.seedScaleColor = variant;
+      window.localStorage.setItem(StorageKey.COLOR, variant);
+    }
+  }, [colorVariant, mode]);
 
   return themeContext;
 };
