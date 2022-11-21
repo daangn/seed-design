@@ -13,7 +13,6 @@ export const wrapRootElement = ({
 	pluginOptions: PluginOptions,
 ) => {
 	const { mode } = pluginOptions as unknown as Options;
-	
 	return (
 		<Wrapper mode={mode}>
 			{element}
