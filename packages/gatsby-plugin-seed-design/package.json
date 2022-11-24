@@ -1,0 +1,33 @@
+{
+  "name": "gatsby-plugin-seed-design",
+  "version": "0.0.1",
+  "description": "Seed Design Gatsby plugin",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "seed-design"
+  ],
+  "author": {
+    "name": "Hyeonsu Jung",
+    "email": "june.jung@daangn.com"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "gatsby-browser.tsx",
+    "gatsby-ssr.tsx",
+    "gatsby-node.ts",
+    "wrapRootElement.tsx"
+  ],
+  "dependencies": {
+    "@seed-design/react-theming": "workspace:^",
+    "@seed-design/stylesheet": "workspace:^"
+  },
+  "peerDependencies": {
+    "gatsby": "^3.0.0 || ^4.0.0 || ^5.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
+}

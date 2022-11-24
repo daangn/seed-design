@@ -41,7 +41,8 @@
     "prepack": "yarn build"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "@seed-design/design-token": "workspace:^1.0.0"
@@ -50,6 +51,7 @@
     "@types/react": "^18.0.25",
     "nanobundle": "^0.0.28",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^4.9.3"
   }
 }

@@ -22,6 +22,12 @@ module.exports = {
   },
   plugins: [
     {
+      resolve: "gatsby-plugin-seed-design",
+      // options: {
+      //   mode: "dark-only",
+      // },
+    },
+    {
       resolve: "gatsby-plugin-mdx",
       options: {
         gatsbyRemarkPlugins: [

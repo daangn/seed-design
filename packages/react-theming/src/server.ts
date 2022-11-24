@@ -1,29 +1,35 @@
-import { StorageKey } from "./ThemeStorageContext";
+import { type ColorMode, StorageKey } from "./common";
 
-export const generateNoFlashScript = () => {
+export const generateNoFlashScript = ({ mode = 'auto' }: { mode?: ColorMode}) => {
 	return `
-		(function(window, document) {
+		(function(window, document, mode) {
 			try {
-				var color = localStorage.getItem('${StorageKey.COLOR}');
+				if (mode !== 'auto') {
+					document.documentElement.dataset.seed = mode;
+				}
+			} catch (e) {}
+			
+			try {
+				var color = window.localStorage.getItem('${StorageKey.COLOR}');
 				if (color) {
-					document.documentElement.dataset.seedScaleColor = color;
+					document.body.dataset.seedScaleColor = color;
 				} else {
-					document.documentElement.dataset.seedScaleColor = 'system';
+					document.body.dataset.seedScaleColor = 'system';
 				}
 			} catch (e) {}
 
 			try {
-				var platform = localStorage.getItem('${StorageKey.PLATFORM}');
+				var platform = window.localStorage.getItem('${StorageKey.PLATFORM}');
 				if (platform) {
-					document.documentElement.dataset.seedPlatform = platform;
+					document.body.dataset.seedPlatform = platform;
 				} else if (typeof window.AndroidFunction !== 'undefined') {
-					document.documentElement.dataset.seedPlatform = 'android';
+					document.body.dataset.seedPlatform = 'android';
 				} else if (typeof window.webkit !== 'undefined' && typeof window.webkit.messageHandlers !== 'undefined') {
-					document.documentElement.dataset.seedPlatform = 'ios';
+					document.body.dataset.seedPlatform = 'ios';
 				} else {
-					document.documentElement.dataset.seedPlatform = 'unknown';
+					document.body.dataset.seedPlatform = 'ios';
 				}
 			} catch (e) {}
-		})(window, document);
+		})(window, document, '${mode}');
 	`;
 }

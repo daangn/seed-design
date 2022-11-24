@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "jsx": "preserve",
+  },
+  "include": [
+    "gatsby-browser.tsx",
+		"gatsby-ssr.tsx",
+		"gatsby-node.ts",
+		"wrapRootElement.tsx",
+  ]
+}

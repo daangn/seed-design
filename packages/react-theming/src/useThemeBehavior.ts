@@ -1,47 +1,57 @@
 import * as React from 'react';
 
-import { StorageKey, ThemeStorageContext } from './ThemeStorageContext';
 import {
+  StorageKey,
   type ColorMode,
 } from './common';
 
 type UseDarkModeProps = {
-  mode: ColorMode,
+  mode?: ColorMode,
 };
 
 export function useThemeBehavior({
-  mode,
+  mode = "auto",
 }: UseDarkModeProps) {
   type ThemeContext = {
-    setColorVariant: (variant: ColorVariant) => void,
+    setColorTheme: (theme: ColorTheme) => void,
   };
 
-  type ColorVariant = (
+  type ColorTheme = (
     | 'system'
     | 'light'
     | 'dark'
   );
 
-  const storage = React.useContext(ThemeStorageContext);
-  const [colorVariant, setColorVariant] = React.useState<ColorVariant>('system');
-  const themeContext = React.useMemo<ThemeContext>(() => ({ setColorVariant }), [colorVariant]);
-  
-  React.useEffect(() => {
-    document.documentElement.dataset.seedScaleColor = colorVariant;
-    if (storage) {
-      if (colorVariant === 'system') {
-        void storage.removeItem(StorageKey.COLOR);
-      } else {
-        void storage.setItem(StorageKey.COLOR, colorVariant);
-      }
-    }
-  }, [colorVariant]);
+  const [colorTheme, setColorTheme] = React.useState<ColorTheme | undefined>(undefined);
+  const themeContext = React.useMemo<ThemeContext>(() => ({ setColorTheme }), []);
 
   React.useEffect(() => {
-    if (!document.documentElement.dataset.seedPlatform) {
-      document.documentElement.dataset.seedPlatform = 'unknown';
+    if (mode !== 'auto') {
+      document.getElementsByTagName('html')[0].dataset.seed = mode;
     }
   }, []);
+  React.useEffect(() => {
+    if (!document.body.dataset.seedPlatform) {
+      document.body.dataset.seedPlatform = 'ios';
+    }
+  }, []);
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const color = localStorage.getItem(StorageKey.COLOR);
+      setColorTheme(color ? (color as ColorTheme) : 'system');
+    }
+  }, []);
+  
+  React.useEffect(() => {
+    if (!colorTheme) return;
+
+    document.body.dataset.seedScaleColor = colorTheme;
+    if (colorTheme === 'system') {
+      localStorage.removeItem(StorageKey.COLOR);
+    } else {
+      localStorage.setItem(StorageKey.COLOR, colorTheme);
+    }
+  }, [colorTheme]);
 
   return themeContext;
 };

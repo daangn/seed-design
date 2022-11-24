@@ -6,6 +6,13 @@
 - ⚙️ 토큰에 대한 TypeScript 지원
 - 🔄 Figma 프로토타이핑과 애플리케이션 형상 동기화
 
+## 구성
+
+- [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token)
+- [@seed-design/stylesheet](https://github.com/daangn/seed-design/tree/main/packages/stylesheet)
+- [@seed-design/react-theming](https://github.com/daangn/seed-design/tree/main/packages/react-theming)
+- [gatsby-plugin-seed-design]()
+
 ## Karrot UI → Seed Design 주요 변경 사항
 
 - 프로젝트/디자인 시스템 명이 **Seed Design**으로 리브랜딩 됩니다.
