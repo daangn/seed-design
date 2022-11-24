@@ -13,7 +13,8 @@
     }
   ],
   "source": "./src/index.ts",
-  "main": "./src/index.ts",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public",
