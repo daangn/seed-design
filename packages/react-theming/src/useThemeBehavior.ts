@@ -13,48 +13,45 @@ export function useThemeBehavior({
   mode = "auto",
 }: UseDarkModeProps) {
   type ThemeContext = {
-    setColorVariant: (variant: ColorVariant) => void,
-    colorVariant: ColorVariant | undefined,
+    setColorTheme: (theme: ColorTheme) => void,
   };
 
-  type ColorVariant = (
+  type ColorTheme = (
     | 'system'
     | 'light'
     | 'dark'
   );
 
-  const [colorVariant, setColorVariant] = React.useState<ColorVariant | undefined>(undefined);
-  const themeContext = React.useMemo<ThemeContext>(() => ({ colorVariant, setColorVariant }), [colorVariant]);
+  const [colorTheme, setColorTheme] = React.useState<ColorTheme | undefined>(undefined);
+  const themeContext = React.useMemo<ThemeContext>(() => ({ setColorTheme }), []);
 
   React.useEffect(() => {
-    if (!document.body.dataset.seedPlatform) {
-      document.body.dataset.seedPlatform = 'unknown';
+    if (mode !== 'auto') {
+      document.getElementsByTagName('html')[0].dataset.seed = mode;
     }
   }, []);
-
+  React.useEffect(() => {
+    if (!document.body.dataset.seedPlatform) {
+      document.body.dataset.seedPlatform = 'ios';
+    }
+  }, []);
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const color = window.localStorage.getItem(StorageKey.COLOR);
-      setColorVariant(color ? (color as ColorVariant) : 'system');
+      const color = localStorage.getItem(StorageKey.COLOR);
+      setColorTheme(color ? (color as ColorTheme) : 'system');
     }
   }, []);
   
   React.useEffect(() => {
-    if (!colorVariant) return;
+    if (!colorTheme) return;
 
-    if (mode === 'auto') {
-      document.body.dataset.seedScaleColor = colorVariant;
-      if (colorVariant === 'system') {
-        window.localStorage.removeItem(StorageKey.COLOR);
-      } else {
-        window.localStorage.setItem(StorageKey.COLOR, colorVariant);
-      }
-    } else { // mode === 'light-only' || mode === 'dark-only'
-      const variant = mode === 'light-only' ? 'light' : 'dark';    
-      document.body.dataset.seedScaleColor = variant;
-      window.localStorage.setItem(StorageKey.COLOR, variant);
+    document.body.dataset.seedScaleColor = colorTheme;
+    if (colorTheme === 'system') {
+      localStorage.removeItem(StorageKey.COLOR);
+    } else {
+      localStorage.setItem(StorageKey.COLOR, colorTheme);
     }
-  }, [colorVariant, mode]);
+  }, [colorTheme]);
 
   return themeContext;
 };

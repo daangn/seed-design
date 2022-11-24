@@ -4,8 +4,7 @@ import { type useThemeBehavior } from './useThemeBehavior';
 export type ThemeContext = ReturnType<typeof useThemeBehavior>;
 
 const initialContext: ThemeContext = {
-  setColorVariant: () => {},
-  colorVariant: undefined,
+  setColorTheme: () => {},
 };
 
 export const ThemeContext = React.createContext<ThemeContext>(initialContext);

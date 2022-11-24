@@ -10,7 +10,7 @@ import * as React from 'react';
 import { type Options, Wrapper } from './wrapRootElement';
 
 const htmlAttributes: Record<string, string> = {
-  "data-seed": "auto",
+  "data-seed": "",
 };
 
 export const onRenderBody: GatsbySSR['onRenderBody'] = ({
