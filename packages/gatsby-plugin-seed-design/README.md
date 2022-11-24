@@ -16,22 +16,22 @@ $ yarn add gatsby-plugin-seed-design
 module.exports = {
   ...,
   plugins: [
-		// your plugins...,
+	  // your plugins...,
     "gatsby-plugin-seed-design",
-	]
+  ]
 }
 
 // 혹은
 module.exports = {
   ...,
   plugins: [
-		// your plugins...,
-		{
-			resolve: "gatsby-plugin-seed-design",
-			options: {
-				mode: "light-only" // "auto" (default) | "dark-only" | "light-only"
-			},
-		}
-	]
+	  // your plugins...,
+	  {
+		  resolve: "gatsby-plugin-seed-design",
+		  options: {
+			  mode: "light-only" // "auto" (default) | "dark-only" | "light-only"
+		  },
+	  }
+  ]
 }
 ```
