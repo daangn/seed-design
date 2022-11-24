@@ -9679,20 +9679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-seed-design@portal:../packages/gatsby-plugin-seed-design::locator=web%40workspace%3Adocs":
-  version: 0.0.0-use.local
-  resolution: "gatsby-plugin-seed-design@portal:../packages/gatsby-plugin-seed-design::locator=web%40workspace%3Adocs"
-  dependencies:
-    "@seed-design/react-theming": "workspace:^"
-    "@seed-design/stylesheet": "workspace:^"
-  peerDependencies:
-    gatsby: ^3.0.0 || ^4.0.0 || ^5.0.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  languageName: node
-  linkType: soft
-
-"gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design":
+"gatsby-plugin-seed-design@workspace:^, gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design":
   version: 0.0.0-use.local
   resolution: "gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design"
   dependencies:
@@ -18461,7 +18448,7 @@ resolve@^1.10.0:
     gatsby-plugin-image: ^3.0.0
     gatsby-plugin-mdx: ^5.0.0
     gatsby-plugin-mdx-frontmatter: ^0.0.4
-    gatsby-plugin-seed-design: "portal:../packages/gatsby-plugin-seed-design"
+    gatsby-plugin-seed-design: "workspace:^"
     gatsby-plugin-sharp: ^5.0.0
     gatsby-plugin-sitemap: ^6.0.0
     gatsby-plugin-typegen: ^3.1.0

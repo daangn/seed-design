@@ -31,7 +31,7 @@
     "gatsby-plugin-image": "^3.0.0",
     "gatsby-plugin-mdx": "^5.0.0",
     "gatsby-plugin-mdx-frontmatter": "^0.0.4",
-    "gatsby-plugin-seed-design": "portal:../packages/gatsby-plugin-seed-design",
+    "gatsby-plugin-seed-design": "workspace:^",
     "gatsby-plugin-sharp": "^5.0.0",
     "gatsby-plugin-sitemap": "^6.0.0",
     "gatsby-plugin-typegen": "^3.1.0",
