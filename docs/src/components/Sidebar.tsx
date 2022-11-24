@@ -111,9 +111,6 @@ export default function Sidebar() {
         {specs!.map((link) => {
           const active =
             link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
-
-          console.log("active", active);
-
           return (
             <SidebarLink
               key={link!.slug!}
