@@ -52,12 +52,12 @@ const SpecTemplate: React.FC<TemplatePostProps> = ({
               Primitive
             </Link>
             <Link
-              to={`${commonPath}/visual`}
+              to={`${commonPath}/style`}
               className={style.tabLink({
-                active: pageContext.activeTab === "visual",
+                active: pageContext.activeTab === "style",
               })}
             >
-              Visual
+              Style
             </Link>
           </div>
           <motion.div {...fadeInFromLeft}>{children}</motion.div>

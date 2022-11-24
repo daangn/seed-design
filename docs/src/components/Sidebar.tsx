@@ -109,13 +109,15 @@ export default function Sidebar() {
           <h1 className={style.categoryTitle}>스펙</h1>
         </Link>
         {specs!.map((link) => {
+          const active =
+            link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
+
+          console.log("active", active);
+
           return (
             <SidebarLink
               key={link!.slug!}
-              active={
-                link!.slug!.split("/").slice(0, 4).join("/") ===
-                slicedCurrentPath
-              }
+              active={active}
               to={link!.slug!}
               title={link!.title!}
               onClick={closeSidebar}
