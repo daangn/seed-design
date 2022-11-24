@@ -1,5 +1,11 @@
 # @seed-design/react-theming
 
+## 2.0.4
+
+### Patch Changes
+
+- 20c37c5: add prefers-color-scheme logic in noFlashScript
+
 ## 2.0.3
 
 ### Patch Changes
