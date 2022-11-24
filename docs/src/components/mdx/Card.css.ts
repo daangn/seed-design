@@ -46,7 +46,7 @@ export const halfCard = style([
 
   m.large({
     flexDirection: "row",
-    margin: "40px 0px",
+    margin: "20px 0px",
   }),
 ]);
 
