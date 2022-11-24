@@ -1,3 +1,4 @@
+import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
@@ -9,7 +10,6 @@ export const nav = style([
     position: "sticky",
     top: "150px",
     width: "250px",
-    borderLeft: "1px solid #eaeaea",
   },
 
   m.xlarge({
@@ -30,13 +30,17 @@ export const title = style({
 export const listItem = recipe({
   base: [
     {
-      padding: "3px 0",
+      paddingTop: "3px",
+      paddingBottom: "3px",
+      paddingLeft: "10px",
+      borderLeft: `1px solid ${vars.$scale.color.gray300}`,
     },
   ],
 
   variants: {
     active: {
       true: {
+        borderLeft: `1px solid ${vars.$scale.color.gray900}`,
         fontWeight: "bold",
       },
     },
