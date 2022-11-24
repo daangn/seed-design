@@ -11,7 +11,7 @@
 - [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token)
 - [@seed-design/stylesheet](https://github.com/daangn/seed-design/tree/main/packages/stylesheet)
 - [@seed-design/react-theming](https://github.com/daangn/seed-design/tree/main/packages/react-theming)
-- [gatsby-plugin-seed-design]()
+- [gatsby-plugin-seed-design](https://github.com/daangn/seed-design/tree/main/packages/gatsby-plugin-seed-design)
 
 ## Karrot UI → Seed Design 주요 변경 사항
 

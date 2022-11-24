@@ -5,7 +5,7 @@
 ## 설치
 
 ```console
-$ npm install gatsby-plugin-seed-design 
+$ npm install gatsby-plugin-seed-design
 $ yarn add gatsby-plugin-seed-design
 ```
 
