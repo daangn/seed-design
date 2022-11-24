@@ -11,7 +11,7 @@ interface DocumentEditLinkProps {
 /**
  *
  * @param slug ex) /components/checkbox/primitive/
- * @param file ex) primitive.mdx
+ * @param file ex) primitive
  */
 export default function DocumentEditLink({
   slug,
