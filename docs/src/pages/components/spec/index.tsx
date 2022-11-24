@@ -6,7 +6,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import * as React from "react";
 
 import Sidebar from "../../../components/Sidebar";
-import { fadeInFromTop } from "../../../framer-motions";
+import { fadeInFromLeft } from "../../../framer-motions";
 import * as style from "../../../styles/components.page.css";
 import * as t from "../../../styles/token.css";
 
@@ -37,19 +37,12 @@ const Page = ({ data }: PageProps) => {
     <main className={t.main}>
       <Sidebar />
       <article className={style.content}>
-        <motion.h1 {...fadeInFromTop} className={style.title}>
-          스펙
-        </motion.h1>
-        <motion.p
-          transition={{ delay: 0.1 }}
-          {...fadeInFromTop}
-          className={style.caption1}
-        >
+        <h1 className={style.title}>스펙</h1>
+        <p className={style.caption1}>
           Components are the building blocks of any design system. They are
           the... 대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
-        </motion.p>
-
-        <motion.div className={style.grid} {...fadeInFromTop}>
+        </p>
+        <motion.div className={style.grid} {...fadeInFromLeft}>
           {specs.map((spec) => (
             <Link key={spec?.slug!} to={spec?.slug!}>
               <motion.div
