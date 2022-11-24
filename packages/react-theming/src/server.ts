@@ -14,7 +14,28 @@ export const generateNoFlashScript = ({ mode = 'auto' }: { mode?: ColorMode}) =>
 				if (color) {
 					document.body.dataset.seedScaleColor = color;
 				} else {
-					document.body.dataset.seedScaleColor = 'system';
+					var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  				var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+					if (prefersLight.matches) {
+						document.body.dataset.seedScaleColor = 'light';
+						if ('addEventListener' in prefersLight) {
+							prefersLight.addEventListener('change', apply);
+						} else if ('addListener' in prefersLight) {
+							prefersLight.addListener(apply);
+						}
+					} else if (prefersDark.matches) {
+						document.body.dataset.seedScaleColor = 'dark';
+						if ('addEventListener' in prefersDark) {
+							prefersDark.addEventListener('change', apply);
+						} else if ('addListener' in prefersDark) {
+							prefersDark.addListener(apply);
+						}
+					}
+				}
+
+				function apply() {
+					document.body.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
+					document.body.dataset.seedScaleLetterSpacing = 'ios';
 				}
 			} catch (e) {}
 

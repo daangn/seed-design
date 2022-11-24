@@ -1,5 +1,11 @@
 # @seed-design/react-theming
 
+## 2.0.3
+
+### Patch Changes
+
+- 4fe0e8e: Modified so that the scale-color attribute is also changed according to the mode
+
 ## 2.0.2
 
 ### Patch Changes
