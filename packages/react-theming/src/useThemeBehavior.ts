@@ -48,6 +48,12 @@ export function useThemeBehavior({
     if (mode === 'auto') {
       document.body.dataset.seedScaleColor = colorTheme;
       if (colorTheme === 'system') {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.dataset.seedScaleColor = 'dark';
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.body.dataset.seedScaleColor = 'light';
+        }
         localStorage.removeItem(StorageKey.COLOR);
       } else {
         localStorage.setItem(StorageKey.COLOR, colorTheme);
