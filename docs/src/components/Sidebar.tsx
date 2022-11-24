@@ -90,19 +90,14 @@ export default function Sidebar() {
         <Logo to="/" onClick={closeSidebar} />
 
         <Link to="/components/guideline">
-          <h1
-            className={style.categoryTitle({
-              highlight: currentPath === "/components/guideline",
-            })}
-          >
-            사용 가이드
-          </h1>
+          <h1 className={style.categoryTitle}>사용 가이드</h1>
         </Link>
         {guidelines!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
           return (
             <SidebarLink
               key={link!.slug!}
-              active={currentPath === link!.slug}
+              active={active}
               to={link!.slug!}
               title={link!.title!}
               onClick={closeSidebar}
@@ -111,13 +106,7 @@ export default function Sidebar() {
         })}
 
         <Link to="/components/spec">
-          <h1
-            className={style.categoryTitle({
-              highlight: currentPath === "/components/spec",
-            })}
-          >
-            스펙
-          </h1>
+          <h1 className={style.categoryTitle}>스펙</h1>
         </Link>
         {specs!.map((link) => {
           return (

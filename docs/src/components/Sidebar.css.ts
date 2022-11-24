@@ -82,33 +82,21 @@ export const logoText = style([
   },
 ]);
 
-export const categoryTitle = recipe({
-  base: [
-    {
-      fontSize: "26px",
-      fontWeight: 700,
+export const categoryTitle = style([
+  {
+    fontSize: "26px",
+    fontWeight: 700,
 
-      width: "200px",
-      transition: "color 0.2s ease",
-      color: vars.$scale.color.gray900,
-      marginTop: "40px",
+    width: "200px",
+    transition: "color 0.2s ease",
+    color: vars.$scale.color.gray900,
+    marginTop: "40px",
 
-      ":hover": {
-        color: vars.$semantic.color.primaryHover,
-      },
-    },
-  ],
-
-  variants: {
-    highlight: {
-      true: [
-        {
-          color: vars.$semantic.color.primary,
-        },
-      ],
+    ":hover": {
+      color: vars.$semantic.color.primaryHover,
     },
   },
-});
+]);
 
 export const sidebarTitleLink = recipe({
   base: [
