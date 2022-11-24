@@ -11,7 +11,7 @@ import Layout from "../components/Layout";
 import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
-import { fadeInFromLeft } from "../framer-motions";
+import { fadeInFromBottom } from "../framer-motions";
 import * as t from "../styles/token.css";
 import * as style from "./template.css";
 
@@ -60,7 +60,7 @@ const SpecTemplate: React.FC<TemplatePostProps> = ({
               Style
             </Link>
           </div>
-          <motion.div {...fadeInFromLeft}>{children}</motion.div>
+          <motion.div {...fadeInFromBottom}>{children}</motion.div>
           <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
         </article>
         <TableOfContents tableOfContents={pageContext.tableOfContents} />

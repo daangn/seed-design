@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
-import { fadeInFromLeft } from "../../framer-motions";
+import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/get-started.page.css";
 
 export const query = graphql`
@@ -18,7 +18,7 @@ export const query = graphql`
 const PrinciplePage = () => {
   return (
     <main>
-      <motion.article className={style.content} {...fadeInFromLeft}>
+      <motion.article className={style.content} {...fadeInFromBottom}>
         <h1 className={style.title}>Principle</h1>
       </motion.article>
     </main>
