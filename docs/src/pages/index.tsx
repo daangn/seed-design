@@ -1,9 +1,13 @@
+import ForwardIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconForwardRegular";
+import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
+import { Link } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 import * as React from "react";
 
-import Sidebar from "../components/Sidebar";
+import { fadeInFromBottom } from "../framer-motions";
+import * as style from "../styles/index.page.css";
 import * as t from "../styles/token.css";
 
 export const query = graphql`
@@ -17,10 +21,21 @@ export const query = graphql`
 const IndexPage = () => {
   return (
     <main className={t.main}>
-      <Sidebar />
-      <h1 style={{ margin: "130px 50px" }} className={t.documentHeading1}>
-        Seed Design
-      </h1>
+      <article className={style.content}>
+        <motion.h1 {...fadeInFromBottom} className={style.title}>
+          SEED Design
+        </motion.h1>
+        <Link to="/components/guideline/">
+          <motion.button
+            {...fadeInFromBottom}
+            transition={{ delay: 0.3 }}
+            className={style.goDocsButton}
+          >
+            Document 보러가기
+            <ForwardIcon width={20} />
+          </motion.button>
+        </Link>
+      </article>
     </main>
   );
 };
