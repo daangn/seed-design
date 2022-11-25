@@ -21,9 +21,7 @@ module.exports = {
     DEV_SSR: true,
   },
   plugins: [
-    {
-      resolve: "gatsby-plugin-seed-design",
-    },
+    "gatsby-plugin-seed-design",
     {
       resolve: "gatsby-plugin-mdx",
       options: {
