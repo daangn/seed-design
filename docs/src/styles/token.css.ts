@@ -56,7 +56,7 @@ export const documentHeading2 = style([
     fontWeight: 700,
   },
   m.small({
-    marginTop: "120px",
+    marginTop: "60px",
     fontSize: "34px",
   }),
 ]);

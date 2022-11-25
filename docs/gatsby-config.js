@@ -21,12 +21,7 @@ module.exports = {
     DEV_SSR: true,
   },
   plugins: [
-    {
-      resolve: "gatsby-plugin-seed-design",
-      // options: {
-      //   mode: "dark-only",
-      // },
-    },
+    "gatsby-plugin-seed-design",
     {
       resolve: "gatsby-plugin-mdx",
       options: {
@@ -112,6 +107,17 @@ module.exports = {
           return {
             url: path,
           };
+        },
+      },
+    },
+    {
+      resolve: "gatsby-plugin-web-font-loader",
+      options: {
+        custom: {
+          families: ["Pretendard"],
+          urls: [
+            "https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css",
+          ],
         },
       },
     },
