@@ -1,5 +1,12 @@
 # @seed-design/react-theming
 
+## 2.1.0
+
+### Minor Changes
+
+- 6453963: Change attribute location body -> html
+- 725fa03: Create ColorModeValues, DefaultColorModeValue variables
+
 ## 2.0.4
 
 ### Patch Changes
