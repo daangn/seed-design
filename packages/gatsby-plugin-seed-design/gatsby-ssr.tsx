@@ -9,16 +9,29 @@ import type {
 import * as React from 'react';
 import { type Options, Wrapper } from './wrapRootElement';
 
-const htmlAttributes: Record<string, string> = {
-  "data-seed": "",
-};
-
 export const onRenderBody: GatsbySSR['onRenderBody'] = ({
   setPreBodyComponents,
   setHtmlAttributes,
+  setHeadComponents,
 }, pluginOptions: PluginOptions) => {
   const { mode } = pluginOptions as unknown as Options;
-  setHtmlAttributes(htmlAttributes);
+  setHtmlAttributes({
+    // @ts-ignore
+    'data-seed': '',
+  });
+
+  setHeadComponents([
+    <meta
+      key="color-scheme"
+      name="color-scheme"
+      content={{
+        'auto': 'light dark',
+        'light-only': 'light',
+        'dark-only': 'dark',
+      }[mode]}
+    />,
+  ]);
+
   setPreBodyComponents([
     <script
       key="seed-design-no-flash"
