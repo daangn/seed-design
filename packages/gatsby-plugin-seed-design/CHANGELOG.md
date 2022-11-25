@@ -1,5 +1,17 @@
 # gatsby-plugin-seed-design
 
+## 0.1.0
+
+### Minor Changes
+
+- 725fa03: Create ColorModeValues, DefaultColorModeValue variables
+
+### Patch Changes
+
+- Updated dependencies [6453963]
+- Updated dependencies [725fa03]
+  - @seed-design/react-theming@2.1.0
+
 ## 0.0.4
 
 ### Patch Changes
