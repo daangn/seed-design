@@ -1,5 +1,11 @@
 # gatsby-plugin-seed-design
 
+## 0.2.0
+
+### Minor Changes
+
+- eefd5cb: Add color-sheme meta tag
+
 ## 0.1.0
 
 ### Minor Changes
