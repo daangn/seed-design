@@ -24,10 +24,10 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 | State    | Condition                                                   |
 | -------- | ----------------------------------------------------------- |
 | enabled  | isDisabled OFF, isHovered OFF, isFocused OFF, isPressed OFF |
-| disabled | isDisabled ON                                               |
 | hovered  | isDisabled OFF, isPressed OFF, isHovered ON                 |
 | focused  | isDisabled OFF, isPressed OFF, isFocused ON                 |
 | pressed  | isDisabled OFF, isPressed ON                                |
+| disabled | isDisabled ON                                               |
 
 | State         | Condition                           |
 | ------------- | ----------------------------------- |
@@ -57,7 +57,9 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 |          |                      | Outline Color | None                            |
 |          | Label                | Color         | $semantic.color.ink-text        |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
-| Pressed  | Control (unselected) | Color         | $semantic.color.pray-pressed    |
+| Focused  | Control              | Outline Color | $scale.color.blue-600           |
+|          |                      | Outline Width | 2pt                             |
+| Pressed  | Control (unselected) | Color         | $semantic.color.gray-pressed    |
 |          |                      | Outline Color | $scale.color.gray-300           |
 |          | Control (selected)   | Color         | $semantic.color.primary-pressed |
 |          |                      | Outline Color | None                            |
@@ -66,23 +68,58 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 
 ## 디자인 결정 (Typography)
 
-| Part  | Attribute      | Value                            |
-| ----- | -------------- | -------------------------------- |
-| Label | Size           | $scale.dimension.font-size-200   |
-|       | Line Height    | $static.line-height.static-small |
-|       | Weight         | $static.font-weight.regular      |
-|       | Letter Spacing | $scale.letter-spacing.none       |
+#### Size=Large
+
+| Part  | Attribute  | Value                       |
+| ----- | ---------- | --------------------------- |
+| Label | Typography | $semantic.typography.label2 |
+
+#### Size=Medium
+
+| Part  | Attribute  | Value                       |
+| ----- | ---------- | --------------------------- |
+| Label | Typography | $semantic.typography.label3 |
+
+#### Size=Small
+
+| Part  | Attribute  | Value                         |
+| ----- | ---------- | ----------------------------- |
+| Label | Typography | $semantic.typography.caption1 |
 
 ## 디자인 결정 (Layout)
+
+#### Size=Large
+
+| Part           | Attribute  | Value |
+| -------------- | ---------- | ----- |
+| Root           | Min Width  | 160px |
+|                | Min Height | 36px  |
+| Control        | Size       | 22px  |
+| Label          | Text Align | Start |
+| Icon           | Size       | 10px  |
+| Control / Icon | Padding    | 12px  |
+
+#### Size=Medium
 
 | Part           | Attribute  | Value |
 | -------------- | ---------- | ----- |
 | Root           | Min Width  | 130px |
 |                | Min Height | 28px  |
-| Control        | Size       | 22px  |
+| Control        | Size       | 19px  |
 | Label          | Text Align | Start |
-| Icon           | Size       | 10px  |
-| Control / Icon | Padding    | 12px  |
+| Icon           | Size       | 9px   |
+| Control / Icon | Padding    | 10px  |
+
+#### Size=Small
+
+| Part           | Attribute  | Value |
+| -------------- | ---------- | ----- |
+| Root           | Min Width  | 110px |
+|                | Min Height | 24px  |
+| Control        | Size       | 17px  |
+| Label          | Text Align | Start |
+| Icon           | Size       | 8px   |
+| Control / Icon | Padding    | 8px   |
 
 ## Overflow
 

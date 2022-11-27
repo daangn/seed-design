@@ -50,7 +50,7 @@ globalStyle("a", {
 });
 
 globalStyle(
-  "h1 .heading-anchor-icon, h2 .heading-anchor-icon, h3 .heading-anchor-icon",
+  "h1 .heading-anchor-icon, h2 .heading-anchor-icon, h3 .heading-anchor-icon, h4 .heading-anchor-icon",
   {
     opacity: 0,
     marginLeft: "10px",
@@ -60,7 +60,7 @@ globalStyle(
 );
 
 globalStyle(
-  "h1:hover .heading-anchor-icon, h2:hover .heading-anchor-icon, h3:hover .heading-anchor-icon",
+  "h1:hover .heading-anchor-icon, h2:hover .heading-anchor-icon, h3:hover .heading-anchor-icon, h4:hover .heading-anchor-icon",
   {
     opacity: 1,
   },
