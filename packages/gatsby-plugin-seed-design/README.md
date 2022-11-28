@@ -5,7 +5,7 @@
 ## 설치
 
 ```console
-$ npm install gatsby-plugin-seed-design 
+$ npm install gatsby-plugin-seed-design
 $ yarn add gatsby-plugin-seed-design
 ```
 
@@ -14,24 +14,22 @@ $ yarn add gatsby-plugin-seed-design
 ```js
 // gatsby-config 파일에 설정을 넣어줘야해요.
 module.exports = {
-  ...,
   plugins: [
-		// your plugins...,
+    // your plugins...,
     "gatsby-plugin-seed-design",
-	]
-}
+  ],
+};
 
 // 혹은
 module.exports = {
-  ...,
   plugins: [
-		// your plugins...,
-		{
-			resolve: "gatsby-plugin-seed-design",
-			options: {
-				mode: "light-only" // "auto" (default) | "dark-only" | "light-only"
-			},
-		}
-	]
-}
+    // your plugins...,
+    {
+      resolve: "gatsby-plugin-seed-design",
+      options: {
+        mode: "light-only", // "auto" (default) | "dark-only" | "light-only"
+      },
+    },
+  ],
+};
 ```

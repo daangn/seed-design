@@ -6,13 +6,13 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 
 ## Anatomy
 
-![checkbox anatomy](./checkbox-anatomy.png)
+![checkbox primitive anatomy](./checkbox-primitive-anatomy.png)
 
-1. Root : 체크박스 컴포넌트를 감싸는 최소단위 컨테이너 영역
-2. Control : 체크박스의 상태를 나타내는 시각 요소
-3. Label : 체크박스에 대한 정보를 전달하는 라벨
+1. Root : Checkbox 컴포넌트를 감싸는 컨테이너 영역
+2. Control : Checkbox의 상태를 나타내는 시각 요소
+3. Label : Checkbox에 대한 정보를 전달하는 라벨
 
-## Internal States
+## States
 
 | State      | Values      | Default Value | Description                                       |
 | ---------- | ----------- | ------------- | ------------------------------------------------- |
@@ -23,24 +23,26 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 
 ## Contexts
 
-| Context         | Values      | Default Value | Description                                          |
-| --------------- | ----------- | ------------- | ---------------------------------------------------- |
-| isDisabled      | true, false | false         | True일 경우, Checkbox가 유저와 상호작용하지 않음     |
-| isIndeterminate | true, false | false         | True일 경우, selected 여부를 결정할 수 없음을 나타냄 |
-| isInvalid       | true, false | false         | True일 경우, 유효하지 않은 값임을 나타냄             |
-| isReadonly      | true, false | false         | True일 경우, isSelected를 변경할 수 없음             |
+| Context         | Values      | Default Value | Description                                           |
+| --------------- | ----------- | ------------- | ----------------------------------------------------- |
+| isDisabled      | true, false | false         | True일 경우, Checkbox가 유저와 상호작용하지 않음      |
+| isReadonly      | true, false | false         | True일 경우, isSelected를 변경할 수 없음              |
+| isIndeterminate | true, false | false         | True일 경우, isSelected를 결정할 수 없음을 나타냄     |
+| isRequired      | true, false | false         | True일 경우, isSelected = true가 필수임을 나타냄      |
+| isInvalid       | true, false | false         | True일 경우, isSelected가 유효하지 않은 값임을 나타냄 |
 
 ## Actions
 
-| Action    | From               | Condition                  | To                |
-| --------- | ------------------ | -------------------------- | ----------------- |
-| TOGGLE    | isSelected = false | !isDisabled && !isReadonly | isSelected = true |
-| FOCUS     | isFocused = false  | !isDisabled                | isFocused = true  |
-| BLUR      | isFocused = true   |                            | isFocused = true  |
-| HOVER_IN  | isHovered = false  | !isDisabled                | isHovered = true  |
-| HOVER_OUT | isHovered = true   | !isDisabled                | isHovered = true  |
-| PRESS_IN  | isPressed = false  | !isDisabled                | isPressed = true  |
-| PRESS_OUT | isPressed = true   | !isDisabled                | isPressed = true  |
+| Action                 | From               | Condition                  | To                 |
+| ---------------------- | ------------------ | -------------------------- | ------------------ |
+| TOGGLE                 | isSelected = false | !isDisabled && !isReadonly | isSelected = true  |
+| FOCUS                  | isFocused = false  | !isDisabled                | isFocused = true   |
+| BLUR                   | isFocused = true   |                            | isFocused = true   |
+| HOVER_IN               | isHovered = false  | !isDisabled                | isHovered = true   |
+| HOVER_OUT              | isHovered = true   | !isDisabled                | isHovered = true   |
+| PRESS_IN               | isPressed = false  | !isDisabled                | isPressed = true   |
+| PRESS_OUT              | isPressed = true   | !isDisabled                | isPressed = true   |
+| SET_IS_SELECTED(value) | \*                 |                            | isSelected = value |
 
 ## Triggers
 

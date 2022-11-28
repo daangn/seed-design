@@ -27,6 +27,11 @@ jobs:
         run: |
           yarn build
 
+      - name: seed-design/design-theming 빌드해요
+        working-directory: ./packages/react-theming
+        run: |
+          yarn build
+
       - name: Seed Docs를 빌드해요
         working-directory: ./docs
         run: |

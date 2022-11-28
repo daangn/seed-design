@@ -1,33 +1,33 @@
 ---
-slug: /components/spec/checkbox/visual
+slug: /components/spec/checkbox/style
 title: Checkbox
 description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있는 컨트롤입니다.
 ---
 
 ## Anatomy
 
-![checkbox visual anatomy](./checkbox-visual-anatomy.png)
+![checkbox style anatomy](./checkbox-style-anatomy.png)
 
 1. Root : 체크박스 컴포넌트를 감싸는 컨테이너 영역 - Primitive.Root
 2. Control : 체크박스의 상태를 나타내는 시각 요소 - Primitive.Control
 3. Label : 체크박스에 대한 정보를 전달하는 라벨 - Primitive.Label
 4. Icon: 체크박스의 상태를 표현하는 아이콘
 
-### Visual Options
+## Visual Options
 
 | Property | Value                | Description |
 | -------- | -------------------- | ----------- |
 | size     | small, medium, large |             |
 
-### Visually Representated States
+## Visually Representated States
 
 | State    | Condition                                                   |
 | -------- | ----------------------------------------------------------- |
 | enabled  | isDisabled OFF, isHovered OFF, isFocused OFF, isPressed OFF |
-| disabled | isDisabled ON                                               |
 | hovered  | isDisabled OFF, isPressed OFF, isHovered ON                 |
 | focused  | isDisabled OFF, isPressed OFF, isFocused ON                 |
 | pressed  | isDisabled OFF, isPressed ON                                |
+| disabled | isDisabled ON                                               |
 
 | State         | Condition                           |
 | ------------- | ----------------------------------- |
@@ -35,7 +35,7 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 | selected      | isIndeterminate OFF, isSelected ON  |
 | indeterminate | isIndeterminate ON                  |
 
-### 디자인 결정 (Color)
+## 디자인 결정 (Color)
 
 | State    | Part                 | Attribute     | Value                           |
 | -------- | -------------------- | ------------- | ------------------------------- |
@@ -57,38 +57,75 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 |          |                      | Outline Color | None                            |
 |          | Label                | Color         | $semantic.color.ink-text        |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
-| Pressed  | Control (unselected) | Color         | $semantic.color.pray-pressed    |
+| Focused  | Control              | Outline Color | $scale.color.blue-600           |
+|          |                      | Outline Width | 2pt                             |
+| Pressed  | Control (unselected) | Color         | $semantic.color.gray-pressed    |
 |          |                      | Outline Color | $scale.color.gray-300           |
 |          | Control (selected)   | Color         | $semantic.color.primary-pressed |
 |          |                      | Outline Color | None                            |
 |          | Label                | Color         | $semantic.color.ink-text        |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
 
-### 디자인 결정 (Typography)
+## 디자인 결정 (Typography)
 
-| Part  | Attribute      | Value                            |
-| ----- | -------------- | -------------------------------- |
-| Label | Size           | $scale.dimension.font-size-200   |
-|       | Line Height    | $static.line-height.static-small |
-|       | Weight         | $static.font-weight.regular      |
-|       | Letter Spacing | $scale.letter-spacing.none       |
+#### Size=Large
 
-### 디자인 결정 (Layout)
+| Part  | Attribute  | Value                       |
+| ----- | ---------- | --------------------------- |
+| Label | Typography | $semantic.typography.label2 |
+
+#### Size=Medium
+
+| Part  | Attribute  | Value                       |
+| ----- | ---------- | --------------------------- |
+| Label | Typography | $semantic.typography.label3 |
+
+#### Size=Small
+
+| Part  | Attribute  | Value                         |
+| ----- | ---------- | ----------------------------- |
+| Label | Typography | $semantic.typography.caption1 |
+
+## 디자인 결정 (Layout)
+
+#### Size=Large
 
 | Part           | Attribute  | Value |
 | -------------- | ---------- | ----- |
-| Root           | Min Width  | 130px |
-|                | Min Height | 28px  |
+| Root           | Min Width  | 160px |
+|                | Min Height | 36px  |
 | Control        | Size       | 22px  |
 | Label          | Text Align | Start |
 | Icon           | Size       | 10px  |
 | Control / Icon | Padding    | 12px  |
 
-### Overflow
+#### Size=Medium
+
+| Part           | Attribute  | Value |
+| -------------- | ---------- | ----- |
+| Root           | Min Width  | 130px |
+|                | Min Height | 28px  |
+| Control        | Size       | 19px  |
+| Label          | Text Align | Start |
+| Icon           | Size       | 9px   |
+| Control / Icon | Padding    | 10px  |
+
+#### Size=Small
+
+| Part           | Attribute  | Value |
+| -------------- | ---------- | ----- |
+| Root           | Min Width  | 110px |
+|                | Min Height | 24px  |
+| Control        | Size       | 17px  |
+| Label          | Text Align | Start |
+| Icon           | Size       | 8px   |
+| Control / Icon | Padding    | 8px   |
+
+## Overflow
 
 <FullCard>
   <FullCardImageCell>
-    ![checkbox-visual-overflow](./checkbox-visual-overflow.png)
+    ![checkbox-style-overflow](./checkbox-style-overflow.png)
   </FullCardImageCell>
   <FullCardDescription>
     label이 2줄을 초과할 경우 텍스트 시작점을 기준으로 위와 같이 개행처리됩니다

@@ -27,7 +27,7 @@ export function useThemeBehavior({
 
   React.useEffect(() => {
     if (mode !== 'auto') {
-      document.getElementsByTagName('html')[0].dataset.seed = mode;
+      document.documentElement.dataset.seed = mode;
     }
   }, []);
   React.useEffect(() => {
@@ -45,11 +45,29 @@ export function useThemeBehavior({
   React.useEffect(() => {
     if (!colorTheme) return;
 
-    document.body.dataset.seedScaleColor = colorTheme;
-    if (colorTheme === 'system') {
-      localStorage.removeItem(StorageKey.COLOR);
-    } else {
-      localStorage.setItem(StorageKey.COLOR, colorTheme);
+    if (mode === 'auto') {
+      document.body.dataset.seedScaleColor = colorTheme;
+      if (colorTheme === 'system') {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.dataset.seedScaleColor = 'dark';
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          document.body.dataset.seedScaleColor = 'light';
+        }
+        localStorage.removeItem(StorageKey.COLOR);
+      } else {
+        localStorage.setItem(StorageKey.COLOR, colorTheme);
+      }
+    }
+
+    if (mode === 'dark-only') {
+      document.body.dataset.seedScaleColor = 'dark';
+      localStorage.setItem(StorageKey.COLOR, 'dark');
+    }
+
+    if (mode === 'light-only') {
+      document.body.dataset.seedScaleColor = 'light';
+      localStorage.setItem(StorageKey.COLOR, 'light');
     }
   }, [colorTheme]);
 
