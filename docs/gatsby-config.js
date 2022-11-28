@@ -23,6 +23,9 @@ module.exports = {
   plugins: [
     "gatsby-plugin-seed-design",
     {
+      resolve: "gatsby-plugin-seed-design",
+    },
+    {
       resolve: "gatsby-plugin-mdx",
       options: {
         gatsbyRemarkPlugins: [
