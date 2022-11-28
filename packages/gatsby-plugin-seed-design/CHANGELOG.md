@@ -1,5 +1,14 @@
 # gatsby-plugin-seed-design
 
+## 0.2.1
+
+### Patch Changes
+
+- 6d298fa: processing colorVariant localstorage and mode plugin option.
+- Updated dependencies [6d298fa]
+- Updated dependencies [6d298fa]
+  - @seed-design/react-theming@2.1.1
+
 ## 0.2.0
 
 ### Minor Changes

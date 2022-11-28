@@ -1,5 +1,12 @@
 # @seed-design/react-theming
 
+## 2.1.1
+
+### Patch Changes
+
+- 6d298fa: mode variant 처리
+- 6d298fa: processing colorVariant localstorage and mode plugin option.
+
 ## 2.1.0
 
 ### Minor Changes
