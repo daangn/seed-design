@@ -84,54 +84,37 @@ export const logoText = style([
 
 export const categoryTitle = style([
   {
-    fontSize: "26px",
+    fontSize: "22px",
     fontWeight: 700,
 
     width: "200px",
+    paddingLeft: "10px",
     transition: "color 0.2s ease",
     color: vars.$scale.color.gray900,
     marginTop: "40px",
+    marginBottom: "4px",
 
     ":hover": {
-      color: vars.$semantic.color.primaryHover,
+      color: vars.$scale.color.gray600,
     },
   },
 ]);
 
-export const sidebarTitleLink = recipe({
-  base: [
-    {
-      color: vars.$scale.color.gray900,
-      transition: "color 0.2s ease",
-
-      ":hover": {
-        color: vars.$semantic.color.primaryHover,
-      },
-    },
-  ],
-
-  variants: {
-    highlight: {
-      true: [
-        {
-          color: vars.$semantic.color.primary,
-        },
-      ],
-    },
-  },
-});
-
 export const sidebarLink = recipe({
   base: [
-    u.flex,
+    u.flexAlignCenter,
     {
       width: "200px",
+      height: "34px",
+      fontSize: "16px",
       color: vars.$scale.color.gray600,
-      transition: "color 0.2s ease",
-      marginTop: "10px",
+      transition: "background 0.2s ease",
+      marginTop: "6px",
+      paddingLeft: "10px",
+      borderRadius: "4px",
 
       ":hover": {
-        color: vars.$semantic.color.primaryHover,
+        backgroundColor: vars.$scale.color.gray50,
       },
     },
   ],
@@ -140,7 +123,13 @@ export const sidebarLink = recipe({
     highlight: {
       true: [
         {
+          fontWeight: "bold",
           color: vars.$semantic.color.primary,
+          backgroundColor: vars.$semantic.color.primaryLow,
+
+          ":hover": {
+            backgroundColor: vars.$semantic.color.primaryLowActive,
+          },
         },
       ],
     },
