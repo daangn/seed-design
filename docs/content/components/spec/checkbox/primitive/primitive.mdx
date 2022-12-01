@@ -36,6 +36,7 @@ description: 최소 1가지 이상의 옵션을 선택 또는 해제할 수 있�
 | Action                 | From               | Condition                  | To                 |
 | ---------------------- | ------------------ | -------------------------- | ------------------ |
 | TOGGLE                 | isSelected = false | !isDisabled && !isReadonly | isSelected = true  |
+|                        | isSelected = true  | !isDisabled && !isReadonly | isSelected = false |
 | FOCUS                  | isFocused = false  | !isDisabled                | isFocused = true   |
 | BLUR                   | isFocused = true   |                            | isFocused = true   |
 | HOVER_IN               | isHovered = false  | !isDisabled                | isHovered = true   |
