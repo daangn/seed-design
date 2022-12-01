@@ -33,11 +33,7 @@ export const sidebar = recipe({
     m.large({
       position: "sticky",
       left: 0,
-      paddingLeft: "60px",
-    }),
-
-    m.xlarge({
-      paddingLeft: "0px",
+      paddingLeft: "30px",
     }),
   ],
 
@@ -104,7 +100,7 @@ export const sidebarLink = recipe({
   base: [
     u.flexAlignCenter,
     {
-      width: "200px",
+      width: "180px",
       height: "34px",
       fontSize: "16px",
       color: vars.$scale.color.gray600,
@@ -114,7 +110,7 @@ export const sidebarLink = recipe({
       borderRadius: "4px",
 
       ":hover": {
-        backgroundColor: vars.$scale.color.gray50,
+        backgroundColor: vars.$scale.color.grayAlpha50,
       },
     },
   ],
