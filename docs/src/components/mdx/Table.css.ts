@@ -8,13 +8,13 @@ export const table = style({
   borderCollapse: "collapse",
   margin: "30px 0px",
   borderRadius: "8px",
-  boxShadow: `0 0 0 1px ${vars.$semantic.color.paperContents}`,
+  boxShadow: `0 0 0 1px ${vars.$scale.color.gray100}`,
   overflow: "hidden",
 });
 
 export const tableCell = style([
   {
-    border: `1px solid ${vars.$semantic.color.paperContents}`,
+    border: `1px solid ${vars.$scale.color.gray100}`,
     padding: "12px 24px",
     fontSize: "12px",
   },
@@ -33,7 +33,7 @@ export const tableCell = style([
 export const tableHead = style([
   {
     fontWeight: "600",
-    backgroundColor: vars.$semantic.color.paperContents,
+    backgroundColor: vars.$scale.color.gray100,
   },
 ]);
 
