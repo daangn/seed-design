@@ -1,8 +1,9 @@
 on:
   push:
     branches:
-      # - main
-      - feat/seed-design-web
+      - main
+    paths:
+      - 'docs/**'
 
 name: Seed Docs 배포를 하자.
 
