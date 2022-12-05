@@ -63,6 +63,7 @@ export const sidebar = recipe({
 export const logo = style([
   u.cursorPointer,
   {
+    paddingLeft: "10px",
     marginTop: "20px",
     marginBottom: "30px",
   },
@@ -86,6 +87,7 @@ export const categoryTitle = style([
     width: "200px",
     transition: "color 0.2s ease",
     color: vars.$scale.color.gray900,
+    paddingLeft: "10px",
     marginTop: "40px",
     marginBottom: "4px",
 
@@ -104,6 +106,7 @@ export const sidebarLink = recipe({
       fontSize: "16px",
       color: vars.$scale.color.gray600,
       transition: "background 0.2s ease",
+      paddingLeft: "10px",
       marginTop: "6px",
       borderRadius: "4px",
 
