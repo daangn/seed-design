@@ -84,7 +84,6 @@ export const categoryTitle = style([
     fontWeight: 700,
 
     width: "200px",
-    paddingLeft: "10px",
     transition: "color 0.2s ease",
     color: vars.$scale.color.gray900,
     marginTop: "40px",
@@ -106,7 +105,6 @@ export const sidebarLink = recipe({
       color: vars.$scale.color.gray600,
       transition: "background 0.2s ease",
       marginTop: "6px",
-      paddingLeft: "10px",
       borderRadius: "4px",
 
       ":hover": {
@@ -178,9 +176,9 @@ export const overlay = recipe({
       true: [
         u.middleLayer,
         {
-          backgroundColor: vars.$scale.color.grayAlpha500,
+          backgroundColor: vars.$semantic.color.overlayDim,
           opacity: 1,
-          width: `calc(100vw - ${SIDEBAR_WIDTH})`,
+          width: "100vw",
         },
 
         m.large({
