@@ -1,5 +1,12 @@
 # gatsby-plugin-seed-design
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [fcdb8d5]
+  - @seed-design/react-theming@2.1.2
+
 ## 0.2.1
 
 ### Patch Changes

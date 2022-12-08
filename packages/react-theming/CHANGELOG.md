@@ -1,5 +1,11 @@
 # @seed-design/react-theming
 
+## 2.1.2
+
+### Patch Changes
+
+- fcdb8d5: fix dataset location body to documentElement
+
 ## 2.1.1
 
 ### Patch Changes
