@@ -31,8 +31,8 @@ export function useThemeBehavior({
     }
   }, []);
   React.useEffect(() => {
-    if (!document.body.dataset.seedPlatform) {
-      document.body.dataset.seedPlatform = 'ios';
+    if (!document.documentElement.dataset.seedPlatform) {
+      document.documentElement.dataset.seedPlatform = 'ios';
     }
   }, []);
   React.useEffect(() => {
@@ -46,13 +46,13 @@ export function useThemeBehavior({
     if (!colorTheme) return;
 
     if (mode === 'auto') {
-      document.body.dataset.seedScaleColor = colorTheme;
+      document.documentElement.dataset.seedScaleColor = colorTheme;
       if (colorTheme === 'system') {
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.dataset.seedScaleColor = 'dark';
+          document.documentElement.dataset.seedScaleColor = 'dark';
         }
         if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-          document.body.dataset.seedScaleColor = 'light';
+          document.documentElement.dataset.seedScaleColor = 'light';
         }
         localStorage.removeItem(StorageKey.COLOR);
       } else {
@@ -61,12 +61,12 @@ export function useThemeBehavior({
     }
 
     if (mode === 'dark-only') {
-      document.body.dataset.seedScaleColor = 'dark';
+      document.documentElement.dataset.seedScaleColor = 'dark';
       localStorage.setItem(StorageKey.COLOR, 'dark');
     }
 
     if (mode === 'light-only') {
-      document.body.dataset.seedScaleColor = 'light';
+      document.documentElement.dataset.seedScaleColor = 'light';
       localStorage.setItem(StorageKey.COLOR, 'light');
     }
   }, [colorTheme]);
