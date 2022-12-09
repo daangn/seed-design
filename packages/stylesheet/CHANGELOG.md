@@ -1,5 +1,11 @@
 # @seed-design/stylesheet
 
+## 1.0.2
+
+### Patch Changes
+
+- fc69b3e: chore(stylesheet): change css selector logic
+
 ## 1.0.1
 
 ### Patch Changes
