@@ -1,7 +1,7 @@
 ---
 slug: /components/spec/button/primitive
 title: Button
-description: 응애
+description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니다.
 ---
 
 ## Anatomy
@@ -11,37 +11,47 @@ description: 응애
 
 ## States
 
-| State     | Values      | Default Value | Description                                       |
-| --------- | ----------- | ------------- | ------------------------------------------------- |
-| isPressed | true, false | false         | Checkbox 영역을 누르고 있을 때 True로 전환        |
-| isHovered | true, false | false         | Checkbox 영역 내에 포인터가 존재할 시 True로 전환 |
-| isFocused | true, false | false         | Checkbox에 Focus가 잡혀있을 때 True로 전환        |
+| State       | Values                              | Default Value |
+| ----------- | ----------------------------------- | ------------- |
+| `isPressed` | `idle`, `pressed:in`, `pressed:out` | `idle`        |
+| `isHovered` | `true`, `false`                     | `false`       |
+| `isFocused` | `true`, `false`                     | `false`       |
 
 ## Contexts
 
-| Context    | Values      | Default Value | Description                                    |
-| ---------- | ----------- | ------------- | ---------------------------------------------- |
-| isDisabled | true, false | false         | True일 경우, Button이 유저와 상호작용하지 않음 |
+| Context      | Values          | Default Value |
+| ------------ | --------------- | ------------- |
+| `isDisabled` | `true`, `false` | `false`       |
 
 ## Actions
 
-| Action      | From                | Condition   | To                  |
-| ----------- | ------------------- | ----------- | ------------------- |
-| PRESS_DOWN  | press = idle        | !isDisabled | press = pressed:in  |
-| PRESS_UP    | press = pressed:in  | !isDisabled | press = idle        |
-|             | press = pressed:out | !isDisabled | press = idle        |
-| HOVER_IN    | press = pressed:in  | !isDisabled | press = pressed:out |
-|             | isHovered = false   | !isDisabled | isHovered = true    |
-| HOVER_OUT   | press = pressed:out | !isDisabled | press = pressed:in  |
-|             | isHovered = true    | !isDisabled | isHovered = true    |
-| FOCUS_ENTER | isFocused = false   | !isDisabled | isFocused = true    |
-| FOCUS_EXIT  | isFocused = true    |             | isFocused = false   |
+| Action        | From                    | Condition     | To                      |
+| ------------- | ----------------------- | ------------- | ----------------------- |
+| `PRESS_DOWN`  | `press` = `idle`        | `!isDisabled` | `press` = `pressed:in`  |
+| `PRESS_UP`    | `press` = `pressed:in`  | `!isDisabled` | `press` = `idle`        |
+|               | `press` = `pressed:out` | `!isDisabled` | `press` = `idle`        |
+| `HOVER_IN`    | `press` = `pressed:in`  | `!isDisabled` | `press` = `pressed:out` |
+|               | `isHovered` = `false`   | `!isDisabled` | `isHovered` = `true`    |
+| `HOVER_OUT`   | `press` = `pressed:out` | `!isDisabled` | `press` = `pressed:in`  |
+|               | `isHovered` = `true`    | `!isDisabled` | `isHovered` = `true`    |
+| `FOCUS_ENTER` | `isFocused` = `false`   | `!isDisabled` | `isFocused` = `true`    |
+| `FOCUS_EXIT`  | `isFocused` = `true`    |               | `isFocused` = `false`   |
 
 ## Triggers
 
-| Part | Event        | Action    |
-| ---- | ------------ | --------- |
-| Root | PointerOver  | HOVER_IN  |
-| Root | PointerDown  | PRESS_IN  |
-| Root | PointerUp    | PRESS_OUT |
-| Root | PointerLeave | HOVER_OUT |
+### Web
+
+| Part | Event          | Action      |
+| ---- | -------------- | ----------- |
+| Root | `PointerOver`  | `HOVER_IN`  |
+| Root | `PointerDown`  | `PRESS_IN`  |
+| Root | `PointerUp`    | `PRESS_OUT` |
+| Root | `PointerLeave` | `HOVER_OUT` |
+
+### iOS
+
+| Part | Event            | Action       |
+| ---- | ---------------- | ------------ |
+| Root | `touchDown`      | `PRESS_DOWN` |
+| Root | `touchUpInside`  | `PRESS_UP`   |
+| Root | `touchUpOutside` | `PRESS_UP`   |
