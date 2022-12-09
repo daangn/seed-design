@@ -172,7 +172,7 @@
   --seed-semantic-typography-label6-regular-line-height: var(--seed-static-line-height-static-small);
 }
 
-:root[data-seed][data-seed=light-only],
+:root[data-seed][data-seed=light-only][data-seed-scale-color=dark],
 :root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
 :root[data-seed]:not([data-seed=dark-only]) [data-seed-scale-color=light] {
   --seed-scale-color-gray-00: #ffffff;
@@ -321,7 +321,7 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
 }
 
-:root[data-seed][data-seed=dark-only],
+:root[data-seed][data-seed=dark-only][data-seed-scale-color=light],
 :root[data-seed][data-seed-scale-color=dark]:not([data-seed=light-only]),
 :root[data-seed]:not([data-seed=light-only]) [data-seed-scale-color=dark] {
   --seed-scale-color-gray-00: #17171a;
