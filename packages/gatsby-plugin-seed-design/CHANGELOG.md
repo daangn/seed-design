@@ -1,5 +1,12 @@
 # gatsby-plugin-seed-design
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [fc69b3e]
+  - @seed-design/stylesheet@1.0.2
+
 ## 0.2.3
 
 ### Patch Changes
