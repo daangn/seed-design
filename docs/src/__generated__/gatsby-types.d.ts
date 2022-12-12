@@ -203,19 +203,19 @@ type ConfigsJsonSortInput = {
 
 type ConfigsJsonSpec = {
   readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<File>;
+  readonly thumbnail: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
 };
 
 type ConfigsJsonSpecFieldSelector = {
   readonly slug: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FileFieldSelector>;
+  readonly thumbnail: InputMaybe<FieldSelectorEnum>;
   readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
 type ConfigsJsonSpecFilterInput = {
   readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly thumbnail: InputMaybe<StringQueryOperatorInput>;
   readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
@@ -225,7 +225,7 @@ type ConfigsJsonSpecFilterListInput = {
 
 type ConfigsJsonSpecSortInput = {
   readonly slug: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<FileSortInput>;
+  readonly thumbnail: InputMaybe<SortOrderEnum>;
   readonly title: InputMaybe<SortOrderEnum>;
 };
 
@@ -2812,11 +2812,6 @@ type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type SidebarQuery = { readonly configsJson: { readonly guideline: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly spec: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null };
-
-type SpecPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SpecPageQuery = { readonly configsJson: { readonly spec: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
 
 
 }
