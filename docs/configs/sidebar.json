@@ -22,6 +22,16 @@
       "title": "Checkbox",
       "slug": "/components/spec/checkbox/primitive",
       "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+    },
+    {
+      "title": "Spinner",
+      "slug": "/components/spec/spinner/style",
+      "thumbnail": "../content/components/spec/spinner/thumbnail.png"
+    },
+    {
+      "title": "Switch",
+      "slug": "/components/spec/switch/style",
+      "thumbnail": "../content/components/spec/switch/thumbnail.png"
     }
   ]
 }
