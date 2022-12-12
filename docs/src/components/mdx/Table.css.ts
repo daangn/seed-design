@@ -3,14 +3,21 @@ import { style } from "@vanilla-extract/css";
 
 import * as m from "../../styles/media.css";
 
-export const table = style({
-  width: "100%",
-  borderCollapse: "collapse",
-  margin: "30px 0px",
-  borderRadius: "8px",
-  boxShadow: `0 0 0 1px ${vars.$scale.color.gray100}`,
-  overflow: "hidden",
-});
+export const table = style([
+  {
+    display: "inline-block",
+    width: "100%",
+    borderCollapse: "collapse",
+    margin: "30px 0px",
+    borderRadius: "8px",
+    boxShadow: `0 0 0 1px ${vars.$scale.color.gray100}`,
+    overflowX: "auto",
+  },
+
+  m.xsmall({
+    display: "table",
+  }),
+]);
 
 export const tableCell = style([
   {
