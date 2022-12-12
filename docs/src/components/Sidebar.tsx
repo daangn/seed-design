@@ -6,14 +6,7 @@ import React, { useState } from "react";
 
 import * as style from "./Sidebar.css";
 
-type SidebarItem = {
-  title: string;
-  slug?: string;
-  thumbnail?: string;
-  items?: SidebarItem[];
-};
-
-interface SidebarLinkProps {
+interface SidebarItemProps {
   title: string;
   active: boolean;
 }
@@ -44,16 +37,16 @@ function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
   );
 }
 
-function SidebarLink({
+function SidebarItem({
   title,
   active,
   to,
   onClick,
   onMouseEnter,
-}: GatsbyLinkProps<{}> & SidebarLinkProps) {
+}: GatsbyLinkProps<{}> & SidebarItemProps) {
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
-      <div className={style.sidebarLink({ highlight: active })}>{title}</div>
+      <div className={style.sidebarItem({ highlight: active })}>{title}</div>
     </Link>
   );
 }
@@ -65,83 +58,114 @@ export default function Sidebar() {
   const openSidebar = () => setOpen(true);
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
-    query sidebar {
+    query Sidebar {
       configsJson {
-        id
-        items {
-          title
-          slug
-          items {
-            slug
-            thumbnail
-            title
-            items {
+        components {
+          guideline {
+            usage {
               slug
-              thumbnail
               title
+              thumbnail {
+                childImageSharp {
+                  gatsbyImageData
+                }
+              }
+            }
+          }
+          spec {
+            primitive {
+              slug
+              title
+              thumbnail {
+                childImageSharp {
+                  gatsbyImageData
+                }
+              }
+            }
+            style {
+              slug
+              title
+              thumbnail {
+                childImageSharp {
+                  gatsbyImageData
+                }
+              }
             }
           }
         }
-        slug
-        title
       }
     }
   `);
 
-  console.log("data", data);
+  const usageDocs = data.configsJson?.components?.guideline?.usage;
+  const primitiveDocs = data.configsJson?.components?.spec?.primitive;
+  const styleDocs = data.configsJson?.components?.spec?.style;
 
-  // const guidelines = data.configsJson?.guideline;
-  // const specs = data.configsJson?.spec;
+  const currentPath = typeof window !== "undefined" ? location.pathname : "";
 
-  // const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  // const slicedCurrentPath = currentPath.split("/").slice(0, 4).join("/");
+  return (
+    <>
+      <MenuIcon
+        className={style.sidebarButton}
+        onClick={openSidebar}
+        width={28}
+      />
+      <motion.nav className={style.sidebar({ open })}>
+        <Logo to="/" onClick={closeSidebar} />
 
-  // return (
-  //   <>
-  //     <MenuIcon
-  //       className={style.sidebarButton}
-  //       onClick={openSidebar}
-  //       width={28}
-  //     />
-  //     <motion.nav className={style.sidebar({ open })}>
-  //       <Logo to="/" onClick={closeSidebar} />
+        <h1 className={style.sidebarTitle1}>GuideLine</h1>
 
-  //       <Link to="/components/guideline">
-  //         <h1 className={style.categoryTitle}>사용 가이드</h1>
-  //       </Link>
-  //       {guidelines!.map((link) => {
-  //         const active = currentPath.includes(link!.slug!);
-  //         return (
-  //           <SidebarLink
-  //             key={link!.slug!}
-  //             active={active}
-  //             to={link!.slug!}
-  //             title={link!.title!}
-  //             onClick={closeSidebar}
-  //           />
-  //         );
-  //       })}
+        <Link to="/components/guideline/usage">
+          <h1 className={style.sidebarTitle2}>Usage</h1>
+        </Link>
+        {usageDocs!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
+          return (
+            <SidebarItem
+              key={link!.slug!}
+              active={active}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
 
-  //       <Link to="/components/spec">
-  //         <h1 className={style.categoryTitle}>스펙</h1>
-  //       </Link>
-  //       {specs!.map((link) => {
-  //         const active =
-  //           link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
-  //         return (
-  //           <SidebarLink
-  //             key={link!.slug!}
-  //             active={active}
-  //             to={link!.slug!}
-  //             title={link!.title!}
-  //             onClick={closeSidebar}
-  //           />
-  //         );
-  //       })}
-  //     </motion.nav>
-  //     <div onClick={closeSidebar} className={style.overlay({ open })} />
-  //   </>
-  // );
+        <h1 className={style.sidebarTitle1}>Spec</h1>
 
-  return <div></div>;
+        <Link to="/components/spec/primitive">
+          <h1 className={style.sidebarTitle2}>Primitive</h1>
+        </Link>
+        {primitiveDocs!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
+          return (
+            <SidebarItem
+              key={link!.slug!}
+              active={active}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
+
+        <Link to="/components/spec/style">
+          <h1 className={style.sidebarTitle2}>Style</h1>
+        </Link>
+        {styleDocs!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
+          return (
+            <SidebarItem
+              key={link!.slug!}
+              active={active}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
+      </motion.nav>
+      <div onClick={closeSidebar} className={style.overlay({ open })} />
+    </>
+  );
 }
