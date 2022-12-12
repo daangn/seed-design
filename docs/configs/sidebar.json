@@ -1,37 +1,89 @@
 {
-  "guideline": [
+  "title": "Components",
+  "slug": "/components",
+  "items": [
     {
-      "title": "Checkbox",
-      "slug": "/components/guideline/checkbox/usage",
-      "thumbnail": "../content/components/guideline/checkbox/thumbnail.png"
-    }
-  ],
+      "title": "Guideline",
+      "slug": "/components/guideline",
+      "items": [
+        {
+          "title": "Usage",
+          "slug": "/components/guideline/usage",
+          "items": [
+            {
+              "title": "Checkbox",
+              "slug": "/components/guideline/usage/checkbox",
+              "thumbnail": "../content/components/guideline/checkbox/thumbnail.png"
+            }
+          ]
+        }
+      ]
+    },
 
-  "spec": [
     {
-      "title": "Avatar",
-      "slug": "/components/spec/avatar/primitive",
-      "thumbnail": "../content/components/spec/avatar/thumbnail.png"
-    },
-    {
-      "title": "Button",
-      "slug": "/components/spec/button/primitive",
-      "thumbnail": "../content/components/spec/button/thumbnail.png"
-    },
-    {
-      "title": "Checkbox",
-      "slug": "/components/spec/checkbox/primitive",
-      "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
-    },
-    {
-      "title": "Spinner",
-      "slug": "/components/spec/spinner/style",
-      "thumbnail": "../content/components/spec/spinner/thumbnail.png"
-    },
-    {
-      "title": "Switch",
-      "slug": "/components/spec/switch/style",
-      "thumbnail": "../content/components/spec/switch/thumbnail.png"
+      "title": "Spec",
+      "slug": "/components/spec",
+      "items": [
+        {
+          "title": "Primitive",
+          "slug": "/components/spec/primitive",
+          "thumbnail": "../content/components/spec/checkbox/thumbnail.png",
+          "items": [
+            {
+              "title": "Checkbox",
+              "slug": "/components/spec/primitive/checkbox",
+              "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+            },
+            {
+              "title": "Avatar",
+              "slug": "/components/spec/primitive/avatar",
+              "thumbnail": "../content/components/spec/avatar/thumbnail.png"
+            },
+            {
+              "title": "Button",
+              "slug": "/components/spec/primitive/button",
+              "thumbnail": "../content/components/spec/button/thumbnail.png"
+            },
+            {
+              "title": "Checkbox",
+              "slug": "/components/spec/primitive/checkbox",
+              "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+            }
+          ]
+        },
+        {
+          "title": "Style",
+          "slug": "/components/spec/style",
+          "thumbnail": "../content/components/spec/checkbox/thumbnail.png",
+          "items": [
+            {
+              "title": "Checkbox",
+              "slug": "/components/spec/style/checkbox",
+              "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+            },
+            {
+              "title": "Avatar",
+              "slug": "/components/spec/style/avatar",
+              "thumbnail": "../content/components/spec/avatar/thumbnail.png"
+            },
+            {
+              "title": "Button",
+              "slug": "/components/spec/style/button",
+              "thumbnail": "../content/components/spec/button/thumbnail.png"
+            },
+            {
+              "title": "Spinner",
+              "slug": "/components/spec/style/spinner",
+              "thumbnail": "../content/components/spec/spinner/thumbnail.png"
+            },
+            {
+              "title": "Switch",
+              "slug": "/components/spec/style/switch",
+              "thumbnail": "../content/components/spec/switch/thumbnail.png"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

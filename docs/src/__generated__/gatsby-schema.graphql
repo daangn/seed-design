@@ -71,11 +71,12 @@ input BooleanQueryOperatorInput {
 
 type ConfigsJson implements Node {
   children: [Node!]!
-  guideline: [ConfigsJsonGuideline]
   id: ID!
   internal: Internal!
+  items: [ConfigsJsonItems]
   parent: Node
-  spec: [ConfigsJsonSpec]
+  slug: String
+  title: String
 }
 
 type ConfigsJsonConnection {
@@ -98,20 +99,22 @@ type ConfigsJsonEdge {
 
 input ConfigsJsonFieldSelector {
   children: NodeFieldSelector
-  guideline: ConfigsJsonGuidelineFieldSelector
   id: FieldSelectorEnum
   internal: InternalFieldSelector
+  items: ConfigsJsonItemsFieldSelector
   parent: NodeFieldSelector
-  spec: ConfigsJsonSpecFieldSelector
+  slug: FieldSelectorEnum
+  title: FieldSelectorEnum
 }
 
 input ConfigsJsonFilterInput {
   children: NodeFilterListInput
-  guideline: ConfigsJsonGuidelineFilterListInput
   id: StringQueryOperatorInput
   internal: InternalFilterInput
+  items: ConfigsJsonItemsFilterListInput
   parent: NodeFilterInput
-  spec: ConfigsJsonSpecFilterListInput
+  slug: StringQueryOperatorInput
+  title: StringQueryOperatorInput
 }
 
 input ConfigsJsonFilterListInput {
@@ -132,68 +135,101 @@ type ConfigsJsonGroupConnection {
   totalCount: Int!
 }
 
-type ConfigsJsonGuideline {
+type ConfigsJsonItems {
+  items: [ConfigsJsonItemsItems]
   slug: String
-  thumbnail: File
   title: String
 }
 
-input ConfigsJsonGuidelineFieldSelector {
+input ConfigsJsonItemsFieldSelector {
+  items: ConfigsJsonItemsItemsFieldSelector
   slug: FieldSelectorEnum
-  thumbnail: FileFieldSelector
   title: FieldSelectorEnum
 }
 
-input ConfigsJsonGuidelineFilterInput {
+input ConfigsJsonItemsFilterInput {
+  items: ConfigsJsonItemsItemsFilterListInput
   slug: StringQueryOperatorInput
-  thumbnail: FileFilterInput
   title: StringQueryOperatorInput
 }
 
-input ConfigsJsonGuidelineFilterListInput {
-  elemMatch: ConfigsJsonGuidelineFilterInput
+input ConfigsJsonItemsFilterListInput {
+  elemMatch: ConfigsJsonItemsFilterInput
 }
 
-input ConfigsJsonGuidelineSortInput {
+type ConfigsJsonItemsItems {
+  items: [ConfigsJsonItemsItemsItems]
+  slug: String
+  thumbnail: String
+  title: String
+}
+
+input ConfigsJsonItemsItemsFieldSelector {
+  items: ConfigsJsonItemsItemsItemsFieldSelector
+  slug: FieldSelectorEnum
+  thumbnail: FieldSelectorEnum
+  title: FieldSelectorEnum
+}
+
+input ConfigsJsonItemsItemsFilterInput {
+  items: ConfigsJsonItemsItemsItemsFilterListInput
+  slug: StringQueryOperatorInput
+  thumbnail: StringQueryOperatorInput
+  title: StringQueryOperatorInput
+}
+
+input ConfigsJsonItemsItemsFilterListInput {
+  elemMatch: ConfigsJsonItemsItemsFilterInput
+}
+
+type ConfigsJsonItemsItemsItems {
+  slug: String
+  thumbnail: String
+  title: String
+}
+
+input ConfigsJsonItemsItemsItemsFieldSelector {
+  slug: FieldSelectorEnum
+  thumbnail: FieldSelectorEnum
+  title: FieldSelectorEnum
+}
+
+input ConfigsJsonItemsItemsItemsFilterInput {
+  slug: StringQueryOperatorInput
+  thumbnail: StringQueryOperatorInput
+  title: StringQueryOperatorInput
+}
+
+input ConfigsJsonItemsItemsItemsFilterListInput {
+  elemMatch: ConfigsJsonItemsItemsItemsFilterInput
+}
+
+input ConfigsJsonItemsItemsItemsSortInput {
   slug: SortOrderEnum
-  thumbnail: FileSortInput
+  thumbnail: SortOrderEnum
+  title: SortOrderEnum
+}
+
+input ConfigsJsonItemsItemsSortInput {
+  items: ConfigsJsonItemsItemsItemsSortInput
+  slug: SortOrderEnum
+  thumbnail: SortOrderEnum
+  title: SortOrderEnum
+}
+
+input ConfigsJsonItemsSortInput {
+  items: ConfigsJsonItemsItemsSortInput
+  slug: SortOrderEnum
   title: SortOrderEnum
 }
 
 input ConfigsJsonSortInput {
   children: NodeSortInput
-  guideline: ConfigsJsonGuidelineSortInput
   id: SortOrderEnum
   internal: InternalSortInput
+  items: ConfigsJsonItemsSortInput
   parent: NodeSortInput
-  spec: ConfigsJsonSpecSortInput
-}
-
-type ConfigsJsonSpec {
-  slug: String
-  thumbnail: File
-  title: String
-}
-
-input ConfigsJsonSpecFieldSelector {
-  slug: FieldSelectorEnum
-  thumbnail: FileFieldSelector
-  title: FieldSelectorEnum
-}
-
-input ConfigsJsonSpecFilterInput {
-  slug: StringQueryOperatorInput
-  thumbnail: FileFilterInput
-  title: StringQueryOperatorInput
-}
-
-input ConfigsJsonSpecFilterListInput {
-  elemMatch: ConfigsJsonSpecFilterInput
-}
-
-input ConfigsJsonSpecSortInput {
   slug: SortOrderEnum
-  thumbnail: FileSortInput
   title: SortOrderEnum
 }
 
@@ -1601,7 +1637,7 @@ type Query {
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, limit: Int, skip: Int, sort: [SiteBuildMetadataSortInput]): SiteBuildMetadataConnection!
   allSiteFunction(filter: SiteFunctionFilterInput, limit: Int, skip: Int, sort: [SiteFunctionSortInput]): SiteFunctionConnection!
   allSitePage(filter: SitePageFilterInput, limit: Int, skip: Int, sort: [SitePageSortInput]): SitePageConnection!
-  configsJson(children: NodeFilterListInput, guideline: ConfigsJsonGuidelineFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, spec: ConfigsJsonSpecFilterListInput): ConfigsJson
+  configsJson(children: NodeFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, items: ConfigsJsonItemsFilterListInput, parent: NodeFilterInput, slug: StringQueryOperatorInput, title: StringQueryOperatorInput): ConfigsJson
   directory(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, changeTime: DateQueryOperatorInput, children: NodeFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): Directory
   file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childConfigsJson: ConfigsJsonFilterInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, children: NodeFilterListInput, childrenConfigsJson: ConfigsJsonFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
   imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: GatsbyImageDataQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp
