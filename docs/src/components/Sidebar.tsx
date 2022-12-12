@@ -6,6 +6,13 @@ import React, { useState } from "react";
 
 import * as style from "./Sidebar.css";
 
+type SidebarItem = {
+  title: string;
+  slug?: string;
+  thumbnail?: string;
+  items?: SidebarItem[];
+};
+
 interface SidebarLinkProps {
   title: string;
   active: boolean;
@@ -58,71 +65,83 @@ export default function Sidebar() {
   const openSidebar = () => setOpen(true);
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
-    query Sidebar {
+    query sidebar {
       configsJson {
-        guideline {
-          slug
+        id
+        items {
           title
-        }
-
-        spec {
           slug
-          title
+          items {
+            slug
+            thumbnail
+            title
+            items {
+              slug
+              thumbnail
+              title
+            }
+          }
         }
+        slug
+        title
       }
     }
   `);
 
-  const guidelines = data.configsJson?.guideline;
-  const specs = data.configsJson?.spec;
+  console.log("data", data);
 
-  const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const slicedCurrentPath = currentPath.split("/").slice(0, 4).join("/");
+  // const guidelines = data.configsJson?.guideline;
+  // const specs = data.configsJson?.spec;
 
-  return (
-    <>
-      <MenuIcon
-        className={style.sidebarButton}
-        onClick={openSidebar}
-        width={28}
-      />
-      <motion.nav className={style.sidebar({ open })}>
-        <Logo to="/" onClick={closeSidebar} />
+  // const currentPath = typeof window !== "undefined" ? location.pathname : "";
+  // const slicedCurrentPath = currentPath.split("/").slice(0, 4).join("/");
 
-        <Link to="/components/guideline">
-          <h1 className={style.categoryTitle}>사용 가이드</h1>
-        </Link>
-        {guidelines!.map((link) => {
-          const active = currentPath.includes(link!.slug!);
-          return (
-            <SidebarLink
-              key={link!.slug!}
-              active={active}
-              to={link!.slug!}
-              title={link!.title!}
-              onClick={closeSidebar}
-            />
-          );
-        })}
+  // return (
+  //   <>
+  //     <MenuIcon
+  //       className={style.sidebarButton}
+  //       onClick={openSidebar}
+  //       width={28}
+  //     />
+  //     <motion.nav className={style.sidebar({ open })}>
+  //       <Logo to="/" onClick={closeSidebar} />
 
-        <Link to="/components/spec">
-          <h1 className={style.categoryTitle}>스펙</h1>
-        </Link>
-        {specs!.map((link) => {
-          const active =
-            link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
-          return (
-            <SidebarLink
-              key={link!.slug!}
-              active={active}
-              to={link!.slug!}
-              title={link!.title!}
-              onClick={closeSidebar}
-            />
-          );
-        })}
-      </motion.nav>
-      <div onClick={closeSidebar} className={style.overlay({ open })} />
-    </>
-  );
+  //       <Link to="/components/guideline">
+  //         <h1 className={style.categoryTitle}>사용 가이드</h1>
+  //       </Link>
+  //       {guidelines!.map((link) => {
+  //         const active = currentPath.includes(link!.slug!);
+  //         return (
+  //           <SidebarLink
+  //             key={link!.slug!}
+  //             active={active}
+  //             to={link!.slug!}
+  //             title={link!.title!}
+  //             onClick={closeSidebar}
+  //           />
+  //         );
+  //       })}
+
+  //       <Link to="/components/spec">
+  //         <h1 className={style.categoryTitle}>스펙</h1>
+  //       </Link>
+  //       {specs!.map((link) => {
+  //         const active =
+  //           link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
+  //         return (
+  //           <SidebarLink
+  //             key={link!.slug!}
+  //             active={active}
+  //             to={link!.slug!}
+  //             title={link!.title!}
+  //             onClick={closeSidebar}
+  //           />
+  //         );
+  //       })}
+  //     </motion.nav>
+  //     <div onClick={closeSidebar} className={style.overlay({ open })} />
+  //   </>
+  // );
+
+  return <div></div>;
 }

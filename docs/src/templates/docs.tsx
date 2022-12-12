@@ -4,7 +4,6 @@ import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
-import BreadCrumbs from "../components/BreadCrumbs";
 import EditLink from "../components/EditLink";
 import Layout from "../components/Layout";
 import Sidebar from "../components/Sidebar";
@@ -12,7 +11,7 @@ import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
 import { fadeInFromBottom } from "../framer-motions";
 import * as t from "../styles/token.css";
-import * as style from "./template.css";
+import * as style from "./docs.css";
 
 interface TemplatePostProps {
   children: React.ReactNode;
@@ -26,22 +25,22 @@ interface TemplatePostProps {
   };
 }
 
-const GuidelineTemplate: React.FC<TemplatePostProps> = ({
+const DocsTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
+  const { title, description, slug, activeTab, tableOfContents } = pageContext;
   return (
     <Layout>
       <main className={t.main}>
         <Sidebar />
         <article className={style.content}>
-          <BreadCrumbs slug={pageContext.slug} />
-          <h1 className={style.title}>{pageContext.title}</h1>
-          <p className={style.titleDescription}>{pageContext.description}</p>
+          <h1 className={style.title}>{title}</h1>
+          <p className={style.titleDescription}>{description}</p>
           <motion.div {...fadeInFromBottom}>{children}</motion.div>
-          <EditLink slug={pageContext.slug} file={pageContext.activeTab} />
+          <EditLink slug={slug} file={activeTab} />
         </article>
-        <TableOfContents tableOfContents={pageContext.tableOfContents} />
+        <TableOfContents tableOfContents={tableOfContents} />
       </main>
     </Layout>
   );
@@ -50,17 +49,15 @@ const GuidelineTemplate: React.FC<TemplatePostProps> = ({
 export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
   pageContext,
 }) => {
+  const { title, description, ogImage } = pageContext;
   return (
     <>
-      <title>사용 가이드 - {pageContext.title}</title>
-      <meta
-        property="og:title"
-        content={`Seed Design | 사용 가이드 | ${pageContext.title}`}
-      />
-      <meta property="description" content={pageContext.description} />
-      <meta property="og:image" content={getSrc(pageContext.ogImage)} />
+      <title>{title}</title>
+      <meta property="og:title" content={`Seed Design | ${title}`} />
+      <meta property="description" content={description} />
+      <meta property="og:image" content={getSrc(ogImage)} />
     </>
   );
 };
 
-export default GuidelineTemplate;
+export default DocsTemplate;
