@@ -61,14 +61,12 @@ export default function Sidebar() {
     query Sidebar {
       configsJson {
         components {
-          guideline {
-            usage {
-              slug
-              title
-              thumbnail {
-                childImageSharp {
-                  gatsbyImageData
-                }
+          usage {
+            slug
+            title
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData
               }
             }
           }
@@ -97,7 +95,7 @@ export default function Sidebar() {
     }
   `);
 
-  const usageDocs = data.configsJson?.components?.guideline?.usage;
+  const usageDocs = data.configsJson?.components?.usage;
   const primitiveDocs = data.configsJson?.components?.spec?.primitive;
   const styleDocs = data.configsJson?.components?.spec?.style;
 
@@ -113,10 +111,8 @@ export default function Sidebar() {
       <motion.nav className={style.sidebar({ open })}>
         <Logo to="/" onClick={closeSidebar} />
 
-        <h1 className={style.sidebarTitle1}>GuideLine</h1>
-
-        <Link to="/components/guideline/usage">
-          <h1 className={style.sidebarTitle2}>Usage</h1>
+        <Link to="/components/usage">
+          <h1 className={style.sidebarTitle1}>Usage</h1>
         </Link>
         {usageDocs!.map((link) => {
           const active = currentPath.includes(link!.slug!);

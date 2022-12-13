@@ -56,67 +56,23 @@ type ConfigsJson = Node & {
 };
 
 type ConfigsJsonComponents = {
-  readonly guideline: Maybe<ConfigsJsonComponentsGuideline>;
   readonly spec: Maybe<ConfigsJsonComponentsSpec>;
+  readonly usage: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentsUsage>>>;
 };
 
 type ConfigsJsonComponentsFieldSelector = {
-  readonly guideline: InputMaybe<ConfigsJsonComponentsGuidelineFieldSelector>;
   readonly spec: InputMaybe<ConfigsJsonComponentsSpecFieldSelector>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageFieldSelector>;
 };
 
 type ConfigsJsonComponentsFilterInput = {
-  readonly guideline: InputMaybe<ConfigsJsonComponentsGuidelineFilterInput>;
   readonly spec: InputMaybe<ConfigsJsonComponentsSpecFilterInput>;
-};
-
-type ConfigsJsonComponentsGuideline = {
-  readonly usage: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentsGuidelineUsage>>>;
-};
-
-type ConfigsJsonComponentsGuidelineFieldSelector = {
-  readonly usage: InputMaybe<ConfigsJsonComponentsGuidelineUsageFieldSelector>;
-};
-
-type ConfigsJsonComponentsGuidelineFilterInput = {
-  readonly usage: InputMaybe<ConfigsJsonComponentsGuidelineUsageFilterListInput>;
-};
-
-type ConfigsJsonComponentsGuidelineSortInput = {
-  readonly usage: InputMaybe<ConfigsJsonComponentsGuidelineUsageSortInput>;
-};
-
-type ConfigsJsonComponentsGuidelineUsage = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<File>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type ConfigsJsonComponentsGuidelineUsageFieldSelector = {
-  readonly slug: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FileFieldSelector>;
-  readonly title: InputMaybe<FieldSelectorEnum>;
-};
-
-type ConfigsJsonComponentsGuidelineUsageFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<FileFilterInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type ConfigsJsonComponentsGuidelineUsageFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonComponentsGuidelineUsageFilterInput>;
-};
-
-type ConfigsJsonComponentsGuidelineUsageSortInput = {
-  readonly slug: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<FileSortInput>;
-  readonly title: InputMaybe<SortOrderEnum>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageFilterListInput>;
 };
 
 type ConfigsJsonComponentsSortInput = {
-  readonly guideline: InputMaybe<ConfigsJsonComponentsGuidelineSortInput>;
   readonly spec: InputMaybe<ConfigsJsonComponentsSpecSortInput>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageSortInput>;
 };
 
 type ConfigsJsonComponentsSpec = {
@@ -190,6 +146,34 @@ type ConfigsJsonComponentsSpecStyleFilterListInput = {
 };
 
 type ConfigsJsonComponentsSpecStyleSortInput = {
+  readonly slug: InputMaybe<SortOrderEnum>;
+  readonly thumbnail: InputMaybe<FileSortInput>;
+  readonly title: InputMaybe<SortOrderEnum>;
+};
+
+type ConfigsJsonComponentsUsage = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type ConfigsJsonComponentsUsageFieldSelector = {
+  readonly slug: InputMaybe<FieldSelectorEnum>;
+  readonly thumbnail: InputMaybe<FileFieldSelector>;
+  readonly title: InputMaybe<FieldSelectorEnum>;
+};
+
+type ConfigsJsonComponentsUsageFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ConfigsJsonComponentsUsageFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonComponentsUsageFilterInput>;
+};
+
+type ConfigsJsonComponentsUsageSortInput = {
   readonly slug: InputMaybe<SortOrderEnum>;
   readonly thumbnail: InputMaybe<FileSortInput>;
   readonly title: InputMaybe<SortOrderEnum>;
@@ -2885,7 +2869,7 @@ type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly configsJson: { readonly components: { readonly guideline: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null, readonly spec: { readonly primitive: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null, readonly style: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
+type SidebarQuery = { readonly configsJson: { readonly components: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null, readonly spec: { readonly primitive: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null, readonly style: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
 
 type StylePageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2895,7 +2879,7 @@ type StylePageQuery = { readonly configsJson: { readonly components: { readonly 
 type UsagePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type UsagePageQuery = { readonly configsJson: { readonly components: { readonly guideline: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
+type UsagePageQuery = { readonly configsJson: { readonly components: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null };
 
 
 }

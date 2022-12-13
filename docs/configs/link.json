@@ -1,14 +1,12 @@
 {
   "components": {
-    "guideline": {
-      "usage": [
-        {
-          "title": "Checkbox",
-          "slug": "/components/guideline/usage/checkbox",
-          "thumbnail": "../content/components/guideline/usage/checkbox/thumbnail.png"
-        }
-      ]
-    },
+    "usage": [
+      {
+        "title": "Checkbox",
+        "slug": "/components/usage/checkbox",
+        "thumbnail": "../content/components/usage/checkbox/thumbnail.png"
+      }
+    ],
     "spec": {
       "primitive": [
         {

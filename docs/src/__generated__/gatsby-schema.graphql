@@ -78,67 +78,23 @@ type ConfigsJson implements Node {
 }
 
 type ConfigsJsonComponents {
-  guideline: ConfigsJsonComponentsGuideline
   spec: ConfigsJsonComponentsSpec
+  usage: [ConfigsJsonComponentsUsage]
 }
 
 input ConfigsJsonComponentsFieldSelector {
-  guideline: ConfigsJsonComponentsGuidelineFieldSelector
   spec: ConfigsJsonComponentsSpecFieldSelector
+  usage: ConfigsJsonComponentsUsageFieldSelector
 }
 
 input ConfigsJsonComponentsFilterInput {
-  guideline: ConfigsJsonComponentsGuidelineFilterInput
   spec: ConfigsJsonComponentsSpecFilterInput
-}
-
-type ConfigsJsonComponentsGuideline {
-  usage: [ConfigsJsonComponentsGuidelineUsage]
-}
-
-input ConfigsJsonComponentsGuidelineFieldSelector {
-  usage: ConfigsJsonComponentsGuidelineUsageFieldSelector
-}
-
-input ConfigsJsonComponentsGuidelineFilterInput {
-  usage: ConfigsJsonComponentsGuidelineUsageFilterListInput
-}
-
-input ConfigsJsonComponentsGuidelineSortInput {
-  usage: ConfigsJsonComponentsGuidelineUsageSortInput
-}
-
-type ConfigsJsonComponentsGuidelineUsage {
-  slug: String
-  thumbnail: File
-  title: String
-}
-
-input ConfigsJsonComponentsGuidelineUsageFieldSelector {
-  slug: FieldSelectorEnum
-  thumbnail: FileFieldSelector
-  title: FieldSelectorEnum
-}
-
-input ConfigsJsonComponentsGuidelineUsageFilterInput {
-  slug: StringQueryOperatorInput
-  thumbnail: FileFilterInput
-  title: StringQueryOperatorInput
-}
-
-input ConfigsJsonComponentsGuidelineUsageFilterListInput {
-  elemMatch: ConfigsJsonComponentsGuidelineUsageFilterInput
-}
-
-input ConfigsJsonComponentsGuidelineUsageSortInput {
-  slug: SortOrderEnum
-  thumbnail: FileSortInput
-  title: SortOrderEnum
+  usage: ConfigsJsonComponentsUsageFilterListInput
 }
 
 input ConfigsJsonComponentsSortInput {
-  guideline: ConfigsJsonComponentsGuidelineSortInput
   spec: ConfigsJsonComponentsSpecSortInput
+  usage: ConfigsJsonComponentsUsageSortInput
 }
 
 type ConfigsJsonComponentsSpec {
@@ -212,6 +168,34 @@ input ConfigsJsonComponentsSpecStyleFilterListInput {
 }
 
 input ConfigsJsonComponentsSpecStyleSortInput {
+  slug: SortOrderEnum
+  thumbnail: FileSortInput
+  title: SortOrderEnum
+}
+
+type ConfigsJsonComponentsUsage {
+  slug: String
+  thumbnail: File
+  title: String
+}
+
+input ConfigsJsonComponentsUsageFieldSelector {
+  slug: FieldSelectorEnum
+  thumbnail: FileFieldSelector
+  title: FieldSelectorEnum
+}
+
+input ConfigsJsonComponentsUsageFilterInput {
+  slug: StringQueryOperatorInput
+  thumbnail: FileFilterInput
+  title: StringQueryOperatorInput
+}
+
+input ConfigsJsonComponentsUsageFilterListInput {
+  elemMatch: ConfigsJsonComponentsUsageFilterInput
+}
+
+input ConfigsJsonComponentsUsageSortInput {
   slug: SortOrderEnum
   thumbnail: FileSortInput
   title: SortOrderEnum

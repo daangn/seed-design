@@ -43,8 +43,7 @@ const Page = ({ data }: PageProps) => {
       <article className={style.content}>
         <h1 className={style.title}>스펙</h1>
         <p className={style.caption1}>
-          Components are the building blocks of any design system. They are
-          the... 대충 이렇게 멋있는 말들 써놓으면 멋있어보이더라구요...
+          Components are the building blocks of any design system.
         </p>
         <motion.div className={style.grid} {...fadeInFromBottom}>
           {docs.map((spec) => (
