@@ -32,14 +32,14 @@ export const grid = style([
 ]);
 
 export const gridItem = style([
-  u.flexColumnCenter,
+  u.flexColumn,
   {
     position: "relative",
     overflow: "hidden",
-    boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-    borderRadius: "8px",
 
     transition: "scale 0.2s ease",
+
+    gap: 20,
   },
 ]);
 
@@ -50,14 +50,11 @@ export const gridItemImage = style([
     left: 0,
 
     width: "100%",
-    height: "280px",
+    height: "auto",
     objectFit: "contain",
   },
 ]);
 
 export const gridItemTitle = style([
-  classNames.$semantic.typography.h2,
-  {
-    position: "absolute",
-  },
+  classNames.$semantic.typography.title1Bold,
 ]);

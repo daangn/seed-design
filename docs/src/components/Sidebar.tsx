@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 import * as style from "./Sidebar.css";
 
-interface SidebarLinkProps {
+interface SidebarItemProps {
   title: string;
   active: boolean;
 }
@@ -37,16 +37,16 @@ function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
   );
 }
 
-function SidebarLink({
+function SidebarItem({
   title,
   active,
   to,
   onClick,
   onMouseEnter,
-}: GatsbyLinkProps<{}> & SidebarLinkProps) {
+}: GatsbyLinkProps<{}> & SidebarItemProps) {
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
-      <div className={style.sidebarLink({ highlight: active })}>{title}</div>
+      <div className={style.sidebarItem({ highlight: active })}>{title}</div>
     </Link>
   );
 }
@@ -60,24 +60,46 @@ export default function Sidebar() {
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
       configsJson {
-        guideline {
-          slug
-          title
-        }
-
-        spec {
-          slug
-          title
+        components {
+          usage {
+            slug
+            title
+            thumbnail {
+              childImageSharp {
+                gatsbyImageData
+              }
+            }
+          }
+          spec {
+            primitive {
+              slug
+              title
+              thumbnail {
+                childImageSharp {
+                  gatsbyImageData
+                }
+              }
+            }
+            style {
+              slug
+              title
+              thumbnail {
+                childImageSharp {
+                  gatsbyImageData
+                }
+              }
+            }
+          }
         }
       }
     }
   `);
 
-  const guidelines = data.configsJson?.guideline;
-  const specs = data.configsJson?.spec;
+  const usageDocs = data.configsJson?.components?.usage;
+  const primitiveDocs = data.configsJson?.components?.spec?.primitive;
+  const styleDocs = data.configsJson?.components?.spec?.style;
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const slicedCurrentPath = currentPath.split("/").slice(0, 4).join("/");
 
   return (
     <>
@@ -89,13 +111,13 @@ export default function Sidebar() {
       <motion.nav className={style.sidebar({ open })}>
         <Logo to="/" onClick={closeSidebar} />
 
-        <Link to="/components/guideline">
-          <h1 className={style.categoryTitle}>사용 가이드</h1>
+        <Link to="/components/usage">
+          <h1 className={style.sidebarTitle1}>Usage</h1>
         </Link>
-        {guidelines!.map((link) => {
+        {usageDocs!.map((link) => {
           const active = currentPath.includes(link!.slug!);
           return (
-            <SidebarLink
+            <SidebarItem
               key={link!.slug!}
               active={active}
               to={link!.slug!}
@@ -105,14 +127,31 @@ export default function Sidebar() {
           );
         })}
 
-        <Link to="/components/spec">
-          <h1 className={style.categoryTitle}>스펙</h1>
+        <h1 className={style.sidebarTitle1}>Spec</h1>
+
+        <Link to="/components/spec/primitive">
+          <h1 className={style.sidebarTitle2}>Primitive</h1>
         </Link>
-        {specs!.map((link) => {
-          const active =
-            link!.slug!.split("/").slice(0, 4).join("/") === slicedCurrentPath;
+        {primitiveDocs!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
           return (
-            <SidebarLink
+            <SidebarItem
+              key={link!.slug!}
+              active={active}
+              to={link!.slug!}
+              title={link!.title!}
+              onClick={closeSidebar}
+            />
+          );
+        })}
+
+        <Link to="/components/spec/style">
+          <h1 className={style.sidebarTitle2}>Style</h1>
+        </Link>
+        {styleDocs!.map((link) => {
+          const active = currentPath.includes(link!.slug!);
+          return (
+            <SidebarItem
               key={link!.slug!}
               active={active}
               to={link!.slug!}

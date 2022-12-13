@@ -1,0 +1,57 @@
+---
+slug: /components/spec/style/spinner
+title: Spinner
+description: Indeterminate progress indicator
+---
+
+## Anatomy
+
+1. Indicator
+
+## Visual Options
+
+| Property | Value                |
+| -------- | -------------------- |
+| size     | small, medium        |
+| variant  | gray, white, primary |
+
+## 디자인 결정 (Color)
+
+### Variant=Gray
+
+| Part      | Attribute | Value                       |
+| --------- | --------- | --------------------------- |
+| Indicator | Color     | $scale.color.gray-alpha-200 |
+
+### Variant=White
+
+| Part      | Attribute | Value                      |
+| --------- | --------- | -------------------------- |
+| Indicator | Color     | $static.color.static-white |
+
+### Variant=Primary
+
+| Part      | Attribute | Value                   |
+| --------- | --------- | ----------------------- |
+| Indicator | Color     | $semantic.color.primary |
+
+## 디자인 결정 (Layout)
+
+### Size=Medium
+
+| Part      | Attribute | Value |
+| --------- | --------- | ----- |
+| Indicator | Size      | 40pt  |
+
+### Size=Small
+
+| Part      | Attribute | Value |
+| --------- | --------- | ----- |
+| Indicator | Size      | 24pt  |
+
+## 디자인 결정 (Motion)
+
+| Part      | Attribute       | Value  |
+| --------- | --------------- | ------ |
+| Indicator | Duration        | 1200ms |
+|           | Timing Function | linear |

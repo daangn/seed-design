@@ -79,9 +79,9 @@ export const logoText = style([
   },
 ]);
 
-export const categoryTitle = style([
+export const sidebarTitle1 = style([
   {
-    fontSize: "22px",
+    fontSize: "24px",
     fontWeight: 700,
 
     width: "200px",
@@ -90,6 +90,20 @@ export const categoryTitle = style([
     paddingLeft: "10px",
     marginTop: "40px",
     marginBottom: "4px",
+  },
+]);
+
+export const sidebarTitle2 = style([
+  {
+    fontSize: "18px",
+    fontWeight: 700,
+
+    width: "200px",
+    transition: "color 0.2s ease",
+    color: vars.$scale.color.gray900,
+    paddingLeft: "10px",
+    marginTop: "10px",
+    marginBottom: "4px",
 
     ":hover": {
       color: vars.$scale.color.gray600,
@@ -97,13 +111,13 @@ export const categoryTitle = style([
   },
 ]);
 
-export const sidebarLink = recipe({
+export const sidebarItem = recipe({
   base: [
     u.flexAlignCenter,
     {
       width: "180px",
       height: "34px",
-      fontSize: "16px",
+      fontSize: "14px",
       color: vars.$scale.color.gray600,
       transition: "background 0.2s ease",
       paddingLeft: "10px",

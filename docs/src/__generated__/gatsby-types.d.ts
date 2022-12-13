@@ -49,11 +49,134 @@ type BooleanQueryOperatorInput = {
 
 type ConfigsJson = Node & {
   readonly children: ReadonlyArray<Node>;
-  readonly guideline: Maybe<ReadonlyArray<Maybe<ConfigsJsonGuideline>>>;
+  readonly components: Maybe<ConfigsJsonComponents>;
   readonly id: Scalars['ID'];
   readonly internal: Internal;
   readonly parent: Maybe<Node>;
-  readonly spec: Maybe<ReadonlyArray<Maybe<ConfigsJsonSpec>>>;
+};
+
+type ConfigsJsonComponents = {
+  readonly spec: Maybe<ConfigsJsonComponentsSpec>;
+  readonly usage: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentsUsage>>>;
+};
+
+type ConfigsJsonComponentsFieldSelector = {
+  readonly spec: InputMaybe<ConfigsJsonComponentsSpecFieldSelector>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageFieldSelector>;
+};
+
+type ConfigsJsonComponentsFilterInput = {
+  readonly spec: InputMaybe<ConfigsJsonComponentsSpecFilterInput>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageFilterListInput>;
+};
+
+type ConfigsJsonComponentsSortInput = {
+  readonly spec: InputMaybe<ConfigsJsonComponentsSpecSortInput>;
+  readonly usage: InputMaybe<ConfigsJsonComponentsUsageSortInput>;
+};
+
+type ConfigsJsonComponentsSpec = {
+  readonly primitive: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentsSpecPrimitive>>>;
+  readonly style: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentsSpecStyle>>>;
+};
+
+type ConfigsJsonComponentsSpecFieldSelector = {
+  readonly primitive: InputMaybe<ConfigsJsonComponentsSpecPrimitiveFieldSelector>;
+  readonly style: InputMaybe<ConfigsJsonComponentsSpecStyleFieldSelector>;
+};
+
+type ConfigsJsonComponentsSpecFilterInput = {
+  readonly primitive: InputMaybe<ConfigsJsonComponentsSpecPrimitiveFilterListInput>;
+  readonly style: InputMaybe<ConfigsJsonComponentsSpecStyleFilterListInput>;
+};
+
+type ConfigsJsonComponentsSpecPrimitive = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type ConfigsJsonComponentsSpecPrimitiveFieldSelector = {
+  readonly slug: InputMaybe<FieldSelectorEnum>;
+  readonly thumbnail: InputMaybe<FileFieldSelector>;
+  readonly title: InputMaybe<FieldSelectorEnum>;
+};
+
+type ConfigsJsonComponentsSpecPrimitiveFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ConfigsJsonComponentsSpecPrimitiveFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonComponentsSpecPrimitiveFilterInput>;
+};
+
+type ConfigsJsonComponentsSpecPrimitiveSortInput = {
+  readonly slug: InputMaybe<SortOrderEnum>;
+  readonly thumbnail: InputMaybe<FileSortInput>;
+  readonly title: InputMaybe<SortOrderEnum>;
+};
+
+type ConfigsJsonComponentsSpecSortInput = {
+  readonly primitive: InputMaybe<ConfigsJsonComponentsSpecPrimitiveSortInput>;
+  readonly style: InputMaybe<ConfigsJsonComponentsSpecStyleSortInput>;
+};
+
+type ConfigsJsonComponentsSpecStyle = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type ConfigsJsonComponentsSpecStyleFieldSelector = {
+  readonly slug: InputMaybe<FieldSelectorEnum>;
+  readonly thumbnail: InputMaybe<FileFieldSelector>;
+  readonly title: InputMaybe<FieldSelectorEnum>;
+};
+
+type ConfigsJsonComponentsSpecStyleFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ConfigsJsonComponentsSpecStyleFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonComponentsSpecStyleFilterInput>;
+};
+
+type ConfigsJsonComponentsSpecStyleSortInput = {
+  readonly slug: InputMaybe<SortOrderEnum>;
+  readonly thumbnail: InputMaybe<FileSortInput>;
+  readonly title: InputMaybe<SortOrderEnum>;
+};
+
+type ConfigsJsonComponentsUsage = {
+  readonly slug: Maybe<Scalars['String']>;
+  readonly thumbnail: Maybe<File>;
+  readonly title: Maybe<Scalars['String']>;
+};
+
+type ConfigsJsonComponentsUsageFieldSelector = {
+  readonly slug: InputMaybe<FieldSelectorEnum>;
+  readonly thumbnail: InputMaybe<FileFieldSelector>;
+  readonly title: InputMaybe<FieldSelectorEnum>;
+};
+
+type ConfigsJsonComponentsUsageFilterInput = {
+  readonly slug: InputMaybe<StringQueryOperatorInput>;
+  readonly thumbnail: InputMaybe<FileFilterInput>;
+  readonly title: InputMaybe<StringQueryOperatorInput>;
+};
+
+type ConfigsJsonComponentsUsageFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonComponentsUsageFilterInput>;
+};
+
+type ConfigsJsonComponentsUsageSortInput = {
+  readonly slug: InputMaybe<SortOrderEnum>;
+  readonly thumbnail: InputMaybe<FileSortInput>;
+  readonly title: InputMaybe<SortOrderEnum>;
 };
 
 type ConfigsJsonConnection = {
@@ -103,20 +226,18 @@ type ConfigsJsonEdge = {
 
 type ConfigsJsonFieldSelector = {
   readonly children: InputMaybe<NodeFieldSelector>;
-  readonly guideline: InputMaybe<ConfigsJsonGuidelineFieldSelector>;
+  readonly components: InputMaybe<ConfigsJsonComponentsFieldSelector>;
   readonly id: InputMaybe<FieldSelectorEnum>;
   readonly internal: InputMaybe<InternalFieldSelector>;
   readonly parent: InputMaybe<NodeFieldSelector>;
-  readonly spec: InputMaybe<ConfigsJsonSpecFieldSelector>;
 };
 
 type ConfigsJsonFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
-  readonly guideline: InputMaybe<ConfigsJsonGuidelineFilterListInput>;
+  readonly components: InputMaybe<ConfigsJsonComponentsFilterInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
-  readonly spec: InputMaybe<ConfigsJsonSpecFilterListInput>;
 };
 
 type ConfigsJsonFilterListInput = {
@@ -164,69 +285,12 @@ type ConfigsJsonGroupConnection_sumArgs = {
   field: ConfigsJsonFieldSelector;
 };
 
-type ConfigsJsonGuideline = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<File>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type ConfigsJsonGuidelineFieldSelector = {
-  readonly slug: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FileFieldSelector>;
-  readonly title: InputMaybe<FieldSelectorEnum>;
-};
-
-type ConfigsJsonGuidelineFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<FileFilterInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type ConfigsJsonGuidelineFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonGuidelineFilterInput>;
-};
-
-type ConfigsJsonGuidelineSortInput = {
-  readonly slug: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<FileSortInput>;
-  readonly title: InputMaybe<SortOrderEnum>;
-};
-
 type ConfigsJsonSortInput = {
   readonly children: InputMaybe<NodeSortInput>;
-  readonly guideline: InputMaybe<ConfigsJsonGuidelineSortInput>;
+  readonly components: InputMaybe<ConfigsJsonComponentsSortInput>;
   readonly id: InputMaybe<SortOrderEnum>;
   readonly internal: InputMaybe<InternalSortInput>;
   readonly parent: InputMaybe<NodeSortInput>;
-  readonly spec: InputMaybe<ConfigsJsonSpecSortInput>;
-};
-
-type ConfigsJsonSpec = {
-  readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<Scalars['String']>;
-  readonly title: Maybe<Scalars['String']>;
-};
-
-type ConfigsJsonSpecFieldSelector = {
-  readonly slug: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FieldSelectorEnum>;
-  readonly title: InputMaybe<FieldSelectorEnum>;
-};
-
-type ConfigsJsonSpecFilterInput = {
-  readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<StringQueryOperatorInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
-};
-
-type ConfigsJsonSpecFilterListInput = {
-  readonly elemMatch: InputMaybe<ConfigsJsonSpecFilterInput>;
-};
-
-type ConfigsJsonSpecSortInput = {
-  readonly slug: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<SortOrderEnum>;
-  readonly title: InputMaybe<SortOrderEnum>;
 };
 
 type DateQueryOperatorInput = {
@@ -1778,11 +1842,10 @@ type Query_allSitePluginArgs = {
 
 type Query_configsJsonArgs = {
   children: InputMaybe<NodeFilterListInput>;
-  guideline: InputMaybe<ConfigsJsonGuidelineFilterListInput>;
+  components: InputMaybe<ConfigsJsonComponentsFilterInput>;
   id: InputMaybe<StringQueryOperatorInput>;
   internal: InputMaybe<InternalFilterInput>;
   parent: InputMaybe<NodeFilterInput>;
-  spec: InputMaybe<ConfigsJsonSpecFilterListInput>;
 };
 
 
@@ -2773,11 +2836,6 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
-type ComponentsPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type ComponentsPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
 type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2793,15 +2851,15 @@ type GetStartedPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type GetStartedPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
-type GuidelinePageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type GuidelinePageQuery = { readonly configsJson: { readonly guideline: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null };
-
 type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type IndexPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type PrimitivePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type PrimitivePageQuery = { readonly configsJson: { readonly components: { readonly spec: { readonly primitive: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
 
 type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2811,7 +2869,17 @@ type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly configsJson: { readonly guideline: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null, readonly spec: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null } | null> | null } | null };
+type SidebarQuery = { readonly configsJson: { readonly components: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null, readonly spec: { readonly primitive: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null, readonly style: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
+
+type StylePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type StylePageQuery = { readonly configsJson: { readonly components: { readonly spec: { readonly style: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null } | null };
+
+type UsagePageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type UsagePageQuery = { readonly configsJson: { readonly components: { readonly usage: ReadonlyArray<{ readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null> | null } | null } | null };
 
 
 }

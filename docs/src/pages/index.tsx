@@ -25,7 +25,7 @@ const IndexPage = () => {
         <motion.h1 {...fadeInFromBottom} className={style.title}>
           SEED Design
         </motion.h1>
-        <Link to="/components/guideline/">
+        <Link to="/components/usage/">
           <motion.button
             {...fadeInFromBottom}
             transition={{ delay: 0.3 }}

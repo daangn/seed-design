@@ -1,94 +1,54 @@
 const path = require("path");
 
-const SpecTemplate = path.resolve(`./src/templates/spec.tsx`);
-const GuidelineTemplate = path.resolve(`./src/templates/guideline.tsx`);
+const DocsTemplate = path.resolve(`./src/templates/docs.tsx`);
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
+    fragment MdxContent on Mdx {
+      frontmatter {
+        slug
+        description
+        title
+      }
+      id
+      internal {
+        contentFilePath
+      }
+      tableOfContents
+    }
+
     query {
       ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
         gatsbyImageData(layout: FIXED)
       }
 
-      guidelines: allMdx(
-        filter: {
-          frontmatter: {
-            slug: { regex: "/(?=.*/components)(?=.*/guideline)/" }
-          }
-        }
+      components: allMdx(
+        filter: { frontmatter: { slug: { regex: "/(?=.*/components)/" } } }
       ) {
         nodes {
-          id
-          internal {
-            contentFilePath
-          }
-          frontmatter {
-            slug
-            description
-            title
-          }
-          tableOfContents
-        }
-      }
-      specs: allMdx(
-        filter: {
-          frontmatter: { slug: { regex: "/(?=.*/components)(?=.*/spec)/" } }
-        }
-      ) {
-        nodes {
-          id
-          internal {
-            contentFilePath
-          }
-          frontmatter {
-            slug
-            description
-            title
-          }
-          tableOfContents
+          ...MdxContent
         }
       }
     }
   `);
 
   const ogImage = result.data.ogImage.gatsbyImageData;
-  const guidelines = result.data.guidelines.nodes;
-  const specs = result.data.specs.nodes;
 
-  guidelines.forEach((guideline) => {
-    createPage({
-      path: guideline.frontmatter.slug,
-      component: `${GuidelineTemplate}?__contentFilePath=${guideline.internal.contentFilePath}`,
-      context: {
-        id: guideline.id,
-        slug: guideline.frontmatter.slug,
-        title: guideline.frontmatter.title,
-        description: guideline.frontmatter.description,
-        tableOfContents: guideline.tableOfContents,
-        activeTab:
-          guideline.frontmatter.slug.split("/")[
-            guideline.frontmatter.slug.split("/")?.length - 1
-          ],
-        ogImage,
-      },
-    });
-  });
+  // NOTE: component-guideline-usage, component-spec-primitive, component-spec-style, etc...
+  const components = result.data.components.nodes;
 
-  specs.forEach((spec) => {
+  components.forEach((component) => {
     createPage({
-      path: spec.frontmatter.slug,
-      component: `${SpecTemplate}?__contentFilePath=${spec.internal.contentFilePath}`,
+      path: component.frontmatter.slug,
+      component: `${DocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
       context: {
-        id: spec.id,
-        slug: spec.frontmatter.slug,
-        title: spec.frontmatter.title,
-        description: spec.frontmatter.description,
-        tableOfContents: spec.tableOfContents,
+        id: component.id,
+        slug: component.frontmatter.slug,
+        title: component.frontmatter.title,
+        description: component.frontmatter.description,
+        tableOfContents: component.tableOfContents,
+        activeTab: component.frontmatter.slug,
         ogImage,
-        activeTab:
-          spec.frontmatter.slug.split("/")[
-            spec.frontmatter.slug.split("/")?.length - 1
-          ],
       },
     });
   });
