@@ -14,44 +14,44 @@
         {
           "title": "Checkbox",
           "slug": "/components/spec/primitive/checkbox",
-          "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+          "thumbnail": "../content/components/spec/primitive/checkbox/thumbnail.png"
         },
         {
           "title": "Avatar",
           "slug": "/components/spec/primitive/avatar",
-          "thumbnail": "../content/components/spec/avatar/thumbnail.png"
+          "thumbnail": "../content/components/spec/primitive/avatar/thumbnail.png"
         },
         {
           "title": "Button",
           "slug": "/components/spec/primitive/button",
-          "thumbnail": "../content/components/spec/button/thumbnail.png"
+          "thumbnail": "../content/components/spec/primitive/button/thumbnail.png"
         }
       ],
       "style": [
         {
           "title": "Checkbox",
           "slug": "/components/spec/style/checkbox",
-          "thumbnail": "../content/components/spec/checkbox/thumbnail.png"
+          "thumbnail": "../content/components/spec/style/checkbox/thumbnail.png"
         },
         {
           "title": "Avatar",
           "slug": "/components/spec/style/avatar",
-          "thumbnail": "../content/components/spec/avatar/thumbnail.png"
+          "thumbnail": "../content/components/spec/style/avatar/thumbnail.png"
         },
         {
           "title": "Button",
           "slug": "/components/spec/style/button",
-          "thumbnail": "../content/components/spec/button/thumbnail.png"
+          "thumbnail": "../content/components/spec/style/button/thumbnail.png"
         },
         {
           "title": "Spinner",
           "slug": "/components/spec/style/spinner",
-          "thumbnail": "../content/components/spec/spinner/thumbnail.png"
+          "thumbnail": "../content/components/spec/style/spinner/thumbnail.png"
         },
         {
           "title": "Switch",
           "slug": "/components/spec/style/switch",
-          "thumbnail": "../content/components/spec/switch/thumbnail.png"
+          "thumbnail": "../content/components/spec/style/switch/thumbnail.png"
         }
       ]
     }
