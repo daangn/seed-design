@@ -79,37 +79,67 @@ export const logoText = style([
   },
 ]);
 
-export const sidebarTitle1 = style([
-  {
-    fontSize: "24px",
-    fontWeight: 700,
+export const sidebarTitle1 = recipe({
+  base: [
+    {
+      fontSize: "24px",
+      fontWeight: 700,
 
-    width: "200px",
-    transition: "color 0.2s ease",
-    color: vars.$scale.color.gray900,
-    paddingLeft: "10px",
-    marginTop: "40px",
-    marginBottom: "4px",
-  },
-]);
+      width: "200px",
+      transition: "color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      paddingLeft: "10px",
+      marginTop: "40px",
+      marginBottom: "4px",
+    },
+  ],
+  variants: {
+    highlight: {
+      true: [
+        {
+          color: vars.$semantic.color.primary,
 
-export const sidebarTitle2 = style([
-  {
-    fontSize: "18px",
-    fontWeight: 700,
-
-    width: "200px",
-    transition: "color 0.2s ease",
-    color: vars.$scale.color.gray900,
-    paddingLeft: "10px",
-    marginTop: "24px",
-    marginBottom: "4px",
-
-    ":hover": {
-      color: vars.$scale.color.gray600,
+          ":hover": {
+            color: vars.$semantic.color.primaryHover,
+          },
+        },
+      ],
     },
   },
-]);
+});
+
+export const sidebarTitle2 = recipe({
+  base: [
+    {
+      fontSize: "18px",
+      fontWeight: 700,
+
+      width: "200px",
+      transition: "color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      paddingLeft: "10px",
+      marginTop: "24px",
+      marginBottom: "4px",
+
+      ":hover": {
+        color: vars.$scale.color.gray600,
+      },
+    },
+  ],
+  variants: {
+    highlight: {
+      true: [
+        {
+          color: vars.$semantic.color.primary,
+
+          ":hover": {
+            color: vars.$semantic.color.primaryHover,
+          },
+        },
+      ],
+    },
+  },
+});
 
 export const sidebarItem = recipe({
   base: [
