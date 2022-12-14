@@ -2,54 +2,45 @@
   "components": {
     "usage": [
       {
-        "title": "Checkbox",
-        "slug": "/components/usage/checkbox",
-        "thumbnail": "../content/components/usage/checkbox/thumbnail.png"
+        "name": "Checkbox",
+        "document": "../content/components/usage/checkbox/usage.mdx"
       }
     ],
     "spec": {
       "primitive": [
         {
-          "title": "Checkbox",
-          "slug": "/components/spec/primitive/checkbox",
-          "thumbnail": "../content/components/spec/primitive/checkbox/thumbnail.png"
+          "name": "Checkbox",
+          "document": "../content/components/spec/primitive/checkbox/primitive.mdx"
         },
         {
-          "title": "Avatar",
-          "slug": "/components/spec/primitive/avatar",
-          "thumbnail": "../content/components/spec/primitive/avatar/thumbnail.png"
+          "name": "Avatar",
+          "document": "../content/components/spec/primitive/avatar/primitive.mdx"
         },
         {
-          "title": "Button",
-          "slug": "/components/spec/primitive/button",
-          "thumbnail": "../content/components/spec/primitive/button/thumbnail.png"
+          "name": "Button",
+          "document": "../content/components/spec/primitive/button/primitive.mdx"
         }
       ],
       "style": [
         {
-          "title": "Checkbox",
-          "slug": "/components/spec/style/checkbox",
-          "thumbnail": "../content/components/spec/style/checkbox/thumbnail.png"
+          "name": "Checkbox",
+          "document": "../content/components/spec/style/checkbox/style.mdx"
         },
         {
-          "title": "Avatar",
-          "slug": "/components/spec/style/avatar",
-          "thumbnail": "../content/components/spec/style/avatar/thumbnail.png"
+          "name": "Avatar",
+          "document": "../content/components/spec/style/avatar/style.mdx"
         },
         {
-          "title": "Button",
-          "slug": "/components/spec/style/button",
-          "thumbnail": "../content/components/spec/style/button/thumbnail.png"
+          "name": "Button",
+          "document": "../content/components/spec/style/button/style.mdx"
         },
         {
-          "title": "Spinner",
-          "slug": "/components/spec/style/spinner",
-          "thumbnail": "../content/components/spec/style/spinner/thumbnail.png"
+          "name": "Spinner",
+          "document": "../content/components/spec/style/spinner/style.mdx"
         },
         {
-          "title": "Switch",
-          "slug": "/components/spec/style/switch",
-          "thumbnail": "../content/components/spec/style/switch/thumbnail.png"
+          "name": "Switch",
+          "document": "../content/components/spec/style/switch/style.mdx"
         }
       ]
     }

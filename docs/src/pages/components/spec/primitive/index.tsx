@@ -20,11 +20,18 @@ export const query = graphql`
       components {
         spec {
           primitive {
-            slug
-            title
-            thumbnail {
-              childImageSharp {
-                gatsbyImageData
+            document {
+              childMdx {
+                frontmatter {
+                  description
+                  slug
+                  title
+                  thumbnail {
+                    childImageSharp {
+                      gatsbyImageData
+                    }
+                  }
+                }
               }
             }
           }
@@ -35,42 +42,48 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const docs = data.configsJson?.components?.spec?.primitive!;
+  const docs = data.configsJson?.components?.spec?.primitive;
 
   return (
     <main className={t.main}>
       <Sidebar />
       <article className={style.content}>
-        <h1 className={style.title}>스펙</h1>
+        <h1 className={style.title}>Spec - Primitive</h1>
         <p className={style.caption1}>
           Primitives are headless components that are used to build other
           components.
         </p>
         <motion.div className={style.grid} {...fadeInFromBottom}>
-          {docs.map((spec) => (
-            <Link key={spec?.slug!} to={spec?.slug!}>
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-                className={style.gridItem}
-              >
-                <div className={style.gridItemImage}>
-                  <GatsbyImage
-                    draggable={false}
-                    image={spec?.thumbnail?.childImageSharp?.gatsbyImageData!}
-                    alt={spec?.title!}
-                  />
-                </div>
-                <h2 className={style.gridItemTitle}>{spec?.title}</h2>
-              </motion.div>
-            </Link>
-          ))}
+          {docs?.map((doc) => {
+            const { description, slug, thumbnail, title } =
+              doc?.document?.childMdx?.frontmatter!;
+            return (
+              <Link key={slug} to={slug!}>
+                <motion.div
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  className={style.gridItem}
+                >
+                  <div className={style.gridItemImage}>
+                    <GatsbyImage
+                      draggable={false}
+                      image={thumbnail?.childImageSharp?.gatsbyImageData!}
+                      alt={title!}
+                    />
+                  </div>
+                  <h2 className={style.gridItemTitle}>{title}</h2>
+                  <p className={style.gridItemDescription}>{description}</p>
+                </motion.div>
+              </Link>
+            );
+          })}
         </motion.div>
       </article>
     </main>
   );
 };
 
+// TODO: 수정하기
 export const Head: HeadFC<GatsbyTypes.PrimitivePageQuery> = () => {
   return (
     <>

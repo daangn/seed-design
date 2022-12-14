@@ -58,3 +58,7 @@ export const gridItemImage = style([
 export const gridItemTitle = style([
   classNames.$semantic.typography.title1Bold,
 ]);
+
+export const gridItemDescription = style([
+  classNames.$semantic.typography.caption1Regular,
+]);
