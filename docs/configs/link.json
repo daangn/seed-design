@@ -35,6 +35,10 @@
           "document": "../content/components/spec/style/button/style.mdx"
         },
         {
+          "name": "Text Button",
+          "document": "../content/components/spec/style/text-button/style.mdx"
+        },
+        {
           "name": "Spinner",
           "document": "../content/components/spec/style/spinner/style.mdx"
         },
