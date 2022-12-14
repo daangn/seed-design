@@ -7,7 +7,7 @@ import * as u from "../styles/utils.css";
 
 const TRANSITION_DURATION = "0.2s";
 const TRANSITION_TIMING_FUNCTION = "ease";
-const SIDEBAR_WIDTH = "216px";
+const SIDEBAR_WIDTH = "250px";
 
 export const sidebar = recipe({
   base: [
@@ -16,6 +16,7 @@ export const sidebar = recipe({
     {
       position: "fixed",
       top: 0,
+
       background: vars.$semantic.color.paperDefault,
       paddingLeft: "20px",
 
@@ -60,22 +61,14 @@ export const sidebar = recipe({
   },
 });
 
-export const logo = style([
-  u.cursorPointer,
+export const sidebarItemContainer = style([
+  u.flexColumn,
   {
-    paddingLeft: "10px",
-    marginTop: "20px",
-    marginBottom: "30px",
-  },
-]);
-export const logoCircle = style([
-  {
-    fill: vars.$scale.color.gray900,
-  },
-]);
-export const logoText = style([
-  {
-    stroke: vars.$scale.color.gray900,
+    position: "absolute",
+    top: 150,
+
+    height: "calc(100vh - 150px)",
+    overflowY: "auto",
   },
 ]);
 
@@ -85,7 +78,7 @@ export const sidebarTitle1 = recipe({
       fontSize: "24px",
       fontWeight: 700,
 
-      width: "200px",
+      width: `calc(${SIDEBAR_WIDTH} - 20px)`,
       transition: "color 0.2s ease",
       color: vars.$scale.color.gray900,
       paddingLeft: "10px",
@@ -114,7 +107,7 @@ export const sidebarTitle2 = recipe({
       fontSize: "18px",
       fontWeight: 700,
 
-      width: "200px",
+      width: `calc(${SIDEBAR_WIDTH} - 20px)`,
       transition: "color 0.2s ease",
       color: vars.$scale.color.gray900,
       paddingLeft: "10px",
@@ -145,7 +138,7 @@ export const sidebarItem = recipe({
   base: [
     u.flexAlignCenter,
     {
-      width: "180px",
+      width: `calc(${SIDEBAR_WIDTH} - 46px)`,
       height: "26px",
       fontSize: "14px",
       color: vars.$scale.color.gray600,
@@ -177,7 +170,7 @@ export const sidebarItem = recipe({
   },
 });
 
-export const sidebarButton = style([
+export const sidebarToggleButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
