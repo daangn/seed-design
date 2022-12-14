@@ -25,10 +25,20 @@ export const caption1 = style([
 export const grid = style([
   {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(1, 1fr)",
     marginTop: "40px",
-    gridGap: "20px",
+
+    columnGap: "18px",
+    rowGap: "38px",
   },
+
+  m.xsmall({
+    gridTemplateColumns: "repeat(2, 1fr)",
+  }),
+
+  m.small({
+    gridTemplateColumns: "repeat(3, 1fr)",
+  }),
 ]);
 
 export const gridItem = style([
@@ -39,7 +49,7 @@ export const gridItem = style([
 
     transition: "scale 0.2s ease",
 
-    gap: 20,
+    gap: 8,
   },
 ]);
 
@@ -52,6 +62,8 @@ export const gridItemImage = style([
     width: "100%",
     height: "auto",
     objectFit: "contain",
+    overflow: "hidden",
+    borderRadius: "8px",
   },
 ]);
 

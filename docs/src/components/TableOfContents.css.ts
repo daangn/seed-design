@@ -30,16 +30,24 @@ export const title = style({
 export const listItem = recipe({
   base: [
     {
+      fontSize: "14px",
+      color: vars.$scale.color.gray600,
+
       paddingTop: "3px",
       paddingBottom: "3px",
       paddingLeft: "10px",
       borderLeft: `1px solid ${vars.$scale.color.gray300}`,
+
+      ":hover": {
+        color: vars.$scale.color.gray900,
+      },
     },
   ],
 
   variants: {
     active: {
       true: {
+        color: vars.$scale.color.gray900,
         borderLeft: `1px solid ${vars.$scale.color.gray900}`,
         fontWeight: "bold",
       },

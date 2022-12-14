@@ -7,7 +7,7 @@ import * as u from "../styles/utils.css";
 
 const TRANSITION_DURATION = "0.2s";
 const TRANSITION_TIMING_FUNCTION = "ease";
-const SIDEBAR_WIDTH = "216px";
+const SIDEBAR_WIDTH = "250px";
 
 export const sidebar = recipe({
   base: [
@@ -16,6 +16,7 @@ export const sidebar = recipe({
     {
       position: "fixed",
       top: 0,
+
       background: vars.$semantic.color.paperDefault,
       paddingLeft: "20px",
 
@@ -60,63 +61,85 @@ export const sidebar = recipe({
   },
 });
 
-export const logo = style([
-  u.cursorPointer,
+export const sidebarItemContainer = style([
+  u.flexColumn,
   {
-    paddingLeft: "10px",
-    marginTop: "20px",
-    marginBottom: "30px",
-  },
-]);
-export const logoCircle = style([
-  {
-    fill: vars.$scale.color.gray900,
-  },
-]);
-export const logoText = style([
-  {
-    stroke: vars.$scale.color.gray900,
+    position: "absolute",
+    top: 150,
+
+    height: "calc(100vh - 150px)",
+    overflowY: "auto",
   },
 ]);
 
-export const sidebarTitle1 = style([
-  {
-    fontSize: "24px",
-    fontWeight: 700,
+export const sidebarTitle1 = recipe({
+  base: [
+    {
+      fontSize: "24px",
+      fontWeight: 700,
 
-    width: "200px",
-    transition: "color 0.2s ease",
-    color: vars.$scale.color.gray900,
-    paddingLeft: "10px",
-    marginTop: "40px",
-    marginBottom: "4px",
-  },
-]);
+      width: `calc(${SIDEBAR_WIDTH} - 20px)`,
+      transition: "color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      paddingLeft: "10px",
+      marginTop: "40px",
+      marginBottom: "4px",
+    },
+  ],
+  variants: {
+    highlight: {
+      true: [
+        {
+          color: vars.$semantic.color.primary,
 
-export const sidebarTitle2 = style([
-  {
-    fontSize: "18px",
-    fontWeight: 700,
-
-    width: "200px",
-    transition: "color 0.2s ease",
-    color: vars.$scale.color.gray900,
-    paddingLeft: "10px",
-    marginTop: "10px",
-    marginBottom: "4px",
-
-    ":hover": {
-      color: vars.$scale.color.gray600,
+          ":hover": {
+            color: vars.$semantic.color.primaryHover,
+          },
+        },
+      ],
     },
   },
-]);
+});
+
+export const sidebarTitle2 = recipe({
+  base: [
+    {
+      fontSize: "18px",
+      fontWeight: 700,
+
+      width: `calc(${SIDEBAR_WIDTH} - 20px)`,
+      transition: "color 0.2s ease",
+      color: vars.$scale.color.gray900,
+      paddingLeft: "10px",
+      marginTop: "24px",
+      marginBottom: "4px",
+
+      ":hover": {
+        color: vars.$scale.color.gray600,
+      },
+    },
+  ],
+  variants: {
+    highlight: {
+      true: [
+        {
+          color: vars.$semantic.color.primary,
+
+          ":hover": {
+            color: vars.$semantic.color.primaryHover,
+          },
+        },
+      ],
+    },
+  },
+});
 
 export const sidebarItem = recipe({
   base: [
     u.flexAlignCenter,
     {
-      width: "180px",
-      height: "34px",
+      width: `calc(${SIDEBAR_WIDTH} - 46px)`,
+      height: "26px",
       fontSize: "14px",
       color: vars.$scale.color.gray600,
       transition: "background 0.2s ease",
@@ -147,7 +170,7 @@ export const sidebarItem = recipe({
   },
 });
 
-export const sidebarButton = style([
+export const sidebarToggleButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
