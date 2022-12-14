@@ -25,12 +25,20 @@ export const caption1 = style([
 export const grid = style([
   {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(1, 1fr)",
     marginTop: "40px",
 
     columnGap: "18px",
     rowGap: "38px",
   },
+
+  m.xsmall({
+    gridTemplateColumns: "repeat(2, 1fr)",
+  }),
+
+  m.small({
+    gridTemplateColumns: "repeat(3, 1fr)",
+  }),
 ]);
 
 export const gridItem = style([
