@@ -102,7 +102,7 @@ export const sidebarTitle2 = style([
     transition: "color 0.2s ease",
     color: vars.$scale.color.gray900,
     paddingLeft: "10px",
-    marginTop: "10px",
+    marginTop: "24px",
     marginBottom: "4px",
 
     ":hover": {
@@ -116,7 +116,7 @@ export const sidebarItem = recipe({
     u.flexAlignCenter,
     {
       width: "180px",
-      height: "34px",
+      height: "26px",
       fontSize: "14px",
       color: vars.$scale.color.gray600,
       transition: "background 0.2s ease",
