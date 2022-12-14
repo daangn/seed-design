@@ -62,30 +62,33 @@ export default function Sidebar() {
       configsJson {
         components {
           usage {
-            slug
-            title
-            thumbnail {
-              childImageSharp {
-                gatsbyImageData
+            document {
+              childMdx {
+                frontmatter {
+                  slug
+                  title
+                }
               }
             }
           }
           spec {
             primitive {
-              slug
-              title
-              thumbnail {
-                childImageSharp {
-                  gatsbyImageData
+              document {
+                childMdx {
+                  frontmatter {
+                    slug
+                    title
+                  }
                 }
               }
             }
             style {
-              slug
-              title
-              thumbnail {
-                childImageSharp {
-                  gatsbyImageData
+              document {
+                childMdx {
+                  frontmatter {
+                    slug
+                    title
+                  }
                 }
               }
             }
@@ -115,13 +118,14 @@ export default function Sidebar() {
           <h1 className={style.sidebarTitle1}>Usage</h1>
         </Link>
         {usageDocs!.map((link) => {
-          const active = currentPath.includes(link!.slug!);
+          const { slug, title } = link?.document?.childMdx?.frontmatter!;
+          const active = currentPath.includes(slug!);
           return (
             <SidebarItem
-              key={link!.slug!}
+              key={slug!}
               active={active}
-              to={link!.slug!}
-              title={link!.title!}
+              to={slug!}
+              title={title!}
               onClick={closeSidebar}
             />
           );
@@ -133,13 +137,14 @@ export default function Sidebar() {
           <h1 className={style.sidebarTitle2}>Primitive</h1>
         </Link>
         {primitiveDocs!.map((link) => {
-          const active = currentPath.includes(link!.slug!);
+          const { slug, title } = link?.document?.childMdx?.frontmatter!;
+          const active = currentPath.includes(slug!);
           return (
             <SidebarItem
-              key={link!.slug!}
+              key={slug!}
               active={active}
-              to={link!.slug!}
-              title={link!.title!}
+              to={slug!}
+              title={title!}
               onClick={closeSidebar}
             />
           );
@@ -149,13 +154,14 @@ export default function Sidebar() {
           <h1 className={style.sidebarTitle2}>Style</h1>
         </Link>
         {styleDocs!.map((link) => {
-          const active = currentPath.includes(link!.slug!);
+          const { slug, title } = link?.document?.childMdx?.frontmatter!;
+          const active = currentPath.includes(slug!);
           return (
             <SidebarItem
-              key={link!.slug!}
+              key={slug!}
               active={active}
-              to={link!.slug!}
-              title={link!.title!}
+              to={slug!}
+              title={title!}
               onClick={closeSidebar}
             />
           );
