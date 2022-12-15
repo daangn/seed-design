@@ -23,7 +23,7 @@ export const goDocsButton = style([
   u.flexCenter,
   u.cursorPointer,
   {
-    backgroundColor: vars.$scale.color.gray00,
+    backgroundColor: vars.$semantic.color.paperDefault,
     color: vars.$scale.color.gray900,
     fontSize: "18px",
     fontWeight: "bold",
