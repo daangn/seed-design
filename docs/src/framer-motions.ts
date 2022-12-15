@@ -1,4 +1,6 @@
-export const fadeInFromBottom = {
+import type { MotionProps } from "framer-motion";
+
+export const fadeInFromBottom: MotionProps = {
   initial: {
     opacity: 0,
     y: 10,
@@ -9,5 +11,11 @@ export const fadeInFromBottom = {
   },
   transition: {
     duration: 0.4,
+  },
+};
+
+export const elevateUp: MotionProps = {
+  whileHover: {
+    transform: "translateY(-4px)",
   },
 };

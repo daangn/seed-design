@@ -1,4 +1,5 @@
-import ForwardIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconForwardRegular";
+import ForwardIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconForwardFill";
+import { vars } from "@seed-design/design-token";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
@@ -21,21 +22,33 @@ export const query = graphql`
 const IndexPage = () => {
   return (
     <main className={t.main}>
-      <article className={style.content}>
-        <motion.h1 {...fadeInFromBottom} className={style.title}>
-          SEED Design
-        </motion.h1>
+      <motion.article {...fadeInFromBottom} className={style.content}>
+        <h1 className={style.title}>SEED Design</h1>
+
+        <p className={style.description}>
+          SEED는 메이커들이 효율적으로 제품을 만들 수 있도록
+          <br />
+          필요한 도구와 컴포넌트를 제공합니다.
+          <br />
+          SEED에서 제공하는 컴포넌트의 Usage 가이드,
+          <br /> Spec 가이드를 확인할 수 있습니다.
+        </p>
+
         <Link to="/components/usage/">
           <motion.button
-            {...fadeInFromBottom}
-            transition={{ delay: 0.3 }}
+            whileHover={{
+              backgroundColor: vars.$scale.color.gray900,
+              color: vars.$scale.color.gray00,
+              borderColor: vars.$scale.color.gray00,
+            }}
+            transition={{ duration: 0.2 }}
             className={style.goDocsButton}
           >
             Document 보러가기
-            <ForwardIcon width={20} />
+            <ForwardIcon width={28} />
           </motion.button>
         </Link>
-      </article>
+      </motion.article>
     </main>
   );
 };

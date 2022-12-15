@@ -91,12 +91,7 @@ export default function Sidebar() {
 
         <div className={style.sidebarItemContainer}>
           <Link to="/components/usage">
-            <h1
-              className={style.sidebarTitle1({
-                highlight: currentPath === "/components/usage/",
-              })}
-              style={{ marginTop: 0 }}
-            >
+            <h1 className={style.sidebarTitle1} style={{ marginTop: 0 }}>
               Usage
             </h1>
           </Link>
@@ -114,16 +109,10 @@ export default function Sidebar() {
             );
           })}
 
-          <h1 className={style.sidebarTitle1({ highlight: false })}>Spec</h1>
+          <h1 className={style.sidebarTitle1}>Spec</h1>
 
           <Link to="/components/spec/primitive">
-            <h1
-              className={style.sidebarTitle2({
-                highlight: currentPath === "/components/spec/primitive/",
-              })}
-            >
-              Primitive
-            </h1>
+            <h1 className={style.sidebarTitle2}>Primitive</h1>
           </Link>
           {primitiveDocs!.map((link) => {
             const { slug, title } = link?.document?.childMdx?.frontmatter!;
@@ -140,13 +129,7 @@ export default function Sidebar() {
           })}
 
           <Link to="/components/spec/style">
-            <h1
-              className={style.sidebarTitle2({
-                highlight: currentPath === "/components/spec/style/",
-              })}
-            >
-              Style
-            </h1>
+            <h1 className={style.sidebarTitle2}>Style</h1>
           </Link>
           {styleDocs!.map((link) => {
             const { slug, title } = link?.document?.childMdx?.frontmatter!;

@@ -14,17 +14,26 @@ export const content = style([
 
 export const title = style([t.documentHeading1, {}]);
 
+export const description = style([
+  t.documentParagraph,
+  { textAlign: "center", fontSize: "24px", marginTop: "20px" },
+]);
+
 export const goDocsButton = style([
   u.flexCenter,
   u.cursorPointer,
   {
-    backgroundColor: vars.$scale.color.gray900,
-    color: vars.$scale.color.gray00,
+    backgroundColor: vars.$scale.color.gray00,
+    color: vars.$scale.color.gray900,
     fontSize: "18px",
     fontWeight: "bold",
     padding: "20px 40px",
-    border: "none",
-    borderRadius: "28px",
+
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: vars.$scale.color.gray900,
+    borderRadius: "50px",
+
     marginTop: "40px",
     columnGap: "10px",
   },

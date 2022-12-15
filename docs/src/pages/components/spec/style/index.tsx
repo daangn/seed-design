@@ -6,7 +6,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import * as React from "react";
 
 import Sidebar from "../../../../components/Sidebar";
-import { fadeInFromBottom } from "../../../../framer-motions";
+import { elevateUp, fadeInFromBottom } from "../../../../framer-motions";
 import * as listPageStyle from "../../../../styles/list-page.css";
 import * as t from "../../../../styles/token.css";
 
@@ -60,23 +60,19 @@ const Page = ({ data }: PageProps) => {
               doc?.document?.childMdx?.frontmatter!;
             return (
               <Link key={slug} to={slug!}>
-                <div className={listPageStyle.gridItem}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={listPageStyle.gridItemImage}
-                  >
+                <motion.div {...elevateUp} className={listPageStyle.gridItem}>
+                  <div className={listPageStyle.gridItemImage}>
                     <GatsbyImage
                       draggable={false}
                       image={thumbnail?.childImageSharp?.gatsbyImageData!}
                       alt={title!}
                     />
-                  </motion.div>
+                  </div>
                   <h2 className={listPageStyle.gridItemTitle}>{title}</h2>
                   <p className={listPageStyle.gridItemDescription}>
                     {description}
                   </p>
-                </div>
+                </motion.div>
               </Link>
             );
           })}
