@@ -2858,6 +2858,11 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
+type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SidebarQuery = { readonly configsJson: { readonly components: { readonly usage: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly spec: { readonly primitive: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly style: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null } | null } | null } | null };
+
 type StylePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 

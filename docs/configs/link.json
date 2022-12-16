@@ -39,6 +39,10 @@
           "document": "../content/components/spec/style/text-button/style.mdx"
         },
         {
+          "name": "Toggle Button",
+          "document": "../content/components/spec/style/toggle-button/style.mdx"
+        },
+        {
           "name": "Spinner",
           "document": "../content/components/spec/style/spinner/style.mdx"
         },
