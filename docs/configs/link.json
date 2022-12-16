@@ -1,52 +1,49 @@
 {
-  "components": {
-    "usage": [
-      {
-        "name": "Checkbox",
-        "document": "../content/components/usage/checkbox/usage.mdx"
-      }
-    ],
-    "spec": {
-      "primitive": [
-        {
-          "name": "Checkbox",
-          "document": "../content/components/spec/primitive/checkbox/primitive.mdx"
-        },
-        {
-          "name": "Avatar",
-          "document": "../content/components/spec/primitive/avatar/primitive.mdx"
-        },
-        {
-          "name": "Button",
-          "document": "../content/components/spec/primitive/button/primitive.mdx"
-        }
-      ],
-      "style": [
-        {
-          "name": "Checkbox",
-          "document": "../content/components/spec/style/checkbox/style.mdx"
-        },
-        {
-          "name": "Avatar",
-          "document": "../content/components/spec/style/avatar/style.mdx"
-        },
-        {
-          "name": "Button",
-          "document": "../content/components/spec/style/button/style.mdx"
-        },
-        {
-          "name": "Text Button",
-          "document": "../content/components/spec/style/text-button/style.mdx"
-        },
-        {
-          "name": "Spinner",
-          "document": "../content/components/spec/style/spinner/style.mdx"
-        },
-        {
-          "name": "Switch",
-          "document": "../content/components/spec/style/switch/style.mdx"
-        }
-      ]
+  "component": [
+    {
+      "name": "Checkbox",
+      "usage": "../content/component/checkbox/usage.mdx",
+      "style": "../content/component/checkbox/style.mdx"
+    },
+    {
+      "name": "Avatar",
+      "usage": "../content/component/avatar/usage.mdx",
+      "style": "../content/component/avatar/style.mdx"
+    },
+    {
+      "name": "Button",
+      "usage": "../content/component/button/usage.mdx",
+      "style": "../content/component/button/style.mdx"
+    },
+    {
+      "name": "Text Button",
+      "usage": "../content/component/text-button/usage.mdx",
+      "style": "../content/component/text-button/style.mdx"
+    },
+    {
+      "name": "Spinner",
+      "usage": "../content/component/spinner/usage.mdx",
+      "style": "../content/component/spinner/style.mdx"
+    },
+    {
+      "name": "Switch",
+      "usage": "../content/component/switch/usage.mdx",
+      "style": "../content/component/switch/style.mdx"
     }
-  }
+  ],
+
+  "primitive": [
+    {
+      "name": "Checkbox",
+      "document": "../content/primitive/checkbox/primitive.mdx"
+    },
+    {
+      "name": "Avatar",
+      "document": "../content/primitive/avatar/primitive.mdx"
+    },
+    {
+      "name": "Button",
+      "document": "../content/primitive/button/primitive.mdx"
+    }
+  ]
 }

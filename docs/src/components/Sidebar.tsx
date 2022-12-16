@@ -35,36 +35,23 @@ export default function Sidebar() {
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
       configsJson {
-        components {
+        component {
           usage {
-            document {
-              childMdx {
-                frontmatter {
-                  slug
-                  title
-                }
+            childMdx {
+              frontmatter {
+                slug
+                title
               }
             }
           }
-          spec {
-            primitive {
-              document {
-                childMdx {
-                  frontmatter {
-                    slug
-                    title
-                  }
-                }
-              }
-            }
-            style {
-              document {
-                childMdx {
-                  frontmatter {
-                    slug
-                    title
-                  }
-                }
+        }
+
+        primitive {
+          document {
+            childMdx {
+              frontmatter {
+                slug
+                title
               }
             }
           }
@@ -73,9 +60,8 @@ export default function Sidebar() {
     }
   `);
 
-  const usageDocs = data.configsJson?.components?.usage;
-  const primitiveDocs = data.configsJson?.components?.spec?.primitive;
-  const styleDocs = data.configsJson?.components?.spec?.style;
+  const componentDocs = data.configsJson?.component;
+  const primitiveDocs = data.configsJson?.primitive;
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
 
@@ -90,13 +76,13 @@ export default function Sidebar() {
         <Logo to="/" onClick={closeSidebar} />
 
         <div className={style.sidebarItemContainer}>
-          <Link to="/components/usage">
+          <Link to="/component">
             <h1 className={style.sidebarTitle1} style={{ marginTop: 0 }}>
-              Usage
+              Component
             </h1>
           </Link>
-          {usageDocs!.map((link) => {
-            const { slug, title } = link?.document?.childMdx?.frontmatter!;
+          {componentDocs!.map((link) => {
+            const { slug, title } = link?.usage?.childMdx?.frontmatter!;
             const active = currentPath.includes(slug!);
             return (
               <SidebarItem
@@ -108,30 +94,11 @@ export default function Sidebar() {
               />
             );
           })}
-
-          <h1 className={style.sidebarTitle1}>Spec</h1>
-
-          <Link to="/components/spec/primitive">
-            <h1 className={style.sidebarTitle2}>Primitive</h1>
+          <Link to="/primitive">
+            <h1 className={style.sidebarTitle1}>Primitive</h1>
           </Link>
+
           {primitiveDocs!.map((link) => {
-            const { slug, title } = link?.document?.childMdx?.frontmatter!;
-            const active = currentPath.includes(slug!);
-            return (
-              <SidebarItem
-                key={slug!}
-                active={active}
-                to={slug!}
-                title={title!}
-                onClick={closeSidebar}
-              />
-            );
-          })}
-
-          <Link to="/components/spec/style">
-            <h1 className={style.sidebarTitle2}>Style</h1>
-          </Link>
-          {styleDocs!.map((link) => {
             const { slug, title } = link?.document?.childMdx?.frontmatter!;
             const active = currentPath.includes(slug!);
             return (
