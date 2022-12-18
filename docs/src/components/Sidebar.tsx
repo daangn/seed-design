@@ -83,7 +83,9 @@ export default function Sidebar() {
           </Link>
           {componentDocs!.map((link) => {
             const { slug, title } = link?.usage?.childMdx?.frontmatter!;
-            const active = currentPath.includes(slug!);
+            const active =
+              currentPath.includes(title!.toLowerCase()) &&
+              currentPath.includes("component");
             return (
               <SidebarItem
                 key={slug!}
@@ -100,7 +102,9 @@ export default function Sidebar() {
 
           {primitiveDocs!.map((link) => {
             const { slug, title } = link?.document?.childMdx?.frontmatter!;
-            const active = currentPath.includes(slug!);
+            const active =
+              currentPath.includes(title!.toLowerCase()) &&
+              currentPath.includes("primitive");
             return (
               <SidebarItem
                 key={slug!}

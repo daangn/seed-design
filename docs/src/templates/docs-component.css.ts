@@ -1,4 +1,6 @@
+import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
 
 import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
@@ -17,12 +19,29 @@ export const navContainer = style([
   },
 ]);
 
-export const navButton = style([
-  u.flexAlignCenter,
-  u.cursorPointer,
-  {
-    border: "none",
+export const navLink = recipe({
+  base: [
+    u.flexAlignCenter,
+    u.cursorPointer,
+    {
+      fontSize: "14px",
+      fontWeight: "bold",
 
-    padding: "12px",
+      padding: "4px 14px",
+      borderRadius: "8px",
+
+      transition: "background-color 0.2s ease",
+
+      ":hover": {
+        backgroundColor: vars.$scale.color.gray200,
+      },
+    },
+  ],
+  variants: {
+    active: {
+      true: {
+        backgroundColor: vars.$scale.color.gray100,
+      },
+    },
   },
-]);
+});

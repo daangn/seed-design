@@ -40,11 +40,17 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
           <p className={style.titleDescription}>{description}</p>
 
           <div className={style.navContainer}>
-            <Link to={slug.replace("style", "usage")}>
-              <a className={style.navButton}>Usage</a>
+            <Link
+              className={style.navLink({ active: slug.includes("usage") })}
+              to={slug.replace("style", "usage")}
+            >
+              Usage
             </Link>
-            <Link to={slug.replace("usage", "style")}>
-              <a className={style.navButton}>Style</a>
+            <Link
+              className={style.navLink({ active: slug.includes("style") })}
+              to={slug.replace("usage", "style")}
+            >
+              Style
             </Link>
           </div>
 
