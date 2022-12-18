@@ -34,7 +34,7 @@ const IndexPage = () => {
           <br /> Spec 가이드를 확인할 수 있습니다.
         </p>
 
-        <Link to="/components/usage/">
+        <Link to="/component/">
           <motion.button
             whileHover={{
               backgroundColor: vars.$scale.color.gray900,

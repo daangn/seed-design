@@ -1,0 +1,46 @@
+---
+slug: /primitive/avatar
+title: Avatar
+description: 프로필 사진 또는 대체 이미지를 통해 사용자를 표현합니다.
+thumbnail: ./thumbnail.png
+---
+
+## Anatomy
+
+1. Root
+2. Image
+3. Fallback
+
+## States
+
+| State  | Values                                   | Default Value |
+| ------ | ---------------------------------------- | ------------- |
+| `load` | `loading`, `loaded`, `fallback`, `error` | `loading`     |
+
+## Contexts
+
+| Context        | Values   | Default Value |
+| -------------- | -------- | ------------- |
+| `fallackDelay` | `number` | `0`           |
+
+## Actions
+
+| Action                         | From                | Condition | To                  |
+| ------------------------------ | ------------------- | --------- | ------------------- |
+| `IMAGE_LOAD`                   | `load` = `loading`  |           | `load` = `loaded`   |
+| `loading.after(fallbackDelay)` | `load` = `loading`  |           | `load` = `fallback` |
+| `IMAGE_ERROR`                  | `load` = `loading`  |           | `load` = `error`    |
+|                                | `load` = `fallback` |           | `load` = `error`    |
+| `SRC_CHANGE`                   | `load` = `loaded`   |           | `load` = `loading`  |
+|                                | `load` = `fallback` |           | `load` = `loading`  |
+|                                | `load` = `error`    |           | `load` = `error`    |
+
+## Triggers
+
+### Web
+
+| Part  | Event      | Action        |
+| ----- | ---------- | ------------- |
+| Image | `Load`     | `IMAGE_LOAD`  |
+| Image | `Error`    | `IMAGE_ERROR` |
+| Image | src change | `SRC_CHANGE`  |

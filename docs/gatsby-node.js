@@ -1,6 +1,11 @@
 const path = require("path");
 
-const DocsTemplate = path.resolve(`./src/templates/docs.tsx`);
+const PrimitiveDocsTemplate = path.resolve(
+  `./src/templates/docs-primitive.tsx`,
+);
+const ComponentDocsTemplate = path.resolve(
+  `./src/templates/docs-component.tsx`,
+);
 
 exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
@@ -22,8 +27,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         gatsbyImageData(layout: FIXED)
       }
 
-      components: allMdx(
-        filter: { frontmatter: { slug: { regex: "/(?=.*/components)/" } } }
+      component: allMdx(
+        filter: { frontmatter: { slug: { regex: "/(?=.*/component)/" } } }
+      ) {
+        nodes {
+          ...MdxContent
+        }
+      }
+
+      primitive: allMdx(
+        filter: { frontmatter: { slug: { regex: "/(?=.*/primitive)/" } } }
       ) {
         nodes {
           ...MdxContent
@@ -34,13 +47,29 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const ogImage = result.data.ogImage.gatsbyImageData;
 
-  // NOTE: component-guideline-usage, component-spec-primitive, component-spec-style, etc...
-  const components = result.data.components.nodes;
+  const componentNodes = result.data.component.nodes;
+  const primitiveNodes = result.data.primitive.nodes;
 
-  components.forEach((component) => {
+  componentNodes.forEach((component) => {
     createPage({
       path: component.frontmatter.slug,
-      component: `${DocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
+      component: `${ComponentDocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
+      context: {
+        id: component.id,
+        slug: component.frontmatter.slug,
+        title: component.frontmatter.title,
+        description: component.frontmatter.description,
+        tableOfContents: component.tableOfContents,
+        activeTab: component.frontmatter.slug,
+        ogImage,
+      },
+    });
+  });
+
+  primitiveNodes.forEach((component) => {
+    createPage({
+      path: component.frontmatter.slug,
+      component: `${PrimitiveDocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
       context: {
         id: component.id,
         slug: component.frontmatter.slug,
