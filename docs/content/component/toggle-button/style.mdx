@@ -1,0 +1,241 @@
+---
+slug: /component/toggle-button/style
+title: Toggle Button
+description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니다.
+---
+
+## Anatomy
+
+![button style anatomy](./button-style-anatomy.png)
+
+1. Root : Button 컴포넌트를 감싸는 컨테이너 영역 - Primitive.Root
+2. Label : Button에 대한 정보를 전달하는 라벨 - Primitive.Label
+3. Icon : Button에 대한 정보를 전달하는 아이콘
+
+## Visual Options
+
+| Property | Value                                   | Description |
+| -------- | --------------------------------------- | ----------- |
+| size     | xsmall, small, medium, large, xlarge    |             |
+| variant  | primary, primary-low, secondary, danger |             |
+
+## Visually Representated States
+
+| State    | Condition                                                                   |
+| -------- | --------------------------------------------------------------------------- |
+| enabled  | isDisabled = False, isHovered = False, isFocused = False, isPressed = False |
+| hovered  | isDisabled = False, isPressed = False, isHovered = True                     |
+| focused  | isDisabled = False, isPressed = False, isFocused = True                     |
+| pressed  | isDisabled = False, isPressed = True                                        |
+| disabled | isDisabled = True                                                           |
+
+## 디자인 결정 (Color)
+
+### Variant=Primary & isSelected=True
+
+| State    | Part        | Attribute | Value                         |
+| -------- | ----------- | --------- | ----------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.secondary-low |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Hovered  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Pressed  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Disabled | Root        | Color     | $scale.color.gray-300         |
+|          | Label, Icon | Color     | $scale.color.gray-500         |
+
+### Variant=Primary & isSelected=False
+
+| State    | Part        | Attribute | Value                           |
+| -------- | ----------- | --------- | ------------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.primary         |
+|          | Label, Icon | Color     | $semantic.color.on-primary      |
+| Hovered  | Root        | Color     | $semantic.color.primary-hover   |
+|          | Label, Icon | Color     | $semantic.color.on-primary      |
+| Pressed  | Root        | Color     | $semantic.color.primary-pressed |
+|          | Label, Icon | Color     | $semantic.color.on-primary      |
+| Disabled | Root        | Color     | $scale.color.gray-300           |
+|          | Label, Icon | Color     | $scale.color.gray-500           |
+
+### Variant=Primary Low & isSelected=True
+
+| State    | Part        | Attribute | Value                         |
+| -------- | ----------- | --------- | ----------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.secondary-low |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Hovered  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Pressed  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Disabled | Root        | Color     | $scale.color.gray-300         |
+|          | Label, Icon | Color     | $scale.color.gray-500         |
+
+### Variant=Primary Low & isSelected=False
+
+| State    | Part        | Attribute | Value                               |
+| -------- | ----------- | --------- | ----------------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.primary-low         |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Hovered  | Root        | Color     | $semantic.color.primary-low-hover   |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Pressed  | Root        | Color     | $semantic.color.primary-low-pressed |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Disabled | Root        | Color     | $scale.color.gray-300               |
+|          | Label, Icon | Color     | $scale.color.gray-500               |
+
+### Variant=Secondary & isSelected=True
+
+| State    | Part        | Attribute | Value                               |
+| -------- | ----------- | --------- | ----------------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.primary-low         |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Hovered  | Root        | Color     | $semantic.color.primary-low-hover   |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Pressed  | Root        | Color     | $semantic.color.primary-low-pressed |
+|          | Label, Icon | Color     | $semantic.color.primary             |
+| Disabled | Root        | Color     | $scale.color.gray-300               |
+|          | Label, Icon | Color     | $scale.color.gray-500               |
+
+### Variant=Secondary & isSelected=False
+
+| State    | Part        | Attribute | Value                         |
+| -------- | ----------- | --------- | ----------------------------- |
+| Enabled  | Root        | Color     | $semantic.color.secondary-low |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Hovered  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Pressed  | Root        | Color     | $scale.color.gray-200         |
+|          | Label, Icon | Color     | $scale.color.gray-900         |
+| Disabled | Root        | Color     | $scale.color.gray-300         |
+|          | Label, Icon | Color     | $scale.color.gray-500         |
+
+## 디자인 결정 (Typography)
+
+### Size=Large
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label3-bold |
+
+### Size=Medium
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label3-bold |
+
+### Size=Small
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label3-bold |
+
+### Size=Xsmall
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label5-bold |
+
+## 디자인 결정 (Layout)
+
+### Size=Large & Style=Basic
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 66pt   |
+|              | Horizontal Padding | 20pt   |
+|              | Vertical Padding   | 14pt   |
+|              | Corner Radius      | 6pt    |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Large & Style=Pill
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 66pt   |
+|              | Horizontal Padding | 20pt   |
+|              | Vertical Padding   | 14pt   |
+|              | Corner Radius      | 22pt   |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Medium & Style=Basic
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 58pt   |
+|              | Horizontal Padding | 16pt   |
+|              | Vertical Padding   | 10pt   |
+|              | Corner Radius      | 6pt    |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Medium & Style=Pill
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 58pt   |
+|              | Horizontal Padding | 16pt   |
+|              | Vertical Padding   | 10pt   |
+|              | Corner Radius      | 20pt   |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Small & Style=Basic
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 54pt   |
+|              | Horizontal Padding | 14pt   |
+|              | Vertical Padding   | 8pt    |
+|              | Corner Radius      | 4pt    |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Small & Style=Pill
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 54pt   |
+|              | Horizontal Padding | 14pt   |
+|              | Vertical Padding   | 8pt    |
+|              | Corner Radius      | 18pt   |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 16pt   |
+| Label / Icon | Padding            | 4pt    |
+
+### Size=Xsmall & Style=Basic
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 40pt   |
+|              | Horizontal Padding | 10pt   |
+|              | Vertical Padding   | 8pt    |
+|              | Corner Radius      | 4pt    |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 12pt   |
+| Label / Icon | Padding            | 2pt    |
+
+### Size=Xsmall & Style=Pill
+
+| Part         | Attribute          | Value  |
+| ------------ | ------------------ | ------ |
+| Root         | Min Width          | 40pt   |
+|              | Horizontal Padding | 10pt   |
+|              | Vertical Padding   | 8pt    |
+|              | Corner Radius      | 16pt   |
+| Label        | Text Align         | Center |
+| Icon         | Size               | 12pt   |
+| Label / Icon | Padding            | 2pt    |
+
+## 디자인 결정 (Focus)
+
+| State   | Part | Attribute     | Value                 |
+| ------- | ---- | ------------- | --------------------- |
+| Focused | Root | Outline Color | $scale.color.blue-600 |
+|         |      | Outline Width | 2pt                   |
