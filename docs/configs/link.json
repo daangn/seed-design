@@ -21,6 +21,11 @@
       "style": "../content/component/text-button/style.mdx"
     },
     {
+      "name": "Toggle Button",
+      "usage": "../content/component/toggle-button/usage.mdx",
+      "style": "../content/component/toggle-button/style.mdx"
+    },
+    {
       "name": "Spinner",
       "usage": "../content/component/spinner/usage.mdx",
       "style": "../content/component/spinner/style.mdx"
