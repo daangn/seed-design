@@ -1432,6 +1432,150 @@ type JSONQueryOperatorInput = {
   readonly regex: InputMaybe<Scalars['JSON']>;
 };
 
+type LocalSearchPages = Node & {
+  readonly children: ReadonlyArray<Node>;
+  /** The search engine used to create the index. */
+  readonly engine: Scalars['String'];
+  readonly id: Scalars['ID'];
+  /** The search index created using the selected engine. */
+  readonly index: Scalars['String'];
+  readonly internal: Internal;
+  /** The name of the index. */
+  readonly name: Scalars['String'];
+  readonly parent: Maybe<Node>;
+  /** Save the index to the site's static directory and return a public URL to it. */
+  readonly publicIndexURL: Scalars['String'];
+  /** Save the store to the site's static directory and return a public URL to it. */
+  readonly publicStoreURL: Scalars['String'];
+  /** A JSON object used to map search results to their data. */
+  readonly store: Scalars['JSON'];
+};
+
+type LocalSearchPagesConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<LocalSearchPagesEdge>;
+  readonly group: ReadonlyArray<LocalSearchPagesGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<LocalSearchPages>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type LocalSearchPagesConnection_distinctArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesConnection_groupArgs = {
+  field: LocalSearchPagesFieldSelector;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type LocalSearchPagesConnection_maxArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesConnection_minArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesConnection_sumArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+type LocalSearchPagesEdge = {
+  readonly next: Maybe<LocalSearchPages>;
+  readonly node: LocalSearchPages;
+  readonly previous: Maybe<LocalSearchPages>;
+};
+
+type LocalSearchPagesFieldSelector = {
+  readonly children: InputMaybe<NodeFieldSelector>;
+  readonly engine: InputMaybe<FieldSelectorEnum>;
+  readonly id: InputMaybe<FieldSelectorEnum>;
+  readonly index: InputMaybe<FieldSelectorEnum>;
+  readonly internal: InputMaybe<InternalFieldSelector>;
+  readonly name: InputMaybe<FieldSelectorEnum>;
+  readonly parent: InputMaybe<NodeFieldSelector>;
+  readonly publicIndexURL: InputMaybe<FieldSelectorEnum>;
+  readonly publicStoreURL: InputMaybe<FieldSelectorEnum>;
+  readonly store: InputMaybe<FieldSelectorEnum>;
+};
+
+type LocalSearchPagesFilterInput = {
+  readonly children: InputMaybe<NodeFilterListInput>;
+  readonly engine: InputMaybe<StringQueryOperatorInput>;
+  readonly id: InputMaybe<StringQueryOperatorInput>;
+  readonly index: InputMaybe<StringQueryOperatorInput>;
+  readonly internal: InputMaybe<InternalFilterInput>;
+  readonly name: InputMaybe<StringQueryOperatorInput>;
+  readonly parent: InputMaybe<NodeFilterInput>;
+  readonly publicIndexURL: InputMaybe<StringQueryOperatorInput>;
+  readonly publicStoreURL: InputMaybe<StringQueryOperatorInput>;
+  readonly store: InputMaybe<JSONQueryOperatorInput>;
+};
+
+type LocalSearchPagesGroupConnection = {
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly edges: ReadonlyArray<LocalSearchPagesEdge>;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+  readonly group: ReadonlyArray<LocalSearchPagesGroupConnection>;
+  readonly max: Maybe<Scalars['Float']>;
+  readonly min: Maybe<Scalars['Float']>;
+  readonly nodes: ReadonlyArray<LocalSearchPages>;
+  readonly pageInfo: PageInfo;
+  readonly sum: Maybe<Scalars['Float']>;
+  readonly totalCount: Scalars['Int'];
+};
+
+
+type LocalSearchPagesGroupConnection_distinctArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesGroupConnection_groupArgs = {
+  field: LocalSearchPagesFieldSelector;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+};
+
+
+type LocalSearchPagesGroupConnection_maxArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesGroupConnection_minArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+
+type LocalSearchPagesGroupConnection_sumArgs = {
+  field: LocalSearchPagesFieldSelector;
+};
+
+type LocalSearchPagesSortInput = {
+  readonly children: InputMaybe<NodeSortInput>;
+  readonly engine: InputMaybe<SortOrderEnum>;
+  readonly id: InputMaybe<SortOrderEnum>;
+  readonly index: InputMaybe<SortOrderEnum>;
+  readonly internal: InputMaybe<InternalSortInput>;
+  readonly name: InputMaybe<SortOrderEnum>;
+  readonly parent: InputMaybe<NodeSortInput>;
+  readonly publicIndexURL: InputMaybe<SortOrderEnum>;
+  readonly publicStoreURL: InputMaybe<SortOrderEnum>;
+  readonly store: InputMaybe<SortOrderEnum>;
+};
+
 type Mdx = Node & {
   readonly body: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
@@ -1677,6 +1821,7 @@ type Query = {
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
   readonly allImageSharp: ImageSharpConnection;
+  readonly allLocalSearchPages: LocalSearchPagesConnection;
   readonly allMdx: MdxConnection;
   readonly allSite: SiteConnection;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
@@ -1687,6 +1832,7 @@ type Query = {
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
   readonly imageSharp: Maybe<ImageSharp>;
+  readonly localSearchPages: Maybe<LocalSearchPages>;
   readonly mdx: Maybe<Mdx>;
   readonly site: Maybe<Site>;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
@@ -1725,6 +1871,14 @@ type Query_allImageSharpArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ReadonlyArray<InputMaybe<ImageSharpSortInput>>>;
+};
+
+
+type Query_allLocalSearchPagesArgs = {
+  filter: InputMaybe<LocalSearchPagesFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ReadonlyArray<InputMaybe<LocalSearchPagesSortInput>>>;
 };
 
 
@@ -1883,6 +2037,20 @@ type Query_imageSharpArgs = {
   original: InputMaybe<ImageSharpOriginalFilterInput>;
   parent: InputMaybe<NodeFilterInput>;
   resize: InputMaybe<ImageSharpResizeFilterInput>;
+};
+
+
+type Query_localSearchPagesArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  engine: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  index: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  name: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  publicIndexURL: InputMaybe<StringQueryOperatorInput>;
+  publicStoreURL: InputMaybe<StringQueryOperatorInput>;
+  store: InputMaybe<JSONQueryOperatorInput>;
 };
 
 

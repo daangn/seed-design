@@ -13,6 +13,7 @@ export const backLayer = style({ zIndex: -1 });
 export const baseLayer = style({ zIndex: 0 });
 export const middleLayer = style({ zIndex: 50 });
 export const topLayer = style({ zIndex: 100 });
+export const modalLayer = style({ zIndex: 1000 });
 
 export const flex = style({
   display: "flex",

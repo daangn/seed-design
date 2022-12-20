@@ -3157,6 +3157,7 @@ __metadata:
   dependencies:
     "@changesets/cli": ^2.17.0
     esbuild: ^0.15.13
+    gatsby-plugin-local-search: ^2.0.1
     prettier: ^2.7.1
     typescript: ^4.6.3
     ultra-runner: ^3.10.5
@@ -8761,6 +8762,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flexsearch@npm:^0.6.22, flexsearch@npm:^0.6.32":
+  version: 0.6.32
+  resolution: "flexsearch@npm:0.6.32"
+  checksum: a46f833365174ce279d55a7dfa150e450934e52c086a3759f17b90784a7018bcec524ca8e88dca24ffa6ef17f1130d56fbb84b49c19d6f58363dac0713bf1909
+  languageName: node
+  linkType: hard
+
 "follow-redirects@npm:^1.14.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
@@ -9175,6 +9183,20 @@ __metadata:
     react: ^18.0.0 || ^0.0.0
     react-dom: ^18.0.0 || ^0.0.0
   checksum: b46e32a760b0c28a0121f5aafd3c189d6dfc098c269498b0621afa905e756c84d4646734892c92540df74298aed49bc82d38ce6f5cd22f0d73fd0b721fb58410
+  languageName: node
+  linkType: hard
+
+"gatsby-plugin-local-search@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "gatsby-plugin-local-search@npm:2.0.1"
+  dependencies:
+    flexsearch: ^0.6.32
+    lodash: ^4.17.19
+    lunr: ^2.3.8
+    pascal-case: ^3.1.1
+  peerDependencies:
+    gatsby: ">= 2.20.0"
+  checksum: ef4bf8add3b28ef7b8ae193c8e1368c5ae13d8570759a481bb882d5ee2c7669db97bbea335ac75f7a2a5729d4b35db34681685274e556972769c0f7b62b428c0
   languageName: node
   linkType: hard
 
@@ -11825,6 +11847,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lunr@npm:^2.3.8":
+  version: 2.3.9
+  resolution: "lunr@npm:2.3.9"
+  checksum: 176719e24fcce7d3cf1baccce9dd5633cd8bdc1f41ebe6a180112e5ee99d80373fe2454f5d4624d437e5a8319698ca6837b9950566e15d2cae5f2a543a3db4b8
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.0.0, make-dir@npm:^3.0.2, make-dir@npm:^3.1.0":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -13989,7 +14018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pascal-case@npm:^3.1.2":
+"pascal-case@npm:^3.1.1, pascal-case@npm:^3.1.2":
   version: 3.1.2
   resolution: "pascal-case@npm:3.1.2"
   dependencies:
@@ -15007,6 +15036,17 @@ __metadata:
     react: 0.0.0-experimental-c8b778b7f-20220825
     webpack: ^5.59.0
   checksum: 55fc67030b775ededaafc149aa17ebdac6cd4df7f9d61f194f3e3d98bb5cf83a67bd313ce25b9c597df55fa88162840690ba2b61e22d36532478a008c5209385
+  languageName: node
+  linkType: hard
+
+"react-use-flexsearch@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "react-use-flexsearch@npm:0.1.1"
+  dependencies:
+    flexsearch: ^0.6.22
+  peerDependencies:
+    react: ">=16.8"
+  checksum: cd7066fbdeaa2672eda5495f8d44f198bcfca2b28004dc4e09596a3b19eef74eab42bbe23d360057995d17ce00b5b8df13b5dea940356ead01e10f79e637e906
   languageName: node
   linkType: hard
 
@@ -17717,6 +17757,7 @@ __metadata:
     prettier: ^2.7.1
     react: ^18.1.0
     react-dom: ^18.1.0
+    react-use-flexsearch: ^0.1.1
     rehype-autolink-headings: ^6.1.1
     rehype-slug: ^5.0.1
     remark-gfm: ^1

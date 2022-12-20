@@ -43,6 +43,7 @@
     "gatsby-transformer-sharp": "^5.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-use-flexsearch": "^0.1.1",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.0.1",
     "remark-gfm": "^1"
