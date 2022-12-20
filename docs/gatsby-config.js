@@ -145,7 +145,6 @@ module.exports = {
           }
         `,
         ref: "id",
-        tokenize: "full",
         index: ["title", "slug"],
         store: ["id", "slug", "title"],
         normalizer: ({ data }) =>
