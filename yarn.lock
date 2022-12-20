@@ -1425,6 +1425,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.3.1":
+  version: 7.20.6
+  resolution: "@babel/runtime@npm:7.20.6"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 42a8504db21031b1859fbc0f52d698a3d2f5ada9519eb76c6f96a7e657d8d555732a18fe71ef428a67cc9fc81ca0d3562fb7afdc70549c5fec343190cbaa9b03
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.12.13, @babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
@@ -9267,6 +9276,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-plugin-portal@npm:^1.0.7":
+  version: 1.0.65
+  resolution: "gatsby-plugin-portal@npm:1.0.65"
+  dependencies:
+    "@babel/runtime": ^7.3.1
+  peerDependencies:
+    gatsby: ^2.0.0
+  checksum: e3794fe712faa3aa615b921d5160e8fc1b67a790629a7674b3677a162d7c0046760ff65ba55a591c402438990040d818d94eb44ed248f16f6d5a55676e7babc8
+  languageName: node
+  linkType: hard
+
 "gatsby-plugin-seed-design@workspace:^, gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design":
   version: 0.0.0-use.local
   resolution: "gatsby-plugin-seed-design@workspace:packages/gatsby-plugin-seed-design"
@@ -15240,7 +15260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.10, regenerator-runtime@npm:^0.13.7":
+"regenerator-runtime@npm:^0.13.10, regenerator-runtime@npm:^0.13.11, regenerator-runtime@npm:^0.13.7":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
@@ -17744,6 +17764,7 @@ __metadata:
     gatsby-plugin-image: ^3.0.0
     gatsby-plugin-mdx: ^5.0.0
     gatsby-plugin-mdx-frontmatter: ^0.0.4
+    gatsby-plugin-portal: ^1.0.7
     gatsby-plugin-seed-design: "workspace:^"
     gatsby-plugin-sharp: ^5.0.0
     gatsby-plugin-sitemap: ^6.0.0

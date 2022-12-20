@@ -1,10 +1,12 @@
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
+import { AnimatePresence, motion } from "framer-motion";
 import { graphql, Link, useStaticQuery } from "gatsby";
 import type { ChangeEvent, MouseEvent } from "react";
 import { useRef } from "react";
 import React, { useEffect, useState } from "react";
 import { useFlexSearch } from "react-use-flexsearch";
 
+import Portal from "./Portal";
 import * as style from "./Searchbar.css";
 
 const Searchbar = () => {
@@ -38,9 +40,8 @@ const Searchbar = () => {
   };
 
   const openSearchbar = () => {
-    setOpen(true);
-    inputRef.current?.focus();
     document.body.style.overflowY = "hidden";
+    setOpen(true);
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +58,10 @@ const Searchbar = () => {
   }, [query]);
 
   useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    }
+
     const callback = (e: KeyboardEvent) => {
       if (e.key === "k" && e.metaKey && !open) {
         openSearchbar();
@@ -84,56 +89,66 @@ const Searchbar = () => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      onClick={handleContainerClick}
-      className={style.container({ open })}
-    >
-      <section className={style.content}>
-        <div className={style.inputContainer}>
-          <SearchIcon className={style.inputLeftIcon} />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={handleInputChange}
-            type="text"
-            className={style.input({ underline: items.length > 0 })}
-          />
-        </div>
-        {items.length !== 0 && (
-          <ul className={style.list}>
-            {items.map(({ id, slug, title }) => {
-              const titleHighlight = title.replace(
-                new RegExp(query, "gi"),
-                (match) =>
-                  `<span class=${style.listItemHighlight}>${match}</span>`,
-              );
+    <Portal>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.15 }}
+            exit={{ opacity: 0, y: -10 }}
+            ref={containerRef}
+            onClick={handleContainerClick}
+            className={style.container}
+          >
+            <div className={style.content}>
+              <div className={style.inputContainer}>
+                <SearchIcon className={style.inputLeftIcon} />
+                <input
+                  ref={inputRef}
+                  value={query}
+                  onChange={handleInputChange}
+                  type="text"
+                  className={style.input({ underline: items.length > 0 })}
+                />
+              </div>
+              {items.length !== 0 && (
+                <ul className={style.list}>
+                  {items.map(({ id, slug, title }) => {
+                    const titleHighlight = title.replace(
+                      new RegExp(query, "gi"),
+                      (match) =>
+                        `<span class=${style.listItemHighlight}>${match}</span>`,
+                    );
 
-              const slugHighlight = slug.replace(
-                new RegExp(query, "gi"),
-                (match) =>
-                  `<span class=${style.listItemHighlight}>${match}</span>`,
-              );
+                    const slugHighlight = slug.replace(
+                      new RegExp(query, "gi"),
+                      (match) =>
+                        `<span class=${style.listItemHighlight}>${match}</span>`,
+                    );
 
-              return (
-                <Link to={slug} key={id} onClick={close}>
-                  <li className={style.listItem}>
-                    <p
-                      className={style.listItemTitle}
-                      dangerouslySetInnerHTML={{ __html: titleHighlight }}
-                    />
-                    <p
-                      className={style.listItemDescription}
-                      dangerouslySetInnerHTML={{ __html: slugHighlight }}
-                    />
-                  </li>
-                </Link>
-              );
-            })}
-          </ul>
+                    return (
+                      <Link to={slug} key={id} onClick={closeSearchbar}>
+                        <li className={style.listItem}>
+                          <p
+                            className={style.listItemTitle}
+                            dangerouslySetInnerHTML={{ __html: titleHighlight }}
+                          />
+                          <p
+                            className={style.listItemDescription}
+                            dangerouslySetInnerHTML={{ __html: slugHighlight }}
+                          />
+                        </li>
+                      </Link>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          </motion.div>
         )}
-      </section>
-    </div>
+      </AnimatePresence>
+    </Portal>
   );
 };
 
