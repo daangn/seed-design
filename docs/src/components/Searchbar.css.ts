@@ -7,9 +7,11 @@ import * as u from "../styles/utils.css";
 const fade = keyframes({
   "0%": {
     opacity: 0,
+    transform: "translateY(-10px)",
   },
   "100%": {
     opacity: 1,
+    transform: "translateY(0px)",
   },
 });
 
@@ -24,6 +26,7 @@ export const container = recipe({
 
       animation: `${fade} 0.2s ease`,
       backgroundColor: vars.$scale.color.grayAlpha500,
+      backdropFilter: "blur(2px)",
     },
   ],
   variants: {
@@ -52,27 +55,61 @@ export const content = style([
 
     width: "600px",
 
-    backgroundColor: vars.$scale.color.gray100,
+    borderRadius: "12px",
 
-    borderRadius: "8px",
+    backgroundColor: vars.$scale.color.gray00,
 
     padding: "8px",
   },
 ]);
 
-export const input = style({
-  width: "100%",
-  height: "60px",
+export const inputContainer = style([
+  u.flexJustifyCenter,
+  {
+    position: "relative",
+    width: "95%",
+    height: "78px",
+  },
+]);
 
-  backgroundColor: vars.$scale.color.gray200,
+export const inputLeftIcon = style([
+  {
+    position: "absolute",
+    top: "50%",
+    left: "8px",
+    transform: "translateY(-50%)",
 
-  fontSize: "24px",
+    width: "24px",
+    height: "24px",
 
-  border: "none",
-  borderRadius: "8px",
+    color: vars.$scale.color.gray500,
+  },
+]);
 
-  paddingInlineStart: "16px",
-  paddingInlineEnd: "16px",
+export const input = recipe({
+  base: {
+    width: "100%",
+    height: "100%",
+    fontSize: "26px",
+
+    border: "none",
+
+    backgroundColor: vars.$scale.color.gray00,
+
+    paddingInlineStart: "48px",
+    paddingInlineEnd: "16px",
+
+    ":focus": {
+      outline: "none",
+    },
+  },
+  variants: {
+    underline: {
+      true: {
+        borderBottom: `1px solid ${vars.$scale.color.gray300}`,
+      },
+    },
+  },
 });
 
 export const list = style([
@@ -89,27 +126,36 @@ export const list = style([
 ]);
 
 export const listItem = style([
-  u.flexAlignCenter,
+  u.flexColumn,
   {
+    justifyContent: "center",
+
     width: "100%",
-    height: "60px",
+    height: "78px",
 
-    borderRadius: "8px",
-
-    color: vars.$semantic.color.inkText,
-    backgroundColor: vars.$scale.color.gray300,
+    borderRadius: "10px",
 
     paddingInlineStart: "16px",
     paddingInlineEnd: "16px",
+    rowGap: "4px",
 
     ":hover": {
-      backgroundColor: vars.$semantic.color.primaryHover,
-      color: vars.$scale.color.gray00,
+      backgroundColor: vars.$scale.color.gray50,
     },
   },
 ]);
 
+export const listItemTitle = style({
+  fontSize: "22px",
+  color: vars.$scale.color.gray900,
+});
+
+export const listItemDescription = style({
+  fontSize: "16px",
+  color: vars.$scale.color.gray600,
+});
+
 export const listItemHighlight = style({
   fontWeight: "bold",
-  textDecoration: "underline",
+  color: vars.$scale.color.gray900,
 });
