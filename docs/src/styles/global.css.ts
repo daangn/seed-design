@@ -54,7 +54,7 @@ globalStyle(
   {
     opacity: 0,
     marginLeft: "10px",
-    color: vars.$scale.color.green600,
+    color: vars.$semantic.color.primary,
     transition: "all 0.2s ease-in-out",
   },
 );
