@@ -123,5 +123,44 @@ module.exports = {
         },
       },
     },
+    {
+      resolve: "gatsby-plugin-local-search",
+      options: {
+        name: "pages",
+        engine: "flexsearch",
+        engineOptions: {
+          tokenize: "full",
+        },
+        query: `
+          {
+            allMdx {
+              nodes {
+                id
+                frontmatter {
+                  title
+                  slug
+                }
+              }
+            }
+          }
+        `,
+        ref: "id",
+        index: ["title", "slug"],
+        store: ["id", "slug", "title"],
+        normalizer: ({ data }) =>
+          data.allMdx.nodes.map((node) => ({
+            id: node.id,
+            slug: node.frontmatter.slug,
+            title: node.frontmatter.title,
+          })),
+      },
+    },
+    {
+      resolve: "gatsby-plugin-portal",
+      options: {
+        key: "portal",
+        id: "portal",
+      },
+    },
   ],
 };

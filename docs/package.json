@@ -29,8 +29,10 @@
     "framer-motion": "^7.6.1",
     "gatsby": "^5.0.1",
     "gatsby-plugin-image": "^3.0.0",
+    "gatsby-plugin-local-search": "^2.0.1",
     "gatsby-plugin-mdx": "^5.0.0",
     "gatsby-plugin-mdx-frontmatter": "^0.0.4",
+    "gatsby-plugin-portal": "^1.0.7",
     "gatsby-plugin-seed-design": "workspace:^",
     "gatsby-plugin-sharp": "^5.0.0",
     "gatsby-plugin-sitemap": "^6.0.0",
@@ -43,6 +45,7 @@
     "gatsby-transformer-sharp": "^5.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-use-flexsearch": "^0.1.1",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.0.1",
     "remark-gfm": "^1"
