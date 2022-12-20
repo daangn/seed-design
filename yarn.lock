@@ -3166,7 +3166,6 @@ __metadata:
   dependencies:
     "@changesets/cli": ^2.17.0
     esbuild: ^0.15.13
-    gatsby-plugin-local-search: ^2.0.1
     prettier: ^2.7.1
     typescript: ^4.6.3
     ultra-runner: ^3.10.5
@@ -17762,6 +17761,7 @@ __metadata:
     framer-motion: ^7.6.1
     gatsby: ^5.0.1
     gatsby-plugin-image: ^3.0.0
+    gatsby-plugin-local-search: ^2.0.1
     gatsby-plugin-mdx: ^5.0.0
     gatsby-plugin-mdx-frontmatter: ^0.0.4
     gatsby-plugin-portal: ^1.0.7

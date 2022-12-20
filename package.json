@@ -21,8 +21,5 @@
     "typescript": "^4.6.3",
     "ultra-runner": "^3.10.5"
   },
-  "packageManager": "yarn@3.2.2",
-  "dependencies": {
-    "gatsby-plugin-local-search": "^2.0.1"
-  }
+  "packageManager": "yarn@3.2.2"
 }

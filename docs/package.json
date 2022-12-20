@@ -29,6 +29,7 @@
     "framer-motion": "^7.6.1",
     "gatsby": "^5.0.1",
     "gatsby-plugin-image": "^3.0.0",
+    "gatsby-plugin-local-search": "^2.0.1",
     "gatsby-plugin-mdx": "^5.0.0",
     "gatsby-plugin-mdx-frontmatter": "^0.0.4",
     "gatsby-plugin-portal": "^1.0.7",
