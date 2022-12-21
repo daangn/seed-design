@@ -1,10 +1,8 @@
-import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
 import { motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
 import React, { useState } from "react";
 
-import { Logo } from "./Logo";
 import * as style from "./Sidebar.css";
 
 interface SidebarItemProps {
@@ -30,7 +28,6 @@ export default function Sidebar() {
   const [open, setOpen] = useState<boolean>(false);
 
   const closeSidebar = () => setOpen(false);
-  const openSidebar = () => setOpen(true);
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
@@ -67,14 +64,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <MenuIcon
-        className={style.sidebarToggleButton}
-        onClick={openSidebar}
-        width={28}
-      />
       <motion.nav className={style.sidebar({ open })}>
-        <Logo to="/" onClick={closeSidebar} />
-
         <div className={style.sidebarItemContainer}>
           <Link to="/component">
             <h1 className={style.sidebarTitle1} style={{ marginTop: 0 }}>

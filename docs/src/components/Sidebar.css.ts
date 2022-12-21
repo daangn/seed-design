@@ -15,7 +15,7 @@ export const sidebar = recipe({
     u.topLayer,
     {
       position: "fixed",
-      top: 0,
+      top: 150,
 
       background: vars.$semantic.color.paperDefault,
       paddingLeft: "20px",
@@ -28,7 +28,7 @@ export const sidebar = recipe({
       `,
 
       width: SIDEBAR_WIDTH,
-      height: "100vh",
+      height: "calc(100vh - 150px)",
     },
 
     m.large({
@@ -65,7 +65,7 @@ export const sidebarItemContainer = style([
   u.flexColumn,
   {
     position: "absolute",
-    top: 150,
+    top: 0,
 
     height: "calc(100vh - 150px)",
     overflowY: "auto",
@@ -139,28 +139,6 @@ export const sidebarItem = recipe({
     },
   },
 });
-
-export const sidebarToggleButton = style([
-  u.cursorPointer,
-  u.middleLayer,
-  {
-    position: "fixed",
-    margin: "20px",
-    padding: "6px",
-    borderRadius: "50%",
-    width: "34px",
-    height: "34px",
-    transition: "background-color 0.2s ease",
-
-    ":hover": {
-      backgroundColor: vars.$scale.color.gray200,
-    },
-  },
-
-  m.large({
-    display: "none",
-  }),
-]);
 
 export const overlay = recipe({
   base: [

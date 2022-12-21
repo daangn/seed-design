@@ -20,6 +20,7 @@ export const main = style([
 export const content = style([
   {
     maxWidth: "900px",
+    minHeight: "100vh",
     width: "100%",
     margin: "136px auto",
     padding: "0px 20px",
