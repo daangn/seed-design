@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import React, { useState } from "react";
+import React from "react";
 
+import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Sidebar.css";
 
 interface SidebarItemProps {
@@ -25,9 +26,7 @@ function SidebarItem({
 }
 
 export default function Sidebar() {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const closeSidebar = () => setOpen(false);
+  const { open, closeSidebar } = useSidebarState();
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {

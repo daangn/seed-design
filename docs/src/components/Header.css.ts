@@ -26,7 +26,7 @@ export const header = style([
   },
 
   m.large({
-    padding: "0 30px",
+    padding: "0 20px",
   }),
 ]);
 

@@ -3,6 +3,7 @@ import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
 import * as React from "react";
 
+import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Header.css";
 
 function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
@@ -32,12 +33,14 @@ function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
 }
 
 export default function Header() {
+  const { openSidebar } = useSidebarState();
+
   return (
     <header className={style.header}>
       <Logo to="/" />
       <MenuIcon
         className={style.sidebarToggleButton}
-        onClick={() => {}}
+        onClick={openSidebar}
         width={28}
       />
     </header>

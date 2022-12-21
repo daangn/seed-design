@@ -15,7 +15,7 @@ export const sidebar = recipe({
     u.topLayer,
     {
       position: "fixed",
-      top: 150,
+      top: 0,
 
       background: vars.$semantic.color.paperDefault,
       paddingLeft: "20px",
@@ -28,13 +28,15 @@ export const sidebar = recipe({
       `,
 
       width: SIDEBAR_WIDTH,
-      height: "calc(100vh - 150px)",
+      height: "100vh",
     },
 
     m.large({
       position: "sticky",
+      top: 150,
       left: 0,
       paddingLeft: "30px",
+      height: "calc(100vh - 150px)",
     }),
   ],
 
@@ -65,11 +67,15 @@ export const sidebarItemContainer = style([
   u.flexColumn,
   {
     position: "absolute",
-    top: 0,
+    top: 30,
 
     height: "calc(100vh - 150px)",
     overflowY: "auto",
   },
+
+  m.large({
+    top: 0,
+  }),
 ]);
 
 export const sidebarTitle1 = style([
