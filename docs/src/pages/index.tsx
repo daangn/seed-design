@@ -23,7 +23,7 @@ const IndexPage = () => {
   return (
     <main className={t.main}>
       <motion.article {...fadeInFromBottom} className={style.content}>
-        <h1 className={style.title}>SEED Design</h1>
+        <h1 className={style.title}>SEED DESIGN</h1>
 
         <p className={style.description}>
           SEED는 메이커들이 효율적으로 제품을 만들 수 있도록
@@ -37,9 +37,8 @@ const IndexPage = () => {
         <Link to="/component/">
           <motion.button
             whileHover={{
-              backgroundColor: vars.$scale.color.gray900,
               color: vars.$scale.color.gray00,
-              borderColor: vars.$scale.color.gray00,
+              backgroundColor: vars.$scale.color.gray900,
             }}
             transition={{ duration: 0.2 }}
             className={style.goDocsButton}
@@ -48,6 +47,44 @@ const IndexPage = () => {
             <ForwardIcon width={28} />
           </motion.button>
         </Link>
+
+        <div className={style.cardList}>
+          <Link to="/component/">
+            <article
+              style={{ backgroundColor: vars.$scale.color.blue50 }}
+              className={style.cardContainer}
+            >
+              <p
+                style={{ backgroundColor: vars.$scale.color.blue100 }}
+                className={style.cardNumber}
+              >
+                1
+              </p>
+              <div className={style.cardContent}>
+                <h1 className={style.cardTitle}>Component</h1>
+                <p className={style.cardDescription}>컴포넌드 -</p>
+              </div>
+            </article>
+          </Link>
+
+          <Link to="/primitive/">
+            <article
+              style={{ backgroundColor: vars.$scale.color.green50 }}
+              className={style.cardContainer}
+            >
+              <p
+                style={{ backgroundColor: vars.$scale.color.green100 }}
+                className={style.cardNumber}
+              >
+                2
+              </p>
+              <div className={style.cardContent}>
+                <h1 className={style.cardTitle}>Primitive</h1>
+                <p className={style.cardDescription}>근 - 본</p>
+              </div>
+            </article>
+          </Link>
+        </div>
       </motion.article>
     </main>
   );

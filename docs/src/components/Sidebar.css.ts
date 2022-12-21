@@ -114,7 +114,7 @@ export const sidebarItem = recipe({
   base: [
     u.flexAlignCenter,
     {
-      width: `calc(${SIDEBAR_WIDTH} - 46px)`,
+      width: `calc(${SIDEBAR_WIDTH} - 56px)`,
       height: "32px",
       fontSize: "16px",
       color: vars.$scale.color.gray600,
