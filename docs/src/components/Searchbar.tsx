@@ -1,7 +1,8 @@
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
+import { useCombobox } from "downshift";
 import { AnimatePresence, motion } from "framer-motion";
-import { graphql, Link, useStaticQuery } from "gatsby";
-import type { ChangeEvent, MouseEvent } from "react";
+import { graphql, navigate, useStaticQuery } from "gatsby";
+import type { MouseEvent } from "react";
 import { useRef } from "react";
 import React, { useEffect, useState } from "react";
 import { useFlexSearch } from "react-use-flexsearch";
@@ -11,8 +12,33 @@ import * as style from "./Searchbar.css";
 
 const Searchbar = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>("");
   const [items, setItems] = useState<QueryResultItem[]>([]);
+
+  const closeSearchbar = () => {
+    setOpen(false);
+    document.body.style.overflowY = "auto";
+  };
+
+  const openSearchbar = () => {
+    document.body.style.overflowY = "hidden";
+    setOpen(true);
+  };
+
+  const {
+    getInputProps,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+    inputValue,
+  } = useCombobox({
+    items,
+    itemToString: (item) => (item ? item.title : ""),
+    onSelectedItemChange({ selectedItem }) {
+      if (!selectedItem) return;
+      closeSearchbar();
+      navigate(selectedItem.slug);
+    },
+  });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,30 +58,16 @@ const Searchbar = () => {
 
   const index = data.allLocalSearchPages.nodes[0].index;
   const store = data.allLocalSearchPages.nodes[0].store;
-  const searchResults = useFlexSearch(query, index, store);
-
-  const closeSearchbar = () => {
-    setOpen(false);
-    document.body.style.overflowY = "auto";
-  };
-
-  const openSearchbar = () => {
-    document.body.style.overflowY = "hidden";
-    setOpen(true);
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const query = (e.target as HTMLInputElement).value;
-    setQuery(query);
-  };
+  const searchResults = useFlexSearch(inputValue, index, store);
 
   useEffect(() => {
-    if (query.length < 2) {
+    if (inputValue.length < 2) {
       setItems([]);
       return;
     }
+
     setItems(searchResults);
-  }, [query]);
+  }, [inputValue]);
 
   useEffect(() => {
     if (open) {
@@ -105,45 +117,52 @@ const Searchbar = () => {
               <div className={style.inputContainer}>
                 <SearchIcon className={style.inputLeftIcon} />
                 <input
+                  {...getInputProps()}
                   ref={inputRef}
-                  value={query}
-                  onChange={handleInputChange}
-                  type="text"
                   className={style.input({ underline: items.length > 0 })}
                 />
               </div>
-              {items.length !== 0 && (
-                <ul className={style.list}>
-                  {items.map(({ id, slug, title }) => {
-                    const titleHighlight = title.replace(
-                      new RegExp(query, "gi"),
-                      (match) =>
-                        `<span class=${style.listItemHighlight}>${match}</span>`,
-                    );
+              <ul
+                className={style.list({
+                  active: items.length > 0,
+                })}
+                {...getMenuProps()}
+              >
+                {items.map((item, index) => {
+                  const { id, slug, title } = item;
 
-                    const slugHighlight = slug.replace(
-                      new RegExp(query, "gi"),
-                      (match) =>
-                        `<span class=${style.listItemHighlight}>${match}</span>`,
-                    );
+                  const titleHighlight = title.replace(
+                    new RegExp(inputValue, "gi"),
+                    (match) =>
+                      `<span class=${style.listItemHighlight}>${match}</span>`,
+                  );
 
-                    return (
-                      <Link to={slug} key={id} onClick={closeSearchbar}>
-                        <li className={style.listItem}>
-                          <p
-                            className={style.listItemTitle}
-                            dangerouslySetInnerHTML={{ __html: titleHighlight }}
-                          />
-                          <p
-                            className={style.listItemDescription}
-                            dangerouslySetInnerHTML={{ __html: slugHighlight }}
-                          />
-                        </li>
-                      </Link>
-                    );
-                  })}
-                </ul>
-              )}
+                  const slugHighlight = slug.replace(
+                    new RegExp(inputValue, "gi"),
+                    (match) =>
+                      `<span class=${style.listItemHighlight}>${match}</span>`,
+                  );
+
+                  return (
+                    <li
+                      key={id}
+                      className={style.listItem({
+                        active: highlightedIndex === index,
+                      })}
+                      {...getItemProps({ item, index })}
+                    >
+                      <p
+                        className={style.listItemTitle}
+                        dangerouslySetInnerHTML={{ __html: titleHighlight }}
+                      />
+                      <p
+                        className={style.listItemDescription}
+                        dangerouslySetInnerHTML={{ __html: slugHighlight }}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </motion.div>
         )}

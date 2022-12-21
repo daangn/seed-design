@@ -84,38 +84,59 @@ export const input = recipe({
   },
 });
 
-export const list = style([
-  u.flexColumn,
-  {
-    width: "100%",
-    maxHeight: "60vh",
-    overflowY: "auto",
-    rowGap: "8px",
+export const list = recipe({
+  base: [
+    u.flexColumn,
+    {
+      width: "100%",
+      maxHeight: "60vh",
+      overflowY: "auto",
+      rowGap: "8px",
 
-    marginBlockEnd: "0",
-    paddingInlineStart: "0",
-  },
-]);
+      marginBlockEnd: "0",
+      marginBlockStart: "0",
 
-export const listItem = style([
-  u.flexColumn,
-  {
-    justifyContent: "center",
-
-    width: "100%",
-    height: "78px",
-
-    borderRadius: "10px",
-
-    paddingInlineStart: "16px",
-    paddingInlineEnd: "16px",
-    rowGap: "4px",
-
-    ":hover": {
-      backgroundColor: vars.$scale.color.gray50,
+      paddingInlineStart: "0",
+    },
+  ],
+  variants: {
+    active: {
+      true: {
+        marginBlockEnd: "8px",
+        marginBlockStart: "8px",
+      },
     },
   },
-]);
+});
+
+export const listItem = recipe({
+  base: [
+    u.flexColumn,
+    {
+      justifyContent: "center",
+
+      width: "100%",
+      height: "78px",
+
+      borderRadius: "10px",
+
+      paddingInlineStart: "16px",
+      paddingInlineEnd: "16px",
+      rowGap: "4px",
+
+      ":hover": {
+        backgroundColor: vars.$scale.color.gray50,
+      },
+    },
+  ],
+  variants: {
+    active: {
+      true: {
+        backgroundColor: vars.$scale.color.gray50,
+      },
+    },
+  },
+});
 
 export const listItemTitle = style({
   fontSize: "22px",
