@@ -37,9 +37,8 @@ const IndexPage = () => {
         <Link to="/component/">
           <motion.button
             whileHover={{
-              backgroundColor: vars.$scale.color.gray900,
               color: vars.$scale.color.gray00,
-              borderColor: vars.$scale.color.gray00,
+              backgroundColor: vars.$scale.color.gray900,
             }}
             transition={{ duration: 0.2 }}
             className={style.goDocsButton}

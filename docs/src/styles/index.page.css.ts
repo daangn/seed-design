@@ -23,17 +23,17 @@ export const goDocsButton = style([
   u.flexCenter,
   u.cursorPointer,
   {
+    boxSizing: "border-box",
+
     backgroundColor: vars.$semantic.color.paperDefault,
     color: vars.$scale.color.gray900,
+
     fontSize: "18px",
     fontWeight: "bold",
-    padding: "20px 40px",
 
-    borderWidth: "2px",
-    borderStyle: "solid",
-    borderColor: vars.$scale.color.gray900,
     borderRadius: "50px",
 
+    padding: "20px 40px",
     marginTop: "40px",
     columnGap: "10px",
   },
