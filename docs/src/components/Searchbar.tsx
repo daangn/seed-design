@@ -71,7 +71,7 @@ const Searchbar = () => {
 
   useEffect(() => {
     if (open) {
-      inputRef.current?.focus();
+      inputRef.current?.select();
     }
 
     const callback = (e: KeyboardEvent) => {

@@ -1,8 +1,12 @@
 import React from "react";
 
 import * as style from "./Header.css";
-// import ThemeToggler from "./ThemeToggler";
+import { Logo } from "./Logo";
 
 export default function Header() {
-  return <header className={style.header}>{/* <ThemeToggler /> */}</header>;
+  return (
+    <header className={style.header}>
+      <Logo to="/" />
+    </header>
+  );
 }

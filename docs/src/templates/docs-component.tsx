@@ -1,3 +1,4 @@
+import { MDXProvider } from "@mdx-js/react";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
@@ -6,7 +7,7 @@ import { getSrc } from "gatsby-plugin-image";
 import React from "react";
 
 import EditLink from "../components/EditLink";
-import Layout from "../components/Layout";
+import MdxComponents from "../components/mdx/MdxComponents";
 import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
@@ -32,7 +33,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
 }) => {
   const { title, description, slug, activeTab, tableOfContents } = pageContext;
   return (
-    <Layout>
+    <MDXProvider components={MdxComponents}>
       <main className={t.main}>
         <Sidebar />
         <article className={style.content}>
@@ -59,7 +60,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
         </article>
         <TableOfContents tableOfContents={tableOfContents} />
       </main>
-    </Layout>
+    </MDXProvider>
   );
 };
 
