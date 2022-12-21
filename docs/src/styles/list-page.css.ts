@@ -32,11 +32,11 @@ export const grid = style([
     rowGap: "38px",
   },
 
-  m.xsmall({
+  m.small({
     gridTemplateColumns: "repeat(2, 1fr)",
   }),
 
-  m.small({
+  m.medium({
     gridTemplateColumns: "repeat(3, 1fr)",
   }),
 ]);
@@ -47,6 +47,8 @@ export const gridItem = style([
     position: "relative",
     overflow: "hidden",
     height: "100%",
+
+    zIndex: 0,
 
     gap: 8,
   },
