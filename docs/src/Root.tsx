@@ -1,9 +1,9 @@
 import React from "react";
 
+import Header from "./components/Header";
 import Searchbar from "./components/Searchbar";
-
-// import Header from "./components/Header";
-// import { ThemeProvider } from "./contexts/ThemeContext";
+import { SearchbarProvider } from "./contexts/SearchbarContext";
+import { SidebarProvider } from "./contexts/SidebarContext";
 
 interface RootProps {
   children: React.ReactNode;
@@ -11,12 +11,13 @@ interface RootProps {
 
 const Root: React.FC<RootProps> = ({ children }) => {
   return (
-    <>
-      <Searchbar />
-      <div>{children}</div>
-    </>
-    // <ThemeProvider>
-    // </ThemeProvider>
+    <SidebarProvider>
+      <SearchbarProvider>
+        <Header />
+        <Searchbar />
+        <div>{children}</div>
+      </SearchbarProvider>
+    </SidebarProvider>
   );
 };
 

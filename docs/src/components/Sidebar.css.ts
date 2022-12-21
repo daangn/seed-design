@@ -33,8 +33,10 @@ export const sidebar = recipe({
 
     m.large({
       position: "sticky",
+      top: 150,
       left: 0,
       paddingLeft: "30px",
+      height: "calc(100vh - 150px)",
     }),
   ],
 
@@ -65,11 +67,15 @@ export const sidebarItemContainer = style([
   u.flexColumn,
   {
     position: "absolute",
-    top: 150,
+    top: 30,
 
     height: "calc(100vh - 150px)",
     overflowY: "auto",
   },
+
+  m.large({
+    top: 0,
+  }),
 ]);
 
 export const sidebarTitle1 = style([
@@ -139,28 +145,6 @@ export const sidebarItem = recipe({
     },
   },
 });
-
-export const sidebarToggleButton = style([
-  u.cursorPointer,
-  u.middleLayer,
-  {
-    position: "fixed",
-    margin: "20px",
-    padding: "6px",
-    borderRadius: "50%",
-    width: "34px",
-    height: "34px",
-    transition: "background-color 0.2s ease",
-
-    ":hover": {
-      backgroundColor: vars.$scale.color.gray200,
-    },
-  },
-
-  m.large({
-    display: "none",
-  }),
-]);
 
 export const overlay = recipe({
   base: [

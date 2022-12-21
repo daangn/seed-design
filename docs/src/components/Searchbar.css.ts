@@ -2,6 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
+import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 export const container = style([
@@ -25,7 +26,7 @@ export const content = style([
     left: "50%",
     transform: "translateX(-50%)",
 
-    width: "600px",
+    width: "90vw",
 
     borderRadius: "12px",
 
@@ -33,6 +34,10 @@ export const content = style([
 
     padding: "8px",
   },
+
+  m.medium({
+    width: "600px",
+  }),
 ]);
 
 export const inputContainer = style([
@@ -58,6 +63,26 @@ export const inputLeftIcon = style([
   },
 ]);
 
+export const inputRight = style([
+  u.flex,
+  {
+    color: vars.$scale.color.gray500,
+    fontSize: "16px",
+
+    position: "absolute",
+    top: "50%",
+    right: "8px",
+    transform: "translateY(-50%)",
+
+    border: `1px solid ${vars.$scale.color.gray500}`,
+    borderRadius: "4px",
+
+    padding: "4px 8px",
+    paddingRight: "10px",
+    gap: "4px",
+  },
+]);
+
 export const input = recipe({
   base: {
     width: "100%",
@@ -69,7 +94,7 @@ export const input = recipe({
     backgroundColor: vars.$scale.color.gray00,
 
     paddingInlineStart: "48px",
-    paddingInlineEnd: "16px",
+    paddingInlineEnd: "78px",
 
     ":focus": {
       outline: "none",
@@ -84,38 +109,59 @@ export const input = recipe({
   },
 });
 
-export const list = style([
-  u.flexColumn,
-  {
-    width: "100%",
-    maxHeight: "60vh",
-    overflowY: "auto",
-    rowGap: "8px",
+export const list = recipe({
+  base: [
+    u.flexColumn,
+    {
+      width: "100%",
+      maxHeight: "60vh",
+      overflowY: "auto",
+      rowGap: "8px",
 
-    marginBlockEnd: "0",
-    paddingInlineStart: "0",
-  },
-]);
+      marginBlockEnd: "0",
+      marginBlockStart: "0",
 
-export const listItem = style([
-  u.flexColumn,
-  {
-    justifyContent: "center",
-
-    width: "100%",
-    height: "78px",
-
-    borderRadius: "10px",
-
-    paddingInlineStart: "16px",
-    paddingInlineEnd: "16px",
-    rowGap: "4px",
-
-    ":hover": {
-      backgroundColor: vars.$scale.color.gray50,
+      paddingInlineStart: "0",
+    },
+  ],
+  variants: {
+    active: {
+      true: {
+        marginBlockEnd: "8px",
+        marginBlockStart: "8px",
+      },
     },
   },
-]);
+});
+
+export const listItem = recipe({
+  base: [
+    u.flexColumn,
+    {
+      justifyContent: "center",
+
+      width: "100%",
+      height: "78px",
+
+      borderRadius: "10px",
+
+      paddingInlineStart: "16px",
+      paddingInlineEnd: "16px",
+      rowGap: "4px",
+
+      ":hover": {
+        backgroundColor: vars.$scale.color.gray50,
+      },
+    },
+  ],
+  variants: {
+    active: {
+      true: {
+        backgroundColor: vars.$scale.color.gray50,
+      },
+    },
+  },
+});
 
 export const listItemTitle = style({
   fontSize: "22px",
