@@ -1,8 +1,10 @@
 import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
+import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
 import * as React from "react";
 
+import { useSearchbarState } from "../contexts/SearchbarContext";
 import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Header.css";
 
@@ -34,15 +36,26 @@ function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
 
 export default function Header() {
   const { openSidebar } = useSidebarState();
+  const { openSearchbar } = useSearchbarState();
 
   return (
     <header className={style.header}>
       <Logo to="/" />
-      <MenuIcon
-        className={style.sidebarToggleButton}
-        onClick={openSidebar}
-        width={28}
-      />
+
+      <div className={style.headerRightSection}>
+        <button onClick={openSearchbar} className={style.searchButton}>
+          <SearchIcon className={style.searchButtonLeftIcon} />
+          <div className={style.searchButtonRight}>
+            <kbd>⌘</kbd> + <kbd>K</kbd>
+          </div>
+        </button>
+
+        <MenuIcon
+          className={style.sidebarToggleButton}
+          onClick={openSidebar}
+          width={28}
+        />
+      </div>
     </header>
   );
 }

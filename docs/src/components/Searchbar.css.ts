@@ -2,6 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
+import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 export const container = style([
@@ -25,7 +26,7 @@ export const content = style([
     left: "50%",
     transform: "translateX(-50%)",
 
-    width: "600px",
+    width: "90vw",
 
     borderRadius: "12px",
 
@@ -33,6 +34,10 @@ export const content = style([
 
     padding: "8px",
   },
+
+  m.medium({
+    width: "600px",
+  }),
 ]);
 
 export const inputContainer = style([
@@ -58,6 +63,26 @@ export const inputLeftIcon = style([
   },
 ]);
 
+export const inputRight = style([
+  u.flex,
+  {
+    color: vars.$scale.color.gray500,
+    fontSize: "16px",
+
+    position: "absolute",
+    top: "50%",
+    right: "8px",
+    transform: "translateY(-50%)",
+
+    border: `1px solid ${vars.$scale.color.gray500}`,
+    borderRadius: "4px",
+
+    padding: "4px 8px",
+    paddingRight: "10px",
+    gap: "4px",
+  },
+]);
+
 export const input = recipe({
   base: {
     width: "100%",
@@ -69,7 +94,7 @@ export const input = recipe({
     backgroundColor: vars.$scale.color.gray00,
 
     paddingInlineStart: "48px",
-    paddingInlineEnd: "16px",
+    paddingInlineEnd: "78px",
 
     ":focus": {
       outline: "none",

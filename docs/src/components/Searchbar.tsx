@@ -7,22 +7,13 @@ import { useRef } from "react";
 import React, { useEffect, useState } from "react";
 import { useFlexSearch } from "react-use-flexsearch";
 
+import { useSearchbarState } from "../contexts/SearchbarContext";
 import Portal from "./Portal";
 import * as style from "./Searchbar.css";
 
 const Searchbar = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const { open, openSearchbar, closeSearchbar } = useSearchbarState();
   const [items, setItems] = useState<QueryResultItem[]>([]);
-
-  const closeSearchbar = () => {
-    setOpen(false);
-    document.body.style.overflowY = "auto";
-  };
-
-  const openSearchbar = () => {
-    document.body.style.overflowY = "hidden";
-    setOpen(true);
-  };
 
   const {
     getInputProps,
@@ -121,6 +112,9 @@ const Searchbar = () => {
                   ref={inputRef}
                   className={style.input({ underline: items.length > 0 })}
                 />
+                <div className={style.inputRight}>
+                  <kbd>⌘</kbd> + <kbd>K</kbd>
+                </div>
               </div>
               <ul
                 className={style.list({
