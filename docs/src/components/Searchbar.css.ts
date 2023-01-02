@@ -13,7 +13,7 @@ export const container = style([
     top: 0,
     left: 0,
 
-    backgroundColor: vars.$scale.color.grayAlpha500,
+    backgroundColor: vars.$semantic.color.overlayDim,
     backdropFilter: "blur(2px)",
   },
 ]);
