@@ -50,7 +50,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
               className={style.navLink({ active: slug.includes("style") })}
               to={slug.replace("usage", "style")}
             >
-              Spec
+              Style
             </Link>
           </div>
 
