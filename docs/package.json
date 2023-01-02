@@ -8,18 +8,17 @@
   ],
   "author": "junghyeonsu",
   "scripts": {
-    "build": "gatsby build",
-    "build:storybook": "storybook build",
-    "clean": "gatsby clean",
     "dev": "gatsby develop",
     "dev:storybook": "storybook dev -p 6006",
     "develop": "gatsby develop",
+    "build": "gatsby build",
+    "build:storybook": "storybook build",
+    "storybook": "storybook dev -p 6006",
+    "clean": "gatsby clean",
     "format": "eslint --fix . --ext .ts,.tsx,.json",
     "lint": "eslint . --ext .ts,.tsx,.json",
     "serve": "gatsby serve",
-    "typecheck": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "^0.0.0-20220907.1",
