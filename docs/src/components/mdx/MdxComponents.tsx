@@ -27,8 +27,6 @@ export default {
   /* MDX 전용 컴포넌트 */
   Keyboard,
 
-  CardCaption: card.CardCaption,
-
   FullCard: card.FullCard,
   FullCardImageCell: card.FullCardImageCell,
   FullCardDescription: card.FullCardDescription,

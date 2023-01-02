@@ -4,22 +4,10 @@ import clsx from "clsx";
 import * as style from "./Card.css";
 
 interface PropsWithChildren {
+  /**
+   * @description 자식 노드
+   */
   children: React.ReactNode;
-}
-
-/* Common */
-
-export function CardCaption({ children }: PropsWithChildren) {
-  return (
-    <div
-      className={clsx(
-        classNames.$semantic.typography.bodyL1Regular,
-        style.cardCaption,
-      )}
-    >
-      {children}
-    </div>
-  );
 }
 
 /* Full Card */
