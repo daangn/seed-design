@@ -2,10 +2,8 @@ import ForwardIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconForwardFill"
 import { vars } from "@seed-design/design-token";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
-import * as React from "react";
 
 import { fadeInFromBottom } from "../framer-motions";
 import * as style from "../styles/index.page.css";

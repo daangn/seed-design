@@ -11,9 +11,9 @@
       "style": "../content/component/avatar/style.mdx"
     },
     {
-      "name": "Button",
-      "usage": "../content/component/button/usage.mdx",
-      "style": "../content/component/button/style.mdx"
+      "name": "Box Button",
+      "usage": "../content/component/box-button/usage.mdx",
+      "style": "../content/component/box-button/style.mdx"
     },
     {
       "name": "Text Button",
@@ -21,9 +21,9 @@
       "style": "../content/component/text-button/style.mdx"
     },
     {
-      "name": "Toggle Button",
-      "usage": "../content/component/toggle-button/usage.mdx",
-      "style": "../content/component/toggle-button/style.mdx"
+      "name": "Box Toggle Button",
+      "usage": "../content/component/box-toggle-button/usage.mdx",
+      "style": "../content/component/box-toggle-button/style.mdx"
     },
     {
       "name": "Spinner",

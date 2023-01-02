@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import React from "react";
 
 import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Sidebar.css";
@@ -73,7 +72,7 @@ export default function Sidebar() {
           {componentDocs!.map((link) => {
             const { slug, title } = link?.usage?.childMdx?.frontmatter!;
             const pathComponentName = currentPath.split("/")[2];
-            const docsComponentName = title!.replace(" ", "-").toLowerCase();
+            const docsComponentName = title!.replaceAll(" ", "-").toLowerCase();
             const active =
               pathComponentName === docsComponentName &&
               currentPath.includes("component");

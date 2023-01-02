@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
-import * as React from "react";
 
 import Sidebar from "../../components/Sidebar";
 import { elevateUp, fadeInFromBottom } from "../../framer-motions";

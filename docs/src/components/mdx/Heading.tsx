@@ -1,5 +1,3 @@
-import React from "react";
-
 import * as style from "./Heading.css";
 
 export const h1 = (props: Object) => <h1 className={style.h1} {...props} />;

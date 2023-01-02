@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
-import React from "react";
 
 import EditLink from "../components/EditLink";
 import MdxComponents from "../components/mdx/MdxComponents";

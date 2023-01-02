@@ -16,30 +16,19 @@ $ yarn add @seed-design/react-theming
 
 ```ts
 // Provider를 감싸줘야해요.
-import {
-  type ColorMode,
-  ThemeContext,
-  useThemeBehavior,
-} from "@seed-design/react-theming";
-import * as React from "react";
+import { type ColorMode, ThemeContext, useThemeBehavior } from "@seed-design/react-theming";
 
 export type Options = {
   mode: ColorMode; // "light-only" | "dark-only" | "auto",
 };
 
-export const Wrapper: React.FC<React.PropsWithChildren<Options>> = ({
-  mode,
-  children,
-}) => {
+export const Wrapper: React.FC<React.PropsWithChildren<Options>> = ({ mode, children }) => {
   const theme = useThemeBehavior({ mode });
-  return (
-    <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 };
 
 // 변경하기
 import { useTheme } from "@seed-design/react-theming";
-import * as React from "react";
 
 const YourComponent = () => {
   const { setColorTheme } = useTheme();
