@@ -2,12 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
 import * as m from "../../styles/media.css";
-import * as t from "../../styles/token.css";
 import * as u from "../../styles/utils.css";
-
-/* Common */
-
-export const cardCaption = style([t.documentCaption2]);
 
 /* Full Card */
 
