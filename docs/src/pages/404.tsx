@@ -1,6 +1,5 @@
 import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
-import * as React from "react";
 
 const NotFoundPage = () => {
   return (

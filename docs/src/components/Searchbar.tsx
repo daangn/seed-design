@@ -3,8 +3,7 @@ import { useCombobox } from "downshift";
 import { AnimatePresence, motion } from "framer-motion";
 import { graphql, navigate, useStaticQuery } from "gatsby";
 import type { MouseEvent } from "react";
-import { useRef } from "react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFlexSearch } from "react-use-flexsearch";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";

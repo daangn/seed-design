@@ -2,7 +2,6 @@ import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
-import * as React from "react";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";
 import { useSidebarState } from "../contexts/SidebarContext";

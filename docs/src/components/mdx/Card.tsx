@@ -1,6 +1,5 @@
 import { classNames } from "@seed-design/design-token";
 import clsx from "clsx";
-import React from "react";
 
 import * as style from "./Card.css";
 
