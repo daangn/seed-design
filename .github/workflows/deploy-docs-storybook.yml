@@ -2,10 +2,10 @@ on:
   push:
     # branches:
       # - main
-    paths:
-      - 'docs/src/components/mdx/**'
-      - 'docs/src/stories/**'
-      - 'docs/.storybook/**'
+    # paths:
+    #   - 'docs/src/components/mdx/**'
+    #   - 'docs/src/stories/**'
+    #   - 'docs/.storybook/**'
 
 name: Deploy Seed Docs Storybook
 
