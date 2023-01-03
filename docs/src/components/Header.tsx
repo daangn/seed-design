@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 import { useSearchbarState } from "../contexts/SearchbarContext";
 import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Header.css";
+import ThemeSelect from "./ThemeSelect";
 
 function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
   return (
@@ -44,7 +45,8 @@ export default function Header() {
       <div className={style.headerRightSection}>
         <button onClick={openSearchbar} className={style.searchButton}>
           <SearchIcon className={style.searchButtonLeftIcon} />
-          <div className={style.searchButtonRight}>
+          <div className={style.searchButtonText}>search</div>
+          <div className={style.searchButtonKeyboard}>
             <kbd>⌘</kbd> + <kbd>K</kbd>
           </div>
         </button>
@@ -54,6 +56,7 @@ export default function Header() {
           onClick={openSidebar}
           width={28}
         />
+        <ThemeSelect />
       </div>
     </header>
   );

@@ -16,13 +16,11 @@ export const header = style([
 
     width: "100%",
     maxWidth: "1400px",
-    height: "76px",
+    height: "90px",
 
     margin: "auto",
     padding: "0 10px",
     gap: "10px",
-
-    backdropFilter: "blur(5px)",
   },
 
   m.large({
@@ -59,41 +57,20 @@ export const sidebarToggleButton = style([
   }),
 ]);
 
-export const searchButtonLeftIcon = style([
-  {
-    position: "absolute",
-    top: "50%",
-    left: "8px",
-    transform: "translateY(-50%)",
-
-    width: "20px",
-    height: "20px",
-
-    color: vars.$scale.color.gray500,
-  },
-
-  m.large({
-    left: "16px",
-
-    width: "24px",
-    height: "24px",
-  }),
-]);
-
 export const searchButton = style([
   u.cursorPointer,
+  u.flexCenter,
   {
-    position: "relative",
-
-    width: "200px",
+    width: "135px",
     height: "36px",
 
-    fontSize: "26px",
+    borderRadius: "6px",
+    padding: "6px",
 
-    border: "none",
-    borderRadius: "12px",
+    gap: "6px",
 
-    backgroundColor: vars.$scale.color.gray50,
+    backgroundColor: vars.$semantic.color.paperDefault,
+    border: `1px ${vars.$scale.color.gray300} solid`,
   },
 
   m.large({
@@ -102,26 +79,39 @@ export const searchButton = style([
   }),
 ]);
 
-export const searchButtonRight = style([
+export const searchButtonLeftIcon = style([
+  {
+    width: "16px",
+    height: "16px",
+
+    color: vars.$scale.color.gray800,
+  },
+
+  m.large({
+    width: "24px",
+    height: "24px",
+  }),
+]);
+
+export const searchButtonText = style({
+  fontSize: "14px",
+  color: vars.$scale.color.gray800,
+});
+
+export const searchButtonKeyboard = style([
   u.flex,
   {
-    color: vars.$scale.color.gray500,
-    fontSize: "14px",
+    fontSize: "12px",
 
-    position: "absolute",
-    top: "50%",
-    right: "8px",
-    transform: "translateY(-50%)",
+    color: vars.$scale.color.gray500,
+    backgroundColor: vars.$scale.color.gray50,
+
+    borderRadius: "4px",
 
     padding: "2px 4px",
     paddingRight: "6px",
     gap: "4px",
   },
-
-  m.large({
-    right: "16px",
-    fontSize: "18px",
-  }),
 ]);
 
 export const logo = style([
