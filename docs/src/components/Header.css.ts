@@ -39,7 +39,7 @@ export const content = style([
     maxWidth: "1400px",
 
     margin: "auto",
-    padding: "0 10px",
+    padding: "0 15px",
     gap: "10px",
 
     transition: "box-shadow 0.3s ease",
@@ -50,6 +50,28 @@ export const content = style([
   }),
 ]);
 
+export const headerLogo = recipe({
+  base: [
+    {
+      display: "none",
+      transform: "scale(0.7)",
+    },
+
+    m.large({
+      display: "block",
+      transform: "scale(1.0)",
+    }),
+  ],
+
+  variants: {
+    isHome: {
+      true: {
+        display: "block",
+      },
+    },
+  },
+});
+
 export const headerRightSection = style([
   u.flexAlignCenter,
   {
@@ -57,39 +79,57 @@ export const headerRightSection = style([
   },
 ]);
 
-export const sidebarToggleButton = style([
-  u.cursorPointer,
-  u.middleLayer,
-  {
-    padding: "6px",
-    borderRadius: "50%",
-    width: "34px",
-    height: "34px",
-    transition: "background-color 0.2s ease",
+export const sidebarToggleButton = recipe({
+  base: [
+    u.cursorPointer,
+    {
+      display: "none",
+      padding: "4px",
+      borderRadius: "50%",
+      width: "32px",
+      height: "32px",
+      transition: "background-color 0.2s ease",
 
-    ":hover": {
-      backgroundColor: vars.$scale.color.gray200,
+      ":hover": {
+        backgroundColor: vars.$scale.color.gray100,
+      },
+    },
+
+    m.large({
+      display: "none",
+    }),
+  ],
+
+  variants: {
+    visible: {
+      true: {
+        display: "block",
+      },
+      false: {
+        display: "none",
+      },
     },
   },
-
-  m.large({
-    display: "none",
-  }),
-]);
+});
 
 export const githubLogo = style([
   u.cursorPointer,
   {
+    display: "none",
     width: "26px",
     height: "26px",
   },
+
+  m.small({
+    display: "block",
+  }),
 ]);
 
 export const searchButton = style([
   u.cursorPointer,
   u.flexCenter,
   {
-    width: "135px",
+    width: "90px",
     height: "36px",
 
     borderRadius: "6px",
@@ -106,6 +146,10 @@ export const searchButton = style([
       border: `1px solid ${vars.$scale.color.gray600}`,
     },
   },
+
+  m.small({
+    width: "135px",
+  }),
 ]);
 
 export const searchButtonLeftIcon = style([
@@ -125,6 +169,7 @@ export const searchButtonText = style({
 export const searchButtonKeyboard = style([
   u.flex,
   {
+    display: "none",
     fontSize: "12px",
 
     color: vars.$scale.color.gray500,
@@ -136,27 +181,8 @@ export const searchButtonKeyboard = style([
     paddingRight: "6px",
     gap: "4px",
   },
-]);
 
-export const logo = style([
-  u.cursorPointer,
-  {
-    transform: "scale(0.75)",
-  },
-
-  m.large({
-    transform: "scale(1.0)",
+  m.small({
+    display: "flex",
   }),
-]);
-
-export const logoCircle = style([
-  {
-    fill: vars.$scale.color.gray900,
-  },
-]);
-
-export const logoText = style([
-  {
-    stroke: vars.$scale.color.gray900,
-  },
 ]);

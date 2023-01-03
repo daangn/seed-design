@@ -11,14 +11,14 @@ const SearchbarContext = createContext<SearchbarProps | null>(null);
 export function SearchbarProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const closeSearchbar = () => {
-    setOpen(false);
-    document.body.style.overflowY = "auto";
-  };
-
   const openSearchbar = () => {
     document.body.style.overflowY = "hidden";
     setOpen(true);
+  };
+
+  const closeSearchbar = () => {
+    setOpen(false);
+    document.body.style.overflowY = "auto";
   };
 
   return (

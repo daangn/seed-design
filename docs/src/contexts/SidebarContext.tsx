@@ -11,8 +11,15 @@ const SidebarContext = createContext<SidebarProps | null>(null);
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const openSidebar = () => setOpen(true);
-  const closeSidebar = () => setOpen(false);
+  const openSidebar = () => {
+    setOpen(true);
+    document.body.style.overflowY = "hidden";
+  };
+
+  const closeSidebar = () => {
+    setOpen(false);
+    document.body.style.overflowY = "auto";
+  };
 
   return (
     <SidebarContext.Provider value={{ open, openSidebar, closeSidebar }}>
