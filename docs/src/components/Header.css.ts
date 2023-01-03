@@ -32,7 +32,7 @@ export const header = style([
 export const headerRightSection = style([
   u.flexAlignCenter,
   {
-    gap: "10px",
+    gap: "16px",
   },
 ]);
 
@@ -40,7 +40,6 @@ export const sidebarToggleButton = style([
   u.cursorPointer,
   u.middleLayer,
   {
-    margin: "20px",
     padding: "6px",
     borderRadius: "50%",
     width: "34px",
@@ -55,6 +54,14 @@ export const sidebarToggleButton = style([
   m.large({
     display: "none",
   }),
+]);
+
+export const githubLogo = style([
+  u.cursorPointer,
+  {
+    width: "26px",
+    height: "26px",
+  },
 ]);
 
 export const searchButton = style([
