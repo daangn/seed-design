@@ -59,6 +59,7 @@ const Searchbar = () => {
     setItems(searchResults);
   }, [inputValue]);
 
+  // TODO: custom keyboard hooks
   useEffect(() => {
     if (open) {
       inputRef.current?.select();

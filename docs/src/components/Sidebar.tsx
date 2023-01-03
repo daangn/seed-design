@@ -62,6 +62,7 @@ export default function Sidebar() {
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
 
+  // TODO: sidebar가 두 개 있어서 공통된 로직이 있을 듯
   return (
     <>
       <Portal>

@@ -57,6 +57,7 @@ const ThemeSelect = () => {
     }
   };
 
+  // TODO: custom keyboard hooks
   const handleEscTyping = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
       setIsOptionListOpen(false);
