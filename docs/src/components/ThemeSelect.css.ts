@@ -10,12 +10,12 @@ export const selectContainer = style([
 ]);
 
 export const select = style([
-  u.flexAlignCenter,
+  u.flexCenter,
   u.cursorPointer,
   {
     fontSize: "14px",
 
-    width: "100%",
+    width: "106px",
     height: "36px",
 
     borderRadius: "6px",
