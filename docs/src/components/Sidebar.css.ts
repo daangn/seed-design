@@ -5,63 +5,51 @@ import { recipe } from "@vanilla-extract/recipes";
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
-const TRANSITION_DURATION = "0.2s";
-const TRANSITION_TIMING_FUNCTION = "ease";
 const SIDEBAR_WIDTH = "250px";
 
-export const sidebar = recipe({
-  base: [
-    u.flexColumn,
-    u.topLayer,
-    {
-      position: "fixed",
-      top: 0,
+export const sidebar = style([
+  u.flexColumn,
+  u.topLayer,
 
-      background: vars.$semantic.color.paperDefault,
-      paddingLeft: "20px",
+  {
+    position: "fixed",
+    top: 0,
 
-      transition: `
-        background-color ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        left ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        transform ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
-      `,
+    background: vars.$semantic.color.paperDefault,
+    paddingLeft: "20px",
 
-      width: SIDEBAR_WIDTH,
-      height: "100vh",
-    },
-
-    m.large({
-      position: "sticky",
-      top: 150,
-      left: 0,
-      paddingLeft: "30px",
-      height: "calc(100vh - 150px)",
-    }),
-  ],
-
-  variants: {
-    open: {
-      true: [
-        u.topLayer,
-        {
-          left: "0px",
-        },
-      ],
-      false: [
-        u.backLayer,
-        {
-          left: `-${SIDEBAR_WIDTH}`,
-        },
-
-        m.large({
-          zIndex: 100,
-          left: "0px",
-        }),
-      ],
-    },
+    width: SIDEBAR_WIDTH,
+    height: "100vh",
   },
-});
+
+  m.large({
+    display: "none",
+  }),
+]);
+
+export const sidebarDesktop = style([
+  sidebar,
+
+  {
+    display: "none",
+  },
+
+  m.large({
+    display: "flex",
+    position: "sticky",
+    top: 150,
+    left: 0,
+    paddingLeft: "30px",
+    height: "calc(100vh - 150px)",
+  }),
+]);
+
+export const sidebarLogo = style([
+  {
+    paddingLeft: "10px",
+    marginBottom: "40px",
+  },
+]);
 
 export const sidebarItemContainer = style([
   u.flexColumn,
@@ -146,50 +134,22 @@ export const sidebarItem = recipe({
   },
 });
 
-export const overlay = recipe({
-  base: [
-    u.flexCenter,
-    {
-      position: "fixed",
-      top: 0,
-      right: 0,
+export const overlay = style([
+  u.flexCenter,
+  u.middleLayer,
+  {
+    position: "fixed",
+    top: 0,
+    right: 0,
 
-      height: "100vh",
+    height: "100vh",
+    width: "100vw",
 
-      transition: `
-        backgroundColor ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        opacity ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        z-index ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION},
-        width ${TRANSITION_DURATION} ${TRANSITION_TIMING_FUNCTION}
-      `,
-    },
-  ],
-
-  variants: {
-    open: {
-      true: [
-        u.middleLayer,
-        {
-          backgroundColor: vars.$semantic.color.overlayDim,
-          opacity: 1,
-          width: "100vw",
-        },
-
-        m.large({
-          zIndex: -1,
-          backgroundColor: undefined,
-          opacity: 0,
-          width: "100vw",
-        }),
-      ],
-      false: [
-        u.backLayer,
-        {
-          backgroundColor: undefined,
-          opacity: 0,
-          width: "100vw",
-        },
-      ],
-    },
+    backgroundColor: vars.$semantic.color.overlayDim,
+    backdropFilter: "blur(2px)",
   },
-});
+
+  m.large({
+    display: "none",
+  }),
+]);

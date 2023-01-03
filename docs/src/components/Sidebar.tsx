@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
 
 import { useSidebarState } from "../contexts/SidebarContext";
+import Logo from "./Logo";
+import Portal from "./Portal";
 import * as style from "./Sidebar.css";
 
 interface SidebarItemProps {
@@ -62,7 +64,89 @@ export default function Sidebar() {
 
   return (
     <>
-      <motion.nav className={style.sidebar({ open })}>
+      <Portal>
+        <AnimatePresence>
+          {open && (
+            <>
+              <motion.nav
+                className={style.sidebar}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.15 }}
+                exit={{ opacity: 0, x: -100 }}
+              >
+                <div className={style.sidebarItemContainer}>
+                  <div className={style.sidebarLogo}>
+                    <Logo to="/" onClick={closeSidebar} />
+                  </div>
+                  <Link to="/component">
+                    <h1
+                      className={style.sidebarTitle1}
+                      style={{ marginTop: 0 }}
+                    >
+                      Component
+                    </h1>
+                  </Link>
+                  {componentDocs!.map((link) => {
+                    const { slug, title } = link?.usage?.childMdx?.frontmatter!;
+                    const pathComponentName = currentPath.split("/")[2];
+                    const docsComponentName = title!
+                      .replaceAll(" ", "-")
+                      .toLowerCase();
+                    const active =
+                      pathComponentName === docsComponentName &&
+                      currentPath.includes("component");
+                    return (
+                      <SidebarItem
+                        key={slug!}
+                        active={active}
+                        to={slug!}
+                        title={title!}
+                        onClick={closeSidebar}
+                      />
+                    );
+                  })}
+                  <Link to="/primitive">
+                    <h1 className={style.sidebarTitle1}>Primitive</h1>
+                  </Link>
+
+                  {primitiveDocs!.map((link) => {
+                    const { slug, title } =
+                      link?.document?.childMdx?.frontmatter!;
+                    const pathComponentName = currentPath.split("/")[2];
+                    const docsComponentName = title!
+                      .replace(" ", "-")
+                      .toLowerCase();
+                    const active =
+                      pathComponentName === docsComponentName &&
+                      currentPath.includes("primitive");
+                    return (
+                      <SidebarItem
+                        key={slug!}
+                        active={active}
+                        to={slug!}
+                        title={title!}
+                        onClick={closeSidebar}
+                      />
+                    );
+                  })}
+                </div>
+              </motion.nav>
+              <motion.div
+                className={style.overlay}
+                onClick={closeSidebar}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.15 }}
+                exit={{ opacity: 0, y: -10 }}
+              />
+            </>
+          )}
+        </AnimatePresence>
+      </Portal>
+
+      {/* 페이지 고정 사이드바 */}
+      <nav className={style.sidebarDesktop}>
         <div className={style.sidebarItemContainer}>
           <Link to="/component">
             <h1 className={style.sidebarTitle1} style={{ marginTop: 0 }}>
@@ -108,8 +192,7 @@ export default function Sidebar() {
             );
           })}
         </div>
-      </motion.nav>
-      <div onClick={closeSidebar} className={style.overlay({ open })} />
+      </nav>
     </>
   );
 }

@@ -15,7 +15,7 @@ function Portal({ children }: { children: ReactNode }) {
     }
 
     return () => {
-      if (document) {
+      if (document && el) {
         const portalRoot = document.getElementById("portal") as HTMLDivElement;
         portalRoot.removeChild(el as HTMLDivElement);
       }
