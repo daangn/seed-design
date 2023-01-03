@@ -62,7 +62,9 @@ const MainPage = () => {
               </p>
               <div className={style.cardContent}>
                 <h1 className={style.cardTitle}>Component</h1>
-                <p className={style.cardDescription}>컴포넌드 -</p>
+                <p className={style.cardDescription}>
+                  컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
+                </p>
               </div>
             </article>
           </Link>
@@ -80,7 +82,10 @@ const MainPage = () => {
               </p>
               <div className={style.cardContent}>
                 <h1 className={style.cardTitle}>Primitive</h1>
-                <p className={style.cardDescription}>근 - 본</p>
+                <p className={style.cardDescription}>
+                  컴포넌트의 시각적 정의를 제외한 본질적인 기능과 동작에 대한
+                  정의
+                </p>
               </div>
             </article>
           </Link>

@@ -94,10 +94,10 @@ export const cardContainer = style([
   },
 
   m.small({
-    width: "430px",
-    height: "380px",
+    width: "435px",
+    height: "290px",
 
-    padding: "36px",
+    padding: "40px",
   }),
 ]);
 
@@ -115,17 +115,17 @@ export const cardNumber = style([
   },
 
   m.small({
-    fontSize: "20px",
+    fontSize: "16px",
 
-    width: "46px",
-    height: "46px",
+    width: "42px",
+    height: "42px",
   }),
 ]);
 
 export const cardContent = style([
   u.flexColumn,
   {
-    gap: "10px",
+    gap: "18px",
   },
 ]);
 
@@ -136,7 +136,7 @@ export const cardTitle = style([
   },
 
   m.small({
-    fontSize: "40px",
+    fontSize: "34px",
   }),
 ]);
 
