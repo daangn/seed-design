@@ -3,6 +3,7 @@ import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
+import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import { elevateUp, fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/list-page.css";
@@ -31,6 +32,7 @@ const Page = ({ data }: PageProps) => {
 
   return (
     <main className={t.main}>
+      <Header />
       <Sidebar />
       <article className={listPageStyle.content}>
         <h1 className={listPageStyle.title}>Component</h1>

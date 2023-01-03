@@ -15,7 +15,7 @@ export const header = recipe({
       backgroundColor: vars.$semantic.color.paperDefault,
 
       width: "100%",
-      height: "90px",
+      height: "80px",
 
       transition: "box-shadow 0.3s ease",
     },
@@ -50,27 +50,29 @@ export const content = style([
   }),
 ]);
 
-export const headerLogo = recipe({
-  base: [
-    {
-      display: "none",
-      transform: "scale(0.7)",
-    },
-
-    m.large({
-      display: "block",
-      transform: "scale(1.0)",
-    }),
-  ],
-
-  variants: {
-    isHome: {
-      true: {
-        display: "block",
-      },
-    },
+export const headerLogo = style([
+  {
+    display: "none",
+    transform: "scale(0.7)",
   },
-});
+
+  m.large({
+    display: "block",
+    transform: "scale(1.0)",
+  }),
+]);
+
+export const mainHeaderLogo = style([
+  {
+    display: "block",
+    transform: "scale(0.7)",
+  },
+
+  m.large({
+    display: "block",
+    transform: "scale(1.0)",
+  }),
+]);
 
 export const headerRightSection = style([
   u.flexAlignCenter,
@@ -79,38 +81,26 @@ export const headerRightSection = style([
   },
 ]);
 
-export const sidebarToggleButton = recipe({
-  base: [
-    u.cursorPointer,
-    {
-      display: "none",
-      padding: "4px",
-      borderRadius: "50%",
-      width: "32px",
-      height: "32px",
-      transition: "background-color 0.2s ease",
+export const sidebarToggleButton = style([
+  u.cursorPointer,
 
-      ":hover": {
-        backgroundColor: vars.$scale.color.gray100,
-      },
-    },
+  {
+    display: "block",
+    padding: "4px",
+    borderRadius: "50%",
+    width: "32px",
+    height: "32px",
+    transition: "background-color 0.2s ease",
 
-    m.large({
-      display: "none",
-    }),
-  ],
-
-  variants: {
-    visible: {
-      true: {
-        display: "block",
-      },
-      false: {
-        display: "none",
-      },
+    ":hover": {
+      backgroundColor: vars.$scale.color.gray100,
     },
   },
-});
+
+  m.large({
+    display: "none",
+  }),
+]);
 
 export const githubLogo = style([
   u.cursorPointer,

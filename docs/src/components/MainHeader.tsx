@@ -1,10 +1,8 @@
-import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import { vars } from "@seed-design/design-token";
 import { useEffect, useState } from "react";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";
-import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Header.css";
 import Logo from "./Logo";
 import ThemeSelect from "./ThemeSelect";
@@ -28,8 +26,7 @@ function GithubLogo() {
   );
 }
 
-export default function Header() {
-  const { openSidebar } = useSidebarState();
+export default function MainHeader() {
   const { openSearchbar } = useSearchbarState();
 
   const [isTop, setIsTop] = useState(false);
@@ -50,13 +47,7 @@ export default function Header() {
   return (
     <header className={style.header({ isTop })}>
       <div className={style.content}>
-        <MenuIcon
-          className={style.sidebarToggleButton}
-          onClick={openSidebar}
-          width={28}
-        />
-
-        <div className={style.headerLogo}>
+        <div className={style.mainHeaderLogo}>
           <Logo to="/" />
         </div>
 

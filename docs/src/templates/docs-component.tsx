@@ -6,6 +6,7 @@ import type { IGatsbyImageData } from "gatsby-plugin-image";
 import { getSrc } from "gatsby-plugin-image";
 
 import EditLink from "../components/EditLink";
+import Header from "../components/Header";
 import MdxComponents from "../components/mdx/MdxComponents";
 import Sidebar from "../components/Sidebar";
 import type { TableOfContentsType } from "../components/TableOfContents";
@@ -34,6 +35,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
   return (
     <MDXProvider components={MdxComponents}>
       <main className={t.main}>
+        <Header />
         <Sidebar />
         <article className={style.content}>
           <h1 className={style.title}>{title}</h1>

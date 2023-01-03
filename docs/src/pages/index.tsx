@@ -5,21 +5,23 @@ import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
+import MainHeader from "../components/MainHeader";
 import { fadeInFromBottom } from "../framer-motions";
-import * as style from "../styles/index.page.css";
+import * as style from "../styles/main.page.css";
 import * as t from "../styles/token.css";
 
 export const query = graphql`
-  query IndexPage {
+  query MainPage {
     ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
       gatsbyImageData(layout: FIXED)
     }
   }
 `;
 
-const IndexPage = () => {
+const MainPage = () => {
   return (
     <main className={t.main}>
+      <MainHeader />
       <motion.article {...fadeInFromBottom} className={style.content}>
         <h1 className={style.title}>SEED DESIGN</h1>
 
@@ -88,9 +90,9 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default MainPage;
 
-export const Head: HeadFC<GatsbyTypes.IndexPageQuery> = ({ data }) => {
+export const Head: HeadFC<GatsbyTypes.MainPageQuery> = ({ data }) => {
   return (
     <>
       <title>Seed Design</title>

@@ -2963,10 +2963,10 @@ type GetStartedPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type GetStartedPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
-type IndexPageQueryVariables = Exact<{ [key: string]: never; }>;
+type MainPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type IndexPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type MainPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type PrimitiveListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2977,6 +2977,11 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SidebarQuery = { readonly configsJson: { readonly component: ReadonlyArray<{ readonly usage: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly primitive: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null } | null };
 
 
 }
