@@ -7,31 +7,18 @@ import * as u from "../styles/utils.css";
 
 export const header = recipe({
   base: [
-    u.flexAlignCenter,
     u.middleLayer,
     {
-      justifyContent: "space-between",
       position: "fixed",
       top: 0,
       left: 0,
-      right: 0,
       backgroundColor: vars.$semantic.color.paperDefault,
 
       width: "100%",
-      maxWidth: "1400px",
       height: "90px",
-
-      margin: "auto",
-      padding: "0 10px",
-      gap: "10px",
 
       transition: "box-shadow 0.3s ease",
     },
-
-    m.large({
-      padding: "0 20px",
-      gap: "20px",
-    }),
   ],
   variants: {
     isTop: {
@@ -41,6 +28,27 @@ export const header = recipe({
     },
   },
 });
+
+export const content = style([
+  u.flexAlignCenter,
+  {
+    justifyContent: "space-between",
+
+    width: "100%",
+    height: "100%",
+    maxWidth: "1400px",
+
+    margin: "auto",
+    padding: "0 10px",
+    gap: "10px",
+
+    transition: "box-shadow 0.3s ease",
+  },
+
+  m.large({
+    padding: "0 20px",
+  }),
+]);
 
 export const headerRightSection = style([
   u.flexAlignCenter,
@@ -91,12 +99,13 @@ export const searchButton = style([
 
     backgroundColor: vars.$semantic.color.paperDefault,
     border: `1px ${vars.$scale.color.gray300} solid`,
-  },
 
-  m.large({
-    height: "46px",
-    width: "300px",
-  }),
+    transition: "border 0.2s ease",
+
+    ":hover": {
+      border: `1px solid ${vars.$scale.color.gray600}`,
+    },
+  },
 ]);
 
 export const searchButtonLeftIcon = style([
@@ -106,11 +115,6 @@ export const searchButtonLeftIcon = style([
 
     color: vars.$scale.color.gray800,
   },
-
-  m.large({
-    width: "24px",
-    height: "24px",
-  }),
 ]);
 
 export const searchButtonText = style({

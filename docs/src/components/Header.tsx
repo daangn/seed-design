@@ -76,32 +76,34 @@ export default function Header() {
 
   return (
     <header className={style.header({ isTop })}>
-      <Logo to="/" />
+      <div className={style.content}>
+        <Logo to="/" />
 
-      <div className={style.headerRightSection}>
-        <a
-          href="https://github.com/daangn/seed-design"
-          target="_blank"
-          className={style.githubLogo}
-        >
-          <GithubLogo />
-        </a>
+        <div className={style.headerRightSection}>
+          <a
+            href="https://github.com/daangn/seed-design"
+            target="_blank"
+            className={style.githubLogo}
+          >
+            <GithubLogo />
+          </a>
 
-        <button onClick={openSearchbar} className={style.searchButton}>
-          <SearchIcon className={style.searchButtonLeftIcon} />
-          <div className={style.searchButtonText}>search</div>
-          <div className={style.searchButtonKeyboard}>
-            <kbd>⌘</kbd> + <kbd>K</kbd>
-          </div>
-        </button>
+          <button onClick={openSearchbar} className={style.searchButton}>
+            <SearchIcon className={style.searchButtonLeftIcon} />
+            <div className={style.searchButtonText}>search</div>
+            <div className={style.searchButtonKeyboard}>
+              <kbd>⌘</kbd> + <kbd>K</kbd>
+            </div>
+          </button>
 
-        <ThemeSelect />
+          <ThemeSelect />
 
-        <MenuIcon
-          className={style.sidebarToggleButton}
-          onClick={openSidebar}
-          width={28}
-        />
+          <MenuIcon
+            className={style.sidebarToggleButton}
+            onClick={openSidebar}
+            width={28}
+          />
+        </div>
       </div>
     </header>
   );

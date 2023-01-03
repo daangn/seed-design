@@ -11,6 +11,7 @@ export const selectContainer = style([
 
 export const select = style([
   u.flexAlignCenter,
+  u.cursorPointer,
   {
     fontSize: "14px",
 
@@ -26,6 +27,12 @@ export const select = style([
     padding: "8px 12px",
 
     gap: "4px",
+
+    transition: "border 0.2s ease",
+
+    ":hover": {
+      border: `1px solid ${vars.$scale.color.gray600}`,
+    },
   },
 ]);
 
@@ -52,6 +59,7 @@ export const optionList = style([
 
 export const option = style([
   u.flexAlignCenter,
+  u.cursorPointer,
   {
     width: "90%",
     height: "28px",
