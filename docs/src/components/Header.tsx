@@ -3,6 +3,7 @@ import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import { vars } from "@seed-design/design-token";
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
+import { useEffect, useState } from "react";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";
 import { useSidebarState } from "../contexts/SidebarContext";
@@ -58,8 +59,23 @@ export default function Header() {
   const { openSidebar } = useSidebarState();
   const { openSearchbar } = useSearchbarState();
 
+  const [isTop, setIsTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsTop(true);
+      } else {
+        setIsTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className={style.header}>
+    <header className={style.header({ isTop })}>
       <Logo to="/" />
 
       <div className={style.headerRightSection}>

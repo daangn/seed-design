@@ -1,33 +1,46 @@
 import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
 
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
-export const header = style([
-  u.flexAlignCenter,
-  u.middleLayer,
-  {
-    justifyContent: "space-between",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
+export const header = recipe({
+  base: [
+    u.flexAlignCenter,
+    u.middleLayer,
+    {
+      justifyContent: "space-between",
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: vars.$semantic.color.paperDefault,
 
-    width: "100%",
-    maxWidth: "1400px",
-    height: "90px",
+      width: "100%",
+      maxWidth: "1400px",
+      height: "90px",
 
-    margin: "auto",
-    padding: "0 10px",
-    gap: "10px",
+      margin: "auto",
+      padding: "0 10px",
+      gap: "10px",
+
+      transition: "box-shadow 0.3s ease",
+    },
+
+    m.large({
+      padding: "0 20px",
+      gap: "20px",
+    }),
+  ],
+  variants: {
+    isTop: {
+      true: {
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.03)",
+      },
+    },
   },
-
-  m.large({
-    padding: "0 20px",
-    gap: "20px",
-  }),
-]);
+});
 
 export const headerRightSection = style([
   u.flexAlignCenter,
