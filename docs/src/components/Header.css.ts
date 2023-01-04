@@ -15,10 +15,14 @@ export const header = recipe({
       backgroundColor: vars.$semantic.color.paperDefault,
 
       width: "100%",
-      height: "80px",
+      height: "50px",
 
       transition: "box-shadow 0.3s ease",
     },
+
+    m.small({
+      height: "80px",
+    }),
   ],
   variants: {
     isTop: {
@@ -39,21 +43,21 @@ export const content = style([
     maxWidth: "1400px",
 
     margin: "auto",
-    padding: "0 15px",
-    gap: "10px",
+    paddingRight: "15px",
 
     transition: "box-shadow 0.3s ease",
   },
 
-  m.large({
-    padding: "0 20px",
+  m.small({
+    paddingLeft: "20px",
+    paddingRight: "20px",
   }),
 ]);
 
 export const headerLogo = style([
   {
     display: "none",
-    transform: "scale(0.7)",
+    transform: "scale(0.65)",
   },
 
   m.large({
@@ -65,10 +69,10 @@ export const headerLogo = style([
 export const mainHeaderLogo = style([
   {
     display: "block",
-    transform: "scale(0.7)",
+    transform: "scale(0.65)",
   },
 
-  m.large({
+  m.small({
     display: "block",
     transform: "scale(1.0)",
   }),
@@ -77,8 +81,11 @@ export const mainHeaderLogo = style([
 export const headerRightSection = style([
   u.flexAlignCenter,
   {
-    gap: "16px",
+    gap: "10px",
   },
+  m.small({
+    gap: "16px",
+  }),
 ]);
 
 export const sidebarToggleButton = style([
@@ -91,6 +98,7 @@ export const sidebarToggleButton = style([
     width: "32px",
     height: "32px",
     transition: "background-color 0.2s ease",
+    marginLeft: "15px",
 
     ":hover": {
       backgroundColor: vars.$scale.color.gray100,
@@ -119,7 +127,24 @@ export const searchButton = style([
   u.cursorPointer,
   u.flexCenter,
   {
-    width: "90px",
+    position: "relative",
+    width: "36px",
+    height: "36px",
+    color: vars.$scale.color.gray800,
+
+    backgroundColor: vars.$semantic.color.paperDefault,
+    border: "none",
+
+    transition: "border 0.2s ease",
+
+    ":before": {
+      content: "",
+    },
+  },
+
+  m.small({
+    position: "relative",
+    width: "135px",
     height: "36px",
 
     borderRadius: "6px",
@@ -130,20 +155,23 @@ export const searchButton = style([
     backgroundColor: vars.$semantic.color.paperDefault,
     border: `1px ${vars.$scale.color.gray300} solid`,
 
-    transition: "border 0.2s ease",
+    ":before": {
+      content: "search",
+
+      position: "absolute",
+      left: "32px",
+    },
 
     ":hover": {
       border: `1px solid ${vars.$scale.color.gray600}`,
     },
-  },
-
-  m.small({
-    width: "135px",
   }),
 ]);
 
 export const searchButtonLeftIcon = style([
   {
+    position: "absolute",
+    left: "10px",
     width: "16px",
     height: "16px",
 
@@ -160,6 +188,8 @@ export const searchButtonKeyboard = style([
   u.flex,
   {
     display: "none",
+    position: "absolute",
+    right: "6px",
     fontSize: "12px",
 
     color: vars.$scale.color.gray500,

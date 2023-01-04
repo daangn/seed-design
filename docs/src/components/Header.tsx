@@ -70,7 +70,7 @@ export default function Header() {
           </a>
           <button onClick={openSearchbar} className={style.searchButton}>
             <SearchIcon className={style.searchButtonLeftIcon} />
-            <div className={style.searchButtonText}>search</div>
+            <div className={style.searchButtonText} />
             <div className={style.searchButtonKeyboard}>
               <kbd>⌘</kbd> + <kbd>K</kbd>
             </div>

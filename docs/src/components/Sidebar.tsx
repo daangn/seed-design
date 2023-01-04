@@ -71,10 +71,10 @@ export default function Sidebar() {
             <>
               <motion.nav
                 className={style.sidebar}
-                initial={{ opacity: 0, x: -100 }}
+                initial={{ opacity: 0, x: -80 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.15 }}
-                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, x: -80 }}
               >
                 <div className={style.sidebarItemContainer}>
                   <div className={style.sidebarLogo}>
@@ -138,7 +138,7 @@ export default function Sidebar() {
                 onClick={closeSidebar}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.15 }}
+                transition={{ duration: 0.2 }}
                 exit={{ opacity: 0, y: -10 }}
               />
             </>

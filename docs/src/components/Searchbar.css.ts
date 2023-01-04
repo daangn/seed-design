@@ -92,6 +92,7 @@ export const input = recipe({
     border: "none",
 
     backgroundColor: vars.$scale.color.gray00,
+    color: vars.$scale.color.gray900,
 
     paddingInlineStart: "48px",
     paddingInlineEnd: "78px",
