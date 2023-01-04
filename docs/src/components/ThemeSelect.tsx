@@ -33,6 +33,27 @@ const OptionItem = {
   ),
 };
 
+const SelectItem = {
+  light: (
+    <div className={style.selectLeftSection}>
+      <SunIcon width="16px" />
+      <span className={style.label}>light</span>
+    </div>
+  ),
+  dark: (
+    <div className={style.selectLeftSection}>
+      <SunIcon width="16px" />
+      <span className={style.label}>dark</span>
+    </div>
+  ),
+  system: (
+    <div className={style.selectLeftSection}>
+      <SunIcon width="16px" />
+      <span className={style.label}>system</span>
+    </div>
+  ),
+};
+
 const ThemeSelect = () => {
   const { setColorTheme } = useThemeBehavior({ mode: "auto" });
   // NOTE: 라이브러리에서 관리하는 colorTheme 변수랑 동기화하기 위한 변수
@@ -98,11 +119,11 @@ const ThemeSelect = () => {
   return (
     <div ref={ref} className={style.selectContainer}>
       <button className={style.select} onClick={handleSelectClick}>
-        {OptionItem[storageColorTheme]}
+        {SelectItem[storageColorTheme]}
         {isOptionListOpen ? (
-          <ExpandLessIcon width="10px" />
+          <ExpandLessIcon className={style.icon} width="10px" />
         ) : (
-          <ExpandMoreIcon width="10px" />
+          <ExpandMoreIcon className={style.icon} width="10px" />
         )}
       </button>
       {isOptionListOpen && (
