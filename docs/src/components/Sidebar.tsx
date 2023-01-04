@@ -80,7 +80,7 @@ export default function Sidebar() {
                   <div className={style.sidebarLogo}>
                     <Logo to="/" onClick={closeSidebar} />
                   </div>
-                  <Link to="/component">
+                  <Link to="/component" onClick={closeSidebar}>
                     <h1
                       className={style.sidebarTitle1}
                       style={{ marginTop: 0 }}
@@ -107,7 +107,7 @@ export default function Sidebar() {
                       />
                     );
                   })}
-                  <Link to="/primitive">
+                  <Link to="/primitive" onClick={closeSidebar}>
                     <h1 className={style.sidebarTitle1}>Primitive</h1>
                   </Link>
 
@@ -149,7 +149,7 @@ export default function Sidebar() {
       {/* 페이지 고정 사이드바 */}
       <nav className={style.sidebarDesktop}>
         <div className={style.sidebarItemContainer}>
-          <Link to="/component">
+          <Link to="/component" onClick={closeSidebar}>
             <h1 className={style.sidebarTitle1} style={{ marginTop: 0 }}>
               Component
             </h1>
@@ -171,7 +171,7 @@ export default function Sidebar() {
               />
             );
           })}
-          <Link to="/primitive">
+          <Link to="/primitive" onClick={closeSidebar}>
             <h1 className={style.sidebarTitle1}>Primitive</h1>
           </Link>
 
