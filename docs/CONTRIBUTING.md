@@ -88,7 +88,6 @@ thumbnail: ./thumbnail.png
       "usage": "../content/component/checkbox/usage.mdx",
       "style": "../content/component/checkbox/style.mdx"
     }
-    // ...
   ],
 
   "primitive": [
@@ -96,7 +95,6 @@ thumbnail: ./thumbnail.png
       "name": "Checkbox",
       "document": "../content/primitive/checkbox/primitive.mdx"
     }
-    // ...
   ]
 }
 ```
