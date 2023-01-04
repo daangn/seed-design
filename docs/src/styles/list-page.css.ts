@@ -47,6 +47,7 @@ export const gridItem = style([
     position: "relative",
     overflow: "hidden",
     height: "100%",
+    isolation: "isolate",
 
     zIndex: 0,
 
