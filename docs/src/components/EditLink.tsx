@@ -23,7 +23,7 @@ export default function DocumentEditLink({
       href={`https://github.com/daangn/seed-design/edit/feat/seed-design-web/web/content${slug}/${file}.mdx`}
     >
       <EditIcon width={20} />
-      <span>Edit this page on github</span>
+      <span>Edit this page on GitHub</span>
     </a>
   );
 }
