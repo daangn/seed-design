@@ -42,7 +42,7 @@ const ThemeSelect = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   const handleOptionClick = (e: MouseEvent<HTMLLIElement>) => {
-    const colorTheme = e.currentTarget.innerText as ColorTheme;
+    const colorTheme = e.currentTarget.innerText.trim() as ColorTheme;
     setColorTheme(colorTheme);
     setStorageColorTheme(colorTheme);
   };
