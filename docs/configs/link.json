@@ -36,6 +36,11 @@
       "style": "../content/component/capsule-toggle-button/style.mdx"
     },
     {
+      "name": "Slider",
+      "usage": "../content/component/slider/usage.mdx",
+      "style": "../content/component/slider/style.mdx"
+    },
+    {
       "name": "Spinner",
       "usage": "../content/component/spinner/usage.mdx",
       "style": "../content/component/spinner/style.mdx"
