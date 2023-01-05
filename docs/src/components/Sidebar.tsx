@@ -8,29 +8,27 @@ import Portal from "./Portal";
 import * as style from "./Sidebar.css";
 
 interface SidebarItemProps {
-  title: "component" | "primitive";
-  componentName: string;
+  title: "component" | "primitive" | "foundation";
+  itemName: string;
   currentPath: string;
 }
 
 function SidebarItem({
   currentPath,
-  componentName,
+  itemName,
   title,
   to,
   onClick,
   onMouseEnter,
 }: GatsbyLinkProps<{}> & SidebarItemProps) {
   const pathComponentName = currentPath.split("/")[2];
-  const docsComponentName = componentName.replaceAll(" ", "-").toLowerCase();
+  const docsComponentName = itemName.replaceAll(" ", "-").toLowerCase();
   const active =
     pathComponentName === docsComponentName && currentPath.includes(title);
 
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
-      <div className={style.sidebarItem({ highlight: active })}>
-        {componentName}
-      </div>
+      <div className={style.sidebarItem({ highlight: active })}>{itemName}</div>
     </Link>
   );
 }
@@ -108,6 +106,16 @@ export default function Sidebar() {
                     <Logo to="/" onClick={closeSidebar} />
                   </div>
 
+                  <SidebarTitle title="foundation" onClick={closeSidebar} />
+
+                  <SidebarItem
+                    currentPath={currentPath}
+                    to="/foundation/color"
+                    itemName="Color"
+                    title="foundation"
+                    onClick={closeSidebar}
+                  />
+
                   <SidebarTitle title="component" onClick={closeSidebar} />
 
                   {componentDocs!.map((link) => {
@@ -117,7 +125,7 @@ export default function Sidebar() {
                         key={slug!}
                         currentPath={currentPath}
                         to={slug!}
-                        componentName={title!}
+                        itemName={title!}
                         title="component"
                         onClick={closeSidebar}
                       />
@@ -134,7 +142,7 @@ export default function Sidebar() {
                         key={slug!}
                         currentPath={currentPath}
                         to={slug!}
-                        componentName={title!}
+                        itemName={title!}
                         title="primitive"
                         onClick={closeSidebar}
                       />
@@ -158,6 +166,16 @@ export default function Sidebar() {
       {/* 페이지 고정 사이드바 */}
       <nav className={style.sidebarDesktop}>
         <div className={style.sidebarItemContainer}>
+          <SidebarTitle title="foundation" onClick={closeSidebar} />
+
+          <SidebarItem
+            currentPath={currentPath}
+            to="/foundation/color"
+            itemName="Color"
+            title="foundation"
+            onClick={closeSidebar}
+          />
+
           <SidebarTitle title="component" onClick={closeSidebar} />
 
           {componentDocs!.map((link) => {
@@ -167,7 +185,7 @@ export default function Sidebar() {
                 key={slug!}
                 currentPath={currentPath}
                 to={slug!}
-                componentName={title!}
+                itemName={title!}
                 title="component"
                 onClick={closeSidebar}
               />
@@ -183,7 +201,7 @@ export default function Sidebar() {
                 key={slug!}
                 currentPath={currentPath}
                 to={slug!}
-                componentName={title!}
+                itemName={title!}
                 title="primitive"
                 onClick={closeSidebar}
               />
