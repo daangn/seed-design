@@ -41,6 +41,11 @@
       "style": "../content/component/switch/style.mdx"
     },
     {
+      "name": "Tabs",
+      "usage": "../content/component/tabs/usage.mdx",
+      "style": "../content/component/tabs/style.mdx"
+    },
+    {
       "name": "Radio Group",
       "usage": "../content/component/radio-group/usage.mdx",
       "style": "../content/component/radio-group/style.mdx"
@@ -63,6 +68,10 @@
     {
       "name": "Radio Group",
       "document": "../content/primitive/radio-group/primitive.mdx"
+    },
+    {
+      "name": "Tabs",
+      "document": "../content/primitive/tabs/primitive.mdx"
     }
   ]
 }
