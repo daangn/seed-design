@@ -37,8 +37,7 @@ const Page = ({ data }: PageProps) => {
       <article className={listPageStyle.content}>
         <h1 className={listPageStyle.title}>Component</h1>
         <p className={listPageStyle.caption1}>
-          {/* TODO: 수정하기 */}
-          Component
+          컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
         </p>
         <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
           {docs?.map((doc) => {

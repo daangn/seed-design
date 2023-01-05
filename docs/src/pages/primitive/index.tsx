@@ -37,8 +37,7 @@ const Page = ({ data }: PageProps) => {
       <article className={listPageStyle.content}>
         <h1 className={listPageStyle.title}>Primitive</h1>
         <p className={listPageStyle.caption1}>
-          Primitives are headless components that are used to build other
-          components.
+          컴포넌트의 시각적 정의를 제외한 본질적인 기능과 동작에 대한 정의
         </p>
         <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
           {docs?.map((doc) => {
