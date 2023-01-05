@@ -20,9 +20,9 @@ export const main = style([
 export const content = style([
   {
     maxWidth: "900px",
-    minHeight: "100vh",
+    minHeight: "calc(100vh - 260px)",
     width: "100%",
-    margin: "136px auto",
+    margin: "130px auto",
     padding: "0px 20px",
     wordBreak: "keep-all",
     overflowWrap: "break-word",
@@ -33,19 +33,23 @@ export const content = style([
   m.medium({
     padding: "0px",
   }),
+
+  m.large({
+    margin: "130px 0px",
+  }),
 ]);
 
+// NOTE: heading 1에는 margin top이 들어가지 않음. (보통 페이지 최상단에 위치하기 때문)
 export const documentHeading1 = style([
   classNames.$semantic.typography.h1,
   {
     fontSize: "50px",
-    marginTop: "60px",
+    marginTop: "0px",
   },
 
   m.small({
     fontSize: "66px",
     fontWeight: 700,
-    marginTop: "85px",
   }),
 ]);
 

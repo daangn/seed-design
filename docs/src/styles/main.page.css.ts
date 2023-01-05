@@ -19,6 +19,7 @@ export const title = style([
   {
     fontSize: "42px",
     fontWeight: "900",
+    marginTop: "80px",
   },
   m.small({
     fontSize: "64px",

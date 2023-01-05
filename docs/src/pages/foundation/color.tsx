@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
+import { vars } from "@seed-design/design-token";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import { fadeInFromBottom } from "../../framer-motions";
-import * as style from "../../styles/get-started.page.css";
+import PageLayout from "../../components/PageLayout";
+import * as style from "../../styles/color.page.css";
 
 export const query = graphql`
   query FoundationColorPage {
@@ -14,13 +14,46 @@ export const query = graphql`
   }
 `;
 
+const ColorItem = ({ name, color }: { name: string; color: string }) => {
+  return (
+    <li className={style.listItem}>
+      <span className={style.listItemText}>{name}</span>
+      <div
+        className={style.listItemBox}
+        style={{
+          backgroundColor: color,
+        }}
+      />
+    </li>
+  );
+};
+
 const FoundationColorPage = () => {
   return (
-    <main>
-      <motion.article className={style.content} {...fadeInFromBottom}>
-        <h1 className={style.title}>Color</h1>
-      </motion.article>
-    </main>
+    <PageLayout>
+      <h1 className={style.heading1}>Color</h1>
+
+      <h2 className={style.heading2}>Scale Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$scale.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
+
+      <h2 className={style.heading2}>Semantic Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$semantic.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
+
+      <h2 className={style.heading2}>Static Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$static.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
+    </PageLayout>
   );
 };
 

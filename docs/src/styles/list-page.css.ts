@@ -5,15 +5,9 @@ import * as m from "./media.css";
 import * as t from "./token.css";
 import * as u from "./utils.css";
 
-export const content = style([
-  t.content,
-  { margin: "130 20px" },
-  m.large({
-    margin: "130px 0px",
-  }),
-]);
+export const content = style([t.content]);
 
-export const title = style([t.documentHeading1, { marginTop: "0px" }]);
+export const title = style([t.documentHeading1]);
 
 export const caption1 = style([
   t.documentCaption1,
