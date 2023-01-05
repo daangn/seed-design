@@ -1,9 +1,8 @@
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import { fadeInFromBottom } from "../../framer-motions";
+import PageLayout from "../../components/PageLayout";
 import * as style from "../../styles/get-started.page.css";
 
 export const query = graphql`
@@ -16,11 +15,9 @@ export const query = graphql`
 
 const FoundationColorPage = () => {
   return (
-    <main>
-      <motion.article className={style.content} {...fadeInFromBottom}>
-        <h1 className={style.title}>Color</h1>
-      </motion.article>
-    </main>
+    <PageLayout>
+      <h1 className={style.title}>Color</h1>
+    </PageLayout>
   );
 };
 
