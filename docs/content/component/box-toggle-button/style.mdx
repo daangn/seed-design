@@ -1,7 +1,7 @@
 ---
 slug: /component/box-toggle-button/style
 title: Box Toggle Button
-description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니다.
+description: 사용자가 선택 여부를 켜거나 끌 수 있는 버튼 요소입니다.
 ---
 
 ## Anatomy
@@ -12,16 +12,14 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 2. Label : Button에 대한 정보를 전달하는 라벨 - Primitive.Label
 3. Icon : Button에 대한 정보를 전달하는 아이콘
 
-## Filled
-
-### Visual Options
+## Visual Options
 
 | Property | Value                                   | Description |
 | -------- | --------------------------------------- | ----------- |
 | size     | xsmall, small, medium, large, xlarge    |             |
 | variant  | primary, primary-low, secondary, danger |             |
 
-### Visually Representated States
+## Visually Representated States
 
 | State    | Condition                                                                   |
 | -------- | --------------------------------------------------------------------------- |
@@ -36,9 +34,9 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | unselected | isSelected = false |
 | selected   | isSelected = true  |
 
-### 디자인 결정 (Color)
+## 디자인 결정 (Color)
 
-#### Variant=Primary
+### Variant=Primary
 
 | State                | Part        | Attribute | Value                           |
 | -------------------- | ----------- | --------- | ------------------------------- |
@@ -59,7 +57,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Disabled, Selected   | Root        | Color     | $scale.color.gray-300           |
 |                      | Label, Icon | Color     | $scale.color.gray-500           |
 
-#### Variant=Primary Low
+### Variant=Primary Low
 
 | State                | Part        | Attribute | Value                               |
 | -------------------- | ----------- | --------- | ----------------------------------- |
@@ -80,7 +78,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Disabled, Selected   | Root        | Color     | $scale.color.gray-300               |
 |                      | Label, Icon | Color     | $scale.color.gray-500               |
 
-#### Variant=Secondary
+### Variant=Secondary
 
 | State                | Part        | Attribute | Value                               |
 | -------------------- | ----------- | --------- | ----------------------------------- |
@@ -101,35 +99,35 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Disabled, Selected   | Root        | Color     | $scale.color.gray-300               |
 |                      | Label, Icon | Color     | $scale.color.gray-500               |
 
-### 디자인 결정 (Typography)
+## 디자인 결정 (Typography)
 
-#### Size=Large
-
-| Part  | Attribute  | Value                            |
-| ----- | ---------- | -------------------------------- |
-| Label | Typography | $semantic.typography.label3-bold |
-
-#### Size=Medium
+### Size=Large
 
 | Part  | Attribute  | Value                            |
 | ----- | ---------- | -------------------------------- |
 | Label | Typography | $semantic.typography.label3-bold |
 
-#### Size=Small
+### Size=Medium
 
 | Part  | Attribute  | Value                            |
 | ----- | ---------- | -------------------------------- |
 | Label | Typography | $semantic.typography.label3-bold |
 
-#### Size=Xsmall
+### Size=Small
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label3-bold |
+
+### Size=Xsmall
 
 | Part  | Attribute  | Value                            |
 | ----- | ---------- | -------------------------------- |
 | Label | Typography | $semantic.typography.label5-bold |
 
-### 디자인 결정 (Layout)
+## 디자인 결정 (Layout)
 
-#### Size=Large
+### Size=Large
 
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
@@ -141,7 +139,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Icon         | Size               | 16pt   |
 | Label / Icon | Padding            | 4pt    |
 
-#### Size=Medium
+### Size=Medium
 
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
@@ -153,7 +151,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Icon         | Size               | 16pt   |
 | Label / Icon | Padding            | 4pt    |
 
-#### Size=Small
+### Size=Small
 
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
@@ -165,7 +163,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Icon         | Size               | 16pt   |
 | Label / Icon | Padding            | 4pt    |
 
-#### Size=Xsmall
+### Size=Xsmall
 
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
@@ -177,77 +175,7 @@ description: 버튼은 누르면 액션을 발생시킬 수 있는 요소입니�
 | Icon         | Size               | 12pt   |
 | Label / Icon | Padding            | 2pt    |
 
-### 디자인 결정 (Focus)
-
-| State   | Part | Attribute     | Value                 |
-| ------- | ---- | ------------- | --------------------- |
-| Focused | Root | Outline Color | $scale.color.blue-600 |
-|         |      | Outline Width | 2pt                   |
-
-## Pill
-
-### 디자인 결정 (Color)
-
-| State                | Part        | Attribute | Value                               |
-| -------------------- | ----------- | --------- | ----------------------------------- |
-| Enabled, Unselected  | Root        | Color     | $semantic.color.secondary-low       |
-|                      | Label, Icon | Color     | $scale.color.gray-900               |
-| Hovered, Unselected  | Root        | Color     | $scale.color.gray-200               |
-|                      | Label, Icon | Color     | $scale.color.gray-900               |
-| Pressed, Unselected  | Root        | Color     | $scale.color.gray-200               |
-|                      | Label, Icon | Color     | $scale.color.gray-900               |
-| Disabled, Unselected | Root        | Color     | $scale.color.gray-300               |
-|                      | Label, Icon | Color     | $scale.color.gray-500               |
-| Enabled, Selected    | Root        | Color     | $semantic.color.primary-low         |
-|                      | Label, Icon | Color     | $semantic.color.primary             |
-| Hovered, Selected    | Root        | Color     | $semantic.color.primary-low-hover   |
-|                      | Label, Icon | Color     | $semantic.color.primary             |
-| Pressed, Selected    | Root        | Color     | $semantic.color.primary-low-pressed |
-|                      | Label, Icon | Color     | $semantic.color.primary             |
-| Disabled, Selected   | Root        | Color     | $scale.color.gray-300               |
-|                      | Label, Icon | Color     | $scale.color.gray-500               |
-
-### 디자인 결정 (Typography)
-
-#### Size=Small
-
-| Part  | Attribute  | Value                            |
-| ----- | ---------- | -------------------------------- |
-| Label | Typography | $semantic.typography.label3-bold |
-
-#### Size=Xsmall
-
-| Part  | Attribute  | Value                            |
-| ----- | ---------- | -------------------------------- |
-| Label | Typography | $semantic.typography.label5-bold |
-
-### 디자인 결정 (Layout)
-
-#### Size=Small
-
-| Part         | Attribute          | Value  |
-| ------------ | ------------------ | ------ |
-| Root         | Min Width          | 54pt   |
-|              | Horizontal Padding | 14pt   |
-|              | Vertical Padding   | 8pt    |
-|              | Corner Radius      | 18pt   |
-| Label        | Text Align         | Center |
-| Icon         | Size               | 16pt   |
-| Label / Icon | Padding            | 4pt    |
-
-#### Size=Xsmall
-
-| Part         | Attribute          | Value  |
-| ------------ | ------------------ | ------ |
-| Root         | Min Width          | 40pt   |
-|              | Horizontal Padding | 10pt   |
-|              | Vertical Padding   | 8pt    |
-|              | Corner Radius      | 16pt   |
-| Label        | Text Align         | Center |
-| Icon         | Size               | 12pt   |
-| Label / Icon | Padding            | 2pt    |
-
-### 디자인 결정 (Focus)
+## 디자인 결정 (Focus)
 
 | State   | Part | Attribute     | Value                 |
 | ------- | ---- | ------------- | --------------------- |
