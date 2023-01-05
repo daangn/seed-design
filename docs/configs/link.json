@@ -11,6 +11,11 @@
       "style": "../content/component/avatar/style.mdx"
     },
     {
+      "name": "Avatar Group",
+      "usage": "../content/component/avatar-group/usage.mdx",
+      "style": "../content/component/avatar-group/style.mdx"
+    },
+    {
       "name": "Box Button",
       "usage": "../content/component/box-button/usage.mdx",
       "style": "../content/component/box-button/style.mdx"
