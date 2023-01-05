@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
+import last from "lodash/last";
+import sortBy from "lodash/sortBy";
 
 import { useSidebarState } from "../contexts/SidebarContext";
 import Logo from "./Logo";
@@ -57,8 +59,19 @@ export default function Sidebar() {
     }
   `);
 
-  const componentDocs = data.configsJson?.component;
-  const primitiveDocs = data.configsJson?.primitive;
+  const componentDocs = sortBy(data.configsJson?.component ?? [], (link) => {
+    const words = link?.usage?.childMdx?.frontmatter?.title?.split(" ") ?? [];
+    const lastWord = last(words);
+
+    return [lastWord, ...words];
+  });
+  const primitiveDocs = sortBy(data.configsJson?.primitive ?? [], (link) => {
+    const words =
+      link?.document?.childMdx?.frontmatter?.title?.split(" ") ?? [];
+    const lastWord = last(words);
+
+    return [lastWord, ...words];
+  });
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
 
