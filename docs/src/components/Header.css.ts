@@ -16,8 +16,8 @@ export const header = recipe({
 
       width: "100%",
       height: "50px",
-
-      transition: "box-shadow 0.3s ease",
+      transition:
+        "box-shadow 0.3s ease, background-color 0.2s ease, color 0.2s ease",
     },
 
     m.small({
