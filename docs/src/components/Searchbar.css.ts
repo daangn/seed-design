@@ -100,6 +100,9 @@ export const input = recipe({
     ":focus": {
       outline: "none",
     },
+    "::placeholder": {
+      color: vars.$scale.color.gray400,
+    },
   },
   variants: {
     underline: {

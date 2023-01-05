@@ -13,43 +13,49 @@ type ColorTheme = "light" | "dark" | "system";
 type StorageColorTheme = "light" | "dark" | null;
 
 const OptionItem = {
-  light: (
-    <>
-      <SunIcon width="16px" />
-      <span>light</span>
-    </>
-  ),
-  dark: (
-    <>
-      <MoonIcon width="16px" />
-      <span>dark</span>
-    </>
-  ),
-  system: (
-    <>
-      <SettingIcon width="16px" />
-      <span>system</span>
-    </>
-  ),
+  light: {
+    render: () => (
+      <>
+        <SunIcon width="16px" />
+        <span>라이트</span>
+      </>
+    ),
+  },
+  dark: {
+    render: () => (
+      <>
+        <MoonIcon width="16px" />
+        <span>다크</span>
+      </>
+    ),
+  },
+  system: {
+    render: () => (
+      <>
+        <SettingIcon width="16px" />
+        <span>시스템</span>
+      </>
+    ),
+  },
 };
 
 const SelectItem = {
   light: (
     <div className={style.selectLeftSection}>
       <SunIcon width="16px" />
-      <span className={style.label}>light</span>
+      <span className={style.label}>라이트</span>
     </div>
   ),
   dark: (
     <div className={style.selectLeftSection}>
       <SunIcon width="16px" />
-      <span className={style.label}>dark</span>
+      <span className={style.label}>다크</span>
     </div>
   ),
   system: (
     <div className={style.selectLeftSection}>
       <SunIcon width="16px" />
-      <span className={style.label}>system</span>
+      <span className={style.label}>시스템</span>
     </div>
   ),
 };
@@ -62,8 +68,7 @@ const ThemeSelect = () => {
   const [isOptionListOpen, setIsOptionListOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleOptionClick = (e: MouseEvent<HTMLLIElement>) => {
-    const colorTheme = e.currentTarget.innerText.trim() as ColorTheme;
+  const handleOptionClick = (colorTheme: ColorTheme) => () => {
     setColorTheme(colorTheme);
     setStorageColorTheme(colorTheme);
   };
@@ -129,8 +134,12 @@ const ThemeSelect = () => {
       {isOptionListOpen && (
         <ul className={style.optionList}>
           {Object.entries(OptionItem).map(([key, value]) => (
-            <li key={key} className={style.option} onClick={handleOptionClick}>
-              {value}
+            <li
+              key={key}
+              className={style.option}
+              onClick={handleOptionClick(key as ColorTheme)}
+            >
+              {value.render()}
             </li>
           ))}
         </ul>

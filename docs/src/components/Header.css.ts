@@ -156,7 +156,7 @@ export const searchButton = style([
     border: `1px ${vars.$scale.color.gray300} solid`,
 
     ":before": {
-      content: "search",
+      content: "검색",
 
       position: "absolute",
       left: "32px",

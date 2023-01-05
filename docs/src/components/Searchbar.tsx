@@ -111,6 +111,7 @@ const Searchbar = () => {
                   {...getInputProps()}
                   ref={inputRef}
                   className={style.input({ underline: items.length > 0 })}
+                  placeholder="Button, Switch, ..."
                 />
                 <div className={style.inputRight}>
                   <kbd>⌘</kbd> + <kbd>K</kbd>
