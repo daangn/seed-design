@@ -1,0 +1,69 @@
+---
+slug: /component/tabs/style
+title: Tabs
+description: 다른 탭 간에 전환과 이동을 쉽게 할 수 있는 요소입니다.
+---
+
+## Anatomy
+
+1. Root - Primitive.Root
+2. Tab List - Primitive.TabList
+3. Tab - Primitive.Tab
+4. Tab Label
+5. Panel Group - Primitive.PanelGroup
+6. Panel - Primitive.Panel
+7. Indicator
+8. Indicator Track
+
+## Root
+
+### Visual Options
+
+| Property | Value                | Description |
+| -------- | -------------------- | ----------- |
+| layout   | fitted, left aligned |             |
+
+## Tabs
+
+### Visually Representated States
+
+| State    | Condition                                                   |
+| -------- | ----------------------------------------------------------- |
+| enabled  | isDisabled OFF, isHovered OFF, isFocused OFF, isPressed OFF |
+| hovered  | isDisabled OFF, isPressed OFF, isHovered ON                 |
+| focused  | isDisabled OFF, isPressed OFF, isFocused ON                 |
+| pressed  | isDisabled OFF, isPressed ON                                |
+| disabled | isDisabled ON                                               |
+
+| State      | Condition                           |
+| ---------- | ----------------------------------- |
+| unselected | isIndeterminate OFF, isSelected OFF |
+| selected   | isIndeterminate OFF, isSelected ON  |
+
+## 디자인 결정 (Color)
+
+| Part            | Attribute | Value                 |
+| --------------- | --------- | --------------------- |
+| Indicator       | Color     | $scale.color.gray-900 |
+| Indicator Track | Color     | $scale.color.gray-300 |
+
+| State    | Part                   | Attribute | Value                 |
+| -------- | ---------------------- | --------- | --------------------- |
+| Enabled  | Tab Label (unselected) | Color     | $scale.color.gray-600 |
+|          | Tab Label (selected)   | Color     | $scale.color.gray-900 |
+| Hovered  | Tab Label              | Color     | $scale.color.gray-900 |
+| Pressed  | Tab Label              | Color     | $scale.color.gray-900 |
+| Disabled | Tab Label              | Color     | $scale.color.gray-300 |
+
+## 디자인 결정 (Typography)
+
+| Part      | Attribute  | Value                            |
+| --------- | ---------- | -------------------------------- |
+| Tab Label | Typography | $semantic.typography.label3-bold |
+
+### 디자인 결정 (Layout)
+
+| Part | Attribute        | Value |
+| ---- | ---------------- | ----- |
+| Tab  | Min Width        | 54pt  |
+|      | Vertical Padding | 9pt   |
