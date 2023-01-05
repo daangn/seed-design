@@ -34,6 +34,11 @@
       "name": "Switch",
       "usage": "../content/component/switch/usage.mdx",
       "style": "../content/component/switch/style.mdx"
+    },
+    {
+      "name": "Radio Group",
+      "usage": "../content/component/radio-group/usage.mdx",
+      "style": "../content/component/radio-group/style.mdx"
     }
   ],
 
@@ -49,6 +54,10 @@
     {
       "name": "Button",
       "document": "../content/primitive/button/primitive.mdx"
+    },
+    {
+      "name": "Radio Group",
+      "document": "../content/primitive/radio-group/primitive.mdx"
     }
   ]
 }
