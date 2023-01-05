@@ -48,13 +48,13 @@ const SelectItem = {
   ),
   dark: (
     <div className={style.selectLeftSection}>
-      <SunIcon width="16px" />
+      <MoonIcon width="16px" />
       <span className={style.label}>다크</span>
     </div>
   ),
   system: (
     <div className={style.selectLeftSection}>
-      <SunIcon width="16px" />
+      <SettingIcon width="16px" />
       <span className={style.label}>시스템</span>
     </div>
   ),
