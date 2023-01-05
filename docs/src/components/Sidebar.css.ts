@@ -20,6 +20,7 @@ export const sidebar = style([
 
     width: SIDEBAR_WIDTH,
     height: "100vh",
+    transition: "background-color 0.2s ease, color 0.2s ease",
   },
 
   m.large({

@@ -16,8 +16,8 @@ export const header = recipe({
 
       width: "100%",
       height: "50px",
-
-      transition: "box-shadow 0.3s ease",
+      transition:
+        "box-shadow 0.3s ease, background-color 0.2s ease, color 0.2s ease",
     },
 
     m.small({
@@ -156,7 +156,7 @@ export const searchButton = style([
     border: `1px ${vars.$scale.color.gray300} solid`,
 
     ":before": {
-      content: "search",
+      content: "검색",
 
       position: "absolute",
       left: "32px",
