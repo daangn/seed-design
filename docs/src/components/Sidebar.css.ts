@@ -37,10 +37,10 @@ export const sidebarDesktop = style([
   m.large({
     display: "flex",
     position: "sticky",
-    top: 150,
+    top: 110,
     left: 0,
     paddingLeft: "30px",
-    height: "calc(100vh - 150px)",
+    height: "calc(100vh - 110px)",
   }),
 ]);
 
