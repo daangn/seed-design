@@ -51,6 +51,21 @@
       "style": "../content/component/switch/style.mdx"
     },
     {
+      "name": "Multiline Text Field",
+      "usage": "../content/component/multiline-text-field/usage.mdx",
+      "style": "../content/component/switch/style.mdx"
+    },
+    {
+      "name": "Outlined Text Field",
+      "usage": "../content/component/outlined-text-field/usage.mdx",
+      "style": "../content/component/outlined-text-field/style.mdx"
+    },
+    {
+      "name": "Underlined Text Field",
+      "usage": "../content/component/underlined-text-field/usage.mdx",
+      "style": "../content/component/underlined-text-field/style.mdx"
+    },
+    {
       "name": "Tabs",
       "usage": "../content/component/tabs/usage.mdx",
       "style": "../content/component/tabs/style.mdx"
@@ -74,6 +89,10 @@
     {
       "name": "Button",
       "document": "../content/primitive/button/primitive.mdx"
+    },
+    {
+      "name": "Text Field",
+      "document": "../content/primitive/text-field/primitive.mdx"
     },
     {
       "name": "Radio Group",

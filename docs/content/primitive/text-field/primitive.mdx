@@ -1,0 +1,49 @@
+---
+slug: /primitive/text-field
+title: Text field
+description: 텍스트를 입력할 수 있는 폼 요소입니다.
+thumbnail: ./thumbnail.png
+---
+
+## Anatomy
+
+![text field primitive anatomy](./text-field-primitive-anatomy.png)
+
+1. Root
+2. Label
+3. Input
+4. Description
+5. Error message
+
+## States
+
+| State     | Values      | Default Value |
+| --------- | ----------- | ------------- |
+| value     | string      |               |
+| isFocused | true, false | false         |
+
+## Contexts
+
+| Context    | Values      | Default Value | Description                                        |
+| ---------- | ----------- | ------------- | -------------------------------------------------- |
+| isDisabled | true, false | false         | true일 경우, Text field가 유저와 상호작용하지 않음 |
+| isReadonly | true, false | false         | true일 경우, value를 변경할 수 없음                |
+| isRequired | true, false | false         | true일 경우, value가 필수임을 나타냄               |
+| isInvalid  | true, false | false         | true일 경우, value가 유효하지 않은 값임을 나타냄   |
+
+## Actions
+
+| Action           | From               | Condition                  | To                 |
+| ---------------- | ------------------ | -------------------------- | ------------------ |
+| TOGGLE           | isSelected = false | !isDisabled && !isReadonly | isSelected = true  |
+|                  | isSelected = true  | !isDisabled && !isReadonly | isSelected = false |
+| FOCUS            | isFocused = false  | !isDisabled                | isFocused = true   |
+| BLUR             | isFocused = true   |                            | isFocused = false  |
+| SET_VALUE(value) | \*                 |                            | value = value      |
+
+## Triggers
+
+| Part  | Event | Action |
+| ----- | ----- | ------ |
+| Field | Focus | FOCUS  |
+| Field | Blur  | BLUR   |

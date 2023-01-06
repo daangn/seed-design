@@ -1,0 +1,108 @@
+---
+slug: /component/multiline-text-field/style
+title: Multiline Text Field
+description: 장문의 텍스트를 여러 줄에 걸쳐 입력할 수 있는 폼 요소입니다.
+---
+
+## Anatomy
+
+![multiline text field anatomy](./multiline-text-field-anatomy.png)
+
+1. Root - Primitive.Root
+2. Label - Primitive.Label
+3. Required indicator
+4. Optional indicator
+5. Field - Primitive.Input
+6. Field text
+7. Placeholder
+8. Character count
+9. Description - Primitive.Description
+10. Error message - Primitive.ErrorMessage
+
+## Visual Options
+
+| Property           | Value  | Description |
+| ------------------ | ------ | ----------- |
+| label              | text   |             |
+| placeholder        | text   |             |
+| max length         | number |             |
+| description        | text   |             |
+| error message      | text   |             |
+| required indicator | text   |             |
+| optional indicator | text   |             |
+
+## Visually Representated States
+
+| State    | Condition                                                 |
+| -------- | --------------------------------------------------------- |
+| enabled  | isDisabled = false, isReadOnly = false, isFocused = false |
+| focused  | isDisabled = false, isReadOnly = false, isFocused = true  |
+| readonly | isDisabled = false, isReadOnly = true                     |
+| disabled | isDisabled = true                                         |
+
+| State   | Condition         |
+| ------- | ----------------- |
+| valid   | isInvalid = false |
+| invalid | isInvalid = true  |
+
+## 디자인 결정 (Color)
+
+| Part  | Attribute | Value                 |
+| ----- | --------- | --------------------- |
+| Label | Color     | $scale.color.gray-900 |
+
+| State    | Part               | Attribute     | Value                         |
+| -------- | ------------------ | ------------- | ----------------------------- |
+| Enabled  | Field              | Color         | $semantic.color.paper-default |
+|          |                    | Outline Color | $scale.color.gray-400         |
+|          | Field(invalid)     | Color         | $semantic.color.danger-low    |
+|          |                    | Outline Color | $semantic.color.danger        |
+|          | Field text         | Color         | $scale.color.gray-900         |
+|          | Placeholder        | Color         | $scale.color.gray-600         |
+|          | Character Count    | Color         | $scale.color.gray-600         |
+|          | Help text          | Color         | $scale.color.gray-600         |
+|          | Help text(invalid) | Color         | $semantic.color.danger        |
+| Focused  | Field              | Color         | $semantic.color.paper-default |
+|          |                    | Outline Color | $scale.color.gray-900         |
+|          | Field(invalid)     | Color         | $semantic.color.danger-low    |
+|          |                    | Outline Color | $semantic.color.danger        |
+|          | Field text         | Color         | $scale.color.gray-900         |
+|          | Placeholder        | Color         | $scale.color.gray-600         |
+|          | Character Count    | Color         | $scale.color.gray-600         |
+|          | Help text          | Color         | $scale.color.gray-600         |
+|          | Help text(invalid) | Color         | $semantic.color.danger        |
+| Readonly | Field              | Color         | $scale.color.gray-50          |
+|          |                    | Outline Color | $scale.color.gray-400         |
+|          | Field text         | Color         | $scale.color.gray-900         |
+|          | Placeholder        | Color         | $scale.color.gray-600         |
+|          | Character Count    | Color         | $scale.color.gray-600         |
+|          | Help text          | Color         | $scale.color.gray-600         |
+| Disabled | Field              | Color         | $scale.color.gray-100         |
+|          |                    | Outline Color | $scale.color.gray-400         |
+|          | Field text         | Color         | $scale.color.gray-400         |
+|          | Placeholder        | Color         | $scale.color.gray-400         |
+|          | Character Count    | Color         | $scale.color.gray-300         |
+|          | Help text          | Color         | $scale.color.gray-400         |
+
+## 디자인 결정 (Typography)
+
+| Part                                   | Attribute  | Value                                 |
+| -------------------------------------- | ---------- | ------------------------------------- |
+| Label                                  | Typography | $semantic.typography.label3-bold      |
+| Required Indicator, Optional Indicator | Typography | $semantic.typography.label3-regular   |
+| Field Text, Placeholder                | Typography | $semantic.typography.body-m1-regular  |
+| Character Count                        | Typography | $semantic.typography.caption2-regular |
+| Help Text                              | Typography | $semantic.typography.label3-regular   |
+
+## 디자인 결정 (Layout)
+
+| Part                         | Attribute          | Value |
+| ---------------------------- | ------------------ | ----- |
+| Field                        | Corner Radius      | 6pt   |
+|                              | Horizontal Padding | 16pt  |
+|                              | Vertical Padding   | 12pt  |
+| Character Count              | Text Align         | Right |
+| Field Text / Character Count | Vertical Spacing   | 4pt   |
+| Label / Required Indicator   | Horizontal Spacing | 4pt   |
+| Label / Field                | Vertical Spacing   | 12pt  |
+| Field / Help Text            | Vertical Spacing   | 8pt   |
