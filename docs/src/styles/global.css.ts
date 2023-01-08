@@ -4,6 +4,9 @@ import { globalStyle } from "@vanilla-extract/css";
 globalStyle("html, body", {
   margin: 0,
   padding: 0,
+
+  // NOTE: TOC 컨텐츠 클릭 시 스크롤 위치 조정
+  scrollPaddingTop: "90px",
 });
 
 globalStyle("body", {

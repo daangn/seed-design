@@ -31,6 +31,7 @@ const TableOfContentsItem: React.FC<{
           {tableOfContentsItem.title}
         </Link>
       </li>
+      {/* NOTE: This is for nested items */}
       {/* {tableOfContentsItem.items && (
         <ul className={style.list}>
           {tableOfContentsItem.items.map((item) => (
@@ -60,13 +61,20 @@ export default function TableOfContents({
       });
     };
 
-    const observer = new IntersectionObserver(callback);
+    const option: IntersectionObserverInit = {
+      rootMargin: "0px 0px -80% 0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver(callback, option);
 
     const observe = (item: TableOfContentsItemType) => {
       const element = document.querySelector(item.url);
 
       if (element) observer.observe(element);
-      if (item.items) item.items.forEach(observe);
+
+      // NOTE: This is for nested items
+      // if (item.items) item.items.forEach(observe);
     };
 
     tableOfContents.items.forEach(observe);
