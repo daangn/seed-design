@@ -1,3 +1,4 @@
+import Anatomy from "./Anatomy";
 import * as card from "./Card";
 import * as heading from "./Heading";
 import Keyboard from "./Keyboard";
@@ -36,4 +37,6 @@ export default {
   HalfCardDescriptionCell: card.HalfCardDescriptionCell,
   HalfCardDescriptionTitle: card.HalfCardDescriptionTitle,
   HalfCardDescription: card.HalfCardDescription,
+
+  Anatomy,
 };
