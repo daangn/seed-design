@@ -15,26 +15,54 @@
       "usage": "../content/component/avatar-group/usage.mdx",
       "style": "../content/component/avatar-group/style.mdx"
     },
+
     {
-      "name": "Box Button",
-      "usage": "../content/component/box-button/usage.mdx",
-      "style": "../content/component/box-button/style.mdx"
+      "name": "Button",
+      "items": [
+        {
+          "name": "Box Button",
+          "usage": "../content/component/box-button/usage.mdx",
+          "style": "../content/component/box-button/style.mdx"
+        },
+        {
+          "name": "Text Button",
+          "usage": "../content/component/text-button/usage.mdx",
+          "style": "../content/component/text-button/style.mdx"
+        },
+        {
+          "name": "Box Toggle Button",
+          "usage": "../content/component/box-toggle-button/usage.mdx",
+          "style": "../content/component/box-toggle-button/style.mdx"
+        },
+        {
+          "name": "Capsule Toggle Button",
+          "usage": "../content/component/capsule-toggle-button/usage.mdx",
+          "style": "../content/component/capsule-toggle-button/style.mdx"
+        }
+      ]
     },
+
     {
-      "name": "Text Button",
-      "usage": "../content/component/text-button/usage.mdx",
-      "style": "../content/component/text-button/style.mdx"
+      "name": "Text Field",
+      "items": [
+        {
+          "name": "Multiline Text Field",
+          "usage": "../content/component/multiline-text-field/usage.mdx",
+          "style": "../content/component/switch/style.mdx"
+        },
+        {
+          "name": "Outlined Text Field",
+          "usage": "../content/component/outlined-text-field/usage.mdx",
+          "style": "../content/component/outlined-text-field/style.mdx"
+        },
+        {
+          "name": "Underlined Text Field",
+          "usage": "../content/component/underlined-text-field/usage.mdx",
+          "style": "../content/component/underlined-text-field/style.mdx"
+        }
+      ]
     },
-    {
-      "name": "Box Toggle Button",
-      "usage": "../content/component/box-toggle-button/usage.mdx",
-      "style": "../content/component/box-toggle-button/style.mdx"
-    },
-    {
-      "name": "Capsule Toggle Button",
-      "usage": "../content/component/capsule-toggle-button/usage.mdx",
-      "style": "../content/component/capsule-toggle-button/style.mdx"
-    },
+
     {
       "name": "Slider",
       "usage": "../content/component/slider/usage.mdx",
@@ -50,21 +78,7 @@
       "usage": "../content/component/switch/usage.mdx",
       "style": "../content/component/switch/style.mdx"
     },
-    {
-      "name": "Multiline Text Field",
-      "usage": "../content/component/multiline-text-field/usage.mdx",
-      "style": "../content/component/switch/style.mdx"
-    },
-    {
-      "name": "Outlined Text Field",
-      "usage": "../content/component/outlined-text-field/usage.mdx",
-      "style": "../content/component/outlined-text-field/style.mdx"
-    },
-    {
-      "name": "Underlined Text Field",
-      "usage": "../content/component/underlined-text-field/usage.mdx",
-      "style": "../content/component/underlined-text-field/style.mdx"
-    },
+
     {
       "name": "Tabs",
       "usage": "../content/component/tabs/usage.mdx",

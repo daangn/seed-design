@@ -79,18 +79,21 @@ type ConfigsJson implements Node {
 }
 
 type ConfigsJsonComponent {
+  items: [ConfigsJsonComponentItems]
   name: String
   style: File
   usage: File
 }
 
 input ConfigsJsonComponentFieldSelector {
+  items: ConfigsJsonComponentItemsFieldSelector
   name: FieldSelectorEnum
   style: FileFieldSelector
   usage: FileFieldSelector
 }
 
 input ConfigsJsonComponentFilterInput {
+  items: ConfigsJsonComponentItemsFilterListInput
   name: StringQueryOperatorInput
   style: FileFilterInput
   usage: FileFilterInput
@@ -100,7 +103,36 @@ input ConfigsJsonComponentFilterListInput {
   elemMatch: ConfigsJsonComponentFilterInput
 }
 
+type ConfigsJsonComponentItems {
+  name: String
+  style: File
+  usage: File
+}
+
+input ConfigsJsonComponentItemsFieldSelector {
+  name: FieldSelectorEnum
+  style: FileFieldSelector
+  usage: FileFieldSelector
+}
+
+input ConfigsJsonComponentItemsFilterInput {
+  name: StringQueryOperatorInput
+  style: FileFilterInput
+  usage: FileFilterInput
+}
+
+input ConfigsJsonComponentItemsFilterListInput {
+  elemMatch: ConfigsJsonComponentItemsFilterInput
+}
+
+input ConfigsJsonComponentItemsSortInput {
+  name: SortOrderEnum
+  style: FileSortInput
+  usage: FileSortInput
+}
+
 input ConfigsJsonComponentSortInput {
+  items: ConfigsJsonComponentItemsSortInput
   name: SortOrderEnum
   style: FileSortInput
   usage: FileSortInput

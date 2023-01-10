@@ -14,18 +14,23 @@ interface SidebarItemProps {
    * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
    */
   title: "component" | "primitive" | "foundation";
+
   itemName: string;
+
   currentPath: string;
+
+  level?: 1 | 2;
 }
 
-function SidebarItem({
+const SidebarItem = ({
   currentPath,
   itemName,
   title,
+  level = 1,
   to,
   onClick,
   onMouseEnter,
-}: GatsbyLinkProps<{}> & SidebarItemProps) {
+}: GatsbyLinkProps<{}> & SidebarItemProps) => {
   const pathComponentName = currentPath.split("/")[2];
   const docsComponentName = itemName.replaceAll(" ", "-").toLowerCase();
   const active =
@@ -33,18 +38,20 @@ function SidebarItem({
 
   return (
     <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
-      <div className={style.sidebarItem({ highlight: active })}>{itemName}</div>
+      <div className={style.sidebarItem({ highlight: active, level })}>
+        {itemName}
+      </div>
     </Link>
   );
-}
+};
 
-function SidebarTitle({
+const SidebarTitle = ({
   title,
   onClick,
 }: {
   title: string;
   onClick: () => void;
-}) {
+}) => {
   const firstLetterTitle = title[0].toUpperCase();
   const restLetterTitle = title.slice(1);
   return (
@@ -54,15 +61,26 @@ function SidebarTitle({
       </h1>
     </Link>
   );
-}
+};
 
-export default function Sidebar() {
+const Sidebar = () => {
   const { open, closeSidebar } = useSidebarState();
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
       configsJson {
         component {
+          items {
+            name
+            usage {
+              childMdx {
+                frontmatter {
+                  slug
+                  title
+                }
+              }
+            }
+          }
           usage {
             childMdx {
               frontmatter {
@@ -71,6 +89,7 @@ export default function Sidebar() {
               }
             }
           }
+          name
         }
 
         primitive {
@@ -142,7 +161,40 @@ export default function Sidebar() {
                   <SidebarTitle title="component" onClick={closeSidebar} />
 
                   {componentDocs!.map((link) => {
-                    const { slug, title } = link?.usage?.childMdx?.frontmatter!;
+                    if (link?.items) {
+                      return (
+                        <>
+                          <div
+                            style={{ padding: "10px" }}
+                            className={style.sidebarItem({ highlight: false })}
+                          >
+                            {link.name}
+                          </div>
+                          {link.items.map((item) => {
+                            if (!item?.usage?.childMdx?.frontmatter)
+                              return null;
+                            const { slug, title } =
+                              item?.usage?.childMdx?.frontmatter;
+                            return (
+                              <>
+                                <SidebarItem
+                                  key={slug!}
+                                  currentPath={currentPath}
+                                  to={slug!}
+                                  itemName={title!}
+                                  level={2}
+                                  title="component"
+                                  onClick={closeSidebar}
+                                />
+                              </>
+                            );
+                          })}
+                        </>
+                      );
+                    }
+
+                    if (!link?.usage?.childMdx?.frontmatter) return null;
+                    const { slug, title } = link?.usage?.childMdx?.frontmatter;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -158,8 +210,9 @@ export default function Sidebar() {
                   <SidebarTitle title="primitive" onClick={closeSidebar} />
 
                   {primitiveDocs!.map((link) => {
+                    if (!link?.document?.childMdx?.frontmatter) return null;
                     const { slug, title } =
-                      link?.document?.childMdx?.frontmatter!;
+                      link?.document?.childMdx?.frontmatter;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -209,7 +262,41 @@ export default function Sidebar() {
           <SidebarTitle title="component" onClick={closeSidebar} />
 
           {componentDocs!.map((link) => {
-            const { slug, title } = link?.usage?.childMdx?.frontmatter!;
+            if (link?.items) {
+              return (
+                <>
+                  <div
+                    style={{ padding: "10px" }}
+                    className={style.sidebarItem({
+                      highlight: false,
+                    })}
+                  >
+                    {link.name}
+                  </div>
+                  {link.items.map((item) => {
+                    if (!item?.usage?.childMdx?.frontmatter) return null;
+                    const { slug, title } = item?.usage?.childMdx?.frontmatter;
+                    return (
+                      <>
+                        <SidebarItem
+                          level={2}
+                          key={slug!}
+                          currentPath={currentPath}
+                          to={slug!}
+                          itemName={title!}
+                          title="component"
+                          onClick={closeSidebar}
+                        />
+                      </>
+                    );
+                  })}
+                </>
+              );
+            }
+
+            if (!link?.usage?.childMdx?.frontmatter) return null;
+
+            const { slug, title } = link?.usage?.childMdx?.frontmatter;
             return (
               <SidebarItem
                 key={slug!}
@@ -225,7 +312,8 @@ export default function Sidebar() {
           <SidebarTitle title="primitive" onClick={closeSidebar} />
 
           {primitiveDocs!.map((link) => {
-            const { slug, title } = link?.document?.childMdx?.frontmatter!;
+            if (!link?.document?.childMdx?.frontmatter) return null;
+            const { slug, title } = link?.document?.childMdx?.frontmatter;
             return (
               <SidebarItem
                 key={slug!}
@@ -241,4 +329,6 @@ export default function Sidebar() {
       </nav>
     </>
   );
-}
+};
+
+export default Sidebar;

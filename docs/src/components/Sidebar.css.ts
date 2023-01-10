@@ -132,6 +132,17 @@ export const sidebarItem = recipe({
         },
       ],
     },
+
+    level: {
+      1: {},
+      2: {
+        ":before": {
+          content: "◦",
+          marginRight: "6px",
+        },
+        fontSize: "14px",
+      },
+    },
   },
 });
 

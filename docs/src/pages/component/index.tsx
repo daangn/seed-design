@@ -36,6 +36,7 @@ const Page = ({ data }: PageProps) => {
       </p>
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
         {docs?.map((doc) => {
+          if (!doc?.usage?.childMdx?.frontmatter) return null;
           const { description, slug, thumbnail, title } =
             doc?.usage?.childMdx?.frontmatter!;
           return (

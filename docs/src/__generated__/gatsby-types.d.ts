@@ -57,18 +57,21 @@ type ConfigsJson = Node & {
 };
 
 type ConfigsJsonComponent = {
+  readonly items: Maybe<ReadonlyArray<Maybe<ConfigsJsonComponentItems>>>;
   readonly name: Maybe<Scalars['String']>;
   readonly style: Maybe<File>;
   readonly usage: Maybe<File>;
 };
 
 type ConfigsJsonComponentFieldSelector = {
+  readonly items: InputMaybe<ConfigsJsonComponentItemsFieldSelector>;
   readonly name: InputMaybe<FieldSelectorEnum>;
   readonly style: InputMaybe<FileFieldSelector>;
   readonly usage: InputMaybe<FileFieldSelector>;
 };
 
 type ConfigsJsonComponentFilterInput = {
+  readonly items: InputMaybe<ConfigsJsonComponentItemsFilterListInput>;
   readonly name: InputMaybe<StringQueryOperatorInput>;
   readonly style: InputMaybe<FileFilterInput>;
   readonly usage: InputMaybe<FileFilterInput>;
@@ -78,7 +81,36 @@ type ConfigsJsonComponentFilterListInput = {
   readonly elemMatch: InputMaybe<ConfigsJsonComponentFilterInput>;
 };
 
+type ConfigsJsonComponentItems = {
+  readonly name: Maybe<Scalars['String']>;
+  readonly style: Maybe<File>;
+  readonly usage: Maybe<File>;
+};
+
+type ConfigsJsonComponentItemsFieldSelector = {
+  readonly name: InputMaybe<FieldSelectorEnum>;
+  readonly style: InputMaybe<FileFieldSelector>;
+  readonly usage: InputMaybe<FileFieldSelector>;
+};
+
+type ConfigsJsonComponentItemsFilterInput = {
+  readonly name: InputMaybe<StringQueryOperatorInput>;
+  readonly style: InputMaybe<FileFilterInput>;
+  readonly usage: InputMaybe<FileFilterInput>;
+};
+
+type ConfigsJsonComponentItemsFilterListInput = {
+  readonly elemMatch: InputMaybe<ConfigsJsonComponentItemsFilterInput>;
+};
+
+type ConfigsJsonComponentItemsSortInput = {
+  readonly name: InputMaybe<SortOrderEnum>;
+  readonly style: InputMaybe<FileSortInput>;
+  readonly usage: InputMaybe<FileSortInput>;
+};
+
 type ConfigsJsonComponentSortInput = {
+  readonly items: InputMaybe<ConfigsJsonComponentItemsSortInput>;
   readonly name: InputMaybe<SortOrderEnum>;
   readonly style: InputMaybe<FileSortInput>;
   readonly usage: InputMaybe<FileSortInput>;
@@ -2977,11 +3009,6 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SidebarQuery = { readonly configsJson: { readonly component: ReadonlyArray<{ readonly usage: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly primitive: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null } | null };
 
 
 }
