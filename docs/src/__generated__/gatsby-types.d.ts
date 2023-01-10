@@ -2953,6 +2953,11 @@ type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type FoundationColorPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
+type FoundationTypographyPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type FoundationTypographyPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
 type GetStartedPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
