@@ -41,7 +41,7 @@ export const typographyContainer = style([
 export const descriptionContainer = style([
   u.flexAlignCenter,
   {
-    width: "100%",
+    width: "450px",
   },
 ]);
 
@@ -92,7 +92,10 @@ export const textArea = style([
     border: "none",
     resize: "none",
     overflowX: "hidden",
+    overflowY: "hidden",
     whiteSpace: "nowrap",
+    backgroundColor: vars.$semantic.color.paperDefault,
+    color: vars.$scale.color.gray900,
 
     ":focus": {
       outline: 0,
