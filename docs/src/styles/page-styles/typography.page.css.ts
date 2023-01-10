@@ -109,15 +109,17 @@ export const scaleTokenContainer = style([
 ]);
 
 export const scaleTokenName = style([
+  t.documentCaption1,
   {
-    fontSize: "16px",
+    fontSize: "14px",
     width: "450px",
   },
 ]);
 
 export const scaleTokenValue = style([
+  t.documentCaption1,
   {
-    fontSize: "16px",
+    fontSize: "14px",
     width: "100px",
   },
 ]);
