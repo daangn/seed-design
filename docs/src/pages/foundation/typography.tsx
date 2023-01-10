@@ -1,5 +1,6 @@
 import { classNames } from "@seed-design/design-token";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
@@ -7,6 +8,7 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 
 import PageLayout from "../../components/PageLayout";
+import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/page-styles/typography.page.css";
 
 export const query = graphql`
@@ -255,366 +257,370 @@ const FoundationTypographyPage = () => {
   return (
     <PageLayout>
       <h1 className={style.heading1}>Semantic Typography Token</h1>
-      <h2 className={style.heading2}>Heading</h2>
-      <p className={style.documentCaption1}>
-        대제목(표제)의 역할을 해요. 사용자에게 다른 폰트들보다 크게 보여요.
-      </p>
-      <SemanticTypoGraphy
-        typography="h1"
-        fontSize={1000}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="h2"
-        fontSize={900}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="h3"
-        fontSize={800}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="h4"
-        fontSize={700}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
+      <motion.div {...fadeInFromBottom}>
+        <h2 className={style.heading2}>Heading</h2>
+        <p className={style.documentCaption1}>
+          대제목(표제)의 역할을 해요. 사용자에게 다른 폰트들보다 크게 보여요.
+        </p>
+        <SemanticTypoGraphy
+          typography="h1"
+          fontSize={1000}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="h2"
+          fontSize={900}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="h3"
+          fontSize={800}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="h4"
+          fontSize={700}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
 
-      <h2 className={style.heading2}>Title</h2>
-      <p className={style.documentCaption1}>
-        하위 항목의 제목의 역할을 해요, 주로 하나의 섹션, 챕터를 나타내요.
-      </p>
-      <SemanticTypoGraphy
-        typography="title1Regular"
-        fontSize={500}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="title1Bold"
-        fontSize={500}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="title2Regular"
-        fontSize={400}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="title2Bold"
-        fontSize={400}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="title3Regular"
-        fontSize={300}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="title3Bold"
-        fontSize={300}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
+        <h2 className={style.heading2}>Title</h2>
+        <p className={style.documentCaption1}>
+          하위 항목의 제목의 역할을 해요, 주로 하나의 섹션, 챕터를 나타내요.
+        </p>
+        <SemanticTypoGraphy
+          typography="title1Regular"
+          fontSize={500}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="title1Bold"
+          fontSize={500}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="title2Regular"
+          fontSize={400}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="title2Bold"
+          fontSize={400}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="title3Regular"
+          fontSize={300}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="title3Bold"
+          fontSize={300}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
 
-      <h2 className={style.heading2}>Subtitle</h2>
-      <p className={style.documentCaption1}>
-        부가제목을 표기하고, Title의 보조 역할을 할 수 있어요.
-      </p>
-      <SemanticTypoGraphy
-        typography="subtitle1Regular"
-        fontSize={200}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="subtitle1Bold"
-        fontSize={200}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="subtitle2Regular"
-        fontSize={100}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="subtitle2Bold"
-        fontSize={100}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
+        <h2 className={style.heading2}>Subtitle</h2>
+        <p className={style.documentCaption1}>
+          부가제목을 표기하고, Title의 보조 역할을 할 수 있어요.
+        </p>
+        <SemanticTypoGraphy
+          typography="subtitle1Regular"
+          fontSize={200}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="subtitle1Bold"
+          fontSize={200}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="subtitle2Regular"
+          fontSize={100}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="subtitle2Bold"
+          fontSize={100}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
 
-      <h2 className={style.heading2}>Body-L</h2>
-      <p className={style.documentCaption1}>넓은 행간값을 가지고 있어요.</p>
-      <p className={style.documentCaption1}>
-        본문의 모든 내용과 정보를 포함하여 전달해야 하는 글에 사용해요.
-      </p>
-      <p className={style.documentCaption1}>
-        요약되지 않은 장문의 글일 경우에 사용하는 게 가장 좋아요.
-      </p>
-      <SemanticTypoGraphy
-        typography="bodyL1Regular"
-        fontSize={200}
-        fontWeight="regular"
-        lineHeight="large"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyL1Bold"
-        fontSize={200}
-        fontWeight="bold"
-        lineHeight="large"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyL2Regular"
-        fontSize={100}
-        fontWeight="regular"
-        lineHeight="medium"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyL2Bold"
-        fontSize={100}
-        fontWeight="bold"
-        lineHeight="medium"
-        letterSpacing={200}
-      />
+        <h2 className={style.heading2}>Body-L</h2>
+        <p className={style.documentCaption1}>넓은 행간값을 가지고 있어요.</p>
+        <p className={style.documentCaption1}>
+          본문의 모든 내용과 정보를 포함하여 전달해야 하는 글에 사용해요.
+        </p>
+        <p className={style.documentCaption1}>
+          요약되지 않은 장문의 글일 경우에 사용하는 게 가장 좋아요.
+        </p>
+        <SemanticTypoGraphy
+          typography="bodyL1Regular"
+          fontSize={200}
+          fontWeight="regular"
+          lineHeight="large"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyL1Bold"
+          fontSize={200}
+          fontWeight="bold"
+          lineHeight="large"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyL2Regular"
+          fontSize={100}
+          fontWeight="regular"
+          lineHeight="medium"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyL2Bold"
+          fontSize={100}
+          fontWeight="bold"
+          lineHeight="medium"
+          letterSpacing={200}
+        />
 
-      <h2 className={style.heading2}>Body-M</h2>
-      <p className={style.documentCaption1}>본문의 간단한 내용을 나타내요. </p>
-      <p className={style.documentCaption1}>
-        요약된 정보거나, 요약해서 전달할 수 있는 정보 글에 사용할 수 있어요.
-      </p>
-      <SemanticTypoGraphy
-        typography="bodyM1Regular"
-        fontSize={200}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyM1Bold"
-        fontSize={200}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyM2Regular"
-        fontSize={100}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="bodyM2Bold"
-        fontSize={100}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
+        <h2 className={style.heading2}>Body-M</h2>
+        <p className={style.documentCaption1}>
+          본문의 간단한 내용을 나타내요.{" "}
+        </p>
+        <p className={style.documentCaption1}>
+          요약된 정보거나, 요약해서 전달할 수 있는 정보 글에 사용할 수 있어요.
+        </p>
+        <SemanticTypoGraphy
+          typography="bodyM1Regular"
+          fontSize={200}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyM1Bold"
+          fontSize={200}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyM2Regular"
+          fontSize={100}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="bodyM2Bold"
+          fontSize={100}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
 
-      <h2 className={style.heading2}>Caption</h2>
-      <p className={style.documentCaption1}>
-        부가설명을 위한 작은 텍스트를 표기할 때 사용해요.
-      </p>
-      <SemanticTypoGraphy
-        typography="caption1Regular"
-        fontSize={75}
-        fontWeight="regular"
-        lineHeight="medium"
-        letterSpacing={400}
-      />
-      <SemanticTypoGraphy
-        typography="caption1Bold"
-        fontSize={75}
-        fontWeight="bold"
-        lineHeight="medium"
-        letterSpacing={400}
-      />
-      <SemanticTypoGraphy
-        typography="caption2Regular"
-        fontSize={50}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={400}
-      />
-      <SemanticTypoGraphy
-        typography="caption2Bold"
-        fontSize={50}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={400}
-      />
+        <h2 className={style.heading2}>Caption</h2>
+        <p className={style.documentCaption1}>
+          부가설명을 위한 작은 텍스트를 표기할 때 사용해요.
+        </p>
+        <SemanticTypoGraphy
+          typography="caption1Regular"
+          fontSize={75}
+          fontWeight="regular"
+          lineHeight="medium"
+          letterSpacing={400}
+        />
+        <SemanticTypoGraphy
+          typography="caption1Bold"
+          fontSize={75}
+          fontWeight="bold"
+          lineHeight="medium"
+          letterSpacing={400}
+        />
+        <SemanticTypoGraphy
+          typography="caption2Regular"
+          fontSize={50}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={400}
+        />
+        <SemanticTypoGraphy
+          typography="caption2Bold"
+          fontSize={50}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={400}
+        />
 
-      <h2 className={style.heading2}>Label</h2>
-      <p className={style.documentCaption1}>
-        Button, Chip, Tag같은 UI에서 범용적으로 사용해요.
-      </p>
-      <p className={style.documentCaption1}>
-        ~을 붙이다는 의미를 가지고 사용자가 확인해야는 정보의 구분을 위한
-        키워드를 제공하거나 분류할 수 있도록 하는 역할을 해요.
-      </p>
-      <SemanticTypoGraphy
-        typography="label1Regular"
-        fontSize={300}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label1Bold"
-        fontSize={300}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label2Regular"
-        fontSize={200}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label2Bold"
-        fontSize={200}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label3Regular"
-        fontSize={100}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label3Bold"
-        fontSize={100}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label4Regular"
-        fontSize={50}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label4Bold"
-        fontSize={50}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label5Regular"
-        fontSize={25}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label5Bold"
-        fontSize={25}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing={200}
-      />
-      <SemanticTypoGraphy
-        typography="label6Regular"
-        fontSize={10}
-        fontWeight="regular"
-        lineHeight="small"
-        letterSpacing="none"
-      />
-      <SemanticTypoGraphy
-        typography="label6Bold"
-        fontSize={10}
-        fontWeight="bold"
-        lineHeight="small"
-        letterSpacing="none"
-      />
+        <h2 className={style.heading2}>Label</h2>
+        <p className={style.documentCaption1}>
+          Button, Chip, Tag같은 UI에서 범용적으로 사용해요.
+        </p>
+        <p className={style.documentCaption1}>
+          ~을 붙이다는 의미를 가지고 사용자가 확인해야는 정보의 구분을 위한
+          키워드를 제공하거나 분류할 수 있도록 하는 역할을 해요.
+        </p>
+        <SemanticTypoGraphy
+          typography="label1Regular"
+          fontSize={300}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label1Bold"
+          fontSize={300}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label2Regular"
+          fontSize={200}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label2Bold"
+          fontSize={200}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label3Regular"
+          fontSize={100}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label3Bold"
+          fontSize={100}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label4Regular"
+          fontSize={50}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label4Bold"
+          fontSize={50}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label5Regular"
+          fontSize={25}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label5Bold"
+          fontSize={25}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing={200}
+        />
+        <SemanticTypoGraphy
+          typography="label6Regular"
+          fontSize={10}
+          fontWeight="regular"
+          lineHeight="small"
+          letterSpacing="none"
+        />
+        <SemanticTypoGraphy
+          typography="label6Bold"
+          fontSize={10}
+          fontWeight="bold"
+          lineHeight="small"
+          letterSpacing="none"
+        />
 
-      <h1 className={style.heading1WithMargin}>Scale Typography Token</h1>
-      <h2 className={style.heading2}>Font Size</h2>
-      {Object.entries(FONT_SIZE).map(([key, { name, value }]) => {
-        return (
-          <ScaleTypography
-            key={key}
-            name={name}
-            value={value}
-            inputInitValue="안녕, 세상아"
-            customStyle={{ fontSize: value }}
-          />
-        );
-      })}
-      <h2 className={style.heading2}>Font Weight</h2>
-      {Object.entries(FONT_WEIGHT).map(([key, { name, value }]) => {
-        return (
-          <ScaleTypography
-            key={key}
-            name={name}
-            value={value}
-            inputInitValue="안녕, 세상아"
-            customStyle={{ fontSize: "25px", fontWeight: value }}
-          />
-        );
-      })}
-      <h2 className={style.heading2}>Line Height</h2>
-      {Object.entries(LINE_HEIGHT).map(([key, { name, value }]) => {
-        return (
-          <ScaleTypography
-            key={key}
-            name={name}
-            value={value}
-            rows={2}
-            inputInitValue={"안녕, \n세상아"}
-            customStyle={{ fontSize: "25px", lineHeight: value }}
-          />
-        );
-      })}
-      <h2 className={style.heading2}>Letter Spacing</h2>
-      {Object.entries(LETTER_SPACING).map(([key, { name, value }]) => {
-        return (
-          <ScaleTypography
-            key={key}
-            name={name}
-            value={value}
-            inputInitValue={"안녕, 세상아"}
-            customStyle={{ fontSize: "25px", letterSpacing: value }}
-          />
-        );
-      })}
+        <h1 className={style.heading1WithMargin}>Scale Typography Token</h1>
+        <h2 className={style.heading2}>Font Size</h2>
+        {Object.entries(FONT_SIZE).map(([key, { name, value }]) => {
+          return (
+            <ScaleTypography
+              key={key}
+              name={name}
+              value={value}
+              inputInitValue="안녕, 세상아"
+              customStyle={{ fontSize: value }}
+            />
+          );
+        })}
+        <h2 className={style.heading2}>Font Weight</h2>
+        {Object.entries(FONT_WEIGHT).map(([key, { name, value }]) => {
+          return (
+            <ScaleTypography
+              key={key}
+              name={name}
+              value={value}
+              inputInitValue="안녕, 세상아"
+              customStyle={{ fontSize: "25px", fontWeight: value }}
+            />
+          );
+        })}
+        <h2 className={style.heading2}>Line Height</h2>
+        {Object.entries(LINE_HEIGHT).map(([key, { name, value }]) => {
+          return (
+            <ScaleTypography
+              key={key}
+              name={name}
+              value={value}
+              rows={2}
+              inputInitValue={"안녕, \n세상아"}
+              customStyle={{ fontSize: "25px", lineHeight: value }}
+            />
+          );
+        })}
+        <h2 className={style.heading2}>Letter Spacing</h2>
+        {Object.entries(LETTER_SPACING).map(([key, { name, value }]) => {
+          return (
+            <ScaleTypography
+              key={key}
+              name={name}
+              value={value}
+              inputInitValue={"안녕, 세상아"}
+              customStyle={{ fontSize: "25px", letterSpacing: value }}
+            />
+          );
+        })}
+      </motion.div>
     </PageLayout>
   );
 };
