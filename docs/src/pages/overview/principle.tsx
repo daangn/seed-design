@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
 import { fadeInFromBottom } from "../../framer-motions";
-import * as style from "../../styles/get-started.page.css";
+import * as style from "../../styles/page-styles/get-started.page.css";
 
 export const query = graphql`
   query PrinciplePage {

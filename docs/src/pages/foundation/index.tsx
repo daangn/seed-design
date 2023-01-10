@@ -3,7 +3,7 @@ import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
 import PageLayout from "../../components/PageLayout";
-import * as listPageStyle from "../../styles/list-page.css";
+import * as listPageStyle from "../../styles/page-styles/list-page.css";
 import * as t from "../../styles/token.css";
 
 export const query = graphql`

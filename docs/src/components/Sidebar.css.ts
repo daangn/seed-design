@@ -30,7 +30,6 @@ export const sidebar = style([
 
 export const sidebarDesktop = style([
   sidebar,
-
   {
     display: "none",
   },
@@ -42,6 +41,7 @@ export const sidebarDesktop = style([
     left: 0,
     paddingLeft: "30px",
     height: "calc(100vh - 110px)",
+    zIndex: 1,
   }),
 ]);
 

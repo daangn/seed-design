@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
 import PageLayout from "../../components/PageLayout";
-import * as style from "../../styles/color.page.css";
+import * as style from "../../styles/page-styles/color.page.css";
 
 export const query = graphql`
   query FoundationColorPage {

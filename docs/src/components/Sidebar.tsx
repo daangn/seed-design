@@ -10,6 +10,9 @@ import Portal from "./Portal";
 import * as style from "./Sidebar.css";
 
 interface SidebarItemProps {
+  /**
+   * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
+   */
   title: "component" | "primitive" | "foundation";
   itemName: string;
   currentPath: string;
@@ -128,6 +131,13 @@ export default function Sidebar() {
                     title="foundation"
                     onClick={closeSidebar}
                   />
+                  <SidebarItem
+                    currentPath={currentPath}
+                    to="/foundation/typography"
+                    itemName="Typography"
+                    title="foundation"
+                    onClick={closeSidebar}
+                  />
 
                   <SidebarTitle title="component" onClick={closeSidebar} />
 
@@ -185,6 +195,13 @@ export default function Sidebar() {
             currentPath={currentPath}
             to="/foundation/color"
             itemName="Color"
+            title="foundation"
+            onClick={closeSidebar}
+          />
+          <SidebarItem
+            currentPath={currentPath}
+            to="/foundation/typography"
+            itemName="Typography"
             title="foundation"
             onClick={closeSidebar}
           />
