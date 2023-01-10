@@ -255,7 +255,6 @@ const FoundationTypographyPage = () => {
   return (
     <PageLayout>
       <h1 className={style.heading1}>Semantic Typography Token</h1>
-
       <h2 className={style.heading2}>Heading</h2>
       <p className={style.documentCaption1}>
         대제목(표제)의 역할을 해요. 사용자에게 다른 폰트들보다 크게 보여요.
@@ -288,7 +287,6 @@ const FoundationTypographyPage = () => {
         lineHeight="small"
         letterSpacing="none"
       />
-
       <h2 className={style.heading2}>Title</h2>
       <p className={style.documentCaption1}>
         하위 항목의 제목의 역할을 해요, 주로 하나의 섹션, 챕터를 나타내요.
@@ -307,11 +305,9 @@ const FoundationTypographyPage = () => {
         lineHeight="small"
         letterSpacing="none"
       />
-
+      작성중...
       <h1 className={style.heading1WithMargin}>Scale Typography Token</h1>
-
       <h2 className={style.heading2}>Font Size</h2>
-
       {Object.entries(FONT_SIZE).map(([key, { name, value }]) => {
         return (
           <ScaleTypography
@@ -323,9 +319,7 @@ const FoundationTypographyPage = () => {
           />
         );
       })}
-
       <h2 className={style.heading2}>Font Weight</h2>
-
       {Object.entries(FONT_WEIGHT).map(([key, { name, value }]) => {
         return (
           <ScaleTypography
@@ -337,9 +331,7 @@ const FoundationTypographyPage = () => {
           />
         );
       })}
-
       <h2 className={style.heading2}>Line Height</h2>
-
       {Object.entries(LINE_HEIGHT).map(([key, { name, value }]) => {
         return (
           <ScaleTypography
@@ -352,9 +344,7 @@ const FoundationTypographyPage = () => {
           />
         );
       })}
-
       <h2 className={style.heading2}>Letter Spacing</h2>
-
       {Object.entries(LETTER_SPACING).map(([key, { name, value }]) => {
         return (
           <ScaleTypography
