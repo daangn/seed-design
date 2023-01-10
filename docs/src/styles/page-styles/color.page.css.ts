@@ -1,8 +1,8 @@
 import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
-import * as t from "./token.css";
-import * as u from "./utils.css";
+import * as t from "../token.css";
+import * as u from "../utils.css";
 
 export const heading1 = style([t.documentHeading1]);
 

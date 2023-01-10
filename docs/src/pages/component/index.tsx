@@ -5,7 +5,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 
 import PageLayout from "../../components/PageLayout";
 import { elevateUp, fadeInFromBottom } from "../../framer-motions";
-import * as listPageStyle from "../../styles/list-page.css";
+import * as listPageStyle from "../../styles/page-styles/list-page.css";
 
 interface PageProps {
   data: GatsbyTypes.ComponentListPageQuery;

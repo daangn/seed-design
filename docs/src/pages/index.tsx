@@ -7,7 +7,7 @@ import { getSrc } from "gatsby-plugin-image";
 
 import MainHeader from "../components/MainHeader";
 import { fadeInFromBottom } from "../framer-motions";
-import * as style from "../styles/main.page.css";
+import * as style from "../styles/page-styles/main.page.css";
 import * as t from "../styles/token.css";
 
 export const query = graphql`
