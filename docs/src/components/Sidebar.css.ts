@@ -19,7 +19,7 @@ export const sidebar = style([
     paddingLeft: "20px",
 
     width: SIDEBAR_WIDTH,
-    height: "100vh",
+    height: "100%",
     transition: "background-color 0.2s ease, color 0.2s ease",
   },
 
@@ -40,7 +40,7 @@ export const sidebarDesktop = style([
     top: 110,
     left: 0,
     paddingLeft: "30px",
-    height: "calc(100vh - 110px)",
+    height: "100vh",
     zIndex: 1,
   }),
 ]);
@@ -58,7 +58,7 @@ export const sidebarItemContainer = style([
     position: "absolute",
     top: 30,
 
-    height: "calc(100vh - 150px)",
+    height: "100%",
     overflowY: "auto",
   },
 
@@ -154,7 +154,7 @@ export const overlay = style([
     top: 0,
     right: 0,
 
-    height: "100vh",
+    height: "100%",
     width: "100vw",
 
     backgroundColor: vars.$semantic.color.overlayDim,

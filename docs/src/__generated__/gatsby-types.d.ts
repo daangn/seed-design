@@ -3010,5 +3010,10 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
+type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SidebarQuery = { readonly configsJson: { readonly component: ReadonlyArray<{ readonly name: string | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly usage: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly usage: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null, readonly primitive: ReadonlyArray<{ readonly document: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null, readonly title: string | null } | null } | null } | null } | null> | null } | null };
+
 
 }

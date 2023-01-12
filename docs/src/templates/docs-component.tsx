@@ -31,7 +31,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
-  const { title, description, slug, activeTab, tableOfContents } = pageContext;
+  const { title, description, slug, tableOfContents } = pageContext;
   return (
     <MDXProvider components={MdxComponents}>
       <main className={t.main}>
@@ -57,7 +57,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
           </div>
 
           <motion.div {...fadeInFromBottom}>{children}</motion.div>
-          <EditLink slug={slug} file={activeTab} />
+          <EditLink slug={slug} />
         </article>
         <TableOfContents tableOfContents={tableOfContents} />
       </main>

@@ -70,3 +70,29 @@ globalStyle(
 );
 
 globalStyle(".heading-anchor-icon", {});
+
+// TODO: Scroll bar style
+// globalStyle("::-webkit-scrollbar", {
+//   width: "14px",
+//   height: "18px",
+// });
+
+// globalStyle("::-webkit-scrollbar-thumb", {
+//   height: "6px",
+//   border: "4px solid rgba(0, 0, 0, 0)",
+//   backgroundClip: "padding-box",
+//   backgroundColor: "rgba(0, 0, 0, 0, 0.2)",
+//   WebkitBorderRadius: "7px",
+//   WebkitBoxShadow:
+//     "inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05)",
+// });
+
+// globalStyle("::-webkit-scrollbar-button", {
+//   display: "none",
+//   width: 0,
+//   height: 0,
+// });
+
+// globalStyle("::-webkit-scrollbar-corner", {
+//   backgroundColor: "transparent",
+// });
