@@ -1,0 +1,3 @@
+{
+  "startCommand": "cd docs && cd next && yarn && yarn dev"
+}
