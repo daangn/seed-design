@@ -6,7 +6,8 @@
     "packages/*",
     "packages/machines/*",
     "examples/*",
-    "docs"
+    "docs",
+    "docs/next"
   ],
   "scripts": {
     "build": "ultra -r build",
