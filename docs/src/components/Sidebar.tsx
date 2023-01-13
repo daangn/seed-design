@@ -13,7 +13,7 @@ interface SidebarItemProps {
   /**
    * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
    */
-  title: "component" | "primitive" | "foundation";
+  title: "component" | "primitive" | "foundation" | "overview";
 
   itemName: string;
 
@@ -71,8 +71,8 @@ const Sidebar = () => {
       configsJson {
         component {
           items {
-            name
-            usage {
+            title
+            path {
               childMdx {
                 frontmatter {
                   slug
@@ -81,7 +81,7 @@ const Sidebar = () => {
               }
             }
           }
-          usage {
+          path {
             childMdx {
               frontmatter {
                 slug
@@ -89,11 +89,11 @@ const Sidebar = () => {
               }
             }
           }
-          name
+          title
         }
 
         primitive {
-          document {
+          path {
             childMdx {
               frontmatter {
                 slug
@@ -107,14 +107,13 @@ const Sidebar = () => {
   `);
 
   const componentDocs = sortBy(data.configsJson?.component ?? [], (link) => {
-    const words = link?.usage?.childMdx?.frontmatter?.title?.split(" ") ?? [];
+    const words = link?.path?.childMdx?.frontmatter?.title?.split(" ") ?? [];
     const lastWord = last(words);
 
     return [lastWord, ...words];
   });
   const primitiveDocs = sortBy(data.configsJson?.primitive ?? [], (link) => {
-    const words =
-      link?.document?.childMdx?.frontmatter?.title?.split(" ") ?? [];
+    const words = link?.path?.childMdx?.frontmatter?.title?.split(" ") ?? [];
     const lastWord = last(words);
 
     return [lastWord, ...words];
@@ -141,6 +140,15 @@ const Sidebar = () => {
                     <Logo to="/" onClick={closeSidebar} />
                   </div>
 
+                  <SidebarTitle title="overview" onClick={closeSidebar} />
+
+                  <SidebarItem
+                    currentPath={currentPath}
+                    to="/overview/component-progress-board"
+                    itemName="Progress Board"
+                    title="overview"
+                    onClick={closeSidebar}
+                  />
                   <SidebarTitle title="foundation" onClick={closeSidebar} />
 
                   <SidebarItem
@@ -168,13 +176,12 @@ const Sidebar = () => {
                             style={{ padding: "10px" }}
                             className={style.sidebarItem({ highlight: false })}
                           >
-                            {link.name}
+                            {link.title}
                           </div>
                           {link.items.map((item) => {
-                            if (!item?.usage?.childMdx?.frontmatter)
-                              return null;
+                            if (!item?.path?.childMdx?.frontmatter) return null;
                             const { slug, title } =
-                              item?.usage?.childMdx?.frontmatter;
+                              item?.path?.childMdx?.frontmatter;
                             return (
                               <>
                                 <SidebarItem
@@ -193,8 +200,8 @@ const Sidebar = () => {
                       );
                     }
 
-                    if (!link?.usage?.childMdx?.frontmatter) return null;
-                    const { slug, title } = link?.usage?.childMdx?.frontmatter;
+                    if (!link?.path?.childMdx?.frontmatter) return null;
+                    const { slug, title } = link?.path?.childMdx?.frontmatter;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -210,9 +217,8 @@ const Sidebar = () => {
                   <SidebarTitle title="primitive" onClick={closeSidebar} />
 
                   {primitiveDocs!.map((link) => {
-                    if (!link?.document?.childMdx?.frontmatter) return null;
-                    const { slug, title } =
-                      link?.document?.childMdx?.frontmatter;
+                    if (!link?.path?.childMdx?.frontmatter) return null;
+                    const { slug, title } = link?.path?.childMdx?.frontmatter;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -242,6 +248,16 @@ const Sidebar = () => {
       {/* 페이지 고정 사이드바 */}
       <nav className={style.sidebarDesktop}>
         <div className={style.sidebarItemContainer}>
+          <SidebarTitle title="overview" onClick={closeSidebar} />
+
+          <SidebarItem
+            currentPath={currentPath}
+            to="/overview/component-progress-board"
+            itemName="Progress Board"
+            title="overview"
+            onClick={closeSidebar}
+          />
+
           <SidebarTitle title="foundation" onClick={closeSidebar} />
 
           <SidebarItem
@@ -271,11 +287,11 @@ const Sidebar = () => {
                       highlight: false,
                     })}
                   >
-                    {link.name}
+                    {link.title}
                   </div>
                   {link.items.map((item) => {
-                    if (!item?.usage?.childMdx?.frontmatter) return null;
-                    const { slug, title } = item?.usage?.childMdx?.frontmatter;
+                    if (!item?.path?.childMdx?.frontmatter) return null;
+                    const { slug, title } = item?.path?.childMdx?.frontmatter;
                     return (
                       <>
                         <SidebarItem
@@ -294,9 +310,9 @@ const Sidebar = () => {
               );
             }
 
-            if (!link?.usage?.childMdx?.frontmatter) return null;
+            if (!link?.path?.childMdx?.frontmatter) return null;
 
-            const { slug, title } = link?.usage?.childMdx?.frontmatter;
+            const { slug, title } = link?.path?.childMdx?.frontmatter;
             return (
               <SidebarItem
                 key={slug!}
@@ -312,8 +328,8 @@ const Sidebar = () => {
           <SidebarTitle title="primitive" onClick={closeSidebar} />
 
           {primitiveDocs!.map((link) => {
-            if (!link?.document?.childMdx?.frontmatter) return null;
-            const { slug, title } = link?.document?.childMdx?.frontmatter;
+            if (!link?.path?.childMdx?.frontmatter) return null;
+            const { slug, title } = link?.path?.childMdx?.frontmatter;
             return (
               <SidebarItem
                 key={slug!}
