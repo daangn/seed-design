@@ -7,6 +7,7 @@ import Logo from "./Logo";
 import Portal from "./Portal";
 import * as style from "./Sidebar.css";
 
+type Status = "done" | "in-progress" | "todo";
 interface SidebarItemProps {
   /**
    * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
@@ -17,14 +18,14 @@ interface SidebarItemProps {
 
   currentPath: string;
 
-  level?: 1 | 2;
+  status?: Status;
 }
 
 const SidebarItem = ({
   currentPath,
   itemName,
   title,
-  level = 1,
+  status,
   to,
   onClick,
   onMouseEnter,
@@ -35,9 +36,19 @@ const SidebarItem = ({
     pathComponentName === docsComponentName && currentPath.includes(title);
 
   return (
-    <Link to={to} onClick={onClick} onMouseEnter={onMouseEnter}>
-      <div className={style.sidebarItem({ highlight: active, level })}>
-        {itemName}
+    <Link
+      to={to}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      className={style.sidebarItemLink({ disable: status === "todo" })}
+    >
+      <div
+        className={style.sidebarItem({
+          disable: status === "todo",
+          highlight: active,
+        })}
+      >
+        <span>{itemName}</span>
       </div>
     </Link>
   );
@@ -162,18 +173,25 @@ const Sidebar = () => {
                   {componentData!.map((node) => {
                     if (node?.items?.length! >= 2) {
                       return (
-                        <>
-                          <div
-                            style={{ padding: "10px" }}
-                            className={style.sidebarItem({ highlight: false })}
-                          >
+                        <div className={style.sidebarGroupContainer}>
+                          <div className={style.sidebarGroupTitle}>
                             {node.title}
                           </div>
                           {node.items?.map((item) => {
                             if (
                               item?.platform?.docs?.usage?.status! === "todo"
                             ) {
-                              return null;
+                              return (
+                                <SidebarItem
+                                  key={item?.name}
+                                  currentPath={currentPath}
+                                  to={item?.name!}
+                                  itemName={item?.name!}
+                                  title="component"
+                                  onClick={closeSidebar}
+                                  status={item?.platform?.docs?.usage?.status!}
+                                />
+                              );
                             }
 
                             const name = item?.name;
@@ -181,25 +199,38 @@ const Sidebar = () => {
                               item?.platform?.docs?.usage?.path?.childMdx
                                 ?.frontmatter?.slug;
                             return (
-                              <>
-                                <SidebarItem
-                                  key={path!}
-                                  currentPath={currentPath}
-                                  to={path!}
-                                  itemName={name!}
-                                  level={2}
-                                  title="component"
-                                  onClick={closeSidebar}
-                                />
-                              </>
+                              <SidebarItem
+                                key={path!}
+                                currentPath={currentPath}
+                                to={path!}
+                                itemName={name!}
+                                title="component"
+                                onClick={closeSidebar}
+                                status={
+                                  item?.platform?.docs?.usage?.status! as Status
+                                }
+                              />
                             );
                           })}
-                        </>
+                        </div>
                       );
                     }
 
                     if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
-                      return null;
+                      return (
+                        <SidebarItem
+                          key={node?.title}
+                          currentPath={currentPath}
+                          to={node?.title!}
+                          itemName={node?.title!}
+                          title="component"
+                          onClick={closeSidebar}
+                          status={
+                            node?.items?.[0]?.platform?.docs?.usage
+                              ?.status! as Status
+                          }
+                        />
+                      );
                     }
 
                     const title = node?.title;
@@ -214,6 +245,10 @@ const Sidebar = () => {
                         itemName={title!}
                         title="component"
                         onClick={closeSidebar}
+                        status={
+                          node?.items?.[0]?.platform?.docs?.usage
+                            ?.status! as Status
+                        }
                       />
                     );
                   })}
@@ -289,16 +324,21 @@ const Sidebar = () => {
           {componentData!.map((node) => {
             if (node?.items?.length! >= 2) {
               return (
-                <>
-                  <div
-                    style={{ padding: "10px" }}
-                    className={style.sidebarItem({ highlight: false })}
-                  >
-                    {node.title}
-                  </div>
+                <div className={style.sidebarGroupContainer}>
+                  <div className={style.sidebarGroupTitle}>{node.title}</div>
                   {node.items?.map((item) => {
                     if (item?.platform?.docs?.usage?.status! === "todo") {
-                      return null;
+                      return (
+                        <SidebarItem
+                          key={item?.name}
+                          currentPath={currentPath}
+                          to={item?.name!}
+                          itemName={item?.name!}
+                          title="component"
+                          onClick={closeSidebar}
+                          status={item?.platform?.docs?.usage?.status!}
+                        />
+                      );
                     }
 
                     const name = item?.name;
@@ -306,25 +346,35 @@ const Sidebar = () => {
                       item?.platform?.docs?.usage?.path?.childMdx?.frontmatter
                         ?.slug;
                     return (
-                      <>
-                        <SidebarItem
-                          key={path!}
-                          currentPath={currentPath}
-                          to={path!}
-                          itemName={name!}
-                          level={2}
-                          title="component"
-                          onClick={closeSidebar}
-                        />
-                      </>
+                      <SidebarItem
+                        key={path!}
+                        currentPath={currentPath}
+                        to={path!}
+                        itemName={name!}
+                        title="component"
+                        onClick={closeSidebar}
+                        status={item?.platform?.docs?.usage?.status! as Status}
+                      />
                     );
                   })}
-                </>
+                </div>
               );
             }
 
             if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
-              return null;
+              return (
+                <SidebarItem
+                  key={node?.title}
+                  currentPath={currentPath}
+                  to={node?.title!}
+                  itemName={node?.title!}
+                  title="component"
+                  onClick={closeSidebar}
+                  status={
+                    node?.items?.[0]?.platform?.docs?.usage?.status! as Status
+                  }
+                />
+              );
             }
 
             const title = node?.title;
@@ -339,6 +389,9 @@ const Sidebar = () => {
                 itemName={title!}
                 title="component"
                 onClick={closeSidebar}
+                status={
+                  node?.items?.[0]?.platform?.docs?.usage?.status! as Status
+                }
               />
             );
           })}

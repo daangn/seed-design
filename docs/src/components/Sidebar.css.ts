@@ -100,6 +100,19 @@ export const sidebarTitle2 = style([
   },
 ]);
 
+export const sidebarGroupContainer = style({
+  marginTop: "6px",
+  marginBottom: "10px",
+});
+
+export const sidebarGroupTitle = style({
+  fontSize: "12px",
+  fontWeight: 600,
+  color: vars.$scale.color.gray500,
+  paddingLeft: "10px",
+  marginTop: "10px",
+});
+
 export const sidebarItem = recipe({
   base: [
     u.flexAlignCenter,
@@ -107,7 +120,7 @@ export const sidebarItem = recipe({
       width: `calc(${SIDEBAR_WIDTH} - 56px)`,
       height: "32px",
       fontSize: "16px",
-      color: vars.$scale.color.gray600,
+      color: vars.$scale.color.gray700,
       transition: "background 0.2s ease",
       paddingLeft: "10px",
       marginTop: "6px",
@@ -134,14 +147,19 @@ export const sidebarItem = recipe({
       ],
     },
 
-    level: {
-      1: {},
-      2: {
-        ":before": {
-          content: "◦",
-          marginRight: "6px",
-        },
-        fontSize: "14px",
+    disable: {
+      true: {
+        color: vars.$scale.color.gray400,
+      },
+    },
+  },
+});
+
+export const sidebarItemLink = recipe({
+  variants: {
+    disable: {
+      true: {
+        pointerEvents: "none",
       },
     },
   },
