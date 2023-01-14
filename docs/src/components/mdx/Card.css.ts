@@ -39,7 +39,7 @@ export const halfCard = style([
     borderRadius: "8px",
   },
 
-  m.large({
+  m.medium({
     flexDirection: "row",
     margin: "20px 0px",
   }),
@@ -49,12 +49,11 @@ export const halfCardImageCell = style([
   {
     minWidth: "100%",
     border: `1px solid ${vars.$scale.color.gray300}`,
-    backgroundColor: vars.$semantic.color.onPrimary,
     borderRadius: "8px",
     overflow: "hidden",
   },
 
-  m.large({
+  m.medium({
     minWidth: "500px",
   }),
 ]);
@@ -64,7 +63,7 @@ export const halfCardDescriptionCell = style([
     marginBottom: "50px",
   },
 
-  m.large({
+  m.medium({
     marginBottom: "0px",
   }),
 ]);
@@ -76,7 +75,7 @@ export const halfCardDescriptionTitle = style([
     fontWeight: 700,
   },
 
-  m.large({
+  m.medium({
     marginTop: "0px",
   }),
 ]);

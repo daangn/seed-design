@@ -8,7 +8,7 @@ export const table = style([
     display: "inline-block",
     width: "100%",
     borderCollapse: "collapse",
-    margin: "30px 0px",
+    margin: "20px 0px",
     borderRadius: "8px",
     boxShadow: `0 0 0 1px ${vars.$scale.color.gray100}`,
     overflowX: "auto",

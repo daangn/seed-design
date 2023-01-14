@@ -14,6 +14,7 @@ export const oli = style([
   classNames.$semantic.typography.bodyL1Regular,
   u.flex,
   {
+    marginTop: "8px",
     marginBottom: "8px",
     fontSize: "14px",
 
