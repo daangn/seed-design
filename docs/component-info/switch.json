@@ -1,0 +1,36 @@
+{
+  "title": "Switch",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Switch",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "done",
+          "path": "https://sprout-storybook.vercel.app/?path=/docs/components-switch--docs"
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/switch/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/switch/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "title": "Chip",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Chip Button",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "Chip Checkbox",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    },
+    {
+      "name": "Chip Select",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    }
+  ]
+}
