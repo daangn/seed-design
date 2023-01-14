@@ -57,11 +57,12 @@ export const documentHeading2 = style([
   classNames.$semantic.typography.h2,
   {
     fontSize: "32px",
-    marginTop: "60px",
+    marginTop: "120px",
+    marginBottom: "20px",
     fontWeight: 700,
   },
   m.small({
-    marginTop: "60px",
+    marginTop: "120px",
     fontSize: "34px",
   }),
 ]);
@@ -74,8 +75,8 @@ export const documentHeading3 = style([
   },
   m.small({
     fontWeight: 700,
-    fontSize: "26px",
-    marginTop: "40px",
+    fontSize: "20px",
+    marginTop: "30px",
   }),
 ]);
 
