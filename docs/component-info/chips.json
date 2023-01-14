@@ -1,7 +1,8 @@
 {
   "title": "Chip",
   "primitive": {
-    "status": "todo"
+    "status": "todo",
+    "path": null
   },
   "items": [
     {

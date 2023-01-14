@@ -1,7 +1,8 @@
 {
   "title": "Snackbar",
   "primitive": {
-    "status": "todo"
+    "status": "todo",
+    "path": null
   },
   "items": [
     {

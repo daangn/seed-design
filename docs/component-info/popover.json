@@ -1,7 +1,8 @@
 {
   "title": "Popover",
   "primitive": {
-    "status": "todo"
+    "status": "todo",
+    "path": null
   },
   "items": [
     {

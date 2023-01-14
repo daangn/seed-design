@@ -1,7 +1,8 @@
 {
   "title": "Bottom Sheet",
   "primitive": {
-    "status": "todo"
+    "status": "todo",
+    "path": null
   },
   "items": [
     {
