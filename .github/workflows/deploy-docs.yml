@@ -33,10 +33,6 @@ jobs:
         run: |
           yarn build
 
-      - name: Clean
-        working-directory: ./docs
-        run: yarn clean
-
       - name: Seed Docs를 빌드해요
         working-directory: ./docs
         run: |
