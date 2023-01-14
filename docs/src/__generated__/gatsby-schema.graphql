@@ -1996,14 +1996,12 @@ input SiteFieldSelector {
   children: NodeFieldSelector
   flags: SiteFlagsFieldSelector
   graphqlTypegen: SiteGraphqlTypegenFieldSelector
-  host: FieldSelectorEnum
   id: FieldSelectorEnum
   internal: InternalFieldSelector
   jsxRuntime: FieldSelectorEnum
   parent: NodeFieldSelector
   pathPrefix: FieldSelectorEnum
   polyfill: FieldSelectorEnum
-  port: FieldSelectorEnum
   siteMetadata: SiteSiteMetadataFieldSelector
   trailingSlash: FieldSelectorEnum
 }
@@ -2274,14 +2272,12 @@ input SiteSortInput {
   children: NodeSortInput
   flags: SiteFlagsSortInput
   graphqlTypegen: SiteGraphqlTypegenSortInput
-  host: SortOrderEnum
   id: SortOrderEnum
   internal: InternalSortInput
   jsxRuntime: SortOrderEnum
   parent: NodeSortInput
   pathPrefix: SortOrderEnum
   polyfill: SortOrderEnum
-  port: SortOrderEnum
   siteMetadata: SiteSiteMetadataSortInput
   trailingSlash: SortOrderEnum
 }
