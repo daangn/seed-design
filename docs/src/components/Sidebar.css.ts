@@ -19,7 +19,7 @@ export const sidebar = style([
     paddingLeft: "20px",
 
     width: SIDEBAR_WIDTH,
-    height: "100%",
+    height: "100vh",
     transition: "background-color 0.2s ease, color 0.2s ease",
   },
 
@@ -37,10 +37,10 @@ export const sidebarDesktop = style([
   m.large({
     display: "flex",
     position: "sticky",
-    top: 110,
+    top: 80,
     left: 0,
     paddingLeft: "30px",
-    height: "100vh",
+    height: "calc(100vh - 80px)",
     zIndex: 1,
   }),
 ]);
@@ -56,10 +56,11 @@ export const sidebarItemContainer = style([
   u.flexColumn,
   {
     position: "absolute",
-    top: 30,
 
+    padding: "30px 0px",
     height: "100%",
     overflowY: "auto",
+    overscrollBehavior: "contain",
   },
 
   m.large({

@@ -1,0 +1,36 @@
+{
+  "title": "Spinner",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Spinner",
+      "platform": {
+        "ios": {
+          "status": "done",
+          "alias": "KarrotSpinner",
+          "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/KarrotSpinner/KarrotSpinner.swift"
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "done",
+          "path": "https://sprout-storybook.vercel.app/?path=/docs/components-spinner--docs"
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/spinner/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/spinner/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

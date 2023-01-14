@@ -2,7 +2,6 @@ import "./src/styles/global.css";
 
 import type { GatsbySSR, WrapPageElementNodeArgs } from "gatsby";
 
-
 import Root from "./src/Root";
 
 const htmlAttributes: Record<string, string> = {

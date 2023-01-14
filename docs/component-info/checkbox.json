@@ -1,0 +1,37 @@
+{
+  "title": "Checkbox",
+  "primitive": {
+    "status": "done",
+    "path": "../content/primitive/checkbox/primitive.mdx"
+  },
+  "items": [
+    {
+      "name": "Checkbox",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "done",
+          "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
+        },
+        "docs": {
+          "usage": {
+            "status": "done",
+            "path": "../content/component/checkbox/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/checkbox/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

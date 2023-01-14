@@ -13,11 +13,13 @@ interface PageProps {
 
 export const query = graphql`
   query PrimitiveListPage {
-    configsJson {
-      primitive {
-        document {
-          childMdx {
-            ...ListPageMdxContent
+    allComponentInfoJson(filter: { primitive: { status: { eq: "done" } } }) {
+      nodes {
+        primitive {
+          path {
+            childMdx {
+              ...ListPageMdxContent
+            }
           }
         }
       }
@@ -26,7 +28,7 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const docs = data.configsJson?.primitive;
+  const primitivies = data.allComponentInfoJson.nodes;
 
   return (
     <PageLayout>
@@ -35,17 +37,24 @@ const Page = ({ data }: PageProps) => {
         컴포넌트의 시각적 정의를 제외한 본질적인 기능과 동작에 대한 정의
       </p>
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
-        {docs?.map((doc) => {
-          const { description, slug, thumbnail, title } =
-            doc?.document?.childMdx?.frontmatter!;
+        {primitivies?.map((primitive) => {
+          const title =
+            primitive?.primitive?.path?.childMdx?.frontmatter?.title!;
+          const description =
+            primitive?.primitive?.path?.childMdx?.frontmatter?.description!;
+          const thumbnail =
+            primitive?.primitive?.path?.childMdx?.frontmatter?.thumbnail
+              ?.childImageSharp?.gatsbyImageData!;
+          const slug = primitive?.primitive?.path?.childMdx?.frontmatter?.slug!;
+
           return (
-            <Link key={slug} to={slug!}>
+            <Link key={slug} to={slug}>
               <motion.div {...elevateUp} className={listPageStyle.gridItem}>
                 <div className={listPageStyle.gridItemImage}>
                   <GatsbyImage
                     draggable={false}
-                    image={thumbnail?.childImageSharp?.gatsbyImageData!}
-                    alt={title!}
+                    image={thumbnail}
+                    alt={title}
                   />
                 </div>
                 <h2 className={listPageStyle.gridItemTitle}>{title}</h2>

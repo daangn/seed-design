@@ -1,0 +1,36 @@
+{
+  "title": "Divider",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Divider",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "done",
+          "path": "https://sprout-storybook.vercel.app/?path=/docs/components-divider--docs"
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    }
+  ]
+}

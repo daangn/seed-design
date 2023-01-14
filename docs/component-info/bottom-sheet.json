@@ -1,0 +1,36 @@
+{
+  "title": "Bottom Sheet",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Bottom Sheet",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    }
+  ]
+}
