@@ -19,9 +19,6 @@ jobs:
         with:
           node-version: 18.12.1
           cache: yarn
-
-      - name: Clean
-        run: yarn clean
       
       - name: Install Dependencies
         run: yarn install --immutable
@@ -35,6 +32,10 @@ jobs:
         working-directory: ./packages/react-theming
         run: |
           yarn build
+
+      - name: Clean
+        working-directory: ./docs
+        run: yarn clean
 
       - name: Seed Docs를 빌드해요
         working-directory: ./docs
