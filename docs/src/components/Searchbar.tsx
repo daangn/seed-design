@@ -10,8 +10,8 @@ import { useSearchbarState } from "../contexts/SearchbarContext";
 import Portal from "./Portal";
 import * as style from "./Searchbar.css";
 
-const Searchbar = () => {
-  const { open, openSearchbar, closeSearchbar } = useSearchbarState();
+const SearchCombobox = () => {
+  const { closeSearchbar } = useSearchbarState();
   const [items, setItems] = useState<QueryResultItem[]>([]);
 
   const {
@@ -29,9 +29,6 @@ const Searchbar = () => {
       navigate(selectedItem.slug);
     },
   });
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const data = useStaticQuery(
     graphql`
@@ -59,12 +56,68 @@ const Searchbar = () => {
     setItems(searchResults);
   }, [inputValue]);
 
+  return (
+    <div className={style.content}>
+      <div className={style.inputContainer}>
+        <SearchIcon className={style.inputLeftIcon} />
+        <input
+          {...getInputProps({ autoFocus: true })}
+          className={style.input({ underline: items.length > 0 })}
+          placeholder="Button, Switch, ..."
+        />
+        <div className={style.inputRight}>
+          <kbd>⌘</kbd> + <kbd>K</kbd>
+        </div>
+      </div>
+      <ul
+        {...getMenuProps()}
+        className={style.list({
+          active: items.length > 0,
+        })}
+      >
+        {items.map((item, index) => {
+          const { id, slug, title } = item;
+
+          const titleHighlight = title.replace(
+            new RegExp(inputValue, "gi"),
+            (match) => `<span class=${style.listItemHighlight}>${match}</span>`,
+          );
+
+          const slugHighlight = slug.replace(
+            new RegExp(inputValue, "gi"),
+            (match) => `<span class=${style.listItemHighlight}>${match}</span>`,
+          );
+
+          return (
+            <li
+              key={id}
+              className={style.listItem({
+                active: highlightedIndex === index,
+              })}
+              {...getItemProps({ item, index })}
+            >
+              <p
+                className={style.listItemTitle}
+                dangerouslySetInnerHTML={{ __html: titleHighlight }}
+              />
+              <p
+                className={style.listItemDescription}
+                dangerouslySetInnerHTML={{ __html: slugHighlight }}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+const Searchbar = () => {
+  const { open, openSearchbar, closeSearchbar } = useSearchbarState();
+  const containerRef = useRef<HTMLDivElement>(null);
+
   // TODO: custom keyboard hooks
   useEffect(() => {
-    if (open) {
-      inputRef.current?.select();
-    }
-
     const callback = (e: KeyboardEvent) => {
       if (e.key === "k" && e.metaKey && !open) {
         openSearchbar();
@@ -104,61 +157,7 @@ const Searchbar = () => {
             onClick={handleContainerClick}
             className={style.container}
           >
-            <div className={style.content}>
-              <div className={style.inputContainer}>
-                <SearchIcon className={style.inputLeftIcon} />
-                <input
-                  {...getInputProps()}
-                  ref={inputRef}
-                  className={style.input({ underline: items.length > 0 })}
-                  placeholder="Button, Switch, ..."
-                />
-                <div className={style.inputRight}>
-                  <kbd>⌘</kbd> + <kbd>K</kbd>
-                </div>
-              </div>
-              <ul
-                className={style.list({
-                  active: items.length > 0,
-                })}
-                {...getMenuProps()}
-              >
-                {items.map((item, index) => {
-                  const { id, slug, title } = item;
-
-                  const titleHighlight = title.replace(
-                    new RegExp(inputValue, "gi"),
-                    (match) =>
-                      `<span class=${style.listItemHighlight}>${match}</span>`,
-                  );
-
-                  const slugHighlight = slug.replace(
-                    new RegExp(inputValue, "gi"),
-                    (match) =>
-                      `<span class=${style.listItemHighlight}>${match}</span>`,
-                  );
-
-                  return (
-                    <li
-                      key={id}
-                      className={style.listItem({
-                        active: highlightedIndex === index,
-                      })}
-                      {...getItemProps({ item, index })}
-                    >
-                      <p
-                        className={style.listItemTitle}
-                        dangerouslySetInnerHTML={{ __html: titleHighlight }}
-                      />
-                      <p
-                        className={style.listItemDescription}
-                        dangerouslySetInnerHTML={{ __html: slugHighlight }}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            <SearchCombobox />
           </motion.div>
         )}
       </AnimatePresence>

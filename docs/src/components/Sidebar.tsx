@@ -72,9 +72,8 @@ const SidebarTitle = ({
   );
 };
 
-const Sidebar = () => {
-  const { open, closeSidebar } = useSidebarState();
-
+const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
+  const { closeSidebar } = useSidebarState();
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     fragment Slug on Mdx {
       frontmatter {
@@ -123,13 +122,155 @@ const Sidebar = () => {
     };
   });
 
+  return (
+    <div className={style.sidebarItemContainer}>
+      {logo && (
+        <div className={style.sidebarLogo}>
+          <Logo to="/" onClick={closeSidebar} />
+        </div>
+      )}
+
+      <SidebarTitle title="overview" onClick={closeSidebar} />
+
+      <SidebarItem
+        currentPath={currentPath}
+        to="/overview/progress-board"
+        itemName="Progress Board"
+        title="overview"
+        onClick={closeSidebar}
+      />
+      <SidebarTitle title="foundation" onClick={closeSidebar} />
+
+      <SidebarItem
+        currentPath={currentPath}
+        to="/foundation/color"
+        itemName="Color"
+        title="foundation"
+        onClick={closeSidebar}
+      />
+      <SidebarItem
+        currentPath={currentPath}
+        to="/foundation/typography"
+        itemName="Typography"
+        title="foundation"
+        onClick={closeSidebar}
+      />
+
+      <SidebarTitle title="component" onClick={closeSidebar} />
+
+      {componentData!.map((node) => {
+        if (node?.items?.length! >= 2) {
+          return (
+            <div className={style.sidebarGroupContainer}>
+              <div className={style.sidebarGroupTitle}>{node.title}</div>
+              {node.items?.map((item) => {
+                if (item?.platform?.docs?.usage?.status! === "todo") {
+                  return (
+                    <SidebarItem
+                      key={`${item?.name!.replaceAll(
+                        " ",
+                        "-",
+                      )}-component-group-todo`}
+                      currentPath={currentPath}
+                      to={item?.name!}
+                      itemName={item?.name!}
+                      title="component"
+                      onClick={closeSidebar}
+                      status={item?.platform?.docs?.usage?.status!}
+                    />
+                  );
+                }
+
+                const name = item?.name;
+                const path =
+                  item?.platform?.docs?.usage?.path?.childMdx?.frontmatter
+                    ?.slug;
+
+                return (
+                  <SidebarItem
+                    key={path!}
+                    currentPath={currentPath}
+                    to={path!}
+                    itemName={name!}
+                    title="component"
+                    onClick={closeSidebar}
+                    status={item?.platform?.docs?.usage?.status! as Status}
+                  />
+                );
+              })}
+            </div>
+          );
+        }
+
+        if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
+          return (
+            <SidebarItem
+              key={`${node?.title!.replaceAll(" ", "-")}-component-todo`}
+              currentPath={currentPath}
+              to={node?.title!}
+              itemName={node?.title!}
+              title="component"
+              onClick={closeSidebar}
+              status={
+                node?.items?.[0]?.platform?.docs?.usage?.status! as Status
+              }
+            />
+          );
+        }
+
+        const title = node?.title;
+        const slug =
+          node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx?.frontmatter
+            ?.slug;
+
+        return (
+          <SidebarItem
+            key={slug!}
+            currentPath={currentPath}
+            to={slug!}
+            itemName={title!}
+            title="component"
+            onClick={closeSidebar}
+            status={node?.items?.[0]?.platform?.docs?.usage?.status! as Status}
+          />
+        );
+      })}
+
+      <SidebarTitle title="primitive" onClick={closeSidebar} />
+
+      {primitiveData!.map((node) => {
+        if (node?.primitive?.status === "todo") {
+          return null;
+        }
+
+        const title = node.title!;
+        const slug = node?.primitive?.path?.childMdx?.frontmatter?.slug;
+
+        return (
+          <SidebarItem
+            key={`${title!}-primitive-done-or-in-progress`}
+            currentPath={currentPath}
+            to={slug!}
+            itemName={title!}
+            title="primitive"
+            onClick={closeSidebar}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+const Sidebar = () => {
+  const { open, closeSidebar } = useSidebarState();
+
   // TODO: sidebar가 두 개 있어서 공통된 로직이 있을 듯
   return (
     <>
       <Portal>
         <AnimatePresence>
           {open && (
-            <>
+            <motion.div>
               <motion.nav
                 className={style.sidebar}
                 initial={{ opacity: 0, x: -80 }}
@@ -137,144 +278,7 @@ const Sidebar = () => {
                 transition={{ duration: 0.2 }}
                 exit={{ opacity: 0, x: -80 }}
               >
-                <div className={style.sidebarItemContainer}>
-                  <div className={style.sidebarLogo}>
-                    <Logo to="/" onClick={closeSidebar} />
-                  </div>
-
-                  <SidebarTitle title="overview" onClick={closeSidebar} />
-
-                  <SidebarItem
-                    currentPath={currentPath}
-                    to="/overview/progress-board"
-                    itemName="Progress Board"
-                    title="overview"
-                    onClick={closeSidebar}
-                  />
-                  <SidebarTitle title="foundation" onClick={closeSidebar} />
-
-                  <SidebarItem
-                    currentPath={currentPath}
-                    to="/foundation/color"
-                    itemName="Color"
-                    title="foundation"
-                    onClick={closeSidebar}
-                  />
-                  <SidebarItem
-                    currentPath={currentPath}
-                    to="/foundation/typography"
-                    itemName="Typography"
-                    title="foundation"
-                    onClick={closeSidebar}
-                  />
-
-                  <SidebarTitle title="component" onClick={closeSidebar} />
-
-                  {componentData!.map((node) => {
-                    if (node?.items?.length! >= 2) {
-                      return (
-                        <div className={style.sidebarGroupContainer}>
-                          <div className={style.sidebarGroupTitle}>
-                            {node.title}
-                          </div>
-                          {node.items?.map((item) => {
-                            if (
-                              item?.platform?.docs?.usage?.status! === "todo"
-                            ) {
-                              return (
-                                <SidebarItem
-                                  key={item?.name}
-                                  currentPath={currentPath}
-                                  to={item?.name!}
-                                  itemName={item?.name!}
-                                  title="component"
-                                  onClick={closeSidebar}
-                                  status={item?.platform?.docs?.usage?.status!}
-                                />
-                              );
-                            }
-
-                            const name = item?.name;
-                            const path =
-                              item?.platform?.docs?.usage?.path?.childMdx
-                                ?.frontmatter?.slug;
-                            return (
-                              <SidebarItem
-                                key={path!}
-                                currentPath={currentPath}
-                                to={path!}
-                                itemName={name!}
-                                title="component"
-                                onClick={closeSidebar}
-                                status={
-                                  item?.platform?.docs?.usage?.status! as Status
-                                }
-                              />
-                            );
-                          })}
-                        </div>
-                      );
-                    }
-
-                    if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
-                      return (
-                        <SidebarItem
-                          key={node?.title}
-                          currentPath={currentPath}
-                          to={node?.title!}
-                          itemName={node?.title!}
-                          title="component"
-                          onClick={closeSidebar}
-                          status={
-                            node?.items?.[0]?.platform?.docs?.usage
-                              ?.status! as Status
-                          }
-                        />
-                      );
-                    }
-
-                    const title = node?.title;
-                    const slug =
-                      node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx
-                        ?.frontmatter?.slug;
-                    return (
-                      <SidebarItem
-                        key={slug!}
-                        currentPath={currentPath}
-                        to={slug!}
-                        itemName={title!}
-                        title="component"
-                        onClick={closeSidebar}
-                        status={
-                          node?.items?.[0]?.platform?.docs?.usage
-                            ?.status! as Status
-                        }
-                      />
-                    );
-                  })}
-
-                  <SidebarTitle title="primitive" onClick={closeSidebar} />
-
-                  {primitiveData!.map((node) => {
-                    if (node?.primitive?.status === "todo") {
-                      return null;
-                    }
-
-                    const title = node.title!;
-                    const slug =
-                      node?.primitive?.path?.childMdx?.frontmatter?.slug;
-                    return (
-                      <SidebarItem
-                        key={slug!}
-                        currentPath={currentPath}
-                        to={slug!}
-                        itemName={title!}
-                        title="primitive"
-                        onClick={closeSidebar}
-                      />
-                    );
-                  })}
-                </div>
+                <SidebarItemContainer logo />
               </motion.nav>
               <motion.div
                 className={style.overlay}
@@ -284,139 +288,14 @@ const Sidebar = () => {
                 transition={{ duration: 0.2 }}
                 exit={{ opacity: 0, y: -10 }}
               />
-            </>
+            </motion.div>
           )}
         </AnimatePresence>
       </Portal>
 
       {/* 페이지 고정 사이드바 */}
       <nav className={style.sidebarDesktop}>
-        <div className={style.sidebarItemContainer}>
-          <SidebarTitle title="overview" onClick={closeSidebar} />
-
-          <SidebarItem
-            currentPath={currentPath}
-            to="/overview/progress-board"
-            itemName="Progress Board"
-            title="overview"
-            onClick={closeSidebar}
-          />
-
-          <SidebarTitle title="foundation" onClick={closeSidebar} />
-
-          <SidebarItem
-            currentPath={currentPath}
-            to="/foundation/color"
-            itemName="Color"
-            title="foundation"
-            onClick={closeSidebar}
-          />
-          <SidebarItem
-            currentPath={currentPath}
-            to="/foundation/typography"
-            itemName="Typography"
-            title="foundation"
-            onClick={closeSidebar}
-          />
-
-          <SidebarTitle title="component" onClick={closeSidebar} />
-
-          {componentData!.map((node) => {
-            if (node?.items?.length! >= 2) {
-              return (
-                <div className={style.sidebarGroupContainer}>
-                  <div className={style.sidebarGroupTitle}>{node.title}</div>
-                  {node.items?.map((item) => {
-                    if (item?.platform?.docs?.usage?.status! === "todo") {
-                      return (
-                        <SidebarItem
-                          key={item?.name}
-                          currentPath={currentPath}
-                          to={item?.name!}
-                          itemName={item?.name!}
-                          title="component"
-                          onClick={closeSidebar}
-                          status={item?.platform?.docs?.usage?.status!}
-                        />
-                      );
-                    }
-
-                    const name = item?.name;
-                    const path =
-                      item?.platform?.docs?.usage?.path?.childMdx?.frontmatter
-                        ?.slug;
-                    return (
-                      <SidebarItem
-                        key={path!}
-                        currentPath={currentPath}
-                        to={path!}
-                        itemName={name!}
-                        title="component"
-                        onClick={closeSidebar}
-                        status={item?.platform?.docs?.usage?.status! as Status}
-                      />
-                    );
-                  })}
-                </div>
-              );
-            }
-
-            if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
-              return (
-                <SidebarItem
-                  key={node?.title}
-                  currentPath={currentPath}
-                  to={node?.title!}
-                  itemName={node?.title!}
-                  title="component"
-                  onClick={closeSidebar}
-                  status={
-                    node?.items?.[0]?.platform?.docs?.usage?.status! as Status
-                  }
-                />
-              );
-            }
-
-            const title = node?.title;
-            const slug =
-              node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx
-                ?.frontmatter?.slug;
-            return (
-              <SidebarItem
-                key={slug!}
-                currentPath={currentPath}
-                to={slug!}
-                itemName={title!}
-                title="component"
-                onClick={closeSidebar}
-                status={
-                  node?.items?.[0]?.platform?.docs?.usage?.status! as Status
-                }
-              />
-            );
-          })}
-
-          <SidebarTitle title="primitive" onClick={closeSidebar} />
-
-          {primitiveData!.map((node) => {
-            if (node?.primitive?.status === "todo") {
-              return null;
-            }
-
-            const title = node.title!;
-            const slug = node?.primitive?.path?.childMdx?.frontmatter?.slug;
-            return (
-              <SidebarItem
-                key={slug!}
-                currentPath={currentPath}
-                to={slug!}
-                itemName={title!}
-                title="primitive"
-                onClick={closeSidebar}
-              />
-            );
-          })}
-        </div>
+        <SidebarItemContainer />
       </nav>
     </>
   );
