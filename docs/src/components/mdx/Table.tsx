@@ -3,7 +3,9 @@ import clsx from "clsx";
 import * as style from "./Table.css";
 
 export const Table = (props: Object) => (
-  <table className={clsx(style.table)} {...props}></table>
+  <div className={style.tableWrapper}>
+    <table className={clsx(style.table)} {...props}></table>
+  </div>
 );
 
 export const TableHead = (props: Object) => (

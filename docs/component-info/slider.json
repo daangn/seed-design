@@ -1,0 +1,36 @@
+{
+  "title": "Slider",
+  "primitive": {
+    "status": "todo"
+  },
+  "items": [
+    {
+      "name": "Slider",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "in-progress",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/slider/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/slider/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

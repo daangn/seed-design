@@ -1,8 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import last from "lodash/last";
-import sortBy from "lodash/sortBy";
 
 import { useSidebarState } from "../contexts/SidebarContext";
 import Logo from "./Logo";
@@ -67,37 +65,36 @@ const Sidebar = () => {
   const { open, closeSidebar } = useSidebarState();
 
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
+    fragment Slug on Mdx {
+      frontmatter {
+        slug
+      }
+    }
+
     query Sidebar {
-      configsJson {
-        component {
-          items {
-            title
+      allComponentInfoJson(sort: { title: ASC }) {
+        nodes {
+          title
+          primitive {
+            status
             path {
               childMdx {
-                frontmatter {
-                  slug
-                  title
+                ...Slug
+              }
+            }
+          }
+          items {
+            name
+            platform {
+              docs {
+                usage {
+                  status
+                  path {
+                    childMdx {
+                      ...Slug
+                    }
+                  }
                 }
-              }
-            }
-          }
-          path {
-            childMdx {
-              frontmatter {
-                slug
-                title
-              }
-            }
-          }
-          title
-        }
-
-        primitive {
-          path {
-            childMdx {
-              frontmatter {
-                slug
-                title
               }
             }
           }
@@ -106,20 +103,14 @@ const Sidebar = () => {
     }
   `);
 
-  const componentDocs = sortBy(data.configsJson?.component ?? [], (link) => {
-    const words = link?.path?.childMdx?.frontmatter?.title?.split(" ") ?? [];
-    const lastWord = last(words);
-
-    return [lastWord, ...words];
-  });
-  const primitiveDocs = sortBy(data.configsJson?.primitive ?? [], (link) => {
-    const words = link?.path?.childMdx?.frontmatter?.title?.split(" ") ?? [];
-    const lastWord = last(words);
-
-    return [lastWord, ...words];
-  });
-
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
+  const componentData = data.allComponentInfoJson.nodes;
+  const primitiveData = componentData.map((component) => {
+    return {
+      title: component.title,
+      primitive: component.primitive,
+    };
+  });
 
   // TODO: sidebar가 두 개 있어서 공통된 로직이 있을 듯
   return (
@@ -144,7 +135,7 @@ const Sidebar = () => {
 
                   <SidebarItem
                     currentPath={currentPath}
-                    to="/overview/component-progress-board"
+                    to="/overview/progress-board"
                     itemName="Progress Board"
                     title="overview"
                     onClick={closeSidebar}
@@ -168,27 +159,34 @@ const Sidebar = () => {
 
                   <SidebarTitle title="component" onClick={closeSidebar} />
 
-                  {componentDocs!.map((link) => {
-                    if (link?.items) {
+                  {componentData!.map((node) => {
+                    if (node?.items?.length! >= 2) {
                       return (
                         <>
                           <div
                             style={{ padding: "10px" }}
                             className={style.sidebarItem({ highlight: false })}
                           >
-                            {link.title}
+                            {node.title}
                           </div>
-                          {link.items.map((item) => {
-                            if (!item?.path?.childMdx?.frontmatter) return null;
-                            const { slug, title } =
-                              item?.path?.childMdx?.frontmatter;
+                          {node.items?.map((item) => {
+                            if (
+                              item?.platform?.docs?.usage?.status! === "todo"
+                            ) {
+                              return null;
+                            }
+
+                            const name = item?.name;
+                            const path =
+                              item?.platform?.docs?.usage?.path?.childMdx
+                                ?.frontmatter?.slug;
                             return (
                               <>
                                 <SidebarItem
-                                  key={slug!}
+                                  key={path!}
                                   currentPath={currentPath}
-                                  to={slug!}
-                                  itemName={title!}
+                                  to={path!}
+                                  itemName={name!}
                                   level={2}
                                   title="component"
                                   onClick={closeSidebar}
@@ -200,8 +198,14 @@ const Sidebar = () => {
                       );
                     }
 
-                    if (!link?.path?.childMdx?.frontmatter) return null;
-                    const { slug, title } = link?.path?.childMdx?.frontmatter;
+                    if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
+                      return null;
+                    }
+
+                    const title = node?.title;
+                    const slug =
+                      node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx
+                        ?.frontmatter?.slug;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -216,9 +220,14 @@ const Sidebar = () => {
 
                   <SidebarTitle title="primitive" onClick={closeSidebar} />
 
-                  {primitiveDocs!.map((link) => {
-                    if (!link?.path?.childMdx?.frontmatter) return null;
-                    const { slug, title } = link?.path?.childMdx?.frontmatter;
+                  {primitiveData!.map((node) => {
+                    if (node?.primitive?.status === "todo") {
+                      return null;
+                    }
+
+                    const title = node.title!;
+                    const slug =
+                      node?.primitive?.path?.childMdx?.frontmatter?.slug;
                     return (
                       <SidebarItem
                         key={slug!}
@@ -252,7 +261,7 @@ const Sidebar = () => {
 
           <SidebarItem
             currentPath={currentPath}
-            to="/overview/component-progress-board"
+            to="/overview/progress-board"
             itemName="Progress Board"
             title="overview"
             onClick={closeSidebar}
@@ -277,29 +286,33 @@ const Sidebar = () => {
 
           <SidebarTitle title="component" onClick={closeSidebar} />
 
-          {componentDocs!.map((link) => {
-            if (link?.items) {
+          {componentData!.map((node) => {
+            if (node?.items?.length! >= 2) {
               return (
                 <>
                   <div
                     style={{ padding: "10px" }}
-                    className={style.sidebarItem({
-                      highlight: false,
-                    })}
+                    className={style.sidebarItem({ highlight: false })}
                   >
-                    {link.title}
+                    {node.title}
                   </div>
-                  {link.items.map((item) => {
-                    if (!item?.path?.childMdx?.frontmatter) return null;
-                    const { slug, title } = item?.path?.childMdx?.frontmatter;
+                  {node.items?.map((item) => {
+                    if (item?.platform?.docs?.usage?.status! === "todo") {
+                      return null;
+                    }
+
+                    const name = item?.name;
+                    const path =
+                      item?.platform?.docs?.usage?.path?.childMdx?.frontmatter
+                        ?.slug;
                     return (
                       <>
                         <SidebarItem
-                          level={2}
-                          key={slug!}
+                          key={path!}
                           currentPath={currentPath}
-                          to={slug!}
-                          itemName={title!}
+                          to={path!}
+                          itemName={name!}
+                          level={2}
                           title="component"
                           onClick={closeSidebar}
                         />
@@ -310,9 +323,14 @@ const Sidebar = () => {
               );
             }
 
-            if (!link?.path?.childMdx?.frontmatter) return null;
+            if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
+              return null;
+            }
 
-            const { slug, title } = link?.path?.childMdx?.frontmatter;
+            const title = node?.title;
+            const slug =
+              node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx
+                ?.frontmatter?.slug;
             return (
               <SidebarItem
                 key={slug!}
@@ -327,9 +345,13 @@ const Sidebar = () => {
 
           <SidebarTitle title="primitive" onClick={closeSidebar} />
 
-          {primitiveDocs!.map((link) => {
-            if (!link?.path?.childMdx?.frontmatter) return null;
-            const { slug, title } = link?.path?.childMdx?.frontmatter;
+          {primitiveData!.map((node) => {
+            if (node?.primitive?.status === "todo") {
+              return null;
+            }
+
+            const title = node.title!;
+            const slug = node?.primitive?.path?.childMdx?.frontmatter?.slug;
             return (
               <SidebarItem
                 key={slug!}

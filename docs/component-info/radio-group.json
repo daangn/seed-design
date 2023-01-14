@@ -1,0 +1,37 @@
+{
+  "title": "Radio Group",
+  "primitive": {
+    "status": "done",
+    "path": "../content/primitive/radio-group/primitive.mdx"
+  },
+  "items": [
+    {
+      "name": "Radio Group",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "done",
+          "path": "https://sprout-storybook.vercel.app/?path=/docs/components-radiogroup--docs"
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/radio-group/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/radio-group/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

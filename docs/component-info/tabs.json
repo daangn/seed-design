@@ -1,0 +1,37 @@
+{
+  "title": "Tabs",
+  "primitive": {
+    "status": "done",
+    "path": "../content/primitive/tabs/primitive.mdx"
+  },
+  "items": [
+    {
+      "name": "Tabs",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/tabs/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/tabs/style.mdx"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "title": "Text Field",
+  "primitive": {
+    "status": "done",
+    "path": "../content/primitive/text-field/primitive.mdx"
+  },
+  "items": [
+    {
+      "name": "Multiline Text Field",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/multiline-text-field/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/multiline-text-field/style.mdx"
+          }
+        }
+      }
+    },
+    {
+      "name": "Outlined Text Field",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/outlined-text-field/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/outlined-text-field/style.mdx"
+          }
+        }
+      }
+    },
+    {
+      "name": "Underlined Text Field",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "in-progress",
+            "path": "../content/component/underlined-text-field/usage.mdx"
+          },
+          "style": {
+            "status": "done",
+            "path": "../content/component/underlined-text-field/style.mdx"
+          }
+        }
+      }
+    },
+    {
+      "name": "Number Field",
+      "platform": {
+        "ios": {
+          "status": "todo",
+          "alias": "",
+          "path": ""
+        },
+        "android": {
+          "status": "todo",
+          "path": ""
+        },
+        "react": {
+          "status": "todo",
+          "path": ""
+        },
+        "docs": {
+          "usage": {
+            "status": "todo",
+            "path": ""
+          },
+          "style": {
+            "status": "todo",
+            "path": ""
+          }
+        }
+      }
+    }
+  ]
+}

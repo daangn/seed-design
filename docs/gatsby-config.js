@@ -75,8 +75,8 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `configs`,
-        path: path.resolve(__dirname, "./configs"),
+        name: `componentInfo`,
+        path: path.resolve(__dirname, "./component-info"),
       },
     },
     "gatsby-plugin-image",
