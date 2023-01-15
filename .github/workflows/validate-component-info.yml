@@ -1,12 +1,13 @@
-name: docs/component-info의 json파일들을 검증합니다.
-
 on:
   push:
     paths:
       - 'docs/component-info'
 
+name: Validate docs/component-info's json files
+
 jobs:
   build:
+    name: Validate docs/component-info's json files
     runs-on: ubuntu-latest
 
     steps:
