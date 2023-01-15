@@ -22,7 +22,6 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     "gatsby-plugin-image",
-    "gatsby-plugin-mdx-frontmatter",
     {
       resolve: "gatsby-plugin-seed-design",
     },
@@ -63,6 +62,7 @@ module.exports = {
         },
       },
     },
+    "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-transformer-json`,
     },
@@ -71,20 +71,6 @@ module.exports = {
       options: {
         name: `content`,
         path: `${__dirname}/content`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `component`,
-        path: `${__dirname}/content/component`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `primitive`,
-        path: `${__dirname}/content/primitive`,
       },
     },
     {
