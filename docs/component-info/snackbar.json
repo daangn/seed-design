@@ -2,7 +2,7 @@
   "title": "Snackbar",
   "primitive": {
     "status": "todo",
-    "path": "../content/dummy.mdx"
+    "mdx": "../content/dummy.mdx"
   },
   "items": [
     {
@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           },
           "style": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           }
         }
       }

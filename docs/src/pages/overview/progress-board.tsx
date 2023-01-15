@@ -28,7 +28,7 @@ export const query = graphql`
         title
         primitive {
           status
-          path {
+          mdx {
             childMdx {
               ...Slug
             }
@@ -53,7 +53,7 @@ export const query = graphql`
             docs {
               style {
                 status
-                path {
+                mdx {
                   childMdx {
                     ...Slug
                   }
@@ -61,7 +61,7 @@ export const query = graphql`
               }
               usage {
                 status
-                path {
+                mdx {
                   childMdx {
                     ...Slug
                   }
@@ -195,7 +195,7 @@ const ComponentProgressBoardPage = ({
                         primitive={{
                           status: component.primitive
                             ?.status! as ComponentStatus,
-                          slug: component.primitive?.path?.childMdx?.frontmatter
+                          slug: component.primitive?.mdx?.childMdx?.frontmatter
                             ?.slug!,
                         }}
                         ios={{
@@ -217,13 +217,13 @@ const ComponentProgressBoardPage = ({
                         usage={{
                           status: item?.platform?.docs?.usage
                             ?.status! as ComponentStatus,
-                          slug: item?.platform?.docs?.usage?.path?.childMdx
+                          slug: item?.platform?.docs?.usage?.mdx?.childMdx
                             ?.frontmatter?.slug!,
                         }}
                         style={{
                           status: item?.platform?.docs?.style
                             ?.status! as ComponentStatus,
-                          slug: item?.platform?.docs?.style?.path?.childMdx
+                          slug: item?.platform?.docs?.style?.mdx?.childMdx
                             ?.frontmatter?.slug!,
                         }}
                       />

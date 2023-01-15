@@ -202,42 +202,42 @@ input ComponentInfoJsonItemsPlatformDocsSortInput {
 }
 
 type ComponentInfoJsonItemsPlatformDocsStyle {
-  path: File
+  mdx: File
   status: String
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleFieldSelector {
-  path: FileFieldSelector
+  mdx: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleFilterInput {
-  path: FileFilterInput
+  mdx: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleSortInput {
-  path: FileSortInput
+  mdx: FileSortInput
   status: SortOrderEnum
 }
 
 type ComponentInfoJsonItemsPlatformDocsUsage {
-  path: File
+  mdx: File
   status: String
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageFieldSelector {
-  path: FileFieldSelector
+  mdx: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageFilterInput {
-  path: FileFilterInput
+  mdx: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageSortInput {
-  path: FileSortInput
+  mdx: FileSortInput
   status: SortOrderEnum
 }
 
@@ -312,22 +312,22 @@ input ComponentInfoJsonItemsSortInput {
 }
 
 type ComponentInfoJsonPrimitive {
-  path: File
+  mdx: File
   status: String
 }
 
 input ComponentInfoJsonPrimitiveFieldSelector {
-  path: FileFieldSelector
+  mdx: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonPrimitiveFilterInput {
-  path: FileFilterInput
+  mdx: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonPrimitiveSortInput {
-  path: FileSortInput
+  mdx: FileSortInput
   status: SortOrderEnum
 }
 
@@ -1996,12 +1996,14 @@ input SiteFieldSelector {
   children: NodeFieldSelector
   flags: SiteFlagsFieldSelector
   graphqlTypegen: SiteGraphqlTypegenFieldSelector
+  host: FieldSelectorEnum
   id: FieldSelectorEnum
   internal: InternalFieldSelector
   jsxRuntime: FieldSelectorEnum
   parent: NodeFieldSelector
   pathPrefix: FieldSelectorEnum
   polyfill: FieldSelectorEnum
+  port: FieldSelectorEnum
   siteMetadata: SiteSiteMetadataFieldSelector
   trailingSlash: FieldSelectorEnum
 }
@@ -2272,12 +2274,14 @@ input SiteSortInput {
   children: NodeSortInput
   flags: SiteFlagsSortInput
   graphqlTypegen: SiteGraphqlTypegenSortInput
+  host: SortOrderEnum
   id: SortOrderEnum
   internal: InternalSortInput
   jsxRuntime: SortOrderEnum
   parent: NodeSortInput
   pathPrefix: SortOrderEnum
   polyfill: SortOrderEnum
+  port: SortOrderEnum
   siteMetadata: SiteSiteMetadataSortInput
   trailingSlash: SortOrderEnum
 }

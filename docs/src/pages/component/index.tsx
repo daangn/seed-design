@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
@@ -20,7 +21,7 @@ export const query = graphql`
           platform {
             docs {
               usage {
-                path {
+                mdx {
                   childMdx {
                     ...ListPageMdxContent
                   }
@@ -52,7 +53,9 @@ const Page = ({ data }: PageProps) => {
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
         {docs?.map((doc) => {
           return doc?.items?.map((item) => {
-            if (!item?.platform?.docs?.usage?.path) {
+            if (
+              !item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug
+            ) {
               return (
                 <motion.div className={listPageStyle.gridItem}>
                   <div className={listPageStyle.gridItemImage}>
@@ -62,8 +65,20 @@ const Page = ({ data }: PageProps) => {
                       alt={item?.name!}
                     />
                   </div>
-                  <h2 className={listPageStyle.gridItemTitle}>{item?.name!}</h2>
-                  <p className={listPageStyle.gridItemDescription}>
+                  <h2
+                    className={clsx(
+                      listPageStyle.gridItemTitle,
+                      listPageStyle.gridNotReadyText,
+                    )}
+                  >
+                    {item?.name!}
+                  </h2>
+                  <p
+                    className={clsx(
+                      listPageStyle.gridItemDescription,
+                      listPageStyle.gridNotReadyText,
+                    )}
+                  >
                     준비중입니다.
                   </p>
                 </motion.div>
@@ -71,14 +86,14 @@ const Page = ({ data }: PageProps) => {
             }
 
             const description =
-              item.platform.docs.usage.path.childMdx?.frontmatter?.description!;
+              item.platform.docs.usage.mdx.childMdx?.frontmatter?.description!;
             const title =
-              item.platform.docs.usage.path.childMdx?.frontmatter?.title!;
+              item.platform.docs.usage.mdx.childMdx?.frontmatter?.title!;
             const thumbnail =
-              item.platform.docs.usage.path.childMdx?.frontmatter?.thumbnail
+              item.platform.docs.usage.mdx.childMdx?.frontmatter?.thumbnail
                 ?.childImageSharp?.gatsbyImageData!;
             const slug =
-              item.platform.docs.usage.path.childMdx?.frontmatter?.slug!;
+              item.platform.docs.usage.mdx.childMdx?.frontmatter?.slug!;
 
             return (
               <Link key={slug} to={slug}>

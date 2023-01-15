@@ -1,4 +1,4 @@
-import { classNames } from "@seed-design/design-token";
+import { classNames, vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
 import * as m from "../media.css";
@@ -62,6 +62,10 @@ export const gridItemImage = style([
     borderRadius: "8px",
   },
 ]);
+
+export const gridNotReadyText = style({
+  color: vars.$scale.color.gray500,
+});
 
 export const gridItemTitle = style([
   classNames.$semantic.typography.title1Bold,

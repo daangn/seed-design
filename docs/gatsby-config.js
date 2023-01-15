@@ -1,5 +1,3 @@
-const path = require(`path`);
-
 const SITE_METADATA = Object.freeze({
   title: "Seed design system",
   siteUrl: process.env.URL || "https://seed-design.pages.dev",
@@ -21,6 +19,9 @@ module.exports = {
     DEV_SSR: true,
   },
   plugins: [
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-image",
     {
       resolve: "gatsby-plugin-seed-design",
     },
@@ -69,19 +70,16 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `content`,
-        path: path.resolve(__dirname, "./content"),
+        path: `${__dirname}/content`,
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `componentInfo`,
-        path: path.resolve(__dirname, "./component-info"),
+        path: `${__dirname}/component-info`,
       },
     },
-    "gatsby-plugin-image",
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
     {
       resolve: "gatsby-plugin-typegen",
       options: {
