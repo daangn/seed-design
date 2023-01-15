@@ -1,5 +1,6 @@
 {
   "title": "Alert Dialog",
+  "description": "Alert Dialogs are used to display important information to the user. They are used to display information that needs to be acknowledged by the user. They are also used to display information that requires the user to make a decision.",
   "primitive": {
     "status": "todo",
     "mdx": "../content/dummy.md"
