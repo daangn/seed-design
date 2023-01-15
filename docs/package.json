@@ -18,7 +18,8 @@
     "format": "eslint --fix . --ext .ts,.tsx,.json",
     "lint": "eslint . --ext .ts,.tsx,.json",
     "serve": "gatsby serve",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:component-info": "node scripts/validate-component-info.js"
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "^0.0.0-20220907.1",

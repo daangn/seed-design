@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - 'docs/component-info/**'
+
+name: Validate docs/component-info's json files
+
+jobs:
+  build:
+    name: Validate docs/component-info's json files
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18.12.1
+        cache: yarn
+
+    - name: component-info 폴더의 json 파일들을 검증해요.
+      working-directory: ./docs
+      run: |
+        yarn validate:component-info
+      if: failure()
+
+    - name: Report success
+      run: echo "Script ran successfully!"
+      if: success()
