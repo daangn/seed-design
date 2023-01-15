@@ -114,6 +114,7 @@ componentInfos.forEach((componentInfo) => {
   if (!valid) {
     console.log(`${fileName} is invalid`);
     console.error(validate.errors);
+    process.exit(1);
   } else {
     console.log(`${fileName} is valid`);
   }
