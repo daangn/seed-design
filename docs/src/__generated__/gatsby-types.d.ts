@@ -234,42 +234,42 @@ type ComponentInfoJsonItemsPlatformDocsSortInput = {
 };
 
 type ComponentInfoJsonItemsPlatformDocsStyle = {
-  readonly path: Maybe<File>;
+  readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsStyleFieldSelector = {
-  readonly path: InputMaybe<FileFieldSelector>;
+  readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsStyleFilterInput = {
-  readonly path: InputMaybe<FileFilterInput>;
+  readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsStyleSortInput = {
-  readonly path: InputMaybe<FileSortInput>;
+  readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsUsage = {
-  readonly path: Maybe<File>;
+  readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsUsageFieldSelector = {
-  readonly path: InputMaybe<FileFieldSelector>;
+  readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsUsageFilterInput = {
-  readonly path: InputMaybe<FileFilterInput>;
+  readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
 type ComponentInfoJsonItemsPlatformDocsUsageSortInput = {
-  readonly path: InputMaybe<FileSortInput>;
+  readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
@@ -3097,12 +3097,12 @@ type SlugFragment = { readonly frontmatter: { readonly slug: string | null } | n
 type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentListPageQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly path: { readonly childMdx: { readonly frontmatter: { readonly description: string | null, readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null } | null } | null } | null } | null } | null } | null> | null }> }, readonly comingSoonImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentListPageQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly description: string | null, readonly slug: string | null, readonly title: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null } | null } | null } | null } | null } | null } | null } | null> | null }> }, readonly comingSoonImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentProgressBoardPageQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly style: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> }, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentProgressBoardPageQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> }, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3142,7 +3142,7 @@ type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> } };
+type SidebarQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> } };
 
 
 }

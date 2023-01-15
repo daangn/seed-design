@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/multiline-text-field/usage.mdx"
+            "mdx": "../content/component/multiline-text-field/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/multiline-text-field/style.mdx"
+            "mdx": "../content/component/multiline-text-field/style.mdx"
           }
         }
       }
@@ -52,11 +52,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/outlined-text-field/usage.mdx"
+            "mdx": "../content/component/outlined-text-field/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/outlined-text-field/style.mdx"
+            "mdx": "../content/component/outlined-text-field/style.mdx"
           }
         }
       }
@@ -80,11 +80,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/underlined-text-field/usage.mdx"
+            "mdx": "../content/component/underlined-text-field/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/underlined-text-field/style.mdx"
+            "mdx": "../content/component/underlined-text-field/style.mdx"
           }
         }
       }
@@ -108,11 +108,11 @@
         "docs": {
           "usage": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           },
           "style": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           }
         }
       }

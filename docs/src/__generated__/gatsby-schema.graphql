@@ -202,42 +202,42 @@ input ComponentInfoJsonItemsPlatformDocsSortInput {
 }
 
 type ComponentInfoJsonItemsPlatformDocsStyle {
-  path: File
+  mdx: File
   status: String
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleFieldSelector {
-  path: FileFieldSelector
+  mdx: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleFilterInput {
-  path: FileFilterInput
+  mdx: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonItemsPlatformDocsStyleSortInput {
-  path: FileSortInput
+  mdx: FileSortInput
   status: SortOrderEnum
 }
 
 type ComponentInfoJsonItemsPlatformDocsUsage {
-  path: File
+  mdx: File
   status: String
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageFieldSelector {
-  path: FileFieldSelector
+  mdx: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageFilterInput {
-  path: FileFilterInput
+  mdx: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonItemsPlatformDocsUsageSortInput {
-  path: FileSortInput
+  mdx: FileSortInput
   status: SortOrderEnum
 }
 

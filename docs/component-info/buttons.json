@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/box-button/usage.mdx"
+            "mdx": "../content/component/box-button/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/box-button/style.mdx"
+            "mdx": "../content/component/box-button/style.mdx"
           }
         }
       }
@@ -52,11 +52,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/text-button/usage.mdx"
+            "mdx": "../content/component/text-button/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/text-button/style.mdx"
+            "mdx": "../content/component/text-button/style.mdx"
           }
         }
       }
@@ -80,11 +80,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/box-toggle-button/usage.mdx"
+            "mdx": "../content/component/box-toggle-button/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/box-toggle-button/style.mdx"
+            "mdx": "../content/component/box-toggle-button/style.mdx"
           }
         }
       }
@@ -108,11 +108,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/capsule-toggle-button/usage.mdx"
+            "mdx": "../content/component/capsule-toggle-button/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/capsule-toggle-button/style.mdx"
+            "mdx": "../content/component/capsule-toggle-button/style.mdx"
           }
         }
       }

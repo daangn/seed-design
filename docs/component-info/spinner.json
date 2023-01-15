@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/spinner/usage.mdx"
+            "mdx": "../content/component/spinner/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/spinner/style.mdx"
+            "mdx": "../content/component/spinner/style.mdx"
           }
         }
       }

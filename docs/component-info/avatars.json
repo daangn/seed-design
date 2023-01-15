@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/avatar/usage.mdx"
+            "mdx": "../content/component/avatar/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/avatar/style.mdx"
+            "mdx": "../content/component/avatar/style.mdx"
           }
         }
       }
@@ -52,11 +52,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/avatar-group/usage.mdx"
+            "mdx": "../content/component/avatar-group/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/avatar-group/style.mdx"
+            "mdx": "../content/component/avatar-group/style.mdx"
           }
         }
       }

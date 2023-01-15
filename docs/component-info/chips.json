@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           },
           "style": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           }
         }
       }
@@ -52,11 +52,11 @@
         "docs": {
           "usage": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           },
           "style": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           }
         }
       }
@@ -80,11 +80,11 @@
         "docs": {
           "usage": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           },
           "style": {
             "status": "todo",
-            "path": ""
+            "mdx": "../content/dummy.mdx"
           }
         }
       }

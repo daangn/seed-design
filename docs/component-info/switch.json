@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "in-progress",
-            "path": "../content/component/switch/usage.mdx"
+            "mdx": "../content/component/switch/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/switch/style.mdx"
+            "mdx": "../content/component/switch/style.mdx"
           }
         }
       }

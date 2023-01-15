@@ -24,11 +24,11 @@
         "docs": {
           "usage": {
             "status": "done",
-            "path": "../content/component/checkbox/usage.mdx"
+            "mdx": "../content/component/checkbox/usage.mdx"
           },
           "style": {
             "status": "done",
-            "path": "../content/component/checkbox/style.mdx"
+            "mdx": "../content/component/checkbox/style.mdx"
           }
         }
       }

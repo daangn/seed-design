@@ -99,7 +99,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
               docs {
                 usage {
                   status
-                  path {
+                  mdx {
                     childMdx {
                       ...Slug
                     }
@@ -183,8 +183,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
                 const name = item?.name;
                 const path =
-                  item?.platform?.docs?.usage?.path?.childMdx?.frontmatter
-                    ?.slug;
+                  item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
 
                 return (
                   <SidebarItem
@@ -202,7 +201,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           );
         }
 
-        if (!node?.items?.[0]?.platform?.docs?.usage?.path) {
+        if (!node?.items?.[0]?.platform?.docs?.usage?.mdx) {
           return (
             <SidebarItem
               key={`${node?.title!.replaceAll(" ", "-")}-component-todo`}
@@ -220,7 +219,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
         const title = node?.title;
         const slug =
-          node?.items?.[0]?.platform?.docs?.usage?.path?.childMdx?.frontmatter
+          node?.items?.[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
             ?.slug;
 
         return (
