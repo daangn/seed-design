@@ -20,6 +20,9 @@ jobs:
       with:
         node-version: 18.12.1
         cache: yarn
+    
+    - name: Install Dependencies
+      run: yarn install --immutable
 
     - name: component-info 폴더의 json 파일들을 검증해요.
       working-directory: ./docs
