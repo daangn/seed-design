@@ -2,10 +2,11 @@ on:
   push:
     branches:
       - '*'
+      - test/ci
     paths:
       - 'docs/component-info/**'
 
-name: Validate docs/component-info's json files
+name: Validate docs/component-info json files
 
 jobs:
   build:
