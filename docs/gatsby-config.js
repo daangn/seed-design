@@ -24,6 +24,10 @@ module.exports = {
     {
       resolve: "gatsby-plugin-seed-design",
     },
+    "gatsby-plugin-image",
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    "gatsby-plugin-mdx-frontmatter",
     {
       resolve: "gatsby-plugin-mdx",
       options: {
@@ -61,7 +65,6 @@ module.exports = {
         },
       },
     },
-    "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-transformer-json`,
     },
@@ -69,19 +72,16 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `content`,
-        path: path.resolve(__dirname, "./content"),
+        path: `${__dirname}/content`,
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `componentInfo`,
-        path: path.resolve(__dirname, "./component-info"),
+        path: `${__dirname}/component-info`,
       },
     },
-    "gatsby-plugin-image",
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
     {
       resolve: "gatsby-plugin-typegen",
       options: {
