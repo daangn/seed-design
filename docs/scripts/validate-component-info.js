@@ -52,6 +52,8 @@ const itemsSchema = {
               alias: { type: "string" },
               path: { type: "string" },
             },
+            required: ["status", "alias", "path"],
+            additionalProperties: false,
           },
           android: {
             type: "object",
@@ -59,6 +61,8 @@ const itemsSchema = {
               status: statusSchema,
               path: { type: "string" },
             },
+            required: ["status", "path"],
+            additionalProperties: false,
           },
           react: {
             type: "object",
@@ -66,6 +70,8 @@ const itemsSchema = {
               status: statusSchema,
               path: { type: "string" },
             },
+            required: ["status", "path"],
+            additionalProperties: false,
           },
           docs: {
             type: "object",
@@ -85,10 +91,16 @@ const itemsSchema = {
                 },
               },
             },
+            required: ["usage", "style"],
+            additionalProperties: false,
           },
         },
+        required: ["ios", "android", "react", "docs"],
+        additionalProperties: false,
       },
     },
+    required: ["name", "platform"],
+    additionalProperties: false,
   },
 };
 
