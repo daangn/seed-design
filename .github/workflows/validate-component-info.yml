@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - '*'
-      - test/ci
     paths:
       - 'docs/component-info/**'
 
