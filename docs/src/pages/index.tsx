@@ -102,7 +102,10 @@ export const Head: HeadFC<GatsbyTypes.MainPageQuery> = ({ data }) => {
     <>
       <title>Seed Design</title>
       <meta property="og:title" content="Seed Design" />
-      <meta property="description" content="당근마켓 디자인시스템입니다." />
+      <meta
+        property="description"
+        content="SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다."
+      />
       <meta
         property="og:image"
         content={getSrc(data.ogImage?.gatsbyImageData!)}
