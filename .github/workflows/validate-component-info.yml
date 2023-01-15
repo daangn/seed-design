@@ -2,8 +2,8 @@ on:
   push:
     branches:
       - '*'
-    # paths:
-      # - 'docs/component-info/**'
+    paths:
+      - 'docs/component-info/**'
 
 name: Validate docs/component-info's json files
 
