@@ -106,15 +106,24 @@ const componentInfoSchema = {
 // 검증
 const validate = ajv.compile(componentInfoSchema);
 
-componentInfos.forEach((componentInfo) => {
-  const valid = validate(componentInfo);
-  const fileName = `${componentInfo.title
-    .replaceAll(" ", "-")
-    .toLowerCase()}.json`;
-  if (!valid) {
-    console.log(`${fileName} is invalid`);
-    console.error(validate.errors);
-  } else {
-    console.log(`${fileName} is valid`);
-  }
-});
+function validateComponents() {
+  componentInfos.forEach((componentInfo) => {
+    const valid = validate(componentInfo);
+    const fileName = `${componentInfo.title
+      .replaceAll(" ", "-")
+      .toLowerCase()}.json`;
+    if (!valid) {
+      console.log(`${fileName} is invalid`);
+      console.error(validate.errors);
+      throw new Error("Invalid component-info");
+    } else {
+      console.log(`${fileName} is valid`);
+    }
+  });
+}
+
+try {
+  validateComponents();
+} catch (error) {
+  console.error(error);
+}
