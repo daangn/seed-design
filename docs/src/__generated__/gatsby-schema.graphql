@@ -313,25 +313,21 @@ input ComponentInfoJsonItemsSortInput {
 
 type ComponentInfoJsonPrimitive {
   mdx: File
-  path: File
   status: String
 }
 
 input ComponentInfoJsonPrimitiveFieldSelector {
   mdx: FileFieldSelector
-  path: FileFieldSelector
   status: FieldSelectorEnum
 }
 
 input ComponentInfoJsonPrimitiveFilterInput {
   mdx: FileFilterInput
-  path: FileFilterInput
   status: StringQueryOperatorInput
 }
 
 input ComponentInfoJsonPrimitiveSortInput {
   mdx: FileSortInput
-  path: FileSortInput
   status: SortOrderEnum
 }
 

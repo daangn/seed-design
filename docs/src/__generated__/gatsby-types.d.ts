@@ -345,25 +345,21 @@ type ComponentInfoJsonItemsSortInput = {
 
 type ComponentInfoJsonPrimitive = {
   readonly mdx: Maybe<File>;
-  readonly path: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
 type ComponentInfoJsonPrimitiveFieldSelector = {
   readonly mdx: InputMaybe<FileFieldSelector>;
-  readonly path: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
 type ComponentInfoJsonPrimitiveFilterInput = {
   readonly mdx: InputMaybe<FileFilterInput>;
-  readonly path: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
 type ComponentInfoJsonPrimitiveSortInput = {
   readonly mdx: InputMaybe<FileSortInput>;
-  readonly path: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
@@ -3146,7 +3142,7 @@ type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> } };
+type SidebarQuery = { readonly allComponentInfoJson: { readonly nodes: ReadonlyArray<{ readonly title: string | null, readonly primitive: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly items: ReadonlyArray<{ readonly name: string | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly path: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null> | null }> } };
 
 
 }

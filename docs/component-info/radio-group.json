@@ -2,7 +2,6 @@
   "title": "Radio Group",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/radio-group/primitive.mdx",
     "mdx": "../content/primitive/radio-group/primitive.mdx"
   },
   "items": [

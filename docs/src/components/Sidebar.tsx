@@ -87,7 +87,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           title
           primitive {
             status
-            path {
+            mdx {
               childMdx {
                 ...Slug
               }
@@ -244,7 +244,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         }
 
         const title = node.title!;
-        const slug = node?.primitive?.path?.childMdx?.frontmatter?.slug;
+        const slug = node?.primitive?.mdx?.childMdx?.frontmatter?.slug;
 
         return (
           <SidebarItem

@@ -2,7 +2,6 @@
   "title": "Text Field",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/text-field/primitive.mdx",
     "mdx": "../content/primitive/text-field/primitive.mdx"
   },
   "items": [

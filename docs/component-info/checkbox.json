@@ -2,7 +2,6 @@
   "title": "Checkbox",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/checkbox/primitive.mdx",
     "mdx": "../content/primitive/checkbox/primitive.mdx"
   },
   "items": [

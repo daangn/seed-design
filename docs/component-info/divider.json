@@ -2,7 +2,6 @@
   "title": "Divider",
   "primitive": {
     "status": "todo",
-    "path": "../content/dummy.mdx",
     "mdx": "../content/dummy.mdx"
   },
   "items": [
