@@ -2,7 +2,8 @@
   "title": "Tabs",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/tabs/primitive.mdx"
+    "path": "../content/primitive/tabs/primitive.mdx",
+    "mdx": "../content/primitive/tabs/primitive.mdx"
   },
   "items": [
     {

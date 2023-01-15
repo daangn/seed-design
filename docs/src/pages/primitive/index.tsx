@@ -16,7 +16,7 @@ export const query = graphql`
     allComponentInfoJson(filter: { primitive: { status: { eq: "done" } } }) {
       nodes {
         primitive {
-          path {
+          mdx {
             childMdx {
               ...ListPageMdxContent
             }
@@ -39,13 +39,13 @@ const Page = ({ data }: PageProps) => {
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
         {primitivies?.map((primitive) => {
           const title =
-            primitive?.primitive?.path?.childMdx?.frontmatter?.title!;
+            primitive?.primitive?.mdx?.childMdx?.frontmatter?.title!;
           const description =
-            primitive?.primitive?.path?.childMdx?.frontmatter?.description!;
+            primitive?.primitive?.mdx?.childMdx?.frontmatter?.description!;
           const thumbnail =
-            primitive?.primitive?.path?.childMdx?.frontmatter?.thumbnail
+            primitive?.primitive?.mdx?.childMdx?.frontmatter?.thumbnail
               ?.childImageSharp?.gatsbyImageData!;
-          const slug = primitive?.primitive?.path?.childMdx?.frontmatter?.slug!;
+          const slug = primitive?.primitive?.mdx?.childMdx?.frontmatter?.slug!;
 
           return (
             <Link key={slug} to={slug}>

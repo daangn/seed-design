@@ -2,7 +2,8 @@
   "title": "Snackbar",
   "primitive": {
     "status": "todo",
-    "path": "../content/dummy.mdx"
+    "path": "../content/dummy.mdx",
+    "mdx": "../content/dummy.mdx"
   },
   "items": [
     {

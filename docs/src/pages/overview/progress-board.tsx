@@ -28,7 +28,7 @@ export const query = graphql`
         title
         primitive {
           status
-          path {
+          mdx {
             childMdx {
               ...Slug
             }
@@ -195,7 +195,7 @@ const ComponentProgressBoardPage = ({
                         primitive={{
                           status: component.primitive
                             ?.status! as ComponentStatus,
-                          slug: component.primitive?.path?.childMdx?.frontmatter
+                          slug: component.primitive?.mdx?.childMdx?.frontmatter
                             ?.slug!,
                         }}
                         ios={{

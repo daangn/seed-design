@@ -2,7 +2,8 @@
   "title": "Avatar",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/avatar/primitive.mdx"
+    "path": "../content/primitive/avatar/primitive.mdx",
+    "mdx": "../content/primitive/avatar/primitive.mdx"
   },
   "items": [
     {

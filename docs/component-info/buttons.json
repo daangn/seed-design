@@ -2,7 +2,8 @@
   "title": "Button",
   "primitive": {
     "status": "done",
-    "path": "../content/primitive/button/primitive.mdx"
+    "path": "../content/primitive/button/primitive.mdx",
+    "mdx": "../content/primitive/button/primitive.mdx"
   },
   "items": [
     {
