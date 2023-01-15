@@ -28,7 +28,6 @@ jobs:
       working-directory: ./docs
       run: |
         yarn validate:component-info
-      if: failure()
 
     - name: Report success
       run: echo "Script ran successfully!"
