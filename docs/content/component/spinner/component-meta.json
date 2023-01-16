@@ -1,0 +1,30 @@
+{
+  "name": "Spinner",
+  "description": "작업의 진행 단계 결정 또는 완료 시점이 확정되지 않은 경우 사용할 수 있는 요소입니다.",
+  "thumbnail": "./thumbnail.png",
+  "platform": {
+    "ios": {
+      "status": "done",
+      "alias": "KarrotSpinner",
+      "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/KarrotSpinner/KarrotSpinner.swift"
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-spinner--docs"
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

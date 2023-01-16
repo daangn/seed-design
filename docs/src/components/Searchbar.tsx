@@ -22,7 +22,7 @@ const SearchCombobox = () => {
     inputValue,
   } = useCombobox({
     items,
-    itemToString: (item) => (item ? item.title : ""),
+    itemToString: (item) => (item ? item.name : ""),
     onSelectedItemChange({ selectedItem }) {
       if (!selectedItem) return;
       closeSearchbar();
@@ -76,9 +76,9 @@ const SearchCombobox = () => {
         })}
       >
         {items.map((item, index) => {
-          const { id, slug, title } = item;
+          const { id, slug, name } = item;
 
-          const titleHighlight = title.replace(
+          const titleHighlight = name.replace(
             new RegExp(inputValue, "gi"),
             (match) => `<span class=${style.listItemHighlight}>${match}</span>`,
           );

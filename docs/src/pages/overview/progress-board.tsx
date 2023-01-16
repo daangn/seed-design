@@ -23,48 +23,38 @@ export const query = graphql`
   }
 
   query ComponentProgressBoardPage {
-    allComponentInfoJson(sort: { title: ASC }) {
+    allAllComponentMetaJson(sort: { name: ASC }) {
       nodes {
-        title
-        primitive {
-          status
-          mdx {
-            childMdx {
-              ...Slug
-            }
+        name
+        description
+        platform {
+          android {
+            path
+            status
           }
-        }
-        items {
-          name
-          platform {
-            android {
-              path
+          ios {
+            alias
+            path
+            status
+          }
+          react {
+            path
+            status
+          }
+          docs {
+            style {
               status
-            }
-            ios {
-              alias
-              path
-              status
-            }
-            react {
-              path
-              status
-            }
-            docs {
-              style {
-                status
-                mdx {
-                  childMdx {
-                    ...Slug
-                  }
+              mdx {
+                childMdx {
+                  ...Slug
                 }
               }
-              usage {
-                status
-                mdx {
-                  childMdx {
-                    ...Slug
-                  }
+            }
+            usage {
+              status
+              mdx {
+                childMdx {
+                  ...Slug
                 }
               }
             }
@@ -91,7 +81,6 @@ type DocsData = {
 };
 interface RowProps {
   title: string;
-  primitive?: DocsData;
   ios?: PlatformData;
   android?: PlatformData;
   react?: PlatformData;
@@ -105,23 +94,11 @@ const status: Record<ComponentStatus, string> = {
   done: "✅",
 };
 
-const Row = ({
-  title,
-  primitive,
-  android,
-  ios,
-  react,
-  usage,
-  style,
-}: RowProps) => {
+const Row = ({ title, android, ios, react, usage, style }: RowProps) => {
   return (
     <TableRow>
       <TableData>
         <strong>{title}</strong>
-      </TableData>
-      <TableData>
-        <p>{status[primitive?.status!]}</p>
-        {primitive?.slug && <Link to={primitive.slug}>Link</Link>}
       </TableData>
       <TableData>
         <p>{status[usage?.status!]}</p>
@@ -165,7 +142,7 @@ const ComponentProgressBoardPage = ({
 }: {
   data: GatsbyTypes.ComponentProgressBoardPageQuery;
 }) => {
-  const components = data.allComponentInfoJson.nodes;
+  const componentNodes = data.allAllComponentMetaJson.nodes;
   return (
     <PageLayout>
       <motion.div {...fadeInFromBottom}>
@@ -174,9 +151,8 @@ const ComponentProgressBoardPage = ({
           <TableHead>
             <TableRow>
               <TableData>컴포넌트</TableData>
-              <TableData>Primitive</TableData>
-              <TableData>Style</TableData>
               <TableData>Usage</TableData>
+              <TableData>Style</TableData>
               <TableData>React</TableData>
               <TableData>IOS</TableData>
               <TableData>Android</TableData>
@@ -184,52 +160,37 @@ const ComponentProgressBoardPage = ({
           </TableHead>
 
           <TableBody>
-            {components?.map((component) => {
+            {componentNodes?.map((node) => {
               return (
-                <>
-                  {component.items?.map((item) => {
-                    return (
-                      <Row
-                        key={item?.name}
-                        title={item?.name!}
-                        primitive={{
-                          status: component.primitive
-                            ?.status! as ComponentStatus,
-                          slug: component.primitive?.mdx?.childMdx?.frontmatter
-                            ?.slug!,
-                        }}
-                        ios={{
-                          status: item?.platform?.ios
-                            ?.status! as ComponentStatus,
-                          alias: item?.platform?.ios?.alias!,
-                          path: item?.platform?.ios?.path!,
-                        }}
-                        android={{
-                          status: item?.platform?.android
-                            ?.status! as ComponentStatus,
-                          path: item?.platform?.android?.path!,
-                        }}
-                        react={{
-                          status: item?.platform?.react
-                            ?.status! as ComponentStatus,
-                          path: item?.platform?.react?.path!,
-                        }}
-                        usage={{
-                          status: item?.platform?.docs?.usage
-                            ?.status! as ComponentStatus,
-                          slug: item?.platform?.docs?.usage?.mdx?.childMdx
-                            ?.frontmatter?.slug!,
-                        }}
-                        style={{
-                          status: item?.platform?.docs?.style
-                            ?.status! as ComponentStatus,
-                          slug: item?.platform?.docs?.style?.mdx?.childMdx
-                            ?.frontmatter?.slug!,
-                        }}
-                      />
-                    );
-                  })}
-                </>
+                <Row
+                  key={node?.name}
+                  title={node?.name!}
+                  ios={{
+                    status: node?.platform?.ios?.status! as ComponentStatus,
+                    alias: node?.platform?.ios?.alias!,
+                    path: node?.platform?.ios?.path!,
+                  }}
+                  android={{
+                    status: node?.platform?.android?.status! as ComponentStatus,
+                    path: node?.platform?.android?.path!,
+                  }}
+                  react={{
+                    status: node?.platform?.react?.status! as ComponentStatus,
+                    path: node?.platform?.react?.path!,
+                  }}
+                  usage={{
+                    status: node?.platform?.docs?.usage
+                      ?.status! as ComponentStatus,
+                    slug: node?.platform?.docs?.usage?.mdx?.childMdx
+                      ?.frontmatter?.slug!,
+                  }}
+                  style={{
+                    status: node?.platform?.docs?.style
+                      ?.status! as ComponentStatus,
+                    slug: node?.platform?.docs?.style?.mdx?.childMdx
+                      ?.frontmatter?.slug!,
+                  }}
+                />
               );
             })}
           </TableBody>

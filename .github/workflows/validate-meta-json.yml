@@ -3,13 +3,14 @@ on:
     branches:
       - '*'
     paths:
-      - 'docs/component-info/**'
+      - 'docs/content/component/**.json'
+      - 'docs/content/primitive/**.json'
 
-name: Validate docs/component-info json files
+name: Validate meta json files
 
 jobs:
   build:
-    name: Validate docs/component-info's json files
+    name: Validate meta json files
     runs-on: ubuntu-latest
 
     steps:
@@ -23,10 +24,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --immutable
 
-    - name: component-info 폴더의 json 파일들을 검증해요.
+    - name: Validate meta json files
       working-directory: ./docs
       run: |
-        yarn validate:component-info
+        yarn validate:meta-json
 
     - name: Report success
       run: echo "Script ran successfully!"

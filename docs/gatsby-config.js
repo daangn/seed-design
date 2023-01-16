@@ -65,19 +65,25 @@ module.exports = {
     "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-transformer-json`,
+      options: {
+        typeName: ({ node }) => {
+          if (node.base === "component-meta.json") {
+            return "allComponentMetaJson";
+          }
+
+          if (node.base === "primitive-meta.json") {
+            return "allPrimitiveMetaJson";
+          }
+
+          return "Json";
+        },
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `content`,
         path: `${__dirname}/content`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `componentInfo`,
-        path: `${__dirname}/component-info`,
       },
     },
     {
@@ -131,26 +137,72 @@ module.exports = {
         },
         query: `
           {
-            allMdx {
+            allAllPrimitiveMetaJson {
               nodes {
                 id
-                frontmatter {
-                  title
-                  slug
+                name
+                primitive {
+                  childMdx {
+                    frontmatter {
+                      slug
+                    }
+                  }
+                }
+              }
+            }
+
+            allAllComponentMetaJson {
+              nodes {
+                id
+                name
+                platform {
+                  docs {
+                    style {
+                      mdx {
+                        childMdx {
+                          frontmatter {
+                            slug
+                          }
+                        }
+                      }
+                    }
+                    usage {
+                      mdx {
+                        childMdx {
+                          frontmatter {
+                            slug
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         `,
         ref: "id",
-        index: ["title", "slug"],
-        store: ["id", "slug", "title"],
-        normalizer: ({ data }) =>
-          data.allMdx.nodes.map((node) => ({
-            id: node.id,
-            slug: node.frontmatter.slug,
-            title: node.frontmatter.title,
-          })),
+        index: ["slug"],
+        store: ["id", "slug", "name"],
+        normalizer: ({ data }) => {
+          const componentMetas = data.allAllComponentMetaJson.nodes.map(
+            (node) => ({
+              id: node.id,
+              slug: node.platform.docs.style.mdx.childMdx.frontmatter.slug,
+              name: node.name,
+            }),
+          );
+
+          const primitiveMetas = data.allAllPrimitiveMetaJson.nodes.map(
+            (node) => ({
+              id: node.id,
+              slug: node.primitive.childMdx.frontmatter.slug,
+              name: node.name,
+            }),
+          );
+
+          return [...componentMetas, ...primitiveMetas];
+        },
       },
     },
     {

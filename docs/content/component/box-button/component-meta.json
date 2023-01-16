@@ -1,0 +1,31 @@
+{
+  "name": "Box Button",
+  "description": "버튼은 누르면 액션을 발생시킬 수 있는 요소입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/button/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "done",
+      "alias": "KarrotBoxButton",
+      "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/Button/KarrotBoxButton/KarrotBoxButton.swift"
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-boxbutton--docs"
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

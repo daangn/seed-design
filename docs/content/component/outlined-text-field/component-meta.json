@@ -1,0 +1,31 @@
+{
+  "name": "Outlined Text Field",
+  "description": "텍스트를 한 줄에 입력할 수 있는 폼 요소입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/text-field/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

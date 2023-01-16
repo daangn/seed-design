@@ -69,278 +69,6 @@ input BooleanQueryOperatorInput {
   nin: [Boolean]
 }
 
-type ComponentInfoJson implements Node {
-  children: [Node!]!
-  id: ID!
-  internal: Internal!
-  items: [ComponentInfoJsonItems]
-  parent: Node
-  primitive: ComponentInfoJsonPrimitive
-  title: String
-}
-
-type ComponentInfoJsonConnection {
-  distinct(field: ComponentInfoJsonFieldSelector!): [String!]!
-  edges: [ComponentInfoJsonEdge!]!
-  group(field: ComponentInfoJsonFieldSelector!, limit: Int, skip: Int): [ComponentInfoJsonGroupConnection!]!
-  max(field: ComponentInfoJsonFieldSelector!): Float
-  min(field: ComponentInfoJsonFieldSelector!): Float
-  nodes: [ComponentInfoJson!]!
-  pageInfo: PageInfo!
-  sum(field: ComponentInfoJsonFieldSelector!): Float
-  totalCount: Int!
-}
-
-type ComponentInfoJsonEdge {
-  next: ComponentInfoJson
-  node: ComponentInfoJson!
-  previous: ComponentInfoJson
-}
-
-input ComponentInfoJsonFieldSelector {
-  children: NodeFieldSelector
-  id: FieldSelectorEnum
-  internal: InternalFieldSelector
-  items: ComponentInfoJsonItemsFieldSelector
-  parent: NodeFieldSelector
-  primitive: ComponentInfoJsonPrimitiveFieldSelector
-  title: FieldSelectorEnum
-}
-
-input ComponentInfoJsonFilterInput {
-  children: NodeFilterListInput
-  id: StringQueryOperatorInput
-  internal: InternalFilterInput
-  items: ComponentInfoJsonItemsFilterListInput
-  parent: NodeFilterInput
-  primitive: ComponentInfoJsonPrimitiveFilterInput
-  title: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonFilterListInput {
-  elemMatch: ComponentInfoJsonFilterInput
-}
-
-type ComponentInfoJsonGroupConnection {
-  distinct(field: ComponentInfoJsonFieldSelector!): [String!]!
-  edges: [ComponentInfoJsonEdge!]!
-  field: String!
-  fieldValue: String
-  group(field: ComponentInfoJsonFieldSelector!, limit: Int, skip: Int): [ComponentInfoJsonGroupConnection!]!
-  max(field: ComponentInfoJsonFieldSelector!): Float
-  min(field: ComponentInfoJsonFieldSelector!): Float
-  nodes: [ComponentInfoJson!]!
-  pageInfo: PageInfo!
-  sum(field: ComponentInfoJsonFieldSelector!): Float
-  totalCount: Int!
-}
-
-type ComponentInfoJsonItems {
-  name: String
-  platform: ComponentInfoJsonItemsPlatform
-}
-
-input ComponentInfoJsonItemsFieldSelector {
-  name: FieldSelectorEnum
-  platform: ComponentInfoJsonItemsPlatformFieldSelector
-}
-
-input ComponentInfoJsonItemsFilterInput {
-  name: StringQueryOperatorInput
-  platform: ComponentInfoJsonItemsPlatformFilterInput
-}
-
-input ComponentInfoJsonItemsFilterListInput {
-  elemMatch: ComponentInfoJsonItemsFilterInput
-}
-
-type ComponentInfoJsonItemsPlatform {
-  android: ComponentInfoJsonItemsPlatformAndroid
-  docs: ComponentInfoJsonItemsPlatformDocs
-  ios: ComponentInfoJsonItemsPlatformIos
-  react: ComponentInfoJsonItemsPlatformReact
-}
-
-type ComponentInfoJsonItemsPlatformAndroid {
-  path: String
-  status: String
-}
-
-input ComponentInfoJsonItemsPlatformAndroidFieldSelector {
-  path: FieldSelectorEnum
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonItemsPlatformAndroidFilterInput {
-  path: StringQueryOperatorInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonItemsPlatformAndroidSortInput {
-  path: SortOrderEnum
-  status: SortOrderEnum
-}
-
-type ComponentInfoJsonItemsPlatformDocs {
-  style: ComponentInfoJsonItemsPlatformDocsStyle
-  usage: ComponentInfoJsonItemsPlatformDocsUsage
-}
-
-input ComponentInfoJsonItemsPlatformDocsFieldSelector {
-  style: ComponentInfoJsonItemsPlatformDocsStyleFieldSelector
-  usage: ComponentInfoJsonItemsPlatformDocsUsageFieldSelector
-}
-
-input ComponentInfoJsonItemsPlatformDocsFilterInput {
-  style: ComponentInfoJsonItemsPlatformDocsStyleFilterInput
-  usage: ComponentInfoJsonItemsPlatformDocsUsageFilterInput
-}
-
-input ComponentInfoJsonItemsPlatformDocsSortInput {
-  style: ComponentInfoJsonItemsPlatformDocsStyleSortInput
-  usage: ComponentInfoJsonItemsPlatformDocsUsageSortInput
-}
-
-type ComponentInfoJsonItemsPlatformDocsStyle {
-  mdx: File
-  status: String
-}
-
-input ComponentInfoJsonItemsPlatformDocsStyleFieldSelector {
-  mdx: FileFieldSelector
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonItemsPlatformDocsStyleFilterInput {
-  mdx: FileFilterInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonItemsPlatformDocsStyleSortInput {
-  mdx: FileSortInput
-  status: SortOrderEnum
-}
-
-type ComponentInfoJsonItemsPlatformDocsUsage {
-  mdx: File
-  status: String
-}
-
-input ComponentInfoJsonItemsPlatformDocsUsageFieldSelector {
-  mdx: FileFieldSelector
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonItemsPlatformDocsUsageFilterInput {
-  mdx: FileFilterInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonItemsPlatformDocsUsageSortInput {
-  mdx: FileSortInput
-  status: SortOrderEnum
-}
-
-input ComponentInfoJsonItemsPlatformFieldSelector {
-  android: ComponentInfoJsonItemsPlatformAndroidFieldSelector
-  docs: ComponentInfoJsonItemsPlatformDocsFieldSelector
-  ios: ComponentInfoJsonItemsPlatformIosFieldSelector
-  react: ComponentInfoJsonItemsPlatformReactFieldSelector
-}
-
-input ComponentInfoJsonItemsPlatformFilterInput {
-  android: ComponentInfoJsonItemsPlatformAndroidFilterInput
-  docs: ComponentInfoJsonItemsPlatformDocsFilterInput
-  ios: ComponentInfoJsonItemsPlatformIosFilterInput
-  react: ComponentInfoJsonItemsPlatformReactFilterInput
-}
-
-type ComponentInfoJsonItemsPlatformIos {
-  alias: String
-  path: String
-  status: String
-}
-
-input ComponentInfoJsonItemsPlatformIosFieldSelector {
-  alias: FieldSelectorEnum
-  path: FieldSelectorEnum
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonItemsPlatformIosFilterInput {
-  alias: StringQueryOperatorInput
-  path: StringQueryOperatorInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonItemsPlatformIosSortInput {
-  alias: SortOrderEnum
-  path: SortOrderEnum
-  status: SortOrderEnum
-}
-
-type ComponentInfoJsonItemsPlatformReact {
-  path: String
-  status: String
-}
-
-input ComponentInfoJsonItemsPlatformReactFieldSelector {
-  path: FieldSelectorEnum
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonItemsPlatformReactFilterInput {
-  path: StringQueryOperatorInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonItemsPlatformReactSortInput {
-  path: SortOrderEnum
-  status: SortOrderEnum
-}
-
-input ComponentInfoJsonItemsPlatformSortInput {
-  android: ComponentInfoJsonItemsPlatformAndroidSortInput
-  docs: ComponentInfoJsonItemsPlatformDocsSortInput
-  ios: ComponentInfoJsonItemsPlatformIosSortInput
-  react: ComponentInfoJsonItemsPlatformReactSortInput
-}
-
-input ComponentInfoJsonItemsSortInput {
-  name: SortOrderEnum
-  platform: ComponentInfoJsonItemsPlatformSortInput
-}
-
-type ComponentInfoJsonPrimitive {
-  mdx: File
-  status: String
-}
-
-input ComponentInfoJsonPrimitiveFieldSelector {
-  mdx: FileFieldSelector
-  status: FieldSelectorEnum
-}
-
-input ComponentInfoJsonPrimitiveFilterInput {
-  mdx: FileFilterInput
-  status: StringQueryOperatorInput
-}
-
-input ComponentInfoJsonPrimitiveSortInput {
-  mdx: FileSortInput
-  status: SortOrderEnum
-}
-
-input ComponentInfoJsonSortInput {
-  children: NodeSortInput
-  id: SortOrderEnum
-  internal: InternalSortInput
-  items: ComponentInfoJsonItemsSortInput
-  parent: NodeSortInput
-  primitive: ComponentInfoJsonPrimitiveSortInput
-  title: SortOrderEnum
-}
-
 """
 A date string, such as 2007-12-03, compliant with the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -741,9 +469,14 @@ type File implements Node {
   ): Date!
 
   """
-  Returns the first child node of type ComponentInfoJson or null if there are no children of given type on this node
+  Returns the first child node of type allComponentMetaJson or null if there are no children of given type on this node
   """
-  childComponentInfoJson: ComponentInfoJson
+  childAllComponentMetaJson: allComponentMetaJson
+
+  """
+  Returns the first child node of type allPrimitiveMetaJson or null if there are no children of given type on this node
+  """
+  childAllPrimitiveMetaJson: allPrimitiveMetaJson
 
   """
   Returns the first child node of type ImageSharp or null if there are no children of given type on this node
@@ -756,8 +489,11 @@ type File implements Node {
   childMdx: Mdx
   children: [Node!]!
 
-  """Returns all children nodes filtered by type ComponentInfoJson"""
-  childrenComponentInfoJson: [ComponentInfoJson]
+  """Returns all children nodes filtered by type allComponentMetaJson"""
+  childrenAllComponentMetaJson: [allComponentMetaJson]
+
+  """Returns all children nodes filtered by type allPrimitiveMetaJson"""
+  childrenAllPrimitiveMetaJson: [allPrimitiveMetaJson]
 
   """Returns all children nodes filtered by type ImageSharp"""
   childrenImageSharp: [ImageSharp]
@@ -872,11 +608,13 @@ input FileFieldSelector {
   blksize: FieldSelectorEnum
   blocks: FieldSelectorEnum
   changeTime: FieldSelectorEnum
-  childComponentInfoJson: ComponentInfoJsonFieldSelector
+  childAllComponentMetaJson: allComponentMetaJsonFieldSelector
+  childAllPrimitiveMetaJson: allPrimitiveMetaJsonFieldSelector
   childImageSharp: ImageSharpFieldSelector
   childMdx: MdxFieldSelector
   children: NodeFieldSelector
-  childrenComponentInfoJson: ComponentInfoJsonFieldSelector
+  childrenAllComponentMetaJson: allComponentMetaJsonFieldSelector
+  childrenAllPrimitiveMetaJson: allPrimitiveMetaJsonFieldSelector
   childrenImageSharp: ImageSharpFieldSelector
   childrenMdx: MdxFieldSelector
   ctime: FieldSelectorEnum
@@ -919,11 +657,13 @@ input FileFilterInput {
   blksize: IntQueryOperatorInput
   blocks: IntQueryOperatorInput
   changeTime: DateQueryOperatorInput
-  childComponentInfoJson: ComponentInfoJsonFilterInput
+  childAllComponentMetaJson: allComponentMetaJsonFilterInput
+  childAllPrimitiveMetaJson: allPrimitiveMetaJsonFilterInput
   childImageSharp: ImageSharpFilterInput
   childMdx: MdxFilterInput
   children: NodeFilterListInput
-  childrenComponentInfoJson: ComponentInfoJsonFilterListInput
+  childrenAllComponentMetaJson: allComponentMetaJsonFilterListInput
+  childrenAllPrimitiveMetaJson: allPrimitiveMetaJsonFilterListInput
   childrenImageSharp: ImageSharpFilterListInput
   childrenMdx: MdxFilterListInput
   ctime: DateQueryOperatorInput
@@ -980,11 +720,13 @@ input FileSortInput {
   blksize: SortOrderEnum
   blocks: SortOrderEnum
   changeTime: SortOrderEnum
-  childComponentInfoJson: ComponentInfoJsonSortInput
+  childAllComponentMetaJson: allComponentMetaJsonSortInput
+  childAllPrimitiveMetaJson: allPrimitiveMetaJsonSortInput
   childImageSharp: ImageSharpSortInput
   childMdx: MdxSortInput
   children: NodeSortInput
-  childrenComponentInfoJson: ComponentInfoJsonSortInput
+  childrenAllComponentMetaJson: allComponentMetaJsonSortInput
+  childrenAllPrimitiveMetaJson: allPrimitiveMetaJsonSortInput
   childrenImageSharp: ImageSharpSortInput
   childrenMdx: MdxSortInput
   ctime: SortOrderEnum
@@ -1718,31 +1460,19 @@ input MdxFilterListInput {
 }
 
 type MdxFrontmatter {
-  description: String
   slug: String
-  thumbnail: File
-  title: String
 }
 
 input MdxFrontmatterFieldSelector {
-  description: FieldSelectorEnum
   slug: FieldSelectorEnum
-  thumbnail: FileFieldSelector
-  title: FieldSelectorEnum
 }
 
 input MdxFrontmatterFilterInput {
-  description: StringQueryOperatorInput
   slug: StringQueryOperatorInput
-  thumbnail: FileFilterInput
-  title: StringQueryOperatorInput
 }
 
 input MdxFrontmatterSortInput {
-  description: SortOrderEnum
   slug: SortOrderEnum
-  thumbnail: FileSortInput
-  title: SortOrderEnum
 }
 
 type MdxGroupConnection {
@@ -1840,19 +1570,21 @@ enum PotraceTurnPolicy {
 }
 
 type Query {
-  allComponentInfoJson(filter: ComponentInfoJsonFilterInput, limit: Int, skip: Int, sort: [ComponentInfoJsonSortInput]): ComponentInfoJsonConnection!
+  allAllComponentMetaJson(filter: allComponentMetaJsonFilterInput, limit: Int, skip: Int, sort: [allComponentMetaJsonSortInput]): allComponentMetaJsonConnection!
+  allAllPrimitiveMetaJson(filter: allPrimitiveMetaJsonFilterInput, limit: Int, skip: Int, sort: [allPrimitiveMetaJsonSortInput]): allPrimitiveMetaJsonConnection!
+  allComponentMetaJson(children: NodeFilterListInput, description: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, platform: allComponentMetaJsonPlatformFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): allComponentMetaJson
   allDirectory(filter: DirectoryFilterInput, limit: Int, skip: Int, sort: [DirectorySortInput]): DirectoryConnection!
   allFile(filter: FileFilterInput, limit: Int, skip: Int, sort: [FileSortInput]): FileConnection!
   allImageSharp(filter: ImageSharpFilterInput, limit: Int, skip: Int, sort: [ImageSharpSortInput]): ImageSharpConnection!
   allLocalSearchPages(filter: LocalSearchPagesFilterInput, limit: Int, skip: Int, sort: [LocalSearchPagesSortInput]): LocalSearchPagesConnection!
   allMdx(filter: MdxFilterInput, limit: Int, skip: Int, sort: [MdxSortInput]): MdxConnection!
+  allPrimitiveMetaJson(children: NodeFilterListInput, description: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): allPrimitiveMetaJson
   allSite(filter: SiteFilterInput, limit: Int, skip: Int, sort: [SiteSortInput]): SiteConnection!
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, limit: Int, skip: Int, sort: [SiteBuildMetadataSortInput]): SiteBuildMetadataConnection!
   allSiteFunction(filter: SiteFunctionFilterInput, limit: Int, skip: Int, sort: [SiteFunctionSortInput]): SiteFunctionConnection!
   allSitePage(filter: SitePageFilterInput, limit: Int, skip: Int, sort: [SitePageSortInput]): SitePageConnection!
-  componentInfoJson(children: NodeFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, items: ComponentInfoJsonItemsFilterListInput, parent: NodeFilterInput, primitive: ComponentInfoJsonPrimitiveFilterInput, title: StringQueryOperatorInput): ComponentInfoJson
   directory(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, changeTime: DateQueryOperatorInput, children: NodeFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): Directory
-  file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childComponentInfoJson: ComponentInfoJsonFilterInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, children: NodeFilterListInput, childrenComponentInfoJson: ComponentInfoJsonFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
+  file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childAllComponentMetaJson: allComponentMetaJsonFilterInput, childAllPrimitiveMetaJson: allPrimitiveMetaJsonFilterInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, children: NodeFilterListInput, childrenAllComponentMetaJson: allComponentMetaJsonFilterListInput, childrenAllPrimitiveMetaJson: allPrimitiveMetaJsonFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
   imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: GatsbyImageDataQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp
   localSearchPages(children: NodeFilterListInput, engine: StringQueryOperatorInput, id: StringQueryOperatorInput, index: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, publicIndexURL: StringQueryOperatorInput, publicStoreURL: StringQueryOperatorInput, store: JSONQueryOperatorInput): LocalSearchPages
   mdx(body: StringQueryOperatorInput, children: NodeFilterListInput, excerpt: StringQueryOperatorInput, frontmatter: MdxFrontmatterFilterInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, tableOfContents: JSONQueryOperatorInput): Mdx
@@ -2311,4 +2043,320 @@ input TransformOptions {
 
 input WebPOptions {
   quality: Int
+}
+
+type allComponentMetaJson implements Node {
+  children: [Node!]!
+  description: String
+  id: ID!
+  internal: Internal!
+  name: String
+  parent: Node
+  platform: allComponentMetaJsonPlatform
+  primitive: File
+  thumbnail: File
+}
+
+type allComponentMetaJsonConnection {
+  distinct(field: allComponentMetaJsonFieldSelector!): [String!]!
+  edges: [allComponentMetaJsonEdge!]!
+  group(field: allComponentMetaJsonFieldSelector!, limit: Int, skip: Int): [allComponentMetaJsonGroupConnection!]!
+  max(field: allComponentMetaJsonFieldSelector!): Float
+  min(field: allComponentMetaJsonFieldSelector!): Float
+  nodes: [allComponentMetaJson!]!
+  pageInfo: PageInfo!
+  sum(field: allComponentMetaJsonFieldSelector!): Float
+  totalCount: Int!
+}
+
+type allComponentMetaJsonEdge {
+  next: allComponentMetaJson
+  node: allComponentMetaJson!
+  previous: allComponentMetaJson
+}
+
+input allComponentMetaJsonFieldSelector {
+  children: NodeFieldSelector
+  description: FieldSelectorEnum
+  id: FieldSelectorEnum
+  internal: InternalFieldSelector
+  name: FieldSelectorEnum
+  parent: NodeFieldSelector
+  platform: allComponentMetaJsonPlatformFieldSelector
+  primitive: FileFieldSelector
+  thumbnail: FileFieldSelector
+}
+
+input allComponentMetaJsonFilterInput {
+  children: NodeFilterListInput
+  description: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  internal: InternalFilterInput
+  name: StringQueryOperatorInput
+  parent: NodeFilterInput
+  platform: allComponentMetaJsonPlatformFilterInput
+  primitive: FileFilterInput
+  thumbnail: FileFilterInput
+}
+
+input allComponentMetaJsonFilterListInput {
+  elemMatch: allComponentMetaJsonFilterInput
+}
+
+type allComponentMetaJsonGroupConnection {
+  distinct(field: allComponentMetaJsonFieldSelector!): [String!]!
+  edges: [allComponentMetaJsonEdge!]!
+  field: String!
+  fieldValue: String
+  group(field: allComponentMetaJsonFieldSelector!, limit: Int, skip: Int): [allComponentMetaJsonGroupConnection!]!
+  max(field: allComponentMetaJsonFieldSelector!): Float
+  min(field: allComponentMetaJsonFieldSelector!): Float
+  nodes: [allComponentMetaJson!]!
+  pageInfo: PageInfo!
+  sum(field: allComponentMetaJsonFieldSelector!): Float
+  totalCount: Int!
+}
+
+type allComponentMetaJsonPlatform {
+  android: allComponentMetaJsonPlatformAndroid
+  docs: allComponentMetaJsonPlatformDocs
+  ios: allComponentMetaJsonPlatformIos
+  react: allComponentMetaJsonPlatformReact
+}
+
+type allComponentMetaJsonPlatformAndroid {
+  path: String
+  status: String
+}
+
+input allComponentMetaJsonPlatformAndroidFieldSelector {
+  path: FieldSelectorEnum
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformAndroidFilterInput {
+  path: StringQueryOperatorInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformAndroidSortInput {
+  path: SortOrderEnum
+  status: SortOrderEnum
+}
+
+type allComponentMetaJsonPlatformDocs {
+  style: allComponentMetaJsonPlatformDocsStyle
+  usage: allComponentMetaJsonPlatformDocsUsage
+}
+
+input allComponentMetaJsonPlatformDocsFieldSelector {
+  style: allComponentMetaJsonPlatformDocsStyleFieldSelector
+  usage: allComponentMetaJsonPlatformDocsUsageFieldSelector
+}
+
+input allComponentMetaJsonPlatformDocsFilterInput {
+  style: allComponentMetaJsonPlatformDocsStyleFilterInput
+  usage: allComponentMetaJsonPlatformDocsUsageFilterInput
+}
+
+input allComponentMetaJsonPlatformDocsSortInput {
+  style: allComponentMetaJsonPlatformDocsStyleSortInput
+  usage: allComponentMetaJsonPlatformDocsUsageSortInput
+}
+
+type allComponentMetaJsonPlatformDocsStyle {
+  mdx: File
+  status: String
+}
+
+input allComponentMetaJsonPlatformDocsStyleFieldSelector {
+  mdx: FileFieldSelector
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformDocsStyleFilterInput {
+  mdx: FileFilterInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformDocsStyleSortInput {
+  mdx: FileSortInput
+  status: SortOrderEnum
+}
+
+type allComponentMetaJsonPlatformDocsUsage {
+  mdx: File
+  status: String
+}
+
+input allComponentMetaJsonPlatformDocsUsageFieldSelector {
+  mdx: FileFieldSelector
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformDocsUsageFilterInput {
+  mdx: FileFilterInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformDocsUsageSortInput {
+  mdx: FileSortInput
+  status: SortOrderEnum
+}
+
+input allComponentMetaJsonPlatformFieldSelector {
+  android: allComponentMetaJsonPlatformAndroidFieldSelector
+  docs: allComponentMetaJsonPlatformDocsFieldSelector
+  ios: allComponentMetaJsonPlatformIosFieldSelector
+  react: allComponentMetaJsonPlatformReactFieldSelector
+}
+
+input allComponentMetaJsonPlatformFilterInput {
+  android: allComponentMetaJsonPlatformAndroidFilterInput
+  docs: allComponentMetaJsonPlatformDocsFilterInput
+  ios: allComponentMetaJsonPlatformIosFilterInput
+  react: allComponentMetaJsonPlatformReactFilterInput
+}
+
+type allComponentMetaJsonPlatformIos {
+  alias: String
+  path: String
+  status: String
+}
+
+input allComponentMetaJsonPlatformIosFieldSelector {
+  alias: FieldSelectorEnum
+  path: FieldSelectorEnum
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformIosFilterInput {
+  alias: StringQueryOperatorInput
+  path: StringQueryOperatorInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformIosSortInput {
+  alias: SortOrderEnum
+  path: SortOrderEnum
+  status: SortOrderEnum
+}
+
+type allComponentMetaJsonPlatformReact {
+  path: String
+  status: String
+}
+
+input allComponentMetaJsonPlatformReactFieldSelector {
+  path: FieldSelectorEnum
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformReactFilterInput {
+  path: StringQueryOperatorInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformReactSortInput {
+  path: SortOrderEnum
+  status: SortOrderEnum
+}
+
+input allComponentMetaJsonPlatformSortInput {
+  android: allComponentMetaJsonPlatformAndroidSortInput
+  docs: allComponentMetaJsonPlatformDocsSortInput
+  ios: allComponentMetaJsonPlatformIosSortInput
+  react: allComponentMetaJsonPlatformReactSortInput
+}
+
+input allComponentMetaJsonSortInput {
+  children: NodeSortInput
+  description: SortOrderEnum
+  id: SortOrderEnum
+  internal: InternalSortInput
+  name: SortOrderEnum
+  parent: NodeSortInput
+  platform: allComponentMetaJsonPlatformSortInput
+  primitive: FileSortInput
+  thumbnail: FileSortInput
+}
+
+type allPrimitiveMetaJson implements Node {
+  children: [Node!]!
+  description: String
+  id: ID!
+  internal: Internal!
+  name: String
+  parent: Node
+  primitive: File
+  thumbnail: File
+}
+
+type allPrimitiveMetaJsonConnection {
+  distinct(field: allPrimitiveMetaJsonFieldSelector!): [String!]!
+  edges: [allPrimitiveMetaJsonEdge!]!
+  group(field: allPrimitiveMetaJsonFieldSelector!, limit: Int, skip: Int): [allPrimitiveMetaJsonGroupConnection!]!
+  max(field: allPrimitiveMetaJsonFieldSelector!): Float
+  min(field: allPrimitiveMetaJsonFieldSelector!): Float
+  nodes: [allPrimitiveMetaJson!]!
+  pageInfo: PageInfo!
+  sum(field: allPrimitiveMetaJsonFieldSelector!): Float
+  totalCount: Int!
+}
+
+type allPrimitiveMetaJsonEdge {
+  next: allPrimitiveMetaJson
+  node: allPrimitiveMetaJson!
+  previous: allPrimitiveMetaJson
+}
+
+input allPrimitiveMetaJsonFieldSelector {
+  children: NodeFieldSelector
+  description: FieldSelectorEnum
+  id: FieldSelectorEnum
+  internal: InternalFieldSelector
+  name: FieldSelectorEnum
+  parent: NodeFieldSelector
+  primitive: FileFieldSelector
+  thumbnail: FileFieldSelector
+}
+
+input allPrimitiveMetaJsonFilterInput {
+  children: NodeFilterListInput
+  description: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  internal: InternalFilterInput
+  name: StringQueryOperatorInput
+  parent: NodeFilterInput
+  primitive: FileFilterInput
+  thumbnail: FileFilterInput
+}
+
+input allPrimitiveMetaJsonFilterListInput {
+  elemMatch: allPrimitiveMetaJsonFilterInput
+}
+
+type allPrimitiveMetaJsonGroupConnection {
+  distinct(field: allPrimitiveMetaJsonFieldSelector!): [String!]!
+  edges: [allPrimitiveMetaJsonEdge!]!
+  field: String!
+  fieldValue: String
+  group(field: allPrimitiveMetaJsonFieldSelector!, limit: Int, skip: Int): [allPrimitiveMetaJsonGroupConnection!]!
+  max(field: allPrimitiveMetaJsonFieldSelector!): Float
+  min(field: allPrimitiveMetaJsonFieldSelector!): Float
+  nodes: [allPrimitiveMetaJson!]!
+  pageInfo: PageInfo!
+  sum(field: allPrimitiveMetaJsonFieldSelector!): Float
+  totalCount: Int!
+}
+
+input allPrimitiveMetaJsonSortInput {
+  children: NodeSortInput
+  description: SortOrderEnum
+  id: SortOrderEnum
+  internal: InternalSortInput
+  name: SortOrderEnum
+  parent: NodeSortInput
+  primitive: FileSortInput
+  thumbnail: FileSortInput
 }

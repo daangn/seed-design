@@ -1,0 +1,6 @@
+{
+  "name": "Radio Group",
+  "description": "두 가지 이상의 옵션 중 하나의 옵션만을 선택할 수 있는 컨트롤입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "./primitive.mdx"
+}

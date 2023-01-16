@@ -1,0 +1,31 @@
+{
+  "name": "Checkbox",
+  "description": "최소 1가지 이상의 옵션을 선택 또는 해제할 수 있는 컨트롤입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/checkbox/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
+    },
+    "docs": {
+      "usage": {
+        "status": "done",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

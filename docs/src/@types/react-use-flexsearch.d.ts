@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 interface QueryResultItem {
   id: string;
-  title: string;
+  name: string;
   slug: string;
 }
 

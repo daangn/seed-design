@@ -75,36 +75,35 @@ const SidebarTitle = ({
 const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
-    fragment Slug on Mdx {
-      frontmatter {
-        slug
-      }
-    }
-
     query Sidebar {
-      allComponentInfoJson(sort: { title: ASC }) {
+      allAllComponentMetaJson(sort: { name: ASC }) {
         nodes {
-          title
-          primitive {
-            status
-            mdx {
-              childMdx {
-                ...Slug
-              }
-            }
-          }
-          items {
-            name
-            platform {
-              docs {
-                usage {
-                  status
-                  mdx {
-                    childMdx {
-                      ...Slug
+          name
+          platform {
+            docs {
+              usage {
+                status
+                mdx {
+                  childMdx {
+                    frontmatter {
+                      slug
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+
+      allAllPrimitiveMetaJson(sort: { name: ASC }) {
+        nodes {
+          name
+          description
+          primitive {
+            childMdx {
+              frontmatter {
+                slug
               }
             }
           }
@@ -114,13 +113,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   `);
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const componentData = data.allComponentInfoJson.nodes;
-  const primitiveData = componentData.map((component) => {
-    return {
-      title: component.title,
-      primitive: component.primitive,
-    };
-  });
+  const componentData = data.allAllComponentMetaJson.nodes;
+  const primitiveData = data.allAllPrimitiveMetaJson.nodes;
 
   return (
     <div className={style.sidebarItemContainer}>
@@ -159,78 +153,75 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarTitle title="component" onClick={closeSidebar} />
 
       {componentData!.map((node) => {
-        if (node?.items?.length! >= 2) {
-          return (
-            <div className={style.sidebarGroupContainer}>
-              <div className={style.sidebarGroupTitle}>{node.title}</div>
-              {node.items?.map((item) => {
-                if (item?.platform?.docs?.usage?.status! === "todo") {
-                  return (
-                    <SidebarItem
-                      key={`${item?.name!.replaceAll(
-                        " ",
-                        "-",
-                      )}-component-group-todo`}
-                      currentPath={currentPath}
-                      to={item?.name!}
-                      itemName={item?.name!}
-                      title="component"
-                      onClick={closeSidebar}
-                      status={item?.platform?.docs?.usage?.status!}
-                    />
-                  );
-                }
+        // if (node?.items?.length! >= 2) {
+        //   return (
+        //     <div className={style.sidebarGroupContainer}>
+        //       <div className={style.sidebarGroupTitle}>{node.title}</div>
+        //       {node.items?.map((item) => {
+        //         if (item?.platform?.docs?.usage?.status! === "todo") {
+        //           return (
+        //             <SidebarItem
+        //               key={`${item?.name!.replaceAll(
+        //                 " ",
+        //                 "-",
+        //               )}-component-group-todo`}
+        //               currentPath={currentPath}
+        //               to={item?.name!}
+        //               itemName={item?.name!}
+        //               title="component"
+        //               onClick={closeSidebar}
+        //               status={item?.platform?.docs?.usage?.status!}
+        //             />
+        //           );
+        //         }
 
-                const name = item?.name;
-                const path =
-                  item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
+        //         const name = item?.name;
+        //         const path =
+        //           item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
 
-                return (
-                  <SidebarItem
-                    key={path!}
-                    currentPath={currentPath}
-                    to={path!}
-                    itemName={name!}
-                    title="component"
-                    onClick={closeSidebar}
-                    status={item?.platform?.docs?.usage?.status! as Status}
-                  />
-                );
-              })}
-            </div>
-          );
-        }
+        //         return (
+        //           <SidebarItem
+        //             key={path!}
+        //             currentPath={currentPath}
+        //             to={path!}
+        //             itemName={name!}
+        //             title="component"
+        //             onClick={closeSidebar}
+        //             status={item?.platform?.docs?.usage?.status! as Status}
+        //           />
+        //         );
+        //       })}
+        //     </div>
+        //   );
+        // }
 
-        if (!node?.items?.[0]?.platform?.docs?.usage?.mdx) {
+        if (!node?.platform?.docs?.usage?.mdx) {
           return (
             <SidebarItem
-              key={`${node?.title!.replaceAll(" ", "-")}-component-todo`}
+              key={`${node?.name!.replaceAll(" ", "-")}-component-todo`}
               currentPath={currentPath}
-              to={node?.title!}
-              itemName={node?.title!}
+              to={node?.name!}
+              itemName={node?.name!}
               title="component"
               onClick={closeSidebar}
-              status={
-                node?.items?.[0]?.platform?.docs?.usage?.status! as Status
-              }
+              status={node?.platform?.docs?.usage?.status! as Status}
             />
           );
         }
 
-        const title = node?.title;
+        const name = node?.name;
         const slug =
-          node?.items?.[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
-            ?.slug;
+          node?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
 
         return (
           <SidebarItem
             key={slug!}
             currentPath={currentPath}
             to={slug!}
-            itemName={title!}
+            itemName={name!}
             title="component"
             onClick={closeSidebar}
-            status={node?.items?.[0]?.platform?.docs?.usage?.status! as Status}
+            status={node?.platform?.docs?.usage?.status! as Status}
           />
         );
       })}
@@ -238,19 +229,15 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarTitle title="primitive" onClick={closeSidebar} />
 
       {primitiveData!.map((node) => {
-        if (node?.primitive?.status === "todo") {
-          return null;
-        }
-
-        const title = node.title!;
-        const slug = node?.primitive?.mdx?.childMdx?.frontmatter?.slug;
+        const name = node.name!;
+        const slug = node?.primitive?.childMdx?.frontmatter?.slug;
 
         return (
           <SidebarItem
-            key={`${title!}-primitive-done-or-in-progress`}
+            key={`${name!}-primitive-done-or-in-progress`}
             currentPath={currentPath}
             to={slug!}
-            itemName={title!}
+            itemName={name!}
             title="primitive"
             onClick={closeSidebar}
           />
