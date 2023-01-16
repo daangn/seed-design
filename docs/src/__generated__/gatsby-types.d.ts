@@ -1501,31 +1501,19 @@ type MdxFilterListInput = {
 };
 
 type MdxFrontmatter = {
-  readonly description: Maybe<Scalars['String']>;
   readonly slug: Maybe<Scalars['String']>;
-  readonly thumbnail: Maybe<File>;
-  readonly title: Maybe<Scalars['String']>;
 };
 
 type MdxFrontmatterFieldSelector = {
-  readonly description: InputMaybe<FieldSelectorEnum>;
   readonly slug: InputMaybe<FieldSelectorEnum>;
-  readonly thumbnail: InputMaybe<FileFieldSelector>;
-  readonly title: InputMaybe<FieldSelectorEnum>;
 };
 
 type MdxFrontmatterFilterInput = {
-  readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly slug: InputMaybe<StringQueryOperatorInput>;
-  readonly thumbnail: InputMaybe<FileFilterInput>;
-  readonly title: InputMaybe<StringQueryOperatorInput>;
 };
 
 type MdxFrontmatterSortInput = {
-  readonly description: InputMaybe<SortOrderEnum>;
   readonly slug: InputMaybe<SortOrderEnum>;
-  readonly thumbnail: InputMaybe<FileSortInput>;
-  readonly title: InputMaybe<SortOrderEnum>;
 };
 
 type MdxGroupConnection = {

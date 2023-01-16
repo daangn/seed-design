@@ -1460,31 +1460,19 @@ input MdxFilterListInput {
 }
 
 type MdxFrontmatter {
-  description: String
   slug: String
-  thumbnail: File
-  title: String
 }
 
 input MdxFrontmatterFieldSelector {
-  description: FieldSelectorEnum
   slug: FieldSelectorEnum
-  thumbnail: FileFieldSelector
-  title: FieldSelectorEnum
 }
 
 input MdxFrontmatterFilterInput {
-  description: StringQueryOperatorInput
   slug: StringQueryOperatorInput
-  thumbnail: FileFilterInput
-  title: StringQueryOperatorInput
 }
 
 input MdxFrontmatterSortInput {
-  description: SortOrderEnum
   slug: SortOrderEnum
-  thumbnail: FileSortInput
-  title: SortOrderEnum
 }
 
 type MdxGroupConnection {
