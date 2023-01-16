@@ -1,8 +1,8 @@
 {
   "title": "Snackbar",
   "primitive": {
-    "status": "todo",
-    "mdx": "../content/dummy.mdx"
+    "status": "done",
+    "mdx": "../content/primitive/snackbar/primitive.mdx"
   },
   "items": [
     {
@@ -23,12 +23,12 @@
         },
         "docs": {
           "usage": {
-            "status": "todo",
-            "mdx": "../content/dummy.mdx"
+            "status": "in-progress",
+            "mdx": "../content/component/snackbar/usage.mdx"
           },
           "style": {
-            "status": "todo",
-            "mdx": "../content/dummy.mdx"
+            "status": "done",
+            "mdx": "../content/component/snackbar/style.mdx"
           }
         }
       }

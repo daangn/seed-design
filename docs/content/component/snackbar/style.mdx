@@ -1,0 +1,64 @@
+---
+slug: /component/snackbar/style
+title: Snackbar
+description: snackbar
+---
+
+## Anatomy
+
+![anatomy](./anatomy.png)
+
+1. Region - Primitive.Region
+2. Snackbar - Primitive.Snackbar
+3. Icon
+4. Message - Primitive.Title
+5. Action Button
+6. Action Label
+
+## Visual Options
+
+| Property     | Value                     | Description |
+| ------------ | ------------------------- | ----------- |
+| type         | default, success, warning |             |
+| message      | text                      |             |
+| action label | text                      |             |
+
+## 디자인 결정 (Color)
+
+| Part         | Attribute | Value                   |
+| ------------ | --------- | ----------------------- |
+| Snackbar     | Color     | $scale.color.gray-900   |
+| Message      | Color     | $scale.color.gray-00    |
+| Action Label | Color     | $semantic.color.primary |
+
+### Type=Success
+
+| Part | Attribute | Value                   |
+| ---- | --------- | ----------------------- |
+| Icon | Color     | $semantic.color.success |
+
+### Type=Warning
+
+| Part | Attribute | Value                |
+| ---- | --------- | -------------------- |
+| Icon | Color     | $scale.color.red-600 |
+
+## 디자인 결정 (Typography)
+
+| Part         | Attribute  | Value                                |
+| ------------ | ---------- | ------------------------------------ |
+| Message      | Typography | $semantic.typography.body-l2-regular |
+| Action Label | Color      | $semantic.typography.label3-bold     |
+
+## 디자인 결정 (Layout)
+
+| Part           | Attribute          | Value |
+| -------------- | ------------------ | ----- |
+| Snackbar       | Horizontal Padding | 16pt  |
+|                | Vertical Padding   | 12pt  |
+|                | Min Width          | 170pt |
+|                | Max Width          | 360pt |
+| Icon           | Size               | 22pt  |
+| Icon / Message | Spacing            | 8pt   |
+| Action Button  | Vertical Padding   | 2pt   |
+|                | Horizontal Padding | 6pt   |
