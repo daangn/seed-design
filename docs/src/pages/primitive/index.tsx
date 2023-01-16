@@ -13,12 +13,19 @@ interface PageProps {
 
 export const query = graphql`
   query PrimitiveListPage {
-    allComponentInfoJson(filter: { primitive: { status: { eq: "done" } } }) {
+    allAllPrimitiveMetaJson(sort: { name: ASC }) {
       nodes {
+        name
+        description
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData
+          }
+        }
         primitive {
-          mdx {
-            childMdx {
-              ...ListPageMdxContent
+          childMdx {
+            frontmatter {
+              slug
             }
           }
         }
@@ -28,7 +35,7 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const primitivies = data.allComponentInfoJson.nodes;
+  const primitivieNodes = data.allAllPrimitiveMetaJson.nodes;
 
   return (
     <PageLayout>
@@ -37,15 +44,11 @@ const Page = ({ data }: PageProps) => {
         컴포넌트의 시각적 정의를 제외한 본질적인 기능과 동작에 대한 정의
       </p>
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
-        {primitivies?.map((primitive) => {
-          const title =
-            primitive?.primitive?.mdx?.childMdx?.frontmatter?.title!;
-          const description =
-            primitive?.primitive?.mdx?.childMdx?.frontmatter?.description!;
-          const thumbnail =
-            primitive?.primitive?.mdx?.childMdx?.frontmatter?.thumbnail
-              ?.childImageSharp?.gatsbyImageData!;
-          const slug = primitive?.primitive?.mdx?.childMdx?.frontmatter?.slug!;
+        {primitivieNodes?.map((node) => {
+          const title = node.name!;
+          const description = node.description!;
+          const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
+          const slug = node.primitive?.childMdx?.frontmatter?.slug!;
 
           return (
             <Link key={slug} to={slug}>

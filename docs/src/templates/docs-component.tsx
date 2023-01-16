@@ -18,7 +18,7 @@ import * as style from "./docs-component.css";
 interface TemplatePostProps {
   children: React.ReactNode;
   pageContext: {
-    title: string;
+    name: string;
     description: string;
     slug: string;
     activeTab: string;
@@ -31,14 +31,14 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
   pageContext,
   children,
 }) => {
-  const { title, description, slug, tableOfContents } = pageContext;
+  const { name, description, slug, tableOfContents } = pageContext;
   return (
     <MDXProvider components={MdxComponents}>
       <main className={t.main}>
         <Header />
         <Sidebar />
         <article className={style.content}>
-          <h1 className={style.title}>{title}</h1>
+          <h1 className={style.title}>{name}</h1>
           <p className={style.titleDescription}>{description}</p>
 
           <div className={style.navContainer}>
@@ -68,11 +68,11 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
 export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
   pageContext,
 }) => {
-  const { title, description, ogImage } = pageContext;
+  const { name, description, ogImage } = pageContext;
   return (
     <>
-      <title>{title}</title>
-      <meta property="og:title" content={`Seed Design | ${title}`} />
+      <title>{name}</title>
+      <meta property="og:title" content={`Seed Design | ${name}`} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(ogImage)} />
     </>

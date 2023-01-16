@@ -24,8 +24,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     fragment MdxContent on Mdx {
       frontmatter {
         slug
-        description
-        title
       }
       id
       internal {
@@ -39,19 +37,40 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         gatsbyImageData(layout: FIXED)
       }
 
-      component: allMdx(
-        filter: { frontmatter: { slug: { regex: "/(?=.*/component)/" } } }
-      ) {
+      allAllPrimitiveMetaJson {
         nodes {
-          ...MdxContent
+          name
+          description
+          primitive {
+            childMdx {
+              ...MdxContent
+            }
+          }
         }
       }
 
-      primitive: allMdx(
-        filter: { frontmatter: { slug: { regex: "/(?=.*/primitive)/" } } }
-      ) {
+      allAllComponentMetaJson {
         nodes {
-          ...MdxContent
+          name
+          description
+          platform {
+            docs {
+              style {
+                mdx {
+                  childMdx {
+                    ...MdxContent
+                  }
+                }
+              }
+              usage {
+                mdx {
+                  childMdx {
+                    ...MdxContent
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -59,36 +78,63 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const ogImage = result.data.ogImage.gatsbyImageData;
 
-  const componentNodes = result.data.component.nodes;
-  const primitiveNodes = result.data.primitive.nodes;
+  const componentNodes = result.data.allAllComponentMetaJson.nodes;
+  const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
 
   componentNodes.forEach((component) => {
-    createPage({
-      path: component.frontmatter.slug,
-      component: `${ComponentDocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
-      context: {
-        id: component.id,
-        slug: component.frontmatter.slug,
-        title: component.frontmatter.title,
-        description: component.frontmatter.description,
-        tableOfContents: component.tableOfContents,
-        activeTab: component.frontmatter.slug,
-        ogImage,
-      },
-    });
+    const name = component.name;
+    const description = component.description;
+
+    if (component.platform.docs.style.mdx) {
+      createPage({
+        path: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
+        context: {
+          id: component.platform.docs.style.mdx.childMdx.id,
+          slug: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+          name,
+          description,
+          tableOfContents:
+            component.platform.docs.style.mdx.childMdx.tableOfContents,
+          activeTab:
+            component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+          ogImage,
+        },
+      });
+    }
+
+    if (component.platform.docs.usage.mdx) {
+      createPage({
+        path: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
+        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.usage.mdx.childMdx.internal.contentFilePath}`,
+        context: {
+          id: component.platform.docs.usage.mdx.childMdx.id,
+          slug: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
+          name,
+          description,
+          tableOfContents:
+            component.platform.docs.usage.mdx.childMdx.tableOfContents,
+          activeTab:
+            component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
+          ogImage,
+        },
+      });
+    }
   });
 
   primitiveNodes.forEach((component) => {
+    if (!component.primitive) return;
+
     createPage({
-      path: component.frontmatter.slug,
-      component: `${PrimitiveDocsTemplate}?__contentFilePath=${component.internal.contentFilePath}`,
+      path: component.primitive.childMdx.frontmatter.slug,
+      component: `${PrimitiveDocsTemplate}?__contentFilePath=${component.primitive.childMdx.internal.contentFilePath}`,
       context: {
-        id: component.id,
-        slug: component.frontmatter.slug,
-        title: component.frontmatter.title,
-        description: component.frontmatter.description,
-        tableOfContents: component.tableOfContents,
-        activeTab: component.frontmatter.slug,
+        id: component.primitive.childMdx.id,
+        slug: component.primitive.childMdx.frontmatter.slug,
+        name: component.name,
+        description: component.description,
+        tableOfContents: component.primitive.childMdx.tableOfContents,
+        activeTab: component.primitive.childMdx.frontmatter.slug,
         ogImage,
       },
     });

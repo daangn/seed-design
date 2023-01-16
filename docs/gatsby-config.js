@@ -65,19 +65,25 @@ module.exports = {
     "gatsby-plugin-mdx-frontmatter",
     {
       resolve: `gatsby-transformer-json`,
+      options: {
+        typeName: ({ node }) => {
+          if (node.base === "component-meta.json") {
+            return "allComponentMetaJson";
+          }
+
+          if (node.base === "primitive-meta.json") {
+            return "allPrimitiveMetaJson";
+          }
+
+          return "Json";
+        },
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `content`,
         path: `${__dirname}/content`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `componentInfo`,
-        path: `${__dirname}/component-info`,
       },
     },
     {

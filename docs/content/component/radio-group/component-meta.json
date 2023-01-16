@@ -1,0 +1,31 @@
+{
+  "name": "Radio Group",
+  "description": "두 가지 이상의 옵션 중 하나의 옵션만을 선택할 수 있는 컨트롤입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/text-field/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-radiogroup--docs"
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

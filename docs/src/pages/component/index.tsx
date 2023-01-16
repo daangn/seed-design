@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
@@ -14,16 +13,22 @@ interface PageProps {
 
 export const query = graphql`
   query ComponentListPage {
-    allComponentInfoJson {
+    allAllComponentMetaJson(sort: { name: ASC }) {
       nodes {
-        items {
-          name
-          platform {
-            docs {
-              usage {
-                mdx {
-                  childMdx {
-                    ...ListPageMdxContent
+        name
+        description
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData
+          }
+        }
+        platform {
+          docs {
+            usage {
+              mdx {
+                childMdx {
+                  frontmatter {
+                    slug
                   }
                 }
               }
@@ -32,17 +37,11 @@ export const query = graphql`
         }
       }
     }
-
-    comingSoonImage: imageSharp(
-      fluid: { originalName: { eq: "comingSoon.png" } }
-    ) {
-      gatsbyImageData
-    }
   }
 `;
 
 const Page = ({ data }: PageProps) => {
-  const docs = data.allComponentInfoJson.nodes;
+  const componentNodes = data.allAllComponentMetaJson.nodes;
 
   return (
     <PageLayout>
@@ -51,68 +50,30 @@ const Page = ({ data }: PageProps) => {
         컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
       </p>
       <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
-        {docs?.map((doc) => {
-          return doc?.items?.map((item) => {
-            if (
-              !item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug
-            ) {
-              return (
-                <motion.div className={listPageStyle.gridItem}>
-                  <div className={listPageStyle.gridItemImage}>
-                    <GatsbyImage
-                      draggable={false}
-                      image={data.comingSoonImage?.gatsbyImageData!}
-                      alt={item?.name!}
-                    />
-                  </div>
-                  <h2
-                    className={clsx(
-                      listPageStyle.gridItemTitle,
-                      listPageStyle.gridNotReadyText,
-                    )}
-                  >
-                    {item?.name!}
-                  </h2>
-                  <p
-                    className={clsx(
-                      listPageStyle.gridItemDescription,
-                      listPageStyle.gridNotReadyText,
-                    )}
-                  >
-                    준비중입니다.
-                  </p>
-                </motion.div>
-              );
-            }
+        {componentNodes?.map((node) => {
+          const description = node.description;
+          const title = node.name;
+          const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
+          const slug =
+            node.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!;
 
-            const description =
-              item.platform.docs.usage.mdx.childMdx?.frontmatter?.description!;
-            const title =
-              item.platform.docs.usage.mdx.childMdx?.frontmatter?.title!;
-            const thumbnail =
-              item.platform.docs.usage.mdx.childMdx?.frontmatter?.thumbnail
-                ?.childImageSharp?.gatsbyImageData!;
-            const slug =
-              item.platform.docs.usage.mdx.childMdx?.frontmatter?.slug!;
-
-            return (
-              <Link key={slug} to={slug}>
-                <motion.div {...elevateUp} className={listPageStyle.gridItem}>
-                  <div className={listPageStyle.gridItemImage}>
-                    <GatsbyImage
-                      draggable={false}
-                      image={thumbnail}
-                      alt={title}
-                    />
-                  </div>
-                  <h2 className={listPageStyle.gridItemTitle}>{title}</h2>
-                  <p className={listPageStyle.gridItemDescription}>
-                    {description}
-                  </p>
-                </motion.div>
-              </Link>
-            );
-          });
+          return (
+            <Link key={slug} to={slug}>
+              <motion.div {...elevateUp} className={listPageStyle.gridItem}>
+                <div className={listPageStyle.gridItemImage}>
+                  <GatsbyImage
+                    draggable={false}
+                    image={thumbnail}
+                    alt={title!}
+                  />
+                </div>
+                <h2 className={listPageStyle.gridItemTitle}>{title}</h2>
+                <p className={listPageStyle.gridItemDescription}>
+                  {description}
+                </p>
+              </motion.div>
+            </Link>
+          );
         })}
       </motion.div>
     </PageLayout>

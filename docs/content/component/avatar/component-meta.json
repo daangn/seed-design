@@ -1,0 +1,31 @@
+{
+  "name": "Avatar",
+  "description": "프로필 사진 또는 대체 이미지를 통해 사용자를 표현합니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/avatar/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-avatar--docs"
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

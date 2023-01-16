@@ -19,7 +19,7 @@
     "lint": "eslint . --ext .ts,.tsx,.json",
     "serve": "gatsby serve",
     "typecheck": "tsc --noEmit",
-    "validate:component-info": "node scripts/validate-component-info.js"
+    "validate:meta-json": "node scripts/validate-meta-json.js"
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "^0.0.0-20220907.1",

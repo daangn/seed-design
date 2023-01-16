@@ -1,0 +1,31 @@
+{
+  "name": "Multiline Text Field",
+  "description": "장문의 텍스트를 여러 줄에 걸쳐 입력할 수 있는 폼 요소입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/text-field/primitive.mdx",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}
