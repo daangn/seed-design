@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - '*'
+      - '**'
     paths:
       - 'docs/content/component/**/component-meta.json'
       - 'docs/content/primitive/**/primitive-meta.json'
