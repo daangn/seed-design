@@ -79,14 +79,13 @@ export const dontTitleText = style([
 export const doDontLayout = style([
   u.flexColumnCenter,
   {
-    padding: "20px",
-    paddingBottom: "40px",
     color: vars.$static.color.staticBlack,
     gap: "20px",
   },
 
   m.medium({
     flexDirection: "row",
+    alignItems: "flex-start",
   }),
 ]);
 
