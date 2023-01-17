@@ -2,7 +2,7 @@
   "name": "Avatar",
   "description": "프로필 사진 또는 대체 이미지를 통해 사용자를 표현합니다.",
   "thumbnail": "./thumbnail.png",
-  "primitive": "../../primitive/avatar/primitive.mdx",
+  "primitive": "../../primitive/avatar/primitive.md",
   "platform": {
     "ios": {
       "status": "todo",
