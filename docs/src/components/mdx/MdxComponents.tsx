@@ -1,4 +1,5 @@
 import * as card from "./Card";
+import * as DoDont from "./DoDont";
 import * as heading from "./Heading";
 import Keyboard from "./Keyboard";
 import * as list from "./List";
@@ -36,4 +37,14 @@ export default {
   HalfCardDescriptionCell: card.HalfCardDescriptionCell,
   HalfCardDescriptionTitle: card.HalfCardDescriptionTitle,
   HalfCardDescription: card.HalfCardDescription,
+
+  DoBox: DoDont.DoBox,
+  DoImage: DoDont.DoImage,
+  DoText: DoDont.DoText,
+
+  DontBox: DoDont.DontBox,
+  DontImage: DoDont.DontImage,
+  DontText: DoDont.DontText,
+
+  DoDontLayout: DoDont.DoDontLayout,
 };
