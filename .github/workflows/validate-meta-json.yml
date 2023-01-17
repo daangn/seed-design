@@ -3,8 +3,8 @@ on:
     branches:
       - '*'
     paths:
-      - 'docs/content/component/**.json'
-      - 'docs/content/primitive/**.json'
+      - 'docs/content/component/**/component-meta.json'
+      - 'docs/content/primitive/**/primitive-meta.json'
 
 name: Validate meta json files
 
