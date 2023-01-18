@@ -1,5 +1,11 @@
 # @seed-design/stylesheet
 
+## 1.0.3
+
+### Patch Changes
+
+- 19be06c: recover lost changes
+
 ## 1.0.2
 
 ### Patch Changes
