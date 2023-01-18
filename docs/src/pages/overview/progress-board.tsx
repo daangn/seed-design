@@ -155,113 +155,109 @@ const ComponentProgressBoardPage = ({
     return node?.platform?.ios?.status === "done";
   }).length;
 
-  console.log(specCount, webCount, iosCount, androidCount);
-
   return (
     <PageLayout>
       <motion.div {...fadeInFromBottom}>
         <h1 className={style.title}>컴포넌트 현황판</h1>
-        <p className={style.titleCaption}>전체 컴포넌트의 현황을 파악합니다</p>
-        <div className={style.contentWrapper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableData>컴포넌트</TableData>
-                <TableData>Usage</TableData>
-                <TableData>Style</TableData>
-                <TableData>React</TableData>
-                <TableData>IOS</TableData>
-                <TableData>Android</TableData>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {componentNodes?.map((node) => {
-                return (
-                  <Row
-                    key={node?.name}
-                    title={node?.name!}
-                    ios={{
-                      status: node?.platform?.ios?.status! as ComponentStatus,
-                      alias: node?.platform?.ios?.alias!,
-                      path: node?.platform?.ios?.path!,
-                    }}
-                    android={{
-                      status: node?.platform?.android
-                        ?.status! as ComponentStatus,
-                      path: node?.platform?.android?.path!,
-                    }}
-                    react={{
-                      status: node?.platform?.react?.status! as ComponentStatus,
-                      path: node?.platform?.react?.path!,
-                    }}
-                    usage={{
-                      status: node?.platform?.docs?.usage
-                        ?.status! as ComponentStatus,
-                      slug: node?.platform?.docs?.usage?.mdx?.childMdx
-                        ?.frontmatter?.slug!,
-                    }}
-                    style={{
-                      status: node?.platform?.docs?.style
-                        ?.status! as ComponentStatus,
-                      slug: node?.platform?.docs?.style?.mdx?.childMdx
-                        ?.frontmatter?.slug!,
-                    }}
-                  />
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-        <h1 className={style.title}>커버리지</h1>
-        <p className={style.titleCaption}>
+        <p className={style.caption}>전체 컴포넌트의 현황을 파악합니다</p>
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>컴포넌트</TableData>
+              <TableData>Usage</TableData>
+              <TableData>Style</TableData>
+              <TableData>React</TableData>
+              <TableData>IOS</TableData>
+              <TableData>Android</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {componentNodes?.map((node) => {
+              return (
+                <Row
+                  key={node?.name}
+                  title={node?.name!}
+                  ios={{
+                    status: node?.platform?.ios?.status! as ComponentStatus,
+                    alias: node?.platform?.ios?.alias!,
+                    path: node?.platform?.ios?.path!,
+                  }}
+                  android={{
+                    status: node?.platform?.android?.status! as ComponentStatus,
+                    path: node?.platform?.android?.path!,
+                  }}
+                  react={{
+                    status: node?.platform?.react?.status! as ComponentStatus,
+                    path: node?.platform?.react?.path!,
+                  }}
+                  usage={{
+                    status: node?.platform?.docs?.usage
+                      ?.status! as ComponentStatus,
+                    slug: node?.platform?.docs?.usage?.mdx?.childMdx
+                      ?.frontmatter?.slug!,
+                  }}
+                  style={{
+                    status: node?.platform?.docs?.style
+                      ?.status! as ComponentStatus,
+                    slug: node?.platform?.docs?.style?.mdx?.childMdx
+                      ?.frontmatter?.slug!,
+                  }}
+                />
+              );
+            })}
+          </TableBody>
+        </Table>
+
+        <h2 className={style.subTitle}>커버리지</h2>
+        <p className={style.caption}>
           선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
         </p>
-        <div className={style.contentWrapper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableData>Web (React)</TableData>
-                <TableData>iOS</TableData>
-                <TableData>Android</TableData>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableData>
-                  {Math.floor((webCount / specCount) * 1000) / 10}%
-                </TableData>
-                <TableData>
-                  {Math.floor((iosCount / specCount) * 1000) / 10}%
-                </TableData>
-                <TableData>
-                  {Math.floor((androidCount / specCount) * 1000) / 10}%
-                </TableData>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
-        <h1 className={style.title}>1Q OKR 달성률</h1>
-        <p className={style.titleCaption}>1분기 OKR의 달성률을 계산합니다</p>
-        <div className={style.contentWrapper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableData>전체</TableData>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableData>
-                  {Math.floor(
-                    ((webCount + iosCount + androidCount) / (specCount * 3)) *
-                      1000,
-                  ) / 10}
-                  %
-                </TableData>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>Web (React)</TableData>
+              <TableData>iOS</TableData>
+              <TableData>Android</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableData>
+                {Math.floor((webCount / specCount) * 1000) / 10}%
+              </TableData>
+              <TableData>
+                {Math.floor((iosCount / specCount) * 1000) / 10}%
+              </TableData>
+              <TableData>
+                {Math.floor((androidCount / specCount) * 1000) / 10}%
+              </TableData>
+            </TableRow>
+          </TableBody>
+        </Table>
+
+        <h2 className={style.subTitle}>1Q OKR 달성률</h2>
+        <p className={style.caption}>1분기 OKR의 달성률을 계산합니다</p>
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>전체</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableData>
+                {Math.floor(
+                  ((webCount + iosCount + androidCount) / (specCount * 3)) *
+                    1000,
+                ) / 10}
+                %
+              </TableData>
+            </TableRow>
+          </TableBody>
+        </Table>
       </motion.div>
     </PageLayout>
   );

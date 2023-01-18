@@ -4,20 +4,6 @@ import * as t from "../token.css";
 
 export const title = style([t.documentHeading1]);
 
-export const titleCaption = style([
-  t.documentCaption1,
-  {
-    marginBottom: "2rem",
-  },
-]);
+export const subTitle = style([t.documentHeading2]);
 
-export const contentWrapper = style({
-  marginBottom: "4rem",
-});
-
-export const percentage = style([
-  {
-    fontSize: "2rem",
-    lineHeight: "160%",
-  },
-]);
+export const caption = style([t.documentCaption1, {}]);
