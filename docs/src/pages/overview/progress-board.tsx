@@ -13,7 +13,7 @@ import {
 } from "../../components/mdx/Table";
 import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
-import * as style from "../../styles/page-styles/get-started.page.css";
+import * as style from "../../styles/page-styles/progress-board.page.css";
 
 export const query = graphql`
   fragment Slug on Mdx {
@@ -143,10 +143,24 @@ const ComponentProgressBoardPage = ({
   data: GatsbyTypes.ComponentProgressBoardPageQuery;
 }) => {
   const componentNodes = data.allAllComponentMetaJson.nodes;
+
+  const specCount = componentNodes.length;
+  const webCount = componentNodes.filter((node: any) => {
+    return node?.platform?.react?.status === "done";
+  }).length;
+  const iosCount = componentNodes.filter((node: any) => {
+    return node?.platform?.ios?.status === "done";
+  }).length;
+  const androidCount = componentNodes.filter((node: any) => {
+    return node?.platform?.ios?.status === "done";
+  }).length;
+
   return (
     <PageLayout>
       <motion.div {...fadeInFromBottom}>
         <h1 className={style.title}>컴포넌트 현황판</h1>
+        <p className={style.caption}>전체 컴포넌트의 현황을 파악합니다</p>
+
         <Table>
           <TableHead>
             <TableRow>
@@ -158,7 +172,6 @@ const ComponentProgressBoardPage = ({
               <TableData>Android</TableData>
             </TableRow>
           </TableHead>
-
           <TableBody>
             {componentNodes?.map((node) => {
               return (
@@ -193,6 +206,56 @@ const ComponentProgressBoardPage = ({
                 />
               );
             })}
+          </TableBody>
+        </Table>
+
+        <h2 className={style.subTitle}>커버리지</h2>
+        <p className={style.caption}>
+          선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
+        </p>
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>Web (React)</TableData>
+              <TableData>iOS</TableData>
+              <TableData>Android</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableData>
+                {Math.floor((webCount / specCount) * 1000) / 10}%
+              </TableData>
+              <TableData>
+                {Math.floor((iosCount / specCount) * 1000) / 10}%
+              </TableData>
+              <TableData>
+                {Math.floor((androidCount / specCount) * 1000) / 10}%
+              </TableData>
+            </TableRow>
+          </TableBody>
+        </Table>
+
+        <h2 className={style.subTitle}>1Q OKR 달성률</h2>
+        <p className={style.caption}>1분기 OKR의 달성률을 계산합니다</p>
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>전체</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableData>
+                {Math.floor(
+                  ((webCount + iosCount + androidCount) / (specCount * 3)) *
+                    1000,
+                ) / 10}
+                %
+              </TableData>
+            </TableRow>
           </TableBody>
         </Table>
       </motion.div>
