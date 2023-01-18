@@ -152,7 +152,7 @@ const ComponentProgressBoardPage = ({
     return node?.platform?.ios?.status === "done";
   }).length;
   const androidCount = componentNodes.filter((node: any) => {
-    return node?.platform?.ios?.status === "done";
+    return node?.platform?.android?.status === "done";
   }).length;
 
   return (
