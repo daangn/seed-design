@@ -2,7 +2,8 @@
   "name": "Underlined Text Field",
   "description": "텍스트를 한 줄에 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",
-  "primitive": "../../primitive/text-field/primitive.mdx",
+  "primitive": "../../primitive/text-field/primitive-meta.json",
+  "group": "Text Field",
   "platform": {
     "ios": {
       "status": "todo",

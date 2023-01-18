@@ -1572,7 +1572,7 @@ enum PotraceTurnPolicy {
 type Query {
   allAllComponentMetaJson(filter: allComponentMetaJsonFilterInput, limit: Int, skip: Int, sort: [allComponentMetaJsonSortInput]): allComponentMetaJsonConnection!
   allAllPrimitiveMetaJson(filter: allPrimitiveMetaJsonFilterInput, limit: Int, skip: Int, sort: [allPrimitiveMetaJsonSortInput]): allPrimitiveMetaJsonConnection!
-  allComponentMetaJson(children: NodeFilterListInput, description: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, platform: allComponentMetaJsonPlatformFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): allComponentMetaJson
+  allComponentMetaJson(children: NodeFilterListInput, description: StringQueryOperatorInput, group: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, platform: allComponentMetaJsonPlatformFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): allComponentMetaJson
   allDirectory(filter: DirectoryFilterInput, limit: Int, skip: Int, sort: [DirectorySortInput]): DirectoryConnection!
   allFile(filter: FileFilterInput, limit: Int, skip: Int, sort: [FileSortInput]): FileConnection!
   allImageSharp(filter: ImageSharpFilterInput, limit: Int, skip: Int, sort: [ImageSharpSortInput]): ImageSharpConnection!
@@ -2048,6 +2048,7 @@ input WebPOptions {
 type allComponentMetaJson implements Node {
   children: [Node!]!
   description: String
+  group: String
   id: ID!
   internal: Internal!
   name: String
@@ -2078,6 +2079,7 @@ type allComponentMetaJsonEdge {
 input allComponentMetaJsonFieldSelector {
   children: NodeFieldSelector
   description: FieldSelectorEnum
+  group: FieldSelectorEnum
   id: FieldSelectorEnum
   internal: InternalFieldSelector
   name: FieldSelectorEnum
@@ -2090,6 +2092,7 @@ input allComponentMetaJsonFieldSelector {
 input allComponentMetaJsonFilterInput {
   children: NodeFilterListInput
   description: StringQueryOperatorInput
+  group: StringQueryOperatorInput
   id: StringQueryOperatorInput
   internal: InternalFilterInput
   name: StringQueryOperatorInput
@@ -2272,6 +2275,7 @@ input allComponentMetaJsonPlatformSortInput {
 input allComponentMetaJsonSortInput {
   children: NodeSortInput
   description: SortOrderEnum
+  group: SortOrderEnum
   id: SortOrderEnum
   internal: InternalSortInput
   name: SortOrderEnum
