@@ -49,32 +49,32 @@ slug: /component/underlined-text-field/style
 | ----- | --------- | --------------------- |
 | Label | Color     | $scale.color.gray-700 |
 
-| State    | Part               | Attribute            | Value                  |
-| -------- | ------------------ | -------------------- | ---------------------- |
-| Enabled  | Field              | Bottom Outline Color | $scale.color.gray-200  |
-|          | Field(invalid)     | Bottom Outline Color | $semantic.color.danger |
-|          | Field text         | Color                | $scale.color.gray-900  |
-|          | Placeholder        | Color                | $scale.color.gray-600  |
-|          | Help text          | Color                | $scale.color.gray-600  |
-|          | Help text(invalid) | Color                | $semantic.color.danger |
-|          | Character Count    | Color                | $scale.color.gray-600  |
-| Focused  | Field              | Bottom Outline Color | $scale.color.gray-900  |
-|          | Field(invalid)     | Bottom Outline Color | $semantic.color.danger |
-|          | Field text         | Color                | $scale.color.gray-900  |
-|          | Placeholder        | Color                | $scale.color.gray-600  |
-|          | Help text          | Color                | $scale.color.gray-600  |
-|          | Help text(invalid) | Color                | $semantic.color.danger |
-|          | Character Count    | Color                | $scale.color.gray-600  |
-| Readonly | Field              | Bottom Outline Color | $scale.color.gray-400  |
-|          | Field text         | Color                | $scale.color.gray-900  |
-|          | Placeholder        | Color                | $scale.color.gray-600  |
-|          | Help text          | Color                | $scale.color.gray-600  |
-|          | Character Count    | Color                | $scale.color.gray-600  |
-| Disabled | Field              | Bottom Outline Color | $scale.color.gray-400  |
-|          | Field text         | Color                | $scale.color.gray-400  |
-|          | Placeholder        | Color                | $scale.color.gray-400  |
-|          | Help text          | Color                | $scale.color.gray-400  |
-|          | Character Count    | Color                | $scale.color.gray-400  |
+| State    | Part            | Attribute            | Value                  |
+| -------- | --------------- | -------------------- | ---------------------- |
+| Enabled  | Field           | Bottom Outline Color | $scale.color.gray-200  |
+|          | Field(invalid)  | Bottom Outline Color | $semantic.color.danger |
+|          | Field text      | Color                | $scale.color.gray-900  |
+|          | Placeholder     | Color                | $scale.color.gray-600  |
+|          | Description     | Color                | $scale.color.gray-600  |
+|          | Error Message   | Color                | $semantic.color.danger |
+|          | Character Count | Color                | $scale.color.gray-600  |
+| Focused  | Field           | Bottom Outline Color | $scale.color.gray-900  |
+|          | Field(invalid)  | Bottom Outline Color | $semantic.color.danger |
+|          | Field text      | Color                | $scale.color.gray-900  |
+|          | Placeholder     | Color                | $scale.color.gray-600  |
+|          | Description     | Color                | $scale.color.gray-600  |
+|          | Error Message   | Color                | $semantic.color.danger |
+|          | Character Count | Color                | $scale.color.gray-600  |
+| Readonly | Field           | Bottom Outline Color | $scale.color.gray-400  |
+|          | Field text      | Color                | $scale.color.gray-900  |
+|          | Placeholder     | Color                | $scale.color.gray-600  |
+|          | Description     | Color                | $scale.color.gray-600  |
+|          | Character Count | Color                | $scale.color.gray-600  |
+| Disabled | Field           | Bottom Outline Color | $scale.color.gray-400  |
+|          | Field text      | Color                | $scale.color.gray-400  |
+|          | Placeholder     | Color                | $scale.color.gray-400  |
+|          | Description     | Color                | $scale.color.gray-400  |
+|          | Character Count | Color                | $scale.color.gray-400  |
 
 ## 디자인 결정 (Typography)
 
@@ -82,7 +82,7 @@ slug: /component/underlined-text-field/style
 | ----------------------- | ---------- | ------------------------------------- |
 | Label                   | Typography | $semantic.typography.caption1-regular |
 | Field Text, Placeholder | Typography | $semantic.typography.label2-regular   |
-| Help Text               | Typography | $semantic.typography.label4-regular   |
+| Description             | Typography | $semantic.typography.label4-regular   |
 | Character Count         | Typography | $semantic.typography.caption2-regular |
 
 ## 디자인 결정 (Layout)
@@ -92,4 +92,4 @@ slug: /component/underlined-text-field/style
 | Field                      | Bottom Padding | 9pt   |
 | Label / Required Indicator | Spacing        | 2pt   |
 | Label / Field              | Spacing        | 8pt   |
-| Field / Help Text          | Spacing        | 6pt   |
+| Field / Description        | Spacing        | 6pt   |
