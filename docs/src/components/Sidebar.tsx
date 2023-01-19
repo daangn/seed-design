@@ -44,14 +44,14 @@ const SidebarItem = ({
       onMouseEnter={onMouseEnter}
       className={style.sidebarItemLink({ disable: status === "todo" })}
     >
-      <div
+      <li
         className={style.sidebarItem({
           disable: status === "todo",
           highlight: active,
         })}
       >
         <span>{itemName}</span>
-      </div>
+      </li>
     </Link>
   );
 };
@@ -67,9 +67,9 @@ const SidebarTitle = ({
   const restLetterTitle = title.slice(1);
   return (
     <Link to={`/${title}`} onClick={onClick}>
-      <h1 className={style.sidebarTitle1}>
+      <h2 className={style.sidebarTitle}>
         {firstLetterTitle + restLetterTitle}
-      </h1>
+      </h2>
     </Link>
   );
 };
@@ -162,8 +162,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       {Object.entries(groupedComponentData!).map(([key, value]) => {
         if (value?.length! >= 2) {
           return (
-            <div className={style.sidebarGroupContainer}>
-              <div className={style.sidebarGroupTitle}>{key}</div>
+            <ul className={style.sidebarGroupContainer}>
+              <h2 className={style.sidebarGroupTitle}>{key}</h2>
               {value?.map((item) => {
                 if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
@@ -194,7 +194,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                   />
                 );
               })}
-            </div>
+            </ul>
           );
         }
 
