@@ -311,9 +311,9 @@ export const Head: HeadFC<Queries.ComponentProgressBoardPageQuery> = ({
       <title>Overview - Component Progress Board</title>
       <meta
         property="og:title"
-        content={`Seed Design | Overview | Component Progress Board`}
+        content={`Component Progress Board | SEED Design`}
       />
-      <meta property="description" content="Component Progress Board." />
+      <meta property="description" content="Component Progress Board" />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>
   );

@@ -26,11 +26,8 @@ const GetStartedPage = () => {
 export const Head: HeadFC<Queries.GetStartedPageQuery> = ({ data }) => {
   return (
     <>
-      <title>Overview - Get Started</title>
-      <meta
-        property="og:title"
-        content={`Seed Design | Overview | Get Started`}
-      />
+      <title>Get Started | SEED Design</title>
+      <meta property="og:title" content={`Get Started | SEED Design`} />
       <meta property="description" content="시작하시죠." />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

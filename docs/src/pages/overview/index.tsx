@@ -32,7 +32,7 @@ export const Head: HeadFC<Queries.OverviewListPageQuery> = ({ data }) => {
   return (
     <>
       <title>Overview</title>
-      <meta property="og:title" content={`Seed Design | Overview`} />
+      <meta property="og:title" content={`Overview | SEED Design`} />
       <meta property="description" content="Overview." />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

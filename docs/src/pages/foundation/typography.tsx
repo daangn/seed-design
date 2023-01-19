@@ -631,11 +631,8 @@ export const Head: HeadFC<Queries.FoundationTypographyPageQuery> = ({
 }) => {
   return (
     <>
-      <title>Foundation - Typography</title>
-      <meta
-        property="og:title"
-        content={`Seed Design | Foundation | Typography`}
-      />
+      <title>Typography | SEED Design</title>
+      <meta property="og:title" content={`Typography | SEED Design`} />
       <meta property="description" content="Typography." />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

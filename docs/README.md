@@ -1,1 +1,1 @@
-# Seed Docs
+# SEED Design Docs
