@@ -4,8 +4,6 @@ const fs = require("fs");
 
 const ajv = new Ajv();
 
-console.log("test");
-
 function validateJsonInDir({ dir, validate, type }) {
   fs.readdir(dir, (err, files) => {
     if (err) {
