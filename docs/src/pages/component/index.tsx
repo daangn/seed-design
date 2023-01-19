@@ -1,9 +1,9 @@
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
-import PageLayout from "../../components/PageLayout";
 import { elevateUp, fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 
@@ -25,6 +25,7 @@ export const query = graphql`
         platform {
           docs {
             usage {
+              status
               mdx {
                 childMdx {
                   frontmatter {
@@ -44,7 +45,7 @@ const Page = ({ data }: PageProps) => {
   const componentNodes = data.allAllComponentMetaJson.nodes;
 
   return (
-    <PageLayout>
+    <article className={listPageStyle.content}>
       <h1 className={listPageStyle.title}>Component</h1>
       <p className={listPageStyle.caption1}>
         컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
@@ -56,6 +57,38 @@ const Page = ({ data }: PageProps) => {
           const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
           const slug =
             node.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!;
+          const isNotReadyUsagePage =
+            node.platform?.docs?.usage?.status === "todo";
+
+          if (isNotReadyUsagePage) {
+            return (
+              <div className={listPageStyle.gridItem}>
+                <div className={listPageStyle.gridItemImage}>
+                  <GatsbyImage
+                    draggable={false}
+                    image={thumbnail}
+                    alt={title!}
+                  />
+                </div>
+                <h2
+                  className={clsx(
+                    listPageStyle.gridNotReadyText,
+                    listPageStyle.gridItemTitle,
+                  )}
+                >
+                  {title}
+                </h2>
+                <p
+                  className={clsx(
+                    listPageStyle.gridNotReadyText,
+                    listPageStyle.gridItemDescription,
+                  )}
+                >
+                  {description}
+                </p>
+              </div>
+            );
+          }
 
           return (
             <Link key={slug} to={slug}>
@@ -76,7 +109,7 @@ const Page = ({ data }: PageProps) => {
           );
         })}
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

@@ -4,6 +4,7 @@ import { style } from "@vanilla-extract/css";
 import * as m from "../../styles/media.css";
 
 export const tableWrapper = style({
+  width: "100%",
   maxWidth: "100%",
   display: "inline-block",
   overflowX: "auto",
@@ -15,6 +16,7 @@ export const tableWrapper = style({
 export const table = style([
   {
     position: "relative",
+    width: "100%",
     maxWidth: "100%",
     display: "inline-block",
     borderCollapse: "collapse",

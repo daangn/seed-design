@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
+import type { PropsWithChildren } from "react";
 
 import {
   Table,
@@ -11,9 +11,9 @@ import {
   TableHead,
   TableRow,
 } from "../../components/mdx/Table";
-import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
-import * as style from "../../styles/page-styles/progress-board.page.css";
+import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
+import * as t from "../../styles/token.css";
 
 export const query = graphql`
   fragment Slug on Mdx {
@@ -88,10 +88,33 @@ interface RowProps {
   style?: DocsData;
 }
 
-const status: Record<ComponentStatus, string> = {
-  todo: "❌",
-  "in-progress": "🔨",
-  done: "✅",
+const TableDataWithStatus = ({
+  children,
+  status,
+}: PropsWithChildren<{ status: ComponentStatus }>) => {
+  switch (status) {
+    case "todo":
+      return (
+        <td className={progressStyle.tableDataTodo}>
+          <p className={progressStyle.tableDataTodoText}>TO DO</p>
+          {children}
+        </td>
+      );
+    case "in-progress":
+      return (
+        <td className={progressStyle.tableInProgDataress}>
+          <p className={progressStyle.tableDataInProgressText}>IN PROGRESS</p>
+          {children}
+        </td>
+      );
+    case "done":
+      return (
+        <td className={progressStyle.tableDataDone}>
+          <p className={progressStyle.tableDataDoneText}>DONE</p>
+          {children}
+        </td>
+      );
+  }
 };
 
 const Row = ({ title, android, ios, react, usage, style }: RowProps) => {
@@ -100,39 +123,53 @@ const Row = ({ title, android, ios, react, usage, style }: RowProps) => {
       <TableData>
         <strong>{title}</strong>
       </TableData>
-      <TableData>
-        <p>{status[usage?.status!]}</p>
-        {usage?.slug && <Link to={usage.slug}>Link</Link>}
-      </TableData>
-      <TableData>
-        <p>{status[style?.status!]}</p>
-        {style?.slug && <Link to={style.slug}>Link</Link>}
-      </TableData>
-      <TableData>
-        <p>{status[react?.status!]}</p>
+      <TableDataWithStatus status={usage?.status!}>
+        {usage?.slug && (
+          <Link className={progressStyle.linkText} to={usage.slug}>
+            {title}
+          </Link>
+        )}
+      </TableDataWithStatus>
+
+      <TableDataWithStatus status={style?.status!}>
+        {style?.slug && (
+          <Link className={progressStyle.linkText} to={style.slug}>
+            {title}
+          </Link>
+        )}
+      </TableDataWithStatus>
+
+      <TableDataWithStatus status={react?.status!}>
         {react?.path && (
-          <a href={react.path} target="_blank">
-            Link
+          <a
+            href={react.path}
+            className={progressStyle.linkText}
+            target="_blank"
+          >
+            {title}
           </a>
         )}
-      </TableData>
-      <TableData>
-        <p>{status[ios?.status!]}</p>
-        <p>{ios?.alias}</p>
+      </TableDataWithStatus>
+
+      <TableDataWithStatus status={ios?.status!}>
         {ios?.path && (
-          <a href={ios.path} target="_blank">
-            Link
+          <a href={ios.path} className={progressStyle.linkText} target="_blank">
+            {ios?.alias || title}
           </a>
         )}
-      </TableData>
-      <TableData>
-        <p>{status[android?.status!]}</p>
+      </TableDataWithStatus>
+
+      <TableDataWithStatus status={android?.status!}>
         {android?.path && (
-          <a href={android.path} target="_blank">
-            Link
+          <a
+            href={android.path}
+            className={progressStyle.linkText}
+            target="_blank"
+          >
+            {title}
           </a>
         )}
-      </TableData>
+      </TableDataWithStatus>
     </TableRow>
   );
 };
@@ -156,10 +193,12 @@ const ComponentProgressBoardPage = ({
   }).length;
 
   return (
-    <PageLayout>
+    <article className={t.content}>
       <motion.div {...fadeInFromBottom}>
-        <h1 className={style.title}>컴포넌트 현황판</h1>
-        <p className={style.caption}>전체 컴포넌트의 현황을 파악합니다</p>
+        <h1 className={progressStyle.title}>컴포넌트 현황판</h1>
+        <p className={progressStyle.caption}>
+          전체 컴포넌트의 현황을 파악합니다
+        </p>
 
         <Table>
           <TableHead>
@@ -209,8 +248,8 @@ const ComponentProgressBoardPage = ({
           </TableBody>
         </Table>
 
-        <h2 className={style.subTitle}>커버리지</h2>
-        <p className={style.caption}>
+        <h2 className={progressStyle.subTitle}>커버리지</h2>
+        <p className={progressStyle.caption}>
           선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
         </p>
 
@@ -237,8 +276,8 @@ const ComponentProgressBoardPage = ({
           </TableBody>
         </Table>
 
-        <h2 className={style.subTitle}>1Q OKR 달성률</h2>
-        <p className={style.caption}>1분기 OKR의 달성률을 계산합니다</p>
+        <h2 className={progressStyle.subTitle}>1Q OKR 달성률</h2>
+        <p className={progressStyle.caption}>1분기 OKR의 달성률을 계산합니다</p>
 
         <Table>
           <TableHead>
@@ -259,7 +298,7 @@ const ComponentProgressBoardPage = ({
           </TableBody>
         </Table>
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

@@ -68,7 +68,7 @@ export const sidebarItemContainer = style([
   }),
 ]);
 
-export const sidebarTitle1 = style([
+export const sidebarTitle = style([
   {
     fontSize: "24px",
     fontWeight: 700,
@@ -82,27 +82,11 @@ export const sidebarTitle1 = style([
   },
 ]);
 
-export const sidebarTitle2 = style([
-  {
-    fontSize: "20px",
-    fontWeight: 700,
-
-    width: `calc(${SIDEBAR_WIDTH} - 20px)`,
-    transition: "color 0.2s ease",
-    color: vars.$scale.color.gray900,
-    paddingLeft: "10px",
-    marginTop: "24px",
-    marginBottom: "4px",
-
-    ":hover": {
-      color: vars.$scale.color.gray600,
-    },
-  },
-]);
-
 export const sidebarGroupContainer = style({
   marginTop: "6px",
   marginBottom: "10px",
+
+  paddingInlineStart: "0px",
 });
 
 export const sidebarGroupTitle = style({
@@ -125,6 +109,8 @@ export const sidebarItem = recipe({
       paddingLeft: "10px",
       marginTop: "6px",
       borderRadius: "4px",
+
+      paddingInlineStart: "10px",
 
       ":hover": {
         backgroundColor: vars.$scale.color.grayAlpha50,

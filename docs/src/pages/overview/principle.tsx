@@ -16,11 +16,9 @@ export const query = graphql`
 
 const PrinciplePage = () => {
   return (
-    <main>
-      <motion.article className={style.content} {...fadeInFromBottom}>
-        <h1 className={style.title}>Principle</h1>
-      </motion.article>
-    </main>
+    <motion.article className={style.content} {...fadeInFromBottom}>
+      <h1 className={style.title}>Principle</h1>
+    </motion.article>
   );
 };
 

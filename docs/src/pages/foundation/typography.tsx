@@ -7,9 +7,9 @@ import { getSrc } from "gatsby-plugin-image";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 
-import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/page-styles/typography.page.css";
+import * as t from "../../styles/token.css";
 
 export const query = graphql`
   query FoundationTypographyPage {
@@ -255,7 +255,7 @@ const ScaleTypography = ({
 
 const FoundationTypographyPage = () => {
   return (
-    <PageLayout>
+    <article className={t.content}>
       <h1 className={style.heading1}>Semantic Typography Token</h1>
       <motion.div {...fadeInFromBottom}>
         <h2 className={style.heading2}>Heading</h2>
@@ -621,7 +621,7 @@ const FoundationTypographyPage = () => {
           );
         })}
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

@@ -2,7 +2,8 @@
   "name": "Capsule Toggle Button",
   "description": "사용자가 선택 여부를 켜거나 끌 수 있는 버튼 요소입니다.",
   "thumbnail": "./thumbnail.png",
-  "primitive": "../../primitive/button/primitive.mdx",
+  "primitive": "../../primitive/button/primitive-meta.json",
+  "group": "Button",
   "platform": {
     "ios": {
       "status": "done",

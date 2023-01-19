@@ -33,7 +33,6 @@ export const halfCard = style([
   u.flex,
   {
     flexDirection: "column",
-    justifyContent: "space-between",
     columnGap: "30px",
     margin: "20px 0px",
     borderRadius: "8px",
@@ -47,6 +46,7 @@ export const halfCard = style([
 
 export const halfCardImageCell = style([
   {
+    minHeight: "200px",
     minWidth: "100%",
     border: `1px solid ${vars.$scale.color.gray300}`,
     borderRadius: "8px",

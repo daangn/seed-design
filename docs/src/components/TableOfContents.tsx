@@ -50,8 +50,10 @@ const TableOfContentsItem: React.FC<{
 export default function TableOfContents({
   tableOfContents,
 }: {
-  tableOfContents: TableOfContentsType;
+  tableOfContents?: TableOfContentsType;
 }) {
+  if (!tableOfContents) return null;
+
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {

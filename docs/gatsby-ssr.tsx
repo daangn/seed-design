@@ -2,7 +2,8 @@ import "./src/styles/global.css";
 
 import type { GatsbySSR, WrapPageElementNodeArgs } from "gatsby";
 
-import Root from "./src/Root";
+import Layout from "./src/_Layout";
+import Root from "./src/_Root";
 
 const htmlAttributes: Record<string, string> = {
   lang: "ko",
@@ -14,6 +15,15 @@ export const onRenderBody: GatsbySSR["onRenderBody"] = ({
   setHtmlAttributes(htmlAttributes);
 };
 
-export const wrapPageElement = ({ element }: WrapPageElementNodeArgs) => {
-  return <Root>{element}</Root>;
+export const wrapPageElement = ({
+  element,
+  props,
+}: WrapPageElementNodeArgs) => {
+  const layoutType = props.location.pathname === "/" ? "main" : "document";
+
+  return (
+    <Root>
+      <Layout type={layoutType}>{element}</Layout>
+    </Root>
+  );
 };
