@@ -6,7 +6,7 @@ on:
       - 'docs/content/component/**/component-meta.json'
       - 'docs/content/primitive/**/primitive-meta.json'
 
-name: Validate meta json files
+name: Validate Seed Docs meta json files
 
 jobs:
   build:
