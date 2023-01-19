@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import groupby from "lodash/groupby";
+import groupby from "lodash/groupBy";
 import { memo } from "react";
 
 import { useSidebarState } from "../contexts/SidebarContext";
