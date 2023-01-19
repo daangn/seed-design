@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 const ajv = new Ajv();
+console.log("Validating primitive meta JSON files...");
 
 function validateJsonInDir({ dir, validate, type }) {
   fs.readdir(dir, (err, files) => {
