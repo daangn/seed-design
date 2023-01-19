@@ -7,7 +7,6 @@ interface DocumentEditLinkProps {
 }
 
 /**
- *
  * @param slug ex) /components/checkbox/primitive/
  */
 
