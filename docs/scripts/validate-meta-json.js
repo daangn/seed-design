@@ -2,6 +2,7 @@ const Ajv = require("ajv");
 const path = require("path");
 const fs = require("fs");
 
+console.log("test");
 const ajv = new Ajv();
 
 function validateJsonInDir({ dir, validate, type }) {
