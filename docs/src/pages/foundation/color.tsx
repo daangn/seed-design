@@ -65,7 +65,7 @@ export const Head: HeadFC<Queries.FoundationColorPageQuery> = ({ data }) => {
   return (
     <>
       <title>Foundation - Color</title>
-      <meta property="og:title" content={`Seed Design | Foundation | Color`} />
+      <meta property="og:title" content={`Color | SEED Design`} />
       <meta property="description" content="Color." />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

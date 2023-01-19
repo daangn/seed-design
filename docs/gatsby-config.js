@@ -1,6 +1,6 @@
 const SITE_METADATA = Object.freeze({
-  title: "Seed design system",
-  siteUrl: process.env.URL || "https://seed-design.pages.dev",
+  title: "SEED Design",
+  siteUrl: process.env.URL || "https://seed-design.io",
 });
 
 const wrapESMPlugin = (name) =>
