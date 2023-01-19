@@ -212,5 +212,22 @@ module.exports = {
         id: "portal",
       },
     },
+    {
+      resolve: "gatsby-plugin-favicons",
+      options: {
+        logo: "./src/favicon.png",
+        appName: "SEED Design",
+        background: "#fff",
+        icons: {
+          android: false,
+          appleIcon: false,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          yandex: false,
+          windows: false,
+        },
+      },
+    },
   ],
 };
