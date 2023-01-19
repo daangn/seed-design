@@ -20,11 +20,11 @@
     "docs": {
       "usage": {
         "status": "todo",
-        "mdx": ""
+        "mdx": "./usage.mdx"
       },
       "style": {
         "status": "todo",
-        "mdx": ""
+        "mdx": "./style.mdx"
       }
     }
   }
