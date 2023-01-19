@@ -3,7 +3,7 @@ import type { PropsWithChildren } from "react";
 
 import Header from "./components/Header";
 import MdxComponents from "./components/mdx/MdxComponents";
-import Sidebar from "./components/Sidebar";
+import Sidebar, { MobileSidebar } from "./components/Sidebar";
 import * as t from "./styles/token.css";
 
 interface LayoutProps {
@@ -27,6 +27,7 @@ const Layout = ({ children, type }: PropsWithChildren<LayoutProps>) => {
       return (
         <main className={t.main}>
           <Header />
+          <MobileSidebar />
           {children}
         </main>
       );

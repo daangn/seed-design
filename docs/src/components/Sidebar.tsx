@@ -234,41 +234,52 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   );
 };
 
-const Sidebar = () => {
+/* 모바일 사이드바 (0px ~ 1280px) */
+export const MobileSidebar = () => {
   const { open, closeSidebar } = useSidebarState();
+  return (
+    <Portal>
+      <AnimatePresence>
+        {open && (
+          <motion.div>
+            <motion.nav
+              className={style.sidebar}
+              initial={{ opacity: 0, x: -80 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, x: -80 }}
+            >
+              <SidebarItemContainer logo />
+            </motion.nav>
+            <motion.div
+              className={style.overlay}
+              onClick={closeSidebar}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0, y: -10 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Portal>
+  );
+};
 
+/* 페이지 고정 사이드바 (1280px ~) */
+export const DesktopSidebar = () => {
+  return (
+    <nav className={style.sidebarDesktop}>
+      <SidebarItemContainer />
+    </nav>
+  );
+};
+
+const Sidebar = () => {
   return (
     <>
-      <Portal>
-        <AnimatePresence>
-          {open && (
-            <motion.div>
-              <motion.nav
-                className={style.sidebar}
-                initial={{ opacity: 0, x: -80 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2 }}
-                exit={{ opacity: 0, x: -80 }}
-              >
-                <SidebarItemContainer logo />
-              </motion.nav>
-              <motion.div
-                className={style.overlay}
-                onClick={closeSidebar}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2 }}
-                exit={{ opacity: 0, y: -10 }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Portal>
-
-      {/* 페이지 고정 사이드바 */}
-      <nav className={style.sidebarDesktop}>
-        <SidebarItemContainer />
-      </nav>
+      <MobileSidebar />
+      <DesktopSidebar />
     </>
   );
 };
