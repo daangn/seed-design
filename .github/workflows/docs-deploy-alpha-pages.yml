@@ -44,7 +44,4 @@ jobs:
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          command: pages publish ./docs/public --project-name=seed-design --branch=preview
-
-      - name: Echo current branch name
-        run: echo ${{ env.GITHUB_REF#refs/heads/ }}
+          command: pages publish ./docs/public --project-name=seed-design --branch=${{ github.head_ref }}-preview
