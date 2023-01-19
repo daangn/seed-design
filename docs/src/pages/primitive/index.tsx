@@ -3,7 +3,6 @@ import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
-import PageLayout from "../../components/PageLayout";
 import { elevateUp, fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 
@@ -38,7 +37,7 @@ const Page = ({ data }: PageProps) => {
   const primitivieNodes = data.allAllPrimitiveMetaJson.nodes;
 
   return (
-    <PageLayout>
+    <article className={listPageStyle.content}>
       <h1 className={listPageStyle.title}>Primitive</h1>
       <p className={listPageStyle.caption1}>
         컴포넌트의 시각적 정의를 제외한 본질적인 기능과 동작에 대한 정의
@@ -69,7 +68,7 @@ const Page = ({ data }: PageProps) => {
           );
         })}
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

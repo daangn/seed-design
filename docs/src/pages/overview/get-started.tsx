@@ -16,11 +16,9 @@ export const query = graphql`
 
 const GetStartedPage = () => {
   return (
-    <main>
-      <motion.article className={style.content} {...fadeInFromBottom}>
-        <h1 className={style.title}>Get Started</h1>
-      </motion.article>
-    </main>
+    <motion.article className={style.content} {...fadeInFromBottom}>
+      <h1 className={style.title}>Get Started</h1>
+    </motion.article>
   );
 };
 

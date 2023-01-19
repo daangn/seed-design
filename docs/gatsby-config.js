@@ -188,7 +188,7 @@ module.exports = {
           const componentMetas = data.allAllComponentMetaJson.nodes.map(
             (node) => ({
               id: node.id,
-              slug: node.platform.docs.style.mdx.childMdx.frontmatter.slug,
+              slug: node.platform.docs.style.mdx?.childMdx.frontmatter.slug,
               name: node.name,
             }),
           );

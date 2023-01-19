@@ -3,7 +3,6 @@ import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 import * as t from "../../styles/token.css";
@@ -18,7 +17,7 @@ export const query = graphql`
 
 const FoundationListPage = () => {
   return (
-    <PageLayout>
+    <article className={listPageStyle.content}>
       <motion.div {...fadeInFromBottom}>
         <h1 className={listPageStyle.title}>Foundation</h1>
         <p className={listPageStyle.caption1}>
@@ -26,7 +25,7 @@ const FoundationListPage = () => {
         </p>
         <h2 className={t.documentHeading2}>준비중...</h2>
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

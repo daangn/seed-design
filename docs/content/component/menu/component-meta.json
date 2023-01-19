@@ -1,0 +1,30 @@
+{
+  "name": "Menu",
+  "description": "숫자를 한 줄에 입력할 수 있는 폼 요소입니다.",
+  "thumbnail": "../../comingSoon.png",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "usage": {
+        "status": "todo",
+        "mdx": ""
+      },
+      "style": {
+        "status": "todo",
+        "mdx": ""
+      }
+    }
+  }
+}

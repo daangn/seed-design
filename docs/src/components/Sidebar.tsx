@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
+import groupby from "lodash/groupby";
+import { memo } from "react";
 
 import { useSidebarState } from "../contexts/SidebarContext";
 import Logo from "./Logo";
@@ -79,6 +81,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       allAllComponentMetaJson(sort: { name: ASC }) {
         nodes {
           name
+          group
           platform {
             docs {
               usage {
@@ -116,6 +119,10 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const componentData = data.allAllComponentMetaJson.nodes;
   const primitiveData = data.allAllPrimitiveMetaJson.nodes;
 
+  const groupedComponentData = groupby(componentData, (data) =>
+    !data.group ? data.name : data.group,
+  );
+
   return (
     <div className={style.sidebarItemContainer}>
       {logo && (
@@ -152,76 +159,56 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
       <SidebarTitle title="component" onClick={closeSidebar} />
 
-      {componentData!.map((node) => {
-        // if (node?.items?.length! >= 2) {
-        //   return (
-        //     <div className={style.sidebarGroupContainer}>
-        //       <div className={style.sidebarGroupTitle}>{node.title}</div>
-        //       {node.items?.map((item) => {
-        //         if (item?.platform?.docs?.usage?.status! === "todo") {
-        //           return (
-        //             <SidebarItem
-        //               key={`${item?.name!.replaceAll(
-        //                 " ",
-        //                 "-",
-        //               )}-component-group-todo`}
-        //               currentPath={currentPath}
-        //               to={item?.name!}
-        //               itemName={item?.name!}
-        //               title="component"
-        //               onClick={closeSidebar}
-        //               status={item?.platform?.docs?.usage?.status!}
-        //             />
-        //           );
-        //         }
-
-        //         const name = item?.name;
-        //         const path =
-        //           item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
-
-        //         return (
-        //           <SidebarItem
-        //             key={path!}
-        //             currentPath={currentPath}
-        //             to={path!}
-        //             itemName={name!}
-        //             title="component"
-        //             onClick={closeSidebar}
-        //             status={item?.platform?.docs?.usage?.status! as Status}
-        //           />
-        //         );
-        //       })}
-        //     </div>
-        //   );
-        // }
-
-        if (!node?.platform?.docs?.usage?.mdx) {
+      {Object.entries(groupedComponentData!).map(([key, value]) => {
+        if (value?.length! >= 2) {
           return (
-            <SidebarItem
-              key={`${node?.name!.replaceAll(" ", "-")}-component-todo`}
-              currentPath={currentPath}
-              to={node?.name!}
-              itemName={node?.name!}
-              title="component"
-              onClick={closeSidebar}
-              status={node?.platform?.docs?.usage?.status! as Status}
-            />
+            <div className={style.sidebarGroupContainer}>
+              <div className={style.sidebarGroupTitle}>{key}</div>
+              {value?.map((item) => {
+                if (item?.platform?.docs?.usage?.status! === "todo") {
+                  return (
+                    <SidebarItem
+                      key={`${item?.name}-todo`}
+                      currentPath={currentPath}
+                      to={item?.name!}
+                      itemName={item?.name!}
+                      title="component"
+                      onClick={closeSidebar}
+                      status={item?.platform?.docs?.usage?.status!}
+                    />
+                  );
+                }
+
+                const name = item?.name;
+                const path =
+                  item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
+                return (
+                  <SidebarItem
+                    key={`${name}-done-or-wip`}
+                    currentPath={currentPath}
+                    to={path!}
+                    itemName={name!}
+                    title="component"
+                    onClick={closeSidebar}
+                    status={item?.platform?.docs?.usage?.status! as Status}
+                  />
+                );
+              })}
+            </div>
           );
         }
 
-        const name = node?.name;
-        const slug =
-          node?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
-
         return (
           <SidebarItem
-            key={slug!}
+            key={`${value[0]?.name}-only-one-component`}
             currentPath={currentPath}
-            to={slug!}
-            itemName={name!}
+            to={
+              value[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!
+            }
+            itemName={value[0]?.name!}
             title="component"
             onClick={closeSidebar}
-            status={node?.platform?.docs?.usage?.status! as Status}
+            status={value[0]?.platform?.docs?.usage?.status! as Status}
           />
         );
       })}
@@ -250,7 +237,6 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 const Sidebar = () => {
   const { open, closeSidebar } = useSidebarState();
 
-  // TODO: sidebar가 두 개 있어서 공통된 로직이 있을 듯
   return (
     <>
       <Portal>
@@ -287,4 +273,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

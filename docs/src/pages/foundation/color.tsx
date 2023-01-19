@@ -4,9 +4,9 @@ import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/page-styles/color.page.css";
+import * as t from "../../styles/token.css";
 
 export const query = graphql`
   query FoundationColorPage {
@@ -32,7 +32,7 @@ const ColorItem = ({ name, color }: { name: string; color: string }) => {
 
 const FoundationColorPage = () => {
   return (
-    <PageLayout>
+    <article className={t.content}>
       <h1 className={style.heading1}>Color</h1>
       <motion.div {...fadeInFromBottom}>
         <h2 className={style.heading2}>Scale Color</h2>
@@ -56,7 +56,7 @@ const FoundationColorPage = () => {
           ))}
         </ul>
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

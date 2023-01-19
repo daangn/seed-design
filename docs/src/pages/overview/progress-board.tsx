@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { Link } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
 import {
@@ -11,9 +10,9 @@ import {
   TableHead,
   TableRow,
 } from "../../components/mdx/Table";
-import PageLayout from "../../components/PageLayout";
 import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/page-styles/progress-board.page.css";
+import * as t from "../../styles/token.css";
 
 export const query = graphql`
   fragment Slug on Mdx {
@@ -156,7 +155,7 @@ const ComponentProgressBoardPage = ({
   }).length;
 
   return (
-    <PageLayout>
+    <article className={t.content}>
       <motion.div {...fadeInFromBottom}>
         <h1 className={style.title}>컴포넌트 현황판</h1>
         <p className={style.caption}>전체 컴포넌트의 현황을 파악합니다</p>
@@ -259,7 +258,7 @@ const ComponentProgressBoardPage = ({
           </TableBody>
         </Table>
       </motion.div>
-    </PageLayout>
+    </article>
   );
 };
 

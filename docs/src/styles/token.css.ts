@@ -22,7 +22,7 @@ export const content = style([
     maxWidth: "900px",
     minHeight: "calc(100vh)",
     width: "100%",
-    margin: "130px auto",
+    margin: "80px auto",
     padding: "0px 20px",
     wordBreak: "keep-all",
     overflowWrap: "break-word",
