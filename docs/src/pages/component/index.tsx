@@ -90,7 +90,7 @@ const Page = ({ data }: PageProps) => {
 
           return (
             <Link key={slug} to={slug}>
-              <div className={listPageStyle.gridItem}>
+              <div className={listPageStyle.activeGridItem}>
                 <div className={listPageStyle.gridItemImage}>
                   <GatsbyImage
                     draggable={false}

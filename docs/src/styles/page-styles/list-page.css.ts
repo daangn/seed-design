@@ -49,6 +49,17 @@ export const gridItem = style([
   },
 ]);
 
+export const activeGridItem = style([
+  gridItem,
+  {
+    transition: "transform 0.2s ease",
+
+    ":hover": {
+      transform: "translateY(-4px)",
+    },
+  },
+]);
+
 export const gridItemImage = style([
   {
     position: "relative",
