@@ -24,6 +24,7 @@ export const content = style([
     width: "100%",
     margin: "80px auto",
     padding: "0px 20px",
+
     wordBreak: "keep-all",
     overflowWrap: "break-word",
     lineHeight: "1.7",
@@ -32,6 +33,7 @@ export const content = style([
 
   m.medium({
     padding: "0px",
+    paddingLeft: "20px",
   }),
 
   m.large({
