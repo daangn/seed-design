@@ -2148,21 +2148,45 @@ input allComponentMetaJsonPlatformAndroidSortInput {
 }
 
 type allComponentMetaJsonPlatformDocs {
+  overview: allComponentMetaJsonPlatformDocsOverview
   style: allComponentMetaJsonPlatformDocsStyle
   usage: allComponentMetaJsonPlatformDocsUsage
 }
 
 input allComponentMetaJsonPlatformDocsFieldSelector {
+  overview: allComponentMetaJsonPlatformDocsOverviewFieldSelector
   style: allComponentMetaJsonPlatformDocsStyleFieldSelector
   usage: allComponentMetaJsonPlatformDocsUsageFieldSelector
 }
 
 input allComponentMetaJsonPlatformDocsFilterInput {
+  overview: allComponentMetaJsonPlatformDocsOverviewFilterInput
   style: allComponentMetaJsonPlatformDocsStyleFilterInput
   usage: allComponentMetaJsonPlatformDocsUsageFilterInput
 }
 
+type allComponentMetaJsonPlatformDocsOverview {
+  mdx: File
+  status: String
+}
+
+input allComponentMetaJsonPlatformDocsOverviewFieldSelector {
+  mdx: FileFieldSelector
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformDocsOverviewFilterInput {
+  mdx: FileFilterInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformDocsOverviewSortInput {
+  mdx: FileSortInput
+  status: SortOrderEnum
+}
+
 input allComponentMetaJsonPlatformDocsSortInput {
+  overview: allComponentMetaJsonPlatformDocsOverviewSortInput
   style: allComponentMetaJsonPlatformDocsStyleSortInput
   usage: allComponentMetaJsonPlatformDocsUsageSortInput
 }

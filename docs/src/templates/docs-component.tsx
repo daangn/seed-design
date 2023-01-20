@@ -25,6 +25,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
   children,
 }) => {
   const { name, description, slug, tableOfContents } = pageContext;
+
   return (
     <>
       <article className={style.content}>
@@ -34,13 +35,19 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
         <div className={style.navContainer}>
           <Link
             className={style.navLink({ active: slug.includes("usage") })}
-            to={slug.replace("style", "usage")}
+            to={`${slug.split("/").slice(0, -1).join("/")}/usage`}
           >
             Usage
           </Link>
           <Link
+            className={style.navLink({ active: slug.includes("overview") })}
+            to={`${slug.split("/").slice(0, -1).join("/")}/overview`}
+          >
+            Overview
+          </Link>
+          <Link
             className={style.navLink({ active: slug.includes("style") })}
-            to={slug.replace("usage", "style")}
+            to={`${slug.split("/").slice(0, -1).join("/")}/style`}
           >
             Style
           </Link>

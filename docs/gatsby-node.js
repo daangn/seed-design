@@ -55,7 +55,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           description
           platform {
             docs {
-              style {
+              overview {
                 mdx {
                   childMdx {
                     ...MdxContent
@@ -63,6 +63,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
                 }
               }
               usage {
+                mdx {
+                  childMdx {
+                    ...MdxContent
+                  }
+                }
+              }
+              style {
                 mdx {
                   childMdx {
                     ...MdxContent
@@ -85,19 +92,19 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     const name = component.name;
     const description = component.description;
 
-    if (component.platform.docs.style.mdx) {
+    if (component.platform.docs.overview?.mdx) {
       createPage({
-        path: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
+        path: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
+        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.overview.mdx.childMdx.internal.contentFilePath}`,
         context: {
-          id: component.platform.docs.style.mdx.childMdx.id,
-          slug: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+          id: component.platform.docs.overview.mdx.childMdx.id,
+          slug: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
           name,
           description,
           tableOfContents:
-            component.platform.docs.style.mdx.childMdx.tableOfContents,
+            component.platform.docs.overview.mdx.childMdx.tableOfContents,
           activeTab:
-            component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+            component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
           ogImage,
         },
       });
@@ -116,6 +123,24 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
             component.platform.docs.usage.mdx.childMdx.tableOfContents,
           activeTab:
             component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
+          ogImage,
+        },
+      });
+    }
+
+    if (component.platform.docs.style.mdx) {
+      createPage({
+        path: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
+        context: {
+          id: component.platform.docs.style.mdx.childMdx.id,
+          slug: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
+          name,
+          description,
+          tableOfContents:
+            component.platform.docs.style.mdx.childMdx.tableOfContents,
+          activeTab:
+            component.platform.docs.style.mdx.childMdx.frontmatter.slug,
           ogImage,
         },
       });

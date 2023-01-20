@@ -2946,21 +2946,45 @@ type allComponentMetaJsonPlatformAndroidSortInput = {
 };
 
 type allComponentMetaJsonPlatformDocs = {
+  readonly overview: Maybe<allComponentMetaJsonPlatformDocsOverview>;
   readonly style: Maybe<allComponentMetaJsonPlatformDocsStyle>;
   readonly usage: Maybe<allComponentMetaJsonPlatformDocsUsage>;
 };
 
 type allComponentMetaJsonPlatformDocsFieldSelector = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFieldSelector>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFieldSelector>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFieldSelector>;
 };
 
 type allComponentMetaJsonPlatformDocsFilterInput = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFilterInput>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFilterInput>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFilterInput>;
 };
 
+type allComponentMetaJsonPlatformDocsOverview = {
+  readonly mdx: Maybe<File>;
+  readonly status: Maybe<Scalars['String']>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewFieldSelector = {
+  readonly mdx: InputMaybe<FileFieldSelector>;
+  readonly status: InputMaybe<FieldSelectorEnum>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewFilterInput = {
+  readonly mdx: InputMaybe<FileFilterInput>;
+  readonly status: InputMaybe<StringQueryOperatorInput>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewSortInput = {
+  readonly mdx: InputMaybe<FileSortInput>;
+  readonly status: InputMaybe<SortOrderEnum>;
+};
+
 type allComponentMetaJsonPlatformDocsSortInput = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewSortInput>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleSortInput>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageSortInput>;
 };
