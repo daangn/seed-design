@@ -1,10 +1,8 @@
 import clsx from "clsx";
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
-import { elevateUp, fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 
 interface PageProps {
@@ -50,7 +48,7 @@ const Page = ({ data }: PageProps) => {
       <p className={listPageStyle.caption1}>
         컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
       </p>
-      <motion.div className={listPageStyle.grid} {...fadeInFromBottom}>
+      <div className={listPageStyle.grid}>
         {componentNodes?.map((node) => {
           const description = node.description;
           const title = node.name;
@@ -92,7 +90,7 @@ const Page = ({ data }: PageProps) => {
 
           return (
             <Link key={slug} to={slug}>
-              <motion.div {...elevateUp} className={listPageStyle.gridItem}>
+              <div className={listPageStyle.gridItem}>
                 <div className={listPageStyle.gridItemImage}>
                   <GatsbyImage
                     draggable={false}
@@ -104,11 +102,11 @@ const Page = ({ data }: PageProps) => {
                 <p className={listPageStyle.gridItemDescription}>
                   {description}
                 </p>
-              </motion.div>
+              </div>
             </Link>
           );
         })}
-      </motion.div>
+      </div>
     </article>
   );
 };

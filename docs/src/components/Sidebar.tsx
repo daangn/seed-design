@@ -1,8 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
 import type { GatsbyLinkProps } from "gatsby";
 import { graphql, Link, useStaticQuery } from "gatsby";
 import groupby from "lodash/groupBy";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { useSidebarState } from "../contexts/SidebarContext";
 import Logo from "./Logo";
@@ -237,31 +236,26 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 /* 모바일 사이드바 (0px ~ 1280px) */
 export const MobileSidebar = () => {
   const { open, closeSidebar } = useSidebarState();
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => setActive(true), 150);
+    } else {
+      setTimeout(() => setActive(false), 150);
+    }
+  }, [open]);
+
   return (
     <Portal>
-      <AnimatePresence>
-        {open && (
-          <motion.div>
-            <motion.nav
-              className={style.sidebar}
-              initial={{ opacity: 0, x: -80 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-              exit={{ opacity: 0, x: -80 }}
-            >
-              <SidebarItemContainer logo />
-            </motion.nav>
-            <motion.div
-              className={style.overlay}
-              onClick={closeSidebar}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              exit={{ opacity: 0, y: -10 }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {active && (
+        <div>
+          <nav className={style.sidebar({ open })}>
+            <SidebarItemContainer logo />
+          </nav>
+          <div className={style.overlay({ open })} onClick={closeSidebar} />
+        </div>
+      )}
     </Portal>
   );
 };

@@ -1,6 +1,5 @@
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import { useCombobox } from "downshift";
-import { AnimatePresence, motion } from "framer-motion";
 import { graphql, navigate, useStaticQuery } from "gatsby";
 import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -114,6 +113,7 @@ const SearchCombobox = () => {
 
 const Searchbar = () => {
   const { open, openSearchbar, closeSearchbar } = useSearchbarState();
+  const [active, setActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // TODO: custom keyboard hooks
@@ -136,6 +136,16 @@ const Searchbar = () => {
     return () => document.removeEventListener("keydown", callback);
   }, [open]);
 
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => setActive(true), 150);
+    }
+
+    if (!open) {
+      setTimeout(() => setActive(false), 150);
+    }
+  }, [open]);
+
   const handleContainerClick = (e: MouseEvent) => {
     if (containerRef.current !== e.target) {
       return;
@@ -146,21 +156,15 @@ const Searchbar = () => {
 
   return (
     <Portal>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.15 }}
-            exit={{ opacity: 0, y: -10 }}
-            ref={containerRef}
-            onClick={handleContainerClick}
-            className={style.container}
-          >
-            <SearchCombobox />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {active && (
+        <div
+          ref={containerRef}
+          onClick={handleContainerClick}
+          className={style.container({ open })}
+        >
+          <SearchCombobox />
+        </div>
+      )}
     </Portal>
   );
 };

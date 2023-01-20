@@ -1,10 +1,8 @@
 import { vars } from "@seed-design/design-token";
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import { fadeInFromBottom } from "../../framer-motions";
 import * as style from "../../styles/page-styles/color.page.css";
 import * as t from "../../styles/token.css";
 
@@ -34,28 +32,27 @@ const FoundationColorPage = () => {
   return (
     <article className={t.content}>
       <h1 className={style.heading1}>Color</h1>
-      <motion.div {...fadeInFromBottom}>
-        <h2 className={style.heading2}>Scale Color</h2>
-        <ul className={style.list}>
-          {Object.entries(vars.$scale.color).map(([name, color]) => (
-            <ColorItem key={name} name={name} color={color} />
-          ))}
-        </ul>
 
-        <h2 className={style.heading2}>Semantic Color</h2>
-        <ul className={style.list}>
-          {Object.entries(vars.$semantic.color).map(([name, color]) => (
-            <ColorItem key={name} name={name} color={color} />
-          ))}
-        </ul>
+      <h2 className={style.heading2}>Scale Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$scale.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
 
-        <h2 className={style.heading2}>Static Color</h2>
-        <ul className={style.list}>
-          {Object.entries(vars.$static.color).map(([name, color]) => (
-            <ColorItem key={name} name={name} color={color} />
-          ))}
-        </ul>
-      </motion.div>
+      <h2 className={style.heading2}>Semantic Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$semantic.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
+
+      <h2 className={style.heading2}>Static Color</h2>
+      <ul className={style.list}>
+        {Object.entries(vars.$static.color).map(([name, color]) => (
+          <ColorItem key={name} name={name} color={color} />
+        ))}
+      </ul>
     </article>
   );
 };

@@ -1,11 +1,9 @@
 import ForwardIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconForwardFill";
 import { vars } from "@seed-design/design-token";
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import { fadeInFromBottom } from "../framer-motions";
 import * as style from "../styles/page-styles/main.page.css";
 
 export const query = graphql`
@@ -18,7 +16,7 @@ export const query = graphql`
 
 const MainPage = () => {
   return (
-    <motion.article {...fadeInFromBottom} className={style.content}>
+    <article className={style.content}>
       <h1 className={style.title}>SEED Design</h1>
 
       <p className={style.description}>
@@ -31,17 +29,10 @@ const MainPage = () => {
       </p>
 
       <Link to="/component/">
-        <motion.button
-          whileHover={{
-            color: vars.$scale.color.gray00,
-            backgroundColor: vars.$scale.color.gray900,
-          }}
-          transition={{ duration: 0.2 }}
-          className={style.goDocsButton}
-        >
+        <button className={style.goDocsButton}>
           Document 보러가기
           <ForwardIcon width={28} />
-        </motion.button>
+        </button>
       </Link>
 
       <div className={style.cardList}>
@@ -85,7 +76,7 @@ const MainPage = () => {
           </article>
         </Link>
       </div>
-    </motion.article>
+    </article>
   );
 };
 

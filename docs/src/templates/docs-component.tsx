@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { Link } from "gatsby";
 import type { IGatsbyImageData } from "gatsby-plugin-image";
@@ -7,7 +6,6 @@ import { getSrc } from "gatsby-plugin-image";
 import EditLink from "../components/EditLink";
 import type { TableOfContentsType } from "../components/TableOfContents";
 import TableOfContents from "../components/TableOfContents";
-import { fadeInFromBottom } from "../framer-motions";
 import * as style from "./docs-component.css";
 
 interface TemplatePostProps {
@@ -47,7 +45,7 @@ const DocsTemplate: React.FC<TemplatePostProps> = ({
             Style
           </Link>
         </div>
-        <motion.div {...fadeInFromBottom}>{children}</motion.div>
+        <div>{children}</div>
         <EditLink slug={slug} />
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
