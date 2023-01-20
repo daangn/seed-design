@@ -4,6 +4,8 @@ const fs = require("fs");
 
 const ajv = new Ajv();
 
+console.log("Validating meta.json files");
+
 function validateJsonInDir({ dir, validate, type }) {
   fs.readdir(dir, (err, files) => {
     if (err) {
