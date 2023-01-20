@@ -276,22 +276,34 @@ const ComponentProgressBoardPage = ({
           </TableBody>
         </Table>
 
-        <h2 className={progressStyle.subTitle}>1Q OKR 달성률</h2>
-        <p className={progressStyle.caption}>1분기 OKR의 달성률을 계산합니다</p>
+        <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
+        <p className={progressStyle.caption}>OKR 달성률을 계산합니다</p>
 
         <Table>
           <TableHead>
             <TableRow>
-              <TableData>전체</TableData>
+              <TableData>1Q (50% 목표)</TableData>
+              <TableData>1-2Q (100% 목표)</TableData>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableData>
-                {Math.floor(
-                  ((webCount + iosCount + androidCount) / (specCount * 3)) *
-                    1000,
-                ) / 10}
+                {okr({
+                  webComponentCount: webCount,
+                  iosComponentCount: iosCount,
+                  androidComponentCount: androidCount,
+                  totalSpecCount: specCount,
+                }) * 2}
+                %
+              </TableData>
+              <TableData>
+                {okr({
+                  webComponentCount: webCount,
+                  iosComponentCount: iosCount,
+                  androidComponentCount: androidCount,
+                  totalSpecCount: specCount,
+                })}
                 %
               </TableData>
             </TableRow>
@@ -320,3 +332,19 @@ export const Head: HeadFC<Queries.ComponentProgressBoardPageQuery> = ({
 };
 
 export default ComponentProgressBoardPage;
+
+const okr = ({
+  webComponentCount,
+  iosComponentCount,
+  totalSpecCount,
+}: {
+  webComponentCount: number;
+  iosComponentCount: number;
+  androidComponentCount: number;
+  totalSpecCount: number;
+}) => {
+  const webCoverage = Math.max(webComponentCount / totalSpecCount);
+  const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
+
+  return Math.floor(((webCoverage + iosCoverage) / 2) * 1000) / 100;
+};
