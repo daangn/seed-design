@@ -1,22 +1,50 @@
 import { vars } from "@seed-design/design-token";
-import { style } from "@vanilla-extract/css";
+import { keyframes, style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
-export const container = style([
-  u.fullScreen,
-  u.modalLayer,
-  {
-    position: "fixed",
-    top: 0,
-    left: 0,
-
-    backgroundColor: vars.$semantic.color.overlayDim,
-    backdropFilter: "blur(2px)",
+const fadeIn = keyframes({
+  "0%": {
+    opacity: 0,
+    transform: "translateY(-10px)",
   },
-]);
+  "100%": {
+    opacity: 1,
+    transform: "translateY(0)",
+  },
+});
+
+export const container = recipe({
+  base: [
+    u.fullScreen,
+    u.modalLayer,
+    {
+      position: "fixed",
+      top: 0,
+      left: 0,
+
+      animation: `${fadeIn} 0.15s ease`,
+      transition: "opacity 0.15s ease, transform 0.15s ease",
+      backgroundColor: vars.$semantic.color.overlayDim,
+      backdropFilter: "blur(2px)",
+    },
+  ],
+
+  variants: {
+    open: {
+      true: {
+        opacity: 1,
+        transform: "translateY(0px)",
+      },
+      false: {
+        opacity: 0,
+        transform: "translateY(-10px)",
+      },
+    },
+  },
+});
 
 export const content = style([
   u.flexColumnCenter,

@@ -1,9 +1,7 @@
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
-import { fadeInFromBottom } from "../../framer-motions";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 import * as t from "../../styles/token.css";
 
@@ -18,11 +16,9 @@ export const query = graphql`
 const OverviewListPage = () => {
   return (
     <article className={t.content}>
-      <motion.div {...fadeInFromBottom}>
-        <h1 className={listPageStyle.title}>Overview</h1>
-        <p className={listPageStyle.caption1}>overviews</p>
-        <h2 className={t.documentHeading2}>준비중...</h2>
-      </motion.div>
+      <h1 className={listPageStyle.title}>Overview</h1>
+      <p className={listPageStyle.caption1}>overviews</p>
+      <h2 className={t.documentHeading2}>준비중...</h2>
     </article>
   );
 };

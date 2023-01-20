@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
@@ -11,7 +10,6 @@ import {
   TableHead,
   TableRow,
 } from "../../components/mdx/Table";
-import { fadeInFromBottom } from "../../framer-motions";
 import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
 import * as t from "../../styles/token.css";
 
@@ -194,122 +192,118 @@ const ComponentProgressBoardPage = ({
 
   return (
     <article className={t.content}>
-      <motion.div {...fadeInFromBottom}>
-        <h1 className={progressStyle.title}>컴포넌트 현황판</h1>
-        <p className={progressStyle.caption}>
-          전체 컴포넌트의 현황을 파악합니다
-        </p>
+      <h1 className={progressStyle.title}>컴포넌트 현황판</h1>
+      <p className={progressStyle.caption}>전체 컴포넌트의 현황을 파악합니다</p>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableData>컴포넌트</TableData>
-              <TableData>Usage</TableData>
-              <TableData>Style</TableData>
-              <TableData>React</TableData>
-              <TableData>IOS</TableData>
-              <TableData>Android</TableData>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {componentNodes?.map((node) => {
-              return (
-                <Row
-                  key={node?.name}
-                  title={node?.name!}
-                  ios={{
-                    status: node?.platform?.ios?.status! as ComponentStatus,
-                    alias: node?.platform?.ios?.alias!,
-                    path: node?.platform?.ios?.path!,
-                  }}
-                  android={{
-                    status: node?.platform?.android?.status! as ComponentStatus,
-                    path: node?.platform?.android?.path!,
-                  }}
-                  react={{
-                    status: node?.platform?.react?.status! as ComponentStatus,
-                    path: node?.platform?.react?.path!,
-                  }}
-                  usage={{
-                    status: node?.platform?.docs?.usage
-                      ?.status! as ComponentStatus,
-                    slug: node?.platform?.docs?.usage?.mdx?.childMdx
-                      ?.frontmatter?.slug!,
-                  }}
-                  style={{
-                    status: node?.platform?.docs?.style
-                      ?.status! as ComponentStatus,
-                    slug: node?.platform?.docs?.style?.mdx?.childMdx
-                      ?.frontmatter?.slug!,
-                  }}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableData>컴포넌트</TableData>
+            <TableData>Usage</TableData>
+            <TableData>Style</TableData>
+            <TableData>React</TableData>
+            <TableData>IOS</TableData>
+            <TableData>Android</TableData>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {componentNodes?.map((node) => {
+            return (
+              <Row
+                key={node?.name}
+                title={node?.name!}
+                ios={{
+                  status: node?.platform?.ios?.status! as ComponentStatus,
+                  alias: node?.platform?.ios?.alias!,
+                  path: node?.platform?.ios?.path!,
+                }}
+                android={{
+                  status: node?.platform?.android?.status! as ComponentStatus,
+                  path: node?.platform?.android?.path!,
+                }}
+                react={{
+                  status: node?.platform?.react?.status! as ComponentStatus,
+                  path: node?.platform?.react?.path!,
+                }}
+                usage={{
+                  status: node?.platform?.docs?.usage
+                    ?.status! as ComponentStatus,
+                  slug: node?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
+                    ?.slug!,
+                }}
+                style={{
+                  status: node?.platform?.docs?.style
+                    ?.status! as ComponentStatus,
+                  slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
+                    ?.slug!,
+                }}
+              />
+            );
+          })}
+        </TableBody>
+      </Table>
 
-        <h2 className={progressStyle.subTitle}>커버리지</h2>
-        <p className={progressStyle.caption}>
-          선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
-        </p>
+      <h2 className={progressStyle.subTitle}>커버리지</h2>
+      <p className={progressStyle.caption}>
+        선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
+      </p>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableData>Web (React)</TableData>
-              <TableData>iOS</TableData>
-              <TableData>Android</TableData>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableData>
-                {Math.floor((webCount / specCount) * 1000) / 10}%
-              </TableData>
-              <TableData>
-                {Math.floor((iosCount / specCount) * 1000) / 10}%
-              </TableData>
-              <TableData>
-                {Math.floor((androidCount / specCount) * 1000) / 10}%
-              </TableData>
-            </TableRow>
-          </TableBody>
-        </Table>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableData>Web (React)</TableData>
+            <TableData>iOS</TableData>
+            <TableData>Android</TableData>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableData>
+              {Math.floor((webCount / specCount) * 1000) / 10}%
+            </TableData>
+            <TableData>
+              {Math.floor((iosCount / specCount) * 1000) / 10}%
+            </TableData>
+            <TableData>
+              {Math.floor((androidCount / specCount) * 1000) / 10}%
+            </TableData>
+          </TableRow>
+        </TableBody>
+      </Table>
 
-        <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
-        <p className={progressStyle.caption}>OKR 달성률을 계산합니다</p>
+      <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
+      <p className={progressStyle.caption}>OKR 달성률을 계산합니다</p>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableData>1Q (50% 목표)</TableData>
-              <TableData>1-2Q (100% 목표)</TableData>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableData>
-                {okr({
-                  webComponentCount: webCount,
-                  iosComponentCount: iosCount,
-                  androidComponentCount: androidCount,
-                  totalSpecCount: specCount,
-                }) * 2}
-                %
-              </TableData>
-              <TableData>
-                {okr({
-                  webComponentCount: webCount,
-                  iosComponentCount: iosCount,
-                  androidComponentCount: androidCount,
-                  totalSpecCount: specCount,
-                })}
-                %
-              </TableData>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </motion.div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableData>1Q (50% 목표)</TableData>
+            <TableData>1-2Q (100% 목표)</TableData>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            <TableData>
+              {okr({
+                webComponentCount: webCount,
+                iosComponentCount: iosCount,
+                androidComponentCount: androidCount,
+                totalSpecCount: specCount,
+              }) * 2}
+              %
+            </TableData>
+            <TableData>
+              {okr({
+                webComponentCount: webCount,
+                iosComponentCount: iosCount,
+                androidComponentCount: androidCount,
+                totalSpecCount: specCount,
+              })}
+              %
+            </TableData>
+          </TableRow>
+        </TableBody>
+      </Table>
     </article>
   );
 };

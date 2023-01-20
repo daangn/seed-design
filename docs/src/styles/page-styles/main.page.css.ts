@@ -58,6 +58,13 @@ export const goDocsButton = style([
     padding: "14px 22px",
     marginTop: "40px",
     columnGap: "10px",
+
+    transition: "all 0.2s ease-in-out",
+
+    ":hover": {
+      backgroundColor: vars.$scale.color.gray900,
+      color: vars.$scale.color.gray00,
+    },
   },
 
   m.small({
