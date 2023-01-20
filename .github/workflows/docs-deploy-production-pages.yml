@@ -5,7 +5,7 @@ on:
     paths:
       - 'docs/**'
 
-name: Deploy Seed Docs
+name: Deploy Seed Docs Production Pages
 
 jobs:
   deploy:

@@ -4,43 +4,6 @@ const fs = require("fs");
 
 const ajv = new Ajv();
 
-// content/primitive 폴더안에 있는 모든 폴더안의 primitive-meta.json파일에서 name필드를 뽑아서 배열로 만들기
-const primitiveDirectory = path.join(__dirname, "..", "content", "primitive");
-const primitiveNames = [];
-fs.readdir(primitiveDirectory, (err, files) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-
-  files.forEach((file) => {
-    const filePath = path.join(primitiveDirectory, file);
-    fs.stat(filePath, (err, stats) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-
-      if (stats.isDirectory()) {
-        fs.readFile(
-          path.join(filePath, "primitive-meta.json"),
-          "utf8",
-          (err, data) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-
-            const json = JSON.parse(data);
-            primitiveNames.push(json.name);
-            console.log("primitiveNames", primitiveNames);
-          },
-        );
-      }
-    });
-  });
-});
-
 function validateJsonInDir({ dir, validate, type }) {
   fs.readdir(dir, (err, files) => {
     if (err) {
@@ -106,6 +69,12 @@ const mdxSchema = {
   type: "string",
   // eslint-disable-next-line prettier/prettier
   pattern: "^.*\.mdx$",
+};
+
+const jsonSchema = {
+  type: "string",
+  // eslint-disable-next-line prettier/prettier
+  pattern: "^.*\.json$",
 };
 
 const pngSchema = {
@@ -181,7 +150,7 @@ const componentMetaSchema = {
     name: stringSchema,
     description: stringSchema,
     thumbnail: pngSchema,
-    primitive: mdxSchema,
+    primitive: jsonSchema,
     group: stringSchema,
     platform: platformSchema,
   },

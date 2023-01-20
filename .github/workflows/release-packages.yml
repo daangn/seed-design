@@ -9,7 +9,7 @@ on:
 
 jobs:
   release:
-    name: Release
+    name: Release Seed Design Packages
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -47,12 +47,16 @@ const TableOfContentsItem: React.FC<{
   );
 };
 
+function isEmptyObj(obj: Object) {
+  return obj.constructor === Object && Object.keys(obj).length === 0;
+}
+
 export default function TableOfContents({
   tableOfContents,
 }: {
   tableOfContents?: TableOfContentsType;
 }) {
-  if (!tableOfContents) return null;
+  if (!tableOfContents || isEmptyObj(tableOfContents)) return null;
 
   const [activeId, setActiveId] = useState<string>("");
 
