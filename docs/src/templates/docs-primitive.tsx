@@ -45,8 +45,8 @@ export const Head: HeadFC<{}, TemplatePostProps["pageContext"]> = ({
   const { name, description, ogImage } = pageContext;
   return (
     <>
-      <title>{name}</title>
-      <meta property="og:title" content={`Seed Design | ${name}`} />
+      <title>{name} | SEED Design</title>
+      <meta property="og:title" content={`${name} | SEED Design`} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(ogImage)} />
     </>

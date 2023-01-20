@@ -26,11 +26,8 @@ const PrinciplePage = () => {
 export const Head: HeadFC<Queries.PrinciplePageQuery> = ({ data }) => {
   return (
     <>
-      <title>Overview - Principle</title>
-      <meta
-        property="og:title"
-        content={`Seed Design | Overview | Principle`}
-      />
+      <title>Principle | SEED Design</title>
+      <meta property="og:title" content={`Principle | SEED Design`} />
       <meta property="description" content="Principle." />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

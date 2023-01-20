@@ -33,6 +33,7 @@
     "downshift": "^7.0.5",
     "framer-motion": "^7.6.1",
     "gatsby": "^5.0.1",
+    "gatsby-plugin-favicons": "^2.0.0",
     "gatsby-plugin-image": "^3.0.0",
     "gatsby-plugin-local-search": "^2.0.1",
     "gatsby-plugin-mdx": "^5.0.0",

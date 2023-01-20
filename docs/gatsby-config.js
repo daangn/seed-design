@@ -1,6 +1,6 @@
 const SITE_METADATA = Object.freeze({
-  title: "Seed design system",
-  siteUrl: process.env.URL || "https://seed-design.pages.dev",
+  title: "SEED Design",
+  siteUrl: process.env.URL || "https://seed-design.io",
 });
 
 const wrapESMPlugin = (name) =>
@@ -210,6 +210,23 @@ module.exports = {
       options: {
         key: "portal",
         id: "portal",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-favicons",
+      options: {
+        logo: "./src/images/favicon.png",
+        appName: "SEED Design",
+        background: "#fff",
+        icons: {
+          android: false,
+          appleIcon: false,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          yandex: false,
+          windows: false,
+        },
       },
     },
   ],
