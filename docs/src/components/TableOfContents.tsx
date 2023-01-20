@@ -1,8 +1,6 @@
-import { motion } from "framer-motion";
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 
-import { fadeInFromBottom } from "../framer-motions";
 import * as style from "./TableOfContents.css";
 
 export type TableOfContentsItemType = {
@@ -89,7 +87,7 @@ export default function TableOfContents({
   }, [setActiveId]);
 
   return (
-    <motion.div {...fadeInFromBottom}>
+    <div>
       <nav className={style.nav}>
         <h2 className={style.title}>ON THIS PAGE</h2>
         <ul className={style.list}>
@@ -102,6 +100,6 @@ export default function TableOfContents({
           ))}
         </ul>
       </nav>
-    </motion.div>
+    </div>
   );
 }
