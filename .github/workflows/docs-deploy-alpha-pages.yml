@@ -45,7 +45,3 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           command: pages publish ./docs/public --project-name=seed-design --branch=${{ github.ref_name }}
-
-      - name: echo GITHUB EVENT
-        run: |
-          echo ${{ github.event }}
