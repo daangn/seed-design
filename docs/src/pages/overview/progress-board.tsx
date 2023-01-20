@@ -346,5 +346,5 @@ const okr = ({
   const webCoverage = Math.max(webComponentCount / totalSpecCount);
   const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
 
-  return Math.floor(((webCoverage + iosCoverage) / 2) * 1000) / 100;
+  return Math.floor(((webCoverage + iosCoverage) / 2) * 1000) / 10;
 };
