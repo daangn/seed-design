@@ -215,7 +215,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-favicons",
       options: {
-        logo: "./src/favicon.png",
+        logo: "./src/images/favicon.png",
         appName: "SEED Design",
         background: "#fff",
         icons: {
