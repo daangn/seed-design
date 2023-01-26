@@ -17,6 +17,10 @@
       "path": ""
     },
     "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
       "usage": {
         "status": "todo",
         "mdx": "./usage.mdx"

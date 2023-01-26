@@ -1728,12 +1728,14 @@ input SiteFieldSelector {
   children: NodeFieldSelector
   flags: SiteFlagsFieldSelector
   graphqlTypegen: SiteGraphqlTypegenFieldSelector
+  host: FieldSelectorEnum
   id: FieldSelectorEnum
   internal: InternalFieldSelector
   jsxRuntime: FieldSelectorEnum
   parent: NodeFieldSelector
   pathPrefix: FieldSelectorEnum
   polyfill: FieldSelectorEnum
+  port: FieldSelectorEnum
   siteMetadata: SiteSiteMetadataFieldSelector
   trailingSlash: FieldSelectorEnum
 }
@@ -2004,12 +2006,14 @@ input SiteSortInput {
   children: NodeSortInput
   flags: SiteFlagsSortInput
   graphqlTypegen: SiteGraphqlTypegenSortInput
+  host: SortOrderEnum
   id: SortOrderEnum
   internal: InternalSortInput
   jsxRuntime: SortOrderEnum
   parent: NodeSortInput
   pathPrefix: SortOrderEnum
   polyfill: SortOrderEnum
+  port: SortOrderEnum
   siteMetadata: SiteSiteMetadataSortInput
   trailingSlash: SortOrderEnum
 }
@@ -2144,21 +2148,45 @@ input allComponentMetaJsonPlatformAndroidSortInput {
 }
 
 type allComponentMetaJsonPlatformDocs {
+  overview: allComponentMetaJsonPlatformDocsOverview
   style: allComponentMetaJsonPlatformDocsStyle
   usage: allComponentMetaJsonPlatformDocsUsage
 }
 
 input allComponentMetaJsonPlatformDocsFieldSelector {
+  overview: allComponentMetaJsonPlatformDocsOverviewFieldSelector
   style: allComponentMetaJsonPlatformDocsStyleFieldSelector
   usage: allComponentMetaJsonPlatformDocsUsageFieldSelector
 }
 
 input allComponentMetaJsonPlatformDocsFilterInput {
+  overview: allComponentMetaJsonPlatformDocsOverviewFilterInput
   style: allComponentMetaJsonPlatformDocsStyleFilterInput
   usage: allComponentMetaJsonPlatformDocsUsageFilterInput
 }
 
+type allComponentMetaJsonPlatformDocsOverview {
+  mdx: File
+  status: String
+}
+
+input allComponentMetaJsonPlatformDocsOverviewFieldSelector {
+  mdx: FileFieldSelector
+  status: FieldSelectorEnum
+}
+
+input allComponentMetaJsonPlatformDocsOverviewFilterInput {
+  mdx: FileFilterInput
+  status: StringQueryOperatorInput
+}
+
+input allComponentMetaJsonPlatformDocsOverviewSortInput {
+  mdx: FileSortInput
+  status: SortOrderEnum
+}
+
 input allComponentMetaJsonPlatformDocsSortInput {
+  overview: allComponentMetaJsonPlatformDocsOverviewSortInput
   style: allComponentMetaJsonPlatformDocsStyleSortInput
   usage: allComponentMetaJsonPlatformDocsUsageSortInput
 }

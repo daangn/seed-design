@@ -17,4 +17,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            해당 링크로 이동해서 preview를 확인해요 이름은 ${{ github.ref_name }} 이에요. -> https://dash.cloudflare.com/aad5c82543cd1f267b89737d0f56405e/pages/view/seed-design
+            Deploy Seed Docs Alpha Pages / Deploy Seed Docs (push) CI가 성공적으로 끝나면 해당 링크로 이동해서 preview를 확인해요 -> https://dash.cloudflare.com/aad5c82543cd1f267b89737d0f56405e/pages/view/seed-design

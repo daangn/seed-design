@@ -123,6 +123,13 @@ const platformSchema = {
     docs: {
       type: "object",
       properties: {
+        overview: {
+          type: "object",
+          properties: {
+            status: statusSchema,
+            mdx: mdxSchema,
+          },
+        },
         usage: {
           type: "object",
           properties: {
@@ -138,8 +145,8 @@ const platformSchema = {
           },
         },
       },
-      required: ["usage", "style"],
-      additionalProperties: false,
+      required: ["usage", "style", "overview"],
+      additionalProperties: true,
     },
   },
   required: ["ios", "android", "react", "docs"],

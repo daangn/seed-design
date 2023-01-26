@@ -2184,12 +2184,14 @@ type SiteFieldSelector = {
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly flags: InputMaybe<SiteFlagsFieldSelector>;
   readonly graphqlTypegen: InputMaybe<SiteGraphqlTypegenFieldSelector>;
+  readonly host: InputMaybe<FieldSelectorEnum>;
   readonly id: InputMaybe<FieldSelectorEnum>;
   readonly internal: InputMaybe<InternalFieldSelector>;
   readonly jsxRuntime: InputMaybe<FieldSelectorEnum>;
   readonly parent: InputMaybe<NodeFieldSelector>;
   readonly pathPrefix: InputMaybe<FieldSelectorEnum>;
   readonly polyfill: InputMaybe<FieldSelectorEnum>;
+  readonly port: InputMaybe<FieldSelectorEnum>;
   readonly siteMetadata: InputMaybe<SiteSiteMetadataFieldSelector>;
   readonly trailingSlash: InputMaybe<FieldSelectorEnum>;
 };
@@ -2749,12 +2751,14 @@ type SiteSortInput = {
   readonly children: InputMaybe<NodeSortInput>;
   readonly flags: InputMaybe<SiteFlagsSortInput>;
   readonly graphqlTypegen: InputMaybe<SiteGraphqlTypegenSortInput>;
+  readonly host: InputMaybe<SortOrderEnum>;
   readonly id: InputMaybe<SortOrderEnum>;
   readonly internal: InputMaybe<InternalSortInput>;
   readonly jsxRuntime: InputMaybe<SortOrderEnum>;
   readonly parent: InputMaybe<NodeSortInput>;
   readonly pathPrefix: InputMaybe<SortOrderEnum>;
   readonly polyfill: InputMaybe<SortOrderEnum>;
+  readonly port: InputMaybe<SortOrderEnum>;
   readonly siteMetadata: InputMaybe<SiteSiteMetadataSortInput>;
   readonly trailingSlash: InputMaybe<SortOrderEnum>;
 };
@@ -2942,21 +2946,45 @@ type allComponentMetaJsonPlatformAndroidSortInput = {
 };
 
 type allComponentMetaJsonPlatformDocs = {
+  readonly overview: Maybe<allComponentMetaJsonPlatformDocsOverview>;
   readonly style: Maybe<allComponentMetaJsonPlatformDocsStyle>;
   readonly usage: Maybe<allComponentMetaJsonPlatformDocsUsage>;
 };
 
 type allComponentMetaJsonPlatformDocsFieldSelector = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFieldSelector>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFieldSelector>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFieldSelector>;
 };
 
 type allComponentMetaJsonPlatformDocsFilterInput = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFilterInput>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFilterInput>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFilterInput>;
 };
 
+type allComponentMetaJsonPlatformDocsOverview = {
+  readonly mdx: Maybe<File>;
+  readonly status: Maybe<Scalars['String']>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewFieldSelector = {
+  readonly mdx: InputMaybe<FileFieldSelector>;
+  readonly status: InputMaybe<FieldSelectorEnum>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewFilterInput = {
+  readonly mdx: InputMaybe<FileFilterInput>;
+  readonly status: InputMaybe<StringQueryOperatorInput>;
+};
+
+type allComponentMetaJsonPlatformDocsOverviewSortInput = {
+  readonly mdx: InputMaybe<FileSortInput>;
+  readonly status: InputMaybe<SortOrderEnum>;
+};
+
 type allComponentMetaJsonPlatformDocsSortInput = {
+  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewSortInput>;
   readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleSortInput>;
   readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageSortInput>;
 };
@@ -3220,10 +3248,31 @@ type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type ComponentListPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
+type ComponentOverviewQueryVariables = Exact<{
+  id: InputMaybe<Scalars['String']>;
+}>;
+
+
+type ComponentOverviewQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type ComponentProgressBoardPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type ComponentStyleQueryVariables = Exact<{
+  id: InputMaybe<Scalars['String']>;
+}>;
+
+
+type ComponentStyleQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type ComponentUsageQueryVariables = Exact<{
+  id: InputMaybe<Scalars['String']>;
+}>;
+
+
+type ComponentUsageQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3250,6 +3299,13 @@ type OverviewListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type OverviewListPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
+type PrimitiveDocTemplateQueryVariables = Exact<{
+  id: InputMaybe<Scalars['String']>;
+}>;
+
+
+type PrimitiveDocTemplateQuery = { readonly allPrimitiveMetaJson: { readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly tableOfContents: any | null, readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
 type PrimitiveListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3259,6 +3315,11 @@ type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+
+type SEOQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
