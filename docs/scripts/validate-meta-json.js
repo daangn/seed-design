@@ -145,7 +145,7 @@ const platformSchema = {
           },
         },
       },
-      required: ["usage", "style"],
+      required: ["usage", "style", "overview"],
       additionalProperties: true,
     },
   },
