@@ -18,6 +18,10 @@
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
     },
     "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
       "usage": {
         "status": "done",
         "mdx": "./usage.mdx"

@@ -8,7 +8,7 @@ const Iframe = ({ src, height = "100%" }: IframeProps) => {
     <iframe
       style={{
         border: "none",
-        minHeight: "150px",
+        borderRadius: "8px",
         height,
         width: "100%",
       }}

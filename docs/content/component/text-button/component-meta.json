@@ -19,6 +19,10 @@
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-textbutton--docs"
     },
     "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

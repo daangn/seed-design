@@ -2,14 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
-import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
-
-export const content = style([t.content]);
-
-export const title = style([t.documentHeading1, { marginTop: "0px" }]);
-
-export const titleDescription = style([t.documentCaption1]);
 
 export const navContainer = style([
   u.flexAlignCenter,
@@ -41,6 +34,45 @@ export const navLink = recipe({
     active: {
       true: {
         backgroundColor: vars.$scale.color.gray100,
+      },
+    },
+  },
+});
+
+export const navLinkText = recipe({
+  base: [
+    {
+      position: "relative",
+
+      ":after": {
+        content: "",
+        display: "block",
+        position: "absolute",
+        right: "-8px",
+        top: 0,
+        width: "5px",
+        height: "5px",
+        borderRadius: "50%",
+        backgroundColor: vars.$scale.color.gray500,
+      },
+    },
+  ],
+  variants: {
+    status: {
+      todo: {
+        ":after": {
+          backgroundColor: vars.$scale.color.gray500,
+        },
+      },
+      "in-progress": {
+        ":after": {
+          backgroundColor: vars.$scale.color.carrot500,
+        },
+      },
+      done: {
+        ":after": {
+          backgroundColor: vars.$scale.color.green500,
+        },
       },
     },
   },

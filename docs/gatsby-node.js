@@ -1,11 +1,15 @@
 const path = require("path");
 
-const PrimitiveDocsTemplate = path.resolve(
-  `./src/templates/docs-primitive.tsx`,
+const ComponentOverviewDocTemplate = path.resolve(
+  `./src/templates/ComponentOverviewDoc.tsx`,
 );
-const ComponentDocsTemplate = path.resolve(
-  `./src/templates/docs-component.tsx`,
+const ComponentUsageDocTemplate = path.resolve(
+  `./src/templates/ComponentUsageDoc.tsx`,
 );
+const ComponentStyleDocTemplate = path.resolve(
+  `./src/templates/ComponentStyleDoc.tsx`,
+);
+const PrimitiveDocTemplate = path.resolve(`./src/templates/PrimitiveDoc.tsx`);
 
 exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
   actions.setWebpackConfig({
@@ -25,22 +29,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       frontmatter {
         slug
       }
-      id
       internal {
         contentFilePath
       }
-      tableOfContents
     }
 
     query {
-      ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-        gatsbyImageData(layout: FIXED)
-      }
-
       allAllPrimitiveMetaJson {
         nodes {
-          name
-          description
+          id
           primitive {
             childMdx {
               ...MdxContent
@@ -51,8 +48,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
       allAllComponentMetaJson {
         nodes {
-          name
-          description
+          id
           platform {
             docs {
               overview {
@@ -83,29 +79,16 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
   `);
 
-  const ogImage = result.data.ogImage.gatsbyImageData;
-
   const componentNodes = result.data.allAllComponentMetaJson.nodes;
   const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
 
   componentNodes.forEach((component) => {
-    const name = component.name;
-    const description = component.description;
-
     if (component.platform.docs.overview?.mdx) {
       createPage({
         path: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.overview.mdx.childMdx.internal.contentFilePath}`,
+        component: `${ComponentOverviewDocTemplate}?__contentFilePath=${component.platform.docs.overview.mdx.childMdx.internal.contentFilePath}`,
         context: {
-          id: component.platform.docs.overview.mdx.childMdx.id,
-          slug: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-          name,
-          description,
-          tableOfContents:
-            component.platform.docs.overview.mdx.childMdx.tableOfContents,
-          activeTab:
-            component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-          ogImage,
+          id: component.id,
         },
       });
     }
@@ -113,17 +96,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     if (component.platform.docs.usage.mdx) {
       createPage({
         path: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.usage.mdx.childMdx.internal.contentFilePath}`,
+        component: `${ComponentUsageDocTemplate}?__contentFilePath=${component.platform.docs.usage.mdx.childMdx.internal.contentFilePath}`,
         context: {
-          id: component.platform.docs.usage.mdx.childMdx.id,
-          slug: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
-          name,
-          description,
-          tableOfContents:
-            component.platform.docs.usage.mdx.childMdx.tableOfContents,
-          activeTab:
-            component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
-          ogImage,
+          id: component.id,
         },
       });
     }
@@ -131,17 +106,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     if (component.platform.docs.style.mdx) {
       createPage({
         path: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentDocsTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
+        component: `${ComponentStyleDocTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
         context: {
-          id: component.platform.docs.style.mdx.childMdx.id,
-          slug: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
-          name,
-          description,
-          tableOfContents:
-            component.platform.docs.style.mdx.childMdx.tableOfContents,
-          activeTab:
-            component.platform.docs.style.mdx.childMdx.frontmatter.slug,
-          ogImage,
+          id: component.id,
         },
       });
     }
@@ -152,15 +119,9 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
     createPage({
       path: component.primitive.childMdx.frontmatter.slug,
-      component: `${PrimitiveDocsTemplate}?__contentFilePath=${component.primitive.childMdx.internal.contentFilePath}`,
+      component: `${PrimitiveDocTemplate}?__contentFilePath=${component.primitive.childMdx.internal.contentFilePath}`,
       context: {
-        id: component.primitive.childMdx.id,
-        slug: component.primitive.childMdx.frontmatter.slug,
-        name: component.name,
-        description: component.description,
-        tableOfContents: component.primitive.childMdx.tableOfContents,
-        activeTab: component.primitive.childMdx.frontmatter.slug,
-        ogImage,
+        id: component.id,
       },
     });
   });
