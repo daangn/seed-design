@@ -1,9 +1,9 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
-import { getSrc } from "gatsby-plugin-image";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
 import EditLink from "../components/EditLink";
+import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./ComponentCommon.css";
 
@@ -30,10 +30,6 @@ export const query = graphql`
           }
         }
       }
-    }
-
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
     }
   }
 `;
@@ -71,16 +67,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentUsageQuery>> = ({
 
 export const Head: HeadFC<GatsbyTypes.ComponentUsageQuery> = ({ data }) => {
   const { name, description } = data.allComponentMetaJson!;
-  const ogImage = data.ogImage;
-
-  return (
-    <>
-      <title>{name} | SEED Design</title>
-      <meta property="og:title" content={`${name} | SEED Design`} />
-      <meta property="description" content={description!} />
-      <meta property="og:image" content={getSrc(ogImage!)} />
-    </>
-  );
+  return <SEO name={`${name}`} description={`${description}`} />;
 };
 
 export default DocsTemplate;

@@ -1,17 +1,8 @@
 import type { HeadFC } from "gatsby";
-import { graphql } from "gatsby";
-import { getSrc } from "gatsby-plugin-image";
 
+import SEO from "../../components/SEO";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
 import * as t from "../../styles/token.css";
-
-export const query = graphql`
-  query FoundationColorPage {
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
-    }
-  }
-`;
 
 const FoundationListPage = () => {
   return (
@@ -26,14 +17,12 @@ const FoundationListPage = () => {
 };
 
 // TODO:
-export const Head: HeadFC<Queries.FoundationColorPageQuery> = ({ data }) => {
+export const Head: HeadFC = () => {
   return (
-    <>
-      <title>Foundation</title>
-      <meta property="og:title" content={`Foundation | SEED Design`} />
-      {/* <meta property="description" content="Color." /> */}
-      <meta property="og:image" content={getSrc(data.ogImage!)} />
-    </>
+    <SEO
+      name={`Foundation`}
+      description={`SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다.`}
+    />
   );
 };
 

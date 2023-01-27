@@ -1,6 +1,5 @@
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
-import { getSrc } from "gatsby-plugin-image";
 import type { PropsWithChildren } from "react";
 
 import {
@@ -10,6 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "../../components/mdx/Table";
+import SEO from "../../components/SEO";
 import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
 import * as t from "../../styles/token.css";
 
@@ -40,7 +40,7 @@ export const query = graphql`
             status
           }
           docs {
-            style {
+            overview {
               status
               mdx {
                 childMdx {
@@ -56,13 +56,17 @@ export const query = graphql`
                 }
               }
             }
+            style {
+              status
+              mdx {
+                childMdx {
+                  ...Slug
+                }
+              }
+            }
           }
         }
       }
-    }
-
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
     }
   }
 `;
@@ -84,6 +88,7 @@ interface RowProps {
   react?: PlatformData;
   usage?: DocsData;
   style?: DocsData;
+  overview?: DocsData;
 }
 
 const TableDataWithStatus = ({
@@ -115,12 +120,28 @@ const TableDataWithStatus = ({
   }
 };
 
-const Row = ({ title, android, ios, react, usage, style }: RowProps) => {
+const Row = ({
+  title,
+  android,
+  ios,
+  react,
+  usage,
+  overview,
+  style,
+}: RowProps) => {
   return (
     <TableRow>
       <TableData>
         <strong>{title}</strong>
       </TableData>
+      <TableDataWithStatus status={overview?.status!}>
+        {overview?.slug && (
+          <Link className={progressStyle.linkText} to={overview.slug}>
+            {title}
+          </Link>
+        )}
+      </TableDataWithStatus>
+
       <TableDataWithStatus status={usage?.status!}>
         {usage?.slug && (
           <Link className={progressStyle.linkText} to={usage.slug}>
@@ -199,6 +220,7 @@ const ComponentProgressBoardPage = ({
         <TableHead>
           <TableRow>
             <TableData>컴포넌트</TableData>
+            <TableData>Overview</TableData>
             <TableData>Usage</TableData>
             <TableData>Style</TableData>
             <TableData>React</TableData>
@@ -236,6 +258,12 @@ const ComponentProgressBoardPage = ({
                     ?.status! as ComponentStatus,
                   slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
                     ?.slug!,
+                }}
+                overview={{
+                  status: node?.platform?.docs?.overview
+                    ?.status! as ComponentStatus,
+                  slug: node?.platform?.docs?.overview?.mdx?.childMdx
+                    ?.frontmatter?.slug!,
                 }}
               />
             );
@@ -309,19 +337,12 @@ const ComponentProgressBoardPage = ({
 };
 
 // TODO:
-export const Head: HeadFC<Queries.ComponentProgressBoardPageQuery> = ({
-  data,
-}) => {
+export const Head: HeadFC = () => {
   return (
-    <>
-      <title>Overview - Component Progress Board</title>
-      <meta
-        property="og:title"
-        content={`Component Progress Board | SEED Design`}
-      />
-      <meta property="description" content="Component Progress Board" />
-      <meta property="og:image" content={getSrc(data.ogImage!)} />
-    </>
+    <SEO
+      name={`Component Progress Board`}
+      description={`SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다.`}
+    />
   );
 };
 
