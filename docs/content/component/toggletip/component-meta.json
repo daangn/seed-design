@@ -1,0 +1,35 @@
+{
+  "name": "Toggletip",
+  "description": "toggletip",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/popover/primitive-meta.json",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "in-progress",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+---
+slug: /component/toggletip/style
+---
+
+## Anatomy
+
+1. Trigger - Primitive.Trigger
+2. Anchor - Primitive.Anchor
+3. Positioner - Primitive.Positioner
+4. Arrow - Primitive.Arrow
+5. Content - Primitive.Content
+6. Message - Primitive.Description
+7. Close Trigger - Primitive.CloseTrigger
+
+## Root
+
+### Visual Options
+
+| Property           | Value       |
+| ------------------ | ----------- |
+| show close trigger | false, true |
+| variant            | gray, white |
+
+## 디자인 결정 (Color)
+
+### variant=gray
+
+| Part           | Attribute | Value                 |
+| -------------- | --------- | --------------------- |
+| Arrow, Content | Color     | $scale.color.gray-900 |
+| Message        | Color     | $scale.color.gray-00  |
+
+### variant=white
+
+| Part           | Attribute | Value                      |
+| -------------- | --------- | -------------------------- |
+| Arrow, Content | Color     | $static.color.static-white |
+| Message        | Color     | $static.color.static-black |
+
+## 디자인 결정 (Typography)
+
+| Part    | Attribute  | Value                              |
+| ------- | ---------- | ---------------------------------- |
+| Message | Typography | $semantic.typography.caption1-bold |
+
+### 디자인 결정 (Layout)
+
+| Part          | Attribute          | Value |
+| ------------- | ------------------ | ----- |
+| Content       | Horizontal Padding | 12pt  |
+|               | Vertical Padding   | 8pt   |
+|               | Corner Radius      | 6pt   |
+| Close Trigger | Size               | 18pt  |
