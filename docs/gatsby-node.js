@@ -23,7 +23,10 @@ exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
   reporter.info(`Provided React in all files`);
 };
 
-exports.createPages = async ({ graphql, actions: { createPage } }) => {
+exports.createPages = async ({
+  graphql,
+  actions: { createPage, createSlice },
+}) => {
   const result = await graphql(`
     fragment MdxContent on Mdx {
       frontmatter {
@@ -78,6 +81,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     }
   `);
+
+  createSlice({
+    id: `test`,
+    component: path.resolve(`./src/components/TestSlice.tsx`),
+  });
 
   const componentNodes = result.data.allAllComponentMetaJson.nodes;
   const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
