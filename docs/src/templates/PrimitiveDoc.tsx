@@ -1,8 +1,8 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
-import { getSrc } from "gatsby-plugin-image";
 
 import EditLink from "../components/EditLink";
+import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./PrimitiveCommon.css";
 
@@ -19,10 +19,6 @@ export const query = graphql`
           }
         }
       }
-    }
-
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
     }
   }
 `;
@@ -50,15 +46,7 @@ export const Head: HeadFC<GatsbyTypes.PrimitiveDocTemplateQuery> = ({
   data,
 }) => {
   const { name, description } = data.allPrimitiveMetaJson!;
-  const ogImage = data.ogImage;
-  return (
-    <>
-      <title>{name} | SEED Design</title>
-      <meta property="og:title" content={`${name} | SEED Design`} />
-      <meta property="description" content={description!} />
-      <meta property="og:image" content={getSrc(ogImage!)} />
-    </>
-  );
+  return <SEO name={`${name}`} description={`${description}`} />;
 };
 
 export default DocsTemplate;

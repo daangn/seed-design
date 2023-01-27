@@ -2,7 +2,7 @@ import { graphql, useStaticQuery } from "gatsby";
 import { getSrc } from "gatsby-plugin-image";
 
 interface SEOProps {
-  name: string;
+  name?: string;
   description: string;
 }
 
@@ -17,8 +17,11 @@ const SEO = ({ name, description }: SEOProps) => {
 
   return (
     <>
-      <title>{name} | SEED Design</title>
-      <meta property="og:title" content={`${name} | SEED Design`} />
+      <title>{name && `${name} | `}SEED Design</title>
+      <meta
+        property="og:title"
+        content={`${name && `${name} | `}SEED Design`}
+      />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>

@@ -31,10 +31,6 @@ export const query = graphql`
         }
       }
     }
-
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
-    }
   }
 `;
 

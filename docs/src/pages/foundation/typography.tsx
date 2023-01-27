@@ -1,21 +1,12 @@
 import { classNames } from "@seed-design/design-token";
 import clsx from "clsx";
 import type { HeadFC } from "gatsby";
-import { graphql } from "gatsby";
-import { getSrc } from "gatsby-plugin-image";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 
+import SEO from "../../components/SEO";
 import * as style from "../../styles/page-styles/typography.page.css";
 import * as t from "../../styles/token.css";
-
-export const query = graphql`
-  query FoundationTypographyPage {
-    ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
-      gatsbyImageData(layout: FIXED)
-    }
-  }
-`;
 
 const FONT_SIZE = {
   10: {
@@ -621,16 +612,12 @@ const FoundationTypographyPage = () => {
 };
 
 // TODO:
-export const Head: HeadFC<Queries.FoundationTypographyPageQuery> = ({
-  data,
-}) => {
+export const Head: HeadFC = () => {
   return (
-    <>
-      <title>Typography | SEED Design</title>
-      <meta property="og:title" content={`Typography | SEED Design`} />
-      <meta property="description" content="Typography." />
-      <meta property="og:image" content={getSrc(data.ogImage!)} />
-    </>
+    <SEO
+      name={`Typography`}
+      description={`SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다.`}
+    />
   );
 };
 
