@@ -40,7 +40,7 @@ export const query = graphql`
             status
           }
           docs {
-            style {
+            overview {
               status
               mdx {
                 childMdx {
@@ -49,6 +49,14 @@ export const query = graphql`
               }
             }
             usage {
+              status
+              mdx {
+                childMdx {
+                  ...Slug
+                }
+              }
+            }
+            style {
               status
               mdx {
                 childMdx {
@@ -84,6 +92,7 @@ interface RowProps {
   react?: PlatformData;
   usage?: DocsData;
   style?: DocsData;
+  overview?: DocsData;
 }
 
 const TableDataWithStatus = ({
@@ -115,12 +124,28 @@ const TableDataWithStatus = ({
   }
 };
 
-const Row = ({ title, android, ios, react, usage, style }: RowProps) => {
+const Row = ({
+  title,
+  android,
+  ios,
+  react,
+  usage,
+  overview,
+  style,
+}: RowProps) => {
   return (
     <TableRow>
       <TableData>
         <strong>{title}</strong>
       </TableData>
+      <TableDataWithStatus status={overview?.status!}>
+        {overview?.slug && (
+          <Link className={progressStyle.linkText} to={overview.slug}>
+            {title}
+          </Link>
+        )}
+      </TableDataWithStatus>
+
       <TableDataWithStatus status={usage?.status!}>
         {usage?.slug && (
           <Link className={progressStyle.linkText} to={usage.slug}>
@@ -199,6 +224,7 @@ const ComponentProgressBoardPage = ({
         <TableHead>
           <TableRow>
             <TableData>컴포넌트</TableData>
+            <TableData>Overview</TableData>
             <TableData>Usage</TableData>
             <TableData>Style</TableData>
             <TableData>React</TableData>
@@ -236,6 +262,12 @@ const ComponentProgressBoardPage = ({
                     ?.status! as ComponentStatus,
                   slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
                     ?.slug!,
+                }}
+                overview={{
+                  status: node?.platform?.docs?.overview
+                    ?.status! as ComponentStatus,
+                  slug: node?.platform?.docs?.overview?.mdx?.childMdx
+                    ?.frontmatter?.slug!,
                 }}
               />
             );
