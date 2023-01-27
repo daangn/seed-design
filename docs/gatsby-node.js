@@ -27,6 +27,11 @@ exports.createPages = async ({
   graphql,
   actions: { createPage, createSlice },
 }) => {
+  createSlice({
+    id: `test`,
+    component: path.resolve(`./src/components/TestSlice.tsx`),
+  });
+
   const result = await graphql(`
     fragment MdxContent on Mdx {
       frontmatter {
@@ -81,11 +86,6 @@ exports.createPages = async ({
       }
     }
   `);
-
-  createSlice({
-    id: `test`,
-    component: path.resolve(`./src/components/TestSlice.tsx`),
-  });
 
   const componentNodes = result.data.allAllComponentMetaJson.nodes;
   const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
