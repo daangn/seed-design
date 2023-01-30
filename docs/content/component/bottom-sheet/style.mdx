@@ -6,43 +6,30 @@ slug: /component/bottom-sheet/style
 
 ![anatomy](../../comingSoonWide.png)
 
-1. Root
-2. Overlay
-3. Title
-4. Description
-5. Content
-6. Action Button
-7. Close Button
+1. Container
+2. Backdrop
+3. Header
+4. Title
+5. Description
+6. Content
+7. Action Button
+8. Close Button
 
-## Root
+## Visual Options
 
-### Visually Representated States
-
-| State | Condition |
-| ----- | --------- |
-
-## Thumb
-
-### Visually Representated States
-
-| State | Condition |
-| ----- | --------- |
+| Property     | Value         |
+| ------------ | ------------- |
+| header align | start, center |
 
 ## 디자인 결정 (Color)
 
-| Part        | Attribute | Value                       |
-| ----------- | --------- | --------------------------- |
-| Overlay     | Color     | $semantic.color.overlay-dim |
-| Title       | Color     | $scale.color.gray-900       |
-| Description | Color     | $scale.color.gray-900       |
-
-| State | Part | Attribute | Value |
-| ----- | ---- | --------- | ----- |
-
-## 디자인 결정 (Shadow)
-
-| State | Part | Attribute | Value |
-| ----- | ---- | --------- | ----- |
+| Part         | Attribute | Value                         |
+| ------------ | --------- | ----------------------------- |
+| Container    | Color     | $semantic.color.paper-default |
+| Backdrop     | Color     | $semantic.color.overlay-dim   |
+| Close Button | Color     | $scale.color.gray-900         |
+| Title        | Color     | $scale.color.gray-900         |
+| Description  | Color     | $scale.color.gray-900         |
 
 ## 디자인 결정 (Typography)
 
@@ -53,6 +40,30 @@ slug: /component/bottom-sheet/style
 
 ## 디자인 결정 (Layout)
 
-| Part         | Attribute | Value |
-| ------------ | --------- | ----- |
-| Close Button | Size      | 24pt  |
+| Part                | Attribute          | Value |
+| ------------------- | ------------------ | ----- |
+| Container           | Max Height         | 375pt |
+|                     | Horizontal Padding | 375pt |
+|                     | Corder Radius Top  | 20pt  |
+| Title / Description | Vertical Spacing   | 6pt   |
+| Header / Content    | Vertical Spacing   | 16pt  |
+| Close Button        | Size               | 24pt  |
+
+### header align = start
+
+| Part   | Attribute  | Value |
+| ------ | ---------- | ----- |
+| Header | Text Align | Start |
+
+### header align = center
+
+| Part   | Attribute  | Value  |
+| ------ | ---------- | ------ |
+| Header | Text Align | Center |
+
+## 디자인 결정 (Motion)
+
+| Part      | Attribute       | Value |
+| --------- | --------------- | ----- |
+| Container | Duration        | TBD   |
+|           | Timing Function | TBD   |
