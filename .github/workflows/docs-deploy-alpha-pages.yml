@@ -53,7 +53,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-public-gatsby
 
-      - name: Seed Docs를 빌드해요
+      - name: Build `Seed Docs`
         working-directory: ./docs
         run: |
           yarn build
@@ -62,7 +62,7 @@ jobs:
           # https://www.gatsbyjs.org/docs/page-build-optimizations-for-incremental-data-changes/
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       
-      - name: 서비스를 Cloudflare pages에 배포해요
+      - name: Deploy `Seed Docs` at Cloudflare pages
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
