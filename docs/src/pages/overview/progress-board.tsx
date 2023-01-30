@@ -137,7 +137,7 @@ const Row = ({
       <TableDataWithStatus status={overview?.status!}>
         {overview?.slug && (
           <Link className={progressStyle.linkText} to={overview.slug}>
-            {title}
+            link
           </Link>
         )}
       </TableDataWithStatus>
@@ -145,7 +145,7 @@ const Row = ({
       <TableDataWithStatus status={usage?.status!}>
         {usage?.slug && (
           <Link className={progressStyle.linkText} to={usage.slug}>
-            {title}
+            link
           </Link>
         )}
       </TableDataWithStatus>
@@ -153,7 +153,7 @@ const Row = ({
       <TableDataWithStatus status={style?.status!}>
         {style?.slug && (
           <Link className={progressStyle.linkText} to={style.slug}>
-            {title}
+            link
           </Link>
         )}
       </TableDataWithStatus>
@@ -165,7 +165,7 @@ const Row = ({
             className={progressStyle.linkText}
             target="_blank"
           >
-            {title}
+            link
           </a>
         )}
       </TableDataWithStatus>
@@ -173,7 +173,7 @@ const Row = ({
       <TableDataWithStatus status={ios?.status!}>
         {ios?.path && (
           <a href={ios.path} className={progressStyle.linkText} target="_blank">
-            {ios?.alias || title}
+            link
           </a>
         )}
       </TableDataWithStatus>
@@ -185,7 +185,7 @@ const Row = ({
             className={progressStyle.linkText}
             target="_blank"
           >
-            {title}
+            link
           </a>
         )}
       </TableDataWithStatus>
