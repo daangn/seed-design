@@ -43,6 +43,9 @@ jobs:
           key: ${{ runner.os }}-cache-gatsby
           restore-keys: |
             ${{ runner.os }}-cache-gatsby
+      
+      - if: steps.gatsby-cache-folder.outputs.cache-hit == 'true'
+        run: echo 'gatsby-cache-folder cache hit!'
 
       - name: Cache Gatsby `public` Folder
         uses: actions/cache@v3
@@ -52,6 +55,9 @@ jobs:
           key: ${{ runner.os }}-public-gatsby
           restore-keys: |
             ${{ runner.os }}-public-gatsby
+      
+      - if: steps.gatsby-public-folder.outputs.cache-hit == 'true'
+        run: echo 'gatsby-public-folder cache hit!'
 
       - name: Build `Seed Docs`
         working-directory: ./docs
