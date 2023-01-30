@@ -44,7 +44,7 @@ export const parameters = {
       root: "html",
       attribute: "data-seed-letter-spacing",
       defaultState: {
-        name: "IOS",
+        name: "iOS",
         value: "ios",
       },
       states: [
