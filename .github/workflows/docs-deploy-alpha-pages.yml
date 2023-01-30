@@ -35,10 +35,32 @@ jobs:
         run: |
           yarn build
 
+      - name: Gatsby Cache Folder
+        uses: actions/cache@v1
+        id: gatsby-cache-folder
+        with:
+          path: docs/.cache
+          key: ${{ runner.os }}-cache-gatsby
+          restore-keys: |
+            ${{ runner.os }}-cache-gatsby
+
+      - name: Gatsby Public Folder
+        uses: actions/cache@v1
+        id: gatsby-public-folder
+        with:
+          path: docs/public/
+          key: ${{ runner.os }}-public-gatsby
+          restore-keys: |
+            ${{ runner.os }}-public-gatsby
+
       - name: Seed Docs를 빌드해요
         working-directory: ./docs
         run: |
           yarn build
+        env:
+          # incremental builds
+          # https://www.gatsbyjs.org/docs/page-build-optimizations-for-incremental-data-changes/
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       
       - name: 서비스를 Cloudflare pages에 배포해요
         uses: cloudflare/wrangler-action@2.0.0
