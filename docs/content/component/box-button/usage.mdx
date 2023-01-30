@@ -28,21 +28,50 @@ slug: /component/box-button/usage
 
 <HalfCard>
   <HalfCardImageCell>
-    ![box button options variant](./boxbutton-options-variant.png)
+    ![box button options prioity](./boxbutton-options-prioity.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Variant</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      Box Button은 primary, primary-low, secondary, danger 4개의 스타일 옵션을
-      가질 수 있습니다. 기본값은 primary이며, 유저에게 위험한 정보를 전달해야 할
-      때만 danger를 사용합니다.
+      Variant의 중요도는 Primary로 갈수록 높아지며, Secondary로 갈수록
+      낮아집니다. 화면 내에서 액션의 중요도에 따라 버튼의 variant를 다르게
+      사용합니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
 
 <HalfCard>
   <HalfCardImageCell>
-    ![box button options variant](./boxbutton-options-disabled.png)
+    ![box button options primary, primary-low](./boxbutton-options-primary.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Primary variant</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Primary variant는 강한 강조나 중요한 역할을 하는 버튼일 경우에 사용합니다.
+      Primary 버튼은 한 화면에서 너무 많이 사용되지 않도록 제한적으로
+      사용해야합니다. 또한, Primary 버튼은 단독으로 하단에 고정하여 사용할 수
+      있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options danger](./boxbutton-options-danger.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Danger variant</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Danger variant는 유저에게 위험 요소에 대한 경고를 전달할 때 사용합니다. 이
+      버튼으로 인해 파괴적 변화나 부정적인 행동이 일어날 수 있다는 시각적 인지를
+      제공합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options disabled](./boxbutton-options-disabled.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
@@ -50,6 +79,20 @@ slug: /component/box-button/usage
       Disabled 상태는 Box Button이 존재하지만 지금은 사용할 수 없는 상태를
       나타냅니다. 이 옵션은 레이아웃 일관성을 유지하고 이후 상호작용이 가능할
       수도 있음을 사용자에게 알려줍니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options icon](./boxbutton-options-icon.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Icon</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Prefix icon으로 Label을 보조하기 위한 모노크롬 아이콘을 사용할 수
+      있습니다. Suffix icon으로 Chevron을 사용해 버튼의 상호작용을 강조할 수
+      있습니다. 동시 사용은 권장하지 않습니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>

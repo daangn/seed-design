@@ -4,6 +4,8 @@ slug: /component/tabs/usage
 
 ## 구조도
 
+![anatomy](./anatomy.png)
+
 1. Root
 2. Tab List
 3. Tab
@@ -14,6 +16,19 @@ slug: /component/tabs/usage
 8. Indicator Track
 
 ## 옵션
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![tabs options selected](./tabs-options-selected.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Selected</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      선택되어있는 Tabs의 컨텐츠가 화면에 표시됩니다. Indicator는 현재
+      선택되어있는 Tab을 나타냅니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
 
 <HalfCard>
   <HalfCardImageCell>
@@ -31,9 +46,10 @@ slug: /component/tabs/usage
 
 ### 옵션 테이블 (Root)
 
-| 속성        | 값          | 기본값 | 설명                                              |
-| ----------- | ----------- | ------ | ------------------------------------------------- |
-| is disabled | true, false | false  | true일 경우, Tabs 전체가 유저와 상호작용하지 않음 |
+| 속성        | 값                   | 기본값 | 설명                                              |
+| ----------- | -------------------- | ------ | ------------------------------------------------- |
+| is disabled | true, false          | false  | true일 경우, Tabs 전체가 유저와 상호작용하지 않음 |
+| layout      | fitted, left aligned | fitted |                                                   |
 
 ### 옵션 테이블 (Tab)
 
