@@ -25,22 +25,50 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: seed-design/design-token 빌드해요
+      - name: Build `seed-design/design-token`
         working-directory: ./packages/design-token
         run: |
           yarn build
 
-      - name: seed-design/design-theming 빌드해요
+      - name: Build `seed-design/design-theming`
         working-directory: ./packages/react-theming
         run: |
           yarn build
 
-      - name: Seed Docs를 빌드해요
+      - name: Cache Gatsby `.cache` Folder
+        uses: actions/cache@v3
+        id: gatsby-cache-folder
+        with:
+          path: docs/.cache
+          key: ${{ runner.os }}-cache-gatsby
+          restore-keys: |
+            ${{ runner.os }}-cache-gatsby
+      
+      - if: steps.gatsby-cache-folder.outputs.cache-hit == 'true'
+        run: echo 'gatsby-cache-folder cache hit!'
+
+      - name: Cache Gatsby `public` Folder
+        uses: actions/cache@v3
+        id: gatsby-public-folder
+        with:
+          path: docs/public/
+          key: ${{ runner.os }}-public-gatsby
+          restore-keys: |
+            ${{ runner.os }}-public-gatsby
+      
+      - if: steps.gatsby-public-folder.outputs.cache-hit == 'true'
+        run: echo 'gatsby-public-folder cache hit!'
+
+      - name: Build `Seed Docs`
         working-directory: ./docs
         run: |
           yarn build
+        env:
+          # incremental builds
+          # https://www.gatsbyjs.org/docs/page-build-optimizations-for-incremental-data-changes/
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       
-      - name: 서비스를 Cloudflare pages에 배포해요
+      - name: Alpha Deploy `Seed Docs` at Cloudflare pages
         uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
