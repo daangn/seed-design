@@ -5,9 +5,9 @@
   "primitive": "../../primitive/checkbox/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
-      "alias": "",
-      "path": ""
+      "status": "done",
+      "alias": "KarrotCheckbox",
+      "path": "seedcatalog:components/checkbox"
     },
     "android": {
       "status": "todo",

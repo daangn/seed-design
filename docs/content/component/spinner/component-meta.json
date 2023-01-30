@@ -6,7 +6,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotSpinner",
-      "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/KarrotSpinner/KarrotSpinner.swift"
+      "path": "seedcatalog:components/spinner"
     },
     "android": {
       "status": "todo",

@@ -6,9 +6,9 @@
   "group": "Button",
   "platform": {
     "ios": {
-      "status": "todo",
-      "alias": "",
-      "path": ""
+      "status": "done",
+      "alias": "KarrotTextButton",
+      "path": "seedcatalog:components/text-button"
     },
     "android": {
       "status": "todo",

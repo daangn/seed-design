@@ -224,7 +224,7 @@ const ComponentProgressBoardPage = ({
             <TableData>Usage</TableData>
             <TableData>Style</TableData>
             <TableData>React</TableData>
-            <TableData>IOS</TableData>
+            <TableData>iOS</TableData>
             <TableData>Android</TableData>
           </TableRow>
         </TableHead>
