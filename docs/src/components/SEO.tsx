@@ -9,7 +9,7 @@ interface SEOProps {
 const SEO = ({ name, description }: SEOProps) => {
   const data = useStaticQuery<GatsbyTypes.SEOQuery>(graphql`
     query SEO {
-      ogImage: imageSharp(fluid: { originalName: { eq: "ogimage.png" } }) {
+      ogImage: imageSharp(original: { src: { regex: "/ogimage/" } }) {
         gatsbyImageData(layout: FIXED)
       }
     }
