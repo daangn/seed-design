@@ -1637,15 +1637,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.20.7":
-  version: 7.20.13
-  resolution: "@babel/runtime@npm:7.20.13"
-  dependencies:
-    regenerator-runtime: ^0.13.11
-  checksum: 09b7a97a05c80540db6c9e4ddf8c5d2ebb06cae5caf3a87e33c33f27f8c4d49d9c67a2d72f1570e796045288fad569f98a26ceba0c4f5fad2af84b6ad855c4fb
-  languageName: node
-  linkType: hard
-
 "@babel/template@npm:^7.12.13, @babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
@@ -11706,17 +11697,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-google-gtag@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "gatsby-plugin-google-gtag@npm:5.5.0"
-  dependencies:
-    "@babel/runtime": ^7.20.7
-    minimatch: ^3.1.2
+"gatsby-plugin-gtag@npm:^1.0.13":
+  version: 1.0.13
+  resolution: "gatsby-plugin-gtag@npm:1.0.13"
   peerDependencies:
-    gatsby: ^5.0.0-next
-    react: ^18.0.0 || ^0.0.0
-    react-dom: ^18.0.0 || ^0.0.0
-  checksum: 3aa9bc7f364b95cb41f8529936bd711d132a19d6b7087d36cd0cc03d69fac217e9d062e91494e978066be3ee6e04e6cd37ff5a77afbf76d62015648b931d8915
+    gatsby: ">2.0.0-alpha"
+  checksum: f3ac5be3600b79946d7f0bd0ce9e9fa02b656fe195ec6969a237955bd31eaca0bc7a8b3bcc2a917d07ecdcf80b36370e1ffb61bcd245a7c5fe8814e0d545b617
   languageName: node
   linkType: hard
 
@@ -21934,7 +21920,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     eslint-plugin-storybook: ^0.6.8
     gatsby: ^5.0.1
-    gatsby-plugin-google-gtag: ^5.5.0
+    gatsby-plugin-gtag: ^1.0.13
     gatsby-plugin-image: ^3.0.0
     gatsby-plugin-local-search: ^2.0.1
     gatsby-plugin-mdx: ^5.0.0

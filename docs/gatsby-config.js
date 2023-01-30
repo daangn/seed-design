@@ -213,15 +213,10 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-gtag`,
+      resolve: `gatsby-plugin-gtag`,
       options: {
-        trackingIds: [
-          "G-P6FY16FTPH", // Google Analytics / GA
-        ],
-        pluginConfig: {
-          head: true,
-          origin: "https://seed-design.io",
-        },
+        trackingId: "G-P6FY16FTPH",
+        head: true,
       },
     },
   ],
