@@ -4,9 +4,9 @@
   "thumbnail": "./thumbnail.png",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog:components/switch"
     },
     "android": {
       "status": "todo",

@@ -8,7 +8,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotBoxToggleButton",
-      "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/Toggle/KarrotBoxToggleButton/KarrotBoxToggleButton.swift"
+      "path": "seedcatalog:components/box-toggle-button"
     },
     "android": {
       "status": "todo",
