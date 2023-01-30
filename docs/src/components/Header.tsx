@@ -9,8 +9,6 @@ import * as style from "./Header.css";
 import Logo from "./Logo";
 import ThemeSelect from "./ThemeSelect";
 
-console.log("Test");
-
 function GithubLogo() {
   return (
     <svg
