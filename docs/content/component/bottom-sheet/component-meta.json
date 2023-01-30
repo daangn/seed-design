@@ -1,0 +1,34 @@
+{
+  "name": "Bottom Sheet",
+  "description": "화면 하단에 고정된 보충 콘텐츠가 포함된 표면 요소입니다.",
+  "thumbnail": "./thumbnail.png",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "in-progress",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

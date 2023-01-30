@@ -71,7 +71,6 @@ export const gridItemImage = style([
     objectFit: "contain",
     overflow: "hidden",
     borderRadius: "8px",
-    isolation: "isolate",
   },
 ]);
 
