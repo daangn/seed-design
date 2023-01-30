@@ -212,5 +212,17 @@ module.exports = {
         id: "portal",
       },
     },
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          "G-P6FY16FTPH", // Google Analytics / GA
+        ],
+        pluginConfig: {
+          head: true,
+          origin: "https://seed-design.io",
+        },
+      },
+    },
   ],
 };
