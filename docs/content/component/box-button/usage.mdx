@@ -28,21 +28,51 @@ slug: /component/box-button/usage
 
 <HalfCard>
   <HalfCardImageCell>
-    ![box button options variant](./boxbutton-options-variant.png)
+    ![box button options primary, primary-low](./boxbutton-options-primary.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Variant</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      Box Button은 primary, primary-low, secondary, danger 4개의 스타일 옵션을
-      가질 수 있습니다. 기본값은 primary이며, 유저에게 위험한 정보를 전달해야 할
-      때만 danger를 사용합니다.
+      Primary 버튼은 강한 강조나 중요한 역할을 하는 버튼일 경우에 사용합니다.
+      Primary은 한 화면에서 너무 많이 사용되지 않도록 제한적으로 사용해야합니다.
+      정보의 위계를 유저가 명확하게 인지할 수 있도록, 우선순위를 명확하게
+      표현합니다. 또한, Primary 버튼은 단독으로 하단에 고정하여 사용할 수
+      있습니다. (Primary-low는 불가능)
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
 
 <HalfCard>
   <HalfCardImageCell>
-    ![box button options variant](./boxbutton-options-disabled.png)
+    ![box button options prioity](./boxbutton-options-prioity.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      버튼 Variant의 중요도는 Primary로 갈수록 높아지며, Secondary로 갈수록
+      낮아집니다. 화면 내에서 액션의 중요도에 따라 버튼의 variant를 다르게
+      사용합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options danger](./boxbutton-options-danger.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Danger 버튼은 유저에게 위험 요소에 대한 경고를 전달할 때 사용합니다. 이
+      버튼으로 인하여 파괴적 변화나 부정적인 행동이 일어날 수 있음을 시각적으로
+      인지시켜줍니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options disabled](./boxbutton-options-disabled.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
@@ -50,6 +80,19 @@ slug: /component/box-button/usage
       Disabled 상태는 Box Button이 존재하지만 지금은 사용할 수 없는 상태를
       나타냅니다. 이 옵션은 레이아웃 일관성을 유지하고 이후 상호작용이 가능할
       수도 있음을 사용자에게 알려줍니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button options icon](./boxbutton-options-icon.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Label을 보조하기 위한 아이콘을 사용할 수 있습니다. 모노크롬 아이콘만
+      사용할 수 있으며, surffix 에는 chevron만 사용할 수 있습니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
