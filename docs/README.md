@@ -1,3 +1,1 @@
 # SEED Design Docs
-
-test
