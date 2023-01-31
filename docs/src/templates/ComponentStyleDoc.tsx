@@ -1,10 +1,9 @@
 import type { HeadFC, PageProps } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Slice } from "gatsby";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
 import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
-import TableOfContents from "../components/TableOfContents";
 import * as style from "./ComponentCommon.css";
 
 export const query = graphql`
@@ -60,7 +59,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
-      <TableOfContents tableOfContents={tableOfContents} />
+      <Slice alias="toc" tableOfContents={tableOfContents} />
     </>
   );
 };

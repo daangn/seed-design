@@ -1,4 +1,5 @@
-const path = require("path");
+import type { GatsbyNode } from "gatsby";
+import path from "path";
 
 const ComponentOverviewDocTemplate = path.resolve(
   `./src/templates/ComponentOverviewDoc.tsx`,
@@ -11,7 +12,11 @@ const ComponentStyleDocTemplate = path.resolve(
 );
 const PrimitiveDocTemplate = path.resolve(`./src/templates/PrimitiveDoc.tsx`);
 
-exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
+export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
+  actions,
+  plugins,
+  reporter,
+}) => {
   actions.setWebpackConfig({
     plugins: [
       plugins.provide({
@@ -23,16 +28,16 @@ exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
   reporter.info(`Provided React in all files`);
 };
 
-exports.createPages = async ({
+export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
   actions: { createPage, createSlice },
 }) => {
   createSlice({
-    id: `test`,
-    component: path.resolve(`./src/components/TestSlice.tsx`),
+    id: "toc",
+    component: path.resolve(`./src/components/TableOfContents.tsx`),
   });
 
-  const result = await graphql(`
+  const result = await graphql<Queries.CreatePagesQuery>(`
     fragment MdxContent on Mdx {
       frontmatter {
         slug
@@ -42,7 +47,7 @@ exports.createPages = async ({
       }
     }
 
-    query {
+    query CreatePages {
       allAllPrimitiveMetaJson {
         nodes {
           id
@@ -87,34 +92,37 @@ exports.createPages = async ({
     }
   `);
 
-  const componentNodes = result.data.allAllComponentMetaJson.nodes;
-  const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
+  const componentNodes = result?.data?.allAllComponentMetaJson.nodes;
+  const primitiveNodes = result?.data?.allAllPrimitiveMetaJson.nodes;
 
-  componentNodes.forEach((component) => {
-    if (component.platform.docs.overview?.mdx) {
+  componentNodes?.forEach((component) => {
+    if (component?.platform?.docs?.overview?.mdx) {
       createPage({
-        path: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentOverviewDocTemplate}?__contentFilePath=${component.platform.docs.overview.mdx.childMdx.internal.contentFilePath}`,
+        path: component?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter!
+          .slug!,
+        component: `${ComponentOverviewDocTemplate}?__contentFilePath=${component?.platform?.docs?.overview?.mdx?.childMdx?.internal.contentFilePath}`,
         context: {
           id: component.id,
         },
       });
     }
 
-    if (component.platform.docs.usage.mdx) {
+    if (component?.platform?.docs?.usage?.mdx) {
       createPage({
-        path: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentUsageDocTemplate}?__contentFilePath=${component.platform.docs.usage.mdx.childMdx.internal.contentFilePath}`,
+        path: component?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
+          ?.slug!,
+        component: `${ComponentUsageDocTemplate}?__contentFilePath=${component?.platform?.docs?.usage?.mdx?.childMdx?.internal.contentFilePath}`,
         context: {
           id: component.id,
         },
       });
     }
 
-    if (component.platform.docs.style.mdx) {
+    if (component?.platform?.docs?.style?.mdx) {
       createPage({
-        path: component.platform.docs.style.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentStyleDocTemplate}?__contentFilePath=${component.platform.docs.style.mdx.childMdx.internal.contentFilePath}`,
+        path: component?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
+          ?.slug!,
+        component: `${ComponentStyleDocTemplate}?__contentFilePath=${component?.platform?.docs?.style?.mdx?.childMdx?.internal.contentFilePath}`,
         context: {
           id: component.id,
         },
@@ -122,12 +130,12 @@ exports.createPages = async ({
     }
   });
 
-  primitiveNodes.forEach((component) => {
+  primitiveNodes?.forEach((component) => {
     if (!component.primitive) return;
 
     createPage({
-      path: component.primitive.childMdx.frontmatter.slug,
-      component: `${PrimitiveDocTemplate}?__contentFilePath=${component.primitive.childMdx.internal.contentFilePath}`,
+      path: component?.primitive?.childMdx?.frontmatter?.slug!,
+      component: `${PrimitiveDocTemplate}?__contentFilePath=${component?.primitive?.childMdx?.internal.contentFilePath}`,
       context: {
         id: component.id,
       },

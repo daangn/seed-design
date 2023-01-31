@@ -1,9 +1,8 @@
 import type { HeadFC, PageProps } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Slice } from "gatsby";
 
 import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
-import TableOfContents from "../components/TableOfContents";
 import * as style from "./PrimitiveCommon.css";
 
 export const query = graphql`
@@ -37,7 +36,7 @@ const DocsTemplate: React.FC<
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
-      <TableOfContents tableOfContents={tableOfContents} />
+      <Slice alias="toc" tableOfContents={tableOfContents} />
     </>
   );
 };

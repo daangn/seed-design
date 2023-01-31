@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import type { HeadFC } from "gatsby";
-import { Slice } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
@@ -47,7 +46,6 @@ const Page = ({ data }: PageProps) => {
   return (
     <article className={listPageStyle.content}>
       <h1 className={listPageStyle.title}>Component</h1>
-      <Slice alias="test" />
       <p className={listPageStyle.caption1}>
         컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
       </p>
