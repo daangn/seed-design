@@ -174,15 +174,25 @@ export const listItem = recipe({
 
       width: "100%",
       height: "78px",
+      minHeight: "78px",
 
       borderRadius: "10px",
+      border: `1px solid ${vars.$scale.color.gray00}`,
 
       paddingInlineStart: "16px",
       paddingInlineEnd: "16px",
       rowGap: "4px",
+      boxSizing: "border-box",
 
       ":hover": {
         backgroundColor: vars.$scale.color.gray50,
+        cursor: "pointer",
+      },
+
+      selectors: {
+        "&[aria-selected=true]": {
+          border: `1px solid ${vars.$scale.color.blue500}`,
+        },
       },
     },
   ],

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
+type Status = "todo" | "in-progress" | "done";
 interface QueryResultItem {
-  id: string;
   name: string;
+  status?: Status;
   slug: string;
 }
 
