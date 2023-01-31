@@ -57,7 +57,7 @@ export default function Header() {
         />
 
         <div className={style.headerLogo}>
-          <Slice alias="logo" to="/" />
+          <Slice alias="ui/Logo" to="/" />
         </div>
 
         <div className={style.headerRightSection}>

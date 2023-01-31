@@ -7,7 +7,7 @@ import {
   HalfCardDescriptionCell,
   HalfCardDescriptionTitle,
   HalfCardImageCell,
-} from "../components/mdx/Card";
+} from "../components/mdx/card";
 
 export default {
   component: HalfCard,

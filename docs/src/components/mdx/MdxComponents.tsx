@@ -1,11 +1,11 @@
-import * as card from "./Card";
-import * as DoDont from "./DoDont";
-import * as heading from "./Heading";
-import Iframe from "./Iframe";
-import Keyboard from "./Keyboard";
-import * as list from "./List";
-import * as table from "./Table";
-import * as text from "./Text";
+import * as card from "./card";
+import * as DoDont from "./do-dont";
+import * as heading from "./heading";
+import { Iframe } from "./iframe";
+import { Keyboard } from "./keyboard";
+import * as list from "./list";
+import * as table from "./table";
+import * as text from "./text";
 
 export default {
   /* 커스텀 HTML Elements */

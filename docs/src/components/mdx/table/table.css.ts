@@ -1,7 +1,7 @@
 import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 
-import * as m from "../../styles/media.css";
+import * as m from "../../../styles/media.css";
 
 export const tableWrapper = style({
   width: "100%",

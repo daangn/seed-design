@@ -36,7 +36,7 @@ const DocsTemplate: React.FC<
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
-      <Slice alias="toc" tableOfContents={tableOfContents} />
+      <Slice alias="ui/TOC" tableOfContents={tableOfContents} />
     </>
   );
 };

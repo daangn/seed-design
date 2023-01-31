@@ -8,7 +8,7 @@ import {
   TableData,
   TableHead,
   TableRow,
-} from "../../components/mdx/Table";
+} from "../../components/mdx/table";
 import SEO from "../../components/SEO";
 import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
 import * as t from "../../styles/token.css";

@@ -167,7 +167,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                 if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
                     <SidebarItem
-                      key={`${item?.name}-todo`}
+                      key={`${item?.name?.trim()}-todo`}
                       currentPath={currentPath}
                       to={item?.name!}
                       itemName={item?.name!}
@@ -181,9 +181,10 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                 const name = item?.name;
                 const path =
                   item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
+
                 return (
                   <SidebarItem
-                    key={`${name}-done-or-wip`}
+                    key={`${name?.trim()}-done-or-wip`}
                     currentPath={currentPath}
                     to={path!}
                     itemName={name!}
@@ -199,7 +200,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
         return (
           <SidebarItem
-            key={`${value[0]?.name}-only-one-component`}
+            key={`${value[0]?.name?.trim()}-only-one-component`}
             currentPath={currentPath}
             to={
               value[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!
@@ -220,7 +221,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
         return (
           <SidebarItem
-            key={`${name!}-primitive-done-or-in-progress`}
+            key={`${name!.trim()}-primitive-done-or-in-progress`}
             currentPath={currentPath}
             to={slug!}
             itemName={name!}

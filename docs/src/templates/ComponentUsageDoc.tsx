@@ -59,7 +59,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentUsageQuery>> = ({
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
-      <Slice alias="toc" tableOfContents={tableOfContents} />
+      <Slice alias="ui/TOC" tableOfContents={tableOfContents} />
     </>
   );
 };

@@ -5,7 +5,7 @@ import {
   FullCard,
   FullCardDescription,
   FullCardImageCell,
-} from "../components/mdx/Card";
+} from "../components/mdx/card";
 
 export default {
   component: FullCard,
