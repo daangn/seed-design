@@ -20,15 +20,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.12.1
-
-      - name: Restore yarn cache
-        uses: actions/cache@v3
-        id: yarn-download-cache
-        with:
-          key: yarn-cache-folder-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          restore-keys: |
-            yarn-cache-folder-
+          cache: yarn
       
       - name: Install Dependencies
         run: yarn install --immutable
