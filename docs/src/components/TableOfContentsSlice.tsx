@@ -1,7 +1,7 @@
 import { Link } from "gatsby";
 import React, { useEffect, useState } from "react";
 
-import * as style from "./TableOfContents.css";
+import * as style from "./TableOfContentsSlice.css";
 
 export type TableOfContentsItemType = {
   url: string;
