@@ -11,7 +11,7 @@
     "dev": "gatsby develop",
     "dev:storybook": "storybook dev -p 6006",
     "develop": "gatsby develop",
-    "build": "gatsby build --log-pages",
+    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --verbose --log-pages",
     "build:storybook": "storybook build",
     "storybook": "storybook dev -p 6006",
     "clean": "gatsby clean",
