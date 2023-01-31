@@ -15,13 +15,12 @@ const SEO = ({ name, description }: SEOProps) => {
     }
   `);
 
+  const nameWithPrefix = name ? `${name} | ` : "";
+
   return (
     <>
-      <title>{name && `${name} | `}SEED Design</title>
-      <meta
-        property="og:title"
-        content={`${name && `${name} | `}SEED Design`}
-      />
+      <title>{nameWithPrefix}SEED Design</title>
+      <meta property="og:title" content={`${nameWithPrefix}SEED Design`} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
     </>
