@@ -4,9 +4,9 @@
   "thumbnail": "./thumbnail.png",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog:components/switch"
     },
     "android": {
       "status": "todo",
@@ -18,7 +18,7 @@
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {

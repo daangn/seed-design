@@ -1,5 +1,5 @@
 import { classNames, vars } from "@seed-design/design-token";
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 
 import * as m from "./media.css";
 
@@ -68,6 +68,10 @@ export const documentHeading2 = style([
     fontSize: "34px",
   }),
 ]);
+
+globalStyle(`${documentHeading2}:first-of-type`, {
+  marginTop: "40px",
+});
 
 export const documentHeading3 = style([
   classNames.$semantic.typography.h3,

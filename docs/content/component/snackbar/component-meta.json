@@ -5,7 +5,7 @@
   "primitive": "../../primitive/snackbar/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "in-progress",
       "alias": "",
       "path": ""
     },
@@ -19,7 +19,7 @@
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {

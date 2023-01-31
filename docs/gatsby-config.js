@@ -212,5 +212,12 @@ module.exports = {
         id: "portal",
       },
     },
+    {
+      resolve: `gatsby-plugin-gtag`,
+      options: {
+        trackingId: "G-P6FY16FTPH",
+        head: true,
+      },
+    },
   ],
 };

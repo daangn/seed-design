@@ -19,14 +19,15 @@ slug: /component/outlined-text-field/style
 
 ## Visual Options
 
-| Property           | Value | Description |
-| ------------------ | ----- | ----------- |
-| label              | text  |             |
-| placeholder        | text  |             |
-| description        | text  |             |
-| error message      | text  |             |
-| required indicator | text  |             |
-| optional indicator | text  |             |
+| Property           | Value         | Description |
+| ------------------ | ------------- | ----------- |
+| size               | medium, small |             |
+| label              | text          |             |
+| placeholder        | text          |             |
+| description        | text          |             |
+| error message      | text          |             |
+| required indicator | text          |             |
+| optional indicator | text          |             |
 
 ## Visually Representated States
 
@@ -79,6 +80,8 @@ slug: /component/outlined-text-field/style
 
 ## 디자인 결정 (Typography)
 
+### size=medium
+
 | Part                                   | Attribute  | Value                               |
 | -------------------------------------- | ---------- | ----------------------------------- |
 | Label                                  | Typography | $semantic.typography.label3-bold    |
@@ -86,13 +89,35 @@ slug: /component/outlined-text-field/style
 | Field Text, Placeholder                | Typography | $semantic.typography.label2-regular |
 | Description                            | Typography | $semantic.typography.label3-regular |
 
+### size=small
+
+| Part                                   | Attribute  | Value                               |
+| -------------------------------------- | ---------- | ----------------------------------- |
+| Label                                  | Typography | $semantic.typography.label3-bold    |
+| Required Indicator, Optional Indicator | Typography | $semantic.typography.label3-regular |
+| Field Text, Placeholder                | Typography | $semantic.typography.label3-regular |
+| Description                            | Typography | $semantic.typography.label4-regular |
+
 ## 디자인 결정 (Layout)
+
+### size=medium
 
 | Part                       | Attribute          | Value |
 | -------------------------- | ------------------ | ----- |
 | Field                      | Corner Radius      | 6pt   |
+|                            | Height             | 52pt  |
 |                            | Horizontal Padding | 14pt  |
-|                            | Vertical Padding   | 15pt  |
+| Label / Required Indicator | Spacing            | 4pt   |
+| Label / Field              | Spacing            | 12pt  |
+| Field / Description        | Spacing            | 8pt   |
+
+### size=small
+
+| Part                       | Attribute          | Value |
+| -------------------------- | ------------------ | ----- |
+| Field                      | Corner Radius      | 6pt   |
+|                            | Height             | 42pt  |
+|                            | Horizontal Padding | 12pt  |
 | Label / Required Indicator | Spacing            | 4pt   |
 | Label / Field              | Spacing            | 12pt  |
 | Field / Description        | Spacing            | 8pt   |

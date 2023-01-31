@@ -2,6 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
+import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
 export const navContainer = style([
@@ -10,6 +11,12 @@ export const navContainer = style([
     marginTop: "20px",
     gap: "8px",
   },
+
+  m.large({
+    position: "sticky",
+    top: "30px",
+    zIndex: 50,
+  }),
 ]);
 
 export const navLink = recipe({

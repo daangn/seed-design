@@ -3257,68 +3257,38 @@ type ComponentOverviewQueryVariables = Exact<{
 }>;
 
 
-type ComponentOverviewQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentOverviewQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentProgressBoardPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentProgressBoardPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentStyleQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentStyleQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentStyleQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentUsageQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentUsageQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type FoundationColorPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type FoundationColorPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type FoundationTypographyPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type FoundationTypographyPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type GetStartedPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type GetStartedPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type MainPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type MainPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
-
-type OverviewListPageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type OverviewListPageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type ComponentUsageQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
 
 type PrimitiveDocTemplateQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type PrimitiveDocTemplateQuery = { readonly allPrimitiveMetaJson: { readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly tableOfContents: any | null, readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type PrimitiveDocTemplateQuery = { readonly allPrimitiveMetaJson: { readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly tableOfContents: any | null, readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null };
 
 type PrimitiveListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type PrimitiveListPageQuery = { readonly allAllPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
-
-type PrinciplePageQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type PrinciplePageQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
 
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 

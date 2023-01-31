@@ -8,7 +8,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotBoxButton",
-      "path": "https://github.com/daangn/KarrotUIKit/blob/main/Sources/KarrotUIComponent/Button/KarrotBoxButton/KarrotBoxButton.swift"
+      "path": "seedcatalog:components/box-button"
     },
     "android": {
       "status": "todo",
@@ -20,7 +20,7 @@
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {
