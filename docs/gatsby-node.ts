@@ -22,6 +22,14 @@ const Slices = [
     alias: "ui/Logo",
     path: "./src/components/LogoSlice.tsx",
   },
+  {
+    alias: "ui/ComponentDocumentCategoryNav",
+    path: "./src/components/ComponentDocumentCategoryNavSlice.tsx",
+  },
+  {
+    alias: "ui/EditLink",
+    path: "./src/components/EditLinkSlice.tsx",
+  },
 
   // mdx/card
   {

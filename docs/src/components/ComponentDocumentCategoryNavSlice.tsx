@@ -1,6 +1,6 @@
 import { Link } from "gatsby";
 
-import * as style from "./ComponentDocumentCategoryNav.css";
+import * as style from "./ComponentDocumentCategoryNavSlice.css";
 
 type Status = "todo" | "in-progress" | "done";
 interface ComponentDocumentCategoryNavProps {

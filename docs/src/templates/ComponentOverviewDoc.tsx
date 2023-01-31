@@ -1,9 +1,6 @@
 import type { HeadFC, PageProps } from "gatsby";
-import { Slice } from "gatsby";
-import { graphql } from "gatsby";
+import { graphql, Slice } from "gatsby";
 
-import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
-import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
 import * as style from "./ComponentCommon.css";
 
@@ -51,14 +48,15 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
       <article className={style.content}>
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav
+        <Slice
+          alias="ui/ComponentDocumentCategoryNav"
           path={path}
           overviewStatus={overviewStatus}
           usageStatus={usageStatus}
           styleStatus={styleStatus}
         />
         <div>{children}</div>
-        <EditLink slug={path} />
+        <Slice alias="ui/EditLink" slug={path} />
       </article>
       <Slice alias="ui/TOC" tableOfContents={tableOfContents} />
     </>

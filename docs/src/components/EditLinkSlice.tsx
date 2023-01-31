@@ -1,6 +1,6 @@
 import EditIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconEditRegular";
 
-import * as style from "./EditLink.css";
+import * as style from "./EditLinkSlice.css";
 
 interface DocumentEditLinkProps {
   slug: string;
