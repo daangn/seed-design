@@ -24,8 +24,8 @@ jobs:
       - name: Restore yarn cache
         uses: actions/cache@v3
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: yarn-cache-folder-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           restore-keys: |
             yarn-cache-folder-
       
