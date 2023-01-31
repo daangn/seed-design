@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";
 import * as style from "./Header.css";
-import Logo from "./Logo";
+import Logo from "./LogoSlice";
 import ThemeSelect from "./ThemeSelect";
 
 function GithubLogo() {

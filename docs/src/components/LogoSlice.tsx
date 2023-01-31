@@ -1,7 +1,7 @@
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
 
-import * as style from "./Logo.css";
+import * as style from "./LogoSlice.css";
 
 function Logo({ to, onClick }: GatsbyLinkProps<{}>) {
   return (

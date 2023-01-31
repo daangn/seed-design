@@ -34,7 +34,11 @@ export const createPages: GatsbyNode["createPages"] = async ({
 }) => {
   createSlice({
     id: "toc",
-    component: path.resolve(`./src/components/TableOfContents.tsx`),
+    component: path.resolve(`./src/components/TableOfContentsSlice.tsx`),
+  });
+  createSlice({
+    id: "logo",
+    component: path.resolve(`./src/components/LogoSlice.tsx`),
   });
 
   const result = await graphql<Queries.CreatePagesQuery>(`

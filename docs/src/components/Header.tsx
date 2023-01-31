@@ -1,12 +1,12 @@
 import MenuIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconMenuRegular";
 import SearchIcon from "@karrotmarket/karrot-ui-icon/lib/react/IconSearchFill";
 import { vars } from "@seed-design/design-token";
+import { Slice } from "gatsby";
 import { useEffect, useState } from "react";
 
 import { useSearchbarState } from "../contexts/SearchbarContext";
 import { useSidebarState } from "../contexts/SidebarContext";
 import * as style from "./Header.css";
-import Logo from "./Logo";
 import ThemeSelect from "./ThemeSelect";
 
 function GithubLogo() {
@@ -57,7 +57,7 @@ export default function Header() {
         />
 
         <div className={style.headerLogo}>
-          <Logo to="/" />
+          <Slice alias="logo" to="/" />
         </div>
 
         <div className={style.headerRightSection}>

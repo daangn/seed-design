@@ -4,7 +4,7 @@ import groupby from "lodash/groupBy";
 import { memo, useEffect, useState } from "react";
 
 import { useSidebarState } from "../contexts/SidebarContext";
-import Logo from "./Logo";
+import Logo from "./LogoSlice";
 import Portal from "./Portal";
 import * as style from "./Sidebar.css";
 
