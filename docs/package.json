@@ -1,8 +1,8 @@
 {
-  "name": "web",
-  "version": "0.0.1",
+  "name": "@seed-design/docs",
+  "version": "0.0.0",
   "private": true,
-  "description": "web",
+  "description": "seed docs",
   "keywords": [
     "gatsby"
   ],
