@@ -1,25 +1,14 @@
-import type { GatsbyLinkProps } from "gatsby";
-import { graphql, Link, useStaticQuery } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 import groupby from "lodash/groupBy";
-import type { PropsWithChildren } from "react";
 import { memo, useEffect, useState } from "react";
 
-import { useSidebarState } from "../contexts/SidebarContext";
-import Logo from "./Logo";
-import Portal from "./Portal";
+import { useSidebarState } from "../../contexts/SidebarContext";
+import Logo from "../Logo";
+import Portal from "../Portal";
 import * as style from "./Sidebar.css";
-
-type Status = "done" | "in-progress" | "todo";
-interface SidebarItemProps {
-  /**
-   * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
-   */
-  title: "component" | "primitive" | "foundation" | "overview";
-  itemName: string;
-  currentPath: string;
-  status?: Status;
-  hasDeps?: boolean;
-}
+import SidebarCollapse from "./SidebarCollapse";
+import SidebarItem from "./SidebarItem";
+import SidebarTitle from "./SidebarTitle";
 
 const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
@@ -110,7 +99,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         // 그룹
         if (groupItems?.length! >= 2) {
           return (
-            <Collapse title={groupName}>
+            <SidebarCollapse title={groupName}>
               {groupItems?.map((item) => {
                 if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
@@ -143,10 +132,11 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                   />
                 );
               })}
-            </Collapse>
+            </SidebarCollapse>
           );
         }
 
+        // non-그룹
         return (
           <SidebarItem
             key={`${groupItems[0]?.name}-only-one-component`}
@@ -201,7 +191,7 @@ export const MobileSidebar = () => {
     <Portal>
       {active && (
         <div>
-          <nav className={style.sidebar({ open })}>
+          <nav className={style.mobileSidebarContainer({ open })}>
             <SidebarItemContainer logo />
           </nav>
           <div className={style.overlay({ open })} onClick={closeSidebar} />
@@ -211,101 +201,10 @@ export const MobileSidebar = () => {
   );
 };
 
-const ArrowIcon = ({ open }: { open: boolean }) => (
-  <svg
-    width="18"
-    height="18"
-    viewBox="0 0 22 22"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={style.sidebarCollapseIcon({ open })}
-  >
-    <path
-      d="M10.1829 8.65788C10.5813 8.09329 11.4187 8.09329 11.8171 8.65788L14.6506 12.6734C15.1181 13.3359 14.6443 14.25 13.8336 14.25H8.16642C7.35567 14.25 6.88192 13.3359 7.34936 12.6734L10.1829 8.65788Z"
-      fill="#D1D3D8"
-    />
-  </svg>
-);
-
-const Collapse = ({
-  title,
-  children,
-}: PropsWithChildren<{
-  title: string;
-}>) => {
-  const [open, setOpen] = useState(true);
-  const toggle = () => setOpen((prev) => !prev);
-
-  return (
-    <ul className={style.sidebarCollapseContainer}>
-      <div className={style.sidebarCollapseTitleContainer} onClick={toggle}>
-        <h2 className={style.sidebarCollapseTitle}>{title}</h2>
-        <div className={style.sidebarCollapseTitleIcon}>
-          <ArrowIcon open={open} />
-        </div>
-      </div>
-      <div className={style.sidebarCollapse({ open })}>{open && children}</div>
-    </ul>
-  );
-};
-
-const SidebarItem = ({
-  currentPath,
-  itemName,
-  title,
-  status,
-  to,
-  hasDeps,
-  onClick,
-  onMouseEnter,
-}: GatsbyLinkProps<{}> & SidebarItemProps) => {
-  const pathComponentName = currentPath.split("/")[2];
-  const docsComponentName = itemName.replaceAll(" ", "-").toLowerCase();
-  const active =
-    pathComponentName === docsComponentName && currentPath.includes(title);
-
-  return (
-    <Link
-      to={to}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      className={style.sidebarItemLink({ disable: status === "todo" })}
-    >
-      <li
-        className={style.sidebarItem({
-          disable: status === "todo",
-          highlight: active,
-          hasDeps,
-        })}
-      >
-        <span>{itemName}</span>
-      </li>
-    </Link>
-  );
-};
-
-const SidebarTitle = ({
-  title,
-  onClick,
-}: {
-  title: string;
-  onClick: () => void;
-}) => {
-  const firstLetterTitle = title[0].toUpperCase();
-  const restLetterTitle = title.slice(1);
-  return (
-    <Link to={`/${title}`} onClick={onClick}>
-      <h2 className={style.sidebarTitle}>
-        {firstLetterTitle + restLetterTitle}
-      </h2>
-    </Link>
-  );
-};
-
 /* 페이지 고정 사이드바 (1280px ~) */
-export const DesktopSidebar = () => {
+const DesktopSidebar = () => {
   return (
-    <nav className={style.sidebarDesktop}>
+    <nav className={style.desktopSidebarContainer}>
       <SidebarItemContainer />
     </nav>
   );
