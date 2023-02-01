@@ -18,6 +18,24 @@ const slideIn = keyframes({
   },
 });
 
+const sidebarItemBase = style([
+  u.flexAlignCenter,
+  {
+    width: `calc(${SIDEBAR_WIDTH} - 56px)`,
+    height: "32px",
+    fontSize: "16px",
+    color: vars.$scale.color.gray600,
+    transition: "background 0.2s ease",
+    paddingLeft: "10px",
+    marginTop: "6px",
+    borderRadius: "4px",
+
+    ":hover": {
+      backgroundColor: vars.$scale.color.grayAlpha50,
+    },
+  },
+]);
+
 export const sidebar = recipe({
   base: [
     u.flexColumn,
@@ -120,39 +138,97 @@ export const sidebarTitle = style([
   },
 ]);
 
-export const sidebarGroupContainer = style({
-  marginTop: "6px",
-  marginBottom: "10px",
-
-  paddingInlineStart: "0px",
+export const sidebarCollapseIcon = recipe({
+  base: [
+    {
+      transition: "transform 0.2s ease",
+    },
+  ],
+  variants: {
+    open: {
+      true: {
+        transform: "rotate(0deg)",
+      },
+      false: {
+        transform: "rotate(180deg)",
+      },
+    },
+  },
 });
 
-export const sidebarGroupTitle = style({
-  fontSize: "12px",
-  fontWeight: 600,
-  color: vars.$scale.color.gray500,
-  paddingLeft: "10px",
-  marginTop: "10px",
+export const sidebarCollapseTitleContainer = style([
+  sidebarItemBase,
+  {
+    cursor: "pointer",
+    justifyContent: "space-between",
+  },
+]);
+
+export const sidebarCollapseTitleIcon = style({
+  width: "16px",
+  height: "16px",
+  marginRight: "8px",
+});
+
+export const sidebarCollapseContainer = recipe({
+  base: [
+    u.flexColumnCenter,
+    {
+      width: `calc(${SIDEBAR_WIDTH} - 48px)`,
+      marginTop: "0",
+      marginBottom: "0",
+      borderRadius: "4px",
+
+      paddingInlineStart: "0px",
+    },
+  ],
+
+  variants: {
+    open: {
+      true: {
+        transition: "background-color 0.2s ease, color 0.2s ease",
+
+        ":hover": {
+          backgroundColor: vars.$semantic.color.grayHover,
+        },
+      },
+    },
+  },
+});
+
+export const sidebarCollapseTitle = style([
+  {
+    fontWeight: "normal",
+  },
+]);
+
+export const sidebarCollapse = recipe({
+  base: [
+    {
+      transition: "height 0.2s ease, opacity 0.2s ease, transform 0.2s ease",
+    },
+  ],
+  variants: {
+    open: {
+      true: {
+        height: "auto",
+        opacity: 1,
+        transform: "translateY(0)",
+      },
+      false: {
+        height: 0,
+        opacity: 0,
+        transform: "translateY(-20px)",
+      },
+    },
+  },
 });
 
 export const sidebarItem = recipe({
   base: [
-    u.flexAlignCenter,
+    sidebarItemBase,
     {
-      width: `calc(${SIDEBAR_WIDTH} - 56px)`,
-      height: "32px",
-      fontSize: "16px",
-      color: vars.$scale.color.gray700,
-      transition: "background 0.2s ease",
-      paddingLeft: "10px",
-      marginTop: "6px",
-      borderRadius: "4px",
-
-      paddingInlineStart: "10px",
-
-      ":hover": {
-        backgroundColor: vars.$scale.color.grayAlpha50,
-      },
+      paddingLeft: "13px",
     },
   ],
 
@@ -174,6 +250,12 @@ export const sidebarItem = recipe({
     disable: {
       true: {
         color: vars.$scale.color.gray400,
+      },
+    },
+
+    hasDeps: {
+      true: {
+        paddingLeft: "15px",
       },
     },
   },
