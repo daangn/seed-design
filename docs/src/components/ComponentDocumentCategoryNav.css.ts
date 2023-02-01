@@ -5,16 +5,22 @@ import { recipe } from "@vanilla-extract/recipes";
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
+export const bottomLine = style({
+  width: "100%",
+  height: "1px",
+  backgroundColor: vars.$scale.color.gray200,
+});
+
 export const navContainer = style([
   u.flexAlignCenter,
   {
-    marginTop: "20px",
-    gap: "8px",
+    marginTop: "70px",
+    gap: "20px",
   },
 
   m.large({
     position: "sticky",
-    top: "30px",
+    top: "20px",
     zIndex: 50,
   }),
 ]);
@@ -27,20 +33,24 @@ export const navLink = recipe({
       fontSize: "14px",
       fontWeight: "bold",
 
-      padding: "4px 14px",
-      borderRadius: "8px",
+      paddingBottom: "8px",
+      margin: "0 8px",
 
       transition: "background-color 0.2s ease",
 
-      ":hover": {
-        backgroundColor: vars.$scale.color.gray200,
-      },
+      color: vars.$scale.color.gray500,
     },
   ],
   variants: {
     active: {
       true: {
-        backgroundColor: vars.$scale.color.gray100,
+        color: vars.$scale.color.gray700,
+        borderBottom: `3px solid ${vars.$scale.color.gray700}`,
+      },
+      false: {
+        ":hover": {
+          color: vars.$scale.color.gray600,
+        },
       },
     },
   },
@@ -50,6 +60,7 @@ export const navLinkText = recipe({
   base: [
     {
       position: "relative",
+      fontSize: "20px",
 
       ":after": {
         content: "",
