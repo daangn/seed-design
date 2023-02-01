@@ -1,77 +1,14 @@
-import type { GatsbyLinkProps } from "gatsby";
-import { graphql, Link, useStaticQuery } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 import groupby from "lodash/groupBy";
 import { memo, useEffect, useState } from "react";
 
-import { useSidebarState } from "../contexts/SidebarContext";
-import Logo from "./Logo";
-import Portal from "./Portal";
+import { useSidebarState } from "../../contexts/SidebarContext";
+import Logo from "../Logo";
+import Portal from "../Portal";
 import * as style from "./Sidebar.css";
-
-type Status = "done" | "in-progress" | "todo";
-interface SidebarItemProps {
-  /**
-   * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
-   */
-  title: "component" | "primitive" | "foundation" | "overview";
-
-  itemName: string;
-
-  currentPath: string;
-
-  status?: Status;
-}
-
-const SidebarItem = ({
-  currentPath,
-  itemName,
-  title,
-  status,
-  to,
-  onClick,
-  onMouseEnter,
-}: GatsbyLinkProps<{}> & SidebarItemProps) => {
-  const pathComponentName = currentPath.split("/")[2];
-  const docsComponentName = itemName.replaceAll(" ", "-").toLowerCase();
-  const active =
-    pathComponentName === docsComponentName && currentPath.includes(title);
-
-  return (
-    <Link
-      to={to}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      className={style.sidebarItemLink({ disable: status === "todo" })}
-    >
-      <li
-        className={style.sidebarItem({
-          disable: status === "todo",
-          highlight: active,
-        })}
-      >
-        <span>{itemName}</span>
-      </li>
-    </Link>
-  );
-};
-
-const SidebarTitle = ({
-  title,
-  onClick,
-}: {
-  title: string;
-  onClick: () => void;
-}) => {
-  const firstLetterTitle = title[0].toUpperCase();
-  const restLetterTitle = title.slice(1);
-  return (
-    <Link to={`/${title}`} onClick={onClick}>
-      <h2 className={style.sidebarTitle}>
-        {firstLetterTitle + restLetterTitle}
-      </h2>
-    </Link>
-  );
-};
+import SidebarCollapse from "./SidebarCollapse";
+import SidebarItem from "./SidebarItem";
+import SidebarTitle from "./SidebarTitle";
 
 const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
@@ -158,12 +95,12 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
       <SidebarTitle title="component" onClick={closeSidebar} />
 
-      {Object.entries(groupedComponentData!).map(([key, value]) => {
-        if (value?.length! >= 2) {
+      {Object.entries(groupedComponentData!).map(([groupName, groupItems]) => {
+        // 그룹
+        if (groupItems?.length! >= 2) {
           return (
-            <ul className={style.sidebarGroupContainer}>
-              <h2 className={style.sidebarGroupTitle}>{key}</h2>
-              {value?.map((item) => {
+            <SidebarCollapse title={groupName}>
+              {groupItems?.map((item) => {
                 if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
                     <SidebarItem
@@ -174,6 +111,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       title="component"
                       onClick={closeSidebar}
                       status={item?.platform?.docs?.usage?.status!}
+                      hasDeps
                     />
                   );
                 }
@@ -190,24 +128,27 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     title="component"
                     onClick={closeSidebar}
                     status={item?.platform?.docs?.usage?.status! as Status}
+                    hasDeps
                   />
                 );
               })}
-            </ul>
+            </SidebarCollapse>
           );
         }
 
+        // non-그룹
         return (
           <SidebarItem
-            key={`${value[0]?.name}-only-one-component`}
+            key={`${groupItems[0]?.name}-only-one-component`}
             currentPath={currentPath}
             to={
-              value[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!
+              groupItems[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
+                ?.slug!
             }
-            itemName={value[0]?.name!}
+            itemName={groupItems[0]?.name!}
             title="component"
             onClick={closeSidebar}
-            status={value[0]?.platform?.docs?.usage?.status! as Status}
+            status={groupItems[0]?.platform?.docs?.usage?.status! as Status}
           />
         );
       })}
@@ -250,7 +191,7 @@ export const MobileSidebar = () => {
     <Portal>
       {active && (
         <div>
-          <nav className={style.sidebar({ open })}>
+          <nav className={style.mobileSidebarContainer({ open })}>
             <SidebarItemContainer logo />
           </nav>
           <div className={style.overlay({ open })} onClick={closeSidebar} />
@@ -261,9 +202,9 @@ export const MobileSidebar = () => {
 };
 
 /* 페이지 고정 사이드바 (1280px ~) */
-export const DesktopSidebar = () => {
+const DesktopSidebar = () => {
   return (
-    <nav className={style.sidebarDesktop}>
+    <nav className={style.desktopSidebarContainer}>
       <SidebarItemContainer />
     </nav>
   );

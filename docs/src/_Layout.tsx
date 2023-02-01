@@ -3,7 +3,7 @@ import type { PropsWithChildren } from "react";
 
 import Header from "./components/Header";
 import MdxComponents from "./components/mdx/MdxComponents";
-import Sidebar, { MobileSidebar } from "./components/Sidebar";
+import Sidebar, { MobileSidebar } from "./components/sidebar/Sidebar";
 import * as t from "./styles/token.css";
 
 interface LayoutProps {
