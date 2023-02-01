@@ -15,6 +15,11 @@ export const main = style([
   m.large({
     columnGap: "20px",
   }),
+
+  m.xlarge({
+    maxWidth: "1600px",
+    columnGap: "40px",
+  }),
 ]);
 
 export const content = style([

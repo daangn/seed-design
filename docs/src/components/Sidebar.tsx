@@ -237,7 +237,7 @@ const Collapse = ({
   const toggle = () => setOpen((prev) => !prev);
 
   return (
-    <ul className={style.sidebarCollapseContainer({ open })}>
+    <ul className={style.sidebarCollapseContainer}>
       <div className={style.sidebarCollapseTitleContainer} onClick={toggle}>
         <h2 className={style.sidebarCollapseTitle}>{title}</h2>
         <div className={style.sidebarCollapseTitleIcon}>

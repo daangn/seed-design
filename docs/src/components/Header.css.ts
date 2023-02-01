@@ -52,6 +52,10 @@ export const content = style([
     paddingLeft: "20px",
     paddingRight: "20px",
   }),
+
+  m.xlarge({
+    maxWidth: "1560px",
+  }),
 ]);
 
 export const headerLogo = style([

@@ -5,7 +5,8 @@ import { recipe } from "@vanilla-extract/recipes";
 import * as m from "../styles/media.css";
 import * as u from "../styles/utils.css";
 
-const SIDEBAR_WIDTH = "250px";
+const SIDEBAR_WIDTH = "270px";
+const SIDEBAR_ITEM_WIDTH = `calc(${SIDEBAR_WIDTH} - 34px)`;
 
 const slideIn = keyframes({
   "0%": {
@@ -21,9 +22,10 @@ const slideIn = keyframes({
 const sidebarItemBase = style([
   u.flexAlignCenter,
   {
-    width: `calc(${SIDEBAR_WIDTH} - 56px)`,
+    width: SIDEBAR_ITEM_WIDTH,
     height: "32px",
     fontSize: "16px",
+    fontWeight: "500",
     color: vars.$scale.color.gray600,
     transition: "background 0.2s ease",
     paddingLeft: "10px",
@@ -47,7 +49,7 @@ export const sidebar = recipe({
 
       animation: `${slideIn} 0.2s ease`,
       background: vars.$semantic.color.paperDefault,
-      paddingLeft: "20px",
+      paddingLeft: "6px",
 
       width: SIDEBAR_WIDTH,
       height: "100vh",
@@ -83,7 +85,6 @@ export const sidebarDesktop = style([
     top: 0,
 
     background: vars.$semantic.color.paperDefault,
-    paddingLeft: "20px",
 
     width: SIDEBAR_WIDTH,
     height: "100vh",
@@ -95,7 +96,7 @@ export const sidebarDesktop = style([
     position: "sticky",
     top: 80,
     left: 0,
-    paddingLeft: "30px",
+
     height: "calc(100vh - 80px)",
     zIndex: 1,
   }),
@@ -113,11 +114,19 @@ export const sidebarItemContainer = style([
   {
     position: "absolute",
 
-    padding: "30px 0px",
+    paddingTop: "30px",
+    paddingBottom: "30px",
+    paddingLeft: "10px",
+    paddingRight: "20px",
+
     height: "100%",
     overflowY: "auto",
     overscrollBehavior: "contain",
   },
+
+  m.medium({
+    marginLeft: "20px",
+  }),
 
   m.large({
     top: 0,
@@ -129,7 +138,7 @@ export const sidebarTitle = style([
     fontSize: "24px",
     fontWeight: 700,
 
-    width: `calc(${SIDEBAR_WIDTH} - 20px)`,
+    width: SIDEBAR_ITEM_WIDTH,
     transition: "color 0.2s ease",
     color: vars.$scale.color.gray900,
     paddingLeft: "10px",
@@ -167,38 +176,25 @@ export const sidebarCollapseTitleContainer = style([
 export const sidebarCollapseTitleIcon = style({
   width: "16px",
   height: "16px",
-  marginRight: "8px",
+  marginRight: "10px",
 });
 
-export const sidebarCollapseContainer = recipe({
-  base: [
-    u.flexColumnCenter,
-    {
-      width: `calc(${SIDEBAR_WIDTH} - 48px)`,
-      marginTop: "0",
-      marginBottom: "0",
-      borderRadius: "4px",
+export const sidebarCollapseContainer = style([
+  u.flexColumnCenter,
+  {
+    width: SIDEBAR_ITEM_WIDTH,
+    marginTop: "0",
+    marginBottom: "0",
+    borderRadius: "4px",
 
-      paddingInlineStart: "0px",
-    },
-  ],
-
-  variants: {
-    open: {
-      true: {
-        transition: "background-color 0.2s ease, color 0.2s ease",
-
-        ":hover": {
-          backgroundColor: vars.$semantic.color.grayHover,
-        },
-      },
-    },
+    paddingInlineStart: "0px",
   },
-});
+]);
 
 export const sidebarCollapseTitle = style([
   {
-    fontWeight: "normal",
+    fontWeight: "500",
+    userSelect: "none",
   },
 ]);
 
@@ -255,7 +251,8 @@ export const sidebarItem = recipe({
 
     hasDeps: {
       true: {
-        paddingLeft: "15px",
+        paddingLeft: "20px",
+        paddingRight: "20px",
       },
     },
   },
