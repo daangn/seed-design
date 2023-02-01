@@ -158,12 +158,13 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
       <SidebarTitle title="component" onClick={closeSidebar} />
 
-      {Object.entries(groupedComponentData!).map(([key, value]) => {
-        if (value?.length! >= 2) {
+      {Object.entries(groupedComponentData!).map(([groupName, groupItems]) => {
+        // 그룹
+        if (groupItems?.length! >= 2) {
           return (
             <ul className={style.sidebarGroupContainer}>
-              <h2 className={style.sidebarGroupTitle}>{key}</h2>
-              {value?.map((item) => {
+              <h2 className={style.sidebarGroupTitle}>{groupName}</h2>
+              {groupItems?.map((item) => {
                 if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
                     <SidebarItem
@@ -199,15 +200,16 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
         return (
           <SidebarItem
-            key={`${value[0]?.name}-only-one-component`}
+            key={`${groupItems[0]?.name}-only-one-component`}
             currentPath={currentPath}
             to={
-              value[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!
+              groupItems[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
+                ?.slug!
             }
-            itemName={value[0]?.name!}
+            itemName={groupItems[0]?.name!}
             title="component"
             onClick={closeSidebar}
-            status={value[0]?.platform?.docs?.usage?.status! as Status}
+            status={groupItems[0]?.platform?.docs?.usage?.status! as Status}
           />
         );
       })}
