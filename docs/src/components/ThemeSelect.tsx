@@ -40,24 +40,32 @@ const OptionItem = {
 };
 
 const SelectItem = {
-  light: (
-    <div className={style.selectLeftSection}>
-      <SunIcon width="16px" />
-      <span className={style.label}>라이트</span>
-    </div>
-  ),
-  dark: (
-    <div className={style.selectLeftSection}>
-      <MoonIcon width="16px" />
-      <span className={style.label}>다크</span>
-    </div>
-  ),
-  system: (
-    <div className={style.selectLeftSection}>
-      <SettingIcon width="16px" />
-      <span className={style.label}>시스템</span>
-    </div>
-  ),
+  light: {
+    render: () => (
+      <div className={style.selectLeftSection}>
+        <SunIcon className={style.themeIcon} />
+        <span className={style.label}>라이트</span>
+      </div>
+    ),
+  },
+
+  dark: {
+    render: () => (
+      <div className={style.selectLeftSection}>
+        <MoonIcon className={style.themeIcon} />
+        <span className={style.label}>다크</span>
+      </div>
+    ),
+  },
+
+  system: {
+    render: () => (
+      <div className={style.selectLeftSection}>
+        <SettingIcon className={style.themeIcon} />
+        <span className={style.label}>시스템</span>
+      </div>
+    ),
+  },
 };
 
 const ThemeSelect = () => {
@@ -124,11 +132,11 @@ const ThemeSelect = () => {
   return (
     <div ref={ref} className={style.selectContainer}>
       <button className={style.select} onClick={handleSelectClick}>
-        {SelectItem[storageColorTheme]}
+        {SelectItem[storageColorTheme].render()}
         {isOptionListOpen ? (
-          <ExpandLessIcon className={style.icon} width="10px" />
+          <ExpandLessIcon className={style.expandIcon} width="10px" />
         ) : (
-          <ExpandMoreIcon className={style.icon} width="10px" />
+          <ExpandMoreIcon className={style.expandIcon} width="10px" />
         )}
       </button>
       {isOptionListOpen && (
