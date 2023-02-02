@@ -8,7 +8,7 @@ import Portal from "../Portal";
 import * as style from "./Sidebar.css";
 import SidebarCollapse from "./SidebarCollapse";
 import SidebarItem from "./SidebarItem";
-import SidebarTitle from "./SidebarTitle";
+import { SidebarTitleWithLink, SidebarTitleWithNoLink } from "./SidebarTitle";
 
 const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
@@ -67,7 +67,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         </div>
       )}
 
-      <SidebarTitle title="overview" onClick={closeSidebar} />
+      <SidebarTitleWithNoLink title="overview" />
 
       <SidebarItem
         currentPath={currentPath}
@@ -76,7 +76,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         title="overview"
         onClick={closeSidebar}
       />
-      <SidebarTitle title="foundation" onClick={closeSidebar} />
+
+      <SidebarTitleWithNoLink title="foundation" />
 
       <SidebarItem
         currentPath={currentPath}
@@ -93,7 +94,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         onClick={closeSidebar}
       />
 
-      <SidebarTitle title="component" onClick={closeSidebar} />
+      <SidebarTitleWithLink title="component" onClick={closeSidebar} />
 
       {Object.entries(groupedComponentData!).map(([groupName, groupItems]) => {
         // 그룹
@@ -154,7 +155,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         );
       })}
 
-      <SidebarTitle title="primitive" onClick={closeSidebar} />
+      <SidebarTitleWithLink title="primitive" onClick={closeSidebar} />
 
       {primitiveData!.map((node) => {
         const name = node.name!;

@@ -2,7 +2,7 @@ import { Link } from "gatsby";
 
 import * as style from "./SidebarTitle.css";
 
-const SidebarTitle = ({
+const SidebarTitleWithLink = ({
   title,
   onClick,
 }: {
@@ -18,4 +18,10 @@ const SidebarTitle = ({
   );
 };
 
-export default SidebarTitle;
+const SidebarTitleWithNoLink = ({ title }: { title: string }) => {
+  const firstLetterTitle = title[0].toUpperCase();
+  const restLetterTitle = title.slice(1);
+  return <h2 className={style.title}>{firstLetterTitle + restLetterTitle}</h2>;
+};
+
+export { SidebarTitleWithLink, SidebarTitleWithNoLink };
