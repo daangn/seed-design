@@ -3246,7 +3246,7 @@ type SlugFragment = { readonly frontmatter: { readonly slug: string | null } | n
 type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentListPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
+type ComponentListPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentOverviewQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
