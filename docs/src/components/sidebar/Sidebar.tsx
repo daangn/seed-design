@@ -20,7 +20,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           group
           platform {
             docs {
-              usage {
+              overview {
                 status
                 mdx {
                   childMdx {
@@ -101,7 +101,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           return (
             <SidebarCollapse title={groupName}>
               {groupItems?.map((item) => {
-                if (item?.platform?.docs?.usage?.status! === "todo") {
+                if (item?.platform?.docs?.overview?.status! === "todo") {
                   return (
                     <SidebarItem
                       key={`${item?.name}-todo`}
@@ -110,7 +110,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       itemName={item?.name!}
                       title="component"
                       onClick={closeSidebar}
-                      status={item?.platform?.docs?.usage?.status!}
+                      status={item?.platform?.docs?.overview?.status!}
                       hasDeps
                     />
                   );
@@ -118,7 +118,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
                 const name = item?.name;
                 const path =
-                  item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
+                  item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
+                    ?.slug;
                 return (
                   <SidebarItem
                     key={`${name}-done-or-wip`}
@@ -127,7 +128,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     itemName={name!}
                     title="component"
                     onClick={closeSidebar}
-                    status={item?.platform?.docs?.usage?.status! as Status}
+                    status={item?.platform?.docs?.overview?.status! as Status}
                     hasDeps
                   />
                 );
@@ -142,13 +143,13 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
             key={`${groupItems[0]?.name}-only-one-component`}
             currentPath={currentPath}
             to={
-              groupItems[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
-                ?.slug!
+              groupItems[0]?.platform?.docs?.overview?.mdx?.childMdx
+                ?.frontmatter?.slug!
             }
             itemName={groupItems[0]?.name!}
             title="component"
             onClick={closeSidebar}
-            status={groupItems[0]?.platform?.docs?.usage?.status! as Status}
+            status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
           />
         );
       })}

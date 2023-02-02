@@ -14,19 +14,12 @@ export const query = graphql`
       description
       platform {
         docs {
-          overview {
-            status
-          }
           usage {
-            status
             mdx {
               childMdx {
                 tableOfContents
               }
             }
-          }
-          style {
-            status
           }
         }
       }
@@ -42,21 +35,13 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentUsageQuery>> = ({
   const { name, description, platform } = data.componentMetaJson!;
   const tableOfContents =
     platform?.docs?.usage?.mdx?.childMdx?.tableOfContents!;
-  const overviewStatus = platform?.docs?.overview?.status!;
-  const usageStatus = platform?.docs?.usage?.status!;
-  const styleStatus = platform?.docs?.style?.status!;
 
   return (
     <>
       <article className={style.content}>
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav
-          path={path}
-          overviewStatus={overviewStatus}
-          usageStatus={usageStatus}
-          styleStatus={styleStatus}
-        />
+        <ComponentDocumentCategoryNav currentPath={path} />
         <div>{children}</div>
         <EditLink slug={path} />
       </article>

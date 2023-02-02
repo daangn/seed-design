@@ -2,48 +2,35 @@ import { Link } from "gatsby";
 
 import * as style from "./ComponentDocumentCategoryNav.css";
 
-type Status = "todo" | "in-progress" | "done";
 interface ComponentDocumentCategoryNavProps {
-  path: string;
-  overviewStatus: string;
-  usageStatus: string;
-  styleStatus: string;
+  currentPath: string;
 }
 
 const ComponentDocumentCategoryNav = ({
-  path,
-  overviewStatus,
-  styleStatus,
-  usageStatus,
+  currentPath,
 }: ComponentDocumentCategoryNavProps) => {
   return (
     <>
       <nav className={style.navContainer}>
         <Link
-          className={style.navLink({ active: path.includes("overview") })}
-          to={`${path.split("/").slice(0, -2).join("/")}/overview`}
+          className={style.navLink({
+            active: currentPath.includes("overview"),
+          })}
+          to={`${currentPath.split("/").slice(0, -2).join("/")}/overview`}
         >
-          <p
-            className={style.navLinkText({ status: overviewStatus as Status })}
-          >
-            Overview
-          </p>
+          <p className={style.navLinkText}>Overview</p>
         </Link>
         <Link
-          className={style.navLink({ active: path.includes("usage") })}
-          to={`${path.split("/").slice(0, -2).join("/")}/usage`}
+          className={style.navLink({ active: currentPath.includes("usage") })}
+          to={`${currentPath.split("/").slice(0, -2).join("/")}/usage`}
         >
-          <p className={style.navLinkText({ status: usageStatus as Status })}>
-            Usage
-          </p>
+          <p className={style.navLinkText}>Usage</p>
         </Link>
         <Link
-          className={style.navLink({ active: path.includes("style") })}
-          to={`${path.split("/").slice(0, -2).join("/")}/style`}
+          className={style.navLink({ active: currentPath.includes("style") })}
+          to={`${currentPath.split("/").slice(0, -2).join("/")}/style`}
         >
-          <p className={style.navLinkText({ status: styleStatus as Status })}>
-            Style
-          </p>
+          <p className={style.navLinkText}>Style</p>
         </Link>
       </nav>
       <div className={style.bottomLine} />

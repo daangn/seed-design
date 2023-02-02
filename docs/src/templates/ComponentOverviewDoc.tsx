@@ -45,9 +45,23 @@ export const query = graphql`
           }
           usage {
             status
+            mdx {
+              childMdx {
+                frontmatter {
+                  slug
+                }
+              }
+            }
           }
           style {
             status
+            mdx {
+              childMdx {
+                frontmatter {
+                  slug
+                }
+              }
+            }
           }
         }
       }
@@ -75,12 +89,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
       <article className={style.content}>
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav
-          path={path}
-          overviewStatus={overviewStatus}
-          usageStatus={usageStatus}
-          styleStatus={styleStatus}
-        />
+        <ComponentDocumentCategoryNav currentPath={path} />
 
         <Table>
           <TableHead>
@@ -100,9 +109,11 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
               }}
               usage={{
                 status: usageStatus as ProgressStatus,
+                slug: platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!,
               }}
               style={{
                 status: styleStatus as ProgressStatus,
+                slug: platform?.docs?.style?.mdx?.childMdx?.frontmatter?.slug!,
               }}
               react={{
                 status: reactStatus as ProgressStatus,

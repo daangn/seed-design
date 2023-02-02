@@ -36,6 +36,7 @@ const dataBase = style([
   {
     position: "relative",
     border: `1px solid ${vars.$scale.color.gray100}`,
+    padding: "10px",
     textAlign: "center",
   },
 ]);
