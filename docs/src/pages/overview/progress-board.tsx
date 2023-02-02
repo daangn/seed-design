@@ -21,7 +21,7 @@ export const query = graphql`
   }
 
   query ComponentProgressBoardPage {
-    allAllComponentMetaJson(sort: { name: ASC }) {
+    allComponentMetaJson(sort: { name: ASC }) {
       nodes {
         name
         description
@@ -198,7 +198,7 @@ const ComponentProgressBoardPage = ({
 }: {
   data: GatsbyTypes.ComponentProgressBoardPageQuery;
 }) => {
-  const componentNodes = data.allAllComponentMetaJson.nodes;
+  const componentNodes = data.allComponentMetaJson.nodes;
 
   const specCount = componentNodes.length;
   const webCount = componentNodes.filter((node: any) => {

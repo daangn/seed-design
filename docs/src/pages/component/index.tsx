@@ -12,7 +12,7 @@ interface PageProps {
 
 export const query = graphql`
   query ComponentListPage {
-    allAllComponentMetaJson(sort: { name: ASC }) {
+    allComponentMetaJson(sort: { name: ASC }) {
       nodes {
         name
         description
@@ -41,7 +41,7 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const componentNodes = data.allAllComponentMetaJson.nodes;
+  const componentNodes = data.allComponentMetaJson.nodes;
 
   return (
     <article className={listPageStyle.content}>

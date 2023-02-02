@@ -68,11 +68,11 @@ module.exports = {
       options: {
         typeName: ({ node }) => {
           if (node.base === "component-meta.json") {
-            return "allComponentMetaJson";
+            return "componentMetaJson";
           }
 
           if (node.base === "primitive-meta.json") {
-            return "allPrimitiveMetaJson";
+            return "primitiveMetaJson";
           }
 
           return "Json";
@@ -137,7 +137,7 @@ module.exports = {
         },
         query: `
           {
-            primitives: allAllPrimitiveMetaJson {
+            primitives: allPrimitiveMetaJson {
               nodes {
                 name
                 primitive {
@@ -150,7 +150,7 @@ module.exports = {
               }
             }
 
-            overviews: allAllComponentMetaJson(
+            overviews: allComponentMetaJson(
               filter: {platform: {docs: {overview: {status: {ne: "todo"}}}}}
             ) {
               nodes {
@@ -172,7 +172,7 @@ module.exports = {
               }
             }
 
-            usages: allAllComponentMetaJson(
+            usages: allComponentMetaJson(
               filter: {platform: {docs: {usage: {status: {ne: "todo"}}}}}
             ) {
               nodes {
@@ -194,7 +194,7 @@ module.exports = {
               }
             }
 
-            styles: allAllComponentMetaJson(
+            styles: allComponentMetaJson(
               filter: {platform: {docs: {style: {status: {ne: "todo"}}}}}
             ) {
               nodes {

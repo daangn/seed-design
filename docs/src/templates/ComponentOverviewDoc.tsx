@@ -9,7 +9,7 @@ import * as style from "./ComponentCommon.css";
 
 export const query = graphql`
   query ComponentOverview($id: String) {
-    allComponentMetaJson(id: { eq: $id }) {
+    componentMetaJson(id: { eq: $id }) {
       name
       description
       platform {
@@ -39,7 +39,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
   path,
   children,
 }) => {
-  const { name, description, platform } = data.allComponentMetaJson!;
+  const { name, description, platform } = data.componentMetaJson!;
   const tableOfContents =
     platform?.docs?.overview?.mdx?.childMdx?.tableOfContents!;
   const overviewStatus = platform?.docs?.overview?.status!;
@@ -66,7 +66,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
 };
 
 export const Head: HeadFC<GatsbyTypes.ComponentOverviewQuery> = ({ data }) => {
-  const { name, description } = data.allComponentMetaJson!;
+  const { name, description } = data.componentMetaJson!;
   return <SEO name={`${name}`} description={`${description}`} />;
 };
 

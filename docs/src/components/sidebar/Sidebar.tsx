@@ -14,7 +14,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
-      allAllComponentMetaJson(sort: { name: ASC }) {
+      allComponentMetaJson(sort: { name: ASC }) {
         nodes {
           name
           group
@@ -35,7 +35,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         }
       }
 
-      allAllPrimitiveMetaJson(sort: { name: ASC }) {
+      allPrimitiveMetaJson(sort: { name: ASC }) {
         nodes {
           name
           description
@@ -52,8 +52,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   `);
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const componentData = data.allAllComponentMetaJson.nodes;
-  const primitiveData = data.allAllPrimitiveMetaJson.nodes;
+  const componentData = data.allComponentMetaJson.nodes;
+  const primitiveData = data.allPrimitiveMetaJson.nodes;
 
   const groupedComponentData = groupby(componentData, (data) =>
     !data.group ? data.name : data.group,
