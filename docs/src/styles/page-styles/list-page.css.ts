@@ -41,7 +41,6 @@ export const gridItem = style([
     position: "relative",
     overflow: "hidden",
     height: "100%",
-    isolation: "isolate",
 
     zIndex: 0,
 
@@ -71,6 +70,7 @@ export const gridItemImage = style([
     objectFit: "contain",
     overflow: "hidden",
     borderRadius: "8px",
+    isolation: "isolate",
   },
 ]);
 
