@@ -1,6 +1,5 @@
 import type { HeadFC } from "gatsby";
-import { graphql, Link } from "gatsby";
-import type { PropsWithChildren } from "react";
+import { graphql } from "gatsby";
 
 import {
   Table,
@@ -9,6 +8,8 @@ import {
   TableHead,
   TableRow,
 } from "../../components/mdx/Table";
+import ProgressBoardRow from "../../components/progress-board/ProgressBoardRow";
+import type { ProgressStatus } from "../../components/progress-board/types";
 import SEO from "../../components/SEO";
 import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
 import * as t from "../../styles/token.css";
@@ -71,128 +72,6 @@ export const query = graphql`
   }
 `;
 
-type ComponentStatus = "todo" | "in-progress" | "done";
-type PlatformData = {
-  status: ComponentStatus;
-  alias?: string;
-  path?: string;
-};
-type DocsData = {
-  status: ComponentStatus;
-  slug?: string;
-};
-interface RowProps {
-  title: string;
-  ios?: PlatformData;
-  android?: PlatformData;
-  react?: PlatformData;
-  usage?: DocsData;
-  style?: DocsData;
-  overview?: DocsData;
-}
-
-const TableDataWithStatus = ({
-  children,
-  status,
-}: PropsWithChildren<{ status: ComponentStatus }>) => {
-  switch (status) {
-    case "todo":
-      return (
-        <td className={progressStyle.tableDataTodo}>
-          <p className={progressStyle.tableDataTodoText}>TO DO</p>
-          {children}
-        </td>
-      );
-    case "in-progress":
-      return (
-        <td className={progressStyle.tableInProgDataress}>
-          <p className={progressStyle.tableDataInProgressText}>IN PROGRESS</p>
-          {children}
-        </td>
-      );
-    case "done":
-      return (
-        <td className={progressStyle.tableDataDone}>
-          <p className={progressStyle.tableDataDoneText}>DONE</p>
-          {children}
-        </td>
-      );
-  }
-};
-
-const Row = ({
-  title,
-  android,
-  ios,
-  react,
-  usage,
-  overview,
-  style,
-}: RowProps) => {
-  return (
-    <TableRow>
-      <TableData>
-        <strong>{title}</strong>
-      </TableData>
-      <TableDataWithStatus status={overview?.status!}>
-        {overview?.slug && (
-          <Link className={progressStyle.linkText} to={overview.slug}>
-            link
-          </Link>
-        )}
-      </TableDataWithStatus>
-
-      <TableDataWithStatus status={usage?.status!}>
-        {usage?.slug && (
-          <Link className={progressStyle.linkText} to={usage.slug}>
-            link
-          </Link>
-        )}
-      </TableDataWithStatus>
-
-      <TableDataWithStatus status={style?.status!}>
-        {style?.slug && (
-          <Link className={progressStyle.linkText} to={style.slug}>
-            link
-          </Link>
-        )}
-      </TableDataWithStatus>
-
-      <TableDataWithStatus status={react?.status!}>
-        {react?.path && (
-          <a
-            href={react.path}
-            className={progressStyle.linkText}
-            target="_blank"
-          >
-            link
-          </a>
-        )}
-      </TableDataWithStatus>
-
-      <TableDataWithStatus status={ios?.status!}>
-        {ios?.path && (
-          <a href={ios.path} className={progressStyle.linkText} target="_blank">
-            link
-          </a>
-        )}
-      </TableDataWithStatus>
-
-      <TableDataWithStatus status={android?.status!}>
-        {android?.path && (
-          <a
-            href={android.path}
-            className={progressStyle.linkText}
-            target="_blank"
-          >
-            link
-          </a>
-        )}
-      </TableDataWithStatus>
-    </TableRow>
-  );
-};
-
 const ComponentProgressBoardPage = ({
   data,
 }: {
@@ -201,13 +80,13 @@ const ComponentProgressBoardPage = ({
   const componentNodes = data.allComponentMetaJson.nodes;
 
   const specCount = componentNodes.length;
-  const webCount = componentNodes.filter((node: any) => {
+  const webCount = componentNodes.filter((node) => {
     return node?.platform?.react?.status === "done";
   }).length;
-  const iosCount = componentNodes.filter((node: any) => {
+  const iosCount = componentNodes.filter((node) => {
     return node?.platform?.ios?.status === "done";
   }).length;
-  const androidCount = componentNodes.filter((node: any) => {
+  const androidCount = componentNodes.filter((node) => {
     return node?.platform?.android?.status === "done";
   }).length;
 
@@ -231,37 +110,37 @@ const ComponentProgressBoardPage = ({
         <TableBody>
           {componentNodes?.map((node) => {
             return (
-              <Row
+              <ProgressBoardRow
                 key={node?.name}
                 title={node?.name!}
                 ios={{
-                  status: node?.platform?.ios?.status! as ComponentStatus,
+                  status: node?.platform?.ios?.status! as ProgressStatus,
                   alias: node?.platform?.ios?.alias!,
                   path: node?.platform?.ios?.path!,
                 }}
                 android={{
-                  status: node?.platform?.android?.status! as ComponentStatus,
+                  status: node?.platform?.android?.status! as ProgressStatus,
                   path: node?.platform?.android?.path!,
                 }}
                 react={{
-                  status: node?.platform?.react?.status! as ComponentStatus,
+                  status: node?.platform?.react?.status! as ProgressStatus,
                   path: node?.platform?.react?.path!,
                 }}
                 usage={{
                   status: node?.platform?.docs?.usage
-                    ?.status! as ComponentStatus,
+                    ?.status! as ProgressStatus,
                   slug: node?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
                     ?.slug!,
                 }}
                 style={{
                   status: node?.platform?.docs?.style
-                    ?.status! as ComponentStatus,
+                    ?.status! as ProgressStatus,
                   slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
                     ?.slug!,
                 }}
                 overview={{
                   status: node?.platform?.docs?.overview
-                    ?.status! as ComponentStatus,
+                    ?.status! as ProgressStatus,
                   slug: node?.platform?.docs?.overview?.mdx?.childMdx
                     ?.frontmatter?.slug!,
                 }}
@@ -336,18 +215,6 @@ const ComponentProgressBoardPage = ({
   );
 };
 
-// TODO:
-export const Head: HeadFC = () => {
-  return (
-    <SEO
-      name={`Component Progress Board`}
-      description={`SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다.`}
-    />
-  );
-};
-
-export default ComponentProgressBoardPage;
-
 const okr = ({
   webComponentCount,
   iosComponentCount,
@@ -363,3 +230,14 @@ const okr = ({
 
   return Math.floor(((webCoverage + iosCoverage) / 2) * 1000) / 10;
 };
+
+export const Head: HeadFC = () => {
+  return (
+    <SEO
+      name={`Component Progress Board`}
+      description={`SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다. SEED에서 제공하는 컴포넌트의 Usage 가이드, Spec 가이드를 확인할 수 있습니다.`}
+    />
+  );
+};
+
+export default ComponentProgressBoardPage;

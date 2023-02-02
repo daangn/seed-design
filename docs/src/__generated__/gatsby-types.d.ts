@@ -3253,7 +3253,7 @@ type ComponentOverviewQueryVariables = Exact<{
 }>;
 
 
-type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
+type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 

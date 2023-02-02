@@ -3,6 +3,15 @@ import { graphql } from "gatsby";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
 import EditLink from "../components/EditLink";
+import {
+  Table,
+  TableBody,
+  TableData,
+  TableHead,
+  TableRow,
+} from "../components/mdx/Table";
+import ProgressBoardRow from "../components/progress-board/ProgressBoardRow";
+import type { ProgressStatus } from "../components/progress-board/types";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./ComponentCommon.css";
@@ -13,6 +22,18 @@ export const query = graphql`
       name
       description
       platform {
+        ios {
+          path
+          status
+        }
+        android {
+          path
+          status
+        }
+        react {
+          path
+          status
+        }
         docs {
           overview {
             status
@@ -45,6 +66,9 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
   const overviewStatus = platform?.docs?.overview?.status!;
   const usageStatus = platform?.docs?.usage?.status!;
   const styleStatus = platform?.docs?.style?.status!;
+  const reactStatus = platform?.react?.status!;
+  const iosStatus = platform?.ios?.status!;
+  const androidStatus = platform?.android?.status!;
 
   return (
     <>
@@ -57,6 +81,45 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
           usageStatus={usageStatus}
           styleStatus={styleStatus}
         />
+
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableData>Overview</TableData>
+              <TableData>Usage</TableData>
+              <TableData>Style</TableData>
+              <TableData>React</TableData>
+              <TableData>iOS</TableData>
+              <TableData>Android</TableData>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <ProgressBoardRow
+              overview={{
+                status: overviewStatus as ProgressStatus,
+              }}
+              usage={{
+                status: usageStatus as ProgressStatus,
+              }}
+              style={{
+                status: styleStatus as ProgressStatus,
+              }}
+              react={{
+                status: reactStatus as ProgressStatus,
+                path: platform?.react?.path!,
+              }}
+              ios={{
+                status: iosStatus as ProgressStatus,
+                path: platform?.ios?.path!,
+              }}
+              android={{
+                status: androidStatus as ProgressStatus,
+                path: platform?.android?.path!,
+              }}
+            />
+          </TableBody>
+        </Table>
+
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
