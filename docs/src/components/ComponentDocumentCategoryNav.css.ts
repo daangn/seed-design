@@ -56,42 +56,9 @@ export const navLink = recipe({
   },
 });
 
-export const navLinkText = recipe({
-  base: [
-    {
-      position: "relative",
-      fontSize: "20px",
-
-      ":after": {
-        content: "",
-        display: "block",
-        position: "absolute",
-        right: "-8px",
-        top: 0,
-        width: "5px",
-        height: "5px",
-        borderRadius: "50%",
-        backgroundColor: vars.$scale.color.gray500,
-      },
-    },
-  ],
-  variants: {
-    status: {
-      todo: {
-        ":after": {
-          backgroundColor: vars.$scale.color.gray500,
-        },
-      },
-      "in-progress": {
-        ":after": {
-          backgroundColor: vars.$scale.color.carrot500,
-        },
-      },
-      done: {
-        ":after": {
-          backgroundColor: vars.$scale.color.green500,
-        },
-      },
-    },
+export const navLinkText = style([
+  {
+    position: "relative",
+    fontSize: "20px",
   },
-});
+]);

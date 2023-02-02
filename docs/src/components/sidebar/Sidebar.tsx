@@ -8,19 +8,19 @@ import Portal from "../Portal";
 import * as style from "./Sidebar.css";
 import SidebarCollapse from "./SidebarCollapse";
 import SidebarItem from "./SidebarItem";
-import SidebarTitle from "./SidebarTitle";
+import { SidebarTitleWithLink, SidebarTitleWithNoLink } from "./SidebarTitle";
 
 const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const { closeSidebar } = useSidebarState();
   const data = useStaticQuery<Queries.SidebarQuery>(graphql`
     query Sidebar {
-      allAllComponentMetaJson(sort: { name: ASC }) {
+      allComponentMetaJson(sort: { name: ASC }) {
         nodes {
           name
           group
           platform {
             docs {
-              usage {
+              overview {
                 status
                 mdx {
                   childMdx {
@@ -35,7 +35,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         }
       }
 
-      allAllPrimitiveMetaJson(sort: { name: ASC }) {
+      allPrimitiveMetaJson(sort: { name: ASC }) {
         nodes {
           name
           description
@@ -52,8 +52,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   `);
 
   const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const componentData = data.allAllComponentMetaJson.nodes;
-  const primitiveData = data.allAllPrimitiveMetaJson.nodes;
+  const componentData = data.allComponentMetaJson.nodes;
+  const primitiveData = data.allPrimitiveMetaJson.nodes;
 
   const groupedComponentData = groupby(componentData, (data) =>
     !data.group ? data.name : data.group,
@@ -67,7 +67,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         </div>
       )}
 
-      <SidebarTitle title="overview" onClick={closeSidebar} />
+      <SidebarTitleWithNoLink title="overview" />
 
       <SidebarItem
         currentPath={currentPath}
@@ -76,7 +76,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         title="overview"
         onClick={closeSidebar}
       />
-      <SidebarTitle title="foundation" onClick={closeSidebar} />
+
+      <SidebarTitleWithNoLink title="foundation" />
 
       <SidebarItem
         currentPath={currentPath}
@@ -93,7 +94,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         onClick={closeSidebar}
       />
 
-      <SidebarTitle title="component" onClick={closeSidebar} />
+      <SidebarTitleWithLink title="component" onClick={closeSidebar} />
 
       {Object.entries(groupedComponentData!).map(([groupName, groupItems]) => {
         // 그룹
@@ -101,7 +102,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           return (
             <SidebarCollapse title={groupName}>
               {groupItems?.map((item) => {
-                if (item?.platform?.docs?.usage?.status! === "todo") {
+                if (item?.platform?.docs?.overview?.status! === "todo") {
                   return (
                     <SidebarItem
                       key={`${item?.name}-todo`}
@@ -110,7 +111,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       itemName={item?.name!}
                       title="component"
                       onClick={closeSidebar}
-                      status={item?.platform?.docs?.usage?.status!}
+                      status={item?.platform?.docs?.overview?.status!}
                       hasDeps
                     />
                   );
@@ -118,7 +119,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
                 const name = item?.name;
                 const path =
-                  item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug;
+                  item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
+                    ?.slug;
                 return (
                   <SidebarItem
                     key={`${name}-done-or-wip`}
@@ -127,7 +129,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     itemName={name!}
                     title="component"
                     onClick={closeSidebar}
-                    status={item?.platform?.docs?.usage?.status! as Status}
+                    status={item?.platform?.docs?.overview?.status! as Status}
                     hasDeps
                   />
                 );
@@ -142,18 +144,18 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
             key={`${groupItems[0]?.name}-only-one-component`}
             currentPath={currentPath}
             to={
-              groupItems[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
-                ?.slug!
+              groupItems[0]?.platform?.docs?.overview?.mdx?.childMdx
+                ?.frontmatter?.slug!
             }
             itemName={groupItems[0]?.name!}
             title="component"
             onClick={closeSidebar}
-            status={groupItems[0]?.platform?.docs?.usage?.status! as Status}
+            status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
           />
         );
       })}
 
-      <SidebarTitle title="primitive" onClick={closeSidebar} />
+      <SidebarTitleWithLink title="primitive" onClick={closeSidebar} />
 
       {primitiveData!.map((node) => {
         const name = node.name!;

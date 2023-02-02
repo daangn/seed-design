@@ -35,7 +35,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
 
     query {
-      allAllPrimitiveMetaJson {
+      allPrimitiveMetaJson {
         nodes {
           id
           primitive {
@@ -46,9 +46,10 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         }
       }
 
-      allAllComponentMetaJson {
+      allComponentMetaJson {
         nodes {
           id
+          name
           platform {
             docs {
               overview {
@@ -79,8 +80,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
   `);
 
-  const componentNodes = result.data.allAllComponentMetaJson.nodes;
-  const primitiveNodes = result.data.allAllPrimitiveMetaJson.nodes;
+  const componentNodes = result.data.allComponentMetaJson.nodes;
+  const primitiveNodes = result.data.allPrimitiveMetaJson.nodes;
 
   componentNodes.forEach((component) => {
     if (component.platform.docs.overview?.mdx) {

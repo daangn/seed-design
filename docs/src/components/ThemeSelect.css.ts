@@ -102,7 +102,19 @@ export const option = style([
   },
 ]);
 
-export const icon = style([
+export const themeIcon = style([
+  {
+    width: "20px",
+    height: "20px",
+  },
+
+  m.small({
+    width: "16px",
+    height: "16px",
+  }),
+]);
+
+export const expandIcon = style([
   {
     display: "none",
   },

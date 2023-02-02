@@ -11,7 +11,7 @@ interface PageProps {
 
 export const query = graphql`
   query PrimitiveListPage {
-    allAllPrimitiveMetaJson(sort: { name: ASC }) {
+    allPrimitiveMetaJson(sort: { name: ASC }) {
       nodes {
         name
         description
@@ -33,7 +33,7 @@ export const query = graphql`
 `;
 
 const Page = ({ data }: PageProps) => {
-  const primitivieNodes = data.allAllPrimitiveMetaJson.nodes;
+  const primitivieNodes = data.allPrimitiveMetaJson.nodes;
 
   return (
     <article className={listPageStyle.content}>

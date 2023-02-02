@@ -49,7 +49,7 @@ export const mobileSidebarContainer = recipe({
       background: vars.$semantic.color.paperDefault,
       paddingLeft: "6px",
 
-      width: COMMON_STYLES.SIDEBAR_WIDTH,
+      width: `calc(${COMMON_STYLES.SIDEBAR_WIDTH} + 6px)`,
       height: "100vh",
       transition:
         "background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease",
@@ -89,6 +89,10 @@ export const desktopSidebarContainer = style([
     transition: "background-color 0.2s ease, color 0.2s ease",
   },
 
+  m.medium({
+    marginLeft: "20px",
+  }),
+
   m.large({
     display: "flex",
     position: "sticky",
@@ -121,10 +125,6 @@ export const sidebarItemContainer = style([
     overflowY: "auto",
     overscrollBehavior: "contain",
   },
-
-  m.medium({
-    marginLeft: "20px",
-  }),
 
   m.large({
     top: 0,

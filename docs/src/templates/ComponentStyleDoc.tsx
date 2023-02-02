@@ -9,19 +9,12 @@ import * as style from "./ComponentCommon.css";
 
 export const query = graphql`
   query ComponentStyle($id: String) {
-    allComponentMetaJson(id: { eq: $id }) {
+    componentMetaJson(id: { eq: $id }) {
       name
       description
       platform {
         docs {
-          overview {
-            status
-          }
-          usage {
-            status
-          }
           style {
-            status
             mdx {
               childMdx {
                 tableOfContents
@@ -39,24 +32,17 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
   path,
   children,
 }) => {
-  const { name, description, platform } = data.allComponentMetaJson!;
+  const { name, description, platform } = data.componentMetaJson!;
   const tableOfContents =
     platform?.docs?.style?.mdx?.childMdx?.tableOfContents!;
-  const overviewStatus = platform?.docs?.overview?.status!;
-  const usageStatus = platform?.docs?.usage?.status!;
-  const styleStatus = platform?.docs?.style?.status!;
 
   return (
     <>
       <article className={style.content}>
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav
-          path={path}
-          overviewStatus={overviewStatus}
-          usageStatus={usageStatus}
-          styleStatus={styleStatus}
-        />
+        <ComponentDocumentCategoryNav currentPath={path} />
+
         <div>{children}</div>
         <EditLink slug={path} />
       </article>
@@ -66,7 +52,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
 };
 
 export const Head: HeadFC<GatsbyTypes.ComponentStyleQuery> = ({ data }) => {
-  const { name, description } = data.allComponentMetaJson!;
+  const { name, description } = data.componentMetaJson!;
   return <SEO name={`${name}`} description={`${description}`} />;
 };
 
