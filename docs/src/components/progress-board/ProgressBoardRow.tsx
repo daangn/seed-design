@@ -24,7 +24,7 @@ const ProgressBoardRow = ({
       <ProgressBoardData status={overview?.status!}>
         {overview?.slug && overview?.status !== "todo" && (
           <Link className={rowStyle.linkText} to={overview.slug}>
-            link
+            document
           </Link>
         )}
       </ProgressBoardData>
@@ -32,7 +32,7 @@ const ProgressBoardRow = ({
       <ProgressBoardData status={usage?.status!}>
         {usage?.slug && usage?.status !== "todo" && (
           <Link className={rowStyle.linkText} to={usage.slug}>
-            link
+            document
           </Link>
         )}
       </ProgressBoardData>
@@ -40,7 +40,7 @@ const ProgressBoardRow = ({
       <ProgressBoardData status={style?.status!}>
         {style?.slug && style?.status !== "todo" && (
           <Link className={rowStyle.linkText} to={style.slug}>
-            link
+            document
           </Link>
         )}
       </ProgressBoardData>
@@ -48,7 +48,7 @@ const ProgressBoardRow = ({
       <ProgressBoardData status={react?.status!}>
         {react?.path && react?.status !== "todo" && (
           <a href={react.path} className={rowStyle.linkText} target="_blank">
-            link
+            storybook
           </a>
         )}
       </ProgressBoardData>
@@ -56,7 +56,7 @@ const ProgressBoardRow = ({
       <ProgressBoardData status={ios?.status!}>
         {ios?.path && ios?.status !== "todo" && (
           <a href={ios.path} className={rowStyle.linkText} target="_blank">
-            link
+            catalog app
           </a>
         )}
       </ProgressBoardData>
