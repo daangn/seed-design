@@ -2,6 +2,11 @@
   "name": "gatsby-plugin-seed-design",
   "version": "0.2.5",
   "description": "Seed Design Gatsby plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/gatsby-plugin-seed-design"
+  },
   "keywords": [
     "gatsby",
     "gatsby-plugin",
