@@ -1,5 +1,5 @@
 ---
-slug: /component/outlined-text-field/style
+slug: /component/text-field/style
 ---
 
 ## Anatomy
@@ -16,18 +16,20 @@ slug: /component/outlined-text-field/style
 8. Suffix
 9. Description - Primitive.Description
 10. Error message - Primitive.ErrorMessage
+11. Character Count
+12. Max Length
 
 ## Visual Options
 
-| Property           | Value         | Description |
-| ------------------ | ------------- | ----------- |
-| size               | medium, small |             |
-| label              | text          |             |
-| placeholder        | text          |             |
-| description        | text          |             |
-| error message      | text          |             |
-| required indicator | text          |             |
-| optional indicator | text          |             |
+| Property      | Value                | Description |
+| ------------- | -------------------- | ----------- |
+| variant       | outlined, underlined |             |
+| label         | text                 |             |
+| placeholder   | text                 |             |
+| suffix        | text, button         |             |
+| max length    | number               |             |
+| description   | text                 |             |
+| error message | text                 |             |
 
 ## Visually Representated States
 
@@ -45,9 +47,9 @@ slug: /component/outlined-text-field/style
 
 ## 디자인 결정 (Color)
 
-| Part  | Attribute | Value                 |
-| ----- | --------- | --------------------- |
-| Label | Color     | $scale.color.gray-900 |
+| Part                                          | Attribute | Value                 |
+| --------------------------------------------- | --------- | --------------------- |
+| Label, Required Indicator, Optional Indicator | Color     | $scale.color.gray-900 |
 
 | State    | Part           | Attribute     | Value                         |
 | -------- | -------------- | ------------- | ----------------------------- |
@@ -59,6 +61,8 @@ slug: /component/outlined-text-field/style
 |          | Placeholder    | Color         | $scale.color.gray-600         |
 |          | Description    | Color         | $scale.color.gray-600         |
 |          | Error Message  | Color         | $semantic.color.danger        |
+|          | Charcter Count | Color         | $semantic.color.primary       |
+|          | Max Length     | Color         | $scale.color.gray-600         |
 | Focused  | Field          | Color         | $semantic.color.paper-default |
 |          |                | Outline Color | $scale.color.gray-900         |
 |          | Field(invalid) | Color         | $semantic.color.danger-low    |
@@ -67,16 +71,22 @@ slug: /component/outlined-text-field/style
 |          | Placeholder    | Color         | $scale.color.gray-600         |
 |          | Description    | Color         | $scale.color.gray-600         |
 |          | Error Message  | Color         | $semantic.color.danger        |
+|          | Charcter Count | Color         | $semantic.color.primary       |
+|          | Max Length     | Color         | $scale.color.gray-600         |
 | Readonly | Field          | Color         | $scale.color.gray-50          |
 |          |                | Outline Color | $scale.color.gray-400         |
 |          | Field text     | Color         | $scale.color.gray-900         |
 |          | Placeholder    | Color         | $scale.color.gray-600         |
 |          | Description    | Color         | $scale.color.gray-600         |
+|          | Charcter Count | Color         | $semantic.color.primary       |
+|          | Max Length     | Color         | $scale.color.gray-600         |
 | Disabled | Field          | Color         | $scale.color.gray-100         |
 |          |                | Outline Color | $scale.color.gray-400         |
 |          | Field text     | Color         | $scale.color.gray-400         |
 |          | Placeholder    | Color         | $scale.color.gray-400         |
-|          | Description    | Color         | $scale.color.gray-600         |
+|          | Description    | Color         | $scale.color.gray-400         |
+|          | Charcter Count | Color         | $scale.color.gray-400         |
+|          | Max Length     | Color         | $scale.color.gray-400         |
 
 ## 디자인 결정 (Typography)
 
@@ -100,7 +110,7 @@ slug: /component/outlined-text-field/style
 
 ## 디자인 결정 (Layout)
 
-### size=medium
+### variant=outlined, size=medium
 
 | Part                       | Attribute          | Value |
 | -------------------------- | ------------------ | ----- |
@@ -111,7 +121,7 @@ slug: /component/outlined-text-field/style
 | Label / Field              | Spacing            | 12pt  |
 | Field / Description        | Spacing            | 8pt   |
 
-### size=small
+### variant=outlined, size=small
 
 | Part                       | Attribute          | Value |
 | -------------------------- | ------------------ | ----- |
@@ -120,4 +130,26 @@ slug: /component/outlined-text-field/style
 |                            | Horizontal Padding | 12pt  |
 | Label / Required Indicator | Spacing            | 4pt   |
 | Label / Field              | Spacing            | 12pt  |
+| Field / Description        | Spacing            | 8pt   |
+
+### variant=underlined, size=medium
+
+| Part                       | Attribute          | Value |
+| -------------------------- | ------------------ | ----- |
+| Field                      | Corner Radius      | 0pt   |
+|                            | Height             | 43pt  |
+|                            | Horizontal Padding | 0pt   |
+| Label / Required Indicator | Spacing            | 4pt   |
+| Label / Field              | Spacing            | 8pt   |
+| Field / Description        | Spacing            | 8pt   |
+
+### variant=underlined, size=small
+
+| Part                       | Attribute          | Value |
+| -------------------------- | ------------------ | ----- |
+| Field                      | Corner Radius      | 0pt   |
+|                            | Height             | 41pt  |
+|                            | Horizontal Padding | 0pt   |
+| Label / Required Indicator | Spacing            | 4pt   |
+| Label / Field              | Spacing            | 6pt   |
 | Field / Description        | Spacing            | 8pt   |
