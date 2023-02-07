@@ -22,7 +22,7 @@ slug: /component/capsule-toggle-button/usage
     <HalfCardDescription>
       Capsule Toggle Button은 xsmall, small 2개의 사이즈를 가질 수 있습니다.
       Small이 가장 보편적으로 사용되며, 한 화면에 배치되는 요소가 많거나 복잡한
-      경우에 xsmall 사이즈를 사용하여 시각적 피로도를 낮춥니다.
+      경우 xsmall 사이즈를 사용하여 시각적 피로도를 낮춥니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
@@ -35,8 +35,8 @@ slug: /component/capsule-toggle-button/usage
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Loading</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      네트워크 연결이 불안정하거나 속도가 느릴 때, toggle 액션 과정에서 loding
-      상태가 표시될 수 있습니다.
+      네트워크 요청 등의 이유로 유저에게 피드백을 즉시 전달할 수 없는 경우,
+      loading 상태를 사용합니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
@@ -58,10 +58,11 @@ slug: /component/capsule-toggle-button/usage
 
 ### 옵션 테이블
 
-| 속성        | 값            | 기본값 | 설명                                           |
-| ----------- | ------------- | ------ | ---------------------------------------------- |
-| size        | xsmall, small | small  |                                                |
-| is disabled | true, false   | false  | true일 경우, button이 유저와 상호작용하지 않음 |
+| 속성        | 값            | 기본값 |
+| ----------- | ------------- | ------ |
+| size        | xsmall, small | small  |
+| is disabled | true, false   | false  |
+| is loading  | true, false   | false  |
 
 ## 상호작용
 
