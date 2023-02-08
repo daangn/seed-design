@@ -1,5 +1,5 @@
 {
-  "name": "Underlined Text Field",
+  "name": "Text Field",
   "description": "텍스트를 한 줄에 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",
   "primitive": "../../primitive/text-field/primitive-meta.json",
@@ -15,12 +15,12 @@
       "path": ""
     },
     "react": {
-      "status": "todo",
+      "status": "in-progress",
       "path": ""
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {

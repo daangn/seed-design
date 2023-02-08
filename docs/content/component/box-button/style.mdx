@@ -8,14 +8,17 @@ slug: /component/box-button/style
 
 1. Root : Button 컴포넌트를 감싸는 컨테이너 영역 - Primitive.Root
 2. Label : Button에 대한 정보를 전달하는 라벨 - Primitive.Label
-3. Icon : Button에 대한 정보를 전달하는 아이콘
+3. Prefix Icon : Button에 대한 정보를 전달하는 아이콘
+4. Suffix Icon
 
 ## Visual Options
 
-| Property | Value                                   | Description |
-| -------- | --------------------------------------- | ----------- |
-| size     | xsmall, small, medium, large, xlarge    |             |
-| variant  | primary, primary-low, secondary, danger |             |
+| Property    | Value                                   |
+| ----------- | --------------------------------------- |
+| size        | xsmall, small, medium, large, xlarge    |
+| variant     | primary, primary-low, secondary, danger |
+| prefix icon | Icon                                    |
+| suffix icon | Icon                                    |
 
 ## Visually Representated States
 
@@ -120,11 +123,12 @@ slug: /component/box-button/style
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
 | Root         | Min Width          | 72pt   |
+|              | Height             | 52pt   |
 |              | Horizontal Padding | 22pt   |
-|              | Vertical Padding   | 14pt   |
 |              | Corner Radius      | 6pt    |
 | Label        | Text Align         | Center |
-| Icon         | Size               | 18pt   |
+| Prefix Icon  | Size               | 18pt   |
+| Suffix Icon  | Size               | 16pt   |
 | Label / Icon | Padding            | 4pt    |
 
 ### Size=Large
@@ -132,11 +136,12 @@ slug: /component/box-button/style
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
 | Root         | Min Width          | 66pt   |
+|              | Height             | 48pt   |
 |              | Horizontal Padding | 20pt   |
-|              | Vertical Padding   | 14pt   |
 |              | Corner Radius      | 6pt    |
 | Label        | Text Align         | Center |
-| Icon         | Size               | 16pt   |
+| Prefix Icon  | Size               | 16pt   |
+| Suffix Icon  | Size               | 16pt   |
 | Label / Icon | Padding            | 4pt    |
 
 ### Size=Medium
@@ -144,11 +149,12 @@ slug: /component/box-button/style
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
 | Root         | Min Width          | 58pt   |
+|              | Height             | 40pt   |
 |              | Horizontal Padding | 16pt   |
-|              | Vertical Padding   | 10pt   |
 |              | Corner Radius      | 6pt    |
 | Label        | Text Align         | Center |
-| Icon         | Size               | 16pt   |
+| Prefix Icon  | Size               | 16pt   |
+| Suffix Icon  | Size               | 14pt   |
 | Label / Icon | Padding            | 4pt    |
 
 ### Size=Small
@@ -156,11 +162,12 @@ slug: /component/box-button/style
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
 | Root         | Min Width          | 54pt   |
+|              | Height             | 36pt   |
 |              | Horizontal Padding | 14pt   |
-|              | Vertical Padding   | 8pt    |
 |              | Corner Radius      | 4pt    |
 | Label        | Text Align         | Center |
-| Icon         | Size               | 16pt   |
+| Prefix Icon  | Size               | 16pt   |
+| Suffix Icon  | Size               | 14pt   |
 | Label / Icon | Padding            | 4pt    |
 
 ### Size=Xsmall
@@ -168,11 +175,12 @@ slug: /component/box-button/style
 | Part         | Attribute          | Value  |
 | ------------ | ------------------ | ------ |
 | Root         | Min Width          | 40pt   |
+|              | Height             | 32pt   |
 |              | Horizontal Padding | 10pt   |
-|              | Vertical Padding   | 8pt    |
 |              | Corner Radius      | 4pt    |
 | Label        | Text Align         | Center |
-| Icon         | Size               | 12pt   |
+| Prefix Icon  | Size               | 12pt   |
+| Suffix Icon  | Size               | 12pt   |
 | Label / Icon | Padding            | 2pt    |
 
 ## 디자인 결정 (Focus)
