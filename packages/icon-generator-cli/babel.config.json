@@ -1,9 +1,0 @@
-{
-  "presets": [
-    "@babel/preset-modules",
-    "@babel/preset-typescript",
-    ["@babel/preset-react", {
-      "runtime": "automatic"
-    }]
-  ]
-}

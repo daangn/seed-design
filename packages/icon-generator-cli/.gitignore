@@ -1,8 +1,0 @@
-*.DS_Store
-*.log
-*.tsbuildinfo
-*.zip
-*.env
-
-node_modules/
-/lib/
