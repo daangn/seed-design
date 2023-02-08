@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "declaration": true,
+    "jsx": "react-jsx",
+    "outDir": "lib"
+  },
+  "include": ["src", "package.json", "tests"],
+  "exclude": ["eslintrc.js"]
+}
