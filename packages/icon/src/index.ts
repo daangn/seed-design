@@ -7,9 +7,9 @@ import yaml from 'js-yaml';
 import path from 'path';
 import pkg from '../package.json' assert { type: 'json' };
 
-import generateComponent from './templates/component.js';
+import generateComponent from './templates/component';
 import generateConfig from './templates/config';
-import generateSprite from './templates/sprite.js';
+import generateSprite from './templates/sprite';
 import { IconConfig } from './types';
 import { validateIcons } from './validates/icons';
 
