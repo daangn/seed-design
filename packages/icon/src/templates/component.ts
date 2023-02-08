@@ -1,4 +1,3 @@
-import { join } from 'path';
 import dedent from 'string-dedent';
 import { generateRelativePath } from '../utils/path';
 
@@ -14,11 +13,13 @@ interface ComponentInterface {
 
 export default function generate({ componentOutputPath, spriteOutputPath, spriteFileName, version, icons }: ComponentInterface) {
   const relativeSpritePath = generateRelativePath(componentOutputPath, spriteOutputPath);
-  const relativeSpriteUrl = join(relativeSpritePath, `${spriteFileName}.svg`);
+  const spriteUrl = relativeSpritePath.endsWith('/')
+    ? `${relativeSpritePath}${spriteFileName}.svg`
+    : `${relativeSpritePath}/${spriteFileName}.svg`;
 
   return dedent`
     import { forwardRef, type ForwardRefRenderFunction } from "react";
-    import spriteUrl from "${relativeSpriteUrl}";
+    import spriteUrl from "${spriteUrl}";
 
     export interface SeedIconProps {
       name: IconName;
