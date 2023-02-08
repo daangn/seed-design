@@ -3963,9 +3963,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/icon@workspace:packages/seed-icon":
+"@seed-design/icon-generate-cli@workspace:packages/icon-generator-cli":
   version: 0.0.0-use.local
-  resolution: "@seed-design/icon@workspace:packages/seed-icon"
+  resolution: "@seed-design/icon-generate-cli@workspace:packages/icon-generator-cli"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0

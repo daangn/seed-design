@@ -45,7 +45,7 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
-    "svg-sprite": "^2.0.1",
-    "string-dedent": "^3.0.1"
+    "string-dedent": "^3.0.1",
+    "svg-sprite": "^2.0.1"
   }
 }
