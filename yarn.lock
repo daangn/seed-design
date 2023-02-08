@@ -3982,6 +3982,7 @@ __metadata:
     jsdom: ^19.0.0
     jspdf: ^2.5.1
     lodash: ^4.17.21
+    string-dedent: ^3.0.1
     svg-sprite: ^2.0.1
     svg2pdf.js: ^2.2.0
     svg2vectordrawable: ^2.8.1
@@ -21614,6 +21615,13 @@ __metadata:
   version: 2.0.0
   resolution: "strict-uri-encode@npm:2.0.0"
   checksum: eaac4cf978b6fbd480f1092cab8b233c9b949bcabfc9b598dd79a758f7243c28765ef7639c876fa72940dac687181b35486ea01ff7df3e65ce3848c64822c581
+  languageName: node
+  linkType: hard
+
+"string-dedent@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "string-dedent@npm:3.0.1"
+  checksum: b82b25649f04fc0637e8a98be2439e86265e60f5cab1008edd19dced71e3cfaf4184e0df4877d63dd3d80e9cd5ee81f522c6ff63b5c5d6a44fe909755e01e5be
   languageName: node
   linkType: hard
 
