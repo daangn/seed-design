@@ -14,6 +14,7 @@
 
 - [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token) (Foundations)
 - [@seed-design/stylesheet](https://github.com/daangn/seed-design/tree/main/packages/stylesheet) (StyleSheet)
+- [@seed-design/icon](https://github.com/daangn/seed-design/tree/main/packages/icon) (Icon)
 
 **Convenience Libraries**
 
