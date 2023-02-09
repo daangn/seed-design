@@ -47,7 +47,7 @@ const generateCommand = new Command('generate')
 
       validateIcons(icons);
       
-      const seedIconComponent = generateComponent({ componentOutputPath, spriteOutputPath, spriteFileName, version, icons });
+      const seedIconComponent = generateComponent({ componentOutputPath, componentFileName, spriteOutputPath, spriteFileName, version, icons });
       const spriteSvg = generateSprite({ icons });
       
       const spriteOutputDir = path.resolve(spriteOutputPath);
