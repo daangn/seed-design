@@ -5,13 +5,21 @@ import type { IconName } from '../types';
 
 interface ComponentInterface {
   componentOutputPath: string;
+  componentFileName: string;
   spriteOutputPath: string;
   spriteFileName: string;
   version: string;
   icons: IconName[];
 }
 
-export default function generate({ componentOutputPath, spriteOutputPath, spriteFileName, version, icons }: ComponentInterface) {
+export default function generate({
+  componentOutputPath,
+  componentFileName,
+  spriteOutputPath,
+  spriteFileName,
+  version,
+  icons,
+}: ComponentInterface) {
   const relativeSpritePath = generateRelativePath(componentOutputPath, spriteOutputPath);
   const spriteUrl = relativeSpritePath.endsWith('/')
     ? `${relativeSpritePath}${spriteFileName}.svg`
@@ -21,19 +29,22 @@ export default function generate({ componentOutputPath, spriteOutputPath, sprite
     import { forwardRef, type ForwardRefRenderFunction } from "react";
     import spriteUrl from "${spriteUrl}";
 
-    export interface SeedIconProps {
+    export interface ${componentFileName}Props {
       name: IconName;
+      width?: number;
+      height?: number;
       className?: string;
     };
 
-    const SeedIcon: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
-      { name, className },
+    const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
+      { name, width = 24, height = 24, className },
       ref,
     ) => {
       return  (
         <span
           ref={ref}
           className={className}
+          style={{ width, height }}
           data-seed-icon={name}
           data-seed-icon-version="${version}"
         >
@@ -44,7 +55,7 @@ export default function generate({ componentOutputPath, spriteOutputPath, sprite
       );
     };
     
-    export default forwardRef(SeedIcon);
+    export default forwardRef(${componentFileName});
 
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join('\n  | ')}
