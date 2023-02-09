@@ -1,6 +1,6 @@
 import dedent from 'string-dedent';
 import { generateRelativePath } from '../utils/path';
-import karrotPkg from '@karrotmarket/karrot-ui-icon/package.json';
+import karrotPkg from '@karrotmarket/karrot-ui-icon/package.json' assert { type: 'json' };
 
 import type { IconName } from '../types';
 
