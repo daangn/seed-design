@@ -1,5 +1,20 @@
 # @seed-design/icon
 
+## 0.0.4
+
+### Patch Changes
+
+- 53fde00: version dataset, width, height
+- 53fde00: add size props
+- 53fde00: update
+
+## 0.0.3
+
+### Patch Changes
+
+- f1abcb5: add size props
+- 89fb8bf: update
+
 ## 0.0.2
 
 ### Patch Changes

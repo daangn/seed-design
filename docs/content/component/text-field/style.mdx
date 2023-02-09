@@ -13,23 +13,24 @@ slug: /component/text-field/style
 5. Field - Primitive.Input
 6. Field text
 7. Placeholder
-8. Suffix
-9. Description - Primitive.Description
-10. Error message - Primitive.ErrorMessage
-11. Character Count
-12. Max Length
+8. Caret
+9. Suffix
+10. Description - Primitive.Description
+11. Error message - Primitive.ErrorMessage
+12. Character Count
+13. Max Length
 
 ## Visual Options
 
-| Property      | Value                | Description |
-| ------------- | -------------------- | ----------- |
-| variant       | outlined, underlined |             |
-| label         | text                 |             |
-| placeholder   | text                 |             |
-| suffix        | text, button         |             |
-| max length    | number               |             |
-| description   | text                 |             |
-| error message | text                 |             |
+| Property      | Value                |
+| ------------- | -------------------- |
+| variant       | outlined, underlined |
+| label         | text                 |
+| placeholder   | text                 |
+| suffix        | text, button         |
+| max length    | number               |
+| description   | text                 |
+| error message | text                 |
 
 ## Visually Representated States
 
@@ -47,9 +48,9 @@ slug: /component/text-field/style
 
 ## 디자인 결정 (Color)
 
-| Part                                          | Attribute | Value                 |
-| --------------------------------------------- | --------- | --------------------- |
-| Label, Required Indicator, Optional Indicator | Color     | $scale.color.gray-900 |
+| Part                                                 | Attribute | Value                 |
+| ---------------------------------------------------- | --------- | --------------------- |
+| Label, Required Indicator, Optional Indicator, Caret | Color     | $scale.color.gray-900 |
 
 | State    | Part           | Attribute     | Value                         |
 | -------- | -------------- | ------------- | ----------------------------- |
@@ -61,7 +62,7 @@ slug: /component/text-field/style
 |          | Placeholder    | Color         | $scale.color.gray-600         |
 |          | Description    | Color         | $scale.color.gray-600         |
 |          | Error Message  | Color         | $semantic.color.danger        |
-|          | Charcter Count | Color         | $semantic.color.primary       |
+|          | Charcter Count | Color         | $scale.color.gray-600         |
 |          | Max Length     | Color         | $scale.color.gray-600         |
 | Focused  | Field          | Color         | $semantic.color.paper-default |
 |          |                | Outline Color | $scale.color.gray-900         |
@@ -78,7 +79,7 @@ slug: /component/text-field/style
 |          | Field text     | Color         | $scale.color.gray-900         |
 |          | Placeholder    | Color         | $scale.color.gray-600         |
 |          | Description    | Color         | $scale.color.gray-600         |
-|          | Charcter Count | Color         | $semantic.color.primary       |
+|          | Charcter Count | Color         | $scale.color.gray-600         |
 |          | Max Length     | Color         | $scale.color.gray-600         |
 | Disabled | Field          | Color         | $scale.color.gray-100         |
 |          |                | Outline Color | $scale.color.gray-400         |
