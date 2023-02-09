@@ -53,10 +53,10 @@ yarn seed-icon gen
 
 `icon.config.yml` 설정 파일은 아래와 같은 옵션을 가집니다.
 
-| Option              | Description                                                    | Default                                                               |
-| ------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- |
-| componentOutputPath | 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다. | src                                                                   |
-| componentFileName   | 아이콘 컴포넌트의 이름입니다.                                  | SeedIcon                                                              |
-| spriteOutputPath    | svg 파일이 저장될 경로입니다. 프로젝트 루트 기준입니다.Image   | assets                                                                |
-| spriteFileName      | svg 파일의 이름입니다.svg 파일의 이름입니다.                   | sprite                                                                |
-| icons               | 위 피그마 파일에서 사용되는 아이콘 이름을 추가해주세요.        | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
+| Option                | Description                                                    | Default                                                               |
+| --------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `componentOutputPath` | 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다. | src                                                                   |
+| `componentFileName`   | 아이콘 컴포넌트의 이름입니다.                                  | SeedIcon                                                              |
+| `spriteOutputPath`    | svg 파일이 저장될 경로입니다. 프로젝트 루트 기준입니다.Image   | assets                                                                |
+| `spriteFileName`      | svg 파일의 이름입니다.svg 파일의 이름입니다.                   | sprite                                                                |
+| `icons`               | 위 피그마 파일에서 사용되는 아이콘 이름을 추가해주세요.        | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
