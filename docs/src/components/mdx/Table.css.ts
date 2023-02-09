@@ -6,7 +6,7 @@ import * as m from "../../styles/media.css";
 export const tableWrapper = style({
   width: "100%",
   maxWidth: "100%",
-  display: "inline-block",
+  display: "flex",
   overflowX: "auto",
   margin: "20px 0px",
   boxShadow: `inset 0 0 0 1px ${vars.$scale.color.gray100}`,
@@ -15,17 +15,11 @@ export const tableWrapper = style({
 
 export const table = style([
   {
+    flex: "1 0 auto",
     position: "relative",
-    width: "100%",
-    maxWidth: "100%",
-    display: "inline-block",
     borderCollapse: "collapse",
     overflow: "hidden",
   },
-
-  m.xsmall({
-    display: "table",
-  }),
 ]);
 
 export const tableCell = style([

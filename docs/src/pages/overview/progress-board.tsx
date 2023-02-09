@@ -99,9 +99,9 @@ const ComponentProgressBoardPage = ({
         <TableHead>
           <TableRow>
             <TableData>컴포넌트</TableData>
+            <TableData>Spec</TableData>
             <TableData>Overview</TableData>
             <TableData>Usage</TableData>
-            <TableData>Style</TableData>
             <TableData>React</TableData>
             <TableData>iOS</TableData>
             <TableData>Android</TableData>
