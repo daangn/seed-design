@@ -1,5 +1,14 @@
 # @seed-design/icon
 
+## 0.0.5
+
+### Patch Changes
+
+- 4ce85ad: version dataset, width, height
+- 4ce85ad: assert json
+- 4ce85ad: add size props
+- 4ce85ad: update
+
 ## 0.0.4
 
 ### Patch Changes
