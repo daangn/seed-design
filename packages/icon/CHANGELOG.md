@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.0.6
+
+### Patch Changes
+
+- 633ba69: remove assert
+
 ## 0.0.5
 
 ### Patch Changes
