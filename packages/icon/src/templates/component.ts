@@ -1,5 +1,6 @@
 import dedent from 'string-dedent';
 import { generateRelativePath } from '../utils/path';
+import karrotPkg from '@karrotmarket/karrot-ui-icon/package.json';
 
 import type { IconName } from '../types';
 
@@ -37,18 +38,18 @@ export default function generate({
     };
 
     const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
-      { name, width = 24, height = 24, className },
+      { name, className, width = 24, height = 24 },
       ref,
     ) => {
       return  (
         <span
           ref={ref}
           className={className}
-          style={{ width, height }}
           data-seed-icon={name}
           data-seed-icon-version="${version}"
+          data-karrot-ui-icon-version="${karrotPkg.version}"
         >
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" width={width} height={height}>
             <use href={\`\${spriteUrl}#\${name}\`} />
           </svg>
         </span>
