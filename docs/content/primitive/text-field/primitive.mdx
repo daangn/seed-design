@@ -21,22 +21,23 @@ slug: /primitive/text-field
 
 ## Contexts
 
-| Context    | Values      | Default Value | Description                                        |
-| ---------- | ----------- | ------------- | -------------------------------------------------- |
-| isDisabled | true, false | false         | true일 경우, Text field가 유저와 상호작용하지 않음 |
-| isReadonly | true, false | false         | true일 경우, value를 변경할 수 없음                |
-| isRequired | true, false | false         | true일 경우, value가 필수임을 나타냄               |
-| isInvalid  | true, false | false         | true일 경우, value가 유효하지 않은 값임을 나타냄   |
+| Context    | Values       | Default Value | Description                                                 |
+| ---------- | ------------ | ------------- | ----------------------------------------------------------- |
+| isDisabled | true, false  | false         | true일 경우, Text field가 유저와 상호작용하지 않음          |
+| isReadonly | true, false  | false         | true일 경우, value를 변경할 수 없음                         |
+| isRequired | true, false  | false         | true일 경우, value가 필수임을 나타냄                        |
+| isInvalid  | true, false  | false         | true일 경우, value가 유효하지 않은 값임을 나타냄            |
+| maxLength  | number, null | null          | null이 아닌 경우, value의 길이는 maxLength를 초과할 수 없음 |
 
 ## Actions
 
-| Action           | From               | Condition                  | To                 |
-| ---------------- | ------------------ | -------------------------- | ------------------ |
-| TOGGLE           | isSelected = false | !isDisabled && !isReadonly | isSelected = true  |
-|                  | isSelected = true  | !isDisabled && !isReadonly | isSelected = false |
-| FOCUS            | isFocused = false  | !isDisabled                | isFocused = true   |
-| BLUR             | isFocused = true   |                            | isFocused = false  |
-| SET_VALUE(value) | \*                 |                            | value = value      |
+| Action           | From               | Condition                    | To                 |
+| ---------------- | ------------------ | ---------------------------- | ------------------ |
+| TOGGLE           | isSelected = false | !isDisabled && !isReadonly   | isSelected = true  |
+|                  | isSelected = true  | !isDisabled && !isReadonly   | isSelected = false |
+| FOCUS            | isFocused = false  | !isDisabled                  | isFocused = true   |
+| BLUR             | isFocused = true   |                              | isFocused = false  |
+| SET_VALUE(value) | \*                 | value.length &lt;= maxLength | value = value      |
 
 ## Triggers
 
