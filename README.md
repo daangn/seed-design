@@ -2,28 +2,33 @@
 
 이 곳을 진실의 원천으로 삼고 동기화 작업에서 해방됩시다.
 
-- 🎨 컬러 스킴 라이브러리 제공
-- ⚙️ 토큰에 대한 TypeScript 지원
-- 🔄 Figma 프로토타이핑과 애플리케이션 형상 동기화
+- 컬러 스킴 라이브러리 제공
+- 토큰에 대한 TypeScript 지원
+- Figma 프로토타이핑과 애플리케이션 형상 동기화
 
 ## 구성
 
-- [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token)
-- [@seed-design/stylesheet](https://github.com/daangn/seed-design/tree/main/packages/stylesheet)
-- [@seed-design/react-theming](https://github.com/daangn/seed-design/tree/main/packages/react-theming)
-- [gatsby-plugin-seed-design](https://github.com/daangn/seed-design/tree/main/packages/gatsby-plugin-seed-design)
+> 각 패키지들의 README를 참고해주세요.
 
-## Karrot UI → Seed Design 주요 변경 사항
+**Foundations**
 
-- 프로젝트/디자인 시스템 명이 **Seed Design**으로 리브랜딩 됩니다.
-- 패키지 명이 `@seed-design/*` 으로 변경됩니다.
-- `@karrot-ui/*` packages are deprecated.
-- `color-scheme: light dark` 지원이 기본값이 됩니다.
-- 디자인 토큰이 [KDT](https://github.com/daangn/kdt/tree/main/language) 의미론을 따릅니다.
+- [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token) (Foundations)
+- [@seed-design/stylesheet](https://github.com/daangn/seed-design/tree/main/packages/stylesheet) (StyleSheet)
+- [@seed-design/icon](https://github.com/daangn/seed-design/tree/main/packages/icon) (Icon)
+
+**Convenience Libraries**
+
+- [@seed-design/react-theming](https://github.com/daangn/seed-design/tree/main/packages/react-theming) (React Seed Design)
+- [gatsby-plugin-seed-design](https://github.com/daangn/seed-design/tree/main/packages/gatsby-plugin-seed-design) (Gatsby Seed Design)
+
+**Document**
+
+- [@seed-design/docs](https://github.com/daangn/seed-design/tree/main/docs) (Web Document)
+  - [contributing guide](https://github.com/daangn/seed-design/tree/main/docs/CONTRIBUTING.md)
 
 ## 공통 가이드
 
-### HTML 메타태그 삽입하기
+#### HTML 메타태그 삽입하기
 
 참고: https://web.dev/i18n/ko/color-scheme/#color-scheme
 
@@ -33,7 +38,7 @@
 <meta name="color-scheme" content="light dark" />
 ```
 
-### CSS 스타일시트 로딩하기 (DOM)
+#### CSS 스타일시트 로딩하기 (DOM)
 
 웹 브라우저에서 실행되는 경우 Seed Design 의 모든 속성 정의는 [CSS Variables](https://developer.mozilla.org/ko/docs/Web/CSS/Using_CSS_custom_properties)를 통해 제공됩니다.
 
@@ -49,7 +54,7 @@ Seed Design의 스타일시트 리소스를 사용할 수 있도록 우선 로�
 웹팩 등 자바스크립트 번들러에 의해 처리되는 경우, [MiniCssExtractPlugin](https://webpack.js.org/plugins/mini-css-extract-plugin/) 등으로 사전에 추출되어 [주요 렌더링 경로](https://developer.mozilla.org/ko/docs/Web/Performance/Critical_rendering_path)에 배치해야합니다.
 
 ```js
-import '@seed-design/stylesheet/global.css';
+import "@seed-design/stylesheet/global.css";
 ```
 
 #### 루트 엘리먼트(`<html>`) 초기화
@@ -82,36 +87,32 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 (CSS-in-JS 라이브러리 통합 시, 또는 pre-hydration 스크립트에서 수행 될 수 있습니다)
 
 ```js
-(function() {
+(function () {
   var el = document.documentElement;
-  el.dataset.seed = '';
+  el.dataset.seed = "";
 
-  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var prefersLight = window.matchMedia("(prefers-color-scheme: light)");
+  var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
   if (prefersLight.matches) {
-    if ('addEventListener' in prefersLight) {
-      prefersLight.addEventListener('change', apply);
-    } else if ('addListener' in prefersLight) {
+    if ("addEventListener" in prefersLight) {
+      prefersLight.addEventListener("change", apply);
+    } else if ("addListener" in prefersLight) {
       prefersLight.addListener(apply);
     }
   } else if (prefersDark.matches) {
-    if ('addEventListener' in prefersDark) {
-      prefersDark.addEventListener('change', apply);
-    } else if ('addListener' in prefersDark) {
+    if ("addEventListener" in prefersDark) {
+      prefersDark.addEventListener("change", apply);
+    } else if ("addListener" in prefersDark) {
       prefersDark.addListener(apply);
     }
   }
 
   function apply() {
-    el.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
-    el.dataset.seedScaleLetterSpacing = 'ios';
+    el.dataset.seedScaleColor = prefersDark.matches ? "dark" : "light";
+    el.dataset.seedScaleLetterSpacing = "ios";
   }
 
   apply();
 })();
 ```
-
-## 사용법 (공통)
-
-[`packages`](./packages)에 있는 패키지들 사용법은 각 워크스페이스 `README.md`를 참고해주세요.

@@ -68,11 +68,11 @@ module.exports = {
       options: {
         typeName: ({ node }) => {
           if (node.base === "component-meta.json") {
-            return "allComponentMetaJson";
+            return "componentMetaJson";
           }
 
           if (node.base === "primitive-meta.json") {
-            return "allPrimitiveMetaJson";
+            return "primitiveMetaJson";
           }
 
           return "Json";
@@ -137,9 +137,8 @@ module.exports = {
         },
         query: `
           {
-            allAllPrimitiveMetaJson {
+            primitives: allPrimitiveMetaJson {
               nodes {
-                id
                 name
                 primitive {
                   childMdx {
@@ -151,13 +150,15 @@ module.exports = {
               }
             }
 
-            allAllComponentMetaJson {
+            overviews: allComponentMetaJson(
+              filter: {platform: {docs: {overview: {status: {ne: "todo"}}}}}
+            ) {
               nodes {
-                id
                 name
                 platform {
                   docs {
-                    style {
+                    overview {
+                      status
                       mdx {
                         childMdx {
                           frontmatter {
@@ -166,7 +167,42 @@ module.exports = {
                         }
                       }
                     }
+                  }
+                }
+              }
+            }
+
+            usages: allComponentMetaJson(
+              filter: {platform: {docs: {usage: {status: {ne: "todo"}}}}}
+            ) {
+              nodes {
+                name
+                platform {
+                  docs {
                     usage {
+                      status
+                      mdx {
+                        childMdx {
+                          frontmatter {
+                            slug
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            styles: allComponentMetaJson(
+              filter: {platform: {docs: {style: {status: {ne: "todo"}}}}}
+            ) {
+              nodes {
+                name
+                platform {
+                  docs {
+                    style {
+                      status
                       mdx {
                         childMdx {
                           frontmatter {
@@ -181,27 +217,39 @@ module.exports = {
             }
           }
         `,
-        ref: "id",
+        ref: "slug",
         index: ["slug"],
-        store: ["id", "slug", "name"],
+        store: ["slug", "name", "status"],
         normalizer: ({ data }) => {
-          const componentMetas = data.allAllComponentMetaJson.nodes.map(
-            (node) => ({
-              id: node.id,
-              slug: node.platform.docs.style.mdx?.childMdx.frontmatter.slug,
-              name: node.name,
-            }),
-          );
+          const overviewMetas = data.overviews.nodes.map((node) => ({
+            slug: node.platform.docs.overview.mdx.childMdx.frontmatter.slug,
+            name: node.name,
+            status: node.platform.docs.overview.status,
+          }));
 
-          const primitiveMetas = data.allAllPrimitiveMetaJson.nodes.map(
-            (node) => ({
-              id: node.id,
-              slug: node.primitive.childMdx.frontmatter.slug,
-              name: node.name,
-            }),
-          );
+          const usageMetas = data.usages.nodes.map((node) => ({
+            slug: node.platform.docs.usage.mdx.childMdx.frontmatter.slug,
+            name: node.name,
+            status: node.platform.docs.usage.status,
+          }));
 
-          return [...componentMetas, ...primitiveMetas];
+          const styleMetas = data.styles.nodes.map((node) => ({
+            slug: node.platform.docs.style.mdx.childMdx.frontmatter.slug,
+            name: node.name,
+            status: node.platform.docs.style.status,
+          }));
+
+          const primitiveMetas = data.primitives.nodes.map((node) => ({
+            slug: node.primitive.childMdx.frontmatter.slug,
+            name: node.name,
+          }));
+
+          return [
+            ...overviewMetas,
+            ...usageMetas,
+            ...styleMetas,
+            ...primitiveMetas,
+          ];
         },
       },
     },

@@ -24,30 +24,39 @@ seed docs의 문서들은 `seed-design/docs/content` 폴더에 위치해요.
 ```
 📦content
  ┣ 📂component
+ ┃ ┣ 📂alert-dialog
+ ┃ ┃ ┣ 📜component-meta.json
+ ┃ ┃ ┣ 📜overview.mdx
+ ┃ ┃ ┣ 📜style.mdx
+ ┃ ┃ ┗ 📜usage.mdx
  ┃ ┣ 📂avatar
+ ┃ ┃ ┣ 📜avatar-options-image.png
+ ┃ ┃ ┣ 📜avatar-options-size.png
  ┃ ┃ ┣ 📜avatar-style-anatomy.png
+ ┃ ┃ ┣ 📜component-meta.json
+ ┃ ┃ ┣ 📜overview.mdx
  ┃ ┃ ┣ 📜style.mdx
  ┃ ┃ ┣ 📜thumbnail.png
  ┃ ┃ ┗ 📜usage.mdx
- ┃ ┣ 📂box-button
- ┃ ┃ ┣ ...
- ┃ ┣ 📂box-toggle-button
- ┃ ┃ ┣ ...
  ┣ 📂primitive
  ┃ ┣ 📂avatar
  ┃ ┃ ┣ 📜avatar-primitive-anatomy.png
+ ┃ ┃ ┣ 📜primitive-meta.json
  ┃ ┃ ┣ 📜primitive.mdx
  ┃ ┃ ┗ 📜thumbnail.png
  ┃ ┣ 📂button
+ ┃ ┃ ┣ 📜primitive-meta.json
  ┃ ┃ ┣ 📜primitive.mdx
- ┃ ┃ ┗ ...
+ ┃ ┃ ┗ 📜thumbnail.png
+...
 ```
 
 - 크게 `component`, `primitive`로 나뉘어져 있어요. `avatar` 컴포넌트를 기준으로 말해볼게요.
 - 각 컴포넌트 이름으로 된 폴더를 생성하고, 그 안에 `mdx` 확장자로 되어있는 파일을 생성해요.
-- `mdx` 파일안에 적힌 `frontmatter`를 잘 기입해야 문서가 웹 페이지에 생성이 돼요.
+- `primitive` 폴더의 각각의 컴포넌트에는 `primitive-meta.json` 파일이 존재해요.
+- `component` 폴더의 각각의 컴포넌트에는 `component-meta.json` 파일이 존재해요.
 
-### 2. `frontmatter`와 문서 작성하기.
+### 2. `frontmatter` 기입하기
 
 > frontmatter: 보통 `md` or `mdx` 파일에서 추가적인 데이터(정보)를 식별하기 위한 방법이예요.
 
@@ -56,53 +65,66 @@ seed docs의 문서들은 `seed-design/docs/content` 폴더에 위치해요.
 ```markdown
 ---
 slug: /component/avatar/usage
-title: Avatar
-description: 프로필 사진 또는 대체 이미지를 통해 사용자를 표현합니다.
-thumbnail: ./thumbnail.png
 ---
-
-# Avatar
 
 본문
 ```
 
-`대쉬(-)`를 세 개로 열고, 닫은 사이 공간이 `frontmatter` 정보를 기입해 줄 공간이에요.
+현재는 `slug` 필드만 작성해주면 돼요.
 
-`usage` 문서에는 총 **4개**의 frontmatter 정보가 기입되어야 해요. `slug`, `title`, `description`, `thumbnail`.
+### 3. meta.json 파일 작성하기
 
-- `slug`: 문서가 생성될 경로를 적어주세요.
-  - `/component/avatar/usage` -> `https://seed-design.pages.dev/component/avatar/usage/` 에 문서가 생성돼요.
-- `title`: 컴포넌트 이름을 적어주세요.
-- `description`: 컴포넌트의 한 줄 설명을 적어주세요.
-- `thumbnail`: `usage` 문서에만 있는 정보예요. list page에서 해당 컴포넌트 문서의 썸네일 이미지의 경로를 적어주세요.
-
-### 3. `docs/configs/link.json` 파일에 정보 기입하기.
-
-`link.json` 파일은 사이드바에 링크를 노출시키기 위해 정보가 적혀있는 파일이에요.
+Avatar Component를 기준으로 설명을 드릴게요.
 
 ```json
 {
-  "component": [
-    {
-      "name": "Checkbox",
-      "usage": "../content/component/checkbox/usage.mdx",
-      "style": "../content/component/checkbox/style.mdx"
+  "name": "Avatar",
+  "description": "프로필 사진 또는 대체 이미지를 통해 사용자를 표현합니다.",
+  "thumbnail": "./thumbnail.png",
+  "group": "Avatar",
+  "primitive": "../../primitive/avatar/primitive-meta.json",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-avatar--docs"
+    },
+    "docs": {
+      "overview": {
+        "status": "in-progress",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
     }
-  ],
-
-  "primitive": [
-    {
-      "name": "Checkbox",
-      "document": "../content/primitive/checkbox/primitive.mdx"
-    }
-  ]
+  }
 }
 ```
 
-`Avatar` 컴포넌트의 `usage` 문서를 사이드바에 노출시키고 싶으면 `component` 하위에 정보를 적어주면 돼요.
-
-- `name`: 해당 링크들이 어떤 컴포넌트인지 식별하기 위한 값이예요. (중요한 정보는 아니예요.)
-- `usage`: `usage`문서의 경로를 해당 `link.json`파일 기준으로 적어줘요.
+- `name`(필수): 컴포넌트 이름을 적어주세요.
+- `description`(필수): 컴포넌트에 대한 전반적인 설명을 적어주세요.
+- `thumbnail`(필수): 컴포넌트 리스트 페이지에서 보여질 썸네일 이미지 주소를 적어주세요. 현재 `meta.json` 파일에서의 상대경로입니다.
+- `group`(옵션): 이건 사이드 바에서 같이 그룹핑 될 그룹을 적어줘요.
+- `primitive`(옵션): 해당 컴포넌트의 `Primitive` 문서의 경로를 적어줘요. 현재 `meta.json` 파일에서의 상대경로입니다.
+- `platform`: 각 플랫폼 별로의 진행 상황을 적어주기 위한 필드에요.
+  - 현재는 `ios`, `android`, `react`, docs의 `overview` 문서, docs의 `usage` 문서, docs의 `style` 문서로 나눠서 진행 상황을 관리해요.
+  - status(필수): `todo`, `in-progress`, `done`의 세 가지로만 적을 수 있어요. (제대로 안적으면 PR에서 에러가 납니다.)
+  - mdx(옵션): docs에서 해당 문서의 상대 위치를 적어줘요.
+  - alias(옵션): 해당 컴포넌트의 별칭을 적어줘요. (ios에서는 똑같은 Box Button이 아니라 Karrot이라는 prefix가 붙음.)
 
 ## 📌 MDX 문서 작성하기
 

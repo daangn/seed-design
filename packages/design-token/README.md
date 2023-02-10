@@ -1,8 +1,10 @@
 # @seed-design/design-token
 
+> Seed Design 디자인 토큰은 [KDT](https://github.com/daangn/kdt/tree/main/language) 의미론을 따릅니다.
+
 디자인 토큰이 무엇인가요?
 
-> Design tokens are indivisible pieces of a design system such as colors, spacing, typography scale. 
+> Design tokens are indivisible pieces of a design system such as colors, spacing, typography scale.
 >
 > -- [Design Token Working Group 정의](https://github.com/design-tokens/community-group)
 
@@ -41,7 +43,7 @@ yarn add @seed-design/design-token
 ### JavaScript (TypeScript)
 
 ```ts
-import { vars } from '@seed-design/design-token';
+import { vars } from "@seed-design/design-token";
 
 // 시맨틱 토큰
 vars.$semantic.color.primary;

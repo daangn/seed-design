@@ -1,0 +1,15 @@
+*.DS_Store
+*.log
+*.tsbuildinfo
+*.zip
+*.env
+
+node_modules/
+/lib/
+/bin/
+/dist/
+
+/bin.mjs
+/bin.mjs.LEGAL.txt
+/bin.min.mjs
+/bin.min.mjs.LEGAL.txt

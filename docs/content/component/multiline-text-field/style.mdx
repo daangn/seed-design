@@ -4,7 +4,7 @@ slug: /component/multiline-text-field/style
 
 ## Anatomy
 
-![multiline text field anatomy](./multiline-text-field-anatomy.png)
+![multiline text field anatomy](./anatomy.png)
 
 1. Root - Primitive.Root
 2. Label - Primitive.Label
@@ -13,21 +13,23 @@ slug: /component/multiline-text-field/style
 5. Field - Primitive.Input
 6. Field text
 7. Placeholder
-8. Character count
-9. Description - Primitive.Description
-10. Error message - Primitive.ErrorMessage
+8. Cursor
+9. Character count
+10. Max Length
+11. Description - Primitive.Description
+12. Error message - Primitive.ErrorMessage
 
 ## Visual Options
 
-| Property           | Value  | Description |
-| ------------------ | ------ | ----------- |
-| label              | text   |             |
-| placeholder        | text   |             |
-| max length         | number |             |
-| description        | text   |             |
-| error message      | text   |             |
-| required indicator | text   |             |
-| optional indicator | text   |             |
+| Property           | Value  |
+| ------------------ | ------ |
+| label              | text   |
+| placeholder        | text   |
+| max length         | number |
+| description        | text   |
+| error message      | text   |
+| required indicator | text   |
+| optional indicator | text   |
 
 ## Visually Representated States
 
@@ -45,9 +47,9 @@ slug: /component/multiline-text-field/style
 
 ## 디자인 결정 (Color)
 
-| Part  | Attribute | Value                 |
-| ----- | --------- | --------------------- |
-| Label | Color     | $scale.color.gray-900 |
+| Part          | Attribute | Value                 |
+| ------------- | --------- | --------------------- |
+| Label, Cursor | Color     | $scale.color.gray-900 |
 
 | State    | Part            | Attribute     | Value                         |
 | -------- | --------------- | ------------- | ----------------------------- |
@@ -57,7 +59,8 @@ slug: /component/multiline-text-field/style
 |          |                 | Outline Color | $semantic.color.danger        |
 |          | Field text      | Color         | $scale.color.gray-900         |
 |          | Placeholder     | Color         | $scale.color.gray-600         |
-|          | Character Count | Color         | $scale.color.gray-600         |
+|          | Charcter Count  | Color         | $scale.color.gray-600         |
+|          | Max Length      | Color         | $scale.color.gray-600         |
 |          | Description     | Color         | $scale.color.gray-600         |
 |          | Error Message   | Color         | $semantic.color.danger        |
 | Focused  | Field           | Color         | $semantic.color.paper-default |
@@ -66,7 +69,8 @@ slug: /component/multiline-text-field/style
 |          |                 | Outline Color | $semantic.color.danger        |
 |          | Field text      | Color         | $scale.color.gray-900         |
 |          | Placeholder     | Color         | $scale.color.gray-600         |
-|          | Character Count | Color         | $scale.color.gray-600         |
+|          | Character Count | Color         | $semantic.color.primary       |
+|          | Max Length      | Color         | $scale.color.gray-600         |
 |          | Description     | Color         | $scale.color.gray-600         |
 |          | Error Message   | Color         | $semantic.color.danger        |
 | Readonly | Field           | Color         | $scale.color.gray-50          |
@@ -74,12 +78,14 @@ slug: /component/multiline-text-field/style
 |          | Field text      | Color         | $scale.color.gray-900         |
 |          | Placeholder     | Color         | $scale.color.gray-600         |
 |          | Character Count | Color         | $scale.color.gray-600         |
+|          | Max Length      | Color         | $scale.color.gray-600         |
 |          | Description     | Color         | $scale.color.gray-600         |
 | Disabled | Field           | Color         | $scale.color.gray-100         |
 |          |                 | Outline Color | $scale.color.gray-400         |
 |          | Field text      | Color         | $scale.color.gray-400         |
 |          | Placeholder     | Color         | $scale.color.gray-400         |
 |          | Character Count | Color         | $scale.color.gray-300         |
+|          | Max Length      | Color         | $scale.color.gray-300         |
 |          | Description     | Color         | $scale.color.gray-400         |
 
 ## 디자인 결정 (Typography)

@@ -1,23 +1,23 @@
 {
-  "name": "web",
-  "version": "0.0.1",
+  "name": "@seed-design/docs",
+  "version": "0.0.0",
   "private": true,
-  "description": "web",
+  "description": "seed docs",
   "keywords": [
     "gatsby"
   ],
   "author": "junghyeonsu",
   "scripts": {
+    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --verbose --log-pages",
+    "build:storybook": "storybook build",
+    "clean": "gatsby clean",
     "dev": "gatsby develop",
     "dev:storybook": "storybook dev -p 6006",
     "develop": "gatsby develop",
-    "build": "gatsby build --log-pages",
-    "build:storybook": "storybook build",
-    "storybook": "storybook dev -p 6006",
-    "clean": "gatsby clean",
     "format": "eslint --fix . --ext .ts,.tsx,.json",
     "lint": "eslint . --ext .ts,.tsx,.json",
     "serve": "gatsby serve",
+    "storybook": "storybook dev -p 6006",
     "typecheck": "tsc --noEmit",
     "validate:meta-json": "node scripts/validate-meta-json.js"
   },

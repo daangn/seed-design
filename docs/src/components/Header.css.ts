@@ -52,6 +52,10 @@ export const content = style([
     paddingLeft: "20px",
     paddingRight: "20px",
   }),
+
+  m.xlarge({
+    maxWidth: "1560px",
+  }),
 ]);
 
 export const headerLogo = style([
@@ -172,11 +176,16 @@ export const searchButtonLeftIcon = style([
   {
     position: "absolute",
     left: "10px",
-    width: "16px",
-    height: "16px",
+    width: "20px",
+    height: "20px",
 
     color: vars.$scale.color.gray800,
   },
+
+  m.small({
+    width: "16px",
+    height: "16px",
+  }),
 ]);
 
 export const searchButtonText = style({

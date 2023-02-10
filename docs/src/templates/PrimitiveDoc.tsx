@@ -8,7 +8,7 @@ import * as style from "./PrimitiveCommon.css";
 
 export const query = graphql`
   query PrimitiveDocTemplate($id: String) {
-    allPrimitiveMetaJson(id: { eq: $id }) {
+    primitiveMetaJson(id: { eq: $id }) {
       name
       description
       primitive {
@@ -26,9 +26,9 @@ export const query = graphql`
 const DocsTemplate: React.FC<
   PageProps<GatsbyTypes.PrimitiveDocTemplateQuery>
 > = ({ data, children, path }) => {
-  const { name, description } = data.allPrimitiveMetaJson!;
+  const { name, description } = data.primitiveMetaJson!;
   const tableOfContents =
-    data.allPrimitiveMetaJson?.primitive?.childMdx?.tableOfContents;
+    data.primitiveMetaJson?.primitive?.childMdx?.tableOfContents;
   return (
     <>
       <article className={style.content}>
@@ -45,7 +45,7 @@ const DocsTemplate: React.FC<
 export const Head: HeadFC<GatsbyTypes.PrimitiveDocTemplateQuery> = ({
   data,
 }) => {
-  const { name, description } = data.allPrimitiveMetaJson!;
+  const { name, description } = data.primitiveMetaJson!;
   return <SEO name={`${name}`} description={`${description}`} />;
 };
 

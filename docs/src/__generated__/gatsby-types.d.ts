@@ -377,23 +377,23 @@ type File = Node & {
   readonly blksize: Maybe<Scalars['Int']>;
   readonly blocks: Maybe<Scalars['Int']>;
   readonly changeTime: Scalars['Date'];
-  /** Returns the first child node of type allComponentMetaJson or null if there are no children of given type on this node */
-  readonly childAllComponentMetaJson: Maybe<allComponentMetaJson>;
-  /** Returns the first child node of type allPrimitiveMetaJson or null if there are no children of given type on this node */
-  readonly childAllPrimitiveMetaJson: Maybe<allPrimitiveMetaJson>;
+  /** Returns the first child node of type componentMetaJson or null if there are no children of given type on this node */
+  readonly childComponentMetaJson: Maybe<componentMetaJson>;
   /** Returns the first child node of type ImageSharp or null if there are no children of given type on this node */
   readonly childImageSharp: Maybe<ImageSharp>;
   /** Returns the first child node of type Mdx or null if there are no children of given type on this node */
   readonly childMdx: Maybe<Mdx>;
+  /** Returns the first child node of type primitiveMetaJson or null if there are no children of given type on this node */
+  readonly childPrimitiveMetaJson: Maybe<primitiveMetaJson>;
   readonly children: ReadonlyArray<Node>;
-  /** Returns all children nodes filtered by type allComponentMetaJson */
-  readonly childrenAllComponentMetaJson: Maybe<ReadonlyArray<Maybe<allComponentMetaJson>>>;
-  /** Returns all children nodes filtered by type allPrimitiveMetaJson */
-  readonly childrenAllPrimitiveMetaJson: Maybe<ReadonlyArray<Maybe<allPrimitiveMetaJson>>>;
+  /** Returns all children nodes filtered by type componentMetaJson */
+  readonly childrenComponentMetaJson: Maybe<ReadonlyArray<Maybe<componentMetaJson>>>;
   /** Returns all children nodes filtered by type ImageSharp */
   readonly childrenImageSharp: Maybe<ReadonlyArray<Maybe<ImageSharp>>>;
   /** Returns all children nodes filtered by type Mdx */
   readonly childrenMdx: Maybe<ReadonlyArray<Maybe<Mdx>>>;
+  /** Returns all children nodes filtered by type primitiveMetaJson */
+  readonly childrenPrimitiveMetaJson: Maybe<ReadonlyArray<Maybe<primitiveMetaJson>>>;
   readonly ctime: Scalars['Date'];
   readonly ctimeMs: Scalars['Float'];
   readonly dev: Scalars['Int'];
@@ -536,15 +536,15 @@ type FileFieldSelector = {
   readonly blksize: InputMaybe<FieldSelectorEnum>;
   readonly blocks: InputMaybe<FieldSelectorEnum>;
   readonly changeTime: InputMaybe<FieldSelectorEnum>;
-  readonly childAllComponentMetaJson: InputMaybe<allComponentMetaJsonFieldSelector>;
-  readonly childAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFieldSelector>;
+  readonly childComponentMetaJson: InputMaybe<componentMetaJsonFieldSelector>;
   readonly childImageSharp: InputMaybe<ImageSharpFieldSelector>;
   readonly childMdx: InputMaybe<MdxFieldSelector>;
+  readonly childPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFieldSelector>;
   readonly children: InputMaybe<NodeFieldSelector>;
-  readonly childrenAllComponentMetaJson: InputMaybe<allComponentMetaJsonFieldSelector>;
-  readonly childrenAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFieldSelector>;
+  readonly childrenComponentMetaJson: InputMaybe<componentMetaJsonFieldSelector>;
   readonly childrenImageSharp: InputMaybe<ImageSharpFieldSelector>;
   readonly childrenMdx: InputMaybe<MdxFieldSelector>;
+  readonly childrenPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFieldSelector>;
   readonly ctime: InputMaybe<FieldSelectorEnum>;
   readonly ctimeMs: InputMaybe<FieldSelectorEnum>;
   readonly dev: InputMaybe<FieldSelectorEnum>;
@@ -585,15 +585,15 @@ type FileFilterInput = {
   readonly blksize: InputMaybe<IntQueryOperatorInput>;
   readonly blocks: InputMaybe<IntQueryOperatorInput>;
   readonly changeTime: InputMaybe<DateQueryOperatorInput>;
-  readonly childAllComponentMetaJson: InputMaybe<allComponentMetaJsonFilterInput>;
-  readonly childAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFilterInput>;
+  readonly childComponentMetaJson: InputMaybe<componentMetaJsonFilterInput>;
   readonly childImageSharp: InputMaybe<ImageSharpFilterInput>;
   readonly childMdx: InputMaybe<MdxFilterInput>;
+  readonly childPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFilterInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
-  readonly childrenAllComponentMetaJson: InputMaybe<allComponentMetaJsonFilterListInput>;
-  readonly childrenAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFilterListInput>;
+  readonly childrenComponentMetaJson: InputMaybe<componentMetaJsonFilterListInput>;
   readonly childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
   readonly childrenMdx: InputMaybe<MdxFilterListInput>;
+  readonly childrenPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFilterListInput>;
   readonly ctime: InputMaybe<DateQueryOperatorInput>;
   readonly ctimeMs: InputMaybe<FloatQueryOperatorInput>;
   readonly dev: InputMaybe<IntQueryOperatorInput>;
@@ -675,15 +675,15 @@ type FileSortInput = {
   readonly blksize: InputMaybe<SortOrderEnum>;
   readonly blocks: InputMaybe<SortOrderEnum>;
   readonly changeTime: InputMaybe<SortOrderEnum>;
-  readonly childAllComponentMetaJson: InputMaybe<allComponentMetaJsonSortInput>;
-  readonly childAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonSortInput>;
+  readonly childComponentMetaJson: InputMaybe<componentMetaJsonSortInput>;
   readonly childImageSharp: InputMaybe<ImageSharpSortInput>;
   readonly childMdx: InputMaybe<MdxSortInput>;
+  readonly childPrimitiveMetaJson: InputMaybe<primitiveMetaJsonSortInput>;
   readonly children: InputMaybe<NodeSortInput>;
-  readonly childrenAllComponentMetaJson: InputMaybe<allComponentMetaJsonSortInput>;
-  readonly childrenAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonSortInput>;
+  readonly childrenComponentMetaJson: InputMaybe<componentMetaJsonSortInput>;
   readonly childrenImageSharp: InputMaybe<ImageSharpSortInput>;
   readonly childrenMdx: InputMaybe<MdxSortInput>;
+  readonly childrenPrimitiveMetaJson: InputMaybe<primitiveMetaJsonSortInput>;
   readonly ctime: InputMaybe<SortOrderEnum>;
   readonly ctimeMs: InputMaybe<SortOrderEnum>;
   readonly dev: InputMaybe<SortOrderEnum>;
@@ -1637,25 +1637,25 @@ type PotraceTurnPolicy =
   | 'white';
 
 type Query = {
-  readonly allAllComponentMetaJson: allComponentMetaJsonConnection;
-  readonly allAllPrimitiveMetaJson: allPrimitiveMetaJsonConnection;
-  readonly allComponentMetaJson: Maybe<allComponentMetaJson>;
+  readonly allComponentMetaJson: componentMetaJsonConnection;
   readonly allDirectory: DirectoryConnection;
   readonly allFile: FileConnection;
   readonly allImageSharp: ImageSharpConnection;
   readonly allLocalSearchPages: LocalSearchPagesConnection;
   readonly allMdx: MdxConnection;
-  readonly allPrimitiveMetaJson: Maybe<allPrimitiveMetaJson>;
+  readonly allPrimitiveMetaJson: primitiveMetaJsonConnection;
   readonly allSite: SiteConnection;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
   readonly allSiteFunction: SiteFunctionConnection;
   readonly allSitePage: SitePageConnection;
   readonly allSitePlugin: SitePluginConnection;
+  readonly componentMetaJson: Maybe<componentMetaJson>;
   readonly directory: Maybe<Directory>;
   readonly file: Maybe<File>;
   readonly imageSharp: Maybe<ImageSharp>;
   readonly localSearchPages: Maybe<LocalSearchPages>;
   readonly mdx: Maybe<Mdx>;
+  readonly primitiveMetaJson: Maybe<primitiveMetaJson>;
   readonly site: Maybe<Site>;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
   readonly siteFunction: Maybe<SiteFunction>;
@@ -1664,33 +1664,11 @@ type Query = {
 };
 
 
-type Query_allAllComponentMetaJsonArgs = {
-  filter: InputMaybe<allComponentMetaJsonFilterInput>;
-  limit: InputMaybe<Scalars['Int']>;
-  skip: InputMaybe<Scalars['Int']>;
-  sort: InputMaybe<ReadonlyArray<InputMaybe<allComponentMetaJsonSortInput>>>;
-};
-
-
-type Query_allAllPrimitiveMetaJsonArgs = {
-  filter: InputMaybe<allPrimitiveMetaJsonFilterInput>;
-  limit: InputMaybe<Scalars['Int']>;
-  skip: InputMaybe<Scalars['Int']>;
-  sort: InputMaybe<ReadonlyArray<InputMaybe<allPrimitiveMetaJsonSortInput>>>;
-};
-
-
 type Query_allComponentMetaJsonArgs = {
-  children: InputMaybe<NodeFilterListInput>;
-  description: InputMaybe<StringQueryOperatorInput>;
-  group: InputMaybe<StringQueryOperatorInput>;
-  id: InputMaybe<StringQueryOperatorInput>;
-  internal: InputMaybe<InternalFilterInput>;
-  name: InputMaybe<StringQueryOperatorInput>;
-  parent: InputMaybe<NodeFilterInput>;
-  platform: InputMaybe<allComponentMetaJsonPlatformFilterInput>;
-  primitive: InputMaybe<FileFilterInput>;
-  thumbnail: InputMaybe<FileFilterInput>;
+  filter: InputMaybe<componentMetaJsonFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ReadonlyArray<InputMaybe<componentMetaJsonSortInput>>>;
 };
 
 
@@ -1735,14 +1713,10 @@ type Query_allMdxArgs = {
 
 
 type Query_allPrimitiveMetaJsonArgs = {
-  children: InputMaybe<NodeFilterListInput>;
-  description: InputMaybe<StringQueryOperatorInput>;
-  id: InputMaybe<StringQueryOperatorInput>;
-  internal: InputMaybe<InternalFilterInput>;
-  name: InputMaybe<StringQueryOperatorInput>;
-  parent: InputMaybe<NodeFilterInput>;
-  primitive: InputMaybe<FileFilterInput>;
-  thumbnail: InputMaybe<FileFilterInput>;
+  filter: InputMaybe<primitiveMetaJsonFilterInput>;
+  limit: InputMaybe<Scalars['Int']>;
+  skip: InputMaybe<Scalars['Int']>;
+  sort: InputMaybe<ReadonlyArray<InputMaybe<primitiveMetaJsonSortInput>>>;
 };
 
 
@@ -1783,6 +1757,20 @@ type Query_allSitePluginArgs = {
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
   sort: InputMaybe<ReadonlyArray<InputMaybe<SitePluginSortInput>>>;
+};
+
+
+type Query_componentMetaJsonArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  description: InputMaybe<StringQueryOperatorInput>;
+  group: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  name: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  platform: InputMaybe<componentMetaJsonPlatformFilterInput>;
+  primitive: InputMaybe<FileFilterInput>;
+  thumbnail: InputMaybe<FileFilterInput>;
 };
 
 
@@ -1837,15 +1825,15 @@ type Query_fileArgs = {
   blksize: InputMaybe<IntQueryOperatorInput>;
   blocks: InputMaybe<IntQueryOperatorInput>;
   changeTime: InputMaybe<DateQueryOperatorInput>;
-  childAllComponentMetaJson: InputMaybe<allComponentMetaJsonFilterInput>;
-  childAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFilterInput>;
+  childComponentMetaJson: InputMaybe<componentMetaJsonFilterInput>;
   childImageSharp: InputMaybe<ImageSharpFilterInput>;
   childMdx: InputMaybe<MdxFilterInput>;
+  childPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFilterInput>;
   children: InputMaybe<NodeFilterListInput>;
-  childrenAllComponentMetaJson: InputMaybe<allComponentMetaJsonFilterListInput>;
-  childrenAllPrimitiveMetaJson: InputMaybe<allPrimitiveMetaJsonFilterListInput>;
+  childrenComponentMetaJson: InputMaybe<componentMetaJsonFilterListInput>;
   childrenImageSharp: InputMaybe<ImageSharpFilterListInput>;
   childrenMdx: InputMaybe<MdxFilterListInput>;
+  childrenPrimitiveMetaJson: InputMaybe<primitiveMetaJsonFilterListInput>;
   ctime: InputMaybe<DateQueryOperatorInput>;
   ctimeMs: InputMaybe<FloatQueryOperatorInput>;
   dev: InputMaybe<IntQueryOperatorInput>;
@@ -1911,6 +1899,18 @@ type Query_mdxArgs = {
   internal: InputMaybe<InternalFilterInput>;
   parent: InputMaybe<NodeFilterInput>;
   tableOfContents: InputMaybe<JSONQueryOperatorInput>;
+};
+
+
+type Query_primitiveMetaJsonArgs = {
+  children: InputMaybe<NodeFilterListInput>;
+  description: InputMaybe<StringQueryOperatorInput>;
+  id: InputMaybe<StringQueryOperatorInput>;
+  internal: InputMaybe<InternalFilterInput>;
+  name: InputMaybe<StringQueryOperatorInput>;
+  parent: InputMaybe<NodeFilterInput>;
+  primitive: InputMaybe<FileFilterInput>;
+  thumbnail: InputMaybe<FileFilterInput>;
 };
 
 
@@ -2789,7 +2789,7 @@ type WebPOptions = {
   readonly quality: InputMaybe<Scalars['Int']>;
 };
 
-type allComponentMetaJson = Node & {
+type componentMetaJson = Node & {
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
   readonly group: Maybe<Scalars['String']>;
@@ -2797,57 +2797,57 @@ type allComponentMetaJson = Node & {
   readonly internal: Internal;
   readonly name: Maybe<Scalars['String']>;
   readonly parent: Maybe<Node>;
-  readonly platform: Maybe<allComponentMetaJsonPlatform>;
+  readonly platform: Maybe<componentMetaJsonPlatform>;
   readonly primitive: Maybe<File>;
   readonly thumbnail: Maybe<File>;
 };
 
-type allComponentMetaJsonConnection = {
+type componentMetaJsonConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<allComponentMetaJsonEdge>;
-  readonly group: ReadonlyArray<allComponentMetaJsonGroupConnection>;
+  readonly edges: ReadonlyArray<componentMetaJsonEdge>;
+  readonly group: ReadonlyArray<componentMetaJsonGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<allComponentMetaJson>;
+  readonly nodes: ReadonlyArray<componentMetaJson>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type allComponentMetaJsonConnection_distinctArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonConnection_distinctArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonConnection_groupArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonConnection_groupArgs = {
+  field: componentMetaJsonFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type allComponentMetaJsonConnection_maxArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonConnection_maxArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonConnection_minArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonConnection_minArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonConnection_sumArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonConnection_sumArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
-type allComponentMetaJsonEdge = {
-  readonly next: Maybe<allComponentMetaJson>;
-  readonly node: allComponentMetaJson;
-  readonly previous: Maybe<allComponentMetaJson>;
+type componentMetaJsonEdge = {
+  readonly next: Maybe<componentMetaJson>;
+  readonly node: componentMetaJson;
+  readonly previous: Maybe<componentMetaJson>;
 };
 
-type allComponentMetaJsonFieldSelector = {
+type componentMetaJsonFieldSelector = {
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
   readonly group: InputMaybe<FieldSelectorEnum>;
@@ -2855,12 +2855,12 @@ type allComponentMetaJsonFieldSelector = {
   readonly internal: InputMaybe<InternalFieldSelector>;
   readonly name: InputMaybe<FieldSelectorEnum>;
   readonly parent: InputMaybe<NodeFieldSelector>;
-  readonly platform: InputMaybe<allComponentMetaJsonPlatformFieldSelector>;
+  readonly platform: InputMaybe<componentMetaJsonPlatformFieldSelector>;
   readonly primitive: InputMaybe<FileFieldSelector>;
   readonly thumbnail: InputMaybe<FileFieldSelector>;
 };
 
-type allComponentMetaJsonFilterInput = {
+type componentMetaJsonFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly group: InputMaybe<StringQueryOperatorInput>;
@@ -2868,233 +2868,233 @@ type allComponentMetaJsonFilterInput = {
   readonly internal: InputMaybe<InternalFilterInput>;
   readonly name: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
-  readonly platform: InputMaybe<allComponentMetaJsonPlatformFilterInput>;
+  readonly platform: InputMaybe<componentMetaJsonPlatformFilterInput>;
   readonly primitive: InputMaybe<FileFilterInput>;
   readonly thumbnail: InputMaybe<FileFilterInput>;
 };
 
-type allComponentMetaJsonFilterListInput = {
-  readonly elemMatch: InputMaybe<allComponentMetaJsonFilterInput>;
+type componentMetaJsonFilterListInput = {
+  readonly elemMatch: InputMaybe<componentMetaJsonFilterInput>;
 };
 
-type allComponentMetaJsonGroupConnection = {
+type componentMetaJsonGroupConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<allComponentMetaJsonEdge>;
+  readonly edges: ReadonlyArray<componentMetaJsonEdge>;
   readonly field: Scalars['String'];
   readonly fieldValue: Maybe<Scalars['String']>;
-  readonly group: ReadonlyArray<allComponentMetaJsonGroupConnection>;
+  readonly group: ReadonlyArray<componentMetaJsonGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<allComponentMetaJson>;
+  readonly nodes: ReadonlyArray<componentMetaJson>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type allComponentMetaJsonGroupConnection_distinctArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonGroupConnection_distinctArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonGroupConnection_groupArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonGroupConnection_groupArgs = {
+  field: componentMetaJsonFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type allComponentMetaJsonGroupConnection_maxArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonGroupConnection_maxArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonGroupConnection_minArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonGroupConnection_minArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
 
-type allComponentMetaJsonGroupConnection_sumArgs = {
-  field: allComponentMetaJsonFieldSelector;
+type componentMetaJsonGroupConnection_sumArgs = {
+  field: componentMetaJsonFieldSelector;
 };
 
-type allComponentMetaJsonPlatform = {
-  readonly android: Maybe<allComponentMetaJsonPlatformAndroid>;
-  readonly docs: Maybe<allComponentMetaJsonPlatformDocs>;
-  readonly ios: Maybe<allComponentMetaJsonPlatformIos>;
-  readonly react: Maybe<allComponentMetaJsonPlatformReact>;
+type componentMetaJsonPlatform = {
+  readonly android: Maybe<componentMetaJsonPlatformAndroid>;
+  readonly docs: Maybe<componentMetaJsonPlatformDocs>;
+  readonly ios: Maybe<componentMetaJsonPlatformIos>;
+  readonly react: Maybe<componentMetaJsonPlatformReact>;
 };
 
-type allComponentMetaJsonPlatformAndroid = {
+type componentMetaJsonPlatformAndroid = {
   readonly path: Maybe<Scalars['String']>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformAndroidFieldSelector = {
+type componentMetaJsonPlatformAndroidFieldSelector = {
   readonly path: InputMaybe<FieldSelectorEnum>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformAndroidFilterInput = {
+type componentMetaJsonPlatformAndroidFilterInput = {
   readonly path: InputMaybe<StringQueryOperatorInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformAndroidSortInput = {
+type componentMetaJsonPlatformAndroidSortInput = {
   readonly path: InputMaybe<SortOrderEnum>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformDocs = {
-  readonly overview: Maybe<allComponentMetaJsonPlatformDocsOverview>;
-  readonly style: Maybe<allComponentMetaJsonPlatformDocsStyle>;
-  readonly usage: Maybe<allComponentMetaJsonPlatformDocsUsage>;
+type componentMetaJsonPlatformDocs = {
+  readonly overview: Maybe<componentMetaJsonPlatformDocsOverview>;
+  readonly style: Maybe<componentMetaJsonPlatformDocsStyle>;
+  readonly usage: Maybe<componentMetaJsonPlatformDocsUsage>;
 };
 
-type allComponentMetaJsonPlatformDocsFieldSelector = {
-  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFieldSelector>;
-  readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFieldSelector>;
-  readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFieldSelector>;
+type componentMetaJsonPlatformDocsFieldSelector = {
+  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewFieldSelector>;
+  readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleFieldSelector>;
+  readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageFieldSelector>;
 };
 
-type allComponentMetaJsonPlatformDocsFilterInput = {
-  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewFilterInput>;
-  readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleFilterInput>;
-  readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageFilterInput>;
+type componentMetaJsonPlatformDocsFilterInput = {
+  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewFilterInput>;
+  readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleFilterInput>;
+  readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageFilterInput>;
 };
 
-type allComponentMetaJsonPlatformDocsOverview = {
+type componentMetaJsonPlatformDocsOverview = {
   readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformDocsOverviewFieldSelector = {
+type componentMetaJsonPlatformDocsOverviewFieldSelector = {
   readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformDocsOverviewFilterInput = {
+type componentMetaJsonPlatformDocsOverviewFilterInput = {
   readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformDocsOverviewSortInput = {
+type componentMetaJsonPlatformDocsOverviewSortInput = {
   readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformDocsSortInput = {
-  readonly overview: InputMaybe<allComponentMetaJsonPlatformDocsOverviewSortInput>;
-  readonly style: InputMaybe<allComponentMetaJsonPlatformDocsStyleSortInput>;
-  readonly usage: InputMaybe<allComponentMetaJsonPlatformDocsUsageSortInput>;
+type componentMetaJsonPlatformDocsSortInput = {
+  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewSortInput>;
+  readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleSortInput>;
+  readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageSortInput>;
 };
 
-type allComponentMetaJsonPlatformDocsStyle = {
+type componentMetaJsonPlatformDocsStyle = {
   readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformDocsStyleFieldSelector = {
+type componentMetaJsonPlatformDocsStyleFieldSelector = {
   readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformDocsStyleFilterInput = {
+type componentMetaJsonPlatformDocsStyleFilterInput = {
   readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformDocsStyleSortInput = {
+type componentMetaJsonPlatformDocsStyleSortInput = {
   readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformDocsUsage = {
+type componentMetaJsonPlatformDocsUsage = {
   readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformDocsUsageFieldSelector = {
+type componentMetaJsonPlatformDocsUsageFieldSelector = {
   readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformDocsUsageFilterInput = {
+type componentMetaJsonPlatformDocsUsageFilterInput = {
   readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformDocsUsageSortInput = {
+type componentMetaJsonPlatformDocsUsageSortInput = {
   readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformFieldSelector = {
-  readonly android: InputMaybe<allComponentMetaJsonPlatformAndroidFieldSelector>;
-  readonly docs: InputMaybe<allComponentMetaJsonPlatformDocsFieldSelector>;
-  readonly ios: InputMaybe<allComponentMetaJsonPlatformIosFieldSelector>;
-  readonly react: InputMaybe<allComponentMetaJsonPlatformReactFieldSelector>;
+type componentMetaJsonPlatformFieldSelector = {
+  readonly android: InputMaybe<componentMetaJsonPlatformAndroidFieldSelector>;
+  readonly docs: InputMaybe<componentMetaJsonPlatformDocsFieldSelector>;
+  readonly ios: InputMaybe<componentMetaJsonPlatformIosFieldSelector>;
+  readonly react: InputMaybe<componentMetaJsonPlatformReactFieldSelector>;
 };
 
-type allComponentMetaJsonPlatformFilterInput = {
-  readonly android: InputMaybe<allComponentMetaJsonPlatformAndroidFilterInput>;
-  readonly docs: InputMaybe<allComponentMetaJsonPlatformDocsFilterInput>;
-  readonly ios: InputMaybe<allComponentMetaJsonPlatformIosFilterInput>;
-  readonly react: InputMaybe<allComponentMetaJsonPlatformReactFilterInput>;
+type componentMetaJsonPlatformFilterInput = {
+  readonly android: InputMaybe<componentMetaJsonPlatformAndroidFilterInput>;
+  readonly docs: InputMaybe<componentMetaJsonPlatformDocsFilterInput>;
+  readonly ios: InputMaybe<componentMetaJsonPlatformIosFilterInput>;
+  readonly react: InputMaybe<componentMetaJsonPlatformReactFilterInput>;
 };
 
-type allComponentMetaJsonPlatformIos = {
+type componentMetaJsonPlatformIos = {
   readonly alias: Maybe<Scalars['String']>;
   readonly path: Maybe<Scalars['String']>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformIosFieldSelector = {
+type componentMetaJsonPlatformIosFieldSelector = {
   readonly alias: InputMaybe<FieldSelectorEnum>;
   readonly path: InputMaybe<FieldSelectorEnum>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformIosFilterInput = {
+type componentMetaJsonPlatformIosFilterInput = {
   readonly alias: InputMaybe<StringQueryOperatorInput>;
   readonly path: InputMaybe<StringQueryOperatorInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformIosSortInput = {
+type componentMetaJsonPlatformIosSortInput = {
   readonly alias: InputMaybe<SortOrderEnum>;
   readonly path: InputMaybe<SortOrderEnum>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformReact = {
+type componentMetaJsonPlatformReact = {
   readonly path: Maybe<Scalars['String']>;
   readonly status: Maybe<Scalars['String']>;
 };
 
-type allComponentMetaJsonPlatformReactFieldSelector = {
+type componentMetaJsonPlatformReactFieldSelector = {
   readonly path: InputMaybe<FieldSelectorEnum>;
   readonly status: InputMaybe<FieldSelectorEnum>;
 };
 
-type allComponentMetaJsonPlatformReactFilterInput = {
+type componentMetaJsonPlatformReactFilterInput = {
   readonly path: InputMaybe<StringQueryOperatorInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
 };
 
-type allComponentMetaJsonPlatformReactSortInput = {
+type componentMetaJsonPlatformReactSortInput = {
   readonly path: InputMaybe<SortOrderEnum>;
   readonly status: InputMaybe<SortOrderEnum>;
 };
 
-type allComponentMetaJsonPlatformSortInput = {
-  readonly android: InputMaybe<allComponentMetaJsonPlatformAndroidSortInput>;
-  readonly docs: InputMaybe<allComponentMetaJsonPlatformDocsSortInput>;
-  readonly ios: InputMaybe<allComponentMetaJsonPlatformIosSortInput>;
-  readonly react: InputMaybe<allComponentMetaJsonPlatformReactSortInput>;
+type componentMetaJsonPlatformSortInput = {
+  readonly android: InputMaybe<componentMetaJsonPlatformAndroidSortInput>;
+  readonly docs: InputMaybe<componentMetaJsonPlatformDocsSortInput>;
+  readonly ios: InputMaybe<componentMetaJsonPlatformIosSortInput>;
+  readonly react: InputMaybe<componentMetaJsonPlatformReactSortInput>;
 };
 
-type allComponentMetaJsonSortInput = {
+type componentMetaJsonSortInput = {
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;
   readonly group: InputMaybe<SortOrderEnum>;
@@ -3102,12 +3102,12 @@ type allComponentMetaJsonSortInput = {
   readonly internal: InputMaybe<InternalSortInput>;
   readonly name: InputMaybe<SortOrderEnum>;
   readonly parent: InputMaybe<NodeSortInput>;
-  readonly platform: InputMaybe<allComponentMetaJsonPlatformSortInput>;
+  readonly platform: InputMaybe<componentMetaJsonPlatformSortInput>;
   readonly primitive: InputMaybe<FileSortInput>;
   readonly thumbnail: InputMaybe<FileSortInput>;
 };
 
-type allPrimitiveMetaJson = Node & {
+type primitiveMetaJson = Node & {
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -3118,52 +3118,52 @@ type allPrimitiveMetaJson = Node & {
   readonly thumbnail: Maybe<File>;
 };
 
-type allPrimitiveMetaJsonConnection = {
+type primitiveMetaJsonConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<allPrimitiveMetaJsonEdge>;
-  readonly group: ReadonlyArray<allPrimitiveMetaJsonGroupConnection>;
+  readonly edges: ReadonlyArray<primitiveMetaJsonEdge>;
+  readonly group: ReadonlyArray<primitiveMetaJsonGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<allPrimitiveMetaJson>;
+  readonly nodes: ReadonlyArray<primitiveMetaJson>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type allPrimitiveMetaJsonConnection_distinctArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonConnection_distinctArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonConnection_groupArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonConnection_groupArgs = {
+  field: primitiveMetaJsonFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type allPrimitiveMetaJsonConnection_maxArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonConnection_maxArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonConnection_minArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonConnection_minArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonConnection_sumArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonConnection_sumArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
-type allPrimitiveMetaJsonEdge = {
-  readonly next: Maybe<allPrimitiveMetaJson>;
-  readonly node: allPrimitiveMetaJson;
-  readonly previous: Maybe<allPrimitiveMetaJson>;
+type primitiveMetaJsonEdge = {
+  readonly next: Maybe<primitiveMetaJson>;
+  readonly node: primitiveMetaJson;
+  readonly previous: Maybe<primitiveMetaJson>;
 };
 
-type allPrimitiveMetaJsonFieldSelector = {
+type primitiveMetaJsonFieldSelector = {
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
   readonly id: InputMaybe<FieldSelectorEnum>;
@@ -3174,7 +3174,7 @@ type allPrimitiveMetaJsonFieldSelector = {
   readonly thumbnail: InputMaybe<FileFieldSelector>;
 };
 
-type allPrimitiveMetaJsonFilterInput = {
+type primitiveMetaJsonFilterInput = {
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
@@ -3185,52 +3185,52 @@ type allPrimitiveMetaJsonFilterInput = {
   readonly thumbnail: InputMaybe<FileFilterInput>;
 };
 
-type allPrimitiveMetaJsonFilterListInput = {
-  readonly elemMatch: InputMaybe<allPrimitiveMetaJsonFilterInput>;
+type primitiveMetaJsonFilterListInput = {
+  readonly elemMatch: InputMaybe<primitiveMetaJsonFilterInput>;
 };
 
-type allPrimitiveMetaJsonGroupConnection = {
+type primitiveMetaJsonGroupConnection = {
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly edges: ReadonlyArray<allPrimitiveMetaJsonEdge>;
+  readonly edges: ReadonlyArray<primitiveMetaJsonEdge>;
   readonly field: Scalars['String'];
   readonly fieldValue: Maybe<Scalars['String']>;
-  readonly group: ReadonlyArray<allPrimitiveMetaJsonGroupConnection>;
+  readonly group: ReadonlyArray<primitiveMetaJsonGroupConnection>;
   readonly max: Maybe<Scalars['Float']>;
   readonly min: Maybe<Scalars['Float']>;
-  readonly nodes: ReadonlyArray<allPrimitiveMetaJson>;
+  readonly nodes: ReadonlyArray<primitiveMetaJson>;
   readonly pageInfo: PageInfo;
   readonly sum: Maybe<Scalars['Float']>;
   readonly totalCount: Scalars['Int'];
 };
 
 
-type allPrimitiveMetaJsonGroupConnection_distinctArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonGroupConnection_distinctArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonGroupConnection_groupArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonGroupConnection_groupArgs = {
+  field: primitiveMetaJsonFieldSelector;
   limit: InputMaybe<Scalars['Int']>;
   skip: InputMaybe<Scalars['Int']>;
 };
 
 
-type allPrimitiveMetaJsonGroupConnection_maxArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonGroupConnection_maxArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonGroupConnection_minArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonGroupConnection_minArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
 
-type allPrimitiveMetaJsonGroupConnection_sumArgs = {
-  field: allPrimitiveMetaJsonFieldSelector;
+type primitiveMetaJsonGroupConnection_sumArgs = {
+  field: primitiveMetaJsonFieldSelector;
 };
 
-type allPrimitiveMetaJsonSortInput = {
+type primitiveMetaJsonSortInput = {
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;
   readonly id: InputMaybe<SortOrderEnum>;
@@ -3246,45 +3246,45 @@ type SlugFragment = { readonly frontmatter: { readonly slug: string | null } | n
 type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentListPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
+type ComponentListPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentOverviewQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentOverviewQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
+type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentProgressBoardPageQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
+type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentStyleQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentStyleQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
+type ComponentStyleQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly style: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentUsageQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentUsageQuery = { readonly allComponentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null, readonly style: { readonly status: string | null } | null } | null } | null } | null };
+type ComponentUsageQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly usage: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
 
 type PrimitiveDocTemplateQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type PrimitiveDocTemplateQuery = { readonly allPrimitiveMetaJson: { readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly tableOfContents: any | null, readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null };
+type PrimitiveDocTemplateQuery = { readonly primitiveMetaJson: { readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly tableOfContents: any | null, readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null };
 
 type PrimitiveListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type PrimitiveListPageQuery = { readonly allAllPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
+type PrimitiveListPageQuery = { readonly allPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
 
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3294,7 +3294,7 @@ type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-p
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly allAllComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly allAllPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
+type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly allPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
 
 
 }

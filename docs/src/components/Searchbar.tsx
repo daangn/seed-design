@@ -44,6 +44,7 @@ const SearchCombobox = () => {
 
   const index = data.allLocalSearchPages.nodes[0].index;
   const store = data.allLocalSearchPages.nodes[0].store;
+
   const searchResults = useFlexSearch(inputValue, index, store);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const SearchCombobox = () => {
         })}
       >
         {items.map((item, index) => {
-          const { id, slug, name } = item;
+          const { slug, name } = item;
 
           const titleHighlight = name.replace(
             new RegExp(inputValue, "gi"),
@@ -89,7 +90,7 @@ const SearchCombobox = () => {
 
           return (
             <li
-              key={id}
+              key={slug}
               className={style.listItem({
                 active: highlightedIndex === index,
               })}
