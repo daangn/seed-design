@@ -1,9 +1,14 @@
 import { Link } from "gatsby";
 
 import { TableData, TableRow } from "../mdx/Table";
-import ProgressBoardData from "./ProgressBoardData";
 import * as rowStyle from "./ProgressBoardRow.css";
 import type { ProgressBoardRowInterface } from "./types";
+
+const StatusText = {
+  todo: "To do",
+  "in-progress": "In Progress",
+  done: "Done",
+};
 
 const ProgressBoardRow = ({
   title,
@@ -21,53 +26,78 @@ const ProgressBoardRow = ({
           <strong>{title}</strong>
         </TableData>
       )}
-      <ProgressBoardData status={overview?.status!}>
-        {overview?.slug && overview?.status !== "todo" && (
-          <Link className={rowStyle.linkText} to={overview.slug}>
-            document
-          </Link>
-        )}
-      </ProgressBoardData>
 
-      <ProgressBoardData status={usage?.status!}>
-        {usage?.slug && usage?.status !== "todo" && (
-          <Link className={rowStyle.linkText} to={usage.slug}>
-            document
-          </Link>
-        )}
-      </ProgressBoardData>
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={style?.status === "todo"}
+          className={rowStyle.linkText({
+            status: style?.status,
+          })}
+          to={style?.slug!}
+        >
+          {StatusText[style?.status!]}
+        </Link>
+      </td>
 
-      <ProgressBoardData status={style?.status!}>
-        {style?.slug && style?.status !== "todo" && (
-          <Link className={rowStyle.linkText} to={style.slug}>
-            document
-          </Link>
-        )}
-      </ProgressBoardData>
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={overview?.status === "todo"}
+          className={rowStyle.linkText({
+            status: overview?.status,
+          })}
+          to={overview?.slug!}
+        >
+          {StatusText[overview?.status!]}
+        </Link>
+      </td>
 
-      <ProgressBoardData status={react?.status!}>
-        {react?.path && react?.status !== "todo" && (
-          <a href={react.path} className={rowStyle.linkText} target="_blank">
-            storybook
-          </a>
-        )}
-      </ProgressBoardData>
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={usage?.status === "todo"}
+          className={rowStyle.linkText({
+            status: usage?.status,
+          })}
+          to={usage?.slug!}
+        >
+          {StatusText[usage?.status!]}
+        </Link>
+      </td>
 
-      <ProgressBoardData status={ios?.status!}>
-        {ios?.path && ios?.status !== "todo" && (
-          <a href={ios.path} className={rowStyle.linkText} target="_blank">
-            catalog app
-          </a>
-        )}
-      </ProgressBoardData>
+      <td className={rowStyle.td}>
+        <a
+          aria-disabled={react?.status === "todo"}
+          className={rowStyle.linkText({
+            status: react?.status,
+          })}
+          href={react?.path!}
+        >
+          {StatusText[react?.status!]}
+        </a>
+      </td>
 
-      <ProgressBoardData status={android?.status!}>
-        {android?.path && android?.status !== "todo" && (
-          <a href={android.path} className={rowStyle.linkText} target="_blank">
-            link
-          </a>
-        )}
-      </ProgressBoardData>
+      <td className={rowStyle.td}>
+        <a
+          aria-disabled={ios?.status === "todo"}
+          className={rowStyle.linkText({
+            status: ios?.status,
+          })}
+          href={ios?.path!}
+        >
+          {StatusText[ios?.status!]}
+        </a>
+      </td>
+
+      <td className={rowStyle.td}>
+        <a
+          aria-disabled={android?.status === "todo"}
+          className={rowStyle.linkText({
+            status: android?.status,
+          })}
+          href={android?.path!}
+        >
+          {StatusText[android?.status!]}
+        </a>
+      </td>
     </TableRow>
   );
 };

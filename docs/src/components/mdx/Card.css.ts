@@ -11,14 +11,16 @@ export const fullCard = style([
   {
     marginTop: "20px",
     borderRadius: "8px",
-    border: `1px solid ${vars.$scale.color.gray300}`,
     backgroundColor: vars.$semantic.color.onPrimary,
+    border: `1px solid ${vars.$scale.color.gray100}`,
     overflow: "hidden",
   },
 ]);
 
 export const fullCardImageCell = style({
   width: "100%",
+  borderRadius: "8px",
+  overflow: "hidden",
 });
 
 export const fullCardDescription = style({
