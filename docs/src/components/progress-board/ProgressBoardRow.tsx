@@ -27,11 +27,11 @@ const ProgressBoardRow = ({
         </TableData>
       )}
 
-      <td className={rowStyle.td({ status: style?.status })}>
+      <td className={rowStyle.td}>
         <Link
           aria-disabled={style?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: style?.status === "todo",
+            status: style?.status,
           })}
           to={style?.slug!}
         >
@@ -39,11 +39,11 @@ const ProgressBoardRow = ({
         </Link>
       </td>
 
-      <td className={rowStyle.td({ status: overview?.status })}>
+      <td className={rowStyle.td}>
         <Link
           aria-disabled={overview?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: overview?.status === "todo",
+            status: overview?.status,
           })}
           to={overview?.slug!}
         >
@@ -51,11 +51,11 @@ const ProgressBoardRow = ({
         </Link>
       </td>
 
-      <td className={rowStyle.td({ status: usage?.status })}>
+      <td className={rowStyle.td}>
         <Link
           aria-disabled={usage?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: usage?.status === "todo",
+            status: usage?.status,
           })}
           to={usage?.slug!}
         >
@@ -63,11 +63,11 @@ const ProgressBoardRow = ({
         </Link>
       </td>
 
-      <td className={rowStyle.td({ status: react?.status })}>
+      <td className={rowStyle.td}>
         <a
           aria-disabled={react?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: react?.status === "todo",
+            status: react?.status,
           })}
           href={react?.path!}
         >
@@ -75,11 +75,11 @@ const ProgressBoardRow = ({
         </a>
       </td>
 
-      <td className={rowStyle.td({ status: ios?.status })}>
+      <td className={rowStyle.td}>
         <a
           aria-disabled={ios?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: ios?.status === "todo",
+            status: ios?.status,
           })}
           href={ios?.path!}
         >
@@ -87,11 +87,11 @@ const ProgressBoardRow = ({
         </a>
       </td>
 
-      <td className={rowStyle.td({ status: android?.status })}>
+      <td className={rowStyle.td}>
         <a
           aria-disabled={android?.status === "todo"}
           className={rowStyle.linkText({
-            disabled: android?.status === "todo",
+            status: android?.status,
           })}
           href={android?.path!}
         >
