@@ -17,6 +17,10 @@
       "status": "done",
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
     },
+    "figma": {
+      "status": "todo",
+      "path": ""
+    },
     "docs": {
       "overview": {
         "status": "in-progress",

@@ -2917,6 +2917,7 @@ type componentMetaJsonGroupConnection_sumArgs = {
 type componentMetaJsonPlatform = {
   readonly android: Maybe<componentMetaJsonPlatformAndroid>;
   readonly docs: Maybe<componentMetaJsonPlatformDocs>;
+  readonly figma: Maybe<componentMetaJsonPlatformFigma>;
   readonly ios: Maybe<componentMetaJsonPlatformIos>;
   readonly react: Maybe<componentMetaJsonPlatformReact>;
 };
@@ -3028,13 +3029,35 @@ type componentMetaJsonPlatformDocsUsageSortInput = {
 type componentMetaJsonPlatformFieldSelector = {
   readonly android: InputMaybe<componentMetaJsonPlatformAndroidFieldSelector>;
   readonly docs: InputMaybe<componentMetaJsonPlatformDocsFieldSelector>;
+  readonly figma: InputMaybe<componentMetaJsonPlatformFigmaFieldSelector>;
   readonly ios: InputMaybe<componentMetaJsonPlatformIosFieldSelector>;
   readonly react: InputMaybe<componentMetaJsonPlatformReactFieldSelector>;
+};
+
+type componentMetaJsonPlatformFigma = {
+  readonly path: Maybe<Scalars['String']>;
+  readonly status: Maybe<Scalars['String']>;
+};
+
+type componentMetaJsonPlatformFigmaFieldSelector = {
+  readonly path: InputMaybe<FieldSelectorEnum>;
+  readonly status: InputMaybe<FieldSelectorEnum>;
+};
+
+type componentMetaJsonPlatformFigmaFilterInput = {
+  readonly path: InputMaybe<StringQueryOperatorInput>;
+  readonly status: InputMaybe<StringQueryOperatorInput>;
+};
+
+type componentMetaJsonPlatformFigmaSortInput = {
+  readonly path: InputMaybe<SortOrderEnum>;
+  readonly status: InputMaybe<SortOrderEnum>;
 };
 
 type componentMetaJsonPlatformFilterInput = {
   readonly android: InputMaybe<componentMetaJsonPlatformAndroidFilterInput>;
   readonly docs: InputMaybe<componentMetaJsonPlatformDocsFilterInput>;
+  readonly figma: InputMaybe<componentMetaJsonPlatformFigmaFilterInput>;
   readonly ios: InputMaybe<componentMetaJsonPlatformIosFilterInput>;
   readonly react: InputMaybe<componentMetaJsonPlatformReactFilterInput>;
 };
@@ -3086,6 +3109,7 @@ type componentMetaJsonPlatformReactSortInput = {
 type componentMetaJsonPlatformSortInput = {
   readonly android: InputMaybe<componentMetaJsonPlatformAndroidSortInput>;
   readonly docs: InputMaybe<componentMetaJsonPlatformDocsSortInput>;
+  readonly figma: InputMaybe<componentMetaJsonPlatformFigmaSortInput>;
   readonly ios: InputMaybe<componentMetaJsonPlatformIosSortInput>;
   readonly react: InputMaybe<componentMetaJsonPlatformReactSortInput>;
 };
@@ -3254,7 +3278,7 @@ type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: str
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
+type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly figma: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentStyleQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;

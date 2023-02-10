@@ -69,20 +69,17 @@ const statusSchema = {
 
 const mdxSchema = {
   type: "string",
-  // eslint-disable-next-line prettier/prettier
-  pattern: "^.*\.mdx$",
+  pattern: "^.*.mdx$",
 };
 
 const jsonSchema = {
   type: "string",
-  // eslint-disable-next-line prettier/prettier
-  pattern: "^.*\.json$",
+  pattern: "^.*.json$",
 };
 
 const pngSchema = {
   type: "string",
-  // eslint-disable-next-line prettier/prettier
-  pattern: "^.*\.png$",
+  pattern: "^.*.png$",
 };
 
 const stringSchema = {
@@ -120,6 +117,15 @@ const platformSchema = {
       required: ["status", "path"],
       additionalProperties: false,
     },
+    figma: {
+      type: "object",
+      properties: {
+        status: statusSchema,
+        path: { type: "string" },
+      },
+      required: ["status", "path"],
+      additionalProperties: false,
+    },
     docs: {
       type: "object",
       properties: {
@@ -149,7 +155,7 @@ const platformSchema = {
       additionalProperties: true,
     },
   },
-  required: ["ios", "android", "react", "docs"],
+  required: ["ios", "android", "react", "figma", "docs"],
   additionalProperties: false,
 };
 

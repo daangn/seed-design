@@ -40,6 +40,10 @@ export const query = graphql`
             path
             status
           }
+          figma {
+            path
+            status
+          }
           docs {
             overview {
               status
@@ -104,6 +108,7 @@ const ComponentProgressBoardPage = ({
             <TableData>Usage</TableData>
             <TableData>React</TableData>
             <TableData>iOS</TableData>
+            <TableData>Figma</TableData>
             <TableData>Android</TableData>
           </TableRow>
         </TableHead>
@@ -113,18 +118,11 @@ const ComponentProgressBoardPage = ({
               <ProgressBoardRow
                 key={node?.name}
                 title={node?.name!}
-                ios={{
-                  status: node?.platform?.ios?.status! as ProgressStatus,
-                  alias: node?.platform?.ios?.alias!,
-                  path: node?.platform?.ios?.path!,
-                }}
-                android={{
-                  status: node?.platform?.android?.status! as ProgressStatus,
-                  path: node?.platform?.android?.path!,
-                }}
-                react={{
-                  status: node?.platform?.react?.status! as ProgressStatus,
-                  path: node?.platform?.react?.path!,
+                overview={{
+                  status: node?.platform?.docs?.overview
+                    ?.status! as ProgressStatus,
+                  slug: node?.platform?.docs?.overview?.mdx?.childMdx
+                    ?.frontmatter?.slug!,
                 }}
                 usage={{
                   status: node?.platform?.docs?.usage
@@ -138,11 +136,22 @@ const ComponentProgressBoardPage = ({
                   slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
                     ?.slug!,
                 }}
-                overview={{
-                  status: node?.platform?.docs?.overview
-                    ?.status! as ProgressStatus,
-                  slug: node?.platform?.docs?.overview?.mdx?.childMdx
-                    ?.frontmatter?.slug!,
+                react={{
+                  status: node?.platform?.react?.status! as ProgressStatus,
+                  path: node?.platform?.react?.path!,
+                }}
+                ios={{
+                  status: node?.platform?.ios?.status! as ProgressStatus,
+                  alias: node?.platform?.ios?.alias!,
+                  path: node?.platform?.ios?.path!,
+                }}
+                figma={{
+                  status: node?.platform?.figma?.status! as ProgressStatus,
+                  path: node?.platform?.figma?.path!,
+                }}
+                android={{
+                  status: node?.platform?.android?.status! as ProgressStatus,
+                  path: node?.platform?.android?.path!,
                 }}
               />
             );
