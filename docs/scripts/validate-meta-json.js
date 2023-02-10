@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const Ajv = require("ajv");
 const path = require("path");
 const fs = require("fs");
@@ -70,17 +69,17 @@ const statusSchema = {
 
 const mdxSchema = {
   type: "string",
-  pattern: "^.*\.mdx$",
+  pattern: "^.*.mdx$",
 };
 
 const jsonSchema = {
   type: "string",
-  pattern: "^.*\.json$",
+  pattern: "^.*.json$",
 };
 
 const pngSchema = {
   type: "string",
-  pattern: "^.*\.png$",
+  pattern: "^.*.png$",
 };
 
 const stringSchema = {
