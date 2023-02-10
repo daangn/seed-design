@@ -31,13 +31,13 @@ slug: /primitive/text-field
 
 ## Actions
 
-| Action           | From               | Condition                  | To                 |
-| ---------------- | ------------------ | -------------------------- | ------------------ |
-| TOGGLE           | isSelected = false | !isDisabled && !isReadonly | isSelected = true  |
-|                  | isSelected = true  | !isDisabled && !isReadonly | isSelected = false |
-| FOCUS            | isFocused = false  | !isDisabled                | isFocused = true   |
-| BLUR             | isFocused = true   |                            | isFocused = false  |
-| SET_VALUE(value) | \*                 | value.length <= maxLength  | value = value      |
+| Action           | From               | Condition                   | To                 |
+| ---------------- | ------------------ | --------------------------- | ------------------ |
+| TOGGLE           | isSelected = false | !isDisabled && !isReadonly  | isSelected = true  |
+|                  | isSelected = true  | !isDisabled && !isReadonly  | isSelected = false |
+| FOCUS            | isFocused = false  | !isDisabled                 | isFocused = true   |
+| BLUR             | isFocused = true   |                             | isFocused = false  |
+| SET_VALUE(value) | \*                 | value.length `<=` maxLength | value = value      |
 
 ## Triggers
 
