@@ -14,6 +14,7 @@ const ProgressBoardRow = ({
   title,
   android,
   ios,
+  figma,
   react,
   usage,
   overview,
@@ -84,6 +85,18 @@ const ProgressBoardRow = ({
           href={ios?.path!}
         >
           {StatusText[ios?.status!]}
+        </a>
+      </td>
+
+      <td className={rowStyle.td}>
+        <a
+          aria-disabled={figma?.status === "todo"}
+          className={rowStyle.linkText({
+            status: figma?.status,
+          })}
+          href={figma?.path!}
+        >
+          {StatusText[figma?.status!]}
         </a>
       </td>
 

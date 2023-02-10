@@ -2123,6 +2123,7 @@ type componentMetaJsonGroupConnection {
 type componentMetaJsonPlatform {
   android: componentMetaJsonPlatformAndroid
   docs: componentMetaJsonPlatformDocs
+  figma: componentMetaJsonPlatformFigma
   ios: componentMetaJsonPlatformIos
   react: componentMetaJsonPlatformReact
 }
@@ -2234,13 +2235,35 @@ input componentMetaJsonPlatformDocsUsageSortInput {
 input componentMetaJsonPlatformFieldSelector {
   android: componentMetaJsonPlatformAndroidFieldSelector
   docs: componentMetaJsonPlatformDocsFieldSelector
+  figma: componentMetaJsonPlatformFigmaFieldSelector
   ios: componentMetaJsonPlatformIosFieldSelector
   react: componentMetaJsonPlatformReactFieldSelector
+}
+
+type componentMetaJsonPlatformFigma {
+  path: String
+  status: String
+}
+
+input componentMetaJsonPlatformFigmaFieldSelector {
+  path: FieldSelectorEnum
+  status: FieldSelectorEnum
+}
+
+input componentMetaJsonPlatformFigmaFilterInput {
+  path: StringQueryOperatorInput
+  status: StringQueryOperatorInput
+}
+
+input componentMetaJsonPlatformFigmaSortInput {
+  path: SortOrderEnum
+  status: SortOrderEnum
 }
 
 input componentMetaJsonPlatformFilterInput {
   android: componentMetaJsonPlatformAndroidFilterInput
   docs: componentMetaJsonPlatformDocsFilterInput
+  figma: componentMetaJsonPlatformFigmaFilterInput
   ios: componentMetaJsonPlatformIosFilterInput
   react: componentMetaJsonPlatformReactFilterInput
 }
@@ -2292,6 +2315,7 @@ input componentMetaJsonPlatformReactSortInput {
 input componentMetaJsonPlatformSortInput {
   android: componentMetaJsonPlatformAndroidSortInput
   docs: componentMetaJsonPlatformDocsSortInput
+  figma: componentMetaJsonPlatformFigmaSortInput
   ios: componentMetaJsonPlatformIosSortInput
   react: componentMetaJsonPlatformReactSortInput
 }
