@@ -13,4 +13,4 @@ export const validateIcons = (icons: IconName[]) => {
       throw new Error(`icon ${icon} is not exist`);
     }
   }
-}
+};

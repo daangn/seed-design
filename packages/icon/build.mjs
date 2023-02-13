@@ -1,18 +1,16 @@
-import esbuild from 'esbuild';
-import pkg from './package.json' assert { type: 'json' };
+import esbuild from "esbuild";
+import pkg from "./package.json" assert { type: "json" };
 
 esbuild.build({
-  entryPoints: ['./src/index.ts'],
-  outfile: './bin/index.mjs',
+  entryPoints: ["./src/index.ts"],
+  outfile: "./bin/index.mjs",
   bundle: true,
   write: true,
   treeShaking: true,
   sourcemap: false,
   minify: true,
-  format: 'esm',
-  platform: 'node',
-  target: ['node16'],
-  external: [
-    ...Object.keys(pkg.dependencies),
-  ],
+  format: "esm",
+  platform: "node",
+  target: ["node16"],
+  external: [...Object.keys(pkg.dependencies)],
 });

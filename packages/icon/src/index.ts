@@ -1,70 +1,73 @@
 #!/usr/bin/env node
-import findup from 'findup-sync';
-import chalk from 'chalk';
-import { Command } from 'commander';
-import fs from 'fs';
-import yaml from 'js-yaml';
-import path from 'path';
-import pkg from '../package.json' assert { type: 'json' };
+import findup from "findup-sync";
+import chalk from "chalk";
+import { Command } from "commander";
+import fs from "fs";
+import yaml from "js-yaml";
+import path from "path";
+import pkg from "../package.json" assert { type: "json" };
 
-import generateComponent from './templates/component';
-import generateConfig from './templates/config';
-import generateSprite from './templates/sprite';
-import { IconConfig } from './types';
-import { validateIcons } from './validates/icons';
+import generateConfig from "./templates/config";
+import generateComponent from "./templates/component";
+import generateSprite from "./templates/sprite";
+import { IconConfig } from "./types";
+import { validateIcons } from "./validates/icons";
 
 const program = new Command();
 const projectPath = path.resolve(
-  path.dirname(findup('package.json')!),
-  'icon.config.yml',
+  path.dirname(findup("package.json")!),
+  "icon.config.yml"
 );
-const configPath = findup('icon.config.yml')!;
+const configPath = findup("icon.config.yml")!;
 const version = pkg.version;
 
-const initCommand = new Command('init')
-  .alias('-i')
-  .description('Initialize icon.config.yml')
+const initCommand = new Command("init")
+  .alias("-i")
+  .description("Initialize icon.config.yml")
   .action(() => {
     try {
       const config = generateConfig();
       fs.writeFileSync(projectPath, config);
-      console.log(chalk.green('icon.config.yml generated!'));
+      console.log(chalk.green("icon.config.yml generated!"));
     } catch (e) {
       console.error(e);
     }
   });
 
-const generateCommand = new Command('generate')
-  .alias('gen')
-  .description('Generate SVG sprite and SeedIcon component')
+const generateCommand = new Command("generate")
+  .alias("gen")
+  .description("Generate SVG sprite and SeedIcon component")
   .action(() => {
     try {
       const fileContents = yaml.load(
-        fs.readFileSync(configPath, 'utf8'),
+        fs.readFileSync(configPath, "utf8")
       ) as IconConfig;
 
       const icons = fileContents.icons;
 
-      const spriteFileName = fileContents.spriteFileName || 'sprite';
-      const spriteOutputPath = fileContents.spriteOutputPath || 'assets';
+      const spritePath = fileContents.spritePath || "src/assets/sprite.svg";
+      const spriteFileName = path.basename(spritePath, ".svg");
+      const spriteDir = path.dirname(spritePath);
 
-      const componentFileName = fileContents.componentFileName || 'SeedIcon';
-      const componentOutputPath = fileContents.componentOutputPath || 'src';
+      const componentPath =
+        fileContents.componentPath || "src/components/SeedIcon.tsx";
+      const componentFileName = path.basename(componentPath, ".tsx");
+      const componentDir = path.dirname(componentPath);
 
       validateIcons(icons);
 
       const seedIconComponent = generateComponent({
-        componentOutputPath,
         componentFileName,
-        spriteOutputPath,
+        componentOutputPath: componentDir,
         spriteFileName,
+        spriteOutputPath: spriteDir,
         version,
         icons,
       });
       const spriteSvg = generateSprite({ icons });
 
-      const spriteOutputDir = path.resolve(spriteOutputPath);
-      const iconComponentOutputDir = path.resolve(componentOutputPath);
+      const spriteOutputDir = path.resolve(spriteDir);
+      const iconComponentOutputDir = path.resolve(componentDir);
 
       if (!fs.existsSync(spriteOutputDir)) {
         fs.mkdirSync(spriteOutputDir, { recursive: true });
@@ -75,23 +78,19 @@ const generateCommand = new Command('generate')
       }
 
       fs.writeFileSync(
-        path.resolve(spriteOutputPath, `${spriteFileName}.svg`),
-        spriteSvg,
+        path.resolve(spriteDir, `${spriteFileName}.svg`),
+        spriteSvg
       );
       fs.writeFileSync(
-        path.resolve(componentOutputPath, `${componentFileName}.tsx`),
-        seedIconComponent,
+        path.resolve(componentDir, `${componentFileName}.tsx`),
+        seedIconComponent
       );
 
       console.log(
-        chalk.green(
-          `SVG sprite generate complete at ${spriteOutputPath}/${spriteFileName}.svg!`,
-        ),
+        chalk.green(`SVG sprite generate complete at ${spritePath}!`)
       );
       console.log(
-        chalk.green(
-          `SeedIcon component generate complete at ${componentOutputPath}/${componentFileName}.tsx!`,
-        ),
+        chalk.green(`SeedIcon component generate complete at ${componentPath}!`)
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -104,8 +103,8 @@ const generateCommand = new Command('generate')
   });
 
 program
-  .version(version, '-v, --version')
-  .description('Generate SVG sprite and SeedIcon component')
+  .version(version, "-v, --version")
+  .description("Generate SVG sprite and SeedIcon component")
   .addCommand(initCommand)
   .addCommand(generateCommand)
   .parse(process.argv);

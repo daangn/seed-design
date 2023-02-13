@@ -1,7 +1,7 @@
-import dedent from 'string-dedent';
-import { generateRelativePath } from '../utils/path';
+import dedent from "string-dedent";
+import { generateRelativeFilePath } from "../utils/path";
 
-import type { IconName } from '../types';
+import type { IconName } from "../types";
 
 interface ComponentInterface {
   componentOutputPath: string;
@@ -20,8 +20,11 @@ export default function generate({
   version,
   icons,
 }: ComponentInterface) {
-  const relativeSpritePath = generateRelativePath(componentOutputPath, spriteOutputPath);
-  const spriteUrl = relativeSpritePath.endsWith('/')
+  const relativeSpritePath = generateRelativeFilePath(
+    componentOutputPath,
+    spriteOutputPath
+  );
+  const spriteUrl = relativeSpritePath.endsWith("/")
     ? `${relativeSpritePath}${spriteFileName}.svg`
     : `${relativeSpritePath}/${spriteFileName}.svg`;
 
@@ -57,7 +60,7 @@ export default function generate({
     export default forwardRef(${componentFileName});
 
     type IconName = (
-      | ${icons.map((icon) => `"${icon}"`).join('\n  | ')}
+      | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
     );\n
   `;
 }
