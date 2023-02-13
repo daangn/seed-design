@@ -40,14 +40,14 @@ export default function generate({
       { name, className, width = 24, height = 24 },
       ref,
     ) => {
-      return  (
+      return (
         <span
           ref={ref}
           className={className}
-          data-seed-icon={name}
+          style={{width, height}}
           data-seed-icon-version="${version}"
         >
-          <svg viewBox="0 0 24 24" width={width} height={height}>
+          <svg viewBox="0 0 24 24">
             <use href={\`\${spriteUrl}#\${name}\`} />
           </svg>
         </span>
