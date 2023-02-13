@@ -12,5 +12,4 @@
     "outDir": "lib"
   },
   "include": ["src", "package.json", "tests"],
-  "exclude": ["eslintrc.js"]
 }

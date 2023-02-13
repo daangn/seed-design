@@ -3792,11 +3792,12 @@ __metadata:
     "@karrotmarket/karrot-ui-icon": 0.0.0-20230208.3
     "@types/findup-sync": ^4.0.2
     "@types/js-yaml": ^4.0.5
-    chalk: ^5.2.0
     commander: ^10.0.0
     esbuild: ^0.17.6
     findup-sync: ^5.0.0
     js-yaml: ^4.1.0
+    kleur: ^4.1.5
+    prettier: ^2.8.4
     string-dedent: ^3.0.1
     tsm: ^2.3.0
     typescript: ^4.5.2
@@ -14936,7 +14937,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kleur@npm:^4.0.3, kleur@npm:^4.1.4":
+"kleur@npm:^4.0.3, kleur@npm:^4.1.4, kleur@npm:^4.1.5":
   version: 4.1.5
   resolution: "kleur@npm:4.1.5"
   checksum: 1dc476e32741acf0b1b5b0627ffd0d722e342c1b0da14de3e8ae97821327ca08f9fb944542fb3c126d90ac5f27f9d804edbe7c585bf7d12ef495d115e0f22c12
@@ -18507,6 +18508,15 @@ __metadata:
   bin:
     prettier: bin-prettier.js
   checksum: 4f21a0f1269f76fb36f54e9a8a1ea4c11e27478958bf860661fb4b6d7ac69aac1581f8724fa98ea3585e56d42a2ea317a17ff6e3324f40cb11ff9e20b73785cc
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "prettier@npm:2.8.4"
+  bin:
+    prettier: bin-prettier.js
+  checksum: c173064bf3df57b6d93d19aa98753b9b9dd7657212e33b41ada8e2e9f9884066bb9ca0b4005b89b3ab137efffdf8fbe0b462785aba20364798ff4303aadda57e
   languageName: node
   linkType: hard
 
