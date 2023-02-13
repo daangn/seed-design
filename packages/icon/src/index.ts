@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import findup from "findup-sync";
-import chalk from "chalk";
+import kleur from "kleur";
 import { Command } from "commander";
 import fs from "fs";
 import yaml from "js-yaml";
@@ -16,7 +16,7 @@ import { validateIcons } from "./validates/icons";
 const program = new Command();
 const projectPath = path.resolve(
   path.dirname(findup("package.json")!),
-  "icon.config.yml"
+  "icon.config.yml",
 );
 const configPath = findup("icon.config.yml")!;
 const version = pkg.version;
@@ -28,7 +28,7 @@ const initCommand = new Command("init")
     try {
       const config = generateConfig();
       fs.writeFileSync(projectPath, config);
-      console.log(chalk.green("icon.config.yml generated!"));
+      console.log(kleur.green().underline("icon.config.yml generated!"));
     } catch (e) {
       console.error(e);
     }
@@ -40,7 +40,7 @@ const generateCommand = new Command("generate")
   .action(() => {
     try {
       const fileContents = yaml.load(
-        fs.readFileSync(configPath, "utf8")
+        fs.readFileSync(configPath, "utf8"),
       ) as IconConfig;
 
       const icons = fileContents.icons;
@@ -79,18 +79,24 @@ const generateCommand = new Command("generate")
 
       fs.writeFileSync(
         path.resolve(spriteDir, `${spriteFileName}.svg`),
-        spriteSvg
+        spriteSvg,
       );
       fs.writeFileSync(
         path.resolve(componentDir, `${componentFileName}.tsx`),
-        seedIconComponent
+        seedIconComponent,
       );
 
       console.log(
-        chalk.green(`SVG sprite generate complete at ${spritePath}!`)
+        kleur
+          .green()
+          .underline(`SVG sprite generate complete at ${spritePath}!`),
       );
       console.log(
-        chalk.green(`SeedIcon component generate complete at ${componentPath}!`)
+        kleur
+          .green()
+          .underline(
+            `SeedIcon component generate complete at ${componentPath}!`,
+          ),
       );
     } catch (error) {
       if (error instanceof Error) {

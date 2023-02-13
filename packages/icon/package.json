@@ -33,10 +33,10 @@
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "0.0.0-20230208.3",
-    "chalk": "^5.2.0",
     "commander": "^10.0.0",
     "findup-sync": "^5.0.0",
     "js-yaml": "^4.1.0",
+    "kleur": "^4.1.5",
     "string-dedent": "^3.0.1"
   }
 }
