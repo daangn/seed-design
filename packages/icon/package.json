@@ -23,6 +23,7 @@
     "src"
   ],
   "devDependencies": {
+    "@types/findup-sync": "^4.0.2",
     "@types/js-yaml": "^4.0.5",
     "esbuild": "^0.17.6",
     "tsm": "^2.3.0",
@@ -31,9 +32,9 @@
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "0.0.0-20230208.3",
-    "app-root-path": "^3.1.0",
     "chalk": "^5.2.0",
     "commander": "^10.0.0",
+    "findup-sync": "^5.0.0",
     "js-yaml": "^4.1.0",
     "string-dedent": "^3.0.1"
   }
