@@ -18,7 +18,6 @@ const projectPath = path.resolve(
   path.dirname(findup('package.json')!),
   'icon.config.yml',
 );
-console.log(projectPath);
 const configPath = findup('icon.config.yml')!;
 const version = pkg.version;
 
