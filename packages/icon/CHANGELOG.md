@@ -1,5 +1,12 @@
 # @seed-design/icon
 
+## 0.0.8
+
+### Patch Changes
+
+- 4634f52: - change chalk to kleur
+  - remove unnecessary options
+
 ## 0.0.7
 
 ### Patch Changes
