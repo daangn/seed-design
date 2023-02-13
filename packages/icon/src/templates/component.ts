@@ -22,7 +22,7 @@ export default function generate({
 }: ComponentInterface) {
   const relativeSpritePath = generateRelativeFilePath(
     componentOutputPath,
-    spriteOutputPath
+    spriteOutputPath,
   );
   const spriteUrl = relativeSpritePath.endsWith("/")
     ? `${relativeSpritePath}${spriteFileName}.svg`
@@ -46,11 +46,12 @@ export default function generate({
       return  (
         <span
           ref={ref}
+          style={{ display: "inline-block", width, height }}
           className={className}
           data-seed-icon={name}
           data-seed-icon-version="${version}"
         >
-          <svg viewBox="0 0 24 24" width={width} height={height}>
+          <svg viewBox="0 0 24 24">
             <use href={\`\${spriteUrl}#\${name}\`} />
           </svg>
         </span>
