@@ -53,10 +53,8 @@ yarn seed-icon gen
 
 The `icon.config.yml` configuration file has the following options
 
-| Option                | Description                                                                             | Default                                                               |
-| --------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `componentOutputPath` | The path where the icon component will be stored. This is relative to the project root. | src                                                                   |
-| `componentFileName`   | The name of the icon component.                                                         | SeedIcon                                                              |
-| `spriteOutputPath`    | The path where the svg file will be saved. Relative to the project root.Image           | assets                                                                |
-| `spriteFileName`      | The name of the svg file.The name of the svg file.                                      | sprite                                                                |
-| `icons`               | Please add the names of the icons used in the above Pygma file.                         | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
+| Option          | Description                                                                     | Default                                                               |
+| --------------- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `componentPath` | The path where the icon component will be stored. Relative to the project root. | src/components/SeedIcon.tsx                                           |
+| `spritePath`    | The path where the svg file will be saved. Relative to the project root.Image   | src/assets/sprite.svg                                                 |
+| `icons`         | Please add the icon names used in the above pygma file.                         | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
