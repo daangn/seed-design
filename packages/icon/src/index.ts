@@ -13,17 +13,17 @@ import generateSprite from "./templates/sprite";
 import { IconConfig } from "./types";
 import { validateIcons } from "./validates/icons";
 
+type InitTemplate = "dynamic" | "vite";
+
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
 const program = new Command();
+const version = pkg.version;
+const configPath = findup(ICON_CONFIG_FILE_NAME)!;
 const projectPath = path.resolve(
   path.dirname(findup("package.json")!),
   ICON_CONFIG_FILE_NAME,
 );
-const configPath = findup(ICON_CONFIG_FILE_NAME)!;
-const version = pkg.version;
-
-type InitTemplate = "dynamic" | "vite";
 
 const initCommand = new Command("init")
   .description("Initialize icon.config.yml")
