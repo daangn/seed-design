@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import findup from "findup-sync";
 import kleur from "kleur";
-import { Command } from "commander";
+import { Command, Option } from "commander";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
 import pkg from "../package.json" assert { type: "json" };
 
-import generateConfig from "./templates/config";
-import generateComponent from "./templates/component";
+import { generateDynamicConfig, generateViteConfig } from "./templates/config";
+import { generateDynamicImportComponent } from "./templates/component";
 import generateSprite from "./templates/sprite";
 import { IconConfig } from "./types";
 import { validateIcons } from "./validates/icons";
@@ -23,17 +23,50 @@ const projectPath = path.resolve(
 const configPath = findup(ICON_CONFIG_FILE_NAME)!;
 const version = pkg.version;
 
+type InitTemplate = "dynamic" | "vite";
+
 const initCommand = new Command("init")
-  .alias("-i")
   .description("Initialize icon.config.yml")
-  .action(() => {
+  .addOption(
+    new Option("-t, --template <template>", "choose template")
+      .choices(["dynamic", "vite"])
+      .default("dynamic"),
+  )
+  .action((options) => {
     try {
-      const config = generateConfig();
-      fs.writeFileSync(projectPath, config);
-      console.log(
-        kleur.green().underline(ICON_CONFIG_FILE_NAME) +
-          kleur.green(" is created in project root!"),
-      );
+      console.log("");
+      const template = options.template as InitTemplate;
+
+      if (template === "dynamic") {
+        const config = generateDynamicConfig();
+        fs.writeFileSync(projectPath, config);
+        console.log(
+          kleur.green().underline(`⭐ ${ICON_CONFIG_FILE_NAME}`) +
+            kleur.green(" is created in project root!"),
+        );
+      }
+
+      if (template === "vite") {
+        const config = generateViteConfig();
+        fs.writeFileSync(projectPath, config);
+        console.log(
+          kleur.green().underline(`⭐ ${ICON_CONFIG_FILE_NAME}`) +
+            kleur.green(" is created in project root!"),
+        );
+
+        console.log(
+          kleur.yellow("Please add ") +
+            kleur
+              .yellow()
+              .bold()
+              .underline(
+                `<link rel="preload" as="image" type="image/svg+xml" href="your sprite href">`,
+              ) +
+            kleur.yellow(" to your index.html if you want preload sprite.svg"),
+        );
+      }
+
+      console.log("");
     } catch (e) {
       console.error(e);
     }
@@ -44,11 +77,13 @@ const generateCommand = new Command("generate")
   .description("Generate SVG sprite and SeedIcon component")
   .action(() => {
     try {
+      console.log("");
       const fileContents = yaml.load(
         fs.readFileSync(configPath, "utf8"),
       ) as IconConfig;
 
       const icons = fileContents.icons;
+      validateIcons(icons);
 
       const spritePath = fileContents.spritePath || "src/assets/sprite.svg";
       const spriteFileName = path.basename(spritePath, ".svg");
@@ -59,21 +94,21 @@ const generateCommand = new Command("generate")
       const componentFileName = path.basename(componentPath, ".tsx");
       const componentDir = path.dirname(componentPath);
 
-      validateIcons(icons);
-
-      const seedIconComponent = generateComponent({
+      const seedIconComponent = generateDynamicImportComponent({
         componentFileName,
-        componentOutputPath: componentDir,
+        componentDir,
         spriteFileName,
-        spriteOutputPath: spriteDir,
+        spriteDir,
         version,
         icons,
       });
+
       const spriteSvg = generateSprite({ icons });
 
       const spriteOutputDir = path.resolve(spriteDir);
       const iconComponentOutputDir = path.resolve(componentDir);
 
+      // create directories
       if (!fs.existsSync(spriteOutputDir)) {
         fs.mkdirSync(spriteOutputDir, { recursive: true });
       }
@@ -82,6 +117,7 @@ const generateCommand = new Command("generate")
         fs.mkdirSync(iconComponentOutputDir, { recursive: true });
       }
 
+      // write files
       fs.writeFileSync(
         path.resolve(spriteDir, `${spriteFileName}.svg`),
         spriteSvg,
@@ -91,14 +127,16 @@ const generateCommand = new Command("generate")
         seedIconComponent,
       );
 
+      // log
       console.log(
-        kleur.green("SVG sprite generate complete at ") +
-          kleur.green().underline(spritePath),
+        kleur.green("⭐ SVG sprite generate complete at ") +
+          kleur.green().bold().underline(spritePath),
       );
       console.log(
-        kleur.green("SeedIcon component generate complete at ") +
-          kleur.green().underline(`${componentPath}!`),
+        kleur.green("⭐ SeedIcon component generate complete at ") +
+          kleur.green().bold().underline(`${componentPath}`),
       );
+      console.log("");
     } catch (error) {
       if (error instanceof Error) {
         if (error.message) {
