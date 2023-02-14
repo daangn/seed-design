@@ -3,27 +3,24 @@ import { generateRelativeFilePath } from "../utils/path";
 
 import type { IconName } from "../types";
 
-interface ComponentInterface {
-  componentOutputPath: string;
+interface DynamicImportComponentInterface {
+  componentDir: string;
   componentFileName: string;
-  spriteOutputPath: string;
+  spriteDir: string;
   spriteFileName: string;
   version: string;
   icons: IconName[];
 }
 
-export default function generate({
-  componentOutputPath,
+export function generateDynamicImportComponent({
+  componentDir,
   componentFileName,
-  spriteOutputPath,
+  spriteDir,
   spriteFileName,
   version,
   icons,
-}: ComponentInterface) {
-  const relativeSpritePath = generateRelativeFilePath(
-    componentOutputPath,
-    spriteOutputPath
-  );
+}: DynamicImportComponentInterface) {
+  const relativeSpritePath = generateRelativeFilePath(componentDir, spriteDir);
   const spriteUrl = relativeSpritePath.endsWith("/")
     ? `${relativeSpritePath}${spriteFileName}.svg`
     : `${relativeSpritePath}/${spriteFileName}.svg`;
@@ -34,23 +31,23 @@ export default function generate({
 
     export interface ${componentFileName}Props {
       name: IconName;
-      width?: number;
-      height?: number;
+      size?: number;
       className?: string;
     };
 
     const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
-      { name, className, width = 24, height = 24 },
+      { name, className, size },
       ref,
     ) => {
       return  (
         <span
           ref={ref}
+          style={{ display: "inline-flex", width: size, height: size }}
           className={className}
           data-seed-icon={name}
           data-seed-icon-version="${version}"
         >
-          <svg viewBox="0 0 24 24" width={width} height={height}>
+          <svg viewBox="0 0 24 24">
             <use href={\`\${spriteUrl}#\${name}\`} />
           </svg>
         </span>
