@@ -15,3 +15,4 @@
 ### etc
 
 - logs more detail
+- update `readme`
