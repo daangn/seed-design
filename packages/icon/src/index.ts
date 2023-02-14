@@ -13,12 +13,14 @@ import generateSprite from "./templates/sprite";
 import { IconConfig } from "./types";
 import { validateIcons } from "./validates/icons";
 
+const ICON_CONFIG_FILE_NAME = "icon.config.yml";
+
 const program = new Command();
 const projectPath = path.resolve(
   path.dirname(findup("package.json")!),
-  "icon.config.yml",
+  ICON_CONFIG_FILE_NAME,
 );
-const configPath = findup("icon.config.yml")!;
+const configPath = findup(ICON_CONFIG_FILE_NAME)!;
 const version = pkg.version;
 
 const initCommand = new Command("init")
@@ -28,7 +30,10 @@ const initCommand = new Command("init")
     try {
       const config = generateConfig();
       fs.writeFileSync(projectPath, config);
-      console.log(kleur.green().underline("icon.config.yml generated!"));
+      console.log(
+        kleur.green().underline(ICON_CONFIG_FILE_NAME) +
+          kleur.green(" is created in project root!"),
+      );
     } catch (e) {
       console.error(e);
     }
@@ -87,16 +92,12 @@ const generateCommand = new Command("generate")
       );
 
       console.log(
-        kleur
-          .green()
-          .underline(`SVG sprite generate complete at ${spritePath}!`),
+        kleur.green("SVG sprite generate complete at ") +
+          kleur.green().underline(spritePath),
       );
       console.log(
-        kleur
-          .green()
-          .underline(
-            `SeedIcon component generate complete at ${componentPath}!`,
-          ),
+        kleur.green("SeedIcon component generate complete at ") +
+          kleur.green().underline(`${componentPath}!`),
       );
     } catch (error) {
       if (error instanceof Error) {
