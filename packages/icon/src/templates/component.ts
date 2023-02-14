@@ -34,19 +34,18 @@ export default function generate({
 
     export interface ${componentFileName}Props {
       name: IconName;
-      width?: number;
-      height?: number;
+      size?: number;
       className?: string;
     };
 
     const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
-      { name, className, width = 24, height = 24 },
+      { name, className, size },
       ref,
     ) => {
       return  (
         <span
           ref={ref}
-          style={{ display: "inline-block", width, height }}
+          style={{ display: "inline-flex", width: size, height: size }}
           className={className}
           data-seed-icon={name}
           data-seed-icon-version="${version}"
