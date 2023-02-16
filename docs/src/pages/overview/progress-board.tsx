@@ -12,7 +12,6 @@ import ProgressBoardRow from "../../components/progress-board/ProgressBoardRow";
 import type { ProgressStatus } from "../../components/progress-board/types";
 import SEO from "../../components/SEO";
 import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
-import * as t from "../../styles/token.css";
 
 export const query = graphql`
   fragment Slug on Mdx {
@@ -95,7 +94,7 @@ const ComponentProgressBoardPage = ({
   }).length;
 
   return (
-    <article className={t.content}>
+    <article className={progressStyle.content}>
       <h1 className={progressStyle.title}>컴포넌트 현황판</h1>
       <p className={progressStyle.caption}>전체 컴포넌트의 현황을 파악합니다</p>
 
