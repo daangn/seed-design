@@ -9,6 +9,7 @@ const Iframe = ({ src, height = "100%" }: IframeProps) => {
       style={{
         border: "none",
         borderRadius: "8px",
+        marginBottom: "100px",
         height,
         width: "100%",
       }}

@@ -51,6 +51,7 @@ export const mobileSidebarContainer = recipe({
 
       width: `calc(${COMMON_STYLES.SIDEBAR_WIDTH} + 6px)`,
       height: "100vh",
+
       transition:
         "background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease",
     },
