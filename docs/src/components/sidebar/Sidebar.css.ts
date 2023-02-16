@@ -118,7 +118,7 @@ export const sidebarItemContainer = style([
     position: "absolute",
 
     paddingTop: "30px",
-    paddingBottom: "calc(30px + env(safe-area-inset-bottom))",
+    paddingBottom: "30px",
     paddingLeft: "10px",
     paddingRight: "20px",
 
