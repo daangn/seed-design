@@ -52,8 +52,6 @@ export const mobileSidebarContainer = recipe({
       width: `calc(${COMMON_STYLES.SIDEBAR_WIDTH} + 6px)`,
       height: "100vh",
 
-      paddingBottom: "env(safe-area-inset-bottom)",
-
       transition:
         "background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease",
     },
@@ -120,7 +118,7 @@ export const sidebarItemContainer = style([
     position: "absolute",
 
     paddingTop: "30px",
-    paddingBottom: "30px",
+    paddingBottom: "calc(30px + env(safe-area-inset-bottom))",
     paddingLeft: "10px",
     paddingRight: "20px",
 

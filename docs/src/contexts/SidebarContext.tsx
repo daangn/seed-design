@@ -14,11 +14,13 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const openSidebar = () => {
     setOpen(true);
     document.body.style.overflowY = "hidden";
+    document.body.style.isolation = "isolate";
   };
 
   const closeSidebar = () => {
     setOpen(false);
     document.body.style.overflowY = "auto";
+    document.body.style.isolation = "auto";
   };
 
   return (
