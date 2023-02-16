@@ -7,6 +7,10 @@ export function generateDynamicConfig() {
   return dedent`
     # yaml-language-server: $schema=${YAML_SCHEMA_URL}
 
+    # 아이콘 Context 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.
+    # 예: src/components/SeedIconContext.tsx
+    contextPath: src/contexts/SeedIconContext.tsx
+
     # 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.
     # 예: src/components/SeedIcon.tsx
     componentPath: src/components/SeedIcon.tsx
@@ -29,6 +33,10 @@ export function generateDynamicConfig() {
 export function generateViteConfig() {
   return dedent`
     # yaml-language-server: $schema=${YAML_SCHEMA_URL}
+
+    # 아이콘 Context 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.
+    # 예: src/components/SeedIconContext.tsx
+    contextPath: src/contexts/SeedIconContext.tsx
 
     # 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.
     # 예: src/components/SeedIcon.tsx

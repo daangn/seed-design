@@ -12,6 +12,7 @@ import { generateDynamicImportComponent } from "./templates/component";
 import generateSprite from "./templates/sprite";
 import { IconConfig } from "./types";
 import { validateIcons } from "./validates/icons";
+import { generateContext } from "./templates/context";
 
 type InitTemplate = "dynamic" | "vite";
 
@@ -94,21 +95,32 @@ const generateCommand = new Command("generate")
       const componentFileName = path.basename(componentPath, ".tsx");
       const componentDir = path.dirname(componentPath);
 
+      const contextPath =
+        fileContents.contextPath || "src/context/SeedIconContext.tsx";
+      const contextFileName = path.basename(contextPath, ".tsx");
+      const contextDir = path.dirname(contextPath);
+
       const seedIconComponent = generateDynamicImportComponent({
         componentFileName,
         componentDir,
-        spriteFileName,
-        spriteDir,
+        contextDir,
+        contextFileName,
         version,
         icons,
       });
 
       const spriteSvg = generateSprite({ icons });
+      const contextComponent = generateContext();
 
+      const contextOutputDir = path.resolve(contextDir);
       const spriteOutputDir = path.resolve(spriteDir);
       const iconComponentOutputDir = path.resolve(componentDir);
 
       // create directories
+      if (!fs.existsSync(contextOutputDir)) {
+        fs.mkdirSync(contextOutputDir, { recursive: true });
+      }
+
       if (!fs.existsSync(spriteOutputDir)) {
         fs.mkdirSync(spriteOutputDir, { recursive: true });
       }
@@ -118,6 +130,10 @@ const generateCommand = new Command("generate")
       }
 
       // write files
+      fs.writeFileSync(
+        path.resolve(contextDir, `${contextFileName}.tsx`),
+        contextComponent,
+      );
       fs.writeFileSync(
         path.resolve(spriteDir, `${spriteFileName}.svg`),
         spriteSvg,
@@ -129,12 +145,16 @@ const generateCommand = new Command("generate")
 
       // log
       console.log(
-        kleur.green("⭐ SVG sprite generate complete at ") +
-          kleur.green().bold().underline(spritePath),
+        kleur.green("⭐ SeedIcon context generate complete at ") +
+          kleur.green().bold().underline(`${contextPath}`),
       );
       console.log(
         kleur.green("⭐ SeedIcon component generate complete at ") +
           kleur.green().bold().underline(`${componentPath}`),
+      );
+      console.log(
+        kleur.green("⭐ SVG sprite generate complete at ") +
+          kleur.green().bold().underline(spritePath),
       );
       console.log("");
     } catch (error) {
