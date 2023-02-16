@@ -34,7 +34,7 @@ export const progress = recipe({
   base: [
     u.flexCenter,
     {
-      flex: "1 1 auto",
+      flex: "1",
       justifyContent: "space-between",
 
       padding: "10px 22px",
