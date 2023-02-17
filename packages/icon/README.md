@@ -1,5 +1,8 @@
 # @seed-design/icon
 
+- [한국어](./README.md)
+- [English](./README-en.md)
+
 ## 설치하기
 
 `@seed-design/icon`는 seed icon 생성을 위한 커맨드라인 도구입니다.
@@ -53,11 +56,13 @@ yarn seed-icon gen
 
 `icon.config.yml` 설정 파일은 아래와 같은 옵션을 가집니다.
 
-| Option          | Description                                                    | Default                                                               |
-| --------------- | -------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `componentPath` | 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다. | src/components/SeedIcon.tsx                                           |
-| `spritePath`    | svg 파일이 저장될 경로입니다. 프로젝트 루트 기준입니다.Image   | src/assets/sprite.svg                                                 |
-| `icons`         | 위 피그마 파일에서 사용되는 아이콘 이름을 추가해주세요.        | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
+| Option          | Description                                                                                           | Default                                                               |
+| --------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `icons`         | 위 피그마 파일에서 사용되는 아이콘 이름을 추가해주세요.                                               | [icon_add_circle_fill, icon_add_circle_regular, icon_add_circle_thin] |
+| `componentPath` | 아이콘 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.                                        | src/components/SeedIcon.tsx                                           |
+| `spritePath`    | sprite svg 파일이 저장될 경로입니다. 프로젝트 루트 기준입니다.                                        | src/assets/sprite.svg                                                 |
+| `withContext`   | 라이브러리 제공자를 위한 옵션입니다. `provider`를 노출시켜 유저에게서 `spriteUrl`을 받을 수 있습니다. | false                                                                 |
+| `contextPath`   | context 파일이 저장될 경로입니다. 프로젝트 루트 기준입니다. `withContext`가 `true`일 때만 동작합니다. |                                                                       |
 
 ## sprite.svg 미리 불러오기 (preload guide)
 
@@ -158,3 +163,84 @@ export default function Home() {
 
 CRA는 eject 혹은 override를 통해 svg loader를 설정해줘야 합니다.
 그 이후에는 Next.js와 동일하게 `sprite.svg`를 preload 해주면 됩니다.
+
+## 라이브러리 제공자 (provider)
+
+`withContext` 옵션을 `true`로 설정하면 라이브러리 제공자를 위한 context 파일이 생성됩니다.
+context 파일은 `contextPath` 옵션에 설정한 경로에 생성됩니다.
+
+생성되는 `context`는 아래와 같이 생겼습니다.
+
+```tsx
+import { createContext, type PropsWithChildren } from "react";
+
+interface SeedIconProviderProps {
+  spriteUrl: string; // 유저가 입력 할 sprite.svg 파일의 경로, 필수 값 입니다.
+}
+
+export const SeedIconContext = createContext("");
+
+export const SeedIconProvider = ({
+  children,
+  spriteUrl,
+}: PropsWithChildren<SeedIconProviderProps>) => {
+  return (
+    <SeedIconContext.Provider value={spriteUrl}>
+      {children}
+    </SeedIconContext.Provider>
+  );
+};
+
+// 혹은
+
+export const YourLibraryProvider = ({
+  children,
+  spriteUrl,
+  ...etc
+}: PropsWithChildren<SeedIconProviderProps>) => {
+  return (
+    <YourOtherContext.Provider value={...etc}>
+      <SeedIconContext.Provider value={spriteUrl}>
+        {children}
+      </SeedIconContext.Provider>
+    </YourOtherContext.Provider>
+  );
+};
+```
+
+`spriteUrl`은 유저가 입력 할 `sprite.svg` 파일의 경로입니다.
+라이브러리 제공자는 해당 Provider를 노출시켜 유저에게서 `spriteUrl`을 받아서 사용할 수 있습니다.
+
+```tsx
+import { SeedIconProvider } from "your-library";
+import { YourLibraryProvider } from "your-library";
+
+export default function App() {
+  return (
+    <SeedIconProvider spriteUrl="유저가 입력한 sprite.svg 경로">
+      {/**/}
+    </SeedIconProvider>
+  );
+}
+
+// 혹은
+
+export default function App() {
+  return (
+    <YourLibraryProvider spriteUrl="유저가 입력한 sprite.svg 경로">
+      {/**/}
+    </YourLibraryProvider>
+  );
+}
+```
+
+만약 라이브러리 개발 모드에서 아이콘을 확인하고 싶다면 `spriteUrl`에 `sprite.svg` 파일의 경로를 직접 입력해주면 됩니다.
+
+```tsx
+import { SeedIconProvider } from "./context/SeedIconContext";
+import sprite from "./assets/sprite.svg";
+
+export default function App({ children }) {
+  return <SeedIconProvider spriteUrl={sprite}>{children}</SeedIconProvider>;
+}
+```
