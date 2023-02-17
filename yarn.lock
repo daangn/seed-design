@@ -2954,18 +2954,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@karrotmarket/karrot-ui-icon@npm:0.0.0-20230208.3":
-  version: 0.0.0-20230208.3
-  resolution: "@karrotmarket/karrot-ui-icon@npm:0.0.0-20230208.3"
+"@karrotmarket/karrot-ui-icon@npm:0.0.0-20230217.1":
+  version: 0.0.0-20230217.1
+  resolution: "@karrotmarket/karrot-ui-icon@npm:0.0.0-20230217.1"
   dependencies:
-    app-root-path: ^3.1.0
-    chalk: ^5.2.0
-    commander: ^10.0.0
-    js-yaml: ^4.1.0
     string-dedent: ^3.0.1
   bin:
     seed-icon: bin.min.mjs
-  checksum: 7526e8f8ffaaecb7068bd72d9313a19fc560fb8a91b6afeb3bf5061d16674d769dd10896cf2ecbdbf9bd0dee803b26912e952e92eb91e3546d2bd167111e85a0
+  checksum: f9ef637e4245e8187c191a0f5f9ed6c4472366d4e0656fe3b203e1eba9f4d3af00d6895a42ca932dd0c8bccbcdd935de9e2aa7644003a3197b3ff3a1536fcb2b
   languageName: node
   linkType: hard
 
@@ -3789,7 +3785,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/icon@workspace:packages/icon"
   dependencies:
-    "@karrotmarket/karrot-ui-icon": 0.0.0-20230208.3
+    "@karrotmarket/karrot-ui-icon": 0.0.0-20230217.1
     "@types/findup-sync": ^4.0.2
     "@types/js-yaml": ^4.0.5
     commander: ^10.0.0
@@ -6583,13 +6579,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"app-root-path@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "app-root-path@npm:3.1.0"
-  checksum: e3db3957aee197143a0f6c75e39fe89b19e7244f28b4f2944f7276a9c526d2a7ab2d115b4b2d70a51a65a9a3ca17506690e5b36f75a068a7e5a13f8c092389ba
-  languageName: node
-  linkType: hard
-
 "append-field@npm:^1.0.0":
   version: 1.0.0
   resolution: "append-field@npm:1.0.0"
@@ -7752,13 +7741,6 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "chalk@npm:5.2.0"
-  checksum: 03d8060277de6cf2fd567dc25fcf770593eb5bb85f460ce443e49255a30ff1242edd0c90a06a03803b0466ff0687a939b41db1757bec987113e83de89a003caa
   languageName: node
   linkType: hard
 
