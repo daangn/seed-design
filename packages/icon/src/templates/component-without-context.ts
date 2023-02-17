@@ -3,34 +3,31 @@ import { generateRelativeFilePath } from "../utils/path";
 
 import type { IconName } from "../types";
 
-interface IconComponentInterface {
+interface ComponentWithoutContextInterface {
   componentDir: string;
   componentFileName: string;
-  contextDir: string;
-  contextFileName: string;
+  spriteDir: string;
+  spriteFileName: string;
   version: string;
   icons: IconName[];
 }
 
-export function generateIconComponent({
+export function generateComponentWithoutContext({
   componentDir,
   componentFileName,
-  contextDir,
-  contextFileName,
+  spriteDir,
+  spriteFileName,
   version,
   icons,
-}: IconComponentInterface) {
-  const relativeContextPath = generateRelativeFilePath(
-    componentDir,
-    contextDir,
-  );
-  const contextUrl = relativeContextPath.endsWith("/")
-    ? `${relativeContextPath}${contextFileName}`
-    : `${relativeContextPath}/${contextFileName}`;
+}: ComponentWithoutContextInterface) {
+  const relativeSpritePath = generateRelativeFilePath(componentDir, spriteDir);
+  const spriteUrl = relativeSpritePath.endsWith("/")
+    ? `${relativeSpritePath}${spriteFileName}.svg`
+    : `${relativeSpritePath}/${spriteFileName}.svg`;
 
   return dedent`
-    import { forwardRef, useContext, type ForwardRefRenderFunction } from "react";
-    import { SeedIconContext } from "${contextUrl}";
+    import { forwardRef, type ForwardRefRenderFunction } from "react";
+    import spriteUrl from "${spriteUrl}";
 
     export interface ${componentFileName}Props {
       name: IconName;
@@ -42,7 +39,6 @@ export function generateIconComponent({
       { name, className, size },
       ref,
     ) => {
-      const spriteUrl = useContext(SeedIconContext);
       return  (
         <span
           ref={ref}
@@ -59,7 +55,6 @@ export function generateIconComponent({
     };
     
     export default forwardRef(${componentFileName});
-
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
     );\n

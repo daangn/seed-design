@@ -1,6 +1,7 @@
 import findup from "findup-sync";
 import { Command, Option } from "commander";
-import { generateDynamicConfig, generateViteConfig } from "../templates/config";
+import { generateDefaultConfig } from "../templates/config-default";
+import { generateViteConfig } from "../templates/config-vite";
 import fs from "fs";
 import path from "path";
 import kleur from "kleur";
@@ -27,7 +28,7 @@ export const init = new Command("init")
       const template = options.template as InitTemplate;
 
       if (template === "dynamic") {
-        const config = generateDynamicConfig();
+        const config = generateDefaultConfig();
         fs.writeFileSync(projectPath, config);
         console.log(
           kleur.green().underline(`⭐ ${ICON_CONFIG_FILE_NAME}`) +
@@ -44,14 +45,14 @@ export const init = new Command("init")
         );
 
         console.log(
-          kleur.yellow("Please add ") +
+          kleur.yellow("If you want preload, Please add ") +
             kleur
               .yellow()
               .bold()
               .underline(
                 `<link rel="preload" as="image" type="image/svg+xml" href="your sprite href">`,
               ) +
-            kleur.yellow(" to your index.html if you want preload sprite.svg"),
+            kleur.yellow(" to your index.html"),
         );
       }
 
