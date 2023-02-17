@@ -4,9 +4,10 @@ import { getSrc } from "gatsby-plugin-image";
 interface SEOProps {
   name?: string;
   description: string;
+  children?: React.ReactNode;
 }
 
-const SEO = ({ name, description }: SEOProps) => {
+const SEO = ({ name, description, children }: SEOProps) => {
   const data = useStaticQuery<GatsbyTypes.SEOQuery>(graphql`
     query SEO {
       ogImage: imageSharp(original: { src: { regex: "/ogimage/" } }) {
@@ -23,6 +24,7 @@ const SEO = ({ name, description }: SEOProps) => {
       <meta property="og:title" content={`${nameWithPrefix}SEED Design`} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
+      {children}
     </>
   );
 };

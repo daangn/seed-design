@@ -93,6 +93,13 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         title="foundation"
         onClick={closeSidebar}
       />
+      <SidebarItem
+        currentPath={currentPath}
+        to="/foundation/icon"
+        itemName="Icon"
+        title="foundation"
+        onClick={closeSidebar}
+      />
 
       <SidebarTitleWithLink title="component" onClick={closeSidebar} />
 

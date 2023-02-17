@@ -27,6 +27,7 @@
     "@mdx-js/react": "^2.1.5",
     "@seed-design/design-token": "workspace:^",
     "@seed-design/react-theming": "workspace:^",
+    "@svgr/webpack": "^6.5.1",
     "@vanilla-extract/css": "^1.9.1",
     "@vanilla-extract/recipes": "^0.2.5",
     "clsx": "^1.2.1",
@@ -41,6 +42,7 @@
     "gatsby-plugin-seed-design": "workspace:^",
     "gatsby-plugin-sharp": "^5.0.0",
     "gatsby-plugin-sitemap": "^6.0.0",
+    "gatsby-plugin-svgr": "^3.0.0-beta.0",
     "gatsby-plugin-typegen": "^3.1.0",
     "gatsby-plugin-vanilla-extract": "^3.0.1",
     "gatsby-plugin-web-font-loader": "^1.0.4",
@@ -58,6 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
+    "@seed-design/icon": "workspace:^",
     "@storybook/addon-a11y": "^7.0.0-beta.19",
     "@storybook/addon-actions": "^7.0.0-beta.19",
     "@storybook/addon-docs": "^7.0.0-beta.19",

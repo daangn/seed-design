@@ -267,5 +267,6 @@ module.exports = {
         head: true,
       },
     },
+    "gatsby-plugin-svgr",
   ],
 };

@@ -61,6 +61,7 @@ export const generate = new Command("generate")
           contextFileName,
           version,
           icons,
+          isGenerateAll: options.all,
         });
       } else {
         seedIconComponent = generateComponentWithoutContext({
@@ -70,10 +71,11 @@ export const generate = new Command("generate")
           spriteFileName,
           version,
           icons,
+          isGenerateAll: options.all,
         });
       }
 
-      const spriteSvg = generateSprite({ icons, isAllGenerate: options.all });
+      const spriteSvg = generateSprite({ icons, isGenerateAll: options.all });
       const contextComponent = generateContext();
 
       const contextOutputDir = path.resolve(contextDir);

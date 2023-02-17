@@ -5,13 +5,11 @@ import type { IconName } from "../types";
 
 interface SpriteInterface {
   icons: IconName[];
-  isAllGenerate: boolean;
+  isGenerateAll: boolean;
 }
 
-export function generateSprite({ icons, isAllGenerate }: SpriteInterface) {
-  if (isAllGenerate) {
-    console.log("isAllGenerate");
-
+export function generateSprite({ icons, isGenerateAll }: SpriteInterface) {
+  if (isGenerateAll) {
     return dedent`
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${Object.entries(IconData)
