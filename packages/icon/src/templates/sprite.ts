@@ -3,7 +3,7 @@ import IconData from "@karrotmarket/karrot-ui-icon/lib/IconData.js";
 
 import type { IconName } from "../types";
 
-export default function generate({ icons }: { icons: IconName[] }) {
+export function generateSprite({ icons }: { icons: IconName[] }) {
   return dedent`
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${icons

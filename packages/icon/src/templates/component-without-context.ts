@@ -3,7 +3,7 @@ import { generateRelativeFilePath } from "../utils/path";
 
 import type { IconName } from "../types";
 
-interface DynamicImportComponentInterface {
+interface ComponentWithoutContextInterface {
   componentDir: string;
   componentFileName: string;
   spriteDir: string;
@@ -12,14 +12,14 @@ interface DynamicImportComponentInterface {
   icons: IconName[];
 }
 
-export function generateDynamicImportComponent({
+export function generateComponentWithoutContext({
   componentDir,
   componentFileName,
   spriteDir,
   spriteFileName,
   version,
   icons,
-}: DynamicImportComponentInterface) {
+}: ComponentWithoutContextInterface) {
   const relativeSpritePath = generateRelativeFilePath(componentDir, spriteDir);
   const spriteUrl = relativeSpritePath.endsWith("/")
     ? `${relativeSpritePath}${spriteFileName}.svg`
@@ -55,7 +55,6 @@ export function generateDynamicImportComponent({
     };
     
     export default forwardRef(${componentFileName});
-
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
     );\n
