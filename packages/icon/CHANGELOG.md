@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.2
+
+### Patch Changes
+
+- e73aa6f: version up karrot-ui-icon
+
 ## 0.1.1
 
 ### Patch Changes
