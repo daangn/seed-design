@@ -1,29 +1,38 @@
 import dedent from "string-dedent";
+import { generateRelativeFilePath } from "../utils/path";
 
-const SPRITE_CDN_URL =
-  "https://cdn.seed-design.io/icon@0.0.0-20230130.1/all-sprite.svg";
+interface ContextInterface {
+  spriteDir: string;
+  spriteFileName: string;
+  contextDir: string;
+}
 
-// 1. Provider를 그냥 제공을 해주는 게 나을지
-// 2. provider를 그냥 유저가 생성해서 감싸게 하는것이 나을지
+export function generateContext({
+  contextDir,
+  spriteDir,
+  spriteFileName,
+}: ContextInterface) {
+  const relativeSpritePath = generateRelativeFilePath(contextDir, spriteDir);
+  const spriteUrl = relativeSpritePath.endsWith("/")
+    ? `${relativeSpritePath}${spriteFileName}`
+    : `${relativeSpritePath}/${spriteFileName}`;
 
-export function generateContext() {
   return dedent`
     import { createContext, type PropsWithChildren } from "react";
+    import spriteRelativeUrl from "${spriteUrl}.svg";
 
-    const SEED_ICON_SPRITE_CDN_URL = "${SPRITE_CDN_URL}";
+    interface SeedIconProviderProps {
+      spriteUrl?: string;
+    };
 
-    export const SeedIconContext = createContext(SEED_ICON_SPRITE_CDN_URL);
+    export const SeedIconContext = createContext(spriteRelativeUrl);
     
     export const SeedIconProvider = ({ children, spriteUrl }: PropsWithChildren<SeedIconProviderProps>) => {
       return (
-        <SeedIconContext.Provider value={spriteUrl || SEED_ICON_SPRITE_CDN_URL}>
+        <SeedIconContext.Provider value={spriteUrl || spriteRelativeUrl}>
           {children}
         </SeedIconContext.Provider>
       )
-    };
-
-    interface SeedIconProviderProps {
-      spriteUrl: string;
     };\n
   `;
 }
