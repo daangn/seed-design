@@ -94,8 +94,6 @@ yarn seed-icon init --template vite
 
 This will create an `icon.config.yml` configuration file for the `vite` project.
 
-Translated with www.DeepL.com/Translator (free version)
-
 ### Next.js (Webpack)
 
 > CRA, Next.js does not provide an svg loader by default.
