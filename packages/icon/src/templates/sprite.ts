@@ -3,7 +3,28 @@ import IconData from "@karrotmarket/karrot-ui-icon/lib/IconData.js";
 
 import type { IconName } from "../types";
 
-export function generateSprite({ icons }: { icons: IconName[] }) {
+interface SpriteInterface {
+  icons: IconName[];
+  isAllGenerate: boolean;
+}
+
+export function generateSprite({ icons, isAllGenerate }: SpriteInterface) {
+  if (isAllGenerate) {
+    console.log("isAllGenerate");
+
+    return dedent`
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    ${Object.entries(IconData)
+      .map(([id, icon]) => {
+        return icon
+          .replace("<svg", `  <symbol id="${id}"`)
+          .replace(/<path/g, "  <path")
+          .replace("</svg>", "  </symbol>");
+      })
+      .join("")}</svg>\n
+  `;
+  }
+
   return dedent`
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     ${icons

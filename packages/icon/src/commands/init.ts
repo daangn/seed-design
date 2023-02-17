@@ -6,7 +6,9 @@ import fs from "fs";
 import path from "path";
 import kleur from "kleur";
 
-type InitTemplate = "dynamic" | "vite";
+interface InitOptions {
+  template: "dynamic" | "vite";
+}
 
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
@@ -22,10 +24,10 @@ export const init = new Command("init")
       .choices(["dynamic", "vite"])
       .default("dynamic"),
   )
-  .action((options) => {
+  .action((options: InitOptions) => {
     try {
       console.log("");
-      const template = options.template as InitTemplate;
+      const template = options.template;
 
       if (template === "dynamic") {
         const config = generateDefaultConfig();

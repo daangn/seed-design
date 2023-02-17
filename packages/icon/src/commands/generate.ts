@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import { Command, Option } from "commander";
 import findup from "findup-sync";
 import fs from "fs";
 import yaml from "js-yaml";
@@ -13,6 +13,10 @@ import { generateSprite } from "../templates/sprite";
 import { IconConfig } from "../types";
 import { validateIcons } from "../validates/icons";
 
+interface GenerateOptions {
+  all: boolean;
+}
+
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
 const version = pkg.version;
@@ -21,7 +25,8 @@ const configPath = findup(ICON_CONFIG_FILE_NAME)!;
 export const generate = new Command("generate")
   .alias("gen")
   .description("Generate SVG sprite and SeedIcon component")
-  .action(() => {
+  .addOption(new Option("-a, --all", "generate all").default(false))
+  .action((options: GenerateOptions) => {
     try {
       console.log("");
       const fileContents = yaml.load(
@@ -68,7 +73,7 @@ export const generate = new Command("generate")
         });
       }
 
-      const spriteSvg = generateSprite({ icons });
+      const spriteSvg = generateSprite({ icons, isAllGenerate: options.all });
       const contextComponent = generateContext();
 
       const contextOutputDir = path.resolve(contextDir);
