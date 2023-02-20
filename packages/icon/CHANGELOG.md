@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.5
+
+### Patch Changes
+
+- 7b87056: json schema versioning
+
 ## 0.1.4
 
 ### Patch Changes
