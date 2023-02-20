@@ -38,6 +38,7 @@ export const progress = recipe({
       justifyContent: "space-between",
 
       padding: "10px 22px",
+      marginBottom: "40px",
 
       borderRadius: "10px",
       border: `1px solid ${vars.$scale.color.gray100}`,
