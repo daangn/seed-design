@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/icon",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "type": "module",
   "repository": {
     "type": "git",
@@ -12,8 +12,9 @@
   },
   "scripts": {
     "prepack": "yarn build",
-    "build": "yarn build:seed-icon-cli",
+    "build": "yarn build:seed-icon-cli && yarn generate:icon-schema",
     "build:seed-icon-cli": "node build.mjs",
+    "generate:icon-schema": "node ./script/generate-icon-schema.js",
     "test": "uvu -r tsm tests"
   },
   "publishConfig": {
