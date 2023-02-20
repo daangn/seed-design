@@ -50,7 +50,7 @@ yarn seed-icon gen
 ### etc (기타)
 
 - help
-- version, -v
+- version
 
 ## Config 파일 옵션
 
