@@ -10,8 +10,11 @@
   "scripts": {
     "build": "ultra -r build",
     "build:dts": "ultra -r --build build:dts",
+    "build-only-package": "ultra -r --build build:package",
     "clean": "ultra -r clean",
-    "dev": "ultra -r dev"
+    "dev": "ultra -r dev",
+    "release": "yarn build-only-package && yarn changeset publish",
+    "version": "changeset version && yarn install --no-immutable"
   },
   "devDependencies": {
     "@changesets/cli": "^2.17.0",
