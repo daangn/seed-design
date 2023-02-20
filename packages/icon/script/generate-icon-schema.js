@@ -8,7 +8,7 @@ const iconName = Object.keys(iconData);
 const iconSchema = dedent`
   {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/daangn/karrot-ui-icon/json-schema/schema/schema.json",
+    "$id": "https://raw.githubusercontent.com/daangn/seed-design/schema-versioning/packages/icon/schema/schema.json",
     "title": "Karrot UI Icon Schema",
     "description": "JSON Schema for Karrot UI Icon",
     "type": "object",
