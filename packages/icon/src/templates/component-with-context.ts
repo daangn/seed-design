@@ -29,6 +29,8 @@ export function generateComponentWithContext({
     : `${relativeContextPath}/${contextFileName}`;
 
   return dedent`
+    // @ts-nocheck
+    /* eslint-disable */
     import { forwardRef, useContext, type ForwardRefRenderFunction } from "react";
     import { SeedIconContext } from "${contextUrl}";
 
