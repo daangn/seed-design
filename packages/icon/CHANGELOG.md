@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.4
+
+### Patch Changes
+
+- 86ef6a4: update schema
+
 ## 0.1.2
 
 ### Patch Changes
