@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/daangn/seed-design/%40seed-design/icon%400.1.6/packages/icon/schema/schema.json",
+  "$id": "https://raw.githubusercontent.com/daangn/seed-design/%40seed-design/icon%400.1.7/packages/icon/schema/schema.json",
   "title": "Karrot UI Icon Schema",
-  "description": "JSON Schema for Karrot UI Icon v0.1.6",
+  "description": "JSON Schema for Karrot UI Icon v0.1.7",
   "type": "object",
   "properties": {
     "icons": {
