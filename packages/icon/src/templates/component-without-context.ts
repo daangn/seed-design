@@ -26,6 +26,8 @@ export function generateComponentWithoutContext({
     : `${relativeSpritePath}/${spriteFileName}.svg`;
 
   return dedent`
+    // @ts-nocheck
+    /* eslint-disable */
     import { forwardRef, type ForwardRefRenderFunction } from "react";
     import spriteUrl from "${spriteUrl}";
 
