@@ -2,14 +2,41 @@
 slug: /primitive/dialog
 ---
 
-## Anatomy
+## 아나토미
 
 1. Trigger
 2. Backdrop
 3. Container
-4. Content
-5. Title
-6. Description
+4. Title
+5. Description
+6. Confirm Button
 7. Close Button
 
-## Working in progress
+## States
+
+| State  | Values      | Default Value |
+| ------ | ----------- | ------------- |
+| isOpen | true, false | false         |
+
+## Contexts
+
+| Context             | Values      | Default Value | Description                                                          |
+| ------------------- | ----------- | ------------- | -------------------------------------------------------------------- |
+| closeOnOutsideClick | true, false | false         | True일 경우, Container 외 영역을 클릭/탭 했을 시 Alert Dialog가 닫힘 |
+| closeOnEsc          | true, false | false         | (키보드 동작에만 해당) True일 경우, ESC를 통해 Alert Dialog가 닫힘   |
+
+## Actions
+
+| Action | From         | Condition | To           |
+| ------ | ------------ | --------- | ------------ |
+| OPEN   | isOpen=false |           | isOpen=true  |
+| CLOSE  | isOpen=open  |           | isOpen=false |
+
+## Triggers
+
+| Part         | Event        | Condition                   | Action |
+| ------------ | ------------ | --------------------------- | ------ |
+| Trigger      | Trigger      |                             | OPEN   |
+| Backdrop     | PointerDown  | closeOnOutsideClick == true | CLOSE  |
+| Close Button | PointerUp    |                             | CLOSE  |
+| Container    | KeyDown(ESC) | closeOnEsc == true          | CLOSE  |

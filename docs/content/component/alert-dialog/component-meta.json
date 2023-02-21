@@ -22,15 +22,15 @@
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./usage.mdx"
       },
       "style": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./style.mdx"
       }
     }
