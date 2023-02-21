@@ -12,6 +12,8 @@ import { generateContext } from "../templates/context";
 import { generateSprite } from "../templates/sprite";
 import { IconConfig } from "../types";
 import { validateIcons } from "../validates/icons";
+import { getTsconfig } from "get-tsconfig";
+import { validateTsconfigJSX } from "../validates/tsconfig";
 
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
@@ -46,6 +48,8 @@ export const generate = new Command("generate")
       const contextDir = path.dirname(contextPath);
 
       const withContext = fileContents.withContext;
+
+      validateTsconfigJSX(getTsconfig());
 
       let seedIconComponent = "";
       if (withContext) {

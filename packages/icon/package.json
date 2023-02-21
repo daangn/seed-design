@@ -37,6 +37,7 @@
     "@karrotmarket/karrot-ui-icon": "0.0.0-20230217.1",
     "commander": "^10.0.0",
     "findup-sync": "^5.0.0",
+    "get-tsconfig": "^4.4.0",
     "js-yaml": "^4.1.0",
     "kleur": "^4.1.5",
     "string-dedent": "^3.0.1"

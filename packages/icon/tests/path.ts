@@ -5,40 +5,40 @@ import { generateRelativeFilePath } from "../src/utils/path";
 
 const tests = [
   {
-    componentPath: "src",
-    spritePath: "assets",
+    from: "src",
+    to: "assets",
     expect: "../assets",
   },
   {
-    componentPath: "src",
-    spritePath: "src/assets",
+    from: "src",
+    to: "src/assets",
     expect: "./assets",
   },
   {
-    componentPath: "src/components",
-    spritePath: "src/assets",
+    from: "src/components",
+    to: "src/assets",
     expect: "../assets",
   },
   {
-    componentPath: "src/components",
-    spritePath: "src/components/assets",
+    from: "src/components",
+    to: "src/components/assets",
     expect: "./assets",
   },
   {
-    componentPath: "src/components",
-    spritePath: "",
+    from: "src/components",
+    to: "",
     expect: "../..",
   },
   {
-    componentPath: "",
-    spritePath: "",
+    from: "",
+    to: "",
     expect: "./",
   },
 ];
 
-tests.forEach(({ componentPath, spritePath, expect }) => {
-  test(`generateRelativePath ${componentPath}, ${spritePath}`, () => {
-    const relativePath = generateRelativeFilePath(componentPath, spritePath);
+tests.forEach(({ from, to, expect }) => {
+  test(`generateRelativePath ${from}, ${to}`, () => {
+    const relativePath = generateRelativeFilePath(from, to);
     assert.is(relativePath, expect);
   });
 });
