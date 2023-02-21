@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.7
+
+### Patch Changes
+
+- f878d22: `eslint-disabled`, `ts-nocheck` in component template, check tsconfig jsx option.
+
 ## 0.1.6
 
 ### Patch Changes
