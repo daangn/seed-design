@@ -23,9 +23,6 @@ export function generateDefaultConfig() {
 
     # 아이콘 Context 컴포넌트를 생성할지 여부입니다.
     # 라이브러리 제공자가 아닌 경우 false로 설정해주세요.
-    # 라이브러리 제공자인 경우 true로 설정하고 유저에게서 sprite 경로를 받도록 설계해주세요.
-    withContext: false
-  
     # 아이콘 Context 컴포넌트가 저장될 경로입니다. 프로젝트 루트 기준입니다.
     # withContext가 true일 경우에만 설정해주세요.
     # 예: src/components/SeedIconContext.tsx
