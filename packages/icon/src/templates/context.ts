@@ -2,7 +2,6 @@ import dedent from "string-dedent";
 
 export function generateContext() {
   return dedent`
-    // @ts-nocheck
     /* eslint-disable */
     import { createContext, type PropsWithChildren } from "react";
 
