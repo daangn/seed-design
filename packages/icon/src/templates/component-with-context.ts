@@ -35,7 +35,7 @@ export function generateComponentWithContext({
 
     export interface ${componentFileName}Props {
       name: IconName;
-      size?: number;
+      size?: number | string;
       className?: string;
     };
 

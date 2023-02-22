@@ -32,7 +32,7 @@ export function generateComponentWithoutContext({
 
     export interface ${componentFileName}Props {
       name: IconName;
-      size?: number;
+      size?: number | string;
       className?: string;
     };
 
