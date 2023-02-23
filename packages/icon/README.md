@@ -66,6 +66,61 @@ yarn seed-icon gen
 
 ## sprite.svg 미리 불러오기 (preload guide)
 
+> 현재 sprite.svg preload가 정상적으로 동작되지 않을 수 있습니다.
+
+네트워크 탭에서 sprite.svg를 두 번 요청한다면 제대로 동작하지 않는 가능성이 있습니다.
+그럴 땐 아래에 적혀있는 방법들 말고 HTML에 직접 sprite.svg를 삽입해서 사용해주세요.
+자세한 가이드는 아래와 같습니다.
+
+### preload 잘 안될 때
+
+우선 직접 sprite.svg를 삽입해서 사용해보세요.
+sprite.svg를 HTML에 직접 삽입하는 것이 프로젝트 성능에 큰 영향을 미치지 않습니다.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- head -->
+  </head>
+  <body>
+    <svg hidden aria-hidden="true" display="none">
+      <symbol id="icon_add_circle_fill"></symbol>
+      <symbol id="icon_add_circle_regular"></symbol>
+      <symbol id="icon_add_circle_thin"></symbol>
+    </svg>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+`display` 속성을 `none`으로 설정해주세요.
+
+그리고 사용하는 측에서는 `<use />`에 href 속성을 `#icon_add_circle_fill` 형태로 사용해주세요.
+
+```tsx
+const SeedIcon: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
+  { name, className, size },
+  ref,
+) => {
+  return (
+    <span
+      ref={ref}
+      style={{ display: "inline-flex", width: size, height: size }}
+      className={className}
+      data-seed-icon={name}
+      data-seed-icon-version="0.1.0-20230217.2"
+    >
+      <svg viewBox="0 0 24 24">
+        {/* HTML에 sprite.svg를 이미 불러왔다면 # 뒤에 id 값만 적어주어도 동작합니다. */}
+        <use href={`#${name}`} />
+      </svg>
+    </span>
+  );
+};
+```
+
 ### Vite
 
 > vite는 svg loader를 기본적으로 제공하고 있습니다.
