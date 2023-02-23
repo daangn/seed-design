@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.8
+
+### Patch Changes
+
+- 5601faf: remove ts-nocheck, add string type in size, sum withContext and contextPath
+
 ## 0.1.7
 
 ### Patch Changes
