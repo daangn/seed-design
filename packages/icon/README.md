@@ -92,6 +92,7 @@ sprite.svg를 HTML에 직접 삽입하는 것이 프로젝트 성능에 큰 영�
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
+  <!-- ... -->
 </html>
 ```
 
