@@ -8,7 +8,5 @@ export interface IconConfig {
 
   spritePath: string;
 
-  withContext: boolean;
-
   contextPath?: string;
 }

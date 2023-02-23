@@ -47,7 +47,7 @@ export const generate = new Command("generate")
       const contextFileName = path.basename(contextPath, ".tsx");
       const contextDir = path.dirname(contextPath);
 
-      const withContext = fileContents.withContext;
+      const withContext = fileContents.contextPath ? true : false;
 
       validateTsconfigJSX(getTsconfig());
 
