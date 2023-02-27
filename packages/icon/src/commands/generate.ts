@@ -14,6 +14,7 @@ import { IconConfig } from "../types";
 import { validateIcons } from "../validates/icons";
 import { getTsconfig } from "get-tsconfig";
 import { validateTsconfigJSX } from "../validates/tsconfig";
+import { inject } from "./inject";
 
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
@@ -107,6 +108,7 @@ export const generate = new Command("generate")
         path.resolve(componentDir, `${componentFileName}.tsx`),
         seedIconComponent,
       );
+      inject(spriteSvg);
 
       // log
       if (withContext) {
