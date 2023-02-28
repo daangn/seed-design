@@ -2,7 +2,7 @@
 slug: /component/alert-dialog/style
 ---
 
-## 아나토미
+## 구조도
 
 1. Backdrop - Alert Dialog Primitive (Backdrop)
 2. Container - Alert Dialog Primitive (Container)
@@ -10,40 +10,89 @@ slug: /component/alert-dialog/style
 4. Title - Alert Dialog Primitive (Title)
 5. Description - Alert Dialog Primitive (Description)
 6. Action Container
-7. Close Action - Button Primitive
-8. Close Action Label - Button Primitive
-9. Confirm Action - Button Primitive
-10. Confirm Action Label - Button Primitive
+7. Main Action - Button Primitive
+8. Main Action Label - Button Primitive
+9. Sub Action - Button Primitive
+10. Sub Action Label - Button Primitive
 
 ## Visual Options
 
-| Property     | Value                        | Description           |
-| ------------ | ---------------------------- | --------------------- |
-| button align | single, vertical, horizontal | 버튼 정렬에 대한 옵션 |
-| title        | text                         | 타이틀에 대한 옵션    |
-| description  | text                         | 설명에 대한 옵션      |
+| Property           | Value                                 | Description           |
+| ------------------ | ------------------------------------- | --------------------- |
+| action align       | single, vertical, horizontal          | 버튼 정렬에 대한 옵션 |
+| title              | text                                  | 타이틀에 대한 옵션    |
+| description        | text                                  | 설명에 대한 옵션      |
+| sub action variant | primary-low, secondary, secondary-low | Sub Action 위계       |
 
 ## 디자인 결정 (Color)
 
-| Part                 | Attribute | Value                         |
-| -------------------- | --------- | ----------------------------- |
-| Backdrop             | Color     | $semantic.color.overlay-dim   |
-| Container            | Color     | $semantic.color.paper-dialog  |
-| Title                | Color     | $scale.color.gray-900         |
-| Description          | Color     | $scale.color.gray-900         |
-| Close Action         | Color     | $semantic.color.secondary-row |
-| Close Action Label   | Color     | $scale.color.gray-900         |
-| Confirm Action       | Color     | $semantic.color.primary       |
-| Confirm Action Label | Color     | $semantic.color.on-primary    |
+| Part        | Attribute | Value                        |
+| ----------- | --------- | ---------------------------- |
+| Backdrop    | Color     | $semantic.color.overlay-dim  |
+| Container   | Color     | $semantic.color.paper-dialog |
+| Title       | Color     | $scale.color.gray-900        |
+| Description | Color     | $scale.color.gray-900        |
+
+### Main Action
+
+| State    | Part              | Attribute | Value                           |
+| -------- | ----------------- | --------- | ------------------------------- |
+| Enabled  | Main Action       | Color     | $semantic.color.primary         |
+|          | Main Action Label | Color     | $semantic.color.on-primary      |
+| Hovered  | Main Action       | Color     | $semantic.color.primary-hover   |
+|          | Main Action Label | Color     | $semantic.color.on-primary      |
+| Pressed  | Main Action       | Color     | $semantic.color.primary-pressed |
+|          | Main Action Label | Color     | $semantic.color.on-primary      |
+| Disabled | Main Action       | Color     | $scale.color.gray-300           |
+|          | Main Action Label | Color     | $scale.color.gray-500           |
+
+### Sub Action (primary-low)
+
+| State    | Part             | Attribute | Value                               |
+| -------- | ---------------- | --------- | ----------------------------------- |
+| Enabled  | Sub Action       | Color     | $semantic.color.primary-low         |
+|          | Sub Action Label | Color     | $semantic.color.primary             |
+| Hovered  | Sub Action       | Color     | $semantic.color.primary-low-hover   |
+|          | Sub Action Label | Color     | $semantic.color.primary             |
+| Pressed  | Sub Action       | Color     | $semantic.color.primary-low-pressed |
+|          | Sub Action Label | Color     | $semantic.color.primary             |
+| Disabled | Sub Action       | Color     | $scale.color.gray-300               |
+|          | Sub Action Label | Color     | $scale.color.gray-500               |
+
+### Sub Action (secondary)
+
+| State    | Part             | Attribute | Value                 |
+| -------- | ---------------- | --------- | --------------------- |
+| Enabled  | Sub Action       | Color     | $scale.color.gray-100 |
+|          | Sub Action Label | Color     | $scale.color.gray-900 |
+| Hovered  | Sub Action       | Color     | $scale.color.gray-300 |
+|          | Sub Action Label | Color     | $scale.color.gray-900 |
+| Pressed  | Sub Action       | Color     | $scale.color.gray-300 |
+|          | Sub Action Label | Color     | $scale.color.gray-900 |
+| Disabled | Sub Action       | Color     | $scale.color.gray-300 |
+|          | Sub Action Label | Color     | $scale.color.gray-500 |
+
+### Sub Action (secondary-low)
+
+| State    | Part             | Attribute | Value                     |
+| -------- | ---------------- | --------- | ------------------------- |
+| Enabled  | Sub Action       | Color     | $semantic.color.secondary |
+|          | Sub Action Label | Color     | $semantic.color.secondary |
+| Hovered  | Sub Action       | Color     | $scale.color.gray-700     |
+|          | Sub Action Label | Color     | $scale.color.gray-700     |
+| Pressed  | Sub Action       | Color     | $scale.color.gray-700     |
+|          | Sub Action Label | Color     | $scale.color.gray-700     |
+| Disabled | Sub Action       | Color     | $scale.color.gray-400     |
+|          | Sub Action Label | Color     | $scale.color.gray-400     |
 
 ## 디자인 결정 (Typography)
 
-| Part                 | Attribute  | Value                                  |
-| -------------------- | ---------- | -------------------------------------- |
-| Title                | Typography | $semantic.typography.title3-bold       |
-| Description          | Typography | $semantic.typography.subtitle1-regular |
-| Close Action Label   | Typography | $semantic.typography.label3-bold       |
-| Confirm Action Label | Typography | $semantic.typography.label3-bold       |
+| Part              | Attribute  | Value                                  |
+| ----------------- | ---------- | -------------------------------------- |
+| Title             | Typography | $semantic.typography.title3-bold       |
+| Description       | Typography | $semantic.typography.subtitle1-regular |
+| Main Action Label | Typography | $semantic.typography.label3-bold       |
+| Sub Action Label  | Typography | $semantic.typography.label3-bold       |
 
 ## 디자인 결정 (Layout)
 
@@ -55,9 +104,9 @@ slug: /component/alert-dialog/style
 |                                   | Corder Radius      | 16pt  |
 | Text Container / Action Container | Vertical Spacing   | 10pt  |
 | Title / Description               | Vertical Spacing   | 6pt   |
-| Close Action / Confirm Action     | Horizontal Spacing | 8pt   |
-| Close Action                      | Corder Radius      | 6pt   |
-| Confirm Action                    | Corder Radius      | 6pt   |
+| Main Action / Sub Action          | Horizontal Spacing | 8pt   |
+| Main Action                       | Corder Radius      | 6pt   |
+| Sub Action                        | Corder Radius      | 6pt   |
 
 ### Action align (single)
 

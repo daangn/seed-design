@@ -21,21 +21,23 @@ slug: /primitive/dialog
 
 | Context             | Values      | Default Value | Description                                                          |
 | ------------------- | ----------- | ------------- | -------------------------------------------------------------------- |
-| closeOnOutsideClick | true, false | true          | True일 경우, Container 외 영역을 클릭/탭 했을 시 Alert Dialog가 닫힘 |
-| closeOnEsc          | true, false | true          | (키보드 동작에만 해당) True일 경우, ESC를 통해 Alert Dialog가 닫힘   |
+| closeOnOutsideClick | true, false | false         | True일 경우, Container 외 영역을 클릭/탭 했을 시 Alert Dialog가 닫힘 |
+| closeOnEsc          | true, false | false         | (키보드 동작에만 해당) True일 경우, ESC를 통해 Alert Dialog가 닫힘   |
 
 ## Actions
 
-| Action | From         | Condition | To           |
-| ------ | ------------ | --------- | ------------ |
-| OPEN   | isOpen=false |           | isOpen=true  |
-| CLOSE  | isOpen=open  |           | isOpen=false |
+| Action  | From         | Condition | To           |
+| ------- | ------------ | --------- | ------------ |
+| `OPEN`  | isOpen=false |           | isOpen=true  |
+| `CLOSE` | isOpen=open  |           | isOpen=false |
 
 ## Triggers
 
-| Part         | Event        | Condition                   | Action |
-| ------------ | ------------ | --------------------------- | ------ |
-| Trigger      | PointerDown  |                             | OPEN   |
-| Backdrop     | PointerDown  | closeOnOutsideClick == true | CLOSE  |
-| Close Button | PointerUp    |                             | CLOSE  |
-| Container    | KeyDown(ESC) | closeOnEsc == true          | CLOSE  |
+### Web
+
+| Part         | Event          | Condition                   | Action  |
+| ------------ | -------------- | --------------------------- | ------- |
+| Trigger      | `PointerDown`  |                             | `OPEN`  |
+| Backdrop     | `PointerDown`  | closeOnOutsideClick == true | `CLOSE` |
+| Close Button | `PointerUp`    |                             | `CLOSE` |
+| Container    | `KeyDown(ESC)` | closeOnEsc == true          | `CLOSE` |
