@@ -5,8 +5,4 @@ export interface IconConfig {
   icons: IconName[];
 
   componentPath: string;
-
-  spritePath: string;
-
-  contextPath?: string;
 }
