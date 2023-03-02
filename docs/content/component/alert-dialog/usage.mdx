@@ -6,14 +6,13 @@ slug: /component/alert-dialog/usage
 
 ### 옵션 테이블
 
-| 속성               | 값                                    | 기본값        | 설명 |
-| ------------------ | ------------------------------------- | ------------- | ---- |
-| action align       | single, vertical, horizontal          | single        |      |
-| title              | string, null                          | null          |      |
-| description        | string, null                          | null          |      |
-| main action label  | string, null                          | null          |      |
-| sub action label   | string, null                          | null          |      |
-| sub action variant | primary-low, secondary, secondary-low | secondary-low |      |
+| 속성                   | 값                                                             | 기본값 | 설명 |
+| ---------------------- | -------------------------------------------------------------- | ------ | ---- |
+| variant                | single, vertical, horizontal-secondary, horizontal-primary-low | single |      |
+| title                  | string, null                                                   | null   |      |
+| description            | string, null                                                   | null   |      |
+| primary button label   | string, null                                                   | null   |      |
+| secondary button label | string, null                                                   | null   |      |
 
 ## 상호작용
 
@@ -58,7 +57,8 @@ slug: /component/alert-dialog/usage
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Action</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      Action에 Focus된 상태에서 <Keyboard>Enter</Keyboard>키를 통해 Action을 실행 시킬 수 있습니다.
+      Action에 Focus된 상태에서 <Keyboard>Enter</Keyboard>키를 통해 Action을
+      실행 시킬 수 있습니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>

@@ -9,20 +9,19 @@ slug: /component/alert-dialog/style
 3. Text Container
 4. Title - Alert Dialog Primitive (Title)
 5. Description - Alert Dialog Primitive (Description)
-6. Action Container
-7. Main Action - Button Primitive
-8. Main Action Label - Button Primitive
-9. Sub Action - Button Primitive
-10. Sub Action Label - Button Primitive
+6. Button Container
+7. Primary Button - Button Primitive
+8. Primary Button Label - Button Primitive
+9. Secondary Button - Button Primitive
+10. Secondary Button Label - Button Primitive
 
 ## Visual Options
 
-| Property           | Value                                 | Description           |
-| ------------------ | ------------------------------------- | --------------------- |
-| action align       | single, vertical, horizontal          | 버튼 정렬에 대한 옵션 |
-| title              | text                                  | 타이틀에 대한 옵션    |
-| description        | text                                  | 설명에 대한 옵션      |
-| sub action variant | primary-low, secondary, secondary-low | Sub Action 위계       |
+| Property    | Value                                                          | Description           |
+| ----------- | -------------------------------------------------------------- | --------------------- |
+| variant     | single, vertical, horizontal-secondary, horizontal-primary-low | 버튼 위계에 대한 옵션 |
+| title       | text                                                           | 타이틀에 대한 옵션    |
+| description | text                                                           | 설명에 대한 옵션      |
 
 ## 디자인 결정 (Color)
 
@@ -33,66 +32,99 @@ slug: /component/alert-dialog/style
 | Title       | Color     | $scale.color.gray-900        |
 | Description | Color     | $scale.color.gray-900        |
 
-### Main Action
+### Variant=single
 
-| State    | Part              | Attribute | Value                           |
-| -------- | ----------------- | --------- | ------------------------------- |
-| Enabled  | Main Action       | Color     | $semantic.color.primary         |
-|          | Main Action Label | Color     | $semantic.color.on-primary      |
-| Hovered  | Main Action       | Color     | $semantic.color.primary-hover   |
-|          | Main Action Label | Color     | $semantic.color.on-primary      |
-| Pressed  | Main Action       | Color     | $semantic.color.primary-pressed |
-|          | Main Action Label | Color     | $semantic.color.on-primary      |
-| Disabled | Main Action       | Color     | $scale.color.gray-300           |
-|          | Main Action Label | Color     | $scale.color.gray-500           |
+| State    | Part                 | Attribute | Value                           |
+| -------- | -------------------- | --------- | ------------------------------- |
+| Enabled  | Primary Button       | Color     | $semantic.color.primary         |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Hovered  | Primary Button       | Color     | $semantic.color.primary-hover   |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Pressed  | Primary Button       | Color     | $semantic.color.primary-pressed |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Disabled | Primary Button       | Color     | $scale.color.gray-300           |
+|          | Primary Button Label | Color     | $scale.color.gray-500           |
 
-### Sub Action (primary-low)
+### Variant=vertical
 
-| State    | Part             | Attribute | Value                               |
-| -------- | ---------------- | --------- | ----------------------------------- |
-| Enabled  | Sub Action       | Color     | $semantic.color.primary-low         |
-|          | Sub Action Label | Color     | $semantic.color.primary             |
-| Hovered  | Sub Action       | Color     | $semantic.color.primary-low-hover   |
-|          | Sub Action Label | Color     | $semantic.color.primary             |
-| Pressed  | Sub Action       | Color     | $semantic.color.primary-low-pressed |
-|          | Sub Action Label | Color     | $semantic.color.primary             |
-| Disabled | Sub Action       | Color     | $scale.color.gray-300               |
-|          | Sub Action Label | Color     | $scale.color.gray-500               |
+| State    | Part                 | Attribute | Value                           |
+| -------- | -------------------- | --------- | ------------------------------- |
+| Enabled  | Primary Button       | Color     | $semantic.color.primary         |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Hovered  | Primary Button       | Color     | $semantic.color.primary-hover   |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Pressed  | Primary Button       | Color     | $semantic.color.primary-pressed |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Disabled | Primary Button       | Color     | $scale.color.gray-300           |
+|          | Primary Button Label | Color     | $scale.color.gray-500           |
 
-### Sub Action (secondary)
+| State    | Part                   | Attribute | Value                               |
+| -------- | ---------------------- | --------- | ----------------------------------- |
+| Enabled  | Secondary Button       | Color     | $semantic.color.primary-low         |
+|          | Secondary Button Label | Color     | $semantic.color.primary             |
+| Hovered  | Secondary Button       | Color     | $semantic.color.primary-low-hover   |
+|          | Secondary Button Label | Color     | $semantic.color.primary             |
+| Pressed  | Secondary Button       | Color     | $semantic.color.primary-low-pressed |
+|          | Secondary Button Label | Color     | $semantic.color.primary             |
+| Disabled | Secondary Button       | Color     | $scale.color.gray-300               |
+|          | Secondary Button Label | Color     | $scale.color.gray-500               |
 
-| State    | Part             | Attribute | Value                 |
-| -------- | ---------------- | --------- | --------------------- |
-| Enabled  | Sub Action       | Color     | $scale.color.gray-100 |
-|          | Sub Action Label | Color     | $scale.color.gray-900 |
-| Hovered  | Sub Action       | Color     | $scale.color.gray-300 |
-|          | Sub Action Label | Color     | $scale.color.gray-900 |
-| Pressed  | Sub Action       | Color     | $scale.color.gray-300 |
-|          | Sub Action Label | Color     | $scale.color.gray-900 |
-| Disabled | Sub Action       | Color     | $scale.color.gray-300 |
-|          | Sub Action Label | Color     | $scale.color.gray-500 |
+### Variant=horizontal-primary-low
 
-### Sub Action (secondary-low)
+| State    | Part                 | Attribute | Value                           |
+| -------- | -------------------- | --------- | ------------------------------- |
+| Enabled  | Primary Button       | Color     | $semantic.color.primary         |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Hovered  | Primary Button       | Color     | $semantic.color.primary-hover   |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Pressed  | Primary Button       | Color     | $semantic.color.primary-pressed |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Disabled | Primary Button       | Color     | $scale.color.gray-300           |
+|          | Primary Button Label | Color     | $scale.color.gray-500           |
 
-| State    | Part             | Attribute | Value                     |
-| -------- | ---------------- | --------- | ------------------------- |
-| Enabled  | Sub Action       | Color     | $semantic.color.secondary |
-|          | Sub Action Label | Color     | $semantic.color.secondary |
-| Hovered  | Sub Action       | Color     | $scale.color.gray-700     |
-|          | Sub Action Label | Color     | $scale.color.gray-700     |
-| Pressed  | Sub Action       | Color     | $scale.color.gray-700     |
-|          | Sub Action Label | Color     | $scale.color.gray-700     |
-| Disabled | Sub Action       | Color     | $scale.color.gray-400     |
-|          | Sub Action Label | Color     | $scale.color.gray-400     |
+| State    | Part                   | Attribute | Value                 |
+| -------- | ---------------------- | --------- | --------------------- |
+| Enabled  | Secondary Button       | Color     | $scale.color.gray-100 |
+|          | Secondary Button Label | Color     | $scale.color.gray-900 |
+| Hovered  | Secondary Button       | Color     | $scale.color.gray-300 |
+|          | Secondary Button Label | Color     | $scale.color.gray-900 |
+| Pressed  | Secondary Button       | Color     | $scale.color.gray-300 |
+|          | Secondary Button Label | Color     | $scale.color.gray-900 |
+| Disabled | Secondary Button       | Color     | $scale.color.gray-300 |
+|          | Secondary Button Label | Color     | $scale.color.gray-500 |
+
+### Variant=horizontal-secondary
+
+| State    | Part                 | Attribute | Value                           |
+| -------- | -------------------- | --------- | ------------------------------- |
+| Enabled  | Primary Button       | Color     | $semantic.color.primary         |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Hovered  | Primary Button       | Color     | $semantic.color.primary-hover   |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Pressed  | Primary Button       | Color     | $semantic.color.primary-pressed |
+|          | Primary Button Label | Color     | $semantic.color.on-primary      |
+| Disabled | Primary Button       | Color     | $scale.color.gray-300           |
+|          | Primary Button Label | Color     | $scale.color.gray-500           |
+
+| State    | Part                   | Attribute | Value                     |
+| -------- | ---------------------- | --------- | ------------------------- |
+| Enabled  | Secondary Button       | Color     | $semantic.color.secondary |
+|          | Secondary Button Label | Color     | $semantic.color.secondary |
+| Hovered  | Secondary Button       | Color     | $scale.color.gray-700     |
+|          | Secondary Button Label | Color     | $scale.color.gray-700     |
+| Pressed  | Secondary Button       | Color     | $scale.color.gray-700     |
+|          | Secondary Button Label | Color     | $scale.color.gray-700     |
+| Disabled | Secondary Button       | Color     | $scale.color.gray-400     |
+|          | Secondary Button Label | Color     | $scale.color.gray-400     |
 
 ## 디자인 결정 (Typography)
 
-| Part              | Attribute  | Value                                  |
-| ----------------- | ---------- | -------------------------------------- |
-| Title             | Typography | $semantic.typography.title3-bold       |
-| Description       | Typography | $semantic.typography.subtitle1-regular |
-| Main Action Label | Typography | $semantic.typography.label3-bold       |
-| Sub Action Label  | Typography | $semantic.typography.label3-bold       |
+| Part                   | Attribute  | Value                                  |
+| ---------------------- | ---------- | -------------------------------------- |
+| Title                  | Typography | $semantic.typography.title3-bold       |
+| Description            | Typography | $semantic.typography.subtitle1-regular |
+| Primary Button Label   | Typography | $semantic.typography.label3-bold       |
+| Secondray Button Label | Typography | $semantic.typography.label3-bold       |
 
 ## 디자인 결정 (Layout)
 
@@ -102,29 +134,35 @@ slug: /component/alert-dialog/style
 |                                   | Vertical Padding   | 20pt  |
 |                                   | Horizontal Padding | 16pt  |
 |                                   | Corder Radius      | 16pt  |
-| Text Container / Action Container | Vertical Spacing   | 10pt  |
+| Text Container / Button Container | Vertical Spacing   | 10pt  |
 | Title / Description               | Vertical Spacing   | 6pt   |
-| Main Action / Sub Action          | Horizontal Spacing | 8pt   |
-| Main Action                       | Corder Radius      | 6pt   |
-| Sub Action                        | Corder Radius      | 6pt   |
+| Primary Button / Secondary Button | Horizontal Spacing | 8pt   |
+| Primary Button                    | Corder Radius      | 6pt   |
+| Secondary Button                  | Corder Radius      | 6pt   |
 
-### Action align (single)
+### Variant=single
 
 | Part             | Attribute       | Value |
 | ---------------- | --------------- | ----- |
-| Action Container | Align Direction | Row   |
+| Button Container | Align Direction | Row   |
 
-### Action align (vertical)
+### Variant=vertical
 
 | Part             | Attribute       | Value  |
 | ---------------- | --------------- | ------ |
-| Action Container | Align Direction | Column |
+| Button Container | Align Direction | Column |
 
-### Action align (horizontal)
+### Variant=horizontal-primary-low
 
 | Part             | Attribute       | Value |
 | ---------------- | --------------- | ----- |
-| Action Container | Align Direction | Row   |
+| Button Container | Align Direction | Row   |
+
+### Variant=horizontal-secondary
+
+| Part             | Attribute       | Value |
+| ---------------- | --------------- | ----- |
+| Button Container | Align Direction | Row   |
 
 ## Overflow
 
