@@ -17,11 +17,11 @@ slug: /component/alert-dialog/style
 
 ## Visual Options
 
-| Property    | Value                                                          | Description           |
-| ----------- | -------------------------------------------------------------- | --------------------- |
-| variant     | single, vertical, horizontal-secondary, horizontal-primary-low | 버튼 위계에 대한 옵션 |
-| title       | text                                                           | 타이틀에 대한 옵션    |
-| description | text                                                           | 설명에 대한 옵션      |
+| Property    | Value                                                  | Description           |
+| ----------- | ------------------------------------------------------ | --------------------- |
+| variant     | info, confirm-cancel, confirm-action, confirm-emphasis | 버튼 위계에 대한 옵션 |
+| title       | text                                                   | 타이틀에 대한 옵션    |
+| description | text                                                   | 설명에 대한 옵션      |
 
 ## 디자인 결정 (Color)
 
@@ -32,7 +32,7 @@ slug: /component/alert-dialog/style
 | Title       | Color     | $scale.color.gray-900        |
 | Description | Color     | $scale.color.gray-900        |
 
-### Variant=single
+### Variant=info
 
 | State    | Part                 | Attribute | Value                           |
 | -------- | -------------------- | --------- | ------------------------------- |
@@ -45,7 +45,7 @@ slug: /component/alert-dialog/style
 | Disabled | Primary Button       | Color     | $scale.color.gray-300           |
 |          | Primary Button Label | Color     | $scale.color.gray-500           |
 
-### Variant=vertical
+### Variant=confirm-emphasis
 
 | State    | Part                 | Attribute | Value                           |
 | -------- | -------------------- | --------- | ------------------------------- |
@@ -69,7 +69,7 @@ slug: /component/alert-dialog/style
 | Disabled | Secondary Button       | Color     | $scale.color.gray-300               |
 |          | Secondary Button Label | Color     | $scale.color.gray-500               |
 
-### Variant=horizontal-primary-low
+### Variant=confirm-action
 
 | State    | Part                 | Attribute | Value                           |
 | -------- | -------------------- | --------- | ------------------------------- |
@@ -93,7 +93,7 @@ slug: /component/alert-dialog/style
 | Disabled | Secondary Button       | Color     | $scale.color.gray-300 |
 |          | Secondary Button Label | Color     | $scale.color.gray-500 |
 
-### Variant=horizontal-secondary
+### Variant=confirm-cancel
 
 | State    | Part                 | Attribute | Value                           |
 | -------- | -------------------- | --------- | ------------------------------- |
@@ -140,25 +140,25 @@ slug: /component/alert-dialog/style
 | Primary Button                    | Corder Radius      | 6pt   |
 | Secondary Button                  | Corder Radius      | 6pt   |
 
-### Variant=single
+### Variant=info
 
 | Part             | Attribute       | Value |
 | ---------------- | --------------- | ----- |
 | Button Container | Align Direction | Row   |
 
-### Variant=vertical
+### Variant=confirm-emphasis
 
 | Part             | Attribute       | Value  |
 | ---------------- | --------------- | ------ |
 | Button Container | Align Direction | Column |
 
-### Variant=horizontal-primary-low
+### Variant=confirm-action
 
 | Part             | Attribute       | Value |
 | ---------------- | --------------- | ----- |
 | Button Container | Align Direction | Row   |
 
-### Variant=horizontal-secondary
+### Variant=confirm-cancel
 
 | Part             | Attribute       | Value |
 | ---------------- | --------------- | ----- |
