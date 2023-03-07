@@ -13,7 +13,7 @@
       "path": ""
     },
     "react": {
-      "status": "todo",
+      "status": "in-progress",
       "path": ""
     },
     "figma": {
@@ -30,7 +30,7 @@
         "mdx": "./usage.mdx"
       },
       "style": {
-        "status": "in-progress",
+        "status": "done",
         "mdx": "./style.mdx"
       }
     }
