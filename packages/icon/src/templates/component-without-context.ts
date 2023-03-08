@@ -27,7 +27,7 @@ export function generateComponentWithoutContext({
 
   return dedent`
     /* eslint-disable */
-    import { forwardRef, type ForwardRefRenderFunction } from "react";
+    import * as React from "react";
     import spriteUrl from "${spriteUrl}";
 
     export interface ${componentFileName}Props {
@@ -36,7 +36,7 @@ export function generateComponentWithoutContext({
       className?: string;
     };
 
-    const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
+    const ${componentFileName}: React.ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
       { name, className, size },
       ref,
     ) => {
@@ -55,7 +55,7 @@ export function generateComponentWithoutContext({
       );
     };
     
-    export default forwardRef(${componentFileName});
+    export default React.forwardRef(${componentFileName});
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
     );\n

@@ -30,7 +30,7 @@ export function generateComponentWithContext({
 
   return dedent`
     /* eslint-disable */
-    import { forwardRef, useContext, type ForwardRefRenderFunction } from "react";
+    import * as React from "react";
     import { SeedIconContext } from "${contextUrl}";
 
     export interface ${componentFileName}Props {
@@ -39,11 +39,11 @@ export function generateComponentWithContext({
       className?: string;
     };
 
-    const ${componentFileName}: ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
+    const ${componentFileName}: React.ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
       { name, className, size },
       ref,
     ) => {
-      const spriteUrl = useContext(SeedIconContext);
+      const spriteUrl = React.useContext(SeedIconContext);
       return  (
         <span
           ref={ref}
@@ -59,7 +59,7 @@ export function generateComponentWithContext({
       );
     };
     
-    export default forwardRef(${componentFileName});
+    export default React.forwardRef(${componentFileName});
 
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
