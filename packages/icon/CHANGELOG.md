@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.9
+
+### Patch Changes
+
+- 90724ac: change template
+
 ## 0.1.8
 
 ### Patch Changes
