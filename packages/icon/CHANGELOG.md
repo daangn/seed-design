@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.10
+
+### Patch Changes
+
+- ec0e449: add <g /> tag in sprite.svg
+
 ## 0.1.9
 
 ### Patch Changes
