@@ -11,8 +11,9 @@ export function generateSprite({ icons }: { icons: IconName[] }) {
         const icon = IconData[id];
         return icon
           .replace("<svg", `  <symbol id="${id}"`)
-          .replace(/<path/g, "  <path")
-          .replace("</svg>", "  </symbol>");
+          .replace(">", ">\n    <g>")
+          .replace(/<path/g, "      <path")
+          .replace("</svg>", "    </g>\n  </symbol>");
       })
       .join("")}</svg>\n
   `;
