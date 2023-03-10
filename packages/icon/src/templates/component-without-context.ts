@@ -41,7 +41,8 @@ export function generateComponentWithoutContext({
       ref,
     ) => {
       const isMobileSafari =
-        navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/);
+        navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
+        navigator.userAgent.match(/AppleWebKit/);
       return  (
         <span
           ref={ref}
