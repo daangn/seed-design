@@ -1,6 +1,6 @@
 {
   "name": "Dialog",
-  "description": "",
+  "description": "사용자에게 중요한 정보를 전달하고, 필요하면 응답을 요구하는 컴포넌트에요.",
   "thumbnail": "../../comingSoon.png",
   "primitive": "./primitive.mdx"
 }

@@ -10,6 +10,33 @@ slug: /primitive/dialog
 4. Content
 5. Title
 6. Description
-7. Close Button
 
-## Working in progress
+## States
+
+| State  | Values      | Default Value |
+| ------ | ----------- | ------------- |
+| isOpen | true, false | false         |
+
+## Contexts
+
+| Context             | Values      | Default Value | Description                                                          |
+| ------------------- | ----------- | ------------- | -------------------------------------------------------------------- |
+| closeOnOutsideClick | true, false | false         | True일 경우, Container 외 영역을 클릭/탭 했을 시 Alert Dialog가 닫힘 |
+| closeOnEsc          | true, false | false         | (키보드 동작에만 해당) True일 경우, ESC를 통해 Alert Dialog가 닫힘   |
+
+## Actions
+
+| Action  | From         | Condition | To           |
+| ------- | ------------ | --------- | ------------ |
+| `OPEN`  | isOpen=false |           | isOpen=true  |
+| `CLOSE` | isOpen=true  |           | isOpen=false |
+
+## Triggers
+
+### Web
+
+| Part      | Event          | Condition                   | Action  |
+| --------- | -------------- | --------------------------- | ------- |
+| Trigger   | `PointerDown`  |                             | `OPEN`  |
+| Backdrop  | `PointerDown`  | closeOnOutsideClick == true | `CLOSE` |
+| Container | `KeyDown(ESC)` | closeOnEsc == true          | `CLOSE` |

@@ -2,4 +2,65 @@
 slug: /component/alert-dialog/usage
 ---
 
-# 준비중
+## 옵션
+
+### 옵션 테이블
+
+| 속성                    | 값                                 | 기본값  | 설명 |
+| ----------------------- | ---------------------------------- | ------- | ---- |
+| title                   | string                             |         |      |
+| description             | string                             |         |      |
+| primary action label    | string                             |         |      |
+| secondary action label  | string                             |         |      |
+| secondary action intent | alternative, neutral, nonpreffered | neutral |      |
+
+## 상호작용
+
+### 터치 / 마우스 상호작용
+
+<FullCard>
+  <FullCardImageCell>
+    ![alert-dialog-usage-click-touch](./alert-dialog-usage-click-touch.png)
+  </FullCardImageCell>
+</FullCard>
+
+### 키보드 상호작용
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![alert-dialog-usage-focus-1](./alert-dialog-usage-focus-1.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      <Keyboard>tab</Keyboard>키를 통해 Action에 Focus할 수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![alert-dialog-usage-focus-2](./alert-dialog-usage-focus-2.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      <Keyboard>tab</Keyboard>키를 통해 Action간 Focus 이동이 가능합니다
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![alert-dialog-usage-enter-action](./alert-dialog-usage-enter-action.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Action</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Action에 Focus된 상태에서 <Keyboard>Enter</Keyboard>키를 통해 Action을
+      실행 시킬 수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+## 가이드라인
