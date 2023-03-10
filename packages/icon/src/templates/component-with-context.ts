@@ -44,9 +44,18 @@ export function generateComponentWithContext({
       ref,
     ) => {
       const spriteUrl = React.useContext(SeedIconContext);
-      const isMobileSafari =
-        navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
-        navigator.userAgent.match(/AppleWebKit/);
+      const [isMobileSafari, setIsMobileSafari] = React.useState(false);
+
+      React.useEffect(() => {
+        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+          return;
+        }
+
+        if (navigator.userAgent.match(/AppleWebKit/)) {
+          setIsMobileSafari(true);
+        }
+      }, []);
+
       return  (
         <span
           ref={ref}
@@ -63,7 +72,7 @@ export function generateComponentWithContext({
         </span>
       );
     };
-    
+
     export default React.forwardRef(${componentFileName});
 
     type IconName = (
