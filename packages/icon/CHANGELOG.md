@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.11
+
+### Patch Changes
+
+- 03b5e65: fix mobile safari not working
+
 ## 0.1.10
 
 ### Patch Changes
