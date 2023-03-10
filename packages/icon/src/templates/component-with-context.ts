@@ -58,7 +58,7 @@ export function generateComponentWithContext({
           <svg viewBox="0 0 24 24">
             {isMobileSafari
               ? <use xlinkHref={\`\${spriteUrl}#\${name}\`} />
-              : <use href={\`\${spriteUrl}#${name}\`} />}
+              : <use href={\`\${spriteUrl}#\${name}\`} />}
           </svg>
         </span>
       );
