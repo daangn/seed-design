@@ -47,11 +47,7 @@ export function generateComponentWithContext({
       const [isMobileSafari, setIsMobileSafari] = React.useState(false);
 
       React.useEffect(() => {
-        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-          return;
-        }
-
-        if (navigator.userAgent.match(/AppleWebKit/)) {
+        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/)) {
           setIsMobileSafari(true);
         }
       }, []);
