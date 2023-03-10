@@ -40,6 +40,9 @@ export function generateComponentWithoutContext({
       { name, className, size },
       ref,
     ) => {
+      const isMobileSafari =
+        navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
+        navigator.userAgent.match(/AppleWebKit/);
       return  (
         <span
           ref={ref}
@@ -49,7 +52,9 @@ export function generateComponentWithoutContext({
           data-seed-icon-version="${version}"
         >
           <svg viewBox="0 0 24 24">
-            <use href={\`\${spriteUrl}#\${name}\`} />
+            {isMobileSafari
+              ? <use xlinkHref={\`\${spriteUrl}#\${name}\`} />
+              : <use href={\`\${spriteUrl}#${name}\`} />}
           </svg>
         </span>
       );
