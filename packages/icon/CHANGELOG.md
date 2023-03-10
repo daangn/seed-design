@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.12
+
+### Patch Changes
+
+- 5e5145c: fix: escape variable name in component template
+
 ## 0.1.11
 
 ### Patch Changes
