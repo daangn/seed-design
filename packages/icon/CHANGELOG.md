@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.1.13
+
+### Patch Changes
+
+- b8933f7: chore: remove navigator in component template
+
 ## 0.1.12
 
 ### Patch Changes
