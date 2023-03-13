@@ -183,12 +183,6 @@ slug: /component/box-button/style
 | Suffix Icon  | Size               | 12pt   |
 | Label / Icon | Padding            | 2pt    |
 
-### Action=Pressed In
-
-| Part | Attribute | Value |
-| ---- | --------- | ----- |
-| Root | Scale     | 0.95  |
-
 ## 디자인 결정 (Focus)
 
 | State   | Part | Attribute     | Value                 |
@@ -198,9 +192,15 @@ slug: /component/box-button/style
 
 ## 디자인 결정 (Motion)
 
-| Action      | Part | Property | Attribute       | Value                                  |
+| State       | Part | Property | Attribute       | Value                                  |
 | ----------- | ---- | -------- | --------------- | -------------------------------------- |
 | Pressed In  | Root | Scale    | Duration        | 100ms                                  |
 |             |      |          | Timing Function | $scale.timing-function.standard-easing |
 | Pressed Out | Root | Scale    | Duration        | 100ms                                  |
 |             |      |          | Timing Function | $scale.timing-function.standard-easing |
+
+### State=Pressed In
+
+| Part | Attribute | Value |
+| ---- | --------- | ----- |
+| Root | Scale     | 0.95  |
