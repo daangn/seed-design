@@ -192,15 +192,15 @@ slug: /component/box-button/style
 
 ## 디자인 결정 (Motion)
 
-| State       | Part | Property | Attribute       | Value                                  |
-| ----------- | ---- | -------- | --------------- | -------------------------------------- |
-| Pressed In  | Root | Scale    | Duration        | 100ms                                  |
-|             |      |          | Timing Function | $scale.timing-function.standard-easing |
-| Pressed Out | Root | Scale    | Duration        | 100ms                                  |
-|             |      |          | Timing Function | $scale.timing-function.standard-easing |
+| State       | Part | Property  | Attribute       | Value                                  |
+| ----------- | ---- | --------- | --------------- | -------------------------------------- |
+| Pressed In  | Root | transform | Duration        | 100ms                                  |
+|             |      |           | Timing Function | $scale.timing-function.standard-easing |
+| Pressed Out | Root | transform | Duration        | 100ms                                  |
+|             |      |           | Timing Function | $scale.timing-function.standard-easing |
 
 ### State=Pressed In
 
-| Part | Attribute | Value |
-| ---- | --------- | ----- |
-| Root | Scale     | 0.95  |
+| Part | Attribute | Value       |
+| ---- | --------- | ----------- |
+| Root | transform | scale(0.95) |
