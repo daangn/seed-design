@@ -119,3 +119,27 @@ slug: /component/radio-group/style
 | Radio Control               | Size       | 18pt  |
 | Radio Control Icon          | Size       | 7pt   |
 | Radio Control / Radio Label | Padding    | 8pt   |
+
+### 디자인 결정 (Motion)
+
+| State      | Part               | Property  | Attribute       | Value                                  |
+| ---------- | ------------------ | --------- | --------------- | -------------------------------------- |
+| Selected   | Radio Control Icon | transform | Duration        | 100ms                                  |
+|            |                    |           | Timing Function | $scale.timing-function.standard-easing |
+| Selected   | Radio Control      | opacity   | Duration        | 50ms                                   |
+|            |                    |           | Timing Function | $scale.timing-function.standard-easing |
+| Unselected | Radio Control      | opacity   | Duration        | 50ms                                   |
+|            |                    |           | Timing Function | $scale.timing-function.standard-easing |
+
+#### State=Selected
+
+| Part               | Attribute | From     | To       |
+| ------------------ | --------- | -------- | -------- |
+| Radio Control Icon | transform | scale(0) | scale(1) |
+| Radio Control      | opacity   | 0        | 1        |
+
+#### State=Unselected
+
+| Part          | Attribute | From | To  |
+| ------------- | --------- | ---- | --- |
+| Radio Control | opacity   | 1    | 0   |
