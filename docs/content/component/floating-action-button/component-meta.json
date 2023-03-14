@@ -1,8 +1,9 @@
 {
-  "name": "Help Bubble",
-  "description": "특정 요소를 가리키며 간결하고 상황에 맞는 정보를 제공하는 컴포넌트입니다.",
+  "name": "Floating Action Button",
+  "description": "",
   "thumbnail": "./thumbnail.png",
-  "primitive": "../../primitive/popover/primitive-meta.json",
+  "primitive": "../../primitive/button/primitive-meta.json",
+  "group": "Button",
   "platform": {
     "ios": {
       "status": "todo",
@@ -18,12 +19,12 @@
       "path": ""
     },
     "figma": {
-      "status": "done",
-      "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?node-id=21727%3A43114&t=NzUk3aVHeSCjDSvb-11"
+      "status": "todo",
+      "path": ""
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {
@@ -31,7 +32,7 @@
         "mdx": "./usage.mdx"
       },
       "style": {
-        "status": "in-progress",
+        "status": "done",
         "mdx": "./style.mdx"
       }
     }
