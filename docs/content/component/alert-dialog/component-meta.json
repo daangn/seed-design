@@ -22,7 +22,7 @@
     },
     "docs": {
       "overview": {
-        "status": "in-progress",
+        "status": "todo",
         "mdx": "./overview.mdx"
       },
       "usage": {

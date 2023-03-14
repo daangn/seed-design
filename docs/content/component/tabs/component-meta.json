@@ -1,7 +1,7 @@
 {
   "name": "Tabs",
   "description": "다른 탭 간에 전환과 이동을 쉽게 할 수 있는 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "../../comingSoon.png",
   "primitive": "../../primitive/tabs/primitive-meta.json",
   "platform": {
     "ios": {
