@@ -1,0 +1,90 @@
+---
+slug: /component/extended-floating-action-button/style
+---
+
+## Anatomy
+
+1. Root - ButtonPrimitive.Root
+2. Label - ButtonPrimitive.Label
+3. Icon
+
+## Visual Options
+
+| Property | Value         |
+| -------- | ------------- |
+| size     | medium, small |
+| variant  | bold, muted   |
+| icon     | Icon          |
+| label    | text          |
+
+## Visually Representated States
+
+| State   | Condition         |
+| ------- | ----------------- |
+| enabled | isPressed = False |
+| pressed | isPressed = True  |
+
+## 디자인 결정 (Color)
+
+### variant=bold
+
+| State   | Part        | Attribute | Value                 |
+| ------- | ----------- | --------- | --------------------- |
+| Enabled | Root        | Color     | $scale.color.gray-900 |
+|         | Label, Icon | Color     | $scale.color.gray-00  |
+| Pressed | Root        | Color     | $scale.color.gray-700 |
+|         | Label, Icon | Color     | $scale.color.gray-00  |
+
+### variant=muted
+
+| State   | Part        | Attribute | Value                          |
+| ------- | ----------- | --------- | ------------------------------ |
+| Enabled | Root        | Color     | $semantic.color.paper-floating |
+|         | Label, Icon | Color     | $scale.color.gray-900          |
+| Pressed | Root        | Color     | $semantic.color.gray-pressed   |
+|         | Label, Icon | Color     | $scale.color.gray-900          |
+
+## 디자인 결정 (Typography)
+
+### size=medium
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label2-bold |
+
+### size=small
+
+| Part  | Attribute  | Value                               |
+| ----- | ---------- | ----------------------------------- |
+| Label | Typography | $semantic.typography.label3-regular |
+
+## 디자인 결정 (Shadow)
+
+| Part | Attribute            | Value   |
+| ---- | -------------------- | ------- |
+| Root | Shadow Offset X      | 0pt     |
+|      | Shadow Offset Y      | 2pt     |
+|      | Shadow Blur Radius   | 6pt     |
+|      | Shadow Spread Radius | 0pt     |
+|      | Shadow Color         | #000000 |
+|      | Shadow Opacity       | 0.16    |
+
+## 디자인 결정 (Layout)
+
+### size=medium
+
+| Part | Attribute     | Value |
+| ---- | ------------- | ----- |
+| Root | Height        | 46pt  |
+|      | Corner Radius | Full  |
+| Icon | Size          | 16pt  |
+
+### size=small
+
+| Part         | Attribute          | Value |
+| ------------ | ------------------ | ----- |
+| Root         | Size               | 48pt  |
+|              | Corner Radius      | Full  |
+|              | Horizontal Padding | 18pt  |
+| Icon         | Size               | 16pt  |
+| Icon / Label | Spacing            | 4pt   |

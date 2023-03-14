@@ -1,0 +1,82 @@
+---
+slug: /component/floating-menu-button/style
+---
+
+## Anatomy
+
+1. Root - ButtonPrimitive.Root
+2. Label - ButtonPrimitive.Label
+3. Icon
+4. Backdrop
+5. Menu
+6. Menu Item
+7. Menu Item Label
+
+## Visual Options
+
+| Property   | Value       |
+| ---------- | ----------- |
+| isExtended | false, true |
+| label      | text        |
+
+## Visually Representated States
+
+| State   | Condition         |
+| ------- | ----------------- |
+| enabled | isPressed = False |
+| pressed | isPressed = True  |
+
+| State  | Condition      |
+| ------ | -------------- |
+| closed | isOpen = False |
+| opened | isOpen = True  |
+
+## 디자인 결정 (Color)
+
+| State           | Part        | Attribute | Value                           |
+| --------------- | ----------- | --------- | ------------------------------- |
+| Closed, Enabled | Root        | Color     | $semantic.color.primary         |
+|                 | Label, Icon | Color     | $semantic.color.on-primary      |
+| Closed, Pressed | Root        | Color     | $semantic.color.primary-pressed |
+|                 | Label, Icon | Color     | $semantic.color.on-primary      |
+| Opened, Enabled | Root        | Color     | $semantic.color.primary         |
+|                 | Label, Icon | Color     | $semantic.color.on-primary      |
+| Opened, Pressed | Root        | Color     | $semantic.color.primary-pressed |
+|                 | Label, Icon | Color     | $semantic.color.on-primary      |
+
+## 디자인 결정 (Typography)
+
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label2-bold |
+
+## 디자인 결정 (Shadow)
+
+| Part | Attribute            | Value   |
+| ---- | -------------------- | ------- |
+| Root | Shadow Offset X      | 0pt     |
+|      | Shadow Offset Y      | 2pt     |
+|      | Shadow Blur Radius   | 6pt     |
+|      | Shadow Spread Radius | 0pt     |
+|      | Shadow Color         | #000000 |
+|      | Shadow Opacity       | 0.10    |
+
+## 디자인 결정 (Layout)
+
+### isExtended=false
+
+| State  | Part | Attribute     | Value |
+| ------ | ---- | ------------- | ----- |
+| Closed | Root | Size          | 56pt  |
+|        |      | Corner Radius | Full  |
+|        | Icon | Size          | 24pt  |
+
+### isExtended=true
+
+| Part         | Attribute          | Value |
+| ------------ | ------------------ | ----- |
+| Root         | Size               | 48pt  |
+|              | Corner Radius      | Full  |
+|              | Horizontal Padding | 18pt  |
+| Icon         | Size               | 16pt  |
+| Icon / Label | Spacing            | 4pt   |

@@ -1,0 +1,35 @@
+{
+  "name": "Floating Action Button",
+  "description": "",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/button/primitive-meta.json",
+  "group": "Button",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "in-progress",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}
