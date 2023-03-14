@@ -1,0 +1,35 @@
+{
+  "name": "Help Bubble",
+  "description": "특정 요소를 가리키며 간결하고 상황에 맞는 정보를 제공하는 컴포넌트입니다.",
+  "thumbnail": "./thumbnail.png",
+  "primitive": "../../primitive/popover/primitive-meta.json",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "todo",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "in-progress",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}
