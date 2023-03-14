@@ -186,3 +186,27 @@ slug: /component/box-toggle-button/style
 | ------- | ---- | ------------- | --------------------- |
 | Focused | Root | Outline Color | $scale.color.blue-600 |
 |         |      | Outline Width | 2pt                   |
+
+## 디자인 결정 (Motion)
+
+| State       | Part | Property  | Attribute       | Value                                  |
+| ----------- | ---- | --------- | --------------- | -------------------------------------- |
+| Pressed In  | Root | transform | Duration        | 100ms                                  |
+|             |      |           | Timing Function | $scale.timing-function.standard-easing |
+| Pressed Out | Root | transform | Duration        | 100ms                                  |
+|             |      |           | Timing Function | $scale.timing-function.standard-easing |
+| Toggle      | Root | color     | Duration        | 50ms                                   |
+|             |      |           | Timing Function | $scale.timing-function.standard-easing |
+|             |      |           | Delay           | 50ms                                   |
+
+### State=Pressed In
+
+| Part | Attribute | From     | To          |
+| ---- | --------- | -------- | ----------- |
+| Root | transform | scale(1) | scale(0.95) |
+
+### State=Pressed Out
+
+| Part | Attribute | From        | To       |
+| ---- | --------- | ----------- | -------- |
+| Root | transform | scale(0.95) | scale(1) |
