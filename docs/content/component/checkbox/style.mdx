@@ -66,19 +66,19 @@ slug: /component/checkbox/style
 
 ## 디자인 결정 (Typography)
 
-#### Size=Large
+### Size=Large
 
 | Part  | Attribute  | Value                       |
 | ----- | ---------- | --------------------------- |
 | Label | Typography | $semantic.typography.label2 |
 
-#### Size=Medium
+### Size=Medium
 
 | Part  | Attribute  | Value                       |
 | ----- | ---------- | --------------------------- |
 | Label | Typography | $semantic.typography.label3 |
 
-#### Size=Small
+### Size=Small
 
 | Part  | Attribute  | Value                         |
 | ----- | ---------- | ----------------------------- |
@@ -86,7 +86,7 @@ slug: /component/checkbox/style
 
 ## 디자인 결정 (Layout)
 
-#### Size=Large
+### Size=Large
 
 | Part           | Attribute  | Value |
 | -------------- | ---------- | ----- |
@@ -97,7 +97,7 @@ slug: /component/checkbox/style
 | Icon           | Size       | 10px  |
 | Control / Icon | Padding    | 12px  |
 
-#### Size=Medium
+### Size=Medium
 
 | Part           | Attribute  | Value |
 | -------------- | ---------- | ----- |
@@ -108,7 +108,7 @@ slug: /component/checkbox/style
 | Icon           | Size       | 9px   |
 | Control / Icon | Padding    | 10px  |
 
-#### Size=Small
+### Size=Small
 
 | Part           | Attribute  | Value |
 | -------------- | ---------- | ----- |
@@ -119,10 +119,30 @@ slug: /component/checkbox/style
 | Icon           | Size       | 8px   |
 | Control / Icon | Padding    | 8px   |
 
+## 디자인 결정 (Motion)
+
+| State      | Part    | Property          | Attribute       | Value                                  |
+| ---------- | ------- | ----------------- | --------------- | -------------------------------------- |
+| Selected   | Icon    | stroke dashoffset | Duration        | 100ms                                  |
+|            |         |                   | Timing Function | $scale.timing-function.standard-easing |
+| Selected   | Control | background color  | Duration        | 50ms                                   |
+|            |         |                   | Timing Function | $scale.timing-function.standard-easing |
+|            |         |                   | Delay           | 20ms                                   |
+| Unselected | Icon    | opacity           | Duration        | 50ms                                   |
+|            |         |                   | Timing Function | $scale.timing-function.standard-easing |
+
+### State=Unselected
+
+| Part | Attribute | From | To  |
+| ---- | --------- | ---- | --- |
+| Icon | opacity   | 1    | 0   |
+
 ## Overflow
 
 <FullCard>
-  <FullCardImageCell>![checkbox-style-overflow](./checkbox-style-overflow.png)</FullCardImageCell>
+  <FullCardImageCell>
+    ![checkbox-style-overflow](./checkbox-style-overflow.png)
+  </FullCardImageCell>
   <FullCardDescription>
     label이 2줄을 초과할 경우 텍스트 시작점을 기준으로 위와 같이 개행처리됩니다
   </FullCardDescription>
