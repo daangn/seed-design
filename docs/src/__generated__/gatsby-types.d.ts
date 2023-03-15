@@ -1761,6 +1761,7 @@ type Query_allSitePluginArgs = {
 
 
 type Query_componentMetaJsonArgs = {
+  alias: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   description: InputMaybe<StringQueryOperatorInput>;
   group: InputMaybe<StringQueryOperatorInput>;
@@ -2790,6 +2791,7 @@ type WebPOptions = {
 };
 
 type componentMetaJson = Node & {
+  readonly alias: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
   readonly group: Maybe<Scalars['String']>;
@@ -2848,6 +2850,7 @@ type componentMetaJsonEdge = {
 };
 
 type componentMetaJsonFieldSelector = {
+  readonly alias: InputMaybe<FieldSelectorEnum>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
   readonly group: InputMaybe<FieldSelectorEnum>;
@@ -2861,6 +2864,7 @@ type componentMetaJsonFieldSelector = {
 };
 
 type componentMetaJsonFilterInput = {
+  readonly alias: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly group: InputMaybe<StringQueryOperatorInput>;
@@ -3119,6 +3123,7 @@ type componentMetaJsonPlatformSortInput = {
 };
 
 type componentMetaJsonSortInput = {
+  readonly alias: InputMaybe<SortOrderEnum>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;
   readonly group: InputMaybe<SortOrderEnum>;
@@ -3318,7 +3323,7 @@ type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-p
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly allPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
+type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly alias: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly allPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
 
 
 }
