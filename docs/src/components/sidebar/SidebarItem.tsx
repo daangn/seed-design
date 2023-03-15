@@ -9,7 +9,8 @@ interface SidebarItemProps {
    * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
    */
   title: "component" | "primitive" | "foundation" | "overview";
-  itemName: string;
+  name: string;
+  alias?: string;
   currentPath: string;
   status?: Status;
   hasDeps?: boolean;
@@ -17,18 +18,19 @@ interface SidebarItemProps {
 
 const SidebarItem = ({
   currentPath,
-  itemName,
+  name,
   title,
+  alias,
   status,
   to,
   hasDeps,
   onClick,
   onMouseEnter,
 }: GatsbyLinkProps<{}> & SidebarItemProps) => {
-  const pathComponentName = currentPath.split("/")[2];
-  const docsComponentName = itemName.replaceAll(" ", "-").toLowerCase();
-  const active =
-    pathComponentName === docsComponentName && currentPath.includes(title);
+  const currentPathName = currentPath.split("/")[2];
+  const currentname = name.replaceAll(" ", "-").toLowerCase();
+  const active = currentPathName === currentname && currentPath.includes(title);
+  const displayName = alias || name;
 
   return (
     <Link
@@ -44,7 +46,7 @@ const SidebarItem = ({
           hasDeps,
         })}
       >
-        <span>{itemName}</span>
+        <span>{displayName}</span>
       </li>
     </Link>
   );

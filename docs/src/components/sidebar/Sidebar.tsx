@@ -18,6 +18,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         nodes {
           name
           group
+          alias
           platform {
             docs {
               overview {
@@ -72,7 +73,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarItem
         currentPath={currentPath}
         to="/overview/progress-board"
-        itemName="Progress Board"
+        name="Progress Board"
         title="overview"
         onClick={closeSidebar}
       />
@@ -82,14 +83,14 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarItem
         currentPath={currentPath}
         to="/foundation/color"
-        itemName="Color"
+        name="Color"
         title="foundation"
         onClick={closeSidebar}
       />
       <SidebarItem
         currentPath={currentPath}
         to="/foundation/typography"
-        itemName="Typography"
+        name="Typography"
         title="foundation"
         onClick={closeSidebar}
       />
@@ -108,7 +109,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       key={`${item?.name}-todo`}
                       currentPath={currentPath}
                       to={item?.name!}
-                      itemName={item?.name!}
+                      name={item?.name!}
                       title="component"
                       onClick={closeSidebar}
                       status={item?.platform?.docs?.overview?.status!}
@@ -117,16 +118,16 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                   );
                 }
 
-                const name = item?.name;
-                const path =
-                  item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
-                    ?.slug;
                 return (
                   <SidebarItem
-                    key={`${name}-done-or-wip`}
+                    key={`${item?.name}-done-or-wip`}
                     currentPath={currentPath}
-                    to={path!}
-                    itemName={name!}
+                    to={
+                      item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
+                        ?.slug!
+                    }
+                    alias={item?.alias!}
+                    name={item?.name!}
                     title="component"
                     onClick={closeSidebar}
                     status={item?.platform?.docs?.overview?.status! as Status}
@@ -147,7 +148,8 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
               groupItems[0]?.platform?.docs?.overview?.mdx?.childMdx
                 ?.frontmatter?.slug!
             }
-            itemName={groupItems[0]?.name!}
+            name={groupItems[0]?.name!}
+            alias={groupItems[0]?.alias!}
             title="component"
             onClick={closeSidebar}
             status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
@@ -157,21 +159,16 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
       <SidebarTitleWithLink title="primitive" onClick={closeSidebar} />
 
-      {primitiveData!.map((node) => {
-        const name = node.name!;
-        const slug = node?.primitive?.childMdx?.frontmatter?.slug;
-
-        return (
-          <SidebarItem
-            key={`${name!}-primitive-done-or-in-progress`}
-            currentPath={currentPath}
-            to={slug!}
-            itemName={name!}
-            title="primitive"
-            onClick={closeSidebar}
-          />
-        );
-      })}
+      {primitiveData!.map((node) => (
+        <SidebarItem
+          key={`${node.name!}-primitive-done-or-in-progress`}
+          currentPath={currentPath}
+          to={node?.primitive?.childMdx?.frontmatter?.slug!}
+          name={node.name!}
+          title="primitive"
+          onClick={closeSidebar}
+        />
+      ))}
     </div>
   );
 };
