@@ -32,9 +32,11 @@ export const title = style([t.documentHeading1]);
 
 export const subTitle = style([t.documentHeading2]);
 
-export const caption = style([
-  t.documentCaption1,
+const caption = style([t.documentCaption1]);
+export const captionWithMargin = style([
+  caption,
   {
-    paddingBottom: "70px",
+    marginBottom: "70px",
   },
 ]);
+export const captionNoMargin = style([caption]);

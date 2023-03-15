@@ -96,7 +96,9 @@ const ComponentProgressBoardPage = ({
   return (
     <article className={progressStyle.content}>
       <h1 className={progressStyle.title}>컴포넌트 현황판</h1>
-      <p className={progressStyle.caption}>전체 컴포넌트의 현황을 파악합니다</p>
+      <p className={progressStyle.captionWithMargin}>
+        전체 컴포넌트의 현황을 파악합니다
+      </p>
 
       <Table>
         <TableHead>
@@ -159,7 +161,7 @@ const ComponentProgressBoardPage = ({
       </Table>
 
       <h2 className={progressStyle.subTitle}>커버리지</h2>
-      <p className={progressStyle.caption}>
+      <p className={progressStyle.captionNoMargin}>
         선언된 컴포넌트의 구현 커버리지를 퍼센테이지로 나타냅니다
       </p>
 
@@ -187,7 +189,7 @@ const ComponentProgressBoardPage = ({
       </Table>
 
       <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
-      <p className={progressStyle.caption}>OKR 달성률을 계산합니다</p>
+      <p className={progressStyle.captionNoMargin}>OKR 달성률을 계산합니다</p>
 
       <Table>
         <TableHead>
