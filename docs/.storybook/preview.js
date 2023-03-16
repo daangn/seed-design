@@ -1,5 +1,6 @@
 import "./global.css";
 import "@seed-design/stylesheet/global.css";
+import "../src/styles/global.css";
 
 export const parameters = {
   actions: {

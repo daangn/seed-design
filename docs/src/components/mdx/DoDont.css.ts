@@ -61,6 +61,7 @@ const titleText = style([
   classNames.$semantic.typography.title2Bold,
   {
     fontSize: "20px",
+    margin: "10px 0px",
   },
 ]);
 export const doTitleText = style([
