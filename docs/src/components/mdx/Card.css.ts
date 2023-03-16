@@ -12,7 +12,7 @@ export const fullCard = style([
     marginTop: "20px",
     borderRadius: "8px",
     backgroundColor: vars.$semantic.color.onPrimary,
-    border: `1px solid ${vars.$scale.color.gray100}`,
+    border: `1px solid ${vars.$scale.color.gray300}`,
     overflow: "hidden",
   },
 ]);
