@@ -1,6 +1,6 @@
 {
   "name": "Snackbar",
-  "description": "범위 내 값을 조정할 수 있는 요소입니다.",
+  "description": "사용자의 특정 액션에 대한 피드백을 제공합니다.",
   "thumbnail": "./thumbnail.png",
   "primitive": "../../primitive/snackbar/primitive-meta.json",
   "platform": {
