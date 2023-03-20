@@ -8,7 +8,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotBoxButton",
-      "path": "seedcatalog:components/box-button"
+      "path": "seedcatalog://components/box-button"
     },
     "android": {
       "status": "todo",

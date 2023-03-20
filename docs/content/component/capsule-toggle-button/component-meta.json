@@ -8,7 +8,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotCapsuleToggleButton",
-      "path": "seedcatalog:components/capsule-toggle-button"
+      "path": "seedcatalog://components/capsule-toggle-button"
     },
     "android": {
       "status": "todo",

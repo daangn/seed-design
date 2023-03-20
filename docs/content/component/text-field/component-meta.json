@@ -8,7 +8,7 @@
     "ios": {
       "status": "done",
       "alias": "",
-      "path": "seedcatalog:components/text-field"
+      "path": "seedcatalog://components/text-field"
     },
     "android": {
       "status": "todo",

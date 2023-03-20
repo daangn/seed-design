@@ -6,7 +6,7 @@
     "ios": {
       "status": "done",
       "alias": "",
-      "path": "seedcatalog:components/switch"
+      "path": "seedcatalog://components/switch"
     },
     "android": {
       "status": "todo",

@@ -7,7 +7,7 @@
     "ios": {
       "status": "done",
       "alias": "KarrotCheckbox",
-      "path": "seedcatalog:components/checkbox"
+      "path": "seedcatalog://components/checkbox"
     },
     "android": {
       "status": "todo",
