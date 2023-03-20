@@ -7,7 +7,7 @@
   "group": "Button",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "in-progress",
       "alias": "",
       "path": ""
     },
