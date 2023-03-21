@@ -1,0 +1,68 @@
+---
+slug: /component/dismissable-callout/style
+---
+
+## Anatomy
+
+1. Root
+2. Icon
+3. Title
+4. Description
+5. Action Indicator
+
+## Visual Options
+
+| Property    | Value                         |
+| ----------- | ----------------------------- |
+| variant     | normal, info, warning, danger |
+| title       | text                          |
+| description | text                          |
+| icon        | Icon                          |
+
+## 디자인 결정 (Color)
+
+### variant=normal
+
+| Part                                       | Attribute | Value                 |
+| ------------------------------------------ | --------- | --------------------- |
+| Root                                       | Color     | $scale.color.gray-100 |
+| Title, Description, Icon, Action Indicator | Color     | $scale.color.gray-900 |
+
+### variant=info
+
+| Part                                       | Attribute | Value                       |
+| ------------------------------------------ | --------- | --------------------------- |
+| Root                                       | Color     | $scale.color.blue-alpha-100 |
+| Title, Description, Icon, Action Indicator | Color     | $scale.color.blue-950       |
+
+### variant=warning
+
+| Part                                       | Attribute | Value                         |
+| ------------------------------------------ | --------- | ----------------------------- |
+| Root                                       | Color     | $scale.color.yellow-alpha-100 |
+| Title, Description, Icon, Action Indicator | Color     | $scale.color.yellow-950       |
+
+### variant=danger
+
+| Part                                       | Attribute | Value                     |
+| ------------------------------------------ | --------- | ------------------------- |
+| Root                                       | Color     | $scale.color.red-alpha-50 |
+| Title, Description, Icon, Action Indicator | Color     | $scale.color.red-950      |
+
+## 디자인 결정 (Typography)
+
+| Part  | Attribute  | Value                                |
+| ----- | ---------- | ------------------------------------ |
+| Title | Typography | $semantic.typography.body-m2-bold    |
+| Label | Typography | $semantic.typography.body-m2-regular |
+
+## 디자인 결정 (Layout)
+
+| Part               | Attribute          | Value |
+| ------------------ | ------------------ | ----- |
+| Root               | Vertical Padding   | 16pt  |
+|                    | Horizontal Padding | 18pt  |
+|                    | Corner Radius      | 20pt  |
+| Icon               | Size               | 20pt  |
+| Icon / Description | Spacing            | 10pt  |
+| Action Indicator   | Size               | 18pt  |
