@@ -1,0 +1,40 @@
+{
+  "name": "Dismissable Callout",
+  "description": "사용자의 주목을 끌어 중요한 정보를 강조하는 요소입니다. 사용자가 닫을 수 있습니다.",
+  "thumbnail": "./thumbnail.png",
+  "group": "Callout",
+  "primitive": "../../primitive/callout/primitive-meta.json",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "todo",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "figma": {
+      "status": "done",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "in-progress",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}
