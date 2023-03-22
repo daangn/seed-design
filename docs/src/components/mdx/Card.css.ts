@@ -26,6 +26,8 @@ export const fullCardImageCell = style({
 export const fullCardDescription = style({
   padding: "20px",
   paddingBottom: "40px",
+  textAlign: "center",
+  whiteSpace: "break-spaces",
   color: vars.$static.color.staticBlack,
 });
 
