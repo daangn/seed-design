@@ -7,9 +7,9 @@
   "group": "Button",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/floating-action-button"
     },
     "android": {
       "status": "todo",
