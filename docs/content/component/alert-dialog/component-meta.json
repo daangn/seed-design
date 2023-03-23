@@ -13,8 +13,8 @@
       "path": ""
     },
     "react": {
-      "status": "in-progress",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-alertdialog--docs"
     },
     "figma": {
       "status": "todo",
