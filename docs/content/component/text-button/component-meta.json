@@ -16,7 +16,7 @@
     },
     "react": {
       "status": "done",
-      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-textbutton--docs"
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-button-textbutton--docs"
     },
     "figma": {
       "status": "done",
