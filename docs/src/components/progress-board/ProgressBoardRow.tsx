@@ -16,8 +16,8 @@ const ProgressBoardRow = ({
   ios,
   figma,
   react,
-  usage,
   overview,
+  usage,
   style,
 }: ProgressBoardRowInterface) => {
   return (
@@ -29,39 +29,15 @@ const ProgressBoardRow = ({
       )}
 
       <td className={rowStyle.td}>
-        <Link
-          aria-disabled={style?.status === "todo"}
+        <a
+          aria-disabled={figma?.status === "todo"}
           className={rowStyle.linkText({
-            status: style?.status,
+            status: figma?.status,
           })}
-          to={style?.slug!}
+          href={figma?.path!}
         >
-          {StatusText[style?.status!]}
-        </Link>
-      </td>
-
-      <td className={rowStyle.td}>
-        <Link
-          aria-disabled={overview?.status === "todo"}
-          className={rowStyle.linkText({
-            status: overview?.status,
-          })}
-          to={overview?.slug!}
-        >
-          {StatusText[overview?.status!]}
-        </Link>
-      </td>
-
-      <td className={rowStyle.td}>
-        <Link
-          aria-disabled={usage?.status === "todo"}
-          className={rowStyle.linkText({
-            status: usage?.status,
-          })}
-          to={usage?.slug!}
-        >
-          {StatusText[usage?.status!]}
-        </Link>
+          {StatusText[figma?.status!]}
+        </a>
       </td>
 
       <td className={rowStyle.td}>
@@ -90,18 +66,6 @@ const ProgressBoardRow = ({
 
       <td className={rowStyle.td}>
         <a
-          aria-disabled={figma?.status === "todo"}
-          className={rowStyle.linkText({
-            status: figma?.status,
-          })}
-          href={figma?.path!}
-        >
-          {StatusText[figma?.status!]}
-        </a>
-      </td>
-
-      <td className={rowStyle.td}>
-        <a
           aria-disabled={android?.status === "todo"}
           className={rowStyle.linkText({
             status: android?.status,
@@ -110,6 +74,42 @@ const ProgressBoardRow = ({
         >
           {StatusText[android?.status!]}
         </a>
+      </td>
+
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={overview?.status === "todo"}
+          className={rowStyle.linkText({
+            status: overview?.status,
+          })}
+          to={overview?.slug!}
+        >
+          {StatusText[overview?.status!]}
+        </Link>
+      </td>
+
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={usage?.status === "todo"}
+          className={rowStyle.linkText({
+            status: usage?.status,
+          })}
+          to={usage?.slug!}
+        >
+          {StatusText[usage?.status!]}
+        </Link>
+      </td>
+
+      <td className={rowStyle.td}>
+        <Link
+          aria-disabled={style?.status === "todo"}
+          className={rowStyle.linkText({
+            status: style?.status,
+          })}
+          to={style?.slug!}
+        >
+          {StatusText[style?.status!]}
+        </Link>
       </td>
     </TableRow>
   );

@@ -82,14 +82,18 @@ const ComponentProgressBoardPage = ({
 }) => {
   const componentNodes = data.allComponentMetaJson.nodes;
 
-  const specCount = componentNodes.length;
-  const webCount = componentNodes.filter((node) => {
+  const totalSpecCount = componentNodes.length;
+
+  const figmaComponentCount = componentNodes.filter((node) => {
+    return node?.platform?.figma?.status === "done";
+  }).length;
+  const reactComponentCount = componentNodes.filter((node) => {
     return node?.platform?.react?.status === "done";
   }).length;
-  const iosCount = componentNodes.filter((node) => {
+  const iosComponentCount = componentNodes.filter((node) => {
     return node?.platform?.ios?.status === "done";
   }).length;
-  const androidCount = componentNodes.filter((node) => {
+  const androidComponentCount = componentNodes.filter((node) => {
     return node?.platform?.android?.status === "done";
   }).length;
 
@@ -104,13 +108,13 @@ const ComponentProgressBoardPage = ({
         <TableHead>
           <TableRow>
             <TableData>컴포넌트</TableData>
-            <TableData>Spec</TableData>
-            <TableData>Overview</TableData>
-            <TableData>Usage</TableData>
+            <TableData>Figma v2</TableData>
             <TableData>React</TableData>
             <TableData>iOS</TableData>
-            <TableData>Figma</TableData>
             <TableData>Android</TableData>
+            <TableData>Overview</TableData>
+            <TableData>Usage</TableData>
+            <TableData>Style</TableData>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -119,6 +123,23 @@ const ComponentProgressBoardPage = ({
               <ProgressBoardRow
                 key={node?.name}
                 title={node?.name!}
+                figma={{
+                  status: node?.platform?.figma?.status! as ProgressStatus,
+                  path: node?.platform?.figma?.path!,
+                }}
+                react={{
+                  status: node?.platform?.react?.status! as ProgressStatus,
+                  path: node?.platform?.react?.path!,
+                }}
+                ios={{
+                  status: node?.platform?.ios?.status! as ProgressStatus,
+                  alias: node?.platform?.ios?.alias!,
+                  path: node?.platform?.ios?.path!,
+                }}
+                android={{
+                  status: node?.platform?.android?.status! as ProgressStatus,
+                  path: node?.platform?.android?.path!,
+                }}
                 overview={{
                   status: node?.platform?.docs?.overview
                     ?.status! as ProgressStatus,
@@ -137,23 +158,6 @@ const ComponentProgressBoardPage = ({
                   slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
                     ?.slug!,
                 }}
-                react={{
-                  status: node?.platform?.react?.status! as ProgressStatus,
-                  path: node?.platform?.react?.path!,
-                }}
-                ios={{
-                  status: node?.platform?.ios?.status! as ProgressStatus,
-                  alias: node?.platform?.ios?.alias!,
-                  path: node?.platform?.ios?.path!,
-                }}
-                figma={{
-                  status: node?.platform?.figma?.status! as ProgressStatus,
-                  path: node?.platform?.figma?.path!,
-                }}
-                android={{
-                  status: node?.platform?.android?.status! as ProgressStatus,
-                  path: node?.platform?.android?.path!,
-                }}
               />
             );
           })}
@@ -168,7 +172,8 @@ const ComponentProgressBoardPage = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableData>Web (React)</TableData>
+            <TableData>Figma v2</TableData>
+            <TableData>React</TableData>
             <TableData>iOS</TableData>
             <TableData>Android</TableData>
           </TableRow>
@@ -176,13 +181,17 @@ const ComponentProgressBoardPage = ({
         <TableBody>
           <TableRow>
             <TableData>
-              {Math.floor((webCount / specCount) * 1000) / 10}%
+              {Math.floor((figmaComponentCount / totalSpecCount) * 1000) / 10}%
             </TableData>
             <TableData>
-              {Math.floor((iosCount / specCount) * 1000) / 10}%
+              {Math.floor((reactComponentCount / totalSpecCount) * 1000) / 10}%
             </TableData>
             <TableData>
-              {Math.floor((androidCount / specCount) * 1000) / 10}%
+              {Math.floor((iosComponentCount / totalSpecCount) * 1000) / 10}%
+            </TableData>
+            <TableData>
+              {Math.floor((androidComponentCount / totalSpecCount) * 1000) / 10}
+              %
             </TableData>
           </TableRow>
         </TableBody>
@@ -202,19 +211,21 @@ const ComponentProgressBoardPage = ({
           <TableRow>
             <TableData>
               {okr({
-                webComponentCount: webCount,
-                iosComponentCount: iosCount,
-                androidComponentCount: androidCount,
-                totalSpecCount: specCount,
+                figmaComponentCount,
+                reactComponentCount,
+                iosComponentCount,
+                androidComponentCount,
+                totalSpecCount,
               }) * 2}
               %
             </TableData>
             <TableData>
               {okr({
-                webComponentCount: webCount,
-                iosComponentCount: iosCount,
-                androidComponentCount: androidCount,
-                totalSpecCount: specCount,
+                figmaComponentCount,
+                reactComponentCount,
+                iosComponentCount,
+                androidComponentCount,
+                totalSpecCount,
               })}
               %
             </TableData>
@@ -226,19 +237,24 @@ const ComponentProgressBoardPage = ({
 };
 
 const okr = ({
-  webComponentCount,
+  figmaComponentCount,
+  reactComponentCount,
   iosComponentCount,
   totalSpecCount,
 }: {
-  webComponentCount: number;
+  figmaComponentCount: number;
+  reactComponentCount: number;
   iosComponentCount: number;
   androidComponentCount: number;
   totalSpecCount: number;
 }) => {
-  const webCoverage = Math.max(webComponentCount / totalSpecCount);
+  const reactCoverage = Math.max(reactComponentCount / totalSpecCount);
   const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
+  const figmaCoverage = Math.max(figmaComponentCount / totalSpecCount);
 
-  return Math.floor(((webCoverage + iosCoverage) / 2) * 1000) / 10;
+  return (
+    Math.floor(((reactCoverage + iosCoverage + figmaCoverage) / 3) * 1000) / 10
+  );
 };
 
 export const Head: HeadFC = () => {
