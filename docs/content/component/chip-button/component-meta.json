@@ -14,8 +14,8 @@
       "path": ""
     },
     "react": {
-      "status": "todo",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-chip-chipbutton--docs"
     },
     "figma": {
       "status": "todo",

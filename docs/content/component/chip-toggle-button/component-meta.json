@@ -1,5 +1,5 @@
 {
-  "name": "Chip Checkbox",
+  "name": "Chip Toggle Button",
   "description": "",
   "thumbnail": "../../comingSoon.png",
   "group": "Chip",
@@ -14,8 +14,8 @@
       "path": ""
     },
     "react": {
-      "status": "todo",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-chip-chiptogglebutton--docs"
     },
     "figma": {
       "status": "todo",

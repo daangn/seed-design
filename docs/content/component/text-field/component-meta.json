@@ -15,8 +15,8 @@
       "path": ""
     },
     "react": {
-      "status": "in-progress",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-textfield-textfield--docs"
     },
     "figma": {
       "status": "todo",
