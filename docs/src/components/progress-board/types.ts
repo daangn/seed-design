@@ -13,7 +13,7 @@ export interface ProgressBoardRowInterface {
   android?: PlatformNativeData;
   react?: PlatformNativeData;
   figma?: PlatformNativeData;
+  overview?: PlatformDocsItem;
   usage?: PlatformDocsItem;
   style?: PlatformDocsItem;
-  overview?: PlatformDocsItem;
 }
