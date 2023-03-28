@@ -1,7 +1,7 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
-import EditLink from "../components/EditLink";
+// import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./PrimitiveCommon.css";
@@ -25,7 +25,7 @@ export const query = graphql`
 
 const DocsTemplate: React.FC<
   PageProps<GatsbyTypes.PrimitiveDocTemplateQuery>
-> = ({ data, children, path }) => {
+> = ({ data, children }) => {
   const { name, description } = data.primitiveMetaJson!;
   const tableOfContents =
     data.primitiveMetaJson?.primitive?.childMdx?.tableOfContents;
@@ -35,7 +35,7 @@ const DocsTemplate: React.FC<
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
         <div>{children}</div>
-        <EditLink slug={path} />
+        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

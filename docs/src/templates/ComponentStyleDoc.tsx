@@ -2,7 +2,7 @@ import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
-import EditLink from "../components/EditLink";
+// import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./ComponentCommon.css";
@@ -44,7 +44,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
         <ComponentDocumentCategoryNav currentPath={path} />
 
         <div>{children}</div>
-        <EditLink slug={path} />
+        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

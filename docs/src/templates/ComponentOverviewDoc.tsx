@@ -2,7 +2,7 @@ import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
-import EditLink from "../components/EditLink";
+// import EditLink from "../components/EditLink";
 import type { ProgressStatus } from "../components/progress-board/types";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
@@ -80,7 +80,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
         </div>
 
         <div>{children}</div>
-        <EditLink slug={path} />
+        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>
