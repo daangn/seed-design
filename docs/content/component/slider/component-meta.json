@@ -13,8 +13,8 @@
       "path": ""
     },
     "react": {
-      "status": "in-progress",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-slider-slider--docs"
     },
     "figma": {
       "status": "todo",
@@ -22,7 +22,7 @@
     },
     "docs": {
       "overview": {
-        "status": "todo",
+        "status": "in-progress",
         "mdx": "./overview.mdx"
       },
       "usage": {
