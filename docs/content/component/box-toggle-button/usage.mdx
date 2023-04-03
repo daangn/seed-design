@@ -68,8 +68,118 @@ slug: /component/box-toggle-button/usage
 
 ## 상호작용
 
-Working In Progress
+### 터치 / 마우스 상호작용
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton
+    touch/mousecontrol](./boxtogglebutton-click-touch-control.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    터치 혹은 마우스 클릭으로 Box Toggle Button과 상호작용할 수 있는 영역입니다.
+  </FullCardDescription>
+</FullCard>
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton touch/mouse
+    control](./boxtogglebutton-touch-mouse-control-1.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    PC 환경에서 버튼에 Hover시 커서가 포인터 모양으로 변경됩니다.
+  </FullCardDescription>
+</FullCard>
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton touch/mouse
+    control](./boxtogglebutton-touch-mouse-control-2.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Loading / Disabled 상태인 경우 상호작용이 불가능합니다.
+  </FullCardDescription>
+</FullCard>
+
+### 키보드 상호작용
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton keyboard
+    control](./boxtogglebutton-keyboard-control-1.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    <Keyboard>space</Keyboard> 또는 <Keyboard>enter</Keyboard> 키를 통해
+    selected 상태를 전환할 수 있습니다.
+  </FullCardDescription>
+</FullCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![boxtogglebutton keyboard
+    control](./boxtogglebutton-keyboard-control-2.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Loading</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Loading 상태인 경우 Focus는 가능하지만 상호작용할 수 없습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![boxtogglebutton keyboard
+    control](./boxtogglebutton-keyboard-control-3.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Disabled 상태인 경우 상호작용할 수 없습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+### 응답없음
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton response](./boxtogglebutton-response-control.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Loading 상태로 전환되어 있는 경우, duration은 최대 2초를 초과하지 않아야
+    합니다 로딩 상태가 길어져 응답없음 상태에 진입하는 경우 Toggled -
+    False상태로 되돌아갑니다.
+  </FullCardDescription>
+</FullCard>
 
 ## 가이드라인
 
-Working In Progress
+### Max Width
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton max-width](./boxtogglebutton-max-width-1.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    모바일 해상도에서 좌우 Margin 16px씩을 유지한 width까지만 확장될 수
+    있습니다.
+  </FullCardDescription>
+  <FullCardImageCell>
+    ![boxtogglebutton max-width](./boxtogglebutton-max-width-2.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Label은 1줄을 초과할 수 없으며 좌우 Padding은 각 20px을 유지한 범위내에서만
+    텍스트가 노출될 수 있습니다.
+  </FullCardDescription>
+</FullCard>
+
+### Min Width
+
+<FullCard>
+  <FullCardImageCell>
+    ![boxtogglebutton min-width](./boxtogglebutton-min-width.png)
+  </FullCardImageCell>
+  <FullCardDescription>
+    Box Toggle Button은 최소 너비값을 가지며 사이즈별로 각 값은 상이합니다.
+  </FullCardDescription>
+</FullCard>
