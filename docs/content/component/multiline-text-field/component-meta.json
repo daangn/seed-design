@@ -6,9 +6,9 @@
   "group": "Text Field",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/multiline-text-field"
     },
     "android": {
       "status": "todo",
