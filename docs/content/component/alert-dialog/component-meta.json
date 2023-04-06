@@ -14,7 +14,7 @@
     },
     "react": {
       "status": "done",
-      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-alertdialog--docs"
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-dialog-alertdialog--docs"
     },
     "figma": {
       "status": "todo",
