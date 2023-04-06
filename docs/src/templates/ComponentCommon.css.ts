@@ -2,6 +2,7 @@ import { vars } from "@seed-design/design-token";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
+import * as m from "../styles/media.css";
 import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
 
@@ -27,7 +28,12 @@ export const progressContainer = style([
     width: "100%",
     gap: "16px",
     flexWrap: "wrap",
+    marginBottom: "20px",
   },
+
+  m.small({
+    marginBottom: "0px",
+  }),
 ]);
 
 export const progress = recipe({
@@ -36,13 +42,17 @@ export const progress = recipe({
     {
       flex: "1",
       justifyContent: "space-between",
+      whiteSpace: "nowrap",
 
       padding: "10px 22px",
-      marginBottom: "40px",
 
       borderRadius: "10px",
       border: `1px solid ${vars.$scale.color.gray100}`,
     },
+
+    m.small({
+      marginBottom: "40px",
+    }),
   ],
 
   variants: {
