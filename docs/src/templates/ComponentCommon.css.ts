@@ -28,8 +28,13 @@ export const progressContainer = style([
     width: "100%",
     gap: "16px",
     flexWrap: "wrap",
+    flexDirection: "column",
     marginBottom: "20px",
   },
+
+  m.xsmall({
+    flexDirection: "row",
+  }),
 
   m.small({
     marginBottom: "0px",
@@ -45,6 +50,7 @@ export const progress = recipe({
       whiteSpace: "nowrap",
 
       padding: "10px 22px",
+      width: "100%",
 
       borderRadius: "10px",
       border: `1px solid ${vars.$scale.color.gray100}`,
