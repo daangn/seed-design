@@ -24,6 +24,10 @@
     "docs": {
       "overview": {
         "status": "in-progress",
+        "storybook": {
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-chip-chipradiogroup--basic&viewMode=story",
+          "height": "80px"
+        },
         "mdx": "./overview.mdx"
       },
       "usage": {

@@ -49,7 +49,7 @@ function validateJsonInDir({ dir, validate, type }) {
                       console.error(validate.errors);
                       process.exit(1);
                     } else {
-                      console.log(`${type}/${fileName} is valid`);
+                      // console.log(`${type}/${fileName} is valid`);
                     }
                   },
                 );
@@ -67,6 +67,20 @@ const statusSchema = {
   pattern: "^(todo|in-progress|done)$",
 };
 
+const stringSchema = {
+  type: "string",
+};
+
+const storybookSchema = {
+  type: "object",
+  properties: {
+    path: stringSchema,
+    height: { type: ["string"] },
+  },
+  required: ["path"],
+  additionalProperties: false,
+};
+
 const mdxSchema = {
   type: "string",
   pattern: "^.*.mdx$",
@@ -80,10 +94,6 @@ const jsonSchema = {
 const pngSchema = {
   type: "string",
   pattern: "^.*.png$",
-};
-
-const stringSchema = {
-  type: "string",
 };
 
 const platformSchema = {
@@ -133,8 +143,10 @@ const platformSchema = {
           type: "object",
           properties: {
             status: statusSchema,
+            storybook: storybookSchema,
             mdx: mdxSchema,
           },
+          additionalProperties: false,
         },
         usage: {
           type: "object",
@@ -142,12 +154,14 @@ const platformSchema = {
             status: statusSchema,
             mdx: mdxSchema,
           },
+          additionalProperties: false,
         },
         style: {
           type: "object",
           properties: {
             status: statusSchema,
             mdx: mdxSchema,
+            additionalProperties: false,
           },
         },
       },
@@ -199,3 +213,5 @@ validateJsonInDir({
   validate: primitiveValidate,
   type: "primitive",
 });
+
+console.log("Finished validating meta.json files");
