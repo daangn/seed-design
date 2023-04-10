@@ -1,7 +1,6 @@
 import * as card from "./Card";
 import * as DoDont from "./DoDont";
 import * as heading from "./Heading";
-import Iframe from "./Iframe";
 import Keyboard from "./Keyboard";
 import * as list from "./List";
 import * as table from "./Table";
@@ -28,7 +27,6 @@ export default {
 
   /* MDX 전용 컴포넌트 */
   Keyboard,
-  Iframe,
 
   FullCard: card.FullCard,
   FullCardImageCell: card.FullCardImageCell,
