@@ -7,19 +7,20 @@ slug: /component/tabs/style
 1. Root - Primitive.Root
 2. Tab List - Primitive.TabList
 3. Tab - Primitive.Tab
-4. Tab Label
-5. Panel Group - Primitive.PanelGroup
-6. Panel - Primitive.Panel
-7. Indicator
-8. Indicator Track
+4. Tab Dot
+5. Tab Label
+6. Panel Group - Primitive.PanelGroup
+7. Panel - Primitive.Panel
+8. Indicator
+9. Indicator Track
 
 ## Root
 
 ### Visual Options
 
-| Property | Value                | Description |
-| -------- | -------------------- | ----------- |
-| layout   | fitted, left aligned |             |
+| Property | Value     | Description                 |
+| -------- | --------- | --------------------------- |
+| layout   | hug, fill | Tab의 각 너비를 결정합니다. |
 
 ## Tabs
 
@@ -38,12 +39,21 @@ slug: /component/tabs/style
 | unselected | isIndeterminate OFF, isSelected OFF |
 | selected   | isIndeterminate OFF, isSelected ON  |
 
+## Tab
+
+### Visual Options
+
+| Property | Value       | Description                         |
+| -------- | ----------- | ----------------------------------- |
+| dot      | true, false | Tab에 dot의 존재 여부를 결정합니다. |
+
 ## 디자인 결정 (Color)
 
-| Part            | Attribute | Value                 |
-| --------------- | --------- | --------------------- |
-| Indicator       | Color     | $scale.color.gray-900 |
-| Indicator Track | Color     | $scale.color.gray-300 |
+| Part            | Attribute | Value                   |
+| --------------- | --------- | ----------------------- |
+| Indicator       | Color     | $scale.color.gray-900   |
+| Indicator Track | Color     | $scale.color.gray-300   |
+| Tab Dot         | Color     | $scale.color.carrot-500 |
 
 | State    | Part                   | Attribute | Value                 |
 | -------- | ---------------------- | --------- | --------------------- |
@@ -59,9 +69,27 @@ slug: /component/tabs/style
 | --------- | ---------- | -------------------------------- |
 | Tab Label | Typography | $semantic.typography.label3-bold |
 
-### 디자인 결정 (Layout)
+## 디자인 결정 (Layout)
 
-| Part | Attribute        | Value |
-| ---- | ---------------- | ----- |
-| Tab  | Min Width        | 54pt  |
-|      | Vertical Padding | 9pt   |
+| Part      | Attribute          | Value |
+| --------- | ------------------ | ----- |
+| Tab       | Min Width          | 54pt  |
+|           | Vertical Padding   | 10pt  |
+|           | Horizontal Padding | 12pt  |
+| Tab Dot   | Width              | 4pt   |
+|           | Height             | 4pt   |
+|           | Border Radius      | 100%  |
+|           | Spacing            | 2pt   |
+| Indicator | Border Bottom      | 2pt   |
+
+### layout=hug
+
+| Part     | Attribute    | Value |
+| -------- | ------------ | ----- |
+| Tab List | Left Padding | 16pt  |
+
+### layout=fill
+
+| Part | Attribute | Value |
+| ---- | --------- | ----- |
+| Tab  | flex      | 1     |
