@@ -20,10 +20,10 @@ slug: /primitive/tabs
 
 ### Contexts
 
-| Context     | Values               | Default Value | Description                                        |
-| ----------- | -------------------- | ------------- | -------------------------------------------------- |
-| isDisabled  | true, false          | false         | True일 경우, Tabs 전체가 유저와 상호작용 하지 않음 |
-| orientation | horizontal, vertical | horizontal    |                                                    |
+| Context     | Values      | Default Value | Description                                                 |
+| ----------- | ----------- | ------------- | ----------------------------------------------------------- |
+| isDisabled  | true, false | false         | True일 경우, Tabs 전체가 유저와 상호작용 하지 않음          |
+| isSwipeable | true, false | true          | True일 경우, 모바일에서 Panel Group이 스왑 기능이 활성화 됨 |
 
 ## Tab
 
@@ -51,15 +51,26 @@ slug: /primitive/tabs
 
 ## Actions
 
-| Action         | From | Condition                          | To                            |
-| -------------- | ---- | ---------------------------------- | ----------------------------- |
-| SELECT(tab)    | -    | !tab.isDisabled && !tab.isReadonly | root.selctedValue = tab.value |
-| FOCUS(tab)     | -    | !tab.isDisabled                    | root.focusedValue = tab.value |
-| BLUR(tab)      | -    |                                    | root.focusedValue = null      |
-| HOVER_IN(tab)  | -    | !tab.isDisabled                    | root.hoveredValue = tab.value |
-| HOVER_OUT(tab) | -    | !tab.isDisabled                    | root.hoveredValue = tab.value |
-| PRESS_IN(tab)  | -    | !tab.isDisabled                    | root.pressedValue = tab.value |
-| PRESS_OUT(tab) | -    | !tab.isDisabled                    | root.pressedValue = tab.value |
+| Action         | From | Condition                          | To                                                              |
+| -------------- | ---- | ---------------------------------- | --------------------------------------------------------------- |
+| SELECT(tab)    | -    | !tab.isDisabled && !tab.isReadonly | root.selctedValue = tab.value, root.currentTabIndex = tab.value |
+| FOCUS(tab)     | -    | !tab.isDisabled                    | root.focusedValue = tab.value                                   |
+| BLUR(tab)      | -    |                                    | root.focusedValue = null                                        |
+| HOVER_IN(tab)  | -    | !tab.isDisabled                    | root.hoveredValue = tab.value                                   |
+| HOVER_OUT(tab) | -    | !tab.isDisabled                    | root.hoveredValue = tab.value                                   |
+| PRESS_IN(tab)  | -    | !tab.isDisabled                    | root.pressedValue = tab.value                                   |
+| PRESS_OUT(tab) | -    | !tab.isDisabled                    | root.pressedValue = tab.value                                   |
+
+## Panel Group
+
+## Actions
+
+| Action                   | From | Condition                         | To                                                         |
+| ------------------------ | ---- | --------------------------------- | ---------------------------------------------------------- |
+| TOUCH_START(panel group) | -    | root.isSwipeable                  | root.isSwiping = true, root.touchStartX = event.x          |
+| TOUCH_MOVE(panel group)  | -    | root.isSwipeable                  | root.currentTabOffsetX = distance                          |
+| TOUCH_END(panel group)   | -    | root.isSwipeable && distance > 0  | root.isSwiping = false, root.selectedValue = tab.nextValue |
+|                          | -    | root.isSwipeable && distance =< 0 | root.isSwiping = false, root.selectedValue = tab.prevValue |
 
 ## Triggers
 
@@ -77,3 +88,11 @@ slug: /primitive/tabs
 | Tab  | KeyUp(Space)   | SELECT(tab)     |
 | Tab  | KeyDown(Space) | PRESS_IN(tab)   |
 | Tab  | KeyUp(Space)   | PRESS_OUT(tab)  |
+
+### Mobile
+
+| Part        | Event      | Action                   |
+| ----------- | ---------- | ------------------------ |
+| Panel Group | TouchStart | TOUCH_START(panel group) |
+| Panel Group | TouchMove  | TOUCH_MOVE(panel group)  |
+| Panel Group | TouchEnd   | TOUCH_END(panel group)   |
