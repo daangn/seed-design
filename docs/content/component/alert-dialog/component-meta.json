@@ -1,7 +1,7 @@
 {
   "name": "Alert Dialog",
   "description": "사용자에게 중요한 정보를 전달하고, 필요하면 응답을 요구하는 컴포넌트입니다.",
-  "thumbnail": "../../imageNotReady.png",
+  "thumbnail": "./thumbnail.png",
   "platform": {
     "ios": {
       "status": "todo",
