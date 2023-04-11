@@ -1,6 +1,6 @@
 {
   "name": "Number Field",
-  "description": "",
+  "description": "숫자를 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",
   "primitive": "./primitive.mdx"
 }
