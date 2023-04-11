@@ -1,6 +1,6 @@
 {
   "name": "Slider",
   "description": "",
-  "thumbnail": "../../comingSoon.png",
+  "thumbnail": "./thumbnail.png",
   "primitive": "./primitive.mdx"
 }

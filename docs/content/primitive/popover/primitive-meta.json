@@ -1,6 +1,6 @@
 {
   "name": "Popover",
   "description": "",
-  "thumbnail": "../../comingSoon.png",
+  "thumbnail": "./thumbnail.png",
   "primitive": "./primitive.mdx"
 }
