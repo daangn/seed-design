@@ -2,6 +2,7 @@ import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
 import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
+import Iframe from "../components/Iframe";
 // import EditLink from "../components/EditLink";
 import type { ProgressStatus } from "../components/progress-board/types";
 import SEO from "../components/SEO";
@@ -29,6 +30,10 @@ export const query = graphql`
         docs {
           overview {
             status
+            storybook {
+              path
+              height
+            }
             mdx {
               childMdx {
                 tableOfContents
@@ -52,6 +57,9 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
   const reactStatus = platform?.react?.status!;
   const iosStatus = platform?.ios?.status!;
   const androidStatus = platform?.android?.status!;
+
+  const storybookPath = platform?.docs?.overview?.storybook?.path!;
+  const storybookHeight = platform?.docs?.overview?.storybook?.height!;
 
   return (
     <>
@@ -78,6 +86,13 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
             href={platform?.android?.path!}
           />
         </div>
+
+        {storybookPath && (
+          <>
+            <h2 className={style.subTitle}>컴포넌트 미리보기</h2>
+            <Iframe src={storybookPath} height={storybookHeight} />
+          </>
+        )}
 
         <div>{children}</div>
         {/* <EditLink slug={path} /> */}

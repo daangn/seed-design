@@ -2971,21 +2971,45 @@ type componentMetaJsonPlatformDocsFilterInput = {
 type componentMetaJsonPlatformDocsOverview = {
   readonly mdx: Maybe<File>;
   readonly status: Maybe<Scalars['String']>;
+  readonly storybook: Maybe<componentMetaJsonPlatformDocsOverviewStorybook>;
 };
 
 type componentMetaJsonPlatformDocsOverviewFieldSelector = {
   readonly mdx: InputMaybe<FileFieldSelector>;
   readonly status: InputMaybe<FieldSelectorEnum>;
+  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookFieldSelector>;
 };
 
 type componentMetaJsonPlatformDocsOverviewFilterInput = {
   readonly mdx: InputMaybe<FileFilterInput>;
   readonly status: InputMaybe<StringQueryOperatorInput>;
+  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookFilterInput>;
 };
 
 type componentMetaJsonPlatformDocsOverviewSortInput = {
   readonly mdx: InputMaybe<FileSortInput>;
   readonly status: InputMaybe<SortOrderEnum>;
+  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookSortInput>;
+};
+
+type componentMetaJsonPlatformDocsOverviewStorybook = {
+  readonly height: Maybe<Scalars['String']>;
+  readonly path: Maybe<Scalars['String']>;
+};
+
+type componentMetaJsonPlatformDocsOverviewStorybookFieldSelector = {
+  readonly height: InputMaybe<FieldSelectorEnum>;
+  readonly path: InputMaybe<FieldSelectorEnum>;
+};
+
+type componentMetaJsonPlatformDocsOverviewStorybookFilterInput = {
+  readonly height: InputMaybe<StringQueryOperatorInput>;
+  readonly path: InputMaybe<StringQueryOperatorInput>;
+};
+
+type componentMetaJsonPlatformDocsOverviewStorybookSortInput = {
+  readonly height: InputMaybe<SortOrderEnum>;
+  readonly path: InputMaybe<SortOrderEnum>;
 };
 
 type componentMetaJsonPlatformDocsSortInput = {
@@ -3282,7 +3306,7 @@ type ComponentOverviewQueryVariables = Exact<{
 }>;
 
 
-type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
+type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly storybook: { readonly path: string | null, readonly height: string | null } | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 

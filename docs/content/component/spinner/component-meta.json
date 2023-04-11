@@ -23,6 +23,10 @@
     "docs": {
       "overview": {
         "status": "in-progress",
+        "storybook": {
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-spinner--basic&viewMode=story",
+          "height": "80px"
+        },
         "mdx": "./overview.mdx"
       },
       "usage": {
