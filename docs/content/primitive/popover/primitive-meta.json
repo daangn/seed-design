@@ -1,6 +1,6 @@
 {
   "name": "Popover",
-  "description": "",
+  "description": "트리거 주위에 떠 있는 비모달 대화상자입니다.",
   "thumbnail": "../../comingSoon.png",
   "primitive": "./primitive.mdx"
 }
