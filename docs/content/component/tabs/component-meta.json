@@ -15,7 +15,7 @@
     },
     "react": {
       "status": "done",
-      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-tabs--docs"
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-tabs-tabs--docs"
     },
     "figma": {
       "status": "todo",
@@ -25,7 +25,7 @@
       "overview": {
         "status": "in-progress",
         "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-tabs--basic&viewMode=story",
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-tabs-tabs--basic&viewMode=story",
           "height": "300px"
         },
         "mdx": "./overview.mdx"
