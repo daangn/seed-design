@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type { HeadFC } from "gatsby";
 import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
+import groupby from "lodash/groupBy";
 
 import SEO from "../../components/SEO";
 import * as listPageStyle from "../../styles/page-styles/list-page.css";
@@ -15,6 +16,7 @@ export const query = graphql`
     allComponentMetaJson(sort: { name: ASC }) {
       nodes {
         name
+        group
         description
         thumbnail {
           childImageSharp {
@@ -42,6 +44,12 @@ export const query = graphql`
 
 const Page = ({ data }: PageProps) => {
   const componentNodes = data.allComponentMetaJson.nodes;
+  const groupedComponentData = groupby(componentNodes, (data) =>
+    !data.group ? data.name : data.group,
+  );
+  const mappedComponentData = Object.entries(groupedComponentData!)
+    .map(([groupName, groupItems]) => ({ groupName, groupItems }))
+    .sort((a, b) => (a.groupName < b.groupName ? -1 : 1));
 
   return (
     <article className={listPageStyle.content}>
@@ -50,62 +58,72 @@ const Page = ({ data }: PageProps) => {
         컴포넌트의 시각적 정의와 올바른 상호작용을 위한 UX가이드
       </p>
       <div className={listPageStyle.grid}>
-        {componentNodes?.map((node) => {
-          const description = node.description;
-          const title = node.name;
-          const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
-          const slug =
-            node.platform?.docs?.overview?.mdx?.childMdx?.frontmatter?.slug!;
-          const isNotReadyOverviewPage =
-            node.platform?.docs?.overview?.status === "todo";
+        {mappedComponentData?.map((node) => {
+          const groupName = node.groupItems.length > 1 ? node.groupName : "";
 
-          if (isNotReadyOverviewPage) {
+          return node.groupItems.map((node) => {
+            const description = node.description;
+            const title = node.name;
+            const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
+            const slug =
+              node.platform?.docs?.overview?.mdx?.childMdx?.frontmatter?.slug!;
+            const isNotReadyOverviewPage =
+              node.platform?.docs?.overview?.status === "todo";
+
+            if (isNotReadyOverviewPage) {
+              return (
+                <div className={listPageStyle.gridItem}>
+                  <div className={listPageStyle.gridItemImage}>
+                    <GatsbyImage
+                      draggable={false}
+                      image={thumbnail}
+                      alt={title!}
+                    />
+                  </div>
+                  <h2
+                    className={clsx(
+                      listPageStyle.gridNotReadyText,
+                      listPageStyle.gridItemTitle,
+                    )}
+                  >
+                    {title}
+                  </h2>
+                  <p
+                    className={clsx(
+                      listPageStyle.gridNotReadyText,
+                      listPageStyle.gridItemDescription,
+                    )}
+                  >
+                    {description}
+                  </p>
+                </div>
+              );
+            }
+
             return (
-              <div className={listPageStyle.gridItem}>
-                <div className={listPageStyle.gridItemImage}>
-                  <GatsbyImage
-                    draggable={false}
-                    image={thumbnail}
-                    alt={title!}
-                  />
-                </div>
-                <h2
-                  className={clsx(
-                    listPageStyle.gridNotReadyText,
-                    listPageStyle.gridItemTitle,
-                  )}
-                >
-                  {title}
-                </h2>
-                <p
-                  className={clsx(
-                    listPageStyle.gridNotReadyText,
-                    listPageStyle.gridItemDescription,
-                  )}
-                >
-                  {description}
-                </p>
-              </div>
-            );
-          }
+              <Link key={slug} to={slug}>
+                <div className={listPageStyle.activeGridItem}>
+                  <div className={listPageStyle.gridItemImage}>
+                    <GatsbyImage
+                      draggable={false}
+                      image={thumbnail}
+                      alt={title!}
+                    />
+                  </div>
 
-          return (
-            <Link key={slug} to={slug}>
-              <div className={listPageStyle.activeGridItem}>
-                <div className={listPageStyle.gridItemImage}>
-                  <GatsbyImage
-                    draggable={false}
-                    image={thumbnail}
-                    alt={title!}
-                  />
+                  <h2 className={listPageStyle.gridItemTitle}>
+                    {title}
+                    <span className={listPageStyle.gridItemGroupText}>
+                      {groupName}
+                    </span>
+                  </h2>
+                  <p className={listPageStyle.gridItemDescription}>
+                    {description}
+                  </p>
                 </div>
-                <h2 className={listPageStyle.gridItemTitle}>{title}</h2>
-                <p className={listPageStyle.gridItemDescription}>
-                  {description}
-                </p>
-              </div>
-            </Link>
-          );
+              </Link>
+            );
+          });
         })}
       </div>
     </article>

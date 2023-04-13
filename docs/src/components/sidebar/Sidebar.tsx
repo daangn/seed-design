@@ -59,6 +59,9 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
   const groupedComponentData = groupby(componentData, (data) =>
     !data.group ? data.name : data.group,
   );
+  const mappedComponentData = Object.entries(groupedComponentData!)
+    .map(([groupName, groupItems]) => ({ groupName, groupItems }))
+    .sort((a, b) => (a.groupName < b.groupName ? -1 : 1));
 
   return (
     <div className={style.sidebarItemContainer}>
@@ -97,7 +100,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
 
       <SidebarTitleWithLink title="component" onClick={closeSidebar} />
 
-      {Object.entries(groupedComponentData!).map(([groupName, groupItems]) => {
+      {mappedComponentData.map(({ groupName, groupItems }) => {
         // 그룹
         if (groupItems?.length! >= 2) {
           return (

@@ -43,8 +43,6 @@ export const gridItem = style([
     height: "100%",
 
     zIndex: 0,
-
-    gap: 8,
   },
 ]);
 
@@ -74,14 +72,28 @@ export const gridItemImage = style([
   },
 ]);
 
+export const gridItemGroupText = style([
+  classNames.$semantic.typography.caption1Bold,
+  {
+    color: vars.$scale.color.gray500,
+    marginLeft: "8px",
+  },
+]);
+
 export const gridNotReadyText = style({
   color: vars.$scale.color.gray500,
 });
 
 export const gridItemTitle = style([
   classNames.$semantic.typography.title1Bold,
+  {
+    marginTop: "8px",
+  },
 ]);
 
 export const gridItemDescription = style([
   classNames.$semantic.typography.caption1Regular,
+  {
+    marginTop: "6px",
+  },
 ]);
