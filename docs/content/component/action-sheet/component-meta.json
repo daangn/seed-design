@@ -1,7 +1,7 @@
 {
   "name": "Action Sheet",
   "description": "OS 시스템 액션시트를 대체하는 커스텀 액션시트입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "../../comingSoon.png",
   "primitive": "../../primitive/menu/primitive-meta.json",
   "platform": {
     "ios": {
