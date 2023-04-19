@@ -29,17 +29,6 @@ const iconSchema = dedent`
       "componentPath": {
         "type": "string",
         "pattern": "^.+.tsx$"
-      },
-      "spritePath": {
-        "type": "string",
-        "pattern": "^.+.svg$"
-      },
-      "withContext": {
-        "type": "boolean"
-      },
-      "contextPath": {
-        "type": "string",
-        "pattern": "^.+.tsx$"
       }
     },
     "required": ["icons"]
