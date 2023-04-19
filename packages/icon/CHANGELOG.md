@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.2.1
+
+### Patch Changes
+
+- aa25955: change svg width, height to 100%
+
 ## 0.2.0
 
 ### Minor Changes
