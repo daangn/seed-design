@@ -1,5 +1,11 @@
 # @seed-design/icon
 
+## 0.2.0
+
+### Minor Changes
+
+- 4b334ca: change sprite svg to inline svg
+
 ## 0.1.13
 
 ### Patch Changes
