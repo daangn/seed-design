@@ -6,7 +6,7 @@ export interface IconConfig {
 
   componentPath: string;
 
-  spritePath: string;
+  // spritePath: string;
 
-  contextPath?: string;
+  // contextPath?: string;
 }

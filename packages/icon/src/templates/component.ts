@@ -1,34 +1,22 @@
 import dedent from "string-dedent";
-import { generateRelativeFilePath } from "../utils/path";
 
 import type { IconName } from "../types";
 
-interface ComponentWithoutContextInterface {
-  componentDir: string;
+interface ComponentInterface {
   componentFileName: string;
-  spriteDir: string;
-  spriteFileName: string;
   version: string;
   icons: IconName[];
 }
 
-export function generateComponentWithoutContext({
-  componentDir,
+export function generateComponent({
   componentFileName,
-  spriteDir,
-  spriteFileName,
   version,
   icons,
-}: ComponentWithoutContextInterface) {
-  const relativeSpritePath = generateRelativeFilePath(componentDir, spriteDir);
-  const spriteUrl = relativeSpritePath.endsWith("/")
-    ? `${relativeSpritePath}${spriteFileName}.svg`
-    : `${relativeSpritePath}/${spriteFileName}.svg`;
-
+}: ComponentInterface) {
   return dedent`
     /* eslint-disable */
     import * as React from "react";
-    import spriteUrl from "${spriteUrl}";
+    import { iconData } from "./IconData";
 
     export interface ${componentFileName}Props {
       name: IconName;
@@ -36,11 +24,11 @@ export function generateComponentWithoutContext({
       className?: string;
     };
 
-    const ${componentFileName}: React.ForwardRefRenderFunction<HTMLSpanElement, SeedIconProps> = (
+    const ${componentFileName}: React.ForwardRefRenderFunction<HTMLSpanElement, ${componentFileName}Props> = (
       { name, className, size },
       ref,
     ) => {
-      return  (
+      return (
         <span
           ref={ref}
           style={{ display: "inline-flex", width: size, height: size }}
@@ -48,13 +36,11 @@ export function generateComponentWithoutContext({
           data-seed-icon={name}
           data-seed-icon-version="${version}"
         >
-          <svg viewBox="0 0 24 24">  
-            <use href={\`\${spriteUrl}#\${name}\`} />
-          </svg>
+          {iconData[name]}
         </span>
       );
     };
-    
+
     export default React.forwardRef(${componentFileName});
     type IconName = (
       | ${icons.map((icon) => `"${icon}"`).join("\n  | ")}
