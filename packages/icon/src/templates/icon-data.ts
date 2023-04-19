@@ -16,7 +16,9 @@ export function generateIconData({ icons }: { icons: IconName[] }) {
           .replace(/<path/g, "        <path")
           .replace("</svg>", "      </g>\n    </svg>\n  ),")
           .replace(/clip-rule/g, "clipRule")
-          .replace(/fill-rule/g, "fillRule");
+          .replace(/fill-rule/g, "fillRule")
+          .replace(/width="24"/, `width="100%"`)
+          .replace(/height="24"/, `height="100%"`);
       }).join("")}};\n
   `;
 }
