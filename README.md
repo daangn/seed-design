@@ -1,9 +1,5 @@
 ![cover](./cover.png)
 
-## 구성
-
-> 각 패키지들의 README를 참고해주세요.
-
 **Foundations**
 
 - [@seed-design/design-token](https://github.com/daangn/seed-design/tree/main/packages/design-token) (Foundations)
