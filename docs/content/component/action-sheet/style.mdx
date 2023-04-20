@@ -15,7 +15,9 @@ slug: /component/action-sheet/style
 7. Action Label - ButtonPrimitive.Label
 8. Divider
 
-## 디자인 결정 (Color)
+## Root
+
+### 디자인 결정 (Color)
 
 | Part         | Attribute | Value                       |
 | ------------ | --------- | --------------------------- |
@@ -23,40 +25,16 @@ slug: /component/action-sheet/style
 | Backdrop     | Color     | $semantic.color.overlay-dim |
 | Title        | Color     | $scale.color.gray-900       |
 | Description  | Color     | $scale.color.gray-600       |
-| Divider      | Color     | $scale.color.divider-2      |
+| Divider      | Color     | $semantic.color.divider-2   |
 
-### Action (isDestructive == false)
-
-| State    | Part  | Attribute | Value                     |
-| -------- | ----- | --------- | ------------------------- |
-| Enabled  | Label | Color     | $semantic.color.secondary |
-| Hovered  | Label | Color     | $scale.color.gray-700     |
-| Pressed  | Label | Color     | $scale.color.gray-700     |
-| Disabled | Label | Color     | $scale.color.gray-400     |
-
-### Action (isDestructive == true)
-
-| State    | Part  | Attribute | Value                  |
-| -------- | ----- | --------- | ---------------------- |
-| Enabled  | Label | Color     | $semantic.color.danger |
-| Hovered  | Label | Color     | $scale.color.red-400   |
-| Pressed  | Label | Color     | $scale.color.red-400   |
-| Disabled | Label | Color     | $scale.color.gray-400  |
-
-## 디자인 결정 (Typography)
+### 디자인 결정 (Typography)
 
 | Part        | Attribute  | Value                                 |
 | ----------- | ---------- | ------------------------------------- |
 | Title       | Typography | $semantic.typography.subtitle2-bold   |
 | Description | Typography | $semantic.typography.caption1-regular |
 
-### Action
-
-| Part  | Attribute  | Value                               |
-| ----- | ---------- | ----------------------------------- |
-| Label | Typography | $semantic.typography.label2-regular |
-
-## 디자인 결정 (Layout)
+### 디자인 결정 (Layout)
 
 | Part                | Attribute          | Value |
 | ------------------- | ------------------ | ----- |
@@ -67,7 +45,34 @@ slug: /component/action-sheet/style
 | Divider             | Height             | 0.5pt |
 |                     | Horizontal Margin  | 16pt  |
 
-### Action
+## Action
+
+### Visual Options
+
+| Property | Value                | Description |
+| -------- | -------------------- | ----------- |
+| variant  | default, destructive |             |
+
+### 디자인 결정 (Color)
+
+| State    | Part                | Attribute | Value                     |
+| -------- | ------------------- | --------- | ------------------------- |
+| Enabled  | Label (default)     | Color     | $semantic.color.secondary |
+|          | Label (destructive) | Color     | $semantic.color.danger    |
+| Hovered  | Label (default)     | Color     | $scale.color.gray-700     |
+|          | Label (destructive) | Color     | $scale.color.red-400      |
+| Pressed  | Label (default)     | Color     | $scale.color.gray-700     |
+|          | Label (destructive) | Color     | $scale.color.red-400      |
+| Disabled | Label (default)     | Color     | $scale.color.gray-400     |
+|          | Label (destructive) | Color     | $scale.color.gray-400     |
+
+### 디자인 결정 (Typography)
+
+| Part  | Attribute  | Value                               |
+| ----- | ---------- | ----------------------------------- |
+| Label | Typography | $semantic.typography.label2-regular |
+
+### 디자인 결정 (Layout)
 
 | Part  | Attribute          | Value |
 | ----- | ------------------ | ----- |
