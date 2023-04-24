@@ -14,8 +14,8 @@
       "path": ""
     },
     "react": {
-      "status": "in-progress",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-tabs-tabs--docs"
     },
     "figma": {
       "status": "todo",
