@@ -10,7 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "source": "./src/index.ts",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": {

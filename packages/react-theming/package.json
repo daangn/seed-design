@@ -12,7 +12,6 @@
       "email": "june.jung@daangn.com"
     }
   ],
-  "source": "./src/index.ts",
   "main": "./lib/index.cjs",
   "types": "./lib/index.d.ts",
   "publishConfig": {
