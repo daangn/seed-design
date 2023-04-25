@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/design-token",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "sideEffects": false,
   "repository": {
     "type": "git",

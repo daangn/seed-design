@@ -1,5 +1,13 @@
 # @seed-design/react-theming
 
+## 2.1.3
+
+### Patch Changes
+
+- cd0f24e: add types field in exports map
+- Updated dependencies [cd0f24e]
+  - @seed-design/design-token@1.0.2
+
 ## 2.1.2
 
 ### Patch Changes
