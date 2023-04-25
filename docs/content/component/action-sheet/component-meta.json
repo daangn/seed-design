@@ -1,0 +1,39 @@
+{
+  "name": "Action Sheet",
+  "description": "OS 시스템 액션시트를 대체하는 커스텀 액션시트입니다.",
+  "thumbnail": "../../comingSoon.png",
+  "primitive": "../../primitive/menu/primitive-meta.json",
+  "platform": {
+    "ios": {
+      "status": "todo",
+      "alias": "",
+      "path": ""
+    },
+    "android": {
+      "status": "in-progress",
+      "path": ""
+    },
+    "react": {
+      "status": "todo",
+      "path": ""
+    },
+    "figma": {
+      "status": "todo",
+      "path": ""
+    },
+    "docs": {
+      "overview": {
+        "status": "in-progress",
+        "mdx": "./overview.mdx"
+      },
+      "usage": {
+        "status": "in-progress",
+        "mdx": "./usage.mdx"
+      },
+      "style": {
+        "status": "done",
+        "mdx": "./style.mdx"
+      }
+    }
+  }
+}

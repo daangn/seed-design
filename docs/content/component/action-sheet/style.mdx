@@ -1,0 +1,80 @@
+---
+slug: /component/action-sheet/style
+---
+
+## Anatomy
+
+![Action Sheet Anatomy](./anatomy.png)
+
+1. Backdrop
+2. Container
+3. Header
+4. Title
+5. Description
+6. Action - ButtonPrimitive.Root
+7. Action Label - ButtonPrimitive.Label
+8. Divider
+
+## Root
+
+### 디자인 결정 (Color)
+
+| Part         | Attribute | Value                       |
+| ------------ | --------- | --------------------------- |
+| Container    | Color     | $semantic.color.paper-sheet |
+| Backdrop     | Color     | $semantic.color.overlay-dim |
+| Title        | Color     | $scale.color.gray-900       |
+| Description  | Color     | $scale.color.gray-600       |
+| Divider      | Color     | $semantic.color.divider-2   |
+
+### 디자인 결정 (Typography)
+
+| Part        | Attribute  | Value                                 |
+| ----------- | ---------- | ------------------------------------- |
+| Title       | Typography | $semantic.typography.subtitle2-bold   |
+| Description | Typography | $semantic.typography.caption1-regular |
+
+### 디자인 결정 (Layout)
+
+| Part                | Attribute          | Value |
+| ------------------- | ------------------ | ----- |
+| Container           | Horizontal Padding | 16pt  |
+|                     | Vertical Padding   | 14pt  |
+|                     | Corder Radius Top  | 20pt  |
+| Title / Description | Vertical Spacing   | 4pt   |
+| Divider             | Height             | 0.5pt |
+|                     | Horizontal Margin  | 16pt  |
+
+## Action
+
+### Visual Options
+
+| Property | Value                | Description |
+| -------- | -------------------- | ----------- |
+| variant  | default, destructive |             |
+
+### 디자인 결정 (Color)
+
+| State    | Part                | Attribute | Value                     |
+| -------- | ------------------- | --------- | ------------------------- |
+| Enabled  | Label (default)     | Color     | $semantic.color.secondary |
+|          | Label (destructive) | Color     | $semantic.color.danger    |
+| Hovered  | Label (default)     | Color     | $scale.color.gray-700     |
+|          | Label (destructive) | Color     | $scale.color.red-400      |
+| Pressed  | Label (default)     | Color     | $scale.color.gray-700     |
+|          | Label (destructive) | Color     | $scale.color.red-400      |
+| Disabled | Label (default)     | Color     | $scale.color.gray-400     |
+|          | Label (destructive) | Color     | $scale.color.gray-400     |
+
+### 디자인 결정 (Typography)
+
+| Part  | Attribute  | Value                               |
+| ----- | ---------- | ----------------------------------- |
+| Label | Typography | $semantic.typography.label2-regular |
+
+### 디자인 결정 (Layout)
+
+| Part  | Attribute          | Value |
+| ----- | ------------------ | ----- |
+| Label | Horizontal Padding | 16pt  |
+| Label | Vertical Padding   | 12pt  |
