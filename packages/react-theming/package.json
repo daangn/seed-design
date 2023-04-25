@@ -14,18 +14,16 @@
   ],
   "source": "./src/index.ts",
   "main": "./lib/index.cjs",
-  "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public",
-    "main": "./lib/index.mjs",
-    "module": "./lib/index.mjs"
+    "main": "./lib/index.mjs"
   },
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.mjs",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
+      "require": "./lib/index.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -51,7 +49,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.25",
-    "nanobundle": "^0.0.28",
+    "nanobundle": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3"
