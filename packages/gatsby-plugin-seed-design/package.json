@@ -12,6 +12,9 @@
     "gatsby-plugin",
     "seed-design"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
     "name": "Hyeonsu Jung",
     "email": "june.jung@daangn.com"
