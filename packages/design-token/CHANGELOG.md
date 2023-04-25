@@ -1,5 +1,11 @@
 # @seed-design/design-token
 
+## 1.0.2
+
+### Patch Changes
+
+- cd0f24e: add types field in exports map
+
 ## 1.0.1
 
 ### Patch Changes

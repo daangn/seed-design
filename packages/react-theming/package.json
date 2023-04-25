@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-theming",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design",
@@ -44,7 +44,7 @@
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
-    "@seed-design/design-token": "workspace:^1.0.0"
+    "@seed-design/design-token": "workspace:^1.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",
