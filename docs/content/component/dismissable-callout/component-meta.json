@@ -6,9 +6,9 @@
   "primitive": "../../primitive/callout/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/dismissable-callout"
     },
     "android": {
       "status": "todo",
