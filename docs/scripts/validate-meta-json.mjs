@@ -1,65 +1,52 @@
-const Ajv = require("ajv");
-const path = require("path");
-const fs = require("fs");
+// const path = require("node:path");
+import Ajv from "ajv";
+import { prettify } from "awesome-ajv-errors";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 const ajv = new Ajv();
 
-console.log("Validating meta.json files");
+console.log("Validating meta.json files...");
 
-function validateJsonInDir({ dir, validate, type }) {
-  fs.readdir(dir, (err, files) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+async function validateJsonInDir({ dir, validate, type }) {
+  try {
+    const files = await fs.readdir(dir);
 
-    files.forEach((file) => {
+    for (const file of files) {
       const filePath = path.join(dir, file);
-      fs.stat(filePath, (err, stats) => {
-        if (err) {
-          console.error(err);
-          return;
+
+      const stats = await fs.stat(filePath);
+
+      if (!stats.isDirectory()) {
+        continue;
+      }
+
+      const subfiles = await fs.readdir(filePath);
+
+      for (const subfile of subfiles) {
+        if (path.extname(subfile) !== ".json") {
+          continue;
         }
 
-        if (stats.isDirectory()) {
-          fs.readdir(filePath, (err, subfiles) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
+        const data = await fs.readFile(path.join(filePath, subfile), "utf8");
 
-            subfiles.forEach((subfile) => {
-              if (path.extname(subfile) === ".json") {
-                fs.readFile(
-                  path.join(filePath, subfile),
-                  "utf8",
-                  (err, data) => {
-                    if (err) {
-                      console.error(err);
-                      return;
-                    }
+        const json = JSON.parse(data);
+        const isValid = validate(json);
+        const fileName = `${json.name.replaceAll(" ", "-").toLowerCase()}.json`;
 
-                    const json = JSON.parse(data);
-                    const valid = validate(json);
-                    const fileName = `${json.name
-                      .replaceAll(" ", "-")
-                      .toLowerCase()}.json`;
-                    if (!valid) {
-                      console.log(`${type}/${fileName} is invalid`);
-                      console.error(validate.errors);
-                      process.exit(1);
-                    } else {
-                      // console.log(`${type}/${fileName} is valid`);
-                    }
-                  },
-                );
-              }
-            });
-          });
+        if (!isValid) {
+          console.log(`${type}/${fileName} is invalid`);
+          console.error(prettify(validate, { data: json }));
+
+          process.exit(1);
+        } else {
+          // console.log(`${type}/${fileName} is valid`);
         }
-      });
-    });
-  });
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 const statusSchema = {
@@ -197,8 +184,8 @@ const primitiveMetaSchema = {
   required: ["name", "description", "thumbnail", "primitive"],
 };
 
-const componentDir = path.join(__dirname, "..", "content", "component");
-const primitiveDir = path.join(__dirname, "..", "content", "primitive");
+const componentDir = path.resolve("./content/component");
+const primitiveDir = path.resolve("./content/primitive");
 
 const componentValidate = ajv.compile(componentMetaSchema);
 const primitiveValidate = ajv.compile(primitiveMetaSchema);
