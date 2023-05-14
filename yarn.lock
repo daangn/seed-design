@@ -3710,6 +3710,7 @@ __metadata:
     eslint-plugin-simple-import-sort: ^7.0.0
     eslint-plugin-storybook: ^0.6.8
     gatsby: ^5.0.1
+    gatsby-plugin-clarity: ^1.0.1
     gatsby-plugin-gtag: ^1.0.13
     gatsby-plugin-image: ^3.0.0
     gatsby-plugin-local-search: ^2.0.1
@@ -11786,6 +11787,15 @@ __metadata:
   peerDependencies:
     "@parcel/core": ^2.0.0
   checksum: 7ab40b9814a3f44c11343085b8058787e79079fab1bf4b929c9be22e3b0fa4ad4932da527792dfe56c05066d15061ecf3bcec3d5f5727945f2b81e564428b1c9
+  languageName: node
+  linkType: hard
+
+"gatsby-plugin-clarity@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "gatsby-plugin-clarity@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+  checksum: c8724ccc39254be01fd320c822d358c978443e4057e781588a30bca664324a9d7eaa8279934c8364e88a727217a40c7565dc6b33c1c496df41e7e811e6f168b2
   languageName: node
   linkType: hard
 

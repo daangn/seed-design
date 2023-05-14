@@ -12,6 +12,9 @@ const wrapESMPlugin = (name) =>
     };
   };
 
+const GA_TRACKING_ID = "G-P6FY16FTPH";
+const CLARITY_PROJECT_ID = "h2qk60kqzg";
+
 module.exports = {
   siteMetadata: SITE_METADATA,
   graphqlTypegen: true,
@@ -263,8 +266,15 @@ module.exports = {
     {
       resolve: `gatsby-plugin-gtag`,
       options: {
-        trackingId: "G-P6FY16FTPH",
+        trackingId: GA_TRACKING_ID,
         head: true,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-clarity`,
+      options: {
+        clarity_project_id: CLARITY_PROJECT_ID,
+        enable_on_dev_env: false,
       },
     },
   ],
