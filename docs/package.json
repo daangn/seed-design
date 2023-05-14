@@ -19,7 +19,7 @@
     "serve": "gatsby serve",
     "storybook": "storybook dev -p 6006",
     "typecheck": "tsc --noEmit",
-    "validate:meta-json": "node scripts/validate-meta-json.js"
+    "validate:meta-json": "node scripts/validate-meta-json.mjs"
   },
   "dependencies": {
     "@karrotmarket/karrot-ui-icon": "^0.0.0-20220907.1",
@@ -76,6 +76,7 @@
     "@vanilla-extract/babel-plugin": "^1.2.0",
     "@vanilla-extract/vite-plugin": "^3.7.0",
     "@vanilla-extract/webpack-plugin": "^2.2.0",
+    "awesome-ajv-errors": "^5.1.0",
     "babel-loader": "^8.3.0",
     "eslint": "^8.24.0",
     "eslint-config-airbnb": "^19.0.4",
