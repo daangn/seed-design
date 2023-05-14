@@ -6,11 +6,11 @@ on:
       - 'docs/content/component/**/component-meta.json'
       - 'docs/content/primitive/**/primitive-meta.json'
 
-name: Validate Seed Docs meta json files
+name: Validate Seed Docs meta data files
 
 jobs:
   build:
-    name: Validate meta json files
+    name: Validate meta data files
     runs-on: ubuntu-latest
 
     steps:
@@ -24,10 +24,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --immutable
 
-    - name: Validate meta json files
+    - name: Validate meta data files
       working-directory: ./docs
       run: |
-        yarn validate:meta-json
+        yarn validate:meta-data
 
     - name: Report success
       run: echo "Script ran successfully!"
