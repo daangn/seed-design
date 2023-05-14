@@ -10,6 +10,8 @@ import {
 
 const ajv = new Ajv();
 
+// ---------실행 부분 시작--------- //
+
 console.log("Validating meta.json files...");
 
 validateJsonInDir({
@@ -25,14 +27,14 @@ validateJsonInDir({
 
 console.log("Finished validating meta.json files");
 
-// ------------------ //
+// ---------구현 부분 시작--------- //
 
 async function validateJsonInDir({ dir, validate, type }) {
   try {
-    const files = await fs.readdir(dir);
+    const filesOrFolders = await fs.readdir(dir);
 
-    for (const file of files) {
-      const filePath = path.join(dir, file);
+    for (const fileOrFolder of filesOrFolders) {
+      const filePath = path.join(dir, fileOrFolder);
 
       const stats = await fs.stat(filePath);
 
