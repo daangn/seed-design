@@ -131,9 +131,8 @@ exports.createPages = async ({
   });
 
   createRedirect({
-    fromPath: "/(.*)",
-    toPath: "https://seed-design.io",
-    redirectInBrowser: true,
-    isPermanent: true,
+    fromPath: "https://seed-design.pages.dev/*",
+    toPath: "https://seed-design.io/*",
+    statusCode: 200,
   });
 };
