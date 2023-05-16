@@ -23,10 +23,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
   reporter.info(`Provided React in all files`);
 };
 
-exports.createPages = async ({
-  graphql,
-  actions: { createPage, createRedirect },
-}) => {
+exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const result = await graphql(`
     fragment MdxContent on Mdx {
       frontmatter {
@@ -128,11 +125,5 @@ exports.createPages = async ({
         id: component.id,
       },
     });
-  });
-
-  createRedirect({
-    fromPath: "https://seed-design.pages.dev/*",
-    toPath: "https://seed-design.io/*",
-    statusCode: 200,
   });
 };
