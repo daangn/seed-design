@@ -23,7 +23,10 @@ exports.onCreateWebpackConfig = ({ actions, plugins, reporter }) => {
   reporter.info(`Provided React in all files`);
 };
 
-exports.createPages = async ({ graphql, actions: { createPage } }) => {
+exports.createPages = async ({
+  graphql,
+  actions: { createPage, createRedirect },
+}) => {
   const result = await graphql(`
     fragment MdxContent on Mdx {
       frontmatter {
@@ -79,6 +82,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     }
   `);
+
+  createRedirect({
+    fromPath: `/*`,
+    toPath: `https://seed-design.io/*`,
+    statusCode: 200,
+  });
 
   const componentNodes = result.data.allComponentMetaJson.nodes;
   const primitiveNodes = result.data.allPrimitiveMetaJson.nodes;
