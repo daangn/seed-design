@@ -14,7 +14,7 @@ export const wrapPageElement = ({
 
   useEffect(() => {
     if (window.location.hostname === "seed-design.pages.dev") {
-      window.location.href = "https://seed-design.io";
+      window.location.href = "https://seed-design.io" + props.location.pathname;
     }
   }, []);
 
