@@ -131,7 +131,7 @@ exports.createPages = async ({
   });
 
   createRedirect({
-    fromPath: "https://seed-design.pages.dev",
+    fromPath: "/(.*)",
     toPath: "https://seed-design.io",
     redirectInBrowser: true,
     isPermanent: true,
