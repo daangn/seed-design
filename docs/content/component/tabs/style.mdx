@@ -26,31 +26,29 @@ slug: /component/tabs/style
 
 ### Visually Represented States
 
-| State    | Condition                                                   |
-| -------- | ----------------------------------------------------------- |
-| enabled  | isDisabled OFF, isHovered OFF, isFocused OFF, isPressed OFF |
-| hovered  | isDisabled OFF, isPressed OFF, isHovered ON                 |
-| focused  | isDisabled OFF, isPressed OFF, isFocused ON                 |
-| pressed  | isDisabled OFF, isPressed ON                                |
-| disabled | isDisabled ON                                               |
+| State    | Condition                                                                   |
+| -------- | --------------------------------------------------------------------------- |
+| enabled  | isDisabled = False, isHovered = False, isFocused = False, isPressed = False |
+| hovered  | isDisabled = False, isPressed = False, isHovered = True                     |
+| focused  | isDisabled = False, isPressed = False, isFocused = True                     |
+| pressed  | isDisabled = False, isPressed = True                                        |
+| disabled | isDisabled = True                                                           |
 
 ## Tab
 
 ### Visually Represented States
 
-| State    | Condition                      |
-| -------- | ------------------------------ |
-| enabled  | isDisabled OFF, isSelected OFF |
-| selected | isDisabled OFF, isSelected ON  |
-| disabled | isDisabled ON                  |
-
-## Tab
+| State    | Condition                              |
+| -------- | -------------------------------------- |
+| enabled  | isDisabled = False, isSelected = False |
+| selected | isDisabled = False, isSelected = True  |
+| disabled | isDisabled = True                      |
 
 ### Visual Options
 
-| Property | Value       | Description                         |
-| -------- | ----------- | ----------------------------------- |
-| dot      | true, false | Tab에 dot의 존재 여부를 결정합니다. |
+| Property | Value       | Description                       |
+| -------- | ----------- | --------------------------------- |
+| dot      | true, false | Tab의 dot 존재 여부를 결정합니다. |
 
 ## 디자인 결정 (Color)
 
