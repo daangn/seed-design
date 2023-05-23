@@ -1,5 +1,11 @@
 # @seed-design/design-token
 
+## 1.0.3
+
+### Patch Changes
+
+- 5751b08: fix missing export lineHeight
+
 ## 1.0.2
 
 ### Patch Changes
