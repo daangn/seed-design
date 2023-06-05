@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Chip Select",
   "description": "여러개의 옵션 중 하나를 선택할 수 있는 컴포넌트입니다.",
   "thumbnail": "../../comingSoon.png",

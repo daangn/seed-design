@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Chip Toggle Button",
   "description": "사용자가 선택 여부를 켜거나 끌 수 있는 칩 모양의 버튼 요소입니다.",
   "thumbnail": "./thumbnail.png",

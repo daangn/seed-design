@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/primitive-meta.json",
   "name": "Text Field",
   "description": "텍스트를 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",

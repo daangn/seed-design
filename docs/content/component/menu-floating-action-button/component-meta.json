@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Menu Floating Action Button",
   "alias": "Menu FAB",
   "description": "화면 계층 최상위에 위치해 메뉴를 표시 여부를 결정할 수 있는 요소입니다.",

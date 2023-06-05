@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/primitive-meta.json",
   "name": "Snackbar",
   "description": "간략한 메시지를 화면 하단에 제공합니다.",
   "thumbnail": "./thumbnail.png",

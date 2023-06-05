@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/primitive-meta.json",
   "name": "Menu",
   "description": "일반적인 드롭다운 메뉴 버튼 디자인 패턴을 위한 접근 가능한 드롭다운 메뉴입니다.",
   "thumbnail": "../../comingSoon.png",

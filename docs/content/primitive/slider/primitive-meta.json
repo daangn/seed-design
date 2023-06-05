@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/primitive-meta.json",
   "name": "Slider",
   "description": "범위 내 값을 조정할 수 있는 요소입니다.",
   "thumbnail": "./thumbnail.png",

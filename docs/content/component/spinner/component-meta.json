@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Spinner",
   "description": "작업의 진행 단계 결정 또는 완료 시점이 확정되지 않은 경우 사용할 수 있는 요소입니다.",
   "thumbnail": "./thumbnail.png",

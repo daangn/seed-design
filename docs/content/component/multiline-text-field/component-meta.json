@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Multiline Text Field",
   "description": "장문의 텍스트를 여러 줄에 걸쳐 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",

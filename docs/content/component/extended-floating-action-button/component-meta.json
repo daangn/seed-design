@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Extended Floating Action Button",
   "alias": "Extended FAB",
   "description": "화면 계층 최상위에 위치해 액션을 일으킬 수 있는 확장된 형태의 요소입니다.",

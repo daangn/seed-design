@@ -6,7 +6,7 @@
   "definitions": {
     "status": {
       "title": "진행 상태",
-      "description": "진행 상태",
+      "description": "진행 상태입니다. (todo, in-progress, done) 세 가지 중 하나를 선택해주세요.",
       "oneOf": [
         {
           "const": "todo",
@@ -164,13 +164,22 @@
                   "properties": {
                     "path": {
                       "type": "string",
+                      "oneOf": [
+                        {
+                          "pattern": "^https://sprout-storybook.vercel.app/.*$"
+                        },
+                        {
+                          "pattern": "^$"
+                        }
+                      ],
                       "title": "컴포넌트 Storybook 경로",
                       "description": "Iframe에 띄울 Storybook 경로를 입력해주세요."
                     },
                     "height": {
                       "type": "string",
+                      "pattern": "^[0-9]+px$",
                       "title": "Iframe 높이",
-                      "description": "Iframe의 높이를 입력해주세요."
+                      "description": "Iframe의 높이를 입력해주세요. px 단위로 입력해주세요."
                     }
                   },
                   "required": ["path", "height"]

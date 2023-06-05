@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../schema/component-meta.json",
   "name": "Bottom Sheet",
   "description": "화면 하단에 고정된 보충 콘텐츠가 포함된 표면 요소입니다.",
   "thumbnail": "./thumbnail.png",
