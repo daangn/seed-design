@@ -14,12 +14,12 @@
       "path": ""
     },
     "react": {
-      "status": "done",
+      "status": "in-progress",
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
     },
     "figma": {
-      "status": "todo",
-      "path": ""
+      "status": "done",
+      "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=51258-39461&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
       "overview": {
