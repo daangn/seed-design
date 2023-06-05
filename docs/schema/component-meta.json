@@ -1,0 +1,195 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/component-meta.json",
+  "title": "Component Meta Schema for Seed Design System",
+  "description": "컴포넌트 메타 정보들에 대한 스키마입니다.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "컴포넌트 이름"
+    },
+    "description": {
+      "type": "string",
+      "title": "컴포넌트 설명"
+    },
+    "thumbnail": {
+      "type": "string",
+      "pattern": "^.*.png$",
+      "title": "컴포넌트 썸네일 이미지 경로",
+      "description": "png 파일만 가능합니다."
+    },
+    "primitive": {
+      "type": "string",
+      "pattern": "^.*.json$",
+      "title": "컴포넌트 primitive json 파일 경로",
+      "description": "json 파일만 가능합니다."
+    },
+    "platform": {
+      "type": "object",
+      "title": "컴포넌트의 플랫폼별 정보",
+      "properties": {
+        "ios": {
+          "type": "object",
+          "title": "iOS 플랫폼 정보",
+          "properties": {
+            "status": {
+              "type": "string",
+              "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+            },
+            "alias": {
+              "type": "string",
+              "title": "컴포넌트 iOS alias",
+              "description": "컴포넌트의 iOS alias를 입력해주세요. (optional)"
+            },
+            "path": {
+              "type": "string",
+              "title": "컴포넌트 iOS 경로",
+              "description": "컴포넌트의 iOS Deep link를 입력해주세요."
+            }
+          },
+          "required": ["status", "alias", "path"],
+          "additionalProperties": false
+        },
+        "android": {
+          "type": "object",
+          "title": "Android 플랫폼 정보",
+          "properties": {
+            "status": {
+              "type": "string",
+              "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+            },
+            "path": {
+              "type": "string",
+              "title": "컴포넌트 Android 경로",
+              "description": "컴포넌트의 Android Deep link를 입력해주세요."
+            }
+          },
+          "required": ["status", "path"],
+          "additionalProperties": false
+        },
+        "react": {
+          "type": "object",
+          "title": "React 플랫폼 정보",
+          "properties": {
+            "status": {
+              "type": "string",
+              "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+            },
+            "path": {
+              "type": "string",
+              "title": "컴포넌트 React Sprout 경로",
+              "description": "컴포넌트의 React Sprout Storybook link를 입력해주세요."
+            }
+          },
+          "required": ["status", "path"],
+          "additionalProperties": false
+        },
+        "figma": {
+          "type": "object",
+          "title": "Figma 플랫폼 정보",
+          "properties": {
+            "status": {
+              "type": "string",
+              "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+            },
+            "path": {
+              "type": "string",
+              "title": "컴포넌트 Figma 경로",
+              "description": "컴포넌트의 Figma link를 입력해주세요."
+            }
+          },
+          "required": ["status", "path"],
+          "additionalProperties": false
+        },
+        "docs": {
+          "type": "object",
+          "title": "Seed Docs 플랫폼 정보",
+          "properties": {
+            "overview": {
+              "type": "object",
+              "title": "컴포넌트 Overview 정보",
+              "description": "컴포넌트의 전반적인 내용이 들어가있습니다.",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+                },
+                "storybook": {
+                  "type": "object",
+                  "title": "컴포넌트 Storybook 정보",
+                  "description": "컴포넌트의 Storybook에 대한 정보가 들어가있습니다.",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "title": "컴포넌트 Storybook 경로",
+                      "description": "Iframe에 띄울 Storybook 경로를 입력해주세요."
+                    },
+                    "height": {
+                      "type": "string",
+                      "title": "Iframe 높이",
+                      "description": "Iframe의 높이를 입력해주세요."
+                    }
+                  },
+                  "required": ["path", "height"]
+                },
+                "mdx": {
+                  "type": "string",
+                  "pattern": "overview.mdx$",
+                  "title": "컴포넌트 Overview MDX 문서 경로",
+                  "description": "컴포넌트의 Overview MDX 문서 경로를 입력해주세요."
+                }
+              },
+              "required": ["status", "storybook", "mdx"],
+              "additionalProperties": false
+            },
+            "usage": {
+              "type": "object",
+              "title": "컴포넌트 Usage 정보",
+              "description": "컴포넌트의 사용법에 대한 정보가 들어가있습니다.",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+                },
+                "mdx": {
+                  "type": "string",
+                  "pattern": "usage.mdx$",
+                  "title": "컴포넌트 Usage MDX 문서 경로",
+                  "description": "컴포넌트의 Usage MDX 문서 경로를 입력해주세요."
+                }
+              },
+              "required": ["status", "mdx"],
+              "additionalProperties": false
+            },
+            "style": {
+              "type": "object",
+              "title": "컴포넌트 Style 정보",
+              "description": "컴포넌트의 스타일 가이드에 대한 정보가 들어가있습니다.",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "$ref": "https://raw.githubusercontent.com/daangn/seed-design/main/docs/schema/status.json"
+                },
+                "mdx": {
+                  "type": "string",
+                  "pattern": "style.mdx$",
+                  "title": "컴포넌트 Style MDX 문서 경로",
+                  "description": "컴포넌트의 Style MDX 문서 경로를 입력해주세요."
+                }
+              },
+              "required": ["status", "mdx"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["overview", "usage", "style"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["ios", "android", "react", "figma", "docs"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["name", "description", "thumbnail", "platform"],
+  "additionalProperties": false
+}
