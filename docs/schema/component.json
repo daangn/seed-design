@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "type": "string"
+    },
+    "daangn": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "object",
+      "properties": {
+        "ios": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "alias": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": ["status", "alias", "path"]
+        },
+        "android": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": ["status", "path"]
+        },
+        "react": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": ["status", "path"]
+        },
+        "figma": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": ["status", "path"]
+        },
+        "docs": {
+          "type": "object",
+          "properties": {
+            "overview": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "storybook": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "height": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["path", "height"]
+                },
+                "mdx": {
+                  "type": "string"
+                }
+              },
+              "required": ["status", "storybook", "mdx"]
+            },
+            "usage": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "mdx": {
+                  "type": "string"
+                }
+              },
+              "required": ["status", "mdx"]
+            },
+            "style": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "mdx": {
+                  "type": "string"
+                }
+              },
+              "required": ["status", "mdx"]
+            }
+          },
+          "required": ["overview", "usage", "style"]
+        }
+      },
+      "required": ["ios", "android", "react", "figma", "docs"]
+    }
+  },
+  "required": ["name", "description", "thumbnail", "daangn", "platform"]
+}

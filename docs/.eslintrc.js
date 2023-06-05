@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: ["prettier", "plugin:storybook/recommended"],
   plugins: ["@typescript-eslint/eslint-plugin", "react", "prettier", "json-format", "simple-import-sort"],
-  ignorePatterns: ['.eslintrc.js', 'public', 'node_modules', '.cache', '.vscode'],
+  ignorePatterns: ['.eslintrc.js', 'public', 'node_modules', '.cache', '.vscode', 'schema/*'],
   rules: {
     "no-unused-vars": "error",
     "@typescript-eslint/consistent-type-imports": ["error", {
