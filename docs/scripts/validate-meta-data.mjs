@@ -1,5 +1,6 @@
 import Ajv from "ajv";
 import { prettify } from "awesome-ajv-errors";
+import chalk from "chalk";
 import fs from "node:fs/promises";
 import path from "node:path";
 
@@ -10,20 +11,24 @@ const ajv = new Ajv();
 
 // ---------실행 부분 시작--------- //
 
-console.log("Validating meta.json files...");
+console.log();
+console.log(chalk.bold("---------------------------------------------"));
+console.log(chalk.bold("Validating meta.json files..."));
 
-validateJsonInDir({
+await validateJsonInDir({
   dir: path.resolve("./content/component"),
   validate: ajv.compile(componentMetaSchema),
   type: "component",
 });
-validateJsonInDir({
+await validateJsonInDir({
   dir: path.resolve("./content/primitive"),
   validate: ajv.compile(primitiveMetaSchema),
   type: "primitive",
 });
 
-console.log("Finished validating meta.json files");
+console.log(chalk.bold("Finished validating meta.json files"));
+console.log(chalk.bold("---------------------------------------------"));
+console.log();
 
 // ---------구현 부분 시작--------- //
 
@@ -54,11 +59,40 @@ async function validateJsonInDir({ dir, validate, type }) {
         const fileName = `${json.name.replaceAll(" ", "-").toLowerCase()}.json`;
 
         if (!isValid) {
-          console.log(`${type}/${fileName} is invalid`);
+          if (type === "component") {
+            console.log(
+              `${chalk.bgBlue(`[${type}]`)} ${fileName}: ${chalk.red.bold(
+                "invalid",
+              )}`,
+            );
+          }
+
+          if (type === "primitive") {
+            console.log(
+              `${chalk.bgYellow(`[${type}]`)} ${fileName}: ${chalk.red.bold(
+                "invalid",
+              )}`,
+            );
+          }
+
           console.error(prettify(validate, { data: json }));
           process.exit(1);
         } else {
-          console.log(`${type}/${fileName} is valid`);
+          if (type === "component") {
+            console.log(
+              `${chalk.bgBlue(`[${type}]`)} ${fileName}: ${chalk.green.bold(
+                "valid",
+              )}`,
+            );
+          }
+
+          if (type === "primitive") {
+            console.log(
+              `${chalk.bgYellow(`[${type}]`)} ${fileName}: ${chalk.green.bold(
+                "valid",
+              )}`,
+            );
+          }
         }
       }
     }

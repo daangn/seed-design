@@ -78,6 +78,7 @@
     "@vanilla-extract/webpack-plugin": "^2.2.0",
     "awesome-ajv-errors": "^5.1.0",
     "babel-loader": "^8.3.0",
+    "chalk": "^5.2.0",
     "eslint": "^8.24.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
