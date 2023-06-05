@@ -3,10 +3,8 @@ import { prettify } from "awesome-ajv-errors";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import {
-  componentMetaSchema,
-  primitiveMetaSchema,
-} from "./meta-data-schemas.mjs";
+import componentMetaSchema from "../schema/component-meta.json" assert { type: "json" };
+import primitiveMetaSchema from "../schema/primitive-meta.json" assert { type: "json" };
 
 const ajv = new Ajv();
 
@@ -58,10 +56,9 @@ async function validateJsonInDir({ dir, validate, type }) {
         if (!isValid) {
           console.log(`${type}/${fileName} is invalid`);
           console.error(prettify(validate, { data: json }));
-
           process.exit(1);
         } else {
-          // console.log(`${type}/${fileName} is valid`);
+          console.log(`${type}/${fileName} is valid`);
         }
       }
     }
