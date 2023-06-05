@@ -21,11 +21,10 @@
     },
     "primitive": {
       "type": "string",
-      "pattern": "^.*.json$",
-      "title": "컴포넌트 primitive json 파일 경로",
-      "description": "json 파일만 가능합니다."
+      "pattern": "^.*.mdx$",
+      "title": "컴포넌트 primitive mdx 파일 경로",
+      "description": "mdx 파일만 가능합니다."
     }
   },
-  "required": ["name", "description", "thumbnail", "primitive"],
-  "additionalProperties": false
+  "required": ["name", "description", "thumbnail", "primitive"]
 }
