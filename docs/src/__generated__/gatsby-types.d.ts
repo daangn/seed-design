@@ -1761,6 +1761,7 @@ type Query_allSitePluginArgs = {
 
 
 type Query_componentMetaJsonArgs = {
+  _schema: InputMaybe<StringQueryOperatorInput>;
   alias: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   description: InputMaybe<StringQueryOperatorInput>;
@@ -2791,6 +2792,7 @@ type WebPOptions = {
 };
 
 type componentMetaJson = Node & {
+  readonly _schema: Maybe<Scalars['String']>;
   readonly alias: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
@@ -2850,6 +2852,7 @@ type componentMetaJsonEdge = {
 };
 
 type componentMetaJsonFieldSelector = {
+  readonly _schema: InputMaybe<FieldSelectorEnum>;
   readonly alias: InputMaybe<FieldSelectorEnum>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
@@ -2864,6 +2867,7 @@ type componentMetaJsonFieldSelector = {
 };
 
 type componentMetaJsonFilterInput = {
+  readonly _schema: InputMaybe<StringQueryOperatorInput>;
   readonly alias: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
@@ -3147,6 +3151,7 @@ type componentMetaJsonPlatformSortInput = {
 };
 
 type componentMetaJsonSortInput = {
+  readonly _schema: InputMaybe<SortOrderEnum>;
   readonly alias: InputMaybe<SortOrderEnum>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;

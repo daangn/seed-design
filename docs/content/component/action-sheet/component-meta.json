@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Action Sheet",
   "description": "OS 시스템 액션시트를 대체하는 커스텀 액션시트입니다.",
-  "thumbnail": "../../comingSoon.png",
+  "thumbnail": "./thumbnail.png",
   "primitive": "../../primitive/menu/primitive-meta.json",
   "platform": {
     "ios": {
