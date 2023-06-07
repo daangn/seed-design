@@ -1761,6 +1761,7 @@ type Query_allSitePluginArgs = {
 
 
 type Query_componentMetaJsonArgs = {
+  _schema: InputMaybe<StringQueryOperatorInput>;
   alias: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   description: InputMaybe<StringQueryOperatorInput>;
@@ -1904,6 +1905,7 @@ type Query_mdxArgs = {
 
 
 type Query_primitiveMetaJsonArgs = {
+  _schema: InputMaybe<StringQueryOperatorInput>;
   children: InputMaybe<NodeFilterListInput>;
   description: InputMaybe<StringQueryOperatorInput>;
   id: InputMaybe<StringQueryOperatorInput>;
@@ -2791,6 +2793,7 @@ type WebPOptions = {
 };
 
 type componentMetaJson = Node & {
+  readonly _schema: Maybe<Scalars['String']>;
   readonly alias: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
@@ -2850,6 +2853,7 @@ type componentMetaJsonEdge = {
 };
 
 type componentMetaJsonFieldSelector = {
+  readonly _schema: InputMaybe<FieldSelectorEnum>;
   readonly alias: InputMaybe<FieldSelectorEnum>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
@@ -2864,6 +2868,7 @@ type componentMetaJsonFieldSelector = {
 };
 
 type componentMetaJsonFilterInput = {
+  readonly _schema: InputMaybe<StringQueryOperatorInput>;
   readonly alias: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
@@ -3147,6 +3152,7 @@ type componentMetaJsonPlatformSortInput = {
 };
 
 type componentMetaJsonSortInput = {
+  readonly _schema: InputMaybe<SortOrderEnum>;
   readonly alias: InputMaybe<SortOrderEnum>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;
@@ -3161,6 +3167,7 @@ type componentMetaJsonSortInput = {
 };
 
 type primitiveMetaJson = Node & {
+  readonly _schema: Maybe<Scalars['String']>;
   readonly children: ReadonlyArray<Node>;
   readonly description: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -3217,6 +3224,7 @@ type primitiveMetaJsonEdge = {
 };
 
 type primitiveMetaJsonFieldSelector = {
+  readonly _schema: InputMaybe<FieldSelectorEnum>;
   readonly children: InputMaybe<NodeFieldSelector>;
   readonly description: InputMaybe<FieldSelectorEnum>;
   readonly id: InputMaybe<FieldSelectorEnum>;
@@ -3228,6 +3236,7 @@ type primitiveMetaJsonFieldSelector = {
 };
 
 type primitiveMetaJsonFilterInput = {
+  readonly _schema: InputMaybe<StringQueryOperatorInput>;
   readonly children: InputMaybe<NodeFilterListInput>;
   readonly description: InputMaybe<StringQueryOperatorInput>;
   readonly id: InputMaybe<StringQueryOperatorInput>;
@@ -3284,6 +3293,7 @@ type primitiveMetaJsonGroupConnection_sumArgs = {
 };
 
 type primitiveMetaJsonSortInput = {
+  readonly _schema: InputMaybe<SortOrderEnum>;
   readonly children: InputMaybe<NodeSortInput>;
   readonly description: InputMaybe<SortOrderEnum>;
   readonly id: InputMaybe<SortOrderEnum>;
