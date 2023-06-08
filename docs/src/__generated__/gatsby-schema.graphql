@@ -1614,11 +1614,15 @@ type Site implements Node {
   ): Date
   children: [Node!]!
   flags: SiteFlags
-  graphqlTypegen: Boolean
+  graphqlTypegen: SiteGraphqlTypegen
   id: ID!
   internal: Internal!
+  jsxRuntime: String
   parent: Node
+  pathPrefix: String
+  polyfill: Boolean
   siteMetadata: SiteSiteMetadata
+  trailingSlash: String
 }
 
 type SiteBuildMetadata implements Node {
@@ -1723,24 +1727,32 @@ input SiteFieldSelector {
   buildTime: FieldSelectorEnum
   children: NodeFieldSelector
   flags: SiteFlagsFieldSelector
-  graphqlTypegen: FieldSelectorEnum
+  graphqlTypegen: SiteGraphqlTypegenFieldSelector
   host: FieldSelectorEnum
   id: FieldSelectorEnum
   internal: InternalFieldSelector
+  jsxRuntime: FieldSelectorEnum
   parent: NodeFieldSelector
+  pathPrefix: FieldSelectorEnum
+  polyfill: FieldSelectorEnum
   port: FieldSelectorEnum
   siteMetadata: SiteSiteMetadataFieldSelector
+  trailingSlash: FieldSelectorEnum
 }
 
 input SiteFilterInput {
   buildTime: DateQueryOperatorInput
   children: NodeFilterListInput
   flags: SiteFlagsFilterInput
-  graphqlTypegen: BooleanQueryOperatorInput
+  graphqlTypegen: SiteGraphqlTypegenFilterInput
   id: StringQueryOperatorInput
   internal: InternalFilterInput
+  jsxRuntime: StringQueryOperatorInput
   parent: NodeFilterInput
+  pathPrefix: StringQueryOperatorInput
+  polyfill: BooleanQueryOperatorInput
   siteMetadata: SiteSiteMetadataFilterInput
+  trailingSlash: StringQueryOperatorInput
 }
 
 type SiteFlags {
@@ -1845,6 +1857,26 @@ input SiteFunctionSortInput {
   parent: NodeSortInput
   pluginName: SortOrderEnum
   relativeCompiledFilePath: SortOrderEnum
+}
+
+type SiteGraphqlTypegen {
+  generateOnBuild: Boolean
+  typesOutputPath: String
+}
+
+input SiteGraphqlTypegenFieldSelector {
+  generateOnBuild: FieldSelectorEnum
+  typesOutputPath: FieldSelectorEnum
+}
+
+input SiteGraphqlTypegenFilterInput {
+  generateOnBuild: BooleanQueryOperatorInput
+  typesOutputPath: StringQueryOperatorInput
+}
+
+input SiteGraphqlTypegenSortInput {
+  generateOnBuild: SortOrderEnum
+  typesOutputPath: SortOrderEnum
 }
 
 type SiteGroupConnection {
@@ -1973,13 +2005,17 @@ input SiteSortInput {
   buildTime: SortOrderEnum
   children: NodeSortInput
   flags: SiteFlagsSortInput
-  graphqlTypegen: SortOrderEnum
+  graphqlTypegen: SiteGraphqlTypegenSortInput
   host: SortOrderEnum
   id: SortOrderEnum
   internal: InternalSortInput
+  jsxRuntime: SortOrderEnum
   parent: NodeSortInput
+  pathPrefix: SortOrderEnum
+  polyfill: SortOrderEnum
   port: SortOrderEnum
   siteMetadata: SiteSiteMetadataSortInput
+  trailingSlash: SortOrderEnum
 }
 
 enum SortOrderEnum {
@@ -2010,7 +2046,6 @@ input WebPOptions {
 }
 
 type componentMetaJson implements Node {
-  _schema: String
   _schema: String
   alias: String
   children: [Node!]!
@@ -2045,7 +2080,6 @@ type componentMetaJsonEdge {
 
 input componentMetaJsonFieldSelector {
   _schema: FieldSelectorEnum
-  _schema: FieldSelectorEnum
   alias: FieldSelectorEnum
   children: NodeFieldSelector
   description: FieldSelectorEnum
@@ -2060,7 +2094,6 @@ input componentMetaJsonFieldSelector {
 }
 
 input componentMetaJsonFilterInput {
-  _schema: StringQueryOperatorInput
   _schema: StringQueryOperatorInput
   alias: StringQueryOperatorInput
   children: NodeFilterListInput
@@ -2318,7 +2351,6 @@ input componentMetaJsonPlatformSortInput {
 }
 
 input componentMetaJsonSortInput {
-  _schema: SortOrderEnum
   _schema: SortOrderEnum
   alias: SortOrderEnum
   children: NodeSortInput
