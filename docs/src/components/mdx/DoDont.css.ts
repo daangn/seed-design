@@ -99,6 +99,6 @@ export const box = style([
 export const description = style([
   classNames.$semantic.typography.bodyL1Regular,
   {
-    fontSize: "16px",
+    fontSize: "18px",
   },
 ]);
