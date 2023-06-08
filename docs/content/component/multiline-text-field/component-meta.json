@@ -4,7 +4,7 @@
   "description": "장문의 텍스트를 여러 줄에 걸쳐 입력할 수 있는 폼 요소입니다.",
   "thumbnail": "./thumbnail.png",
   "primitive": "../../primitive/text-field/primitive-meta.json",
-  "group": "Text Field",
+  "group": "Text Fields",
   "platform": {
     "ios": {
       "status": "done",

@@ -1587,8 +1587,8 @@ type Query {
   imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: GatsbyImageDataQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp
   localSearchPages(children: NodeFilterListInput, engine: StringQueryOperatorInput, id: StringQueryOperatorInput, index: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, publicIndexURL: StringQueryOperatorInput, publicStoreURL: StringQueryOperatorInput, store: JSONQueryOperatorInput): LocalSearchPages
   mdx(body: StringQueryOperatorInput, children: NodeFilterListInput, excerpt: StringQueryOperatorInput, frontmatter: MdxFrontmatterFilterInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, tableOfContents: JSONQueryOperatorInput): Mdx
-  primitiveMetaJson(children: NodeFilterListInput, description: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): primitiveMetaJson
-  site(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, flags: SiteFlagsFilterInput, graphqlTypegen: BooleanQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, siteMetadata: SiteSiteMetadataFilterInput): Site
+  primitiveMetaJson(_schema: StringQueryOperatorInput, children: NodeFilterListInput, description: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): primitiveMetaJson
+  site(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, flags: SiteFlagsFilterInput, graphqlTypegen: SiteGraphqlTypegenFilterInput, id: StringQueryOperatorInput, internal: InternalFilterInput, jsxRuntime: StringQueryOperatorInput, parent: NodeFilterInput, pathPrefix: StringQueryOperatorInput, polyfill: BooleanQueryOperatorInput, siteMetadata: SiteSiteMetadataFilterInput, trailingSlash: StringQueryOperatorInput): Site
   siteBuildMetadata(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput): SiteBuildMetadata
   siteFunction(absoluteCompiledFilePath: StringQueryOperatorInput, children: NodeFilterListInput, functionRoute: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, matchPath: StringQueryOperatorInput, originalAbsoluteFilePath: StringQueryOperatorInput, originalRelativeFilePath: StringQueryOperatorInput, parent: NodeFilterInput, pluginName: StringQueryOperatorInput, relativeCompiledFilePath: StringQueryOperatorInput): SiteFunction
   sitePage(children: NodeFilterListInput, component: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, internalComponentName: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, pageContext: JSONQueryOperatorInput, parent: NodeFilterInput, path: StringQueryOperatorInput): SitePage
@@ -2011,6 +2011,7 @@ input WebPOptions {
 
 type componentMetaJson implements Node {
   _schema: String
+  _schema: String
   alias: String
   children: [Node!]!
   description: String
@@ -2044,6 +2045,7 @@ type componentMetaJsonEdge {
 
 input componentMetaJsonFieldSelector {
   _schema: FieldSelectorEnum
+  _schema: FieldSelectorEnum
   alias: FieldSelectorEnum
   children: NodeFieldSelector
   description: FieldSelectorEnum
@@ -2058,6 +2060,7 @@ input componentMetaJsonFieldSelector {
 }
 
 input componentMetaJsonFilterInput {
+  _schema: StringQueryOperatorInput
   _schema: StringQueryOperatorInput
   alias: StringQueryOperatorInput
   children: NodeFilterListInput
@@ -2316,6 +2319,7 @@ input componentMetaJsonPlatformSortInput {
 
 input componentMetaJsonSortInput {
   _schema: SortOrderEnum
+  _schema: SortOrderEnum
   alias: SortOrderEnum
   children: NodeSortInput
   description: SortOrderEnum
@@ -2330,6 +2334,7 @@ input componentMetaJsonSortInput {
 }
 
 type primitiveMetaJson implements Node {
+  _schema: String
   children: [Node!]!
   description: String
   id: ID!
@@ -2359,6 +2364,7 @@ type primitiveMetaJsonEdge {
 }
 
 input primitiveMetaJsonFieldSelector {
+  _schema: FieldSelectorEnum
   children: NodeFieldSelector
   description: FieldSelectorEnum
   id: FieldSelectorEnum
@@ -2370,6 +2376,7 @@ input primitiveMetaJsonFieldSelector {
 }
 
 input primitiveMetaJsonFilterInput {
+  _schema: StringQueryOperatorInput
   children: NodeFilterListInput
   description: StringQueryOperatorInput
   id: StringQueryOperatorInput
@@ -2399,6 +2406,7 @@ type primitiveMetaJsonGroupConnection {
 }
 
 input primitiveMetaJsonSortInput {
+  _schema: SortOrderEnum
   children: NodeSortInput
   description: SortOrderEnum
   id: SortOrderEnum
