@@ -80,7 +80,6 @@ export const dontTitleText = style([
 export const doDontLayout = style([
   u.flexColumnCenter,
   {
-    color: vars.$static.color.staticBlack,
     gap: "20px",
   },
 
