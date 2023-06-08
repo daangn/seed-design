@@ -1,7 +1,7 @@
 import type { StoryObj } from "@storybook/react";
 import React from "react";
 
-import Keyboard from "../components/mdx/Keyboard";
+import { Keyboard } from "../components/mdx/Keyboard";
 
 export default {
   component: Keyboard,
