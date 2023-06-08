@@ -17,7 +17,7 @@ interface KeyboardProps {
   children: React.ReactNode;
 }
 
-export default function Keyboard({ children }: KeyboardProps) {
+export function Keyboard({ children }: KeyboardProps) {
   if (children === "↩") {
     return (
       <kbd
