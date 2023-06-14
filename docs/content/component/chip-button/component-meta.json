@@ -1,7 +1,7 @@
 {
   "$schema": "../../../schema/component-meta.json",
   "name": "Chip Button",
-  "description": "버튼은 누르면 액션을 발생시킬 수 있는 칩 모양의 요소입니다.",
+  "description": "누르면 액션을 일으키는 칩 모양의 요소입니다.",
   "thumbnail": "./thumbnail.png",
   "group": "Chips",
   "platform": {
