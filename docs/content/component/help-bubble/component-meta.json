@@ -26,7 +26,7 @@
       "overview": {
         "status": "in-progress",
         "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-helpbubble-helpbubbletrigger--basic&viewMode=story",
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-helpbubble-helpbubbletrigger--over-component&viewMode=story",
           "height": "260px"
         },
         "mdx": "./overview.mdx"
