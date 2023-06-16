@@ -16,7 +16,7 @@
     },
     "react": {
       "status": "done",
-      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-chip-chiptogglebutton--docs"
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-chips-chiptogglebutton--docs"
     },
     "figma": {
       "status": "todo",
@@ -26,7 +26,7 @@
       "overview": {
         "status": "in-progress",
         "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-chip-chiptogglebutton--basic&viewMode=story",
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-chips-chiptogglebutton--basic&viewMode=story",
           "height": "80px"
         },
         "mdx": "./overview.mdx"
