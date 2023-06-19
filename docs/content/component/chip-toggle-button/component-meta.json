@@ -6,9 +6,9 @@
   "group": "Chips",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/chip-toggle-button"
     },
     "android": {
       "status": "todo",
