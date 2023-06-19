@@ -6,7 +6,7 @@
   "primitive": "../../primitive/radio-group/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "done",
+      "status": "in-progress",
       "alias": "",
       "path": "seedcatalog://components/radio"
     },
