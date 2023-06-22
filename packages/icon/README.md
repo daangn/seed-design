@@ -1,4 +1,9 @@
-# @seed-design/icon
+# THIS PACKAGE IS DEPRECATED
+
+현재 이 패키지는 더 이상 사용되지 않습니다.
+자세한 맥락은 [seed-icon](https://github.com/daangn/seed-icon) 레포에서 확인할 수 있습니다.
+
+# @seed-design/icon (deprecated)
 
 - [한국어](./README.md)
 - [English](./README-en.md)
