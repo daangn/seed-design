@@ -2,4 +2,109 @@
 slug: /component/chip-radio-group/style
 ---
 
-# 준비중
+## Anatomy
+
+1. Root - Primitive.Root
+2. Chip - Primitive.Radio
+3. Label - Primitive.ItemLabel
+4. Prefix Icon
+5. Suffix Icon
+
+## Root
+
+## Visual Options
+
+| Property | Value         |
+| -------- | ------------- |
+| size     | small, medium |
+
+### 디자인 결정 (Layout)
+
+| Part        | Attribute | Value |
+| ----------- | --------- | ----- |
+| Chip / Chip | Spacing   | 8pt   |
+
+## Chip
+
+| Property    | Value |
+| ----------- | ----- |
+| prefix icon | Icon  |
+| suffix icon | Icon  |
+
+### Visually Represented States
+
+| State    | Condition                                                                   |
+| -------- | --------------------------------------------------------------------------- |
+| enabled  | isDisabled = False, isHovered = False, isFocused = False, isPressed = False |
+| hovered  | isDisabled = False, isPressed = False, isHovered = True                     |
+| focused  | isDisabled = False, isPressed = False, isFocused = True                     |
+| pressed  | isDisabled = False, isPressed = True                                        |
+| disabled | isDisabled = True                                                           |
+
+| State      | Condition          |
+| ---------- | ------------------ |
+| unselected | isSelected = False |
+| selected   | isSelected = True  |
+
+### 디자인 결정 (Color)
+
+| State                | Part                            | Attribute     | Value                        |
+| -------------------- | ------------------------------- | ------------- | ---------------------------- |
+| Enabled, Unselected  | Root                            | Outline Color | $semantic.color.divider-2    |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-900        |
+|                      | Count                           | Color         | $scale.color.gray-600        |
+| Hovered, Unselected  | Root                            | Color         | $semantic.color.gray-hover   |
+|                      |                                 | Outline Color | $semantic.color.divider-2    |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-900        |
+|                      | Count                           | Color         | $scale.color.gray-700        |
+| Pressed, Unselected  | Root                            | Color         | $semantic.color.gray-pressed |
+|                      |                                 | Outline Color | $semantic.color.divider-2    |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-900        |
+| Disabled, Unselected | Root                            | Outline Color | $semantic.color.divider-2    |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-400        |
+| Enabled, Selected    | Root                            | Color         | $scale.color.gray-800        |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-00         |
+| Hovered, Selected    | Root                            | Color         | $scale.color.gray-700        |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-00         |
+| Pressed, Selected    | Root                            | Color         | $scale.color.gray-700        |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-00         |
+| Disabled, Selected   | Root                            | Outline Color | $semantic.color.divider-2    |
+|                      | Label, Prefix Icon, Suffix Icon | Color         | $scale.color.gray-400        |
+
+### 디자인 결정 (Typography)
+
+#### Size=Medium
+
+| Part         | Attribute  | Value                                |
+| ------------ | ---------- | ------------------------------------ |
+| Label, Count | Typography | $semantic.typography.body-m2-regular |
+
+#### Size=Small
+
+| Part         | Attribute  | Value                                 |
+| ------------ | ---------- | ------------------------------------- |
+| Label, Count | Typography | $semantic.typography.caption1-regular |
+
+### 디자인 결정 (Layout)
+
+#### Size=Medium
+
+| Part         | Attribute          | Value |
+| ------------ | ------------------ | ----- |
+| Root         | Height             | 38pt  |
+|              | Horizontal Padding | 14pt  |
+|              | Corner Radius      | Full  |
+| Prefix Icon  | Size               | 16pt  |
+| Suffix Icon  | Size               | 14pt  |
+| Label / Icon | Padding            | 4pt   |
+
+#### Size=Small
+
+| Part         | Attribute          | Value |
+| ------------ | ------------------ | ----- |
+| Root         | Height             | 32pt  |
+|              | Horizontal Padding | 12pt  |
+|              | Corner Radius      | Full  |
+| Prefix Icon  | Size               | 14pt  |
+| Suffix Icon  | Size               | 14pt  |
+| Label / Icon | Padding            | 4pt   |
