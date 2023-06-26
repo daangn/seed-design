@@ -13,9 +13,11 @@ slug: /component/checkbox/style
 
 ## Visual Options
 
-| Property | Value                | Description |
-| -------- | -------------------- | ----------- |
-| size     | small, medium, large |             |
+| Property | Value                 | Description |
+| -------- | --------------------- | ----------- |
+| size     | small, medium, large  |             |
+| shape    | square, circle, ghost |             |
+| bold     | true, false           |             |
 
 ## Visually Represented States
 
@@ -35,13 +37,15 @@ slug: /component/checkbox/style
 
 ## 디자인 결정 (Color)
 
+### variant=square, circle
+
 | State    | Part                 | Attribute     | Value                           |
 | -------- | -------------------- | ------------- | ------------------------------- |
 | Enabled  | Control (unselected) | Color         | None                            |
 |          |                      | Outline Color | $scale.color.gray-300           |
 |          | Control (selected)   | Color         | $semantic.color.primary         |
 |          |                      | Outline Color | None                            |
-|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Label                | Color         | $scale.color.gray-900           |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
 | Disabled | Control (unselected) | Color         | $scale.color.gray-200           |
 |          |                      | Outline Color | $scale.color.gray-300           |
@@ -53,7 +57,7 @@ slug: /component/checkbox/style
 |          |                      | Outline Color | $scale.color.gray-300           |
 |          | Control (selected)   | Color         | $semantic.color.primary-hover   |
 |          |                      | Outline Color | None                            |
-|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Label                | Color         | $scale.color.gray-900           |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
 | Focused  | Control              | Outline Color | $scale.color.blue-600           |
 |          |                      | Outline Width | 2pt                             |
@@ -61,30 +65,91 @@ slug: /component/checkbox/style
 |          |                      | Outline Color | $scale.color.gray-300           |
 |          | Control (selected)   | Color         | $semantic.color.primary-pressed |
 |          |                      | Outline Color | None                            |
-|          | Label                | Color         | $semantic.color.ink-text        |
+|          | Label                | Color         | $scale.color.gray-900           |
 |          | Icon (selected)      | Color         | $semantic.color.on-primary      |
+
+### variant=ghost
+
+| State    | Part                 | Attribute     | Value                               |
+| -------- | -------------------- | ------------- | ----------------------------------- |
+| Enabled  | Control (unselected) | Color         | None                                |
+|          |                      | Outline Color | None                                |
+|          | Control (selected)   | Color         | None                                |
+|          |                      | Outline Color | None                                |
+|          | Label                | Color         | $scale.color.gray-900               |
+|          | Icon (unselected)    | Color         | $scale.color.gray-500               |
+|          | Icon (selected)      | Color         | $semantic.color.primary             |
+| Disabled | Control (unselected) | Color         | None                                |
+|          |                      | Outline Color | None                                |
+|          | Control (selected)   | Color         | None                                |
+|          |                      | Outline Color | None                                |
+|          | Label                | Color         | $scale.color.gray-400               |
+|          | Icon (unselected)    | Color         | $scale.color.gray-300               |
+|          | Icon (selected)      | Color         | $scale.color.gray-300               |
+| Hovered  | Control (unselected) | Color         | $semantic.color.gray-hover          |
+|          |                      | Outline Color | None                                |
+|          | Control (selected)   | Color         | $semantic.color.primary-low-hover   |
+|          |                      | Outline Color | None                                |
+|          | Label                | Color         | $scale.color.gray-900               |
+|          | Icon (unselected)    | Color         | $scale.color.gray-500               |
+|          | Icon (selected)      | Color         | $semantic.color.primary             |
+| Focused  | Control              | Outline Color | $scale.color.blue-600               |
+|          |                      | Outline Width | 2pt                                 |
+| Pressed  | Control (unselected) | Color         | $semantic.color.gray-pressed        |
+|          |                      | Outline Color | None                                |
+|          | Control (selected)   | Color         | $semantic.color.primary-low-pressed |
+|          |                      | Outline Color | None                                |
+|          | Label                | Color         | $scale.color.gray-900               |
+|          | Icon (unselected)    | Color         | $scale.color.gray-500               |
+|          | Icon (selected)      | Color         | $semantic.color.on-primary          |
 
 ## 디자인 결정 (Typography)
 
-### Size=Large
+### Size=Large, Bold=True
 
-| Part  | Attribute  | Value                       |
-| ----- | ---------- | --------------------------- |
-| Label | Typography | $semantic.typography.label2 |
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label2-bold |
 
-### Size=Medium
+### Size=Large, Bold=False
 
-| Part  | Attribute  | Value                       |
-| ----- | ---------- | --------------------------- |
-| Label | Typography | $semantic.typography.label3 |
+| Part  | Attribute  | Value                               |
+| ----- | ---------- | ----------------------------------- |
+| Label | Typography | $semantic.typography.label2-regular |
 
-### Size=Small
+### Size=Medium, Bold=True
 
-| Part  | Attribute  | Value                         |
-| ----- | ---------- | ----------------------------- |
-| Label | Typography | $semantic.typography.caption1 |
+| Part  | Attribute  | Value                            |
+| ----- | ---------- | -------------------------------- |
+| Label | Typography | $semantic.typography.label3-bold |
+
+### Size=Medium, Bold=False
+
+| Part  | Attribute  | Value                               |
+| ----- | ---------- | ----------------------------------- |
+| Label | Typography | $semantic.typography.label3-regular |
+
+### Size=Small, Bold=True
+
+| Part  | Attribute  | Value                              |
+| ----- | ---------- | ---------------------------------- |
+| Label | Typography | $semantic.typography.caption1-bold |
+
+### Size=Small, Bold=False
+
+| Part  | Attribute  | Value                                 |
+| ----- | ---------- | ------------------------------------- |
+| Label | Typography | $semantic.typography.caption1-regular |
 
 ## 디자인 결정 (Layout)
+
+### Shape
+
+| Shape  | Part    | Attribute     | Value |
+| ------ | ------- | ------------- | ----- |
+| Square | Control | Corner Radius | 4px   |
+| Ghost  | Control | Corner Radius | 4px   |
+| Circle | Control | Corner Radius | 100%  |
 
 ### Size=Large
 
@@ -92,7 +157,7 @@ slug: /component/checkbox/style
 | -------------- | ---------- | ----- |
 | Root           | Min Width  | 160px |
 |                | Min Height | 36px  |
-| Control        | Size       | 22px  |
+| Control        | Size       | 24px  |
 | Label          | Text Align | Start |
 | Icon           | Size       | 10px  |
 | Control / Icon | Padding    | 12px  |
@@ -103,7 +168,7 @@ slug: /component/checkbox/style
 | -------------- | ---------- | ----- |
 | Root           | Min Width  | 130px |
 |                | Min Height | 28px  |
-| Control        | Size       | 19px  |
+| Control        | Size       | 20px  |
 | Label          | Text Align | Start |
 | Icon           | Size       | 9px   |
 | Control / Icon | Padding    | 10px  |
@@ -114,7 +179,7 @@ slug: /component/checkbox/style
 | -------------- | ---------- | ----- |
 | Root           | Min Width  | 110px |
 |                | Min Height | 24px  |
-| Control        | Size       | 17px  |
+| Control        | Size       | 18px  |
 | Label          | Text Align | Start |
 | Icon           | Size       | 8px   |
 | Control / Icon | Padding    | 8px   |

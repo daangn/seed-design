@@ -15,7 +15,7 @@
       "path": ""
     },
     "react": {
-      "status": "in-progress",
+      "status": "done",
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-checkbox--docs"
     },
     "figma": {
@@ -24,7 +24,7 @@
     },
     "docs": {
       "overview": {
-        "status": "in-progress",
+        "status": "done",
         "storybook": {
           "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-checkbox--basic&viewMode=story",
           "height": "75px"
