@@ -3743,9 +3743,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/icon@workspace:packages/icon":
+"@seed-design/icon-deprecated@workspace:packages/icon":
   version: 0.0.0-use.local
-  resolution: "@seed-design/icon@workspace:packages/icon"
+  resolution: "@seed-design/icon-deprecated@workspace:packages/icon"
   dependencies:
     "@karrotmarket/karrot-ui-icon": 0.0.0-20230217.1
     "@types/findup-sync": ^4.0.2
