@@ -1860,21 +1860,25 @@ input SiteFunctionSortInput {
 }
 
 type SiteGraphqlTypegen {
+  documentSearchPaths: [String]
   generateOnBuild: Boolean
   typesOutputPath: String
 }
 
 input SiteGraphqlTypegenFieldSelector {
+  documentSearchPaths: FieldSelectorEnum
   generateOnBuild: FieldSelectorEnum
   typesOutputPath: FieldSelectorEnum
 }
 
 input SiteGraphqlTypegenFilterInput {
+  documentSearchPaths: StringQueryOperatorInput
   generateOnBuild: BooleanQueryOperatorInput
   typesOutputPath: StringQueryOperatorInput
 }
 
 input SiteGraphqlTypegenSortInput {
+  documentSearchPaths: SortOrderEnum
   generateOnBuild: SortOrderEnum
   typesOutputPath: SortOrderEnum
 }
