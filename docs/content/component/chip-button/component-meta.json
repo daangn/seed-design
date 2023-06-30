@@ -6,7 +6,7 @@
   "group": "Chips",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
       "path": "seedcatalog://components/chip-button"
     },
