@@ -3356,7 +3356,7 @@ type PrimitiveListPageQuery = { readonly allPrimitiveMetaJson: { readonly nodes:
 type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null };
+type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null, readonly blackFavicon: { readonly publicURL: string | null } | null, readonly whiteFavicon: { readonly publicURL: string | null } | null };
 
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 

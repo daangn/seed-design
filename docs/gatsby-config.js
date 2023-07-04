@@ -277,5 +277,21 @@ module.exports = {
         enable_on_dev_env: false,
       },
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        icon: `src/assets/favicon.svg`,
+        icon_options: {
+          purpose: `maskable`,
+        },
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `assets`,
+        path: `src/assets`,
+      },
+    },
   ],
 };
