@@ -4406,6 +4406,7 @@ __metadata:
     gatsby-plugin-gtag: ^1.0.13
     gatsby-plugin-image: ^3.11.0
     gatsby-plugin-local-search: ^2.0.1
+    gatsby-plugin-manifest: ^5.11.0
     gatsby-plugin-mdx: ^5.11.0
     gatsby-plugin-mdx-frontmatter: ^0.0.4
     gatsby-plugin-portal: ^1.0.7
@@ -12844,6 +12845,21 @@ __metadata:
   peerDependencies:
     gatsby: ">= 2.20.0"
   checksum: ef4bf8add3b28ef7b8ae193c8e1368c5ae13d8570759a481bb882d5ee2c7669db97bbea335ac75f7a2a5729d4b35db34681685274e556972769c0f7b62b428c0
+  languageName: node
+  linkType: hard
+
+"gatsby-plugin-manifest@npm:^5.11.0":
+  version: 5.11.0
+  resolution: "gatsby-plugin-manifest@npm:5.11.0"
+  dependencies:
+    "@babel/runtime": ^7.20.13
+    gatsby-core-utils: ^4.11.0
+    gatsby-plugin-utils: ^4.11.0
+    semver: ^7.5.1
+    sharp: ^0.32.1
+  peerDependencies:
+    gatsby: ^5.0.0-next
+  checksum: 785b9c333d35334f067415200fe837029066cc3a1dcb7cc2b363f63b6ae14108872b252aa6d737e0a9764b54fdde7b0e7b496aa20163573ab9f4d121e4e6b61a
   languageName: node
   linkType: hard
 
