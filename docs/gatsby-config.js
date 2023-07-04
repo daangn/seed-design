@@ -280,7 +280,16 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        icon: `src/assets/favicon.svg`,
+        icon: `src/assets/seed_favicon_black.svg`,
+        icon_options: {
+          purpose: `maskable`,
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        icon: `src/assets/seed_favicon_white.svg`,
         icon_options: {
           purpose: `maskable`,
         },

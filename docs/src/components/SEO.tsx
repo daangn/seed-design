@@ -30,8 +30,8 @@ const SEO = ({ name, description }: SEOProps) => {
   `);
 
   useEffect(() => {
-    const mode = document.documentElement.getAttribute("data-seed-scale-color");
-    setMode(mode === "light" ? "light" : "dark");
+    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setMode(isDark ? "dark" : "light");
   }, []);
 
   const nameWithPrefix = name ? `${name} | ` : "";
