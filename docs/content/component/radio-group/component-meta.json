@@ -6,9 +6,9 @@
   "primitive": "../../primitive/radio-group/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
-      "path": "seedcatalog://components/radio"
+      "path": "seedcatalog://components/radio-button"
     },
     "android": {
       "status": "todo",
