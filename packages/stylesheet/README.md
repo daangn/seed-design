@@ -69,11 +69,16 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
 
 ```js
 (function () {
-  var el = document.documentElement;
-  el.dataset.seed = "";
-
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase());
+  }
+  var ios = isIOS();
   var prefersLight = window.matchMedia("(prefers-color-scheme: light)");
   var prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var el = document.documentElement;
+
+  el.dataset.seedScaleLetterSpacing = ios ? "ios" : "android";
+  el.dataset.seed = "";
 
   if (prefersLight.matches) {
     if ("addEventListener" in prefersLight) {
@@ -90,8 +95,9 @@ Seed Design 에서 제공하는 속성은 사용하기 전에 **명시적인 초
   }
 
   function apply() {
-    el.dataset.seedScaleColor = prefersDark.matches ? "dark" : "light";
-    el.dataset.seedScaleLetterSpacing = "ios";
+    document.documentElement.dataset.seedScaleColor = prefersDark.matches
+      ? "dark"
+      : "light";
   }
 
   apply();
