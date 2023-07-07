@@ -12,7 +12,7 @@
       "path": "seedcatalog://components/text-button"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

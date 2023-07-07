@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/checkbox"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/chip-toggle-button"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

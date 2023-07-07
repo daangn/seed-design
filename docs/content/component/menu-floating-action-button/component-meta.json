@@ -13,7 +13,7 @@
       "path": "seedcatalog://components/menu-floating-action-button"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

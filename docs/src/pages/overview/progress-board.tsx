@@ -240,6 +240,7 @@ const okr = ({
   figmaComponentCount,
   reactComponentCount,
   iosComponentCount,
+  androidComponentCount,
   totalSpecCount,
 }: {
   figmaComponentCount: number;
@@ -251,9 +252,13 @@ const okr = ({
   const reactCoverage = Math.max(reactComponentCount / totalSpecCount);
   const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
   const figmaCoverage = Math.max(figmaComponentCount / totalSpecCount);
+  const androidCoverage = Math.max(androidComponentCount / totalSpecCount);
 
   return (
-    Math.floor(((reactCoverage + iosCoverage + figmaCoverage) / 3) * 1000) / 10
+    Math.floor(
+      ((reactCoverage + iosCoverage + figmaCoverage + androidCoverage) / 4) *
+        1000,
+    ) / 10
   );
 };
 

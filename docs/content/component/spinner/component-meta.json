@@ -10,7 +10,7 @@
       "path": "seedcatalog://components/spinner"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {
