@@ -1,6 +1,6 @@
 {
   "$schema": "../../../schema/component-meta.json",
-  "name": "Chip Select",
+  "name": "Chip Filter",
   "description": "여러개의 옵션 중 하나를 선택할 수 있는 컴포넌트입니다.",
   "thumbnail": "../../comingSoon.png",
   "group": "Chips",
@@ -15,17 +15,21 @@
       "path": ""
     },
     "react": {
-      "status": "todo",
-      "path": ""
+      "status": "done",
+      "path": "https://sprout-storybook.vercel.app/?path=/docs/components-chips-chipfilter--docs"
     },
     "figma": {
-      "status": "todo",
-      "path": ""
+      "status": "done",
+      "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=21160-39971&mode=design&t=43ulOY6lWYqUyGPF-4"
     },
     "docs": {
       "overview": {
-        "status": "todo",
-        "mdx": "./overview.mdx"
+        "status": "in-progress",
+        "mdx": "./overview.mdx",
+        "storybook": {
+          "height": "80px",
+          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-chips-chipfilter--basic&viewMode=story"
+        }
       },
       "usage": {
         "status": "todo",
