@@ -1,5 +1,11 @@
 # @seed-design/react-theming
 
+## 2.1.4
+
+### Patch Changes
+
+- ee35c53: change `@seed-design/design-token` version
+
 ## 2.1.3
 
 ### Patch Changes
