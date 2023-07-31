@@ -44,7 +44,7 @@
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "dependencies": {
-    "@seed-design/design-token": "workspace:^1.0.2"
+    "@seed-design/design-token": "^1.0.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.25",

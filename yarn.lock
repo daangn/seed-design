@@ -4349,7 +4349,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@seed-design/design-token@workspace:^, @seed-design/design-token@workspace:^1.0.2, @seed-design/design-token@workspace:packages/design-token":
+"@seed-design/design-token@^1.0.3, @seed-design/design-token@workspace:^, @seed-design/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@seed-design/design-token@workspace:packages/design-token"
   dependencies:
@@ -4473,7 +4473,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
   dependencies:
-    "@seed-design/design-token": "workspace:^1.0.2"
+    "@seed-design/design-token": ^1.0.3
     "@types/react": ^18.0.25
     nanobundle: ^1.6.0
     react: ^18.2.0
