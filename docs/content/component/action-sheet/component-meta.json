@@ -6,9 +6,9 @@
   "primitive": "../../primitive/menu/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/action-sheet"
     },
     "android": {
       "status": "done",
