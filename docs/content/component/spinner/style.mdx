@@ -55,30 +55,62 @@ slug: /component/spinner/style
 
 ## 디자인 결정 (Motion)
 
-| From  | To  | Part      | Property  | Attribute       | Value                                |
-| ----- | --- | --------- | --------- | --------------- | ------------------------------------ |
-| Start | End | Indicator | start     | Duration        | 900ms                                |
-|       |     |           |           | Delay           | 300ms                                |
-|       |     |           |           | Timing Function | cubic-bezier(0.35, 0, 0.65, 0.6)     |
-|       |     |           | end       | Duration        | 800ms                                |
-|       |     |           |           | Delay           | 0ms                                  |
-|       |     |           |           | Timing Function | cubic-bezier(0.35, 0, 0.65, 1)       |
-|       |     |           | transform | Duration        | 1200ms                               |
-|       |     |           |           | Delay           | 0ms                                  |
-|       |     |           |           | Timing Function | cubic-bezier(0.35, 0.25, 0.65, 0.75) |
+### Part=Indicator, Property=head
 
-### State=Start
+| Part      | Property | Attribute       | Value                          |
+| --------- | -------- | --------------- | ------------------------------ |
+| Indicator | head     | Duration        | 800ms                          |
+|           |          | Delay           | 0ms                            |
+|           |          | Timing Function | cubic-bezier(0.35, 0, 0.65, 1) |
+
+#### Keyframe=0%(0ms)
+
+| Part      | Property | Value |
+| --------- | -------- | ----- |
+| Indicator | head     | 1%    |
+
+#### Keyframe=100%(800ms)
+
+| Part      | Property | Value |
+| --------- | -------- | ----- |
+| Indicator | head     | 100%  |
+
+### Part=Indicator, Property=tail
+
+| Part      | Property | Attribute       | Value                            |
+| --------- | -------- | --------------- | -------------------------------- |
+| Indicator | tail     | Duration        | 900ms                            |
+|           |          | Delay           | 300ms                            |
+|           |          | Timing Function | cubic-bezier(0.35, 0, 0.65, 0.6) |
+
+#### Keyframe=0%(300ms)
+
+| Part      | Property | Value |
+| --------- | -------- | ----- |
+| Indicator | tail     | 0%    |
+
+#### Keyframe=100%(1200ms)
+
+| Part      | Property | Value |
+| --------- | -------- | ----- |
+| Indicator | tail     | 99%   |
+
+### Part=Indicator, Property=transform
+
+| Part      | Property  | Attribute       | Value                                |
+| --------- | --------- | --------------- | ------------------------------------ |
+| Indicator | transform | Duration        | 1200ms                               |
+|           |           | Delay           | 0ms                                  |
+|           |           | Timing Function | cubic-bezier(0.35, 0.25, 0.65, 0.75) |
+
+#### Keyframe=0%(0ms)
 
 | Part      | Property  | Value        |
 | --------- | --------- | ------------ |
-| Indicator | start     | 0%           |
-|           | end       | 1%           |
-|           | transform | rotate(0deg) |
+| Indicator | transform | rotate(0deg) |
 
-### State=End
+#### Keyframe=100%(1200ms)
 
 | Part      | Property  | Value          |
 | --------- | --------- | -------------- |
-| Indicator | start     | 99%            |
-|           | end       | 100%           |
-|           | transform | rotate(360deg) |
+| Indicator | transform | rotate(360deg) |
