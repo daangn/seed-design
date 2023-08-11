@@ -7,6 +7,7 @@ slug: /component/spinner/style
 <Anatomy>![spinner style anatomy](./spinner-style-anatomy.png)</Anatomy>
 
 1. Indicator
+2. Track
 
 ## Visual Options
 
@@ -19,21 +20,24 @@ slug: /component/spinner/style
 
 ### Variant=Gray
 
-| Part      | Attribute | Value                       |
-| --------- | --------- | --------------------------- |
-| Indicator | Color     | $scale.color.gray-alpha-200 |
+| Part      | Attribute | Value                      |
+| --------- | --------- | -------------------------- |
+| Indicator | Color     | $scale.color.gray-400      |
+| Track     | Color     | $scale.color.gray-alpha-50 |
 
 ### Variant=White
 
-| Part      | Attribute | Value                      |
-| --------- | --------- | -------------------------- |
-| Indicator | Color     | $static.color.static-white |
+| Part      | Attribute | Value                                |
+| --------- | --------- | ------------------------------------ |
+| Indicator | Color     | $static.color.static-white           |
+| Track     | Color     | $static.color.static-white-alpha-200 |
 
 ### Variant=Primary
 
-| Part      | Attribute | Value                   |
-| --------- | --------- | ----------------------- |
-| Indicator | Color     | $semantic.color.primary |
+| Part      | Attribute | Value                       |
+| --------- | --------- | --------------------------- |
+| Indicator | Color     | $semantic.color.primary     |
+| Track     | Color     | $semantic.color.primary-low |
 
 ## 디자인 결정 (Layout)
 
@@ -51,7 +55,47 @@ slug: /component/spinner/style
 
 ## 디자인 결정 (Motion)
 
-| Part      | Attribute       | Value  |
-| --------- | --------------- | ------ |
-| Indicator | Duration        | 1200ms |
-|           | Timing Function | linear |
+### Part=Indicator, Property=head
+
+| Part      | Property | Attribute       | Value                          |
+| --------- | -------- | --------------- | ------------------------------ |
+| Indicator | head     | Duration        | 800ms                          |
+|           |          | Delay           | 0ms                            |
+|           |          | Timing Function | cubic-bezier(0.35, 0, 0.65, 1) |
+
+#### Keyframe
+
+| Progress     | Part      | Property | Value |
+| ------------ | --------- | -------- | ----- |
+| 0% (0ms)     | Indicator | head     | 1%    |
+| 100% (800ms) | Indicator | head     | 100%  |
+
+### Part=Indicator, Property=tail
+
+| Part      | Property | Attribute       | Value                            |
+| --------- | -------- | --------------- | -------------------------------- |
+| Indicator | tail     | Duration        | 900ms                            |
+|           |          | Delay           | 300ms                            |
+|           |          | Timing Function | cubic-bezier(0.35, 0, 0.65, 0.6) |
+
+#### Keyframe
+
+| Progress      | Part      | Property | Value |
+| ------------- | --------- | -------- | ----- |
+| 0% (300ms)    | Indicator | tail     | 0%    |
+| 100% (1200ms) | Indicator | tail     | 99%   |
+
+### Part=Indicator, Property=transform
+
+| Part      | Property  | Attribute       | Value                                |
+| --------- | --------- | --------------- | ------------------------------------ |
+| Indicator | transform | Duration        | 1200ms                               |
+|           |           | Delay           | 0ms                                  |
+|           |           | Timing Function | cubic-bezier(0.35, 0.25, 0.65, 0.75) |
+
+#### Keyframe
+
+| Progress      | Part      | Property  | Value          |
+| ------------- | --------- | --------- | -------------- |
+| 0% (0ms)      | Indicator | transform | rotate(0deg)   |
+| 100% (1200ms) | Indicator | transform | rotate(360deg) |
