@@ -1,5 +1,6 @@
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
+import * as React from "react";
 
 import * as style from "./SidebarItem.css";
 
@@ -8,7 +9,7 @@ interface SidebarItemProps {
   /**
    * sidebar에 같은 이름으로 존재하는 컴포넌트가 있기 때문에 상위 카테고리로 구별해서 하이라이팅 해줌.
    */
-  title: "component" | "primitive" | "foundation" | "overview";
+  category: "component" | "primitive" | "foundation" | "overview";
   name: string;
   alias?: string;
   currentPath: string;
@@ -16,10 +17,12 @@ interface SidebarItemProps {
   hasDeps?: boolean;
 }
 
+// localhost:8000/component/alert-dialog/overview/
+// {domain}/{category}/{component}/{section}/
 const SidebarItem = ({
   currentPath,
   name,
-  title,
+  category,
   alias,
   status,
   to,
@@ -27,10 +30,21 @@ const SidebarItem = ({
   onClick,
   onMouseEnter,
 }: GatsbyLinkProps<{}> & SidebarItemProps) => {
-  const currentPathName = currentPath.split("/")[2];
-  const currentname = name.replaceAll(" ", "-").toLowerCase();
-  const active = currentPathName === currentname && currentPath.includes(title);
+  const [isActive, setIsActive] = React.useState(false);
+  const componentName = currentPath.split("/")[2];
+  const convertedDisplayName = name.replaceAll(" ", "-").toLowerCase();
   const displayName = alias || name;
+
+  React.useEffect(() => {
+    if (
+      componentName === convertedDisplayName &&
+      currentPath.includes(category)
+    ) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [currentPath]);
 
   return (
     <Link
@@ -42,7 +56,7 @@ const SidebarItem = ({
       <li
         className={style.item({
           disable: status === "todo",
-          highlight: active,
+          highlight: isActive,
           hasDeps,
         })}
       >

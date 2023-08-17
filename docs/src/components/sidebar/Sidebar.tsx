@@ -77,7 +77,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         currentPath={currentPath}
         to="/overview/progress-board"
         name="Progress Board"
-        title="overview"
+        category="overview"
         onClick={closeSidebar}
       />
 
@@ -87,14 +87,14 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         currentPath={currentPath}
         to="/foundation/color"
         name="Color"
-        title="foundation"
+        category="foundation"
         onClick={closeSidebar}
       />
       <SidebarItem
         currentPath={currentPath}
         to="/foundation/typography"
         name="Typography"
-        title="foundation"
+        category="foundation"
         onClick={closeSidebar}
       />
 
@@ -113,7 +113,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       currentPath={currentPath}
                       to={item?.name!}
                       name={item?.name!}
-                      title="component"
+                      category="component"
                       onClick={closeSidebar}
                       status={item?.platform?.docs?.overview?.status!}
                       hasDeps
@@ -131,7 +131,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     }
                     alias={item?.alias!}
                     name={item?.name!}
-                    title="component"
+                    category="component"
                     onClick={closeSidebar}
                     status={item?.platform?.docs?.overview?.status! as Status}
                     hasDeps
@@ -153,7 +153,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
             }
             name={groupItems[0]?.name!}
             alias={groupItems[0]?.alias!}
-            title="component"
+            category="component"
             onClick={closeSidebar}
             status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
           />
@@ -168,7 +168,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           currentPath={currentPath}
           to={node?.primitive?.childMdx?.frontmatter?.slug!}
           name={node.name!}
-          title="primitive"
+          category="primitive"
           onClick={closeSidebar}
         />
       ))}
