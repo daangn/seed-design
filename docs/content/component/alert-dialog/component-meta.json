@@ -5,9 +5,9 @@
   "thumbnail": "./thumbnail.png",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "in-progress",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/alert-dialog"
     },
     "android": {
       "status": "todo",
