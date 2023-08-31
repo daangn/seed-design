@@ -3361,7 +3361,7 @@ type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-p
 type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly alias: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> }, readonly allPrimitiveMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null }> } };
+type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly alias: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 
 }
