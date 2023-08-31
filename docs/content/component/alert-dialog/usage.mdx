@@ -19,6 +19,7 @@ slug: /component/alert-dialog/usage
 
 ## 옵션
 
+
 <HalfCard>
   <HalfCardImageCell>
     ![alert dialog options title](./alertdialog-options-title.png)
@@ -29,7 +30,7 @@ slug: /component/alert-dialog/usage
       Title은 Alert Dialog가 어떤 정보를 담고 있는지 요약된 내용으로 제공합니다.
       유저에게 경고의 원인 또는 맥락을 명확하게 전달함으로써, Alert Dialog의
       목적과 중요성을 전달합니다. 또한 Bold 스타일을 적용하여, Description 보다
-      주목도를 높여 중요한 정보를 빨리 인지할 수 있도록 합니다.
+      주목도를 높여 중요한 정보를 빨리 인지할 수 있도록 합니다. Title을 필수적으로 작성하기를 권장합니다. 
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
@@ -94,7 +95,7 @@ slug: /component/alert-dialog/usage
 <HalfCard>
   <HalfCardImageCell>
     ![alert dialog options secondary action
-    nonpreferred](./alertdialog-options-action-secondary-nonpreferred.png)
+    nonpreferred](./alertdialog-options-action-secondary-nonpreffered.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Nonpreferred</HalfCardDescriptionTitle>
@@ -168,10 +169,22 @@ slug: /component/alert-dialog/usage
 
 <HalfCard>
   <HalfCardImageCell>
+    ![alert dialog guideline](./alert-dialog-style-max-width.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Max Width</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Alert Dialog의 Max Width는 272입니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
     ![alert dialog guideline](./alertdialog-guideline-1.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
-    <HalfCardDescriptionTitle>Alert Dialog</HalfCardDescriptionTitle>
+    <HalfCardDescriptionTitle>간결한 문구</HalfCardDescriptionTitle>
     <HalfCardDescription>
       Alert Dialog는 유저에게 중요한 알림, 확인, 경고 등의 메시지를 전달합니다.
       유저의 여정을 방해하는 속성을 지니므로 내용을 간결하게 작성하고, 신중하게
@@ -194,9 +207,42 @@ slug: /component/alert-dialog/usage
   </HalfCardDescriptionCell>
 </HalfCard>
 
+<HalfCard>
+  <HalfCardImageCell>
+    ![alert dialog guideline](./alert-dialog-style-overflow.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Overflow</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Alert Dialog는 사용자에게 경고나 주의 사항을 강조하는 역할을 합니다.
+      돌이킬 수 없는 데이터 유실이 발생하는 경우, 유저에게 경고의 메시지를
+      전달합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
 <br />
 
 ### Do / Don't
+
+<br />
+
+<DoDontLayout>
+  <DoBox>
+    <DoImage>
+      ![alert dialog guideline](./alertdialog-guideline-do-2.png)
+    </DoImage>
+    <DoText>
+      Title은 필수 작성을 권장합니다. 어떤 유형의 메시지, 알림인지 유저가 신속하게 파악할 수 있도록 합니다. 또한 스크린 리더와 같은 접근성 보조 기술에서도 Title은 중요한 역할을 합니다.
+    </DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>
+      ![alert dialog guideline](./alertdialog-guideline-dont-5.png)
+    </DontImage>
+    <DontText>Title 요소 없이 Description으로만 내용을 서술하지 않습니다. Title을 통해 Description이 어떤 정보를 전달하는지 미리 파악할 수 있도록 합니다.</DontText>
+  </DontBox>
+</DoDontLayout>
 
 <br />
 
@@ -215,6 +261,27 @@ slug: /component/alert-dialog/usage
       ![alert dialog guideline](./alertdialog-guideline-dont-2.png)
     </DontImage>
     <DontText>Description은 3줄 이내로 작성할 것을 권장합니다.</DontText>
+  </DontBox>
+</DoDontLayout>
+
+<br />
+
+<DoDontLayout>
+  <DoBox>
+    <DoImage>
+      ![alert dialog guideline](./alertdialog-guideline-do-3.png)
+    </DoImage>
+    <DoText>
+      Alert Dialog의 버튼 Label은 명사형으로 제공합니다. 간결한 명사형은 버튼이 수행하는 동작을 직관적으로 이해할 수 있게 해줍니다. 또한 다국어 번역 및 대응 시에도 명사형이 적합합니다.
+    </DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>
+      ![alert dialog guideline](./alertdialog-guideline-dont-6.png)
+    </DontImage>
+    <DontText>
+    서술형 Label은 유저가 읽고 이해해야 하므로 결정 행동을 지연시킬 수 있습니다. 버튼 레이블을 간결하게 전달함으로써 유저가 빠른 결정을 내릴 수 있도록 도와줍니다.
+    </DontText>
   </DontBox>
 </DoDontLayout>
 
