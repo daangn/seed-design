@@ -1,9 +1,8 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
-import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
+import ComponentDocumentTopContent from "../components/ComponentDocumentTopContent";
 import Iframe from "../components/Iframe";
-// import EditLink from "../components/EditLink";
 import type { ProgressStatus } from "../components/progress-board/types";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
@@ -42,6 +41,17 @@ export const query = graphql`
           }
         }
       }
+      primitive {
+        childPrimitiveMetaJson {
+          primitive {
+            childMdx {
+              frontmatter {
+                slug
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -51,7 +61,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
   path,
   children,
 }) => {
-  const { name, description, platform } = data.componentMetaJson!;
+  const { name, description, platform, primitive } = data.componentMetaJson!;
   const tableOfContents =
     platform?.docs?.overview?.mdx?.childMdx?.tableOfContents!;
   const reactStatus = platform?.react?.status!;
@@ -60,14 +70,20 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
 
   const storybookPath = platform?.docs?.overview?.storybook?.path!;
   const storybookHeight = platform?.docs?.overview?.storybook?.height!;
+  const primitiveLink =
+    primitive?.childPrimitiveMetaJson?.primitive?.childMdx?.frontmatter?.slug!;
+
+  console.log("primitiveLink", primitiveLink);
 
   return (
     <>
       <article className={style.content}>
-        <h1 className={style.title}>{name}</h1>
-        <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav currentPath={path} />
-
+        <ComponentDocumentTopContent
+          title={name!}
+          description={description!}
+          path={path}
+          primitiveLink={primitiveLink}
+        />
         <h2 className={style.subTitle}>개발 현황</h2>
         <div className={style.progressContainer}>
           <Progress
@@ -95,7 +111,6 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
         )}
 
         <div>{children}</div>
-        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

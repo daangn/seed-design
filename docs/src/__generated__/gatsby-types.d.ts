@@ -3320,7 +3320,7 @@ type ComponentOverviewQueryVariables = Exact<{
 }>;
 
 
-type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly storybook: { readonly path: string | null, readonly height: string | null } | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
+type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly storybook: { readonly path: string | null, readonly height: string | null } | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3332,14 +3332,14 @@ type ComponentStyleQueryVariables = Exact<{
 }>;
 
 
-type ComponentStyleQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly style: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
+type ComponentStyleQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly style: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
 
 type ComponentUsageQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;
 }>;
 
 
-type ComponentUsageQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly usage: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null } | null };
+type ComponentUsageQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly usage: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
 
 type PrimitiveDocTemplateQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;

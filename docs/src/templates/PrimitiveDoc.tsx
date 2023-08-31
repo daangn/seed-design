@@ -1,7 +1,6 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
-// import EditLink from "../components/EditLink";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./PrimitiveCommon.css";
@@ -35,7 +34,6 @@ const DocsTemplate: React.FC<
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
         <div>{children}</div>
-        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

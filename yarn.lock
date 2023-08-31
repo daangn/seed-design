@@ -4366,6 +4366,7 @@ __metadata:
     "@mdx-js/mdx": ^2.1.5
     "@mdx-js/react": ^2.1.5
     "@seed-design/design-token": "workspace:^"
+    "@seed-design/icon": ^0.3.6
     "@seed-design/react-theming": "workspace:^"
     "@storybook/addon-a11y": ^7.0.0-beta.19
     "@storybook/addon-actions": ^7.0.0-beta.19
@@ -4456,6 +4457,15 @@ __metadata:
     seed-icon: ./bin/index.mjs
   languageName: unknown
   linkType: soft
+
+"@seed-design/icon@npm:^0.3.6":
+  version: 0.3.6
+  resolution: "@seed-design/icon@npm:0.3.6"
+  peerDependencies:
+    react: "*"
+  checksum: f51a0612a0e504f94b14146dc4a346790fba3136a4821655b81ba5e80492cc9cbda803c0d1c44961ad3fde5ee6d994dc38f9b3b353852d66c2145545983eaf86
+  languageName: node
+  linkType: hard
 
 "@seed-design/project@workspace:.":
   version: 0.0.0-use.local

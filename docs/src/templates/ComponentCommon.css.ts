@@ -10,6 +10,39 @@ export const content = style([t.content]);
 
 export const title = style([t.documentHeading1, { marginTop: "0px" }]);
 
+export const titleContainer = style([
+  u.flex,
+  {
+    alignItems: "flex-start",
+  },
+]);
+
+export const primitiveLink = style([
+  u.flexCenter,
+  {
+    backgroundColor: vars.$semantic.color.primaryLow,
+    color: vars.$semantic.color.primary,
+
+    padding: "4px 8px",
+    borderRadius: "4px",
+
+    marginTop: "18px",
+    marginLeft: "18px",
+
+    cursor: "pointer",
+    transition: "background-color 0.2s ease",
+
+    ":hover": {
+      backgroundColor: vars.$semantic.color.primaryLowHover,
+    },
+  },
+]);
+
+export const primitiveText = style({
+  marginLeft: "2px",
+  fontWeight: "700",
+});
+
 export const subTitle = style([t.documentHeading2]);
 
 export const titleDescription = style([t.documentCaption1]);

@@ -1,8 +1,7 @@
 import type { HeadFC, PageProps } from "gatsby";
 import { graphql } from "gatsby";
 
-import ComponentDocumentCategoryNav from "../components/ComponentDocumentCategoryNav";
-// import EditLink from "../components/EditLink";
+import ComponentDocumentTopContent from "../components/ComponentDocumentTopContent";
 import SEO from "../components/SEO";
 import TableOfContents from "../components/TableOfContents";
 import * as style from "./ComponentCommon.css";
@@ -23,6 +22,17 @@ export const query = graphql`
           }
         }
       }
+      primitive {
+        childPrimitiveMetaJson {
+          primitive {
+            childMdx {
+              frontmatter {
+                slug
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -32,19 +42,22 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
   path,
   children,
 }) => {
-  const { name, description, platform } = data.componentMetaJson!;
+  const { name, description, platform, primitive } = data.componentMetaJson!;
   const tableOfContents =
     platform?.docs?.style?.mdx?.childMdx?.tableOfContents!;
+  const primitiveLink =
+    primitive?.childPrimitiveMetaJson?.primitive?.childMdx?.frontmatter?.slug!;
 
   return (
     <>
       <article className={style.content}>
-        <h1 className={style.title}>{name}</h1>
-        <p className={style.titleDescription}>{description}</p>
-        <ComponentDocumentCategoryNav currentPath={path} />
-
+        <ComponentDocumentTopContent
+          primitiveLink={primitiveLink!}
+          title={name!}
+          description={description!}
+          path={path}
+        />
         <div>{children}</div>
-        {/* <EditLink slug={path} /> */}
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>
