@@ -35,27 +35,17 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           }
         }
       }
-
-      allPrimitiveMetaJson(sort: { name: ASC }) {
-        nodes {
-          name
-          description
-          primitive {
-            childMdx {
-              frontmatter {
-                slug
-              }
-            }
-          }
-        }
-      }
     }
   `);
 
-  const currentPath = typeof window !== "undefined" ? location.pathname : "";
-  const componentData = data.allComponentMetaJson.nodes;
-  const primitiveData = data.allPrimitiveMetaJson.nodes;
+  const [currentPath, setCurrentPath] = useState<string>("");
+  const currentPathname =
+    typeof window !== "undefined" ? window.location.pathname : "";
+  useEffect(() => {
+    setCurrentPath(currentPathname);
+  }, [currentPathname]);
 
+  const componentData = data.allComponentMetaJson.nodes;
   const groupedComponentData = groupby(componentData, (data) =>
     !data.group ? data.name : data.group,
   );
@@ -74,27 +64,24 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarTitleWithNoLink title="overview" />
 
       <SidebarItem
-        currentPath={currentPath}
         to="/overview/progress-board"
         name="Progress Board"
-        title="overview"
+        highlight={currentPath === "/overview/progress-board/"}
         onClick={closeSidebar}
       />
 
       <SidebarTitleWithNoLink title="foundation" />
 
       <SidebarItem
-        currentPath={currentPath}
         to="/foundation/color"
         name="Color"
-        title="foundation"
+        highlight={currentPath === "/foundation/color/"}
         onClick={closeSidebar}
       />
       <SidebarItem
-        currentPath={currentPath}
         to="/foundation/typography"
+        highlight={currentPath === "/foundation/typography/"}
         name="Typography"
-        title="foundation"
         onClick={closeSidebar}
       />
 
@@ -106,14 +93,18 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           return (
             <SidebarCollapse title={groupName}>
               {groupItems?.map((item) => {
+                const convertedName = item?.name
+                  ?.replaceAll(" ", "-")
+                  .toLowerCase()!;
+                const regex = new RegExp(`^/component/${convertedName}/`, "g");
+
                 if (item?.platform?.docs?.overview?.status! === "todo") {
                   return (
                     <SidebarItem
                       key={`${item?.name}-todo`}
-                      currentPath={currentPath}
+                      highlight={regex.test(currentPath)}
                       to={item?.name!}
                       name={item?.name!}
-                      title="component"
                       onClick={closeSidebar}
                       status={item?.platform?.docs?.overview?.status!}
                       hasDeps
@@ -124,14 +115,13 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                 return (
                   <SidebarItem
                     key={`${item?.name}-done-or-wip`}
-                    currentPath={currentPath}
                     to={
                       item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
                         ?.slug!
                     }
                     alias={item?.alias!}
+                    highlight={regex.test(currentPath)}
                     name={item?.name!}
-                    title="component"
                     onClick={closeSidebar}
                     status={item?.platform?.docs?.overview?.status! as Status}
                     hasDeps
@@ -142,36 +132,27 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           );
         }
 
+        const convertedName = groupItems[0]?.name
+          ?.replaceAll(" ", "-")
+          .toLowerCase()!;
+        const regex = new RegExp(`^/component/${convertedName}/`, "g");
+
         // non-그룹
         return (
           <SidebarItem
             key={`${groupItems[0]?.name}-only-one-component`}
-            currentPath={currentPath}
             to={
               groupItems[0]?.platform?.docs?.overview?.mdx?.childMdx
                 ?.frontmatter?.slug!
             }
             name={groupItems[0]?.name!}
             alias={groupItems[0]?.alias!}
-            title="component"
+            highlight={regex.test(currentPath)}
             onClick={closeSidebar}
             status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
           />
         );
       })}
-
-      <SidebarTitleWithLink title="primitive" onClick={closeSidebar} />
-
-      {primitiveData!.map((node) => (
-        <SidebarItem
-          key={`${node.name!}-primitive-done-or-in-progress`}
-          currentPath={currentPath}
-          to={node?.primitive?.childMdx?.frontmatter?.slug!}
-          name={node.name!}
-          title="primitive"
-          onClick={closeSidebar}
-        />
-      ))}
     </div>
   );
 };
