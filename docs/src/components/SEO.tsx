@@ -42,10 +42,10 @@ const SEO = ({ name, description }: SEOProps) => {
       <meta property="og:title" content={`${nameWithPrefix}SEED Design`} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
-      {mode === "light" ? (
-        <link rel="icon" href={data.blackFavicon!.publicURL!} />
-      ) : (
+      {mode === "dark" ? (
         <link rel="icon" href={data.whiteFavicon!.publicURL!} />
+      ) : (
+        <link rel="icon" href={data.blackFavicon!.publicURL!} />
       )}
     </>
   );
