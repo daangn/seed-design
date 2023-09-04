@@ -25,6 +25,7 @@ slug: /component/text-field/style
 
 | Property      | Value                |
 | ------------- | -------------------- |
+| size          | small, medium, large |
 | variant       | outlined, underlined |
 | label         | text                 |
 | placeholder   | text                 |
@@ -93,16 +94,6 @@ slug: /component/text-field/style
 
 ## 디자인 결정 (Typography)
 
-### size=medium
-
-| Part                                   | Attribute  | Value                               |
-| -------------------------------------- | ---------- | ----------------------------------- |
-| Label                                  | Typography | $semantic.typography.label3-bold    |
-| Required Indicator, Optional Indicator | Typography | $semantic.typography.label3-regular |
-| Field Text, Placeholder                | Typography | $semantic.typography.label2-regular |
-| Description                            | Typography | $semantic.typography.label3-regular |
-| Prefix, Suffix (string type)           | Typography | $semantic.typography.label3-regular |
-
 ### size=small
 
 | Part                                   | Attribute  | Value                               |
@@ -113,7 +104,41 @@ slug: /component/text-field/style
 | Prefix, Suffix (string type)           | Typography | $semantic.typography.label3-regular |
 | Description                            | Typography | $semantic.typography.label4-regular |
 
+### size=medium
+
+| Part                                   | Attribute  | Value                               |
+| -------------------------------------- | ---------- | ----------------------------------- |
+| Label                                  | Typography | $semantic.typography.label3-bold    |
+| Required Indicator, Optional Indicator | Typography | $semantic.typography.label3-regular |
+| Field Text, Placeholder                | Typography | $semantic.typography.label2-regular |
+| Description                            | Typography | $semantic.typography.label3-regular |
+| Prefix, Suffix (string type)           | Typography | $semantic.typography.label3-regular |
+
+### size=large
+
+| Part                                   | Attribute  | Value                               |
+| -------------------------------------- | ---------- | ----------------------------------- |
+| Label                                  | Typography | $semantic.typography.label3-bold    |
+| Required Indicator, Optional Indicator | Typography | $semantic.typography.label3-regular |
+| Field Text, Placeholder                | Typography | $semantic.typography.label1-regular |
+| Description                            | Typography | $semantic.typography.label3-regular |
+| Prefix, Suffix (string type)           | Typography | $semantic.typography.label3-regular |
+
 ## 디자인 결정 (Layout)
+
+### variant=outlined, size=small
+
+| Part                       | Attribute          | Value |
+| -------------------------- | ------------------ | ----- |
+| Field                      | Corner Radius      | 6pt   |
+|                            | Min Width          | 280pt |
+|                            | Height             | 42pt  |
+|                            | Horizontal Padding | 12pt  |
+| Prefix / Label             | Spacing            | 8pt   |
+| Label / Suffix             | Spacing            | 8pt   |
+| Label / Required Indicator | Spacing            | 4pt   |
+| Label / Field              | Spacing            | 12pt  |
+| Field / Description        | Spacing            | 8pt   |
 
 ### variant=outlined, size=medium
 
@@ -129,18 +154,32 @@ slug: /component/text-field/style
 | Label / Field              | Spacing            | 12pt  |
 | Field / Description        | Spacing            | 8pt   |
 
-### variant=outlined, size=small
+### variant=outlined, size=large
 
 | Part                       | Attribute          | Value |
 | -------------------------- | ------------------ | ----- |
 | Field                      | Corner Radius      | 6pt   |
 |                            | Min Width          | 280pt |
-|                            | Height             | 42pt  |
+|                            | Height             | 54pt  |
 |                            | Horizontal Padding | 12pt  |
 | Prefix / Label             | Spacing            | 8pt   |
 | Label / Suffix             | Spacing            | 8pt   |
 | Label / Required Indicator | Spacing            | 4pt   |
 | Label / Field              | Spacing            | 12pt  |
+| Field / Description        | Spacing            | 8pt   |
+
+### variant=underlined, size=small
+
+| Part                       | Attribute          | Value |
+| -------------------------- | ------------------ | ----- |
+| Field                      | Corner Radius      | 0pt   |
+|                            | Min Width          | 280pt |
+|                            | Height             | 41pt  |
+|                            | Horizontal Padding | 0pt   |
+| Prefix / Label             | Spacing            | 8pt   |
+| Label / Suffix             | Spacing            | 8pt   |
+| Label / Required Indicator | Spacing            | 4pt   |
+| Label / Field              | Spacing            | 6pt   |
 | Field / Description        | Spacing            | 8pt   |
 
 ### variant=underlined, size=medium
@@ -157,16 +196,16 @@ slug: /component/text-field/style
 | Label / Field              | Spacing            | 8pt   |
 | Field / Description        | Spacing            | 8pt   |
 
-### variant=underlined, size=small
+### variant=underlined, size=large
 
 | Part                       | Attribute          | Value |
 | -------------------------- | ------------------ | ----- |
 | Field                      | Corner Radius      | 0pt   |
 |                            | Min Width          | 280pt |
-|                            | Height             | 41pt  |
+|                            | Height             | 45pt  |
 |                            | Horizontal Padding | 0pt   |
 | Prefix / Label             | Spacing            | 8pt   |
 | Label / Suffix             | Spacing            | 8pt   |
 | Label / Required Indicator | Spacing            | 4pt   |
-| Label / Field              | Spacing            | 6pt   |
+| Label / Field              | Spacing            | 8pt   |
 | Field / Description        | Spacing            | 8pt   |
