@@ -1,5 +1,5 @@
 import { vars } from "@seed-design/design-token";
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 
 import * as m from "../../styles/media.css";
 import * as u from "../../styles/utils.css";
@@ -50,17 +50,28 @@ export const halfCard = style([
 
 export const halfCardImageCell = style([
   {
-    minHeight: "200px",
-    minWidth: "100%",
+    width: "100%",
+    height: "100%",
+
     border: `1px solid ${vars.$scale.color.gray300}`,
     borderRadius: "8px",
     overflow: "hidden",
+    objectFit: "cover",
   },
 
   m.medium({
     minWidth: "500px",
+    minHeight: "300px",
+
+    width: "500px",
+    height: "300px",
   }),
 ]);
+
+globalStyle(`${halfCardImageCell} > img`, {
+  width: "100%",
+  height: "100%",
+});
 
 export const halfCardDescriptionCell = style([
   {
