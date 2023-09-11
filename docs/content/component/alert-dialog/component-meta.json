@@ -5,7 +5,7 @@
   "thumbnail": "./thumbnail.png",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
       "path": "seedcatalog://components/alert-dialog"
     },
