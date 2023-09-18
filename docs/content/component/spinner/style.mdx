@@ -6,8 +6,9 @@ slug: /component/spinner/style
 
 <Anatomy>![spinner style anatomy](./spinner-style-anatomy.png)</Anatomy>
 
-1. Indicator
+1. Root
 2. Track
+3. Indicator
 
 ## Visual Options
 
@@ -85,17 +86,17 @@ slug: /component/spinner/style
 | 0% (300ms)    | Indicator | tail     | 0%    |
 | 100% (1200ms) | Indicator | tail     | 99%   |
 
-### Part=Indicator, Property=transform
+### Part=Root, Property=transform
 
-| Part      | Property  | Attribute       | Value                                |
-| --------- | --------- | --------------- | ------------------------------------ |
-| Indicator | transform | Duration        | 1200ms                               |
-|           |           | Delay           | 0ms                                  |
-|           |           | Timing Function | cubic-bezier(0.35, 0.25, 0.65, 0.75) |
+| Part | Property  | Attribute       | Value                                |
+| ---- | --------- | --------------- | ------------------------------------ |
+| Root | transform | Duration        | 1200ms                               |
+|      |           | Delay           | 0ms                                  |
+|      |           | Timing Function | cubic-bezier(0.35, 0.25, 0.65, 0.75) |
 
 #### Keyframe
 
-| Progress      | Part      | Property  | Value          |
-| ------------- | --------- | --------- | -------------- |
-| 0% (0ms)      | Indicator | transform | rotate(0deg)   |
-| 100% (1200ms) | Indicator | transform | rotate(360deg) |
+| Progress      | Part | Property  | Value          |
+| ------------- | ---- | --------- | -------------- |
+| 0% (0ms)      | Root | transform | rotate(0deg)   |
+| 100% (1200ms) | Root | transform | rotate(360deg) |
