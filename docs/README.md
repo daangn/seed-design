@@ -6,4 +6,4 @@ SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한
 
 ### Contributing
 
-[Docs CONTRIBUTING.md](./CONTRIBUTING.md)
+[Seed Docs CONTRIBUTING.md](./CONTRIBUTING.md)

@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'packages/**'
-      - 'docs'
+      - 'docs/**'
 
 jobs:
   release:
