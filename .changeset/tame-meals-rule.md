@@ -4,7 +4,7 @@
 
 #### ko
 
-- seed docs도 changeset을 적용했어요.
+- seed docs도 changeset을 적용해요.
 
 #### en
 
