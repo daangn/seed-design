@@ -1771,7 +1771,7 @@ type Query_componentMetaJsonArgs = {
   name: InputMaybe<StringQueryOperatorInput>;
   parent: InputMaybe<NodeFilterInput>;
   platform: InputMaybe<componentMetaJsonPlatformFilterInput>;
-  primitive: InputMaybe<FileFilterInput>;
+  primitive: InputMaybe<StringQueryOperatorInput>;
   thumbnail: InputMaybe<FileFilterInput>;
 };
 
@@ -2807,7 +2807,7 @@ type componentMetaJson = Node & {
   readonly name: Maybe<Scalars['String']>;
   readonly parent: Maybe<Node>;
   readonly platform: Maybe<componentMetaJsonPlatform>;
-  readonly primitive: Maybe<File>;
+  readonly primitive: Maybe<Scalars['String']>;
   readonly thumbnail: Maybe<File>;
 };
 
@@ -2867,7 +2867,7 @@ type componentMetaJsonFieldSelector = {
   readonly name: InputMaybe<FieldSelectorEnum>;
   readonly parent: InputMaybe<NodeFieldSelector>;
   readonly platform: InputMaybe<componentMetaJsonPlatformFieldSelector>;
-  readonly primitive: InputMaybe<FileFieldSelector>;
+  readonly primitive: InputMaybe<FieldSelectorEnum>;
   readonly thumbnail: InputMaybe<FileFieldSelector>;
 };
 
@@ -2882,7 +2882,7 @@ type componentMetaJsonFilterInput = {
   readonly name: InputMaybe<StringQueryOperatorInput>;
   readonly parent: InputMaybe<NodeFilterInput>;
   readonly platform: InputMaybe<componentMetaJsonPlatformFilterInput>;
-  readonly primitive: InputMaybe<FileFilterInput>;
+  readonly primitive: InputMaybe<StringQueryOperatorInput>;
   readonly thumbnail: InputMaybe<FileFilterInput>;
 };
 
@@ -3166,7 +3166,7 @@ type componentMetaJsonSortInput = {
   readonly name: InputMaybe<SortOrderEnum>;
   readonly parent: InputMaybe<NodeSortInput>;
   readonly platform: InputMaybe<componentMetaJsonPlatformSortInput>;
-  readonly primitive: InputMaybe<FileSortInput>;
+  readonly primitive: InputMaybe<SortOrderEnum>;
   readonly thumbnail: InputMaybe<FileSortInput>;
 };
 
@@ -3315,31 +3315,10 @@ type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 type ComponentListPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
-type ComponentOverviewQueryVariables = Exact<{
-  id: InputMaybe<Scalars['String']>;
-}>;
-
-
-type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly ios: { readonly path: string | null, readonly status: string | null } | null, readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly storybook: { readonly path: string | null, readonly height: string | null } | null, readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
-
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly figma: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
-
-type ComponentStyleQueryVariables = Exact<{
-  id: InputMaybe<Scalars['String']>;
-}>;
-
-
-type ComponentStyleQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly style: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
-
-type ComponentUsageQueryVariables = Exact<{
-  id: InputMaybe<Scalars['String']>;
-}>;
-
-
-type ComponentUsageQuery = { readonly componentMetaJson: { readonly name: string | null, readonly description: string | null, readonly platform: { readonly docs: { readonly usage: { readonly mdx: { readonly childMdx: { readonly tableOfContents: any | null } | null } | null } | null } | null } | null, readonly primitive: { readonly childPrimitiveMetaJson: { readonly primitive: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null };
 
 type PrimitiveDocTemplateQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;

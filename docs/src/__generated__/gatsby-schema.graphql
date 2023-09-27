@@ -1581,7 +1581,7 @@ type Query {
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, limit: Int, skip: Int, sort: [SiteBuildMetadataSortInput]): SiteBuildMetadataConnection!
   allSiteFunction(filter: SiteFunctionFilterInput, limit: Int, skip: Int, sort: [SiteFunctionSortInput]): SiteFunctionConnection!
   allSitePage(filter: SitePageFilterInput, limit: Int, skip: Int, sort: [SitePageSortInput]): SitePageConnection!
-  componentMetaJson(_schema: StringQueryOperatorInput, alias: StringQueryOperatorInput, children: NodeFilterListInput, description: StringQueryOperatorInput, group: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, platform: componentMetaJsonPlatformFilterInput, primitive: FileFilterInput, thumbnail: FileFilterInput): componentMetaJson
+  componentMetaJson(_schema: StringQueryOperatorInput, alias: StringQueryOperatorInput, children: NodeFilterListInput, description: StringQueryOperatorInput, group: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, parent: NodeFilterInput, platform: componentMetaJsonPlatformFilterInput, primitive: StringQueryOperatorInput, thumbnail: FileFilterInput): componentMetaJson
   directory(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, changeTime: DateQueryOperatorInput, children: NodeFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): Directory
   file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childComponentMetaJson: componentMetaJsonFilterInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, childPrimitiveMetaJson: primitiveMetaJsonFilterInput, children: NodeFilterListInput, childrenComponentMetaJson: componentMetaJsonFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, childrenPrimitiveMetaJson: primitiveMetaJsonFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
   imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: GatsbyImageDataQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp
@@ -2060,7 +2060,7 @@ type componentMetaJson implements Node {
   name: String
   parent: Node
   platform: componentMetaJsonPlatform
-  primitive: File
+  primitive: String
   thumbnail: File
 }
 
@@ -2093,7 +2093,7 @@ input componentMetaJsonFieldSelector {
   name: FieldSelectorEnum
   parent: NodeFieldSelector
   platform: componentMetaJsonPlatformFieldSelector
-  primitive: FileFieldSelector
+  primitive: FieldSelectorEnum
   thumbnail: FileFieldSelector
 }
 
@@ -2108,7 +2108,7 @@ input componentMetaJsonFilterInput {
   name: StringQueryOperatorInput
   parent: NodeFilterInput
   platform: componentMetaJsonPlatformFilterInput
-  primitive: FileFilterInput
+  primitive: StringQueryOperatorInput
   thumbnail: FileFilterInput
 }
 
@@ -2365,7 +2365,7 @@ input componentMetaJsonSortInput {
   name: SortOrderEnum
   parent: NodeSortInput
   platform: componentMetaJsonPlatformSortInput
-  primitive: FileSortInput
+  primitive: SortOrderEnum
   thumbnail: FileSortInput
 }
 
