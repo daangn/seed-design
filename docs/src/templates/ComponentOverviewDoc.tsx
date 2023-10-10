@@ -73,8 +73,6 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentOverviewQuery>> = ({
   const primitiveLink =
     primitive?.childPrimitiveMetaJson?.primitive?.childMdx?.frontmatter?.slug!;
 
-  console.log("primitiveLink", primitiveLink);
-
   return (
     <>
       <article className={style.content}>

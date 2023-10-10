@@ -48,11 +48,13 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentUsageQuery>> = ({
   const primitiveLink =
     primitive?.childPrimitiveMetaJson?.primitive?.childMdx?.frontmatter?.slug!;
 
+  console.log("primitiveLink", primitiveLink);
+
   return (
     <>
       <article className={style.content}>
         <ComponentDocumentTopContent
-          primitiveLink={primitiveLink!}
+          primitiveLink={primitiveLink}
           title={name!}
           description={description!}
           path={path}
