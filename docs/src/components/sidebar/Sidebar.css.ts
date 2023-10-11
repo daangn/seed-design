@@ -86,6 +86,7 @@ export const desktopSidebarContainer = style([
     background: vars.$semantic.color.paperDefault,
 
     width: COMMON_STYLES.SIDEBAR_WIDTH,
+    minWidth: COMMON_STYLES.SIDEBAR_WIDTH,
     height: "100vh",
     transition: "background-color 0.2s ease, color 0.2s ease",
   },
