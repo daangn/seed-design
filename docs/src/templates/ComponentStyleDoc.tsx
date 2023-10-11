@@ -52,7 +52,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
     <>
       <article className={style.content}>
         <ComponentDocumentTopContent
-          primitiveLink={primitiveLink!}
+          primitiveLink={primitiveLink}
           title={name!}
           description={description!}
           path={path}

@@ -21,7 +21,8 @@ module.exports = {
       useTabs: false,
       trailingComma: "all",
       printWidth: 80,
-      arrowParens: "always"
+      arrowParens: "always",
+      proseWrap: "never",
     }, {
       usePrettierrc: false
     }],
