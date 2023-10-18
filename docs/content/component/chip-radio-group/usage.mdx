@@ -2,9 +2,88 @@
 slug: /component/chip-radio-group/usage
 ---
 
-## Chip Radio Group Usage
+## 구조도
 
-in-progress
+<Anatomy>![anatomy](./anatomy.png)</Anatomy>
+
+1. Root
+2. Chip
+3. Label
+4. Prefix Icon
+5. Suffix Icon
+
+## 옵션
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![chip radio group options size](./chipradiogroup-options-size.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Size</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Chip Radio Group은 small, medium 2개의 사이즈를 가질 수 있습니다. medium이
+      가장 보편적으로 사용되며, 페이지 내의 중요도와 시각적 균형에 맞게 적절하게
+      사용합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![chip radio group options
+    selection](./chipradiogroup-options-selection.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Selection</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Chip Radio Group은 selected, unselected 중 하나의 상태를 가질 수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![chip radio group options disabled](./chipradiogroup-options-disabled.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Disabled 상태는 Chip Radio Group가 존재하지만 지금은 사용할 수 없는 상태를
+      나타냅니다. 이 옵션은 레이아웃 일관성을 유지하고 이후 상호작용이 가능할
+      수도 있음을 사용자에게 알려줍니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![chip radio group options icon](./chipradiogroup-options-icon.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Icon</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Prefix icon으로 Label을 보조하기 위한 모노크롬 아이콘을 사용할 수
+      있습니다. Suffix icon으로 Chevron을 사용해 칩 버튼의 상호작용을 강조할 수
+      있습니다. 동시 사용은 권장하지 않습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+### 옵션 테이블 (Chip Radio Group)
+
+| 속성        | 값            | 기본값 |
+| ----------- | ------------- | ------ |
+| size        | small, medium | medium |
+| is disabled | true, false   | false  |
+
+### 옵션 테이블 (Chip Radio)
+
+| 속성        | 값          | 기본값 |
+| ----------- | ----------- | ------ |
+| label       | text        |        |
+| is disabled | true, false | false  |
+| prefix icon | icon        |        |
+| suffix icon | Icon        |        |
 
 ## 상호작용
 
@@ -28,7 +107,8 @@ in-progress
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Focus</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      <Keyboard>←</Keyboard> 또는 <Keyboard>→</Keyboard> 키를 통해 Chip 간 Focus 이동이 가능합니다.
+      <Keyboard>←</Keyboard> 또는 <Keyboard>→</Keyboard> 키를 통해 Chip 간 Focus
+      이동이 가능합니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
