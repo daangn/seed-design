@@ -43,32 +43,6 @@ export const query = graphql`
             path
             status
           }
-          docs {
-            overview {
-              status
-              mdx {
-                childMdx {
-                  ...Slug
-                }
-              }
-            }
-            usage {
-              status
-              mdx {
-                childMdx {
-                  ...Slug
-                }
-              }
-            }
-            style {
-              status
-              mdx {
-                childMdx {
-                  ...Slug
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -112,9 +86,6 @@ const ComponentProgressBoardPage = ({
             <TableData>React</TableData>
             <TableData>iOS</TableData>
             <TableData>Android</TableData>
-            <TableData>Overview</TableData>
-            <TableData>Usage</TableData>
-            <TableData>Style</TableData>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -139,24 +110,6 @@ const ComponentProgressBoardPage = ({
                 android={{
                   status: node?.platform?.android?.status! as ProgressStatus,
                   path: node?.platform?.android?.path!,
-                }}
-                overview={{
-                  status: node?.platform?.docs?.overview
-                    ?.status! as ProgressStatus,
-                  slug: node?.platform?.docs?.overview?.mdx?.childMdx
-                    ?.frontmatter?.slug!,
-                }}
-                usage={{
-                  status: node?.platform?.docs?.usage
-                    ?.status! as ProgressStatus,
-                  slug: node?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
-                    ?.slug!,
-                }}
-                style={{
-                  status: node?.platform?.docs?.style
-                    ?.status! as ProgressStatus,
-                  slug: node?.platform?.docs?.style?.mdx?.childMdx?.frontmatter
-                    ?.slug!,
                 }}
               />
             );
@@ -196,7 +149,7 @@ const ComponentProgressBoardPage = ({
           </TableRow>
         </TableBody>
       </Table>
-
+      {/* 
       <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
       <p className={progressStyle.captionNoMargin}>OKR 달성률을 계산합니다</p>
 
@@ -231,36 +184,36 @@ const ComponentProgressBoardPage = ({
             </TableData>
           </TableRow>
         </TableBody>
-      </Table>
+      </Table> */}
     </article>
   );
 };
 
-const okr = ({
-  figmaComponentCount,
-  reactComponentCount,
-  iosComponentCount,
-  androidComponentCount,
-  totalSpecCount,
-}: {
-  figmaComponentCount: number;
-  reactComponentCount: number;
-  iosComponentCount: number;
-  androidComponentCount: number;
-  totalSpecCount: number;
-}) => {
-  const reactCoverage = Math.max(reactComponentCount / totalSpecCount);
-  const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
-  const figmaCoverage = Math.max(figmaComponentCount / totalSpecCount);
-  const androidCoverage = Math.max(androidComponentCount / totalSpecCount);
+// const okr = ({
+//   figmaComponentCount,
+//   reactComponentCount,
+//   iosComponentCount,
+//   androidComponentCount,
+//   totalSpecCount,
+// }: {
+//   figmaComponentCount: number;
+//   reactComponentCount: number;
+//   iosComponentCount: number;
+//   androidComponentCount: number;
+//   totalSpecCount: number;
+// }) => {
+//   const reactCoverage = Math.max(reactComponentCount / totalSpecCount);
+//   const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
+//   const figmaCoverage = Math.max(figmaComponentCount / totalSpecCount);
+//   const androidCoverage = Math.max(androidComponentCount / totalSpecCount);
 
-  return (
-    Math.floor(
-      ((reactCoverage + iosCoverage + figmaCoverage + androidCoverage) / 4) *
-        1000,
-    ) / 10
-  );
-};
+//   return (
+//     Math.floor(
+//       ((reactCoverage + iosCoverage + figmaCoverage + androidCoverage) / 4) *
+//         1000,
+//     ) / 10
+//   );
+// };
 
 export const Head: HeadFC = () => {
   return (

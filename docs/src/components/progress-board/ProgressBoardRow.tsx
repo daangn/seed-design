@@ -1,5 +1,3 @@
-import { Link } from "gatsby";
-
 import { TableData, TableRow } from "../mdx/Table";
 import * as rowStyle from "./ProgressBoardRow.css";
 import type { ProgressBoardRowInterface } from "./types";
@@ -16,9 +14,6 @@ const ProgressBoardRow = ({
   ios,
   figma,
   react,
-  overview,
-  usage,
-  style,
 }: ProgressBoardRowInterface) => {
   return (
     <TableRow>
@@ -74,42 +69,6 @@ const ProgressBoardRow = ({
         >
           {StatusText[android?.status!]}
         </a>
-      </td>
-
-      <td className={rowStyle.td}>
-        <Link
-          aria-disabled={overview?.status === "todo"}
-          className={rowStyle.linkText({
-            status: overview?.status,
-          })}
-          to={overview?.slug!}
-        >
-          {StatusText[overview?.status!]}
-        </Link>
-      </td>
-
-      <td className={rowStyle.td}>
-        <Link
-          aria-disabled={usage?.status === "todo"}
-          className={rowStyle.linkText({
-            status: usage?.status,
-          })}
-          to={usage?.slug!}
-        >
-          {StatusText[usage?.status!]}
-        </Link>
-      </td>
-
-      <td className={rowStyle.td}>
-        <Link
-          aria-disabled={style?.status === "todo"}
-          className={rowStyle.linkText({
-            status: style?.status,
-          })}
-          to={style?.slug!}
-        >
-          {StatusText[style?.status!]}
-        </Link>
       </td>
     </TableRow>
   );

@@ -3308,8 +3308,6 @@ type primitiveMetaJsonSortInput = {
   readonly thumbnail: InputMaybe<FileSortInput>;
 };
 
-type SlugFragment = { readonly frontmatter: { readonly slug: string | null } | null };
-
 type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3325,7 +3323,7 @@ type ComponentOverviewQuery = { readonly componentMetaJson: { readonly name: str
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly figma: { readonly path: string | null, readonly status: string | null } | null, readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null, readonly style: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
+type ComponentProgressBoardPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly description: string | null, readonly platform: { readonly android: { readonly path: string | null, readonly status: string | null } | null, readonly ios: { readonly alias: string | null, readonly path: string | null, readonly status: string | null } | null, readonly react: { readonly path: string | null, readonly status: string | null } | null, readonly figma: { readonly path: string | null, readonly status: string | null } | null } | null }> } };
 
 type ComponentStyleQueryVariables = Exact<{
   id: InputMaybe<Scalars['String']>;

@@ -1,6 +1,5 @@
 export type ProgressStatus = "todo" | "in-progress" | "done";
 type CommonPlatformData = { status: ProgressStatus };
-type PlatformDocsItem = { slug?: string } & CommonPlatformData;
 
 type PlatformNativeData = {
   alias?: string;
@@ -13,7 +12,4 @@ export interface ProgressBoardRowInterface {
   android?: PlatformNativeData;
   react?: PlatformNativeData;
   figma?: PlatformNativeData;
-  overview?: PlatformDocsItem;
-  usage?: PlatformDocsItem;
-  style?: PlatformDocsItem;
 }
