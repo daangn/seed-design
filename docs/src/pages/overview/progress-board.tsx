@@ -149,71 +149,9 @@ const ComponentProgressBoardPage = ({
           </TableRow>
         </TableBody>
       </Table>
-      {/* 
-      <h2 className={progressStyle.subTitle}>OKR 달성률</h2>
-      <p className={progressStyle.captionNoMargin}>OKR 달성률을 계산합니다</p>
-
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableData>1Q (50% 목표)</TableData>
-            <TableData>1-2Q (100% 목표)</TableData>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableData>
-              {okr({
-                figmaComponentCount,
-                reactComponentCount,
-                iosComponentCount,
-                androidComponentCount,
-                totalSpecCount,
-              }) * 2}
-              %
-            </TableData>
-            <TableData>
-              {okr({
-                figmaComponentCount,
-                reactComponentCount,
-                iosComponentCount,
-                androidComponentCount,
-                totalSpecCount,
-              })}
-              %
-            </TableData>
-          </TableRow>
-        </TableBody>
-      </Table> */}
     </article>
   );
 };
-
-// const okr = ({
-//   figmaComponentCount,
-//   reactComponentCount,
-//   iosComponentCount,
-//   androidComponentCount,
-//   totalSpecCount,
-// }: {
-//   figmaComponentCount: number;
-//   reactComponentCount: number;
-//   iosComponentCount: number;
-//   androidComponentCount: number;
-//   totalSpecCount: number;
-// }) => {
-//   const reactCoverage = Math.max(reactComponentCount / totalSpecCount);
-//   const iosCoverage = Math.max(iosComponentCount / totalSpecCount);
-//   const figmaCoverage = Math.max(figmaComponentCount / totalSpecCount);
-//   const androidCoverage = Math.max(androidComponentCount / totalSpecCount);
-
-//   return (
-//     Math.floor(
-//       ((reactCoverage + iosCoverage + figmaCoverage + androidCoverage) / 4) *
-//         1000,
-//     ) / 10
-//   );
-// };
 
 export const Head: HeadFC = () => {
   return (
