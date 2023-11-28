@@ -73,6 +73,12 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
       <SidebarTitleWithNoLink title="foundation" />
 
       <SidebarItem
+        to="/foundation/icon"
+        name="Icon"
+        highlight={currentPath === "/foundation/icon/"}
+        onClick={closeSidebar}
+      />
+      <SidebarItem
         to="/foundation/color"
         name="Color"
         highlight={currentPath === "/foundation/color/"}
