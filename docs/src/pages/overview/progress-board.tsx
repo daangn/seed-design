@@ -11,7 +11,7 @@ import {
 import ProgressBoardRow from "../../components/progress-board/ProgressBoardRow";
 import type { ProgressStatus } from "../../components/progress-board/types";
 import SEO from "../../components/SEO";
-import * as progressStyle from "../../styles/page-styles/progress-board.page.css";
+import * as progressStyle from "../../styles/page-styles/progress-board.css";
 
 export const query = graphql`
   fragment Slug on Mdx {

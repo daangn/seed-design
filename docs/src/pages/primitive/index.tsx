@@ -3,7 +3,7 @@ import { graphql, Link } from "gatsby";
 import { GatsbyImage } from "gatsby-plugin-image";
 
 import SEO from "../../components/SEO";
-import * as listPageStyle from "../../styles/page-styles/list-page.css";
+import * as listPageStyle from "../../styles/page-styles/list.css";
 
 interface PageProps {
   data: GatsbyTypes.PrimitiveListPageQuery;

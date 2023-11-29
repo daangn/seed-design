@@ -1,7 +1,7 @@
 import type { HeadFC } from "gatsby";
 
 import SEO from "../../components/SEO";
-import * as listPageStyle from "../../styles/page-styles/list-page.css";
+import * as listPageStyle from "../../styles/page-styles/list.css";
 import * as t from "../../styles/token.css";
 
 const FoundationListPage = () => {

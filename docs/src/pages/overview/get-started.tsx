@@ -1,7 +1,7 @@
 import type { HeadFC } from "gatsby";
 
 import SEO from "../../components/SEO";
-import * as style from "../../styles/page-styles/get-started.page.css";
+import * as style from "../../styles/page-styles/get-started.css";
 
 const GetStartedPage = () => {
   return (

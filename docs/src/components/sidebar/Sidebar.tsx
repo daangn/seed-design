@@ -79,9 +79,13 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         onClick={closeSidebar}
       />
       <SidebarItem
-        to="/foundation/color"
+        to="/foundation/color/color-system"
         name="Color"
-        highlight={currentPath === "/foundation/color/"}
+        highlight={
+          currentPath === "/foundation/color/color-system/" ||
+          currentPath === "/foundation/color/usage/" ||
+          currentPath === "/foundation/color/palette/"
+        }
         onClick={closeSidebar}
       />
       <SidebarItem

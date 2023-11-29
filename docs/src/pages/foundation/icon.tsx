@@ -2,7 +2,7 @@ import * as icons from "@seed-design/icon";
 import type { HeadFC } from "gatsby";
 
 import SEO from "../../components/SEO";
-import * as style from "../../styles/page-styles/icon-page.css";
+import * as style from "../../styles/page-styles/icon.css";
 import * as t from "../../styles/token.css";
 
 const IconPage = () => {

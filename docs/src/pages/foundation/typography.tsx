@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 
 import SEO from "../../components/SEO";
-import * as style from "../../styles/page-styles/typography.page.css";
+import * as style from "../../styles/page-styles/typography.css";
 import * as t from "../../styles/token.css";
 
 const FONT_SIZE = {
