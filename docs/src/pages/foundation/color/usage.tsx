@@ -17,7 +17,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/informative-color.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
 
@@ -25,7 +25,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/paper-color.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
 
@@ -33,7 +33,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/static-color.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
 
@@ -41,7 +41,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/semantic-token-1.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
 
@@ -49,7 +49,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/status-color-android.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
 
@@ -57,7 +57,7 @@ export const query = graphql`
       relativePath: { eq: "foundation/color/usage/status-color.png" }
     ) {
       childImageSharp {
-        gatsbyImageData
+        gatsbyImageData(formats: PNG, pngOptions: { quality: 100 })
       }
     }
   }

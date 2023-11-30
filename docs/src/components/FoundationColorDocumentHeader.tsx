@@ -12,7 +12,7 @@ const FoundationColorDocumentHeader = ({
   currentPath,
 }: FoundationColorDocumentHeaderProps) => {
   return (
-    <div>
+    <>
       <h1 className={style.heading1}>Color</h1>
       <p className={style.description}>
         디자이너가 일관된 제품 디자인 경험을 만들 수 있도록 표준 컬러 차트와
@@ -43,7 +43,7 @@ const FoundationColorDocumentHeader = ({
         </Link>
       </nav>
       <div className={navStyle.bottomLine} />
-    </div>
+    </>
   );
 };
 
