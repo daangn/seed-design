@@ -1,14 +1,13 @@
 import { vars } from "@seed-design/design-token";
 import type { HeadFC } from "gatsby";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { FoundationColorDocumentHeader } from "../../../components/FoundationColorDocumentHeader";
 import SEO from "../../../components/SEO";
 import * as style from "../../../styles/page-styles/color-palette.css";
 import * as t from "../../../styles/token.css";
 
-const colorObject = Object.entries(vars.$scale.color);
-function getPalette(target: string) {
+function getPalette(target: string, colorObject: [string, string][]) {
   return (
     colorObject
       // NOTE: gray가 들어오면 grayAlpha도 들어오기 때문에 뒤에 바로 숫자가 붙는지 확인
@@ -21,11 +20,18 @@ function getPalette(target: string) {
 }
 
 const ColorContainer = ({ palette }: { palette: [string, string][] }) => {
+  const [computedStyle, setComputedStyle] = useState<CSSStyleDeclaration>();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setComputedStyle(window.getComputedStyle(document.body));
+  }, []);
+
   return (
     <div className={style.colorContainer}>
       {palette.map(([key, value]) => {
         const colorNumber = Number(key.replace(/[a-zA-Z]/g, ""));
-        const hashValue = getComputedStyle(document.body).getPropertyValue(
+        const hashValue = computedStyle?.getPropertyValue(
           value.replace("var(", "").replace(")", ""),
         );
 
@@ -33,7 +39,7 @@ const ColorContainer = ({ palette }: { palette: [string, string][] }) => {
           <div
             className={style.colorBox}
             style={{ backgroundColor: value }}
-            key={key}
+            key={`${key}-${value}`}
           >
             <div
               className={style.colorDescription({
@@ -51,22 +57,23 @@ const ColorContainer = ({ palette }: { palette: [string, string][] }) => {
 };
 
 const ColorPalettePage = () => {
+  const colorObject = Object.entries(vars.$scale.color);
   const colorPalette = useMemo(() => {
     return {
-      gray: getPalette("gray"),
-      carrot: getPalette("carrot"),
-      blue: getPalette("blue"),
-      red: getPalette("red"),
-      green: getPalette("green"),
-      yellow: getPalette("yellow"),
-      pink: getPalette("pink"),
-      purple: getPalette("purple"),
-      grayAlpha: getPalette("grayAlpha"),
-      carrotAlpha: getPalette("carrotAlpha"),
-      blueAlpha: getPalette("blueAlpha"),
-      redAlpha: getPalette("redAlpha"),
-      yellowAlpha: getPalette("yellowAlpha"),
-      greenAlpha: getPalette("greenAlpha"),
+      gray: getPalette("gray", colorObject),
+      carrot: getPalette("carrot", colorObject),
+      blue: getPalette("blue", colorObject),
+      red: getPalette("red", colorObject),
+      green: getPalette("green", colorObject),
+      yellow: getPalette("yellow", colorObject),
+      pink: getPalette("pink", colorObject),
+      purple: getPalette("purple", colorObject),
+      grayAlpha: getPalette("grayAlpha", colorObject),
+      carrotAlpha: getPalette("carrotAlpha", colorObject),
+      blueAlpha: getPalette("blueAlpha", colorObject),
+      redAlpha: getPalette("redAlpha", colorObject),
+      yellowAlpha: getPalette("yellowAlpha", colorObject),
+      greenAlpha: getPalette("greenAlpha", colorObject),
     };
   }, []);
 
