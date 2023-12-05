@@ -32,6 +32,7 @@
     "@vanilla-extract/recipes": "^0.2.5",
     "clsx": "^1.2.1",
     "downshift": "^7.0.5",
+    "framer-motion": "^10.16.12",
     "gatsby": "^5.9.1",
     "gatsby-plugin-clarity": "^1.0.1",
     "gatsby-plugin-gtag": "^1.0.13",

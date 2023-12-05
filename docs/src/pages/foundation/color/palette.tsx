@@ -1,4 +1,5 @@
 import { vars } from "@seed-design/design-token";
+import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
 import { useEffect, useMemo, useState } from "react";
 
@@ -29,14 +30,17 @@ const ColorContainer = ({ palette }: { palette: [string, string][] }) => {
 
   return (
     <div className={style.colorContainer}>
-      {palette.map(([key, value]) => {
+      {palette.map(([key, value], index) => {
         const colorNumber = Number(key.replace(/[a-zA-Z]/g, ""));
         const hashValue = computedStyle?.getPropertyValue(
           value.replace("var(", "").replace(")", ""),
         );
 
         return (
-          <div
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.025, ease: "easeOut" }}
             className={style.colorBox}
             style={{ backgroundColor: value }}
             key={`${key}-${value}`}
@@ -49,7 +53,7 @@ const ColorContainer = ({ palette }: { palette: [string, string][] }) => {
               <span>{key}</span>
               <span>{hashValue}</span>
             </div>
-          </div>
+          </motion.div>
         );
       })}
     </div>
