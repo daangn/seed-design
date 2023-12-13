@@ -29,6 +29,8 @@ export function ColorPaletteProvider({
       setHash(url.hash.slice(1));
     };
 
+    handleRouteChange();
+
     window.addEventListener("hashchange", handleRouteChange);
     return () => {
       window.removeEventListener("hashchange", handleRouteChange);
