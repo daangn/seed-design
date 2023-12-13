@@ -35,8 +35,8 @@ export const tableCell = style([
   }),
 
   m.small({
-    fontSize: "16px",
-    padding: "16px 30px",
+    fontSize: "14px",
+    padding: "16px 25px",
   }),
 ]);
 
@@ -45,7 +45,8 @@ export const tableHead = style([
     width: "100%",
     overflowX: "auto",
     fontWeight: "600",
-    backgroundColor: vars.$scale.color.gray100,
+    backgroundColor: vars.$semantic.color.paperContents,
+    color: vars.$scale.color.gray700,
   },
 ]);
 

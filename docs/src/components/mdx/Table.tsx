@@ -1,25 +1,33 @@
 import clsx from "clsx";
+import type { HTMLAttributes } from "react";
 
 import * as style from "./Table.css";
 
-export const Table = (props: Object) => (
-  <div className={style.tableWrapper}>
-    <table className={clsx(style.table)} {...props}></table>
-  </div>
-);
+export const Table = (props: HTMLAttributes<HTMLTableElement>) => {
+  const { className, ...rest } = props;
+  return (
+    <div className={style.tableWrapper}>
+      <table className={clsx(style.table, className)} {...rest}></table>
+    </div>
+  );
+};
 
-export const TableHead = (props: Object) => (
-  <thead className={clsx(style.tableHead)} {...props}></thead>
-);
+export const TableHead = (props: HTMLAttributes<HTMLTableSectionElement>) => {
+  const { className, ...rest } = props;
+  return <thead className={clsx(style.tableHead, className)} {...rest}></thead>;
+};
 
-export const TableBody = (props: Object) => (
-  <tbody className={clsx(style.tableBody)} {...props}></tbody>
-);
+export const TableBody = (props: HTMLAttributes<HTMLTableSectionElement>) => {
+  const { className, ...rest } = props;
+  return <tbody className={clsx(style.tableBody, className)} {...rest}></tbody>;
+};
 
-export const TableRow = (props: Object) => (
-  <tr className={clsx(style.tableRow)} {...props}></tr>
-);
+export const TableRow = (props: HTMLAttributes<HTMLTableRowElement>) => {
+  const { className, ...rest } = props;
+  return <tr className={clsx(style.tableRow, className)} {...rest}></tr>;
+};
 
-export const TableData = (props: Object) => (
-  <td className={clsx(style.tableData)} {...props}></td>
-);
+export const TableData = (props: HTMLAttributes<HTMLTableCellElement>) => {
+  const { className, ...rest } = props;
+  return <td className={clsx(style.tableData, className)} {...rest}></td>;
+};
