@@ -69,7 +69,16 @@ export const tokenTableDataColorText = style([
   },
 ]);
 
-export const scaleTableAnchor = style([robotoMono, {}]);
+export const tokenTableDataUsage = style({
+  fontSize: "12px",
+});
+
+export const scaleTableAnchor = style([
+  robotoMono,
+  {
+    textDecoration: "underline",
+  },
+]);
 
 export const tokenTableDataContent = style({
   display: "flex",

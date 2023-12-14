@@ -332,7 +332,7 @@ const SemanticColorTable = ({
                 {color.scale}
               </a>
             </TableData>
-            <TableData>
+            <TableData className={style.tokenTableDataUsage}>
               {color.usage.map((text) => (
                 <p key={text}>{text}</p>
               ))}
@@ -375,7 +375,7 @@ const ScaleColorContainer = ({ palette }: { palette: [string, string][] }) => {
               transition={{ delay: index * 0.025, ease: "easeOut" }}
               className={style.scaleColorBox}
               style={{ backgroundColor: value }}
-              key={`${key}-${value}`}
+              key={value}
               id={key}
             >
               {key === hash && (
