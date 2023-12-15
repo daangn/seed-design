@@ -37,6 +37,8 @@ module.exports = {
             options: {
               maxWidth: 900,
               wrapperStyle: `z-index: 0;overflow: hidden;`,
+              quality: 90,
+              backgroundColor: "transparent",
             },
           },
         ],
