@@ -405,8 +405,8 @@ const ScaleColorContainer = ({ palette }: { palette: [string, string][] }) => {
                   inversion: colorNumber >= 500,
                 })}
               >
-                <span>{key}</span>
-                <span>{hashValue}</span>
+                <span className={style.colorDescriptionText}>{key}</span>
+                <span className={style.colorDescriptionText}>{hashValue}</span>
               </div>
             </motion.div>
           </>

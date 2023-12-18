@@ -97,8 +97,6 @@ export const scaleColorContainer = style({
 export const scaleColorBox = style({
   position: "relative",
 
-  padding: "10px",
-
   flex: "1 1 76px",
 
   width: "100%",
@@ -119,12 +117,17 @@ export const scaleColorFocusRing = style({
 });
 
 export const colorDescription = recipe({
-  base: {
-    display: "flex",
-    flexDirection: "column",
+  base: [
+    {
+      display: "flex",
+      flexDirection: "column",
 
-    fontSize: "12px",
-  },
+      marginLeft: "10px",
+      marginTop: "10px",
+
+      fontSize: "12px",
+    },
+  ],
   variants: {
     inversion: {
       true: {
@@ -133,3 +136,5 @@ export const colorDescription = recipe({
     },
   },
 });
+
+export const colorDescriptionText = style([robotoMono, {}]);
