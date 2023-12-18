@@ -48,6 +48,7 @@
     "gatsby-plugin-typegen": "^3.1.0",
     "gatsby-plugin-vanilla-extract": "^4.0.1",
     "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-remark-gifs": "^1.2.0",
     "gatsby-remark-images": "^7.0.0",
     "gatsby-source-filesystem": "^5.0.0",
     "gatsby-transformer-json": "^5.0.0",
