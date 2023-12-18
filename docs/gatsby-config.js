@@ -254,6 +254,28 @@ module.exports = {
           }));
 
           return [
+            [
+              {
+                name: "Icon",
+                slug: "/foundation/icon/",
+              },
+              {
+                name: "Typography",
+                slug: "/foundation/typography/",
+              },
+              {
+                name: "Color / Color System",
+                slug: "/foundation/color/color-system/",
+              },
+              {
+                name: "Color / Palette",
+                slug: "/foundation/color/palette/",
+              },
+              {
+                name: "Color / Usage",
+                slug: "/foundation/color/usage/",
+              },
+            ],
             ...overviewMetas,
             ...usageMetas,
             ...styleMetas,
