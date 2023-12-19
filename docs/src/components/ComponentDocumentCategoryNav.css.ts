@@ -52,7 +52,7 @@ export const navLink = recipe({
             position: "absolute",
             width: "100%",
             borderBottom: `3px solid ${vars.$scale.color.gray700}`,
-            bottom: "-2px",
+            bottom: "-1px",
           },
         },
       },
