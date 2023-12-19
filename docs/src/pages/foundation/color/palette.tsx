@@ -1,7 +1,7 @@
 import { vars } from "@seed-design/design-token";
 import { motion } from "framer-motion";
 import type { HeadFC } from "gatsby";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 
 import { FoundationColorDocumentHeader } from "../../../components/FoundationColorDocumentHeader";
 import {
@@ -368,14 +368,13 @@ const ScaleColorContainer = ({ palette }: { palette: [string, string][] }) => {
         );
 
         return (
-          <>
+          <Fragment key={key}>
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.025, ease: "easeOut" }}
               className={style.scaleColorBox}
               style={{ backgroundColor: value }}
-              key={value}
               id={key}
             >
               {key === hash && (
@@ -409,7 +408,7 @@ const ScaleColorContainer = ({ palette }: { palette: [string, string][] }) => {
                 <span className={style.colorDescriptionText}>{hashValue}</span>
               </div>
             </motion.div>
-          </>
+          </Fragment>
         );
       })}
     </div>
