@@ -108,7 +108,7 @@ slug: /component/box-toggle-button/usage
     control](./boxtogglebutton-keyboard-control-1.png)
   </FullCardImageCell>
   <FullCardDescription>
-    <Keyboard>space</Keyboard> 또는 <Keyboard>enter</Keyboard> 키를 통해
+    <Keyboard>Space</Keyboard> 또는 <Keyboard>Enter</Keyboard> 키를 통해
     selected 상태를 전환할 수 있습니다.
   </FullCardDescription>
 </FullCard>
@@ -139,35 +139,58 @@ slug: /component/box-toggle-button/usage
   </HalfCardDescriptionCell>
 </HalfCard>
 
-
 ## 가이드라인
 
-### Max Width
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button guideline](./boxtogglebutton-guideline-1.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Selected State</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      유저가 Selected State를 명확하게 인지할 수 있도록, Selected variant를
+      올바르게 사용합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
 
-<FullCard>
-  <FullCardImageCell>
-    ![boxtogglebutton max-width](./boxtogglebutton-max-width-1.png)
-  </FullCardImageCell>
-  <FullCardDescription>
-    모바일 해상도에서 좌우 Margin 16px씩을 유지한 width까지만 확장될 수
-    있습니다.
-  </FullCardDescription>
-  <FullCardImageCell>
-    ![boxtogglebutton max-width](./boxtogglebutton-max-width-2.png)
-  </FullCardImageCell>
-  <FullCardDescription>
-    Label은 1줄을 초과할 수 없으며 좌우 Padding은 각 20px을 유지한 범위내에서만
-    텍스트가 노출될 수 있습니다.
-  </FullCardDescription>
-</FullCard>
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button guideline](./boxtogglebutton-guideline-2.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Label</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Box Button이 아닌, Selected 가 가능한 Toggle Button이라는 점을 유저가
+      인지할 수 있도록 Label을 명확하게 작성합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
 
-### Min Width
+<br />
 
-<FullCard>
-  <FullCardImageCell>
-    ![boxtogglebutton min-width](./boxtogglebutton-min-width.png)
-  </FullCardImageCell>
-  <FullCardDescription>
-    Box Toggle Button은 최소 너비값을 가지며 사이즈별로 각 값은 상이합니다.
-  </FullCardDescription>
-</FullCard>
+### Do / Don't
+
+<br />
+
+<DoDontLayout>
+  <DontBox>
+    <DontImage>
+      ![box button guideline](./boxtogglebutton-guideline-dont-1.png)
+    </DontImage>
+    <DontText>
+      Unselected 와 Selected 배리언츠를 올바르게 사용합니다. Selected인 경우
+      해당 State를 잘 나타낼 수 있는 Label 을 사용할 것을 권장합니다.
+    </DontText>
+  </DontBox>
+  <DontBox>
+    <DontImage>
+      ![box button guideline](./boxtogglebutton-guideline-dont-2.png)
+    </DontImage>
+    <DontText>
+      Unselected 와 Selected 배리언츠를 반대로 사용하지 않습니다.{" "}
+    </DontText>
+  </DontBox>
+</DoDontLayout>
+
+<br />

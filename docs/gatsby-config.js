@@ -33,10 +33,15 @@ module.exports = {
       options: {
         gatsbyRemarkPlugins: [
           {
+            resolve: "gatsby-remark-gifs",
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 900,
               wrapperStyle: `z-index: 0;overflow: hidden;`,
+              quality: 90,
+              backgroundColor: "transparent",
             },
           },
         ],
@@ -123,9 +128,10 @@ module.exports = {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
         custom: {
-          families: ["Pretendard"],
+          families: ["Pretendard", "Roboto Mono"],
           urls: [
             "https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard-dynamic-subset.css",
+            "https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&display=swap",
           ],
         },
       },
@@ -248,6 +254,28 @@ module.exports = {
           }));
 
           return [
+            [
+              {
+                name: "Icon",
+                slug: "/foundation/icon/",
+              },
+              {
+                name: "Typography",
+                slug: "/foundation/typography/",
+              },
+              {
+                name: "Color / Color System",
+                slug: "/foundation/color/color-system/",
+              },
+              {
+                name: "Color / Palette",
+                slug: "/foundation/color/palette/",
+              },
+              {
+                name: "Color / Usage",
+                slug: "/foundation/color/usage/",
+              },
+            ],
             ...overviewMetas,
             ...usageMetas,
             ...styleMetas,

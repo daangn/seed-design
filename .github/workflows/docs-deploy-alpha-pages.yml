@@ -69,7 +69,8 @@ jobs:
           GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       
       - name: Alpha Deploy `Seed Docs` at Cloudflare pages
-        uses: cloudflare/wrangler-action@2.0.0
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
           command: pages publish ./docs/public --project-name=seed-design --branch=${{ github.ref_name }}
