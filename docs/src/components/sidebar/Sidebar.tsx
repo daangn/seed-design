@@ -101,7 +101,10 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
         // 그룹
         if (groupItems?.length! >= 2) {
           return (
-            <SidebarCollapse title={groupName}>
+            <SidebarCollapse
+              key={`${groupItems[0].name}-group`}
+              title={groupName}
+            >
               {groupItems?.map((item) => {
                 const convertedName = item?.name
                   ?.replaceAll(" ", "-")

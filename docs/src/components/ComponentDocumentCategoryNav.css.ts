@@ -44,8 +44,17 @@ export const navLink = recipe({
   variants: {
     active: {
       true: {
+        position: "relative",
         color: vars.$scale.color.gray700,
-        borderBottom: `3px solid ${vars.$scale.color.gray700}`,
+        selectors: {
+          "&::after": {
+            content: "",
+            position: "absolute",
+            width: "100%",
+            borderBottom: `3px solid ${vars.$scale.color.gray700}`,
+            bottom: "-1px",
+          },
+        },
       },
       false: {
         ":hover": {
