@@ -17,8 +17,10 @@ const ComponentDocumentCategoryNav = ({
   const isUsage = /usage/g.test(currentPath);
   const isStyle = /style/g.test(currentPath);
 
-  // NOTE: /component/alert-dialog/overview/ -> /component/alert-dialog/
-  const removedCategoryPath = currentPath.split("/").slice(0, -2).join("/");
+  let removedCategoryPath;
+  if (currentCategory)
+    // NOTE: /component/alert-dialog/overview/ -> /component/alert-dialog/
+    removedCategoryPath = currentPath.split("/").slice(0, -2).join("/");
 
   React.useEffect(() => {
     if (isOverview) {
