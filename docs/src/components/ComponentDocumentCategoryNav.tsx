@@ -42,6 +42,7 @@ const ComponentDocumentCategoryNav = ({
     <>
       <nav className={style.navContainer}>
         <Link
+          activeClassName=""
           className={style.navLink({
             active: currentCategory === "overview",
           })}
@@ -50,13 +51,19 @@ const ComponentDocumentCategoryNav = ({
           <p className={style.navLinkText}>Overview</p>
         </Link>
         <Link
-          className={style.navLink({ active: currentCategory === "usage" })}
+          activeClassName=""
+          className={style.navLink({
+            active: currentCategory === "usage",
+          })}
           to={`${removedCategoryPath}/usage`}
         >
           <p className={style.navLinkText}>Usage</p>
         </Link>
         <Link
-          className={style.navLink({ active: currentCategory === "style" })}
+          activeClassName=""
+          className={style.navLink({
+            active: currentCategory === "style",
+          })}
           to={`${removedCategoryPath}/style`}
         >
           <p className={style.navLinkText}>Style</p>
