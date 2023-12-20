@@ -6,7 +6,7 @@
   "primitive": "../../primitive/popover/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "in-progress",
       "alias": "",
       "path": ""
     },

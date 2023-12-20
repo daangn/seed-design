@@ -34,12 +34,12 @@ const SEO = ({ name, description }: SEOProps) => {
     setMode(isDark ? "dark" : "light");
   }, []);
 
-  const nameWithPrefix = name ? `${name} | ` : "";
+  const nameWithPrefix = (name ? `${name} | ` : "") + "SEED Design";
 
   return (
     <>
-      <title>{nameWithPrefix}SEED Design</title>
-      <meta property="og:title" content={`${nameWithPrefix}SEED Design`} />
+      <title>{nameWithPrefix}</title>
+      <meta property="og:title" content={nameWithPrefix} />
       <meta property="description" content={description} />
       <meta property="og:image" content={getSrc(data.ogImage!)} />
       {mode === "dark" ? (

@@ -17,8 +17,10 @@ const ComponentDocumentCategoryNav = ({
   const isUsage = /usage/g.test(currentPath);
   const isStyle = /style/g.test(currentPath);
 
-  // NOTE: /component/alert-dialog/overview/ -> /component/alert-dialog/
-  const removedCategoryPath = currentPath.split("/").slice(0, -2).join("/");
+  let removedCategoryPath;
+  if (currentCategory)
+    // NOTE: /component/alert-dialog/overview/ -> /component/alert-dialog/
+    removedCategoryPath = currentPath.split("/").slice(0, -2).join("/");
 
   React.useEffect(() => {
     if (isOverview) {
@@ -40,6 +42,7 @@ const ComponentDocumentCategoryNav = ({
     <>
       <nav className={style.navContainer}>
         <Link
+          activeClassName=""
           className={style.navLink({
             active: currentCategory === "overview",
           })}
@@ -48,13 +51,19 @@ const ComponentDocumentCategoryNav = ({
           <p className={style.navLinkText}>Overview</p>
         </Link>
         <Link
-          className={style.navLink({ active: currentCategory === "usage" })}
+          activeClassName=""
+          className={style.navLink({
+            active: currentCategory === "usage",
+          })}
           to={`${removedCategoryPath}/usage`}
         >
           <p className={style.navLinkText}>Usage</p>
         </Link>
         <Link
-          className={style.navLink({ active: currentCategory === "style" })}
+          activeClassName=""
+          className={style.navLink({
+            active: currentCategory === "style",
+          })}
           to={`${removedCategoryPath}/style`}
         >
           <p className={style.navLinkText}>Style</p>
