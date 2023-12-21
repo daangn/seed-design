@@ -6,9 +6,9 @@
   "primitive": "../../primitive/snackbar/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/snackbar"
     },
     "android": {
       "status": "todo",
