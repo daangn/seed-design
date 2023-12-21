@@ -170,6 +170,8 @@ export const listItem = recipe({
   base: [
     u.flexColumn,
     {
+      position: "relative",
+
       justifyContent: "center",
 
       width: "100%",
@@ -203,6 +205,17 @@ export const listItem = recipe({
       },
     },
   },
+});
+
+export const listItemType = style({
+  position: "absolute",
+  top: 0,
+  right: 0,
+
+  margin: "12px",
+
+  fontSize: "12px",
+  color: vars.$semantic.color.primary,
 });
 
 export const listItemTitle = style({

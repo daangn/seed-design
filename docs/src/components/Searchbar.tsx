@@ -88,6 +88,8 @@ const SearchCombobox = () => {
             (match) => `<span class=${style.listItemHighlight}>${match}</span>`,
           );
 
+          const listType = slug.split("/")[1];
+
           return (
             <li
               key={slug}
@@ -96,6 +98,7 @@ const SearchCombobox = () => {
               })}
               {...getItemProps({ item, index })}
             >
+              <span className={style.listItemType}>{listType}</span>
               <p
                 className={style.listItemTitle}
                 dangerouslySetInnerHTML={{ __html: titleHighlight }}
