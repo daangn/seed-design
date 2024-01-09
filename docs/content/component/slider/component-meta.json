@@ -9,7 +9,7 @@
     "ios": {
       "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/slider"
     },
     "android": {
       "status": "todo",
