@@ -11,14 +11,21 @@ slug: /component/callout/style
 
 ## Visual Options
 
-| Property    | Value                         |
-| ----------- | ----------------------------- |
-| variant     | normal, info, warning, danger |
-| title       | text                          |
-| description | text                          |
-| icon        | Icon                          |
+| Property    | Value                                  |
+| ----------- | -------------------------------------- |
+| variant     | outline, normal, info, warning, danger |
+| title       | text                                   |
+| description | text                                   |
+| icon        | Icon                                   |
 
 ## 디자인 결정 (Color)
+
+### variant=outline
+
+| Part                                       | Attribute     | Value                 |
+| ------------------------------------------ | ------------- | --------------------- |
+| Root                                       | Outline Color | $scale.color.gray-300 |
+| Title, Description, Icon, Action Indicator | Color         | $scale.color.gray-900 |
 
 ### variant=normal
 
@@ -29,24 +36,24 @@ slug: /component/callout/style
 
 ### variant=info
 
-| Part                     | Attribute | Value                       |
-| ------------------------ | --------- | --------------------------- |
-| Root                     | Color     | $scale.color.blue-alpha-100 |
-| Title, Description, Icon | Color     | $scale.color.blue-950       |
+| Part                     | Attribute | Value                      |
+| ------------------------ | --------- | -------------------------- |
+| Root                     | Color     | $scale.color.blue-alpha-50 |
+| Title, Description, Icon | Color     | $scale.color.blue-950      |
 
 ### variant=warning
 
-| Part                     | Attribute | Value                         |
-| ------------------------ | --------- | ----------------------------- |
-| Root                     | Color     | $scale.color.yellow-alpha-100 |
-| Title, Description, Icon | Color     | $scale.color.yellow-950       |
+| Part                     | Attribute | Value                        |
+| ------------------------ | --------- | ---------------------------- |
+| Root                     | Color     | $scale.color.yellow-alpha-50 |
+| Title, Description, Icon | Color     | $scale.color.yellow-950      |
 
 ### variant=danger
 
-| Part                     | Attribute | Value                      |
-| ------------------------ | --------- | -------------------------- |
-| Root                     | Color     | $scale.color.red-alpha-100 |
-| Title, Description, Icon | Color     | $scale.color.red-950       |
+| Part                     | Attribute | Value                     |
+| ------------------------ | --------- | ------------------------- |
+| Root                     | Color     | $scale.color.red-alpha-50 |
+| Title, Description, Icon | Color     | $scale.color.red-950      |
 
 ## 디자인 결정 (Typography)
 
@@ -59,8 +66,8 @@ slug: /component/callout/style
 
 | Part               | Attribute          | Value |
 | ------------------ | ------------------ | ----- |
-| Root               | Vertical Padding   | 16pt  |
-|                    | Horizontal Padding | 18pt  |
+| Root               | Vertical Padding   | 14pt  |
+|                    | Horizontal Padding | 16pt  |
 |                    | Corner Radius      | 10pt  |
-| Icon               | Size               | 20pt  |
-| Icon / Description | Spacing            | 10pt  |
+| Icon               | Size               | 16pt  |
+| Icon / Description | Spacing            | 8pt   |
