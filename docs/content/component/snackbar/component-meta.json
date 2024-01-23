@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/snackbar"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

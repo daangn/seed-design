@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/actionable-callout"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

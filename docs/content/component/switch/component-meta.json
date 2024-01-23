@@ -10,7 +10,7 @@
       "path": "seedcatalog://components/switch"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {
