@@ -19,7 +19,11 @@ slug: /component/callout/usage
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Outline</HalfCardDescriptionTitle>
-    <HalfCardDescription>Outline Variant는</HalfCardDescription>
+    <HalfCardDescription>
+      Outline Variant는 안내 및 단순 정보를 전달합니다. Normal Variant보다
+      주목도를 낮추고 싶을 때, 혹은 면분할이 많은 화면에서 다른 gray 토큰과의
+      충돌을 방지하고자 할 때 사용합니다.
+    </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
 
@@ -30,9 +34,8 @@ slug: /component/callout/usage
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Normal</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      Outline Variant는 중요도가 높지 않은 안내 또는 단순 정보를 전달합니다.
-      Normal Variant보다 주목도를 낮추고 싶을 때, 혹은 면분할이 많은 화면에서
-      사용합니다.
+      Normal Variant는 시스템 안내 및 공지사항을 전달합니다. 특별한 강조나
+      경고가 필요하지 않을 때, 혹은 일상적인 상황을 제공합니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
 </HalfCard>
@@ -42,9 +45,9 @@ slug: /component/callout/usage
     ![callout options info](./callout-options-info.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
-    <HalfCardDescriptionTitle>Tip</HalfCardDescriptionTitle>
+    <HalfCardDescriptionTitle>Info</HalfCardDescriptionTitle>
     <HalfCardDescription>
-      Tip Variant는 특정 기능이나 서비스의 부가 설명을 제공하는 데 사용합니다.
+      Info Variant는 특정 기능이나 서비스의 부가 설명을 제공하는 데 사용합니다.
       이를 통해 유저는 해당 기능에 대한 추가 정보를 얻을 수 있습니다.
     </HalfCardDescription>
   </HalfCardDescriptionCell>
@@ -106,13 +109,119 @@ slug: /component/callout/usage
 
 ### 옵션 테이블
 
-| 속성        | 값                                    | 기본값 |
-| ----------- | ------------------------------------- | ------ |
-| variant     | outline, normal, tip, warning, danger | normal |
-| title       | text                                  |        |
-| description | text                                  |        |
-| icon        | Icon                                  |        |
+| 속성        | 값                                     | 기본값 |
+| ----------- | -------------------------------------- | ------ |
+| variant     | outline, normal, info, warning, danger | normal |
+| title       | text                                   |        |
+| description | text                                   |        |
+| icon        | Icon                                   |        |
 
 ## 가이드라인
 
-Working In Progress
+<HalfCard>
+  <HalfCardImageCell>
+    ![callout guideline](./callout-guideline.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>
+      필요할 때만, 아껴서 쓰기
+    </HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Callout은 화면에서 많은 면적을 차지하고, 유저의 주의를 끌기 때문에 중요한
+      정보에만 절제하여 사용합니다. 과도한 사용은 Callout의 강조 효과를 약화시킬
+      수 있습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![callout guideline](./callout-guideline-short.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>간결한 문구</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Description은 2줄 이내로 간결하게 작성하여 유저가 빠르게 내용을 파악할 수
+      있도록 합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+### Do / Don't
+
+<br />
+
+<DoDontLayout>
+  <DoBox>
+    <DoImage>![callout guideline](./callout-guideline-do-outline.png)</DoImage>
+    <DoText>
+      Gray 컬러가 많은 화면에서는 Outline Variant를 사용하여 다른 요소와의
+      충돌을 피합니다.
+    </DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>
+      ![callout guideline](./callout-guideline-dont-outline.png)
+    </DontImage>
+    <DontText>
+      면분할이 많은 화면에서의 사용을 주의합니다. 화면의 복잡도를 높여 유저에게
+      혼란을 줄 수 있습니다.
+    </DontText>
+  </DontBox>
+</DoDontLayout>
+<br />
+<DoDontLayout>
+  <DontBox>
+    <DontImage>
+      ![callout guideline](./callout-guideline-dont-use.png)
+    </DontImage>
+    <DontText>
+      Sub Title, Description으로 대체 가능한 경우 Callout을 사용하지 않습니다.
+    </DontText>
+  </DontBox>
+  <DontBox>
+    <DontImage>
+      ![callout guideline](./callout-guideline-dont-promotion.png)
+    </DontImage>
+    <DontText>
+      마케팅 및 프로모션 용도로 사용하지 않습니다. 해당 용도에는 Banner를
+      사용합니다.
+    </DontText>
+  </DontBox>
+</DoDontLayout>
+<br />
+<DoDontLayout>
+  <DoBox>
+    <DoImage>![callout guideline](./callout-guideline-do-variant.png)</DoImage>
+    <DoText>
+      의미에 맞는 Variant를 사용합니다. 각 Variant는 목적에 맞는 컬러를 가지기
+      때문에, 이를 무시하고 사용할 경우 유저에게 혼란을 줄 수 있습니다.
+    </DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>
+      ![callout guideline](./callout-guideline-dont-variant.png)
+    </DontImage>
+    <DontText>
+      시각적인 효과만을 위해 특정 Variant를 사용하지 않습니다. 특히 위험 사항을
+      알리는 Warning과 Danger Variant는 목적에 맞게 유의하여 사용합니다.
+    </DontText>
+  </DontBox>
+</DoDontLayout>
+<br />
+
+<DoDontLayout>
+  <DoBox>
+    <DoImage>![callout guideline](./callout-guideline-do-icon.png)</DoImage>
+    <DoText>Icon 옵션 사용시, 각 Variant의 기본 Icon 사용을 권장합니다.</DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>
+      ![callout guideline](./callout-guideline-dont-icon.png)
+    </DontImage>
+    <DontText>
+      Variant의 의미와 관련 없는 Icon을 사용하지 않습니다. Icon은 유저가
+      메시지의 유형을 쉽게 인지하도록 보조해야 합니다.
+    </DontText>
+  </DontBox>
+</DoDontLayout>
