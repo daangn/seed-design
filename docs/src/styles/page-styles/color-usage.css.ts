@@ -95,3 +95,73 @@ export const halfCardListItemTitle = style([
     fontWeight: 700,
   },
 ]);
+
+export const doDontContainer = style([
+  {
+    display: "flex",
+    flexDirection: "column",
+
+    gap: "40px",
+
+    marginTop: "30px",
+  },
+
+  m.small({
+    flexDirection: "row",
+  }),
+]);
+
+const doDontBadge = style([
+  {
+    padding: "4px 8px",
+
+    borderRadius: "4px",
+
+    fontWeight: 700,
+  },
+]);
+
+export const doDontImage = style([
+  image,
+  {
+    marginTop: "10px",
+  },
+]);
+
+export const dontBadge = style([
+  doDontBadge,
+  {
+    backgroundColor: vars.$semantic.color.danger,
+
+    color: vars.$static.color.staticWhite,
+  },
+]);
+
+export const doBadge = style([
+  doDontBadge,
+  {
+    backgroundColor: vars.$semantic.color.success,
+
+    color: vars.$static.color.staticWhite,
+  },
+]);
+
+export const doDontItem = style([
+  {
+    flex: 1,
+
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
+]);
+
+export const doDontDescription = style([
+  {
+    fontSize: "14px",
+    fontWeight: 500,
+    color: vars.$scale.color.gray700,
+
+    marginTop: "10px",
+  },
+]);
