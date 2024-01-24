@@ -95,4 +95,9 @@ export const halfCardDescriptionTitle = style([
   }),
 ]);
 
+globalStyle(`${halfCardDescriptionTitle} > *`, {
+  fontSize: "20px",
+  fontWeight: 700,
+});
+
 export const halfCardDescription = style({});
