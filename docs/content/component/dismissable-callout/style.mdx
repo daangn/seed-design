@@ -4,50 +4,57 @@ slug: /component/dismissable-callout/style
 
 ## Anatomy
 
+<Anatomy>![anatomy](./anatomy.png)</Anatomy>
+
 1. Root
-2. Icon
-3. Title
-4. Description
-5. Close Button
+2. Title
+3. Description
+4. Close Button
 
 ## Visual Options
 
-| Property    | Value                         |
-| ----------- | ----------------------------- |
-| variant     | normal, info, warning, danger |
-| title       | text                          |
-| description | text                          |
-| icon        | Icon                          |
+| Property    | Value                                  |
+| ----------- | -------------------------------------- |
+| variant     | outline, normal, info, warning, danger |
+| title       | text                                   |
+| description | text                                   |
 
 ## 디자인 결정 (Color)
 
+### variant=outline
+
+| Part                             | Attribute     | Value                 |
+| -------------------------------- | ------------- | --------------------- |
+| Root                             | Outline Color | $scale.color.gray-300 |
+| Title, Description, Close Button | Color         | $scale.color.gray-900 |
+
 ### variant=normal
 
-| Part                                   | Attribute | Value                 |
-| -------------------------------------- | --------- | --------------------- |
-| Root                                   | Color     | $scale.color.gray-100 |
-| Title, Description, Icon, Close Button | Color     | $scale.color.gray-900 |
+| Part                             | Attribute | Value                 |
+| -------------------------------- | --------- | --------------------- |
+| Root                             | Color     | $scale.color.gray-100 |
+| Title, Description, Close Button | Color     | $scale.color.gray-900 |
 
 ### variant=info
 
-| Part                                   | Attribute | Value                       |
-| -------------------------------------- | --------- | --------------------------- |
-| Root                                   | Color     | $scale.color.blue-alpha-100 |
-| Title, Description, Icon, Close Button | Color     | $scale.color.blue-950       |
+| Part                             | Attribute | Value                      |
+| -------------------------------- | --------- | -------------------------- |
+| Root                             | Color     | $scale.color.blue-alpha-50 |
+| Title, Description, Close Button | Color     | $scale.color.blue-950      |
 
 ### variant=warning
 
-| Part                                   | Attribute | Value                         |
-| -------------------------------------- | --------- | ----------------------------- |
-| Root                                   | Color     | $scale.color.yellow-alpha-100 |
-| Title, Description, Icon, Close Button | Color     | $scale.color.yellow-950       |
+| Part                             | Attribute | Value                        |
+| -------------------------------- | --------- | ---------------------------- |
+| Root                             | Color     | $scale.color.yellow-alpha-50 |
+| Title, Description, Close Button | Color     | $scale.color.yellow-950      |
 
 ### variant=danger
 
-| Part                                   | Attribute | Value                      |
-| -------------------------------------- | --------- | -------------------------- |
-| Root                                   | Color     | $scale.color.red-alpha-100 |
-| Title, Description, Icon, Close Button | Color     | $scale.color.red-950       |
+| Part                             | Attribute | Value                     |
+| -------------------------------- | --------- | ------------------------- |
+| Root                             | Color     | $scale.color.red-alpha-50 |
+| Title, Description, Close Button | Color     | $scale.color.red-950      |
 
 ## 디자인 결정 (Typography)
 
@@ -58,11 +65,11 @@ slug: /component/dismissable-callout/style
 
 ## 디자인 결정 (Layout)
 
-| Part               | Attribute          | Value |
-| ------------------ | ------------------ | ----- |
-| Root               | Vertical Padding   | 16pt  |
-|                    | Horizontal Padding | 18pt  |
-|                    | Corner Radius      | 10pt  |
-| Icon               | Size               | 20pt  |
-| Icon / Description | Spacing            | 10pt  |
-| Close Button       | Size               | 18pt  |
+| Part                   | Attribute        | Value |
+| ---------------------- | ---------------- | ----- |
+| Root                   | Vertical Padding | 14pt  |
+|                        | Left Padding     | 16pt  |
+|                        | Right Padding    | 14pt  |
+|                        | Corner Radius    | 10pt  |
+| Content / Close Button | Spacing          | 10pt  |
+| Close Button           | Size             | 18pt  |
