@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/alert-dialog"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

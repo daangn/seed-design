@@ -12,7 +12,7 @@
       "path": "seedcatalog://components/slider"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

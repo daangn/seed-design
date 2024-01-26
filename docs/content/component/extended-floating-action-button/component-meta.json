@@ -12,7 +12,7 @@
       "path": "seedcatalog://components/extended-floating-action-button"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {

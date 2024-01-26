@@ -11,7 +11,7 @@
       "path": "seedcatalog://components/dismissable-callout"
     },
     "android": {
-      "status": "todo",
+      "status": "done",
       "path": ""
     },
     "react": {
