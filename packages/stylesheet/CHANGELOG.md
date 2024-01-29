@@ -1,5 +1,11 @@
 # @seed-design/stylesheet
 
+## 1.0.4
+
+### Patch Changes
+
+- cf271ad: sync design token
+
 ## 1.0.3
 
 ### Patch Changes
