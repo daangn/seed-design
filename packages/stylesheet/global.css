@@ -146,8 +146,8 @@
   --seed-semantic-typography-subtitle1-regular-line-height: var(--seed-static-line-height-static-small);
   --seed-semantic-typography-subtitle2-bold-line-height: var(--seed-static-line-height-static-small);
   --seed-semantic-typography-subtitle2-regular-line-height: var(--seed-static-line-height-static-small);
-  --seed-semantic-typography-body-l1-bold-line-height: var(--seed-static-line-height-static-large);
-  --seed-semantic-typography-body-l1-regular-line-height: var(--seed-static-line-height-static-large);
+  --seed-semantic-typography-body-l1-bold-line-height: var(--seed-static-line-height-static-medium);
+  --seed-semantic-typography-body-l1-regular-line-height: var(--seed-static-line-height-static-medium);
   --seed-semantic-typography-body-l2-bold-line-height: var(--seed-static-line-height-static-medium);
   --seed-semantic-typography-body-l2-regular-line-height: var(--seed-static-line-height-static-medium);
   --seed-semantic-typography-body-m1-bold-line-height: var(--seed-static-line-height-static-small);
