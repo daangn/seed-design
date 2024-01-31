@@ -12,7 +12,7 @@
       "path": "seedcatalog://components/capsule-toggle-button"
     },
     "android": {
-      "status": "todo",
+      "status": "in-progress",
       "path": ""
     },
     "react": {
