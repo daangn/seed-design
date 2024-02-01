@@ -372,14 +372,14 @@ const FoundationTypographyPage = () => {
         typography="bodyL1Regular"
         fontSize={200}
         fontWeight="regular"
-        lineHeight="large"
+        lineHeight="medium"
         letterSpacing={200}
       />
       <SemanticTypoGraphy
         typography="bodyL1Bold"
         fontSize={200}
         fontWeight="bold"
-        lineHeight="large"
+        lineHeight="medium"
         letterSpacing={200}
       />
       <SemanticTypoGraphy
