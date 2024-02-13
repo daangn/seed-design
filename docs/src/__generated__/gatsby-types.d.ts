@@ -3366,10 +3366,5 @@ type SEOQueryVariables = Exact<{ [key: string]: never; }>;
 
 type SEOQuery = { readonly ogImage: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null, readonly blackFavicon: { readonly publicURL: string | null } | null, readonly whiteFavicon: { readonly publicURL: string | null } | null };
 
-type SidebarQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SidebarQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly alias: string | null, readonly platform: { readonly docs: { readonly overview: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
-
 
 }
