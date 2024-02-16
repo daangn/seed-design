@@ -40,7 +40,7 @@ const SidebarItem = ({
       to={to}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
-      className={style.link({ disable: status === "todo", highlight })}
+      className={style.link({ disable: status === "todo" })}
     >
       <li
         className={style.item({
@@ -61,6 +61,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "color-system",
+                  isLast: false,
+                  hasDeps: !!hasDeps,
                 })}
               >
                 Color System
@@ -73,6 +75,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "usage",
+                  isLast: false,
+                  hasDeps: !!hasDeps,
                 })}
               >
                 Usage
@@ -82,6 +86,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "palette",
+                  isLast: true,
+                  hasDeps: !!hasDeps,
                 })}
               >
                 Palette
@@ -97,7 +103,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "overview",
-                  hasDeps,
+                  hasDeps: !!hasDeps,
+                  isLast: false,
                 })}
               >
                 Overview
@@ -110,7 +117,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "usage",
-                  hasDeps,
+                  hasDeps: !!hasDeps,
+                  isLast: false,
                 })}
               >
                 Usage
@@ -123,7 +131,8 @@ const SidebarItem = ({
               <li
                 className={style.tab({
                   active: currentTab === "style",
-                  hasDeps,
+                  hasDeps: !!hasDeps,
+                  isLast: true,
                 })}
               >
                 Style

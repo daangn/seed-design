@@ -10,11 +10,6 @@ export const link = recipe({
         pointerEvents: "none",
       },
     },
-    highlight: {
-      true: {
-        backgroundColor: vars.$scale.color.carrot50,
-      },
-    },
   },
 });
 
@@ -54,34 +49,59 @@ export const item = recipe({
 export const tab = recipe({
   base: [
     {
+      display: "flex",
+      alignItems: "center",
+
       width: "100%",
       fontSize: "14px",
       fontWeight: "500",
 
       color: vars.$scale.color.gray600,
-      listStyle: "inside",
+      listStyle: "none",
 
       transition: "background 0.2s ease",
-      padding: "6px 10px",
       cursor: "pointer",
     },
   ],
   variants: {
+    hasDeps: {
+      true: {
+        ":before": {
+          content: "",
+          width: "4px",
+          height: "4px",
+          borderRadius: "50%",
+          marginRight: "8px",
+          backgroundColor: vars.$scale.color.gray600,
+        },
+      },
+      false: {
+        padding: "8px 16px 8px 30px",
+      },
+    },
+
     active: {
       true: {
-        color: vars.$semantic.color.primary,
+        color: vars.$scale.color.gray700,
+        fontWeight: "bold",
+
+        ":before": {
+          backgroundColor: vars.$scale.color.gray900,
+        },
       },
       false: {
         ":hover": {
-          color: vars.$semantic.color.primaryHover,
+          color: vars.$scale.color.gray700,
         },
       },
     },
 
-    hasDeps: {
+    isLast: {
       true: {
-        paddingLeft: "26px",
-        paddingRight: "20px",
+        padding: "6px 16px 8px 20px",
+      },
+      false: {
+        padding: "8px 16px 6px 20px",
       },
     },
   },
