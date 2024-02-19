@@ -12,7 +12,7 @@
       "path": "seedcatalog://components/box-toggle-button"
     },
     "android": {
-      "status": "in-progress",
+      "status": "done",
       "path": ""
     },
     "react": {
