@@ -23,38 +23,49 @@ slug: /component/actionable-callout/style
 
 ### variant=outline
 
-| Part                                 | Attribute     | Value                 |
-| ------------------------------------ | ------------- | --------------------- |
-| Root                                 | Outline Color | $scale.color.gray-300 |
-| Title, Description, Action Indicator | Color         | $scale.color.gray-900 |
+| State   | Part                                 | Attribute     | Value                        |
+| ------- | ------------------------------------ | ------------- | ---------------------------- |
+| Enabled | Root                                 | Outline Color | $scale.color.gray-300        |
+|         | Title, Description, Action Indicator | Color         | $scale.color.gray-900        |
+| Pressed | Root                                 | Outline Color | $scale.color.gray-300        |
+|         | Root                                 | Color         | $semantic.color.gray-pressed |
+|         | Title, Description, Action Indicator | Color         | $scale.color.gray-900        |
 
 ### variant=normal
 
-| Part                                 | Attribute | Value                 |
-| ------------------------------------ | --------- | --------------------- |
-| Root                                 | Color     | $scale.color.gray-100 |
-| Title, Description, Action Indicator | Color     | $scale.color.gray-900 |
+| State   | Part                                 | Attribute | Value                 |
+| ------- | ------------------------------------ | --------- | --------------------- |
+| Enabled | Root                                 | Color     | $scale.color.gray-100 |
+|         | Title, Description, Action Indicator | Color     | $scale.color.gray-900 |
+| Pressed | Root                                 | Color     | $scale.color.gray-200 |
+|         | Title, Description, Action Indicator | Color     | $scale.color.gray-900 |
 
 ### variant=info
 
-| Part                                 | Attribute | Value                      |
-| ------------------------------------ | --------- | -------------------------- |
-| Root                                 | Color     | $scale.color.blue-alpha-50 |
-| Title, Description, Action Indicator | Color     | $scale.color.blue-950      |
+| State   | Part                                 | Attribute | Value                       |
+| ------- | ------------------------------------ | --------- | --------------------------- |
+| Enabled | Root                                 | Color     | $scale.color.blue-alpha-50  |
+|         | Title, Description, Action Indicator | Color     | $scale.color.blue-950       |
+| Pressed | Root                                 | Color     | $scale.color.blue-alpha-100 |
+|         | Title, Description, Action Indicator | Color     | $scale.color.blue-950       |
 
 ### variant=warning
 
-| Part                                 | Attribute | Value                        |
-| ------------------------------------ | --------- | ---------------------------- |
-| Root                                 | Color     | $scale.color.yellow-alpha-50 |
-| Title, Description, Action Indicator | Color     | $scale.color.yellow-950      |
+| State   | Part                                 | Attribute | Value                         |
+| ------- | ------------------------------------ | --------- | ----------------------------- |
+| Enabled | Root                                 | Color     | $scale.color.yellow-alpha-50  |
+|         | Title, Description, Action Indicator | Color     | $scale.color.yellow-950       |
+| Pressed | Root                                 | Color     | $scale.color.yellow-alpha-100 |
+|         | Title, Description, Action Indicator | Color     | $scale.color.yellow-950       |
 
 ### variant=danger
 
-| Part                                 | Attribute | Value                     |
-| ------------------------------------ | --------- | ------------------------- |
-| Root                                 | Color     | $scale.color.red-alpha-50 |
-| Title, Description, Action Indicator | Color     | $scale.color.red-950      |
+| State   | Part                                 | Attribute | Value                      |
+| ------- | ------------------------------------ | --------- | -------------------------- |
+| Enabled | Root                                 | Color     | $scale.color.red-alpha-50  |
+|         | Title, Description, Action Indicator | Color     | $scale.color.red-950       |
+| Pressed | Root                                 | Color     | $scale.color.red-alpha-100 |
+|         | Title, Description, Action Indicator | Color     | $scale.color.red-950       |
 
 ## 디자인 결정 (Typography)
 
