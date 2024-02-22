@@ -7,6 +7,7 @@ import Logo from "../Logo";
 import Portal from "../Portal";
 import * as style from "./Sidebar.css";
 import SidebarCollapse from "./SidebarCollapse";
+import type { Tab } from "./SidebarItem";
 import SidebarItem from "./SidebarItem";
 import { SidebarTitleWithLink, SidebarTitleWithNoLink } from "./SidebarTitle";
 
@@ -53,6 +54,17 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
     .map(([groupName, groupItems]) => ({ groupName, groupItems }))
     .sort((a, b) => (a.groupName < b.groupName ? -1 : 1));
 
+  const currentTab = currentPath
+    .split("/")
+    .filter(
+      (value) =>
+        value === "overview" ||
+        value === "usage" ||
+        value === "style" ||
+        value === "color-system" ||
+        value === "palette",
+    )[0] as Tab;
+
   return (
     <div className={style.sidebarItemContainer}>
       {logo && (
@@ -87,6 +99,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           currentPath === "/foundation/color/palette/"
         }
         onClick={closeSidebar}
+        currentTab={currentTab}
       />
       <SidebarItem
         to="/foundation/typography"
@@ -120,6 +133,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       name={item?.name!}
                       onClick={closeSidebar}
                       status={item?.platform?.docs?.overview?.status!}
+                      currentTab={currentTab}
                       hasDeps
                     />
                   );
@@ -136,6 +150,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     highlight={regex.test(currentPath)}
                     name={item?.name!}
                     onClick={closeSidebar}
+                    currentTab={currentTab}
                     status={item?.platform?.docs?.overview?.status! as Status}
                     hasDeps
                   />
@@ -160,6 +175,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
             }
             name={groupItems[0]?.name!}
             alias={groupItems[0]?.alias!}
+            currentTab={currentTab}
             highlight={regex.test(currentPath)}
             onClick={closeSidebar}
             status={groupItems[0]?.platform?.docs?.overview?.status! as Status}

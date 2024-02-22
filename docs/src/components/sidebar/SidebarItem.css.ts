@@ -45,3 +45,64 @@ export const item = recipe({
     },
   },
 });
+
+export const tab = recipe({
+  base: [
+    {
+      display: "flex",
+      alignItems: "center",
+
+      width: "100%",
+      fontSize: "14px",
+      fontWeight: "500",
+
+      color: vars.$scale.color.gray600,
+      listStyle: "none",
+
+      transition: "background 0.2s ease",
+      cursor: "pointer",
+    },
+  ],
+  variants: {
+    hasDeps: {
+      true: {
+        ":before": {
+          content: "",
+          width: "4px",
+          height: "4px",
+          borderRadius: "50%",
+          marginRight: "8px",
+          backgroundColor: vars.$scale.color.gray600,
+        },
+      },
+      false: {
+        padding: "8px 16px 8px 30px",
+      },
+    },
+
+    active: {
+      true: {
+        color: vars.$scale.color.gray700,
+        fontWeight: "bold",
+
+        ":before": {
+          backgroundColor: vars.$scale.color.gray900,
+        },
+      },
+      false: {
+        ":hover": {
+          color: vars.$scale.color.gray700,
+        },
+      },
+    },
+
+    isLast: {
+      true: {
+        padding: "6px 16px 8px 20px",
+      },
+      false: {
+        padding: "8px 16px 6px 20px",
+      },
+    },
+  },
+});
