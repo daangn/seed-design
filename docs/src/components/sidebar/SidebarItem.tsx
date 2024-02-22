@@ -35,6 +35,9 @@ const SidebarItem = ({
   const isColorPage = name === "Color";
   const popped = to.split("/").filter(Boolean).slice(0, -1).join("/");
 
+  const isOnePageTab =
+    name === "Progress Board" || name === "Icon" || name === "Typography";
+
   return (
     <Link
       to={to}
@@ -51,7 +54,8 @@ const SidebarItem = ({
       >
         <span>{displayName}</span>
       </li>
-      {highlight &&
+      {!isOnePageTab &&
+        highlight &&
         (isColorPage ? (
           <>
             <Link
