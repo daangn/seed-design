@@ -6,9 +6,9 @@
   "primitive": "../../primitive/popover/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "in-progress",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/help-bubble"
     },
     "android": {
       "status": "done",
