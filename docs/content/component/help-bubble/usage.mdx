@@ -88,7 +88,7 @@ slug: /component/help-bubble/usage
 
 | 속성                      | 값                                                                                                                                           | 기본값         |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| placement                 | "top", "top-start", "top-end", "right", "right-start", "right-end", "bottom", "bottom-start", "bottom-end", "left", "left-start", "left-end" | "bottom-center" |
+| placement                 | "top", "top-start", "top-end", "right", "right-start", "right-end", "bottom", "bottom-start", "bottom-end", "left", "left-start", "left-end" | "bottom" |
 | offset                    | number                                                                                                                                       | 8pt            |
 | cross offset              | number                                                                                                                                       | 0pt            |
 | is modal                  | false, true                                                                                                                                  | gray           |
@@ -123,4 +123,38 @@ slug: /component/help-bubble/usage
 
 ## 가이드라인
 
-Working In Progress
+<HalfCard>
+  <HalfCardImageCell>
+    ![helpbubble-guideline](./helpbubble-guideline-1.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Trigger</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Trigger 사용을 통해 유저가 Help Bubble에 접근할 수 있도록 유도할 수 있습니다. 주로 직관적인 Text Button이나 Icon을 사용합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![helpbubble-guideline](./helpbubble-guideline-2.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>간결한 문구</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      문구는 최대한 간결하게 작성하고, 불필요한 부가정보는 최소화합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![helpbubble-guideline](./helpbubble-guideline-3.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Close Button</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Help Bubble은 화면에 Overlay되는 컴포넌트로, 내용을 가려 사용자 경험을 방해할 수 있습니다. 유저가 Help Bubble의 내용을 확인한 후 닫을 수 있도록 Close Button을 활용합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
