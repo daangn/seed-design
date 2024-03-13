@@ -1,5 +1,5 @@
 import { vars } from "@seed-design/design-token";
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
 import * as m from "../styles/media.css";
@@ -7,6 +7,12 @@ import * as t from "../styles/token.css";
 import * as u from "../styles/utils.css";
 
 export const content = style([t.content]);
+
+export const markdown = style({});
+
+globalStyle(`${markdown} > *:first-child`, {
+  marginTop: "60px",
+});
 
 export const title = style([t.documentHeading1, { marginTop: "0px" }]);
 
