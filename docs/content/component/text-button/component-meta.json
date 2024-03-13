@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Text Button",
   "description": "누르면 액션을 일으키는 텍스트 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/button/primitive-meta.json",
   "group": "Buttons",
   "platform": {

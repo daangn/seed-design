@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Box Button",
   "description": "누르면 액션을 일으키는 박스 모양의 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/button/primitive-meta.json",
   "group": "Buttons",
   "platform": {

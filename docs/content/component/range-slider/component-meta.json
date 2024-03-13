@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Range Slider",
   "description": "범위 내 값을 조정할 수 있는 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/slider/primitive-meta.json",
   "group": "Sliders",
   "platform": {

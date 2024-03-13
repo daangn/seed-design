@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Chip Button",
   "description": "누르면 액션을 일으키는 칩 모양의 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "Chips",
   "platform": {
     "ios": {

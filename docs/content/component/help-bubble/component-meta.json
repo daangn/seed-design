@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Help Bubble",
   "description": "특정 요소를 가리키며 간결하고 상황에 맞는 정보를 제공하는 컴포넌트입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/popover/primitive-meta.json",
   "platform": {
     "ios": {

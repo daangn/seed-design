@@ -2960,69 +2960,21 @@ type componentMetaJsonPlatformAndroidSortInput = {
 };
 
 type componentMetaJsonPlatformDocs = {
-  readonly overview: Maybe<componentMetaJsonPlatformDocsOverview>;
   readonly style: Maybe<componentMetaJsonPlatformDocsStyle>;
   readonly usage: Maybe<componentMetaJsonPlatformDocsUsage>;
 };
 
 type componentMetaJsonPlatformDocsFieldSelector = {
-  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewFieldSelector>;
   readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleFieldSelector>;
   readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageFieldSelector>;
 };
 
 type componentMetaJsonPlatformDocsFilterInput = {
-  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewFilterInput>;
   readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleFilterInput>;
   readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageFilterInput>;
 };
 
-type componentMetaJsonPlatformDocsOverview = {
-  readonly mdx: Maybe<Scalars['String']>;
-  readonly status: Maybe<Scalars['String']>;
-  readonly storybook: Maybe<componentMetaJsonPlatformDocsOverviewStorybook>;
-};
-
-type componentMetaJsonPlatformDocsOverviewFieldSelector = {
-  readonly mdx: InputMaybe<FieldSelectorEnum>;
-  readonly status: InputMaybe<FieldSelectorEnum>;
-  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookFieldSelector>;
-};
-
-type componentMetaJsonPlatformDocsOverviewFilterInput = {
-  readonly mdx: InputMaybe<StringQueryOperatorInput>;
-  readonly status: InputMaybe<StringQueryOperatorInput>;
-  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookFilterInput>;
-};
-
-type componentMetaJsonPlatformDocsOverviewSortInput = {
-  readonly mdx: InputMaybe<SortOrderEnum>;
-  readonly status: InputMaybe<SortOrderEnum>;
-  readonly storybook: InputMaybe<componentMetaJsonPlatformDocsOverviewStorybookSortInput>;
-};
-
-type componentMetaJsonPlatformDocsOverviewStorybook = {
-  readonly height: Maybe<Scalars['String']>;
-  readonly path: Maybe<Scalars['String']>;
-};
-
-type componentMetaJsonPlatformDocsOverviewStorybookFieldSelector = {
-  readonly height: InputMaybe<FieldSelectorEnum>;
-  readonly path: InputMaybe<FieldSelectorEnum>;
-};
-
-type componentMetaJsonPlatformDocsOverviewStorybookFilterInput = {
-  readonly height: InputMaybe<StringQueryOperatorInput>;
-  readonly path: InputMaybe<StringQueryOperatorInput>;
-};
-
-type componentMetaJsonPlatformDocsOverviewStorybookSortInput = {
-  readonly height: InputMaybe<SortOrderEnum>;
-  readonly path: InputMaybe<SortOrderEnum>;
-};
-
 type componentMetaJsonPlatformDocsSortInput = {
-  readonly overview: InputMaybe<componentMetaJsonPlatformDocsOverviewSortInput>;
   readonly style: InputMaybe<componentMetaJsonPlatformDocsStyleSortInput>;
   readonly usage: InputMaybe<componentMetaJsonPlatformDocsUsageSortInput>;
 };
@@ -3317,6 +3269,11 @@ type ColorUsagePageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type ColorUsagePageQuery = { readonly lightDark1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly lightDark2: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primary1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primary2: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly primary3: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly gray1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly gray2: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly grayDont1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly grayDo1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly paper1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly paper2: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly interactive1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly interactiveDont1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly interactiveDo1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly combining1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly combiningDont1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly combiningDo1: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null };
+
+type ComponentListPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type ComponentListPageQuery = { readonly allComponentMetaJson: { readonly nodes: ReadonlyArray<{ readonly name: string | null, readonly group: string | null, readonly description: string | null, readonly thumbnail: { readonly childImageSharp: { readonly gatsbyImageData: import('gatsby-plugin-image').IGatsbyImageData } | null } | null, readonly platform: { readonly docs: { readonly usage: { readonly status: string | null, readonly mdx: { readonly childMdx: { readonly frontmatter: { readonly slug: string | null } | null } | null } | null } | null } | null } | null }> } };
 
 type ComponentProgressBoardPageQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Chip Toggle Button",
   "description": "선택 여부를 켜거나 끌 수 있는 칩 형태의 버튼입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "Chips",
   "platform": {
     "ios": {

@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Box Toggle Button",
   "description": "선택 여부를 켜거나 끌 수 있는 박스 모양의 버튼입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/button/primitive-meta.json",
   "group": "Buttons",
   "platform": {

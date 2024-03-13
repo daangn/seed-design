@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Actionable Callout",
   "description": "사용자의 주목을 끌어 중요한 정보를 강조하는 요소입니다. 사용자가 누르는 것으로 액션이 발생합니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "Callouts",
   "platform": {
     "ios": {
