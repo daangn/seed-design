@@ -3,7 +3,7 @@ import * as React from "react";
 
 import * as style from "./ComponentDocumentCategoryNav.css";
 
-type Category = "overview" | "usage" | "style";
+type Category = "usage" | "style";
 interface ComponentDocumentCategoryNavProps {
   currentPath: string;
 }
@@ -13,20 +13,15 @@ const ComponentDocumentCategoryNav = ({
 }: ComponentDocumentCategoryNavProps) => {
   const [currentCategory, setCurrentCategory] = React.useState<Category>();
 
-  const isOverview = /overview/g.test(currentPath);
   const isUsage = /usage/g.test(currentPath);
   const isStyle = /style/g.test(currentPath);
 
   let removedCategoryPath;
   if (currentCategory)
-    // NOTE: /component/alert-dialog/overview/ -> /component/alert-dialog/
+    // NOTE: /component/alert-dialog/usage/ -> /component/alert-dialog/
     removedCategoryPath = currentPath.split("/").slice(0, -2).join("/");
 
   React.useEffect(() => {
-    if (isOverview) {
-      setCurrentCategory("overview");
-      return;
-    }
     if (isUsage) {
       setCurrentCategory("usage");
       return;
@@ -41,15 +36,6 @@ const ComponentDocumentCategoryNav = ({
   return (
     <>
       <nav className={style.navContainer}>
-        <Link
-          activeClassName=""
-          className={style.navLink({
-            active: currentCategory === "overview",
-          })}
-          to={`${removedCategoryPath}/overview`}
-        >
-          <p className={style.navLinkText}>Overview</p>
-        </Link>
         <Link
           activeClassName=""
           className={style.navLink({

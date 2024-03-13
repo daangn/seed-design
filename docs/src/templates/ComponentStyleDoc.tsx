@@ -57,7 +57,7 @@ const DocsTemplate: React.FC<PageProps<GatsbyTypes.ComponentStyleQuery>> = ({
           description={description!}
           path={path}
         />
-        <div>{children}</div>
+        <div className={style.markdown}>{children}</div>
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

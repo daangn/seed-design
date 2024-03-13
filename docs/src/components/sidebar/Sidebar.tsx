@@ -22,7 +22,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           alias
           platform {
             docs {
-              overview {
+              usage {
                 status
                 mdx {
                   childMdx {
@@ -58,7 +58,6 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
     .split("/")
     .filter(
       (value) =>
-        value === "overview" ||
         value === "usage" ||
         value === "style" ||
         value === "color-system" ||
@@ -124,7 +123,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                   .toLowerCase()!;
                 const regex = new RegExp(`^/component/${convertedName}/`, "g");
 
-                if (item?.platform?.docs?.overview?.status! === "todo") {
+                if (item?.platform?.docs?.usage?.status! === "todo") {
                   return (
                     <SidebarItem
                       key={`${item?.name}-todo`}
@@ -132,7 +131,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                       to={item?.name!}
                       name={item?.name!}
                       onClick={closeSidebar}
-                      status={item?.platform?.docs?.overview?.status!}
+                      status={item?.platform?.docs?.usage?.status!}
                       currentTab={currentTab}
                       hasDeps
                     />
@@ -143,7 +142,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                   <SidebarItem
                     key={`${item?.name}-done-or-wip`}
                     to={
-                      item?.platform?.docs?.overview?.mdx?.childMdx?.frontmatter
+                      item?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
                         ?.slug!
                     }
                     alias={item?.alias!}
@@ -151,7 +150,7 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
                     name={item?.name!}
                     onClick={closeSidebar}
                     currentTab={currentTab}
-                    status={item?.platform?.docs?.overview?.status! as Status}
+                    status={item?.platform?.docs?.usage?.status! as Status}
                     hasDeps
                   />
                 );
@@ -170,15 +169,15 @@ const SidebarItemContainer = ({ logo }: { logo?: boolean }) => {
           <SidebarItem
             key={`${groupItems[0]?.name}-only-one-component`}
             to={
-              groupItems[0]?.platform?.docs?.overview?.mdx?.childMdx
-                ?.frontmatter?.slug!
+              groupItems[0]?.platform?.docs?.usage?.mdx?.childMdx?.frontmatter
+                ?.slug!
             }
             name={groupItems[0]?.name!}
             alias={groupItems[0]?.alias!}
             currentTab={currentTab}
             highlight={regex.test(currentPath)}
             onClick={closeSidebar}
-            status={groupItems[0]?.platform?.docs?.overview?.status! as Status}
+            status={groupItems[0]?.platform?.docs?.usage?.status! as Status}
           />
         );
       })}

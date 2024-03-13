@@ -25,7 +25,7 @@ export const query = graphql`
         }
         platform {
           docs {
-            overview {
+            usage {
               status
               mdx {
                 childMdx {
@@ -66,11 +66,11 @@ const Page = ({ data }: PageProps) => {
             const title = node.name;
             const thumbnail = node.thumbnail?.childImageSharp?.gatsbyImageData!;
             const slug =
-              node.platform?.docs?.overview?.mdx?.childMdx?.frontmatter?.slug!;
-            const isNotReadyOverviewPage =
-              node.platform?.docs?.overview?.status === "todo";
+              node.platform?.docs?.usage?.mdx?.childMdx?.frontmatter?.slug!;
+            const isNotReadyUsagePage =
+              node.platform?.docs?.usage?.status === "todo";
 
-            if (isNotReadyOverviewPage) {
+            if (isNotReadyUsagePage) {
               return (
                 <div className={listPageStyle.gridItem}>
                   <div className={listPageStyle.gridItemImage}>

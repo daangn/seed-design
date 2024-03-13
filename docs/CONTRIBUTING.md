@@ -26,7 +26,6 @@ seed docs의 문서들은 `seed-design/docs/content` 폴더에 위치해요.
  ┣ 📂component
  ┃ ┣ 📂alert-dialog
  ┃ ┃ ┣ 📜component-meta.json
- ┃ ┃ ┣ 📜overview.mdx
  ┃ ┃ ┣ 📜style.mdx
  ┃ ┃ ┗ 📜usage.mdx
  ┃ ┣ 📂avatar
@@ -34,7 +33,6 @@ seed docs의 문서들은 `seed-design/docs/content` 폴더에 위치해요.
  ┃ ┃ ┣ 📜avatar-options-size.png
  ┃ ┃ ┣ 📜avatar-style-anatomy.png
  ┃ ┃ ┣ 📜component-meta.json
- ┃ ┃ ┣ 📜overview.mdx
  ┃ ┃ ┣ 📜style.mdx
  ┃ ┃ ┣ 📜thumbnail.png
  ┃ ┃ ┗ 📜usage.mdx
@@ -98,10 +96,6 @@ Avatar Component를 기준으로 설명을 드릴게요.
       "path": "https://sprout-storybook.vercel.app/?path=/docs/components-avatar--docs"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"
@@ -121,7 +115,7 @@ Avatar Component를 기준으로 설명을 드릴게요.
 - `group`(옵션): 이건 사이드 바에서 같이 그룹핑 될 그룹을 적어줘요.
 - `primitive`(옵션): 해당 컴포넌트의 `Primitive` 문서의 경로를 적어줘요. 현재 `meta.json` 파일에서의 상대경로입니다.
 - `platform`: 각 플랫폼 별로의 진행 상황을 적어주기 위한 필드에요.
-  - 현재는 `ios`, `android`, `react`, docs의 `overview` 문서, docs의 `usage` 문서, docs의 `style` 문서로 나눠서 진행 상황을 관리해요.
+  - 현재는 `ios`, `android`, `react`, docs의 `usage` 문서, docs의 `style` 문서로 나눠서 진행 상황을 관리해요.
   - status(필수): `todo`, `in-progress`, `done`의 세 가지로만 적을 수 있어요. (제대로 안적으면 PR에서 에러가 납니다.)
   - mdx(옵션): docs에서 해당 문서의 상대 위치를 적어줘요.
   - alias(옵션): 해당 컴포넌트의 별칭을 적어줘요. (ios에서는 똑같은 Box Button이 아니라 Karrot이라는 prefix가 붙음.)

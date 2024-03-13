@@ -1,8 +1,5 @@
 const path = require("path");
 
-const ComponentOverviewDocTemplate = path.resolve(
-  `./src/templates/ComponentOverviewDoc.tsx`,
-);
 const ComponentUsageDocTemplate = path.resolve(
   `./src/templates/ComponentUsageDoc.tsx`,
 );
@@ -52,13 +49,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           name
           platform {
             docs {
-              overview {
-                mdx {
-                  childMdx {
-                    ...MdxContent
-                  }
-                }
-              }
               usage {
                 mdx {
                   childMdx {
@@ -84,16 +74,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const primitiveNodes = result.data.allPrimitiveMetaJson.nodes;
 
   componentNodes.forEach((component) => {
-    if (component.platform.docs.overview?.mdx) {
-      createPage({
-        path: component.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-        component: `${ComponentOverviewDocTemplate}?__contentFilePath=${component.platform.docs.overview.mdx.childMdx.internal.contentFilePath}`,
-        context: {
-          id: component.id,
-        },
-      });
-    }
-
     if (component.platform.docs.usage.mdx) {
       createPage({
         path: component.platform.docs.usage.mdx.childMdx.frontmatter.slug,

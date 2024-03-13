@@ -149,51 +149,6 @@
           "type": "object",
           "title": "Seed Docs 플랫폼 정보",
           "properties": {
-            "overview": {
-              "type": "object",
-              "title": "컴포넌트 Overview 정보",
-              "description": "컴포넌트의 전반적인 내용이 들어가있습니다.",
-              "properties": {
-                "status": {
-                  "$ref": "#/definitions/status"
-                },
-                "storybook": {
-                  "type": "object",
-                  "title": "컴포넌트 Storybook 정보",
-                  "description": "컴포넌트의 Storybook에 대한 정보가 들어가있습니다.",
-                  "properties": {
-                    "path": {
-                      "type": "string",
-                      "oneOf": [
-                        {
-                          "pattern": "^https://sprout-storybook.vercel.app/.*$"
-                        },
-                        {
-                          "pattern": "^$"
-                        }
-                      ],
-                      "title": "컴포넌트 Storybook 경로",
-                      "description": "Iframe에 띄울 Storybook 경로를 입력해주세요."
-                    },
-                    "height": {
-                      "type": "string",
-                      "pattern": "^[0-9]+px$",
-                      "title": "Iframe 높이",
-                      "description": "Iframe의 높이를 입력해주세요. px 단위로 입력해주세요."
-                    }
-                  },
-                  "required": ["path", "height"]
-                },
-                "mdx": {
-                  "type": "string",
-                  "pattern": "overview.mdx$",
-                  "title": "컴포넌트 Overview MDX 문서 경로",
-                  "description": "컴포넌트의 Overview MDX 문서 경로를 입력해주세요."
-                }
-              },
-              "required": ["status", "mdx"],
-              "additionalProperties": false
-            },
             "usage": {
               "type": "object",
               "title": "컴포넌트 Usage 정보",
@@ -231,7 +186,7 @@
               "additionalProperties": false
             }
           },
-          "required": ["overview", "usage", "style"],
+          "required": ["usage", "style"],
           "additionalProperties": false
         }
       },
