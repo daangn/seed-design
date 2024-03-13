@@ -66,6 +66,7 @@ const Progress = ({
       })}
       href={href}
       target="_blank"
+      referrerPolicy="origin"
     >
       <div className={style.progressLeft}>
         <div className={style.progressName}>{name}</div>
