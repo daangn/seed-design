@@ -38,7 +38,20 @@ slug: /component/slider/usage
 
 <HalfCard>
   <HalfCardImageCell>
-    ![slider options disabled](./images/slider-options-disabled.png)
+    ![slider options marker](./slider-steps.gif)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Steps</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Marker 옵션을 사용하여 Slider에 Marker와 Tick(눈금)을 표시할 수 있습니다.
+      이 옵션은 사용자가 각 값의 위치를 쉽게 파악하고 선택할 수 있도록 돕습니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+<HalfCard>
+  <HalfCardImageCell>
+    ![slider options disabled](./slider-options-disabled.png)
   </HalfCardImageCell>
   <HalfCardDescriptionCell>
     <HalfCardDescriptionTitle>Disabled</HalfCardDescriptionTitle>
@@ -98,4 +111,51 @@ slug: /component/slider/usage
 
 ## 가이드라인
 
-Working In Progress
+<HalfCard>
+  <HalfCardImageCell>
+    ![box button guideline](./slider-guideline-use-label.png)
+  </HalfCardImageCell>
+  <HalfCardDescriptionCell>
+    <HalfCardDescriptionTitle>Label 활용하기</HalfCardDescriptionTitle>
+    <HalfCardDescription>
+      Label과 함께 사용하여 유저가 Slider의 목적과 선택된 값을 명확히 알 수
+      있도록 합니다.
+    </HalfCardDescription>
+  </HalfCardDescriptionCell>
+</HalfCard>
+
+### Do / Don't
+
+<br />
+
+<DoDontLayout>
+  <DontBox>
+    <DontImage>
+      ![slider guideline](./slider-guideline-dont-label-bottom.png)
+    </DontImage>
+    <DontText>
+      Handle의 위치에 따라 움직이는 Label을 사용할 경우, Handle 아래에 배치하지
+      않습니다. Slider 조작시 손가락에 가려져 선택된 값을 파악하기 어렵습니다.
+    </DontText>
+  </DontBox>
+  <DontBox>
+    <DontImage>
+      ![slider guideline](./slider-guideline-dont-interact.png)
+    </DontImage>
+    <DontText>상호작용이 불가능한 화면에서 사용하지 않습니다.</DontText>
+  </DontBox>
+</DoDontLayout>
+<br />
+<DoDontLayout>
+  <DoBox>
+    <DoImage>![slider guideline](./slider-guideline-do-2.png)</DoImage>
+    <DoText>Marker는 간결하게 작성합니다.</DoText>
+  </DoBox>
+  <DontBox>
+    <DontImage>![slider guideline](./slider-guideline-dont-2.png)</DontImage>
+    <DontText>
+      Marker가 길어지지 않도록 유의합니다. 유저가 Tick의 위치를 파악하기 어려울
+      수 있습니다.
+    </DontText>
+  </DontBox>
+</DoDontLayout>
