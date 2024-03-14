@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Spinner",
   "description": "작업의 진행 단계 결정 또는 완료 시점이 확정되지 않은 경우 사용할 수 있는 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "platform": {
     "ios": {
       "status": "done",
@@ -22,14 +22,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=21836-45250&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-spinner--basic&viewMode=story",
-          "height": "80px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Checkbox",
   "description": "최소 1가지 이상의 옵션을 선택 또는 해제할 수 있는 컨트롤입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/checkbox/primitive-meta.json",
   "platform": {
     "ios": {
@@ -23,14 +23,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=51258-39461&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "done",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-checkbox--basic&viewMode=story",
-          "height": "75px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "done",
         "mdx": "./usage.mdx"

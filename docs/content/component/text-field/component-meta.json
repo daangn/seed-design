@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Text Field",
   "description": "텍스트를 한 줄에 입력할 수 있는 폼 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/text-field/primitive-meta.json",
   "group": "Text Fields",
   "platform": {
@@ -24,14 +24,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=22282-54232&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-textfields-textfield--basic&viewMode=story",
-          "height": "150px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

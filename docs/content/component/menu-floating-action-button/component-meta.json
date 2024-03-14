@@ -3,7 +3,7 @@
   "name": "Menu Floating Action Button",
   "alias": "Menu FAB",
   "description": "화면 계층 최상위에 위치해 메뉴를 표시 여부를 결정할 수 있는 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "FABs",
   "platform": {
     "ios": {
@@ -24,14 +24,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=52685-35428&t=Cjd6eNQ1wuKddYEt-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-fabs-menufab--basic&viewMode=story",
-          "height": "300px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Capsule Toggle Button",
   "description": "사용자가 선택 여부를 켜거나 끌 수 있는 버튼 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/button/primitive-meta.json",
   "group": "Buttons",
   "platform": {
@@ -24,14 +24,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?node-id=31072%3A45902&t=0VmTcEW0PAehBNQf-11"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-buttons-capsuletogglebutton--basic&viewMode=story",
-          "height": "70px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

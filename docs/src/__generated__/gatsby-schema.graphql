@@ -2159,69 +2159,21 @@ input componentMetaJsonPlatformAndroidSortInput {
 }
 
 type componentMetaJsonPlatformDocs {
-  overview: componentMetaJsonPlatformDocsOverview
   style: componentMetaJsonPlatformDocsStyle
   usage: componentMetaJsonPlatformDocsUsage
 }
 
 input componentMetaJsonPlatformDocsFieldSelector {
-  overview: componentMetaJsonPlatformDocsOverviewFieldSelector
   style: componentMetaJsonPlatformDocsStyleFieldSelector
   usage: componentMetaJsonPlatformDocsUsageFieldSelector
 }
 
 input componentMetaJsonPlatformDocsFilterInput {
-  overview: componentMetaJsonPlatformDocsOverviewFilterInput
   style: componentMetaJsonPlatformDocsStyleFilterInput
   usage: componentMetaJsonPlatformDocsUsageFilterInput
 }
 
-type componentMetaJsonPlatformDocsOverview {
-  mdx: File
-  status: String
-  storybook: componentMetaJsonPlatformDocsOverviewStorybook
-}
-
-input componentMetaJsonPlatformDocsOverviewFieldSelector {
-  mdx: FileFieldSelector
-  status: FieldSelectorEnum
-  storybook: componentMetaJsonPlatformDocsOverviewStorybookFieldSelector
-}
-
-input componentMetaJsonPlatformDocsOverviewFilterInput {
-  mdx: FileFilterInput
-  status: StringQueryOperatorInput
-  storybook: componentMetaJsonPlatformDocsOverviewStorybookFilterInput
-}
-
-input componentMetaJsonPlatformDocsOverviewSortInput {
-  mdx: FileSortInput
-  status: SortOrderEnum
-  storybook: componentMetaJsonPlatformDocsOverviewStorybookSortInput
-}
-
-type componentMetaJsonPlatformDocsOverviewStorybook {
-  height: String
-  path: String
-}
-
-input componentMetaJsonPlatformDocsOverviewStorybookFieldSelector {
-  height: FieldSelectorEnum
-  path: FieldSelectorEnum
-}
-
-input componentMetaJsonPlatformDocsOverviewStorybookFilterInput {
-  height: StringQueryOperatorInput
-  path: StringQueryOperatorInput
-}
-
-input componentMetaJsonPlatformDocsOverviewStorybookSortInput {
-  height: SortOrderEnum
-  path: SortOrderEnum
-}
-
 input componentMetaJsonPlatformDocsSortInput {
-  overview: componentMetaJsonPlatformDocsOverviewSortInput
   style: componentMetaJsonPlatformDocsStyleSortInput
   usage: componentMetaJsonPlatformDocsUsageSortInput
 }

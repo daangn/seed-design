@@ -33,7 +33,7 @@ const DocsTemplate: React.FC<
       <article className={style.content}>
         <h1 className={style.title}>{name}</h1>
         <p className={style.titleDescription}>{description}</p>
-        <div>{children}</div>
+        <div className={style.markdown}>{children}</div>
       </article>
       <TableOfContents tableOfContents={tableOfContents} />
     </>

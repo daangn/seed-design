@@ -4,7 +4,7 @@ import * as style from "./SidebarItem.css";
 
 type Status = "done" | "in-progress" | "todo";
 
-export type Tab = "overview" | "usage" | "style" | "color-system" | "palette";
+export type Tab = "usage" | "style" | "color-system" | "palette";
 
 interface SidebarItemProps {
   name: string;
@@ -18,7 +18,7 @@ interface SidebarItemProps {
   onMouseEnter?: () => void;
 }
 
-// localhost:8000/component/alert-dialog/overview/
+// localhost:8000/component/alert-dialog/usage/
 // {domain}/{category}/{component}/{section}/
 const SidebarItem = ({
   name,
@@ -54,96 +54,49 @@ const SidebarItem = ({
       >
         <span>{displayName}</span>
       </li>
-      {!isOnePageTab &&
-        highlight &&
-        (isColorPage ? (
-          <>
-            <Link
-              to={`/${popped}/color-system`}
-              className={style.link({ disable: status === "todo" })}
+      {!isOnePageTab && highlight && isColorPage && (
+        <>
+          <Link
+            to={`/${popped}/color-system`}
+            className={style.link({ disable: status === "todo" })}
+          >
+            <li
+              className={style.tab({
+                active: currentTab === "color-system",
+                isLast: false,
+                hasDeps: !!hasDeps,
+              })}
             >
-              <li
-                className={style.tab({
-                  active: currentTab === "color-system",
-                  isLast: false,
-                  hasDeps: !!hasDeps,
-                })}
-              >
-                Color System
-              </li>
-            </Link>
-            <Link
-              to={`/${popped}/usage`}
-              className={style.link({ disable: status === "todo" })}
+              Color System
+            </li>
+          </Link>
+          <Link
+            to={`/${popped}/usage`}
+            className={style.link({ disable: status === "todo" })}
+          >
+            <li
+              className={style.tab({
+                active: currentTab === "usage",
+                isLast: false,
+                hasDeps: !!hasDeps,
+              })}
             >
-              <li
-                className={style.tab({
-                  active: currentTab === "usage",
-                  isLast: false,
-                  hasDeps: !!hasDeps,
-                })}
-              >
-                Usage
-              </li>
-            </Link>
-            <Link to={`/${popped}/palette`}>
-              <li
-                className={style.tab({
-                  active: currentTab === "palette",
-                  isLast: true,
-                  hasDeps: !!hasDeps,
-                })}
-              >
-                Palette
-              </li>
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link
-              to={`/${popped}/overview`}
-              className={style.link({ disable: status === "todo" })}
+              Usage
+            </li>
+          </Link>
+          <Link to={`/${popped}/palette`}>
+            <li
+              className={style.tab({
+                active: currentTab === "palette",
+                isLast: true,
+                hasDeps: !!hasDeps,
+              })}
             >
-              <li
-                className={style.tab({
-                  active: currentTab === "overview",
-                  hasDeps: !!hasDeps,
-                  isLast: false,
-                })}
-              >
-                Overview
-              </li>
-            </Link>
-            <Link
-              to={`/${popped}/usage`}
-              className={style.link({ disable: status === "todo" })}
-            >
-              <li
-                className={style.tab({
-                  active: currentTab === "usage",
-                  hasDeps: !!hasDeps,
-                  isLast: false,
-                })}
-              >
-                Usage
-              </li>
-            </Link>
-            <Link
-              to={`/${popped}/style`}
-              className={style.link({ disable: status === "todo" })}
-            >
-              <li
-                className={style.tab({
-                  active: currentTab === "style",
-                  hasDeps: !!hasDeps,
-                  isLast: true,
-                })}
-              >
-                Style
-              </li>
-            </Link>
-          </>
-        ))}
+              Palette
+            </li>
+          </Link>
+        </>
+      )}
     </Link>
   );
 };

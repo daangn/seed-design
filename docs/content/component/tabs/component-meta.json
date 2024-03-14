@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Tabs",
   "description": "다른 탭 간에 전환과 이동을 쉽게 할 수 있는 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/tabs/primitive-meta.json",
   "platform": {
     "ios": {
@@ -23,14 +23,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=39212-50702&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-tabs-tabs--basic&viewMode=story",
-          "height": "300px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

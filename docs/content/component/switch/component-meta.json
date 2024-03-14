@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Switch",
   "description": "사용자가 개별 옵션을 켜거나 끌 수 있는 컨트롤입니다. 일반적으로 설정을 제어하기 위해 사용됩니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "platform": {
     "ios": {
       "status": "done",
@@ -22,14 +22,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=51313-38966&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-switch--basic&viewMode=story",
-          "height": "80px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

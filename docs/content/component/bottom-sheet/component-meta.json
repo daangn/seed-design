@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Bottom Sheet",
   "description": "화면 하단에 고정된 보충 콘텐츠가 포함된 표면 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "platform": {
     "ios": {
       "status": "todo",
@@ -22,10 +22,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=33160-40315&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

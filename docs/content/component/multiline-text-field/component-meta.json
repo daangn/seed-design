@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Multiline Text Field",
   "description": "장문의 텍스트를 여러 줄에 걸쳐 입력할 수 있는 폼 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/text-field/primitive-meta.json",
   "group": "Text Fields",
   "platform": {
@@ -24,14 +24,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?node-id=22954-53089&t=5IQyBHEofStvZOhU-11"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-textfields-multilinetextfield--basic&viewMode=story",
-          "height": "300px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

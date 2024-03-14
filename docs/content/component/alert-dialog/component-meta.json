@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Alert Dialog",
   "description": "사용자에게 중요한 정보를 전달하고, 필요하면 응답을 요구하는 컴포넌트입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/dialog/primitive-meta.json",
   "platform": {
     "ios": {
@@ -23,14 +23,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=39212-27850&t=WVhT3hdC8rK21W3o-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-dialog-dialogtrigger--default-open&viewMode=story",
-          "height": "300px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

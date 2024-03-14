@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Text Button",
   "description": "누르면 액션을 일으키는 텍스트 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "primitive": "../../primitive/button/primitive-meta.json",
   "group": "Buttons",
   "platform": {
@@ -24,14 +24,6 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?node-id=46471%3A34309&t=0VmTcEW0PAehBNQf-11"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-buttons-textbutton--basic&viewMode=story",
-          "height": "90px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
         "status": "in-progress",
         "mdx": "./usage.mdx"

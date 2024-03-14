@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Chip Button",
   "description": "누르면 액션을 일으키는 칩 모양의 요소입니다.",
-  "thumbnail": "./thumbnail.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "Chips",
   "platform": {
     "ios": {
@@ -23,16 +23,8 @@
       "path": "https://www.figma.com/file/ty7UxJ61CVPeVU2Gf1LJGQ/App-Components?type=design&node-id=21160-40044&mode=design&t=43ulOY6lWYqUyGPF-4"
     },
     "docs": {
-      "overview": {
-        "status": "in-progress",
-        "storybook": {
-          "path": "https://sprout-storybook.vercel.app/iframe.html?args=&id=components-chips-chipbutton--basic&viewMode=story",
-          "height": "80px"
-        },
-        "mdx": "./overview.mdx"
-      },
       "usage": {
-        "status": "todo",
+        "status": "done",
         "mdx": "./usage.mdx"
       },
       "style": {

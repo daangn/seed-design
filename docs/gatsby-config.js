@@ -159,28 +159,6 @@ module.exports = {
               }
             }
 
-            overviews: allComponentMetaJson(
-              filter: {platform: {docs: {overview: {status: {ne: "todo"}}}}}
-            ) {
-              nodes {
-                name
-                platform {
-                  docs {
-                    overview {
-                      status
-                      mdx {
-                        childMdx {
-                          frontmatter {
-                            slug
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-
             usages: allComponentMetaJson(
               filter: {platform: {docs: {usage: {status: {ne: "todo"}}}}}
             ) {
@@ -230,12 +208,6 @@ module.exports = {
         index: ["slug"],
         store: ["slug", "name", "status"],
         normalizer: ({ data }) => {
-          const overviewMetas = data.overviews.nodes.map((node) => ({
-            slug: node.platform.docs.overview.mdx.childMdx.frontmatter.slug,
-            name: node.name,
-            status: node.platform.docs.overview.status,
-          }));
-
           const usageMetas = data.usages.nodes.map((node) => ({
             slug: node.platform.docs.usage.mdx.childMdx.frontmatter.slug,
             name: node.name,
@@ -278,7 +250,6 @@ module.exports = {
 
           return [
             ...foundationMetas,
-            ...overviewMetas,
             ...usageMetas,
             ...styleMetas,
             ...primitiveMetas,
