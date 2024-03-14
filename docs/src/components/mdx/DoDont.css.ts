@@ -1,5 +1,5 @@
 import { classNames, vars } from "@seed-design/design-token";
-import { style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 
 import * as m from "../../styles/media.css";
 import * as u from "../../styles/utils.css";
@@ -28,6 +28,15 @@ export const dontCard = style([
     borderBottom: `5px solid ${vars.$semantic.color.danger}`,
   },
 ]);
+
+globalStyle(`${doCard} > img`, {
+  width: "100%",
+  height: "100%",
+});
+globalStyle(`${dontCard} > img`, {
+  width: "100%",
+  height: "100%",
+});
 
 const icon = style([
   u.flexCenter,
