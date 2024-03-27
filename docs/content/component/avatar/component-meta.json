@@ -7,9 +7,9 @@
   "primitive": "../../primitive/avatar/primitive-meta.json",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/avatar"
     },
     "android": {
       "status": "todo",
