@@ -5,7 +5,8 @@
   "workspaces": [
     "packages/*",
     "packages/machines/*",
-    "docs"
+    "docs",
+    "tools/*"
   ],
   "scripts": {
     "build": "ultra -r build",

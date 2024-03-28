@@ -1,0 +1,14 @@
+{
+  "name": "Seed Docs Widget",
+  "id": "1355071316556147549",
+  "api": "1.0.0",
+  "widgetApi": "1.0.0",
+  "editorType": ["figma", "figjam"],
+  "containsWidget": true,
+  "main": "./dist/code.js",
+  "ui": "./dist/index.html",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["https://seed-design.io"]
+  }
+}
