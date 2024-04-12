@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Inline Alert",
   "description": "유저가 꼭 알아야하는 경고성 메시지나 광고의 상태를 전달하는 시스템 메시지입니다. 주로 Top Navigation 아래에 고정되어 노출하며, 주목도가 높으니 필요한 경우에 제한적으로 사용합니다.",
-  "thumbnail": "../../imageNotReady.png",
+  "thumbnail": "./images/thumbnail.png",
   "group": "Inline Alerts",
   "platform": {
     "ios": {
