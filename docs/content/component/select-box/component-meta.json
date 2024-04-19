@@ -2,7 +2,7 @@
   "$schema": "../../../schema/component-meta.json",
   "name": "Select Box",
   "description": "주로 동적폼에서 사용되며, 여러개의 선택지(옵션)를 제공하는 경우에 사용해요.",
-  "thumbnail": "../../imageNotReady.png",
+  "thumbnail": "./images/thumbnail.png",
   "platform": {
     "ios": {
       "status": "todo",
