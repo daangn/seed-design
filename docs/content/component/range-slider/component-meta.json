@@ -7,9 +7,9 @@
   "group": "Sliders",
   "platform": {
     "ios": {
-      "status": "todo",
+      "status": "done",
       "alias": "",
-      "path": ""
+      "path": "seedcatalog://components/range-slider"
     },
     "android": {
       "status": "todo",
