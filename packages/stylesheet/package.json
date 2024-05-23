@@ -9,11 +9,25 @@
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "prepack": "yarn build",
+    "build": "yarn build:style",
+    "build:style": "recipegen css"
+  },
   "exports": {
     "./global.css": "./global.css",
+    "./base.css": "./base.css",
+    "./token.css": "./token.css",
+    "./boxButton.css": "./boxButton.css",
     "./package.json": "./package.json"
   },
   "files": [
-    "global.css"
-  ]
+    "global.css",
+    "base.css",
+    "token.css",
+    "boxButton.css"
+  ],
+  "devDependencies": {
+    "@seed-design/recipe-generator-cli": "0.0.0"
+  }
 }

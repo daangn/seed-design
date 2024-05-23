@@ -51,6 +51,6 @@
     "nanobundle": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4.9.3"
+    "typescript": "^5.4.5"
   }
 }

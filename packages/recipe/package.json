@@ -1,0 +1,36 @@
+{
+  "name": "@seed-design/recipe",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/recipe"
+  },
+  "sideEffects": false,
+  "exports": {
+    "./boxButton": {
+      "types": "./lib/boxButton.d.ts",
+      "import": "./lib/boxButton.mjs"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepack": "rm -rf lib && yarn build",
+    "build": "yarn build:style",
+    "build:style": "recipegen style ./lib"
+  },
+  "devDependencies": {
+    "@seed-design/recipe-generator-cli": "0.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}

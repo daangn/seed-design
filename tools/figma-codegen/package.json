@@ -1,0 +1,35 @@
+{
+  "name": "@seed-design/figma-codegen",
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^3.0.2",
+    "change-case": "^5.2.0",
+    "just-group-by": "^2.2.0"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "^3.0.2",
+    "@create-figma-plugin/tsconfig": "^3.0.2",
+    "@figma/plugin-typings": "1.79.0",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "build": "build-figma-plugin --typecheck --minify",
+    "dev": "build-figma-plugin --typecheck --watch"
+  },
+  "figma-plugin": {
+    "editorType": [
+      "dev"
+    ],
+    "capabilities": [
+      "codegen"
+    ],
+    "codegenLanguages": [
+      {
+        "label": "React",
+        "value": "react"
+      }
+    ],
+    "id": "",
+    "name": "Seed Design Codegen",
+    "main": "src/main.ts"
+  }
+}

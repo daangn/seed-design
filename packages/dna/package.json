@@ -1,0 +1,16 @@
+{
+  "name": "@seed-design/dna",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/dna"
+  },
+  "main": "./lib/index.js",
+  "files": [
+    "box-button.yaml"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

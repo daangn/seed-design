@@ -1,25 +1,26 @@
 {
-  "name": "next-ts",
+  "name": "@seed-design/next-ts",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next --port=6007",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@seed-design/stylesheet": "^1.0.0-beta.4",
-    "@zag-js/dom-utils": "^0.1.10",
-    "@zag-js/menu": "^0.1.13",
-    "@zag-js/react": "^0.1.15",
-    "next": "latest",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@radix-ui/react-slot": "^1.0.2",
+    "@seed-design/recipe": "0.0.0",
+    "@seed-design/stylesheet": "1.0.4",
+    "clsx": "^2.1.1",
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/node": "^12.12.21",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^4.7.4"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5.4.5"
   }
 }

@@ -1,0 +1,58 @@
+:root[data-seed] {
+    color-scheme: light dark;
+}
+
+:root[data-seed=light-only] {
+    color-scheme: light;
+}
+
+:root[data-seed=dark-only] {
+    color-scheme: dark;
+}
+
+:root[data-seed] {
+    --seed-color-fg-static-black: #000000;
+    --seed-color-fg-static-white: #ffffff;
+
+    --seed-font-weight-regular: 400;
+    --seed-font-weight-bold: 700;
+
+    --seed-unit-0\.5: 2px;
+    --seed-unit-1: 4px;
+    --seed-unit-1\.5: 6px;
+    --seed-unit-2: 8px;
+    --seed-unit-2\.5: 10px;
+    --seed-unit-3: 12px;
+    --seed-unit-3\.5: 14px;
+    --seed-unit-4: 16px;
+    --seed-unit-5: 20px;
+    --seed-unit-6: 24px;
+    --seed-unit-7: 28px;
+    --seed-unit-8: 32px;
+    --seed-unit-9: 36px;
+    --seed-unit-10: 40px;
+
+    --seed-radii-0\.5: 2px;
+    --seed-radii-1: 4px;
+    --seed-radii-1\.5: 6px;
+    --seed-radii-2: 8px;
+
+    --seed-font-size-50: 0.75rem;
+    /* 12px */
+    --seed-font-size-75: 0.8125rem;
+    /* 13px */
+    --seed-font-size-100: 0.875rem;
+    /* 14px */
+}
+
+:root[data-seed][data-seed=light-only][data-seed-scale-color=dark],
+:root[data-seed][data-seed-scale-color=light]:not([data-seed=dark-only]),
+:root[data-seed]:not([data-seed=dark-only]) [data-seed-scale-color=light] {
+    --seed-color-fg-brand: #ff6f0f;
+    --seed-color-bg-brand: #ff6f0f24;
+    --seed-color-bg-brand-emphasis: #ff6f0f;
+    --seed-color-bg-brand-emphasis-pressed: #ff9e66;
+    --seed-color-fg-neutral: #000000;
+    --seed-color-bg-neutral: #f5f5f5;
+    --seed-color-bg-neutral-pressed: #e8e8e8;
+}

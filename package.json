@@ -4,13 +4,17 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "packages/machines/*",
+    "packages/react/*",
+    "packages/recipe-generator/*",
+    "tools/*",
+    "examples/*",
     "docs"
   ],
   "scripts": {
     "build": "ultra -r build",
     "build:dts": "ultra -r --build build:dts",
     "build-only-package": "ultra -r --build build:package",
+    "build:style": "yarn workspaces foreach run build:style",
     "clean": "ultra -r clean",
     "dev": "ultra -r dev",
     "release": "yarn changeset publish",
@@ -20,7 +24,7 @@
     "@changesets/cli": "^2.17.0",
     "esbuild": "^0.15.13",
     "prettier": "^2.7.1",
-    "typescript": "^4.6.3",
+    "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5"
   },
   "packageManager": "yarn@3.2.2"

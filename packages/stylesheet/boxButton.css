@@ -1,0 +1,83 @@
+.boxButton__root {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+}
+.boxButton__root:is(:focus, [data-focus]) {
+    outline: none;
+}
+.boxButton__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
+.boxButton__root {
+    font-weight: var(--seed-font-weight-bold);
+}
+.boxButton__prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.boxButton__root--variant_brand {
+    background: var(--seed-color-bg-brand-emphasis);
+}
+.boxButton__root--variant_brand:is(:active, [data-pressed]) {
+    background: var(--seed-color-bg-brand-emphasis-pressed);
+}
+.boxButton__root--variant_brand:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.boxButton__label--variant_brand {
+    color: var(--seed-color-fg-static-white);
+}
+.boxButton__prefix--variant_brand {
+    color: var(--seed-color-fg-static-white);
+}
+.boxButton__root--variant_neutral {
+    background: var(--seed-color-bg-neutral);
+    color: var(--seed-color-fg-neutral);
+}
+.boxButton__root--variant_neutral:is(:active, [data-pressed]) {
+    background: var(--seed-color-bg-neutral-pressed);
+}
+.boxButton__root--variant_neutral:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.boxButton__label--variant_neutral {
+    color: var(--seed-color-fg-neutral);
+}
+.boxButton__prefix--variant_neutral {
+    color: var(--seed-color-fg-neutral);
+}
+.boxButton__root--size_medium {
+    height: var(--seed-unit-10);
+    padding: var(--seed-unit-2\.5) var(--seed-unit-3);
+    border-radius: var(--seed-radii-1\.5);
+    gap: var(--seed-unit-1);
+}
+.boxButton__label--size_medium {
+    font-size: var(--seed-font-size-100);
+}
+.boxButton__prefix--size_medium {
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
+}
+.boxButton__root--size_xsmall {
+    height: var(--seed-unit-8);
+    padding: var(--seed-unit-2) var(--seed-unit-2\.5);
+    border-radius: var(--seed-radii-1);
+    gap: var(--seed-unit-1);
+}
+.boxButton__label--size_xsmall {
+    font-size: var(--seed-font-size-50);
+}
+.boxButton__prefix--size_xsmall {
+    width: var(--seed-unit-3);
+    height: var(--seed-unit-3);
+}
