@@ -41,7 +41,6 @@
 }
 .boxButton__root--variant_neutral {
     background: var(--seed-color-bg-neutral);
-    color: var(--seed-color-fg-neutral);
 }
 .boxButton__root--variant_neutral:is(:active, [data-pressed]) {
     background: var(--seed-color-bg-neutral-pressed);

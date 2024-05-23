@@ -19,7 +19,7 @@
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
     "build": "yarn build:style",
-    "build:style": "recipegen style ./lib"
+    "build:style": "recipegen js ./lib"
   },
   "devDependencies": {
     "@seed-design/recipe-generator-cli": "0.0.0"
