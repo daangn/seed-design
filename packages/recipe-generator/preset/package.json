@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "tools/recipe-generator/preset"
+    "directory": "packages/recipe-generator/preset"
   },
   "sideEffects": false,
   "exports": {

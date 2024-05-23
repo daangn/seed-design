@@ -4,7 +4,8 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/daangn/sprout"
+    "url": "https://github.com/daangn/sprout",
+    "directory": "packages/recipe-generator/cli"
   },
   "license": "MIT",
   "bin": {
