@@ -6693,7 +6693,7 @@ __metadata:
     "@stackflow/plugin-basic-ui": ^1.4.0
     "@stackflow/plugin-history-sync": ^1.3.13
     "@stackflow/plugin-renderer-basic": ^1.1.5
-    "@stackflow/react": ^1.1.5
+    "@stackflow/react": ^1.1.9
     "@types/react": ^18.2.37
     "@types/react-dom": ^18.2.15
     "@vitejs/plugin-legacy": ^5.3.1
@@ -6873,16 +6873,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackflow/react@npm:^1.1.5":
-  version: 1.1.8
-  resolution: "@stackflow/react@npm:1.1.8"
+"@stackflow/react@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@stackflow/react@npm:1.1.9"
   dependencies:
     react-fast-compare: ^3.2.0
   peerDependencies:
     "@stackflow/core": ^1
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: ff26941bbbaf6221fb2547c1e672e7453dfe1b457819a7ad9b2109d85892c6faf8f3f41ddd2c406f7076c9be57144b2c32e0b21d2dbec12350d35649d7f8656c
+  checksum: d9cdd473c46c74596f44a1a66169882aba1bca6551c26fd16e2132dae2e55c95bc2e9f5d12900b5e6e42ae0a367f5052cbd13a00357da5d37855bf4873da5aa2
   languageName: node
   linkType: hard
 
