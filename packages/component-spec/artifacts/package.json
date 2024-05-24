@@ -1,12 +1,11 @@
 {
-  "name": "@seed-design/dna",
+  "name": "@seed-design/component-spec-artifacts",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/dna"
+    "directory": "packages/component-spec/artifacts"
   },
-  "main": "./lib/index.js",
   "files": [
     "box-button.yaml"
   ],
