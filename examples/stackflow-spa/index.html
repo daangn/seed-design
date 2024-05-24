@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html
+  data-seed
+  data-seed-scale-letter-spacing="ios"
+  data-seed-scale-color="light"
+  data-stackflow-basic-ui-theme="cupertino"
+>
+  <head>
+    <title>WebView SPA Template - Karrot</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <style type="text/css">:root { --sat: env(safe-area-inset-top); }</style>
+    <script>
+      (() => {
+        var h = document.head || document.getElementsByTagName('head')[0];
+        var b = document.documentElement;
+
+        var c = /iphone|ipad|ipod/i.test(
+          window.navigator.userAgent.toLowerCase(),
+        );
+
+        /**
+         * Seed Design의 컬러 토큰은 <html /> 태그의 data-seed, data-seed-scale-color 속성을 통해 라이트/다크모드 전환을 해요.
+         * 따라서, prefers-color-scheme 속성을 listen하면서, 해당 필드를 교체하는 JavaScript Snippet이에요.
+         * 또한 OS별 타이포그래피 지원을 향상시키기 위해 `data-seed-scale-letter-spacing` 어트리뷰트를 root 요소에 지정할 수 있어요.
+         * 지정하지 않아도 letter-spacing을 제외한 속성들은 정상적으로 적용되지만, 디자인 의도를 최대한 반영하기 위해 적용하는 것을 권장해요.
+         */
+        b.dataset.seedScaleLetterSpacing = c ? "ios" : "android";
+        b.dataset.seed = "";
+        var pd = window.matchMedia("(prefers-color-scheme: dark)"),
+          a = () => {
+            b.dataset.seedScaleColor = pd.matches ? "dark" : "light";
+          };
+        "addEventListener" in pd
+          ? pd.addEventListener("change", a)
+          : "addListener" in pd && pd.addListener(a),
+          a();
+
+        /**
+         * Stackflow의 Basic UI는 <html /> 태그의 data-stackflow-basic-ui-theme 속성을 통해
+         * 초기 렌더링에서 Cupertino/Android 테마를 정적으로 셋팅해요.
+         */
+        b.dataset.stackflowBasicUiTheme = c ? "cupertino" : "android";
+
+        /**
+         * Webkit 버그로 인해, HTML 로드 시점에 env(safe-area-inset-top) 이 0px로 들어가는 문제가 있어요.
+         * 유저가 방문하고 난 뒤 2000ms(2초) 가 지났을때, `localStorage`에 현재 설정된 `env(safe-area-inset-top)` 값을 저장해요
+         * 이후 유저가 방문했을때 `localStorage` 에서 해당 값을 읽어 Stackflow의 CSS Variable를 덮어써요.
+         * https://bugs.webkit.org/show_bug.cgi?id=191872
+         */
+        const k = "env(safe-area-inset-top)";
+        const t = 2000;
+        const sat = localStorage.getItem(k);
+
+        if (sat) {
+          const c = `#root > div { --stackflow-plugin-basic-ui-app-bar-min-safe-area-inset-top: ${sat}; }`;
+  
+          const s = document.createElement('style');
+          s.type = 'text/css';
+          s.appendChild(document.createTextNode(c));
+  
+          h.appendChild(s);
+        }
+
+        setTimeout(() => {
+          localStorage.setItem(k, getComputedStyle(b).getPropertyValue("--sat"));
+        }, t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/index.tsx"></script>
+  </body>
+</html>

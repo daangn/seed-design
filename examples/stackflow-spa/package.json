@@ -1,0 +1,28 @@
+{
+  "name": "@seed-design/stackflow-spa",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --host 0.0.0.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "@stackflow/core": "^1.0.8",
+    "@stackflow/plugin-basic-ui": "^1.4.0",
+    "@stackflow/plugin-history-sync": "^1.3.13",
+    "@stackflow/plugin-renderer-basic": "^1.1.5",
+    "@stackflow/react": "^1.1.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-legacy": "^5.3.1",
+    "@vitejs/plugin-react-swc": "^3.6.0",
+    "terser": "^5.24.0",
+    "typescript": "5.2.2",
+    "vite": "^5.1.4",
+    "vite-plugin-checker": "^0.6.2"
+  }
+}
