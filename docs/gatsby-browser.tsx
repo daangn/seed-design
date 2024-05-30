@@ -19,6 +19,25 @@ export const wrapPageElement = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (
+      pathname.startsWith("/component") &&
+      !pathname.includes("usage") &&
+      pathname.endsWith("/")
+    ) {
+      window.location.replace(`${pathname}usage/`);
+      return;
+    }
+
+    if (
+      pathname.startsWith("/component") &&
+      !pathname.includes("usage") &&
+      !pathname.endsWith("/")
+    ) {
+      window.location.replace(`${pathname}/usage/`);
+    }
+  }, []);
+
   return (
     <Root>
       <Layout type={layoutType}>{element}</Layout>
