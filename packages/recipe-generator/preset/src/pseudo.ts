@@ -2,7 +2,7 @@ export const focus = ":is(:focus, [data-focus])";
 
 export const focusVisible = ":is(:focus-visible, [data-focus-visible])";
 
-export const pressed = ":is(:active, [data-pressed])";
+export const active = ":is(:active, [data-active])";
 
 export const disabled = ":is(:disabled, [disabled], [data-disabled])";
 

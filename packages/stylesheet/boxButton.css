@@ -27,7 +27,7 @@
 .boxButton__root--variant_brand {
     background: var(--seed-color-bg-brand-emphasis);
 }
-.boxButton__root--variant_brand:is(:active, [data-pressed]) {
+.boxButton__root--variant_brand:is(:active, [data-active]) {
     background: var(--seed-color-bg-brand-emphasis-pressed);
 }
 .boxButton__root--variant_brand:is(:disabled, [disabled], [data-disabled]) {
@@ -42,7 +42,7 @@
 .boxButton__root--variant_neutral {
     background: var(--seed-color-bg-neutral);
 }
-.boxButton__root--variant_neutral:is(:active, [data-pressed]) {
+.boxButton__root--variant_neutral:is(:active, [data-active]) {
     background: var(--seed-color-bg-neutral-pressed);
 }
 .boxButton__root--variant_neutral:is(:disabled, [disabled], [data-disabled]) {

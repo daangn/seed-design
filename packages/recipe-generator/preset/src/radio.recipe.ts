@@ -1,6 +1,6 @@
 import { vars } from "./__generated__/radio.vars";
 import { defineRecipe } from "./helper";
-import { checked, disabled, pressed, pseudo } from "./pseudo";
+import { checked, disabled, active, pseudo } from "./pseudo";
 
 const radio = defineRecipe({
   name: "radio",
@@ -29,10 +29,10 @@ const radio = defineRecipe({
         background: vars.base.enabledSelected.control.background,
         borderWidth: vars.base.enabledSelected.control.borderWidth,
       },
-      [pseudo(pressed)]: {
+      [pseudo(active)]: {
         background: vars.base.pressed.control.background,
       },
-      [pseudo(pressed, checked)]: {
+      [pseudo(active, checked)]: {
         background: vars.base.pressedSelected.control.background,
       },
       [pseudo(disabled)]: {

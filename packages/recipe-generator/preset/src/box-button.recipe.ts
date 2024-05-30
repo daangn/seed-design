@@ -1,6 +1,6 @@
 import { vars } from "./__generated__/box-button.vars";
 import { defineRecipe } from "./helper";
-import { disabled, focus, pressed, pseudo } from "./pseudo";
+import { disabled, focus, active, pseudo } from "./pseudo";
 
 const boxButton = defineRecipe({
   name: "boxButton",
@@ -37,7 +37,7 @@ const boxButton = defineRecipe({
       brand: {
         root: {
           background: vars.variantBrand.enabled.root.color,
-          [pseudo(pressed)]: {
+          [pseudo(active)]: {
             background: vars.variantBrand.pressed.root.color,
           },
           [pseudo(disabled)]: {
@@ -54,7 +54,7 @@ const boxButton = defineRecipe({
       neutral: {
         root: {
           background: vars.variantNeutral.enabled.root.color,
-          [pseudo(pressed)]: {
+          [pseudo(active)]: {
             background: vars.variantNeutral.pressed.root.color,
           },
           [pseudo(disabled)]: {

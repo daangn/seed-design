@@ -20,10 +20,10 @@
     background: var(--seed-color-bg-brand-emphasis);
     border-width: 0;
 }
-.radio__control:is(:active, [data-pressed]) {
+.radio__control:is(:active, [data-active]) {
     background: var(--seed-color-bg-layer-1-pressed);
 }
-.radio__control:is(:active, [data-pressed]):is(:checked, [data-checked]) {
+.radio__control:is(:active, [data-active]):is(:checked, [data-checked]) {
     background: var(--seed-color-bg-brand-emphasis-pressed);
 }
 .radio__control:is(:disabled, [disabled], [data-disabled]) {
