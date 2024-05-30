@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export const dataAttr = (guard: boolean | undefined) => {
   return guard ? "" : undefined;
 };
