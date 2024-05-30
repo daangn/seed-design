@@ -27,7 +27,7 @@ function parseToken(tokenExpression: string): Token {
   }
 
   const parts = numericParts[0].split(".");
-  const [category, ...group] = parts[0];
+  const [category, ...group] = parts;
   const key = numericParts[1].slice(0, -1);
   return { category, group, key };
 }
