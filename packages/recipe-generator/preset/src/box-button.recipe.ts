@@ -24,7 +24,7 @@ const boxButton = defineRecipe({
         cursor: "not-allowed",
       },
 
-      fontWeight: vars.base.label.fontWeight,
+      fontWeight: vars.base.enabled.label.fontWeight,
     },
     prefix: {
       display: "inline-flex",

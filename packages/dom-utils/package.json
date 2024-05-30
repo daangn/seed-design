@@ -24,6 +24,7 @@
     "build": "nanobundle build"
   },
   "devDependencies": {
+    "@types/react": "^18.3.3",
     "nanobundle": "^1.6.0"
   },
   "publishConfig": {

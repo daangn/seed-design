@@ -4,7 +4,7 @@ import * as React from "react";
 
 export interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: "neutral";
-  size?: "xSmall" | "small" | "medium";
+  size?: "xsmall" | "small" | "medium";
   weight?: "default" | "strong";
 }
 
@@ -13,7 +13,7 @@ const fgColorMap = {
 };
 
 const fontSizeMap = {
-  xSmall: "var(--seed-font-size-50)",
+  xsmall: "var(--seed-font-size-50)",
   small: "var(--seed-font-size-75)",
   medium: "var(--seed-font-size-100)",
 };

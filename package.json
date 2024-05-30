@@ -6,6 +6,7 @@
     "packages/*",
     "packages/react/*",
     "packages/recipe-generator/*",
+    "packages/react-headless/*",
     "tools/*",
     "examples/*",
     "docs"

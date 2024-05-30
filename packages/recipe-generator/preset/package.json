@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
-    "build": "nanobundle build"
+    "build": "yarn build:style",
+    "build:style": "nanobundle build"
   },
   "devDependencies": {
     "@seed-design/recipe-generator-core": "0.0.0",

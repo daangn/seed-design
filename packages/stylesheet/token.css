@@ -36,6 +36,7 @@
     --seed-radii-1: 4px;
     --seed-radii-1\.5: 6px;
     --seed-radii-2: 8px;
+    --seed-radii-full: 9999px;
 
     --seed-font-size-50: 0.75rem;
     /* 12px */
@@ -43,6 +44,8 @@
     /* 13px */
     --seed-font-size-100: 0.875rem;
     /* 14px */
+    --seed-font-size-200: 1rem;
+    /* 16px */
 }
 
 :root[data-seed][data-seed=light-only][data-seed-scale-color=dark],
@@ -56,4 +59,6 @@
     --seed-color-bg-neutral: #f5f5f5;
     --seed-color-bg-neutral-pressed: #e8e8e8;
     --seed-color-bg-layer-1: #ffffff;
+    --seed-color-bg-layer-1-pressed: #f2f3f6;
+    --seed-color-stroke-control: #dcdee3;
 }

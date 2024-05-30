@@ -17,10 +17,18 @@ const theme = /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase())
   ? "cupertino"
   : "android";
 
-const { Stack, useFlow } = stackflow({
+const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
-    ActivityDetail: React.lazy(() => import("../activities/ActivityDetail")),
     ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
+    ActivityBoxButton: React.lazy(
+      () => import("../activities/ActivityBoxButton"),
+    ),
+    ActivityRadioGroup: React.lazy(
+      () => import("../activities/ActivityRadioGroup"),
+    ),
+    ActivityAlertDialog: React.lazy(
+      () => import("../activities/ActivityAlertDialog"),
+    ),
     ActivityNotFound,
   },
   plugins: [
@@ -40,8 +48,10 @@ const { Stack, useFlow } = stackflow({
     historySyncPlugin({
       fallbackActivity: () => "ActivityNotFound",
       routes: {
-        ActivityDetail: "/detail",
         ActivityHome: "/",
+        ActivityBoxButton: "/box-button",
+        ActivityRadioGroup: "/radio-group",
+        ActivityAlertDialog: "/alert",
         ActivityNotFound: "/404",
       },
     }),
@@ -51,3 +61,4 @@ const { Stack, useFlow } = stackflow({
 
 export { Stack };
 export type TypeUseFlow = typeof useFlow;
+export type TypeUseStepFlow = typeof useStepFlow;

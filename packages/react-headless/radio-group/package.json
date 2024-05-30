@@ -1,0 +1,46 @@
+{
+  "name": "@seed-design/react-radio-group",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/dom-utils"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs"
+    }
+  },
+  "main": "./lib/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "prepack": "rm -rf lib && yarn build",
+    "build": "nanobundle build"
+  },
+  "dependencies": {
+    "@radix-ui/react-use-controllable-state": "1.0.1",
+    "@seed-design/dom-utils": "0.0.0"
+  },
+  "devDependencies": {
+    "nanobundle": "^1.6.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}

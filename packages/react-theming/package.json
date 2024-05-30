@@ -47,7 +47,7 @@
     "@seed-design/design-token": "^1.0.3"
   },
   "devDependencies": {
-    "@types/react": "^18.0.25",
+    "@types/react": "^18.3.3",
     "nanobundle": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

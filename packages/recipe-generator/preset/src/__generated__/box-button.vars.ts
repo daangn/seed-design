@@ -1,7 +1,9 @@
 export const vars = {
   base: {
-    label: {
-      fontWeight: "var(--seed-font-weight-bold)",
+    enabled: {
+      label: {
+        fontWeight: "var(--seed-font-weight-bold)",
+      },
     },
   },
   variantBrand: {

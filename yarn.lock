@@ -6326,6 +6326,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-use-callback-ref@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@radix-ui/react-use-callback-ref@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: b9fd39911c3644bbda14a84e4fca080682bef84212b8d8931fcaa2d2814465de242c4cfd8d7afb3020646bead9c5e539d478cea0a7031bee8a8a3bb164f3bc4c
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-use-controllable-state@npm:1.0.1":
+  version: 1.0.1
+  resolution: "@radix-ui/react-use-controllable-state@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+    "@radix-ui/react-use-callback-ref": 1.0.1
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: dee2be1937d293c3a492cb6d279fc11495a8f19dc595cdbfe24b434e917302f9ac91db24e8cc5af9a065f3f209c3423115b5442e65a5be9fd1e9091338972be9
+  languageName: node
+  linkType: hard
+
 "@rollup/pluginutils@npm:^4.2.0":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
@@ -6552,10 +6583,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/dom-utils@workspace:packages/dom-utils":
+"@seed-design/dom-utils@0.0.0, @seed-design/dom-utils@workspace:packages/dom-utils":
   version: 0.0.0-use.local
   resolution: "@seed-design/dom-utils@workspace:packages/dom-utils"
   dependencies:
+    "@types/react": ^18.3.3
     nanobundle: ^1.6.0
   languageName: unknown
   linkType: soft
@@ -6618,12 +6650,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/react-checkbox@workspace:packages/react-headless/checkbox":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"
+  dependencies:
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/react-radio-group@0.0.0, @seed-design/react-radio-group@workspace:packages/react-headless/radio-group":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-radio-group@workspace:packages/react-headless/radio-group"
+  dependencies:
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/react-theming@^2.1.3, @seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
   dependencies:
     "@seed-design/design-token": ^1.0.3
-    "@types/react": ^18.0.25
+    "@types/react": ^18.3.3
     nanobundle: ^1.6.0
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -6676,7 +6734,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/recipe@workspace:packages/recipe":
+"@seed-design/recipe@0.0.0, @seed-design/recipe@workspace:packages/recipe":
   version: 0.0.0-use.local
   resolution: "@seed-design/recipe@workspace:packages/recipe"
   dependencies:
@@ -6689,25 +6747,29 @@ __metadata:
   resolution: "@seed-design/stackflow-spa@workspace:examples/stackflow-spa"
   dependencies:
     "@radix-ui/react-slot": ^1.0.2
+    "@seed-design/react-radio-group": 0.0.0
+    "@seed-design/recipe": 0.0.0
+    "@seed-design/stylesheet": 1.0.4
     "@stackflow/core": ^1.0.8
-    "@stackflow/plugin-basic-ui": ^1.4.0
+    "@stackflow/plugin-basic-ui": 1.7.0-canary.0
     "@stackflow/plugin-history-sync": ^1.3.13
     "@stackflow/plugin-renderer-basic": ^1.1.5
     "@stackflow/react": ^1.1.9
-    "@types/react": ^18.2.37
-    "@types/react-dom": ^18.2.15
+    "@types/react": ^18.3.3
+    "@types/react-dom": ^18.3.0
     "@vitejs/plugin-legacy": ^5.3.1
     "@vitejs/plugin-react-swc": ^3.6.0
+    clsx: ^2.1.1
     react: ^18.2.0
     react-dom: ^18.2.0
     terser: ^5.24.0
-    typescript: 5.2.2
+    typescript: ^5.4.5
     vite: ^5.1.4
     vite-plugin-checker: ^0.6.2
   languageName: unknown
   linkType: soft
 
-"@seed-design/stylesheet@^1.0.3, @seed-design/stylesheet@workspace:packages/stylesheet":
+"@seed-design/stylesheet@1.0.4, @seed-design/stylesheet@^1.0.3, @seed-design/stylesheet@workspace:packages/stylesheet":
   version: 0.0.0-use.local
   resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
   dependencies:
@@ -6828,9 +6890,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackflow/plugin-basic-ui@npm:^1.4.0":
-  version: 1.6.0
-  resolution: "@stackflow/plugin-basic-ui@npm:1.6.0"
+"@stackflow/plugin-basic-ui@npm:1.7.0-canary.0":
+  version: 1.7.0-canary.0
+  resolution: "@stackflow/plugin-basic-ui@npm:1.7.0-canary.0"
   dependencies:
     "@vanilla-extract/css": ^1.7.2
     "@vanilla-extract/dynamic": ^2.0.2
@@ -6842,7 +6904,7 @@ __metadata:
     "@stackflow/react": ^1
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: 393494a3c310eb638bf610e0b0be712f85f0ce246a6690ebf0b2224d79e12a578fb84b367023c85cd1e681d26095f20eb3856b2ee2f14908a4d565413b521733
+  checksum: 193b2937dbddc8ad0f459eb4122240d2680543531f23c0c4168c74e5b7e60aa6016bf68d3c8cdf7abedbd6cdf706bef228ec24efde576504a796995c79f9cc5c
   languageName: node
   linkType: hard
 
@@ -8692,16 +8754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.6, @types/react-dom@npm:^18.0.9":
-  version: 18.0.9
-  resolution: "@types/react-dom@npm:18.0.9"
-  dependencies:
-    "@types/react": "*"
-  checksum: e744e3feba25fc43733289d4df4d9c0e59fcca7f34e8c89d75f81a339accb2bd70236d69382d47d2c0ad06a1529b2e56aa6171fe175854d60e07156ddceedfcb
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.2.15":
+"@types/react-dom@npm:^18.0.6, @types/react-dom@npm:^18.0.9, @types/react-dom@npm:^18.3.0":
   version: 18.3.0
   resolution: "@types/react-dom@npm:18.3.0"
   dependencies:
@@ -8710,7 +8763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.0.20, @types/react@npm:^18.0.25":
+"@types/react@npm:*, @types/react@npm:>=16":
   version: 18.0.25
   resolution: "@types/react@npm:18.0.25"
   dependencies:
@@ -8721,7 +8774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.37":
+"@types/react@npm:^18.0.20, @types/react@npm:^18.0.25, @types/react@npm:^18.3.3":
   version: 18.3.3
   resolution: "@types/react@npm:18.3.3"
   dependencies:
@@ -11689,6 +11742,13 @@ __metadata:
   version: 1.2.1
   resolution: "clsx@npm:1.2.1"
   checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: acd3e1ab9d8a433ecb3cc2f6a05ab95fe50b4a3cfc5ba47abb6cbf3754585fcb87b84e90c822a1f256c4198e3b41c7f6c391577ffc8678ad587fc0976b24fd57
   languageName: node
   linkType: hard
 
@@ -27062,16 +27122,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.2.2":
-  version: 5.2.2
-  resolution: "typescript@npm:5.2.2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 7912821dac4d962d315c36800fe387cdc0a6298dba7ec171b350b4a6e988b51d7b8f051317786db1094bd7431d526b648aba7da8236607febb26cf5b871d2d3c
-  languageName: node
-  linkType: hard
-
 "typescript@npm:^5.4.5":
   version: 5.4.5
   resolution: "typescript@npm:5.4.5"
@@ -27079,16 +27129,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 53c879c6fa1e3bcb194b274d4501ba1985894b2c2692fa079db03c5a5a7140587a1e04e1ba03184605d35f439b40192d9e138eb3279ca8eee313c081c8bcd9b0
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@5.2.2#~builtin<compat/typescript>":
-  version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f456af"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
   languageName: node
   linkType: hard
 

@@ -7,21 +7,25 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
+    "@seed-design/react-radio-group": "0.0.0",
+    "@seed-design/recipe": "0.0.0",
+    "@seed-design/stylesheet": "1.0.4",
     "@stackflow/core": "^1.0.8",
-    "@stackflow/plugin-basic-ui": "^1.4.0",
+    "@stackflow/plugin-basic-ui": "1.7.0-canary.0",
     "@stackflow/plugin-history-sync": "^1.3.13",
     "@stackflow/plugin-renderer-basic": "^1.1.5",
     "@stackflow/react": "^1.1.9",
+    "clsx": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-legacy": "^5.3.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "terser": "^5.24.0",
-    "typescript": "5.2.2",
+    "typescript": "^5.4.5",
     "vite": "^5.1.4",
     "vite-plugin-checker": "^0.6.2"
   }
