@@ -5,7 +5,7 @@ export const vars = {
         color: "var(--seed-color-fg-neutral)",
       },
       control: {
-        background: "none",
+        color: "none",
         borderColor: "var(--seed-color-stroke-control)",
         borderRadius: "var(--seed-radii-full)",
         borderWidth: "1px",
@@ -13,25 +13,25 @@ export const vars = {
     },
     enabledSelected: {
       control: {
-        background: "var(--seed-color-bg-brand-emphasis)",
+        color: "var(--seed-color-bg-brand-emphasis)",
         borderWidth: "0",
       },
       icon: {
-        background: "var(--seed-color-fg-static-white)",
+        color: "var(--seed-color-fg-static-white)",
       },
     },
     pressed: {
       control: {
-        background: "var(--seed-color-bg-layer-1-pressed)",
+        color: "var(--seed-color-bg-layer-1-pressed)",
       },
     },
     pressedSelected: {
       control: {
-        background: "var(--seed-color-bg-brand-emphasis-pressed)",
+        color: "var(--seed-color-bg-brand-emphasis-pressed)",
         borderWidth: "0",
       },
       icon: {
-        background: "var(--seed-color-fg-static-white)",
+        color: "var(--seed-color-fg-static-white)",
       },
     },
     disabled: {
@@ -39,7 +39,7 @@ export const vars = {
         color: "var(--seed-color-fg-disabled)",
       },
       control: {
-        background: "var(--seed-color-bg-disabled)",
+        color: "var(--seed-color-bg-disabled)",
       },
     },
     disabledSelected: {
@@ -48,10 +48,10 @@ export const vars = {
         borderWidth: "0",
       },
       control: {
-        background: "none",
+        color: "none",
       },
       icon: {
-        background: "var(--seed-color-bg-disabled)",
+        color: "var(--seed-color-bg-disabled)",
       },
     },
   },

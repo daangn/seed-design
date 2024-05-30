@@ -36,6 +36,10 @@
     --seed-radii-1: 4px;
     --seed-radii-1\.5: 6px;
     --seed-radii-2: 8px;
+    --seed-radii-2\.5: 10px;
+    --seed-radii-3: 12px;
+    --seed-radii-3\.5: 14px;
+    --seed-radii-4: 16px;
     --seed-radii-full: 9999px;
 
     --seed-font-size-50: 0.75rem;

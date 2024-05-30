@@ -1,7 +1,10 @@
+import { dialog } from "@seed-design/recipe/dialog";
+import { useStyleEffect } from "@stackflow/plugin-basic-ui";
 import { useActions, useActivity } from "@stackflow/react";
 import { useRef } from "react";
 
-import { useStyleEffect } from "@stackflow/plugin-basic-ui";
+import "@seed-design/stylesheet/dialog.css";
+import { BoxButton } from "./BoxButton";
 
 export type AlertDialogProps = {
   title: string;
@@ -54,8 +57,9 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
   };
 
   const zIndexBase = (activity?.zIndex ?? 0) * 5 + 3;
-  const zIndexContent = (activity?.zIndex ?? 0) * 5 + 4;
   const transitionState = activity?.transitionState ?? "enter-done";
+
+  const classNames = dialog();
 
   return (
     <div
@@ -64,40 +68,20 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
       data-stackflow-component-name="AlertDialog"
       data-stackflow-activity-id={activity?.id}
       data-stackflow-activity-is-active={activity?.isActive}
+      className={classNames.container}
+      style={{ zIndex: zIndexBase }}
       onClick={onClickOutside}
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        left: 0,
-        top: 0,
-        zIndex: zIndexBase,
-      }}
     >
-      <div
-        ref={backdropRef}
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        }}
-      />
-      <div
-        onClick={onClickContent}
-        style={{
-          margin: "auto",
-          backgroundColor: "white",
-          zIndex: zIndexContent,
-          padding: "20px",
-          transition: "transform 225ms cubic-bezier(0.4, 0, 0.2, 1)",
-          transform:
-            transitionState === "enter-done"
-              ? "translateY(0)"
-              : "translateY(100%)",
-        }}
-      >
-        <h2>{title}</h2>
-        <p>{description}</p>
+      <div ref={backdropRef} className={classNames.backdrop} />
+      <div onClick={onClickContent} className={classNames.content}>
+        <div className={classNames.header}>
+          <h2 className={classNames.title}>{title}</h2>
+          <p className={classNames.description}>{description}</p>
+        </div>
+        <div className={classNames.footer}>
+          <BoxButton className={classNames.action}>lol</BoxButton>
+          <BoxButton className={classNames.action}>lol</BoxButton>
+        </div>
       </div>
     </div>
   );

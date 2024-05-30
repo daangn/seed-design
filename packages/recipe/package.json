@@ -12,6 +12,10 @@
       "types": "./lib/boxButton.d.ts",
       "import": "./lib/boxButton.mjs"
     },
+    "./dialog": {
+      "types": "./lib/dialog.d.ts",
+      "import": "./lib/dialog.mjs"
+    },
     "./radio": {
       "types": "./lib/radio.d.ts",
       "import": "./lib/radio.mjs"

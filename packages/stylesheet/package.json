@@ -19,6 +19,7 @@
     "./token.css": "./token.css",
     "./boxButton.css": "./boxButton.css",
     "./radio.css": "./radio.css",
+    "./dialog.css": "./dialog.css",
     "./package.json": "./package.json"
   },
   "files": [

@@ -20,26 +20,26 @@ const radio = defineRecipe({
       boxSizing: "border-box",
       borderRadius: vars.base.enabled.control.borderRadius,
 
-      background: vars.base.enabled.control.background,
+      background: vars.base.enabled.control.color,
       borderWidth: vars.base.enabled.control.borderWidth,
       borderStyle: "solid",
       borderColor: vars.base.enabled.control.borderColor,
 
       [pseudo(checked)]: {
-        background: vars.base.enabledSelected.control.background,
+        background: vars.base.enabledSelected.control.color,
         borderWidth: vars.base.enabledSelected.control.borderWidth,
       },
       [pseudo(active)]: {
-        background: vars.base.pressed.control.background,
+        background: vars.base.pressed.control.color,
       },
       [pseudo(active, checked)]: {
-        background: vars.base.pressedSelected.control.background,
+        background: vars.base.pressedSelected.control.color,
       },
       [pseudo(disabled)]: {
-        background: vars.base.disabled.control.background,
+        background: vars.base.disabled.control.color,
       },
       [pseudo(disabled, checked)]: {
-        background: vars.base.disabledSelected.control.background,
+        background: vars.base.disabledSelected.control.color,
       },
     },
     icon: {
@@ -56,11 +56,11 @@ const radio = defineRecipe({
 
       [pseudo(checked)]: {
         display: "block",
-        background: vars.base.enabledSelected.icon.background,
+        background: vars.base.enabledSelected.icon.color,
       },
       [pseudo(disabled, checked)]: {
         display: "block",
-        background: vars.base.disabledSelected.icon.background,
+        background: vars.base.disabledSelected.icon.color,
       },
     },
     label: {
