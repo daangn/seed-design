@@ -12,7 +12,7 @@ variant=brand:
       color: "$color.fg.static-white"
   pressed:
     root:
-      color: "$color.bg.brand-pressed"
+      color: "$color.bg.brand-emphasis-pressed"
   disabled:
     root:
       color: "$color.bg.disabled"

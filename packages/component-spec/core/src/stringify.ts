@@ -19,10 +19,14 @@ function stringifyStateKey(state: string[]) {
 
 function stringifyTokenCssVar(token: Token) {
   if (token.group.length === 0) {
-    return `var(--seed-${token.category}-${token.key})`;
+    return `var(--seed-${token.category}-${token.key
+      .toString()
+      .replaceAll(".", "\\.")})`;
   }
 
-  return `var(--seed-${token.category}-${token.group.join("-")}-${token.key})`;
+  return `var(--seed-${token.category}-${token.group.join("-")}-${token.key
+    .toString()
+    .replaceAll(".", "\\.")})`;
 }
 
 export function stringifyTs(expressions: ParsedExpression) {

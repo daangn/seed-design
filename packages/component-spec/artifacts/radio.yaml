@@ -1,0 +1,73 @@
+base:
+  enabled:
+    label:
+      color: "$color.fg.neutral"
+    control:
+      borderColor: "$color.stroke.control"
+      borderRadius: "$radii.full"
+      borderWidth: "1px"
+  enabled,selected:
+    control:
+      color: "$color.bg.brand-emphasis"
+    icon:
+      color: "$color.fg.static-white"
+  pressed:
+    control:
+      color: "$color.bg.layer-1-pressed"
+  pressed,selected:
+    control:
+      color: "$color.bg.brand-emphasis-pressed"
+    icon:
+      color: "$color.fg.static-white"
+  disabled:
+    label:
+      color: "$color.fg.disabled"
+    control:
+      color: "$color.bg.disabled"
+  disabled,selected:
+    label:
+      color: "$color.fg.disabled"
+    icon:
+      color: "$color.bg.disabled"
+size=small:
+  enabled:
+    root:
+      gap: "$unit[2]"
+      minHeight: "$unit[7]"
+    label:
+      fontSize: "$font-size[75]"
+    control:
+      size: "$unit[4]"
+    icon:
+      size: "$unit[2]"
+  disabled:
+    icon:
+      size: "$unit[2]"
+size=medium:
+  enabled:
+    root:
+      gap: "$unit[2.5]"
+      minHeight: "$unit[8]"
+    label:
+      fontSize: "$font-size[100]"
+    control:
+      size: "$unit[5]"
+    icon:
+      size: "$unit[2]"
+  disabled:
+    icon:
+      size: "$unit[2.5]"
+size=large:
+  enabled:
+    root:
+      gap: "$unit[3]"
+      minHeight: "$unit[9]"
+    label:
+      fontSize: "$font-size[200]"
+    control:
+      size: "$unit[6]"
+    icon:
+      size: "$unit[2.5]"
+  disabled:
+    icon:
+      size: "$unit[3]"

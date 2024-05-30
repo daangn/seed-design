@@ -20,7 +20,7 @@ export const vars = {
     },
     pressed: {
       root: {
-        color: "var(--seed-color-bg-brand-pressed)",
+        color: "var(--seed-color-bg-brand-emphasis-pressed)",
       },
     },
     disabled: {
@@ -58,7 +58,7 @@ export const vars = {
         minHeight: "var(--seed-unit-8)",
         cornerRadius: "var(--seed-radii-1)",
         gap: "var(--seed-unit-1)",
-        paddingX: "var(--seed-unit-2.5)",
+        paddingX: "var(--seed-unit-2\\.5)",
         paddingY: "var(--seed-unit-2)",
       },
       prefixIcon: {
@@ -73,10 +73,10 @@ export const vars = {
     enabled: {
       root: {
         minHeight: "var(--seed-unit-10)",
-        cornerRadius: "var(--seed-radii-1.5)",
+        cornerRadius: "var(--seed-radii-1\\.5)",
         gap: "var(--seed-unit-1)",
         paddingX: "var(--seed-unit-3)",
-        paddingY: "var(--seed-unit-2.5)",
+        paddingY: "var(--seed-unit-2\\.5)",
       },
       prefixIcon: {
         size: "var(--seed-unit-4)",

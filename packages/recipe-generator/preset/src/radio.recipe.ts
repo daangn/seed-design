@@ -20,14 +20,13 @@ const radio = defineRecipe({
       boxSizing: "border-box",
       borderRadius: vars.base.enabled.control.borderRadius,
 
-      background: vars.base.enabled.control.color,
       borderWidth: vars.base.enabled.control.borderWidth,
       borderStyle: "solid",
       borderColor: vars.base.enabled.control.borderColor,
 
       [pseudo(checked)]: {
         background: vars.base.enabledSelected.control.color,
-        borderWidth: vars.base.enabledSelected.control.borderWidth,
+        borderWidth: 0,
       },
       [pseudo(active)]: {
         background: vars.base.pressed.control.color,
@@ -39,7 +38,7 @@ const radio = defineRecipe({
         background: vars.base.disabled.control.color,
       },
       [pseudo(disabled, checked)]: {
-        background: vars.base.disabledSelected.control.color,
+        background: "none",
       },
     },
     icon: {
