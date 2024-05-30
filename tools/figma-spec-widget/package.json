@@ -6,13 +6,14 @@
     "test": "yarn tsc && yarn build",
     "tsc": "tsc --noEmit -p widget-src",
     "build": "yarn bundle --minify",
-    "bundle": "esbuild widget-src/code.tsx --bundle --outfile=dist/code.js",
+    "bundle": "esbuild widget-src/code.tsx --target=es2016 --bundle --outfile=dist/code.js",
     "dev": "concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'"
   },
   "author": "Asher <malangcat@daangn.com>",
   "license": "MIT",
   "dependencies": {
-    "@seed-design/component-spec-core": "0.0.0"
+    "@seed-design/component-spec-core": "0.0.0",
+    "yaml": "^2.4.2"
   },
   "devDependencies": {
     "@figma/plugin-typings": "*",

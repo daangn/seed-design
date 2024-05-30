@@ -1,11 +1,10 @@
+import { parse, ParsedExpression } from "@seed-design/component-spec-core";
 import {
   stringifyConditions,
-  stringifyVariableValue,
+  stringifyToken,
   stringifyVariants,
 } from "./stringify";
-import { Figma, createRecipe, RecipeAggregate } from "@tachyon/core";
-import { arrayToRecord } from "@tachyon/utils";
-import { cloneVariable, cloneVariableCollection } from "./clone";
+import YAML from "yaml";
 
 const { widget } = figma;
 const {
@@ -17,34 +16,27 @@ const {
   useEffect,
 } = widget;
 
+const COMPONENT_KEYS = ["box-button", "radio"];
+const getSpecUrl = (key: string) =>
+  `https://raw.githubusercontent.com/daangn/seed-design/wip/packages/component-spec/artifacts/${key}.yaml`;
+
 function Widget() {
-  const [collectionId, setCollectionId] = useSyncedState<string>(
-    "collectionId",
+  const [componentKey, setComponentKey] = useSyncedState<string>(
+    "componentKey",
     "",
   );
-  const [variables, setVariables] = useSyncedState<Figma.Variable[]>(
-    "variables",
-    [],
-  );
-  const [collections, setCollections] = useSyncedState<
-    Figma.VariableCollection[]
-  >("collections", []);
-
-  const variableRecord = arrayToRecord(variables, (x) => x.id);
-  const collectionRecord = arrayToRecord(collections, (x) => x.id);
-  const selectedCollection: Figma.VariableCollection | undefined =
-    collectionRecord[collectionId];
+  const [spec, setSpec] = useSyncedState<ParsedExpression>("componentSpec", []);
 
   usePropertyMenu(
     [
       {
         itemType: "dropdown",
-        propertyName: "collection",
-        tooltip: "Collection",
-        selectedOption: collectionId,
+        propertyName: "component",
+        tooltip: "Component",
+        selectedOption: componentKey,
         options: [
           { option: "", label: "None" },
-          ...collections.map((c) => ({ option: c.id, label: c.name })),
+          ...COMPONENT_KEYS.map((c) => ({ option: c, label: c })),
         ],
       },
       {
@@ -53,44 +45,25 @@ function Widget() {
         tooltip: "Update",
       },
     ],
-    ({ propertyName, propertyValue }) => {
-      if (propertyName === "collection") {
-        setCollectionId(propertyValue!);
+    async ({ propertyName, propertyValue }) => {
+      if (propertyName === "component") {
+        setComponentKey(propertyValue!);
+        await updateSpec(propertyValue!);
       }
       if (propertyName === "update") {
-        updateVariables();
+        await updateSpec(componentKey);
       }
     },
   );
 
-  function updateVariables() {
-    console.log("updateVariables");
-    setCollections(
-      figma.variables
-        .getLocalVariableCollections()
-        .map(cloneVariableCollection),
-    );
-    setVariables(figma.variables.getLocalVariables().map(cloneVariable));
+  async function updateSpec(componentKey: string) {
+    const response = await fetch(getSpecUrl(componentKey));
+    const text = await response.text();
+    console.log(spec);
+    setSpec(parse(YAML.parse(text)));
   }
 
-  useEffect(() => {
-    if (collections.length === 0) {
-      updateVariables();
-    }
-  });
-
-  const variablesToRender = collectionId
-    ? collectionRecord[collectionId].variableIds.map((id) => variableRecord[id])
-    : [];
-
-  let recipe: RecipeAggregate = {};
-  try {
-    recipe = createRecipe(variablesToRender, "");
-  } catch (e) {
-    recipe = {};
-  }
-
-  if (!selectedCollection) {
+  if (!componentKey) {
     return (
       <AutoLayout
         fill="#FFFFFF"
@@ -102,7 +75,7 @@ function Widget() {
         width={720}
       >
         <AutoLayout width="fill-parent">
-          <Text>Select a collection</Text>
+          <Text>Select a component</Text>
         </AutoLayout>
       </AutoLayout>
     );
@@ -118,10 +91,7 @@ function Widget() {
       padding={12}
       width={720}
     >
-      <AutoLayout width="fill-parent">
-        <Text>{selectedCollection.name}</Text>
-      </AutoLayout>
-      {Object.values(recipe).map(({ variants, values }, i) => (
+      {Object.values(spec).map(({ key, state }, i) => (
         <AutoLayout
           spacing={12}
           direction="vertical"
@@ -129,7 +99,7 @@ function Widget() {
           key={i}
         >
           <Text fontSize={14} fontWeight={"semi-bold"}>
-            {stringifyVariants(variants)}
+            {stringifyVariants(key)}
           </Text>
           <AutoLayout direction="vertical" width={"fill-parent"}>
             <AutoLayout
@@ -151,13 +121,13 @@ function Widget() {
                 <Text fontSize={12}>Value</Text>
               </AutoLayout>
             </AutoLayout>
-            {Object.values(values).map(({ conditions, slots }, i) => {
+            {state.map(({ key: state, slot }, i) => {
               return (
                 <Fragment key={i}>
-                  {Object.values(slots).map(({ slot, variables }, j) =>
-                    Object.entries(variables).map(([key, variable], k) => (
+                  {slot.map(({ key: slot, property }, j) =>
+                    property.map(({ key: property, value }, k) => (
                       <AutoLayout
-                        key={slot}
+                        key={k}
                         padding={12}
                         width={"fill-parent"}
                         spacing="auto"
@@ -165,7 +135,7 @@ function Widget() {
                         <AutoLayout width={"fill-parent"}>
                           <Text fontSize={12}>
                             {j === 0 && k === 0
-                              ? stringifyConditions(conditions)
+                              ? stringifyConditions(state)
                               : ""}
                           </Text>
                         </AutoLayout>
@@ -173,14 +143,13 @@ function Widget() {
                           <Text fontSize={12}>{k === 0 ? slot : ""}</Text>
                         </AutoLayout>
                         <AutoLayout width={"fill-parent"}>
-                          <Text fontSize={12}>{key}</Text>
+                          <Text fontSize={12}>{property}</Text>
                         </AutoLayout>
                         <AutoLayout width={"fill-parent"}>
                           <Text fontSize={12}>
-                            {stringifyVariableValue(
-                              Object.values(variable.valuesByMode)[0],
-                              variableRecord,
-                            )}
+                            {typeof value === "string"
+                              ? value
+                              : stringifyToken(value)}
                           </Text>
                         </AutoLayout>
                       </AutoLayout>

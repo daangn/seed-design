@@ -4,7 +4,7 @@
     "jsxFactory": "figma.widget.h",
     "jsxFragmentFactory": "figma.widget.Fragment",
     "target": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "lib": ["ESNext"],
     "strict": true,
     "types": ["@figma/plugin-typings", "@figma/widget-typings"]

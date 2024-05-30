@@ -1,26 +1,4 @@
-import {
-  isVariableAlias,
-  stringifyPrimitiveVariableValue,
-} from "@tachyon/core";
-
-function stringifyAlias(
-  alias: VariableAlias,
-  variableRecord: Record<string, { id: string; name: string }>,
-) {
-  const boundVariable = variableRecord[alias.id]!;
-
-  return boundVariable.name;
-}
-
-export function stringifyVariableValue(
-  value: VariableValue,
-  variableRecord: Record<string, { id: string; name: string }>,
-) {
-  if (isVariableAlias(value)) {
-    return stringifyAlias(value, variableRecord);
-  }
-  return stringifyPrimitiveVariableValue(value);
-}
+import { Token } from "../../../packages/component-spec/core/lib/types";
 
 export function stringifyVariants(variants: Record<string, string>) {
   const entries = Object.entries(variants);
@@ -39,4 +17,8 @@ export function stringifyConditions(conditions: string[]) {
   }
 
   return conditions.join(", ");
+}
+
+export function stringifyToken(token: Token) {
+  return `$${[token.category, ...token.group, token.key].join("/")}`;
 }
