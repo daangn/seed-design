@@ -4,6 +4,7 @@
   "private": true,
   "workspaces": [
     "packages/*",
+    "packages/component-spec/*",
     "packages/react/*",
     "packages/recipe-generator/*",
     "packages/react-headless/*",

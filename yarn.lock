@@ -4738,10 +4738,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@figma/plugin-typings@npm:*":
+  version: 1.93.0
+  resolution: "@figma/plugin-typings@npm:1.93.0"
+  checksum: 74ad626222eb1a732feaf1938b9a5b0f62da4af614d7bc67e1f24428ae2da84e81fa289f4605f6e33c1b5a15460120e5a8e5af668763df90187b6db82027dcce
+  languageName: node
+  linkType: hard
+
 "@figma/plugin-typings@npm:1.79.0":
   version: 1.79.0
   resolution: "@figma/plugin-typings@npm:1.79.0"
   checksum: 478b841394aee869cd26da91f776c07666e1f955a458c234b0b99e4a7a557d42ccb2ba3c8ea791812318127a0475a7540211f272b991fada9b39af2782d3624a
+  languageName: node
+  linkType: hard
+
+"@figma/widget-typings@npm:*":
+  version: 1.9.1
+  resolution: "@figma/widget-typings@npm:1.9.1"
+  peerDependencies:
+    "@figma/plugin-typings": 1.x
+  checksum: 114dbe7e47b50ed2b5ef3a5a6c821f00dad6ad64faaf93fed7baea400885d4d414ded01dc6a3e1e8efe0d775ba9c5be680b776d3acc1b2772fcac11beece6c3e
   languageName: node
   linkType: hard
 
@@ -6495,6 +6511,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seed-design/component-spec-artifacts@0.0.0, @seed-design/component-spec-artifacts@workspace:packages/component-spec/artifacts":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/component-spec-artifacts@workspace:packages/component-spec/artifacts"
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/component-spec-cli@0.0.0, @seed-design/component-spec-cli@workspace:packages/component-spec/cli":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/component-spec-cli@workspace:packages/component-spec/cli"
+  dependencies:
+    "@seed-design/component-spec-artifacts": 0.0.0
+    "@seed-design/component-spec-core": 0.0.0
+    "@types/fs-extra": ^11.0.2
+    esbuild: ^0.19.3
+    fs-extra: ^11.1.1
+    typescript: ^5.4.5
+    ultra-runner: ^3.10.5
+    yaml: ^2.4.2
+  bin:
+    generate-vars: ./bin/index.mjs
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/component-spec-core@0.0.0, @seed-design/component-spec-core@workspace:packages/component-spec/core":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/component-spec-core@workspace:packages/component-spec/core"
+  dependencies:
+    change-case: ^5.4.4
+    nanobundle: ^1.6.0
+    typescript: ^5.4.5
+    ultra-runner: ^3.10.5
+    vitest: ^0.34.6
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/design-token@^1.0.3, @seed-design/design-token@workspace:^, @seed-design/design-token@workspace:packages/design-token":
   version: 0.0.0-use.local
   resolution: "@seed-design/design-token@workspace:packages/design-token"
@@ -6602,6 +6653,19 @@ __metadata:
     "@figma/plugin-typings": 1.79.0
     change-case: ^5.2.0
     just-group-by: ^2.2.0
+    typescript: ^5.4.5
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget"
+  dependencies:
+    "@figma/plugin-typings": "*"
+    "@figma/widget-typings": "*"
+    "@seed-design/component-spec-core": 0.0.0
+    concurrently: ^6.3.0
+    esbuild: ^0.15.13
     typescript: ^5.4.5
   languageName: unknown
   linkType: soft
@@ -6729,6 +6793,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/recipe-generator-preset@workspace:packages/recipe-generator/preset"
   dependencies:
+    "@seed-design/component-spec-cli": 0.0.0
     "@seed-design/recipe-generator-core": 0.0.0
     nanobundle: ^1.6.0
   languageName: unknown
@@ -11431,6 +11496,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"change-case@npm:^5.4.4":
+  version: 5.4.4
+  resolution: "change-case@npm:5.4.4"
+  checksum: a22a25a763719658424ffbcd41e931d2d19cc22399cc765dca447fbe1eaf13e179d5e8ab1677af75f2e814dbddf74e42ffdecb526cd5bc906cc859f62aa154b2
+  languageName: node
+  linkType: hard
+
 "character-entities-html4@npm:^2.0.0":
   version: 2.1.0
   resolution: "character-entities-html4@npm:2.1.0"
@@ -11977,6 +12049,24 @@ __metadata:
     readable-stream: ^2.2.2
     typedarray: ^0.0.6
   checksum: 1ef77032cb4459dcd5187bd710d6fc962b067b64ec6a505810de3d2b8cc0605638551b42f8ec91edf6fcd26141b32ef19ad749239b58fae3aba99187adc32285
+  languageName: node
+  linkType: hard
+
+"concurrently@npm:^6.3.0":
+  version: 6.5.1
+  resolution: "concurrently@npm:6.5.1"
+  dependencies:
+    chalk: ^4.1.0
+    date-fns: ^2.16.1
+    lodash: ^4.17.21
+    rxjs: ^6.6.3
+    spawn-command: ^0.0.2-1
+    supports-color: ^8.1.0
+    tree-kill: ^1.2.2
+    yargs: ^16.2.0
+  bin:
+    concurrently: bin/concurrently.js
+  checksum: 3f4d89b464fa5c9fb6f9489b46594c30ba54eff6ff10ab3cb5f30f64b74c83be664623a0f0cc731a3cb3f057a1f4a3292f7d3470c012a292c44aca31f214a3fa
   languageName: node
   linkType: hard
 
@@ -12642,7 +12732,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.30.0":
+"date-fns@npm:^2.16.1, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -25045,7 +25135,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.6.0":
+"rxjs@npm:^6.6.0, rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
@@ -25831,6 +25921,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"spawn-command@npm:^0.0.2-1":
+  version: 0.0.2
+  resolution: "spawn-command@npm:0.0.2"
+  checksum: e35c5d28177b4d461d33c88cc11f6f3a5079e2b132c11e1746453bbb7a0c0b8a634f07541a2a234fa4758239d88203b758def509161b651e81958894c0b4b64b
+  languageName: node
+  linkType: hard
+
 "spawndamnit@npm:^2.0.0":
   version: 2.0.0
   resolution: "spawndamnit@npm:2.0.0"
@@ -26344,7 +26441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.0":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:
@@ -26808,6 +26905,15 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
+"tree-kill@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "tree-kill@npm:1.2.2"
+  bin:
+    tree-kill: cli.js
+  checksum: 49117f5f410d19c84b0464d29afb9642c863bc5ba40fcb9a245d474c6d5cc64d1b177a6e6713129eb346b40aebb9d4631d967517f9fbe8251c35b21b13cd96c7
   languageName: node
   linkType: hard
 
@@ -28579,6 +28685,15 @@ __metadata:
   version: 2.3.1
   resolution: "yaml@npm:2.3.1"
   checksum: 2c7bc9a7cd4c9f40d3b0b0a98e370781b68b8b7c4515720869aced2b00d92f5da1762b4ffa947f9e795d6cd6b19f410bd4d15fdd38aca7bd96df59bd9486fb54
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "yaml@npm:2.4.2"
+  bin:
+    yaml: bin.mjs
+  checksum: 90dda4485de04367251face9abb5c36927c94e44078f4e958e6468a07e74e7e92f89be20fc49860b6268c51ee5a5fc79ef89197d3f874bf24ef8921cc4ba9013
   languageName: node
   linkType: hard
 

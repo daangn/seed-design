@@ -1,0 +1,44 @@
+{
+  "name": "@seed-design/component-spec-cli",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daangn/sprout",
+    "directory": "packages/component-spec/cli"
+  },
+  "license": "MIT",
+  "bin": {
+    "generate-vars": "./bin/index.mjs"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "yarn build:style",
+    "build:style": "node ./build.mjs",
+    "dev": "node ./dev.mjs"
+  },
+  "dependencies": {
+    "@seed-design/component-spec-artifacts": "0.0.0",
+    "@seed-design/component-spec-core": "0.0.0",
+    "fs-extra": "^11.1.1",
+    "yaml": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.2",
+    "esbuild": "^0.19.3",
+    "typescript": "^5.4.5",
+    "ultra-runner": "^3.10.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}

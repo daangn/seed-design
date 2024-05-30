@@ -1,0 +1,10 @@
+{
+  "name": "Tachyon Widget",
+  "id": "tachyon-widget",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "permissions": [],
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "widgetApi": "1.0.0"
+}

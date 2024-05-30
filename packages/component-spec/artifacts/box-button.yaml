@@ -1,6 +1,7 @@
 base:
-  label:
-    fontWeight: "$font-weight.bold"
+  enabled:
+    label:
+      fontWeight: "$font-weight.bold"
 variant=brand:
   enabled:
     root:
@@ -29,12 +30,14 @@ variant=neutral:
   disabled:
     root:
       color: "$color.bg.disabled"
-size=small:
+size=xsmall:
   enabled:
     root:
       minHeight: "$unit[8]"
       cornerRadius: "$radii[1]"
       gap: "$unit[1]"
+      paddingX: "$unit[2.5]"
+      paddingY: "$unit[2]"
     prefixIcon:
       size: "$unit[3]"
     label:
@@ -45,6 +48,8 @@ size=medium:
       minHeight: "$unit[10]"
       cornerRadius: "$radii[1.5]"
       gap: "$unit[1]"
+      paddingX: "$unit[3]"
+      paddingY: "$unit[2.5]"
     prefixIcon:
       size: "$unit[4]"
     label:

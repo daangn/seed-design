@@ -7,7 +7,7 @@ export function isBodyText(textStyle: TextStyle) {
 }
 
 export function createHeadingProps(textStyle: TextStyle) {
-  const [_, weight, size] = textStyle.name.split("/");
+  const [_, size, weight] = textStyle.name.split("/");
   if (!size) {
     throw new Error(`Invalid heading text style name: ${textStyle.name}`);
   }
@@ -21,7 +21,7 @@ export function createHeadingProps(textStyle: TextStyle) {
 }
 
 export function createBodyProps(textStyle: TextStyle) {
-  const [_, weight, size] = textStyle.name.split("/");
+  const [_, size, weight] = textStyle.name.split("/");
   if (!size) {
     throw new Error(`Invalid body text style name: ${textStyle.name}`);
   }

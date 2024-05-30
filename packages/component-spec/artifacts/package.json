@@ -6,6 +6,7 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/component-spec/artifacts"
   },
+  "main": "package.json",
   "files": [
     "box-button.yaml"
   ],

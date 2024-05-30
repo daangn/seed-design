@@ -20,7 +20,7 @@ export const vars = {
     },
     pressed: {
       root: {
-        color: "var(--seed-color-bg-brand-emphasis-pressed)",
+        color: "var(--seed-color-bg-brand-pressed)",
       },
     },
     disabled: {
@@ -55,34 +55,34 @@ export const vars = {
   sizeXsmall: {
     enabled: {
       root: {
-        minHeight: "var(--seed-unit-8)",
-        cornerRadius: "var(--seed-radii-1)",
-        paddingX: "var(--seed-unit-2\\.5)",
-        paddingY: "var(--seed-unit-2)",
-        gap: "var(--seed-unit-1)",
+        minHeight: "var(--seed-u-n-i-t-8)",
+        cornerRadius: "var(--seed-r-a-d-i-i-1)",
+        gap: "var(--seed-u-n-i-t-1)",
+        paddingX: "var(--seed-u-n-i-t-2.5)",
+        paddingY: "var(--seed-u-n-i-t-2)",
       },
       prefixIcon: {
-        size: "var(--seed-unit-3)",
+        size: "var(--seed-u-n-i-t-3)",
       },
       label: {
-        fontSize: "var(--seed-font-size-50)",
+        fontSize: "var(--seed-f-o-n-t---s-i-z-e-50)",
       },
     },
   },
   sizeMedium: {
     enabled: {
       root: {
-        minHeight: "var(--seed-unit-10)",
-        cornerRadius: "var(--seed-radii-1\\.5)",
-        paddingX: "var(--seed-unit-3)",
-        paddingY: "var(--seed-unit-2\\.5)",
-        gap: "var(--seed-unit-1)",
+        minHeight: "var(--seed-u-n-i-t-10)",
+        cornerRadius: "var(--seed-r-a-d-i-i-1.5)",
+        gap: "var(--seed-u-n-i-t-1)",
+        paddingX: "var(--seed-u-n-i-t-3)",
+        paddingY: "var(--seed-u-n-i-t-2.5)",
       },
       prefixIcon: {
-        size: "var(--seed-unit-4)",
+        size: "var(--seed-u-n-i-t-4)",
       },
       label: {
-        fontSize: "var(--seed-font-size-100)",
+        fontSize: "var(--seed-f-o-n-t---s-i-z-e-100)",
       },
     },
   },

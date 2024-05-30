@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/recipe-generator-preset",
+  "name": "@seed-design/component-spec-core",
   "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/recipe-generator/preset"
+    "directory": "packages/component-spec/core"
   },
   "sideEffects": false,
   "exports": {
@@ -21,16 +21,20 @@
   ],
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
-    "build": "yarn build:style",
-    "build:style": "yarn generate-vars ./src/__generated__ && nanobundle build"
-  },
-  "devDependencies": {
-    "@seed-design/component-spec-cli": "0.0.0",
-    "@seed-design/recipe-generator-core": "0.0.0",
-    "nanobundle": "^1.6.0"
+    "build": "nanobundle build",
+    "test": "vitest"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "change-case": "^5.4.4"
+  },
+  "devDependencies": {
+    "nanobundle": "^1.6.0",
+    "typescript": "^5.4.5",
+    "ultra-runner": "^3.10.5",
+    "vitest": "^0.34.6"
   },
   "ultra": {
     "concurrent": [
