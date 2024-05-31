@@ -18,6 +18,9 @@ export function generateJs(
     ]),
   );
 
+  const compoundVariants =
+    definition.compoundVariants?.map(({ css, ...rest }) => rest) ?? [];
+
   return outdent`
   import { createClassName } from "./className.mjs";
 
@@ -28,6 +31,8 @@ export function generateJs(
     null,
     2,
   )};
+
+  const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
   
   export const ${definition.name}VariantMap = ${JSON.stringify(
     variantMap,
@@ -44,7 +49,7 @@ export function generateJs(
       ${definition.name}SlotNames.map(([slot, className]) => {
         return [
           slot,
-          createClassName(className, { ...defaultVariant, ...props }),
+          createClassName(className, { ...defaultVariant, ...props }, compoundVariants),
         ];
       }),
     );

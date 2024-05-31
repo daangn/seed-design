@@ -37,6 +37,8 @@ const dialogSlotNames = [
 
 const defaultVariant = {};
 
+const compoundVariants = [];
+
 export const dialogVariantMap = {
   "footerLayout": [
     "horizontal",
@@ -51,7 +53,7 @@ export function dialog(props) {
     dialogSlotNames.map(([slot, className]) => {
       return [
         slot,
-        createClassName(className, { ...defaultVariant, ...props }),
+        createClassName(className, { ...defaultVariant, ...props }, compoundVariants),
       ];
     }),
   );

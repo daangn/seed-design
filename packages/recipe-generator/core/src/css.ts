@@ -62,12 +62,9 @@ export function generateCompoundVariantRules({
         return undefined;
       }
 
-      const selector = Object.entries(selection)
-        .map(
-          ([variantName, variantValue]) =>
-            `.${name}__${slot}--${variantName}_${variantValue}`,
-        )
-        .join("");
+      const selector = `.${name}__${slot}--${Object.entries(selection)
+        .map(([variantName, variantValue]) => `${variantName}_${variantValue}`)
+        .join("-")}`;
       const parsed = postcssJs.parse(style);
 
       return postcss.rule({

@@ -21,6 +21,8 @@ const radioSlotNames = [
 
 const defaultVariant = {};
 
+const compoundVariants = [];
+
 export const radioVariantMap = {
   "size": [
     "large",
@@ -36,7 +38,7 @@ export function radio(props) {
     radioSlotNames.map(([slot, className]) => {
       return [
         slot,
-        createClassName(className, { ...defaultVariant, ...props }),
+        createClassName(className, { ...defaultVariant, ...props }, compoundVariants),
       ];
     }),
   );

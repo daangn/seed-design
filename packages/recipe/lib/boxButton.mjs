@@ -17,6 +17,8 @@ const boxButtonSlotNames = [
 
 const defaultVariant = {};
 
+const compoundVariants = [];
+
 export const boxButtonVariantMap = {
   "variant": [
     "brand",
@@ -35,7 +37,7 @@ export function boxButton(props) {
     boxButtonSlotNames.map(([slot, className]) => {
       return [
         slot,
-        createClassName(className, { ...defaultVariant, ...props }),
+        createClassName(className, { ...defaultVariant, ...props }, compoundVariants),
       ];
     }),
   );
