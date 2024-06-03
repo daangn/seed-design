@@ -6,7 +6,6 @@ export const vars = {
       },
       "control": {
         "borderColor": "var(--seed-color-stroke-control)",
-        "borderRadius": "var(--seed-radii-full)",
         "borderWidth": "1px"
       }
     },
@@ -58,15 +57,11 @@ export const vars = {
         "fontSize": "var(--seed-font-size-75)"
       },
       "control": {
-        "size": "var(--seed-unit-4)"
+        "size": "var(--seed-unit-4)",
+        "borderRadius": "var(--seed-radii-1)"
       },
       "icon": {
-        "size": "var(--seed-unit-2)"
-      }
-    },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-unit-2)"
+        "size": "var(--seed-unit-4)"
       }
     }
   },
@@ -80,15 +75,11 @@ export const vars = {
         "fontSize": "var(--seed-font-size-100)"
       },
       "control": {
-        "size": "var(--seed-unit-5)"
+        "size": "var(--seed-unit-5)",
+        "borderRadius": "var(--seed-radii-1)"
       },
       "icon": {
-        "size": "var(--seed-unit-2)"
-      }
-    },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-unit-2\\.5)"
+        "size": "var(--seed-unit-5)"
       }
     }
   },
@@ -102,15 +93,11 @@ export const vars = {
         "fontSize": "var(--seed-font-size-200)"
       },
       "control": {
-        "size": "var(--seed-unit-6)"
+        "size": "var(--seed-unit-6)",
+        "borderRadius": "var(--seed-radii-1)"
       },
       "icon": {
-        "size": "var(--seed-unit-2\\.5)"
-      }
-    },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-unit-3)"
+        "size": "var(--seed-unit-6)"
       }
     }
   }

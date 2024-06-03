@@ -1,5 +1,7 @@
 {
   "name": "@seed-design/figma-codegen",
+  "private": true,
+  "author": "Asher <asher@daangn.com>",
   "dependencies": {
     "@create-figma-plugin/utilities": "^3.0.2",
     "change-case": "^5.2.0",

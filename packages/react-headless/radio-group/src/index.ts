@@ -18,7 +18,7 @@ export function useRadioGroupState(props: UseRadioGroupStateProps) {
     onChange: props.onValueChange,
   });
   const [hoveredValue, setHoveredValue] = useState<string | null>(null);
-  const [pressedValue, setPressedValue] = useState<string | null>(null);
+  const [activeValue, setActiveValue] = useState<string | null>(null);
   const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
@@ -27,8 +27,8 @@ export function useRadioGroupState(props: UseRadioGroupStateProps) {
     setValue,
     hoveredValue,
     setHoveredValue,
-    pressedValue,
-    setPressedValue,
+    activeValue,
+    setActiveValue,
     focusedValue,
     setFocusedValue,
     isFocusVisible,
@@ -66,8 +66,8 @@ export function useRadioGroup(props: UseRadioGroupProps) {
     setValue,
     hoveredValue,
     setHoveredValue,
-    pressedValue,
-    setPressedValue,
+    activeValue,
+    setActiveValue,
     focusedValue,
     setFocusedValue,
     isFocusVisible,
@@ -127,7 +127,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
         isChecked: value === itemValue,
         isFocused: focusedValue === itemValue,
         isHovered: hoveredValue === itemValue,
-        isActive: pressedValue === itemValue,
+        isActive: activeValue === itemValue,
       };
 
       const itemStateProps = {
@@ -159,7 +159,7 @@ export function useRadioGroup(props: UseRadioGroupProps) {
           onPointerLeave() {
             if (itemState.isDisabled) return;
             setHoveredValue(null);
-            setPressedValue(null);
+            setActiveValue(null);
           },
           onPointerDown(event) {
             if (itemState.isDisabled) return;
@@ -168,11 +168,11 @@ export function useRadioGroup(props: UseRadioGroupProps) {
             if (itemState.isFocused && event.pointerType === "mouse") {
               event.preventDefault();
             }
-            setPressedValue(itemProps.value);
+            setActiveValue(itemProps.value);
           },
           onPointerUp() {
             if (itemState.isDisabled) return;
-            setPressedValue(null);
+            setActiveValue(null);
           },
         }),
 
@@ -205,12 +205,12 @@ export function useRadioGroup(props: UseRadioGroupProps) {
           },
           onKeyDown(event) {
             if (event.key === " ") {
-              setPressedValue(itemProps.value);
+              setActiveValue(itemProps.value);
             }
           },
           onKeyUp(event) {
             if (event.key === " ") {
-              setPressedValue(null);
+              setActiveValue(null);
             }
           },
           disabled: itemState.isDisabled,

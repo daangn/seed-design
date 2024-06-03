@@ -26,9 +26,13 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityRadioGroup: React.lazy(
       () => import("../activities/ActivityRadioGroup"),
     ),
+    ActivityCheckbox: React.lazy(
+      () => import("../activities/ActivityCheckbox"),
+    ),
     ActivityAlertDialog: React.lazy(
       () => import("../activities/ActivityAlertDialog"),
     ),
+    ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
     ActivityNotFound,
   },
   plugins: [
@@ -51,7 +55,9 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityHome: "/",
         ActivityBoxButton: "/box-button",
         ActivityRadioGroup: "/radio-group",
+        ActivityCheckbox: "/checkbox",
         ActivityAlertDialog: "/alert",
+        ActivityChip: "/chip",
         ActivityNotFound: "/404",
       },
     }),

@@ -1,0 +1,37 @@
+{
+  "name": "@seed-design/figma-extractor",
+  "dependencies": {
+    "@create-figma-plugin/ui": "^3.0.2",
+    "@create-figma-plugin/utilities": "^3.0.2",
+    "change-case": "^5.4.4",
+    "preact": ">=10"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "^3.0.2",
+    "@create-figma-plugin/tsconfig": "^3.0.2",
+    "@figma/plugin-typings": "1.79.0",
+    "@types/node": "^20.8.10",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production build-figma-plugin --typecheck --minify",
+    "dev": "NODE_ENV=development build-figma-plugin --typecheck --watch"
+  },
+  "figma-plugin": {
+    "editorType": [
+      "figma",
+      "dev"
+    ],
+    "capabilities": [
+      "inspect"
+    ],
+    "name": "Seed Design Figma Extractor",
+    "id": "1233213132",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx",
+    "permissions": [
+      "currentuser"
+    ],
+    "enablePrivatePluginApi": true
+  }
+}

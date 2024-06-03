@@ -12,7 +12,7 @@ export type AlertDialogProps = {
   onInteractOutside?: React.MouseEventHandler;
 };
 
-const AlertDialog: React.FC<AlertDialogProps> = ({
+export const AlertDialog: React.FC<AlertDialogProps> = ({
   title,
   description,
   onInteractOutside,
@@ -88,5 +88,3 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
 };
 
 AlertDialog.displayName = "AlertDialog";
-
-export default AlertDialog;

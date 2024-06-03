@@ -9,7 +9,7 @@
     "bundle": "esbuild widget-src/code.tsx --target=es2016 --bundle --outfile=dist/code.js",
     "dev": "concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'"
   },
-  "author": "Asher <malangcat@daangn.com>",
+  "author": "Asher <asher@daangn.com>",
   "license": "MIT",
   "dependencies": {
     "@seed-design/component-spec-core": "0.0.0",

@@ -20,13 +20,19 @@
     "./boxButton.css": "./boxButton.css",
     "./radio.css": "./radio.css",
     "./dialog.css": "./dialog.css",
+    "./checkbox.css": "./checkbox.css",
+    "./chip.css": "./chip.css",
     "./package.json": "./package.json"
   },
   "files": [
     "global.css",
     "base.css",
     "token.css",
-    "boxButton.css"
+    "boxButton.css",
+    "checkbox.css",
+    "dialog.css",
+    "radio.css",
+    "chip.css"
   ],
   "devDependencies": {
     "@seed-design/recipe-generator-cli": "0.0.0"

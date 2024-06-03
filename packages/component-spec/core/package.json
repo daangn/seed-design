@@ -1,6 +1,7 @@
 {
   "name": "@seed-design/component-spec-core",
   "version": "0.0.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",

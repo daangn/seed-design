@@ -17,6 +17,12 @@ const ActivityHome: ActivityComponentType = () => {
         <BoxButton onClick={() => push("ActivityRadioGroup", {})}>
           RadioGroup
         </BoxButton>
+        <BoxButton onClick={() => push("ActivityCheckbox", {})}>
+          Checkbox
+        </BoxButton>
+        <BoxButton onClick={() => push("ActivityChip", {})}>
+          ChipButton
+        </BoxButton>
         <BoxButton onClick={() => push("ActivityAlertDialog", {})}>
           Dialog
         </BoxButton>

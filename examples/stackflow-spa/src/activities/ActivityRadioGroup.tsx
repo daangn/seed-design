@@ -2,7 +2,7 @@ import type { ActivityComponentType } from "@stackflow/react";
 
 import { AppScreen } from "@stackflow/plugin-basic-ui";
 import React from "react";
-import { Radio, RadioGroup } from "../design-system/components/RadioGroup";
+import { Radio, RadioGroup } from "../design-system/components";
 import { Flex } from "../design-system/components";
 
 const ActivityRadioGroup: ActivityComponentType = () => {
