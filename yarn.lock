@@ -6690,6 +6690,7 @@ __metadata:
     "@figma/plugin-typings": 1.79.0
     "@types/node": ^20.8.10
     change-case: ^5.4.4
+    color2k: ^2.0.3
     preact: ">=10"
     typescript: ^5.4.5
   languageName: unknown

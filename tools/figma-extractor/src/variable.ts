@@ -1,5 +1,5 @@
-import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
 import { camelCase } from "change-case";
+import { rgba } from "color2k";
 
 export function generateCssVars() {
   const collections = figma.variables.getLocalVariableCollections();
@@ -56,9 +56,9 @@ function toCssDeclaration(variable: Variable, modeId: string) {
     const aliasName = figma.variables.getVariableById(value.id)!.name;
     return `${name}: var(${figmaColorVarToCssVar(aliasName)});`;
   }
-  const hex = convertRgbColorToHexColor(variable.valuesByMode[modeId] as RGB);
+  const { r, g, b, a } = variable.valuesByMode[modeId] as RGBA;
 
-  return `${name}: #${hex};`;
+  return `${name}: ${rgba(r * 255, g * 255, b * 255, a)};`;
 }
 
 function toJsDeclaration(variable: Variable) {
