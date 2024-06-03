@@ -26,6 +26,9 @@ const ActivityHome: ActivityComponentType = () => {
         <BoxButton onClick={() => push("ActivityAlertDialog", {})}>
           Dialog
         </BoxButton>
+        <BoxButton onClick={() => push("ActivityCallout", {})}>
+          Callout
+        </BoxButton>
       </div>
     </AppScreen>
   );

@@ -33,6 +33,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
       () => import("../activities/ActivityAlertDialog"),
     ),
     ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
+    ActivityCallout: React.lazy(() => import("../activities/ActivityCallout")),
     ActivityNotFound,
   },
   plugins: [
@@ -58,6 +59,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityCheckbox: "/checkbox",
         ActivityAlertDialog: "/alert",
         ActivityChip: "/chip",
+        ActivityCallout: "/callout",
         ActivityNotFound: "/404",
       },
     }),

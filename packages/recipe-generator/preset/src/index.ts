@@ -1,4 +1,5 @@
 import boxButton from "./box-button.recipe";
+import callout from "./callout.recipe";
 import checkbox from "./checkbox.recipe";
 import chip from "./chip.recipe";
 import dialog from "./dialog.recipe";
@@ -10,6 +11,7 @@ const recipes = {
   dialog,
   checkbox,
   chip,
+  callout,
 };
 
 export default recipes;

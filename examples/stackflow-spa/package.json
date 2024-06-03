@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
+    "@seed-design/icon": "^0.6.1",
     "@seed-design/react-radio-group": "0.0.0",
     "@seed-design/recipe": "0.0.0",
     "@seed-design/stylesheet": "1.0.4",

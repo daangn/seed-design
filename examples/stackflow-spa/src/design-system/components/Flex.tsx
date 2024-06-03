@@ -6,6 +6,8 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   backgroundColor?: "neutral" | "brand" | "brandEmphasis" | "layer1";
   gap?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   padding?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  paddingX?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  paddingY?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   flexDirection?: "row" | "column";
   justifyContent?: "flexStart" | "flexEnd" | "center" | "spaceBetween";
   alignItems?: "flexStart" | "flexEnd" | "center";
@@ -54,6 +56,8 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
       backgroundColor,
       gap,
       padding,
+      paddingX,
+      paddingY,
       flexDirection,
       justifyContent,
       alignItems,
@@ -71,6 +75,8 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
             : undefined,
           gap: gap ? unitTokenMap[gap] : undefined,
           padding: padding ? unitTokenMap[padding] : undefined,
+          paddingInline: paddingX ? unitTokenMap[paddingX] : undefined,
+          paddingBlock: paddingY ? unitTokenMap[paddingY] : undefined,
           flexDirection,
           justifyContent: justifyContent
             ? justifyContentMap[justifyContent]

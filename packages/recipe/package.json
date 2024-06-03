@@ -27,6 +27,10 @@
     "./chip": {
       "types": "./lib/chip.d.ts",
       "import": "./lib/chip.mjs"
+    },
+    "./callout": {
+      "types": "./lib/callout.d.ts",
+      "import": "./lib/callout.mjs"
     }
   },
   "files": [

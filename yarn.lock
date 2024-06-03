@@ -6742,6 +6742,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seed-design/icon@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@seed-design/icon@npm:0.6.1"
+  peerDependencies:
+    react: "*"
+  checksum: ec38c7990891b861870afaaffacd03b2c6d9988bf64015b0df717fe5eb7b269341801a87824fb9632159711ea8042264feeaebbd71a5fdf87894ef302d3e5971
+  languageName: node
+  linkType: hard
+
 "@seed-design/project@workspace:.":
   version: 0.0.0-use.local
   resolution: "@seed-design/project@workspace:."
@@ -6852,6 +6861,7 @@ __metadata:
   resolution: "@seed-design/stackflow-spa@workspace:examples/stackflow-spa"
   dependencies:
     "@radix-ui/react-slot": ^1.0.2
+    "@seed-design/icon": ^0.6.1
     "@seed-design/react-radio-group": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
@@ -11931,6 +11941,13 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 9b7356817670b9a13a26ca5af1c21615463b500783b739b7634a0c2047c16cef4b2865d7576875c31c3cddf9dd621fa19285e628f20198b233a5cfdda6d0793b
+  languageName: node
+  linkType: hard
+
+"color2k@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "color2k@npm:2.0.3"
+  checksum: 0748e16e43c1740045af61f44de5d181f3f7a2a9cb0d5cccdccee23d04e3f107f02aaafebb7ca3335cca1d11849c6321aba702eb2f893e993a77f65761de7661
   languageName: node
   linkType: hard
 
