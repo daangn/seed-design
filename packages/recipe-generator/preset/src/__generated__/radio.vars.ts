@@ -5,9 +5,9 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral)"
       },
       "control": {
-        "borderColor": "var(--seed-color-stroke-control)",
-        "borderRadius": "var(--seed-radii-full)",
-        "borderWidth": "1px"
+        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeWidth": "1px",
+        "cornerRadius": "var(--seed-radii-full)"
       }
     },
     "enabledSelected": {

@@ -19,9 +19,9 @@ const checkbox = defineRecipe({
       position: "relative",
       boxSizing: "border-box",
 
-      borderWidth: vars.base.enabled.control.borderWidth,
+      borderWidth: vars.base.enabled.control.strokeWidth,
       borderStyle: "solid",
-      borderColor: vars.base.enabled.control.borderColor,
+      borderColor: vars.base.enabled.control.strokeColor,
 
       [pseudo(checked)]: {
         background: vars.base.enabledSelected.control.color,
@@ -76,7 +76,7 @@ const checkbox = defineRecipe({
           gap: vars.sizeLarge.enabled.root.gap,
         },
         control: {
-          borderRadius: vars.sizeLarge.enabled.control.borderRadius,
+          borderRadius: vars.sizeLarge.enabled.control.cornerRadius,
           width: vars.sizeLarge.enabled.control.size,
           height: vars.sizeLarge.enabled.control.size,
           margin: `calc((${vars.sizeLarge.enabled.root.minHeight} - ${vars.sizeLarge.enabled.control.size}) / 2) 0`, // 수직 위치 보정
@@ -96,7 +96,7 @@ const checkbox = defineRecipe({
           gap: vars.sizeMedium.enabled.root.gap,
         },
         control: {
-          borderRadius: vars.sizeMedium.enabled.control.borderRadius,
+          borderRadius: vars.sizeMedium.enabled.control.cornerRadius,
           width: vars.sizeMedium.enabled.control.size,
           height: vars.sizeMedium.enabled.control.size,
           margin: `calc((${vars.sizeMedium.enabled.root.minHeight} - ${vars.sizeMedium.enabled.control.size}) / 2) 0`, // 수직 위치 보정
@@ -116,7 +116,7 @@ const checkbox = defineRecipe({
           gap: vars.sizeSmall.enabled.root.gap,
         },
         control: {
-          borderRadius: vars.sizeSmall.enabled.control.borderRadius,
+          borderRadius: vars.sizeSmall.enabled.control.cornerRadius,
           width: vars.sizeSmall.enabled.control.size,
           height: vars.sizeSmall.enabled.control.size,
           margin: `calc((${vars.sizeSmall.enabled.root.minHeight} - ${vars.sizeSmall.enabled.control.size}) / 2) 0`, // 수직 위치 보정

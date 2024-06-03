@@ -5,8 +5,8 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral)"
       },
       "control": {
-        "borderColor": "var(--seed-color-stroke-control)",
-        "borderWidth": "1px"
+        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeWidth": "1px"
       }
     },
     "enabledSelected": {
@@ -58,7 +58,7 @@ export const vars = {
       },
       "control": {
         "size": "var(--seed-unit-4)",
-        "borderRadius": "var(--seed-radii-1)"
+        "cornerRadius": "var(--seed-radii-1)"
       },
       "icon": {
         "size": "var(--seed-unit-4)"
@@ -76,7 +76,7 @@ export const vars = {
       },
       "control": {
         "size": "var(--seed-unit-5)",
-        "borderRadius": "var(--seed-radii-1)"
+        "cornerRadius": "var(--seed-radii-1)"
       },
       "icon": {
         "size": "var(--seed-unit-5)"
@@ -94,7 +94,7 @@ export const vars = {
       },
       "control": {
         "size": "var(--seed-unit-6)",
-        "borderRadius": "var(--seed-radii-1)"
+        "cornerRadius": "var(--seed-radii-1)"
       },
       "icon": {
         "size": "var(--seed-unit-6)"

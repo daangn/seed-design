@@ -3,8 +3,8 @@ base:
     label:
       color: "$color.fg.neutral"
     control:
-      borderColor: "$color.stroke.control"
-      borderWidth: "1px"
+      strokeColor: "$color.stroke.control"
+      strokeWidth: "1px"
   enabled,selected:
     control:
       color: "$color.bg.brand-emphasis"
@@ -37,7 +37,7 @@ size=small:
       fontSize: "$font-size[75]"
     control:
       size: "$unit[4]"
-      borderRadius: "$radii[1]"
+      cornerRadius: "$radii[1]"
     icon:
       size: "$unit[4]"
 size=medium:
@@ -49,7 +49,7 @@ size=medium:
       fontSize: "$font-size[100]"
     control:
       size: "$unit[5]"
-      borderRadius: "$radii[1]"
+      cornerRadius: "$radii[1]"
     icon:
       size: "$unit[5]"
 size=large:
@@ -61,6 +61,6 @@ size=large:
       fontSize: "$font-size[200]"
     control:
       size: "$unit[6]"
-      borderRadius: "$radii[1]"
+      cornerRadius: "$radii[1]"
     icon:
       size: "$unit[6]"

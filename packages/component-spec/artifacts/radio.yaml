@@ -3,9 +3,9 @@ base:
     label:
       color: "$color.fg.neutral"
     control:
-      borderColor: "$color.stroke.control"
-      borderRadius: "$radii.full"
-      borderWidth: "1px"
+      strokeColor: "$color.stroke.control"
+      strokeWidth: "1px"
+      cornerRadius: "$radii.full"
   enabled,selected:
     control:
       color: "$color.bg.brand-emphasis"

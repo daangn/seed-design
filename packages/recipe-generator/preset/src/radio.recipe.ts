@@ -18,11 +18,11 @@ const radio = defineRecipe({
     control: {
       position: "relative",
       boxSizing: "border-box",
-      borderRadius: vars.base.enabled.control.borderRadius,
+      borderRadius: vars.base.enabled.control.cornerRadius,
 
-      borderWidth: vars.base.enabled.control.borderWidth,
+      borderWidth: vars.base.enabled.control.strokeWidth,
       borderStyle: "solid",
-      borderColor: vars.base.enabled.control.borderColor,
+      borderColor: vars.base.enabled.control.strokeColor,
 
       [pseudo(checked)]: {
         background: vars.base.enabledSelected.control.color,
