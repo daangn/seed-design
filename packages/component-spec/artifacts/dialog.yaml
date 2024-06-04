@@ -1,0 +1,24 @@
+base:
+  enabled:
+    backdrop:
+      background: rgba(0, 0, 0, 0.32)
+    content:
+      background: $color.bg.layer-1
+      borderRadius: $radii[4]
+      marginX: $unit[8]
+      paddingX: $unit[5]
+      paddingY: $unit[5]
+      maxWidth: 272px
+    header:
+      gap: $unit[1.5]
+    footer:
+      paddingTop: $unit[4]
+      gap: $unit[2]
+    title:
+      color: $color.fg.neutral
+      fontSize: $font-size[250]
+      fontWeight: $font-weight.bold
+    description:
+      color: $color.fg.neutral
+      fontSize: $font-size[200]
+      fontWeight: $font-weight.regular
