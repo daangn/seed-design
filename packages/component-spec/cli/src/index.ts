@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { parse, stringifyTs } from "@seed-design/component-spec-core";
 import fs from "fs-extra";
 import path from "node:path";

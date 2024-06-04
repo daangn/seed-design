@@ -16,7 +16,7 @@
     "build": "ultra -r build",
     "build:dts": "ultra -r --build build:dts",
     "build-only-package": "ultra -r --build build:package",
-    "build:style": "yarn workspaces foreach -p --topological-dev run build:style",
+    "build:style": "ultra -r --build build:style",
     "clean": "ultra -r clean",
     "dev": "ultra -r dev",
     "release": "yarn changeset publish",
