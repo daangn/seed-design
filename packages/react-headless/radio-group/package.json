@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/dom-utils"
+    "directory": "packages/react-headless/radio-group"
   },
   "sideEffects": false,
   "exports": {
