@@ -3,6 +3,9 @@ import * as React from "react";
 export const dataAttr = (guard: boolean | undefined) => {
   return guard ? "" : undefined;
 };
+export const ariaAttr = (guard: boolean | undefined) => {
+  return guard ? "true" : undefined;
+};
 
 export const elementProps = (
   props: React.HTMLAttributes<HTMLElement> &
