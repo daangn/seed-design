@@ -1,10 +1,11 @@
 import * as React from "react";
 
+type Booleanish = boolean | "true" | "false"
 export const dataAttr = (guard: boolean | undefined) => {
   return guard ? "" : undefined;
 };
 export const ariaAttr = (guard: boolean | undefined) => {
-  return guard ? "true" : undefined;
+  return guard ? "true" : undefined as Booleanish;
 };
 
 export const elementProps = (
