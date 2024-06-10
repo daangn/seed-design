@@ -16,7 +16,15 @@ const {
   useEffect,
 } = widget;
 
-const COMPONENT_KEYS = ["box-button", "chip", "radio", "checkbox", "dialog"];
+const COMPONENT_KEYS = [
+  "avatar",
+  "box-button",
+  "callout",
+  "chip",
+  "checkbox",
+  "dialog",
+  "radio",
+];
 const getSpecUrl = (key: string) =>
   `https://raw.githubusercontent.com/daangn/seed-design/wip/packages/component-spec/artifacts/${key}.yaml`;
 
