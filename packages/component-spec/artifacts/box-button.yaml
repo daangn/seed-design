@@ -16,6 +16,20 @@ variant=brand:
   disabled:
     root:
       color: "$color.bg.disabled"
+variant=brand soft:
+  enabled:
+    root:
+      color: "$color.bg.brand"
+    label:
+      color: "$color.fg.brand"
+    prefixIcon:
+      color: "$color.fg.brand"
+  pressed:
+    root:
+      color: "$color.bg.brand-pressed"
+  disabled:
+    root:
+      color: "$color.bg.disabled"
 variant=neutral:
   enabled:
     root:
@@ -27,6 +41,20 @@ variant=neutral:
   pressed:
     root:
       color: "$color.bg.neutral-pressed"
+  disabled:
+    root:
+      color: "$color.bg.disabled"
+variant=danger:
+  enabled:
+    root:
+      color: "$color.bg.danger-emphasis"
+    label:
+      color: "$color.fg.static-white"
+    prefixIcon:
+      color: "$color.fg.static-white"
+  pressed:
+    root:
+      color: "$color.bg.danger-pressed"
   disabled:
     root:
       color: "$color.bg.disabled"
@@ -42,15 +70,51 @@ size=xsmall:
       size: "$unit[3]"
     label:
       fontSize: "$font-size[50]"
+size=small:
+  enabled:
+    root:
+      minHeight: "$unit[9]"
+      cornerRadius: "$radii[1]"
+      gap: "$unit[1]"
+      paddingX: "$unit[3.5]"
+      paddingY: "$unit[2]"
+    prefixIcon:
+      size: "$unit[4]"
+    label:
+      fontSize: "$font-size[100]"
 size=medium:
   enabled:
     root:
       minHeight: "$unit[10]"
       cornerRadius: "$radii[1.5]"
       gap: "$unit[1]"
-      paddingX: "$unit[3]"
+      paddingX: "$unit[4]"
       paddingY: "$unit[2.5]"
     prefixIcon:
       size: "$unit[4]"
     label:
       fontSize: "$font-size[100]"
+size=large:
+  enabled:
+    root:
+      minHeight: "$unit[12]"
+      cornerRadius: "$radii[1.5]"
+      gap: "$unit[1]"
+      paddingX: "$unit[5]"
+      paddingY: "$unit[3.5]"
+    prefixIcon:
+      size: "$unit[4]"
+    label:
+      fontSize: "$font-size[100]"
+size=xlarge:
+  enabled:
+    root:
+      minHeight: "$unit[13]"
+      cornerRadius: "$radii[1.5]"
+      gap: "$unit[1]"
+      paddingX: "$unit[5]"
+      paddingY: "$unit[3.5]"
+    prefixIcon:
+      size: "$unit[5]"
+    label:
+      fontSize: "$font-size[250]"

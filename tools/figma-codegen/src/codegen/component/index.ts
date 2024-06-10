@@ -2,6 +2,7 @@ import { camelCase } from "change-case";
 import type { ElementNode } from "../jsx";
 import { createElement } from "../jsx";
 import { BoxButtonProperties } from "./type";
+import { createIconTagNameFromId, createIconTagNameFromKey } from "../icon";
 
 export interface ComponentHandler<
   T extends InstanceNode["componentProperties"] = InstanceNode["componentProperties"],
@@ -17,7 +18,12 @@ const boxButtonHandler: ComponentHandler<BoxButtonProperties> = {
   codegen: ({ componentProperties: props }) => {
     const commonProps = {
       size: props.Size.value.toString().toLowerCase(),
-      variant: camelCase(props.Variant.value.toString()),
+      variant: camelCase(props.Variant.value.toString(), {
+        mergeAmbiguousCharacters: true,
+      }),
+      prefixIcon: props["Prefix Icon#366:0"].value
+        ? createElement(createIconTagNameFromId(props["↳Icons#449:9"].value))
+        : undefined,
     };
     return createElement(
       "BoxButton",

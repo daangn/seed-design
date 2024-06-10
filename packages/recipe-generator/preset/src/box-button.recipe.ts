@@ -51,6 +51,23 @@ const boxButton = defineRecipe({
           color: vars.variantBrand.enabled.prefixIcon.color,
         },
       },
+      brandSoft: {
+        root: {
+          background: vars.variantBrandSoft.enabled.root.color,
+          [pseudo(active)]: {
+            background: vars.variantBrandSoft.pressed.root.color,
+          },
+          [pseudo(disabled)]: {
+            background: vars.variantBrandSoft.disabled.root.color,
+          },
+        },
+        label: {
+          color: vars.variantBrandSoft.enabled.label.color,
+        },
+        prefix: {
+          color: vars.variantBrandSoft.enabled.prefixIcon.color,
+        },
+      },
       neutral: {
         root: {
           background: vars.variantNeutral.enabled.root.color,
@@ -68,8 +85,55 @@ const boxButton = defineRecipe({
           color: vars.variantNeutral.enabled.prefixIcon.color,
         },
       },
+      danger: {
+        root: {
+          background: vars.variantDanger.enabled.root.color,
+          [pseudo(active)]: {
+            background: vars.variantDanger.pressed.root.color,
+          },
+          [pseudo(disabled)]: {
+            background: vars.variantDanger.disabled.root.color,
+          },
+        },
+        label: {
+          color: vars.variantDanger.enabled.label.color,
+        },
+        prefix: {
+          color: vars.variantDanger.enabled.prefixIcon.color,
+        },
+      },
     },
     size: {
+      xsmall: {
+        root: {
+          height: vars.sizeXsmall.enabled.root.minHeight,
+          padding: `${vars.sizeXsmall.enabled.root.paddingY} ${vars.sizeXsmall.enabled.root.paddingX}`,
+          borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
+          gap: vars.sizeXsmall.enabled.root.gap,
+        },
+        label: {
+          fontSize: vars.sizeXsmall.enabled.label.fontSize,
+        },
+        prefix: {
+          width: vars.sizeXsmall.enabled.prefixIcon.size,
+          height: vars.sizeXsmall.enabled.prefixIcon.size,
+        },
+      },
+      small: {
+        root: {
+          height: vars.sizeSmall.enabled.root.minHeight,
+          padding: `${vars.sizeSmall.enabled.root.paddingY} ${vars.sizeSmall.enabled.root.paddingX}`,
+          borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
+          gap: vars.sizeSmall.enabled.root.gap,
+        },
+        label: {
+          fontSize: vars.sizeSmall.enabled.label.fontSize,
+        },
+        prefix: {
+          width: vars.sizeSmall.enabled.prefixIcon.size,
+          height: vars.sizeSmall.enabled.prefixIcon.size,
+        },
+      },
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.minHeight,
@@ -85,19 +149,34 @@ const boxButton = defineRecipe({
           height: vars.sizeMedium.enabled.prefixIcon.size,
         },
       },
-      xsmall: {
+      large: {
         root: {
-          height: vars.sizeXsmall.enabled.root.minHeight,
-          padding: `${vars.sizeXsmall.enabled.root.paddingY} ${vars.sizeXsmall.enabled.root.paddingX}`,
-          borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
-          gap: vars.sizeXsmall.enabled.root.gap,
+          height: vars.sizeLarge.enabled.root.minHeight,
+          padding: `${vars.sizeLarge.enabled.root.paddingY} ${vars.sizeLarge.enabled.root.paddingX}`,
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          gap: vars.sizeLarge.enabled.root.gap,
         },
         label: {
-          fontSize: vars.sizeXsmall.enabled.label.fontSize,
+          fontSize: vars.sizeLarge.enabled.label.fontSize,
         },
         prefix: {
-          width: vars.sizeXsmall.enabled.prefixIcon.size,
-          height: vars.sizeXsmall.enabled.prefixIcon.size,
+          width: vars.sizeLarge.enabled.prefixIcon.size,
+          height: vars.sizeLarge.enabled.prefixIcon.size,
+        },
+      },
+      xlarge: {
+        root: {
+          height: vars.sizeXlarge.enabled.root.minHeight,
+          padding: `${vars.sizeXlarge.enabled.root.paddingY} ${vars.sizeXlarge.enabled.root.paddingX}`,
+          borderRadius: vars.sizeXlarge.enabled.root.cornerRadius,
+          gap: vars.sizeXlarge.enabled.root.gap,
+        },
+        label: {
+          fontSize: vars.sizeXlarge.enabled.label.fontSize,
+        },
+        prefix: {
+          width: vars.sizeXlarge.enabled.prefixIcon.size,
+          height: vars.sizeXlarge.enabled.prefixIcon.size,
         },
       },
     },

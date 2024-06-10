@@ -7,7 +7,11 @@ import { BoxButton } from "../design-system/components";
 const ActivityBoxButton: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "BoxButton" }}>
-      <BoxButton>야옹</BoxButton>
+      <BoxButton size="xsmall">야옹</BoxButton>
+      <BoxButton size="small">야옹</BoxButton>
+      <BoxButton size="medium">야옹</BoxButton>
+      <BoxButton size="large">야옹</BoxButton>
+      <BoxButton size="xlarge">야옹</BoxButton>
     </AppScreen>
   );
 };

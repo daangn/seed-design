@@ -22,11 +22,16 @@ const compoundVariants = [];
 export const boxButtonVariantMap = {
   "variant": [
     "brand",
-    "neutral"
+    "brandSoft",
+    "neutral",
+    "danger"
   ],
   "size": [
+    "xsmall",
+    "small",
     "medium",
-    "xsmall"
+    "large",
+    "xlarge"
   ]
 };
 

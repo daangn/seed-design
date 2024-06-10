@@ -1,6 +1,6 @@
 interface BoxButtonVariant {
-  variant: "brand" | "neutral";
-  size: "medium" | "xsmall"
+  variant: "brand" | "brandSoft" | "neutral" | "danger";
+  size: "xsmall" | "small" | "medium" | "large" | "xlarge"
 }
 
 type BoxButtonVariantMap = {
