@@ -17,9 +17,6 @@ base:
   enabled,selected:
     track:
       background: $color.bg.brand-emphasis
-  disabled:
-    root:
-      opacity: 1
   disabled,selected:
     root:
       opacity: 0.38
