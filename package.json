@@ -23,9 +23,8 @@
     "version": "changeset version && yarn build-only-package && yarn install --no-immutable"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.0",
     "@changesets/cli": "^2.17.0",
-    "esbuild": "^0.15.13",
-    "prettier": "^2.7.1",
     "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5"
   },
