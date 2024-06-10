@@ -34,14 +34,8 @@ export const ChipToggleButton = React.forwardRef<
     },
     ref,
   ) => {
-    const {
-      stateProps,
-      restProps,
-      hiddenInputProps,
-      rootProps,
-      labelProps,
-      isChecked,
-    } = useCheckbox(otherProps);
+    const { stateProps, restProps, hiddenInputProps, rootProps, isChecked } =
+      useCheckbox(otherProps);
     const classNames = chip({
       variant: isChecked ? "inverted" : "default",
       size,
@@ -54,7 +48,7 @@ export const ChipToggleButton = React.forwardRef<
             {prefixIcon}
           </Slot>
         )}
-        <span {...labelProps} className={classNames.label}>
+        <span {...stateProps} className={classNames.label}>
           {children}
         </span>
         {count == null ? undefined : (

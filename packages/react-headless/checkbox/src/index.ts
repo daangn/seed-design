@@ -1,5 +1,5 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useId, useState } from "react";
+import { useState } from "react";
 
 import {
   dataAttr,
@@ -55,10 +55,7 @@ export interface UseCheckboxProps extends UseCheckboxStateProps {
   value?: string;
 }
 
-const getLabelId = (id: string) => `checkbox:${id}:label`;
-
 export function useCheckbox(props: UseCheckboxProps) {
-  const id = useId();
   const {
     checked,
     defaultChecked,
@@ -102,7 +99,7 @@ export function useCheckbox(props: UseCheckboxProps) {
 
     restProps,
     stateProps,
-    rootProps: elementProps({
+    rootProps: labelProps({
       ...stateProps,
       onPointerMove() {
         setIsHovered(true);
@@ -119,11 +116,6 @@ export function useCheckbox(props: UseCheckboxProps) {
       },
     }),
 
-    labelProps: labelProps({
-      ...stateProps,
-      id: getLabelId(id),
-    }),
-
     controlProps: elementProps({
       ...stateProps,
       "aria-hidden": true,
@@ -135,7 +127,7 @@ export function useCheckbox(props: UseCheckboxProps) {
       disabled: props.disabled,
       required: props.required,
       "aria-invalid": props.invalid,
-      name: props.name || id,
+      name: props.name,
       form: props.form,
       value: props.value,
       ...stateProps,
