@@ -1,3 +1,4 @@
+import avatar from "./avatar.recipe";
 import boxButton from "./box-button.recipe";
 import callout from "./callout.recipe";
 import checkbox from "./checkbox.recipe";
@@ -6,6 +7,7 @@ import dialog from "./dialog.recipe";
 import radio from "./radio.recipe";
 
 const recipes = {
+  avatar,
   boxButton,
   radio,
   dialog,

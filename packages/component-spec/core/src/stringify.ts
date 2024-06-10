@@ -10,7 +10,7 @@ function stringifyVariantKey(variant: Record<string, string>) {
     return "base";
   }
 
-  return camelCase(asKebab);
+  return camelCase(asKebab, { mergeAmbiguousCharacters: true });
 }
 
 function stringifyStateKey(state: string[]) {

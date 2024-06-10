@@ -22,3 +22,13 @@ export const labelProps = (
   props: React.HTMLAttributes<HTMLLabelElement> &
     Record<`data-${string}`, string | undefined>,
 ) => props;
+
+export const buttonProps = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement> &
+    Record<`data-${string}`, string | undefined>,
+) => props;
+
+export const imgProps = (
+  props: React.ImgHTMLAttributes<HTMLImageElement> &
+    Record<`data-${string}`, string | undefined>,
+) => props;

@@ -8,29 +8,9 @@
   },
   "sideEffects": false,
   "exports": {
-    "./boxButton": {
-      "types": "./lib/boxButton.d.ts",
-      "import": "./lib/boxButton.mjs"
-    },
-    "./dialog": {
-      "types": "./lib/dialog.d.ts",
-      "import": "./lib/dialog.mjs"
-    },
-    "./radio": {
-      "types": "./lib/radio.d.ts",
-      "import": "./lib/radio.mjs"
-    },
-    "./checkbox": {
-      "types": "./lib/checkbox.d.ts",
-      "import": "./lib/checkbox.mjs"
-    },
-    "./chip": {
-      "types": "./lib/chip.d.ts",
-      "import": "./lib/chip.mjs"
-    },
-    "./callout": {
-      "types": "./lib/callout.d.ts",
-      "import": "./lib/callout.mjs"
+    "./*": {
+      "types": "./lib/*.d.ts",
+      "import": "./lib/*.mjs"
     }
   },
   "files": [

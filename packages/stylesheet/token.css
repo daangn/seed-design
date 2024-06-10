@@ -32,6 +32,10 @@
     --seed-unit-8: 32px;
     --seed-unit-9: 36px;
     --seed-unit-10: 40px;
+    --seed-unit-12: 48px;
+    --seed-unit-16: 64px;
+    --seed-unit-20: 80px;
+    --seed-unit-24: 96px;
 
     --seed-radii-0\.5: 2px;
     --seed-radii-1: 4px;

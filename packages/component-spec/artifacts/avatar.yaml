@@ -1,0 +1,51 @@
+base:
+  enabled:
+    root:
+      cornerRadius: $radii.full
+      strokeColor: $color.stroke.decorative-subtle
+      strokeWidth: 1px
+    badge:
+      cornerRadius: $radii.full
+      color: $color.bg.layer-1
+size=20:
+  enabled:
+    root:
+      size: $unit[5]
+    badge:
+      size: $unit[2.5]
+size=24:
+  enabled:
+    root:
+      size: $unit[6]
+    badge:
+      size: $unit[3]
+size=36:
+  enabled:
+    root:
+      size: $unit[9]
+    badge:
+      size: $unit[4]
+size=48:
+  enabled:
+    root:
+      size: $unit[12]
+    badge:
+      size: $unit[6]
+size=64:
+  enabled:
+    root:
+      size: $unit[16]
+    badge:
+      size: $unit[6]
+size=80:
+  enabled:
+    root:
+      size: $unit[20]
+    badge:
+      size: $unit[6]
+size=96:
+  enabled:
+    root:
+      size: $unit[24]
+    badge:
+      size: $unit[8]

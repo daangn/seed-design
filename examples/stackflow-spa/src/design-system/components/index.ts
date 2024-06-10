@@ -1,4 +1,5 @@
 export * from "./AlertDialog";
+export * from "./Avatar";
 export * from "./BoxButton";
 export * from "./Callout";
 export * from "./Checkbox";

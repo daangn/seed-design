@@ -23,6 +23,7 @@
     "./checkbox.css": "./checkbox.css",
     "./chip.css": "./chip.css",
     "./callout.css": "./callout.css",
+    "./avatar.css": "./avatar.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -34,7 +35,8 @@
     "dialog.css",
     "radio.css",
     "chip.css",
-    "callout.css"
+    "callout.css",
+    "avatar.css"
   ],
   "devDependencies": {
     "@seed-design/recipe-generator-cli": "0.0.0"

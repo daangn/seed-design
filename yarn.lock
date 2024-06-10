@@ -6395,6 +6395,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-use-layout-effect@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@radix-ui/react-use-layout-effect@npm:1.0.1"
+  dependencies:
+    "@babel/runtime": ^7.13.10
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: bed9c7e8de243a5ec3b93bb6a5860950b0dba359b6680c84d57c7a655e123dec9b5891c5dfe81ab970652e7779fe2ad102a23177c7896dde95f7340817d47ae5
+  languageName: node
+  linkType: hard
+
 "@rollup/pluginutils@npm:^4.2.0":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
@@ -6760,6 +6775,19 @@ __metadata:
     prettier: ^2.7.1
     typescript: ^5.4.5
     ultra-runner: ^3.10.5
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/react-avatar@workspace:packages/react-headless/avatar":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-avatar@workspace:packages/react-headless/avatar"
+  dependencies:
+    "@radix-ui/react-use-layout-effect": ^1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
   languageName: unknown
   linkType: soft
 

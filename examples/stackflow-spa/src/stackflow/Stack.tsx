@@ -20,6 +20,7 @@ const theme = /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase())
 const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
     ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
+    ActivityAvatar: React.lazy(() => import("../activities/ActivityAvatar")),
     ActivityBoxButton: React.lazy(
       () => import("../activities/ActivityBoxButton"),
     ),
@@ -54,6 +55,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
       fallbackActivity: () => "ActivityNotFound",
       routes: {
         ActivityHome: "/",
+        ActivityAvatar: "/avatar",
         ActivityBoxButton: "/box-button",
         ActivityRadioGroup: "/radio-group",
         ActivityCheckbox: "/checkbox",
