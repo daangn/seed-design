@@ -1,6 +1,10 @@
-import { NestedExpression, ParsedExpression, Token } from "./types";
+import type { NestedExpression, ParsedExpression, Token } from "./types";
 
-function isTokenExpression(expression: string): boolean {
+function isTokenExpression(expression: string | number): boolean {
+  if (typeof expression === "number") {
+    return false;
+  }
+
   return expression.startsWith("$");
 }
 
@@ -39,7 +43,7 @@ function parseVariant(variantExpression: string) {
 
   const keyValues = variantExpression.split(",");
   const variant = {};
-  for (let keyValue of keyValues) {
+  for (const keyValue of keyValues) {
     const [key, value] = keyValue.split("=");
     variant[key] = value;
   }
@@ -54,23 +58,21 @@ function parseState(stateExpression: string) {
 export function parse(input: NestedExpression): ParsedExpression {
   const parsedExpressions: ParsedExpression = [];
 
-  for (let variantExpression in input) {
+  for (const variantExpression in input) {
     const variant = parseVariant(variantExpression);
     const state = [];
 
-    for (let stateExpression in input[variantExpression]) {
+    for (const stateExpression in input[variantExpression]) {
       const slot = [];
 
-      for (let slotExpression in input[variantExpression][stateExpression]) {
+      for (const slotExpression in input[variantExpression][stateExpression]) {
         const property = [];
 
-        for (let propertyExpression in input[variantExpression][
-          stateExpression
-        ][slotExpression]) {
+        for (const propertyExpression in input[variantExpression][stateExpression][
+          slotExpression
+        ]) {
           const tokenExpression =
-            input[variantExpression][stateExpression][slotExpression][
-              propertyExpression
-            ];
+            input[variantExpression][stateExpression][slotExpression][propertyExpression];
           const token = isTokenExpression(tokenExpression)
             ? parseToken(tokenExpression)
             : tokenExpression;
