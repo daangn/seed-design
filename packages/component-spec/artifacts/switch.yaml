@@ -1,8 +1,8 @@
 base:
   enabled:
     root:
-      minBlockSize: $unit[13]
-      minInlineSize: $unit[8]
+      minBlockSize: $unit[8]
+      minInlineSize: $unit[13]
     track:
       background: $color.palette.gray[500]
       cornerRadius: $radii.full
@@ -11,12 +11,17 @@ base:
       minInlineSize: $unit[8]
       padding: $unit[0.5]
     handle:
+      minBlockSize: $unit[7]
+      minInlineSize: $unit[7]
       background: $color.fg.static-white
       cornerRadius: $radii.full
       shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
   enabled,selected:
     track:
       background: $color.bg.brand-emphasis
+  disabled:
+    track:
+      background: $color.bg.disabled
   disabled,selected:
     root:
       opacity: 0.38

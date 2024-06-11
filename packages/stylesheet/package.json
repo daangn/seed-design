@@ -24,6 +24,7 @@
     "./chip.css": "./chip.css",
     "./callout.css": "./callout.css",
     "./avatar.css": "./avatar.css",
+    "./switch.css": "./switch.css",
     "./package.json": "./package.json"
   },
   "files": [

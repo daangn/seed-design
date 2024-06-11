@@ -27,6 +27,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityAlertDialog: React.lazy(() => import("../activities/ActivityAlertDialog")),
     ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
     ActivityCallout: React.lazy(() => import("../activities/ActivityCallout")),
+    ActivitySwitch: React.lazy(() => import("../activities/ActivitySwitch")),
     ActivityNotFound,
   },
   plugins: [
@@ -54,6 +55,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityAlertDialog: "/alert",
         ActivityChip: "/chip",
         ActivityCallout: "/callout",
+        ActivitySwitch: "/switch",
         ActivityNotFound: "/404",
       },
     }),

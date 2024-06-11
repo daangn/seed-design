@@ -8,3 +8,4 @@ export * from "./ChipToggleButton";
 export * from "./Flex";
 export * from "./RadioGroup";
 export * from "./Text";
+export * from "./Switch";

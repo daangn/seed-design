@@ -13,8 +13,8 @@ const switchRecipe = defineRecipe({
 
       position: "relative",
 
-      minBlockSize: vars.base.enabled.root.minBlockSize,
-      minInlineSize: vars.base.enabled.root.minInlineSize,
+      width: vars.base.enabled.root.minInlineSize,
+      height: vars.base.enabled.root.minBlockSize,
 
       verticalAlign: "top",
       isolation: "isolate",
@@ -25,12 +25,11 @@ const switchRecipe = defineRecipe({
       },
     },
     track: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-start",
+      display: "block",
+      position: "absolute",
 
-      boxSizing: "border-box",
-      position: "relative",
+      width: "100%",
+      height: "100%",
 
       borderRadius: vars.base.enabled.track.cornerRadius,
       background: vars.base.enabled.track.background,
@@ -42,8 +41,11 @@ const switchRecipe = defineRecipe({
       },
 
       [pseudo(checked)]: {
-        justifyContent: "flex-end",
         background: vars.base.enabledSelected.track.background,
+      },
+
+      [pseudo(disabled)]: {
+        background: vars.base.disabled.track.background,
       },
     },
     handleContainer: {
@@ -51,18 +53,20 @@ const switchRecipe = defineRecipe({
       alignItems: "center",
       justifyContent: "center",
 
-      position: "absolute",
-
-      minBlockSize: vars.base.enabled.handleContainer.minBlockSize,
-      minInlineSize: vars.base.enabled.handleContainer.minInlineSize,
+      height: vars.base.enabled.handleContainer.minBlockSize,
+      width: vars.base.enabled.handleContainer.minInlineSize,
 
       padding: vars.base.enabled.handleContainer.padding,
 
       transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
+
+      [pseudo(checked)]: {
+        transform: `translateX(calc(${vars.base.enabled.root.minInlineSize} - ${vars.base.enabled.root.minBlockSize}))`,
+      },
     },
     handle: {
-      width: "100%",
-      height: "100%",
+      width: vars.base.enabled.handle.minInlineSize,
+      height: vars.base.enabled.handle.minBlockSize,
 
       borderRadius: vars.base.enabled.handle.cornerRadius,
       background: vars.base.enabled.handle.background,
