@@ -22,13 +22,19 @@
     "release": "yarn changeset publish",
     "version": "changeset version && yarn build-only-package && yarn install --no-immutable",
     "lint:all": "yarn biome lint --fix",
-    "format:all": "yarn biome format --fix"
+    "format:all": "yarn biome format --fix",
+    "test:headless": "vitest"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",
     "@changesets/cli": "^2.17.0",
+    "@testing-library/dom": "^10.1.0",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "jsdom": "^24.1.0",
     "typescript": "^5.4.5",
-    "ultra-runner": "^3.10.5"
+    "ultra-runner": "^3.10.5",
+    "vitest": "^1.6.0"
   },
   "packageManager": "yarn@3.2.2"
 }
