@@ -6704,9 +6704,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/dom-utils@0.0.0, @seed-design/dom-utils@workspace:packages/dom-utils":
+"@seed-design/dom-utils@0.0.0, @seed-design/dom-utils@workspace:packages/utils/dom-utils":
   version: 0.0.0-use.local
-  resolution: "@seed-design/dom-utils@workspace:packages/dom-utils"
+  resolution: "@seed-design/dom-utils@workspace:packages/utils/dom-utils"
   dependencies:
     "@types/react": ^18.3.3
     nanobundle: ^1.6.0
