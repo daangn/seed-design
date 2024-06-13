@@ -4,7 +4,7 @@ import { active, checked, disabled, pseudo } from "./pseudo";
 
 const switchRecipe = defineRecipe({
   name: "switch",
-  slots: ["root", "track", "handleContainer", "handle"],
+  slots: ["root", "control", "thumbContainer", "thumb"],
   base: {
     root: {
       display: "inline-flex",
@@ -13,8 +13,8 @@ const switchRecipe = defineRecipe({
 
       position: "relative",
 
-      width: vars.base.enabled.root.minInlineSize,
-      height: vars.base.enabled.root.minBlockSize,
+      minInlineSize: vars.base.enabled.root.width,
+      minBlockSize: vars.base.enabled.root.height,
 
       verticalAlign: "top",
       isolation: "isolate",
@@ -24,7 +24,7 @@ const switchRecipe = defineRecipe({
         opacity: vars.base.disabledSelected.root.opacity,
       },
     },
-    track: {
+    control: {
       display: "block",
       position: "absolute",
 
@@ -32,46 +32,46 @@ const switchRecipe = defineRecipe({
       height: "100%",
 
       borderRadius: vars.base.enabled.track.cornerRadius,
-      background: vars.base.enabled.track.background,
+      background: vars.base.enabled.track.color,
 
       transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
 
       [pseudo(active)]: {
-        background: vars.base.enabled.track.background,
+        background: vars.base.enabled.track.color,
       },
 
       [pseudo(checked)]: {
-        background: vars.base.enabledSelected.track.background,
+        background: vars.base.enabledSelected.track.color,
       },
 
       [pseudo(disabled)]: {
-        background: vars.base.disabled.track.background,
+        background: vars.base.disabled.track.color,
       },
     },
-    handleContainer: {
+    thumbContainer: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
 
-      height: vars.base.enabled.handleContainer.minBlockSize,
-      width: vars.base.enabled.handleContainer.minInlineSize,
+      minInlineSize: vars.base.enabled.thumbContainer.width,
+      minBlockSize: vars.base.enabled.thumbContainer.height,
 
-      padding: vars.base.enabled.handleContainer.padding,
+      padding: vars.base.enabled.thumbContainer.padding,
 
       transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
 
       [pseudo(checked)]: {
-        transform: `translateX(calc(${vars.base.enabled.root.minInlineSize} - ${vars.base.enabled.root.minBlockSize}))`,
+        transform: `translateX(calc(${vars.base.enabled.root.width} - ${vars.base.enabled.root.height}))`,
       },
     },
-    handle: {
-      width: vars.base.enabled.handle.minInlineSize,
-      height: vars.base.enabled.handle.minBlockSize,
+    thumb: {
+      minInlineSize: vars.base.enabled.thumb.width,
+      minBlockSize: vars.base.enabled.thumb.height,
 
-      borderRadius: vars.base.enabled.handle.cornerRadius,
-      background: vars.base.enabled.handle.background,
+      borderRadius: vars.base.enabled.thumb.cornerRadius,
+      background: vars.base.enabled.thumb.color,
 
-      boxShadow: vars.base.enabled.handle.shadow,
+      boxShadow: vars.base.enabled.thumb.shadow,
     },
   },
   variants: {},

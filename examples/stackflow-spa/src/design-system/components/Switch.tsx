@@ -14,15 +14,15 @@ export interface SwitchProps
 
 export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   ({ className, ...otherProps }, ref) => {
-    const { stateProps, restProps, controlProps, hiddenInputProps, rootProps } =
+    const { stateProps, restProps, controlProps, hiddenInputProps, rootProps, thumbProps } =
       useSwitch(otherProps);
     const classNames = switchStyle();
 
     return (
       <label className={clsx(classNames.root, className)} {...rootProps}>
-        <div {...controlProps} className={classNames.track}>
-          <div {...stateProps} className={classNames.handleContainer}>
-            <div {...stateProps} className={classNames.handle} />
+        <div {...controlProps} className={classNames.control}>
+          <div {...stateProps} className={classNames.thumbContainer}>
+            <div {...thumbProps} className={classNames.thumb} />
           </div>
         </div>
         <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />

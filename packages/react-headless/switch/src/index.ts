@@ -117,6 +117,11 @@ export function useSwitch(props: UseSwitchProps) {
       "aria-hidden": true,
     }),
 
+    thumbProps: elementProps({
+      ...stateProps,
+      "aria-hidden": true,
+    }),
+
     hiddenInputProps: inputProps({
       type: "checkbox",
       role: "switch",
