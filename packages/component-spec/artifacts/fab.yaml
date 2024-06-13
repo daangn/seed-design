@@ -1,0 +1,22 @@
+base:
+  enabled:
+    root:
+      color: $color.bg.layer-floating
+      borderRadius: $radii.full
+    icon:
+      color: $color.fg.neutral
+  pressed:
+    root:
+      color: $color.bg.layer-floating-pressed
+size=small:
+  enabled:
+    root:
+      size: $unit[10]
+    icon:
+      size: $unit[5]
+size=medium:
+  enabled:
+    root:
+      size: $unit[12]
+    icon:
+      size: $unit[6]
