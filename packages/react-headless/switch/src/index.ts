@@ -1,11 +1,7 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useId, useState } from "react";
 
-import {
-  dataAttr,
-  elementProps,
-  inputProps,
-} from "@seed-design/dom-utils";
+import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 
 export interface UseSwitchStateProps {
   checked?: boolean;
@@ -123,6 +119,7 @@ export function useSwitch(props: UseSwitchProps) {
 
     hiddenInputProps: inputProps({
       type: "checkbox",
+      role: "switch",
       checked: isChecked,
       disabled: props.disabled,
       required: props.required,
