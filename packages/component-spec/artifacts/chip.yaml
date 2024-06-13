@@ -65,8 +65,8 @@ size=small:
 size=medium:
   enabled:
     root:
-      minHeight: $unit[10]
-      paddingY: $unit[2.5]
+      minHeight: 38px
+      paddingY: $unit[2]
       paddingX: $unit[4]
       gap: $unit[1]
     label:

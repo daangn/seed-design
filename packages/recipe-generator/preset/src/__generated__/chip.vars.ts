@@ -101,8 +101,8 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-unit-10)",
-        "paddingY": "var(--seed-unit-2\\.5)",
+        "minHeight": "38px",
+        "paddingY": "var(--seed-unit-2)",
         "paddingX": "var(--seed-unit-4)",
         "gap": "var(--seed-unit-1)"
       },
