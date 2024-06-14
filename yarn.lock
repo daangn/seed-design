@@ -6845,6 +6845,7 @@ __metadata:
     "@testing-library/dom": ^10.1.0
     "@testing-library/jest-dom": ^6.4.6
     "@testing-library/react": ^16.0.0
+    "@testing-library/user-event": ^14.5.2
     jsdom: ^24.1.0
     typescript: ^5.4.5
     ultra-runner: ^3.10.5
@@ -8384,6 +8385,15 @@ __metadata:
     "@types/react-dom":
       optional: true
   checksum: 45a35f0b5f34b5a7f4dcefdd3f1d202d5421692e5cc7a491c9bc71e6ed9dd5872a182b80b4dfefb4a56d9c1df35e50f6fa2917bcf657cc26b4bc0d2259df0027
+  languageName: node
+  linkType: hard
+
+"@testing-library/user-event@npm:^14.5.2":
+  version: 14.5.2
+  resolution: "@testing-library/user-event@npm:14.5.2"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: d76937dffcf0082fbf3bb89eb2b81a31bf5448048dd61c33928c5f10e33a58e035321d39145cefd469bb5a499c68a5b4086b22f1a44e3e7c7e817dc5f6782867
   languageName: node
   linkType: hard
 

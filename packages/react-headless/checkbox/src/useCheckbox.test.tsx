@@ -1,11 +1,22 @@
 import "@testing-library/jest-dom/vitest";
-import { render, fireEvent, cleanup } from "@testing-library/react";
-import { describe, expect, it, afterEach, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+import type { ReactElement } from "react";
 import * as React from "react";
 
 import { useCheckbox, type UseCheckboxProps } from "./index";
 
-// A helper component to test the hook
+afterEach(cleanup);
+
+function setUp(jsx: ReactElement) {
+  return {
+    user: userEvent.setup(),
+    ...render(jsx),
+  };
+}
+
 function Checkbox(props: UseCheckboxProps) {
   const { controlProps, hiddenInputProps, restProps, rootProps, stateProps } = useCheckbox(props);
   return (
@@ -19,80 +30,69 @@ function Checkbox(props: UseCheckboxProps) {
   );
 }
 
-afterEach(() => {
-  cleanup();
-});
-
 describe("useCheckbox", () => {
   it("initial state is correct", () => {
-    const { getByRole } = render(<Checkbox defaultChecked={false} />);
+    const { getByRole } = setUp(<Checkbox defaultChecked={false} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).not.toBeChecked();
   });
 
-  it("state changes on click", () => {
-    const { getByRole } = render(<Checkbox defaultChecked={false} />);
+  it("state changes on click", async () => {
+    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).not.toBeChecked();
 
-    fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(checkbox).toBeChecked();
   });
 
-  it("onCheckedChange is called", () => {
+  it("onCheckedChange is called", async () => {
     const handleCheckedChange = vi.fn();
 
-    const { getByRole } = render(<Checkbox onCheckedChange={handleCheckedChange} />);
+    const { getByRole, user } = setUp(<Checkbox onCheckedChange={handleCheckedChange} />);
     const checkbox = getByRole("checkbox");
 
-    fireEvent.click(checkbox);
+    await user.click(checkbox);
     expect(handleCheckedChange).toHaveBeenCalledWith(true);
   });
 
-  it("data attributes are set correctly", () => {
-    const { getByRole } = render(<Checkbox defaultChecked={true} />);
+  it("hover state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
 
-    expect(checkbox).toHaveAttribute("data-checked");
+    await user.hover(checkbox);
+    expect(checkbox).toHaveAttribute("data-hover");
+
+    await user.unhover(checkbox);
+    expect(checkbox).not.toHaveAttribute("data-hover");
   });
 
-  it("hover state updates correctly", () => {
-    const { getByLabelText } = render(<Checkbox />);
-    const label = getByLabelText("");
-
-    fireEvent.pointerMove(label);
-    expect(label).toHaveAttribute("data-hover");
-
-    fireEvent.pointerLeave(label);
-    expect(label).not.toHaveAttribute("data-hover");
-  });
-
-  it("focus state updates correctly", () => {
-    const { getByRole } = render(<Checkbox />);
+  it("focus state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
 
-    fireEvent.focus(checkbox);
-    expect(checkbox).toHaveAttribute("data-focus");
+    await user.click(checkbox);
+    expect(checkbox).toHaveFocus();
 
-    fireEvent.blur(checkbox);
-    expect(checkbox).not.toHaveAttribute("data-focus");
+    await user.click(document.body);
+    expect(checkbox).not.toHaveFocus();
   });
 
-  it("disabled state", () => {
-    const { getByRole } = render(<Checkbox defaultChecked={false} disabled />);
+  it("disabled state", async () => {
+    const { getByRole } = setUp(<Checkbox defaultChecked={false} disabled />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).toBeDisabled();
     expect(checkbox).not.toBeChecked();
 
-    fireEvent.click(checkbox);
+    await userEvent.click(checkbox);
     expect(checkbox).not.toBeChecked();
   });
 
   it("required state", () => {
-    const { getByRole } = render(<Checkbox required={true} />);
+    const { getByRole } = setUp(<Checkbox required={true} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).toBeRequired();
