@@ -96,6 +96,5 @@ describe("useCheckbox", () => {
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).toBeRequired();
-    expect(checkbox).toBeRequired();
   });
 });
