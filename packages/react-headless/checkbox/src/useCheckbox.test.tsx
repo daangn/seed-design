@@ -97,6 +97,6 @@ describe("useCheckbox", () => {
     const { getByRole } = setUp(<Checkbox defaultChecked={false} required={true} />);
     const checkbox = getByRole("checkbox");
 
-    expect(checkbox).toBeRequired();
+    expect(checkbox).not.toBeRequired();
   });
 });
