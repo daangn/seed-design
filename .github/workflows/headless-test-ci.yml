@@ -20,5 +20,8 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
 
+    - name: Build `@seed-design/dom-utils` package
+      run: yarn workspace @seed-design/dom-utils build
+
     - name: Run tests
       run: yarn test:react
