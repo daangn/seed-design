@@ -5,6 +5,6 @@ export default defineConfig({
     include: ["packages/react-headless/**/*.test.(tsx|ts)"],
     exclude: ["**/node_modules/**, **/dist/**"],
     environment: "jsdom",
-    reporters: process.env.CI ? ["verbose", "github-actions"] : ["verbose"],
+    reporters: process.env.GITHUB_ACTIONS ? ["verbose", "github-actions"] : ["verbose"],
   },
 });
