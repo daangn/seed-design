@@ -51,7 +51,9 @@ describe("useCheckbox", () => {
   it("onCheckedChange is called", async () => {
     const handleCheckedChange = vi.fn();
 
-    const { getByRole, user } = setUp(<Checkbox onCheckedChange={handleCheckedChange} />);
+    const { getByRole, user } = setUp(
+      <Checkbox defaultChecked={false} onCheckedChange={handleCheckedChange} />,
+    );
     const checkbox = getByRole("checkbox");
 
     await user.click(checkbox);
@@ -59,7 +61,7 @@ describe("useCheckbox", () => {
   });
 
   it("hover state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Checkbox />);
+    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
     const checkbox = getByRole("checkbox");
 
     await user.hover(checkbox);
@@ -70,7 +72,7 @@ describe("useCheckbox", () => {
   });
 
   it("focus state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Checkbox />);
+    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
     const checkbox = getByRole("checkbox");
 
     await user.click(checkbox);
@@ -92,7 +94,7 @@ describe("useCheckbox", () => {
   });
 
   it("required state", () => {
-    const { getByRole } = setUp(<Checkbox required={true} />);
+    const { getByRole } = setUp(<Checkbox defaultChecked={false} required={true} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).toBeRequired();
