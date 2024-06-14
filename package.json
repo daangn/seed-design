@@ -5,9 +5,9 @@
   "workspaces": [
     "packages/*",
     "packages/component-spec/*",
-    "packages/react/*",
     "packages/recipe-generator/*",
     "packages/react-headless/*",
+    "packages/utils/*",
     "tools/*",
     "examples/*",
     "docs"
@@ -15,8 +15,8 @@
   "scripts": {
     "build": "ultra -r build",
     "build:dts": "ultra -r --build build:dts",
-    "build-only-package": "ultra -r --build build:package",
     "build:style": "ultra -r --build build:style",
+    "generate": "ultra -r generate",
     "clean": "ultra -r clean",
     "dev": "ultra -r dev",
     "release": "yarn changeset publish",

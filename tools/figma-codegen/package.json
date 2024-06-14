@@ -5,7 +5,8 @@
   "dependencies": {
     "@create-figma-plugin/utilities": "^3.0.2",
     "change-case": "^5.2.0",
-    "just-group-by": "^2.2.0"
+    "just-group-by": "^2.2.0",
+    "ts-pattern": "^5.2.0"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^3.0.2",

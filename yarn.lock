@@ -6723,6 +6723,7 @@ __metadata:
     "@figma/plugin-typings": 1.79.0
     change-case: ^5.2.0
     just-group-by: ^2.2.0
+    ts-pattern: ^5.2.0
     typescript: ^5.4.5
   languageName: unknown
   linkType: soft
@@ -26518,6 +26519,13 @@ __metadata:
   version: 4.3.0
   resolution: "ts-pattern@npm:4.3.0"
   checksum: f5167f6f721212c1e22f8590bb1fc21e27fd591d6fc5af0e467778f8e5b2dc1ae490cf5c633c83a3021a61283a671a53faf250b081c17c0f025e73eb775e5fe3
+  languageName: node
+  linkType: hard
+
+"ts-pattern@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "ts-pattern@npm:5.2.0"
+  checksum: 551ee37e76772853c96d2942af1cfaeab3b457f2d226849d806605e2b3a7bb368c0f749df582f8fa8995f0e02f3618192eb4d6d9b231cbd01dc9e4cb62af3472
   languageName: node
   linkType: hard
 
