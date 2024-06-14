@@ -23,7 +23,8 @@
     "version": "changeset version && yarn build-only-package && yarn install --no-immutable",
     "lint:all": "yarn biome lint --fix",
     "format:all": "yarn biome format --fix",
-    "test:react": "vitest"
+    "test:react": "vitest run",
+    "test:react:watch": "vitest dev"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",
