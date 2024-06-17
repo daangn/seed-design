@@ -4,7 +4,7 @@
  * Re-generate by setting TAP_SNAPSHOT=1 and running tests.
  * Make sure to inspect the output below.  Do not ignore changes!
  */
-'use strict'
+"use strict";
 exports[`__tests__/colors.test.ts TAP color scheme > must match snapshot 1`] = `
 Object {
   "blue": Array [
@@ -126,7 +126,7 @@ Object {
     ],
   ],
 }
-`
+`;
 
 exports[`__tests__/colors.test.ts TAP color scheme > must match snapshot 2`] = `
 Object {
@@ -249,18 +249,18 @@ Object {
     ],
   ],
 }
-`
+`;
 
 exports[`__tests__/colors.test.ts TAP semantic colors > must match snapshot 1`] = `
 Object {
   "background": "#FFF",
   "backgroundLow": "#F2F3F6",
 }
-`
+`;
 
 exports[`__tests__/colors.test.ts TAP semantic colors > must match snapshot 2`] = `
 Object {
   "background": "#212124",
   "backgroundLow": "#17171A",
 }
-`
+`;

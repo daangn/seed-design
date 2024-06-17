@@ -1,37 +1,37 @@
-import * as React from 'react';
-import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
-import { colors, populateSemanticColors } from '@karrotmarket/design-token';
-import type { BehaviorMode } from '@karrotmarket/react-theming';
+import * as React from "react";
+import { Global, ThemeProvider as EmotionThemeProvider } from "@emotion/react";
+import type { ColorScheme, SemanticColorScheme } from "@karrotmarket/design-token";
+import { colors, populateSemanticColors } from "@karrotmarket/design-token";
+import type { BehaviorMode } from "@karrotmarket/react-theming";
 import {
   DarkModeContext,
   getColorScheme,
   getThemeName,
   useDarkModeBehavior,
-} from '@karrotmarket/react-theming';
+} from "@karrotmarket/react-theming";
 
 export type KarrotTheme = {
-  colors: ColorScheme & SemanticColorScheme,
+  colors: ColorScheme & SemanticColorScheme;
 };
 
-declare module '@emotion/react' {
+declare module "@emotion/react" {
   export interface Theme extends KarrotTheme {}
 }
 
 type KarrotThemeProviderProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 
   /**
    * Behavior mode
    *
    * @default 'auto'
    */
-  mode?: BehaviorMode,
+  mode?: BehaviorMode;
 };
 
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
-  mode = 'auto',
+  mode = "auto",
 }) => {
   const darkMode = useDarkModeBehavior({ mode });
 
@@ -41,10 +41,7 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
     return {
       colors: {
         ...colorTheme.scheme,
-        ...populateSemanticColors(
-          colorTheme.scheme,
-          colorTheme.semanticScheme,
-        ),
+        ...populateSemanticColors(colorTheme.scheme, colorTheme.semanticScheme),
       },
     };
   }, [mode, darkMode.value]);
@@ -54,22 +51,20 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
       {/* required for iOS */}
       <Global
         styles={{
-          ':root': {
+          ":root": {
             colorScheme: getColorScheme(mode),
           },
         }}
       />
 
       <DarkModeContext.Provider value={darkMode}>
-        <EmotionThemeProvider theme={theme}>
-          {children}
-        </EmotionThemeProvider>
+        <EmotionThemeProvider theme={theme}>{children}</EmotionThemeProvider>
       </DarkModeContext.Provider>
     </>
   );
 };
 
 /* istanbul ignore next */
-if (process.env.NODE_ENV !== 'production') {
-  KarrotThemeProvider.displayName = 'KarrotThemeProvider(Emotion)';
+if (process.env.NODE_ENV !== "production") {
+  KarrotThemeProvider.displayName = "KarrotThemeProvider(Emotion)";
 }

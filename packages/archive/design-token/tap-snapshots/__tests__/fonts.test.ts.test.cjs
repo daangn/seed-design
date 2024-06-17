@@ -4,15 +4,15 @@
  * Re-generate by setting TAP_SNAPSHOT=1 and running tests.
  * Make sure to inspect the output below.  Do not ignore changes!
  */
-'use strict'
+"use strict";
 exports[`__tests__/fonts.test.ts TAP fonts scheme - default > must match snapshot 1`] = `
 Object {
   "$system": "-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\"",
 }
-`
+`;
 
 exports[`__tests__/fonts.test.ts TAP semantic fonts scheme - default > must match snapshot 1`] = `
 Object {
   "system": "-apple-system,BlinkMacSystemFont,\\"Segoe UI\\",Roboto,\\"Helvetica Neue\\",Arial,\\"Noto Sans\\",sans-serif,\\"Apple Color Emoji\\",\\"Segoe UI Emoji\\",\\"Segoe UI Symbol\\",\\"Noto Color Emoji\\"",
 }
-`
+`;

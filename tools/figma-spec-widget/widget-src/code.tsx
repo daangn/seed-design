@@ -1,38 +1,16 @@
-import { parse, ParsedExpression } from "@seed-design/component-spec-core";
-import {
-  stringifyConditions,
-  stringifyToken,
-  stringifyVariants,
-} from "./stringify";
+import { parse, type ParsedExpression } from "@seed-design/component-spec-core";
+import { stringifyConditions, stringifyToken, stringifyVariants } from "./stringify";
 import YAML from "yaml";
 
 const { widget } = figma;
-const {
-  AutoLayout,
-  Fragment,
-  Text,
-  usePropertyMenu,
-  useSyncedState,
-  useEffect,
-} = widget;
+const { AutoLayout, Fragment, Text, usePropertyMenu, useSyncedState, useEffect } = widget;
 
-const COMPONENT_KEYS = [
-  "avatar",
-  "box-button",
-  "callout",
-  "chip",
-  "checkbox",
-  "dialog",
-  "radio",
-];
+const COMPONENT_KEYS = ["avatar", "box-button", "callout", "chip", "checkbox", "dialog", "radio"];
 const getSpecUrl = (key: string) =>
   `https://raw.githubusercontent.com/daangn/seed-design/wip/packages/component-spec/artifacts/${key}.yaml`;
 
 function Widget() {
-  const [componentKey, setComponentKey] = useSyncedState<string>(
-    "componentKey",
-    "",
-  );
+  const [componentKey, setComponentKey] = useSyncedState<string>("componentKey", "");
   const [spec, setSpec] = useSyncedState<ParsedExpression>("componentSpec", []);
 
   usePropertyMenu(
@@ -100,22 +78,12 @@ function Widget() {
       width={720}
     >
       {Object.values(spec).map(({ key, state }, i) => (
-        <AutoLayout
-          spacing={12}
-          direction="vertical"
-          width={"fill-parent"}
-          key={i}
-        >
+        <AutoLayout spacing={12} direction="vertical" width={"fill-parent"} key={i}>
           <Text fontSize={14} fontWeight={"semi-bold"}>
             {stringifyVariants(key)}
           </Text>
           <AutoLayout direction="vertical" width={"fill-parent"}>
-            <AutoLayout
-              fill="#dcdcdc"
-              padding={12}
-              width={"fill-parent"}
-              spacing="auto"
-            >
+            <AutoLayout fill="#dcdcdc" padding={12} width={"fill-parent"} spacing="auto">
               <AutoLayout width={"fill-parent"}>
                 <Text fontSize={12}>State</Text>
               </AutoLayout>
@@ -134,17 +102,10 @@ function Widget() {
                 <Fragment key={i}>
                   {slot.map(({ key: slot, property }, j) =>
                     property.map(({ key: property, value }, k) => (
-                      <AutoLayout
-                        key={k}
-                        padding={12}
-                        width={"fill-parent"}
-                        spacing="auto"
-                      >
+                      <AutoLayout key={k} padding={12} width={"fill-parent"} spacing="auto">
                         <AutoLayout width={"fill-parent"}>
                           <Text fontSize={12}>
-                            {j === 0 && k === 0
-                              ? stringifyConditions(state)
-                              : ""}
+                            {j === 0 && k === 0 ? stringifyConditions(state) : ""}
                           </Text>
                         </AutoLayout>
                         <AutoLayout width={"fill-parent"}>
@@ -155,9 +116,7 @@ function Widget() {
                         </AutoLayout>
                         <AutoLayout width={"fill-parent"}>
                           <Text fontSize={12}>
-                            {typeof value === "string"
-                              ? value
-                              : stringifyToken(value)}
+                            {typeof value === "string" ? value : stringifyToken(value)}
                           </Text>
                         </AutoLayout>
                       </AutoLayout>

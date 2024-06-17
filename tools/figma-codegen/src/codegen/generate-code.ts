@@ -1,21 +1,12 @@
 import { camelCase } from "change-case";
-import {
-  createBackgroundProps,
-  createBorderProps,
-  createColorProps,
-} from "./color";
+import { createBackgroundProps, createBorderProps, createColorProps } from "./color";
 import { componentHandlerMap } from "./component";
 import { createIconTagNameFromKey, isIconComponent } from "./icon";
 import type { ElementNode } from "./jsx";
 import { createElement, stringifyElement } from "./jsx";
 import { createLayoutProps } from "./layout";
 import { createSizingProps } from "./sizing";
-import {
-  createBodyProps,
-  createHeadingProps,
-  isBodyText,
-  isHeadingText,
-} from "./text";
+import { createBodyProps, createHeadingProps, isBodyText, isHeadingText } from "./text";
 
 export function generateCode(selection: SceneNode) {
   function handleFrameNode(node: FrameNode | InstanceNode | ComponentNode) {
@@ -43,12 +34,7 @@ export function generateCode(selection: SceneNode) {
       return createElement("span", {}, node.characters);
     }
     if (node.textStyleId === figma.mixed) {
-      return createElement(
-        "span",
-        {},
-        node.characters,
-        "Mixed text style is not supported",
-      );
+      return createElement("span", {}, node.characters, "Mixed text style is not supported");
     }
 
     const textStyle = figma.getStyleById(node.textStyleId) as TextStyle;
@@ -73,12 +59,7 @@ export function generateCode(selection: SceneNode) {
   }
 
   function handleRectangleNode(node: RectangleNode) {
-    return createElement(
-      "div",
-      createSizingProps(node),
-      undefined,
-      "Rectangle",
-    );
+    return createElement("div", createSizingProps(node), undefined, "Rectangle");
   }
 
   function handleComponentNode(node: ComponentNode) {
@@ -93,9 +74,7 @@ export function generateCode(selection: SceneNode) {
 
     const componentKey = mainComponent.key;
     const componentSetKey =
-      mainComponent.parent?.type === "COMPONENT_SET"
-        ? mainComponent.parent.key
-        : null;
+      mainComponent.parent?.type === "COMPONENT_SET" ? mainComponent.parent.key : null;
 
     if (isIconComponent(componentKey)) {
       return createElement("Icon", {
@@ -123,13 +102,8 @@ export function generateCode(selection: SceneNode) {
         : mainComponent.name,
       Object.fromEntries(
         Object.entries(node.componentProperties)
-          .filter(
-            ([_, props]) => props.type === "VARIANT" || props.type === "TEXT",
-          )
-          .map(([key, props]) => [
-            camelCase(key),
-            camelCase(props.value as string),
-          ]),
+          .filter(([_, props]) => props.type === "VARIANT" || props.type === "TEXT")
+          .map(([key, props]) => [camelCase(key), camelCase(props.value as string)]),
       ),
       undefined,
       "Custom Component",

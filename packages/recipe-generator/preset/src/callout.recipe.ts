@@ -3,15 +3,7 @@ import { defineRecipe } from "./helper";
 
 export const callout = defineRecipe({
   name: "callout",
-  slots: [
-    "root",
-    "icon",
-    "content",
-    "title",
-    "description",
-    "actionIndicator",
-    "closeButton",
-  ],
+  slots: ["root", "icon", "content", "title", "description", "actionIndicator", "closeButton"],
   base: {
     root: {
       display: "flex",

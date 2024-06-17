@@ -1,13 +1,13 @@
 import { Command } from "commander";
 import findup from "findup-sync";
-import fs from "fs";
+import * as fs from "node:fs";
 import yaml from "js-yaml";
 import kleur from "kleur";
-import path from "path";
+import path from "node:path";
 import pkg from "../../package.json" assert { type: "json" };
 
 import { generateComponent } from "../templates/component";
-import { IconConfig } from "../types";
+import type { IconConfig } from "../types";
 import { validateIcons } from "../validates/icons";
 import { getTsconfig } from "get-tsconfig";
 import { validateTsconfigJSX } from "../validates/tsconfig";
@@ -24,15 +24,12 @@ export const generate = new Command("generate")
   .action(() => {
     try {
       console.log("");
-      const fileContents = yaml.load(
-        fs.readFileSync(configPath, "utf8"),
-      ) as IconConfig;
+      const fileContents = yaml.load(fs.readFileSync(configPath, "utf8")) as IconConfig;
 
       const icons = fileContents.icons;
       validateIcons(icons);
 
-      const componentPath =
-        fileContents.componentPath || "src/components/SeedIcon.tsx";
+      const componentPath = fileContents.componentPath || "src/components/SeedIcon.tsx";
       const componentFileName = path.basename(componentPath, ".tsx");
       const componentDir = path.dirname(componentPath);
 
@@ -53,14 +50,8 @@ export const generate = new Command("generate")
       }
 
       // write files
-      fs.writeFileSync(
-        path.resolve(componentDir, `${componentFileName}.tsx`),
-        seedIconComponent,
-      );
-      fs.writeFileSync(
-        path.resolve(componentDir, "IconData.tsx"),
-        iconData,
-      );
+      fs.writeFileSync(path.resolve(componentDir, `${componentFileName}.tsx`), seedIconComponent);
+      fs.writeFileSync(path.resolve(componentDir, "IconData.tsx"), iconData);
 
       // log
       console.log(
@@ -68,7 +59,7 @@ export const generate = new Command("generate")
           kleur.green().bold().underline(`${componentPath}`),
       );
       console.log(
-        kleur.green("⭐ IconData created to the path where the SeedIcon component was created")
+        kleur.green("⭐ IconData created to the path where the SeedIcon component was created"),
       );
       console.log("");
     } catch (error) {

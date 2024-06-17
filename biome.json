@@ -9,24 +9,41 @@
     "enabled": false
   },
   "formatter": {
+    "ignore": ["package.json"],
     "enabled": true,
     "indentStyle": "space",
     "lineWidth": 100
   },
   "linter": {
     "enabled": true,
+    "ignore": ["public", "node_modules", ".cache", "lib", "dist"],
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "warn",
+        "useTemplate": "warn",
+        "useNodejsImportProtocol": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "warn"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      }
     }
   },
   "overrides": [
     {
       "include": ["docs/**/*"],
-      "ignore": ["public", "node_modules", ".cache"],
+      "ignore": ["public", "node_modules", ".cache", "lib", "dist"],
       "linter": {
         "rules": {
           "style": {
             "noNonNullAssertion": "off"
+          },
+          "correctness": {
+            "useExhaustiveDependencies": "warn"
           }
         }
       },

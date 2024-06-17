@@ -1,186 +1,186 @@
 export const vars = {
-  "base": {
-    "enabled": {
-      "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
-      }
-    }
-  },
-  "variantBrand": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-emphasis)"
+  base: {
+    enabled: {
+      label: {
+        fontWeight: "var(--seed-font-weight-bold)",
       },
-      "label": {
-        "color": "var(--seed-color-fg-static-white)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-static-white)"
-      }
     },
-    "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-emphasis-pressed)"
-      }
+  },
+  variantBrand: {
+    enabled: {
+      root: {
+        color: "var(--seed-color-bg-brand-emphasis)",
+      },
+      label: {
+        color: "var(--seed-color-fg-static-white)",
+      },
+      prefixIcon: {
+        color: "var(--seed-color-fg-static-white)",
+      },
     },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      }
-    }
-  },
-  "variantBrandSoft": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-brand)"
+    pressed: {
+      root: {
+        color: "var(--seed-color-bg-brand-emphasis-pressed)",
       },
-      "label": {
-        "color": "var(--seed-color-fg-brand)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-brand)"
-      }
     },
-    "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-pressed)"
-      }
+    disabled: {
+      root: {
+        color: "var(--seed-color-bg-disabled)",
+      },
     },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      }
-    }
   },
-  "variantNeutral": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral)"
+  variantBrandSoft: {
+    enabled: {
+      root: {
+        color: "var(--seed-color-bg-brand)",
       },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
+      label: {
+        color: "var(--seed-color-fg-brand)",
       },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      }
+      prefixIcon: {
+        color: "var(--seed-color-fg-brand)",
+      },
     },
-    "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-pressed)"
-      }
+    pressed: {
+      root: {
+        color: "var(--seed-color-bg-brand-pressed)",
+      },
     },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      }
-    }
-  },
-  "variantDanger": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-danger-emphasis)"
+    disabled: {
+      root: {
+        color: "var(--seed-color-bg-disabled)",
       },
-      "label": {
-        "color": "var(--seed-color-fg-static-white)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-static-white)"
-      }
     },
-    "pressed": {
-      "root": {
-        "color": "var(--seed-color-bg-danger-pressed)"
-      }
+  },
+  variantNeutral: {
+    enabled: {
+      root: {
+        color: "var(--seed-color-bg-neutral)",
+      },
+      label: {
+        color: "var(--seed-color-fg-neutral)",
+      },
+      prefixIcon: {
+        color: "var(--seed-color-fg-neutral)",
+      },
     },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-bg-disabled)"
-      }
-    }
+    pressed: {
+      root: {
+        color: "var(--seed-color-bg-neutral-pressed)",
+      },
+    },
+    disabled: {
+      root: {
+        color: "var(--seed-color-bg-disabled)",
+      },
+    },
   },
-  "sizeXsmall": {
-    "enabled": {
-      "root": {
-        "minHeight": "var(--seed-unit-8)",
-        "cornerRadius": "var(--seed-radii-1)",
-        "gap": "var(--seed-unit-1)",
-        "paddingX": "var(--seed-unit-2\\.5)",
-        "paddingY": "var(--seed-unit-2)"
+  variantDanger: {
+    enabled: {
+      root: {
+        color: "var(--seed-color-bg-danger-emphasis)",
       },
-      "prefixIcon": {
-        "size": "var(--seed-unit-3)"
+      label: {
+        color: "var(--seed-color-fg-static-white)",
       },
-      "label": {
-        "fontSize": "var(--seed-font-size-50)"
-      }
-    }
+      prefixIcon: {
+        color: "var(--seed-color-fg-static-white)",
+      },
+    },
+    pressed: {
+      root: {
+        color: "var(--seed-color-bg-danger-pressed)",
+      },
+    },
+    disabled: {
+      root: {
+        color: "var(--seed-color-bg-disabled)",
+      },
+    },
   },
-  "sizeSmall": {
-    "enabled": {
-      "root": {
-        "minHeight": "var(--seed-unit-9)",
-        "cornerRadius": "var(--seed-radii-1)",
-        "gap": "var(--seed-unit-1)",
-        "paddingX": "var(--seed-unit-3\\.5)",
-        "paddingY": "var(--seed-unit-2)"
+  sizeXsmall: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-unit-8)",
+        cornerRadius: "var(--seed-radii-1)",
+        gap: "var(--seed-unit-1)",
+        paddingX: "var(--seed-unit-2\\.5)",
+        paddingY: "var(--seed-unit-2)",
       },
-      "prefixIcon": {
-        "size": "var(--seed-unit-4)"
+      prefixIcon: {
+        size: "var(--seed-unit-3)",
       },
-      "label": {
-        "fontSize": "var(--seed-font-size-100)"
-      }
-    }
+      label: {
+        fontSize: "var(--seed-font-size-50)",
+      },
+    },
   },
-  "sizeMedium": {
-    "enabled": {
-      "root": {
-        "minHeight": "var(--seed-unit-10)",
-        "cornerRadius": "var(--seed-radii-1\\.5)",
-        "gap": "var(--seed-unit-1)",
-        "paddingX": "var(--seed-unit-4)",
-        "paddingY": "var(--seed-unit-2\\.5)"
+  sizeSmall: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-unit-9)",
+        cornerRadius: "var(--seed-radii-1)",
+        gap: "var(--seed-unit-1)",
+        paddingX: "var(--seed-unit-3\\.5)",
+        paddingY: "var(--seed-unit-2)",
       },
-      "prefixIcon": {
-        "size": "var(--seed-unit-4)"
+      prefixIcon: {
+        size: "var(--seed-unit-4)",
       },
-      "label": {
-        "fontSize": "var(--seed-font-size-100)"
-      }
-    }
+      label: {
+        fontSize: "var(--seed-font-size-100)",
+      },
+    },
   },
-  "sizeLarge": {
-    "enabled": {
-      "root": {
-        "minHeight": "var(--seed-unit-12)",
-        "cornerRadius": "var(--seed-radii-1\\.5)",
-        "gap": "var(--seed-unit-1)",
-        "paddingX": "var(--seed-unit-5)",
-        "paddingY": "var(--seed-unit-3\\.5)"
+  sizeMedium: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-unit-10)",
+        cornerRadius: "var(--seed-radii-1\\.5)",
+        gap: "var(--seed-unit-1)",
+        paddingX: "var(--seed-unit-4)",
+        paddingY: "var(--seed-unit-2\\.5)",
       },
-      "prefixIcon": {
-        "size": "var(--seed-unit-4)"
+      prefixIcon: {
+        size: "var(--seed-unit-4)",
       },
-      "label": {
-        "fontSize": "var(--seed-font-size-100)"
-      }
-    }
+      label: {
+        fontSize: "var(--seed-font-size-100)",
+      },
+    },
   },
-  "sizeXlarge": {
-    "enabled": {
-      "root": {
-        "minHeight": "var(--seed-unit-13)",
-        "cornerRadius": "var(--seed-radii-1\\.5)",
-        "gap": "var(--seed-unit-1)",
-        "paddingX": "var(--seed-unit-5)",
-        "paddingY": "var(--seed-unit-3\\.5)"
+  sizeLarge: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-unit-12)",
+        cornerRadius: "var(--seed-radii-1\\.5)",
+        gap: "var(--seed-unit-1)",
+        paddingX: "var(--seed-unit-5)",
+        paddingY: "var(--seed-unit-3\\.5)",
       },
-      "prefixIcon": {
-        "size": "var(--seed-unit-5)"
+      prefixIcon: {
+        size: "var(--seed-unit-4)",
       },
-      "label": {
-        "fontSize": "var(--seed-font-size-250)"
-      }
-    }
-  }
-}
+      label: {
+        fontSize: "var(--seed-font-size-100)",
+      },
+    },
+  },
+  sizeXlarge: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-unit-13)",
+        cornerRadius: "var(--seed-radii-1\\.5)",
+        gap: "var(--seed-unit-1)",
+        paddingX: "var(--seed-unit-5)",
+        paddingY: "var(--seed-unit-3\\.5)",
+      },
+      prefixIcon: {
+        size: "var(--seed-unit-5)",
+      },
+      label: {
+        fontSize: "var(--seed-font-size-250)",
+      },
+    },
+  },
+};

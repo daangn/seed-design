@@ -36,11 +36,11 @@ const tests = [
   },
 ];
 
-tests.forEach(({ from, to, expect }) => {
-  test(`generateRelativePath ${from}, ${to}`, () => {
-    const relativePath = generateRelativeFilePath(from, to);
-    assert.is(relativePath, expect);
+for (const t of tests) {
+  test(`generateRelativePath ${t.from}, ${t.to}`, () => {
+    const relativePath = generateRelativeFilePath(t.from, t.to);
+    assert.is(relativePath, t.expect);
   });
-});
+}
 
 test.run();

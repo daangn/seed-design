@@ -4,11 +4,6 @@
     "rootDir": "src",
     "outDir": "."
   },
-  "include": [
-    "src",
-    "typings"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src", "typings"],
+  "exclude": ["node_modules"]
 }

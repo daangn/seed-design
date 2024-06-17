@@ -76,21 +76,17 @@ export function generateCompoundVariantRules({
 }
 
 export function generateKeyframeRules(definition: Definition["keyframes"]) {
-  return Object.entries(definition ?? {}).flatMap(
-    ([keyframeName, keyframe]) => {
-      const parsed = postcssJs.parse(keyframe);
-      return postcss.atRule({
-        name: "keyframes",
-        params: keyframeName,
-        nodes: parsed.nodes,
-      });
-    },
-  );
+  return Object.entries(definition ?? {}).flatMap(([keyframeName, keyframe]) => {
+    const parsed = postcssJs.parse(keyframe);
+    return postcss.atRule({
+      name: "keyframes",
+      params: keyframeName,
+      nodes: parsed.nodes,
+    });
+  });
 }
 
-export async function transpileRulesToCss(
-  rules: (postcss.AtRule | postcss.Rule | undefined)[],
-) {
+export async function transpileRulesToCss(rules: (postcss.AtRule | postcss.Rule | undefined)[]) {
   const root = postcss.root({
     nodes: compact(rules),
   });

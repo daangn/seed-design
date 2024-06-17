@@ -6772,7 +6772,6 @@ __metadata:
     get-tsconfig: ^4.4.0
     js-yaml: ^4.1.0
     kleur: ^4.1.5
-    prettier: ^2.8.4
     string-dedent: ^3.0.1
     tsm: ^2.3.0
     typescript: ^5.4.5
@@ -23290,7 +23289,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.7.1, prettier@npm:^2.8.0, prettier@npm:^2.8.4":
+"prettier@npm:^2.7.1, prettier@npm:^2.8.0":
   version: 2.8.4
   resolution: "prettier@npm:2.8.4"
   bin:
