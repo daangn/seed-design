@@ -21,10 +21,18 @@ const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
     ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
     ActivityAvatar: React.lazy(() => import("../activities/ActivityAvatar")),
-    ActivityBoxButton: React.lazy(() => import("../activities/ActivityBoxButton")),
-    ActivityRadioGroup: React.lazy(() => import("../activities/ActivityRadioGroup")),
-    ActivityCheckbox: React.lazy(() => import("../activities/ActivityCheckbox")),
-    ActivityAlertDialog: React.lazy(() => import("../activities/ActivityAlertDialog")),
+    ActivityBoxButton: React.lazy(
+      () => import("../activities/ActivityBoxButton"),
+    ),
+    ActivityRadioGroup: React.lazy(
+      () => import("../activities/ActivityRadioGroup"),
+    ),
+    ActivityCheckbox: React.lazy(
+      () => import("../activities/ActivityCheckbox"),
+    ),
+    ActivityAlertDialog: React.lazy(
+      () => import("../activities/ActivityAlertDialog"),
+    ),
     ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
     ActivityCallout: React.lazy(() => import("../activities/ActivityCallout")),
     ActivityNotFound,

@@ -1,6 +1,5 @@
 import { Link } from "gatsby";
-import type React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import * as style from "./TableOfContents.css";
 
@@ -46,7 +45,6 @@ const TableOfContentsItem: React.FC<{
   );
 };
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
 function isEmptyObj(obj: Object) {
   return obj.constructor === Object && Object.keys(obj).length === 0;
 }
@@ -62,12 +60,9 @@ export default function TableOfContents({
 
   useEffect(() => {
     const callback = (entries: IntersectionObserverEntry[]) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveId(`#${entry.target.id}`);
-          break;
-        }
-      }
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveId(`#${entry.target.id}`);
+      });
     };
 
     const option: IntersectionObserverInit = {
@@ -89,7 +84,7 @@ export default function TableOfContents({
     tableOfContents.items.forEach(observe);
 
     return () => observer.disconnect();
-  }, [setActiveId, tableOfContents.items]);
+  }, [setActiveId]);
 
   return (
     <div>

@@ -131,7 +131,6 @@ const Progress = ({
       })}
       href={href}
       target="_blank"
-      rel="noreferrer"
     >
       <div className={style.progressLeft}>
         <div className={style.progressName}>{name}</div>
@@ -155,7 +154,6 @@ const Progress = ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <title>todo</title>
         <path
           d="M16.2498 17.5H3.74976C3.41837 17.4996 3.10069 17.3677 2.86637 17.1334C2.63204 16.8991 2.5002 16.5814 2.49976 16.25V3.75C2.5002 3.41862 2.63204 3.10093 2.86637 2.86661C3.10069 2.63229 3.41837 2.50045 3.74976 2.5H9.99976V3.75H3.74976V16.25H16.2498V10H17.4998V16.25C17.4993 16.5814 17.3675 16.8991 17.1331 17.1334C16.8988 17.3677 16.5811 17.4996 16.2498 17.5Z"
           fill="currentcolor"

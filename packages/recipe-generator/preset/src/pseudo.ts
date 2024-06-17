@@ -11,7 +11,10 @@ export const checked = ":is(:checked, [data-checked])";
 export const open = ':is([data-state="open"], [data-open])';
 
 export function pseudo<T extends string>(selectorA: T): `&${T}`;
-export function pseudo<T extends string, U extends string>(selectorA: T, selectorB: U): `&${T}${U}`;
+export function pseudo<T extends string, U extends string>(
+  selectorA: T,
+  selectorB: U,
+): `&${T}${U}`;
 export function pseudo(...selectors: string[]) {
   return `&${selectors.join("")}`;
 }

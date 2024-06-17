@@ -4,12 +4,8 @@ import chalk from "chalk";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import componentMetaSchema from "../schema/component-meta.json" assert {
-  type: "json",
-};
-import primitiveMetaSchema from "../schema/primitive-meta.json" assert {
-  type: "json",
-};
+import componentMetaSchema from "../schema/component-meta.json" assert { type: "json" };
+import primitiveMetaSchema from "../schema/primitive-meta.json" assert { type: "json" };
 
 const ajv = new Ajv();
 

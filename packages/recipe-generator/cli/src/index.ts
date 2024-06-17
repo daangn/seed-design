@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-import { generateCss, generateDts, generateJs } from "@seed-design/recipe-generator-core";
+import {
+  generateCss,
+  generateDts,
+  generateJs,
+} from "@seed-design/recipe-generator-core";
 import preset from "@seed-design/recipe-generator-preset";
 import fs from "fs-extra";
 import path from "node:path";
@@ -11,7 +15,12 @@ async function writeCss() {
   return Promise.all(
     Object.entries(preset).map(async ([name, definition]) => {
       const cssCode = await generateCss(definition);
-      console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.css`));
+      console.log(
+        "Writing",
+        name,
+        "to",
+        path.join(process.cwd(), dir, `${name}.css`),
+      );
       fs.writeFileSync(path.join(process.cwd(), dir, `${name}.css`), cssCode);
     }),
   );

@@ -1,41 +1,38 @@
-import * as React from "react";
-import {
-  ThemeProvider as StyledComponentsThemeProvider,
-  createGlobalStyle,
-} from "styled-components";
-import type { ColorScheme, SemanticColorScheme } from "@karrotmarket/design-token";
-import { colors, populateSemanticColors } from "@karrotmarket/design-token";
-import type { BehaviorMode } from "@karrotmarket/react-theming";
+import * as React from 'react';
+import { ThemeProvider as StyledComponentsThemeProvider, createGlobalStyle } from 'styled-components';
+import type { ColorScheme, SemanticColorScheme } from '@karrotmarket/design-token';
+import { colors, populateSemanticColors } from '@karrotmarket/design-token';
+import type { BehaviorMode } from '@karrotmarket/react-theming';
 import {
   DarkModeContext,
   getThemeName,
   getColorScheme,
   useDarkModeBehavior,
-} from "@karrotmarket/react-theming";
+} from '@karrotmarket/react-theming';
 
 export type KarrotTheme = {
-  colors: ColorScheme & SemanticColorScheme;
+  colors: ColorScheme & SemanticColorScheme,
 };
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme extends KarrotTheme {}
 }
 
 type KarrotThemeProviderProps = {
-  children: React.ReactNode;
-  mode?: BehaviorMode;
+  children: React.ReactNode,
+  mode?: BehaviorMode,
 };
 
 // required for iOS
-const GlobalStyle = createGlobalStyle<{ colorScheme: string }>((props) => ({
-  ":root": {
+const GlobalStyle = createGlobalStyle<{ colorScheme: string }>(props => ({
+  ':root': {
     colorScheme: props.colorScheme,
   },
 }));
 
 export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
   children,
-  mode = "auto",
+  mode = 'auto',
 }) => {
   const darkMode = useDarkModeBehavior({ mode });
 
@@ -45,7 +42,10 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
     return {
       colors: {
         ...colorTheme.scheme,
-        ...populateSemanticColors(colorTheme.scheme, colorTheme.semanticScheme),
+        ...populateSemanticColors(
+          colorTheme.scheme,
+          colorTheme.semanticScheme,
+        ),
       },
     };
   }, [mode, darkMode.value]);
@@ -56,13 +56,15 @@ export const KarrotThemeProvider: React.FC<KarrotThemeProviderProps> = ({
       <GlobalStyle colorScheme={getColorScheme(mode)} />
 
       <DarkModeContext.Provider value={darkMode}>
-        <StyledComponentsThemeProvider theme={theme}>{children}</StyledComponentsThemeProvider>
+        <StyledComponentsThemeProvider theme={theme}>
+          {children}
+        </StyledComponentsThemeProvider>
       </DarkModeContext.Provider>
     </>
   );
 };
 
 /* istanbul ignore next */
-if (process.env.NODE_ENV !== "production") {
-  KarrotThemeProvider.displayName = "KarrotThemeProvider(StyledComponents)";
+if (process.env.NODE_ENV !== 'production') {
+  KarrotThemeProvider.displayName = 'KarrotThemeProvider(StyledComponents)';
 }

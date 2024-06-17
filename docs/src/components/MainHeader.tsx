@@ -16,7 +16,6 @@ function GithubLogo() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>github</title>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -57,15 +56,10 @@ export default function MainHeader() {
             href="https://github.com/daangn/seed-design"
             target="_blank"
             className={style.githubLogo}
-            rel="noreferrer"
           >
             <GithubLogo />
           </a>
-          <button
-            type="button"
-            onClick={openSearchbar}
-            className={style.searchButton}
-          >
+          <button onClick={openSearchbar} className={style.searchButton}>
             <SearchIcon className={style.searchButtonLeftIcon} />
             <div className={style.searchButtonText} />
             <div className={style.searchButtonKeyboard}>

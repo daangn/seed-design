@@ -19,11 +19,12 @@ export type StyleObject = CSS.Properties &
 
 type RecipeVariantRecord = Record<any, Record<any, StyleObject>>;
 
-export type RecipeSelection<T extends RecipeVariantRecord> = keyof any extends keyof T
-  ? {}
-  : {
-      [K in keyof T]?: StringToBoolean<keyof T[K]>;
-    };
+export type RecipeSelection<T extends RecipeVariantRecord> =
+  keyof any extends keyof T
+    ? {}
+    : {
+        [K in keyof T]?: StringToBoolean<keyof T[K]>;
+      };
 
 type SlotRecord<S extends string, T> = Partial<Record<S, T>>;
 
@@ -32,7 +33,10 @@ export type SlotRecipeVariantRecord<S extends string> = Record<
   Record<any, SlotRecord<S, StyleObject>>
 >;
 
-export interface SlotRecipeDefinition<S extends string, T extends SlotRecipeVariantRecord<S>> {
+export interface SlotRecipeDefinition<
+  S extends string,
+  T extends SlotRecipeVariantRecord<S>,
+> {
   name: string;
   slots: S[] | Readonly<S[]>;
   base: SlotRecord<S, StyleObject>;
@@ -43,5 +47,8 @@ export interface SlotRecipeDefinition<S extends string, T extends SlotRecipeVari
     }
   >;
   defaultVariants?: RecipeSelection<T>;
-  keyframes?: Record<string, Partial<Record<"from" | "to" | `${string}%`, StyleObject>>>;
+  keyframes?: Record<
+    string,
+    Partial<Record<"from" | "to" | `${string}%`, StyleObject>>
+  >;
 }

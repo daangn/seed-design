@@ -8,6 +8,9 @@
   "main": "dist/code.js",
   "widgetApi": "1.0.0",
   "networkAccess": {
-    "allowedDomains": ["https://raw.githubusercontent.com", "https://httpbin.org"]
+    "allowedDomains": [
+      "https://raw.githubusercontent.com",
+      "https://httpbin.org"
+    ]
   }
 }

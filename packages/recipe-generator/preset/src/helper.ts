@@ -3,9 +3,10 @@ import type {
   SlotRecipeVariantRecord,
 } from "@seed-design/recipe-generator-core";
 
-export function defineRecipe<S extends string, V extends SlotRecipeVariantRecord<S>>(
-  definition: SlotRecipeDefinition<S, V>,
-): SlotRecipeDefinition<S, V> {
+export function defineRecipe<
+  S extends string,
+  V extends SlotRecipeVariantRecord<S>,
+>(definition: SlotRecipeDefinition<S, V>): SlotRecipeDefinition<S, V> {
   return definition;
 }
 

@@ -1,4 +1,4 @@
-import type { TsConfigResult } from "get-tsconfig";
+import { TsConfigResult } from "get-tsconfig";
 import kleur from "kleur";
 
 export const validateTsconfigJSX = (tsconfig: TsConfigResult | null) => {
@@ -18,7 +18,12 @@ export const validateTsconfigJSX = (tsconfig: TsConfigResult | null) => {
 
   const jsx = tsconfig.config.compilerOptions?.jsx;
 
-  if (jsx === undefined || jsx === "preserve" || jsx === "react-native" || jsx === "react-jsxdev") {
+  if (
+    jsx === undefined ||
+    jsx === "preserve" ||
+    jsx === "react-native" ||
+    jsx === "react-jsxdev"
+  ) {
     console.log(
       kleur.red(
         "🚨 tsconfig 파일에 jsx 옵션이 제대로 설정되어 있지 않습니다. `seed-icon`은 JSX를 의존합니다. tsconfig.json에 `jsx` 필드를 `react` 또는 `react-jsx`로 설정해주세요.",

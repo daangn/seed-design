@@ -3,7 +3,16 @@ import { defineRecipe } from "./helper";
 
 const dialog = defineRecipe({
   name: "dialog",
-  slots: ["backdrop", "container", "content", "header", "footer", "action", "title", "description"],
+  slots: [
+    "backdrop",
+    "container",
+    "content",
+    "header",
+    "footer",
+    "action",
+    "title",
+    "description",
+  ],
   base: {
     backdrop: {
       position: "fixed",

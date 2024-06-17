@@ -10,7 +10,10 @@ type InitTemplate = "dynamic" | "vite";
 
 const ICON_CONFIG_FILE_NAME = "icon.config.yml";
 
-const projectPath = path.resolve(path.dirname(findup("package.json")!), ICON_CONFIG_FILE_NAME);
+const projectPath = path.resolve(
+  path.dirname(findup("package.json")!),
+  ICON_CONFIG_FILE_NAME,
+);
 
 export const init = new Command("init")
   .description("Initialize icon.config.yml")

@@ -1,5 +1,5 @@
-import * as React from "react";
-import type { useThemeBehavior } from "./useThemeBehavior";
+import * as React from 'react';
+import { type useThemeBehavior } from './useThemeBehavior';
 
 export type ThemeContext = ReturnType<typeof useThemeBehavior>;
 
@@ -10,8 +10,8 @@ const initialContext: ThemeContext = {
 export const ThemeContext = React.createContext<ThemeContext>(initialContext);
 
 /* istanbul ignore next */
-if (process.env.NODE_ENV !== "production") {
-  ThemeContext.displayName = "ThemeContext";
+if (process.env.NODE_ENV !== 'production') {
+  ThemeContext.displayName = 'ThemeContext';
 }
 
 export function useTheme(): ThemeContext {

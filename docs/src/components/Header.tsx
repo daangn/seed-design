@@ -18,7 +18,6 @@ function GithubLogo() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>github</title>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -66,7 +65,6 @@ export default function Header() {
             href="https://github.com/daangn/seed-design"
             target="_blank"
             className={style.githubLogo}
-            rel="noreferrer"
           >
             <GithubLogo />
           </a>

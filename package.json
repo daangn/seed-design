@@ -19,8 +19,6 @@
     "generate": "ultra -r generate",
     "clean": "ultra -r clean",
     "dev": "ultra -r dev",
-    "lint:all": "yarn biome lint --fix",
-    "format:all": "yarn biome format --fix",
     "release": "yarn changeset publish",
     "version": "changeset version && yarn build-only-package && yarn install --no-immutable"
   },

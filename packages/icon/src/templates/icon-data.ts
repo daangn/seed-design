@@ -8,8 +8,7 @@ export function generateIconData({ icons }: { icons: IconName[] }) {
     import * as React from "react";
 
     export const iconData: Record<string, React.ReactNode> = {
-    ${icons
-      .map((id) => {
+    ${icons.map((id) => {
         const icon = IconData[id];
         return icon
           .replace("<svg", `  "${id}": (\n    <svg id="${id}"`)
@@ -20,7 +19,6 @@ export function generateIconData({ icons }: { icons: IconName[] }) {
           .replace(/fill-rule/g, "fillRule")
           .replace(/width="24"/, `width="100%"`)
           .replace(/height="24"/, `height="100%"`);
-      })
-      .join("")}};\n
+      }).join("")}};\n
   `;
 }

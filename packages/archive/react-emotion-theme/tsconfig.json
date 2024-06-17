@@ -5,5 +5,7 @@
     "outDir": "lib",
     "jsx": "preserve"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

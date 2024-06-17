@@ -5,7 +5,7 @@
  */
 
 // colors[name] - color, background-color, border-color
-export * as colors from "./colors";
+export * as colors from './colors';
 export type {
   ColorTheme,
   ColorToken,
@@ -13,16 +13,16 @@ export type {
   KnownColorGroup,
   SemanticColorKey,
   SemanticColorScheme,
-} from "./colors/types";
-export { parseColorToken } from "./colors/token";
-export { populateSemanticColors } from "./colors/utils";
+} from './colors/types';
+export { parseColorToken } from './colors/token';
+export { populateSemanticColors } from './colors/utils';
 
 // fonts[name] - font-family
-export * as fonts from "./fonts";
+export * as fonts from './fonts';
 export type {
   FontTheme,
   FontToken,
   FontScheme,
   SemanticFontKey,
   SemanticFontScheme,
-} from "./fonts/types";
+} from './fonts/types';

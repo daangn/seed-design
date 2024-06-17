@@ -1,7 +1,12 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useState } from "react";
 
-import { dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
+import {
+  dataAttr,
+  elementProps,
+  inputProps,
+  labelProps,
+} from "@seed-design/dom-utils";
 
 export interface UseCheckboxStateProps {
   checked?: boolean;

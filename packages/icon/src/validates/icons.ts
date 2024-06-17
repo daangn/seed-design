@@ -24,9 +24,15 @@ export const validateIcons = (icons: IconName[]) => {
     const iconName = icon as IconName;
     if (!IconData[iconName]) {
       console.log(
-        kleur.red(`🚨 ${icon} 아이콘이 존재하지 않습니다. 존재하는 아이콘만 입력해주세요.`),
+        kleur.red(
+          `🚨 ${icon} 아이콘이 존재하지 않습니다. 존재하는 아이콘만 입력해주세요.`,
+        ),
       );
-      console.log(kleur.red(`🚨 ${icon} icon does not exist. Please enter only existing icons.`));
+      console.log(
+        kleur.red(
+          `🚨 ${icon} icon does not exist. Please enter only existing icons.`,
+        ),
+      );
       console.log();
 
       process.exit(1);

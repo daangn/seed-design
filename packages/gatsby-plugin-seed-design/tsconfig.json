@@ -2,7 +2,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "lib",
-    "jsx": "react"
+    "jsx": "react",
   },
-  "include": ["gatsby-browser.tsx", "gatsby-ssr.tsx", "gatsby-node.ts", "wrapRootElement.tsx"]
+  "include": [
+    "gatsby-browser.tsx",
+		"gatsby-ssr.tsx",
+		"gatsby-node.ts",
+		"wrapRootElement.tsx",
+  ]
 }

@@ -1,25 +1,28 @@
 {
   "sourceMaps": true,
   "comments": false,
-  "presets": ["@babel/preset-typescript"],
-  "plugins": ["babel-plugin-polished"],
+  "presets": [
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    "babel-plugin-polished"
+  ],
   "env": {
     "commonjs": {
       "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "modules": "commonjs",
-            "shippedProposals": true,
-            "targets": {
-              "node": 14
-            }
+        ["@babel/preset-env", {
+          "modules": "commonjs",
+          "shippedProposals": true,
+          "targets": {
+            "node": 14
           }
-        ]
+        }]
       ]
     },
     "esmodule": {
-      "presets": ["@babel/preset-modules"]
+      "presets": [
+        "@babel/preset-modules"
+      ]
     }
   }
 }

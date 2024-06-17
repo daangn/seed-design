@@ -28,10 +28,13 @@ interface FigmaLayoutProps {
   children: readonly SceneNode[];
 }
 
-type LayoutPropHandler = (props: FigmaLayoutProps) => string | number | boolean | undefined;
+type LayoutPropHandler = (
+  props: FigmaLayoutProps,
+) => string | number | boolean | undefined;
 
 const layoutPropHandlers = {
-  flexDirection: ({ layoutMode }) => (layoutMode === "HORIZONTAL" ? "row" : "column"),
+  flexDirection: ({ layoutMode }) =>
+    layoutMode === "HORIZONTAL" ? "row" : "column",
   justifyContent: ({ primaryAxisAlignItems }) => {
     switch (primaryAxisAlignItems) {
       case "MIN":
@@ -86,10 +89,10 @@ const layoutPropHandlers = {
     children.length <= 1
       ? 0
       : primaryAxisAlignItems === "SPACE_BETWEEN"
-        ? 0
-        : boundVariables.itemSpacing
-          ? getLayoutVariableName(boundVariables.itemSpacing.id)
-          : unit(itemSpacing),
+      ? 0
+      : boundVariables.itemSpacing
+      ? getLayoutVariableName(boundVariables.itemSpacing.id)
+      : unit(itemSpacing),
   paddingTop: ({ paddingTop, boundVariables }) =>
     boundVariables.paddingTop
       ? getLayoutVariableName(boundVariables.paddingTop.id)
@@ -202,7 +205,10 @@ const layoutPropDefaults: Record<string, string | number | boolean> = {
   paddingRight: 0,
   paddingTop: 0,
   borderRadius: 0,
-} satisfies Record<GeneratedLayoutProps | GeneratedShorthandLayoutProps, string | number | boolean>;
+} satisfies Record<
+  GeneratedLayoutProps | GeneratedShorthandLayoutProps,
+  string | number | boolean
+>;
 
 export function createLayoutProps(
   node: DefaultFrameMixin,
@@ -222,17 +228,22 @@ export function createLayoutProps(
     paddingTop: node.inferredAutoLayout?.paddingTop ?? node.paddingTop,
     paddingBottom: node.inferredAutoLayout?.paddingBottom ?? node.paddingBottom,
     primaryAxisAlignItems:
-      node.inferredAutoLayout?.primaryAxisAlignItems ?? node.primaryAxisAlignItems,
+      node.inferredAutoLayout?.primaryAxisAlignItems ??
+      node.primaryAxisAlignItems,
     counterAxisAlignItems:
-      node.inferredAutoLayout?.counterAxisAlignItems ?? node.counterAxisAlignItems,
+      node.inferredAutoLayout?.counterAxisAlignItems ??
+      node.counterAxisAlignItems,
     primaryAxisSizingMode:
-      node.inferredAutoLayout?.primaryAxisSizingMode ?? node.primaryAxisSizingMode,
+      node.inferredAutoLayout?.primaryAxisSizingMode ??
+      node.primaryAxisSizingMode,
     counterAxisSizingMode:
-      node.inferredAutoLayout?.counterAxisSizingMode ?? node.counterAxisSizingMode,
+      node.inferredAutoLayout?.counterAxisSizingMode ??
+      node.counterAxisSizingMode,
     layoutGrow: node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow,
     layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
     itemSpacing: node.inferredAutoLayout?.itemSpacing ?? node.itemSpacing,
-    counterAxisSpacing: node.inferredAutoLayout?.counterAxisSpacing ?? node.counterAxisSpacing,
+    counterAxisSpacing:
+      node.inferredAutoLayout?.counterAxisSpacing ?? node.counterAxisSpacing,
   };
 
   const radiusProperties = {
