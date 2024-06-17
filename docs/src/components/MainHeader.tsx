@@ -56,6 +56,7 @@ export default function MainHeader() {
             href="https://github.com/daangn/seed-design"
             target="_blank"
             className={style.githubLogo}
+            rel="noreferrer"
           >
             <GithubLogo />
           </a>

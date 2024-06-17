@@ -65,6 +65,7 @@ export default function Header() {
             href="https://github.com/daangn/seed-design"
             target="_blank"
             className={style.githubLogo}
+            rel="noreferrer"
           >
             <GithubLogo />
           </a>

@@ -3,10 +3,7 @@ import { ensureArray, exists } from "./util";
 export interface ElementNode {
   __IS_JSX_ELEMENT_NODE: true;
   tag: string;
-  props: Record<
-    string,
-    string | number | boolean | ElementNode | object | undefined
-  >;
+  props: Record<string, string | number | boolean | ElementNode | object | undefined>;
   children: (ElementNode | string)[];
   comment?: string;
 }
@@ -14,11 +11,7 @@ export interface ElementNode {
 export function createElement(
   tag: string,
   props: Record<string, string | number | boolean | object | undefined> = {},
-  children?:
-    | ElementNode
-    | string
-    | undefined
-    | (ElementNode | string | undefined)[],
+  children?: ElementNode | string | undefined | (ElementNode | string | undefined)[],
   comment?: string,
 ): ElementNode {
   return {

@@ -17,7 +17,9 @@ const sizingPropHandlers = {
       : undefined,
 } satisfies Record<string, SizingPropHandler>;
 
-export function createSizingProps(node: DefaultShapeMixin): Record<string, string | number | boolean> {
+export function createSizingProps(
+  node: DefaultShapeMixin,
+): Record<string, string | number | boolean> {
   const boundVariables = node.boundVariables;
   const layoutSizingHorizontal = node.layoutSizingHorizontal;
   const layoutSizingVertical = node.layoutSizingVertical;

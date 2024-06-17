@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "description": "seed docs",
-  "keywords": ["gatsby"],
+  "keywords": [
+    "gatsby"
+  ],
   "author": "junghyeonsu",
   "scripts": {
     "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --verbose --log-pages",

@@ -11,5 +11,5 @@
     "jsx": "react-jsx",
     "outDir": "lib"
   },
-  "include": ["src", "package.json", "tests"],
+  "include": ["src", "package.json", "tests"]
 }
