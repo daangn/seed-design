@@ -5,9 +5,7 @@ export function generateCssVars() {
   const collections = figma.variables.getLocalVariableCollections();
   const variables = figma.variables.getLocalVariables();
 
-  const colorCollection = collections.find(
-    (collection) => collection.name === "Color",
-  );
+  const colorCollection = collections.find((collection) => collection.name === "Color");
 
   if (!colorCollection) {
     throw new Error("Color collection not found");
@@ -18,9 +16,7 @@ export function generateCssVars() {
   );
 
   const lightColorsCss = colorVariables
-    .map((variable) =>
-      toCssDeclaration(variable, colorCollection.modes[0]!.modeId),
-    )
+    .map((variable) => toCssDeclaration(variable, colorCollection.modes[0]!.modeId))
     .sort((a, b) => a.localeCompare(b))
     .join("\n");
 
@@ -48,11 +44,7 @@ function toCssDeclaration(variable: Variable, modeId: string) {
 
   const value = variable.valuesByMode[modeId]!;
 
-  if (
-    typeof value === "object" &&
-    "type" in value &&
-    value.type === "VARIABLE_ALIAS"
-  ) {
+  if (typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
     const aliasName = figma.variables.getVariableById(value.id)!.name;
     return `${name}: var(${figmaColorVarToCssVar(aliasName)});`;
   }

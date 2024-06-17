@@ -1,5 +1,5 @@
-import { useAvatar, UseAvatarProps } from "@seed-design/react-avatar";
-import { avatar, AvatarVariantProps } from "@seed-design/recipe/avatar";
+import { useAvatar, type UseAvatarProps } from "@seed-design/react-avatar";
+import { avatar, type AvatarVariantProps } from "@seed-design/recipe/avatar";
 import clsx from "clsx";
 import * as React from "react";
 

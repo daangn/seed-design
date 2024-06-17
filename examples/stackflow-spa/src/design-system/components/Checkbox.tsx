@@ -1,18 +1,16 @@
-import { UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
-import { CheckboxVariantProps, checkbox } from "@seed-design/recipe/checkbox";
+import { type UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
+import { type CheckboxVariantProps, checkbox } from "@seed-design/recipe/checkbox";
 import clsx from "clsx";
 import * as React from "react";
 
-import { Assign } from "../util/types";
+import type { Assign } from "../util/types";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 import "@seed-design/stylesheet/checkbox.css";
 
-const Checkmark = React.forwardRef<
-  SVGSVGElement,
-  React.SVGProps<SVGSVGElement>
->((props, ref) => (
+const Checkmark = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
+    aria-hidden="true"
     ref={ref}
     width="24"
     height="24"
@@ -47,12 +45,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         <div {...controlProps} className={classNames.control}>
           <Checkmark {...stateProps} className={classNames.icon} />
         </div>
-        <input
-          ref={ref}
-          {...hiddenInputProps}
-          {...restProps}
-          style={visuallyHidden}
-        />
+        <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />
         <span {...stateProps} className={classNames.label}>
           {label}
         </span>

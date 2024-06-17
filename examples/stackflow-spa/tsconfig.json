@@ -8,6 +8,8 @@
     "lib": ["ESNext", "DOM"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
   }
 }

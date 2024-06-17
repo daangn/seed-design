@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { IconChevronRightRegular } from "@seed-design/icon";
-import { callout, CalloutVariantProps } from "@seed-design/recipe/callout";
+import { callout, type CalloutVariantProps } from "@seed-design/recipe/callout";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -18,17 +18,10 @@ export interface CalloutProps
 }
 
 export const Callout = React.forwardRef<HTMLDivElement, CalloutProps>(
-  (
-    { className, variant = "neutral", icon, title, description, ...otherProps },
-    ref,
-  ) => {
+  ({ className, variant = "neutral", icon, title, description, ...otherProps }, ref) => {
     const classNames = callout({ variant });
     return (
-      <div
-        ref={ref}
-        className={clsx(classNames.root, className)}
-        {...otherProps}
-      >
+      <div ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {icon && <Slot className={classNames.icon}>{icon}</Slot>}
         <p className={classNames.content}>
           {title && <span className={classNames.title}>{title} </span>}
@@ -50,30 +43,17 @@ export interface ActionableCalloutProps
   description: React.ReactNode;
 }
 
-export const ActionableCallout = React.forwardRef<
-  HTMLButtonElement,
-  ActionableCalloutProps
->(
-  (
-    { className, variant = "neutral", icon, title, description, ...otherProps },
-    ref,
-  ) => {
+export const ActionableCallout = React.forwardRef<HTMLButtonElement, ActionableCalloutProps>(
+  ({ className, variant = "neutral", icon, title, description, ...otherProps }, ref) => {
     const classNames = callout({ variant });
     return (
-      <button
-        ref={ref}
-        className={clsx(classNames.root, className)}
-        {...otherProps}
-      >
+      <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {icon && <Slot className={classNames.icon}>{icon}</Slot>}
         <p className={classNames.content}>
           {title && <span className={classNames.title}>{title} </span>}
           <span className={classNames.description}>{description}</span>
         </p>
-        <IconChevronRightRegular
-          {...halfWidthIconProps}
-          className={classNames.actionIndicator}
-        />
+        <IconChevronRightRegular {...halfWidthIconProps} className={classNames.actionIndicator} />
       </button>
     );
   },

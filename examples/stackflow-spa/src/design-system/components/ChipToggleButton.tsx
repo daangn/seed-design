@@ -1,9 +1,9 @@
 import { Slot } from "@radix-ui/react-slot";
-import { useCheckbox, UseCheckboxProps } from "@seed-design/react-checkbox";
-import { chip, ChipVariantProps } from "@seed-design/recipe/chip";
+import { useCheckbox, type UseCheckboxProps } from "@seed-design/react-checkbox";
+import { chip, type ChipVariantProps } from "@seed-design/recipe/chip";
 import clsx from "clsx";
 import * as React from "react";
-import { Assign } from "../util/types";
+import type { Assign } from "../util/types";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 import "@seed-design/stylesheet/chip.css";
@@ -18,22 +18,8 @@ export interface ChipToggleButtonProps
   count?: React.ReactNode;
 }
 
-export const ChipToggleButton = React.forwardRef<
-  HTMLInputElement,
-  ChipToggleButtonProps
->(
-  (
-    {
-      className,
-      size = "medium",
-      children,
-      prefixIcon,
-      suffixIcon,
-      count,
-      ...otherProps
-    },
-    ref,
-  ) => {
+export const ChipToggleButton = React.forwardRef<HTMLInputElement, ChipToggleButtonProps>(
+  ({ className, size = "medium", children, prefixIcon, suffixIcon, count, ...otherProps }, ref) => {
     const { stateProps, restProps, hiddenInputProps, rootProps, isChecked } =
       useCheckbox(otherProps);
     const classNames = chip({
@@ -51,20 +37,13 @@ export const ChipToggleButton = React.forwardRef<
         <span {...stateProps} className={classNames.label}>
           {children}
         </span>
-        {count == null ? undefined : (
-          <span className={classNames.count}>{count}</span>
-        )}
+        {count == null ? undefined : <span className={classNames.count}>{count}</span>}
         {suffixIcon && (
           <Slot {...stateProps} className={classNames.suffix}>
             {suffixIcon}
           </Slot>
         )}
-        <input
-          ref={ref}
-          {...hiddenInputProps}
-          {...restProps}
-          style={visuallyHidden}
-        />
+        <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />
       </label>
     );
   },

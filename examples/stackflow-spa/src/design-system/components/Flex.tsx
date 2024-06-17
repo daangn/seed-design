@@ -70,17 +70,13 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
         ref={ref}
         style={{
           display: "flex",
-          backgroundColor: backgroundColor
-            ? bgTokenMap[backgroundColor]
-            : undefined,
+          backgroundColor: backgroundColor ? bgTokenMap[backgroundColor] : undefined,
           gap: gap ? unitTokenMap[gap] : undefined,
           padding: padding ? unitTokenMap[padding] : undefined,
           paddingInline: paddingX ? unitTokenMap[paddingX] : undefined,
           paddingBlock: paddingY ? unitTokenMap[paddingY] : undefined,
           flexDirection,
-          justifyContent: justifyContent
-            ? justifyContentMap[justifyContent]
-            : undefined,
+          justifyContent: justifyContent ? justifyContentMap[justifyContent] : undefined,
           alignItems: alignItems ? alignItemsMap[alignItems] : undefined,
         }}
         {...otherProps}

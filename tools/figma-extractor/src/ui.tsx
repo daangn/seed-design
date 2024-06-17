@@ -1,14 +1,9 @@
-import {
-  Button,
-  Container,
-  TextboxMultiline,
-  render,
-} from "@create-figma-plugin/ui";
+import { Button, Container, TextboxMultiline, render } from "@create-figma-plugin/ui";
 import { emit, on } from "@create-figma-plugin/utilities";
 import { h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-import {
+import type {
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
   RequestCssVariablesHandler,
@@ -44,19 +39,13 @@ function Plugin() {
       </Button>
       <Button
         fullWidth
-        onClick={useCallback(
-          () => emit<RequestComponentKeyHandler>("REQUEST_COMPONENT_KEY"),
-          [],
-        )}
+        onClick={useCallback(() => emit<RequestComponentKeyHandler>("REQUEST_COMPONENT_KEY"), [])}
       >
         GET ComponentKey
       </Button>
       <Button
         fullWidth
-        onClick={useCallback(
-          () => emit<RequestCssVariablesHandler>("REQUEST_CSS_VARIABLES"),
-          [],
-        )}
+        onClick={useCallback(() => emit<RequestCssVariablesHandler>("REQUEST_CSS_VARIABLES"), [])}
       >
         GET CSS Variables
       </Button>

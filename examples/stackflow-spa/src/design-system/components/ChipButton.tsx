@@ -1,5 +1,5 @@
 import { Slot } from "@radix-ui/react-slot";
-import { chip, ChipVariantProps } from "@seed-design/recipe/chip";
+import { chip, type ChipVariantProps } from "@seed-design/recipe/chip";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -31,16 +31,10 @@ export const ChipButton = React.forwardRef<HTMLButtonElement, ChipButtonProps>(
   ) => {
     const classNames = chip({ variant, size });
     return (
-      <button
-        ref={ref}
-        className={clsx(classNames.root, className)}
-        {...otherProps}
-      >
+      <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
         <span className={classNames.label}>{children}</span>
-        {count == null ? undefined : (
-          <span className={classNames.count}>{count}</span>
-        )}
+        {count == null ? undefined : <span className={classNames.count}>{count}</span>}
         {suffixIcon && <Slot className={classNames.suffix}>{suffixIcon}</Slot>}
       </button>
     );

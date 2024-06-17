@@ -1,13 +1,13 @@
 import {
-  RadioItemProps,
-  UseRadioGroupProps,
+  type RadioItemProps,
+  type UseRadioGroupProps,
   useRadioGroup,
 } from "@seed-design/react-radio-group";
-import { RadioVariantProps, radio } from "@seed-design/recipe/radio";
+import { type RadioVariantProps, radio } from "@seed-design/recipe/radio";
 import clsx from "clsx";
 import * as React from "react";
 
-import { Assign } from "../util/types";
+import type { Assign } from "../util/types";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 import "@seed-design/stylesheet/radio.css";
@@ -20,7 +20,7 @@ const RadioContext = React.createContext<{
 const useRadioContext = () => {
   const context = React.useContext(RadioContext);
   if (!context) {
-    throw new Error(`Radio cannot be rendered outside the RadioGroup`);
+    throw new Error("Radio cannot be rendered outside the RadioGroup");
   }
   return context;
 };
@@ -37,9 +37,7 @@ export const RadioGroup = React.forwardRef<HTMLInputElement, RadioGroupProps>(
     const { rootProps } = api;
     return (
       <div ref={ref} {...rootProps} className={className}>
-        <RadioContext.Provider value={{ api, size }}>
-          {children}
-        </RadioContext.Provider>
+        <RadioContext.Provider value={{ api, size }}>{children}</RadioContext.Provider>
       </div>
     );
   },
@@ -61,11 +59,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
 
     const classNames = radio({ size: size ?? ctxSize });
     return (
-      <label
-        className={clsx(classNames.root, className)}
-        {...rootProps}
-        {...restProps}
-      >
+      <label className={clsx(classNames.root, className)} {...rootProps} {...restProps}>
         <div {...controlProps} className={classNames.control}>
           <div {...stateProps} className={classNames.icon} />
         </div>

@@ -1,7 +1,6 @@
-import { EventHandler } from "@create-figma-plugin/utilities";
+import type { EventHandler } from "@create-figma-plugin/utilities";
 
-export interface RequestComponentPropertyDefinitionsHandler
-  extends EventHandler {
+export interface RequestComponentPropertyDefinitionsHandler extends EventHandler {
   name: "REQUEST_COMPONENT_PROPERTY_DEFINITIONS";
   handler: () => void;
 }
