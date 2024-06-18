@@ -63,6 +63,7 @@ export function useCheckbox(props: UseCheckboxProps) {
     value,
     ...restProps
   } = props;
+
   const {
     setIsChecked,
     isChecked,
