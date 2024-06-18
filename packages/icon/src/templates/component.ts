@@ -8,11 +8,7 @@ interface ComponentInterface {
   icons: IconName[];
 }
 
-export function generateComponent({
-  componentFileName,
-  version,
-  icons,
-}: ComponentInterface) {
+export function generateComponent({ componentFileName, version, icons }: ComponentInterface) {
   return dedent`
     /* eslint-disable */
     import * as React from "react";

@@ -20,7 +20,9 @@
     "clean": "ultra -r clean",
     "dev": "ultra -r dev",
     "release": "yarn changeset publish",
-    "version": "changeset version && yarn build-only-package && yarn install --no-immutable"
+    "version": "changeset version && yarn build-only-package && yarn install --no-immutable",
+    "lint:all": "yarn biome lint --fix",
+    "format:all": "yarn biome format --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",

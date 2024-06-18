@@ -1,7 +1,7 @@
 import { type ColorMode, StorageKey } from "./common";
 
-export const generateNoFlashScript = ({ mode = 'auto' }: { mode?: ColorMode}) => {
-	return `
+export const generateNoFlashScript = ({ mode = "auto" }: { mode?: ColorMode }) => {
+  return `
 		(function(window, document, mode) {
 			try {
 				if (mode !== 'auto') {
@@ -53,4 +53,4 @@ export const generateNoFlashScript = ({ mode = 'auto' }: { mode?: ColorMode}) =>
 			} catch (e) {}
 		})(window, document, '${mode}');
 	`;
-}
+};

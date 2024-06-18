@@ -11,24 +11,12 @@ const ActivityHome: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Home" }}>
       <div style={{ overflow: "auto", height: "100vh" }}>
-        <BoxButton onClick={() => push("ActivityBoxButton", {})}>
-          BoxButton
-        </BoxButton>
-        <BoxButton onClick={() => push("ActivityRadioGroup", {})}>
-          RadioGroup
-        </BoxButton>
-        <BoxButton onClick={() => push("ActivityCheckbox", {})}>
-          Checkbox
-        </BoxButton>
-        <BoxButton onClick={() => push("ActivityChip", {})}>
-          ChipButton
-        </BoxButton>
-        <BoxButton onClick={() => push("ActivityAlertDialog", {})}>
-          Dialog
-        </BoxButton>
-        <BoxButton onClick={() => push("ActivityCallout", {})}>
-          Callout
-        </BoxButton>
+        <BoxButton onClick={() => push("ActivityBoxButton", {})}>BoxButton</BoxButton>
+        <BoxButton onClick={() => push("ActivityRadioGroup", {})}>RadioGroup</BoxButton>
+        <BoxButton onClick={() => push("ActivityCheckbox", {})}>Checkbox</BoxButton>
+        <BoxButton onClick={() => push("ActivityChip", {})}>ChipButton</BoxButton>
+        <BoxButton onClick={() => push("ActivityAlertDialog", {})}>Dialog</BoxButton>
+        <BoxButton onClick={() => push("ActivityCallout", {})}>Callout</BoxButton>
       </div>
     </AppScreen>
   );

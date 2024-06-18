@@ -131,6 +131,7 @@ const Progress = ({
       })}
       href={href}
       target="_blank"
+      rel="noreferrer"
     >
       <div className={style.progressLeft}>
         <div className={style.progressName}>{name}</div>

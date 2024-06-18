@@ -3,5 +3,5 @@ export function rem(px: string | number, base: string | number = 16): string {
     return px;
   }
 
-  return `${parseFloat(px.toString()) / parseFloat(base.toString())}rem`;
+  return `${Number.parseFloat(px.toString()) / Number.parseFloat(base.toString())}rem`;
 }

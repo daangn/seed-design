@@ -70,10 +70,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size20.enabled.badge.size,
           height: vars.size20.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size20.enabled.root.size,
-            vars.size20.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size20.enabled.root.size, vars.size20.enabled.badge.size),
         },
       },
       24: {
@@ -84,10 +81,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size24.enabled.badge.size,
           height: vars.size24.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size24.enabled.root.size,
-            vars.size24.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size24.enabled.root.size, vars.size24.enabled.badge.size),
         },
       },
       36: {
@@ -98,10 +92,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size36.enabled.badge.size,
           height: vars.size36.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size36.enabled.root.size,
-            vars.size36.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size36.enabled.root.size, vars.size36.enabled.badge.size),
         },
       },
       48: {
@@ -112,10 +103,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size48.enabled.badge.size,
           height: vars.size48.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size48.enabled.root.size,
-            vars.size48.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size48.enabled.root.size, vars.size48.enabled.badge.size),
         },
       },
       64: {
@@ -126,10 +114,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size64.enabled.badge.size,
           height: vars.size64.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size64.enabled.root.size,
-            vars.size64.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size64.enabled.root.size, vars.size64.enabled.badge.size),
         },
       },
       80: {
@@ -140,10 +125,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size80.enabled.badge.size,
           height: vars.size80.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size80.enabled.root.size,
-            vars.size80.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size80.enabled.root.size, vars.size80.enabled.badge.size),
         },
       },
       96: {
@@ -154,10 +136,7 @@ export const avatar = defineRecipe({
         badge: {
           width: vars.size96.enabled.badge.size,
           height: vars.size96.enabled.badge.size,
-          ...calculateBadgePosition(
-            vars.size96.enabled.root.size,
-            vars.size96.enabled.badge.size,
-          ),
+          ...calculateBadgePosition(vars.size96.enabled.root.size, vars.size96.enabled.badge.size),
         },
       },
     },
