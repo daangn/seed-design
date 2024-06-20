@@ -21,9 +21,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     return (
       <label className={clsx(classNames.root, className)} {...rootProps}>
         <div {...controlProps} className={classNames.control}>
-          <div {...stateProps} className={classNames.thumbContainer}>
-            <div {...thumbProps} className={classNames.thumb} />
-          </div>
+          <div {...stateProps} {...thumbProps} className={classNames.thumb} />
         </div>
         <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />
       </label>
