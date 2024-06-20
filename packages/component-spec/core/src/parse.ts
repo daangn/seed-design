@@ -1,8 +1,12 @@
 import type { NestedExpression, ParsedExpression, Token } from "./types";
 
-function isTokenExpression(expression: string | number): boolean {
+function isTokenExpression(expression: string | number | string[]): boolean {
   if (typeof expression === "number") {
     return false;
+  }
+
+  if (Array.isArray(expression)) {
+    return expression.every((item) => typeof item === "string" && item.startsWith("$"));
   }
 
   return expression.startsWith("$");
@@ -73,9 +77,19 @@ export function parse(input: NestedExpression): ParsedExpression {
         ]) {
           const tokenExpression =
             input[variantExpression][stateExpression][slotExpression][propertyExpression];
-          const token = isTokenExpression(tokenExpression)
-            ? parseToken(tokenExpression)
-            : tokenExpression;
+
+          let token: Token | Token[] | string;
+
+          if (Array.isArray(tokenExpression)) {
+            token = tokenExpression.map((token) =>
+              isTokenExpression(token) ? parseToken(token) : token,
+            );
+          } else {
+            token = isTokenExpression(tokenExpression)
+              ? parseToken(tokenExpression)
+              : tokenExpression;
+          }
+
           property.push({ key: propertyExpression, value: token });
         }
 

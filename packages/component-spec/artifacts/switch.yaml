@@ -13,7 +13,9 @@ base:
       width: 27px
       color: $color.fg.static-white
       cornerRadius: $radii.full
-      shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
+      shadow: 
+        - 0px 3px 8px 0px rgba(0, 0, 0, 0.15)
+        - 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
   enabled,selected:
     control:
       color: $color.bg.brand-emphasis
