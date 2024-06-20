@@ -22,7 +22,7 @@ export type ParsedExpression = Array<{
       key: string;
       property: Array<{
         key: string;
-        value: Token | string;
+        value: Token | string | Array<Token | string>;
       }>;
     }>;
   }>;

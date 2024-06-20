@@ -46,6 +46,13 @@ export function stringifyTs(expressions: ParsedExpression) {
           const propertyKey = propertyItem.key;
           const token = propertyItem.value;
 
+          if (Array.isArray(token)) {
+            property[propertyKey] = token
+              .map((token) => (typeof token === "object" ? stringifyTokenCssVar(token) : token))
+              .join(", ");
+            continue;
+          }
+
           property[propertyKey] = typeof token === "object" ? stringifyTokenCssVar(token) : token;
         }
 
