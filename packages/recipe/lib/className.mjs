@@ -21,5 +21,5 @@ export const createClassName = (className, variants, compoundVariants = []) => {
     )
     .join(" ");
 
-  return [className, variantClassName, compountVariantClassName].join(" ");
+  return [className, variantClassName, compountVariantClassName].filter(Boolean).join(" ");
 };
