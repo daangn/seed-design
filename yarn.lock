@@ -6892,6 +6892,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/react-switch@0.0.0, @seed-design/react-switch@workspace:packages/react-headless/switch":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-switch@workspace:packages/react-headless/switch"
+  dependencies:
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/react-theming@^2.1.3, @seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
@@ -6966,6 +6979,7 @@ __metadata:
     "@radix-ui/react-slot": ^1.0.2
     "@seed-design/icon": ^0.6.1
     "@seed-design/react-radio-group": 0.0.0
+    "@seed-design/react-switch": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
     "@stackflow/core": ^1.0.8

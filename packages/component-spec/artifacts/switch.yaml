@@ -1,0 +1,25 @@
+base:
+  enabled:
+    root:
+      height: 31px
+      width: 51px
+    control:
+      color: $color.palette.gray[500]
+      cornerRadius: $radii.full
+      paddingX: 2px
+      paddingY: 2px
+    thumb:
+      height: 27px
+      width: 27px
+      color: $color.fg.static-white
+      cornerRadius: $radii.full
+      shadow: 0px 3px 8px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
+  enabled,selected:
+    control:
+      color: $color.bg.brand-emphasis
+  disabled:
+    control:
+      color: $color.bg.disabled
+  disabled,selected:
+    root:
+      opacity: 0.38

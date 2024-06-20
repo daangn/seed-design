@@ -17,6 +17,8 @@ const ActivityHome: ActivityComponentType = () => {
         <BoxButton onClick={() => push("ActivityChip", {})}>ChipButton</BoxButton>
         <BoxButton onClick={() => push("ActivityAlertDialog", {})}>Dialog</BoxButton>
         <BoxButton onClick={() => push("ActivityCallout", {})}>Callout</BoxButton>
+        <BoxButton onClick={() => push("ActivityCallout", {})}>Callout</BoxButton>
+        <BoxButton onClick={() => push("ActivitySwitch", {})}>Switch</BoxButton>
       </div>
     </AppScreen>
   );
