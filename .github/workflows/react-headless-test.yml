@@ -24,4 +24,4 @@ jobs:
       run: yarn workspace @seed-design/dom-utils build
 
     - name: Run tests
-      run: yarn test:react
+      run: yarn test:react:once
