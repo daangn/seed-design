@@ -70,6 +70,13 @@ describe("useTextField", () => {
     expect(input).toHaveValue("a");
   });
 
+  it("auto focus works", () => {
+    const { getByRole } = setUp(<TextField defaultValue="" autoFocus />);
+    const input = getByRole("textbox");
+
+    expect(input).toHaveFocus();
+  });
+
   it("onValueChange is called", async () => {
     const handleValueChange = vi.fn();
 
@@ -79,30 +86,25 @@ describe("useTextField", () => {
     const input = getByRole("textbox");
 
     await user.type(input, "a");
+    expect(input).toHaveValue("a");
     expect(handleValueChange).toHaveBeenCalledWith("a");
   });
 
   it("onValueChange is not called when value is the same", async () => {
     const handleValueChange = vi.fn();
 
+    const defaultFulledValue = "aaaaa";
     const { getByRole, user } = setUp(
-      <TextField defaultValue="a" onValueChange={handleValueChange} />,
+      <TextField
+        defaultValue={defaultFulledValue}
+        maxLength={5}
+        onValueChange={handleValueChange}
+      />,
     );
     const input = getByRole("textbox");
 
-    await user.type(input, "{backspace}");
-    expect(handleValueChange).not.toHaveBeenCalled();
-  });
-
-  it("onValueChange is not called when value is the same after trimming", async () => {
-    const handleValueChange = vi.fn();
-
-    const { getByRole, user } = setUp(
-      <TextField defaultValue="a" onValueChange={handleValueChange} />,
-    );
-    const input = getByRole("textbox");
-
-    await user.type(input, "{backspace}");
+    await user.type(input, "a");
+    expect(input).toHaveValue(defaultFulledValue);
     expect(handleValueChange).not.toHaveBeenCalled();
   });
 
@@ -119,15 +121,17 @@ describe("useTextField", () => {
   });
 
   it("copy and paste works with maxLength", async () => {
-    const { getByRole, user } = setUp(<TextField defaultValue="" maxLength={1} />);
+    const { getByRole, user } = setUp(<TextField defaultValue="" maxLength={5} />);
     const input = getByRole("textbox");
 
     await user.type(input, "a");
     expect(input).toHaveValue("a");
 
-    await user.type(input, "{selectall}{copy}");
-    await user.type(input, "{selectall}{paste}");
-    expect(input).toHaveValue("a");
+    await user.paste("🥕🥕🥕🥕");
+    expect(input).toHaveValue("a🥕🥕🥕🥕");
+
+    await user.paste("🥕🥕🥕🥕");
+    expect(input).toHaveValue("a🥕🥕🥕🥕");
   });
 
   it("copy and paste works with maxLength with emoji", async () => {

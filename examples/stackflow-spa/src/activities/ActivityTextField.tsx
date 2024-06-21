@@ -6,7 +6,7 @@ import { TextField } from "../design-system/components";
 const ActivityTextField: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "TextField" }}>
-      <TextField variant="outlined" maxLength={10} />
+      <TextField variant="outlined" />
     </AppScreen>
   );
 };

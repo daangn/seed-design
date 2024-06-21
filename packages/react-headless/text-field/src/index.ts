@@ -2,13 +2,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useId, useState } from "react";
 import { graphemeSegments } from "unicode-segmenter/grapheme";
 
-import {
-  dataAttr,
-  ariaAttr,
-  elementProps,
-  inputProps,
-  labelProps,
-} from "@seed-design/dom-utils";
+import { dataAttr, ariaAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
 
 export interface UseTextFieldStateProps {
   value?: string;
@@ -54,26 +48,10 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
   placeholder?: string;
   autoComplete?: "none" | "inline" | "list" | "both";
 
-  type?:
-    | "text"
-    | "search"
-    | "url"
-    | "tel"
-    | "email"
-    | "password"
-    | (string & {});
+  type?: "text" | "search" | "url" | "tel" | "email" | "password" | (string & {});
 
-  inputMode?:
-    | "none"
-    | "text"
-    | "tel"
-    | "url"
-    | "email"
-    | "numeric"
-    | "decimal"
-    | "search";
+  inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
 
-  
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
 
@@ -90,8 +68,13 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
   allowExceedLength?: boolean;
 }
 
-const getGraphemes = (value?: string) => {
-  return Array.from(graphemeSegments(value || "")).map((g) => g.segment);
+const getSlicedGraphemes = ({
+  value,
+  maxLength,
+  allowExceedLength,
+}: Pick<UseTextFieldProps, "value" | "allowExceedLength" | "maxLength">) => {
+  const graphemes = Array.from(graphemeSegments(value || "")).map((g) => g.segment);
+  return allowExceedLength ? graphemes : graphemes.slice(0, maxLength);
 };
 
 export function useTextField(props: UseTextFieldProps) {
@@ -117,7 +100,7 @@ export function useTextField(props: UseTextFieldProps) {
     type = "text",
     ...restProps
   } = props;
-  
+
   const {
     setValue,
     value,
@@ -132,19 +115,19 @@ export function useTextField(props: UseTextFieldProps) {
   } = useTextFieldState(props);
 
   const inputOnlyProps =
-  elementType === "input"
-    ? {
-        type,
-        pattern,
-      }
-    : {};
+    elementType === "input"
+      ? {
+          type,
+          pattern,
+        }
+      : {};
 
-  const graphemes = getGraphemes(value);
-  
-  const slicedGraphemes = allowExceedLength
-    ? graphemes
-    : graphemes.slice(0, maxLength);
-  
+  const slicedGraphemes = getSlicedGraphemes({
+    allowExceedLength,
+    maxLength,
+    value,
+  });
+
   const slicedValue = slicedGraphemes.join("");
 
   const stateProps = {
@@ -203,7 +186,17 @@ export function useTextField(props: UseTextFieldProps) {
       defaultValue,
       autoFocus,
       onChange: (e) => {
-        setValue(e.target.value);
+        const givenValue = e.target.value;
+
+        const slicedGraphemes = getSlicedGraphemes({
+          allowExceedLength,
+          maxLength,
+          value: givenValue,
+        });
+
+        const value = slicedGraphemes.join("");
+
+        setValue(value);
         setIsFocusVisible(e.target.matches(":focus-visible"));
       },
       onBlur(e) {
