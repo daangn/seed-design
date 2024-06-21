@@ -61,14 +61,14 @@ function ControlledTextField(props: Omit<UseTextFieldProps, "value" | "onValueCh
 }
 
 describe("useTextField", () => {
-  it("initial state is correct", () => {
+  it("initial state test", () => {
     const { getByRole } = setUp(<TextField />);
     const input = getByRole("textbox");
 
     expect(input).toHaveValue("");
   });
 
-  it("state changes on input", async () => {
+  it("state change test", async () => {
     const { getByRole, user } = setUp(<TextField />);
     const input = getByRole("textbox");
 
@@ -86,14 +86,14 @@ describe("useTextField", () => {
     expect(input).toHaveValue(defaultValue);
   });
 
-  it("auto focus works", () => {
+  it("`autoFocus` test", () => {
     const { getByRole } = setUp(<TextField autoFocus />);
     const input = getByRole("textbox");
 
     expect(input).toHaveFocus();
   });
 
-  it("onValueChange is called", async () => {
+  it("`onValueChange` test", async () => {
     const handleValueChange = vi.fn();
 
     const { getByRole, user } = setUp(<TextField onValueChange={handleValueChange} />);
@@ -104,7 +104,7 @@ describe("useTextField", () => {
     expect(handleValueChange).toHaveBeenCalledWith("a");
   });
 
-  it("onValueChange is not called when value is the same", async () => {
+  it("`onValueChange` test when value matches maxLength", async () => {
     const handleValueChange = vi.fn();
 
     const maxLength = 5;
@@ -123,7 +123,7 @@ describe("useTextField", () => {
     expect(handleValueChange).not.toHaveBeenCalled();
   });
 
-  it("copy and paste works", async () => {
+  it("paste test", async () => {
     const { getByRole, user } = setUp(<TextField />);
     const input = getByRole("textbox");
 
@@ -133,7 +133,7 @@ describe("useTextField", () => {
     expect(input).toHaveValue("🥕🥕🥕🥕");
   });
 
-  it("copy and paste works with maxLength", async () => {
+  it("paste test with maxLength", async () => {
     const { getByRole, user } = setUp(<TextField maxLength={12} />);
     const input = getByRole("textbox");
 
@@ -145,7 +145,7 @@ describe("useTextField", () => {
     expect(input).toHaveValue(`${value}${"🥕".repeat(2)}`);
   });
 
-  it("copy and paste works with maxLength with emoji", async () => {
+  it("paste test with maxLength with emoji (graphemes)", async () => {
     const maxLength = 5;
     const { getByRole, user } = setUp(<TextField maxLength={maxLength} />);
     const input = getByRole("textbox");
