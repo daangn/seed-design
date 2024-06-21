@@ -4,6 +4,7 @@ import { defineWorkspace } from "vitest/config";
  * @see https://vitest.dev/guide/workspace.html
  */
 export default defineWorkspace([
+  // react-headless
   {
     test: {
       include: ["./packages/react-headless/**/*.test.(tsx|ts)"],
@@ -11,9 +12,11 @@ export default defineWorkspace([
       environment: "jsdom",
     },
   },
+
+  // component-spec
   {
     test: {
-      include: ["tests/**/*.{node}.test.{ts,js}"],
+      include: ["./packages/component-spec/**/*.test.(tsx|ts)"],
       name: "node",
       environment: "node",
     },
