@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { ReactElement } from "react";
-import * as React from "react";
+import React from "react";
 
 import { useTextField, type UseTextFieldProps } from "./index";
 
@@ -52,16 +52,24 @@ function TextField(props: UseTextFieldProps) {
   );
 }
 
+function ControlledTextField(props: Omit<UseTextFieldProps, "value" | "onValueChange">) {
+  const { defaultValue } = props;
+  const [value, setValue] = React.useState(defaultValue);
+  const mockSetValue = vi.fn((value) => setValue(value));
+
+  return <TextField value={value} onValueChange={mockSetValue} {...props} />;
+}
+
 describe("useTextField", () => {
   it("initial state is correct", () => {
-    const { getByRole } = setUp(<TextField defaultValue="" />);
+    const { getByRole } = setUp(<TextField />);
     const input = getByRole("textbox");
 
     expect(input).toHaveValue("");
   });
 
   it("state changes on input", async () => {
-    const { getByRole, user } = setUp(<TextField defaultValue="" />);
+    const { getByRole, user } = setUp(<TextField />);
     const input = getByRole("textbox");
 
     expect(input).toHaveValue("");
@@ -70,8 +78,16 @@ describe("useTextField", () => {
     expect(input).toHaveValue("a");
   });
 
+  it("defaultValue test", async () => {
+    const defaultValue = "abcde";
+    const { getByRole } = setUp(<TextField defaultValue={defaultValue} />);
+    const input = getByRole("textbox");
+
+    expect(input).toHaveValue(defaultValue);
+  });
+
   it("auto focus works", () => {
-    const { getByRole } = setUp(<TextField defaultValue="" autoFocus />);
+    const { getByRole } = setUp(<TextField autoFocus />);
     const input = getByRole("textbox");
 
     expect(input).toHaveFocus();
@@ -80,9 +96,7 @@ describe("useTextField", () => {
   it("onValueChange is called", async () => {
     const handleValueChange = vi.fn();
 
-    const { getByRole, user } = setUp(
-      <TextField defaultValue="" onValueChange={handleValueChange} />,
-    );
+    const { getByRole, user } = setUp(<TextField onValueChange={handleValueChange} />);
     const input = getByRole("textbox");
 
     await user.type(input, "a");
@@ -93,11 +107,12 @@ describe("useTextField", () => {
   it("onValueChange is not called when value is the same", async () => {
     const handleValueChange = vi.fn();
 
-    const defaultFulledValue = "aaaaa";
+    const maxLength = 5;
+    const defaultFulledValue = "a".repeat(maxLength);
     const { getByRole, user } = setUp(
       <TextField
         defaultValue={defaultFulledValue}
-        maxLength={5}
+        maxLength={maxLength}
         onValueChange={handleValueChange}
       />,
     );
@@ -109,33 +124,42 @@ describe("useTextField", () => {
   });
 
   it("copy and paste works", async () => {
-    const { getByRole, user } = setUp(<TextField defaultValue="" />);
+    const { getByRole, user } = setUp(<TextField />);
     const input = getByRole("textbox");
 
-    await user.type(input, "a");
-    expect(input).toHaveValue("a");
+    input.focus();
 
-    await user.type(input, "{selectall}{copy}");
-    await user.type(input, "{selectall}{paste}");
-    expect(input).toHaveValue("a");
+    await user.paste("🥕🥕🥕🥕");
+    expect(input).toHaveValue("🥕🥕🥕🥕");
   });
 
   it("copy and paste works with maxLength", async () => {
-    const { getByRole, user } = setUp(<TextField defaultValue="" maxLength={5} />);
+    const { getByRole, user } = setUp(<TextField maxLength={12} />);
     const input = getByRole("textbox");
 
-    await user.type(input, "a");
-    expect(input).toHaveValue("a");
+    const value = "a".repeat(10);
+    await user.type(input, value);
+    expect(input).toHaveValue(value);
 
     await user.paste("🥕🥕🥕🥕");
-    expect(input).toHaveValue("a🥕🥕🥕🥕");
-
-    await user.paste("🥕🥕🥕🥕");
-    expect(input).toHaveValue("a🥕🥕🥕🥕");
+    expect(input).toHaveValue(`${value}${"🥕".repeat(2)}`);
   });
 
   it("copy and paste works with maxLength with emoji", async () => {
-    const { getByRole, user } = setUp(<TextField defaultValue="" maxLength={5} />);
+    const maxLength = 5;
+    const { getByRole, user } = setUp(<TextField maxLength={maxLength} />);
+    const input = getByRole("textbox");
+
+    input.focus();
+
+    await user.paste("🥕".repeat(4));
+    await user.paste("🥕".repeat(4));
+
+    expect(input).toHaveValue("🥕".repeat(maxLength));
+  });
+
+  it("`allowExceedLength` test", async () => {
+    const { getByRole, user } = setUp(<TextField maxLength={5} allowExceedLength />);
     const input = getByRole("textbox");
 
     input.focus();
@@ -143,6 +167,43 @@ describe("useTextField", () => {
     await user.paste("🥕🥕🥕🥕");
     await user.paste("🥕🥕🥕🥕");
 
-    expect(input).toHaveValue("🥕🥕🥕🥕🥕");
+    expect(input).toHaveValue("🥕🥕🥕🥕🥕🥕🥕🥕");
+  });
+
+  it("controlled test", async () => {
+    const defaultValue = "🥕".repeat(4);
+    const { getByRole, user } = setUp(<ControlledTextField defaultValue={defaultValue} />);
+    const input = getByRole("textbox");
+
+    expect(input).toHaveValue(defaultValue);
+
+    await user.type(input, "🥕");
+
+    expect(input).toHaveValue("🥕".repeat(5));
+  });
+
+  it("controlled paste test", async () => {
+    const { getByRole, user } = setUp(<ControlledTextField />);
+    const input = getByRole("textbox");
+
+    input.focus();
+
+    await user.paste("🥕".repeat(4));
+    await user.paste("🥕".repeat(4));
+
+    expect(input).toHaveValue("🥕".repeat(8));
+  });
+
+  it("controlled paste test with maxLength", async () => {
+    const maxLength = 5;
+    const { getByRole, user } = setUp(<ControlledTextField maxLength={maxLength} />);
+    const input = getByRole("textbox");
+
+    input.focus();
+
+    await user.paste("🥕".repeat(4));
+    await user.paste("🥕".repeat(4));
+
+    expect(input).toHaveValue("🥕".repeat(maxLength));
   });
 });
