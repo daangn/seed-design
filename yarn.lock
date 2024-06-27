@@ -6905,6 +6905,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/react-text-field@0.0.0, @seed-design/react-text-field@workspace:packages/react-headless/text-field":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-text-field@workspace:packages/react-headless/text-field"
+  dependencies:
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+    unicode-segmenter: ^0.7.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/react-theming@^2.1.3, @seed-design/react-theming@workspace:^, @seed-design/react-theming@workspace:packages/react-theming":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-theming@workspace:packages/react-theming"
@@ -6980,6 +6994,7 @@ __metadata:
     "@seed-design/icon": ^0.6.1
     "@seed-design/react-radio-group": 0.0.0
     "@seed-design/react-switch": 0.0.0
+    "@seed-design/react-text-field": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
     "@stackflow/core": ^1.0.8
@@ -27504,6 +27519,13 @@ __metadata:
   version: 2.1.0
   resolution: "unicode-property-aliases-ecmascript@npm:2.1.0"
   checksum: 243524431893649b62cc674d877bd64ef292d6071dd2fd01ab4d5ad26efbc104ffcd064f93f8a06b7e4ec54c172bf03f6417921a0d8c3a9994161fe1f88f815b
+  languageName: node
+  linkType: hard
+
+"unicode-segmenter@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "unicode-segmenter@npm:0.7.0"
+  checksum: 0814d9768e965c81c2b9179057bf2278d2bb4a9a5d9bb228bd665f70e28e1400a82b1ef36ad91215dcd89e35532c303f5a83fd089ece29a09dcdd359ff570087
   languageName: node
   linkType: hard
 

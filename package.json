@@ -23,8 +23,11 @@
     "version": "changeset version && yarn build-only-package && yarn install --no-immutable",
     "lint:all": "yarn biome lint --fix",
     "format:all": "yarn biome format --fix",
-    "test:react": "vitest run",
-    "test:react:watch": "vitest dev"
+    "test:all": "yarn vitest run",
+    "test:spec:once": "yarn vitest run --project component-spec",
+    "test:spec:watch": "vitest dev --project component-spec",
+    "test:react:once": "yarn vitest run --project react-headless",
+    "test:react:watch": "vitest dev --project react-headless"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.0",

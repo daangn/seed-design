@@ -19,6 +19,7 @@ const ActivityHome: ActivityComponentType = () => {
         <BoxButton onClick={() => push("ActivityCallout", {})}>Callout</BoxButton>
         <BoxButton onClick={() => push("ActivityCallout", {})}>Callout</BoxButton>
         <BoxButton onClick={() => push("ActivitySwitch", {})}>Switch</BoxButton>
+        <BoxButton onClick={() => push("ActivityTextField", {})}>TextField</BoxButton>
       </div>
     </AppScreen>
   );
