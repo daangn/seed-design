@@ -4,6 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "rootDir": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "jsx": "react"
   }
 }
