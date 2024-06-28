@@ -89,16 +89,13 @@ export function useTextField(props: UseTextFieldProps) {
     autoComplete,
     autoFocus,
     allowExceedLength,
-    defaultValue,
     minLength,
     maxLength,
     placeholder,
     inputMode,
-    name,
     onBlur,
     onFocus,
     type = "text",
-    ...restProps
   } = props;
 
   const {
@@ -151,7 +148,6 @@ export function useTextField(props: UseTextFieldProps) {
     setIsFocused,
     setIsFocusVisible,
 
-    restProps,
     stateProps,
 
     rootProps: elementProps({
@@ -183,7 +179,6 @@ export function useTextField(props: UseTextFieldProps) {
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
       "aria-autocomplete": autoComplete,
-      defaultValue,
       autoFocus,
       onChange: (e) => {
         const givenValue = e.target.value;

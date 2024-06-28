@@ -25,7 +25,6 @@ function TextField(props: UseTextFieldProps) {
     descriptionProps,
     errorMessageProps,
     stateProps,
-    restProps,
     graphemes,
   } = useTextField({ ...props, elementType: "input" });
 
@@ -37,7 +36,7 @@ function TextField(props: UseTextFieldProps) {
       </div>
       <div data-part="field">
         <div data-part="prefix" />
-        <input {...inputProps} {...restProps} />
+        <input {...inputProps} />
         <div data-part="suffix" />
       </div>
       <div data-part="foot">
