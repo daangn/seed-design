@@ -31,37 +31,47 @@ function Switch(props: UseSwitchProps) {
 }
 
 describe("useSwitch", () => {
-  it("initial state is correct", () => {
+  it("should render the switch correctly", () => {
+    const { getByRole } = setUp(<Switch />);
+    const swc = getByRole("switch");
+
+    expect(swc).not.toBeChecked();
+  });
+
+  it("should render the switch with defaultChecked=true", () => {
+    const { getByRole } = setUp(<Switch defaultChecked={true} />);
+    const swc = getByRole("switch");
+
+    expect(swc).toBeChecked();
+  });
+
+  it("should render the switch with defaultChecked=false", () => {
     const { getByRole } = setUp(<Switch defaultChecked={false} />);
     const swc = getByRole("switch");
 
     expect(swc).not.toBeChecked();
   });
 
-  it("state changes on click", async () => {
-    const { getByRole, user } = setUp(<Switch defaultChecked={false} />);
+  it("should checked when clicked", async () => {
+    const { getByRole, user } = setUp(<Switch />);
     const swc = getByRole("switch");
-
-    expect(swc).not.toBeChecked();
 
     await user.click(swc);
     expect(swc).toBeChecked();
   });
 
-  it("onCheckedChange is called", async () => {
+  it("should onCheckedChange is called when clicked", async () => {
     const handleCheckedChange = vi.fn();
 
-    const { getByRole, user } = setUp(
-      <Switch defaultChecked={false} onCheckedChange={handleCheckedChange} />,
-    );
+    const { getByRole, user } = setUp(<Switch onCheckedChange={handleCheckedChange} />);
     const swc = getByRole("switch");
 
     await user.click(swc);
     expect(handleCheckedChange).toHaveBeenCalledWith(true);
   });
 
-  it("hover state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Switch defaultChecked={false} />);
+  it("should hover state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Switch />);
     const swc = getByRole("switch");
 
     await user.hover(swc);
@@ -71,8 +81,8 @@ describe("useSwitch", () => {
     expect(swc).not.toHaveAttribute("data-hover");
   });
 
-  it("focus state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Switch defaultChecked={false} />);
+  it("should focus state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Switch />);
     const swc = getByRole("switch");
 
     await user.click(swc);
@@ -82,21 +92,37 @@ describe("useSwitch", () => {
     expect(swc).not.toHaveFocus();
   });
 
-  it("disabled state", async () => {
-    const { getByRole } = setUp(<Switch defaultChecked={false} disabled />);
-    const swc = getByRole("switch");
-
-    expect(swc).toBeDisabled();
-    expect(swc).not.toBeChecked();
-
-    await userEvent.click(swc);
-    expect(swc).not.toBeChecked();
-  });
-
-  it("required state", () => {
-    const { getByRole } = setUp(<Switch defaultChecked={false} required />);
+  it("should required state when required prop is true", () => {
+    const { getByRole } = setUp(<Switch required={true} />);
     const swc = getByRole("switch");
 
     expect(swc).toBeRequired();
+  });
+
+  describe("disabled prop test", () => {
+    it("should disabled when disabled prop is true", async () => {
+      const { getByRole } = setUp(<Switch disabled={true} />);
+      const swc = getByRole("switch");
+
+      expect(swc).toBeDisabled();
+    });
+
+    it("should not change checked state when clicked", async () => {
+      const { getByRole } = setUp(<Switch disabled={true} />);
+      const swc = getByRole("switch");
+
+      await userEvent.click(swc);
+      expect(swc).not.toBeChecked();
+    });
+
+    it("should not onCheckedChange be called when clicked", async () => {
+      const handleCheckedChange = vi.fn();
+
+      const { getByRole } = setUp(<Switch disabled={true} onCheckedChange={handleCheckedChange} />);
+      const swc = getByRole("switch");
+
+      await userEvent.click(swc);
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
   });
 });
