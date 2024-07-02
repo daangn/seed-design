@@ -25,9 +25,9 @@
     "lint:all": "yarn biome lint --fix",
     "format:all": "yarn biome format --fix",
     "test:all": "yarn vitest run",
-    "test:spec:once": "yarn vitest run --project component-spec",
+    "test:spec:once": "yarn vitest run --project component-spec --reporter=verbose",
     "test:spec:watch": "vitest dev --project component-spec",
-    "test:react:once": "yarn vitest run --project react-headless",
+    "test:react:once": "yarn vitest run --project react-headless --reporter=verbose",
     "test:react:watch": "vitest dev --project react-headless"
   },
   "devDependencies": {
