@@ -31,37 +31,47 @@ function Checkbox(props: UseCheckboxProps) {
 }
 
 describe("useCheckbox", () => {
-  it("initial state is correct", () => {
+  it("should render the checkbox correctly", () => {
+    const { getByRole } = setUp(<Checkbox />);
+    const checkbox = getByRole("checkbox");
+
+    expect(checkbox).not.toBeChecked();
+  });
+
+  it("should render the checkbox with defaultChecked=true", () => {
+    const { getByRole } = setUp(<Checkbox defaultChecked={true} />);
+    const checkbox = getByRole("checkbox");
+
+    expect(checkbox).toBeChecked();
+  });
+
+  it("should render the checkbox with defaultChecked=false", () => {
     const { getByRole } = setUp(<Checkbox defaultChecked={false} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).not.toBeChecked();
   });
 
-  it("state changes on click", async () => {
-    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
+  it("should checked when clicked", async () => {
+    const { getByRole, user } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
-
-    expect(checkbox).not.toBeChecked();
 
     await user.click(checkbox);
     expect(checkbox).toBeChecked();
   });
 
-  it("onCheckedChange is called", async () => {
+  it("should onCheckedChange is called when clicked", async () => {
     const handleCheckedChange = vi.fn();
 
-    const { getByRole, user } = setUp(
-      <Checkbox defaultChecked={false} onCheckedChange={handleCheckedChange} />,
-    );
+    const { getByRole, user } = setUp(<Checkbox onCheckedChange={handleCheckedChange} />);
     const checkbox = getByRole("checkbox");
 
     await user.click(checkbox);
     expect(handleCheckedChange).toHaveBeenCalledWith(true);
   });
 
-  it("hover state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
+  it("should hover state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
 
     await user.hover(checkbox);
@@ -71,8 +81,8 @@ describe("useCheckbox", () => {
     expect(checkbox).not.toHaveAttribute("data-hover");
   });
 
-  it("focus state updates correctly", async () => {
-    const { getByRole, user } = setUp(<Checkbox defaultChecked={false} />);
+  it("should focus state updates correctly", async () => {
+    const { getByRole, user } = setUp(<Checkbox />);
     const checkbox = getByRole("checkbox");
 
     await user.click(checkbox);
@@ -82,21 +92,39 @@ describe("useCheckbox", () => {
     expect(checkbox).not.toHaveFocus();
   });
 
-  it("disabled state", async () => {
-    const { getByRole } = setUp(<Checkbox defaultChecked={false} disabled />);
-    const checkbox = getByRole("checkbox");
-
-    expect(checkbox).toBeDisabled();
-    expect(checkbox).not.toBeChecked();
-
-    await userEvent.click(checkbox);
-    expect(checkbox).not.toBeChecked();
-  });
-
-  it("required state", () => {
-    const { getByRole } = setUp(<Checkbox defaultChecked={false} required={true} />);
+  it("should required state when required prop is true", () => {
+    const { getByRole } = setUp(<Checkbox required={true} />);
     const checkbox = getByRole("checkbox");
 
     expect(checkbox).toBeRequired();
+  });
+
+  describe("disabled prop test", () => {
+    it("should disabled when disabled prop is true", async () => {
+      const { getByRole } = setUp(<Checkbox disabled={true} />);
+      const checkbox = getByRole("checkbox");
+
+      expect(checkbox).toBeDisabled();
+    });
+
+    it("should not change checked state when clicked", async () => {
+      const { getByRole } = setUp(<Checkbox disabled={true} />);
+      const checkbox = getByRole("checkbox");
+
+      await userEvent.click(checkbox);
+      expect(checkbox).not.toBeChecked();
+    });
+
+    it("should not onCheckedChange be called when clicked", async () => {
+      const handleCheckedChange = vi.fn();
+
+      const { getByRole } = setUp(
+        <Checkbox disabled={true} onCheckedChange={handleCheckedChange} />,
+      );
+      const checkbox = getByRole("checkbox");
+
+      await userEvent.click(checkbox);
+      expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
   });
 });
