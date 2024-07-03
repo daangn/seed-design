@@ -60,14 +60,14 @@ function ControlledTextField(props: Omit<UseTextFieldProps, "value" | "onValueCh
 }
 
 describe("useTextField", () => {
-  it("initial state test", () => {
+  it("should render correctly", () => {
     const { getByRole } = setUp(<TextField />);
     const input = getByRole("textbox");
 
     expect(input).toHaveValue("");
   });
 
-  it("state change test", async () => {
+  it("should type correctly", async () => {
     const { getByRole, user } = setUp(<TextField />);
     const input = getByRole("textbox");
 
@@ -77,7 +77,7 @@ describe("useTextField", () => {
     expect(input).toHaveValue("a");
   });
 
-  it("defaultValue test", async () => {
+  it("should render `defaultValue` correctly", () => {
     const defaultValue = "abcde";
     const { getByRole } = setUp(<TextField defaultValue={defaultValue} />);
     const input = getByRole("textbox");
@@ -85,14 +85,14 @@ describe("useTextField", () => {
     expect(input).toHaveValue(defaultValue);
   });
 
-  it("`autoFocus` test", () => {
+  it("should autofocus correctly", () => {
     const { getByRole } = setUp(<TextField autoFocus />);
     const input = getByRole("textbox");
 
     expect(input).toHaveFocus();
   });
 
-  it("`onValueChange` test", async () => {
+  it("should onValueChange be called", async () => {
     const handleValueChange = vi.fn();
 
     const { getByRole, user } = setUp(<TextField onValueChange={handleValueChange} />);
@@ -103,7 +103,7 @@ describe("useTextField", () => {
     expect(handleValueChange).toHaveBeenCalledWith("a");
   });
 
-  it("`onValueChange` test when value matches maxLength", async () => {
+  it("should not called onValueChange when maxLength is reached", async () => {
     const handleValueChange = vi.fn();
 
     const maxLength = 5;
@@ -122,87 +122,191 @@ describe("useTextField", () => {
     expect(handleValueChange).not.toHaveBeenCalled();
   });
 
-  it("paste test", async () => {
-    const { getByRole, user } = setUp(<TextField />);
-    const input = getByRole("textbox");
+  describe("graphemes test", () => {
+    it("should grapheme count 5 when type 5 text", async () => {
+      const { getByRole, user } = setUp(<TextField />);
+      const input = getByRole("textbox");
 
-    input.focus();
+      input.focus();
 
-    await user.paste("🥕🥕🥕🥕");
-    expect(input).toHaveValue("🥕🥕🥕🥕");
+      await user.type(input, "a".repeat(5));
+
+      expect(input).toHaveAttribute("data-grapheme-count", "5");
+    });
+
+    it("should grapheme count 5 when type 5 emoji", async () => {
+      const { getByRole, user } = setUp(<TextField />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.type(input, "🥕".repeat(5));
+
+      expect(input).toHaveAttribute("data-grapheme-count", "5");
+    });
+
+    it("should grapheme count 10 when maxLength is 10, type 15 text", async () => {
+      const { getByRole, user } = setUp(<TextField maxLength={10} />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.type(input, "a".repeat(15));
+
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
+
+    it("should grapheme count 10 when maxLength is 10, type 15 emoji", async () => {
+      const { getByRole, user } = setUp(<TextField maxLength={10} />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.type(input, "🥕".repeat(15));
+
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
+
+    it("should grapheme count 10 when maxLength is 10, type 15 emoji and text", async () => {
+      const { getByRole, user } = setUp(<TextField maxLength={10} />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.type(input, "a🥕a".repeat(5));
+
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
+
+    it("should slice correctly when paste over maxLength", async () => {
+      const { getByRole, user } = setUp(<TextField maxLength={12} />);
+      const input = getByRole("textbox");
+
+      const value = "a".repeat(10);
+      await user.type(input, value);
+      expect(input).toHaveValue(value);
+
+      await user.paste("aaaaa");
+      expect(input).toHaveValue(`${value}${"a".repeat(2)}`);
+    });
+
+    it("should slice correctly when paste over maxLength with emoji", async () => {
+      const maxLength = 5;
+      const { getByRole, user } = setUp(<TextField maxLength={maxLength} />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.paste("🥕".repeat(4));
+      await user.paste("🥕".repeat(4));
+
+      expect(input).toHaveValue("🥕".repeat(maxLength));
+    });
+
+    it("should not slice when allowExceedLength is true", async () => {
+      const { getByRole, user } = setUp(<TextField maxLength={5} allowExceedLength />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.paste("🥕🥕🥕🥕");
+      await user.paste("🥕🥕🥕🥕");
+
+      expect(input).toHaveValue("🥕🥕🥕🥕🥕🥕🥕🥕");
+    });
   });
 
-  it("paste test with maxLength", async () => {
-    const { getByRole, user } = setUp(<TextField maxLength={12} />);
-    const input = getByRole("textbox");
+  describe("graphemes test with controlled", () => {
+    it("should grapheme count 5 when type 5 text", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField />);
+      const input = getByRole("textbox");
 
-    const value = "a".repeat(10);
-    await user.type(input, value);
-    expect(input).toHaveValue(value);
+      input.focus();
 
-    await user.paste("🥕🥕🥕🥕");
-    expect(input).toHaveValue(`${value}${"🥕".repeat(2)}`);
-  });
+      await user.type(input, "a".repeat(5));
 
-  it("paste test with maxLength with emoji (graphemes)", async () => {
-    const maxLength = 5;
-    const { getByRole, user } = setUp(<TextField maxLength={maxLength} />);
-    const input = getByRole("textbox");
+      expect(input).toHaveAttribute("data-grapheme-count", "5");
+    });
 
-    input.focus();
+    it("should grapheme count 5 when type 5 emoji", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField />);
+      const input = getByRole("textbox");
 
-    await user.paste("🥕".repeat(4));
-    await user.paste("🥕".repeat(4));
+      input.focus();
 
-    expect(input).toHaveValue("🥕".repeat(maxLength));
-  });
+      await user.type(input, "🥕".repeat(5));
 
-  it("`allowExceedLength` test", async () => {
-    const { getByRole, user } = setUp(<TextField maxLength={5} allowExceedLength />);
-    const input = getByRole("textbox");
+      expect(input).toHaveAttribute("data-grapheme-count", "5");
+    });
 
-    input.focus();
+    it("should grapheme count 10 when maxLength is 10, type 15 text", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={10} />);
+      const input = getByRole("textbox");
 
-    await user.paste("🥕🥕🥕🥕");
-    await user.paste("🥕🥕🥕🥕");
+      input.focus();
 
-    expect(input).toHaveValue("🥕🥕🥕🥕🥕🥕🥕🥕");
-  });
+      await user.type(input, "a".repeat(15));
 
-  it("controlled test", async () => {
-    const defaultValue = "🥕".repeat(4);
-    const { getByRole, user } = setUp(<ControlledTextField defaultValue={defaultValue} />);
-    const input = getByRole("textbox");
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
 
-    expect(input).toHaveValue(defaultValue);
+    it("should grapheme count 10 when maxLength is 10, type 15 emoji", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={10} />);
+      const input = getByRole("textbox");
 
-    await user.type(input, "🥕");
+      input.focus();
 
-    expect(input).toHaveValue("🥕".repeat(5));
-  });
+      await user.type(input, "🥕".repeat(15));
 
-  it("controlled paste test", async () => {
-    const { getByRole, user } = setUp(<ControlledTextField />);
-    const input = getByRole("textbox");
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
 
-    input.focus();
+    it("should grapheme count 10 when maxLength is 10, type 15 emoji and text", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={10} />);
+      const input = getByRole("textbox");
 
-    await user.paste("🥕".repeat(4));
-    await user.paste("🥕".repeat(4));
+      input.focus();
 
-    expect(input).toHaveValue("🥕".repeat(8));
-  });
+      await user.type(input, "a🥕a".repeat(5));
 
-  it("controlled paste test with maxLength", async () => {
-    const maxLength = 5;
-    const { getByRole, user } = setUp(<ControlledTextField maxLength={maxLength} />);
-    const input = getByRole("textbox");
+      expect(input).toHaveAttribute("data-grapheme-count", "10");
+    });
 
-    input.focus();
+    it("should slice correctly when paste over maxLength", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={12} />);
+      const input = getByRole("textbox");
 
-    await user.paste("🥕".repeat(4));
-    await user.paste("🥕".repeat(4));
+      const value = "a".repeat(10);
+      await user.type(input, value);
+      expect(input).toHaveValue(value);
 
-    expect(input).toHaveValue("🥕".repeat(maxLength));
+      await user.paste("aaaaa");
+      expect(input).toHaveValue(`${value}${"a".repeat(2)}`);
+    });
+
+    it("should slice correctly when paste over maxLength with emoji", async () => {
+      const maxLength = 5;
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={maxLength} />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.paste("🥕".repeat(4));
+      await user.paste("🥕".repeat(4));
+
+      expect(input).toHaveValue("🥕".repeat(maxLength));
+    });
+
+    it("should not slice when allowExceedLength is true", async () => {
+      const { getByRole, user } = setUp(<ControlledTextField maxLength={5} allowExceedLength />);
+      const input = getByRole("textbox");
+
+      input.focus();
+
+      await user.paste("🥕🥕🥕🥕");
+      await user.paste("🥕🥕🥕🥕");
+
+      expect(input).toHaveValue("🥕🥕🥕🥕🥕🥕🥕🥕");
+    });
   });
 });
