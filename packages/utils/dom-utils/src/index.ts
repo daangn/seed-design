@@ -17,7 +17,7 @@ export const inputProps = (
 ) => props;
 
 export const labelProps = (
-  props: React.HTMLAttributes<HTMLLabelElement> & Record<`data-${string}`, string | undefined>,
+  props: React.LabelHTMLAttributes<HTMLLabelElement> & Record<`data-${string}`, string | undefined>,
 ) => props;
 
 export const buttonProps = (
