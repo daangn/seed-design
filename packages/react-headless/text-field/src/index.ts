@@ -80,6 +80,8 @@ const getSlicedGraphemes = ({
 export function useTextField(props: UseTextFieldProps) {
   const id = useId();
   const {
+    value,
+    defaultValue,
     elementType = "input",
     disabled = false,
     invalid = false,
@@ -95,12 +97,14 @@ export function useTextField(props: UseTextFieldProps) {
     inputMode,
     onBlur,
     onFocus,
+    onValueChange,
     type = "text",
+    ...restProps
   } = props;
 
   const {
     setValue,
-    value,
+    value: currentValue,
     setIsHovered,
     isHovered,
     setIsPressed,
@@ -109,7 +113,11 @@ export function useTextField(props: UseTextFieldProps) {
     isFocused,
     setIsFocusVisible,
     isFocusVisible,
-  } = useTextFieldState(props);
+  } = useTextFieldState({
+    defaultValue,
+    onValueChange,
+    value,
+  });
 
   const inputOnlyProps =
     elementType === "input"
@@ -122,7 +130,7 @@ export function useTextField(props: UseTextFieldProps) {
   const slicedGraphemes = getSlicedGraphemes({
     allowExceedLength,
     maxLength,
-    value,
+    value: currentValue,
   });
 
   const slicedValue = slicedGraphemes.join("");
@@ -149,6 +157,7 @@ export function useTextField(props: UseTextFieldProps) {
     setIsFocusVisible,
 
     stateProps,
+    restProps,
 
     rootProps: elementProps({
       ...stateProps,
