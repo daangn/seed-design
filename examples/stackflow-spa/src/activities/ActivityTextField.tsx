@@ -6,7 +6,12 @@ import { TextField } from "../design-system/components";
 const ActivityTextField: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "TextField" }}>
-      <TextField variant="outlined" />
+      <TextField
+        variant="outlined"
+        invalid
+        description="디스크립션이에용"
+        errorMessage="에러에용"
+      />
     </AppScreen>
   );
 };
