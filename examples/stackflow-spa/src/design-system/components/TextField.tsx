@@ -65,7 +65,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>((pro
     isInvalid,
     isRequired,
     graphemes,
-  } = useTextField({ ...props, elementType: "input" });
+  } = useTextField({ ...props });
 
   const showErrorMessage = isInvalid && !!errorMessage;
   const indicator = isRequired ? requiredIndicator : optionalIndicator;

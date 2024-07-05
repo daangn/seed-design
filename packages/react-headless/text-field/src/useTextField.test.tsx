@@ -76,7 +76,14 @@ describe("useTextField", () => {
       expect(input).toHaveAttribute("aria-required", "true");
     });
 
-    it("should not render the input with aria-describedby when only errorMessage is provided", () => {
+    it("should not render the input with aria-describedby when provided neither description nor errorMessage", () => {
+      const { getByRole } = setUp(<TextField />);
+      const input = getByRole("textbox");
+
+      expect(input).not.toHaveAttribute("aria-describedby");
+    });
+
+    it("should not render the input with aria-describedby when errorMessage is provided without invalid=ture", () => {
       const { getByRole } = setUp(<TextField errorMessage="error" />);
       const input = getByRole("textbox");
 
