@@ -108,23 +108,67 @@ describe("useCheckbox", () => {
     });
 
     it("should not change checked state when clicked", async () => {
-      const { getByRole } = setUp(<Checkbox disabled={true} />);
+      const { getByRole, user } = setUp(<Checkbox disabled={true} />);
       const checkbox = getByRole("checkbox");
 
-      await userEvent.click(checkbox);
+      await user.click(checkbox);
       expect(checkbox).not.toBeChecked();
     });
 
     it("should not onCheckedChange be called when clicked", async () => {
       const handleCheckedChange = vi.fn();
 
-      const { getByRole } = setUp(
+      const { getByRole, user } = setUp(
         <Checkbox disabled={true} onCheckedChange={handleCheckedChange} />,
       );
       const checkbox = getByRole("checkbox");
 
-      await userEvent.click(checkbox);
+      await user.click(checkbox);
       expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("form integration", () => {
+    it("should reset the checkbox state on form reset", async () => {
+      const { getByRole, user } = setUp(
+        <form>
+          <Checkbox defaultChecked={true} />
+          <button type="reset">Reset</button>
+        </form>,
+      );
+
+      const checkbox = getByRole("checkbox");
+      const resetButton = getByRole("button", { name: /reset/i });
+
+      await user.click(checkbox);
+
+      expect(checkbox).not.toBeChecked();
+
+      await user.click(resetButton);
+
+      expect(checkbox).toBeChecked();
+    });
+
+    it("should mark the checkbox as invalid if it's required and not checked", async () => {
+      const { getByRole, user } = setUp(
+        <form>
+          <Checkbox required={true} />
+          <button type="submit">Submit</button>
+        </form>,
+      );
+
+      const checkbox = getByRole("checkbox");
+      const submitButton = getByRole("button", { name: /submit/i });
+
+      await user.click(submitButton);
+
+      // Required field should be invalid if not checked
+      expect(checkbox).toBeInvalid();
+
+      await user.click(checkbox);
+
+      // Required field should be valid if checked
+      expect(checkbox).toBeValid();
     });
   });
 });
