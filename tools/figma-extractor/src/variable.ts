@@ -15,16 +15,14 @@ export function generateCssVars() {
     (variable) => variable.variableCollectionId === colorCollection.id,
   );
 
-  const lightColorsCss = colorVariables
-    .map((variable) => toCssDeclaration(variable, colorCollection.modes[0]!.modeId))
-    .sort((a, b) => a.localeCompare(b))
-    .join("\n");
-
-  // const lightColorsTs = colorVariables
-  //   .map(toJsDeclaration)
+  // const lightColorsCss = colorVariables
+  //   .map((variable) => toCssDeclaration(variable, colorCollection.modes[0]!.modeId))
+  //   .sort((a, b) => a.localeCompare(b))
   //   .join("\n");
 
-  return lightColorsCss;
+  const colorsTs = colorVariables.map(toJsDeclaration).join("\n");
+
+  return colorsTs;
 }
 
 function figmaColorVarToCssVar(name: string) {

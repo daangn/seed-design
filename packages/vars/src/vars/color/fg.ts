@@ -1,0 +1,17 @@
+export const staticWhite = "var(--seed-color-fg-static-white)";
+export const staticBlack = "var(--seed-color-fg-static-black)";
+export const neutral = "var(--seed-color-fg-neutral)";
+export const neutralMuted = "var(--seed-color-fg-neutral-muted)";
+export const neutralSubtle = "var(--seed-color-fg-neutral-subtle)";
+export const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
+export const brand = "var(--seed-color-fg-brand)";
+export const danger = "var(--seed-color-fg-danger)";
+export const dangerBanner = "var(--seed-color-fg-danger-banner)";
+export const success = "var(--seed-color-fg-success)";
+export const successBanner = "var(--seed-color-fg-success-banner)";
+export const warningBanner = "var(--seed-color-fg-warning-banner)";
+export const informative = "var(--seed-color-fg-informative)";
+export const informativeBanner = "var(--seed-color-fg-informative-banner)";
+export const placeholder = "var(--seed-color-fg-placeholder)";
+export const disabled1 = "var(--seed-color-fg-disabled-1)";
+export const disabled2 = "var(--seed-color-fg-disabled-2)";
