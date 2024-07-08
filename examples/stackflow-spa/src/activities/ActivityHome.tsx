@@ -20,6 +20,7 @@ const ActivityHome: ActivityComponentType = () => {
         <BoxButton onClick={() => push("ActivitySwitch", {})}>Switch</BoxButton>
         <BoxButton onClick={() => push("ActivityTextField", {})}>TextField</BoxButton>
         <BoxButton onClick={() => push("ActivityHelpBubble", {})}>HelpBubble</BoxButton>
+        <BoxButton onClick={() => push("ActivityTabs", {})}>Tabs</BoxButton>
       </div>
     </AppScreen>
   );

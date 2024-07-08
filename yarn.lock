@@ -7518,6 +7518,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/react-tabs@0.0.0, @seed-design/react-tabs@workspace:packages/react-headless/tabs":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/react-tabs@workspace:packages/react-headless/tabs"
+  dependencies:
+    "@radix-ui/react-use-controllable-state": 1.0.1
+    "@seed-design/dom-utils": 0.0.0
+    nanobundle: ^1.6.0
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/react-text-field@0.0.0, @seed-design/react-text-field@workspace:packages/react-headless/text-field":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-text-field@workspace:packages/react-headless/text-field"
@@ -7608,6 +7621,7 @@ __metadata:
     "@seed-design/react-popover": 0.0.0
     "@seed-design/react-radio-group": 0.0.0
     "@seed-design/react-switch": 0.0.0
+    "@seed-design/react-tabs": 0.0.0
     "@seed-design/react-text-field": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
