@@ -5,6 +5,7 @@ import { stackflow } from "@stackflow/react";
 import React from "react";
 
 import ActivityNotFound from "../activities/ActivityNotFound";
+import AcitivitiyTabs from "../activities/ActivityTabs";
 
 /**
  * Stackflow는 웹뷰 내에서 Stack Navigation UI를 도와주는 도구에요.
@@ -29,6 +30,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
     ActivityCallout: React.lazy(() => import("../activities/ActivityCallout")),
     ActivitySwitch: React.lazy(() => import("../activities/ActivitySwitch")),
+    ActivityTabs: React.lazy(() => import("../activities/ActivityTabs")),
     ActivityNotFound,
   },
   plugins: [
@@ -57,6 +59,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityChip: "/chip",
         ActivityCallout: "/callout",
         ActivitySwitch: "/switch",
+        ActivityTabs: "/tabs",
         ActivityNotFound: "/404",
         ActivityTextField: "/text-field",
       },
