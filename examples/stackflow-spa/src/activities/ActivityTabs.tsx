@@ -12,7 +12,11 @@ import {
 const AcitivitiyTabs: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Tabs" }}>
-      <Tabs>
+      <Tabs
+        onValueChange={(value) => {
+          console.log("value", value);
+        }}
+      >
         <TabTriggerList>
           <TabTrigger value="1">Tab 1</TabTrigger>
           <TabTrigger value="2">Tab 2</TabTrigger>

@@ -1,6 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import type { UseTabsStateProps, UseTabsProps, ContentProps, TriggerProps } from "./types";
-import { elementProps, buttonProps } from "@seed-design/dom-utils";
+import { elementProps, buttonProps, dataAttr, ariaAttr } from "@seed-design/dom-utils";
 import { useId } from "react";
 
 export function useTabsState(props: UseTabsStateProps) {
@@ -44,22 +44,24 @@ export function useTabs(props: UseTabsProps) {
 
     tabTriggerListProps: elementProps({}),
     getTabTriggerProps: (props: TriggerProps) => {
-      const { value, isDisabled } = props;
-      const isSelected = value === props.value;
+      const { isDisabled, value: triggerValue } = props;
+      const isSelected = value === triggerValue;
       return buttonProps({
-        value,
         disabled: isDisabled,
-        "data-selected": isSelected ? "" : undefined,
-        onClick: () => setValue(value),
+        "aria-selected": ariaAttr(isSelected),
+        "data-selected": dataAttr(isSelected),
+        tabIndex: isSelected ? 0 : -1,
+        onClick: () => setValue(triggerValue),
       });
     },
 
     tabContentListProps: elementProps({}),
     getTabContentProps: (props: ContentProps) => {
-      const { value } = props;
-      const isSelected = value === props.value;
+      const { value: contentValue } = props;
+      const isSelected = value === contentValue;
       return elementProps({
-        "data-selected": isSelected ? "" : undefined,
+        "aria-selected": ariaAttr(isSelected),
+        "data-selected": dataAttr(isSelected),
       });
     },
 
