@@ -108,21 +108,67 @@ describe("useSwitch", () => {
     });
 
     it("should not change checked state when clicked", async () => {
-      const { getByRole } = setUp(<Switch disabled={true} />);
+      const { getByRole, user } = setUp(<Switch disabled={true} />);
       const swc = getByRole("switch");
 
-      await userEvent.click(swc);
+      await user.click(swc);
       expect(swc).not.toBeChecked();
     });
 
     it("should not onCheckedChange be called when clicked", async () => {
       const handleCheckedChange = vi.fn();
 
-      const { getByRole } = setUp(<Switch disabled={true} onCheckedChange={handleCheckedChange} />);
+      const { getByRole, user } = setUp(
+        <Switch disabled={true} onCheckedChange={handleCheckedChange} />,
+      );
       const swc = getByRole("switch");
 
-      await userEvent.click(swc);
+      await user.click(swc);
       expect(handleCheckedChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("form integration", () => {
+    it("should reset the switch state on form reset", async () => {
+      const { getByRole, user } = setUp(
+        <form>
+          <Switch defaultChecked={true} />
+          <button type="reset">Reset</button>
+        </form>,
+      );
+
+      const swc = getByRole("switch");
+      const resetButton = getByRole("button", { name: /reset/i });
+
+      await user.click(swc);
+
+      expect(swc).not.toBeChecked();
+
+      await user.click(resetButton);
+
+      expect(swc).toBeChecked();
+    });
+
+    it("should mark the switch as invalid if it's required and not checked", async () => {
+      const { getByRole, user } = setUp(
+        <form>
+          <Switch required={true} />
+          <button type="submit">Submit</button>
+        </form>,
+      );
+
+      const swc = getByRole("switch");
+      const submitButton = getByRole("button", { name: /submit/i });
+
+      await user.click(submitButton);
+
+      // Required field should be invalid if not checked
+      expect(swc).toBeInvalid();
+
+      await user.click(swc);
+
+      // Required field should be valid if checked
+      expect(swc).toBeValid();
     });
   });
 });
