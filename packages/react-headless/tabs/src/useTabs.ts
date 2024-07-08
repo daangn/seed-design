@@ -42,7 +42,7 @@ export function useTabs(props: UseTabsProps) {
     restProps,
     rootProps: elementProps({}),
 
-    tabListProps: elementProps({}),
+    tabTriggerListProps: elementProps({}),
     getTabTriggerProps: (props: TriggerProps) => {
       const { value, isDisabled } = props;
       const isSelected = value === props.value;
