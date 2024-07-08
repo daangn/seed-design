@@ -36,18 +36,19 @@ export const Tabs = React.forwardRef<HTMLInputElement, TabsProps>((props, ref) =
 });
 Tabs.displayName = "Tabs";
 
-export const TabList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, children, ...otherProps }, ref) => {
-    const { tabListProps } = useTabsContext();
-    return (
-      <div ref={ref} {...tabListProps} className={clsx(className)} {...otherProps}>
-        {children}
-        <TabIndicator />
-      </div>
-    );
-  },
-);
-TabList.displayName = "TabList";
+export const TabTriggerList = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, children, ...otherProps }, ref) => {
+  const { tabTriggerListProps } = useTabsContext();
+  return (
+    <div ref={ref} {...tabTriggerListProps} className={clsx(className)} {...otherProps}>
+      {children}
+      <TabIndicator />
+    </div>
+  );
+});
+TabTriggerList.displayName = "TabTriggerList";
 
 export const TabTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -62,7 +63,7 @@ export const TabTrigger = React.forwardRef<
     </button>
   );
 });
-TabTrigger.displayName = "Tab";
+TabTrigger.displayName = "TabTrigger";
 
 export const TabContentList = React.forwardRef<
   HTMLDivElement,
