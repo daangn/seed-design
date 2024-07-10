@@ -8,6 +8,8 @@ export const disabled = ":is(:disabled, [disabled], [data-disabled])";
 
 export const checked = ":is(:checked, [data-checked])";
 
+export const selected = ":is(:selected, [data-selected])";
+
 export const open = ':is([data-state="open"], [data-open])';
 
 export function pseudo<T extends string>(selectorA: T): `&${T}`;

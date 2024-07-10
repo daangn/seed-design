@@ -27,6 +27,7 @@
     "./switch.css": "./switch.css",
     "./helpBubble.css": "./helpBubble.css",
     "./tab.css": "./tab.css",
+    "./tabs.css": "./tabs.css",
     "./package.json": "./package.json"
   },
   "files": [

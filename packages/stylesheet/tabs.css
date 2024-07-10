@@ -1,0 +1,54 @@
+.tabs__root {
+    overflow-x: hidden;
+}
+.tabs__triggerList {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background: var(--seed-color-bg-layer-1);
+    border-bottom: 0.5px solid var(--seed-color-stroke-decorative);
+}
+.tabs__triggerList::-webkit-scrollbar {
+    display: none;
+}
+.tabs__trigger {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+    color: var(--seed-color-fg-neutral-subtle);
+    padding: 10px 12px;
+    flex: 1;
+}
+.tabs__trigger:is(:selected, [data-selected]) {
+    color: var(--seed-color-fg-neutral);
+}
+.tabs__contentList {}
+.tabs__contentCamera {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s cubic-bezier(0.15, 0.3, 0.25, 1);
+}
+.tabs__content {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    overflow: auto;
+}
+.tabs__indicator {
+    color: var(--seed-color-fg-neutral);
+    border-bottom: 2px solid var(--seed-color-fg-neutral);
+    bottom: 0;
+}

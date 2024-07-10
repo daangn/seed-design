@@ -13,6 +13,7 @@ const AcitivitiyTabs: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Tabs" }}>
       <Tabs
+        defaultValue="1"
         onValueChange={(value) => {
           console.log("value", value);
         }}
@@ -22,8 +23,26 @@ const AcitivitiyTabs: ActivityComponentType = () => {
           <TabTrigger value="2">Tab 2</TabTrigger>
         </TabTriggerList>
         <TabContentList>
-          <TabContent value="1">Content 1</TabContent>
-          <TabContent value="2">Content 2</TabContent>
+          <TabContent value="1">
+            <div
+              style={{
+                padding: "16px",
+                backgroundColor: "#f5f5f5",
+              }}
+            >
+              Content 1
+            </div>
+          </TabContent>
+          <TabContent value="2">
+            <div
+              style={{
+                padding: "16px",
+                backgroundColor: "#d8d8d8",
+              }}
+            >
+              Content 2
+            </div>
+          </TabContent>
         </TabContentList>
       </Tabs>
     </AppScreen>

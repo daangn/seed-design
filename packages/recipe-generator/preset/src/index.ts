@@ -8,6 +8,7 @@ import helpBubble from "./help-bubble.recipe";
 import radio from "./radio.recipe";
 import switchRecipe from "./switch.recipe";
 import tab from "./tab.recipe";
+import tabs from "./tabs.recipe";
 
 const recipes = {
   avatar,
@@ -20,6 +21,7 @@ const recipes = {
   switch: switchRecipe,
   helpBubble,
   tab,
+  tabs,
 };
 
 export default recipes;

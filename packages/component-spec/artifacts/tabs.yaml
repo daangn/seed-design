@@ -1,0 +1,13 @@
+base:
+  enabled:
+    tabTriggerList:
+      color: $color.bg.layer-1
+      borderColor: $color.stroke.decorative
+    tabTrigger:
+      color: $color.fg.neutral-subtle
+    indicator:
+      color: $color.fg.neutral
+      borderColor: $color.fg.neutral
+  selected:
+    tabTrigger:
+      color: $color.fg.neutral
