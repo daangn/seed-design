@@ -23,8 +23,8 @@
     display: inline-flex;
 }
 .chip__root--size_medium {
-    min-height: var(--seed-unit-10);
-    padding: var(--seed-unit-2\.5) var(--seed-unit-4);
+    min-height: 38px;
+    padding: var(--seed-unit-2) var(--seed-unit-4);
     gap: var(--seed-unit-1);
 }
 .chip__label--size_medium {
