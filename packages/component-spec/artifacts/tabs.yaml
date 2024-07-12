@@ -11,3 +11,6 @@ base:
   selected:
     tabTrigger:
       color: $color.fg.neutral
+  disabled:
+    tabTrigger:
+      color: $color.fg.disabled

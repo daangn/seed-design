@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ReactElement } from "react";
 import * as React from "react";
 
-import { useTabs, type UseTabsProps, type ContentProps, type TriggerProps } from "./index";
+import { useTabs, type ContentProps, type TriggerProps, type UseTabsProps } from "./index";
 
 afterEach(cleanup);
 
@@ -17,7 +17,10 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-const TabsContext = React.createContext<ReturnType<typeof useTabs> | null>(null);
+const TabsContext = React.createContext<{
+  api: ReturnType<typeof useTabs>;
+  shouldRender?: (value: string) => boolean;
+} | null>(null);
 
 const useTabsContext = () => {
   const context = React.useContext(TabsContext);
@@ -33,33 +36,44 @@ function Tabs(props: React.PropsWithChildren<UseTabsProps>) {
 
   return (
     <div {...rootProps}>
-      <TabsContext.Provider value={api}>{props.children}</TabsContext.Provider>
+      <TabsContext.Provider value={{ api }}>{props.children}</TabsContext.Provider>
     </div>
   );
 }
 
 function TabTriggerList(props: React.PropsWithChildren) {
-  const { tabTriggerListProps } = useTabsContext();
+  const { api } = useTabsContext();
+  const { tabTriggerListProps } = api;
   return <div {...tabTriggerListProps}>{props.children}</div>;
 }
 
 function TabTrigger(props: React.PropsWithChildren<TriggerProps>) {
-  const { getTabTriggerProps } = useTabsContext();
+  const { api } = useTabsContext();
+  const { getTabTriggerProps } = api;
   const tabTriggerProps = getTabTriggerProps(props);
 
   return <button {...tabTriggerProps}>{props.children}</button>;
 }
 
 function TabContentList(props: React.PropsWithChildren) {
-  const { tabContentListProps } = useTabsContext();
-  return <div {...tabContentListProps}>{props.children}</div>;
+  const { api } = useTabsContext();
+  const { tabContentListProps, getDragProps, tabContentCameraProps } = api;
+  const dragProps = getDragProps();
+  return (
+    <div {...tabContentListProps}>
+      <div {...tabContentCameraProps} {...dragProps}>
+        {props.children}
+      </div>
+    </div>
+  );
 }
 
 function TabContent(props: React.PropsWithChildren<ContentProps>) {
-  const { getTabContentProps } = useTabsContext();
-  const { shouldRender, tabContentProps } = getTabContentProps(props);
+  const { api } = useTabsContext();
+  const { getTabContentProps } = api;
+  const tabContentProps = getTabContentProps(props);
 
-  return <div {...tabContentProps}>{shouldRender && props.children}</div>;
+  return <div {...tabContentProps}>{props.children}</div>;
 }
 
 const tabs = {
@@ -124,122 +138,4 @@ describe("useTabs", () => {
     expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
     expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
   });
-
-  describe("lazy test", () => {
-    it("should render all tabs when isLazy=false, lazyMode='keepMounted'", async () => {
-      const { queryByText, user } = setUp(
-        <UncontrolledTabs isLazy={false} lazyMode="keepMounted" />,
-      );
-
-      await user.click(queryByText(tabs.tab1.label));
-
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
-    });
-
-    it("should render all tabs when isLazy=false, lazyMode='unmount'", async () => {
-      const { queryByText, user } = setUp(<UncontrolledTabs isLazy={false} lazyMode="unmount" />);
-
-      await user.click(queryByText(tabs.tab1.label));
-
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
-    });
-
-    it("should only render first tab when isLazy=true, lazyMode='keepMounted'", async () => {
-      const { queryByText, user } = setUp(
-        <UncontrolledTabs isLazy={true} lazyMode="keepMounted" />,
-      );
-
-      await user.click(queryByText(tabs.tab1.label));
-
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).not.toBeInTheDocument();
-    });
-
-    it("should render all tabs after all tabs was selected when isLazy=true, lazyMode='keepMounted'", async () => {
-      const { queryByText, user } = setUp(<UncontrolledTabs isLazy lazyMode="keepMounted" />);
-
-      await user.click(queryByText(tabs.tab1.label));
-
-      // only render tab1
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).not.toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).not.toBeInTheDocument();
-
-      await user.click(queryByText(tabs.tab2.label));
-
-      // render tab1 and tab2
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).not.toBeInTheDocument();
-
-      await user.click(queryByText(tabs.tab3.label));
-
-      // render tab1, tab2 and tab3
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).toBeInTheDocument();
-    });
-
-    it("should render only selected tab when isLazy=true, lazyMode='unmount'", async () => {
-      const { queryByText, user } = setUp(<UncontrolledTabs isLazy lazyMode="unmount" />);
-
-      await user.click(queryByText(tabs.tab1.label));
-
-      // only render tab1
-      expect(queryByText(tabs.tab1.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).not.toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).not.toBeInTheDocument();
-
-      await user.click(queryByText(tabs.tab2.label));
-
-      // only render tab2
-      expect(queryByText(tabs.tab1.content)).not.toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).not.toBeInTheDocument();
-
-      await user.click(queryByText(tabs.tab3.label));
-
-      // only render tab3
-      expect(queryByText(tabs.tab1.content)).not.toBeInTheDocument();
-      expect(queryByText(tabs.tab2.content)).not.toBeInTheDocument();
-      expect(queryByText(tabs.tab3.content)).toBeInTheDocument();
-    });
-  });
-
-  // describe("loop test", () => {});
-
-  // describe("controlled test", () => {});
-
-  // describe("swipe test", () => {
-  //   it("should render the tabs", () => {
-  //     const { getByText, getByRole, user } = setUp(
-  //       <ControlledTabs defaultValue="tab1">
-  //         <TabTriggerList>
-  //           <TabTrigger value="tab1">Tab 1</TabTrigger>
-  //           <TabTrigger value="tab2">Tab 2</TabTrigger>
-  //         </TabTriggerList>
-  //         <TabContentList>
-  //           <TabContent value="tab1">Content 1</TabContent>
-  //           <TabContent value="tab2">Content 2</TabContent>
-  //         </TabContentList>
-  //       </ControlledTabs>,
-  //     );
-  //     const tab1 = getByText("Tab 1");
-  //     const tab2 = getByText("Tab 2");
-  //     const content1 = getByText("Content 1");
-  //     const content2 = getByText("Content 2");
-  //     user.pointer([
-  //       // touch the screen at element1
-  //       { keys: "[TouchA>]", target: content1 },
-  //       // move the touch pointer to element2
-  //       { pointerName: "TouchA", target: content2 },
-  //       // release the touch pointer at the last position (element2)
-  //       { keys: "[/TouchA]" },
-  //     ]);
-  //     expect(tab2).toHaveAttribute("data-selected");
-  //     expect(tab1).not.toHaveAttribute("data-selected");
-  //   });
-  // });
 });

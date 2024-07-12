@@ -8,23 +8,15 @@ export const ariaAttr = (guard: boolean | undefined) => {
   return guard ? "true" : (undefined as Booleanish);
 };
 
-export const elementProps = (
-  props: React.HTMLAttributes<HTMLElement> & Record<`data-${string}`, string | undefined>,
-) => props;
+type DataAttr = Record<`data-${string}`, string | undefined>;
 
-export const inputProps = (
-  props: React.InputHTMLAttributes<HTMLInputElement> & Record<`data-${string}`, string | undefined>,
-) => props;
+export const elementProps = (props: React.HTMLAttributes<HTMLElement> & DataAttr) => props;
 
-export const labelProps = (
-  props: React.LabelHTMLAttributes<HTMLLabelElement> & Record<`data-${string}`, string | undefined>,
-) => props;
+export const inputProps = (props: React.InputHTMLAttributes<HTMLInputElement> & DataAttr) => props;
 
-export const buttonProps = (
-  props: React.ButtonHTMLAttributes<HTMLButtonElement> &
-    Record<`data-${string}`, string | undefined>,
-) => props;
+export const labelProps = (props: React.LabelHTMLAttributes<HTMLLabelElement> & DataAttr) => props;
 
-export const imgProps = (
-  props: React.ImgHTMLAttributes<HTMLImageElement> & Record<`data-${string}`, string | undefined>,
-) => props;
+export const buttonProps = (props: React.ButtonHTMLAttributes<HTMLButtonElement> & DataAttr) =>
+  props;
+
+export const imgProps = (props: React.ImgHTMLAttributes<HTMLImageElement> & DataAttr) => props;

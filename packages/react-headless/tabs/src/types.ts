@@ -6,16 +6,15 @@ export interface UseTabsStateProps {
 
 export interface UseTabsProps extends UseTabsStateProps {
   /**
-   * lazy loading 활성화 여부
+   * tab swipe 기능 활성화 여부
    * @default false
    */
-  isLazy?: boolean;
+  isSwipeable?: boolean;
 
   /**
-   * lazy loading 모드
-   * @default "keepMounted"
+   * @default "horizontal"
    */
-  lazyMode?: "unmount" | "keepMounted";
+  orientation?: "horizontal" | "vertical";
 }
 
 export interface TriggerProps {
