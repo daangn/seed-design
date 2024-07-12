@@ -1,6 +1,6 @@
 import { vars } from "./__generated__/tabs.vars";
 import { defineRecipe } from "./helper";
-import { selected, pseudo } from "./pseudo";
+import { selected, pseudo, disabled } from "./pseudo";
 
 /**
  * TODO: component-spec 옮길 것들 옮기고, 피그마 컴포넌트 만들어지면 수정하기
@@ -51,14 +51,17 @@ export const tabs = defineRecipe({
       [pseudo(selected)]: {
         color: vars.base.selected.tabTrigger.color,
       },
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.tabTrigger.color,
+        cursor: "not-allowed",
+      },
     },
     contentList: {},
     contentCamera: {
       display: "flex",
       width: "100%",
       height: "100%",
-
-      transition: "transform 0.2s cubic-bezier(0.15, 0.3, 0.25, 1)",
     },
     content: {
       width: "100%",

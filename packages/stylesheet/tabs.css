@@ -34,12 +34,15 @@
 .tabs__trigger:is(:selected, [data-selected]) {
     color: var(--seed-color-fg-neutral);
 }
+.tabs__trigger:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+    cursor: not-allowed;
+}
 .tabs__contentList {}
 .tabs__contentCamera {
     display: flex;
     width: 100%;
     height: 100%;
-    transition: transform 0.2s cubic-bezier(0.15, 0.3, 0.25, 1);
 }
 .tabs__content {
     width: 100%;

@@ -17,6 +17,11 @@ export const vars = {
       "tabTrigger": {
         "color": "var(--seed-color-fg-neutral)"
       }
+    },
+    "disabled": {
+      "tabTrigger": {
+        "color": "var(--seed-color-fg-disabled)"
+      }
     }
   }
 }
