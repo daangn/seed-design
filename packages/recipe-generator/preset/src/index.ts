@@ -6,6 +6,7 @@ import chip from "./chip.recipe";
 import dialog from "./dialog.recipe";
 import radio from "./radio.recipe";
 import switchRecipe from "./switch.recipe";
+import tabs from "./tabs.recipe";
 
 const recipes = {
   avatar,
@@ -16,6 +17,7 @@ const recipes = {
   chip,
   callout,
   switch: switchRecipe,
+  tabs,
 };
 
 export default recipes;
