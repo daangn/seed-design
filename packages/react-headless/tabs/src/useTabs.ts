@@ -217,6 +217,7 @@ export function useTabs(props: UseTabsProps) {
     },
 
     tabContentListProps: elementProps({
+      id: dom.getTabContentListId(id),
       "data-orientation": orientation,
     }),
     tabContentCameraProps: elementProps({
