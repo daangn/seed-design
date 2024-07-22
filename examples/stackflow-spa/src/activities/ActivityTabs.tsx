@@ -12,20 +12,10 @@ import {
 const AcitivitiyTabs: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Tabs" }}>
-      <Tabs
-        isLazy
-        lazyMode="unmount"
-        isSwipeable={false}
-        defaultValue="1"
-        onValueChange={(value) => {
-          console.log("value", value);
-        }}
-      >
+      <Tabs defaultValue="1" isSwipeable>
         <TabTriggerList>
           <TabTrigger value="1">Tab 1</TabTrigger>
-          <TabTrigger value="2" isDisabled>
-            Tab 2
-          </TabTrigger>
+          <TabTrigger value="2">Tab 2</TabTrigger>
           <TabTrigger value="3">Tab 3</TabTrigger>
         </TabTriggerList>
         <TabContentList>
@@ -63,14 +53,6 @@ const AcitivitiyTabs: ActivityComponentType = () => {
           </TabContent>
         </TabContentList>
       </Tabs>
-      <div
-        style={{
-          backgroundColor: "#b5b5b5",
-          height: "500px",
-        }}
-      >
-        탭 아래 컨텐츠
-      </div>
     </AppScreen>
   );
 };
