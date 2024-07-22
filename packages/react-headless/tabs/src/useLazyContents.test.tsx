@@ -37,17 +37,6 @@ const useTabsContext = () => {
   return context;
 };
 
-function Tabs(props: React.PropsWithChildren<UseTabsProps>) {
-  const api = useTabs(props);
-  const { rootProps } = api;
-
-  return (
-    <div {...rootProps}>
-      <TabsContext.Provider value={{ api }}>{props.children}</TabsContext.Provider>
-    </div>
-  );
-}
-
 function TabsWithLazy(
   props: React.PropsWithChildren<UseTabsProps & Omit<UseLazyContentsProps, "currentValue">>,
 ) {
