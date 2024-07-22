@@ -1,4 +1,3 @@
-import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react-swc";
 import { defineConfig } from "vite";

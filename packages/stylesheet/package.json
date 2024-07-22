@@ -25,6 +25,7 @@
     "./callout.css": "./callout.css",
     "./avatar.css": "./avatar.css",
     "./switch.css": "./switch.css",
+    "./helpBubble.css": "./helpBubble.css",
     "./package.json": "./package.json"
   },
   "files": [

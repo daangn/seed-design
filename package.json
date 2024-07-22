@@ -13,7 +13,7 @@
     "docs"
   ],
   "scripts": {
-    "build": "ultra -r build",
+    "build": "ultra -r --filter \"packages/*\" build",
     "build:dts": "ultra -r --build build:dts",
     "build:style": "ultra -r --build build:style",
     "build-only-package": "ultra -r --filter 'packages/*' build",
@@ -42,5 +42,5 @@
     "ultra-runner": "^3.10.5",
     "vitest": "^1.6.0"
   },
-  "packageManager": "yarn@3.2.2"
+  "packageManager": "yarn@4.3.1"
 }

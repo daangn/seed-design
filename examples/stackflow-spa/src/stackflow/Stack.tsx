@@ -29,6 +29,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityChip: React.lazy(() => import("../activities/ActivityChip")),
     ActivityCallout: React.lazy(() => import("../activities/ActivityCallout")),
     ActivitySwitch: React.lazy(() => import("../activities/ActivitySwitch")),
+    ActivityHelpBubble: React.lazy(() => import("../activities/ActivityHelpBubble")),
     ActivityNotFound,
   },
   plugins: [
@@ -59,6 +60,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivitySwitch: "/switch",
         ActivityNotFound: "/404",
         ActivityTextField: "/text-field",
+        ActivityHelpBubble: "/help-bubble",
       },
     }),
   ],

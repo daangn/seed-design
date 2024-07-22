@@ -1,0 +1,62 @@
+{
+  "name": "@seed-design/react-popover",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/react-headless/popover"
+  },
+  "sideEffects": false,
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "source": "./src/index.ts",
+        "default": "./dist/esm/index.ts"
+      },
+      "require": {
+        "source": "./src/index.ts",
+        "default": "./dist/commonjs/index.ts"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "prepack": "rm -rf dist && yarn build",
+    "build": "tshy"
+  },
+  "dependencies": {
+    "@floating-ui/react": "^0.26.19",
+    "@seed-design/dom-utils": "0.0.0"
+  },
+  "devDependencies": {
+    "tshy": "^1.17.0",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "tshy": {
+    "liveDev": true,
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  },
+  "type": "module",
+  "module": "./dist/esm/index.ts",
+  "main": "./dist/commonjs/index.ts"
+}

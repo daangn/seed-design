@@ -4,6 +4,7 @@ import callout from "./callout.recipe";
 import checkbox from "./checkbox.recipe";
 import chip from "./chip.recipe";
 import dialog from "./dialog.recipe";
+import helpBubble from "./help-bubble.recipe";
 import radio from "./radio.recipe";
 import switchRecipe from "./switch.recipe";
 
@@ -16,6 +17,7 @@ const recipes = {
   chip,
   callout,
   switch: switchRecipe,
+  helpBubble,
 };
 
 export default recipes;

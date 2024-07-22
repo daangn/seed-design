@@ -1,0 +1,36 @@
+base:
+  enabled:
+    root:
+      cornerRadius: $radii[1.5]
+      paddingX: $unit[3]
+      paddingY: $unit[2]
+    arrow:
+      size: $unit[2.5]
+    title:
+      fontSize: $font-size[75]
+      fontWeight: $font-weight.bold
+    description:
+      fontSize: $font-size[75]
+      fontWeight: $font-weight.regular
+variant=non-modal:
+  enabled:
+    root:
+      color: $color.bg.neutral-inverted
+    arrow:
+      color: $color.bg.neutral-inverted
+    title:
+      color: $color.fg.neutral-inverted
+    description:
+      color: $color.fg.neutral-inverted
+variant=modal:
+  enabled:
+    root:
+      color: $color.bg.static-white
+    arrow:
+      color: $color.bg.static-white
+    title:
+      color: $color.fg.static-black
+    description:
+      color: $color.fg.static-black
+    backdrop:
+      color: $color.bg.overlay

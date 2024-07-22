@@ -8,6 +8,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@seed-design/icon": "^0.6.1",
+    "@seed-design/react-popover": "0.0.0",
     "@seed-design/react-radio-group": "0.0.0",
     "@seed-design/react-switch": "0.0.0",
     "@seed-design/react-text-field": "0.0.0",
