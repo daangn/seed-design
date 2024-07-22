@@ -139,7 +139,6 @@ export const TabContentList = React.forwardRef<
       style={{
         userSelect: "none",
         touchAction: "pan-y",
-        overflow: "hidden",
         ...otherProps.style,
       }}
     >
