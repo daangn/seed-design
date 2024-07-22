@@ -17,7 +17,8 @@ import "@seed-design/stylesheet/tabs.css";
 interface TabsContextValue {
   api: ReturnType<typeof useTabs>;
   classNames: ReturnType<typeof tabs>;
-  shouldRender?: (value: string) => boolean;
+  shouldRender: (value: string) => boolean;
+  isSwipeable: boolean;
 }
 
 const TabsContext = React.createContext<TabsContextValue | null>(null);
@@ -35,7 +36,7 @@ export interface TabsProps
     Omit<UseLazyContentsProps, "currentValue"> {}
 
 export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
-  const { className, lazyMode, isLazy } = props;
+  const { className, lazyMode, isLazy, isSwipeable = false } = props;
   const api = useTabs(props);
   const classNames = tabs();
   const { rootProps, value, restProps } = api;
@@ -48,6 +49,7 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => 
           api,
           classNames,
           shouldRender,
+          isSwipeable,
         }}
       >
         {props.children}
@@ -99,7 +101,7 @@ export const TabContentList = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...otherProps }, ref) => {
-  const { api, classNames } = useTabsContext();
+  const { api, classNames, isSwipeable } = useTabsContext();
   const {
     tabContentListProps,
     tabContentCameraProps,
@@ -135,10 +137,10 @@ export const TabContentList = React.forwardRef<
       className={clsx(contentList, className)}
       {...otherProps}
       style={{
-        ...otherProps.style,
-
-        touchAction: "pan-y",
         userSelect: "none",
+        touchAction: "pan-y",
+        overflow: "hidden",
+        ...otherProps.style,
       }}
     >
       <div
@@ -148,7 +150,9 @@ export const TabContentList = React.forwardRef<
         style={{
           willChange: "transform",
           transition:
-            swipeStatus === "idle" ? "transform 0.2s cubic-bezier(0.15, 0.3, 0.25, 1)" : "none",
+            isSwipeable && swipeStatus === "idle"
+              ? "transform 0.2s cubic-bezier(0.15, 0.3, 0.25, 1)"
+              : "none",
           transform: `translateX(${getCameraTranslateX()})`,
         }}
       >
@@ -163,14 +167,15 @@ export const TabContent = React.forwardRef<
   HTMLDivElement,
   Assign<React.HTMLAttributes<HTMLDivElement>, ContentProps>
 >(({ className, children, value, ...otherProps }, ref) => {
-  const { api, classNames } = useTabsContext();
+  const { api, classNames, shouldRender } = useTabsContext();
   const { getTabContentProps } = api;
   const { content } = classNames;
   const tabContentProps = getTabContentProps({ value });
+  const isRender = shouldRender(value);
 
   return (
     <div ref={ref} {...tabContentProps} className={clsx(content, className)} {...otherProps}>
-      {children}
+      {isRender && children}
     </div>
   );
 });
@@ -178,7 +183,7 @@ TabContent.displayName = "TabContent";
 
 const TabIndicator = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...otherProps }, ref) => {
-    const { api, classNames } = useTabsContext();
+    const { api, classNames, isSwipeable } = useTabsContext();
     const { tabIndicatorProps, currentTabIndex, swipeMoveX, tabCount, swipeStatus } = api;
     const { indicator } = classNames;
 
@@ -215,7 +220,9 @@ const TabIndicator = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
           transitionProperty: "left, right, top, bottom, width, height",
           willChange: "left, right, top, bottom, width, height",
           transition:
-            swipeStatus === "idle" ? "left 0.2s cubic-bezier(0.15, 0.3, 0.25, 1)" : "none",
+            isSwipeable && swipeStatus === "idle"
+              ? "left 0.2s cubic-bezier(0.15, 0.3, 0.25, 1)"
+              : "none",
         }}
       />
     );

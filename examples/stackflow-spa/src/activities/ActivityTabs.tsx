@@ -13,7 +13,9 @@ const AcitivitiyTabs: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Tabs" }}>
       <Tabs
-        isSwipeable
+        isLazy
+        lazyMode="unmount"
+        isSwipeable={false}
         defaultValue="1"
         onValueChange={(value) => {
           console.log("value", value);

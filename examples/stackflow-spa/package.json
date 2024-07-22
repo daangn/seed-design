@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host 0.0.0.0"
+    "dev": "vite --host 0.0.0.0",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
