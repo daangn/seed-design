@@ -10,7 +10,8 @@
     "packages/utils/*",
     "tools/*",
     "examples/*",
-    "docs"
+    "docs",
+    "component-docs"
   ],
   "scripts": {
     "build": "ultra -r --filter \"packages/*\" build",
