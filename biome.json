@@ -53,6 +53,26 @@
       "formatter": {
         "lineWidth": 80
       }
+    },
+    {
+      "include": ["component-docs/**/*"],
+      "ignore": ["**/*.css", "registry/**/*"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off"
+          },
+          "correctness": {
+            "useExhaustiveDependencies": "warn"
+          },
+          "a11y": {
+            "useKeyWithClickEvents": "off"
+          }
+        }
+      },
+      "formatter": {
+        "lineWidth": 100
+      }
     }
   ]
 }
