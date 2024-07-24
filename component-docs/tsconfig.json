@@ -28,5 +28,5 @@
     ".contentlayer/generated",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "public/registry/**/*"]
+  "exclude": ["node_modules", "public", "out"]
 }

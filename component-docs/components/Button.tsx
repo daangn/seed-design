@@ -1,9 +1,8 @@
 "use client";
 
-import type { FC } from "react";
 import React from "react";
 
-export const Button: FC<{ title: string }> = ({ title }) => (
+export const Button = ({ title }) => (
   <div
     style={{
       padding: 10,
