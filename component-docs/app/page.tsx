@@ -1,6 +1,6 @@
 import { allContents, type Content } from "contentlayer/generated";
 import { compareDesc, format, parseISO } from "date-fns";
-import { getMDXComponent } from "next-contentlayer/hooks";
+import { getMDXComponent } from "next-contentlayer2/hooks";
 import Link from "next/link";
 
 function ContentCard(content: Content) {
@@ -9,7 +9,11 @@ function ContentCard(content: Content) {
   return (
     <div className="mb-8">
       <h2 className="text-xl">
-        <Link href={content.url} className="text-blue-700 hover:text-blue-900" legacyBehavior>
+        <Link
+          href={`/contents/${content.slug}`}
+          className="text-blue-700 hover:text-blue-900"
+          legacyBehavior
+        >
           {content.title}
         </Link>
       </h2>
@@ -23,7 +27,7 @@ function ContentCard(content: Content) {
   );
 }
 
-export default function Home() {
+export default function Page() {
   const contents = allContents.sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
 
   return (

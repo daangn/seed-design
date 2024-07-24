@@ -1,4 +1,4 @@
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 
 const Content = defineDocumentType(() => ({
   name: "Content",
@@ -17,9 +17,13 @@ const Content = defineDocumentType(() => ({
     },
   },
   computedFields: {
-    url: {
+    slug: {
       type: "string",
-      resolve: (doc) => `/contents/${doc._raw.flattenedPath}`,
+      resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ""),
+    },
+    slugAsParams: {
+      type: "string",
+      resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
     },
   },
 }));
