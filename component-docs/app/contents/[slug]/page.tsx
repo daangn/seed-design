@@ -1,6 +1,8 @@
 import { allContents } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer2/hooks";
 
+import type { Metadata } from "next";
+
 interface ContentPageProps {
   params: {
     slug: string;
@@ -9,13 +11,33 @@ interface ContentPageProps {
 
 async function getContentFromParams({ params }: ContentPageProps) {
   const slug = params.slug;
-  const doc = allContents.find((doc) => doc.slug === slug);
+  const content = allContents.find((content) => content.slug === slug);
 
-  if (!doc) {
+  if (!content) {
     return null;
   }
 
-  return doc;
+  return content;
+}
+
+export async function generateMetadata({ params }: ContentPageProps): Promise<Metadata> {
+  const content = await getContentFromParams({ params });
+
+  if (!content) {
+    return {};
+  }
+
+  return {
+    title: content.title,
+    openGraph: {
+      title: content.title,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: content.title,
+    },
+  };
 }
 
 export async function generateStaticParams(): Promise<ContentPageProps["params"][]> {
