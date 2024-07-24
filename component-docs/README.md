@@ -1,3 +1,2 @@
 # component-docs
 
-component docs
