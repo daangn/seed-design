@@ -1,0 +1,11 @@
+{
+  "name": "alert-dialog",
+  "type": "component",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "innerDependencies": [
+    "box-button"
+  ],
+  "registries": []
+}

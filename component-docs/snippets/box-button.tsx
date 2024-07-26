@@ -1,3 +1,5 @@
+"use client";
+
 import { Slot } from "@radix-ui/react-slot";
 import { boxButton, type BoxButtonVariantProps } from "@seed-design/recipe/boxButton";
 import clsx from "clsx";

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -16,6 +17,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
       "contentlayer/generated": ["./.contentlayer/generated"],
       "contentlayer/generated/*": ["./.contentlayer/generated/*"]
     },
@@ -27,6 +29,6 @@
     "**/*.tsx",
     ".contentlayer/generated",
     ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", "public", "out"]
+, "metadatas/component.mts"  ],
+  "exclude": ["node_modules", "public", "out", "snippets"]
 }
