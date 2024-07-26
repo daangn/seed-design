@@ -1,11 +1,13 @@
 {
   "name": "box-button",
-  "dependencies": ["@radix-ui/react-accordion"],
-  "files": [
+  "type": "component",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registries": [
     {
       "name": "box-button.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport * as AccordionPrimitive from \"@radix-ui/react-accordion\"\nimport { ChevronDown } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst Accordion = AccordionPrimitive.Root\n\nconst AccordionItem = React.forwardRef\u003C\n  React.ElementRef\u003Ctypeof AccordionPrimitive.Item\u003E,\n  React.ComponentPropsWithoutRef\u003Ctypeof AccordionPrimitive.Item\u003E\n\u003E(({ className, ...props }, ref) =\u003E (\n  \u003CAccordionPrimitive.Item\n    ref={ref}\n    className={cn(\"border-b\", className)}\n    {...props}\n  /\u003E\n))\nAccordionItem.displayName = \"AccordionItem\"\n\nconst AccordionTrigger = React.forwardRef\u003C\n  React.ElementRef\u003Ctypeof AccordionPrimitive.Trigger\u003E,\n  React.ComponentPropsWithoutRef\u003Ctypeof AccordionPrimitive.Trigger\u003E\n\u003E(({ className, children, ...props }, ref) =\u003E (\n  \u003CAccordionPrimitive.Header className=\"flex\"\u003E\n    \u003CAccordionPrimitive.Trigger\n      ref={ref}\n      className={cn(\n        \"flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]\u003Esvg]:rotate-180\",\n        className\n      )}\n      {...props}\n    \u003E\n      {children}\n      \u003CChevronDown className=\"h-4 w-4 shrink-0 transition-transform duration-200\" /\u003E\n    \u003C/AccordionPrimitive.Trigger\u003E\n  \u003C/AccordionPrimitive.Header\u003E\n))\nAccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName\n\nconst AccordionContent = React.forwardRef\u003C\n  React.ElementRef\u003Ctypeof AccordionPrimitive.Content\u003E,\n  React.ComponentPropsWithoutRef\u003Ctypeof AccordionPrimitive.Content\u003E\n\u003E(({ className, children, ...props }, ref) =\u003E (\n  \u003CAccordionPrimitive.Content\n    ref={ref}\n    className=\"overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down\"\n    {...props}\n  \u003E\n    \u003Cdiv className={cn(\"pb-4 pt-0\", className)}\u003E{children}\u003C/div\u003E\n  \u003C/AccordionPrimitive.Content\u003E\n))\n\nAccordionContent.displayName = AccordionPrimitive.Content.displayName\n\nexport { Accordion, AccordionItem, AccordionTrigger, AccordionContent }\n"
+      "content": "\"use client\";\n\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { boxButton, type BoxButtonVariantProps } from \"@seed-design/recipe/boxButton\";\nimport clsx from \"clsx\";\nimport * as React from \"react\";\n\nimport \"@seed-design/stylesheet/boxButton.css\";\n\nexport interface BoxButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    BoxButtonVariantProps {\n  prefixIcon?: React.ReactNode;\n}\n\nexport const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(\n  ({ className, variant = \"brand\", size = \"medium\", children, prefixIcon, ...otherProps }, ref) => {\n    const classNames = boxButton({ variant, size });\n    return (\n      <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>\n        {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}\n        <span className={classNames.label}>{children}</span>\n      </button>\n    );\n  },\n);\nBoxButton.displayName = \"BoxButton\";\n"
     }
-  ],
-  "type": "components:ui"
+  ]
 }

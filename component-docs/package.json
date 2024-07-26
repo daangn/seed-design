@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn generate:registry && next build",
     "build:content": "contentlayer2 build",
+    "generate:registry": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-registry.mts",
     "start": "next start"
   },
   "dependencies": {
@@ -17,11 +18,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.14.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
+    "chalk": "^5.3.0",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
-    "typescript": "^5.5.4"
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "zod": "^3.23.8"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "tsx": true,
+  "rsc": false,
+  "aliases": {
+    "components": "@/components"
+  }
+}
