@@ -7,6 +7,7 @@ import { getConfig } from "@/src/utils/get-config";
 import { getPackageManager } from "@/src/utils/get-package-manager";
 import { transform } from "@/src/utils/transformers";
 import { z } from "zod";
+import color from "picocolors";
 
 import type { CAC } from "cac";
 
@@ -33,8 +34,6 @@ export const addCommand = (cli: CAC) => {
         components,
         ...opts,
       });
-
-      p.intro("Add a component to your project");
 
       const cwd = options.cwd;
 
@@ -64,21 +63,17 @@ export const addCommand = (cli: CAC) => {
           }),
         });
 
+        if (p.isCancel(selects)) {
+          p.log.error("Aborted.");
+          process.exit(0);
+        }
+
         selectedComponents = selects as string[];
       }
 
       if (!selectedComponents?.length) {
         p.log.error("No components found.");
         process.exit(0);
-      }
-
-      const is = await p.confirm({
-        message: "Do you want to add this component to your project?",
-        initialValue: true,
-      });
-
-      if (!is) {
-        return;
       }
 
       const config = await getConfig(cwd);
@@ -107,6 +102,8 @@ export const addCommand = (cli: CAC) => {
           }
 
           await fs.writeFile(filePath, content);
+          const relativePath = path.relative(cwd, filePath);
+          p.log.info(`Added ${color.bold(registry.name)} to ${color.blue(relativePath)}`);
         }
 
         const packageManager = await getPackageManager(cwd);
@@ -115,7 +112,7 @@ export const addCommand = (cli: CAC) => {
 
         // Install dependencies.
         if (metadata.dependencies?.length) {
-          start("Installing dependencies...");
+          start(color.gray("Installing dependencies"));
 
           const result = await execa(
             packageManager,
@@ -138,7 +135,7 @@ export const addCommand = (cli: CAC) => {
 
         // Install devDependencies.
         if (metadata.devDependencies?.length) {
-          start("Installing devDependencies...");
+          start(color.gray("Installing devDependencies"));
 
           const result = await execa(
             packageManager,
@@ -159,5 +156,7 @@ export const addCommand = (cli: CAC) => {
           }
         }
       }
+
+      p.outro("Components added.");
     });
 };
