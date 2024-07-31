@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 // TODO: Extract this to a shared package.
+// INFO: also used in component-docs
 export const componentMetadataSchema = z.object({
   name: z.string(),
   description: z.string().optional(),

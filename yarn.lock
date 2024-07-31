@@ -7519,6 +7519,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-compose-refs@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-compose-refs@npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 047a4ed5f87cb848be475507cd62836cf5af5761484681f521ea543ea7c9d59d61d42806d6208863d5e2380bf38cdf4cff73c2bbe5f52dbbe50fb04e1a13ac72
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-slot@npm:^1.0.2":
   version: 1.0.2
   resolution: "@radix-ui/react-slot@npm:1.0.2"
@@ -7532,6 +7545,21 @@ __metadata:
     "@types/react":
       optional: true
   checksum: edf5edf435ff594bea7e198bf16d46caf81b6fb559493acad4fa8c308218896136acb16f9b7238c788fd13e94a904f2fd0b6d834e530e4cae94522cdb8f77ce9
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-slot@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-slot@npm:1.1.0"
+  dependencies:
+    "@radix-ui/react-compose-refs": 1.1.0
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 3c9cd90aabf08f541e20dbecb581744be01c552a0cd16e90d7c218381bcc5307aa8a6013d045864e692ba89d3d8c17bfae08df18ed18be6d223d9330ab0302fa
   languageName: node
   linkType: hard
 
@@ -7726,9 +7754,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@seed-design/component-cli@workspace:packages/cli":
+"@seed-design/cli-example@workspace:examples/cli":
   version: 0.0.0-use.local
-  resolution: "@seed-design/component-cli@workspace:packages/cli"
+  resolution: "@seed-design/cli-example@workspace:examples/cli"
+  dependencies:
+    "@radix-ui/react-slot": ^1.1.0
+    "@seed-design/cli": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/cli@workspace:^, @seed-design/cli@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/cli@workspace:packages/cli"
   dependencies:
     "@antfu/ni": ^0.22.0
     "@babel/core": ^7.24.9
