@@ -7780,6 +7780,7 @@ __metadata:
     execa: ^9.3.0
     fs-extra: ^11.2.0
     mktemp: ^1.0.1
+    picocolors: ^1.0.1
     recast: ^0.23.9
     ts-morph: ^23.0.0
     tsconfig-paths: ^4.2.0
