@@ -1,13 +1,13 @@
+import { getConfig } from "@/src/utils/get-config";
 import { fetchComponentMetadatas, getMetadataIndex } from "@/src/utils/get-metadata";
+import { getPackageManager } from "@/src/utils/get-package-manager";
+import { transform } from "@/src/utils/transformers";
 import * as p from "@clack/prompts";
 import { execa } from "execa";
 import fs from "fs-extra";
 import path from "path";
-import { getConfig } from "@/src/utils/get-config";
-import { getPackageManager } from "@/src/utils/get-package-manager";
-import { transform } from "@/src/utils/transformers";
-import { z } from "zod";
 import color from "picocolors";
+import { z } from "zod";
 
 import type { CAC } from "cac";
 import { addRelativeComponents } from "../utils/add-relative-components";
@@ -30,12 +30,14 @@ export const addCommand = (cli: CAC) => {
     .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
       default: process.cwd(),
     })
+    .example("seed-design add box-button")
+    .example("seed-design add alert-dialog")
     .action(async (components, opts) => {
       const options = addOptionsSchema.parse({
         components,
         ...opts,
       });
-
+      const highlight = (text: string) => color.cyan(text);
       const cwd = options.cwd;
 
       if (!fs.existsSync(cwd)) {
@@ -83,7 +85,8 @@ export const addCommand = (cli: CAC) => {
       const metadatas = await fetchComponentMetadatas(allComponents);
 
       p.log.message(
-        `Selection: ${color.bgBlue(selectedComponents.join(", "))}\nInner Dependencies: ${color.bgBlue(addedComponents.join(", "))} will be also added.`,
+        `Selection: ${highlight(selectedComponents.join(", "))}
+        \nInner Dependencies: ${highlight(addedComponents.join(", "))} will be also added.`,
       );
 
       for (const metadata of metadatas) {
@@ -109,7 +112,7 @@ export const addCommand = (cli: CAC) => {
 
           await fs.writeFile(filePath, content);
           const relativePath = path.relative(cwd, filePath);
-          p.log.info(`Added ${color.bgBlue(registry.name)} to ${color.blue(relativePath)}`);
+          p.log.info(`Added ${highlight(registry.name)} to ${highlight(relativePath)}`);
         }
 
         const packageManager = await getPackageManager(cwd);
