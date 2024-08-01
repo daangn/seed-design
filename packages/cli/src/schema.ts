@@ -28,7 +28,7 @@ export const componentMetadataSchemaWithRegistry = omittedComponentMetadataIndex
 export const componentMetadataWithRegistrySchema = z.array(componentMetadataSchemaWithRegistry);
 
 export type ComponentMetadata = z.infer<typeof componentMetadataSchema>;
-
+export type ComponentMetadataIndex = z.infer<typeof componentMetadataIndexSchema>;
 export type ComponentMetadataWithRegistrySchema = z.infer<
   typeof componentMetadataSchemaWithRegistry
 >;

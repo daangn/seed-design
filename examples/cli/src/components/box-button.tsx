@@ -1,9 +1,9 @@
+import "@seed-design/stylesheet/boxButton.css";
+
+import * as React from "react";
+import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
 import { boxButton, type BoxButtonVariantProps } from "@seed-design/recipe/boxButton";
-import clsx from "clsx";
-import * as React from "react";
-
-import "@seed-design/stylesheet/boxButton.css";
 
 export interface BoxButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
