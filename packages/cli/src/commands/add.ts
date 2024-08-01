@@ -10,13 +10,14 @@ import { z } from "zod";
 import color from "picocolors";
 
 import type { CAC } from "cac";
+import { addRelativeComponents } from "../utils/add-relative-components";
 
 const addOptionsSchema = z.object({
   components: z.array(z.string()).optional(),
-  // yes: z.boolean(),
-  // overwrite: z.boolean(),
   cwd: z.string(),
   all: z.boolean(),
+  // yes: z.boolean(),
+  // overwrite: z.boolean(),
   // path: z.string().optional(),
 });
 
@@ -76,8 +77,14 @@ export const addCommand = (cli: CAC) => {
         process.exit(0);
       }
 
+      const allComponents = addRelativeComponents(selectedComponents, metadataIndex);
+      const addedComponents = allComponents.filter((c) => !selectedComponents.includes(c));
       const config = await getConfig(cwd);
-      const metadatas = await fetchComponentMetadatas(selectedComponents);
+      const metadatas = await fetchComponentMetadatas(allComponents);
+
+      p.log.message(
+        `Selection: ${color.bgBlue(selectedComponents.join(", "))}\nInner Dependencies: ${color.bgBlue(addedComponents.join(", "))} will be also added.`,
+      );
 
       for (const metadata of metadatas) {
         for (const registry of metadata.registries) {
@@ -87,7 +94,6 @@ export const addCommand = (cli: CAC) => {
             await fs.mkdir(componentPath, { recursive: true });
           }
 
-          // TODO: 다른 폴더도 지원, 현재는 components만 지원
           let filePath = path.resolve(componentPath, registry.name);
 
           const content = await transform({
@@ -103,7 +109,7 @@ export const addCommand = (cli: CAC) => {
 
           await fs.writeFile(filePath, content);
           const relativePath = path.relative(cwd, filePath);
-          p.log.info(`Added ${color.bold(registry.name)} to ${color.blue(relativePath)}`);
+          p.log.info(`Added ${color.bgBlue(registry.name)} to ${color.blue(relativePath)}`);
         }
 
         const packageManager = await getPackageManager(cwd);

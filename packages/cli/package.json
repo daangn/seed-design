@@ -21,7 +21,8 @@
   },
   "scripts": {
     "build": "ENV=prod node ./build.mjs",
-    "dev": "ENV=dev node ./dev.mjs"
+    "dev": "ENV=dev node ./dev.mjs",
+    "test": "yarn vitest"
   },
   "dependencies": {
     "@antfu/ni": "^0.22.0",
@@ -46,7 +47,8 @@
     "esbuild": "^0.19.3",
     "type-fest": "^4.23.0",
     "typescript": "^5.4.5",
-    "ultra-runner": "^3.10.5"
+    "ultra-runner": "^3.10.5",
+    "vitest": "^2.0.5"
   },
   "publishConfig": {
     "access": "public"
