@@ -1,6 +1,6 @@
 {
-  "tsx": true,
   "rsc": false,
+  "tsx": true,
   "aliases": {
     "components": "@/src/components"
   }
