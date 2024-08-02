@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "strict": false,
     "module": "esnext",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "next-env.d.ts",
