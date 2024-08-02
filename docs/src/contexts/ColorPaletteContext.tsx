@@ -15,6 +15,25 @@ export function ColorPaletteProvider({
   const [computedStyle, setComputedStyle] = useState<CSSStyleDeclaration>();
   const [hash, setHash] = useState<string>("");
 
+  // html data-seed-scale-color attribute가 바뀔 때 마다
+  // window.getComputedStyle(document.body)를 호출하여 computedStyle을 업데이트 해준다.
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const observer = new MutationObserver(() => {
+      const style = window.getComputedStyle(document.body);
+      setComputedStyle(style);
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-seed-scale-color"],
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     const style = window.getComputedStyle(document.body);
