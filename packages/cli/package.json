@@ -33,12 +33,12 @@
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
     "execa": "^9.3.0",
+    "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
     "mktemp": "^1.0.1",
     "picocolors": "^1.0.1",
     "recast": "^0.23.9",
     "ts-morph": "^23.0.0",
-    "tsconfig-paths": "^4.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

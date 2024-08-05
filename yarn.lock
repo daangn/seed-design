@@ -7376,12 +7376,12 @@ __metadata:
     cosmiconfig: ^9.0.0
     esbuild: ^0.19.3
     execa: ^9.3.0
+    findup-sync: ^5.0.0
     fs-extra: ^11.2.0
     mktemp: ^1.0.1
     picocolors: ^1.0.1
     recast: ^0.23.9
     ts-morph: ^23.0.0
-    tsconfig-paths: ^4.2.0
     type-fest: ^4.23.0
     typescript: ^5.4.5
     ultra-runner: ^3.10.5
@@ -30279,17 +30279,6 @@ __metadata:
     minimist: ^1.2.6
     strip-bom: ^3.0.0
   checksum: 8afa01c673ebb4782ba53d3a12df97fa837ce524f8ad38ee4e2b2fd57f5ac79abc21c574e9e9eb014d93efe7fe8214001b96233b5c6ea75bd1ea82afe17a4c6d
-  languageName: node
-  linkType: hard
-
-"tsconfig-paths@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "tsconfig-paths@npm:4.2.0"
-  dependencies:
-    json5: ^2.2.2
-    minimist: ^1.2.6
-    strip-bom: ^3.0.0
-  checksum: 28c5f7bbbcabc9dabd4117e8fdc61483f6872a1c6b02a4b1c4d68c5b79d06896c3cc9547610c4c3ba64658531caa2de13ead1ea1bf321c7b53e969c4752b98c7
   languageName: node
   linkType: hard
 

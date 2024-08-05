@@ -34,12 +34,12 @@ export const initCommand = (cli: CAC) => {
               message: `Are you using ${highlight("React Server Components")}?`,
               initialValue: false,
             }),
-          components: () =>
+          path: () =>
             p.text({
-              message: `Enter the path to your ${highlight("components directory")}`,
-              initialValue: "@/src/components",
-              defaultValue: "@/src/components",
-              placeholder: "@/src/components",
+              message: `Enter the path to your ${highlight("seed-design directory")}`,
+              initialValue: "./seed-design",
+              defaultValue: "./seed-design",
+              placeholder: "./seed-design",
             }),
         },
         {
@@ -53,9 +53,7 @@ export const initCommand = (cli: CAC) => {
       const config: RawConfig = {
         rsc: group.rsc,
         tsx: group.tsx,
-        aliases: {
-          components: group.components,
-        },
+        path: group.path,
       };
 
       const { start, stop } = p.spinner();
