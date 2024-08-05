@@ -89,37 +89,33 @@ import "@seed-design/stylesheet/global.css";
 
 <Tabs items={['CLI로 추가', '직접 추가']}>
   <Tabs.Tab>
-    <Steps>
-    ### init 명령어 입력하기
+  #### init 명령어 입력하기
 
-    ```sh copy
-    npx @seed-design/cli@latest init
-    ```
+  ```sh copy
+  npx @seed-design/cli@latest init
+  ```
 
-    ### seed-design 설정
+  #### seed-design 설정
 
-    ```sh
-    ◇  Would you like to use TypeScript (recommended)?
-    │  Yes
-    │
-    ◇  Are you using React Server Components?
-    │  No
-    │
-    ◇  Enter the path to your components directory
-    │  @/src/components
-    │
-    ◇  seed-design.json written to seed-design.json
-    ```
-    </Steps>
+  ```sh
+  ◇  Would you like to use TypeScript (recommended)?
+  │  Yes (default)
+  │
+  ◇  Are you using React Server Components?
+  │  No (default)
+  │
+  ◇  Enter the path to your seed-design directory
+  │  ./seed-design (default)
+  │
+  ◇  seed-design.json written to seed-design.json
+  ```
   </Tabs.Tab>
   <Tabs.Tab>
     ```json copy
     {
       "rsc": false,
       "tsx": true,
-      "aliases": {
-        "components": "@/src/components"
-      }
+      "path": "./seed-design"
     }
     ```
   </Tabs.Tab>

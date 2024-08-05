@@ -1,7 +1,5 @@
 {
   "rsc": false,
   "tsx": true,
-  "aliases": {
-    "components": "@/src/components"
-  }
+  "path": "./seed-design"
 }

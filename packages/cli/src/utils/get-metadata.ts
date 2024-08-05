@@ -34,7 +34,7 @@ export async function getMetadataIndex() {
 
     return componentMetadataIndexSchema.parse(result);
   } catch (error) {
-    throw new Error("Failed to fetch components from registry.");
+    throw new Error(`Failed to fetch components from ${BASE_URL}.`);
   }
 }
 

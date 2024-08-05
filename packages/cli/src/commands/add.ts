@@ -91,7 +91,7 @@ export const addCommand = (cli: CAC) => {
 
       for (const metadata of metadatas) {
         for (const registry of metadata.registries) {
-          const componentPath = config.resolvedPaths.components;
+          const componentPath = config.resolvedPaths;
 
           if (!fs.existsSync(componentPath)) {
             await fs.mkdir(componentPath, { recursive: true });
