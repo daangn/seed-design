@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
-    "@seed-design/design-token": "1.0.3",
     "@seed-design/recipe": "0.0.0",
     "@seed-design/stylesheet": "1.0.4",
     "@stackflow/config": "^1.1.0",
