@@ -1,13 +1,24 @@
-import { Snippet } from "@/components/Snippet";
+import { BoxButton } from '@/seed-design/ui/box-button';
+import { Installation } from '@/components/Installation';
+import { Preview } from '@/components/Preview';
+import { Tabs } from "nextra/components";
+
+import registry from '@/public/registry/components/box-button.json';
 
 # Box Button
 
-박스버튼
+<Preview component={<BoxButton>버튼</BoxButton>}>
+```tsx copy
+import { BoxButton } from './seed-design/ui/box-button';
 
-## 설치
-
-```sh copy
-npx @seed-design/cli@latest add box-button
+const App = () => {
+  return (
+    <BoxButton>버튼</BoxButton>
+  );
+}
 ```
+</Preview>
 
-<Snippet component="box-button" />
+### 설치
+
+<Installation registry={registry} />

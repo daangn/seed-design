@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "isolatedModules": false
   },
-  "include": [".contentlayer/generated", "scripts/**/*.ts"],
+  "include": ["scripts/**/*.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true

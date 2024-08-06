@@ -3,9 +3,10 @@ import path, { basename } from "node:path";
 import chalk from "chalk";
 
 // ts-node로 실행할 때 extension을 명시해주지 않으면 모듈을 찾지 못함.
-import { componentMetadatas } from "../metadatas/component.mjs";
+import { componentMetadatas } from "../metadatas/component.js";
 
-import type { ComponentMetadatas } from "../schemas/component";
+import type { ComponentMetadatas } from "../schemas/metadata.js";
+import { componentRegistrySchema } from "../schemas/registry.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "public/registry");
 const SNIPPETS_PATH = path.join(process.cwd(), "snippets");
@@ -59,9 +60,11 @@ async function generateComponentRegistry(metadatas: ComponentMetadatas) {
       registries,
     };
 
+    const parsedPayload = componentRegistrySchema.parse(payload);
+
     await fs.writeFile(
       path.join(targetPath, `${metadata.name}.json`),
-      JSON.stringify(payload, null, 2),
+      JSON.stringify(parsedPayload, null, 2),
       "utf8",
     );
   }
