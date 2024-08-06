@@ -1,4 +1,4 @@
-import { Steps, Tabs } from 'nextra/components';
+import { Steps, Tabs } from 'nextra/components'
 
 # 설치
 
@@ -28,10 +28,11 @@ vite 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정�
     ```
   </Tabs.Tab>
 </Tabs>
- 
+
 ### index.html 수정하기
 
-Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color` 속성을 통해 라이트/다크모드 전환을 해요.
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
+속성을 통해 라이트/다크모드 전환을 해요.
 
 <Tabs items={['auto', 'light only', 'dark only']}>
   <Tabs.Tab>
@@ -80,9 +81,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
 
 ### global.css import하기
 
-```ts copy
-// index.tsx
-import "@seed-design/stylesheet/global.css";
+```ts copy filename="index.tsx"
+import "@seed-design/stylesheet/token.css";
 ```
 
 ### seed-design.json 생성하기
@@ -109,28 +109,15 @@ import "@seed-design/stylesheet/global.css";
   │
   ◇  seed-design.json written to seed-design.json
   ```
+
   </Tabs.Tab>
   <Tabs.Tab>
-    ```json copy
+    ```json copy filename="seed-design.json"
     {
       "rsc": false,
       "tsx": true,
       "path": "./seed-design"
     }
-    ```
-  </Tabs.Tab>
-  <Tabs.Tab>
-    ```html copy
-    <html
-      data-seed="dark-only"
-      data-seed-scale-color="dark"
-      data-seed-scale-letter-spacing="ios"
-    >
-      <head>
-        <meta name="color-scheme" content="dark" />
-        <!-- ... -->
-      </head>
-    </html>
     ```
   </Tabs.Tab>
 </Tabs>

@@ -1,4 +1,4 @@
-import type { ComponentMetadatas } from "../schemas/component";
+import type { ComponentMetadatas } from "../schemas/metadata";
 
 export const componentMetadatas: ComponentMetadatas = [
   {

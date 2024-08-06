@@ -1,5 +1,3 @@
-"use client";
-
 import "@seed-design/stylesheet/dialog.css";
 
 import * as React from "react";

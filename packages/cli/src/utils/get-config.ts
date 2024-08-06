@@ -20,7 +20,7 @@ export const rawConfigSchema = z
 export type RawConfig = z.infer<typeof rawConfigSchema>;
 
 export const configSchema = rawConfigSchema.extend({
-  resolvedPaths: z.string(),
+  resolvedUIPaths: z.string(),
 });
 
 export async function getConfig(cwd: string) {
@@ -40,7 +40,7 @@ export async function resolveConfigPaths(cwd: string, config: RawConfig) {
 
   return configSchema.parse({
     ...config,
-    resolvedPaths: path.join(seedComponentRootPath, "components"),
+    resolvedUIPaths: path.join(seedComponentRootPath, "ui"),
   });
 }
 

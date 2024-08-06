@@ -12,5 +12,8 @@
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "auto-close-tag.activationOnLanguage": [
+    "mdx"
+  ],
 }

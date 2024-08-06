@@ -1,5 +1,3 @@
-"use client";
-
 import "@seed-design/stylesheet/boxButton.css";
 
 import * as React from "react";

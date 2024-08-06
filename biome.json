@@ -26,7 +26,8 @@
         "useTemplate": "warn"
       },
       "complexity": {
-        "useLiteralKeys": "warn"
+        "useLiteralKeys": "warn",
+        "noBannedTypes": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "warn"
@@ -59,11 +60,21 @@
     },
     {
       "include": ["component-docs/**/*"],
-      "ignore": ["**/*.css", "registry/**/*", "public/**/*"],
+      "ignore": [
+        "**/*.css",
+        "registry/**/*",
+        "public/**/*",
+        "node_modules",
+        ".cache",
+        "lib",
+        "dist",
+        ".eslintrc"
+      ],
       "linter": {
         "rules": {
           "style": {
-            "noNonNullAssertion": "off"
+            "noNonNullAssertion": "off",
+            "useImportType": "off"
           },
           "correctness": {
             "useExhaustiveDependencies": "warn"

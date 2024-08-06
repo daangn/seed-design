@@ -91,13 +91,13 @@ export const addCommand = (cli: CAC) => {
 
       for (const metadata of metadatas) {
         for (const registry of metadata.registries) {
-          const componentPath = config.resolvedPaths;
+          const UIFolderPath = config.resolvedUIPaths;
 
-          if (!fs.existsSync(componentPath)) {
-            await fs.mkdir(componentPath, { recursive: true });
+          if (!fs.existsSync(UIFolderPath)) {
+            await fs.mkdir(UIFolderPath, { recursive: true });
           }
 
-          let filePath = path.resolve(componentPath, registry.name);
+          let filePath = path.resolve(UIFolderPath, registry.name);
 
           const content = await transform({
             filename: registry.name,
