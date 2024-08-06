@@ -1,6 +1,5 @@
 import { vars } from "@seed-design/design-token";
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
-import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
 import { ActivityComponentType, stackflow } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
@@ -33,10 +32,6 @@ export const makeStack = (props: MakeStackProps) => {
             ariaLabel: "닫기",
           },
         },
-      }),
-      historySyncPlugin({
-        config,
-        fallbackActivity: () => "Main",
       }),
     ],
   });
