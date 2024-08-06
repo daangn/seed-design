@@ -1,8 +1,9 @@
 import * as React from "react";
+
 import { AppScreen } from "@stackflow/plugin-basic-ui";
 import { type ActivityComponentType, useStepFlow, useStack } from "@stackflow/react/future";
-import { BoxButton } from "@/seed-design/ui/box-button";
 
+import { BoxButton } from "@/seed-design/ui/box-button";
 import { AlertDialog as UIAlertDialog } from "@/seed-design/ui/alert-dialog";
 
 declare module "@stackflow/config" {
