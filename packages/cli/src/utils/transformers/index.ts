@@ -3,9 +3,9 @@ import { promises as fs } from "fs";
 import { tmpdir } from "os";
 import path from "path";
 
-import { transformImport } from "@/src/utils/transformers/transform-import";
 import { transformJsx } from "@/src/utils/transformers/transform-jsx";
 import { transformRsc } from "@/src/utils/transformers/transform-rsc";
+import { transformCSS } from "./transform-css";
 
 import { Project, ScriptKind, type SourceFile } from "ts-morph";
 
@@ -23,7 +23,7 @@ export type Transformer<Output = SourceFile> = (
   },
 ) => Promise<Output>;
 
-const transformers: Transformer[] = [transformImport, transformRsc];
+const transformers: Transformer[] = [transformRsc, transformCSS];
 
 const project = new Project({
   compilerOptions: {},

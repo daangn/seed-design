@@ -84,10 +84,12 @@ export const addCommand = (cli: CAC) => {
       const config = await getConfig(cwd);
       const metadatas = await fetchComponentMetadatas(allComponents);
 
-      p.log.message(
-        `Selection: ${highlight(selectedComponents.join(", "))}
-        \nInner Dependencies: ${highlight(addedComponents.join(", "))} will be also added.`,
-      );
+      p.log.message(`Selection: ${highlight(selectedComponents.join(", "))}`);
+      if (addedComponents.length) {
+        p.log.message(
+          `Inner Dependencies: ${highlight(addedComponents.join(", "))} will be also added.`,
+        );
+      }
 
       for (const metadata of metadatas) {
         for (const registry of metadata.registries) {
