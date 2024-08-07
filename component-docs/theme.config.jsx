@@ -10,6 +10,11 @@ export default {
       <span style={{ fontWeight: 'lighter', marginLeft: "4px" }}>Components</span>
     </div>
   ),
+  head: () => (
+    <>
+      <link rel="icon" type="image/png" sizes="160x160" href="/favicon.png" />
+    </>
+  ),
   project: {
     link: 'https://github.com/daangn/seed-design'
   },

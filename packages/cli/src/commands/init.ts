@@ -34,6 +34,11 @@ export const initCommand = (cli: CAC) => {
               message: `Are you using ${highlight("React Server Components")}?`,
               initialValue: false,
             }),
+          css: () =>
+            p.confirm({
+              message: `Would you like to use ${highlight("CSS Modules")}? (If true, CSS import will be added in components)`,
+              initialValue: true,
+            }),
           path: () =>
             p.text({
               message: `Enter the path to your ${highlight("seed-design directory")}`,
@@ -53,6 +58,7 @@ export const initCommand = (cli: CAC) => {
       const config: RawConfig = {
         rsc: group.rsc,
         tsx: group.tsx,
+        css: group.css,
         path: group.path,
       };
 
