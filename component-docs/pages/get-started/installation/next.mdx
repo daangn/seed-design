@@ -1,5 +1,8 @@
 import { Steps, Tabs } from 'nextra/components'
 
+import SeedDesignConfiguration from "@/components/seed-design-configuration.mdx"
+import Installation from "@/components/get-started-installation.mdx"
+
 # 설치
 
 Next.js 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정들에 대해서 알아봐요.
@@ -12,24 +15,7 @@ Next.js 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설�
 
     필요한 의존성들을 설치해요.
 
-    {/* TODO: recipe 등 추가적인 라이브러리들 */}
-    <Tabs items={['yarn', 'pnpm', 'npm']}>
-      <Tabs.Tab>
-        ```sh copy
-        yarn add @seed-design/stylesheet @seed-design/design-token
-        ```
-      </Tabs.Tab>
-      <Tabs.Tab>
-        ```sh copy
-        pnpm add @seed-design/stylesheet @seed-design/design-token
-        ```
-      </Tabs.Tab>
-      <Tabs.Tab>
-        ```sh copy
-        npm install @seed-design/stylesheet @seed-design/design-token
-        ```
-      </Tabs.Tab>
-    </Tabs>
+    <Installation />
 
     ### pages/_document.tsx 수정하기
 
@@ -108,39 +94,7 @@ Next.js 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설�
 
     ### seed-design.json 생성하기
 
-    <Tabs items={['CLI로 추가', '직접 추가']}>
-      <Tabs.Tab>
-      #### init 명령어 입력하기
-
-      ```sh copy
-      npx @seed-design/cli@latest init
-      ```
-
-      #### seed-design 설정
-
-      ```sh
-      ◇  Would you like to use TypeScript (recommended)?
-      │  Yes (default)
-      │
-      ◇  Are you using React Server Components?
-      │  No (default)
-      │
-      ◇  Enter the path to your seed-design directory
-      │  ./seed-design (default)
-      │
-      ◇  seed-design.json written to seed-design.json
-      ```
-      </Tabs.Tab>
-      <Tabs.Tab>
-        ```json copy filename="seed-design.json"
-        {
-          "rsc": false,
-          "tsx": true,
-          "path": "./seed-design"
-        }
-        ```
-      </Tabs.Tab>
-    </Tabs>
+    <SeedDesignConfiguration />
 
     ### 컴포넌트를 한번 사용해볼까요?
 
