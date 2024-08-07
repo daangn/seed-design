@@ -1,0 +1,50 @@
+import { AlertDialog } from '@/seed-design/components/alert-dialog';
+import { Installation } from '@/components/Installation';
+import { Preview } from '@/components/Preview';
+import { Tabs } from "nextra/components";
+import { Stackflow } from "@/components/Stackflow";
+
+import registry from '@/public/registry/components/alert-dialog.json';
+import AlertDialogActivity from "@/activities/AlertDialogActivity";
+
+# Alert Dialog
+
+<Preview component={<AlertDialog />}>
+```tsx copy filename="AlertDialog.tsx"
+import * as React from "react";
+
+import { AlertDialog as UIAlertDialog } from "./seed-design/ui/alert-dialog";
+import { BoxButton } from "./seed-design/ui/box-button";
+
+export const AlertDialog: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const onInteractOutside = () => {
+    setOpen(false);
+  };
+  const onButtonClick = () => {
+    setOpen(true);
+  };
+
+  return (
+    <>
+      <BoxButton onClick={onButtonClick}>Open</BoxButton>
+      {open && (
+        <UIAlertDialog
+          onInteractOutside={onInteractOutside}
+          title="Title"
+          description="Description"
+        />
+      )}
+    </>
+  );
+};
+```
+</Preview>
+
+### 설치
+
+<Installation registry={registry} />
+
+### 예시
+
+<Stackflow Activity={AlertDialogActivity} />

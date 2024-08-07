@@ -26,13 +26,17 @@
         "useTemplate": "warn"
       },
       "complexity": {
-        "useLiteralKeys": "warn"
+        "useLiteralKeys": "warn",
+        "noBannedTypes": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "warn"
       },
       "security": {
         "noDangerouslySetInnerHtml": "warn"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off"
       }
     }
   },
@@ -52,6 +56,36 @@
       },
       "formatter": {
         "lineWidth": 80
+      }
+    },
+    {
+      "include": ["component-docs/**/*"],
+      "ignore": [
+        "**/*.css",
+        "registry/**/*",
+        "public/**/*",
+        "node_modules",
+        ".cache",
+        "lib",
+        "dist",
+        ".eslintrc"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "useExhaustiveDependencies": "warn"
+          },
+          "a11y": {
+            "useKeyWithClickEvents": "off"
+          }
+        }
+      },
+      "formatter": {
+        "lineWidth": 100
       }
     }
   ]
