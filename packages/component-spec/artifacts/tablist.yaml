@@ -1,0 +1,16 @@
+base:
+  enabled:
+    root:
+      strokeBottomWidth: 1px
+      strokeColor: $color.stroke.neutral
+    indicator:
+      height: 2px
+      color: $color.fg.neutral
+layout=hug:
+  enabled:
+    root:
+      paddingX: $spacing.global-gutter
+layout=fill:
+  enabled:
+    root:
+      paddingX: 0px

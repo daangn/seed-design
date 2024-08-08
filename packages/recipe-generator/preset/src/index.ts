@@ -7,6 +7,7 @@ import dialog from "./dialog.recipe";
 import helpBubble from "./help-bubble.recipe";
 import radio from "./radio.recipe";
 import switchRecipe from "./switch.recipe";
+import tab from "./tab.recipe";
 
 const recipes = {
   avatar,
@@ -18,6 +19,7 @@ const recipes = {
   callout,
   switch: switchRecipe,
   helpBubble,
+  tab,
 };
 
 export default recipes;

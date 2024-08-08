@@ -1,0 +1,33 @@
+base:
+  enabled:
+    label:
+      color: $color.fg.neutral-subtle
+    notification:
+      size: $unit[1]
+      cornerRadius: $radii.full
+      color: $color.bg.brand
+      paddingLeft: $unit[0.5]
+  selected:
+    label:
+      color: $color.fg.neutral
+  disabled:
+    label:
+      color: $color.fg.disabled-1
+size=medium:
+  enabled:
+    root:
+      minHeight: 44px
+      paddingX: $unit[2.5]
+      paddingY: $unit[2.5]
+    label:
+      fontSize: $font-size[200]
+      fontWeight: $font-weight.bold
+size=small:
+  enabled:
+    root:
+      minHeight: 40px
+      paddingX: $unit[2.5]
+      paddingY: $unit[2.5]
+    label:
+      fontSize: $font-size[100]
+      fontWeight: $font-weight.bold
