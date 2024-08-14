@@ -1,6 +1,7 @@
 base:
   enabled:
     root:
+      color: $color.bg.layer-1
       strokeBottomWidth: 1px
       strokeColor: $color.stroke.neutral
     indicator:
@@ -9,7 +10,7 @@ base:
 layout=hug:
   enabled:
     root:
-      paddingX: $spacing.global-gutter
+      paddingX: $unit[4] # global gutter
 layout=fill:
   enabled:
     root:

@@ -1,10 +1,11 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import { ariaAttr, buttonProps, dataAttr, elementProps, labelProps } from "@seed-design/dom-utils";
 import React, { useId } from "react";
 import * as dom from "./dom";
 import type { ContentProps, TriggerProps, UseTabsProps, UseTabsStateProps } from "./types";
 
 import { useGesture } from "@use-gesture/react";
+import { useSize } from "@radix-ui/react-use-size";
 
 function useTabsState(props: UseTabsStateProps & { id: string }) {
   const [value, setValue] = useControllableState({
@@ -18,6 +19,8 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
   const [isFocusVisible, setIsFocusVisible] = React.useState(false);
   const [swipeStatus, setSwipeStatus] = React.useState<"idle" | "dragging">("idle");
   const [swipeMoveX, setSwipeMoveX] = React.useState<number>(0);
+  const triggerEl = dom.getTabTriggerEl(value, props.id);
+  const triggerSize = useSize(triggerEl);
 
   const tabValues = dom.getAllValues(props.id);
   const tabEnabledValues = dom.getEnabledValues(props.id);
@@ -55,6 +58,11 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
 
   return {
     value,
+    triggerSize: {
+      width: triggerSize?.width || 0,
+      height: triggerSize?.height || 0,
+      left: triggerEl?.offsetLeft || 0,
+    },
     hoveredValue,
     activeValue,
     focusedValue,
@@ -80,6 +88,7 @@ export function useTabs(props: UseTabsProps) {
     events,
     tabValues,
     tabEnabledValues,
+    triggerSize,
     activeValue,
     focusedValue,
     hoveredValue,
@@ -91,9 +100,11 @@ export function useTabs(props: UseTabsProps) {
   const {
     value: omitValue,
     defaultValue: omitDefaultValue,
+    layout,
     onValueChange: omitOnValueChange,
     isSwipeable = false,
     orientation = "horizontal",
+    swipeConfig,
     ...restProps
   } = props;
 
@@ -125,8 +136,9 @@ export function useTabs(props: UseTabsProps) {
         preventScrollAxis: "y",
         preventDefault: true,
         swipe: {
-          distance: 50,
-          velocity: 0.3,
+          distance: swipeConfig?.distance || 50,
+          velocity: swipeConfig?.velocity || 0.3,
+          duration: swipeConfig?.duration || 250,
         },
       },
     },
@@ -134,6 +146,7 @@ export function useTabs(props: UseTabsProps) {
 
   return {
     value,
+    triggerSize,
     currentTabIndex,
     currentTabEnabledIndex,
     tabCount: tabValues.length,
@@ -175,45 +188,63 @@ export function useTabs(props: UseTabsProps) {
         "aria-disabled": ariaAttr(itemState.isDisabled),
         "aria-selected": ariaAttr(itemState.isSelected),
         tabIndex: itemState.isSelected ? 0 : -1,
+        disabled: isDisabled,
       };
 
-      return buttonProps({
-        id: dom.getTabTriggerId(triggerValue, id),
-        role: "tab",
-        type: "button",
-        ...itemStateProps,
-        disabled: isDisabled,
-        "data-value": triggerValue,
-        "data-orientation": orientation,
-        "data-ownedby": dom.getTabTriggerListId(id),
-        "aria-controls": dom.getTabTriggerId(triggerValue, id),
-        onClick() {
-          if (itemState.isDisabled) return;
-          events.setValue(triggerValue);
-        },
-        onPointerMove() {
-          if (itemState.isDisabled) return;
-          events.setHoveredValue(triggerValue);
-        },
-        onPointerLeave() {
-          if (itemState.isDisabled) return;
-          events.setHoveredValue(null);
-          events.setActiveValue(null);
-        },
-        onPointerDown(event) {
-          if (itemState.isDisabled) return;
-          // On pointerdown, the input blurs and returns focus to the `body`,
-          // we need to prevent this.
-          if (itemState.isFocused && event.pointerType === "mouse") {
-            event.preventDefault();
-          }
-          events.setActiveValue(triggerValue);
-        },
-        onPointerUp() {
-          if (itemState.isDisabled) return;
-          events.setActiveValue(null);
-        },
-      });
+      return {
+        rootProps: buttonProps({
+          id: dom.getTabTriggerRootId(triggerValue, id),
+          role: "tab",
+          type: "button",
+          ...itemStateProps,
+          "data-value": triggerValue,
+          "data-orientation": orientation,
+          "data-ownedby": dom.getTabTriggerListId(id),
+          "aria-controls": dom.getTabTriggerRootId(triggerValue, id),
+          onClick() {
+            if (itemState.isDisabled) return;
+            events.setValue(triggerValue);
+          },
+          onPointerMove() {
+            if (itemState.isDisabled) return;
+            events.setHoveredValue(triggerValue);
+          },
+          onPointerLeave() {
+            if (itemState.isDisabled) return;
+            events.setHoveredValue(null);
+            events.setActiveValue(null);
+          },
+          onPointerDown(event) {
+            if (itemState.isDisabled) return;
+            // On pointerdown, the input blurs and returns focus to the `body`,
+            // we need to prevent this.
+            if (itemState.isFocused && event.pointerType === "mouse") {
+              event.preventDefault();
+            }
+            events.setActiveValue(triggerValue);
+          },
+          onPointerUp() {
+            if (itemState.isDisabled) return;
+            events.setActiveValue(null);
+          },
+        }),
+        labelProps: elementProps({
+          id: dom.getTabTriggerLabelId(triggerValue, id),
+          ...itemStateProps,
+          "data-value": triggerValue,
+          "data-orientation": orientation,
+          "data-ownedby": dom.getTabTriggerListId(id),
+          "aria-controls": dom.getTabTriggerRootId(triggerValue, id),
+        }),
+        notificationProps: elementProps({
+          id: dom.getTabTriggerNotificationId(triggerValue, id),
+          ...itemStateProps,
+          "data-value": triggerValue,
+          "data-orientation": orientation,
+          "data-ownedby": dom.getTabTriggerListId(id),
+          "aria-controls": dom.getTabTriggerRootId(triggerValue, id),
+        }),
+      };
     },
 
     tabContentListProps: elementProps({
@@ -228,7 +259,7 @@ export function useTabs(props: UseTabsProps) {
       const { value: contentValue } = props;
       const isSelected = value === contentValue;
 
-      const tabContentId = dom.getTabTriggerId(contentValue, id);
+      const tabContentId = dom.getTabTriggerRootId(contentValue, id);
       const isDisabled = !!dom.itemById(dom.getDisabledElements(id), tabContentId);
 
       return elementProps({
@@ -237,7 +268,7 @@ export function useTabs(props: UseTabsProps) {
         "data-selected": dataAttr(isSelected),
         "data-orientation": orientation,
         "data-ownedby": dom.getTabTriggerListId(id),
-        "aria-labelledby": dom.getTabTriggerId(contentValue, id),
+        "aria-labelledby": dom.getTabTriggerRootId(contentValue, id),
         "aria-selected": ariaAttr(isSelected),
         "aria-hidden": isDisabled ? undefined : !isSelected,
         hidden: isDisabled,

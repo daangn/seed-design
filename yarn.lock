@@ -6529,6 +6529,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-use-layout-effect@npm:1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-use-layout-effect@npm:1.1.0"
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 271ea0bf1cd74718895a68414a6e95537737f36e02ad08eeb61a82b229d6abda9cff3135a479e134e1f0ce2c3ff97bb85babbdce751985fb755a39b231d7ccf2
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-use-layout-effect@npm:^1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/react-use-layout-effect@npm:1.0.1"
@@ -6541,6 +6554,21 @@ __metadata:
     "@types/react":
       optional: true
   checksum: bed9c7e8de243a5ec3b93bb6a5860950b0dba359b6680c84d57c7a655e123dec9b5891c5dfe81ab970652e7779fe2ad102a23177c7896dde95f7340817d47ae5
+  languageName: node
+  linkType: hard
+
+"@radix-ui/react-use-size@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@radix-ui/react-use-size@npm:1.1.0"
+  dependencies:
+    "@radix-ui/react-use-layout-effect": 1.1.0
+  peerDependencies:
+    "@types/react": "*"
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 01a11d4c07fc620b8a081e53d7ec8495b19a11e02688f3d9f47cf41a5fe0428d1e52ed60b2bf88dfd447dc2502797b9dad2841097389126dd108530913c4d90d
   languageName: node
   linkType: hard
 
@@ -6937,7 +6965,6 @@ __metadata:
   dependencies:
     "@floating-ui/react": ^0.26.19
     "@seed-design/dom-utils": 0.0.0
-    nanobundle: ^1.6.0
     tshy: ^1.17.0
     typescript: ^5.4.5
   peerDependencies:
@@ -6977,6 +7004,7 @@ __metadata:
   resolution: "@seed-design/react-tabs@workspace:packages/react-headless/tabs"
   dependencies:
     "@radix-ui/react-use-controllable-state": 1.0.1
+    "@radix-ui/react-use-size": ^1.1.0
     "@seed-design/dom-utils": 0.0.0
     "@use-gesture/react": ^10.3.1
     nanobundle: ^1.6.0

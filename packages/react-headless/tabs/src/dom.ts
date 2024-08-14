@@ -2,7 +2,12 @@
 -------------------------------------------------------------------------------- */
 
 export const getRootId = (id: string) => `tabs:${id}:root`;
-export const getTabTriggerId = (value: string, id: string) => `tabs:${value}:${id}:trigger`;
+export const getTabTriggerRootId = (value: string, id: string) =>
+  `tabs:${value}:${id}:trigger-root`;
+export const getTabTriggerLabelId = (value: string, id: string) =>
+  `tabs:${value}:${id}:trigger-label`;
+export const getTabTriggerNotificationId = (value: string, id: string) =>
+  `tabs:${value}:${id}:trigger-notification`;
 export const getTabTriggerListId = (id: string) => `tabs:${id}:trigger-list`;
 export const getTabContentId = (value: string, id: string) => `tabs:${value}:${id}:content`;
 export const getTabContentListId = (id: string) => `tabs:${id}:content-list`;
@@ -15,7 +20,7 @@ export const getIndicatorId = (id: string) => `tabs:${id}:indicator`;
 export const getRootEl = (id: string) => document.getElementById(getRootId(id));
 export const getTabTriggerListEl = (id: string) => document.getElementById(getTabTriggerListId(id));
 export const getTabTriggerEl = (value: string, id: string) =>
-  document.getElementById(getTabTriggerId(value, id));
+  document.getElementById(getTabTriggerRootId(value, id));
 export const getTabContentEl = (value: string, id: string) =>
   document.getElementById(getTabContentId(value, id));
 export const getTabContentListEl = (id: string) => document.getElementById(getTabContentListId(id));

@@ -48,9 +48,14 @@ function TabTriggerList(props: React.PropsWithChildren) {
 function TabTrigger(props: React.PropsWithChildren<TriggerProps>) {
   const { api } = useTabsContext();
   const { getTabTriggerProps } = api;
-  const tabTriggerProps = getTabTriggerProps(props);
+  const { labelProps, notificationProps, rootProps } = getTabTriggerProps(props);
 
-  return <button {...tabTriggerProps}>{props.children}</button>;
+  return (
+    <button {...rootProps}>
+      <span {...labelProps}>{props.children}</span>
+      <span {...notificationProps} />
+    </button>
+  );
 }
 
 function TabContentList(props: React.PropsWithChildren) {
@@ -100,20 +105,6 @@ function UncontrolledTabs({
           </TabContent>
         ))}
       </TabContentList>
-    </Tabs>
-  );
-}
-
-function ControlledTabs(
-  props: React.PropsWithChildren<Omit<UseTabsProps, "value" | "onValueChange">>,
-) {
-  const { defaultValue } = props;
-  const [value, setValue] = React.useState(defaultValue);
-  const mockSetValue = vi.fn((value) => setValue(value));
-
-  return (
-    <Tabs {...props} value={value} onValueChange={mockSetValue}>
-      {props.children}
     </Tabs>
   );
 }
@@ -193,7 +184,7 @@ describe("useTabs", () => {
 
       await user.click(disabledTrigger);
 
-      expect(disabledTrigger).toBeDisabled();
+      expect(disabledTrigger).toHaveAttribute("aria-disabled");
       expect(disabledTrigger).not.toHaveAttribute("aria-selected");
     });
   });

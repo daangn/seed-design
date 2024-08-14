@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "1.0.1",
+    "@radix-ui/react-use-size": "^1.1.0",
     "@seed-design/dom-utils": "0.0.0",
     "@use-gesture/react": "^10.3.1"
   },

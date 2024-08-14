@@ -5,7 +5,6 @@ import { stackflow } from "@stackflow/react";
 import React from "react";
 
 import ActivityNotFound from "../activities/ActivityNotFound";
-import AcitivitiyTabs from "../activities/ActivityTabs";
 
 /**
  * Stackflow는 웹뷰 내에서 Stack Navigation UI를 도와주는 도구에요.

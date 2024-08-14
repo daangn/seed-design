@@ -7,8 +7,8 @@ export const vars = {
       "notification": {
         "size": "var(--seed-unit-1)",
         "cornerRadius": "var(--seed-radii-full)",
-        "color": "var(--seed-color-bg-brand)",
-        "paddingLeft": "var(--seed-unit-0\\.5)"
+        "color": "var(--seed-color-bg-brand-solid)",
+        "marginLeft": "var(--seed-unit-0\\.5)"
       }
     },
     "selected": {

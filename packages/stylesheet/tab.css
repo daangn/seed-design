@@ -7,21 +7,31 @@
     box-sizing: border-box;
     white-space: nowrap;
 }
+.tab__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
 .tab__label {
+    position: relative;
     color: var(--seed-color-fg-neutral-subtle);
 }
-.tab__label:is(:active, [data-active]) {
+.tab__label:is(:selected, [data-selected]) {
     color: var(--seed-color-fg-neutral);
 }
 .tab__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled-1);
-    cursor: not-allowed;
 }
 .tab__notification {
-    background-color: var(--seed-color-bg-brand);
+    position: absolute;
+    top: 0;
+    right: calc(-1 * var(--seed-unit-1) - var(--seed-unit-0\.5));
+    align-self: flex-start;
+    background-color: var(--seed-color-bg-brand-solid);
     width: var(--seed-unit-1);
     height: var(--seed-unit-1);
     border-radius: var(--seed-radii-full);
+}
+.tab__root--layout_fill {
+    flex: 1;
 }
 .tab__root--size_medium {
     min-height: 44px;

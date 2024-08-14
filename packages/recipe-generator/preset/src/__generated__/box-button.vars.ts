@@ -9,7 +9,7 @@ export const vars = {
   "variantBrand": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-emphasis)"
+        "color": "var(--seed-color-bg-brand-solid)"
       },
       "label": {
         "color": "var(--seed-color-fg-static-white)"
@@ -20,12 +20,12 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-emphasis-pressed)"
+        "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
     },
     "disabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--seed-color-bg-disabled-1)"
       }
     }
   },

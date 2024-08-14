@@ -2,6 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
+        "color": "var(--seed-color-bg-layer-1)",
         "strokeBottomWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral)"
       },
@@ -14,7 +15,7 @@ export const vars = {
   "layoutHug": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-spacing-global-gutter)"
+        "paddingX": "var(--seed-unit-4)"
       }
     }
   },

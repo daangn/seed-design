@@ -17,6 +17,16 @@ import {
 
 afterEach(cleanup);
 
+/**
+ * @see https://github.com/ZeeCoder/use-resize-observer/issues/40#issuecomment-644536259
+ * useSize에서 사용하는 ResizeObserver를 mock으로 대체합니다.
+ */
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 function setUp(jsx: ReactElement) {
   return {
     user: userEvent.setup(),
@@ -64,9 +74,14 @@ function TabTriggerList(props: React.PropsWithChildren) {
 function TabTrigger(props: React.PropsWithChildren<TriggerProps>) {
   const { api } = useTabsContext();
   const { getTabTriggerProps } = api;
-  const tabTriggerProps = getTabTriggerProps(props);
+  const { labelProps, notificationProps, rootProps } = getTabTriggerProps(props);
 
-  return <button {...tabTriggerProps}>{props.children}</button>;
+  return (
+    <button {...rootProps}>
+      <span {...labelProps}>{props.children}</span>
+      <span {...notificationProps} />
+    </button>
+  );
 }
 
 function TabContentList(props: React.PropsWithChildren) {
@@ -130,6 +145,8 @@ function LazyTabs(props: UseTabsProps & Omit<UseLazyContentsProps, "currentValue
 }
 
 describe("useLazyContents", () => {
+  window.ResizeObserver = ResizeObserver;
+
   it("should render all tabs when isLazy=false, lazyMode='keepMounted'", async () => {
     const { queryByText, user } = setUp(<LazyTabs isLazy={false} lazyMode="keepMounted" />);
 

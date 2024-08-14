@@ -5,17 +5,17 @@ base:
 variant=brand:
   enabled:
     root:
-      color: "$color.bg.brand-emphasis"
+      color: "$color.bg.brand-solid"
     label:
       color: "$color.fg.static-white"
     prefixIcon:
       color: "$color.fg.static-white"
   pressed:
     root:
-      color: "$color.bg.brand-emphasis-pressed"
+      color: "$color.bg.brand-solid-pressed"
   disabled:
     root:
-      color: "$color.bg.disabled"
+      color: "$color.bg.disabled-1"
 variant=brand soft:
   enabled:
     root:

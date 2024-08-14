@@ -30,7 +30,8 @@
         "noBannedTypes": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "warn"
+        "useExhaustiveDependencies": "warn",
+        "noUnusedVariables": "error"
       },
       "security": {
         "noDangerouslySetInnerHtml": "warn"
