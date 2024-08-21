@@ -3,6 +3,7 @@ import { useId, useState } from "react";
 import { graphemeSegments } from "unicode-segmenter/grapheme";
 
 import { dataAttr, ariaAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
+import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
 export interface UseTextFieldStateProps {
   value?: string;
@@ -42,15 +43,9 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
   autoFocus?: boolean;
 
   name?: string;
-  maxLength?: number;
+
   minLength?: number;
-  pattern?: string;
-  placeholder?: string;
-  autoComplete?: "none" | "inline" | "list" | "both";
-
-  type?: "text" | "search" | "url" | "tel" | "email" | "password" | (string & {});
-
-  inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+  maxGraphemeCount?: number;
 
   onFocus?: (e: React.FocusEvent) => void;
   onBlur?: (e: React.FocusEvent) => void;
@@ -60,45 +55,34 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
    */
   invalid?: boolean;
 
-  /**
-   * @default "input"
-   */
-  elementType?: "input" | "textarea";
+  description?: string;
 
-  allowExceedLength?: boolean;
+  errorMessage?: string;
 }
 
 const getSlicedGraphemes = ({
   value,
-  maxLength,
-  allowExceedLength,
-}: Pick<UseTextFieldProps, "value" | "allowExceedLength" | "maxLength">) => {
+  maxGraphemeCount,
+}: Pick<UseTextFieldProps, "value" | "maxGraphemeCount">) => {
   const graphemes = Array.from(graphemeSegments(value || "")).map((g) => g.segment);
-  return allowExceedLength ? graphemes : graphemes.slice(0, maxLength);
+  return maxGraphemeCount === undefined ? graphemes : graphemes.slice(0, maxGraphemeCount);
 };
 
 export function useTextField(props: UseTextFieldProps) {
   const id = useId();
   const {
     value,
+    description,
+    errorMessage,
     defaultValue,
-    elementType = "input",
     disabled = false,
     invalid = false,
     readOnly = false,
     required = false,
-    pattern,
-    autoComplete,
-    autoFocus,
-    allowExceedLength,
-    minLength,
-    maxLength,
-    placeholder,
-    inputMode,
+    maxGraphemeCount,
     onBlur,
     onFocus,
     onValueChange,
-    type = "text",
     ...restProps
   } = props;
 
@@ -119,17 +103,18 @@ export function useTextField(props: UseTextFieldProps) {
     value,
   });
 
-  const inputOnlyProps =
-    elementType === "input"
-      ? {
-          type,
-          pattern,
-        }
-      : {};
+  const showErrorMessage = invalid && !!errorMessage;
+  const showDescription = !showErrorMessage && !!description;
+  const ariaDescribedBy =
+    [
+      showDescription ? getDescriptionId(id) : false,
+      showErrorMessage ? getErrorMessageId(id) : false,
+    ]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   const slicedGraphemes = getSlicedGraphemes({
-    allowExceedLength,
-    maxLength,
+    maxGraphemeCount,
     value: currentValue,
   });
 
@@ -161,6 +146,7 @@ export function useTextField(props: UseTextFieldProps) {
 
     rootProps: elementProps({
       ...stateProps,
+      "aria-labelledby": getLabelId(id),
       onPointerMove() {
         setIsHovered(true);
       },
@@ -178,23 +164,22 @@ export function useTextField(props: UseTextFieldProps) {
 
     labelProps: labelProps({
       ...stateProps,
+      id: getLabelId(id),
+      htmlFor: getInputId(id),
     }),
 
     inputProps: inputProps({
-      ...inputOnlyProps,
       ...stateProps,
       disabled,
       readOnly,
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
-      "aria-autocomplete": autoComplete,
-      autoFocus,
+      "aria-describedby": ariaDescribedBy,
       onChange: (e) => {
         const givenValue = e.target.value;
 
         const slicedGraphemes = getSlicedGraphemes({
-          allowExceedLength,
-          maxLength,
+          maxGraphemeCount,
           value: givenValue,
         });
 
@@ -213,18 +198,16 @@ export function useTextField(props: UseTextFieldProps) {
         setIsFocusVisible(e.target.matches(":focus-visible"));
         onFocus?.(e);
       },
-      autoComplete,
-      // NOTE: graphemes로 처리하므로 maxLength를 사용하지 않음
-      minLength,
       name: props.name || id,
+      id: getInputId(id),
       value: slicedValue,
-      placeholder,
-      inputMode,
     }),
     descriptionProps: elementProps({
+      id: getDescriptionId(id),
       ...stateProps,
     }),
     errorMessageProps: elementProps({
+      id: getErrorMessageId(id),
       ...stateProps,
     }),
   };
