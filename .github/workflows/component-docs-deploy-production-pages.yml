@@ -24,7 +24,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Install dom-utils packages
-        working-directory: ./packages/dom-utils
+        working-directory: ./packages/utils/dom-utils
         run: yarn build
 
       - name: Build headless packages
