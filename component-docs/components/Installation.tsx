@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 import type { ComponentRegistry } from "@/schemas/registry";
 import { Code, Pre, Tabs, Steps } from "nextra/components";
 

@@ -1,5 +1,5 @@
 import { makeStack } from "@/stackflow";
-import { type ActivityComponentType } from "@stackflow/react/future";
+import type { ActivityComponentType } from "@stackflow/react/future";
 import { useSimpleReveal } from "simple-reveal";
 
 interface StackflowProps {
