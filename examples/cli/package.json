@@ -1,0 +1,11 @@
+{
+  "name": "@seed-design/cli-example",
+  "version": "0.0.1",
+  "packageManager": "yarn@3.2.2",
+  "devDependencies": {
+    "@seed-design/cli": "workspace:^"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0"
+  }
+}

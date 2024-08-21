@@ -1,0 +1,39 @@
+{
+  "name": "component-docs",
+  "packageManager": "yarn@3.2.2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "build": "yarn generate:registry && next build",
+    "generate:registry": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-registry.ts"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "@seed-design/recipe": "0.0.0",
+    "@seed-design/stylesheet": "1.0.4",
+    "@stackflow/config": "^1.1.0",
+    "@stackflow/core": "^1.0.13",
+    "@stackflow/plugin-basic-ui": "^1.8.4",
+    "@stackflow/plugin-renderer-basic": "^1.1.11",
+    "@stackflow/react": "^1.2.1",
+    "next": "^14.2.5",
+    "nextra": "^2.13.4",
+    "nextra-theme-docs": "^2.13.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "simple-reveal": "^0.8.0",
+    "ts-morph": "^23.0.0"
+  },
+  "devDependencies": {
+    "@seed-design/cli": "workspace:^",
+    "@types/node": "^20.14.12",
+    "autoprefixer": "^10.4.20",
+    "chalk": "^5.3.0",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "zod": "^3.23.8"
+  }
+}

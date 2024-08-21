@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'component-docs/**'
+
+name: Deploy Seed Component Docs Production Pages
+
+jobs:
+  deploy:
+    name: Deploy Seed Component Docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.0
+          cache: yarn
+      
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build `Seed Component Docs`
+        working-directory: ./component-docs
+        run: |
+          yarn build
+      
+      - name: Production Deploy `Seed Docs` at Cloudflare pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy ./component-docs/out --project-name=seed-component-docs

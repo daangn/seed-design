@@ -1,0 +1,24 @@
+import { BoxButton } from '@/seed-design/ui/box-button';
+import { Installation } from '@/components/Installation';
+import { Preview } from '@/components/Preview';
+import { Tabs } from "nextra/components";
+
+import registry from '@/public/registry/components/box-button.json';
+
+# Box Button
+
+<Preview component={<BoxButton>버튼</BoxButton>}>
+```tsx copy
+import { BoxButton } from './seed-design/ui/box-button';
+
+const App = () => {
+  return (
+    <BoxButton>버튼</BoxButton>
+  );
+}
+```
+</Preview>
+
+### 설치
+
+<Installation registry={registry} />
