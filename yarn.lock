@@ -7453,7 +7453,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/react-checkbox@workspace:packages/react-headless/checkbox":
+"@seed-design/react-checkbox@0.0.0, @seed-design/react-checkbox@workspace:packages/react-headless/checkbox":
   version: 0.0.0-use.local
   resolution: "@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"
   dependencies:
@@ -9904,6 +9904,16 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: c63d6a78163244e2022b01ef79b0baec4fe4da3475dc4a90bb8accefad35ef0c43560fd0312e5974f92a0f1108aa4d669ac72d73d66396aa060ea03b5d2e3873
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.3.4":
+  version: 18.3.4
+  resolution: "@types/react@npm:18.3.4"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.0.2
+  checksum: 555ccd1af86a23c781dea0360de64b2f7a0708cdcbf9e6496744b77630065868526fd55147c727dc5ef11b7fd712b04f7898757a84c67e2eb9dfd4c4ead10d95
   languageName: node
   linkType: hard
 
@@ -13251,6 +13261,8 @@ __metadata:
   dependencies:
     "@radix-ui/react-slot": ^1.1.0
     "@seed-design/cli": "workspace:^"
+    "@seed-design/react-checkbox": 0.0.0
+    "@seed-design/react-tabs": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
     "@stackflow/config": ^1.1.0
@@ -13259,13 +13271,14 @@ __metadata:
     "@stackflow/plugin-renderer-basic": ^1.1.11
     "@stackflow/react": ^1.2.1
     "@types/node": ^20.14.12
+    "@types/react": ^18.3.4
     autoprefixer: ^10.4.20
     chalk: ^5.3.0
     next: ^14.2.5
     nextra: ^2.13.4
     nextra-theme-docs: ^2.13.4
-    react: ^18.3.1
-    react-dom: ^18.3.1
+    react: ^18.2.0
+    react-dom: ^18.2.0
     simple-reveal: ^0.8.0
     ts-morph: ^23.0.0
     ts-node: ^10.9.2
@@ -26825,18 +26838,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.3.1":
-  version: 18.3.1
-  resolution: "react-dom@npm:18.3.1"
-  dependencies:
-    loose-envify: ^1.1.0
-    scheduler: ^0.23.2
-  peerDependencies:
-    react: ^18.3.1
-  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
-  languageName: node
-  linkType: hard
-
 "react-element-to-jsx-string@npm:^15.0.0":
   version: 15.0.0
   resolution: "react-element-to-jsx-string@npm:15.0.0"
@@ -26952,15 +26953,6 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
-  languageName: node
-  linkType: hard
-
-"react@npm:^18.3.1":
-  version: 18.3.1
-  resolution: "react@npm:18.3.1"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
   languageName: node
   linkType: hard
 
@@ -28079,15 +28071,6 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.23.2":
-  version: 0.23.2
-  resolution: "scheduler@npm:0.23.2"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
   languageName: node
   linkType: hard
 

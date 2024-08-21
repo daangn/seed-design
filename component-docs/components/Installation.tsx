@@ -33,18 +33,22 @@ export function Installation({ registry }: InstallationProps) {
       </Tabs.Tab>
       <Tabs.Tab>
         <Steps>
-          <Heading3>의존성 설치</Heading3>
-          <Pre hasCopyCode lang="sh" data-language="sh" data-theme="default">
-            <Code lang="sh" data-language="sh" data-theme="default">
-              <span className="line">
-                <span style={{ color: "var(--shiki-token-function)" }}>npm </span>
-                <span style={{ color: "var(--shiki-token-string)" }}>install </span>
-                <span style={{ color: "var(--shiki-token-string)" }}>
-                  {registry.dependencies.join(" ")}
-                </span>
-              </span>
-            </Code>
-          </Pre>
+          {registry.dependencies && (
+            <>
+              <Heading3>의존성 설치</Heading3>
+              <Pre hasCopyCode lang="sh" data-language="sh" data-theme="default">
+                <Code lang="sh" data-language="sh" data-theme="default">
+                  <span className="line">
+                    <span style={{ color: "var(--shiki-token-function)" }}>npm </span>
+                    <span style={{ color: "var(--shiki-token-string)" }}>install </span>
+                    <span style={{ color: "var(--shiki-token-string)" }}>
+                      {registry.dependencies.join(" ")}
+                    </span>
+                  </span>
+                </Code>
+              </Pre>
+            </>
+          )}
 
           <Heading3>아래 코드를 복사 후 붙여넣고 사용하세요</Heading3>
           {registry.registries.map((registry) => (

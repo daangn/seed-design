@@ -1,0 +1,47 @@
+import { Installation } from '@/components/Installation';
+import { Preview } from '@/components/Preview';
+import { Stackflow } from "@/components/Stackflow";
+
+import { ChipTabs } from '@/seed-design/components/chip-tabs';
+
+import registry from '@/public/registry/components/chip-tabs.json';
+import ChipTabsBasicActivity from "@/activities/ChipTabsBasicActivity";
+
+# ChipTabs
+
+<Preview component={<ChipTabs />}>
+
+```tsx copy
+import {
+  ChipTabs,
+  ChipTabTrigger,
+  ChipTabTriggerList,
+} from './seed-design/ui/chip-tabs';
+
+const App = () => {
+  const [value, setValue] = React.useState("1");
+  return (
+    <>
+      <ChipTabs defaultValue="1" value={value} onValueChange={(value) => setValue(value)}>
+        <ChipTabTriggerList>
+          <ChipTabTrigger value="1">라벨1</ChipTabTrigger>
+          <ChipTabTrigger value="2">라벨2</ChipTabTrigger>
+          <ChipTabTrigger value="3">라벨3</ChipTabTrigger>
+        </ChipTabTriggerList>
+      </ChipTabs>
+      {value === "1" && <div>content 1</div>}
+      {value === "2" && <div>content 2</div>}
+      {value === "3" && <div>content 3</div>}
+    </>
+  );
+}
+```
+</Preview>
+
+### 설치
+
+<Installation registry={registry} />
+
+### Basic
+
+<Stackflow Activity={ChipTabsBasicActivity} />

@@ -1,9 +1,14 @@
 import { makeStack } from "@/stackflow";
+import type { Register, RegisteredActivityParamTypes } from "@stackflow/config";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { useSimpleReveal } from "simple-reveal";
 
 interface StackflowProps {
-  Activity: ActivityComponentType<"Main">;
+  Activity: ActivityComponentType<
+    Extract<keyof RegisteredActivityParamTypes, string> extends keyof Register
+      ? Extract<keyof RegisteredActivityParamTypes, string>
+      : never
+  >;
 }
 
 export const Stackflow: React.FC<StackflowProps> = ({ Activity }) => {

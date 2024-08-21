@@ -17,16 +17,21 @@ export const getIndicatorId = (id: string) => `tabs:${id}:indicator`;
 /* Element -----------------------------------------------------------------------
 -------------------------------------------------------------------------------- */
 
-export const getRootEl = (id: string) => document.getElementById(getRootId(id));
-export const getTabTriggerListEl = (id: string) => document.getElementById(getTabTriggerListId(id));
+const isClient = typeof window === "object";
+
+export const getRootEl = (id: string) => (isClient ? document.getElementById(getRootId(id)) : null);
+export const getTabTriggerListEl = (id: string) =>
+  isClient ? document.getElementById(getTabTriggerListId(id)) : null;
 export const getTabTriggerEl = (value: string, id: string) =>
-  document.getElementById(getTabTriggerRootId(value, id));
+  isClient ? document.getElementById(getTabTriggerRootId(value, id)) : null;
 export const getTabContentEl = (value: string, id: string) =>
-  document.getElementById(getTabContentId(value, id));
-export const getTabContentListEl = (id: string) => document.getElementById(getTabContentListId(id));
+  isClient ? document.getElementById(getTabContentId(value, id)) : null;
+export const getTabContentListEl = (id: string) =>
+  isClient ? document.getElementById(getTabContentListId(id)) : null;
 export const getTabContentCameraEl = (id: string) =>
-  document.getElementById(getTabContentCameraId(id));
-export const getIndicatorEl = (id: string) => document.getElementById(getIndicatorId(id));
+  isClient ? document.getElementById(getTabContentCameraId(id)) : null;
+export const getIndicatorEl = (id: string) =>
+  isClient ? document.getElementById(getIndicatorId(id)) : null;
 
 export const getDisabledElements = (id: string) => {
   const triggerListId = getTabTriggerListId(id);

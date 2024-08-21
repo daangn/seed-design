@@ -1,11 +1,11 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ariaAttr, buttonProps, dataAttr, elementProps, labelProps } from "@seed-design/dom-utils";
-import React, { useId } from "react";
+import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
+import * as React from "react";
 import * as dom from "./dom";
 import type { ContentProps, TriggerProps, UseTabsProps, UseTabsStateProps } from "./types";
 
-import { useGesture } from "@use-gesture/react";
 import { useSize } from "@radix-ui/react-use-size";
+import { useGesture } from "@use-gesture/react";
 
 function useTabsState(props: UseTabsStateProps & { id: string }) {
   const [value, setValue] = useControllableState({
@@ -78,7 +78,7 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
 }
 
 export function useTabs(props: UseTabsProps) {
-  const id = useId();
+  const id = React.useId();
   const {
     swipeStatus,
     swipeMoveX,

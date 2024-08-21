@@ -1,13 +1,14 @@
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
-import { ActivityComponentType, stackflow } from "@stackflow/react/future";
+import { type ActivityComponentType, stackflow } from "@stackflow/react/future";
 import { config } from "./stackflow.config";
+import type { Register } from "@stackflow/config";
 
-interface MakeStackProps {
-  Activity: ActivityComponentType<"Main">;
+interface MakeStackProps<T extends keyof Register> {
+  Activity: ActivityComponentType<T>;
 }
 
-export const makeStack = (props: MakeStackProps) => {
+export const makeStack = <T extends keyof Register>(props: MakeStackProps<T>) => {
   const { Activity } = props;
 
   const { Stack, actions, stepActions } = stackflow({

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
+    "@seed-design/react-checkbox": "0.0.0",
+    "@seed-design/react-tabs": "0.0.0",
     "@seed-design/recipe": "0.0.0",
     "@seed-design/stylesheet": "1.0.4",
     "@stackflow/config": "^1.1.0",
@@ -21,14 +23,15 @@
     "next": "^14.2.5",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "simple-reveal": "^0.8.0",
     "ts-morph": "^23.0.0"
   },
   "devDependencies": {
     "@seed-design/cli": "workspace:^",
     "@types/node": "^20.14.12",
+    "@types/react": "^18.3.4",
     "autoprefixer": "^10.4.20",
     "chalk": "^5.3.0",
     "ts-node": "^10.9.2",

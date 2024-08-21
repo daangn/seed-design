@@ -1,8 +1,5 @@
 {
   "name": "alert-dialog",
-  "dependencies": [
-    "@radix-ui/react-slot"
-  ],
   "innerDependencies": [
     "box-button"
   ],

@@ -1,5 +1,6 @@
 import { dialog } from "@seed-design/recipe/dialog";
-import { useStyleEffect } from "@stackflow/plugin-basic-ui";
+// TODO: useStyleEffect는 어디에?
+// import { useStyleEffect } from "@stackflow/plugin-basic-ui";
 import { useActions, useActivity } from "@stackflow/react";
 import { useRef } from "react";
 
@@ -23,18 +24,18 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
 
-  useStyleEffect({
-    styleName: "hide",
-    refs: [containerRef],
-  });
-  useStyleEffect({
-    styleName: "offset",
-    refs: [backdropRef],
-  });
-  useStyleEffect({
-    styleName: "swipe-back",
-    refs: [backdropRef],
-  });
+  // useStyleEffect({
+  //   styleName: "hide",
+  //   refs: [containerRef],
+  // });
+  // useStyleEffect({
+  //   styleName: "offset",
+  //   refs: [backdropRef],
+  // });
+  // useStyleEffect({
+  //   styleName: "swipe-back",
+  //   refs: [backdropRef],
+  // });
 
   const popLock = useRef(false);
 
@@ -57,7 +58,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
   };
 
   const zIndexBase = (activity?.zIndex ?? 0) * 5 + 3;
-  const transitionState = activity?.transitionState ?? "enter-done";
+  // const transitionState = activity?.transitionState ?? "enter-done";
 
   const classNames = dialog();
 

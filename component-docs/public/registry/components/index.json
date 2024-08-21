@@ -1,5 +1,15 @@
 [
   {
+    "name": "alert-dialog",
+    "type": "component",
+    "innerDependencies": [
+      "box-button"
+    ],
+    "snippets": [
+      "alert-dialog.tsx"
+    ]
+  },
+  {
     "name": "box-button",
     "type": "component",
     "dependencies": [
@@ -10,16 +20,33 @@
     ]
   },
   {
-    "name": "alert-dialog",
+    "name": "checkbox",
     "type": "component",
     "dependencies": [
-      "@radix-ui/react-slot"
-    ],
-    "innerDependencies": [
-      "box-button"
+      "@seed-design/react-checkbox"
     ],
     "snippets": [
-      "alert-dialog.tsx"
+      "checkbox.tsx"
+    ]
+  },
+  {
+    "name": "tabs",
+    "type": "component",
+    "dependencies": [
+      "@seed-design/react-tabs"
+    ],
+    "snippets": [
+      "tabs.tsx"
+    ]
+  },
+  {
+    "name": "chip-tabs",
+    "type": "component",
+    "dependencies": [
+      "@seed-design/react-tabs"
+    ],
+    "snippets": [
+      "chip-tabs.tsx"
     ]
   }
 ]
