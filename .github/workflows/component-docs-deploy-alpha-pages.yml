@@ -27,6 +27,9 @@ jobs:
 
       - name: Build Packages
         run: yarn build-only-package
+      
+      - name: Build styles
+        run: yarn build:style
 
       - name: Build `Seed Component Docs`
         working-directory: ./component-docs
