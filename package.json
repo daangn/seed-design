@@ -18,6 +18,7 @@
     "build:dts": "ultra -r --build build:dts",
     "build:style": "ultra -r --build build:style",
     "build:style:re": "ultra -r --rebuild build:style",
+    "build:headless": "ultra -r --filter 'packages/react-headless/*' build",
     "build-only-package": "ultra -r --filter 'packages/*' build",
     "generate": "ultra -r generate",
     "clean": "ultra -r clean",
