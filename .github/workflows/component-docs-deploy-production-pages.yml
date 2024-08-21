@@ -23,12 +23,8 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Install dom-utils packages
-        working-directory: ./packages/utils/dom-utils
-        run: yarn build
-
-      - name: Build headless packages
-        run: yarn build:headless
+      - name: Build Packages
+        run: yarn build-only-package
 
       - name: Build `Seed Component Docs`
         working-directory: ./component-docs
