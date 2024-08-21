@@ -23,6 +23,10 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      - name: Install dom-utils packages
+        working-directory: ./packages/dom-utils
+        run: yarn build
+
       - name: Build headless packages
         run: yarn build:headless
 
