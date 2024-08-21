@@ -1,0 +1,4 @@
+base:
+  enabled:
+    root:
+      paddingX: $unit[4] # global gutter

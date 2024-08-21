@@ -120,7 +120,8 @@ export const TabTriggerList = React.forwardRef<
 });
 TabTriggerList.displayName = "TabTriggerList";
 
-interface TabTriggerProps extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {
+export interface TabTriggerProps
+  extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {
   /**
    * @default false
    */

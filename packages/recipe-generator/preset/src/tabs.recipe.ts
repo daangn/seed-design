@@ -1,7 +1,7 @@
 import { vars } from "./__generated__/tablist.vars";
 import { defineRecipe } from "./helper";
 
-export const tabs = defineRecipe({
+const tabs = defineRecipe({
   name: "tabs",
   slots: ["root", "triggerList", "contentList", "contentCamera", "content", "indicator"],
   base: {

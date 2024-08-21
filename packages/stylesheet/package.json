@@ -28,6 +28,8 @@
     "./helpBubble.css": "./helpBubble.css",
     "./tab.css": "./tab.css",
     "./tabs.css": "./tabs.css",
+    "./chipTab.css": "./chipTab.css",
+    "./chipTabs.css": "./chipTabs.css",
     "./package.json": "./package.json"
   },
   "files": [
