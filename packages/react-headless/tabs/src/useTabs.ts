@@ -5,7 +5,6 @@ import * as dom from "./dom";
 import type { ContentProps, TriggerProps, UseTabsProps, UseTabsStateProps } from "./types";
 
 import { useSize } from "@radix-ui/react-use-size";
-import { useGesture } from "@use-gesture/react";
 
 function useTabsState(props: UseTabsStateProps & { id: string }) {
   const [value, setValue] = useControllableState({
@@ -17,8 +16,6 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
   const [activeValue, setActiveValue] = React.useState<string | null>(null);
   const [focusedValue, setFocusedValue] = React.useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = React.useState(false);
-  const [swipeStatus, setSwipeStatus] = React.useState<"idle" | "dragging">("idle");
-  const [swipeMoveX, setSwipeMoveX] = React.useState<number>(0);
   const triggerEl = dom.getTabTriggerEl(value, props.id);
   const triggerSize = useSize(triggerEl);
 
@@ -44,16 +41,10 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
       setValue(tabEnabledValues[prevIndex]);
     },
     setValue,
-    setSwipeMoveX,
     setHoveredValue,
     setActiveValue,
     setFocusedValue,
     setIsFocusVisible,
-    dragStart: () => setSwipeStatus("dragging"),
-    dragEnd: () => {
-      setSwipeStatus("idle");
-      setSwipeMoveX(0);
-    },
   };
 
   return {
@@ -71,17 +62,13 @@ function useTabsState(props: UseTabsStateProps & { id: string }) {
     currentTabEnabledIndex,
     tabValues,
     tabEnabledValues,
-    swipeStatus,
     events,
-    swipeMoveX,
   };
 }
 
 export function useTabs(props: UseTabsProps) {
   const id = React.useId();
   const {
-    swipeStatus,
-    swipeMoveX,
     value,
     currentTabIndex,
     currentTabEnabledIndex,
@@ -108,42 +95,6 @@ export function useTabs(props: UseTabsProps) {
     ...restProps
   } = props;
 
-  const getDragProps = useGesture(
-    {
-      onDragStart: () => {
-        if (!isSwipeable) return;
-
-        events.dragStart();
-      },
-
-      onDragEnd: ({ swipe: [swipeX] }) => {
-        if (!isSwipeable) return;
-
-        if (swipeX === -1) events.moveNext();
-        if (swipeX === 1) events.movePrev();
-
-        events.dragEnd();
-      },
-
-      onDrag: ({ movement: [mx] }) => {
-        if (!isSwipeable) return;
-
-        events.setSwipeMoveX(mx);
-      },
-    },
-    {
-      drag: {
-        preventScrollAxis: "y",
-        preventDefault: true,
-        swipe: {
-          distance: swipeConfig?.distance || 50,
-          velocity: swipeConfig?.velocity || 0.3,
-          duration: swipeConfig?.duration || 250,
-        },
-      },
-    },
-  );
-
   return {
     value,
     triggerSize,
@@ -151,10 +102,9 @@ export function useTabs(props: UseTabsProps) {
     currentTabEnabledIndex,
     tabCount: tabValues.length,
     tabEnabledCount: tabEnabledValues.length,
-    swipeStatus,
-    swipeMoveX,
 
-    getDragProps,
+    moveNext: events.moveNext,
+    movePrev: events.movePrev,
 
     restProps,
     rootProps: elementProps({

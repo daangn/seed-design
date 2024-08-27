@@ -2,6 +2,7 @@ import clsx from "clsx";
 import * as React from "react";
 import {
   useTabs,
+  useSwipeable,
   type UseTabsProps,
   type TriggerProps,
   type ContentProps,
@@ -17,7 +18,7 @@ import "@seed-design/stylesheet/tabs.css";
 import "@seed-design/stylesheet/tab.css";
 
 interface TabsContextValue {
-  api: ReturnType<typeof useTabs>;
+  api: ReturnType<typeof useTabs> & ReturnType<typeof useSwipeable>;
   classNames: ReturnType<typeof tabs>;
   shouldRender: (value: string) => boolean;
   isSwipeable: boolean;
@@ -58,12 +59,21 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => 
     layout = "hug",
     size = "small",
   } = props;
-  const api = useTabs(props);
+  const useTabsProps = useTabs(props);
+  const useSwipeableProps = useSwipeable({
+    isSwipeable,
+    onSwipeLeft: useTabsProps.moveNext,
+    onSwipeRight: useTabsProps.movePrev,
+  });
   const classNames = tabs({
     layout,
   });
-  const { rootProps, value, restProps } = api;
+  const { rootProps, value, restProps } = useTabsProps;
   const { shouldRender } = useLazyContents({ currentValue: value, lazyMode, isLazy });
+  const api = {
+    ...useTabsProps,
+    ...useSwipeableProps,
+  };
 
   return (
     <div ref={ref} {...rootProps} {...restProps} className={clsx(classNames.root, className)}>
