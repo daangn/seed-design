@@ -60,13 +60,10 @@ function TabTrigger(props: React.PropsWithChildren<TriggerProps>) {
 
 function TabContentList(props: React.PropsWithChildren) {
   const { api } = useTabsContext();
-  const { tabContentListProps, getDragProps, tabContentCameraProps } = api;
-  const dragProps = getDragProps();
+  const { tabContentListProps, tabContentCameraProps } = api;
   return (
     <div {...tabContentListProps}>
-      <div {...tabContentCameraProps} {...dragProps}>
-        {props.children}
-      </div>
+      <div {...tabContentCameraProps}>{props.children}</div>
     </div>
   );
 }
