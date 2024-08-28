@@ -83,12 +83,9 @@ function generateColorCss() {
   const collections = figma.variables.getLocalVariableCollections();
   const variables = figma.variables.getLocalVariables();
 
-  // 함수 분리
   const colorCollection = collections.find((collection) =>
     COLOR_COLLECTIONS.includes(collection.name),
   );
-
-  console.log("colorCollection", colorCollection);
 
   if (!colorCollection) {
     throw new Error("Color collection not found");
