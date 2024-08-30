@@ -1,7 +1,7 @@
 import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
 import { type ActivityComponentType, stackflow } from "@stackflow/react/future";
-import { config } from "./stackflow.config";
+import { getConfig } from "./stackflow.config";
 import type { Register } from "@stackflow/config";
 
 interface MakeStackProps<T extends keyof Register> {
@@ -12,9 +12,9 @@ export const makeStack = <T extends keyof Register>(props: MakeStackProps<T>) =>
   const { Activity } = props;
 
   const { Stack, actions, stepActions } = stackflow({
-    config,
+    config: getConfig(Activity.displayName),
     components: {
-      Main: Activity,
+      [Activity.displayName]: Activity,
     },
     plugins: [
       basicRendererPlugin(),

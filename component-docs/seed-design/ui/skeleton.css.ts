@@ -28,7 +28,7 @@ export const skeleton = recipe({
         animationFillMode: "forwards",
 
         animationName: pulse,
-        animationDuration: "1s",
+        animationDuration: "1.5s",
         animationTimingFunction: "ease-in-out",
         animationIterationCount: "infinite",
       },

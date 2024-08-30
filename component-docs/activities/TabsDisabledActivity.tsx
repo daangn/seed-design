@@ -65,3 +65,5 @@ const TabsDisabledActivity: ActivityComponentType<"TabsDisabled"> = () => {
 };
 
 export default TabsDisabledActivity;
+
+TabsDisabledActivity.displayName = "TabsDisabledActivity";

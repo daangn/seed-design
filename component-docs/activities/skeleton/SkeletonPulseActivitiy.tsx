@@ -2,18 +2,14 @@ import type { ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 
 import Layout from "@/activities/ActivityLayout";
-import { useSkeletonLoading } from "@/stores/skeleton";
 import { Skeleton } from "@/seed-design/ui/skeleton";
+import { useSkeletonLoading } from "@/stores/skeleton";
 
 declare module "@stackflow/config" {
   interface Register {
     SkeletonPulse: unknown;
   }
 }
-
-const InfiniteLoader = () => {
-  throw new Promise(() => {});
-};
 
 const Fallback = () => {
   return (
@@ -33,14 +29,11 @@ const SkeletonPulseActivitiy: ActivityComponentType<"SkeletonPulse"> = () => {
 
   return (
     <Layout>
-      <div style={{ padding: "16px" }}>
-        <React.Suspense fallback={<Fallback />}>
-          <div>content</div>
-          {isLoading && <InfiniteLoader />}
-        </React.Suspense>
-      </div>
+      <div style={{ padding: "16px" }}>{isLoading ? <Fallback /> : <div>content</div>}</div>
     </Layout>
   );
 };
 
 export default SkeletonPulseActivitiy;
+
+SkeletonPulseActivitiy.displayName = "SkeletonPulseActivitiy";

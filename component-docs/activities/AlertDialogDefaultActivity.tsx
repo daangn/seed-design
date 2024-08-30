@@ -8,16 +8,16 @@ import { AlertDialog as UIAlertDialog } from "@/seed-design/ui/alert-dialog";
 
 declare module "@stackflow/config" {
   interface Register {
-    Main: {
+    AlertDialogDefault: {
       alert: boolean;
     };
   }
 }
 
-const AlertDialogActivity: ActivityComponentType<"Main"> = ({ params }) => {
+const AlertDialogDefaultActivity: ActivityComponentType<"AlertDialogDefault"> = ({ params }) => {
   const { alert } = params;
   const stack = useStack();
-  const { pushStep, popStep } = useStepFlow("Main");
+  const { pushStep, popStep } = useStepFlow("AlertDialogDefault");
 
   const appBarLeft = () => <div>Left</div>;
   const appBarRight = () => <div>Right</div>;
@@ -102,4 +102,6 @@ const AlertDialogActivity: ActivityComponentType<"Main"> = ({ params }) => {
   );
 };
 
-export default AlertDialogActivity;
+export default AlertDialogDefaultActivity;
+
+AlertDialogDefaultActivity.displayName = "AlertDialogDefaultActivity";
