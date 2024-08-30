@@ -1,6 +1,7 @@
-import type * as React from "react";
+import { Code, Pre, Steps, Tabs } from "nextra/components";
+
 import type { ComponentRegistry } from "@/schemas/registry";
-import { Code, Pre, Tabs, Steps } from "nextra/components";
+import type * as React from "react";
 
 interface InstallationProps {
   registry: ComponentRegistry;

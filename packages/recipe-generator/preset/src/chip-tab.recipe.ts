@@ -1,6 +1,6 @@
 import { vars } from "./__generated__/chip-tab.vars";
 import { defineRecipe } from "./helper";
-import { pseudo, selected, active } from "./pseudo";
+import { pseudo, selected, active, disabled, not } from "./pseudo";
 
 const chipTab = defineRecipe({
   name: "chipTab",
@@ -16,17 +16,27 @@ const chipTab = defineRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       boxSizing: "border-box",
       whiteSpace: "nowrap",
+      minHeight: vars.base.enabled.root.minHeight,
 
       [pseudo(selected)]: {
         backgroundColor: vars.base.selected.root.color,
       },
 
-      [pseudo(active)]: {
+      [pseudo(active, not(disabled))]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
       [pseudo(selected, active)]: {
         backgroundColor: vars.base.selectedPressed.root.color,
+      },
+
+      [pseudo(disabled)]: {
+        cursor: "not-allowed",
+        backgroundColor: undefined,
+      },
+
+      [pseudo(disabled, selected)]: {
+        backgroundColor: vars.base.selectedDisabled.root.color,
       },
     },
     label: {
@@ -36,6 +46,10 @@ const chipTab = defineRecipe({
 
       [pseudo(selected)]: {
         color: vars.base.selected.label.color,
+      },
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.label.color,
       },
     },
   },

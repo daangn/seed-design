@@ -4,6 +4,7 @@ base:
       paddingX: $unit[3.5]
       paddingY: $unit[2]
       cornerRadius: $radii.full
+      minHeight: 36px
     label:
       color: $color.fg.neutral
       fontSize: $font-size[100]
@@ -19,3 +20,9 @@ base:
   selected,pressed:
     root:
       color: $color.bg.neutral-inverted-pressed
+  disabled:
+    label:
+      color: $color.fg.disabled-1
+  selected,disabled:
+    root:
+      color: $color.bg.disabled-2

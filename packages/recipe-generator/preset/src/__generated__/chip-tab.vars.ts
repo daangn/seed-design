@@ -4,7 +4,8 @@ export const vars = {
       "root": {
         "paddingX": "var(--seed-unit-3\\.5)",
         "paddingY": "var(--seed-unit-2)",
-        "cornerRadius": "var(--seed-radii-full)"
+        "cornerRadius": "var(--seed-radii-full)",
+        "minHeight": "36px"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
@@ -28,6 +29,16 @@ export const vars = {
     "selectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    },
+    "disabled": {
+      "label": {
+        "color": "var(--seed-color-fg-disabled-1)"
+      }
+    },
+    "selectedDisabled": {
+      "root": {
+        "color": "var(--seed-color-bg-disabled-2)"
       }
     }
   }

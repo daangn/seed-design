@@ -62,8 +62,8 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => 
   const useTabsProps = useTabs(props);
   const useSwipeableProps = useSwipeable({
     isSwipeable,
-    onSwipeLeft: useTabsProps.moveNext,
-    onSwipeRight: useTabsProps.movePrev,
+    onSwipeLeftToRight: useTabsProps.movePrev,
+    onSwipeRightToLeft: useTabsProps.moveNext,
   });
   const classNames = tabs({
     layout,

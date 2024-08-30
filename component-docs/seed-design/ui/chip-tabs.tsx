@@ -1,17 +1,17 @@
 "use client";
 
+import {
+  useLazyContents,
+  useTabs,
+  type TriggerProps,
+  type UseLazyContentsProps,
+  type UseTabsProps,
+  type ContentProps,
+} from "@seed-design/react-tabs";
+import { chipTab } from "@seed-design/recipe/chipTab";
+import { chipTabs } from "@seed-design/recipe/chipTabs";
 import clsx from "clsx";
 import * as React from "react";
-import {
-  useTabs,
-  type UseTabsProps,
-  type TriggerProps,
-  type ContentProps,
-  useLazyContents,
-  type UseLazyContentsProps,
-} from "@seed-design/react-tabs";
-import { chipTabs } from "@seed-design/recipe/chipTabs";
-import { chipTab } from "@seed-design/recipe/chipTab";
 
 import "@seed-design/stylesheet/chipTab.css";
 import "@seed-design/stylesheet/chipTabs.css";
@@ -35,10 +35,7 @@ const useChipTabsContext = () => {
 };
 
 export interface ChipTabsProps
-  extends Assign<
-      React.HTMLAttributes<HTMLDivElement>,
-      Omit<UseTabsProps, "isSwipeable" | "swipeConfig" | "layout">
-    >,
+  extends Assign<React.HTMLAttributes<HTMLDivElement>, Omit<UseTabsProps, "layout">>,
     Omit<UseLazyContentsProps, "currentValue"> {}
 
 export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, ref) => {
@@ -62,7 +59,7 @@ export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, 
     </div>
   );
 });
-ChipTabs.displayName = "Tabs";
+ChipTabs.displayName = "ChipTabs";
 
 export const ChipTabTriggerList = React.forwardRef<
   HTMLDivElement,
@@ -97,17 +94,17 @@ export const ChipTabTriggerList = React.forwardRef<
     </div>
   );
 });
-ChipTabTriggerList.displayName = "TabTriggerList";
+ChipTabTriggerList.displayName = "ChipTabTriggerList";
 
 export interface ChipTabTriggerProps
-  extends Assign<React.HTMLAttributes<HTMLButtonElement>, Omit<TriggerProps, "isDisabled">> {}
+  extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {}
 
 export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTriggerProps>(
-  ({ className, children, value, ...otherProps }, ref) => {
+  ({ className, children, value, isDisabled, ...otherProps }, ref) => {
     const { api } = useChipTabsContext();
     const { getTabTriggerProps } = api;
     const { label, root } = chipTab();
-    const { rootProps, labelProps } = getTabTriggerProps({ value });
+    const { rootProps, labelProps } = getTabTriggerProps({ value, isDisabled });
 
     return (
       <button ref={ref} {...rootProps} className={clsx(root, className)} {...otherProps}>
@@ -118,68 +115,7 @@ export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTrigger
     );
   },
 );
-ChipTabTrigger.displayName = "TabTrigger";
-
-export const ChipTabContentList = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...otherProps }, ref) => {
-  const { api, classNames } = useChipTabsContext();
-  const {
-    tabContentListProps,
-    tabContentCameraProps,
-    getDragProps,
-    currentTabEnabledIndex,
-    swipeMoveX,
-    tabEnabledCount,
-  } = api;
-  const { contentList, contentCamera } = classNames;
-  const dragProps = getDragProps();
-
-  const getCameraTranslateX = () => {
-    const MODIFIER = 5;
-
-    const currentContentOffsetX = currentTabEnabledIndex * 100;
-
-    if (swipeMoveX > 0 && currentTabEnabledIndex === 0) {
-      return `calc(-${currentContentOffsetX}% + ${swipeMoveX / MODIFIER}px)`;
-    }
-
-    if (swipeMoveX < 0 && currentTabEnabledIndex === tabEnabledCount - 1) {
-      return `calc(-${currentContentOffsetX}% + ${swipeMoveX / MODIFIER}px)`;
-    }
-
-    return `calc(-${currentContentOffsetX}% + ${swipeMoveX}px)`;
-  };
-
-  return (
-    <div
-      ref={ref}
-      {...tabContentListProps}
-      className={clsx(contentList, className)}
-      {...otherProps}
-      style={{
-        userSelect: "none",
-        touchAction: "pan-y",
-        ...otherProps.style,
-      }}
-    >
-      <div
-        {...tabContentCameraProps}
-        {...dragProps}
-        className={clsx(contentCamera)}
-        style={{
-          willChange: "transform",
-
-          transform: `translateX(${getCameraTranslateX()})`,
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-});
-ChipTabContentList.displayName = "TabContentList";
+ChipTabTrigger.displayName = "ChipTabTrigger";
 
 export const ChipTabContent = React.forwardRef<
   HTMLDivElement,
@@ -188,7 +124,10 @@ export const ChipTabContent = React.forwardRef<
   const { api, classNames, shouldRender } = useChipTabsContext();
   const { getTabContentProps } = api;
   const { content } = classNames;
-  const tabContentProps = getTabContentProps({ value });
+  const tabContentProps = getTabContentProps({
+    value,
+    visibilityMode: "hidden",
+  });
   const isRender = shouldRender(value);
 
   return (
@@ -197,4 +136,4 @@ export const ChipTabContent = React.forwardRef<
     </div>
   );
 });
-ChipTabContent.displayName = "TabContent";
+ChipTabContent.displayName = "ChipTabContent";

@@ -1,5 +1,6 @@
-import type * as React from "react";
 import { Tabs } from "nextra/components";
+
+import type * as React from "react";
 
 interface PreviewProps {
   component: React.ReactNode;

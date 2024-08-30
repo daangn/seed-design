@@ -2,7 +2,7 @@ import * as React from "react";
 import { AppScreen } from "@stackflow/plugin-basic-ui";
 
 import {
-  Tabs as UITabs,
+  Tabs,
   TabTriggerList,
   TabContent,
   TabContentList,
@@ -39,7 +39,7 @@ const TabsDisabledActivity: ActivityComponentType<"TabsDisabled"> = () => {
           width: "100%",
         }}
       >
-        <UITabs defaultValue="1" isSwipeable layout="fill" size="medium">
+        <Tabs defaultValue="1" isSwipeable layout="fill" size="medium">
           <TabTriggerList>
             <TabTrigger value="1">라벨1</TabTrigger>
             <TabTrigger value="2" isDisabled>
@@ -58,7 +58,7 @@ const TabsDisabledActivity: ActivityComponentType<"TabsDisabled"> = () => {
               <div style={tabCommonStyle}>Content 3</div>
             </TabContent>
           </TabContentList>
-        </UITabs>
+        </Tabs>
       </div>
     </AppScreen>
   );

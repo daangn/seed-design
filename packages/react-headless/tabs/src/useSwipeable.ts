@@ -44,8 +44,8 @@ const useSwipeableState = (props: UseSwipeableStateProps) => {
 export type Vector2 = [number, number];
 
 export interface UseSwipeableProps extends UseSwipeableStateProps {
-  onSwipeLeft?: () => void;
-  onSwipeRight?: () => void;
+  onSwipeLeftToRight?: () => void;
+  onSwipeRightToLeft?: () => void;
 
   swipeConfig?: {
     /**
@@ -70,7 +70,7 @@ export interface UseSwipeableProps extends UseSwipeableStateProps {
 }
 
 export const useSwipeable = (props: UseSwipeableProps) => {
-  const { isSwipeable = true, swipeConfig, onSwipeLeft, onSwipeRight } = props;
+  const { isSwipeable = true, swipeConfig, onSwipeLeftToRight, onSwipeRightToLeft } = props;
 
   const { onDrag, onDragEnd, onDragStart, swipeMoveX, swipeStatus } = useSwipeableState({
     isSwipeable,
@@ -83,8 +83,9 @@ export const useSwipeable = (props: UseSwipeableProps) => {
       onDragEnd: ({ swipe: [swipeX] }) => {
         if (!isSwipeable) return;
 
-        if (swipeX === -1) onSwipeRight?.();
-        if (swipeX === 1) onSwipeLeft?.();
+        if (swipeX === -1) onSwipeRightToLeft?.();
+
+        if (swipeX === 1) onSwipeLeftToRight?.();
 
         onDragEnd();
       },

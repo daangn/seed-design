@@ -1,17 +1,15 @@
 import type { ActivityComponentType } from "@stackflow/react";
 
 import { AppScreen } from "@stackflow/plugin-basic-ui";
+import * as React from "react";
 import {
-  ChipTabs,
-  ChipTabContent,
-  ChipTabContentList,
   ChipTabTrigger,
   ChipTabTriggerList,
+  ChipTabs,
+  ChipTabContent,
 } from "../design-system/components";
-import * as React from "react";
 
 const AcitivitiyChipTabs: ActivityComponentType = () => {
-  const [value, setValue] = React.useState("1");
   const commonStyle = {
     display: "flex",
     justifyContent: "center",
@@ -22,7 +20,7 @@ const AcitivitiyChipTabs: ActivityComponentType = () => {
 
   return (
     <AppScreen appBar={{ title: "ChipTabs" }}>
-      <ChipTabs defaultValue="1" value={value} onValueChange={(value) => setValue(value)}>
+      <ChipTabs defaultValue="1">
         <ChipTabTriggerList>
           <ChipTabTrigger value="1">라벨1</ChipTabTrigger>
           <ChipTabTrigger value="2">라벨2</ChipTabTrigger>
@@ -32,14 +30,28 @@ const AcitivitiyChipTabs: ActivityComponentType = () => {
           <ChipTabTrigger value="6">라벨6</ChipTabTrigger>
           <ChipTabTrigger value="7">라벨7</ChipTabTrigger>
         </ChipTabTriggerList>
+        <ChipTabContent style={commonStyle} value="1">
+          content 1
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="2">
+          content 2
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="3">
+          content 3
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="4">
+          content 4
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="5">
+          content 5
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="6">
+          content 6
+        </ChipTabContent>
+        <ChipTabContent style={commonStyle} value="7">
+          content 7
+        </ChipTabContent>
       </ChipTabs>
-      {value === "1" && <div style={commonStyle}>content 1</div>}
-      {value === "2" && <div style={commonStyle}>content 2</div>}
-      {value === "3" && <div style={commonStyle}>content 3</div>}
-      {value === "4" && <div style={commonStyle}>content 4</div>}
-      {value === "5" && <div style={commonStyle}>content 5</div>}
-      {value === "6" && <div style={commonStyle}>content 6</div>}
-      {value === "7" && <div style={commonStyle}>content 7</div>}
     </AppScreen>
   );
 };

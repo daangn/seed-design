@@ -1,5 +1,5 @@
 import { makeStack } from "@/stackflow";
-import type { Register, RegisteredActivityParamTypes } from "@stackflow/config";
+import type { Register } from "@stackflow/config";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { useSimpleReveal } from "simple-reveal";
 

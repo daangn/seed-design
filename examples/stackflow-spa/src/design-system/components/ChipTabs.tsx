@@ -115,27 +115,6 @@ export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTrigger
 );
 ChipTabTrigger.displayName = "ChipTabTrigger";
 
-export const ChipTabContentList = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...otherProps }, ref) => {
-  const { api, classNames } = useChipTabsContext();
-  const { tabContentListProps } = api;
-  const { contentList } = classNames;
-
-  return (
-    <div
-      ref={ref}
-      {...tabContentListProps}
-      className={clsx(contentList, className)}
-      {...otherProps}
-    >
-      {children}
-    </div>
-  );
-});
-ChipTabContentList.displayName = "ChipTabContentList";
-
 export const ChipTabContent = React.forwardRef<
   HTMLDivElement,
   Assign<React.HTMLAttributes<HTMLDivElement>, ContentProps>

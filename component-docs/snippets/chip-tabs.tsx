@@ -35,10 +35,7 @@ const useChipTabsContext = () => {
 };
 
 export interface ChipTabsProps
-  extends Assign<
-      React.HTMLAttributes<HTMLDivElement>,
-      Omit<UseTabsProps, "isSwipeable" | "swipeConfig" | "layout">
-    >,
+  extends Assign<React.HTMLAttributes<HTMLDivElement>, Omit<UseTabsProps, "layout">>,
     Omit<UseLazyContentsProps, "currentValue"> {}
 
 export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, ref) => {
@@ -62,7 +59,7 @@ export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, 
     </div>
   );
 });
-ChipTabs.displayName = "Tabs";
+ChipTabs.displayName = "ChipTabs";
 
 export const ChipTabTriggerList = React.forwardRef<
   HTMLDivElement,
@@ -97,7 +94,7 @@ export const ChipTabTriggerList = React.forwardRef<
     </div>
   );
 });
-ChipTabTriggerList.displayName = "TabTriggerList";
+ChipTabTriggerList.displayName = "ChipTabTriggerList";
 
 export interface ChipTabTriggerProps
   extends Assign<React.HTMLAttributes<HTMLButtonElement>, Omit<TriggerProps, "isDisabled">> {}
@@ -118,68 +115,7 @@ export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTrigger
     );
   },
 );
-ChipTabTrigger.displayName = "TabTrigger";
-
-export const ChipTabContentList = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...otherProps }, ref) => {
-  const { api, classNames } = useChipTabsContext();
-  const {
-    tabContentListProps,
-    tabContentCameraProps,
-    getDragProps,
-    currentTabEnabledIndex,
-    swipeMoveX,
-    tabEnabledCount,
-  } = api;
-  const { contentList, contentCamera } = classNames;
-  const dragProps = getDragProps();
-
-  const getCameraTranslateX = () => {
-    const MODIFIER = 5;
-
-    const currentContentOffsetX = currentTabEnabledIndex * 100;
-
-    if (swipeMoveX > 0 && currentTabEnabledIndex === 0) {
-      return `calc(-${currentContentOffsetX}% + ${swipeMoveX / MODIFIER}px)`;
-    }
-
-    if (swipeMoveX < 0 && currentTabEnabledIndex === tabEnabledCount - 1) {
-      return `calc(-${currentContentOffsetX}% + ${swipeMoveX / MODIFIER}px)`;
-    }
-
-    return `calc(-${currentContentOffsetX}% + ${swipeMoveX}px)`;
-  };
-
-  return (
-    <div
-      ref={ref}
-      {...tabContentListProps}
-      className={clsx(contentList, className)}
-      {...otherProps}
-      style={{
-        userSelect: "none",
-        touchAction: "pan-y",
-        ...otherProps.style,
-      }}
-    >
-      <div
-        {...tabContentCameraProps}
-        {...dragProps}
-        className={clsx(contentCamera)}
-        style={{
-          willChange: "transform",
-
-          transform: `translateX(${getCameraTranslateX()})`,
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-});
-ChipTabContentList.displayName = "TabContentList";
+ChipTabTrigger.displayName = "ChipTabTrigger";
 
 export const ChipTabContent = React.forwardRef<
   HTMLDivElement,
@@ -197,4 +133,4 @@ export const ChipTabContent = React.forwardRef<
     </div>
   );
 });
-ChipTabContent.displayName = "TabContent";
+ChipTabContent.displayName = "ChipTabContent";

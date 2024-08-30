@@ -206,11 +206,11 @@ export function useTabs(props: UseTabsProps) {
       "data-orientation": orientation,
     }),
     getTabContentProps: (props: ContentProps) => {
-      const { value: contentValue } = props;
-      const isSelected = value === contentValue;
-
+      const { value: contentValue, visibilityMode = "keep" } = props;
       const tabContentId = dom.getTabTriggerRootId(contentValue, id);
+      const isSelected = value === contentValue;
       const isDisabled = !!dom.itemById(dom.getDisabledElements(id), tabContentId);
+      const hidden = visibilityMode === "hidden" ? !isSelected || isDisabled : isDisabled;
 
       return elementProps({
         id: tabContentId,
@@ -221,7 +221,7 @@ export function useTabs(props: UseTabsProps) {
         "aria-labelledby": dom.getTabTriggerRootId(contentValue, id),
         "aria-selected": ariaAttr(isSelected),
         "aria-hidden": isDisabled ? undefined : !isSelected,
-        hidden: isDisabled,
+        hidden,
       });
     },
 

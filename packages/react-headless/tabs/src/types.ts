@@ -52,4 +52,10 @@ export interface TriggerProps {
 
 export interface ContentProps {
   value: string;
+
+  /**
+   * @default "keep"
+   * @description 실제 value에 해당하는 컨텐츠를 보여줄 때, 다른 컨텐츠를 숨길지 여부
+   */
+  visibilityMode?: "hidden" | "keep";
 }
