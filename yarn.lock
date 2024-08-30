@@ -10820,7 +10820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vanilla-extract/recipes@npm:^0.5.3":
+"@vanilla-extract/recipes@npm:^0.5.3, @vanilla-extract/recipes@npm:^0.5.5":
   version: 0.5.5
   resolution: "@vanilla-extract/recipes@npm:0.5.5"
   peerDependencies:
@@ -13794,6 +13794,7 @@ __metadata:
     "@types/react": ^18.3.4
     "@vanilla-extract/css": ^1.15.5
     "@vanilla-extract/next-plugin": ^2.4.5
+    "@vanilla-extract/recipes": ^0.5.5
     autoprefixer: ^10.4.20
     chalk: ^5.3.0
     next: ^14.2.5
@@ -13804,9 +13805,11 @@ __metadata:
     simple-reveal: ^0.8.0
     ts-morph: ^23.0.0
     ts-node: ^10.9.2
+    ts-pattern: ^5.3.1
     tslib: ^2.6.3
     typescript: ^5.5.4
     zod: ^3.23.8
+    zustand: ^4.5.5
   languageName: unknown
   linkType: soft
 
@@ -30825,6 +30828,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-pattern@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "ts-pattern@npm:5.3.1"
+  checksum: e9d59c9139a7861ce1db25f25ebd899456a6fade41a209b8755e7c615564eb5dfd84e086500bb9b4fb57326eb7fef61c4befa920b3137eaf5f314192ddc88ee1
+  languageName: node
+  linkType: hard
+
 "tsconfck@npm:^2.0.1, tsconfck@npm:^2.1.0":
   version: 2.1.1
   resolution: "tsconfck@npm:2.1.1"
@@ -31822,6 +31832,15 @@ __metadata:
   version: 1.0.3
   resolution: "url-pattern@npm:1.0.3"
   checksum: 7f4c57707240f0eb18f4654c4206b8669de037594beb86abd090d4e3dacd4751fcb3a04e271a74cbbe2124bc573e857d8c0588c4accb17da03a62082a58559fc
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:1.2.2":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: fe07c071c4da3645f112c38c0e57beb479a8838616ff4e92598256ecce527f2888c08febc7f9b2f0ce2f0e18540ba3cde41eb2035e4fafcb4f52955037098a81
   languageName: node
   linkType: hard
 
@@ -33337,6 +33356,26 @@ __metadata:
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 15949ff82118f59c893dacd9d3c766d02b6fa2e71cf474d5aa888570c469dbf5446ac5ad562bb035bf7ac9650da94f290655c194f4a6de3e766f43febd432c5c
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.5.5":
+  version: 4.5.5
+  resolution: "zustand@npm:4.5.5"
+  dependencies:
+    use-sync-external-store: 1.2.2
+  peerDependencies:
+    "@types/react": ">=16.8"
+    immer: ">=9.0.6"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: 654e47959970bc66bbf2ae80fced7e556dd488e9ee54eb678330cb036ecc7184f4b8c2cae273be28022533622c54ab6339bf3fe30d19236367c5c251b6c6679a
   languageName: node
   linkType: hard
 
