@@ -25,13 +25,13 @@
     justify-content: center;
 }
 .boxButton__root--variant_brand {
-    background: var(--seed-color-bg-brand-emphasis);
+    background: var(--seed-color-bg-brand-solid);
 }
 .boxButton__root--variant_brand:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-emphasis-pressed);
+    background: var(--seed-color-bg-brand-solid-pressed);
 }
 .boxButton__root--variant_brand:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-color-bg-disabled-1);
 }
 .boxButton__label--variant_brand {
     color: var(--seed-color-fg-static-white);

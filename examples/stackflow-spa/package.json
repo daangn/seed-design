@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host 0.0.0.0"
+    "dev": "vite --host 0.0.0.0",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
@@ -11,6 +12,7 @@
     "@seed-design/react-popover": "0.0.0",
     "@seed-design/react-radio-group": "0.0.0",
     "@seed-design/react-switch": "0.0.0",
+    "@seed-design/react-tabs": "0.0.0",
     "@seed-design/react-text-field": "0.0.0",
     "@seed-design/recipe": "0.0.0",
     "@seed-design/stylesheet": "1.0.4",

@@ -23,6 +23,9 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      - name: Build Packages
+        run: yarn build-only-package
+
       - name: Build `Seed Component Docs`
         working-directory: ./component-docs
         run: |

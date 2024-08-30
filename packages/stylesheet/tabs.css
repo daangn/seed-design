@@ -1,0 +1,44 @@
+.tabs__root {
+    overflow-x: hidden;
+}
+.tabs__triggerList {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    align-content: stretch;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background: var(--seed-color-bg-layer-1);
+    border-bottom: 1px solid var(--seed-color-stroke-neutral);
+}
+.tabs__triggerList::-webkit-scrollbar {
+    display: none;
+}
+.tabs__contentList {}
+.tabs__contentCamera {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.tabs__content {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    overflow: auto;
+}
+.tabs__indicator {
+    color: var(--seed-color-fg-neutral);
+    border-bottom: 2px solid var(--seed-color-fg-neutral);
+    bottom: 0;
+}
+.tabs__triggerList--layout_fill {
+    padding: 0px 0px;
+    justify-content: space-around;
+}
+.tabs__triggerList--layout_hug {
+    padding: 0px var(--seed-unit-4);
+    justify-content: flex-start;
+}

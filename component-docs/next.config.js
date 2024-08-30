@@ -1,4 +1,7 @@
 import nextra from "nextra";
+import { createVanillaExtractPlugin } from "@vanilla-extract/next-plugin";
+
+const withVanillaExtract = createVanillaExtractPlugin();
 
 const withNextra = nextra({
   theme: "nextra-theme-docs",
@@ -23,4 +26,4 @@ const nextConfig = {
   transpilePackages: ["@stackflow/plugin-basic-ui"],
 };
 
-export default withNextra(nextConfig);
+export default withVanillaExtract(withNextra(nextConfig));

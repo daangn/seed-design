@@ -1,16 +1,17 @@
 import { makeStack } from "@/stackflow";
+import type { Register } from "@stackflow/config";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { useSimpleReveal } from "simple-reveal";
 
 interface StackflowProps {
-  Activity: ActivityComponentType<"Main">;
+  Activity: ActivityComponentType<keyof Register>;
 }
 
 export const Stackflow: React.FC<StackflowProps> = ({ Activity }) => {
   const { Stack } = makeStack({ Activity });
   const { cn, ref, style } = useSimpleReveal({
     delay: 200,
-    rootMargin: "-400px",
+    rootMargin: "-200px",
     initialTransform: "scale(0.95)",
   });
 

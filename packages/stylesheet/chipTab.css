@@ -1,0 +1,38 @@
+.chipTab__root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--seed-unit-2) var(--seed-unit-3\.5);
+    cursor: pointer;
+    border: none;
+    border-radius: var(--seed-radii-full);
+    box-sizing: border-box;
+    white-space: nowrap;
+    min-height: 36px;
+}
+.chipTab__root:is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-neutral-inverted);
+}
+.chipTab__root:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
+    background-color: var(--seed-color-bg-layer-1-pressed);
+}
+.chipTab__root:is(:selected, [data-selected]):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+}
+.chipTab__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
+.chipTab__root:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-disabled-2);
+}
+.chipTab__label {
+    color: var(--seed-color-fg-neutral);
+    font-size: var(--seed-font-size-100);
+    font-weight: var(--seed-font-weight-bold);
+}
+.chipTab__label:is(:selected, [data-selected]) {
+    color: var(--seed-color-fg-neutral-inverted);
+}
+.chipTab__label:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled-1);
+}

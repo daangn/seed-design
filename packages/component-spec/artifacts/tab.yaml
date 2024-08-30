@@ -5,8 +5,8 @@ base:
     notification:
       size: $unit[1]
       cornerRadius: $radii.full
-      color: $color.bg.brand
-      paddingLeft: $unit[0.5]
+      color: $color.bg.brand-solid
+      marginLeft: $unit[0.5]
   selected:
     label:
       color: $color.fg.neutral
