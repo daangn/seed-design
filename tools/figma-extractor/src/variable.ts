@@ -5,8 +5,8 @@ import dedent from "dedent";
 const COLOR_COLLECTIONS = ["Color"];
 const UNIT_COLLECTIONS = ["Unit", "Numbers"]; // V3 = Unit
 
-const LIGHT_MODE_THEME = "theme-light";
-const DARK_MODE_THEME = "theme-dark";
+const LIGHT_MODE_THEME = ["theme-light", "test-light"];
+const DARK_MODE_THEME = ["theme-dark", "test-dark"];
 const UNIT_MODE = "Mode 1"; // Value로 되어있는데 기본값은 그냥 Mode 1로 되어있음
 
 const lightModeTemplate = (css: string) => dedent`
@@ -95,8 +95,8 @@ function generateColorCss() {
     (variable) => variable.variableCollectionId === colorCollection.id,
   );
 
-  const lightMode = colorCollection.modes.find((mode) => mode.name === LIGHT_MODE_THEME);
-  const darkMode = colorCollection.modes.find((mode) => mode.name === DARK_MODE_THEME);
+  const lightMode = colorCollection.modes.find((mode) => LIGHT_MODE_THEME.includes(mode.name));
+  const darkMode = colorCollection.modes.find((mode) => DARK_MODE_THEME.includes(mode.name));
 
   if (!lightMode || !darkMode) {
     throw new Error(`Mode not found, light: ${lightMode}, dark: ${darkMode}`);
