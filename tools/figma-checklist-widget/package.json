@@ -1,0 +1,21 @@
+{
+  "name": "@seed-design/figma-checklist-widget",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "yarn tsc && yarn build",
+    "tsc": "tsc --noEmit -p widget-src",
+    "build": "yarn bundle --minify",
+    "bundle": "esbuild widget-src/code.tsx --target=es2016 --bundle --outfile=dist/code.js",
+    "dev": "concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'"
+  },
+  "author": "Asher <asher@daangn.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "@figma/widget-typings": "*",
+    "concurrently": "^6.3.0",
+    "esbuild": "^0.15.13",
+    "typescript": "^5.4.5"
+  }
+}

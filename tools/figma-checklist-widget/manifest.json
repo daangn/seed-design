@@ -1,0 +1,12 @@
+{
+  "name": "Seed design Checklist",
+  "id": "1408562904524176540",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "permissions": [],
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] },
+  "widgetApi": "1.0.0"
+}

@@ -7797,6 +7797,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/figma-checklist-widget@workspace:tools/figma-checklist-widget":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/figma-checklist-widget@workspace:tools/figma-checklist-widget"
+  dependencies:
+    "@figma/plugin-typings": "*"
+    "@figma/widget-typings": "*"
+    concurrently: ^6.3.0
+    esbuild: ^0.15.13
+    typescript: ^5.4.5
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/figma-codegen@workspace:tools/figma-codegen":
   version: 0.0.0-use.local
   resolution: "@seed-design/figma-codegen@workspace:tools/figma-codegen"
@@ -8067,6 +8079,7 @@ __metadata:
     "@seed-design/react-text-field": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
+    "@seed-design/vars": 0.0.0
     "@stackflow/core": ^1.0.13
     "@stackflow/plugin-basic-ui": ^1.8.4
     "@stackflow/plugin-history-sync": ^1.6.0
@@ -8091,6 +8104,14 @@ __metadata:
   resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
   dependencies:
     "@seed-design/recipe-generator-cli": 0.0.0
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/vars@0.0.0, @seed-design/vars@workspace:packages/vars":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/vars@workspace:packages/vars"
+  dependencies:
+    nanobundle: ^1.6.0
   languageName: unknown
   linkType: soft
 
