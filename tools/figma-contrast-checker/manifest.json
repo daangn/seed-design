@@ -1,9 +1,11 @@
 {
   "name": "APCA Contrast Widget",
-  "id": "apca-contrast-widget",
+  "id": "1410286424832252877",
   "api": "1.0.0",
   "editorType": ["figma"],
   "permissions": [],
+  "networkAccess": { "allowedDomains": ["none"] },
+  "documentAccess": "dynamic-page",
   "containsWidget": true,
   "main": "dist/code.js",
   "widgetApi": "1.0.0"

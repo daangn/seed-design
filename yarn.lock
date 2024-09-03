@@ -7078,7 +7078,6 @@ __metadata:
     "@seed-design/react-text-field": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
-    "@seed-design/vars": 0.0.0
     "@stackflow/core": ^1.0.8
     "@stackflow/plugin-basic-ui": 1.7.0-canary.0
     "@stackflow/plugin-history-sync": ^1.3.13
@@ -7103,14 +7102,6 @@ __metadata:
   resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
   dependencies:
     "@seed-design/recipe-generator-cli": 0.0.0
-  languageName: unknown
-  linkType: soft
-
-"@seed-design/vars@0.0.0, @seed-design/vars@workspace:packages/vars":
-  version: 0.0.0-use.local
-  resolution: "@seed-design/vars@workspace:packages/vars"
-  dependencies:
-    nanobundle: ^1.6.0
   languageName: unknown
   linkType: soft
 
