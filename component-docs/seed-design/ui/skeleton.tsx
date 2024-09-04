@@ -8,13 +8,13 @@ interface SkeletonProps {
   width: number | string;
   height: number | string;
   borderRadius: "circle" | "rounded" | "square";
-  type?: "pulse";
+  type?: "wave";
 }
 
 // TODO: Spec
 // TODO: Recipe
 export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>((props, ref) => {
-  const { width, height, borderRadius, type = "pulse" } = props;
+  const { width, height, borderRadius, type = "wave" } = props;
   return (
     <div
       ref={ref}

@@ -3,7 +3,7 @@ import { recipe } from "@vanilla-extract/recipes";
 
 // #F7F8F9
 // #F7F8F950
-const pulse = keyframes({
+const wave = keyframes({
   "0%": {
     backgroundPositionX: "100%",
   },
@@ -22,13 +22,14 @@ export const skeleton = recipe({
 
   variants: {
     type: {
-      pulse: {
-        backgroundImage: "linear-gradient(90deg, #F7F8F9 0%, #F7F8F950 20%, #F7F8F9 40%)",
+      wave: {
+        backgroundImage:
+          "var(--skeleton-gradient, linear-gradient(90deg, #F7F8F9 0%, #F7F8F950 20%, #F7F8F9 40%))",
         backgroundSize: "200% 100%",
         animationFillMode: "forwards",
 
-        animationName: pulse,
-        animationDuration: "1.5s",
+        animationName: wave,
+        animationDuration: "var(--skeleton-animation-duration, 1.5s)",
         animationTimingFunction: "ease-in-out",
         animationIterationCount: "infinite",
       },

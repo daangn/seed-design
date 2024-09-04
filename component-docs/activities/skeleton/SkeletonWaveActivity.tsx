@@ -3,11 +3,11 @@ import * as React from "react";
 
 import Layout from "@/activities/ActivityLayout";
 import { Skeleton } from "@/seed-design/ui/skeleton";
-import { useSkeletonLoading } from "@/stores/skeleton";
+import { useSkeletonDuration, useSkeletonLoading } from "@/stores/skeleton";
 
 declare module "@stackflow/config" {
   interface Register {
-    SkeletonPulse: unknown;
+    SkeletonWave: unknown;
   }
 }
 
@@ -24,16 +24,26 @@ const Fallback = () => {
   );
 };
 
-const SkeletonPulseActivitiy: ActivityComponentType<"SkeletonPulse"> = () => {
+const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
   const isLoading = useSkeletonLoading();
+  const animationDuration = useSkeletonDuration();
 
   return (
     <Layout>
-      <div style={{ padding: "16px" }}>{isLoading ? <Fallback /> : <div>content</div>}</div>
+      <div
+        style={
+          {
+            padding: "16px",
+            "--skeleton-animation-duration": animationDuration,
+          } as React.CSSProperties
+        }
+      >
+        {isLoading ? <Fallback /> : <div>content</div>}
+      </div>
     </Layout>
   );
 };
 
-export default SkeletonPulseActivitiy;
+export default SkeletonWaveActivity;
 
-SkeletonPulseActivitiy.displayName = "SkeletonPulseActivitiy";
+SkeletonWaveActivity.displayName = "SkeletonWaveActivity";
