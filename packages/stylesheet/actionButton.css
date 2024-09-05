@@ -1,0 +1,138 @@
+.actionButton__root {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+}
+.actionButton__root:is(:focus, [data-focus]) {
+    outline: none;
+}
+.actionButton__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
+.actionButton__root {
+    font-weight: var(--seed-font-weight-bold);
+}
+.actionButton__prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.actionButton__root--variant_brand {
+    background: var(--seed-color-bg-brand-solid);
+}
+.actionButton__root--variant_brand:is(:active, [data-active]) {
+    background: var(--seed-color-bg-brand-solid-pressed);
+}
+.actionButton__root--variant_brand:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.actionButton__label--variant_brand {
+    color: var(--seed-color-fg-static-white);
+}
+.actionButton__prefix--variant_brand {
+    color: var(--seed-color-fg-static-white);
+}
+.actionButton__root--variant_brandWeak {
+    background: var(--seed-color-bg-brand-weak);
+}
+.actionButton__root--variant_brandWeak:is(:active, [data-active]) {
+    background: var(--seed-color-bg-brand-weak);
+}
+.actionButton__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.actionButton__label--variant_brandWeak {
+    color: var(--seed-color-fg-brand);
+}
+.actionButton__prefix--variant_brandWeak {
+    color: var(--seed-color-fg-brand);
+}
+.actionButton__root--variant_neutralWeak {
+    background: var(--seed-color-bg-neutral-weak);
+}
+.actionButton__root--variant_neutralWeak:is(:active, [data-active]) {
+    background: var(--seed-color-bg-neutral-weak-pressed);
+}
+.actionButton__root--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.actionButton__label--variant_neutralWeak {
+    color: var(--seed-color-fg-neutral);
+}
+.actionButton__prefix--variant_neutralWeak {
+    color: var(--seed-color-fg-neutral);
+}
+.actionButton__root--variant_danger {
+    background: var(--seed-color-bg-danger-solid);
+}
+.actionButton__root--variant_danger:is(:active, [data-active]) {
+    background: var(--seed-color-bg-danger-solid-pressed);
+}
+.actionButton__root--variant_danger:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-bg-disabled);
+}
+.actionButton__label--variant_danger {
+    color: var(--seed-color-fg-static-white);
+}
+.actionButton__prefix--variant_danger {
+    color: var(--seed-color-fg-static-white);
+}
+.actionButton__root--size_xsmall {
+    height: var(--seed-unit-8);
+    padding: var(--seed-unit-2) var(--seed-unit-2\.5);
+    border-radius: var(--seed-radii-full);
+    gap: var(--seed-unit-1);
+}
+.actionButton__label--size_xsmall {
+    font-size: var(--seed-font-size-50);
+}
+.actionButton__prefix--size_xsmall {
+    width: var(--seed-unit-3);
+    height: var(--seed-unit-3);
+}
+.actionButton__root--size_small {
+    height: var(--seed-unit-9);
+    padding: var(--seed-unit-2) var(--seed-unit-3\.5);
+    border-radius: var(--seed-radii-1);
+    gap: var(--seed-unit-1);
+}
+.actionButton__label--size_small {
+    font-size: var(--seed-font-size-100);
+}
+.actionButton__prefix--size_small {
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
+}
+.actionButton__root--size_medium {
+    height: var(--seed-unit-10);
+    padding: var(--seed-unit-2\.5) var(--seed-unit-4);
+    border-radius: var(--seed-radii-1\.5);
+    gap: var(--seed-unit-1);
+}
+.actionButton__label--size_medium {
+    font-size: var(--seed-font-size-100);
+}
+.actionButton__prefix--size_medium {
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
+}
+.actionButton__root--size_large {
+    height: var(--seed-unit-13);
+    padding: var(--seed-unit-3\.5) var(--seed-unit-5);
+    border-radius: var(--seed-radii-1\.5);
+    gap: var(--seed-unit-1);
+}
+.actionButton__label--size_large {
+    font-size: var(--seed-font-size-300);
+}
+.actionButton__prefix--size_large {
+    width: var(--seed-unit-5);
+    height: var(--seed-unit-5);
+}

@@ -1,6 +1,6 @@
 export * from "./AlertDialog";
 export * from "./Avatar";
-export * from "./BoxButton";
+export * from "./ActionButton";
 export * from "./Callout";
 export * from "./Checkbox";
 export * from "./ChipButton";

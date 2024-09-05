@@ -1,17 +1,17 @@
 import { createClassName } from "./className.mjs";
 
-const boxButtonSlotNames = [
+const actionButtonSlotNames = [
   [
     "root",
-    "boxButton__root"
+    "actionButton__root"
   ],
   [
     "label",
-    "boxButton__label"
+    "actionButton__label"
   ],
   [
     "prefix",
-    "boxButton__prefix"
+    "actionButton__prefix"
   ]
 ];
 
@@ -19,27 +19,26 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const boxButtonVariantMap = {
+export const actionButtonVariantMap = {
   "variant": [
     "brand",
-    "brandSoft",
-    "neutral",
+    "brandWeak",
+    "neutralWeak",
     "danger"
   ],
   "size": [
     "xsmall",
     "small",
     "medium",
-    "large",
-    "xlarge"
+    "large"
   ]
 };
 
-export const boxButtonVariantKeys = Object.keys(boxButtonVariantMap);
+export const actionButtonVariantKeys = Object.keys(actionButtonVariantMap);
 
-export function boxButton(props) {
+export function actionButton(props) {
   return Object.fromEntries(
-    boxButtonSlotNames.map(([slot, className]) => {
+    actionButtonSlotNames.map(([slot, className]) => {
       return [
         slot,
         createClassName(className, { ...defaultVariant, ...props }, compoundVariants),

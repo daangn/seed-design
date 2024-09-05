@@ -1,9 +1,9 @@
-import { vars } from "./__generated__/box-button.vars";
+import { vars } from "./__generated__/action-button.vars";
 import { defineRecipe } from "./helper";
 import { disabled, focus, active, pseudo } from "./pseudo";
 
-const boxButton = defineRecipe({
-  name: "boxButton",
+const actionButton = defineRecipe({
+  name: "actionButton",
   slots: ["root", "label", "prefix"],
   base: {
     root: {
@@ -51,38 +51,38 @@ const boxButton = defineRecipe({
           color: vars.variantBrand.enabled.prefixIcon.color,
         },
       },
-      brandSoft: {
+      brandWeak: {
         root: {
-          background: vars.variantBrandSoft.enabled.root.color,
+          background: vars.variantBrandWeak.enabled.root.color,
           [pseudo(active)]: {
-            background: vars.variantBrandSoft.pressed.root.color,
+            background: vars.variantBrandWeak.pressed.root.color,
           },
           [pseudo(disabled)]: {
-            background: vars.variantBrandSoft.disabled.root.color,
+            background: vars.variantBrandWeak.disabled.root.color,
           },
         },
         label: {
-          color: vars.variantBrandSoft.enabled.label.color,
+          color: vars.variantBrandWeak.enabled.label.color,
         },
         prefix: {
-          color: vars.variantBrandSoft.enabled.prefixIcon.color,
+          color: vars.variantBrandWeak.enabled.prefixIcon.color,
         },
       },
-      neutral: {
+      neutralWeak: {
         root: {
-          background: vars.variantNeutral.enabled.root.color,
+          background: vars.variantNeutralWeak.enabled.root.color,
           [pseudo(active)]: {
-            background: vars.variantNeutral.pressed.root.color,
+            background: vars.variantNeutralWeak.pressed.root.color,
           },
           [pseudo(disabled)]: {
-            background: vars.variantNeutral.disabled.root.color,
+            background: vars.variantNeutralWeak.disabled.root.color,
           },
         },
         label: {
-          color: vars.variantNeutral.enabled.label.color,
+          color: vars.variantNeutralWeak.enabled.label.color,
         },
         prefix: {
-          color: vars.variantNeutral.enabled.prefixIcon.color,
+          color: vars.variantNeutralWeak.enabled.prefixIcon.color,
         },
       },
       danger: {
@@ -164,23 +164,8 @@ const boxButton = defineRecipe({
           height: vars.sizeLarge.enabled.prefixIcon.size,
         },
       },
-      xlarge: {
-        root: {
-          height: vars.sizeXlarge.enabled.root.minHeight,
-          padding: `${vars.sizeXlarge.enabled.root.paddingY} ${vars.sizeXlarge.enabled.root.paddingX}`,
-          borderRadius: vars.sizeXlarge.enabled.root.cornerRadius,
-          gap: vars.sizeXlarge.enabled.root.gap,
-        },
-        label: {
-          fontSize: vars.sizeXlarge.enabled.label.fontSize,
-        },
-        prefix: {
-          width: vars.sizeXlarge.enabled.prefixIcon.size,
-          height: vars.sizeXlarge.enabled.prefixIcon.size,
-        },
-      },
     },
   },
 });
 
-export default boxButton;
+export default actionButton;

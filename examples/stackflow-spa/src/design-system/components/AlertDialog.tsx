@@ -5,7 +5,7 @@ import { useActions, useActivity } from "@stackflow/react";
 import { useRef } from "react";
 
 import "@seed-design/stylesheet/dialog.css";
-import { BoxButton } from "./BoxButton";
+import { BoxButton } from "./ActionButton";
 
 export type AlertDialogProps = {
   title: string;

@@ -1,19 +1,19 @@
 import { Slot } from "@radix-ui/react-slot";
-import { boxButton, type BoxButtonVariantProps } from "@seed-design/recipe/boxButton";
+import { actionButton, type ActionButtonVariantProps } from "@seed-design/recipe/actionButton";
 import clsx from "clsx";
 import * as React from "react";
 
-import "@seed-design/stylesheet/boxButton.css";
+import "@seed-design/stylesheet/actionButton.css";
 
-export interface BoxButtonProps
+export interface ActionButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    BoxButtonVariantProps {
+    ActionButtonVariantProps {
   prefixIcon?: React.ReactNode;
 }
 
-export const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(
+export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
   ({ className, variant = "brand", size = "medium", children, prefixIcon, ...otherProps }, ref) => {
-    const classNames = boxButton({ variant, size });
+    const classNames = actionButton({ variant, size });
     return (
       <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
@@ -22,4 +22,4 @@ export const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(
     );
   },
 );
-BoxButton.displayName = "BoxButton";
+ActionButton.displayName = "ActionButton";

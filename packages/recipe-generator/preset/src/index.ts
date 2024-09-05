@@ -1,5 +1,5 @@
 import avatar from "./avatar.recipe";
-import boxButton from "./box-button.recipe";
+import actionButton from "./action-button.recipe";
 import callout from "./callout.recipe";
 import checkbox from "./checkbox.recipe";
 import chip from "./chip.recipe";
@@ -14,7 +14,7 @@ import chipTabs from "./chip-tabs.recipe";
 
 const recipes = {
   avatar,
-  boxButton,
+  actionButton,
   radio,
   dialog,
   checkbox,
