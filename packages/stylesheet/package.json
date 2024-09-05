@@ -11,7 +11,7 @@
   },
   "scripts": {
     "prepack": "yarn build",
-    "build:style": "recipegen css"
+    "build:style": "yarn recipegen css"
   },
   "exports": {
     "./global.css": "./global.css",

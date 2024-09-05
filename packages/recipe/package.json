@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
-    "build:style": "recipegen js ./lib"
+    "build:style": "yarn recipegen js ./lib"
   },
   "devDependencies": {
     "@seed-design/recipe-generator-cli": "0.0.0"
