@@ -19,7 +19,7 @@
     flex-direction: column;
     box-sizing: border-box;
     word-break: break-all;
-    background: var(--seed-color-bg-layer-1);
+    background: var(--seed-color-bg-layer-default);
     max-width: 272px;
     margin: auto var(--seed-unit-8);
     padding: var(--seed-unit-5) var(--seed-unit-5);

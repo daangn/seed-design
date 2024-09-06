@@ -8,7 +8,7 @@ export const vars = {
       },
       "badge": {
         "cornerRadius": "var(--seed-radii-full)",
-        "color": "var(--seed-color-bg-layer-1)"
+        "color": "var(--seed-color-bg-layer-default)"
       }
     }
   },

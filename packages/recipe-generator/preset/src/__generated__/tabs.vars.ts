@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "tabTriggerList": {
-        "color": "var(--seed-color-bg-layer-1)",
+        "color": "var(--seed-color-bg-layer-default)",
         "borderColor": "var(--seed-color-stroke-decorative)"
       },
       "tabTrigger": {

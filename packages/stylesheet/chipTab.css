@@ -14,7 +14,7 @@
     background-color: var(--seed-color-bg-neutral-inverted);
 }
 .chipTab__root:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background-color: var(--seed-color-bg-layer-1-pressed);
+    background-color: var(--seed-color-bg-layer-default-pressed);
 }
 .chipTab__root:is(:selected, [data-selected]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);

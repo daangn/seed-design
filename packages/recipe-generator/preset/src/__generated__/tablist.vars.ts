@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-1)",
+        "color": "var(--seed-color-bg-layer-default)",
         "strokeBottomWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral)"
       },

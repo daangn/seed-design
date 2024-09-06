@@ -3,7 +3,7 @@ base:
     backdrop:
       background: rgba(0, 0, 0, 0.32)
     content:
-      background: $color.bg.layer-1
+      background: $color.bg.layer-default
       borderRadius: $radii[4]
       marginX: $unit[8]
       paddingX: $unit[5]

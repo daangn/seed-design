@@ -42,7 +42,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
-    background: var(--seed-color-bg-layer-1);
+    background: var(--seed-color-bg-layer-default);
     border-radius: var(--seed-radii-full);
 }
 .avatar__root--size_20 {

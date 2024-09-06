@@ -19,7 +19,7 @@ export const vars = {
     },
     "pressed": {
       "control": {
-        "color": "var(--seed-color-bg-layer-1-pressed)"
+        "color": "var(--seed-color-bg-layer-default-pressed)"
       }
     },
     "pressedSelected": {

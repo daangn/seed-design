@@ -11,7 +11,7 @@ base:
       fontWeight: $font-weight.bold
   enabled,pressed:
     root:
-      color: $color.bg.layer-1-pressed
+      color: $color.bg.layer-default-pressed
   selected:
     root:
       color: $color.bg.neutral-inverted

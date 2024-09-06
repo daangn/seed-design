@@ -15,7 +15,7 @@ export const vars = {
     },
     "enabledPressed": {
       "root": {
-        "color": "var(--seed-color-bg-layer-1-pressed)"
+        "color": "var(--seed-color-bg-layer-default-pressed)"
       }
     },
     "selected": {

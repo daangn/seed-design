@@ -11,7 +11,7 @@
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background: var(--seed-color-bg-layer-1);
+    background: var(--seed-color-bg-layer-default);
     border-bottom: 1px solid var(--seed-color-stroke-neutral);
 }
 .tabs__triggerList::-webkit-scrollbar {

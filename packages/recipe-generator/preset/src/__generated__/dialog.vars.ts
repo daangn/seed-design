@@ -5,7 +5,7 @@ export const vars = {
         "background": "rgba(0, 0, 0, 0.32)"
       },
       "content": {
-        "background": "var(--seed-color-bg-layer-1)",
+        "background": "var(--seed-color-bg-layer-default)",
         "borderRadius": "var(--seed-radii-4)",
         "marginX": "var(--seed-unit-8)",
         "paddingX": "var(--seed-unit-5)",

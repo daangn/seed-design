@@ -13,7 +13,7 @@ base:
       color: "$color.fg.static-white"
   pressed:
     control:
-      color: "$color.bg.layer-1-pressed"
+      color: "$color.bg.layer-default-pressed"
   pressed,selected:
     control:
       color: "$color.bg.brand-emphasis-pressed"

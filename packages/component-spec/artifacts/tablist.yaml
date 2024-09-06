@@ -1,7 +1,7 @@
 base:
   enabled:
     root:
-      color: $color.bg.layer-1
+      color: $color.bg.layer-default
       strokeBottomWidth: 1px
       strokeColor: $color.stroke.neutral
     indicator:

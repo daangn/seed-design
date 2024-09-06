@@ -20,7 +20,7 @@
     border-width: 0;
 }
 .radio__control:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-1-pressed);
+    background: var(--seed-color-bg-layer-default-pressed);
 }
 .radio__control:is(:active, [data-active]):is(:checked, [data-checked]) {
     background: var(--seed-color-bg-brand-emphasis-pressed);

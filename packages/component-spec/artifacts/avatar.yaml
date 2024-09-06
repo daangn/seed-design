@@ -6,7 +6,7 @@ base:
       strokeWidth: 1px
     badge:
       cornerRadius: $radii.full
-      color: $color.bg.layer-1
+      color: $color.bg.layer-default
 size=20:
   enabled:
     root:

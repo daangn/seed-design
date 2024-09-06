@@ -3,7 +3,7 @@
 import * as React from "react";
 
 export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
-  backgroundColor?: "neutral" | "brand" | "brandEmphasis" | "layer1";
+  backgroundColor?: "neutral" | "brand" | "brandEmphasis" | "layerDefault";
   gap?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   padding?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   paddingX?: 1 | 1.5 | 2 | 2.5 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -14,7 +14,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const bgTokenMap = {
-  layer1: "var(--seed-color-bg-layer-1)",
+  layerDefault: "var(--seed-color-bg-layer-default)",
   neutral: "var(--seed-color-bg-neutral)",
   brand: "var(--seed-color-bg-brand)",
   brandEmphasis: "var(--seed-color-bg-brand-emphasis)",
