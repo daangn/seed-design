@@ -18,7 +18,7 @@ export const vars = {
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled-1)"
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },

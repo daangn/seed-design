@@ -18,7 +18,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .tab__label:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled-1);
+    color: var(--seed-color-fg-disabled);
 }
 .tab__notification {
     position: absolute;

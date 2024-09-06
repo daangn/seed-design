@@ -12,7 +12,7 @@ base:
       color: $color.fg.neutral
   disabled:
     label:
-      color: $color.fg.disabled-1
+      color: $color.fg.disabled
 size=medium:
   enabled:
     root:

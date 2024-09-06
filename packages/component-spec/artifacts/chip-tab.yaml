@@ -22,7 +22,7 @@ base:
       color: $color.bg.neutral-inverted-pressed
   disabled:
     label:
-      color: $color.fg.disabled-1
+      color: $color.fg.disabled
   selected,disabled:
     root:
       color: $color.bg.disabled-2

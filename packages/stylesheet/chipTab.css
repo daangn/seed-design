@@ -34,5 +34,5 @@
     color: var(--seed-color-fg-neutral-inverted);
 }
 .chipTab__label:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled-1);
+    color: var(--seed-color-fg-disabled);
 }
