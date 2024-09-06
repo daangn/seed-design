@@ -36,7 +36,9 @@ const actionChip = defineRecipe({
     },
     label: {
       lineHeight: 1,
+
       color: vars.base.enabled.label.color,
+      fontWeight: vars.base.enabled.label.fontWeight,
       [pseudo(disabled)]: {
         color: vars.base.disabled.label.color,
       },
@@ -68,7 +70,6 @@ const actionChip = defineRecipe({
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
-          fontWeight: vars.sizeMedium.enabled.label.fontWeight,
         },
         prefix: {
           width: rem(vars.sizeMedium.enabled.prefix.size),
@@ -87,7 +88,6 @@ const actionChip = defineRecipe({
         },
         label: {
           fontSize: vars.sizeSmall.enabled.label.fontSize,
-          fontWeight: vars.sizeSmall.enabled.label.fontWeight,
         },
         prefix: {
           width: rem(vars.sizeSmall.enabled.prefix.size),

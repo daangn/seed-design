@@ -5,6 +5,7 @@ base:
       borderRadius: $radii.full
     label:
       color: $color.fg.neutral
+      fontWeight: $font-weight.medium
     prefix:
       color: $color.fg.neutral
     suffix:
@@ -31,7 +32,6 @@ size=small:
       gap: $unit[1]
     label:
       fontSize: $font-size[75]
-      fontWeight: $font-weight.regular
     prefix:
       size: $unit[3.5]
     suffix:
@@ -44,7 +44,6 @@ size=medium:
       gap: $unit[1]
     label:
       fontSize: $font-size[100]
-      fontWeight: $font-weight.regular
     prefix:
       size: $unit[4]
     suffix:

@@ -6,7 +6,8 @@ export const vars = {
         "borderRadius": "var(--seed-radii-full)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-fg-neutral)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       },
       "prefix": {
         "color": "var(--seed-color-fg-neutral)"
@@ -46,8 +47,7 @@ export const vars = {
         "gap": "var(--seed-unit-1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-75)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontSize": "var(--seed-font-size-75)"
       },
       "prefix": {
         "size": "var(--seed-unit-3\\.5)"
@@ -65,8 +65,7 @@ export const vars = {
         "gap": "var(--seed-unit-1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-100)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontSize": "var(--seed-font-size-100)"
       },
       "prefix": {
         "size": "var(--seed-unit-4)"

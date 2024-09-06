@@ -12,7 +12,10 @@ const ActivityActionChip: ActivityComponentType = () => {
         <ActionChip layout="iconOnly">
           <IconListRegular />
         </ActionChip>
-        <ActionChip>야옹</ActionChip>
+        <ActionChip>인기글</ActionChip>
+        <ActionChip>맛집</ActionChip>
+        <ActionChip>사건사고</ActionChip>
+        <ActionChip>분실신고</ActionChip>
       </Flex>
     </AppScreen>
   );
