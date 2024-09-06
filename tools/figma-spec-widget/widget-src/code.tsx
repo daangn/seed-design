@@ -1,11 +1,11 @@
 import { parse, type ParsedExpression } from "@seed-design/component-spec-core";
-import { stringifyConditions, stringifyToken, stringifyVariants } from "./stringify";
 import YAML from "yaml";
+import { stringifyConditions, stringifyToken, stringifyVariants } from "./stringify";
 
 const { widget } = figma;
-const { AutoLayout, Fragment, Text, usePropertyMenu, useSyncedState, useEffect } = widget;
+const { AutoLayout, Fragment, Text, usePropertyMenu, useSyncedState } = widget;
 
-const COMPONENT_KEYS = ["avatar", "box-button", "callout", "chip", "checkbox", "dialog", "radio"];
+const COMPONENT_KEYS = ["avatar", "action-button", "callout", "action-chip", "checkbox", "dialog", "radio"];
 const getSpecUrl = (key: string) =>
   `https://raw.githubusercontent.com/daangn/seed-design/wip/packages/component-spec/artifacts/${key}.yaml`;
 
