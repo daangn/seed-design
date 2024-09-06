@@ -2,7 +2,7 @@ import avatar from "./avatar.recipe";
 import actionButton from "./action-button.recipe";
 import callout from "./callout.recipe";
 import checkbox from "./checkbox.recipe";
-import chip from "./chip.recipe";
+import actionChip from "./action-chip.recipe";
 import dialog from "./dialog.recipe";
 import helpBubble from "./help-bubble.recipe";
 import radio from "./radio.recipe";
@@ -18,7 +18,7 @@ const recipes = {
   radio,
   dialog,
   checkbox,
-  chip,
+  actionChip,
   callout,
   switch: switchRecipe,
   helpBubble,

@@ -1,43 +1,38 @@
 import { Slot } from "@radix-ui/react-slot";
-import { chip, type ChipVariantProps } from "@seed-design/recipe/chip";
+import { actionChip, type ActionChipVariantProps } from "@seed-design/recipe/actionChip";
 import clsx from "clsx";
 import * as React from "react";
 
-import "@seed-design/stylesheet/chip.css";
+import "@seed-design/stylesheet/actionChip.css";
 
-export interface ChipButtonProps
+export interface ActionChipProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    ChipVariantProps {
+    ActionChipVariantProps {
   prefixIcon?: React.ReactNode;
 
   suffixIcon?: React.ReactNode;
-
-  count?: React.ReactNode;
 }
 
-export const ChipButton = React.forwardRef<HTMLButtonElement, ChipButtonProps>(
+export const ActionChip = React.forwardRef<HTMLButtonElement, ActionChipProps>(
   (
     {
       className,
-      variant = "default",
       size = "medium",
       children,
       prefixIcon,
       suffixIcon,
-      count,
       ...otherProps
     },
     ref,
   ) => {
-    const classNames = chip({ variant, size });
+    const classNames = actionChip({  size });
     return (
       <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
         <span className={classNames.label}>{children}</span>
-        {count == null ? undefined : <span className={classNames.count}>{count}</span>}
         {suffixIcon && <Slot className={classNames.suffix}>{suffixIcon}</Slot>}
       </button>
     );
   },
 );
-ChipButton.displayName = "ChipButton";
+ActionChip.displayName = "ActionChip";

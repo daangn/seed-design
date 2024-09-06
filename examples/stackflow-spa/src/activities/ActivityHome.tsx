@@ -14,7 +14,7 @@ const ActivityHome: ActivityComponentType = () => {
         <ActionButton onClick={() => push("ActivityActionButton", {})}>ActionButton</ActionButton>
         <ActionButton onClick={() => push("ActivityRadioGroup", {})}>RadioGroup</ActionButton>
         <ActionButton onClick={() => push("ActivityCheckbox", {})}>Checkbox</ActionButton>
-        <ActionButton onClick={() => push("ActivityChip", {})}>ChipButton</ActionButton>
+        <ActionButton onClick={() => push("ActivityActionChip", {})}>ActionChip</ActionButton>
         <ActionButton onClick={() => push("ActivityAlertDialog", {})}>Dialog</ActionButton>
         <ActionButton onClick={() => push("ActivityCallout", {})}>Callout</ActionButton>
         <ActionButton onClick={() => push("ActivitySwitch", {})}>Switch</ActionButton>

@@ -21,7 +21,7 @@
     "./radio.css": "./radio.css",
     "./dialog.css": "./dialog.css",
     "./checkbox.css": "./checkbox.css",
-    "./chip.css": "./chip.css",
+    "./actionChip.css": "./actionChip.css",
     "./callout.css": "./callout.css",
     "./avatar.css": "./avatar.css",
     "./switch.css": "./switch.css",
