@@ -1,5 +1,6 @@
 .actionChip__root {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
     box-sizing: border-box;
     cursor: pointer;
@@ -24,6 +25,7 @@
     cursor: not-allowed;
 }
 .actionChip__label {
+    line-height: 1;
     color: var(--seed-color-fg-neutral);
 }
 .actionChip__label:is(:disabled, [disabled], [data-disabled]) {
@@ -45,7 +47,7 @@
 }
 .actionChip__root--size_medium {
     min-height: var(--seed-unit-9);
-    padding: var(--seed-unit-2) var(--seed-unit-3\.5);
+    padding-block: var(--seed-unit-2);
     gap: var(--seed-unit-1);
 }
 .actionChip__label--size_medium {
@@ -62,7 +64,7 @@
 }
 .actionChip__root--size_small {
     min-height: var(--seed-unit-8);
-    padding: var(--seed-unit-1\.5) var(--seed-unit-3);
+    padding-block: var(--seed-unit-1\.5);
     gap: var(--seed-unit-1);
 }
 .actionChip__label--size_small {
@@ -76,4 +78,24 @@
 .actionChip__suffix--size_small {
     width: var(--seed-unit-3\.5);
     height: var(--seed-unit-3\.5);
+}
+.actionChip__root--size_medium-layout_text {
+    padding-inline: var(--seed-unit-3\.5);
+}
+.actionChip__root--size_medium-layout_iconOnly {
+    min-width: var(--seed-unit-9);
+}
+.actionChip__icon--size_medium-layout_iconOnly {
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
+}
+.actionChip__root--size_small-layout_text {
+    padding-inline: var(--seed-unit-3);
+}
+.actionChip__root--size_small-layout_iconOnly {
+    min-width: var(--seed-unit-8);
+}
+.actionChip__icon--size_small-layout_iconOnly {
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
 }

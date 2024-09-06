@@ -43,7 +43,6 @@ export const vars = {
       "root": {
         "minHeight": "var(--seed-unit-8)",
         "paddingY": "var(--seed-unit-1\\.5)",
-        "paddingX": "var(--seed-unit-3)",
         "gap": "var(--seed-unit-1)"
       },
       "label": {
@@ -63,7 +62,6 @@ export const vars = {
       "root": {
         "minHeight": "var(--seed-unit-9)",
         "paddingY": "var(--seed-unit-2)",
-        "paddingX": "var(--seed-unit-3\\.5)",
         "gap": "var(--seed-unit-1)"
       },
       "label": {
@@ -75,6 +73,40 @@ export const vars = {
       },
       "suffix": {
         "size": "var(--seed-unit-3\\.5)"
+      }
+    }
+  },
+  "sizeSmallLayoutText": {
+    "enabled": {
+      "root": {
+        "paddingX": "var(--seed-unit-3)"
+      }
+    }
+  },
+  "sizeSmallLayoutIconOnly": {
+    "enabled": {
+      "root": {
+        "minWidth": "var(--seed-unit-8)"
+      },
+      "icon": {
+        "size": "var(--seed-unit-4)"
+      }
+    }
+  },
+  "sizeMediumLayoutText": {
+    "enabled": {
+      "root": {
+        "paddingX": "var(--seed-unit-3\\.5)"
+      }
+    }
+  },
+  "sizeMediumLayoutIconOnly": {
+    "enabled": {
+      "root": {
+        "minWidth": "var(--seed-unit-9)"
+      },
+      "icon": {
+        "size": "var(--seed-unit-4)"
       }
     }
   }

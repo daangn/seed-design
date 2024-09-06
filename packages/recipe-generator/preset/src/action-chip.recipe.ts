@@ -6,10 +6,11 @@ import { vars } from "./__generated__/action-chip.vars";
 
 const actionChip = defineRecipe({
   name: "actionChip",
-  slots: ["root", "label", "prefix", "suffix", "count"],
+  slots: ["root", "label", "icon", "prefix", "suffix", "count"],
   base: {
     root: {
       display: "inline-flex",
+      justifyContent: "center",
       alignItems: "center",
       boxSizing: "border-box",
       cursor: "pointer",
@@ -18,6 +19,7 @@ const actionChip = defineRecipe({
       textAlign: "start",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
+
       borderRadius: vars.base.enabled.root.borderRadius,
       [pseudo(focus)]: {
         outline: "none",
@@ -33,6 +35,7 @@ const actionChip = defineRecipe({
       },
     },
     label: {
+      lineHeight: 1,
       color: vars.base.enabled.label.color,
       [pseudo(disabled)]: {
         color: vars.base.disabled.label.color,
@@ -60,7 +63,7 @@ const actionChip = defineRecipe({
       medium: {
         root: {
           minHeight: vars.sizeMedium.enabled.root.minHeight,
-          padding: `${vars.sizeMedium.enabled.root.paddingY} ${vars.sizeMedium.enabled.root.paddingX}`,
+          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
           gap: vars.sizeMedium.enabled.root.gap,
         },
         label: {
@@ -79,7 +82,7 @@ const actionChip = defineRecipe({
       small: {
         root: {
           minHeight: vars.sizeSmall.enabled.root.minHeight,
-          padding: `${vars.sizeSmall.enabled.root.paddingY} ${vars.sizeSmall.enabled.root.paddingX}`,
+          paddingBlock: vars.sizeSmall.enabled.root.paddingY,
           gap: vars.sizeSmall.enabled.root.gap,
         },
         label: {
@@ -96,7 +99,57 @@ const actionChip = defineRecipe({
         },
       },
     },
+    layout: {
+      text: {},
+      iconOnly: {},
+    },
   },
+  compoundVariants: [
+    {
+      size: "medium",
+      layout: "text",
+      css: {
+        root: {
+          paddingInline: vars.sizeMediumLayoutText.enabled.root.paddingX,
+        },
+      },
+    },
+    {
+      size: "medium",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
+        },
+        icon: {
+          width: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+    {
+      size: "small",
+      layout: "text",
+      css: {
+        root: {
+          paddingInline: vars.sizeSmallLayoutText.enabled.root.paddingX,
+        },
+      },
+    },
+    {
+      size: "small",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
+        },
+        icon: {
+          width: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+  ],
 });
 
 export default actionChip;

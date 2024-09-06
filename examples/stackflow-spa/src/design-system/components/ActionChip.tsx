@@ -18,6 +18,7 @@ export const ActionChip = React.forwardRef<HTMLButtonElement, ActionChipProps>(
     {
       className,
       size = "medium",
+      layout = "text",
       children,
       prefixIcon,
       suffixIcon,
@@ -25,11 +26,15 @@ export const ActionChip = React.forwardRef<HTMLButtonElement, ActionChipProps>(
     },
     ref,
   ) => {
-    const classNames = actionChip({  size });
+    const classNames = actionChip({ size, layout });
     return (
       <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
-        <span className={classNames.label}>{children}</span>
+        {layout === "text" ? (
+          <span className={classNames.label}>{children}</span>
+        ) : (
+          <Slot className={classNames.icon}>{children}</Slot>
+        )}
         {suffixIcon && <Slot className={classNames.suffix}>{suffixIcon}</Slot>}
       </button>
     );

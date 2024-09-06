@@ -10,6 +10,10 @@ const actionChipSlotNames = [
     "actionChip__label"
   ],
   [
+    "icon",
+    "actionChip__icon"
+  ],
+  [
     "prefix",
     "actionChip__prefix"
   ],
@@ -25,12 +29,33 @@ const actionChipSlotNames = [
 
 const defaultVariant = {};
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "size": "medium",
+    "layout": "text"
+  },
+  {
+    "size": "medium",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "small",
+    "layout": "text"
+  },
+  {
+    "size": "small",
+    "layout": "iconOnly"
+  }
+];
 
 export const actionChipVariantMap = {
   "size": [
     "medium",
     "small"
+  ],
+  "layout": [
+    "text",
+    "iconOnly"
   ]
 };
 

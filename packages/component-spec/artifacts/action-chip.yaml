@@ -28,7 +28,6 @@ size=small:
     root:
       minHeight: $unit[8]
       paddingY: $unit[1.5]
-      paddingX: $unit[3]
       gap: $unit[1]
     label:
       fontSize: $font-size[75]
@@ -42,7 +41,6 @@ size=medium:
     root:
       minHeight: $unit[9]
       paddingY: $unit[2]
-      paddingX: $unit[3.5]
       gap: $unit[1]
     label:
       fontSize: $font-size[100]
@@ -51,3 +49,23 @@ size=medium:
       size: $unit[4]
     suffix:
       size: $unit[3.5]
+size=small,layout=text:
+  enabled:
+    root:
+      paddingX: $unit[3]
+size=small,layout=icon only:
+  enabled:
+    root:
+      minWidth: $unit[8]
+    icon:
+      size: $unit[4]
+size=medium,layout=text:
+  enabled:
+    root:
+      paddingX: $unit[3.5]
+size=medium,layout=icon only:
+  enabled:
+    root:
+      minWidth: $unit[9]
+    icon:
+      size: $unit[4]
