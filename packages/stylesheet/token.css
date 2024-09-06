@@ -64,7 +64,7 @@
 :root[data-seed][data-seed-scale-color="light"]:not([data-seed="dark-only"]),
 :root[data-seed]:not([data-seed="dark-only"]) [data-seed-scale-color="light"] {
   
---seed-color-bg-brand-solid-pressed: var(--seed-color-palette-legacy-carrot-400);
+--seed-color-bg-brand-solid-pressed: var(--seed-color-palette-legacy-carrot-600);
 --seed-color-bg-brand-solid: var(--seed-color-palette-legacy-carrot-500);
 --seed-color-bg-brand-weak-pressed: var(--seed-color-palette-legacy-carrot-alpha-200);
 --seed-color-bg-brand-weak: var(--seed-color-palette-legacy-carrot-alpha-100);
