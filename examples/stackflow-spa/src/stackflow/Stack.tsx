@@ -21,7 +21,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
     ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
     ActivityAvatar: React.lazy(() => import("../activities/ActivityAvatar")),
-    ActivityBoxButton: React.lazy(() => import("../activities/ActivityBoxButton")),
+    ActivityActionButton: React.lazy(() => import("../activities/ActivityActionButton")),
     ActivityRadioGroup: React.lazy(() => import("../activities/ActivityRadioGroup")),
     ActivityCheckbox: React.lazy(() => import("../activities/ActivityCheckbox")),
     ActivityAlertDialog: React.lazy(() => import("../activities/ActivityAlertDialog")),
@@ -53,7 +53,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
       routes: {
         ActivityHome: "/",
         ActivityAvatar: "/avatar",
-        ActivityBoxButton: "/box-button",
+        ActivityActionButton: "/action-button",
         ActivityRadioGroup: "/radio-group",
         ActivityCheckbox: "/checkbox",
         ActivityAlertDialog: "/alert",

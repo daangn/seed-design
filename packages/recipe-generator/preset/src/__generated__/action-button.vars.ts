@@ -6,7 +6,7 @@ export const vars = {
       }
     }
   },
-  "variantBrand": {
+  "variantBrandSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid)"
@@ -43,7 +43,7 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-weak)"
+        "color": "var(--seed-color-bg-brand-weak-pressed)"
       }
     },
     "disabled": {
@@ -98,7 +98,7 @@ export const vars = {
       }
     }
   },
-  "variantDanger": {
+  "variantDangerSolid": {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-danger-solid)"
@@ -142,7 +142,7 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "var(--seed-unit-9)",
-        "cornerRadius": "var(--seed-radii-1)",
+        "cornerRadius": "var(--seed-radii-2)",
         "gap": "var(--seed-unit-1)",
         "paddingX": "var(--seed-unit-3\\.5)",
         "paddingY": "var(--seed-unit-2)"
@@ -159,7 +159,7 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "var(--seed-unit-10)",
-        "cornerRadius": "var(--seed-radii-1\\.5)",
+        "cornerRadius": "var(--seed-radii-2)",
         "gap": "var(--seed-unit-1)",
         "paddingX": "var(--seed-unit-4)",
         "paddingY": "var(--seed-unit-2\\.5)"
@@ -176,7 +176,7 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "var(--seed-unit-13)",
-        "cornerRadius": "var(--seed-radii-1\\.5)",
+        "cornerRadius": "var(--seed-radii-3)",
         "gap": "var(--seed-unit-1)",
         "paddingX": "var(--seed-unit-5)",
         "paddingY": "var(--seed-unit-3\\.5)"

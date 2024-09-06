@@ -1,5 +1,5 @@
 interface ActionButtonVariant {
-  variant: "brand" | "brandWeak" | "neutralWeak" | "danger";
+  variant: "brandSolid" | "brandWeak" | "neutralSolid" | "neutralWeak" | "dangerSolid";
   size: "xsmall" | "small" | "medium" | "large"
 }
 

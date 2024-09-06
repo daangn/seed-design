@@ -12,7 +12,7 @@ export interface ActionButtonProps
 }
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
-  ({ className, variant = "brand", size = "medium", children, prefixIcon, ...otherProps }, ref) => {
+  ({ className, variant = "neutralWeak", size = "medium", children, prefixIcon, ...otherProps }, ref) => {
     const classNames = actionButton({ variant, size });
     return (
       <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>

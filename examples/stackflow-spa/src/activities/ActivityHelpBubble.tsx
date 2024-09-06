@@ -4,7 +4,7 @@ import type { ActivityComponentType } from "@stackflow/react";
 
 import { usePopover } from "@seed-design/react-popover";
 import { AppScreen } from "@stackflow/plugin-basic-ui";
-import { BoxButton } from "../design-system/components";
+import { ActionButton } from "../design-system/components";
 import { helpBubble } from "@seed-design/recipe/helpBubble";
 import { forwardRef } from "react";
 
@@ -54,9 +54,9 @@ const ActivityHelpBubble: ActivityComponentType = () => {
     <AppScreen appBar={{ title: "HelpBubble" }}>
       <div style={{ overflowY: "auto", height: "200vh" }}>
         <div style={{ display: "flex", paddingTop: "20vh", justifyContent: "center" }}>
-          <BoxButton ref={api.refs.trigger} {...api.triggerProps}>
+          <ActionButton ref={api.refs.trigger} {...api.triggerProps}>
             Wow
-          </BoxButton>
+          </ActionButton>
         </div>
         {api.open && (
           <div ref={api.refs.positioner} {...api.positionerProps} className={classNames.positioner}>

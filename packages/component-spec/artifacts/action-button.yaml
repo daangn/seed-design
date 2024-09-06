@@ -2,7 +2,7 @@ base:
   enabled:
     label:
       fontWeight: "$font-weight.bold"
-variant=brand:
+variant=brand solid:
   enabled:
     root:
       color: "$color.bg.brand-solid"
@@ -58,7 +58,7 @@ variant=neutral weak:
   disabled:
     root:
       color: "$color.bg.disabled"
-variant=danger:
+variant=danger solid:
   enabled:
     root:
       color: "$color.bg.danger-solid"
@@ -88,7 +88,7 @@ size=small:
   enabled:
     root:
       minHeight: "$unit[9]"
-      cornerRadius: "$radii[1]"
+      cornerRadius: "$radii[2]"
       gap: "$unit[1]"
       paddingX: "$unit[3.5]"
       paddingY: "$unit[2]"
@@ -100,7 +100,7 @@ size=medium:
   enabled:
     root:
       minHeight: "$unit[10]"
-      cornerRadius: "$radii[1.5]"
+      cornerRadius: "$radii[2]"
       gap: "$unit[1]"
       paddingX: "$unit[4]"
       paddingY: "$unit[2.5]"
@@ -112,7 +112,7 @@ size=large:
   enabled:
     root:
       minHeight: "$unit[13]"
-      cornerRadius: "$radii[1.5]"
+      cornerRadius: "$radii[3]"
       gap: "$unit[1]"
       paddingX: "$unit[5]"
       paddingY: "$unit[3.5]"

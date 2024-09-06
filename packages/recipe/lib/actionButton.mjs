@@ -21,10 +21,11 @@ const compoundVariants = [];
 
 export const actionButtonVariantMap = {
   "variant": [
-    "brand",
+    "brandSolid",
     "brandWeak",
+    "neutralSolid",
     "neutralWeak",
-    "danger"
+    "dangerSolid"
   ],
   "size": [
     "xsmall",

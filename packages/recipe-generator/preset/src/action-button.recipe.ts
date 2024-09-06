@@ -34,21 +34,21 @@ const actionButton = defineRecipe({
   },
   variants: {
     variant: {
-      brand: {
+      brandSolid: {
         root: {
-          background: vars.variantBrand.enabled.root.color,
+          background: vars.variantBrandSolid.enabled.root.color,
           [pseudo(active)]: {
-            background: vars.variantBrand.pressed.root.color,
+            background: vars.variantBrandSolid.pressed.root.color,
           },
           [pseudo(disabled)]: {
-            background: vars.variantBrand.disabled.root.color,
+            background: vars.variantBrandSolid.disabled.root.color,
           },
         },
         label: {
-          color: vars.variantBrand.enabled.label.color,
+          color: vars.variantBrandSolid.enabled.label.color,
         },
         prefix: {
-          color: vars.variantBrand.enabled.prefixIcon.color,
+          color: vars.variantBrandSolid.enabled.prefixIcon.color,
         },
       },
       brandWeak: {
@@ -68,6 +68,23 @@ const actionButton = defineRecipe({
           color: vars.variantBrandWeak.enabled.prefixIcon.color,
         },
       },
+      neutralSolid: {
+        root: {
+          background: vars.variantNeutralSolid.enabled.root.color,
+          [pseudo(active)]: {
+            background: vars.variantNeutralSolid.pressed.root.color,
+          },
+          [pseudo(disabled)]: {
+            background: vars.variantNeutralSolid.disabled.root.color,
+          },
+        },
+        label: {
+          color: vars.variantNeutralSolid.enabled.label.color,
+        },
+        prefix: {
+          color: vars.variantNeutralSolid.enabled.prefixIcon.color,
+        },
+      },
       neutralWeak: {
         root: {
           background: vars.variantNeutralWeak.enabled.root.color,
@@ -85,21 +102,21 @@ const actionButton = defineRecipe({
           color: vars.variantNeutralWeak.enabled.prefixIcon.color,
         },
       },
-      danger: {
+      dangerSolid: {
         root: {
-          background: vars.variantDanger.enabled.root.color,
+          background: vars.variantDangerSolid.enabled.root.color,
           [pseudo(active)]: {
-            background: vars.variantDanger.pressed.root.color,
+            background: vars.variantDangerSolid.pressed.root.color,
           },
           [pseudo(disabled)]: {
-            background: vars.variantDanger.disabled.root.color,
+            background: vars.variantDangerSolid.disabled.root.color,
           },
         },
         label: {
-          color: vars.variantDanger.enabled.label.color,
+          color: vars.variantDangerSolid.enabled.label.color,
         },
         prefix: {
-          color: vars.variantDanger.enabled.prefixIcon.color,
+          color: vars.variantDangerSolid.enabled.prefixIcon.color,
         },
       },
     },
