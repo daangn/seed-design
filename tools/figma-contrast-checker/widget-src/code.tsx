@@ -1,69 +1,13 @@
-import { APCAcontrast, displayP3toY, sRGBtoY, fontLookupAPCA } from "apca-w3";
+import { type Pair, getPairs } from "./logic";
 
 const { widget } = figma;
-const {
-  AutoLayout,
-  Fragment,
-  Text,
-  Ellipse,
-  Rectangle,
-  usePropertyMenu,
-  useSyncedState,
-  useEffect,
-} = widget;
+const { AutoLayout, Text, Ellipse, Rectangle, usePropertyMenu, useSyncedState } = widget;
 
 const FRAME_PREFIX = "Input";
-
-export const calculateApcaScore = (
-  fg: RGB,
-  bg: RGB,
-  colorSpace: "LEGACY" | "SRGB" | "DISPLAY_P3",
-): number => {
-  if (colorSpace === "DISPLAY_P3") {
-    const fgY = displayP3toY([fg.r, fg.g, fg.b]);
-    const bgY = displayP3toY([bg.r, bg.g, bg.b]);
-    const contrast = APCAcontrast(fgY, bgY);
-
-    return Math.abs(Math.round(Number(contrast)));
-  }
-
-  const fgDecimal = {
-    r: fg.r * 255,
-    g: fg.g * 255,
-    b: fg.b * 255,
-  };
-  const bgDecimal = {
-    r: bg.r * 255,
-    g: bg.g * 255,
-    b: bg.b * 255,
-  };
-
-  return Math.abs(
-    Math.round(
-      Number(
-        APCAcontrast(
-          sRGBtoY([fgDecimal.r, fgDecimal.g, fgDecimal.b]),
-          sRGBtoY([bgDecimal.r, bgDecimal.g, bgDecimal.b]),
-        ),
-      ),
-    ),
-  );
-};
 
 const rgbtoHex = (rgb: RGB): string => {
   const { r, g, b } = rgb;
   return `#${Math.round(r * 255).toString(16)}${Math.round(g * 255).toString(16)}${Math.round(b * 255).toString(16)}`;
-};
-
-type Pair = {
-  bg: { r: number; g: number; b: number; name: string };
-  fg: { r: number; g: number; b: number; name: string };
-  contrast: number;
-  fontSizes: {
-    regular: number;
-    medium: number;
-    bold: number;
-  };
 };
 
 function Widget() {
@@ -73,9 +17,9 @@ function Widget() {
 
   usePropertyMenu(
     [{ itemType: "action", tooltip: "refresh", propertyName: "refresh" }],
-    ({ propertyName, propertyValue }) => {
+    ({ propertyName }) => {
       if (propertyName === "refresh") {
-        loadInputFrames();
+        handleRefresh();
       }
     },
   );
@@ -84,101 +28,58 @@ function Widget() {
     const inputFrames = figma.currentPage.children
       .filter((x) => x.name.startsWith(FRAME_PREFIX))
       .map((frame) => frame.name);
-    console.log(inputFrames);
-    inputFrames.length === 1
-      ? updateResult(inputFrames[0])
-      : inputFrames.length === 0
-        ? setInputFrames([])
-        : setInputFrames(inputFrames);
+
+    setInputFrames(inputFrames);
   }
 
   async function updateResult(frameName: string) {
-    console.log("updateResult", frameName);
-    setSelectedFrame(frameName);
     const inputFrame = figma.currentPage.findChild((x) => x.name === frameName) as FrameNode | null;
     const variableMap = new Map(
       (await figma.variables.getLocalVariablesAsync())
         .filter((x) => x.resolvedType === "COLOR")
         .map((x) => [x.id, x]),
     );
-    // const inputFrame = figma.currentPage.findChild((x) => x.name === "Input") as FrameNode | null;
     const colorSpace = figma.root.documentColorProfile;
 
     if (!inputFrame) {
-      return <Text>Input frame not found</Text>;
+      figma.notify("Input frame not found");
+      return;
     }
 
-    const pairs = inputFrame.children
-      .filter((x): x is FrameNode => x.type === "FRAME")
-      .map((frame) => {
-        const bgFills = frame.fills as SolidPaint[];
-        const bg = bgFills[0].color;
-        const bgVariableId = frame.boundVariables?.fills?.[0].id;
-        const bgVariable = bgVariableId ? variableMap.get(bgVariableId) : undefined;
-        const bgName = bgVariable?.name ?? "";
-
-        const text = frame.children.find((x): x is TextNode => x.type === "TEXT");
-        if (!text) {
-          return null;
-        }
-
-        const fgFills = text.fills as SolidPaint[];
-        const fg = fgFills[0].color;
-        const fgVariableId = text.boundVariables?.fills?.[0].id;
-        const fgVariable = fgVariableId ? variableMap.get(fgVariableId) : undefined;
-        const fgName = fgVariable?.name ?? "";
-
-        const contrast = calculateApcaScore(fg, bg, colorSpace);
-
-        const [, , , , regular, medium, , bold] = fontLookupAPCA(contrast);
-
-        return {
-          bg: {
-            r: bg.r,
-            g: bg.g,
-            b: bg.b,
-            name: bgName,
-          },
-          fg: {
-            r: fg.r,
-            g: fg.g,
-            b: fg.b,
-            name: fgName,
-          },
-          contrast,
-          fontSizes: {
-            regular,
-            medium,
-            bold,
-          },
-        };
-      })
-      .filter((x): x is NonNullable<typeof x> => x !== null);
-    pairs.sort((a, b) => b.contrast - a.contrast);
+    const pairs = getPairs({
+      inputFrame,
+      variableMap,
+      colorSpace,
+    }).sort((a, b) => b.contrast - a.contrast);
 
     setResult(pairs);
   }
 
-  const chunkResult = (pairs: Pair[]) => {
-    const initial: Pair[][] = [[], [], [], [], [], []];
+  function handleRefresh() {
+    loadInputFrames();
 
-    return pairs.reduce((acc, current) => {
-      if (current.contrast >= 90) {
-        acc[0].push(current);
-      } else if (current.contrast >= 75) {
-        acc[1].push(current);
-      } else if (current.contrast >= 60) {
-        acc[2].push(current);
-      } else if (current.contrast >= 45) {
-        acc[3].push(current);
-      } else if (current.contrast >= 30) {
-        acc[4].push(current);
-      } else {
-        acc[5].push(current);
-      }
-      return acc;
-    }, initial);
-  };
+    if (inputFrames.length > 0 && !selectedFrame) {
+      setSelectedFrame(inputFrames[0]);
+    }
+
+    if (selectedFrame) {
+      updateResult(selectedFrame);
+    }
+  }
+
+  function handleSelectFrame(frameName: string) {
+    setSelectedFrame(frameName);
+    updateResult(frameName);
+  }
+
+  const chunkedResult = [
+    result.filter((pair) => pair.contrast >= 90),
+    result.filter((pair) => pair.contrast >= 75 && pair.contrast < 90),
+    result.filter((pair) => pair.contrast >= 60 && pair.contrast < 75),
+    result.filter((pair) => pair.contrast >= 45 && pair.contrast < 60),
+    result.filter((pair) => pair.contrast >= 30 && pair.contrast < 45),
+    result.filter((pair) => pair.contrast < 30),
+  ];
 
   return (
     <AutoLayout
@@ -190,7 +91,7 @@ function Widget() {
       width="hug-contents"
       cornerRadius={16}
     >
-      <Text fontSize={32} fontWeight={700} onClick={loadInputFrames}>
+      <Text fontSize={32} fontWeight={700} onClick={handleRefresh}>
         APCA Contrast Check
       </Text>
 
@@ -198,8 +99,9 @@ function Widget() {
         <AutoLayout spacing={8}>
           {inputFrames.map((frame, i) => (
             <AutoLayout
+              // biome-ignore lint/suspicious/noArrayIndexKey: Intentional use of index as key
               key={i}
-              onClick={() => updateResult(frame)}
+              onClick={() => handleSelectFrame(frame)}
               fill={selectedFrame === frame ? "#ECEDEF" : "#FFFFFF"}
             >
               <Text fontSize={16} fontWeight={400}>
@@ -210,13 +112,13 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[0].length > 0 && (
+      {chunkedResult[0].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <SectionTitle title="≥ 90" description="min for very thin text" />
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[0].map((pair, i) => (
+            {chunkedResult[0].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
@@ -302,16 +204,16 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[1].length > 0 && (
+      {chunkedResult[1].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <AutoLayout direction="vertical" width="fill-parent">
             <Rectangle height={1} width="fill-parent" fill="#ECEDEF" />
             <SectionTitle title="≥ 75" description="min for readability-first text" />
           </AutoLayout>
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[1].map((pair, i) => (
+            {chunkedResult[1].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
@@ -397,7 +299,7 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[2].length > 0 && (
+      {chunkedResult[2].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <AutoLayout direction="vertical" width="fill-parent">
             <Rectangle height={1} width="fill-parent" fill="#ECEDEF" />
@@ -405,9 +307,9 @@ function Widget() {
           </AutoLayout>
 
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[2].map((pair, i) => (
+            {chunkedResult[2].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
@@ -421,16 +323,16 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[3].length > 0 && (
+      {chunkedResult[3].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <AutoLayout direction="vertical" width="fill-parent">
             <Rectangle height={1} width="fill-parent" fill="#ECEDEF" />
             <SectionTitle title="≥ 45" description="min for large text / icon" />
           </AutoLayout>
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[3].map((pair, i) => (
+            {chunkedResult[3].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
@@ -444,7 +346,7 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[4].length > 0 && (
+      {chunkedResult[4].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <AutoLayout direction="vertical" width="fill-parent">
             <Rectangle height={1} width="fill-parent" fill="#ECEDEF" />
@@ -455,9 +357,9 @@ function Widget() {
           </AutoLayout>
 
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[4].map((pair, i) => (
+            {chunkedResult[4].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
@@ -471,7 +373,7 @@ function Widget() {
         </AutoLayout>
       )}
 
-      {chunkResult(result)[5].length > 0 && (
+      {chunkedResult[5].length > 0 && (
         <AutoLayout width="hug-contents" direction="vertical" spacing={16}>
           <AutoLayout direction="vertical" width="fill-parent">
             <Rectangle height={1} width="fill-parent" fill="#ECEDEF" />
@@ -479,9 +381,9 @@ function Widget() {
           </AutoLayout>
 
           <AutoLayout spacing={24} wrap={true} maxWidth={1800} width="hug-contents">
-            {chunkResult(result)[5].map((pair, i) => (
+            {chunkedResult[5].map((pair) => (
               <AutoLayout
-                key={i}
+                key={pair.key}
                 direction="vertical"
                 width={280}
                 spacing={32}
