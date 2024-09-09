@@ -30,7 +30,7 @@ export const skeleton = recipe({
 
         animationName: wave,
         animationDuration: "var(--skeleton-animation-duration, 1.5s)",
-        animationTimingFunction: "ease-in-out",
+        animationTimingFunction: "var(--skeleton-animation-timing-function, ease-in-out)",
         animationIterationCount: "infinite",
       },
     },

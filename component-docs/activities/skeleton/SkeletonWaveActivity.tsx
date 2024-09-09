@@ -3,7 +3,11 @@ import * as React from "react";
 
 import Layout from "@/activities/ActivityLayout";
 import { Skeleton } from "@/seed-design/ui/skeleton";
-import { useSkeletonDuration, useSkeletonLoading } from "@/stores/skeleton";
+import {
+  useSkeletonDuration,
+  useSkeletonLoading,
+  useSkeletonTimingFunction,
+} from "@/stores/skeleton";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -27,6 +31,7 @@ const Fallback = () => {
 const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
   const isLoading = useSkeletonLoading();
   const animationDuration = useSkeletonDuration();
+  const animationTiming = useSkeletonTimingFunction();
 
   return (
     <Layout>
@@ -35,6 +40,7 @@ const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
           {
             padding: "16px",
             "--skeleton-animation-duration": animationDuration,
+            "--skeleton-animation-timing-function": animationTiming,
           } as React.CSSProperties
         }
       >

@@ -4,6 +4,7 @@ import {
   useSkeletonDuration,
   useSkeletonGradient,
   useSkeletonLoading,
+  useSkeletonTimingFunction,
 } from "@/stores/skeleton";
 import * as React from "react";
 import { controlBlock, controlInput, controlLabel } from "./SkeletonControls.css";
@@ -13,6 +14,7 @@ export const SkeletonControls = () => {
   const { toggleLoading, setControls } = useSkeletonActions();
   const [duration, setDuration] = React.useState(useSkeletonDuration());
   const [gradient, setGradient] = React.useState(useSkeletonGradient());
+  const [timingFunction, setTimingFunction] = React.useState(useSkeletonTimingFunction());
 
   return (
     <div>
@@ -32,7 +34,7 @@ export const SkeletonControls = () => {
           />
         </div>
         <div className={controlBlock}>
-          <label className={controlLabel} htmlFor="duration">
+          <label className={controlLabel} htmlFor="gradient">
             Gradient
           </label>
           <input
@@ -40,6 +42,17 @@ export const SkeletonControls = () => {
             id="gradient"
             value={gradient}
             onChange={(e) => setGradient(e.target.value)}
+          />
+        </div>
+        <div className={controlBlock}>
+          <label className={controlLabel} htmlFor="timing-function">
+            Timing Function
+          </label>
+          <input
+            className={controlInput}
+            id="timing-function"
+            value={timingFunction}
+            onChange={(e) => setTimingFunction(e.target.value)}
           />
         </div>
         <BoxButton type="button" onClick={() => setControls({ duration, gradient })}>
