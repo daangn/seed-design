@@ -82,11 +82,8 @@ const progressCircle = defineRecipe({
       },
       determinate: {
         "indicator-path": {
-          "--seed-spinner-determinate-duration": "0.3s",
-          "--seed-spinner-determinate-timing-function": "cubic-bezier(0.35, 0.25, 0.65, 0.75)",
-
           transition:
-            "stroke-dasharray var(--seed-spinner-determinate-duration) var(--seed-spinner-determinate-timing-function) 0s",
+            "stroke-dasharray var(--seed-spinner-determinate-duration, 0.3s) var(--seed-spinner-determinate-timing-function, cubic-bezier(0.35, 0.25, 0.65, 0.75)) 0s",
         },
       },
     },
