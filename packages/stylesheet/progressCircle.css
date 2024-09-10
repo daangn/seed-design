@@ -1,0 +1,87 @@
+.progressCircle__root {
+    display: inline-block;
+    position: relative
+}
+.progressCircle__track {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: #0017580d
+}
+.progressCircle__indicator {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: #d1d3d8
+}
+.progressCircle__indicator-path {
+    stroke: currentColor;
+    stroke-dasharray: 80, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    stroke-width: 5.2px;
+    rotate: -90deg;
+    transform-origin: center;
+    transform-box: fill-box
+}
+.progressCircle__root--size_small {
+    width: var(--seed-unit-6);
+    height: var(--seed-unit-6)
+}
+.progressCircle__root--size_medium {
+    width: var(--seed-unit-10);
+    height: var(--seed-unit-10)
+}
+.progressCircle__root--variant_indeterminate {
+    --seed-spinner-indeterminate-duration: 1.2s;
+    --seed-spinner-indeterminate-timing-function: cubic-bezier(0.35, 0.25, 0.65, 0.75);
+    animation: rotate var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-timing-function) 0s infinite normal none running
+}
+.progressCircle__indicator-path--variant_indeterminate {
+    --seed-spinner-indeterminate-head-dash-timing-function: cubic-bezier(0.35, 0, 0.65, 1);
+    --seed-spinner-indeterminate-tail-dash-timing-function: cubic-bezier(0.35, 0, 0.65, 0.6);
+    animation: 
+            headDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-head-dash-timing-function) 0s infinite normal none running,
+            tailDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-tail-dash-timing-function) 0s infinite normal none running
+          
+}
+.progressCircle__indicator-path--variant_determinate {
+    --seed-spinner-determinate-duration: 0.3s;
+    --seed-spinner-determinate-timing-function: cubic-bezier(0.35, 0.25, 0.65, 0.75);
+    transition: stroke-dasharray var(--seed-spinner-determinate-duration) var(--seed-spinner-determinate-timing-function) 0s
+}
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+@keyframes headDash {
+    0% {
+        stroke-dasharray: 1, 200
+    }
+    75% {
+        stroke-dasharray: 112, 200
+    }
+    100% {
+        stroke-dasharray: 112, 200
+    }
+}
+@keyframes tailDash {
+    0% {
+        stroke-dashoffset: 0
+    }
+    33.3% {
+        stroke-dashoffset: 0
+    }
+    100% {
+        stroke-dashoffset: -110
+    }
+}

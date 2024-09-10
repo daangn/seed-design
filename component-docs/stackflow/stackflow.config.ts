@@ -1,12 +1,13 @@
 import { defineConfig } from "@stackflow/config";
 
-export const config = defineConfig({
-  activities: [
-    {
-      name: "Main",
-      path: "/",
-    },
-  ],
-  transitionDuration: 270,
-  initialActivity: () => "Main",
-});
+export const getConfig = (name: string) =>
+  defineConfig({
+    activities: [
+      {
+        name,
+        path: "/",
+      },
+    ],
+    transitionDuration: 270,
+    initialActivity: () => name,
+  });

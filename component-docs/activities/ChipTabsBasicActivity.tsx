@@ -39,3 +39,5 @@ const ChipTabsBasicActivity: ActivityComponentType<"ChipTabsBasic"> = () => {
 };
 
 export default ChipTabsBasicActivity;
+
+ChipTabsBasicActivity.displayName = "ChipTabsBasicActivity";

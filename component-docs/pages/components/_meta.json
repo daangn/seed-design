@@ -2,5 +2,6 @@
   "alert-dialog": "AlertDialog",
   "box-button": "BoxButton",
   "checkbox": "Checkbox",
+  "progress-circle": "ProgressCircle",
   "tabs": "Tabs"
 }

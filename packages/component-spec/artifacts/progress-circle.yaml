@@ -1,0 +1,34 @@
+base:
+  enabled:
+    root:
+    track:
+      fill: "#0017580d"
+    indicator:
+      color: "#d1d3d8"
+    indicator-path:
+
+size=small:
+  enabled:
+    root:
+      size: $unit[6]
+    track:
+    indicator:
+
+size=medium:
+  enabled:
+    root:
+      size: $unit[10]
+    track:
+    indicator:
+ 
+variant=indeterminate:
+  enabled:
+    root:
+    track:
+    indicator:
+
+variant=determinate:
+  enabled:
+    root:
+    track:
+    indicator:

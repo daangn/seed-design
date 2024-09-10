@@ -30,6 +30,7 @@
     "./tabs.css": "./tabs.css",
     "./chipTab.css": "./chipTab.css",
     "./chipTabs.css": "./chipTabs.css",
+    "./progressCircle.css": "./progressCircle.css",
     "./package.json": "./package.json"
   },
   "files": [

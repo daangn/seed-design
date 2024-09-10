@@ -69,3 +69,5 @@ const TabsAlertActivity: ActivityComponentType<"TabsAlert"> = () => {
 };
 
 export default TabsAlertActivity;
+
+TabsAlertActivity.displayName = "TabsAlertActivity";

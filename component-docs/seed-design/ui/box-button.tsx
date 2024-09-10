@@ -1,15 +1,15 @@
 "use client";
 
-import "@seed-design/stylesheet/boxButton.css";
+import "@seed-design/stylesheet/actionButton.css";
 
 import * as React from "react";
 import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
-import { boxButton, type BoxButtonVariantProps } from "@seed-design/recipe/boxButton";
+import { actionButton, type ActionButtonVariantProps } from "@seed-design/recipe/actionButton";
 
 export interface BoxButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    BoxButtonVariantProps {
+    ActionButtonVariantProps {
   prefixIcon?: React.ReactNode;
 }
 
@@ -17,8 +17,11 @@ export interface BoxButtonProps
  * @see https://component.seed-design.io/components/box-button
  */
 export const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(
-  ({ className, variant = "brand", size = "medium", children, prefixIcon, ...otherProps }, ref) => {
-    const classNames = boxButton({ variant, size });
+  (
+    { className, variant = "brandSolid", size = "medium", children, prefixIcon, ...otherProps },
+    ref,
+  ) => {
+    const classNames = actionButton({ variant, size });
     return (
       <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
         {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
