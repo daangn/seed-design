@@ -7901,6 +7901,7 @@ __metadata:
     typescript: ^5.4.5
     ultra-runner: ^3.10.5
     vitest: ^1.6.0
+    watchlist: ^0.3.1
   languageName: unknown
   linkType: soft
 
@@ -8079,7 +8080,6 @@ __metadata:
     "@seed-design/react-text-field": 0.0.0
     "@seed-design/recipe": 0.0.0
     "@seed-design/stylesheet": 1.0.4
-    "@seed-design/vars": 0.0.0
     "@stackflow/core": ^1.0.13
     "@stackflow/plugin-basic-ui": ^1.8.4
     "@stackflow/plugin-history-sync": ^1.6.0
@@ -8104,14 +8104,6 @@ __metadata:
   resolution: "@seed-design/stylesheet@workspace:packages/stylesheet"
   dependencies:
     "@seed-design/recipe-generator-cli": 0.0.0
-  languageName: unknown
-  linkType: soft
-
-"@seed-design/vars@0.0.0, @seed-design/vars@workspace:packages/vars":
-  version: 0.0.0-use.local
-  resolution: "@seed-design/vars@workspace:packages/vars"
-  dependencies:
-    nanobundle: ^1.6.0
   languageName: unknown
   linkType: soft
 
@@ -24537,7 +24529,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mri@npm:^1.1.0, mri@npm:^1.2.0":
+"mri@npm:^1.1.0, mri@npm:^1.1.5, mri@npm:^1.2.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
   checksum: 83f515abbcff60150873e424894a2f65d68037e5a7fcde8a9e2b285ee9c13ac581b63cfc1e6826c4732de3aeb84902f7c1e16b7aff46cd3f897a0f757a894e85
@@ -32583,6 +32575,17 @@ __metadata:
   dependencies:
     makeerror: 1.0.12
   checksum: ad7a257ea1e662e57ef2e018f97b3c02a7240ad5093c392186ce0bcf1f1a60bbadd520d073b9beb921ed99f64f065efb63dfc8eec689a80e569f93c1c5d5e16c
+  languageName: node
+  linkType: hard
+
+"watchlist@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "watchlist@npm:0.3.1"
+  dependencies:
+    mri: ^1.1.5
+  bin:
+    watchlist: bin.js
+  checksum: dd37609744ff890d025bbc9e34990ae48f986c7254b50e0ae163326bab81d578802194f7e601e621d826bdd75d684efbc678901df1af6601448c9d56ab387552
   languageName: node
   linkType: hard
 

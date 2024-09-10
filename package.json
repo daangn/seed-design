@@ -18,6 +18,7 @@
     "build:dts": "ultra -r --build build:dts",
     "build:style": "ultra -r --build build:style",
     "build:style:re": "ultra -r --rebuild build:style",
+    "build:style:watch": "watchlist -- yarn build:style",
     "build:headless": "ultra -r --filter 'packages/react-headless/*' build",
     "build-only-package": "ultra -r --filter 'packages/*' build",
     "generate": "ultra -r generate",
@@ -43,7 +44,8 @@
     "jsdom": "^24.1.0",
     "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "watchlist": "^0.3.1"
   },
   "packageManager": "yarn@4.3.1"
 }
