@@ -37,4 +37,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy ./component-docs/out --project-name=seed-component-docs
+          command: pages deploy ./component-docs/out --project-name=seed-component-docs --branch=main
