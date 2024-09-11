@@ -5,8 +5,10 @@ import Layout from "@/src/activities/ActivityLayout";
 import { Skeleton } from "@/seed-design/ui/skeleton";
 import {
   useSkeletonDuration,
+  useIsRealLoading,
   useSkeletonLoading,
   useSkeletonTimingFunction,
+  useSkeletonInitTransitionDuration,
 } from "@/src/stores/skeleton";
 
 declare module "@stackflow/config" {
@@ -30,8 +32,10 @@ const Fallback = () => {
 
 const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
   const isLoading = useSkeletonLoading();
+  const isRealLoading = useIsRealLoading();
   const animationDuration = useSkeletonDuration();
   const animationTiming = useSkeletonTimingFunction();
+  const initTransitionDuration = useSkeletonInitTransitionDuration();
 
   return (
     <Layout>
@@ -39,12 +43,13 @@ const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
         style={
           {
             padding: "16px",
+            "--skeleton-init-transition-duration": initTransitionDuration,
             "--skeleton-animation-duration": animationDuration,
             "--skeleton-animation-timing-function": animationTiming,
           } as React.CSSProperties
         }
       >
-        {isLoading ? <Fallback /> : <div>content</div>}
+        {isLoading ? isRealLoading && <Fallback /> : <div>content</div>}
       </div>
     </Layout>
   );

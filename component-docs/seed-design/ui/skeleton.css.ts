@@ -27,7 +27,7 @@ const fadeIn = keyframes({
 });
 
 export const root = style({
-  animation: `${fadeIn} 0.2s ease-in-out`,
+  animation: `${fadeIn} var(--skeleton-init-transition-duration, 0.2s) ease-in-out`,
 });
 
 export const skeleton = recipe({
