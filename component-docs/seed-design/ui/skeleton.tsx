@@ -16,13 +16,15 @@ interface SkeletonProps {
 export const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>((props, ref) => {
   const { width, height, borderRadius, type = "wave" } = props;
   return (
-    <div
-      ref={ref}
-      style={{
-        width,
-        height,
-      }}
-      className={css.skeleton({ type, borderRadius })}
-    />
+    <div className={css.root}>
+      <div
+        ref={ref}
+        style={{
+          width,
+          height,
+        }}
+        className={css.skeleton({ type, borderRadius })}
+      />
+    </div>
   );
 });

@@ -1,4 +1,4 @@
-import { keyframes } from "@vanilla-extract/css";
+import { keyframes, style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 
 // #F7F8F9
@@ -15,6 +15,19 @@ const wave = keyframes({
   "100%": {
     backgroundPositionX: "-100%",
   },
+});
+
+const fadeIn = keyframes({
+  from: {
+    opacity: 0,
+  },
+  to: {
+    opacity: 1,
+  },
+});
+
+export const root = style({
+  animation: `${fadeIn} 0.2s ease-in-out`,
 });
 
 export const skeleton = recipe({

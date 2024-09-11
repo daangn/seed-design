@@ -43,7 +43,6 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
 
     const indicatorPathStyle: React.CSSProperties = {
       strokeDasharray: variant === "determinate" ? `${percent}, 200` : undefined,
-      strokeLinecap: variant === "determinate" ? "unset" : "round",
     };
 
     return (

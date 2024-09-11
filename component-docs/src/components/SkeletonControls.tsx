@@ -18,7 +18,7 @@ export const SkeletonControls = () => {
 
   return (
     <div>
-      <BoxButton variant={isLoading ? "neutralSolid" : "brandSolid"} onClick={toggleLoading}>
+      <BoxButton variant={isLoading ? "brandWeak" : "brandSolid"} onClick={toggleLoading}>
         {isLoading ? "Stop Loading" : "Start Loading"}
       </BoxButton>
       <div>
