@@ -144,7 +144,7 @@ export const SkeletonControls = () => {
                 whiteSpace: "nowrap",
               }}
             >
-              스켈레톤 트랜지션: {initTransitionDuration}ms
+              스켈레톤 트랜지션: {convertToMs(initTransitionDuration)}ms
             </span>
           </div>
         </div>
@@ -157,7 +157,7 @@ export const SkeletonControls = () => {
 
         <div className={css.controlBlock}>
           <label className={css.controlLabel} htmlFor="initTransitionDuration">
-            InitTransitionDuration
+            스켈레톤 트랜지션 시간
           </label>
           <input
             className={css.controlInput}
@@ -169,7 +169,7 @@ export const SkeletonControls = () => {
         </div>
         <div className={css.controlBlock}>
           <label className={css.controlLabel} htmlFor="realLoadingStartTime">
-            realLoadingStartTime
+            실제 로딩 시작 시간
           </label>
           <input
             className={css.controlInput}
@@ -184,7 +184,7 @@ export const SkeletonControls = () => {
         <h2 className={css.controlTitle}>Loading</h2>
         <div className={css.controlBlock}>
           <label className={css.controlLabel} htmlFor="loadingDuration">
-            Loading Duration
+            총 로딩 길이
           </label>
           <input
             className={css.controlInput}
