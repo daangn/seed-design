@@ -1,0 +1,83 @@
+import { Steps, Tabs } from 'nextra/components'
+
+import SeedDesignConfiguration from "@/src/templates/seed-design-configuration.mdx"
+import Installation from "@/src/templates/get-started-installation.mdx"
+
+# 설치
+
+vite 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정들에 대해서 알아봐요.
+
+<Steps>
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
+
+<Installation />
+
+### index.html 수정하기
+
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
+속성을 통해 라이트/다크모드 전환을 해요.
+
+<Tabs items={['auto', 'light only', 'dark only']}>
+  <Tabs.Tab>
+    ```html copy
+    <html
+      data-seed
+      data-seed-scale-color="light"
+      data-seed-scale-letter-spacing="ios"
+    >
+      <head>
+        <meta name="color-scheme" content="light dark" />
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html copy
+    <html
+      data-seed="light-only"
+      data-seed-scale-color="light"
+      data-seed-scale-letter-spacing="ios"
+    >
+      <head>
+        <meta name="color-scheme" content="light" />
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```html copy
+    <html
+      data-seed="dark-only"
+      data-seed-scale-color="dark"
+      data-seed-scale-letter-spacing="ios"
+    >
+      <head>
+        <meta name="color-scheme" content="dark" />
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+### global.css import하기
+
+```ts copy filename="index.tsx"
+import "@seed-design/stylesheet/token.css";
+```
+
+### seed-design.json 생성하기
+
+<SeedDesignConfiguration />
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```sh copy
+npx @seed-design/cli@latest add box-button
+```
+
+</Steps>
