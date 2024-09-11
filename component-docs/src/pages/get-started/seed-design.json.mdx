@@ -1,0 +1,87 @@
+import { FileTree } from 'nextra/components';
+
+import SeedDesignConfiguration from "@/src/templates/seed-design-configuration.mdx";
+
+# seed-design.json
+
+[@seed-design/cli](./CLI.mdx) 를 사용할 때 필요한 설정들을 명시할 파일이에요.
+
+## 설정
+
+<SeedDesignConfiguration />
+
+## 옵션
+
+### path
+
+`path`는 생성되는 컴포넌트의 기본 경로를 설정해요.
+
+seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경로의 하위에 생겨요.
+`seed-design`의 root 폴더는 유저가 입력할 수 있게 하되, 그 내부에 생성되는 폴더나 파일들은 고정되는 형식이에요.
+  
+```json copy filename="seed-design.json"
+{
+  "path": "./seed-design"
+}
+```
+
+만약 위와 같이 설정했다면, `./seed-design` 폴더가 생성이 되고,
+그 안에 `ui`, `utils`, `hooks`와 같은 폴더들이 생기게 될거에요.
+
+<FileTree>
+  <FileTree.Folder name="seed-design (유저 설정, path)" defaultOpen>
+    <FileTree.Folder name="ui (고정)" defaultOpen>
+      <FileTree.File name="box-button.tsx" />
+      <FileTree.File name="alert-dialog.tsx" />
+      <FileTree.File name="tabs.tsx" />
+    </FileTree.Folder>
+    <FileTree.Folder name="hooks (고정)" defaultOpen>
+      <FileTree.File name="use-portal.ts" />
+      <FileTree.File name="use-focus-trap.ts" />
+    </FileTree.Folder>
+    <FileTree.Folder name="utils (고정)" defaultOpen>
+      <FileTree.File name="classnames.ts" />
+      <FileTree.File name="use-merge-refs.ts" />
+    </FileTree.Folder>
+  </FileTree.Folder>
+</FileTree>
+
+### rsc
+
+리액트 서버 컴포넌트를 사용할지 여부를 설정해요.
+
+`true`로 설정하면 컴포넌트에 `use client` 코드가 추가돼요.
+
+```json copy filename="seed-design.json"
+{
+  "rsc": true | false (default: false)
+}
+```
+
+### tsx
+
+타입스크립트를 사용할지 여부를 설정해요.
+
+`true`로 설정하면 컴포넌트에 `.tsx` 확장자이고, `false`로 설정하면 `.jsx` 확장자로 생성돼요.
+
+```json copy filename="seed-design.json"
+{
+  "tsx": true | false (default: true)
+}
+```
+
+### css
+
+CSS Modules를 사용할지 여부를 설정해요.
+
+`true`로 설정하면 컴포넌트에 CSS import 구문이 추가돼요.
+
+```json copy filename="seed-design.json"
+{
+  "css": true | false (default: true)
+}
+```
+
+### $schema
+
+준비중이에요.

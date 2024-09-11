@@ -1,0 +1,23 @@
+import { Checkbox } from '@/seed-design/ui/checkbox';
+import { Installation } from '@/src/components/Installation';
+import { Preview } from '@/src/components/Preview';
+
+import registry from '@/public/registry/components/checkbox.json';
+
+# Checkbox
+
+<Preview component={<Checkbox label="hi" />}>
+```tsx copy
+import { Checkbox } from './seed-design/ui/checkbox';
+
+const App = () => {
+  return (
+    <Checkbox label="hi" />
+  );
+}
+```
+</Preview>
+
+### 설치
+
+<Installation registry={registry} />
