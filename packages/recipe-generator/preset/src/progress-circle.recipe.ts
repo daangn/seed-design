@@ -62,30 +62,20 @@ const progressCircle = defineRecipe({
     variant: {
       indeterminate: {
         root: {
-          "--seed-spinner-indeterminate-duration": "1.2s",
-          "--seed-spinner-indeterminate-timing-function": "cubic-bezier(0.35, 0.25, 0.65, 0.75)",
-
-          animation:
-            "rotate var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-timing-function) 0s infinite normal none running",
+          animation: `rotate ${vars.variantIndeterminate.enabled["indicator-path"].rotateDuration} ${vars.variantIndeterminate.enabled["indicator-path"].rotateTimingFunction} infinite`,
         },
         "indicator-path": {
-          "--seed-spinner-indeterminate-head-dash-timing-function":
-            "cubic-bezier(0.35, 0, 0.65, 1)",
-          "--seed-spinner-indeterminate-tail-dash-timing-function":
-            "cubic-bezier(0.35, 0, 0.65, 0.6)",
-
           animation: `
-            headDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-head-dash-timing-function) 0s infinite normal none running,
-            tailDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-tail-dash-timing-function) 0s infinite normal none running
+            headDash ${vars.variantIndeterminate.enabled["indicator-path"].headDashDuration} ${vars.variantIndeterminate.enabled["indicator-path"].headDashTimingFunction} infinite normal none running,
+            tailDash ${vars.variantIndeterminate.enabled["indicator-path"].tailDashDuration} ${vars.variantIndeterminate.enabled["indicator-path"].tailDashTimingFunction} infinite normal none running
           `,
         },
       },
       determinate: {
         "indicator-path": {
-          transitionDuration: "var(--seed-spinner-determinate-duration, 0.3s)",
-          transitionTimingFunction:
-            "var(--seed-spinner-determinate-timing-function, cubic-bezier(0.35, 0.25, 0.65, 0.75))",
-          transitionProperty: "stroke-dasharray, stroke-linecap",
+          transitionDuration: `var(--seed-spinner-determinate-duration, ${vars.variantDeterminate.enabled["indicator-path"].transitionDuration})`,
+          transitionTimingFunction: `var(--seed-spinner-determinate-timing-function, ${vars.variantDeterminate.enabled["indicator-path"].transitionTimingFunction})`,
+          transitionProperty: "stroke-dasharray",
         },
       },
     },

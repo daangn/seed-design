@@ -12,13 +12,13 @@ interface ProgressCircleState {
     setValue: (value: number) => void;
     setMinValue: (minValue: number) => void;
     setMaxValue: (maxValue: number) => void;
-    set: (state: Omit<ProgressCircleState, "actions">) => void;
+    set: (state: Partial<Omit<ProgressCircleState, "actions">>) => void;
   };
 }
 
 const useProgressCircle = create<ProgressCircleState>((set) => ({
-  duration: "0.3s",
-  easing: "cubic-bezier(0.35, 0.25, 0.65, 0.75)",
+  duration: "0.4s",
+  easing: "cubic-bezier(0, 0, 0.15, 1)",
   value: 0,
   minValue: 0,
   maxValue: 100,

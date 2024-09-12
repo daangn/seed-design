@@ -38,22 +38,18 @@
     height: var(--seed-unit-10)
 }
 .progressCircle__root--variant_indeterminate {
-    --seed-spinner-indeterminate-duration: 1.2s;
-    --seed-spinner-indeterminate-timing-function: cubic-bezier(0.35, 0.25, 0.65, 0.75);
-    animation: rotate var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-timing-function) 0s infinite normal none running
+    animation: rotate 1.2s cubic-bezier(0.35, 0.25, 0.65, 0.75) infinite
 }
 .progressCircle__indicator-path--variant_indeterminate {
-    --seed-spinner-indeterminate-head-dash-timing-function: cubic-bezier(0.35, 0, 0.65, 1);
-    --seed-spinner-indeterminate-tail-dash-timing-function: cubic-bezier(0.35, 0, 0.65, 0.6);
     animation: 
-            headDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-head-dash-timing-function) 0s infinite normal none running,
-            tailDash var(--seed-spinner-indeterminate-duration) var(--seed-spinner-indeterminate-tail-dash-timing-function) 0s infinite normal none running
+            headDash 1.2s cubic-bezier(0.35, 0, 0.65, 1) infinite normal none running,
+            tailDash 1.2s cubic-bezier(0.35, 0, 0.65, 0.6) infinite normal none running
           
 }
 .progressCircle__indicator-path--variant_determinate {
-    transition-duration: var(--seed-spinner-determinate-duration, 0.3s);
-    transition-timing-function: var(--seed-spinner-determinate-timing-function, cubic-bezier(0.35, 0.25, 0.65, 0.75));
-    transition-property: stroke-dasharray, stroke-linecap
+    transition-duration: var(--seed-spinner-determinate-duration, 0.4s);
+    transition-timing-function: var(--seed-spinner-determinate-timing-function, cubic-bezier(0, 0, 0.15, 1));
+    transition-property: stroke-dasharray
 }
 @keyframes rotate {
     from {
