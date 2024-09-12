@@ -1,19 +1,41 @@
-import * as React from "react";
-
 import { BoxButton } from "@/seed-design/ui/box-button";
+import { useUrlParamSync } from "@/src/hooks/useUrlParamSync";
 import {
   useProgressCircleActions,
   useProgressCircleDuration,
   useProgressCircleEasing,
 } from "@/src/stores/progress-circle";
 
+import { useRouter } from "next/router";
 import * as css from "./ProgressCircleControls.css";
 
 export const ProgressCircleControls = () => {
   const { set } = useProgressCircleActions();
+  const router = useRouter();
 
-  const [duration, setDuration] = React.useState(useProgressCircleDuration());
-  const [easing, setEasing] = React.useState(useProgressCircleEasing());
+  const storeDuration = useProgressCircleDuration();
+  const storeEasing = useProgressCircleEasing();
+
+  const [duration, setDuration] = useUrlParamSync({
+    paramName: "duration",
+    storeValue: storeDuration,
+    setStoreValue: (value) => set({ duration: value }),
+  });
+
+  const [easing, setEasing] = useUrlParamSync({
+    paramName: "easing",
+    storeValue: storeEasing,
+    setStoreValue: (value) => set({ easing: value }),
+  });
+
+  const setAll = () => {
+    set({ duration, easing });
+
+    const params = new URLSearchParams();
+    params.set("duration", duration);
+    params.set("easing", easing);
+    router.push(`?${params.toString()}`);
+  };
 
   return (
     <div>
@@ -56,7 +78,7 @@ export const ProgressCircleControls = () => {
             onChange={(e) => setEasing(e.target.value)}
           />
         </div>
-        <BoxButton type="button" onClick={() => set({ duration, easing })}>
+        <BoxButton type="button" onClick={setAll}>
           적용
         </BoxButton>
       </div>
