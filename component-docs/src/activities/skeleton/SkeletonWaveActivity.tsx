@@ -9,6 +9,7 @@ import {
   useSkeletonLoading,
   useSkeletonTimingFunction,
   useSkeletonInitTransitionDuration,
+  useSkeletonGradient,
 } from "@/src/stores/skeleton";
 
 declare module "@stackflow/config" {
@@ -36,6 +37,7 @@ const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
   const animationDuration = useSkeletonDuration();
   const animationTiming = useSkeletonTimingFunction();
   const initTransitionDuration = useSkeletonInitTransitionDuration();
+  const gradient = useSkeletonGradient();
 
   return (
     <Layout>
@@ -43,6 +45,7 @@ const SkeletonWaveActivity: ActivityComponentType<"SkeletonWave"> = () => {
         style={
           {
             padding: "16px",
+            "--skeleton-gradient": gradient,
             "--skeleton-init-transition-duration": initTransitionDuration,
             "--skeleton-animation-duration": animationDuration,
             "--skeleton-animation-timing-function": animationTiming,

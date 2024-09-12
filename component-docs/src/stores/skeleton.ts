@@ -21,7 +21,7 @@ const useSkeleton = create<SkeletonState>((set) => ({
   isRealLoading: false,
   isLoading: false,
   duration: "1.5s",
-  gradient: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+  gradient: "linear-gradient(90deg, #F7F8F9 0%, #F7F8F950 20%, #F7F8F9 40%)",
   timingFunction: "ease-in-out",
   actions: {
     setControls: set,
