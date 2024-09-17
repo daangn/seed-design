@@ -96,6 +96,6 @@
     "prettier": "^2.7.1",
     "storybook": "^7.0.0-beta.19",
     "typescript": "^4.8.4",
-    "vite": "^4.5.2"
+    "vite": "^4.5.5"
   }
 }
