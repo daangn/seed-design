@@ -1,15 +1,16 @@
 import { z } from "zod";
 
-export const exampleMetadataSchema = z.object({
+export const componentMetadataSchema = z.object({
   name: z.string(),
+  description: z.string().optional(),
   dependencies: z.array(z.string()).optional(),
   devDependencies: z.array(z.string()).optional(),
   innerDependencies: z.array(z.string()).optional(),
   snippets: z.array(z.string()),
-  type: z.enum(["stackflow", "react"]),
+  type: z.enum(["component"]),
 });
 
-export const exampleRegistrySchema = z.object({
+export const componentRegistrySchema = z.object({
   name: z.string(),
   description: z.string().optional(),
   dependencies: z.array(z.string()).optional(),
@@ -21,8 +22,8 @@ export const exampleRegistrySchema = z.object({
       content: z.string(),
     }),
   ),
-  type: z.enum(["stackflow", "react"]),
+  type: z.enum(["component"]),
 });
 
-export type ExampleMetadataSchema = z.infer<typeof exampleMetadataSchema>;
-export type ExampleRegistrySchema = z.infer<typeof exampleRegistrySchema>;
+export type ComponentMetadataSchema = z.infer<typeof componentMetadataSchema>;
+export type ComponentRegistrySchema = z.infer<typeof componentRegistrySchema>;

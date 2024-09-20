@@ -2,36 +2,47 @@ import { existsSync, promises as fs, readFileSync } from "fs";
 import path, { basename } from "node:path";
 import chalk from "chalk";
 
+import { match } from "ts-pattern";
+
 // ts-node로 실행할 때 extension을 명시해주지 않으면 모듈을 찾지 못함.
 import { componentMetadatas } from "../metadatas/component.js";
+import { exampleMetadatas } from "../metadatas/example.js";
 
-import type { ComponentMetadatas } from "../schemas/metadata.js";
-import { componentRegistrySchema } from "../schemas/registry.js";
+import { type ComponentMetadataSchema, componentRegistrySchema } from "../schemas/component.js";
+import { type ExampleMetadataSchema, exampleRegistrySchema } from "../schemas/example.js";
 
 const REGISTRY_PATH = path.join(process.cwd(), "public/registry");
 const SNIPPETS_PATH = path.join(process.cwd(), "snippets");
 
-async function generateComponentRegistryIndex(metadatas: ComponentMetadatas) {
+type RegistryType = "component" | "example";
+
+interface GenerateRegistryIndexProps {
+  metadatas: ComponentMetadataSchema[] | ExampleMetadataSchema[];
+  type: RegistryType;
+}
+async function generateRegistryIndex({ metadatas, type }: GenerateRegistryIndexProps) {
   const metadatasJson = JSON.stringify(metadatas, null, 2);
 
-  await fs.writeFile(path.join(REGISTRY_PATH, "components/index.json"), metadatasJson, "utf8");
+  await fs.writeFile(path.join(REGISTRY_PATH, `${type}/index.json`), metadatasJson, "utf8");
 }
 
-async function generateComponentRegistry(metadatas: ComponentMetadatas) {
-  const targetPath = path.join(REGISTRY_PATH, "components");
+interface GenerateRegistryProps {
+  metadatas: ComponentMetadataSchema[] | ExampleMetadataSchema[];
+  type: RegistryType;
+}
+
+async function generateRegistry({ metadatas, type }: GenerateRegistryProps) {
+  const targetPath = path.join(REGISTRY_PATH, type);
 
   if (!existsSync(targetPath)) {
     await fs.mkdir(targetPath, { recursive: true });
   }
 
   for (const metadata of metadatas) {
-    if (metadata.type !== "component") {
-      continue;
-    }
-
     const registries = metadata.snippets
       ?.map((snippet) => {
         const snippetPath = path.join(SNIPPETS_PATH, snippet);
+
         if (!existsSync(snippetPath)) {
           console.log(
             chalk.red(
@@ -60,7 +71,10 @@ async function generateComponentRegistry(metadatas: ComponentMetadatas) {
       registries,
     };
 
-    const parsedPayload = componentRegistrySchema.parse(payload);
+    const parsedPayload = match(type)
+      .with("component", () => componentRegistrySchema.parse(payload))
+      .with("example", () => exampleRegistrySchema.parse(payload))
+      .exhaustive();
 
     await fs.writeFile(
       path.join(targetPath, `${metadata.name}.json`),
@@ -73,8 +87,11 @@ async function generateComponentRegistry(metadatas: ComponentMetadatas) {
 function main() {
   console.log(chalk.gray("Generate Component Registry..."));
 
-  generateComponentRegistryIndex(componentMetadatas);
-  generateComponentRegistry(componentMetadatas);
+  generateRegistryIndex({ metadatas: componentMetadatas, type: "component" });
+  generateRegistryIndex({ metadatas: exampleMetadatas, type: "example" });
+
+  generateRegistry({ metadatas: componentMetadatas, type: "component" });
+  generateRegistry({ metadatas: exampleMetadatas, type: "example" });
 
   console.log(chalk.green("Component Registry Generated !"));
 }

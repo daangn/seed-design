@@ -1,0 +1,13 @@
+{
+  "name": "chip-tabs-stackflow-default",
+  "innerDependencies": [
+    "chip-tabs"
+  ],
+  "registries": [
+    {
+      "name": "chip-tabs-stackflow-default.tsx",
+      "content": "import * as React from \"react\";\n\nimport { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from \"@/seed-design/ui/chip-tabs\";\n\nimport type { ActivityComponentType } from \"@stackflow/react/future\";\nimport Layout from \"./ActivityLayout\";\n\ndeclare module \"@stackflow/config\" {\n  interface Register {\n    ChipTabsBasic: unknown;\n  }\n}\n\nconst ChipTabsBasicActivity: ActivityComponentType<\"ChipTabsBasic\"> = () => {\n  const [value, setValue] = React.useState(\"1\");\n\n  const commonStyle = {\n    display: \"flex\",\n    justifyContent: \"center\",\n    alignItems: \"center\",\n    backgroundColor: \"#eeeeee\",\n    height: \"100%\",\n  };\n\n  return (\n    <Layout>\n      <ChipTabs defaultValue=\"1\" value={value} onValueChange={(value) => setValue(value)}>\n        <ChipTabTriggerList>\n          <ChipTabTrigger value=\"1\">라벨1</ChipTabTrigger>\n          <ChipTabTrigger value=\"2\">라벨2</ChipTabTrigger>\n          <ChipTabTrigger value=\"3\">라벨3</ChipTabTrigger>\n        </ChipTabTriggerList>\n      </ChipTabs>\n      {value === \"1\" && <div style={commonStyle}>content 1</div>}\n      {value === \"2\" && <div style={commonStyle}>content 2</div>}\n      {value === \"3\" && <div style={commonStyle}>content 3</div>}\n    </Layout>\n  );\n};\n\nexport default ChipTabsBasicActivity;\n\nChipTabsBasicActivity.displayName = \"ChipTabsBasicActivity\";\n"
+    }
+  ],
+  "type": "stackflow"
+}
