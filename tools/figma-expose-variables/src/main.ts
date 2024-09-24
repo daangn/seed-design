@@ -1,16 +1,18 @@
 import {
   COMBINATION_INPUT_FRAME_NAMES,
-  MAIN_FRAME_RELAUNCH_DATA,
+  RELAUNCH_DATA_MESSAGES,
   SUFFIXES,
 } from "./constants";
 import { createMainFrame, writeVariables } from "./utils";
+
+figma.root.setRelaunchData({ add: RELAUNCH_DATA_MESSAGES.ADD });
 
 const firstSelection = figma.currentPage.selection[0];
 
 const isFirstSelectionMainFrame =
   firstSelection &&
   firstSelection.type === "FRAME" &&
-  firstSelection.getRelaunchData()?.update === MAIN_FRAME_RELAUNCH_DATA.UPDATE;
+  firstSelection.getRelaunchData()?.update === RELAUNCH_DATA_MESSAGES.UPDATE;
 
 const mainFrame = isFirstSelectionMainFrame
   ? (firstSelection as FrameNode)

@@ -3,7 +3,11 @@ export const COMBINATION_INPUT_FRAME_NAMES = {
   DARK: "Input-darkmode",
 } as const satisfies Record<Uppercase<string>, string>;
 
-export const SUFFIXES = ["-pressed", "-muted", "-focused"] as const satisfies string[];
+export const SUFFIXES = [
+  "-pressed",
+  "-muted",
+  "-focused",
+] as const satisfies string[];
 
 export const FILLS = {
   DARK: { type: "SOLID", color: { r: 0.102, g: 0.11, b: 0.125 } },
@@ -28,8 +32,12 @@ export const FONT_SIZES = {
 export const SIZES = {
   CELL_WIDTH: 260,
   CELL_HEIGHT: 44,
-} as const satisfies Record<Uppercase<string>, FrameNode["width"] | FrameNode["height"]>;
+} as const satisfies Record<
+  Uppercase<string>,
+  FrameNode["width"] | FrameNode["height"]
+>;
 
-export const MAIN_FRAME_RELAUNCH_DATA = {
-  UPDATE: "업데이트",
-} as const satisfies Parameters<FrameNode["setRelaunchData"]>[0];
+export const RELAUNCH_DATA_MESSAGES = {
+  ADD: "페이지에 Variable 프리뷰 프레임을 추가해요",
+  UPDATE: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
+} as const satisfies Record<Uppercase<string>, string>;
