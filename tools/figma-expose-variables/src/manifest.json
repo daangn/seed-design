@@ -1,0 +1,11 @@
+{
+  "name": "Expose Variables",
+  "id": "1420312447239477382",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "main": "main.js",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
