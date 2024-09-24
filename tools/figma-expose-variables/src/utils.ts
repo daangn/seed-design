@@ -2,7 +2,7 @@ import {
   FILLS,
   FONT_FAMILIES,
   FONT_SIZES,
-  MAIN_FRAME_RELAUNCH_DATA,
+  RELAUNCH_DATA_MESSAGES,
   SIZES,
 } from "./constants";
 
@@ -28,7 +28,6 @@ export async function writeVariables({
   }
 
   for (const collection of variableCollections) {
-    // FIXME
     if (collection.name.toLowerCase().includes("color") === false) continue;
 
     const collectionFrame = createAutoLayout(
@@ -229,7 +228,7 @@ export async function writeVariables({
 
           const previewCell = createTableCell(
             {
-              name: "Color Chip",
+              name: "Preview",
               width: SIZES.CELL_WIDTH,
               layoutSizingVertical: "FILL",
             },
@@ -359,11 +358,9 @@ export function createMainFrame() {
     paddingY: 64,
   });
 
-  // FIXME
-  // frame.locked = true;
   frame.fills = [{ type: "SOLID", color: { r: 0.93, g: 0.93, b: 0.95 } }];
 
-  frame.setRelaunchData(MAIN_FRAME_RELAUNCH_DATA);
+  frame.setRelaunchData({ update: RELAUNCH_DATA_MESSAGES.UPDATE });
 
   return frame;
 }
