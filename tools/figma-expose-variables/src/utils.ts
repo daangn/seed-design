@@ -255,24 +255,6 @@ export async function writeVariables({
 
               break;
             }
-            case "bg": {
-              const color = figma.createRectangle();
-              color.cornerRadius = 4;
-              color.resize(16, 16);
-              color.strokes = fadedFills;
-              color.fills = frameFills; // temporal
-              color.fills = [
-                figma.variables.setBoundVariableForPaint(
-                  color.fills[0] as SolidPaint,
-                  "color",
-                  variable
-                ),
-              ];
-
-              previewCell.appendChild(color);
-
-              break;
-            }
             case "stroke": {
               const color = figma.createRectangle();
               color.cornerRadius = 4;
@@ -292,23 +274,46 @@ export async function writeVariables({
 
               break;
             }
+            // biome-ignore lint/complexity/noUselessSwitchCase: <explanation>
+            case "bg":
+            default: {
+              const color = figma.createRectangle();
+              color.cornerRadius = 4;
+              color.resize(16, 16);
+              color.strokes = fadedFills;
+              color.fills = frameFills; // temporal
+              color.fills = [
+                figma.variables.setBoundVariableForPaint(
+                  color.fills[0] as SolidPaint,
+                  "color",
+                  variable
+                ),
+              ];
+
+              previewCell.appendChild(color);
+
+              break;
+            }
           }
 
           const variableValue = variable.valuesByMode[mode.modeId];
 
-          if (isVariableAlias(variableValue)) {
-            createTextNode(
-              {
-                characters:
-                  (await figma.variables.getVariableByIdAsync(variableValue.id))
-                    ?.name ?? "Unknown",
-                fontName: FONT_FAMILIES.MONO,
-                fontSize: FONT_SIZES.BASE,
-                fills: textFills,
-              },
-              previewCell
-            );
-          }
+          const characters = isVariableAlias(variableValue)
+            ? (await figma.variables.getVariableByIdAsync(variableValue.id))
+                ?.name ?? "Unknown"
+            : typeof variableValue === "object"
+            ? rgbToHex(variableValue.r, variableValue.g, variableValue.b)
+            : "Unknown";
+
+          createTextNode(
+            {
+              characters,
+              fontName: FONT_FAMILIES.MONO,
+              fontSize: FONT_SIZES.BASE,
+              fills: textFills,
+            },
+            previewCell
+          );
 
           // Cell #3: Combinations
 
@@ -521,4 +526,21 @@ export function isValidSwatch(node: SceneNode): node is FrameNode {
     node.children.length === 1 &&
     node.children[0].type === "TEXT"
   );
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  const componentToHex = (c: number): string => {
+    if (c < 0 || c > 1) return "00";
+
+    const hex = Math.round(c * 255)
+      .toString(16)
+      .padStart(2, "0");
+    return hex;
+  };
+
+  const rHex = componentToHex(r);
+  const gHex = componentToHex(g);
+  const bHex = componentToHex(b);
+
+  return `#${rHex}${gHex}${bHex}`;
 }
