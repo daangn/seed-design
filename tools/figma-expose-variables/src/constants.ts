@@ -1,0 +1,35 @@
+export const COMBINATION_INPUT_FRAME_NAMES = {
+  DEFAULT: "Input",
+  DARK: "Input-darkmode",
+} as const satisfies Record<Uppercase<string>, string>;
+
+export const SUFFIXES = ["-pressed", "-muted", "-focused"] as const satisfies string[];
+
+export const FILLS = {
+  DARK: { type: "SOLID", color: { r: 0.102, g: 0.11, b: 0.125 } },
+  DARK_FADED: { type: "SOLID", color: { r: 0.0706, g: 0.0706, b: 0.0706 } },
+  LIGHT: { type: "SOLID", color: { r: 1, g: 1, b: 1 } },
+  LIGHT_FADED: { type: "SOLID", color: { r: 0.969, g: 0.973, b: 0.976 } },
+} as const satisfies Record<Uppercase<string>, SolidPaint>;
+
+export const FONT_FAMILIES = {
+  REGULAR: { family: "Figma Only iOS Text", style: "Regular" },
+  BOLD: { family: "Figma Only iOS Text", style: "Bold" },
+  MONO: { family: "SF Mono", style: "Regular" },
+} as const satisfies Record<Uppercase<string>, FontName>;
+
+export const FONT_SIZES = {
+  XXL: 48,
+  XL: 32,
+  LG: 24,
+  BASE: 11,
+} as const satisfies Record<Uppercase<string>, TextNode["fontSize"]>;
+
+export const SIZES = {
+  CELL_WIDTH: 260,
+  CELL_HEIGHT: 44,
+} as const satisfies Record<Uppercase<string>, FrameNode["width"] | FrameNode["height"]>;
+
+export const MAIN_FRAME_RELAUNCH_DATA = {
+  UPDATE: "업데이트",
+} as const satisfies Parameters<FrameNode["setRelaunchData"]>[0];

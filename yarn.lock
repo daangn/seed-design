@@ -3470,6 +3470,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@figma/plugin-typings@npm:*":
+  version: 1.100.2
+  resolution: "@figma/plugin-typings@npm:1.100.2"
+  checksum: 3666bd6454f31dd10307f485b08e52daecbd01dedcfa03bec616a2c4c7bc247dc9b9519152cb9607191aedf310bdbbb1f70bd9696cda4c4e760a94ba0f848983
+  languageName: node
+  linkType: hard
+
 "@figma/plugin-typings@npm:^1.88.0":
   version: 1.89.0
   resolution: "@figma/plugin-typings@npm:1.89.0"
@@ -5247,6 +5254,16 @@ __metadata:
     storybook: ^7.0.0-beta.19
     typescript: ^4.8.4
     vite: ^4.5.2
+  languageName: unknown
+  linkType: soft
+
+"@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables"
+  dependencies:
+    "@figma/plugin-typings": "*"
+    concurrently: ^6.3.0
+    esbuild: ^0.15.13
   languageName: unknown
   linkType: soft
 
@@ -9981,6 +9998,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"concurrently@npm:^6.3.0":
+  version: 6.5.1
+  resolution: "concurrently@npm:6.5.1"
+  dependencies:
+    chalk: ^4.1.0
+    date-fns: ^2.16.1
+    lodash: ^4.17.21
+    rxjs: ^6.6.3
+    spawn-command: ^0.0.2-1
+    supports-color: ^8.1.0
+    tree-kill: ^1.2.2
+    yargs: ^16.2.0
+  bin:
+    concurrently: bin/concurrently.js
+  checksum: 3f4d89b464fa5c9fb6f9489b46594c30ba54eff6ff10ab3cb5f30f64b74c83be664623a0f0cc731a3cb3f057a1f4a3292f7d3470c012a292c44aca31f214a3fa
+  languageName: node
+  linkType: hard
+
 "concurrently@npm:^8.2.2":
   version: 8.2.2
   resolution: "concurrently@npm:8.2.2"
@@ -10540,7 +10575,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.30.0":
+"date-fns@npm:^2.16.1, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -22044,7 +22079,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.6.0":
+"rxjs@npm:^6.6.0, rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
@@ -22825,7 +22860,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spawn-command@npm:0.0.2":
+"spawn-command@npm:0.0.2, spawn-command@npm:^0.0.2-1":
   version: 0.0.2
   resolution: "spawn-command@npm:0.0.2"
   checksum: e35c5d28177b4d461d33c88cc11f6f3a5079e2b132c11e1746453bbb7a0c0b8a634f07541a2a234fa4758239d88203b758def509161b651e81958894c0b4b64b
@@ -23283,7 +23318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.0, supports-color@npm:^8.1.1":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:

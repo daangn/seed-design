@@ -1,0 +1,17 @@
+{
+  "name": "@seed-design/figma-expose-variables",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "test": "yarn tsc && yarn build",
+    "tsc": "tsc --noEmit -p src",
+    "build": "yarn bundle --minify",
+    "bundle": "esbuild src/main.ts --target=es2016 --bundle --outfile=dist/main.js",
+    "dev": "concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "*",
+    "concurrently": "^6.3.0",
+    "esbuild": "^0.15.13"
+  }
+}
