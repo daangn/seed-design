@@ -3,7 +3,8 @@ import {
   RELAUNCH_DATA_MESSAGES,
   SUFFIXES,
 } from "./constants";
-import { createMainFrame, writeVariables } from "./utils";
+import { createMainFrame } from "./node";
+import { writeVariables } from "./utils";
 
 figma.root.setRelaunchData({ add: RELAUNCH_DATA_MESSAGES.ADD });
 
