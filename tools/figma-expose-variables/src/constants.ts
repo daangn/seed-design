@@ -3,11 +3,7 @@ export const COMBINATION_INPUT_FRAME_NAMES = {
   DARK: "Input-darkmode",
 } as const satisfies Record<Uppercase<string>, string>;
 
-export const SUFFIXES = [
-  "-pressed",
-  "-muted",
-  "-focused",
-] as const satisfies string[];
+export const SUFFIXES = ["-pressed"] as const satisfies string[];
 
 export const FILLS = {
   DARK: { type: "SOLID", color: { r: 0.102, g: 0.11, b: 0.125 } },
