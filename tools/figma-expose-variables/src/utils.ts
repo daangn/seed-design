@@ -1,4 +1,10 @@
-import { FILLS, FONT_FAMILIES, FONT_SIZES, MAIN_FRAME_RELAUNCH_DATA, SIZES } from "./constants";
+import {
+  FILLS,
+  FONT_FAMILIES,
+  FONT_SIZES,
+  MAIN_FRAME_RELAUNCH_DATA,
+  SIZES,
+} from "./constants";
 
 interface WriteVariablesParams {
   mainFrame: FrameNode;
@@ -33,7 +39,7 @@ export async function writeVariables({
         layoutSizingVertical: "HUG",
         itemSpacing: 24,
       },
-      mainFrame,
+      mainFrame
     );
 
     createTextNode(
@@ -43,7 +49,7 @@ export async function writeVariables({
         fontSize: FONT_SIZES.XXL,
         fills: [FILLS.DARK],
       },
-      collectionFrame,
+      collectionFrame
     );
 
     const modesFrame = createAutoLayout(
@@ -54,7 +60,7 @@ export async function writeVariables({
         layoutSizingVertical: "HUG",
         itemSpacing: 32,
       },
-      collectionFrame,
+      collectionFrame
     );
 
     for (const mode of collection.modes) {
@@ -65,7 +71,10 @@ export async function writeVariables({
 
       const combinationsInputFrame = figma.currentPage.findOne(
         (node) =>
-          node.name === (isModeDark ? combinationFrameNames.dark : combinationFrameNames.default),
+          node.name ===
+          (isModeDark
+            ? combinationFrameNames.dark
+            : combinationFrameNames.default)
       );
 
       const swatches =
@@ -83,7 +92,7 @@ export async function writeVariables({
           paddingX: 32,
           paddingY: 32,
         },
-        modesFrame,
+        modesFrame
       );
       modeFrame.cornerRadius = 16;
       modeFrame.fills = frameFills;
@@ -97,7 +106,7 @@ export async function writeVariables({
           fills: textFills,
           opacity: 0.9,
         },
-        modeFrame,
+        modeFrame
       );
 
       const prefixesFrame = createAutoLayout(
@@ -108,25 +117,28 @@ export async function writeVariables({
           layoutSizingVertical: "HUG",
           itemSpacing: 16,
         },
-        modeFrame,
+        modeFrame
       );
 
-      const colorVariables = (
-        collection.variableIds
-          .map((id) => figma.variables.getVariableById(id))
-          .filter((variable) => variable && variable.resolvedType === "COLOR") as Variable[]
-      ).reduce(
-        (acc, variable) => {
-          const prefix = variable.name.split("/")[0];
-          if (!acc[prefix]) acc[prefix] = [];
-
-          acc[prefix].push(variable);
-          return acc;
-        },
-        {} as Record<string, Variable[]>,
+      const promises = collection.variableIds.map((id) =>
+        figma.variables.getVariableByIdAsync(id)
       );
 
-      for (const prefix in colorVariables) {
+      const variables = await Promise.all(promises);
+
+      const colorVariablesByPrefixes = (
+        variables.filter(
+          (variable) => variable && variable.resolvedType === "COLOR"
+        ) as Variable[]
+      ).reduce((acc, variable) => {
+        const prefix = variable.name.split("/")[0];
+        if (!acc[prefix]) acc[prefix] = [];
+
+        acc[prefix].push(variable);
+        return acc;
+      }, {} as Record<string, Variable[]>);
+
+      for (const prefix in colorVariablesByPrefixes) {
         if (prefix === "palette") continue;
 
         const prefixFrame = createAutoLayout(
@@ -137,7 +149,7 @@ export async function writeVariables({
             layoutSizingVertical: "HUG",
             itemSpacing: 8,
           },
-          prefixesFrame,
+          prefixesFrame
         );
 
         const prefixTitleContainer = createAutoLayout(
@@ -148,7 +160,7 @@ export async function writeVariables({
             layoutSizingVertical: "HUG",
             paddingX: 12,
           },
-          prefixFrame,
+          prefixFrame
         );
 
         createTextNode(
@@ -159,7 +171,7 @@ export async function writeVariables({
             fills: textFills,
             opacity: 0.8,
           },
-          prefixTitleContainer,
+          prefixTitleContainer
         );
 
         const prefixTable = createAutoLayout(
@@ -169,14 +181,14 @@ export async function writeVariables({
             layoutSizingHorizontal: "HUG",
             layoutSizingVertical: "HUG",
           },
-          prefixFrame,
+          prefixFrame
         );
         prefixTable.clipsContent = true;
         prefixTable.cornerRadius = 8;
         prefixTable.strokes = fadedFills;
         prefixTable.strokeWeight = 2;
 
-        for (const variable of colorVariables[prefix]) {
+        for (const variable of colorVariablesByPrefixes[prefix]) {
           const variableRow = createAutoLayout(
             {
               name: variable.name,
@@ -184,7 +196,7 @@ export async function writeVariables({
               layoutSizingHorizontal: "FILL",
               height: SIZES.CELL_HEIGHT,
             },
-            prefixTable,
+            prefixTable
           );
 
           // Cell #1: Variable Name
@@ -195,11 +207,13 @@ export async function writeVariables({
               width: SIZES.CELL_WIDTH,
               layoutSizingVertical: "FILL",
             },
-            variableRow,
+            variableRow
           );
           titleCell.fills = fadedFills;
 
-          const hasSuffix = possibleSuffixes.some((suffix) => variable.name.endsWith(suffix));
+          const hasSuffix = possibleSuffixes.some((suffix) =>
+            variable.name.endsWith(suffix)
+          );
 
           createTextNode(
             {
@@ -208,7 +222,7 @@ export async function writeVariables({
               fontSize: FONT_SIZES.BASE,
               fills: textFills,
             },
-            titleCell,
+            titleCell
           );
 
           // Cell #2: Preview
@@ -219,7 +233,7 @@ export async function writeVariables({
               width: SIZES.CELL_WIDTH,
               layoutSizingVertical: "FILL",
             },
-            variableRow,
+            variableRow
           );
 
           switch (prefix) {
@@ -233,11 +247,11 @@ export async function writeVariables({
                     figma.variables.setBoundVariableForPaint(
                       { type: "SOLID", color: { r: 1, g: 1, b: 1 } },
                       "color",
-                      variable,
+                      variable
                     ),
                   ],
                 },
-                previewCell,
+                previewCell
               );
 
               break;
@@ -252,7 +266,7 @@ export async function writeVariables({
                 figma.variables.setBoundVariableForPaint(
                   color.fills[0] as SolidPaint,
                   "color",
-                  variable,
+                  variable
                 ),
               ];
 
@@ -270,7 +284,7 @@ export async function writeVariables({
                 figma.variables.setBoundVariableForPaint(
                   color.strokes[0] as SolidPaint,
                   "color",
-                  variable,
+                  variable
                 ),
               ];
               color.strokeWeight = 2;
@@ -286,24 +300,32 @@ export async function writeVariables({
           if (isVariableAlias(variableValue)) {
             createTextNode(
               {
-                characters: figma.variables.getVariableById(variableValue.id)?.name ?? "Unknown",
+                characters:
+                  (await figma.variables.getVariableByIdAsync(variableValue.id))
+                    ?.name ?? "Unknown",
                 fontName: FONT_FAMILIES.MONO,
                 fontSize: FONT_SIZES.BASE,
                 fills: textFills,
               },
-              previewCell,
+              previewCell
             );
           }
 
           // Cell #3: Combinations
 
           const matchedSwatches = swatches.filter((swatch) => {
-            const nodeToCheck = prefix === "fg" ? (swatch.children[0] as TextNode) : swatch;
+            const nodeToCheck =
+              prefix === "fg" ? (swatch.children[0] as TextNode) : swatch;
 
-            if (nodeToCheck.fills === figma.mixed || nodeToCheck.fills[0].type !== "SOLID")
+            if (
+              nodeToCheck.fills === figma.mixed ||
+              nodeToCheck.fills[0].type !== "SOLID"
+            )
               return false;
 
-            return nodeToCheck.fills[0].boundVariables?.color?.id === variable.id;
+            return (
+              nodeToCheck.fills[0].boundVariables?.color?.id === variable.id
+            );
           });
 
           if (matchedSwatches.length === 0) continue;
@@ -314,7 +336,7 @@ export async function writeVariables({
               layoutSizingHorizontal: "HUG",
               layoutSizingVertical: "FILL",
             },
-            variableRow,
+            variableRow
           );
 
           for (const matchedSwatch of matchedSwatches) {
@@ -346,12 +368,15 @@ export function createMainFrame() {
   return frame;
 }
 
-type CreateTextNodeParams = Pick<TextNode, "characters" | "fontName" | "fontSize" | "fills"> &
+type CreateTextNodeParams = Pick<
+  TextNode,
+  "characters" | "fontName" | "fontSize" | "fills"
+> &
   Partial<Pick<TextNode, "opacity">>;
 
 export function createTextNode(
   { characters, fontName, fontSize, fills, opacity = 1 }: CreateTextNodeParams,
-  parent?: FrameNode,
+  parent?: FrameNode
 ) {
   const node = figma.createText();
 
@@ -373,7 +398,10 @@ type SizingParams = (
     }
   | {
       width?: never;
-      layoutSizingHorizontal: Exclude<FrameNode["layoutSizingHorizontal"], "FIXED">;
+      layoutSizingHorizontal: Exclude<
+        FrameNode["layoutSizingHorizontal"],
+        "FIXED"
+      >;
     }
 ) &
   (
@@ -383,7 +411,10 @@ type SizingParams = (
       }
     | {
         height?: never;
-        layoutSizingVertical: Exclude<FrameNode["layoutSizingVertical"], "FIXED">;
+        layoutSizingVertical: Exclude<
+          FrameNode["layoutSizingVertical"],
+          "FIXED"
+        >;
       }
   );
 
@@ -406,7 +437,7 @@ export function createAutoLayout(
     paddingX = 0,
     paddingY = 0,
   }: CreateAutoLayoutParams,
-  parent?: FrameNode,
+  parent?: FrameNode
 ) {
   const frame = figma.createFrame();
 
@@ -424,7 +455,8 @@ export function createAutoLayout(
 
   frame.resize(width ?? frame.width, height ?? frame.height);
 
-  if (layoutSizingHorizontal) frame.layoutSizingHorizontal = layoutSizingHorizontal;
+  if (layoutSizingHorizontal)
+    frame.layoutSizingHorizontal = layoutSizingHorizontal;
   if (layoutSizingVertical) frame.layoutSizingVertical = layoutSizingVertical;
 
   return frame;
@@ -433,8 +465,14 @@ export function createAutoLayout(
 type CreateTableCellParams = Pick<FrameNode, "name"> & SizingParams;
 
 export function createTableCell(
-  { name, width, height, layoutSizingHorizontal, layoutSizingVertical }: CreateTableCellParams,
-  parent?: FrameNode,
+  {
+    name,
+    width,
+    height,
+    layoutSizingHorizontal,
+    layoutSizingVertical,
+  }: CreateTableCellParams,
+  parent?: FrameNode
 ) {
   const frame = figma.createFrame();
 
@@ -456,13 +494,16 @@ export function createTableCell(
 
   frame.resize(width ?? frame.width, height ?? frame.height);
 
-  if (layoutSizingHorizontal) frame.layoutSizingHorizontal = layoutSizingHorizontal;
+  if (layoutSizingHorizontal)
+    frame.layoutSizingHorizontal = layoutSizingHorizontal;
   if (layoutSizingVertical) frame.layoutSizingVertical = layoutSizingVertical;
 
   return frame;
 }
 
-export function isVariableAlias(variableValue: VariableValue): variableValue is VariableAlias {
+export function isVariableAlias(
+  variableValue: VariableValue
+): variableValue is VariableAlias {
   return (
     typeof variableValue === "object" &&
     "type" in variableValue &&
@@ -475,7 +516,10 @@ export function isValidSwatch(node: SceneNode): node is FrameNode {
     node.type === "FRAME" &&
     node.fills !== figma.mixed &&
     node.fills.every(
-      (fill) => fill.type === "SOLID" && fill.boundVariables && fill.boundVariables.color,
+      (fill) =>
+        fill.type === "SOLID" &&
+        fill.boundVariables &&
+        fill.boundVariables.color
     ) &&
     node.children.length === 1 &&
     node.children[0].type === "TEXT"
