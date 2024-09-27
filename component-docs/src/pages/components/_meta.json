@@ -1,6 +1,6 @@
 {
   "alert-dialog": "AlertDialog",
-  "box-button": "BoxButton",
+  "action-button": "ActionButton",
   "checkbox": "Checkbox",
   "progress-circle": "ProgressCircle",
   "tabs": "Tabs"

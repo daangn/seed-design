@@ -21,6 +21,9 @@
       "@/*": [
         "./*"
       ],
+      "seed-design/*": [
+        "./seed-design/*"
+      ],
       "react": [
         "./node_modules/@types/react"
       ]
@@ -30,11 +33,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/ComponentExample.mdx"  ],
   "exclude": [
     "node_modules",
     "public",
-    "out",
-    "snippets/**/*"
+    "out"
   ]
 }

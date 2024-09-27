@@ -4,14 +4,14 @@ export const componentMetadatas: ComponentMetadataSchema[] = [
   {
     name: "alert-dialog",
     type: "component",
-    innerDependencies: ["box-button"],
+    innerDependencies: ["action-button"],
     snippets: ["component/alert-dialog.tsx"],
   },
   {
-    name: "box-button",
+    name: "action-button",
     type: "component",
     dependencies: ["@radix-ui/react-slot"],
-    snippets: ["component/box-button.tsx"],
+    snippets: ["component/action-button.tsx"],
   },
   {
     name: "checkbox",

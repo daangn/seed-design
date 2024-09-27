@@ -1,59 +1,18 @@
-import { Installation } from '@/src/components/Installation';
-import { Preview } from '@/src/components/Preview';
-import { Stackflow } from "@/src/components/Stackflow";
-
-import { Tabs } from '@/src/components/Tabs';
-
-import registry from '@/public/registry/component/tabs.json';
-import TabsDisabledActivity from "@/src/activities/TabsDisabledActivity";
-import TabsAlertActivity from "@/src/activities/TabsAlertActivity";
+import TabsDisabledActivity from "@/snippets/example/stackflow/tabs-disabled-activity";
+import TabsAlertActivity from "@/snippets/example/stackflow/tabs-alert-activity";
 
 # Tabs
 
-<Preview component={<Tabs />}>
-
-```tsx copy
-import {
-  Tabs,
-  TabContent,
-  TabContentList,
-  TabTrigger,
-  TabTriggerList,
-} from './seed-design/ui/tabs';
-
-const App = () => {
-  return (
-    <Tabs defaultValue="1" isSwipeable layout="fill" size="medium">
-      <TabTriggerList>
-        <TabTrigger value="1">라벨1</TabTrigger>
-        <TabTrigger value="2">라벨2</TabTrigger>
-        <TabTrigger value="3">라벨3</TabTrigger>
-      </TabTriggerList>
-      <TabContentList>
-        <TabContent value="1">
-          <div>Content 1</div>
-        </TabContent>
-        <TabContent value="2">
-          <div>Content 2</div>
-        </TabContent>
-        <TabContent value="3">
-          <div>Content 3</div>
-        </TabContent>
-      </TabContentList>
-    </Tabs>
-  );
-}
-```
-</Preview>
+<ComponentExample name="tabs-preview" />
 
 ### 설치
 
-<Installation registry={registry} />
+<Installation name="tabs" />
 
 ### Disabled
 
-<Stackflow Activity={TabsDisabledActivity} />
+<StackflowExample activity={TabsDisabledActivity} />
 
 ### Alert
 
-<Stackflow Activity={TabsAlertActivity} />
+<StackflowExample activity={TabsAlertActivity} />

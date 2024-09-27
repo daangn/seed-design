@@ -1,3 +1,4 @@
+```tsx copy filename="action-button.tsx"
 "use client";
 
 import "@seed-design/stylesheet/actionButton.css";
@@ -7,7 +8,7 @@ import clsx from "clsx";
 import { Slot } from "@radix-ui/react-slot";
 import { actionButton, type ActionButtonVariantProps } from "@seed-design/recipe/actionButton";
 
-export interface BoxButtonProps
+export interface ActionButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     ActionButtonVariantProps {
   prefixIcon?: React.ReactNode;
@@ -16,7 +17,7 @@ export interface BoxButtonProps
 /**
  * @see https://component.seed-design.io/components/box-button
  */
-export const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(
+export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
   (
     { className, variant = "brandSolid", size = "medium", children, prefixIcon, ...otherProps },
     ref,
@@ -30,4 +31,6 @@ export const BoxButton = React.forwardRef<HTMLButtonElement, BoxButtonProps>(
     );
   },
 );
-BoxButton.displayName = "BoxButton";
+ActionButton.displayName = "ActionButton";
+
+```

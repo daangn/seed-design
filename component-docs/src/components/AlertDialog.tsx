@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { AlertDialog as UIAlertDialog } from "../../seed-design/ui/alert-dialog";
-import { BoxButton } from "../../seed-design/ui/box-button";
+import { ActionButton } from "../../seed-design/ui/action-button";
 
 export const AlertDialog: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -14,7 +14,7 @@ export const AlertDialog: React.FC = () => {
 
   return (
     <>
-      <BoxButton onClick={onButtonClick}>Open</BoxButton>
+      <ActionButton onClick={onButtonClick}>Open</ActionButton>
       {open && (
         <UIAlertDialog
           onInteractOutside={onInteractOutside}

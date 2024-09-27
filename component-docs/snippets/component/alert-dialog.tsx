@@ -5,7 +5,7 @@ import "@seed-design/stylesheet/dialog.css";
 import * as React from "react";
 import { dialog } from "@seed-design/recipe/dialog";
 
-import { BoxButton } from "./box-button";
+import { ActionButton } from "./action-button";
 
 export type AlertDialogProps = {
   title: string;
@@ -58,8 +58,8 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
           <p className={classNames.description}>{description}</p>
         </div>
         <div className={classNames.footer}>
-          <BoxButton className={classNames.action}>lol</BoxButton>
-          <BoxButton className={classNames.action}>lol</BoxButton>
+          <ActionButton className={classNames.action}>lol</ActionButton>
+          <ActionButton className={classNames.action}>lol</ActionButton>
         </div>
       </div>
     </div>

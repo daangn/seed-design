@@ -1,8 +1,25 @@
-import "@seed-design/stylesheet/token.css";
 import "@seed-design/stylesheet/global.css";
+import "@seed-design/stylesheet/token.css";
 import "@stackflow/plugin-basic-ui/index.css";
 import "simple-reveal/index.css";
 
+import { MDXProvider, useMDXComponents } from "nextra/mdx";
+
+import { ComponentExample } from "@/src/components/ComponentExample";
+import { StackflowExample } from "@/src/components/StackflowExample";
+import { Installation } from "@/src/components/Installation";
+
 export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  const components = {
+    ...useMDXComponents(),
+    ComponentExample,
+    StackflowExample,
+    Installation,
+  };
+
+  return (
+    <MDXProvider components={components}>
+      <Component {...pageProps} />
+    </MDXProvider>
+  );
 }

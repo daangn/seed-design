@@ -1,9 +1,12 @@
+```tsx copy
+"use client";
+
 import * as React from "react";
 
 import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "@/seed-design/ui/chip-tabs";
 
 import type { ActivityComponentType } from "@stackflow/react/future";
-import Layout from "./ActivityLayout";
+import AppScreen from "../../../src/stackflow/ActivityLayout";
 
 declare module "@stackflow/config" {
   interface Register {
@@ -23,7 +26,7 @@ const ChipTabsBasicActivity: ActivityComponentType<"ChipTabsBasic"> = () => {
   };
 
   return (
-    <Layout>
+    <AppScreen>
       <ChipTabs defaultValue="1" value={value} onValueChange={(value) => setValue(value)}>
         <ChipTabTriggerList>
           <ChipTabTrigger value="1">라벨1</ChipTabTrigger>
@@ -34,10 +37,12 @@ const ChipTabsBasicActivity: ActivityComponentType<"ChipTabsBasic"> = () => {
       {value === "1" && <div style={commonStyle}>content 1</div>}
       {value === "2" && <div style={commonStyle}>content 2</div>}
       {value === "3" && <div style={commonStyle}>content 3</div>}
-    </Layout>
+    </AppScreen>
   );
 };
 
 export default ChipTabsBasicActivity;
 
 ChipTabsBasicActivity.displayName = "ChipTabsBasicActivity";
+
+```

@@ -3,20 +3,20 @@
     "name": "alert-dialog",
     "type": "component",
     "innerDependencies": [
-      "box-button"
+      "action-button"
     ],
     "snippets": [
       "component/alert-dialog.tsx"
     ]
   },
   {
-    "name": "box-button",
+    "name": "action-button",
     "type": "component",
     "dependencies": [
       "@radix-ui/react-slot"
     ],
     "snippets": [
-      "component/box-button.tsx"
+      "component/action-button.tsx"
     ]
   },
   {

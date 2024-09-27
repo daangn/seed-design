@@ -1,49 +1,9 @@
-import { AlertDialog } from '@/src/components/AlertDialog';
-import { Installation } from '@/src/components/Installation';
-import { Preview } from '@/src/components/Preview';
-import { Stackflow } from "@/src/components/Stackflow";
-
-import registry from '@/public/registry/component/alert-dialog.json';
-import AlertDialogDefaultActivity from "@/src/activities/AlertDialogDefaultActivity";
+import AlertDialogDefaultActivity from "@/snippets/example/stackflow/alert-dialog-default-activity";
 
 # Alert Dialog
 
-<Preview component={<AlertDialog />}>
-```tsx copy filename="AlertDialog.tsx"
-import * as React from "react";
-
-import { AlertDialog as UIAlertDialog } from "./seed-design/ui/alert-dialog";
-import { BoxButton } from "./seed-design/ui/box-button";
-
-export const AlertDialog: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  const onInteractOutside = () => {
-    setOpen(false);
-  };
-  const onButtonClick = () => {
-    setOpen(true);
-  };
-
-  return (
-    <>
-      <BoxButton onClick={onButtonClick}>Open</BoxButton>
-      {open && (
-        <UIAlertDialog
-          onInteractOutside={onInteractOutside}
-          title="Title"
-          description="Description"
-        />
-      )}
-    </>
-  );
-};
-```
-</Preview>
+<StackflowExample activity={AlertDialogDefaultActivity} />
 
 ### 설치
 
-<Installation registry={registry} />
-
-### 예시
-
-<Stackflow Activity={AlertDialogDefaultActivity} />
+<Installation name="alert-dialog" />
