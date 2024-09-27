@@ -10,8 +10,8 @@ export interface RequestComponentKeyHandler extends EventHandler {
   handler: () => void;
 }
 
-export interface RequestCssVariablesHandler extends EventHandler {
-  name: "REQUEST_CSS_VARIABLES";
+export interface RequestCssHandler extends EventHandler {
+  name: "REQUEST_CSS";
   handler: () => void;
 }
 

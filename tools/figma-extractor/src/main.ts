@@ -2,10 +2,10 @@ import { emit, on, showUI } from "@create-figma-plugin/utilities";
 import type {
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
-  RequestCssVariablesHandler,
+  RequestCssHandler,
   ResponseHandler,
 } from "./types";
-import { generateCssVars } from "./variable";
+import { generateCss } from "./variable";
 
 export default function () {
   on<RequestComponentPropertyDefinitionsHandler>("REQUEST_COMPONENT_PROPERTY_DEFINITIONS", () => {
@@ -27,8 +27,8 @@ export default function () {
 
     emit<ResponseHandler>("RESPONSE", result);
   });
-  on<RequestCssVariablesHandler>("REQUEST_CSS_VARIABLES", () => {
-    const result = generateCssVars();
+  on<RequestCssHandler>("REQUEST_CSS", () => {
+    const result = generateCss();
 
     emit<ResponseHandler>("RESPONSE", result);
   });

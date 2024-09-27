@@ -7850,6 +7850,7 @@ __metadata:
     "@types/node": ^20.8.10
     change-case: ^5.4.4
     color2k: ^2.0.3
+    dedent: ^1.5.3
     preact: ">=10"
     typescript: ^5.4.5
   languageName: unknown

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import type {
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
-  RequestCssVariablesHandler,
+  RequestCssHandler,
   ResponseHandler,
 } from "./types";
 
@@ -43,11 +43,8 @@ function Plugin() {
       >
         GET ComponentKey
       </Button>
-      <Button
-        fullWidth
-        onClick={useCallback(() => emit<RequestCssVariablesHandler>("REQUEST_CSS_VARIABLES"), [])}
-      >
-        GET CSS Variables
+      <Button fullWidth onClick={useCallback(() => emit<RequestCssHandler>("REQUEST_CSS"), [])}>
+        GET Global CSS
       </Button>
       <TextboxMultiline grow value={code ?? ""} />
     </Container>

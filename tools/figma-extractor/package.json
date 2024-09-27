@@ -5,6 +5,7 @@
     "@create-figma-plugin/utilities": "^3.0.2",
     "change-case": "^5.4.4",
     "color2k": "^2.0.3",
+    "dedent": "^1.5.3",
     "preact": ">=10"
   },
   "devDependencies": {
