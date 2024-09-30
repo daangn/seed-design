@@ -33,7 +33,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/components/ComponentExample.mdx"  ],
+  ],
   "exclude": [
     "node_modules",
     "public",
