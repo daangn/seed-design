@@ -6,7 +6,7 @@
     "test": "yarn tsc && yarn build",
     "tsc": "tsc --noEmit -p src",
     "build": "yarn bundle --minify",
-    "bundle": "esbuild src/main.ts --target=es2016 --bundle --outfile=dist/main.js",
+    "bundle": "esbuild src/main.mts --target=es2016 --bundle --outfile=dist/main.js",
     "dev": "concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'"
   },
   "devDependencies": {

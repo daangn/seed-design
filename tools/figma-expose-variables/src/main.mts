@@ -1,12 +1,15 @@
+import { setRelaunchButton } from "@create-figma-plugin/utilities";
 import {
   COMBINATION_INPUT_FRAME_NAMES,
   RELAUNCH_DATA_MESSAGES,
   SUFFIXES,
-} from "./constants";
-import { createMainFrame } from "./node";
-import { writeVariables } from "./utils";
+} from "./constants.mjs";
+import { createMainFrame } from "./node.mjs";
+import { writeVariables } from "./utils.mjs";
 
-figma.root.setRelaunchData({ add: RELAUNCH_DATA_MESSAGES.ADD });
+setRelaunchButton(figma.root, "add", {
+  description: "페이지에 Variable 프리뷰 프레임을 추가해요",
+});
 
 const firstSelection = figma.currentPage.selection[0];
 

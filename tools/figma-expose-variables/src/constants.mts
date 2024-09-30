@@ -26,7 +26,7 @@ export const FONT_SIZES = {
 } as const satisfies Record<Uppercase<string>, TextNode["fontSize"]>;
 
 export const SIZES = {
-  CELL_WIDTH: 260,
+  CELL_WIDTH: 280,
   CELL_HEIGHT: 44,
 } as const satisfies Record<
   Uppercase<string>,

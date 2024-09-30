@@ -1,4 +1,4 @@
-import { RELAUNCH_DATA_MESSAGES } from "./constants";
+import { setRelaunchButton } from "@create-figma-plugin/utilities";
 
 export function createMainFrame() {
   const frame = createAutoLayout({
@@ -13,7 +13,9 @@ export function createMainFrame() {
 
   frame.fills = [{ type: "SOLID", color: { r: 0.93, g: 0.93, b: 0.95 } }];
 
-  frame.setRelaunchData({ update: RELAUNCH_DATA_MESSAGES.UPDATE });
+  setRelaunchButton(frame, "update", {
+    description: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
+  });
 
   return frame;
 }
