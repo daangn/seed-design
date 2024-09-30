@@ -1,34 +1,34 @@
-import type { ComponentMetadatas } from "../schemas/metadata";
+import type { ComponentMetadataSchema } from "../schemas/component";
 
-export const componentMetadatas: ComponentMetadatas = [
+export const componentMetadatas: ComponentMetadataSchema[] = [
   {
     name: "alert-dialog",
     type: "component",
-    innerDependencies: ["box-button"],
-    snippets: ["alert-dialog.tsx"],
+    innerDependencies: ["action-button"],
+    snippets: ["component/alert-dialog.tsx"],
   },
   {
-    name: "box-button",
+    name: "action-button",
     type: "component",
     dependencies: ["@radix-ui/react-slot"],
-    snippets: ["box-button.tsx"],
+    snippets: ["component/action-button.tsx"],
   },
   {
     name: "checkbox",
     type: "component",
     dependencies: ["@seed-design/react-checkbox"],
-    snippets: ["checkbox.tsx"],
+    snippets: ["component/checkbox.tsx"],
   },
   {
     name: "tabs",
     type: "component",
     dependencies: ["@seed-design/react-tabs"],
-    snippets: ["tabs.tsx"],
+    snippets: ["component/tabs.tsx"],
   },
   {
     name: "chip-tabs",
     type: "component",
     dependencies: ["@seed-design/react-tabs"],
-    snippets: ["chip-tabs.tsx"],
+    snippets: ["component/chip-tabs.tsx"],
   },
 ];

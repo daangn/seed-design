@@ -7,7 +7,8 @@
     "dev": "next dev",
     "start": "next start",
     "build": "yarn generate:registry && next build",
-    "generate:registry": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-registry.ts"
+    "generate:registry": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-registry.ts",
+    "watch:registry": "watchlist snippets -- yarn generate:registry"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
@@ -23,6 +24,7 @@
     "@stackflow/react": "^1.2.1",
     "@vanilla-extract/css": "^1.15.5",
     "@vanilla-extract/recipes": "^0.5.5",
+    "change-case": "^5.4.4",
     "next": "^14.2.5",
     "nextra": "^2.13.4",
     "nextra-theme-docs": "^2.13.4",
@@ -39,10 +41,12 @@
     "@vanilla-extract/next-plugin": "^2.4.5",
     "autoprefixer": "^10.4.20",
     "chalk": "^5.3.0",
+    "ts-dedent": "^2.2.0",
     "ts-node": "^10.9.2",
     "ts-pattern": "^5.3.1",
     "tslib": "^2.6.3",
     "typescript": "^5.5.4",
+    "watchlist": "^0.3.1",
     "zod": "^3.23.8"
   }
 }

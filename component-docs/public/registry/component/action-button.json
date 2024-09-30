@@ -1,0 +1,13 @@
+{
+  "name": "action-button",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registries": [
+    {
+      "name": "action-button.tsx",
+      "content": "\"use client\";\n\nimport \"@seed-design/stylesheet/actionButton.css\";\n\nimport * as React from \"react\";\nimport clsx from \"clsx\";\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { actionButton, type ActionButtonVariantProps } from \"@seed-design/recipe/actionButton\";\n\nexport interface ActionButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    ActionButtonVariantProps {\n  prefixIcon?: React.ReactNode;\n}\n\n/**\n * @see https://component.seed-design.io/components/box-button\n */\nexport const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(\n  (\n    { className, variant = \"brandSolid\", size = \"medium\", children, prefixIcon, ...otherProps },\n    ref,\n  ) => {\n    const classNames = actionButton({ variant, size });\n    return (\n      <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>\n        {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}\n        <span className={classNames.label}>{children}</span>\n      </button>\n    );\n  },\n);\nActionButton.displayName = \"ActionButton\";\n"
+    }
+  ],
+  "type": "component"
+}

@@ -1,4 +1,4 @@
-import { BoxButton } from "@/seed-design/ui/box-button";
+import { ActionButton } from "@/seed-design/ui/action-button";
 import { useUrlParamSync } from "@/src/hooks/useUrlParamSync";
 import {
   useProgressCircleActions,
@@ -39,21 +39,21 @@ export const ProgressCircleControls = () => {
 
   return (
     <div>
-      <BoxButton type="button" onClick={() => set({ value: 0 })}>
+      <ActionButton type="button" onClick={() => set({ value: 0 })}>
         0%
-      </BoxButton>
-      <BoxButton type="button" onClick={() => set({ value: 25 })}>
+      </ActionButton>
+      <ActionButton type="button" onClick={() => set({ value: 25 })}>
         25%
-      </BoxButton>
-      <BoxButton type="button" onClick={() => set({ value: 50 })}>
+      </ActionButton>
+      <ActionButton type="button" onClick={() => set({ value: 50 })}>
         50%
-      </BoxButton>
-      <BoxButton type="button" onClick={() => set({ value: 75 })}>
+      </ActionButton>
+      <ActionButton type="button" onClick={() => set({ value: 75 })}>
         75%
-      </BoxButton>
-      <BoxButton type="button" onClick={() => set({ value: 100 })}>
+      </ActionButton>
+      <ActionButton type="button" onClick={() => set({ value: 100 })}>
         100%
-      </BoxButton>
+      </ActionButton>
 
       <div>
         <div className={css.controlBlock}>
@@ -78,9 +78,9 @@ export const ProgressCircleControls = () => {
             onChange={(e) => setEasing(e.target.value)}
           />
         </div>
-        <BoxButton type="button" onClick={setAll}>
+        <ActionButton type="button" onClick={setAll}>
           적용
-        </BoxButton>
+        </ActionButton>
       </div>
     </div>
   );

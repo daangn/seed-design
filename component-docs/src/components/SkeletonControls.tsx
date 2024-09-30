@@ -1,4 +1,4 @@
-import { BoxButton } from "@/seed-design/ui/box-button";
+import { ActionButton } from "@/seed-design/ui/action-button";
 import {
   useSkeletonActions,
   useSkeletonDuration,
@@ -65,12 +65,12 @@ export const SkeletonControls = () => {
 
   return (
     <div>
-      <BoxButton
+      <ActionButton
         variant={isLoading ? "brandWeak" : "brandSolid"}
         onClick={() => setControls({ isLoading: !isLoading })}
       >
         {isLoading ? "Stop Loading" : "Start Loading"}
-      </BoxButton>
+      </ActionButton>
 
       <div>
         <h2 className={css.controlTitle}>Timeline</h2>
@@ -232,7 +232,7 @@ export const SkeletonControls = () => {
           />
         </div>
       </div>
-      <BoxButton
+      <ActionButton
         className={css.adapt}
         type="button"
         onClick={() =>
@@ -249,7 +249,7 @@ export const SkeletonControls = () => {
         }
       >
         적용
-      </BoxButton>
+      </ActionButton>
     </div>
   );
 };

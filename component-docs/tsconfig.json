@@ -21,6 +21,9 @@
       "@/*": [
         "./*"
       ],
+      "seed-design/*": [
+        "./seed-design/*"
+      ],
       "react": [
         "./node_modules/@types/react"
       ]
@@ -34,7 +37,6 @@
   "exclude": [
     "node_modules",
     "public",
-    "out",
-    "snippets/**/*"
+    "out"
   ]
 }
