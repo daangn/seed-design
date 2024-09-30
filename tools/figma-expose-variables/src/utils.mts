@@ -1,5 +1,5 @@
-import { FILLS, FONT_FAMILIES, FONT_SIZES, SIZES } from "./constants";
-import { createAutoLayout, createTableCell, createTextNode } from "./node";
+import { FILLS, FONT_FAMILIES, FONT_SIZES, SIZES } from "./constants.mjs";
+import { createAutoLayout, createTableCell, createTextNode } from "./node.mjs";
 
 interface WriteVariablesParams {
   mainFrame: FrameNode;
@@ -133,8 +133,6 @@ export async function writeVariables({
       }, {} as Record<string, Variable[]>);
 
       for (const prefix in colorVariablesByPrefixes) {
-        if (prefix === "palette") continue;
-
         const prefixFrame = createAutoLayout(
           {
             name: prefix,
@@ -297,7 +295,7 @@ export async function writeVariables({
             ? (await figma.variables.getVariableByIdAsync(variableValue.id))
                 ?.name ?? "Unknown"
             : typeof variableValue === "object"
-            ? rgbToHex(variableValue.r, variableValue.g, variableValue.b)
+            ? `${getHexString(variableValue)} / ${getRGBAString(variableValue)}`
             : "Unknown";
 
           createTextNode(
@@ -372,19 +370,40 @@ export function isValidSwatch(node: SceneNode): node is FrameNode {
   );
 }
 
-export function rgbToHex(r: number, g: number, b: number): string {
+export function getHexString(color: RGB | RGBA): string {
   const componentToHex = (c: number): string => {
     if (c < 0 || c > 1) return "00";
 
     const hex = Math.round(c * 255)
       .toString(16)
-      .padStart(2, "0");
+      .padStart(2, "0")
+      .toUpperCase();
     return hex;
   };
+
+  const { r, g, b } = color;
 
   const rHex = componentToHex(r);
   const gHex = componentToHex(g);
   const bHex = componentToHex(b);
+  const aHex = "a" in color ? componentToHex(color.a) : "";
 
-  return `#${rHex}${gHex}${bHex}`;
+  return `#${rHex}${gHex}${bHex}${aHex === "FF" ? "" : aHex}`;
+}
+
+export function getRGBAString(color: RGB | RGBA) {
+  const getRoundedString = (value: number) =>
+    Math.round(value * 255).toString();
+
+  const { r, g, b } = color;
+
+  const rString = getRoundedString(r);
+  const gString = getRoundedString(g);
+  const bString = getRoundedString(b);
+  const aString =
+    "a" in color && color.a !== 1
+      ? ` / ${Math.round(color.a * 100).toString()}%`
+      : "";
+
+  return `rgb(${rString} ${gString} ${bString}${aString})`;
 }

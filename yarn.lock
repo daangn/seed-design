@@ -2581,6 +2581,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@create-figma-plugin/utilities@npm:latest":
+  version: 3.2.1-alpha.0
+  resolution: "@create-figma-plugin/utilities@npm:3.2.1-alpha.0"
+  dependencies:
+    hex-rgb: ^5.0.0
+    natural-compare-lite: 1.4.0
+    rgb-hex: ^4.1.0
+  checksum: 5baf9368bd88d30edf5132dee81cd9313142c23759118141e8d2f8d8ac35b84ebb6b60417bfd4f33720f2d52817dfe2cd0437fd162e30ef206c67c8de377e302
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
@@ -5304,6 +5315,7 @@ __metadata:
   resolution: "@seed-design/project@workspace:."
   dependencies:
     "@changesets/cli": ^2.17.0
+    "@create-figma-plugin/utilities": latest
     esbuild: ^0.15.13
     prettier: ^2.7.1
     typescript: ^4.6.3
