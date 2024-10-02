@@ -5,6 +5,7 @@ import * as changeCase from "change-case";
 import { Stackflow } from "./Stackflow";
 
 import type { ActivityComponentType } from "@stackflow/react/future";
+import ErrorBoundary from "./ErrorBoundary";
 
 interface StackflowExampleProps {
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -43,13 +44,17 @@ export function StackflowExample(props: StackflowExampleProps) {
   }, [kebabName]);
 
   return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <Tabs items={["미리보기", "코드"]}>
-        <Tabs.Tab>
-          <Stackflow Activity={activity} />
-        </Tabs.Tab>
-        <Tabs.Tab>{Code}</Tabs.Tab>
-      </Tabs>
-    </React.Suspense>
+    <ErrorBoundary>
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Tabs items={["미리보기", "코드"]}>
+          <Tabs.Tab>
+            <Stackflow Activity={activity} />
+          </Tabs.Tab>
+          <Tabs.Tab>
+            <React.Suspense fallback={null}>{Code}</React.Suspense>
+          </Tabs.Tab>
+        </Tabs>
+      </React.Suspense>
+    </ErrorBoundary>
   );
 }

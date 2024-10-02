@@ -48,7 +48,9 @@ export function ComponentExample(props: ComponentExampleProps) {
               {Preview}
             </div>
           </Tabs.Tab>
-          <Tabs.Tab>{Code}</Tabs.Tab>
+          <Tabs.Tab>
+            <React.Suspense fallback={null}>{Code}</React.Suspense>
+          </Tabs.Tab>
         </Tabs>
       </React.Suspense>
     </ErrorBoundary>
