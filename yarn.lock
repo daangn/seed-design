@@ -3544,18 +3544,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:^1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/biome@npm:1.8.0"
+"@biomejs/biome@npm:^1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/biome@npm:1.9.3"
   dependencies:
-    "@biomejs/cli-darwin-arm64": 1.8.0
-    "@biomejs/cli-darwin-x64": 1.8.0
-    "@biomejs/cli-linux-arm64": 1.8.0
-    "@biomejs/cli-linux-arm64-musl": 1.8.0
-    "@biomejs/cli-linux-x64": 1.8.0
-    "@biomejs/cli-linux-x64-musl": 1.8.0
-    "@biomejs/cli-win32-arm64": 1.8.0
-    "@biomejs/cli-win32-x64": 1.8.0
+    "@biomejs/cli-darwin-arm64": 1.9.3
+    "@biomejs/cli-darwin-x64": 1.9.3
+    "@biomejs/cli-linux-arm64": 1.9.3
+    "@biomejs/cli-linux-arm64-musl": 1.9.3
+    "@biomejs/cli-linux-x64": 1.9.3
+    "@biomejs/cli-linux-x64-musl": 1.9.3
+    "@biomejs/cli-win32-arm64": 1.9.3
+    "@biomejs/cli-win32-x64": 1.9.3
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -3575,62 +3575,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 0a77d2ce129b7f422f15bc29c0108537f9ec9acd6c9ccbfca360005ad88255dc6f90a961e30d97e2ea664d149c2276fb8171ca9eacdfd0cd0ed9024d7f86bf8e
+  checksum: 580f7fd07ee0dde310d527c9ddd28839fc52b47de42dea4441832c58d6280678191f6a2b91d01b3b8e3af4cf7bd6dda0598de1c427a2583e178180d0dc7a5e7d
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-darwin-arm64@npm:1.8.0"
+"@biomejs/cli-darwin-arm64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-darwin-arm64@npm:1.9.3"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-darwin-x64@npm:1.8.0"
+"@biomejs/cli-darwin-x64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-darwin-x64@npm:1.9.3"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.8.0"
+"@biomejs/cli-linux-arm64-musl@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.9.3"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-linux-arm64@npm:1.8.0"
+"@biomejs/cli-linux-arm64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-linux-arm64@npm:1.9.3"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-linux-x64-musl@npm:1.8.0"
+"@biomejs/cli-linux-x64-musl@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-linux-x64-musl@npm:1.9.3"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-linux-x64@npm:1.8.0"
+"@biomejs/cli-linux-x64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-linux-x64@npm:1.9.3"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-win32-arm64@npm:1.8.0"
+"@biomejs/cli-win32-arm64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-win32-arm64@npm:1.9.3"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:1.8.0":
-  version: 1.8.0
-  resolution: "@biomejs/cli-win32-x64@npm:1.8.0"
+"@biomejs/cli-win32-x64@npm:1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/cli-win32-x64@npm:1.9.3"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -7892,7 +7892,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/project@workspace:."
   dependencies:
-    "@biomejs/biome": ^1.8.0
+    "@biomejs/biome": ^1.9.3
     "@changesets/cli": ^2.17.0
     "@testing-library/dom": ^10.1.0
     "@testing-library/jest-dom": ^6.4.6

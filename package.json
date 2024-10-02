@@ -35,7 +35,7 @@
     "test:react:watch": "vitest dev --project react-headless"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.0",
+    "@biomejs/biome": "^1.9.3",
     "@changesets/cli": "^2.17.0",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^6.4.6",
