@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Tabs } from "nextra/components";
 
+import ErrorBoundary from "@/src/components/ErrorBoundary";
+
 interface ComponentExampleProps {
   name: string;
 }
@@ -29,24 +31,26 @@ export function ComponentExample(props: ComponentExampleProps) {
   }, [name]);
 
   return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <Tabs items={["미리보기", "코드"]}>
-        <Tabs.Tab>
-          <div
-            style={{
-              minHeight: "300px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "10px",
-            }}
-          >
-            {Preview}
-          </div>
-        </Tabs.Tab>
-        <Tabs.Tab>{Code}</Tabs.Tab>
-      </Tabs>
-    </React.Suspense>
+    <ErrorBoundary>
+      <React.Suspense fallback={null}>
+        <Tabs items={["미리보기", "코드"]}>
+          <Tabs.Tab>
+            <div
+              style={{
+                minHeight: "300px",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "10px",
+              }}
+            >
+              {Preview}
+            </div>
+          </Tabs.Tab>
+          <Tabs.Tab>{Code}</Tabs.Tab>
+        </Tabs>
+      </React.Suspense>
+    </ErrorBoundary>
   );
 }
