@@ -180,6 +180,113 @@ export async function writeVariables({
         prefixTable.strokes = fadedFills;
         prefixTable.strokeWeight = 2;
 
+        if (prefix.toLowerCase().includes("palette")) {
+          prefixTable.layoutMode = "HORIZONTAL";
+
+          const paletteVariables = colorVariablesByPrefixes[prefix];
+
+          // names are "palette/gray-00", "palette/gray-100", ..., "palette/gray-900"
+
+          const paletteByShade = paletteVariables.reduce((acc, variable) => {
+            const hue = variable.name.split("/")[1].split("-")[0];
+            if (!acc[hue]) acc[hue] = [variable];
+
+            acc[hue].push(variable);
+            return acc;
+          }, {} as Record<string, Variable[]>);
+
+          console.log(paletteByShade);
+
+          for (const hue in paletteByShade) {
+            const hueTable = createAutoLayout(
+              {
+                name: hue,
+                layoutMode: "VERTICAL",
+                layoutSizingHorizontal: "HUG",
+                layoutSizingVertical: "HUG",
+              },
+              prefixTable
+            );
+
+            for (const scale of paletteByShade[hue]) {
+              const scaleRow = createAutoLayout(
+                {
+                  name: scale.name,
+                  layoutMode: "HORIZONTAL",
+                  layoutSizingHorizontal: "FILL",
+                  height: SIZES.CELL_HEIGHT,
+                },
+                hueTable
+              );
+
+              const titleCell = createTableCell(
+                {
+                  name: scale.name,
+                  width: hue === "static" ? SIZES.CELL_WIDTH : 160,
+                  layoutSizingVertical: "FILL",
+                },
+                scaleRow
+              );
+              titleCell.fills = fadedFills;
+
+              createTextNode(
+                {
+                  characters: scale.name,
+                  fontName: FONT_FAMILIES.MONO,
+                  fontSize: FONT_SIZES.BASE,
+                  fills: textFills,
+                },
+                titleCell
+              );
+
+              const previewCell = createTableCell(
+                {
+                  name: "Preview",
+                  width: hue === "static" ? SIZES.CELL_WIDTH : 230,
+                  layoutSizingVertical: "FILL",
+                },
+                scaleRow
+              );
+
+              const color = figma.createRectangle();
+              color.cornerRadius = 4;
+              color.resize(16, 16);
+              color.strokes = fadedFills;
+              color.fills = frameFills; // temporal
+              color.fills = [
+                figma.variables.setBoundVariableForPaint(
+                  color.fills[0] as SolidPaint,
+                  "color",
+                  scale
+                ),
+              ];
+
+              previewCell.appendChild(color);
+
+              const scaleValue = scale.valuesByMode[mode.modeId];
+
+              const characters = isVariableAlias(scaleValue)
+                ? (await figma.variables.getVariableByIdAsync(scaleValue.id))
+                    ?.name ?? "Unknown"
+                : typeof scaleValue === "object"
+                ? `${getHexString(scaleValue)} / ${getRGBAString(scaleValue)}`
+                : "Unknown";
+
+              createTextNode(
+                {
+                  characters,
+                  fontName: FONT_FAMILIES.MONO,
+                  fontSize: FONT_SIZES.BASE,
+                  fills: textFills,
+                },
+                previewCell
+              );
+            }
+          }
+
+          continue;
+        }
+
         for (const variable of colorVariablesByPrefixes[prefix]) {
           const variableRow = createAutoLayout(
             {
