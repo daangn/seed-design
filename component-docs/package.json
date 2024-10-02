@@ -4,9 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "yarn generate:registry && next dev",
-    "start": "yarn generate:registry && next start",
-    "build": "yarn generate:registry && next build",
+    "dev": "yarn generate:all && next dev",
+    "start": "yarn generate:all && next start",
+    "build": "yarn generate:all && next build",
+    "generate:all": "yarn generate:registry && yarn generate:mdx",
+    "generate:mdx": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-mdx.ts",
     "generate:registry": "node --no-warnings=ExperimentalWarning --loader ts-node/esm scripts/generate-registry.ts",
     "watch:registry": "watchlist snippets -- yarn generate:registry"
   },
