@@ -185,11 +185,9 @@ export async function writeVariables({
 
           const paletteVariables = colorVariablesByPrefixes[prefix];
 
-          // names are "palette/gray-00", "palette/gray-100", ..., "palette/gray-900"
-
           const paletteByShade = paletteVariables.reduce((acc, variable) => {
             const hue = variable.name.split("/")[1].split("-")[0];
-            if (!acc[hue]) acc[hue] = [variable];
+            if (!acc[hue]) acc[hue] = [];
 
             acc[hue].push(variable);
             return acc;
