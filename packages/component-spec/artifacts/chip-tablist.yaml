@@ -1,4 +1,16 @@
+# parts: root, triggerList, trigger
+# states: enabled
 base:
   enabled:
     root:
       paddingX: $unit[4] # global gutter
+
+variant=neutral solid:
+  enabled:
+    triggerList:
+      gap: 0px
+
+variant=brand weak:
+  enabled:
+    triggerList:
+      gap: 8px

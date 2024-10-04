@@ -3,13 +3,13 @@
 import {
   useLazyContents,
   useTabs,
+  type ContentProps,
   type TriggerProps,
   type UseLazyContentsProps,
   type UseTabsProps,
-  type ContentProps,
 } from "@seed-design/react-tabs";
 import { chipTab } from "@seed-design/recipe/chipTab";
-import { chipTabs } from "@seed-design/recipe/chipTabs";
+import { ChipTabsVariant, chipTabs } from "@seed-design/recipe/chipTabs";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -22,6 +22,7 @@ interface ChipTabsContextValue {
   api: ReturnType<typeof useTabs>;
   classNames: ReturnType<typeof chipTabs>;
   shouldRender: (value: string) => boolean;
+  variant: ChipTabsVariant["variant"];
 }
 
 const ChipTabsContext = React.createContext<ChipTabsContextValue | null>(null);
@@ -36,12 +37,15 @@ const useChipTabsContext = () => {
 
 export interface ChipTabsProps
   extends Assign<React.HTMLAttributes<HTMLDivElement>, Omit<UseTabsProps, "layout">>,
+    ChipTabsVariant,
     Omit<UseLazyContentsProps, "currentValue"> {}
 
 export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, ref) => {
-  const { className, lazyMode, isLazy } = props;
+  const { className, lazyMode, isLazy, variant } = props;
   const api = useTabs(props);
-  const classNames = chipTabs();
+  const classNames = chipTabs({
+    variant,
+  });
   const { rootProps, value, restProps } = api;
   const { shouldRender } = useLazyContents({ currentValue: value, lazyMode, isLazy });
 
@@ -52,6 +56,7 @@ export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, 
           api,
           classNames,
           shouldRender,
+          variant,
         }}
       >
         {props.children}
@@ -97,14 +102,16 @@ export const ChipTabTriggerList = React.forwardRef<
 ChipTabTriggerList.displayName = "ChipTabTriggerList";
 
 export interface ChipTabTriggerProps
-  extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {}
+  extends Assign<React.HTMLAttributes<HTMLButtonElement>, Omit<TriggerProps, "isDisabled">> {}
 
 export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTriggerProps>(
-  ({ className, children, value, isDisabled, ...otherProps }, ref) => {
-    const { api } = useChipTabsContext();
+  ({ className, children, value, ...otherProps }, ref) => {
+    const { api, variant } = useChipTabsContext();
     const { getTabTriggerProps } = api;
-    const { label, root } = chipTab();
-    const { rootProps, labelProps } = getTabTriggerProps({ value, isDisabled });
+    const { label, root } = chipTab({
+      variant,
+    });
+    const { rootProps, labelProps } = getTabTriggerProps({ value });
 
     return (
       <button ref={ref} {...rootProps} className={clsx(root, className)} {...otherProps}>
@@ -124,10 +131,7 @@ export const ChipTabContent = React.forwardRef<
   const { api, classNames, shouldRender } = useChipTabsContext();
   const { getTabContentProps } = api;
   const { content } = classNames;
-  const tabContentProps = getTabContentProps({
-    value,
-    visibilityMode: "hidden",
-  });
+  const tabContentProps = getTabContentProps({ value });
   const isRender = shouldRender(value);
 
   return (

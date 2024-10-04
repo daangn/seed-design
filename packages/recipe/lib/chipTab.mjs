@@ -15,7 +15,12 @@ const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const chipTabVariantMap = {};
+export const chipTabVariantMap = {
+  "variant": [
+    "neutralSolid",
+    "brandWeak"
+  ]
+};
 
 export const chipTabVariantKeys = Object.keys(chipTabVariantMap);
 

@@ -39,7 +39,20 @@ const chipTabs = defineRecipe({
       overflow: "auto",
     },
   },
-  variants: {},
+  variants: {
+    variant: {
+      neutralSolid: {
+        triggerList: {
+          gap: vars.variantNeutralSolid.enabled.triggerList.gap,
+        },
+      },
+      brandWeak: {
+        triggerList: {
+          gap: vars.variantBrandWeak.enabled.triggerList.gap,
+        },
+      },
+    },
+  },
 });
 
 export default chipTabs;

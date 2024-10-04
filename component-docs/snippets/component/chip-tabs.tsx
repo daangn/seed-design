@@ -10,8 +10,8 @@ import {
   useLazyContents,
   type UseLazyContentsProps,
 } from "@seed-design/react-tabs";
-import { chipTabs } from "@seed-design/recipe/chipTabs";
-import { chipTab } from "@seed-design/recipe/chipTab";
+import { chipTabs, ChipTabsVariant } from "@seed-design/recipe/chipTabs";
+import { chipTab, ChipTabVariant } from "@seed-design/recipe/chipTab";
 
 import "@seed-design/stylesheet/chipTab.css";
 import "@seed-design/stylesheet/chipTabs.css";
@@ -22,6 +22,7 @@ interface ChipTabsContextValue {
   api: ReturnType<typeof useTabs>;
   classNames: ReturnType<typeof chipTabs>;
   shouldRender: (value: string) => boolean;
+  variant: ChipTabsVariant["variant"];
 }
 
 const ChipTabsContext = React.createContext<ChipTabsContextValue | null>(null);
@@ -36,12 +37,15 @@ const useChipTabsContext = () => {
 
 export interface ChipTabsProps
   extends Assign<React.HTMLAttributes<HTMLDivElement>, Omit<UseTabsProps, "layout">>,
+    ChipTabsVariant,
     Omit<UseLazyContentsProps, "currentValue"> {}
 
 export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, ref) => {
-  const { className, lazyMode, isLazy } = props;
+  const { className, lazyMode, isLazy, variant } = props;
   const api = useTabs(props);
-  const classNames = chipTabs();
+  const classNames = chipTabs({
+    variant,
+  });
   const { rootProps, value, restProps } = api;
   const { shouldRender } = useLazyContents({ currentValue: value, lazyMode, isLazy });
 
@@ -52,6 +56,7 @@ export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, 
           api,
           classNames,
           shouldRender,
+          variant,
         }}
       >
         {props.children}
@@ -101,9 +106,11 @@ export interface ChipTabTriggerProps
 
 export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTriggerProps>(
   ({ className, children, value, ...otherProps }, ref) => {
-    const { api } = useChipTabsContext();
+    const { api, variant } = useChipTabsContext();
     const { getTabTriggerProps } = api;
-    const { label, root } = chipTab();
+    const { label, root } = chipTab({
+      variant,
+    });
     const { rootProps, labelProps } = getTabTriggerProps({ value });
 
     return (

@@ -1,3 +1,5 @@
+# parts: root, label
+# states: enabled, pressed, selected, disabled
 base:
   enabled:
     root:
@@ -6,20 +8,55 @@ base:
       cornerRadius: $radii.full
       minHeight: 36px
     label:
-      color: $color.fg.neutral
       fontSize: $font-size[100]
+      fontWeight: $font-weight.bold
+
+variant=neutral solid:
+  enabled:
+    root:
+      color: $color.bg.neutral
+    label:
+      color: $color.fg.neutral
       fontWeight: $font-weight.bold
   enabled,pressed:
     root:
       color: $color.bg.layer-default-pressed
   selected:
     root:
-      color: $color.bg.neutral-inverted
+      color: $color.bg.neutral-solid
     label:
       color: $color.fg.neutral-inverted
   selected,pressed:
     root:
-      color: $color.bg.neutral-inverted-pressed
+      color: $color.bg.neutral-solid-pressed
+  disabled:
+    label:
+      color: $color.fg.disabled
+  selected,disabled:
+    root:
+      color: $color.bg.disabled
+    label:
+      color: $color.fg.disabled
+
+variant=brand weak:
+  enabled:
+    root:
+      color: $color.bg.neutral-weak
+    label:
+      color: $color.fg.neutral
+      fontWeight: $font-weight.medium
+  enabled,pressed:
+    root:
+      color: $color.bg.neutral-weak-pressed
+  selected:
+    root:
+      color: $color.bg.brand-weak
+    label:
+      color: $color.fg.brand-contrast
+      fontWeight: $font-weight.bold
+  selected,pressed:
+    root:
+      color: $color.bg.brand-weak-pressed
   disabled:
     label:
       color: $color.fg.disabled

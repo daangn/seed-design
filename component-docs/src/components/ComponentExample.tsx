@@ -40,6 +40,7 @@ export function ComponentExample(props: ComponentExampleProps) {
                 minHeight: "300px",
                 width: "100%",
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
                 padding: "10px",

@@ -28,3 +28,9 @@
     flex-shrink: 0;
     overflow: auto;
 }
+.chipTabs__triggerList--variant_neutralSolid {
+    gap: 0px;
+}
+.chipTabs__triggerList--variant_brandWeak {
+    gap: 8px;
+}

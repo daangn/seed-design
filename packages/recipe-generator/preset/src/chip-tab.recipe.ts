@@ -17,43 +17,97 @@ const chipTab = defineRecipe({
       boxSizing: "border-box",
       whiteSpace: "nowrap",
       minHeight: vars.base.enabled.root.minHeight,
-
-      [pseudo(selected)]: {
-        backgroundColor: vars.base.selected.root.color,
-      },
-
-      [pseudo(active, not(disabled))]: {
-        backgroundColor: vars.base.enabledPressed.root.color,
-      },
-
-      [pseudo(selected, active)]: {
-        backgroundColor: vars.base.selectedPressed.root.color,
-      },
-
-      [pseudo(disabled)]: {
-        cursor: "not-allowed",
-        backgroundColor: undefined,
-      },
-
-      [pseudo(disabled, selected)]: {
-        backgroundColor: vars.base.selectedDisabled.root.color,
-      },
     },
     label: {
-      color: vars.base.enabled.label.color,
       fontSize: vars.base.enabled.label.fontSize,
       fontWeight: vars.base.enabled.label.fontWeight,
+    },
+  },
+  variants: {
+    variant: {
+      neutralSolid: {
+        root: {
+          [pseudo(selected)]: {
+            backgroundColor: vars.variantNeutralSolid.selected.root.color,
+          },
 
-      [pseudo(selected)]: {
-        color: vars.base.selected.label.color,
+          [pseudo(active, not(disabled))]: {
+            backgroundColor: vars.variantNeutralSolid.enabled.root.color,
+          },
+
+          [pseudo(selected, active)]: {
+            backgroundColor: vars.variantNeutralSolid.selected.root.color,
+          },
+
+          [pseudo(disabled)]: {
+            cursor: "not-allowed",
+            backgroundColor: undefined,
+          },
+
+          [pseudo(disabled, selected)]: {
+            backgroundColor: vars.variantNeutralSolid.selectedDisabled.root.color,
+          },
+        },
+
+        label: {
+          color: vars.variantNeutralSolid.enabled.label.color,
+          fontWeight: vars.base.enabled.label.fontWeight,
+
+          [pseudo(selected)]: {
+            color: vars.variantNeutralSolid.selected.label.color,
+          },
+
+          [pseudo(disabled)]: {
+            color: vars.variantNeutralSolid.disabled.label.color,
+          },
+
+          [pseudo(disabled, selected)]: {
+            color: vars.variantNeutralSolid.selectedDisabled.label.color,
+          },
+        },
       },
+      brandWeak: {
+        root: {
+          fontWeight: vars.base.enabled.label.fontWeight,
 
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.label.color,
+          [pseudo(selected)]: {
+            backgroundColor: vars.variantBrandWeak.selected.root.color,
+          },
+
+          [pseudo(active, not(disabled))]: {
+            backgroundColor: vars.variantBrandWeak.enabled.root.color,
+          },
+
+          [pseudo(selected, active)]: {
+            backgroundColor: vars.variantBrandWeak.selected.root.color,
+          },
+
+          [pseudo(disabled)]: {
+            cursor: "not-allowed",
+            backgroundColor: undefined,
+          },
+
+          [pseudo(disabled, selected)]: {
+            backgroundColor: vars.variantBrandWeak.selectedDisabled.root.color,
+          },
+        },
+
+        label: {
+          color: vars.variantBrandWeak.enabled.label.color,
+          fontWeight: vars.variantBrandWeak.enabled.label.fontWeight,
+
+          [pseudo(selected)]: {
+            color: vars.variantBrandWeak.selected.label.color,
+            fontWeight: vars.variantBrandWeak.selected.label.fontWeight,
+          },
+
+          [pseudo(disabled)]: {
+            color: vars.variantBrandWeak.disabled.label.color,
+          },
+        },
       },
     },
   },
-  variants: {},
 });
 
 export default chipTab;

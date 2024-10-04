@@ -5,7 +5,12 @@ export default function ChipTabsPreview() {
   const [value, setValue] = React.useState("1");
   return (
     <>
-      <ChipTabs defaultValue="1" value={value} onValueChange={(value) => setValue(value)}>
+      <ChipTabs
+        variant="neutralSolid"
+        defaultValue="1"
+        value={value}
+        onValueChange={(value) => setValue(value)}
+      >
         <ChipTabTriggerList>
           <ChipTabTrigger value="1">라벨1</ChipTabTrigger>
           <ChipTabTrigger value="2">라벨2</ChipTabTrigger>

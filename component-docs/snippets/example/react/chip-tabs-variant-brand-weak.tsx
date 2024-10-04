@@ -1,13 +1,12 @@
-```tsx copy
 import * as React from "react";
 import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "seed-design/ui/chip-tabs";
 
-export default function ChipTabsPreview() {
+export default function ChipTabsVariantBrandWeak() {
   const [value, setValue] = React.useState("1");
   return (
     <>
       <ChipTabs
-        variant="neutralSolid"
+        variant="brandWeak"
         defaultValue="1"
         value={value}
         onValueChange={(value) => setValue(value)}
@@ -24,5 +23,3 @@ export default function ChipTabsPreview() {
     </>
   );
 }
-
-```
