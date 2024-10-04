@@ -86,6 +86,8 @@ export function useCheckbox(props: UseCheckboxProps) {
     "data-disabled": dataAttr(props.disabled),
   };
 
+  const isControlled = checked != null;
+
   return {
     isChecked,
     setIsChecked,
@@ -119,7 +121,8 @@ export function useCheckbox(props: UseCheckboxProps) {
 
     hiddenInputProps: inputProps({
       type: "checkbox",
-      checked: isChecked,
+      defaultChecked,
+      checked: isControlled ? isChecked : undefined,
       disabled: props.disabled,
       required: props.required,
       "aria-invalid": props.invalid,

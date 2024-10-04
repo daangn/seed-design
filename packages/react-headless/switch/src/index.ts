@@ -86,6 +86,8 @@ export function useSwitch(props: UseSwitchProps) {
     "data-disabled": dataAttr(props.disabled),
   };
 
+  const isControlled = checked != null;
+
   return {
     isChecked,
     setIsChecked,
@@ -125,7 +127,7 @@ export function useSwitch(props: UseSwitchProps) {
     hiddenInputProps: inputProps({
       type: "checkbox",
       role: "switch",
-      checked: isChecked,
+      checked: isControlled ? isChecked : undefined,
       disabled: props.disabled,
       required: props.required,
       "aria-invalid": props.invalid,
