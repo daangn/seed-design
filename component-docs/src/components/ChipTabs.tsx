@@ -16,7 +16,7 @@ export const ChipTabs = () => {
     height: "300px",
   };
   return (
-    <UIChipTabs defaultValue="1">
+    <UIChipTabs variant="neutralSolid" defaultValue="1">
       <ChipTabTriggerList>
         <ChipTabTrigger value="1">라벨1</ChipTabTrigger>
         <ChipTabTrigger value="2">라벨2</ChipTabTrigger>

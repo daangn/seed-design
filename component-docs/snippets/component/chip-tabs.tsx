@@ -102,16 +102,16 @@ export const ChipTabTriggerList = React.forwardRef<
 ChipTabTriggerList.displayName = "ChipTabTriggerList";
 
 export interface ChipTabTriggerProps
-  extends Assign<React.HTMLAttributes<HTMLButtonElement>, Omit<TriggerProps, "isDisabled">> {}
+  extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {}
 
 export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTriggerProps>(
-  ({ className, children, value, ...otherProps }, ref) => {
+  ({ className, children, value, isDisabled, ...otherProps }, ref) => {
     const { api, variant } = useChipTabsContext();
     const { getTabTriggerProps } = api;
     const { label, root } = chipTab({
       variant,
     });
-    const { rootProps, labelProps } = getTabTriggerProps({ value });
+    const { rootProps, labelProps } = getTabTriggerProps({ value, isDisabled });
 
     return (
       <button ref={ref} {...rootProps} className={clsx(root, className)} {...otherProps}>
