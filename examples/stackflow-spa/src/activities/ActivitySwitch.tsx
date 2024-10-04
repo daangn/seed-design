@@ -6,7 +6,8 @@ import { Switch } from "../design-system/components";
 const ActivitySwitch: ActivityComponentType = () => {
   return (
     <AppScreen appBar={{ title: "Switch" }}>
-      <Switch onCheckedChange={(checked) => console.log("checked", checked)} />
+      <Switch size="medium" onCheckedChange={(checked) => console.log("checked", checked)} />
+      <Switch size="small" onCheckedChange={(checked) => console.log("checked", checked)} />
     </AppScreen>
   );
 };

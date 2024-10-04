@@ -13,10 +13,10 @@ export interface SwitchProps
     SwitchVariantProps {}
 
 export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
-  ({ className, ...otherProps }, ref) => {
+  ({ className, size, ...otherProps }, ref) => {
     const { stateProps, restProps, controlProps, hiddenInputProps, rootProps, thumbProps } =
       useSwitch(otherProps);
-    const classNames = switchStyle();
+    const classNames = switchStyle({ size });
 
     return (
       <label className={clsx(classNames.root, className)} {...rootProps}>

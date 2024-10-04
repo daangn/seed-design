@@ -1,5 +1,5 @@
 interface SwitchVariant {
-  
+  size: "medium" | "small"
 }
 
 type SwitchVariantMap = {
