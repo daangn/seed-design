@@ -9,13 +9,13 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
     "@seed-design/icon": "^0.6.1",
-    "@seed-design/react-popover": "0.0.0",
-    "@seed-design/react-radio-group": "0.0.0",
-    "@seed-design/react-switch": "0.0.0",
-    "@seed-design/react-tabs": "0.0.0",
-    "@seed-design/react-text-field": "0.0.0",
-    "@seed-design/recipe": "0.0.0",
-    "@seed-design/stylesheet": "1.0.4",
+    "@seed-design/react-popover": "0.0.0-alpha-20241004093556",
+    "@seed-design/react-radio-group": "0.0.0-alpha-20241004093556",
+    "@seed-design/react-switch": "0.0.0-alpha-20241004093556",
+    "@seed-design/react-tabs": "0.0.0-alpha-20241004093556",
+    "@seed-design/react-text-field": "0.0.0-alpha-20241004093556",
+    "@seed-design/recipe": "0.0.0-alpha-20241004093556",
+    "@seed-design/stylesheet": "0.0.0-alpha-20241004093556",
     "@stackflow/core": "^1.0.13",
     "@stackflow/plugin-basic-ui": "^1.8.4",
     "@stackflow/plugin-history-sync": "^1.6.0",
@@ -34,5 +34,6 @@
     "typescript": "^5.4.5",
     "vite": "^5.1.4",
     "vite-plugin-checker": "^0.6.2"
-  }
+  },
+  "version": "0.0.0-alpha-20241004093556"
 }

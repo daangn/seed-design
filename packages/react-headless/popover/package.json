@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-popover",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20241004093556",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -12,11 +12,13 @@
     ".": {
       "import": {
         "source": "./src/index.ts",
-        "default": "./dist/esm/index.ts"
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
       },
       "require": {
         "source": "./src/index.ts",
-        "default": "./dist/commonjs/index.ts"
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
       }
     }
   },
@@ -30,7 +32,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.19",
-    "@seed-design/dom-utils": "0.0.0"
+    "@seed-design/dom-utils": "0.0.0-alpha-20241004093556"
   },
   "devDependencies": {
     "tshy": "^1.17.0",
@@ -57,6 +59,7 @@
     ]
   },
   "type": "module",
-  "module": "./dist/esm/index.ts",
-  "main": "./dist/commonjs/index.ts"
+  "module": "./dist/esm/index.js",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts"
 }

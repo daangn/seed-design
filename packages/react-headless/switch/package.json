@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-switch",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20241004093556",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "1.0.1",
-    "@seed-design/dom-utils": "0.0.0"
+    "@seed-design/dom-utils": "0.0.0-alpha-20241004093556"
   },
   "devDependencies": {
     "nanobundle": "^1.6.0"

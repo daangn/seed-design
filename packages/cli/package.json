@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/cli",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha-20241004093556",
   "type": "module",
   "repository": {
     "type": "git",

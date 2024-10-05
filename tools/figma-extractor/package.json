@@ -1,5 +1,7 @@
 {
   "name": "@seed-design/figma-extractor",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "@create-figma-plugin/ui": "^3.0.2",
     "@create-figma-plugin/utilities": "^3.0.2",

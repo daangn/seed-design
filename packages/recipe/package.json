@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/recipe",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20241004093556",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -17,7 +17,7 @@
     "lib"
   ],
   "scripts": {
-    "prepack": "rm -rf lib && yarn build",
+    "prepack": "yarn build:style",
     "build:style": "yarn recipegen js ./lib"
   },
   "devDependencies": {

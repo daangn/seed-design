@@ -1,5 +1,11 @@
 # @seed-design/stylesheet
 
+## 0.0.0-alpha-20241004093556
+
+### Patch Changes
+
+- prerelease
+
 ## 1.0.4
 
 ### Patch Changes

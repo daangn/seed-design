@@ -1,6 +1,7 @@
 {
   "name": "@seed-design/cli-example",
   "version": "0.0.1",
+  "private": true,
   "packageManager": "yarn@3.2.2",
   "devDependencies": {
     "@seed-design/cli": "workspace:^"

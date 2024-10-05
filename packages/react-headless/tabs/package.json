@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-tabs",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha-20241004093556",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -26,7 +26,7 @@
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "1.0.1",
     "@radix-ui/react-use-size": "^1.1.0",
-    "@seed-design/dom-utils": "0.0.0",
+    "@seed-design/dom-utils": "0.0.0-alpha-20241004093556",
     "@use-gesture/react": "^10.3.1"
   },
   "devDependencies": {

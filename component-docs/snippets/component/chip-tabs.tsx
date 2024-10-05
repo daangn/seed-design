@@ -1,17 +1,17 @@
 "use client";
 
+import {
+  useLazyContents,
+  useTabs,
+  type ContentProps,
+  type TriggerProps,
+  type UseLazyContentsProps,
+  type UseTabsProps,
+} from "@seed-design/react-tabs";
+import { chipTab } from "@seed-design/recipe/chipTab";
+import { ChipTabsVariant, chipTabs } from "@seed-design/recipe/chipTabs";
 import clsx from "clsx";
 import * as React from "react";
-import {
-  useTabs,
-  type UseTabsProps,
-  type TriggerProps,
-  type ContentProps,
-  useLazyContents,
-  type UseLazyContentsProps,
-} from "@seed-design/react-tabs";
-import { chipTabs, ChipTabsVariant } from "@seed-design/recipe/chipTabs";
-import { chipTab, ChipTabVariant } from "@seed-design/recipe/chipTab";
 
 import "@seed-design/stylesheet/chipTab.css";
 import "@seed-design/stylesheet/chipTabs.css";

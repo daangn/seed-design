@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/stylesheet",
-  "version": "1.0.4",
+  "version": "0.0.0-alpha-20241004093556",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -10,7 +10,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepack": "yarn build",
+    "prepack": "yarn build:style",
     "build:style": "yarn recipegen css"
   },
   "exports": {
@@ -34,16 +34,7 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "global.css",
-    "base.css",
-    "token.css",
-    "actionButton.css",
-    "checkbox.css",
-    "dialog.css",
-    "radio.css",
-    "chip.css",
-    "callout.css",
-    "avatar.css"
+    "*.css"
   ],
   "devDependencies": {
     "@seed-design/recipe-generator-cli": "0.0.0"

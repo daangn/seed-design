@@ -4,7 +4,7 @@ import {
 } from "@/src/schema";
 
 const BASE_URL =
-  process.env.NODE_ENV === "prod" ? "https://component-seed.design.io" : "http://localhost:3000";
+  process.env.NODE_ENV === "prod" ? "https://component.seed-design.io" : "http://localhost:3000";
 
 export async function fetchComponentMetadatas(
   fileNames?: string[],
