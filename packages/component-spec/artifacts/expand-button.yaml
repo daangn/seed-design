@@ -1,0 +1,28 @@
+base:
+  enabled:
+    root:
+      color: "$color.bg.layer-default"
+      minHeight: "$unit[10]"
+      cornerRadius: "$radii[2]"
+      gap: "$unit[1]"
+      paddingX: "$unit[5]"
+      paddingY: "$unit[2.5]"
+      strokeColor: "$color.palette.gray-400"
+      strokeWidth: "1px"
+    label:
+      color: "$color.fg.neutral"
+      fontWeight: "$font-weight.bold"
+      fontSize: "$font-size[100]"
+    suffixIcon:
+      color: "$color.fg.neutral"
+      size: "$unit[3.5]"
+  pressed:
+    root:
+      color: "$color.bg.layer-default-pressed"
+  disabled:
+    root:
+      color: "$color.bg.disabled"
+    label:
+      color: "$color.fg.disabled"
+    suffixIcon:
+      color: "$color.fg.disabled"

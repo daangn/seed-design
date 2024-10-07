@@ -12,6 +12,7 @@ import tabs from "./tabs.recipe";
 import chipTab from "./chip-tab.recipe";
 import chipTabs from "./chip-tabs.recipe";
 import progressCircle from "./progress-circle.recipe";
+import expandButton from "./expand-button.recipe";
 
 const recipes = {
   avatar,
@@ -28,6 +29,7 @@ const recipes = {
   chipTab,
   chipTabs,
   progressCircle,
+  expandButton,
 };
 
 export default recipes;
