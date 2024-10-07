@@ -14,23 +14,7 @@
     "build:style": "yarn recipegen css"
   },
   "exports": {
-    "./global.css": "./global.css",
-    "./base.css": "./base.css",
-    "./token.css": "./token.css",
-    "./actionButton.css": "./actionButton.css",
-    "./radio.css": "./radio.css",
-    "./dialog.css": "./dialog.css",
-    "./checkbox.css": "./checkbox.css",
-    "./actionChip.css": "./actionChip.css",
-    "./callout.css": "./callout.css",
-    "./avatar.css": "./avatar.css",
-    "./switch.css": "./switch.css",
-    "./helpBubble.css": "./helpBubble.css",
-    "./tab.css": "./tab.css",
-    "./tabs.css": "./tabs.css",
-    "./chipTab.css": "./chipTab.css",
-    "./chipTabs.css": "./chipTabs.css",
-    "./progressCircle.css": "./progressCircle.css",
+    "./*.css": "./*.css",
     "./package.json": "./package.json"
   },
   "files": [
