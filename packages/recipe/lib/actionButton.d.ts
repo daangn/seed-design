@@ -1,6 +1,7 @@
 interface ActionButtonVariant {
   variant: "brandSolid" | "brandWeak" | "neutralSolid" | "neutralWeak" | "dangerSolid";
-  size: "xsmall" | "small" | "medium" | "large"
+  size: "xsmall" | "small" | "medium" | "large";
+  layout: "withText" | "iconOnly"
 }
 
 type ActionButtonVariantMap = {
@@ -9,7 +10,7 @@ type ActionButtonVariantMap = {
 
 export type ActionButtonVariantProps = Partial<ActionButtonVariant>;
 
-export type ActionButtonSlotName = "root" | "label" | "prefix";
+export type ActionButtonSlotName = "root" | "label" | "icon" | "prefixIcon" | "suffixIcon";
 
 export const actionButtonVariantMap: ActionButtonVariantMap;
 

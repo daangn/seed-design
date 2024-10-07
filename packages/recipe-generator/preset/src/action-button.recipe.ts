@@ -4,7 +4,7 @@ import { disabled, focus, active, pseudo } from "./pseudo";
 
 const actionButton = defineRecipe({
   name: "actionButton",
-  slots: ["root", "label", "prefix"],
+  slots: ["root", "label", "icon", "prefixIcon", "suffixIcon"],
   base: {
     root: {
       display: "inline-flex",
@@ -26,7 +26,12 @@ const actionButton = defineRecipe({
 
       fontWeight: vars.base.enabled.label.fontWeight,
     },
-    prefix: {
+    prefixIcon: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    suffixIcon: {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
@@ -47,8 +52,14 @@ const actionButton = defineRecipe({
         label: {
           color: vars.variantBrandSolid.enabled.label.color,
         },
-        prefix: {
+        icon: {
+          color: vars.variantBrandSolid.enabled.icon.color,
+        },
+        prefixIcon: {
           color: vars.variantBrandSolid.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantBrandSolid.enabled.suffixIcon.color,
         },
       },
       brandWeak: {
@@ -64,8 +75,14 @@ const actionButton = defineRecipe({
         label: {
           color: vars.variantBrandWeak.enabled.label.color,
         },
-        prefix: {
+        icon: {
+          color: vars.variantBrandWeak.enabled.icon.color,
+        },
+        prefixIcon: {
           color: vars.variantBrandWeak.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantBrandWeak.enabled.suffixIcon.color,
         },
       },
       neutralSolid: {
@@ -81,8 +98,14 @@ const actionButton = defineRecipe({
         label: {
           color: vars.variantNeutralSolid.enabled.label.color,
         },
-        prefix: {
+        icon: {
+          color: vars.variantNeutralSolid.enabled.icon.color,
+        },
+        prefixIcon: {
           color: vars.variantNeutralSolid.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantNeutralSolid.enabled.suffixIcon.color,
         },
       },
       neutralWeak: {
@@ -98,8 +121,14 @@ const actionButton = defineRecipe({
         label: {
           color: vars.variantNeutralWeak.enabled.label.color,
         },
-        prefix: {
+        icon: {
+          color: vars.variantNeutralWeak.enabled.icon.color,
+        },
+        prefixIcon: {
           color: vars.variantNeutralWeak.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantNeutralWeak.enabled.suffixIcon.color,
         },
       },
       dangerSolid: {
@@ -115,8 +144,14 @@ const actionButton = defineRecipe({
         label: {
           color: vars.variantDangerSolid.enabled.label.color,
         },
-        prefix: {
+        icon: {
+          color: vars.variantDangerSolid.enabled.icon.color,
+        },
+        prefixIcon: {
           color: vars.variantDangerSolid.enabled.prefixIcon.color,
+        },
+        suffixIcon: {
+          color: vars.variantDangerSolid.enabled.suffixIcon.color,
         },
       },
     },
@@ -124,65 +159,183 @@ const actionButton = defineRecipe({
       xsmall: {
         root: {
           height: vars.sizeXsmall.enabled.root.minHeight,
-          padding: `${vars.sizeXsmall.enabled.root.paddingY} ${vars.sizeXsmall.enabled.root.paddingX}`,
           borderRadius: vars.sizeXsmall.enabled.root.cornerRadius,
-          gap: vars.sizeXsmall.enabled.root.gap,
-        },
-        label: {
-          fontSize: vars.sizeXsmall.enabled.label.fontSize,
-        },
-        prefix: {
-          width: vars.sizeXsmall.enabled.prefixIcon.size,
-          height: vars.sizeXsmall.enabled.prefixIcon.size,
         },
       },
       small: {
         root: {
           height: vars.sizeSmall.enabled.root.minHeight,
-          padding: `${vars.sizeSmall.enabled.root.paddingY} ${vars.sizeSmall.enabled.root.paddingX}`,
           borderRadius: vars.sizeSmall.enabled.root.cornerRadius,
-          gap: vars.sizeSmall.enabled.root.gap,
-        },
-        label: {
-          fontSize: vars.sizeSmall.enabled.label.fontSize,
-        },
-        prefix: {
-          width: vars.sizeSmall.enabled.prefixIcon.size,
-          height: vars.sizeSmall.enabled.prefixIcon.size,
         },
       },
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.minHeight,
-          padding: `${vars.sizeMedium.enabled.root.paddingY} ${vars.sizeMedium.enabled.root.paddingX}`,
           borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
-          gap: vars.sizeMedium.enabled.root.gap,
-        },
-        label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-        },
-        prefix: {
-          width: vars.sizeMedium.enabled.prefixIcon.size,
-          height: vars.sizeMedium.enabled.prefixIcon.size,
         },
       },
       large: {
         root: {
           height: vars.sizeLarge.enabled.root.minHeight,
-          padding: `${vars.sizeLarge.enabled.root.paddingY} ${vars.sizeLarge.enabled.root.paddingX}`,
           borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
-          gap: vars.sizeLarge.enabled.root.gap,
-        },
-        label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-        },
-        prefix: {
-          width: vars.sizeLarge.enabled.prefixIcon.size,
-          height: vars.sizeLarge.enabled.prefixIcon.size,
         },
       },
     },
+    layout: {
+      withText: {},
+      iconOnly: {},
+    },
   },
+  compoundVariants: [
+    {
+      size: "xsmall",
+      layout: "withText",
+      css: {
+        root: {
+          gap: vars.sizeXsmallLayoutWithText.enabled.root.gap,
+          paddingInline: vars.sizeXsmallLayoutWithText.enabled.root.paddingX,
+          paddingBlock: vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
+        },
+        label: {
+          fontSize: vars.sizeXsmallLayoutWithText.enabled.label.fontSize,
+        },
+        prefixIcon: {
+          width: vars.sizeXsmallLayoutWithText.enabled.prefixIcon.size,
+          height: vars.sizeXsmallLayoutWithText.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: vars.sizeXsmallLayoutWithText.enabled.suffixIcon.size,
+          height: vars.sizeXsmallLayoutWithText.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      size: "xsmall",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeXsmallLayoutIconOnly.enabled.root.minWidth,
+          paddingInline: vars.sizeXsmallLayoutIconOnly.enabled.root.paddingX,
+          paddingBlock: vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeXsmallLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+    {
+      size: "small",
+      layout: "withText",
+      css: {
+        root: {
+          gap: vars.sizeSmallLayoutWithText.enabled.root.gap,
+          paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
+          paddingBlock: vars.sizeSmallLayoutWithText.enabled.root.paddingY,
+        },
+        label: {
+          fontSize: vars.sizeSmallLayoutWithText.enabled.label.fontSize,
+        },
+        prefixIcon: {
+          width: vars.sizeSmallLayoutWithText.enabled.prefixIcon.size,
+          height: vars.sizeSmallLayoutWithText.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: vars.sizeSmallLayoutWithText.enabled.suffixIcon.size,
+          height: vars.sizeSmallLayoutWithText.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      size: "small",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
+          paddingInline: vars.sizeSmallLayoutIconOnly.enabled.root.paddingX,
+          paddingBlock: vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeSmallLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+    {
+      size: "medium",
+      layout: "withText",
+      css: {
+        root: {
+          gap: vars.sizeMediumLayoutWithText.enabled.root.gap,
+          paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
+          paddingBlock: vars.sizeMediumLayoutWithText.enabled.root.paddingY,
+        },
+        label: {
+          fontSize: vars.sizeMediumLayoutWithText.enabled.label.fontSize,
+        },
+        prefixIcon: {
+          width: vars.sizeMediumLayoutWithText.enabled.prefixIcon.size,
+          height: vars.sizeMediumLayoutWithText.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: vars.sizeMediumLayoutWithText.enabled.suffixIcon.size,
+          height: vars.sizeMediumLayoutWithText.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      size: "medium",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
+          paddingInline: vars.sizeMediumLayoutIconOnly.enabled.root.paddingX,
+          paddingBlock: vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeMediumLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+    {
+      size: "large",
+      layout: "withText",
+      css: {
+        root: {
+          gap: vars.sizeLargeLayoutWithText.enabled.root.gap,
+          paddingInline: vars.sizeLargeLayoutWithText.enabled.root.paddingX,
+          paddingBlock: vars.sizeLargeLayoutWithText.enabled.root.paddingY,
+        },
+        label: {
+          fontSize: vars.sizeLargeLayoutWithText.enabled.label.fontSize,
+        },
+        prefixIcon: {
+          width: vars.sizeLargeLayoutWithText.enabled.prefixIcon.size,
+          height: vars.sizeLargeLayoutWithText.enabled.prefixIcon.size,
+        },
+        suffixIcon: {
+          width: vars.sizeLargeLayoutWithText.enabled.suffixIcon.size,
+          height: vars.sizeLargeLayoutWithText.enabled.suffixIcon.size,
+        },
+      },
+    },
+    {
+      size: "large",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeLargeLayoutIconOnly.enabled.root.minWidth,
+          paddingInline: vars.sizeLargeLayoutIconOnly.enabled.root.paddingX,
+          paddingBlock: vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
+        },
+        icon: {
+          width: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
+          height: vars.sizeLargeLayoutIconOnly.enabled.icon.size,
+        },
+      },
+    },
+  ],
 });
 
 export default actionButton;

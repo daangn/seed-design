@@ -1,24 +1,52 @@
-import { Slot } from "@radix-ui/react-slot";
-import { actionButton, type ActionButtonVariantProps } from "@seed-design/recipe/actionButton";
-import clsx from "clsx";
-import * as React from "react";
+"use client";
 
 import "@seed-design/stylesheet/actionButton.css";
+
+import * as React from "react";
+import clsx from "clsx";
+import { Slot } from "@radix-ui/react-slot";
+import { actionButton, type ActionButtonVariantProps } from "@seed-design/recipe/actionButton";
 
 export interface ActionButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     ActionButtonVariantProps {
   prefixIcon?: React.ReactNode;
+
+  suffixIcon?: React.ReactNode;
+
+  asChild?: boolean;
 }
 
+/**
+ * @see https://component.seed-design.io/components/box-button
+ */
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
-  ({ className, variant = "neutralWeak", size = "medium", children, prefixIcon, ...otherProps }, ref) => {
-    const classNames = actionButton({ variant, size });
+  (
+    {
+      className,
+      variant = "brandSolid",
+      size = "medium",
+      children,
+      prefixIcon,
+      suffixIcon,
+      layout = "withText",
+      asChild = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    const classNames = actionButton({ variant, layout, size });
     return (
-      <button ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
-        {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
-        <span className={classNames.label}>{children}</span>
-      </button>
+      <Comp ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
+        {prefixIcon && <Slot className={classNames.prefixIcon}>{prefixIcon}</Slot>}
+        {layout === "withText" ? (
+          <span className={classNames.label}>{children}</span>
+        ) : (
+          <Slot className={classNames.icon}>{children}</Slot>
+        )}
+        {suffixIcon && <Slot className={classNames.suffixIcon}>{suffixIcon}</Slot>}
+      </Comp>
     );
   },
 );

@@ -7888,6 +7888,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@seed-design/icon@npm:^0.6.2":
+  version: 0.6.2
+  resolution: "@seed-design/icon@npm:0.6.2"
+  peerDependencies:
+    react: "*"
+  checksum: 54e4730ec658e7e8db6e1060985bd963b2a9643f983502204cfca8cb92e7907e96763c3f68424319cdfbac46efa03425a00e8492b9ba272042c3c0ed31c30813
+  languageName: node
+  linkType: hard
+
 "@seed-design/project@workspace:.":
   version: 0.0.0-use.local
   resolution: "@seed-design/project@workspace:."
@@ -13782,6 +13791,7 @@ __metadata:
     "@radix-ui/react-slot": ^1.1.0
     "@seed-design/cli": "workspace:^"
     "@seed-design/design-token": ^1.0.3
+    "@seed-design/icon": ^0.6.2
     "@seed-design/react-checkbox": 0.0.0-alpha-20241004093556
     "@seed-design/react-tabs": 0.0.0-alpha-20241004093556
     "@seed-design/recipe": 0.0.0-alpha-20241004093556

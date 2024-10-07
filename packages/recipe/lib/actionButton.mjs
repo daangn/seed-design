@@ -10,14 +10,55 @@ const actionButtonSlotNames = [
     "actionButton__label"
   ],
   [
-    "prefix",
-    "actionButton__prefix"
+    "icon",
+    "actionButton__icon"
+  ],
+  [
+    "prefixIcon",
+    "actionButton__prefixIcon"
+  ],
+  [
+    "suffixIcon",
+    "actionButton__suffixIcon"
   ]
 ];
 
 const defaultVariant = {};
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "size": "xsmall",
+    "layout": "withText"
+  },
+  {
+    "size": "xsmall",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "small",
+    "layout": "withText"
+  },
+  {
+    "size": "small",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "medium",
+    "layout": "withText"
+  },
+  {
+    "size": "medium",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "large",
+    "layout": "withText"
+  },
+  {
+    "size": "large",
+    "layout": "iconOnly"
+  }
+];
 
 export const actionButtonVariantMap = {
   "variant": [
@@ -32,6 +73,10 @@ export const actionButtonVariantMap = {
     "small",
     "medium",
     "large"
+  ],
+  "layout": [
+    "withText",
+    "iconOnly"
   ]
 };
 

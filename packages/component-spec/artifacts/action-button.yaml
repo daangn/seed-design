@@ -8,7 +8,11 @@ variant=brand solid:
       color: "$color.bg.brand-solid"
     label:
       color: "$color.fg.static-white"
+    icon:
+      color: "$color.fg.static-white"
     prefixIcon:
+      color: "$color.fg.static-white"
+    suffixIcon:
       color: "$color.fg.static-white"
   pressed:
     root:
@@ -16,13 +20,20 @@ variant=brand solid:
   disabled:
     root:
       color: "$color.bg.disabled"
+  loading:
+    root:
+      color: "$color.bg.brand-solid-pressed"
 variant=brand weak:
   enabled:
     root:
       color: "$color.bg.brand-weak"
     label:
       color: "$color.fg.brand"
+    icon:
+      color: "$color.fg.brand"
     prefixIcon:
+      color: "$color.fg.brand"
+    suffixIcon:
       color: "$color.fg.brand"
   pressed:
     root:
@@ -30,13 +41,20 @@ variant=brand weak:
   disabled:
     root:
       color: "$color.bg.disabled"
+  loading:
+    root:
+      color: "$color.bg.brand-weak-pressed"
 variant=neutral solid:
   enabled:
     root:
       color: "$color.bg.neutral-solid"
     label:
       color: "$color.fg.neutral-inverted"
+    icon:
+      color: "$color.fg.neutral-inverted"
     prefixIcon:
+      color: "$color.fg.neutral-inverted"
+    suffixIcon:
       color: "$color.fg.neutral-inverted"
   pressed:
     root:
@@ -44,13 +62,20 @@ variant=neutral solid:
   disabled:
     root:
       color: "$color.bg.disabled"
+  loading:
+    root:
+      color: "$color.bg.neutral-solid-pressed"
 variant=neutral weak:
   enabled:
     root:
       color: "$color.bg.neutral-weak"
     label:
       color: "$color.fg.neutral"
+    icon:
+      color: "$color.fg.neutral"
     prefixIcon:
+      color: "$color.fg.neutral"
+    suffixIcon:
       color: "$color.fg.neutral"
   pressed:
     root:
@@ -58,13 +83,20 @@ variant=neutral weak:
   disabled:
     root:
       color: "$color.bg.disabled"
+  loading:
+    root:
+      color: "$color.bg.neutral-weak-pressed"
 variant=danger solid:
   enabled:
     root:
       color: "$color.bg.danger-solid"
     label:
       color: "$color.fg.static-white"
+    icon:
+      color: "$color.fg.static-white"
     prefixIcon:
+      color: "$color.fg.static-white"
+    suffixIcon:
       color: "$color.fg.static-white"
   pressed:
     root:
@@ -72,51 +104,106 @@ variant=danger solid:
   disabled:
     root:
       color: "$color.bg.disabled"
+  loading:
+    root:
+      color: "$color.bg.danger-solid-pressed"
 size=xsmall:
   enabled:
     root:
       minHeight: "$unit[8]"
       cornerRadius: "$radii.full"
+size=xsmall, layout=with text:
+  enabled:
+    root:
       gap: "$unit[1]"
-      paddingX: "$unit[2.5]"
-      paddingY: "$unit[2]"
+      paddingX: "$unit[3.5]"
+      paddingY: "$unit[1.5]"
     prefixIcon:
-      size: "$unit[3]"
+      size: "$unit[3.5]"
+    suffixIcon:
+      size: "$unit[3.5]"
     label:
-      fontSize: "$font-size[50]"
+      fontSize: "$font-size[100]"
+size=xsmall, layout=icon only:
+  enabled:
+    root:
+      minWidth: "$unit[8]"
+      paddingX: "$unit[1.5]"
+      paddingY: "$unit[1.5]"
+    icon:
+      size: "$unit[3.5]"
 size=small:
   enabled:
     root:
       minHeight: "$unit[9]"
       cornerRadius: "$radii[2]"
+size=small, layout=with text:
+  enabled:
+    root:
       gap: "$unit[1]"
       paddingX: "$unit[3.5]"
       paddingY: "$unit[2]"
     prefixIcon:
-      size: "$unit[4]"
+      size: "$unit[3.5]"
+    suffixIcon:
+      size: "$unit[3.5]"
     label:
       fontSize: "$font-size[100]"
+size=small, layout=icon only:
+  enabled:
+    root:
+      minWidth: "$unit[9]"
+      paddingX: "$unit[2]"
+      paddingY: "$unit[2]"
+    icon:
+      size: "$unit[4]"
 size=medium:
   enabled:
     root:
       minHeight: "$unit[10]"
       cornerRadius: "$radii[2]"
+size=medium, layout=with text:
+  enabled:
+    root:
       gap: "$unit[1]"
       paddingX: "$unit[4]"
       paddingY: "$unit[2.5]"
     prefixIcon:
       size: "$unit[4]"
+    suffixIcon:
+      size: "$unit[4]"
     label:
       fontSize: "$font-size[100]"
+size=medium, layout=icon only:
+  enabled:
+    root:
+      minWidth: "$unit[10]"
+      paddingX: "$unit[2.5]"
+      paddingY: "$unit[2.5]"
+    icon:
+      size: "$unit[4]"
 size=large:
   enabled:
     root:
       minHeight: "$unit[13]"
       cornerRadius: "$radii[3]"
-      gap: "$unit[1]"
+size=large, layout=with text:
+  enabled:
+    root:
+      gap: "$unit[2]"
       paddingX: "$unit[5]"
       paddingY: "$unit[3.5]"
     prefixIcon:
-      size: "$unit[5]"
+      size: "$unit[4.5]"
+    suffixIcon:
+      size: "$unit[4.5]"
     label:
       fontSize: "$font-size[300]"
+size=large, layout=icon only:
+  enabled:
+    root:
+      minWidth: "$unit[13]"
+      paddingX: "$unit[3.5]"
+      paddingY: "$unit[3.5]"
+    icon:
+      size: "$unit[4.5]"

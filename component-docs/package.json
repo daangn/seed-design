@@ -15,6 +15,7 @@
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",
     "@seed-design/design-token": "^1.0.3",
+    "@seed-design/icon": "^0.6.2",
     "@seed-design/react-checkbox": "0.0.0-alpha-20241004093556",
     "@seed-design/react-tabs": "0.0.0-alpha-20241004093556",
     "@seed-design/recipe": "0.0.0-alpha-20241004093556",
