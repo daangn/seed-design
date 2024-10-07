@@ -9,7 +9,7 @@ export const createClassName = (className, variants, compoundVariants = []) => {
 
   const compountVariantClassName = compoundVariants
     .filter((compoundVariant) =>
-      variantKeys.every((key) => compoundVariant[key] === variants[key]),
+      Object.keys(compoundVariant).every((key) => compoundVariant[key] === variants[key]),
     )
     .map(
       (compoundVariant) =>
