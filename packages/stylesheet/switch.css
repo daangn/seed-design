@@ -1,4 +1,5 @@
 .switch__root {
+    box-sizing: border-box;
     display: inline-flex;
     align-items: flex-start;
     justify-content: space-between;

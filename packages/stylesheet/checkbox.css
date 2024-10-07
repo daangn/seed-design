@@ -15,14 +15,14 @@
     border-color: var(--seed-color-stroke-control);
 }
 .checkbox__control:is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-brand-emphasis);
+    background: var(--seed-color-bg-brand-solid);
     border-width: 0;
 }
 .checkbox__control:is(:active, [data-active]) {
     background: var(--seed-color-bg-layer-default-pressed);
 }
 .checkbox__control:is(:active, [data-active]):is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-brand-emphasis-pressed);
+    background: var(--seed-color-bg-brand-solid-pressed);
 }
 .checkbox__control:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);

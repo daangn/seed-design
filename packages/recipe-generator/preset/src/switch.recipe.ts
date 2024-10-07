@@ -7,6 +7,7 @@ const switchRecipe = defineRecipe({
   slots: ["root", "control", "thumb"],
   base: {
     root: {
+      boxSizing: "border-box",
       display: "inline-flex",
       alignItems: "flex-start",
       justifyContent: "space-between",

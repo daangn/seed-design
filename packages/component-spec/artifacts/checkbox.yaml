@@ -7,7 +7,7 @@ base:
       strokeWidth: "1px"
   enabled,selected:
     control:
-      color: "$color.bg.brand-emphasis"
+      color: "$color.bg.brand-solid"
     icon:
       color: "$color.fg.static-white"
   pressed:
@@ -15,7 +15,7 @@ base:
       color: "$color.bg.layer-default-pressed"
   pressed,selected:
     control:
-      color: "$color.bg.brand-emphasis-pressed"
+      color: "$color.bg.brand-solid-pressed"
     icon:
       color: "$color.fg.static-white"
   disabled:

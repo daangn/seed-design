@@ -11,7 +11,7 @@ export const vars = {
     },
     "enabledSelected": {
       "control": {
-        "color": "var(--seed-color-bg-brand-emphasis)"
+        "color": "var(--seed-color-bg-brand-solid)"
       },
       "icon": {
         "color": "var(--seed-color-fg-static-white)"
@@ -24,7 +24,7 @@ export const vars = {
     },
     "pressedSelected": {
       "control": {
-        "color": "var(--seed-color-bg-brand-emphasis-pressed)"
+        "color": "var(--seed-color-bg-brand-solid-pressed)"
       },
       "icon": {
         "color": "var(--seed-color-fg-static-white)"
