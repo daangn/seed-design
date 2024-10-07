@@ -1,4 +1,4 @@
-import { Checkbox } from "seed-design/ui/checkbox";
+import { Checkbox } from "snippets/component/checkbox";
 
 export default function CheckboxPreview() {
   return <Checkbox label="hi" />;

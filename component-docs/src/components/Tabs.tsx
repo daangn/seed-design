@@ -6,7 +6,7 @@ import {
   TabContent,
   TabContentList,
   TabTrigger,
-} from "@/seed-design/ui/tabs";
+} from "@/snippets/component/tabs";
 
 export const Tabs = () => {
   const tabCommonStyle = {

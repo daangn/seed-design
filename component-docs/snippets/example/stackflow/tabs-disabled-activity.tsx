@@ -7,7 +7,7 @@ import {
   TabContent,
   TabContentList,
   TabTrigger,
-} from "@/seed-design/ui/tabs";
+} from "@/snippets/component/tabs";
 
 import type { ActivityComponentType } from "@stackflow/react/future";
 

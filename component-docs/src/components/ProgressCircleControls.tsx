@@ -1,4 +1,4 @@
-import { ActionButton } from "@/seed-design/ui/action-button";
+import { ActionButton } from "@/snippets/component/action-button";
 import { useUrlParamSync } from "@/src/hooks/useUrlParamSync";
 import {
   useProgressCircleActions,

@@ -1,9 +1,5 @@
-import { ActionButton } from "seed-design/ui/action-button";
+import { ActionButton } from "snippets/component/action-button";
 
 export default function ActionButtonPreview() {
-  return (
-    <ActionButton>
-      <div>hihi</div>
-    </ActionButton>
-  );
+  return <ActionButton>라벨</ActionButton>;
 }
