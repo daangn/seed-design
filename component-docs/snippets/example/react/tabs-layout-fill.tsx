@@ -1,8 +1,8 @@
 import { Tabs, TabContent, TabContentList, TabTrigger, TabTriggerList } from "seed-design/ui/tabs";
 
-export default function TabsPreview() {
+export default function TabsLayoutFill() {
   return (
-    <Tabs defaultValue="1">
+    <Tabs defaultValue="1" layout="fill">
       <TabTriggerList>
         <TabTrigger value="1">라벨1</TabTrigger>
         <TabTrigger value="2">라벨2</TabTrigger>

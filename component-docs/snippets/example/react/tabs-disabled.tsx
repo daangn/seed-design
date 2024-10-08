@@ -1,11 +1,13 @@
 import { Tabs, TabContent, TabContentList, TabTrigger, TabTriggerList } from "seed-design/ui/tabs";
 
-export default function TabsPreview() {
+export default function TabsDisabled() {
   return (
-    <Tabs defaultValue="1">
+    <Tabs defaultValue="1" isSwipeable layout="fill" size="medium">
       <TabTriggerList>
         <TabTrigger value="1">라벨1</TabTrigger>
-        <TabTrigger value="2">라벨2</TabTrigger>
+        <TabTrigger value="2" isDisabled>
+          라벨2
+        </TabTrigger>
         <TabTrigger value="3">라벨3</TabTrigger>
       </TabTriggerList>
       <TabContentList>

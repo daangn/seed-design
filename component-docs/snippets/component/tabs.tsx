@@ -23,7 +23,12 @@ interface TabsContextValue {
   api: ReturnType<typeof useTabs> & ReturnType<typeof useSwipeable>;
   classNames: ReturnType<typeof tabs>;
   shouldRender: (value: string) => boolean;
+
+  /**
+   * @default false
+   */
   isSwipeable: boolean;
+
   layout: "fill" | "hug";
   size: "small" | "medium";
 }
