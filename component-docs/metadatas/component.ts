@@ -31,4 +31,16 @@ export const componentMetadatas: ComponentMetadataSchema[] = [
     dependencies: ["@seed-design/react-tabs"],
     snippets: ["component/chip-tabs.tsx"],
   },
+  {
+    name: "expand-button",
+    type: "component",
+    dependencies: ["@radix-ui/react-slot"],
+    snippets: ["component/expand-button.tsx"],
+  },
+  {
+    name: "switch",
+    type: "component",
+    dependencies: ["@seed-design/react-switch"],
+    snippets: ["component/switch.tsx"],
+  },
 ];
