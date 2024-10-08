@@ -2,6 +2,7 @@ import { Steps, Tabs } from 'nextra/components'
 
 import SeedDesignConfiguration from "@/src/templates/seed-design-configuration.mdx"
 import Installation from "@/src/templates/get-started-installation.mdx"
+import TsconfigConfiguration from "@/src/templates/tsconfig-configuration.mdx"
 
 # 설치
 
@@ -21,7 +22,7 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
 
 <Tabs items={['auto', 'light only', 'dark only']}>
   <Tabs.Tab>
-    ```html copy
+    ```html copy filename="index.html" {2-4,7}
     <html
       data-seed
       data-seed-scale-color="light"
@@ -35,7 +36,7 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
     ```
   </Tabs.Tab>
   <Tabs.Tab>
-    ```html copy
+    ```html copy filename="index.html" {2-4,7}
     <html
       data-seed="light-only"
       data-seed-scale-color="light"
@@ -49,7 +50,7 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
     ```
   </Tabs.Tab>
   <Tabs.Tab>
-    ```html copy
+    ```html copy filename="index.html" {2-4,7}
     <html
       data-seed="dark-only"
       data-seed-scale-color="dark"
@@ -79,5 +80,9 @@ import "@seed-design/stylesheet/token.css";
 ```sh copy
 npx @seed-design/cli@latest add box-button
 ```
+
+### tsconfig.json 설정하기
+
+<TsconfigConfiguration />
 
 </Steps>
