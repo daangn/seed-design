@@ -21,8 +21,8 @@
       "@/*": [
         "./*"
       ],
-      "seed-design/*": [
-        "./seed-design/*"
+      "seed-design/ui/*": [
+        "./snippets/component/*"
       ],
       "react": [
         "./node_modules/@types/react"

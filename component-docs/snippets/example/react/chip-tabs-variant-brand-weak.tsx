@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "snippets/component/chip-tabs";
+import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "seed-design/ui/chip-tabs";
 
 export default function ChipTabsVariantBrandWeak() {
   const [value, setValue] = React.useState("1");

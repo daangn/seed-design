@@ -1,4 +1,4 @@
-import { ExpandButton } from "snippets/component/expand-button";
+import { ExpandButton } from "seed-design/ui/expand-button";
 import IconChevronRightFill from "@seed-design/icon/IconChevronRightFill";
 
 export default function ExpandButtonPreview() {
