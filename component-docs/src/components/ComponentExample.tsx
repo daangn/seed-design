@@ -39,11 +39,13 @@ export function ComponentExample(props: ComponentExampleProps) {
               style={{
                 minHeight: "300px",
                 width: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.01)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
                 padding: "10px",
+                borderRadius: ".75rem",
               }}
             >
               {Preview}
