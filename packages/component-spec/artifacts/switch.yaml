@@ -1,7 +1,7 @@
 base:
   enabled:
     control:
-      color: $color.palette.gray[500]
+      color: $color.palette.gray[600]
       cornerRadius: $radii.full
     thumb:
       color: $color.fg.static-white

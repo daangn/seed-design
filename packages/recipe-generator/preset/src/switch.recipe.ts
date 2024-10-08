@@ -31,10 +31,6 @@ const switchRecipe = defineRecipe({
 
       transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
 
-      [pseudo(active)]: {
-        background: vars.base.enabled.control.color,
-      },
-
       [pseudo(checked)]: {
         background: vars.base.enabledSelected.control.color,
       },
