@@ -36,7 +36,7 @@ export default {
   },
   primaryHue: 35,
   primarySaturation: 100,
-  darkMode: false,
+  darkMode: true,
   footer: {
     text: <span>© {new Date().getFullYear()} Seed Design.</span>,
   },
