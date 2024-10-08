@@ -32,9 +32,9 @@ export function ComponentExample(props: ComponentExampleProps) {
 
   return (
     <ErrorBoundary>
-      <Tabs items={["미리보기", "코드"]}>
-        <Tabs.Tab>
-          <React.Suspense fallback={null}>
+      <React.Suspense fallback={null}>
+        <Tabs items={["미리보기", "코드"]}>
+          <Tabs.Tab>
             <div
               style={{
                 minHeight: "300px",
@@ -50,12 +50,12 @@ export function ComponentExample(props: ComponentExampleProps) {
             >
               {Preview}
             </div>
-          </React.Suspense>
-        </Tabs.Tab>
-        <Tabs.Tab>
-          <React.Suspense fallback={null}>{Code}</React.Suspense>
-        </Tabs.Tab>
-      </Tabs>
+          </Tabs.Tab>
+          <Tabs.Tab>
+            <React.Suspense fallback={null}>{Code}</React.Suspense>
+          </Tabs.Tab>
+        </Tabs>
+      </React.Suspense>
     </ErrorBoundary>
   );
 }
