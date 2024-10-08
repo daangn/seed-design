@@ -2,7 +2,7 @@ import { Tabs, TabContent, TabContentList, TabTrigger, TabTriggerList } from "se
 
 export default function TabsAlert() {
   return (
-    <Tabs defaultValue="1" isSwipeable layout="fill" size="medium">
+    <Tabs defaultValue="1">
       <TabTriggerList>
         <TabTrigger value="1">라벨1</TabTrigger>
         <TabTrigger value="2" alert>
