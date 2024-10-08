@@ -5,5 +5,11 @@
   "linked": [],
   "access": "restricted",
   "baseBranch": "main",
-  "updateInternalDependencies": "patch"
+  "updateInternalDependencies": "patch",
+  "ignore": [
+    "component-docs",
+    "@seed-design/docs",
+    "@seed-design/cli-example",
+    "@seed-design/stackflow-spa"
+  ]
 }
