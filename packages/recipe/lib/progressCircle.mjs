@@ -28,9 +28,9 @@ export const progressCircleVariantMap = {
     "small",
     "medium"
   ],
-  "variant": [
-    "indeterminate",
-    "determinate"
+  "indeterminate": [
+    "true",
+    "false"
   ]
 };
 

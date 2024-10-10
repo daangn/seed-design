@@ -59,8 +59,8 @@ const progressCircle = defineRecipe({
         },
       },
     },
-    variant: {
-      indeterminate: {
+    indeterminate: {
+      true: {
         root: {
           animation: `rotate ${vars.variantIndeterminate.enabled["indicator-path"].rotateDuration} ${vars.variantIndeterminate.enabled["indicator-path"].rotateTimingFunction} infinite`,
         },
@@ -71,7 +71,7 @@ const progressCircle = defineRecipe({
           `,
         },
       },
-      determinate: {
+      false: {
         "indicator-path": {
           transitionDuration: `var(--seed-spinner-determinate-duration, ${vars.variantDeterminate.enabled["indicator-path"].transitionDuration})`,
           transitionTimingFunction: `var(--seed-spinner-determinate-timing-function, ${vars.variantDeterminate.enabled["indicator-path"].transitionTimingFunction})`,

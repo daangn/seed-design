@@ -33,16 +33,25 @@ export interface ProgressCircleProps
  */
 export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
   (
-    { className, children, size, value = 0, maxValue = 100, minValue = 0, variant, ...otherProps },
+    {
+      className,
+      children,
+      size,
+      value = 0,
+      maxValue = 100,
+      minValue = 0,
+      indeterminate,
+      ...otherProps
+    },
     ref,
   ) => {
-    const classNames = progressCircle({ size, variant });
+    const classNames = progressCircle({ size, indeterminate });
 
     // 110 is max value of strokeDasharray
     const percent = ((value - minValue) / (maxValue - minValue)) * 110;
 
     const indicatorPathStyle: React.CSSProperties = {
-      strokeDasharray: variant === "determinate" ? `${percent}, 200` : undefined,
+      strokeDasharray: indeterminate ? undefined : `${percent}, 200`,
     };
 
     return (
