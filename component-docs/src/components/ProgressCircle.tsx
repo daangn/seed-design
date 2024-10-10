@@ -19,7 +19,7 @@ export const ProgressCircle: React.FC = (props: ProgressCircleProps) => {
   const duration = useProgressCircleDuration();
   const easing = useProgressCircleEasing();
 
-  const { size = "medium", variant = "determinate" } = props;
+  const { size = "medium", indeterminate = false } = props;
 
   return (
     <div
@@ -32,7 +32,7 @@ export const ProgressCircle: React.FC = (props: ProgressCircleProps) => {
     >
       <UIProgressCircle
         size={size}
-        variant={variant}
+        indeterminate={indeterminate}
         value={value}
         minValue={minValue}
         maxValue={maxValue}

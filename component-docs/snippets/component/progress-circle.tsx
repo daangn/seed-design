@@ -40,7 +40,7 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
       value = 0,
       maxValue = 100,
       minValue = 0,
-      indeterminate,
+      indeterminate = false,
       ...otherProps
     },
     ref,
