@@ -1,6 +1,6 @@
 import { vars } from "./__generated__/switch.vars";
 import { defineRecipe } from "./helper";
-import { active, checked, disabled, pseudo } from "./pseudo";
+import { checked, disabled, pseudo } from "./pseudo";
 
 const switchRecipe = defineRecipe({
   name: "switch",
@@ -43,8 +43,6 @@ const switchRecipe = defineRecipe({
       borderRadius: vars.base.enabled.thumb.cornerRadius,
       background: vars.base.enabled.thumb.color,
 
-      boxShadow: vars.base.enabled.thumb.shadow,
-
       transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
     },
   },
@@ -59,6 +57,7 @@ const switchRecipe = defineRecipe({
         thumb: {
           width: vars.sizeMedium.enabled.thumb.width,
           height: vars.sizeMedium.enabled.thumb.height,
+          boxShadow: vars.sizeMedium.enabled.thumb.shadow,
 
           [pseudo(checked)]: {
             transform: `translateX(calc(${vars.sizeMedium.enabled.root.width} - ${vars.sizeMedium.enabled.root.height}))`,

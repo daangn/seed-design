@@ -1,9 +1,8 @@
-import { type UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
-import { type CheckboxVariantProps, checkbox } from "@seed-design/recipe/checkbox";
+import { useCheckbox, type UseCheckboxProps } from "@seed-design/react-checkbox";
+import { checkbox, type CheckboxVariantProps } from "@seed-design/recipe/checkbox";
 import clsx from "clsx";
 import * as React from "react";
 
-import type { Assign } from "../util/types";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 import "@seed-design/stylesheet/checkbox.css";
@@ -29,7 +28,8 @@ const Checkmark = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>
 ));
 
 export interface CheckboxProps
-  extends Assign<React.HTMLAttributes<HTMLInputElement>, UseCheckboxProps>,
+  extends React.HTMLAttributes<HTMLInputElement>,
+    UseCheckboxProps,
     CheckboxVariantProps {
   label: React.ReactNode;
 }

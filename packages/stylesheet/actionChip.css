@@ -59,8 +59,8 @@
     height: var(--seed-unit-4);
 }
 .actionChip__suffix--size_medium {
-    width: var(--seed-unit-3\.5);
-    height: var(--seed-unit-3\.5);
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
 }
 .actionChip__root--size_small {
     min-height: var(--seed-unit-8);
@@ -68,17 +68,17 @@
     gap: var(--seed-unit-1);
 }
 .actionChip__label--size_small {
-    font-size: var(--seed-font-size-75);
+    font-size: var(--seed-font-size-100);
 }
 .actionChip__prefix--size_small {
-    width: var(--seed-unit-3\.5);
-    height: var(--seed-unit-3\.5);
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
 }
 .actionChip__suffix--size_small {
-    width: var(--seed-unit-3\.5);
-    height: var(--seed-unit-3\.5);
+    width: var(--seed-unit-4);
+    height: var(--seed-unit-4);
 }
-.actionChip__root--size_medium-layout_text {
+.actionChip__root--size_medium-layout_withText {
     padding-inline: var(--seed-unit-3\.5);
 }
 .actionChip__root--size_medium-layout_iconOnly {
@@ -88,7 +88,7 @@
     width: var(--seed-unit-4);
     height: var(--seed-unit-4);
 }
-.actionChip__root--size_small-layout_text {
+.actionChip__root--size_small-layout_withText {
     padding-inline: var(--seed-unit-3);
 }
 .actionChip__root--size_small-layout_iconOnly {

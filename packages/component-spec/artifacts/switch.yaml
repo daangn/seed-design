@@ -6,9 +6,6 @@ base:
     thumb:
       color: $color.fg.static-white
       cornerRadius: $radii.full
-      shadow:
-        - 0px 3px 8px 0px rgba(0, 0, 0, 0.15)
-        - 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
   enabled,selected:
     control:
       color: $color.bg.brand-solid
@@ -29,6 +26,9 @@ size=medium:
     thumb:
       height: 27px
       width: 27px
+      shadow:
+        - 0px 3px 8px 0px rgba(0, 0, 0, 0.15)
+        - 0px 1px 3px 0px rgba(0, 0, 0, 0.06)
 size=small:
   enabled:
     root:

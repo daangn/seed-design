@@ -1,29 +1,29 @@
 import { createClassName } from "./className.mjs";
 
-const actionChipSlotNames = [
+const controlChipSlotNames = [
   [
     "root",
-    "actionChip__root"
+    "controlChip__root"
   ],
   [
     "label",
-    "actionChip__label"
+    "controlChip__label"
   ],
   [
     "icon",
-    "actionChip__icon"
+    "controlChip__icon"
   ],
   [
     "prefix",
-    "actionChip__prefix"
+    "controlChip__prefix"
   ],
   [
     "suffix",
-    "actionChip__suffix"
+    "controlChip__suffix"
   ],
   [
     "count",
-    "actionChip__count"
+    "controlChip__count"
   ]
 ];
 
@@ -48,7 +48,7 @@ const compoundVariants = [
   }
 ];
 
-export const actionChipVariantMap = {
+export const controlChipVariantMap = {
   "size": [
     "medium",
     "small"
@@ -59,11 +59,11 @@ export const actionChipVariantMap = {
   ]
 };
 
-export const actionChipVariantKeys = Object.keys(actionChipVariantMap);
+export const controlChipVariantKeys = Object.keys(controlChipVariantMap);
 
-export function actionChip(props) {
+export function controlChip(props) {
   return Object.fromEntries(
-    actionChipSlotNames.map(([slot, className]) => {
+    controlChipSlotNames.map(([slot, className]) => {
       return [
         slot,
         createClassName(className, { ...defaultVariant, ...props }, compoundVariants),

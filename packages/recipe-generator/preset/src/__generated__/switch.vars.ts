@@ -2,13 +2,12 @@ export const vars = {
   "base": {
     "enabled": {
       "control": {
-        "color": "var(--seed-color-palette-gray-500)",
+        "color": "var(--seed-color-palette-gray-600)",
         "cornerRadius": "var(--seed-radii-full)"
       },
       "thumb": {
         "color": "var(--seed-color-fg-static-white)",
-        "cornerRadius": "var(--seed-radii-full)",
-        "shadow": "0px 3px 8px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)"
+        "cornerRadius": "var(--seed-radii-full)"
       }
     },
     "enabledSelected": {
@@ -39,7 +38,8 @@ export const vars = {
       },
       "thumb": {
         "height": "27px",
-        "width": "27px"
+        "width": "27px",
+        "shadow": "0px 3px 8px 0px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.06)"
       }
     }
   },

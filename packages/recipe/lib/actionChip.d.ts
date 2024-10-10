@@ -1,6 +1,6 @@
 interface ActionChipVariant {
   size: "medium" | "small";
-  layout: "text" | "iconOnly"
+  layout: "withText" | "iconOnly"
 }
 
 type ActionChipVariantMap = {

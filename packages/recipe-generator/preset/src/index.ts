@@ -13,6 +13,7 @@ import chipTab from "./chip-tab.recipe";
 import chipTabs from "./chip-tabs.recipe";
 import progressCircle from "./progress-circle.recipe";
 import expandButton from "./expand-button.recipe";
+import controlChip from "./control-chip.recipe";
 
 const recipes = {
   avatar,
@@ -21,6 +22,7 @@ const recipes = {
   dialog,
   checkbox,
   actionChip,
+  controlChip,
   callout,
   switch: switchRecipe,
   helpBubble,

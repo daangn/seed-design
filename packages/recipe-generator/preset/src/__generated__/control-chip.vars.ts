@@ -2,7 +2,8 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)",
+        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeWidth": "1px",
         "cornerRadius": "var(--seed-radii-full)"
       },
       "label": {
@@ -21,7 +22,30 @@ export const vars = {
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak-pressed)"
+        "color": "var(--seed-color-bg-layer-default-pressed)"
+      }
+    },
+    "selected": {
+      "root": {
+        "strokeWidth": 0,
+        "color": "var(--seed-color-bg-brand-weak)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-brand)"
+      },
+      "prefix": {
+        "color": "var(--seed-color-fg-brand)"
+      },
+      "suffix": {
+        "color": "var(--seed-color-fg-brand)"
+      },
+      "count": {
+        "color": "var(--seed-color-fg-brand)"
+      }
+    },
+    "selectedPressed": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-weak-pressed)"
       }
     },
     "disabled": {

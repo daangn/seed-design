@@ -39,30 +39,11 @@ export function useCheckboxState(props: UseCheckboxStateProps) {
 export interface UseCheckboxProps extends UseCheckboxStateProps {
   disabled?: boolean;
 
-  required?: boolean;
-
   invalid?: boolean;
-
-  name?: string;
-
-  form?: string;
-
-  value?: string;
 }
 
 export function useCheckbox(props: UseCheckboxProps) {
-  const {
-    checked,
-    defaultChecked,
-    disabled,
-    form,
-    invalid,
-    name,
-    onCheckedChange,
-    required,
-    value,
-    ...restProps
-  } = props;
+  const { checked, defaultChecked, disabled, invalid, onCheckedChange, ...restProps } = props;
 
   const {
     setIsChecked,
@@ -123,12 +104,7 @@ export function useCheckbox(props: UseCheckboxProps) {
       type: "checkbox",
       defaultChecked,
       checked: isControlled ? isChecked : undefined,
-      disabled: props.disabled,
-      required: props.required,
-      "aria-invalid": props.invalid,
-      name: props.name,
-      form: props.form,
-      value: props.value,
+      "aria-invalid": invalid,
       ...stateProps,
       onChange(event) {
         setIsChecked(event.currentTarget.checked);

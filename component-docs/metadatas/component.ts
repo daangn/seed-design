@@ -14,6 +14,18 @@ export const componentMetadatas: ComponentMetadataSchema[] = [
     snippets: ["component/action-button.tsx"],
   },
   {
+    name: "action-chip",
+    type: "component",
+    dependencies: ["@radix-ui/react-slot"],
+    snippets: ["component/action-chip.tsx"],
+  },
+  {
+    name: "control-chip",
+    type: "component",
+    dependencies: ["@radix-ui/react-slot"],
+    snippets: ["component/control-chip.tsx"],
+  },
+  {
     name: "checkbox",
     type: "component",
     dependencies: ["@seed-design/react-checkbox"],
