@@ -25,7 +25,7 @@ export function Installation(props: InstallationProps) {
   React.useEffect(() => {
     if (!name) return;
 
-    import(`@/public/registry/component/${name}.json`)
+    import(`@/public/__registry__/component/${name}.json`)
       .then((module) => {
         setJson(module.default);
       })
@@ -35,7 +35,7 @@ export function Installation(props: InstallationProps) {
   }, [name]);
 
   const getComponentMDX = React.useCallback((name: string) => {
-    const MDX = React.lazy(() => import(`@/public/mdx/component/${name}.mdx`));
+    const MDX = React.lazy(() => import(`@/public/__mdx__/component/${name}.mdx`));
 
     if (!MDX) {
       return <div>MDX 파일이 존재하지 않습니다.</div>;

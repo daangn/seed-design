@@ -10,7 +10,7 @@ import { componentMetadatas } from "../metadatas/component.js";
 import { componentRegistrySchema, type ComponentMetadataSchema } from "../schemas/component.js";
 import { generateMDXTemplate } from "./utils/generate-mdx-template.js";
 
-const REGISTRY_PATH = path.join(process.cwd(), "public/registry");
+const REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 const PUBLIC_PATH = path.join(process.cwd(), "public");
 const SNIPPETS_PATH = path.join(process.cwd(), "snippets");
 
@@ -22,8 +22,14 @@ interface GenerateRegistryIndexProps {
 }
 async function generateRegistryIndex({ metadatas, type }: GenerateRegistryIndexProps) {
   const metadatasJson = JSON.stringify(metadatas, null, 2);
+  const targetFolder = path.join(REGISTRY_PATH, type);
+  const targetPath = path.join(targetFolder, "index.json");
 
-  await fs.writeFile(path.join(REGISTRY_PATH, `${type}/index.json`), metadatasJson, "utf8");
+  if (!existsSync(targetFolder)) {
+    await fs.mkdir(targetFolder, { recursive: true });
+  }
+
+  await fs.writeFile(targetPath, metadatasJson, "utf8");
 }
 
 interface GenerateRegistryProps {
@@ -33,7 +39,7 @@ interface GenerateRegistryProps {
 
 async function generateRegistry({ metadatas, type }: GenerateRegistryProps) {
   const targetPath = path.join(REGISTRY_PATH, type);
-  const mdxTargetPath = path.join(PUBLIC_PATH, "mdx", type);
+  const mdxTargetPath = path.join(PUBLIC_PATH, "__mdx__", type);
 
   if (!existsSync(targetPath)) {
     await fs.mkdir(targetPath, { recursive: true });

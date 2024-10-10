@@ -34,7 +34,7 @@ export function StackflowExample(props: StackflowExampleProps) {
   const kebabName = changeCase.kebabCase(displayName);
 
   const Code = React.useMemo(() => {
-    const MDX = React.lazy(() => import(`@/public/mdx/stackflow/${kebabName}.mdx`));
+    const MDX = React.lazy(() => import(`@/public/__mdx__/stackflow/${kebabName}.mdx`));
 
     if (!MDX) {
       return <div>MDX 파일이 존재하지 않습니다.</div>;

@@ -21,7 +21,7 @@ export function ComponentExample(props: ComponentExampleProps) {
   }, [name]);
 
   const Code = React.useMemo(() => {
-    const MDX = React.lazy(() => import(`@/public/mdx/react/${name}.mdx`));
+    const MDX = React.lazy(() => import(`@/public/__mdx__/react/${name}.mdx`));
 
     if (!MDX) {
       return <div>MDX 파일이 존재하지 않습니다.</div>;

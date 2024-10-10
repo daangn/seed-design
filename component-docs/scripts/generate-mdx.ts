@@ -14,7 +14,7 @@ interface GenerateMDXProps {
 async function generateMDX(props: GenerateMDXProps) {
   const { target } = props;
 
-  const targetMDXPath = path.join(PUBLIC_PATH, "mdx");
+  const targetMDXPath = path.join(PUBLIC_PATH, "__mdx__");
   const targetSnippetPath = path.join(SNIPPETS_PATH, "example", target);
 
   if (!existsSync(targetMDXPath)) {
