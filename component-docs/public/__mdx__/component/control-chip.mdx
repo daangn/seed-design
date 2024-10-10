@@ -31,16 +31,28 @@ const ControlChipToggle = React.forwardRef<HTMLInputElement, ControlChipTogglePr
     ref,
   ) => {
     const classNames = controlChip({ size, layout });
-    const { rootProps, hiddenInputProps, restProps } = useCheckbox(otherProps);
+    const { rootProps, hiddenInputProps, stateProps, restProps } = useCheckbox(otherProps);
     return (
       <label {...rootProps} className={clsx(classNames.root, className)}>
-        {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
-        {layout === "withText" ? (
-          <span className={classNames.label}>{children}</span>
-        ) : (
-          <Slot className={classNames.icon}>{children}</Slot>
+        {prefixIcon && (
+          <Slot {...stateProps} className={classNames.prefix}>
+            {prefixIcon}
+          </Slot>
         )}
-        {suffixIcon && <Slot className={classNames.suffix}>{suffixIcon}</Slot>}
+        {layout === "withText" ? (
+          <span {...stateProps} className={classNames.label}>
+            {children}
+          </span>
+        ) : (
+          <Slot {...stateProps} className={classNames.icon}>
+            {children}
+          </Slot>
+        )}
+        {suffixIcon && (
+          <Slot {...stateProps} className={classNames.suffix}>
+            {suffixIcon}
+          </Slot>
+        )}
         <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />
       </label>
     );
