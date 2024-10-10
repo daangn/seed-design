@@ -48,8 +48,8 @@
     padding: 2px 2px;
 }
 .switch__thumb--size_small {
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
 }
 .switch__thumb--size_small:is(:checked, [data-checked]) {
     transform: translateX(calc(26px - 16px));

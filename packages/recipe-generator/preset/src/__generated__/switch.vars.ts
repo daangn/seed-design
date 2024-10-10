@@ -54,8 +54,8 @@ export const vars = {
         "paddingY": "2px"
       },
       "thumb": {
-        "height": "13px",
-        "width": "13px"
+        "height": "12px",
+        "width": "12px"
       }
     }
   }
