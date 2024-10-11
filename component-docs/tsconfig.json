@@ -22,7 +22,7 @@
         "./*"
       ],
       "seed-design/ui/*": [
-        "./snippets/component/*"
+        "registry/component/*"
       ],
       "react": [
         "./node_modules/@types/react"

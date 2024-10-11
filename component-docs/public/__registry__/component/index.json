@@ -1,91 +1,82 @@
 [
   {
     "name": "alert-dialog",
-    "type": "component",
     "innerDependencies": [
       "action-button"
     ],
-    "snippets": [
+    "files": [
       "component/alert-dialog.tsx"
     ]
   },
   {
     "name": "action-button",
-    "type": "component",
     "dependencies": [
       "@radix-ui/react-slot"
     ],
-    "snippets": [
+    "files": [
       "component/action-button.tsx"
     ]
   },
   {
     "name": "action-chip",
-    "type": "component",
     "dependencies": [
       "@radix-ui/react-slot"
     ],
-    "snippets": [
+    "files": [
       "component/action-chip.tsx"
     ]
   },
   {
     "name": "control-chip",
-    "type": "component",
     "dependencies": [
       "@radix-ui/react-slot"
     ],
-    "snippets": [
+    "files": [
       "component/control-chip.tsx"
     ]
   },
   {
     "name": "checkbox",
-    "type": "component",
     "dependencies": [
       "@seed-design/react-checkbox"
     ],
-    "snippets": [
+    "files": [
       "component/checkbox.tsx"
     ]
   },
   {
     "name": "tabs",
-    "type": "component",
     "dependencies": [
       "@seed-design/react-tabs"
     ],
-    "snippets": [
+    "files": [
       "component/tabs.tsx"
     ]
   },
   {
     "name": "chip-tabs",
-    "type": "component",
     "dependencies": [
       "@seed-design/react-tabs"
     ],
-    "snippets": [
+    "files": [
       "component/chip-tabs.tsx"
     ]
   },
   {
     "name": "expand-button",
-    "type": "component",
     "dependencies": [
       "@radix-ui/react-slot"
     ],
-    "snippets": [
+    "files": [
       "component/expand-button.tsx"
     ]
   },
   {
     "name": "switch",
-    "type": "component",
     "dependencies": [
       "@seed-design/react-switch"
     ],
-    "snippets": [
+    "files": [
       "component/switch.tsx"
     ]
   }

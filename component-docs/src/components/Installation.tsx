@@ -1,6 +1,6 @@
 import { Code, Pre, Steps, Tabs } from "nextra/components";
 
-import type { ComponentRegistrySchema } from "@/schemas/component";
+import type { RegistryComponentItemMachineGenerated } from "@/registry/schema";
 import * as React from "react";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -20,7 +20,7 @@ const Heading3 = ({ children }: { children: React.ReactNode }) => (
  */
 export function Installation(props: InstallationProps) {
   const { name } = props;
-  const [json, setJson] = React.useState<ComponentRegistrySchema>(null);
+  const [json, setJson] = React.useState<RegistryComponentItemMachineGenerated>(null);
 
   React.useEffect(() => {
     if (!name) return;

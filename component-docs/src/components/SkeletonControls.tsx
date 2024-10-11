@@ -1,4 +1,4 @@
-import { ActionButton } from "@/snippets/component/action-button";
+import { ActionButton } from "@/registry/component/action-button";
 import {
   useSkeletonActions,
   useSkeletonDuration,

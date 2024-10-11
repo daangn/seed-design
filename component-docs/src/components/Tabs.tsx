@@ -6,7 +6,7 @@ import {
   TabContent,
   TabContentList,
   TabTrigger,
-} from "@/snippets/component/tabs";
+} from "@/registry/component/tabs";
 
 export const Tabs = () => {
   const tabCommonStyle = {

@@ -3,11 +3,7 @@
   "innerDependencies": [
     "action-button"
   ],
-  "registries": [
-    {
-      "name": "alert-dialog.tsx",
-      "content": "\"use client\";\n\nimport \"@seed-design/stylesheet/dialog.css\";\n\nimport * as React from \"react\";\nimport { dialog } from \"@seed-design/recipe/dialog\";\n\nimport { ActionButton } from \"./action-button\";\n\nexport type AlertDialogProps = {\n  title: string;\n  description: string;\n  onInteractOutside?: React.MouseEventHandler;\n};\n\n/**\n * @see https://component.seed-design.io/components/alert-dialog\n */\nexport const AlertDialog: React.FC<AlertDialogProps> = ({\n  title,\n  description,\n  onInteractOutside,\n}) => {\n  const containerRef = React.useRef<HTMLDivElement>(null);\n  const backdropRef = React.useRef<HTMLDivElement>(null);\n\n  const popLock = React.useRef(false);\n\n  const onClickOutside: React.MouseEventHandler = (e) => {\n    onInteractOutside?.(e);\n\n    if (e.defaultPrevented) {\n      return;\n    }\n\n    if (popLock.current) {\n      return;\n    }\n    popLock.current = true;\n  };\n  const onClickContent: React.MouseEventHandler = (e) => {\n    e.stopPropagation();\n  };\n\n  const classNames = dialog();\n\n  return (\n    <div\n      ref={containerRef}\n      role=\"alertdialog\"\n      className={classNames.container}\n      onClick={onClickOutside}\n    >\n      <div ref={backdropRef} className={classNames.backdrop} />\n      <div onClick={onClickContent} className={classNames.content}>\n        <div className={classNames.header}>\n          <h2 className={classNames.title}>{title}</h2>\n          <p className={classNames.description}>{description}</p>\n        </div>\n        <div className={classNames.footer}>\n          <ActionButton className={classNames.action}>lol</ActionButton>\n          <ActionButton className={classNames.action}>lol</ActionButton>\n        </div>\n      </div>\n    </div>\n  );\n};\nAlertDialog.displayName = \"AlertDialog\";\n"
-    }
-  ],
-  "type": "component"
+  "files": [
+    "component/alert-dialog.tsx"
+  ]
 }
