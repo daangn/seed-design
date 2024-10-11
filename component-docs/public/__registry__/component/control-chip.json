@@ -3,7 +3,10 @@
   "dependencies": [
     "@radix-ui/react-slot"
   ],
-  "files": [
-    "component/control-chip.tsx"
+  "registries": [
+    {
+      "name": "control-chip.tsx",
+      "content": "import { Slot } from \"@radix-ui/react-slot\";\nimport { controlChip, type ControlChipVariantProps } from \"@seed-design/recipe/controlChip\";\nimport clsx from \"clsx\";\nimport * as React from \"react\";\n\nimport \"@seed-design/stylesheet/controlChip.css\";\nimport { UseCheckboxProps, useCheckbox } from \"@seed-design/react-checkbox\";\nimport { visuallyHidden } from \"../util/visuallyHidden\";\n\nexport interface ControlChipToggleProps\n  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, \"size\">,\n    UseCheckboxProps,\n    ControlChipVariantProps {\n  prefixIcon?: React.ReactNode;\n\n  suffixIcon?: React.ReactNode;\n}\n\nconst ControlChipToggle = React.forwardRef<HTMLInputElement, ControlChipToggleProps>(\n  (\n    {\n      className,\n      size = \"medium\",\n      layout = \"withText\",\n      children,\n      prefixIcon,\n      suffixIcon,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    const classNames = controlChip({ size, layout });\n    const { rootProps, hiddenInputProps, stateProps, restProps } = useCheckbox(otherProps);\n    return (\n      <label {...rootProps} className={clsx(classNames.root, className)}>\n        {prefixIcon && (\n          <Slot {...stateProps} className={classNames.prefix}>\n            {prefixIcon}\n          </Slot>\n        )}\n        {layout === \"withText\" ? (\n          <span {...stateProps} className={classNames.label}>\n            {children}\n          </span>\n        ) : (\n          <Slot {...stateProps} className={classNames.icon}>\n            {children}\n          </Slot>\n        )}\n        {suffixIcon && (\n          <Slot {...stateProps} className={classNames.suffix}>\n            {suffixIcon}\n          </Slot>\n        )}\n        <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />\n      </label>\n    );\n  },\n);\nControlChipToggle.displayName = \"ControlChip.Toggle\";\n\nexport const ControlChip = Object.assign(\n  () => {\n    console.warn(\n      \"ControlChip is a base component and should not be rendered. Use ControlChip.Toggle or ControlChip.Radio instead.\",\n    );\n  },\n  {\n    Toggle: ControlChipToggle,\n  },\n);\n"
+    }
   ]
 }

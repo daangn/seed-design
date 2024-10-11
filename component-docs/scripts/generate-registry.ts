@@ -5,7 +5,10 @@ import path, { basename } from "node:path";
 import { match } from "ts-pattern";
 
 import { registryComponent } from "../registry/registry-component.js";
-import { RegistryComponent, registryComponentItemSchema } from "../registry/schema.js";
+import {
+  RegistryComponent,
+  registryComponentItemMachineGeneratedSchema,
+} from "../registry/schema.js";
 import { generateMDXTemplate } from "./utils/generate-mdx-template.js";
 
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
@@ -77,18 +80,18 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
       })
       .filter(Boolean);
 
-    const removeSnipepts = {
+    const removeFiles = {
       ...item,
-      snippets: undefined,
+      files: undefined,
     };
 
     const payload = {
-      ...removeSnipepts,
+      ...removeFiles,
       registries,
     };
 
     const parsedPayload = match(type)
-      .with("component", () => registryComponentItemSchema.parse(payload))
+      .with("component", () => registryComponentItemMachineGeneratedSchema.parse(payload))
       .exhaustive();
 
     await fs.writeFile(
