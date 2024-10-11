@@ -11,7 +11,7 @@ export function ComponentExample(props: ComponentExampleProps) {
   const { name } = props;
 
   const Preview = React.useMemo(() => {
-    const Component = React.lazy(() => import(`@/snippets/example/react/${name}.tsx`));
+    const Component = React.lazy(() => import(`@/registry/example/react/${name}.tsx`));
 
     if (!Component) {
       return <div>컴포넌트가 존재하지 않습니다.</div>;

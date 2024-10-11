@@ -4,7 +4,7 @@ import clsx from "clsx";
 import * as React from "react";
 
 import "@seed-design/stylesheet/controlChip.css";
-import { UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
+import { type UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 export interface ControlChipToggleProps
