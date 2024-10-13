@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "@/snippets/component/chip-tabs";
+import { ChipTabs, ChipTabTrigger, ChipTabTriggerList } from "seed-design/ui/chip-tabs";
 
 import type { ActivityComponentType } from "@stackflow/react/future";
 import AppScreen from "../../../src/stackflow/ActivityLayout";

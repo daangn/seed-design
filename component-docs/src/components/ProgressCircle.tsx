@@ -3,7 +3,7 @@ import * as React from "react";
 import {
   ProgressCircle as UIProgressCircle,
   type ProgressCircleProps,
-} from "@/snippets/component/progress-circle";
+} from "@/registry/component/progress-circle";
 import {
   useProgressCircleDuration,
   useProgressCircleEasing,

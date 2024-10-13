@@ -5,7 +5,7 @@ import path, { basename } from "node:path";
 import { generateMDXTemplate } from "./utils/generate-mdx-template.js";
 
 const PUBLIC_PATH = path.join(process.cwd(), "public");
-const SNIPPETS_PATH = path.join(process.cwd(), "snippets");
+const REGISTRY_PATH = path.join(process.cwd(), "registry");
 
 interface GenerateMDXProps {
   target: string;
@@ -15,7 +15,7 @@ async function generateMDX(props: GenerateMDXProps) {
   const { target } = props;
 
   const targetMDXPath = path.join(PUBLIC_PATH, "__mdx__");
-  const targetSnippetPath = path.join(SNIPPETS_PATH, "example", target);
+  const targetSnippetPath = path.join(REGISTRY_PATH, "example", target);
 
   if (!existsSync(targetMDXPath)) {
     console.log(chalk.red(`[Generate Registry] ${chalk.bgRed(targetMDXPath)} dir does not exist!`));

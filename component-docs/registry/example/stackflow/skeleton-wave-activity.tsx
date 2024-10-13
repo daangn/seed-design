@@ -2,7 +2,7 @@ import type { ActivityComponentType } from "@stackflow/react/future";
 import * as React from "react";
 
 import Layout from "@/src/stackflow/ActivityLayout";
-import { Skeleton } from "@/snippets/component/skeleton";
+import { Skeleton } from "seed-design/ui/skeleton";
 import {
   useSkeletonDuration,
   useIsRealLoading,

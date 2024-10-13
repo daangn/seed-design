@@ -4,25 +4,26 @@ import path, { basename } from "node:path";
 
 import { match } from "ts-pattern";
 
-// ts-node로 실행할 때 extension을 명시해주지 않으면 모듈을 찾지 못함.
-import { componentMetadatas } from "../metadatas/component.js";
-
-import { componentRegistrySchema, type ComponentMetadataSchema } from "../schemas/component.js";
+import { registryComponent } from "../registry/registry-component.js";
+import {
+  RegistryComponent,
+  registryComponentItemMachineGeneratedSchema,
+} from "../registry/schema.js";
 import { generateMDXTemplate } from "./utils/generate-mdx-template.js";
 
-const REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
+const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
+const REGISTRY_PATH = path.join(process.cwd(), "registry");
 const PUBLIC_PATH = path.join(process.cwd(), "public");
-const SNIPPETS_PATH = path.join(process.cwd(), "snippets");
 
 type RegistryType = "component";
 
 interface GenerateRegistryIndexProps {
-  metadatas: ComponentMetadataSchema[];
+  registry: RegistryComponent;
   type: RegistryType;
 }
-async function generateRegistryIndex({ metadatas, type }: GenerateRegistryIndexProps) {
-  const metadatasJson = JSON.stringify(metadatas, null, 2);
-  const targetFolder = path.join(REGISTRY_PATH, type);
+async function generateRegistryIndex({ registry, type }: GenerateRegistryIndexProps) {
+  const metadatasJson = JSON.stringify(registry, null, 2);
+  const targetFolder = path.join(GENERATED_REGISTRY_PATH, type);
   const targetPath = path.join(targetFolder, "index.json");
 
   if (!existsSync(targetFolder)) {
@@ -33,67 +34,68 @@ async function generateRegistryIndex({ metadatas, type }: GenerateRegistryIndexP
 }
 
 interface GenerateRegistryProps {
-  metadatas: ComponentMetadataSchema[];
+  registry: RegistryComponent;
   type: RegistryType;
 }
-
-async function generateRegistry({ metadatas, type }: GenerateRegistryProps) {
-  const targetPath = path.join(REGISTRY_PATH, type);
+async function generateRegistry({ registry, type }: GenerateRegistryProps) {
+  const targetPath = path.join(GENERATED_REGISTRY_PATH, type);
   const mdxTargetPath = path.join(PUBLIC_PATH, "__mdx__", type);
 
   if (!existsSync(targetPath)) {
     await fs.mkdir(targetPath, { recursive: true });
   }
 
-  for (const metadata of metadatas) {
-    const registries = metadata.snippets
-      ?.map((snippet) => {
-        const snippetPath = path.join(SNIPPETS_PATH, snippet);
+  if (!existsSync(mdxTargetPath)) {
+    await fs.mkdir(mdxTargetPath, { recursive: true });
+  }
 
-        if (!existsSync(snippetPath)) {
+  for (const item of registry) {
+    const registries = item.files
+      ?.map((file) => {
+        const filePath = path.join(REGISTRY_PATH, file);
+
+        if (!existsSync(filePath)) {
           console.log(
-            chalk.red(
-              `[Generate Registry] ${chalk.bgRed(metadata.name)} Snippet file does not exist!`,
-            ),
+            chalk.red(`[Generate Registry] ${chalk.bgRed(item.name)} file file does not exist!`),
           );
           return null;
         }
 
-        const content = readFileSync(snippetPath, "utf8");
+        const content = readFileSync(filePath, "utf8");
 
         const template = generateMDXTemplate({
           language: "tsx",
           template: content,
           copy: true,
-          filename: `${metadata.name}.tsx`,
+          filename: `${item.name}.tsx`,
         });
 
         // Write MDX file
-        fs.writeFile(path.join(mdxTargetPath, `${metadata.name}.mdx`), template, "utf8");
+        fs.writeFile(path.join(mdxTargetPath, `${item.name}.mdx`), template, "utf8");
 
         return {
-          name: basename(snippet),
+          name: basename(file),
           content,
         };
       })
       .filter(Boolean);
 
-    const removeSnipepts = {
-      ...metadata,
-      snippets: undefined,
+    const removeFiles = {
+      ...item,
+      files: undefined,
     };
 
     const payload = {
-      ...removeSnipepts,
+      ...removeFiles,
       registries,
     };
 
     const parsedPayload = match(type)
-      .with("component", () => componentRegistrySchema.parse(payload))
+      .with("component", () => registryComponentItemMachineGeneratedSchema.parse(payload))
       .exhaustive();
 
     await fs.writeFile(
-      path.join(targetPath, `${metadata.name}.json`),
+      path.join(targetPath, `${item.name}.json`),
       JSON.stringify(parsedPayload, null, 2),
       "utf8",
     );
@@ -103,8 +105,8 @@ async function generateRegistry({ metadatas, type }: GenerateRegistryProps) {
 function main() {
   console.log(chalk.gray("Generate Component Registry..."));
 
-  generateRegistryIndex({ metadatas: componentMetadatas, type: "component" });
-  generateRegistry({ metadatas: componentMetadatas, type: "component" });
+  generateRegistryIndex({ registry: registryComponent, type: "component" });
+  generateRegistry({ registry: registryComponent, type: "component" });
 
   console.log(chalk.green("Component Registry Generated !"));
 }
