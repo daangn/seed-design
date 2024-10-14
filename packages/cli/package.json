@@ -45,6 +45,7 @@
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20",
     "esbuild": "^0.19.3",
     "type-fest": "^4.23.0",
     "ultra-runner": "^3.10.5",
