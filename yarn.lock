@@ -7638,15 +7638,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@seed-design/cli-example@workspace:examples/cli":
-  version: 0.0.0-use.local
-  resolution: "@seed-design/cli-example@workspace:examples/cli"
-  dependencies:
-    "@radix-ui/react-slot": ^1.1.0
-    "@seed-design/cli": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
 "@seed-design/cli@workspace:^, @seed-design/cli@workspace:packages/cli":
   version: 0.0.0-use.local
   resolution: "@seed-design/cli@workspace:packages/cli"
