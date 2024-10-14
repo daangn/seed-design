@@ -35,6 +35,7 @@
     "execa": "^9.3.0",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
+    "jscodeshift": "^17.0.0",
     "mktemp": "^1.0.1",
     "picocolors": "^1.0.1",
     "recast": "^0.23.9",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/fs-extra": "^11.0.4",
+    "@types/jscodeshift": "^0.12.0",
     "@types/node": "^20",
     "esbuild": "^0.19.3",
     "type-fest": "^4.23.0",
