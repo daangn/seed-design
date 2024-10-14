@@ -1,6 +1,7 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
+import type { SimpleGit } from "simple-git";
 
 export function getAllFileNamesWithMatchingExtension({
   dir,
@@ -34,4 +35,24 @@ export function getAllTypeScriptCompiledFileNames({
   );
 
   return fileNames;
+}
+
+export async function filterGitIgnoredFiles({
+  git,
+  filePaths,
+}: {
+  git: SimpleGit;
+  filePaths: string[];
+}) {
+  const promises = await Promise.all(
+    filePaths.map((file) => isFileGitTracked(git, file))
+  );
+
+  return filePaths.filter((_, index) => promises[index]);
+}
+
+export async function isFileGitTracked(git: SimpleGit, filePath: string) {
+  const result = await git.checkIgnore(filePath);
+
+  return result.length > 0 ? false : true;
 }
