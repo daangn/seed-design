@@ -19,3 +19,8 @@ export interface ResponseHandler extends EventHandler {
   name: "RESPONSE";
   handler: (code: string) => void;
 }
+
+export interface RequestJsonSchemaHandler extends EventHandler {
+  name: "REQUEST_JSON_SCHEMA";
+  handler: () => void;
+}

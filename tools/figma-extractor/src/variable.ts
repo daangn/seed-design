@@ -39,6 +39,39 @@ const unitTemplate = (css: string) => dedent`
 }
 `;
 
+const jsonSchemaTemplate = (enums: string) => dedent`
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/definitions/anyObject"
+  },
+  "definitions": {
+    "anyObject": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/definitions/colorValue"
+        }
+      },
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "string" },
+          { "type": "number" },
+          { "type": "boolean" },
+          { "type": "array" },
+          { "$ref": "#/definitions/anyObject" }
+        ]
+      }
+    },
+    "colorValue": {
+      "type": "string",
+      "enum": [${enums}]
+    }
+  }
+}
+`;
+
 export function generateCss() {
   const unitCss = generateUnitCss(); // NOT READY
   const colorCss = generateColorCss();
@@ -48,6 +81,29 @@ export function generateCss() {
   `;
 
   return css;
+}
+
+export function generateJsonSchema() {
+  const collections = figma.variables.getLocalVariableCollections();
+  const variables = figma.variables.getLocalVariables();
+
+  const colorCollection = collections.find((collection) =>
+    COLOR_COLLECTIONS.includes(collection.name),
+  );
+
+  if (!colorCollection) {
+    throw new Error("Color collection not found");
+  }
+
+  const colorVariables = variables.filter(
+    (variable) => variable.variableCollectionId === colorCollection.id,
+  );
+
+  const enums = colorVariables.map((variable) => toJsonSchemaDeclaration(variable)).join(", ");
+
+  const schema = jsonSchemaTemplate(enums);
+
+  return schema;
 }
 
 function generateUnitCss() {
@@ -131,6 +187,12 @@ function figmaColorVarToCssVar(name: string) {
   return `--${DESIGN_SYSTEM_NAME}-color-${group}-${colorName}`;
 }
 
+function figmaColorVarToSpecVar(name: string) {
+  const [group, colorName] = name.split("/") as [string, string];
+
+  return `$color.${group}.${colorName}`;
+}
+
 function figmaUnitVarToCssVar(name: string) {
   const [group, value] = name.split("/") as [string, string];
 
@@ -166,4 +228,8 @@ function toJsDeclaration(variable: Variable) {
   return `export const ${figmaColorVarToJsVar(
     variable.name,
   )} = "var(${figmaColorVarToCssVar(variable.name)})";`;
+}
+
+function toJsonSchemaDeclaration(variable: Variable) {
+  return `"${figmaColorVarToSpecVar(variable.name)}"`;
 }

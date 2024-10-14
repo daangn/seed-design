@@ -7,11 +7,27 @@ import type {
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
   RequestCssHandler,
+  RequestJsonSchemaHandler,
   ResponseHandler,
 } from "./types";
 
 function Plugin() {
   const [code, setCode] = useState<string | null>(null);
+
+  const copy = useCallback((text: string) => {
+    const $textarea = document.createElement("textarea");
+    document.body.appendChild($textarea);
+    $textarea.value = text;
+    $textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild($textarea);
+  }, []);
+
+  const onCopy = useCallback(() => {
+    if (code) {
+      copy(code);
+    }
+  }, [code, copy]);
 
   useEffect(() => {
     const handler = (code: string) => {
@@ -46,7 +62,16 @@ function Plugin() {
       <Button fullWidth onClick={useCallback(() => emit<RequestCssHandler>("REQUEST_CSS"), [])}>
         GET Global CSS
       </Button>
+      <Button
+        fullWidth
+        onClick={useCallback(() => emit<RequestJsonSchemaHandler>("REQUEST_JSON_SCHEMA"), [])}
+      >
+        GET JSON Schema
+      </Button>
       <TextboxMultiline grow value={code ?? ""} />
+      <Button fullWidth onClick={onCopy}>
+        Copy
+      </Button>
     </Container>
   );
 }
