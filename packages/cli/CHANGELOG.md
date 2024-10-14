@@ -1,5 +1,11 @@
 # @seed-design/cli
 
+## 0.0.0-alpha-20241014082802
+
+### Patch Changes
+
+- change registry path
+
 ## 0.0.0-alpha-20241014082441
 
 ### Patch Changes

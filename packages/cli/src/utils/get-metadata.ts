@@ -12,7 +12,7 @@ export async function fetchComponentMetadatas(
   try {
     const results = await Promise.all(
       fileNames.map(async (fileName) => {
-        const response = await fetch(`${BASE_URL}/registry/component/${fileName}.json`);
+        const response = await fetch(`${BASE_URL}/__registry__/component/${fileName}.json`);
         return await response.json();
       }),
     );
