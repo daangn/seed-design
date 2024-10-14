@@ -1,4 +1,3 @@
-import type { SimpleGit } from "simple-git";
 import * as p from "@clack/prompts";
 import { z } from "zod";
 import type { CAC } from "cac";
@@ -8,24 +7,27 @@ import {
   getAllTypeScriptCompiledFileNames,
 } from "@/src/utils/files";
 import { simpleGit } from "simple-git";
+import fs from "fs";
+import jscodeshift from "jscodeshift";
 
 const iconShiftOptionsSchema = z.object({
   path: z.string().optional(),
   includeIgnored: z.boolean().optional(),
 });
 
-// 1. 루트에서 `yarn seed-design icon-shift` 명령어를 입력한다.
-// 2. 명시된 타겟 경로를 읽는다.
-// 2-1. 타겟 경로 default = process.cwd()
-// 2-2. tsconfig include 경로
-// 2-3. 유저가 입력한 경로
+// 1. 루트에서 `yarn seed-design icon-shift` 명령어를 입력한다. [x]
+// 2. 명시된 타겟 경로를 읽는다. [x]
+// 2-1. 타겟 경로 default = process.cwd() [x]
+// 2-2. tsconfig include 경로 [x]
+// 2-3. 유저가 입력한 경로  [x]
 // 3. 로그 파일
 // 3-1. 변경된 파일, (라인)
 // 3-2. 에러났을 때 에러 메세지도 같이 들어있고, 어디서 문제 생겼는지도 나와야 한다.
 // 3-2. 그 안에서의 아이콘 AS-IS, TO-BE
 // 4. 마이그레이션 끝났습니다. 로그 파일은 어디 생성됐고, 총 몇개의 아이콘 변경됐습니다.
 
-const EXTENSIONS = [".js", ".jsx", ".ts", ".tsx"];
+const EXTENSIONS_TO_FIND = [".js", ".jsx", ".ts", ".tsx"];
+const EXTENSIONS_TO_EXCLUDE = [".d.ts"];
 
 export const iconShiftCommand = (cli: CAC) => {
   cli
@@ -58,7 +60,8 @@ export const iconShiftCommand = (cli: CAC) => {
               },
               {
                 // FIXME: 확장자
-                label: "현재 디렉토리 안의 .js, .jsx, .ts, .tsx",
+                label:
+                  "현재 디렉토리 안의 .js, .jsx, .ts, .tsx (excluding d.ts)",
                 value: "cwd",
               },
             ],
@@ -73,7 +76,7 @@ export const iconShiftCommand = (cli: CAC) => {
         ...(options.includeIgnored && {
           includeIgnored: () =>
             p.confirm({
-              message: ".gitignore을 통해 트래킹되지 않는 파일도 포함할까요?",
+              message: "git에 트래킹되지 않는 파일도 포함할까요?",
               initialValue: true,
             }),
         }),
@@ -81,30 +84,62 @@ export const iconShiftCommand = (cli: CAC) => {
 
       const filesFound = (() => {
         switch (group.target) {
-          case "path": {
-            return getAllFileNamesWithMatchingExtension({
-              dir: options.path,
-              ext: EXTENSIONS,
-            });
-          }
-          case "cwd": {
-            return getAllFileNamesWithMatchingExtension({
-              dir: process.cwd(),
-              ext: EXTENSIONS,
-            });
-          }
-          case "tsconfig": {
+          case "tsconfig":
             return getAllTypeScriptCompiledFileNames({
               dirToFindTsconfig: process.cwd(),
+              excludeDTs: true,
             });
-          }
+          case "cwd":
+            return getAllFileNamesWithMatchingExtension({
+              dir: process.cwd(),
+              extensionsToFind: EXTENSIONS_TO_FIND,
+              extensionsToExclude: EXTENSIONS_TO_EXCLUDE,
+            });
+          case "path":
+            return getAllFileNamesWithMatchingExtension({
+              dir: options.path,
+              extensionsToFind: EXTENSIONS_TO_FIND,
+              extensionsToExclude: EXTENSIONS_TO_EXCLUDE,
+            });
         }
       })();
 
-      const filesTracked = group.includeIgnored
+      const filesTracked = options.includeIgnored
         ? filesFound
-        : await filterGitIgnoredFiles({ git: simpleGit(), filePaths: filesFound });
+        : await filterGitIgnoredFiles({
+            git: simpleGit(),
+            filePaths: filesFound,
+          });
 
-      console.log(filesTracked);
+      console.log(`총 ${filesTracked.length}개의 파일을 찾았습니다.`);
+      const j = jscodeshift.withParser("tsx");
+
+      for (const filePath of filesTracked) {
+        migrateFile({ jscodeshift: j, filePath, source: "react" });
+      }
     });
 };
+
+function migrateFile({
+  jscodeshift,
+  filePath,
+  source,
+}: {
+  jscodeshift: jscodeshift.JSCodeshift;
+  filePath: string;
+  source: string;
+}) {
+  const file = fs.readFileSync(filePath, "utf-8");
+
+  const matchedImportDeclarations = jscodeshift(file).find(
+    jscodeshift.ImportDeclaration,
+    {
+      source: { value: source },
+    }
+  );
+
+  matchedImportDeclarations.forEach(({ node }) => {
+    node.specifiers.forEach(({ local: { name } }) => console.log(name));
+    console.log("ㄴ", node.source.value);
+  });
+}
