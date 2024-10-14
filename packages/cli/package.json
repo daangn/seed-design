@@ -38,6 +38,7 @@
     "mktemp": "^1.0.1",
     "picocolors": "^1.0.1",
     "recast": "^0.23.9",
+    "simple-git": "^3.27.0",
     "ts-morph": "^23.0.0",
     "typescript": "^5.4.5",
     "zod": "^3.23.8"

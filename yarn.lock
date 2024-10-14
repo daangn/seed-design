@@ -3050,6 +3050,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kwsites/file-exists@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/file-exists@npm:1.1.1"
+  dependencies:
+    debug: ^4.1.1
+  checksum: 4ff945de7293285133aeae759caddc71e73c4a44a12fac710fdd4f574cce2671a3f89d8165fdb03d383cfc97f3f96f677d8de3c95133da3d0e12a123a23109fe
+  languageName: node
+  linkType: hard
+
+"@kwsites/promise-deferred@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/promise-deferred@npm:1.1.1"
+  checksum: 07455477a0123d9a38afb503739eeff2c5424afa8d3dbdcc7f9502f13604488a4b1d9742fc7288832a52a6422cf1e1c0a1d51f69a39052f14d27c9a0420b6629
+  languageName: node
+  linkType: hard
+
 "@manypkg/find-root@npm:^1.1.0":
   version: 1.1.0
   resolution: "@manypkg/find-root@npm:1.1.0"
@@ -4231,6 +4247,7 @@ __metadata:
     mktemp: ^1.0.1
     picocolors: ^1.0.1
     recast: ^0.23.9
+    simple-git: ^3.27.0
     ts-morph: ^23.0.0
     type-fest: ^4.23.0
     typescript: ^5.4.5
@@ -12969,6 +12986,17 @@ __metadata:
   version: 4.1.0
   resolution: "signal-exit@npm:4.1.0"
   checksum: 64c757b498cb8629ffa5f75485340594d2f8189e9b08700e69199069c8e3070fb3e255f7ab873c05dc0b3cec412aea7402e10a5990cb6a050bd33ba062a6c549
+  languageName: node
+  linkType: hard
+
+"simple-git@npm:^3.27.0":
+  version: 3.27.0
+  resolution: "simple-git@npm:3.27.0"
+  dependencies:
+    "@kwsites/file-exists": ^1.1.1
+    "@kwsites/promise-deferred": ^1.1.1
+    debug: ^4.3.5
+  checksum: bc602d67317a5421363f4cbe446bc71336387a7ea9864b23993dcbbd7e4847e346a234aa5b46bf9d80130d2448cbaeb21cf8f7b62572dce093fb4643ff7ffafd
   languageName: node
   linkType: hard
 

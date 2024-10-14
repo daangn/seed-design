@@ -1,7 +1,13 @@
+import type { SimpleGit } from "simple-git";
 import * as p from "@clack/prompts";
 import { z } from "zod";
 import type { CAC } from "cac";
-import { getAllFileNamesWithMatchingExtension, getAllTypeScriptCompiledFileNames } from "@/src/utils/get-filenames";
+import {
+  filterGitIgnoredFiles,
+  getAllFileNamesWithMatchingExtension,
+  getAllTypeScriptCompiledFileNames,
+} from "@/src/utils/files";
+import { simpleGit } from "simple-git";
 
 const iconShiftOptionsSchema = z.object({
   path: z.string().optional(),
@@ -25,7 +31,10 @@ export const iconShiftCommand = (cli: CAC) => {
   cli
     .command("icon-shift", "V2 아이콘을 V3 아이콘으로 변환하는 명령어")
     .option("--path <path>", "마이그레이션할 소스 코드가 있는 경로 (선택)")
-    .option("--include-ignored", "마이그레이션할 소스 코드가 있는 경로 (선택)")
+    .option(
+      "--include-ignored",
+      ".gitignore를 통해 트래킹되지 않는 파일도 포함할지 여부 (선택)"
+    )
     .example("seed-design icon-shift")
     .action(async (opts) => {
       const options = iconShiftOptionsSchema.parse({ ...opts });
@@ -70,7 +79,7 @@ export const iconShiftCommand = (cli: CAC) => {
         }),
       });
 
-      const files = (() => {
+      const filesFound = (() => {
         switch (group.target) {
           case "path": {
             return getAllFileNamesWithMatchingExtension({
@@ -92,6 +101,10 @@ export const iconShiftCommand = (cli: CAC) => {
         }
       })();
 
-      console.log(files);
+      const filesTracked = group.includeIgnored
+        ? filesFound
+        : await filterGitIgnoredFiles({ git: simpleGit(), filePaths: filesFound });
+
+      console.log(filesTracked);
     });
 };
