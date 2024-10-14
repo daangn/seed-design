@@ -47,7 +47,7 @@
   {
     "name": "tabs",
     "dependencies": [
-      "@seed-design/react-tabs"
+      "@seed-design/react-tabs@alpha"
     ],
     "files": [
       "component/tabs.tsx"
@@ -56,7 +56,7 @@
   {
     "name": "chip-tabs",
     "dependencies": [
-      "@seed-design/react-tabs"
+      "@seed-design/react-tabs@alpha"
     ],
     "files": [
       "component/chip-tabs.tsx"

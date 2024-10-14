@@ -1,7 +1,7 @@
 {
   "name": "tabs",
   "dependencies": [
-    "@seed-design/react-tabs"
+    "@seed-design/react-tabs@alpha"
   ],
   "registries": [
     {
