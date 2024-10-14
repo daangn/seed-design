@@ -5,6 +5,7 @@
     cursor: pointer;
     border: none;
     box-sizing: border-box;
+    background-color: transparent;
     white-space: nowrap;
 }
 .tab__root:is(:disabled, [disabled], [data-disabled]) {

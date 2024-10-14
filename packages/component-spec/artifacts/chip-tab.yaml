@@ -59,8 +59,10 @@ variant=brand weak:
     root:
       color: $color.bg.brand-weak-pressed
   disabled:
+    root:
+      color: $color.bg.disabled
     label:
       color: $color.fg.disabled
   selected,disabled:
     root:
-      color: $color.bg.disabled-2
+      color: $color.bg.disabled

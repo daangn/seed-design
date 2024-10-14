@@ -28,12 +28,14 @@ export const registryComponent: RegistryComponent = [
   },
   {
     name: "tabs",
-    dependencies: ["@seed-design/react-tabs"],
+    // TODO: Change to alpha version
+    dependencies: ["@seed-design/react-tabs@alpha"],
     files: ["component/tabs.tsx"],
   },
   {
     name: "chip-tabs",
-    dependencies: ["@seed-design/react-tabs"],
+    // TODO: Change to alpha version
+    dependencies: ["@seed-design/react-tabs@alpha"],
     files: ["component/chip-tabs.tsx"],
   },
   {

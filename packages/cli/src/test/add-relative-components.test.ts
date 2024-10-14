@@ -1,36 +1,31 @@
 import { describe, expect, test } from "vitest";
 import { addRelativeComponents } from "../utils/add-relative-components";
-import type { ComponentMetadataIndex } from "@/src/schema";
+import type { RegistryComponent } from "@/src/schema";
 
-const config: ComponentMetadataIndex = [
+const config: RegistryComponent = [
   {
     name: "a",
-    snippets: ["a.tsx"],
-    type: "component",
+    files: ["a.tsx"],
   },
   {
     name: "b",
     innerDependencies: ["a"],
-    snippets: ["b.tsx"],
-    type: "component",
+    files: ["b.tsx"],
   },
   {
     name: "c",
     innerDependencies: ["b"],
-    snippets: ["c.tsx"],
-    type: "component",
+    files: ["c.tsx"],
   },
   {
     name: "d",
     innerDependencies: ["a", "b"],
-    snippets: ["d.tsx"],
-    type: "component",
+    files: ["d.tsx"],
   },
   {
     name: "e",
     innerDependencies: ["d"],
-    snippets: ["d.tsx"],
-    type: "component",
+    files: ["d.tsx"],
   },
 ];
 

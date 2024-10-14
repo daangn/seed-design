@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/cli",
-  "version": "0.0.0-alpha-20241014082802",
+  "version": "0.0.0-alpha-20241014145845",
   "type": "module",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "prepack": "yarn build",
     "build": "ENV=prod node ./build.mjs",
     "dev": "ENV=dev node ./dev.mjs",
     "test": "yarn vitest"
