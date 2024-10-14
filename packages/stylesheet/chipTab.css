@@ -44,15 +44,16 @@
 }
 .chipTab__root--variant_brandWeak {
     font-weight: var(--seed-font-weight-bold);
+    background-color: var(--seed-color-bg-neutral-weak);
 }
 .chipTab__root--variant_brandWeak:is(:selected, [data-selected]) {
     background-color: var(--seed-color-bg-brand-weak);
 }
-.chipTab__root--variant_brandWeak:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background-color: var(--seed-color-bg-neutral-weak);
+.chipTab__root--variant_brandWeak:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 .chipTab__root--variant_brandWeak:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-weak);
+    background-color: var(--seed-color-bg-brand-weak-pressed);
 }
 .chipTab__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;

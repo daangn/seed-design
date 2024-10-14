@@ -69,17 +69,18 @@ const chipTab = defineRecipe({
       brandWeak: {
         root: {
           fontWeight: vars.base.enabled.label.fontWeight,
+          backgroundColor: vars.variantBrandWeak.enabled.root.color,
 
           [pseudo(selected)]: {
             backgroundColor: vars.variantBrandWeak.selected.root.color,
           },
 
-          [pseudo(active, not(disabled))]: {
-            backgroundColor: vars.variantBrandWeak.enabled.root.color,
+          [pseudo(active)]: {
+            backgroundColor: vars.variantBrandWeak.enabledPressed.root.color,
           },
 
           [pseudo(selected, active)]: {
-            backgroundColor: vars.variantBrandWeak.selected.root.color,
+            backgroundColor: vars.variantBrandWeak.selectedPressed.root.color,
           },
 
           [pseudo(disabled)]: {
