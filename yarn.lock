@@ -7838,6 +7838,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables"
+  dependencies:
+    "@figma/plugin-typings": "*"
+    concurrently: ^6.3.0
+    esbuild: ^0.15.13
+  languageName: unknown
+  linkType: soft
+
 "@seed-design/figma-extractor@workspace:tools/figma-extractor":
   version: 0.0.0-use.local
   resolution: "@seed-design/figma-extractor@workspace:tools/figma-extractor"
