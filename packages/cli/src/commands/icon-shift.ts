@@ -3,10 +3,11 @@ import { z } from "zod";
 import type { CAC } from "cac";
 import ts from "typescript";
 import path from "path";
-import color from "picocolors";
+import fs from "fs";
 
 const iconShiftOptionsSchema = z.object({
   path: z.string().optional(),
+  includeIgnored: z.boolean().optional(),
 });
 
 // 1. 루트에서 `yarn seed-design icon-shift` 명령어를 입력한다.
@@ -20,39 +21,23 @@ const iconShiftOptionsSchema = z.object({
 // 3-2. 그 안에서의 아이콘 AS-IS, TO-BE
 // 4. 마이그레이션 끝났습니다. 로그 파일은 어디 생성됐고, 총 몇개의 아이콘 변경됐습니다.
 
+const EXTENSIONS = [".js", ".jsx", ".ts", ".tsx"];
+
 export const iconShiftCommand = (cli: CAC) => {
   cli
     .command("icon-shift", "V2 아이콘을 V3 아이콘으로 변환하는 명령어")
     .option("--path <path>", "마이그레이션할 소스 코드가 있는 경로 (선택)")
+    .option("--include-ignored", "마이그레이션할 소스 코드가 있는 경로 (선택)")
     .example("seed-design icon-shift")
     .action(async (opts) => {
       const options = iconShiftOptionsSchema.parse({ ...opts });
 
-      const tsconfigPath = ts.findConfigFile(process.cwd(), ts.sys.fileExists);
-      const tsconfigFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
-      const { fileNames } = ts.parseJsonConfigFileContent(
-        tsconfigFile.config,
-        ts.sys,
-        path.dirname(tsconfigPath)
-      );
-
-      const isTsconfigAvailable =
-        tsconfigPath && tsconfigFile && fileNames.length > 0;
-
       const pathAvailableTargetPrompt = {
         target: () =>
           p.select({
-            message: `선택한 경로: ${options.path} 맞나요?`,
+            message: `입력한 경로: ${options.path} 맞나요?`,
             options: [{ label: "네", value: "path" }],
           }),
-      };
-
-      const pathUnavailableTsconfigOption = {
-        label: "현재 폴더에서 사용되는 tsconfig가 포함하는 파일",
-        value: "tsconfig",
-        hint: `총 ${fileNames.length}개 파일: ${fileNames[0]} 외 ${
-          fileNames.length - 1
-        }개`,
       };
 
       const pathUnavailableTargetPrompt = {
@@ -60,10 +45,13 @@ export const iconShiftCommand = (cli: CAC) => {
           p.select({
             message: "어떤 파일을 대상으로 마이그레이션을 진행할까요?",
             options: [
-              ...(isTsconfigAvailable && [pathUnavailableTsconfigOption]),
+              {
+                label: "현재 디렉토리에서 사용되는 tsconfig가 컴파일하는 파일",
+                value: "tsconfig",
+              },
               {
                 // FIXME: 확장자
-                label: "현재 폴더에서 발견된 모든 .js, .jsx, .ts, .tsx",
+                label: "현재 디렉토리 안의 .js, .jsx, .ts, .tsx",
                 value: "cwd",
               },
             ],
@@ -75,8 +63,71 @@ export const iconShiftCommand = (cli: CAC) => {
         ...(options.path
           ? pathAvailableTargetPrompt
           : pathUnavailableTargetPrompt),
+        ...(options.includeIgnored && {
+          includeIgnored: () =>
+            p.confirm({
+              message: ".gitignore을 통해 트래킹되지 않는 파일도 포함할까요?",
+              initialValue: true,
+            }),
+        }),
       });
 
-      console.log(group);
+      const files = (() => {
+        switch (group.target) {
+          case "path": {
+            return getAllFileNamesWithMatchingExtension({
+              dir: options.path,
+              ext: EXTENSIONS,
+            });
+          }
+          case "cwd": {
+            return getAllFileNamesWithMatchingExtension({
+              dir: process.cwd(),
+              ext: EXTENSIONS,
+            });
+          }
+          case "tsconfig": {
+            return getAllTypeScriptCompiledFileNames({
+              dirToFindTsconfig: process.cwd(),
+            });
+          }
+        }
+      })();
+
+      console.log(files);
     });
 };
+
+function getAllFileNamesWithMatchingExtension({
+  dir,
+  ext,
+}: {
+  dir: string;
+  ext: string[];
+}) {
+  // XXX: requires Node.js 20+
+  return fs
+    .readdirSync(dir, { withFileTypes: true, recursive: true })
+    .filter(
+      (item) => item.isFile() && ext.some((ext) => item.name.endsWith(ext))
+    )
+    .map((item) => `${item.parentPath}/${item.name}`);
+}
+
+function getAllTypeScriptCompiledFileNames({
+  dirToFindTsconfig,
+}: {
+  dirToFindTsconfig: string;
+}) {
+  const tsconfigPath = ts.findConfigFile(dirToFindTsconfig, ts.sys.fileExists);
+  const tsconfigFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+
+  // FIXME: throw할 수 있을 것 같음
+  const { fileNames } = ts.parseJsonConfigFileContent(
+    tsconfigFile.config,
+    ts.sys,
+    path.dirname(tsconfigPath)
+  );
+
+  return fileNames;
+}
