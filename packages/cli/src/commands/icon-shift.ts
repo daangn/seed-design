@@ -15,9 +15,12 @@ import {
   type ImportTransformers,
 } from "@/src/utils/migrate";
 
-const importTransformers: ImportTransformers = {
-  identifier: [{ find: /^Icon/, replace: "NewIcon" }],
-  source: [{ find: /^some-package$/, replace: "some-new-package" }],
+const importTransformersReact: ImportTransformers = {
+  source: [
+    { find: "@seed-design/icons", replace: "@seed-design/react-icon" },
+    { find: "@seed-design/react-icon" },
+  ],
+  identifier: [{ find: "Icon", replace: "NewIcon" }],
 };
 
 const iconShiftOptionsSchema = z.object({
@@ -120,13 +123,17 @@ export const iconShiftCommand = (cli: CAC) => {
         }
       })();
 
+      const { start, message, stop } = prompt.spinner();
+
+      start("몇 개의 파일을 확인할지 결정하고 있어요.");
+
       const filesTracked = options.includeIgnored
         ? filesFound
         : await filterGitIgnoredFiles({ git: simpleGit(), filePaths: filesFound });
 
-      const { start, message, stop } = prompt.spinner();
+      stop(`${filesTracked.length}개 파일에서 예전 아이콘을 찾아볼게요.`);
 
-      start(`총 ${filesTracked.length}개의 파일에 대한 코드 변경을 시작할게요.`);
+      start(`${filesTracked.length}개 파일에서 예전 아이콘을 찾아볼게요.`);
       const j = jscodeshift.withParser("tsx");
 
       for (let i = 0; i < filesTracked.length; i++) {
@@ -140,16 +147,15 @@ export const iconShiftCommand = (cli: CAC) => {
         const filterSourceByValue = (value: unknown) => {
           if (typeof value !== "string") return false;
 
-          return importTransformers.source.some(({ find }) => find.test(value));
+          return importTransformersReact.source.some(({ find }) => value.startsWith(find));
         };
 
         const filterIdentifierByName = (name: string) => {
-          return importTransformers.identifier.some(({ find }) => find.test(name));
+          return importTransformersReact.identifier.some(({ find }) => name === find);
         };
 
         const tree = j(file);
-
-        console.log(`\nfile: ${filePath}`);
+        const firstNode = getFirstNode({ tree, jscodeshift: j });
 
         migrateImportDeclarations({
           importDeclarations: tree.find(jscodeshift.ImportDeclaration, {
@@ -157,17 +163,30 @@ export const iconShiftCommand = (cli: CAC) => {
               value: filterSourceByValue,
             },
           }),
-          importTransformers,
+          importTransformers: importTransformersReact,
         });
 
         migrateIdentifiers({
           identifiers: tree.find(jscodeshift.Identifier, { name: filterIdentifierByName }),
-          identifierTransformers: importTransformers.identifier,
+          identifierTransformers: importTransformersReact.identifier,
         });
 
-        console.log(tree.toSource());
+        const firstNodeAfterModification = getFirstNode({ tree, jscodeshift: j });
+
+        if (firstNode !== firstNodeAfterModification) {
+          firstNodeAfterModification.comments = firstNode.comments;
+        }
+
+        fs.writeFileSync(filePath, tree.toSource());
       }
 
       stop("코드 변경이 끝났어요.");
     });
 };
+
+export function getFirstNode({
+  tree,
+  jscodeshift,
+}: { tree: jscodeshift.Collection; jscodeshift: jscodeshift.JSCodeshift }) {
+  return tree.find(jscodeshift.Program).get("body", 0).node;
+}
