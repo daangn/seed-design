@@ -47,7 +47,7 @@ export function migrateFile({ filePath, jscodeshift, importTransformers }: Migra
   fs.writeFileSync(filePath, tree.toSource());
 }
 
-function getFirstNode({
+export function getFirstNode({
   tree,
   jscodeshift,
 }: { tree: jscodeshift.Collection; jscodeshift: jscodeshift.JSCodeshift }) {

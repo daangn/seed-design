@@ -1,4 +1,5 @@
 import {
+  getFirstNode,
   migrateIdentifiers,
   migrateImportDeclarations,
   type ImportTransformers,
@@ -76,11 +77,3 @@ describe("shiftingIcons", () => {
     });
   }
 });
-
-// XXX: 코드 중복
-function getFirstNode({
-  tree,
-  jscodeshift,
-}: { tree: jscodeshift.Collection; jscodeshift: jscodeshift.JSCodeshift }) {
-  return tree.find(jscodeshift.Program).get("body", 0).node;
-}

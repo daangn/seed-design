@@ -7,14 +7,8 @@ import {
   getAllTypeScriptCompiledFileNames,
 } from "@/src/utils/files";
 import { simpleGit } from "simple-git";
-import fs from "fs";
 import jscodeshift from "jscodeshift";
-import {
-  migrateFile,
-  migrateIdentifiers,
-  migrateImportDeclarations,
-  type ImportTransformers,
-} from "@/src/utils/migrate";
+import { migrateFile, type ImportTransformers } from "@/src/utils/migrate";
 
 const importTransformersReact: ImportTransformers = {
   source: [
