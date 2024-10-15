@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./color-schema.json
+# yaml-language-server: $schema=./schema.json
 # parts: root, label
 # states: enabled, pressed, selected, disabled
 base:

@@ -4,6 +4,7 @@ import dedent from "dedent";
 
 const COLOR_COLLECTIONS = ["Color"];
 const UNIT_COLLECTIONS = ["Unit", "Numbers"]; // V3 = Unit
+const PLATFORM_COLLECTIONS = ["Platform"];
 
 const LIGHT_MODE_THEME = ["theme-light", "test-light"];
 const DARK_MODE_THEME = ["theme-dark", "test-dark"];
@@ -39,7 +40,18 @@ const unitTemplate = (css: string) => dedent`
 }
 `;
 
-const jsonSchemaTemplate = (enums: string) => dedent`
+interface JsonSchemaTemplate {
+  colorEnumsStr: string;
+  fontWeightEnumsStr: string;
+  fontSizeEnumsStr: string;
+  cornerRadiusEnumsStr: string;
+}
+const jsonSchemaTemplate = ({
+  colorEnumsStr,
+  cornerRadiusEnumsStr,
+  fontSizeEnumsStr,
+  fontWeightEnumsStr,
+}: JsonSchemaTemplate) => dedent`
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -52,6 +64,15 @@ const jsonSchemaTemplate = (enums: string) => dedent`
       "properties": {
         "color": {
           "$ref": "#/definitions/colorValue"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/fontWeightValue"
+        },
+        "fontSize": {
+          "$ref": "#/definitions/fontSizeValue"
+        },
+        "cornerRadius": {
+          "$ref": "#/definitions/cornerRadiusValue"
         }
       },
       "additionalProperties": {
@@ -66,13 +87,26 @@ const jsonSchemaTemplate = (enums: string) => dedent`
     },
     "colorValue": {
       "type": "string",
-      "enum": [${enums}]
+      "enum": [${colorEnumsStr}]
+    },
+    "fontWeightValue": {
+      "type": "string",
+      "enum": [${fontWeightEnumsStr}]
+    },
+    "fontSizeValue": {
+      "type": "string",
+      "enum": [${fontSizeEnumsStr}]
+    },
+    "cornerRadiusValue": {
+      "type": "string",
+      "enum": [${cornerRadiusEnumsStr}]
     }
   }
 }
 `;
 
 export function generateCss() {
+  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
   const unitCss = generateUnitCss(); // NOT READY
   const colorCss = generateColorCss();
 
@@ -95,13 +129,60 @@ export function generateJsonSchema() {
     throw new Error("Color collection not found");
   }
 
+  const platformCollection = collections.find((collection) =>
+    PLATFORM_COLLECTIONS.includes(collection.name),
+  );
+
+  if (!platformCollection) {
+    throw new Error("Platform collection not found");
+  }
+
+  const unitCollection = collections.find((collection) =>
+    UNIT_COLLECTIONS.includes(collection.name),
+  );
+
+  if (!unitCollection) {
+    throw new Error("Unit collection not found");
+  }
+
   const colorVariables = variables.filter(
     (variable) => variable.variableCollectionId === colorCollection.id,
   );
 
-  const enums = colorVariables.map((variable) => toJsonSchemaDeclaration(variable)).join(", ");
+  const platformVariables = variables.filter(
+    (variable) => variable.variableCollectionId === platformCollection.id,
+  );
 
-  const schema = jsonSchemaTemplate(enums);
+  const unitVariables = variables.filter(
+    (variable) => variable.variableCollectionId === unitCollection.id,
+  );
+
+  const platFormDelcarations = platformVariables.map((variable) =>
+    toJsonSchemaDeclaration(variable),
+  );
+  const unitDelcarations = unitVariables.map((variable) => toJsonSchemaDeclaration(variable));
+  const colorDeclaration = colorVariables.map((variable) => toJsonSchemaDeclaration(variable));
+
+  const fontWeightEnumsStr = platFormDelcarations
+    .filter((declaration) => declaration.type === "font-weight")
+    .map((declaration) => declaration.value)
+    .join(", ");
+  const fontSizeEnumsStr = platFormDelcarations
+    .filter((declaration) => declaration.type === "font-size")
+    .map((declaration) => declaration.value)
+    .join(", ");
+  const cornerRadiusEnumsStr = unitDelcarations
+    .filter((declaration) => declaration.type === "radius")
+    .map((declaration) => declaration.value)
+    .join(", ");
+  const colorEnumsStr = colorDeclaration.map((declaration) => declaration.value).join(", ");
+
+  const schema = jsonSchemaTemplate({
+    colorEnumsStr,
+    fontWeightEnumsStr,
+    fontSizeEnumsStr,
+    cornerRadiusEnumsStr,
+  });
 
   return schema;
 }
@@ -205,6 +286,52 @@ function figmaColorVarToJsVar(name: string) {
   return camelCase(colorName, { mergeAmbiguousCharacters: true });
 }
 
+/**
+ * @param name font-weight/regular
+ * @returns $font-weight.medium
+ */
+function figmaFontWeightVarToJsVar(name: string) {
+  const [group, value] = name.split("/") as [string, string];
+
+  return `$${group}.${value}`;
+}
+
+/**
+ * @param name font-size/500
+ * @returns $font-size[500]
+ *
+ * @param name font-size/static-100
+ * @returns $font-size.static[100]
+ */
+function figmaFontSizeVarToJsVar(name: string) {
+  const [group, value] = name.split("/") as [string, string];
+
+  if (value.startsWith("static")) {
+    return `$${group}.static[${value.split("-")[1]}]`;
+  }
+
+  return `$${group}[${value}]`;
+}
+
+/**
+ *
+ * @param name radius/x1,5
+ * @returns $radii[1.5]
+ *
+ * @param name radius/full
+ * @returns $radii.full
+ */
+function figmaCornerRadiusVarToJsVar(name: string) {
+  const [_, value] = name.split("/") as [string, string];
+
+  if (value === "full") {
+    return `$radii.full`;
+  }
+
+  const convertedValue = value.replace("x", "").replace(",", ".");
+  return `$radii[${convertedValue}]`;
+}
+
 function toCssDeclaration(variable: Variable, modeId: string) {
   const value = variable.valuesByMode[modeId]!;
 
@@ -231,5 +358,43 @@ function toJsDeclaration(variable: Variable) {
 }
 
 function toJsonSchemaDeclaration(variable: Variable) {
-  return `"${figmaColorVarToSpecVar(variable.name)}"`;
+  if (variable.name.includes("font-weight")) {
+    return {
+      type: "font-weight",
+      value: `"${figmaFontWeightVarToJsVar(variable.name)}"`,
+    };
+  }
+
+  if (variable.name.includes("font-size")) {
+    return {
+      type: "font-size",
+      value: `"${figmaFontSizeVarToJsVar(variable.name)}"`,
+    };
+  }
+
+  if (variable.name.includes("radius")) {
+    return {
+      type: "radius",
+      value: `"${figmaCornerRadiusVarToJsVar(variable.name)}"`,
+    };
+  }
+
+  if (
+    variable.name.startsWith("bg") ||
+    variable.name.startsWith("fg") ||
+    variable.name.startsWith("palette") ||
+    variable.name.startsWith("stroke")
+  ) {
+    console.log("variable.name", variable.name);
+
+    return {
+      type: "color",
+      value: `"${figmaColorVarToSpecVar(variable.name)}"`,
+    };
+  }
+
+  return {
+    type: "unknown",
+    value: `"${variable.name}"`,
+  };
 }
