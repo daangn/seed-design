@@ -59,5 +59,5 @@ export async function filterGitIgnoredFiles({
 async function isFileGitTracked(git: SimpleGit, filePath: string) {
   const result = await git.checkIgnore(filePath);
 
-  return result.length < 0;
+  return result.length <= 0;
 }
