@@ -72,7 +72,7 @@ export function migrateImportDeclarations({
       if (typeof currentSourceValue !== "string") return currentSourceValue;
 
       const sourceReplaced = importTransformers.source.reduce(
-        (acc, { find, replace }) => acc.replace(find, replace),
+        (acc, { find, replace }) => (replace ? acc.replace(find, replace) : acc),
         currentSourceValue,
       );
 
