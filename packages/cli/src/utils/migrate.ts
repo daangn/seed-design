@@ -43,10 +43,6 @@ export function migrateImportDeclarations({
       return itemReplaced;
     })();
 
-    console.log(`source: ${currentSourceValue} -> ${newSourceValue}`);
-
-    let impactedSpecifierCount = 0;
-
     const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
         case "ImportSpecifier": {
@@ -62,9 +58,8 @@ export function migrateImportDeclarations({
 
           if (hasNoChange) return currentSpecifier;
 
-          impactedSpecifierCount++;
-
-          console.log(`identifier: ${currentSpecifier.imported.name} -> ${newImportedName}`);
+          // TODO
+          // impactedSpecifierCount++;
 
           // import { IconHeart as Heart } from "some-package"; 에서
           // imported: "IconHeart", local: "Heart"
@@ -87,9 +82,6 @@ export function migrateImportDeclarations({
       currentImportKind,
     );
 
-    console.log(`impacted specifiers: ${impactedSpecifierCount}`);
-    // console.log(matchedImportDeclarations.toSource());
-
     return newImportDeclaration;
   });
 }
@@ -110,8 +102,6 @@ export function migrateIdentifiers({
       (acc, { find, replace }) => acc.replace(find, replace),
       currentName,
     );
-
-    console.log(`identifier: ${currentName} -> ${newName}`);
 
     return jscodeshift.identifier(newName);
   });
