@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema.json
 # parts: root, triggerList, trigger
 # states: enabled
 base:

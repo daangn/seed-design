@@ -40,17 +40,30 @@ const unitTemplate = (css: string) => dedent`
 }
 `;
 
+const declarationToObjTemplate = (declaration: JsonSchemaDeclaration) => {
+  return dedent`
+    {
+      "const": ${declaration.name},
+      "description": "${declaration.modeValues
+        ?.map((modeValue) => `${modeValue.modeName}: ${modeValue.value}`)
+        .join(", ")}"
+    }
+  `;
+};
+
 interface JsonSchemaTemplate {
-  colorEnumsStr: string;
-  fontWeightEnumsStr: string;
-  fontSizeEnumsStr: string;
-  cornerRadiusEnumsStr: string;
+  colorDeclarations: JsonSchemaDeclaration[];
+  fontWeightDeclarations: JsonSchemaDeclaration[];
+  fontSizeDeclarations: JsonSchemaDeclaration[];
+  cornerRadiusDeclarations: JsonSchemaDeclaration[];
+  unitSizeDeclarations: JsonSchemaDeclaration[];
 }
 const jsonSchemaTemplate = ({
-  colorEnumsStr,
-  cornerRadiusEnumsStr,
-  fontSizeEnumsStr,
-  fontWeightEnumsStr,
+  colorDeclarations,
+  cornerRadiusDeclarations,
+  fontSizeDeclarations,
+  fontWeightDeclarations,
+  unitSizeDeclarations,
 }: JsonSchemaTemplate) => dedent`
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -73,6 +86,9 @@ const jsonSchemaTemplate = ({
         },
         "cornerRadius": {
           "$ref": "#/definitions/cornerRadiusValue"
+        },
+        "size": {
+          "$ref": "#/definitions/sizeValue"
         }
       },
       "additionalProperties": {
@@ -87,19 +103,41 @@ const jsonSchemaTemplate = ({
     },
     "colorValue": {
       "type": "string",
-      "enum": [${colorEnumsStr}]
+      "anyOf": [
+        ${colorDeclarations.map((declaration) => declarationToObjTemplate(declaration)).join(",\n")}
+      ]
     },
     "fontWeightValue": {
       "type": "string",
-      "enum": [${fontWeightEnumsStr}]
+      "anyOf": [
+        ${fontWeightDeclarations
+          .map((declaration) => declarationToObjTemplate(declaration))
+          .join(",\n")}
+      ]
     },
     "fontSizeValue": {
       "type": "string",
-      "enum": [${fontSizeEnumsStr}]
+      "anyOf": [
+        ${fontSizeDeclarations
+          .map((declaration) => declarationToObjTemplate(declaration))
+          .join(",\n")}
+      ]
     },
     "cornerRadiusValue": {
       "type": "string",
-      "enum": [${cornerRadiusEnumsStr}]
+      "anyOf": [
+        ${cornerRadiusDeclarations
+          .map((declaration) => declarationToObjTemplate(declaration))
+          .join(",\n")}
+      ]
+    },
+    "sizeValue": {
+      "type": "string",
+      "anyOf": [
+        ${unitSizeDeclarations
+          .map((declaration) => declarationToObjTemplate(declaration))
+          .join(",\n")}
+      ]
     }
   }
 }
@@ -145,6 +183,8 @@ export function generateJsonSchema() {
     throw new Error("Unit collection not found");
   }
 
+  unitCollection.modes;
+
   const colorVariables = variables.filter(
     (variable) => variable.variableCollectionId === colorCollection.id,
   );
@@ -158,30 +198,27 @@ export function generateJsonSchema() {
   );
 
   const platFormDelcarations = platformVariables.map((variable) =>
-    toJsonSchemaDeclaration(variable),
+    toJsonSchemaDeclaration(variable, platformCollection.modes),
   );
-  const unitDelcarations = unitVariables.map((variable) => toJsonSchemaDeclaration(variable));
-  const colorDeclaration = colorVariables.map((variable) => toJsonSchemaDeclaration(variable));
-
-  const fontWeightEnumsStr = platFormDelcarations
-    .filter((declaration) => declaration.type === "font-weight")
-    .map((declaration) => declaration.value)
-    .join(", ");
-  const fontSizeEnumsStr = platFormDelcarations
-    .filter((declaration) => declaration.type === "font-size")
-    .map((declaration) => declaration.value)
-    .join(", ");
-  const cornerRadiusEnumsStr = unitDelcarations
-    .filter((declaration) => declaration.type === "radius")
-    .map((declaration) => declaration.value)
-    .join(", ");
-  const colorEnumsStr = colorDeclaration.map((declaration) => declaration.value).join(", ");
+  const unitDelcarations = unitVariables.map((variable) =>
+    toJsonSchemaDeclaration(variable, unitCollection.modes),
+  );
+  const colorDeclaration = colorVariables.map((variable) =>
+    toJsonSchemaDeclaration(variable, colorCollection.modes),
+  );
 
   const schema = jsonSchemaTemplate({
-    colorEnumsStr,
-    fontWeightEnumsStr,
-    fontSizeEnumsStr,
-    cornerRadiusEnumsStr,
+    colorDeclarations: colorDeclaration.filter((declaration) => declaration.type === "color"),
+    cornerRadiusDeclarations: unitDelcarations.filter(
+      (declaration) => declaration.type === "radius",
+    ),
+    fontSizeDeclarations: platFormDelcarations.filter(
+      (declaration) => declaration.type === "font-size",
+    ),
+    fontWeightDeclarations: platFormDelcarations.filter(
+      (declaration) => declaration.type === "font-weight",
+    ),
+    unitSizeDeclarations: unitDelcarations.filter((declaration) => declaration.type === "unit"),
   });
 
   return schema;
@@ -332,6 +369,18 @@ function figmaCornerRadiusVarToJsVar(name: string) {
   return `$radii[${convertedValue}]`;
 }
 
+/**
+ *
+ * @param name unit/x1,5
+ * @returns $unit[1.5]
+ */
+function figmaUnitVarToJsVar(name: string) {
+  const [_, value] = name.split("/") as [string, string];
+
+  const convertedValue = value.replace("x", "").replace(",", ".");
+  return `$unit[${convertedValue}]`;
+}
+
 function toCssDeclaration(variable: Variable, modeId: string) {
   const value = variable.valuesByMode[modeId]!;
 
@@ -357,25 +406,101 @@ function toJsDeclaration(variable: Variable) {
   )} = "var(${figmaColorVarToCssVar(variable.name)})";`;
 }
 
-function toJsonSchemaDeclaration(variable: Variable) {
-  if (variable.name.includes("font-weight")) {
+type JsonSchemaDeclaration = {
+  type: "color" | "font-weight" | "font-size" | "radius" | "unit" | "unknown";
+  name: string;
+  description: string;
+  modeValues?: Array<{
+    modeName: string;
+    value: VariableValue;
+  }>;
+};
+
+function parseValue(value: VariableValue) {
+  if (typeof value === "number" || typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "object" && "type" in value && value.type === "VARIABLE_ALIAS") {
+    return figma.variables.getVariableById(value.id)!.name;
+  }
+
+  const { r, g, b, a } = value as RGBA;
+  return rgba(r * 255, g * 255, b * 255, a);
+}
+
+function toJsonSchemaDeclaration(
+  variable: Variable,
+  modes: Array<{
+    modeId: string;
+    name: string;
+  }>,
+): JsonSchemaDeclaration {
+  if (variable.name.startsWith("font-weight")) {
     return {
       type: "font-weight",
-      value: `"${figmaFontWeightVarToJsVar(variable.name)}"`,
+      name: `"${figmaFontWeightVarToJsVar(variable.name)}"`,
+      description: variable.description,
+      modeValues: modes.map((mode) => {
+        const value = variable.valuesByMode[mode.modeId]!;
+        console.log("value", value);
+
+        const parsedValue = parseValue(value);
+        console.log("parsedValue", parsedValue);
+
+        return {
+          modeName: mode.name,
+          value: parsedValue,
+        };
+      }),
     };
   }
 
-  if (variable.name.includes("font-size")) {
+  if (variable.name.startsWith("font-size")) {
     return {
       type: "font-size",
-      value: `"${figmaFontSizeVarToJsVar(variable.name)}"`,
+      name: `"${figmaFontSizeVarToJsVar(variable.name)}"`,
+      description: variable.description,
+      modeValues: modes.map((mode) => {
+        const value = variable.valuesByMode[mode.modeId]!;
+        const parsedValue = parseValue(value);
+        return {
+          modeName: mode.name,
+          value: parsedValue,
+        };
+      }),
     };
   }
 
-  if (variable.name.includes("radius")) {
+  if (variable.name.startsWith("radius")) {
     return {
       type: "radius",
-      value: `"${figmaCornerRadiusVarToJsVar(variable.name)}"`,
+      name: `"${figmaCornerRadiusVarToJsVar(variable.name)}"`,
+      description: variable.description,
+      modeValues: modes.map((mode) => {
+        const value = variable.valuesByMode[mode.modeId]!;
+        const parsedValue = parseValue(value);
+        return {
+          modeName: mode.name,
+          value: parsedValue,
+        };
+      }),
+    };
+  }
+
+  if (variable.name.startsWith("unit")) {
+    return {
+      type: "unit",
+      name: `"${figmaUnitVarToJsVar(variable.name)}"`,
+      description: variable.description,
+      modeValues: modes.map((mode) => {
+        const value = variable.valuesByMode[mode.modeId]!;
+        const parsedValue = parseValue(value);
+        return {
+          modeName: mode.name,
+          value: parsedValue,
+        };
+      }),
     };
   }
 
@@ -385,16 +510,32 @@ function toJsonSchemaDeclaration(variable: Variable) {
     variable.name.startsWith("palette") ||
     variable.name.startsWith("stroke")
   ) {
-    console.log("variable.name", variable.name);
-
     return {
       type: "color",
-      value: `"${figmaColorVarToSpecVar(variable.name)}"`,
+      name: `"${figmaColorVarToSpecVar(variable.name)}"`,
+      description: variable.description,
+      modeValues: modes.map((mode) => {
+        const value = variable.valuesByMode[mode.modeId]!;
+        const parsedValue = parseValue(value);
+        return {
+          modeName: mode.name,
+          value: parsedValue,
+        };
+      }),
     };
   }
 
   return {
     type: "unknown",
-    value: `"${variable.name}"`,
+    name: `"${variable.name}"`,
+    description: variable.description,
+    modeValues: modes.map((mode) => {
+      const value = variable.valuesByMode[mode.modeId]!;
+      const parsedValue = parseValue(value);
+      return {
+        modeName: mode.name,
+        value: parsedValue,
+      };
+    }),
   };
 }

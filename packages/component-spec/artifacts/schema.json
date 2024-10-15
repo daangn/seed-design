@@ -19,6 +19,9 @@
         },
         "cornerRadius": {
           "$ref": "#/definitions/cornerRadiusValue"
+        },
+        "size": {
+          "$ref": "#/definitions/sizeValue"
         }
       },
       "additionalProperties": {
@@ -33,197 +36,815 @@
     },
     "colorValue": {
       "type": "string",
-      "enum": [
-        "$color.fg.static-white",
-        "$color.fg.neutral",
-        "$color.fg.neutral-muted",
-        "$color.fg.neutral-subtle",
-        "$color.fg.neutral-inverted",
-        "$color.fg.brand-contrast",
-        "$color.fg.danger",
-        "$color.fg.danger-contrast",
-        "$color.fg.positive",
-        "$color.fg.positive-contrast",
-        "$color.fg.warning-contrast",
-        "$color.fg.informative",
-        "$color.fg.informative-contrast",
-        "$color.fg.placeholder",
-        "$color.fg.disabled",
-        "$color.bg.positive-weak",
-        "$color.bg.positive-solid",
-        "$color.bg.warning-solid",
-        "$color.bg.warning-weak",
-        "$color.bg.danger-weak",
-        "$color.bg.danger-solid",
-        "$color.bg.danger-solid-pressed",
-        "$color.bg.brand-weak",
-        "$color.bg.brand-solid",
-        "$color.bg.brand-solid-pressed",
-        "$color.bg.brand-weak-pressed",
-        "$color.bg.layer-default",
-        "$color.bg.layer-default-pressed",
-        "$color.bg.layer-fill",
-        "$color.bg.neutral-weak",
-        "$color.bg.neutral-solid",
-        "$color.bg.neutral-weak-pressed",
-        "$color.bg.informative-weak",
-        "$color.bg.overlay",
-        "$color.bg.overlay-muted",
-        "$color.bg.text-selection",
-        "$color.stroke.neutral",
-        "$color.stroke.on-image",
-        "$color.stroke.brand",
-        "$color.stroke.field",
-        "$color.stroke.field-focused",
-        "$color.stroke.control",
-        "$color.fg.static-black",
-        "$color.bg.layer-basement",
-        "$color.bg.layer-floating",
-        "$color.bg.neutral-solid-pressed",
-        "$color.bg.disabled",
-        "$color.bg.layer-floating-pressed",
-        "$color.stroke.neutral-muted",
-        "$color.bg.informative-weak-pressed",
-        "$color.bg.static-white",
-        "$color.bg.warning-weak-pressed",
-        "$color.bg.danger-weak-pressed",
-        "$color.bg.informative-solid",
-        "$color.stroke.danger",
-        "$color.bg.positive-weak-pressed",
-        "$color.bg.informative-solid-pressed",
-        "$color.bg.positive-solid-pressed",
-        "$color.palette.gray-00",
-        "$color.palette.gray-100",
-        "$color.palette.gray-200",
-        "$color.palette.gray-300",
-        "$color.palette.gray-400",
-        "$color.palette.gray-500",
-        "$color.palette.gray-600",
-        "$color.palette.gray-700",
-        "$color.palette.gray-800",
-        "$color.palette.gray-900",
-        "$color.palette.carrot-100",
-        "$color.palette.carrot-200",
-        "$color.palette.carrot-300",
-        "$color.palette.carrot-400",
-        "$color.palette.carrot-500",
-        "$color.palette.carrot-600",
-        "$color.palette.carrot-700",
-        "$color.palette.carrot-800",
-        "$color.palette.carrot-900",
-        "$color.palette.carrot-1000",
-        "$color.palette.blue-100",
-        "$color.palette.blue-200",
-        "$color.palette.blue-300",
-        "$color.palette.blue-400",
-        "$color.palette.blue-500",
-        "$color.palette.blue-600",
-        "$color.palette.blue-700",
-        "$color.palette.blue-800",
-        "$color.palette.blue-900",
-        "$color.palette.blue-1000",
-        "$color.palette.red-100",
-        "$color.palette.red-200",
-        "$color.palette.red-300",
-        "$color.palette.red-400",
-        "$color.palette.red-500",
-        "$color.palette.red-600",
-        "$color.palette.red-700",
-        "$color.palette.red-800",
-        "$color.palette.red-900",
-        "$color.palette.red-1000",
-        "$color.palette.green-100",
-        "$color.palette.green-200",
-        "$color.palette.green-300",
-        "$color.palette.green-400",
-        "$color.palette.green-500",
-        "$color.palette.green-600",
-        "$color.palette.green-700",
-        "$color.palette.green-800",
-        "$color.palette.green-900",
-        "$color.palette.green-1000",
-        "$color.palette.yellow-100",
-        "$color.palette.yellow-200",
-        "$color.palette.yellow-300",
-        "$color.palette.yellow-400",
-        "$color.palette.yellow-500",
-        "$color.palette.yellow-600",
-        "$color.palette.yellow-700",
-        "$color.palette.yellow-800",
-        "$color.palette.yellow-900",
-        "$color.palette.yellow-1000",
-        "$color.palette.static-black",
-        "$color.palette.static-white",
-        "$color.palette.static-black-alpha-200",
-        "$color.palette.static-black-alpha-500",
-        "$color.palette.static-white-alpha-50",
-        "$color.palette.static-white-alpha-200",
-        "$color.palette.static-black-alpha-50",
-        "$color.palette.gray-alpha-50",
-        "$color.palette.purple-100",
-        "$color.palette.purple-200",
-        "$color.palette.purple-300",
-        "$color.palette.purple-400",
-        "$color.palette.purple-500",
-        "$color.palette.purple-600",
-        "$color.palette.purple-700",
-        "$color.palette.purple-800",
-        "$color.palette.purple-900",
-        "$color.palette.purple-1000",
-        "$color.fg.brand",
-        "$color.fg.magic",
-        "$color.fg.magic-contrast"
+      "anyOf": [
+        {
+          "const": "$color.fg.static-white",
+          "description": "theme-light: palette/static-white, theme-dark: palette/static-white"
+        },
+        {
+          "const": "$color.fg.neutral",
+          "description": "theme-light: palette/gray-900, theme-dark: palette/gray-900"
+        },
+        {
+          "const": "$color.fg.neutral-muted",
+          "description": "theme-light: palette/gray-800, theme-dark: palette/gray-800"
+        },
+        {
+          "const": "$color.fg.neutral-subtle",
+          "description": "theme-light: palette/gray-700, theme-dark: palette/gray-700"
+        },
+        {
+          "const": "$color.fg.neutral-inverted",
+          "description": "theme-light: palette/gray-00, theme-dark: palette/gray-100"
+        },
+        {
+          "const": "$color.fg.brand-contrast",
+          "description": "theme-light: palette/carrot-700, theme-dark: palette/carrot-800"
+        },
+        {
+          "const": "$color.fg.danger",
+          "description": "theme-light: palette/red-700, theme-dark: palette/red-600"
+        },
+        {
+          "const": "$color.fg.danger-contrast",
+          "description": "theme-light: palette/red-900, theme-dark: palette/red-900"
+        },
+        {
+          "const": "$color.fg.positive",
+          "description": "theme-light: palette/green-700, theme-dark: palette/green-600"
+        },
+        {
+          "const": "$color.fg.positive-contrast",
+          "description": "theme-light: palette/green-900, theme-dark: palette/green-900"
+        },
+        {
+          "const": "$color.fg.warning-contrast",
+          "description": "theme-light: palette/yellow-900, theme-dark: palette/yellow-900"
+        },
+        {
+          "const": "$color.fg.informative",
+          "description": "theme-light: palette/blue-600, theme-dark: palette/blue-700"
+        },
+        {
+          "const": "$color.fg.informative-contrast",
+          "description": "theme-light: palette/blue-900, theme-dark: palette/blue-900"
+        },
+        {
+          "const": "$color.fg.placeholder",
+          "description": "theme-light: palette/gray-600, theme-dark: palette/gray-600"
+        },
+        {
+          "const": "$color.fg.disabled",
+          "description": "theme-light: palette/gray-500, theme-dark: palette/gray-500"
+        },
+        {
+          "const": "$color.bg.positive-weak",
+          "description": "theme-light: palette/green-100, theme-dark: palette/green-100"
+        },
+        {
+          "const": "$color.bg.positive-solid",
+          "description": "theme-light: palette/green-600, theme-dark: palette/green-600"
+        },
+        {
+          "const": "$color.bg.warning-solid",
+          "description": "theme-light: palette/yellow-600, theme-dark: palette/yellow-700"
+        },
+        {
+          "const": "$color.bg.warning-weak",
+          "description": "theme-light: palette/yellow-100, theme-dark: palette/yellow-100"
+        },
+        {
+          "const": "$color.bg.danger-weak",
+          "description": "theme-light: palette/red-100, theme-dark: palette/red-100"
+        },
+        {
+          "const": "$color.bg.danger-solid",
+          "description": "theme-light: palette/red-700, theme-dark: palette/red-600"
+        },
+        {
+          "const": "$color.bg.danger-solid-pressed",
+          "description": "theme-light: palette/red-800, theme-dark: palette/red-700"
+        },
+        {
+          "const": "$color.bg.brand-weak",
+          "description": "theme-light: palette/carrot-100, theme-dark: palette/carrot-200"
+        },
+        {
+          "const": "$color.bg.brand-solid",
+          "description": "theme-light: palette/carrot-600, theme-dark: palette/carrot-700"
+        },
+        {
+          "const": "$color.bg.brand-solid-pressed",
+          "description": "theme-light: palette/carrot-700, theme-dark: palette/carrot-800"
+        },
+        {
+          "const": "$color.bg.brand-weak-pressed",
+          "description": "theme-light: palette/carrot-200, theme-dark: palette/carrot-300"
+        },
+        {
+          "const": "$color.bg.layer-default",
+          "description": "theme-light: palette/gray-00, theme-dark: palette/gray-00"
+        },
+        {
+          "const": "$color.bg.layer-default-pressed",
+          "description": "theme-light: palette/gray-100, theme-dark: palette/gray-200"
+        },
+        {
+          "const": "$color.bg.layer-fill",
+          "description": "theme-light: palette/gray-100, theme-dark: palette/gray-00"
+        },
+        {
+          "const": "$color.bg.neutral-weak",
+          "description": "theme-light: palette/gray-200, theme-dark: palette/gray-300"
+        },
+        {
+          "const": "$color.bg.neutral-solid",
+          "description": "theme-light: palette/gray-900, theme-dark: palette/gray-900"
+        },
+        {
+          "const": "$color.bg.neutral-weak-pressed",
+          "description": "theme-light: palette/gray-300, theme-dark: palette/gray-400"
+        },
+        {
+          "const": "$color.bg.informative-weak",
+          "description": "theme-light: palette/blue-100, theme-dark: palette/blue-100"
+        },
+        {
+          "const": "$color.bg.overlay",
+          "description": "theme-light: palette/static-black-alpha-500, theme-dark: palette/static-black-alpha-500"
+        },
+        {
+          "const": "$color.bg.overlay-muted",
+          "description": "theme-light: palette/static-black-alpha-200, theme-dark: palette/static-black-alpha-200"
+        },
+        {
+          "const": "$color.bg.text-selection",
+          "description": "theme-light: palette/carrot-100, theme-dark: palette/carrot-100"
+        },
+        {
+          "const": "$color.stroke.neutral",
+          "description": "theme-light: palette/gray-300, theme-dark: palette/gray-300"
+        },
+        {
+          "const": "$color.stroke.on-image",
+          "description": "theme-light: palette/gray-alpha-50, theme-dark: palette/gray-alpha-50"
+        },
+        {
+          "const": "$color.stroke.brand",
+          "description": "theme-light: palette/carrot-500, theme-dark: palette/carrot-600"
+        },
+        {
+          "const": "$color.stroke.field",
+          "description": "theme-light: palette/gray-400, theme-dark: palette/gray-400"
+        },
+        {
+          "const": "$color.stroke.field-focused",
+          "description": "theme-light: palette/gray-800, theme-dark: palette/gray-800"
+        },
+        {
+          "const": "$color.stroke.control",
+          "description": "theme-light: palette/gray-400, theme-dark: palette/gray-400"
+        },
+        {
+          "const": "$color.fg.static-black",
+          "description": "theme-light: palette/static-black, theme-dark: palette/static-black"
+        },
+        {
+          "const": "$color.bg.layer-basement",
+          "description": "theme-light: palette/gray-200, theme-dark: palette/gray-100"
+        },
+        {
+          "const": "$color.bg.layer-floating",
+          "description": "theme-light: palette/gray-00, theme-dark: palette/gray-100"
+        },
+        {
+          "const": "$color.bg.neutral-solid-pressed",
+          "description": "theme-light: palette/gray-800, theme-dark: palette/gray-800"
+        },
+        {
+          "const": "$color.bg.disabled",
+          "description": "theme-light: palette/gray-200, theme-dark: palette/gray-200"
+        },
+        {
+          "const": "$color.bg.layer-floating-pressed",
+          "description": "theme-light: palette/gray-100, theme-dark: palette/gray-300"
+        },
+        {
+          "const": "$color.stroke.neutral-muted",
+          "description": "theme-light: palette/gray-200, theme-dark: palette/gray-200"
+        },
+        {
+          "const": "$color.bg.informative-weak-pressed",
+          "description": "theme-light: palette/blue-200, theme-dark: palette/blue-200"
+        },
+        {
+          "const": "$color.bg.static-white",
+          "description": "theme-light: palette/static-white, theme-dark: palette/static-white"
+        },
+        {
+          "const": "$color.bg.warning-weak-pressed",
+          "description": "theme-light: palette/yellow-200, theme-dark: palette/yellow-200"
+        },
+        {
+          "const": "$color.bg.danger-weak-pressed",
+          "description": "theme-light: palette/red-200, theme-dark: palette/red-200"
+        },
+        {
+          "const": "$color.bg.informative-solid",
+          "description": "theme-light: palette/blue-600, theme-dark: palette/blue-600"
+        },
+        {
+          "const": "$color.stroke.danger",
+          "description": "theme-light: palette/red-700, theme-dark: palette/red-600"
+        },
+        {
+          "const": "$color.bg.positive-weak-pressed",
+          "description": "theme-light: palette/green-200, theme-dark: palette/green-200"
+        },
+        {
+          "const": "$color.bg.informative-solid-pressed",
+          "description": "theme-light: palette/blue-700, theme-dark: palette/blue-700"
+        },
+        {
+          "const": "$color.bg.positive-solid-pressed",
+          "description": "theme-light: palette/green-700, theme-dark: palette/green-500"
+        },
+        {
+          "const": "$color.palette.gray-00",
+          "description": "theme-light: rgba(255, 255, 255, 1), theme-dark: rgba(18, 18, 18, 1)"
+        },
+        {
+          "const": "$color.palette.gray-100",
+          "description": "theme-light: rgba(247, 248, 249, 1), theme-dark: rgba(26, 28, 32, 1)"
+        },
+        {
+          "const": "$color.palette.gray-200",
+          "description": "theme-light: rgba(243, 244, 245, 1), theme-dark: rgba(37, 39, 44, 1)"
+        },
+        {
+          "const": "$color.palette.gray-300",
+          "description": "theme-light: rgba(238, 239, 241, 1), theme-dark: rgba(44, 46, 52, 1)"
+        },
+        {
+          "const": "$color.palette.gray-400",
+          "description": "theme-light: rgba(220, 222, 227, 1), theme-dark: rgba(62, 65, 69, 1)"
+        },
+        {
+          "const": "$color.palette.gray-500",
+          "description": "theme-light: rgba(209, 211, 216, 1), theme-dark: rgba(91, 96, 106, 1)"
+        },
+        {
+          "const": "$color.palette.gray-600",
+          "description": "theme-light: rgba(176, 179, 186, 1), theme-dark: rgba(134, 139, 148, 1)"
+        },
+        {
+          "const": "$color.palette.gray-700",
+          "description": "theme-light: rgba(134, 139, 148, 1), theme-dark: rgba(176, 179, 186, 1)"
+        },
+        {
+          "const": "$color.palette.gray-800",
+          "description": "theme-light: rgba(91, 96, 106, 1), theme-dark: rgba(220, 222, 227, 1)"
+        },
+        {
+          "const": "$color.palette.gray-900",
+          "description": "theme-light: rgba(26, 28, 32, 1), theme-dark: rgba(243, 244, 245, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-100",
+          "description": "theme-light: rgba(255, 242, 236, 1), theme-dark: rgba(49, 36, 31, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-200",
+          "description": "theme-light: rgba(255, 232, 219, 1), theme-dark: rgba(75, 41, 28, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-300",
+          "description": "theme-light: rgba(255, 213, 192, 1), theme-dark: rgba(107, 49, 28, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-400",
+          "description": "theme-light: rgba(255, 185, 153, 1), theme-dark: rgba(130, 47, 0, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-500",
+          "description": "theme-light: rgba(255, 147, 100, 1), theme-dark: rgba(196, 69, 1, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-600",
+          "description": "theme-light: rgba(255, 102, 0, 1), theme-dark: rgba(247, 89, 0, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-700",
+          "description": "theme-light: rgba(232, 69, 0, 1), theme-dark: rgba(255, 102, 0, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-800",
+          "description": "theme-light: rgba(185, 57, 1, 1), theme-dark: rgba(255, 185, 153, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-900",
+          "description": "theme-light: rgba(134, 43, 0, 1), theme-dark: rgba(238, 206, 188, 1)"
+        },
+        {
+          "const": "$color.palette.carrot-1000",
+          "description": "theme-light: rgba(71, 22, 1, 1), theme-dark: rgba(244, 238, 234, 1)"
+        },
+        {
+          "const": "$color.palette.blue-100",
+          "description": "theme-light: rgba(235, 247, 250, 1), theme-dark: rgba(35, 39, 44, 1)"
+        },
+        {
+          "const": "$color.palette.blue-200",
+          "description": "theme-light: rgba(217, 240, 252, 1), theme-dark: rgba(34, 52, 68, 1)"
+        },
+        {
+          "const": "$color.palette.blue-300",
+          "description": "theme-light: rgba(183, 228, 255, 1), theme-dark: rgba(24, 69, 100, 1)"
+        },
+        {
+          "const": "$color.palette.blue-400",
+          "description": "theme-light: rgba(146, 211, 255, 1), theme-dark: rgba(3, 90, 135, 1)"
+        },
+        {
+          "const": "$color.palette.blue-500",
+          "description": "theme-light: rgba(97, 189, 255, 1), theme-dark: rgba(0, 112, 168, 1)"
+        },
+        {
+          "const": "$color.palette.blue-600",
+          "description": "theme-light: rgba(0, 161, 238, 1), theme-dark: rgba(0, 138, 202, 1)"
+        },
+        {
+          "const": "$color.palette.blue-700",
+          "description": "theme-light: rgba(0, 129, 199, 1), theme-dark: rgba(13, 166, 241, 1)"
+        },
+        {
+          "const": "$color.palette.blue-800",
+          "description": "theme-light: rgba(0, 100, 151, 1), theme-dark: rgba(107, 192, 242, 1)"
+        },
+        {
+          "const": "$color.palette.blue-900",
+          "description": "theme-light: rgba(4, 69, 102, 1), theme-dark: rgba(173, 219, 242, 1)"
+        },
+        {
+          "const": "$color.palette.blue-1000",
+          "description": "theme-light: rgba(10, 40, 59, 1), theme-dark: rgba(217, 244, 250, 1)"
+        },
+        {
+          "const": "$color.palette.red-100",
+          "description": "theme-light: rgba(253, 242, 242, 1), theme-dark: rgba(50, 35, 35, 1)"
+        },
+        {
+          "const": "$color.palette.red-200",
+          "description": "theme-light: rgba(253, 232, 230, 1), theme-dark: rgba(79, 38, 36, 1)"
+        },
+        {
+          "const": "$color.palette.red-300",
+          "description": "theme-light: rgba(254, 211, 209, 1), theme-dark: rgba(116, 40, 38, 1)"
+        },
+        {
+          "const": "$color.palette.red-400",
+          "description": "theme-light: rgba(254, 187, 183, 1), theme-dark: rgba(161, 38, 33, 1)"
+        },
+        {
+          "const": "$color.palette.red-500",
+          "description": "theme-light: rgba(255, 153, 148, 1), theme-dark: rgba(209, 30, 19, 1)"
+        },
+        {
+          "const": "$color.palette.red-600",
+          "description": "theme-light: rgba(253, 103, 100, 1), theme-dark: rgba(247, 53, 38, 1)"
+        },
+        {
+          "const": "$color.palette.red-700",
+          "description": "theme-light: rgba(242, 30, 22, 1), theme-dark: rgba(242, 121, 109, 1)"
+        },
+        {
+          "const": "$color.palette.red-800",
+          "description": "theme-light: rgba(188, 23, 12, 1), theme-dark: rgba(241, 163, 155, 1)"
+        },
+        {
+          "const": "$color.palette.red-900",
+          "description": "theme-light: rgba(127, 26, 13, 1), theme-dark: rgba(242, 203, 201, 1)"
+        },
+        {
+          "const": "$color.palette.red-1000",
+          "description": "theme-light: rgba(74, 18, 9, 1), theme-dark: rgba(249, 236, 235, 1)"
+        },
+        {
+          "const": "$color.palette.green-100",
+          "description": "theme-light: rgba(231, 249, 243, 1), theme-dark: rgba(32, 41, 38, 1)"
+        },
+        {
+          "const": "$color.palette.green-200",
+          "description": "theme-light: rgba(209, 244, 229, 1), theme-dark: rgba(32, 54, 46, 1)"
+        },
+        {
+          "const": "$color.palette.green-300",
+          "description": "theme-light: rgba(143, 241, 195, 1), theme-dark: rgba(32, 73, 59, 1)"
+        },
+        {
+          "const": "$color.palette.green-400",
+          "description": "theme-light: rgba(107, 225, 176, 1), theme-dark: rgba(25, 96, 76, 1)"
+        },
+        {
+          "const": "$color.palette.green-500",
+          "description": "theme-light: rgba(46, 205, 149, 1), theme-dark: rgba(17, 121, 86, 1)"
+        },
+        {
+          "const": "$color.palette.green-600",
+          "description": "theme-light: rgba(16, 173, 126, 1), theme-dark: rgba(27, 148, 109, 1)"
+        },
+        {
+          "const": "$color.palette.green-700",
+          "description": "theme-light: rgba(6, 140, 109, 1), theme-dark: rgba(34, 178, 127, 1)"
+        },
+        {
+          "const": "$color.palette.green-800",
+          "description": "theme-light: rgba(0, 107, 88, 1), theme-dark: rgba(53, 206, 154, 1)"
+        },
+        {
+          "const": "$color.palette.green-900",
+          "description": "theme-light: rgba(5, 74, 61, 1), theme-dark: rgba(147, 229, 192, 1)"
+        },
+        {
+          "const": "$color.palette.green-1000",
+          "description": "theme-light: rgba(10, 43, 36, 1), theme-dark: rgba(212, 246, 239, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-100",
+          "description": "theme-light: rgba(253, 244, 226, 1), theme-dark: rgba(42, 38, 35, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-200",
+          "description": "theme-light: rgba(254, 233, 207, 1), theme-dark: rgba(62, 47, 33, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-300",
+          "description": "theme-light: rgba(248, 216, 181, 1), theme-dark: rgba(87, 60, 32, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-400",
+          "description": "theme-light: rgba(247, 194, 130, 1), theme-dark: rgba(117, 76, 28, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-500",
+          "description": "theme-light: rgba(245, 164, 55, 1), theme-dark: rgba(146, 95, 32, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-600",
+          "description": "theme-light: rgba(210, 137, 43, 1), theme-dark: rgba(176, 118, 52, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-700",
+          "description": "theme-light: rgba(171, 110, 35, 1), theme-dark: rgba(203, 146, 68, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-800",
+          "description": "theme-light: rgba(126, 87, 34, 1), theme-dark: rgba(226, 173, 102, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-900",
+          "description": "theme-light: rgba(84, 60, 31, 1), theme-dark: rgba(238, 208, 171, 1)"
+        },
+        {
+          "const": "$color.palette.yellow-1000",
+          "description": "theme-light: rgba(50, 35, 18, 1), theme-dark: rgba(243, 239, 230, 1)"
+        },
+        {
+          "const": "$color.palette.static-black",
+          "description": "theme-light: rgba(0, 0, 0, 1), theme-dark: rgba(0, 0, 0, 1)"
+        },
+        {
+          "const": "$color.palette.static-white",
+          "description": "theme-light: rgba(255, 255, 255, 1), theme-dark: rgba(255, 255, 255, 1)"
+        },
+        {
+          "const": "$color.palette.static-black-alpha-200",
+          "description": "theme-light: rgba(0, 0, 0, 0.2), theme-dark: rgba(0, 0, 0, 0.2)"
+        },
+        {
+          "const": "$color.palette.static-black-alpha-500",
+          "description": "theme-light: rgba(0, 0, 0, 0.5), theme-dark: rgba(0, 0, 0, 0.5)"
+        },
+        {
+          "const": "$color.palette.static-white-alpha-50",
+          "description": "theme-light: rgba(255, 255, 255, 0.05), theme-dark: rgba(255, 255, 255, 0.05)"
+        },
+        {
+          "const": "$color.palette.static-white-alpha-200",
+          "description": "theme-light: rgba(255, 255, 255, 0.2), theme-dark: rgba(255, 255, 255, 0.2)"
+        },
+        {
+          "const": "$color.palette.static-black-alpha-50",
+          "description": "theme-light: rgba(0, 0, 0, 0.05), theme-dark: rgba(0, 0, 0, 0.05)"
+        },
+        {
+          "const": "$color.palette.gray-alpha-50",
+          "description": "theme-light: rgba(0, 23, 88, 0.05), theme-dark: rgba(255, 255, 255, 0.05)"
+        },
+        {
+          "const": "$color.palette.purple-100",
+          "description": "theme-light: rgba(246, 244, 254, 1), theme-dark: rgba(40, 36, 57, 1)"
+        },
+        {
+          "const": "$color.palette.purple-200",
+          "description": "theme-light: rgba(239, 234, 254, 1), theme-dark: rgba(53, 42, 87, 1)"
+        },
+        {
+          "const": "$color.palette.purple-300",
+          "description": "theme-light: rgba(225, 216, 255, 1), theme-dark: rgba(72, 51, 131, 1)"
+        },
+        {
+          "const": "$color.palette.purple-400",
+          "description": "theme-light: rgba(210, 195, 255, 1), theme-dark: rgba(93, 63, 178, 1)"
+        },
+        {
+          "const": "$color.palette.purple-500",
+          "description": "theme-light: rgba(189, 168, 255, 1), theme-dark: rgba(118, 79, 217, 1)"
+        },
+        {
+          "const": "$color.palette.purple-600",
+          "description": "theme-light: rgba(161, 134, 251, 1), theme-dark: rgba(142, 107, 238, 1)"
+        },
+        {
+          "const": "$color.palette.purple-700",
+          "description": "theme-light: rgba(133, 100, 233, 1), theme-dark: rgba(167, 141, 240, 1)"
+        },
+        {
+          "const": "$color.palette.purple-800",
+          "description": "theme-light: rgba(102, 70, 198, 1), theme-dark: rgba(190, 173, 242, 1)"
+        },
+        {
+          "const": "$color.palette.purple-900",
+          "description": "theme-light: rgba(70, 48, 138, 1), theme-dark: rgba(217, 206, 250, 1)"
+        },
+        {
+          "const": "$color.palette.purple-1000",
+          "description": "theme-light: rgba(41, 23, 93, 1), theme-dark: rgba(240, 237, 252, 1)"
+        },
+        {
+          "const": "$color.fg.brand",
+          "description": "theme-light: palette/carrot-600, theme-dark: palette/carrot-600"
+        },
+        {
+          "const": "$color.fg.magic",
+          "description": "theme-light: palette/purple-700, theme-dark: palette/purple-700"
+        },
+        {
+          "const": "$color.fg.magic-contrast",
+          "description": "theme-light: palette/purple-800, theme-dark: palette/purple-900"
+        }
       ]
     },
     "fontWeightValue": {
       "type": "string",
-      "enum": ["$font-weight.regular", "$font-weight.bold", "$font-weight.medium"]
+      "anyOf": [
+        {
+          "const": "$font-weight.regular",
+          "description": "iOS: regular, iOS-xxxlarge: regular, iOS-xsmall: regular, Android: regular, iOS-jp: regular"
+        },
+        {
+          "const": "$font-weight.bold",
+          "description": "iOS: bold, iOS-xxxlarge: bold, iOS-xsmall: bold, Android: bold, iOS-jp: bold"
+        },
+        {
+          "const": "$font-weight.medium",
+          "description": "iOS: medium, iOS-xxxlarge: medium, iOS-xsmall: medium, Android: medium, iOS-jp: medium"
+        }
+      ]
     },
     "fontSizeValue": {
       "type": "string",
-      "enum": [
-        "$font-size[25]",
-        "$font-size[50]",
-        "$font-size[75]",
-        "$font-size[100]",
-        "$font-size[200]",
-        "$font-size[300]",
-        "$font-size[400]",
-        "$font-size[500]",
-        "$font-size[600]",
-        "$font-size.static[25]",
-        "$font-size.static[50]",
-        "$font-size.static[75]",
-        "$font-size.static[100]",
-        "$font-size.static[200]",
-        "$font-size.static[300]",
-        "$font-size.static[400]",
-        "$font-size.static[500]",
-        "$font-size.static[600]",
-        "$font-size[700]"
+      "anyOf": [
+        {
+          "const": "$font-size[25]",
+          "description": "iOS: 11, iOS-xxxlarge: 17, iOS-xsmall: 8, Android: 11, iOS-jp: 11"
+        },
+        {
+          "const": "$font-size[50]",
+          "description": "iOS: 12, iOS-xxxlarge: 18, iOS-xsmall: 9, Android: 12, iOS-jp: 12"
+        },
+        {
+          "const": "$font-size[75]",
+          "description": "iOS: 13, iOS-xxxlarge: 19, iOS-xsmall: 10, Android: 13, iOS-jp: 13"
+        },
+        {
+          "const": "$font-size[100]",
+          "description": "iOS: 14, iOS-xxxlarge: 20, iOS-xsmall: 11, Android: 14, iOS-jp: 14"
+        },
+        {
+          "const": "$font-size[200]",
+          "description": "iOS: 16, iOS-xxxlarge: 22, iOS-xsmall: 13, Android: 16, iOS-jp: 16"
+        },
+        {
+          "const": "$font-size[300]",
+          "description": "iOS: 18, iOS-xxxlarge: 24, iOS-xsmall: 15, Android: 18, iOS-jp: 18"
+        },
+        {
+          "const": "$font-size[400]",
+          "description": "iOS: 20, iOS-xxxlarge: 26, iOS-xsmall: 17, Android: 20, iOS-jp: 20"
+        },
+        {
+          "const": "$font-size[500]",
+          "description": "iOS: 22, iOS-xxxlarge: 28, iOS-xsmall: 19, Android: 22, iOS-jp: 22"
+        },
+        {
+          "const": "$font-size[600]",
+          "description": "iOS: 24, iOS-xxxlarge: 30, iOS-xsmall: 21, Android: 24, iOS-jp: 24"
+        },
+        {
+          "const": "$font-size.static[25]",
+          "description": "iOS: 11, iOS-xxxlarge: 11, iOS-xsmall: 11, Android: 11, iOS-jp: 11"
+        },
+        {
+          "const": "$font-size.static[50]",
+          "description": "iOS: 12, iOS-xxxlarge: 12, iOS-xsmall: 12, Android: 12, iOS-jp: 12"
+        },
+        {
+          "const": "$font-size.static[75]",
+          "description": "iOS: 13, iOS-xxxlarge: 13, iOS-xsmall: 13, Android: 13, iOS-jp: 13"
+        },
+        {
+          "const": "$font-size.static[100]",
+          "description": "iOS: 14, iOS-xxxlarge: 14, iOS-xsmall: 14, Android: 14, iOS-jp: 14"
+        },
+        {
+          "const": "$font-size.static[200]",
+          "description": "iOS: 16, iOS-xxxlarge: 16, iOS-xsmall: 16, Android: 16, iOS-jp: 16"
+        },
+        {
+          "const": "$font-size.static[300]",
+          "description": "iOS: 18, iOS-xxxlarge: 18, iOS-xsmall: 18, Android: 18, iOS-jp: 18"
+        },
+        {
+          "const": "$font-size.static[400]",
+          "description": "iOS: 20, iOS-xxxlarge: 20, iOS-xsmall: 20, Android: 20, iOS-jp: 20"
+        },
+        {
+          "const": "$font-size.static[500]",
+          "description": "iOS: 22, iOS-xxxlarge: 22, iOS-xsmall: 22, Android: 22, iOS-jp: 22"
+        },
+        {
+          "const": "$font-size.static[600]",
+          "description": "iOS: 24, iOS-xxxlarge: 24, iOS-xsmall: 24, Android: 24, iOS-jp: 24"
+        },
+        {
+          "const": "$font-size[700]",
+          "description": "iOS: 26, iOS-xxxlarge: 32, iOS-xsmall: 23, Android: 26, iOS-jp: 26"
+        }
       ]
     },
     "cornerRadiusValue": {
       "type": "string",
-      "enum": [
-        "$radii.full",
-        "$radii[0.5]",
-        "$radii[7]",
-        "$radii[8]",
-        "$radii[9]",
-        "$radii[10]",
-        "$radii[12]",
-        "$radii[13]",
-        "$radii[14]",
-        "$radii[16]",
-        "$radii[1]",
-        "$radii[1.5]",
-        "$radii[2]",
-        "$radii[2.5]",
-        "$radii[3]",
-        "$radii[4]",
-        "$radii[5]",
-        "$radii[6]"
+      "anyOf": [
+        {
+          "const": "$radii.full",
+          "description": "Mode 1: 9999"
+        },
+        {
+          "const": "$radii[0.5]",
+          "description": "Mode 1: 2"
+        },
+        {
+          "const": "$radii[7]",
+          "description": "Mode 1: 28"
+        },
+        {
+          "const": "$radii[8]",
+          "description": "Mode 1: 32"
+        },
+        {
+          "const": "$radii[9]",
+          "description": "Mode 1: 36"
+        },
+        {
+          "const": "$radii[10]",
+          "description": "Mode 1: 40"
+        },
+        {
+          "const": "$radii[12]",
+          "description": "Mode 1: 48"
+        },
+        {
+          "const": "$radii[13]",
+          "description": "Mode 1: 52"
+        },
+        {
+          "const": "$radii[14]",
+          "description": "Mode 1: 56"
+        },
+        {
+          "const": "$radii[16]",
+          "description": "Mode 1: 64"
+        },
+        {
+          "const": "$radii[1]",
+          "description": "Mode 1: 4"
+        },
+        {
+          "const": "$radii[1.5]",
+          "description": "Mode 1: 6"
+        },
+        {
+          "const": "$radii[2]",
+          "description": "Mode 1: 8"
+        },
+        {
+          "const": "$radii[2.5]",
+          "description": "Mode 1: 10"
+        },
+        {
+          "const": "$radii[3]",
+          "description": "Mode 1: 12"
+        },
+        {
+          "const": "$radii[4]",
+          "description": "Mode 1: 16"
+        },
+        {
+          "const": "$radii[5]",
+          "description": "Mode 1: 20"
+        },
+        {
+          "const": "$radii[6]",
+          "description": "Mode 1: 24"
+        }
+      ]
+    },
+    "sizeValue": {
+      "type": "string",
+      "anyOf": [
+        {
+          "const": "$unit[1]",
+          "description": "Mode 1: 4"
+        },
+        {
+          "const": "$unit[2]",
+          "description": "Mode 1: 8"
+        },
+        {
+          "const": "$unit[3]",
+          "description": "Mode 1: 12"
+        },
+        {
+          "const": "$unit[4]",
+          "description": "Mode 1: 16"
+        },
+        {
+          "const": "$unit[5]",
+          "description": "Mode 1: 20"
+        },
+        {
+          "const": "$unit[6]",
+          "description": "Mode 1: 24"
+        },
+        {
+          "const": "$unit[7]",
+          "description": "Mode 1: 28"
+        },
+        {
+          "const": "$unit[8]",
+          "description": "Mode 1: 32"
+        },
+        {
+          "const": "$unit[9]",
+          "description": "Mode 1: 36"
+        },
+        {
+          "const": "$unit[10]",
+          "description": "Mode 1: 40"
+        },
+        {
+          "const": "$unit[12]",
+          "description": "Mode 1: 48"
+        },
+        {
+          "const": "$unit[13]",
+          "description": "Mode 1: 52"
+        },
+        {
+          "const": "$unit[14]",
+          "description": "Mode 1: 56"
+        },
+        {
+          "const": "$unit[16]",
+          "description": "Mode 1: 64"
+        },
+        {
+          "const": "$unit[0.5]",
+          "description": "Mode 1: 2"
+        },
+        {
+          "const": "$unit[1.5]",
+          "description": "Mode 1: 6"
+        },
+        {
+          "const": "$unit[2.5]",
+          "description": "Mode 1: 10"
+        },
+        {
+          "const": "$unit[3.5]",
+          "description": "Mode 1: 14"
+        }
       ]
     }
   }

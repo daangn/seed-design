@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./schema.json
 # parts: root, label, notification
 # states: enabled, selected, disabled
 base:
