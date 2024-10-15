@@ -7,11 +7,11 @@ on:
     paths:
       - 'docs/**'
 
-name: Deploy Seed Docs Alpha Pages
+name: Deploy seed-design-v3 docs (Alpha)
 
 jobs:
   deploy:
-    name: Deploy Seed Docs
+    name: Deploy Seed Design V3 Docs
     runs-on: ubuntu-latest
 
     steps:
@@ -19,58 +19,23 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
+          node-version: 20.11.0
           cache: yarn
       
       - name: Install Dependencies
         run: yarn install --immutable
 
-      - name: Build `seed-design/design-token`
-        working-directory: ./packages/design-token
-        run: |
-          yarn build
+      - name: Build Packages
+        run: yarn build-only-package
 
-      - name: Build `seed-design/design-theming`
-        working-directory: ./packages/react-theming
-        run: |
-          yarn build
-
-      - name: Cache Gatsby `.cache` Folder
-        uses: actions/cache@v3
-        id: gatsby-cache-folder
-        with:
-          path: docs/.cache
-          key: ${{ runner.os }}-cache-gatsby
-          restore-keys: |
-            ${{ runner.os }}-cache-gatsby
-      
-      - if: steps.gatsby-cache-folder.outputs.cache-hit == 'true'
-        run: echo 'gatsby-cache-folder cache hit!'
-
-      - name: Cache Gatsby `public` Folder
-        uses: actions/cache@v3
-        id: gatsby-public-folder
-        with:
-          path: docs/public/
-          key: ${{ runner.os }}-public-gatsby
-          restore-keys: |
-            ${{ runner.os }}-public-gatsby
-      
-      - if: steps.gatsby-public-folder.outputs.cache-hit == 'true'
-        run: echo 'gatsby-public-folder cache hit!'
-
-      - name: Build `Seed Docs`
+      - name: Build Docs
         working-directory: ./docs
         run: |
           yarn build
-        env:
-          # incremental builds
-          # https://www.gatsbyjs.org/docs/page-build-optimizations-for-incremental-data-changes/
-          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
       
-      - name: Alpha Deploy `Seed Docs` at Cloudflare pages
+      - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Alpha)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages publish ./docs/public --project-name=seed-design --branch=${{ github.ref_name }}
+          command: pages deploy ./docs/out --project-name=seed-design-v3 --branch=${{ github.ref_name }}
