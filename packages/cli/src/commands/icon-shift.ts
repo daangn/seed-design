@@ -12,10 +12,12 @@ import { migrateFile, type ImportTransformers } from "@/src/utils/migrate";
 
 const importTransformersReact: ImportTransformers = {
   source: [
-    { find: "@seed-design/icons", replace: "@seed-design/react-icon" },
-    { find: "@seed-design/react-icon" },
+    { startsWith: "@seed-design/icons", replaceWith: "@seed-design/react-icon" },
+    { startsWith: "@seed-design/react-icon" },
   ],
-  identifier: [{ find: "Icon", replace: "NewIcon" }],
+  identifier: {
+    Icon: "NewIcon",
+  },
 };
 
 const iconShiftOptionsSchema = z.object({

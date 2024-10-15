@@ -17,16 +17,16 @@ describe("shiftingIcons", () => {
   const j = jscodeshift.withParser("tsx");
 
   const importTransformers: ImportTransformers = {
-    source: [{ find: "some-package", replace: "some-new-package" }],
-    identifier: [
-      { find: "IconLike", replace: "IconHeart" },
-      { find: "IconFavorite", replace: "IconStar" },
-      { find: "IconHot", replace: "IconFlame" },
-      { find: "IconNight", replace: "IconMoon" },
-    ],
+    source: [{ startsWith: "some-package", replaceWith: "some-new-package" }],
+    identifier: {
+      IconLike: "IconHeart",
+      IconFavorite: "IconStar",
+      IconHot: "IconFlame",
+      IconNight: "IconMoon",
+    },
   };
 
-  const cases = {
+  const cases: Record<string, ("migrateImportDeclarations" | "migrateIdentifiers")[]> = {
     migrateImportDeclarations: ["migrateImportDeclarations"],
     migrateImportDeclarationsVariousTypes: ["migrateImportDeclarations"],
     migrateIdentifiers: ["migrateIdentifiers"],
@@ -41,7 +41,7 @@ describe("shiftingIcons", () => {
   };
 
   // migrateImportDeclarations
-  for (const name of Object.keys(cases)) {
+  for (const name in cases) {
     test(name, () => {
       const input = fs.readFileSync(path.resolve(__dirname, `./cases/${name}/input.tsx`), "utf-8");
       const expected = fs.readFileSync(

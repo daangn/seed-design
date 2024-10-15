@@ -2,8 +2,8 @@ import jscodeshift from "jscodeshift";
 import fs from "fs";
 
 export interface ImportTransformers {
-  source: { find: string; replace?: string }[];
-  identifier: { find: string; replace: string }[];
+  source: { startsWith: string; replaceWith?: string }[];
+  identifier: Record<string, string>;
 }
 
 interface MigrateFileParams {
@@ -24,7 +24,7 @@ export function migrateFile({ filePath, jscodeshift, importTransformers }: Migra
         value: (value: unknown) => {
           if (typeof value !== "string") return false;
 
-          return importTransformers.source.some(({ find }) => value.startsWith(find));
+          return importTransformers.source.some(({ startsWith }) => value.startsWith(startsWith));
         },
       },
     }),
@@ -33,7 +33,7 @@ export function migrateFile({ filePath, jscodeshift, importTransformers }: Migra
 
   migrateIdentifiers({
     identifiers: tree.find(jscodeshift.Identifier, {
-      name: (value) => importTransformers.identifier.some(({ find }) => value === find),
+      name: (value) => Object.keys(importTransformers.identifier).includes(value),
     }),
     identifierTransformers: importTransformers.identifier,
   });
@@ -71,21 +71,24 @@ export function migrateImportDeclarations({
     const newSourceValue = (() => {
       if (typeof currentSourceValue !== "string") return currentSourceValue;
 
-      const sourceReplaced = importTransformers.source.reduce(
-        (acc, { find, replace }) => (replace ? acc.replace(find, replace) : acc),
-        currentSourceValue,
+      console.log(importTransformers.source);
+
+      const { startsWith, replaceWith } = importTransformers.source.find(({ startsWith }) =>
+        currentSourceValue.startsWith(startsWith),
       );
+
+      const sourceReplaced = replaceWith
+        ? currentSourceValue.replace(startsWith, replaceWith)
+        : currentSourceValue;
 
       const slashSplits = sourceReplaced.split("/");
 
       const itemReplaced = slashSplits
         .map((split, index) => {
-          if (index !== slashSplits.length - 1) return split;
+          if (index !== slashSplits.length - 1 || split in importTransformers.identifier === false)
+            return split;
 
-          return importTransformers.identifier.reduce(
-            (acc, { find, replace }) => acc.replace(find, replace),
-            split,
-          );
+          return importTransformers.identifier[split];
         })
         .join("/");
 
@@ -96,19 +99,20 @@ export function migrateImportDeclarations({
       switch (currentSpecifier.type) {
         case "ImportSpecifier": {
           // import { IconHeart } from "some-package";
-          const newImportedName = importTransformers.identifier.reduce(
-            (acc, { find, replace }) => acc.replace(find, replace),
-            currentSpecifier.imported.name,
-          );
+          const currentImportedName = currentSpecifier.imported.name;
 
-          const newImportedIdentifier = jscodeshift.identifier(newImportedName);
+          if (currentImportedName in importTransformers.identifier === false)
+            return currentSpecifier;
 
-          const hasNoChange = newImportedName === currentSpecifier.imported.name;
+          const newImportedName = importTransformers.identifier[currentImportedName];
+
+          const hasNoChange = newImportedName === currentImportedName;
 
           if (hasNoChange) return currentSpecifier;
 
           // TODO
           // impactedSpecifierCount++;
+          const newImportedIdentifier = jscodeshift.identifier(newImportedName);
 
           // import { IconHeart as Heart } from "some-package"; 에서
           // imported: "IconHeart", local: "Heart"
@@ -147,11 +151,8 @@ export function migrateIdentifiers({
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
 
-    const newName = identifierTransformers.reduce(
-      (acc, { find, replace }) => acc.replace(find, replace),
-      currentName,
-    );
+    if (currentName in identifierTransformers === false) return identifier;
 
-    return jscodeshift.identifier(newName);
+    return jscodeshift.identifier(identifierTransformers[currentName]);
   });
 }
