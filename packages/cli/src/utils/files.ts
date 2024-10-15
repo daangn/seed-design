@@ -1,7 +1,7 @@
 import ts from "typescript";
 import fs from "fs";
 import path from "path";
-import { type SimpleGit } from "simple-git";
+import type { SimpleGit } from "simple-git";
 
 export function getAllFileNamesWithMatchingExtension({
   dir,
@@ -19,9 +19,7 @@ export function getAllFileNamesWithMatchingExtension({
       (item) =>
         item.isFile() &&
         extensionsToFind.some((ext) => item.name.endsWith(ext)) &&
-        (extensionsToExclude
-          ? !extensionsToExclude.some((ext) => item.name.endsWith(ext))
-          : true)
+        (extensionsToExclude ? !extensionsToExclude.some((ext) => item.name.endsWith(ext)) : true),
     )
     .map((item) => `${item.parentPath}/${item.name}`);
 }
@@ -40,12 +38,10 @@ export function getAllTypeScriptCompiledFileNames({
   const { fileNames } = ts.parseJsonConfigFileContent(
     tsconfigFile.config,
     ts.sys,
-    path.dirname(tsconfigPath)
+    path.dirname(tsconfigPath),
   );
 
-  return fileNames.filter((fileName) =>
-    excludeDTs ? !fileName.endsWith(".d.ts") : true
-  );
+  return fileNames.filter((fileName) => (excludeDTs ? !fileName.endsWith(".d.ts") : true));
 }
 
 export async function filterGitIgnoredFiles({
@@ -55,9 +51,7 @@ export async function filterGitIgnoredFiles({
   git: SimpleGit;
   filePaths: string[];
 }) {
-  const promises = await Promise.all(
-    filePaths.map((file) => isFileGitTracked(git, file))
-  );
+  const promises = await Promise.all(filePaths.map((file) => isFileGitTracked(git, file)));
 
   return filePaths.filter((_, index) => promises[index]);
 }
@@ -65,5 +59,5 @@ export async function filterGitIgnoredFiles({
 async function isFileGitTracked(git: SimpleGit, filePath: string) {
   const result = await git.checkIgnore(filePath);
 
-  return result.length > 0 ? false : true;
+  return result.length < 0;
 }
