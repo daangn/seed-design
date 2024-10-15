@@ -11,6 +11,7 @@ import fs from "fs";
 import path from "path";
 
 const biome = await Biome.create({ distribution: Distribution.NODE });
+biome.applyConfiguration({ formatter: { indentStyle: "space", lineWidth: 100 } });
 
 describe("shiftingIcons", () => {
   const j = jscodeshift.withParser("tsx");
@@ -66,8 +67,6 @@ describe("shiftingIcons", () => {
       if (firstNode !== firstNodeAfterModification) {
         firstNodeAfterModification.comments = firstNode.comments;
       }
-
-      biome.applyConfiguration({ formatter: { indentStyle: "space", lineWidth: 100 } });
 
       const { content } = biome.formatContent(tree.toSource(), {
         filePath: `${name}.tsx`,
