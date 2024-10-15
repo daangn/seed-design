@@ -53,12 +53,24 @@ describe("shiftingIcons", () => {
       const firstNode = getFirstNode({ tree, jscodeshift: j });
 
       if (cases[name].includes("migrateImportDeclarations")) {
-        const importDeclarations = tree.find(j.ImportDeclaration);
+        const importDeclarations = tree.find(j.ImportDeclaration, {
+          source: {
+            value: (value: unknown) => {
+              if (typeof value !== "string") return false;
+
+              return importTransformers.source.some(({ startsWith }) =>
+                value.startsWith(startsWith),
+              );
+            },
+          },
+        });
         migrateImportDeclarations({ importDeclarations, importTransformers });
       }
 
       if (cases[name].includes("migrateIdentifiers")) {
-        const identifiers = tree.find(j.Identifier);
+        const identifiers = tree.find(j.Identifier, {
+          name: (value) => Object.keys(importTransformers.identifier).includes(value),
+        });
         migrateIdentifiers({ identifiers, identifierTransformers: importTransformers.identifier });
       }
 
