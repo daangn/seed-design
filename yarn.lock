@@ -17619,11 +17619,11 @@ __metadata:
   linkType: hard
 
 "markdown-to-jsx@npm:^7.1.3":
-  version: 7.1.8
-  resolution: "markdown-to-jsx@npm:7.1.8"
+  version: 7.5.0
+  resolution: "markdown-to-jsx@npm:7.5.0"
   peerDependencies:
     react: ">= 0.14.0"
-  checksum: 4823f90e8bd6734b9a4ad206d217c55358268974e219e0edf3c64407336a14116921cad8c577c54b4bf0349412751ab25f3b6265c8b5a99207a5f6e364716636
+  checksum: c9c6f1bfad5f2d9b1d3476eb0313ae3dffd0a9f14011c74efdd7c664fd32ee1842ef48abb16a496046f90361af49aa80a827e9d9c0bc04824a1986fdeb4d1852
   languageName: node
   linkType: hard
 
