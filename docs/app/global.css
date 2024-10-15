@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.react {
+  --primary: var(--react-color);
+}
+
+.design {
+  --primary: var(--design-color);
+}
+
+:root {
+  --design-color: 250 80% 54%;
+  --react-color: 220deg 91% 54%;
+}
+
+.dark {
+  --design-color: 250 100% 80%;
+  --react-color: 217deg 92% 76%;
+}

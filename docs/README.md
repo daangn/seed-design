@@ -1,10 +1,26 @@
-![seed docs](./content/ogimage.png)
+# docs
 
-# SEED Docs
+This is a Next.js application generated with
+[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-SEED는 메이커들이 효율적으로 제품을 만들 수 있도록 필요한 도구와 컴포넌트를 제공합니다.
-SEED에서 제공하는 컴포넌트의 전반적인 Overview, Usage 가이드, Spec 가이드를 확인할 수 있습니다.
+Run development server:
 
-### Contributing
+```bash
+npm run dev
+# or
+pnpm dev
+# or
+yarn dev
+```
 
-[Seed Docs CONTRIBUTING.md](./CONTRIBUTING.md)
+Open http://localhost:3000 with your browser to see the result.
+
+## Learn More
+
+To learn more about Next.js and Fumadocs, take a look at the following
+resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
+  features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs

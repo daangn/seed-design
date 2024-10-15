@@ -1,0 +1,5 @@
+{
+  "title": "react",
+  "root": true,
+  "pages": ["index", "---Components---", "..."]
+}

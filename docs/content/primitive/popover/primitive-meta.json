@@ -1,7 +1,0 @@
-{
-  "$schema": "../../../schema/primitive-meta.json",
-  "name": "Popover",
-  "description": "트리거 주위에 떠 있는 비모달 대화상자입니다.",
-  "thumbnail": "./thumbnail.png",
-  "primitive": "./primitive.mdx"
-}
