@@ -1,0 +1,12 @@
+{
+  "name": "expand-button",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registries": [
+    {
+      "name": "expand-button.tsx",
+      "content": "\"use client\";\n\nimport \"@seed-design/stylesheet/expandButton.css\";\n\nimport * as React from \"react\";\nimport clsx from \"clsx\";\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { expandButton, type ExpandButtonVariantProps } from \"@seed-design/recipe/expandButton\";\n\nexport interface ExpandButtonProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    ExpandButtonVariantProps {\n  suffixIcon?: React.ReactNode;\n\n  asChild?: boolean;\n}\n\n/**\n * @see https://component.seed-design.io/components/box-button\n */\nexport const ExpandButton = React.forwardRef<HTMLButtonElement, ExpandButtonProps>(\n  ({ className, children, suffixIcon, asChild = false, ...otherProps }, ref) => {\n    const Comp = asChild ? Slot : \"button\";\n    const classNames = expandButton({});\n    return (\n      <Comp ref={ref} className={clsx(classNames.root, className)} {...otherProps}>\n        <span className={classNames.label}>{children}</span>\n        {suffixIcon && <Slot className={classNames.suffixIcon}>{suffixIcon}</Slot>}\n      </Comp>\n    );\n  },\n);\nExpandButton.displayName = \"ExpandButton\";\n"
+    }
+  ]
+}

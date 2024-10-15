@@ -1,3 +1,10 @@
+export interface Model {
+  kind: string;
+  metadata: {
+    name: string;
+  };
+}
+
 export interface NestedExpression {
   [variantExpression: string]: {
     [state: string]: {

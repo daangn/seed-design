@@ -1,0 +1,5 @@
+{
+  "title": "design",
+  "root": true,
+  "pages": ["index", "foundation", "components"]
+}
