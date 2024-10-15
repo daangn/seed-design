@@ -1,8 +1,8 @@
 import jscodeshift from "jscodeshift";
 
 export interface ImportTransformers {
-  source: { find: string; replace: string }[];
-  identifier: { find: RegExp; replace: string }[];
+  source: { find: string; replace?: string }[];
+  identifier: { find: string; replace: string }[];
 }
 
 interface MigrateImportDeclarationsParams {
