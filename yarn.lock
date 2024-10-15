@@ -1905,6 +1905,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@biomejs/js-api@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@biomejs/js-api@npm:0.7.1"
+  peerDependencies:
+    "@biomejs/wasm-bundler": ^1.9.2
+    "@biomejs/wasm-nodejs": ^1.9.2
+    "@biomejs/wasm-web": ^1.9.2
+  peerDependenciesMeta:
+    "@biomejs/wasm-bundler":
+      optional: true
+    "@biomejs/wasm-nodejs":
+      optional: true
+    "@biomejs/wasm-web":
+      optional: true
+  checksum: dabda9a6227884351b43724954baa75753f954593008600684e91143fcda5593fbc5987bdbc12f78ca4ff9bd21a04c8913eaaace06b7746fd9d8fde9c9a14f51
+  languageName: node
+  linkType: hard
+
+"@biomejs/wasm-nodejs@npm:^1.9.3":
+  version: 1.9.4
+  resolution: "@biomejs/wasm-nodejs@npm:1.9.4"
+  checksum: a6eb61c0df1088fd108b637033701dd99bc28409789d3d8bafc1714c7198e088c30db857e775a36d4a23a886587b896a48c8930c0a9cb722a6bcab354c78490b
+  languageName: node
+  linkType: hard
+
 "@changesets/apply-release-plan@npm:^7.0.5":
   version: 7.0.5
   resolution: "@changesets/apply-release-plan@npm:7.0.5"
@@ -4662,6 +4687,8 @@ __metadata:
     "@babel/core": ^7.24.9
     "@babel/parser": ^7.24.8
     "@babel/plugin-transform-typescript": ^7.24.8
+    "@biomejs/js-api": ^0.7.1
+    "@biomejs/wasm-nodejs": ^1.9.3
     "@clack/prompts": ^0.7.0
     "@types/babel__core": ^7.20.5
     "@types/fs-extra": ^11.0.4
