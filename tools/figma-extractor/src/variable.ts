@@ -407,7 +407,7 @@ function toJsDeclaration(variable: Variable) {
 }
 
 type JsonSchemaDeclaration = {
-  type: "color" | "font-weight" | "font-size" | "radius" | "unit" | "unknown";
+  type: string;
   name: string;
   description: string;
   modeValues?: Array<{
@@ -429,6 +429,33 @@ function parseValue(value: VariableValue) {
   return rgba(r * 255, g * 255, b * 255, a);
 }
 
+function getJsonSchemaDeclaration(
+  variable: Variable,
+  modes: Array<{
+    modeId: string;
+    name: string;
+  }>,
+  type: string,
+  nameConverter: (name: string) => string,
+) {
+  const result = {
+    type,
+    name: `"${nameConverter(variable.name)}"`,
+    description: variable.description,
+    modeValues: modes.map((mode) => {
+      const value = variable.valuesByMode[mode.modeId]!;
+      const parsedValue = parseValue(value);
+      const modeName = mode.name === "Mode 1" ? "value" : mode.name;
+      return {
+        modeName,
+        value: parsedValue,
+      };
+    }),
+  };
+
+  return result;
+}
+
 function toJsonSchemaDeclaration(
   variable: Variable,
   modes: Array<{
@@ -437,71 +464,19 @@ function toJsonSchemaDeclaration(
   }>,
 ): JsonSchemaDeclaration {
   if (variable.name.startsWith("font-weight")) {
-    return {
-      type: "font-weight",
-      name: `"${figmaFontWeightVarToJsVar(variable.name)}"`,
-      description: variable.description,
-      modeValues: modes.map((mode) => {
-        const value = variable.valuesByMode[mode.modeId]!;
-        console.log("value", value);
-
-        const parsedValue = parseValue(value);
-        console.log("parsedValue", parsedValue);
-
-        return {
-          modeName: mode.name,
-          value: parsedValue,
-        };
-      }),
-    };
+    return getJsonSchemaDeclaration(variable, modes, "font-weight", figmaFontWeightVarToJsVar);
   }
 
   if (variable.name.startsWith("font-size")) {
-    return {
-      type: "font-size",
-      name: `"${figmaFontSizeVarToJsVar(variable.name)}"`,
-      description: variable.description,
-      modeValues: modes.map((mode) => {
-        const value = variable.valuesByMode[mode.modeId]!;
-        const parsedValue = parseValue(value);
-        return {
-          modeName: mode.name,
-          value: parsedValue,
-        };
-      }),
-    };
+    return getJsonSchemaDeclaration(variable, modes, "font-size", figmaFontSizeVarToJsVar);
   }
 
   if (variable.name.startsWith("radius")) {
-    return {
-      type: "radius",
-      name: `"${figmaCornerRadiusVarToJsVar(variable.name)}"`,
-      description: variable.description,
-      modeValues: modes.map((mode) => {
-        const value = variable.valuesByMode[mode.modeId]!;
-        const parsedValue = parseValue(value);
-        return {
-          modeName: mode.name,
-          value: parsedValue,
-        };
-      }),
-    };
+    return getJsonSchemaDeclaration(variable, modes, "radius", figmaCornerRadiusVarToJsVar);
   }
 
   if (variable.name.startsWith("unit")) {
-    return {
-      type: "unit",
-      name: `"${figmaUnitVarToJsVar(variable.name)}"`,
-      description: variable.description,
-      modeValues: modes.map((mode) => {
-        const value = variable.valuesByMode[mode.modeId]!;
-        const parsedValue = parseValue(value);
-        return {
-          modeName: mode.name,
-          value: parsedValue,
-        };
-      }),
-    };
+    return getJsonSchemaDeclaration(variable, modes, "unit", figmaUnitVarToJsVar);
   }
 
   if (
@@ -510,32 +485,12 @@ function toJsonSchemaDeclaration(
     variable.name.startsWith("palette") ||
     variable.name.startsWith("stroke")
   ) {
-    return {
-      type: "color",
-      name: `"${figmaColorVarToSpecVar(variable.name)}"`,
-      description: variable.description,
-      modeValues: modes.map((mode) => {
-        const value = variable.valuesByMode[mode.modeId]!;
-        const parsedValue = parseValue(value);
-        return {
-          modeName: mode.name,
-          value: parsedValue,
-        };
-      }),
-    };
+    return getJsonSchemaDeclaration(variable, modes, "color", figmaColorVarToSpecVar);
   }
 
   return {
     type: "unknown",
-    name: `"${variable.name}"`,
+    name: variable.name,
     description: variable.description,
-    modeValues: modes.map((mode) => {
-      const value = variable.valuesByMode[mode.modeId]!;
-      const parsedValue = parseValue(value);
-      return {
-        modeName: mode.name,
-        value: parsedValue,
-      };
-    }),
   };
 }

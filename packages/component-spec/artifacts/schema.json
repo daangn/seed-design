@@ -698,75 +698,75 @@
       "anyOf": [
         {
           "const": "$radii.full",
-          "description": "Mode 1: 9999"
+          "description": "value: 9999"
         },
         {
           "const": "$radii[0.5]",
-          "description": "Mode 1: 2"
+          "description": "value: 2"
         },
         {
           "const": "$radii[7]",
-          "description": "Mode 1: 28"
+          "description": "value: 28"
         },
         {
           "const": "$radii[8]",
-          "description": "Mode 1: 32"
+          "description": "value: 32"
         },
         {
           "const": "$radii[9]",
-          "description": "Mode 1: 36"
+          "description": "value: 36"
         },
         {
           "const": "$radii[10]",
-          "description": "Mode 1: 40"
+          "description": "value: 40"
         },
         {
           "const": "$radii[12]",
-          "description": "Mode 1: 48"
+          "description": "value: 48"
         },
         {
           "const": "$radii[13]",
-          "description": "Mode 1: 52"
+          "description": "value: 52"
         },
         {
           "const": "$radii[14]",
-          "description": "Mode 1: 56"
+          "description": "value: 56"
         },
         {
           "const": "$radii[16]",
-          "description": "Mode 1: 64"
+          "description": "value: 64"
         },
         {
           "const": "$radii[1]",
-          "description": "Mode 1: 4"
+          "description": "value: 4"
         },
         {
           "const": "$radii[1.5]",
-          "description": "Mode 1: 6"
+          "description": "value: 6"
         },
         {
           "const": "$radii[2]",
-          "description": "Mode 1: 8"
+          "description": "value: 8"
         },
         {
           "const": "$radii[2.5]",
-          "description": "Mode 1: 10"
+          "description": "value: 10"
         },
         {
           "const": "$radii[3]",
-          "description": "Mode 1: 12"
+          "description": "value: 12"
         },
         {
           "const": "$radii[4]",
-          "description": "Mode 1: 16"
+          "description": "value: 16"
         },
         {
           "const": "$radii[5]",
-          "description": "Mode 1: 20"
+          "description": "value: 20"
         },
         {
           "const": "$radii[6]",
-          "description": "Mode 1: 24"
+          "description": "value: 24"
         }
       ]
     },
@@ -775,75 +775,75 @@
       "anyOf": [
         {
           "const": "$unit[1]",
-          "description": "Mode 1: 4"
+          "description": "value: 4"
         },
         {
           "const": "$unit[2]",
-          "description": "Mode 1: 8"
+          "description": "value: 8"
         },
         {
           "const": "$unit[3]",
-          "description": "Mode 1: 12"
+          "description": "value: 12"
         },
         {
           "const": "$unit[4]",
-          "description": "Mode 1: 16"
+          "description": "value: 16"
         },
         {
           "const": "$unit[5]",
-          "description": "Mode 1: 20"
+          "description": "value: 20"
         },
         {
           "const": "$unit[6]",
-          "description": "Mode 1: 24"
+          "description": "value: 24"
         },
         {
           "const": "$unit[7]",
-          "description": "Mode 1: 28"
+          "description": "value: 28"
         },
         {
           "const": "$unit[8]",
-          "description": "Mode 1: 32"
+          "description": "value: 32"
         },
         {
           "const": "$unit[9]",
-          "description": "Mode 1: 36"
+          "description": "value: 36"
         },
         {
           "const": "$unit[10]",
-          "description": "Mode 1: 40"
+          "description": "value: 40"
         },
         {
           "const": "$unit[12]",
-          "description": "Mode 1: 48"
+          "description": "value: 48"
         },
         {
           "const": "$unit[13]",
-          "description": "Mode 1: 52"
+          "description": "value: 52"
         },
         {
           "const": "$unit[14]",
-          "description": "Mode 1: 56"
+          "description": "value: 56"
         },
         {
           "const": "$unit[16]",
-          "description": "Mode 1: 64"
+          "description": "value: 64"
         },
         {
           "const": "$unit[0.5]",
-          "description": "Mode 1: 2"
+          "description": "value: 2"
         },
         {
           "const": "$unit[1.5]",
-          "description": "Mode 1: 6"
+          "description": "value: 6"
         },
         {
           "const": "$unit[2.5]",
-          "description": "Mode 1: 10"
+          "description": "value: 10"
         },
         {
           "const": "$unit[3.5]",
-          "description": "Mode 1: 14"
+          "description": "value: 14"
         }
       ]
     }
