@@ -9,23 +9,15 @@ import {
 import { simpleGit } from "simple-git";
 import fs from "fs";
 import jscodeshift from "jscodeshift";
-
-interface Transformer {
-  find: RegExp;
-  replace: string;
-}
-
-interface ImportTransformers {
-  identifier: Transformer[];
-  source: Transformer[];
-}
+import {
+  migrateIdentifiers,
+  migrateImportDeclarations,
+  type ImportTransformers,
+} from "@/src/utils/migrate";
 
 const importTransformers: ImportTransformers = {
-  identifier: [{ find: /^use/, replace: "icon" }],
-  source: [
-    { find: /^@radix/, replace: "icon" },
-    { find: /^react/, replace: "icon" },
-  ],
+  identifier: [{ find: /^Icon/, replace: "NewIcon" }],
+  source: [{ find: /^some-package$/, replace: "some-new-package" }],
 };
 
 const iconShiftOptionsSchema = z.object({
@@ -87,6 +79,23 @@ export const iconShiftCommand = (cli: CAC) => {
               initialValue: true,
             }),
         }),
+        migrateIdentifiers: () =>
+          prompt.select({
+            message: "어디까지 변경할까요?",
+            options: [
+              {
+                label: "모두 변경",
+                value: "all",
+                hint: `\n(old) import { IconHeart } from "old-package"; <IconHeart />;\n→ (new) import { NewIconHeart } from "new-package"; <NewIconHeart />;\n`,
+              },
+              {
+                label: "import만 변경",
+                value: "importOnly",
+                hint: `\n(old) import { IconHeart } from "old-package"; <IconHeart />;\n→ (new) import { NewIconHeart as IconHeart } from "new-package"; <IconHeart />;\n`,
+              },
+            ],
+            initialValue: "all",
+          }),
       });
 
       const filesFound = (() => {
@@ -124,97 +133,41 @@ export const iconShiftCommand = (cli: CAC) => {
         const filePath = filesTracked[i];
         const percent = (((i + 1) / filesTracked.length) * 100).toFixed(1);
 
-        message(`파일 ${i + 1}/${filesTracked.length} 변경 중 (${percent}%): ${filePath}`);
+        message(`파일 ${i + 1}/${filesTracked.length} 변경 시작 (${percent}%): ${filePath}`);
 
-        migrateFile({ jscodeshift: j, filePath, importTransformers });
+        const file = fs.readFileSync(filePath, "utf-8");
+
+        const filterSourceByValue = (value: unknown) => {
+          if (typeof value !== "string") return false;
+
+          return importTransformers.source.some(({ find }) => find.test(value));
+        };
+
+        const filterIdentifierByName = (name: string) => {
+          return importTransformers.identifier.some(({ find }) => find.test(name));
+        };
+
+        const tree = j(file);
+
+        console.log(`\nfile: ${filePath}`);
+
+        migrateImportDeclarations({
+          importDeclarations: tree.find(jscodeshift.ImportDeclaration, {
+            source: {
+              value: filterSourceByValue,
+            },
+          }),
+          importTransformers,
+        });
+
+        migrateIdentifiers({
+          identifiers: tree.find(jscodeshift.Identifier, { name: filterIdentifierByName }),
+          identifierTransformers: importTransformers.identifier,
+        });
+
+        console.log(tree.toSource());
       }
 
       stop("코드 변경이 끝났어요.");
     });
 };
-
-interface MigrateFileParams {
-  jscodeshift: jscodeshift.JSCodeshift;
-  filePath: string;
-  importTransformers: ImportTransformers;
-}
-
-function migrateFile({ jscodeshift, filePath, importTransformers }: MigrateFileParams) {
-  const file = fs.readFileSync(filePath, "utf-8");
-
-  const filterSourceByValue = (value: unknown) => {
-    if (typeof value !== "string") return false;
-
-    const sourceFindRegexes = importTransformers.source.map(({ find }) => find);
-    return sourceFindRegexes.some((regex) => regex.test(value));
-  };
-
-  const matchedImportDeclarations = jscodeshift(file).find(jscodeshift.ImportDeclaration, {
-    source: { value: filterSourceByValue },
-  });
-
-  console.log(`\nfile: ${filePath}`);
-
-  matchedImportDeclarations.replaceWith((imp) => {
-    const currentSourceValue = imp.node.source.value;
-    const currentSpecifiers = imp.node.specifiers;
-    const currentImportKind = imp.node.importKind;
-
-    const newSourceValue =
-      typeof currentSourceValue === "string"
-        ? importTransformers.source.reduce(
-            (acc, { find, replace }) => acc.replace(find, replace),
-            currentSourceValue,
-          )
-        : currentSourceValue;
-
-    console.log(`source: ${currentSourceValue} -> ${newSourceValue}`);
-
-    let impactedSpecifierCount = 0;
-
-    const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
-      switch (currentSpecifier.type) {
-        case "ImportSpecifier": {
-          // import { IconHeart } from "some-package";
-          const newImportedName = importTransformers.identifier.reduce(
-            (acc, { find, replace }) => acc.replace(find, replace),
-            currentSpecifier.imported.name,
-          );
-
-          const newImportedIdentifier = jscodeshift.identifier(newImportedName);
-
-          const hasNoChange = newImportedName === currentSpecifier.imported.name;
-
-          if (hasNoChange) return currentSpecifier;
-
-          impactedSpecifierCount++;
-
-          console.log(`identifier: ${currentSpecifier.imported.name} -> ${newImportedName}`);
-
-          // import { IconHeart as Heart } from "some-package"; 에서
-          // imported: "IconHeart", local: "Heart"
-          return jscodeshift.importSpecifier(newImportedIdentifier, currentSpecifier.local);
-        }
-        case "ImportDefaultSpecifier": {
-          // import Icon from "some-package";
-          return currentSpecifier;
-        }
-        case "ImportNamespaceSpecifier": {
-          // import * as Icon from "some-package";
-          return currentSpecifier;
-        }
-      }
-    });
-
-    const newImportDeclaration = jscodeshift.importDeclaration(
-      newSpecifiers,
-      jscodeshift.literal(newSourceValue),
-      currentImportKind,
-    );
-
-    console.log(`impacted specifiers: ${impactedSpecifierCount}`);
-    // console.log(matchedImportDeclarations.toSource());
-
-    return newImportDeclaration;
-  });
-}
