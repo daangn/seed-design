@@ -184,7 +184,7 @@ export const iconShiftCommand = (cli: CAC) => {
     });
 };
 
-export function getFirstNode({
+function getFirstNode({
   tree,
   jscodeshift,
 }: { tree: jscodeshift.Collection; jscodeshift: jscodeshift.JSCodeshift }) {

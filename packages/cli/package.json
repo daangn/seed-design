@@ -29,6 +29,8 @@
     "@babel/core": "^7.24.9",
     "@babel/parser": "^7.24.8",
     "@babel/plugin-transform-typescript": "^7.24.8",
+    "@biomejs/js-api": "^0.7.1",
+    "@biomejs/wasm-nodejs": "^1.9.3",
     "@clack/prompts": "^0.7.0",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
