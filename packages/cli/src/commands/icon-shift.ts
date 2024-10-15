@@ -1,4 +1,4 @@
-import * as p from "@clack/prompts";
+import * as prompt from "@clack/prompts";
 import { z } from "zod";
 import type { CAC } from "cac";
 import {
@@ -33,11 +33,6 @@ const iconShiftOptionsSchema = z.object({
   includeIgnored: z.boolean().optional(),
 });
 
-// 1. 루트에서 `yarn seed-design icon-shift` 명령어를 입력한다. [x]
-// 2. 명시된 타겟 경로를 읽는다. [x]
-// 2-1. 타겟 경로 default = process.cwd() [x]
-// 2-2. tsconfig include 경로 [x]
-// 2-3. 유저가 입력한 경로  [x]
 // 3. 로그 파일
 // 3-1. 변경된 파일, (라인)
 // 3-2. 에러났을 때 에러 메세지도 같이 들어있고, 어디서 문제 생겼는지도 나와야 한다.
@@ -58,7 +53,7 @@ export const iconShiftCommand = (cli: CAC) => {
 
       const pathAvailableTargetPrompt = {
         target: () =>
-          p.select({
+          prompt.select({
             message: `입력한 경로: ${options.path} 맞나요?`,
             options: [{ label: "네", value: "path" }],
           }),
@@ -66,7 +61,7 @@ export const iconShiftCommand = (cli: CAC) => {
 
       const pathUnavailableTargetPrompt = {
         target: () =>
-          p.select({
+          prompt.select({
             message: "어떤 파일을 대상으로 마이그레이션을 진행할까요?",
             options: [
               {
@@ -83,11 +78,11 @@ export const iconShiftCommand = (cli: CAC) => {
           }),
       };
 
-      const group = await p.group({
+      const group = await prompt.group({
         ...(options.path ? pathAvailableTargetPrompt : pathUnavailableTargetPrompt),
         ...(options.includeIgnored && {
           includeIgnored: () =>
-            p.confirm({
+            prompt.confirm({
               message: "git에 트래킹되지 않는 파일도 포함할까요?",
               initialValue: true,
             }),
@@ -118,17 +113,23 @@ export const iconShiftCommand = (cli: CAC) => {
 
       const filesTracked = options.includeIgnored
         ? filesFound
-        : await filterGitIgnoredFiles({
-            git: simpleGit(),
-            filePaths: filesFound,
-          });
+        : await filterGitIgnoredFiles({ git: simpleGit(), filePaths: filesFound });
 
-      console.log(`총 ${filesTracked.length}개의 파일을 찾았습니다.`);
+      const { start, message, stop } = prompt.spinner();
+
+      start(`총 ${filesTracked.length}개의 파일에 대한 코드 변경을 시작할게요.`);
       const j = jscodeshift.withParser("tsx");
 
-      for (const filePath of filesTracked) {
+      for (let i = 0; i < filesTracked.length; i++) {
+        const filePath = filesTracked[i];
+        const percent = (((i + 1) / filesTracked.length) * 100).toFixed(1);
+
+        message(`파일 ${i + 1}/${filesTracked.length} 변경 중 (${percent}%): ${filePath}`);
+
         migrateFile({ jscodeshift: j, filePath, importTransformers });
       }
+
+      stop("코드 변경이 끝났어요.");
     });
 };
 
@@ -169,6 +170,8 @@ function migrateFile({ jscodeshift, filePath, importTransformers }: MigrateFileP
 
     console.log(`source: ${currentSourceValue} -> ${newSourceValue}`);
 
+    let impactedSpecifierCount = 0;
+
     const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
         case "ImportSpecifier": {
@@ -183,6 +186,8 @@ function migrateFile({ jscodeshift, filePath, importTransformers }: MigrateFileP
           const hasNoChange = newImportedName === currentSpecifier.imported.name;
 
           if (hasNoChange) return currentSpecifier;
+
+          impactedSpecifierCount++;
 
           console.log(`identifier: ${currentSpecifier.imported.name} -> ${newImportedName}`);
 
@@ -207,8 +212,9 @@ function migrateFile({ jscodeshift, filePath, importTransformers }: MigrateFileP
       currentImportKind,
     );
 
+    console.log(`impacted specifiers: ${impactedSpecifierCount}`);
+    // console.log(matchedImportDeclarations.toSource());
+
     return newImportDeclaration;
   });
-
-  // console.log(matchedImportDeclarations.toSource());
 }
