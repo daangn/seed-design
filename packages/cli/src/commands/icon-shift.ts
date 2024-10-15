@@ -33,10 +33,7 @@ export const iconShiftCommand = (cli: CAC) => {
   cli
     .command("icon-shift", "V2 아이콘을 V3 아이콘으로 변환하는 명령어")
     .option("--path <path>", "마이그레이션할 소스 코드가 있는 경로 (선택)")
-    .option(
-      "--include-ignored",
-      ".gitignore를 통해 트래킹되지 않는 파일도 포함할지 여부 (선택)"
-    )
+    .option("--include-ignored", ".gitignore를 통해 트래킹되지 않는 파일도 포함할지 여부 (선택)")
     .example("seed-design icon-shift")
     .action(async (opts) => {
       const options = iconShiftOptionsSchema.parse({ ...opts });
@@ -60,8 +57,7 @@ export const iconShiftCommand = (cli: CAC) => {
               },
               {
                 // FIXME: 확장자
-                label:
-                  "현재 디렉토리 안의 .js, .jsx, .ts, .tsx (excluding d.ts)",
+                label: "현재 디렉토리 안의 .js, .jsx, .ts, .tsx (excluding d.ts)",
                 value: "cwd",
               },
             ],
@@ -70,9 +66,7 @@ export const iconShiftCommand = (cli: CAC) => {
       };
 
       const group = await p.group({
-        ...(options.path
-          ? pathAvailableTargetPrompt
-          : pathUnavailableTargetPrompt),
+        ...(options.path ? pathAvailableTargetPrompt : pathUnavailableTargetPrompt),
         ...(options.includeIgnored && {
           includeIgnored: () =>
             p.confirm({
