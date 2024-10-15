@@ -10,6 +10,24 @@ import { simpleGit } from "simple-git";
 import fs from "fs";
 import jscodeshift from "jscodeshift";
 
+interface Transformer {
+  find: RegExp;
+  replace: string;
+}
+
+interface ImportTransformers {
+  identifier: Transformer[];
+  source: Transformer[];
+}
+
+const importTransformers: ImportTransformers = {
+  identifier: [{ find: /^use/, replace: "icon" }],
+  source: [
+    { find: /^@radix/, replace: "icon" },
+    { find: /^react/, replace: "icon" },
+  ],
+};
+
 const iconShiftOptionsSchema = z.object({
   path: z.string().optional(),
   includeIgnored: z.boolean().optional(),
@@ -109,31 +127,88 @@ export const iconShiftCommand = (cli: CAC) => {
       const j = jscodeshift.withParser("tsx");
 
       for (const filePath of filesTracked) {
-        migrateFile({ jscodeshift: j, filePath, source: "react" });
+        migrateFile({ jscodeshift: j, filePath, importTransformers });
       }
     });
 };
 
-function migrateFile({
-  jscodeshift,
-  filePath,
-  source,
-}: {
+interface MigrateFileParams {
   jscodeshift: jscodeshift.JSCodeshift;
   filePath: string;
-  source: string;
-}) {
+  importTransformers: ImportTransformers;
+}
+
+function migrateFile({ jscodeshift, filePath, importTransformers }: MigrateFileParams) {
   const file = fs.readFileSync(filePath, "utf-8");
 
-  const matchedImportDeclarations = jscodeshift(file).find(
-    jscodeshift.ImportDeclaration,
-    {
-      source: { value: source },
-    }
-  );
+  const filterSourceByValue = (value: unknown) => {
+    if (typeof value !== "string") return false;
 
-  matchedImportDeclarations.forEach(({ node }) => {
-    node.specifiers.forEach(({ local: { name } }) => console.log(name));
-    console.log("ㄴ", node.source.value);
+    const sourceFindRegexes = importTransformers.source.map(({ find }) => find);
+    return sourceFindRegexes.some((regex) => regex.test(value));
+  };
+
+  const matchedImportDeclarations = jscodeshift(file).find(jscodeshift.ImportDeclaration, {
+    source: { value: filterSourceByValue },
   });
+
+  console.log(`\nfile: ${filePath}`);
+
+  matchedImportDeclarations.replaceWith((imp) => {
+    const currentSourceValue = imp.node.source.value;
+    const currentSpecifiers = imp.node.specifiers;
+    const currentImportKind = imp.node.importKind;
+
+    const newSourceValue =
+      typeof currentSourceValue === "string"
+        ? importTransformers.source.reduce(
+            (acc, { find, replace }) => acc.replace(find, replace),
+            currentSourceValue,
+          )
+        : currentSourceValue;
+
+    console.log(`source: ${currentSourceValue} -> ${newSourceValue}`);
+
+    const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
+      switch (currentSpecifier.type) {
+        case "ImportSpecifier": {
+          // import { IconHeart } from "some-package";
+          const newImportedName = importTransformers.identifier.reduce(
+            (acc, { find, replace }) => acc.replace(find, replace),
+            currentSpecifier.imported.name,
+          );
+
+          const newImportedIdentifier = jscodeshift.identifier(newImportedName);
+
+          const hasNoChange = newImportedName === currentSpecifier.imported.name;
+
+          if (hasNoChange) return currentSpecifier;
+
+          console.log(`identifier: ${currentSpecifier.imported.name} -> ${newImportedName}`);
+
+          // import { IconHeart as Heart } from "some-package"; 에서
+          // imported: "IconHeart", local: "Heart"
+          return jscodeshift.importSpecifier(newImportedIdentifier, currentSpecifier.local);
+        }
+        case "ImportDefaultSpecifier": {
+          // import Icon from "some-package";
+          return currentSpecifier;
+        }
+        case "ImportNamespaceSpecifier": {
+          // import * as Icon from "some-package";
+          return currentSpecifier;
+        }
+      }
+    });
+
+    const newImportDeclaration = jscodeshift.importDeclaration(
+      newSpecifiers,
+      jscodeshift.literal(newSourceValue),
+      currentImportKind,
+    );
+
+    return newImportDeclaration;
+  });
+
+  // console.log(matchedImportDeclarations.toSource());
 }
