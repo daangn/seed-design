@@ -10,6 +10,7 @@ import { simpleGit } from "simple-git";
 import fs from "fs";
 import jscodeshift from "jscodeshift";
 import {
+  migrateFile,
   migrateIdentifiers,
   migrateImportDeclarations,
   type ImportTransformers,
@@ -142,51 +143,9 @@ export const iconShiftCommand = (cli: CAC) => {
 
         message(`파일 ${i + 1}/${filesTracked.length} 변경 시작 (${percent}%): ${filePath}`);
 
-        const file = fs.readFileSync(filePath, "utf-8");
-
-        const filterSourceByValue = (value: unknown) => {
-          if (typeof value !== "string") return false;
-
-          return importTransformersReact.source.some(({ find }) => value.startsWith(find));
-        };
-
-        const filterIdentifierByName = (name: string) => {
-          return importTransformersReact.identifier.some(({ find }) => name === find);
-        };
-
-        const tree = j(file);
-        const firstNode = getFirstNode({ tree, jscodeshift: j });
-
-        migrateImportDeclarations({
-          importDeclarations: tree.find(jscodeshift.ImportDeclaration, {
-            source: {
-              value: filterSourceByValue,
-            },
-          }),
-          importTransformers: importTransformersReact,
-        });
-
-        migrateIdentifiers({
-          identifiers: tree.find(jscodeshift.Identifier, { name: filterIdentifierByName }),
-          identifierTransformers: importTransformersReact.identifier,
-        });
-
-        const firstNodeAfterModification = getFirstNode({ tree, jscodeshift: j });
-
-        if (firstNode !== firstNodeAfterModification) {
-          firstNodeAfterModification.comments = firstNode.comments;
-        }
-
-        fs.writeFileSync(filePath, tree.toSource());
+        migrateFile({ filePath, jscodeshift: j, importTransformers: importTransformersReact });
       }
 
       stop("코드 변경이 끝났어요.");
     });
 };
-
-function getFirstNode({
-  tree,
-  jscodeshift,
-}: { tree: jscodeshift.Collection; jscodeshift: jscodeshift.JSCodeshift }) {
-  return tree.find(jscodeshift.Program).get("body", 0).node;
-}
