@@ -71,8 +71,6 @@ export function migrateImportDeclarations({
     const newSourceValue = (() => {
       if (typeof currentSourceValue !== "string") return currentSourceValue;
 
-      console.log(importTransformers.source);
-
       const { startsWith, replaceWith } = importTransformers.source.find(({ startsWith }) =>
         currentSourceValue.startsWith(startsWith),
       );
