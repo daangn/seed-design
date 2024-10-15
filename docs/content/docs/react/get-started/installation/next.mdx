@@ -1,0 +1,179 @@
+---
+title: Next.js
+---
+
+Next.js 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정들에 대해서 알아봐요.
+
+<Tabs items={['Pages Router', 'App Router']}>
+  {/* Pages Router */}
+  <Tab value="Pages Router">
+    <Steps>
+    <Step>
+    ### 의존성 설치
+
+    필요한 의존성들을 설치해요.
+
+    ```package-install
+    @seed-design/stylesheet @seed-design/recipe
+    ```
+    </Step>
+
+    <Step>
+
+    ### pages/_document.tsx 수정하기
+
+    Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color` 속성을 통해 라이트/다크모드 전환을 해요.
+    Next.js에서 `_document.tsx` 파일을 생성하고 Seed Design의 컬러 토큰을 설정해요.
+
+    <Tabs items={['auto', 'light only', 'dark only']}>
+      <Tab value="auto">
+        ```tsx title="pages/_document.tsx"
+        import { Html, Head, Main, NextScript } from "next/document";
+
+        export default function Document() {
+          return (
+            <Html data-seed data-seed-scale-color="light" data-seed-scale-letter-spacing="ios"> // [!code highlight]
+              <Head>
+                <meta name="color-scheme" content="light dark" /> // [!code highlight]
+              </Head>
+              <body>
+                <Main />
+                <NextScript />
+              </body>
+            </Html>
+          );
+        }
+        ```
+      </Tab>
+      <Tab value="light only">
+        ```tsx title="pages/_document.tsx"
+        import { Html, Head, Main, NextScript } from "next/document";
+
+        export default function Document() {
+          return (
+            <Html data-seed="light-only" data-seed-scale-color="light" data-seed-scale-letter-spacing="ios"> // [!code highlight]
+              <Head>
+                <meta name="color-scheme" content="light" /> // [!code highlight]
+              </Head>
+              <body>
+                <Main />
+                <NextScript />
+              </body>
+            </Html>
+          );
+        }
+        ```
+      </Tab>
+      <Tab value="dark only">
+        ```tsx title="pages/_document.tsx"
+        import { Html, Head, Main, NextScript } from "next/document";
+
+        export default function Document() {
+          return (
+            <Html data-seed="dark-only" data-seed-scale-color="dark" data-seed-scale-letter-spacing="ios">
+              <Head>
+                <meta name="color-scheme" content="dark" />
+              </Head>
+              <body>
+                <Main />
+                <NextScript />
+              </body>
+            </Html>
+          );
+        }
+        ```
+      </Tab>
+    </Tabs>
+    
+    </Step>
+
+    <Step>
+    
+
+    ### token.css import하기
+
+    ```tsx title="pages/_app.tsx"
+    import "@seed-design/stylesheet/token.css"; // [!code highlight]
+
+    function MyApp({ Component, pageProps }) {
+      return <Component {...pageProps} />;
+    }
+    ```
+
+    </Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+```sh
+npx @seed-design/cli@latest init
+```
+
+<Step>
+
+### seed-design 설정
+```sh
+◇  Would you like to use TypeScript (recommended)?
+│  Yes
+│
+◇  Are you using React Server Components?
+│  No
+│
+◇  Would you like to use CSS Modules? (If true, CSS import will be added in components)
+│  Yes
+│
+◇  Enter the path to your seed-design directory
+│  ./seed-design
+│
+◇  seed-design.json written to seed-design.json
+```
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "rsc": false,
+  "tsx": true,
+  "css": true,
+  "path": "./seed-design"
+}
+```
+</Tab>
+</Tabs>
+
+</Step>
+
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+   
+```sh
+npx @seed-design/cli@latest add box-button
+```
+
+</Step>
+
+</Steps>
+
+</Tab>
+
+{/* App Router */}
+<Tab value="App Router">
+준비중입니다...
+</Tab>
+
+</Tabs>

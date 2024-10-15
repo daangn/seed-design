@@ -7792,6 +7792,7 @@ __metadata:
     autoprefixer: ^10.4.20
     chalk: ^5.3.0
     fumadocs-core: 13.4.10
+    fumadocs-docgen: ^1.2.0
     fumadocs-mdx: 10.0.2
     fumadocs-ui: 13.4.10
     next: ^14.2.8
@@ -9136,6 +9137,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fumadocs-docgen@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "fumadocs-docgen@npm:1.2.0"
+  dependencies:
+    estree-util-value-to-estree: ^3.1.2
+    fumadocs-typescript: ^2.1.0
+    hast-util-to-estree: ^3.1.0
+    npm-to-yarn: ^3.0.0
+    unist-util-visit: ^5.0.0
+    zod: ^3.23.8
+  checksum: c9542f860822db8817bf466b72476a12ef890eec6dcc4e2f046114e904b2ee786131e5eacc4f1af48463119da1b3215f4fbb06dfe8eec184499dc5b1a9e4627e
+  languageName: node
+  linkType: hard
+
 "fumadocs-mdx@npm:10.0.2":
   version: 10.0.2
   resolution: "fumadocs-mdx@npm:10.0.2"
@@ -9155,6 +9170,21 @@ __metadata:
   bin:
     fumadocs-mdx: bin.mjs
   checksum: 2452cfd82aaec6524ba4dbedf1b257b621a656da19818682377c88fbf7512e223199ea1aa361f25b1e228dbf2d6ee5917acfa145d91e1d35be18729fbf8143b2
+  languageName: node
+  linkType: hard
+
+"fumadocs-typescript@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "fumadocs-typescript@npm:2.1.0"
+  dependencies:
+    fast-glob: ^3.3.1
+    hast-util-to-jsx-runtime: ^2.3.0
+    mdast-util-from-markdown: ^2.0.1
+    mdast-util-gfm: ^3.0.0
+    mdast-util-to-hast: ^13.2.0
+  peerDependencies:
+    typescript: "*"
+  checksum: 25a389a6fa532b3d3e6f79616a714883c4c0e53c391fef5e44f895cdb7bfcf5b10d299b7c6015b427e90849990671dbb4a0de229decb16472213512851a426db
   languageName: node
   linkType: hard
 
@@ -9716,7 +9746,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hast-util-to-estree@npm:^3.0.0":
+"hast-util-to-estree@npm:^3.0.0, hast-util-to-estree@npm:^3.1.0":
   version: 3.1.0
   resolution: "hast-util-to-estree@npm:3.1.0"
   dependencies:
@@ -9779,6 +9809,29 @@ __metadata:
     unist-util-position: "npm:^5.0.0"
     vfile-message: "npm:^4.0.0"
   checksum: 86b8e04582c16bf3dbbf131b4986f5b3e317c3d2bedbfad8e399bf4698e99e676fc46be771ba74b91098fa25f2b2213d25141f4b51e5afc6bc6597a9d4081738
+  languageName: node
+  linkType: hard
+
+"hast-util-to-jsx-runtime@npm:^2.3.0":
+  version: 2.3.2
+  resolution: "hast-util-to-jsx-runtime@npm:2.3.2"
+  dependencies:
+    "@types/estree": ^1.0.0
+    "@types/hast": ^3.0.0
+    "@types/unist": ^3.0.0
+    comma-separated-tokens: ^2.0.0
+    devlop: ^1.0.0
+    estree-util-is-identifier-name: ^3.0.0
+    hast-util-whitespace: ^3.0.0
+    mdast-util-mdx-expression: ^2.0.0
+    mdast-util-mdx-jsx: ^3.0.0
+    mdast-util-mdxjs-esm: ^2.0.0
+    property-information: ^6.0.0
+    space-separated-tokens: ^2.0.0
+    style-to-object: ^1.0.0
+    unist-util-position: ^5.0.0
+    vfile-message: ^4.0.0
+  checksum: 223cc3e2ea622d14529e2aa070bd88f6ca7255084bd5e6e28015dad435cda22b1ddd98064bba6a4753d546d882dcd3f8067af1ea27c253986f6f303869544075
   languageName: node
   linkType: hard
 
@@ -11120,7 +11173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-from-markdown@npm:^2.0.0":
+"mdast-util-from-markdown@npm:^2.0.0, mdast-util-from-markdown@npm:^2.0.1":
   version: 2.0.1
   resolution: "mdast-util-from-markdown@npm:2.0.1"
   dependencies:
@@ -11441,7 +11494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-to-hast@npm:^13.0.0":
+"mdast-util-to-hast@npm:^13.0.0, mdast-util-to-hast@npm:^13.2.0":
   version: 13.2.0
   resolution: "mdast-util-to-hast@npm:13.2.0"
   dependencies:

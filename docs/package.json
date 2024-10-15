@@ -17,6 +17,7 @@
     "@seed-design/recipe": "0.0.0-alpha-20241004093556",
     "@seed-design/stylesheet": "0.0.0-alpha-20241004093556",
     "fumadocs-core": "13.4.10",
+    "fumadocs-docgen": "^1.2.0",
     "fumadocs-mdx": "10.0.2",
     "fumadocs-ui": "13.4.10",
     "next": "^14.2.8",

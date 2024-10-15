@@ -1,0 +1,5 @@
+{
+  "title": "Get started",
+  "pages": ["installation", "cli", "seed-design"],
+  "defaultOpen": true
+}

@@ -1,0 +1,167 @@
+---
+title: Vite
+---
+
+vite 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정들에 대해서 알아봐요.
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
+
+```package-install
+@seed-design/stylesheet @seed-design/recipe
+```
+
+</Step>
+
+<Step>
+
+### index.html 수정하기
+
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
+속성을 통해 라이트/다크모드 전환을 해요.
+
+<Tabs items={['auto', 'light only', 'dark only']}>
+  <Tab value="auto">
+    ```tsx title="index.html" 
+    <html
+      data-seed // [!code highlight]
+      data-seed-scale-color="light" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="light dark" /> // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+  <Tab value="light only">
+    ```tsx title="index.html"
+    <html
+      data-seed="light-only" // [!code highlight]
+      data-seed-scale-color="light" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="light" /> // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+  <Tab value="dark only">
+    ```tsx title="index.html"
+    <html
+      data-seed="dark-only" // [!code highlight]
+      data-seed-scale-color="dark" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="dark" />   // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+### global.css import하기
+
+```ts title="index.tsx"
+import "@seed-design/stylesheet/token.css";
+```
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+```sh
+npx @seed-design/cli@latest init
+```
+
+<Step>
+
+### seed-design 설정
+```sh
+◇  Would you like to use TypeScript (recommended)?
+│  Yes
+│
+◇  Are you using React Server Components?
+│  No
+│
+◇  Would you like to use CSS Modules? (If true, CSS import will be added in components)
+│  Yes
+│
+◇  Enter the path to your seed-design directory
+│  ./seed-design
+│
+◇  seed-design.json written to seed-design.json
+```
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "rsc": false,
+  "tsx": true,
+  "css": true,
+  "path": "./seed-design"
+}
+```
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```sh
+npx @seed-design/cli@latest add box-button
+```
+
+</Step>
+
+<Step>
+
+
+### tsconfig.json 설정하기
+
+</Step>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // your options
+    "paths": { // [!code highlight]
+      "seed-design/ui/*": [ // [!code highlight]
+        "./seed-design/ui/*" // [!code highlight]
+      ] // [!code highlight]
+    } // [!code highlight]
+  }
+}
+```
+
+
+</Steps>

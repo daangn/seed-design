@@ -10,6 +10,10 @@ import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Installation } from "@/components/installation";
 import { ComponentExample } from "@/components/component-example";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { File, Folder, Files } from "fumadocs-ui/components/files";
+import { Card, Cards } from "fumadocs-ui/components/card";
 
 export default async function Page({
   params,
@@ -31,6 +35,15 @@ export default async function Page({
             ...defaultMdxComponents,
             Installation,
             ComponentExample,
+            Tab,
+            Tabs,
+            Step,
+            Steps,
+            File,
+            Folder,
+            Files,
+            Card,
+            Cards,
           }}
         />
       </DocsBody>

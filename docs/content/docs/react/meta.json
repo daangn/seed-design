@@ -1,5 +1,5 @@
 {
   "title": "react",
   "root": true,
-  "pages": ["index", "---Components---", "..."]
+  "pages": ["index", "get-started", "components", "!templates"]
 }
