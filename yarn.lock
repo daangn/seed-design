@@ -4063,6 +4063,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@biomejs/js-api@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@biomejs/js-api@npm:0.7.1"
+  peerDependencies:
+    "@biomejs/wasm-bundler": ^1.9.2
+    "@biomejs/wasm-nodejs": ^1.9.2
+    "@biomejs/wasm-web": ^1.9.2
+  peerDependenciesMeta:
+    "@biomejs/wasm-bundler":
+      optional: true
+    "@biomejs/wasm-nodejs":
+      optional: true
+    "@biomejs/wasm-web":
+      optional: true
+  checksum: dabda9a6227884351b43724954baa75753f954593008600684e91143fcda5593fbc5987bdbc12f78ca4ff9bd21a04c8913eaaace06b7746fd9d8fde9c9a14f51
+  languageName: node
+  linkType: hard
+
+"@biomejs/wasm-nodejs@npm:^1.9.3":
+  version: 1.9.3
+  resolution: "@biomejs/wasm-nodejs@npm:1.9.3"
+  checksum: a35df4e8d71574503064ed2a2c78cddedae675562d6caa56b415b39dd0587f037cd62e5e038259c3aaf5c8c89a99e6d50bc0584b4872547d42e0c8e91ab8fa40
+  languageName: node
+  linkType: hard
+
 "@braintree/sanitize-url@npm:^6.0.1":
   version: 6.0.4
   resolution: "@braintree/sanitize-url@npm:6.0.4"
@@ -8090,6 +8115,9 @@ __metadata:
     "@babel/core": ^7.24.9
     "@babel/parser": ^7.24.8
     "@babel/plugin-transform-typescript": ^7.24.8
+    "@biomejs/biome": ^1.9.3
+    "@biomejs/js-api": ^0.7.1
+    "@biomejs/wasm-nodejs": ^1.9.3
     "@clack/prompts": ^0.7.0
     "@types/babel__core": ^7.20.5
     "@types/fs-extra": ^11.0.4

@@ -5,8 +5,11 @@ import {
 } from "../../utils/migrate";
 import jscodeshift from "jscodeshift";
 import { describe, expect, test } from "vitest";
+import { Biome, Distribution } from "@biomejs/js-api";
 import fs from "fs";
 import path from "path";
+
+const biome = await Biome.create({ distribution: Distribution.NODE });
 
 describe("shiftingIcons", () => {
   const j = jscodeshift.withParser("tsx");
@@ -63,7 +66,13 @@ describe("shiftingIcons", () => {
         firstNodeAfterModification.comments = firstNode.comments;
       }
 
-      expect(tree.toSource()).toBe(expected);
+      biome.applyConfiguration({ formatter: { indentStyle: "space", lineWidth: 100 } });
+
+      const { content } = biome.formatContent(tree.toSource(), {
+        filePath: `${name}.tsx`,
+      });
+
+      expect(content).toBe(expected);
     });
   }
 });
