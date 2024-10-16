@@ -14,6 +14,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { File, Folder, Files } from "fumadocs-ui/components/files";
 import { Card, Cards } from "fumadocs-ui/components/card";
+import { Callout } from "fumadocs-ui/components/callout";
 
 export default async function Page({
   params,
@@ -44,6 +45,7 @@ export default async function Page({
             Files,
             Card,
             Cards,
+            Callout,
           }}
         />
       </DocsBody>

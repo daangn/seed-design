@@ -27,8 +27,6 @@ const chipTab = defineRecipe({
     variant: {
       neutralSolid: {
         root: {
-          backgroundColor: vars.variantNeutralSolid.enabled.root.color,
-
           [pseudo(selected)]: {
             backgroundColor: vars.variantNeutralSolid.selected.root.color,
           },

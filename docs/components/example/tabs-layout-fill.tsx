@@ -1,9 +1,15 @@
-import { Tabs, TabContent, TabContentList, TabTrigger, TabTriggerList } from "seed-design/ui/tabs";
+import {
+  Tabs,
+  TabContent,
+  TabContentList,
+  TabTrigger,
+  TabTriggerList,
+} from "seed-design/ui/tabs";
 
 export default function TabsLayoutFill() {
   return (
     <div style={{ width: "360px" }}>
-      <Tabs defaultValue="1" layout="fill">
+      <Tabs defaultValue="2" layout="fill">
         <TabTriggerList>
           <TabTrigger value="1">라벨1</TabTrigger>
           <TabTrigger value="2">라벨2</TabTrigger>

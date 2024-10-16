@@ -76,7 +76,7 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const classNames = tabs({
       layout,
     });
-    const { rootProps, value, restProps } = useTabsProps;
+    const { rootProps, value } = useTabsProps;
     const { shouldRender } = useLazyContents({
       currentValue: value,
       lazyMode,
@@ -91,7 +91,6 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       <div
         ref={ref}
         {...rootProps}
-        {...restProps}
         className={clsx(classNames.root, className)}
       >
         <TabsContext.Provider

@@ -14,8 +14,6 @@ base:
 
 variant=neutral solid:
   enabled:
-    root:
-      color: $color.bg.neutral
     label:
       color: $color.fg.neutral
       fontWeight: $font-weight.bold

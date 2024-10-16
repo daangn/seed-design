@@ -14,9 +14,6 @@
     font-size: var(--seed-font-size-100);
     font-weight: var(--seed-font-weight-bold);
 }
-.chipTab__root--variant_neutralSolid {
-    background-color: var(--seed-color-bg-neutral);
-}
 .chipTab__root--variant_neutralSolid:is(:selected, [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
 }

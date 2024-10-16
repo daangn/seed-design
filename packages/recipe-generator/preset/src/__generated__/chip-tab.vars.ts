@@ -15,9 +15,6 @@ export const vars = {
   },
   "variantNeutralSolid": {
     "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral)"
-      },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
         "fontWeight": "var(--seed-font-weight-bold)"
