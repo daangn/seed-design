@@ -9,7 +9,7 @@ import {
   type UseTabsProps,
 } from "@seed-design/react-tabs";
 import { chipTab } from "@seed-design/recipe/chipTab";
-import { ChipTabsVariant, chipTabs } from "@seed-design/recipe/chipTabs";
+import { type ChipTabsVariant, chipTabs } from "@seed-design/recipe/chipTabs";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -36,34 +36,48 @@ const useChipTabsContext = () => {
 };
 
 export interface ChipTabsProps
-  extends Assign<React.HTMLAttributes<HTMLDivElement>, Omit<UseTabsProps, "layout">>,
+  extends Assign<
+      React.HTMLAttributes<HTMLDivElement>,
+      Omit<UseTabsProps, "layout">
+    >,
     ChipTabsVariant,
     Omit<UseLazyContentsProps, "currentValue"> {}
 
-export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>((props, ref) => {
-  const { className, lazyMode, isLazy, variant } = props;
-  const api = useTabs(props);
-  const classNames = chipTabs({
-    variant,
-  });
-  const { rootProps, value, restProps } = api;
-  const { shouldRender } = useLazyContents({ currentValue: value, lazyMode, isLazy });
+export const ChipTabs = React.forwardRef<HTMLDivElement, ChipTabsProps>(
+  (props, ref) => {
+    const { className, lazyMode, isLazy, variant } = props;
+    const api = useTabs(props);
+    const classNames = chipTabs({
+      variant,
+    });
+    const { rootProps, value, restProps } = api;
+    const { shouldRender } = useLazyContents({
+      currentValue: value,
+      lazyMode,
+      isLazy,
+    });
 
-  return (
-    <div ref={ref} {...rootProps} {...restProps} className={clsx(classNames.root, className)}>
-      <ChipTabsContext.Provider
-        value={{
-          api,
-          classNames,
-          shouldRender,
-          variant,
-        }}
+    return (
+      <div
+        ref={ref}
+        {...rootProps}
+        {...restProps}
+        className={clsx(classNames.root, className)}
       >
-        {props.children}
-      </ChipTabsContext.Provider>
-    </div>
-  );
-});
+        <ChipTabsContext.Provider
+          value={{
+            api,
+            classNames,
+            shouldRender,
+            variant,
+          }}
+        >
+          {props.children}
+        </ChipTabsContext.Provider>
+      </div>
+    );
+  },
+);
 ChipTabs.displayName = "ChipTabs";
 
 export const ChipTabTriggerList = React.forwardRef<
@@ -104,24 +118,30 @@ ChipTabTriggerList.displayName = "ChipTabTriggerList";
 export interface ChipTabTriggerProps
   extends Assign<React.HTMLAttributes<HTMLButtonElement>, TriggerProps> {}
 
-export const ChipTabTrigger = React.forwardRef<HTMLButtonElement, ChipTabTriggerProps>(
-  ({ className, children, value, isDisabled, ...otherProps }, ref) => {
-    const { api, variant } = useChipTabsContext();
-    const { getTabTriggerProps } = api;
-    const { label, root } = chipTab({
-      variant,
-    });
-    const { rootProps, labelProps } = getTabTriggerProps({ value, isDisabled });
+export const ChipTabTrigger = React.forwardRef<
+  HTMLButtonElement,
+  ChipTabTriggerProps
+>(({ className, children, value, isDisabled, ...otherProps }, ref) => {
+  const { api, variant } = useChipTabsContext();
+  const { getTabTriggerProps } = api;
+  const { label, root } = chipTab({
+    variant,
+  });
+  const { rootProps, labelProps } = getTabTriggerProps({ value, isDisabled });
 
-    return (
-      <button ref={ref} {...rootProps} className={clsx(root, className)} {...otherProps}>
-        <span className={label} {...labelProps}>
-          {children}
-        </span>
-      </button>
-    );
-  },
-);
+  return (
+    <button
+      ref={ref}
+      {...rootProps}
+      className={clsx(root, className)}
+      {...otherProps}
+    >
+      <span className={label} {...labelProps}>
+        {children}
+      </span>
+    </button>
+  );
+});
 ChipTabTrigger.displayName = "ChipTabTrigger";
 
 export const ChipTabContent = React.forwardRef<
@@ -135,7 +155,12 @@ export const ChipTabContent = React.forwardRef<
   const isRender = shouldRender(value);
 
   return (
-    <div ref={ref} {...tabContentProps} className={clsx(content, className)} {...otherProps}>
+    <div
+      ref={ref}
+      {...tabContentProps}
+      className={clsx(content, className)}
+      {...otherProps}
+    >
       {isRender && children}
     </div>
   );

@@ -7782,9 +7782,9 @@ __metadata:
   dependencies:
     "@seed-design/icon": ^0.6.2
     "@seed-design/react-checkbox": 0.0.0-alpha-20241004093556
-    "@seed-design/react-tabs": 0.0.0-alpha-20241004093556
-    "@seed-design/recipe": 0.0.0-alpha-20241004093556
-    "@seed-design/stylesheet": 0.0.0-alpha-20241004093556
+    "@seed-design/react-tabs": 0.0.0-alpha-20241014145845
+    "@seed-design/recipe": 0.0.0-alpha-20241014145845
+    "@seed-design/stylesheet": 0.0.0-alpha-20241014145845
     "@types/mdx": ^2.0.13
     "@types/node": 22.5.4
     "@types/react": ^18.3.5
