@@ -2,55 +2,55 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-unit-5)",
-        "paddingX": "var(--seed-unit-2)",
-        "paddingY": "var(--seed-unit-1)",
-        "fontSize": "var(--seed-font-size-50)"
+        "minHeight": "var(--seed-v3-unit-5)",
+        "paddingX": "var(--seed-v3-unit-2)",
+        "paddingY": "var(--seed-v3-unit-1)",
+        "fontSize": "var(--seed-v3-font-size-50)"
       }
     }
   },
   "sizeSmall": {
     "enabled": {
       "root": {
-        "minHeight": "var(--seed-unit-4)",
-        "paddingX": "var(--seed-unit-1\\.5)",
-        "paddingY": "var(--seed-unit-0\\.5)",
-        "fontSize": "var(--seed-font-size-25)"
+        "minHeight": "var(--seed-v3-unit-4)",
+        "paddingX": "var(--seed-v3-unit-1\\.5)",
+        "paddingY": "var(--seed-v3-unit-0\\.5)",
+        "fontSize": "var(--seed-v3-font-size-25)"
       }
     }
   },
   "shapePill": {
     "enabled": {
       "root": {
-        "borderRadius": "var(--seed-radii-full)"
+        "borderRadius": "var(--seed-v3-radii-full)"
       }
     }
   },
   "shapeRectangleSizeMedium": {
     "enabled": {
       "root": {
-        "borderRadius": "var(--seed-radii-1)"
+        "borderRadius": "var(--seed-v3-radii-1)"
       }
     }
   },
   "shapeRectangleSizeSmall": {
     "enabled": {
       "root": {
-        "borderRadius": "var(--seed-radii-0\\.5)"
+        "borderRadius": "var(--seed-v3-radii-0\\.5)"
       }
     }
   },
   "variantSoft": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-medium)"
+        "fontWeight": "var(--seed-v3-font-weight-medium)"
       }
     }
   },
   "variantSolid": {
     "enabled": {
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-v3-font-weight-bold)"
       }
     }
   },
@@ -60,157 +60,157 @@ export const vars = {
         "borderWidth": "1px"
       },
       "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-v3-font-weight-bold)"
       }
     }
   },
   "toneNeutralVariantSoft": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--seed-v3-color-bg-neutral-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-v3-color-fg-neutral)"
       }
     }
   },
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-solid)"
+        "color": "var(--seed-v3-color-bg-neutral-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     }
   },
   "toneNeutralVariantOutlined": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-v3-color-stroke-neutral)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-v3-color-fg-neutral)"
       }
     }
   },
   "toneBrandVariantSoft": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-weak)"
+        "color": "var(--seed-v3-color-bg-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--seed-v3-color-fg-brand)"
       }
     }
   },
   "toneBrandVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--seed-v3-color-bg-brand-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     }
   },
   "toneBrandVariantOutlined": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-brand)"
+        "strokeColor": "var(--seed-v3-color-stroke-brand)"
       },
       "label": {
-        "color": "var(--seed-color-fg-brand)"
+        "color": "var(--seed-v3-color-fg-brand)"
       }
     }
   },
   "toneInformativeVariantSoft": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-weak)"
+        "color": "var(--seed-v3-color-bg-informative-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative)"
+        "color": "var(--seed-v3-color-fg-informative)"
       }
     }
   },
   "toneInformativeVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-informative-solid)"
+        "color": "var(--seed-v3-color-bg-informative-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     }
   },
   "toneInformativeVariantOutlined": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-informative)"
+        "strokeColor": "var(--seed-v3-color-stroke-informative)"
       },
       "label": {
-        "color": "var(--seed-color-fg-informative)"
+        "color": "var(--seed-v3-color-fg-informative)"
       }
     }
   },
   "tonePositiveVariantSoft": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-weak)"
+        "color": "var(--seed-v3-color-bg-positive-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive)"
+        "color": "var(--seed-v3-color-fg-positive)"
       }
     }
   },
   "tonePositiveVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-positive-solid)"
+        "color": "var(--seed-v3-color-bg-positive-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     }
   },
   "tonePositiveVariantOutlined": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-positive)"
+        "strokeColor": "var(--seed-v3-color-stroke-positive)"
       },
       "label": {
-        "color": "var(--seed-color-fg-positive)"
+        "color": "var(--seed-v3-color-fg-positive)"
       }
     }
   },
   "toneDangerVariantSoft": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-danger-weak)"
+        "color": "var(--seed-v3-color-bg-danger-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-danger)"
+        "color": "var(--seed-v3-color-fg-danger)"
       }
     }
   },
   "toneDangerVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-danger-solid)"
+        "color": "var(--seed-v3-color-bg-danger-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     }
   },
   "toneDangerVariantOutlined": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-danger)"
+        "strokeColor": "var(--seed-v3-color-stroke-danger)"
       },
       "label": {
-        "color": "var(--seed-color-fg-danger)"
+        "color": "var(--seed-v3-color-fg-danger)"
       }
     }
   }

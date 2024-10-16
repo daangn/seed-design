@@ -14,19 +14,19 @@
 .switch__control {
     display: block;
     position: relative;
-    border-radius: var(--seed-radii-full);
-    background: var(--seed-color-palette-gray-600);
+    border-radius: var(--seed-v3-radii-full);
+    background: var(--seed-v3-color-palette-gray-600);
     transition: background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms;
 }
 .switch__control:is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-brand-solid);
+    background: var(--seed-v3-color-bg-brand-solid);
 }
 .switch__control:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-v3-color-bg-disabled);
 }
 .switch__thumb {
-    border-radius: var(--seed-radii-full);
-    background: var(--seed-color-fg-static-white);
+    border-radius: var(--seed-v3-radii-full);
+    background: var(--seed-v3-color-fg-static-white);
     transition: transform 150ms cubic-bezier(0.35, 0, 0.35, 1);
 }
 .switch__control--size_medium {

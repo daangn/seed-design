@@ -11,7 +11,7 @@
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    padding: 0px var(--seed-unit-4);
+    padding: 0px var(--seed-v3-unit-4);
 }
 .chipTabs__triggerList::-webkit-scrollbar {
     display: none;

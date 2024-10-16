@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-unit-4)"
+        "paddingX": "var(--seed-v3-unit-4)"
       }
     }
   },

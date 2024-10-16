@@ -2,115 +2,115 @@ export const vars = {
   "base": {
     "enabled": {
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-v3-color-fg-neutral)"
       },
       "control": {
-        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeColor": "var(--seed-v3-color-stroke-control)",
         "strokeWidth": "1px",
-        "cornerRadius": "var(--seed-radii-full)"
+        "cornerRadius": "var(--seed-v3-radii-full)"
       }
     },
     "enabledSelected": {
       "control": {
-        "color": "var(--seed-color-bg-brand-emphasis)"
+        "color": "var(--seed-v3-color-bg-brand-emphasis)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     },
     "pressed": {
       "control": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
+        "color": "var(--seed-v3-color-bg-layer-default-pressed)"
       }
     },
     "pressedSelected": {
       "control": {
-        "color": "var(--seed-color-bg-brand-emphasis-pressed)"
+        "color": "var(--seed-v3-color-bg-brand-emphasis-pressed)"
       },
       "icon": {
-        "color": "var(--seed-color-fg-static-white)"
+        "color": "var(--seed-v3-color-fg-static-white)"
       }
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--seed-v3-color-fg-disabled)"
       },
       "control": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--seed-v3-color-bg-disabled)"
       }
     },
     "disabledSelected": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--seed-v3-color-fg-disabled)"
       },
       "icon": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--seed-v3-color-bg-disabled)"
       }
     }
   },
   "sizeSmall": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-unit-2)",
-        "minHeight": "var(--seed-unit-7)"
+        "gap": "var(--seed-v3-unit-2)",
+        "minHeight": "var(--seed-v3-unit-7)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-75)"
+        "fontSize": "var(--seed-v3-font-size-75)"
       },
       "control": {
-        "size": "var(--seed-unit-4)"
+        "size": "var(--seed-v3-unit-4)"
       },
       "icon": {
-        "size": "var(--seed-unit-2)"
+        "size": "var(--seed-v3-unit-2)"
       }
     },
     "disabled": {
       "icon": {
-        "size": "var(--seed-unit-2)"
+        "size": "var(--seed-v3-unit-2)"
       }
     }
   },
   "sizeMedium": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-unit-2\\.5)",
-        "minHeight": "var(--seed-unit-8)"
+        "gap": "var(--seed-v3-unit-2\\.5)",
+        "minHeight": "var(--seed-v3-unit-8)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-100)"
+        "fontSize": "var(--seed-v3-font-size-100)"
       },
       "control": {
-        "size": "var(--seed-unit-5)"
+        "size": "var(--seed-v3-unit-5)"
       },
       "icon": {
-        "size": "var(--seed-unit-2)"
+        "size": "var(--seed-v3-unit-2)"
       }
     },
     "disabled": {
       "icon": {
-        "size": "var(--seed-unit-2\\.5)"
+        "size": "var(--seed-v3-unit-2\\.5)"
       }
     }
   },
   "sizeLarge": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-unit-3)",
-        "minHeight": "var(--seed-unit-9)"
+        "gap": "var(--seed-v3-unit-3)",
+        "minHeight": "var(--seed-v3-unit-9)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-200)"
+        "fontSize": "var(--seed-v3-font-size-200)"
       },
       "control": {
-        "size": "var(--seed-unit-6)"
+        "size": "var(--seed-v3-unit-6)"
       },
       "icon": {
-        "size": "var(--seed-unit-2\\.5)"
+        "size": "var(--seed-v3-unit-2\\.5)"
       }
     },
     "disabled": {
       "icon": {
-        "size": "var(--seed-unit-3)"
+        "size": "var(--seed-v3-unit-3)"
       }
     }
   }

@@ -9,92 +9,92 @@
     text-align: start;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    border-radius: var(--seed-radii-full);
+    border-radius: var(--seed-v3-radii-full);
 }
 .actionChip__root:is(:focus, [data-focus]) {
     outline: none;
 }
 .actionChip__root {
-    background: var(--seed-color-bg-neutral-weak);
+    background: var(--seed-v3-color-bg-neutral-weak);
 }
 .actionChip__root:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--seed-v3-color-bg-neutral-weak-pressed);
 }
 .actionChip__root:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-v3-color-bg-disabled);
     cursor: not-allowed;
 }
 .actionChip__label {
     line-height: 1;
-    color: var(--seed-color-fg-neutral);
-    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-v3-color-fg-neutral);
+    font-weight: var(--seed-v3-font-weight-medium);
 }
 .actionChip__label:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .actionChip__prefix {
     display: inline-flex;
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-v3-color-fg-neutral);
 }
 .actionChip__prefix:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .actionChip__suffix {
     display: inline-flex;
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-v3-color-fg-neutral);
 }
 .actionChip__suffix:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .actionChip__root--size_medium {
-    min-height: var(--seed-unit-9);
-    padding-block: var(--seed-unit-2);
-    gap: var(--seed-unit-1);
+    min-height: var(--seed-v3-unit-9);
+    padding-block: var(--seed-v3-unit-2);
+    gap: var(--seed-v3-unit-1);
 }
 .actionChip__label--size_medium {
-    font-size: var(--seed-font-size-100);
+    font-size: var(--seed-v3-font-size-100);
 }
 .actionChip__prefix--size_medium {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }
 .actionChip__suffix--size_medium {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }
 .actionChip__root--size_small {
-    min-height: var(--seed-unit-8);
-    padding-block: var(--seed-unit-1\.5);
-    gap: var(--seed-unit-1);
+    min-height: var(--seed-v3-unit-8);
+    padding-block: var(--seed-v3-unit-1\.5);
+    gap: var(--seed-v3-unit-1);
 }
 .actionChip__label--size_small {
-    font-size: var(--seed-font-size-100);
+    font-size: var(--seed-v3-font-size-100);
 }
 .actionChip__prefix--size_small {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }
 .actionChip__suffix--size_small {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }
 .actionChip__root--size_medium-layout_withText {
-    padding-inline: var(--seed-unit-3\.5);
+    padding-inline: var(--seed-v3-unit-3\.5);
 }
 .actionChip__root--size_medium-layout_iconOnly {
-    min-width: var(--seed-unit-9);
+    min-width: var(--seed-v3-unit-9);
 }
 .actionChip__icon--size_medium-layout_iconOnly {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }
 .actionChip__root--size_small-layout_withText {
-    padding-inline: var(--seed-unit-3);
+    padding-inline: var(--seed-v3-unit-3);
 }
 .actionChip__root--size_small-layout_iconOnly {
-    min-width: var(--seed-unit-8);
+    min-width: var(--seed-v3-unit-8);
 }
 .actionChip__icon--size_small-layout_iconOnly {
-    width: var(--seed-unit-4);
-    height: var(--seed-unit-4);
+    width: var(--seed-v3-unit-4);
+    height: var(--seed-v3-unit-4);
 }

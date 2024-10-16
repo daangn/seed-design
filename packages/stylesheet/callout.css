@@ -6,56 +6,56 @@
     text-align: start;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding: var(--seed-unit-3\.5) var(--seed-unit-4);
-    border-radius: var(--seed-radii-2\.5)
+    padding: var(--seed-v3-unit-3\.5) var(--seed-v3-unit-4);
+    border-radius: var(--seed-v3-radii-2\.5)
 }
 .callout__content {
     flex: 1 1 auto
 }
 .callout__title {
-    font-size: var(--seed-font-size-100);
-    font-weight: var(--seed-font-weight-bold)
+    font-size: var(--seed-v3-font-size-100);
+    font-weight: var(--seed-v3-font-weight-bold)
 }
 .callout__description {
-    font-size: var(--seed-font-size-100);
-    font-weight: var(--seed-font-weight-regular)
+    font-size: var(--seed-v3-font-size-100);
+    font-weight: var(--seed-v3-font-weight-regular)
 }
 .callout__icon {
     align-self: flex-start;
-    height: var(--seed-unit-4);
+    height: var(--seed-v3-unit-4);
     width: auto;
-    margin-right: var(--seed-unit-1\.5)
+    margin-right: var(--seed-v3-unit-1\.5)
 }
 .callout__actionIndicator {
     align-self: center;
-    height: var(--seed-unit-4\.5);
+    height: var(--seed-v3-unit-4\.5);
     width: auto;
-    margin-left: var(--seed-unit-2\.5)
+    margin-left: var(--seed-v3-unit-2\.5)
 }
 .callout__closeButton {
     align-self: center;
     cursor: pointer;
-    height: var(--seed-unit-4\.5);
+    height: var(--seed-v3-unit-4\.5);
     width: auto;
-    margin-left: var(--seed-unit-2\.5)
+    margin-left: var(--seed-v3-unit-2\.5)
 }
 .callout__root--variant_outline {
-    box-shadow: 0 0 0 1px var(--seed-color-stroke-decorative) inset;
-    color: var(--seed-color-fg-neutral)
+    box-shadow: 0 0 0 1px var(--seed-v3-color-stroke-decorative) inset;
+    color: var(--seed-v3-color-fg-neutral)
 }
 .callout__root--variant_neutral {
-    background-color: var(--seed-color-bg-neutral);
-    color: var(--seed-color-fg-neutral)
+    background-color: var(--seed-v3-color-bg-neutral);
+    color: var(--seed-v3-color-fg-neutral)
 }
 .callout__root--variant_informative {
-    background-color: var(--seed-color-bg-informative);
-    color: var(--seed-color-fg-informative-banner)
+    background-color: var(--seed-v3-color-bg-informative);
+    color: var(--seed-v3-color-fg-informative-banner)
 }
 .callout__root--variant_warning {
-    background-color: var(--seed-color-bg-warning);
-    color: var(--seed-color-fg-warning-banner)
+    background-color: var(--seed-v3-color-bg-warning);
+    color: var(--seed-v3-color-fg-warning-banner)
 }
 .callout__root--variant_danger {
-    background-color: var(--seed-color-bg-danger);
-    color: var(--seed-color-fg-danger-banner)
+    background-color: var(--seed-v3-color-bg-danger);
+    color: var(--seed-v3-color-fg-danger-banner)
 }
