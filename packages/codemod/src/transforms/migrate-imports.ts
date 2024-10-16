@@ -1,15 +1,18 @@
 import type { Transform } from "jscodeshift";
-import { migrateIdentifiers, migrateImportDeclarations } from "./utils/migrate-node";
+import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node";
+import { createLogger, type Logger } from "winston";
+import { loggerOptions } from "../utils/log";
 
-export interface MigrateIconsOptions {
+export interface MigrateImportsOptions {
   match?: {
     source: { startsWith: string; replaceWith?: string }[];
     identifier: Record<string, string>;
   };
   replaceImportsOnly?: boolean;
+  logger?: Logger;
 }
 
-const reactMatch: MigrateIconsOptions["match"] = {
+const reactMatch: MigrateImportsOptions["match"] = {
   source: [
     { startsWith: "@seed-design/icons", replaceWith: "@seed-design/react-icon" },
     { startsWith: "@seed-design/react-icon" },
@@ -19,11 +22,17 @@ const reactMatch: MigrateIconsOptions["match"] = {
   },
 };
 
-export const migrateIcons: Transform = (
+export const migrateImports: Transform = (
   file,
   api,
-  { match = reactMatch, replaceImportsOnly = false }: MigrateIconsOptions,
+  {
+    match = reactMatch,
+    replaceImportsOnly = false,
+    logger = createLogger(loggerOptions),
+  }: MigrateImportsOptions,
 ) => {
+  logger.debug(`${file.path} 확인 시작`);
+
   const j = api.jscodeshift;
   const tree = j(file.source);
 
@@ -40,15 +49,27 @@ export const migrateIcons: Transform = (
     },
   });
 
-  if (importDeclarations.length === 0) return file.source;
-  migrateImportDeclarations({ importDeclarations, match });
+  if (importDeclarations.length === 0) {
+    logger.debug("이 파일에는 import문 없음");
+    return file.source;
+  }
+
+  logger.debug(`import문 ${importDeclarations.length}개 발견`);
+  migrateImportDeclarations({ importDeclarations, match, logger });
+
+  logger.debug("import문 변환 완료");
 
   if (!replaceImportsOnly) {
+    logger.debug("identifier 변환 시작");
+
     const identifiers = tree.find(j.Identifier, {
       name: (value) => Object.keys(match.identifier).includes(value),
     });
 
-    migrateIdentifiers({ identifiers, identifierMatch: match.identifier });
+    logger.debug(`identifier ${identifiers.length}개 발견`);
+    migrateIdentifiers({ identifiers, identifierMatch: match.identifier, logger });
+
+    logger.debug("identifier 변환 완료");
   }
 
   const firstNodeAfterModification = getFirstNode();
