@@ -2,74 +2,74 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--seed-unit-2) var(--seed-unit-3\.5);
+    padding: var(--seed-v3-unit-2) var(--seed-v3-unit-3\.5);
     cursor: pointer;
     border: none;
-    border-radius: var(--seed-radii-full);
+    border-radius: var(--seed-v3-radii-full);
     box-sizing: border-box;
     white-space: nowrap;
     min-height: 36px;
 }
 .chipTab__label {
-    font-size: var(--seed-font-size-100);
-    font-weight: var(--seed-font-weight-bold);
+    font-size: var(--seed-v3-font-size-100);
+    font-weight: var(--seed-v3-font-weight-bold);
 }
 .chipTab__root--variant_neutralSolid:is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-neutral-solid);
+    background-color: var(--seed-v3-color-bg-neutral-solid);
 }
 .chipTab__root--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-v3-color-bg-layer-default-pressed);
 }
 .chipTab__root--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-solid-pressed);
+    background-color: var(--seed-v3-color-bg-neutral-solid-pressed);
 }
 .chipTab__root--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
 .chipTab__root--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-disabled);
+    background-color: var(--seed-v3-color-bg-disabled);
 }
 .chipTab__label--variant_neutralSolid {
-    color: var(--seed-color-fg-neutral);
-    font-weight: var(--seed-font-weight-bold);
+    color: var(--seed-v3-color-fg-neutral);
+    font-weight: var(--seed-v3-font-weight-bold);
 }
 .chipTab__label--variant_neutralSolid:is(:selected, [data-selected]) {
-    color: var(--seed-color-fg-neutral-inverted);
+    color: var(--seed-v3-color-fg-neutral-inverted);
 }
 .chipTab__label--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .chipTab__label--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .chipTab__root--variant_brandWeak {
-    font-weight: var(--seed-font-weight-medium);
-    background-color: var(--seed-color-bg-neutral-weak);
+    font-weight: var(--seed-v3-font-weight-medium);
+    background-color: var(--seed-v3-color-bg-neutral-weak);
 }
 .chipTab__root--variant_brandWeak:is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-brand-weak);
+    background-color: var(--seed-v3-color-bg-brand-weak);
 }
 .chipTab__root--variant_brandWeak:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+    background-color: var(--seed-v3-color-bg-neutral-weak-pressed);
 }
 .chipTab__root--variant_brandWeak:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-weak-pressed);
+    background-color: var(--seed-v3-color-bg-brand-weak-pressed);
 }
 .chipTab__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    background-color: var(--seed-color-bg-disabled);
+    background-color: var(--seed-v3-color-bg-disabled);
 }
 .chipTab__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-disabled);
+    background-color: var(--seed-v3-color-bg-disabled);
 }
 .chipTab__label--variant_brandWeak {
-    color: var(--seed-color-fg-neutral);
-    font-weight: var(--seed-font-weight-medium);
+    color: var(--seed-v3-color-fg-neutral);
+    font-weight: var(--seed-v3-font-weight-medium);
 }
 .chipTab__label--variant_brandWeak:is(:selected, [data-selected]) {
-    color: var(--seed-color-fg-brand-contrast);
-    font-weight: var(--seed-font-weight-bold);
+    color: var(--seed-v3-color-fg-brand-contrast);
+    font-weight: var(--seed-v3-font-weight-bold);
 }
 .chipTab__label--variant_brandWeak:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }

@@ -11,9 +11,9 @@ const DARK_MODE_THEME = ["theme-dark", "test-dark"];
 const UNIT_MODE = "Mode 1"; // Value로 되어있는데 기본값은 그냥 Mode 1로 되어있음
 
 /**
- * @example carotene | seed
+ * @example carotene | seed-v3
  */
-const DESIGN_SYSTEM_NAME = "seed";
+const DESIGN_SYSTEM_NAME = "seed-v3";
 
 const lightModeTemplate = (css: string) => dedent`
 /* Light Mode */

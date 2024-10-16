@@ -7,126 +7,126 @@
     -moz-osx-font-smoothing: grayscale
 }
 .badge__root--size_medium {
-    min-height: var(--seed-unit-5);
-    padding-inline: var(--seed-unit-2);
-    padding-block: var(--seed-unit-1);
-    font-size: var(--seed-font-size-50)
+    min-height: var(--seed-v3-unit-5);
+    padding-inline: var(--seed-v3-unit-2);
+    padding-block: var(--seed-v3-unit-1);
+    font-size: var(--seed-v3-font-size-50)
 }
 .badge__root--size_small {
-    min-height: var(--seed-unit-4);
-    padding-inline: var(--seed-unit-1\.5);
-    padding-block: var(--seed-unit-0\.5);
-    font-size: var(--seed-font-size-25)
+    min-height: var(--seed-v3-unit-4);
+    padding-inline: var(--seed-v3-unit-1\.5);
+    padding-block: var(--seed-v3-unit-0\.5);
+    font-size: var(--seed-v3-font-size-25)
 }
 .badge__root--shape_pill {
-    border-radius: var(--seed-radii-full)
+    border-radius: var(--seed-v3-radii-full)
 }
 .badge__label--variant_soft {
-    font-weight: var(--seed-font-weight-medium)
+    font-weight: var(--seed-v3-font-weight-medium)
 }
 .badge__label--variant_solid {
-    font-weight: var(--seed-font-weight-bold)
+    font-weight: var(--seed-v3-font-weight-bold)
 }
 .badge__root--variant_outlined {
     border-style: solid;
     border-width: 1px
 }
 .badge__label--variant_outlined {
-    font-weight: var(--seed-font-weight-bold)
+    font-weight: var(--seed-v3-font-weight-bold)
 }
 .badge__root--shape_rectangle-size_medium {
-    border-radius: var(--seed-radii-1)
+    border-radius: var(--seed-v3-radii-1)
 }
 .badge__root--shape_rectangle-size_small {
-    border-radius: var(--seed-radii-0\.5)
+    border-radius: var(--seed-v3-radii-0\.5)
 }
 .badge__root--tone_neutral-variant_soft {
-    background-color: var(--seed-color-bg-neutral-weak)
+    background-color: var(--seed-v3-color-bg-neutral-weak)
 }
 .badge__label--tone_neutral-variant_soft {
-    color: var(--seed-color-fg-neutral)
+    color: var(--seed-v3-color-fg-neutral)
 }
 .badge__root--tone_neutral-variant_solid {
-    background-color: var(--seed-color-bg-neutral-solid)
+    background-color: var(--seed-v3-color-bg-neutral-solid)
 }
 .badge__label--tone_neutral-variant_solid {
-    color: var(--seed-color-fg-static-white)
+    color: var(--seed-v3-color-fg-static-white)
 }
 .badge__root--tone_neutral-variant_outlined {
-    border-color: var(--seed-color-stroke-neutral)
+    border-color: var(--seed-v3-color-stroke-neutral)
 }
 .badge__label--tone_neutral-variant_outlined {
-    color: var(--seed-color-fg-neutral)
+    color: var(--seed-v3-color-fg-neutral)
 }
 .badge__root--tone_brand-variant_soft {
-    background-color: var(--seed-color-bg-brand-weak)
+    background-color: var(--seed-v3-color-bg-brand-weak)
 }
 .badge__label--tone_brand-variant_soft {
-    color: var(--seed-color-fg-brand)
+    color: var(--seed-v3-color-fg-brand)
 }
 .badge__root--tone_brand-variant_solid {
-    background-color: var(--seed-color-bg-brand-solid)
+    background-color: var(--seed-v3-color-bg-brand-solid)
 }
 .badge__label--tone_brand-variant_solid {
-    color: var(--seed-color-fg-static-white)
+    color: var(--seed-v3-color-fg-static-white)
 }
 .badge__root--tone_brand-variant_outlined {
-    border-color: var(--seed-color-stroke-brand)
+    border-color: var(--seed-v3-color-stroke-brand)
 }
 .badge__label--tone_brand-variant_outlined {
-    color: var(--seed-color-fg-brand)
+    color: var(--seed-v3-color-fg-brand)
 }
 .badge__root--tone_informative-variant_soft {
-    background-color: var(--seed-color-bg-informative-weak)
+    background-color: var(--seed-v3-color-bg-informative-weak)
 }
 .badge__label--tone_informative-variant_soft {
-    color: var(--seed-color-fg-informative)
+    color: var(--seed-v3-color-fg-informative)
 }
 .badge__root--tone_informative-variant_solid {
-    background-color: var(--seed-color-bg-informative-solid)
+    background-color: var(--seed-v3-color-bg-informative-solid)
 }
 .badge__label--tone_informative-variant_solid {
-    color: var(--seed-color-fg-static-white)
+    color: var(--seed-v3-color-fg-static-white)
 }
 .badge__root--tone_informative-variant_outlined {
-    border-color: var(--seed-color-stroke-informative)
+    border-color: var(--seed-v3-color-stroke-informative)
 }
 .badge__label--tone_informative-variant_outlined {
-    color: var(--seed-color-fg-informative)
+    color: var(--seed-v3-color-fg-informative)
 }
 .badge__root--tone_positive-variant_soft {
-    background-color: var(--seed-color-bg-positive-weak)
+    background-color: var(--seed-v3-color-bg-positive-weak)
 }
 .badge__label--tone_positive-variant_soft {
-    color: var(--seed-color-fg-positive)
+    color: var(--seed-v3-color-fg-positive)
 }
 .badge__root--tone_positive-variant_solid {
-    background-color: var(--seed-color-bg-positive-solid)
+    background-color: var(--seed-v3-color-bg-positive-solid)
 }
 .badge__label--tone_positive-variant_solid {
-    color: var(--seed-color-fg-static-white)
+    color: var(--seed-v3-color-fg-static-white)
 }
 .badge__root--tone_positive-variant_outlined {
-    border-color: var(--seed-color-stroke-positive)
+    border-color: var(--seed-v3-color-stroke-positive)
 }
 .badge__label--tone_positive-variant_outlined {
-    color: var(--seed-color-fg-positive)
+    color: var(--seed-v3-color-fg-positive)
 }
 .badge__root--tone_danger-variant_soft {
-    background-color: var(--seed-color-bg-danger-weak)
+    background-color: var(--seed-v3-color-bg-danger-weak)
 }
 .badge__label--tone_danger-variant_soft {
-    color: var(--seed-color-fg-danger)
+    color: var(--seed-v3-color-fg-danger)
 }
 .badge__root--tone_danger-variant_solid {
-    background-color: var(--seed-color-bg-danger-solid)
+    background-color: var(--seed-v3-color-bg-danger-solid)
 }
 .badge__label--tone_danger-variant_solid {
-    color: var(--seed-color-fg-static-white)
+    color: var(--seed-v3-color-fg-static-white)
 }
 .badge__root--tone_danger-variant_outlined {
-    border-color: var(--seed-color-stroke-danger)
+    border-color: var(--seed-v3-color-stroke-danger)
 }
 .badge__label--tone_danger-variant_outlined {
-    color: var(--seed-color-fg-danger)
+    color: var(--seed-v3-color-fg-danger)
 }

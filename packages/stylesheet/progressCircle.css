@@ -30,12 +30,12 @@
     transform-box: fill-box
 }
 .progressCircle__root--size_small {
-    width: var(--seed-unit-6);
-    height: var(--seed-unit-6)
+    width: var(--seed-v3-unit-6);
+    height: var(--seed-v3-unit-6)
 }
 .progressCircle__root--size_medium {
-    width: var(--seed-unit-10);
-    height: var(--seed-unit-10)
+    width: var(--seed-v3-unit-10);
+    height: var(--seed-v3-unit-10)
 }
 .progressCircle__root--indeterminate_true {
     animation: rotate 1.2s cubic-bezier(0.35, 0.25, 0.65, 0.75) infinite

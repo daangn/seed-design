@@ -2,23 +2,23 @@ export const vars = {
   "base": {
     "enabled": {
       "label": {
-        "color": "var(--seed-color-fg-neutral-subtle)"
+        "color": "var(--seed-v3-color-fg-neutral-subtle)"
       },
       "notification": {
-        "size": "var(--seed-unit-1)",
-        "cornerRadius": "var(--seed-radii-full)",
-        "color": "var(--seed-color-bg-brand-solid)",
-        "marginLeft": "var(--seed-unit-0\\.5)"
+        "size": "var(--seed-v3-unit-1)",
+        "cornerRadius": "var(--seed-v3-radii-full)",
+        "color": "var(--seed-v3-color-bg-brand-solid)",
+        "marginLeft": "var(--seed-v3-unit-0\\.5)"
       }
     },
     "selected": {
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-v3-color-fg-neutral)"
       }
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "color": "var(--seed-v3-color-fg-disabled)"
       }
     }
   },
@@ -26,12 +26,12 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "44px",
-        "paddingX": "var(--seed-unit-2\\.5)",
-        "paddingY": "var(--seed-unit-2\\.5)"
+        "paddingX": "var(--seed-v3-unit-2\\.5)",
+        "paddingY": "var(--seed-v3-unit-2\\.5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-200)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--seed-v3-font-size-200)",
+        "fontWeight": "var(--seed-v3-font-weight-bold)"
       }
     }
   },
@@ -39,12 +39,12 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "40px",
-        "paddingX": "var(--seed-unit-2\\.5)",
-        "paddingY": "var(--seed-unit-2\\.5)"
+        "paddingX": "var(--seed-v3-unit-2\\.5)",
+        "paddingY": "var(--seed-v3-unit-2\\.5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-100)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--seed-v3-font-size-100)",
+        "fontWeight": "var(--seed-v3-font-weight-bold)"
       }
     }
   }

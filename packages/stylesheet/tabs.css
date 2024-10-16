@@ -11,8 +11,8 @@
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    background: var(--seed-color-bg-layer-default);
-    border-bottom: 1px solid var(--seed-color-stroke-neutral);
+    background: var(--seed-v3-color-bg-layer-default);
+    border-bottom: 1px solid var(--seed-v3-color-stroke-neutral);
 }
 .tabs__triggerList::-webkit-scrollbar {
     display: none;
@@ -30,8 +30,8 @@
     overflow: auto;
 }
 .tabs__indicator {
-    color: var(--seed-color-fg-neutral);
-    border-bottom: 2px solid var(--seed-color-fg-neutral);
+    color: var(--seed-v3-color-fg-neutral);
+    border-bottom: 2px solid var(--seed-v3-color-fg-neutral);
     bottom: 0;
 }
 .tabs__triggerList--layout_fill {
@@ -39,6 +39,6 @@
     justify-content: space-around;
 }
 .tabs__triggerList--layout_hug {
-    padding: 0px var(--seed-unit-4);
+    padding: 0px var(--seed-v3-unit-4);
     justify-content: flex-start;
 }

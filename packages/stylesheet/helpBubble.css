@@ -8,46 +8,46 @@
 .helpBubble__content {
     display: flex;
     flex-direction: column;
-    padding-inline: var(--seed-unit-3);
-    padding-block: var(--seed-unit-2);
-    border-radius: var(--seed-radii-1\.5)
+    padding-inline: var(--seed-v3-unit-3);
+    padding-block: var(--seed-v3-unit-2);
+    border-radius: var(--seed-v3-radii-1\.5)
 }
 .helpBubble__arrow {
     width: 10px;
     height: 6px
 }
 .helpBubble__title {
-    font-size: var(--seed-font-size-75);
-    font-weight: var(--seed-font-weight-bold)
+    font-size: var(--seed-v3-font-size-75);
+    font-weight: var(--seed-v3-font-weight-bold)
 }
 .helpBubble__description {
-    font-size: var(--seed-font-size-75);
-    font-weight: var(--seed-font-weight-regular)
+    font-size: var(--seed-v3-font-size-75);
+    font-weight: var(--seed-v3-font-weight-regular)
 }
 .helpBubble__content--variant_nonModal {
-    background: var(--seed-color-bg-neutral-inverted)
+    background: var(--seed-v3-color-bg-neutral-inverted)
 }
 .helpBubble__arrow--variant_nonModal {
-    fill: var(--seed-color-bg-neutral-inverted)
+    fill: var(--seed-v3-color-bg-neutral-inverted)
 }
 .helpBubble__title--variant_nonModal {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-v3-color-fg-neutral-inverted)
 }
 .helpBubble__description--variant_nonModal {
-    color: var(--seed-color-fg-neutral-inverted)
+    color: var(--seed-v3-color-fg-neutral-inverted)
 }
 .helpBubble__backdrop--variant_modal {
-    background: var(--seed-color-bg-overlay)
+    background: var(--seed-v3-color-bg-overlay)
 }
 .helpBubble__content--variant_modal {
-    background: var(--seed-color-bg-static-white)
+    background: var(--seed-v3-color-bg-static-white)
 }
 .helpBubble__arrow--variant_modal {
-    fill: var(--seed-color-bg-static-white)
+    fill: var(--seed-v3-color-bg-static-white)
 }
 .helpBubble__title--variant_modal {
-    color: var(--seed-color-fg-static-black)
+    color: var(--seed-v3-color-fg-static-black)
 }
 .helpBubble__description--variant_modal {
-    color: var(--seed-color-fg-static-black)
+    color: var(--seed-v3-color-fg-static-black)
 }

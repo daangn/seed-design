@@ -1,7 +1,7 @@
 import { camelCase } from "change-case";
 import type { ParsedExpression, Token } from "./types";
 
-const DESIGN_SYSTEM_NAME = "seed";
+const DESIGN_SYSTEM_NAME = "seed-v3";
 
 function stringifyVariantKey(variant: Record<string, string>) {
   const asKebab = Object.entries(variant)

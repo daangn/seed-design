@@ -9,32 +9,32 @@
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
     width: 100%;
-    background-color: var(--seed-color-bg-layer-default);
-    border-radius: var(--seed-radii-2);
-    min-height: var(--seed-unit-10);
-    gap: var(--seed-unit-1);
-    padding: var(--seed-unit-2\.5) var(--seed-unit-5);
-    border: 1px solid var(--seed-color-palette-gray-400);
-    color: var(--seed-color-fg-neutral);
-    font-size: var(--seed-font-size-100);
-    font-weight: var(--seed-font-weight-bold);
+    background-color: var(--seed-v3-color-bg-layer-default);
+    border-radius: var(--seed-v3-radii-2);
+    min-height: var(--seed-v3-unit-10);
+    gap: var(--seed-v3-unit-1);
+    padding: var(--seed-v3-unit-2\.5) var(--seed-v3-unit-5);
+    border: 1px solid var(--seed-v3-color-palette-gray-400);
+    color: var(--seed-v3-color-fg-neutral);
+    font-size: var(--seed-v3-font-size-100);
+    font-weight: var(--seed-v3-font-weight-bold);
 }
 .expandButton__root:is(:focus, [data-focus]) {
     outline: none;
 }
 .expandButton__root:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-v3-color-bg-layer-default-pressed);
 }
 .expandButton__root:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    background-color: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background-color: var(--seed-v3-color-bg-disabled);
+    color: var(--seed-v3-color-fg-disabled);
 }
 .expandButton__suffixIcon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--seed-color-fg-neutral);
-    width: var(--seed-unit-3\.5);
-    height: var(--seed-unit-3\.5);
+    color: var(--seed-v3-color-fg-neutral);
+    width: var(--seed-v3-unit-3\.5);
+    height: var(--seed-v3-unit-3\.5);
 }

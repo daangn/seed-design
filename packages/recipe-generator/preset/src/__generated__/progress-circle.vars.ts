@@ -14,7 +14,7 @@ export const vars = {
   "sizeSmall": {
     "enabled": {
       "root": {
-        "size": "var(--seed-unit-6)"
+        "size": "var(--seed-v3-unit-6)"
       },
       "track": {},
       "indicator": {}
@@ -23,7 +23,7 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "root": {
-        "size": "var(--seed-unit-10)"
+        "size": "var(--seed-v3-unit-10)"
       },
       "track": {},
       "indicator": {}

@@ -2,22 +2,22 @@ export const vars = {
   "base": {
     "enabled": {
       "control": {
-        "color": "var(--seed-color-palette-gray-600)",
-        "cornerRadius": "var(--seed-radii-full)"
+        "color": "var(--seed-v3-color-palette-gray-600)",
+        "cornerRadius": "var(--seed-v3-radii-full)"
       },
       "thumb": {
-        "color": "var(--seed-color-fg-static-white)",
-        "cornerRadius": "var(--seed-radii-full)"
+        "color": "var(--seed-v3-color-fg-static-white)",
+        "cornerRadius": "var(--seed-v3-radii-full)"
       }
     },
     "enabledSelected": {
       "control": {
-        "color": "var(--seed-color-bg-brand-solid)"
+        "color": "var(--seed-v3-color-bg-brand-solid)"
       }
     },
     "disabled": {
       "control": {
-        "color": "var(--seed-color-bg-disabled)"
+        "color": "var(--seed-v3-color-bg-disabled)"
       }
     },
     "disabledSelected": {

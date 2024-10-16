@@ -2,20 +2,20 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "var(--seed-v3-color-bg-layer-default)",
         "strokeBottomWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-v3-color-stroke-neutral)"
       },
       "indicator": {
         "height": "2px",
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-v3-color-fg-neutral)"
       }
     }
   },
   "layoutHug": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-unit-4)"
+        "paddingX": "var(--seed-v3-unit-4)"
       }
     }
   },
