@@ -12,7 +12,8 @@
     "test": "yarn vitest"
   },
   "dependencies": {
-    "jscodeshift": "^17.0.0"
+    "jscodeshift": "^17.0.0",
+    "winston": "^3.15.0"
   },
   "devDependencies": {
     "@types/jscodeshift": "^0.12.0",
