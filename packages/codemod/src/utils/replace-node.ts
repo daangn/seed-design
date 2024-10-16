@@ -1,14 +1,17 @@
 import jscodeshift from "jscodeshift";
-import type { MigrateIconsOptions } from "../migrate-icons";
+import type { MigrateImportsOptions } from "../transforms/migrate-imports";
+import type { Logger } from "winston";
 
 interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
-  match: MigrateIconsOptions["match"];
+  match: MigrateImportsOptions["match"];
+  logger: Logger;
 }
 
 export function migrateImportDeclarations({
   importDeclarations,
   match,
+  logger,
 }: MigrateImportDeclarationsParams) {
   importDeclarations.replaceWith((imp) => {
     const currentSourceValue = imp.node.source.value;
@@ -57,6 +60,8 @@ export function migrateImportDeclarations({
     // * as A는 ImportNamespaceSpecifier
     // A는 local name
 
+    logger.debug(`source ${currentSourceValue} -> ${newSourceValue}`);
+
     const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
         case "ImportSpecifier": {
@@ -70,8 +75,7 @@ export function migrateImportDeclarations({
 
           if (hasNoChange) return currentSpecifier;
 
-          // TODO
-          // impactedSpecifierCount++;
+          logger.debug(`imported name ${currentImportedName} -> ${newImportedName}`);
 
           const newImportedIdentifier = jscodeshift.identifier(newImportedName);
 
@@ -102,15 +106,22 @@ export function migrateImportDeclarations({
 
 interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
-  identifierMatch: MigrateIconsOptions["match"]["identifier"];
+  identifierMatch: MigrateImportsOptions["match"]["identifier"];
+  logger: Logger;
 }
 
-export function migrateIdentifiers({ identifiers, identifierMatch }: MigrateIdentifiersParams) {
+export function migrateIdentifiers({
+  identifiers,
+  identifierMatch,
+  logger,
+}: MigrateIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
-
     if (currentName in identifierMatch === false) return identifier;
 
-    return jscodeshift.identifier(identifierMatch[currentName]);
+    const newName = identifierMatch[currentName];
+    logger.debug(`identifier ${currentName} -> ${newName}`);
+
+    return jscodeshift.identifier(newName);
   });
 }
