@@ -1,11 +1,32 @@
-export interface Model {
-  kind: string;
+export interface ComponentModel {
+  kind: "Component";
   metadata: {
+    id: string;
     name: string;
   };
+  data: ComponentExpression;
 }
 
-export interface NestedExpression {
+export interface TokenCollectionModel {
+  kind: "TokenCollection";
+  metadata: {
+    id: string;
+    name: string;
+  };
+  data: TokenCollectionExpression;
+}
+
+export interface TokenCollectionExpression {
+  [x: string]: string;
+}
+
+export interface Token {
+  category: string;
+  group: string[];
+  key: string | number;
+}
+
+export interface ComponentExpression {
   [variantExpression: string]: {
     [state: string]: {
       [slot: string]: {
@@ -13,12 +34,6 @@ export interface NestedExpression {
       };
     };
   };
-}
-
-export interface Token {
-  category: string;
-  group: string[];
-  key: string | number;
 }
 
 export type ParsedExpression = Array<{

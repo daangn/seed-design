@@ -27,6 +27,15 @@
     ]
   },
   {
+    "name": "badge",
+    "dependencies": [
+      "@radix-ui/react-slot"
+    ],
+    "files": [
+      "component/badge.tsx"
+    ]
+  },
+  {
     "name": "control-chip",
     "dependencies": [
       "@radix-ui/react-slot"

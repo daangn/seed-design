@@ -1,0 +1,130 @@
+size=medium:
+  enabled:
+    root:
+      minHeight: "$unit[5]"
+      paddingX: "$unit[2]"
+      paddingY: "$unit[1]"
+      fontSize: "$font-size[50]"
+size=small:
+  enabled:
+    root:
+      minHeight: "$unit[4]"
+      paddingX: "$unit[1.5]"
+      paddingY: "$unit[0.5]"
+      fontSize: "$font-size[25]"
+shape=pill:
+  enabled:
+    root:
+      borderRadius: "$radii.full"
+shape=rectangle, size=medium:
+  enabled:
+    root:
+      borderRadius: "$radii[1]"
+shape=rectangle, size=small:
+  enabled:
+    root:
+      borderRadius: "$radii[0.5]"
+variant=soft:
+  enabled:
+    label:
+      fontWeight: "$font-weight.medium"
+variant=solid:
+  enabled:
+    label:
+      fontWeight: "$font-weight.bold"
+variant=outlined:
+  enabled:
+    root:
+      borderWidth: 1px
+    label:
+      fontWeight: "$font-weight.bold"
+tone=neutral, variant=soft:
+  enabled:
+    root:
+      color: "$color.bg.neutral-weak"
+    label:
+      color: "$color.fg.neutral"
+tone=neutral, variant=solid:
+  enabled:
+    root:
+      color: "$color.bg.neutral-solid"
+    label:
+      color: "$color.fg.static-white"
+tone=neutral, variant=outlined:
+  enabled:
+    root:
+      strokeColor: "$color.stroke.neutral"
+    label:
+      color: "$color.fg.neutral"
+tone=brand, variant=soft:
+  enabled:
+    root:
+      color: "$color.bg.brand-weak"
+    label:
+      color: "$color.fg.brand"
+tone=brand, variant=solid:
+  enabled:
+    root:
+      color: "$color.bg.brand-solid"
+    label:
+      color: "$color.fg.static-white"
+tone=brand, variant=outlined:
+  enabled:
+    root:
+      strokeColor: "$color.stroke.brand"
+    label:
+      color: "$color.fg.brand"
+tone=informative, variant=soft:
+  enabled:
+    root:
+      color: "$color.bg.informative-weak"
+    label:
+      color: "$color.fg.informative"
+tone=informative, variant=solid:
+  enabled:
+    root:
+      color: "$color.bg.informative-solid"
+    label:
+      color: "$color.fg.static-white"
+tone=informative, variant=outlined:
+  enabled:
+    root:
+      strokeColor: "$color.stroke.informative"
+    label:
+      color: "$color.fg.informative"
+tone=positive, variant=soft:
+  enabled:
+    root:
+      color: "$color.bg.positive-weak"
+    label:
+      color: "$color.fg.positive"
+tone=positive, variant=solid:
+  enabled:
+    root:
+      color: "$color.bg.positive-solid"
+    label:
+      color: "$color.fg.static-white"
+tone=positive, variant=outlined:
+  enabled:
+    root:
+      strokeColor: "$color.stroke.positive"
+    label:
+      color: "$color.fg.positive"
+tone=danger, variant=soft:
+  enabled:
+    root:
+      color: "$color.bg.danger-weak"
+    label:
+      color: "$color.fg.danger"
+tone=danger, variant=solid:
+  enabled:
+    root:
+      color: "$color.bg.danger-solid"
+    label:
+      color: "$color.fg.static-white"
+tone=danger, variant=outlined:
+  enabled:
+    root:
+      strokeColor: "$color.stroke.danger"
+    label:
+      color: "$color.fg.danger"

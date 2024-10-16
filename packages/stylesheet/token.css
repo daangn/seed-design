@@ -49,14 +49,11 @@
   --seed-radii-4: 16px;
   --seed-radii-full: 9999px;
 
-  --seed-font-size-50: 0.75rem;
-  /* 12px */
-  --seed-font-size-75: 0.8125rem;
-  /* 13px */
-  --seed-font-size-100: 0.875rem;
-  /* 14px */
-  --seed-font-size-200: 1rem;
-  /* 16px */
+  --seed-font-size-25: 0.6875rem; /* 11px */
+  --seed-font-size-50: 0.75rem; /* 12px */
+  --seed-font-size-75: 0.8125rem; /* 13px */
+  --seed-font-size-100: 0.875rem; /* 14px */
+  --seed-font-size-200: 1rem; /* 16px */
 }
 
 /* Light Mode */

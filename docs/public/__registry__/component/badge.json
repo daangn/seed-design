@@ -1,0 +1,12 @@
+{
+  "name": "badge",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registries": [
+    {
+      "name": "badge.tsx",
+      "content": "import { Slot } from \"@radix-ui/react-slot\";\nimport { badge, type BadgeVariantProps } from \"@seed-design/recipe/badge\";\nimport clsx from \"clsx\";\nimport * as React from \"react\";\n\nimport \"@seed-design/stylesheet/badge.css\";\n\nexport interface BadgeProps\n  extends React.HTMLAttributes<HTMLSpanElement>,\n    BadgeVariantProps {\n  asChild?: boolean;\n}\n\nexport const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(\n  (\n    {\n      className,\n      size = \"medium\",\n      shape = \"rectangle\",\n      variant = \"soft\",\n      tone = \"neutral\",\n      children,\n      asChild = false,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    const Comp = asChild ? Slot : \"span\";\n    const classNames = badge({ size, shape, variant, tone });\n    return (\n      <Comp\n        ref={ref}\n        className={clsx(classNames.root, className)}\n        {...otherProps}\n      >\n        <span className={classNames.label}>{children}</span>\n      </Comp>\n    );\n  },\n);\nBadge.displayName = \"Badge\";\n"
+    }
+  ]
+}

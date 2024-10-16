@@ -17,6 +17,11 @@ export const registryComponent: RegistryComponent = [
     files: ["component/action-chip.tsx"],
   },
   {
+    name: "badge",
+    dependencies: ["@radix-ui/react-slot"],
+    files: ["component/badge.tsx"],
+  },
+  {
     name: "control-chip",
     dependencies: ["@radix-ui/react-slot"],
     files: ["component/control-chip.tsx"],

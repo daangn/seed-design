@@ -1,4 +1,4 @@
-import type { NestedExpression, ParsedExpression, Token } from "./types";
+import type { ComponentExpression, ParsedExpression, Token } from "./types";
 
 function isTokenExpression(expression: string | number | string[]): boolean {
   if (typeof expression === "number") {
@@ -59,7 +59,7 @@ function parseState(stateExpression: string) {
   return stateExpression.split(",");
 }
 
-export function parse(input: NestedExpression): ParsedExpression {
+export function parse(input: ComponentExpression): ParsedExpression {
   const parsedExpressions: ParsedExpression = [];
 
   for (const variantExpression in input) {
