@@ -1,6 +1,8 @@
 import { camelCase } from "change-case";
 import type { ParsedExpression, Token } from "./types";
 
+const DESIGN_SYSTEM_NAME = "seed";
+
 function stringifyVariantKey(variant: Record<string, string>) {
   const asKebab = Object.entries(variant)
     .map(([key, value]) => `${key}-${value}`)
@@ -19,10 +21,10 @@ function stringifyStateKey(state: string[]) {
 
 function stringifyTokenCssVar(token: Token) {
   if (token.group.length === 0) {
-    return `var(--seed-${token.category}-${token.key.toString().replaceAll(".", "\\.")})`;
+    return `var(--${DESIGN_SYSTEM_NAME}-${token.category}-${token.key.toString().replaceAll(".", "\\.")})`;
   }
 
-  return `var(--seed-${token.category}-${token.group.join("-")}-${token.key
+  return `var(--${DESIGN_SYSTEM_NAME}-${token.category}-${token.group.join("-")}-${token.key
     .toString()
     .replaceAll(".", "\\.")})`;
 }
