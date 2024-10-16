@@ -3,7 +3,10 @@
 import "@seed-design/stylesheet/progressCircle.css";
 
 import * as React from "react";
-import { progressCircle, type ProgressCircleVariant } from "@seed-design/recipe/progressCircle";
+import {
+  progressCircle,
+  type ProgressCircleVariant,
+} from "@seed-design/recipe/progressCircle";
 import clsx from "clsx";
 
 export interface ProgressCircleProps
@@ -29,9 +32,12 @@ export interface ProgressCircleProps
 }
 
 /**
- * @see https://component.seed-design.io/components/progress-circle
+ * @see https://v3.seed-design.io/docs/react/components/progress-circle
  */
-export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
+export const ProgressCircle = React.forwardRef<
+  HTMLDivElement,
+  ProgressCircleProps
+>(
   (
     {
       className,
@@ -55,7 +61,12 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
     };
 
     return (
-      <div ref={ref} data-size={size} className={clsx(classNames.root, className)} {...otherProps}>
+      <div
+        ref={ref}
+        data-size={size}
+        className={clsx(classNames.root, className)}
+        {...otherProps}
+      >
         <svg
           viewBox="0 0 40 40"
           fill="none"

@@ -29,7 +29,7 @@ export interface ProgressCircleProps
 }
 
 /**
- * @see https://component.seed-design.io/components/progress-circle
+ * @see https://v3.seed-design.io/docs/react/components/progress-circle
  */
 export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
   (

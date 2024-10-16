@@ -14,7 +14,7 @@ export type AlertDialogProps = {
 };
 
 /**
- * @see https://component.seed-design.io/components/alert-dialog
+ * @see https://v3.seed-design.io/docs/react/components/alert-dialog
  */
 export const AlertDialog: React.FC<AlertDialogProps> = ({
   title,
