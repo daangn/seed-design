@@ -131,7 +131,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
     `);
   });
 
-  test("패키지명 변경 필요 있고 importDefaultSpecifier지만, 사용된 local specifier가 identifier와 match 없음 (일반적으로 deep import)", () => {
+  test("패키지명 변경 필요 있고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 없음 (deep import)", () => {
     const input = `import IconNotMatched from "@seed-design/icon/IconNotMatched";
 		import IconNotMatched2 from "@seed-design/icon/dist/lib/test/somewhat/IconNotMatched2";`;
 
@@ -141,7 +141,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
     `);
   });
 
-  test("패키지명 변경 필요 있고 importDefaultSpecifier지만, 사용된 local specifier가 identifier와 match 없고, 패키지명은 변경될 필요가 없지만 하위 경로 변경 필요", () => {
+  test("패키지명 변경 필요 없지만 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 없고 (deep import)", () => {
     const input = `import IconNotMatched from "@seed-design/react-icon/Icon3";`;
 
     expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(
@@ -158,8 +158,40 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
   });
 });
 
+describe("importDeclaration: import source와 specifier 모두 변경 있는 경우", () => {
+  test("[가장 일반적] 패키지명에 변경 필요하고, specifier match 있음", () => {
+    const input = `import { Icon1, Icon2 } from "@seed-design/icon";
+    import { Icon3 as Icon3Alias } from "@seed-design/icon";
+    import { Icon4 } from "@seed-design/icon";`;
+
+    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(`
+      "import { NewIcon1, NewIcon2 } from "@seed-design/react-icon";
+          import { NewIcon3 as Icon3Alias } from "@seed-design/react-icon";
+          import { NewIcon4 } from "@seed-design/react-icon";"
+    `);
+  });
+
+  test("[가장 일반적] 패키지명에 변경 필요하고, importDefaultSpecifier이지만, 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
+    const input = `import Icon1 from "@seed-design/icon/Icon1";
+		import Icon2 from "@seed-design/icon/dist/lib/test/somewhat/Icon2";`;
+
+    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(`
+      "import NewIcon1 from "@seed-design/react-icon/NewIcon1";
+      		import NewIcon2 from "@seed-design/react-icon/dist/lib/test/somewhat/NewIcon2";"
+    `);
+  });
+
+  test("[가장 일반적] 패키지명 변경 필요 없지만 deep import라 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
+    const input = `import Icon3 from "@seed-design/react-icon/Icon3";`;
+
+    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(
+      `"import NewIcon3 from "@seed-design/react-icon/NewIcon3";"`,
+    );
+  });
+});
+
 describe("importDeclaration: import specifier에만 변경 있는 경우", () => {
-  test("패키지명 변경할 필요 없지만, specifier match 있음", () => {
+  test("[가장 일반적] 패키지명 변경할 필요 없지만, specifier match 있음", () => {
     const input = `import { Icon3 } from "@seed-design/react-icon";`;
 
     expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(
@@ -170,28 +202,24 @@ describe("importDeclaration: import specifier에만 변경 있는 경우", () =>
   // deep import인 경우 import source만 변경되거나, import source와 specifier 모두 변경되어야 함
 });
 
-describe("importDeclaration: import source와 specifier 모두 변경 있는 경우", () => {
-  test("패키지명에 변경 필요하고, importDefaultSpecifier이지만, 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
-    const input = `import Icon1 from "@seed-design/icon/Icon1";
-		import Icon2 from "@seed-design/icon/dist/lib/test/somewhat/Icon2";`;
+describe("identifiers: identifier 변경까지 있는 경우", () => {
+  test("source match와 identifier match 있는 경우", () => {
+    const input = `import { Icon1, Icon2 } from "@seed-design/icon";
+
+    console.log(Icon1);
+
+    return Icon2;`;
 
     expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(`
-      "import NewIcon1 from "@seed-design/react-icon/NewIcon1";
-      		import NewIcon2 from "@seed-design/react-icon/dist/lib/test/somewhat/NewIcon2";"
+      "import { NewIcon1, NewIcon2 } from "@seed-design/react-icon";
+
+          console.log(NewIcon1);
+
+          return NewIcon2;"
     `);
   });
 
-  test("패키지명 변경 필요 없지만 deep import라 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
-    const input = `import Icon3 from "@seed-design/react-icon/Icon3";`;
-
-    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(
-      `"import NewIcon3 from "@seed-design/react-icon/NewIcon3";"`,
-    );
-  });
-});
-
-describe("identifiers: identifier 변경 있는 경우", () => {
-  test("jsx/tsx", () => {
+  test("source match와 identifier match 있는 경우 (jsx)", () => {
     const input = `import { Icon1, Icon2 } from "@seed-design/icon";
 		import { Icon3 as Icon3Alias } from "@seed-design/icon";
 		
@@ -217,7 +245,7 @@ describe("identifiers: identifier 변경 있는 경우", () => {
     `);
   });
 
-  test("jsx/tsx (첫 줄에 주석 있음)", () => {
+  test("source match와 identifier match 있는 경우 (jsx, 첫 줄에 주석 있음)", () => {
     const input = `// some comment
 		
 		import { Icon1, Icon2 } from "@seed-design/icon";
@@ -247,7 +275,7 @@ describe("identifiers: identifier 변경 있는 경우", () => {
     `);
   });
 
-  test("jsx/tsx (첫 줄에 directive 있음)", () => {
+  test("source match와 identifier match 있는 경우 (jsx, 첫 줄에 directive 있음)", () => {
     const input = `"use client";
 
 		import { Icon1, Icon2 } from "@seed-design/icon";
@@ -274,6 +302,32 @@ describe("identifiers: identifier 변경 있는 경우", () => {
                       <Icon3Alias />
                       </div>
               );"
+    `);
+  });
+
+  test("패키지명 변경 필요하고, importNamespaceSpecifier", () => {
+    const input = `import * as Icons from "@seed-design/icon";
+    
+    console.log(Icons.Icon1);`;
+
+    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(`
+      "import * as Icons from "@seed-design/react-icon";
+          
+          console.log(Icons.NewIcon1);"
+    `);
+  });
+});
+
+describe("identifiers: identifier 변경만 있는 경우", () => {
+  test("패키지명 변경 필요 없고, importNamespaceSpecifier", () => {
+    const input = `import * as Icons from "@seed-design/react-icon";
+    
+    console.log(Icons.Icon1);`;
+
+    expect(applyMigrateIconTransform(input)).toMatchInlineSnapshot(`
+      "import * as Icons from "@seed-design/react-icon";
+          
+          console.log(Icons.NewIcon1);"
     `);
   });
 });
