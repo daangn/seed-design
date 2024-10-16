@@ -4,7 +4,6 @@ import { addCommand } from "@/src/commands/add";
 import { getPackageInfo } from "@/src/utils/get-package-info";
 import { cac } from "cac";
 import { initCommand } from "./commands/init";
-import { iconShiftCommand } from "./commands/icon-shift";
 
 const NAME = "seed-design";
 const CLI = cac(NAME);
@@ -15,7 +14,6 @@ async function main() {
   /* Commands */
   addCommand(CLI);
   initCommand(CLI);
-  iconShiftCommand(CLI);
 
   CLI.version(packageInfo.version || "1.0.0", "-v, --version");
   CLI.help();
