@@ -6,5 +6,5 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["component-docs", "@seed-design/docs", "@seed-design/stackflow-spa"]
+  "ignore": ["component-docs", "docs", "@seed-design/stackflow-spa"]
 }
