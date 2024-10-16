@@ -3,12 +3,12 @@ import type { MigrateIconsOptions } from "../migrate-icons";
 
 interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
-  options: MigrateIconsOptions;
+  match: MigrateIconsOptions["match"];
 }
 
 export function migrateImportDeclarations({
   importDeclarations,
-  options,
+  match,
 }: MigrateImportDeclarationsParams) {
   importDeclarations.replaceWith((imp) => {
     const currentSourceValue = imp.node.source.value;
@@ -18,7 +18,7 @@ export function migrateImportDeclarations({
     const newSourceValue = (() => {
       if (typeof currentSourceValue !== "string") return currentSourceValue;
 
-      const { startsWith, replaceWith } = options.source.find(({ startsWith }) =>
+      const { startsWith, replaceWith } = match.source.find(({ startsWith }) =>
         currentSourceValue.startsWith(startsWith),
       );
 
@@ -33,10 +33,9 @@ export function migrateImportDeclarations({
       // @seed-design/icon/lib/IconSomething -> @seed-design/react-icon/lib/IconSomething
       const itemReplaced = slashSplits
         .map((split, index) => {
-          if (index !== slashSplits.length - 1 || split in options.identifier === false)
-            return split;
+          if (index !== slashSplits.length - 1 || split in match.identifier === false) return split;
 
-          return options.identifier[split];
+          return match.identifier[split];
         })
         .join("/");
 
@@ -63,9 +62,9 @@ export function migrateImportDeclarations({
         case "ImportSpecifier": {
           const currentImportedName = currentSpecifier.imported.name;
 
-          if (currentImportedName in options.identifier === false) return currentSpecifier;
+          if (currentImportedName in match.identifier === false) return currentSpecifier;
 
-          const newImportedName = options.identifier[currentImportedName];
+          const newImportedName = match.identifier[currentImportedName];
 
           const hasNoChange = newImportedName === currentImportedName;
 
@@ -103,15 +102,15 @@ export function migrateImportDeclarations({
 
 interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
-  options: MigrateIconsOptions["identifier"];
+  identifierMatch: MigrateIconsOptions["match"]["identifier"];
 }
 
-export function migrateIdentifiers({ identifiers, options }: MigrateIdentifiersParams) {
+export function migrateIdentifiers({ identifiers, identifierMatch }: MigrateIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
 
-    if (currentName in options === false) return identifier;
+    if (currentName in identifierMatch === false) return identifier;
 
-    return jscodeshift.identifier(options[currentName]);
+    return jscodeshift.identifier(identifierMatch[currentName]);
   });
 }
