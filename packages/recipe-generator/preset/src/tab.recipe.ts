@@ -13,6 +13,7 @@ const tab = defineRecipe({
       cursor: "pointer",
       border: "none",
       boxSizing: "border-box",
+      backgroundColor: "transparent",
       whiteSpace: "nowrap",
       [pseudo(disabled)]: {
         cursor: "not-allowed",

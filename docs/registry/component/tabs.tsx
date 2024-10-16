@@ -339,7 +339,7 @@ const TabIndicator = React.forwardRef<
         width: getWidth(),
         left: getLeft(),
         willChange: "left, width",
-        transition: isSwipeable ? transitions : "",
+        transition: isSwipeable ? transitions : "none",
       }}
     />
   );

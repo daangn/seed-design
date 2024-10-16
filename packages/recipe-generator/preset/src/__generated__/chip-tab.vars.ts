@@ -85,13 +85,16 @@ export const vars = {
       }
     },
     "disabled": {
+      "root": {
+        "color": "var(--seed-color-bg-disabled)"
+      },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       }
     },
     "selectedDisabled": {
       "root": {
-        "color": "var(--seed-color-bg-disabled-2)"
+        "color": "var(--seed-color-bg-disabled)"
       }
     }
   }

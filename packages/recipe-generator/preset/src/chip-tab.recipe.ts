@@ -27,16 +27,18 @@ const chipTab = defineRecipe({
     variant: {
       neutralSolid: {
         root: {
+          backgroundColor: vars.variantNeutralSolid.enabled.root.color,
+
           [pseudo(selected)]: {
             backgroundColor: vars.variantNeutralSolid.selected.root.color,
           },
 
-          [pseudo(active, not(disabled))]: {
-            backgroundColor: vars.variantNeutralSolid.enabled.root.color,
+          [pseudo(active)]: {
+            backgroundColor: vars.variantNeutralSolid.enabledPressed.root.color,
           },
 
           [pseudo(selected, active)]: {
-            backgroundColor: vars.variantNeutralSolid.selected.root.color,
+            backgroundColor: vars.variantNeutralSolid.selectedPressed.root.color,
           },
 
           [pseudo(disabled)]: {
@@ -68,7 +70,7 @@ const chipTab = defineRecipe({
       },
       brandWeak: {
         root: {
-          fontWeight: vars.base.enabled.label.fontWeight,
+          fontWeight: vars.variantBrandWeak.enabled.label.fontWeight,
           backgroundColor: vars.variantBrandWeak.enabled.root.color,
 
           [pseudo(selected)]: {
@@ -85,7 +87,7 @@ const chipTab = defineRecipe({
 
           [pseudo(disabled)]: {
             cursor: "not-allowed",
-            backgroundColor: undefined,
+            backgroundColor: vars.variantBrandWeak.disabled.root.color,
           },
 
           [pseudo(disabled, selected)]: {

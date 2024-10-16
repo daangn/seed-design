@@ -14,14 +14,17 @@
     font-size: var(--seed-font-size-100);
     font-weight: var(--seed-font-weight-bold);
 }
+.chipTab__root--variant_neutralSolid {
+    background-color: var(--seed-color-bg-neutral);
+}
 .chipTab__root--variant_neutralSolid:is(:selected, [data-selected]) {
     background-color: var(--seed-color-bg-neutral-solid);
 }
-.chipTab__root--variant_neutralSolid:is(:active, [data-active]):not(:is(:disabled, [disabled], [data-disabled])) {
-    background-color: var(--seed-color-bg-neutral);
+.chipTab__root--variant_neutralSolid:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-default-pressed);
 }
 .chipTab__root--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-solid);
+    background-color: var(--seed-color-bg-neutral-solid-pressed);
 }
 .chipTab__root--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
@@ -43,7 +46,7 @@
     color: var(--seed-color-fg-disabled);
 }
 .chipTab__root--variant_brandWeak {
-    font-weight: var(--seed-font-weight-bold);
+    font-weight: var(--seed-font-weight-medium);
     background-color: var(--seed-color-bg-neutral-weak);
 }
 .chipTab__root--variant_brandWeak:is(:selected, [data-selected]) {
@@ -57,9 +60,10 @@
 }
 .chipTab__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
+    background-color: var(--seed-color-bg-disabled);
 }
 .chipTab__root--variant_brandWeak:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-disabled-2);
+    background-color: var(--seed-color-bg-disabled);
 }
 .chipTab__label--variant_brandWeak {
     color: var(--seed-color-fg-neutral);

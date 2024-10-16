@@ -37,12 +37,8 @@ export const registryComponentSchema = z.array(registryComponentItemSchema);
 /**
  * @description 머신이 생성한 registry component schema
  */
-export const registryComponentItemMachineGeneratedSchema = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  dependencies: z.array(z.string()).optional(),
-  devDependencies: z.array(z.string()).optional(),
-  innerDependencies: z.array(z.string()).optional(),
+const omittedRegistryComponentSchema = registryComponentItemSchema.omit({ files: true });
+export const registryComponentItemMachineGeneratedSchema = omittedRegistryComponentSchema.extend({
   registries: z.array(
     z.object({
       name: z.string(),

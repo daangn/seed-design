@@ -301,7 +301,7 @@ const TabIndicator = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
           width: getWidth(),
           left: getLeft(),
           willChange: "left, width",
-          transition: isSwipeable && transitions,
+          transition: isSwipeable ? transitions : "none",
         }}
       />
     );

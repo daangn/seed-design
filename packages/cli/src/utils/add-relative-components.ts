@@ -1,8 +1,8 @@
-import type { ComponentMetadataIndex } from "@/src/schema";
+import type { RegistryComponentMachineGenerated } from "@/src/schema";
 
 export function addRelativeComponents(
   userSelects: string[],
-  metadataIndex: ComponentMetadataIndex,
+  registryIndex: RegistryComponentMachineGenerated,
 ) {
   const selectedComponents = new Set<string>();
 
@@ -11,7 +11,7 @@ export function addRelativeComponents(
 
     selectedComponents.add(componentName);
 
-    const component = metadataIndex.find((c) => c.name === componentName);
+    const component = registryIndex.find((c) => c.name === componentName);
     if (!component) return;
 
     if (component.innerDependencies) {

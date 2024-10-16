@@ -1,14 +1,11 @@
-import {
-  componentMetadataIndexSchema,
-  type ComponentMetadataWithRegistrySchema,
-} from "@/src/schema";
+import { registryComponentSchema, type RegistryComponentMachineGenerated } from "@/src/schema";
 
 const BASE_URL =
   process.env.NODE_ENV === "prod" ? "https://component.seed-design.io" : "http://localhost:3000";
 
-export async function fetchComponentMetadatas(
+export async function fetchRegistryComponentItem(
   fileNames?: string[],
-): Promise<ComponentMetadataWithRegistrySchema[]> {
+): Promise<RegistryComponentMachineGenerated> {
   try {
     const results = await Promise.all(
       fileNames.map(async (fileName) => {
@@ -24,11 +21,11 @@ export async function fetchComponentMetadatas(
   }
 }
 
-export async function getMetadataIndex() {
+export async function getRegistryComponentIndex() {
   try {
-    const [result] = await fetchComponentMetadatas(["index"]);
+    const [result] = await fetchRegistryComponentItem(["index"]);
 
-    return componentMetadataIndexSchema.parse(result);
+    return registryComponentSchema.parse(result);
   } catch (error) {
     console.log(error);
     throw new Error(`Failed to fetch components from ${BASE_URL}.`);

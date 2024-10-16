@@ -2,21 +2,43 @@ import { z } from "zod";
 
 // TODO: Extract this to a shared package.
 // INFO: also used in component-docs
-export const componentMetadataSchema = z.object({
+export const registryComponentItemSchema = z.object({
+  /**
+   * @description 컴포넌트 이름
+   * @example chip-tabs, alert-dialog
+   */
   name: z.string(),
+
   description: z.string().optional(),
+
+  /**
+   * @description 컴포넌트 의존성
+   * @example @seed-design/react-tabs
+   */
   dependencies: z.array(z.string()).optional(),
+
+  /**
+   * @description 컴포넌트 개발 의존성
+   */
   devDependencies: z.array(z.string()).optional(),
+
+  /**
+   * @description 컴포넌트 내부의 Seed Design 컴포넌트 의존성
+   * @example action-button
+   */
   innerDependencies: z.array(z.string()).optional(),
-  snippets: z.array(z.string()),
-  type: z.enum(["component"]),
+
+  /**
+   * @description 컴포넌트 코드 스니펫 경로, 여러 파일이 될 수 있어서 배열로 정의
+   * @example component/alert-dialog.tsx
+   */
+  files: z.array(z.string()),
 });
 
-export const componentMetadataIndexSchema = z.array(componentMetadataSchema);
+export const registryComponentSchema = z.array(registryComponentItemSchema);
 
-const omittedComponentMetadataIndexSchema = componentMetadataSchema.omit({ snippets: true });
-
-export const componentMetadataSchemaWithRegistry = omittedComponentMetadataIndexSchema.extend({
+const omittedRegistryComponentSchema = registryComponentItemSchema.omit({ files: true });
+export const registryComponentItemMachineGeneratedSchema = omittedRegistryComponentSchema.extend({
   registries: z.array(
     z.object({
       name: z.string(),
@@ -25,10 +47,15 @@ export const componentMetadataSchemaWithRegistry = omittedComponentMetadataIndex
   ),
 });
 
-export const componentMetadataWithRegistrySchema = z.array(componentMetadataSchemaWithRegistry);
+export const registryComponentMachineGeneratedSchema = z.array(
+  registryComponentItemMachineGeneratedSchema,
+);
 
-export type ComponentMetadata = z.infer<typeof componentMetadataSchema>;
-export type ComponentMetadataIndex = z.infer<typeof componentMetadataIndexSchema>;
-export type ComponentMetadataWithRegistrySchema = z.infer<
-  typeof componentMetadataSchemaWithRegistry
+export type RegistryComponentItem = z.infer<typeof registryComponentItemSchema>;
+export type RegistryComponent = z.infer<typeof registryComponentSchema>;
+export type RegistryComponentItemMachineGenerated = z.infer<
+  typeof registryComponentItemMachineGeneratedSchema
+>;
+export type RegistryComponentMachineGenerated = z.infer<
+  typeof registryComponentMachineGeneratedSchema
 >;

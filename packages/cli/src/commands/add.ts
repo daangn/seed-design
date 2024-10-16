@@ -1,5 +1,5 @@
 import { getConfig } from "@/src/utils/get-config";
-import { fetchComponentMetadatas, getMetadataIndex } from "@/src/utils/get-metadata";
+import { fetchRegistryComponentItem, getRegistryComponentIndex } from "@/src/utils/get-metadata";
 import { getPackageManager } from "@/src/utils/get-package-manager";
 import { transform } from "@/src/utils/transformers";
 import * as p from "@clack/prompts";
@@ -45,10 +45,10 @@ export const addCommand = (cli: CAC) => {
         process.exit(1);
       }
 
-      const metadataIndex = await getMetadataIndex();
+      const registryComponentIndex = await getRegistryComponentIndex();
 
       let selectedComponents: string[] = options.all
-        ? metadataIndex.map((meatadata) => meatadata.name)
+        ? registryComponentIndex.map((registry) => registry.name)
         : options.components;
 
       if (!options.components?.length && !options.all) {
@@ -57,7 +57,7 @@ export const addCommand = (cli: CAC) => {
           string
         >({
           message: "Select all components to add",
-          options: metadataIndex.map((metadata) => {
+          options: registryComponentIndex.map((metadata) => {
             return {
               label: metadata.name,
               value: metadata.name,
@@ -79,10 +79,10 @@ export const addCommand = (cli: CAC) => {
         process.exit(0);
       }
 
-      const allComponents = addRelativeComponents(selectedComponents, metadataIndex);
+      const allComponents = addRelativeComponents(selectedComponents, registryComponentIndex);
       const addedComponents = allComponents.filter((c) => !selectedComponents.includes(c));
       const config = await getConfig(cwd);
-      const metadatas = await fetchComponentMetadatas(allComponents);
+      const registryComponentItems = await fetchRegistryComponentItem(allComponents);
 
       p.log.message(`Selection: ${highlight(selectedComponents.join(", "))}`);
       if (addedComponents.length) {
@@ -91,8 +91,8 @@ export const addCommand = (cli: CAC) => {
         );
       }
 
-      for (const metadata of metadatas) {
-        for (const registry of metadata.registries) {
+      for (const component of registryComponentItems) {
+        for (const registry of component.registries) {
           const UIFolderPath = config.resolvedUIPaths;
 
           if (!fs.existsSync(UIFolderPath)) {
@@ -122,12 +122,12 @@ export const addCommand = (cli: CAC) => {
         const { start, stop } = p.spinner();
 
         // Install dependencies.
-        if (metadata.dependencies?.length) {
+        if (component.dependencies?.length) {
           start(color.gray("Installing dependencies"));
 
           const result = await execa(
             packageManager,
-            [packageManager === "npm" ? "install" : "add", ...metadata.dependencies],
+            [packageManager === "npm" ? "install" : "add", ...component.dependencies],
             {
               cwd,
             },
@@ -137,7 +137,7 @@ export const addCommand = (cli: CAC) => {
             console.error(result.all);
             process.exit(1);
           } else {
-            for (const deps of metadata.dependencies) {
+            for (const deps of component.dependencies) {
               p.log.info(`- ${deps}`);
             }
             stop("Dependencies installed.");
@@ -145,12 +145,12 @@ export const addCommand = (cli: CAC) => {
         }
 
         // Install devDependencies.
-        if (metadata.devDependencies?.length) {
+        if (component.devDependencies?.length) {
           start(color.gray("Installing devDependencies"));
 
           const result = await execa(
             packageManager,
-            [packageManager === "npm" ? "install" : "add", "-D", ...metadata.devDependencies],
+            [packageManager === "npm" ? "install" : "add", "-D", ...component.devDependencies],
             {
               cwd,
             },
@@ -160,7 +160,7 @@ export const addCommand = (cli: CAC) => {
             console.error(result.all);
             process.exit(1);
           } else {
-            for (const deps of metadata.devDependencies) {
+            for (const deps of component.devDependencies) {
               p.log.info(`- ${deps}`);
             }
             stop("Dependencies installed.");
