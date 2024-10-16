@@ -1,6 +1,8 @@
 {
   "name": "expand-button",
-  "dependencies": ["@radix-ui/react-slot"],
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
   "registries": [
     {
       "name": "expand-button.tsx",

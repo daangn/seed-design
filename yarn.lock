@@ -4552,11 +4552,11 @@ __metadata:
     "@seed-design/react-text-field": 0.0.0-alpha-20241004093556
     "@seed-design/recipe": 0.0.0-alpha-20241014145845
     "@seed-design/stylesheet": 0.0.0-alpha-20241014145845
-    "@stackflow/core": ^1.0.13
-    "@stackflow/plugin-basic-ui": ^1.8.4
-    "@stackflow/plugin-history-sync": ^1.6.0
-    "@stackflow/plugin-renderer-basic": ^1.1.11
-    "@stackflow/react": ^1.2.1
+    "@stackflow/core": ^1.1.0
+    "@stackflow/plugin-basic-ui": ^1.10.0
+    "@stackflow/plugin-history-sync": ^1.7.0
+    "@stackflow/plugin-renderer-basic": ^1.1.13
+    "@stackflow/react": ^1.4.0
     "@types/react": ^18.3.3
     "@types/react-dom": ^18.3.0
     "@vitejs/plugin-legacy": ^5.3.1
@@ -4694,14 +4694,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackflow/config@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@stackflow/config@npm:1.1.0"
-  checksum: 282d744cee7fccb9399f2c819ffcd9575bf1a03b2673aca0397fa3f713cc0ca94bab4c23038eabeb12edf21276586a61202ff1894b7f27844a830de7ffb25128
+"@stackflow/config@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@stackflow/config@npm:1.2.0"
+  checksum: 064fdc0ba34e1ee730e49d10a8de728cb1eb83919cc0d07ec0531f5c11d741b964f12f51b3d51552a11e5f6082af5789c14925f93223f7354f8c3d2bf041ca0f
   languageName: node
   linkType: hard
 
-"@stackflow/core@npm:^1.0.13":
+"@stackflow/core@npm:^1.1.0":
   version: 1.1.0
   resolution: "@stackflow/core@npm:1.1.0"
   dependencies:
@@ -4710,77 +4710,78 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stackflow/plugin-basic-ui@npm:^1.8.4":
-  version: 1.9.1
-  resolution: "@stackflow/plugin-basic-ui@npm:1.9.1"
+"@stackflow/plugin-basic-ui@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "@stackflow/plugin-basic-ui@npm:1.10.0"
   dependencies:
-    "@stackflow/react-ui-core": "npm:^1.1.1"
-    "@vanilla-extract/css": "npm:^1.15.3"
-    "@vanilla-extract/dynamic": "npm:^2.1.1"
-    "@vanilla-extract/private": "npm:^1.0.5"
-    "@vanilla-extract/recipes": "npm:^0.5.3"
+    "@stackflow/react-ui-core": ^1.1.2
+    "@vanilla-extract/css": ^1.15.3
+    "@vanilla-extract/dynamic": ^2.1.1
+    "@vanilla-extract/private": ^1.0.5
+    "@vanilla-extract/recipes": ^0.5.3
   peerDependencies:
     "@stackflow/core": ^1.1.0-canary.0
-    "@stackflow/react": ^1.3.0-canary.0
+    "@stackflow/react": ^1.3.2-canary.0
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: efaa31168ccf807086d04feaa5b754d1b5075745ab6241c3e89fd7c5c82dfb465d94e841bdbfdf99f7c48806547b039407bb33c81a6bc0cdacd934cea756eb01
+  checksum: 103606ec466d5f6d69ad5d141c6032e3739f776ed7233372684c4c6d34cd6357ae35bf3cb66760008a32577c28f9a93c48c5635794e6608bc92140d8a61c9665
   languageName: node
   linkType: hard
 
-"@stackflow/plugin-history-sync@npm:^1.6.0":
-  version: 1.6.2
-  resolution: "@stackflow/plugin-history-sync@npm:1.6.2"
+"@stackflow/plugin-history-sync@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@stackflow/plugin-history-sync@npm:1.7.0"
   dependencies:
-    history: "npm:^5.3.0"
-    url-pattern: "npm:^1.0.3"
+    flatted: ^3.3.1
+    history: ^5.3.0
+    url-pattern: ^1.0.3
   peerDependencies:
     "@stackflow/config": ^1.0.1-canary.0
     "@stackflow/core": ^1.1.0-canary.0
-    "@stackflow/react": ^1.3.0-canary.0
+    "@stackflow/react": ^1.3.2-canary.0
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: f288ba4e3d44630028476d5e1a04ebed2e41c1ab85cc73d82306bc7c5987f9009f6efe9b972eb2c6ab052eca1d2dcb813b4ed601a2096fb507302427f0f5cc5a
+  checksum: cbed61a13ea4d958831d257830705f4558ff8167107b9694fd3eb4b63ac39ecc9974934c487e26a0369d28823250c7c28c780bfe2a6682a3fb1697edbfbf2a46
   languageName: node
   linkType: hard
 
-"@stackflow/plugin-renderer-basic@npm:^1.1.11":
-  version: 1.1.12
-  resolution: "@stackflow/plugin-renderer-basic@npm:1.1.12"
+"@stackflow/plugin-renderer-basic@npm:^1.1.13":
+  version: 1.1.13
+  resolution: "@stackflow/plugin-renderer-basic@npm:1.1.13"
   peerDependencies:
     "@stackflow/core": ^1.1.0-canary.0
-    "@stackflow/react": ^1.3.0-canary.0
+    "@stackflow/react": ^1.3.2-canary.0
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: c15aeb0eb726a441a6333c210636ecd3f174e7d8d1bb7b4bf17a705ba9599ffc3a635255c74627b4cf6318eb65ac61f86ac7804318a156a48989a5a320edc29e
+  checksum: fc3553cf3cc1cf79796517ee7ceff3da32b033c588fb709ba5adbaf80cef7b0966265793dfbc2ee33deb298e204f2b4f2b308905b56e4cefe5470ecd7ac9ef9c
   languageName: node
   linkType: hard
 
-"@stackflow/react-ui-core@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@stackflow/react-ui-core@npm:1.1.1"
+"@stackflow/react-ui-core@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@stackflow/react-ui-core@npm:1.1.2"
   peerDependencies:
     "@stackflow/core": ^1.1.0-canary.0
-    "@stackflow/react": ^1.3.0-canary.0
+    "@stackflow/react": ^1.3.2-canary.0
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: ab178979eeae1ca45b2bea4fea56dfa16b16d8170afbaacb05ff538ec8174c6e27ff56bdd938930d9e18d11144468a0b32ad76b0bc291e8cda5b578ed3fb261d
+  checksum: eb9e42f65b3110128deada0dfc08a23a2ec61ae5ca8d3533ec07efdc1108e6a0dfe588d0c8e5a82d174f5641c1336e05bf3c8ead1462d8262372eb28ddd0ad77
   languageName: node
   linkType: hard
 
-"@stackflow/react@npm:^1.2.1":
-  version: 1.3.1
-  resolution: "@stackflow/react@npm:1.3.1"
+"@stackflow/react@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@stackflow/react@npm:1.4.0"
   dependencies:
-    history: "npm:^5.3.0"
-    react-fast-compare: "npm:^3.2.2"
-    url-pattern: "npm:^1.0.3"
+    history: ^5.3.0
+    react-fast-compare: ^3.2.2
+    url-pattern: ^1.0.3
   peerDependencies:
     "@stackflow/config": ^1.0.1-canary.0
     "@stackflow/core": ^1.1.0-canary.0
     "@types/react": ">=16.8.0"
     react: ">=16.8.0"
-  checksum: a6aff9781bb01de76d10278f3b5dfbe62d0548f3f98add7c8febbc778ec6acd99a5a6774063c9060238834a8a4d4ad958b2725d42bdec4add52b2da007cd25ab
+  checksum: f03faae0d4315e57bd3bb9d3f6de43cf58950034ace8795e491c1d080393c737fa9e216ad6af7ca2733f04cefe9b05a1b20568ee6e287a7ad5e8fb27b0eab399
   languageName: node
   linkType: hard
 
@@ -6785,11 +6786,11 @@ __metadata:
     "@seed-design/react-tabs": 0.0.0-alpha-20241014145845
     "@seed-design/recipe": 0.0.0-alpha-20241014145845
     "@seed-design/stylesheet": 0.0.0-alpha-20241014145845
-    "@stackflow/config": ^1.1.0
-    "@stackflow/core": ^1.0.13
-    "@stackflow/plugin-basic-ui": ^1.8.4
-    "@stackflow/plugin-renderer-basic": ^1.1.11
-    "@stackflow/react": ^1.2.1
+    "@stackflow/config": ^1.2.0
+    "@stackflow/core": ^1.1.0
+    "@stackflow/plugin-basic-ui": ^1.10.0
+    "@stackflow/plugin-renderer-basic": ^1.1.13
+    "@stackflow/react": ^1.4.0
     "@types/node": ^20.14.12
     "@types/react": ^18.3.4
     "@vanilla-extract/css": ^1.15.5
@@ -7785,6 +7786,11 @@ __metadata:
     "@seed-design/react-tabs": 0.0.0-alpha-20241014145845
     "@seed-design/recipe": 0.0.0-alpha-20241014145845
     "@seed-design/stylesheet": 0.0.0-alpha-20241014145845
+    "@stackflow/config": ^1.2.0
+    "@stackflow/core": ^1.1.0
+    "@stackflow/plugin-basic-ui": ^1.10.0
+    "@stackflow/plugin-renderer-basic": ^1.1.13
+    "@stackflow/react": ^1.4.0
     "@types/mdx": ^2.0.13
     "@types/node": 22.5.4
     "@types/react": ^18.3.5
@@ -7800,6 +7806,7 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     shiki: ^1.22.0
+    simple-reveal: ^0.8.0
     tailwindcss: ^3.4.10
     ts-pattern: ^5.5.0
     typescript: ^5.5.4
@@ -8989,6 +8996,13 @@ __metadata:
     micromatch: "npm:^4.0.4"
     resolve-dir: "npm:^1.0.1"
   checksum: 576716c77a0e8330b17ae9cba27d1fda8907c8cda7bf33a47f1999e16e089bfc6df4dd62933e0760f430736183c054348c34aa45dd882d49c8c098f55b89ee1d
+  languageName: node
+  linkType: hard
+
+"flatted@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "flatted@npm:3.3.1"
+  checksum: 85ae7181650bb728c221e7644cbc9f4bf28bc556f2fc89bb21266962bdf0ce1029cc7acc44bb646cd469d9baac7c317f64e841c4c4c00516afa97320cdac7f94
   languageName: node
   linkType: hard
 

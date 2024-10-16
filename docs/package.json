@@ -17,6 +17,11 @@
     "@seed-design/react-tabs": "0.0.0-alpha-20241014145845",
     "@seed-design/recipe": "0.0.0-alpha-20241014145845",
     "@seed-design/stylesheet": "0.0.0-alpha-20241014145845",
+    "@stackflow/config": "^1.2.0",
+    "@stackflow/core": "^1.1.0",
+    "@stackflow/plugin-basic-ui": "^1.10.0",
+    "@stackflow/plugin-renderer-basic": "^1.1.13",
+    "@stackflow/react": "^1.4.0",
     "fumadocs-core": "13.4.10",
     "fumadocs-docgen": "^1.2.0",
     "fumadocs-mdx": "10.0.2",
@@ -24,7 +29,8 @@
     "next": "^14.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "shiki": "^1.22.0"
+    "shiki": "^1.22.0",
+    "simple-reveal": "^0.8.0"
   },
   "devDependencies": {
     "@types/mdx": "^2.0.13",

@@ -1,6 +1,7 @@
 import { source } from "@/app/source";
 import { ComponentExample } from "@/components/component-example";
 import { Installation } from "@/components/installation";
+import { StackflowExample } from "@/components/stackflow-example";
 import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -43,6 +44,7 @@ export default async function Page({
             Folder,
             Files,
             AtomIcon,
+            StackflowExample,
           }}
         />
       </DocsBody>

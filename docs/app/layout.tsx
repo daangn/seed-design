@@ -3,6 +3,9 @@
 import "./global.css";
 import "@seed-design/stylesheet/global.css";
 import "@seed-design/stylesheet/token.css";
+import "@stackflow/plugin-basic-ui/index.css";
+import "simple-reveal/index.css";
+
 import { RootProvider } from "fumadocs-ui/provider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";

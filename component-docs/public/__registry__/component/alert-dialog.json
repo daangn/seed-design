@@ -1,6 +1,8 @@
 {
   "name": "alert-dialog",
-  "innerDependencies": ["action-button"],
+  "innerDependencies": [
+    "action-button"
+  ],
   "registries": [
     {
       "name": "alert-dialog.tsx",
