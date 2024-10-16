@@ -1,20 +1,19 @@
 import { source } from "@/app/source";
-import type { Metadata } from "next";
+import { ComponentExample } from "@/components/component-example";
+import { Installation } from "@/components/installation";
+import { File, Files, Folder } from "fumadocs-ui/components/files";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import defaultMdxComponents from "fumadocs-ui/mdx";
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
 } from "fumadocs-ui/page";
+import { AtomIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import defaultMdxComponents from "fumadocs-ui/mdx";
-import { Installation } from "@/components/installation";
-import { ComponentExample } from "@/components/component-example";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { File, Folder, Files } from "fumadocs-ui/components/files";
-import { Card, Cards } from "fumadocs-ui/components/card";
-import { Callout } from "fumadocs-ui/components/callout";
 
 export default async function Page({
   params,
@@ -43,9 +42,7 @@ export default async function Page({
             File,
             Folder,
             Files,
-            Card,
-            Cards,
-            Callout,
+            AtomIcon,
           }}
         />
       </DocsBody>
