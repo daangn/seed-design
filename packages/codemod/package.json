@@ -1,0 +1,39 @@
+{
+  "name": "@seed-design/codemod",
+  "version": "0.0.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daangn/sprout",
+    "directory": "packages/codemod"
+  },
+  "license": "MIT",
+  "files": [
+    "bin",
+    "src"
+  ],
+  "scripts": {
+    "prepack": "yarn build",
+    "test": "yarn vitest"
+  },
+  "dependencies": {
+    "jscodeshift": "^17.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/js-api": "^0.7.1",
+    "@biomejs/wasm-nodejs": "^1.9.3",
+    "@types/jscodeshift": "^0.12.0",
+    "@types/node": "^22.7.5",
+    "typescript": "^5.4.5",
+    "vitest": "^2.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}
