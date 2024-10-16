@@ -13,29 +13,30 @@ const UNIT_MODE = "Mode 1"; // Value로 되어있는데 기본값은 그냥 Mode
 /**
  * @example carotene | seed-v3
  */
-const DESIGN_SYSTEM_NAME = "seed-v3";
+const SELECTOR = "seed";
+const PREFIX = "seed-v3";
 
 const lightModeTemplate = (css: string) => dedent`
 /* Light Mode */
-:root[data-${DESIGN_SYSTEM_NAME}][data-${DESIGN_SYSTEM_NAME}="light-only"][data-${DESIGN_SYSTEM_NAME}-scale-color="dark"],
-:root[data-${DESIGN_SYSTEM_NAME}][data-${DESIGN_SYSTEM_NAME}-scale-color="light"]:not([data-${DESIGN_SYSTEM_NAME}="dark-only"]),
-:root[data-${DESIGN_SYSTEM_NAME}]:not([data-${DESIGN_SYSTEM_NAME}="dark-only"]) [data-${DESIGN_SYSTEM_NAME}-scale-color="light"] {
+:root[data-${SELECTOR}][data-${SELECTOR}="light-only"][data-${SELECTOR}-scale-color="dark"],
+:root[data-${SELECTOR}][data-${SELECTOR}-scale-color="light"]:not([data-${SELECTOR}="dark-only"]),
+:root[data-${SELECTOR}]:not([data-${SELECTOR}="dark-only"]) [data-${SELECTOR}-scale-color="light"] {
   ${css}
 }
 `;
 
 const darkModeTemplate = (css: string) => dedent`
 /* Dark Mode */
-:root[data-${DESIGN_SYSTEM_NAME}][data-${DESIGN_SYSTEM_NAME}="dark-only"][data-${DESIGN_SYSTEM_NAME}-scale-color="light"],
-:root[data-${DESIGN_SYSTEM_NAME}][data-${DESIGN_SYSTEM_NAME}-scale-color="dark"]:not([data-${DESIGN_SYSTEM_NAME}="light-only"]),
-:root[data-${DESIGN_SYSTEM_NAME}]:not([data-${DESIGN_SYSTEM_NAME}="light-only"]) [data-${DESIGN_SYSTEM_NAME}-scale-color="dark"] {
+:root[data-${SELECTOR}][data-${SELECTOR}="dark-only"][data-${SELECTOR}-scale-color="light"],
+:root[data-${SELECTOR}][data-${SELECTOR}-scale-color="dark"]:not([data-${SELECTOR}="light-only"]),
+:root[data-${SELECTOR}]:not([data-${SELECTOR}="light-only"]) [data-${SELECTOR}-scale-color="dark"] {
   ${css}
 }
 `;
 
 const unitTemplate = (css: string) => dedent`
 /* Units, Static Colors */
-:root[data-${DESIGN_SYSTEM_NAME}] {
+:root[data-${SELECTOR}] {
   ${css}
 }
 `;
@@ -302,7 +303,7 @@ function generateColorCss() {
 function figmaColorVarToCssVar(name: string) {
   const [group, colorName] = name.split("/") as [string, string];
 
-  return `--${DESIGN_SYSTEM_NAME}-color-${group}-${colorName}`;
+  return `--${PREFIX}-color-${group}-${colorName}`;
 }
 
 function figmaColorVarToSpecVar(name: string) {
@@ -314,7 +315,7 @@ function figmaColorVarToSpecVar(name: string) {
 function figmaUnitVarToCssVar(name: string) {
   const [group, value] = name.split("/") as [string, string];
 
-  return `--${DESIGN_SYSTEM_NAME}-${group}-${value}`;
+  return `--${PREFIX}-${group}-${value}`;
 }
 
 function figmaColorVarToJsVar(name: string) {
