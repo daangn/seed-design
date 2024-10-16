@@ -17,12 +17,26 @@ describe("shiftingIcons", () => {
   const j = jscodeshift.withParser("tsx");
 
   const importTransformers: ImportTransformers = {
-    source: [{ startsWith: "some-package", replaceWith: "some-new-package" }],
+    source: [
+      { startsWith: "@scope/some-old-package", replaceWith: "@scope/some-new-package" },
+      { startsWith: "@scope/some-package-not-to-be-changed" },
+    ],
     identifier: {
-      IconLike: "IconHeart",
-      IconFavorite: "IconStar",
-      IconHot: "IconFlame",
-      IconNight: "IconMoon",
+      Icon1: "NewIcon1",
+      Icon2: "NewIcon2",
+      Icon3: "NewIcon3",
+      Icon4: "NewIcon4",
+      Icon5: "NewIcon5",
+      Icon6: "NewIcon6",
+      Icon7: "NewIcon7",
+      Icon8: "NewIcon8",
+      Icon9: "NewIcon9",
+      Icon10: "NewIcon10",
+      Icon11: "NewIcon11",
+      Icon12: "NewIcon12",
+      Icon13: "NewIcon13",
+      Icon14: "NewIcon14",
+      Icon15: "NewIcon15",
     },
   };
 
