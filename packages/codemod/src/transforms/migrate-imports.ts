@@ -2,6 +2,7 @@ import type { Transform } from "jscodeshift";
 import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node";
 import { createLogger, type Logger } from "winston";
 import { loggerOptions } from "../utils/log";
+import { identifierMapReact } from "./identifier-map";
 
 export interface MigrateImportsOptions {
   match?: {
@@ -17,9 +18,7 @@ const reactMatch: MigrateImportsOptions["match"] = {
     { startsWith: "@seed-design/icons", replaceWith: "@seed-design/react-icon" },
     { startsWith: "@seed-design/react-icon" },
   ],
-  identifier: {
-    Icon: "NewIcon",
-  },
+  identifier: identifierMapReact,
 };
 
 const migrateImports: Transform = (
