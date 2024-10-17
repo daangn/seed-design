@@ -6,12 +6,14 @@ interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
   match: MigrateImportsOptions["match"];
   logger: Logger;
+  filePath: jscodeshift.FileInfo["path"];
 }
 
 export function migrateImportDeclarations({
   importDeclarations,
   match,
   logger,
+  filePath,
 }: MigrateImportDeclarationsParams) {
   importDeclarations.replaceWith((imp) => {
     const currentSourceValue = imp.node.source.value;
@@ -34,7 +36,7 @@ export function migrateImportDeclarations({
       // @seed-design/icon -> @seed-design/react-icon
       // @seed-design/icon/IconSomething -> @seed-design/react-icon/IconSomething
       // @seed-design/icon/lib/IconSomething -> @seed-design/react-icon/lib/IconSomething
-      const itemReplaced = slashSplits
+      const result = slashSplits
         .map((split, index) => {
           if (index !== slashSplits.length - 1 || split in match.identifier === false) return split;
 
@@ -42,7 +44,7 @@ export function migrateImportDeclarations({
         })
         .join("/");
 
-      return itemReplaced;
+      return result;
     })();
 
     // import { a, b, c } from "some-package";
@@ -60,7 +62,7 @@ export function migrateImportDeclarations({
     // * as A는 ImportNamespaceSpecifier
     // A는 local name
 
-    logger.debug(`source ${currentSourceValue} -> ${newSourceValue}`);
+    logger.debug(`${filePath}: source ${currentSourceValue} -> ${newSourceValue}`);
 
     const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
@@ -75,7 +77,7 @@ export function migrateImportDeclarations({
 
           if (hasNoChange) return currentSpecifier;
 
-          logger.debug(`imported name ${currentImportedName} -> ${newImportedName}`);
+          logger.debug(`${filePath}: imported name ${currentImportedName} -> ${newImportedName}`);
 
           const newImportedIdentifier = jscodeshift.identifier(newImportedName);
 
@@ -94,8 +96,20 @@ export function migrateImportDeclarations({
       }
     });
 
+    const newSpecifiersWithoutDuplicates = newSpecifiers.filter((specifier, index, self) => {
+      if (specifier.type !== "ImportSpecifier") return true;
+
+      const currentImportedName = specifier.imported.name;
+
+      return (
+        self.findIndex(
+          (s) => (s as jscodeshift.ImportSpecifier).imported.name === currentImportedName,
+        ) === index
+      );
+    });
+
     const newImportDeclaration = jscodeshift.importDeclaration(
-      newSpecifiers,
+      newSpecifiersWithoutDuplicates,
       jscodeshift.literal(newSourceValue),
       currentImportKind,
     );
@@ -108,19 +122,25 @@ interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
   identifierMatch: MigrateImportsOptions["match"]["identifier"];
   logger: Logger;
+  filePath: jscodeshift.FileInfo["path"];
 }
 
 export function migrateIdentifiers({
   identifiers,
   identifierMatch,
   logger,
+  filePath,
 }: MigrateIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
-    if (currentName in identifierMatch === false) return identifier;
+    if (currentName in identifierMatch === false) {
+      logger.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
+
+      return identifier;
+    }
 
     const newName = identifierMatch[currentName];
-    logger.debug(`identifier ${currentName} -> ${newName}`);
+    logger.debug(`${filePath}: identifier ${currentName} -> ${newName}`);
 
     return jscodeshift.identifier(newName);
   });
