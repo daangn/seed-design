@@ -27,10 +27,7 @@ export const FONT_SIZES = {
 export const SIZES = {
   CELL_WIDTH: 280,
   CELL_HEIGHT: 44,
-} as const satisfies Record<
-  Uppercase<string>,
-  FrameNode["width"] | FrameNode["height"]
->;
+} as const satisfies Record<Uppercase<string>, FrameNode["width"] | FrameNode["height"]>;
 
 export const RELAUNCH_DATA_MESSAGES = {
   ADD: "페이지에 Variable 프리뷰 프레임을 추가해요",

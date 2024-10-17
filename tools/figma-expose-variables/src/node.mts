@@ -20,15 +20,12 @@ export function createMainFrame() {
   return frame;
 }
 
-type CreateTextNodeParams = Pick<
-  TextNode,
-  "characters" | "fontName" | "fontSize" | "fills"
-> &
+type CreateTextNodeParams = Pick<TextNode, "characters" | "fontName" | "fontSize" | "fills"> &
   Partial<Pick<TextNode, "opacity">>;
 
 export function createTextNode(
   { characters, fontName, fontSize, fills, opacity = 1 }: CreateTextNodeParams,
-  parent?: FrameNode
+  parent?: FrameNode,
 ) {
   const node = figma.createText();
 
@@ -50,10 +47,7 @@ type SizingParams = (
     }
   | {
       width?: never;
-      layoutSizingHorizontal: Exclude<
-        FrameNode["layoutSizingHorizontal"],
-        "FIXED"
-      >;
+      layoutSizingHorizontal: Exclude<FrameNode["layoutSizingHorizontal"], "FIXED">;
     }
 ) &
   (
@@ -63,10 +57,7 @@ type SizingParams = (
       }
     | {
         height?: never;
-        layoutSizingVertical: Exclude<
-          FrameNode["layoutSizingVertical"],
-          "FIXED"
-        >;
+        layoutSizingVertical: Exclude<FrameNode["layoutSizingVertical"], "FIXED">;
       }
   );
 
@@ -89,7 +80,7 @@ export function createAutoLayout(
     paddingX = 0,
     paddingY = 0,
   }: CreateAutoLayoutParams,
-  parent?: FrameNode
+  parent?: FrameNode,
 ) {
   const frame = figma.createFrame();
 
@@ -107,8 +98,7 @@ export function createAutoLayout(
 
   frame.resize(width ?? frame.width, height ?? frame.height);
 
-  if (layoutSizingHorizontal)
-    frame.layoutSizingHorizontal = layoutSizingHorizontal;
+  if (layoutSizingHorizontal) frame.layoutSizingHorizontal = layoutSizingHorizontal;
   if (layoutSizingVertical) frame.layoutSizingVertical = layoutSizingVertical;
 
   return frame;
@@ -117,14 +107,8 @@ export function createAutoLayout(
 type CreateTableCellParams = Pick<FrameNode, "name"> & SizingParams;
 
 export function createTableCell(
-  {
-    name,
-    width,
-    height,
-    layoutSizingHorizontal,
-    layoutSizingVertical,
-  }: CreateTableCellParams,
-  parent?: FrameNode
+  { name, width, height, layoutSizingHorizontal, layoutSizingVertical }: CreateTableCellParams,
+  parent?: FrameNode,
 ) {
   const frame = figma.createFrame();
 
@@ -146,8 +130,7 @@ export function createTableCell(
 
   frame.resize(width ?? frame.width, height ?? frame.height);
 
-  if (layoutSizingHorizontal)
-    frame.layoutSizingHorizontal = layoutSizingHorizontal;
+  if (layoutSizingHorizontal) frame.layoutSizingHorizontal = layoutSizingHorizontal;
   if (layoutSizingVertical) frame.layoutSizingVertical = layoutSizingVertical;
 
   return frame;
