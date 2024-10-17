@@ -220,7 +220,7 @@ export async function writeVariables({
               const titleCell = createTableCell(
                 {
                   name: scale.name,
-                  width: hue === "static" ? SIZES.CELL_WIDTH : 160,
+                  width: hue === "static" ? 240 : 170,
                   layoutSizingVertical: "FILL",
                 },
                 scaleRow
@@ -240,7 +240,7 @@ export async function writeVariables({
               const previewCell = createTableCell(
                 {
                   name: "Preview",
-                  width: hue === "static" ? SIZES.CELL_WIDTH : 230,
+                  width: 150,
                   layoutSizingVertical: "FILL",
                 },
                 scaleRow
