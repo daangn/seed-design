@@ -22,7 +22,7 @@ const reactMatch: MigrateImportsOptions["match"] = {
   },
 };
 
-export const migrateImports: Transform = (
+const migrateImports: Transform = (
   file,
   api,
   {
@@ -31,7 +31,7 @@ export const migrateImports: Transform = (
     logger = createLogger(loggerOptions),
   }: MigrateImportsOptions,
 ) => {
-  logger.debug(`${file.path} 확인 시작`);
+  logger.debug(`${file.path}: 확인 시작`);
 
   const j = api.jscodeshift;
   const tree = j(file.source);
@@ -50,26 +50,31 @@ export const migrateImports: Transform = (
   });
 
   if (importDeclarations.length === 0) {
-    logger.debug("이 파일에는 import문 없음");
+    logger.debug(`${file.path}: 이 파일에는 import문 없음`);
     return file.source;
   }
 
-  logger.debug(`import문 ${importDeclarations.length}개 발견`);
-  migrateImportDeclarations({ importDeclarations, match, logger });
+  logger.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
+  migrateImportDeclarations({ importDeclarations, match, logger, filePath: file.path });
 
-  logger.debug("import문 변환 완료");
+  logger.debug(`${file.path}: import문 변환 완료`);
 
   if (!replaceImportsOnly) {
-    logger.debug("identifier 변환 시작");
+    logger.debug(`${file.path}: identifier 변환 시작`);
 
     const identifiers = tree.find(j.Identifier, {
       name: (value) => Object.keys(match.identifier).includes(value),
     });
 
-    logger.debug(`identifier ${identifiers.length}개 발견`);
-    migrateIdentifiers({ identifiers, identifierMatch: match.identifier, logger });
+    logger.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
+    migrateIdentifiers({
+      identifiers,
+      identifierMatch: match.identifier,
+      logger,
+      filePath: file.path,
+    });
 
-    logger.debug("identifier 변환 완료");
+    logger.debug(`${file.path}: identifier 변환 완료`);
   }
 
   const firstNodeAfterModification = getFirstNode();
@@ -78,5 +83,9 @@ export const migrateImports: Transform = (
     firstNodeAfterModification.comments = firstNode.comments;
   }
 
+  logger.debug(`${file.path}: 확인 완료`);
+
   return tree.toSource();
 };
+
+export default migrateImports;
