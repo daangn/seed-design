@@ -230,7 +230,7 @@ export async function writeVariables({
               createTextNode(
                 {
                   characters: scale.name,
-                  fontName: FONT_FAMILIES.MONO,
+                  fontName: FONT_FAMILIES.REGULAR,
                   fontSize: FONT_SIZES.BASE,
                   fills: textFills,
                 },
@@ -273,7 +273,7 @@ export async function writeVariables({
               createTextNode(
                 {
                   characters,
-                  fontName: FONT_FAMILIES.MONO,
+                  fontName: FONT_FAMILIES.REGULAR,
                   fontSize: FONT_SIZES.BASE,
                   fills: textFills,
                 },
@@ -315,7 +315,7 @@ export async function writeVariables({
           createTextNode(
             {
               characters: hasSuffix ? `┗ ${variable.name}` : variable.name,
-              fontName: FONT_FAMILIES.MONO,
+              fontName: FONT_FAMILIES.REGULAR,
               fontSize: FONT_SIZES.BASE,
               fills: textFills,
             },
@@ -406,7 +406,7 @@ export async function writeVariables({
           createTextNode(
             {
               characters,
-              fontName: FONT_FAMILIES.MONO,
+              fontName: FONT_FAMILIES.REGULAR,
               fontSize: FONT_SIZES.BASE,
               fills: textFills,
             },

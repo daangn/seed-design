@@ -15,14 +15,13 @@ export const FILLS = {
 export const FONT_FAMILIES = {
   REGULAR: { family: "Figma Only iOS Text", style: "Regular" },
   BOLD: { family: "Figma Only iOS Text", style: "Bold" },
-  MONO: { family: "SF Mono", style: "Regular" },
 } as const satisfies Record<Uppercase<string>, FontName>;
 
 export const FONT_SIZES = {
   XXL: 48,
   XL: 32,
   LG: 24,
-  BASE: 11,
+  BASE: 13,
 } as const satisfies Record<Uppercase<string>, TextNode["fontSize"]>;
 
 export const SIZES = {
