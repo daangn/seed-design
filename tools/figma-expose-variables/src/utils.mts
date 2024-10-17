@@ -267,8 +267,8 @@ export async function writeVariables({
                 ? (await figma.variables.getVariableByIdAsync(scaleValue.id))
                     ?.name ?? "Unknown"
                 : typeof scaleValue === "object"
-                ? `${getHexString(scaleValue)} / ${getRGBAString(scaleValue)}`
-                : "Unknown";
+                  ? getHexString(scaleValue)
+                  : "Unknown";
 
               createTextNode(
                 {
@@ -400,8 +400,8 @@ export async function writeVariables({
             ? (await figma.variables.getVariableByIdAsync(variableValue.id))
                 ?.name ?? "Unknown"
             : typeof variableValue === "object"
-            ? `${getHexString(variableValue)} / ${getRGBAString(variableValue)}`
-            : "Unknown";
+              ? getHexString(variableValue)
+              : "Unknown";
 
           createTextNode(
             {
@@ -491,24 +491,8 @@ export function getHexString(color: RGB | RGBA): string {
   const rHex = componentToHex(r);
   const gHex = componentToHex(g);
   const bHex = componentToHex(b);
-  const aHex = "a" in color ? componentToHex(color.a) : "";
 
-  return `#${rHex}${gHex}${bHex}${aHex === "FF" ? "" : aHex}`;
-}
+  const aString = "a" in color && color.a !== 1 ? ` (${(color.a * 100).toFixed(0)}%)` : "";
 
-export function getRGBAString(color: RGB | RGBA) {
-  const getRoundedString = (value: number) =>
-    Math.round(value * 255).toString();
-
-  const { r, g, b } = color;
-
-  const rString = getRoundedString(r);
-  const gString = getRoundedString(g);
-  const bString = getRoundedString(b);
-  const aString =
-    "a" in color && color.a !== 1
-      ? ` / ${Math.round(color.a * 100).toString()}%`
-      : "";
-
-  return `rgb(${rString} ${gString} ${bString}${aString})`;
+  return `#${rHex}${gHex}${bHex}${aString}`;
 }
