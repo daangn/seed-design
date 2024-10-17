@@ -1,0 +1,15 @@
+{
+  "name": "Expose Variables",
+  "id": "1420312447239477382",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "main": "main.js",
+  "relaunchButtons": [
+    { "command": "add", "name": "Variable 프리뷰 프레임 추가" },
+    { "command": "update", "name": "이 프리뷰 프레임 업데이트" }
+  ],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
