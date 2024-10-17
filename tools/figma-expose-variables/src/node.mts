@@ -1,8 +1,8 @@
-import { setRelaunchButton } from "@create-figma-plugin/utilities";
+type CreateMainFrameParams = Pick<Parameters<typeof createAutoLayout>[0], "name">;
 
-export function createMainFrame() {
+export function createMainFrame({ name }: CreateMainFrameParams) {
   const frame = createAutoLayout({
-    name: "Variables",
+    name,
     layoutMode: "VERTICAL",
     layoutSizingHorizontal: "HUG",
     layoutSizingVertical: "HUG",
@@ -13,9 +13,9 @@ export function createMainFrame() {
 
   frame.fills = [{ type: "SOLID", color: { r: 0.93, g: 0.93, b: 0.95 } }];
 
-  setRelaunchButton(frame, "update", {
-    description: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
-  });
+  // setRelaunchButton(frame, "update", {
+  //   description: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
+  // });
 
   return frame;
 }

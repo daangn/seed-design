@@ -1,3 +1,8 @@
+export const FRAME_NAMES = {
+  DEFAULT: "Tokens",
+  PALETTES: "Palettes",
+} as const satisfies Record<Uppercase<string>, string>;
+
 export const COMBINATION_INPUT_FRAME_NAMES = {
   DEFAULT: "Input",
   DARK: "Input-darkmode",
