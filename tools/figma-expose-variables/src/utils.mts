@@ -1,3 +1,12 @@
+import { RELAUNCH_DATA_MESSAGES } from "constants.mjs";
+
+export function isSceneNodeVariableTablesContainer(sceneNode: SceneNode): sceneNode is FrameNode {
+  return (
+    sceneNode.type === "FRAME" &&
+    sceneNode.getRelaunchData()?.update === RELAUNCH_DATA_MESSAGES.UPDATE
+  );
+}
+
 export function isVariableAlias(variableValue: VariableValue): variableValue is VariableAlias {
   return (
     typeof variableValue === "object" &&

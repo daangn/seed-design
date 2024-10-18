@@ -1,6 +1,26 @@
-type drawMainFrameParams = Pick<Parameters<typeof drawAutoLayout>[0], "name">;
+import { setRelaunchButton } from "@create-figma-plugin/utilities";
 
-export function drawMainFrame({ name }: drawMainFrameParams) {
+type drawMainFrameParams = Pick<DrawAutoLayoutParams, "name">;
+
+export function drawVariableTablesContainer() {
+  const frame = drawAutoLayout({
+    name: "Variables",
+    layoutMode: "HORIZONTAL",
+    layoutSizingHorizontal: "HUG",
+    layoutSizingVertical: "HUG",
+    itemSpacing: 16,
+    paddingX: 64,
+    paddingY: 64,
+  });
+
+  setRelaunchButton(frame, "update", {
+    description: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
+  });
+
+  return frame;
+}
+
+export function drawMainFrame({ name }: drawMainFrameParams, parent?: FrameNode) {
   const frame = drawAutoLayout({
     name,
     layoutMode: "VERTICAL",
@@ -13,9 +33,7 @@ export function drawMainFrame({ name }: drawMainFrameParams) {
 
   frame.fills = [{ type: "SOLID", color: { r: 0.93, g: 0.93, b: 0.95 } }];
 
-  // setRelaunchButton(frame, "update", {
-  //   description: "이 프리뷰 프레임을 Variable 변경 사항에 맞추어 업데이트해요",
-  // });
+  parent?.appendChild(frame);
 
   return frame;
 }

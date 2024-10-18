@@ -4,23 +4,23 @@ import { drawAutoLayout, drawMainFrame, drawTableCell, drawTextNode } from "./dr
 import type { VariableTable } from "create-variable-tables.mjs";
 
 interface DrawVariableTablesParams {
-  framesToDraw: VariableTable[];
+  variableTables: VariableTable[];
   possibleSuffixes: string[];
 }
 
-export async function drawVariableTables({
-  framesToDraw,
-  possibleSuffixes,
-}: DrawVariableTablesParams) {
+export async function drawVariableTables(
+  { variableTables, possibleSuffixes }: DrawVariableTablesParams,
+  parent?: FrameNode,
+) {
   await figma.loadFontAsync({ family: "Inter", style: "Regular" });
   for (const key in FONT_FAMILIES) {
     await figma.loadFontAsync(FONT_FAMILIES[key as keyof typeof FONT_FAMILIES]);
   }
 
-  for (const frameToDraw of framesToDraw) {
-    const mainFrame = drawMainFrame({ name: frameToDraw.name });
+  for (const variableTable of variableTables) {
+    const table = drawMainFrame({ name: variableTable.name }, parent);
 
-    for (const collection of frameToDraw.collections) {
+    for (const collection of variableTable.collections) {
       const collectionFrame = drawAutoLayout(
         {
           name: collection.name,
@@ -29,12 +29,12 @@ export async function drawVariableTables({
           layoutSizingVertical: "HUG",
           itemSpacing: 24,
         },
-        mainFrame,
+        table,
       );
 
       drawTextNode(
         {
-          characters: `${collection.name} / ${frameToDraw.name}`,
+          characters: `${collection.name} / ${variableTable.name}`,
           fontName: FONT_FAMILIES.BOLD,
           fontSize: FONT_SIZES.XXL,
           fills: [FILLS.DARK],
@@ -45,7 +45,7 @@ export async function drawVariableTables({
       const modesFrame = drawAutoLayout(
         {
           name: "Modes",
-          layoutMode: frameToDraw.type === "palette" ? "VERTICAL" : "HORIZONTAL",
+          layoutMode: variableTable.type === "palette" ? "VERTICAL" : "HORIZONTAL",
           layoutSizingHorizontal: "HUG",
           layoutSizingVertical: "HUG",
           itemSpacing: 32,
@@ -137,7 +137,7 @@ export async function drawVariableTables({
           const prefixTable = drawAutoLayout(
             {
               name: prefix,
-              layoutMode: frameToDraw.type === "palette" ? "HORIZONTAL" : "VERTICAL",
+              layoutMode: variableTable.type === "palette" ? "HORIZONTAL" : "VERTICAL",
               layoutSizingHorizontal: "HUG",
               layoutSizingVertical: "HUG",
             },
@@ -148,7 +148,7 @@ export async function drawVariableTables({
           prefixTable.strokes = fadedFills;
           prefixTable.strokeWeight = 2;
 
-          switch (frameToDraw.type) {
+          switch (variableTable.type) {
             case "token": {
               for (const { variable, matchedSwatches } of variableInfos) {
                 const variableRow = drawAutoLayout(
@@ -160,8 +160,6 @@ export async function drawVariableTables({
                   },
                   prefixTable,
                 );
-
-                console.log(variableRow);
 
                 // Cell #1: Variable Name
 
