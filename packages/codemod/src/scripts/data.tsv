@@ -18,7 +18,7 @@ icon_calendar	icon_calendar
 icon_call	icon_phone
 icon_call_declined	icon_phone_xmark
 icon_camera	icon_camera
-icon_car	icon_category_car_frontside
+icon_car	icon_car_frontside
 icon_car_around_view	icon_arrow_clockwise_oval
 icon_car_blind_spot	icon_car_rear_upside_wave2_reversed_down_left
 icon_car_cruise_control	icon_speedometer
@@ -86,7 +86,7 @@ icon_help	icon_questionmark_circle
 icon_helpcenter	icon_headset
 icon_helper	icon_headset
 icon_home	icon_house
-icon_house	icon_category_window4_house
+icon_house	icon_window4_house
 icon_housekeeping_book	icon_book
 icon_import	icon_document_arrow_left
 icon_info	icon_i_lowercase_serif_circle
@@ -95,7 +95,7 @@ icon_interest_list	icon_star
 icon_invite	icon_envelope
 icon_invite_friend	icon_person_plus
 icon_ios_share	icon_arrow_up_bracket_down
-icon_jobs	icon_category_person_magnifyingglass
+icon_jobs	icon_person_magnifyingglass
 icon_keyboard_hiding	icon_keyboard_chevron_down
 icon_keyword	icon_tag
 icon_laptop	icon_laptop
@@ -158,7 +158,7 @@ icon_reply_mission
 icon_reply_re	icon_corner_down_left
 icon_report	icon_flag
 icon_reservation	icon_check_calendar
-icon_restaurant	icon_category_fork_spoon
+icon_restaurant	icon_fork_spoon
 icon_retry	icon_arrow_clockwise_circular
 icon_review_star	icon_star
 icon_scanner	icon_horizeline_viewfinder
@@ -168,7 +168,7 @@ icon_sell	icon_plus_square
 icon_setting	icon_gear
 icon_signout	icon_bracket_left_arrow_right
 icon_sort	icon_arrow_up_arrow_down
-icon_story	icon_category_triangle_right_chatbubble_left
+icon_story	icon_triangle_right_chatbubble_left
 icon_story_article	icon_document_pen
 icon_subtract_circle	icon_minus_circle
 icon_subtraction	icon_minus

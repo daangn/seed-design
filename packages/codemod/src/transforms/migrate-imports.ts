@@ -2,7 +2,7 @@ import type { Transform } from "jscodeshift";
 import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node";
 import { createLogger, type Logger } from "winston";
 import { loggerOptions } from "../utils/log";
-import { identifierMapReact } from "./identifier-map";
+import { identifierMapReact } from "../utils/identifier-map";
 
 export interface MigrateImportsOptions {
   match?: {
