@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241018101237
+
+### Patch Changes
+
+- Add shebang
+
 ## 0.0.0-alpha-20241018093322
 
 ### Patch Changes

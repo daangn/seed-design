@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { cac, type CAC } from "cac";
 import { execaNode } from "execa";
 import { createRequire } from "module";
