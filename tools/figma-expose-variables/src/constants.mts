@@ -1,14 +1,7 @@
-export const FRAME_NAMES = {
+export const VARIABLE_TABLE_NAMES = {
   DEFAULT: "Tokens",
   PALETTES: "Palettes",
 } as const satisfies Record<Uppercase<string>, string>;
-
-export const COMBINATION_INPUT_FRAME_NAMES = {
-  DEFAULT: "Input",
-  DARK: "Input-darkmode",
-} as const satisfies Record<Uppercase<string>, string>;
-
-export const SUFFIXES = ["-pressed"] as const satisfies string[];
 
 export const FILLS = {
   DARK: { type: "SOLID", color: { r: 0.102, g: 0.11, b: 0.125 } },

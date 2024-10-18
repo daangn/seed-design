@@ -1,7 +1,7 @@
-type CreateMainFrameParams = Pick<Parameters<typeof createAutoLayout>[0], "name">;
+type drawMainFrameParams = Pick<Parameters<typeof drawAutoLayout>[0], "name">;
 
-export function createMainFrame({ name }: CreateMainFrameParams) {
-  const frame = createAutoLayout({
+export function drawMainFrame({ name }: drawMainFrameParams) {
+  const frame = drawAutoLayout({
     name,
     layoutMode: "VERTICAL",
     layoutSizingHorizontal: "HUG",
@@ -20,11 +20,11 @@ export function createMainFrame({ name }: CreateMainFrameParams) {
   return frame;
 }
 
-type CreateTextNodeParams = Pick<TextNode, "characters" | "fontName" | "fontSize" | "fills"> &
+type DrawTextNodeParams = Pick<TextNode, "characters" | "fontName" | "fontSize" | "fills"> &
   Partial<Pick<TextNode, "opacity">>;
 
-export function createTextNode(
-  { characters, fontName, fontSize, fills, opacity = 1 }: CreateTextNodeParams,
+export function drawTextNode(
+  { characters, fontName, fontSize, fills, opacity = 1 }: DrawTextNodeParams,
   parent?: FrameNode,
 ) {
   const node = figma.createText();
@@ -61,14 +61,14 @@ type SizingParams = (
       }
   );
 
-type CreateAutoLayoutParams = Pick<FrameNode, "name" | "layoutMode"> &
+type DrawAutoLayoutParams = Pick<FrameNode, "name" | "layoutMode"> &
   Partial<Pick<FrameNode, "itemSpacing">> &
   SizingParams & {
     paddingX?: FrameNode["paddingLeft"] & FrameNode["paddingRight"];
     paddingY?: FrameNode["paddingTop"] & FrameNode["paddingBottom"];
   };
 
-export function createAutoLayout(
+export function drawAutoLayout(
   {
     name,
     width,
@@ -79,7 +79,7 @@ export function createAutoLayout(
     itemSpacing = 0,
     paddingX = 0,
     paddingY = 0,
-  }: CreateAutoLayoutParams,
+  }: DrawAutoLayoutParams,
   parent?: FrameNode,
 ) {
   const frame = figma.createFrame();
@@ -106,7 +106,7 @@ export function createAutoLayout(
 
 type CreateTableCellParams = Pick<FrameNode, "name"> & SizingParams;
 
-export function createTableCell(
+export function drawTableCell(
   { name, width, height, layoutSizingHorizontal, layoutSizingVertical }: CreateTableCellParams,
   parent?: FrameNode,
 ) {
