@@ -1,5 +1,11 @@
 # @seed-design/cli
 
+## 0.0.0-alpha-20241016030836
+
+### Patch Changes
+
+- add icon-shift command
+
 ## 0.0.0-alpha-20241014145845
 
 ### Patch Changes
