@@ -8,6 +8,13 @@
     "directory": "packages/codemod"
   },
   "license": "MIT",
+  "bin": {
+    "codemod": "./bin/index.mjs"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
   "scripts": {
     "build": "node ./build.mjs",
     "test": "yarn vitest"
