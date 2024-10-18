@@ -10,6 +10,9 @@
     "dev": "yarn apply-manifest && concurrently -n tsc,build 'yarn tsc --preserveWatchOutput --watch' 'yarn bundle --watch'",
     "apply-manifest": "rm -rf dist && mkdir dist && cp src/manifest.json dist"
   },
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^3.2.1"
+  },
   "devDependencies": {
     "@figma/plugin-typings": "*",
     "concurrently": "^6.3.0",

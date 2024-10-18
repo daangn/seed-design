@@ -4009,6 +4009,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@create-figma-plugin/utilities@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "@create-figma-plugin/utilities@npm:3.2.1"
+  dependencies:
+    hex-rgb: ^5.0.0
+    natural-compare-lite: 1.4.0
+    rgb-hex: ^4.1.0
+  checksum: cbae1b81b988be84291ff1d1192384140e8fe571228e0cb7f73370716f139b907340936a6bd3f58e9eec82678aacbbd9141b022fda82c771b0368c3bf2b4388b
+  languageName: node
+  linkType: hard
+
 "@cspotcode/source-map-support@npm:^0.8.0":
   version: 0.8.1
   resolution: "@cspotcode/source-map-support@npm:0.8.1"
@@ -7842,6 +7853,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables"
   dependencies:
+    "@create-figma-plugin/utilities": ^3.2.1
     "@figma/plugin-typings": "*"
     concurrently: ^6.3.0
     esbuild: ^0.15.13
