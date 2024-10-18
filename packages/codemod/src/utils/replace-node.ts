@@ -1,5 +1,5 @@
 import jscodeshift from "jscodeshift";
-import type { MigrateImportsOptions } from "../transforms/migrate-imports";
+import type { MigrateImportsOptions } from "../transforms/migrate-imports.js";
 import type { Logger } from "winston";
 
 interface MigrateImportDeclarationsParams {

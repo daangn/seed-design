@@ -1,35 +1,27 @@
 import type { Transform } from "jscodeshift";
-import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node";
-import { createLogger, type Logger } from "winston";
-import { loggerOptions } from "../utils/log";
-import { identifierMapReact } from "../utils/identifier-map";
+import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node.js";
+import { createLogger } from "winston";
+import { loggerOptions } from "../utils/log.js";
+import { identifierMapReact } from "../utils/identifier-map.js";
 
 export interface MigrateImportsOptions {
   match?: {
     source: { startsWith: string; replaceWith?: string }[];
     identifier: Record<string, string>;
   };
-  replaceImportsOnly?: boolean;
-  logger?: Logger;
 }
 
 const reactMatch: MigrateImportsOptions["match"] = {
   source: [
-    { startsWith: "@seed-design/icons", replaceWith: "@seed-design/react-icon" },
+    { startsWith: "@seed-design/icon", replaceWith: "@seed-design/react-icon" },
     { startsWith: "@seed-design/react-icon" },
   ],
   identifier: identifierMapReact,
 };
 
-const migrateImports: Transform = (
-  file,
-  api,
-  {
-    match = reactMatch,
-    replaceImportsOnly = false,
-    logger = createLogger(loggerOptions),
-  }: MigrateImportsOptions,
-) => {
+const migrateImports: Transform = (file, api, { match = reactMatch }: MigrateImportsOptions) => {
+  const logger = createLogger(loggerOptions);
+
   logger.debug(`${file.path}: 확인 시작`);
 
   const j = api.jscodeshift;
@@ -58,23 +50,21 @@ const migrateImports: Transform = (
 
   logger.debug(`${file.path}: import문 변환 완료`);
 
-  if (!replaceImportsOnly) {
-    logger.debug(`${file.path}: identifier 변환 시작`);
+  logger.debug(`${file.path}: identifier 변환 시작`);
 
-    const identifiers = tree.find(j.Identifier, {
-      name: (value) => Object.keys(match.identifier).includes(value),
-    });
+  const identifiers = tree.find(j.Identifier, {
+    name: (value) => Object.keys(match.identifier).includes(value),
+  });
 
-    logger.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
-    migrateIdentifiers({
-      identifiers,
-      identifierMatch: match.identifier,
-      logger,
-      filePath: file.path,
-    });
+  logger.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
+  migrateIdentifiers({
+    identifiers,
+    identifierMatch: match.identifier,
+    logger,
+    filePath: file.path,
+  });
 
-    logger.debug(`${file.path}: identifier 변환 완료`);
-  }
+  logger.debug(`${file.path}: identifier 변환 완료`);
 
   const firstNodeAfterModification = getFirstNode();
 
