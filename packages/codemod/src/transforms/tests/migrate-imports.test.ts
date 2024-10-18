@@ -1,7 +1,7 @@
-import migrateImports from "../migrate-imports";
-import type { MigrateImportsOptions } from "../migrate-imports";
+import migrateImports from "../migrate-imports.js";
+import type { MigrateImportsOptions } from "../migrate-imports.js";
 import { describe, expect, test } from "vitest";
-import { applyTransform } from "jscodeshift/src/testUtils";
+import { applyTransform } from "jscodeshift/src/testUtils.js";
 
 const testMatch: MigrateImportsOptions["match"] = {
   source: [
@@ -47,13 +47,10 @@ const testMatch: MigrateImportsOptions["match"] = {
   },
 };
 
-function applyMigrateImportsTransform(
-  source: string,
-  migrateImportsOptions: MigrateImportsOptions = { match: testMatch },
-) {
+function applyMigrateImportsTransform(source: string) {
   const transformResult = applyTransform(
     migrateImports,
-    migrateImportsOptions,
+    { match: testMatch },
     { path: "path/to/file", source },
     { parser: "tsx" },
   );
@@ -78,7 +75,9 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
 		
 		console.log(OldIcon1Thin);
 
-		return <OldIcon2Thin />;
+    function test() {
+	  	return <OldIcon2Thin />;
+    }
 		`;
 
     expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
@@ -89,7 +88,9 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
       		
       		console.log(OldIcon1Thin);
 
-      		return <OldIcon2Thin />;"
+          function test() {
+      	  	return <OldIcon2Thin />;
+          }"
     `);
   });
 
@@ -246,10 +247,12 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
 		
 		console.log(OldIcon1Thin);
 		
-		return <div>
-			<OldIcon2Thin />
-			<Icon3Alias />
-		</div>;`;
+    function test() {
+      return <div>
+        <OldIcon2Thin />
+        <Icon3Alias />
+      </div>;
+    }`;
 
     expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
@@ -257,12 +260,14 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
       		
       		console.log(NewIcon1Line);
       		
-      		return (
-                  <div>
-                      <NewIcon2Line />
-                      <Icon3Alias />
-                  </div>
-              );"
+          function test() {
+            return (
+              <div>
+                <NewIcon2Line />
+                <Icon3Alias />
+              </div>
+            );
+          }"
     `);
   });
 
@@ -274,10 +279,12 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
 		
 		console.log(OldIcon1Thin);
 		
-		return <div>
-			<OldIcon2Thin />
-			<Icon3Alias />
-			</div>;`;
+    function test() {
+      return (<div>
+        <OldIcon2Thin />
+        <Icon3Alias />
+      </div>);
+    }`;
 
     expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
       "// some comment
@@ -287,12 +294,14 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
       		
       		console.log(NewIcon1Line);
       		
-      		return (
-                  <div>
-                      <NewIcon2Line />
-                      <Icon3Alias />
-                      </div>
-              );"
+          function test() {
+            return (
+              (<div>
+                <NewIcon2Line />
+                <Icon3Alias />
+              </div>)
+            );
+          }"
     `);
   });
 
@@ -304,10 +313,12 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
 		
 		console.log(OldIcon1Thin);
 		
-		return <div>
+    function test() {
+		return (<div>
 			<OldIcon2Thin />
 			<Icon3Alias />
-			</div>;`;
+    </div>);
+    }`;
 
     expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
       ""use client";
@@ -317,12 +328,14 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
       		
       		console.log(NewIcon1Line);
       		
+          function test() {
       		return (
-                  <div>
+                  (<div>
                       <NewIcon2Line />
                       <Icon3Alias />
-                      </div>
-              );"
+                  </div>)
+              );
+          }"
     `);
   });
 
@@ -367,26 +380,30 @@ describe("n:1 매핑", () => {
     
     console.log(OldIcon1Thin);
     
-    return (<div>
-      <OldIcon1Regular />
-      <OldIcon1Thin />
-      <OldIcon3Fill />
-      <OldIcon2Thin />
-    </div>);`;
+    function test() {
+      return (<div>
+        <OldIcon1Regular />
+        <OldIcon1Thin />
+        <OldIcon3Fill />
+        <OldIcon2Thin />
+      </div>);
+    }`;
 
     expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon1Fill, NewIcon2Line, NewIcon3Fill } from "@seed-design/react-icon";
           
           console.log(NewIcon1Line);
           
-          return (
-            (<div>
-              <NewIcon1Line />
-              <NewIcon1Line />
-              <NewIcon3Fill />
-              <NewIcon2Line />
-            </div>)
-          );"
+          function test() {
+            return (
+              (<div>
+                <NewIcon1Line />
+                <NewIcon1Line />
+                <NewIcon3Fill />
+                <NewIcon2Line />
+              </div>)
+            );
+          }"
     `);
   });
 });
