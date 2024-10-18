@@ -1,6 +1,6 @@
-import type { MigrateImportsOptions } from "../transforms/migrate-imports.js";
+import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 
-export const identifierMapReact: MigrateImportsOptions["match"]["identifier"] = {
+export const identifierMapReact: MigrateIconsOptions["match"]["identifier"] = {
   IconAddThin: "IconPlusLine",
   IconAddRegular: "IconPlusLine",
   IconAddFill: "IconPlusFill",
