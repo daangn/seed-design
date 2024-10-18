@@ -1,9 +1,9 @@
-import migrateImports from "../migrate-imports.js";
-import type { MigrateImportsOptions } from "../migrate-imports.js";
+import migrateIcons from "../migrate-icons.js";
+import type { MigrateIconsOptions } from "../migrate-icons.js";
 import { describe, expect, test } from "vitest";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 
-const testMatch: MigrateImportsOptions["match"] = {
+const testMatch: MigrateIconsOptions["match"] = {
   source: [
     { startsWith: "@seed-design/icon", replaceWith: "@seed-design/react-icon" },
     { startsWith: "@seed-design/react-icon" },
@@ -47,9 +47,9 @@ const testMatch: MigrateImportsOptions["match"] = {
   },
 };
 
-function applyMigrateImportsTransform(source: string) {
+function applyMigrateIconsTransform(source: string) {
   const transformResult = applyTransform(
-    migrateImports,
+    migrateIcons,
     { match: testMatch },
     { path: "path/to/file", source },
     { parser: "tsx" },
@@ -62,7 +62,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
   test("import 없음", () => {
     const input = `console.log("Hello, world!", OldIcon1Thin);`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"console.log("Hello, world!", OldIcon1Thin);"`,
     );
   });
@@ -80,7 +80,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
     }
 		`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { OldIcon1Thin, OldIcon2Thin } from "unrelated-package";
       		import { OldIcon3Thin as Icon3Alias } from "another-unrelated-package";
       		import OldIcon4Thin from "yet-another-unrelated-package/OldIcon4Thin";
@@ -97,7 +97,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
   test("import source match 있지만 변경할 필요 없고, importSpecifier length 0 (unlikely)", () => {
     const input = `import "@seed-design/react-icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import "@seed-design/react-icon";"`,
     );
   });
@@ -109,7 +109,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
 		import { type IconType2 } from "@seed-design/react-icon";
 		`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { IconNotMatched } from "@seed-design/react-icon";
       		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/react-icon";
       		import type { IconType } from "@seed-design/react-icon";
@@ -122,7 +122,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
   test("패키지명 변경 필요 있지만, importSpecifier length 0 (unlikely)", () => {
     const input = `import "@seed-design/icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import "@seed-design/react-icon";"`,
     );
   });
@@ -132,7 +132,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
 		import "@seed-design/icon";
 		`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "// some comment
       		import "@seed-design/react-icon";"
     `);
@@ -145,7 +145,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
 		import { type IconType2 } from "@seed-design/icon";
 		`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { IconNotMatched } from "@seed-design/react-icon";
       		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/react-icon";
       		import type { IconType } from "@seed-design/react-icon";
@@ -157,7 +157,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
     const input = `import IconNotMatched from "@seed-design/icon/IconNotMatched";
 		import IconNotMatched2 from "@seed-design/icon/dist/lib/test/somewhat/IconNotMatched2";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import IconNotMatched from "@seed-design/react-icon/IconNotMatched";
       		import IconNotMatched2 from "@seed-design/react-icon/dist/lib/test/somewhat/IconNotMatched2";"
     `);
@@ -166,7 +166,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
   test("패키지명 변경 필요 없지만 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 없음 (deep import, unlikely)", () => {
     const input = `import IconNotMatched from "@seed-design/react-icon/OldIcon3Thin";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import IconNotMatched from "@seed-design/react-icon/NewIcon3Line";"`,
     );
   });
@@ -174,7 +174,7 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
   test("패키지명 변경 필요 있지만 importNamespaceSpecifier", () => {
     const input = `import * as Icons from "@seed-design/icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import * as Icons from "@seed-design/react-icon";"`,
     );
   });
@@ -186,7 +186,7 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
     import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
     import { OldIcon4Thin } from "@seed-design/icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
           import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
           import { NewIcon4Line } from "@seed-design/react-icon";"
@@ -197,7 +197,7 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
     const input = `import OldIcon1Thin from "@seed-design/icon/OldIcon1Thin";
 		import OldIcon2Thin from "@seed-design/icon/dist/lib/test/somewhat/OldIcon2Thin";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import NewIcon1Line from "@seed-design/react-icon/NewIcon1Line";
       		import NewIcon2Line from "@seed-design/react-icon/dist/lib/test/somewhat/NewIcon2Line";"
     `);
@@ -206,7 +206,7 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
   test("[가장 일반적] 패키지명 변경 필요 없지만 deep import라 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
     const input = `import OldIcon3Thin from "@seed-design/react-icon/OldIcon3Thin";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import NewIcon3Line from "@seed-design/react-icon/NewIcon3Line";"`,
     );
   });
@@ -216,7 +216,7 @@ describe("importDeclaration: import specifier에만 변경 있는 경우", () =>
   test("[가장 일반적] 패키지명 변경할 필요 없지만, specifier match 있음", () => {
     const input = `import { OldIcon3Thin } from "@seed-design/react-icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import { NewIcon3Line } from "@seed-design/react-icon";"`,
     );
   });
@@ -232,7 +232,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
 
     return OldIcon2Thin;`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
 
           console.log(NewIcon1Line);
@@ -254,7 +254,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
       </div>;
     }`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
       		import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
       		
@@ -286,7 +286,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
       </div>);
     }`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "// some comment
       		
       		import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
@@ -320,7 +320,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
     </div>);
     }`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       ""use client";
 
       		import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
@@ -344,7 +344,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
     
     console.log(Icons.OldIcon1Thin);`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import * as Icons from "@seed-design/react-icon";
           
           console.log(Icons.NewIcon1Line);"
@@ -358,7 +358,7 @@ describe("identifiers: identifier 변경만 있는 경우", () => {
     
     console.log(Icons.OldIcon1Thin);`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import * as Icons from "@seed-design/react-icon";
           
           console.log(Icons.NewIcon1Line);"
@@ -370,7 +370,7 @@ describe("n:1 매핑", () => {
   test("n:1 매핑", () => {
     const input = `import { OldIcon1Thin, OldIcon1Regular, OldIcon1Fill } from "@seed-design/icon";`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
       `"import { NewIcon1Line, NewIcon1Fill } from "@seed-design/react-icon";"`,
     );
   });
@@ -389,7 +389,7 @@ describe("n:1 매핑", () => {
       </div>);
     }`;
 
-    expect(applyMigrateImportsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "import { NewIcon1Line, NewIcon1Fill, NewIcon2Line, NewIcon3Fill } from "@seed-design/react-icon";
           
           console.log(NewIcon1Line);

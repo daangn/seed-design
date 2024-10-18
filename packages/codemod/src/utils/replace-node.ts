@@ -1,10 +1,10 @@
 import jscodeshift from "jscodeshift";
-import type { MigrateImportsOptions } from "../transforms/migrate-imports.js";
+import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import type { Logger } from "winston";
 
 interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
-  match: MigrateImportsOptions["match"];
+  match: MigrateIconsOptions["match"];
   logger: Logger;
   filePath: jscodeshift.FileInfo["path"];
 }
@@ -120,7 +120,7 @@ export function migrateImportDeclarations({
 
 interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
-  identifierMatch: MigrateImportsOptions["match"]["identifier"];
+  identifierMatch: MigrateIconsOptions["match"]["identifier"];
   logger: Logger;
   filePath: jscodeshift.FileInfo["path"];
 }

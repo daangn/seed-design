@@ -4,14 +4,14 @@ import { createLogger } from "winston";
 import { loggerOptions } from "../utils/log.js";
 import { identifierMapReact } from "../utils/identifier-map.js";
 
-export interface MigrateImportsOptions {
+export interface MigrateIconsOptions {
   match?: {
     source: { startsWith: string; replaceWith?: string }[];
     identifier: Record<string, string>;
   };
 }
 
-const reactMatch: MigrateImportsOptions["match"] = {
+const reactMatch: MigrateIconsOptions["match"] = {
   source: [
     { startsWith: "@seed-design/icon", replaceWith: "@seed-design/react-icon" },
     { startsWith: "@seed-design/react-icon" },
@@ -19,7 +19,7 @@ const reactMatch: MigrateImportsOptions["match"] = {
   identifier: identifierMapReact,
 };
 
-const migrateImports: Transform = (file, api, { match = reactMatch }: MigrateImportsOptions) => {
+const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIconsOptions) => {
   const logger = createLogger(loggerOptions);
 
   logger.debug(`${file.path}: 확인 시작`);
@@ -77,4 +77,4 @@ const migrateImports: Transform = (file, api, { match = reactMatch }: MigrateImp
   return tree.toSource();
 };
 
-export default migrateImports;
+export default migrateIcons;
