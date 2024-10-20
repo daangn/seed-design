@@ -4862,6 +4862,7 @@ __metadata:
     "@types/jscodeshift": ^0.12.0
     "@types/node": ^22.7.5
     cac: ^6.7.14
+    change-case: ^5.4.4
     csv-parse: ^5.5.6
     esbuild: ^0.24.0
     execa: ^9.4.1
@@ -4869,6 +4870,8 @@ __metadata:
     typescript: ^5.4.5
     vitest: ^2.0.5
     winston: ^3.15.0
+  bin:
+    codemod: ./bin/index.mjs
   languageName: unknown
   linkType: soft
 
