@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020123315
+
+### Patch Changes
+
+- Allow custom parser
+
 ## 0.0.0-alpha-20241020094046
 
 ### Patch Changes

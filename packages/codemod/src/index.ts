@@ -21,19 +21,22 @@ function migrateIconsCommand(cli: CAC) {
   cli
     .command("migrate-icons [...paths]", "Migrate icons")
     // https://jscodeshift.com/run/cli
+    .option("--parser <parser>", "Parser")
     .option("--extensions <extensions>", "Extensions")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
     .option("--ignore-pattern <ignorePattern>", "Ignore pattern")
     .option("--verbose <verbose>", "Verbose")
     .action(async (paths, options) => {
+      console.log("아이콘 마이그레이션을 시작해요");
+
       // TODO: bun / deno?
       const { all } = await execaNode({ all: true })`${jscodeshiftPath} ${paths.join(" ")}
         -t ${getTransformPath("migrate-icons")}
-        --parser=tsx
+        ${options?.parser ? `--parser=${options.parser}` : "--parser=tsx"}
         ${options?.extensions ? `--extensions=${options.extensions}` : ""}
         ${options?.ignoreConfig ? `--ignore-config=${options.ignoreConfig}` : ""}
-        ${options?.ignorePattern ? `--ignore-pattern=${options.ignorePattern}` : "**/*.d.ts"}
-        ${options?.verbose ? `--verbose=${options.verbose} ` : ""}`;
+        ${options?.ignorePattern ? `--ignore-pattern=${options.ignorePattern}` : ""}
+        ${options?.verbose ? `--verbose=${options.verbose}` : ""}`;
 
       console.log(all);
     });
