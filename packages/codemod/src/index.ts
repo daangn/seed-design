@@ -22,6 +22,7 @@ function migrateIconsCommand(cli: CAC) {
     .command("migrate-icons [...paths]", "Migrate icons")
     // https://jscodeshift.com/run/cli
     .option("--parser <parser>", "Parser")
+    .option("--no-babel", "No babel")
     .option("--extensions <extensions>", "Extensions")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
     .option("--ignore-pattern <ignorePattern>", "Ignore pattern")
@@ -32,7 +33,8 @@ function migrateIconsCommand(cli: CAC) {
       // TODO: bun / deno?
       const { all } = await execaNode({ all: true })`${jscodeshiftPath} ${paths.join(" ")}
         -t ${getTransformPath("migrate-icons")}
-        ${options?.parser ? `--parser=${options.parser}` : "--parser=tsx"}
+        ${options?.parser ? `--parser=${options.parser}` : ""}
+        ${options?.noBabel ? "--no-babel" : ""}
         ${options?.extensions ? `--extensions=${options.extensions}` : ""}
         ${options?.ignoreConfig ? `--ignore-config=${options.ignoreConfig}` : ""}
         ${options?.ignorePattern ? `--ignore-pattern=${options.ignorePattern}` : ""}
