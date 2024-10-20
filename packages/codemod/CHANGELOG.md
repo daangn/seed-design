@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020144859
+
+### Patch Changes
+
+- Preserve comments
+
 ## 0.0.0-alpha-20241020125729
 
 ### Patch Changes

@@ -133,11 +133,13 @@ describe("importDeclaration: import source에만 변경 있는 경우", () => {
 
   test("패키지명 변경 필요 있지만, importSpecifier length 0 (첫 줄에 주석 있음, unlikely)", () => {
     const input = `// some comment
+
 		import "@seed-design/icon";
 		`;
 
     expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
       "// some comment
+      
       		import "@seed-design/react-icon";"
     `);
   });
@@ -412,12 +414,28 @@ describe("n:1 매핑", () => {
   });
 });
 
-describe("삭제되는 아이콘", () => {
-  test("삭제되는 아이콘", () => {
-    const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
+test("삭제되는 아이콘", () => {
+  const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`,
-    );
-  });
+  expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
+    `"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`,
+  );
+});
+
+test("comments 유지", () => {
+  const input = `// comment
+    import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
+    // comment
+    import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
+    // comment
+    import { OldIcon4Thin } from "@seed-design/icon";`;
+
+  expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
+    "// comment
+        import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
+        // comment
+        import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
+        // comment
+        import { NewIcon4Line } from "@seed-design/react-icon";"
+  `);
 });

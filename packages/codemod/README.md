@@ -43,9 +43,6 @@ npx @seed-design/codemod migrate-icons src/ui --extensions=ts,tsx
   - 변환할 파일 확장자를 지정해요.
   - 지정하지 않으면 `<경로>` 안의 `js,jsx,ts,tsx` 파일을 변환해요.
   - e.g. `--extensions="ts,tsx"`
-- [`--ignore-pattern`](https://jscodeshift.com/run/cli/#--ignore-patternglob)
-  - 변환하지 않을 파일 패턴을 지정해요.
-  - e.g. `--ignore-pattern="**/foo.*"`
 - [`--ignore-config`](https://jscodeshift.com/run/cli/#--ignore-configfile)
   - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
   - e.g. `--ignore-config=".gitignore"`

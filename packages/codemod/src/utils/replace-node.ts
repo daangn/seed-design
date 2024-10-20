@@ -19,6 +19,7 @@ export function migrateImportDeclarations({
     const currentSourceValue = imp.node.source.value;
     const currentSpecifiers = imp.node.specifiers;
     const currentImportKind = imp.node.importKind;
+    const currentComments = imp.node.comments;
 
     const newSourceValue = (() => {
       if (typeof currentSourceValue !== "string") return currentSourceValue;
@@ -121,6 +122,8 @@ export function migrateImportDeclarations({
       jscodeshift.literal(newSourceValue),
       currentImportKind,
     );
+
+    newImportDeclaration.comments = currentComments;
 
     return newImportDeclaration;
   });
