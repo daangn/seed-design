@@ -4,12 +4,11 @@ import { cac, type CAC } from "cac";
 import { execaNode } from "execa";
 import { createRequire } from "module";
 import { dirname, resolve } from "path";
-import { fileURLToPath } from "url";
 
 const cli = cac();
 
 const getTransformPath = (transformFileName: string) =>
-  resolve(dirname(fileURLToPath(import.meta.url)), `${transformFileName}.mjs`);
+  resolve(dirname(import.meta.filename), `${transformFileName}.mjs`);
 
 migrateIconsCommand(cli);
 cli.help();

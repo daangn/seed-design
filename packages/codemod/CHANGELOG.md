@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020052702
+
+### Patch Changes
+
+- Find transform files in the correct directory
+
 ## 0.0.0-alpha-20241020051045
 
 ### Patch Changes
