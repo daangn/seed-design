@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020125729
+
+### Patch Changes
+
+- Add prepack script
+
 ## 0.0.0-alpha-20241020124836
 
 ### Patch Changes

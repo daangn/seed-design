@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.0-alpha-20241020124836",
+  "version": "0.0.0-alpha-20241020125729",
   "type": "module",
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
     "bin"
   ],
   "scripts": {
+    "prepack": "yarn build",
     "build": "node ./build.mjs",
     "test": "yarn vitest"
   },
