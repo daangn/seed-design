@@ -29,7 +29,7 @@ function migrateIconsCommand(cli: CAC) {
       // TODO: bun / deno?
       const { stdout } = await execaNode`${jscodeshiftPath} ${paths.join(" ")}
         -t ${getTransformPath("migrate-icons")}
-        --parser="tsx"
+        --parser=tsx
         --ignore-pattern="**/*.d.ts"
         ${options?.extensions ? `--extensions=${options.extensions}` : ""}
         ${options?.ignoreConfig ? `--ignore-config=${options.ignoreConfig}` : ""}`;
