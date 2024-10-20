@@ -13,8 +13,8 @@ export interface MigrateIconsOptions {
 
 const reactMatch: MigrateIconsOptions["match"] = {
   source: [
-    { startsWith: "@seed-design/icon", replaceWith: "@seed-design/react-icon" },
-    { startsWith: "@seed-design/react-icon" },
+    { startsWith: "@seed-design/icon", replaceWith: "@daangn/react-icon" },
+    { startsWith: "@seed-design/react-icon", replaceWith: "@daangn/react-icon" },
   ],
   identifier: identifierMapReact,
 };
