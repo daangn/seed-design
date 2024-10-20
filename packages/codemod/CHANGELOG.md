@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020093300
+
+### Patch Changes
+
+- Run babel & exclude d.ts files
+
 ## 0.0.0-alpha-20241020090828
 
 ### Patch Changes
