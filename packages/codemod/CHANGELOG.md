@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020044547
+
+### Patch Changes
+
+- Move files around
+
 ## 0.0.0-alpha-20241018101237
 
 ### Patch Changes
