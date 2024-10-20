@@ -8,9 +8,7 @@
     "directory": "packages/codemod"
   },
   "license": "MIT",
-  "bin": {
-    "codemod": "./bin/index.mjs"
-  },
+  "bin": "./bin/index.mjs",
   "files": [
     "bin"
   ],
@@ -27,6 +25,7 @@
   "devDependencies": {
     "@types/jscodeshift": "^0.12.0",
     "@types/node": "^22.7.5",
+    "change-case": "^5.4.4",
     "csv-parse": "^5.5.6",
     "esbuild": "^0.24.0",
     "typescript": "^5.4.5",

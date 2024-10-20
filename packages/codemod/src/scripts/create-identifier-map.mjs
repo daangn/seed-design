@@ -2,6 +2,7 @@ import { parse } from "csv-parse";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "url";
+import { pascalCase } from "change-case";
 // import * as icons from "@seed-design/react-icon";
 
 const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "data.tsv");
@@ -14,8 +15,8 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
   for (const [key, value] of records) {
     if (value === "") continue;
 
-    const pascalKey = convertSnakeCaseToPascalCase(key);
-    const pascalValue = convertSnakeCaseToPascalCase(value);
+    const pascalKey = pascalCase(key);
+    const pascalValue = pascalCase(value);
 
     // if (!availableIcons.includes(pascalValue)) {
     //   throw new Error(`Icon not found: ${pascalValue}`);
@@ -33,9 +34,3 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
     JSON.stringify(identifierMap, null, 2),
   );
 });
-
-function convertSnakeCaseToPascalCase(str) {
-  const newStr = str.replaceAll(/_(.)/g, (_, char) => char.toUpperCase());
-
-  return newStr.charAt(0).toUpperCase() + newStr.slice(1);
-}
