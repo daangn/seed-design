@@ -7,7 +7,7 @@ import { identifierMapReact } from "../utils/identifier-map.js";
 export interface MigrateIconsOptions {
   match?: {
     source: { startsWith: string; replaceWith?: string }[];
-    identifier: Record<string, string>;
+    identifier: Record<string, string | null>;
   };
 }
 

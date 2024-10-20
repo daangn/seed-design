@@ -9,6 +9,10 @@ const testMatch: MigrateIconsOptions["match"] = {
     { startsWith: "@seed-design/react-icon" },
   ],
   identifier: {
+    OldIcon0Thin: null,
+    OldIcon0Regular: null,
+    OldIcon0Fill: null,
+
     OldIcon1Thin: "NewIcon1Line",
     OldIcon1Regular: "NewIcon1Line",
     OldIcon1Fill: "NewIcon1Fill",
@@ -405,5 +409,13 @@ describe("n:1 매핑", () => {
             );
           }"
     `);
+  });
+});
+
+describe("삭제되는 아이콘", () => {
+  test("삭제되는 아이콘", () => {
+    const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
+
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`);
   });
 });

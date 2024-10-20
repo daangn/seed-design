@@ -8,5 +8,8 @@ export const loggerOptions: LoggerOptions = {
       ({ level, message, timestamp }) => `${timestamp} [${level.toUpperCase()}]: ${message}`,
     ),
   ),
-  transports: [new transports.File({ filename: "combined.log", level: "debug" })],
+  transports: [
+    new transports.File({ filename: "combined.log", level: "debug" }),
+    new transports.File({ filename: "error.log", level: "error" }),
+  ],
 };

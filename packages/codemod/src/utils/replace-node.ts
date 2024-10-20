@@ -69,12 +69,20 @@ export function migrateImportDeclarations({
         case "ImportSpecifier": {
           const currentImportedName = currentSpecifier.imported.name;
 
-          if (currentImportedName in match.identifier === false) return currentSpecifier;
+          if (
+            currentImportedName in match.identifier === false ||
+            match.identifier[currentImportedName] === null
+          ) {
+            logger.error(
+              `${filePath}: imported specifier ${currentImportedName}에 대한 변환 정보 없음`,
+            );
+
+            return currentSpecifier;
+          }
 
           const newImportedName = match.identifier[currentImportedName];
 
           const hasNoChange = newImportedName === currentImportedName;
-
           if (hasNoChange) return currentSpecifier;
 
           logger.debug(`${filePath}: imported name ${currentImportedName} -> ${newImportedName}`);
@@ -133,10 +141,14 @@ export function migrateIdentifiers({
 }: MigrateIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
-    if (currentName in identifierMatch === false) {
+
+    // unreachable
+    if (currentName in identifierMatch === false) return jscodeshift.identifier(currentName);
+
+    if (identifierMatch[currentName] === null) {
       logger.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
 
-      return identifier;
+      return jscodeshift.identifier(currentName);
     }
 
     const newName = identifierMatch[currentName];
