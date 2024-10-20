@@ -27,7 +27,6 @@ function migrateIconsCommand(cli: CAC) {
     .action(async (paths, options) => {
       console.log(LOG_PREFIX, "아이콘 마이그레이션을 시작해요");
 
-      // TODO: bun / deno?
       const { stdout } = await execaNode({
         stdout: ["pipe", "inherit"],
       })`${jscodeshiftPath} ${paths.join(" ")}
