@@ -5,7 +5,7 @@ import { execaNode } from "execa";
 import { createRequire } from "module";
 
 const cli = cac();
-const getTransformPath = (transformFileName: string) => `./dist/${transformFileName}.mjs`;
+const getTransformPath = (transformFileName: string) => `./${transformFileName}.mjs`;
 
 migrateIconsCommand(cli);
 cli.help();

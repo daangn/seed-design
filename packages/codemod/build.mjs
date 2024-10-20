@@ -21,7 +21,7 @@ esbuild
 esbuild
   .build({
     entryPoints: ["./src/transforms/**/*.ts"],
-    outdir: "./dist",
+    outdir: "./bin",
     outExtension: { ".js": ".mjs" },
     bundle: true,
     write: true,

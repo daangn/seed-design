@@ -1,5 +1,5 @@
-import migrateIcons from "../migrate-icons.js";
-import type { MigrateIconsOptions } from "../migrate-icons.js";
+import migrateIcons from "../transforms/migrate-icons.js";
+import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import { describe, expect, test } from "vitest";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 
