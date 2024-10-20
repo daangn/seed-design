@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020054343
+
+### Patch Changes
+
+- Remove unnecessary log files & update target package name
+
 ## 0.0.0-alpha-20241020052702
 
 ### Patch Changes
