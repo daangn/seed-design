@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020090615
+
+### Patch Changes
+
+- Add flag --no-babel
+
 ## 0.0.0-alpha-20241020064329
 
 ### Patch Changes
