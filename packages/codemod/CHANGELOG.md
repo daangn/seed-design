@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020064329
+
+### Patch Changes
+
+- Allow null for identifiermap target value & improve logging
+
 ## 0.0.0-alpha-20241020054343
 
 ### Patch Changes
