@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241020150322
+
+### Patch Changes
+
+- Stream logs to console
+
 ## 0.0.0-alpha-20241020144859
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 import { type LoggerOptions, format, transports } from "winston";
 
+export const LOG_PREFIX = "@seed-design/codemod - ";
+
 export const loggerOptions: LoggerOptions = {
   level: "info",
   format: format.combine(

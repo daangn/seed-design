@@ -1,6 +1,7 @@
 import jscodeshift from "jscodeshift";
 import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import type { Logger } from "winston";
+import { LOG_PREFIX } from "./log.js";
 
 interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
@@ -150,6 +151,7 @@ export function migrateIdentifiers({
 
     if (identifierMatch[currentName] === null) {
       logger.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
+      console.error(LOG_PREFIX, `${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
 
       return jscodeshift.identifier(currentName);
     }
