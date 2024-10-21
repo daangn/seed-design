@@ -1,5 +1,3 @@
-"use client";
-
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import * as React from "react";
 import * as Index from "./example/index.json";
