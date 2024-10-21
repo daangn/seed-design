@@ -1,3 +1,5 @@
+"use client";
+
 import { useSimpleReveal } from "simple-reveal";
 
 import { makeStack } from "./Stack";
