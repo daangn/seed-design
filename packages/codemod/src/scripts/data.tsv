@@ -50,7 +50,7 @@ icon_close	icon_xmark
 icon_cobuying	
 icon_community	icon_post
 icon_condo	icon_building2
-icon_confirmation	icon_check_shield
+icon_confirmation	icon_checkmark_shield
 icon_confirmation_pay	icon_won_shield
 icon_confirmation_profile	icon_person_shield
 icon_contents	icon_grid_heart
@@ -58,7 +58,7 @@ icon_convert	icon_arrow_right_arrow_left
 icon_copy	icon_square2_stacked
 icon_coupon	icon_coupon
 icon_coupon_download_done	icon_checkmark_horizline
-icon_coupon_used	icon_check_coupon
+icon_coupon_used	icon_checkmark_coupon
 icon_delete_keyboard	icon_backspacekey
 icon_delivery	
 icon_direction	icon_arrow_right_angled
@@ -110,7 +110,7 @@ icon_lock	icon_lock
 icon_loudspeaker	icon_megaphone
 icon_map	icon_map_locationpin
 icon_market	icon_store
-icon_market_check	icon_store_check
+icon_market_check	icon_store_checkmark
 icon_market_write	icon_store_pen
 icon_mention	icon_at
 icon_menu	icon_horizline3_vertical
@@ -131,7 +131,7 @@ icon_note	icon_document
 icon_notification	icon_bell
 icon_notification_fall	icon_arrow_down
 icon_notification_off	icon_bell_slash
-icon_order	icon_check_clipboard
+icon_order	icon_checkmark_clipboard
 icon_pause	icon_vertrectangle2_horizontal
 icon_payment	icon_card
 icon_percent	icon_percent
@@ -149,19 +149,19 @@ icon_profile	icon_person
 icon_profile_badge	icon_checkmark_badge
 icon_prohibition	icon_slash_circle
 icon_pushpin	icon_pushpin
-icon_question_check	icon_questionmark_sqaure
+icon_question_check	icon_questionmark_square
 icon_redo	icon_arrow_uturn_right
 icon_refund	icon_won_arrow_clockwise_circular
 icon_remove_circle	icon_xmark_circle
 icon_reply	icon_horizline2_vertical_chatbubble_right
-icon_reply_mission	
+icon_reply_mission	icon_horizline2_vertical_chatbubble_right
 icon_reply_re	icon_corner_down_left
 icon_report	icon_flag
-icon_reservation	icon_check_calendar
+icon_reservation	icon_checkmark_calendar
 icon_restaurant	icon_fork_spoon
 icon_retry	icon_arrow_clockwise_circular
 icon_review_star	icon_star
-icon_scanner	icon_horizeline_viewfinder
+icon_scanner	icon_horizline_viewfinder
 icon_search	icon_magnifyingglass
 icon_search_doc	icon_document_magnifyingglass
 icon_sell	icon_plus_square
@@ -189,7 +189,7 @@ icon_view_count	icon_eye
 icon_view_count_off	icon_eye_slash
 icon_volume_off	icon_speaker_slash
 icon_volume_on	icon_speaker_wave2
-icon_vote	icon_check_ballotbox
+icon_vote	icon_checkmark_ballotbox
 icon_voucher	icon_gift
 icon_walk	icon_figure_walk
 icon_warning	icon_exclamationmark_circle

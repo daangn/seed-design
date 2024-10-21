@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "url";
 import { pascalCase } from "change-case";
-// import * as availableIcons from "@seed-design/react-icon";
+import * as availableIcons from "@daangn/react-icon";
 
 const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "data.tsv");
 const data = fs.readFileSync(filePath, "utf8");
@@ -23,15 +23,21 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
       continue;
     }
 
-    const pascalValue = pascalCase(value);
+    const pascalValue = {
+      line: `${pascalCase(value)}Line`,
+      fill: `${pascalCase(value)}Fill`,
+    };
 
-    // if (!availableIcons.includes(pascalValue)) {
-    //   throw new Error(`Icon not found: ${pascalValue}`);
-    // }
+    if (
+      pascalValue.line in availableIcons === false ||
+      pascalValue.fill in availableIcons === false
+    ) {
+      console.error(`"${value}" is not available in @daangn/react-icon`);
+    }
 
-    newEntries.push([`${pascalKey}Thin`, `${pascalValue}Line`]);
-    newEntries.push([`${pascalKey}Regular`, `${pascalValue}Line`]);
-    newEntries.push([`${pascalKey}Fill`, `${pascalValue}Fill`]);
+    newEntries.push([`${pascalKey}Thin`, pascalValue.line]);
+    newEntries.push([`${pascalKey}Regular`, pascalValue.line]);
+    newEntries.push([`${pascalKey}Fill`, pascalValue.fill]);
   }
 
   const identifierMap = Object.fromEntries(newEntries);

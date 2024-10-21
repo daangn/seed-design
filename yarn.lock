@@ -2672,6 +2672,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@daangn/react-icon@npm:alpha":
+  version: 0.0.0-alpha-20241019115921
+  resolution: "@daangn/react-icon@npm:0.0.0-alpha-20241019115921::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40daangn%2Freact-icon%2F0.0.0-alpha-20241019115921%2Fefe6249d7ae47106387635c0490ccdefa7e9488a"
+  peerDependencies:
+    react: 17.x || 18.x
+  checksum: 1b6f30e5aa62f3e1036e938de334a48b33d75e634c569a59f2e2b37e980b100202990cc8a3763398e97e83695df05e8f9f35bb85760daa79c42ef9c5f6005980
+  languageName: node
+  linkType: hard
+
 "@dabh/diagnostics@npm:^2.0.2":
   version: 2.0.3
   resolution: "@dabh/diagnostics@npm:2.0.3"
@@ -5644,6 +5653,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@seed-design/codemod@workspace:packages/codemod"
   dependencies:
+    "@daangn/react-icon": alpha
     "@types/jscodeshift": ^0.12.0
     "@types/node": ^22.7.5
     cac: ^6.7.14
