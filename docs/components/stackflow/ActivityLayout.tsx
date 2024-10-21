@@ -55,7 +55,7 @@ Layout.displayName = "Layout";
 export default Layout;
 
 const BottomTab: React.FC = () => (
-  <div className="grid grid-cols-[1.5rem 1.5rem 1.5rem 1.5rem 1.5rem] justify-between p-[0.5rem] pb-[0.375rem] shadow-[0 -1px 0 0 #e0e0e0]">
+  <div className="grid grid-cols-5 justify-between p-[0.5rem] pb-[0.375rem] shadow-[0 -1px 0 0 #e0e0e0] bg-white">
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
         <IconHome />
