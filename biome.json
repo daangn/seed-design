@@ -60,7 +60,7 @@
       }
     },
     {
-      "include": ["component-docs/**/*"],
+      "include": ["docs/**/*"],
       "ignore": [
         "**/*.css",
         "registry/**/*",

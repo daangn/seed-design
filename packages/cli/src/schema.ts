@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // TODO: Extract this to a shared package.
-// INFO: also used in component-docs
+// INFO: also used in docs
 export const registryComponentItemSchema = z.object({
   /**
    * @description 컴포넌트 이름
