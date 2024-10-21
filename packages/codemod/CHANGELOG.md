@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241021032759
+
+### Patch Changes
+
+- Update identifier map
+
 ## 0.0.0-alpha-20241020150322
 
 ### Patch Changes
