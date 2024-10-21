@@ -22,8 +22,8 @@ const IconSell: React.FC = () => (
       x2="17.9"
       y2="11.9"
       stroke="white"
-      stroke-width="1.2"
-      stroke-linecap="round"
+      strokeWidth="1.2"
+      strokeLinecap="round"
     />
     <line
       x1="11.9"
@@ -31,8 +31,8 @@ const IconSell: React.FC = () => (
       x2="11.9"
       y2="17.9"
       stroke="white"
-      stroke-width="1.2"
-      stroke-linecap="round"
+      strokeWidth="1.2"
+      strokeLinecap="round"
     />
   </svg>
 );
