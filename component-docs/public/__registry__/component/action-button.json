@@ -1,6 +1,8 @@
 {
   "name": "action-button",
-  "dependencies": ["@radix-ui/react-slot"],
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
   "registries": [
     {
       "name": "action-button.tsx",
