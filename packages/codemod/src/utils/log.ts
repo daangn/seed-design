@@ -1,17 +1,3 @@
-import { type LoggerOptions, format, transports } from "winston";
+import colors from "picocolors";
 
-export const LOG_PREFIX = "@seed-design/codemod - ";
-
-export const loggerOptions: LoggerOptions = {
-  level: "info",
-  format: format.combine(
-    format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-    format.printf(
-      ({ level, message, timestamp }) => `${timestamp} [${level.toUpperCase()}]: ${message}`,
-    ),
-  ),
-  transports: [
-    new transports.File({ filename: "combined.log", level: "debug" }),
-    new transports.File({ filename: "error.log", level: "error" }),
-  ],
-};
+export const LOG_PREFIX = colors.bold("@seed-design/codemod");

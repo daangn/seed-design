@@ -6,7 +6,7 @@ import { LOG_PREFIX } from "./log.js";
 interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
   match: MigrateIconsOptions["match"];
-  logger: Logger;
+  logger?: Logger;
   filePath: jscodeshift.FileInfo["path"];
 }
 
@@ -64,7 +64,7 @@ export function migrateImportDeclarations({
     // * as A는 ImportNamespaceSpecifier
     // A는 local name
 
-    logger.debug(`${filePath}: source ${currentSourceValue} -> ${newSourceValue}`);
+    logger?.debug(`${filePath}: source ${currentSourceValue} -> ${newSourceValue}`);
 
     const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
@@ -75,7 +75,7 @@ export function migrateImportDeclarations({
             currentImportedName in match.identifier === false ||
             match.identifier[currentImportedName] === null
           ) {
-            logger.error(
+            logger?.error(
               `${filePath}: imported specifier ${currentImportedName}에 대한 변환 정보 없음`,
             );
 
@@ -87,7 +87,7 @@ export function migrateImportDeclarations({
           const hasNoChange = newImportedName === currentImportedName;
           if (hasNoChange) return currentSpecifier;
 
-          logger.debug(`${filePath}: imported name ${currentImportedName} -> ${newImportedName}`);
+          logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newImportedName}`);
 
           const newImportedIdentifier = jscodeshift.identifier(newImportedName);
 
@@ -133,7 +133,7 @@ export function migrateImportDeclarations({
 interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
   identifierMatch: MigrateIconsOptions["match"]["identifier"];
-  logger: Logger;
+  logger?: Logger;
   filePath: jscodeshift.FileInfo["path"];
 }
 
@@ -150,14 +150,14 @@ export function migrateIdentifiers({
     if (currentName in identifierMatch === false) return jscodeshift.identifier(currentName);
 
     if (identifierMatch[currentName] === null) {
-      logger.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
+      logger?.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
       console.error(LOG_PREFIX, `${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
 
       return jscodeshift.identifier(currentName);
     }
 
     const newName = identifierMatch[currentName];
-    logger.debug(`${filePath}: identifier ${currentName} -> ${newName}`);
+    logger?.debug(`${filePath}: identifier ${currentName} -> ${newName}`);
 
     return jscodeshift.identifier(newName);
   });

@@ -1,7 +1,6 @@
 import type { Transform } from "jscodeshift";
 import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node.js";
-import { createLogger } from "winston";
-import { loggerOptions } from "../utils/log.js";
+import { createLogger, format, transports } from "winston";
 import { identifierMapReact } from "../utils/identifier-map.js";
 
 export interface MigrateIconsOptions {
@@ -20,9 +19,25 @@ const reactMatch: MigrateIconsOptions["match"] = {
 };
 
 const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIconsOptions) => {
-  const logger = createLogger(loggerOptions);
+  const logger =
+    process.env.LOG === "true"
+      ? createLogger({
+          level: "info",
+          format: format.combine(
+            format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+            format.printf(
+              ({ level, message, timestamp }) =>
+                `${timestamp} [${level.toUpperCase()}]: ${message}`,
+            ),
+          ),
+          transports: [
+            new transports.File({ filename: "combined.log", level: "debug" }),
+            new transports.File({ filename: "error.log", level: "error" }),
+          ],
+        })
+      : undefined;
 
-  logger.debug(`${file.path}: 확인 시작`);
+  logger?.debug(`${file.path}: 확인 시작`);
 
   const j = api.jscodeshift;
   const tree = j(file.source);
@@ -41,22 +56,22 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
   });
 
   if (importDeclarations.length === 0) {
-    logger.debug(`${file.path}: 이 파일에는 import문 없음`);
+    logger?.debug(`${file.path}: 이 파일에는 import문 없음`);
     return file.source;
   }
 
-  logger.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
+  logger?.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
   migrateImportDeclarations({ importDeclarations, match, logger, filePath: file.path });
 
-  logger.debug(`${file.path}: import문 변환 완료`);
+  logger?.debug(`${file.path}: import문 변환 완료`);
 
-  logger.debug(`${file.path}: identifier 변환 시작`);
+  logger?.debug(`${file.path}: identifier 변환 시작`);
 
   const identifiers = tree.find(j.Identifier, {
     name: (value) => Object.keys(match.identifier).includes(value),
   });
 
-  logger.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
+  logger?.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
   migrateIdentifiers({
     identifiers,
     identifierMatch: match.identifier,
@@ -64,7 +79,7 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
     filePath: file.path,
   });
 
-  logger.debug(`${file.path}: identifier 변환 완료`);
+  logger?.debug(`${file.path}: identifier 변환 완료`);
 
   const firstNodeAfterModification = getFirstNode();
 
@@ -72,7 +87,7 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
     firstNodeAfterModification.comments = firstNode.comments;
   }
 
-  logger.debug(`${file.path}: 확인 완료`);
+  logger?.debug(`${file.path}: 확인 완료`);
 
   return tree.toSource();
 };
