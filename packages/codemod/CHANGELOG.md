@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241021100240
+
+### Patch Changes
+
+- List available transforms & log selectively
+
 ## 0.0.0-alpha-20241021032759
 
 ### Patch Changes
