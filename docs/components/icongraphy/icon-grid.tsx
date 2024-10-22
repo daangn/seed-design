@@ -13,6 +13,13 @@ export const IconGrid = () => {
         const snakeCaseIconName = changeCase.snakeCase(iconName);
         const isSelected = selectedIcon?.name === snakeCaseIconName;
         const metadataString = iconData[snakeCaseIconName].metadatas.join(", ");
+        const onSelect = () => {
+          const searchParams = new URLSearchParams(window.location.search);
+          searchParams.set("icon", snakeCaseIconName);
+          const url = `${window.location.pathname}?${searchParams.toString()}`;
+          setSelectedIcon(iconData[snakeCaseIconName]);
+          window.history.pushState({}, "", url);
+        };
 
         if (search !== "" && !metadataString.includes(search)) {
           return null;
@@ -20,7 +27,7 @@ export const IconGrid = () => {
 
         return (
           <div
-            onClick={() => setSelectedIcon(iconData[snakeCaseIconName])}
+            onClick={onSelect}
             key={iconName}
             className={`aspect-square rounded-md flex items-center justify-center ${isSelected ? "hover:bg-[#ffe8db]" : "hover:bg-gray-200"} cursor-pointer transition-colors ${isSelected ? "bg-[#fff2ec]" : "bg-gray-100"}`}
             data-metadatas={metadataString}

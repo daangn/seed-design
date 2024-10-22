@@ -43,7 +43,29 @@ export const IconProvider = ({
   iconComponents: Record<string, React.ComponentType>;
 }>) => {
   const [search, setSearch] = React.useState("");
-  const [selectedIcon, setSelectedIcon] = React.useState<IconData | undefined>(undefined);
+  const searchParams = new URLSearchParams(window.location.search);
+  const iconName = searchParams.get("icon");
+  const [selectedIcon, setSelectedIcon] = React.useState<IconData | undefined>(
+    iconName ? iconData[iconName] : undefined,
+  );
+
+  React.useEffect(() => {
+    const checkSearchParams = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const iconName = searchParams.get("icon");
+      if (iconName) {
+        setSelectedIcon(iconData[iconName]);
+      }
+    };
+
+    window.addEventListener("popstate", checkSearchParams);
+    window.addEventListener("pushstate", checkSearchParams);
+
+    return () => {
+      window.removeEventListener("popstate", checkSearchParams);
+      window.removeEventListener("pushstate", checkSearchParams);
+    };
+  }, [iconData]);
 
   return (
     <context.Provider
