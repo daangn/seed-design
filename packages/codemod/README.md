@@ -16,7 +16,7 @@ npx @seed-design/codemod <transform> <...경로> <옵션>
   - 사용 가능한 transform 목록을 보여줘요.
 - `--log`
   - 로그를 파일로 저장해요.
-  - `./`에 `combined.log`와 `error.log` 파일이 생성돼요.
+  - `./`에 `migrate-icons-combined.log`와 `migrate-icons-warnings.log` 파일이 생성돼요.
 - `--parser`
   - jscodeshift가 사용할 파서를 지정해요
   - `babel` | `babylon` | `flow` | `ts` | `tsx`
@@ -57,7 +57,8 @@ npx @seed-design/codemod migrate-icons src/ui --extensions=ts,tsx
 > - [import assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html#import-attributes) 등 deprecated된 문법이 있으면 파서에 따라 파싱 오류가 표시될 수 있어요.
 > - 코드 변환 이후 몇 가지 사항을 직접 확인해야 해요. 자세한 내용은 [Notion 페이지](https://www.notion.so/daangn/12128c3a9f8f8063b569c897116c8f40)를 참고해주세요.
 >   - 기존 아이콘 198개 중 5개 아이콘은, 신규 아이콘팩에 대응되는 아이콘이 있지만, 대응되는 아이콘이 적절한지 확인해야 해요.
->   - `--log` flag를 사용하면, 5개 아이콘이 사용된 경우 `error.log`에 기록돼요.
+>   - `--log` flag를 사용하면, 5개 아이콘이 사용된 경우 `migrate-icons-warnings.log`에 기록돼요.
+>   - flag를 사용하지 않아도 터미널에 경고 메시지가 표시돼요. flag를 사용하지 않는 경우 메시지를 잘 확인해주세요.
 
 ## 테스트
 
