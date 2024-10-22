@@ -39,7 +39,6 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
             ),
           ),
           transports: [
-            new transports.Console({ level: "warn" }),
             new transports.File({ filename: "migrate-icons-combined.log", level: "debug" }),
             new transports.File({ filename: "migrate-icons-warnings.log", level: "warn" }),
           ],
@@ -70,7 +69,13 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
   }
 
   logger?.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
-  migrateImportDeclarations({ importDeclarations, match, logger, filePath: file.path });
+  migrateImportDeclarations({
+    importDeclarations,
+    match,
+    logger,
+    report: api.report,
+    filePath: file.path,
+  });
 
   logger?.debug(`${file.path}: import문 변환 완료`);
 
@@ -85,6 +90,7 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
     identifiers,
     identifierMatch: match.identifier,
     logger,
+    report: api.report,
     filePath: file.path,
   });
 

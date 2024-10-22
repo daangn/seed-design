@@ -7,6 +7,7 @@ interface MigrateImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
   match: MigrateIconsOptions["match"];
   logger?: Logger;
+  report?: jscodeshift.API["report"];
   filePath: jscodeshift.FileInfo["path"];
 }
 
@@ -14,6 +15,7 @@ export function migrateImportDeclarations({
   importDeclarations,
   match,
   logger,
+  report,
   filePath,
 }: MigrateImportDeclarationsParams) {
   importDeclarations.replaceWith((imp) => {
@@ -75,9 +77,10 @@ export function migrateImportDeclarations({
             currentImportedName in match.identifier === false ||
             match.identifier[currentImportedName] === null
           ) {
-            logger?.error(
-              `${filePath}: imported specifier ${currentImportedName}에 대한 변환 정보 없음`,
-            );
+            const message = `${filePath}: imported specifier ${currentImportedName}에 대한 변환 정보 없음`;
+
+            logger?.error(message);
+            report?.(message);
 
             return currentSpecifier;
           }
@@ -92,6 +95,7 @@ export function migrateImportDeclarations({
             const message = `${filePath}: ${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
 
             logger?.warn(message);
+            report?.(message);
           }
 
           const newImportedIdentifier = jscodeshift.identifier(newName);
@@ -139,6 +143,7 @@ interface MigrateIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
   identifierMatch: MigrateIconsOptions["match"]["identifier"];
   logger?: Logger;
+  report?: jscodeshift.API["report"];
   filePath: jscodeshift.FileInfo["path"];
 }
 
@@ -146,6 +151,7 @@ export function migrateIdentifiers({
   identifiers,
   identifierMatch,
   logger,
+  report,
   filePath,
 }: MigrateIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
@@ -155,7 +161,10 @@ export function migrateIdentifiers({
     if (currentName in identifierMatch === false) return jscodeshift.identifier(currentName);
 
     if (identifierMatch[currentName] === null) {
-      logger?.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
+      const message = `${filePath}: identifier ${currentName}에 대한 변환 정보 없음`;
+
+      logger?.error(message);
+      report?.(message);
 
       return jscodeshift.identifier(currentName);
     }

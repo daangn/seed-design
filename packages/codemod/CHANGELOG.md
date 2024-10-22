@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241022065031
+
+### Patch Changes
+
+- use report instead of winston to print stdout
+
 ## 0.0.0-alpha-20241022063510
 
 ### Patch Changes
