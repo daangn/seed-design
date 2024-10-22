@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241022081111
+
+### Patch Changes
+
+- remove repeatedly printed filepath
+
 ## 0.0.0-alpha-20241022065031
 
 ### Patch Changes

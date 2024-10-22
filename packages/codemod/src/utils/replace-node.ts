@@ -77,9 +77,9 @@ export function migrateImportDeclarations({
             currentImportedName in match.identifier === false ||
             match.identifier[currentImportedName] === null
           ) {
-            const message = `${filePath}: imported specifier ${currentImportedName}에 대한 변환 정보 없음`;
+            const message = `imported specifier ${currentImportedName}에 대한 변환 정보 없음`;
 
-            logger?.error(message);
+            logger?.error(`${filePath}: ${message}`);
             report?.(message);
 
             return currentSpecifier;
@@ -92,9 +92,9 @@ export function migrateImportDeclarations({
 
           logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newName}`);
           if (isActionRequired) {
-            const message = `${filePath}: ${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
+            const message = `${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
 
-            logger?.warn(message);
+            logger?.warn(`${filePath}: ${message}`);
             report?.(message);
           }
 
@@ -161,9 +161,9 @@ export function migrateIdentifiers({
     if (currentName in identifierMatch === false) return jscodeshift.identifier(currentName);
 
     if (identifierMatch[currentName] === null) {
-      const message = `${filePath}: identifier ${currentName}에 대한 변환 정보 없음`;
+      const message = `identifier ${currentName}에 대한 변환 정보 없음`;
 
-      logger?.error(message);
+      logger?.error(`${filePath}: ${message}`);
       report?.(message);
 
       return jscodeshift.identifier(currentName);
