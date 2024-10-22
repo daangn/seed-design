@@ -16,6 +16,9 @@ export const vars = {
       "suffixIcon": {
         "color": "var(--seed-v3-color-fg-neutral)"
       },
+      "icon": {
+        "color": "var(--seed-v3-color-fg-neutral)"
+      },
       "count": {
         "color": "var(--seed-v3-color-fg-neutral-muted)"
       }
@@ -39,6 +42,9 @@ export const vars = {
       "suffixIcon": {
         "color": "var(--seed-v3-color-fg-brand)"
       },
+      "icon": {
+        "color": "var(--seed-v3-color-fg-brand)"
+      },
       "count": {
         "color": "var(--seed-v3-color-fg-brand)"
       }
@@ -59,6 +65,9 @@ export const vars = {
         "color": "var(--seed-v3-color-fg-disabled)"
       },
       "suffixIcon": {
+        "color": "var(--seed-v3-color-fg-disabled)"
+      },
+      "icon": {
         "color": "var(--seed-v3-color-fg-disabled)"
       },
       "count": {

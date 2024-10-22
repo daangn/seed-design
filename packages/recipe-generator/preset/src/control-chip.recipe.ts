@@ -77,6 +77,17 @@ const controlChip = defineRecipe({
         color: vars.base.disabled.suffixIcon.color,
       },
     },
+    icon: {
+      display: "inline-flex",
+
+      color: vars.base.enabled.icon.color,
+      [pseudo(checked)]: {
+        color: vars.base.selected.icon.color,
+      },
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.icon.color,
+      },
+    },
   },
   variants: {
     size: {

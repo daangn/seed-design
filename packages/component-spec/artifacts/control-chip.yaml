@@ -11,6 +11,8 @@ base:
       color: $color.fg.neutral
     suffixIcon:
       color: $color.fg.neutral
+    icon:
+      color: $color.fg.neutral
     count:
       color: $color.fg.neutral-muted
   pressed:
@@ -26,6 +28,8 @@ base:
       color: $color.fg.brand
     suffixIcon:
       color: $color.fg.brand
+    icon:
+      color: $color.fg.brand
     count:
       color: $color.fg.brand
   selected, pressed:
@@ -39,6 +43,8 @@ base:
     prefixIcon:
       color: $color.fg.disabled
     suffixIcon:
+      color: $color.fg.disabled
+    icon:
       color: $color.fg.disabled
     count:
       color: $color.fg.disabled
