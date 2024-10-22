@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.0-alpha-20241022061413",
+  "version": "0.0.0-alpha-20241022063510",
   "type": "module",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "prepack": "yarn build",
     "dev": "node ./dev.mjs",
     "build": "node ./build.mjs",
-    "test": "yarn vitest"
+    "test": "LOG=true yarn vitest"
   },
   "dependencies": {
     "cac": "^6.7.14",

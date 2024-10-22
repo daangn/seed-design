@@ -1,7 +1,7 @@
 import type { Transform } from "jscodeshift";
 import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node.js";
 import { createLogger, format, transports } from "winston";
-import { identifierMapReact } from "../utils/identifier-map.js";
+import { identifierMatchReact } from "../utils/identifier-match.js";
 
 export interface MigrateIconsOptions {
   match?: {
@@ -23,7 +23,7 @@ const reactMatch: MigrateIconsOptions["match"] = {
     { startsWith: "@seed-design/icon", replaceWith: "@daangn/react-icon" },
     { startsWith: "@seed-design/react-icon", replaceWith: "@daangn/react-icon" },
   ],
-  identifier: identifierMapReact,
+  identifier: identifierMatchReact,
 };
 
 const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIconsOptions) => {
@@ -39,6 +39,7 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
             ),
           ),
           transports: [
+            new transports.Console({ level: "warn" }),
             new transports.File({ filename: "migrate-icons-combined.log", level: "debug" }),
             new transports.File({ filename: "migrate-icons-warnings.log", level: "warn" }),
           ],

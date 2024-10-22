@@ -42,7 +42,7 @@ export function migrateImportDeclarations({
         .map((split, index) => {
           if (index !== slashSplits.length - 1 || split in match.identifier === false) return split;
 
-          return match.identifier[split];
+          return match.identifier[split].newName;
         })
         .join("/");
 
@@ -91,7 +91,6 @@ export function migrateImportDeclarations({
           if (isActionRequired) {
             const message = `${filePath}: ${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
 
-            console.warn(LOG_PREFIX, message);
             logger?.warn(message);
           }
 
@@ -157,7 +156,6 @@ export function migrateIdentifiers({
 
     if (identifierMatch[currentName] === null) {
       logger?.error(`${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
-      console.error(LOG_PREFIX, `${filePath}: identifier ${currentName}에 대한 변환 정보 없음`);
 
       return jscodeshift.identifier(currentName);
     }

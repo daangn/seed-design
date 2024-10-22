@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241022063510
+
+### Patch Changes
+
+- rename map to match, add tests
+
 ## 0.0.0-alpha-20241022061413
 
 ### Patch Changes

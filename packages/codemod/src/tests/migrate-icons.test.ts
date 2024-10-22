@@ -13,41 +13,41 @@ const testMatch: MigrateIconsOptions["match"] = {
     OldIcon0Regular: null,
     OldIcon0Fill: null,
 
-    OldIcon1Thin: "NewIcon1Line",
-    OldIcon1Regular: "NewIcon1Line",
-    OldIcon1Fill: "NewIcon1Fill",
+    OldIcon1Thin: { newName: "NewIcon1Line" },
+    OldIcon1Regular: { newName: "NewIcon1Line" },
+    OldIcon1Fill: { newName: "NewIcon1Fill" },
 
-    OldIcon2Thin: "NewIcon2Line",
-    OldIcon2Regular: "NewIcon2Line",
-    OldIcon2Fill: "NewIcon2Fill",
+    OldIcon2Thin: { newName: "NewIcon2Line" },
+    OldIcon2Regular: { newName: "NewIcon2Line" },
+    OldIcon2Fill: { newName: "NewIcon2Fill" },
 
-    OldIcon3Thin: "NewIcon3Line",
-    OldIcon3Regular: "NewIcon3Line",
-    OldIcon3Fill: "NewIcon3Fill",
+    OldIcon3Thin: { newName: "NewIcon3Line" },
+    OldIcon3Regular: { newName: "NewIcon3Line" },
+    OldIcon3Fill: { newName: "NewIcon3Fill" },
 
-    OldIcon4Thin: "NewIcon4Line",
-    OldIcon4Regular: "NewIcon4Line",
-    OldIcon4Fill: "NewIcon4Fill",
+    OldIcon4Thin: { newName: "NewIcon4Line" },
+    OldIcon4Regular: { newName: "NewIcon4Line" },
+    OldIcon4Fill: { newName: "NewIcon4Fill" },
 
-    OldIcon5Thin: "NewIcon5Line",
-    OldIcon5Regular: "NewIcon5Line",
-    OldIcon5Fill: "NewIcon5Fill",
+    OldIcon5Thin: { newName: "NewIcon5Line" },
+    OldIcon5Regular: { newName: "NewIcon5Line" },
+    OldIcon5Fill: { newName: "NewIcon5Fill" },
 
-    OldIcon6Thin: "NewIcon6Line",
-    OldIcon6Regular: "NewIcon6Line",
-    OldIcon6Fill: "NewIcon6Fill",
+    OldIcon6Thin: { newName: "NewIcon6Line" },
+    OldIcon6Regular: { newName: "NewIcon6Line" },
+    OldIcon6Fill: { newName: "NewIcon6Fill" },
 
-    OldIcon7Thin: "NewIcon7Line",
-    OldIcon7Regular: "NewIcon7Line",
-    OldIcon7Fill: "NewIcon7Fill",
+    OldIcon7Thin: { newName: "NewIcon7Line" },
+    OldIcon7Regular: { newName: "NewIcon7Line" },
+    OldIcon7Fill: { newName: "NewIcon7Fill" },
 
-    OldIcon8Thin: "NewIcon8Line",
-    OldIcon8Regular: "NewIcon8Line",
-    OldIcon8Fill: "NewIcon8Fill",
+    OldIcon8Thin: { newName: "NewIcon8Line" },
+    OldIcon8Regular: { newName: "NewIcon8Line" },
+    OldIcon8Fill: { newName: "NewIcon8Fill" },
 
-    OldIcon9Thin: "NewIcon9Line",
-    OldIcon9Regular: "NewIcon9Line",
-    OldIcon9Fill: "NewIcon9Fill",
+    OldIcon9Thin: { newName: "NewIcon9Line", isActionRequired: true },
+    OldIcon9Regular: { newName: "NewIcon9Line", isActionRequired: true },
+    OldIcon9Fill: { newName: "NewIcon9Fill", isActionRequired: true },
   },
 };
 
@@ -414,12 +414,20 @@ describe("n:1 매핑", () => {
   });
 });
 
-test("삭제되는 아이콘", () => {
-  const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
+describe("삭제되는 아이콘", () => {
+  test("완전히 대응 없음", () => {
+    const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
 
-  expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-    `"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`,
-  );
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
+      `"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`,
+    );
+  });
+
+  test("대응 있지만, action required", () => {
+    const input = `import { OldIcon9Thin, OldIcon9Regular, OldIcon9Fill } from "@seed-design/icon";`;
+
+    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`"import { NewIcon9Line, NewIcon9Fill } from "@seed-design/react-icon";"`);
+  });
 });
 
 test("comments 유지", () => {
