@@ -7,20 +7,16 @@ import * as availableIcons from "@daangn/react-icon";
 
 const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "data.tsv");
 const data = fs.readFileSync(filePath, "utf8");
-// const availableIcons = Object.keys(icons);
 
 parse(data, { delimiter: "\t" }, (_err, records) => {
   const newEntries = [];
 
-  for (const [key, value] of records) {
+  for (const [key, value, ar] of records) {
     const pascalKey = pascalCase(key);
+    const isActionRequired = ar.trim() === "1";
 
     if (value === "") {
-      newEntries.push([`${pascalKey}Thin`, null]);
-      newEntries.push([`${pascalKey}Regular`, null]);
-      newEntries.push([`${pascalKey}Fill`, null]);
-
-      continue;
+      throw new Error(`"${key}" has no mapping value`);
     }
 
     const pascalValue = {
@@ -35,9 +31,18 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
       console.error(`"${value}" is not available in @daangn/react-icon`);
     }
 
-    newEntries.push([`${pascalKey}Thin`, pascalValue.line]);
-    newEntries.push([`${pascalKey}Regular`, pascalValue.line]);
-    newEntries.push([`${pascalKey}Fill`, pascalValue.fill]);
+    newEntries.push([
+      `${pascalKey}Thin`,
+      { newName: pascalValue.line, ...(isActionRequired && { isActionRequired }) },
+    ]);
+    newEntries.push([
+      `${pascalKey}Regular`,
+      { newName: pascalValue.line, ...(isActionRequired && { isActionRequired }) },
+    ]);
+    newEntries.push([
+      `${pascalKey}Fill`,
+      { newName: pascalValue.fill, ...(isActionRequired && { isActionRequired }) },
+    ]);
   }
 
   const identifierMap = Object.fromEntries(newEntries);

@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241022061413
+
+### Patch Changes
+
+- update identifier map, warn users on action-required icons
+
 ## 0.0.0-alpha-20241021100240
 
 ### Patch Changes

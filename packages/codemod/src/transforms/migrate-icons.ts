@@ -5,8 +5,16 @@ import { identifierMapReact } from "../utils/identifier-map.js";
 
 export interface MigrateIconsOptions {
   match?: {
-    source: { startsWith: string; replaceWith?: string }[];
-    identifier: Record<string, string | null>;
+    source: {
+      startsWith: string;
+      replaceWith?: string;
+    }[];
+    identifier: {
+      [oldName: string]: {
+        newName: string;
+        isActionRequired?: boolean;
+      };
+    };
   };
 }
 
@@ -31,8 +39,8 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
             ),
           ),
           transports: [
-            new transports.File({ filename: "combined.log", level: "debug" }),
-            new transports.File({ filename: "error.log", level: "error" }),
+            new transports.File({ filename: "migrate-icons-combined.log", level: "debug" }),
+            new transports.File({ filename: "migrate-icons-warnings.log", level: "warn" }),
           ],
         })
       : undefined;

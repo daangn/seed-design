@@ -82,14 +82,20 @@ export function migrateImportDeclarations({
             return currentSpecifier;
           }
 
-          const newImportedName = match.identifier[currentImportedName];
+          const { newName, isActionRequired } = match.identifier[currentImportedName];
 
-          const hasNoChange = newImportedName === currentImportedName;
+          const hasNoChange = newName === currentImportedName;
           if (hasNoChange) return currentSpecifier;
 
-          logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newImportedName}`);
+          logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newName}`);
+          if (isActionRequired) {
+            const message = `${filePath}: ${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
 
-          const newImportedIdentifier = jscodeshift.identifier(newImportedName);
+            console.warn(LOG_PREFIX, message);
+            logger?.warn(message);
+          }
+
+          const newImportedIdentifier = jscodeshift.identifier(newName);
 
           // local name 유지하는 이유:
           // import 밑에서 사용되는 실제 변수명은 migrateImportDeclaration에서 다루지 않으므로 바꾸면 곤란
@@ -156,7 +162,7 @@ export function migrateIdentifiers({
       return jscodeshift.identifier(currentName);
     }
 
-    const newName = identifierMatch[currentName];
+    const { newName } = identifierMatch[currentName];
     logger?.debug(`${filePath}: identifier ${currentName} -> ${newName}`);
 
     return jscodeshift.identifier(newName);

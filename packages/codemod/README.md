@@ -56,9 +56,8 @@ npx @seed-design/codemod migrate-icons src/ui --extensions=ts,tsx
 >
 > - [import assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html#import-attributes) 등 deprecated된 문법이 있으면 파서에 따라 파싱 오류가 표시될 수 있어요.
 > - 코드 변환 이후 몇 가지 사항을 직접 확인해야 해요. 자세한 내용은 [Notion 페이지](https://www.notion.so/daangn/12128c3a9f8f8063b569c897116c8f40)를 참고해주세요.
-> - 기존 아이콘 198개 중 5개 아이콘은, 신규 아이콘팩에 대응되는 아이콘이 **없어요**.
->   - 5개 아이콘이 사용된 경우 변환되지 않아요.
->   - `--log` flag를 사용하면, 변환되지 않은 아이콘이 `error.log`에 기록돼요.
+>   - 기존 아이콘 198개 중 5개 아이콘은, 신규 아이콘팩에 대응되는 아이콘이 있지만, 대응되는 아이콘이 적절한지 확인해야 해요.
+>   - `--log` flag를 사용하면, 5개 아이콘이 사용된 경우 `error.log`에 기록돼요.
 
 ## 테스트
 
