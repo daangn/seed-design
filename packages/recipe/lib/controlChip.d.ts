@@ -9,7 +9,7 @@ type ControlChipVariantMap = {
 
 export type ControlChipVariantProps = Partial<ControlChipVariant>;
 
-export type ControlChipSlotName = "root" | "label" | "icon" | "prefix" | "suffix" | "count";
+export type ControlChipSlotName = "root" | "label" | "icon" | "prefixIcon" | "suffixIcon" | "count";
 
 export const controlChipVariantMap: ControlChipVariantMap;
 

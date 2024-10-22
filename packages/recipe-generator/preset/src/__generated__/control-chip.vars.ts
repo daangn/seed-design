@@ -10,10 +10,10 @@ export const vars = {
         "color": "var(--seed-v3-color-fg-neutral)",
         "fontWeight": "var(--seed-v3-font-weight-medium)"
       },
-      "prefix": {
+      "prefixIcon": {
         "color": "var(--seed-v3-color-fg-neutral)"
       },
-      "suffix": {
+      "suffixIcon": {
         "color": "var(--seed-v3-color-fg-neutral)"
       },
       "count": {
@@ -33,10 +33,10 @@ export const vars = {
       "label": {
         "color": "var(--seed-v3-color-fg-brand)"
       },
-      "prefix": {
+      "prefixIcon": {
         "color": "var(--seed-v3-color-fg-brand)"
       },
-      "suffix": {
+      "suffixIcon": {
         "color": "var(--seed-v3-color-fg-brand)"
       },
       "count": {
@@ -55,10 +55,10 @@ export const vars = {
       "label": {
         "color": "var(--seed-v3-color-fg-disabled)"
       },
-      "prefix": {
+      "prefixIcon": {
         "color": "var(--seed-v3-color-fg-disabled)"
       },
-      "suffix": {
+      "suffixIcon": {
         "color": "var(--seed-v3-color-fg-disabled)"
       },
       "count": {
@@ -76,11 +76,11 @@ export const vars = {
       "label": {
         "fontSize": "var(--seed-v3-font-size-100)"
       },
-      "prefix": {
+      "prefixIcon": {
         "size": "var(--seed-v3-unit-4)"
       },
-      "suffix": {
-        "size": "var(--seed-v3-unit-4)"
+      "suffixIcon": {
+        "size": "var(--seed-v3-unit-3\\.5)"
       }
     }
   },
@@ -94,11 +94,11 @@ export const vars = {
       "label": {
         "fontSize": "var(--seed-v3-font-size-100)"
       },
-      "prefix": {
+      "prefixIcon": {
         "size": "var(--seed-v3-unit-4)"
       },
-      "suffix": {
-        "size": "var(--seed-v3-unit-4)"
+      "suffixIcon": {
+        "size": "var(--seed-v3-unit-3\\.5)"
       }
     }
   },

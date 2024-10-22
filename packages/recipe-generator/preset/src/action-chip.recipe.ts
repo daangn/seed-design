@@ -6,7 +6,7 @@ import { vars } from "./__generated__/action-chip.vars";
 
 const actionChip = defineRecipe({
   name: "actionChip",
-  slots: ["root", "label", "icon", "prefix", "suffix", "count"],
+  slots: ["root", "label", "icon", "prefixIcon", "suffixIcon", "count"],
   base: {
     root: {
       display: "inline-flex",
@@ -43,20 +43,20 @@ const actionChip = defineRecipe({
         color: vars.base.disabled.label.color,
       },
     },
-    prefix: {
+    prefixIcon: {
       display: "inline-flex",
 
-      color: vars.base.enabled.prefix.color,
+      color: vars.base.enabled.prefixIcon.color,
       [pseudo(disabled)]: {
-        color: vars.base.disabled.prefix.color,
+        color: vars.base.disabled.prefixIcon.color,
       },
     },
-    suffix: {
+    suffixIcon: {
       display: "inline-flex",
 
-      color: vars.base.enabled.suffix.color,
+      color: vars.base.enabled.suffixIcon.color,
       [pseudo(disabled)]: {
-        color: vars.base.disabled.suffix.color,
+        color: vars.base.disabled.suffixIcon.color,
       },
     },
   },
@@ -71,13 +71,13 @@ const actionChip = defineRecipe({
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
         },
-        prefix: {
-          width: rem(vars.sizeMedium.enabled.prefix.size),
-          height: rem(vars.sizeMedium.enabled.prefix.size),
+        prefixIcon: {
+          width: rem(vars.sizeMedium.enabled.prefixIcon.size),
+          height: rem(vars.sizeMedium.enabled.prefixIcon.size),
         },
-        suffix: {
-          width: rem(vars.sizeMedium.enabled.suffix.size),
-          height: rem(vars.sizeMedium.enabled.suffix.size),
+        suffixIcon: {
+          width: rem(vars.sizeMedium.enabled.suffixIcon.size),
+          height: rem(vars.sizeMedium.enabled.suffixIcon.size),
         },
       },
       small: {
@@ -89,13 +89,13 @@ const actionChip = defineRecipe({
         label: {
           fontSize: vars.sizeSmall.enabled.label.fontSize,
         },
-        prefix: {
-          width: rem(vars.sizeSmall.enabled.prefix.size),
-          height: rem(vars.sizeSmall.enabled.prefix.size),
+        prefixIcon: {
+          width: rem(vars.sizeSmall.enabled.prefixIcon.size),
+          height: rem(vars.sizeSmall.enabled.prefixIcon.size),
         },
-        suffix: {
-          width: rem(vars.sizeSmall.enabled.suffix.size),
-          height: rem(vars.sizeSmall.enabled.suffix.size),
+        suffixIcon: {
+          width: rem(vars.sizeSmall.enabled.suffixIcon.size),
+          height: rem(vars.sizeSmall.enabled.suffixIcon.size),
         },
       },
     },

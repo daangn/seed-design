@@ -9,7 +9,7 @@ type ActionChipVariantMap = {
 
 export type ActionChipVariantProps = Partial<ActionChipVariant>;
 
-export type ActionChipSlotName = "root" | "label" | "icon" | "prefix" | "suffix" | "count";
+export type ActionChipSlotName = "root" | "label" | "icon" | "prefixIcon" | "suffixIcon" | "count";
 
 export const actionChipVariantMap: ActionChipVariantMap;
 

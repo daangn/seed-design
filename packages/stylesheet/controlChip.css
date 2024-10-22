@@ -42,24 +42,24 @@
 .controlChip__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-v3-color-fg-disabled);
 }
-.controlChip__prefix {
+.controlChip__prefixIcon {
     display: inline-flex;
     color: var(--seed-v3-color-fg-neutral);
 }
-.controlChip__prefix:is(:checked, [data-checked]) {
+.controlChip__prefixIcon:is(:checked, [data-checked]) {
     color: var(--seed-v3-color-fg-brand);
 }
-.controlChip__prefix:is(:disabled, [disabled], [data-disabled]) {
+.controlChip__prefixIcon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-v3-color-fg-disabled);
 }
-.controlChip__suffix {
+.controlChip__suffixIcon {
     display: inline-flex;
     color: var(--seed-v3-color-fg-neutral);
 }
-.controlChip__suffix:is(:checked, [data-checked]) {
+.controlChip__suffixIcon:is(:checked, [data-checked]) {
     color: var(--seed-v3-color-fg-brand);
 }
-.controlChip__suffix:is(:disabled, [disabled], [data-disabled]) {
+.controlChip__suffixIcon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-v3-color-fg-disabled);
 }
 .controlChip__root--size_medium {
@@ -70,13 +70,13 @@
 .controlChip__label--size_medium {
     font-size: var(--seed-v3-font-size-100);
 }
-.controlChip__prefix--size_medium {
+.controlChip__prefixIcon--size_medium {
     width: var(--seed-v3-unit-4);
     height: var(--seed-v3-unit-4);
 }
-.controlChip__suffix--size_medium {
-    width: var(--seed-v3-unit-4);
-    height: var(--seed-v3-unit-4);
+.controlChip__suffixIcon--size_medium {
+    width: var(--seed-v3-unit-3\.5);
+    height: var(--seed-v3-unit-3\.5);
 }
 .controlChip__root--size_small {
     min-height: var(--seed-v3-unit-8);
@@ -86,13 +86,13 @@
 .controlChip__label--size_small {
     font-size: var(--seed-v3-font-size-100);
 }
-.controlChip__prefix--size_small {
+.controlChip__prefixIcon--size_small {
     width: var(--seed-v3-unit-4);
     height: var(--seed-v3-unit-4);
 }
-.controlChip__suffix--size_small {
-    width: var(--seed-v3-unit-4);
-    height: var(--seed-v3-unit-4);
+.controlChip__suffixIcon--size_small {
+    width: var(--seed-v3-unit-3\.5);
+    height: var(--seed-v3-unit-3\.5);
 }
 .controlChip__root--size_medium-layout_withText {
     padding-inline: var(--seed-v3-unit-3\.5);

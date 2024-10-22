@@ -1,5 +1,8 @@
 import { Slot } from "@radix-ui/react-slot";
-import { actionChip, type ActionChipVariantProps } from "@seed-design/recipe/actionChip";
+import {
+  actionChip,
+  type ActionChipVariantProps,
+} from "@seed-design/recipe/actionChip";
 import clsx from "clsx";
 import * as React from "react";
 
@@ -32,14 +35,22 @@ export const ActionChip = React.forwardRef<HTMLButtonElement, ActionChipProps>(
     const Comp = asChild ? Slot : "button";
     const classNames = actionChip({ size, layout });
     return (
-      <Comp ref={ref} className={clsx(classNames.root, className)} {...otherProps}>
-        {prefixIcon && <Slot className={classNames.prefix}>{prefixIcon}</Slot>}
+      <Comp
+        ref={ref}
+        className={clsx(classNames.root, className)}
+        {...otherProps}
+      >
+        {prefixIcon && (
+          <Slot className={classNames.prefixIcon}>{prefixIcon}</Slot>
+        )}
         {layout === "withText" ? (
           <span className={classNames.label}>{children}</span>
         ) : (
           <Slot className={classNames.icon}>{children}</Slot>
         )}
-        {suffixIcon && <Slot className={classNames.suffix}>{suffixIcon}</Slot>}
+        {suffixIcon && (
+          <Slot className={classNames.suffixIcon}>{suffixIcon}</Slot>
+        )}
       </Comp>
     );
   },

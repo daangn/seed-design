@@ -7,9 +7,9 @@ base:
     label:
       color: $color.fg.neutral
       fontWeight: $font-weight.medium
-    prefix:
+    prefixIcon:
       color: $color.fg.neutral
-    suffix:
+    suffixIcon:
       color: $color.fg.neutral
     count:
       color: $color.fg.neutral-muted
@@ -21,9 +21,9 @@ base:
       color: $color.bg.disabled
     label:
       color: $color.fg.disabled
-    prefix:
+    prefixIcon:
       color: $color.fg.disabled
-    suffix:
+    suffixIcon:
       color: $color.fg.disabled
     count:
       color: $color.fg.disabled
@@ -35,10 +35,10 @@ size=small:
       gap: $unit[1]
     label:
       fontSize: $font-size[100]
-    prefix:
+    prefixIcon:
       size: $unit[4]
-    suffix:
-      size: $unit[4]
+    suffixIcon:
+      size: $unit[3.5]
 size=medium:
   enabled:
     root:
@@ -47,10 +47,10 @@ size=medium:
       gap: $unit[1]
     label:
       fontSize: $font-size[100]
-    prefix:
+    prefixIcon:
       size: $unit[4]
-    suffix:
-      size: $unit[4]
+    suffixIcon:
+      size: $unit[3.5]
 size=small,layout=with text:
   enabled:
     root:

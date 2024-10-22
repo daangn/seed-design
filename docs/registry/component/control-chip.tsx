@@ -1,10 +1,16 @@
 import { Slot } from "@radix-ui/react-slot";
-import { controlChip, type ControlChipVariantProps } from "@seed-design/recipe/controlChip";
+import {
+  controlChip,
+  type ControlChipVariantProps,
+} from "@seed-design/recipe/controlChip";
 import clsx from "clsx";
 import * as React from "react";
 
 import "@seed-design/stylesheet/controlChip.css";
-import { type UseCheckboxProps, useCheckbox } from "@seed-design/react-checkbox";
+import {
+  type UseCheckboxProps,
+  useCheckbox,
+} from "@seed-design/react-checkbox";
 import { visuallyHidden } from "../util/visuallyHidden";
 
 export interface ControlChipToggleProps
@@ -16,7 +22,10 @@ export interface ControlChipToggleProps
   suffixIcon?: React.ReactNode;
 }
 
-const ControlChipToggle = React.forwardRef<HTMLInputElement, ControlChipToggleProps>(
+const ControlChipToggle = React.forwardRef<
+  HTMLInputElement,
+  ControlChipToggleProps
+>(
   (
     {
       className,
@@ -30,11 +39,12 @@ const ControlChipToggle = React.forwardRef<HTMLInputElement, ControlChipTogglePr
     ref,
   ) => {
     const classNames = controlChip({ size, layout });
-    const { rootProps, hiddenInputProps, stateProps, restProps } = useCheckbox(otherProps);
+    const { rootProps, hiddenInputProps, stateProps, restProps } =
+      useCheckbox(otherProps);
     return (
       <label {...rootProps} className={clsx(classNames.root, className)}>
         {prefixIcon && (
-          <Slot {...stateProps} className={classNames.prefix}>
+          <Slot {...stateProps} className={classNames.prefixIcon}>
             {prefixIcon}
           </Slot>
         )}
@@ -48,11 +58,16 @@ const ControlChipToggle = React.forwardRef<HTMLInputElement, ControlChipTogglePr
           </Slot>
         )}
         {suffixIcon && (
-          <Slot {...stateProps} className={classNames.suffix}>
+          <Slot {...stateProps} className={classNames.suffixIcon}>
             {suffixIcon}
           </Slot>
         )}
-        <input ref={ref} {...hiddenInputProps} {...restProps} style={visuallyHidden} />
+        <input
+          ref={ref}
+          {...hiddenInputProps}
+          {...restProps}
+          style={visuallyHidden}
+        />
       </label>
     );
   },

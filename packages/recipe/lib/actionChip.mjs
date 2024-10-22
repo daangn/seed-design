@@ -14,12 +14,12 @@ const actionChipSlotNames = [
     "actionChip__icon"
   ],
   [
-    "prefix",
-    "actionChip__prefix"
+    "prefixIcon",
+    "actionChip__prefixIcon"
   ],
   [
-    "suffix",
-    "actionChip__suffix"
+    "suffixIcon",
+    "actionChip__suffixIcon"
   ],
   [
     "count",
