@@ -43,11 +43,16 @@ export const IconProvider = ({
   iconComponents: Record<string, React.ComponentType>;
 }>) => {
   const [search, setSearch] = React.useState("");
-  const searchParams = new URLSearchParams(window.location.search);
-  const iconName = searchParams.get("icon");
-  const [selectedIcon, setSelectedIcon] = React.useState<IconData | undefined>(
-    iconName ? iconData[iconName] : undefined,
-  );
+  const [selectedIcon, setSelectedIcon] = React.useState<IconData | undefined>(undefined);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  React.useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const iconName = searchParams.get("icon");
+    if (iconName) {
+      setSelectedIcon(iconData[iconName]);
+    }
+  }, []);
 
   React.useEffect(() => {
     const checkSearchParams = () => {
