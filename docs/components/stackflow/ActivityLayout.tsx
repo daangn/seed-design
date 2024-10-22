@@ -1,14 +1,15 @@
 import { AppScreen } from "@stackflow/plugin-basic-ui";
 
-import IconExpandMore from "./icons/IconExpandMore";
-import IconSearch from "./icons/IconSearch";
-import IconSettings from "./icons/IconSettings";
-import IconBell from "./icons/IconBell";
-import IconHome from "./icons/IconHome";
-import IconMenu from "./icons/IconMenu";
-import IconSell from "./icons/IconSell";
-import IconChatting from "./icons/IconChatting";
-import IconProfile from "./icons/IconProfile";
+import {
+  IconChevronDownFill,
+  IconChevronDownLine,
+  IconDot3HorizontalChatbubbleLeftLine,
+  IconGearLine,
+  IconHorizline3VerticalLine,
+  IconHouseLine,
+  IconPersonLine,
+  IconPlusSquareFill,
+} from "@daangn/react-icon";
 
 type PropOf<T> = T extends React.ComponentType<infer U> ? U : never;
 
@@ -22,16 +23,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex text-[1.125rem] font-bold ml-[0.5rem]">
       Woolston
       <div className="flex items-center ml-[0.5rem]">
-        <IconExpandMore />
+        <IconChevronDownLine />
       </div>
     </div>
   );
 
   const appBarRight = () => (
     <div className="grid grid-cols-[1.5rem 1.5rem 1.5rem] gap-[1rem] mr-[0.5rem]">
-      <IconSearch />
-      <IconSettings />
-      <IconBell />
+      <IconGearLine />
     </div>
   );
 
@@ -58,31 +57,31 @@ const BottomTab: React.FC = () => (
   <div className="grid grid-cols-5 justify-between p-[0.5rem] pb-[0.375rem] shadow-[0 -1px 0 0 #e0e0e0] bg-white">
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
-        <IconHome />
+        <IconHouseLine />
       </div>
       <div className="whitespace-nowrap text-[0.75rem]">Home</div>
     </button>
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
-        <IconMenu />
+        <IconHorizline3VerticalLine />
       </div>
       <div className="whitespace-nowrap text-[0.75rem]">Categories</div>
     </button>
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
-        <IconSell />
+        <IconPlusSquareFill />
       </div>
       <div className="whitespace-nowrap text-[0.75rem]">Sell</div>
     </button>
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
-        <IconChatting />
+        <IconDot3HorizontalChatbubbleLeftLine />
       </div>
       <div className="whitespace-nowrap text-[0.75rem]">Chats</div>
     </button>
     <button type="button" className="flex flex-col items-center cursor-pointer">
       <div className="mb-[0.375rem]">
-        <IconProfile />
+        <IconPersonLine />
       </div>
       <div className="whitespace-nowrap text-[0.75rem]">My</div>
     </button>

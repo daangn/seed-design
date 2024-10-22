@@ -1,12 +1,12 @@
 "use client";
 
-import IconAddFill from "@seed-design/icon/IconAddFill";
+import { IconPlusFill } from "@daangn/react-icon";
 import { ControlChip } from "seed-design/ui/control-chip";
 
 export default function ControlChipIconOnly() {
   return (
     <ControlChip.Toggle layout="iconOnly">
-      <IconAddFill />
+      <IconPlusFill />
     </ControlChip.Toggle>
   );
 }
