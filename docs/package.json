@@ -12,7 +12,8 @@
     "generate:example": "vite-node scripts/generate-example.ts"
   },
   "dependencies": {
-    "@seed-design/icon": "^0.6.2",
+    "@daangn/icon-data": "0.0.0-alpha-20241022092935",
+    "@daangn/react-icon": "0.0.0-alpha-20241022090157",
     "@seed-design/react-checkbox": "0.0.0-alpha-20241004093556",
     "@seed-design/react-tabs": "0.0.0-alpha-20241014145845",
     "@seed-design/recipe": "0.0.0-alpha-20241014145845",
@@ -22,6 +23,7 @@
     "@stackflow/plugin-basic-ui": "^1.10.0",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
     "@stackflow/react": "^1.4.0",
+    "change-case": "^5.4.4",
     "fumadocs-core": "13.4.10",
     "fumadocs-docgen": "^1.2.0",
     "fumadocs-mdx": "10.0.2",

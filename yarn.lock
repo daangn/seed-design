@@ -1817,6 +1817,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@daangn/icon-data@npm:0.0.0-alpha-20241022092935":
+  version: 0.0.0-alpha-20241022092935
+  resolution: "@daangn/icon-data@npm:0.0.0-alpha-20241022092935::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40daangn%2Ficon-data%2F0.0.0-alpha-20241022092935%2Fbcb180a0f082b013239986d22fe9c7abbf73a837"
+  checksum: 2d40bf8be770977da8cd77ed7202d65b1dfd6eeb80afd2b32736ddd7318fc90efcd9ef1ef855054429d3f5e94dabc6fbb4462d385827b9acbf75e43a4ec698ae
+  languageName: node
+  linkType: hard
+
+"@daangn/react-icon@npm:0.0.0-alpha-20241022090157":
+  version: 0.0.0-alpha-20241022090157
+  resolution: "@daangn/react-icon@npm:0.0.0-alpha-20241022090157::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40daangn%2Freact-icon%2F0.0.0-alpha-20241022090157%2F4056a3adf61f469786763ae24728ddeeb29d6e02"
+  peerDependencies:
+    react: 17.x || 18.x
+  checksum: 5bc212a12078dd7b88b20c090be6ec7682daea8e01842be692a80a8944800b4cce51188d72fc3dcd4df5f6b3c684b84f5fca1c83a61c5662db6b309ca1c60d65
+  languageName: node
+  linkType: hard
+
 "@emotion/hash@npm:^0.9.0":
   version: 0.9.0
   resolution: "@emotion/hash@npm:0.9.0"
@@ -4118,7 +4134,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@seed-design/icon@npm:^0.6.1, @seed-design/icon@npm:^0.6.2":
+"@seed-design/icon@npm:^0.6.1":
   version: 0.6.2
   resolution: "@seed-design/icon@npm:0.6.2"
   peerDependencies:
@@ -6844,7 +6860,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "docs@workspace:docs"
   dependencies:
-    "@seed-design/icon": ^0.6.2
+    "@daangn/icon-data": 0.0.0-alpha-20241022092935
+    "@daangn/react-icon": 0.0.0-alpha-20241022090157
     "@seed-design/react-checkbox": 0.0.0-alpha-20241004093556
     "@seed-design/react-tabs": 0.0.0-alpha-20241014145845
     "@seed-design/recipe": 0.0.0-alpha-20241014145845
@@ -6860,6 +6877,7 @@ __metadata:
     "@types/react-dom": ^18.3.0
     autoprefixer: ^10.4.20
     chalk: ^5.3.0
+    change-case: ^5.4.4
     fumadocs-core: 13.4.10
     fumadocs-docgen: ^1.2.0
     fumadocs-mdx: 10.0.2
