@@ -182,7 +182,7 @@ size=medium, layout=icon only:
       paddingX: "$unit[2.5]"
       paddingY: "$unit[2.5]"
     icon:
-      size: "$unit[4]"
+      size: "18px"
 size=large:
   enabled:
     root:
@@ -195,9 +195,9 @@ size=large, layout=with text:
       paddingX: "$unit[5]"
       paddingY: "$unit[3.5]"
     prefixIcon:
-      size: "$unit[4.5]"
+      size: "22px"
     suffixIcon:
-      size: "$unit[4.5]"
+      size: "22px"
     label:
       fontSize: "$font-size[300]"
 size=large, layout=icon only:
@@ -207,4 +207,4 @@ size=large, layout=icon only:
       paddingX: "$unit[3.5]"
       paddingY: "$unit[3.5]"
     icon:
-      size: "$unit[4.5]"
+      size: "22px"

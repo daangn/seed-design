@@ -286,7 +286,7 @@ export const vars = {
         "paddingY": "var(--seed-v3-unit-2\\.5)"
       },
       "icon": {
-        "size": "var(--seed-v3-unit-4)"
+        "size": "18px"
       }
     }
   },
@@ -306,10 +306,10 @@ export const vars = {
         "paddingY": "var(--seed-v3-unit-3\\.5)"
       },
       "prefixIcon": {
-        "size": "var(--seed-v3-unit-4\\.5)"
+        "size": "22px"
       },
       "suffixIcon": {
-        "size": "var(--seed-v3-unit-4\\.5)"
+        "size": "22px"
       },
       "label": {
         "fontSize": "var(--seed-v3-font-size-300)"
@@ -324,7 +324,7 @@ export const vars = {
         "paddingY": "var(--seed-v3-unit-3\\.5)"
       },
       "icon": {
-        "size": "var(--seed-v3-unit-4\\.5)"
+        "size": "22px"
       }
     }
   }
