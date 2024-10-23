@@ -83,7 +83,7 @@
         },
         {
           "const": "$color.fg.informative",
-          "description": "theme-light: palette/blue-600, theme-dark: palette/blue-700"
+          "description": "theme-light: palette/blue-700, theme-dark: palette/blue-700"
         },
         {
           "const": "$color.fg.informative-contrast",
@@ -371,11 +371,11 @@
         },
         {
           "const": "$color.palette.blue-600",
-          "description": "theme-light: rgba(0, 161, 238, 1), theme-dark: rgba(0, 138, 202, 1)"
+          "description": "theme-light: rgba(18, 156, 249, 1), theme-dark: rgba(0, 138, 202, 1)"
         },
         {
           "const": "$color.palette.blue-700",
-          "description": "theme-light: rgba(0, 129, 199, 1), theme-dark: rgba(13, 166, 241, 1)"
+          "description": "theme-light: rgba(0, 132, 220, 1), theme-dark: rgba(13, 166, 241, 1)"
         },
         {
           "const": "$color.palette.blue-800",
@@ -543,19 +543,19 @@
         },
         {
           "const": "$color.palette.purple-100",
-          "description": "theme-light: rgba(246, 244, 254, 1), theme-dark: rgba(40, 36, 57, 1)"
+          "description": "theme-light: rgba(246, 244, 254, 1), theme-dark: rgba(50, 32, 101, 1)"
         },
         {
           "const": "$color.palette.purple-200",
-          "description": "theme-light: rgba(239, 234, 254, 1), theme-dark: rgba(53, 42, 87, 1)"
+          "description": "theme-light: rgba(239, 234, 254, 1), theme-dark: rgba(59, 40, 115, 1)"
         },
         {
           "const": "$color.palette.purple-300",
-          "description": "theme-light: rgba(225, 216, 255, 1), theme-dark: rgba(72, 51, 131, 1)"
+          "description": "theme-light: rgba(225, 216, 255, 1), theme-dark: rgba(68, 48, 129, 1)"
         },
         {
           "const": "$color.palette.purple-400",
-          "description": "theme-light: rgba(210, 195, 255, 1), theme-dark: rgba(93, 63, 178, 1)"
+          "description": "theme-light: rgba(210, 195, 255, 1), theme-dark: rgba(90, 59, 177, 1)"
         },
         {
           "const": "$color.palette.purple-500",
@@ -592,6 +592,26 @@
         {
           "const": "$color.fg.magic-contrast",
           "description": "theme-light: palette/purple-800, theme-dark: palette/purple-900"
+        },
+        {
+          "const": "$color.stroke.positive",
+          "description": "theme-light: palette/green-600, theme-dark: palette/green-600"
+        },
+        {
+          "const": "$color.bg.magic-solid",
+          "description": "theme-light: palette/purple-600, theme-dark: palette/purple-600"
+        },
+        {
+          "const": "$color.bg.magic-solid-pressed",
+          "description": "theme-light: palette/purple-700, theme-dark: palette/purple-700"
+        },
+        {
+          "const": "$color.bg.magic-weak",
+          "description": "theme-light: palette/purple-100, theme-dark: palette/purple-100"
+        },
+        {
+          "const": "$color.bg.magic-weak-pressed",
+          "description": "theme-light: palette/purple-200, theme-dark: palette/purple-200"
         }
       ]
     },
@@ -703,38 +723,6 @@
         {
           "const": "$radii[0.5]",
           "description": "value: 2"
-        },
-        {
-          "const": "$radii[7]",
-          "description": "value: 28"
-        },
-        {
-          "const": "$radii[8]",
-          "description": "value: 32"
-        },
-        {
-          "const": "$radii[9]",
-          "description": "value: 36"
-        },
-        {
-          "const": "$radii[10]",
-          "description": "value: 40"
-        },
-        {
-          "const": "$radii[12]",
-          "description": "value: 48"
-        },
-        {
-          "const": "$radii[13]",
-          "description": "value: 52"
-        },
-        {
-          "const": "$radii[14]",
-          "description": "value: 56"
-        },
-        {
-          "const": "$radii[16]",
-          "description": "value: 64"
         },
         {
           "const": "$radii[1]",
