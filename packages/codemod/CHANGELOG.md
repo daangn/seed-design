@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241023070021
+
+### Patch Changes
+
+- Keep icons that aren't available yet (categories & services)
+
 ## 0.0.0-alpha-20241022081111
 
 ### Patch Changes
