@@ -1,0 +1,408 @@
+palette:
+  light:
+    gray:
+      00: rgba(255, 255, 255, 1)
+      100: rgba(247, 248, 249, 1)
+      200: rgba(243, 244, 245, 1)
+      300: rgba(238, 239, 241, 1)
+      400: rgba(220, 222, 227, 1)
+      500: rgba(209, 211, 216, 1)
+      600: rgba(176, 179, 186, 1)
+      700: rgba(134, 139, 148, 1)
+      800: rgba(91, 96, 106, 1)
+      900: rgba(26, 28, 32, 1)
+      alpha-50: rgba(0, 23, 88, 0.05)
+    carrot:
+      100: rgba(255, 242, 236, 1)
+      200: rgba(255, 232, 219, 1)
+      300: rgba(255, 213, 192, 1)
+      400: rgba(255, 185, 153, 1)
+      500: rgba(255, 147, 100, 1)
+      600: rgba(255, 102, 0, 1)
+      700: rgba(232, 69, 0, 1)
+      800: rgba(185, 57, 1, 1)
+      900: rgba(134, 43, 0, 1)
+      1000: rgba(71, 22, 1, 1)
+    blue:
+      100: rgba(235, 247, 250, 1)
+      200: rgba(217, 240, 252, 1)
+      300: rgba(183, 228, 255, 1)
+      400: rgba(146, 211, 255, 1)
+      500: rgba(97, 189, 255, 1)
+      600: rgba(18, 156, 249, 1)
+      700: rgba(0, 132, 220, 1)
+      800: rgba(0, 100, 151, 1)
+      900: rgba(4, 69, 102, 1)
+      1000: rgba(10, 40, 59, 1)
+    green:
+      100: rgba(231, 249, 243, 1)
+      200: rgba(209, 244, 229, 1)
+      300: rgba(143, 241, 195, 1)
+      400: rgba(107, 225, 176, 1)
+      500: rgba(46, 205, 149, 1)
+      600: rgba(16, 173, 126, 1)
+      700: rgba(6, 140, 109, 1)
+      800: rgba(0, 107, 88, 1)
+      900: rgba(5, 74, 61, 1)
+      1000: rgba(10, 43, 36, 1)
+    purple:
+      100: rgba(246, 244, 254, 1)
+      200: rgba(239, 234, 254, 1)
+      300: rgba(225, 216, 255, 1)
+      400: rgba(210, 195, 255, 1)
+      500: rgba(189, 168, 255, 1)
+      600: rgba(161, 134, 251, 1)
+      700: rgba(133, 100, 233, 1)
+      800: rgba(102, 70, 198, 1)
+      900: rgba(70, 48, 138, 1)
+      1000: rgba(41, 23, 93, 1)
+    red:
+      100: rgba(253, 242, 242, 1)
+      200: rgba(253, 232, 230, 1)
+      300: rgba(254, 211, 209, 1)
+      400: rgba(254, 187, 183, 1)
+      500: rgba(255, 153, 148, 1)
+      600: rgba(253, 103, 100, 1)
+      700: rgba(242, 30, 22, 1)
+      800: rgba(188, 23, 12, 1)
+      900: rgba(127, 26, 13, 1)
+      1000: rgba(74, 18, 9, 1)
+    yellow:
+      100: rgba(253, 244, 226, 1)
+      200: rgba(254, 233, 207, 1)
+      300: rgba(248, 216, 181, 1)
+      400: rgba(247, 194, 130, 1)
+      500: rgba(245, 164, 55, 1)
+      600: rgba(210, 137, 43, 1)
+      700: rgba(171, 110, 35, 1)
+      800: rgba(126, 87, 34, 1)
+      900: rgba(84, 60, 31, 1)
+      1000: rgba(50, 35, 18, 1)
+  dark:
+    gray:
+      00: rgba(18, 18, 18, 1)
+      100: rgba(26, 28, 32, 1)
+      200: rgba(37, 39, 44, 1)
+      300: rgba(44, 46, 52, 1)
+      400: rgba(62, 65, 69, 1)
+      500: rgba(91, 96, 106, 1)
+      600: rgba(134, 139, 148, 1)
+      700: rgba(176, 179, 186, 1)
+      800: rgba(220, 222, 227, 1)
+      900: rgba(243, 244, 245, 1)
+      alpha-50: rgba(255, 255, 255, 0.05)
+    carrot:
+      100: rgba(49, 36, 31, 1)
+      200: rgba(75, 41, 28, 1)
+      300: rgba(107, 49, 28, 1)
+      400: rgba(130, 47, 0, 1)
+      500: rgba(196, 69, 1, 1)
+      600: rgba(247, 89, 0, 1)
+      700: rgba(255, 102, 0, 1)
+      800: rgba(255, 185, 153, 1)
+      900: rgba(238, 206, 188, 1)
+      1000: rgba(244, 238, 234, 1)
+    blue:
+      100: rgba(35, 39, 44, 1)
+      200: rgba(34, 52, 68, 1)
+      300: rgba(24, 69, 100, 1)
+      400: rgba(3, 90, 135, 1)
+      500: rgba(0, 112, 168, 1)
+      600: rgba(0, 138, 202, 1)
+      700: rgba(13, 166, 241, 1)
+      800: rgba(107, 192, 242, 1)
+      900: rgba(173, 219, 242, 1)
+      1000: rgba(217, 244, 250, 1)
+    green:
+      100: rgba(32, 41, 38, 1)
+      200: rgba(32, 54, 46, 1)
+      300: rgba(32, 73, 59, 1)
+      400: rgba(25, 96, 76, 1)
+      500: rgba(17, 121, 86, 1)
+      600: rgba(27, 148, 109, 1)
+      700: rgba(34, 178, 127, 1)
+      800: rgba(53, 206, 154, 1)
+      900: rgba(147, 229, 192, 1)
+      1000: rgba(212, 246, 239, 1)
+    purple:
+      100: rgba(50, 32, 101, 1)
+      200: rgba(59, 40, 115, 1)
+      300: rgba(68, 48, 129, 1)
+      400: rgba(90, 59, 177, 1)
+      500: rgba(118, 79, 217, 1)
+      600: rgba(142, 107, 238, 1)
+      700: rgba(167, 141, 240, 1)
+      800: rgba(190, 173, 242, 1)
+      900: rgba(217, 206, 250, 1)
+      1000: rgba(240, 237, 252, 1)
+    red:
+      100: rgba(50, 35, 35, 1)
+      200: rgba(79, 38, 36, 1)
+      300: rgba(116, 40, 38, 1)
+      400: rgba(161, 38, 33, 1)
+      500: rgba(209, 30, 19, 1)
+      600: rgba(247, 53, 38, 1)
+      700: rgba(242, 121, 109, 1)
+      800: rgba(241, 163, 155, 1)
+      900: rgba(242, 203, 201, 1)
+      1000: rgba(249, 236, 235, 1)
+    yellow:
+      100: rgba(42, 38, 35, 1)
+      200: rgba(62, 47, 33, 1)
+      300: rgba(87, 60, 32, 1)
+      400: rgba(117, 76, 28, 1)
+      500: rgba(146, 95, 32, 1)
+      600: rgba(176, 118, 52, 1)
+      700: rgba(203, 146, 68, 1)
+      800: rgba(226, 173, 102, 1)
+      900: rgba(238, 208, 171, 1)
+      1000: rgba(243, 239, 230, 1)
+
+static:
+  black: rgba(0, 0, 0, 1)
+  black-alpha-200: rgba(0, 0, 0, 0.2)
+  black-alpha-50: rgba(0, 0, 0, 0.05)
+  black-alpha-500: rgba(0, 0, 0, 0.5)
+  white: rgba(255, 255, 255, 1)
+  white-alpha-200: rgba(255, 255, 255, 0.2)
+  white-alpha-50: rgba(255, 255, 255, 0.05)
+  bg-white: $static.white
+  fg-black: $static.black
+  fg-white: $static.white
+
+semantic:
+  light:
+    bg:
+      brand:
+        default: $palette.carrot.600
+        pressed: $palette.carrot.700
+      brand-weak:
+        default: $palette.carrot.100
+        pressed: $palette.carrot.200
+      danger:
+        default: $palette.red.700
+        pressed: $palette.red.800
+      danger-weak:
+        default: $palette.red.100
+        pressed: $palette.red.200
+      disabled: 
+        default: $palette.gray.200
+      informative:
+        default: $palette.blue.600
+        pressed: $palette.blue.700
+      informative-weak:
+        default: $palette.blue.100
+        pressed: $palette.blue.200
+      layer-basement:
+        default: $palette.gray.200
+      layer-default:
+        default: $palette.gray.00
+        pressed: $palette.gray.100
+      layer-fill:
+        default: $palette.gray.100
+      layer-floating:
+        default: $palette.gray.00
+        pressed: $palette.gray.100
+      magic:
+        default: $palette.purple.600
+        pressed: $palette.purple.700
+      magic-weak:
+        default: $palette.purple.100
+        pressed: $palette.purple.200
+      neutral:
+        default: $palette.gray.900
+        pressed: $palette.gray.800
+      neutral-weak:
+        default: $palette.gray.200
+        pressed: $palette.gray.300
+      overlay:
+        default: $static.black-alpha-500
+      overlay-muted:
+        default: $static.black-alpha-200
+      positive:
+        default: $palette.green.600
+        pressed: $palette.green.700
+      positive-weak:
+        default: $palette.green.100
+        pressed: $palette.green.200
+      text-selection:
+        default: $palette.carrot.100
+      warning:
+        default: $palette.yellow.600
+        pressed: $palette.yellow.700
+      warning-weak:
+        default: $palette.yellow.100
+        pressed: $palette.yellow.200
+    fg:
+      brand:
+        default: $palette.carrot.600
+      brand-contrast:
+        default: $palette.carrot.700
+      danger:
+        default: $palette.red.700
+      danger-contrast:
+        default: $palette.red.900
+      disabled:
+        default: $palette.gray.500
+      informative:
+        default: $palette.blue.700
+      informative-contrast:
+        default: $palette.blue.900
+      magic:
+        default: $palette.purple.700
+      magic-contrast:
+        default: $palette.purple.800
+      neutral:
+        default: $palette.gray.900
+      neutral-inverted:
+        default: $palette.gray.00
+      neutral-muted:
+        default: $palette.gray.800
+      neutral-subtle:
+        default: $palette.gray.700
+      placeholder:
+        default: $palette.gray.600
+      positive:
+        default: $palette.green.700
+      positive-contrast:
+        default: $palette.green.900
+      warning:
+        default: $palette.yellow.700
+      warning-contrast:
+        default: $palette.yellow.900
+    stroke:
+      brand:
+        default: $palette.carrot.500
+      control:
+        default: $palette.gray.400
+      danger:
+        default: $palette.red.700
+      field:
+        default: $palette.gray.400
+        focused: $palette.gray.800
+      neutral:
+        default: $palette.gray.300
+      neutral-muted:
+        default: $palette.gray.200
+      on-image:
+        default: $palette.gray.alpha-50
+      positive:
+        default: $palette.green.600
+
+  dark:
+    bg:
+      brand:
+        default: $palette.carrot.700
+        pressed: $palette.carrot.800
+      brand-weak:
+        default: $palette.carrot.200
+        pressed: $palette.carrot.300
+      danger:
+        default: $palette.red.600
+        pressed: $palette.red.700
+      danger-weak:
+        default: $palette.red.100
+        pressed: $palette.red.200
+      disabled: 
+        default: $palette.gray.200
+      informative:
+        default: $palette.blue.600
+        pressed: $palette.blue.700
+      informative-weak:
+        default: $palette.blue.100
+        pressed: $palette.blue.200
+      layer-basement:
+        default: $palette.gray.100
+      layer-default:
+        default: $palette.gray.00
+        pressed: $palette.gray.200
+      layer-fill:
+        default: $palette.gray.00
+      layer-floating:
+        default: $palette.gray.100
+        pressed: $palette.gray.300
+      magic:
+        default: $palette.purple.600
+        pressed: $palette.purple.700
+      magic-weak:
+        default: $palette.purple.100
+        pressed: $palette.purple.200
+      neutral:
+        default: $palette.gray.900
+        pressed: $palette.gray.800
+      neutral-weak:
+        default: $palette.gray.300
+        pressed: $palette.gray.400
+      overlay:
+        default: $static.black-alpha-500
+      overlay-muted:
+        default: $static.black-alpha-200
+      positive:
+        default: $palette.green.600
+        pressed: $palette.green.500
+      positive-weak:
+        default: $palette.green.100
+        pressed: $palette.green.200
+      text-selection:
+        default: $palette.carrot.100
+      warning:
+        default: $palette.yellow.700
+        pressed: $palette.yellow.800
+      warning-weak:
+        default: $palette.yellow.100
+        pressed: $palette.yellow.200
+    fg:
+      brand:
+        default: $palette.carrot.600
+      brand-contrast:
+        default: $palette.carrot.800
+      danger:
+        default: $palette.red.600
+      danger-contrast:
+        default: $palette.red.900
+      disabled:
+        default: $palette.gray.500
+      informative:
+        default: $palette.blue.700
+      informative-contrast:
+        default: $palette.blue.900
+      magic:
+        default: $palette.purple.700
+      magic-contrast:
+        default: $palette.purple.900
+      neutral:
+        default: $palette.gray.900
+      neutral-inverted:
+        default: $palette.gray.100
+      neutral-muted:
+        default: $palette.gray.800
+      neutral-subtle:
+        default: $palette.gray.700
+      placeholder:
+        default: $palette.gray.600
+      positive:
+        default: $palette.green.600
+      positive-contrast:
+        default: $palette.green.900
+      warning:
+        default: $palette.yellow.700
+      warning-contrast:
+        default: $palette.yellow.900
+    stroke:
+      brand:
+        default: $palette.carrot.600
+      control:
+        default: $palette.gray.400
+      danger:
+        default: $palette.red.600
+      field:
+        default: $palette.gray.400
+        focused: $palette.gray.800
+      neutral:
+        default: $palette.gray.300
+      neutral-muted:
+        default: $palette.gray.200
+      on-image:
+        default: $palette.gray.alpha-50
+      positive:
+        default: $palette.green.600
