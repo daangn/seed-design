@@ -319,6 +319,7 @@ function figmaUnitVarToCssVar(name: string) {
 }
 
 function figmaColorVarToJsVar(name: string) {
+  // biome-ignore lint/correctness/noUnusedVariables: <explanation>
   const [group, colorName] = name.split("/") as [string, string];
 
   return camelCase(colorName, { mergeAmbiguousCharacters: true });
