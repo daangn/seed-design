@@ -10,7 +10,7 @@ interface ApplyMigrateIconsTransformParams {
 
 function applyMigrateIconsTransform({
   input,
-  replaceIconsKeptForNow = false,
+  replaceIconsKeptForNow,
 }: ApplyMigrateIconsTransformParams) {
   const transformResult = applyTransform(
     migrateIcons,
@@ -192,7 +192,7 @@ describe("identifiers: identifier 변경까지 있는 경우", () => {
     expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
       "// some comment
       import { IconPlusSquareLine, IconDothorizline3VerticalFill } from "@daangn/react-icon";
-      
+
       import { IconPlusSquareLine as IconSellAlias } from "@daangn/react-icon";
 
       console.log(IconPlusSquareLine);

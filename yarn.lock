@@ -4874,6 +4874,7 @@ __metadata:
     cac: ^6.7.14
     change-case: ^5.4.4
     csv-parse: ^5.5.6
+    es-toolkit: ^1.25.2
     esbuild: ^0.24.0
     execa: ^9.4.1
     jscodeshift: ^17.0.0
@@ -7990,6 +7991,18 @@ __metadata:
   dependencies:
     is-arrayish: "npm:^0.2.1"
   checksum: c1c2b8b65f9c91b0f9d75f0debaa7ec5b35c266c2cac5de412c1a6de86d4cbae04ae44e510378cb14d032d0645a36925d0186f8bb7367bcc629db256b743a001
+  languageName: node
+  linkType: hard
+
+"es-toolkit@npm:^1.25.2":
+  version: 1.25.2
+  resolution: "es-toolkit@npm:1.25.2"
+  dependenciesMeta:
+    "@trivago/prettier-plugin-sort-imports@4.3.0":
+      unplugged: true
+    prettier-plugin-sort-re-exports@0.0.1:
+      unplugged: true
+  checksum: 55e20e98890b890fb02a64dbc3ce002907a1510bd494b8a26c7785605fa78fcdb6b83d9fb96d1c3d1c4cccc0d385ddc3a06a07336e1193ffd43da217d10c79a9
   languageName: node
   linkType: hard
 

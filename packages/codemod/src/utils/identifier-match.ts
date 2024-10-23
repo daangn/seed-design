@@ -186,12 +186,15 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   },
   IconCarThin: {
     newName: "IconCarFrontsideLine",
+    keepForNow: true,
   },
   IconCarRegular: {
     newName: "IconCarFrontsideLine",
+    keepForNow: true,
   },
   IconCarFill: {
     newName: "IconCarFrontsideFill",
+    keepForNow: true,
   },
   IconCarAroundViewThin: {
     newName: "IconArrowClockwiseOvalLine",
@@ -568,14 +571,17 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   IconDeliveryThin: {
     newName: "IconTruckLine",
     isActionRequired: true,
+    keepForNow: true,
   },
   IconDeliveryRegular: {
     newName: "IconTruckLine",
     isActionRequired: true,
+    keepForNow: true,
   },
   IconDeliveryFill: {
     newName: "IconTruckFill",
     isActionRequired: true,
+    keepForNow: true,
   },
   IconDirectionThin: {
     newName: "IconArrowRightAngledLine",
@@ -804,12 +810,15 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   },
   IconHouseThin: {
     newName: "IconWindow4HouseLine",
+    keepForNow: true,
   },
   IconHouseRegular: {
     newName: "IconWindow4HouseLine",
+    keepForNow: true,
   },
   IconHouseFill: {
     newName: "IconWindow4HouseFill",
+    keepForNow: true,
   },
   IconHousekeepingBookThin: {
     newName: "IconBookLine",
@@ -885,12 +894,15 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   },
   IconJobsThin: {
     newName: "IconPersonMagnifyingglassLine",
+    keepForNow: true,
   },
   IconJobsRegular: {
     newName: "IconPersonMagnifyingglassLine",
+    keepForNow: true,
   },
   IconJobsFill: {
     newName: "IconPersonMagnifyingglassFill",
+    keepForNow: true,
   },
   IconKeyboardHidingThin: {
     newName: "IconKeyboardChevronDownLine",
@@ -1452,12 +1464,15 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   },
   IconRestaurantThin: {
     newName: "IconForkSpoonLine",
+    keepForNow: true,
   },
   IconRestaurantRegular: {
     newName: "IconForkSpoonLine",
+    keepForNow: true,
   },
   IconRestaurantFill: {
     newName: "IconForkSpoonFill",
+    keepForNow: true,
   },
   IconRetryThin: {
     newName: "IconArrowClockwiseCircularLine",
@@ -1542,12 +1557,15 @@ export const identifierMatchReact: MigrateIconsOptions["match"]["identifier"] = 
   },
   IconStoryThin: {
     newName: "IconTriangleRightChatbubbleLeftLine",
+    keepForNow: true,
   },
   IconStoryRegular: {
     newName: "IconTriangleRightChatbubbleLeftLine",
+    keepForNow: true,
   },
   IconStoryFill: {
     newName: "IconTriangleRightChatbubbleLeftFill",
+    keepForNow: true,
   },
   IconStoryArticleThin: {
     newName: "IconDocumentPenLine",

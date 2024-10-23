@@ -1,85 +1,64 @@
-import jscodeshift from "jscodeshift";
+import jscodeshift, { type ImportSpecifier } from "jscodeshift";
 import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import type { Logger } from "winston";
-import { LOG_PREFIX } from "./log.js";
+import { partition } from "es-toolkit";
 
-interface MigrateImportDeclarationsParams {
+interface ReplaceImportDeclarationsParams {
   importDeclarations: jscodeshift.Collection<jscodeshift.ImportDeclaration>;
   match: MigrateIconsOptions["match"];
   logger?: Logger;
   report?: jscodeshift.API["report"];
   filePath: jscodeshift.FileInfo["path"];
+  replaceIconsKeptForNow?: boolean;
 }
 
-export function migrateImportDeclarations({
+export function replaceImportDeclarations({
   importDeclarations,
   match,
   logger,
   report,
   filePath,
-}: MigrateImportDeclarationsParams) {
-  importDeclarations.replaceWith((imp) => {
-    const currentSourceValue = imp.node.source.value;
+  replaceIconsKeptForNow,
+}: ReplaceImportDeclarationsParams) {
+  // biome-ignore lint/complexity/noForEach: <explanation>
+  importDeclarations.forEach((imp) => {
     const currentSpecifiers = imp.node.specifiers;
+    const currentSourceValue = imp.node.source.value;
     const currentImportKind = imp.node.importKind;
     const currentComments = imp.node.comments;
 
-    const newSourceValue = (() => {
-      if (typeof currentSourceValue !== "string") return currentSourceValue;
+    const [specifiersToKeepInCurrentPackage, specifiersToMigrateToNewPackage] = partition(
+      currentSpecifiers,
+      (specifier) =>
+        !replaceIconsKeptForNow &&
+        specifier.type === "ImportSpecifier" &&
+        specifier.imported.name in match.identifier &&
+        match.identifier[specifier.imported.name].keepForNow,
+    );
 
-      const { startsWith, replaceWith } = match.source.find(({ startsWith }) =>
-        currentSourceValue.startsWith(startsWith),
-      );
+    const oldPackageImportDeclaration =
+      replaceIconsKeptForNow || specifiersToKeepInCurrentPackage.length === 0
+        ? null
+        : jscodeshift.importDeclaration(
+            specifiersToKeepInCurrentPackage,
+            jscodeshift.literal(currentSourceValue),
+            currentImportKind,
+          );
 
-      const sourceReplaced = replaceWith
-        ? currentSourceValue.replace(startsWith, replaceWith)
-        : currentSourceValue;
+    if (oldPackageImportDeclaration) {
+      oldPackageImportDeclaration.comments = currentComments;
+    }
 
-      const slashSplits = sourceReplaced.split("/");
-
-      // @seed-design/icon -> @seed-design/react-icon
-      // @seed-design/icon/IconSomething -> @seed-design/react-icon/IconSomething
-      // @seed-design/icon/lib/IconSomething -> @seed-design/react-icon/lib/IconSomething
-      const result = slashSplits
-        .map((split, index) => {
-          if (index !== slashSplits.length - 1 || split in match.identifier === false) return split;
-
-          return match.identifier[split].newName;
-        })
-        .join("/");
-
-      return result;
-    })();
-
-    // import { a, b, c } from "some-package";
-    // a, b, c 각각 ImportSpecifier
-    // imported name: a, b, c, local name: a, b, c
-
-    // import { a as A, b as B, c as C } from "some-package";
-    // a as A, b as B, c as C 각각 ImportSpecifier
-    // imported name: a, b, c, local name: A, B, C
-
-    // import A from "some-package";
-    // A는 ImportDefaultSpecifier
-
-    // import * as A from "some-package";
-    // * as A는 ImportNamespaceSpecifier
-    // A는 local name
-
-    logger?.debug(`${filePath}: source ${currentSourceValue} -> ${newSourceValue}`);
-
-    const newSpecifiers = currentSpecifiers.map((currentSpecifier) => {
+    const newSpecifiers = specifiersToMigrateToNewPackage.map((currentSpecifier) => {
       switch (currentSpecifier.type) {
         case "ImportSpecifier": {
           const currentImportedName = currentSpecifier.imported.name;
 
-          if (
-            currentImportedName in match.identifier === false ||
-            match.identifier[currentImportedName] === null
-          ) {
+          if (currentImportedName in match.identifier === false) {
             const message = `imported specifier ${currentImportedName}에 대한 변환 정보 없음`;
 
             logger?.error(`${filePath}: ${message}`);
+            console.warn(message);
             report?.(message);
 
             return currentSpecifier;
@@ -87,22 +66,23 @@ export function migrateImportDeclarations({
 
           const { newName, isActionRequired } = match.identifier[currentImportedName];
 
-          const hasNoChange = newName === currentImportedName;
-          if (hasNoChange) return currentSpecifier;
+          if (newName !== currentImportedName) {
+            logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newName}`);
+          }
 
-          logger?.debug(`${filePath}: imported name ${currentImportedName} -> ${newName}`);
           if (isActionRequired) {
-            const message = `${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
+            const message = `imported specifier ${currentImportedName}을 ${newName}로 변경했지만, 변경된 아이콘이 적절한지 확인이 필요해요`;
 
             logger?.warn(`${filePath}: ${message}`);
+            console.warn(message);
             report?.(message);
           }
 
-          const newImportedIdentifier = jscodeshift.identifier(newName);
-
-          // local name 유지하는 이유:
-          // import 밑에서 사용되는 실제 변수명은 migrateImportDeclaration에서 다루지 않으므로 바꾸면 곤란
-          return jscodeshift.importSpecifier(newImportedIdentifier, currentSpecifier.local);
+          // local name 유지하는 이유: local name은 replaceIdentifiers에서 처리
+          return jscodeshift.importSpecifier(
+            jscodeshift.identifier(newName),
+            currentSpecifier.local,
+          );
         }
         case "ImportDefaultSpecifier": {
           // import name 없으니 자연스럽게 local name 유지
@@ -127,44 +107,94 @@ export function migrateImportDeclarations({
       );
     });
 
-    const newImportDeclaration = jscodeshift.importDeclaration(
-      newSpecifiersWithoutDuplicates,
-      jscodeshift.literal(newSourceValue),
-      currentImportKind,
-    );
+    const newSourceValue = (() => {
+      if (typeof currentSourceValue !== "string") return currentSourceValue;
 
-    newImportDeclaration.comments = currentComments;
+      const { startsWith, replaceWith } = match.source.find(({ startsWith }) =>
+        currentSourceValue.startsWith(startsWith),
+      );
 
-    return newImportDeclaration;
+      const sourceReplaced = replaceWith
+        ? currentSourceValue.replace(startsWith, replaceWith)
+        : currentSourceValue;
+
+      const slashSplits = sourceReplaced.split("/");
+
+      const result = slashSplits
+        .map((split, index) => {
+          if (index !== slashSplits.length - 1 || split in match.identifier === false) return split;
+
+          if (!replaceIconsKeptForNow && match.identifier[split].keepForNow) {
+            const message = `import source ${currentSourceValue}에 대한 변환 정보가 있지만, 아직 신규 아이콘 패키지에 배포되지 않아 변환하지 않아요`;
+
+            logger?.warn(`${filePath}: ${message}`);
+            console.warn(message);
+            report?.(message);
+
+            return split;
+          }
+
+          return match.identifier[split].newName;
+        })
+        .join("/");
+
+      return result;
+    })();
+
+    const newPackageImportDeclaration =
+      newSpecifiersWithoutDuplicates.length === 0
+        ? null
+        : jscodeshift.importDeclaration(
+            newSpecifiersWithoutDuplicates,
+            jscodeshift.literal(newSourceValue),
+            currentImportKind,
+          );
+
+    if (newPackageImportDeclaration) {
+      newPackageImportDeclaration.comments = currentComments;
+    }
+
+    if (replaceIconsKeptForNow) {
+      jscodeshift(imp).replaceWith(newPackageImportDeclaration);
+      return;
+    }
+
+    jscodeshift(imp).replaceWith([oldPackageImportDeclaration, newPackageImportDeclaration]);
   });
 }
 
-interface MigrateIdentifiersParams {
+interface ReplaceIdentifiersParams {
   identifiers: jscodeshift.Collection<jscodeshift.Identifier>;
   identifierMatch: MigrateIconsOptions["match"]["identifier"];
   logger?: Logger;
   report?: jscodeshift.API["report"];
   filePath: jscodeshift.FileInfo["path"];
+  replaceIconsKeptForNow?: boolean;
 }
 
-export function migrateIdentifiers({
+export function replaceIdentifiers({
   identifiers,
   identifierMatch,
   logger,
-  report,
+  report: _report,
   filePath,
-}: MigrateIdentifiersParams) {
+  replaceIconsKeptForNow,
+}: ReplaceIdentifiersParams) {
   identifiers.replaceWith((identifier) => {
     const currentName = identifier.node.name;
 
-    // unreachable
-    if (currentName in identifierMatch === false) return jscodeshift.identifier(currentName);
-
-    if (identifierMatch[currentName] === null) {
-      const message = `identifier ${currentName}에 대한 변환 정보 없음`;
+    if (currentName in identifierMatch === false) {
+      const message = `identifier ${currentName}에 대한 변환 정보가 없어요`;
 
       logger?.error(`${filePath}: ${message}`);
-      report?.(message);
+
+      return jscodeshift.identifier(currentName);
+    }
+
+    if (!replaceIconsKeptForNow && identifierMatch[currentName].keepForNow) {
+      const message = `identifier ${currentName}에 대한 변환 정보가 있지만, 아직 신규 아이콘 패키지에 배포되지 않아 변환하지 않아요`;
+
+      logger?.warn(`${filePath}: ${message}`);
 
       return jscodeshift.identifier(currentName);
     }

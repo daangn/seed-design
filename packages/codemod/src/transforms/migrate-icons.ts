@@ -1,5 +1,5 @@
 import type { Transform } from "jscodeshift";
-import { migrateIdentifiers, migrateImportDeclarations } from "../utils/replace-node.js";
+import { replaceIdentifiers, replaceImportDeclarations } from "../utils/replace-node.js";
 import { createLogger, format, transports } from "winston";
 import { identifierMatchReact } from "../utils/identifier-match.js";
 
@@ -20,7 +20,7 @@ export interface MigrateIconsOptions {
   replaceIconsKeptForNow?: boolean;
 }
 
-const reactMatch: MigrateIconsOptions["match"] = {
+export const reactMatch: MigrateIconsOptions["match"] = {
   source: [
     { startsWith: "@seed-design/icon", replaceWith: "@daangn/react-icon" },
     { startsWith: "@seed-design/react-icon", replaceWith: "@daangn/react-icon" },
@@ -28,7 +28,15 @@ const reactMatch: MigrateIconsOptions["match"] = {
   identifier: identifierMatchReact,
 };
 
-const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIconsOptions) => {
+const migrateIcons: Transform = (
+  file,
+  api,
+  {
+    match = reactMatch,
+    // XXX: keep for now하기로 결정한 아이콘까지 변경하고 싶으면 true로 배포
+    replaceIconsKeptForNow = false,
+  }: MigrateIconsOptions,
+) => {
   const logger =
     process.env.LOG === "true"
       ? createLogger({
@@ -52,9 +60,6 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
   const j = api.jscodeshift;
   const tree = j(file.source);
 
-  const getFirstNode = () => tree.find(j.Program).get("body", 0).node;
-  const firstNode = getFirstNode();
-
   const importDeclarations = tree.find(j.ImportDeclaration, {
     source: {
       value: (value: unknown) => {
@@ -71,12 +76,13 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
   }
 
   logger?.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
-  migrateImportDeclarations({
+  replaceImportDeclarations({
     importDeclarations,
     match,
     logger,
     report: api.report,
     filePath: file.path,
+    replaceIconsKeptForNow,
   });
 
   logger?.debug(`${file.path}: import문 변환 완료`);
@@ -88,21 +94,16 @@ const migrateIcons: Transform = (file, api, { match = reactMatch }: MigrateIcons
   });
 
   logger?.debug(`${file.path}: identifier ${identifiers.length}개 발견`);
-  migrateIdentifiers({
+  replaceIdentifiers({
     identifiers,
     identifierMatch: match.identifier,
     logger,
     report: api.report,
     filePath: file.path,
+    replaceIconsKeptForNow,
   });
 
   logger?.debug(`${file.path}: identifier 변환 완료`);
-
-  const firstNodeAfterModification = getFirstNode();
-
-  if (firstNode !== firstNodeAfterModification) {
-    firstNodeAfterModification.comments = firstNode.comments;
-  }
 
   logger?.debug(`${file.path}: 확인 완료`);
 
