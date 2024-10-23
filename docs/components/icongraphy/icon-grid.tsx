@@ -7,6 +7,12 @@ export const IconGrid = () => {
   const { iconComponents, iconData, search, setSelectedIcon, selectedIcon } = useIcon();
 
   const onSelect = (iconName: string) => {
+    const isSameIcon = selectedIcon?.name === iconName;
+    if (isSameIcon) {
+      setSelectedIcon(undefined);
+      return;
+    }
+
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("icon", iconName);
     const url = `${window.location.pathname}?${searchParams.toString()}`;
@@ -17,7 +23,15 @@ export const IconGrid = () => {
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(56px,1fr))] gap-4">
       {Object.keys(iconComponents).map((iconName) => {
-        const IconComponent = iconComponents[iconName];
+        const IconComponent = iconComponents[iconName] as React.ForwardRefExoticComponent<
+          Omit<
+            React.SVGProps<SVGSVGElement> & {
+              size?: number | string;
+            },
+            "ref"
+          > &
+            React.RefAttributes<SVGSVGElement>
+        >;
         const snakeCaseIconName = changeCase.snakeCase(iconName);
         const isSelected = selectedIcon?.name === snakeCaseIconName;
         const metadataString = iconData[snakeCaseIconName].metadatas.join(", ");
@@ -30,10 +44,10 @@ export const IconGrid = () => {
           <div
             onClick={() => onSelect(snakeCaseIconName)}
             key={iconName}
-            className={`aspect-square rounded-md flex items-center justify-center ${isSelected ? "hover:bg-[#ffe8db]" : "hover:bg-gray-200"} cursor-pointer transition-colors ${isSelected ? "bg-[#fff2ec]" : "bg-gray-100"}`}
+            className={`aspect-square rounded-md flex items-center justify-center ${isSelected ? "hover:bg-seed-bg-brand-weak-pressed" : "hover:bg-seed-bg-layer-default-pressed"} cursor-pointer transition-colors ${isSelected ? "bg-seed-bg-brand-weak" : "bg-seed-bg-layer-default"}`}
             data-metadatas={metadataString}
           >
-            <IconComponent />
+            <IconComponent className="text-seed-" />
           </div>
         );
       })}

@@ -1,4 +1,5 @@
 import { createPreset } from "fumadocs-ui/tailwind-plugin";
+import seedTheme from "./seed-tailwind-theme.mjs";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,5 +10,6 @@ export default {
     "./mdx-components.{ts,tsx}",
     "../node_modules/fumadocs-ui/dist/**/*.js",
   ],
+  theme: seedTheme,
   presets: [createPreset()],
 };

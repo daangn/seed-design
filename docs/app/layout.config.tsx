@@ -38,6 +38,7 @@ export const docsOptions: DocsLayoutProps = {
     transparentMode: "none",
     children: undefined,
   },
+
   sidebar: {
     banner: (
       <RootToggle

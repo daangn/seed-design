@@ -1,11 +1,12 @@
 "use client";
 
-import "./global.css";
 import "@seed-design/stylesheet/global.css";
 import "@seed-design/stylesheet/token.css";
 import "@stackflow/plugin-basic-ui/index.css";
 import "simple-reveal/index.css";
+import "./global.css";
 
+import { useThemeSync } from "@/hooks/useThemeSync";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
@@ -17,6 +18,7 @@ const inter = Inter({
 const SearchDialog = () => <></>; // Temporal no-op component
 
 export default function Layout({ children }: { children: ReactNode }) {
+  useThemeSync();
   return (
     <html
       lang="en"
