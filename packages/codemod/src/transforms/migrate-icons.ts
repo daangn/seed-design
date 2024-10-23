@@ -2,6 +2,7 @@ import type { Transform } from "jscodeshift";
 import { replaceIdentifiers, replaceImportDeclarations } from "../utils/replace-node.js";
 import { createLogger, format, transports } from "winston";
 import { identifierMatchReact } from "../utils/identifier-match.js";
+import { intersection, uniq } from "es-toolkit";
 
 export interface MigrateIconsOptions {
   match?: {
@@ -60,6 +61,12 @@ const migrateIcons: Transform = (
   const j = api.jscodeshift;
   const tree = j(file.source);
 
+  const allOldKeys = Object.keys(match.identifier);
+  const allNewTargets = uniq(Object.values(match.identifier).map(({ newName }) => newName));
+  const namesThatAppearOnOldAndNew = intersection(allOldKeys, allNewTargets).filter(
+    (name) => match.identifier[name].newName !== name,
+  );
+
   const importDeclarations = tree.find(j.ImportDeclaration, {
     source: {
       value: (value: unknown) => {
@@ -73,6 +80,37 @@ const migrateIcons: Transform = (
   if (importDeclarations.length === 0) {
     logger?.debug(`${file.path}: 이 파일에는 import문 없음`);
     return file.source;
+  }
+
+  const specifiersFoundInImportDeclarationsAppearOnOldAndNew = importDeclarations.find(
+    j.ImportSpecifier,
+    { imported: { name: (value) => namesThatAppearOnOldAndNew.includes(value) } },
+  );
+
+  if (specifiersFoundInImportDeclarationsAppearOnOldAndNew.length > 0) {
+    const specifiersFound = specifiersFoundInImportDeclarationsAppearOnOldAndNew
+      .nodes()
+      .map((node) => node.imported.name);
+
+    const mapWithOldName = specifiersFound
+      .map((specifier) => `구 ${specifier} -> 신 ${match.identifier[specifier].newName}`)
+      .join("\n");
+
+    const matchWithNewName = Object.entries(match.identifier).filter(([_, value]) =>
+      specifiersFound.includes(value.newName),
+    );
+
+    const mapWithNewName = matchWithNewName
+      .map(([oldName, value]) => `구 ${oldName} -> 신 ${value.newName}`)
+      .join("\n");
+
+    const message = `${specifiersFound.join(", ")}이 사용되고 있어요. 이 이름은 구 패키지에도 있고 신 패키지에도 있지만, 서로 다른 아이콘을 나타내기 때문에 여러 아이콘이 함께 쓰인 경우 확인이 필요해요.
+    ${mapWithOldName}
+    ${mapWithNewName}`;
+
+    api.report?.(message);
+    logger?.warn(`${file.path}: ${message}`);
+    console.warn(message);
   }
 
   logger?.debug(`${file.path}: import문 ${importDeclarations.length}개 발견`);
