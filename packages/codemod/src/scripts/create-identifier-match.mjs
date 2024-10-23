@@ -24,31 +24,44 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
       fill: `${pascalCase(value)}Fill`,
     };
 
-    if (
-      pascalValue.line in availableIcons === false ||
-      pascalValue.fill in availableIcons === false
-    ) {
-      console.error(`"${value}" is not available in @daangn/react-icon`);
+    const isAvailableNow = pascalValue.line in availableIcons && pascalValue.fill in availableIcons;
+
+    if (!isAvailableNow) {
+      console.warn(
+        `"${key}" -> "${value}" is not available in @daangn/react-icon. Set keepForNow: true`,
+      );
     }
 
     newEntries.push([
       `${pascalKey}Thin`,
-      { newName: pascalValue.line, ...(isActionRequired && { isActionRequired }) },
+      {
+        newName: pascalValue.line,
+        ...(isActionRequired && { isActionRequired }),
+        ...(!isAvailableNow && { keepForNow: true }),
+      },
     ]);
     newEntries.push([
       `${pascalKey}Regular`,
-      { newName: pascalValue.line, ...(isActionRequired && { isActionRequired }) },
+      {
+        newName: pascalValue.line,
+        ...(isActionRequired && { isActionRequired }),
+        ...(!isAvailableNow && { keepForNow: true }),
+      },
     ]);
     newEntries.push([
       `${pascalKey}Fill`,
-      { newName: pascalValue.fill, ...(isActionRequired && { isActionRequired }) },
+      {
+        newName: pascalValue.fill,
+        ...(isActionRequired && { isActionRequired }),
+        ...(!isAvailableNow && { keepForNow: true }),
+      },
     ]);
   }
 
   const identifierMap = Object.fromEntries(newEntries);
 
   fs.writeFileSync(
-    path.join(path.dirname(filePath), "identifier-map.json.log"),
+    path.join(path.dirname(filePath), "identifier-match.json.log"),
     JSON.stringify(identifierMap, null, 2),
   );
 });

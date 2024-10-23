@@ -13,9 +13,11 @@ export interface MigrateIconsOptions {
       [oldName: string]: {
         newName: string;
         isActionRequired?: boolean;
+        keepForNow?: boolean;
       };
     };
   };
+  replaceIconsKeptForNow?: boolean;
 }
 
 const reactMatch: MigrateIconsOptions["match"] = {

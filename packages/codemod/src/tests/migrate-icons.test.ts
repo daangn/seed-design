@@ -1,61 +1,21 @@
-import migrateIcons from "../transforms/migrate-icons.js";
+import migrateIcons, { reactMatch } from "../transforms/migrate-icons.js";
 import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import { describe, expect, test } from "vitest";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 
-const testMatch: MigrateIconsOptions["match"] = {
-  source: [
-    { startsWith: "@seed-design/icon", replaceWith: "@seed-design/react-icon" },
-    { startsWith: "@seed-design/react-icon" },
-  ],
-  identifier: {
-    OldIcon0Thin: null,
-    OldIcon0Regular: null,
-    OldIcon0Fill: null,
+interface ApplyMigrateIconsTransformParams {
+  input: string;
+  replaceIconsKeptForNow?: boolean;
+}
 
-    OldIcon1Thin: { newName: "NewIcon1Line" },
-    OldIcon1Regular: { newName: "NewIcon1Line" },
-    OldIcon1Fill: { newName: "NewIcon1Fill" },
-
-    OldIcon2Thin: { newName: "NewIcon2Line" },
-    OldIcon2Regular: { newName: "NewIcon2Line" },
-    OldIcon2Fill: { newName: "NewIcon2Fill" },
-
-    OldIcon3Thin: { newName: "NewIcon3Line" },
-    OldIcon3Regular: { newName: "NewIcon3Line" },
-    OldIcon3Fill: { newName: "NewIcon3Fill" },
-
-    OldIcon4Thin: { newName: "NewIcon4Line" },
-    OldIcon4Regular: { newName: "NewIcon4Line" },
-    OldIcon4Fill: { newName: "NewIcon4Fill" },
-
-    OldIcon5Thin: { newName: "NewIcon5Line" },
-    OldIcon5Regular: { newName: "NewIcon5Line" },
-    OldIcon5Fill: { newName: "NewIcon5Fill" },
-
-    OldIcon6Thin: { newName: "NewIcon6Line" },
-    OldIcon6Regular: { newName: "NewIcon6Line" },
-    OldIcon6Fill: { newName: "NewIcon6Fill" },
-
-    OldIcon7Thin: { newName: "NewIcon7Line" },
-    OldIcon7Regular: { newName: "NewIcon7Line" },
-    OldIcon7Fill: { newName: "NewIcon7Fill" },
-
-    OldIcon8Thin: { newName: "NewIcon8Line" },
-    OldIcon8Regular: { newName: "NewIcon8Line" },
-    OldIcon8Fill: { newName: "NewIcon8Fill" },
-
-    OldIcon9Thin: { newName: "NewIcon9Line", isActionRequired: true },
-    OldIcon9Regular: { newName: "NewIcon9Line", isActionRequired: true },
-    OldIcon9Fill: { newName: "NewIcon9Fill", isActionRequired: true },
-  },
-};
-
-function applyMigrateIconsTransform(source: string) {
+function applyMigrateIconsTransform({
+  input,
+  replaceIconsKeptForNow = false,
+}: ApplyMigrateIconsTransformParams) {
   const transformResult = applyTransform(
     migrateIcons,
-    { match: testMatch },
-    { path: "path/to/file", source },
+    { match: reactMatch, replaceIconsKeptForNow },
+    { path: "path/to/file", source: input },
     { parser: "tsx" },
   );
 
@@ -66,7 +26,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
   test("import 없음", () => {
     const input = `console.log("Hello, world!", OldIcon1Thin);`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(
       `"console.log("Hello, world!", OldIcon1Thin);"`,
     );
   });
@@ -84,7 +44,7 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
     }
 		`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
       "import { OldIcon1Thin, OldIcon2Thin } from "unrelated-package";
       		import { OldIcon3Thin as Icon3Alias } from "another-unrelated-package";
       		import OldIcon4Thin from "yet-another-unrelated-package/OldIcon4Thin";
@@ -97,353 +57,364 @@ describe("어떤 변경도 일어나면 안 되는 경우", () => {
           }"
     `);
   });
+});
 
-  test("import source match 있지만 변경할 필요 없고, importSpecifier length 0 (unlikely)", () => {
-    const input = `import "@seed-design/react-icon";`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import "@seed-design/react-icon";"`,
-    );
-  });
-
-  test("import source match 있지만 변경할 필요 없고, importSpecifier length 1+지만 match 없음 (unlikely)", () => {
-    const input = `import { IconNotMatched } from "@seed-design/react-icon";
-		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/react-icon";
+describe("importDeclaration: import source에만 변경 있는 경우", () => {
+  test("패키지명 변경 필요 있고, importSpecifier length 1+지만 match 없음 (unlikely)", () => {
+    const input = `import { IconNotMatched } from "@seed-design/icon";
+		import { IconNotMatched as IconNotMatchedAlias } from "@seed-design/icon";
 		import type { IconType } from "@seed-design/react-icon";
 		import { type IconType2 } from "@seed-design/react-icon";
 		`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { IconNotMatched } from "@seed-design/react-icon";
-      		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/react-icon";
-      		import type { IconType } from "@seed-design/react-icon";
-      		import { type IconType2 } from "@seed-design/react-icon";"
-    `);
-  });
-});
-
-describe("importDeclaration: import source에만 변경 있는 경우", () => {
-  test("패키지명 변경 필요 있지만, importSpecifier length 0 (unlikely)", () => {
-    const input = `import "@seed-design/icon";`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import "@seed-design/react-icon";"`,
-    );
-  });
-
-  test("패키지명 변경 필요 있지만, importSpecifier length 0 (첫 줄에 주석 있음, unlikely)", () => {
-    const input = `// some comment
-
-		import "@seed-design/icon";
-		`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "// some comment
-      
-      		import "@seed-design/react-icon";"
-    `);
-  });
-
-  test("패키지명 변경 필요 있고, importSpecifier length 1+지만 match 없음 (unlikely)", () => {
-    const input = `import { IconNotMatched } from "@seed-design/icon";
-		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/icon";
-		import type { IconType } from "@seed-design/icon";
-		import { type IconType2 } from "@seed-design/icon";
-		`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { IconNotMatched } from "@seed-design/react-icon";
-      		import { IconNotMatched2 as IconNotMatched2Alias } from "@seed-design/react-icon";
-      		import type { IconType } from "@seed-design/react-icon";
-      		import { type IconType2 } from "@seed-design/react-icon";"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconNotMatched } from "@daangn/react-icon";
+      import { IconNotMatched as IconNotMatchedAlias } from "@daangn/react-icon";
+      import type { IconType } from "@daangn/react-icon";
+      import { type IconType2 } from "@daangn/react-icon";"
     `);
   });
 
   test("패키지명 변경 필요 있고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 없음 (deep import, unlikely)", () => {
     const input = `import IconNotMatched from "@seed-design/icon/IconNotMatched";
-		import IconNotMatched2 from "@seed-design/icon/dist/lib/test/somewhat/IconNotMatched2";`;
+		import IconNotMatched2 from "@seed-design/react-icon/dist/lib/test/somewhat/IconNotMatched2";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import IconNotMatched from "@seed-design/react-icon/IconNotMatched";
-      		import IconNotMatched2 from "@seed-design/react-icon/dist/lib/test/somewhat/IconNotMatched2";"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import IconNotMatched from "@daangn/react-icon/IconNotMatched";
+      import IconNotMatched2 from "@daangn/react-icon/dist/lib/test/somewhat/IconNotMatched2";"
     `);
   });
 
   test("패키지명 변경 필요 없지만 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 없음 (deep import, unlikely)", () => {
-    const input = `import IconNotMatched from "@seed-design/react-icon/OldIcon3Thin";`;
+    const input = `import IconNotMatched from "@seed-design/react-icon/IconUndoFill";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import IconNotMatched from "@seed-design/react-icon/NewIcon3Line";"`,
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(
+      `"import IconNotMatched from "@daangn/react-icon/IconArrowUturnLeftFill";"`,
     );
   });
 
   test("패키지명 변경 필요 있지만 importNamespaceSpecifier", () => {
-    const input = `import * as Icons from "@seed-design/icon";`;
+    const input = `import * as Icons from "@seed-design/icon";
+    import * as Icons2 from "@seed-design/react-icon";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import * as Icons from "@seed-design/react-icon";"`,
-    );
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import * as Icons from "@daangn/react-icon";
+      import * as Icons2 from "@daangn/react-icon";"
+    `);
   });
 });
 
 describe("importDeclaration: import source와 specifier 모두 변경 있는 경우", () => {
   test("[가장 일반적] 패키지명에 변경 필요하고, specifier match 있음", () => {
-    const input = `import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
-    import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
-    import { OldIcon4Thin } from "@seed-design/icon";`;
+    const input = `import { IconSortThin, IconSellRegular } from "@seed-design/icon";
+    import { IconListFill as IconListAlias } from "@seed-design/icon";
+    import { IconChartRegular } from "@seed-design/icon";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
-          import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
-          import { NewIcon4Line } from "@seed-design/react-icon";"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconArrowUpArrowDownLine, IconPlusSquareLine } from "@daangn/react-icon";
+      import { IconDothorizline3VerticalFill as IconListAlias } from "@daangn/react-icon";
+      import { IconBarchartSquareLine } from "@daangn/react-icon";"
     `);
   });
 
   test("[가장 일반적] 패키지명에 변경 필요하고, importDefaultSpecifier이지만, 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
-    const input = `import OldIcon1Thin from "@seed-design/icon/OldIcon1Thin";
-		import OldIcon2Thin from "@seed-design/icon/dist/lib/test/somewhat/OldIcon2Thin";`;
+    const input = `import IconListRegular from "@seed-design/icon/IconListRegular";
+		import IconSellThin from "@seed-design/icon/dist/lib/test/somewhat/IconSellThin";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import NewIcon1Line from "@seed-design/react-icon/NewIcon1Line";
-      		import NewIcon2Line from "@seed-design/react-icon/dist/lib/test/somewhat/NewIcon2Line";"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import IconDothorizline3VerticalLine from "@daangn/react-icon/IconDothorizline3VerticalLine";
+      import IconPlusSquareLine from "@daangn/react-icon/dist/lib/test/somewhat/IconPlusSquareLine";"
     `);
   });
-
-  test("[가장 일반적] 패키지명 변경 필요 없지만 deep import라 하위 경로 변경 필요하고, importDefaultSpecifier에 사용된 local specifier가 identifier와 match 있는 경우 (deep import)", () => {
-    const input = `import OldIcon3Thin from "@seed-design/react-icon/OldIcon3Thin";`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import NewIcon3Line from "@seed-design/react-icon/NewIcon3Line";"`,
-    );
-  });
-});
-
-describe("importDeclaration: import specifier에만 변경 있는 경우", () => {
-  test("[가장 일반적] 패키지명 변경할 필요 없지만, specifier match 있음", () => {
-    const input = `import { OldIcon3Thin } from "@seed-design/react-icon";`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import { NewIcon3Line } from "@seed-design/react-icon";"`,
-    );
-  });
-
-  // deep import인 경우 import source만 변경되거나, import source와 specifier 모두 변경되어야 함
 });
 
 describe("identifiers: identifier 변경까지 있는 경우", () => {
   test("source match와 identifier match 있는 경우", () => {
-    const input = `import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
+    const input = `import { IconSellRegular, IconListFill } from "@seed-design/icon";
 
-    console.log(OldIcon1Thin);
+    console.log(IconSellRegular);
 
-    return OldIcon2Thin;`;
+    return IconListFill;`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconPlusSquareLine, IconDothorizline3VerticalFill } from "@daangn/react-icon";
 
-          console.log(NewIcon1Line);
+      console.log(IconPlusSquareLine);
 
-          return NewIcon2Line;"
+      return IconDothorizline3VerticalFill;"
     `);
   });
 
   test("source match와 identifier match 있는 경우 (jsx)", () => {
-    const input = `import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
-		import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
+    const input = `import { IconSellRegular, IconListFill } from "@seed-design/icon";
+		import { IconSellThin as IconSellAlias } from "@seed-design/icon";
 		
-		console.log(OldIcon1Thin);
+		console.log(IconSellRegular);
 		
     function test() {
       return <div>
-        <OldIcon2Thin />
-        <Icon3Alias />
+        <IconListFill />
+        <IconSellAlias />
       </div>;
     }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
-      		import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
-      		
-      		console.log(NewIcon1Line);
-      		
-          function test() {
-            return (
-              <div>
-                <NewIcon2Line />
-                <Icon3Alias />
-              </div>
-            );
-          }"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconPlusSquareLine, IconDothorizline3VerticalFill } from "@daangn/react-icon";
+      import { IconPlusSquareLine as IconSellAlias } from "@daangn/react-icon";
+
+      console.log(IconPlusSquareLine);
+
+      function test() {
+        return (
+          <div>
+            <IconDothorizline3VerticalFill />
+            <IconSellAlias />
+          </div>
+        );
+      }"
     `);
   });
 
   test("source match와 identifier match 있는 경우 (jsx, 첫 줄에 주석 있음)", () => {
     const input = `// some comment
+    import { IconSellRegular, IconListFill } from "@seed-design/icon";
+		import { IconSellThin as IconSellAlias } from "@seed-design/icon";
 		
-		import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
-		import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
-		
-		console.log(OldIcon1Thin);
+		console.log(IconSellRegular);
 		
     function test() {
-      return (<div>
-        <OldIcon2Thin />
-        <Icon3Alias />
-      </div>);
+      return <div>
+        <IconListFill />
+        <IconSellAlias />
+      </div>;
     }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
       "// some comment
-      		
-      		import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
-      		import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
-      		
-      		console.log(NewIcon1Line);
-      		
-          function test() {
-            return (
-              (<div>
-                <NewIcon2Line />
-                <Icon3Alias />
-              </div>)
-            );
-          }"
+      import { IconPlusSquareLine, IconDothorizline3VerticalFill } from "@daangn/react-icon";
+      
+      import { IconPlusSquareLine as IconSellAlias } from "@daangn/react-icon";
+
+      console.log(IconPlusSquareLine);
+
+      function test() {
+        return (
+          <div>
+            <IconDothorizline3VerticalFill />
+            <IconSellAlias />
+          </div>
+        );
+      }"
     `);
   });
 
   test("source match와 identifier match 있는 경우 (jsx, 첫 줄에 directive 있음)", () => {
     const input = `"use client";
-
-		import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
-		import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
+    
+    import { IconSellRegular, IconListFill } from "@seed-design/icon";
+		import { IconSellThin as IconSellAlias } from "@seed-design/icon";
 		
-		console.log(OldIcon1Thin);
+		console.log(IconSellRegular);
 		
     function test() {
-		return (<div>
-			<OldIcon2Thin />
-			<Icon3Alias />
-    </div>);
+      return <div>
+        <IconListFill />
+        <IconSellAlias />
+      </div>;
     }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      ""use client";
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      ""use client";;
+      import { IconPlusSquareLine, IconDothorizline3VerticalFill } from "@daangn/react-icon";
+      import { IconPlusSquareLine as IconSellAlias } from "@daangn/react-icon";
 
-      		import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
-      		import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
-      		
-      		console.log(NewIcon1Line);
-      		
-          function test() {
-      		return (
-                  (<div>
-                      <NewIcon2Line />
-                      <Icon3Alias />
-                  </div>)
-              );
-          }"
+      console.log(IconPlusSquareLine);
+
+      function test() {
+        return (
+          <div>
+            <IconDothorizline3VerticalFill />
+            <IconSellAlias />
+          </div>
+        );
+      }"
     `);
   });
 
   test("패키지명 변경 필요하고, importNamespaceSpecifier", () => {
     const input = `import * as Icons from "@seed-design/icon";
     
-    console.log(Icons.OldIcon1Thin);`;
+    console.log(Icons.IconSellRegular);`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import * as Icons from "@seed-design/react-icon";
-          
-          console.log(Icons.NewIcon1Line);"
-    `);
-  });
-});
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import * as Icons from "@daangn/react-icon";
 
-describe("identifiers: identifier 변경만 있는 경우", () => {
-  test("패키지명 변경 필요 없고, importNamespaceSpecifier", () => {
-    const input = `import * as Icons from "@seed-design/react-icon";
-    
-    console.log(Icons.OldIcon1Thin);`;
-
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import * as Icons from "@seed-design/react-icon";
-          
-          console.log(Icons.NewIcon1Line);"
+      console.log(Icons.IconPlusSquareLine);"
     `);
   });
 });
 
 describe("n:1 매핑", () => {
   test("n:1 매핑", () => {
-    const input = `import { OldIcon1Thin, OldIcon1Regular, OldIcon1Fill } from "@seed-design/icon";`;
+    const input = `import { IconSellThin, IconSellRegular, IconSellFill } from "@seed-design/icon";`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import { NewIcon1Line, NewIcon1Fill } from "@seed-design/react-icon";"`,
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(
+      `"import { IconPlusSquareLine, IconPlusSquareFill } from "@daangn/react-icon";"`,
     );
   });
 
   test("n:1 매핑 with identifiers", () => {
-    const input = `import { OldIcon1Thin, OldIcon1Regular, OldIcon1Fill, OldIcon2Thin, OldIcon2Regular, OldIcon3Fill } from "@seed-design/icon";
+    const input = `import {
+      IconSellThin,
+      IconSellRegular,
+      IconSellFill,
+      IconCertificationThin,
+      IconCertificationRegular,
+      IconCertificationFill
+    } from "@seed-design/icon";
     
-    console.log(OldIcon1Thin);
+    console.log(IconSellFill);
     
     function test() {
       return (<div>
-        <OldIcon1Regular />
-        <OldIcon1Thin />
-        <OldIcon3Fill />
-        <OldIcon2Thin />
+        <IconSellThin />
+        <IconSellRegular />
+        <IconCertificationRegular />
+        <IconCertificationFill />
       </div>);
     }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
-      "import { NewIcon1Line, NewIcon1Fill, NewIcon2Line, NewIcon3Fill } from "@seed-design/react-icon";
-          
-          console.log(NewIcon1Line);
-          
-          function test() {
-            return (
-              (<div>
-                <NewIcon1Line />
-                <NewIcon1Line />
-                <NewIcon3Fill />
-                <NewIcon2Line />
-              </div>)
-            );
-          }"
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import {
+        IconPlusSquareLine,
+        IconPlusSquareFill,
+        IconCrosshairLine,
+        IconCrosshairFill,
+      } from "@daangn/react-icon";
+
+      console.log(IconPlusSquareFill);
+
+      function test() {
+        return (
+          (<div>
+            <IconPlusSquareLine />
+            <IconPlusSquareLine />
+            <IconCrosshairLine />
+            <IconCrosshairFill />
+          </div>)
+        );
+      }"
     `);
   });
 });
 
-describe("삭제되는 아이콘", () => {
-  test("완전히 대응 없음", () => {
-    const input = `import { OldIcon0Fill, OldIcon1Fill } from "@seed-design/icon";`;
+describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정된 경우", () => {
+  test("확인 필요함 (action required)", () => {
+    const input = `import { IconSuggestRegular } from "@seed-design/icon";
+    
+    function test() {
+      return <IconSuggestRegular />;
+    }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(
-      `"import { OldIcon0Fill, NewIcon1Fill } from "@seed-design/react-icon";"`,
-    );
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconLightbulbDot5Line } from "@daangn/react-icon";
+
+      function test() {
+        return <IconLightbulbDot5Line />;
+      }"
+    `);
   });
 
-  test("대응 있지만, action required", () => {
-    const input = `import { OldIcon9Thin, OldIcon9Regular, OldIcon9Fill } from "@seed-design/icon";`;
+  test("변환 정보 있지만, 변환하지 않고 유지 (단독 사용)", () => {
+    const input = `import { IconCarRegular } from "@seed-design/icon";
+    
+    function test() {
+      return <IconCarRegular />;
+    }`;
 
-    expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`"import { NewIcon9Line, NewIcon9Fill } from "@seed-design/react-icon";"`);
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconCarRegular } from "@seed-design/icon";
+
+      function test() {
+        return <IconCarRegular />;
+      }"
+    `);
+  });
+
+  test("변환 정보 있지만, 변환하지 않고 유지 (섞인 경우)", () => {
+    const input = `import { IconCarRegular, IconCarThin, IconJobsFill, IconSellRegular } from "@seed-design/icon";
+    import IconRestaurantThin from "@seed-design/react-icon/lib/IconRestaurantThin";
+    
+    export function test() {
+      return (<div>
+        <IconCarRegular />
+        <IconCarThin />
+        <IconJobsFill />
+        <IconSellRegular />
+      </div>);}`;
+
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import { IconCarRegular, IconCarThin, IconJobsFill } from "@seed-design/icon";
+      import { IconPlusSquareLine } from "@daangn/react-icon";
+      import IconRestaurantThin from "@daangn/react-icon/lib/IconRestaurantThin";
+
+      export function test() {
+        return (
+          (<div>
+            <IconCarRegular />
+            <IconCarThin />
+            <IconJobsFill />
+            <IconPlusSquareLine />
+          </div>)
+        );}"
+    `);
+  });
+
+  test("이전에 유지하기로 했었던 아이콘까지 replace", () => {
+    const input = `import { IconCarRegular, IconCarThin, IconJobsFill, IconSellRegular } from "@seed-design/icon";
+    
+    export function test() {
+      return (<div>
+        <IconCarRegular />
+        <IconCarThin />
+        <IconJobsFill />
+        <IconSellRegular />
+      </div>);}`;
+
+    expect(
+      applyMigrateIconsTransform({ input, replaceIconsKeptForNow: true }),
+    ).toMatchInlineSnapshot(`
+      "import { IconCarFrontsideLine, IconPersonMagnifyingglassFill, IconPlusSquareLine } from "@daangn/react-icon";
+          
+          export function test() {
+            return (
+              (<div>
+                <IconCarFrontsideLine />
+                <IconCarFrontsideLine />
+                <IconPersonMagnifyingglassFill />
+                <IconPlusSquareLine />
+              </div>)
+            );}"
+    `);
   });
 });
 
 test("comments 유지", () => {
   const input = `// comment
-    import { OldIcon1Thin, OldIcon2Thin } from "@seed-design/icon";
+    import { IconArrowUpwardThin, IconArrowDownwardFill } from "@seed-design/icon";
     // comment
-    import { OldIcon3Thin as Icon3Alias } from "@seed-design/icon";
+    import { IconSellRegular as IconAlias } from "@seed-design/icon";
     // comment
-    import { OldIcon4Thin } from "@seed-design/icon";`;
+    import { IconLocationRegular } from "@seed-design/icon";`;
 
-  expect(applyMigrateIconsTransform(input)).toMatchInlineSnapshot(`
+  expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
     "// comment
-        import { NewIcon1Line, NewIcon2Line } from "@seed-design/react-icon";
-        // comment
-        import { NewIcon3Line as Icon3Alias } from "@seed-design/react-icon";
-        // comment
-        import { NewIcon4Line } from "@seed-design/react-icon";"
+    import { IconArrowUpLine, IconArrowDownFill } from "@daangn/react-icon";
+
+    // comment
+    import { IconPlusSquareLine as IconAlias } from "@daangn/react-icon";
+
+    // comment
+    import { IconLocationpinLine } from "@daangn/react-icon";"
   `);
 });
