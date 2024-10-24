@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/checkbox.vars";
+import { checkbox as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 import { active, checked, disabled, pseudo } from "./pseudo";
 

@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/chip-tablist.vars";
+import { chipTablist as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 
 const chipTabs = defineRecipe({

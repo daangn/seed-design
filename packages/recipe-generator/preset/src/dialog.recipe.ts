@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/dialog.vars";
+import { dialog as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 
 const dialog = defineRecipe({

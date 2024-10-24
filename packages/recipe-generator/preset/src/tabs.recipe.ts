@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/tablist.vars";
+import { tablist as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 
 const tabs = defineRecipe({

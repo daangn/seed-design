@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/expand-button.vars";
+import { expandButton as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 import { disabled, focus, active, pseudo } from "./pseudo";
 

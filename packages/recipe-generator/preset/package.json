@@ -21,15 +21,13 @@
   ],
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
-    "generate": "yarn generate-vars ./src/__generated__",
     "build": "yarn build:style",
-    "build:style": "yarn generate && nanobundle build"
+    "build:style": "nanobundle build"
   },
   "dependencies": {
     "@seed-design/recipe-generator-core": "0.0.0"
   },
   "devDependencies": {
-    "@seed-design/component-spec-cli": "0.0.0",
     "nanobundle": "^1.6.0"
   },
   "publishConfig": {

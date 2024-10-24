@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/tab.vars";
+import { tab as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 import { disabled, pseudo, selected } from "./pseudo";
 

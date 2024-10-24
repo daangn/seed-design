@@ -1,0 +1,52 @@
+{
+  "name": "@seed-design/vars",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/vars"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.cjs",
+      "import": "./lib/index.mjs"
+    },
+    "./color": {
+      "types": "./lib/color/index.d.ts",
+      "require": "./lib/color/index.cjs",
+      "import": "./lib/color/index.mjs"
+    },
+    "./component": {
+      "types": "./lib/component/index.d.ts",
+      "require": "./lib/component/index.cjs",
+      "import": "./lib/component/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "prepack": "rm -rf lib && yarn build",
+    "generate:component": "yarn generate-vars ./src/component",
+    "build": "yarn build:style",
+    "build:style": "yarn generate:component && nanobundle build"
+  },
+  "devDependencies": {
+    "@seed-design/component-spec-cli": "0.0.0",
+    "nanobundle": "^1.6.0"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}

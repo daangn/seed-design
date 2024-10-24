@@ -1,6 +1,6 @@
+import { controlChip as vars } from "@seed-design/vars/component";
 import { rem } from "@seed-design/recipe-generator-core";
 
-import { vars } from "./__generated__/control-chip.vars";
 import { defineRecipe } from "./helper";
 import { active, checked, disabled, focus, pseudo } from "./pseudo";
 

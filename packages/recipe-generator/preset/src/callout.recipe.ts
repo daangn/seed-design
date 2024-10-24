@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/callout.vars";
+import { callout as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 
 export const callout = defineRecipe({

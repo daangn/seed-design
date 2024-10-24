@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/chip-tab.vars";
+import { chipTab as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 import { pseudo, selected, active, disabled, not } from "./pseudo";
 
