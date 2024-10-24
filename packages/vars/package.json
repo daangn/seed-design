@@ -1,0 +1,45 @@
+{
+  "name": "@seed-design/vars",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/vars"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.cjs",
+      "import": "./lib/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "prepack": "rm -rf lib && yarn build",
+    "generate-vars:component": "yarn generate-vars ./src/component/__generated__",
+    "build": "yarn build:style",
+    "build:style": "nanobundle build"
+  },
+  "dependencies": {
+    "@seed-design/recipe-generator-core": "0.0.0"
+  },
+  "devDependencies": {
+    "@seed-design/component-spec-cli": "0.0.0",
+    "nanobundle": "^1.6.0"
+  },
+  "ultra": {
+    "concurrent": [
+      "dev",
+      "build"
+    ]
+  }
+}

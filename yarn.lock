@@ -4594,6 +4594,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@seed-design/vars@workspace:packages/vars":
+  version: 0.0.0-use.local
+  resolution: "@seed-design/vars@workspace:packages/vars"
+  dependencies:
+    "@seed-design/component-spec-cli": 0.0.0
+    "@seed-design/recipe-generator-core": 0.0.0
+    nanobundle: ^1.6.0
+  languageName: unknown
+  linkType: soft
+
 "@shikijs/core@npm:1.22.0":
   version: 1.22.0
   resolution: "@shikijs/core@npm:1.22.0"
