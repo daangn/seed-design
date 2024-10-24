@@ -62,6 +62,16 @@
 .controlChip__suffixIcon:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-v3-color-fg-disabled);
 }
+.controlChip__icon {
+    display: inline-flex;
+    color: var(--seed-v3-color-fg-neutral);
+}
+.controlChip__icon:is(:checked, [data-checked]) {
+    color: var(--seed-v3-color-fg-brand);
+}
+.controlChip__icon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-v3-color-fg-disabled);
+}
 .controlChip__root--size_medium {
     min-height: var(--seed-v3-unit-9);
     padding-block: var(--seed-v3-unit-2);
