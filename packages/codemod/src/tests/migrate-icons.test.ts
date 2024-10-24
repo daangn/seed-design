@@ -1,5 +1,4 @@
 import migrateIcons, { reactMatch } from "../transforms/migrate-icons.js";
-import type { MigrateIconsOptions } from "../transforms/migrate-icons.js";
 import { describe, expect, test } from "vitest";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 
