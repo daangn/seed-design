@@ -1,8 +1,934 @@
 ---
 title: 업그레이드 가이드
-description: seed-design/react-icon에서 daangn/react-icon으로 업그레이드하는 방법을 안내합니다.
+description: 리뉴얼된 아이콘으로 업그레이드하는 방법을 안내해요.
 ---
 
-## 업그레이드
+import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 
-방법
+## 업그레이드 방법
+
+현재 아이콘을 사용하고 있는 방법에 따라 적용할 수 있는 두 가지 방법이 있어요.
+
+### Codemod 스크립트
+
+아래 두 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있어요.
+
+- [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
+- deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
+
+두 패키지는 [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)으로 대체돼요.
+
+### 수동 업그레이드
+
+다음과 같은 경우에는 수동으로 업그레이드해야 해요.
+
+- PNG, SVG 등의 파일로 기존 아이콘을 사용하는 경우
+- 다음 패키지를 사용하는 경우
+  - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
+  - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
+  - 두 패키지는 각각 다음 패키지로 대체돼요.
+    - [`@daangn/vue2-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-icon)
+    - [`@daangn/vue3-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-icon)
+
+## 작업 순서
+
+<Callout type="warn" title="시작하기 전">
+
+많은 변경사항이 발생하게 되므로, 커밋하지 않은 변경사항이 없는지 확인해요.
+
+</Callout>
+
+<Tabs items={["codemod 스크립트", "수동 업그레이드"]}>
+
+<Tab value="codemod 스크립트">
+
+### Codemod 스크립트
+
+<Accordions>
+
+<Accordion title="Codemod 스크립트 실행 결과 미리보기">
+
+스크립트 실행 전
+
+```tsx
+import {
+  IconSellRegular,
+  IconListFill,
+  IconAddFill as AddIconAlias,
+} from "@seed-design/react-icon";
+import IconSellFill from "@seed-design/react-icon/IconSellFill";
+
+function App() {
+  console.log(IconSellRegular);
+
+  return (
+    <>
+      <IconListFill />
+      <AddIconAlias />
+    </>
+  );
+}
+```
+
+스크립트 실행 후
+
+```tsx
+import {
+  IconPlusSquareLine,
+  IconDothorizline3VerticalFill,
+  IconPlusFill as AddIconAlias,
+} from "@daangn/react-icon";
+import IconPlusSquareFill from "@daangn/react-icon/IconPlusSquareFill";
+
+function App() {
+  console.log(IconPlusSquareLine);
+
+  return (
+    <>
+      <IconDothorizline3VerticalFill />
+      <AddIconAlias />
+    </>
+  );
+}
+```
+
+</Accordion>
+
+</Accordions>
+
+<Steps>
+
+<Step>
+
+#### 리뉴얼된 아이콘 패키지 설치
+
+[`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)을 설치해요.
+
+```package-install
+npm install @daangn/react-icon
+```
+
+</Step>
+
+<Step>
+
+#### Codemod 스크립트 실행
+
+경로 내의 코드를 일괄적으로 변환하는 codemod 스크립트를 실행해요.
+
+```shell
+npx @seed-design/codemod migrate-icons <...경로> <옵션>
+```
+
+```shell
+npx @seed-design/codemod migrate-icons src
+```
+
+<Callout type="info" title="옵션">
+
+- `--log`
+  - 로그를 파일로 저장해요.
+  - `./`에 `migrate-icons-combined.log`와 `migrate-icons-warnings.log` 파일이 생성돼요.
+- [`--extensions`](https://jscodeshift.com/run/cli/#--extensionsext)
+  - 변환할 파일 확장자를 지정해요.
+  - 이 옵션을 지정하지 않으면 경로 안의 `js`, `jsx`, `ts`, `tsx` 파일을 변환해요. (`d.ts` 제외)
+  - 예시: `--extensions="ts,tsx"`
+- [`--ignore-config`](https://jscodeshift.com/run/cli/#--ignore-configfile)
+  - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
+  - 예시: `--ignore-config=".gitignore"`
+  - 이 옵션을 지정하지 않아도 jscodeshift에 의해 `node_modules`는 자동으로 무시돼요.
+
+</Callout>
+
+<Callout type="error" title="파싱 오류">
+
+```
+ERR /Users/seed/foo/bar.js Transformation error (Unexpected reserved word 'package'. (3:3))
+```
+
+codemod 스크립트 실행 중 파싱 오류가 발생할 수 있어요. 파싱 오류는 다음과 같은 이유로 발생해요.
+
+- `assert`를 사용한 [import assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html#import-attributes)과 같은, deprecated된 문법이 있는 경우
+- `package`와 같은 예약어를 변수 이름으로 사용한 경우 등
+
+</Callout>
+
+</Step>
+
+<Step>
+
+#### 결과 확인
+
+문제 없이 모든 변환이 완료된 경우 다음과 같은 결과가 표시돼요.
+
+```
+All done.
+Results:
+0 errors // [!code highlight]
+439 unmodified
+1 skipped
+27 ok
+Time elapsed: 43.376seconds
+```
+
+파싱 오류 등으로 인해 코드 확인이 이루어지지 못한 파일의 수가 `errors`로 표시돼요. 에러가 있다면, 해당 파일에서 문제가 발생한 부분을 수정하고 다시 스크립트를 실행하거나, 해당 파일의 아이콘 마이그레이션을 직접 진행해주세요.
+
+```
+All done.
+Results:
+1 errors // [!code highlight]
+4149 unmodified
+3 skipped
+247 ok
+Time elapsed: 49.376seconds
+```
+
+</Step>
+
+<Step>
+
+#### 코드 포맷
+
+프로젝트에서 사용하는 포매터를 사용해서 코드를 포맷해요.
+
+</Step>
+
+<Step>
+
+#### 이전 패키지 제거
+
+이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거해요.
+
+```package-install
+npm uninstall @seed-design/icon @seed-design/react-icon
+```
+
+</Step>
+
+<Step>
+
+#### 사이드 이펙트 확인
+
+[사이드 이펙트](#발생-가능한-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토해요.
+
+</Step>
+
+</Steps>
+
+</Tab>
+
+<Tab value="수동 업그레이드">
+
+### 수동 업그레이드
+
+<Steps>
+
+<Step>
+
+#### 이전 패키지 제거
+
+다음 패키지를 사용하는 경우, 패키지를 제거해요.
+
+- [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
+- [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
+
+```package-install
+npm uninstall @seed-design/vue2-icon @seed-design/vue3-icon
+```
+
+</Step>
+
+<Step>
+
+#### 리뉴얼된 패키지 설치
+
+##### React
+
+```package-install
+npm install @daangn/react-icon
+```
+
+##### Vue 2
+
+```package-install
+npm install @daangn/vue2-icon
+```
+
+##### Vue 3
+
+```package-install
+npm install @daangn/vue3-icon
+```
+
+</Step>
+
+<Step>
+
+#### 아이콘 이름 변경
+
+다음 표를 참고하여 리뉴얼된 패키지를 사용하도록 코드를 수정해요.
+
+<Accordions>
+
+<Accordion title="이전/리뉴얼 아이콘 컴포넌트 이름 대응">
+
+| 이전 아이콘 컴포넌트 이름           | 리뉴얼된 아이콘 컴포넌트 이름                | 비고                   |
+| ----------------------------------- | -------------------------------------------- | ---------------------- |
+| `IconAddThin`                       | `IconPlusLine`                               |                        |
+| `IconAddRegular`                    | `IconPlusLine`                               |                        |
+| `IconAddFill`                       | `IconPlusFill`                               |                        |
+| `IconAddCircleThin`                 | `IconPlusCircleLine`                         |                        |
+| `IconAddCircleRegular`              | `IconPlusCircleLine`                         |                        |
+| `IconAddCircleFill`                 | `IconPlusCircleFill`                         |                        |
+| `IconAebThin`                       | `IconCarFrontUpsideWave2ReversedUpLine`      |                        |
+| `IconAebRegular`                    | `IconCarFrontUpsideWave2ReversedUpLine`      |                        |
+| `IconAebFill`                       | `IconCarFrontUpsideWave2ReversedUpFill`      |                        |
+| `IconAiThin`                        | `IconSparkle2Line`                           |                        |
+| `IconAiRegular`                     | `IconSparkle2Line`                           |                        |
+| `IconAiFill`                        | `IconSparkle2Fill`                           |                        |
+| `IconAndroidShareThin`              | `IconAndroidshareLine`                       |                        |
+| `IconAndroidShareRegular`           | `IconAndroidshareLine`                       |                        |
+| `IconAndroidShareFill`              | `IconAndroidshareFill`                       |                        |
+| `IconArrowThin`                     | `IconArrowUpRightLine`                       |                        |
+| `IconArrowRegular`                  | `IconArrowUpRightLine`                       |                        |
+| `IconArrowFill`                     | `IconArrowUpRightFill`                       |                        |
+| `IconArrowDownwardThin`             | `IconArrowDownLine`                          |                        |
+| `IconArrowDownwardRegular`          | `IconArrowDownLine`                          |                        |
+| `IconArrowDownwardFill`             | `IconArrowDownFill`                          |                        |
+| `IconArrowDropDownThin`             | `IconTriangleDownSmallLine`                  |                        |
+| `IconArrowDropDownRegular`          | `IconTriangleDownSmallLine`                  |                        |
+| `IconArrowDropDownFill`             | `IconTriangleDownSmallFill`                  |                        |
+| `IconArrowDropUpThin`               | `IconTriangleUpSmallLine`                    |                        |
+| `IconArrowDropUpRegular`            | `IconTriangleUpSmallLine`                    |                        |
+| `IconArrowDropUpFill`               | `IconTriangleUpSmallFill`                    |                        |
+| `IconArrowUpwardThin`               | `IconArrowUpLine`                            |                        |
+| `IconArrowUpwardRegular`            | `IconArrowUpLine`                            |                        |
+| `IconArrowUpwardFill`               | `IconArrowUpFill`                            |                        |
+| `IconArticleThin`                   | `IconArticleLine`                            |                        |
+| `IconArticleRegular`                | `IconArticleLine`                            |                        |
+| `IconArticleFill`                   | `IconArticleFill`                            |                        |
+| `IconBackwardThin`                  | `IconArrowLeftLine`                          |                        |
+| `IconBackwardRegular`               | `IconArrowLeftLine`                          |                        |
+| `IconBackwardFill`                  | `IconArrowLeftFill`                          |                        |
+| `IconBillThin`                      | `IconReceiptLine`                            |                        |
+| `IconBillRegular`                   | `IconReceiptLine`                            |                        |
+| `IconBillFill`                      | `IconReceiptFill`                            |                        |
+| `IconBoldThin`                      | `IconTUppercaseSerifLine`                    | 변경 후 확인이 필요함  |
+| `IconBoldRegular`                   | `IconTUppercaseSerifLine`                    | 변경 후 확인이 필요함  |
+| `IconBoldFill`                      | `IconTUppercaseSerifFill`                    | 변경 후 확인이 필요함  |
+| `IconBookmarkThin`                  | `IconBookmarkLine`                           |                        |
+| `IconBookmarkRegular`               | `IconBookmarkLine`                           |                        |
+| `IconBookmarkFill`                  | `IconBookmarkFill`                           |                        |
+| `IconBookmarkListThin`              | `IconHorizline3VerticalStarLine`             |                        |
+| `IconBookmarkListRegular`           | `IconHorizline3VerticalStarLine`             |                        |
+| `IconBookmarkListFill`              | `IconHorizline3VerticalStarFill`             |                        |
+| `IconCalendarThin`                  | `IconCalendarLine`                           |                        |
+| `IconCalendarRegular`               | `IconCalendarLine`                           |                        |
+| `IconCalendarFill`                  | `IconCalendarFill`                           |                        |
+| `IconCallThin`                      | `IconPhoneLine`                              |                        |
+| `IconCallRegular`                   | `IconPhoneLine`                              |                        |
+| `IconCallFill`                      | `IconPhoneFill`                              |                        |
+| `IconCallDeclinedThin`              | `IconPhoneXmarkLine`                         |                        |
+| `IconCallDeclinedRegular`           | `IconPhoneXmarkLine`                         |                        |
+| `IconCallDeclinedFill`              | `IconPhoneXmarkFill`                         |                        |
+| `IconCameraThin`                    | `IconCameraLine`                             |                        |
+| `IconCameraRegular`                 | `IconCameraLine`                             |                        |
+| `IconCameraFill`                    | `IconCameraFill`                             |                        |
+| `IconCarThin`                       | `IconCarFrontsideLine`                       |                        |
+| `IconCarRegular`                    | `IconCarFrontsideLine`                       |                        |
+| `IconCarFill`                       | `IconCarFrontsideFill`                       |                        |
+| `IconCarAroundViewThin`             | `IconArrowClockwiseOvalLine`                 |                        |
+| `IconCarAroundViewRegular`          | `IconArrowClockwiseOvalLine`                 |                        |
+| `IconCarAroundViewFill`             | `IconArrowClockwiseOvalFill`                 |                        |
+| `IconCarBlindSpotThin`              | `IconCarRearUpsideWave2ReversedDownLeftLine` |                        |
+| `IconCarBlindSpotRegular`           | `IconCarRearUpsideWave2ReversedDownLeftLine` |                        |
+| `IconCarBlindSpotFill`              | `IconCarRearUpsideWave2ReversedDownLeftFill` |                        |
+| `IconCarCruiseControlThin`          | `IconSpeedometerLine`                        |                        |
+| `IconCarCruiseControlRegular`       | `IconSpeedometerLine`                        |                        |
+| `IconCarCruiseControlFill`          | `IconSpeedometerFill`                        |                        |
+| `IconCarEpbThin`                    | `IconEpbLine`                                |                        |
+| `IconCarEpbRegular`                 | `IconEpbLine`                                |                        |
+| `IconCarEpbFill`                    | `IconEpbFill`                                |                        |
+| `IconCarHeatedSeatThin`             | `IconSeatLeftHeatwave2Line`                  |                        |
+| `IconCarHeatedSeatRegular`          | `IconSeatLeftHeatwave2Line`                  |                        |
+| `IconCarHeatedSeatFill`             | `IconSeatLeftHeatwave2Fill`                  |                        |
+| `IconCarHeatedSteeringWheelThin`    | `IconSteeringwheelHeatwave2Line`             |                        |
+| `IconCarHeatedSteeringWheelRegular` | `IconSteeringwheelHeatwave2Line`             |                        |
+| `IconCarHeatedSteeringWheelFill`    | `IconSteeringwheelHeatwave2Fill`             |                        |
+| `IconCarLdwsThin`                   | `IconRoadlaneLine`                           |                        |
+| `IconCarLdwsRegular`                | `IconRoadlaneLine`                           |                        |
+| `IconCarLdwsFill`                   | `IconRoadlaneFill`                           |                        |
+| `IconCarLeatherSeatThin`            | `IconSeatLeftLine`                           |                        |
+| `IconCarLeatherSeatRegular`         | `IconSeatLeftLine`                           |                        |
+| `IconCarLeatherSeatFill`            | `IconSeatLeftFill`                           |                        |
+| `IconCarNavigationThin`             | `IconCompassLine`                            |                        |
+| `IconCarNavigationRegular`          | `IconCompassLine`                            |                        |
+| `IconCarNavigationFill`             | `IconCompassFill`                            |                        |
+| `IconCarPowerTrunkThin`             | `IconCarRearTrunkOpenLeftsideLine`           |                        |
+| `IconCarPowerTrunkRegular`          | `IconCarRearTrunkOpenLeftsideLine`           |                        |
+| `IconCarPowerTrunkFill`             | `IconCarRearTrunkOpenLeftsideFill`           |                        |
+| `IconCarRearCameraThin`             | `IconCarRearUpsideSectorDownLine`            |                        |
+| `IconCarRearCameraRegular`          | `IconCarRearUpsideSectorDownLine`            |                        |
+| `IconCarRearCameraFill`             | `IconCarRearUpsideSectorDownFill`            |                        |
+| `IconCarRearSensorThin`             | `IconCarRearUpsideWave2ReversedDownLine`     |                        |
+| `IconCarRearSensorRegular`          | `IconCarRearUpsideWave2ReversedDownLine`     |                        |
+| `IconCarRearSensorFill`             | `IconCarRearUpsideWave2ReversedDownFill`     |                        |
+| `IconCarSmartKeyThin`               | `IconSmartkeyLine`                           |                        |
+| `IconCarSmartKeyRegular`            | `IconSmartkeyLine`                           |                        |
+| `IconCarSmartKeyFill`               | `IconSmartkeyFill`                           |                        |
+| `IconCarVentilationSeatThin`        | `IconSeatLeftFanLine`                        |                        |
+| `IconCarVentilationSeatRegular`     | `IconSeatLeftFanLine`                        |                        |
+| `IconCarVentilationSeatFill`        | `IconSeatLeftFanFill`                        |                        |
+| `IconCartThin`                      | `IconCartLine`                               |                        |
+| `IconCartRegular`                   | `IconCartLine`                               |                        |
+| `IconCartFill`                      | `IconCartFill`                               |                        |
+| `IconCertificationThin`             | `IconCrosshairLine`                          |                        |
+| `IconCertificationRegular`          | `IconCrosshairLine`                          |                        |
+| `IconCertificationFill`             | `IconCrosshairFill`                          |                        |
+| `IconChallengeThin`                 | `IconFlagHillLine`                           |                        |
+| `IconChallengeRegular`              | `IconFlagHillLine`                           |                        |
+| `IconChallengeFill`                 | `IconFlagHillFill`                           |                        |
+| `IconChartThin`                     | `IconBarchartSquareLine`                     |                        |
+| `IconChartRegular`                  | `IconBarchartSquareLine`                     |                        |
+| `IconChartFill`                     | `IconBarchartSquareFill`                     |                        |
+| `IconChatBubbleCheckThin`           | `IconCheckmarkChatbubbleLeftLine`            |                        |
+| `IconChatBubbleCheckRegular`        | `IconCheckmarkChatbubbleLeftLine`            |                        |
+| `IconChatBubbleCheckFill`           | `IconCheckmarkChatbubbleLeftFill`            |                        |
+| `IconChattingThin`                  | `IconDot3HorizontalChatbubbleLeftLine`       |                        |
+| `IconChattingRegular`               | `IconDot3HorizontalChatbubbleLeftLine`       |                        |
+| `IconChattingFill`                  | `IconDot3HorizontalChatbubbleLeftFill`       |                        |
+| `IconChattingSendThin`              | `IconPaperplaneLine`                         |                        |
+| `IconChattingSendRegular`           | `IconPaperplaneLine`                         |                        |
+| `IconChattingSendFill`              | `IconPaperplaneFill`                         |                        |
+| `IconCheckThin`                     | `IconCheckmarkLine`                          |                        |
+| `IconCheckRegular`                  | `IconCheckmarkLine`                          |                        |
+| `IconCheckFill`                     | `IconCheckmarkFill`                          |                        |
+| `IconCheckFlowerThin`               | `IconCheckmarkFlowerLine`                    |                        |
+| `IconCheckFlowerRegular`            | `IconCheckmarkFlowerLine`                    |                        |
+| `IconCheckFlowerFill`               | `IconCheckmarkFlowerFill`                    |                        |
+| `IconChevronLeftThin`               | `IconChevronLeftLine`                        |                        |
+| `IconChevronLeftRegular`            | `IconChevronLeftLine`                        |                        |
+| `IconChevronLeftFill`               | `IconChevronLeftFill`                        |                        |
+| `IconChevronRightThin`              | `IconChevronRightLine`                       |                        |
+| `IconChevronRightRegular`           | `IconChevronRightLine`                       |                        |
+| `IconChevronRightFill`              | `IconChevronRightFill`                       |                        |
+| `IconClickThin`                     | `IconHandPointUpLine`                        |                        |
+| `IconClickRegular`                  | `IconHandPointUpLine`                        |                        |
+| `IconClickFill`                     | `IconHandPointUpFill`                        |                        |
+| `IconClockThin`                     | `IconClockLine`                              |                        |
+| `IconClockRegular`                  | `IconClockLine`                              |                        |
+| `IconClockFill`                     | `IconClockFill`                              |                        |
+| `IconCloseThin`                     | `IconXmarkLine`                              |                        |
+| `IconCloseRegular`                  | `IconXmarkLine`                              |                        |
+| `IconCloseFill`                     | `IconXmarkFill`                              |                        |
+| `IconCobuyingThin`                  | `IconShoppingbag2StackedLine`                | 변경 후 확인이 필요함  |
+| `IconCobuyingRegular`               | `IconShoppingbag2StackedLine`                | 변경 후 확인이 필요함  |
+| `IconCobuyingFill`                  | `IconShoppingbag2StackedFill`                | 변경 후 확인이 필요함  |
+| `IconCommunityThin`                 | `IconPostLine`                               |                        |
+| `IconCommunityRegular`              | `IconPostLine`                               |                        |
+| `IconCommunityFill`                 | `IconPostFill`                               |                        |
+| `IconCondoThin`                     | `IconBuilding2Line`                          |                        |
+| `IconCondoRegular`                  | `IconBuilding2Line`                          |                        |
+| `IconCondoFill`                     | `IconBuilding2Fill`                          |                        |
+| `IconConfirmationThin`              | `IconCheckmarkShieldLine`                    |                        |
+| `IconConfirmationRegular`           | `IconCheckmarkShieldLine`                    |                        |
+| `IconConfirmationFill`              | `IconCheckmarkShieldFill`                    |                        |
+| `IconConfirmationPayThin`           | `IconWonShieldLine`                          |                        |
+| `IconConfirmationPayRegular`        | `IconWonShieldLine`                          |                        |
+| `IconConfirmationPayFill`           | `IconWonShieldFill`                          |                        |
+| `IconConfirmationProfileThin`       | `IconPersonShieldLine`                       |                        |
+| `IconConfirmationProfileRegular`    | `IconPersonShieldLine`                       |                        |
+| `IconConfirmationProfileFill`       | `IconPersonShieldFill`                       |                        |
+| `IconContentsThin`                  | `IconGridHeartLine`                          |                        |
+| `IconContentsRegular`               | `IconGridHeartLine`                          |                        |
+| `IconContentsFill`                  | `IconGridHeartFill`                          |                        |
+| `IconConvertThin`                   | `IconArrowRightArrowLeftLine`                |                        |
+| `IconConvertRegular`                | `IconArrowRightArrowLeftLine`                |                        |
+| `IconConvertFill`                   | `IconArrowRightArrowLeftFill`                |                        |
+| `IconCopyThin`                      | `IconSquare2StackedLine`                     |                        |
+| `IconCopyRegular`                   | `IconSquare2StackedLine`                     |                        |
+| `IconCopyFill`                      | `IconSquare2StackedFill`                     |                        |
+| `IconCouponThin`                    | `IconCouponLine`                             |                        |
+| `IconCouponRegular`                 | `IconCouponLine`                             |                        |
+| `IconCouponFill`                    | `IconCouponFill`                             |                        |
+| `IconCouponDownloadDoneThin`        | `IconCheckmarkHorizlineLine`                 |                        |
+| `IconCouponDownloadDoneRegular`     | `IconCheckmarkHorizlineLine`                 |                        |
+| `IconCouponDownloadDoneFill`        | `IconCheckmarkHorizlineFill`                 |                        |
+| `IconCouponUsedThin`                | `IconCheckmarkCouponLine`                    |                        |
+| `IconCouponUsedRegular`             | `IconCheckmarkCouponLine`                    |                        |
+| `IconCouponUsedFill`                | `IconCheckmarkCouponFill`                    |                        |
+| `IconDeleteKeyboardThin`            | `IconBackspacekeyLine`                       |                        |
+| `IconDeleteKeyboardRegular`         | `IconBackspacekeyLine`                       |                        |
+| `IconDeleteKeyboardFill`            | `IconBackspacekeyFill`                       |                        |
+| `IconDeliveryThin`                  | `IconTruckLine`                              | 변경 후 확인이 필요함, |
+| `IconDeliveryRegular`               | `IconTruckLine`                              | 변경 후 확인이 필요함, |
+| `IconDeliveryFill`                  | `IconTruckFill`                              | 변경 후 확인이 필요함, |
+| `IconDirectionThin`                 | `IconArrowRightAngledLine`                   |                        |
+| `IconDirectionRegular`              | `IconArrowRightAngledLine`                   |                        |
+| `IconDirectionFill`                 | `IconArrowRightAngledFill`                   |                        |
+| `IconDownloadThin`                  | `IconArrowDownHorizlineLine`                 |                        |
+| `IconDownloadRegular`               | `IconArrowDownHorizlineLine`                 |                        |
+| `IconDownloadFill`                  | `IconArrowDownHorizlineFill`                 |                        |
+| `IconEditThin`                      | `IconEraserHorizlineLine`                    |                        |
+| `IconEditRegular`                   | `IconEraserHorizlineLine`                    |                        |
+| `IconEditFill`                      | `IconEraserHorizlineFill`                    |                        |
+| `IconEmoticonThin`                  | `IconFaceSmileCircleLine`                    |                        |
+| `IconEmoticonRegular`               | `IconFaceSmileCircleLine`                    |                        |
+| `IconEmoticonFill`                  | `IconFaceSmileCircleFill`                    |                        |
+| `IconEmoticonBadThin`               | `IconFaceSadCircleLine`                      |                        |
+| `IconEmoticonBadRegular`            | `IconFaceSadCircleLine`                      |                        |
+| `IconEmoticonBadFill`               | `IconFaceSadCircleFill`                      |                        |
+| `IconExpandThin`                    | `IconArrowUpRightArrowDownLeftLine`          |                        |
+| `IconExpandRegular`                 | `IconArrowUpRightArrowDownLeftLine`          |                        |
+| `IconExpandFill`                    | `IconArrowUpRightArrowDownLeftFill`          |                        |
+| `IconExpandLessThin`                | `IconChevronUpLine`                          |                        |
+| `IconExpandLessRegular`             | `IconChevronUpLine`                          |                        |
+| `IconExpandLessFill`                | `IconChevronUpFill`                          |                        |
+| `IconExpandMoreThin`                | `IconChevronDownLine`                        |                        |
+| `IconExpandMoreRegular`             | `IconChevronDownLine`                        |                        |
+| `IconExpandMoreFill`                | `IconChevronDownFill`                        |                        |
+| `IconFileThin`                      | `IconPaperclipLine`                          |                        |
+| `IconFileRegular`                   | `IconPaperclipLine`                          |                        |
+| `IconFileFill`                      | `IconPaperclipFill`                          |                        |
+| `IconFilter02Thin`                  | `IconSlider2HorizontalLine`                  |                        |
+| `IconFilter02Regular`               | `IconSlider2HorizontalLine`                  |                        |
+| `IconFilter02Fill`                  | `IconSlider2HorizontalFill`                  |                        |
+| `IconForwardThin`                   | `IconArrowRightLine`                         |                        |
+| `IconForwardRegular`                | `IconArrowRightLine`                         |                        |
+| `IconForwardFill`                   | `IconArrowRightFill`                         |                        |
+| `IconGenderThin`                    | `IconMalesymbolFemalesymbolLine`             |                        |
+| `IconGenderRegular`                 | `IconMalesymbolFemalesymbolLine`             |                        |
+| `IconGenderFill`                    | `IconMalesymbolFemalesymbolFill`             |                        |
+| `IconGlobalThin`                    | `IconGlobeLine`                              |                        |
+| `IconGlobalRegular`                 | `IconGlobeLine`                              |                        |
+| `IconGlobalFill`                    | `IconGlobeFill`                              |                        |
+| `IconGpsThin`                       | `IconCrosshairLine`                          |                        |
+| `IconGpsRegular`                    | `IconCrosshairLine`                          |                        |
+| `IconGpsFill`                       | `IconCrosshairFill`                          |                        |
+| `IconGpsEnableThin`                 | `IconCrosshairQuestionmarkLine`              |                        |
+| `IconGpsEnableRegular`              | `IconCrosshairQuestionmarkLine`              |                        |
+| `IconGpsEnableFill`                 | `IconCrosshairQuestionmarkFill`              |                        |
+| `IconGpsEnable2Thin`                | `IconCrosshairQuestionmarkLine`              |                        |
+| `IconGpsEnable2Regular`             | `IconCrosshairQuestionmarkLine`              |                        |
+| `IconGpsEnable2Fill`                | `IconCrosshairQuestionmarkFill`              |                        |
+| `IconGroupchatKingThin`             | `IconCrownLine`                              |                        |
+| `IconGroupchatKingRegular`          | `IconCrownLine`                              |                        |
+| `IconGroupchatKingFill`             | `IconCrownFill`                              |                        |
+| `IconHandleThin`                    | `IconHorizline3VerticalTightLine`            |                        |
+| `IconHandleRegular`                 | `IconHorizline3VerticalTightLine`            |                        |
+| `IconHandleFill`                    | `IconHorizline3VerticalTightFill`            |                        |
+| `IconHashtagThin`                   | `IconHashLine`                               |                        |
+| `IconHashtagRegular`                | `IconHashLine`                               |                        |
+| `IconHashtagFill`                   | `IconHashFill`                               |                        |
+| `IconHeadphoneThin`                 | `IconHeadsetLine`                            |                        |
+| `IconHeadphoneRegular`              | `IconHeadsetLine`                            |                        |
+| `IconHeadphoneFill`                 | `IconHeadsetFill`                            |                        |
+| `IconHeartThin`                     | `IconHeartLine`                              |                        |
+| `IconHeartRegular`                  | `IconHeartLine`                              |                        |
+| `IconHeartFill`                     | `IconHeartFill`                              |                        |
+| `IconHelpThin`                      | `IconQuestionmarkCircleLine`                 |                        |
+| `IconHelpRegular`                   | `IconQuestionmarkCircleLine`                 |                        |
+| `IconHelpFill`                      | `IconQuestionmarkCircleFill`                 |                        |
+| `IconHelpcenterThin`                | `IconHeadsetLine`                            |                        |
+| `IconHelpcenterRegular`             | `IconHeadsetLine`                            |                        |
+| `IconHelpcenterFill`                | `IconHeadsetFill`                            |                        |
+| `IconHelperThin`                    | `IconHeadsetLine`                            |                        |
+| `IconHelperRegular`                 | `IconHeadsetLine`                            |                        |
+| `IconHelperFill`                    | `IconHeadsetFill`                            |                        |
+| `IconHomeThin`                      | `IconHouseLine`                              |                        |
+| `IconHomeRegular`                   | `IconHouseLine`                              |                        |
+| `IconHomeFill`                      | `IconHouseFill`                              |                        |
+| `IconHouseThin`                     | `IconWindow4HouseLine`                       |                        |
+| `IconHouseRegular`                  | `IconWindow4HouseLine`                       |                        |
+| `IconHouseFill`                     | `IconWindow4HouseFill`                       |                        |
+| `IconHousekeepingBookThin`          | `IconBookLine`                               |                        |
+| `IconHousekeepingBookRegular`       | `IconBookLine`                               |                        |
+| `IconHousekeepingBookFill`          | `IconBookFill`                               |                        |
+| `IconImportThin`                    | `IconDocumentArrowLeftLine`                  |                        |
+| `IconImportRegular`                 | `IconDocumentArrowLeftLine`                  |                        |
+| `IconImportFill`                    | `IconDocumentArrowLeftFill`                  |                        |
+| `IconInfoThin`                      | `IconILowercaseSerifCircleLine`              |                        |
+| `IconInfoRegular`                   | `IconILowercaseSerifCircleLine`              |                        |
+| `IconInfoFill`                      | `IconILowercaseSerifCircleFill`              |                        |
+| `IconInterestThin`                  | `IconHorizline3VerticalStarLine`             |                        |
+| `IconInterestRegular`               | `IconHorizline3VerticalStarLine`             |                        |
+| `IconInterestFill`                  | `IconHorizline3VerticalStarFill`             |                        |
+| `IconInterestListThin`              | `IconStarLine`                               |                        |
+| `IconInterestListRegular`           | `IconStarLine`                               |                        |
+| `IconInterestListFill`              | `IconStarFill`                               |                        |
+| `IconInviteThin`                    | `IconEnvelopeLine`                           |                        |
+| `IconInviteRegular`                 | `IconEnvelopeLine`                           |                        |
+| `IconInviteFill`                    | `IconEnvelopeFill`                           |                        |
+| `IconInviteFriendThin`              | `IconPersonPlusLine`                         |                        |
+| `IconInviteFriendRegular`           | `IconPersonPlusLine`                         |                        |
+| `IconInviteFriendFill`              | `IconPersonPlusFill`                         |                        |
+| `IconIosShareThin`                  | `IconArrowUpBracketDownLine`                 |                        |
+| `IconIosShareRegular`               | `IconArrowUpBracketDownLine`                 |                        |
+| `IconIosShareFill`                  | `IconArrowUpBracketDownFill`                 |                        |
+| `IconJobsThin`                      | `IconPersonMagnifyingglassLine`              |                        |
+| `IconJobsRegular`                   | `IconPersonMagnifyingglassLine`              |                        |
+| `IconJobsFill`                      | `IconPersonMagnifyingglassFill`              |                        |
+| `IconKeyboardHidingThin`            | `IconKeyboardChevronDownLine`                |                        |
+| `IconKeyboardHidingRegular`         | `IconKeyboardChevronDownLine`                |                        |
+| `IconKeyboardHidingFill`            | `IconKeyboardChevronDownFill`                |                        |
+| `IconKeywordThin`                   | `IconTagLine`                                |                        |
+| `IconKeywordRegular`                | `IconTagLine`                                |                        |
+| `IconKeywordFill`                   | `IconTagFill`                                |                        |
+| `IconLaptopThin`                    | `IconLaptopLine`                             |                        |
+| `IconLaptopRegular`                 | `IconLaptopLine`                             |                        |
+| `IconLaptopFill`                    | `IconLaptopFill`                             |                        |
+| `IconLeafThin`                      | `IconLeafLine`                               |                        |
+| `IconLeafRegular`                   | `IconLeafLine`                               |                        |
+| `IconLeafFill`                      | `IconLeafFill`                               |                        |
+| `IconListThin`                      | `IconDothorizline3VerticalLine`              |                        |
+| `IconListRegular`                   | `IconDothorizline3VerticalLine`              |                        |
+| `IconListFill`                      | `IconDothorizline3VerticalFill`              |                        |
+| `IconListCardThin`                  | `IconHorizrectangleHorizline2VerticalLine`   |                        |
+| `IconListCardRegular`               | `IconHorizrectangleHorizline2VerticalLine`   |                        |
+| `IconListCardFill`                  | `IconHorizrectangleHorizline2VerticalFill`   |                        |
+| `IconListCheckThin`                 | `IconDocumentCheckmarkLine`                  |                        |
+| `IconListCheckRegular`              | `IconDocumentCheckmarkLine`                  |                        |
+| `IconListCheckFill`                 | `IconDocumentCheckmarkFill`                  |                        |
+| `IconListSelectThin`                | `IconHorizline3VerticalCheckmarkLine`        |                        |
+| `IconListSelectRegular`             | `IconHorizline3VerticalCheckmarkLine`        |                        |
+| `IconListSelectFill`                | `IconHorizline3VerticalCheckmarkFill`        |                        |
+| `IconListThumbnailThin`             | `IconSquareline2VerticalLine`                |                        |
+| `IconListThumbnailRegular`          | `IconSquareline2VerticalLine`                |                        |
+| `IconListThumbnailFill`             | `IconSquareline2VerticalFill`                |                        |
+| `IconLocationThin`                  | `IconLocationpinLine`                        |                        |
+| `IconLocationRegular`               | `IconLocationpinLine`                        |                        |
+| `IconLocationFill`                  | `IconLocationpinFill`                        |                        |
+| `IconLockThin`                      | `IconLockLine`                               |                        |
+| `IconLockRegular`                   | `IconLockLine`                               |                        |
+| `IconLockFill`                      | `IconLockFill`                               |                        |
+| `IconLoudspeakerThin`               | `IconMegaphoneLine`                          |                        |
+| `IconLoudspeakerRegular`            | `IconMegaphoneLine`                          |                        |
+| `IconLoudspeakerFill`               | `IconMegaphoneFill`                          |                        |
+| `IconMapThin`                       | `IconMapLocationpinLine`                     |                        |
+| `IconMapRegular`                    | `IconMapLocationpinLine`                     |                        |
+| `IconMapFill`                       | `IconMapLocationpinFill`                     |                        |
+| `IconMarketThin`                    | `IconStoreLine`                              |                        |
+| `IconMarketRegular`                 | `IconStoreLine`                              |                        |
+| `IconMarketFill`                    | `IconStoreFill`                              |                        |
+| `IconMarketCheckThin`               | `IconStoreCheckmarkLine`                     |                        |
+| `IconMarketCheckRegular`            | `IconStoreCheckmarkLine`                     |                        |
+| `IconMarketCheckFill`               | `IconStoreCheckmarkFill`                     |                        |
+| `IconMarketWriteThin`               | `IconStorePenLine`                           |                        |
+| `IconMarketWriteRegular`            | `IconStorePenLine`                           |                        |
+| `IconMarketWriteFill`               | `IconStorePenFill`                           |                        |
+| `IconMentionThin`                   | `IconAtLine`                                 |                        |
+| `IconMentionRegular`                | `IconAtLine`                                 |                        |
+| `IconMentionFill`                   | `IconAtFill`                                 |                        |
+| `IconMenuThin`                      | `IconHorizline3VerticalLine`                 |                        |
+| `IconMenuRegular`                   | `IconHorizline3VerticalLine`                 |                        |
+| `IconMenuFill`                      | `IconHorizline3VerticalFill`                 |                        |
+| `IconMicThin`                       | `IconMicrophoneLine`                         |                        |
+| `IconMicRegular`                    | `IconMicrophoneLine`                         |                        |
+| `IconMicFill`                       | `IconMicrophoneFill`                         |                        |
+| `IconMicOffThin`                    | `IconMicrophoneSlashLine`                    |                        |
+| `IconMicOffRegular`                 | `IconMicrophoneSlashLine`                    |                        |
+| `IconMicOffFill`                    | `IconMicrophoneSlashFill`                    |                        |
+| `IconMissionThin`                   | `IconBookOpenLine`                           |                        |
+| `IconMissionRegular`                | `IconBookOpenLine`                           |                        |
+| `IconMissionFill`                   | `IconBookOpenFill`                           |                        |
+| `IconMobileThin`                    | `IconMobileLine`                             |                        |
+| `IconMobileRegular`                 | `IconMobileLine`                             |                        |
+| `IconMobileFill`                    | `IconMobileFill`                             |                        |
+| `IconMoneySendThin`                 | `IconWonCircleArrowRightLine`                |                        |
+| `IconMoneySendRegular`              | `IconWonCircleArrowRightLine`                |                        |
+| `IconMoneySendFill`                 | `IconWonCircleArrowRightFill`                |                        |
+| `IconMoneyWonThin`                  | `IconWonCircleLine`                          |                        |
+| `IconMoneyWonRegular`               | `IconWonCircleLine`                          |                        |
+| `IconMoneyWonFill`                  | `IconWonCircleFill`                          |                        |
+| `IconMoonThin`                      | `IconMoonLine`                               |                        |
+| `IconMoonRegular`                   | `IconMoonLine`                               |                        |
+| `IconMoonFill`                      | `IconMoonFill`                               |                        |
+| `IconMoreHorizThin`                 | `IconDot3HorizontalLine`                     |                        |
+| `IconMoreHorizRegular`              | `IconDot3HorizontalLine`                     |                        |
+| `IconMoreHorizFill`                 | `IconDot3HorizontalFill`                     |                        |
+| `IconMoreVertThin`                  | `IconDot3VerticalLine`                       |                        |
+| `IconMoreVertRegular`               | `IconDot3VerticalLine`                       |                        |
+| `IconMoreVertFill`                  | `IconDot3VerticalFill`                       |                        |
+| `IconMyThin`                        | `IconPersonLine`                             |                        |
+| `IconMyRegular`                     | `IconPersonLine`                             |                        |
+| `IconMyFill`                        | `IconPersonFill`                             |                        |
+| `IconMyProfileThin`                 | `IconPersonCircleLine`                       |                        |
+| `IconMyProfileRegular`              | `IconPersonCircleLine`                       |                        |
+| `IconMyProfileFill`                 | `IconPersonCircleFill`                       |                        |
+| `IconNearMeThin`                    | `IconLocationpinLine`                        |                        |
+| `IconNearMeRegular`                 | `IconLocationpinLine`                        |                        |
+| `IconNearMeFill`                    | `IconLocationpinFill`                        |                        |
+| `IconNewtopicThin`                  | `IconNUppercaseCircleLine`                   |                        |
+| `IconNewtopicRegular`               | `IconNUppercaseCircleLine`                   |                        |
+| `IconNewtopicFill`                  | `IconNUppercaseCircleFill`                   |                        |
+| `IconNoteThin`                      | `IconDocumentLine`                           |                        |
+| `IconNoteRegular`                   | `IconDocumentLine`                           |                        |
+| `IconNoteFill`                      | `IconDocumentFill`                           |                        |
+| `IconNotificationThin`              | `IconBellLine`                               |                        |
+| `IconNotificationRegular`           | `IconBellLine`                               |                        |
+| `IconNotificationFill`              | `IconBellFill`                               |                        |
+| `IconNotificationFallThin`          | `IconArrowDownLine`                          |                        |
+| `IconNotificationFallRegular`       | `IconArrowDownLine`                          |                        |
+| `IconNotificationFallFill`          | `IconArrowDownFill`                          |                        |
+| `IconNotificationOffThin`           | `IconBellSlashLine`                          |                        |
+| `IconNotificationOffRegular`        | `IconBellSlashLine`                          |                        |
+| `IconNotificationOffFill`           | `IconBellSlashFill`                          |                        |
+| `IconOrderThin`                     | `IconCheckmarkClipboardLine`                 |                        |
+| `IconOrderRegular`                  | `IconCheckmarkClipboardLine`                 |                        |
+| `IconOrderFill`                     | `IconCheckmarkClipboardFill`                 |                        |
+| `IconPauseThin`                     | `IconVertrectangle2HorizontalLine`           |                        |
+| `IconPauseRegular`                  | `IconVertrectangle2HorizontalLine`           |                        |
+| `IconPauseFill`                     | `IconVertrectangle2HorizontalFill`           |                        |
+| `IconPaymentThin`                   | `IconCardLine`                               |                        |
+| `IconPaymentRegular`                | `IconCardLine`                               |                        |
+| `IconPaymentFill`                   | `IconCardFill`                               |                        |
+| `IconPercentThin`                   | `IconPercentLine`                            |                        |
+| `IconPercentRegular`                | `IconPercentLine`                            |                        |
+| `IconPercentFill`                   | `IconPercentFill`                            |                        |
+| `IconPhotoThin`                     | `IconPictureLine`                            |                        |
+| `IconPhotoRegular`                  | `IconPictureLine`                            |                        |
+| `IconPhotoFill`                     | `IconPictureFill`                            |                        |
+| `IconPhotoEditThin`                 | `IconWandLine`                               |                        |
+| `IconPhotoEditRegular`              | `IconWandLine`                               |                        |
+| `IconPhotoEditFill`                 | `IconWandFill`                               |                        |
+| `IconPhotoEditCropThin`             | `IconCropmarkLine`                           |                        |
+| `IconPhotoEditCropRegular`          | `IconCropmarkLine`                           |                        |
+| `IconPhotoEditCropFill`             | `IconCropmarkFill`                           |                        |
+| `IconPhotoEditDrawThin`             | `IconScribbleLine`                           |                        |
+| `IconPhotoEditDrawRegular`          | `IconScribbleLine`                           |                        |
+| `IconPhotoEditDrawFill`             | `IconScribbleFill`                           |                        |
+| `IconPhotoEditRotateThin`           | `IconArrow2ClockwiseCircularLine`            |                        |
+| `IconPhotoEditRotateRegular`        | `IconArrow2ClockwiseCircularLine`            |                        |
+| `IconPhotoEditRotateFill`           | `IconArrow2ClockwiseCircularFill`            |                        |
+| `IconPhotoSeveralThin`              | `IconPicture2StackedLine`                    |                        |
+| `IconPhotoSeveralRegular`           | `IconPicture2StackedLine`                    |                        |
+| `IconPhotoSeveralFill`              | `IconPicture2StackedFill`                    |                        |
+| `IconPlayThin`                      | `IconTriangleRightLine`                      |                        |
+| `IconPlayRegular`                   | `IconTriangleRightLine`                      |                        |
+| `IconPlayFill`                      | `IconTriangleRightFill`                      |                        |
+| `IconPollThin`                      | `IconBarchartSquareLine`                     |                        |
+| `IconPollRegular`                   | `IconBarchartSquareLine`                     |                        |
+| `IconPollFill`                      | `IconBarchartSquareFill`                     |                        |
+| `IconPriceWonThin`                  | `IconWonLine`                                |                        |
+| `IconPriceWonRegular`               | `IconWonLine`                                |                        |
+| `IconPriceWonFill`                  | `IconWonFill`                                |                        |
+| `IconProductThin`                   | `IconShoppingbagLine`                        |                        |
+| `IconProductRegular`                | `IconShoppingbagLine`                        |                        |
+| `IconProductFill`                   | `IconShoppingbagFill`                        |                        |
+| `IconProfileThin`                   | `IconPersonLine`                             |                        |
+| `IconProfileRegular`                | `IconPersonLine`                             |                        |
+| `IconProfileFill`                   | `IconPersonFill`                             |                        |
+| `IconProfileBadgeThin`              | `IconCheckmarkBadgeLine`                     |                        |
+| `IconProfileBadgeRegular`           | `IconCheckmarkBadgeLine`                     |                        |
+| `IconProfileBadgeFill`              | `IconCheckmarkBadgeFill`                     |                        |
+| `IconProhibitionThin`               | `IconSlashCircleLine`                        |                        |
+| `IconProhibitionRegular`            | `IconSlashCircleLine`                        |                        |
+| `IconProhibitionFill`               | `IconSlashCircleFill`                        |                        |
+| `IconPushpinThin`                   | `IconPushpinLine`                            |                        |
+| `IconPushpinRegular`                | `IconPushpinLine`                            |                        |
+| `IconPushpinFill`                   | `IconPushpinFill`                            |                        |
+| `IconQuestionCheckThin`             | `IconQuestionmarkSquareLine`                 |                        |
+| `IconQuestionCheckRegular`          | `IconQuestionmarkSquareLine`                 |                        |
+| `IconQuestionCheckFill`             | `IconQuestionmarkSquareFill`                 |                        |
+| `IconRedoThin`                      | `IconArrowUturnRightLine`                    |                        |
+| `IconRedoRegular`                   | `IconArrowUturnRightLine`                    |                        |
+| `IconRedoFill`                      | `IconArrowUturnRightFill`                    |                        |
+| `IconRefundThin`                    | `IconWonArrowClockwiseCircularLine`          |                        |
+| `IconRefundRegular`                 | `IconWonArrowClockwiseCircularLine`          |                        |
+| `IconRefundFill`                    | `IconWonArrowClockwiseCircularFill`          |                        |
+| `IconRemoveCircleThin`              | `IconXmarkCircleLine`                        |                        |
+| `IconRemoveCircleRegular`           | `IconXmarkCircleLine`                        |                        |
+| `IconRemoveCircleFill`              | `IconXmarkCircleFill`                        |                        |
+| `IconReplyThin`                     | `IconHorizline2VerticalChatbubbleRightLine`  |                        |
+| `IconReplyRegular`                  | `IconHorizline2VerticalChatbubbleRightLine`  |                        |
+| `IconReplyFill`                     | `IconHorizline2VerticalChatbubbleRightFill`  |                        |
+| `IconReplyMissionThin`              | `IconHorizline2VerticalChatbubbleRightLine`  |                        |
+| `IconReplyMissionRegular`           | `IconHorizline2VerticalChatbubbleRightLine`  |                        |
+| `IconReplyMissionFill`              | `IconHorizline2VerticalChatbubbleRightFill`  |                        |
+| `IconReplyReThin`                   | `IconCornerDownLeftLine`                     |                        |
+| `IconReplyReRegular`                | `IconCornerDownLeftLine`                     |                        |
+| `IconReplyReFill`                   | `IconCornerDownLeftFill`                     |                        |
+| `IconReportThin`                    | `IconFlagLine`                               |                        |
+| `IconReportRegular`                 | `IconFlagLine`                               |                        |
+| `IconReportFill`                    | `IconFlagFill`                               |                        |
+| `IconReservationThin`               | `IconCheckmarkCalendarLine`                  |                        |
+| `IconReservationRegular`            | `IconCheckmarkCalendarLine`                  |                        |
+| `IconReservationFill`               | `IconCheckmarkCalendarFill`                  |                        |
+| `IconRestaurantThin`                | `IconForkSpoonLine`                          |                        |
+| `IconRestaurantRegular`             | `IconForkSpoonLine`                          |                        |
+| `IconRestaurantFill`                | `IconForkSpoonFill`                          |                        |
+| `IconRetryThin`                     | `IconArrowClockwiseCircularLine`             |                        |
+| `IconRetryRegular`                  | `IconArrowClockwiseCircularLine`             |                        |
+| `IconRetryFill`                     | `IconArrowClockwiseCircularFill`             |                        |
+| `IconReviewStarThin`                | `IconStarLine`                               |                        |
+| `IconReviewStarRegular`             | `IconStarLine`                               |                        |
+| `IconReviewStarFill`                | `IconStarFill`                               |                        |
+| `IconScannerThin`                   | `IconHorizlineViewfinderLine`                |                        |
+| `IconScannerRegular`                | `IconHorizlineViewfinderLine`                |                        |
+| `IconScannerFill`                   | `IconHorizlineViewfinderFill`                |                        |
+| `IconSearchThin`                    | `IconMagnifyingglassLine`                    |                        |
+| `IconSearchRegular`                 | `IconMagnifyingglassLine`                    |                        |
+| `IconSearchFill`                    | `IconMagnifyingglassFill`                    |                        |
+| `IconSearchDocThin`                 | `IconDocumentMagnifyingglassLine`            |                        |
+| `IconSearchDocRegular`              | `IconDocumentMagnifyingglassLine`            |                        |
+| `IconSearchDocFill`                 | `IconDocumentMagnifyingglassFill`            |                        |
+| `IconSellThin`                      | `IconPlusSquareLine`                         |                        |
+| `IconSellRegular`                   | `IconPlusSquareLine`                         |                        |
+| `IconSellFill`                      | `IconPlusSquareFill`                         |                        |
+| `IconSettingThin`                   | `IconGearLine`                               |                        |
+| `IconSettingRegular`                | `IconGearLine`                               |                        |
+| `IconSettingFill`                   | `IconGearFill`                               |                        |
+| `IconSignoutThin`                   | `IconBracketLeftArrowRightLine`              |                        |
+| `IconSignoutRegular`                | `IconBracketLeftArrowRightLine`              |                        |
+| `IconSignoutFill`                   | `IconBracketLeftArrowRightFill`              |                        |
+| `IconSortThin`                      | `IconArrowUpArrowDownLine`                   |                        |
+| `IconSortRegular`                   | `IconArrowUpArrowDownLine`                   |                        |
+| `IconSortFill`                      | `IconArrowUpArrowDownFill`                   |                        |
+| `IconStoryThin`                     | `IconTriangleRightChatbubbleLeftLine`        |                        |
+| `IconStoryRegular`                  | `IconTriangleRightChatbubbleLeftLine`        |                        |
+| `IconStoryFill`                     | `IconTriangleRightChatbubbleLeftFill`        |                        |
+| `IconStoryArticleThin`              | `IconDocumentPenLine`                        |                        |
+| `IconStoryArticleRegular`           | `IconDocumentPenLine`                        |                        |
+| `IconStoryArticleFill`              | `IconDocumentPenFill`                        |                        |
+| `IconSubtractCircleThin`            | `IconMinusCircleLine`                        |                        |
+| `IconSubtractCircleRegular`         | `IconMinusCircleLine`                        |                        |
+| `IconSubtractCircleFill`            | `IconMinusCircleFill`                        |                        |
+| `IconSubtractionThin`               | `IconMinusLine`                              |                        |
+| `IconSubtractionRegular`            | `IconMinusLine`                              |                        |
+| `IconSubtractionFill`               | `IconMinusFill`                              |                        |
+| `IconSuggestThin`                   | `IconLightbulbDot5Line`                      | 변경 후 확인이 필요함  |
+| `IconSuggestRegular`                | `IconLightbulbDot5Line`                      | 변경 후 확인이 필요함  |
+| `IconSuggestFill`                   | `IconLightbulbDot5Fill`                      | 변경 후 확인이 필요함  |
+| `IconSunThin`                       | `IconSunLine`                                |                        |
+| `IconSunRegular`                    | `IconSunLine`                                |                        |
+| `IconSunFill`                       | `IconSunFill`                                |                        |
+| `IconTalkingdownThin`               | `IconQuotationmark2RightLine`                |                        |
+| `IconTalkingdownRegular`            | `IconQuotationmark2RightLine`                |                        |
+| `IconTalkingdownFill`               | `IconQuotationmark2RightFill`                |                        |
+| `IconTalkingupThin`                 | `IconQuotationmark2LeftLine`                 |                        |
+| `IconTalkingupRegular`              | `IconQuotationmark2LeftLine`                 |                        |
+| `IconTalkingupFill`                 | `IconQuotationmark2LeftFill`                 |                        |
+| `IconTextThin`                      | `IconTUppercaseSerifLine`                    |                        |
+| `IconTextRegular`                   | `IconTUppercaseSerifLine`                    |                        |
+| `IconTextFill`                      | `IconTUppercaseSerifFill`                    |                        |
+| `IconThumbDownThin`                 | `IconThumbDownLine`                          |                        |
+| `IconThumbDownRegular`              | `IconThumbDownLine`                          |                        |
+| `IconThumbDownFill`                 | `IconThumbDownFill`                          |                        |
+| `IconThumbUpThin`                   | `IconThumbUpLine`                            |                        |
+| `IconThumbUpRegular`                | `IconThumbUpLine`                            |                        |
+| `IconThumbUpFill`                   | `IconThumbUpFill`                            |                        |
+| `IconToolboxThin`                   | `IconToolboxLine`                            |                        |
+| `IconToolboxRegular`                | `IconToolboxLine`                            |                        |
+| `IconToolboxFill`                   | `IconToolboxFill`                            |                        |
+| `IconTranslateThin`                 | `IconTranslationLine`                        |                        |
+| `IconTranslateRegular`              | `IconTranslationLine`                        |                        |
+| `IconTranslateFill`                 | `IconTranslationFill`                        |                        |
+| `IconTrashThin`                     | `IconTrashcanLine`                           |                        |
+| `IconTrashRegular`                  | `IconTrashcanLine`                           |                        |
+| `IconTrashFill`                     | `IconTrashcanFill`                           |                        |
+| `IconUndoThin`                      | `IconArrowUturnLeftLine`                     |                        |
+| `IconUndoRegular`                   | `IconArrowUturnLeftLine`                     |                        |
+| `IconUndoFill`                      | `IconArrowUturnLeftFill`                     |                        |
+| `IconUserGroupThin`                 | `IconPerson2Line`                            |                        |
+| `IconUserGroupRegular`              | `IconPerson2Line`                            |                        |
+| `IconUserGroupFill`                 | `IconPerson2Fill`                            |                        |
+| `IconVideoThin`                     | `IconCamcorderLine`                          |                        |
+| `IconVideoRegular`                  | `IconCamcorderLine`                          |                        |
+| `IconVideoFill`                     | `IconCamcorderFill`                          |                        |
+| `IconViewCountThin`                 | `IconEyeLine`                                |                        |
+| `IconViewCountRegular`              | `IconEyeLine`                                |                        |
+| `IconViewCountFill`                 | `IconEyeFill`                                |                        |
+| `IconViewCountOffThin`              | `IconEyeSlashLine`                           |                        |
+| `IconViewCountOffRegular`           | `IconEyeSlashLine`                           |                        |
+| `IconViewCountOffFill`              | `IconEyeSlashFill`                           |                        |
+| `IconVolumeOffThin`                 | `IconSpeakerSlashLine`                       |                        |
+| `IconVolumeOffRegular`              | `IconSpeakerSlashLine`                       |                        |
+| `IconVolumeOffFill`                 | `IconSpeakerSlashFill`                       |                        |
+| `IconVolumeOnThin`                  | `IconSpeakerWave2Line`                       |                        |
+| `IconVolumeOnRegular`               | `IconSpeakerWave2Line`                       |                        |
+| `IconVolumeOnFill`                  | `IconSpeakerWave2Fill`                       |                        |
+| `IconVoteThin`                      | `IconCheckmarkBallotboxLine`                 |                        |
+| `IconVoteRegular`                   | `IconCheckmarkBallotboxLine`                 |                        |
+| `IconVoteFill`                      | `IconCheckmarkBallotboxFill`                 |                        |
+| `IconVoucherThin`                   | `IconGiftLine`                               |                        |
+| `IconVoucherRegular`                | `IconGiftLine`                               |                        |
+| `IconVoucherFill`                   | `IconGiftFill`                               |                        |
+| `IconWalkThin`                      | `IconFigureWalkLine`                         |                        |
+| `IconWalkRegular`                   | `IconFigureWalkLine`                         |                        |
+| `IconWalkFill`                      | `IconFigureWalkFill`                         |                        |
+| `IconWarningThin`                   | `IconExclamationmarkCircleLine`              |                        |
+| `IconWarningRegular`                | `IconExclamationmarkCircleLine`              |                        |
+| `IconWarningFill`                   | `IconExclamationmarkCircleFill`              |                        |
+| `IconWriteThin`                     | `IconPenHorizlineLine`                       |                        |
+| `IconWriteRegular`                  | `IconPenHorizlineLine`                       |                        |
+| `IconWriteFill`                     | `IconPenHorizlineFill`                       |                        |
+| `IconWriteFrequentUseThin`          | `IconDocumentPlusLine`                       |                        |
+| `IconWriteFrequentUseRegular`       | `IconDocumentPlusLine`                       |                        |
+| `IconWriteFrequentUseFill`          | `IconDocumentPlusFill`                       |                        |
+| `IconWriteStoryThin`                | `IconHorizline2VerticalChatbubbleRightLine`  | 변경 후 확인이 필요함  |
+| `IconWriteStoryRegular`             | `IconHorizline2VerticalChatbubbleRightLine`  | 변경 후 확인이 필요함  |
+| `IconWriteStoryFill`                | `IconHorizline2VerticalChatbubbleRightFill`  | 변경 후 확인이 필요함  |
+
+</Accordion>
+
+</Accordions>
+
+</Step>
+
+<Step>
+
+#### 사이드 이펙트 확인
+
+[사이드 이펙트](#발생-가능한-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토해요.
+
+</Step>
+
+</Steps>
+
+</Tab>
+
+</Tabs>
+
+## 발생 가능한 사이드 이펙트
+
+### 정확히 대응되는 리뉴얼된 아이콘이 없는 경우
+
+- 이전 아이콘 중 아래 5개 아이콘은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없어요.
+- codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요해요.
+
+| 이전 아이콘 이름   | 리뉴얼된 아이콘 이름                                                                                                                   |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `icon_bold`        | [`icon_t_uppercase_serif`](/docs/design/foundation/iconography?icon=icon_t_uppercase_serif_fill)                                       |
+| `icon_cobuying`    | [`icon_shoppingbag2_stacked`](/docs/design/foundation/iconography?icon=icon_shoppingbag2_stacked_fill)                                 |
+| `icon_delivery`    | [`icon_truck`](/docs/design/foundation/iconography?icon=icon_truck_fill)                                                               |
+| `icon_suggest`     | [`icon_lightbulb_dot5`](/docs/design/foundation/iconography?icon=icon_lightbulb_dot5_fill)                                             |
+| `icon_write_story` | [`icon_horizline2_vertical_chatbubble_right`](/docs/design/foundation/iconography?icon=icon_horizline2_vertical_chatbubble_right_fill) |
+
+<Callout type="info" title="사용 여부 확인 방법">
+
+- codemod 스크립트 사용 시, 5개 아이콘이 사용된 경우 터미널에 메시지가 출력돼요.
+  - `--log` flag를 사용하면, `migrate-icons-warnings.log`에 기록돼요.
+- 다음을 활용하여 코드를 직접 검색할 수 있어요.
+
+<Tabs items={["정규 표현식", "git grep"]}>
+
+```regex tab="정규 표현식"
+(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thin|Regular|Fill)|(IconTUppercaseSerif|IconShoppingbag2Stacked|IconTruck|IconLightbulbDot5|IconHorizline2VerticalChatbubbleRight)(Line|Fill)
+```
+
+```shell tab="git grep"
+git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thin|Regular|Fill)|(IconTUppercaseSerif|IconShoppingbag2Stacked|IconTruck|IconLightbulbDot5|IconHorizline2VerticalChatbubbleRight)(Line|Fill)'
+```
+
+</Tabs>
+
+</Callout>
+
+### 여러 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우
+
+**이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응돼요.** 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있어요. 의도한 목적대로 아이콘이 표시되는지 확인해요.
+
+- 한 아이콘 내의 `thin` variant와 `regular` variant는 모두 `line` variant로 대체돼요.
+  - 예를 들면, `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체돼요.
+- 완전히 다른 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있어요.
+  - 예를 들면, `icon_headphone_regular`, `icon_helpcenter_regular`, `icon_helper_regular`는 모두 [`icon_headset_line`](/docs/design/foundation/iconography?icon=icon_headset_line)으로 대체돼요.

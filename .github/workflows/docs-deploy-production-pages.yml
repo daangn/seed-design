@@ -4,7 +4,10 @@ on:
       - main
       - wip # V3
     paths:
-      - 'docs/**'
+      - "docs/**"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: Deploy seed-design-v3 docs (Production)
 
@@ -20,7 +23,7 @@ jobs:
         with:
           node-version: 20.11.0
           cache: yarn
-      
+
       - name: Install Dependencies
         run: yarn install --immutable
 
@@ -31,7 +34,7 @@ jobs:
         working-directory: ./docs
         run: |
           yarn build
-      
+
       - name: Deploy docs at Cloudflare Pages in `seed-design-v3` project (Production)
         uses: cloudflare/wrangler-action@v3
         with:
