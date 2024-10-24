@@ -126,6 +126,45 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
       import IconPlusSquareLine from "@daangn/react-icon/dist/lib/test/somewhat/IconPlusSquareLine";"
     `);
   });
+
+  test("복합", () => {
+    const input = `import {
+        IconSellRegular,
+        IconListFill,
+        IconAddFill as AddIconAlias,
+      } from "@seed-design/react-icon";
+      import IconSellFill from "@seed-design/IconSellRegular";
+
+      function App() {
+        console.log(IconSellRegular);
+
+        return (
+          <>
+            <IconListFill />
+            <AddIconAlias />
+          </>
+        );
+      }`;
+
+    expect(applyMigrateIconsTransform({ input })).toMatchInlineSnapshot(`
+      "import {
+        IconPlusSquareLine,
+        IconDothorizline3VerticalFill,
+        IconPlusFill as AddIconAlias,
+      } from "@daangn/react-icon";
+
+      import IconPlusSquareFill from "@seed-design/IconSellRegular";
+
+      function App() {
+        console.log(IconPlusSquareLine);
+
+        return (<>
+          <IconDothorizline3VerticalFill />
+          <AddIconAlias />
+        </>);
+      }"
+    `);
+  });
 });
 
 describe("identifiers: identifier 변경까지 있는 경우", () => {
