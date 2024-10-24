@@ -12,9 +12,9 @@ import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 #### 이전
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
-  - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
 - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
+- deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 
 #### 리뉴얼
 
@@ -32,16 +32,19 @@ import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 아래 두 아이콘 패키지를 사용한다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있습니다.
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
-  - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
+- deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 
 ### 결과 미리보기
+
+#### 스크립트 실행 전
 
 ```tsx
 import {
   IconSellRegular,
   IconListFill,
-  IconSellThin as IconSellAlias,
+  IconAddFill as AddIconAlias,
 } from "@seed-design/react-icon";
+import IconSellFill from "@seed-design/IconSellRegular";
 
 function App() {
   console.log(IconSellRegular);
@@ -49,18 +52,22 @@ function App() {
   return (
     <>
       <IconListFill />
-      <IconSellAlias />
+      <AddIconAlias />
     </>
   );
 }
 ```
 
+#### 스크립트 실행 후
+
 ```tsx
 import {
   IconPlusSquareLine,
   IconDothorizline3VerticalFill,
-  IconPlusSquareLine as IconSellAlias,
+  IconPlusFill as AddIconAlias,
 } from "@daangn/react-icon";
+
+import IconPlusSquareFill from "@seed-design/IconSellRegular";
 
 function App() {
   console.log(IconPlusSquareLine);
@@ -68,8 +75,7 @@ function App() {
   return (
     <>
       <IconDothorizline3VerticalFill />
-      {/* Rename하여 import한 아이콘은 이름이 유지돼요 */}
-      <IconSellAlias />
+      <AddIconAlias />
     </>
   );
 }
@@ -156,7 +162,7 @@ codemod 스크립트 실행 중 파싱 오류가 발생할 수 있습니다. 파
 
 ### 결과 확인
 
-문제 없이 실행된 경우 다음과 같은 결과가 표시됩니다.
+문제 없이 모든 변환이 완료된 경우 다음과 같은 결과가 표시됩니다.
 
 ```
 All done.
@@ -168,7 +174,7 @@ Results:
 Time elapsed: 43.376seconds
 ```
 
-Error 수가 0이 아니면, 파싱 오류 등으로 인해 코드 확인이 이루어지지 못한 파일이 있는 것입니다. 에러가 있다면, 문제를 수정하고 다시 스크립트를 실행하거나, 수동으로 수정해주세요.
+파싱 오류 등으로 인해 코드 확인이 이루어지지 못한 파일의 수가 `errors`로 표시됩니다. 에러가 있다면, 문제가 발생한 파일을 수정하고 다시 스크립트를 실행하거나, 수동으로 수정해주세요.
 
 ```
 All done.
@@ -218,7 +224,7 @@ yarn remove @seed-design/icon @seed-design/react-icon
 
 ### 사이드 이펙트 확인
 
-[의도한 대로 변경이 이루어졌는지 확인](#발생할-수-있는-사이드-이펙트)합니다.
+[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토합니다.
 
 </Step>
 
@@ -338,7 +344,7 @@ yarn add @daangn/vue3-icon
 
 <Accordion title="이전/리뉴얼 아이콘 컴포넌트 이름 대응">
 
-| 이전 아이콘                         | 리뉴얼된 아이콘                              | 비고                   |
+| 이전 아이콘 컴포넌트 이름           | 리뉴얼된 아이콘 컴포넌트 이름                | 비고                   |
 | ----------------------------------- | -------------------------------------------- | ---------------------- |
 | `IconAddThin`                       | `IconPlusLine`                               |                        |
 | `IconAddRegular`                    | `IconPlusLine`                               |                        |
@@ -945,7 +951,7 @@ yarn add @daangn/vue3-icon
 
 ### 사이드 이펙트 확인
 
-[의도한 대로 변경이 이루어졌는지 확인](#발생할-수-있는-사이드-이펙트)합니다.
+[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토합니다.
 
 </Step>
 
@@ -953,12 +959,12 @@ yarn add @daangn/vue3-icon
 
 ## 발생할 수 있는 사이드 이펙트
 
-### 정확히 대응되는 리뉴얼 아이콘이 없는 경우
+### 정확히 대응되는 리뉴얼된 아이콘이 없는 경우
 
 - 이전 아이콘 중 아래 5개 아이콘은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없습니다.
 - codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요합니다.
 
-| 이전              | 리뉴얼                                                                                                                 |
+| 이전 아이콘 이름  | 리뉴얼된 아이콘 이름                                                                                                   |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `icon_bold`       | [`icon_t_uppercase_serif`](/docs/design/foundation/iconography?icon=icon_t_uppercase_serif_fill)                       |
 | `icon_cobuying`   | [`icon_shoppingbag2_stacked`](/docs/design/foundation/iconography?icon=icon_shoppingbag2_stacked_fill)                 |
@@ -991,6 +997,6 @@ git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thi
 **이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응됩니다**. 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체될 수 있습니다. 의도한 목적대로 아이콘이 표시되는지 확인합니다.
 
 - 한 아이콘 내의 `thin` variant와 `regular` variant는 모두 `line` variant로 대체됩니다.
-  - `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체됩니다.
+  - 예를 들면, `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체됩니다.
 - 완전히 다른 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있습니다.
-  - `icon_headphone_regular`, `icon_helpcenter_regular`, `icon_helper_regular`는 모두 [`icon_headset_line`](/docs/design/foundation/iconography?icon=icon_headset_line)으로 대체됩니다.
+  - 예를 들면, `icon_headphone_regular`, `icon_helpcenter_regular`, `icon_helper_regular`는 모두 [`icon_headset_line`](/docs/design/foundation/iconography?icon=icon_headset_line)으로 대체됩니다.
