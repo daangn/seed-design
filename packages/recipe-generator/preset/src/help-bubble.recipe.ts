@@ -1,4 +1,4 @@
-import { vars } from "./__generated__/help-bubble.vars";
+import { helpBubble as vars } from "@seed-design/vars/component";
 import { defineRecipe } from "./helper";
 
 const helpBubble = defineRecipe({

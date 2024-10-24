@@ -1,8 +1,8 @@
+import { actionChip as vars } from "@seed-design/vars/component";
 import { rem } from "@seed-design/recipe-generator-core";
 
 import { defineRecipe } from "./helper";
 import { active, disabled, focus, pseudo } from "./pseudo";
-import { vars } from "./__generated__/action-chip.vars";
 
 const actionChip = defineRecipe({
   name: "actionChip",

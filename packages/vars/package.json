@@ -17,6 +17,16 @@
       "require": "./lib/index.cjs",
       "import": "./lib/index.mjs"
     },
+    "./color": {
+      "types": "./lib/color/index.d.ts",
+      "require": "./lib/color/index.cjs",
+      "import": "./lib/color/index.mjs"
+    },
+    "./component": {
+      "types": "./lib/component/index.d.ts",
+      "require": "./lib/component/index.cjs",
+      "import": "./lib/component/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -28,9 +38,6 @@
     "generate:component": "yarn generate-vars ./src/component",
     "build": "yarn build:style",
     "build:style": "yarn generate:component && nanobundle build"
-  },
-  "dependencies": {
-    "@seed-design/recipe-generator-core": "0.0.0"
   },
   "devDependencies": {
     "@seed-design/component-spec-cli": "0.0.0",
