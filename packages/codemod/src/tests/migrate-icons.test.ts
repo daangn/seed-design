@@ -133,7 +133,7 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
         IconListFill,
         IconAddFill as AddIconAlias,
       } from "@seed-design/react-icon";
-      import IconSellFill from "@seed-design/IconSellRegular";
+      import IconSellFill from "@seed-design/react-icon/IconSellFill";
 
       function App() {
         console.log(IconSellRegular);
@@ -153,7 +153,7 @@ describe("importDeclaration: import source와 specifier 모두 변경 있는 경
         IconPlusFill as AddIconAlias,
       } from "@daangn/react-icon";
 
-      import IconPlusSquareFill from "@seed-design/IconSellRegular";
+      import IconPlusSquareFill from "@daangn/react-icon/IconPlusSquareFill";
 
       function App() {
         console.log(IconPlusSquareLine);
