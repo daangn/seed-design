@@ -25,9 +25,9 @@
   ],
   "scripts": {
     "prepack": "rm -rf lib && yarn build",
-    "generate-vars:component": "yarn generate-vars ./src/component/__generated__",
+    "generate:component": "yarn generate-vars ./src/component",
     "build": "yarn build:style",
-    "build:style": "nanobundle build"
+    "build:style": "yarn generate:component && nanobundle build"
   },
   "dependencies": {
     "@seed-design/recipe-generator-core": "0.0.0"
