@@ -5,8 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'packages/**'
-      - 'docs/**'
+      - "packages/**"
+      - "docs/**"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   release:
