@@ -21,9 +21,7 @@ const controlChip = defineRecipe({
       MozOsxFontSmoothing: "grayscale",
 
       borderRadius: vars.base.enabled.root.cornerRadius,
-      borderStyle: "solid",
-      borderWidth: vars.base.enabled.root.strokeWidth,
-      borderColor: vars.base.enabled.root.strokeColor,
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
       [pseudo(focus)]: {
         outline: "none",
@@ -33,7 +31,7 @@ const controlChip = defineRecipe({
       },
       [pseudo(checked)]: {
         background: vars.base.selected.root.color,
-        borderWidth: vars.base.selected.root.strokeWidth as 0,
+        boxShadow: "none",
       },
       [pseudo(checked, active)]: {
         background: vars.base.selectedPressed.root.color,

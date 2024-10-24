@@ -10,9 +10,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     border-radius: var(--seed-v3-radii-full);
-    border-style: solid;
-    border-width: 1px;
-    border-color: var(--seed-v3-color-stroke-neutral);
+    box-shadow: inset 0 0 0 1px var(--seed-v3-color-stroke-neutral);
 }
 .controlChip__root:is(:focus, [data-focus]) {
     outline: none;
@@ -22,7 +20,7 @@
 }
 .controlChip__root:is(:checked, [data-checked]) {
     background: var(--seed-v3-color-bg-brand-weak);
-    border-width: 0;
+    box-shadow: none;
 }
 .controlChip__root:is(:checked, [data-checked]):is(:active, [data-active]) {
     background: var(--seed-v3-color-bg-brand-weak-pressed);
