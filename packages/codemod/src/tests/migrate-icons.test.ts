@@ -388,7 +388,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
     `);
   });
 
-  test("이전에 유지하기로 했었던 아이콘까지 replace (단독 사용)", () => {
+  test("임시로 유지하기로 했었던 아이콘까지 replace (단독 사용)", () => {
     const input = `import { IconCarRegular } from "@seed-design/icon";
 
     function test() {
@@ -435,7 +435,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
     `);
   });
 
-  test("이전에 유지하기로 했었던 아이콘까지 replace (섞인 경우)", () => {
+  test("임시로 유지하기로 했었던 아이콘까지 replace (섞인 경우)", () => {
     const input = `import { IconCarRegular, IconCarThin, IconJobsFill, IconSellRegular } from "@seed-design/icon";
     
     export function test() {
