@@ -24,3 +24,8 @@ export interface RequestJsonSchemaHandler extends EventHandler {
   name: "REQUEST_JSON_SCHEMA";
   handler: () => void;
 }
+
+export interface RequestColorJsonHandler extends EventHandler {
+  name: "REQUEST_COLOR_JSON";
+  handler: (colorMode: "light" | "dark") => void;
+}

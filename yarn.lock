@@ -2884,20 +2884,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@figma/plugin-typings@npm:1.100.2":
-  version: 1.100.2
-  resolution: "@figma/plugin-typings@npm:1.100.2"
-  checksum: 3666bd6454f31dd10307f485b08e52daecbd01dedcfa03bec616a2c4c7bc247dc9b9519152cb9607191aedf310bdbbb1f70bd9696cda4c4e760a94ba0f848983
-  languageName: node
-  linkType: hard
-
-"@figma/plugin-typings@npm:1.79.0":
-  version: 1.79.0
-  resolution: "@figma/plugin-typings@npm:1.79.0"
-  checksum: 478b841394aee869cd26da91f776c07666e1f955a458c234b0b99e4a7a557d42ccb2ba3c8ea791812318127a0475a7540211f272b991fada9b39af2782d3624a
-  languageName: node
-  linkType: hard
-
 "@figma/widget-typings@npm:*":
   version: 1.9.1
   resolution: "@figma/widget-typings@npm:1.9.1"
@@ -4312,7 +4298,7 @@ __metadata:
     "@create-figma-plugin/build": ^3.0.2
     "@create-figma-plugin/tsconfig": ^3.0.2
     "@create-figma-plugin/utilities": ^3.0.2
-    "@figma/plugin-typings": 1.79.0
+    "@figma/plugin-typings": "*"
     change-case: ^5.2.0
     just-group-by: ^2.2.0
     ts-pattern: ^5.2.0
@@ -4342,7 +4328,7 @@ __metadata:
     "@create-figma-plugin/tsconfig": ^3.2.1
     "@create-figma-plugin/ui": ^3.2.1
     "@create-figma-plugin/utilities": ^3.2.1
-    "@figma/plugin-typings": 1.100.2
+    "@figma/plugin-typings": "*"
     change-case: ^5.4.4
     color2k: ^2.0.3
     dedent: ^1.5.3

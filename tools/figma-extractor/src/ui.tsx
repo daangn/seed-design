@@ -4,6 +4,7 @@ import { h } from "preact";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
 import type {
+  RequestColorJsonHandler,
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
   RequestCssHandler,
@@ -61,6 +62,21 @@ function Plugin() {
       </Button>
       <Button fullWidth onClick={useCallback(() => emit<RequestCssHandler>("REQUEST_CSS"), [])}>
         GET Global CSS
+      </Button>
+      <Button
+        fullWidth
+        onClick={useCallback(
+          () => emit<RequestColorJsonHandler>("REQUEST_COLOR_JSON", "light"),
+          [],
+        )}
+      >
+        GET Color JSON (light)
+      </Button>
+      <Button
+        fullWidth
+        onClick={useCallback(() => emit<RequestColorJsonHandler>("REQUEST_COLOR_JSON", "dark"), [])}
+      >
+        GET Color JSON (dark)
       </Button>
       <Button
         fullWidth

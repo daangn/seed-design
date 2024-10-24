@@ -1,3 +1,4 @@
+import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
 import { camelCase } from "change-case";
 import { rgba } from "color2k";
 import dedent from "dedent";
@@ -495,4 +496,34 @@ function toJsonSchemaDeclaration(
     name: variable.name,
     description: variable.description,
   };
+}
+
+export function generateColorJson(colorMode: "light" | "dark") {
+  const colorGroups = ["carrot", "blue", "green", "red", "yellow", "purple"];
+  const lightModeId = "1928:7";
+  const darkModeId = "1928:8";
+  const modeId = colorMode === "light" ? lightModeId : darkModeId;
+  const variables = figma.variables.getLocalVariables().filter((v) => v.name.startsWith("palette"));
+  const colors = variables.map((v) => {
+    const [group, index] = v.name.split("/")[1].split("-");
+    return {
+      group,
+      index: Number(index),
+      value: `#${convertRgbColorToHexColor(v.valuesByMode[modeId] as RGB)}`,
+    };
+  });
+
+  return JSON.stringify(
+    Object.fromEntries(
+      colorGroups.map((group) => [
+        group,
+        colors
+          .filter((color) => color.group === group)
+          .sort((a, b) => a.index - b.index)
+          .map((color) => color.value),
+      ]),
+    ),
+    null,
+    2,
+  );
 }

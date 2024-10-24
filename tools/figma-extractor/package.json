@@ -13,7 +13,7 @@
   "devDependencies": {
     "@create-figma-plugin/build": "^3.2.1",
     "@create-figma-plugin/tsconfig": "^3.2.1",
-    "@figma/plugin-typings": "1.100.2",
+    "@figma/plugin-typings": "*",
     "typescript": ">=4"
   },
   "scripts": {

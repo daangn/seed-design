@@ -1,12 +1,13 @@
 import { emit, on, showUI } from "@create-figma-plugin/utilities";
 import type {
-  RequestJsonSchemaHandler,
+  RequestColorJsonHandler,
   RequestComponentKeyHandler,
   RequestComponentPropertyDefinitionsHandler,
   RequestCssHandler,
+  RequestJsonSchemaHandler,
   ResponseHandler,
 } from "./types";
-import { generateCss, generateJsonSchema } from "./variable";
+import { generateColorJson, generateCss, generateJsonSchema } from "./variable";
 
 export default function () {
   on<RequestComponentPropertyDefinitionsHandler>("REQUEST_COMPONENT_PROPERTY_DEFINITIONS", () => {
@@ -38,6 +39,12 @@ export default function () {
 
   on<RequestJsonSchemaHandler>("REQUEST_JSON_SCHEMA", () => {
     const result = generateJsonSchema();
+
+    emit<ResponseHandler>("RESPONSE", result);
+  });
+
+  on<RequestColorJsonHandler>("REQUEST_COLOR_JSON", (colorMode) => {
+    const result = generateColorJson(colorMode);
 
     emit<ResponseHandler>("RESPONSE", result);
   });
