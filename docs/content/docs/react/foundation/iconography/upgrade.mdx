@@ -1,40 +1,54 @@
 ---
 title: 업그레이드 가이드
-description: 리뉴얼된 아이콘으로 업그레이드하는 방법을 안내합니다.
+description: 리뉴얼된 아이콘으로 업그레이드하는 방법을 안내해요.
 ---
 
 import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 
-## Codemod 스크립트
+## 업그레이드 방법
 
-아래 두 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있습니다.
+현재 아이콘을 사용하고 있는 방법에 따라 적용할 수 있는 두 가지 방법이 있어요.
+
+### Codemod 스크립트
+
+아래 두 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있어요.
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
 - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 
-두 패키지는 [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)으로 대체됩니다.
+두 패키지는 [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)으로 대체돼요.
 
-## 수동 업그레이드
+### 수동 업그레이드
 
-다음과 같은 경우에는 수동으로 업그레이드해야 합니다.
+다음과 같은 경우에는 수동으로 업그레이드해야 해요.
 
 - PNG, SVG 등의 파일로 기존 아이콘을 사용하는 경우
 - 다음 패키지를 사용하는 경우
   - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
   - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
-  - 두 패키지는 각각 다음 패키지로 대체됩니다.
+  - 두 패키지는 각각 다음 패키지로 대체돼요.
     - [`@daangn/vue2-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-icon)
     - [`@daangn/vue3-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-icon)
 
 ## 작업 순서
 
+<Callout type="warn" title="시작하기 전">
+
+많은 변경사항이 발생하게 되므로, 커밋하지 않은 변경사항이 없는지 확인해요.
+
+</Callout>
+
 <Tabs items={["codemod 스크립트", "수동 업그레이드"]}>
 
 <Tab value="codemod 스크립트">
 
-### 결과 미리보기
+### Codemod 스크립트
 
-#### 스크립트 실행 전
+<Accordions>
+
+<Accordion title="Codemod 스크립트 실행 결과 미리보기">
+
+스크립트 실행 전
 
 ```tsx
 import {
@@ -56,7 +70,7 @@ function App() {
 }
 ```
 
-#### 스크립트 실행 후
+스크립트 실행 후
 
 ```tsx
 import {
@@ -64,7 +78,6 @@ import {
   IconDothorizline3VerticalFill,
   IconPlusFill as AddIconAlias,
 } from "@daangn/react-icon";
-
 import IconPlusSquareFill from "@daangn/react-icon/IconPlusSquareFill";
 
 function App() {
@@ -79,19 +92,17 @@ function App() {
 }
 ```
 
-<Callout type="warn" title="시작하기 전">
+</Accordion>
 
-많은 변경사항이 발생하게 되므로, 커밋하지 않은 변경사항이 없는지 확인합니다.
-
-</Callout>
+</Accordions>
 
 <Steps>
 
 <Step>
 
-### 리뉴얼된 아이콘 패키지 설치
+#### 리뉴얼된 아이콘 패키지 설치
 
-[`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)을 설치합니다.
+[`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)을 설치해요.
 
 ```package-install
 npm install @daangn/react-icon
@@ -101,9 +112,9 @@ npm install @daangn/react-icon
 
 <Step>
 
-### Codemod 스크립트 실행
+#### Codemod 스크립트 실행
 
-경로 내의 코드를 일괄적으로 변환하는 codemod 스크립트를 실행합니다.
+경로 내의 코드를 일괄적으로 변환하는 codemod 스크립트를 실행해요.
 
 ```shell
 npx @seed-design/codemod migrate-icons <...경로> <옵션>
@@ -116,16 +127,16 @@ npx @seed-design/codemod migrate-icons src
 <Callout type="info" title="옵션">
 
 - `--log`
-  - 로그를 파일로 저장합니다.
-  - `./`에 `migrate-icons-combined.log`와 `migrate-icons-warnings.log` 파일이 생성됩니다.
+  - 로그를 파일로 저장해요.
+  - `./`에 `migrate-icons-combined.log`와 `migrate-icons-warnings.log` 파일이 생성돼요.
 - [`--extensions`](https://jscodeshift.com/run/cli/#--extensionsext)
-  - 변환할 파일 확장자를 지정합니다.
-  - 이 옵션을 지정하지 않으면 경로 안의 `js`, `jsx`, `ts`, `tsx` 파일을 변환합니다. (`d.ts` 제외)
+  - 변환할 파일 확장자를 지정해요.
+  - 이 옵션을 지정하지 않으면 경로 안의 `js`, `jsx`, `ts`, `tsx` 파일을 변환해요. (`d.ts` 제외)
   - 예시: `--extensions="ts,tsx"`
 - [`--ignore-config`](https://jscodeshift.com/run/cli/#--ignore-configfile)
-  - 변환하지 않을 파일 패턴이 정의된 파일을 지정합니다.
+  - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
   - 예시: `--ignore-config=".gitignore"`
-  - 이 옵션을 지정하지 않아도 jscodeshift에 의해 `node_modules`는 자동으로 무시됩니다.
+  - 이 옵션을 지정하지 않아도 jscodeshift에 의해 `node_modules`는 자동으로 무시돼요.
 
 </Callout>
 
@@ -135,7 +146,7 @@ npx @seed-design/codemod migrate-icons src
 ERR /Users/seed/foo/bar.js Transformation error (Unexpected reserved word 'package'. (3:3))
 ```
 
-codemod 스크립트 실행 중 파싱 오류가 발생할 수 있습니다. 파싱 오류는 다음과 같은 이유로 발생합니다.
+codemod 스크립트 실행 중 파싱 오류가 발생할 수 있어요. 파싱 오류는 다음과 같은 이유로 발생해요.
 
 - `assert`를 사용한 [import assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html#import-attributes)과 같은, deprecated된 문법이 있는 경우
 - `package`와 같은 예약어를 변수 이름으로 사용한 경우 등
@@ -146,9 +157,9 @@ codemod 스크립트 실행 중 파싱 오류가 발생할 수 있습니다. 파
 
 <Step>
 
-### 결과 확인
+#### 결과 확인
 
-문제 없이 모든 변환이 완료된 경우 다음과 같은 결과가 표시됩니다.
+문제 없이 모든 변환이 완료된 경우 다음과 같은 결과가 표시돼요.
 
 ```
 All done.
@@ -160,7 +171,7 @@ Results:
 Time elapsed: 43.376seconds
 ```
 
-파싱 오류 등으로 인해 코드 확인이 이루어지지 못한 파일의 수가 `errors`로 표시됩니다. 에러가 있다면, 문제가 발생한 파일을 수정하고 다시 스크립트를 실행하거나, 수동으로 수정해주세요.
+파싱 오류 등으로 인해 코드 확인이 이루어지지 못한 파일의 수가 `errors`로 표시돼요. 에러가 있다면, 문제가 발생한 파일을 수정하고 다시 스크립트를 실행하거나, 수동으로 수정해주세요.
 
 ```
 All done.
@@ -176,17 +187,17 @@ Time elapsed: 49.376seconds
 
 <Step>
 
-### 코드 포맷
+#### 코드 포맷
 
-프로젝트에서 사용하는 포매터를 사용해서 코드를 포맷합니다.
+프로젝트에서 사용하는 포매터를 사용해서 코드를 포맷해요.
 
 </Step>
 
 <Step>
 
-### 이전 패키지 제거
+#### 이전 패키지 제거
 
-이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거합니다.
+이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거해요.
 
 ```package-install
 npm uninstall @seed-design/icon @seed-design/react-icon
@@ -196,9 +207,9 @@ npm uninstall @seed-design/icon @seed-design/react-icon
 
 <Step>
 
-### 사이드 이펙트 확인
+#### 사이드 이펙트 확인
 
-[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토합니다.
+[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토해요.
 
 </Step>
 
@@ -208,17 +219,13 @@ npm uninstall @seed-design/icon @seed-design/react-icon
 
 <Tab value="수동 업그레이드">
 
-<Callout type="warn" title="시작하기 전">
-
-많은 변경사항이 발생하게 되므로, 커밋하지 않은 변경사항이 없는지 확인합니다.
-
-</Callout>
+### 수동 업그레이드
 
 <Steps>
 
 <Step>
 
-### 이전 패키지 제거
+#### 이전 패키지 제거
 
 다음 패키지를 사용하는 경우, 패키지를 제거합니다
 
@@ -233,21 +240,21 @@ npm uninstall @seed-design/vue2-icon @seed-design/vue3-icon
 
 <Step>
 
-### 리뉴얼된 패키지 설치
+#### 리뉴얼된 패키지 설치
 
-#### React
+##### React
 
 ```package-install
 npm install @daangn/react-icon
 ```
 
-#### Vue 2
+##### Vue 2
 
 ```package-install
 npm install @daangn/vue2-icon
 ```
 
-#### Vue 3
+##### Vue 3
 
 ```package-install
 npm install @daangn/vue3-icon
@@ -257,9 +264,9 @@ npm install @daangn/vue3-icon
 
 <Step>
 
-### 아이콘 이름 변경
+#### 아이콘 이름 변경
 
-다음 표를 참고하여 리뉴얼된 패키지를 사용하도록 코드를 수정합니다.
+다음 표를 참고하여 리뉴얼된 패키지를 사용하도록 코드를 수정해요.
 
 <Accordions>
 
@@ -870,9 +877,9 @@ npm install @daangn/vue3-icon
 
 <Step>
 
-### 사이드 이펙트 확인
+#### 사이드 이펙트 확인
 
-[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토합니다.
+[사이드 이펙트](#발생할-수-있는-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토해요.
 
 </Step>
 
@@ -886,22 +893,22 @@ npm install @daangn/vue3-icon
 
 ### 정확히 대응되는 리뉴얼된 아이콘이 없는 경우
 
-- 이전 아이콘 중 아래 5개 아이콘은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없습니다.
-- codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요합니다.
+- 이전 아이콘 중 아래 5개 아이콘은 리뉴얼된 아이콘 패키지에 시각적으로 정확히 대응되는 항목이 없어요.
+- codemod 스크립트 실행 시 **추천되는 아이콘으로 변환되지만**, 시각적인 차이가 크기 때문에 변경 후 확인이 필요해요.
 
-| 이전 아이콘 이름  | 리뉴얼된 아이콘 이름                                                                                                                   |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `icon_bold`       | [`icon_t_uppercase_serif`](/docs/design/foundation/iconography?icon=icon_t_uppercase_serif_fill)                                       |
-| `icon_cobuying`   | [`icon_shoppingbag2_stacked`](/docs/design/foundation/iconography?icon=icon_shoppingbag2_stacked_fill)                                 |
-| `icon_belivery`   | [`icon_truck`](/docs/design/foundation/iconography?icon=icon_truck_fill)                                                               |
-| `icon_suggest`    | [`icon_lightbulb_dot5`](/docs/design/foundation/iconography?icon=icon_lightbulb_dot5_fill)                                             |
-| `icon_write_tory` | [`icon_horizline2_vertical_chatbubble_right`](/docs/design/foundation/iconography?icon=icon_horizline2_vertical_chatbubble_right_fill) |
+| 이전 아이콘 이름   | 리뉴얼된 아이콘 이름                                                                                                                   |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `icon_bold`        | [`icon_t_uppercase_serif`](/docs/design/foundation/iconography?icon=icon_t_uppercase_serif_fill)                                       |
+| `icon_cobuying`    | [`icon_shoppingbag2_stacked`](/docs/design/foundation/iconography?icon=icon_shoppingbag2_stacked_fill)                                 |
+| `icon_delivery`    | [`icon_truck`](/docs/design/foundation/iconography?icon=icon_truck_fill)                                                               |
+| `icon_suggest`     | [`icon_lightbulb_dot5`](/docs/design/foundation/iconography?icon=icon_lightbulb_dot5_fill)                                             |
+| `icon_write_story` | [`icon_horizline2_vertical_chatbubble_right`](/docs/design/foundation/iconography?icon=icon_horizline2_vertical_chatbubble_right_fill) |
 
 <Callout type="info" title="사용 여부 확인 방법">
 
-- codemod 스크립트 사용 시, 5개 아이콘이 사용된 경우 터미널에 메시지가 출력됩니다.
-  - `--log` flag를 사용하면, `migrate-icons-warnings.log`에 기록됩니다.
-- 다음을 활용하여 코드를 직접 검색할 수 있습니다.
+- codemod 스크립트 사용 시, 5개 아이콘이 사용된 경우 터미널에 메시지가 출력돼요.
+  - `--log` flag를 사용하면, `migrate-icons-warnings.log`에 기록돼요.
+- 다음을 활용하여 코드를 직접 검색할 수 있어요.
 
 <Tabs items={["정규 표현식", "git grep"]}>
 
@@ -919,9 +926,9 @@ git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thi
 
 ### 여러 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우
 
-**이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응됩니다**. 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있습니다. 의도한 목적대로 아이콘이 표시되는지 확인합니다.
+**이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응됩니다**. 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있어요. 의도한 목적대로 아이콘이 표시되는지 확인해요.
 
-- 한 아이콘 내의 `thin` variant와 `regular` variant는 모두 `line` variant로 대체됩니다.
-  - 예를 들면, `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체됩니다.
-- 완전히 다른 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있습니다.
-  - 예를 들면, `icon_headphone_regular`, `icon_helpcenter_regular`, `icon_helper_regular`는 모두 [`icon_headset_line`](/docs/design/foundation/iconography?icon=icon_headset_line)으로 대체됩니다.
+- 한 아이콘 내의 `thin` variant와 `regular` variant는 모두 `line` variant로 대체돼요.
+  - 예를 들면, `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체돼요.
+- 완전히 다른 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있어요.
+  - 예를 들면, `icon_headphone_regular`, `icon_helpcenter_regular`, `icon_helper_regular`는 모두 [`icon_headset_line`](/docs/design/foundation/iconography?icon=icon_headset_line)으로 대체돼요.
