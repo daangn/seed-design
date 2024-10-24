@@ -9,59 +9,53 @@ const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "data.t
 const data = fs.readFileSync(filePath, "utf8");
 
 parse(data, { delimiter: "\t" }, (_err, records) => {
-  const newEntries = [];
+  const result = [];
 
-  for (const [key, value, ar] of records) {
-    const pascalKey = pascalCase(key);
+  for (const [oldName, newName, ar] of records) {
+    const pascalOldName = pascalCase(oldName);
     const isActionRequired = ar.trim() === "1";
 
-    if (value === "") {
-      throw new Error(`"${key}" has no mapping value`);
+    if (newName === "") {
+      throw new Error(`"${oldName}" has no mapping value`);
     }
 
     const pascalValue = {
-      line: `${pascalCase(value)}Line`,
-      fill: `${pascalCase(value)}Fill`,
+      line: `${pascalCase(newName)}Line`,
+      fill: `${pascalCase(newName)}Fill`,
     };
 
     const isAvailableNow = pascalValue.line in availableIcons && pascalValue.fill in availableIcons;
 
     if (!isAvailableNow) {
       console.warn(
-        `"${key}" -> "${value}" is not available in @daangn/react-icon. Set keepForNow: true`,
+        `"${oldName}" -> "${newName}" is not available in @daangn/react-icon. Set keepForNow: true`,
       );
     }
 
-    newEntries.push([
-      `${pascalKey}Thin`,
-      {
-        newName: pascalValue.line,
-        ...(isActionRequired && { isActionRequired }),
-        ...(!isAvailableNow && { keepForNow: true }),
-      },
-    ]);
-    newEntries.push([
-      `${pascalKey}Regular`,
-      {
-        newName: pascalValue.line,
-        ...(isActionRequired && { isActionRequired }),
-        ...(!isAvailableNow && { keepForNow: true }),
-      },
-    ]);
-    newEntries.push([
-      `${pascalKey}Fill`,
-      {
-        newName: pascalValue.fill,
-        ...(isActionRequired && { isActionRequired }),
-        ...(!isAvailableNow && { keepForNow: true }),
-      },
-    ]);
-  }
+    result.push({
+      oldName: `${pascalOldName}Thin`,
+      newName: pascalValue.line,
+      ...(isActionRequired && { isActionRequired }),
+      ...(!isAvailableNow && { keepForNow: true }),
+    });
 
-  const identifierMap = Object.fromEntries(newEntries);
+    result.push({
+      oldName: `${pascalOldName}Regular`,
+      newName: pascalValue.line,
+      ...(isActionRequired && { isActionRequired }),
+      ...(!isAvailableNow && { keepForNow: true }),
+    });
+
+    result.push({
+      oldName: `${pascalOldName}Fill`,
+      newName: pascalValue.fill,
+      ...(isActionRequired && { isActionRequired }),
+      ...(!isAvailableNow && { keepForNow: true }),
+    });
+  }
 
   fs.writeFileSync(
     path.join(path.dirname(filePath), "identifier-match.json.log"),
-    JSON.stringify(identifierMap, null, 2),
+    JSON.stringify(result, null, 2),
   );
 });
