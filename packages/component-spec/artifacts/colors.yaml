@@ -1,4 +1,4 @@
-palette:
+scale:
   light:
     gray:
       00: rgba(255, 255, 255, 1)
@@ -174,235 +174,235 @@ semantic:
   light:
     bg:
       brand:
-        default: $palette.carrot.600
-        pressed: $palette.carrot.700
+        default: $scale.carrot.600
+        pressed: $scale.carrot.700
       brand-weak:
-        default: $palette.carrot.100
-        pressed: $palette.carrot.200
+        default: $scale.carrot.100
+        pressed: $scale.carrot.200
       danger:
-        default: $palette.red.700
-        pressed: $palette.red.800
+        default: $scale.red.700
+        pressed: $scale.red.800
       danger-weak:
-        default: $palette.red.100
-        pressed: $palette.red.200
+        default: $scale.red.100
+        pressed: $scale.red.200
       disabled: 
-        default: $palette.gray.200
+        default: $scale.gray.200
       informative:
-        default: $palette.blue.600
-        pressed: $palette.blue.700
+        default: $scale.blue.600
+        pressed: $scale.blue.700
       informative-weak:
-        default: $palette.blue.100
-        pressed: $palette.blue.200
+        default: $scale.blue.100
+        pressed: $scale.blue.200
       layer-basement:
-        default: $palette.gray.200
+        default: $scale.gray.200
       layer-default:
-        default: $palette.gray.00
-        pressed: $palette.gray.100
+        default: $scale.gray.00
+        pressed: $scale.gray.100
       layer-fill:
-        default: $palette.gray.100
+        default: $scale.gray.100
       layer-floating:
-        default: $palette.gray.00
-        pressed: $palette.gray.100
+        default: $scale.gray.00
+        pressed: $scale.gray.100
       magic:
-        default: $palette.purple.600
-        pressed: $palette.purple.700
+        default: $scale.purple.600
+        pressed: $scale.purple.700
       magic-weak:
-        default: $palette.purple.100
-        pressed: $palette.purple.200
+        default: $scale.purple.100
+        pressed: $scale.purple.200
       neutral:
-        default: $palette.gray.900
-        pressed: $palette.gray.800
+        default: $scale.gray.900
+        pressed: $scale.gray.800
       neutral-weak:
-        default: $palette.gray.200
-        pressed: $palette.gray.300
+        default: $scale.gray.200
+        pressed: $scale.gray.300
       overlay:
         default: $static.black-alpha-500
       overlay-muted:
         default: $static.black-alpha-200
       positive:
-        default: $palette.green.600
-        pressed: $palette.green.700
+        default: $scale.green.600
+        pressed: $scale.green.700
       positive-weak:
-        default: $palette.green.100
-        pressed: $palette.green.200
+        default: $scale.green.100
+        pressed: $scale.green.200
       text-selection:
-        default: $palette.carrot.100
+        default: $scale.carrot.100
       warning:
-        default: $palette.yellow.600
-        pressed: $palette.yellow.700
+        default: $scale.yellow.600
+        pressed: $scale.yellow.700
       warning-weak:
-        default: $palette.yellow.100
-        pressed: $palette.yellow.200
+        default: $scale.yellow.100
+        pressed: $scale.yellow.200
     fg:
       brand:
-        default: $palette.carrot.600
+        default: $scale.carrot.600
       brand-contrast:
-        default: $palette.carrot.700
+        default: $scale.carrot.700
       danger:
-        default: $palette.red.700
+        default: $scale.red.700
       danger-contrast:
-        default: $palette.red.900
+        default: $scale.red.900
       disabled:
-        default: $palette.gray.500
+        default: $scale.gray.500
       informative:
-        default: $palette.blue.700
+        default: $scale.blue.700
       informative-contrast:
-        default: $palette.blue.900
+        default: $scale.blue.900
       magic:
-        default: $palette.purple.700
+        default: $scale.purple.700
       magic-contrast:
-        default: $palette.purple.800
+        default: $scale.purple.800
       neutral:
-        default: $palette.gray.900
+        default: $scale.gray.900
       neutral-inverted:
-        default: $palette.gray.00
+        default: $scale.gray.00
       neutral-muted:
-        default: $palette.gray.800
+        default: $scale.gray.800
       neutral-subtle:
-        default: $palette.gray.700
+        default: $scale.gray.700
       placeholder:
-        default: $palette.gray.600
+        default: $scale.gray.600
       positive:
-        default: $palette.green.700
+        default: $scale.green.700
       positive-contrast:
-        default: $palette.green.900
+        default: $scale.green.900
       warning:
-        default: $palette.yellow.700
+        default: $scale.yellow.700
       warning-contrast:
-        default: $palette.yellow.900
+        default: $scale.yellow.900
     stroke:
       brand:
-        default: $palette.carrot.500
+        default: $scale.carrot.500
       control:
-        default: $palette.gray.400
+        default: $scale.gray.400
       danger:
-        default: $palette.red.700
+        default: $scale.red.700
       field:
-        default: $palette.gray.400
-        focused: $palette.gray.800
+        default: $scale.gray.400
+        focused: $scale.gray.800
       neutral:
-        default: $palette.gray.300
+        default: $scale.gray.300
       neutral-muted:
-        default: $palette.gray.200
+        default: $scale.gray.200
       on-image:
-        default: $palette.gray.alpha-50
+        default: $scale.gray.alpha-50
       positive:
-        default: $palette.green.600
+        default: $scale.green.600
 
   dark:
     bg:
       brand:
-        default: $palette.carrot.700
-        pressed: $palette.carrot.800
+        default: $scale.carrot.700
+        pressed: $scale.carrot.800
       brand-weak:
-        default: $palette.carrot.200
-        pressed: $palette.carrot.300
+        default: $scale.carrot.200
+        pressed: $scale.carrot.300
       danger:
-        default: $palette.red.600
-        pressed: $palette.red.700
+        default: $scale.red.600
+        pressed: $scale.red.700
       danger-weak:
-        default: $palette.red.100
-        pressed: $palette.red.200
+        default: $scale.red.100
+        pressed: $scale.red.200
       disabled: 
-        default: $palette.gray.200
+        default: $scale.gray.200
       informative:
-        default: $palette.blue.600
-        pressed: $palette.blue.700
+        default: $scale.blue.600
+        pressed: $scale.blue.700
       informative-weak:
-        default: $palette.blue.100
-        pressed: $palette.blue.200
+        default: $scale.blue.100
+        pressed: $scale.blue.200
       layer-basement:
-        default: $palette.gray.100
+        default: $scale.gray.100
       layer-default:
-        default: $palette.gray.00
-        pressed: $palette.gray.200
+        default: $scale.gray.00
+        pressed: $scale.gray.200
       layer-fill:
-        default: $palette.gray.00
+        default: $scale.gray.00
       layer-floating:
-        default: $palette.gray.100
-        pressed: $palette.gray.300
+        default: $scale.gray.100
+        pressed: $scale.gray.300
       magic:
-        default: $palette.purple.600
-        pressed: $palette.purple.700
+        default: $scale.purple.600
+        pressed: $scale.purple.700
       magic-weak:
-        default: $palette.purple.100
-        pressed: $palette.purple.200
+        default: $scale.purple.100
+        pressed: $scale.purple.200
       neutral:
-        default: $palette.gray.900
-        pressed: $palette.gray.800
+        default: $scale.gray.900
+        pressed: $scale.gray.800
       neutral-weak:
-        default: $palette.gray.300
-        pressed: $palette.gray.400
+        default: $scale.gray.300
+        pressed: $scale.gray.400
       overlay:
         default: $static.black-alpha-500
       overlay-muted:
         default: $static.black-alpha-200
       positive:
-        default: $palette.green.600
-        pressed: $palette.green.500
+        default: $scale.green.600
+        pressed: $scale.green.500
       positive-weak:
-        default: $palette.green.100
-        pressed: $palette.green.200
+        default: $scale.green.100
+        pressed: $scale.green.200
       text-selection:
-        default: $palette.carrot.100
+        default: $scale.carrot.100
       warning:
-        default: $palette.yellow.700
-        pressed: $palette.yellow.800
+        default: $scale.yellow.700
+        pressed: $scale.yellow.800
       warning-weak:
-        default: $palette.yellow.100
-        pressed: $palette.yellow.200
+        default: $scale.yellow.100
+        pressed: $scale.yellow.200
     fg:
       brand:
-        default: $palette.carrot.600
+        default: $scale.carrot.600
       brand-contrast:
-        default: $palette.carrot.800
+        default: $scale.carrot.800
       danger:
-        default: $palette.red.600
+        default: $scale.red.600
       danger-contrast:
-        default: $palette.red.900
+        default: $scale.red.900
       disabled:
-        default: $palette.gray.500
+        default: $scale.gray.500
       informative:
-        default: $palette.blue.700
+        default: $scale.blue.700
       informative-contrast:
-        default: $palette.blue.900
+        default: $scale.blue.900
       magic:
-        default: $palette.purple.700
+        default: $scale.purple.700
       magic-contrast:
-        default: $palette.purple.900
+        default: $scale.purple.900
       neutral:
-        default: $palette.gray.900
+        default: $scale.gray.900
       neutral-inverted:
-        default: $palette.gray.100
+        default: $scale.gray.100
       neutral-muted:
-        default: $palette.gray.800
+        default: $scale.gray.800
       neutral-subtle:
-        default: $palette.gray.700
+        default: $scale.gray.700
       placeholder:
-        default: $palette.gray.600
+        default: $scale.gray.600
       positive:
-        default: $palette.green.600
+        default: $scale.green.600
       positive-contrast:
-        default: $palette.green.900
+        default: $scale.green.900
       warning:
-        default: $palette.yellow.700
+        default: $scale.yellow.700
       warning-contrast:
-        default: $palette.yellow.900
+        default: $scale.yellow.900
     stroke:
       brand:
-        default: $palette.carrot.600
+        default: $scale.carrot.600
       control:
-        default: $palette.gray.400
+        default: $scale.gray.400
       danger:
-        default: $palette.red.600
+        default: $scale.red.600
       field:
-        default: $palette.gray.400
-        focused: $palette.gray.800
+        default: $scale.gray.400
+        focused: $scale.gray.800
       neutral:
-        default: $palette.gray.300
+        default: $scale.gray.300
       neutral-muted:
-        default: $palette.gray.200
+        default: $scale.gray.200
       on-image:
-        default: $palette.gray.alpha-50
+        default: $scale.gray.alpha-50
       positive:
-        default: $palette.green.600
+        default: $scale.green.600
