@@ -409,6 +409,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
   test("변환 정보 있지만, 변환하지 않고 유지 (섞인 경우)", () => {
     const input = `import { IconCarRegular, IconCarThin, IconJobsFill, IconSellRegular } from "@seed-design/icon";
     import IconRestaurantThin from "@seed-design/react-icon/lib/IconRestaurantThin";
+    import IconSellRegular from "@seed-design/icon/IconSellRegular";
     
     export function test() {
       return (<div>
@@ -422,6 +423,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
       "import { IconPlusSquareLine } from "@daangn/react-icon";
       import { IconCarRegular, IconCarThin, IconJobsFill } from "@seed-design/icon";
       import IconRestaurantThin from "@seed-design/react-icon/lib/IconRestaurantThin";
+      import IconPlusSquareLine from "@daangn/react-icon/IconPlusSquareLine";
 
       export function test() {
         return (
@@ -437,6 +439,8 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
 
   test("임시로 유지하기로 했었던 아이콘까지 replace (섞인 경우)", () => {
     const input = `import { IconCarRegular, IconCarThin, IconJobsFill, IconSellRegular } from "@seed-design/icon";
+    import IconRestaurantThin from "@seed-design/react-icon/lib/IconRestaurantThin";
+    import IconSellFill from "@seed-design/icon/IconSellFill";
     
     export function test() {
       return (<div>
@@ -450,6 +454,8 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
       applyMigrateIconsTransform({ input, replaceIconsKeptForNow: true }),
     ).toMatchInlineSnapshot(`
       "import { IconCarFrontsideLine, IconPersonMagnifyingglassFill, IconPlusSquareLine } from "@daangn/react-icon";
+          import IconForkSpoonLine from "@daangn/react-icon/lib/IconForkSpoonLine";
+          import IconPlusSquareFill from "@daangn/react-icon/IconPlusSquareFill";
           
           export function test() {
             return (
@@ -466,7 +472,8 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
   test("나눠진 결과를 이후 합치는 경우", () => {
     const input = `import { IconPlusSquareLine } from "@daangn/react-icon";
       import { IconCarRegular, IconCarThin, IconJobsFill } from "@seed-design/icon";
-      import IconRestaurantThin from "@daangn/react-icon/lib/IconRestaurantThin";
+      import IconRestaurantThin from "@seed-design/react-icon/lib/IconRestaurantThin";
+      import IconPlusSquareLine from "@daangn/react-icon/IconPlusSquareLine";
 
       export function test() {
         return (
@@ -476,8 +483,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
             <IconJobsFill />
             <IconPlusSquareLine />
           </div>)
-        );
-      }
+        );}
     `;
 
     expect(
@@ -485,7 +491,8 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
     ).toMatchInlineSnapshot(`
       "import { IconPlusSquareLine } from "@daangn/react-icon";
             import { IconCarFrontsideLine, IconPersonMagnifyingglassFill } from "@daangn/react-icon";
-            import IconForkSpoonLine from "@daangn/react-icon/lib/IconRestaurantThin";
+            import IconForkSpoonLine from "@daangn/react-icon/lib/IconForkSpoonLine";
+            import IconPlusSquareLine from "@daangn/react-icon/IconPlusSquareLine";
 
             export function test() {
               return (
@@ -495,8 +502,7 @@ describe("변환 정보 있지만, 확인 필요하거나 유지하기로 결정
                   <IconPersonMagnifyingglassFill />
                   <IconPlusSquareLine />
                 </div>)
-              );
-            }"
+              );}"
     `);
   });
 });
