@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.0-alpha-20241024093332
+
+### Patch Changes
+
+- refactor
+
 ## 0.0.0-alpha-20241023070021
 
 ### Patch Changes
