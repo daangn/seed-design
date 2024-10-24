@@ -5,31 +5,16 @@ description: 리뉴얼된 아이콘으로 업그레이드하는 방법을 안내
 
 import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 
-## 아이콘 패키지
-
-### 이전
-
-- [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
-- [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
-- [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
-- deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
-
-### 리뉴얼
-
-- [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)
-- [`@daangn/vue2-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-icon)
-- [`@daangn/vue3-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-icon)
-
-## 업그레이드 방법
-
-### Codemod 스크립트
+## Codemod 스크립트
 
 아래 두 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있습니다.
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
 - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 
-### 수동 업그레이드
+두 패키지는 [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)으로 대체됩니다.
+
+## 수동 업그레이드
 
 다음과 같은 경우에는 수동으로 업그레이드해야 합니다.
 
@@ -37,12 +22,15 @@ import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 - 다음 패키지를 사용하는 경우
   - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
   - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
+  - 두 패키지는 각각 다음 패키지로 대체됩니다.
+    - [`@daangn/vue2-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-icon)
+    - [`@daangn/vue3-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-icon)
+
+## 작업 순서
 
 <Tabs items={["codemod 스크립트", "수동 업그레이드"]}>
 
 <Tab value="codemod 스크립트">
-
-## Codemod 스크립트
 
 ### 결과 미리보기
 
@@ -198,7 +186,7 @@ Time elapsed: 49.376seconds
 
 ### 패키지 제거 및 업데이트
 
-이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거할 수 있습니다.
+이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거합니다.
 
 ```package-install
 npm uninstall @seed-design/icon @seed-design/react-icon
@@ -219,8 +207,6 @@ npm uninstall @seed-design/icon @seed-design/react-icon
 </Tab>
 
 <Tab value="수동 업그레이드">
-
-## 수동 업그레이드
 
 <Callout type="warn" title="시작하기 전">
 
@@ -896,7 +882,7 @@ npm install @daangn/vue3-icon
 
 </Tabs>
 
-## 발생할 수 있는 사이드 이펙트
+## 발생 가능한 사이드 이펙트
 
 ### 정확히 대응되는 리뉴얼된 아이콘이 없는 경우
 
@@ -933,7 +919,7 @@ git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thi
 
 ### 여러 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우
 
-**이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응됩니다**. 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체될 수 있습니다. 의도한 목적대로 아이콘이 표시되는지 확인합니다.
+**이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응됩니다**. 따라서, 같은 페이지에 표시되었던 서로 다른 두 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있습니다. 의도한 목적대로 아이콘이 표시되는지 확인합니다.
 
 - 한 아이콘 내의 `thin` variant와 `regular` variant는 모두 `line` variant로 대체됩니다.
   - 예를 들면, `icon_forward_thin`, `icon_forward_regular`는 모두 [`icon_arrow_right_line`](/docs/design/foundation/iconography?icon=icon_arrow_right_line)으로 대체됩니다.
