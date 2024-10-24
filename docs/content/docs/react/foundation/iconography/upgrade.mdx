@@ -5,34 +5,44 @@ description: 리뉴얼된 아이콘으로 업그레이드하는 방법을 안내
 
 import { Accordions, Accordion } from "fumadocs-ui/components/accordion";
 
-## 개요
+## 아이콘 패키지
 
-### 아이콘 패키지
-
-#### 이전
+### 이전
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
 - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
 - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
 - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
 
-#### 리뉴얼
+### 리뉴얼
 
 - [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)
 - [`@daangn/vue2-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue2-icon)
 - [`@daangn/vue3-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/vue3-icon)
 
-### 업그레이드 방법
+## 업그레이드 방법
 
-- [Codemod 스크립트](#codemod-스크립트)
-- [수동 업그레이드](#수동-업그레이드)
-
-## Codemod 스크립트
+### Codemod 스크립트
 
 아래 두 아이콘 패키지를 사용하고 있다면, 제공되는 codemod 스크립트를 사용해서 리뉴얼된 아이콘 패키지로 손쉽게 업그레이드할 수 있습니다.
 
 - [`@seed-deesign/react-icon`](https://www.npmjs.com/package/@seed-design/react-icon)
 - deprecated: [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon)
+
+### 수동 업그레이드
+
+다음과 같은 경우에는 수동으로 업그레이드해야 합니다.
+
+- PNG, SVG 등의 파일로 기존 아이콘을 사용하는 경우
+- 다음 패키지를 사용하는 경우
+  - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
+  - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
+
+<Tabs items={["codemod 스크립트", "수동 업그레이드"]}>
+
+<Tab value="codemod 스크립트">
+
+## Codemod 스크립트
 
 ### 결과 미리보기
 
@@ -95,27 +105,15 @@ function App() {
 
 [`@daangn/react-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-icon)을 설치합니다.
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm install @daangn/react-icon
 ```
-
-```shell tab="pnpm"
-pnpm add @daangn/react-icon
-```
-
-```shell tab="yarn"
-yarn add @daangn/react-icon
-```
-
-</Tabs>
 
 </Step>
 
 <Step>
 
-### Codemod 스크립트 실행 후 포맷팅
+### Codemod 스크립트 실행
 
 경로 내의 코드를 일괄적으로 변환하는 codemod 스크립트를 실행합니다.
 
@@ -202,21 +200,9 @@ Time elapsed: 49.376seconds
 
 이전 아이콘이 모두 대체된 경우, 이전 패키지를 제거할 수 있습니다.
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm uninstall @seed-design/icon @seed-design/react-icon
 ```
-
-```shell tab="pnpm"
-pnpm remove @seed-design/icon @seed-design/react-icon
-```
-
-```shell tab="yarn"
-yarn remove @seed-design/icon @seed-design/react-icon
-```
-
-</Tabs>
 
 </Step>
 
@@ -230,14 +216,11 @@ yarn remove @seed-design/icon @seed-design/react-icon
 
 </Steps>
 
+</Tab>
+
+<Tab value="수동 업그레이드">
+
 ## 수동 업그레이드
-
-다음과 같은 경우에는 수동으로 업그레이드해야 합니다.
-
-- PNG, SVG 등의 파일로 기존 아이콘을 사용하는 경우
-- 다음 패키지를 사용하는 경우
-  - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
-  - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
 
 <Callout type="warn" title="시작하기 전">
 
@@ -256,21 +239,9 @@ yarn remove @seed-design/icon @seed-design/react-icon
 - [`@seed-design/vue2-icon`](https://www.npmjs.com/package/@seed-design/vue2-icon)
 - [`@seed-design/vue3-icon`](https://www.npmjs.com/package/@seed-design/vue3-icon)
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm uninstall @seed-design/vue2-icon @seed-design/vue3-icon
 ```
-
-```shell tab="pnpm"
-pnpm remove @seed-design/vue2-icon @seed-design/vue3-icon
-```
-
-```shell tab="yarn"
-yarn remove @seed-design/vue2-icon @seed-design/vue3-icon
-```
-
-</Tabs>
 
 </Step>
 
@@ -280,57 +251,21 @@ yarn remove @seed-design/vue2-icon @seed-design/vue3-icon
 
 #### React
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm install @daangn/react-icon
 ```
 
-```shell tab="pnpm"
-pnpm add @daangn/react-icon
-```
-
-```shell tab="yarn"
-yarn add @daangn/react-icon
-```
-
-</Tabs>
-
 #### Vue 2
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm install @daangn/vue2-icon
 ```
 
-```shell tab="pnpm"
-pnpm add @daangn/vue2-icon
-```
-
-```shell tab="yarn"
-yarn add @daangn/vue2-icon
-```
-
-</Tabs>
-
 #### Vue 3
 
-<Tabs groupId="package-manager" persistent items={["npm", "pnpm", "yarn"]}>
-
-```shell tab="npm"
+```package-install
 npm install @daangn/vue3-icon
 ```
-
-```shell tab="pnpm"
-pnpm add @daangn/vue3-icon
-```
-
-```shell tab="yarn"
-yarn add @daangn/vue3-icon
-```
-
-</Tabs>
 
 </Step>
 
@@ -956,6 +891,10 @@ yarn add @daangn/vue3-icon
 </Step>
 
 </Steps>
+
+</Tab>
+
+</Tabs>
 
 ## 발생할 수 있는 사이드 이펙트
 
