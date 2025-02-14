@@ -1,30 +1,8 @@
 import type { Transform } from "jscodeshift";
-import { colorMappings } from "@seed-design/migration-index/color";
+import { allColorMappings } from "./mappings.js";
 import { TokenMigrationReporter } from "../../utils/reporter.js";
 
-interface ColorMapping {
-  previous: string;
-  next: string[];
-}
-
 const reporter = new TokenMigrationReporter("replace-tailwind-color");
-
-// text-primary -> text-fg-brand 등의 매핑
-const tailwindColorMappings: ColorMapping[] = colorMappings.map((mapping) => ({
-  previous: mapping.previous.replace(/^\$semantic\.color\./, "text-"),
-  next: mapping.next.map((token) => {
-    if (token.startsWith("$color.bg")) {
-      return `text-${token.replace("$color.bg.", "bg-")}`;
-    }
-    if (token.startsWith("$color.fg")) {
-      return `text-${token.replace("$color.fg.", "fg-")}`;
-    }
-    if (token.startsWith("$color.palette")) {
-      return `text-${token.replace("$color.palette.", "")}`;
-    }
-    return token;
-  }),
-}));
 
 const transform: Transform = (file, api) => {
   const j = api.jscodeshift;
@@ -35,11 +13,10 @@ const transform: Transform = (file, api) => {
     if (path.node.value?.type !== "StringLiteral") return;
 
     const classNames = path.node.value.value.split(" ");
-    const newClassNames = classNames.map((className) => {
-      // 색상 관련 클래스인 경우만 처리
-      if (!className.startsWith("text-")) return className;
 
-      const mapping = tailwindColorMappings.find((m) => m.previous === className);
+    const newClassNames = classNames.map((className) => {
+      const mapping = allColorMappings.find((m) => m.previous === className);
+
       if (!mapping) return className;
 
       if (mapping.next.length === 1) {
