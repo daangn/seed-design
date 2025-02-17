@@ -2,11 +2,11 @@ import type { Transform } from "jscodeshift";
 import { allColorMappings } from "./mappings.js";
 import { TokenMigrationReporter } from "../../utils/reporter.js";
 
-const reporter = new TokenMigrationReporter("replace-tailwind-color");
-
 const transform: Transform = (file, api) => {
   const j = api.jscodeshift;
   const root = j(file.source);
+  const reporter = new TokenMigrationReporter("replace-tailwind-color");
+  reporter.startNewFile(file.path);
 
   // JSX className 속성을 찾음
   root.find(j.JSXAttribute, { name: { name: "className" } }).forEach((path) => {
@@ -45,6 +45,7 @@ const transform: Transform = (file, api) => {
     path.node.value.value = newClassNames.join(" ");
   });
 
+  reporter.finishFile();
   reporter.writeReport();
   return root.toSource();
 };

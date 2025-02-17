@@ -96,6 +96,10 @@ export class TokenMigrationReporter {
 
         return `### [${filename}](${file.filePath})
 - timestamp: ${this.timestamp}
+- summary:
+  - total: ${file.results.length}
+  - success: ${file.results.filter((result) => result.status === "success").length}
+  - failure: ${file.results.filter((result) => result.status === "failure").length}
 - results
 ${resultsList}`;
       })

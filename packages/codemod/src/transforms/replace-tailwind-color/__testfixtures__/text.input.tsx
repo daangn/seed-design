@@ -7,23 +7,23 @@ export function TextExample() {
       <p className="text-secondary">Secondary Text</p>
       <p className="text-success">Success Text</p>
       <p className="text-warning">Warning Text</p>
-      <p className="text-critical">Critical Text</p>
-      <span className="text-gray-500">Scale Gray Text</span>
-      <span className="text-carrot-500">Scale Carrot Text</span>
-      <em className="text-static-black not-italic">Static Black Text</em>
+      <p className="text-danger">Critical Text</p>
+      <span className="text-gray500">Scale Gray Text</span>
+      <span className="text-carrot500">Scale Carrot Text</span>
+      <em className="text-staticBlack not-italic">Static Black Text</em>
 
       {/* State variations */}
-      <button className="text-primary hover:text-primary-hover">Hover Primary Text</button>
-      <a className="text-success hover:text-success-hover focus:text-success-pressed">
+      <button className="text-primary hover:text-primaryLow">Hover Primary Text</button>
+      <a className="text-success hover:text-successLow focus:text-successLow">
         Interactive Success Text
       </a>
-      <p className="text-critical hover:text-critical-hover active:text-critical-pressed">
+      <p className="text-danger hover:text-dangerLow active:text-dangerLow">
         Interactive Critical Text
       </p>
-      <span className="text-gray-500 hover:text-gray-600 focus:text-gray-700">
+      <span className="text-gray500 hover:text-gray600 focus:text-gray700">
         Interactive Gray Text
       </span>
-      <div className="text-secondary-low hover:text-secondary focus:text-secondary-pressed">
+      <div className="text-secondaryLow hover:text-secondary">
         Complex State Text
       </div>
     </div>
