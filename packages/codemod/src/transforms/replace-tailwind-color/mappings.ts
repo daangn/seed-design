@@ -76,34 +76,28 @@ function createColorMappings(prefix: ColorPrefix): FoundationTokenMapping[] {
   }));
 }
 
-// 상태 매핑 생성: hover, focus, active 등의 상태 prefix 부여
-function createStateColorMappings(
-  state: string,
-  mappings: FoundationTokenMapping[],
-): FoundationTokenMapping[] {
-  return mappings.map((mapping) => ({
-    previous: `${state}:${mapping.previous}`,
-    next: mapping.next.map((token) => `${state}:${token}`),
-  }));
-}
-
 // 텍스트 및 배경 색상 매핑 생성
 export const textColorMappings = createColorMappings("text");
 export const bgColorMappings = createColorMappings("bg");
-
-// 상태별 매핑 생성
-const states = ["hover", "focus", "active"] as const;
-export const stateTextColorMappings = states.flatMap((state) =>
-  createStateColorMappings(state, textColorMappings),
-);
-export const stateBgColorMappings = states.flatMap((state) =>
-  createStateColorMappings(state, bgColorMappings),
-);
+export const borderColorMappings = createColorMappings("border");
+export const strokeColorMappings = createColorMappings("stroke");
+export const fillColorMappings = createColorMappings("fill");
+export const accentColorMappings = createColorMappings("accent");
+export const caretColorMappings = createColorMappings("caret");
+export const decorationColorMappings = createColorMappings("decoration");
+export const ringColorMappings = createColorMappings("ring");
+export const insetRingColorMappings = createColorMappings("inset-ring");
+export const insetShadowColorMappings = createColorMappings("inset-shadow");
 
 // 모든 매핑 합치기
 export const allColorMappings = [
   ...textColorMappings,
   ...bgColorMappings,
-  ...stateTextColorMappings,
-  ...stateBgColorMappings,
+  ...borderColorMappings,
+  ...strokeColorMappings,
+  ...fillColorMappings,
+  ...accentColorMappings,
+  ...caretColorMappings,
+  ...decorationColorMappings,
+  ...ringColorMappings,
 ];

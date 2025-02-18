@@ -90,7 +90,7 @@ export class TokenMigrationReporter {
               ? `\n    - Reason: ${result.failureReason}`
               : "";
 
-            return `  - ${status} \`${result.previousToken}\` → ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${lineInfo}${failureInfo}`;
+            return `  - ${status} ${lineInfo} \n    - before: \`${result.previousToken}\` \n    - after: ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${failureInfo}`;
           })
           .join("\n");
 
@@ -100,7 +100,7 @@ export class TokenMigrationReporter {
   - total: ${file.results.length}
   - success: ${file.results.filter((result) => result.status === "success").length}
   - failure: ${file.results.filter((result) => result.status === "failure").length}
-- results
+- lines
 ${resultsList}`;
       })
       .join("\n\n");

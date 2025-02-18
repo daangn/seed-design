@@ -10,6 +10,7 @@ export function TextExample() {
       <p className="text-critical">Critical Text</p>
       <span className="text-gray-600">Scale Gray Text</span>
       <span className="text-carrot-600">Scale Carrot Text</span>
+      <span className="after:text-carrot-600">Scale Carrot Text</span>
       <em className="text-static-black not-italic">Static Black Text</em>
       {/* State variations */}
       <button className="text-brand hover:text-carrot-100">Hover Primary Text</button>

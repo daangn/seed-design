@@ -4,14 +4,22 @@ import { TokenMigrationReporter } from "../../utils/reporter.js";
 import { handleImports } from "./import-handler.js";
 import { getMemberExpressionName, buildMemberExpression } from "./ast-utils.js";
 import { fromKebabCaseWithNumbers, toKebabCaseWithNumbers } from "./token-utils.js";
+import type { z } from "zod";
+import type { transformOptionsSchema } from "../../schema.js";
 
-const replaceVarsColor: jscodeshift.Transform = (file, api) => {
+const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
+  const inferedOptions = options as z.infer<typeof transformOptionsSchema>;
+  const { reporter } = inferedOptions;
   const j = api.jscodeshift;
   const root = j(file.source);
-  const reporter = new TokenMigrationReporter("replace-vars-color");
-  const unresolvedIdentifiers = new Set<string>();
 
-  reporter.startNewFile(file.path);
+  let reporterInstance: TokenMigrationReporter | null = null;
+  if (reporter) {
+    reporterInstance = new TokenMigrationReporter("replace-vars-color");
+    reporterInstance.startNewFile(file.path);
+  }
+
+  const unresolvedIdentifiers = new Set<string>();
 
   // Replace color references
   root
@@ -28,14 +36,16 @@ const replaceVarsColor: jscodeshift.Transform = (file, api) => {
 
       if (mapping) {
         if (mapping.next.length === 0 || mapping.next.length > 1) {
-          reporter.addResult({
-            previousToken: memberName,
-            nextToken: null,
-            line,
-            status: "failure",
-            failureReason:
-              mapping.next.length === 0 ? "No mapping available" : "Multiple mappings found",
-          });
+          if (reporterInstance) {
+            reporterInstance.addResult({
+              previousToken: memberName,
+              nextToken: null,
+              line,
+              status: "failure",
+              failureReason:
+                mapping.next.length === 0 ? "No mapping available" : "Multiple mappings found",
+            });
+          }
           unresolvedIdentifiers.add(memberName);
           return;
         }
@@ -44,12 +54,14 @@ const replaceVarsColor: jscodeshift.Transform = (file, api) => {
         const newExpr = buildMemberExpression(j, newName);
         path.replace(newExpr);
 
-        reporter.addResult({
-          previousToken: memberName,
-          nextToken: newName,
-          line,
-          status: "success",
-        });
+        if (reporterInstance) {
+          reporterInstance.addResult({
+            previousToken: memberName,
+            nextToken: newName,
+            line,
+            status: "success",
+          });
+        }
       }
     });
 
@@ -72,8 +84,10 @@ const replaceVarsColor: jscodeshift.Transform = (file, api) => {
       });
   }
 
-  reporter.finishFile();
-  reporter.writeReport();
+  if (reporterInstance) {
+    reporterInstance.finishFile();
+    reporterInstance.writeReport();
+  }
 
   return root.toSource();
 };

@@ -10,6 +10,7 @@ export function TextExample() {
       <p className="text-danger">Critical Text</p>
       <span className="text-gray500">Scale Gray Text</span>
       <span className="text-carrot500">Scale Carrot Text</span>
+      <span className="after:text-carrot500">Scale Carrot Text</span>
       <em className="text-staticBlack not-italic">Static Black Text</em>
 
       {/* State variations */}
