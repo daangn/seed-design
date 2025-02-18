@@ -1,25 +1,19 @@
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import * as React from "react";
-import * as Index from "./example/index.json";
 
-import ErrorBoundary from "./error-boundary";
-import { CodeBlock } from "./code-block";
 import { ComponentPreview } from "./component-preview";
+import ErrorBoundary from "./error-boundary";
 
 interface ComponentExampleProps {
   name: string;
 
-  previewOnly?: boolean;
+  children?: React.ReactNode;
 }
 
 export function ComponentExample(props: ComponentExampleProps) {
-  const { name } = props;
+  const { name, children } = props;
 
-  const Code = React.useMemo(() => {
-    return (Index as Record<string, string>)[name];
-  }, [name]);
-
-  if (props.previewOnly) {
+  if (!children) {
     return (
       <React.Suspense fallback={null}>
         <ComponentPreview name={name} />
@@ -33,9 +27,7 @@ export function ComponentExample(props: ComponentExampleProps) {
         <Tab value="미리보기">
           <ComponentPreview name={name} />
         </Tab>
-        <Tab value="코드">
-          <CodeBlock lang="tsx" wrapper={{ allowCopy: true }} code={Code} />
-        </Tab>
+        <Tab value="코드">{children}</Tab>
       </Tabs>
     </ErrorBoundary>
   );
