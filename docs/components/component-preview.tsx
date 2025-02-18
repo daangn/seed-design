@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import ErrorBoundary from "./error-boundary";
 
 interface ComponentPreviewProps {
   name: string;
@@ -20,21 +21,23 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   }, [name]);
 
   return (
-    <div
-      className="not-prose example-reset"
-      style={{
-        minHeight: "300px",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "var(--seed-color-bg-layer-default)",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <React.Suspense>
-        <div className="example-enter">{Preview}</div>
-      </React.Suspense>
-    </div>
+    <ErrorBoundary>
+      <div
+        className="not-prose example-reset"
+        style={{
+          minHeight: "300px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "var(--seed-color-bg-layer-default)",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <React.Suspense fallback={null}>
+          <div className="example-enter">{Preview}</div>
+        </React.Suspense>
+      </div>
+    </ErrorBoundary>
   );
 }
