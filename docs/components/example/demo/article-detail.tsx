@@ -10,7 +10,7 @@ import {
 } from "seed-design/ui/app-bar";
 import { Stack, Columns, Column, Box } from "seed-design/ui/layout";
 import { Text } from "seed-design/ui/text";
-import { Badge } from "seed-design/ui/badge";
+import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { Callout } from "seed-design/ui/callout";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";

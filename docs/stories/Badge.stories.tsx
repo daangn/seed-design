@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Badge } from "seed-design/ui/badge";
+import { Badge } from "@seed-design/react";
 
 import { badgeVariantMap } from "@seed-design/css/recipes/badge";
 import { VariantTable } from "./components/variant-table";

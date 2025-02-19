@@ -92,16 +92,6 @@ export const registryUI: RegistryUI = [
     files: ["ui:extended-fab.tsx"],
   },
   {
-    name: "action-chip",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:action-chip.tsx"],
-  },
-  {
-    name: "badge",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:badge.tsx"],
-  },
-  {
     name: "callout",
     dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
     files: ["ui:callout.tsx"],
