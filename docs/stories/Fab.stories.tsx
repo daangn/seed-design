@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Fab } from "seed-design/ui/fab";
+import { Fab, Icon } from "@seed-design/react";
 
 import { IconBellFill } from "@daangn/react-monochrome-icon";
 import { fabVariantMap } from "@seed-design/css/recipes/fab";
@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
   args: {
-    children: <IconBellFill />,
+    children: <Icon svg={<IconBellFill />} />,
   },
   render: (args) => (
     <VariantTable Component={meta.component} variantMap={fabVariantMap} {...args} />

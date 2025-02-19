@@ -82,11 +82,6 @@ export const registryUI: RegistryUI = [
     files: ["ui:reaction-button.tsx"],
   },
   {
-    name: "fab",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:fab.tsx"],
-  },
-  {
     name: "callout",
     dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
     files: ["ui:callout.tsx"],

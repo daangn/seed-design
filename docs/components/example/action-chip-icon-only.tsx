@@ -1,10 +1,10 @@
 import { IconPlusFill } from "@daangn/react-monochrome-icon";
-import { ActionChip } from "@seed-design/react";
+import { ActionChip, Icon } from "@seed-design/react";
 
 export default function ActionChipIconOnly() {
   return (
     <ActionChip layout="iconOnly">
-      <IconPlusFill />
+      <Icon svg={<IconPlusFill />} />
     </ActionChip>
   );
 }
