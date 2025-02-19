@@ -3,22 +3,53 @@ title: Link With Icon
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="link-with-icon-preview" />
+<ComponentExample name="link-with-icon-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-with-icon-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
-## Installation
+## Usage
 
-<Installation name="link-with-icon" />
+```tsx
+import { LinkWithIcon, SuffixIcon } from "@seed-design/react";
+import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
+```
+
+```tsx
+<LinkWithIcon>
+  Label
+  <SuffixIcon svg={<IconChevronRightLine />} />
+</LinkWithIcon>
+```
 
 ## Props
 
-<ReactTypeTable path="./registry/ui/link-with-icon.tsx" name="LinkWithIconProps" />
+<ReactTypeTable path="../packages/react/src/components/LinkWithIcon/LinkWithIcon.tsx" name="LinkWithIconProps" />
 
 ## Examples
 
 ### Size
 
-<ComponentExample name="link-with-icon-size" />
+<ComponentExample name="link-with-icon-size">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-with-icon-size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Color
 
-<ComponentExample name="link-with-icon-color" />
+<ComponentExample name="link-with-icon-color">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-with-icon-color.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

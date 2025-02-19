@@ -1,6 +1,5 @@
-import { LinkWithIcon } from "@/registry/ui/link-with-icon";
+import { LinkWithIcon, SuffixIcon } from "@seed-design/react";
 import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
-import { SuffixIcon } from "@seed-design/react";
 
 export default function LinkWithIconPreview() {
   return (
