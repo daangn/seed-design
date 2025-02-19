@@ -7,6 +7,7 @@ import type { z } from "zod";
 import type { transformOptionsSchema } from "../schema.js";
 
 export function runFixtureTests(
+  name: string,
   transform: Transform,
   fixturesDir: string,
   transformOptions: z.infer<typeof transformOptionsSchema> = {
@@ -17,7 +18,7 @@ export function runFixtureTests(
     .filter((filename) => filename.endsWith(".input.tsx"))
     .map((filename) => basename(filename, ".input.tsx"));
 
-  describe(`Transform tests in ${fixturesDir}`, () => {
+  describe(`${name} transform tests`, () => {
     inputFiles.forEach((testCase) => {
       test(`transforms ${testCase} correctly`, () => {
         const inputPath = join(fixturesDir, `${testCase}.input.tsx`);

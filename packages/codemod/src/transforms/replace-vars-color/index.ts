@@ -35,7 +35,33 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
       const line = path.node.loc?.start.line;
 
       if (mapping) {
-        if (mapping.next.length === 0 || mapping.next.length > 1) {
+        let chosenToken: string | null = null;
+
+        if (mapping.next.length === 1) {
+          // next의 요소가 하나이면 바로 사용
+          chosenToken = mapping.next[0];
+        } else if (mapping.next.length > 1) {
+          // next의 요소가 여러 개인 경우 palette 컬러를 우선 검색
+          const paletteTokens = mapping.next.filter((token) => token.includes("$color.palette"));
+          if (paletteTokens.length > 0) {
+            chosenToken = paletteTokens[0];
+          } else if (
+            "alternative" in mapping &&
+            Array.isArray(mapping.alternative) &&
+            mapping.alternative.length > 0
+          ) {
+            // alternative에서 palette 컬러 검색
+            const alternativePaletteTokens = mapping.alternative.filter((token) =>
+              token.includes("$color.palette"),
+            );
+            if (alternativePaletteTokens.length > 0) {
+              chosenToken = alternativePaletteTokens[0];
+            }
+          }
+        }
+
+        if (!chosenToken) {
+          // chosenToken이 없는 경우: 매핑이 비었거나 palette 매핑을 찾지 못함
           if (reporterInstance) {
             reporterInstance.addResult({
               previousToken: memberName,
@@ -43,14 +69,14 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
               line,
               status: "failure",
               failureReason:
-                mapping.next.length === 0 ? "No mapping available" : "Multiple mappings found",
+                mapping.next.length === 0 ? "No mapping available" : "No palette mapping found",
             });
           }
           unresolvedIdentifiers.add(memberName);
           return;
         }
 
-        const newName = `${fromKebabCaseWithNumbers(mapping.next[0])}`;
+        const newName = fromKebabCaseWithNumbers(chosenToken);
         const newExpr = buildMemberExpression(j, newName);
         path.replace(newExpr);
 

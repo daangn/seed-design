@@ -87,10 +87,10 @@ export class TokenMigrationReporter {
             const lineInfo = result.line ? ` (line: ${result.line})` : "";
             const status = result.status === "success" ? "✅" : "❌";
             const failureInfo = result.failureReason
-              ? `\n    - Reason: ${result.failureReason}`
+              ? `\n    - reason: ${result.failureReason}`
               : "";
 
-            return `  - ${status} ${lineInfo} \n    - before: \`${result.previousToken}\` \n    - after: ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${failureInfo}`;
+            return `  - ${status} ${lineInfo} \n    - as-is: \`${result.previousToken}\` \n    - to-be: ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${failureInfo}`;
           })
           .join("\n");
 

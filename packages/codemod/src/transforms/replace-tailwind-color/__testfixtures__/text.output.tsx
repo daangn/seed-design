@@ -6,7 +6,7 @@ export function TextExample() {
       <p className="text-brand">Primary Text</p>
       <p className="text-gray-900">Secondary Text</p>
       <p className="text-positive">Success Text</p>
-      <p className="text-yellow-300">Warning Text</p>
+      <p className="text-yellow-500">Warning Text</p>
       <p className="text-critical">Critical Text</p>
       <span className="text-gray-600">Scale Gray Text</span>
       <span className="text-carrot-600">Scale Carrot Text</span>
