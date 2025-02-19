@@ -147,11 +147,6 @@ export const registryUI: RegistryUI = [
     files: ["ui:switch.tsx"],
   },
   {
-    name: "skeleton",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:skeleton.tsx"],
-  },
-  {
     name: "text-field",
     dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
     files: ["ui:text-field.tsx"],
