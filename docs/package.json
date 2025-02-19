@@ -13,7 +13,7 @@
     "gen": "bun generate:all",
     "generate:all": "bun generate:registry && bun generate:rootage",
     "generate:registry": "bun scripts/generate-registry.ts",
-    "generate:rootage": "rootage json public/rootage/ && rootage json public/rootage-next",
+    "generate:rootage": "rootage json public/rootage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
