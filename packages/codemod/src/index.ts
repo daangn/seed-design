@@ -99,7 +99,6 @@ async function runTransform(
   paths: string[],
   options: z.infer<typeof transformOptionsSchema>,
 ) {
-  const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const { log, parser, extensions, ignoreConfig, track: isTrackEnabled } = options;
 
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
@@ -119,11 +118,9 @@ async function runTransform(
     extensions,
     ignoreConfig,
     ignorePattern: "**/*.d.ts",
-    transform: transformPath,
-    foo: "Bar",
   };
 
-  await run(jscodeshiftPath, fixedPaths, jscodeshiftOptions);
+  await run(transformPath, fixedPaths, jscodeshiftOptions);
 }
 
 function getAvailableTransforms() {
