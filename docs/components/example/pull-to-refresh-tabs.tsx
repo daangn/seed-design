@@ -1,13 +1,13 @@
+import { Stack } from "@seed-design/react";
 import { ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { Stack } from "@seed-design/react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
   PullToRefreshRoot,
 } from "seed-design/ui/pull-to-refresh";
-import { TabsContent, TabsTrigger, TabsList, TabsRoot } from "seed-design/ui/tabs";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 declare module "@stackflow/config" {
   interface Register {

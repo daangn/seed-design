@@ -1,4 +1,4 @@
-import { TabsRoot, TabsContent, TabsTrigger, TabsList, TabsCarousel } from "seed-design/ui/tabs";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsDynamicHeight() {
   return (

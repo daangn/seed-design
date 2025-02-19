@@ -1,5 +1,5 @@
-import { LinkWithIcon, Stack, SuffixIcon } from "@seed-design/react";
 import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
+import { LinkWithIcon, Stack, SuffixIcon } from "@seed-design/react";
 
 export default function LinkWithIconColor() {
   return (

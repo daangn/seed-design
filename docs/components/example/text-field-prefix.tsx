@@ -1,6 +1,6 @@
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { IconMagnifyingglassLine } from "@daangn/react-monochrome-icon";
-import { Columns, Column } from "@seed-design/react";
+import { Column, Columns } from "@seed-design/react";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldPrefix() {
   return (

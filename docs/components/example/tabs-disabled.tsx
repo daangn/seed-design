@@ -1,4 +1,4 @@
-import { TabsRoot, TabsContent, TabsTrigger, TabsList } from "seed-design/ui/tabs";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsDisabled() {
   return (

@@ -1,9 +1,9 @@
+import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
   InlineBanner,
 } from "seed-design/ui/inline-banner";
-import { Stack } from "@seed-design/react";
 
 export default function InlineBannerWithTitleText() {
   return (

@@ -1,10 +1,10 @@
+import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
   InlineBanner,
 } from "seed-design/ui/inline-banner";
-import { IconBellFill } from "@daangn/react-monochrome-icon";
-import { Stack } from "@seed-design/react";
 
 export default function InlineBannerWithAll() {
   return (

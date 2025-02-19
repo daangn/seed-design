@@ -1,6 +1,6 @@
 import { useFlow } from "@stackflow/react/future";
 import { Inline, Stack } from "@seed-design/react";
-import { Text } from "seed-design/ui/text";
+import { Text } from "@seed-design/react";
 import { Badge } from "@seed-design/react";
 import { CATEGORIES, type Article } from "@/components/example/demo/data";
 import { ArticleAuthor } from "@/components/example/demo/components/article-author";

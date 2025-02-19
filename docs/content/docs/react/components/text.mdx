@@ -3,14 +3,25 @@ title: Text
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="text-preview" />
+<ComponentExample name="text-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/text-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
-## Installation
+## Usage
 
-<Installation name="text" />
+```tsx
+import { Text } from "@seed-design/react";
+```
+
+```tsx
+<Text />
+```
 
 ## Props
 
-<ReactTypeTable path="./registry/ui/text.tsx" name="TextProps" />
-
-## Examples
+<ReactTypeTable path="../packages/react/src/components/Text/Text.tsx" name="TextProps" />

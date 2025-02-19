@@ -1,5 +1,5 @@
 import { useActivity } from "@stackflow/react";
-import { useFlow, ActivityComponentType } from "@stackflow/react/future";
+import { ActivityComponentType, useFlow } from "@stackflow/react/future";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,

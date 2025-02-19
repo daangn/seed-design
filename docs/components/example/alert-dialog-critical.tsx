@@ -1,3 +1,4 @@
+import { Column, Columns } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -9,7 +10,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
-import { Column, Columns } from "@seed-design/react";
 
 const AlertDialogCritical = () => {
   return (
