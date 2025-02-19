@@ -28,14 +28,14 @@ export function stringifyValueLit(lit: AST.ValueLit): string {
 }
 
 export const getRootage = async () => {
-  const index: { resources: { path: string }[] } = await import(
-    "@/public/rootage-next/index.json"
-  ).then((module) => {
-    return module.default;
-  });
+  const index: { resources: { path: string }[] } = await import("@/public/rootage/index.json").then(
+    (module) => {
+      return module.default;
+    },
+  );
   const sourceFiles = await Promise.all(
     index.resources.map((resource) =>
-      import(`@/public/rootage-next${resource.path}`).then((res: Exchange.Model) => ({
+      import(`@/public/rootage${resource.path}`).then((res: Exchange.Model) => ({
         fileName: resource.path,
         ast: Exchange.fromObject(res),
       })),
