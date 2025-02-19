@@ -132,7 +132,6 @@ export function withIconRequired<P extends {}, R>(
   enabledPredicate: (props: React.PropsWithoutRef<P>) => boolean,
 ) {
   const Node = forwardRef<R, P>((props, ref) => {
-    console.log(props);
     const enabled = enabledPredicate(props);
     return (
       <IconRequired enabled={enabled}>
