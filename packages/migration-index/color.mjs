@@ -5,7 +5,12 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.primary",
-    next: ["$color.bg.brand-solid", "$color.fg.brand", "$color.palette.carrot-600"],
+    next: [
+      "$color.bg.brand-solid",
+      "$color.bg.brand",
+      "$color.fg.brand",
+      "$color.palette.carrot-600",
+    ],
   },
   {
     previous: "$semantic.color.primary-low",
@@ -14,7 +19,6 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.secondary",
     next: ["$color.palette.gray-900"],
-    description: "Deprecated",
   },
   {
     previous: "$semantic.color.secondary-low",
@@ -23,6 +27,7 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.success",
     next: ["$color.bg.positive-solid", "$color.fg.positive", "$color.palette.green-700"],
+    alternative: ["$color.fg.positive-contrast"],
   },
   {
     previous: "$semantic.color.success-low",
@@ -30,7 +35,8 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.warning",
-    next: ["$color.bg.warning-solid", "$color.palette.yellow-300"],
+    next: ["$color.bg.warning-solid", "$color.palette.yellow-500"],
+    alternative: ["$color.fg.warning-contrast"],
   },
   {
     previous: "$semantic.color.warning-low",
@@ -39,6 +45,7 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.danger",
     next: ["$color.bg.critical-solid", "$color.fg.critical", "$color.palette.red-700"],
+    alternative: ["$color.fg.critical-contrast"],
   },
   {
     previous: "$semantic.color.danger-low",
@@ -46,7 +53,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.overlay-dim",
-    next: ["$color.bg.overlay", "$color.palette.static-black-alpha-50"],
+    next: ["$color.bg.overlay", "$color.palette.static-black-alpha-500"],
   },
   {
     previous: "$semantic.color.overlay-low",
@@ -54,8 +61,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.paper-sheet",
-    next: [],
-    description: "TBD",
+    next: ["$color.bg.layer-floating", "$color.palette.gray-00"],
   },
   {
     previous: "$semantic.color.paper-dialog",
@@ -79,8 +85,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.paper-accent",
-    next: [],
-    description: "TBD",
+    next: ["$color.palette.carrot-100"],
   },
   {
     previous: "$semantic.color.primary-hover",
@@ -96,7 +101,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.primary-low-active",
-    next: ["$color.palette.carrot-200"],
+    next: ["$color.palette.carrot-100"],
   },
   {
     previous: "$semantic.color.primary-low-pressed",
@@ -104,11 +109,11 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.gray-hover",
-    next: ["$color.bg.layer-default-pressed", "$color.palette.gray-100"],
+    next: ["$color.bg.neutral-weak-pressed", "$color.palette.gray-300"],
   },
   {
     previous: "$semantic.color.gray-pressed",
-    next: ["$color.bg.layer-default-pressed", "$color.palette.gray-100"],
+    next: ["$color.bg.neutral-weak-pressed", "$color.palette.gray-300"],
   },
   {
     previous: "$semantic.color.on-primary-overlay-50",
@@ -148,19 +153,19 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.divider-1",
     next: ["$color.stroke.on-image", "$color.palette.static-black-alpha-50"],
-    description: "Deprecated",
   },
   {
     previous: "$semantic.color.divider-2",
-    next: ["$color.stroke.neutral-muted", "$color.palette.gray-200"],
-  },
-  {
-    previous: "$semantic.color.divider-3",
     next: ["$color.stroke.neutral", "$color.palette.gray-300"],
   },
   {
+    previous: "$semantic.color.divider-3",
+    next: ["$color.palette.gray-400"],
+  },
+  {
     previous: "$semantic.color.accent",
-    next: ["$color.bg.informative-solid", "$color.palette.blue-700"],
+    next: ["$color.bg.informative-solid", "$color.fg.informative", "$color.palette.blue-700"],
+    alternative: ["$color.fg.informative-contrast"],
   },
   {
     previous: "$semantic.color.ink-text",
@@ -172,8 +177,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.gray-active",
-    next: [],
-    description: "TBD",
+    next: ["$color.fg.neutral-muted", "$color.palette.gray-800"],
   },
 ];
 
@@ -591,7 +595,7 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-green-800",
-    next: ["$color.palette.green-900"],
+    next: ["$color.palette.green-700"],
   },
   {
     previous: "$static.color.static-yellow-50",
@@ -607,7 +611,7 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-red-800",
-    next: ["$color.palette.red-900"],
+    next: ["$color.palette.red-700"],
   },
   {
     previous: "$static.color.static-blue-50",
@@ -615,7 +619,7 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-blue-800",
-    next: ["$color.palette.blue-900"],
+    next: ["$color.palette.blue-700"],
   },
   {
     previous: "$static.color.static-black-alpha-200",
@@ -628,6 +632,7 @@ export const staticColorMappings = [
   {
     previous: "$static.color.static-white-alpha-50",
     next: [],
+    description: "deleted",
   },
   {
     previous: "$static.color.static-white-alpha-200",
