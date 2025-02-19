@@ -1,4 +1,4 @@
-import { Box, Stack } from "seed-design/ui/layout";
+import { Box, Stack } from "@seed-design/react";
 
 export default function StackPreview() {
   return (

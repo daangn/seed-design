@@ -1,7 +1,7 @@
 import { useController, useForm } from "react-hook-form";
 import { Checkbox } from "seed-design/ui/checkbox";
 import { ActionButton } from "seed-design/ui/action-button";
-import { Column, Columns, Stack } from "seed-design/ui/layout";
+import { Column, Columns, Stack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 
 const POSSIBLE_FRUIT_VALUES = ["apple", "melon", "mango"] as const;

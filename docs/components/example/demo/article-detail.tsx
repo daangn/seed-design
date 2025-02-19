@@ -8,7 +8,7 @@ import {
   AppBarRight,
   AppBarLeft,
 } from "seed-design/ui/app-bar";
-import { Stack, Columns, Column, Box } from "seed-design/ui/layout";
+import { Stack, Columns, Column, Box } from "@seed-design/react";
 import { Text } from "seed-design/ui/text";
 import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";

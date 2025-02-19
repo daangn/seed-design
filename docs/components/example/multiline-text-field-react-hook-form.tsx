@@ -1,7 +1,7 @@
 import { ActionButton } from "seed-design/ui/action-button";
 import { useController, useForm } from "react-hook-form";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
-import { Column, Columns, Stack } from "seed-design/ui/layout";
+import { Column, Columns, Stack } from "@seed-design/react";
 import { useCallback, type FormEvent, type KeyboardEvent } from "react";
 
 interface FormValues {

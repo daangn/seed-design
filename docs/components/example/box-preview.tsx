@@ -1,4 +1,4 @@
-import { Box } from "seed-design/ui/layout";
+import { Box } from "@seed-design/react";
 
 export default function BoxPreview() {
   return (

@@ -4,7 +4,7 @@ import {
   InlineBanner,
 } from "seed-design/ui/inline-banner";
 import { IconBellFill } from "@daangn/react-monochrome-icon";
-import { Stack } from "seed-design/ui/layout";
+import { Stack } from "@seed-design/react";
 
 export default function InlineBannerNeutralWeak() {
   return (

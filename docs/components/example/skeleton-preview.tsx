@@ -1,4 +1,4 @@
-import { Flex } from "seed-design/ui/layout";
+import { Flex } from "@seed-design/react";
 import { Skeleton } from "seed-design/ui/skeleton";
 
 export default function SkeletonPreview() {

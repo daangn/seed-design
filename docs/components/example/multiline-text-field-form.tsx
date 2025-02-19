@@ -1,6 +1,6 @@
 import { ActionButton } from "seed-design/ui/action-button";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
-import { Column, Columns, Inline, Stack } from "seed-design/ui/layout";
+import { Column, Columns, Inline, Stack } from "@seed-design/react";
 import { useState, useCallback, type FormEvent } from "react";
 
 interface FormValues {

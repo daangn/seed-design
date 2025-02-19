@@ -1,6 +1,6 @@
 import { IconWonLine } from "@daangn/react-monochrome-icon";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
-import { Columns, Column } from "seed-design/ui/layout";
+import { Columns, Column } from "@seed-design/react";
 
 export default function TextFieldSuffix() {
   return (

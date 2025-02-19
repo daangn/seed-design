@@ -1,5 +1,5 @@
 import { Avatar } from "seed-design/ui/avatar";
-import { Flex } from "seed-design/ui/layout";
+import { Flex } from "@seed-design/react";
 
 export default function AvatarSize() {
   return (

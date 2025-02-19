@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { IconChevronDownFill, IconPenHorizlineFill } from "@daangn/react-monochrome-icon";
 
-import { Flex, Inline, Stack } from "seed-design/ui/layout";
+import { Flex, Inline, Stack } from "@seed-design/react";
 import { ControlChip } from "seed-design/ui/control-chip";
 import {
   BottomSheetBody,

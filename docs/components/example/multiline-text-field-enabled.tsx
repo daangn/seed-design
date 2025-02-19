@@ -1,5 +1,5 @@
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
-import { Column, Columns } from "seed-design/ui/layout";
+import { Column, Columns } from "@seed-design/react";
 
 export default function MultilineTextFieldEnabled() {
   return (

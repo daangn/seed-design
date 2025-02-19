@@ -2,7 +2,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { useController, useForm } from "react-hook-form";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 import { useCallback, type FormEvent } from "react";
-import { Column, Columns, Stack } from "seed-design/ui/layout";
+import { Column, Columns, Stack } from "@seed-design/react";
 
 interface FormValues {
   name: string;

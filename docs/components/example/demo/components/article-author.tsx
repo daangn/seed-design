@@ -1,7 +1,7 @@
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Text } from "seed-design/ui/text";
-import { Inline } from "seed-design/ui/layout";
+import { Inline } from "@seed-design/react";
 
 export function ArticleAuthor({ author }: { author: string }) {
   return (
