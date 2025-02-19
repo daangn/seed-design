@@ -8,63 +8,74 @@
     "id": "progress-circle",
     "name": "Progress Circle",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "size",
+      "slots": {
+        "root": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "thickness",
+            "thickness": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "track",
-          "properties": [
-            {
-              "name": "color",
+        "track": {
+          "properties": {
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "range",
-          "properties": [
-            {
-              "name": "color",
+        "range": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "lengthDuration",
+            "lengthDuration": {
               "type": "duration"
             },
-            {
-              "name": "lengthTimingFunction",
+            "lengthTimingFunction": {
               "type": "timingFunction"
             },
-            {
-              "name": "rotateDuration",
+            "rotateDuration": {
               "type": "duration"
             },
-            {
-              "name": "headTimingFunction",
+            "headTimingFunction": {
               "type": "timingFunction"
             },
-            {
-              "name": "tailTimingFunction",
+            "tailTimingFunction": {
               "type": "timingFunction"
             },
-            {
-              "name": "rotateTimingFunction",
+            "rotateTimingFunction": {
               "type": "timingFunction"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "24": {},
+            "40": {}
+          },
+          "defaultValue": "40"
+        },
+        "indeterminate": {
+          "values": {
+            "false": {},
+            "true": {}
+          },
+          "defaultValue": "false"
+        },
+        "tone": {
+          "values": {
+            "neutral": {},
+            "brand": {},
+            "staticWhite": {}
+          },
+          "defaultValue": "neutral"
+        }
+      }
     },
     "definitions": [
       {

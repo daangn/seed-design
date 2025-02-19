@@ -10,17 +10,16 @@ describe("parseComponentSpecData", () => {
       id: "test",
       name: "test",
       schema: {
-        slots: [
-          {
-            name: "root",
-            properties: [
-              {
-                name: "color",
+        slots: {
+          root: {
+            properties: {
+              color: {
                 type: "color",
               },
-            ],
+            },
           },
-        ],
+        },
+        variants: {},
       },
       definitions: [
         {
@@ -47,11 +46,14 @@ describe("parseComponentSpecData", () => {
     const expected = factory.createComponentSpecDeclaration(
       "test",
       "test",
-      factory.createSchemaDeclaration([
-        factory.createSlotSchemaDeclaration("root", [
-          factory.createPropertySchemaDeclaration("color", "color"),
-        ]),
-      ]),
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("color", "color"),
+          ]),
+        ],
+        [],
+      ),
       [
         factory.createVariantDeclaration(
           [],
@@ -80,17 +82,23 @@ describe("parseComponentSpecData", () => {
       id: "test",
       name: "test",
       schema: {
-        slots: [
-          {
-            name: "root",
-            properties: [
-              {
-                name: "color",
+        slots: {
+          root: {
+            properties: {
+              color: {
                 type: "color",
               },
-            ],
+            },
           },
-        ],
+        },
+        variants: {
+          variant: {
+            values: {
+              primary: {},
+            },
+            defaultValue: "primary",
+          },
+        },
       },
       definitions: [
         {
@@ -135,11 +143,20 @@ describe("parseComponentSpecData", () => {
     const expected = factory.createComponentSpecDeclaration(
       "test",
       "test",
-      factory.createSchemaDeclaration([
-        factory.createSlotSchemaDeclaration("root", [
-          factory.createPropertySchemaDeclaration("color", "color"),
-        ]),
-      ]),
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("color", "color"),
+          ]),
+        ],
+        [
+          factory.createVariantSchemaDeclaration(
+            "variant",
+            [factory.createVariantValueSchemaDeclaration("primary")],
+            "primary",
+          ),
+        ],
+      ),
       [
         factory.createVariantDeclaration(
           [],
@@ -184,17 +201,16 @@ describe("parseComponentSpecData", () => {
       id: "test",
       name: "test",
       schema: {
-        slots: [
-          {
-            name: "root",
-            properties: [
-              {
-                name: "color",
+        slots: {
+          root: {
+            properties: {
+              color: {
                 type: "color",
               },
-            ],
+            },
           },
-        ],
+        },
+        variants: {},
       },
       definitions: [
         {
@@ -221,11 +237,14 @@ describe("parseComponentSpecData", () => {
     const expected = factory.createComponentSpecDeclaration(
       "test",
       "test",
-      factory.createSchemaDeclaration([
-        factory.createSlotSchemaDeclaration("root", [
-          factory.createPropertySchemaDeclaration("color", "color"),
-        ]),
-      ]),
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("color", "color"),
+          ]),
+        ],
+        [],
+      ),
       [
         factory.createVariantDeclaration(
           [],
@@ -254,17 +273,29 @@ describe("parseComponentSpecData", () => {
       id: "test",
       name: "test",
       schema: {
-        slots: [
-          {
-            name: "root",
-            properties: [
-              {
-                name: "color",
+        slots: {
+          root: {
+            properties: {
+              color: {
                 type: "color",
               },
-            ],
+            },
           },
-        ],
+        },
+        variants: {
+          variant: {
+            values: {
+              primary: {},
+            },
+            defaultValue: "primary",
+          },
+          shape: {
+            values: {
+              rounded: {},
+            },
+            defaultValue: "rounded",
+          },
+        },
       },
       definitions: [
         {
@@ -310,11 +341,25 @@ describe("parseComponentSpecData", () => {
     const expected = factory.createComponentSpecDeclaration(
       "test",
       "test",
-      factory.createSchemaDeclaration([
-        factory.createSlotSchemaDeclaration("root", [
-          factory.createPropertySchemaDeclaration("color", "color"),
-        ]),
-      ]),
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("color", "color"),
+          ]),
+        ],
+        [
+          factory.createVariantSchemaDeclaration(
+            "variant",
+            [factory.createVariantValueSchemaDeclaration("primary")],
+            "primary",
+          ),
+          factory.createVariantSchemaDeclaration(
+            "shape",
+            [factory.createVariantValueSchemaDeclaration("rounded")],
+            "rounded",
+          ),
+        ],
+      ),
       [
         factory.createVariantDeclaration(
           [],
@@ -362,17 +407,16 @@ describe("parseComponentSpecData", () => {
       id: "test",
       name: "test",
       schema: {
-        slots: [
-          {
-            name: "root",
-            properties: [
-              {
-                name: "shadow",
+        slots: {
+          root: {
+            properties: {
+              shadow: {
                 type: "shadow",
               },
-            ],
+            },
           },
-        ],
+        },
+        variants: {},
       },
       definitions: [
         {
@@ -438,11 +482,14 @@ describe("parseComponentSpecData", () => {
     const expected = factory.createComponentSpecDeclaration(
       "test",
       "test",
-      factory.createSchemaDeclaration([
-        factory.createSlotSchemaDeclaration("root", [
-          factory.createPropertySchemaDeclaration("shadow", "shadow"),
-        ]),
-      ]),
+      factory.createSchemaDeclaration(
+        [
+          factory.createSlotSchemaDeclaration("root", [
+            factory.createPropertySchemaDeclaration("shadow", "shadow"),
+          ]),
+        ],
+        [],
+      ),
       [
         factory.createVariantDeclaration(
           [],

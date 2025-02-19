@@ -8,7 +8,8 @@
     "id": "action-sheet-close-button",
     "name": "Action Sheet Close Button",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {}
     },
     "definitions": [
       {

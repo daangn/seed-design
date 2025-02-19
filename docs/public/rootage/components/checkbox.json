@@ -8,7 +8,30 @@
     "id": "checkbox",
     "name": "Checkbox",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "weight": {
+          "values": {
+            "default": {},
+            "stronger": {}
+          },
+          "defaultValue": "default"
+        },
+        "variant": {
+          "values": {
+            "square": {},
+            "ghost": {}
+          },
+          "defaultValue": "square"
+        },
+        "size": {
+          "values": {
+            "medium": {},
+            "large": {}
+          },
+          "defaultValue": "medium"
+        }
+      }
     },
     "definitions": [
       {

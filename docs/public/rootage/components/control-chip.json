@@ -8,126 +8,114 @@
     "id": "control-chip",
     "name": "Control Chip",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "strokeColor",
+      "slots": {
+        "root": {
+          "properties": {
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "minHeight",
+            "minHeight": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             },
-            {
-              "name": "gap",
+            "gap": {
               "type": "dimension"
             },
-            {
-              "name": "paddingX",
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "minWidth",
+            "minWidth": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "label",
-          "properties": [
-            {
-              "name": "color",
+        "label": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "prefixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "prefixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "suffixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "suffixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "icon",
-          "properties": [
-            {
-              "name": "color",
+        "icon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "count",
-          "properties": [
-            {
-              "name": "color",
+        "count": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "small": {},
+            "medium": {}
+          },
+          "defaultValue": "small"
+        },
+        "layout": {
+          "values": {
+            "withText": {},
+            "iconOnly": {}
+          },
+          "defaultValue": "withText"
+        }
+      }
     },
     "definitions": [
       {

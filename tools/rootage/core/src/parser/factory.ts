@@ -50,6 +50,8 @@ import type {
   SchemaDeclaration,
   PropertySchemaDeclaration,
   SlotSchemaDeclaration,
+  VariantSchemaDeclaration,
+  VariantValueSchemaDeclaration,
 } from "./ast";
 
 /**
@@ -380,10 +382,14 @@ export function createVariantDeclaration(
 /**
  * SchemaDeclaration factory
  */
-export function createSchemaDeclaration(slots: SlotSchemaDeclaration[]): SchemaDeclaration {
+export function createSchemaDeclaration(
+  slots: SlotSchemaDeclaration[],
+  variants: VariantSchemaDeclaration[],
+): SchemaDeclaration {
   return {
     kind: "SchemaDeclaration",
     slots,
+    variants,
   };
 }
 
@@ -415,6 +421,38 @@ export function createPropertySchemaDeclaration(
     kind: "PropertySchemaDeclaration",
     name,
     type,
+    description,
+  };
+}
+
+/**
+ * VariantSchemaDeclaration factory
+ */
+export function createVariantSchemaDeclaration(
+  name: string,
+  values: VariantValueSchemaDeclaration[],
+  defaultValue: string,
+  description?: string,
+): VariantSchemaDeclaration {
+  return {
+    kind: "VariantSchemaDeclaration",
+    name,
+    values,
+    defaultValue,
+    description,
+  };
+}
+
+/**
+ * VariantValueSchemaDeclaration factory
+ */
+export function createVariantValueSchemaDeclaration(
+  name: string,
+  description?: string,
+): VariantValueSchemaDeclaration {
+  return {
+    kind: "VariantValueSchemaDeclaration",
+    name,
     description,
   };
 }

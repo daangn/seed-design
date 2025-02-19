@@ -6,31 +6,31 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: minHeight
+          minHeight:
             type: dimension
-          - name: paddingX
+          paddingX:
             type: dimension
-          - name: paddingY
+          paddingY:
             type: dimension
-          - name: borderRadius
+          borderRadius:
             type: dimension
-          - name: strokeWidth
+          strokeWidth:
             type: dimension
-          - name: strokeColor
+          strokeColor:
             type: color
-          - name: color
+          color:
             type: color
-      - name: label
+      label:
         properties:
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: color
+          color:
             type: color
   definitions:
     size=large:

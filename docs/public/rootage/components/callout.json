@@ -8,146 +8,125 @@
     "id": "callout",
     "name": "Callout",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "paddingX",
+      "slots": {
+        "root": {
+          "properties": {
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             },
-            {
-              "name": "gap",
+            "gap": {
               "type": "dimension"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "minHeight",
+            "minHeight": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "prefixIcon",
-          "properties": [
-            {
-              "name": "size",
+        "prefixIcon": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "marginRight",
+            "marginRight": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "title",
-          "properties": [
-            {
-              "name": "fontSize",
+        "title": {
+          "properties": {
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "description",
-          "properties": [
-            {
-              "name": "fontSize",
+        "description": {
+          "properties": {
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "link",
-          "properties": [
-            {
-              "name": "height",
+        "link": {
+          "properties": {
+            "height": {
               "type": "dimension"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "marginLeft",
+            "marginLeft": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "suffixIcon",
-          "properties": [
-            {
-              "name": "size",
+        "suffixIcon": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "targetSize",
+            "targetSize": {
               "type": "dimension"
             },
-            {
-              "name": "marginLeft",
+            "marginLeft": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "tone": {
+          "values": {
+            "neutral": {},
+            "informative": {},
+            "warning": {},
+            "critical": {},
+            "magic": {}
+          },
+          "defaultValue": "neutral"
+        }
+      }
     },
     "definitions": [
       {

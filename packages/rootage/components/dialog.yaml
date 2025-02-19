@@ -6,79 +6,79 @@ metadata:
 data:
   schema:
     slots:
-      - name: backdrop
+      backdrop:
         properties:
-          - name: color
+          color:
             type: color
-          - name: enterDuration
+          enterDuration:
             type: duration
-          - name: enterTimingFunction
+          enterTimingFunction:
             type: timingFunction
-          - name: enterOpacity
+          enterOpacity:
             type: number
-          - name: exitDuration
+          exitDuration:
             type: duration
-          - name: exitTimingFunction
+          exitTimingFunction:
             type: timingFunction
-          - name: exitOpacity
+          exitOpacity:
             type: number
-      - name: content
+      content:
         properties:
-          - name: color
+          color:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: marginX
+          marginX:
             type: dimension
-          - name: paddingX
+          paddingX:
             type: dimension
-          - name: paddingY
+          paddingY:
             type: dimension
-          - name: maxWidth
+          maxWidth:
             type: dimension
-          - name: enterDuration
+          enterDuration:
             type: duration
-          - name: enterTimingFunction
+          enterTimingFunction:
             type: timingFunction
-          - name: enterOpacity
+          enterOpacity:
             type: number
-          - name: enterScale
+          enterScale:
             type: number
-          - name: exitDuration
+          exitDuration:
             type: duration
-          - name: exitTimingFunction
+          exitTimingFunction:
             type: timingFunction
-          - name: exitOpacity
+          exitOpacity:
             type: number
-      - name: header
+      header:
         properties:
-          - name: gap
+          gap:
             type: dimension
-      - name: footer
+      footer:
         properties:
-          - name: paddingTop
+          paddingTop:
             type: dimension
-          - name: gap
+          gap:
             type: dimension
-      - name: title
+      title:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
-      - name: description
+      description:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
   definitions:
     base:

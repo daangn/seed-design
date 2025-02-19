@@ -8,7 +8,36 @@
     "id": "typography",
     "name": "Typography",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "textStyle": {
+          "values": {
+            "screenTitle": {},
+            "articleBody": {},
+            "t1Regular": {},
+            "t1Medium": {},
+            "t1Bold": {},
+            "t2Regular": {},
+            "t2Medium": {},
+            "t2Bold": {},
+            "t3Regular": {},
+            "t3Medium": {},
+            "t3Bold": {},
+            "t4Regular": {},
+            "t4Medium": {},
+            "t4Bold": {},
+            "t5Regular": {},
+            "t5Medium": {},
+            "t5Bold": {},
+            "t6Bold": {},
+            "t7Bold": {},
+            "t8Bold": {},
+            "t9Bold": {},
+            "t10Bold": {}
+          },
+          "defaultValue": "screenTitle"
+        }
+      }
     },
     "definitions": [
       {

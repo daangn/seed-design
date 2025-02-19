@@ -8,6 +8,8 @@ import type {
   SlotSchemaDeclaration,
   StateDeclaration,
   VariantDeclaration,
+  VariantSchemaDeclaration,
+  VariantValueSchemaDeclaration,
 } from "../ast";
 import * as factory from "../factory";
 import type * as Document from "./types";
@@ -34,17 +36,44 @@ export function parseComponentSpecDeclaration(
     body.push(parseVariantDeclaration(key, value));
   }
 
-  return factory.createComponentSpecDeclaration(
-    id,
-    name,
-    parseSchemaDeclaration(
-      model.data.schema ?? {
-        // TODO: make schema required; temporarily default to empty schema
-        slots: [],
-      },
-    ),
-    body,
-  );
+  const schema = {
+    slots: model.data.schema?.slots ?? {},
+    variants: { ...inferVariantSchema(model.data.definitions), ...model.data.schema?.variants },
+  };
+
+  return factory.createComponentSpecDeclaration(id, name, parseSchemaDeclaration(schema), body);
+}
+
+function inferVariantSchema(
+  definitions: Document.ComponentSpecDefinitions,
+): Document.ComponentSpecVariantSchema {
+  const result = new Map<string, Set<string>>();
+
+  for (const variantExpr of Object.keys(definitions)) {
+    const variant = parseVariantExpression(variantExpr);
+
+    for (const key of Object.keys(variant)) {
+      const values = result.get(key) ?? new Set();
+      values.add(variant[key]!);
+      result.set(key, values);
+    }
+  }
+
+  const schema: Document.ComponentSpecVariantSchema = {};
+
+  for (const [key, values] of result) {
+    const valueSchema: Document.ComponentSpecVariantValueSchema = {};
+
+    for (const value of values) {
+      valueSchema[value] = {};
+    }
+
+    const defaultValue = values.values().next().value!;
+
+    schema[key] = { values: valueSchema, defaultValue };
+  }
+
+  return schema;
 }
 
 function parseVariantExpression(variantExpression: string) {
@@ -145,20 +174,48 @@ function parsePropertyDeclaration(property: string, lhValue: Document.Value): Pr
 
 function parsePropertySchemaDeclaration(
   model: Document.ComponentSpecPropertySchema,
-): PropertySchemaDeclaration {
-  return factory.createPropertySchemaDeclaration(model.name, model.type, model.description);
+): PropertySchemaDeclaration[] {
+  return Object.entries(model).map(([name, { type, description }]) =>
+    factory.createPropertySchemaDeclaration(name, type, description),
+  );
 }
 
 function parseSlotSchemaDeclaration(
   model: Document.ComponentSpecSlotSchema,
-): SlotSchemaDeclaration {
-  return factory.createSlotSchemaDeclaration(
-    model.name,
-    model.properties.map(parsePropertySchemaDeclaration),
-    model.description,
-  );
+): SlotSchemaDeclaration[] {
+  return Object.entries(model).map(([key, value]) => {
+    return factory.createSlotSchemaDeclaration(
+      key,
+      parsePropertySchemaDeclaration(value.properties),
+      value.description,
+    );
+  });
+}
+
+function parseVariantValueSchemaDeclaration(
+  model: Document.ComponentSpecVariantValueSchema,
+): VariantValueSchemaDeclaration[] {
+  return Object.entries(model).map(([key, value]) => {
+    return factory.createVariantValueSchemaDeclaration(key, value.description);
+  });
+}
+
+function parseVariantSchemaDeclaration(
+  model: Document.ComponentSpecVariantSchema,
+): VariantSchemaDeclaration[] {
+  return Object.entries(model).map(([key, value]) => {
+    return factory.createVariantSchemaDeclaration(
+      key,
+      parseVariantValueSchemaDeclaration(value.values),
+      value.defaultValue,
+      value.description,
+    );
+  });
 }
 
 function parseSchemaDeclaration(model: Document.ComponentSpecSchema): SchemaDeclaration {
-  return factory.createSchemaDeclaration(model.slots.map(parseSlotSchemaDeclaration));
+  return factory.createSchemaDeclaration(
+    parseSlotSchemaDeclaration(model.slots),
+    parseVariantSchemaDeclaration(model.variants),
+  );
 }

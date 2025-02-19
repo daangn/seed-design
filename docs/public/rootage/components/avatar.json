@@ -8,38 +8,45 @@
     "id": "avatar",
     "name": "Avatar",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "cornerRadius",
+      "slots": {
+        "root": {
+          "properties": {
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "badge",
-          "properties": [
-            {
-              "name": "cornerRadius",
+        "badge": {
+          "properties": {
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "20": {},
+            "24": {},
+            "36": {},
+            "48": {},
+            "64": {},
+            "80": {},
+            "96": {}
+          },
+          "defaultValue": "20"
+        }
+      }
     },
     "definitions": [
       {

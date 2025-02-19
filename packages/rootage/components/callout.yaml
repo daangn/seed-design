@@ -6,71 +6,71 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: paddingX
+          paddingX:
             type: dimension
-          - name: paddingY
+          paddingY:
             type: dimension
-          - name: gap
+          gap:
             type: dimension
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: minHeight
+          minHeight:
             type: dimension
-          - name: color
+          color:
             type: color
-      - name: prefixIcon
+      prefixIcon:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: marginRight
+          marginRight:
             type: dimension
-          - name: color
+          color:
             type: color
-      - name: title
+      title:
         properties:
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: color
+          color:
             type: color
-      - name: description
+      description:
         properties:
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: color
+          color:
             type: color
-      - name: link
+      link:
         properties:
-          - name: height
+          height:
             type: dimension
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: marginLeft
+          marginLeft:
             type: dimension
-          - name: color
+          color:
             type: color
-      - name: suffixIcon
+      suffixIcon:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: targetSize
+          targetSize:
             type: dimension
-          - name: marginLeft
+          marginLeft:
             type: dimension
-          - name: color
+          color:
             type: color
   definitions:
     base:

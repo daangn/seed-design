@@ -8,7 +8,23 @@
     "id": "toggle-button",
     "name": "Toggle Button",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "variant": {
+          "values": {
+            "brandSolid": {},
+            "neutralWeak": {}
+          },
+          "defaultValue": "brandSolid"
+        },
+        "size": {
+          "values": {
+            "xsmall": {},
+            "small": {}
+          },
+          "defaultValue": "xsmall"
+        }
+      }
     },
     "definitions": [
       {

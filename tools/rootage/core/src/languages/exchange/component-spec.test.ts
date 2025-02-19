@@ -14,9 +14,9 @@ describe("getComponentSpecModel", () => {
   data:
     schema:
       slots:
-        - name: root
+        root:
           properties:
-            - name: color
+            color:
               type: color
     definitions:
       base:
@@ -39,17 +39,16 @@ describe("getComponentSpecModel", () => {
         id: "test",
         name: "test",
         schema: {
-          slots: [
-            {
-              name: "root",
-              properties: [
-                {
-                  name: "color",
+          slots: {
+            root: {
+              properties: {
+                color: {
                   type: "color",
                 },
-              ],
+              },
             },
-          ],
+          },
+          variants: {},
         },
         definitions: [
           {
@@ -84,9 +83,9 @@ describe("getComponentSpecModel", () => {
   data:
     schema:
       slots:
-        - name: root
+        root:
           properties:
-            - name: color
+            color:
               type: color
     definitions:
       base:
@@ -113,17 +112,23 @@ describe("getComponentSpecModel", () => {
         id: "test",
         name: "test",
         schema: {
-          slots: [
-            {
-              name: "root",
-              properties: [
-                {
-                  name: "color",
+          slots: {
+            root: {
+              properties: {
+                color: {
                   type: "color",
                 },
-              ],
+              },
             },
-          ],
+          },
+          variants: {
+            variant: {
+              values: {
+                primary: {},
+              },
+              defaultValue: "primary",
+            },
+          },
         },
         definitions: [
           {
@@ -174,9 +179,9 @@ describe("getComponentSpecModel", () => {
   data:
     schema:
       slots:
-        - name: root
+        root:
           properties:
-            - name: color
+            color:
               type: color
     definitions:
       base:
@@ -199,17 +204,16 @@ describe("getComponentSpecModel", () => {
         id: "test",
         name: "test",
         schema: {
-          slots: [
-            {
-              name: "root",
-              properties: [
-                {
-                  name: "color",
+          slots: {
+            root: {
+              properties: {
+                color: {
                   type: "color",
                 },
-              ],
+              },
             },
-          ],
+          },
+          variants: {},
         },
         definitions: [
           {
@@ -244,9 +248,9 @@ describe("getComponentSpecModel", () => {
   data:
     schema:
       slots:
-        - name: root
+        root:
           properties:
-            - name: color
+            color:
               type: color
     definitions:
       base:
@@ -273,17 +277,29 @@ describe("getComponentSpecModel", () => {
         id: "test",
         name: "test",
         schema: {
-          slots: [
-            {
-              name: "root",
-              properties: [
-                {
-                  name: "color",
+          slots: {
+            root: {
+              properties: {
+                color: {
                   type: "color",
                 },
-              ],
+              },
             },
-          ],
+          },
+          variants: {
+            variant: {
+              values: {
+                primary: {},
+              },
+              defaultValue: "primary",
+            },
+            shape: {
+              values: {
+                rounded: {},
+              },
+              defaultValue: "rounded",
+            },
+          },
         },
         definitions: [
           {
@@ -334,9 +350,9 @@ describe("getComponentSpecModel", () => {
   data:
     schema:
       slots:
-        - name: root
+        root:
           properties:
-            - name: shadow
+            shadow:
               type: shadow
     definitions:
       base:
@@ -369,17 +385,16 @@ describe("getComponentSpecModel", () => {
         id: "test",
         name: "test",
         schema: {
-          slots: [
-            {
-              name: "root",
-              properties: [
-                {
-                  name: "shadow",
+          slots: {
+            root: {
+              properties: {
+                shadow: {
                   type: "shadow",
                 },
-              ],
+              },
             },
-          ],
+          },
+          variants: {},
         },
         definitions: [
           {

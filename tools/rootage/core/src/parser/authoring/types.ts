@@ -97,20 +97,37 @@ export interface ComponentSpecDefinitions {
   [variantExpression: string]: ComponentSpecVariantDefinitions;
 }
 
-export interface ComponentSpecPropertySchema {
-  name: string;
-  type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
-  description?: string;
+export interface ComponentSpecSlotSchema {
+  [name: string]: {
+    properties: ComponentSpecPropertySchema;
+    description?: string;
+  };
 }
 
-export interface ComponentSpecSlotSchema {
-  name: string;
-  properties: ComponentSpecPropertySchema[];
-  description?: string;
+export interface ComponentSpecPropertySchema {
+  [name: string]: {
+    type: "color" | "dimension" | "number" | "duration" | "cubicBezier" | "shadow" | "gradient";
+    description?: string;
+  };
+}
+
+export interface ComponentSpecVariantSchema {
+  [name: string]: {
+    values: ComponentSpecVariantValueSchema;
+    defaultValue: string;
+    description?: string;
+  };
+}
+
+export interface ComponentSpecVariantValueSchema {
+  [name: string]: {
+    description?: string;
+  };
 }
 
 export interface ComponentSpecSchema {
-  slots: ComponentSpecSlotSchema[];
+  slots: ComponentSpecSlotSchema;
+  variants: ComponentSpecVariantSchema;
 }
 
 export type Model = TokenCollectionsModel | TokensModel | ComponentSpecModel;
