@@ -6,10 +6,11 @@ export default function ProgressCircleStaticWhite() {
       style={{
         display: "flex",
         flex: 1,
-        width: "100%",
+        width: "100vw",
+        height: "300px",
         alignItems: "center",
         justifyContent: "center",
-        background: "#000",
+        background: "black",
       }}
     >
       <ProgressCircle tone="staticWhite" />
