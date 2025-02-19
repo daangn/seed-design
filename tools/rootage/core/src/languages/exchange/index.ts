@@ -234,18 +234,39 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
 
   function buildSchema(schema: AST.SchemaDeclaration): Exchange.ComponentSpecSchema {
     return {
-      slots: schema.slots.map((slot) =>
-        compactObject({
-          name: slot.name,
-          properties: slot.properties.map((prop) =>
-            compactObject({
-              name: prop.name,
-              type: prop.type,
-              description: prop.description,
-            }),
-          ),
-          description: slot.description,
-        }),
+      slots: Object.fromEntries(
+        schema.slots.map((slot) => [
+          slot.name,
+          compactObject({
+            properties: Object.fromEntries(
+              slot.properties.map((prop) => [
+                prop.name,
+                compactObject({
+                  type: prop.type,
+                  description: prop.description,
+                }),
+              ]),
+            ),
+            description: slot.description,
+          }),
+        ]),
+      ),
+      variants: Object.fromEntries(
+        schema.variants.map((variant) => [
+          variant.name,
+          compactObject({
+            values: Object.fromEntries(
+              variant.values.map((value) => [
+                value.name,
+                compactObject({
+                  description: value.description,
+                }),
+              ]),
+            ),
+            defaultValue: variant.defaultValue,
+            description: variant.description,
+          }),
+        ]),
       ),
     };
   }

@@ -8,7 +8,17 @@
     "id": "link-with-icon",
     "name": "Link With Icon",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "size": {
+          "values": {
+            "t6": {},
+            "t5": {},
+            "t4": {}
+          },
+          "defaultValue": "t6"
+        }
+      }
     },
     "definitions": [
       {

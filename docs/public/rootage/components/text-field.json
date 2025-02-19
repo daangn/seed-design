@@ -8,7 +8,17 @@
     "id": "text-field",
     "name": "Text Field",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "size": {
+          "values": {
+            "xlarge": {},
+            "large": {},
+            "medium": {}
+          },
+          "defaultValue": "xlarge"
+        }
+      }
     },
     "definitions": [
       {

@@ -8,7 +8,16 @@
     "id": "action-sheet-item",
     "name": "Action Sheet Item",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "tone": {
+          "values": {
+            "neutral": {},
+            "critical": {}
+          },
+          "defaultValue": "neutral"
+        }
+      }
     },
     "definitions": [
       {

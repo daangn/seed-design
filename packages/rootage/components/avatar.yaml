@@ -6,19 +6,19 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: size
+          size:
             type: dimension
-      - name: badge
+      badge:
         properties:
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
   definitions:
     base:

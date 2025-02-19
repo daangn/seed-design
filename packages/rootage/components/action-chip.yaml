@@ -6,57 +6,57 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: minHeight
+          minHeight:
             type: dimension
-          - name: paddingY
+          paddingY:
             type: dimension
-          - name: gap
+          gap:
             type: dimension
-          - name: paddingX
+          paddingX:
             type: dimension
-          - name: minWidth
+          minWidth:
             type: dimension
-      - name: label
+      label:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-      - name: prefixIcon
+      prefixIcon:
         properties:
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
-      - name: suffixIcon
+      suffixIcon:
         properties:
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
-      - name: icon
+      icon:
         properties:
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
-      - name: count
+      count:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: fontSize
+          fontSize:
             type: dimension
   definitions:
     base:

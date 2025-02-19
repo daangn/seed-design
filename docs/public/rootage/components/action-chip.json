@@ -8,118 +8,108 @@
     "id": "action-chip",
     "name": "Action Chip",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "color",
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "minHeight",
+            "minHeight": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             },
-            {
-              "name": "gap",
+            "gap": {
               "type": "dimension"
             },
-            {
-              "name": "paddingX",
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "minWidth",
+            "minWidth": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "label",
-          "properties": [
-            {
-              "name": "color",
+        "label": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "prefixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "prefixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "suffixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "suffixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "icon",
-          "properties": [
-            {
-              "name": "color",
+        "icon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "count",
-          "properties": [
-            {
-              "name": "color",
+        "count": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "small": {},
+            "medium": {}
+          },
+          "defaultValue": "small"
+        },
+        "layout": {
+          "values": {
+            "withText": {},
+            "iconOnly": {}
+          },
+          "defaultValue": "withText"
+        }
+      }
     },
     "definitions": [
       {

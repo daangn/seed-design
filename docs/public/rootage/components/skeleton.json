@@ -8,7 +8,18 @@
     "id": "skeleton",
     "name": "Skeleton",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "radius": {
+          "values": {
+            "0": {},
+            "8": {},
+            "16": {},
+            "full": {}
+          },
+          "defaultValue": "0"
+        }
+      }
     },
     "definitions": [
       {

@@ -6,31 +6,31 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: thickness
+          thickness:
             type: dimension
-      - name: track
+      track:
         properties:
-          - name: color
+          color:
             type: color
-      - name: range
+      range:
         properties:
-          - name: color
+          color:
             type: color
-          - name: lengthDuration
+          lengthDuration:
             type: duration
-          - name: lengthTimingFunction
+          lengthTimingFunction:
             type: timingFunction
-          - name: rotateDuration
+          rotateDuration:
             type: duration
-          - name: headTimingFunction
+          headTimingFunction:
             type: timingFunction
-          - name: tailTimingFunction
+          tailTimingFunction:
             type: timingFunction
-          - name: rotateTimingFunction
+          rotateTimingFunction:
             type: timingFunction
   definitions:
     size=40:

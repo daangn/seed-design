@@ -8,7 +8,16 @@
     "id": "switch",
     "name": "Switch",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "size": {
+          "values": {
+            "medium": {},
+            "small": {}
+          },
+          "defaultValue": "medium"
+        }
+      }
     },
     "definitions": [
       {

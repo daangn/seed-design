@@ -8,164 +8,128 @@
     "id": "select-box",
     "name": "Select Box",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "paddingX",
+      "slots": {
+        "root": {
+          "properties": {
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             },
-            {
-              "name": "gap",
+            "gap": {
               "type": "dimension"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "content",
-          "properties": [
-            {
-              "name": "gap",
+        "content": {
+          "properties": {
+            "gap": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "label",
-          "properties": [
-            {
-              "name": "color",
+        "label": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "description",
-          "properties": [
-            {
-              "name": "color",
+        "description": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "checkboxControl",
-          "properties": [
-            {
-              "name": "size",
+        "checkboxControl": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "checkboxIcon",
-          "properties": [
-            {
-              "name": "size",
+        "checkboxIcon": {
+          "properties": {
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "radioControl",
-          "properties": [
-            {
-              "name": "size",
+        "radioControl": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "radioIcon",
-          "properties": [
-            {
-              "name": "size",
+        "radioIcon": {
+          "properties": {
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {}
     },
     "definitions": [
       {

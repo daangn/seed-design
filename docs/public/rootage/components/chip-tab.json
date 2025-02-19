@@ -8,7 +8,16 @@
     "id": "chip-tab",
     "name": "Chip Tab",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "variant": {
+          "values": {
+            "neutralSolid": {},
+            "brandSolid": {}
+          },
+          "defaultValue": "neutralSolid"
+        }
+      }
     },
     "definitions": [
       {

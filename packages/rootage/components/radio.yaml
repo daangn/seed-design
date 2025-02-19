@@ -6,23 +6,23 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
-          - name: strokeWidth
+          strokeWidth:
             type: dimension
-          - name: strokeColor
+          strokeColor:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-      - name: icon
+      icon:
         properties:
-          - name: color
+          color:
             type: color
-          - name: size
+          size:
             type: dimension
   definitions:
     base:

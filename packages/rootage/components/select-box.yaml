@@ -6,79 +6,79 @@ metadata:
 data:
   schema:
     slots:
-      - name: root
+      root:
         properties:
-          - name: paddingX
+          paddingX:
             type: dimension
-          - name: paddingY
+          paddingY:
             type: dimension
-          - name: gap
+          gap:
             type: dimension
-          - name: strokeWidth
+          strokeWidth:
             type: dimension
-          - name: strokeColor
+          strokeColor:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-          - name: color
+          color:
             type: color
-      - name: content
+      content:
         properties:
-          - name: gap
+          gap:
             type: dimension
-      - name: label
+      label:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-      - name: description
+      description:
         properties:
-          - name: color
+          color:
             type: color
-          - name: fontWeight
+          fontWeight:
             type: number
-          - name: fontSize
+          fontSize:
             type: dimension
-          - name: lineHeight
+          lineHeight:
             type: dimension
-      - name: checkboxControl
+      checkboxControl:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: color
+          color:
             type: color
-          - name: strokeWidth
+          strokeWidth:
             type: dimension
-          - name: strokeColor
+          strokeColor:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-      - name: checkboxIcon
+      checkboxIcon:
         properties:
-          - name: size
+          size:
             type: dimension
-      - name: radioControl
+      radioControl:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: color
+          color:
             type: color
-          - name: strokeWidth
+          strokeWidth:
             type: dimension
-          - name: strokeColor
+          strokeColor:
             type: color
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
-      - name: radioIcon
+      radioIcon:
         properties:
-          - name: size
+          size:
             type: dimension
-          - name: cornerRadius
+          cornerRadius:
             type: dimension
   definitions:
     base:

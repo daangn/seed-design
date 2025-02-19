@@ -8,7 +8,16 @@
     "id": "extended-action-sheet-item",
     "name": "Extended Action Sheet Item",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "tone": {
+          "values": {
+            "neutral": {},
+            "critical": {}
+          },
+          "defaultValue": "neutral"
+        }
+      }
     },
     "definitions": [
       {

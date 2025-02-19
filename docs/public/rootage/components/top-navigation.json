@@ -8,7 +8,36 @@
     "id": "top-navigation",
     "name": "Top Navigation",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "theme": {
+          "values": {
+            "cupertino": {},
+            "android": {}
+          },
+          "defaultValue": "cupertino"
+        },
+        "tone": {
+          "values": {
+            "layer": {},
+            "transparent": {}
+          },
+          "defaultValue": "layer"
+        },
+        "divider": {
+          "values": {
+            "true": {}
+          },
+          "defaultValue": "true"
+        },
+        "titleLayout": {
+          "values": {
+            "titleOnly": {},
+            "withSubtitle": {}
+          },
+          "defaultValue": "titleOnly"
+        }
+      }
     },
     "definitions": [
       {

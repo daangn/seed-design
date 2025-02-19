@@ -327,9 +327,24 @@ export interface PropertySchemaDeclaration {
   description?: string;
 }
 
+export interface VariantSchemaDeclaration {
+  kind: "VariantSchemaDeclaration";
+  name: string;
+  values: VariantValueSchemaDeclaration[];
+  defaultValue: string;
+  description?: string;
+}
+
+export interface VariantValueSchemaDeclaration {
+  kind: "VariantValueSchemaDeclaration";
+  name: string;
+  description?: string;
+}
+
 export interface SchemaDeclaration {
   kind: "SchemaDeclaration";
   slots: SlotSchemaDeclaration[];
+  variants: VariantSchemaDeclaration[];
 }
 
 export interface ComponentSpecDeclaration {

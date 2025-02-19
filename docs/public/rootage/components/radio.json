@@ -8,46 +8,46 @@
     "id": "radio",
     "name": "Radio",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "color",
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "icon",
-          "properties": [
-            {
-              "name": "color",
+        "icon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "large": {},
+            "medium": {}
+          },
+          "defaultValue": "large"
+        }
+      }
     },
     "definitions": [
       {

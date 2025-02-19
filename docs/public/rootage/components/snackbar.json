@@ -8,7 +8,17 @@
     "id": "snackbar",
     "name": "Snackbar",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "variant": {
+          "values": {
+            "default": {},
+            "positive": {},
+            "critical": {}
+          },
+          "defaultValue": "default"
+        }
+      }
     },
     "definitions": [
       {

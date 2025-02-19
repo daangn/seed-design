@@ -8,139 +8,137 @@
     "id": "action-button",
     "name": "Action Button",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "colorDuration",
+      "slots": {
+        "root": {
+          "properties": {
+            "colorDuration": {
               "type": "duration"
             },
-            {
-              "name": "colorTimingFunction",
+            "colorTimingFunction": {
               "type": "timingFunction"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "minHeight",
+            "minHeight": {
               "type": "dimension"
             },
-            {
-              "name": "minWidth",
+            "minWidth": {
               "type": "dimension"
             },
-            {
-              "name": "cornerRadius",
+            "cornerRadius": {
               "type": "dimension"
             },
-            {
-              "name": "gap",
+            "gap": {
               "type": "dimension"
             },
-            {
-              "name": "paddingX",
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "label",
-          "properties": [
-            {
-              "name": "color",
+        "label": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "fontSize",
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "icon",
-          "properties": [
-            {
-              "name": "color",
+        "icon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ],
+          },
           "description": "Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다."
         },
-        {
-          "name": "prefixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "prefixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "suffixIcon",
-          "properties": [
-            {
-              "name": "color",
+        "suffixIcon": {
+          "properties": {
+            "color": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             }
-          ]
+          }
         },
-        {
-          "name": "progressCircle",
-          "properties": [
-            {
-              "name": "trackColor",
+        "progressCircle": {
+          "properties": {
+            "trackColor": {
               "type": "color"
             },
-            {
-              "name": "rangeColor",
+            "rangeColor": {
               "type": "color"
             },
-            {
-              "name": "size",
+            "size": {
               "type": "dimension"
             },
-            {
-              "name": "thickness",
+            "thickness": {
               "type": "dimension"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "variant": {
+          "values": {
+            "brandSolid": {},
+            "neutralSolid": {},
+            "neutralWeak": {},
+            "criticalSolid": {},
+            "neutralOutline": {},
+            "brandOutline": {}
+          },
+          "defaultValue": "brandSolid"
+        },
+        "size": {
+          "values": {
+            "xsmall": {},
+            "small": {},
+            "medium": {},
+            "large": {}
+          },
+          "defaultValue": "xsmall"
+        },
+        "layout": {
+          "values": {
+            "withText": {},
+            "iconOnly": {}
+          },
+          "defaultValue": "withText"
+        }
+      }
     },
     "definitions": [
       {

@@ -8,7 +8,16 @@
     "id": "reaction-button",
     "name": "Reaction Button",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "size": {
+          "values": {
+            "xsmall": {},
+            "small": {}
+          },
+          "defaultValue": "xsmall"
+        }
+      }
     },
     "definitions": [
       {

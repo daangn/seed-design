@@ -8,7 +8,23 @@
     "id": "tablist",
     "name": "Tablist",
     "schema": {
-      "slots": []
+      "slots": {},
+      "variants": {
+        "layout": {
+          "values": {
+            "hug": {},
+            "fill": {}
+          },
+          "defaultValue": "hug"
+        },
+        "size": {
+          "values": {
+            "small": {},
+            "medium": {}
+          },
+          "defaultValue": "small"
+        }
+      }
     },
     "definitions": [
       {

@@ -8,62 +8,83 @@
     "id": "badge",
     "name": "Badge",
     "schema": {
-      "slots": [
-        {
-          "name": "root",
-          "properties": [
-            {
-              "name": "minHeight",
+      "slots": {
+        "root": {
+          "properties": {
+            "minHeight": {
               "type": "dimension"
             },
-            {
-              "name": "paddingX",
+            "paddingX": {
               "type": "dimension"
             },
-            {
-              "name": "paddingY",
+            "paddingY": {
               "type": "dimension"
             },
-            {
-              "name": "borderRadius",
+            "borderRadius": {
               "type": "dimension"
             },
-            {
-              "name": "strokeWidth",
+            "strokeWidth": {
               "type": "dimension"
             },
-            {
-              "name": "strokeColor",
+            "strokeColor": {
               "type": "color"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         },
-        {
-          "name": "label",
-          "properties": [
-            {
-              "name": "fontSize",
+        "label": {
+          "properties": {
+            "fontSize": {
               "type": "dimension"
             },
-            {
-              "name": "lineHeight",
+            "lineHeight": {
               "type": "dimension"
             },
-            {
-              "name": "fontWeight",
+            "fontWeight": {
               "type": "number"
             },
-            {
-              "name": "color",
+            "color": {
               "type": "color"
             }
-          ]
+          }
         }
-      ]
+      },
+      "variants": {
+        "size": {
+          "values": {
+            "large": {},
+            "medium": {}
+          },
+          "defaultValue": "large"
+        },
+        "shape": {
+          "values": {
+            "pill": {},
+            "rectangle": {}
+          },
+          "defaultValue": "pill"
+        },
+        "variant": {
+          "values": {
+            "weak": {},
+            "solid": {},
+            "outline": {}
+          },
+          "defaultValue": "weak"
+        },
+        "tone": {
+          "values": {
+            "neutral": {},
+            "brand": {},
+            "informative": {},
+            "positive": {},
+            "critical": {}
+          },
+          "defaultValue": "neutral"
+        }
+      }
     },
     "definitions": [
       {
