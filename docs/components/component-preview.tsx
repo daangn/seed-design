@@ -32,7 +32,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
         alignItems: "center",
       }}
     >
-      <React.Suspense>
+      <React.Suspense fallback={null}>
         <div className="example-enter">{Preview}</div>
       </React.Suspense>
     </div>

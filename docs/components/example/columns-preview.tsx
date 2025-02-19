@@ -1,4 +1,4 @@
-import { Column, Columns } from "seed-design/ui/layout";
+import { Column, Columns } from "@seed-design/react";
 
 export default function ColumnsPreview() {
   return (

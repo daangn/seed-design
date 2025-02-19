@@ -1,4 +1,4 @@
-import { Flex } from "seed-design/ui/layout";
+import { Flex } from "@seed-design/react";
 
 export default function FlexPreview() {
   return (

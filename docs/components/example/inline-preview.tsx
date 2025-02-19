@@ -1,4 +1,4 @@
-import { Box, Inline } from "seed-design/ui/layout";
+import { Box, Inline } from "@seed-design/react";
 
 export default function InlinePreview() {
   return (

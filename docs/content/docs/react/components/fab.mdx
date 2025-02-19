@@ -3,12 +3,28 @@ title: FAB
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="fab-preview" />
+<ComponentExample name="fab-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/fab-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
-## Installation
+## Usage
 
-<Installation name="fab" />
+```tsx
+import { Fab, Icon } from "@seed-design/react";
+import { IconPlusLine } from "@daangn/react-monochrome-icon";
+```
+
+```tsx
+<Fab>
+  <Icon svg={<IconPlusLine />} />
+</Fab>
+```
 
 ## Props
 
-<ReactTypeTable path="./registry/ui/fab.tsx" name="FabProps" />
+<ReactTypeTable path="../packages/react/src/components/Fab/Fab.tsx" name="FabProps" />

@@ -3,19 +3,32 @@ title: Columns
 description: 여러 열로 구성된 레이아웃을 구성합니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.
 ---
 
-<ComponentExample name="columns-preview" />
+<ComponentExample name="columns-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/columns-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
-## Installation
+## Usage
 
-<Installation name="layout" />
+```tsx
+import { Columns, Column } from "@seed-design/react";
+```
+
+```tsx
+<Columns />
+```
 
 ## Props
 
 ### `Columns`
 
-<ReactTypeTable path="./registry/ui/layout.tsx" name="ColumnsProps" />
+<ReactTypeTable path="../packages/react/src/components/Columns/Columns.tsx" name="ColumnsProps" />
 
 ### `Column`
 
-<ReactTypeTable path="./registry/ui/layout.tsx" name="ColumnProps" />
-```
+<ReactTypeTable path="../packages/react/src/components/Columns/Columns.tsx" name="ColumnProps" />
+

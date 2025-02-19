@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { LinkWithIcon } from "@/registry/ui/link-with-icon";
+import { LinkWithIcon } from "@seed-design/react";
 
 import { linkWithIconVariantMap } from "@seed-design/css/recipes/link-with-icon";
 import { VariantTable } from "./components/variant-table";

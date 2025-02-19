@@ -1,4 +1,4 @@
-import { TabsRoot, TabsTrigger, TabsList, TabsContent } from "seed-design/ui/tabs";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsSizeSmall() {
   return (

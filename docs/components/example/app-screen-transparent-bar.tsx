@@ -1,4 +1,5 @@
 import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { Flex } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import {
   AppBar,
@@ -9,7 +10,6 @@ import {
   AppBarRight,
 } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
-import { Flex } from "seed-design/ui/layout";
 
 declare module "@stackflow/config" {
   interface Register {

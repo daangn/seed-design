@@ -1,5 +1,4 @@
-import { Flex } from "seed-design/ui/layout";
-import { Text } from "seed-design/ui/text";
+import { Flex, Text } from "@seed-design/react";
 
 export default function TextPreview() {
   return (

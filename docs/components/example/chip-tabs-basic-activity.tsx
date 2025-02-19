@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { ChipTabsRoot, ChipTabsTrigger, ChipTabsList } from "seed-design/ui/chip-tabs";
+import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 
-import type { ActivityComponentType } from "@stackflow/react/future";
 import AppScreen from "@/components/stackflow/ActivityLayout";
+import type { ActivityComponentType } from "@stackflow/react/future";
 
 declare module "@stackflow/config" {
   interface Register {

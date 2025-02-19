@@ -1,5 +1,4 @@
-import { Skeleton } from "seed-design/ui/skeleton";
-import { Flex } from "seed-design/ui/layout";
+import { Flex, Skeleton } from "@seed-design/react";
 
 export default function SkeletonRadius() {
   return (

@@ -1,4 +1,4 @@
-import { Column, Columns } from "seed-design/ui/layout";
+import { Column, Columns } from "@seed-design/react";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function MultilineTextFieldReadOnly() {

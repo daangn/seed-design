@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChipTabsRoot, ChipTabsTrigger, ChipTabsList } from "seed-design/ui/chip-tabs";
+import { ChipTabsList, ChipTabsRoot, ChipTabsTrigger } from "seed-design/ui/chip-tabs";
 
 export default function ChipTabsVariantBrandSolid() {
   const [value, setValue] = React.useState("1");

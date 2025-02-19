@@ -14,11 +14,6 @@ export const registryUI: RegistryUI = [
     dependencies: ["@seed-design/react"],
   },
   {
-    name: "text",
-    files: ["ui:text.tsx"],
-    dependencies: ["@seed-design/react"],
-  },
-  {
     name: "manner-temp-badge",
     files: ["ui:manner-temp-badge.tsx"],
     innerDependencies: ["lib:manner-temp-level"],
@@ -82,26 +77,6 @@ export const registryUI: RegistryUI = [
     files: ["ui:reaction-button.tsx"],
   },
   {
-    name: "fab",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:fab.tsx"],
-  },
-  {
-    name: "extended-fab",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:extended-fab.tsx"],
-  },
-  {
-    name: "action-chip",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:action-chip.tsx"],
-  },
-  {
-    name: "badge",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:badge.tsx"],
-  },
-  {
     name: "callout",
     dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
     files: ["ui:callout.tsx"],
@@ -125,11 +100,6 @@ export const registryUI: RegistryUI = [
     name: "inline-banner",
     dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
     files: ["ui:inline-banner.tsx"],
-  },
-  {
-    name: "layout",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:layout.tsx"],
   },
   {
     name: "snackbar",
@@ -170,16 +140,6 @@ export const registryUI: RegistryUI = [
     name: "switch",
     dependencies: ["@seed-design/react"],
     files: ["ui:switch.tsx"],
-  },
-  {
-    name: "skeleton",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:skeleton.tsx"],
-  },
-  {
-    name: "link-with-icon",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:link-with-icon.tsx"],
   },
   {
     name: "text-field",

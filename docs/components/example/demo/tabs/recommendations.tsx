@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { IconChevronDownFill, IconPenHorizlineFill } from "@daangn/react-monochrome-icon";
 
-import { Flex, Inline, Stack } from "seed-design/ui/layout";
+import { Flex, Inline, Stack } from "@seed-design/react";
 import { ControlChip } from "seed-design/ui/control-chip";
 import {
   BottomSheetBody,
@@ -12,7 +12,7 @@ import {
 } from "seed-design/ui/bottom-sheet";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-import { ExtendedFab } from "seed-design/ui/extended-fab";
+import { ExtendedFab } from "@seed-design/react";
 import { ARTICLES, CATEGORIES, type Category } from "@/components/example/demo/data";
 import { ArticleListItem } from "@/components/example/demo/components/article-list-item";
 import { PrefixIcon, SuffixIcon } from "@seed-design/react";

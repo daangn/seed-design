@@ -1,6 +1,6 @@
 import { AppBar, AppScreen } from "@seed-design/stackflow";
 import { ActivityComponentType } from "@stackflow/react/future";
-import { Stack } from "seed-design/ui/layout";
+import { Stack } from "@seed-design/react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,

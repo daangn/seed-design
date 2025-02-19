@@ -3,12 +3,25 @@ title: Box
 description: Box 컴포넌트는 가장 기초적인 레이아웃 컴포넌트입니다. 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.
 ---
 
-<ComponentExample name="box-preview" />
+<ComponentExample name="box-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/box-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
-## Installation
+## Usage
 
-<Installation name="layout" />
+```tsx
+import { Box } from "@seed-design/react";
+```
+
+```tsx
+<Box />
+```
 
 ## Props
 
-<ReactTypeTable path="./registry/ui/layout.tsx" name="BoxProps" />
+<ReactTypeTable path="../packages/react/src/components/Box/Box.tsx" name="BoxProps" />

@@ -1,4 +1,4 @@
-import { Stack } from "seed-design/ui/layout";
+import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,

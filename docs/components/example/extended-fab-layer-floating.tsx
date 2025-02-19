@@ -1,6 +1,5 @@
 import { IconBellFill } from "@daangn/react-monochrome-icon";
-import { PrefixIcon } from "@seed-design/react";
-import { ExtendedFab } from "seed-design/ui/extended-fab";
+import { ExtendedFab, PrefixIcon } from "@seed-design/react";
 
 export default function ExtendedFabLayerFloating() {
   return (

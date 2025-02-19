@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Text } from "seed-design/ui/text";
+import { Text } from "@seed-design/react";
 
 import { textVariantMap } from "@seed-design/css/recipes/text";
 import { VariantTable } from "./components/variant-table";

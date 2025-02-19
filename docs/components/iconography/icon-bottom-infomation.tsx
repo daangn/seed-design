@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Badge } from "seed-design/ui/badge";
+import { Badge } from "@seed-design/react";
 
 import { useIcon } from "./icon-context";
 

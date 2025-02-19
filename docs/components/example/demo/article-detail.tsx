@@ -8,15 +8,15 @@ import {
   AppBarRight,
   AppBarLeft,
 } from "seed-design/ui/app-bar";
-import { Stack, Columns, Column, Box } from "seed-design/ui/layout";
-import { Text } from "seed-design/ui/text";
-import { Badge } from "seed-design/ui/badge";
+import { Stack, Columns, Column, Box } from "@seed-design/react";
+import { Text } from "@seed-design/react";
+import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { Callout } from "seed-design/ui/callout";
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 import { ErrorState } from "seed-design/ui/error-state";
 import { ActionButton } from "seed-design/ui/action-button";
-import { Skeleton } from "seed-design/ui/skeleton";
+import { Skeleton } from "@seed-design/react";
 import { IconILowercaseSerifCircleFill } from "@daangn/react-monochrome-icon";
 import { ArticleAuthor } from "./components/article-author";
 import { formatDate } from "@/components/example/demo/utils/date";

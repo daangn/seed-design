@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { InlineBanner, type InlineBannerProps } from "seed-design/ui/inline-banner";
 import { ActionButton } from "seed-design/ui/action-button";
+import { InlineBanner, type InlineBannerProps } from "seed-design/ui/inline-banner";
 
-import type { ActivityComponentType } from "@stackflow/react/future";
 import AppScreen from "@/components/stackflow/ActivityLayout";
+import type { ActivityComponentType } from "@stackflow/react/future";
 
 declare module "@stackflow/config" {
   interface Register {

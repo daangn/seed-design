@@ -1,7 +1,9 @@
+"use client";
+
 import { getRootage } from "@/components/rootage";
-import { Text, TextProps } from "@/registry/ui/text";
 import { FoundationTokenMapping } from "@seed-design/migration-index";
 import { typographyMappings } from "@seed-design/migration-index/typography";
+import { Text, TextProps } from "@seed-design/react";
 import { Fragment } from "react";
 
 export async function TypographyMigrationIndex() {

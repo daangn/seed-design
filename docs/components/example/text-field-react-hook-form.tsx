@@ -1,8 +1,8 @@
-import { ActionButton } from "seed-design/ui/action-button";
-import { useController, useForm } from "react-hook-form";
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { Column, Columns, Stack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
-import { Column, Columns, Stack } from "seed-design/ui/layout";
+import { useController, useForm } from "react-hook-form";
+import { ActionButton } from "seed-design/ui/action-button";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 interface FormValues {
   name: string;

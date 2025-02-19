@@ -1,10 +1,10 @@
+import { IconCheckmarkCircleFill } from "@daangn/react-monochrome-icon";
+import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
   InlineBanner,
 } from "seed-design/ui/inline-banner";
-import { IconCheckmarkCircleFill } from "@daangn/react-monochrome-icon";
-import { Stack } from "seed-design/ui/layout";
 
 export default function InlineBannerPositiveWeak() {
   return (
