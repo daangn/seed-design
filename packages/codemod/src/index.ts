@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { cac } from "cac";
+import { execaNode } from "execa";
 import { readdirSync } from "fs";
-import { run } from "jscodeshift/src/Runner.js";
 import { dirname, resolve } from "path";
 import { minVersion, satisfies } from "semver";
 import type { z } from "zod";
@@ -96,8 +96,9 @@ async function runTransform(
   paths: string[],
   options: z.infer<typeof transformOptionsSchema>,
 ) {
-  const { log, parser, extensions, ignoreConfig, track: isTrackEnabled } = options;
+  const { log, parser, extensions, ignoreConfig, reporter, track: isTrackEnabled } = options;
 
+  const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
   const fixedPathsCombined = fixedPaths.join(" ");
 
@@ -108,16 +109,21 @@ async function runTransform(
     });
   }
 
-  const jscodeshiftOptions = {
-    ...options,
-    parser,
-    log,
-    extensions,
-    ignoreConfig,
-    ignorePattern: "**/*.d.ts",
-  };
-
-  await run(transformPath, fixedPaths, jscodeshiftOptions);
+  await execaNode({
+    stdout: "inherit",
+    env: {
+      LOG: `${log}`,
+      TRACK: `${isTrackEnabled}`,
+      GIT_INFO: JSON.stringify(gitInfo),
+    },
+  })`
+    ${jscodeshiftPath} ${fixedPathsCombined}
+      -t ${transformPath}
+      --parser=${parser}
+      --ignore-pattern=**/*.d.ts
+      ${reporter ? `--reporter=${reporter}` : ""}
+      ${extensions ? `--extensions=${extensions}` : ""}
+      ${ignoreConfig ? `--ignore-config=${ignoreConfig}` : ""}`;
 }
 
 function getAvailableTransforms() {
