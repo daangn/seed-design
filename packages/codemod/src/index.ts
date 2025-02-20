@@ -3,16 +3,13 @@
 import { cac } from "cac";
 import { readdirSync } from "fs";
 import { run } from "jscodeshift/src/Runner.js";
-import { createRequire } from "module";
 import { dirname, resolve } from "path";
 import { minVersion, satisfies } from "semver";
 import type { z } from "zod";
+import packageJson from "../package.json" with { type: "json" };
 import { transformOptionsSchema } from "./schema.js";
 import { getGitInfo } from "./utils/git.js";
 import { createTrack, LOG_PREFIX } from "./utils/log.js";
-
-const require = createRequire(import.meta.url);
-const packageJson = require("../package.json");
 
 checkNodejsVersion();
 
