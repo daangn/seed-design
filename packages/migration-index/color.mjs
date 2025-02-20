@@ -5,7 +5,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.primary",
-    next: ["$color.bg.brand-solid", "$color.bg.brand", "$color.fg.brand"],
+    next: ["$color.bg.brand-solid", "$color.fg.brand"],
     alternative: ["$color.palette.carrot-600"],
   },
   {
