@@ -1,5 +1,13 @@
 # @seed-design/codemod
 
+## 0.0.12-rc.0
+
+### Patch Changes
+
+- f83bbf8: migration index, codemod (vars, tailwind)
+- Updated dependencies [f83bbf8]
+  - @seed-design/migration-index@0.0.1-rc.0
+
 ## 0.0.11
 
 ### Patch Changes

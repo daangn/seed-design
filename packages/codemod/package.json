@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.11",
+  "version": "0.0.12-rc.0",
   "type": "module",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "test": "LOG=true bun vitest"
   },
   "dependencies": {
-    "@seed-design/migration-index": "0.0.0",
+    "@seed-design/migration-index": "0.0.1-rc.0",
     "cac": "^6.7.14",
     "es-toolkit": "^1.25.2",
     "execa": "^9.4.1",
