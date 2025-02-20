@@ -27,7 +27,9 @@ V2의 `global.css`와 상호운용이 가능하지만, codemod를 통해 V3 스�
 </Callout>
 
 ```ts title="index.tsx"
-import "@seed-design/stylesheet/seed.css";
+// import "@seed-design/stylesheet/seed.css";
+import "@seed-design/css/seed.css";
+import "@seed-design/css/seed.min.css"; // minified css
 ```
 </Step>
 
@@ -50,7 +52,7 @@ import "@seed-design/stylesheet/seed.css";
 ### init 명령어 입력하기
 
 </Step>
-```sh
+```package-install
 npx @seed-design/cli@latest init
 ```
 
@@ -119,7 +121,7 @@ npx @seed-design/cli@latest init
 자세한 `add` 명령어 사용법은 [CLI](/docs/react/get-started/cli#add)를 참고해주세요.
 </Callout>
 
-```sh
+```package-install
 npx @seed-design/cli@latest add action-button
 ```
 
