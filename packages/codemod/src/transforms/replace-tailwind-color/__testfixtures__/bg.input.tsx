@@ -13,7 +13,7 @@ export function BackgroundExample() {
       <div className="bg-carrot200">Scale Carrot Mid Background</div>
       <div className="bg-carrot300">Scale Carrot High Background</div>
       <div className="bg-carrot400">Scale Carrot High Background</div>
-      <div className="bg-carrot500">Scale Carrot Background</div>
+      <div className="bg-carrot500">Scale Carrot High Background</div>
       <div className="bg-carrot600">Scale Carrot High Background</div>
       <div className="bg-carrot700">Scale Carrot High Background</div>
       <div className="bg-carrot800">Scale Carrot High Background</div>
