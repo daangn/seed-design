@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.12-rc.1
+
+### Patch Changes
+
+- 2612bf7: remove require
+
 ## 0.0.12-rc.0
 
 ### Patch Changes

@@ -164,7 +164,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "0.0.12-rc.0",
+      "version": "0.0.12-rc.1",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@seed-design/migration-index": "0.0.0",
