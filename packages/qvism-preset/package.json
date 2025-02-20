@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@seed-design/qvism-core": "0.0.0",
-    "@seed-design/css": "0.0.1-rc.0"
+    "@seed-design/css": "0.0.1-rc.1"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"
