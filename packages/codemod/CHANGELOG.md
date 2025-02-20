@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.12-rc.2
+
+### Patch Changes
+
+- 9f40190: remove run
+
 ## 0.0.12-rc.1
 
 ### Patch Changes
