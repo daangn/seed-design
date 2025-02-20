@@ -2,8 +2,6 @@ import esbuild from "esbuild";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import pkg from "./package.json" with { type: "json" };
-
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -28,7 +26,6 @@ esbuild
     format: "esm",
     platform: "node",
     target: ["esnext"],
-    external: [...Object.keys(pkg.dependencies)],
     define,
   })
   .catch(() => process.exit(1));
@@ -47,7 +44,6 @@ fs.readdirSync("./src/transforms").forEach((folder) => {
       format: "esm",
       platform: "node",
       target: ["esnext"],
-      external: [...Object.keys(pkg.dependencies)],
       define,
     })
     .catch(() => process.exit(1));

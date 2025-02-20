@@ -2,8 +2,6 @@ import esbuild from "esbuild";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import pkg from "./package.json" with { type: "json" };
-
 esbuild
   .context({
     entryPoints: ["./src/index.ts"],
@@ -16,7 +14,6 @@ esbuild
     format: "esm",
     platform: "node",
     target: ["esnext"],
-    external: [...Object.keys(pkg.dependencies)],
   })
   .then((ctx) => ctx.watch())
   .catch(() => process.exit(1));
@@ -35,7 +32,6 @@ fs.readdirSync("./src/transforms").forEach((folder) => {
       format: "esm",
       platform: "node",
       target: ["esnext"],
-      external: [...Object.keys(pkg.dependencies)],
     })
     .then((ctx) => ctx.watch())
     .catch(() => process.exit(1));
