@@ -1,0 +1,55 @@
+---
+title: Link Content
+description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+---
+
+<ComponentExample name="link-content-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-content-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { LinkContent, SuffixIcon } from "@seed-design/react";
+import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
+```
+
+```tsx
+<LinkContent>
+  Label
+  <SuffixIcon svg={<IconChevronRightLine />} />
+</LinkContent>
+```
+
+## Props
+
+<ReactTypeTable path="../packages/react/src/components/LinkContent/LinkContent.tsx" name="LinkContentProps" />
+
+## Examples
+
+### Size
+
+<ComponentExample name="link-content-size">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-content-size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Color
+
+<ComponentExample name="link-content-color">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/link-content-color.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

@@ -1,10 +1,10 @@
-import { linkWithIcon as vars } from "@seed-design/css/vars/component";
+import { linkContent as vars } from "@seed-design/css/vars/component";
 
 import { defineRecipe } from "../utils/define-recipe";
 import { suffixIcon } from "../utils/icon";
 
-const linkWithIcon = defineRecipe({
-  name: "link-with-icon",
+const linkContent = defineRecipe({
+  name: "link-content",
   slots: ["root"],
   base: {
     root: {
@@ -22,9 +22,7 @@ const linkWithIcon = defineRecipe({
       textAlign: "center",
 
       paddingInline: 0,
-      paddingBlock: vars.base.enabled.root.paddingY,
-
-      fontWeight: vars.base.enabled.label.fontWeight,
+      paddingBlock: 0,
 
       color: "var(--seed-box-color)",
 
@@ -34,6 +32,18 @@ const linkWithIcon = defineRecipe({
     },
   },
   variants: {
+    weight: {
+      bold: {
+        root: {
+          fontWeight: vars.weightBold.enabled.label.fontWeight,
+        },
+      },
+      regular: {
+        root: {
+          fontWeight: vars.weightRegular.enabled.label.fontWeight,
+        },
+      },
+    },
     size: {
       t6: {
         root: {
@@ -68,8 +78,8 @@ const linkWithIcon = defineRecipe({
     },
   },
   defaultVariants: {
-    size: "t6",
+    size: "t4",
   },
 });
 
-export default linkWithIcon;
+export default linkContent;

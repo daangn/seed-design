@@ -23,7 +23,7 @@ export * from "./Icon";
 export * from "./IdentityPlaceholder";
 export * from "./Inline";
 export * from "./InlineBanner";
-export * from "./LinkWithIcon";
+export * from "./LinkContent";
 export * from "./LoadingIndicator";
 export * from "./MannerTempBadge";
 export * from "./ProgressCircle";

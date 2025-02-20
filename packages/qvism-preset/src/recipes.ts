@@ -18,7 +18,7 @@ import fab from "./recipes/fab";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
-import linkWithIcon from "./recipes/link-with-icon";
+import linkContent from "./recipes/link-content";
 import mannerTempBadge from "./recipes/manner-temp-badge";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
@@ -72,7 +72,7 @@ export const recipes = {
   snackbar,
   snackbarRegion,
   text,
-  linkWithIcon,
+  linkContent,
   textField,
   visuallyHidden,
   appScreen,

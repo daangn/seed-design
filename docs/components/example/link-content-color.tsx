@@ -1,25 +1,25 @@
 import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
-import { LinkWithIcon, Stack, SuffixIcon } from "@seed-design/react";
+import { LinkContent, Stack, SuffixIcon } from "@seed-design/react";
 
-export default function LinkWithIconColor() {
+export default function LinkContentColor() {
   return (
     <Stack>
-      <LinkWithIcon color="fg.neutral">
+      <LinkContent color="fg.neutral">
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
-      </LinkWithIcon>
-      <LinkWithIcon color="fg.neutralSubtle">
+      </LinkContent>
+      <LinkContent color="fg.neutralSubtle">
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
-      </LinkWithIcon>
-      <LinkWithIcon color="fg.brand">
+      </LinkContent>
+      <LinkContent color="fg.brand">
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
-      </LinkWithIcon>
-      <LinkWithIcon color="fg.informative">
+      </LinkContent>
+      <LinkContent color="fg.informative">
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
-      </LinkWithIcon>
+      </LinkContent>
     </Stack>
   );
 }

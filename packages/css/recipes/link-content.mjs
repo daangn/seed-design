@@ -2,20 +2,24 @@ import { createClassName } from "./className.mjs";
 import { mergeVariants } from "./mergeVariants.mjs";
 import { splitVariantProps } from "./splitVariantProps.mjs";
 
-const linkWithIconSlotNames = [
+const linkContentSlotNames = [
   [
     "root",
-    "seed-link-with-icon__root"
+    "seed-link-content__root"
   ]
 ];
 
 const defaultVariant = {
-  "size": "t6"
+  "size": "t4"
 };
 
 const compoundVariants = [];
 
-export const linkWithIconVariantMap = {
+export const linkContentVariantMap = {
+  "weight": [
+    "bold",
+    "regular"
+  ],
   "size": [
     "t6",
     "t5",
@@ -23,11 +27,11 @@ export const linkWithIconVariantMap = {
   ]
 };
 
-export const linkWithIconVariantKeys = Object.keys(linkWithIconVariantMap);
+export const linkContentVariantKeys = Object.keys(linkContentVariantMap);
 
-export function linkWithIcon(props) {
+export function linkContent(props) {
   return Object.fromEntries(
-    linkWithIconSlotNames.map(([slot, className]) => {
+    linkContentSlotNames.map(([slot, className]) => {
       return [
         slot,
         createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
@@ -36,4 +40,4 @@ export function linkWithIcon(props) {
   );
 }
 
-Object.assign(linkWithIcon, { splitVariantProps: (props) => splitVariantProps(props, linkWithIconVariantMap) });
+Object.assign(linkContent, { splitVariantProps: (props) => splitVariantProps(props, linkContentVariantMap) });

@@ -1,18 +1,18 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { LinkWithIcon } from "@seed-design/react";
+import { LinkContent } from "@seed-design/react";
 
-import { linkWithIconVariantMap } from "@seed-design/css/recipes/link-with-icon";
-import { VariantTable } from "./components/variant-table";
-import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
-import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
+import { linkContentVariantMap } from "@seed-design/css/recipes/link-content";
 import { SuffixIcon } from "@seed-design/react";
+import { SeedThemeDecorator } from "./components/decorator";
+import { VariantTable } from "./components/variant-table";
 
 const meta = {
-  component: LinkWithIcon,
+  component: LinkContent,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof LinkWithIcon>;
+} satisfies Meta<typeof LinkContent>;
 
 export default meta;
 
@@ -28,16 +28,16 @@ const conditionMap = {
 const CommonStoryTemplate: Story = {
   args: {
     children: (
-      <>
+      <LinkContent>
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
-      </>
+      </LinkContent>
     ),
   },
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={linkWithIconVariantMap}
+      variantMap={linkContentVariantMap}
       conditionMap={conditionMap}
       {...args}
     />

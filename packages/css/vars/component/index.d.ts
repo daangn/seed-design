@@ -21,7 +21,7 @@ export { vars as fab } from "./fab";
 export { vars as helpBubble } from "./help-bubble";
 export { vars as identityPlaceholder } from "./identity-placeholder";
 export { vars as inlineBanner } from "./inline-banner";
-export { vars as linkWithIcon } from "./link-with-icon";
+export { vars as linkContent } from "./link-content";
 export { vars as mannerTempBadge } from "./manner-temp-badge";
 export { vars as progressCircle } from "./progress-circle";
 export { vars as radio } from "./radio";

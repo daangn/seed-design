@@ -1,11 +1,11 @@
 import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
-import { LinkWithIcon, SuffixIcon } from "@seed-design/react";
+import { LinkContent, SuffixIcon } from "@seed-design/react";
 
-export default function LinkWithIconPreview() {
+export default function LinkContentPreview() {
   return (
-    <LinkWithIcon>
+    <LinkContent>
       새 글
       <SuffixIcon svg={<IconChevronRightLine />} />
-    </LinkWithIcon>
+    </LinkContent>
   );
 }
