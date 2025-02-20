@@ -87,16 +87,20 @@ export class TokenMigrationReporter {
             const lineInfo = result.line ? ` (line: ${result.line})` : "";
             const status = result.status === "success" ? "✅" : "❌";
             const failureInfo = result.failureReason
-              ? `\n    - Reason: ${result.failureReason}`
+              ? `\n    - reason: ${result.failureReason}`
               : "";
 
-            return `  - ${status} \`${result.previousToken}\` → ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${lineInfo}${failureInfo}`;
+            return `  - ${status} ${lineInfo} \n    - as-is: \`${result.previousToken}\` \n    - to-be: ${result.nextToken ? `\`${result.nextToken}\`` : "undefined"}${failureInfo}`;
           })
           .join("\n");
 
         return `### [${filename}](${file.filePath})
 - timestamp: ${this.timestamp}
-- results
+- summary:
+  - total: ${file.results.length}
+  - success: ${file.results.filter((result) => result.status === "success").length}
+  - failure: ${file.results.filter((result) => result.status === "failure").length}
+- lines
 ${resultsList}`;
       })
       .join("\n\n");

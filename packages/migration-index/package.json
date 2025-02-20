@@ -1,10 +1,16 @@
 {
   "name": "@seed-design/migration-index",
   "version": "0.0.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/migration-index"
+  },
   "main": "./index.js",
-  "module": "./index.mjs",
   "types": "./index.d.ts",
+  "files": [
+    "*"
+  ],
   "exports": {
     ".": {
       "types": "./index.d.ts"
@@ -17,5 +23,8 @@
       "types": "./typography.d.ts",
       "import": "./typography.mjs"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

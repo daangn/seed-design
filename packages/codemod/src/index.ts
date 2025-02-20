@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 
 import { cac } from "cac";
-import { execaNode } from "execa";
 import { readdirSync } from "fs";
+import { run } from "jscodeshift/src/Runner.js";
 import { createRequire } from "module";
 import { dirname, resolve } from "path";
 import { minVersion, satisfies } from "semver";
-import { z } from "zod";
+import type { z } from "zod";
+import { transformOptionsSchema } from "./schema.js";
 import { getGitInfo } from "./utils/git.js";
 import { createTrack, LOG_PREFIX } from "./utils/log.js";
 
@@ -21,15 +22,6 @@ const cli = cac();
 const gitInfo = await getGitInfo();
 const track = createTrack({ ...gitInfo });
 
-const transformOptionsSchema = z.object({
-  list: z.boolean().optional(),
-  log: z.boolean().optional(),
-  track: z.boolean(),
-  parser: z.enum(["babel", "babylon", "flow", "ts", "tsx"]).optional(),
-  extensions: z.string().optional(),
-  ignoreConfig: z.string().optional(),
-});
-
 cli
   .version(packageJson.version)
   .help()
@@ -43,6 +35,7 @@ cli
     "jscodeshift가 사용할 파서를 지정해요 (babel|babylon|flow|ts|tsx)",
     { default: "tsx" },
   )
+  .option("--reporter", "변환 결과를 파일로 저장해요")
   .option("--extensions <extensions>", "변환할 파일 확장자")
   .option("--ignore-config <ignoreConfig>", "Ignore config")
   .example("  $ npx @seed-design/codemod migrate-icons src/ui")
@@ -106,7 +99,6 @@ async function runTransform(
   paths: string[],
   options: z.infer<typeof transformOptionsSchema>,
 ) {
-  const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const { log, parser, extensions, ignoreConfig, track: isTrackEnabled } = options;
 
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
@@ -119,20 +111,16 @@ async function runTransform(
     });
   }
 
-  await execaNode({
-    stdout: "inherit",
-    env: {
-      LOG: `${log}`,
-      TRACK: `${isTrackEnabled}`,
-      GIT_INFO: JSON.stringify(gitInfo),
-    },
-  })`
-    ${jscodeshiftPath} ${fixedPathsCombined}
-      -t ${transformPath}
-      --parser=${parser}
-      --ignore-pattern=**/*.d.ts
-      ${extensions ? `--extensions=${extensions}` : ""}
-      ${ignoreConfig ? `--ignore-config=${ignoreConfig}` : ""}`;
+  const jscodeshiftOptions = {
+    ...options,
+    parser,
+    log,
+    extensions,
+    ignoreConfig,
+    ignorePattern: "**/*.d.ts",
+  };
+
+  await run(transformPath, fixedPaths, jscodeshiftOptions);
 }
 
 function getAvailableTransforms() {

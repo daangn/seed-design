@@ -1,5 +1,5 @@
 import esbuild from "esbuild";
-import * as fs from "node:fs"
+import * as fs from "node:fs";
 import * as path from "node:path";
 
 import pkg from "./package.json" with { type: "json" };
