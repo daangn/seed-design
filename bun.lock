@@ -39,12 +39,12 @@
         "@sanity/table": "^1.1.3",
         "@sanity/vision": "3",
         "@sanity/visual-editing": "^2.10.5",
-        "@seed-design/css": "0.0.1-rc.0",
+        "@seed-design/css": "0.0.1-rc.1",
         "@seed-design/migration-index": "0.0.1-rc.0",
-        "@seed-design/react": "0.0.1-rc.1",
+        "@seed-design/react": "0.0.1-rc.2",
         "@seed-design/react-icon": "^0.7.3",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "0.0.1-rc.0",
+        "@seed-design/stackflow": "0.0.1-rc.1",
         "@stackflow/config": "^1.2.0",
         "@stackflow/core": "^1.1.0",
         "@stackflow/plugin-basic-ui": "^1.10.0",
@@ -164,7 +164,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "0.0.12-rc.2",
+      "version": "0.0.12-rc.3",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@seed-design/migration-index": "0.0.1-rc.0",
@@ -195,7 +195,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "0.0.1-rc.0",
+      "version": "0.0.1-rc.1",
     },
     "packages/design-token": {
       "name": "@seed-design/design-token",
@@ -221,13 +221,13 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "0.0.1-rc.1",
+      "version": "0.0.1-rc.2",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.1",
         "@radix-ui/react-use-controllable-state": "1.1.0",
         "@radix-ui/react-use-layout-effect": "^1.1.0",
-        "@seed-design/css": "0.0.1-rc.0",
+        "@seed-design/css": "0.0.1-rc.1",
         "@seed-design/dom-utils": "0.0.1-rc.0",
         "@seed-design/react-avatar": "0.0.1-rc.0",
         "@seed-design/react-checkbox": "0.0.1-rc.0",
@@ -515,7 +515,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "0.0.1-rc.0",
+      "version": "0.0.1-rc.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.1",
@@ -529,7 +529,7 @@
         "esbuild": "^0.25.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "0.0.1-rc.0",
+        "@seed-design/css": "0.0.1-rc.1",
         "@stackflow/react": ">=1.4.1",
         "@stackflow/react-ui-core": ">=1.2.1",
         "react": ">=18.0.0",

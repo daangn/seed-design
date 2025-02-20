@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/stackflow",
-  "version": "0.0.1-rc.0",
+  "version": "0.0.1-rc.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -37,7 +37,7 @@
     "esbuild": "^0.25.0"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.1-rc.0",
+    "@seed-design/css": "0.0.1-rc.1",
     "@stackflow/react": ">=1.4.1",
     "@stackflow/react-ui-core": ">=1.2.1",
     "react": ">=18.0.0",

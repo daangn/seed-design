@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.12-rc.3
+
+### Patch Changes
+
+- 14c9983: change package.json exports map
+
 ## 0.0.12-rc.2
 
 ### Patch Changes
