@@ -27,6 +27,10 @@
       "types": "./vars/index.d.ts",
       "import": "./vars/index.mjs"
     },
+    "./vars/*": {
+      "types": "./vars/*.d.ts",
+      "import": "./vars/*.mjs"
+    },
     "./vars/component": {
       "types": "./vars/component/index.d.ts",
       "import": "./vars/component/index.mjs"
