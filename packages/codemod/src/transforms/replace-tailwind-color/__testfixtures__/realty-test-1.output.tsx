@@ -33,10 +33,10 @@ const Component3 = ({
 }) => (
   <div
     className={cn(
-      "label6Bold bg-gray-300 text-gray-800 relative -left-[80%] -top-[30px] w-max rounded-[2px] p-[1px_4px] text-center",
+      "label6Bold bg-palette-gray-300 text-palette-gray-800 relative -left-[80%] -top-[30px] w-max rounded-[2px] p-[1px_4px] text-center",
       "after:absolute after:left-[80%] after:top-full after:-ml-[5px]",
-      "after:border-t-gray-300 after:border-[5px] after:border-solid after:border-transparent",
-      "after:text-gray-300 after:border-[5px] after:border-solid after:border-transparent",
+      "after:border-t-palette-gray-300 after:border-[5px] after:border-solid after:border-transparent",
+      "after:text-palette-gray-300 after:border-[5px] after:border-solid after:border-transparent",
       className,
     )}
   >
@@ -45,7 +45,7 @@ const Component3 = ({
 );
 
 const Component4 = ({ children }: { children: React.ReactNode }) => (
-  <BaseTooltip className="bg-carrot-600 text-gray-00 after:border-t-carrot-600">
+  <BaseTooltip className="bg-palette-carrot-600 text-palette-gray-00 after:border-t-palette-carrot-600">
     {children}
   </BaseTooltip>
 );

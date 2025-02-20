@@ -31,10 +31,10 @@ function normalizePreviousToken(previous: string): string {
 // next 토큰 변환: 해당 접두사에 맞는 문자로 치환
 function transformNextToken(prefix: ColorPrefix, token: string): string {
   const transformations: [string, string][] = [
-    ["$color.palette.", `${prefix}-`],
-    ["$color.stroke.", `${prefix}-`],
-    ["$color.bg.", `${prefix}-`],
-    ["$color.fg.", `${prefix}-`],
+    ["$color.palette.", `${prefix}-palette-`],
+    ["$color.stroke.", `${prefix}-stroke-`],
+    ["$color.bg.", `${prefix}-bg-`],
+    ["$color.fg.", `${prefix}-fg-`],
   ];
   for (const [source, replacement] of transformations) {
     if (token.startsWith(source)) return token.replace(source, replacement);
