@@ -4,8 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "isolatedModules": false,
-    "skipLibCheck": false,
-    "resolveJsonModule": true
+    "skipLibCheck": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
   "exclude": ["node_modules", "__testfixtures__"],
