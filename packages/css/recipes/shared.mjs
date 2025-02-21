@@ -23,3 +23,26 @@ export const createClassName = (className, variants, compoundVariants = []) => {
 
   return [className, variantClassName, compountVariantClassName].filter(Boolean).join(" ");
 };
+
+export function mergeVariants(a, b) {
+  const result = { ...a };
+  for (const k in b) {
+    if (b[k]) {
+      result[k] = b[k];
+    }
+  }
+  return result;
+}
+
+export function splitVariantProps(props, variantMap) {
+  const variantProps = {};
+  const otherProps = {};
+  for (const key in props) {
+    if (variantMap[key] != null) {
+      variantProps[key] = props[key];
+    } else {
+      otherProps[key] = props[key];
+    }
+  }
+  return [variantProps, otherProps];
+}

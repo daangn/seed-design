@@ -1,6 +1,4 @@
-import { createClassName } from "./className.mjs";
-import { mergeVariants } from "./mergeVariants.mjs";
-import { splitVariantProps } from "./splitVariantProps.mjs";
+import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const bottomSheetSlotNames = [
   [
