@@ -4,9 +4,14 @@ import { escapeReservedWord } from "./reserved-words";
 import type { SlotRecipeDefinition, SlotRecipeVariantRecord } from "./types";
 import { booleanStringToBoolean, isBooleanString } from "./logic";
 import { camelCase } from "change-case";
+import { sharedMjs } from "./fixture";
 
 const prefixName = (name: string, options: { prefix?: string } = {}) =>
   options.prefix ? `${options.prefix}-${name}` : name;
+
+export function generateSharedJs(): string {
+  return sharedMjs;
+}
 
 export function generateJs(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
@@ -29,9 +34,7 @@ export function generateJs(
   const compoundVariants = definition.compoundVariants?.map(({ css, ...rest }) => rest) ?? [];
 
   return outdent`
-  import { createClassName } from "./className.mjs";
-  import { mergeVariants } from "./mergeVariants.mjs";
-  import { splitVariantProps } from "./splitVariantProps.mjs";
+  import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
   const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
   

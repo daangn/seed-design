@@ -6,6 +6,7 @@ import {
   generateCssBundle,
   generateDts,
   generateJs,
+  generateSharedJs,
   type Config,
   type Preset,
 } from "@seed-design/qvism-core";
@@ -44,6 +45,11 @@ async function writeCss() {
 async function writeCssInJs() {
   const config = buildConfig(preset, {});
   const options = { prefix: config.prefix };
+
+  const sharedJs = generateSharedJs();
+  console.log("Writing shared to", path.join(process.cwd(), dir, "shared.mjs"));
+  fs.writeFileSync(path.join(dir, "shared.mjs"), sharedJs);
+
   return Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
