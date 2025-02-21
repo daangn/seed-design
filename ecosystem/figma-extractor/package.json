@@ -4,7 +4,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "tools/figma-extractor"
+    "directory": "ecosystem/figma-extractor"
   },
   "scripts": {
     "build": "bun build.mjs && tsc"

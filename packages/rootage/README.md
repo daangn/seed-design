@@ -1,6 +1,6 @@
 # @seed-design/rootage
 
-This package is a preset for [@seed-design/tools/rootage](../../tools/rootage)
+This package is a preset for [@seed-design/ecosystem/rootage](../../ecosystem/rootage)
 
 Following libraries are generated from this preset.
 

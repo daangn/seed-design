@@ -37,7 +37,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build
-        run: bun build-only-package
+        run: bun packages:build
 
       - name: Publish to Chromatic
         uses: chromaui/action@v1
