@@ -1,15 +1,15 @@
 {
-  "name": "@seed-design/qvism-cli",
+  "name": "@seed-design/rootage-cli",
   "version": "0.0.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/daangn/seed-design",
-    "directory": "tools/qvism/cli"
+    "directory": "ecosystem/rootage/cli"
   },
   "license": "MIT",
   "bin": {
-    "qvism": "./bin/index.mjs"
+    "rootage": "./bin/index.mjs"
   },
   "files": [
     "dist",
@@ -17,13 +17,14 @@
   ],
   "scripts": {
     "build": "bun build.mjs",
-    "qvism:build": "bun build.mjs",
+    "rootage:build": "bun build.mjs",
     "dev": "bun dev.mjs"
   },
   "dependencies": {
-    "@seed-design/qvism-core": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0",
-    "fs-extra": "^11.1.1"
+    "@seed-design/rootage-artifacts": "0.0.0",
+    "@seed-design/rootage-core": "0.0.0",
+    "fs-extra": "^11.1.1",
+    "yaml": "^2.4.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.2",
@@ -36,9 +37,8 @@
   },
   "ultra": {
     "concurrent": [
-      "dev",
       "build",
-      "qvism:build"
+      "rootage:build"
     ]
   }
 }

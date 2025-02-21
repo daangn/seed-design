@@ -95,6 +95,101 @@
         "typescript": "^5.5.4",
       },
     },
+    "ecosystem/figma-extractor": {
+      "name": "@seed-design/figma-extractor",
+      "version": "0.0.3",
+      "bin": {
+        "figma-extractor": "./bin/index.mjs"
+      },
+      "dependencies": {
+        "@figma/rest-api-spec": "^0.23.0",
+        "cac": "^6.7.14",
+        "change-case": "^5.4.4",
+        "cosmiconfig": "^9.0.0",
+        "dotenv": "^16.4.7",
+        "es-toolkit": "^1.31.0",
+        "figma-api": "^2.0.1-beta",
+        "fs-extra": "^11.3.0",
+        "zod": "^3.24.1",
+      },
+      "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "esbuild": "^0.25.0",
+        "typescript": "^5.7.3",
+      },
+    },
+    "ecosystem/qvism/cli": {
+      "name": "@seed-design/qvism-cli",
+      "version": "0.0.0",
+      "bin": {
+        "qvism": "./bin/index.mjs"
+      },
+      "dependencies": {
+        "@seed-design/qvism-core": "0.0.0",
+        "@seed-design/qvism-preset": "0.0.0",
+        "fs-extra": "^11.1.1",
+      },
+      "devDependencies": {
+        "@types/fs-extra": "^11.0.2",
+        "esbuild": "^0.25.0",
+        "typescript": "^5.4.5",
+        "ultra-runner": "^3.10.5",
+      },
+    },
+    "ecosystem/qvism/core": {
+      "name": "@seed-design/qvism-core",
+      "version": "0.0.0",
+      "dependencies": {
+        "change-case": "^5.4.4",
+        "lightningcss": "^1.29.1",
+        "outdent": "^0.8.0",
+        "postcss": "^8.4.30",
+        "postcss-js": "^4.0.1",
+        "postcss-nested": "^6.0.1",
+      },
+      "devDependencies": {
+        "@types/postcss-js": "^4.0.2",
+        "csstype": "^3.1.2",
+        "esbuild": "^0.25.0",
+        "typescript": "^5.4.5",
+        "ultra-runner": "^3.10.5",
+        "vitest": "^0.34.6",
+      },
+    },
+    "ecosystem/rootage/cli": {
+      "name": "@seed-design/rootage-cli",
+      "version": "0.0.0",
+      "bin": {
+        "rootage": "./bin/index.mjs"
+      },
+      "dependencies": {
+        "@seed-design/rootage-artifacts": "0.0.0",
+        "@seed-design/rootage-core": "0.0.0",
+        "fs-extra": "^11.1.1",
+        "yaml": "^2.4.2",
+      },
+      "devDependencies": {
+        "@types/fs-extra": "^11.0.2",
+        "esbuild": "^0.25.0",
+        "typescript": "^5.4.5",
+        "ultra-runner": "^3.10.5",
+      },
+    },
+    "ecosystem/rootage/core": {
+      "name": "@seed-design/rootage-core",
+      "version": "0.0.0",
+      "dependencies": {
+        "change-case": "^5.4.4",
+        "dedent": "^1.5.3",
+      },
+      "devDependencies": {
+        "esbuild": "^0.25.0",
+        "typescript": "^5.4.5",
+        "ultra-runner": "^3.10.5",
+        "vitest": "^0.34.6",
+        "yaml": "^2.4.2",
+      },
+    },
     "examples/stackflow-spa": {
       "name": "@seed-design/stackflow-spa",
       "version": "0.0.0",
@@ -212,7 +307,7 @@
       "name": "@seed-design/qvism-preset",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/css": "0.0.1-rc.0",
+        "@seed-design/css": "0.0.1-rc.1",
         "@seed-design/qvism-core": "0.0.0",
       },
       "devDependencies": {
@@ -609,29 +704,6 @@
         "esbuild": "^0.25.0",
       },
     },
-    "tools/figma-extractor": {
-      "name": "@seed-design/figma-extractor",
-      "version": "0.0.3",
-      "bin": {
-        "figma-extractor": "./bin/index.mjs"
-      },
-      "dependencies": {
-        "@figma/rest-api-spec": "^0.23.0",
-        "cac": "^6.7.14",
-        "change-case": "^5.4.4",
-        "cosmiconfig": "^9.0.0",
-        "dotenv": "^16.4.7",
-        "es-toolkit": "^1.31.0",
-        "figma-api": "^2.0.1-beta",
-        "fs-extra": "^11.3.0",
-        "zod": "^3.24.1",
-      },
-      "devDependencies": {
-        "@types/fs-extra": "^11.0.4",
-        "esbuild": "^0.25.0",
-        "typescript": "^5.7.3",
-      },
-    },
     "tools/figma-spec-widget": {
       "name": "@seed-design/figma-spec-widget",
       "version": "0.0.0",
@@ -673,78 +745,6 @@
         "dotenv": "^16.4.7",
         "tailwindcss": "3.4.14",
         "typescript": "^5.7.3",
-      },
-    },
-    "tools/qvism/cli": {
-      "name": "@seed-design/qvism-cli",
-      "version": "0.0.0",
-      "bin": {
-        "qvism": "./bin/index.mjs"
-      },
-      "dependencies": {
-        "@seed-design/qvism-core": "0.0.0",
-        "@seed-design/qvism-preset": "0.0.0",
-        "fs-extra": "^11.1.1",
-      },
-      "devDependencies": {
-        "@types/fs-extra": "^11.0.2",
-        "esbuild": "^0.25.0",
-        "typescript": "^5.4.5",
-        "ultra-runner": "^3.10.5",
-      },
-    },
-    "tools/qvism/core": {
-      "name": "@seed-design/qvism-core",
-      "version": "0.0.0",
-      "dependencies": {
-        "change-case": "^5.4.4",
-        "lightningcss": "^1.29.1",
-        "outdent": "^0.8.0",
-        "postcss": "^8.4.30",
-        "postcss-js": "^4.0.1",
-        "postcss-nested": "^6.0.1",
-      },
-      "devDependencies": {
-        "@types/postcss-js": "^4.0.2",
-        "csstype": "^3.1.2",
-        "esbuild": "^0.25.0",
-        "typescript": "^5.4.5",
-        "ultra-runner": "^3.10.5",
-        "vitest": "^0.34.6",
-      },
-    },
-    "tools/rootage/cli": {
-      "name": "@seed-design/rootage-cli",
-      "version": "0.0.0",
-      "bin": {
-        "rootage": "./bin/index.mjs"
-      },
-      "dependencies": {
-        "@seed-design/rootage-artifacts": "0.0.0",
-        "@seed-design/rootage-core": "0.0.0",
-        "fs-extra": "^11.1.1",
-        "yaml": "^2.4.2",
-      },
-      "devDependencies": {
-        "@types/fs-extra": "^11.0.2",
-        "esbuild": "^0.25.0",
-        "typescript": "^5.4.5",
-        "ultra-runner": "^3.10.5",
-      },
-    },
-    "tools/rootage/core": {
-      "name": "@seed-design/rootage-core",
-      "version": "0.0.0",
-      "dependencies": {
-        "change-case": "^5.4.4",
-        "dedent": "^1.5.3",
-      },
-      "devDependencies": {
-        "esbuild": "^0.25.0",
-        "typescript": "^5.4.5",
-        "ultra-runner": "^3.10.5",
-        "vitest": "^0.34.6",
-        "yaml": "^2.4.2",
       },
     },
   },
@@ -1611,7 +1611,7 @@
 
     "@seed-design/figma-expose-variables": ["@seed-design/figma-expose-variables@workspace:tools/figma-expose-variables"],
 
-    "@seed-design/figma-extractor": ["@seed-design/figma-extractor@workspace:tools/figma-extractor"],
+    "@seed-design/figma-extractor": ["@seed-design/figma-extractor@workspace:ecosystem/figma-extractor"],
 
     "@seed-design/figma-spec-widget": ["@seed-design/figma-spec-widget@workspace:tools/figma-spec-widget"],
 
@@ -1619,9 +1619,9 @@
 
     "@seed-design/migration-index": ["@seed-design/migration-index@workspace:packages/migration-index"],
 
-    "@seed-design/qvism-cli": ["@seed-design/qvism-cli@workspace:tools/qvism/cli"],
+    "@seed-design/qvism-cli": ["@seed-design/qvism-cli@workspace:ecosystem/qvism/cli"],
 
-    "@seed-design/qvism-core": ["@seed-design/qvism-core@workspace:tools/qvism/core"],
+    "@seed-design/qvism-core": ["@seed-design/qvism-core@workspace:ecosystem/qvism/core"],
 
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
 
@@ -1661,9 +1661,9 @@
 
     "@seed-design/rootage-artifacts": ["@seed-design/rootage-artifacts@workspace:packages/rootage"],
 
-    "@seed-design/rootage-cli": ["@seed-design/rootage-cli@workspace:tools/rootage/cli"],
+    "@seed-design/rootage-cli": ["@seed-design/rootage-cli@workspace:ecosystem/rootage/cli"],
 
-    "@seed-design/rootage-core": ["@seed-design/rootage-core@workspace:tools/rootage/core"],
+    "@seed-design/rootage-core": ["@seed-design/rootage-core@workspace:ecosystem/rootage/core"],
 
     "@seed-design/stackflow": ["@seed-design/stackflow@workspace:packages/stackflow"],
 

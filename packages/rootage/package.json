@@ -6,6 +6,9 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/rootage"
   },
+  "scripts": {
+    "rootage:generate": "bun rootage json-schema ./components"
+  },
   "main": "package.json",
   "files": [
     "*.yaml",

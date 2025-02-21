@@ -31,7 +31,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build Packages
-        run: bun build-only-package
+        run: bun packages:build
 
       - name: Build Storybook
         working-directory: ./docs

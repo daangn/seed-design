@@ -15,7 +15,7 @@ export default defineWorkspace([
   {
     test: {
       name: "rootage",
-      include: ["./tools/rootage/**/*.test.(tsx|ts)"],
+      include: ["./ecosystem/rootage/**/*.test.(tsx|ts)"],
       environment: "node",
     },
   },

@@ -42,6 +42,16 @@ function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
+function writeFile({ filename, writePath, code }) {
+  console.log("Writing", filename, "to", writePath);
+
+  if (!fs.existsSync(path.dirname(writePath))) {
+    fs.mkdirpSync(path.dirname(writePath));
+  }
+
+  fs.writeFileSync(writePath, code);
+}
+
 async function prepare() {
   const filePaths = readYAMLFilesSync(artifactsDir);
 
@@ -84,20 +94,21 @@ async function writeTokenTs() {
   for (const result of mjsResults) {
     const writePath = path.join(process.cwd(), dir, result.path);
 
-    console.log("Writing", result.path, "to", writePath);
-
-    if (!fs.existsSync(path.dirname(writePath))) {
-      fs.mkdirpSync(path.dirname(writePath));
-    }
-    fs.writeFileSync(writePath, result.code);
+    writeFile({
+      filename: result.path,
+      code: result.code,
+      writePath: writePath,
+    });
   }
 
   for (const result of dtsResults) {
     const writePath = path.join(process.cwd(), dir, result.path);
 
-    console.log("Writing", result.path, "to", writePath);
-
-    fs.writeFileSync(writePath, result.code);
+    writeFile({
+      filename: result.path,
+      code: result.code,
+      writePath: writePath,
+    });
   }
 }
 
@@ -109,34 +120,39 @@ async function writeComponentSpec() {
     const mjsCode = tsStringifier.getComponentSpecMjs(spec);
     const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
 
-    console.log("Writing", spec.name, "to", mjsWritePath);
-
-    if (!fs.existsSync(path.dirname(mjsWritePath))) {
-      fs.mkdirpSync(path.dirname(mjsWritePath));
-    }
-    fs.writeFileSync(mjsWritePath, mjsCode);
+    writeFile({
+      filename: spec.id,
+      code: mjsCode,
+      writePath: mjsWritePath,
+    });
 
     const dtsCode = tsStringifier.getComponentSpecDts(spec);
     const dtsWritePath = path.join(process.cwd(), dir, `${spec.id}.d.ts`);
 
-    console.log("Writing", spec.name, "to", dtsWritePath);
-
-    fs.writeFileSync(dtsWritePath, dtsCode);
+    writeFile({
+      filename: spec.id,
+      code: dtsCode,
+      writePath: dtsWritePath,
+    });
   }
 
   const mjsIndexCode = tsStringifier.getComponentSpecIndexMjs(specs);
   const mjsIndexWritePath = path.join(process.cwd(), dir, "index.mjs");
 
-  console.log("Writing index to", mjsIndexWritePath);
-
-  fs.writeFileSync(mjsIndexWritePath, mjsIndexCode);
+  writeFile({
+    filename: "index",
+    code: mjsIndexCode,
+    writePath: mjsIndexWritePath,
+  });
 
   const dtsIndexCode = tsStringifier.getComponentSpecIndexDts(specs);
   const dtsIndexWritePath = path.join(process.cwd(), dir, "index.d.ts");
 
-  console.log("Writing index to", dtsIndexWritePath);
-
-  fs.writeFileSync(dtsIndexWritePath, dtsIndexCode);
+  writeFile({
+    filename: "index",
+    code: dtsIndexCode,
+    writePath: dtsIndexWritePath,
+  });
 }
 
 async function writeTokenCss() {
@@ -180,20 +196,24 @@ async function writeTokenCss() {
 
   const writePath = path.join(process.cwd(), dir, "token.css");
 
-  console.log("Writing token css to", writePath);
-
-  fs.writeFileSync(writePath, code);
+  writeFile({
+    filename: "token.css",
+    code,
+    writePath: writePath,
+  });
 }
 
 async function writeJsonSchema() {
   const { ctx } = await prepare();
 
   const jsonSchema = jsonschema.getJsonSchema(getTokenDeclarations(ctx));
-  const writePath = path.join(artifactsDir, "components", "schema.json");
+  const writePath = path.join(process.cwd(), dir, "schema.json");
 
-  console.log("Writing schema to", writePath);
-
-  fs.writeFileSync(writePath, jsonSchema);
+  writeFile({
+    filename: "schema.json",
+    code: jsonSchema,
+    writePath: writePath,
+  });
 }
 
 async function writeJson() {
@@ -206,13 +226,11 @@ async function writeJson() {
     const withoutExt = relativePath.replace(path.extname(relativePath), "");
     const writePath = path.join(process.cwd(), dir, `${withoutExt}.json`);
 
-    console.log("Writing", withoutExt, "to", writePath);
-
-    if (!fs.existsSync(path.dirname(writePath))) {
-      fs.mkdirpSync(path.dirname(writePath));
-    }
-
-    fs.writeFileSync(writePath, code);
+    writeFile({
+      filename: `${withoutExt}.json`,
+      code,
+      writePath: writePath,
+    });
   }
 
   // Generate and write index.json
@@ -222,8 +240,11 @@ async function writeJson() {
   const indexContent = exchange.getIndex(models, { version: artifactsPkg.version });
   const indexPath = path.join(process.cwd(), dir, "index.json");
 
-  console.log("Writing index to", indexPath);
-  fs.writeFileSync(indexPath, JSON.stringify(indexContent, null, 2));
+  writeFile({
+    filename: "index.json",
+    code: JSON.stringify(indexContent, null, 2),
+    writePath: indexPath,
+  });
 }
 
 if (command === "token-ts") {

@@ -15,10 +15,11 @@
 - [@seed-design/react](./packages/react)
 - [@seed-design/stackflow](./packages/stackflow)
 
-**Tooling**
+**Ecosystem**
 
-- [@seed-design/tools/rootage](./tools/rootage)
-- [@seed-design/tools/qvism](./tools/qvism)
+- [@seed-design/ecosystem/rootage](./ecosystem/rootage)
+- [@seed-design/ecosystem/qvism](./ecosystem/qvism)
+- [@seed-design/ecosystem/figma-extractor](./ecosystem/figma-extractor)
 
 **Documentation**
 
