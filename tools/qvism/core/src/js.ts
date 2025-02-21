@@ -8,10 +8,10 @@ import { camelCase } from "change-case";
 const prefixName = (name: string, options: { prefix?: string } = {}) =>
   options.prefix ? `${options.prefix}-${name}` : name;
 
-export function generateJs(
+function generateCommonCode(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
   options: { prefix?: string } = {},
-): string {
+) {
   const jsName = camelCase(definition.name);
 
   const slotNames = definition.slots.map((slot) => [
@@ -28,6 +28,60 @@ export function generateJs(
 
   const compoundVariants = definition.compoundVariants?.map(({ css, ...rest }) => rest) ?? [];
 
+  return {
+    jsName,
+    slotNames,
+    variantMap,
+    compoundVariants,
+    defaultVariant: definition.defaultVariants ?? {},
+  };
+}
+
+export function generateJs(
+  definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
+  options: { prefix?: string; format?: "esm" | "cjs" } = { format: "esm" },
+): string {
+  const { jsName, slotNames, variantMap, compoundVariants, defaultVariant } = generateCommonCode(
+    definition,
+    options,
+  );
+
+  if (options.format === "cjs") {
+    return outdent`
+    const { createClassName } = require("./className.cjs");
+    const { mergeVariants } = require("./mergeVariants.cjs");
+    const { splitVariantProps } = require("./splitVariantProps.cjs");
+
+    const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
+    
+    const defaultVariant = ${JSON.stringify(defaultVariant, null, 2)};
+
+    const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
+    
+    const ${jsName}VariantMap = ${JSON.stringify(variantMap, null, 2)};
+    
+    const ${jsName}VariantKeys = Object.keys(${jsName}VariantMap);
+    
+    function ${escapeReservedWord(jsName)}(props) {
+      return Object.fromEntries(
+        ${jsName}SlotNames.map(([slot, className]) => {
+          return [
+            slot,
+            createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+          ];
+        }),
+      );
+    }
+    
+    Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
+
+    module.exports = ${escapeReservedWord(jsName)};
+    module.exports.${jsName}VariantMap = ${jsName}VariantMap;
+    module.exports.${jsName}VariantKeys = ${jsName}VariantKeys;
+    `;
+  }
+
+  // ESM format (default)
   return outdent`
   import { createClassName } from "./className.mjs";
   import { mergeVariants } from "./mergeVariants.mjs";
@@ -35,7 +89,7 @@ export function generateJs(
 
   const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
   
-  const defaultVariant = ${JSON.stringify(definition.defaultVariants ?? {}, null, 2)};
+  const defaultVariant = ${JSON.stringify(defaultVariant, null, 2)};
 
   const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
   

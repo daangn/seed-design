@@ -89,6 +89,11 @@ export function createStringifier(options: { prefix?: string } = {}) {
     return `export const vars = ${JSON.stringify(result, null, 2)}`;
   }
 
+  function getComponentSpecCjs(decl: ComponentSpecDeclaration) {
+    const result = getComponentSpec(decl);
+    return `const vars = ${JSON.stringify(result, null, 2)}\n\nmodule.exports = { vars };`;
+  }
+
   function getComponentSpecDts(decl: ComponentSpecDeclaration) {
     const result = getComponentSpec(decl);
     return `export declare const vars: ${JSON.stringify(result, null, 2)}`;
@@ -108,6 +113,14 @@ export function createStringifier(options: { prefix?: string } = {}) {
     });
 
     return result.join("\n");
+  }
+
+  function getComponentSpecIndexCjs(decls: ComponentSpecDeclaration[]) {
+    const result = decls.map((spec) => {
+      const varName = camelCase(spec.id, { mergeAmbiguousCharacters: true });
+      return `const { vars: ${varName} } = require("./${spec.id}.cjs");`;
+    });
+    return `${result.join("\n")}\n\nmodule.exports = { ${decls.map((spec) => camelCase(spec.id, { mergeAmbiguousCharacters: true })).join(", ")} };`;
   }
 
   function getTokenGroups(decls: TokenDeclaration[]): TokenGroup[] {
@@ -145,13 +158,21 @@ export function createStringifier(options: { prefix?: string } = {}) {
 
   function generateTokenCode(
     groups: TokenGroup[],
-    isDeclaration: boolean,
+    format: "mjs" | "cjs" | "dts",
   ): { path: string; code: string }[] {
     return groups.map(({ dir, code }) => {
       const definitions = code
         .map(({ key, value }) => {
-          const exportKeyword = isDeclaration ? "export declare const" : "export const";
-          return `${exportKeyword} ${key} = "${value}";`;
+          if (format === "dts") {
+            return `export declare const ${key} = "${value}";`;
+          }
+          if (format === "mjs") {
+            return `export const ${key} = "${value}";`;
+          }
+          if (format === "cjs") {
+            return `const ${key} = "${value}";`;
+          }
+          throw new Error(`Unsupported format: ${format}`);
         })
         .join("\n");
 
@@ -163,42 +184,75 @@ export function createStringifier(options: { prefix?: string } = {}) {
         .map((g) => {
           const isTargetNested = groups.some((x) => x.dir.startsWith(`${g.dir}/`));
           const name = g.dir.replace(`${dir}/`, "");
+          const camelName = camelCase(name);
           const relativePath = isTargetNested ? `${name}/index` : name;
-          return `export * as ${camelCase(name)} from "./${isDeclaration ? name : `${relativePath}.mjs`}";`;
+
+          if (format === "mjs") {
+            return `export * as ${camelName} from "./${relativePath}.mjs";`;
+          }
+          if (format === "cjs") {
+            return `const ${camelName} = require("./${relativePath}.cjs");`;
+          }
+
+          // dts
+          return `export * as ${camelName} from "./${name}";`;
         })
         .join("\n");
 
-      const path = isDeclaration
-        ? reExports
-          ? `${dir}/index.d.ts`
-          : `${dir}.d.ts`
-        : reExports
-          ? `${dir}/index.mjs`
-          : `${dir}.mjs`;
+      const exports =
+        format === "cjs" && (code.length > 0 || reExports)
+          ? `\nmodule.exports = { ${[
+              ...code.map(({ key }) => key),
+              ...groups
+                .filter(
+                  (g) =>
+                    g.dir.startsWith(`${dir}/`) &&
+                    g.dir.split("/").length === dir.split("/").length + 1,
+                )
+                .map((g) => camelCase(g.dir.replace(`${dir}/`, ""))),
+            ].join(", ")} };`
+          : "";
+
+      const extension =
+        format === "dts"
+          ? reExports
+            ? `${dir}/index.d.ts`
+            : `${dir}.d.ts`
+          : reExports
+            ? `${dir}/index.${format}`
+            : `${dir}.${format}`;
 
       return {
-        path,
-        code: [definitions, reExports].filter(Boolean).join("\n\n"),
+        path: extension,
+        code: [definitions, reExports, exports].filter(Boolean).join("\n\n"),
       };
     });
   }
 
+  function getTokenCjs(decls: TokenDeclaration[]): { path: string; code: string }[] {
+    const groups = getTokenGroups(decls);
+    return generateTokenCode(groups, "cjs");
+  }
+
   function getTokenMjs(decls: TokenDeclaration[]): { path: string; code: string }[] {
     const groups = getTokenGroups(decls);
-    return generateTokenCode(groups, false);
+    return generateTokenCode(groups, "mjs");
   }
 
   function getTokenDts(decls: TokenDeclaration[]): { path: string; code: string }[] {
     const groups = getTokenGroups(decls);
-    return generateTokenCode(groups, true);
+    return generateTokenCode(groups, "dts");
   }
 
   return {
     getComponentSpecMjs,
+    getComponentSpecCjs,
     getComponentSpecDts,
     getComponentSpecIndexMjs,
+    getComponentSpecIndexCjs,
     getComponentSpecIndexDts,
     getTokenMjs,
+    getTokenCjs,
     getTokenDts,
   };
 }

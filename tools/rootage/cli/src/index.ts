@@ -80,6 +80,7 @@ async function writeTokenTs() {
 
   const mjsResults = tsStringifier.getTokenMjs(getTokenDeclarations(ctx));
   const dtsResults = tsStringifier.getTokenDts(getTokenDeclarations(ctx));
+  const cjsResults = tsStringifier.getTokenCjs(getTokenDeclarations(ctx));
 
   for (const result of mjsResults) {
     const writePath = path.join(process.cwd(), dir, result.path);
@@ -89,6 +90,14 @@ async function writeTokenTs() {
     if (!fs.existsSync(path.dirname(writePath))) {
       fs.mkdirpSync(path.dirname(writePath));
     }
+    fs.writeFileSync(writePath, result.code);
+  }
+
+  for (const result of cjsResults) {
+    const writePath = path.join(process.cwd(), dir, result.path);
+
+    console.log("Writing", result.path, "to", writePath);
+
     fs.writeFileSync(writePath, result.code);
   }
 
@@ -108,6 +117,8 @@ async function writeComponentSpec() {
   for (const spec of specs) {
     const mjsCode = tsStringifier.getComponentSpecMjs(spec);
     const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
+    const cjsCode = tsStringifier.getComponentSpecCjs(spec);
+    const cjsWritePath = path.join(process.cwd(), dir, `${spec.id}.cjs`);
 
     console.log("Writing", spec.name, "to", mjsWritePath);
 
@@ -115,6 +126,13 @@ async function writeComponentSpec() {
       fs.mkdirpSync(path.dirname(mjsWritePath));
     }
     fs.writeFileSync(mjsWritePath, mjsCode);
+
+    console.log("Writing", spec.name, "to", cjsWritePath);
+
+    if (!fs.existsSync(path.dirname(cjsWritePath))) {
+      fs.mkdirpSync(path.dirname(cjsWritePath));
+    }
+    fs.writeFileSync(cjsWritePath, cjsCode);
 
     const dtsCode = tsStringifier.getComponentSpecDts(spec);
     const dtsWritePath = path.join(process.cwd(), dir, `${spec.id}.d.ts`);

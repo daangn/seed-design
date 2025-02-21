@@ -21,19 +21,23 @@
     "./*.css": "./*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
-      "import": "./recipes/*.mjs"
+      "import": "./recipes/*.mjs",
+      "require": "./recipes/*.cjs"
     },
     "./vars": {
       "types": "./vars/index.d.ts",
-      "import": "./vars/index.mjs"
+      "import": "./vars/index.mjs",
+      "require": "./vars/index.cjs"
     },
     "./vars/*": {
       "types": "./vars/*.d.ts",
-      "import": "./vars/*.mjs"
+      "import": "./vars/*.mjs",
+      "require": "./vars/*.cjs"
     },
     "./vars/component": {
       "types": "./vars/component/index.d.ts",
-      "import": "./vars/component/index.mjs"
+      "import": "./vars/component/index.mjs",
+      "require": "./vars/component/index.cjs"
     },
     "./package.json": "./package.json"
   },

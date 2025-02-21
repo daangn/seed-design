@@ -43,15 +43,19 @@ async function writeCss() {
 
 async function writeCssInJs() {
   const config = buildConfig(preset, {});
-  const options = { prefix: config.prefix };
+  const { prefix } = config;
   return Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
-      const jsCode = generateJs(definition, options);
+      const esmCode = generateJs(definition, { prefix, format: "esm" });
+      const cjsCode = generateJs(definition, { prefix, format: "cjs" });
       const dtsCode = generateDts(definition);
 
       console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.mjs`));
-      fs.writeFileSync(path.join(dir, `${name}.mjs`), jsCode);
+      fs.writeFileSync(path.join(dir, `${name}.mjs`), esmCode);
+
+      console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.cjs`));
+      fs.writeFileSync(path.join(dir, `${name}.cjs`), cjsCode);
 
       console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.d.ts`));
       fs.writeFileSync(path.join(dir, `${name}.d.ts`), dtsCode);
