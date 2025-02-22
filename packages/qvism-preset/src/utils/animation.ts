@@ -1,5 +1,3 @@
-import type { StyleObject } from "@seed-design/qvism-core";
-
 export interface AnimationProps {
   duration: string;
   timingFunction: string;
@@ -25,7 +23,7 @@ export interface AnimationProps {
   translateY?: string;
 }
 
-export function enterAnimation(props: AnimationProps): StyleObject {
+export function enterAnimation(props: AnimationProps) {
   return {
     animation: "seed-enter",
     animationTimingFunction: props.timingFunction,
@@ -37,7 +35,7 @@ export function enterAnimation(props: AnimationProps): StyleObject {
   };
 }
 
-export function exitAnimation(props: AnimationProps): StyleObject {
+export function exitAnimation(props: AnimationProps) {
   return {
     animation: "seed-exit",
     animationTimingFunction: props.timingFunction,

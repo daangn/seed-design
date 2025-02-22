@@ -1,5 +1,5 @@
 import { avatarStack as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 
 const avatarStack = defineRecipe({

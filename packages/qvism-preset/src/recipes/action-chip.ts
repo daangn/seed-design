@@ -1,6 +1,6 @@
 import { actionChip as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { active, disabled, focus, pseudo } from "../utils/pseudo";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { count } from "../utils/count";

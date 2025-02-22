@@ -26,6 +26,7 @@ const fadeFromBottomAndroidPresence = createPresence(
   FadeOutToBottomAndroid,
 );
 // TODO: implement scaleFromCenter animations
+// @ts-expect-error
 const scaleFromCenterAndroidPresence = createPresence(
   ScaleFromCenterAndroid,
   ScaleFromCenterAndroid,

@@ -1,4 +1,7 @@
 declare interface LinkContentVariant {
+  /**
+  * @default regular
+  */
   weight: "bold" | "regular";
 /**
   * @default t4

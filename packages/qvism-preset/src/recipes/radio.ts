@@ -1,5 +1,5 @@
 import { radio as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { checked, disabled, active, pseudo } from "../utils/pseudo";
 
 const radio = defineRecipe({

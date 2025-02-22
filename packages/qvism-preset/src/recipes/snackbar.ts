@@ -1,5 +1,5 @@
 import { snackbar as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const MAX_Z_INDEX = 2147483647;

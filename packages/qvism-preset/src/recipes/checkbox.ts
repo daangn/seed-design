@@ -1,5 +1,5 @@
 import { checkbox as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { active, checkedOrIndeterminate, disabled, pseudo } from "../utils/pseudo";
 
 const checkbox = defineRecipe({

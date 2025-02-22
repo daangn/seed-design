@@ -1,5 +1,5 @@
 import { avatar as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 
 function calculateBadgePosition(avatarSize: string, badgeSize: string) {
@@ -31,7 +31,7 @@ const avatar = defineRecipe({
       overflow: "hidden",
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      [pseudo(not("[data-loading-status='loaded']"))]: {
+      [pseudo(not("[data-loading-state='loaded']"))]: {
         display: "none",
       },
     },
@@ -45,7 +45,7 @@ const avatar = defineRecipe({
       overflow: "hidden",
       borderRadius: vars.base.enabled.root.cornerRadius,
 
-      [pseudo("[data-loading-status='loaded']")]: {
+      [pseudo("[data-loading-state='loaded']")]: {
         display: "none",
       },
     },

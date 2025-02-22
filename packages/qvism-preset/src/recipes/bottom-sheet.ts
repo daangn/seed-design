@@ -1,6 +1,6 @@
 import { bottomSheet as vars } from "@seed-design/css/vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { not, open, pseudo } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 

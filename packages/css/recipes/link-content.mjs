@@ -8,7 +8,8 @@ const linkContentSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "t4"
+  "size": "t4",
+  "weight": "regular"
 };
 
 const compoundVariants = [];

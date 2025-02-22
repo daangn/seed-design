@@ -1,6 +1,6 @@
 import { typography as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 
 const uncapitalize = (str: string) => str.charAt(0).toLowerCase() + str.slice(1);
 
@@ -12,7 +12,6 @@ const text = defineRecipe({
   base: {
     root: {
       margin: 0,
-      // @ts-expect-error suppress TextAlign type error
       textAlign: "var(--seed-text-align)",
       color: "var(--seed-text-color)",
       fontSize: "var(--seed-font-size)",
