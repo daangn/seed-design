@@ -1,5 +1,5 @@
 import { vars } from "@seed-design/css/vars";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 
 const pullToRefresh = defineRecipe({

@@ -1,6 +1,6 @@
 import { actionButton as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { disabled, focus, active, pseudo, loading } from "../utils/pseudo";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 

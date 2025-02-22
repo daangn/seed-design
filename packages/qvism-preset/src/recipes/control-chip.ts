@@ -1,7 +1,7 @@
 import { controlChip as vars } from "@seed-design/css/vars/component";
 
 import { count } from "../utils/count";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { active, checked, disabled, focus, pseudo } from "../utils/pseudo";
 

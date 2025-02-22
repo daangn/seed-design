@@ -1,6 +1,6 @@
 import { extendedFab as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { active, disabled, focus, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 

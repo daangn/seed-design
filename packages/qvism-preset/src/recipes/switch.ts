@@ -1,5 +1,5 @@
 import { switch as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { checked, disabled, pseudo } from "../utils/pseudo";
 
 const switchRecipe = defineRecipe({

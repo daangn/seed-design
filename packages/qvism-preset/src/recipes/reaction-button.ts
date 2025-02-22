@@ -1,6 +1,6 @@
 import { reactionButton as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";
 import { active, disabled, focus, loading, pressed, pseudo } from "../utils/pseudo";
 import { count } from "../utils/count";

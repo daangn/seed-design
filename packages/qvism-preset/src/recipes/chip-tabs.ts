@@ -1,5 +1,5 @@
 import { chipTablist as vars, chipTab as triggerVars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { active, disabled, not, pseudo, selected } from "../utils/pseudo";
 
 const chipTabs = defineRecipe({

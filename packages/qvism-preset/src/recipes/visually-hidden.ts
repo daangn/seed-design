@@ -1,4 +1,4 @@
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 
 const visuallyHidden = defineRecipe({
   name: "visually-hidden",

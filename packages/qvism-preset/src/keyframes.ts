@@ -1,4 +1,4 @@
-import { defineKeyframes } from "./utils/define-keyframes";
+import { defineKeyframes } from "./utils/define";
 
 export const keyframes = defineKeyframes({
   "seed-enter": {

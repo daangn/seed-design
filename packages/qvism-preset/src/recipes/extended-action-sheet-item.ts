@@ -2,7 +2,7 @@ import {
   extendedActionSheetItem as vars,
   extendedActionSheet as rootVars,
 } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 

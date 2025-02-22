@@ -1,5 +1,5 @@
 import { helpBubble as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { hidden, pseudo } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 

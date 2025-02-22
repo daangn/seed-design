@@ -35,7 +35,7 @@ describe("useAvatar", () => {
   it("initial state is loading", () => {
     const { getByAltText } = setUp(<Avatar />);
     const image = getByAltText(IMAGE_ALT_TEXT);
-    expect(image).toHaveAttribute("data-loading-status", "loading");
+    expect(image).toHaveAttribute("data-loading-state", "loading");
   });
 
   it("should not render the image initially", () => {

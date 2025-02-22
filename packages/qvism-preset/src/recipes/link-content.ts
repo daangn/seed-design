@@ -1,6 +1,6 @@
 import { linkContent as vars } from "@seed-design/css/vars/component";
 
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { suffixIcon } from "../utils/icon";
 
 const linkContent = defineRecipe({
@@ -79,6 +79,7 @@ const linkContent = defineRecipe({
   },
   defaultVariants: {
     size: "t4",
+    weight: "regular",
   },
 });
 

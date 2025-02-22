@@ -1,5 +1,5 @@
 import { toggleButton as vars } from "@seed-design/css/vars/component";
-import { defineRecipe } from "../utils/define-recipe";
+import { defineRecipe } from "../utils/define";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, focus, loading, pressed, pseudo } from "../utils/pseudo";
 

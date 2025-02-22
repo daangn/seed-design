@@ -6,7 +6,7 @@ import { transform } from "lightningcss";
 import { compact } from "./compact";
 import type {
   Config,
-  KeyframeDefinition,
+  CssKeyframes,
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
   Theme,
@@ -82,7 +82,7 @@ export function generateCompoundVariantRules(
   );
 }
 
-export function generateKeyframeRules(definitions: Record<string, KeyframeDefinition>) {
+export function generateKeyframeRules(definitions: CssKeyframes) {
   return Object.entries(definitions ?? {}).flatMap(([name, keyframe]) => {
     const parsed = postcssJs.parse(keyframe);
     return postcss.atRule({
@@ -148,7 +148,7 @@ export async function generateCssEach(config: Config): Promise<{ name: string; c
 export async function generateCssBundle(config: Config): Promise<string> {
   const { minify = false, prefix, theme } = config;
   const options = { prefix };
-  const globalRules = postcssJs.parse(config.globalCss ?? {}).nodes;
+  const globalRules = postcssJs.parse(config.theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const recipeRules = Object.values(theme.recipes).flatMap((recipe) =>
     generateRecipeRules(recipe, options),
