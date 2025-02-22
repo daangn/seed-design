@@ -7,14 +7,15 @@
     "directory": "packages/qvism-preset"
   },
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     }
   },
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "files": [
     "lib",
     "src"
@@ -22,22 +23,14 @@
   "scripts": {
     "clean": "rm -rf lib",
     "rootage:generate": "bun rootage token-css ./src && bun run ./write-tokens.mjs",
-    "build": "bun ./build.mjs",
+    "build": "bunchee",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@seed-design/qvism-core": "0.0.0",
     "@seed-design/css": "0.0.1-rc.1"
   },
-  "devDependencies": {
-    "esbuild": "^0.25.0"
-  },
   "publishConfig": {
     "access": "public"
-  },
-  "ultra": {
-    "concurrent": [
-      "build"
-    ]
   }
 }

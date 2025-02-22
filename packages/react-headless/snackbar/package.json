@@ -7,22 +7,24 @@
     "directory": "packages/react-headless/snackbar"
   },
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "files": [
     "lib",
     "src"
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "bun build.mjs && tsc"
+    "build": "bunchee",
+    "lint:publish": "bun publint"
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.1",
@@ -30,20 +32,14 @@
     "@seed-design/dom-utils": "0.0.1-rc.0",
     "@seed-design/react-primitive": "0.0.1-rc.0"
   },
+  "devDependencies": {
+    "@types/react": "^18.3.5"
+  },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "ultra": {
-    "concurrent": [
-      "dev",
-      "build"
-    ]
-  },
-  "devDependencies": {
-    "esbuild": "^0.25.0"
   }
 }

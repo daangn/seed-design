@@ -14,7 +14,7 @@ esbuild
     format: "esm",
     platform: "node",
     target: ["node16"],
-    external: [...Object.keys(pkg.dependencies), "__temp.mjs"],
+    external: [...Object.keys(pkg.dependencies)],
   })
   .then((ctx) => ctx.watch())
   .catch(() => process.exit(1));

@@ -6,17 +6,16 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/css"
   },
-  "publishConfig": {
-    "access": "public"
+  "scripts": {
+    "generate": "bun rootage:generate && qvism:generate",
+    "rootage:generate": "bun rootage token-ts ./vars && rootage component-spec ./vars/component",
+    "qvism:generate": "bun qvism css && bun qvism js ./recipes",
+    "lint:publish": "bun publint"
   },
   "sideEffects": [
     "*.css"
   ],
-  "scripts": {
-    "generate": "bun rootage:generate && qvism:generate",
-    "rootage:generate": "bun rootage token-ts ./vars && rootage component-spec ./vars/component",
-    "qvism:generate": "bun qvism css && bun qvism js ./recipes"
-  },
+  "type": "module",
   "exports": {
     "./*.css": "./*.css",
     "./recipes/*": {
@@ -35,12 +34,20 @@
       "types": "./vars/component/index.d.ts",
       "import": "./vars/component/index.mjs"
     },
+    "./theming": {
+      "types": "./theming/index.d.ts",
+      "import": "./theming/index.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
     "package.json",
     "recipes",
     "vars",
+    "theming",
     "*.css"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

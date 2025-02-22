@@ -7,11 +7,14 @@
     "directory": "ecosystem/figma-extractor"
   },
   "scripts": {
-    "build": "bun build.mjs && tsc"
+    "build": "bun build.mjs && tsc",
+    "lint:publish": "bun publint"
   },
   "bin": {
     "figma-extractor": "./bin/index.mjs"
   },
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts"
@@ -19,7 +22,8 @@
   },
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "src"
   ],
   "dependencies": {
     "@figma/rest-api-spec": "^0.23.0",

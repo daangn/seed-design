@@ -8,41 +8,35 @@
     "directory": "ecosystem/rootage/core"
   },
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     }
   },
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "files": [
     "lib",
     "src"
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "bun build.mjs && tsc",
+    "build": "bunchee",
     "rootage:build": "bun run build",
-    "test": "vitest"
-  },
-  "publishConfig": {
-    "access": "public"
+    "test": "vitest",
+    "lint:publish": "bun publint"
   },
   "dependencies": {
     "change-case": "^5.4.4",
-    "dedent": "^1.5.3"
-  },
-  "devDependencies": {
-    "esbuild": "^0.25.0",
-    "typescript": "^5.4.5",
-    "ultra-runner": "^3.10.5",
+    "dedent": "^1.5.3",
     "yaml": "^2.4.2"
   },
-  "ultra": {
-    "concurrent": [
-      "build",
-      "rootage:build"
-    ]
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

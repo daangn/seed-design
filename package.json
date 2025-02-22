@@ -15,8 +15,10 @@
   ],
   "scripts": {
     "build": "ultra -r build",
-    "packages:build": "ultra -r --filter 'packages/*' build",
-    "ecosystem:build": "ultra -r --filter 'ecosystem/*' build",
+    "packages:build": "ultra -r --build --filter 'packages/*' build",
+    "ecosystem:build": "ultra -r --build --filter 'ecosystem/*' build",
+    "lint:publish": "bun --filter '*' lint:publish",
+    "lint:knip": "knip",
     "release": "bun packages:build && bun changeset publish",
     "version": "changeset version && bun packages:build && bun install --no-immutable",
     "format:all": "bun biome format --fix",
@@ -35,7 +37,7 @@
     "headless:build": "ultra -r --filter 'packages/react-headless/*' build",
     "headless:test": "bun vitest run --project react-headless --reporter=verbose",
     "headless:test:watch": "vitest dev --project react-headless",
-    "knip": "knip",
+    "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
   },
   "devDependencies": {
@@ -48,18 +50,15 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
+    "bunchee": "^6.4.0",
     "jsdom": "^24.1.0",
     "knip": "^5.41.1",
+    "publint": "^0.3.6",
     "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5",
     "vitest": "^1.6.0",
     "watchlist": "^0.3.1",
     "wrangler": "^3.107.3"
-  },
-  "ultra": {
-    "concurrent": [
-      "rootage:generate"
-    ]
   },
   "knip": {
     "workspaces": {
