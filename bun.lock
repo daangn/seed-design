@@ -99,7 +99,7 @@
       "name": "@seed-design/figma-extractor",
       "version": "0.0.3",
       "bin": {
-        "figma-extractor": "./bin/index.mjs"
+        "figma-extractor": "./bin/index.mjs",
       },
       "dependencies": {
         "@figma/rest-api-spec": "^0.23.0",
@@ -122,7 +122,7 @@
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
       "bin": {
-        "qvism": "./bin/index.mjs"
+        "qvism": "./bin/index.mjs",
       },
       "dependencies": {
         "@seed-design/qvism-core": "0.0.0",
@@ -160,7 +160,7 @@
       "name": "@seed-design/rootage-cli",
       "version": "0.0.0",
       "bin": {
-        "rootage": "./bin/index.mjs"
+        "rootage": "./bin/index.mjs",
       },
       "dependencies": {
         "@seed-design/rootage-artifacts": "0.0.0",
@@ -228,7 +228,7 @@
       "name": "@seed-design/cli",
       "version": "0.0.0-alpha-20241204134404",
       "bin": {
-        "seed-design": "./bin/index.mjs"
+        "seed-design": "./bin/index.mjs",
       },
       "dependencies": {
         "@antfu/ni": "^23.3.1",
