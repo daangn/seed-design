@@ -7,26 +7,25 @@
     "directory": "ecosystem/qvism/core"
   },
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     }
   },
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "files": [
     "lib",
     "src"
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "bun build.mjs && tsc",
+    "build": "bunchee",
     "qvism:build": "bun run build",
-    "test": "vitest"
-  },
-  "publishConfig": {
-    "access": "public"
+    "test": "vitest",
+    "lint:publish": "bun publint"
   },
   "dependencies": {
     "change-case": "^5.4.4",
@@ -39,14 +38,9 @@
   "devDependencies": {
     "@types/postcss-js": "^4.0.2",
     "csstype": "^3.1.2",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.4.5",
-    "ultra-runner": "^3.10.5"
+    "typescript": "^5.4.5"
   },
-  "ultra": {
-    "concurrent": [
-      "dev",
-      "qvism:build"
-    ]
+  "publishConfig": {
+    "access": "public"
   }
 }

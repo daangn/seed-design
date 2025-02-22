@@ -6,36 +6,36 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/react"
   },
-  "sideEffects": false,
+  "sideEffects": ["*.css"],
+  "type": "module",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
     },
     "./vars": {
       "types": "./lib/vars.d.ts",
-      "require": "./lib/vars.js",
-      "import": "./lib/vars.mjs"
+      "import": "./lib/vars.js",
+      "require": "./lib/vars.cjs"
     },
     "./primitive": {
       "types": "./lib/primitive.d.ts",
-      "require": "./lib/primitive.js",
-      "import": "./lib/primitive.mjs"
+      "import": "./lib/primitive.js",
+      "require": "./lib/primitive.cjs"
     },
     "./seed.css": "./lib/seed.css",
     "./seed.min.css": "./lib/seed.min.css",
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/index.cjs",
   "files": [
     "lib",
     "src"
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "bun build.mjs && tsc --emitDeclarationOnly",
-    "dev": "bun run dev.mjs"
+    "build": "vite build"
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.1",
@@ -65,16 +65,10 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0",
-    "esbuild-plugin-copy": "^2.1.1"
+    "globby": "^14.1.0",
+    "vite-plugin-dts": "^4.5.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "ultra": {
-    "concurrent": [
-      "dev",
-      "build"
-    ]
   }
 }

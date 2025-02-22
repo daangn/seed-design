@@ -4,21 +4,24 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/daangn/seed-design",
+    "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "ecosystem/rootage/cli"
   },
   "license": "MIT",
+  "sideEffects": false,
+  "type": "module",
   "bin": {
     "rootage": "./bin/index.mjs"
   },
   "files": [
-    "dist",
-    "src"
+    "src",
+    "bin"
   ],
   "scripts": {
     "build": "bun build.mjs",
     "rootage:build": "bun build.mjs",
-    "dev": "bun dev.mjs"
+    "dev": "bun dev.mjs",
+    "lint:publish": "bun publint"
   },
   "dependencies": {
     "@seed-design/rootage-artifacts": "0.0.0",
@@ -29,16 +32,9 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.2",
     "esbuild": "^0.25.0",
-    "typescript": "^5.4.5",
-    "ultra-runner": "^3.10.5"
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "ultra": {
-    "concurrent": [
-      "build",
-      "rootage:build"
-    ]
   }
 }

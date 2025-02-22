@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "moduleDetection": "force",
     "moduleResolution": "Bundler",
     "rootDir": "src",
     "outDir": "lib",
@@ -12,6 +13,10 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
-  }
+    "noUnusedParameters": true,
+
+    "declaration": true,
+    "declarationMap": true,
+  },
+  "include": ["src"]
 }
