@@ -2,12 +2,14 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "linked": [],
+  "linked": [
+    ["@seed-design/react", "@seed-design/stackflow", "@seed-design/css", "@seed-design/vite-plugin"]
+  ],
   "access": "restricted",
   "baseBranch": "dev",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "docs",
+    "@seed-design/docs",
     "@seed-design/qvism-cli",
     "@seed-design/qvism-preset",
     "@seed-design/stackflow-spa",
