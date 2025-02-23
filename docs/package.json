@@ -73,7 +73,7 @@
     "@storybook/react": "^8.4.4",
     "@storybook/test": "^8.4.4",
     "@types/mdx": "^2.0.13",
-    "@types/node": "22.5.4",
+    "@types/node": "^22.10.2",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",

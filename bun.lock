@@ -19,7 +19,6 @@
         "publint": "^0.3.6",
         "typescript": "^5.4.5",
         "ultra-runner": "^3.10.5",
-        "vite": "^6.1.1",
         "vitest": "^3.0.6",
         "watchlist": "^0.3.1",
         "wrangler": "^3.107.3",
@@ -84,7 +83,7 @@
         "@storybook/react": "^8.4.4",
         "@storybook/test": "^8.4.4",
         "@types/mdx": "^2.0.13",
-        "@types/node": "22.5.4",
+        "@types/node": "^22.10.2",
         "@types/react": "^18.3.5",
         "@types/react-dom": "^18.3.0",
         "autoprefixer": "^10.4.20",
@@ -267,7 +266,7 @@
       },
       "devDependencies": {
         "@types/jscodeshift": "^0.12.0",
-        "@types/node": "^22.7.5",
+        "@types/node": "^22.10.2",
         "change-case": "^5.4.4",
         "csv-parse": "^5.5.6",
         "dotenv": "^16.4.5",
@@ -330,6 +329,7 @@
       },
       "devDependencies": {
         "globby": "^14.1.0",
+        "vite": "^6.1.1",
         "vite-plugin-dts": "^4.5.0",
       },
       "peerDependencies": {
@@ -608,6 +608,7 @@
       },
       "devDependencies": {
         "globby": "^14.1.0",
+        "vite": "^6.1.1",
         "vite-plugin-dts": "^4.5.0",
       },
       "peerDependencies": {
@@ -4582,8 +4583,6 @@
 
     "@seed-design/docs/@daangn/react-multicolor-icon": ["@daangn/react-multicolor-icon@0.0.12", "https://npm.pkg.github.com/download/@daangn/react-multicolor-icon/0.0.12/5b4c12866bc6b801009b86ef042fbc56b8548887", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-s40ofe8/CcIVpFosoEpcNfnaas6OHKCyhFhrlv8WQKE3rJ/jxSeP8v9QUVTS8XUJZxZLQEcKqxAsI9fcYto0jg=="],
 
-    "@seed-design/docs/@types/node": ["@types/node@22.5.4", "", { "dependencies": { "undici-types": "~6.19.2" } }, "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg=="],
-
     "@seed-design/figma-v3-migration/@create-figma-plugin/build": ["@create-figma-plugin/build@4.0.0-alpha.0", "", { "dependencies": { "@create-figma-plugin/common": "^4.0.0-alpha.0", "chokidar": "^3.6.0", "cssnano": "^7.0.5", "esbuild": "0.23.0", "find-up": "^7.0.0", "globby": "^14.0.2", "indent-string": "^5.0.0", "kleur": "^4.1.5", "path-exists": "^5.0.0", "postcss": "^8.4.41", "postcss-modules": "^6.0.0", "rev-hash": "^4.1.0", "sade": "^1.8.1", "temp-write": "^6.0.0", "tempy": "^3.1.0", "typed-css-modules": "^0.9.1" }, "peerDependencies": { "@figma/plugin-typings": ">=1", "typescript": ">=4" }, "bin": { "build-figma-plugin": "./lib/cli.js" } }, "sha512-FraOBvbmXndGhLxDbmAlr9bw7489j48uODMbZ6/Ag2/OkrwS/JvH0bl/10BRmsTtfWHqG7rc98j8Z9uRcuteHw=="],
 
     "@seed-design/figma-v3-migration/@figma/plugin-typings": ["@figma/plugin-typings@1.100.2", "", {}, "sha512-xRlneaT5D6afuzkt8J28DXgHAcglncqNVzh1qe5bJVzTLfniiDQY5N/IVXIJj/u7vXYMY6uqvJt8UBFe5l4FXA=="],
@@ -5473,8 +5472,6 @@
     "@sanity/vision/@sanity/ui/framer-motion": ["framer-motion@12.4.7", "", { "dependencies": { "motion-dom": "^12.4.5", "motion-utils": "^12.0.0", "tslib": "^2.4.0" }, "peerDependencies": { "@emotion/is-prop-valid": "*", "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" }, "optionalPeers": ["@emotion/is-prop-valid", "react", "react-dom"] }, "sha512-VhrcbtcAMXfxlrjeHPpWVu2+mkcoR31e02aNSR7OUS/hZAciKa8q6o3YN2mA1h+jjscRsSyKvX6E1CiY/7OLMw=="],
 
     "@sanity/visual-editing/@sanity/ui/framer-motion": ["framer-motion@12.4.7", "", { "dependencies": { "motion-dom": "^12.4.5", "motion-utils": "^12.0.0", "tslib": "^2.4.0" }, "peerDependencies": { "@emotion/is-prop-valid": "*", "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0" }, "optionalPeers": ["@emotion/is-prop-valid", "react", "react-dom"] }, "sha512-VhrcbtcAMXfxlrjeHPpWVu2+mkcoR31e02aNSR7OUS/hZAciKa8q6o3YN2mA1h+jjscRsSyKvX6E1CiY/7OLMw=="],
-
-    "@seed-design/docs/@types/node/undici-types": ["undici-types@6.19.8", "", {}, "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="],
 
     "@seed-design/figma-v3-migration/@create-figma-plugin/build/@create-figma-plugin/common": ["@create-figma-plugin/common@4.0.0-alpha.0", "", { "dependencies": { "@sindresorhus/slugify": "^2.2.1", "kleur": "^4.1.5", "path-exists": "^5.0.0" } }, "sha512-H6F1T/jj6/TYMibroUg5WGp5hByt7e+jCR3uWT9+SXMAKcae4DkmPNXFYpPknIo1QcHtW4BXazyaUf7+c1uz6w=="],
 

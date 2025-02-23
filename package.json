@@ -56,7 +56,6 @@
     "publint": "^0.3.6",
     "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5",
-    "vite": "^6.1.1",
     "vitest": "^3.0.6",
     "watchlist": "^0.3.1",
     "wrangler": "^3.107.3"
