@@ -1,11 +1,8 @@
-import { vars } from "@seed-design/css/vars";
-import { basicUIPlugin } from "@stackflow/plugin-basic-ui";
 import { historySyncPlugin } from "@stackflow/plugin-history-sync";
 import { basicRendererPlugin } from "@stackflow/plugin-renderer-basic";
 import { stackflow, type ActivityComponentType, type UseActionsOutputType } from "@stackflow/react";
 import React from "react";
 
-import { IconChevronLeftLine } from "@daangn/react-monochrome-icon";
 import { seedPlugin } from "@seed-design/stackflow";
 import ActivityNotFound from "../activities/ActivityNotFound";
 import { theme } from "./theme";
@@ -44,23 +41,11 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityAnimatedTabs: React.lazy(() => import("../activities/ActivityAnimatedTabs")),
     ActivitySwipeableTabs: React.lazy(() => import("../activities/ActivitySwipeableTabs")),
     ActivitySegmentedControl: React.lazy(() => import("../activities/ActivitySegmentedControl")),
+    ActivityPartialDarkMode: React.lazy(() => import("../activities/ActivityPartialDarkMode")),
     ActivityNotFound,
   },
   plugins: [
     basicRendererPlugin(),
-    basicUIPlugin({
-      appBar: {
-        borderColor: vars.$color.stroke.neutral,
-        closeButton: {
-          renderIcon: () => <IconChevronLeftLine />,
-        },
-        iconColor: vars.$color.fg.neutral,
-        textColor: vars.$color.fg.neutral,
-      },
-      backgroundColor: vars.$color.bg.layerDefault,
-      dimBackgroundColor: vars.$color.bg.overlay,
-      theme,
-    }),
     seedPlugin({
       theme,
     }),
@@ -90,6 +75,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivitySwipeableTabs: "/swipeable-tabs",
         ActivityAnimatedTabs: "/animated-tabs",
         ActivitySegmentedControl: "/segmented-control",
+        ActivityPartialDarkMode: "/partial-dark-mode",
         ActivityNotFound: "/404",
       },
     }),

@@ -1,0 +1,15 @@
+.seed-pull-to-refresh__root {
+    --ptr-size: 44px;
+    --ptr-transition-duration: var(--seed-duration-d6);
+    height: 100%;
+}
+.seed-pull-to-refresh__indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(min(calc(var(--ptr-displacement, 0) - var(--ptr-size)), 0px));
+    transition: transform var(--seed-duration-d6);
+}
+.seed-pull-to-refresh__indicator[data-ptr-dragging] {
+    transition: none;
+}

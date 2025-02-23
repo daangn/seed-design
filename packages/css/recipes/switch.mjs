@@ -46,3 +46,5 @@ export function switchStyle(props) {
 }
 
 Object.assign(switchStyle, { splitVariantProps: (props) => splitVariantProps(props, switchVariantMap) });
+
+// @recipe(seed): switch

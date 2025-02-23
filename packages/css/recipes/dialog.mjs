@@ -55,3 +55,5 @@ export function dialog(props) {
 }
 
 Object.assign(dialog, { splitVariantProps: (props) => splitVariantProps(props, dialogVariantMap) });
+
+// @recipe(seed): dialog

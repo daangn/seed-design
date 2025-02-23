@@ -57,3 +57,5 @@ export function appBarMain(props) {
 }
 
 Object.assign(appBarMain, { splitVariantProps: (props) => splitVariantProps(props, appBarMainVariantMap) });
+
+// @recipe(seed): app-bar-main

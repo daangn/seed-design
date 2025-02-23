@@ -57,3 +57,5 @@ export function callout(props) {
 }
 
 Object.assign(callout, { splitVariantProps: (props) => splitVariantProps(props, calloutVariantMap) });
+
+// @recipe(seed): callout

@@ -64,3 +64,5 @@ export function chipTabs(props) {
 }
 
 Object.assign(chipTabs, { splitVariantProps: (props) => splitVariantProps(props, chipTabsVariantMap) });
+
+// @recipe(seed): chip-tabs

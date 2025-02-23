@@ -59,203 +59,203 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
 
   expect(result).toMatchInlineSnapshot(`
     "{
-      \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
-      \\"title\\": \\"ComponentSpecModel\\",
-      \\"type\\": \\"object\\",
-      \\"properties\\": {
-        \\"kind\\": {
-          \\"type\\": \\"string\\",
-          \\"const\\": \\"ComponentSpec\\"
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ComponentSpecModel",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "ComponentSpec"
         },
-        \\"metadata\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"id\\": {
-              \\"type\\": \\"string\\"
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
             },
-            \\"name\\": {
-              \\"type\\": \\"string\\"
+            "name": {
+              "type": "string"
             }
           },
-          \\"required\\": [\\"id\\", \\"name\\"],
-          \\"additionalProperties\\": false
+          "required": ["id", "name"],
+          "additionalProperties": false
         },
-        \\"data\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"definitions\\": {
-              \\"$ref\\": \\"#/definitions/definitions\\"
+        "data": {
+          "type": "object",
+          "properties": {
+            "definitions": {
+              "$ref": "#/definitions/definitions"
             }
           }
         }
       },
-      \\"required\\": [\\"kind\\", \\"metadata\\", \\"data\\"],
-      \\"additionalProperties\\": false,
-      \\"definitions\\": {
-        \\"definitions\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"base\\": {
-              \\"$ref\\": \\"#/definitions/variant\\"
+      "required": ["kind", "metadata", "data"],
+      "additionalProperties": false,
+      "definitions": {
+        "definitions": {
+          "type": "object",
+          "properties": {
+            "base": {
+              "$ref": "#/definitions/variant"
             }
           },
-          \\"patternProperties\\": {
-            \\"^.*=.*$\\": {
-              \\"$ref\\": \\"#/definitions/variant\\"
+          "patternProperties": {
+            "^.*=.*$": {
+              "$ref": "#/definitions/variant"
             }
           },
-          \\"additionalProperties\\": false
+          "additionalProperties": false
         },
-        \\"variant\\": {
-          \\"type\\": \\"object\\",
-          \\"additionalProperties\\": {
-            \\"$ref\\": \\"#/definitions/state\\"
+        "variant": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/state"
           }
         },
-        \\"state\\": {
-          \\"type\\": \\"object\\",
-          \\"additionalProperties\\": {
-            \\"$ref\\": \\"#/definitions/slot\\"
+        "state": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/slot"
           }
         },
-        \\"slot\\": {
-          \\"type\\": \\"object\\",
-          \\"additionalProperties\\": {
-            \\"$ref\\": \\"#/definitions/righthandValue\\"
+        "slot": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/righthandValue"
           }
         },
-        \\"righthandValue\\": {
-          \\"anyOf\\": [
+        "righthandValue": {
+          "anyOf": [
             {
-              \\"$ref\\": \\"#/definitions/colorShorthand\\"
+              "$ref": "#/definitions/colorShorthand"
             },
             {
-              \\"$ref\\": \\"#/definitions/dimensionShorthand\\"
+              "$ref": "#/definitions/dimensionShorthand"
             },
             {
-              \\"$ref\\": \\"#/definitions/durationShorthand\\"
+              "$ref": "#/definitions/durationShorthand"
             },
             {
-              \\"$ref\\": \\"#/definitions/numberShorthand\\"
+              "$ref": "#/definitions/numberShorthand"
             },
             {
-              \\"$ref\\": \\"#/definitions/cubicBezier\\"
+              "$ref": "#/definitions/cubicBezier"
             },
             {
-              \\"$ref\\": \\"#/definitions/shadow\\"
+              "$ref": "#/definitions/shadow"
             },
             {
-              \\"$ref\\": \\"#/definitions/gradient\\"
+              "$ref": "#/definitions/gradient"
             },
             {
-              \\"$ref\\": \\"#/definitions/tokenRef\\"
+              "$ref": "#/definitions/tokenRef"
             }
           ]
         },
-        \\"colorShorthand\\": {
-          \\"type\\": \\"string\\",
-          \\"pattern\\": \\"^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$\\"
+        "colorShorthand": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$"
         },
-        \\"dimensionShorthand\\": {
-          \\"type\\": \\"string\\",
-          \\"pattern\\": \\"^-?\\\\\\\\d+(\\\\\\\\.\\\\\\\\d+)?(px|rem)$\\"
+        "dimensionShorthand": {
+          "type": "string",
+          "pattern": "^-?\\\\d+(\\\\.\\\\d+)?(px|rem)$"
         },
-        \\"durationShorthand\\": {
-          \\"type\\": \\"string\\",
-          \\"pattern\\": \\"^\\\\\\\\d+(\\\\\\\\.\\\\\\\\d+)?(s|ms)$\\"
+        "durationShorthand": {
+          "type": "string",
+          "pattern": "^\\\\d+(\\\\.\\\\d+)?(s|ms)$"
         },
-        \\"numberShorthand\\": {
-          \\"type\\": \\"number\\"
+        "numberShorthand": {
+          "type": "number"
         },
-        \\"cubicBezier\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"type\\": {
-              \\"type\\": \\"string\\",
-              \\"const\\": \\"cubicBezier\\"
+        "cubicBezier": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "cubicBezier"
             },
-            \\"value\\": {
-              \\"type\\": \\"array\\",
-              \\"items\\": {
-                \\"type\\": \\"number\\"
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "number"
               },
-              \\"minItems\\": 4,
-              \\"maxItems\\": 4
+              "minItems": 4,
+              "maxItems": 4
             }
           },
-          \\"required\\": [\\"type\\", \\"value\\"],
-          \\"additionalProperties\\": false
+          "required": ["type", "value"],
+          "additionalProperties": false
         },
-        \\"shadow\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"type\\": {
-              \\"type\\": \\"string\\",
-              \\"const\\": \\"shadow\\"
+        "shadow": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "shadow"
             },
-            \\"value\\": {
-              \\"type\\": \\"array\\",
-              \\"items\\": {
-                \\"type\\": \\"object\\",
-                \\"properties\\": {
-                  \\"color\\": {
-                    \\"$ref\\": \\"#/definitions/colorShorthand\\"
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "$ref": "#/definitions/colorShorthand"
                   },
-                  \\"offsetX\\": {
-                    \\"$ref\\": \\"#/definitions/dimensionShorthand\\"
+                  "offsetX": {
+                    "$ref": "#/definitions/dimensionShorthand"
                   },
-                  \\"offsetY\\": {
-                    \\"$ref\\": \\"#/definitions/dimensionShorthand\\"
+                  "offsetY": {
+                    "$ref": "#/definitions/dimensionShorthand"
                   },
-                  \\"blur\\": {
-                    \\"$ref\\": \\"#/definitions/dimensionShorthand\\"
+                  "blur": {
+                    "$ref": "#/definitions/dimensionShorthand"
                   },
-                  \\"spread\\": {
-                    \\"$ref\\": \\"#/definitions/dimensionShorthand\\"
+                  "spread": {
+                    "$ref": "#/definitions/dimensionShorthand"
                   }
                 },
-                \\"required\\": [\\"color\\", \\"offsetX\\", \\"offsetY\\", \\"blur\\", \\"spread\\"],
-                \\"additionalProperties\\": false
+                "required": ["color", "offsetX", "offsetY", "blur", "spread"],
+                "additionalProperties": false
               }
             }
           },
-          \\"required\\": [\\"type\\", \\"value\\"],
-          \\"additionalProperties\\": false
+          "required": ["type", "value"],
+          "additionalProperties": false
         },
-        \\"gradient\\": {
-          \\"type\\": \\"object\\",
-          \\"properties\\": {
-            \\"type\\": {
-              \\"type\\": \\"string\\",
-              \\"const\\": \\"gradient\\"
+        "gradient": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "gradient"
             },
-            \\"value\\": {
-              \\"type\\": \\"array\\",
-              \\"items\\": {
-                \\"type\\": \\"object\\",
-                \\"properties\\": {
-                  \\"color\\": {
-                    \\"$ref\\": \\"#/definitions/colorShorthand\\"
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "$ref": "#/definitions/colorShorthand"
                   },
-                  \\"position\\": {
-                    \\"type\\": \\"number\\"
+                  "position": {
+                    "type": "number"
                   }
                 },
-                \\"required\\": [\\"color\\", \\"position\\"],
-                \\"additionalProperties\\": false
+                "required": ["color", "position"],
+                "additionalProperties": false
               }
             }
           },
-          \\"required\\": [\\"type\\", \\"value\\"],
-          \\"additionalProperties\\": false
+          "required": ["type", "value"],
+          "additionalProperties": false
         },
-        \\"tokenRef\\": {
-          \\"type\\": \\"string\\",
-          \\"anyOf\\": [
-            { \\"const\\": \\"$color.bg.layer-1\\", \\"title\\": \\"$color.bg.layer-1\\", \\"description\\": \\"light: $color.palette.gray-00\\\\ndark: $color.palette.gray-00\\", \\"markdownDescription\\": \\"- light: \`$color.palette.gray-00\`\\\\n\\\\n- dark: \`$color.palette.gray-00\`\\" },
-            { \\"const\\": \\"$color.palette.gray-00\\", \\"title\\": \\"$color.palette.gray-00\\", \\"description\\": \\"light: #ffffff\\\\ndark: #000000\\", \\"markdownDescription\\": \\"- light: \`#ffffff\`\\\\n\\\\n- dark: \`#000000\`\\" },
-            { \\"const\\": \\"$color.palette.gray-100\\", \\"title\\": \\"$color.palette.gray-100\\", \\"description\\": \\"light: #f8f9fa\\\\ndark: #212529\\", \\"markdownDescription\\": \\"- light: \`#f8f9fa\`\\\\n\\\\n- dark: \`#212529\`\\" },
-            { \\"const\\": \\"$dimension.s1_5\\", \\"title\\": \\"$dimension.s1_5\\", \\"description\\": \\"default: 6px\\", \\"markdownDescription\\": \\"- default: \`6px\`\\" }
+        "tokenRef": {
+          "type": "string",
+          "anyOf": [
+            { "const": "$color.bg.layer-1", "title": "$color.bg.layer-1", "description": "light: $color.palette.gray-00\\ndark: $color.palette.gray-00", "markdownDescription": "- light: \`$color.palette.gray-00\`\\n\\n- dark: \`$color.palette.gray-00\`" },
+            { "const": "$color.palette.gray-00", "title": "$color.palette.gray-00", "description": "light: #ffffff\\ndark: #000000", "markdownDescription": "- light: \`#ffffff\`\\n\\n- dark: \`#000000\`" },
+            { "const": "$color.palette.gray-100", "title": "$color.palette.gray-100", "description": "light: #f8f9fa\\ndark: #212529", "markdownDescription": "- light: \`#f8f9fa\`\\n\\n- dark: \`#212529\`" },
+            { "const": "$dimension.s1_5", "title": "$dimension.s1_5", "description": "default: 6px", "markdownDescription": "- default: \`6px\`" }
           ]
         }
       }

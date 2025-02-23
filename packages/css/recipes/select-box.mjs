@@ -55,3 +55,5 @@ export function selectBox(props) {
 }
 
 Object.assign(selectBox, { splitVariantProps: (props) => splitVariantProps(props, selectBoxVariantMap) });
+
+// @recipe(seed): select-box

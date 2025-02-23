@@ -126,12 +126,12 @@ test("getTokenCss should generate css code", () => {
   );
 
   expect(result).toMatchInlineSnapshot(`
-    ":root[data-theme=\\"light\\"] {
+    ":root[data-theme="light"] {
       --seed-color-palette-gray-00: #ffffff;
       --seed-color-bg-layer-1: var(--seed-color-palette-gray-00);
     }
 
-    :root[data-theme=\\"dark\\"] {
+    :root[data-theme="dark"] {
       --seed-color-palette-gray-00: #000000;
       --seed-color-bg-layer-1: var(--seed-color-palette-gray-00);
     }

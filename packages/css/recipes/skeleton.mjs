@@ -36,3 +36,5 @@ export function skeleton(props) {
 }
 
 Object.assign(skeleton, { splitVariantProps: (props) => splitVariantProps(props, skeletonVariantMap) });
+
+// @recipe(seed): skeleton

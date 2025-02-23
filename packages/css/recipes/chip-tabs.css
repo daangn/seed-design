@@ -1,0 +1,129 @@
+.seed-chip-tabs__root {
+    position: relative;
+}
+.seed-chip-tabs__list {
+    display: flex;
+    position: relative;
+    isolation: isolate;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    align-content: stretch;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 0px var(--seed-dimension-x4);
+}
+.seed-chip-tabs__list::-webkit-scrollbar {
+    display: none;
+}
+.seed-chip-tabs__carousel {
+    display: block;
+    overflow: hidden;
+}
+.seed-chip-tabs__carouselCamera {
+    display: flex;
+}
+.seed-chip-tabs__carouselCamera[data-auto-height] {
+    align-items: flex-start;
+}
+.seed-chip-tabs__content {
+    flex: 0 0 100%;
+    min-width: 0;
+    transform: translate3d(0, 0, 0);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.seed-chip-tabs__content:not([data-carousel]):not(:is(:selected, [data-selected])) {
+    display: none;
+}
+.seed-chip-tabs__trigger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-family: inherit;
+    border-radius: var(--seed-radius-full);
+    padding: var(--seed-dimension-x2) var(--seed-dimension-x3_5);
+    min-height: 36px;
+    font-size: var(--seed-font-size-t4);
+    font-weight: var(--seed-font-weight-bold);
+}
+.seed-chip-tabs__list--variant_neutralSolid {
+    gap: 0px;
+}
+.seed-chip-tabs__trigger--variant_neutralSolid {
+    background-color: transparent;
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-bold);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-neutral-inverted);
+    color: var(--seed-color-fg-neutral-inverted);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-default-pressed);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    color: var(--seed-color-fg-disabled);
+}
+.seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-disabled);
+    color: var(--seed-color-fg-disabled);
+}
+.seed-chip-tabs__list--variant_brandSolid {
+    gap: 8px;
+}
+.seed-chip-tabs__trigger--variant_brandSolid {
+    background-color: var(--seed-color-bg-neutral-weak);
+    color: var(--seed-color-fg-neutral-muted);
+    font-weight: var(--seed-font-weight-medium);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-brand-solid);
+    color: var(--seed-color-palette-static-white);
+    font-weight: var(--seed-font-weight-bold);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-brand-solid-pressed);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    background-color: var(--seed-color-bg-disabled);
+    color: var(--seed-color-fg-disabled);
+}
+.seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
+    background-color: var(--seed-color-bg-disabled);
+}
+.seed-chip-tabs__root--contentLayout_fill {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.seed-chip-tabs__carousel--contentLayout_fill {
+    flex: 1;
+}
+.seed-chip-tabs__carouselCamera--contentLayout_fill {
+    height: 100%;
+    align-items: stretch;
+}
+.seed-chip-tabs__root--contentLayout_hug {
+    display: block;
+}
+.seed-chip-tabs__root--stickyList_true {
+    position: relative;
+}
+.seed-chip-tabs__list--stickyList_true {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}

@@ -62,3 +62,5 @@ export function appScreen(props) {
 }
 
 Object.assign(appScreen, { splitVariantProps: (props) => splitVariantProps(props, appScreenVariantMap) });
+
+// @recipe(seed): app-screen

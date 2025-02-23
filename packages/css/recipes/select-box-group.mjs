@@ -27,3 +27,5 @@ export function selectBoxGroup(props) {
 }
 
 Object.assign(selectBoxGroup, { splitVariantProps: (props) => splitVariantProps(props, selectBoxGroupVariantMap) });
+
+// @recipe(seed): select-box-group

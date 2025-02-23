@@ -37,3 +37,5 @@ export function identityPlaceholder(props) {
 }
 
 Object.assign(identityPlaceholder, { splitVariantProps: (props) => splitVariantProps(props, identityPlaceholderVariantMap) });
+
+// @recipe(seed): identity-placeholder

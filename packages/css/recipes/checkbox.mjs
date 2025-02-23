@@ -73,3 +73,5 @@ export function checkbox(props) {
 }
 
 Object.assign(checkbox, { splitVariantProps: (props) => splitVariantProps(props, checkboxVariantMap) });
+
+// @recipe(seed): checkbox

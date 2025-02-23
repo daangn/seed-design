@@ -27,3 +27,5 @@ export function visuallyHidden(props) {
 }
 
 Object.assign(visuallyHidden, { splitVariantProps: (props) => splitVariantProps(props, visuallyHiddenVariantMap) });
+
+// @recipe(seed): visually-hidden

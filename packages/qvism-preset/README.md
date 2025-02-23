@@ -4,5 +4,5 @@ This package is a preset for [@seed-design/ecosystem/qvism](../../ecosystem/qvis
 
 Following libraries are generated from this preset.
 
-- [@seed-design/css/seed.css](../css)
+- [@seed-design/css/*.css](../css)
 - [@seed-design/css/recipes](../css/recipes)

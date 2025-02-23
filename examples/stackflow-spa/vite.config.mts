@@ -1,13 +1,21 @@
+import { seedPlugin } from "@seed-design/vite-plugin";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react-swc";
+import visualizer from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 
 export default defineConfig({
   build: {
-    cssCodeSplit: false,
+    cssCodeSplit: true,
+    minify: false,
+    rollupOptions: {
+      treeshake: true,
+    },
+    target: ["chrome64", "safari14"],
   },
+
   plugins: [
     /**
      * Babel 컴파일러를 사용하는 @vitejs/plugin-react 대신에
@@ -29,10 +37,17 @@ export default defineConfig({
       renderLegacyChunks: false,
     }),
 
-    vanillaExtractPlugin({
-      esbuildOptions: {
-        external: ["@seed-design"],
-      },
-    }),
+    vanillaExtractPlugin(),
+
+    seedPlugin(),
+
+    process.env.VISUALIZER
+      ? visualizer({
+          open: true,
+          filename: "stats.html",
+          gzipSize: true,
+          brotliSize: true,
+        })
+      : null,
   ],
 });

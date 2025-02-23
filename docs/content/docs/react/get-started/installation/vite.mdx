@@ -12,70 +12,31 @@ vite 프로젝트에서 seed-design 컴포넌트를 사용하기 위한 설정�
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react
+@seed-design/react @seed-design/css @seed-design/vite-plugin
 ```
 
 </Step>
 
 <Step>
+### base.css import하기
 
-### index.html 수정하기
-
-Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
-속성을 통해 라이트/다크모드 전환을 해요.
-
-<Tabs items={['auto', 'light only', 'dark only']}>
-  <Tab value="auto">
-    ```tsx title="index.html" 
-    <html
-      data-seed // [!code highlight]
-      data-seed-scale-color="light" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
-    >
-      <head>
-        <meta name="color-scheme" content="light dark" /> // [!code highlight]
-        <!-- ... -->
-      </head>
-    </html>
-    ```
-  </Tab>
-  <Tab value="light only">
-    ```tsx title="index.html"
-    <html
-      data-seed="light-only" // [!code highlight]
-      data-seed-scale-color="light" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
-    >
-      <head>
-        <meta name="color-scheme" content="light" /> // [!code highlight]
-        <!-- ... -->
-      </head>
-    </html>
-    ```
-  </Tab>
-  <Tab value="dark only">
-    ```tsx title="index.html"
-    <html
-      data-seed="dark-only" // [!code highlight]
-      data-seed-scale-color="dark" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
-    >
-      <head>
-        <meta name="color-scheme" content="dark" />   // [!code highlight]
-        <!-- ... -->
-      </head>
-    </html>
-    ```
-  </Tab>
-</Tabs>
-
+```ts title="index.tsx"
+import "@seed-design/react/base.css";
+```
 </Step>
 
 <Step>
-### seed.css import하기
 
-```ts title="index.tsx"
-import "@seed-design/react/seed.css";
+### vite config 설정하기
+
+```ts title="vite.config.ts"
++import { seedPlugin } from '@seed-design/vite-plugin';
+
+export default defineConfig({
+  plugins: [
++    seedPlugin()
+  ]
+})
 ```
 </Step>
 

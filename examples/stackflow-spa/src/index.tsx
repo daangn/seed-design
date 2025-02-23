@@ -1,13 +1,16 @@
 import "./reset.css";
-import "@seed-design/css/seed.min.css";
-import "@stackflow/plugin-basic-ui/index.css";
+import "@seed-design/css/base.min.css";
 import "./global.css";
 
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 const root = ReactDOM.createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+);

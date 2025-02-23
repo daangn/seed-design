@@ -1,0 +1,35 @@
+.seed-skeleton__root {
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: var(--seed-color-palette-gray-200);
+    --seed-box-width: initial;
+    --seed-box-height: initial;
+    width: --seed-box-width;
+    height: --seed-box-height;
+}
+.seed-skeleton__root::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(90deg, var(--seed-gradient-shimmer));
+    background-repeat: no-repeat;
+    animation-fill-mode: forwards;
+    animation-name: slide-x;
+    animation-duration: 1.5s;
+    animation-timing-function: var(--seed-timing-function-easing);
+    animation-iteration-count: infinite;
+}
+.seed-skeleton__root--radius_0 {
+    border-radius: 0px;
+}
+.seed-skeleton__root--radius_8 {
+    border-radius: 8px;
+}
+.seed-skeleton__root--radius_16 {
+    border-radius: 16px;
+}
+.seed-skeleton__root--radius_full {
+    border-radius: var(--seed-radius-full);
+}

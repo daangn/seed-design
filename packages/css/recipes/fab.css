@@ -1,0 +1,31 @@
+.seed-fab__root {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+    font-family: inherit;
+}
+.seed-fab__root:is(:focus, [data-focus]) {
+    outline: none;
+}
+.seed-fab__root:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+}
+.seed-fab__root {
+    background: var(--seed-color-bg-layer-floating);
+    border-radius: var(--seed-radius-full);
+    box-shadow: 0px 2px 6px 0px #00000026;
+    width: 44px;
+    height: 44px;
+    --seed-icon-size: 22px;
+    --seed-icon-color: var(--seed-color-fg-neutral);
+}
+.seed-fab__root:is(:active, [data-active]) {
+    background: var(--seed-color-bg-layer-floating-pressed);
+}

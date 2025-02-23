@@ -39,3 +39,5 @@ export function extendedFab(props) {
 }
 
 Object.assign(extendedFab, { splitVariantProps: (props) => splitVariantProps(props, extendedFabVariantMap) });
+
+// @recipe(seed): extended-fab

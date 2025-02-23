@@ -55,3 +55,5 @@ export function actionSheet(props) {
 }
 
 Object.assign(actionSheet, { splitVariantProps: (props) => splitVariantProps(props, actionSheetVariantMap) });
+
+// @recipe(seed): action-sheet

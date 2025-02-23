@@ -1,0 +1,238 @@
+.seed-app-screen__root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    --app-bar-offset: calc(var(--app-bar-height) + var(--seed-safe-area-top));
+}
+.seed-app-screen__dim {
+    z-index: var(--z-index-dim);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.seed-app-screen__layer {
+    z-index: var(--z-index-layer);
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+.seed-app-screen__layer::-webkit-scrollbar {
+    display: none;
+}
+.seed-app-screen__layer {
+    background-color: var(--seed-color-bg-layer-default);
+}
+.seed-app-screen__edge {
+    z-index: var(--z-index-edge);
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    left: 0;
+    right: 0;
+}
+.seed-app-screen__root--theme_cupertino {
+    --app-bar-height: 44px;
+}
+.seed-app-screen__dim--theme_cupertino {
+    height: 100%;
+    background: var(--seed-color-bg-overlay);
+}
+.seed-app-screen__root--theme_android {
+    --app-bar-height: 56px;
+}
+.seed-app-screen__edge--theme_android {
+    display: none;
+}
+.seed-app-screen__root--transitionStyle_slideFromRightIOS {
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 2);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 7);
+}
+.seed-app-screen__layer--transitionStyle_slideFromRightIOS {
+    transform: translate3d(0, 0, 0);
+}
+[data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 100%;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 1;
+    --seed-enter-scale: 1;
+    transform: translate3d(0, 0, 0);
+}
+[data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 100%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 1;
+    --seed-exit-scale: 1;
+}
+[data-global-transition-state=enter-done] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: var(--swipe-back-displacement, 0);
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 1;
+    --seed-enter-scale: 1;
+    transform: translate3d(0, 0, 0);
+}
+[data-swipe-back-state=swiping] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+    animation: none;
+    transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
+}
+[data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+    transform: translate3d(0, 0, 0);
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: -30%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 1;
+    --seed-exit-scale: 1;
+}
+[data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: calc(-30% + var(--swipe-back-displacement, 0) * 0.3);
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 1;
+    --seed-enter-scale: 1;
+    transform: translate3d(0, 0, 0);
+}
+[data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
+    transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * 0.3), 0, 0);
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: -30%;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 1;
+    --seed-exit-scale: 1;
+}
+[data-swipe-back-state=swiping] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+    animation: none;
+    transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * 0.3), 0, 0);
+}
+[data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 0;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
+    opacity: 1;
+}
+[data-global-transition-state=exit-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    animation: seed-exit;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 0;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
+}
+[data-global-transition-state=enter-done] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 0;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    --seed-enter-scale: 1;
+    opacity: 1;
+}
+[data-swipe-back-state=swiping] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+    animation: none;
+    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+}
+.seed-app-screen__root--transitionStyle_fadeFromBottomAndroid {
+    --z-index-dim: calc(var(--z-index-base) + 0);
+    --z-index-layer: calc(var(--z-index-base) + 3);
+    --z-index-edge: calc(var(--z-index-base) + 4);
+    --z-index-app-bar: calc(var(--z-index-base) + 4);
+}
+.seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid {
+    height: 160px;
+    background: linear-gradient(var(--seed-color-bg-overlay), rgba(0, 0, 0, 0));
+}
+[data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.23, 0.1, 0.32, 1);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 0;
+    --seed-enter-translate-y: 0;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
+    transform: translate3d(0, -8vh, 0);
+    opacity: 1;
+}
+[data-global-transition-state=exit-active] .seed-app-screen__dim--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+    transform: translate3d(0, -8vh, 0);
+    opacity: 1;
+    animation: seed-exit;
+    animation-timing-function: linear;
+    animation-duration: 150ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 0;
+    --seed-exit-translate-y: 0;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
+}
+.seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid {
+    transform: translate3d(0, 0, 0);
+}
+[data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+    animation: seed-enter;
+    animation-timing-function: cubic-bezier(0.23, 0.1, 0.32, 1);
+    animation-duration: 300ms;
+    --seed-enter-translate-x: 0;
+    --seed-enter-translate-y: 8vh;
+    --seed-enter-opacity: 0;
+    --seed-enter-scale: 1;
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+}
+[data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    animation: seed-exit;
+    animation-timing-function: linear;
+    animation-duration: 150ms;
+    animation-fill-mode: forwards;
+    --seed-exit-translate-x: 0;
+    --seed-exit-translate-y: 8vh;
+    --seed-exit-opacity: 0;
+    --seed-exit-scale: 1;
+}
+.seed-app-screen__layer--layerOffsetTop_safeArea {
+    padding-top: var(--seed-safe-area-top);
+}
+.seed-app-screen__layer--layerOffsetTop_appBar {
+    padding-top: var(--app-bar-offset);
+}
+.seed-app-screen__layer--layerOffsetBottom_safeArea {
+    padding-bottom: var(--seed-safe-area-bottom);
+}

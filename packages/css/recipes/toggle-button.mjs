@@ -39,3 +39,5 @@ export function toggleButton(props) {
 }
 
 Object.assign(toggleButton, { splitVariantProps: (props) => splitVariantProps(props, toggleButtonVariantMap) });
+
+// @recipe(seed): toggle-button

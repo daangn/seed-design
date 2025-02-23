@@ -51,3 +51,5 @@ export function helpBubble(props) {
 }
 
 Object.assign(helpBubble, { splitVariantProps: (props) => splitVariantProps(props, helpBubbleVariantMap) });
+
+// @recipe(seed): help-bubble

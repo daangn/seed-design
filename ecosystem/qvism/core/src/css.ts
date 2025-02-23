@@ -120,7 +120,7 @@ export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[]
   return postcss.parse(tokens._raw).nodes;
 }
 
-export async function generateCssEach(config: Config): Promise<{ name: string; css: string }[]> {
+export async function generateEachRecipe(config: Config): Promise<{ name: string; css: string }[]> {
   const { minify = false, prefix, theme } = config;
 
   if (minify) {
@@ -137,15 +137,25 @@ export async function generateCssEach(config: Config): Promise<{ name: string; c
     }),
   );
 
-  const keyframes = {
-    name: "keyframes",
-    css: await transpileRulesToCss(generateKeyframeRules(theme.keyframes)),
-  };
-
-  return [...recipes, keyframes];
+  return [...recipes];
 }
 
-export async function generateCssBundle(config: Config): Promise<string> {
+export async function generateBaseBundle(config: Config): Promise<string> {
+  const { minify = false, theme } = config;
+  const globalRules = parseCssJs(config.theme.globalCss ?? {}).nodes;
+  const tokenRules = generateTokenRules(theme.tokens);
+  const keyframeRules = generateKeyframeRules(theme.keyframes);
+  const rules = [...globalRules, ...tokenRules, ...keyframeRules];
+  const css = await transpileRulesToCss(rules);
+
+  return transform({
+    filename: "qvism.css",
+    code: Buffer.from(css),
+    minify,
+  }).code.toString();
+}
+
+export async function generateAllBundle(config: Config): Promise<string> {
   const { minify = false, prefix, theme } = config;
   const options = { prefix };
   const globalRules = parseCssJs(config.theme.globalCss ?? {}).nodes;

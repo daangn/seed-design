@@ -38,3 +38,5 @@ export function mannerTempBadge(props) {
 }
 
 Object.assign(mannerTempBadge, { splitVariantProps: (props) => splitVariantProps(props, mannerTempBadgeVariantMap) });
+
+// @recipe(seed): manner-temp-badge

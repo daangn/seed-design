@@ -1,0 +1,46 @@
+.seed-progress-circle__root {
+    display: inline-flex;
+    box-sizing: border-box;
+    position: relative;
+}
+.seed-progress-circle__root[data-progress-state=indeterminate] {
+    animation: rotate 1.2s cubic-bezier(0.35, 0.25, 0.65, 0.75) infinite;
+}
+.seed-progress-circle__track {
+    stroke: var(--track-color);
+}
+.seed-progress-circle__range {
+    stroke: var(--range-color);
+    stroke-linecap: round;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.15, 1);
+    transition-property: stroke-dasharray;
+}
+.seed-progress-circle__range[data-progress-state=indeterminate] {
+    animation: 
+          progress-circle-head 1.2s cubic-bezier(0.35, 0, 0.65, 1) infinite normal none running,
+          progress-circle-tail 1.2s cubic-bezier(0.35, 0, 0.65, 0.6) infinite normal none running
+        ;
+}
+.seed-progress-circle__root--tone_neutral {
+    --track-color: var(--seed-color-palette-gray-200);
+    --range-color: var(--seed-color-palette-gray-500);
+}
+.seed-progress-circle__root--tone_brand {
+    --track-color: var(--seed-color-palette-carrot-200);
+    --range-color: var(--seed-color-bg-brand-solid);
+}
+.seed-progress-circle__root--tone_staticWhite {
+    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --range-color: var(--seed-color-palette-static-white);
+}
+.seed-progress-circle__root--tone_inherit {}
+.seed-progress-circle__root--size_24 {
+    --size: var(--seed-dimension-x6);
+    --thickness: 3px;
+}
+.seed-progress-circle__root--size_40 {
+    --size: var(--seed-dimension-x10);
+    --thickness: 5px;
+}
+.seed-progress-circle__root--size_inherit {}

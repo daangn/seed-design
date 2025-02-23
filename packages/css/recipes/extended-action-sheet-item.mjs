@@ -34,3 +34,5 @@ export function extendedActionSheetItem(props) {
 }
 
 Object.assign(extendedActionSheetItem, { splitVariantProps: (props) => splitVariantProps(props, extendedActionSheetItemVariantMap) });
+
+// @recipe(seed): extended-action-sheet-item

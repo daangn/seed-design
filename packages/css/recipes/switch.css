@@ -1,0 +1,70 @@
+.seed-switch__root {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    vertical-align: top;
+    isolation: isolate;
+    opacity: 1;
+    cursor: pointer;
+}
+.seed-switch__root:is(:disabled, [disabled], [data-disabled]) {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+.seed-switch__control {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    border-radius: var(--seed-radius-full);
+    background: var(--seed-color-palette-gray-600);
+    transition: background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms;
+}
+.seed-switch__control:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-brand-solid);
+}
+.seed-switch__thumb {
+    border-radius: var(--seed-radius-full);
+    background: var(--seed-color-palette-static-white);
+    transition: transform 150ms cubic-bezier(0.35, 0, 0.35, 1);
+}
+.seed-switch__root--size_medium {
+    min-height: 32px;
+}
+.seed-switch__control--size_medium {
+    min-inline-size: 52px;
+    min-block-size: 32px;
+    padding: 2px 2px;
+}
+.seed-switch__thumb--size_medium {
+    width: 28px;
+    height: 28px;
+    box-shadow: 0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f;
+}
+.seed-switch__thumb--size_medium:is(:checked, [data-checked]) {
+    transform: translateX(calc(52px - 32px));
+}
+.seed-switch__root--size_small {
+    min-height: 24px;
+    gap: var(--seed-dimension-x2);
+}
+.seed-switch__control--size_small {
+    min-inline-size: 26px;
+    min-block-size: 16px;
+    padding: 2px 2px;
+    margin: calc((24px - 16px) / 2) 0;
+}
+.seed-switch__thumb--size_small {
+    width: 12px;
+    height: 12px;
+}
+.seed-switch__thumb--size_small:is(:checked, [data-checked]) {
+    transform: translateX(calc(26px - 16px));
+}
+.seed-switch__label--size_small {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    font-weight: var(--seed-font-weight-regular);
+    margin-top: calc(12px - 0.59375rem);
+}

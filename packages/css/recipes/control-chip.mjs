@@ -56,3 +56,5 @@ export function controlChip(props) {
 }
 
 Object.assign(controlChip, { splitVariantProps: (props) => splitVariantProps(props, controlChipVariantMap) });
+
+// @recipe(seed): control-chip

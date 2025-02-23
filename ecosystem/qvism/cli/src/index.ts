@@ -3,8 +3,10 @@
 // TODO: load preset from config file
 
 import {
-  generateCssBundle,
+  generateAllBundle,
+  generateBaseBundle,
   generateDts,
+  generateEachRecipe,
   generateJs,
   generateSharedJs,
   type Config,
@@ -14,10 +16,9 @@ import preset from "@seed-design/qvism-preset";
 import fs from "fs-extra";
 import path from "node:path";
 
-const [, , format, dir = "./"] = process.argv;
+const [, , dir = "./", recipesDir = "./recipes"] = process.argv;
 
 const PREFIX = "seed"; // TODO: move to config file
-const FILENAME = "seed"; // TODO: move to config file
 
 function buildConfig(preset: Preset, config: Partial<Config>) {
   return {
@@ -27,52 +28,57 @@ function buildConfig(preset: Preset, config: Partial<Config>) {
   };
 }
 
-async function writeCss() {
+async function writeBundles() {
   const config = buildConfig(preset, {});
 
-  const css = await generateCssBundle(config);
-  console.log("Writing css bundle to", path.join(process.cwd(), dir, `${FILENAME}.css`));
-  fs.writeFileSync(path.join(process.cwd(), dir, `${FILENAME}.css`), css);
+  const allCss = await generateAllBundle(config);
+  console.log("Writing css bundle to", path.join(process.cwd(), dir, "all.css"));
+  fs.writeFileSync(path.join(process.cwd(), dir, "all.css"), allCss);
 
-  const minifiedCss = await generateCssBundle({ ...config, minify: true });
-  console.log(
-    "Writing minified css bundle to",
-    path.join(process.cwd(), dir, `${FILENAME}.min.css`),
-  );
-  fs.writeFileSync(path.join(process.cwd(), dir, `${FILENAME}.min.css`), minifiedCss);
+  const minifiedAllCss = await generateAllBundle({ ...config, minify: true });
+  console.log("Writing minified css bundle to", path.join(process.cwd(), dir, "all.min.css"));
+  fs.writeFileSync(path.join(process.cwd(), dir, "all.min.css"), minifiedAllCss);
+
+  const baseCss = await generateBaseBundle(config);
+  console.log("Writing base css bundle to", path.join(process.cwd(), dir, "base.css"));
+  fs.writeFileSync(path.join(process.cwd(), dir, "base.css"), baseCss);
+
+  const minifiedBaseCss = await generateBaseBundle({ ...config, minify: true });
+  console.log("Writing minified base css bundle to", path.join(process.cwd(), dir, "base.min.css"));
+  fs.writeFileSync(path.join(process.cwd(), dir, "base.min.css"), minifiedBaseCss);
 }
 
-async function writeCssInJs() {
+async function writeRecipes() {
   const config = buildConfig(preset, {});
   const options = { prefix: config.prefix };
 
   const sharedJs = generateSharedJs();
-  console.log("Writing shared to", path.join(process.cwd(), dir, "shared.mjs"));
-  fs.writeFileSync(path.join(dir, "shared.mjs"), sharedJs);
+  console.log("Writing shared to", path.join(process.cwd(), recipesDir, "shared.mjs"));
+  fs.writeFileSync(path.join(recipesDir, "shared.mjs"), sharedJs);
 
-  return Promise.all(
+  await Promise.all(
     Object.values(config.theme.recipes).map(async (definition) => {
       const name = definition.name;
       const jsCode = generateJs(definition, options);
       const dtsCode = generateDts(definition);
 
-      console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.mjs`));
-      fs.writeFileSync(path.join(dir, `${name}.mjs`), jsCode);
+      console.log("Writing", name, "to", path.join(process.cwd(), recipesDir, `${name}.mjs`));
+      fs.writeFileSync(path.join(recipesDir, `${name}.mjs`), jsCode);
 
-      console.log("Writing", name, "to", path.join(process.cwd(), dir, `${name}.d.ts`));
-      fs.writeFileSync(path.join(dir, `${name}.d.ts`), dtsCode);
+      console.log("Writing", name, "to", path.join(process.cwd(), recipesDir, `${name}.d.ts`));
+      fs.writeFileSync(path.join(recipesDir, `${name}.d.ts`), dtsCode);
     }),
   );
+
+  const recipes = await generateEachRecipe(config);
+  for (const { name, css } of recipes) {
+    console.log("Writing", name, "to", path.join(process.cwd(), recipesDir, `${name}.css`));
+    fs.writeFileSync(path.join(process.cwd(), recipesDir, `${name}.css`), css);
+  }
 }
 
-if (format === "css") {
-  writeCss().then(() => {
+writeBundles()
+  .then(writeRecipes)
+  .then(() => {
     console.log("Done");
   });
-} else if (format === "js") {
-  writeCssInJs().then(() => {
-    console.log("Done");
-  });
-} else {
-  throw new Error("Invalid format");
-}

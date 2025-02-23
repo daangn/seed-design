@@ -1,0 +1,56 @@
+.seed-segmented-control__root {
+    display: grid;
+    box-sizing: border-box;
+    min-width: fit-content;
+    max-width: 100%;
+    position: relative;
+    padding: var(--seed-dimension-x1);
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-bg-neutral-weak);
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    align-items: center;
+    isolation: isolate;
+}
+.seed-segmented-control__indicator {
+    position: absolute;
+    z-index: -1;
+    will-change: transform;
+    transform: translateX(calc(var(--segment-index) * 100%));
+    inset-block: var(--seed-dimension-x1);
+    inset-inline-start: var(--seed-dimension-x1);
+    width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count));
+    border-radius: var(--seed-radius-full);
+    background-color: var(--seed-color-bg-layer-default);
+    box-shadow: 0px 1px 6px 0px #0000000d;
+    transition: transform var(--seed-duration-d4) var(--seed-timing-function-easing);
+}
+.seed-segmented-control__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    min-width: 86px;
+    min-height: var(--seed-dimension-x8);
+    padding-inline: var(--seed-dimension-x4);
+    border-radius: var(--seed-radius-full);
+    font-weight: var(--seed-font-weight-medium);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    color: var(--seed-color-fg-neutral-muted);
+}
+.seed-segmented-control__item:is(:checked, [data-checked]) {
+    color: var(--seed-color-fg-neutral);
+    font-weight: var(--seed-font-weight-bold);
+}
+.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
+    cursor: not-allowed;
+    color: var(--seed-color-fg-disabled);
+}
+.seed-segmented-control__item:not(:is(:checked, [data-checked])):is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
