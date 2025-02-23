@@ -25,6 +25,7 @@ export default defineConfig({
       external: [
         ...Object.keys(pkg.dependencies ?? {}),
         ...Object.keys(pkg.peerDependencies ?? {}),
+        /^@seed-design\/css\/.+/,
         "react/jsx-runtime",
       ],
       output: [
