@@ -3,6 +3,7 @@ export {
   AppScreenEdge as Edge,
   AppScreenLayer as Layer,
   AppScreenRoot as Root,
+  AppScreenPropsProvider as PropsProvider,
 } from "./AppScreen";
 
 export type {

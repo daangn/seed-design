@@ -1,5 +1,5 @@
 import type { StackflowReactPlugin } from "@stackflow/react";
-import { AppScreenPropsProvider } from "./components/AppScreen/AppScreen";
+import { AppScreenPropsProvider } from "./components";
 import { GlobalInteraction } from "./primitive";
 
 export interface SeedPluginOptions {
