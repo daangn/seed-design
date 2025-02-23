@@ -1,9 +1,9 @@
 import postcss from "postcss";
-import postcssJs from "postcss-js";
 import postcssNested from "postcss-nested";
 
 import { transform } from "lightningcss";
 import { compact } from "./compact";
+import parseCssJs from "./parser";
 import type {
   Config,
   CssKeyframes,
@@ -24,7 +24,7 @@ export function generateBaseRules(definition: RecipeDefinition, options: { prefi
       if (!style) {
         return undefined;
       }
-      const parsed = postcssJs.parse(style);
+      const parsed = parseCssJs(style);
       return postcss.rule({
         selector: `.${name}__${slot}`,
         nodes: parsed.nodes,
@@ -45,7 +45,7 @@ export function generateVariantRules(
           if (!style) {
             return undefined;
           }
-          const parsed = postcssJs.parse(style);
+          const parsed = parseCssJs(style);
           return postcss.rule({
             selector: `.${name}__${slot}--${variantName}_${variantValue}`,
             nodes: parsed.nodes,
@@ -71,7 +71,7 @@ export function generateCompoundVariantRules(
         const selector = `.${name}__${slot}--${Object.entries(selection)
           .map(([variantName, variantValue]) => `${variantName}_${variantValue}`)
           .join("-")}`;
-        const parsed = postcssJs.parse(style);
+        const parsed = parseCssJs(style);
 
         return postcss.rule({
           selector: selector,
@@ -84,7 +84,7 @@ export function generateCompoundVariantRules(
 
 export function generateKeyframeRules(definitions: CssKeyframes) {
   return Object.entries(definitions ?? {}).flatMap(([name, keyframe]) => {
-    const parsed = postcssJs.parse(keyframe);
+    const parsed = parseCssJs(keyframe);
     return postcss.atRule({
       name: "keyframes",
       params: name,
@@ -100,7 +100,7 @@ export async function transpileRulesToCss(rules: postcss.ChildNode[]): Promise<s
 
   const css = await postcss([postcssNested()])
     // @ts-expect-error
-    .process(root, { from: undefined, parser: postcssJs })
+    .process(root, { from: undefined, parser: parseCssJs })
     .then((result) => {
       return result.css;
     });
@@ -148,7 +148,7 @@ export async function generateCssEach(config: Config): Promise<{ name: string; c
 export async function generateCssBundle(config: Config): Promise<string> {
   const { minify = false, prefix, theme } = config;
   const options = { prefix };
-  const globalRules = postcssJs.parse(config.theme.globalCss ?? {}).nodes;
+  const globalRules = parseCssJs(config.theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const recipeRules = Object.values(theme.recipes).flatMap((recipe) =>
     generateRecipeRules(recipe, options),
