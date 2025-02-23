@@ -1,16 +1,17 @@
-:root[data-seed] {
+:root,
+[data-seed-color-mode="system"] {
   color-scheme: light dark;
 }
 
-:root[data-seed="light-only"] {
+[data-seed-color-mode="light-only"] {
   color-scheme: light;
 }
 
-:root[data-seed="dark-only"] {
+[data-seed-color-mode="dark-only"] {
   color-scheme: dark;
 }
 
-:root[data-seed] {
+:root {
   --seed-static-color-static-black: #000000;
   --seed-static-color-static-white: #ffffff;
   --seed-static-color-static-gray-900: #212124;
@@ -188,9 +189,10 @@
   --seed-semantic-typography-label6-regular-line-height: var(--seed-static-line-height-static-small);
 }
 
-:root[data-seed][data-seed="light-only"][data-seed-scale-color="dark"],
-:root[data-seed][data-seed-scale-color="light"]:not([data-seed="dark-only"]),
-:root[data-seed]:not([data-seed="dark-only"]) [data-seed-scale-color="light"] {
+:root,
+:root[data-seed-user-color-scheme="light"],
+:root[data-seed-color-mode="light-only"],
+:root [data-seed-color-mode="light-only"] {
   --seed-scale-color-gray-00: #ffffff;
   --seed-scale-color-gray-50: #f7f8fa;
   --seed-scale-color-gray-100: #f2f3f6;
@@ -337,9 +339,9 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
 }
 
-:root[data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
-:root[data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
-:root[data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
+:root[data-seed-user-color-scheme="dark"],
+:root[data-seed-color-mode="dark-only"],
+:root [data-seed-color-mode="dark-only"] {
   --seed-scale-color-gray-00: #17171a;
   --seed-scale-color-gray-50: #212124;
   --seed-scale-color-gray-100: #2b2e33;
@@ -486,7 +488,8 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
 }
 
-:root[data-seed][data-seed-scale-letter-spacing="ios"] {
+:root,
+:root[data-seed-platform="ios"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
   --seed-scale-letter-spacing-narrow-300: -0.03em;
@@ -531,7 +534,7 @@
   --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
 }
 
-:root[data-seed][data-seed-scale-letter-spacing="android"] {
+:root[data-seed-platform="android"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
   --seed-scale-letter-spacing-narrow-300: -0.03em;
