@@ -59,3 +59,5 @@ export function inlineBanner(props) {
 }
 
 Object.assign(inlineBanner, { splitVariantProps: (props) => splitVariantProps(props, inlineBannerVariantMap) });
+
+// @recipe(seed): inline-banner

@@ -1,0 +1,31 @@
+.seed-extended-action-sheet-item__root {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--seed-color-bg-neutral-weak);
+    min-height: 52px;
+    padding-inline: var(--seed-dimension-x4);
+    padding-block: var(--seed-dimension-x3_5);
+    gap: var(--seed-dimension-x3_5);
+    box-shadow: inset 0 calc(-1 * 1px) 0 var(--seed-color-stroke-neutral);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-extended-action-sheet-item__root:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-neutral-weak-pressed);
+}
+.seed-extended-action-sheet-item__root:last-child {
+    box-shadow: none;
+}
+.seed-extended-action-sheet-item__root {
+    --seed-prefix-icon-size: 22px;
+}
+.seed-extended-action-sheet-item__root--tone_neutral {
+    color: var(--seed-color-fg-neutral);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+}
+.seed-extended-action-sheet-item__root--tone_critical {
+    color: var(--seed-color-fg-critical);
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
+}

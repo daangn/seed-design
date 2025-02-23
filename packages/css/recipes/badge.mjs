@@ -122,3 +122,5 @@ export function badge(props) {
 }
 
 Object.assign(badge, { splitVariantProps: (props) => splitVariantProps(props, badgeVariantMap) });
+
+// @recipe(seed): badge

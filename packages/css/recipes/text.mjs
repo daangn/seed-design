@@ -60,3 +60,5 @@ export function text(props) {
 }
 
 Object.assign(text, { splitVariantProps: (props) => splitVariantProps(props, textVariantMap) });
+
+// @recipe(seed): text

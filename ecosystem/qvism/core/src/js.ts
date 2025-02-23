@@ -58,5 +58,7 @@ export function generateJs(
   }
   
   Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
+
+  // @recipe(seed): ${definition.name}
   `;
 }

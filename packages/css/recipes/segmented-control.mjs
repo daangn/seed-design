@@ -35,3 +35,5 @@ export function segmentedControl(props) {
 }
 
 Object.assign(segmentedControl, { splitVariantProps: (props) => splitVariantProps(props, segmentedControlVariantMap) });
+
+// @recipe(seed): segmented-control

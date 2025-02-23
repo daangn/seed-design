@@ -83,3 +83,5 @@ export function actionButton(props) {
 }
 
 Object.assign(actionButton, { splitVariantProps: (props) => splitVariantProps(props, actionButtonVariantMap) });
+
+// @recipe(seed): action-button

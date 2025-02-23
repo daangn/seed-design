@@ -38,3 +38,5 @@ export function radio(props) {
 }
 
 Object.assign(radio, { splitVariantProps: (props) => splitVariantProps(props, radioVariantMap) });
+
+// @recipe(seed): radio

@@ -27,3 +27,5 @@ export function snackbarRegion(props) {
 }
 
 Object.assign(snackbarRegion, { splitVariantProps: (props) => splitVariantProps(props, snackbarRegionVariantMap) });
+
+// @recipe(seed): snackbar-region

@@ -1,0 +1,32 @@
+.seed-action-sheet-item__root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: var(--seed-color-bg-layer-floating);
+    min-height: 50px;
+    padding-inline: var(--seed-dimension-spacing-x-global-gutter);
+    padding-block: var(--seed-dimension-x3_5);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
+}
+.seed-action-sheet-item__root:is(:active, [data-active]) {
+    background-color: var(--seed-color-bg-layer-floating-pressed);
+}
+.seed-action-sheet-item__root:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: var(--seed-dimension-spacing-x-global-gutter);
+    right: var(--seed-dimension-spacing-x-global-gutter);
+    bottom: 0;
+    height: 1px;
+    background: var(--seed-color-stroke-neutral);
+}
+.seed-action-sheet-item__root--tone_neutral {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-action-sheet-item__root--tone_critical {
+    color: var(--seed-color-fg-critical);
+}

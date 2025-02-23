@@ -1,0 +1,45 @@
+.seed-avatar-stack__root {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center
+}
+.seed-avatar-stack__item {
+    display: block;
+    border-radius: var(--seed-radius-full);
+    background-clip: padding-box
+}
+.seed-avatar-stack__item--size_20:not(:first-child) {
+    margin-left: -5px
+}
+.seed-avatar-stack__item--size_20 {
+    clip-path: inset(-2px);
+    box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default)
+}
+.seed-avatar-stack__item--size_24:not(:first-child) {
+    margin-left: -6px
+}
+.seed-avatar-stack__item--size_24 {
+    clip-path: inset(-2px);
+    box-shadow: 0 0 0 2px var(--seed-color-bg-layer-default)
+}
+.seed-avatar-stack__item--size_36:not(:first-child) {
+    margin-left: -8px
+}
+.seed-avatar-stack__item--size_36 {
+    clip-path: inset(-3px);
+    box-shadow: 0 0 0 3px var(--seed-color-bg-layer-default)
+}
+.seed-avatar-stack__item--size_48:not(:first-child) {
+    margin-left: -10px
+}
+.seed-avatar-stack__item--size_48 {
+    clip-path: inset(-4px);
+    box-shadow: 0 0 0 4px var(--seed-color-bg-layer-default)
+}
+.seed-avatar-stack__item--size_64:not(:first-child) {
+    margin-left: -10px
+}
+.seed-avatar-stack__item--size_64 {
+    clip-path: inset(-4px);
+    box-shadow: 0 0 0 4px var(--seed-color-bg-layer-default)
+}

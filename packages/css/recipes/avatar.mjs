@@ -51,3 +51,5 @@ export function avatar(props) {
 }
 
 Object.assign(avatar, { splitVariantProps: (props) => splitVariantProps(props, avatarVariantMap) });
+
+// @recipe(seed): avatar

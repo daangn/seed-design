@@ -158,6 +158,7 @@ const ActivityHome: ActivityComponentType = () => {
           <ListItem onClick={() => push("ActivityAnimatedTabs", {})} title="AnimatedTabs" />
           <ListItem onClick={() => push("ActivitySwipeableTabs", {})} title="SwipeableTabs" />
           <ListItem onClick={() => push("ActivitySegmentedControl", {})} title="SegmentedControl" />
+          <ListItem onClick={() => push("ActivityPartialDarkMode", {})} title="PartialDarkMode" />
         </List>
       </AppScreenContent>
     </AppScreen>

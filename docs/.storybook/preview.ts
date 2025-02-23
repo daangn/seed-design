@@ -1,5 +1,5 @@
 // import Seed Design
-import "@seed-design/css/seed.css";
+import "@seed-design/css/all.css";
 
 import type { Preview } from "@storybook/react";
 

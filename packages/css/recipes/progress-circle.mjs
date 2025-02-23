@@ -50,3 +50,5 @@ export function progressCircle(props) {
 }
 
 Object.assign(progressCircle, { splitVariantProps: (props) => splitVariantProps(props, progressCircleVariantMap) });
+
+// @recipe(seed): progress-circle

@@ -77,3 +77,5 @@ export function tabs(props) {
 }
 
 Object.assign(tabs, { splitVariantProps: (props) => splitVariantProps(props, tabsVariantMap) });
+
+// @recipe(seed): tabs

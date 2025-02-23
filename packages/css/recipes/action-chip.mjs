@@ -56,3 +56,5 @@ export function actionChip(props) {
 }
 
 Object.assign(actionChip, { splitVariantProps: (props) => splitVariantProps(props, actionChipVariantMap) });
+
+// @recipe(seed): action-chip

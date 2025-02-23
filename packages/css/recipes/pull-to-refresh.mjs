@@ -31,3 +31,5 @@ export function pullToRefresh(props) {
 }
 
 Object.assign(pullToRefresh, { splitVariantProps: (props) => splitVariantProps(props, pullToRefreshVariantMap) });
+
+// @recipe(seed): pull-to-refresh

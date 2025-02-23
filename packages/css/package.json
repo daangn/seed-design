@@ -9,11 +9,12 @@
   "scripts": {
     "generate": "bun rootage:generate && qvism:generate",
     "rootage:generate": "bun rootage token-ts ./vars && rootage component-spec ./vars/component",
-    "qvism:generate": "bun qvism css && bun qvism js ./recipes",
+    "qvism:generate": "bun qvism ./ ./recipes",
     "lint:publish": "bun publint"
   },
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "theming/index.mjs"
   ],
   "type": "module",
   "exports": {
@@ -33,6 +34,10 @@
     "./vars/component": {
       "types": "./vars/component/index.d.ts",
       "import": "./vars/component/index.mjs"
+    },
+    "./vars/component/*": {
+      "types": "./vars/component/*.d.ts",
+      "import": "./vars/component/*.mjs"
     },
     "./theming": {
       "types": "./theming/index.d.ts",

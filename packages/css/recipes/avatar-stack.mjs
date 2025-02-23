@@ -41,3 +41,5 @@ export function avatarStack(props) {
 }
 
 Object.assign(avatarStack, { splitVariantProps: (props) => splitVariantProps(props, avatarStackVariantMap) });
+
+// @recipe(seed): avatar-stack

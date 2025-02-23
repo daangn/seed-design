@@ -64,3 +64,5 @@ export function appBar(props) {
 }
 
 Object.assign(appBar, { splitVariantProps: (props) => splitVariantProps(props, appBarVariantMap) });
+
+// @recipe(seed): app-bar

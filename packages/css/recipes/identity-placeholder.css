@@ -1,0 +1,19 @@
+.seed-identity-placeholder__root {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    background-color: var(--seed-color-palette-gray-400)
+}
+.seed-identity-placeholder__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+    fill: #f7f8fa
+}

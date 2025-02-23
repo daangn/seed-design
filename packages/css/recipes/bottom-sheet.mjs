@@ -59,3 +59,5 @@ export function bottomSheet(props) {
 }
 
 Object.assign(bottomSheet, { splitVariantProps: (props) => splitVariantProps(props, bottomSheetVariantMap) });
+
+// @recipe(seed): bottom-sheet

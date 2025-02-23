@@ -40,3 +40,5 @@ export function linkContent(props) {
 }
 
 Object.assign(linkContent, { splitVariantProps: (props) => splitVariantProps(props, linkContentVariantMap) });
+
+// @recipe(seed): link-content

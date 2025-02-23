@@ -34,3 +34,5 @@ export function reactionButton(props) {
 }
 
 Object.assign(reactionButton, { splitVariantProps: (props) => splitVariantProps(props, reactionButtonVariantMap) });
+
+// @recipe(seed): reaction-button

@@ -27,3 +27,5 @@ export function fab(props) {
 }
 
 Object.assign(fab, { splitVariantProps: (props) => splitVariantProps(props, fabVariantMap) });
+
+// @recipe(seed): fab

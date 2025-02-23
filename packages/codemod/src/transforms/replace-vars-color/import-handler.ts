@@ -17,10 +17,10 @@ export function handleImports(
         ];
       });
 
-    // @seed-design/react/vars import 추가
+    // @seed-design/css/vars import 추가
     const varsImport = j.importDeclaration(
       [j.importSpecifier(j.identifier("vars"), j.identifier("vars"))],
-      j.literal("@seed-design/react/vars"),
+      j.literal("@seed-design/css/vars"),
     );
     root.find(j.ImportDeclaration).at(0).insertAfter(varsImport);
   } else {
@@ -30,7 +30,7 @@ export function handleImports(
         source: { value: "@seed-design/design-token" },
       })
       .forEach((path) => {
-        path.node.source.value = "@seed-design/react/vars";
+        path.node.source.value = "@seed-design/css/vars";
       });
   }
 }

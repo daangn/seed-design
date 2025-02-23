@@ -99,3 +99,5 @@ export function textField(props) {
 }
 
 Object.assign(textField, { splitVariantProps: (props) => splitVariantProps(props, textFieldVariantMap) });
+
+// @recipe(seed): text-field
