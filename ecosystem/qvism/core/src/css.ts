@@ -5,8 +5,9 @@ import { transform } from "lightningcss";
 import { compact } from "./compact";
 import parseCssJs from "./parser";
 import type {
-  Config,
+  CssgenConfig,
   CssKeyframes,
+  Config,
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
   Theme,
@@ -120,8 +121,12 @@ export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[]
   return postcss.parse(tokens._raw).nodes;
 }
 
-export async function generateEachRecipe(config: Config): Promise<{ name: string; css: string }[]> {
-  const { minify = false, prefix, theme } = config;
+export async function generateEachRecipe(
+  config: Config,
+  cssConfig: CssgenConfig = {},
+): Promise<{ name: string; css: string }[]> {
+  const { prefix, theme } = config;
+  const { minify = false } = cssConfig;
 
   if (minify) {
     throw new Error("Minification is not supported for individual recipe generation yet.");
@@ -140,9 +145,13 @@ export async function generateEachRecipe(config: Config): Promise<{ name: string
   return [...recipes];
 }
 
-export async function generateBaseBundle(config: Config): Promise<string> {
-  const { minify = false, theme } = config;
-  const globalRules = parseCssJs(config.theme.globalCss ?? {}).nodes;
+export async function generateBaseBundle(
+  config: Config,
+  cssConfig: CssgenConfig = {},
+): Promise<string> {
+  const { theme } = config;
+  const { minify = false } = cssConfig;
+  const globalRules = parseCssJs(theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const keyframeRules = generateKeyframeRules(theme.keyframes);
   const rules = [...globalRules, ...tokenRules, ...keyframeRules];
@@ -155,10 +164,14 @@ export async function generateBaseBundle(config: Config): Promise<string> {
   }).code.toString();
 }
 
-export async function generateAllBundle(config: Config): Promise<string> {
-  const { minify = false, prefix, theme } = config;
+export async function generateAllBundle(
+  config: Config,
+  cssConfig: CssgenConfig = {},
+): Promise<string> {
+  const { prefix, theme } = config;
+  const { minify = false } = cssConfig;
   const options = { prefix };
-  const globalRules = parseCssJs(config.theme.globalCss ?? {}).nodes;
+  const globalRules = parseCssJs(theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const recipeRules = Object.values(theme.recipes).flatMap((recipe) =>
     generateRecipeRules(recipe, options),

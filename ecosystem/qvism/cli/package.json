@@ -11,21 +11,21 @@
   "sideEffects": false,
   "type": "module",
   "bin": {
-    "qvism": "./bin/index.mjs"
+    "qvism": "./bin/qvism.mjs"
   },
   "files": [
     "bin",
     "src"
   ],
   "scripts": {
-    "build": "bun build.mjs",
-    "qvism:build": "bun build.mjs",
-    "dev": "bun dev.mjs",
+    "build": "bunchee",
+    "qvism:build": "bun run build",
     "lint:publish": "bun publint"
   },
   "dependencies": {
     "@seed-design/qvism-core": "0.0.0",
-    "@seed-design/qvism-preset": "0.0.0",
+    "cac": "^6.7.14",
+    "cosmiconfig": "^9.0.0",
     "fs-extra": "^11.1.1"
   },
   "devDependencies": {

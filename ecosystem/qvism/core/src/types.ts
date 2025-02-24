@@ -119,17 +119,12 @@ export interface Theme {
   globalCss?: Record<string, StyleObject>;
 }
 
-export interface CssgenOptions {
+export interface Config {
   prefix?: string;
 
+  theme: Theme;
+}
+
+export interface CssgenConfig {
   minify?: boolean;
-}
-
-// TODO: add extendable option to each theme items
-export interface Config extends CssgenOptions {
-  theme: Theme;
-}
-
-export interface Preset {
-  theme: Theme;
 }

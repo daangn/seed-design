@@ -5,6 +5,7 @@ import { tokens } from "./tokens";
 import { definePreset } from "./utils/define";
 
 export default definePreset({
+  prefix: "seed",
   theme: {
     tokens,
     recipes,
