@@ -3,7 +3,7 @@ import { colorMappings } from "@seed-design/migration-index/color";
 import { TokenMigrationReporter } from "../../utils/reporter.js";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { camelCase, kebabCase } from "change-case";
+import { camelCase } from "change-case";
 
 function normalizePreviousToken(previous: string): string {
   const stripped = previous
@@ -13,47 +13,49 @@ function normalizePreviousToken(previous: string): string {
   return camelCase(stripped, { mergeAmbiguousCharacters: true });
 }
 
-function transformColorProp(value: string): string {
-  // 이미 palette- 형식이면 변환하지 않음
-  if (value.startsWith("palette-")) return value;
+function selectMappingToken(m: { next: string[]; alternative?: string[] }): string | null {
+  // 1. next에서 fg semantic 찾기
+  const fgTokenInNext = m.next.find((t) => t.startsWith("$color.fg"));
+  if (fgTokenInNext) return fgTokenInNext;
 
-  // semantic color mapping에서 매칭 시도
+  // 2. next에서 palette 토큰 찾기
+  const paletteTokenInNext = m.next.find((t) => t.startsWith("$color.palette"));
+  if (paletteTokenInNext) return paletteTokenInNext;
+
+  // 3. alternative에서 palette 토큰 찾기
+  if (m.alternative && m.alternative.length > 0) {
+    const paletteTokenInAlternative = m.alternative.find((t) => t.startsWith("$color.palette"));
+    if (paletteTokenInAlternative) return paletteTokenInAlternative;
+  }
+
+  return null;
+}
+
+function transformColorProp(value: string): string {
+  // 이미 변환된 값은 건너뛰기
+  if (value.includes(".")) return value;
+
   for (const mapping of colorMappings) {
     const normalizedPrevious = normalizePreviousToken(mapping.previous);
-    if (normalizedPrevious === value) {
-      // palette 토큰 우선 선택
-      const paletteToken = mapping.next.find((token) => token.startsWith("$color.palette"));
-      if (paletteToken) {
-        return `palette-${kebabCase(paletteToken.replace("$color.palette.", ""))}`;
-      }
 
-      // alternative에서 palette 토큰 검색
-      if (mapping.alternative) {
-        const altPaletteToken = mapping.alternative.find((token) =>
-          token.startsWith("$color.palette"),
-        );
-        if (altPaletteToken) {
-          return `palette-${kebabCase(altPaletteToken.replace("$color.palette.", ""))}`;
-        }
+    if (normalizedPrevious === value) {
+      const chosenToken = selectMappingToken(mapping);
+      if (chosenToken) {
+        // $color.palette.gray-200 -> palette.gray200
+        // $color.fg.brand -> fg.brand
+        return chosenToken
+          .replace("$color.", "")
+          .split(".")
+          .map((part, index) =>
+            index === 0 ? part : camelCase(part, { mergeAmbiguousCharacters: true }),
+          )
+          .join(".");
       }
     }
   }
 
-  // 직접 매핑: camelCase를 kebab-case로 변환
-  // 예: gray100 -> palette-gray-100
-  const matches = value.match(/^([a-z]+)(\d+)$/);
-  if (matches) {
-    const [, color, number] = matches;
-    return `palette-${color}-${number}`;
-  }
-
-  // static 색상 매핑: camelCase를 kebab-case로 변환
-  // 예: staticBlack -> palette-static-black
-  if (value.startsWith("static")) {
-    return `palette-${kebabCase(value)}`;
-  }
-
-  return value;
+  // mapping을 찾지 못한 경우 기본 palette 형식으로 변환
+  return `palette.${value}`;
 }
 
 const transform: Transform = (file, api, options) => {
@@ -81,11 +83,10 @@ const transform: Transform = (file, api, options) => {
         (attr) => attr.type === "JSXAttribute" && attr.name.name === "color",
       );
 
-      if (
-        colorAttr &&
-        colorAttr.type === "JSXAttribute" &&
-        colorAttr.value?.type === "StringLiteral"
-      ) {
+      if (!colorAttr || colorAttr.type !== "JSXAttribute") return;
+
+      if (colorAttr.value?.type === "StringLiteral") {
+        // 일반 문자열 값 처리
         const originalValue = colorAttr.value.value;
         const transformedValue = transformColorProp(originalValue);
 
@@ -96,6 +97,27 @@ const transform: Transform = (file, api, options) => {
             reporterInstance.addResult({
               previousToken: originalValue,
               nextToken: transformedValue,
+              status: "success",
+              line: colorAttr.loc?.start.line,
+            });
+          }
+        }
+      } else if (colorAttr.value?.type === "JSXExpressionContainer") {
+        // 조건부 표현식 처리
+        const expression = colorAttr.value.expression;
+        if (expression.type === "ConditionalExpression") {
+          // 조건부 표현식의 consequent(참일 때)와 alternate(거짓일 때) 모두 처리
+          if (expression.consequent.type === "StringLiteral") {
+            expression.consequent.value = transformColorProp(expression.consequent.value);
+          }
+          if (expression.alternate.type === "StringLiteral") {
+            expression.alternate.value = transformColorProp(expression.alternate.value);
+          }
+
+          if (reporterInstance) {
+            reporterInstance.addResult({
+              previousToken: "conditional expression",
+              nextToken: "transformed conditional expression",
               status: "success",
               line: colorAttr.loc?.start.line,
             });
