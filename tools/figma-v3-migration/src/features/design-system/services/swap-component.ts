@@ -271,8 +271,6 @@ export async function swapComponent(
       newComponentInfo,
     );
 
-    console.log("newVariants", newVariants);
-
     // variant 문자열 생성
     const targetVariantString = createVariantString(newVariants);
 

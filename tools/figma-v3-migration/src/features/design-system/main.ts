@@ -1,3 +1,7 @@
+import {
+  SYSTEM_COMPONENT_KEYS_ALL,
+  SYSTEM_COMPONENT_KEYS_V3_ONLY,
+} from "@/features/design-system/data/component";
 import { applyColorVariable } from "@/features/design-system/services/apply-color-variable";
 import { applyTextStyles } from "@/features/design-system/services/apply-text-style";
 import {
@@ -15,7 +19,6 @@ import {
 } from "@/features/design-system/services/get-unit-variable-suggestions";
 import { swapComponent } from "@/features/design-system/services/swap-component";
 import type {
-  SendPreferencesEventHandler,
   AnnounceSelectionsEventHandler,
   AnnounceTargetsEventHandler,
   ApplyColorVariableEventHandler,
@@ -27,6 +30,7 @@ import type {
   DebugEventHandler,
   FocusNodeEventHandler,
   NotifyEventHandler,
+  RequestAnnounceTargetsEventHandler,
   RequestColorSuggestionsEventHandler,
   RequestLayoutSuggestionsEventHandler,
   RequestSizingSuggestionsEventHandler,
@@ -34,6 +38,7 @@ import type {
   RequestTextStyleSuggestionsEventHandler,
   SendComponentInfoEventHandler,
   SendFigmaMetadataEventHandler,
+  SendPreferencesEventHandler,
   SuggestColorVariablesEventHandler,
   SuggestLayoutVariablesEventHandler,
   SuggestSizingVariablesEventHandler,
@@ -43,12 +48,14 @@ import type {
   SwapComponentEventHandler,
   SwapResultEventHandler,
   UpdatePreferencesEventHandler,
-  RequestAnnounceTargetsEventHandler,
 } from "@/features/design-system/types";
+import { logError, logEvent } from "@/features/design-system/utils/log";
 import {
   areSceneNodesWithinReferenceSceneNodes,
   serializeBaseNode,
 } from "@/features/design-system/utils/nodes";
+import { SETTINGS_KEY } from "@/shared/constants";
+import { DEFAULT_PREFERENCES } from "@/shared/contexts/PreferencesProvider";
 import {
   emit,
   loadSettingsAsync,
@@ -57,15 +64,8 @@ import {
   showUI,
 } from "@create-figma-plugin/utilities";
 import { getFigmaMetadata } from "./services/get-figma-metadata";
-import { getComponentSetKey, getSelectedComponentInfo } from "./services/get-selected-info";
+import { getSelectedComponentInfo } from "./services/get-selected-info";
 import { notify } from "./services/notify";
-import { logError, logEvent } from "@/features/design-system/utils/log";
-import { DEFAULT_PREFERENCES } from "@/shared/contexts/PreferencesProvider";
-import { SETTINGS_KEY } from "@/shared/constants";
-import {
-  SYSTEM_COMPONENT_KEYS_ALL,
-  SYSTEM_COMPONENT_KEYS_V3_ONLY,
-} from "@/features/design-system/data/component";
 
 export default async function () {
   showUI({ width: 500, height: 800 });

@@ -73,7 +73,7 @@ function Steps() {
         <div className="flex flex-col grow overflow-y-auto">
           <div className="flex gap-1.5 px-2 py-1 border-neutral-200 border-b items-center justify-between flex-wrap">
             <div className="flex gap-1.5 items-center">
-              <div className="font-semibold text-neutral-600">검사한 레이어</div>
+              <div className="text-neutral-600 text-[12px]">마이그레이션 대상 레이어</div>
               {targets.map((target) => (
                 <Tooltip key={target.id} label="레이어 선택">
                   <button
@@ -89,8 +89,8 @@ function Steps() {
               ))}
             </div>
             {!isSelectionsAndTargetsEqual && selections.length > 0 && (
-              <div className="flex gap-1 5 items-center">
-                <div className="font-semibold text-neutral-600">선택한 레이어</div>
+              <div className="flex gap-1.5 items-center">
+                <div className="text-neutral-600 text-[12px]">포커싱 된 레이어</div>
                 {selections.length === 1 ? (
                   <Tooltip label="레이어 검사">
                     <button
