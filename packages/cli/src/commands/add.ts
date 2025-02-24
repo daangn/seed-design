@@ -43,7 +43,7 @@ export const addCommand = (cli: CAC) => {
         default: BASE_URL,
       },
     )
-    .example("seed-design add box-button")
+    .example("seed-design add action-button")
     .example("seed-design add alert-dialog")
     .action(async (components, opts) => {
       p.intro(color.bgCyan("seed-design add"));
