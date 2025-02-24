@@ -1,5 +1,12 @@
 # @seed-design/stackflow
 
+## 0.0.1-rc.3
+
+### Patch Changes
+
+- Updated dependencies [cc4b2c5]
+  - @seed-design/css@0.0.1-rc.3
+
 ## 0.0.1-rc.1
 
 ### Patch Changes
