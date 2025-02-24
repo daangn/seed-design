@@ -2,7 +2,6 @@
 "@seed-design/stylesheet": patch
 ---
 
-feat!: change theming data attribute names (breaking change)
+feat: change theming data attribute names
 
-- theming에 사용되는 data attribute 이름을 변경합니다.
-- 유저가 선호하는 color scheme과 사전에 지정된 color mode를 구분하기 쉽도록 이름을 부여합니다.
+- Seed Design V3의 theming과 호환되도록 data attribute를 추가합니다.
