@@ -206,6 +206,8 @@
   --seed-scale-color-gray-700: #4d5159;
   --seed-scale-color-gray-800: #393a40;
   --seed-scale-color-gray-900: #212124;
+  --seed-scale-color-v3-gray-00: #ffffff;
+  --seed-scale-color-v3-gray-100: #f7f8f9;
   --seed-scale-color-carrot-50: #fff5f0;
   --seed-scale-color-carrot-100: #ffe2d2;
   --seed-scale-color-carrot-200: #ffd2b9;
@@ -358,6 +360,8 @@
   --seed-scale-color-gray-700: #adb1ba;
   --seed-scale-color-gray-800: #ced3de;
   --seed-scale-color-gray-900: #eaebee;
+  --seed-scale-color-v3-gray-00: #000000;
+  --seed-scale-color-v3-gray-100: #16171b;
   --seed-scale-color-carrot-50: #7a3814;
   --seed-scale-color-carrot-100: #974011;
   --seed-scale-color-carrot-200: #bf4c0d;
@@ -464,12 +468,12 @@
   --seed-semantic-color-warning-low: var(--seed-scale-color-yellow-alpha-50);
   --seed-semantic-color-danger: var(--seed-scale-color-red-400);
   --seed-semantic-color-danger-low: var(--seed-scale-color-red-alpha-50);
-  --seed-semantic-color-paper-sheet: var(--seed-scale-color-gray-50);
+  --seed-semantic-color-paper-sheet: var(--seed-scale-color-v3-gray-100);
   --seed-semantic-color-paper-dialog: var(--seed-scale-color-gray-100);
   --seed-semantic-color-paper-floating: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-00);
-  --seed-semantic-color-paper-default: var(--seed-scale-color-gray-50);
-  --seed-semantic-color-paper-background: var(--seed-scale-color-gray-00);
+  --seed-semantic-color-paper-contents: var(--seed-scale-color-v3-gray-00);
+  --seed-semantic-color-paper-default: var(--seed-scale-color-v3-gray-100);
+  --seed-semantic-color-paper-background: var(--seed-scale-color-v3-gray-00);
   --seed-semantic-color-paper-accent: var(--seed-scale-color-gray-100);
   --seed-semantic-color-primary-hover: var(--seed-scale-color-carrot-600);
   --seed-semantic-color-primary-pressed: var(--seed-scale-color-carrot-600);
