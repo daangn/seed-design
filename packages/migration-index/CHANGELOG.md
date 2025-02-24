@@ -1,5 +1,7 @@
 # @seed-design/migration-index
 
+## 0.0.1
+
 ## 0.0.1-rc.0
 
 ### Patch Changes

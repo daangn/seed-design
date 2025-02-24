@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-toggle",
-  "version": "0.0.1-rc.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "@radix-ui/react-use-controllable-state": "1.1.0",
-    "@seed-design/dom-utils": "0.0.1-rc.0",
-    "@seed-design/react-primitive": "0.0.1-rc.0"
+    "@seed-design/dom-utils": "0.0.1",
+    "@seed-design/react-primitive": "0.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.5"

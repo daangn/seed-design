@@ -1,5 +1,11 @@
 # @seed-design/cli
 
+## 0.0.1
+
+### Patch Changes
+
+- b64023c: Initial release of the next version of Seed Design.
+
 ## 0.0.0-alpha-20241204134404
 
 ### Patch Changes

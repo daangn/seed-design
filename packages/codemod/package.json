@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.12-rc.4",
+  "version": "0.0.12",
   "type": "module",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/migration-index": "0.0.1-rc.0",
+    "@seed-design/migration-index": "0.0.1",
     "cac": "^6.7.14",
     "es-toolkit": "^1.25.2",
     "execa": "^9.4.1",

@@ -1,5 +1,15 @@
 # @seed-design/stylesheet
 
+## 1.1.0
+
+### Patch Changes
+
+- 93cfc30: feat: change theming data attribute names
+
+  - Seed Design V3의 theming과 호환되도록 data attribute를 추가합니다.
+
+- 9c06ce7: V3 다크모드 배경색과 일치하도록 주요 배경 색상을 변경합니다.
+
 ## 1.0.4
 
 ### Patch Changes

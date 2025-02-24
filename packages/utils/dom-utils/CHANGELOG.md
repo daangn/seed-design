@@ -1,5 +1,11 @@
 # @seed-design/dom-utils
 
+## 0.0.1
+
+### Patch Changes
+
+- b64023c: Initial release of the next version of Seed Design.
+
 ## 0.0.1-rc.0
 
 ### Patch Changes
@@ -10,7 +16,7 @@
 
 ### Patch Changes
 
-- alpha 배포해요
+- alpha
 
 ## 0.0.0-alpha-20241004093556
 

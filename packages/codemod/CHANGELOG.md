@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.12
+
+### Patch Changes
+
+- @seed-design/migration-index@0.0.1
+
 ## 0.0.12-rc.4
 
 ### Patch Changes

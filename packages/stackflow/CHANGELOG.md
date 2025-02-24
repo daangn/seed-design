@@ -1,5 +1,22 @@
 # @seed-design/stackflow
 
+## 0.0.1
+
+### Patch Changes
+
+- b64023c: Initial release of the next version of Seed Design.
+- Updated dependencies [b64023c]
+  - @seed-design/css@0.0.1
+  - @seed-design/react-primitive@0.0.1
+  - @seed-design/dom-utils@0.0.1
+
+## 0.0.1-rc.4
+
+### Patch Changes
+
+- Updated dependencies [93cfc30]
+  - @seed-design/css@0.0.1-rc.4
+
 ## 0.0.1-rc.3
 
 ### Patch Changes
