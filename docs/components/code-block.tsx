@@ -34,10 +34,9 @@ export async function CodeBlock({
     Fragment,
     development: false,
     components: {
-      // @ts-expect-error -- JSX component
       pre: Base.Pre,
     },
-  });
+  }) as React.ReactElement;
 
   return (
     <Base.CodeBlock className="[&_.line]:min-h-[20px]" {...wrapper}>
