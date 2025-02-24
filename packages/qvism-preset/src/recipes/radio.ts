@@ -1,4 +1,4 @@
-import { radio as vars } from "@seed-design/css/vars/component";
+import { radio as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { checked, disabled, active, pseudo } from "../utils/pseudo";
 

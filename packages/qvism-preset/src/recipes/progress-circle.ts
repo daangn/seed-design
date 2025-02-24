@@ -1,4 +1,4 @@
-import { progressCircle as vars } from "@seed-design/css/vars/component";
+import { progressCircle as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 
 const progressCircle = defineRecipe({

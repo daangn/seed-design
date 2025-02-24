@@ -1,4 +1,4 @@
-import { inlineBanner as vars } from "@seed-design/css/vars/component";
+import { inlineBanner as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";

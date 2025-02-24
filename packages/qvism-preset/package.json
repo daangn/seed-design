@@ -1,6 +1,7 @@
 {
   "name": "@seed-design/qvism-preset",
   "version": "0.0.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -22,12 +23,11 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "rootage:generate": "bun rootage token-css ./src && bun run ./write-tokens.mjs",
+    "rootage:generate": "bun rootage token-css ./src && bun run ./write-tokens.mjs && bun rootage token-ts ./src/vars && rootage component-spec ./src/vars/component",
     "build": "bunchee",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@seed-design/css": "0.0.1-rc.3",
     "@seed-design/qvism-core": "0.0.0"
   },
   "publishConfig": {

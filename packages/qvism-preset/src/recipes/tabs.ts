@@ -1,4 +1,4 @@
-import { tablist as vars, tab as triggerVars } from "@seed-design/css/vars/component";
+import { tablist as vars, tab as triggerVars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { disabled, not, pseudo, selected } from "../utils/pseudo";
 

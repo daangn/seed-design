@@ -1,4 +1,4 @@
-import { avatarStack as vars } from "@seed-design/css/vars/component";
+import { avatarStack as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 

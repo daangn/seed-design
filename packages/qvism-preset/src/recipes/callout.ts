@@ -1,4 +1,4 @@
-import { callout as vars } from "@seed-design/css/vars/component";
+import { callout as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
