@@ -3,24 +3,22 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "linked": [
-    ["@seed-design/react", "@seed-design/stackflow", "@seed-design/css", "@seed-design/vite-plugin"]
+    [
+      "@seed-design/react",
+      "@seed-design/stackflow",
+      "@seed-design/css",
+      "@seed-design/vite-plugin",
+      "@seed-design/webpack-plugin"
+    ]
   ],
   "access": "restricted",
   "baseBranch": "dev",
   "updateInternalDependencies": "patch",
-  "ignore": [
-    "@seed-design/docs",
-    "@seed-design/qvism-cli",
-    "@seed-design/qvism-preset",
-    "@seed-design/stackflow-spa",
-    "@seed-design/figma-checklist-widget",
-    "@seed-design/figma-codegen",
-    "@seed-design/figma-contrast-checker",
-    "@seed-design/figma-expose-variables",
-    "@seed-design/figma-spec-widget",
-    "@seed-design/figma-v3-migration"
-  ],
   "snapshot": {
     "useCalculatedVersion": true
+  },
+  "privatePackages": {
+    "tag": false,
+    "version": false
   }
 }
