@@ -44,7 +44,6 @@ npx @seed-design/cli@latest init
 {
   "rsc": false,
   "tsx": true,
-  "css": true,
   "path": "./seed-design"
 }
 ```
@@ -91,7 +90,7 @@ seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경�
 
 리액트 서버 컴포넌트를 사용할지 여부를 설정해요.
 
-`true`로 설정하면 컴포넌트에 `use client` 코드가 추가돼요.
+`true`로 설정하면 컴포넌트에 `use client` directive가 추가돼요.
 
 ```json title="seed-design.json"
 {
