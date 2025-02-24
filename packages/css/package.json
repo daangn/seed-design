@@ -41,7 +41,8 @@
     },
     "./theming": {
       "types": "./theming/index.d.ts",
-      "import": "./theming/index.mjs"
+      "import": "./theming/index.mjs",
+      "require": "./theming/index.cjs"
     },
     "./package.json": "./package.json"
   },
