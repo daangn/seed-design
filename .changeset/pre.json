@@ -42,17 +42,25 @@
     "@seed-design/figma-codegen": "0.0.0",
     "@seed-design/figma-v3-migration": "0.0.0",
     "@seed-design/docs": "0.0.0",
-    "@seed-design/vite-plugin": "0.0.0"
+    "@seed-design/vite-plugin": "0.0.0",
+    "@seed-design/example-rspack": "1.0.0",
+    "@seed-design/webpack-plugin": "0.0.0"
   },
   "changesets": [
     "dirty-dragons-nail",
     "dirty-months-report",
+    "eight-pugs-switch",
     "empty-brooms-hammer",
     "fast-parrots-thank",
+    "five-humans-relax",
     "great-snakes-kick",
+    "lazy-socks-yawn",
     "moody-bananas-enjoy",
     "sharp-rabbits-sit",
     "shy-falcons-ring",
-    "wild-jobs-fail"
+    "silly-lizards-ring",
+    "stupid-horses-wash",
+    "wild-jobs-fail",
+    "witty-bottles-obey"
   ]
 }

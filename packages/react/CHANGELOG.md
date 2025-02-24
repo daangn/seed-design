@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 0.0.1-rc.4
+
+### Patch Changes
+
+- Updated dependencies [93cfc30]
+  - @seed-design/css@0.0.1-rc.4
+
 ## 0.0.1-rc.3
 
 ### Patch Changes

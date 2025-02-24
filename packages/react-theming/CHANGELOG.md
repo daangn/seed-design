@@ -1,5 +1,13 @@
 # @seed-design/react-theming
 
+## 2.1.5-rc.0
+
+### Patch Changes
+
+- 93cfc30: fix: inconsistent platform data attribute name
+
+  - `seedScaleLetterSpacing` -> `seedPlatform`
+
 ## 2.1.4
 
 ### Patch Changes
