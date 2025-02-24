@@ -15,6 +15,7 @@ import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
+import { ViteIcon, WebpackIcon } from "./tool-icon";
 
 const { ReactTypeTable } = createReactTypeTable();
 
@@ -34,6 +35,8 @@ export const mdxComponents = {
   Accordion,
   Accordions,
   AtomIcon,
+  WebpackIcon,
+  ViteIcon,
   StackflowExample,
   ReactTypeTable,
   ColorGrid,

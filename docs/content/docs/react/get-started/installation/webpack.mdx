@@ -1,6 +1,6 @@
 ---
-title: Vite
-description: vite 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
+title: Webpack
+description: Webpack 프로젝트에서 Seed Design을 설치하고 사용하는 방법을 알아봅니다.
 ---
 
 <Steps>
@@ -11,7 +11,7 @@ description: vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react @seed-design/css @seed-design/vite-plugin
+@seed-design/react @seed-design/css @seed-design/webpack-plugin
 ```
 
 </Step>
@@ -26,14 +26,14 @@ import "@seed-design/react/base.css";
 
 <Step>
 
-### vite config 설정하기
+### webpack config 설정하기
 
 ```ts title="vite.config.ts"
-+import { seedPlugin } from '@seed-design/vite-plugin';
++import { SeedDesignPlugin } from '@seed-design/webpack-plugin';
 
 export default defineConfig({
   plugins: [
-+    seedPlugin()
++    new SeedDesignPlugin()
   ]
 })
 ```

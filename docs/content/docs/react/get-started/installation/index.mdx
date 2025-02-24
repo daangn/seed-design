@@ -1,12 +1,178 @@
 ---
 title: Installation
+description: Seed Design을 설치하고 사용하는 방법을 알아봅니다.
 ---
 
-seed-design 컴포넌트를 사용하기 위한 설정들에 대해서 알아봐요.
+## 번들러 가이드
 
-### 프레임워크
+Seed Design은 Vite, Webpack 번들러 통합을 지원합니다. 각 번들러별 가이드를 제공합니다.
 
 <Cards>
-  <Card title="Vite" href="./installation/vite" />
-  <Card title="Next" href="./installation/next" />
+  <Card title="Vite" href="./installation/vite" icon={<ViteIcon />} />
+  <Card title="Webpack" href="./installation/webpack" icon={<WebpackIcon />} />
 </Cards>
+
+## 수동 설치 가이드
+
+Seed Design을 번들러 통합 없이 설치하고 사용하는 방법을 알아봅니다.
+
+<Steps>
+<Step>
+
+### 의존성 설치
+
+필요한 의존성들을 설치해요.
+
+```package-install
+@seed-design/react @seed-design/css
+```
+
+</Step>
+
+<Step>
+
+### index.html 수정하기
+
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
+속성을 통해 라이트/다크모드 전환을 해요.
+
+<Tabs items={['auto', 'light only', 'dark only']}>
+  <Tab value="auto">
+    ```tsx title="index.html" 
+    <html
+      data-seed // [!code highlight]
+      data-seed-scale-color="light" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="light dark" /> // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+  <Tab value="light only">
+    ```tsx title="index.html"
+    <html
+      data-seed="light-only" // [!code highlight]
+      data-seed-scale-color="light" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="light" /> // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+  <Tab value="dark only">
+    ```tsx title="index.html"
+    <html
+      data-seed="dark-only" // [!code highlight]
+      data-seed-scale-color="dark" // [!code highlight]
+      data-seed-scale-letter-spacing="ios" // [!code highlight]
+    >
+      <head>
+        <meta name="color-scheme" content="dark" />   // [!code highlight]
+        <!-- ... -->
+      </head>
+    </html>
+    ```
+  </Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+### all.css import하기
+
+<Callout>
+스타일시트 크기를 줄이기 위해 `base.css` 및 각 컴포넌트의 스타일시트를 따로 import할 수 있어요.
+번들러를 사용하는 경우 문서 상단의 번들러 가이드를 통해 컴포넌트 스타일시트를 자동으로 로드할 수 있어요.
+</Callout>
+
+```ts title="index.tsx"
+import "@seed-design/react/all.css";
+```
+</Step>
+
+<Step>
+
+### seed-design.json 생성하기
+
+<Tabs items={['CLI로 추가', '직접 추가']}>
+<Tab value="CLI로 추가">
+<Steps>
+<Step>
+
+### init 명령어 입력하기
+
+</Step>
+```sh
+npx @seed-design/cli@latest init
+```
+
+<Step>
+
+### seed-design 설정
+```sh
+◇  TypeScript를 사용중이신가요?
+│  Yes
+│
+◇  React Server Components를 사용중이신가요?
+│  No
+│
+◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
+│  ./seed-design
+```
+</Step>
+</Steps>
+</Tab>
+
+<Tab value="직접 추가">
+아래 파일을 프로젝트 루트에 생성해주세요.
+
+```json title="seed-design.json"
+{
+  "rsc": false,
+  "tsx": true,
+  "path": "./seed-design"
+}
+```
+</Tab>
+</Tabs>
+
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```sh
+npx @seed-design/cli@latest add action-button
+```
+
+</Step>
+
+<Step>
+
+
+### tsconfig.json 설정하기
+
+</Step>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    // your options
+    "paths": { // [!code highlight]
+      "seed-design/ui/*": [ // [!code highlight]
+        "./seed-design/ui/*" // [!code highlight]
+      ] // [!code highlight]
+    } // [!code highlight]
+  }
+}
+```
+
+
+</Steps>
