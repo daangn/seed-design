@@ -10,32 +10,32 @@ import { useCallback, useContext, useEffect, useState } from "preact/hooks";
 
 const availableSteps = [
   {
-    label: "컴포넌트",
+    label: "Components",
     value: "components",
     description: "V2 컴포넌트를 V3 컴포넌트로 마이그레이션합니다.",
   },
   {
-    label: "텍스트 스타일",
+    label: "Typography",
     value: "text-styles",
     description: "V2 텍스트 스타일을 V3 텍스트 스타일로 마이그레이션합니다.",
   },
   {
-    label: "색상",
+    label: "Colors",
     value: "colors",
     description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
   },
   {
-    label: "크기",
+    label: "Size",
     value: "sizings",
     description: "너비와 높이에 V3 Variable을 적용합니다.",
   },
   {
-    label: "레이아웃",
+    label: "Layout",
     value: "layouts",
     description: "padding, gap 등 오토 레이아웃 속성에 V3 Variable을 적용합니다.",
   },
   {
-    label: "스트로크 두께 및 radius",
+    label: "Stroke, Radius",
     value: "stroke-weight-and-corner-radius",
     description: "스트로크 두께와 radius에 V3 Variable을 적용합니다.",
   },

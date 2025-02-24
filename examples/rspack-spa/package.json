@@ -1,0 +1,27 @@
+{
+  "name": "@seed-design/example-rspack",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development rspack serve",
+    "build": "cross-env NODE_ENV=production rspack build"
+  },
+  "dependencies": {
+    "@seed-design/css": "0.0.1-rc.3",
+    "@seed-design/react": "0.0.1-rc.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.2.5",
+    "@rspack/core": "^1.2.5",
+    "@rspack/plugin-react-refresh": "^1.0.1",
+    "@seed-design/webpack-plugin": "0.0.0",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "cross-env": "^7.0.3",
+    "react-refresh": "^0.16.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

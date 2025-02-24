@@ -40,14 +40,19 @@
     "@seed-design/rootage-cli": "0.0.0",
     "@seed-design/rootage-core": "0.0.0",
     "@seed-design/figma-codegen": "0.0.0",
-    "@seed-design/figma-v3-migration": "0.0.0"
+    "@seed-design/figma-v3-migration": "0.0.0",
+    "@seed-design/docs": "0.0.0",
+    "@seed-design/vite-plugin": "0.0.0"
   },
   "changesets": [
     "dirty-dragons-nail",
     "dirty-months-report",
     "empty-brooms-hammer",
+    "fast-parrots-thank",
     "great-snakes-kick",
     "moody-bananas-enjoy",
-    "shy-falcons-ring"
+    "sharp-rabbits-sit",
+    "shy-falcons-ring",
+    "wild-jobs-fail"
   ]
 }

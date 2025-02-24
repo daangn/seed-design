@@ -1,7 +1,5 @@
 import { h } from "preact";
 
-import componentMappings from "@/features/design-system/mapping";
-
 import { ListItemButton } from "@/shared/components/list";
 import { Button } from "@create-figma-plugin/ui";
 import { useComponentsContext } from "./context";
@@ -11,8 +9,8 @@ export const NewComponentList = () => {
     useComponentsContext();
 
   return newComponents.length > 0 ? (
-    <ul className="flex flex-col overflow-y-auto">
-      <div className="sticky top-0 text-[10px] text-green-600 p-2 bg-white">
+    <ul className="flex flex-col overflow-y-auto h-[300px]">
+      <div className="sticky top-0 text-[10px] text-green-600 p-2 bg-white z-10">
         신규 컴포넌트 <span className="font-bold">{newComponents.length}개</span> 존재
       </div>
       {newComponents.map((newComponent) => {
@@ -52,27 +50,17 @@ export const OldComponentList = () => {
     swapComponent,
     selectedVariants,
     handleSelectComponent,
-    handleVariantSelect,
   } = useComponentsContext();
 
   return oldComponents.length > 0 ? (
-    <ul className="flex flex-col overflow-y-auto">
-      <div className="sticky top-0 text-[10px] p-2 bg-white">
+    <ul className="flex flex-col overflow-y-auto h-[300px]">
+      <div className="sticky top-0 text-[10px] p-2 bg-white z-10">
         이전 컴포넌트 <span className="font-bold">{oldComponents.length}개</span> 존재
       </div>
       {oldComponents.map((oldComponent) => {
         const swapResult = swapResults[oldComponent.id];
         const isSuccess = swapResult?.ok;
         const errorMessage = swapResult?.errorMessage;
-        const mapping = componentMappings.find((m) => m.oldComponent === oldComponent.name);
-
-        // 현재 컴포넌트의 variant 값들을 추출
-        const currentVariants = Object.entries(oldComponent.componentProperties)
-          .filter(([key, prop]) => prop.type === "VARIANT")
-          .reduce<Record<string, string>>((acc, [key, prop]) => {
-            acc[`${key}:${prop.value as string}`] = prop.value as string;
-            return acc;
-          }, {});
 
         const endElement = swapResult ? (
           isSuccess ? (
@@ -102,42 +90,6 @@ export const OldComponentList = () => {
               isFocused={selectedComponent?.id === oldComponent.id}
               className="last-of-type:border-b-[1px]"
             />
-
-            {/* Swappable Variants UI */}
-            {/* {mapping?.swappableVariants && (
-              <div className="ml-4 mt-2">
-                {mapping.swappableVariants.map((variant) => {
-                  if (currentVariants[variant.oldVariant]) {
-                    const variantKey = `${oldComponent.id}:${variant.oldVariant}`;
-                    return (
-                      <div key={variant.oldVariant} className="mb-2">
-                        <div className="text-sm text-neutral-600 mb-1">
-                          {variant.description || variant.oldVariant}
-                        </div>
-                        <select
-                          className="w-full p-1 border rounded"
-                          value={selectedVariants[variantKey] || variant.newVariants[0]}
-                          onChange={(e) =>
-                            handleVariantSelect(
-                              oldComponent.id,
-                              variant.oldVariant,
-                              e.currentTarget.value,
-                            )
-                          }
-                        >
-                          {variant.newVariants.map((newVariant) => (
-                            <option key={newVariant} value={newVariant}>
-                              {newVariant}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            )} */}
           </div>
         );
       })}

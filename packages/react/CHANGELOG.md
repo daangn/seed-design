@@ -1,5 +1,15 @@
 # @seed-design/react
 
+## 0.0.1-rc.3
+
+### Patch Changes
+
+- cc4b2c5: fix: externalize subpath imports from `@seed-design/css`
+  refactor: streamline package configurations
+  refactor(qvism): generate recipe-shared module from cli
+- Updated dependencies [cc4b2c5]
+  - @seed-design/css@0.0.1-rc.3
+
 ## 0.0.1-rc.2
 
 ### Patch Changes
