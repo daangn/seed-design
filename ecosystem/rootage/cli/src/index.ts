@@ -165,30 +165,31 @@ async function writeTokenCss() {
     },
     {
       prefix: PREFIX,
-      banner: `:root[data-seed] {
+      banner: `:root, [data-seed-color-mode="system"] {
   color-scheme: light dark;
 }
 
-:root[data-seed="light-only"] {
+[data-seed-color-mode="light-only"] {
   color-scheme: light;
 }
 
-:root[data-seed="dark-only"] {
+[data-seed-color-mode="dark-only"] {
   color-scheme: dark;
 }
 
 `,
       selectors: {
         global: {
-          default: ":root[data-seed]",
+          default: ":root",
         },
         color: {
-          "theme-light": `:root[data-seed][data-seed="light-only"][data-seed-scale-color="dark"],
-:root[data-seed][data-seed-scale-color="light"]:not([data-seed="dark-only"]),
-:root[data-seed]:not([data-seed="dark-only"]) [data-seed-scale-color="light"]`,
-          "theme-dark": `:root[data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
-:root[data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
-:root[data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"]`,
+          "theme-light": `:root,
+:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
+:root[data-seed-color-mode="light-only"],
+:root [data-seed-color-mode="light-only"]`,
+          "theme-dark": `:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
+:root[data-seed-color-mode="dark-only"],
+:root [data-seed-color-mode="dark-only"]`,
         },
       },
     },

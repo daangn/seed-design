@@ -8,7 +8,7 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue }) => {
   return `
     (function(window, document, mode) {
       try {
-        document.documentElement.dataset.seed = mode;
+        document.documentElement.dataset.seedColorMode = mode;
       } catch (e) {}
 
       try {
@@ -21,13 +21,13 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue }) => {
         }
 
         if (prefersDark.matches) {
-          document.documentElement.dataset.seedScaleColor = 'dark';
+          document.documentElement.dataset.seedUserColorScheme = 'dark';
         } else {
-          document.documentElement.dataset.seedScaleColor = 'light';
+          document.documentElement.dataset.seedUserColorScheme = 'light';
         }
 
         function apply() {
-          document.documentElement.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
+          document.documentElement.dataset.seedUserColorScheme = prefersDark.matches ? 'dark' : 'light';
         }
       } catch (e) {}
 

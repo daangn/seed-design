@@ -6,6 +6,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
   <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+  <script>
+    // Mixed version test between legacy and latest stylesheet
+    // Uncomment the following line to test with legacy theming script
+    // (function () {
+    //   var b = document.documentElement;
+    //   b.dataset.seed = "";
+    //   var pd = window.matchMedia("(prefers-color-scheme: dark)"),
+    //     a = () => {
+    //       b.dataset.seedScaleColor = pd.matches ? "dark" : "light";
+    //     };
+    //   "addEventListener" in pd
+    //     ? pd.addEventListener("change", a)
+    //     : "addListener" in pd && pd.addListener(a),
+    //     a();
+    // })();
+  </script>
 </head>
 
 <body>

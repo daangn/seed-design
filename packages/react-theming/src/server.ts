@@ -35,7 +35,7 @@ export const generateNoFlashScript = ({ mode = "auto" }: { mode?: ColorMode }) =
 
 				function apply() {
 					document.documentElement.dataset.seedScaleColor = prefersDark.matches ? 'dark' : 'light';
-					document.documentElement.dataset.seedScaleLetterSpacing = 'ios';
+					document.documentElement.dataset.seedPlatform = 'ios';
 				}
 			} catch (e) {}
 

@@ -188,6 +188,10 @@
   --seed-semantic-typography-label6-regular-line-height: var(--seed-static-line-height-static-small);
 }
 
+:root,
+:root[data-seed-user-color-scheme="light"],
+:root[data-seed-color-mode="light-only"],
+:root [data-seed-color-mode="light-only"],
 :root[data-seed][data-seed="light-only"][data-seed-scale-color="dark"],
 :root[data-seed][data-seed-scale-color="light"]:not([data-seed="dark-only"]),
 :root[data-seed]:not([data-seed="dark-only"]) [data-seed-scale-color="light"] {
@@ -337,6 +341,9 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-700);
 }
 
+:root[data-seed-user-color-scheme="dark"],
+:root[data-seed-color-mode="dark-only"],
+:root [data-seed-color-mode="dark-only"],
 :root[data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
 :root[data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
 :root[data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
@@ -486,6 +493,8 @@
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
 }
 
+:root,
+:root[data-seed-platform="ios"],
 :root[data-seed][data-seed-scale-letter-spacing="ios"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
@@ -531,6 +540,7 @@
   --seed-semantic-typography-label6-regular-letter-spacing: var(--seed-scale-letter-spacing-none);
 }
 
+:root[data-seed-platform="android"],
 :root[data-seed][data-seed-scale-letter-spacing="android"] {
   --seed-scale-letter-spacing-none: 0em;
   --seed-scale-letter-spacing-narrow-200: -0.02em;
