@@ -42,6 +42,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivitySwipeableTabs: React.lazy(() => import("../activities/ActivitySwipeableTabs")),
     ActivitySegmentedControl: React.lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivityPartialDarkMode: React.lazy(() => import("../activities/ActivityPartialDarkMode")),
+    ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
     ActivityNotFound,
   },
   plugins: [
@@ -76,6 +77,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityAnimatedTabs: "/animated-tabs",
         ActivitySegmentedControl: "/segmented-control",
         ActivityPartialDarkMode: "/partial-dark-mode",
+        ActivityMixedVersionTest: "/mixed-version-test",
         ActivityNotFound: "/404",
       },
     }),
