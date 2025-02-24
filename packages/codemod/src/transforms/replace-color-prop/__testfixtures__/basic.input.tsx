@@ -12,6 +12,9 @@ const Component = () => {
       <Text color="staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
       <Text color="staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
       <Text color="onPrimary" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color={isSelected ? "onPrimary" : "primary"} />
+      <Text color={isSelected ? 'primary' : 'gray900'}  />
+      <Text color={isSelected ? 'carrot600' : 'blue600'}  />
     </>
   );
 };
