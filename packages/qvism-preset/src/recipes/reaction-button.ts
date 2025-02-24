@@ -1,4 +1,4 @@
-import { reactionButton as vars } from "@seed-design/css/vars/component";
+import { reactionButton as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { prefixIcon } from "../utils/icon";

@@ -1,4 +1,4 @@
-import { checkbox as vars } from "@seed-design/css/vars/component";
+import { checkbox as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { active, checkedOrIndeterminate, disabled, pseudo } from "../utils/pseudo";
 

@@ -1,4 +1,4 @@
-import { switch as vars } from "@seed-design/css/vars/component";
+import { switch as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { checked, disabled, pseudo } from "../utils/pseudo";
 

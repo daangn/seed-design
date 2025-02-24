@@ -1,4 +1,4 @@
-import { fab as vars } from "@seed-design/css/vars/component";
+import { fab as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { active, disabled, focus, pseudo } from "../utils/pseudo";

@@ -1,0 +1,13 @@
+export const t1 = "var(--seed-font-size-t1)";
+export const t2 = "var(--seed-font-size-t2)";
+export const t3 = "var(--seed-font-size-t3)";
+export const t4 = "var(--seed-font-size-t4)";
+export const t5 = "var(--seed-font-size-t5)";
+export const t6 = "var(--seed-font-size-t6)";
+export const t7 = "var(--seed-font-size-t7)";
+export const t8 = "var(--seed-font-size-t8)";
+export const t9 = "var(--seed-font-size-t9)";
+export const t10 = "var(--seed-font-size-t10)";
+export const t2Static = "var(--seed-font-size-t2-static)";
+export const t5Static = "var(--seed-font-size-t5-static)";
+export const t6Static = "var(--seed-font-size-t6-static)";

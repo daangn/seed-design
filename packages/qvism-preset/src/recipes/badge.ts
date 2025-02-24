@@ -1,4 +1,4 @@
-import { badge as vars } from "@seed-design/css/vars/component";
+import { badge as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 
 const badge = defineRecipe({

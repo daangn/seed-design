@@ -1,7 +1,7 @@
 import {
   extendedActionSheet as vars,
   extendedActionSheetCloseButton as closeVars,
-} from "@seed-design/css/vars/component";
+} from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";

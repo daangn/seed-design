@@ -1,4 +1,4 @@
-import { snackbar as vars } from "@seed-design/css/vars/component";
+import { snackbar as vars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 

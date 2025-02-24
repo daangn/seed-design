@@ -1,7 +1,4 @@
-import {
-  actionSheetCloseButton as closeVars,
-  actionSheet as vars,
-} from "@seed-design/css/vars/component";
+import { actionSheetCloseButton as closeVars, actionSheet as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";

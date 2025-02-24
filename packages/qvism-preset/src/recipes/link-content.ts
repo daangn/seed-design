@@ -1,4 +1,4 @@
-import { linkContent as vars } from "@seed-design/css/vars/component";
+import { linkContent as vars } from "../vars/component";
 
 import { defineRecipe } from "../utils/define";
 import { suffixIcon } from "../utils/icon";

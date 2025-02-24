@@ -1,5 +1,5 @@
 import { vars } from "@seed-design/css/vars";
-import { topNavigation as navVars } from "@seed-design/css/vars/component";
+import { topNavigation as navVars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
