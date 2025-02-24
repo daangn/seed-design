@@ -123,11 +123,12 @@
       "name": "@seed-design/qvism-cli",
       "version": "0.0.0",
       "bin": {
-        "qvism": "./bin/index.mjs",
+        "qvism": "./bin/qvism.mjs",
       },
       "dependencies": {
         "@seed-design/qvism-core": "0.0.0",
-        "@seed-design/qvism-preset": "0.0.0",
+        "cac": "^6.7.14",
+        "cosmiconfig": "^9.0.0",
         "fs-extra": "^11.1.1",
       },
       "devDependencies": {
@@ -303,6 +304,9 @@
     "packages/css": {
       "name": "@seed-design/css",
       "version": "0.0.1-rc.3",
+      "devDependencies": {
+        "@seed-design/qvism-preset": "0.0.0",
+      },
     },
     "packages/design-token": {
       "name": "@seed-design/design-token",
@@ -319,7 +323,6 @@
       "name": "@seed-design/qvism-preset",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/css": "0.0.1-rc.3",
         "@seed-design/qvism-core": "0.0.0",
       },
     },
