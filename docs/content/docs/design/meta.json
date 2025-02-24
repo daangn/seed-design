@@ -6,6 +6,7 @@
   "pages": [
     "---Overview---",
     "index",
+    "migration",
     "---Foundation---",
     "...foundation",
     "---Components---",
