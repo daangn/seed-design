@@ -134,5 +134,5 @@ async function renderMarkdown(md: string): Promise<React.ReactElement> {
     jsxs: runtime.jsxs as Jsx,
     // @ts-ignore
     components: { ...defaultMdxComponents, img: undefined },
-  });
+  }) as React.ReactElement;
 }
