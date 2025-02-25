@@ -1,3 +1,3 @@
-import type { FoundationTokenMapping } from "./index";
+import type { FoundationTokenMapping } from "./types";
 
 export declare const typographyMappings: FoundationTokenMapping[];

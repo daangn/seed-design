@@ -6,14 +6,16 @@
     "url": "git+https://github.com/daangn/seed-design.git",
     "directory": "packages/migration-index"
   },
-  "main": "./index.js",
+  "type": "module",
+  "main": "./index.mjs",
   "types": "./index.d.ts",
   "files": [
     "*"
   ],
   "exports": {
     ".": {
-      "types": "./index.d.ts"
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
     },
     "./color": {
       "types": "./color.d.ts",
@@ -22,6 +24,10 @@
     "./typography": {
       "types": "./typography.d.ts",
       "import": "./typography.mjs"
+    },
+    "./iconography": {
+      "types": "./iconography.d.ts",
+      "import": "./iconography.mjs"
     }
   },
   "publishConfig": {
