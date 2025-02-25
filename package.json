@@ -20,7 +20,7 @@
     "lint:publish": "bun --filter '*' lint:publish",
     "lint:knip": "knip",
     "release": "bun packages:build && bun changeset publish",
-    "version": "changeset version && bun packages:build && bun install --no-immutable",
+    "version": "changeset version && bun install --no-immutable",
     "format:all": "bun biome format --fix",
     "test:all": "bun vitest run",
     "generate:all": "bun rootage:generate && bun qvism:generate",
