@@ -1,5 +1,5 @@
 {
   "title": "Colors",
   "defaultOpen": true,
-  "pages": ["color-system", "color-role", "palette", "migration-to-v3"]
+  "pages": ["color-system", "color-role", "palette"]
 }
