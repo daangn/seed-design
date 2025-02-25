@@ -33,20 +33,41 @@ Seed Design을 번들러 통합 없이 설치하고 사용하는 방법을 알�
 
 ### index.html 수정하기
 
-Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-scale-color`
+Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `data-seed-user-color-scheme`
 속성을 통해 라이트/다크모드 전환을 해요.
 
 <Tabs items={['auto', 'light only', 'dark only']}>
-  <Tab value="auto">
+  <Tab value="system">
     ```tsx title="index.html" 
     <html
       data-seed // [!code highlight]
-      data-seed-scale-color="light" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
+      data-seed-color-mode="system" // [!code highlight]
+      data-seed-user-color-scheme="light" // [!code highlight]
     >
       <head>
         <meta name="color-scheme" content="light dark" /> // [!code highlight]
-        <!-- ... -->
+        <script>
+        /* user-color-scheme 설정 스크립트, 필요에 따라 수정하세요 */
+        try {
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+          if ('addEventListener' in prefersDark) {
+            prefersDark.addEventListener('change', apply);
+          } else if ('addListener' in prefersDark) {
+            prefersDark.addListener(apply);
+          }
+
+          if (prefersDark.matches) {
+            document.documentElement.dataset.seedUserColorScheme = 'dark';
+          } else {
+            document.documentElement.dataset.seedUserColorScheme = 'light';
+          }
+
+          function apply() {
+            document.documentElement.dataset.seedUserColorScheme = prefersDark.matches ? 'dark' : 'light';
+          }
+        } catch (e) {}
+        </script>
       </head>
     </html>
     ```
@@ -54,9 +75,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
   <Tab value="light only">
     ```tsx title="index.html"
     <html
-      data-seed="light-only" // [!code highlight]
-      data-seed-scale-color="light" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
+      data-seed // [!code highlight]
+      data-seed-color-mode="light-only" // [!code highlight]
     >
       <head>
         <meta name="color-scheme" content="light" /> // [!code highlight]
@@ -68,9 +88,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed`, `data-seed-sca
   <Tab value="dark only">
     ```tsx title="index.html"
     <html
-      data-seed="dark-only" // [!code highlight]
-      data-seed-scale-color="dark" // [!code highlight]
-      data-seed-scale-letter-spacing="ios" // [!code highlight]
+      data-seed // [!code highlight]
+      data-seed-color-mode="dark-only" // [!code highlight]
     >
       <head>
         <meta name="color-scheme" content="dark" />   // [!code highlight]

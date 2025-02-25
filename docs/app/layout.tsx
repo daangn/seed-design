@@ -19,7 +19,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       lang="ko"
       className={inter.className}
       data-seed
-      data-seed-scale-color="light"
+      data-seed-user-color-scheme="light"
+      data-seed-color-mode="system"
       suppressHydrationWarning
     >
       <head>
