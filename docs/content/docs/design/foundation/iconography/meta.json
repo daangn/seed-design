@@ -1,5 +1,5 @@
 {
   "title": "Iconography",
   "defaultOpen": true,
-  "pages": ["overview", "usage", "library", "migration-index"]
+  "pages": ["overview", "usage", "library"]
 }
