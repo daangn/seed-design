@@ -10,8 +10,14 @@ export const SeedThemeDecorator: Decorator = (Story, ctx) => {
 
     // theme
 
-    document.documentElement.setAttribute("data-seed", isDarkTheme ? "dark-only" : "light-only");
-    document.documentElement.setAttribute("data-seed-scale-color", isDarkTheme ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-seed-color-mode",
+      isDarkTheme ? "dark-only" : "light-only",
+    );
+    document.documentElement.setAttribute(
+      "data-seed-user-color-scheme",
+      isDarkTheme ? "dark" : "light",
+    );
 
     // font scale
 
