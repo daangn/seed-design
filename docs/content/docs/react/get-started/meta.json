@@ -1,4 +1,4 @@
 {
   "title": "Get started",
-  "pages": ["cli", "seed-design-json", "migration"]
+  "pages": ["installation", "cli", "seed-design-json", "migration"]
 }
