@@ -468,12 +468,12 @@
   --seed-semantic-color-warning-low: var(--seed-scale-color-yellow-alpha-50);
   --seed-semantic-color-danger: var(--seed-scale-color-red-400);
   --seed-semantic-color-danger-low: var(--seed-scale-color-red-alpha-50);
-  --seed-semantic-color-paper-sheet: var(--seed-scale-color-v3-gray-100);
+  --seed-semantic-color-paper-sheet: var(--seed-scale-color-gray-50);
   --seed-semantic-color-paper-dialog: var(--seed-scale-color-gray-100);
   --seed-semantic-color-paper-floating: var(--seed-scale-color-gray-100);
-  --seed-semantic-color-paper-contents: var(--seed-scale-color-v3-gray-00);
-  --seed-semantic-color-paper-default: var(--seed-scale-color-v3-gray-100);
-  --seed-semantic-color-paper-background: var(--seed-scale-color-v3-gray-00);
+  --seed-semantic-color-paper-contents: var(--seed-scale-color-gray-00);
+  --seed-semantic-color-paper-default: var(--seed-scale-color-gray-50);
+  --seed-semantic-color-paper-background: var(--seed-scale-color-gray-00);
   --seed-semantic-color-paper-accent: var(--seed-scale-color-gray-100);
   --seed-semantic-color-primary-hover: var(--seed-scale-color-carrot-600);
   --seed-semantic-color-primary-pressed: var(--seed-scale-color-carrot-600);
@@ -495,6 +495,19 @@
   --seed-semantic-color-ink-text: var(--seed-scale-color-gray-900);
   --seed-semantic-color-ink-text-low: var(--seed-scale-color-gray-600);
   --seed-semantic-color-gray-active: var(--seed-scale-color-gray-100);
+}
+
+/* V3 Compat layer */
+:root[data-seed-v3-compat][data-seed-user-color-scheme="dark"],
+:root[data-seed-v3-compat][data-seed-color-mode="dark-only"],
+:root[data-seed-v3-compat] [data-seed-color-mode="dark-only"],
+:root[data-seed-v3-compat][data-seed][data-seed="dark-only"][data-seed-scale-color="light"],
+:root[data-seed-v3-compat][data-seed][data-seed-scale-color="dark"]:not([data-seed="light-only"]),
+:root[data-seed-v3-compat][data-seed]:not([data-seed="light-only"]) [data-seed-scale-color="dark"] {
+  --seed-semantic-color-paper-sheet: var(--seed-scale-color-v3-gray-100);
+  --seed-semantic-color-paper-contents: var(--seed-scale-color-v3-gray-00);
+  --seed-semantic-color-paper-default: var(--seed-scale-color-v3-gray-100);
+  --seed-semantic-color-paper-background: var(--seed-scale-color-v3-gray-00);
 }
 
 :root,
