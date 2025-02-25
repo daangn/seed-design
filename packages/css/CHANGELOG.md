@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.2
+
+### Patch Changes
+
+- d04e344: theming script의 color mode data attribute 수정
+
 ## 0.0.1
 
 ### Patch Changes
