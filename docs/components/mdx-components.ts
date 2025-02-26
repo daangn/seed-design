@@ -13,6 +13,7 @@ import defaultMdxComponents from "fumadocs-ui/mdx";
 import { AtomIcon } from "lucide-react";
 import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
+import { IconographyMigrationIndex } from "./migration/iconography-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
@@ -46,4 +47,5 @@ export const mdxComponents = {
   IconLibrary,
   ColorMigrationIndex,
   TypographyMigrationIndex,
+  IconographyMigrationIndex,
 };

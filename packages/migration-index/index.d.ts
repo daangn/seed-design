@@ -1,6 +1,10 @@
-export interface FoundationTokenMapping {
-  previous: string;
-  next: string[];
-  description?: string;
-  alternative?: string[];
-}
+export {
+  colorMappings,
+  scaleColorMappings,
+  semanticColorMappings,
+  staticColorMappings,
+} from "./color";
+export { iconMappings, monochromeIconMappings, multicolorIconMappings } from "./iconography";
+export { typographyMappings } from "./typography";
+
+export type { FoundationTokenMapping } from "./types";
