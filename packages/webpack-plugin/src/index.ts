@@ -63,19 +63,14 @@ export class SeedDesignPlugin {
     let html = input;
 
     // 1) <meta name="color-scheme">
+    // 2) Theming script
     if (this.injectColorSchemeTag) {
       html = html.replace(
         /<head(\s[^>]*)?>/i,
         (_m, attrs) =>
-          `<head${attrs || ""}>\n<meta name="color-scheme" content="${this.colorScheme}">`,
+          `<head${attrs || ""}>\n<meta name="color-scheme" content="${this.colorScheme}">\n<script>${this.themingScript}</script>`,
       );
     }
-
-    // 2) Theming script in <body>
-    html = html.replace(
-      /<body(\s[^>]*)?>/i,
-      (_m, attrs) => `<body${attrs || ""}>\n<script>${this.themingScript}</script>`,
-    );
 
     return html;
   }
