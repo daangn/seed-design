@@ -8,7 +8,8 @@
       "@seed-design/stackflow",
       "@seed-design/css",
       "@seed-design/vite-plugin",
-      "@seed-design/webpack-plugin"
+      "@seed-design/webpack-plugin",
+      "@seed-design/rsbuild-plugin"
     ]
   ],
   "access": "restricted",

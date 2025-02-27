@@ -1,0 +1,43 @@
+{
+  "name": "@seed-design/rsbuild-plugin",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/rsbuild-plugin"
+  },
+  "author": "Asher <asher@daangn.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "main": "./lib/index.cjs",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "src",
+    "seed-recipe-loader.js"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@rsbuild/core": "^1.2.12",
+    "@seed-design/css": "^0.0.2"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "^1.1.0",
+    "@seed-design/css": "^0.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
