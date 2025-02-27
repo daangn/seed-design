@@ -8,6 +8,7 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue }) => {
   return `
     (function(window, document, mode) {
       try {
+        document.documentElement.dataset.seed = '';
         document.documentElement.dataset.seedColorMode = mode;
       } catch (e) {}
 
