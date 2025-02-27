@@ -24,7 +24,7 @@ interface Options {
   injectColorSchemeTag?: boolean;
 }
 
-export function seedPlugin(options: Options = {}): Plugin {
+export function seedDesignPlugin(options: Options = {}): Plugin {
   const { colorMode = "system", injectColorSchemeTag = true } = options;
 
   const colorScheme = {
