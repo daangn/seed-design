@@ -1,4 +1,4 @@
-import { seedPlugin } from "@seed-design/vite-plugin";
+import { seedDesignPlugin } from "@seed-design/vite-plugin";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react-swc";
@@ -39,7 +39,7 @@ export default defineConfig({
 
     vanillaExtractPlugin(),
 
-    seedPlugin(),
+    seedDesignPlugin(),
 
     process.env.VISUALIZER
       ? visualizer({
