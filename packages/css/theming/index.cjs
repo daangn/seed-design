@@ -8,7 +8,7 @@ function generateThemingScript({ mode = DefaultColorModeValue }) {
   return `
     (function(window, document, mode) {
       try {
-        document.documentElement.dataset.seed = mode;
+        document.documentElement.dataset.seedColorMode = mode;
       } catch (e) {}
 
       try {
