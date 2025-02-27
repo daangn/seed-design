@@ -60,10 +60,9 @@ export class SeedDesignPlugin {
   }
 
   private transformHtml(input: string): string {
-    // 1) data-seed on <html>
-    let html = input.replace(/<html(\s[^>]*)?>/i, (_m, attrs) => `<html${attrs || ""} data-seed>`);
+    let html = input;
 
-    // 2) <meta name="color-scheme">
+    // 1) <meta name="color-scheme">
     if (this.injectColorSchemeTag) {
       html = html.replace(
         /<head(\s[^>]*)?>/i,
@@ -72,7 +71,7 @@ export class SeedDesignPlugin {
       );
     }
 
-    // 3) Theming script in <body>
+    // 2) Theming script in <body>
     html = html.replace(
       /<body(\s[^>]*)?>/i,
       (_m, attrs) => `<body${attrs || ""}>\n<script>${this.themingScript}</script>`,

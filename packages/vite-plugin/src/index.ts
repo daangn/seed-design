@@ -62,10 +62,7 @@ export function seedPlugin(options: Options = {}): Plugin {
     },
 
     transformIndexHtml(html) {
-      // 1. Set data-seed on <html> tag.
-      const seedHtml = html.replace(/<html(.*?)>/i, (_match, attrs) => `<html${attrs} data-seed>`);
-
-      // 2. Inject meta tag right after the opening <head> tag.
+      // 1. Inject meta tag inside <head> tag.
       const colorSchemeTagDescriptor: HtmlTagDescriptor = {
         tag: "meta",
         attrs: {
@@ -75,7 +72,7 @@ export function seedPlugin(options: Options = {}): Plugin {
         injectTo: "head",
       };
 
-      // 3. Inject the theming script at the beginning of <body>.
+      // 2. Inject the theming script at the beginning of <body>.
       const themeScriptTagDescriptor: HtmlTagDescriptor = {
         tag: "script",
         children: themeScript,
@@ -83,7 +80,7 @@ export function seedPlugin(options: Options = {}): Plugin {
       };
 
       return {
-        html: seedHtml,
+        html,
         tags: injectColorSchemeTag
           ? [colorSchemeTagDescriptor, themeScriptTagDescriptor]
           : [themeScriptTagDescriptor],
