@@ -7,7 +7,7 @@ export interface IdentityPlaceholderProps
   extends SeedIdentityPlaceholder.RootProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/identity-placeholder
+ * @see https://seed-design.io/docs/react/components/identity-placeholder
  */
 export const IdentityPlaceholder = React.forwardRef<
   HTMLDivElement,

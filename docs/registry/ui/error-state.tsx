@@ -36,7 +36,7 @@ const descriptionTextStyle = {
 } as const;
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/error-state
+ * @see https://seed-design.io/docs/react/components/error-state
  */
 export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>(
   (props, ref) => {

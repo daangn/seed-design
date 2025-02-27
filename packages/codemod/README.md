@@ -55,7 +55,7 @@ npx @seed-design/codemod migrate-icons src/ui --extensions=ts,tsx
 > [!CAUTION]
 >
 > - [import assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-3.html#import-attributes) 등 deprecated된 문법이 있으면 파서에 따라 파싱 오류가 표시될 수 있어요.
-> - 마이그레이션 이후 [사이드 이펙트](https://v3.seed-design.io/docs/react/foundation/iconography/upgrade#발생-가능한-사이드-이펙트)가 발생할 수 있어요.
+> - 마이그레이션 이후 [사이드 이펙트](https://seed-design.io/docs/react/foundation/iconography/upgrade#발생-가능한-사이드-이펙트)가 발생할 수 있어요.
 
 ## 테스트
 

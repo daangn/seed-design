@@ -7,7 +7,7 @@ export interface ExtendedActionSheetRootProps
   extends SeedExtendedActionSheet.RootProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/extended-action-sheet
+ * @see https://seed-design.io/docs/react/components/extended-action-sheet
  */
 export const ExtendedActionSheetRoot = (
   props: ExtendedActionSheetRootProps,

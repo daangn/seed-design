@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 export interface AlertDialogRootProps extends Dialog.RootProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/stackflow/alert-dialog
+ * @see https://seed-design.io/docs/react/components/stackflow/alert-dialog
  */
 export const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {
   return (

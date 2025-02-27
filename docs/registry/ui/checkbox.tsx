@@ -14,7 +14,7 @@ export interface CheckboxProps extends SeedCheckbox.RootProps {
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/checkbox
+ * @see https://seed-design.io/docs/react/components/checkbox
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ inputProps, rootRef, label, variant = "square", ...otherProps }, ref) => {

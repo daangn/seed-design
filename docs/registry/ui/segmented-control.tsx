@@ -9,7 +9,7 @@ import * as React from "react";
 export interface SegmentedControlProps extends SeedSegmentedControl.RootProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/segmented-control
+ * @see https://seed-design.io/docs/react/components/segmented-control
  */
 export const SegmentedControl = React.forwardRef<
   HTMLDivElement,
@@ -51,7 +51,7 @@ export interface SegmentedControlItemProps
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/segmented-control#segmentedcontrolitem
+ * @see https://seed-design.io/docs/react/components/segmented-control#segmentedcontrolitem
  */
 export const SegmentedControlItem = React.forwardRef<
   HTMLInputElement,

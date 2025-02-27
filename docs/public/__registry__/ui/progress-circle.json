@@ -7,7 +7,7 @@
     {
       "name": "progress-circle.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport { ProgressCircle as SeedProgressCircle } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface ProgressCircleProps extends SeedProgressCircle.RootProps {}\n\n/**\n * @see https://v3.seed-design.io/docs/react/components/progress-circle\n */\nexport const ProgressCircle = React.forwardRef<\n  SVGSVGElement,\n  ProgressCircleProps\n>((props, ref) => {\n  return (\n    <SeedProgressCircle.Root ref={ref} {...props}>\n      <SeedProgressCircle.Track />\n      <SeedProgressCircle.Range />\n    </SeedProgressCircle.Root>\n  );\n});\n\nProgressCircle.displayName = \"ProgressCircle\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "content": "\"use client\";\n\nimport { ProgressCircle as SeedProgressCircle } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface ProgressCircleProps extends SeedProgressCircle.RootProps {}\n\n/**\n * @see https://seed-design.io/docs/react/components/progress-circle\n */\nexport const ProgressCircle = React.forwardRef<\n  SVGSVGElement,\n  ProgressCircleProps\n>((props, ref) => {\n  return (\n    <SeedProgressCircle.Root ref={ref} {...props}>\n      <SeedProgressCircle.Track />\n      <SeedProgressCircle.Range />\n    </SeedProgressCircle.Root>\n  );\n});\n\nProgressCircle.displayName = \"ProgressCircle\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]
 }

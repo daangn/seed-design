@@ -10,7 +10,7 @@ export interface LoadingIndicatorProps extends Omit<SeedLoadingIndicatorProps, "
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/loading-indicator
+ * @see https://seed-design.io/docs/react/components/loading-indicator
  */
 export const LoadingIndicator = React.forwardRef<
   React.ElementRef<typeof SeedLoadingIndicator>,

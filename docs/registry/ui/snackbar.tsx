@@ -49,7 +49,7 @@ export interface SnackbarProps extends SeedSnackbar.RootProps {
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/snackbar
+ * @see https://seed-design.io/docs/react/components/snackbar
  */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
   (

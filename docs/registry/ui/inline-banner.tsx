@@ -27,7 +27,7 @@ export interface InlineBannerProps
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/inline-banner
+ * @see https://seed-design.io/docs/react/components/inline-banner
  */
 export const InlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,
@@ -61,7 +61,7 @@ export interface ActionableInlineBannerProps
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/inline-banner
+ * @see https://seed-design.io/docs/react/components/inline-banner
  */
 export const ActionableInlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,
@@ -103,7 +103,7 @@ export interface DismissibleInlineBannerProps
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/inline-banner
+ * @see https://seed-design.io/docs/react/components/inline-banner
  */
 export const DismissibleInlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,

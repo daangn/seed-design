@@ -6,7 +6,7 @@ import * as React from "react";
 export interface ProgressCircleProps extends SeedProgressCircle.RootProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/progress-circle
+ * @see https://seed-design.io/docs/react/components/progress-circle
  */
 export const ProgressCircle = React.forwardRef<
   SVGSVGElement,

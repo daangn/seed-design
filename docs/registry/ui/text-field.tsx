@@ -26,7 +26,7 @@ export interface TextFieldProps
 }
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/text-fields/text-field
+ * @see https://seed-design.io/docs/react/components/text-fields/text-field
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
   (

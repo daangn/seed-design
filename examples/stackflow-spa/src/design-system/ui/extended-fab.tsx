@@ -6,6 +6,6 @@ import {
 export interface ExtendedFabProps extends SeedExtendedFabProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/extended-fab
+ * @see https://seed-design.io/docs/react/components/extended-fab
  */
 export const ExtendedFab = SeedExtendedFab;

@@ -8,7 +8,7 @@ import { LoadingIndicator } from "./loading-indicator";
 export interface ActionButtonProps extends SeedActionButtonProps {}
 
 /**
- * @see https://v3.seed-design.io/docs/react/components/action-button
+ * @see https://seed-design.io/docs/react/components/action-button
  * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.
  */
 export const ActionButton = React.forwardRef<

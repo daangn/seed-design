@@ -6,8 +6,8 @@ export const VARIABLE_TABLE_NAMES = {
 } as const satisfies Record<Uppercase<string>, string>;
 
 export const VARIABLE_TABLE_NAME_HYPERLINKS = {
-  Semantic: "https://v3.seed-design.io/docs/design/foundation/color/palette",
-  Palettes: "https://v3.seed-design.io/docs/design/foundation/color/palette",
+  Semantic: "https://seed-design.io/docs/design/foundation/color/palette",
+  Palettes: "https://seed-design.io/docs/design/foundation/color/palette",
 } as const satisfies Record<
   (typeof VARIABLE_TABLE_NAMES)[keyof typeof VARIABLE_TABLE_NAMES],
   HyperlinkTarget["value"]
