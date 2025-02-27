@@ -16,12 +16,16 @@ export default defineType({
     defineField({
       name: "path",
       title: "가이드라인 path",
-      description: "가이드라인 path는 seed-design.io를 제외한 나머지 path를 붙여주세요. docs는 생략해주세요. (ex: design/foundation/iconography/library)",
+      description:
+        "가이드라인 path는 seed-design.io를 제외한 나머지 path를 붙여주세요. docs는 생략해주세요. (ex: design/foundation/iconography/library)",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "category",
       title: "카테고리",
+      description:
+        "카테고리는 Sanity에서 분류하기 위해서 사용되고, 프로덕션에서는 사용되지 않아요.",
       type: "reference",
       to: [{ type: "category" }],
     }),
