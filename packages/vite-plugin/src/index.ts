@@ -62,21 +62,21 @@ export function seedDesignPlugin(options: Options = {}): Plugin {
     },
 
     transformIndexHtml(html) {
-      // 1. Inject meta tag inside <head> tag.
+      // 1. Inject meta tag which notifies the browser about the color scheme.
       const colorSchemeTagDescriptor: HtmlTagDescriptor = {
         tag: "meta",
         attrs: {
           name: "color-scheme",
           content: colorScheme,
         },
-        injectTo: "head",
+        injectTo: "head-prepend",
       };
 
-      // 2. Inject the theming script at the beginning of <body>.
+      // 2. Inject the theming script.
       const themeScriptTagDescriptor: HtmlTagDescriptor = {
         tag: "script",
         children: themeScript,
-        injectTo: "body-prepend",
+        injectTo: "head-prepend",
       };
 
       return {
