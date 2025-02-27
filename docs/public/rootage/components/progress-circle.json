@@ -35,19 +35,19 @@
               "type": "duration"
             },
             "lengthTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "rotateDuration": {
               "type": "duration"
             },
             "headTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "tailTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "rotateTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             }
           }
         }

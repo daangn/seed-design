@@ -11,7 +11,7 @@ data:
           colorDuration:
             type: duration
           colorTimingFunction:
-            type: timingFunction
+            type: cubicBezier
           color:
             type: color
           strokeColor:

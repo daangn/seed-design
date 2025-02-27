@@ -13,13 +13,13 @@ data:
           enterDuration:
             type: duration
           enterTimingFunction:
-            type: timingFunction
+            type: cubicBezier
           enterOpacity:
             type: number
           exitDuration:
             type: duration
           exitTimingFunction:
-            type: timingFunction
+            type: cubicBezier
           exitOpacity:
             type: number
       content:
@@ -39,7 +39,7 @@ data:
           enterDuration:
             type: duration
           enterTimingFunction:
-            type: timingFunction
+            type: cubicBezier
           enterOpacity:
             type: number
           enterScale:
@@ -47,7 +47,7 @@ data:
           exitDuration:
             type: duration
           exitTimingFunction:
-            type: timingFunction
+            type: cubicBezier
           exitOpacity:
             type: number
       header:

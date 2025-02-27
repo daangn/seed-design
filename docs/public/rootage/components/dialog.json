@@ -18,7 +18,7 @@
               "type": "duration"
             },
             "enterTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "enterOpacity": {
               "type": "number"
@@ -27,7 +27,7 @@
               "type": "duration"
             },
             "exitTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "exitOpacity": {
               "type": "number"
@@ -58,7 +58,7 @@
               "type": "duration"
             },
             "enterTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "enterOpacity": {
               "type": "number"
@@ -70,7 +70,7 @@
               "type": "duration"
             },
             "exitTimingFunction": {
-              "type": "timingFunction"
+              "type": "cubicBezier"
             },
             "exitOpacity": {
               "type": "number"
