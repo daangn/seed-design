@@ -40,7 +40,7 @@ export const IconBottomInfomation = () => {
   );
 
   return (
-    <div className="flex justify-between fixed bottom-0 min-h-28 left-0 right-0 bg-seed-bg-layer-default border-t border-gray-200 p-4 z-30">
+    <div className="flex justify-between fixed bottom-0 min-h-28 left-0 right-0 border-t border-gray-200 p-4 z-30 bg-gray-50">
       <div className="flex flex-col justify-center gap-2">
         <div className="flex gap-4 items-end">
           <div
