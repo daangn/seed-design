@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.0.3
+
+### Patch Changes
+
+- a33af94: Fixes an issue where the theming script was injecting the wrong color mode data-attr.
+- b180822: Inject data-seed in theming script instead of plugin
+
 ## 0.0.2
 
 ### Patch Changes
