@@ -40,12 +40,12 @@
         "@sanity/table": "^1.1.3",
         "@sanity/vision": "3",
         "@sanity/visual-editing": "^2.10.5",
-        "@seed-design/css": "0.0.2",
-        "@seed-design/migration-index": "0.0.1",
-        "@seed-design/react": "0.0.2",
+        "@seed-design/css": "0.0.3",
+        "@seed-design/migration-index": "0.0.2",
+        "@seed-design/react": "0.0.3",
         "@seed-design/react-icon": "^0.7.3",
         "@seed-design/rootage-core": "0.0.0",
-        "@seed-design/stackflow": "0.0.2",
+        "@seed-design/stackflow": "0.0.3",
         "@stackflow/config": "^1.2.0",
         "@stackflow/core": "^1.1.0",
         "@stackflow/plugin-basic-ui": "^1.10.0",
@@ -273,7 +273,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "0.0.12",
+      "version": "0.0.13",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@seed-design/migration-index": "0.0.1",
@@ -303,7 +303,7 @@
     },
     "packages/css": {
       "name": "@seed-design/css",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "devDependencies": {
         "@seed-design/qvism-preset": "0.0.0",
       },
@@ -317,7 +317,7 @@
     },
     "packages/migration-index": {
       "name": "@seed-design/migration-index",
-      "version": "0.0.1",
+      "version": "0.0.2",
     },
     "packages/qvism-preset": {
       "name": "@seed-design/qvism-preset",
@@ -328,7 +328,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.1",
@@ -352,13 +352,13 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "0.0.2",
+        "@seed-design/css": "0.0.3",
         "globby": "^14.1.0",
         "vite": "^6.1.1",
         "vite-plugin-dts": "^4.5.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "0.0.2",
+        "@seed-design/css": "0.0.3",
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0",
       },
@@ -623,7 +623,7 @@
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
-      "version": "0.0.0",
+      "version": "0.0.3",
       "devDependencies": {
         "@rsbuild/core": "^1.2.12",
         "@seed-design/css": "^0.0.2",
@@ -635,7 +635,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.1",
@@ -645,13 +645,13 @@
         "clsx": "^2.1.1",
       },
       "devDependencies": {
-        "@seed-design/css": "0.0.2",
+        "@seed-design/css": "0.0.3",
         "globby": "^14.1.0",
         "vite": "^6.1.1",
         "vite-plugin-dts": "^4.5.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "0.0.2",
+        "@seed-design/css": "0.0.3",
         "@stackflow/core": ">=1.1.0",
         "@stackflow/react": ">=1.4.1",
         "@stackflow/react-ui-core": ">=1.2.1",
@@ -680,7 +680,7 @@
     },
     "packages/vite-plugin": {
       "name": "@seed-design/vite-plugin",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "devDependencies": {
         "@seed-design/css": "^0.0.1",
         "vite": "^5.0.0 || ^6.0.0",
@@ -692,7 +692,7 @@
     },
     "packages/webpack-plugin": {
       "name": "@seed-design/webpack-plugin",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "devDependencies": {
         "@rspack/core": "^1.2.5",
         "@seed-design/css": "^0.0.2",
