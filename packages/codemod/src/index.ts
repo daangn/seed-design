@@ -71,9 +71,8 @@ cli
     }
 
     const transformPath = resolve(TRANSFORM_PATH, transformName, "index.mjs");
-
     console.log(LOG_PREFIX, `${paths.join(", ")}에 ${transformName} transform을 실행해요.`);
-    await runTransform(transformPath, paths, options);
+    await runTransform(transformPath, transformName, paths, options);
   });
 
 cli.parse();
@@ -94,6 +93,7 @@ Node.js 버전을 업그레이드해주세요.
 
 async function runTransform(
   transformPath: string,
+  transformName: string,
   paths: string[],
   options: z.infer<typeof transformOptionsSchema>,
 ) {
@@ -102,6 +102,12 @@ async function runTransform(
   const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
   const fixedPathsCombined = fixedPaths.join(" ");
+
+  if (transformName === "replace-css-color-variable") {
+    const transformModule = await import(transformPath);
+    transformModule.processCssFiles(paths, options);
+    return;
+  }
 
   if (isTrackEnabled) {
     track?.({
