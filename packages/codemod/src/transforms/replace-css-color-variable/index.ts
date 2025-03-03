@@ -1,9 +1,11 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
 import { TokenMigrationReporter } from "../../utils/reporter.js";
+import { glob } from "glob";
 import { colorMappings } from "@seed-design/migration-index";
 import { writeFileSync } from "node:fs";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 function transformCssVarValue(value: string): string {
   // CSS 변수 패턴을 찾아서 각각 변환
@@ -95,12 +97,43 @@ const transform: Transform = (file, _, options) => {
   }
 };
 
-// 메인 index.ts에서 CSS 파일 처리를 위한 함수 (필요한 경우)
 export function processCssFiles(paths: string[], options: any) {
-  const cssFiles = paths.filter((path) => path.endsWith(".css"));
+  let cssFilePaths: string[] = [];
+
+  // 각 경로에 대해 glob 패턴으로 CSS 파일 찾기
+  for (const path of paths) {
+    try {
+      // 경로가 CSS 파일인지 확인
+      if (path.endsWith(".css")) {
+        cssFilePaths.push(resolve(path));
+        continue;
+      }
+
+      // glob 패턴으로 CSS 파일 찾기
+      const files = glob.sync(`${path}/**/*.css`, {
+        ignore: ["**/node_modules/**", "**/dist/**", "**/build/**"],
+      });
+
+      cssFilePaths = [...cssFilePaths, ...files];
+    } catch (error) {
+      console.error(`경로 처리 중 오류 발생: ${path}`, error);
+    }
+  }
+
+  // 중복 제거
+  const uniqueCssFiles = [...new Set(cssFilePaths)];
+
+  if (uniqueCssFiles.length === 0) {
+    console.log("변환할 CSS 파일을 찾을 수 없습니다.");
+    return;
+  }
+
+  console.log(`총 ${uniqueCssFiles.length}개의 CSS 파일을 찾았습니다.`);
+
+  // 각 CSS 파일 처리
   let totalChanged = 0;
 
-  for (const filePath of cssFiles) {
+  for (const filePath of uniqueCssFiles) {
     try {
       const source = readFileSync(filePath, "utf8");
       const transformedCss = transform({ path: filePath, source }, null, options);
