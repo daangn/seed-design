@@ -16,7 +16,7 @@ export const typographyMappings = [
   },
   {
     previous: "$semantic.typography.h4",
-    next: ["t10Bold"],
+    next: ["t10Bold", "screenTitle"],
     description: "줄간격 -0.1px",
   },
   {
@@ -27,6 +27,7 @@ export const typographyMappings = [
   {
     previous: "$semantic.typography.title1Regular",
     next: [],
+    description: "Deprecated",
   },
   {
     previous: "$semantic.typography.title2Bold",
@@ -34,7 +35,7 @@ export const typographyMappings = [
   },
   {
     previous: "$semantic.typography.title2Regular",
-    next: [],
+    next: ["t7Regular"],
   },
   {
     previous: "$semantic.typography.title3Bold",
@@ -43,7 +44,7 @@ export const typographyMappings = [
   },
   {
     previous: "$semantic.typography.title3Regular",
-    next: [],
+    next: ["t6Regular"],
   },
   {
     previous: "$semantic.typography.subtitle1Bold",
@@ -82,7 +83,8 @@ export const typographyMappings = [
   {
     previous: "$semantic.typography.bodyL2Regular",
     next: [],
-    description: "TBD",
+    alternative: ["t4Regular"],
+    description: "Deprecated",
   },
   {
     previous: "$semantic.typography.bodyM1Bold",
@@ -111,8 +113,9 @@ export const typographyMappings = [
   },
   {
     previous: "$semantic.typography.caption1Regular",
-    next: ["t3Regular"],
-    description: "줄간격 -1.5px",
+    next: [],
+    alternative: ["t3Regular"],
+    description: "Deprecated",
   },
   {
     previous: "$semantic.typography.caption2Bold",
@@ -131,7 +134,7 @@ export const typographyMappings = [
   },
   {
     previous: "$semantic.typography.label1Regular",
-    next: [],
+    next: ["t6Regular"],
   },
   {
     previous: "$semantic.typography.label2Bold",
@@ -176,11 +179,13 @@ export const typographyMappings = [
   {
     previous: "$semantic.typography.label6Bold",
     next: [],
+    alternative: ["t1Bold"],
     description: "Deprecated",
   },
   {
     previous: "$semantic.typography.label6Regular",
     next: [],
+    alternative: ["t1Regular"],
     description: "Deprecated",
   },
 ];
