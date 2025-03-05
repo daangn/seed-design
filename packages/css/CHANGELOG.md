@@ -1,5 +1,14 @@
 # @seed-design/css
 
+## 0.0.4
+
+### Patch Changes
+
+- 6df5d19: Badge 디자인 업데이트
+  - neutral tone 색상 변경
+  - pill shape 삭제
+- 5cb50e7: recipe 스타일시트의 exports map을 수정합니다.
+
 ## 0.0.3
 
 ### Patch Changes
