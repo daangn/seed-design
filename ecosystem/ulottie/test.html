@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html data-seed-v3-compat>
+
+<head>
+  <title>SEED Design QA app</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+  <script>
+    (function () {
+      "use strict";
+
+      // -- All property getters --
+
+      function g0(frame) {
+        return [150, 150];
+      }
+
+
+      function g1(frame) {
+        return [100, 100];
+      }
+
+
+      function g2(frame) {
+        return 20;
+      }
+
+
+      function g3(frame) {
+        return [255, 0, 0];
+      }
+
+
+      function g4(frame) {
+        return [0, 0, 0];
+      }
+
+
+      function g5(frame) {
+        return 3;
+      }
+
+
+      function g6(frame) {
+        return [50, 50];
+      }
+
+
+      function g7(frame) {
+        return [0, 0];
+      }
+
+
+      function g8(frame) {
+        return [100, 100];
+      }
+
+
+      function g9(frame) {
+        const kfs = [{ "t": 0, "s": [0] }, { "t": 60, "s": [360] }];
+        if (kfs.length === 0) return 0;
+        if (frame <= kfs[0].t) return kfs[0].s[0];
+        if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].s[0];
+        for (let i = 0; i < kfs.length - 1; i++) {
+          const kf1 = kfs[i], kf2 = kfs[i + 1];
+          if (frame >= kf1.t && frame <= kf2.t) {
+            const ratio = (frame - kf1.t) / (kf2.t - kf1.t);
+            const startVal = kf1.s[0];
+            const endVal = kf2.s[0];
+            if (Array.isArray(startVal)) {
+              const out = [];
+              for (let j = 0; j < startVal.length; j++) {
+                out.push(startVal[j] + (endVal[j] - startVal[j]) * ratio);
+              }
+              return out;
+            } else if (typeof startVal === 'object') {
+              // path => skip partial interpolation
+              return startVal;
+            } else {
+              // single numeric
+              return startVal + (endVal - startVal) * ratio;
+            }
+          }
+        }
+        return kfs[kfs.length - 1].s[0];
+      }
+
+
+      function g10(frame) {
+        return 100;
+      }
+
+
+      // Helper for pathToD
+      function pathToD(pathVal) {
+        if (!pathVal || !pathVal.v || pathVal.v.length === 0) return "";
+        let d = "M " + pathVal.v[0][0] + "," + pathVal.v[0][1];
+        for (let i = 1; i < pathVal.v.length; i++) {
+          d += " L " + pathVal.v[i][0] + "," + pathVal.v[i][1];
+        }
+        if (pathVal.c) d += " Z";
+        return d;
+      }
+
+      // We'll define a function that starts animating the SVG
+      function playUlottieSVG(svgId) {
+        const svgEl = document.getElementById(svgId);
+        if (!svgEl || svgEl.nodeName.toLowerCase() !== "svg") {
+          console.warn("ulottie: No valid <svg> with id=", svgId);
+          return;
+        }
+
+        // Grab references to layers & shapes
+        // Layer layer_0
+
+        const el_layer_0_shape_0 = document.getElementById("layer_0_shape_0");
+
+
+
+        // Animation loop
+        let currentFrame = 0;
+        const totalFrames = 60;
+        const frameDuration = 33.333333333333336;
+        let lastTime = performance.now();
+        let requestId = 0;
+
+        function draw(frame) {
+          // For each layer, re-compute transform (if any), then update each shape
+          {
+            const layerEl = document.getElementById("layer_0");
+            if (!layerEl) return;
+            const anchor = g6(frame) || [0, 0];
+            const position = g7(frame) || [0, 0];
+            const scale = g8(frame) || [100, 100];
+            const rotation = g9(frame) || 0;
+            const opacity = (g10(frame) || 100) / 100;
+            // Build an SVG transform attribute
+            // translate(px,py) rotate(...) scale(...) translate(-ax, -ay)
+            const px = position[0], py = position[1];
+            const sx = scale[0] / 100, sy = scale[1] / 100;
+            const ax = anchor[0], ay = anchor[1];
+            layerEl.setAttribute("opacity", opacity);
+            layerEl.setAttribute("transform",
+              "translate(" + px + "," + py + ") " +
+              "rotate(" + rotation + ") " +
+              "scale(" + sx + "," + sy + ") " +
+              "translate(" + (-ax) + "," + (-ay) + ")"
+            );
+
+            {
+              const shapeEl = document.getElementById("layer_0_shape_0");
+              if (shapeEl) {
+                const pos = g0(frame) || [0, 0];
+                const size = g1(frame) || [0, 0];
+                const round = g2(frame) || 0;
+                const x = pos[0] - size[0] / 2;
+                const y = pos[1] - size[1] / 2;
+                shapeEl.setAttribute("x", x);
+                shapeEl.setAttribute("y", y);
+                shapeEl.setAttribute("width", size[0]);
+                shapeEl.setAttribute("height", size[1]);
+                shapeEl.setAttribute("rx", round);
+                shapeEl.setAttribute("ry", round);
+              }
+            }
+          }
+        }
+
+        function tick(time) {
+          const elapsed = time - lastTime;
+          if (elapsed >= frameDuration) {
+            lastTime = time;
+            draw(currentFrame);
+            currentFrame++;
+            if (currentFrame >= (0 + totalFrames)) {
+              // stop or loop
+              // currentFrame = 0; // to loop
+            }
+          }
+          if (currentFrame < (0 + totalFrames)) {
+            requestId = requestAnimationFrame(tick);
+          }
+        }
+        requestId = requestAnimationFrame(tick);
+        return {
+          stop: function () {
+            cancelAnimationFrame(requestId);
+          }
+        }
+      }
+
+      // Expose globally
+      if (typeof window !== "undefined") {
+        window.playUlottieSVG = playUlottieSVG;
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <svg id="test" width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+    <rect id="layer_0_shape_0" x="100" y="100" width="100" height="100" rx="20" ry="20" fill="none" stroke="none" />
+    <g id="layer_0" transform="translate(0,0) rotate(0) scale(1,1) translate(-50,-50)" opacity="1">
+      <g id="layer_0"><!-- the shapes above actually should be inside this <g> -->
+      </g>
+  </svg>
+</body>
+
+</html>
