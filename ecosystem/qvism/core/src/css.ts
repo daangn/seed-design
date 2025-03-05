@@ -100,7 +100,6 @@ export async function transpileRulesToCss(rules: postcss.ChildNode[]): Promise<s
   });
 
   const css = await postcss([postcssNested()])
-    // @ts-expect-error
     .process(root, { from: undefined, parser: parseCssJs })
     .then((result) => {
       return result.css;
