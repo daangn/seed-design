@@ -20,7 +20,7 @@
             "paddingY": {
               "type": "dimension"
             },
-            "borderRadius": {
+            "cornerRadius": {
               "type": "dimension"
             },
             "strokeWidth": {
@@ -58,13 +58,6 @@
             "medium": {}
           },
           "defaultValue": "large"
-        },
-        "shape": {
-          "values": {
-            "pill": {},
-            "rectangle": {}
-          },
-          "defaultValue": "pill"
         },
         "variant": {
           "values": {
@@ -109,6 +102,10 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x1"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r1_5"
                 }
               },
               "label": {
@@ -147,6 +144,10 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x0_5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r1"
                 }
               },
               "label": {
@@ -157,68 +158,6 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t1"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "shape": "pill"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "shape": "rectangle",
-          "size": "large"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r1_5"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "shape": "rectangle",
-          "size": "medium"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r1"
                 }
               }
             }
@@ -314,7 +253,7 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.fg.neutral-muted"
                 }
               }
             }
@@ -335,7 +274,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-inverted"
+                  "value": "$color.palette.gray-800"
                 }
               },
               "label": {
@@ -368,7 +307,7 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.fg.neutral-muted"
                 }
               }
             }

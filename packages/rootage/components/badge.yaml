@@ -14,7 +14,7 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          borderRadius:
+          cornerRadius:
             type: dimension
           strokeWidth:
             type: dimension
@@ -39,6 +39,7 @@ data:
           minHeight: $dimension.x6
           paddingX: $dimension.x2
           paddingY: $dimension.x1
+          cornerRadius: $radius.r1_5
         label:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
@@ -48,21 +49,10 @@ data:
           minHeight: $dimension.x5
           paddingX: $dimension.x1_5
           paddingY: $dimension.x0_5
+          cornerRadius: $radius.r1
         label:
           fontSize: $font-size.t1
           lineHeight: $line-height.t1
-    shape=pill:
-      enabled:
-        root:
-          cornerRadius: $radius.full
-    shape=rectangle, size=large:
-      enabled:
-        root:
-          cornerRadius: $radius.r1_5
-    shape=rectangle, size=medium:
-      enabled:
-        root:
-          cornerRadius: $radius.r1
     variant=weak:
       enabled:
         label:
@@ -82,11 +72,11 @@ data:
         root:
           color: $color.bg.neutral-weak
         label:
-          color: $color.fg.neutral
+          color: $color.fg.neutral-muted
     tone=neutral, variant=solid:
       enabled:
         root:
-          color: $color.bg.neutral-inverted
+          color: $color.palette.gray-800
         label:
           color: $color.fg.neutral-inverted
     tone=neutral, variant=outline:
@@ -94,7 +84,7 @@ data:
         root:
           strokeColor: $color.stroke.neutral
         label:
-          color: $color.fg.neutral
+          color: $color.fg.neutral-muted
     tone=brand, variant=weak:
       enabled:
         root:

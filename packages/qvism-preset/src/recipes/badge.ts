@@ -25,6 +25,7 @@ const badge = defineRecipe({
           minHeight: vars.sizeMedium.enabled.root.minHeight,
           paddingInline: vars.sizeMedium.enabled.root.paddingX,
           paddingBlock: vars.sizeMedium.enabled.root.paddingY,
+          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
 
           fontSize: vars.sizeMedium.enabled.label.fontSize,
           lineHeight: vars.sizeMedium.enabled.label.lineHeight,
@@ -35,17 +36,10 @@ const badge = defineRecipe({
           minHeight: vars.sizeLarge.enabled.root.minHeight,
           paddingInline: vars.sizeLarge.enabled.root.paddingX,
           paddingBlock: vars.sizeLarge.enabled.root.paddingY,
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
 
           fontSize: vars.sizeLarge.enabled.label.fontSize,
           lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-        },
-      },
-    },
-    shape: {
-      rectangle: {},
-      pill: {
-        root: {
-          borderRadius: vars.shapePill.enabled.root.cornerRadius,
         },
       },
     },
@@ -75,24 +69,6 @@ const badge = defineRecipe({
     },
   },
   compoundVariants: [
-    {
-      shape: "rectangle",
-      size: "medium",
-      css: {
-        root: {
-          borderRadius: vars.shapeRectangleSizeMedium.enabled.root.cornerRadius,
-        },
-      },
-    },
-    {
-      shape: "rectangle",
-      size: "large",
-      css: {
-        root: {
-          borderRadius: vars.shapeRectangleSizeLarge.enabled.root.cornerRadius,
-        },
-      },
-    },
     {
       tone: "neutral",
       variant: "weak",
@@ -246,7 +222,6 @@ const badge = defineRecipe({
   ],
   defaultVariants: {
     size: "medium",
-    shape: "rectangle",
     variant: "solid",
     tone: "neutral",
   },
