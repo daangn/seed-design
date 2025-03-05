@@ -4,10 +4,6 @@ declare interface BadgeVariant {
   */
   size: "medium" | "large";
 /**
-  * @default rectangle
-  */
-  shape: "rectangle" | "pill";
-/**
   * @default solid
   */
   variant: "weak" | "solid" | "outline";

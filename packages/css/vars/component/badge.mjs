@@ -4,7 +4,8 @@ export const vars = {
       "root": {
         "minHeight": "var(--seed-dimension-x6)",
         "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x1)"
+        "paddingY": "var(--seed-dimension-x1)",
+        "cornerRadius": "var(--seed-radius-r1_5)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t2)",
@@ -17,32 +18,12 @@ export const vars = {
       "root": {
         "minHeight": "var(--seed-dimension-x5)",
         "paddingX": "var(--seed-dimension-x1_5)",
-        "paddingY": "var(--seed-dimension-x0_5)"
+        "paddingY": "var(--seed-dimension-x0_5)",
+        "cornerRadius": "var(--seed-radius-r1)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)"
-      }
-    }
-  },
-  "shapePill": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "var(--seed-radius-full)"
-      }
-    }
-  },
-  "shapeRectangleSizeLarge": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "var(--seed-radius-r1_5)"
-      }
-    }
-  },
-  "shapeRectangleSizeMedium": {
-    "enabled": {
-      "root": {
-        "cornerRadius": "var(--seed-radius-r1)"
       }
     }
   },
@@ -76,14 +57,14 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-weak)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-fg-neutral-muted)"
       }
     }
   },
   "toneNeutralVariantSolid": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
+        "color": "var(--seed-color-palette-gray-800)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-inverted)"
@@ -96,7 +77,7 @@ export const vars = {
         "strokeColor": "var(--seed-color-stroke-neutral)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-fg-neutral-muted)"
       }
     }
   },

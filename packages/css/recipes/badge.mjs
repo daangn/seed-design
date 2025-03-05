@@ -9,20 +9,11 @@ const badgeSlotNames = [
 
 const defaultVariant = {
   "size": "medium",
-  "shape": "rectangle",
   "variant": "solid",
   "tone": "neutral"
 };
 
 const compoundVariants = [
-  {
-    "shape": "rectangle",
-    "size": "medium"
-  },
-  {
-    "shape": "rectangle",
-    "size": "large"
-  },
   {
     "tone": "neutral",
     "variant": "weak"
@@ -89,10 +80,6 @@ export const badgeVariantMap = {
   "size": [
     "medium",
     "large"
-  ],
-  "shape": [
-    "rectangle",
-    "pill"
   ],
   "variant": [
     "weak",
