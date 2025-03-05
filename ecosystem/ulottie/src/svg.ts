@@ -1,986 +1,905 @@
-/*****************************************************
- *  Minimal Type Definitions (Subset for Demo)
- *****************************************************/
-export interface UlottieComposition {
-  v: string; // Lottie version
-  fr: number; // frame rate
-  w: number; // width
-  h: number; // height
-  ip: number; // in point
-  op: number; // out point
-  layers: UlottieLayer[];
-}
+/*******************************************************
+ * Full μLottie Compiler with Path KF Reduction
+ *
+ * It:
+ *  1) Parses a UlottieComposition (subset Lottie).
+ *  2) For shape paths, stores ALL path keyframes but
+ *     culls “unneeded” frames via reducePathKeyframes().
+ *  3) Produces:
+ *     - initialSvg: <svg> for the composition’s initial frame
+ *     - runtimeJs: minimal code that does dynamic interpolation
+ *       of transforms, colors, strokes, and path geometry.
+ *******************************************************/
 
-/** Subset: only shape layers (no text, precomps, images, etc.). */
-export interface UlottieLayer {
-  ty: "shape";
-  nm?: string;
-  shapes: (
-    | UlottieShape // "sh" or "rc"
-    | UlottieFill // "fl"
-    | UlottieGradientFill // "gf" (linear)
-    | UlottieStroke // "st"
-    | UlottieTransform // "tr"
-  )[];
-}
+import type {
+  UlottieAnimatedColor,
+  UlottieAnimatedPath,
+  UlottieAnimatedValue,
+  UlottieAnimatedValue2D,
+  UlottieComposition,
+  UlottieFill,
+  UlottieGradientFill,
+  UlottieLayer,
+  UlottiePath,
+  UlottieRect,
+  UlottieShapePath,
+  UlottieStroke,
+  UlottieTransform,
+} from "./types";
 
-export interface UlottieShape {
-  ty: "sh" | "rc";
-  nm?: string;
-
-  // For "sh" (custom path):
-  ks?: UlottieAnimatedPath;
-
-  // For "rc" (rectangle):
-  p?: UlottieAnimatedValue2D; // position
-  s?: UlottieAnimatedValue2D; // size
-  r?: UlottieAnimatedValue; // roundness
-}
-
-export interface UlottieFill {
-  ty: "fl";
-  c: UlottieAnimatedColor; // fill color
-}
-
-/** Linear Gradient Fill (no radial) */
-export interface UlottieGradientFill {
-  ty: "gf";
-  t: 1; // 1=linear
-  g: {
-    p: number; // number of color stops * 2
-    k: number[]; // array of offset & color: [offset0, r0, g0, b0, offset1, r1, g1, b1, ...]
-  };
-  s: UlottieAnimatedValue2D; // gradient start
-  e: UlottieAnimatedValue2D; // gradient end
-}
-
-export interface UlottieStroke {
-  ty: "st";
-  c: UlottieAnimatedColor; // stroke color
-  w: UlottieAnimatedValue; // stroke width
-}
-
-export interface UlottieTransform {
-  ty: "tr";
-  a: UlottieAnimatedValue2D; // anchor
-  p: UlottieAnimatedValue2D; // position
-  s: UlottieAnimatedValue2D; // scale
-  r: UlottieAnimatedValue; // rotation
-  o: UlottieAnimatedValue; // opacity
-}
-
-/*****************************************************
- * Animated Values
- *****************************************************/
-export interface UlottieAnimatedValue {
-  a: 0 | 1;
-  k?: number;
-  kf?: UlottieKeyframe[];
-}
-
-export interface UlottieAnimatedValue2D {
-  a: 0 | 1;
-  k?: number[];
-  kf?: UlottieKeyframe[];
-}
-
-export interface UlottieAnimatedColor {
-  a: 0 | 1;
-  k?: number[];
-  kf?: UlottieKeyframe[];
-}
-
-export interface UlottieAnimatedPath {
-  a: 0 | 1;
-  k?: UlottiePath;
-  kf?: UlottiePathKeyframe[];
-}
-
-/** Keyframe for numeric or array data. */
-export interface UlottieKeyframe {
-  t: number; // time (in frames)
-  s: number[]; // start value
-}
-
-export interface UlottiePath {
-  c: boolean; // closed
-  i: number[][]; // in tangents (ignored here)
-  o: number[][]; // out tangents (ignored)
-  v: number[][]; // vertices
-}
-
-export interface UlottiePathKeyframe {
+/** A simplified representation of path keyframes after culling. */
+interface PathKeyframe {
   t: number;
-  s: UlottiePath[];
+  val: UlottiePath;
 }
 
-/*****************************************************
- * 1) Parsing (Minimal)
- *****************************************************/
-export function parseUlottie(raw: any): UlottieComposition {
-  // do minimal checks for demo
-  if (!raw || typeof raw !== "object") {
-    throw new Error("Invalid Lottie JSON");
-  }
-  if (!Array.isArray(raw.layers)) {
-    throw new Error("No layers array found");
-  }
-  return raw as UlottieComposition;
+interface PathKFArray extends Array<PathKeyframe> {}
+
+/**
+ * IR for each shape. Notably, if "type==='path'", we store the entire
+ * path keyframe array (post-reduction).
+ */
+interface IRShape {
+  id: string; // unique shape ID
+  type: "rect" | "path";
+  // For rect
+  rect?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    cornerRadius: number;
+  };
+  // For path
+  pathKeyframes?: PathKFArray;
+
+  // fill/stroke
+  fillColor?: ColorKF;
+  strokeColor?: ColorKF;
+  strokeWidth?: ValueKF;
+  gradient?: GradientKF;
+
+  // shape-level transform
+  anchor?: Value2DKF;
+  position?: Value2DKF;
+  scale?: Value2DKF;
+  rotation?: ValueKF;
+  opacity?: ValueKF;
 }
 
-/*****************************************************
- * 2) Evaluate a property at a given frame (static or linear interpolation).
- *    For SSR/initial frame or for animation updates.
- *****************************************************/
-function evaluateProp(
-  prop: UlottieAnimatedValue | UlottieAnimatedValue2D | UlottieAnimatedColor | UlottieAnimatedPath,
-  frame: number,
-): any {
-  if (!prop.a) {
-    // static
-    return prop.k;
-  } else {
-    // keyframed
-    const kfs = prop.kf || [];
-    if (kfs.length === 0) return 0; // fallback
-    if (frame <= kfs[0].t) return kfs[0].s[0];
-    if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].s[0];
-
-    // linear interpolation
-    for (let i = 0; i < kfs.length - 1; i++) {
-      const kf1 = kfs[i];
-      const kf2 = kfs[i + 1];
-      if (frame >= kf1.t && frame <= kf2.t) {
-        const ratio = (frame - kf1.t) / (kf2.t - kf1.t);
-        const startVal = kf1.s[0];
-        const endVal = kf2.s[0];
-        if (Array.isArray(startVal) && Array.isArray(endVal)) {
-          const out: number[] = [];
-          for (let j = 0; j < startVal.length; j++) {
-            out.push(startVal[j] + (endVal[j] - startVal[j]) * ratio);
-          }
-          return out;
-        } else if (typeof startVal === "object") {
-          // path => no partial interpolation in this demo
-          return startVal;
-        } else {
-          // single numeric
-          return startVal + (endVal - startVal) * ratio;
-        }
-      }
-    }
-    return kfs[kfs.length - 1].s[0];
-  }
+/**
+ * Keyframe arrays for numeric or color properties.
+ * We'll keep them in an array of {t, val}, sorted by t.
+ */
+interface ValueKF {
+  keyframes: Array<{ t: number; val: number }>;
 }
 
-/*****************************************************
- * 3) Convert path data to an SVG "d" string
- *****************************************************/
-function pathToD(path: UlottiePath): string {
-  if (!path || !path.v || path.v.length === 0) return "";
-  const first = path.v[0];
-  let d = `M ${first[0]},${first[1]}`;
-  for (let i = 1; i < path.v.length; i++) {
-    d += ` L ${path.v[i][0]},${path.v[i][1]}`;
-  }
-  if (path.c) d += " Z"; // closed
-  return d;
+interface Value2DKF {
+  keyframes: Array<{ t: number; val: [number, number] }>;
 }
 
-/*****************************************************
- * 4) Build the static <svg> for the "initial frame" (frame=ip).
- *    Each layer => <g> => shape => <path> or <rect> (or we can do <path> for rect).
- *    Fills can be: solid or a <defs><linearGradient> + fill="url(#...)".
- *****************************************************/
-interface ShapeEntry {
-  id: string; // DOM id for the shape
-  type: "path" | "rect";
-  gradientId?: string; // if it's a gradient fill
-  fillColor?: string; // if it's a solid fill (e.g. "rgb(255,0,0)")
-  strokeColor?: string;
-  strokeWidth?: number;
+interface ColorKF {
+  keyframes: Array<{ t: number; val: [number, number, number, number] }>;
 }
 
-/** Data we gather so that the script can update shape attributes at runtime. */
-interface ShapeRuntimeData {
-  shapeId: string;
-  shapeType: "path" | "rect";
-  // references to transform, fill, stroke, etc. property lookups
-  // We'll store indexes or function calls in the JS generation step
+/** Simple gradient structure for demonstration. */
+interface GradientKF {
+  keyframes: Array<{
+    t: number;
+    stops: GradientStop[];
+    start: [number, number];
+    end: [number, number];
+  }>;
+}
+interface GradientStop {
+  offset: number;
+  r: number;
+  g: number;
+  b: number;
 }
 
-interface LayerRuntimeData {
-  layerId: string;
-  transformIndex?: number; // We'll store an index into a "transform" function array, for instance
-  shapes: ShapeRuntimeData[];
-  gradientDefs?: string[]; // If multiple gradient fills in one layer
-}
-
-/** We’ll return the full static <svg> plus metadata for runtime animations. */
-function buildInitialSVG(comp: UlottieComposition): {
-  svgMarkup: string;
-  layerData: LayerRuntimeData[];
-} {
-  const ipFrame = comp.ip; // we consider the "initial frame" as ip
-
-  let svgParts: string[] = [];
-  let gradientDefs: string[] = [];
-  let layerDatas: LayerRuntimeData[] = [];
-
-  // Start the <svg> opening tag
-  svgParts.push(
-    `<svg width="${comp.w}" height="${comp.h}" viewBox="0 0 ${comp.w} ${comp.h}" xmlns="http://www.w3.org/2000/svg">`,
-  );
-
-  comp.layers.forEach((layer, layerIndex) => {
-    if (layer.ty !== "shape") return;
-
-    const layerId = `layer_${layerIndex}`;
-    let layerShapes: ShapeRuntimeData[] = [];
-    let layerGradientDefs: string[] = [];
-
-    // We'll compute a single transform for the layer (if it has a "tr" item).
-    // In Lottie, transforms can appear anywhere, but in practice often appear at the end or in a "group."
-    // For simplicity, we do a single transform. Real Lottie might have multiple.
-    let transformAttr = "";
-    let globalOpacity = 1;
-
-    // We'll collect fill/stroke from shapes, but if there's a gradient, we'll define a <defs><linearGradient>...</defs>.
-    // Then the shape references it via fill="url(#gradId)"
-    // We gather shapes in a <g> block to apply the transform.
-    let gOpen = `<g id="${layerId}">`;
-    let gClose = `</g>`;
-
-    // Evaluate each shape/fill/stroke for the initial frame
-    // We'll store them so we can also animate them later.
-    let shapeCounter = 0;
-
-    // Because Lottie can have multiple shape items in the same layer, we combine them:
-    // - If there's a "tr" item, we use it for the entire group
-    // - If there's a fill or stroke, it typically applies to the shapes that follow
-    // - For a gradient fill, we define a gradient ID
-    // This is simplified compared to real Lottie grouping, but enough for a demonstration.
-    let currentFillColor = "";
-    let currentStrokeColor = "";
-    let currentStrokeWidth = 0;
-    let currentGradientId = "";
-
-    layer.shapes.forEach((shapeItem) => {
-      switch (shapeItem.ty) {
-        // ========== TRANSFORM ==========
-        case "tr": {
-          // Evaluate anchor, position, scale, rotation, opacity at ipFrame
-          const anchor = evaluateProp(shapeItem.a, ipFrame) || [0, 0];
-          const position = evaluateProp(shapeItem.p, ipFrame) || [0, 0];
-          const scale = evaluateProp(shapeItem.s, ipFrame) || [100, 100];
-          const rotation = evaluateProp(shapeItem.r, ipFrame) || 0;
-          const opacity = evaluateProp(shapeItem.o, ipFrame) || 100;
-
-          globalOpacity = (opacity as number) / 100;
-          // Build an SVG transform attribute:
-          //   translate(position) rotate(...) scale(...)
-          //   but we also shift by anchor
-          //   e.g. translate(px, py) rotate(r) scale(sx/100, sy/100) translate(-ax, -ay)
-          // For simplicity, we do anchor last, or we can incorporate it directly:
-          // There's more than one "correct" approach to layering transforms in SVG, but we'll do a typical approach:
-          const px = position[0],
-            py = position[1];
-          const sx = (scale[0] || 100) / 100,
-            sy = (scale[1] || 100) / 100;
-          const r = (rotation * Math.PI) / 180; // in radians
-          const ax = anchor[0],
-            ay = anchor[1];
-
-          // We'll do: translate(px,py) rotate(deg) scale(...) translate(-ax, -ay)
-          // But note that SVG rotates in degrees, so we can just do `rotate(rotation)`.
-          transformAttr = `
-transform="translate(${px},${py}) rotate(${rotation}) scale(${sx},${sy}) translate(${-ax},${-ay})"
-opacity="${globalOpacity}"
-`;
-          break;
-        }
-
-        // ========== SOLID FILL ==========
-        case "fl": {
-          // Evaluate color [r,g,b]
-          const c = evaluateProp(shapeItem.c, ipFrame) || [0, 0, 0];
-          currentFillColor = `rgb(${Math.round(c[0])}, ${Math.round(c[1])}, ${Math.round(c[2])})`;
-          currentGradientId = ""; // Not using gradient fill anymore
-          break;
-        }
-
-        // ========== GRADIENT FILL (LINEAR) ==========
-        case "gf": {
-          // Evaluate start/end points
-          // We'll do a single <linearGradient> for each gf item
-          const gfObj = shapeItem as UlottieGradientFill;
-          const startPt = evaluateProp(gfObj.s, ipFrame) || [0, 0];
-          const endPt = evaluateProp(gfObj.e, ipFrame) || [0, 0];
-          const gradId = `grad_${layerIndex}_${shapeCounter}`;
-
-          // Build gradient stops from gfObj.g.k (static in this example)
-          const stops = gfObj.g.k;
-          // e.g. [offset0, r0, g0, b0, offset1, r1, g1, b1, ...]
-
-          // We define a <linearGradient> in <defs>
-          // The tricky part is that Lottie’s gradient coords might be in shape space,
-          // while SVG’s default is objectBoundingBox or userSpaceOnUse. We pick userSpaceOnUse:
-          // We'll place the gradient from startPt to endPt in absolute user coordinates.
-          let gradientDef = `<linearGradient id="${gradId}" gradientUnits="userSpaceOnUse" x1="${startPt[0]}" y1="${startPt[1]}" x2="${endPt[0]}" y2="${endPt[1]}">`;
-          for (let i = 0; i < stops.length; i += 4) {
-            const offset = stops[i];
-            const r = Math.round(stops[i + 1]);
-            const g = Math.round(stops[i + 2]);
-            const b = Math.round(stops[i + 3]);
-            // offset typically 0..1 => 0%..100%
-            gradientDef += `<stop offset="${offset * 100}%" stop-color="rgb(${r},${g},${b})"/>`;
-          }
-          gradientDef += `</linearGradient>`;
-
-          layerGradientDefs.push(gradientDef);
-          currentGradientId = gradId;
-          currentFillColor = ""; // not using a solid fill
-          break;
-        }
-
-        // ========== STROKE ==========
-        case "st": {
-          const c = evaluateProp(shapeItem.c, ipFrame) || [0, 0, 0];
-          const w = evaluateProp(shapeItem.w, ipFrame) || 1;
-          currentStrokeColor = `rgb(${Math.round(c[0])}, ${Math.round(c[1])}, ${Math.round(c[2])})`;
-          currentStrokeWidth = w as number;
-          break;
-        }
-
-        // ========== SHAPE (PATH) ==========
-        case "sh": {
-          const shapeId = `layer_${layerIndex}_shape_${shapeCounter}`;
-          shapeCounter++;
-
-          // Evaluate path for the initial frame
-          const pathVal = evaluateProp(shapeItem.ks!, ipFrame) as UlottiePath;
-          const dStr = pathVal ? pathToD(pathVal) : "";
-
-          const fillAttr = currentGradientId
-            ? `fill="url(#${currentGradientId})"`
-            : currentFillColor
-              ? `fill="${currentFillColor}"`
-              : `fill="none"`;
-
-          let strokeAttr = `stroke="none"`;
-          if (currentStrokeColor) {
-            strokeAttr = `stroke="${currentStrokeColor}" stroke-width="${currentStrokeWidth}"`;
-          }
-
-          svgParts.push(`  <path id="${shapeId}" d="${dStr}" ${fillAttr} ${strokeAttr} />`);
-
-          layerShapes.push({
-            shapeId,
-            shapeType: "path",
-          });
-          break;
-        }
-
-        // ========== RECT ==========
-        case "rc": {
-          const shapeId = `layer_${layerIndex}_shape_${shapeCounter}`;
-          shapeCounter++;
-
-          // Evaluate p, s, r for the initial frame
-          const pos = evaluateProp(shapeItem.p!, ipFrame) || [0, 0];
-          const size = evaluateProp(shapeItem.s!, ipFrame) || [0, 0];
-          const rd = evaluateProp(shapeItem.r!, ipFrame) || 0; // roundness
-          const x = pos[0] - size[0] / 2;
-          const y = pos[1] - size[1] / 2;
-
-          const fillAttr = currentGradientId
-            ? `fill="url(#${currentGradientId})"`
-            : currentFillColor
-              ? `fill="${currentFillColor}"`
-              : `fill="none"`;
-
-          let strokeAttr = `stroke="none"`;
-          if (currentStrokeColor) {
-            strokeAttr = `stroke="${currentStrokeColor}" stroke-width="${currentStrokeWidth}"`;
-          }
-
-          // For an SVG rect, rx & ry for rounding
-          svgParts.push(
-            `  <rect id="${shapeId}" x="${x}" y="${y}" width="${size[0]}" height="${size[1]}" rx="${rd}" ry="${rd}" ${fillAttr} ${strokeAttr} />`,
-          );
-
-          layerShapes.push({
-            shapeId,
-            shapeType: "rect",
-          });
-          break;
-        }
-      }
-    }); // end shapes.forEach
-
-    // Insert transform on the group
-    svgParts.push(`${gOpen}<!-- the shapes above actually should be inside this <g> -->`);
-    // Actually, to keep the code valid, we should wrap the shapes in the group.
-    // Let's reorder: wrap the shapes inside <g>...
-    // For simplicity, let's assume we do:
-    //   <g id="layer_0" transform="..." opacity="...">
-    //     <path ... />
-    //     <rect ... />
-    //   </g>
-    // We'll fix the order to ensure the group encloses them properly.
-
-    // So let's do that: pop the shapes we just wrote, wrap them in a single <g>.
-    const shapeMarkup = svgParts.splice(svgParts.length - shapeCounter, shapeCounter);
-    // Now open the group:
-    const groupOpenTag = `<g id="${layerId}" ${transformAttr}>`;
-    svgParts.push(groupOpenTag);
-    shapeMarkup.forEach((line) => svgParts.push("  " + line));
-    svgParts.push(gClose);
-
-    // Merge gradient definitions (if any) from this layer
-    gradientDefs.push(...layerGradientDefs);
-
-    // Store for runtime updates
-    layerDatas.push({
-      layerId,
-      shapes: layerShapes,
-    });
-  });
-
-  // If we have gradient definitions, wrap them in <defs>
-  if (gradientDefs.length > 0) {
-    let defBlock = `<defs>\n${gradientDefs.join("\n")}\n</defs>`;
-    svgParts.splice(1, 0, defBlock);
-    // Insert after the <svg> opening tag
-  }
-
-  // Close </svg>
-  svgParts.push(`</svg>`);
-
-  return {
-    svgMarkup: svgParts.join("\n"),
-    layerData: layerDatas,
+/**
+ * IR for a single layer. It might have multiple shapes, plus a layer transform, plus a mask.
+ */
+interface IRLayer {
+  id: string;
+  shapes: IRShape[];
+  transform?: {
+    anchor: Value2DKF;
+    position: Value2DKF;
+    scale: Value2DKF;
+    rotation: ValueKF;
+    opacity: ValueKF;
+  };
+  mask?: {
+    id: string;
+    pathKFs: PathKFArray;
+    opacity: ValueKF;
   };
 }
 
-/*****************************************************
- * 5) Build JavaScript that updates the <svg> each frame
- *    We'll do a single function: `function playUlottieSVG(svgId) {...}`
- *****************************************************/
-function buildAnimationScript(comp: UlottieComposition, layerData: LayerRuntimeData[]): string {
-  const totalFrames = comp.op - comp.ip;
-  const fr = comp.fr;
-  const frameDuration = 1000 / fr;
-  const startFrame = comp.ip;
-
-  // We'll build up JS code that:
-  // 1) Finds each shape by ID
-  // 2) On each tick, for (currentFrame) from ip..op, re-evaluates
-  //    path or rect position, fill, stroke, transform, etc.
-  // For brevity, we only show shape re-computation. If you have multiple
-  // gradient fills or advanced logic, you might store them in arrays or
-  // generate specialized code. We'll do a single generalized approach
-  // using the same `evaluateProp` function in JS form.
-
-  // We'll embed a small "inline" version of evaluateProp, pathToD, etc. in the output code.
-  // In a real project, you might minify them or do a more advanced approach.
-
-  // 1) We'll gather code for "property getters" from Lottie data.
-  //    Just like previous AOT approach, but now we rely on DOM updates.
-
-  let propertyGetterCodes: string[] = [];
-
-  // We'll keep a list of "instructions" for each shape: e.g. which properties to re-eval
-  // In a real approach, you'd only store the ones that actually vary over time (keyframed).
-  // For demonstration, we do them all and skip if static.
-
-  interface ShapeInstruction {
-    shapeId: string;
-    shapeType: "path" | "rect";
-    pathProp?: string; // name of the JS getter for the path
-    posProp?: string; // name of the JS getter for rect position
-    sizeProp?: string; // ...
-    roundProp?: string;
-    fillProp?: string;
-    strokeColorProp?: string;
-    strokeWidthProp?: string;
-    transformProp?: string; // if we did per-shape transforms
-  }
-
-  interface LayerInstruction {
-    layerId: string;
-    transformAnchor?: string;
-    transformPosition?: string;
-    transformScale?: string;
-    transformRotation?: string;
-    transformOpacity?: string;
-    shapes: ShapeInstruction[];
-  }
-
-  let layerInstructions: LayerInstruction[] = [];
-
-  // Re-parse the composition, generating "getter" function code for every property found,
-  // and record which shapes need which getters.
-  // (This is akin to the canvas approach, but now we store IDs and attribute updates for SVG.)
-  //
-  // For brevity, we do a second pass. Alternatively, we could have done it in buildInitialSVG,
-  // but let's keep it conceptually separate.
-
-  let getterCounter = 0;
-  function makeGetterName(): string {
-    return `g${getterCounter++}`;
-  }
-
-  function genPropGetter(prop: any): string {
-    const name = makeGetterName();
-    if (!prop || !prop.a) {
-      // static
-      propertyGetterCodes.push(`
-function ${name}(frame) {
-  return ${JSON.stringify(prop?.k)};
+/** Final output: SSR <svg> + minimal runtime JS. */
+export interface CompileOutput {
+  initialSvg: string;
+  runtimeJs: string;
 }
-`);
-    } else {
-      // keyframed
-      propertyGetterCodes.push(`
-function ${name}(frame) {
-  const kfs = ${JSON.stringify(prop.kf || [])};
-  if (kfs.length===0) return 0;
-  if (frame <= kfs[0].t) return kfs[0].s[0];
-  if (frame >= kfs[kfs.length-1].t) return kfs[kfs.length-1].s[0];
-  for(let i=0; i<kfs.length-1; i++){
-    const kf1 = kfs[i], kf2 = kfs[i+1];
-    if(frame>=kf1.t && frame<=kf2.t){
-      const ratio = (frame - kf1.t)/(kf2.t - kf1.t);
-      const startVal = kf1.s[0];
-      const endVal   = kf2.s[0];
-      if(Array.isArray(startVal)){
-        const out = [];
-        for(let j=0; j<startVal.length; j++){
-          out.push(startVal[j] + (endVal[j]-startVal[j])*ratio);
-        }
-        return out;
-      } else if(typeof startVal==='object'){
-        // path => skip partial interpolation
-        return startVal;
-      } else {
-        // single numeric
-        return startVal + (endVal - startVal)*ratio;
+
+export class UlottieCompiler {
+  private layerCounter = 0;
+  private shapeCounter = 0;
+  private maskCounter = 0;
+  private gradientCounter = 0;
+
+  /**
+   * The main compile entry.
+   *
+   * usage:
+   *   const compiler = new UlottieCompiler();
+   *   const { initialSvg, runtimeJs } = compiler.compile(myCompData);
+   */
+  public compile(comp: UlottieComposition): CompileOutput {
+    const irLayers: IRLayer[] = [];
+
+    for (const layer of comp.layers) {
+      const lid = `layer${this.layerCounter++}`;
+      const parsed = this.parseLayer(layer, lid);
+      irLayers.push(parsed);
+    }
+
+    const initialSvg = this.generateInitialSvg(comp, irLayers);
+    const runtimeJs = this.generateRuntimeJs(comp, irLayers);
+
+    return { initialSvg, runtimeJs };
+  }
+
+  /*******************************************************
+   *  parseLayer => IRLayer
+   *******************************************************/
+  private parseLayer(layer: UlottieLayer, lid: string): IRLayer {
+    // parse shapes
+    const shapeIRs: IRShape[] = [];
+    let transformIR: IRLayer["transform"] = undefined;
+    let maskIR: IRLayer["mask"] | undefined;
+
+    // parse mask if any
+    if (layer.masksProperties && layer.masksProperties.length > 0) {
+      // We only demonstrate the first mask
+      const m = layer.masksProperties[0];
+      if (m.mode === "s") {
+        // parse subtract mask
+        const pathKFs = this.parseAnimatedPath(m.pt, /*tolerance=*/ 0.5);
+        const opKF = this.parseValue(m.o);
+        maskIR = {
+          id: `mask${this.maskCounter++}`,
+          pathKFs,
+          opacity: opKF,
+        };
       }
     }
-  }
-  return kfs[kfs.length-1].s[0];
-}
-`);
-    }
-    return name;
-  }
 
-  comp.layers.forEach((layer, layerIndex) => {
-    if (layer.ty !== "shape") return;
-    const instructions: LayerInstruction = {
-      layerId: `layer_${layerIndex}`,
-      shapes: [],
-    };
+    // parse shape items
+    let shapeInProgress: IRShape | null = null;
 
-    let currentFillGetter = "";
-    let currentStrokeColorGetter = "";
-    let currentStrokeWidthGetter = "";
-    let currentGradStartGetter = "";
-    let currentGradEndGetter = "";
-    let haveGradient = false;
+    for (const item of layer.shapes) {
+      switch (item.ty) {
+        case "sh": {
+          // path
+          const sp = item as UlottieShapePath;
+          const newId = `shape${this.shapeCounter++}`;
+          const pathKFs = this.parseAnimatedPath(sp.ks, /*some tolerance*/ 0.5);
 
-    layer.shapes.forEach((shapeItem, shapeIdx) => {
-      switch (shapeItem.ty) {
-        case "tr": {
-          instructions.transformAnchor = genPropGetter(shapeItem.a);
-          instructions.transformPosition = genPropGetter(shapeItem.p);
-          instructions.transformScale = genPropGetter(shapeItem.s);
-          instructions.transformRotation = genPropGetter(shapeItem.r);
-          instructions.transformOpacity = genPropGetter(shapeItem.o);
+          const shape: IRShape = {
+            id: newId,
+            type: "path",
+            pathKeyframes: pathKFs,
+            fillColor: this.emptyColorKF(),
+            strokeColor: undefined,
+            strokeWidth: undefined,
+            anchor: this.emptyValue2DKF([0, 0]),
+            position: this.emptyValue2DKF([0, 0]),
+            scale: this.emptyValue2DKF([100, 100]),
+            rotation: this.emptyValueKF(0),
+            opacity: this.emptyValueKF(1),
+          };
+          shapeIRs.push(shape);
+          shapeInProgress = shape;
+          break;
+        }
+        case "rc": {
+          const rc = item as UlottieRect;
+          const newId = `shape${this.shapeCounter++}`;
+          // We do not store keyframes for rect geometry itself in this example,
+          // if you want to animate rect size, you can parse them in the same manner.
+          const shape: IRShape = {
+            id: newId,
+            type: "rect",
+            rect: {
+              x: 0,
+              y: 0,
+              width: 0,
+              height: 0,
+              cornerRadius: 0,
+            },
+            fillColor: this.emptyColorKF(),
+            anchor: this.emptyValue2DKF([0, 0]),
+            position: this.emptyValue2DKF([0, 0]),
+            scale: this.emptyValue2DKF([100, 100]),
+            rotation: this.emptyValueKF(0),
+            opacity: this.emptyValueKF(1),
+          };
+          // parse p, s, r => store them if you want shape-level geometry anim
+          // Or we just read the initial and store them in `rect`.
+          shapeIRs.push(shape);
+          shapeInProgress = shape;
           break;
         }
         case "fl": {
-          currentFillGetter = genPropGetter(shapeItem.c);
-          haveGradient = false;
+          // fill
+          const fl = item as UlottieFill;
+          const col = this.parseAnimatedColor(fl.c);
+          if (shapeInProgress) {
+            shapeInProgress.fillColor = col;
+          }
+          break;
+        }
+        case "st": {
+          // stroke
+          const st = item as UlottieStroke;
+          const col = this.parseAnimatedColor(st.c);
+          const w = this.parseValue(st.w);
+          if (shapeInProgress) {
+            shapeInProgress.strokeColor = col;
+            shapeInProgress.strokeWidth = w;
+          }
           break;
         }
         case "gf": {
           // gradient fill
-          const gf = shapeItem as UlottieGradientFill;
-          currentGradStartGetter = genPropGetter(gf.s);
-          currentGradEndGetter = genPropGetter(gf.e);
-          haveGradient = true;
-          // For color stops array gf.g.k we do no animation in this example
-          // so no separate getter needed.
-          currentFillGetter = ""; // not a single color
+          const gf = item as UlottieGradientFill;
+          const grad = this.parseGradient(gf);
+          if (shapeInProgress) {
+            shapeInProgress.gradient = grad;
+          }
           break;
         }
-        case "st": {
-          currentStrokeColorGetter = genPropGetter(shapeItem.c);
-          currentStrokeWidthGetter = genPropGetter(shapeItem.w);
+        case "tr": {
+          // transform
+          const tr = item as UlottieTransform;
+          transformIR = {
+            anchor: this.parseValue2D(tr.a),
+            position: this.parseValue2D(tr.p),
+            scale: this.parseValue2D(tr.s),
+            rotation: this.parseValue(tr.r),
+            opacity: this.parseValue(tr.o),
+          };
           break;
         }
-        case "sh": {
-          // path
-          const shapeId = `layer_${layerIndex}_shape_${shapeIdx}`;
-          const pathGetter = genPropGetter(shapeItem.ks);
-          instructions.shapes.push({
-            shapeId,
-            shapeType: "path",
-            pathProp: pathGetter,
-            fillProp: haveGradient
-              ? `gradient:${currentGradStartGetter},${currentGradEndGetter},${JSON.stringify(
-                  (shapeItem as any).g?.k || [],
-                )}`
-              : currentFillGetter,
-            strokeColorProp: currentStrokeColorGetter,
-            strokeWidthProp: currentStrokeWidthGetter,
-          });
+        default:
+          // not implemented
           break;
-        }
-        case "rc": {
-          // rect
-          const shapeId = `layer_${layerIndex}_shape_${shapeIdx}`;
-          const posG = genPropGetter(shapeItem.p);
-          const sizeG = genPropGetter(shapeItem.s);
-          const roundG = genPropGetter(shapeItem.r);
+      }
+    }
 
-          instructions.shapes.push({
-            shapeId,
-            shapeType: "rect",
-            posProp: posG,
-            sizeProp: sizeG,
-            roundProp: roundG,
-            fillProp: haveGradient
-              ? `gradient:${currentGradStartGetter},${currentGradEndGetter},${JSON.stringify(
-                  (shapeItem as any).g?.k || [],
-                )}`
-              : currentFillGetter,
-            strokeColorProp: currentStrokeColorGetter,
-            strokeWidthProp: currentStrokeWidthGetter,
-          });
-          break;
+    const out: IRLayer = {
+      id: lid,
+      shapes: shapeIRs,
+      transform: transformIR,
+      mask: maskIR,
+    };
+    return out;
+  }
+
+  /*******************************************************
+   *  parseAnimatedPath with Keyframe Reduction
+   *******************************************************/
+  private parseAnimatedPath(ap: UlottieAnimatedPath, tolerance: number): PathKFArray {
+    const result: PathKFArray = [];
+
+    if (ap.a === 0 && ap.k) {
+      // single static path
+      result.push({ t: 0, val: ap.k });
+    } else if (ap.a === 1 && ap.kf) {
+      for (const k of ap.kf) {
+        if (k.s && k.s[0]) {
+          result.push({ t: k.t, val: k.s[0] });
         }
       }
+      // sort by time
+      result.sort((a, b) => a.t - b.t);
+
+      // Now do the reduction
+      const reduced = this.reducePathKeyframes(result, tolerance);
+      return reduced;
+    }
+
+    return result;
+  }
+
+  /**
+   * reducePathKeyframes: remove “unnecessary” frames if the shape can be approximated
+   * by interpolating from neighbors within a certain tolerance.
+   */
+  private reducePathKeyframes(pathKFs: PathKFArray, tolerance: number): PathKFArray {
+    if (pathKFs.length <= 2) return pathKFs;
+
+    const reduced: PathKFArray = [pathKFs[0]];
+
+    for (let i = 1; i < pathKFs.length - 1; i++) {
+      const prev = reduced[reduced.length - 1];
+      const curr = pathKFs[i];
+      const next = pathKFs[i + 1];
+      if (!next) break;
+
+      const alphaSpan = next.t - prev.t;
+      const alpha = alphaSpan === 0 ? 0 : (curr.t - prev.t) / alphaSpan;
+
+      const approx = this.interpolatePath(prev.val, next.val, alpha);
+      const dist = this.shapeDifference(curr.val, approx);
+
+      if (dist <= tolerance) {
+        // skip
+      } else {
+        reduced.push(curr);
+      }
+    }
+    reduced.push(pathKFs[pathKFs.length - 1]);
+    return reduced;
+  }
+
+  /**
+   * Interpolate two path shapes linearly by alpha in [0..1].
+   * (Assumes same # of vertices, tangents).
+   */
+  private interpolatePath(a: UlottiePath, b: UlottiePath, alpha: number): UlottiePath {
+    const out: UlottiePath = {
+      c: a.c, // assuming same closed
+      i: [],
+      o: [],
+      v: [],
+    };
+    // naive approach: same vertex count
+    for (let idx = 0; idx < a.v.length; idx++) {
+      // v
+      out.v.push([
+        a.v[idx][0] + alpha * (b.v[idx][0] - a.v[idx][0]),
+        a.v[idx][1] + alpha * (b.v[idx][1] - a.v[idx][1]),
+      ]);
+      // i
+      out.i.push([
+        a.i[idx][0] + alpha * (b.i[idx][0] - a.i[idx][0]),
+        a.i[idx][1] + alpha * (b.i[idx][1] - a.i[idx][1]),
+      ]);
+      // o
+      out.o.push([
+        a.o[idx][0] + alpha * (b.o[idx][0] - a.o[idx][0]),
+        a.o[idx][1] + alpha * (b.o[idx][1] - a.o[idx][1]),
+      ]);
+    }
+    return out;
+  }
+
+  /**
+   * shapeDifference => average distance between corresponding vertices/tangents
+   */
+  private shapeDifference(a: UlottiePath, b: UlottiePath): number {
+    let sum = 0,
+      count = 0;
+    // naive assume same # points
+    for (let i = 0; i < a.v.length; i++) {
+      const dx = a.v[i][0] - b.v[i][0];
+      const dy = a.v[i][1] - b.v[i][1];
+      sum += Math.sqrt(dx * dx + dy * dy);
+      count++;
+
+      const dix = a.i[i][0] - b.i[i][0];
+      const diy = a.i[i][1] - b.i[i][1];
+      sum += Math.sqrt(dix * dix + diy * diy);
+      count++;
+
+      const dox = a.o[i][0] - b.o[i][0];
+      const doy = a.o[i][1] - b.o[i][1];
+      sum += Math.sqrt(dox * dox + doy * doy);
+      count++;
+    }
+    return sum / count;
+  }
+
+  /*******************************************************
+   *  parse gradients, color, value, etc.
+   *******************************************************/
+  private parseGradient(gf: UlottieGradientFill): GradientKF {
+    // Minimal approach: single keyframe
+    const stops: GradientStop[] = [];
+    const kArr = gf.g.k; // [offset0,r0,g0,b0, offset1, r1,g1,b1, ...]
+    for (let i = 0; i < kArr.length; i += 4) {
+      stops.push({ offset: kArr[i], r: kArr[i + 1], g: kArr[i + 2], b: kArr[i + 3] });
+    }
+    // parse start+end
+    const start = this.parseValue2D(gf.s).keyframes[0].val;
+    const end = this.parseValue2D(gf.e).keyframes[0].val;
+
+    return {
+      keyframes: [{ t: 0, stops, start, end }],
+    };
+  }
+
+  private parseAnimatedColor(ac: UlottieAnimatedColor): ColorKF {
+    const out: ColorKF = { keyframes: [] };
+    if (ac.a === 0 && ac.k) {
+      out.keyframes.push({
+        t: 0,
+        val: [ac.k[0] || 0, ac.k[1] || 0, ac.k[2] || 0, ac.k[3] === undefined ? 1 : ac.k[3]],
+      });
+    } else if (ac.a === 1 && ac.kf) {
+      for (const k of ac.kf) {
+        out.keyframes.push({
+          t: k.t,
+          val: [k.s[0] || 0, k.s[1] || 0, k.s[2] || 0, k.s[3] === undefined ? 1 : k.s[3]],
+        });
+      }
+      out.keyframes.sort((a, b) => a.t - b.t);
+    } else {
+      out.keyframes.push({ t: 0, val: [0, 0, 0, 1] });
+    }
+    return out;
+  }
+
+  private parseValue(v: UlottieAnimatedValue): ValueKF {
+    const out: ValueKF = { keyframes: [] };
+    if (v.a === 0 && typeof v.k === "number") {
+      out.keyframes.push({ t: 0, val: v.k });
+    } else if (v.a === 1 && v.kf) {
+      for (const k of v.kf) {
+        out.keyframes.push({ t: k.t, val: k.s[0] });
+      }
+      out.keyframes.sort((a, b) => a.t - b.t);
+    } else {
+      out.keyframes.push({ t: 0, val: 0 });
+    }
+    return out;
+  }
+
+  private parseValue2D(v2d: UlottieAnimatedValue2D): Value2DKF {
+    const out: Value2DKF = { keyframes: [] };
+    if (v2d.a === 0 && v2d.k) {
+      out.keyframes.push({ t: 0, val: [v2d.k[0] || 0, v2d.k[1] || 0] });
+    } else if (v2d.a === 1 && v2d.kf) {
+      for (const k of v2d.kf) {
+        out.keyframes.push({ t: k.t, val: [k.s[0] || 0, k.s[1] || 0] });
+      }
+      out.keyframes.sort((a, b) => a.t - b.t);
+    } else {
+      out.keyframes.push({ t: 0, val: [0, 0] });
+    }
+    return out;
+  }
+
+  private emptyColorKF(): ColorKF {
+    return { keyframes: [{ t: 0, val: [0, 0, 0, 1] }] };
+  }
+  private emptyValueKF(defVal: number): ValueKF {
+    return { keyframes: [{ t: 0, val: defVal }] };
+  }
+  private emptyValue2DKF(defVal: [number, number]): Value2DKF {
+    return { keyframes: [{ t: 0, val: defVal }] };
+  }
+
+  /*******************************************************
+   *  Generate <svg> for initial frame
+   *******************************************************/
+  private generateInitialSvg(comp: UlottieComposition, layers: IRLayer[]): string {
+    const { w, h } = comp;
+    let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">\n`;
+
+    // We'll place <defs> inside if needed
+    svg += `<defs>\n`;
+    // We define masks and gradients inline as we go
+    svg += `</defs>\n`;
+
+    // for each layer => <g> ...
+    layers.forEach((ly) => {
+      // if mask => define <mask ...>
+      let maskRef = "";
+      if (ly.mask) {
+        maskRef = `mask="url(#${ly.mask.id})"`;
+
+        // Build the path from the first keyframe
+        const firstM = ly.mask.pathKFs[0].val;
+        const d = this.pathToString(firstM);
+        const maskOp = (ly.mask.opacity.keyframes[0].val || 100) / 100;
+
+        // Create a <mask> with a big white rect minus a black path
+        // naive approach to "subtract" mask
+        svg += `<mask id="${ly.mask.id}" maskUnits="userSpaceOnUse">\n`;
+        svg += `  <rect x="0" y="0" width="${w}" height="${h}" fill="white"/>\n`;
+        svg += `  <path d="${d}" fill="black" fill-opacity="${maskOp}"/>\n`;
+        svg += `</mask>\n`;
+      }
+
+      // layer transform => from the first keyframe
+      const anchor = this.pickValue2D(ly.transform?.anchor, 0);
+      const pos = this.pickValue2D(ly.transform?.position, 0);
+      const sc = this.pickValue2D(ly.transform?.scale, 0);
+      const rot = this.pickValue(ly.transform?.rotation, 0);
+      const lop = this.pickValue(ly.transform?.opacity, 100) / 100;
+
+      let layerTr = `translate(${pos[0]}, ${pos[1]}) `;
+      if (anchor[0] || anchor[1]) {
+        layerTr += `rotate(${rot}, ${anchor[0]}, ${anchor[1]}) `;
+      } else {
+        layerTr += `rotate(${rot}) `;
+      }
+      layerTr += `scale(${sc[0] / 100}, ${sc[1] / 100}) `;
+
+      svg += `<g id="${ly.id}" ${maskRef} opacity="${lop}" transform="${layerTr.trim()}">\n`;
+
+      // shapes
+      ly.shapes.forEach((sh) => {
+        if (sh.type === "rect" && sh.rect) {
+          // pick the shape's initial transform, fill, etc.
+          const fx = this.pickColor(sh.fillColor, [0, 0, 0, 1]);
+          const sx = this.pickColor(sh.strokeColor, [0, 0, 0, 0]);
+          const sw = this.pickValue(sh.strokeWidth, 1);
+          const sOp = sx[3];
+          const fOp = fx[3];
+
+          const x = sh.rect.x - sh.rect.width / 2;
+          const y = sh.rect.y - sh.rect.height / 2;
+
+          // shape-level transform?
+          const shapetr = this.buildShapeTransform(sh, 0);
+
+          // gradient?
+          let fillAttr = `fill="rgb(${Math.round(fx[0] * 255)},${Math.round(fx[1] * 255)},${Math.round(fx[2] * 255)})" fill-opacity="${fOp}"`;
+          if (sh.gradient) {
+            const gradId = `grad${this.gradientCounter++}`;
+            const gradKF = sh.gradient.keyframes[0];
+            svg += `<defs><linearGradient id="${gradId}" x1="${gradKF.start[0]}" y1="${gradKF.start[1]}" x2="${gradKF.end[0]}" y2="${gradKF.end[1]}" gradientUnits="userSpaceOnUse">\n`;
+            gradKF.stops.forEach((s) => {
+              svg += `  <stop offset="${s.offset * 100}%" stop-color="rgb(${Math.round(s.r * 255)},${Math.round(s.g * 255)},${Math.round(s.b * 255)})"/>\n`;
+            });
+            svg += `</linearGradient></defs>\n`;
+            fillAttr = `fill="url(#${gradId})"`;
+          }
+
+          svg += `<rect id="${sh.id}" x="${x}" y="${y}" width="${sh.rect.width}" height="${sh.rect.height}" rx="${sh.rect.cornerRadius}" transform="${shapetr}" opacity="1" ${fillAttr} stroke="rgb(${Math.round(sx[0] * 255)},${Math.round(sx[1] * 255)},${Math.round(sx[2] * 255)})" stroke-opacity="${sOp}" stroke-width="${sw}" />\n`;
+        } else if (sh.type === "path" && sh.pathKeyframes) {
+          // build from first keyframe
+          const pathFirst = sh.pathKeyframes[0].val;
+          const d = this.pathToString(pathFirst);
+
+          const fx = this.pickColor(sh.fillColor, [0, 0, 0, 1]);
+          const sx = this.pickColor(sh.strokeColor, [0, 0, 0, 0]);
+          const sw = this.pickValue(sh.strokeWidth, 1);
+          const sOp = sx[3];
+          const fOp = fx[3];
+
+          const shapetr = this.buildShapeTransform(sh, 0);
+
+          let fillAttr = `fill="rgb(${Math.round(fx[0] * 255)},${Math.round(fx[1] * 255)},${Math.round(fx[2] * 255)})" fill-opacity="${fOp}"`;
+          if (sh.gradient) {
+            const gradId = `grad${this.gradientCounter++}`;
+            const gradKF = sh.gradient.keyframes[0];
+            svg += `<defs><linearGradient id="${gradId}" x1="${gradKF.start[0]}" y1="${gradKF.start[1]}" x2="${gradKF.end[0]}" y2="${gradKF.end[1]}" gradientUnits="userSpaceOnUse">\n`;
+            gradKF.stops.forEach((s) => {
+              svg += `  <stop offset="${s.offset * 100}%" stop-color="rgb(${Math.round(s.r * 255)},${Math.round(s.g * 255)},${Math.round(s.b * 255)})"/>\n`;
+            });
+            svg += `</linearGradient></defs>\n`;
+            fillAttr = `fill="url(#${gradId})"`;
+          }
+
+          svg += `<path id="${sh.id}" d="${d}" transform="${shapetr}" opacity="1" ${fillAttr} stroke="rgb(${Math.round(sx[0] * 255)},${Math.round(sx[1] * 255)},${Math.round(sx[2] * 255)})" stroke-opacity="${sOp}" stroke-width="${sw}" />\n`;
+        }
+      });
+
+      svg += `</g>\n`;
     });
 
-    layerInstructions.push(instructions);
-  });
+    svg += `</svg>`;
+    return svg;
+  }
 
-  // Now we generate the final JS:
-  // We'll embed the "evaluate to path D" code:
-
-  const script = `
-(function(){
-  "use strict";
-
-  // -- All property getters --
-  ${propertyGetterCodes.join("\n")}
-
-  // Helper for pathToD
-  function pathToD(pathVal) {
-    if(!pathVal || !pathVal.v || pathVal.v.length===0) return "";
-    let d = "M " + pathVal.v[0][0] + "," + pathVal.v[0][1];
-    for(let i=1; i<pathVal.v.length; i++){
-      d += " L " + pathVal.v[i][0] + "," + pathVal.v[i][1];
+  private pathToString(p: UlottiePath): string {
+    if (!p.v || p.v.length < 1) return "";
+    let d = `M${p.v[0][0]},${p.v[0][1]}`;
+    for (let i = 1; i < p.v.length; i++) {
+      const px = i - 1;
+      const cx1 = p.v[px][0] + p.o[px][0];
+      const cy1 = p.v[px][1] + p.o[px][1];
+      const cx2 = p.v[i][0] + p.i[i][0];
+      const cy2 = p.v[i][1] + p.i[i][1];
+      d += ` C${cx1},${cy1} ${cx2},${cy2} ${p.v[i][0]},${p.v[i][1]}`;
     }
-    if(pathVal.c) d += " Z";
+    if (p.c) {
+      const last = p.v.length - 1;
+      const cx1 = p.v[last][0] + p.o[last][0];
+      const cy1 = p.v[last][1] + p.o[last][1];
+      const cx2 = p.v[0][0] + p.i[0][0];
+      const cy2 = p.v[0][1] + p.i[0][1];
+      d += ` C${cx1},${cy1} ${cx2},${cy2} ${p.v[0][0]},${p.v[0][1]} Z`;
+    }
     return d;
   }
 
-  // We'll define a function that starts animating the SVG
-  function playUlottieSVG(svgId) {
-    const svgEl = document.getElementById(svgId);
-    if(!svgEl || svgEl.nodeName.toLowerCase() !== "svg"){
-      console.warn("ulottie: No valid <svg> with id=", svgId);
-      return;
+  private pickValue2D(v2: Value2DKF | undefined, def: number): [number, number] {
+    if (!v2 || v2.keyframes.length < 1) return [def, def];
+    return v2.keyframes[0].val;
+  }
+  private pickValue(v: ValueKF | undefined, def: number): number {
+    if (!v || v.keyframes.length < 1) return def;
+    return v.keyframes[0].val;
+  }
+  private pickColor(
+    c: ColorKF | undefined,
+    def: [number, number, number, number],
+  ): [number, number, number, number] {
+    if (!c || c.keyframes.length < 1) return def;
+    return c.keyframes[0].val;
+  }
+
+  private buildShapeTransform(sh: IRShape, frame: number): string {
+    // just pick first or do a real “lookup.” For the initial:
+    const pos = sh.position?.keyframes[0].val || [0, 0];
+    const anc = sh.anchor?.keyframes[0].val || [0, 0];
+    const sc = sh.scale?.keyframes[0].val || [100, 100];
+    const rt = sh.rotation?.keyframes[0].val || 0;
+    let sTr = "";
+    sTr += `translate(${pos[0]},${pos[1]}) `;
+    if (anc[0] || anc[1]) {
+      sTr += `rotate(${rt},${anc[0]},${anc[1]}) `;
+    } else {
+      sTr += `rotate(${rt}) `;
     }
+    sTr += `scale(${sc[0] / 100},${sc[1] / 100}) `;
+    return sTr.trim();
+  }
 
-    // Grab references to layers & shapes
-    ${layerInstructions
-      .map((layer) => {
-        const shapesRef = layer.shapes
-          .map(
-            (sh) => `
-    const el_${sh.shapeId} = document.getElementById("${sh.shapeId}");
-    `,
-          )
-          .join("");
-        return `// Layer ${layer.layerId}
-    ${shapesRef}
-    `;
-      })
-      .join("\n")}
+  /*******************************************************
+   *  Generate runtime JS
+   *******************************************************/
+  private generateRuntimeJs(comp: UlottieComposition, layers: IRLayer[]): string {
+    const totalFrames = comp.op - comp.ip;
+    const durationMs = (totalFrames / comp.fr) * 1000;
 
-    // Animation loop
-    let currentFrame = ${startFrame};
-    const totalFrames = ${totalFrames};
-    const frameDuration = ${frameDuration};
-    let lastTime = performance.now();
-    let requestId = 0;
+    // We'll store a big JSON for each layer & shape, including path keyframes
+    const data = layers.map((ly) => {
+      return {
+        layerId: ly.id,
+        transform: ly.transform
+          ? {
+              anchor: ly.transform.anchor.keyframes,
+              position: ly.transform.position.keyframes,
+              scale: ly.transform.scale.keyframes,
+              rotation: ly.transform.rotation.keyframes,
+              opacity: ly.transform.opacity.keyframes,
+            }
+          : null,
+        mask: ly.mask
+          ? {
+              id: ly.mask.id,
+              pathKFs: ly.mask.pathKFs,
+              opacity: ly.mask.opacity.keyframes,
+            }
+          : null,
+        shapes: ly.shapes.map((sh) => ({
+          id: sh.id,
+          type: sh.type,
+          pathKFs: sh.pathKeyframes || [],
+          rect: sh.rect || null,
+          fillColor: sh.fillColor?.keyframes || [],
+          strokeColor: sh.strokeColor?.keyframes || [],
+          strokeWidth: sh.strokeWidth?.keyframes || [],
+          gradient: sh.gradient ? sh.gradient.keyframes : null,
+          anchor: sh.anchor?.keyframes || [],
+          position: sh.position?.keyframes || [],
+          scale: sh.scale?.keyframes || [],
+          rotation: sh.rotation?.keyframes || [],
+          opacity: sh.opacity?.keyframes || [],
+        })),
+      };
+    });
 
-    function draw(frame) {
-      // For each layer, re-compute transform (if any), then update each shape
-      ${layerInstructions
-        .map((layer) => {
-          let code = `{
-  const layerEl = document.getElementById("${layer.layerId}");
-  if(!layerEl) return;`;
-          if (layer.transformAnchor) {
-            code += `
-  const anchor = ${layer.transformAnchor}(frame)||[0,0];
-  const position = ${layer.transformPosition}(frame)||[0,0];
-  const scale = ${layer.transformScale}(frame)||[100,100];
-  const rotation = ${layer.transformRotation}(frame)||0;
-  const opacity = (${layer.transformOpacity}(frame)||100)/100;
-  // Build an SVG transform attribute
-  // translate(px,py) rotate(...) scale(...) translate(-ax, -ay)
-  const px=position[0], py=position[1];
-  const sx=scale[0]/100, sy=scale[1]/100;
-  const ax=anchor[0], ay=anchor[1];
-  layerEl.setAttribute("opacity", opacity);
-  layerEl.setAttribute("transform",
-    "translate(" + px + "," + py + ") " +
-    "rotate(" + rotation + ") " +
-    "scale(" + sx + "," + sy + ") " +
-    "translate(" + (-ax) + "," + (-ay) + ")"
-  );
-`;
+    const runtimeData = JSON.stringify(data);
+
+    // We'll also embed helper JS: linear interpolation for numeric/array,
+    // plus dynamic path building for shape keyframes
+    const code = `
+(function(){
+  const comp = {
+    ip:${comp.ip},
+    op:${comp.op},
+    fr:${comp.fr},
+    data:${runtimeData}
+  };
+  const totalFrames = comp.op - comp.ip;
+  const duration = (totalFrames / comp.fr)*1000;
+  let startTime;
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function findKFValue(kfs, frame){
+    // find bracketing frames
+    if(!kfs||kfs.length<1) return 0;
+    if(frame <= kfs[0].t) return kfs[0].val;
+    if(frame >= kfs[kfs.length-1].t) return kfs[kfs.length-1].val;
+    for(let i=0;i<kfs.length-1;i++){
+      let k0 = kfs[i], k1=kfs[i+1];
+      if(frame>=k0.t && frame<=k1.t){
+        let span = (k1.t - k0.t);
+        let alpha = span===0?0:(frame-k0.t)/span;
+        if(Array.isArray(k0.val)){
+          let out=[];
+          for(let c=0;c<k0.val.length;c++){
+            out[c] = lerp(k0.val[c], k1.val[c], alpha);
           }
-          // shapes:
-          layer.shapes.forEach((sh) => {
-            if (sh.shapeType === "path" && sh.pathProp) {
-              code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const pathVal = ${sh.pathProp}(frame);
-      shapeEl.setAttribute("d", pathToD(pathVal));
-    } 
-  }
-`;
-            }
-            if (sh.shapeType === "rect" && sh.posProp && sh.sizeProp) {
-              code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const pos = ${sh.posProp}(frame)||[0,0];
-      const size= ${sh.sizeProp}(frame)||[0,0];
-      const round=${sh.roundProp}(frame)||0;
-      const x = pos[0] - size[0]/2;
-      const y = pos[1] - size[1]/2;
-      shapeEl.setAttribute("x", x);
-      shapeEl.setAttribute("y", y);
-      shapeEl.setAttribute("width", size[0]);
-      shapeEl.setAttribute("height", size[1]);
-      shapeEl.setAttribute("rx", round);
-      shapeEl.setAttribute("ry", round);
-    }
-  }
-`;
-            }
-
-            // fill/stroke might be "gradient: gradStartGetter, gradEndGetter, array"
-            // or a color getter name
-            if (sh.fillProp) {
-              if (sh.fillProp.startsWith("gradient:")) {
-                // parse out the gradient data
-                // "gradient:${gradStartGetter},${gradEndGetter},${JSON.stringify(stops)}"
-                const parts = sh.fillProp.split(":")[1].split(",");
-                const gradStartGetter = parts[0];
-                const gradEndGetter = parts[1];
-                // The remainder is the stops array
-                const stopsJson = parts.slice(2).join(",");
-                code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const sPt = ${gradStartGetter}(frame)||[0,0];
-      const ePt = ${gradEndGetter}(frame)||[0,0];
-      // stops (static)
-      const stops = ${stopsJson};
-      // For simplicity, we re-generate a new <linearGradient> each frame with a unique ID
-      // Then set fill="url(#thatID)". This is not super efficient, but it demonstrates the idea.
-      // A more advanced approach would partially update <stop> or handle boundingBox usage.
-      const uniqueGradId = "autoGrad_" + "${sh.shapeId}" + "_" + frame;
-      // we assume the <defs> is the first child of the root SVG:
-      let defsEl = svgEl.querySelector("defs");
-      if(!defsEl){
-        defsEl = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-        svgEl.insertBefore(defsEl, svgEl.firstChild);
-      }
-      const gradEl = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
-      gradEl.setAttribute("id", uniqueGradId);
-      gradEl.setAttribute("gradientUnits","userSpaceOnUse");
-      gradEl.setAttribute("x1", sPt[0]);
-      gradEl.setAttribute("y1", sPt[1]);
-      gradEl.setAttribute("x2", ePt[0]);
-      gradEl.setAttribute("y2", ePt[1]);
-      for(let i=0; i<stops.length; i+=4){
-        const offset= stops[i];
-        const r= Math.round(stops[i+1]);
-        const g= Math.round(stops[i+2]);
-        const b= Math.round(stops[i+3]);
-        const stopEl = document.createElementNS("http://www.w3.org/2000/svg","stop");
-        stopEl.setAttribute("offset", (offset*100)+"%");
-        stopEl.setAttribute("stop-color", "rgb(" + r + "," + g + "," + b + ")");
-        gradEl.appendChild(stopEl);
-      }
-      defsEl.appendChild(gradEl);
-      shapeEl.setAttribute("fill", "url(#" + uniqueGradId + ")");
-    }
-  }
-`;
-              } else {
-                // a color getter
-                code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const c = ${sh.fillProp}(frame)||[0,0,0];
-      shapeEl.setAttribute("fill", "rgb(" + Math.round(c[0]) + "," + Math.round(c[1]) + "," + Math.round(c[2]) + ")");
-    }
-  }
-`;
-              }
-            }
-            if (sh.strokeColorProp) {
-              code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const sc = ${sh.strokeColorProp}(frame)||[0,0,0];
-      shapeEl.setAttribute("stroke", "rgb(" + Math.round(sc[0]) + "," + Math.round(sc[1]) + "," + Math.round(sc[2]) + ")");
-    }
-  }
-`;
-            }
-            if (sh.strokeWidthProp) {
-              code += `
-  {
-    const shapeEl = document.getElementById("${sh.shapeId}");
-    if(shapeEl){
-      const sw = ${sh.strokeWidthProp}(frame)||1;
-      shapeEl.setAttribute("stroke-width", sw);
-    }
-  }
-`;
-            }
-          });
-          code += `}`;
-          return code;
-        })
-        .join("\n")}
-    }
-
-    function tick(time){
-      const elapsed = time - lastTime;
-      if(elapsed >= frameDuration){
-        lastTime = time;
-        draw(currentFrame);
-        currentFrame++;
-        if(currentFrame >= (${startFrame}+totalFrames)){
-          // stop or loop
-          // currentFrame = ${startFrame}; // to loop
+          return out;
+        } else {
+          return lerp(k0.val, k1.val, alpha);
         }
       }
-      if(currentFrame < (${startFrame}+totalFrames)){
-        requestId = requestAnimationFrame(tick);
-      }
     }
-    requestId = requestAnimationFrame(tick);
-    return {
-      stop: function(){
-        cancelAnimationFrame(requestId);
-      }
-    }
+    return kfs[0].val;
   }
 
-  // Expose globally
-  if(typeof window !== "undefined"){
-    window.playUlottieSVG = playUlottieSVG;
+  function buildPathBetween(a,b,alpha){
+    // linearly interpolate a & b's v,i,o
+    let out = { c:a.c, v:[], i:[], o:[] };
+    let len = Math.min(a.v.length, b.v.length);
+    for(let i=0; i<len; i++){
+      out.v.push([
+        lerp(a.v[i][0], b.v[i][0], alpha),
+        lerp(a.v[i][1], b.v[i][1], alpha)
+      ]);
+      out.i.push([
+        lerp(a.i[i][0], b.i[i][0], alpha),
+        lerp(a.i[i][1], b.i[i][1], alpha)
+      ]);
+      out.o.push([
+        lerp(a.o[i][0], b.o[i][0], alpha),
+        lerp(a.o[i][1], b.o[i][1], alpha)
+      ]);
+    }
+    return out;
   }
+
+  function findPathKeyframeValue(kfs, frame){
+    if(kfs.length<1) return null;
+    if(frame<=kfs[0].t) return kfs[0].val;
+    if(frame>=kfs[kfs.length-1].t) return kfs[kfs.length-1].val;
+    for(let i=0;i<kfs.length-1;i++){
+      let k0=kfs[i], k1=kfs[i+1];
+      if(frame>=k0.t && frame<=k1.t){
+        let span=(k1.t-k0.t);
+        let alpha=span===0?0:(frame-k0.t)/span;
+        return buildPathBetween(k0.val, k1.val, alpha);
+      }
+    }
+    return kfs[0].val;
+  }
+
+  function pathToD(p){
+    if(!p||!p.v||p.v.length<1)return '';
+    let d='M'+p.v[0][0]+','+p.v[0][1];
+    for(let i=1;i<p.v.length;i++){
+      let px=i-1;
+      let cx1=p.v[px][0]+p.o[px][0];
+      let cy1=p.v[px][1]+p.o[px][1];
+      let cx2=p.v[i][0]+p.i[i][0];
+      let cy2=p.v[i][1]+p.i[i][1];
+      d+=' C'+cx1+','+cy1+' '+cx2+','+cy2+' '+p.v[i][0]+','+p.v[i][1];
+    }
+    if(p.c){
+      let last=p.v.length-1;
+      let cx1=p.v[last][0]+p.o[last][0];
+      let cy1=p.v[last][1]+p.o[last][1];
+      let cx2=p.v[0][0]+p.i[0][0];
+      let cy2=p.v[0][1]+p.i[0][1];
+      d+=' C'+cx1+','+cy1+' '+cx2+','+cy2+' '+p.v[0][0]+','+p.v[0][1]+' Z';
+    }
+    return d;
+  }
+
+  function animateFrame(t){
+    if(!startTime) startTime=t;
+    const elapsed=t-startTime;
+    if(elapsed>duration){
+      // end
+      return;
+    }
+    requestAnimationFrame(animateFrame);
+
+    const progress=elapsed/duration; // 0..1
+    const frame=comp.ip+progress*(comp.op-comp.ip);
+
+    // each layer
+    comp.data.forEach(layer=>{
+      let lElem=document.getElementById(layer.layerId);
+      if(!lElem)return;
+
+      let anchor   = findKFValue(layer.transform?.anchor, frame);
+      let position = findKFValue(layer.transform?.position, frame);
+      let scale    = findKFValue(layer.transform?.scale, frame);
+      let rotation = findKFValue(layer.transform?.rotation, frame);
+      let lopacity = findKFValue(layer.transform?.opacity, frame)/100;
+
+      let lTr='';
+      lTr+='translate('+position[0]+','+position[1]+') ';
+      if(anchor[0]||anchor[1]){
+        lTr+='rotate('+rotation+','+anchor[0]+','+anchor[1]+') ';
+      } else {
+        lTr+='rotate('+rotation+') ';
+      }
+      lTr+='scale('+(scale[0]/100)+','+(scale[1]/100)+') ';
+      lElem.setAttribute('transform', lTr.trim());
+      lElem.setAttribute('opacity', lopacity);
+
+      // mask
+      if(layer.mask){
+        let maskElem=document.getElementById(layer.mask.id);
+        if(maskElem){
+          // find path
+          let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
+          let mOp = findKFValue(layer.mask.opacity, frame)/100;
+          let pathElem=maskElem.querySelector('path');
+          if(pathElem){
+            pathElem.setAttribute('d', pathToD(mp));
+            pathElem.setAttribute('fill-opacity', mOp);
+          }
+        }
+      }
+
+      // shapes
+      layer.shapes.forEach(sh=>{
+        let sElem=document.getElementById(sh.id);
+        if(!sElem)return;
+        let shAnchor   = findKFValue(sh.anchor, frame);
+        let shPos      = findKFValue(sh.position, frame);
+        let shScale    = findKFValue(sh.scale, frame);
+        let shRot      = findKFValue(sh.rotation, frame);
+        let shOp       = findKFValue(sh.opacity, frame);
+
+        let sTr='';
+        sTr+='translate('+shPos[0]+','+shPos[1]+') ';
+        if(shAnchor[0]||shAnchor[1]){
+          sTr+='rotate('+shRot+','+shAnchor[0]+','+shAnchor[1]+') ';
+        } else {
+          sTr+='rotate('+shRot+') ';
+        }
+        sTr+='scale('+(shScale[0]/100)+','+(shScale[1]/100)+') ';
+        sElem.setAttribute('transform', sTr.trim());
+        sElem.setAttribute('opacity', shOp);
+
+        // fill color
+        if(sh.fillColor && sh.fillColor.length>0){
+          let fc=findKFValue(sh.fillColor,frame);
+          let col='rgb('+Math.round(fc[0]*255)+','+Math.round(fc[1]*255)+','+Math.round(fc[2]*255)+')';
+          sElem.setAttribute('fill', col);
+          sElem.setAttribute('fill-opacity', fc[3]);
+        }
+        // stroke color
+        if(sh.strokeColor && sh.strokeColor.length>0){
+          let sc=findKFValue(sh.strokeColor, frame);
+          let col='rgb('+Math.round(sc[0]*255)+','+Math.round(sc[1]*255)+','+Math.round(sc[2]*255)+')';
+          sElem.setAttribute('stroke', col);
+          sElem.setAttribute('stroke-opacity', sc[3]);
+        }
+        // stroke width
+        if(sh.strokeWidth && sh.strokeWidth.length>0){
+          let sw=findKFValue(sh.strokeWidth, frame);
+          sElem.setAttribute('stroke-width', sw);
+        }
+        // path geometry
+        if(sh.type==='path' && sh.pathKFs && sh.pathKFs.length>0){
+          // fully dynamic path
+          let pVal=findPathKeyframeValue(sh.pathKFs, frame);
+          sElem.setAttribute('d', pathToD(pVal));
+        }
+      });
+    });
+  }
+  requestAnimationFrame(animateFrame);
 })();
 `;
-  return script;
+    return code;
+  }
 }
-
-/*****************************************************
- * 6) Combined Compiler: parse -> build initial SVG -> build animation JS
- *****************************************************/
-export function compileUlottieToSVG(raw: any): { initialSVG: string; animationJS: string } {
-  const comp = parseUlottie(raw);
-  // Build the static <svg>
-  const { svgMarkup, layerData } = buildInitialSVG(comp);
-  // Build the JS
-  const animationJS = buildAnimationScript(comp, layerData);
-  return { initialSVG: svgMarkup, animationJS };
-}
-
-/*****************************************************
- * Usage Example
- *****************************************************/
-// You can do something like:
-
-const sampleComp: UlottieComposition = {
-  v: "5.7.1",
-  fr: 30,
-  w: 300,
-  h: 300,
-  ip: 0,
-  op: 60,
-  layers: [
-    {
-      ty: "shape",
-      nm: "My Rectangle Layer",
-      shapes: [
-        {
-          ty: "rc",
-          p: { a: 0, k: [150, 150] },
-          s: { a: 0, k: [100, 100] },
-          r: { a: 0, k: 20 },
-        },
-        {
-          ty: "fl",
-          c: { a: 0, k: [255, 0, 0] }, // red fill
-        },
-        {
-          ty: "st",
-          c: { a: 0, k: [0, 0, 0] }, // black stroke
-          w: { a: 0, k: 3 },
-        },
-        {
-          ty: "tr",
-          a: { a: 0, k: [50, 50] }, // anchor
-          p: { a: 0, k: [0, 0] },
-          s: { a: 0, k: [100, 100] },
-          r: {
-            a: 1,
-            kf: [
-              { t: 0, s: [0] },
-              { t: 60, s: [360] },
-            ],
-          },
-          o: { a: 0, k: 100 },
-        },
-      ],
-    },
-  ],
-};
-
-const { initialSVG, animationJS } = compileUlottieToSVG(sampleComp);
-console.log("=== SVG ===\n", initialSVG);
-console.log("=== JS ===\n", animationJS);
-//
-// // Then you can embed the SVG in your HTML, e.g.:
-// //   <div id="myAnimationContainer">${initialSVG}</div>
-// //   <script>${animationJS}</script>
-// //   <script>
-// //     // After DOM loads...
-// //     window.playUlottieSVG("myAnimationContainer").stop;
-// //   </script>
-//
-// // If you want SSR or <noscript>, you can place `initialSVG` directly in
-// // the HTML so the user sees the first frame even with JS off.

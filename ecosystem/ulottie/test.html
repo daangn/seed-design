@@ -1,209 +1,233 @@
 <!DOCTYPE html>
-<html data-seed-v3-compat>
+<html>
 
 <head>
-  <title>SEED Design QA app</title>
+  <title>Ulottie test</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
   <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
   <script>
     (function () {
-      "use strict";
+      const comp = {
+        ip: 0,
+        op: 90,
+        fr: 30,
+        data: [{ "layerId": "layer0", "transform": { "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 100 }] }, "mask": { "id": "mask0", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [200, 300]] } }], "opacity": [{ "t": 0, "val": 50 }] }, "shapes": [{ "id": "shape0", "type": "rect", "pathKFs": [], "rect": { "x": 0, "y": 0, "width": 0, "height": 0, "cornerRadius": 0 }, "fillColor": [{ "t": 0, "val": [0, 0, 0, 1] }], "strokeColor": [], "strokeWidth": [], "gradient": null, "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }, { "id": "shape1", "type": "path", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[150, 100], [250, 100], [250, 200], [150, 200]] } }, { "t": 45, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [300, 200], [100, 200]] } }, { "t": 90, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[200, 50], [350, 150], [250, 300], [150, 150]] } }], "rect": null, "fillColor": [{ "t": 0, "val": [1, 0.5, 0, 1] }, { "t": 45, "val": [0, 1, 0, 1] }, { "t": 90, "val": [0, 0, 1, 1] }], "strokeColor": [{ "t": 0, "val": [0, 0, 1, 1] }, { "t": 30, "val": [0, 1, 0, 1] }, { "t": 60, "val": [1, 0, 0, 1] }, { "t": 90, "val": [0, 0, 0, 1] }], "strokeWidth": [{ "t": 0, "val": 1 }, { "t": 45, "val": 5 }, { "t": 90, "val": 10 }], "gradient": [{ "t": 0, "stops": [{ "offset": 0, "r": 1, "g": 1, "b": 1 }, { "offset": 0.5, "r": 1, "g": 0, "b": 0 }, { "offset": 1, "r": 0, "g": 1, "b": 0 }], "start": [150, 150], "end": [250, 250] }], "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }] }]
+      };
+      const totalFrames = comp.op - comp.ip;
+      const duration = (totalFrames / comp.fr) * 1000;
+      let startTime;
 
-      // -- All property getters --
-
-      function g0(frame) {
-        return [150, 150];
-      }
-
-
-      function g1(frame) {
-        return [100, 100];
-      }
-
-
-      function g2(frame) {
-        return 20;
-      }
-
-
-      function g3(frame) {
-        return [255, 0, 0];
-      }
-
-
-      function g4(frame) {
-        return [0, 0, 0];
-      }
-
-
-      function g5(frame) {
-        return 3;
-      }
-
-
-      function g6(frame) {
-        return [50, 50];
-      }
-
-
-      function g7(frame) {
-        return [0, 0];
-      }
-
-
-      function g8(frame) {
-        return [100, 100];
-      }
-
-
-      function g9(frame) {
-        const kfs = [{ "t": 0, "s": [0] }, { "t": 60, "s": [360] }];
-        if (kfs.length === 0) return 0;
-        if (frame <= kfs[0].t) return kfs[0].s[0];
-        if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].s[0];
+      function lerp(a, b, t) { return a + (b - a) * t; }
+      function findKFValue(kfs, frame) {
+        // find bracketing frames
+        if (!kfs || kfs.length < 1) return 0;
+        if (frame <= kfs[0].t) return kfs[0].val;
+        if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].val;
         for (let i = 0; i < kfs.length - 1; i++) {
-          const kf1 = kfs[i], kf2 = kfs[i + 1];
-          if (frame >= kf1.t && frame <= kf2.t) {
-            const ratio = (frame - kf1.t) / (kf2.t - kf1.t);
-            const startVal = kf1.s[0];
-            const endVal = kf2.s[0];
-            if (Array.isArray(startVal)) {
-              const out = [];
-              for (let j = 0; j < startVal.length; j++) {
-                out.push(startVal[j] + (endVal[j] - startVal[j]) * ratio);
+          let k0 = kfs[i], k1 = kfs[i + 1];
+          if (frame >= k0.t && frame <= k1.t) {
+            let span = (k1.t - k0.t);
+            let alpha = span === 0 ? 0 : (frame - k0.t) / span;
+            if (Array.isArray(k0.val)) {
+              let out = [];
+              for (let c = 0; c < k0.val.length; c++) {
+                out[c] = lerp(k0.val[c], k1.val[c], alpha);
               }
               return out;
-            } else if (typeof startVal === 'object') {
-              // path => skip partial interpolation
-              return startVal;
             } else {
-              // single numeric
-              return startVal + (endVal - startVal) * ratio;
+              return lerp(k0.val, k1.val, alpha);
             }
           }
         }
-        return kfs[kfs.length - 1].s[0];
+        return kfs[0].val;
       }
 
-
-      function g10(frame) {
-        return 100;
-      }
-
-
-      // Helper for pathToD
-      function pathToD(pathVal) {
-        if (!pathVal || !pathVal.v || pathVal.v.length === 0) return "";
-        let d = "M " + pathVal.v[0][0] + "," + pathVal.v[0][1];
-        for (let i = 1; i < pathVal.v.length; i++) {
-          d += " L " + pathVal.v[i][0] + "," + pathVal.v[i][1];
+      function buildPathBetween(a, b, alpha) {
+        // linearly interpolate a & b's v,i,o
+        let out = { c: a.c, v: [], i: [], o: [] };
+        let len = Math.min(a.v.length, b.v.length);
+        for (let i = 0; i < len; i++) {
+          out.v.push([
+            lerp(a.v[i][0], b.v[i][0], alpha),
+            lerp(a.v[i][1], b.v[i][1], alpha)
+          ]);
+          out.i.push([
+            lerp(a.i[i][0], b.i[i][0], alpha),
+            lerp(a.i[i][1], b.i[i][1], alpha)
+          ]);
+          out.o.push([
+            lerp(a.o[i][0], b.o[i][0], alpha),
+            lerp(a.o[i][1], b.o[i][1], alpha)
+          ]);
         }
-        if (pathVal.c) d += " Z";
+        return out;
+      }
+
+      function findPathKeyframeValue(kfs, frame) {
+        if (kfs.length < 1) return null;
+        if (frame <= kfs[0].t) return kfs[0].val;
+        if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].val;
+        for (let i = 0; i < kfs.length - 1; i++) {
+          let k0 = kfs[i], k1 = kfs[i + 1];
+          if (frame >= k0.t && frame <= k1.t) {
+            let span = (k1.t - k0.t);
+            let alpha = span === 0 ? 0 : (frame - k0.t) / span;
+            return buildPathBetween(k0.val, k1.val, alpha);
+          }
+        }
+        return kfs[0].val;
+      }
+
+      function pathToD(p) {
+        if (!p || !p.v || p.v.length < 1) return '';
+        let d = 'M' + p.v[0][0] + ',' + p.v[0][1];
+        for (let i = 1; i < p.v.length; i++) {
+          let px = i - 1;
+          let cx1 = p.v[px][0] + p.o[px][0];
+          let cy1 = p.v[px][1] + p.o[px][1];
+          let cx2 = p.v[i][0] + p.i[i][0];
+          let cy2 = p.v[i][1] + p.i[i][1];
+          d += ' C' + cx1 + ',' + cy1 + ' ' + cx2 + ',' + cy2 + ' ' + p.v[i][0] + ',' + p.v[i][1];
+        }
+        if (p.c) {
+          let last = p.v.length - 1;
+          let cx1 = p.v[last][0] + p.o[last][0];
+          let cy1 = p.v[last][1] + p.o[last][1];
+          let cx2 = p.v[0][0] + p.i[0][0];
+          let cy2 = p.v[0][1] + p.i[0][1];
+          d += ' C' + cx1 + ',' + cy1 + ' ' + cx2 + ',' + cy2 + ' ' + p.v[0][0] + ',' + p.v[0][1] + ' Z';
+        }
         return d;
       }
 
-      // We'll define a function that starts animating the SVG
-      function playUlottieSVG(svgId) {
-        const svgEl = document.getElementById(svgId);
-        if (!svgEl || svgEl.nodeName.toLowerCase() !== "svg") {
-          console.warn("ulottie: No valid <svg> with id=", svgId);
+      function animateFrame(t) {
+        if (!startTime) startTime = t;
+        const elapsed = t - startTime;
+        if (elapsed > duration) {
+          // end
           return;
         }
+        requestAnimationFrame(animateFrame);
 
-        // Grab references to layers & shapes
-        // Layer layer_0
+        const progress = elapsed / duration; // 0..1
+        const frame = comp.ip + progress * (comp.op - comp.ip);
 
-        const el_layer_0_shape_0 = document.getElementById("layer_0_shape_0");
+        // each layer
+        comp.data.forEach(layer => {
+          let lElem = document.getElementById(layer.layerId);
+          if (!lElem) return;
 
+          let anchor = findKFValue(layer.transform?.anchor, frame);
+          let position = findKFValue(layer.transform?.position, frame);
+          let scale = findKFValue(layer.transform?.scale, frame);
+          let rotation = findKFValue(layer.transform?.rotation, frame);
+          let lopacity = findKFValue(layer.transform?.opacity, frame) / 100;
 
+          let lTr = '';
+          lTr += 'translate(' + position[0] + ',' + position[1] + ') ';
+          if (anchor[0] || anchor[1]) {
+            lTr += 'rotate(' + rotation + ',' + anchor[0] + ',' + anchor[1] + ') ';
+          } else {
+            lTr += 'rotate(' + rotation + ') ';
+          }
+          lTr += 'scale(' + (scale[0] / 100) + ',' + (scale[1] / 100) + ') ';
+          lElem.setAttribute('transform', lTr.trim());
+          lElem.setAttribute('opacity', lopacity);
 
-        // Animation loop
-        let currentFrame = 0;
-        const totalFrames = 60;
-        const frameDuration = 33.333333333333336;
-        let lastTime = performance.now();
-        let requestId = 0;
-
-        function draw(frame) {
-          // For each layer, re-compute transform (if any), then update each shape
-          {
-            const layerEl = document.getElementById("layer_0");
-            if (!layerEl) return;
-            const anchor = g6(frame) || [0, 0];
-            const position = g7(frame) || [0, 0];
-            const scale = g8(frame) || [100, 100];
-            const rotation = g9(frame) || 0;
-            const opacity = (g10(frame) || 100) / 100;
-            // Build an SVG transform attribute
-            // translate(px,py) rotate(...) scale(...) translate(-ax, -ay)
-            const px = position[0], py = position[1];
-            const sx = scale[0] / 100, sy = scale[1] / 100;
-            const ax = anchor[0], ay = anchor[1];
-            layerEl.setAttribute("opacity", opacity);
-            layerEl.setAttribute("transform",
-              "translate(" + px + "," + py + ") " +
-              "rotate(" + rotation + ") " +
-              "scale(" + sx + "," + sy + ") " +
-              "translate(" + (-ax) + "," + (-ay) + ")"
-            );
-
-            {
-              const shapeEl = document.getElementById("layer_0_shape_0");
-              if (shapeEl) {
-                const pos = g0(frame) || [0, 0];
-                const size = g1(frame) || [0, 0];
-                const round = g2(frame) || 0;
-                const x = pos[0] - size[0] / 2;
-                const y = pos[1] - size[1] / 2;
-                shapeEl.setAttribute("x", x);
-                shapeEl.setAttribute("y", y);
-                shapeEl.setAttribute("width", size[0]);
-                shapeEl.setAttribute("height", size[1]);
-                shapeEl.setAttribute("rx", round);
-                shapeEl.setAttribute("ry", round);
+          // mask
+          if (layer.mask) {
+            let maskElem = document.getElementById(layer.mask.id);
+            if (maskElem) {
+              // find path
+              let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
+              let mOp = findKFValue(layer.mask.opacity, frame) / 100;
+              let pathElem = maskElem.querySelector('path');
+              if (pathElem) {
+                pathElem.setAttribute('d', pathToD(mp));
+                pathElem.setAttribute('fill-opacity', mOp);
               }
             }
           }
-        }
 
-        function tick(time) {
-          const elapsed = time - lastTime;
-          if (elapsed >= frameDuration) {
-            lastTime = time;
-            draw(currentFrame);
-            currentFrame++;
-            if (currentFrame >= (0 + totalFrames)) {
-              // stop or loop
-              // currentFrame = 0; // to loop
+          // shapes
+          layer.shapes.forEach(sh => {
+            let sElem = document.getElementById(sh.id);
+            if (!sElem) return;
+            let shAnchor = findKFValue(sh.anchor, frame);
+            let shPos = findKFValue(sh.position, frame);
+            let shScale = findKFValue(sh.scale, frame);
+            let shRot = findKFValue(sh.rotation, frame);
+            let shOp = findKFValue(sh.opacity, frame);
+
+            let sTr = '';
+            sTr += 'translate(' + shPos[0] + ',' + shPos[1] + ') ';
+            if (shAnchor[0] || shAnchor[1]) {
+              sTr += 'rotate(' + shRot + ',' + shAnchor[0] + ',' + shAnchor[1] + ') ';
+            } else {
+              sTr += 'rotate(' + shRot + ') ';
             }
-          }
-          if (currentFrame < (0 + totalFrames)) {
-            requestId = requestAnimationFrame(tick);
-          }
-        }
-        requestId = requestAnimationFrame(tick);
-        return {
-          stop: function () {
-            cancelAnimationFrame(requestId);
-          }
-        }
-      }
+            sTr += 'scale(' + (shScale[0] / 100) + ',' + (shScale[1] / 100) + ') ';
+            sElem.setAttribute('transform', sTr.trim());
+            sElem.setAttribute('opacity', shOp);
 
-      // Expose globally
-      if (typeof window !== "undefined") {
-        window.playUlottieSVG = playUlottieSVG;
+            // fill color
+            if (sh.fillColor && sh.fillColor.length > 0) {
+              let fc = findKFValue(sh.fillColor, frame);
+              let col = 'rgb(' + Math.round(fc[0] * 255) + ',' + Math.round(fc[1] * 255) + ',' + Math.round(fc[2] * 255) + ')';
+              sElem.setAttribute('fill', col);
+              sElem.setAttribute('fill-opacity', fc[3]);
+            }
+            // stroke color
+            if (sh.strokeColor && sh.strokeColor.length > 0) {
+              let sc = findKFValue(sh.strokeColor, frame);
+              let col = 'rgb(' + Math.round(sc[0] * 255) + ',' + Math.round(sc[1] * 255) + ',' + Math.round(sc[2] * 255) + ')';
+              sElem.setAttribute('stroke', col);
+              sElem.setAttribute('stroke-opacity', sc[3]);
+            }
+            // stroke width
+            if (sh.strokeWidth && sh.strokeWidth.length > 0) {
+              let sw = findKFValue(sh.strokeWidth, frame);
+              sElem.setAttribute('stroke-width', sw);
+            }
+            // path geometry
+            if (sh.type === 'path' && sh.pathKFs && sh.pathKFs.length > 0) {
+              // fully dynamic path
+              let pVal = findPathKeyframeValue(sh.pathKFs, frame);
+              sElem.setAttribute('d', pathToD(pVal));
+            }
+          });
+        });
       }
+      requestAnimationFrame(animateFrame);
     })();
   </script>
 </head>
 
 <body>
-  <svg id="test" width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-    <rect id="layer_0_shape_0" x="100" y="100" width="100" height="100" rx="20" ry="20" fill="none" stroke="none" />
-    <g id="layer_0" transform="translate(0,0) rotate(0) scale(1,1) translate(-50,-50)" opacity="1">
-      <g id="layer_0"><!-- the shapes above actually should be inside this <g> -->
-      </g>
+  <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+    </defs>
+    <mask id="mask0" maskUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="400" height="400" fill="white" />
+      <path d="M100,100 C100,100 300,100 300,100 C300,100 200,300 200,300 C200,300 100,100 100,100 Z" fill="black"
+        fill-opacity="0.5" />
+    </mask>
+    <g id="layer0" mask="url(#mask0)" opacity="1" transform="translate(0, 0) rotate(0) scale(1, 1)">
+      <rect id="shape0" x="0" y="0" width="0" height="0" rx="0" transform="translate(0,0) rotate(0) scale(1,1)"
+        opacity="1" fill="rgb(0,0,0)" fill-opacity="1" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-width="1" />
+      <defs>
+        <linearGradient id="grad0" x1="150" y1="150" x2="250" y2="250" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgb(255,255,255)" />
+          <stop offset="50%" stop-color="rgb(255,0,0)" />
+          <stop offset="100%" stop-color="rgb(0,255,0)" />
+        </linearGradient>
+      </defs>
+      <path id="shape1"
+        d="M150,100 C150,100 250,100 250,100 C250,100 250,200 250,200 C250,200 150,200 150,200 C150,200 150,100 150,100 Z"
+        transform="translate(0,0) rotate(0) scale(1,1)" opacity="1" fill="url(#grad0)" stroke="rgb(0,0,255)"
+        stroke-opacity="1" stroke-width="1" />
+    </g>
   </svg>
 </body>
 
