@@ -153,6 +153,203 @@ export class UlottieCompiler {
     return { initialSvg, runtimeJs };
   }
 
+  public generateHelperJS(): string {
+    return `(function () {
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function findKFValue(kfs, frame) {
+    // find bracketing frames
+    if (!kfs || kfs.length < 1) return 0;
+    if (frame <= kfs[0].t) return kfs[0].val;
+    if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].val;
+    for (let i = 0; i < kfs.length - 1; i++) {
+      let k0 = kfs[i], k1 = kfs[i + 1];
+      if (frame >= k0.t && frame <= k1.t) {
+        let span = (k1.t - k0.t);
+        let alpha = span === 0 ? 0 : (frame - k0.t) / span;
+        if (Array.isArray(k0.val)) {
+          let out = [];
+          for (let c = 0; c < k0.val.length; c++) {
+            out[c] = lerp(k0.val[c], k1.val[c], alpha);
+          }
+          return out;
+        } else {
+          return lerp(k0.val, k1.val, alpha);
+        }
+      }
+    }
+    return kfs[0].val;
+  }
+
+  function buildPathBetween(a, b, alpha) {
+    // linearly interpolate a & b's v,i,o
+    let out = { c: a.c, v: [], i: [], o: [] };
+    let len = Math.min(a.v.length, b.v.length);
+    for (let i = 0; i < len; i++) {
+      out.v.push([
+        lerp(a.v[i][0], b.v[i][0], alpha),
+        lerp(a.v[i][1], b.v[i][1], alpha)
+      ]);
+      out.i.push([
+        lerp(a.i[i][0], b.i[i][0], alpha),
+        lerp(a.i[i][1], b.i[i][1], alpha)
+      ]);
+      out.o.push([
+        lerp(a.o[i][0], b.o[i][0], alpha),
+        lerp(a.o[i][1], b.o[i][1], alpha)
+      ]);
+    }
+    return out;
+  }
+
+  function findPathKeyframeValue(kfs, frame) {
+    if (kfs.length < 1) return null;
+    if (frame <= kfs[0].t) return kfs[0].val;
+    if (frame >= kfs[kfs.length - 1].t) return kfs[kfs.length - 1].val;
+    for (let i = 0; i < kfs.length - 1; i++) {
+      let k0 = kfs[i], k1 = kfs[i + 1];
+      if (frame >= k0.t && frame <= k1.t) {
+        let span = (k1.t - k0.t);
+        let alpha = span === 0 ? 0 : (frame - k0.t) / span;
+        return buildPathBetween(k0.val, k1.val, alpha);
+      }
+    }
+    return kfs[0].val;
+  }
+
+  function pathToD(p) {
+    if (!p || !p.v || p.v.length < 1) return '';
+    let d = 'M' + p.v[0][0] + ',' + p.v[0][1];
+    for (let i = 1; i < p.v.length; i++) {
+      let px = i - 1;
+      let cx1 = p.v[px][0] + p.o[px][0];
+      let cy1 = p.v[px][1] + p.o[px][1];
+      let cx2 = p.v[i][0] + p.i[i][0];
+      let cy2 = p.v[i][1] + p.i[i][1];
+      d += ' C' + cx1 + ',' + cy1 + ' ' + cx2 + ',' + cy2 + ' ' + p.v[i][0] + ',' + p.v[i][1];
+    }
+    if (p.c) {
+      let last = p.v.length - 1;
+      let cx1 = p.v[last][0] + p.o[last][0];
+      let cy1 = p.v[last][1] + p.o[last][1];
+      let cx2 = p.v[0][0] + p.i[0][0];
+      let cy2 = p.v[0][1] + p.i[0][1];
+      d += ' C' + cx1 + ',' + cy1 + ' ' + cx2 + ',' + cy2 + ' ' + p.v[0][0] + ',' + p.v[0][1] + ' Z';
+    }
+    return d;
+  }
+
+  function runAnimation(comp) {
+    const totalFrames = comp.op - comp.ip;
+    const duration = (totalFrames / comp.fr) * 1000;
+    let startTime;
+
+    function animateFrame(t) {
+      if (!startTime) startTime = t;
+      const elapsed = t - startTime;
+      if (elapsed > duration) {
+        // end
+        return;
+      }
+      requestAnimationFrame(animateFrame);
+
+      const progress = elapsed / duration; // 0..1
+      const frame = comp.ip + progress * (comp.op - comp.ip);
+
+      // each layer
+      comp.data.forEach(layer => {
+        let lElem = document.getElementById(layer.layerId);
+        if (!lElem) return;
+
+        let anchor = findKFValue(layer.transform?.anchor, frame);
+        let position = findKFValue(layer.transform?.position, frame);
+        let scale = findKFValue(layer.transform?.scale, frame);
+        let rotation = findKFValue(layer.transform?.rotation, frame);
+        let lopacity = findKFValue(layer.transform?.opacity, frame) / 100;
+
+        let lTr = '';
+        lTr += 'translate(' + position[0] + ',' + position[1] + ') ';
+        if (anchor[0] || anchor[1]) {
+          lTr += 'rotate(' + rotation + ',' + anchor[0] + ',' + anchor[1] + ') ';
+        } else {
+          lTr += 'rotate(' + rotation + ') ';
+        }
+        lTr += 'scale(' + (scale[0] / 100) + ',' + (scale[1] / 100) + ') ';
+        lElem.setAttribute('transform', lTr.trim());
+        lElem.setAttribute('opacity', lopacity);
+
+        // mask
+        if (layer.mask) {
+          let maskElem = document.getElementById(layer.mask.id);
+          if (maskElem) {
+            // find path
+            let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
+            let mOp = findKFValue(layer.mask.opacity, frame) / 100;
+            let pathElem = maskElem.querySelector('path');
+            if (pathElem) {
+              pathElem.setAttribute('d', pathToD(mp));
+              pathElem.setAttribute('fill-opacity', mOp);
+            }
+          }
+        }
+
+        // shapes
+        layer.shapes.forEach(sh => {
+          let sElem = document.getElementById(sh.id);
+          if (!sElem) return;
+          let shAnchor = findKFValue(sh.anchor, frame);
+          let shPos = findKFValue(sh.position, frame);
+          let shScale = findKFValue(sh.scale, frame);
+          let shRot = findKFValue(sh.rotation, frame);
+          let shOp = findKFValue(sh.opacity, frame);
+
+          let sTr = '';
+          sTr += 'translate(' + shPos[0] + ',' + shPos[1] + ') ';
+          if (shAnchor[0] || shAnchor[1]) {
+            sTr += 'rotate(' + shRot + ',' + shAnchor[0] + ',' + shAnchor[1] + ') ';
+          } else {
+            sTr += 'rotate(' + shRot + ') ';
+          }
+          sTr += 'scale(' + (shScale[0] / 100) + ',' + (shScale[1] / 100) + ') ';
+          sElem.setAttribute('transform', sTr.trim());
+          sElem.setAttribute('opacity', shOp);
+
+          // fill color
+          if (sh.fillColor && sh.fillColor.length > 0) {
+            let fc = findKFValue(sh.fillColor, frame);
+            let col = 'rgb(' + Math.round(fc[0] * 255) + ',' + Math.round(fc[1] * 255) + ',' + Math.round(fc[2] * 255) + ')';
+            sElem.setAttribute('fill', col);
+            sElem.setAttribute('fill-opacity', fc[3]);
+          }
+          // stroke color
+          if (sh.strokeColor && sh.strokeColor.length > 0) {
+            let sc = findKFValue(sh.strokeColor, frame);
+            let col = 'rgb(' + Math.round(sc[0] * 255) + ',' + Math.round(sc[1] * 255) + ',' + Math.round(sc[2] * 255) + ')';
+            sElem.setAttribute('stroke', col);
+            sElem.setAttribute('stroke-opacity', sc[3]);
+          }
+          // stroke width
+          if (sh.strokeWidth && sh.strokeWidth.length > 0) {
+            let sw = findKFValue(sh.strokeWidth, frame);
+            sElem.setAttribute('stroke-width', sw);
+          }
+          // path geometry
+          if (sh.type === 'path' && sh.pathKFs && sh.pathKFs.length > 0) {
+            // fully dynamic path
+            let pVal = findPathKeyframeValue(sh.pathKFs, frame);
+            sElem.setAttribute('d', pathToD(pVal));
+          }
+        });
+      });
+    }
+    requestAnimationFrame(animateFrame);
+  }
+
+  window.uLottie = {
+    runAnimation: runAnimation
+  };
+})();`;
+  }
+
   /*******************************************************
    *  parseLayer => IRLayer
    *******************************************************/
@@ -659,9 +856,6 @@ export class UlottieCompiler {
    *  Generate runtime JS
    *******************************************************/
   private generateRuntimeJs(comp: UlottieComposition, layers: IRLayer[]): string {
-    const totalFrames = comp.op - comp.ip;
-    const durationMs = (totalFrames / comp.fr) * 1000;
-
     // We'll store a big JSON for each layer & shape, including path keyframes
     const data = layers.map((ly) => {
       return {
@@ -712,192 +906,7 @@ export class UlottieCompiler {
     fr:${comp.fr},
     data:${runtimeData}
   };
-  const totalFrames = comp.op - comp.ip;
-  const duration = (totalFrames / comp.fr)*1000;
-  let startTime;
-
-  function lerp(a,b,t){return a+(b-a)*t;}
-  function findKFValue(kfs, frame){
-    // find bracketing frames
-    if(!kfs||kfs.length<1) return 0;
-    if(frame <= kfs[0].t) return kfs[0].val;
-    if(frame >= kfs[kfs.length-1].t) return kfs[kfs.length-1].val;
-    for(let i=0;i<kfs.length-1;i++){
-      let k0 = kfs[i], k1=kfs[i+1];
-      if(frame>=k0.t && frame<=k1.t){
-        let span = (k1.t - k0.t);
-        let alpha = span===0?0:(frame-k0.t)/span;
-        if(Array.isArray(k0.val)){
-          let out=[];
-          for(let c=0;c<k0.val.length;c++){
-            out[c] = lerp(k0.val[c], k1.val[c], alpha);
-          }
-          return out;
-        } else {
-          return lerp(k0.val, k1.val, alpha);
-        }
-      }
-    }
-    return kfs[0].val;
-  }
-
-  function buildPathBetween(a,b,alpha){
-    // linearly interpolate a & b's v,i,o
-    let out = { c:a.c, v:[], i:[], o:[] };
-    let len = Math.min(a.v.length, b.v.length);
-    for(let i=0; i<len; i++){
-      out.v.push([
-        lerp(a.v[i][0], b.v[i][0], alpha),
-        lerp(a.v[i][1], b.v[i][1], alpha)
-      ]);
-      out.i.push([
-        lerp(a.i[i][0], b.i[i][0], alpha),
-        lerp(a.i[i][1], b.i[i][1], alpha)
-      ]);
-      out.o.push([
-        lerp(a.o[i][0], b.o[i][0], alpha),
-        lerp(a.o[i][1], b.o[i][1], alpha)
-      ]);
-    }
-    return out;
-  }
-
-  function findPathKeyframeValue(kfs, frame){
-    if(kfs.length<1) return null;
-    if(frame<=kfs[0].t) return kfs[0].val;
-    if(frame>=kfs[kfs.length-1].t) return kfs[kfs.length-1].val;
-    for(let i=0;i<kfs.length-1;i++){
-      let k0=kfs[i], k1=kfs[i+1];
-      if(frame>=k0.t && frame<=k1.t){
-        let span=(k1.t-k0.t);
-        let alpha=span===0?0:(frame-k0.t)/span;
-        return buildPathBetween(k0.val, k1.val, alpha);
-      }
-    }
-    return kfs[0].val;
-  }
-
-  function pathToD(p){
-    if(!p||!p.v||p.v.length<1)return '';
-    let d='M'+p.v[0][0]+','+p.v[0][1];
-    for(let i=1;i<p.v.length;i++){
-      let px=i-1;
-      let cx1=p.v[px][0]+p.o[px][0];
-      let cy1=p.v[px][1]+p.o[px][1];
-      let cx2=p.v[i][0]+p.i[i][0];
-      let cy2=p.v[i][1]+p.i[i][1];
-      d+=' C'+cx1+','+cy1+' '+cx2+','+cy2+' '+p.v[i][0]+','+p.v[i][1];
-    }
-    if(p.c){
-      let last=p.v.length-1;
-      let cx1=p.v[last][0]+p.o[last][0];
-      let cy1=p.v[last][1]+p.o[last][1];
-      let cx2=p.v[0][0]+p.i[0][0];
-      let cy2=p.v[0][1]+p.i[0][1];
-      d+=' C'+cx1+','+cy1+' '+cx2+','+cy2+' '+p.v[0][0]+','+p.v[0][1]+' Z';
-    }
-    return d;
-  }
-
-  function animateFrame(t){
-    if(!startTime) startTime=t;
-    const elapsed=t-startTime;
-    if(elapsed>duration){
-      // end
-      return;
-    }
-    requestAnimationFrame(animateFrame);
-
-    const progress=elapsed/duration; // 0..1
-    const frame=comp.ip+progress*(comp.op-comp.ip);
-
-    // each layer
-    comp.data.forEach(layer=>{
-      let lElem=document.getElementById(layer.layerId);
-      if(!lElem)return;
-
-      let anchor   = findKFValue(layer.transform?.anchor, frame);
-      let position = findKFValue(layer.transform?.position, frame);
-      let scale    = findKFValue(layer.transform?.scale, frame);
-      let rotation = findKFValue(layer.transform?.rotation, frame);
-      let lopacity = findKFValue(layer.transform?.opacity, frame)/100;
-
-      let lTr='';
-      lTr+='translate('+position[0]+','+position[1]+') ';
-      if(anchor[0]||anchor[1]){
-        lTr+='rotate('+rotation+','+anchor[0]+','+anchor[1]+') ';
-      } else {
-        lTr+='rotate('+rotation+') ';
-      }
-      lTr+='scale('+(scale[0]/100)+','+(scale[1]/100)+') ';
-      lElem.setAttribute('transform', lTr.trim());
-      lElem.setAttribute('opacity', lopacity);
-
-      // mask
-      if(layer.mask){
-        let maskElem=document.getElementById(layer.mask.id);
-        if(maskElem){
-          // find path
-          let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
-          let mOp = findKFValue(layer.mask.opacity, frame)/100;
-          let pathElem=maskElem.querySelector('path');
-          if(pathElem){
-            pathElem.setAttribute('d', pathToD(mp));
-            pathElem.setAttribute('fill-opacity', mOp);
-          }
-        }
-      }
-
-      // shapes
-      layer.shapes.forEach(sh=>{
-        let sElem=document.getElementById(sh.id);
-        if(!sElem)return;
-        let shAnchor   = findKFValue(sh.anchor, frame);
-        let shPos      = findKFValue(sh.position, frame);
-        let shScale    = findKFValue(sh.scale, frame);
-        let shRot      = findKFValue(sh.rotation, frame);
-        let shOp       = findKFValue(sh.opacity, frame);
-
-        let sTr='';
-        sTr+='translate('+shPos[0]+','+shPos[1]+') ';
-        if(shAnchor[0]||shAnchor[1]){
-          sTr+='rotate('+shRot+','+shAnchor[0]+','+shAnchor[1]+') ';
-        } else {
-          sTr+='rotate('+shRot+') ';
-        }
-        sTr+='scale('+(shScale[0]/100)+','+(shScale[1]/100)+') ';
-        sElem.setAttribute('transform', sTr.trim());
-        sElem.setAttribute('opacity', shOp);
-
-        // fill color
-        if(sh.fillColor && sh.fillColor.length>0){
-          let fc=findKFValue(sh.fillColor,frame);
-          let col='rgb('+Math.round(fc[0]*255)+','+Math.round(fc[1]*255)+','+Math.round(fc[2]*255)+')';
-          sElem.setAttribute('fill', col);
-          sElem.setAttribute('fill-opacity', fc[3]);
-        }
-        // stroke color
-        if(sh.strokeColor && sh.strokeColor.length>0){
-          let sc=findKFValue(sh.strokeColor, frame);
-          let col='rgb('+Math.round(sc[0]*255)+','+Math.round(sc[1]*255)+','+Math.round(sc[2]*255)+')';
-          sElem.setAttribute('stroke', col);
-          sElem.setAttribute('stroke-opacity', sc[3]);
-        }
-        // stroke width
-        if(sh.strokeWidth && sh.strokeWidth.length>0){
-          let sw=findKFValue(sh.strokeWidth, frame);
-          sElem.setAttribute('stroke-width', sw);
-        }
-        // path geometry
-        if(sh.type==='path' && sh.pathKFs && sh.pathKFs.length>0){
-          // fully dynamic path
-          let pVal=findPathKeyframeValue(sh.pathKFs, frame);
-          sElem.setAttribute('d', pathToD(pVal));
-        }
-      });
-    });
-  }
-  requestAnimationFrame(animateFrame);
+  uLottie.runAnimation(comp);
 })();
 `;
     return code;

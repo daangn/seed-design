@@ -8,16 +8,6 @@
   <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
   <script>
     (function () {
-      const comp = {
-        ip: 0,
-        op: 90,
-        fr: 30,
-        data: [{ "layerId": "layer0", "transform": { "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 100 }] }, "mask": { "id": "mask0", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [200, 300]] } }], "opacity": [{ "t": 0, "val": 50 }] }, "shapes": [{ "id": "shape0", "type": "rect", "pathKFs": [], "rect": { "x": 0, "y": 0, "width": 0, "height": 0, "cornerRadius": 0 }, "fillColor": [{ "t": 0, "val": [0, 0, 0, 1] }], "strokeColor": [], "strokeWidth": [], "gradient": null, "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }, { "id": "shape1", "type": "path", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[150, 100], [250, 100], [250, 200], [150, 200]] } }, { "t": 45, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [300, 200], [100, 200]] } }, { "t": 90, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[200, 50], [350, 150], [250, 300], [150, 150]] } }], "rect": null, "fillColor": [{ "t": 0, "val": [1, 0.5, 0, 1] }, { "t": 45, "val": [0, 1, 0, 1] }, { "t": 90, "val": [0, 0, 1, 1] }], "strokeColor": [{ "t": 0, "val": [0, 0, 1, 1] }, { "t": 30, "val": [0, 1, 0, 1] }, { "t": 60, "val": [1, 0, 0, 1] }, { "t": 90, "val": [0, 0, 0, 1] }], "strokeWidth": [{ "t": 0, "val": 1 }, { "t": 45, "val": 5 }, { "t": 90, "val": 10 }], "gradient": [{ "t": 0, "stops": [{ "offset": 0, "r": 1, "g": 1, "b": 1 }, { "offset": 0.5, "r": 1, "g": 0, "b": 0 }, { "offset": 1, "r": 0, "g": 1, "b": 0 }], "start": [150, 150], "end": [250, 250] }], "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }] }]
-      };
-      const totalFrames = comp.op - comp.ip;
-      const duration = (totalFrames / comp.fr) * 1000;
-      let startTime;
-
       function lerp(a, b, t) { return a + (b - a) * t; }
       function findKFValue(kfs, frame) {
         // find bracketing frames
@@ -101,105 +91,126 @@
         return d;
       }
 
-      function animateFrame(t) {
-        if (!startTime) startTime = t;
-        const elapsed = t - startTime;
-        if (elapsed > duration) {
-          // end
-          return;
-        }
-        requestAnimationFrame(animateFrame);
+      function runAnimation(comp) {
+        const totalFrames = comp.op - comp.ip;
+        const duration = (totalFrames / comp.fr) * 1000;
+        let startTime;
 
-        const progress = elapsed / duration; // 0..1
-        const frame = comp.ip + progress * (comp.op - comp.ip);
-
-        // each layer
-        comp.data.forEach(layer => {
-          let lElem = document.getElementById(layer.layerId);
-          if (!lElem) return;
-
-          let anchor = findKFValue(layer.transform?.anchor, frame);
-          let position = findKFValue(layer.transform?.position, frame);
-          let scale = findKFValue(layer.transform?.scale, frame);
-          let rotation = findKFValue(layer.transform?.rotation, frame);
-          let lopacity = findKFValue(layer.transform?.opacity, frame) / 100;
-
-          let lTr = '';
-          lTr += 'translate(' + position[0] + ',' + position[1] + ') ';
-          if (anchor[0] || anchor[1]) {
-            lTr += 'rotate(' + rotation + ',' + anchor[0] + ',' + anchor[1] + ') ';
-          } else {
-            lTr += 'rotate(' + rotation + ') ';
+        function animateFrame(t) {
+          if (!startTime) startTime = t;
+          const elapsed = t - startTime;
+          if (elapsed > duration) {
+            // end
+            return;
           }
-          lTr += 'scale(' + (scale[0] / 100) + ',' + (scale[1] / 100) + ') ';
-          lElem.setAttribute('transform', lTr.trim());
-          lElem.setAttribute('opacity', lopacity);
+          requestAnimationFrame(animateFrame);
 
-          // mask
-          if (layer.mask) {
-            let maskElem = document.getElementById(layer.mask.id);
-            if (maskElem) {
-              // find path
-              let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
-              let mOp = findKFValue(layer.mask.opacity, frame) / 100;
-              let pathElem = maskElem.querySelector('path');
-              if (pathElem) {
-                pathElem.setAttribute('d', pathToD(mp));
-                pathElem.setAttribute('fill-opacity', mOp);
+          const progress = elapsed / duration; // 0..1
+          const frame = comp.ip + progress * (comp.op - comp.ip);
+
+          // each layer
+          comp.data.forEach(layer => {
+            let lElem = document.getElementById(layer.layerId);
+            if (!lElem) return;
+
+            let anchor = findKFValue(layer.transform?.anchor, frame);
+            let position = findKFValue(layer.transform?.position, frame);
+            let scale = findKFValue(layer.transform?.scale, frame);
+            let rotation = findKFValue(layer.transform?.rotation, frame);
+            let lopacity = findKFValue(layer.transform?.opacity, frame) / 100;
+
+            let lTr = '';
+            lTr += 'translate(' + position[0] + ',' + position[1] + ') ';
+            if (anchor[0] || anchor[1]) {
+              lTr += 'rotate(' + rotation + ',' + anchor[0] + ',' + anchor[1] + ') ';
+            } else {
+              lTr += 'rotate(' + rotation + ') ';
+            }
+            lTr += 'scale(' + (scale[0] / 100) + ',' + (scale[1] / 100) + ') ';
+            lElem.setAttribute('transform', lTr.trim());
+            lElem.setAttribute('opacity', lopacity);
+
+            // mask
+            if (layer.mask) {
+              let maskElem = document.getElementById(layer.mask.id);
+              if (maskElem) {
+                // find path
+                let mp = findPathKeyframeValue(layer.mask.pathKFs, frame);
+                let mOp = findKFValue(layer.mask.opacity, frame) / 100;
+                let pathElem = maskElem.querySelector('path');
+                if (pathElem) {
+                  pathElem.setAttribute('d', pathToD(mp));
+                  pathElem.setAttribute('fill-opacity', mOp);
+                }
               }
             }
-          }
 
-          // shapes
-          layer.shapes.forEach(sh => {
-            let sElem = document.getElementById(sh.id);
-            if (!sElem) return;
-            let shAnchor = findKFValue(sh.anchor, frame);
-            let shPos = findKFValue(sh.position, frame);
-            let shScale = findKFValue(sh.scale, frame);
-            let shRot = findKFValue(sh.rotation, frame);
-            let shOp = findKFValue(sh.opacity, frame);
+            // shapes
+            layer.shapes.forEach(sh => {
+              let sElem = document.getElementById(sh.id);
+              if (!sElem) return;
+              let shAnchor = findKFValue(sh.anchor, frame);
+              let shPos = findKFValue(sh.position, frame);
+              let shScale = findKFValue(sh.scale, frame);
+              let shRot = findKFValue(sh.rotation, frame);
+              let shOp = findKFValue(sh.opacity, frame);
 
-            let sTr = '';
-            sTr += 'translate(' + shPos[0] + ',' + shPos[1] + ') ';
-            if (shAnchor[0] || shAnchor[1]) {
-              sTr += 'rotate(' + shRot + ',' + shAnchor[0] + ',' + shAnchor[1] + ') ';
-            } else {
-              sTr += 'rotate(' + shRot + ') ';
-            }
-            sTr += 'scale(' + (shScale[0] / 100) + ',' + (shScale[1] / 100) + ') ';
-            sElem.setAttribute('transform', sTr.trim());
-            sElem.setAttribute('opacity', shOp);
+              let sTr = '';
+              sTr += 'translate(' + shPos[0] + ',' + shPos[1] + ') ';
+              if (shAnchor[0] || shAnchor[1]) {
+                sTr += 'rotate(' + shRot + ',' + shAnchor[0] + ',' + shAnchor[1] + ') ';
+              } else {
+                sTr += 'rotate(' + shRot + ') ';
+              }
+              sTr += 'scale(' + (shScale[0] / 100) + ',' + (shScale[1] / 100) + ') ';
+              sElem.setAttribute('transform', sTr.trim());
+              sElem.setAttribute('opacity', shOp);
 
-            // fill color
-            if (sh.fillColor && sh.fillColor.length > 0) {
-              let fc = findKFValue(sh.fillColor, frame);
-              let col = 'rgb(' + Math.round(fc[0] * 255) + ',' + Math.round(fc[1] * 255) + ',' + Math.round(fc[2] * 255) + ')';
-              sElem.setAttribute('fill', col);
-              sElem.setAttribute('fill-opacity', fc[3]);
-            }
-            // stroke color
-            if (sh.strokeColor && sh.strokeColor.length > 0) {
-              let sc = findKFValue(sh.strokeColor, frame);
-              let col = 'rgb(' + Math.round(sc[0] * 255) + ',' + Math.round(sc[1] * 255) + ',' + Math.round(sc[2] * 255) + ')';
-              sElem.setAttribute('stroke', col);
-              sElem.setAttribute('stroke-opacity', sc[3]);
-            }
-            // stroke width
-            if (sh.strokeWidth && sh.strokeWidth.length > 0) {
-              let sw = findKFValue(sh.strokeWidth, frame);
-              sElem.setAttribute('stroke-width', sw);
-            }
-            // path geometry
-            if (sh.type === 'path' && sh.pathKFs && sh.pathKFs.length > 0) {
-              // fully dynamic path
-              let pVal = findPathKeyframeValue(sh.pathKFs, frame);
-              sElem.setAttribute('d', pathToD(pVal));
-            }
+              // fill color
+              if (sh.fillColor && sh.fillColor.length > 0) {
+                let fc = findKFValue(sh.fillColor, frame);
+                let col = 'rgb(' + Math.round(fc[0] * 255) + ',' + Math.round(fc[1] * 255) + ',' + Math.round(fc[2] * 255) + ')';
+                sElem.setAttribute('fill', col);
+                sElem.setAttribute('fill-opacity', fc[3]);
+              }
+              // stroke color
+              if (sh.strokeColor && sh.strokeColor.length > 0) {
+                let sc = findKFValue(sh.strokeColor, frame);
+                let col = 'rgb(' + Math.round(sc[0] * 255) + ',' + Math.round(sc[1] * 255) + ',' + Math.round(sc[2] * 255) + ')';
+                sElem.setAttribute('stroke', col);
+                sElem.setAttribute('stroke-opacity', sc[3]);
+              }
+              // stroke width
+              if (sh.strokeWidth && sh.strokeWidth.length > 0) {
+                let sw = findKFValue(sh.strokeWidth, frame);
+                sElem.setAttribute('stroke-width', sw);
+              }
+              // path geometry
+              if (sh.type === 'path' && sh.pathKFs && sh.pathKFs.length > 0) {
+                // fully dynamic path
+                let pVal = findPathKeyframeValue(sh.pathKFs, frame);
+                sElem.setAttribute('d', pathToD(pVal));
+              }
+            });
           });
-        });
+        }
+        requestAnimationFrame(animateFrame);
       }
-      requestAnimationFrame(animateFrame);
+
+      window.uLottie = {
+        runAnimation: runAnimation
+      };
+    })();
+  </script>
+  <script>
+    (function () {
+      const comp = {
+        ip: 0,
+        op: 90,
+        fr: 30,
+        data: [{ "layerId": "layer0", "transform": { "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 100 }] }, "mask": { "id": "mask0", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [200, 300]] } }], "opacity": [{ "t": 0, "val": 50 }] }, "shapes": [{ "id": "shape0", "type": "rect", "pathKFs": [], "rect": { "x": 0, "y": 0, "width": 0, "height": 0, "cornerRadius": 0 }, "fillColor": [{ "t": 0, "val": [0, 0, 0, 1] }], "strokeColor": [], "strokeWidth": [], "gradient": null, "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }, { "id": "shape1", "type": "path", "pathKFs": [{ "t": 0, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[150, 100], [250, 100], [250, 200], [150, 200]] } }, { "t": 45, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[100, 100], [300, 100], [300, 200], [100, 200]] } }, { "t": 90, "val": { "c": true, "i": [[0, 0], [0, 0], [0, 0], [0, 0]], "o": [[0, 0], [0, 0], [0, 0], [0, 0]], "v": [[200, 50], [350, 150], [250, 300], [150, 150]] } }], "rect": null, "fillColor": [{ "t": 0, "val": [1, 0.5, 0, 1] }, { "t": 45, "val": [0, 1, 0, 1] }, { "t": 90, "val": [0, 0, 1, 1] }], "strokeColor": [{ "t": 0, "val": [0, 0, 1, 1] }, { "t": 30, "val": [0, 1, 0, 1] }, { "t": 60, "val": [1, 0, 0, 1] }, { "t": 90, "val": [0, 0, 0, 1] }], "strokeWidth": [{ "t": 0, "val": 1 }, { "t": 45, "val": 5 }, { "t": 90, "val": 10 }], "gradient": [{ "t": 0, "stops": [{ "offset": 0, "r": 1, "g": 1, "b": 1 }, { "offset": 0.5, "r": 1, "g": 0, "b": 0 }, { "offset": 1, "r": 0, "g": 1, "b": 0 }], "start": [150, 150], "end": [250, 250] }], "anchor": [{ "t": 0, "val": [0, 0] }], "position": [{ "t": 0, "val": [0, 0] }], "scale": [{ "t": 0, "val": [100, 100] }], "rotation": [{ "t": 0, "val": 0 }], "opacity": [{ "t": 0, "val": 1 }] }] }]
+      };
+      uLottie.runAnimation(comp);
     })();
   </script>
 </head>
