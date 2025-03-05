@@ -19,6 +19,7 @@
   "type": "module",
   "exports": {
     "./*.css": "./*.css",
+    "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
       "import": "./recipes/*.mjs"
