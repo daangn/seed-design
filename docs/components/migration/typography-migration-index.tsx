@@ -26,6 +26,19 @@ export async function TypographyMigrationIndex() {
 
       return id;
     }),
+    alternative: item.alternative?.map((id) => {
+      const typography = rootage.componentSpecEntities.typography.body.find(({ variants }) =>
+        variants.some(
+          (variant) => variant.name === "textStyle" && item.alternative?.includes(variant.value),
+        ),
+      );
+
+      if (!typography) {
+        throw new Error(`Typography component spec not found for variant textStyle=${id}`);
+      }
+
+      return id;
+    }),
     description: item.description,
   }));
 
@@ -48,7 +61,8 @@ export async function TypographyMigrationIndex() {
           <tr key={item.previous}>
             <td>{item.previous}</td>
             <td className="align-middle space-y-2">
-              {item.next.length > 0 &&
+              {item.next.length > 0 ? (
+                // next가 있는 경우
                 item.next.map((newTextStyleId, index) => {
                   return (
                     <Fragment key={newTextStyleId}>
@@ -60,7 +74,26 @@ export async function TypographyMigrationIndex() {
                       )}
                     </Fragment>
                   );
-                })}
+                })
+              ) : // next가 없고 alternative가 있는 경우
+              item.alternative && item.alternative.length > 0 ? (
+                item.alternative.map((altTextStyleId, index) => {
+                  return (
+                    <Fragment key={altTextStyleId}>
+                      <Text textStyle={altTextStyleId as TextProps["textStyle"]}>
+                        {altTextStyleId}{" "}
+                        <span className="text-xs text-gray-500">(Alternative)</span>
+                      </Text>
+                      {index !== (item.alternative?.length ?? 0) - 1 && (
+                        <div className="text-xs text-center">또는</div>
+                      )}
+                    </Fragment>
+                  );
+                })
+              ) : (
+                // next도 alternative도 없는 경우
+                <Text className="text-gray-300 text-sm">매핑 없음</Text>
+              )}
             </td>
             <td>{item.description}</td>
           </tr>
