@@ -1,0 +1,11 @@
+:root[data-seed] {
+  --seed-alert-dialog-backdrop-background: var(--seed-semantic-color-overlay-dim);
+  --seed-alert-dialog-content-background: var(--seed-semantic-color-paper-dialog);
+  --seed-alert-dialog-title-color: var(--seed-scale-color-gray-900);
+  --seed-alert-dialog-description-color: var(--seed-scale-color-gray-900);
+
+  --seed-box-button-focus-border: 2px solid var(--seed-scale-color-blue-600);
+
+  box-shadow: 0 0 0 2px var(--seed-scale-color-blue-600);
+  background: linear-gradient(to bottom, var(--seed-scale-color-blue-600), var(--seed-scale-color-blue-700));
+}

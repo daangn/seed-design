@@ -10,30 +10,39 @@ export function runFixtureTests(
   name: string,
   transform: Transform,
   fixturesDir: string,
+  extension = "tsx",
   transformOptions: z.infer<typeof transformOptionsSchema> = {
     reporter: true,
   },
 ) {
   const inputFiles = readdirSync(fixturesDir)
-    .filter((filename) => filename.endsWith(".input.tsx"))
-    .map((filename) => basename(filename, ".input.tsx"));
+    .filter((filename) => filename.endsWith(`.input.${extension}`))
+    .map((filename) => basename(filename, `.input.${extension}`));
 
   describe(`${name} transform tests`, () => {
     inputFiles.forEach((testCase) => {
       test(`transforms ${testCase} correctly`, () => {
-        const inputPath = join(fixturesDir, `${testCase}.input.tsx`);
-        const outputPath = join(fixturesDir, `${testCase}.output.tsx`);
+        const inputPath = join(fixturesDir, `${testCase}.input.${extension}`);
+        const outputPath = join(fixturesDir, `${testCase}.output.${extension}`);
 
         const input = readFileSync(inputPath, "utf8");
         const output = readFileSync(outputPath, "utf8").trim();
 
-        const result = applyTransform(
-          transform,
-          transformOptions,
-          { source: input },
-          { parser: "tsx" },
-        );
-        expect(result.trim()).toEqual(output);
+        let result: string;
+        if (extension === "css") {
+          // CSS 파일인 경우 직접 transform 함수 호출
+          result = transform({ path: inputPath, source: input }, null, transformOptions) as string;
+        } else {
+          // JS/TS 파일인 경우 jscodeshift의 applyTransform 사용
+          result = applyTransform(
+            transform,
+            transformOptions,
+            { source: input },
+            { parser: "tsx" },
+          );
+        }
+
+        expect(result?.trim()).toEqual(output);
       });
     });
   });
