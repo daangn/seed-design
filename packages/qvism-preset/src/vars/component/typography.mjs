@@ -152,12 +152,48 @@ export const vars = {
       }
     }
   },
+  "textStyleT6Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t6)",
+        "lineHeight": "var(--seed-line-height-t6)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT6Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t6)",
+        "lineHeight": "var(--seed-line-height-t6)",
+        "fontWeight": "var(--seed-font-weight-medium)"
+      }
+    }
+  },
   "textStyleT6Bold": {
     "enabled": {
       "root": {
         "fontSize": "var(--seed-font-size-t6)",
         "lineHeight": "var(--seed-line-height-t6)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      }
+    }
+  },
+  "textStyleT7Regular": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t7)",
+        "lineHeight": "var(--seed-line-height-t7)",
+        "fontWeight": "var(--seed-font-weight-regular)"
+      }
+    }
+  },
+  "textStyleT7Medium": {
+    "enabled": {
+      "root": {
+        "fontSize": "var(--seed-font-size-t7)",
+        "lineHeight": "var(--seed-line-height-t7)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },

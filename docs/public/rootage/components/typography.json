@@ -29,7 +29,11 @@
             "t5Regular": {},
             "t5Medium": {},
             "t5Bold": {},
+            "t6Regular": {},
+            "t6Medium": {},
             "t6Bold": {},
+            "t7Regular": {},
+            "t7Medium": {},
             "t7Bold": {},
             "t8Bold": {},
             "t9Bold": {},
@@ -518,6 +522,62 @@
       },
       {
         "variants": {
+          "textStyle": "t6Regular"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t6Medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
           "textStyle": "t6Bold"
         },
         "definitions": [
@@ -538,6 +598,62 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t7Regular"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "textStyle": "t7Medium"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t7"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t7"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
                 }
               }
             }

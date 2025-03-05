@@ -107,12 +107,36 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
+    textStyle=t6Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+          fontWeight: $font-weight.regular
+    textStyle=t6Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+          fontWeight: $font-weight.medium
     textStyle=t6Bold:
       enabled:
         root:
           fontSize: $font-size.t6
           lineHeight: $line-height.t6
           fontWeight: $font-weight.bold
+    textStyle=t7Regular:
+      enabled:
+        root:
+          fontSize: $font-size.t7
+          lineHeight: $line-height.t7
+          fontWeight: $font-weight.regular
+    textStyle=t7Medium:
+      enabled:
+        root:
+          fontSize: $font-size.t7
+          lineHeight: $line-height.t7
+          fontWeight: $font-weight.medium
     textStyle=t7Bold:
       enabled:
         root:
