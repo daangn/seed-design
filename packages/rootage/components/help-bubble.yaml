@@ -14,7 +14,10 @@ data:
           paddingY: $dimension.x3
         arrow:
           color: $color.bg.neutral-solid
-          size: $dimension.x2_5
+          width: 12px
+          height: 8px
+          cornerRadius: 2px
+          gutter: 4px
         title:
           color: $color.palette.static-white
           fontSize: $font-size.t3

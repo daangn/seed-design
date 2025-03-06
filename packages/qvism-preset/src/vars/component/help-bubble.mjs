@@ -9,7 +9,10 @@ export const vars = {
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-solid)",
-        "size": "var(--seed-dimension-x2_5)"
+        "width": "12px",
+        "height": "8px",
+        "cornerRadius": "2px",
+        "gutter": "4px"
       },
       "title": {
         "color": "var(--seed-color-palette-static-white)",

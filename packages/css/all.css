@@ -3005,8 +3005,8 @@
 
 .seed-help-bubble__arrow {
   fill: var(--seed-color-bg-neutral-solid);
-  width: 10px;
-  height: 6px;
+  width: 12px;
+  height: 8px;
 }
 
 .seed-help-bubble__title {
