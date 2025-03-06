@@ -1,7 +1,7 @@
-import { UlottieCompiler } from "./svg";
-import type { UlottieComposition } from "./types";
+import { UlottieCompiler } from "../src/compile";
+import type { Ulottie } from "../src/types";
 
-const lottieData: UlottieComposition = {
+const lottieData: Ulottie.Animation = {
   v: "5.5.0",
   fr: 30,
   w: 400,
@@ -10,7 +10,7 @@ const lottieData: UlottieComposition = {
   op: 90,
   layers: [
     {
-      ty: "shape",
+      ty: 4,
       nm: "Demo Shape Layer",
       shapes: [
         {
@@ -18,7 +18,7 @@ const lottieData: UlottieComposition = {
           nm: "Rect1",
           p: {
             a: 1,
-            kf: [
+            k: [
               { t: 0, s: [200, 200] },
               { t: 90, s: [300, 300] },
             ],
@@ -37,7 +37,7 @@ const lottieData: UlottieComposition = {
           nm: "MorphingPath",
           ks: {
             a: 1,
-            kf: [
+            k: [
               {
                 t: 0,
                 s: [
@@ -124,7 +124,7 @@ const lottieData: UlottieComposition = {
           nm: "Solid Fill",
           c: {
             a: 1,
-            kf: [
+            k: [
               { t: 0, s: [1, 0.5, 0, 1] }, // orange at frame 0
               { t: 45, s: [0, 1, 0, 1] }, // green  at frame 45
               { t: 90, s: [0, 0, 1, 1] }, // blue   at frame 90
@@ -136,7 +136,7 @@ const lottieData: UlottieComposition = {
           nm: "Animated Stroke",
           c: {
             a: 1,
-            kf: [
+            k: [
               { t: 0, s: [0, 0, 1, 1] }, // blue  at frame 0
               { t: 30, s: [0, 1, 0, 1] }, // green at frame 30
               { t: 60, s: [1, 0, 0, 1] }, // red   at frame 60
@@ -145,7 +145,7 @@ const lottieData: UlottieComposition = {
           },
           w: {
             a: 1,
-            kf: [
+            k: [
               { t: 0, s: [1] }, // width=1  at frame 0
               { t: 45, s: [5] }, // width=5  at frame 45
               { t: 90, s: [10] }, // width=10 at frame 90
@@ -158,20 +158,23 @@ const lottieData: UlottieComposition = {
           nm: "Gradient Fill",
           g: {
             p: 8,
-            k: [
-              0,
-              1,
-              1,
-              1, // offset=0,   color=white
-              0.5,
-              1,
-              0,
-              0, // offset=0.5, color=red
-              1,
-              0,
-              1,
-              0, // offset=1,   color=green
-            ],
+            k: {
+              a: 0,
+              k: [
+                0,
+                1,
+                1,
+                1, // offset=0,   color=white
+                0.5,
+                1,
+                0,
+                0, // offset=0.5, color=red
+                1,
+                0,
+                1,
+                0, // offset=1,   color=green
+              ],
+            },
           },
           s: {
             a: 0,
