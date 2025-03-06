@@ -117,6 +117,7 @@ export namespace Ulottie {
   export interface ShapeLayer {
     ty: 4;
     nm?: string;
+    ks: TransformShape;
     shapes: GraphicElement[];
     masksProperties?: Mask[];
   }
@@ -146,16 +147,9 @@ export namespace Ulottie {
   export type Shape = Path | Rectangle;
 
   /** Transform for a shape layer: anchor, position, scale, rotation, opacity */
-  export interface TransformShape {
+  export interface TransformShape extends Transform {
     ty: "tr";
     nm?: string;
-    a?: PositionProperty;
-    p?: SplittablePositionProperty;
-    r?: ScalarProperty;
-    s?: VectorProperty;
-    o?: ScalarProperty;
-    sk?: ScalarProperty;
-    sa?: ScalarProperty;
   }
 
   export interface Group {
@@ -256,112 +250,133 @@ export namespace Ulottie {
     o: ScalarProperty; // mask opacity
     pt: BezierShapeProperty; // mask path
   }
+
+  /** Layer Transform */
+  export interface Transform {
+    a?: PositionProperty;
+    p?: SplittablePositionProperty;
+    r?: ScalarProperty;
+    s?: VectorProperty;
+    o?: ScalarProperty;
+    sk?: ScalarProperty;
+    sa?: ScalarProperty;
+  }
 }
 
 /*****************************************************
  *  Internal IR structures
  *****************************************************/
 
-export interface PathKeyframe {
-  t: number;
-  val: Ulottie.BezierShape;
-}
-export interface PathKFArray extends Array<PathKeyframe> {}
+export namespace IR {
+  /**
+   * Top-level animation representation
+   */
+  export interface Animation {
+    frameRate: number;
+    layers: Layer[];
+  }
 
-export interface IRTransform {
-  anchor?: Value2DKF;
-  position?: Value2DKF;
-  scale?: Value2DKF;
-  rotation?: ValueKF;
-  opacity?: ValueKF;
-}
-
-// IRModifier type: used for modifier elements inside a group
-export type IRModifier =
-  | { type: "fill"; fillColor: ColorKF }
-  | { type: "stroke"; strokeColor: ColorKF; strokeWidth: ValueKF }
-  | { type: "gradient"; gradient: GradientKF };
-
-// Extend the IRShape union to include a group type.
-export interface IRGroup {
-  id: string;
-  type: "group";
-  transform?: IRTransform;
-  children: IRShape[];
-  modifiers?: IRModifier[];
-}
-
-// Existing IRPath and IRRect remain unchanged:
-export interface IRPath {
-  id: string;
-  type: "path";
-  pathKeyframes: PathKFArray;
-  fillColor?: ColorKF;
-  strokeColor?: ColorKF;
-  strokeWidth?: ValueKF;
-  gradient?: GradientKF;
-}
-
-export interface IRRect {
-  id: string;
-  type: "rect";
-  rect: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    cornerRadius: number;
-  };
-  fillColor?: ColorKF;
-  strokeColor?: ColorKF;
-  strokeWidth?: ValueKF;
-  gradient?: GradientKF;
-}
-
-// IRShape union now includes IRGroup:
-export type IRShape = IRPath | IRRect | IRGroup;
-
-/** IR for a single layer. It might have multiple shapes, plus a layer transform, plus a mask. */
-export interface IRLayer {
-  id: string;
-  shapes: IRShape[];
-  transform?: IRTransform;
-  mask?: {
+  /**
+   * Each layer contains an inline initial state and a list of keyframe changes.
+   */
+  export interface Layer {
     id: string;
-    pathKFs: PathKFArray;
-    opacity: ValueKF;
-  };
+    name?: string;
+    // Inline initial state
+    initialState: { [property: string]: any };
+    // List of keyframes with delta commands.
+    keyframes: Keyframe[];
+  }
+
+  /**
+   * A keyframe is a snapshot in time, with commands that transition from the previous frame.
+   */
+  export interface Keyframe {
+    time: number;
+    commands: Command[];
+  }
+
+  /**
+   * A union of commands representing various operations on animation properties.
+   */
+  export type Command =
+    | UpdateCommand
+    | TranslateCommand
+    | ScaleCommand
+    | RotateCommand
+    | MorphCommand
+    | GradientCommand;
+
+  /**
+   * Directly set a property to a new value.
+   */
+  export interface UpdateCommand {
+    type: "update";
+    target: string; // e.g., an element id (such as "circle1")
+    property: string; // name of the property, e.g., "fill", "cx"
+    value: any;
+  }
+
+  /**
+   * Move a vector property by a delta (for position updates).
+   */
+  export interface TranslateCommand {
+    type: "translate";
+    target: string;
+    dx: number;
+    dy: number;
+  }
+
+  /**
+   * Scale a vector or size property.
+   */
+  export interface ScaleCommand {
+    type: "scale";
+    target: string;
+    sx: number;
+    sy: number;
+  }
+
+  /**
+   * Rotate a property by a given angle (in degrees or radians).
+   */
+  export interface RotateCommand {
+    type: "rotate";
+    target: string;
+    angle: number;
+  }
+
+  /**
+   * Morph a Bezier shape by updating its vertices and tangents.
+   */
+  export interface MorphCommand {
+    type: "morph";
+    target: string;
+    changes: {
+      v?: number[][]; // Updated vertices, each as [x, y]
+      i?: number[][]; // Updated in tangents
+      o?: number[][]; // Updated out tangents
+    };
+  }
+
+  /**
+   * Update properties of a gradient, such as stops or start/end points.
+   */
+  export interface GradientCommand {
+    type: "gradient";
+    target: string;
+    changes: {
+      stops?: number[];
+      start?: number[];
+      end?: number[];
+    };
+  }
 }
 
-export interface GradientKF {
-  keyframes: Array<{
-    t: number;
-    stops: GradientStop[];
-    start: [number, number];
-    end: [number, number];
-  }>;
-}
+/*****************************************************
+ *  Output targets
+ *****************************************************/
 
-export interface GradientStop {
-  offset: number;
-  r: number;
-  g: number;
-  b: number;
-}
-
-export interface ValueKF {
-  keyframes: Array<{ t: number; val: number }>;
-}
-
-export interface Value2DKF {
-  keyframes: Array<{ t: number; val: [number, number] }>;
-}
-
-export interface ColorKF {
-  keyframes: Array<{ t: number; val: [number, number, number, number] }>;
-}
-
-/** Final output: SSR <svg> + minimal runtime JS. */
 export interface CompileOutput {
   initialSvg: string;
   runtimeJs: string;

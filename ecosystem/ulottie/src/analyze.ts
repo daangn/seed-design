@@ -1,4 +1,4 @@
-import type { PathKFArray, Ulottie } from "./types";
+import type { Ulottie } from "./types";
 
 /**
  * Evaluate a cubic Bezier curve for a single coordinate.
