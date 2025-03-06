@@ -43,9 +43,33 @@
                   "type": "color",
                   "value": "$color.bg.neutral-solid"
                 },
-                "size": {
+                "width": {
                   "type": "dimension",
-                  "value": "$dimension.x2_5"
+                  "value": {
+                    "value": 12,
+                    "unit": "px"
+                  }
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 8,
+                    "unit": "px"
+                  }
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                },
+                "gutter": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 4,
+                    "unit": "px"
+                  }
                 }
               },
               "title": {

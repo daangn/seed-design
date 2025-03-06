@@ -16,7 +16,7 @@ export interface HelpBubbleRootProps extends HelpBubbleVariantProps, PopoverPrim
 export const HelpBubbleRoot = withRootProvider<HelpBubbleRootProps>(PopoverPrimitive.Root, {
   defaultProps: {
     placement: "top",
-    gutter: 4,
+    gutter: 4, // TODO: get value from rootage spec
     overflowPadding: 16,
     arrowPadding: 14,
     flip: true,
@@ -90,7 +90,10 @@ export interface HelpBubbleArrowTipProps extends React.SVGProps<SVGSVGElement> {
 
 export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipProps>(
   (props, ref) => {
-    const { tipRadius = 1, ...otherProps } = props;
+    const {
+      tipRadius = 2, // TODO: get value from rootage spec
+      ...otherProps
+    } = props;
     const api = usePopoverContext();
     const width = api.rects.arrow?.width || 0;
     const height = api.rects.arrow?.height || 0;

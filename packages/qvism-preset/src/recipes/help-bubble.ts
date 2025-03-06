@@ -39,8 +39,8 @@ const helpBubble = defineRecipe({
     },
     arrow: {
       fill: vars.base.enabled.arrow.color,
-      width: "10px",
-      height: "6px",
+      width: vars.base.enabled.arrow.width,
+      height: vars.base.enabled.arrow.height,
     },
     title: {
       color: vars.base.enabled.title.color,
