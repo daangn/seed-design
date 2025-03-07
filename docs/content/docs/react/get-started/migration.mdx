@@ -14,7 +14,7 @@ Seed Design V2에서 V3로 마이그레이션하기 위해 필요한 작업들�
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react
+@seed-design/react @seed-design/css
 ```
 </Step>
 
@@ -29,10 +29,11 @@ V2의 `global.css`와 상호운용이 가능하지만, codemod를 통해 V3 스�
 </Callout>
 
 ```ts title="index.tsx"
-- import "@seed-design/stylesheet/global.css";
+import "@seed-design/stylesheet/global.css"; // [!code --]
+import "@seed-design/css/all.css"; // [!code ++]
 ```
 
-V3 스타일시트 사용법은 [Vite](./installation/vite) 또는 [Manual](./installation/manual)을 참고해주세요.
+자세한 V3 스타일시트 사용법은 [Installation의 css import](/docs/react/get-started/installation#allcss-import하기) 설명을 참고해주세요.
 
 </Step>
 

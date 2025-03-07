@@ -36,7 +36,7 @@ Seed Design을 번들러 통합 없이 설치하고 사용하는 방법을 알�
 Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `data-seed-user-color-scheme`
 속성을 통해 라이트/다크모드 전환을 해요.
 
-<Tabs items={['auto', 'light only', 'dark only']}>
+<Tabs items={['system', 'light only', 'dark only']}>
   <Tab value="system">
     ```tsx title="index.html" 
     <html
@@ -45,7 +45,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
       data-seed-user-color-scheme="light" // [!code highlight]
     >
       <head>
-        <meta name="color-scheme" content="light dark" /> // [!code highlight]
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="light dark" />
         <script>
         /* user-color-scheme 설정 스크립트, 필요에 따라 수정하세요 */
         try {
@@ -79,7 +80,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
       data-seed-color-mode="light-only" // [!code highlight]
     >
       <head>
-        <meta name="color-scheme" content="light" /> // [!code highlight]
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="light" />
         <!-- ... -->
       </head>
     </html>
@@ -92,7 +94,8 @@ Seed Design의 컬러 토큰은 `<html />` 태그의 `data-seed-color-mode`, `da
       data-seed-color-mode="dark-only" // [!code highlight]
     >
       <head>
-        <meta name="color-scheme" content="dark" />   // [!code highlight]
+        <!-- [!code highlight] -->
+        <meta name="color-scheme" content="dark" />
         <!-- ... -->
       </head>
     </html>

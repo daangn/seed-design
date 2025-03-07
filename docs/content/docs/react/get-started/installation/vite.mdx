@@ -11,7 +11,7 @@ description: vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 필요한 의존성들을 설치해요.
 
 ```package-install
-@seed-design/react @seed-design/css @seed-design/vite-plugin
+@seed-design/react @seed-design/css
 ```
 
 </Step>
@@ -20,24 +20,10 @@ description: vite 프로젝트에서 Seed Design을 설치하고 사용하는 �
 ### base.css import하기
 
 ```ts title="index.tsx"
-import "@seed-design/react/base.css";
+import "@seed-design/css/base.css";
 ```
 </Step>
 
-<Step>
-
-### vite config 설정하기
-
-```ts title="vite.config.ts"
-+import { seedPlugin } from '@seed-design/vite-plugin';
-
-export default defineConfig({
-  plugins: [
-+    seedPlugin()
-  ]
-})
-```
-</Step>
 
 <Step>
 
@@ -85,26 +71,20 @@ npx @seed-design/cli@latest init
 </Tab>
 </Tabs>
 
-</Step>
+</Step> 
+
 
 <Step>
-
-### 컴포넌트를 한번 사용해볼까요?
-
-```sh
-npx @seed-design/cli@latest add action-button
-```
-
-</Step>
-
-<Step>
-
 
 ### tsconfig.json 설정하기
 
+<Callout>
+위에서 설정한 [seed-design.json path](/docs/react/get-started/seed-design-json#path)의 경로와 동일해야 해요.
+</Callout>
+
 </Step>
 
-```json title="tsconfig.json"
+```json title="tsconfig.app.json"
 {
   "compilerOptions": {
     // your options
@@ -117,5 +97,43 @@ npx @seed-design/cli@latest add action-button
 }
 ```
 
+<Step>
+
+### vite config 수정하기
+
+```package-install
+npm install -D @seed-design/vite-plugin vite-tsconfig-paths
+```
+
+<Callout>
+- `seedPlugin`은 theming 관련, CSS 파일 자동 로드 등을 담당해요.
+- `tsconfigPaths`는 tsconfig.json의 경로를 자동으로 인식해요.
+</Callout>
+
+```ts title="vite.config.ts"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+import { seedPlugin } from '@seed-design/vite-plugin'; // [!code highlight]
+import tsconfigPaths from 'vite-tsconfig-paths'; // [!code highlight]
+
+export default defineConfig({
+  plugins: [
+    react(),
+    seedPlugin(), // [!code highlight]
+    tsconfigPaths(), // [!code highlight]
+  ],
+})
+```
+</Step>
+
+<Step>
+
+### 컴포넌트를 한번 사용해볼까요?
+
+```sh
+npx @seed-design/cli@latest add action-button
+```
+
+</Step>
 
 </Steps>
