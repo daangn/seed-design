@@ -15,13 +15,11 @@ declare type LinkContentVariantMap = {
 
 export declare type LinkContentVariantProps = Partial<LinkContentVariant>;
 
-export declare type LinkContentSlotName = "root";
-
 export declare const linkContentVariantMap: LinkContentVariantMap;
 
 export declare const linkContent: ((
   props?: LinkContentVariantProps,
-) => Record<LinkContentSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends LinkContentVariantProps>(
     props: T,
   ) => [LinkContentVariantProps, Omit<T, keyof LinkContentVariantProps>];

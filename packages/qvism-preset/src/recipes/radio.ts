@@ -1,8 +1,8 @@
 import { radio as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, active, pseudo } from "../utils/pseudo";
 
-const radio = defineRecipe({
+const radio = defineSlotRecipe({
   name: "radio",
   slots: ["root", "icon"],
   base: {

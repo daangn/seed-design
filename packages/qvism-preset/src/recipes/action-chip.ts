@@ -7,52 +7,49 @@ import { count } from "../utils/count";
 
 const actionChip = defineRecipe({
   name: "action-chip",
-  slots: ["root"],
   base: {
-    root: {
-      display: "inline-flex",
-      justifyContent: "center",
-      alignItems: "center",
-      boxSizing: "border-box",
-      cursor: "pointer",
-      border: "none",
-      textTransform: "none",
-      textAlign: "start",
-      WebkitFontSmoothing: "antialiased",
-      MozOsxFontSmoothing: "grayscale",
-      flexShrink: 0,
-      fontFamily: "inherit",
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxSizing: "border-box",
+    cursor: "pointer",
+    border: "none",
+    textTransform: "none",
+    textAlign: "start",
+    WebkitFontSmoothing: "antialiased",
+    MozOsxFontSmoothing: "grayscale",
+    flexShrink: 0,
+    fontFamily: "inherit",
+    lineHeight: 1,
+
+    fontWeight: vars.base.enabled.label.fontWeight,
+    borderRadius: vars.base.enabled.root.cornerRadius,
+
+    background: vars.base.enabled.root.color,
+    color: vars.base.enabled.label.color,
+
+    ...prefixIcon({ color: vars.base.enabled.prefixIcon.color }),
+    ...suffixIcon({ color: vars.base.enabled.suffixIcon.color }),
+    ...onlyIcon({ color: vars.base.enabled.icon.color }),
+    ...count({
       lineHeight: 1,
+      fontWeight: vars.base.enabled.count.fontWeight,
+      color: vars.base.enabled.count.color,
+    }),
 
-      fontWeight: vars.base.enabled.label.fontWeight,
-      borderRadius: vars.base.enabled.root.cornerRadius,
-
-      background: vars.base.enabled.root.color,
-      color: vars.base.enabled.label.color,
-
-      ...prefixIcon({ color: vars.base.enabled.prefixIcon.color }),
-      ...suffixIcon({ color: vars.base.enabled.suffixIcon.color }),
-      ...onlyIcon({ color: vars.base.enabled.icon.color }),
-      ...count({
-        lineHeight: 1,
-        fontWeight: vars.base.enabled.count.fontWeight,
-        color: vars.base.enabled.count.color,
-      }),
-
-      [pseudo(active)]: {
-        background: vars.base.pressed.root.color,
-      },
-      [pseudo(focus)]: {
-        outline: "none",
-      },
-      [pseudo(disabled)]: {
-        background: vars.base.disabled.root.color,
-        color: vars.base.disabled.label.color,
-        cursor: "not-allowed",
-        ...prefixIcon({ color: vars.base.disabled.prefixIcon.color }),
-        ...suffixIcon({ color: vars.base.disabled.suffixIcon.color }),
-        ...onlyIcon({ color: vars.base.disabled.icon.color }),
-      },
+    [pseudo(active)]: {
+      background: vars.base.pressed.root.color,
+    },
+    [pseudo(focus)]: {
+      outline: "none",
+    },
+    [pseudo(disabled)]: {
+      background: vars.base.disabled.root.color,
+      color: vars.base.disabled.label.color,
+      cursor: "not-allowed",
+      ...prefixIcon({ color: vars.base.disabled.prefixIcon.color }),
+      ...suffixIcon({ color: vars.base.disabled.suffixIcon.color }),
+      ...onlyIcon({ color: vars.base.disabled.icon.color }),
     },
   },
   variants: {
@@ -98,36 +95,28 @@ const actionChip = defineRecipe({
       size: "medium",
       layout: "withText",
       css: {
-        root: {
-          paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
-        },
+        paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
       },
     },
     {
       size: "medium",
       layout: "iconOnly",
       css: {
-        root: {
-          minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
-        },
+        minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
       },
     },
     {
       size: "small",
       layout: "withText",
       css: {
-        root: {
-          paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
-        },
+        paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
       },
     },
     {
       size: "small",
       layout: "iconOnly",
       css: {
-        root: {
-          minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
-        },
+        minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
       },
     },
   ],

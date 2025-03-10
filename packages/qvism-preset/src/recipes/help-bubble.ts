@@ -1,9 +1,9 @@
 import { helpBubble as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { hidden, pseudo } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 
-const helpBubble = defineRecipe({
+const helpBubble = defineSlotRecipe({
   name: "help-bubble",
   slots: ["positioner", "backdrop", "content", "arrow", "title", "description", "closeButton"],
   base: {

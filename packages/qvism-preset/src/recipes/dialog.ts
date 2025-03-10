@@ -1,9 +1,9 @@
 import { dialog as vars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo } from "../utils/pseudo";
 
-const dialog = defineRecipe({
+const dialog = defineSlotRecipe({
   name: "dialog",
   slots: [
     "positioner",

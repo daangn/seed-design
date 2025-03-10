@@ -15,13 +15,11 @@ declare type TextVariantMap = {
 
 export declare type TextVariantProps = Partial<TextVariant>;
 
-export declare type TextSlotName = "root";
-
 export declare const textVariantMap: TextVariantMap;
 
 export declare const text: ((
   props?: TextVariantProps,
-) => Record<TextSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends TextVariantProps>(
     props: T,
   ) => [TextVariantProps, Omit<T, keyof TextVariantProps>];

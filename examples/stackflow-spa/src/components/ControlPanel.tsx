@@ -7,15 +7,11 @@ interface ControlPanelProps {
   variantMap: Record<string, string[]>;
   value: Record<string, string>;
   onValueChange?: (variant: string, value: string) => void;
-  measurements?: Record<string, DOMRect | undefined>;
-  highlightedSlot: string | null;
-  onSlotHighlight?: (slot: string | null) => void;
 }
 
 const ControlPanel = React.forwardRef<HTMLDivElement, ControlPanelProps>((props, ref) => {
   const { preferences, updatePreferences } = usePreference();
-  const { variantMap, value, onValueChange, measurements, highlightedSlot, onSlotHighlight } =
-    props;
+  const { variantMap, value, onValueChange } = props;
 
   return (
     <div ref={ref} className={styles.root}>
@@ -26,20 +22,6 @@ const ControlPanel = React.forwardRef<HTMLDivElement, ControlPanelProps>((props,
           checked={preferences.showGrid}
           onCheckedChange={(checked) => updatePreferences({ showGrid: checked })}
         />
-      </div>
-
-      <div className={styles.item}>
-        <span className={styles.title}>슬롯 하이라이트</span>
-        <select value={highlightedSlot ?? ""} onChange={(e) => onSlotHighlight?.(e.target.value)}>
-          <option value="">None</option>
-          {Object.entries(measurements ?? {}).map(([slot, rect]) =>
-            rect ? (
-              <option key={slot} value={slot}>
-                {slot} ({Math.round(rect.width)} x {Math.round(rect.height)})
-              </option>
-            ) : null,
-          )}
-        </select>
       </div>
 
       {Object.entries(variantMap).map(([variant, values]) => (

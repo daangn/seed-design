@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { actionChip, actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
+import { actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
 
 import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
@@ -32,7 +32,6 @@ const ActivityActionChip: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={actionChipVariantMap}
           initialVariants={initialVariants}
-          recipeFn={actionChip}
           render={(variants) => (
             <ActionChip key={JSON.stringify(variants)} {...variants}>
               {variants.layout === "withText" ? (

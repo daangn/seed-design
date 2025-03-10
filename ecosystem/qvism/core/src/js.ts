@@ -1,7 +1,14 @@
 import { outdent } from "outdent";
 
 import { escapeReservedWord } from "./reserved-words";
-import type { SlotRecipeDefinition, SlotRecipeVariantRecord } from "./types";
+import type {
+  SlotRecipeDefinition,
+  SlotRecipeVariantRecord,
+  RecipeDefinition,
+  RecipeVariantRecord,
+  RecipeKindDefinition,
+  StyleObject,
+} from "./types";
 import { booleanStringToBoolean, isBooleanString } from "./logic";
 import { camelCase } from "change-case";
 import { sharedMjs } from "./fixture";
@@ -13,7 +20,7 @@ export function generateSharedJs(): string {
   return sharedMjs;
 }
 
-export function generateJs(
+export function generateSlotRecipeJs(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
   options: { prefix?: string } = {},
 ): string {
@@ -61,4 +68,57 @@ export function generateJs(
 
   // @recipe(seed): ${definition.name}
   `;
+}
+
+export function generateRecipeJs(
+  definition: RecipeDefinition<RecipeVariantRecord>,
+  options: { prefix?: string } = {},
+): string {
+  const jsName = camelCase(definition.name);
+
+  const variantMap = Object.fromEntries(
+    Object.entries(definition.variants).map(([variantName, variant]) => [
+      variantName,
+      Object.keys(variant as Record<string, StyleObject>).map((key) =>
+        isBooleanString(key) ? booleanStringToBoolean(key) : key,
+      ),
+    ]),
+  );
+
+  const compoundVariants =
+    definition.compoundVariants?.map(({ css, ...rest }: { css: StyleObject }) => rest) ?? [];
+
+  return outdent`
+  import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
+  
+  const defaultVariant = ${JSON.stringify(definition.defaultVariants ?? {}, null, 2)};
+
+  const compoundVariants = ${JSON.stringify(compoundVariants, null, 2)};
+  
+  export const ${jsName}VariantMap = ${JSON.stringify(variantMap, null, 2)};
+  
+  export const ${jsName}VariantKeys = Object.keys(${jsName}VariantMap);
+  
+  export function ${escapeReservedWord(jsName)}(props) {
+    return createClassName(
+      "${prefixName(definition.name, options)}",
+      mergeVariants(defaultVariant, props),
+      compoundVariants,
+    );
+  }
+  
+  Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
+
+  // @recipe(seed): ${definition.name}
+  `;
+}
+
+export function generateJs(
+  definition: RecipeKindDefinition,
+  options: { prefix?: string } = {},
+): string {
+  if ("slots" in definition) {
+    return generateSlotRecipeJs(definition, options);
+  }
+  return generateRecipeJs(definition, options);
 }

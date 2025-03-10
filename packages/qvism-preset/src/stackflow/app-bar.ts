@@ -1,5 +1,5 @@
 import { topNavigation as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
@@ -12,7 +12,7 @@ import {
   swipeBackSwipingBehind,
 } from "./pseudo";
 
-export const appBarMain = defineRecipe({
+export const appBarMain = defineSlotRecipe({
   name: "app-bar-main",
   slots: ["root", "title", "subtitle"],
   base: {
@@ -125,7 +125,7 @@ export const appBarMain = defineRecipe({
   },
 });
 
-export const appBar = defineRecipe({
+export const appBar = defineSlotRecipe({
   name: "app-bar",
   slots: ["root", "left", "right", "iconButton", "icon"],
   base: {

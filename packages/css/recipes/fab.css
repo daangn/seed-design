@@ -1,4 +1,4 @@
-.seed-fab__root {
+.seed-fab {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -11,13 +11,13 @@
     text-decoration: none;
     font-family: inherit;
 }
-.seed-fab__root:is(:focus, [data-focus]) {
+.seed-fab:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-fab__root:is(:disabled, [disabled], [data-disabled]) {
+.seed-fab:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-fab__root {
+.seed-fab {
     background: var(--seed-color-bg-layer-floating);
     border-radius: var(--seed-radius-full);
     box-shadow: 0px 2px 6px 0px #00000026;
@@ -26,6 +26,6 @@
     --seed-icon-size: 22px;
     --seed-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-fab__root:is(:active, [data-active]) {
+.seed-fab:is(:active, [data-active]) {
     background: var(--seed-color-bg-layer-floating-pressed);
 }

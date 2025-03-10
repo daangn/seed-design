@@ -1,8 +1,8 @@
 import { vars } from "@seed-design/css/vars";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 
-const pullToRefresh = defineRecipe({
+const pullToRefresh = defineSlotRecipe({
   name: "pull-to-refresh",
   slots: ["root", "indicator"],
   base: {

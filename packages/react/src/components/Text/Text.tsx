@@ -108,7 +108,7 @@ export const Text = ({
   ...otherProps
 }: TextProps) => {
   const Comp = as || "span";
-  const classNames = useMemo(
+  const textClassName = useMemo(
     () =>
       text({
         textStyle,
@@ -119,7 +119,7 @@ export const Text = ({
 
   return (
     <Comp
-      className={clsx(classNames.root, className)}
+      className={clsx(textClassName, className)}
       style={
         {
           "--seed-max-lines": maxLines,

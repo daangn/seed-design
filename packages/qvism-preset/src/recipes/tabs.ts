@@ -1,8 +1,8 @@
 import { tablist as vars, tab as triggerVars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { disabled, not, pseudo, selected } from "../utils/pseudo";
 
-const tabs = defineRecipe({
+const tabs = defineSlotRecipe({
   name: "tabs",
   slots: [
     "root",

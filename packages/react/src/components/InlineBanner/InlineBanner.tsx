@@ -5,14 +5,14 @@ import {
   type InlineBannerVariantProps,
 } from "@seed-design/css/recipes/inline-banner";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
   type DismissibleRootProps,
 } from "../private/useDismissible";
 
-const { withContext, withProvider } = createStyleContext(inlineBanner);
+const { withContext, withProvider } = createSlotRecipeContext(inlineBanner);
 
 export interface InlineBannerRootProps extends InlineBannerVariantProps, DismissibleRootProps {}
 

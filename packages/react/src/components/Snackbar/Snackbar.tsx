@@ -5,11 +5,11 @@ import { snackbarRegion } from "@seed-design/css/recipes/snackbar-region";
 import { visuallyHidden } from "@seed-design/css/recipes/visually-hidden";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withRegionProvider } = createStyleContext(snackbarRegion);
-const { withProvider, withContext } = createStyleContext(snackbar);
+const { withProvider: withRegionProvider } = createSlotRecipeContext(snackbarRegion);
+const { withProvider, withContext } = createSlotRecipeContext(snackbar);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

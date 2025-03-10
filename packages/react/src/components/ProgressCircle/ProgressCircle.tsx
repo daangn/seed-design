@@ -3,9 +3,9 @@ import {
   progressCircle,
   type ProgressCircleVariantProps,
 } from "@seed-design/css/recipes/progress-circle";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withContext, withProvider } = createStyleContext(progressCircle);
+const { withContext, withProvider } = createSlotRecipeContext(progressCircle);
 
 export interface ProgressCircleRootProps
   extends ProgressCirclePrimitive.RootProps,

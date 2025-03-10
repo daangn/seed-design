@@ -15,13 +15,11 @@ declare type ExtendedFabVariantMap = {
 
 export declare type ExtendedFabVariantProps = Partial<ExtendedFabVariant>;
 
-export declare type ExtendedFabSlotName = "root";
-
 export declare const extendedFabVariantMap: ExtendedFabVariantMap;
 
 export declare const extendedFab: ((
   props?: ExtendedFabVariantProps,
-) => Record<ExtendedFabSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ExtendedFabVariantProps>(
     props: T,
   ) => [ExtendedFabVariantProps, Omit<T, keyof ExtendedFabVariantProps>];

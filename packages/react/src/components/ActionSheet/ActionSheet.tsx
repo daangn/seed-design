@@ -1,16 +1,17 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { actionSheet, type ActionSheetVariantProps } from "@seed-design/css/recipes/action-sheet";
 import {
   actionSheetItem,
   type ActionSheetItemVariantProps,
 } from "@seed-design/css/recipes/action-sheet-item";
+import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-const { withRootProvider, withContext } = createStyleContext(actionSheet);
-const { withProvider: withItemProvider } = createStyleContext(actionSheetItem);
+const { withRootProvider, withContext } = createSlotRecipeContext(actionSheet);
+const { withProvider: withItemProvider } = createRecipeContext(actionSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +105,6 @@ export interface ActionSheetItemProps
 
 export const ActionSheetItem = withItemProvider<HTMLButtonElement, ActionSheetItemProps>(
   withStateProps(Primitive.button),
-  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

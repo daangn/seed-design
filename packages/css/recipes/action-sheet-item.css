@@ -1,4 +1,4 @@
-.seed-action-sheet-item__root {
+.seed-action-sheet-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,10 +11,10 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-action-sheet-item__root:is(:active, [data-active]) {
+.seed-action-sheet-item:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-layer-floating-pressed);
 }
-.seed-action-sheet-item__root:after {
+.seed-action-sheet-item:after {
     content: '';
     display: block;
     position: absolute;
@@ -24,9 +24,9 @@
     height: 1px;
     background: var(--seed-color-stroke-neutral);
 }
-.seed-action-sheet-item__root--tone_neutral {
+.seed-action-sheet-item--tone_neutral {
     color: var(--seed-color-fg-neutral);
 }
-.seed-action-sheet-item__root--tone_critical {
+.seed-action-sheet-item--tone_critical {
     color: var(--seed-color-fg-critical);
 }

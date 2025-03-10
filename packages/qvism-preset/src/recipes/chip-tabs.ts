@@ -1,8 +1,8 @@
 import { chipTablist as vars, chipTab as triggerVars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { active, disabled, not, pseudo, selected } from "../utils/pseudo";
 
-const chipTabs = defineRecipe({
+const chipTabs = defineSlotRecipe({
   name: "chip-tabs",
   slots: ["root", "list", "carousel", "carouselCamera", "content", "trigger"],
   base: {

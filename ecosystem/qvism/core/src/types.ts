@@ -72,7 +72,7 @@ type Nested<P> = P & {
 export type StyleObject = Nested<CssProperties>;
 
 // recipe
-export type RecipeSelection<T extends SlotRecipeVariantRecord<string>> = keyof any extends keyof T
+export type RecipeSelection<T extends RecipeVariantRecord> = keyof any extends keyof T
   ? {}
   : {
       [K in keyof T]?: StringToBoolean<keyof T[K]>;
@@ -82,6 +82,21 @@ export type RecipeCompoundSelection<T> = {
   [K in keyof T]?: MaybeArray<StringToBoolean<keyof T[K]>> | undefined;
 };
 
+export type RecipeVariantRecord = Record<any, Record<any, StyleObject>>;
+
+export type RecipeCompoundVariant<T> = T & {
+  css: StyleObject;
+};
+
+export interface RecipeDefinition<T extends RecipeVariantRecord = RecipeVariantRecord> {
+  name: string;
+  base: StyleObject;
+  variants: T;
+  compoundVariants?: Pretty<RecipeCompoundVariant<RecipeCompoundSelection<T>>>[];
+  defaultVariants: Required<RecipeSelection<T>>;
+}
+
+// slot recipe
 type SlotRecord<S extends string, T> = Partial<Record<S, T>>;
 
 export type SlotRecipeVariantRecord<S extends string> = Record<
@@ -105,6 +120,8 @@ export interface SlotRecipeDefinition<
   defaultVariants: Required<RecipeSelection<T>>;
 }
 
+export type RecipeKindDefinition = RecipeDefinition | SlotRecipeDefinition;
+
 // config
 export interface Theme {
   tokens: {
@@ -112,7 +129,7 @@ export interface Theme {
     _raw: string;
   };
 
-  recipes: Record<string, SlotRecipeDefinition>;
+  recipes: Record<string, RecipeKindDefinition>;
 
   keyframes: CssKeyframes;
 

@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { fab, fabVariantMap } from "@seed-design/css/recipes/fab";
+import { fabVariantMap } from "@seed-design/css/recipes/fab";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Fab, type FabProps } from "../design-system/ui/fab";
@@ -28,7 +28,6 @@ const ActivityFab: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={fabVariantMap}
           initialVariants={initialVariants}
-          recipeFn={fab}
           render={(variants) => (
             <Fab key={JSON.stringify(variants)} {...variants}>
               <IconPlusLine />

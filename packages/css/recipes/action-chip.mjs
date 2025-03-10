@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const actionChipSlotNames = [
-  [
-    "root",
-    "seed-action-chip__root"
-  ]
-];
-
 const defaultVariant = {
   "size": "medium",
   "layout": "withText"
@@ -45,13 +38,10 @@ export const actionChipVariantMap = {
 export const actionChipVariantKeys = Object.keys(actionChipVariantMap);
 
 export function actionChip(props) {
-  return Object.fromEntries(
-    actionChipSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-action-chip",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

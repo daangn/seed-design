@@ -1,22 +1,19 @@
-import { selectBox as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { active, checked, pseudo } from "../utils/pseudo";
+import { selectBox as vars } from "../vars/component";
 
 export const selectBoxGroup = defineRecipe({
   name: "select-box-group",
-  slots: ["root"],
   base: {
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      width: "100%",
-    },
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
   },
   variants: {},
   defaultVariants: {},
 });
 
-export const selectBox = defineRecipe({
+export const selectBox = defineSlotRecipe({
   name: "select-box",
   slots: [
     "root",

@@ -1,8 +1,8 @@
 import { chipTabs, type ChipTabsVariantProps } from "@seed-design/css/recipes/chip-tabs";
 import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withProvider, withContext } = createStyleContext(chipTabs);
+const { withProvider, withContext } = createSlotRecipeContext(chipTabs);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

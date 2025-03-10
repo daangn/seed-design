@@ -1,7 +1,7 @@
 import { identityPlaceholder as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 
-const identityPlaceholder = defineRecipe({
+const identityPlaceholder = defineSlotRecipe({
   name: "identity-placeholder",
   slots: ["root", "image"],
   base: {

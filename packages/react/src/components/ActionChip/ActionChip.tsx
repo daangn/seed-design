@@ -1,10 +1,10 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { actionChip, type ActionChipVariantProps } from "@seed-design/css/recipes/action-chip";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 import { withIconRequired } from "../Icon/Icon";
 
-const { withProvider } = createStyleContext(actionChip);
+const { withProvider } = createRecipeContext(actionChip);
 
 export interface ActionChipProps
   extends ActionChipVariantProps,
@@ -12,7 +12,7 @@ export interface ActionChipProps
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ActionChip = withIconRequired(
-  withProvider<HTMLButtonElement, ActionChipProps>(Primitive.button, "root"),
+  withProvider<HTMLButtonElement, ActionChipProps>(Primitive.button),
   (props: ActionChipProps) => props.layout === "iconOnly",
 );
 ActionChip.displayName = "ActionChip";

@@ -15,13 +15,11 @@ declare type ControlChipVariantMap = {
 
 export declare type ControlChipVariantProps = Partial<ControlChipVariant>;
 
-export declare type ControlChipSlotName = "root";
-
 export declare const controlChipVariantMap: ControlChipVariantMap;
 
 export declare const controlChip: ((
   props?: ControlChipVariantProps,
-) => Record<ControlChipSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ControlChipVariantProps>(
     props: T,
   ) => [ControlChipVariantProps, Omit<T, keyof ControlChipVariantProps>];

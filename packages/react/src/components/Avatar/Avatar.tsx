@@ -5,9 +5,9 @@ import { avatarStack, type AvatarStackVariantProps } from "@seed-design/css/reci
 import clsx from "clsx";
 import * as React from "react";
 import { useMemo } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { PropsProvider, withProvider, withContext } = createStyleContext(avatar);
+const { PropsProvider, withProvider, withContext } = createSlotRecipeContext(avatar);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

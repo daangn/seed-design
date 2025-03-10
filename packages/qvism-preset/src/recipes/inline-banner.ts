@@ -1,5 +1,5 @@
 import { inlineBanner as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
@@ -7,7 +7,7 @@ const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} -
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
 const suffixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.suffixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
 
-const inlineBanner = defineRecipe({
+const inlineBanner = defineSlotRecipe({
   name: "inline-banner",
   slots: ["root", "content", "title", "description", "link", "closeButton"],
   base: {

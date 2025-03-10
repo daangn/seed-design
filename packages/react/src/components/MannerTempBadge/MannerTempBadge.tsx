@@ -1,12 +1,12 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   mannerTempBadge,
   type MannerTempBadgeVariantProps,
 } from "@seed-design/css/recipes/manner-temp-badge";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider } = createStyleContext(mannerTempBadge);
+const { withProvider } = createRecipeContext(mannerTempBadge);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -15,7 +15,4 @@ export interface MannerTempBadgeProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const MannerTempBadge = withProvider<HTMLSpanElement, MannerTempBadgeProps>(
-  Primitive.span,
-  "root",
-);
+export const MannerTempBadge = withProvider<HTMLSpanElement, MannerTempBadgeProps>(Primitive.span);

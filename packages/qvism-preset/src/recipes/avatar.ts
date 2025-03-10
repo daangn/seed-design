@@ -1,5 +1,5 @@
 import { avatar as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 
 function calculateBadgePosition(avatarSize: string, badgeSize: string) {
@@ -9,7 +9,7 @@ function calculateBadgePosition(avatarSize: string, badgeSize: string) {
   };
 }
 
-const avatar = defineRecipe({
+const avatar = defineSlotRecipe({
   name: "avatar",
   slots: ["root", "image", "fallback", "badge"],
   base: {

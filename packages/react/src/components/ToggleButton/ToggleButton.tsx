@@ -5,14 +5,14 @@ import {
 } from "@seed-design/css/recipes/toggle-button";
 import clsx from "clsx";
 import * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 import {
   PendingButtonProvider,
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
 
-const { ClassNamesProvider } = createStyleContext(toggleButton);
+const { ClassNameProvider } = createRecipeContext(toggleButton);
 
 export interface ToggleButtonProps
   extends ToggleButtonVariantProps,
@@ -21,20 +21,20 @@ export interface ToggleButtonProps
 
 export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
   ({ variant = "brandSolid", size = "small", loading = false, className, ...otherProps }, ref) => {
-    const classNames = toggleButton({ variant, size });
+    const recipeClassName = toggleButton({ variant, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
 
     return (
-      <ClassNamesProvider value={classNames}>
+      <ClassNameProvider value={recipeClassName}>
         <PendingButtonProvider value={api}>
           <TogglePrimitive.Root
             ref={ref}
-            className={clsx(classNames.root, className)}
+            className={clsx(recipeClassName, className)}
             {...api.stateProps}
             {...otherProps}
           />
         </PendingButtonProvider>
-      </ClassNamesProvider>
+      </ClassNameProvider>
     );
   },
 );

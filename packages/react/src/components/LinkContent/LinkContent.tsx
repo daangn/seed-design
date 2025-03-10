@@ -1,11 +1,10 @@
 import { linkContent, type LinkContentVariantProps } from "@seed-design/css/recipes/link-content";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { createStyleContext } from "../../utils/createStyleContext";
-
+import { createRecipeContext } from "../../utils/createRecipeContext";
 import type * as React from "react";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withProvider } = createStyleContext(linkContent);
+const { withProvider } = createRecipeContext(linkContent);
 
 export interface LinkContentProps
   extends LinkContentVariantProps,
@@ -15,5 +14,4 @@ export interface LinkContentProps
 
 export const LinkContent = withProvider<HTMLButtonElement, LinkContentProps>(
   withStyleProps(Primitive.span),
-  "root",
 );

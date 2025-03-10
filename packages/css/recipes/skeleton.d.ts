@@ -11,13 +11,11 @@ declare type SkeletonVariantMap = {
 
 export declare type SkeletonVariantProps = Partial<SkeletonVariant>;
 
-export declare type SkeletonSlotName = "root";
-
 export declare const skeletonVariantMap: SkeletonVariantMap;
 
 export declare const skeleton: ((
   props?: SkeletonVariantProps,
-) => Record<SkeletonSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends SkeletonVariantProps>(
     props: T,
   ) => [SkeletonVariantProps, Omit<T, keyof SkeletonVariantProps>];

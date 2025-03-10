@@ -11,13 +11,11 @@ declare type ExtendedActionSheetItemVariantMap = {
 
 export declare type ExtendedActionSheetItemVariantProps = Partial<ExtendedActionSheetItemVariant>;
 
-export declare type ExtendedActionSheetItemSlotName = "root";
-
 export declare const extendedActionSheetItemVariantMap: ExtendedActionSheetItemVariantMap;
 
 export declare const extendedActionSheetItem: ((
   props?: ExtendedActionSheetItemVariantProps,
-) => Record<ExtendedActionSheetItemSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ExtendedActionSheetItemVariantProps>(
     props: T,
   ) => [ExtendedActionSheetItemVariantProps, Omit<T, keyof ExtendedActionSheetItemVariantProps>];

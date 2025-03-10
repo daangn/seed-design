@@ -2,14 +2,14 @@ import type * as React from "react";
 
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { callout, type CalloutVariantProps } from "@seed-design/css/recipes/callout";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import {
   DismissibleCloseButton,
   DismissibleRoot,
   type DismissibleRootProps,
 } from "../private/useDismissible";
 
-const { withContext, withProvider } = createStyleContext(callout);
+const { withContext, withProvider } = createSlotRecipeContext(callout);
 
 export interface CalloutRootProps extends CalloutVariantProps, DismissibleRootProps {}
 

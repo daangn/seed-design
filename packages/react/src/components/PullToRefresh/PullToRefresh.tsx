@@ -3,9 +3,9 @@ import {
   pullToRefresh,
   type PullToRefreshVariantProps,
 } from "@seed-design/css/recipes/pull-to-refresh";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withContext, withProvider } = createStyleContext(pullToRefresh);
+const { withContext, withProvider } = createSlotRecipeContext(pullToRefresh);
 
 export interface PullToRefreshRootProps
   extends PullToRefreshVariantProps,

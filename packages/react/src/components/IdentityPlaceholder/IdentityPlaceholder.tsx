@@ -5,9 +5,9 @@ import {
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { useClassNames, withProvider } = createStyleContext(identityPlaceholder);
+const { useClassNames, withProvider } = createSlotRecipeContext(identityPlaceholder);
 
 export interface IdentityPlaceholderRootProps
   extends IdentityPlaceholderVariantProps,

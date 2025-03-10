@@ -8,13 +8,11 @@ declare type SnackbarRegionVariantMap = {
 
 export declare type SnackbarRegionVariantProps = Partial<SnackbarRegionVariant>;
 
-export declare type SnackbarRegionSlotName = "root";
-
 export declare const snackbarRegionVariantMap: SnackbarRegionVariantMap;
 
 export declare const snackbarRegion: ((
   props?: SnackbarRegionVariantProps,
-) => Record<SnackbarRegionSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends SnackbarRegionVariantProps>(
     props: T,
   ) => [SnackbarRegionVariantProps, Omit<T, keyof SnackbarRegionVariantProps>];

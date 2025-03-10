@@ -5,12 +5,12 @@ import {
 } from "@seed-design/react-radio-group";
 import { selectBox } from "@seed-design/css/recipes/select-box";
 import { selectBoxGroup } from "@seed-design/css/recipes/select-box-group";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withGroupProvider } = createStyleContext(selectBoxGroup);
-const { withProvider, withContext } = createStyleContext(selectBox);
+const { withProvider: withGroupProvider } = createSlotRecipeContext(selectBoxGroup);
+const { withProvider, withContext } = createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 
 export interface RadioSelectBoxRootProps extends RadioGroupPrimitive.RootProps {}

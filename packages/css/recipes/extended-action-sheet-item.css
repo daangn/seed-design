@@ -1,4 +1,4 @@
-.seed-extended-action-sheet-item__root {
+.seed-extended-action-sheet-item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -12,20 +12,20 @@
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-extended-action-sheet-item__root:is(:active, [data-active]) {
+.seed-extended-action-sheet-item:is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
-.seed-extended-action-sheet-item__root:last-child {
+.seed-extended-action-sheet-item:last-child {
     box-shadow: none;
 }
-.seed-extended-action-sheet-item__root {
+.seed-extended-action-sheet-item {
     --seed-prefix-icon-size: 22px;
 }
-.seed-extended-action-sheet-item__root--tone_neutral {
+.seed-extended-action-sheet-item--tone_neutral {
     color: var(--seed-color-fg-neutral);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-extended-action-sheet-item__root--tone_critical {
+.seed-extended-action-sheet-item--tone_critical {
     color: var(--seed-color-fg-critical);
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }
