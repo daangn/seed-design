@@ -1,0 +1,10 @@
+import { join } from "node:path";
+import { runFixtureTests } from "../../../utils/test.js";
+import transform from "../index.js";
+
+runFixtureTests(
+  "replace-css-typography-variable",
+  transform,
+  join(__dirname, "..", "__testfixtures__"),
+  "css",
+);

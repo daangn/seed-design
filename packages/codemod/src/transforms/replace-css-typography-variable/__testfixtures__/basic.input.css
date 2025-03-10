@@ -1,0 +1,30 @@
+/* Radio Label */
+.seed-radio-group[data-size="small"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-small-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-small-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label4-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label4-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label4-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label4-regular-letter-spacing);
+}
+
+.seed-radio-group[data-size="medium"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-medium-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-medium-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label3-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label3-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label3-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label3-regular-letter-spacing);
+}
+
+.seed-radio-group[data-size="large"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-large-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-large-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label2-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label2-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label2-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label2-regular-letter-spacing);
+}

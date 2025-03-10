@@ -1,0 +1,30 @@
+/* Radio Label */
+.seed-radio-group[data-size="small"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-small-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-small-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t2);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t2);
+  letter-spacing: normal;
+}
+
+.seed-radio-group[data-size="medium"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-medium-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-medium-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t4);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t4);
+  letter-spacing: normal;
+}
+
+.seed-radio-group[data-size="large"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-large-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-large-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t5);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t5);
+  letter-spacing: normal;
+}
