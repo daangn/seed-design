@@ -1,5 +1,14 @@
 # @seed-design/react
 
+## 0.0.5
+
+### Patch Changes
+
+- e3234e7: single-slot recipe를 위한 간소화된 인터페이스를 추가합니다.
+- Updated dependencies [e3234e7]
+- Updated dependencies [5502bed]
+  - @seed-design/css@0.0.5
+
 ## 0.0.4
 
 ### Patch Changes
