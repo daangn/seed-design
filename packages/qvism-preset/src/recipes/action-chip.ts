@@ -55,34 +55,30 @@ const actionChip = defineRecipe({
   variants: {
     size: {
       medium: {
-        root: {
-          minHeight: vars.sizeMedium.enabled.root.minHeight,
-          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
-          gap: vars.sizeMedium.enabled.root.gap,
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
+        minHeight: vars.sizeMedium.enabled.root.minHeight,
+        paddingBlock: vars.sizeMedium.enabled.root.paddingY,
+        gap: vars.sizeMedium.enabled.root.gap,
+        fontSize: vars.sizeMedium.enabled.label.fontSize,
 
-          ...count({
-            fontSize: vars.sizeMedium.enabled.count.fontSize,
-          }),
-          ...prefixIcon({ size: vars.sizeMedium.enabled.prefixIcon.size }),
-          ...suffixIcon({ size: vars.sizeMedium.enabled.suffixIcon.size }),
-          ...onlyIcon({ size: vars.sizeMediumLayoutIconOnly.enabled.icon.size }),
-        },
+        ...count({
+          fontSize: vars.sizeMedium.enabled.count.fontSize,
+        }),
+        ...prefixIcon({ size: vars.sizeMedium.enabled.prefixIcon.size }),
+        ...suffixIcon({ size: vars.sizeMedium.enabled.suffixIcon.size }),
+        ...onlyIcon({ size: vars.sizeMediumLayoutIconOnly.enabled.icon.size }),
       },
       small: {
-        root: {
-          minHeight: vars.sizeSmall.enabled.root.minHeight,
-          paddingBlock: vars.sizeSmall.enabled.root.paddingY,
-          gap: vars.sizeSmall.enabled.root.gap,
-          fontSize: vars.sizeSmall.enabled.label.fontSize,
+        minHeight: vars.sizeSmall.enabled.root.minHeight,
+        paddingBlock: vars.sizeSmall.enabled.root.paddingY,
+        gap: vars.sizeSmall.enabled.root.gap,
+        fontSize: vars.sizeSmall.enabled.label.fontSize,
 
-          ...count({
-            fontSize: vars.sizeSmall.enabled.count.fontSize,
-          }),
-          ...prefixIcon({ size: vars.sizeSmall.enabled.prefixIcon.size }),
-          ...suffixIcon({ size: vars.sizeSmall.enabled.suffixIcon.size }),
-          ...onlyIcon({ size: vars.sizeSmallLayoutIconOnly.enabled.icon.size }),
-        },
+        ...count({
+          fontSize: vars.sizeSmall.enabled.count.fontSize,
+        }),
+        ...prefixIcon({ size: vars.sizeSmall.enabled.prefixIcon.size }),
+        ...suffixIcon({ size: vars.sizeSmall.enabled.suffixIcon.size }),
+        ...onlyIcon({ size: vars.sizeSmallLayoutIconOnly.enabled.icon.size }),
       },
     },
     layout: {

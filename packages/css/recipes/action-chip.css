@@ -37,7 +37,7 @@
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
-.seed-action-chip--size_medium root {
+.seed-action-chip--size_medium {
     min-height: var(--seed-dimension-x9);
     padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x1);
@@ -47,7 +47,7 @@
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-size: var(--seed-dimension-x4);
 }
-.seed-action-chip--size_small root {
+.seed-action-chip--size_small {
     min-height: var(--seed-dimension-x8);
     padding-block: var(--seed-dimension-x1_5);
     gap: var(--seed-dimension-x1);

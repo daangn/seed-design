@@ -1,13 +1,14 @@
-import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { selectBox } from "@seed-design/css/recipes/select-box";
 import { selectBoxGroup } from "@seed-design/css/recipes/select-box-group";
+import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { forwardRef } from "react";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { forwardRef } from "react";
 
-const { withProvider: withGroupProvider } = createSlotRecipeContext(selectBoxGroup);
+const { withProvider: withGroupProvider } = createRecipeContext(selectBoxGroup);
 const { withProvider, withContext } = createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
@@ -23,7 +24,6 @@ export const CheckSelectBoxGroup = withGroupProvider<HTMLDivElement, CheckSelect
   forwardRef<HTMLDivElement, CheckSelectBoxGroupProps>((props, ref) => (
     <Primitive.div ref={ref} role="group" {...props} />
   )),
-  "root",
 );
 
 export interface CheckSelectBoxRootProps extends CheckboxPrimitive.RootProps {}
