@@ -19,13 +19,11 @@ declare type BadgeVariantMap = {
 
 export declare type BadgeVariantProps = Partial<BadgeVariant>;
 
-export declare type BadgeSlotName = "root";
-
 export declare const badgeVariantMap: BadgeVariantMap;
 
 export declare const badge: ((
   props?: BadgeVariantProps,
-) => Record<BadgeSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends BadgeVariantProps>(
     props: T,
   ) => [BadgeVariantProps, Omit<T, keyof BadgeVariantProps>];

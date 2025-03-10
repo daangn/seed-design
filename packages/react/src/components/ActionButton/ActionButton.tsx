@@ -5,15 +5,15 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
-import { IconRequired } from "../Icon/Icon";
 
-const { ClassNamesProvider } = createStyleContext(actionButton);
+const { ClassNameProvider } = createRecipeContext(actionButton);
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
@@ -26,7 +26,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
     { variant, size, loading = false, layout = "withText", className, children, ...otherProps },
     ref,
   ) => {
-    const classNames = actionButton({ variant, layout, size });
+    const recipeClassName = actionButton({ variant, layout, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
 
     if (layout === "iconOnly" && !(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
@@ -36,12 +36,12 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
     }
 
     return (
-      <ClassNamesProvider value={classNames}>
+      <ClassNameProvider value={recipeClassName}>
         <PendingButtonProvider value={api}>
           <IconRequired enabled={layout === "iconOnly"}>
             <Primitive.button
               ref={ref}
-              className={clsx(classNames.root, className)}
+              className={clsx(recipeClassName, className)}
               {...api.stateProps}
               {...otherProps}
             >
@@ -49,7 +49,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             </Primitive.button>
           </IconRequired>
         </PendingButtonProvider>
-      </ClassNamesProvider>
+      </ClassNameProvider>
     );
   },
 );

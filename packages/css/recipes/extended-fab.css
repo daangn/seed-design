@@ -1,4 +1,4 @@
-.seed-extended-fab__root {
+.seed-extended-fab {
     display: inline-flex;
     box-sizing: border-box;
     align-items: center;
@@ -12,37 +12,37 @@
     flex-shrink: 0;
     font-family: inherit;
 }
-.seed-extended-fab__root:is(:focus, [data-focus]) {
+.seed-extended-fab:is(:focus, [data-focus]) {
     outline: none;
 }
-.seed-extended-fab__root:is(:disabled, [disabled], [data-disabled]) {
+.seed-extended-fab:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
 }
-.seed-extended-fab__root {
+.seed-extended-fab {
     border-radius: var(--seed-radius-full);
     box-shadow: 0px 2px 6px 0px #00000026;
 }
-.seed-extended-fab__root--variant_neutralSolid {
+.seed-extended-fab--variant_neutralSolid {
     background: var(--seed-color-bg-neutral-inverted);
     color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-extended-fab__root--variant_neutralSolid:is(:active, [data-active]) {
+.seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
     background: var(--seed-color-bg-neutral-inverted-pressed);
 }
-.seed-extended-fab__root--variant_neutralSolid {
+.seed-extended-fab--variant_neutralSolid {
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
-.seed-extended-fab__root--variant_layerFloating {
+.seed-extended-fab--variant_layerFloating {
     background: var(--seed-color-bg-layer-floating);
     color: var(--seed-color-fg-neutral);
 }
-.seed-extended-fab__root--variant_layerFloating:is(:active, [data-active]) {
+.seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
     background: var(--seed-color-bg-layer-floating-pressed);
 }
-.seed-extended-fab__root--variant_layerFloating {
+.seed-extended-fab--variant_layerFloating {
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
-.seed-extended-fab__root--size_small {
+.seed-extended-fab--size_small {
     padding-inline: var(--seed-dimension-x3_5);
     padding-block: var(--seed-dimension-x2_5);
     min-height: 40px;
@@ -52,7 +52,7 @@
     font-weight: var(--seed-font-weight-medium);
     --seed-prefix-icon-size: 16px;
 }
-.seed-extended-fab__root--size_medium {
+.seed-extended-fab--size_medium {
     padding-inline: var(--seed-dimension-x4);
     padding-block: var(--seed-dimension-x3);
     min-height: 48px;

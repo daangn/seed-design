@@ -1,8 +1,8 @@
 import { switch as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, pseudo } from "../utils/pseudo";
 
-const switchRecipe = defineRecipe({
+const switchRecipe = defineSlotRecipe({
   name: "switch",
   slots: ["root", "control", "thumb", "label"],
   base: {

@@ -1,23 +1,23 @@
+import { selectBox } from "@seed-design/css/recipes/select-box";
+import { selectBoxGroup } from "@seed-design/css/recipes/select-box-group";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import {
   RadioGroup as RadioGroupPrimitive,
   useRadioGroupItemContext,
 } from "@seed-design/react-radio-group";
-import { selectBox } from "@seed-design/css/recipes/select-box";
-import { selectBoxGroup } from "@seed-design/css/recipes/select-box-group";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withGroupProvider } = createStyleContext(selectBoxGroup);
-const { withProvider, withContext } = createStyleContext(selectBox);
+const { withProvider: withGroupProvider } = createRecipeContext(selectBoxGroup);
+const { withProvider, withContext } = createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 
 export interface RadioSelectBoxRootProps extends RadioGroupPrimitive.RootProps {}
 
 export const RadioSelectBoxRoot = withGroupProvider<HTMLDivElement, RadioSelectBoxRootProps>(
   RadioGroupPrimitive.Root,
-  "root",
 );
 
 export interface RadioSelectBoxItemProps extends RadioGroupPrimitive.ItemProps {}

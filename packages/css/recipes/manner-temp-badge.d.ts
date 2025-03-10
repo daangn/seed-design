@@ -11,13 +11,11 @@ declare type MannerTempBadgeVariantMap = {
 
 export declare type MannerTempBadgeVariantProps = Partial<MannerTempBadgeVariant>;
 
-export declare type MannerTempBadgeSlotName = "root";
-
 export declare const mannerTempBadgeVariantMap: MannerTempBadgeVariantMap;
 
 export declare const mannerTempBadge: ((
   props?: MannerTempBadgeVariantProps,
-) => Record<MannerTempBadgeSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends MannerTempBadgeVariantProps>(
     props: T,
   ) => [MannerTempBadgeVariantProps, Omit<T, keyof MannerTempBadgeVariantProps>];

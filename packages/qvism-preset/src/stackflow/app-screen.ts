@@ -1,6 +1,6 @@
 import { vars } from "@seed-design/css/vars";
 import { topNavigation as navVars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,
@@ -13,7 +13,7 @@ import {
   swipeBackSwipingBehind,
 } from "./pseudo";
 
-export const appScreen = defineRecipe({
+export const appScreen = defineSlotRecipe({
   name: "app-screen",
   slots: ["root", "layer", "dim", "edge"],
   base: {

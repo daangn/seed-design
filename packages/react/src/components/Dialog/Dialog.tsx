@@ -2,10 +2,10 @@ import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { dialog, type DialogVariantProps } from "@seed-design/css/recipes/dialog";
 import { forwardRef } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-const { withRootProvider, withContext } = createStyleContext(dialog);
+const { withRootProvider, withContext } = createSlotRecipeContext(dialog);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const mannerTempBadgeSlotNames = [
-  [
-    "root",
-    "seed-manner-temp-badge__root"
-  ]
-];
-
 const defaultVariant = {
   "level": "l1"
 };
@@ -27,13 +20,10 @@ export const mannerTempBadgeVariantMap = {
 export const mannerTempBadgeVariantKeys = Object.keys(mannerTempBadgeVariantMap);
 
 export function mannerTempBadge(props) {
-  return Object.fromEntries(
-    mannerTempBadgeSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-manner-temp-badge",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

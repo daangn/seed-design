@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const textSlotNames = [
-  [
-    "root",
-    "seed-text__root"
-  ]
-];
-
 const defaultVariant = {
   "textStyle": "t5Regular",
   "maxLines": "none"
@@ -53,13 +46,10 @@ export const textVariantMap = {
 export const textVariantKeys = Object.keys(textVariantMap);
 
 export function text(props) {
-  return Object.fromEntries(
-    textSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-text",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

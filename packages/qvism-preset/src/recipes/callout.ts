@@ -1,9 +1,9 @@
 import { callout as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon, suffixIcon } from "../utils/icon";
 
-const callout = defineRecipe({
+const callout = defineSlotRecipe({
   name: "callout",
   slots: ["root", "content", "title", "description", "link", "closeButton"],
   base: {

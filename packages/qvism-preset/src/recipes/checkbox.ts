@@ -1,8 +1,8 @@
 import { checkbox as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { active, checkedOrIndeterminate, disabled, pseudo } from "../utils/pseudo";
 
-const checkbox = defineRecipe({
+const checkbox = defineSlotRecipe({
   name: "checkbox",
   slots: ["root", "control", "icon", "label"],
   base: {

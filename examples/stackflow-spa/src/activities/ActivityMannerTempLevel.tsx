@@ -7,10 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import {
-  mannerTempBadge,
-  mannerTempBadgeVariantMap,
-} from "@seed-design/css/recipes/manner-temp-badge";
+import { mannerTempBadgeVariantMap } from "@seed-design/css/recipes/manner-temp-badge";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { MannerTempBadge, type MannerTempBadgeProps } from "../design-system/ui/manner-temp-badge";
 
@@ -32,7 +29,6 @@ const ActivityMannerTempLevel: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={mannerTempBadgeVariantMap}
           initialVariants={initialVariants}
-          recipeFn={mannerTempBadge}
           render={(variants) => (
             <MannerTempBadge key={JSON.stringify(variants)} temperature={36.5} {...variants} />
           )}

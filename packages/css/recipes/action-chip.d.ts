@@ -15,13 +15,11 @@ declare type ActionChipVariantMap = {
 
 export declare type ActionChipVariantProps = Partial<ActionChipVariant>;
 
-export declare type ActionChipSlotName = "root";
-
 export declare const actionChipVariantMap: ActionChipVariantMap;
 
 export declare const actionChip: ((
   props?: ActionChipVariantProps,
-) => Record<ActionChipSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ActionChipVariantProps>(
     props: T,
   ) => [ActionChipVariantProps, Omit<T, keyof ActionChipVariantProps>];

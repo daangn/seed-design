@@ -1,10 +1,10 @@
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/switch";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-const { withProvider, withContext } = createStyleContext(switchStyle);
+const { withProvider, withContext } = createSlotRecipeContext(switchStyle);
 const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////

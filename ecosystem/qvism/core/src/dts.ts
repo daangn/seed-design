@@ -3,20 +3,27 @@ import { outdent } from "outdent";
 import { camelCase, pascalCase } from "change-case";
 import { isBooleanString, not } from "./logic";
 import { escapeReservedWord } from "./reserved-words";
-import type { SlotRecipeDefinition, SlotRecipeVariantRecord, StyleObject } from "./types";
+import type {
+  RecipeDefinition,
+  RecipeKindDefinition,
+  RecipeVariantRecord,
+  SlotRecipeDefinition,
+  SlotRecipeVariantRecord,
+} from "./types";
 
-const stringLiteralType = (key: string) => `"${key}"`;
+const stringLiteralType = (value: string) => `"${value}"`;
 
 const generateVariantInterface = (
-  variants: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["variants"],
-  defaultVariants?: SlotRecipeDefinition<
-    string,
-    SlotRecipeVariantRecord<string>
-  >["defaultVariants"],
+  variants:
+    | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["variants"]
+    | RecipeDefinition<RecipeVariantRecord>["variants"],
+  defaultVariants?:
+    | SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>["defaultVariants"]
+    | RecipeDefinition<RecipeVariantRecord>["defaultVariants"],
 ) => {
   const generateVariantType = (
     variantName: keyof typeof defaultVariants,
-    variant: Record<string, Partial<Record<string, StyleObject>>>,
+    variant: Record<string, any>,
   ) => {
     const values = Object.keys(variant);
     const booleanValues = values.filter(isBooleanString);
@@ -46,7 +53,38 @@ const generateVariantInterface = (
     .join("\n");
 };
 
-export function generateDts(
+export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantRecord>): string {
+  const capitalizedName = pascalCase(definition.name);
+  const jsName = camelCase(definition.name);
+  const variantInterface = generateVariantInterface(
+    definition.variants,
+    definition.defaultVariants,
+  );
+
+  return outdent`
+  declare interface ${capitalizedName}Variant {
+    ${variantInterface}
+  }
+  
+  declare type ${capitalizedName}VariantMap = {
+    [key in keyof ${capitalizedName}Variant]: Array<${capitalizedName}Variant[key]>;
+  };
+  
+  export declare type ${capitalizedName}VariantProps = Partial<${capitalizedName}Variant>;
+  
+  export declare const ${jsName}VariantMap: ${capitalizedName}VariantMap;
+  
+  export declare const ${escapeReservedWord(jsName)}: ((
+    props?: ${capitalizedName}VariantProps,
+  ) => string) & {
+    splitVariantProps: <T extends ${capitalizedName}VariantProps>(
+      props: T,
+    ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
+  }
+  `;
+}
+
+export function generateSlotRecipeDts(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
 ): string {
   const capitalizedName = pascalCase(definition.name);
@@ -80,4 +118,11 @@ export function generateDts(
     ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
   }
   `;
+}
+
+export function generateDts(definition: RecipeKindDefinition): string {
+  if ("slots" in definition) {
+    return generateSlotRecipeDts(definition);
+  }
+  return generateRecipeDts(definition);
 }

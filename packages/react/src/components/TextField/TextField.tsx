@@ -5,12 +5,12 @@ import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useCallback, useRef } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
-const { withProvider, withContext, useClassNames } = createStyleContext(textField);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
 const withStateProps = createWithStateProps([useTextFieldContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////

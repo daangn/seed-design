@@ -9,11 +9,12 @@ import {
   type ExtendedActionSheetItemVariantProps,
 } from "@seed-design/css/recipes/extended-action-sheet-item";
 import type * as React from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
-const { withRootProvider, withContext } = createStyleContext(extendedActionSheet);
-const { withProvider: withItemProvider } = createStyleContext(extendedActionSheetItem);
+const { withRootProvider, withContext } = createSlotRecipeContext(extendedActionSheet);
+const { withProvider: withItemProvider } = createRecipeContext(extendedActionSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +116,7 @@ export interface ExtendedActionSheetItemProps
 export const ExtendedActionSheetItem = withItemProvider<
   HTMLButtonElement,
   ExtendedActionSheetItemProps
->(withStateProps(Primitive.button), "root");
+>(withStateProps(Primitive.button));
 
 ////////////////////////////////////////////////////////////////////////////////////
 

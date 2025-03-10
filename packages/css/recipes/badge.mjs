@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const badgeSlotNames = [
-  [
-    "root",
-    "seed-badge__root"
-  ]
-];
-
 const defaultVariant = {
   "size": "medium",
   "variant": "solid",
@@ -98,13 +91,10 @@ export const badgeVariantMap = {
 export const badgeVariantKeys = Object.keys(badgeVariantMap);
 
 export function badge(props) {
-  return Object.fromEntries(
-    badgeSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-badge",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

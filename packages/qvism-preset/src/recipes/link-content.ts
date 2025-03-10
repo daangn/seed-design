@@ -5,75 +5,65 @@ import { suffixIcon } from "../utils/icon";
 
 const linkContent = defineRecipe({
   name: "link-content",
-  slots: ["root"],
   base: {
-    root: {
-      display: "inline-flex",
-      alignItems: "center",
-      cursor: "pointer",
-      backgroundColor: "transparent",
-      boxSizing: "border-box",
-      border: "none",
-      outline: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    cursor: "pointer",
+    backgroundColor: "transparent",
+    boxSizing: "border-box",
+    border: "none",
+    outline: "none",
 
-      WebkitFontSmoothing: "antialiased",
-      MozOsxFontSmoothing: "grayscale",
-      fontFamily: "inherit",
-      textAlign: "center",
+    WebkitFontSmoothing: "antialiased",
+    MozOsxFontSmoothing: "grayscale",
+    fontFamily: "inherit",
+    textAlign: "center",
 
-      paddingInline: 0,
-      paddingBlock: 0,
+    paddingInline: 0,
+    paddingBlock: 0,
 
+    color: "var(--seed-box-color)",
+
+    ...suffixIcon({
       color: "var(--seed-box-color)",
-
-      ...suffixIcon({
-        color: "var(--seed-box-color)",
-      }),
-    },
+    }),
   },
   variants: {
     weight: {
       bold: {
-        root: {
-          fontWeight: vars.weightBold.enabled.label.fontWeight,
-        },
+        fontWeight: vars.weightBold.enabled.label.fontWeight,
       },
       regular: {
-        root: {
-          fontWeight: vars.weightRegular.enabled.label.fontWeight,
-        },
+        fontWeight: vars.weightRegular.enabled.label.fontWeight,
       },
     },
     size: {
       t6: {
-        root: {
-          fontSize: vars.sizeT6.enabled.label.fontSize,
-          lineHeight: vars.sizeT6.enabled.label.lineHeight,
+        fontSize: vars.sizeT6.enabled.label.fontSize,
+        lineHeight: vars.sizeT6.enabled.label.lineHeight,
+        gap: vars.sizeT6.enabled.root.gap,
 
-          ...suffixIcon({
-            size: vars.sizeT6.enabled.suffixIcon.size,
-          }),
-        },
+        ...suffixIcon({
+          size: vars.sizeT6.enabled.suffixIcon.size,
+        }),
       },
       t5: {
-        root: {
-          fontSize: vars.sizeT5.enabled.label.fontSize,
-          lineHeight: vars.sizeT5.enabled.label.lineHeight,
+        fontSize: vars.sizeT5.enabled.label.fontSize,
+        lineHeight: vars.sizeT5.enabled.label.lineHeight,
+        gap: vars.sizeT5.enabled.root.gap,
 
-          ...suffixIcon({
-            size: vars.sizeT5.enabled.suffixIcon.size,
-          }),
-        },
+        ...suffixIcon({
+          size: vars.sizeT5.enabled.suffixIcon.size,
+        }),
       },
       t4: {
-        root: {
-          fontSize: vars.sizeT4.enabled.label.fontSize,
-          lineHeight: vars.sizeT4.enabled.label.lineHeight,
+        fontSize: vars.sizeT4.enabled.label.fontSize,
+        lineHeight: vars.sizeT4.enabled.label.lineHeight,
+        gap: vars.sizeT4.enabled.root.gap,
 
-          ...suffixIcon({
-            size: vars.sizeT4.enabled.suffixIcon.size,
-          }),
-        },
+        ...suffixIcon({
+          size: vars.sizeT4.enabled.suffixIcon.size,
+        }),
       },
     },
   },

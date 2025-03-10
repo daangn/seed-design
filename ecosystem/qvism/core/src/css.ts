@@ -11,76 +11,155 @@ import type {
   SlotRecipeDefinition,
   SlotRecipeVariantRecord,
   Theme,
+  RecipeDefinition,
+  RecipeVariantRecord,
+  RecipeKindDefinition,
 } from "./types";
 
-type RecipeDefinition = SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>;
+type LooseSlotRecipeDefinition = SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>;
 
 const prefixName = (name: string, options: { prefix?: string } = {}) =>
   options.prefix ? `${options.prefix}-${name}` : name;
 
-export function generateBaseRules(definition: RecipeDefinition, options: { prefix?: string } = {}) {
-  const name = prefixName(definition.name, options);
-  return compact(
-    Object.entries(definition.base).map(([slot, style]) => {
-      if (!style) {
-        return undefined;
-      }
-      const parsed = parseCssJs(style);
-      return postcss.rule({
-        selector: `.${name}__${slot}`,
-        nodes: parsed.nodes,
-      });
-    }),
-  );
-}
-
-export function generateVariantRules(
-  definition: RecipeDefinition,
+export function generateRecipeRules(
+  recipe: RecipeDefinition<RecipeVariantRecord>,
   options: { prefix?: string } = {},
-) {
-  const name = prefixName(definition.name, options);
-  return compact(
-    Object.entries(definition.variants).flatMap(([variantName, variant]) => {
-      return Object.entries(variant).flatMap(([variantValue, variantStyles]) => {
-        return Object.entries(variantStyles).map(([slot, style]) => {
+): postcss.ChildNode[] {
+  function generateBaseRules() {
+    const name = prefixName(recipe.name, options);
+    const parsed = parseCssJs(recipe.base);
+    return [
+      postcss.rule({
+        selector: `.${name}`,
+        nodes: parsed.nodes,
+      }),
+    ];
+  }
+
+  function generateVariantRules() {
+    const name = prefixName(recipe.name, options);
+    return compact(
+      Object.entries(recipe.variants).flatMap(([variantName, variant]) => {
+        return Object.entries(variant).map(([variantValue, style]) => {
           if (!style) {
             return undefined;
           }
           const parsed = parseCssJs(style);
           return postcss.rule({
-            selector: `.${name}__${slot}--${variantName}_${variantValue}`,
+            selector: `.${name}--${variantName}_${variantValue}`,
             nodes: parsed.nodes,
           });
         });
-      });
-    }),
-  );
-}
+      }),
+    );
+  }
 
-export function generateCompoundVariantRules(
-  definition: RecipeDefinition,
-  options: { prefix?: string } = {},
-) {
-  const name = prefixName(definition.name, options);
-  return compact(
-    definition.compoundVariants?.flatMap(({ css, ...selection }) => {
-      return Object.entries(css).map(([slot, style]) => {
-        if (!style) {
+  function generateCompoundVariantRules() {
+    const name = prefixName(recipe.name, options);
+    return compact(
+      recipe.compoundVariants?.map(({ css, ...selection }) => {
+        if (!css) {
           return undefined;
         }
-
-        const selector = `.${name}__${slot}--${Object.entries(selection)
+        const selector = `.${name}--${Object.entries(selection)
           .map(([variantName, variantValue]) => `${variantName}_${variantValue}`)
           .join("-")}`;
-        const parsed = parseCssJs(style);
+        const parsed = parseCssJs(css);
 
         return postcss.rule({
           selector: selector,
           nodes: parsed.nodes,
         });
-      });
-    }) ?? [],
-  );
+      }) ?? [],
+    );
+  }
+
+  const baseRules = generateBaseRules();
+  const variantRules = generateVariantRules();
+  const compoundVariantRules = generateCompoundVariantRules();
+
+  return [...baseRules, ...variantRules, ...compoundVariantRules];
+}
+
+export function generateSlotRecipeRules(
+  recipe: LooseSlotRecipeDefinition,
+  options: { prefix?: string } = {},
+) {
+  function generateBaseRules() {
+    const name = prefixName(recipe.name, options);
+    return compact(
+      Object.entries(recipe.base).map(([slot, style]) => {
+        if (!style) {
+          return undefined;
+        }
+        const parsed = parseCssJs(style);
+        return postcss.rule({
+          selector: `.${name}__${slot}`,
+          nodes: parsed.nodes,
+        });
+      }),
+    );
+  }
+
+  function generateVariantRules() {
+    const name = prefixName(recipe.name, options);
+    return compact(
+      Object.entries(recipe.variants).flatMap(([variantName, variant]) => {
+        return Object.entries(variant).flatMap(([variantValue, variantStyles]) => {
+          return Object.entries(variantStyles).map(([slot, style]) => {
+            if (!style) {
+              return undefined;
+            }
+            const parsed = parseCssJs(style);
+            return postcss.rule({
+              selector: `.${name}__${slot}--${variantName}_${variantValue}`,
+              nodes: parsed.nodes,
+            });
+          });
+        });
+      }),
+    );
+  }
+
+  function generateCompoundVariantRules() {
+    const name = prefixName(recipe.name, options);
+    return compact(
+      recipe.compoundVariants?.flatMap(({ css, ...selection }) => {
+        return Object.entries(css).map(([slot, style]) => {
+          if (!style) {
+            return undefined;
+          }
+
+          const selector = `.${name}__${slot}--${Object.entries(selection)
+            .map(([variantName, variantValue]) => `${variantName}_${variantValue}`)
+            .join("-")}`;
+          const parsed = parseCssJs(style);
+
+          return postcss.rule({
+            selector: selector,
+            nodes: parsed.nodes,
+          });
+        });
+      }) ?? [],
+    );
+  }
+
+  const baseRules = generateBaseRules();
+  const variantRules = generateVariantRules();
+  const compoundVariantRules = generateCompoundVariantRules();
+
+  return [...baseRules, ...variantRules, ...compoundVariantRules];
+}
+
+export function generateRecipeKindRules(
+  recipe: RecipeKindDefinition,
+  options: { prefix?: string } = {},
+) {
+  if ("slots" in recipe) {
+    return generateSlotRecipeRules(recipe, options);
+  }
+
+  return generateRecipeRules(recipe, options);
 }
 
 export function generateKeyframeRules(definitions: CssKeyframes) {
@@ -100,20 +179,13 @@ export async function transpileRulesToCss(rules: postcss.ChildNode[]): Promise<s
   });
 
   const css = await postcss([postcssNested()])
+    // @ts-expect-error
     .process(root, { from: undefined, parser: parseCssJs })
     .then((result) => {
       return result.css;
     });
 
   return css;
-}
-
-export function generateRecipeRules(recipe: RecipeDefinition, options: { prefix?: string } = {}) {
-  const baseRules = generateBaseRules(recipe, options);
-  const variantRules = generateVariantRules(recipe, options);
-  const compoundVariantRules = generateCompoundVariantRules(recipe, options);
-
-  return [...baseRules, ...variantRules, ...compoundVariantRules];
 }
 
 export function generateTokenRules(tokens: Theme["tokens"]): postcss.ChildNode[] {
@@ -134,7 +206,7 @@ export async function generateEachRecipe(
   const recipes = await Promise.all(
     Object.values(theme.recipes).map(async (recipe) => {
       const name = recipe.name;
-      const rules = generateRecipeRules(recipe, { prefix });
+      const rules = generateRecipeKindRules(recipe, { prefix });
       const css = await transpileRulesToCss(rules);
 
       return { name, css };
@@ -173,7 +245,7 @@ export async function generateAllBundle(
   const globalRules = parseCssJs(theme.globalCss ?? {}).nodes;
   const tokenRules = generateTokenRules(theme.tokens);
   const recipeRules = Object.values(theme.recipes).flatMap((recipe) =>
-    generateRecipeRules(recipe, options),
+    generateRecipeKindRules(recipe, options),
   );
   const keyframeRules = generateKeyframeRules(theme.keyframes);
   const rules = [...globalRules, ...tokenRules, ...recipeRules, ...keyframeRules];

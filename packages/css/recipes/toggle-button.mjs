@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const toggleButtonSlotNames = [
-  [
-    "root",
-    "seed-toggle-button__root"
-  ]
-];
-
 const defaultVariant = {
   "variant": "brandSolid",
   "size": "small"
@@ -28,13 +21,10 @@ export const toggleButtonVariantMap = {
 export const toggleButtonVariantKeys = Object.keys(toggleButtonVariantMap);
 
 export function toggleButton(props) {
-  return Object.fromEntries(
-    toggleButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-toggle-button",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

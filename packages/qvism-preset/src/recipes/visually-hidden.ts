@@ -2,19 +2,16 @@ import { defineRecipe } from "../utils/define";
 
 const visuallyHidden = defineRecipe({
   name: "visually-hidden",
-  slots: ["root"],
   base: {
-    root: {
-      border: 0,
-      clip: "rect(0 0 0 0)",
-      height: "1px",
-      margin: "-1px",
-      overflow: "hidden",
-      padding: 0,
-      position: "absolute",
-      whiteSpace: "nowrap",
-      width: "1px",
-    },
+    border: 0,
+    clip: "rect(0 0 0 0)",
+    height: "1px",
+    margin: "-1px",
+    overflow: "hidden",
+    padding: 0,
+    position: "absolute",
+    whiteSpace: "nowrap",
+    width: "1px",
   },
   variants: {},
   defaultVariants: {},

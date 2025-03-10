@@ -1,15 +1,16 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";
 import { snackbar, type SnackbarVariantProps } from "@seed-design/css/recipes/snackbar";
 import { snackbarRegion } from "@seed-design/css/recipes/snackbar-region";
 import { visuallyHidden } from "@seed-design/css/recipes/visually-hidden";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";
 import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createRecipeContext } from "../../utils/createRecipeContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withRegionProvider } = createStyleContext(snackbarRegion);
-const { withProvider, withContext } = createStyleContext(snackbar);
+const { withProvider: withRegionProvider } = createRecipeContext(snackbarRegion);
+const { withProvider, withContext } = createSlotRecipeContext(snackbar);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,7 +24,6 @@ export interface SnackbarRegionProps extends SnackbarVariantProps, SnackbarPrimi
 
 export const SnackbarRegion = withRegionProvider<HTMLDivElement, SnackbarRegionProps>(
   SnackbarPrimitive.Region,
-  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -76,11 +76,11 @@ export interface SnackbarCloseButtonProps extends SnackbarPrimitive.CloseButtonP
 export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseButtonProps>(
   (props, ref) => {
     const { className, ...otherProps } = props;
-    const classNames = useMemo(() => visuallyHidden(), []);
+    const visuallyHiddenClassName = useMemo(() => visuallyHidden(), []);
     return (
       <SnackbarPrimitive.CloseButton
         ref={ref}
-        className={clsx(classNames.root, className)}
+        className={clsx(visuallyHiddenClassName, className)}
         {...otherProps}
       />
     );

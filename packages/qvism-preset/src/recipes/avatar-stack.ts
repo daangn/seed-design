@@ -1,8 +1,8 @@
 import { avatarStack as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
 
-const avatarStack = defineRecipe({
+const avatarStack = defineSlotRecipe({
   name: "avatar-stack",
   slots: ["root", "item"],
   base: {

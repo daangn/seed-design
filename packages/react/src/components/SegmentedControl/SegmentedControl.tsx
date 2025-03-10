@@ -4,9 +4,9 @@ import {
 } from "@seed-design/css/recipes/segmented-control";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { SegmentedControl as SegmentedControlPrimitive } from "@seed-design/react-segmented-control";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 
-const { withProvider, withContext } = createStyleContext(segmentedControl);
+const { withProvider, withContext } = createSlotRecipeContext(segmentedControl);
 
 export interface SegmentedControlRootProps
   extends SegmentedControlVariantProps,

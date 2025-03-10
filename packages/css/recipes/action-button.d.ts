@@ -19,13 +19,11 @@ declare type ActionButtonVariantMap = {
 
 export declare type ActionButtonVariantProps = Partial<ActionButtonVariant>;
 
-export declare type ActionButtonSlotName = "root";
-
 export declare const actionButtonVariantMap: ActionButtonVariantMap;
 
 export declare const actionButton: ((
   props?: ActionButtonVariantProps,
-) => Record<ActionButtonSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ActionButtonVariantProps>(
     props: T,
   ) => [ActionButtonVariantProps, Omit<T, keyof ActionButtonVariantProps>];

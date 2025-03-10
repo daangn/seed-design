@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const reactionButtonSlotNames = [
-  [
-    "root",
-    "seed-reaction-button__root"
-  ]
-];
-
 const defaultVariant = {
   "size": "small"
 };
@@ -23,13 +16,10 @@ export const reactionButtonVariantMap = {
 export const reactionButtonVariantKeys = Object.keys(reactionButtonVariantMap);
 
 export function reactionButton(props) {
-  return Object.fromEntries(
-    reactionButtonSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-reaction-button",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 

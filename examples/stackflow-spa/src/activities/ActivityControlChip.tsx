@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { controlChip, controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
+import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
 
 import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
@@ -32,7 +32,6 @@ const ActivityControlChip: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={controlChipVariantMap}
           initialVariants={initialVariants}
-          recipeFn={controlChip}
           render={(variants) => (
             <ControlChip.Toggle key={JSON.stringify(variants)} {...variants}>
               {variants.layout === "withText" ? (

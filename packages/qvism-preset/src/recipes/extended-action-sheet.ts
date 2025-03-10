@@ -3,10 +3,10 @@ import {
   extendedActionSheetCloseButton as closeVars,
 } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";
 
-const extendedActionSheet = defineRecipe({
+const extendedActionSheet = defineSlotRecipe({
   name: "extended-action-sheet",
   slots: [
     "backdrop",

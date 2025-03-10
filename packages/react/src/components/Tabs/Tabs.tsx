@@ -5,11 +5,11 @@ import {
   useTabsTriggerContext,
 } from "@seed-design/react-tabs";
 import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import type React from "react";
 
-const { withProvider, withContext } = createStyleContext(tabs);
+const { withProvider, withContext } = createSlotRecipeContext(tabs);
 const withStateProps = createWithStateProps([useTabsContext, useTabsTriggerContext], {
   strict: false,
 });

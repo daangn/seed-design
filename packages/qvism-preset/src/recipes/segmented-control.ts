@@ -1,8 +1,8 @@
 import { segmentedControlItem as itemVars, segmentedControl as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
 
-const segmentedControl = defineRecipe({
+const segmentedControl = defineSlotRecipe({
   name: "segmented-control",
   slots: ["root", "indicator", "item"],
   base: {

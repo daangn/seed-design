@@ -3,11 +3,11 @@ import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
 import { forwardRef } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
 
-const { withProvider, withContext, useClassNames } = createStyleContext(checkbox);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(checkbox);
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////

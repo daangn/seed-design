@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { reactionButton, reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
+import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ReactionButton, type ReactionButtonProps } from "../design-system/ui/reaction-button";
@@ -31,7 +31,6 @@ const ActivityReactionButton: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={reactionButtonVariantMap}
           initialVariants={initialVariants}
-          recipeFn={reactionButton}
           render={(variants) => (
             <ReactionButton key={JSON.stringify(variants)} {...variants}>
               <PrefixIcon svg={<IconFaceSmileCircleFill />} />

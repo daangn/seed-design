@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { avatarStack, avatarStackVariantMap } from "@seed-design/css/recipes/avatar-stack";
+import { avatarStackVariantMap } from "@seed-design/css/recipes/avatar-stack";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Avatar, AvatarStack, type AvatarStackProps } from "../design-system/ui/avatar";
@@ -30,7 +30,6 @@ const ActivityAvatarStack: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={avatarStackVariantMap}
           initialVariants={initialVariants}
-          recipeFn={avatarStack}
           render={(variants) => (
             <AvatarStack {...variants}>
               <Avatar

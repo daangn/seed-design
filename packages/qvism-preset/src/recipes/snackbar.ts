@@ -1,34 +1,31 @@
 import { snackbar as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const MAX_Z_INDEX = 2147483647;
 
 export const snackbarRegion = defineRecipe({
   name: "snackbar-region",
-  slots: ["root"],
   base: {
-    root: {
-      zIndex: MAX_Z_INDEX,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      left: "calc(env(safe-area-inset-left, 0px))",
-      right: "calc(env(safe-area-inset-right, 0px))",
-      bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
+    zIndex: MAX_Z_INDEX,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    left: "calc(env(safe-area-inset-left, 0px))",
+    right: "calc(env(safe-area-inset-right, 0px))",
+    bottom: "calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px))",
 
-      paddingInline: vars.base.enabled.region.paddingX,
-      paddingBlock: vars.base.enabled.region.paddingY,
-      transitionProperty: "bottom",
-      transitionDuration: vars.base.enabled.region.offsetDuration,
-      transitionTimingFunction: vars.base.enabled.region.offsetTimingFunction,
-    },
+    paddingInline: vars.base.enabled.region.paddingX,
+    paddingBlock: vars.base.enabled.region.paddingY,
+    transitionProperty: "bottom",
+    transitionDuration: vars.base.enabled.region.offsetDuration,
+    transitionTimingFunction: vars.base.enabled.region.offsetTimingFunction,
   },
   variants: {},
   defaultVariants: {},
 });
 
-export const snackbar = defineRecipe({
+export const snackbar = defineSlotRecipe({
   name: "snackbar",
   slots: ["root", "message", "prefixIcon", "actionButton"],
   base: {

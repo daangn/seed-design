@@ -7,7 +7,7 @@ import {
 } from "../design-system/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
 
-import { extendedFab, extendedFabVariantMap } from "@seed-design/css/recipes/extended-fab";
+import { extendedFabVariantMap } from "@seed-design/css/recipes/extended-fab";
 
 import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
@@ -32,7 +32,6 @@ const ActivityExtendedFab: ActivityComponentType = () => {
         <ComponentAnalyzer
           variantsMap={extendedFabVariantMap}
           initialVariants={initialVariants}
-          recipeFn={extendedFab}
           render={(variants) => (
             <ExtendedFab key={JSON.stringify(variants)} {...variants}>
               <PrefixIcon svg={<IconPlusFill />} />

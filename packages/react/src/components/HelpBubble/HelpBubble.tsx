@@ -2,11 +2,11 @@ import { Popover as PopoverPrimitive, usePopoverContext } from "@seed-design/rea
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { helpBubble, type HelpBubbleVariantProps } from "@seed-design/css/recipes/help-bubble";
 import { forwardRef } from "react";
-import { createStyleContext } from "../../utils/createStyleContext";
+import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withRootProvider, withContext } = createStyleContext(helpBubble);
+const { withRootProvider, withContext } = createSlotRecipeContext(helpBubble);
 const withStateProps = createWithStateProps([usePopoverContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////

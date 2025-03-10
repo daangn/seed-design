@@ -1,7 +1,7 @@
 import { progressCircle as vars } from "../vars/component";
-import { defineRecipe } from "../utils/define";
+import { defineSlotRecipe } from "../utils/define";
 
-const progressCircle = defineRecipe({
+const progressCircle = defineSlotRecipe({
   name: "progress-circle",
   slots: ["root", "track", "range"],
   base: {

@@ -1,4 +1,4 @@
-.seed-skeleton__root {
+.seed-skeleton {
     display: inline-block;
     box-sizing: border-box;
     overflow: hidden;
@@ -8,7 +8,7 @@
     width: --seed-box-width;
     height: --seed-box-height;
 }
-.seed-skeleton__root::after {
+.seed-skeleton::after {
     content: '';
     display: block;
     width: 100%;
@@ -21,15 +21,15 @@
     animation-timing-function: var(--seed-timing-function-easing);
     animation-iteration-count: infinite;
 }
-.seed-skeleton__root--radius_0 {
+.seed-skeleton--radius_0 {
     border-radius: 0px;
 }
-.seed-skeleton__root--radius_8 {
+.seed-skeleton--radius_8 {
     border-radius: 8px;
 }
-.seed-skeleton__root--radius_16 {
+.seed-skeleton--radius_16 {
     border-radius: 16px;
 }
-.seed-skeleton__root--radius_full {
+.seed-skeleton--radius_full {
     border-radius: var(--seed-radius-full);
 }

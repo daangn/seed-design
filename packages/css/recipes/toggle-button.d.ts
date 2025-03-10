@@ -15,13 +15,11 @@ declare type ToggleButtonVariantMap = {
 
 export declare type ToggleButtonVariantProps = Partial<ToggleButtonVariant>;
 
-export declare type ToggleButtonSlotName = "root";
-
 export declare const toggleButtonVariantMap: ToggleButtonVariantMap;
 
 export declare const toggleButton: ((
   props?: ToggleButtonVariantProps,
-) => Record<ToggleButtonSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ToggleButtonVariantProps>(
     props: T,
   ) => [ToggleButtonVariantProps, Omit<T, keyof ToggleButtonVariantProps>];

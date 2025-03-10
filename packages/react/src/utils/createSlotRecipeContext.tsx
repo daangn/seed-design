@@ -1,17 +1,17 @@
 import clsx from "clsx";
 import { createContext, forwardRef, useContext } from "react";
 
-type Recipe<
+type SlotRecipe<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
 > = ((props?: Props) => Classnames) & {
   splitVariantProps: <T extends Props>(props: T) => [Props, Omit<T, keyof Props>];
 };
 
-export function createStyleContext<
+export function createSlotRecipeContext<
   Props extends Record<string, string | boolean | undefined>,
   Classnames extends Record<string, string>,
->(recipe: Recipe<Props, Classnames>) {
+>(recipe: SlotRecipe<Props, Classnames>) {
   const ClassNamesContext = createContext<Classnames | null>(null);
   const PropsContext = createContext<Props | null>(null);
 

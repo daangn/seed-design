@@ -11,13 +11,11 @@ declare type ActionSheetItemVariantMap = {
 
 export declare type ActionSheetItemVariantProps = Partial<ActionSheetItemVariant>;
 
-export declare type ActionSheetItemSlotName = "root";
-
 export declare const actionSheetItemVariantMap: ActionSheetItemVariantMap;
 
 export declare const actionSheetItem: ((
   props?: ActionSheetItemVariantProps,
-) => Record<ActionSheetItemSlotName, string>) & {
+) => string) & {
   splitVariantProps: <T extends ActionSheetItemVariantProps>(
     props: T,
   ) => [ActionSheetItemVariantProps, Omit<T, keyof ActionSheetItemVariantProps>];

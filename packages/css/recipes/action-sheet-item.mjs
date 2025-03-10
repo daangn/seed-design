@@ -1,12 +1,5 @@
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const actionSheetItemSlotNames = [
-  [
-    "root",
-    "seed-action-sheet-item__root"
-  ]
-];
-
 const defaultVariant = {
   "tone": "neutral"
 };
@@ -23,13 +16,10 @@ export const actionSheetItemVariantMap = {
 export const actionSheetItemVariantKeys = Object.keys(actionSheetItemVariantMap);
 
 export function actionSheetItem(props) {
-  return Object.fromEntries(
-    actionSheetItemSlotNames.map(([slot, className]) => {
-      return [
-        slot,
-        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
-      ];
-    }),
+  return createClassName(
+    "seed-action-sheet-item",
+    mergeVariants(defaultVariant, props),
+    compoundVariants,
   );
 }
 
