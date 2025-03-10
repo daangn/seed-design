@@ -70,7 +70,7 @@ const inlineBanner = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
 
-      height: vars.base.enabled.link.height,
+      // TODO: handle targetHeight
       marginLeft: vars.base.enabled.link.marginLeft,
 
       fontSize: vars.base.enabled.link.fontSize,

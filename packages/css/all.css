@@ -3102,7 +3102,6 @@
 
 .seed-inline-banner__link {
   cursor: pointer;
-  height: var(--seed-dimension-x10);
   margin-left: var(--seed-dimension-x4);
   font-family: inherit;
   font-size: var(--seed-font-size-t2);

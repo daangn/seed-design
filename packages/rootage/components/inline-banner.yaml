@@ -46,7 +46,7 @@ data:
             type: color
       link:
         properties:
-          height:
+          targetHeight:
             type: dimension
           fontSize:
             type: dimension
@@ -87,7 +87,7 @@ data:
           lineHeight: $line-height.t4
           fontWeight: $font-weight.medium
         link:
-          height: $dimension.x10
+          targetHeight: $dimension.x10
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
           fontWeight: $font-weight.regular

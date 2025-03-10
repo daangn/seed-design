@@ -72,7 +72,7 @@
         },
         "link": {
           "properties": {
-            "height": {
+            "targetHeight": {
               "type": "dimension"
             },
             "fontSize": {
@@ -186,7 +186,7 @@
                 }
               },
               "link": {
-                "height": {
+                "targetHeight": {
                   "type": "dimension",
                   "value": "$dimension.x10"
                 },
