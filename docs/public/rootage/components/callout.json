@@ -36,9 +36,6 @@
             "size": {
               "type": "dimension"
             },
-            "marginRight": {
-              "type": "dimension"
-            },
             "color": {
               "type": "color"
             }
@@ -90,9 +87,6 @@
             "fontWeight": {
               "type": "number"
             },
-            "marginLeft": {
-              "type": "dimension"
-            },
             "color": {
               "type": "color"
             }
@@ -104,9 +98,6 @@
               "type": "dimension"
             },
             "targetSize": {
-              "type": "dimension"
-            },
-            "marginLeft": {
               "type": "dimension"
             },
             "color": {
@@ -208,14 +199,6 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
-                },
-                "height": {
-                  "type": "dimension",
-                  "value": "$dimension.x10"
-                },
-                "marginLeft": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
                 }
               },
               "suffixIcon": {
@@ -226,10 +209,6 @@
                 "targetSize": {
                   "type": "dimension",
                   "value": "$dimension.x10"
-                },
-                "marginLeft": {
-                  "type": "dimension",
-                  "value": "$dimension.x4"
                 }
               }
             }

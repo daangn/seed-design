@@ -21,7 +21,7 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-medium)"
       },
       "link": {
-        "height": "var(--seed-dimension-x10)",
+        "targetHeight": "var(--seed-dimension-x10)",
         "fontSize": "var(--seed-font-size-t2)",
         "lineHeight": "var(--seed-line-height-t2)",
         "fontWeight": "var(--seed-font-weight-regular)",

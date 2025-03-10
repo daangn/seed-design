@@ -46,7 +46,6 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    height: var(--seed-dimension-x10);
     margin-left: var(--seed-dimension-x4);
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);

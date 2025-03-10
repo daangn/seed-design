@@ -24,8 +24,6 @@ data:
         properties:
           size:
             type: dimension
-          marginRight:
-            type: dimension
           color:
             type: color
       title:
@@ -50,16 +48,12 @@ data:
             type: color
       link:
         properties:
-          height:
-            type: dimension
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
           fontWeight:
             type: number
-          marginLeft:
-            type: dimension
           color:
             type: color
       suffixIcon:
@@ -67,8 +61,6 @@ data:
           size:
             type: dimension
           targetSize:
-            type: dimension
-          marginLeft:
             type: dimension
           color:
             type: color
@@ -95,12 +87,9 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
-          height: $dimension.x10
-          marginLeft: $dimension.x4
         suffixIcon:
           size: $dimension.x4
           targetSize: $dimension.x10
-          marginLeft: $dimension.x4
     tone=neutral:
       enabled:
         root:
