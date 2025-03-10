@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.0.5
+
+### Patch Changes
+
+- e3234e7: single-slot recipe를 위한 간소화된 인터페이스를 추가합니다.
+- 5502bed: add textStyles (t6, t7 regular, medium)
+
 ## 0.0.4
 
 ### Patch Changes
