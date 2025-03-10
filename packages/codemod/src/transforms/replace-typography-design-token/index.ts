@@ -55,6 +55,117 @@ function transformTypographyToken(previousToken: string): string | null {
   return null;
 }
 
+/**
+ * import 문을 처리하는 함수
+ */
+function handleImports(j: any, root: any, hasTransformedTokens: boolean) {
+  // 변환된 토큰이 없으면 import를 수정하지 않음
+  if (!hasTransformedTokens) {
+    return;
+  }
+
+  // design-token import 찾기
+  const designTokenImports = root.find(j.ImportDeclaration, {
+    source: { value: "@seed-design/design-token" },
+  });
+
+  // design-token import가 없으면 처리하지 않음
+  if (designTokenImports.length === 0) {
+    return;
+  }
+
+  // 파일 상단 주석 보존
+  const fileComments = root.get().node.comments || [];
+
+  // design-token을 css/recipes/text로 교체
+  designTokenImports.forEach((path: any) => {
+    // 주석 보존
+    const importComments = path.node.comments || [];
+
+    // classNames 가져오는지 확인
+    const classNamesSpecifier = path.node.specifiers.find(
+      (specifier: any) =>
+        specifier.type === "ImportSpecifier" && specifier.imported.name === "classNames",
+    );
+
+    if (classNamesSpecifier) {
+      // 이 import 문을 text recipe import로 대체
+      path.node.source.value = "@seed-design/css/recipes/text";
+      path.node.specifiers = [j.importSpecifier(j.identifier("text"))];
+    }
+
+    // 주석 다시 설정
+    path.node.comments = importComments;
+  });
+
+  // 파일 상단 주석 복원
+  if (fileComments.length > 0) {
+    root.get().node.comments = fileComments;
+  }
+}
+
+/**
+ * 변환 후 text 함수가 사용되지 않는 경우 import를 제거하는 함수
+ */
+function cleanupUnusedImports(j: any, root: any) {
+  // text 함수 사용 여부 확인
+  const textUsages = root.find(j.CallExpression, {
+    callee: {
+      type: "Identifier",
+      name: "text",
+    },
+  });
+
+  // text 함수가 사용되지 않는 경우 import 제거
+  if (textUsages.length === 0) {
+    // 파일 상단 주석 보존
+    const fileComments = root.get().node.comments || [];
+
+    // text import 찾기
+    const textImports = root.find(j.ImportDeclaration, {
+      source: { value: "@seed-design/css/recipes/text" },
+    });
+
+    // import 주석 보존
+    let importComments: any[] = [];
+    textImports.forEach((path: any) => {
+      if (path.node.comments && path.node.comments.length > 0) {
+        importComments = [...importComments, ...path.node.comments];
+      }
+    });
+
+    // import 제거
+    textImports.remove();
+
+    // 주석 복원
+    if (importComments.length > 0) {
+      // 첫 번째 import 찾기
+      const firstImport = root.find(j.ImportDeclaration).at(0);
+      if (firstImport.size() > 0) {
+        // 첫 번째 import에 주석 추가
+        firstImport.get().node.comments = [
+          ...(firstImport.get().node.comments || []),
+          ...importComments,
+        ];
+      } else {
+        // 파일 상단에 주석 추가
+        root.get().node.comments = [...fileComments, ...importComments];
+      }
+    }
+  }
+}
+
+/**
+ * 문자열 코드를 파싱하여 AST 노드로 변환
+ */
+function parseExpression(j: any, code: string) {
+  // 문자열 코드를 파싱하여 AST 생성
+  const ast = j(`${code}`);
+
+  // 첫 번째 표현식 반환
+  return ast.find(j.ExpressionStatement).get().node.expression;
+}
+
 const transform: Transform = (file, api, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
   const { reporter } = inferredOptions;
@@ -67,43 +178,8 @@ const transform: Transform = (file, api, options) => {
     reporterInstance.startNewFile(file.path);
   }
 
-  // 먼저 import 문 변경
-  let hasTextRecipeImport = false;
-
-  // 기존 import 문 확인 및 수정
-  root.find(j.ImportDeclaration).forEach((path) => {
-    const source = path.node.source.value;
-
-    // @seed-design/design-token import 확인
-    if (source === "@seed-design/design-token") {
-      // classNames 가져오는지 확인
-      const classNamesSpecifier = path.node.specifiers.find(
-        (specifier) =>
-          specifier.type === "ImportSpecifier" && specifier.imported.name === "classNames",
-      );
-
-      if (classNamesSpecifier) {
-        // 이 import 문을 text recipe import로 대체
-        path.node.source.value = "@seed-design/css/recipes/text";
-        path.node.specifiers = [j.importSpecifier(j.identifier("text"))];
-        hasTextRecipeImport = true;
-      }
-    } else if (source === "@seed-design/css/recipes/text") {
-      // 이미 text recipe import가 있는 경우
-      hasTextRecipeImport = true;
-    }
-  });
-
-  // 필요한 import 문이 없으면 추가
-  if (!hasTextRecipeImport) {
-    const importDeclaration = j.importDeclaration(
-      [j.importSpecifier(j.identifier("text"))],
-      j.literal("@seed-design/css/recipes/text"),
-    );
-
-    // 파일 맨 위에 import 문 추가
-    root.get().node.program.body.unshift(importDeclaration);
-  }
+  // 변환된 토큰이 있는지 추적
+  let hasTransformedTokens = false;
 
   // classNames.$semantic.typography.* 패턴 찾기
   root
@@ -121,19 +197,17 @@ const transform: Transform = (file, api, options) => {
       const newToken = transformTypographyToken(typographyToken);
 
       if (newToken) {
-        // text({ textStyle: "newToken" }) 형식으로 변환
-        const textCallExpr = j.callExpression(j.identifier("text"), [
-          j.objectExpression([
-            j.objectProperty(j.identifier("textStyle"), j.stringLiteral(newToken)),
-          ]),
-        ]);
+        // 문자열로 표현식 생성 후 파싱
+        const textCallCode = `text({ textStyle: "${newToken}" })`;
+        const textCallExpr = parseExpression(j, textCallCode);
 
         // 부모 노드 확인
         const parentPath = path.parent;
 
         if (parentPath.node.type === "JSXExpressionContainer") {
           // JSX 컨텍스트인 경우 (className={...})
-          j(parentPath).replaceWith(j.jsxExpressionContainer(textCallExpr));
+          const jsxExpr = j.jsxExpressionContainer(textCallExpr);
+          j(parentPath).replaceWith(jsxExpr);
         } else if (
           parentPath.node.type === "Property" ||
           parentPath.node.type === "ObjectProperty"
@@ -141,15 +215,27 @@ const transform: Transform = (file, api, options) => {
           // 객체 속성인 경우 (key: value)
           // 값만 교체하고 키는 유지
           parentPath.node.value = textCallExpr;
+        } else if (parentPath.node.type === "ReturnStatement") {
+          // 함수 반환값인 경우 (return classNames.$semantic.typography.*)
+          parentPath.node.argument = textCallExpr;
+        } else if (
+          parentPath.node.type === "ArrowFunctionExpression" &&
+          parentPath.node.body === path.node
+        ) {
+          // 화살표 함수 본문인 경우 (() => classNames.$semantic.typography.*)
+          parentPath.node.body = textCallExpr;
         } else {
           // 그 외의 경우 (변수 할당 등)
           j(parentPath).replaceWith(textCallExpr);
         }
 
+        // 변환된 토큰이 있음을 표시
+        hasTransformedTokens = true;
+
         if (reporterInstance) {
           reporterInstance.addResult({
             previousToken: typographyToken,
-            nextToken: `text({ textStyle: "${newToken}" })`,
+            nextToken: textCallCode,
             status: "success",
             line: path.node.loc?.start.line,
           });
@@ -167,6 +253,12 @@ const transform: Transform = (file, api, options) => {
       }
     });
 
+  // import 처리
+  handleImports(j, root, hasTransformedTokens);
+
+  // 변환 후 text 함수가 사용되지 않는 경우 import 제거
+  cleanupUnusedImports(j, root);
+
   if (reporterInstance) {
     reporterInstance.finishFile();
     reporterInstance.writeReport();
@@ -176,7 +268,9 @@ const transform: Transform = (file, api, options) => {
   const printOptions = {
     quote: "double" as const,
     trailingComma: false,
-    wrapColumn: 80,
+    wrapColumn: 1000, // 매우 큰 값으로 설정하여 줄바꿈 방지
+    tabWidth: 2,
+    reuseWhitespace: true,
   };
 
   return root.toSource(printOptions);
