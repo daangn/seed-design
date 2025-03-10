@@ -1,7 +1,7 @@
 export {
   SnackbarActionButton as ActionButton,
   SnackbarAvoidOverlap as AvoidOverlap,
-  SnackbarCloseButton as CloseButton,
+  SnackbarHiddenCloseButton as HiddenCloseButton,
   SnackbarMessage as Message,
   SnackbarPrefixIcon as PrefixIcon,
   SnackbarRegion as Region,
@@ -10,7 +10,7 @@ export {
   SnackbarRootProvider as RootProvider,
   type SnackbarActionButtonProps as ActionButtonProps,
   type SnackbarAvoidOverlapProps as AvoidOverlapProps,
-  type SnackbarCloseButtonProps as CloseButtonProps,
+  type SnackbarHiddenCloseButtonProps as HiddenCloseButtonProps,
   type SnackbarMessageProps as MessageProps,
   type SnackbarPrefixIconProps as PrefixIconProps,
   type SnackbarRegionProps as RegionProps,

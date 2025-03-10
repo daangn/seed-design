@@ -1,10 +1,11 @@
+import { visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { visuallyHidden } from "@seed-design/css/recipes/visually-hidden";
 import type * as React from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
-
-const { withProvider } = createRecipeContext(visuallyHidden);
+import { forwardRef } from "react";
 
 export interface VisuallyHiddenProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const VisuallyHidden = withProvider<HTMLDivElement, VisuallyHiddenProps>(Primitive.div);
+export const VisuallyHidden = forwardRef<HTMLDivElement, VisuallyHiddenProps>((props, ref) => {
+  const { style, ...otherProps } = props;
+  return <Primitive.div ref={ref} style={{ ...visuallyHidden, ...style }} {...otherProps} />;
+});

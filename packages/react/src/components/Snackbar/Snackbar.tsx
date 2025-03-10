@@ -1,10 +1,9 @@
 import { snackbar, type SnackbarVariantProps } from "@seed-design/css/recipes/snackbar";
 import { snackbarRegion } from "@seed-design/css/recipes/snackbar-region";
-import { visuallyHidden } from "@seed-design/css/recipes/visually-hidden";
+import { visuallyHidden } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Snackbar as SnackbarPrimitive } from "@seed-design/react-snackbar";
-import clsx from "clsx";
-import { forwardRef, useMemo } from "react";
+import { forwardRef } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
@@ -68,24 +67,24 @@ export const SnackbarActionButton = withContext<HTMLButtonElement, SnackbarActio
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SnackbarCloseButtonProps extends SnackbarPrimitive.CloseButtonProps {}
+export interface SnackbarHiddenCloseButtonProps extends SnackbarPrimitive.CloseButtonProps {}
 
 /**
  * Visually hidden button that closes the snackbar (for screen readers).
  */
-export const SnackbarCloseButton = forwardRef<HTMLButtonElement, SnackbarCloseButtonProps>(
-  (props, ref) => {
-    const { className, ...otherProps } = props;
-    const visuallyHiddenClassName = useMemo(() => visuallyHidden(), []);
-    return (
-      <SnackbarPrimitive.CloseButton
-        ref={ref}
-        className={clsx(visuallyHiddenClassName, className)}
-        {...otherProps}
-      />
-    );
-  },
-);
+export const SnackbarHiddenCloseButton = forwardRef<
+  HTMLButtonElement,
+  SnackbarHiddenCloseButtonProps
+>((props, ref) => {
+  const { style, ...otherProps } = props;
+  return (
+    <SnackbarPrimitive.CloseButton
+      ref={ref}
+      style={{ ...visuallyHidden, ...style }}
+      {...otherProps}
+    />
+  );
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
 

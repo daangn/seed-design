@@ -33,7 +33,6 @@ import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textField from "./recipes/text-field";
 import toggleButton from "./recipes/toggle-button";
-import visuallyHidden from "./recipes/visually-hidden";
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
 
@@ -74,7 +73,6 @@ export const recipes = {
   text,
   linkContent,
   textField,
-  visuallyHidden,
   appScreen,
   appBar,
   appBarMain,

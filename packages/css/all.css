@@ -4356,18 +4356,6 @@
   line-height: var(--seed-line-height-t2);
 }
 
-.seed-visually-hidden {
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  position: absolute;
-  overflow: hidden;
-}
-
 .seed-app-screen__root {
   --app-bar-offset: calc(var(--app-bar-height)  + var(--seed-safe-area-top));
   width: 100%;

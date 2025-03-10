@@ -85,7 +85,7 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         />
         <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
         <SeedSnackbar.ActionButton onClick={handleAction}>{actionLabel}</SeedSnackbar.ActionButton>
-        <SeedSnackbar.CloseButton />
+        <SeedSnackbar.HiddenCloseButton />
       </SeedSnackbar.Root>
     );
   },
