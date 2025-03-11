@@ -85,6 +85,39 @@ function handleImports(j: any, root: any, hasTransformedComponents: boolean) {
   }
 }
 
+/**
+ * 조건부 표현식(삼항 연산자)을 처리하는 함수
+ */
+function transformConditionalExpression(j: any, expression: any): any {
+  // 조건부 표현식의 참 결과(consequent)와 거짓 결과(alternate) 모두 처리
+  if (expression.consequent.type === "StringLiteral") {
+    const originalValue = expression.consequent.value;
+    const transformedValue = transformVariantToTextStyle(originalValue);
+    if (transformedValue) {
+      expression.consequent.value = transformedValue;
+    }
+  }
+
+  if (expression.alternate.type === "StringLiteral") {
+    const originalValue = expression.alternate.value;
+    const transformedValue = transformVariantToTextStyle(originalValue);
+    if (transformedValue) {
+      expression.alternate.value = transformedValue;
+    }
+  }
+
+  // 중첩된 조건부 표현식 처리
+  if (expression.consequent.type === "ConditionalExpression") {
+    transformConditionalExpression(j, expression.consequent);
+  }
+
+  if (expression.alternate.type === "ConditionalExpression") {
+    transformConditionalExpression(j, expression.alternate);
+  }
+
+  return expression;
+}
+
 const transform: Transform = (file, api, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
   const { reporter } = inferredOptions;
@@ -116,22 +149,10 @@ const transform: Transform = (file, api, options) => {
       );
 
       if (variantAttr && variantAttr.type === "JSXAttribute") {
-        // variant 속성 값 가져오기
-        let variantValue = null;
-
+        // variant 속성 값 처리
         if (variantAttr.value?.type === "StringLiteral") {
           // 문자열 리터럴인 경우
-          variantValue = variantAttr.value.value;
-        } else if (
-          variantAttr.value?.type === "JSXExpressionContainer" &&
-          variantAttr.value.expression.type === "StringLiteral"
-        ) {
-          // JSX 표현식 컨테이너 내 문자열 리터럴인 경우
-          variantValue = variantAttr.value.expression.value;
-        }
-
-        if (variantValue) {
-          // variant를 textStyle로 변환
+          const variantValue = variantAttr.value.value;
           const textStyleValue = transformVariantToTextStyle(variantValue);
 
           if (textStyleValue) {
@@ -156,13 +177,55 @@ const transform: Transform = (file, api, options) => {
                 line: variantAttr.loc?.start.line,
               });
             }
-          } else {
-            // 매핑이 없는 경우 리포터에 기록
+          }
+        } else if (variantAttr.value?.type === "JSXExpressionContainer") {
+          // JSX 표현식 컨테이너인 경우
+          const expression = variantAttr.value.expression;
+
+          if (expression.type === "StringLiteral") {
+            // 컨테이너 내 문자열 리터럴인 경우
+            const variantValue = expression.value;
+            const textStyleValue = transformVariantToTextStyle(variantValue);
+
+            if (textStyleValue) {
+              // variant 속성 제거
+              openingElement.attributes = openingElement.attributes.filter(
+                (attr) => !(attr.type === "JSXAttribute" && attr.name.name === "variant"),
+              );
+
+              // textStyle 속성 추가
+              openingElement.attributes.push(
+                j.jsxAttribute(j.jsxIdentifier("textStyle"), j.stringLiteral(textStyleValue)),
+              );
+
+              // 변환된 컴포넌트가 있음을 표시
+              hasTransformedComponents = true;
+            }
+          } else if (expression.type === "ConditionalExpression") {
+            // 조건부 표현식(삼항 연산자)인 경우
+            const transformedExpression = transformConditionalExpression(j, expression);
+
+            // variant 속성 제거
+            openingElement.attributes = openingElement.attributes.filter(
+              (attr) => !(attr.type === "JSXAttribute" && attr.name.name === "variant"),
+            );
+
+            // textStyle 속성 추가
+            openingElement.attributes.push(
+              j.jsxAttribute(
+                j.jsxIdentifier("textStyle"),
+                j.jsxExpressionContainer(transformedExpression),
+              ),
+            );
+
+            // 변환된 컴포넌트가 있음을 표시
+            hasTransformedComponents = true;
+
             if (reporterInstance) {
               reporterInstance.addResult({
-                previousToken: `variant="${variantValue}"`,
-                nextToken: "매핑 없음 - 수동 변경 필요",
-                status: "failure",
+                previousToken: "variant={조건부 표현식}",
+                nextToken: "textStyle={조건부 표현식}",
+                status: "success",
                 line: variantAttr.loc?.start.line,
               });
             }
