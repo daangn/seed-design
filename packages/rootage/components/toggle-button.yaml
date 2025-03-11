@@ -4,6 +4,60 @@ metadata:
   id: toggle-button
   name: Toggle Button
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          minWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      suffixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      progressCircle:
+        properties:
+          trackColor:
+            type: color
+          rangeColor:
+            type: color
+          size:
+            type: dimension
+          thickness:
+            type: dimension
   definitions:
     base:
       enabled:
