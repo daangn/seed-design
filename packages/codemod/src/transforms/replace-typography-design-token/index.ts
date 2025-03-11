@@ -224,6 +224,10 @@ const transform: Transform = (file, api, options) => {
         ) {
           // 화살표 함수 본문인 경우 (() => classNames.$semantic.typography.*)
           parentPath.node.body = textCallExpr;
+        } else if (parentPath.node.type === "VariableDeclarator") {
+          // 변수 선언인 경우 (const varName = classNames.$semantic.typography.*)
+          // 변수명은 유지하고 값만 교체
+          parentPath.node.init = textCallExpr;
         } else {
           // 그 외의 경우 (변수 할당 등)
           j(parentPath).replaceWith(textCallExpr);
