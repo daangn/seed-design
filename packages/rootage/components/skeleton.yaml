@@ -4,6 +4,22 @@ metadata:
   id: skeleton
   name: Skeleton
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+      shimmer:
+        properties:
+          duration:
+            type: duration
+          timingFunction:
+            type: cubicBezier
+          color:
+            type: color
   definitions:
     base:
       enabled:
