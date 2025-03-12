@@ -8,6 +8,8 @@ data:
     slots:
       root:
         properties:
+          color:
+            type: color
           minHeight:
             type: dimension
           minWidth:
