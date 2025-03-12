@@ -11,9 +11,6 @@
       "slots": {
         "root": {
           "properties": {
-            "color": {
-              "type": "color"
-            },
             "minHeight": {
               "type": "dimension"
             },
@@ -63,10 +60,6 @@
             ],
             "slots": {
               "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                },
                 "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x9"

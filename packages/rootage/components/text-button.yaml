@@ -8,8 +8,6 @@ data:
     slots:
       root:
         properties:
-          color:
-            type: color
           minHeight:
             type: dimension
           minWidth:
@@ -36,7 +34,6 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.brand-solid
           minHeight: $dimension.x9
           gap: $dimension.x1
           paddingX: $dimension.x3_5

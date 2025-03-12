@@ -2,7 +2,6 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)",
         "minHeight": "var(--seed-dimension-x9)",
         "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
