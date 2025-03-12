@@ -8,7 +8,31 @@
     "id": "skeleton",
     "name": "Skeleton",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "shimmer": {
+          "properties": {
+            "duration": {
+              "type": "duration"
+            },
+            "timingFunction": {
+              "type": "cubicBezier"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
       "variants": {
         "radius": {
           "values": {
