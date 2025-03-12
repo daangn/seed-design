@@ -82,6 +82,12 @@
                   "type": "number",
                   "value": "$font-weight.bold"
                 }
+              },
+              "emote": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
               }
             }
           }

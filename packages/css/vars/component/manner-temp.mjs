@@ -8,6 +8,9 @@ export const vars = {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-bold)"
+      },
+      "emote": {
+        "size": "var(--seed-dimension-x6)"
       }
     }
   },
