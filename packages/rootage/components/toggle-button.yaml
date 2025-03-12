@@ -172,6 +172,7 @@ data:
           size: $dimension.x3_5
         label:
           fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         progressCircle:
           size: 14px
           thickness: 2px
@@ -189,6 +190,7 @@ data:
           size: $dimension.x3_5
         label:
           fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         progressCircle:
           size: 14px
           thickness: 2px
