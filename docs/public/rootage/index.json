@@ -84,6 +84,9 @@
       "path": "/components/manner-temp-badge.json"
     },
     {
+      "path": "/components/manner-temp.json"
+    },
+    {
       "path": "/components/progress-circle.json"
     },
     {

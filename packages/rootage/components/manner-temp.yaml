@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: manner-temp
+  name: Manner Temp
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+      label:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      emote:
+        properties:
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x1
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.bold
+    level=l1:
+      enabled:
+        label:
+          color: $color.manner-temp.l1.text
+    level=l2:
+      enabled:
+        label:
+          color: $color.manner-temp.l2.text
+    level=l3:
+      enabled:
+        label:
+          color: $color.manner-temp.l3.text
+    level=l4:
+      enabled:
+        label:
+          color: $color.manner-temp.l4.text
+    level=l5:
+      enabled:
+        label:
+          color: $color.manner-temp.l5.text
+    level=l6:
+      enabled:
+        label:
+          color: $color.manner-temp.l6.text
