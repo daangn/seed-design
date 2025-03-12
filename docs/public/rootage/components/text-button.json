@@ -11,6 +11,9 @@
       "slots": {
         "root": {
           "properties": {
+            "color": {
+              "type": "color"
+            },
             "minHeight": {
               "type": "dimension"
             },
