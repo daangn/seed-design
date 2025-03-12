@@ -33,6 +33,8 @@ data:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
+        emote:
+          size: $dimension.x6
     level=l1:
       enabled:
         label:
