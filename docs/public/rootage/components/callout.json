@@ -75,9 +75,6 @@
         },
         "link": {
           "properties": {
-            "height": {
-              "type": "dimension"
-            },
             "fontSize": {
               "type": "dimension"
             },
