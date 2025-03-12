@@ -34,6 +34,7 @@ export { vars as snackbar } from "./snackbar.mjs";
 export { vars as switch } from "./switch.mjs";
 export { vars as tab } from "./tab.mjs";
 export { vars as tablist } from "./tablist.mjs";
+export { vars as textButton } from "./text-button.mjs";
 export { vars as textField } from "./text-field.mjs";
 export { vars as toggleButton } from "./toggle-button.mjs";
 export { vars as topNavigation } from "./top-navigation.mjs";

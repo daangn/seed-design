@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: text-button
+  name: Text Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          minWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.brand-solid
+          minHeight: $dimension.x9
+          gap: $dimension.x1
+          paddingX: $dimension.x3_5
+          paddingY: $dimension.x2
+          cornerRadius: $radius.r2
+        label:
+          color: $color.fg.neutral-muted
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.bold
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
