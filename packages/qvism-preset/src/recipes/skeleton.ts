@@ -11,8 +11,8 @@ const skeleton = defineRecipe({
 
     "--seed-box-width": "initial",
     "--seed-box-height": "initial",
-    width: "--seed-box-width",
-    height: "--seed-box-height",
+    width: "var(--seed-box-width)",
+    height: "var(--seed-box-height)",
 
     "&::after": {
       content: "''",
