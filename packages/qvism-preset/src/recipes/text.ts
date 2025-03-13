@@ -35,7 +35,6 @@ const text = defineRecipe({
     ) as Record<Uncapitalize<OmitPrefix<keyof typeof vars>>, any>,
     maxLines: {
       none: {
-        display: "unset",
         overflow: "unset",
         minWidth: "unset",
         textOverflow: "unset",
