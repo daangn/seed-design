@@ -19,7 +19,7 @@ data:
           timingFunction:
             type: cubicBezier
           color:
-            type: color
+            type: gradient
   definitions:
     base:
       enabled:
