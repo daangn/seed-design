@@ -20,6 +20,7 @@ export function BackgroundExample() {
       <div className="bg-carrot900">Scale Carrot High Background</div>
       <div className="bg-staticBlack">Static Black Background</div>
       <div className="bg-staticWhite">Static White Background</div>
+      <div className="bg-staticGray900">Static Gray900 Background</div>
     </div>
   );
 }

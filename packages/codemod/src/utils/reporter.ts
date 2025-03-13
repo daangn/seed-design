@@ -5,7 +5,7 @@ interface TokenMigrationResult {
   previousToken: string;
   nextToken: string | null;
   line?: number;
-  status: "success" | "failure";
+  status: "success" | "failure" | "warning";
   failureReason?: string;
 }
 
@@ -85,7 +85,12 @@ export class TokenMigrationReporter {
         const resultsList = file.results
           .map((result) => {
             const lineInfo = result.line ? ` (line: ${result.line})` : "";
-            const status = result.status === "success" ? "✅" : "❌";
+            const status =
+              result.status === "success"
+                ? "✅ success"
+                : result.status === "warning"
+                  ? "⚠️ warning"
+                  : "❌ failure";
             const failureInfo = result.failureReason
               ? `\n    - reason: ${result.failureReason}`
               : "";
@@ -99,6 +104,7 @@ export class TokenMigrationReporter {
 - summary:
   - total: ${file.results.length}
   - success: ${file.results.filter((result) => result.status === "success").length}
+  - warning: ${file.results.filter((result) => result.status === "warning").length}
   - failure: ${file.results.filter((result) => result.status === "failure").length}
 - lines
 ${resultsList}`;

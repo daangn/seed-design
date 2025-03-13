@@ -596,47 +596,58 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-gray-900",
-    next: ["$color.palette.gray-1000"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-carrot-50",
-    next: ["$color.palette.carrot-100"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-carrot-800",
-    next: ["$color.palette.carrot-700"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-green-50",
-    next: ["$color.palette.green-100"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-green-800",
-    next: ["$color.palette.green-700"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-yellow-50",
-    next: ["$color.palette.yellow-100"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-yellow-800",
-    next: ["$color.palette.yellow-800"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-red-50",
-    next: ["$color.palette.red-100"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-red-800",
-    next: ["$color.palette.red-700"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-blue-50",
-    next: ["$color.palette.blue-100"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-blue-800",
-    next: ["$color.palette.blue-700"],
+    next: [],
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-black-alpha-200",
@@ -649,7 +660,7 @@ export const staticColorMappings = [
   {
     previous: "$static.color.static-white-alpha-50",
     next: [],
-    description: "deleted",
+    description: "static 색상 사용 확인이 필요합니다.",
   },
   {
     previous: "$static.color.static-white-alpha-200",
