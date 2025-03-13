@@ -143,7 +143,6 @@
     --seed-font-weight: var(--seed-font-weight-bold)
 }
 .seed-text--maxLines_none {
-    display: unset;
     overflow: unset;
     min-width: unset;
     text-overflow: unset;
