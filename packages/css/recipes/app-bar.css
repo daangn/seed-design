@@ -1,5 +1,6 @@
 .seed-app-bar__root {
     z-index: var(--z-index-app-bar);
+    top: var(--seed-safe-area-top);
     position: absolute;
     box-sizing: border-box;
     width: 100%;

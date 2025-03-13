@@ -4597,6 +4597,7 @@
 
 .seed-app-bar__root {
   z-index: var(--z-index-app-bar);
+  top: var(--seed-safe-area-top);
   box-sizing: border-box;
   align-items: flex-end;
   width: 100%;
