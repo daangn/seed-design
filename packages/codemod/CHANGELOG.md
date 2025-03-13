@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.16
+
+### Patch Changes
+
+- 95b140f: fix: support dynamic import in ESM
+
 ## 0.0.15
 
 ### Patch Changes
