@@ -8,7 +8,7 @@
     "directory": "packages/codemod"
   },
   "license": "MIT",
-  "bin": "./bin/index.mjs",
+  "bin": "./bin/index.cjs",
   "files": [
     "bin"
   ],
