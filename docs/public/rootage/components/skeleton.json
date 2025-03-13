@@ -28,7 +28,7 @@
               "type": "cubicBezier"
             },
             "color": {
-              "type": "color"
+              "type": "gradient"
             }
           }
         }
