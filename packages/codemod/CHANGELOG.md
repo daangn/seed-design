@@ -25,7 +25,7 @@
 
 - e2423fa: add prefix in tailwind color codemod, and remove external field
 - 296ce10: - add replace-color-prop transform
-  - replace-vars-color change import css to react
+  - replace-color-design-token change import css to react
 
 ## 0.0.12-rc.3
 

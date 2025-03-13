@@ -15,7 +15,7 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
 
   let reporterInstance: TokenMigrationReporter | null = null;
   if (reporter) {
-    reporterInstance = new TokenMigrationReporter("replace-vars-color");
+    reporterInstance = new TokenMigrationReporter("replace-color-design-token");
     reporterInstance.startNewFile(file.path);
   }
 
