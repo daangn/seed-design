@@ -131,6 +131,7 @@ export const appBar = defineSlotRecipe({
   base: {
     root: {
       zIndex: "var(--z-index-app-bar)",
+      top: "var(--seed-safe-area-top)",
 
       position: "absolute",
       boxSizing: "border-box",
