@@ -146,15 +146,57 @@ function transformUtilityTokenSimple(token: string, todosToAdd: Set<TodoInfo>): 
 }
 
 // modifier가 포함된 토큰(ex: hover:bg-blue500, after:border-t-gray200) 처리
-function transformTailwindColorTokenSimple(token: string, todosToAdd: Set<TodoInfo>): string {
-  if (token.includes(":")) {
-    const parts = token.split(":");
-    // 마지막 요소가 실제 색상 토큰
-    const utilityToken = parts.pop()!;
-    const transformedUtility = transformUtilityTokenSimple(utilityToken, todosToAdd);
-    return parts.concat(transformedUtility).join(":");
+function transformTailwindColorTokenSimple(
+  originalToken: string,
+  todosToAdd: Set<TodoInfo>,
+): string {
+  let currentToken = originalToken;
+
+  // important(!) 처리 - 토큰 시작 부분
+  let hasLeadingImportant = false;
+  if (currentToken.startsWith("!")) {
+    hasLeadingImportant = true;
+    currentToken = currentToken.slice(1);
   }
-  return transformUtilityTokenSimple(token, todosToAdd);
+
+  // modifier 처리
+  const modifiers: string[] = [];
+  while (currentToken.includes(":")) {
+    const [modifier, ...rest] = currentToken.split(":");
+    // modifier 내의 important(!) 처리
+    if (modifier.includes("!")) {
+      const parts = modifier.split("!");
+      if (parts[0]) {
+        modifiers.push(parts[0]);
+      }
+      currentToken = `!${rest.join(":")}`;
+    } else {
+      modifiers.push(modifier);
+      currentToken = rest.join(":");
+    }
+  }
+
+  // 기본 토큰 변환 (important가 있는 경우 제거 후 변환)
+  let transformedToken = currentToken;
+  if (transformedToken.startsWith("!")) {
+    transformedToken = transformUtilityTokenSimple(transformedToken.slice(1), todosToAdd);
+    transformedToken = `!${transformedToken}`;
+  } else {
+    transformedToken = transformUtilityTokenSimple(transformedToken, todosToAdd);
+  }
+
+  // modifier 다시 조합
+  let result = transformedToken;
+  if (modifiers.length > 0) {
+    result = `${modifiers.join(":")}:${result}`;
+  }
+
+  // 시작 부분의 important 추가
+  if (hasLeadingImportant) {
+    result = `!${result}`;
+  }
+
+  return result;
 }
 
 // 전체 Tailwind 클래스 문자열 처리: 공백으로 분리 후 각 토큰 변환
