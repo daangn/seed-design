@@ -2,4 +2,4 @@
 "@seed-design/codemod": patch
 ---
 
-fix: support cjs
+fix: support dynamic import in ESM
