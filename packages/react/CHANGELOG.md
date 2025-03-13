@@ -1,5 +1,16 @@
 # @seed-design/react
 
+## 0.0.6
+
+### Patch Changes
+
+- 3d66c5b: visuallyHidden을 recipe에서 제거합니다.
+- Updated dependencies [bf198e8]
+- Updated dependencies [3d66c5b]
+- Updated dependencies [a8d5242]
+- Updated dependencies [ccf3989]
+  - @seed-design/css@0.0.6
+
 ## 0.0.5
 
 ### Patch Changes

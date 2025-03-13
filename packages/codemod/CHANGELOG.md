@@ -1,5 +1,18 @@
 # @seed-design/codemod
 
+## 0.0.15
+
+### Patch Changes
+
+- 4f465ba: - add replace-text-component transform
+  - add reporter warning message
+  - add more complex test case in replace-tailwind-typography
+  - replace-vars-color -> replace-color-design-token
+  - add replace-typography-design-token
+  - add replace-css-typography-variable
+- Updated dependencies [4f465ba]
+  - @seed-design/migration-index@0.0.3
+
 ## 0.0.14
 
 ### Patch Changes
