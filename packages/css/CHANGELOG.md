@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.7
+
+### Patch Changes
+
+- 8aca3de: remove text maxLines none display unset
+
 ## 0.0.6
 
 ### Patch Changes
