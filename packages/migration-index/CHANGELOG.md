@@ -1,5 +1,11 @@
 # @seed-design/migration-index
 
+## 0.0.3
+
+### Patch Changes
+
+- 4f465ba: remove static next token
+
 ## 0.0.2
 
 ### Patch Changes

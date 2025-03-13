@@ -1,5 +1,14 @@
 # @seed-design/css
 
+## 0.0.6
+
+### Patch Changes
+
+- bf198e8: Skeleton의 width, height가 동작하지 않는 버그를 수정합니다.
+- 3d66c5b: visuallyHidden을 recipe에서 제거합니다.
+- a8d5242: callout, inline banner 디자인 스펙 수정
+- ccf3989: fix: add --seed-safe-area-top in app-bar
+
 ## 0.0.5
 
 ### Patch Changes
