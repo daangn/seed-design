@@ -16,7 +16,8 @@
     "dev": "bun ./dev.mjs",
     "build": "bun ./build.mjs",
     "test": "LOG=true bun vitest",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "generate-docs": "bun src/scripts/generate-docs.ts"
   },
   "dependencies": {
     "@seed-design/migration-index": "^0.0.3",
