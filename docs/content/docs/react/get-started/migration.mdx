@@ -145,6 +145,110 @@ export default function App() {
 
 </Steps>
 
-## Changes
+{/* 컴포넌트 설계 개선 - V3에서는 컴포넌트 설계가 더 일관되고 모듈화되었습니다. 각 컴포넌트는 명확한 목적과 사용 패턴을 가지며, 보다 예측 가능한 API를 제공합니다.
+슬롯 기반 컴포넌트 시스템 - V3에서는 많은 컴포넌트가 슬롯 기반 구조로 개선되었습니다. 이를 통해 컴포넌트의 각 부분을 더 유연하게 스타일링하고 제어할 수 있습니다.
+의미론적 디자인 토큰 - 컬러, 사이즈, 스페이싱 등의 디자인 토큰이 더 의미론적으로 개선되어 컴포넌트 간 일관성이 향상되었습니다.
+모바일 최적화 - AppBar, AppScreen, PullToRefresh 등 모바일 환경에 최적화된 컴포넌트가 추가되어 모바일 앱과 같은 사용자 경험을 제공합니다.
+접근성 개선 - VisuallyHidden과 같은 접근성 중심 컴포넌트가 추가되어 스크린 리더 지원이 향상되었습니다.
+고급 상호작용 컴포넌트 - ActionSheet, BottomSheet 등 모바일 앱에서 자주 사용되는 상호작용 패턴을 위한 컴포넌트가 추가되었습니다.
+일관된 변형 시스템 - 컴포넌트 전반에 걸쳐 variant, size, layout과 같은 공통 속성을 일관되게 적용하여 학습 곡선을 완화했습니다. */}
 
-TBD
+## Components changes
+
+### Action Button
+
+V2의 [BoxButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-boxbutton--docs), [TextButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-textbutton--docs)을 대체하는 통합 버튼 컴포넌트
+
+```tsx
+// [!code --]
+import { BoxButton, TextButton } from "@daangn/sprout-components-button";
+// [!code ++]
+import { ActionButton } from "seed-design/ui/action-button";
+```
+
+#### Changes
+
+- `xlarge` size 제거
+- 전체적인 variant 명칭 변경 (`brandSolid`, `neutralSolid`, `brandOutline`, `criticalSolid`)
+- 추가된 variant (`neutralWeak`, `neutralOutline`)
+- `isLoading`이 `loading`으로 변경
+- `layout` prop 추가 (`withText`, `iconOnly`)
+- `prefix`, `suffix`: 아이콘 배치 방식이 `children`으로 통합
+
+#### Icon Usage
+
+아이콘 배치 방식이 `children`으로 통합되어 아이콘 배치 방식이 달라졌어요.
+
+```tsx
+import { IconPlusFill } from "@daangn/react-monochrome-icon";
+// [!code ++]
+import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
+import { ActionButton } from "seed-design/ui/action-button";
+
+export default function ActionButtonPrefixIcon() {
+  return (
+    <>
+      {/* [!code --] */}
+      <BoxButton prefix={<IconPlusFill />} />
+      {/* [!code --] */}
+      <BoxButton suffix={<IconPlusFill />} />
+
+      <ActionButton>
+        {/* [!code ++] */}
+        <PrefixIcon svg={<IconPlusFill />} />
+        Prefix Icon
+      </ActionButton>
+      <ActionButton>
+        {/* [!code ++] */}
+        <SuffixIcon svg={<IconPlusFill />} />
+        Suffix Icon
+      </ActionButton>
+      <ActionButton>
+        {/* [!code ++] */}
+        <Icon svg={<IconPlusFill />} />
+      </ActionButton>
+    </>
+  );
+}
+```
+
+AppBar, AppBarMain - 모바일 앱의 상단 내비게이션 바
+AppScreen - 모바일 앱 화면 컨테이너
+PullToRefresh - 모바일 당겨서 새로고침 기능
+SkeletonRegion - 로딩 상태를 표시하는 스켈레톤 UI
+VisuallyHidden - 시각적으로는 보이지 않지만 스크린 리더에는 인식되는 접근성 컴포넌트
+ActionSheet, ExtendedActionSheet - 모바일 앱 스타일의 액션 시트
+SnackbarRegion - 스낵바가 표시될 위치를 지정하는 컴포넌트
+MannerTempBadge - 매너온도 표시용 특수 배지
+LinkContent - 링크 스타일 컨텐츠 표시 컴포넌트
+
+## 통합된 컴포넌트
+
+ActionButton - V2의 BoxButton, TextButton을 대체하는 통합 버튼 컴포넌트
+ActionChip, ControlChip - V2의 ChipButton, ChipToggleButton을 대체하는 칩 컴포넌트
+Badge - 향상된 배지 컴포넌트로 더 다양한 스타일 옵션 제공
+
+## 개선된 컴포넌트
+
+Avatar - V3에서는 크기 옵션이 숫자 기반으로 변경됨 (size: "20" | "24" | "36" | "48" | "64" | "80" | "96")
+TextField - 슬롯 기반 구조로 재설계되어 더 세밀한 스타일링 가능
+Dialog, BottomSheet - 모바일 환경에 최적화된 대화상자 컴포넌트로 개선
+Tabs, ChipTabs - 목적에 따라 구분된 탭 컴포넌트 제공
+Text - textStyle prop을 통해 더 의미있는 타이포그래피 스타일 적용 가능
+
+## 재구성된 컴포넌트
+
+Switch - 간소화된 API로 재구성
+Radio - 독립 컴포넌트로 분리되어 더 유연한 사용성 제공
+Checkbox - variant 옵션이 "square" | "ghost"로 단순화됨 (circle 옵션 제거)
+Callout - 슬롯 기반 시스템으로 재구성되어 더 유연한 내용 구성 가능
+
+## Minor changes
+
+### zag 관련 버전 이슈 해결
+
+컴포넌트별로 다른 버전의 `@zag-js/core` 를 사용하는 경우 proxyState 관련 이슈가 발생하던 것을 해결해요.
+
+```
+Uncaught TypeError: proxyState is not iterable
+```
