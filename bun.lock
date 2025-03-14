@@ -273,7 +273,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "0.0.16",
+      "version": "0.0.17",
       "bin": "./bin/index.cjs",
       "dependencies": {
         "@seed-design/migration-index": "^0.0.3",
