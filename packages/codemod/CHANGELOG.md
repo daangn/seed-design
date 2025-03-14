@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.17
+
+### Patch Changes
+
+- 93eaaeb: feat: change spawn to execa
+
 ## 0.0.16
 
 ### Patch Changes
