@@ -10,7 +10,8 @@
       "@seed-design/vite-plugin",
       "@seed-design/webpack-plugin",
       "@seed-design/rsbuild-plugin"
-    ]
+    ],
+    ["@seed-design/codemod", "@seed-design/migration-index"]
   ],
   "access": "restricted",
   "baseBranch": "dev",

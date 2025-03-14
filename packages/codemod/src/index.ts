@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { cac } from "cac";
-import { spawn } from "child_process";
+import { execa } from "execa";
 import { readdirSync } from "fs";
 import { resolve } from "path";
 import { minVersion, satisfies } from "semver";
@@ -99,6 +99,8 @@ Node.js 버전을 업그레이드해주세요.
   }
 }
 
+const cssTransformers = ["replace-css-color-variable", "replace-css-typography-variable"];
+
 async function runTransform(
   transformPath: string,
   transformName: string,
@@ -110,7 +112,7 @@ async function runTransform(
   const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
 
-  if (transformName === "replace-css-color-variable") {
+  if (cssTransformers.includes(transformName)) {
     const transformModule = require(transformPath);
     transformModule.processCssFiles(paths, options);
     return;
@@ -123,23 +125,23 @@ async function runTransform(
     });
   }
 
-  return new Promise((resolve, reject) => {
-    const args = [
-      jscodeshiftPath,
-      "--transform",
-      transformPath,
-      "--parser",
-      parser,
-      "--ignore-pattern",
-      "**/*.d.ts",
-      ...fixedPaths,
-    ];
+  const args = [
+    jscodeshiftPath,
+    "--transform",
+    transformPath,
+    "--parser",
+    parser,
+    "--ignore-pattern",
+    "**/*.d.ts",
+    ...fixedPaths,
+  ];
 
-    if (reporter) args.push("--reporter");
-    if (extensions) args.push("--extensions", extensions);
-    if (ignoreConfig) args.push("--ignore-config", ignoreConfig);
+  if (reporter) args.push("--reporter");
+  if (extensions) args.push("--extensions", extensions);
+  if (ignoreConfig) args.push("--ignore-config", ignoreConfig);
 
-    const child = spawn("node", args, {
+  try {
+    const subprocess = execa("node", args, {
       stdio: "inherit",
       env: {
         ...process.env,
@@ -149,18 +151,16 @@ async function runTransform(
       },
     });
 
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve(undefined);
-      } else {
-        reject(new Error(`Transform failed with code ${code}`));
-      }
-    });
-
-    child.on("error", (err) => {
-      reject(err);
-    });
-  });
+    // execa는 Promise를 반환하므로 await로 처리
+    await subprocess;
+    return;
+  } catch (error) {
+    // execa는 프로세스가 0이 아닌 종료 코드로 종료되면 에러를 던짐
+    if (error.exitCode) {
+      throw new Error(`Transform failed with code ${error.exitCode}`);
+    }
+    throw error;
+  }
 }
 
 function getAvailableTransforms() {

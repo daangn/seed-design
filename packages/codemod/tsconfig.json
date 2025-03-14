@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "preserveWatchOutput": true,
     "isolatedModules": false,
     "skipLibCheck": false
   },
