@@ -206,21 +206,27 @@ function transformTailwindClassesSimple(classStr: string, todosToAdd: Set<TodoIn
   return newClassNames.join(" ");
 }
 
-const transform: Transform = (file, api, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { reporter } = inferredOptions;
+const transform: Transform = (file, api, _options) => {
+  // 환경 변수에서 REPORTER 값을 확인
+  const reporter = process.env.REPORTER === "true";
 
   const j = api.jscodeshift;
   const root = j(file.source);
 
   let reporterInstance: TokenMigrationReporter | null = null;
   if (reporter) {
-    reporterInstance = new TokenMigrationReporter("replace-tailwind-color");
-    reporterInstance.startNewFile(file.path);
+    try {
+      reporterInstance = new TokenMigrationReporter("replace-tailwind-color");
+      if (file.path) {
+        reporterInstance.startNewFile(file.path);
+      }
+    } catch (error) {
+      console.error("Failed to initialize reporter:", error);
+    }
   }
 
-  // JSX 요소의 className 속성 처리
-  root.find(j.JSXAttribute, { name: { name: "className" } }).forEach((path) => {
+  // 클래스 이름 속성 처리 함수
+  const processClassNameAttribute = (path) => {
     const attributeValue = path.node.value;
     if (!attributeValue) return;
 
@@ -233,12 +239,16 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClassesSimple(original, todosToAdd);
 
       if (original !== transformed && reporterInstance) {
-        reporterInstance.addResult({
-          previousToken: original,
-          nextToken: transformed,
-          status: "success",
-          line: attributeValue.loc?.start.line,
-        });
+        try {
+          reporterInstance.addResult({
+            previousToken: original,
+            nextToken: transformed,
+            status: "success",
+            line: attributeValue.loc?.start?.line,
+          });
+        } catch (error) {
+          console.error("Failed to add result to reporter:", error);
+        }
       }
       attributeValue.value = transformed;
     }
@@ -252,12 +262,16 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClassesSimple(original, todosToAdd);
 
       if (original !== transformed && reporterInstance) {
-        reporterInstance.addResult({
-          previousToken: original,
-          nextToken: transformed,
-          status: "success",
-          line: attributeValue.expression.loc?.start.line,
-        });
+        try {
+          reporterInstance.addResult({
+            previousToken: original,
+            nextToken: transformed,
+            status: "success",
+            line: attributeValue.expression.loc?.start.line,
+          });
+        } catch (error) {
+          console.error("Failed to add result to reporter:", error);
+        }
       }
       attributeValue.expression.value = transformed;
     }
@@ -273,12 +287,16 @@ const transform: Transform = (file, api, options) => {
         const transformed = transformTailwindClassesSimple(original, todosToAdd);
 
         if (original !== transformed && reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: original,
-            nextToken: transformed,
-            status: "success",
-            line: elem.loc?.start.line,
-          });
+          try {
+            reporterInstance.addResult({
+              previousToken: original,
+              nextToken: transformed,
+              status: "success",
+              line: elem.loc?.start.line,
+            });
+          } catch (error) {
+            console.error("Failed to add result to reporter:", error);
+          }
         }
         elem.value.raw = transformed;
         elem.value.cooked = transformed;
@@ -288,16 +306,28 @@ const transform: Transform = (file, api, options) => {
     // TODO 주석 추가
     if (todosToAdd.size > 0 && reporterInstance) {
       for (const todoInfo of todosToAdd) {
-        reporterInstance.addResult({
-          previousToken: todoInfo.token,
-          nextToken: todoInfo.token,
-          status: "warning",
-          failureReason: todoInfo.description,
-          line: path.node.loc?.start.line,
-        });
+        try {
+          reporterInstance.addResult({
+            previousToken: todoInfo.token,
+            nextToken: todoInfo.token,
+            status: "warning",
+            failureReason: todoInfo.description,
+            line: path.node.loc?.start.line,
+          });
+        } catch (error) {
+          console.error("Failed to add result to reporter:", error);
+        }
       }
     }
-  });
+  };
+
+  // JSX 요소의 className 속성 처리
+  root.find(j.JSXAttribute, { name: { name: "className" } }).forEach(processClassNameAttribute);
+
+  // JSX 요소의 UNSAFE_className 속성 처리
+  root
+    .find(j.JSXAttribute, { name: { name: "UNSAFE_className" } })
+    .forEach(processClassNameAttribute);
 
   // StringLiteral 내 Tailwind 클래스 처리 (JSX 요소 외부)
   root.find(j.StringLiteral).forEach((path) => {
@@ -317,12 +347,16 @@ const transform: Transform = (file, api, options) => {
     const transformed = transformTailwindClassesSimple(original, todosToAdd);
 
     if (original !== transformed && reporterInstance) {
-      reporterInstance.addResult({
-        previousToken: original,
-        nextToken: transformed,
-        status: "success",
-        line: path.node.loc?.start.line,
-      });
+      try {
+        reporterInstance.addResult({
+          previousToken: original,
+          nextToken: transformed,
+          status: "success",
+          line: path.node.loc?.start.line,
+        });
+      } catch (error) {
+        console.error("Failed to add result to reporter:", error);
+      }
     }
     path.node.value = transformed;
   });
@@ -345,12 +379,16 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClassesSimple(original, todosToAdd);
 
       if (original !== transformed && reporterInstance) {
-        reporterInstance.addResult({
-          previousToken: original,
-          nextToken: transformed,
-          status: "success",
-          line: elem.loc?.start.line,
-        });
+        try {
+          reporterInstance.addResult({
+            previousToken: original,
+            nextToken: transformed,
+            status: "success",
+            line: elem.loc?.start.line,
+          });
+        } catch (error) {
+          console.error("Failed to add result to reporter:", error);
+        }
       }
       elem.value.raw = transformed;
       elem.value.cooked = transformed;
@@ -358,8 +396,12 @@ const transform: Transform = (file, api, options) => {
   });
 
   if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
+    try {
+      reporterInstance.finishFile();
+      reporterInstance.writeReport();
+    } catch (error) {
+      console.error("Failed to write report:", error);
+    }
   }
 
   return root.toSource();
