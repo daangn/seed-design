@@ -274,10 +274,11 @@
     "packages/codemod": {
       "name": "@seed-design/codemod",
       "version": "0.0.16",
-      "bin": "./bin/index.mjs",
+      "bin": "./bin/index.cjs",
       "dependencies": {
-        "@seed-design/migration-index": "0.0.1",
+        "@seed-design/migration-index": "^0.0.3",
         "cac": "^6.7.14",
+        "change-case": "^5.4.4",
         "es-toolkit": "^1.25.2",
         "execa": "^9.4.1",
         "glob": "^11.0.1",
@@ -292,7 +293,6 @@
       "devDependencies": {
         "@types/jscodeshift": "^0.12.0",
         "@types/node": "^22.10.2",
-        "change-case": "^5.4.4",
         "csv-parse": "^5.5.6",
         "dotenv": "^16.4.5",
         "esbuild": "^0.25.0",

@@ -19,8 +19,9 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/migration-index": "0.0.3",
+    "@seed-design/migration-index": "^0.0.3",
     "cac": "^6.7.14",
+    "change-case": "^5.4.4",
     "es-toolkit": "^1.25.2",
     "execa": "^9.4.1",
     "glob": "^11.0.1",
@@ -29,7 +30,6 @@
     "postcss": "^8.5.3",
     "semver": "^7.6.3",
     "simple-git": "^3.27.0",
-    "change-case": "^5.4.4",
     "winston": "^3.15.0",
     "zod": "^3.23.8"
   },
