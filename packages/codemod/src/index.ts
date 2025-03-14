@@ -136,26 +136,26 @@ async function runTransform(
     ...fixedPaths,
   ];
 
-  if (reporter) args.push("--reporter");
   if (extensions) args.push("--extensions", extensions);
   if (ignoreConfig) args.push("--ignore-config", ignoreConfig);
 
   try {
+    const env = {
+      ...process.env,
+      LOG: String(log),
+      TRACK: String(isTrackEnabled),
+      GIT_INFO: JSON.stringify(globalGitInfo),
+      REPORTER: String(reporter || false),
+    };
+
     const subprocess = execa("node", args, {
       stdio: "inherit",
-      env: {
-        ...process.env,
-        LOG: String(log),
-        TRACK: String(isTrackEnabled),
-        GIT_INFO: JSON.stringify(globalGitInfo),
-      },
+      env,
     });
 
-    // execa는 Promise를 반환하므로 await로 처리
     await subprocess;
     return;
   } catch (error) {
-    // execa는 프로세스가 0이 아닌 종료 코드로 종료되면 에러를 던짐
     if (error.exitCode) {
       throw new Error(`Transform failed with code ${error.exitCode}`);
     }
