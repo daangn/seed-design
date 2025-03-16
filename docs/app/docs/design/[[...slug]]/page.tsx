@@ -23,13 +23,13 @@ export default async function Page({
 }: {
   params: { slug?: string[] };
 }) {
-  const fullPath = ["design", ...(params.slug ?? [])];
-  const page = source.getPage(fullPath);
+  const fullSlug = ["design", ...(params.slug ?? [])];
+  const page = source.getPage(fullSlug);
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
-  const path = getPath(params.slug ?? []);
 
+  const path = getPath(fullSlug);
   const guideline = await client.fetch(GUIDELINE_QUERY, { path }, { cache: "no-store" });
   const guidelineToc =
     guideline?.toc?.map((item: PortableTextBlock) => {
