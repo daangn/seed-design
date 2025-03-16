@@ -153,7 +153,7 @@ function useTextStyleMigrationState() {
   }, [results, currentlyViewing]);
 
   const applyTextStyle = useCallback(
-    (textNodeIds: SerializedTextNode["id"][], textStyleId: SerializedTextStyle["id"]) => {
+    async (textNodeIds: SerializedTextNode["id"][], textStyleId: SerializedTextStyle["id"]) => {
       setResults((prev) => {
         if (!prev) return prev;
 

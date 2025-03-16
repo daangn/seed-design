@@ -1,4 +1,6 @@
-import * as v3TextStyles from "@/features/design-system/data/__generated__/styles";
+import * as v3TextStyles from "@/features/design-system/data/__generated__/v3-styles";
+import * as v2TextStyles from "@/features/design-system/data/__generated__/v2-styles";
+import { typographyMappings } from "@seed-design/migration-index/typography";
 import type {
   SerializedTextStyleSuggestionsResults,
   GroupedSerializedTextStyleSuggestionsResults,
@@ -17,6 +19,7 @@ import {
   getLineHeightUnitString,
   getTextPropertyDifferences,
 } from "@/features/design-system/utils/text-node-properties";
+import * as changeCase from "change-case";
 
 const v3TextStyleKeys = Object.values(v3TextStyles).map(({ key }) => key);
 
@@ -36,11 +39,20 @@ export async function getSerializedTextStyleSuggestions({
   // figma.teamLibrary에서는 variable만 확인할 수 있고, style은 확인할 수 없다.
   // 하드코딩한 key를 가지고 있는 게 현재로서는 최선
 
-  const styles = await Promise.all(v3TextStyleKeys.map((key) => figma.importStyleByKeyAsync(key)));
-  const textStyles = styles.filter(({ type }) => type === "TEXT") as TextStyle[];
+  let textStyles: TextStyle[] = [];
+  try {
+    const styles = await Promise.all(
+      v3TextStyleKeys.map((key) => figma.importStyleByKeyAsync(key)),
+    );
+    textStyles = styles.filter(({ type }) => type === "TEXT") as TextStyle[];
 
-  // library 추가되어있지 않아도 텍스트 스타일 import는 가능함.
-  if (textStyles.length === 0) {
+    // library 추가되어있지 않아도 텍스트 스타일 import는 가능함.
+    if (textStyles.length === 0) {
+      throw new Error(
+        "텍스트 스타일을 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
+      );
+    }
+  } catch {
     throw new Error(
       "텍스트 스타일을 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
     );
@@ -51,7 +63,7 @@ export async function getSerializedTextStyleSuggestions({
   for await (const textNode of textNodesInTarget) {
     if (await isNodeWithinSystemComponents({ node: textNode, systemComponentKeys })) continue;
 
-    const suggestions = getTextStyleSuggestions(textNode, textStyles);
+    const suggestions = await getTextStyleSuggestions(textNode, textStyles);
 
     const minDistance = Math.min(...suggestions.map(({ distance }) => distance));
 
@@ -94,8 +106,7 @@ export async function getSerializedTextStyleSuggestions({
     }),
   );
 
-  const grouped: GroupedSerializedTextStyleSuggestionsResults =
-    groupSerializedTextStyleSuggestionsResults(serializedResults);
+  const grouped = await groupSerializedTextStyleSuggestionsResults(serializedResults);
 
   const sorted = grouped.sort((a, b) => {
     const aUnselectedCount = a.items.filter(
@@ -148,55 +159,57 @@ export function groupSerializedTextStyleSuggestionsResults(
 
 // 가정: 마이그레이션 대상 화면은 iOS 기준으로 디자인되어 있다.
 // 혹시 모르니 property에 android같은 정보 있으면 실행 전 알려주는 것도 좋을 듯
-export function getTextStyleSuggestions(textNode: TextNode, availableTextStyles: TextStyle[]) {
-  return availableTextStyles
-    .map((textStyle) => {
-      const { fontSize, fontWeight, lineHeight } = textNode;
+export async function getTextStyleSuggestions(
+  textNode: TextNode,
+  availableTextStyles: TextStyle[],
+) {
+  // 현재 노드의 스타일 키를 가져옵니다
+  const currentStyleId = textNode.getStyledTextSegments(["textStyleId"])[0]?.textStyleId;
 
-      // textStyle의 속성들은 mode가 달라져도 기본 mode(V3 Typo에서 iOS)의 값으로 나온다.
-      // (모드별 값을 알고 싶으면 boundVariables 참고 필요)
-      // 따라서, iOS 기준으로 그려진 대상 화면 - iOS 기준 textStyle 속성 값을 바로 비교 가능.
-      const {
-        fontSize: styleFontSize,
-        lineHeight: styleLineHeight,
-        fontName: { style: styleFontStyle },
-      } = textStyle;
+  if (!currentStyleId) return [];
 
-      const styleFontWeight = getFontWeight(styleFontStyle);
+  const currentStyle = Object.values(v2TextStyles).find((style) => style.key === currentStyleId);
+  if (!currentStyle) return [];
 
-      if (!styleFontWeight) return null;
+  // v2 스타일 이름에서 플랫폼 정보를 제거하고 실제 스타일 이름만 추출
+  const [, ...styleParts] = currentStyle.name.split("/");
+  const v2StyleName = styleParts.join("/");
 
-      const differences = getTextPropertyDifferences(
-        { fontSize: styleFontSize, fontWeight: styleFontWeight, lineHeight: styleLineHeight },
-        { fontSize, fontWeight, lineHeight },
-      );
+  // V2 스타일에서 V3 스타일로의 매핑을 찾습니다
+  const mapping = typographyMappings.find((mapping) => {
+    const semanticName = mapping.previous.split(".").pop() ?? "";
+    return changeCase.kebabCase(semanticName) === v2StyleName;
+  });
 
-      if (
-        differences.fontSize === null ||
-        differences.fontWeight === null ||
-        differences.lineHeight === null
-      )
-        return null;
+  if (!mapping) return [];
 
-      // o: 정확히 일치하는 경우
-      if (
-        differences.fontSize === 0 &&
-        differences.fontWeight === 0 &&
-        differences.lineHeight === 0
-      )
-        return { distance: 0, textStyle, differences };
+  // deprecated된 스타일이고 대체 스타일이 있는 경우
+  const nextStyles = mapping.next.length > 0 ? mapping.next : mapping.alternative || [];
 
-      // o: fontSize와 fontWeight가 일치하는 경우
-      if (differences.fontSize === 0 && differences.fontWeight === 0)
-        return { distance: 1, textStyle, differences };
+  if (nextStyles.length === 0) return [];
 
-      return null;
-    })
-    .filter((suggestion) => suggestion !== null)
-    .sort((a, b) => {
-      if (a.distance === b.distance)
-        return Math.abs(a.differences.lineHeight ?? 0) - Math.abs(b.differences.lineHeight ?? 0);
+  const suggestions = await Promise.all(
+    nextStyles.map(async (nextStyleName) => {
+      // nextStyleName을 kebab-case로 변환 (예: t1Bold -> t1-bold)
+      const kebabNextStyleName = `scale/${changeCase.kebabCase(nextStyleName)}`;
 
-      return a.distance - b.distance;
-    });
+      const matchedStyle = availableTextStyles.find((style) => style.name === kebabNextStyleName);
+
+      if (!matchedStyle) return null;
+
+      return {
+        distance: 0, // 매핑 테이블에 있는 경우 완벽한 매칭으로 간주
+        textStyle: matchedStyle,
+        differences: {
+          fontSize: 0,
+          fontWeight: 0,
+          lineHeight: 0,
+        },
+      };
+    }),
+  );
+
+  return suggestions.filter(
+    (suggestion): suggestion is NonNullable<typeof suggestion> => suggestion !== null,
+  );
 }
