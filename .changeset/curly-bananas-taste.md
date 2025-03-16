@@ -2,4 +2,4 @@
 "@seed-design/codemod": patch
 ---
 
-feat: change `--reporter` option to `--migration-reporter`
+feat: change `--reporter` option to `--migration-report`

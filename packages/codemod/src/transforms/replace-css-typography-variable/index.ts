@@ -1,6 +1,6 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { writeFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -105,11 +105,11 @@ const postcssPlugin: Plugin = {
 
 const transform: Transform = (file, _, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferredOptions;
+  const { migrationReport } = inferredOptions;
   let reporter_instance = null;
 
-  if (migrationReporter) {
-    reporter_instance = new TokenMigrationReporter("replace-css-typography-variable");
+  if (migrationReport) {
+    reporter_instance = new TokenMigrationReport("replace-css-typography-variable");
     reporter_instance.startNewFile(file.path);
   }
 

@@ -3,7 +3,7 @@ import { camelCase } from "change-case";
 import type { Transform } from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 
 export type ColorPrefix =
   | "text"
@@ -209,15 +209,15 @@ function transformTailwindClassesSimple(classStr: string, todosToAdd: Set<TodoIn
 const transform: Transform = (file, api, _options) => {
   // 환경 변수에서 REPORTER 값을 확인
   const inferredOptions = _options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferredOptions;
+  const { migrationReport } = inferredOptions;
 
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReporter | null = null;
-  if (migrationReporter) {
+  let reporterInstance: TokenMigrationReport | null = null;
+  if (migrationReport) {
     try {
-      reporterInstance = new TokenMigrationReporter("replace-tailwind-color");
+      reporterInstance = new TokenMigrationReport("replace-tailwind-color");
       if (file.path) {
         reporterInstance.startNewFile(file.path);
       }

@@ -2,20 +2,20 @@ import { colorMappings } from "@seed-design/migration-index/color";
 import type * as jscodeshift from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 import { buildMemberExpression, getMemberExpressionName } from "./ast-utils.js";
 import { handleImports } from "./import-handler.js";
 import { fromKebabCaseWithNumbers, toKebabCaseWithNumbers } from "./token-utils.js";
 
 const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
   const inferedOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferedOptions;
+  const { migrationReport } = inferedOptions;
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReporter | null = null;
-  if (migrationReporter) {
-    reporterInstance = new TokenMigrationReporter("replace-color-design-token");
+  let reporterInstance: TokenMigrationReport | null = null;
+  if (migrationReport) {
+    reporterInstance = new TokenMigrationReport("replace-color-design-token");
     reporterInstance.startNewFile(file.path);
   }
 

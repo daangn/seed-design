@@ -40,7 +40,7 @@ function setupCli(track) {
       "jscodeshift가 사용할 파서를 지정해요 (babel|babylon|flow|ts|tsx)",
       { default: "tsx" },
     )
-    .option("--migration-reporter", "변환 결과를 파일로 저장해요")
+    .option("--migration-report", "변환 결과를 파일로 저장해요", { default: true })
     .option("--extensions <extensions>", "변환할 파일 확장자")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
     .example("  $ npx @seed-design/codemod migrate-icons src/ui")

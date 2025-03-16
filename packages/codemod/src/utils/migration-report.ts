@@ -14,7 +14,7 @@ interface FileMigration {
   results: TokenMigrationResult[];
 }
 
-export class TokenMigrationReporter {
+export class TokenMigrationReport {
   private timestamp: string;
   private fileMigrations: FileMigration[] = [];
   private currentFile: FileMigration | null = null;

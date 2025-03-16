@@ -3,7 +3,7 @@ import { camelCase } from "change-case";
 import type { Transform } from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 
 function normalizePreviousToken(previous: string): string {
   const stripped = previous
@@ -60,13 +60,13 @@ function transformColorProp(value: string): string {
 
 const transform: Transform = (file, api, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferredOptions;
+  const { migrationReport } = inferredOptions;
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReporter | null = null;
-  if (migrationReporter) {
-    reporterInstance = new TokenMigrationReporter("replace-color-prop");
+  let reporterInstance: TokenMigrationReport | null = null;
+  if (migrationReport) {
+    reporterInstance = new TokenMigrationReport("replace-color-prop");
     reporterInstance.startNewFile(file.path);
   }
 

@@ -6,7 +6,7 @@ import { resolve } from "node:path";
 import postcss, { type Plugin } from "postcss";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 
 function transformCssVarValue(value: string): string {
   // CSS 변수 패턴을 찾아서 각각 변환
@@ -56,11 +56,11 @@ const postcssPlugin: Plugin = {
 
 const transform: Transform = (file, _, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferredOptions;
+  const { migrationReport } = inferredOptions;
   let reporter_instance = null;
 
-  if (migrationReporter) {
-    reporter_instance = new TokenMigrationReporter("replace-css-color-variable");
+  if (migrationReport) {
+    reporter_instance = new TokenMigrationReport("replace-css-color-variable");
     reporter_instance.startNewFile(file.path);
   }
 

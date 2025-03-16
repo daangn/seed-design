@@ -3,7 +3,7 @@ import { kebabCase } from "change-case";
 import type { Transform } from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
+import { TokenMigrationReport } from "../../utils/migration-report.js";
 
 /**
  * 타이포그래피 클래스명을 변환하는 함수
@@ -85,14 +85,14 @@ function transformTailwindClasses(classStr: string): string {
 
 const transform: Transform = (file, api, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReporter } = inferredOptions;
+  const { migrationReport } = inferredOptions;
 
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReporter | null = null;
-  if (migrationReporter) {
-    reporterInstance = new TokenMigrationReporter("replace-tailwind-typography");
+  let reporterInstance: TokenMigrationReport | null = null;
+  if (migrationReport) {
+    reporterInstance = new TokenMigrationReport("replace-tailwind-typography");
     reporterInstance.startNewFile(file.path);
   }
 
