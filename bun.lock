@@ -791,6 +791,7 @@
         "@floating-ui/dom": "^1.6.13",
         "@floating-ui/react-dom": "^2.1.2",
         "@june-so-sandbox/api": "^0.3.0",
+        "@seed-design/migration-index": "^0.0.3",
         "change-case": "^5.4.4",
         "clsx": "^2.1.1",
         "color-delta-e": "^1.3.0",

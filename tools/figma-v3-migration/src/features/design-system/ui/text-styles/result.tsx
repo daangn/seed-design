@@ -43,7 +43,7 @@ function TextLayerResult() {
       <div className="grow flex flex-col gap-2 w-full p-1.5 pt-0.5">
         <div className="font-semibold text-neutral-600 p-1">
           {suggestions.length === 0
-            ? "추천된 스타일이 없습니다. 직접 설정해주세요."
+            ? "해당 텍스트 스타일은 Deprecated 되었습니다. 다른 텍스트 스타일로 변경해주세요."
             : "이 레이어에 설정할 스타일을 선택하세요."}
         </div>
         {closestInstanceNode && (
@@ -83,7 +83,7 @@ function TextLayerGroupResult() {
       <div className="grow flex flex-col gap-2 w-full p-1.5 pt-0.5">
         <div className="font-semibold text-neutral-600 p-1">
           {suggestions.length === 0
-            ? "추천된 스타일이 없습니다. 직접 설정해주세요."
+            ? "해당 텍스트 스타일은 Deprecated 되었습니다. 다른 텍스트 스타일로 변경해주세요."
             : `${currentlyViewing.group.items.length ?? 0}개 텍스트 레이어에 일괄 설정할 스타일을 선택하세요.`}
         </div>
         {hasSelectedTextNodesWithinInstance && <InstanceWarningBanner />}
