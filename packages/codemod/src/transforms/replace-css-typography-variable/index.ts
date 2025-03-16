@@ -1,11 +1,12 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
-import { TokenMigrationReporter } from "../../utils/reporter.js";
+import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { writeFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { glob } from "glob";
-
+import type { transformOptionsSchema } from "../../schema.js";
+import type { z } from "zod";
 /**
  * 이전 토큰에서 새 토큰으로 변환하는 함수
  * @param previousToken 이전 토큰 (예: "$semantic.typography.label4-regular")
@@ -103,10 +104,11 @@ const postcssPlugin: Plugin = {
 };
 
 const transform: Transform = (file, _, options) => {
-  const { reporter } = options;
+  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
+  const { migrationReporter } = inferredOptions;
   let reporter_instance = null;
 
-  if (reporter) {
+  if (migrationReporter) {
     reporter_instance = new TokenMigrationReporter("replace-css-typography-variable");
     reporter_instance.startNewFile(file.path);
   }

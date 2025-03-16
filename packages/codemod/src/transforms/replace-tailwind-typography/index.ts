@@ -1,9 +1,9 @@
-import type { Transform } from "jscodeshift";
 import { typographyMappings } from "@seed-design/migration-index/typography";
-import { TokenMigrationReporter } from "../../utils/reporter.js";
+import { kebabCase } from "change-case";
+import type { Transform } from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { kebabCase } from "change-case";
+import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
 
 /**
  * 타이포그래피 클래스명을 변환하는 함수
@@ -85,13 +85,13 @@ function transformTailwindClasses(classStr: string): string {
 
 const transform: Transform = (file, api, options) => {
   const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { reporter } = inferredOptions;
+  const { migrationReporter } = inferredOptions;
 
   const j = api.jscodeshift;
   const root = j(file.source);
 
   let reporterInstance: TokenMigrationReporter | null = null;
-  if (reporter) {
+  if (migrationReporter) {
     reporterInstance = new TokenMigrationReporter("replace-tailwind-typography");
     reporterInstance.startNewFile(file.path);
   }

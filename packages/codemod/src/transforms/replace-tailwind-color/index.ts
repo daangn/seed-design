@@ -1,9 +1,9 @@
-import type { Transform } from "jscodeshift";
 import { colorMappings } from "@seed-design/migration-index/color";
-import { TokenMigrationReporter } from "../../utils/reporter.js";
+import { camelCase } from "change-case";
+import type { Transform } from "jscodeshift";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../../schema.js";
-import { camelCase } from "change-case";
+import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
 
 export type ColorPrefix =
   | "text"
@@ -208,13 +208,14 @@ function transformTailwindClassesSimple(classStr: string, todosToAdd: Set<TodoIn
 
 const transform: Transform = (file, api, _options) => {
   // 환경 변수에서 REPORTER 값을 확인
-  const reporter = process.env.REPORTER === "true";
+  const inferredOptions = _options as z.infer<typeof transformOptionsSchema>;
+  const { migrationReporter } = inferredOptions;
 
   const j = api.jscodeshift;
   const root = j(file.source);
 
   let reporterInstance: TokenMigrationReporter | null = null;
-  if (reporter) {
+  if (migrationReporter) {
     try {
       reporterInstance = new TokenMigrationReporter("replace-tailwind-color");
       if (file.path) {
