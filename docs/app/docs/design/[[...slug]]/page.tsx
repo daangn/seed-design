@@ -30,7 +30,7 @@ export default async function Page({
   const { body: MDX, toc, lastModified } = await page.data.load();
   const path = getPath(params.slug ?? []);
 
-  const guideline = await client.fetch(GUIDELINE_QUERY, { path: `design/${path}` });
+  const guideline = await client.fetch(GUIDELINE_QUERY, { path }, { cache: "no-store" });
   const guidelineToc =
     guideline?.toc?.map((item: PortableTextBlock) => {
       return {
