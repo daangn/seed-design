@@ -1,8 +1,6 @@
-import type { Transform } from "jscodeshift";
 import { typographyMappings } from "@seed-design/migration-index/typography";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
-import type { z } from "zod";
-import type { transformOptionsSchema } from "../../schema.js";
+import type { Transform } from "jscodeshift";
+import { createTransformLogger } from "../../utils/logger.js";
 
 /**
  * variant 값을 textStyle 값으로 변환하는 함수
@@ -118,17 +116,12 @@ function transformConditionalExpression(j: any, expression: any): any {
   return expression;
 }
 
-const transform: Transform = (file, api, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferredOptions;
+const transform: Transform = (file, api) => {
+  const logger = createTransformLogger("replace-text-component");
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReport | null = null;
-  if (migrationReport) {
-    reporterInstance = new TokenMigrationReport("replace-text-component");
-    reporterInstance.startNewFile(file.path);
-  }
+  logger.startFile(file.path);
 
   // 변환된 컴포넌트가 있는지 추적
   let hasTransformedComponents = false;
@@ -169,14 +162,12 @@ const transform: Transform = (file, api, options) => {
             // 변환된 컴포넌트가 있음을 표시
             hasTransformedComponents = true;
 
-            if (reporterInstance) {
-              reporterInstance.addResult({
-                previousToken: `variant="${variantValue}"`,
-                nextToken: `textStyle="${textStyleValue}"`,
-                status: "success",
-                line: variantAttr.loc?.start.line,
-              });
-            }
+            logger.logTransformResult(file.path, {
+              previousToken: `variant="${variantValue}"`,
+              nextToken: `textStyle="${textStyleValue}"`,
+              status: "success",
+              line: variantAttr.loc?.start.line,
+            });
           }
         } else if (variantAttr.value?.type === "JSXExpressionContainer") {
           // JSX 표현식 컨테이너인 경우
@@ -221,14 +212,12 @@ const transform: Transform = (file, api, options) => {
             // 변환된 컴포넌트가 있음을 표시
             hasTransformedComponents = true;
 
-            if (reporterInstance) {
-              reporterInstance.addResult({
-                previousToken: "variant={조건부 표현식}",
-                nextToken: "textStyle={조건부 표현식}",
-                status: "success",
-                line: variantAttr.loc?.start.line,
-              });
-            }
+            logger.logTransformResult(file.path, {
+              previousToken: "variant={조건부 표현식}",
+              nextToken: "textStyle={조건부 표현식}",
+              status: "success",
+              line: variantAttr.loc?.start.line,
+            });
           }
         }
       }
@@ -237,10 +226,7 @@ const transform: Transform = (file, api, options) => {
   // import 처리
   handleImports(j, root, hasTransformedComponents);
 
-  if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
-  }
+  logger.finishFile(file.path);
 
   // 포맷팅 옵션 설정
   const printOptions = {

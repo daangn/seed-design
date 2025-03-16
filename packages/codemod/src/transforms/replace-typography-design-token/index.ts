@@ -1,8 +1,6 @@
 import type { Transform } from "jscodeshift";
 import { typographyMappings } from "@seed-design/migration-index/typography";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
-import type { z } from "zod";
-import type { transformOptionsSchema } from "../../schema.js";
+import { createTransformLogger } from "../../utils/logger.js";
 import type { ASTPath, MemberExpression } from "jscodeshift";
 
 /**
@@ -166,17 +164,12 @@ function parseExpression(j: any, code: string) {
   return ast.find(j.ExpressionStatement).get().node.expression;
 }
 
-const transform: Transform = (file, api, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferredOptions;
+const transform: Transform = (file, api) => {
+  const logger = createTransformLogger("replace-typography-design-token");
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReport | null = null;
-  if (migrationReport) {
-    reporterInstance = new TokenMigrationReport("replace-typography-design-token");
-    reporterInstance.startNewFile(file.path);
-  }
+  logger.startFile(file.path);
 
   // 변환된 토큰이 있는지 추적
   let hasTransformedTokens = false;
@@ -245,24 +238,21 @@ const transform: Transform = (file, api, options) => {
         // 변환된 토큰이 있음을 표시
         hasTransformedTokens = true;
 
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: typographyToken,
-            nextToken: textCallCode,
-            status: "success",
-            line: path.node.loc?.start.line,
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: typographyToken,
+          nextToken: textCallCode,
+          status: "success",
+          line: path.node.loc?.start.line,
+        });
       } else {
         // 매핑이 없는 경우 리포터에 기록
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: typographyToken,
-            nextToken: "매핑 없음 - 수동 변경 필요",
-            status: "failure",
-            line: path.node.loc?.start.line,
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: typographyToken,
+          nextToken: null,
+          status: "failure",
+          failureReason: "매핑 없음 - 수동 변경 필요",
+          line: path.node.loc?.start.line,
+        });
       }
     });
 
@@ -272,10 +262,7 @@ const transform: Transform = (file, api, options) => {
   // 변환 후 text 함수가 사용되지 않는 경우 import 제거
   cleanupUnusedImports(j, root);
 
-  if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
-  }
+  logger.finishFile(file.path);
 
   // 포맷팅 옵션 설정
   const printOptions = {

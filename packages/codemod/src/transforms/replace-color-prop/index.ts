@@ -1,9 +1,7 @@
 import { colorMappings } from "@seed-design/migration-index/color";
 import { camelCase } from "change-case";
 import type { Transform } from "jscodeshift";
-import type { z } from "zod";
-import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
+import { createTransformLogger } from "../../utils/logger.js";
 
 function normalizePreviousToken(previous: string): string {
   const stripped = previous
@@ -58,17 +56,12 @@ function transformColorProp(value: string): string {
   return `palette.${value}`;
 }
 
-const transform: Transform = (file, api, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferredOptions;
+const transform: Transform = (file, api) => {
+  const logger = createTransformLogger("replace-color-prop");
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReport | null = null;
-  if (migrationReport) {
-    reporterInstance = new TokenMigrationReport("replace-color-prop");
-    reporterInstance.startNewFile(file.path);
-  }
+  logger.startFile(file.path);
 
   // Text 컴포넌트의 color prop 찾기
   root
@@ -93,14 +86,12 @@ const transform: Transform = (file, api, options) => {
         if (originalValue !== transformedValue) {
           colorAttr.value.value = transformedValue;
 
-          if (reporterInstance) {
-            reporterInstance.addResult({
-              previousToken: originalValue,
-              nextToken: transformedValue,
-              status: "success",
-              line: colorAttr.loc?.start.line,
-            });
-          }
+          logger.logTransformResult(file.path, {
+            previousToken: originalValue,
+            nextToken: transformedValue,
+            status: "success",
+            line: colorAttr.loc?.start.line,
+          });
         }
       } else if (colorAttr.value?.type === "JSXExpressionContainer") {
         // 조건부 표현식 처리
@@ -114,22 +105,17 @@ const transform: Transform = (file, api, options) => {
             expression.alternate.value = transformColorProp(expression.alternate.value);
           }
 
-          if (reporterInstance) {
-            reporterInstance.addResult({
-              previousToken: "conditional expression",
-              nextToken: "transformed conditional expression",
-              status: "success",
-              line: colorAttr.loc?.start.line,
-            });
-          }
+          logger.logTransformResult(file.path, {
+            previousToken: "conditional expression",
+            nextToken: "transformed conditional expression",
+            status: "success",
+            line: colorAttr.loc?.start.line,
+          });
         }
       }
     });
 
-  if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
-  }
+  logger.finishFile(file.path);
 
   return root.toSource();
 };

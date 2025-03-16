@@ -1,12 +1,11 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { writeFileSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { glob } from "glob";
-import type { transformOptionsSchema } from "../../schema.js";
-import type { z } from "zod";
+import { createTransformLogger } from "../../utils/logger.js";
+
 /**
  * 이전 토큰에서 새 토큰으로 변환하는 함수
  * @param previousToken 이전 토큰 (예: "$semantic.typography.label4-regular")
@@ -103,20 +102,15 @@ const postcssPlugin: Plugin = {
   },
 };
 
-const transform: Transform = (file, _, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferredOptions;
-  let reporter_instance = null;
-
-  if (migrationReport) {
-    reporter_instance = new TokenMigrationReport("replace-css-typography-variable");
-    reporter_instance.startNewFile(file.path);
-  }
+const transform: Transform = (file, _api, _options) => {
+  const logger = createTransformLogger("replace-css-typography-variable");
 
   // CSS 파일이 아닌 경우 건너뛰기
   if (!file.path.endsWith(".css")) {
     return file.source;
   }
+
+  logger.startFile(file.path);
 
   try {
     // PostCSS로 CSS 처리
@@ -133,10 +127,7 @@ const transform: Transform = (file, _, options) => {
     // toString()을 사용하여 변환된 CSS 문자열 얻기
     const transformedCss = result.root.toString();
 
-    if (reporter_instance) {
-      reporter_instance.finishFile();
-      reporter_instance.writeReport();
-    }
+    logger.finishFile(file.path);
 
     return transformedCss;
   } catch (error) {
@@ -150,7 +141,9 @@ const transform: Transform = (file, _, options) => {
  * @param paths 처리할 파일 경로 배열
  * @param options 옵션
  */
-export function processCssFiles(paths: string[], options: any) {
+export function processCssFiles(paths: string[], _options: any) {
+  const logger = createTransformLogger("replace-css-typography-variable");
+
   let cssFilePaths: string[] = [];
 
   // 각 경로에 대해 glob 패턴으로 CSS 파일 찾기
@@ -189,15 +182,25 @@ export function processCssFiles(paths: string[], options: any) {
   for (const filePath of uniqueCssFiles) {
     try {
       const source = readFileSync(filePath, "utf8");
-      const transformedCss = transform({ path: filePath, source }, null, options);
+      const transformedCss = transform({ path: filePath, source }, null, {});
 
       if (source !== transformedCss) {
         writeFileSync(filePath, transformedCss as string, "utf8");
-        console.log(`변환 완료: ${filePath}`);
+        logger.logTransformResult(filePath, {
+          previousToken: filePath,
+          nextToken: "transformed",
+          status: "success",
+        });
         totalChanged++;
       }
     } catch (error) {
       console.error(`파일 변환 중 오류 발생: ${filePath}`, error);
+      logger.logTransformResult(filePath, {
+        previousToken: filePath,
+        nextToken: null,
+        status: "failure",
+        failureReason: error.message,
+      });
     }
   }
 

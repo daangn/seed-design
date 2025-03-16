@@ -1,23 +1,17 @@
 import { colorMappings } from "@seed-design/migration-index/color";
 import type * as jscodeshift from "jscodeshift";
-import type { z } from "zod";
-import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
+import { createTransformLogger } from "../../utils/logger.js";
 import { buildMemberExpression, getMemberExpressionName } from "./ast-utils.js";
 import { handleImports } from "./import-handler.js";
 import { fromKebabCaseWithNumbers, toKebabCaseWithNumbers } from "./token-utils.js";
 
-const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
-  const inferedOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferedOptions;
+const replaceVarsColor: jscodeshift.Transform = (file, api) => {
+  const logger = createTransformLogger("replace-color-design-token");
+
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReport | null = null;
-  if (migrationReport) {
-    reporterInstance = new TokenMigrationReport("replace-color-design-token");
-    reporterInstance.startNewFile(file.path);
-  }
+  logger.startFile(file.path);
 
   const unresolvedIdentifiers = new Set<string>();
   // 변경된 vars가 있는지 추적
@@ -84,16 +78,14 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
 
         if (!chosenToken) {
           // chosenToken이 없는 경우: 매핑이 비었거나 palette 매핑을 찾지 못함
-          if (reporterInstance) {
-            reporterInstance.addResult({
-              previousToken: memberName,
-              nextToken: null,
-              line,
-              status: "failure",
-              failureReason:
-                mapping.next.length === 0 ? "No mapping available" : "No palette mapping found",
-            });
-          }
+          logger.logTransformResult(file.path, {
+            previousToken: memberName,
+            nextToken: null,
+            line,
+            status: "failure",
+            failureReason:
+              mapping.next.length === 0 ? "No mapping available" : "No palette mapping found",
+          });
           unresolvedIdentifiers.add(memberName);
           return;
         }
@@ -105,14 +97,12 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
         // 변경된 vars가 있음을 표시
         hasChangedVars = true;
 
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: memberName,
-            nextToken: newName,
-            line,
-            status: "success",
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: memberName,
+          nextToken: newName,
+          line,
+          status: "success",
+        });
       }
     });
 
@@ -181,10 +171,7 @@ const replaceVarsColor: jscodeshift.Transform = (file, api, options) => {
     }
   }
 
-  if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
-  }
+  logger.finishFile(file.path);
 
   return root.toSource({});
 };

@@ -1,9 +1,7 @@
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import { kebabCase } from "change-case";
 import type { Transform } from "jscodeshift";
-import type { z } from "zod";
-import type { transformOptionsSchema } from "../../schema.js";
-import { TokenMigrationReport } from "../../utils/migration-report.js";
+import { createTransformLogger } from "../../utils/logger.js";
 
 /**
  * 타이포그래피 클래스명을 변환하는 함수
@@ -83,18 +81,12 @@ function transformTailwindClasses(classStr: string): string {
   return newClassNames.join(" ");
 }
 
-const transform: Transform = (file, api, options) => {
-  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
-  const { migrationReport } = inferredOptions;
-
+const transform: Transform = (file, api) => {
+  const logger = createTransformLogger("replace-tailwind-typography");
   const j = api.jscodeshift;
   const root = j(file.source);
 
-  let reporterInstance: TokenMigrationReport | null = null;
-  if (migrationReport) {
-    reporterInstance = new TokenMigrationReport("replace-tailwind-typography");
-    reporterInstance.startNewFile(file.path);
-  }
+  logger.startFile(file.path);
 
   // StringLiteral 내 Tailwind 클래스 처리
   root.find(j.StringLiteral).forEach((path) => {
@@ -102,14 +94,12 @@ const transform: Transform = (file, api, options) => {
     const transformed = transformTailwindClasses(original);
 
     if (original !== transformed) {
-      if (reporterInstance) {
-        reporterInstance.addResult({
-          previousToken: original,
-          nextToken: transformed,
-          status: "success",
-          line: path.node.loc?.start.line,
-        });
-      }
+      logger.logTransformResult(file.path, {
+        previousToken: original,
+        nextToken: transformed,
+        status: "success",
+        line: path.node.loc?.start.line,
+      });
       path.node.value = transformed;
     }
   });
@@ -121,14 +111,12 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClasses(original);
 
       if (original !== transformed) {
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: original,
-            nextToken: transformed,
-            status: "success",
-            line: elem.loc?.start.line,
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: original,
+          nextToken: transformed,
+          status: "success",
+          line: elem.loc?.start.line,
+        });
         elem.value.raw = transformed;
         elem.value.cooked = transformed;
       }
@@ -142,14 +130,12 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClasses(original);
 
       if (original !== transformed) {
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: original,
-            nextToken: transformed,
-            status: "success",
-            line: path.node.loc?.start.line,
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: original,
+          nextToken: transformed,
+          status: "success",
+          line: path.node.loc?.start.line,
+        });
         path.node.value.value = transformed;
       }
     } else if (
@@ -160,14 +146,12 @@ const transform: Transform = (file, api, options) => {
       const transformed = transformTailwindClasses(original);
 
       if (original !== transformed) {
-        if (reporterInstance) {
-          reporterInstance.addResult({
-            previousToken: original,
-            nextToken: transformed,
-            status: "success",
-            line: path.node.loc?.start.line,
-          });
-        }
+        logger.logTransformResult(file.path, {
+          previousToken: original,
+          nextToken: transformed,
+          status: "success",
+          line: path.node.loc?.start.line,
+        });
         path.node.value.expression.value = transformed;
       }
     } else if (
@@ -180,14 +164,12 @@ const transform: Transform = (file, api, options) => {
         const transformed = transformTailwindClasses(original);
 
         if (original !== transformed) {
-          if (reporterInstance) {
-            reporterInstance.addResult({
-              previousToken: original,
-              nextToken: transformed,
-              status: "success",
-              line: elem.loc?.start.line,
-            });
-          }
+          logger.logTransformResult(file.path, {
+            previousToken: original,
+            nextToken: transformed,
+            status: "success",
+            line: elem.loc?.start.line,
+          });
           elem.value.raw = transformed;
           elem.value.cooked = transformed;
         }
@@ -195,10 +177,7 @@ const transform: Transform = (file, api, options) => {
     }
   });
 
-  if (reporterInstance) {
-    reporterInstance.finishFile();
-    reporterInstance.writeReport();
-  }
+  logger.finishFile(file.path);
 
   return root.toSource();
 };

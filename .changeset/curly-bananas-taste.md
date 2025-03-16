@@ -2,4 +2,4 @@
 "@seed-design/codemod": patch
 ---
 
-feat: change `--reporter` option to `--migration-report`
+feat: remove custom `--reporter` option, add `log` in all transfomers
