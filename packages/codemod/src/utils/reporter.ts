@@ -99,13 +99,21 @@ export class TokenMigrationReporter {
           })
           .join("\n");
 
+        const totalCount = file.results.length;
+        const successCount = file.results.filter((result) => result.status === "success").length;
+        const warningCount = file.results.filter((result) => result.status === "warning").length;
+        const failureCount = file.results.filter((result) => result.status === "failure").length;
+
+        const summaryItems = [];
+        summaryItems.push(`  - total: ${totalCount}`);
+        if (successCount > 0) summaryItems.push(`  - success: ${successCount}`);
+        if (warningCount > 0) summaryItems.push(`  - warning: ${warningCount}`);
+        if (failureCount > 0) summaryItems.push(`  - failure: ${failureCount}`);
+
         return `### [${filename}](${file.filePath})
 - timestamp: ${this.timestamp}
 - summary:
-  - total: ${file.results.length}
-  - success: ${file.results.filter((result) => result.status === "success").length}
-  - warning: ${file.results.filter((result) => result.status === "warning").length}
-  - failure: ${file.results.filter((result) => result.status === "failure").length}
+${summaryItems.join("\n")}
 - lines
 ${resultsList}`;
       })
