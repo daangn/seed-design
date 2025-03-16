@@ -20,12 +20,30 @@ export function createTransformLogger(transformName: string) {
     ),
     transports: [
       new transports.File({
-        filename: `.report/${transformName}.log`,
-        level: "debug",
+        filename: `.report/${transformName}-success.log`,
+        level: "info",
+        format: format.combine(
+          format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+          format.printf(({ message, timestamp, ...meta }) => {
+            const metaString = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";
+            return `${timestamp} [SUCCESS] ${transformName}: ${message}${metaString}`;
+          }),
+        ),
       }),
       new transports.File({
-        filename: `.report/${transformName}-warnings.log`,
+        filename: `.report/${transformName}-issues.log`,
         level: "warn",
+        format: format.combine(
+          format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+          format.printf(({ level, message, timestamp, ...meta }) => {
+            const metaString = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";
+            return `${timestamp} [${level.toUpperCase()}] ${transformName}: ${message}${metaString}`;
+          }),
+        ),
+      }),
+      new transports.File({
+        filename: `.report/${transformName}-debug.log`,
+        level: "debug",
       }),
       new transports.Console({
         level: process.env.LOG === "true" ? "debug" : "info",
