@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: notification-badge
+  name: Notification Badge
+data:
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.brand-solid
+        label:
+          color: $color.palette.static-white
+    size=large:
+      enabled:
+        root:
+          minHeight: 18px
+          paddingX: $dimension.x1
+          paddingY: 0px
+          cornerRadius: $radius.full
+          iconAttachedInsetEnd: 8px
+          iconAttachedInsetTop: 14px
+          textAttachedGap: 2px
+        label:
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
+          fontWeight: $font-weight.bold
+    size=small:
+      enabled:
+        root:
+          size: 4px
+          cornerRadius: $radius.full
+          iconAttachedInsetEnd: 6px
+          iconAttachedInsetTop: 6px
+          textAttachedGap: 2px

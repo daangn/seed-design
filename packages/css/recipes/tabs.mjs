@@ -28,10 +28,6 @@ const tabsSlotNames = [
   [
     "trigger",
     "seed-tabs__trigger"
-  ],
-  [
-    "triggerNotification",
-    "seed-tabs__triggerNotification"
   ]
 ];
 

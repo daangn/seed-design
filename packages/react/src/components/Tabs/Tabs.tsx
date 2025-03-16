@@ -1,18 +1,8 @@
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import {
-  Tabs as TabsPrimitive,
-  useTabsContext,
-  useTabsTriggerContext,
-} from "@seed-design/react-tabs";
 import { tabs, type TabsVariantProps } from "@seed-design/css/recipes/tabs";
+import { Tabs as TabsPrimitive } from "@seed-design/react-tabs";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { createWithStateProps } from "../../utils/createWithStateProps";
-import type React from "react";
 
 const { withProvider, withContext } = createSlotRecipeContext(tabs);
-const withStateProps = createWithStateProps([useTabsContext, useTabsTriggerContext], {
-  strict: false,
-});
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,17 +23,6 @@ export interface TabsTriggerProps extends TabsPrimitive.TriggerProps {}
 export const TabsTrigger = withContext<HTMLButtonElement, TabsTriggerProps>(
   TabsPrimitive.Trigger,
   "trigger",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TabsTriggerNotificationProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TabsTriggerNotification = withContext<HTMLDivElement, TabsTriggerNotificationProps>(
-  withStateProps(Primitive.div),
-  "triggerNotification",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

@@ -82,16 +82,6 @@
     height: 2px;
     background-color: var(--seed-color-fg-neutral);
 }
-.seed-tabs__triggerNotification {
-    position: absolute;
-    top: 0;
-    right: calc(-1 * var(--seed-dimension-x1) - var(--seed-dimension-x0_5));
-    align-self: flex-start;
-    background-color: var(--seed-color-bg-brand-solid);
-    width: var(--seed-dimension-x1);
-    height: var(--seed-dimension-x1);
-    border-radius: var(--seed-radius-full);
-}
 .seed-tabs__list--triggerLayout_fill {
     padding-inline: 0px;
     justify-content: space-around;

@@ -4,16 +4,7 @@ import { disabled, not, pseudo, selected } from "../utils/pseudo";
 
 const tabs = defineSlotRecipe({
   name: "tabs",
-  slots: [
-    "root",
-    "list",
-    "carousel",
-    "carouselCamera",
-    "content",
-    "indicator",
-    "trigger",
-    "triggerNotification",
-  ],
+  slots: ["root", "list", "carousel", "carouselCamera", "content", "indicator", "trigger"],
   base: {
     root: {
       position: "relative",
@@ -107,25 +98,6 @@ const tabs = defineSlotRecipe({
         height: vars.base.enabled.indicator.height,
         backgroundColor: vars.base.enabled.indicator.color,
       },
-    },
-    triggerNotification: {
-      position: "absolute",
-      top: 0,
-
-      /**
-       * notification이 Tabs의 박스 사이즈에 잡히지 않도록 하기 위한 트릭
-       * notification의 위치를 absolute로 잡아주고, right를 음수로 설정하여 박스 밖으로 나가게 함
-       * 이때, 텍스트에서 marginLeft만큼 떨어진 위치에 위치해야하기 위해서는
-       * 우선 notification의 size만큼 오른쪽으로 한번 이동하고 거기서 marginLeft만큼 오른쪽으로 이동해야함
-       * 그래서 아래와 같은 식이 나옴
-       */
-      right: `calc(-1 * ${triggerVars.base.enabled.notification.size} - ${triggerVars.base.enabled.notification.marginLeft})`,
-
-      alignSelf: "flex-start",
-      backgroundColor: triggerVars.base.enabled.notification.color,
-      width: triggerVars.base.enabled.notification.size,
-      height: triggerVars.base.enabled.notification.size,
-      borderRadius: triggerVars.base.enabled.notification.cornerRadius,
     },
   },
   variants: {
