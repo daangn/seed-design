@@ -40,7 +40,7 @@ function setupCli(track) {
       "jscodeshift가 사용할 파서를 지정해요 (babel|babylon|flow|ts|tsx)",
       { default: "tsx" },
     )
-    .option("--reporter", "변환 결과를 파일로 저장해요")
+    .option("--migration-reporter", "변환 결과를 파일로 저장해요")
     .option("--extensions <extensions>", "변환할 파일 확장자")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
     .example("  $ npx @seed-design/codemod migrate-icons src/ui")
@@ -107,7 +107,7 @@ async function runTransform(
   paths: string[],
   options: z.infer<typeof transformOptionsSchema>,
 ) {
-  const { log, parser, extensions, ignoreConfig, reporter, track: isTrackEnabled } = options;
+  const { log, parser, extensions, ignoreConfig, track: isTrackEnabled } = options;
 
   const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
@@ -145,7 +145,6 @@ async function runTransform(
       LOG: String(log),
       TRACK: String(isTrackEnabled),
       GIT_INFO: JSON.stringify(globalGitInfo),
-      REPORTER: String(reporter || false),
     };
 
     const subprocess = execa("node", args, {

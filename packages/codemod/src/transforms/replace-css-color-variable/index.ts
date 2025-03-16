@@ -1,11 +1,12 @@
-import type { Transform } from "jscodeshift";
-import postcss, { type Plugin } from "postcss";
-import { TokenMigrationReporter } from "../../utils/reporter.js";
-import { glob } from "glob";
 import { colorMappings } from "@seed-design/migration-index";
-import { writeFileSync } from "node:fs";
-import { readFileSync } from "node:fs";
+import { glob } from "glob";
+import type { Transform } from "jscodeshift";
+import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import postcss, { type Plugin } from "postcss";
+import type { z } from "zod";
+import type { transformOptionsSchema } from "../../schema.js";
+import { TokenMigrationReporter } from "../../utils/migration-reporter.js";
 
 function transformCssVarValue(value: string): string {
   // CSS 변수 패턴을 찾아서 각각 변환
@@ -54,10 +55,11 @@ const postcssPlugin: Plugin = {
 };
 
 const transform: Transform = (file, _, options) => {
-  const { reporter } = options;
+  const inferredOptions = options as z.infer<typeof transformOptionsSchema>;
+  const { migrationReporter } = inferredOptions;
   let reporter_instance = null;
 
-  if (reporter) {
+  if (migrationReporter) {
     reporter_instance = new TokenMigrationReporter("replace-css-color-variable");
     reporter_instance.startNewFile(file.path);
   }
