@@ -3,12 +3,6 @@ export const vars = {
     "enabled": {
       "label": {
         "color": "var(--seed-color-fg-neutral-subtle)"
-      },
-      "notification": {
-        "size": "var(--seed-dimension-x1)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-brand-solid)",
-        "marginLeft": "var(--seed-dimension-x0_5)"
       }
     },
     "selected": {

@@ -24,6 +24,7 @@ export { vars as inlineBanner } from "./inline-banner.mjs";
 export { vars as linkContent } from "./link-content.mjs";
 export { vars as mannerTempBadge } from "./manner-temp-badge.mjs";
 export { vars as mannerTemp } from "./manner-temp.mjs";
+export { vars as notificationBadge } from "./notification-badge.mjs";
 export { vars as progressCircle } from "./progress-circle.mjs";
 export { vars as radio } from "./radio.mjs";
 export { vars as reactionButton } from "./reaction-button.mjs";

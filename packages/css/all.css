@@ -3362,17 +3362,6 @@
   right: 0;
 }
 
-.seed-tabs__triggerNotification {
-  top: 0;
-  right: calc(-1 * var(--seed-dimension-x1)  - var(--seed-dimension-x0_5));
-  background-color: var(--seed-color-bg-brand-solid);
-  width: var(--seed-dimension-x1);
-  height: var(--seed-dimension-x1);
-  border-radius: var(--seed-radius-full);
-  align-self: flex-start;
-  position: absolute;
-}
-
 .seed-tabs__list--triggerLayout_fill {
   justify-content: space-around;
   padding-inline: 0;
@@ -4352,6 +4341,70 @@
 .seed-text-field__characterCount--size_medium, .seed-text-field__maxCharacterCount--size_medium {
   font-size: var(--seed-font-size-t2);
   line-height: var(--seed-line-height-t2);
+}
+
+.seed-notification-badge {
+  box-sizing: border-box;
+  text-transform: none;
+  text-align: start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--seed-color-bg-brand-solid);
+  color: var(--seed-color-palette-static-white);
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.seed-notification-badge--size_small {
+  border-radius: var(--seed-radius-full);
+  width: 4px;
+  height: 4px;
+}
+
+.seed-notification-badge--size_large {
+  border-radius: var(--seed-radius-full);
+  min-height: 18px;
+  padding-inline: var(--seed-dimension-x1);
+  font-size: var(--seed-font-size-t1);
+  line-height: var(--seed-line-height-t1);
+  font-weight: var(--seed-font-weight-bold);
+  padding-block: 0;
+}
+
+.seed-notification-badge-positioner {
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  position: absolute;
+}
+
+.seed-notification-badge-positioner--attach_icon {
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  translate: 100% -100%;
+}
+
+.seed-notification-badge-positioner--attach_text {
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  translate: 100%;
+}
+
+.seed-notification-badge-positioner--size_large-attach_icon {
+  inset-block-start: 14px;
+  inset-inline-end: 8px;
+}
+
+.seed-notification-badge-positioner--size_small-attach_icon {
+  inset-block-start: 6px;
+  inset-inline-end: 6px;
+}
+
+.seed-notification-badge-positioner--size_large-attach_text, .seed-notification-badge-positioner--size_small-attach_text {
+  inset-inline-end: -2px;
 }
 
 .seed-app-screen__root {

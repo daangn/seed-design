@@ -20,6 +20,7 @@ import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
 import linkContent from "./recipes/link-content";
 import mannerTempBadge from "./recipes/manner-temp-badge";
+import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
 import radio from "./recipes/radio";
@@ -73,6 +74,8 @@ export const recipes = {
   text,
   linkContent,
   textField,
+  notificationBadge,
+  notificationBadgePositioner,
   appScreen,
   appBar,
   appBarMain,

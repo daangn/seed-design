@@ -1,0 +1,27 @@
+.seed-notification-badge {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-transform: none;
+    text-align: start;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+    background-color: var(--seed-color-bg-brand-solid);
+    color: var(--seed-color-palette-static-white)
+}
+.seed-notification-badge--size_small {
+    width: 4px;
+    height: 4px;
+    border-radius: var(--seed-radius-full)
+}
+.seed-notification-badge--size_large {
+    min-height: 18px;
+    border-radius: var(--seed-radius-full);
+    padding-inline: var(--seed-dimension-x1);
+    padding-block: 0px;
+    font-size: var(--seed-font-size-t1);
+    line-height: var(--seed-line-height-t1);
+    font-weight: var(--seed-font-weight-bold)
+}

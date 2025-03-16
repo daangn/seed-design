@@ -9,11 +9,6 @@ data:
       enabled:
         label:
           color: $color.fg.neutral-subtle
-        notification:
-          size: $dimension.x1
-          cornerRadius: $radius.full
-          color: $color.bg.brand-solid
-          marginLeft: $dimension.x0_5
       selected:
         label:
           color: $color.fg.neutral

@@ -1,6 +1,11 @@
 "use client";
 
-import { Tabs as SeedTabs } from "@seed-design/react";
+import {
+  Box,
+  NotificationBadge,
+  NotificationBadgePositioner,
+  Tabs as SeedTabs,
+} from "@seed-design/react";
 import { forwardRef } from "react";
 
 export interface TabsRootProps extends SeedTabs.RootProps {}
@@ -42,8 +47,16 @@ export const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
     const { children, notification, ...otherProps } = props;
     return (
       <SeedTabs.Trigger ref={ref} {...otherProps}>
-        {children}
-        {notification && <SeedTabs.TriggerNotification />}
+        {notification ? (
+          <Box as="span" position="relative">
+            {children}
+            <NotificationBadgePositioner size="small" attach="text">
+              <NotificationBadge />
+            </NotificationBadgePositioner>
+          </Box>
+        ) : (
+          children
+        )}
       </SeedTabs.Trigger>
     );
   },
