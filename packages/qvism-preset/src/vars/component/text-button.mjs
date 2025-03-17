@@ -3,7 +3,6 @@ export const vars = {
     "enabled": {
       "root": {
         "minHeight": "var(--seed-dimension-x9)",
-        "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x3_5)",
         "paddingY": "var(--seed-dimension-x2)",
         "cornerRadius": "var(--seed-radius-r2)"

@@ -16,8 +16,6 @@ data:
             type: dimension
           cornerRadius:
             type: dimension
-          gap:
-            type: dimension
           paddingX:
             type: dimension
           paddingY:
@@ -37,7 +35,6 @@ data:
       enabled:
         root:
           minHeight: $dimension.x9
-          gap: $dimension.x1
           paddingX: $dimension.x3_5
           paddingY: $dimension.x2
           cornerRadius: $radius.r2

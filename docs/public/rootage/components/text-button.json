@@ -23,9 +23,6 @@
             "cornerRadius": {
               "type": "dimension"
             },
-            "gap": {
-              "type": "dimension"
-            },
             "paddingX": {
               "type": "dimension"
             },
@@ -66,10 +63,6 @@
                 "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x9"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
                 },
                 "paddingX": {
                   "type": "dimension",
