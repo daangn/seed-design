@@ -154,8 +154,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.on-gray-overlay-50",
-    next: [],
-    description: "TBD",
+    next: ["$color.stroke.on-image"],
   },
   {
     previous: "$semantic.color.on-gray-overlay-100",
@@ -164,7 +163,7 @@ export const semanticColorMappings = [
   },
   {
     previous: "$semantic.color.divider-1",
-    next: ["$color.stroke.on-image"],
+    next: ["$color.stroke.neutral-muted"],
     alternative: ["$color.palette.static-black-alpha-50"],
   },
   {
