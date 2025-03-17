@@ -38,7 +38,8 @@
     "headless:test": "bun vitest run --project react-headless --reporter=verbose",
     "headless:test:watch": "vitest dev --project react-headless",
     "clean:lib": "bun --filter '*' clean",
-    "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +"
+    "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
