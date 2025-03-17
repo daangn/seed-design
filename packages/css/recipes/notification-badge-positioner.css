@@ -22,8 +22,8 @@
     inset-inline-end: 8px
 }
 .seed-notification-badge-positioner--size_small-attach_icon {
-    inset-block-start: 6px;
-    inset-inline-end: 6px
+    inset-block-start: 7px;
+    inset-inline-end: 7px
 }
 .seed-notification-badge-positioner--size_large-attach_text {
     inset-inline-end: calc(-1 * 2px)

@@ -30,10 +30,10 @@ export const vars = {
   "sizeSmall": {
     "enabled": {
       "root": {
-        "size": "4px",
+        "size": "6px",
         "cornerRadius": "var(--seed-radius-full)",
-        "iconAttachedInsetEnd": "6px",
-        "iconAttachedInsetTop": "6px",
+        "iconAttachedInsetEnd": "7px",
+        "iconAttachedInsetTop": "7px",
         "textAttachedGap": "2px"
       }
     }

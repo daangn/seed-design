@@ -4359,8 +4359,8 @@
 
 .seed-notification-badge--size_small {
   border-radius: var(--seed-radius-full);
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 .seed-notification-badge--size_large {
@@ -4399,8 +4399,8 @@
 }
 
 .seed-notification-badge-positioner--size_small-attach_icon {
-  inset-block-start: 6px;
-  inset-inline-end: 6px;
+  inset-block-start: 7px;
+  inset-inline-end: 7px;
 }
 
 .seed-notification-badge-positioner--size_large-attach_text, .seed-notification-badge-positioner--size_small-attach_text {

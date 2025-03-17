@@ -131,7 +131,7 @@
                 "size": {
                   "type": "dimension",
                   "value": {
-                    "value": 4,
+                    "value": 6,
                     "unit": "px"
                   }
                 },
@@ -142,14 +142,14 @@
                 "iconAttachedInsetEnd": {
                   "type": "dimension",
                   "value": {
-                    "value": 6,
+                    "value": 7,
                     "unit": "px"
                   }
                 },
                 "iconAttachedInsetTop": {
                   "type": "dimension",
                   "value": {
-                    "value": 6,
+                    "value": 7,
                     "unit": "px"
                   }
                 },

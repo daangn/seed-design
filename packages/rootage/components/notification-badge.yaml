@@ -28,8 +28,8 @@ data:
     size=small:
       enabled:
         root:
-          size: 4px
+          size: 6px
           cornerRadius: $radius.full
-          iconAttachedInsetEnd: 6px
-          iconAttachedInsetTop: 6px
+          iconAttachedInsetEnd: 7px
+          iconAttachedInsetTop: 7px
           textAttachedGap: 2px
