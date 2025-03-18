@@ -2990,7 +2990,7 @@
 .seed-help-bubble__content {
   background: var(--seed-color-bg-neutral-solid);
   padding-inline: var(--seed-dimension-x3);
-  padding-block: var(--seed-dimension-x3);
+  padding-block: var(--seed-dimension-x2_5);
   border-radius: var(--seed-radius-r3);
   word-break: keep-all;
   --seed-box-max-width: initial;
@@ -3013,12 +3013,14 @@
   color: var(--seed-color-palette-static-white);
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-bold);
+  line-height: var(--seed-line-height-t3);
 }
 
 .seed-help-bubble__description {
   color: var(--seed-color-palette-static-white);
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t3);
 }
 
 .seed-help-bubble__closeButton {

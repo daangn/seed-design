@@ -11,7 +11,7 @@ data:
           color: $color.bg.neutral-solid
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
-          paddingY: $dimension.x3
+          paddingY: $dimension.x2_5
         arrow:
           color: $color.bg.neutral-solid
           width: 12px
@@ -22,10 +22,12 @@ data:
           color: $color.palette.static-white
           fontSize: $font-size.t3
           fontWeight: $font-weight.bold
+          lineHeight: $line-height.t3
         description:
           color: $color.palette.static-white
           fontSize: $font-size.t3
           fontWeight: $font-weight.regular
+          lineHeight: $line-height.t3
         closeButton:
           color: $color.palette.static-white
           fromRight: 4px

@@ -46,11 +46,13 @@ const helpBubble = defineSlotRecipe({
       color: vars.base.enabled.title.color,
       fontSize: vars.base.enabled.title.fontSize,
       fontWeight: vars.base.enabled.title.fontWeight,
+      lineHeight: vars.base.enabled.title.lineHeight,
     },
     description: {
       color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       fontWeight: vars.base.enabled.description.fontWeight,
+      lineHeight: vars.base.enabled.description.lineHeight,
     },
     closeButton: {
       position: "absolute",
