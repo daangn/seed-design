@@ -35,7 +35,7 @@
                 },
                 "paddingY": {
                   "type": "dimension",
-                  "value": "$dimension.x3"
+                  "value": "$dimension.x2_5"
                 }
               },
               "arrow": {
@@ -84,6 +84,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
                 }
               },
               "description": {
@@ -98,6 +102,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
                 }
               },
               "closeButton": {
