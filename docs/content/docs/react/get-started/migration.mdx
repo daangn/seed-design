@@ -132,7 +132,7 @@ npx @seed-design/cli@latest add action-button
 이후 프로젝트 루트에서 `./seed-design/ui/{component}`에 컴포넌트가 추가된 것을 확인할 수 있어요.
 
 ```tsx title="App.tsx"
-import { ActionButton } from "seed-design/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button"; // snippet 제공
 
 export default function App() {
   return <ActionButton>라벨</ActionButton>;
@@ -145,6 +145,553 @@ export default function App() {
 
 </Steps>
 
-## Changes
+## System changes
 
-TBD
+### Icon Usage
+
+아이콘 사용 방식이 달라졌어요.
+
+```tsx
+import { IconPlusFill } from "@daangn/react-monochrome-icon";
+import { PrefixIcon, SuffixIcon, Icon } from "@seed-design/react";
+import { ActionButton } from "seed-design/ui/action-button"; // snippet 제공
+import { ActionChip } from "seed-design/ui/action-chip"; // snippet 제공
+
+export default function ActionButtonPrefixIcon() {
+  return (
+    <>
+      <BoxButton prefix={<IconPlusFill />} />
+      <BoxButton suffix={<IconPlusFill />} />
+
+      <ActionButton>
+        <PrefixIcon svg={<IconPlusFill />} />
+        Prefix Icon
+      </ActionButton>
+      <ActionButton>
+        <SuffixIcon svg={<IconPlusFill />} />
+        Suffix Icon
+      </ActionButton>
+      <ActionButton>
+        <Icon svg={<IconPlusFill />} />
+      </ActionButton>
+    </>
+  );
+}
+```
+
+## Avatar 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { Avatar } from "@daangn/sprout-components-avatar";
+// [!code ++]
+import { Avatar } from "seed-design/ui/avatar"; // snippet 제공
+```
+
+- `size` 옵션 확장: `"20" | "24" | "36" | "48" | "64" | "80" | "96"`
+- 이미지 로딩 실패 시 대체 콘텐츠를 위한 `fallback` prop 제공
+- 슬롯 기반 구조 추가: `Root`, `Image`, `Fallback`
+- [V3 컴포넌트 보러가기 (Avatar)](/docs/react/components/avatar)
+
+## AlertDialog 관련 컴포넌트 변경
+
+V2의 Dialog와 AlertDialog는 V3에서 각각 별도의 컴포넌트로 제공돼요.
+
+```tsx
+// [!code --]
+import { Dialog, DialogContainer, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@daangn/sprout-components-dialog";
+// [!code ++]
+import { AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogRoot, AlertDialogTitle, AlertDialogTrigger } from "seed-design/ui/alert-dialog"; // snippet 제공
+```
+
+- 기존에 `DialogHeader`로만 구조화되어 있던 부분들 조금 더 세분화 (`AlertDialogContent`, `AlertDialogHeader`, `AlertDialogFooter`)
+- 액션에 관한 슬롯 추가 `AlertDialogAction`
+- `AlertDialogTrigger`로 명시적으로 trigger를 제공하거나 혹은 `open` prop을 통해 외부에서 제어 가능
+- [V3 컴포넌트 보러가기 (AlertDialog)](/docs/react/components/alert-dialog)
+
+## 버튼 관련 컴포넌트 변경
+
+### BoxButton, TextButton → ActionButton
+
+V2의 [BoxButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-boxbutton--docs), [TextButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-textbutton--docs)을 대체하는 통합 버튼 컴포넌트
+
+```tsx
+// [!code --]
+import { BoxButton, TextButton } from "@daangn/sprout-components-button";
+// [!code ++]
+import { ActionButton } from "seed-design/ui/action-button"; // snippet 제공
+```
+
+- `xlarge` size 제거
+- 전체적인 variant 명칭 변경
+  - `Primary` → `Neutral Solid`
+  - `Primary low` → `Neutral Weak`
+  - `Secondary` → `Neutral Weak` 
+  - `Danger` → `Critical Solid`
+- 추가된 variant: `Neutral Outline`
+- `isLoading`이 `loading`으로 변경
+- `layout` prop 추가 (`withText`, `iconOnly`)
+- `prefix`, `suffix`: 아이콘 배치 방식이 `children`으로 통합
+- [V3 컴포넌트 보러가기 (ActionButton)](/docs/react/components/action-button)
+
+### BoxToggleButton, CapsuleToggleButton → ToggleButton, ReactionButton
+
+V2의 [BoxToggleButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-boxtogglebutton--docs), [CapsuleToggleButton](https://sprout-storybook.vercel.app/?path=/docs/components-buttons-capsuletogglebutton--docs)은 V3에서 각각 ToggleButton, ReactionButton으로 변경되었어요.
+
+```tsx
+// [!code --]
+import { BoxToggleButton, CapsuleToggleButton } from "@daangn/sprout-components-button";
+// [!code ++]
+import { ToggleButton } from "seed-design/ui/toggle-button"; // snippet 제공
+// [!code ++]
+import { ReactionButton } from "seed-design/ui/reaction-button"; // snippet 제공
+```
+
+**ToggleButton 변경사항**
+- size 변경: V2의 `xSmall`, `small`, `medium`, `large` → V3의 `xsmall`, `small`로 통합
+- variant 명칭 변경
+  - `primaryLow` → `neutralWeak`
+  - `secondary` → `neutralWeak`
+  - `primary` → `brandSolid`
+- State 관련 명칭 변경 (Selected + State 조합)
+- [V3 컴포넌트 보러가기 (ToggleButton)](/docs/react/components/toggle-button)
+
+**ReactionButton 변경사항**
+- CapsuleToggleButton V2의 `small`, `xsmall` 크기만 지원
+- 좋아요 버튼 등 반응형 버튼에 특화된 컴포넌트
+- V3에서는 `size` 옵션으로 `xsmall`, `small` 제공
+- selected 상태일 때 스타일 변경 (브랜드 색상으로 강조)
+- [V3 컴포넌트 보러가기 (ReactionButton)](/docs/react/components/reaction-button)
+
+## Chips 관련 컴포넌트 변경
+
+V2에서는 `@daangn/sprout-components-chips` 패키지에서 여러 칩 관련 컴포넌트들을 제공했어요. V3에서는 이러한 컴포넌트들이 목적에 따라 재구성되었어요.
+
+### ChipButton → ActionChip
+
+V2의 [ChipButton](https://sprout-storybook.vercel.app/?path=/docs/components-chips-chipbutton--docs)은 V3에서 ActionChip으로 변경되었어요.
+
+```tsx
+// [!code --]
+import { ChipButton } from "@daangn/sprout-components-chips";
+// [!code ++]
+import { ActionChip } from "seed-design/ui/action-chip"; // snippet 제공
+```
+
+- `layout` prop 추가 (`withText`, `iconOnly`)
+- `prefix`, `suffix` prop 대신 `children`으로 아이콘 전달
+- `count` prop 제거
+- [V3 컴포넌트 보러가기 (ActionChip)](/docs/react/components/action-chip)
+
+### ChipToggleButton, ChipRadio, ChipRadioGroup → ControlChip
+
+V2의 [ChipToggleButton](https://sprout-storybook.vercel.app/?path=/docs/components-chips-chiptogglebutton--docs)과 [ChipRadio, ChipRadioGroup](https://sprout-storybook.vercel.app/?path=/docs/components-chips-chipradiogroup--docs)는 V3에서 ControlChip으로 통합되었어요.
+
+```tsx
+// [!code --]
+import { ChipToggleButton, ChipRadio, ChipRadioGroup } from "@daangn/sprout-components-chips";
+// [!code ++]
+import { ControlChip } from "seed-design/ui/control-chip"; // snippet 제공
+```
+
+- `ControlChip.Radio`와 `ControlChip.RadioGroup` 또는 `ControlChip.Toggle`로 사용
+- `layout` prop 추가 (`withText`, `iconOnly`)
+- `prefix`, `suffix` prop 대신 `children`으로 아이콘 전달
+- [V3 컴포넌트 보러가기 (ControlChip)](/docs/react/components/control-chip)
+
+### ChipFilter → 제거됨
+
+V2의 [ChipFilter](https://sprout-storybook.vercel.app/?path=/docs/components-chips-chipfilter--docs)는 V3에서 제거되었어요. 필요한 경우 ActionChip이나 ControlChip으로 대체할 수 있어요.
+
+## Checkbox 관련 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { Checkbox } from "@daangn/sprout-components-checkbox";
+// [!code ++]
+import { Checkbox } from "seed-design/ui/checkbox"; // snippet 제공
+```
+
+- `variant` 옵션이 `shape` prop으로 변경 (`square`, `ghost`)
+- `circle` variant가 제거되었으며 대신 `square`를 사용
+- `size` 변경: `small` 크기가 제거되고 `medium`, `large`만 제공
+- `bold` 속성은 `weight` prop으로 변경 (`default` | `stronger`)
+- [V3 컴포넌트 보러가기 (Checkbox)](/docs/react/components/checkbox)
+
+## TextField 관련 컴포넌트 변경
+
+V2에서는 TextField, MultilineTextField 컴포넌트를 따로 제공했지만, V3에서는 조합형 컴포넌트로 통합되었어요.
+
+```tsx
+// [!code --]
+import { TextField, MultilineTextField } from "@daangn/sprout-components-text-field";
+// [!code ++]
+import { TextField, TextFieldInput, TextFieldTextarea } from "seed-design/ui/text-field"; // snippet 제공
+```
+
+- 크기 매핑 변경
+  - V2 `large` → V3 `xlarge`
+  - V2 `medium` → V3 `large`
+  - V2 `small` → V3 `medium`
+- `TextFieldInput`은 텍스트 입력 컴포넌트로 사용
+- `TextFieldTextarea`는 다중 라인 입력 컴포넌트로 사용
+- `maxGraphemeCount` prop 추가 (기존 `maxLength` prop을 override해서 사용하던걸 명시적으로 표현)
+- [V3 컴포넌트 보러가기 (TextField)](/docs/react/components/text-field)
+- [V3 컴포넌트 보러가기 (MultilineTextField)](/docs/react/components/text-field/multiline-text-field)
+
+## InlineAlert 관련 컴포넌트 변경
+
+V2에서는 `@daangn/sprout-components-inline-alert` 패키지에서 여러 배너 관련 컴포넌트들을 제공했어요.
+V3에서는 `InlineBanner` 컴포넌트로 제공되고 있어요.
+
+```tsx
+// [!code --]
+import { InlineBanner, ActionableInlineBanner, DismissibleInlineBanner } from "@daangn/sprout-components-banner";
+// [!code ++]
+import { InlineBanner, ActionableInlineBanner, DismissibleInlineBanner } from "seed-design/ui/inline-banner"; // snippet 제공
+```
+
+- Variant 명칭 변경
+  - `normal` → `neutralWeak (default)`
+  - `info` → `informativeWeak`
+  - `warning` → `warningWeak`
+  - `danger` → `criticalWeak`
+  - 각 `neutral` 제외하고 `solid` variant 추가 (`informativeSolid`, `warningSolid`, `criticalSolid`)
+- `criticalWeak`, `criticalSolid` variant는 `dismissible` prop 사용 불가
+- [V3 컴포넌트 보러가기 (InlineBanner)](/docs/react/components/inline-banner)
+
+## Callout 관련 컴포넌트 변경
+
+V2에서는 `@daangn/sprout-components-callout` 패키지에서 여러 Callout 관련 컴포넌트들을 제공했어요.
+V3에서도 `Callout` 컴포넌트로 제공되고 있어요.
+
+```tsx
+// [!code --]
+import { Callout, ActionableCallout, DismissibleCallout } from "@daangn/sprout-components-callout";
+// [!code ++]
+import { Callout, ActionableCallout, DismissibleCallout } from "seed-design/ui/callout"; // snippet 제공
+```
+
+- `variant` -> `tone`으로 변경
+  - `normal` → `neutral`
+  - `info` → `informative`
+  - `danger` → `critical`
+  - `warning` → `warning` (유지)
+  - `magic` -> `magic` (유지)
+- [V3 컴포넌트 보러가기 (Callout)](/docs/react/components/callout)
+
+## SelectBox 관련 컴포넌트 변경
+
+V2에서는 `@daangn/sprout-components-select-box` 패키지에서 여러 SelectBox 관련 컴포넌트들을 제공했어요. V3에서는 이러한 컴포넌트들이 목적에 따라 재구성되었어요.
+
+### SelectBoxCheck -> CheckSelectBox, CheckSelectBoxGroup
+
+V2의 RadioSelectBox와 CheckSelectBox는 V3에서 하나의 SelectBox 컴포넌트로 통합되었어요.
+
+```tsx
+// [!code --]
+import { SelectBoxCheck } from "@daangn/sprout-components-select-box";
+// [!code ++]
+import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box"; // snippet 제공
+```
+
+- `SelectBoxCheck` -> `CheckSelectBox`
+- 그룹 컴포넌트 추가: `CheckSelectBoxGroup`
+- [V3 컴포넌트 보러가기 (CheckSelectBox)](/docs/react/components/select-box/check-select-box)
+
+### SelectBoxRadio, SelectBoxRadioGroup -> RadioSelectBoxItem, RadioSelectBoxRoot
+
+```tsx
+// [!code --]
+import { SelectBoxRadio, SelectBoxRadioGroup } from "@daangn/sprout-components-select-box";
+// [!code ++]
+import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box"; // snippet 제공
+```
+
+- `SelectBoxRadio` -> `RadioSelectBoxItem`
+- `SelectBoxRadioGroup` -> `RadioSelectBoxRoot`
+- [V3 컴포넌트 보러가기 (RadioSelectBox)](/docs/react/components/select-box/radio-select-box)
+
+## Tabs 관련 컴포넌트 변경
+
+### Tabs
+
+```tsx
+// [!code --]
+import { Tabs, TabList, Tab, TabPanelGroup, TabPanel } from "@daangn/sprout-components-tabs";
+// [!code ++]
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs"; // snippet 제공
+```
+
+**Tabs 변경사항**
+
+- size 추가: `small`, `medium`
+- 탭 내 알림 표시 옵션 제공 (`dot` -> `notification`)
+- `stickyList` prop 추가: 스크롤 시 탭 목록 고정 가능
+- `layout` -> `triggerLayout` 으로 변경 (`fill`, `hug`)
+- 컨텐츠의 layout도 조절 가능 (`contentLayout`)
+- 렌더링 관련 prop 변경
+  - `isLazy` -> `lazyMount`
+  - `lazyMode` (unmount, keepMounted) -> `unmountOnExit` (boolean)
+- [V3 컴포넌트 보러가기 (Tabs)](/docs/react/components/tabs/tabs)
+
+### ChipTabs (신규)
+
+```tsx
+// [!code ++]
+import { ChipTabsRoot, ChipTabsList, ChipTabsTrigger, ChipTabsContent, ChipTabsCarousel } from "seed-design/ui/chip-tabs"; // snippet 제공
+```
+
+- V3 Tabs와 동일한 인터페이스
+- [V3 컴포넌트 보러가기 (ChipTabs)](/docs/react/components/tabs/chip-tabs)
+
+## Switch 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { Switch } from "@daangn/sprout-components-switch";
+// [!code ++]
+import { Switch } from "seed-design/ui/switch"; // snippet 제공
+```
+
+- 크기 기본값 `small` 추가 제공 (기존에는 `medium`만 제공)
+- children으로 제공되던 label 대신 `label` prop 추가
+- [V3 컴포넌트 보러가기 (Switch)](/docs/react/components/switch)
+
+## Spinner 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { Spinner } from "@daangn/sprout-components-spinner";
+// [!code ++]
+import { ProgressCircle } from "seed-design/ui/progress-circle"; // snippet 제공
+```
+
+- `Spinner`에서 `ProgressCircle`로 이름 변경
+- `size` 옵션: `"24" | "40" | "inherit"`
+- `tone` 옵션: `"neutral" | "brand" | "staticWhite" | "inherit"`
+- 결정 상태(`value` prop 제공)와 미결정(로팅) 상태(`indeterminate` prop) 모두 지원
+- [V3 컴포넌트 보러가기 (ProgressCircle)](/docs/react/components/progress-circle)
+
+## Snackbar 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { SnackBar, useSnackbarAdapter } from "@daangn/sprout-components-snackbar";
+// [!code ++]
+import { Snackbar, SnackbarProvider, useSnackbar } from "seed-design/ui/snackbar"; // snippet 제공
+```
+
+- `variant` 옵션: `"default" | "positive" | "critical"` 으로 변경
+- `SnackbarProvider`와 `useSnackbar` hook을 통한 편리한 선언적 사용 방식 지원 (기존과 동일)
+- [V3 컴포넌트 보러가기 (Snackbar)](/docs/react/components/snackbar)
+
+## HelpBubble 컴포넌트 변경
+
+```tsx
+// [!code --]
+import { HelpBubbleAnchor, HelpBubbleTrigger } from "@daangn/sprout-components-help-bubble";
+// [!code ++]
+import { HelpBubbleTrigger, HelpBubbleAnchor } from "seed-design/ui/help-bubble"; // snippet 제공
+```
+
+- 두 가지 사용 방식 제공: `HelpBubbleTrigger`(클릭 시 표시) 및 `HelpBubbleAnchor`(요소에 앵커링)
+- `title`, `description` prop으로 내용 구성
+- `showCloseButton` prop으로 닫기 버튼 표시 여부 설정
+- `strategy` (absolute, fixed) prop으로 포지셔닝 전략 선택 가능
+- `gutter` prop으로 팝업 주변 여백 조절 가능
+- `arrowPadding` prop으로 화살표 주변 여백 조절 가능
+- `overflowPadding` prop으로 팝업 주변 여백 조절 가능
+- [V3 컴포넌트 보러가기 (HelpBubble)](/docs/react/components/help-bubble)
+
+## FAB(Floating Action Button) 컴포넌트 변경
+
+### FAB
+
+```tsx
+// [!code --]
+import { FloatingActionButton } from "@daangn/sprout-components-floating-action-button";
+// [!code ++]
+import { FAB } from "seed-design/ui/fab"; // snippet 제공
+import { ExtendedFAB } from "seed-design/ui/extended-fab"; // snippet 제공
+```
+
+- [V3 컴포넌트 보러가기 (FAB)](/docs/react/components/fab)
+
+### ExtendedFAB
+
+```tsx
+// [!code ++]
+import { ExtendedFab } from "@daangn/sprout-components-fab";
+// [!code ++]
+import { ExtendedFAB } from "seed-design/react";
+```
+
+- `size` 옵션: `"small" | "medium"`
+- `variant` 옵션: `"neutralSolid" | "layerFloating"`
+- [V3 컴포넌트 보러가기 (ExtendedFAB)](/docs/react/components/extended-fab)
+
+## 새로운 컴포넌트
+
+### AppScreen
+
+Stackflow AppScreen 컴포넌트
+
+```tsx
+// [!code ++]
+import { AppScreen } from "seed-design/ui/app-screen"; // snippet 제공
+```
+
+- `theme` prop: `"cupertino" | "android"`
+- `transitionStyle` prop: `"slideFromRightIOS" | "fadeFromBottomAndroid"`
+- `layerOffsetTop` prop: `"none" | "safeArea" | "appBar"`
+- `layerOffsetBottom` prop: `"none" | "safeArea"`
+- [V3 컴포넌트 보러가기 (AppScreen)](/docs/react/components/stackflow/app-screen)
+
+### BottomSheet, ActionSheet, ExtendedActionSheet
+
+V3에서는 BottomSheet와 ActionSheet가 새로 추가되었어요.
+
+```tsx
+// [!code ++]
+import { BottomSheet } from "seed-design/ui/bottom-sheet"; // snippet 제공
+import { ActionSheet } from "seed-design/ui/action-sheet"; // snippet 제공
+import { ExtendedActionSheet } from "seed-design/ui/extended-action-sheet"; // snippet 제공
+```
+
+- `BottomSheet`: 커스텀 콘텐츠를 담을 수 있는 바텀 시트
+- `ActionSheet`: 액션 목록을 표시하는 바텀 시트
+- `ExtendedActionSheet`: 확장된 기능을 가진 액션 시트
+- 모바일 환경에 최적화된 상호작용 패턴 지원
+- 접근성이 개선된 API 구조
+- [V3 컴포넌트 보러가기 (BottomSheet)](/docs/react/components/bottom-sheet)
+- [V3 컴포넌트 보러가기 (ActionSheet)](/docs/react/components/action-sheet)
+- [V3 컴포넌트 보러가기 (ExtendedActionSheet)](/docs/react/components/extended-action-sheet)
+
+### PullToRefresh
+
+PullToRefresh 컴포넌트
+
+```tsx
+// [!code ++]
+import { PullToRefresh } from "seed-design/ui/pull-to-refresh"; // snippet 제공
+```
+
+- 모바일 앱과 같은 당겨서 새로고침 기능 제공
+- [V3 컴포넌트 보러가기 (PullToRefresh)](/docs/react/components/pull-to-refresh)
+
+### SegmentedControl
+
+세그먼트 컨트롤 컴포넌트
+
+```tsx
+// [!code ++]
+import { SegmentedControl } from "seed-design/ui/segmented-control"; // snippet 제공
+```
+
+- 여러 옵션 중 하나를 선택할 수 있는 컴포넌트
+- `size` 옵션: `"large" | "medium"`
+- 커스텀 스타일과 접근성을 고려한 구조 제공
+- [V3 컴포넌트 보러가기 (SegmentedControl)](/docs/react/components/segmented-control)
+
+### LinkContent
+
+텍스트 링크 컴포넌트
+
+```tsx
+// [!code ++]
+import { LinkContent } from "seed-design/ui/link-content"; // snippet 제공
+```
+
+- 기존 TextButton 컴포넌트의 용도를 대체하는 컴포넌트
+- 다양한 색상과 크기를 지원하는 텍스트 링크 컴포넌트
+- `size` 옵션: `"small" | "medium" | "large"`
+- `color` 옵션: `"neutral" | "brand" | "information" | "positive" | "notice" | "critical" | "white"`
+- 외부 링크, 다운로드 링크 등을 표현하는 데 유용
+- [V3 컴포넌트 보러가기 (LinkContent)](/docs/react/components/link-content)
+
+### Skeleton
+
+콘텐츠 로딩 상태를 표시하는 스켈레톤 컴포넌트
+
+```tsx
+// [!code ++]
+import { Skeleton } from "seed-design/ui/skeleton"; // snippet 제공
+```
+
+- 다양한 반경(radius) 옵션을 제공하는 로딩 플레이스홀더
+- 콘텐츠 로드 전 레이아웃을 미리 보여줘 사용자 경험 향상
+- 애니메이션 효과로 로딩 중임을 시각적으로 표현
+- [V3 컴포넌트 보러가기 (Skeleton)](/docs/react/components/skeleton)
+
+### MannerTempBadge
+
+매너온도 뱃지 컴포넌트
+
+```tsx
+// [!code ++]
+import { MannerTempBadge } from "seed-design/ui/manner-temp-badge"; // snippet 제공
+```
+
+- 당근마켓의 매너온도를 시각적으로 표현하는 뱃지
+- 온도에 따른 다양한 색상 및 아이콘 변화 지원
+- 매너온도 표시에 특화된 컴포넌트
+- [V3 컴포넌트 보러가기 (MannerTempBadge)](/docs/react/components/manner-temp-badge)
+
+### Badge
+
+```tsx
+// [!code ++]
+import { Badge } from "@seed-design/react";
+```
+
+- 정보를 강조하여 표시하는 뱃지 컴포넌트
+- `size` 옵션: `"medium" | "large"`
+- `variant` 옵션: `"weak" | "solid" | "outline"`
+- `tone` 옵션: `"neutral" | "brand" | "informative" | "positive" | "critical"`
+- `asChild` prop을 통해 다른 요소에 뱃지 스타일 적용 가능
+- [V3 컴포넌트 보러가기 (Badge)](/docs/react/components/badge)
+### Error State
+
+```tsx
+// [!code ++]
+import { ErrorState } from "seed-design/ui/error-state"; // snippet 제공
+```
+
+- 사용자에게 오류 혹은 조회 결과가 없음을 알리는 컴포넌트
+- `variant` 옵션: `"basement"`
+- 콘텐츠가 없거나 오류가 발생한 상황에서 사용자에게 적절한 피드백 제공
+- [V3 컴포넌트 보러가기 (ErrorState)](/docs/react/components/error-state)
+
+### Identity Placeholder
+
+```tsx
+// [!code ++]
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder"; // snippet 제공
+```
+
+- 사용자나 항목의 신원을 표현하는 플레이스홀더 컴포넌트
+- 사용자 아바타나 항목 이미지의 로딩 전 상태를 시각적으로 표현
+- 콘텐츠 로드 전 일관된 사용자 인터페이스 제공
+- [V3 컴포넌트 보러가기 (IdentityPlaceholder)](/docs/react/components/identity-placeholder)
+
+
+### 레이아웃 관련 컴포넌트
+
+V3에서는 레이아웃 구성을 위한 다양한 컴포넌트를 제공해요.
+
+```tsx
+// [!code ++]
+import { Box, Stack, Flex, Inline, Columns } from "@seed-design/react";
+```
+
+- `Box`: 기본 레이아웃 컨테이너
+- `Stack`: 수직 방향으로 요소를 쌓는 레이아웃
+- `Flex`: 유연한 레이아웃을 구성하기 위한 컴포넌트
+- `Inline`: 인라인 요소들을 배치하기 위한 컴포넌트
+- `Columns`: 다중 컬럼 레이아웃을 위한 컴포넌트
+- [V3 컴포넌트 보러가기 (Box)](/docs/react/layout/box)
+- [V3 컴포넌트 보러가기 (Stack)](/docs/react/layout/stack)
+- [V3 컴포넌트 보러가기 (Flex)](/docs/react/layout/flex)
+- [V3 컴포넌트 보러가기 (Inline)](/docs/react/layout/inline)
+- [V3 컴포넌트 보러가기 (Columns)](/docs/react/layout/columns)
