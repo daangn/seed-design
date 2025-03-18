@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 0.0.8
+
+### Patch Changes
+
+- 1424700: Notification Badge를 추가합니다.
+
+  - Tabs의 Notification 슬롯을 Notification Badge로 변경합니다.
+
+- Updated dependencies [1424700]
+- Updated dependencies [0efeea1]
+  - @seed-design/css@0.0.8
+
 ## 0.0.7
 
 ### Patch Changes

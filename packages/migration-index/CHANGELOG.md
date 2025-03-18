@@ -1,5 +1,11 @@
 # @seed-design/migration-index
 
+## 0.0.18
+
+### Patch Changes
+
+- a7e2571: fix color mapping (divider-1, on-gray-overlay-50)
+
 ## 0.0.3
 
 ### Patch Changes
