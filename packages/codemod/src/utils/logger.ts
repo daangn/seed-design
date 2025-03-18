@@ -9,44 +9,65 @@ export interface TransformResult {
 }
 
 export function createTransformLogger(transformName: string) {
+  // success 파일용 포맷 (SUCCESS 로그만 포함)
+  const successFormat = format.printf(({ message, timestamp, metadata }) => {
+    const { previousToken, nextToken, line } = metadata as TransformResult;
+    const lineInfo = line ? `(line ${line})` : "";
+    return `${timestamp} ${message}: ${previousToken} → ${nextToken} ${lineInfo}`;
+  });
+
+  // issues 파일용 포맷 (ERROR 및 WARNING 로그만 포함)
+  const issuesFormat = format.printf(({ level, message, timestamp, failureReason, metadata }) => {
+    const { previousToken } = metadata as TransformResult;
+    return `${timestamp} [${level.toUpperCase()}]: ${message}\n ↳ reason: ${previousToken} ${failureReason || ""}`;
+  });
+
+  // debug 파일용 포맷
+  const debugFormat = format.printf(({ level, message, timestamp }) => {
+    return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+  });
+
+  // success 파일에는 success 상태의 로그만 기록하기 위한 필터
+  const successFilter = format((info) => {
+    const metadata = info.metadata as TransformResult | undefined;
+    if (metadata?.status === "success") {
+      return info;
+    }
+    return false;
+  });
+
+  // issues 파일에는 failure 또는 warning 상태의 로그만 기록하기 위한 필터
+  const issuesFilter = format((info) => {
+    const metadata = info.metadata as TransformResult | undefined;
+    if (metadata?.status === "failure" || metadata?.status === "warning") {
+      return info;
+    }
+    return false;
+  });
+
   const logger = createLogger({
     level: "debug",
-    format: format.combine(
-      format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-      format.printf(({ level, message, timestamp, ...meta }) => {
-        const metaString = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";
-        return `${timestamp} [${level.toUpperCase()}] ${transformName}: ${message}${metaString}`;
-      }),
-    ),
     transports: [
       new transports.File({
         filename: `.report/${transformName}-success.log`,
-        level: "info",
         format: format.combine(
+          successFilter(),
           format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-          format.printf(({ message, timestamp, ...meta }) => {
-            const metaString = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";
-            return `${timestamp} [SUCCESS] ${transformName}: ${message}${metaString}`;
-          }),
+          successFormat,
         ),
       }),
       new transports.File({
         filename: `.report/${transformName}-issues.log`,
-        level: "warn",
         format: format.combine(
+          issuesFilter(),
           format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-          format.printf(({ level, message, timestamp, ...meta }) => {
-            const metaString = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : "";
-            return `${timestamp} [${level.toUpperCase()}] ${transformName}: ${message}${metaString}`;
-          }),
+          issuesFormat,
         ),
       }),
       new transports.File({
         filename: `.report/${transformName}-debug.log`,
         level: "debug",
-      }),
-      new transports.Console({
-        level: process.env.LOG === "true" ? "debug" : "info",
+        format: format.combine(format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), debugFormat),
       }),
     ],
   });
@@ -54,14 +75,13 @@ export function createTransformLogger(transformName: string) {
   return {
     logger,
     logTransformResult(filePath: string, result: TransformResult) {
-      const { status, previousToken, nextToken, line, failureReason } = result;
+      const { status, failureReason } = result;
       const logLevel = status === "success" ? "info" : status === "warning" ? "warn" : "error";
-      const lineInfo = line ? `(line: ${line})` : "";
-      const message = `${filePath}${lineInfo}: ${previousToken} -> ${nextToken || "undefined"}`;
+      const lineInfo = result.line ? `(line: ${result.line})` : "";
 
       logger.log({
         level: logLevel,
-        message,
+        message: `${filePath} ${lineInfo}`,
         ...(failureReason && { failureReason }),
         metadata: result,
       });
