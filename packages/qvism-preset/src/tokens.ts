@@ -271,7 +271,7 @@ export const tokens = {
   --seed-color-palette-carrot-1000: #f4eeea;
   --seed-color-palette-gray-00: #000000;
   --seed-color-palette-gray-100: #16171b;
-  --seed-color-palette-gray-200: #1b1c22;
+  --seed-color-palette-gray-200: #22252b;
   --seed-color-palette-gray-300: #2c2f35;
   --seed-color-palette-gray-400: #393d46;
   --seed-color-palette-gray-500: #5b606a;

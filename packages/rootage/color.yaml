@@ -96,7 +96,7 @@ data:
     $color.palette.gray-200:
       values:
         theme-light: "#f3f4f5"
-        theme-dark: "#1b1c22"
+        theme-dark: "#22252b"
     $color.palette.gray-300:
       values:
         theme-light: "#eeeff1"

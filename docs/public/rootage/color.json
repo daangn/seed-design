@@ -279,7 +279,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "#1b1c22"
+            "value": "#22252b"
           }
         }
       },
