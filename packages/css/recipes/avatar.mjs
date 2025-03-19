@@ -30,6 +30,7 @@ export const avatarVariantMap = {
     "20",
     "24",
     "36",
+    "42",
     "48",
     "64",
     "80",

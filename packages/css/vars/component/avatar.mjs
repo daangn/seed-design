@@ -40,6 +40,16 @@ export const vars = {
       }
     }
   },
+  "size42": {
+    "enabled": {
+      "root": {
+        "size": "42px"
+      },
+      "badge": {
+        "size": "24px"
+      }
+    }
+  },
   "size48": {
     "enabled": {
       "root": {

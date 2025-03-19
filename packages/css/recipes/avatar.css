@@ -71,6 +71,16 @@
     top: calc(36px / 2 + 36px / 2.828 - 16px / 2);
     left: calc(36px / 2 + 36px / 2.828 - 16px / 2);
 }
+.seed-avatar__root--size_42 {
+    width: 42px;
+    height: 42px;
+}
+.seed-avatar__badge--size_42 {
+    width: 24px;
+    height: 24px;
+    top: calc(42px / 2 + 42px / 2.828 - 24px / 2);
+    left: calc(42px / 2 + 42px / 2.828 - 24px / 2);
+}
 .seed-avatar__root--size_48 {
     width: 48px;
     height: 48px;
