@@ -22,8 +22,6 @@ export async function generateStyleMetadata({
 
   const styles = await getStylesMetadataInFile({ fileKey });
 
-  console.log("styles", styles);
-
   const stylesMetadata = styles
     .filter(filter)
     .map(transform)
