@@ -95,6 +95,17 @@ const avatar = defineSlotRecipe({
           ...calculateBadgePosition(vars.size36.enabled.root.size, vars.size36.enabled.badge.size),
         },
       },
+      42: {
+        root: {
+          width: vars.size42.enabled.root.size,
+          height: vars.size42.enabled.root.size,
+        },
+        badge: {
+          width: vars.size42.enabled.badge.size,
+          height: vars.size42.enabled.badge.size,
+          ...calculateBadgePosition(vars.size42.enabled.root.size, vars.size42.enabled.badge.size),
+        },
+      },
       48: {
         root: {
           width: vars.size48.enabled.root.size,

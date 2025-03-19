@@ -39,6 +39,7 @@
             "20": {},
             "24": {},
             "36": {},
+            "42": {},
             "48": {},
             "64": {},
             "80": {},
@@ -165,6 +166,38 @@
                   "type": "dimension",
                   "value": {
                     "value": 16,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "42"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 42,
+                    "unit": "px"
+                  }
+                }
+              },
+              "badge": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 24,
                     "unit": "px"
                   }
                 }

@@ -46,6 +46,12 @@ data:
           size: 36px
         badge:
           size: 16px
+    size=42:
+      enabled:
+        root:
+          size: 42px
+        badge:
+          size: 24px
     size=48:
       enabled:
         root:

@@ -648,6 +648,18 @@
   left: 22.7298px;
 }
 
+.seed-avatar__root--size_42 {
+  width: 42px;
+  height: 42px;
+}
+
+.seed-avatar__badge--size_42 {
+  width: 24px;
+  height: 24px;
+  top: 23.8515px;
+  left: 23.8515px;
+}
+
 .seed-avatar__root--size_48 {
   width: 48px;
   height: 48px;
