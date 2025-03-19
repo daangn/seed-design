@@ -4,7 +4,7 @@ import { createRecipeContext } from "../../utils/createRecipeContext";
 import type * as React from "react";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withProvider } = createRecipeContext(linkContent);
+const { withContext } = createRecipeContext(linkContent);
 
 export interface LinkContentProps
   extends LinkContentVariantProps,
@@ -12,6 +12,6 @@ export interface LinkContentProps
     Pick<StyleProps, "color">,
     Omit<React.HTMLAttributes<HTMLSpanElement>, "color"> {}
 
-export const LinkContent = withProvider<HTMLButtonElement, LinkContentProps>(
+export const LinkContent = withContext<HTMLButtonElement, LinkContentProps>(
   withStyleProps(Primitive.span),
 );

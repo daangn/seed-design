@@ -14,7 +14,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 
 const { withRootProvider, withContext } = createSlotRecipeContext(extendedActionSheet);
-const { withProvider: withItemProvider } = createRecipeContext(extendedActionSheetItem);
+const { withContext: withItemContext } = createRecipeContext(extendedActionSheetItem);
 const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ export interface ExtendedActionSheetItemProps
     ExtendedActionSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
-export const ExtendedActionSheetItem = withItemProvider<
+export const ExtendedActionSheetItem = withItemContext<
   HTMLButtonElement,
   ExtendedActionSheetItemProps
 >(withStateProps(Primitive.button));

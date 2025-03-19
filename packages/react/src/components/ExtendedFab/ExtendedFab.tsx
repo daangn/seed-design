@@ -2,7 +2,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { extendedFab, type ExtendedFabVariantProps } from "@seed-design/css/recipes/extended-fab";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider } = createRecipeContext(extendedFab);
+const { withContext } = createRecipeContext(extendedFab);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -11,7 +11,7 @@ export interface ExtendedFabProps
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const ExtendedFab = withProvider<HTMLButtonElement, ExtendedFabProps>(Primitive.button, {
+export const ExtendedFab = withContext<HTMLButtonElement, ExtendedFabProps>(Primitive.button, {
   defaultProps: {
     variant: "neutralSolid",
     size: "medium",

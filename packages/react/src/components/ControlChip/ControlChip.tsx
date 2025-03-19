@@ -4,7 +4,7 @@ import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { withIconRequired } from "../Icon/Icon";
 
-const { withProvider } = createRecipeContext(controlChip);
+const { withContext } = createRecipeContext(controlChip);
 
 export interface ControlChipBaseProps extends PrimitiveProps, ControlChipVariantProps {}
 
@@ -13,6 +13,6 @@ export interface ControlChipProps
     React.HTMLAttributes<HTMLButtonElement> {}
 
 export const ControlChip = withIconRequired(
-  withProvider<HTMLButtonElement, ControlChipProps>(Primitive.button),
+  withContext<HTMLButtonElement, ControlChipProps>(Primitive.button),
   (props: ControlChipProps) => props.layout === "iconOnly",
 );

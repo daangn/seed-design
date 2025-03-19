@@ -8,7 +8,7 @@ import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withRegionProvider } = createRecipeContext(snackbarRegion);
+const { withContext: withRegionContext } = createRecipeContext(snackbarRegion);
 const { withProvider, withContext } = createSlotRecipeContext(snackbar);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ export const SnackbarRootProvider = SnackbarPrimitive.RootProvider;
 
 export interface SnackbarRegionProps extends SnackbarVariantProps, SnackbarPrimitive.RegionProps {}
 
-export const SnackbarRegion = withRegionProvider<HTMLDivElement, SnackbarRegionProps>(
+export const SnackbarRegion = withRegionContext<HTMLDivElement, SnackbarRegionProps>(
   SnackbarPrimitive.Region,
 );
 

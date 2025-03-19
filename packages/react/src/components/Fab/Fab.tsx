@@ -3,7 +3,7 @@ import { fab, type FabVariantProps } from "@seed-design/css/recipes/fab";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider } = createRecipeContext(fab);
+const { withContext } = createRecipeContext(fab);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -12,4 +12,4 @@ export interface FabProps
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const Fab = withProvider<HTMLButtonElement, FabProps>(Primitive.button);
+export const Fab = withContext<HTMLButtonElement, FabProps>(Primitive.button);

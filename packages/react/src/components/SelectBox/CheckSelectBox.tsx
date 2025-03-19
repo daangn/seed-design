@@ -8,8 +8,8 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withGroupProvider } = createRecipeContext(selectBoxGroup);
-const { withProvider, withContext } = createSlotRecipeContext(selectBox);
+const { withContext: withGroupContext } = createRecipeContext(selectBoxGroup);
+const { withContext, withProvider } = createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
 export interface CheckSelectBoxGroupProps
@@ -20,7 +20,7 @@ export interface CheckSelectBoxGroupProps
  * CheckSelectBoxGroup is a simple div wrapper for future extensibility.
  * It does not have spacing by default, nesting <Stack> under it is recommended.
  */
-export const CheckSelectBoxGroup = withGroupProvider<HTMLDivElement, CheckSelectBoxGroupProps>(
+export const CheckSelectBoxGroup = withGroupContext<HTMLDivElement, CheckSelectBoxGroupProps>(
   forwardRef<HTMLDivElement, CheckSelectBoxGroupProps>((props, ref) => (
     <Primitive.div ref={ref} role="group" {...props} />
   )),
