@@ -4,6 +4,7 @@
   "icon": "Palette",
   "pages": [
     "index",
+    "whats-new",
     "migration",
     "foundation",
     "components",

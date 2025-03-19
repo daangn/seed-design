@@ -8,7 +8,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PortableTextBlock } from "sanity";
 
-interface Blog {
+interface Article {
   title: string;
   description: string;
   thumbnail: SanityImageAsset;
@@ -29,7 +29,7 @@ export default async function Page({
 }: {
   params: { slug?: string };
 }) {
-  const page = await client.fetch<Blog>(SINGLE_BLOG_QUERY, {
+  const page = await client.fetch<Article>(SINGLE_BLOG_QUERY, {
     slug: params.slug,
   });
 
@@ -65,7 +65,7 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-  const blogs = await client.fetch<Blog[]>(
+  const articles = await client.fetch<Article[]>(
     BLOG_QUERY,
     {},
     {
@@ -73,15 +73,15 @@ export async function generateStaticParams() {
     },
   );
 
-  const slugs = blogs.map((blog) => {
-    return { slug: blog.slug.current };
+  const slugs = articles.map((article) => {
+    return { slug: article.slug.current };
   });
 
   return slugs;
 }
 
 export async function generateMetadata({ params }: { params: { slug?: string } }) {
-  const blogs = await client.fetch<Blog[]>(
+  const articles = await client.fetch<Article[]>(
     BLOG_QUERY,
     {},
     {
@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: { params: { slug?: string } }
     },
   );
 
-  const page = blogs.find((blog) => blog.slug.current === params.slug);
+  const page = articles.find((article) => article.slug.current === params.slug);
 
   return {
     title: page?.title,
