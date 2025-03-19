@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.19
+
+### Patch Changes
+
+- 1cb5fcc: logging 파일 형식을 개선합니다
+
 ## 0.0.18
 
 ### Patch Changes

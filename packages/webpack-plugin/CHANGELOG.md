@@ -1,5 +1,13 @@
 # @seed-design/webpack-plugin
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [63f8651]
+- Updated dependencies [d9b01a9]
+  - @seed-design/css@0.0.9
+
 ## 0.0.8
 
 ### Patch Changes
