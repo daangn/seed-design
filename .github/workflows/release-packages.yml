@@ -11,6 +11,8 @@ on:
       - ".changeset/**"
   workflow_dispatch:
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
