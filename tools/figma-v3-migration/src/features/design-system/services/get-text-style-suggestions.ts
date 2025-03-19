@@ -1,9 +1,8 @@
-import * as v3TextStyles from "@/features/design-system/data/__generated__/v3-styles";
 import * as v2TextStyles from "@/features/design-system/data/__generated__/v2-styles";
-import { typographyMappings } from "@seed-design/migration-index/typography";
+import * as v3TextStyles from "@/features/design-system/data/__generated__/v3-styles";
 import type {
-  SerializedTextStyleSuggestionsResults,
   GroupedSerializedTextStyleSuggestionsResults,
+  SerializedTextStyleSuggestionsResults,
 } from "@/features/design-system/types";
 import {
   getAllTextNodesInSceneNodes,
@@ -14,11 +13,10 @@ import {
 } from "@/features/design-system/utils/nodes";
 import { serializeTextStyle } from "@/features/design-system/utils/styles";
 import {
-  getFontWeight,
   getFontWeightLabel,
   getLineHeightUnitString,
-  getTextPropertyDifferences,
 } from "@/features/design-system/utils/text-node-properties";
+import { typographyMappings } from "@seed-design/migration-index/typography";
 import * as changeCase from "change-case";
 
 const v3TextStyleKeys = Object.values(v3TextStyles).map(({ key }) => key);
@@ -163,33 +161,71 @@ export async function getTextStyleSuggestions(
   textNode: TextNode,
   availableTextStyles: TextStyle[],
 ) {
-  // 현재 노드의 스타일 키를 가져옵니다
   const currentStyleId = textNode.getStyledTextSegments(["textStyleId"])[0]?.textStyleId;
 
   if (!currentStyleId) return [];
 
-  const currentStyle = Object.values(v2TextStyles).find((style) => style.key === currentStyleId);
-  if (!currentStyle) return [];
+  let currentStyle = Object.values(v2TextStyles).find((style) => style.key === currentStyleId);
+
+  // currentStyleId로 스타일을 찾지 못한 경우, 텍스트 노드의 실제 스타일 이름을 가져와서
+  // v2TextStyles에서 비슷한 이름을 가진 스타일을 찾는다
+  if (!currentStyle) {
+    // 텍스트 노드에서 스타일 이름을 가져옵니다
+    try {
+      const textStyle = (await figma.getStyleByIdAsync(currentStyleId)) as TextStyle | null;
+
+      if (textStyle) {
+        const styleName = textStyle.name;
+
+        // name에 포함된 경우도 찾아봅니다
+        currentStyle = Object.values(v2TextStyles).find(
+          (style) => styleName.includes(style.name) || style.name.includes(styleName),
+        );
+      }
+    } catch (error) {
+      console.log("텍스트 스타일 이름 가져오기 실패", error);
+    }
+  }
+
+  // 그래도 찾지 못한 경우 빈 배열 반환
+  if (!currentStyle) {
+    console.log("currentStyle을 찾을 수 없음");
+    return [];
+  }
 
   // v2 스타일 이름에서 플랫폼 정보를 제거하고 실제 스타일 이름만 추출
   const [, ...styleParts] = currentStyle.name.split("/");
   const v2StyleName = styleParts.join("/");
 
+  // v2StyleName에서 '.'이 있는 경우 마지막 세그먼트 추출
+  const v2Name = v2StyleName.includes(".")
+    ? (v2StyleName.split(".").pop() ?? v2StyleName)
+    : v2StyleName;
+
   // V2 스타일에서 V3 스타일로의 매핑을 찾습니다
-  const mapping = typographyMappings.find((mapping) => {
+  // find 대신 filter를 사용하여 일치하는 모든 매핑을 찾습니다
+  const mappings = typographyMappings.filter((mapping) => {
     const semanticName = mapping.previous.split(".").pop() ?? "";
-    return changeCase.kebabCase(semanticName) === v2StyleName;
+
+    // 정확한 매칭을 위해 여러 방식으로 비교
+    return changeCase.kebabCase(semanticName) === changeCase.kebabCase(v2Name);
   });
 
-  if (!mapping) return [];
+  if (mappings.length === 0) return [];
 
-  // deprecated된 스타일이고 대체 스타일이 있는 경우
-  const nextStyles = mapping.next.length > 0 ? mapping.next : mapping.alternative || [];
+  // 모든 매핑에서 nextStyles 수집
+  const allNextStyles = mappings.flatMap((mapping) => {
+    // deprecated된 스타일이고 대체 스타일이 있는 경우
+    return mapping.next.length > 0 ? mapping.next : mapping.alternative || [];
+  });
 
-  if (nextStyles.length === 0) return [];
+  // 중복 제거
+  const uniqueNextStyles = [...new Set(allNextStyles)];
+
+  if (uniqueNextStyles.length === 0) return [];
 
   const suggestions = await Promise.all(
-    nextStyles.map(async (nextStyleName) => {
+    uniqueNextStyles.map(async (nextStyleName) => {
       // nextStyleName을 kebab-case로 변환 (예: t1Bold -> t1-bold)
       const kebabNextStyleName = `scale/${changeCase.kebabCase(nextStyleName)}`;
 
