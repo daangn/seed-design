@@ -14,6 +14,12 @@ export const registryUI: RegistryUI = [
     dependencies: ["@seed-design/react"],
   },
   {
+    name: "manner-temp",
+    files: ["ui:manner-temp.tsx"],
+    innerDependencies: ["lib:manner-temp-level"],
+    dependencies: ["@seed-design/react"],
+  },
+  {
     name: "manner-temp-badge",
     files: ["ui:manner-temp-badge.tsx"],
     innerDependencies: ["lib:manner-temp-level"],

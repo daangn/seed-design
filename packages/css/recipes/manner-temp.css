@@ -1,0 +1,29 @@
+.seed-manner-temp {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    gap: var(--seed-dimension-x1);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-bold);
+    --seed-suffix-icon-size: var(--seed-dimension-x6)
+}
+.seed-manner-temp--level_l1 {
+    color: var(--seed-color-manner-temp-l1-text)
+}
+.seed-manner-temp--level_l2 {
+    color: var(--seed-color-manner-temp-l2-text)
+}
+.seed-manner-temp--level_l3 {
+    color: var(--seed-color-manner-temp-l3-text)
+}
+.seed-manner-temp--level_l4 {
+    color: var(--seed-color-manner-temp-l4-text)
+}
+.seed-manner-temp--level_l5 {
+    color: var(--seed-color-manner-temp-l5-text)
+}
+.seed-manner-temp--level_l6 {
+    color: var(--seed-color-manner-temp-l6-text)
+}

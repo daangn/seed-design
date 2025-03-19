@@ -25,6 +25,7 @@ export * from "./Inline";
 export * from "./InlineBanner";
 export * from "./LinkContent";
 export * from "./LoadingIndicator";
+export * from "./MannerTemp";
 export * from "./MannerTempBadge";
 export * from "./NotificationBadge";
 export * from "./ProgressCircle";
