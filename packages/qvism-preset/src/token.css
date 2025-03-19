@@ -105,7 +105,7 @@
   --seed-color-palette-carrot-400: #ffb999;
   --seed-color-palette-carrot-500: #ff9364;
   --seed-color-palette-carrot-600: #ff6600;
-  --seed-color-palette-carrot-700: #e84500;
+  --seed-color-palette-carrot-700: #e04f00;
   --seed-color-palette-carrot-800: #b93901;
   --seed-color-palette-carrot-900: #862b00;
   --seed-color-palette-carrot-1000: #471601;
@@ -270,8 +270,8 @@
   --seed-color-palette-carrot-1000: #f4eeea;
   --seed-color-palette-gray-00: #000000;
   --seed-color-palette-gray-100: #16171b;
-  --seed-color-palette-gray-200: #1b1c22;
-  --seed-color-palette-gray-300: #2c2f35;
+  --seed-color-palette-gray-200: #22252b;
+  --seed-color-palette-gray-300: #2b2e35;
   --seed-color-palette-gray-400: #393d46;
   --seed-color-palette-gray-500: #5b606a;
   --seed-color-palette-gray-600: #868b94;
