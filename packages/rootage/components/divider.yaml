@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: divider
+  name: Divider
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          thickness:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          thickness: 1px

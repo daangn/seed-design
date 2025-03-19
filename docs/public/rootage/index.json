@@ -54,6 +54,9 @@
       "path": "/components/dialog.json"
     },
     {
+      "path": "/components/divider.json"
+    },
+    {
       "path": "/components/extended-action-sheet-close-button.json"
     },
     {
