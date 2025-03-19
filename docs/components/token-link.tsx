@@ -9,7 +9,7 @@ export const TokenLink = (props: { id: string }) => {
       onClick={(e) => {
         e.stopPropagation();
       }}
-      href={`/docs/design/foundation/design-token/${id}`}
+      href={`/docs/foundation/design-token/${id}`}
     >
       {id}
     </Link>

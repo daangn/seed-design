@@ -13,7 +13,7 @@ export interface LoadingIndicatorProps
 }
 
 /**
- * @see https://seed-design.io/docs/react/components/loading-indicator
+ * @see https://seed-design.io/react/components/loading-indicator
  */
 export const LoadingIndicator = React.forwardRef<
   React.ElementRef<typeof SeedLoadingIndicator>,

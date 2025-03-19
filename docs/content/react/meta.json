@@ -1,0 +1,23 @@
+{
+  "title": "React",
+  "description": "SEED React 문서",
+  "icon": "Atom",
+  "pages": [
+    "index",
+    "---Getting Started---",
+    "...get-started",
+    "---Concepts---",
+    "...concepts",
+    "---Layout---",
+    "...layout",
+    "---Iconography---",
+    "...iconography",
+    "---Typography---",
+    "...typography",
+    "---Components---",
+    "...components",
+    "...",
+    "---Links---",
+    "[SEED Design](/docs)"
+  ]
+}

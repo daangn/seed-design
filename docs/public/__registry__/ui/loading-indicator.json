@@ -1,16 +1,12 @@
 {
   "name": "loading-indicator",
-  "dependencies": [
-    "@seed-design/react"
-  ],
-  "innerDependencies": [
-    "ui:progress-circle"
-  ],
+  "dependencies": ["@seed-design/react"],
+  "innerDependencies": ["ui:progress-circle"],
   "registries": [
     {
       "name": "loading-indicator.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport {\n  LoadingIndicator as SeedLoadingIndicator,\n  type LoadingIndicatorProps as SeedLoadingIndicatorProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface LoadingIndicatorProps\n  extends Omit<SeedLoadingIndicatorProps, \"indicator\"> {\n  indicator?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/docs/react/components/loading-indicator\n */\nexport const LoadingIndicator = React.forwardRef<\n  React.ElementRef<typeof SeedLoadingIndicator>,\n  LoadingIndicatorProps\n>(\n  (\n    {\n      children,\n      indicator = <ProgressCircle size=\"inherit\" tone=\"inherit\" />,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    return (\n      <SeedLoadingIndicator ref={ref} indicator={indicator} {...otherProps}>\n        {children}\n      </SeedLoadingIndicator>\n    );\n  },\n);\nLoadingIndicator.displayName = \"LoadingIndicator\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "content": "\"use client\";\n\nimport {\n  LoadingIndicator as SeedLoadingIndicator,\n  type LoadingIndicatorProps as SeedLoadingIndicatorProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { ProgressCircle } from \"./progress-circle\";\n\nexport interface LoadingIndicatorProps\n  extends Omit<SeedLoadingIndicatorProps, \"indicator\"> {\n  indicator?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/loading-indicator\n */\nexport const LoadingIndicator = React.forwardRef<\n  React.ElementRef<typeof SeedLoadingIndicator>,\n  LoadingIndicatorProps\n>(\n  (\n    {\n      children,\n      indicator = <ProgressCircle size=\"inherit\" tone=\"inherit\" />,\n      ...otherProps\n    },\n    ref,\n  ) => {\n    return (\n      <SeedLoadingIndicator ref={ref} indicator={indicator} {...otherProps}>\n        {children}\n      </SeedLoadingIndicator>\n    );\n  },\n);\nLoadingIndicator.displayName = \"LoadingIndicator\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]
 }

@@ -27,7 +27,7 @@ export interface CalloutProps
 }
 
 /**
- * @see https://seed-design.io/docs/react/components/callout
+ * @see https://seed-design.io/react/components/callout
  */
 export const Callout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,
@@ -57,7 +57,7 @@ export interface ActionableCalloutProps
 }
 
 /**
- * @see https://seed-design.io/docs/react/components/callout
+ * @see https://seed-design.io/react/components/callout
  */
 export const ActionableCallout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,
@@ -87,7 +87,7 @@ export interface DismissibleCalloutProps
 }
 
 /**
- * @see https://seed-design.io/docs/react/components/callout
+ * @see https://seed-design.io/react/components/callout
  */
 export const DismissibleCallout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,

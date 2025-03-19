@@ -1,16 +1,12 @@
 {
   "name": "reaction-button",
-  "dependencies": [
-    "@seed-design/react"
-  ],
-  "innerDependencies": [
-    "ui:loading-indicator"
-  ],
+  "dependencies": ["@seed-design/react"],
+  "innerDependencies": ["ui:loading-indicator"],
   "registries": [
     {
       "name": "reaction-button.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport {\n  ReactionButton as SeedReactionButton,\n  type ReactionButtonProps as SeedReactionButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"./loading-indicator\";\n\nexport interface ReactionButtonProps extends SeedReactionButtonProps {}\n\n/**\n * @see https://seed-design.io/docs/react/components/reaction-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ReactionButton = React.forwardRef<\n  React.ElementRef<typeof SeedReactionButton>,\n  ReactionButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedReactionButton ref={ref} loading={loading} {...otherProps}>\n      {loading ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedReactionButton>\n  );\n});\nReactionButton.displayName = \"ReactionButton\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "content": "\"use client\";\n\nimport {\n  ReactionButton as SeedReactionButton,\n  type ReactionButtonProps as SeedReactionButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"./loading-indicator\";\n\nexport interface ReactionButtonProps extends SeedReactionButtonProps {}\n\n/**\n * @see https://seed-design.io/react/components/reaction-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ReactionButton = React.forwardRef<\n  React.ElementRef<typeof SeedReactionButton>,\n  ReactionButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedReactionButton ref={ref} loading={loading} {...otherProps}>\n      {loading ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedReactionButton>\n  );\n});\nReactionButton.displayName = \"ReactionButton\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]
 }

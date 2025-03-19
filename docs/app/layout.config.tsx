@@ -1,4 +1,4 @@
-import { source } from "@/app/source";
+import { reactSource, source } from "@/app/source";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import type { HomeLayoutProps } from "fumadocs-ui/layouts/home";
 
@@ -27,45 +27,22 @@ export const baseOptions: HomeLayoutProps = {
             fill="black"
           />
         </svg>
+        SEED Design
       </div>
     ),
   },
-  links: [
-    {
-      text: "Design",
-      url: "/docs/design",
-      active: "nested-url",
-    },
-    {
-      text: "React",
-      url: "/docs/react",
-      active: "nested-url",
-    },
-  ],
 };
 
 export const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
+};
+
+export const reactOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: reactSource.pageTree,
   nav: {
     ...baseOptions.nav,
     transparentMode: "none",
-    children: undefined,
-  },
-
-  sidebar: {
-    tabs: {
-      transform(option, node) {
-        const meta = source.getNodeMeta(node);
-        if (!meta) return option;
-
-        return {
-          ...option,
-          icon: null,
-          title: <span className="text-base font-semibold">{meta.data.title}</span>,
-          description: <span className="text-sm mt-1">{meta.data.description}</span>,
-        };
-      },
-    },
   },
 };

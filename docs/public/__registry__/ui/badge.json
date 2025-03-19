@@ -5,7 +5,7 @@
     {
       "name": "badge.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport {\n  Badge as SeedBadge,\n  type BadgeProps as SeedBadgeProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface BadgeProps extends SeedBadgeProps {}\n\n/**\n * @see https://seed-design.io/docs/react/components/badge\n */\nexport const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(\n  ({ children, ...otherProps }, ref) => {\n    return (\n      <SeedBadge ref={ref} {...otherProps}>\n        {children}\n      </SeedBadge>\n    );\n  },\n);\nBadge.displayName = \"Badge\";\n"
+      "content": "\"use client\";\n\nimport {\n  Badge as SeedBadge,\n  type BadgeProps as SeedBadgeProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface BadgeProps extends SeedBadgeProps {}\n\n/**\n * @see https://seed-design.io/react/components/badge\n */\nexport const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(\n  ({ children, ...otherProps }, ref) => {\n    return (\n      <SeedBadge ref={ref} {...otherProps}>\n        {children}\n      </SeedBadge>\n    );\n  },\n);\nBadge.displayName = \"Badge\";\n"
     }
   ]
 }

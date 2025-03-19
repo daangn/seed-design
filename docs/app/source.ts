@@ -1,4 +1,4 @@
-import { docs } from "@/.source";
+import { docs, reactDocs } from "@/.source";
 import { IconContainer } from "@/components/ui/icon";
 import { loader } from "fumadocs-core/source";
 
@@ -14,4 +14,9 @@ export const source = loader({
       });
   },
   source: docs.toFumadocsSource(),
+});
+
+export const reactSource = loader({
+  baseUrl: "/react",
+  source: reactDocs.toFumadocsSource(),
 });

@@ -1,5 +1,6 @@
 import { source } from "@/app/source";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
+import { tokenize } from "@/components/search/tokenizer";
 
 // it should be cached forever
 export const revalidate = false;
@@ -20,4 +21,8 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
         } satisfies AdvancedIndex;
       }),
     ),
+  tokenizer: {
+    language: "english",
+    tokenize,
+  },
 });

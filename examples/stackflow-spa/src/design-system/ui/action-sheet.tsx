@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 export interface ActionSheetRootProps extends SeedActionSheet.RootProps {}
 
 /**
- * @see https://seed-design.io/docs/react/components/action-sheet
+ * @see https://seed-design.io/react/components/action-sheet
  */
 export const ActionSheetRoot = (props: ActionSheetRootProps) => {
   const { children, ...otherProps } = props;

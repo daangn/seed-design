@@ -5,7 +5,7 @@
     {
       "name": "link-with-icon.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport {\n  LinkWithIcon as SeedLinkWithIcon,\n  type LinkWithIconProps as SeedLinkWithIconProps,\n} from \"@seed-design/react\";\n\nexport type LinkWithIconProps = SeedLinkWithIconProps;\n\n/**\n * @see https://seed-design.io/docs/react/components/link-with-icon\n */\nexport const LinkWithIcon = SeedLinkWithIcon;\n"
+      "content": "\"use client\";\n\nimport {\n  LinkWithIcon as SeedLinkWithIcon,\n  type LinkWithIconProps as SeedLinkWithIconProps,\n} from \"@seed-design/react\";\n\nexport type LinkWithIconProps = SeedLinkWithIconProps;\n\n/**\n * @see https://seed-design.io/react/components/link-with-icon\n */\nexport const LinkWithIcon = SeedLinkWithIcon;\n"
     }
   ]
 }

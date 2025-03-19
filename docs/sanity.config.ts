@@ -39,7 +39,7 @@ export default defineConfig({
               locations: [
                 {
                   title: doc?.title || "Untitled",
-                  href: `/docs/design/components/${changeCase.kebabCase(doc?.title)}`,
+                  href: `/docs/components/${changeCase.kebabCase(doc?.title)}`,
                 },
               ],
             }),

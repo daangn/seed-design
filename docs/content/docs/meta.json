@@ -1,3 +1,15 @@
 {
-  "pages": ["design", "react"]
+  "title": "Design",
+  "description": "SEED 디자인 문서",
+  "icon": "Palette",
+  "pages": [
+    "index",
+    "migration",
+    "foundation",
+    "components",
+    "guidelines",
+    "resources",
+    "---Links---",
+    "[SEED React](/react)"
+  ]
 }

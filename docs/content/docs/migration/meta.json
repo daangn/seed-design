@@ -1,0 +1,6 @@
+{
+  "title": "마이그레이션",
+  "description": "마이그레이션",
+  "defaultOpen": true,
+  "pages": ["migration-reference"]
+}

@@ -1,6 +1,0 @@
-{
-  "title": "Migration",
-  "description": "마이그레이션",
-  "defaultOpen": true,
-  "pages": ["migration-guide", "migration-reference"]
-}
