@@ -1,6 +1,7 @@
-import { createContext, useContext } from "react";
+import type * as React from "react";
+import { createContext, forwardRef, useContext } from "react";
 
-const l1 = (
+const l1 = forwardRef<SVGSVGElement, React.SVGAttributes<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -8,6 +9,8 @@ const l1 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -68,9 +71,9 @@ const l1 = (
       </linearGradient>
     </defs>
   </svg>
-);
+));
 
-const l2 = (
+const l2 = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -78,6 +81,8 @@ const l2 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -122,9 +127,9 @@ const l2 = (
       fill="#895F00"
     />
   </svg>
-);
+));
 
-const l3 = (
+const l3 = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -132,6 +137,8 @@ const l3 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -164,9 +171,9 @@ const l3 = (
       fill="#D49D3A"
     />
   </svg>
-);
+));
 
-const l4 = (
+const l4 = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -174,6 +181,8 @@ const l4 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -206,9 +215,9 @@ const l4 = (
       fill="#D49D3A"
     />
   </svg>
-);
+));
 
-const l5 = (
+const l5 = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -216,6 +225,8 @@ const l5 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -316,9 +327,9 @@ const l5 = (
       </radialGradient>
     </defs>
   </svg>
-);
+));
 
-const l6 = (
+const l6 = forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg
     aria-hidden="true"
     width="32"
@@ -326,6 +337,8 @@ const l6 = (
     viewBox="0 0 32 32"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    ref={ref}
+    {...props}
   >
     <path
       d="M16 31C24.2843 31 31 24.2843 31 16C31 7.71573 24.2843 1 16 1C7.71573 1 1 7.71573 1 16C1 24.2843 7.71573 31 16 31Z"
@@ -424,7 +437,7 @@ const l6 = (
       </radialGradient>
     </defs>
   </svg>
-);
+));
 
 const emotes = {
   l1,
@@ -443,8 +456,9 @@ const MannerTempEmotePropsContext = createContext<MannerTempEmoteProps | null>(n
 
 export const MannerTempEmotePropsProvider = MannerTempEmotePropsContext.Provider;
 
-export const MannerTempEmote = (props: MannerTempEmoteProps) => {
+export const MannerTempEmote = forwardRef<SVGSVGElement, MannerTempEmoteProps>((props, ref) => {
   const level = props.level ?? useContext(MannerTempEmotePropsContext)?.level ?? "l1";
+  const Emote = emotes[level];
 
-  return emotes[level];
-};
+  return <Emote ref={ref} {...props} />;
+});
