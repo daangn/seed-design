@@ -3,6 +3,7 @@
 import { PortableText } from "@portabletext/react";
 import { Heading } from "fumadocs-ui/components/heading";
 import { PortableTextBlock } from "sanity";
+import { SanityCards } from "./card";
 import { DoDont } from "./do-dont";
 import { ExternalImage } from "./external-image";
 import { PortableImage } from "./image";
@@ -21,6 +22,7 @@ export const PortableContent = ({
           imageWithText: ImageTextHalfPreview,
           externalImageLink: ExternalImage,
           doDont: DoDont,
+          cards: SanityCards,
         },
         block: {
           normal: ({ value, children }) => (

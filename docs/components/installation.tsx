@@ -3,7 +3,7 @@ import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import type * as React from "react";
-import { CodeBlock } from "./code-block";
+import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import ErrorBoundary from "./error-boundary";
 
 interface InstallationProps {
@@ -33,16 +33,22 @@ export async function Installation(props: InstallationProps) {
     <ErrorBoundary>
       <Tabs items={packageManagers} groupId="package-manager" persist>
         <Tab value="npm">
-          <CodeBlock lang="bash" code={`npx @seed-design/cli@latest add ${json?.name}`} />
+          <DynamicCodeBlock lang="bash" code={`npx @seed-design/cli@latest add ${json?.name}`} />
         </Tab>
         <Tab value="yarn">
-          <CodeBlock lang="bash" code={`yarn dlx @seed-design/cli@latest add ${json?.name}`} />
+          <DynamicCodeBlock
+            lang="bash"
+            code={`yarn dlx @seed-design/cli@latest add ${json?.name}`}
+          />
         </Tab>
         <Tab value="pnpm">
-          <CodeBlock lang="bash" code={`pnpm dlx @seed-design/cli@latest add ${json?.name}`} />
+          <DynamicCodeBlock
+            lang="bash"
+            code={`pnpm dlx @seed-design/cli@latest add ${json?.name}`}
+          />
         </Tab>
         <Tab value="bun">
-          <CodeBlock lang="bash" code={`bunx @seed-design/cli@latest add ${json?.name}`} />
+          <DynamicCodeBlock lang="bash" code={`bunx @seed-design/cli@latest add ${json?.name}`} />
         </Tab>
       </Tabs>
 
@@ -54,16 +60,28 @@ export async function Installation(props: InstallationProps) {
                 <Heading3>의존성 설치</Heading3>
                 <Tabs items={packageManagers} groupId="package-manager" persist>
                   <Tab value="npm">
-                    <CodeBlock lang="bash" code={`npm install ${json?.dependencies.join(" ")}`} />
+                    <DynamicCodeBlock
+                      lang="bash"
+                      code={`npm install ${json?.dependencies.join(" ")}`}
+                    />
                   </Tab>
                   <Tab value="yarn">
-                    <CodeBlock lang="bash" code={`yarn add ${json?.dependencies.join(" ")}`} />
+                    <DynamicCodeBlock
+                      lang="bash"
+                      code={`yarn add ${json?.dependencies.join(" ")}`}
+                    />
                   </Tab>
                   <Tab value="pnpm">
-                    <CodeBlock lang="bash" code={`pnpm add ${json?.dependencies.join(" ")}`} />
+                    <DynamicCodeBlock
+                      lang="bash"
+                      code={`pnpm add ${json?.dependencies.join(" ")}`}
+                    />
                   </Tab>
                   <Tab value="bun">
-                    <CodeBlock lang="bash" code={`bun add ${json?.dependencies.join(" ")}`} />
+                    <DynamicCodeBlock
+                      lang="bash"
+                      code={`bun add ${json?.dependencies.join(" ")}`}
+                    />
                   </Tab>
                 </Tabs>
               </Step>
@@ -72,7 +90,7 @@ export async function Installation(props: InstallationProps) {
             <Step>
               <Heading3>아래 코드를 복사 후 붙여넣고 사용하세요</Heading3>
               {json?.registries.map((registry) => {
-                return <CodeBlock key={registry.name} lang="tsx" code={registry.content} />;
+                return <DynamicCodeBlock key={registry.name} lang="tsx" code={registry.content} />;
               })}
             </Step>
           </Steps>

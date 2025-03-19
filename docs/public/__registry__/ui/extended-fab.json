@@ -5,7 +5,7 @@
     {
       "name": "extended-fab.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport {\n  ExtendedFab as SeedExtendedFab,\n  type ExtendedFabProps as SeedExtendedFabProps,\n} from \"@seed-design/react\";\n\nexport interface ExtendedFabProps extends SeedExtendedFabProps {}\n\n/**\n * @see https://seed-design.io/docs/react/components/extended-fab\n */\nexport const ExtendedFab = SeedExtendedFab;\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "content": "\"use client\";\n\nimport {\n  ExtendedFab as SeedExtendedFab,\n  type ExtendedFabProps as SeedExtendedFabProps,\n} from \"@seed-design/react\";\n\nexport interface ExtendedFabProps extends SeedExtendedFabProps {}\n\n/**\n * @see https://seed-design.io/react/components/extended-fab\n */\nexport const ExtendedFab = SeedExtendedFab;\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]
 }

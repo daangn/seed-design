@@ -15,7 +15,7 @@ export interface SwitchProps extends SeedSwitch.RootProps {
 }
 
 /**
- * @see https://seed-design.io/docs/react/components/switch
+ * @see https://seed-design.io/react/components/switch
  */
 export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   ({ inputProps, rootRef, label, ...otherProps }, ref) => {

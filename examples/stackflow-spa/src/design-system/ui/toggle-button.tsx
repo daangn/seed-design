@@ -8,7 +8,7 @@ import { LoadingIndicator } from "./loading-indicator";
 export interface ToggleButtonProps extends SeedToggleButtonProps {}
 
 /**
- * @see https://seed-design.io/docs/react/components/toggle-button
+ * @see https://seed-design.io/react/components/toggle-button
  * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.
  */
 export const ToggleButton = React.forwardRef<

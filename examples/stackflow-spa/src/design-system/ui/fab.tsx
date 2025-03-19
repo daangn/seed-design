@@ -4,7 +4,7 @@ import * as React from "react";
 export interface FabProps extends Omit<SeedFabProps, "asChild"> {}
 
 /**
- * @see https://seed-design.io/docs/react/components/fab
+ * @see https://seed-design.io/react/components/fab
  */
 export const Fab = React.forwardRef<HTMLButtonElement, FabProps>(
   ({ children, ...otherProps }, ref) => {

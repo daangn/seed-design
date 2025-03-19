@@ -1,0 +1,469 @@
+---
+title: Codemod
+description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
+---
+
+`@seed-design/codemod`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
+
+## 사용 방법
+
+```package-install
+npx @seed-design/codemod <transform> <target_path> <옵션>
+```
+
+사용 가능한 transform 목록을 확인하려면 다음 명령어를 실행해요.
+
+```package-install
+npx @seed-design/codemod --list
+```
+
+## 옵션
+
+- `--list`
+  - 사용 가능한 transform 목록을 보여줘요.
+- `--log`
+  - 로그를 파일로 저장해요.
+  - `./`에 `combined.log`와 `warnings.log` 파일이 생성돼요.
+- `--parser`
+  - jscodeshift가 사용할 파서를 지정해요
+  - `babel` | `babylon` | `flow` | `ts` | `tsx`
+  - 기본값: `tsx`
+  - 예시: `--parser=babel`
+- `--extensions`
+  - 변환할 파일 확장자를 지정해요.
+  - 지정하지 않으면 `<경로>` 안의 `js,jsx,ts,tsx` 파일을 변환해요. (`d.ts`는 제외)
+  - 예시: `--extensions="ts,tsx"`
+- `--ignore-config`
+  - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
+  - 예시: `--ignore-config=".gitignore"`
+
+## 사용 가능한 Transforms
+
+### replace-color-prop
+
+색상 prop을 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-color-prop <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+const Component = () => {
+  return (
+    <>
+      <Text color="gray100" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="gray700" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot100" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot500" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot900" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="onPrimary" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color={isSelected ? "onPrimary" : "primary"} />
+      <Text color={isSelected ? 'primary' : 'gray900'}  />
+      <Text color={isSelected ? 'carrot600' : 'blue600'}  />
+    </>
+  );
+};
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+const Component = () => {
+  return (<>
+    <Text color="palette.gray200" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.gray800" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot200" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot600" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot800" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color={isSelected ? "palette.staticWhite" : "fg.brand"} />
+    <Text color={isSelected ? "fg.brand" : "palette.gray1000"}  />
+    <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
+  </>);
+};
+```
+
+</Accordion>
+</Accordions>
+
+### replace-tailwind-typography
+
+Tailwind 타이포그래피 클래스를 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-tailwind-typography <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+export function BasicExample() {
+  return (
+    <div>
+      <div className="caption1Bold whitespace-pre-wrap text-center text-[--tick-color]">Primary Background</div>
+      <p className="bodyL2Regular text-palette-gray-800">{formState.content}</p>
+      <div className="title3Bold">Hover Primary Low Background</div>
+      <div className="caption2Regular">Focus Primary Low Background</div>
+      <div className="[&>section_h2]:subtitle1Bold">Focus Primary Low Background</div>
+      <h3 className={cn('subtitle1Bold', className)} {...props} />
+      <h3 className={isDisabled ? 'subtitle1Regular' : 'subtitle1Bold'} {...props} />
+      <p className="caption2Regular text-palette-gray-800">{description}</p>
+    </div>
+  );
+}
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+export function BasicExample() {
+  return (
+    (<div>
+      <div className="t3-bold whitespace-pre-wrap text-center text-[--tick-color]">Primary Background</div>
+      <p className="t4-regular text-palette-gray-800">{formState.content}</p>
+      <div className="t6-bold">Hover Primary Low Background</div>
+      <div className="t2-regular">Focus Primary Low Background</div>
+      <div className="[&>section_h2]:t5-bold">Focus Primary Low Background</div>
+      <h3 className={cn("t5-bold", className)} {...props} />
+      <h3 className={isDisabled ? "t5-regular" : "t5-bold"} {...props} />
+      <p className="t2-regular text-palette-gray-800">{description}</p>
+    </div>)
+  );
+}
+```
+
+</Accordion>
+</Accordions>
+
+### replace-typography-design-token
+
+타이포그래피 디자인 토큰을 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-typography-design-token <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+import { classNames } from "@seed-design/design-token";
+
+const typography = {
+  one: classNames.$semantic.typography.title2Regular,
+  two: classNames.$semantic.typography.label3Regular,
+  three: classNames.$semantic.typography.label5Regular,
+  four: classNames.$semantic.typography.label6Regular,
+}
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+import { text } from "@seed-design/css/recipes/text";
+
+const typography = {
+  one: text({ textStyle: "t7Regular" }),
+  two: text({ textStyle: "t4Regular" }),
+  three: text({ textStyle: "t1Regular" }),
+  four: text({ textStyle: "t1Regular" }),
+}
+```
+
+</Accordion>
+</Accordions>
+
+### replace-text-component
+
+Text 컴포넌트를 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-text-component <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+import Text from 'components/Base/Text';
+
+const Component = () => {
+  return (
+    <div>
+      <Text variant="title2Bold">광고 노출 기준</Text>
+      <Text variant="subtitle1Regular">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+    </div>
+  );
+};
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+import { Text } from "@seed-design/react";
+
+const Component = () => {
+  return (
+    (<div>
+      <Text textStyle="t7Bold">광고 노출 기준</Text>
+      <Text textStyle="t5Regular">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+    </div>)
+  );
+};
+```
+
+</Accordion>
+</Accordions>
+
+### migrate-icons
+
+아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/react/iconography/codemod) 문서를 참고해주세요.
+
+```package-install
+npx @seed-design/codemod migrate-icons <target_path>
+```
+
+### replace-css-typography-variable
+
+CSS 타이포그래피 변수를 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-css-typography-variable <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```css title="basic.input.css"
+/* Radio Label */
+.seed-radio-group[data-size="small"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-small-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-small-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label4-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label4-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label4-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label4-regular-letter-spacing);
+}
+
+.seed-radio-group[data-size="medium"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-medium-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-medium-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label3-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label3-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label3-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label3-regular-letter-spacing);
+}
+
+.seed-radio-group[data-size="large"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-large-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-large-label-margin-block-start);
+
+  font-size: var(--seed-semantic-typography-label2-regular-font-size);
+  font-weight: var(--seed-semantic-typography-label2-regular-font-weight);
+  line-height: var(--seed-semantic-typography-label2-regular-line-height);
+  letter-spacing: var(--seed-semantic-typography-label2-regular-letter-spacing);
+}
+```
+
+```css title="basic.output.css"
+/* Radio Label */
+.seed-radio-group[data-size="small"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-small-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-small-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t2);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t2);
+  letter-spacing: normal;
+}
+
+.seed-radio-group[data-size="medium"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-medium-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-medium-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t4);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t4);
+  letter-spacing: normal;
+}
+
+.seed-radio-group[data-size="large"] [data-part="radio-label"] {
+  margin-inline-start: var(--seed-radio-large-label-margin-inline-start);
+  margin-block-start: var(--seed-radio-large-label-margin-block-start);
+
+  font-size: var(--seed-font-size-t5);
+  font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t5);
+  letter-spacing: normal;
+}
+```
+
+</Accordion>
+</Accordions>
+
+### replace-color-design-token
+
+색상 디자인 토큰을 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-color-design-token <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+import { vars } from "@seed-design/design-token";
+
+const color = vars.$scale.color.gray500;
+```
+
+```tsx title="basic.output.tsx"
+import { vars } from "@seed-design/css/vars";
+
+const color = vars.$color.palette.gray600;
+```
+
+</Accordion>
+</Accordions>
+
+### replace-css-color-variable
+
+CSS 색상 변수를 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-css-color-variable <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```css title="basic.input.css"
+:root[data-seed] {
+  --seed-alert-dialog-backdrop-background: var(--seed-semantic-color-overlay-dim);
+  --seed-alert-dialog-content-background: var(--seed-semantic-color-paper-dialog);
+  --seed-alert-dialog-title-color: var(--seed-scale-color-gray-900);
+  --seed-alert-dialog-description-color: var(--seed-scale-color-gray-900);
+
+  --seed-box-button-focus-border: 2px solid var(--seed-scale-color-blue-600);
+
+  box-shadow: 0 0 0 2px var(--seed-scale-color-blue-600);
+  background: linear-gradient(to bottom, var(--seed-scale-color-blue-600), var(--seed-scale-color-blue-700));
+}
+```
+
+```css title="basic.output.css"
+:root[data-seed] {
+  --seed-alert-dialog-backdrop-background: var(--seed-color-bg-overlay);
+  --seed-alert-dialog-content-background: var(--seed-color-bg-layer-floating);
+  --seed-alert-dialog-title-color: var(--seed-color-palette-gray-1000);
+  --seed-alert-dialog-description-color: var(--seed-color-palette-gray-1000);
+
+  --seed-box-button-focus-border: 2px solid var(--seed-color-palette-blue-600);
+
+  box-shadow: 0 0 0 2px var(--seed-color-palette-blue-600);
+  background: linear-gradient(to bottom, var(--seed-color-palette-blue-600), var(--seed-color-palette-blue-800));
+}
+```
+
+</Accordion>
+</Accordions>
+
+### replace-tailwind-color
+
+Tailwind 색상 클래스를 V3 형식으로 변환해요.
+
+```package-install
+npx @seed-design/codemod replace-tailwind-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+export function BackgroundExample() {
+  return (
+    <div>
+      <div className="bg-primary">Primary Background</div>
+      <div className="bg-primaryLow">Primary Low Background</div>
+      <div className="hover:bg-primaryLow">Hover Primary Low Background</div>
+      <div className="focus:bg-primaryLow">Focus Primary Low Background</div>
+      <div className="active:bg-primaryLow">Active Primary Low Background</div>
+      <div className="bg-gray500">Scale Background</div>
+      <div className="bg-carrot100">Scale Carrot Low Background</div>
+      <div className="bg-carrot200">Scale Carrot Mid Background</div>
+      <div className="bg-carrot300">Scale Carrot High Background</div>
+      <div className="bg-carrot400">Scale Carrot High Background</div>
+      <div className="bg-carrot500">Scale Carrot High Background</div>
+      <div className="bg-carrot600">Scale Carrot High Background</div>
+      <div className="bg-carrot700">Scale Carrot High Background</div>
+      <div className="bg-carrot800">Scale Carrot High Background</div>
+      <div className="bg-carrot900">Scale Carrot High Background</div>
+      <div className="!bg-carrot900">Scale Carrot High Background</div>
+      <div className="bg-staticBlack">Static Black Background</div>
+      <div className="bg-staticWhite">Static White Background</div>
+      <div className="bg-staticGray900">Static Gray900 Background</div>
+    </div>
+  );
+}
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+export function BackgroundExample() {
+  return (
+    (<div>
+      <div className="bg-bg-brand-solid">Primary Background</div>
+      <div className="bg-palette-carrot-100">Primary Low Background</div>
+      <div className="hover:bg-palette-carrot-100">Hover Primary Low Background</div>
+      <div className="focus:bg-palette-carrot-100">Focus Primary Low Background</div>
+      <div className="active:bg-palette-carrot-100">Active Primary Low Background</div>
+      <div className="bg-palette-gray-600">Scale Background</div>
+      <div className="bg-palette-carrot-200">Scale Carrot Low Background</div>
+      <div className="bg-palette-carrot-300">Scale Carrot Mid Background</div>
+      <div className="bg-palette-carrot-400">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-500">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-600">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-600">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-700">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-700">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-800">Scale Carrot High Background</div>
+      <div className="!bg-palette-carrot-800">Scale Carrot High Background</div>
+      <div className="bg-palette-static-black">Static Black Background</div>
+      <div className="bg-palette-static-white">Static White Background</div>
+      <div className="bg-staticGray900">Static Gray900 Background</div>
+    </div>)
+  );
+}
+```
+
+</Accordion>
+</Accordions>
+

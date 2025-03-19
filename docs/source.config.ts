@@ -8,6 +8,13 @@ export const docs = defineDocs({
   },
 });
 
+export const reactDocs = defineDocs({
+  dir: "content/react",
+  docs: {
+    async: true,
+  },
+});
+
 export default defineConfig({
   lastModifiedTime: "git",
   mdxOptions: {

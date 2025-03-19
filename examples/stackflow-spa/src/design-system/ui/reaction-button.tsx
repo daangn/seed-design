@@ -8,7 +8,7 @@ import { LoadingIndicator } from "./loading-indicator";
 export interface ReactionButtonProps extends SeedReactionButtonProps {}
 
 /**
- * @see https://seed-design.io/docs/react/components/reaction-button
+ * @see https://seed-design.io/react/components/reaction-button
  * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.
  */
 export const ReactionButton = React.forwardRef<

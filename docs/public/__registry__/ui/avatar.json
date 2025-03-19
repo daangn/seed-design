@@ -1,16 +1,12 @@
 {
   "name": "avatar",
-  "dependencies": [
-    "@seed-design/react"
-  ],
-  "innerDependencies": [
-    "ui:identity-placeholder"
-  ],
+  "dependencies": ["@seed-design/react"],
+  "innerDependencies": ["ui:identity-placeholder"],
   "registries": [
     {
       "name": "avatar.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport { Avatar as SeedAvatar } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface AvatarProps extends SeedAvatar.RootProps {\n  src?: string;\n\n  alt?: string;\n\n  fallback?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/docs/react/components/avatar\n */\nexport const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(\n  ({ src, alt, fallback, children, ...otherProps }, ref) => {\n    return (\n      <SeedAvatar.Root ref={ref} {...otherProps}>\n        <SeedAvatar.Fallback>{fallback}</SeedAvatar.Fallback>\n        <SeedAvatar.Image src={src} alt={alt} />\n        {children}\n      </SeedAvatar.Root>\n    );\n  },\n);\nAvatar.displayName = \"Avatar\";\n\nexport interface AvatarBadgeProps extends SeedAvatar.BadgeProps {}\n\nexport const AvatarBadge = SeedAvatar.Badge;\n\nexport interface AvatarStackProps extends SeedAvatar.StackProps {}\n\nexport const AvatarStack = SeedAvatar.Stack;\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+      "content": "\"use client\";\n\nimport { Avatar as SeedAvatar } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface AvatarProps extends SeedAvatar.RootProps {\n  src?: string;\n\n  alt?: string;\n\n  fallback?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/avatar\n */\nexport const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(\n  ({ src, alt, fallback, children, ...otherProps }, ref) => {\n    return (\n      <SeedAvatar.Root ref={ref} {...otherProps}>\n        <SeedAvatar.Fallback>{fallback}</SeedAvatar.Fallback>\n        <SeedAvatar.Image src={src} alt={alt} />\n        {children}\n      </SeedAvatar.Root>\n    );\n  },\n);\nAvatar.displayName = \"Avatar\";\n\nexport interface AvatarBadgeProps extends SeedAvatar.BadgeProps {}\n\nexport const AvatarBadge = SeedAvatar.Badge;\n\nexport interface AvatarStackProps extends SeedAvatar.StackProps {}\n\nexport const AvatarStack = SeedAvatar.Stack;\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]
 }

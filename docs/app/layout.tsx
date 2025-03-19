@@ -8,6 +8,7 @@ import ThemeSync from "@/components/theme-sync";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import DefaultSearchDialog from "../components/search/search";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,8 +32,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body>
         <RootProvider
           search={{
+            SearchDialog: DefaultSearchDialog,
             options: {
-              type: "static",
               defaultTag: "design",
               tags: [
                 {

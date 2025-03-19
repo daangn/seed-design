@@ -17,7 +17,7 @@ export default defineType({
       name: "path",
       title: "가이드라인 path",
       description:
-        "가이드라인 path는 seed-design.io를 제외한 나머지 path를 붙여주세요. docs는 생략해주세요. (ex: design/foundation/iconography/library)",
+        "가이드라인 path는 seed-design.io를 제외한 나머지 path를 붙여주세요. docs는 생략해주세요. (ex: foundation/iconography/library)",
       type: "string",
       validation: (Rule) => Rule.required(),
     }),

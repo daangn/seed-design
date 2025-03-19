@@ -1,6 +1,8 @@
 import { ImageIcon } from "@sanity/icons";
 import { defineArrayMember, defineType } from "sanity";
 import { doDontType } from "./doDontType";
+import { cardsType } from "./card";
+
 // 외부 이미지 링크 타입 정의
 export const externalImageLinkType = defineArrayMember({
   name: "externalImageLink",
@@ -197,5 +199,6 @@ export default defineType({
     tableType,
     imageWithTextType,
     externalImageLinkType,
+    cardsType,
   ],
 });

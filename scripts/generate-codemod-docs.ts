@@ -16,7 +16,7 @@ interface TransformDoc {
 }
 
 const TRANSFORMS_DIR = join(process.cwd(), "packages/codemod/src/transforms");
-const DOCS_OUTPUT_PATH = join(process.cwd(), "docs/content/docs/react/get-started/codemod.mdx");
+const DOCS_OUTPUT_PATH = join(process.cwd(), "docs/content/react/get-started/codemod.mdx");
 
 async function findBasicExample(transformPath: string): Promise<CodemodExample | null> {
   const fixturesPath = join(transformPath, "__testfixtures__");
@@ -132,7 +132,7 @@ npx @seed-design/codemod --list
         break;
       case "migrate-icons":
         mdx +=
-          "아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/docs/react/iconography/codemod) 문서를 참고해주세요.\n\n";
+          "아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/react/iconography/codemod) 문서를 참고해주세요.\n\n";
         break;
       case "replace-css-typography-variable":
         mdx += "CSS 타이포그래피 변수를 V3 형식으로 변환해요.\n\n";

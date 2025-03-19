@@ -1,13 +1,11 @@
 {
   "name": "switch",
-  "dependencies": [
-    "@seed-design/react"
-  ],
+  "dependencies": ["@seed-design/react"],
   "registries": [
     {
       "name": "switch.tsx",
       "type": "ui",
-      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Switch as SeedSwitch } from \"@seed-design/react\";\n\nexport interface SwitchProps extends SeedSwitch.RootProps {\n  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;\n\n  rootRef?: React.Ref<HTMLLabelElement>;\n\n  /**\n   * label is supported in small size only currently.\n   */\n  label?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/docs/react/components/switch\n */\nexport const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(\n  ({ inputProps, rootRef, label, ...otherProps }, ref) => {\n    return (\n      <SeedSwitch.Root ref={rootRef} {...otherProps}>\n        <SeedSwitch.Control>\n          <SeedSwitch.Thumb />\n        </SeedSwitch.Control>\n        {label && <SeedSwitch.Label>{label}</SeedSwitch.Label>}\n        <SeedSwitch.HiddenInput ref={ref} {...inputProps} />\n      </SeedSwitch.Root>\n    );\n  },\n);\nSwitch.displayName = \"Switch\";\n"
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Switch as SeedSwitch } from \"@seed-design/react\";\n\nexport interface SwitchProps extends SeedSwitch.RootProps {\n  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;\n\n  rootRef?: React.Ref<HTMLLabelElement>;\n\n  /**\n   * label is supported in small size only currently.\n   */\n  label?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/switch\n */\nexport const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(\n  ({ inputProps, rootRef, label, ...otherProps }, ref) => {\n    return (\n      <SeedSwitch.Root ref={rootRef} {...otherProps}>\n        <SeedSwitch.Control>\n          <SeedSwitch.Thumb />\n        </SeedSwitch.Control>\n        {label && <SeedSwitch.Label>{label}</SeedSwitch.Label>}\n        <SeedSwitch.HiddenInput ref={ref} {...inputProps} />\n      </SeedSwitch.Root>\n    );\n  },\n);\nSwitch.displayName = \"Switch\";\n"
     }
   ]
 }
