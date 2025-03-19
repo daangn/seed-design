@@ -1,4 +1,4 @@
-import { source } from "@/app/source";
+import { reactSource } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
@@ -9,7 +9,7 @@ export default async function Page({
 }: {
   params: { slug?: string[] };
 }) {
-  const page = source.getPage(params.slug ?? []);
+  const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
@@ -34,11 +34,11 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-  return source.generateParams();
+  return reactSource.generateParams();
 }
 
 export function generateMetadata({ params }: { params: { slug?: string[] } }) {
-  const page = source.getPage(params.slug ?? []);
+  const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
   return {
