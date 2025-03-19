@@ -12,8 +12,6 @@ import {
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
 
-const { ClassNameProvider } = createRecipeContext(toggleButton);
-
 export interface ToggleButtonProps
   extends ToggleButtonVariantProps,
     UsePendingButtonProps,
@@ -25,16 +23,14 @@ export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProp
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
 
     return (
-      <ClassNameProvider value={recipeClassName}>
-        <PendingButtonProvider value={api}>
-          <TogglePrimitive.Root
-            ref={ref}
-            className={clsx(recipeClassName, className)}
-            {...api.stateProps}
-            {...otherProps}
-          />
-        </PendingButtonProvider>
-      </ClassNameProvider>
+      <PendingButtonProvider value={api}>
+        <TogglePrimitive.Root
+          ref={ref}
+          className={clsx(recipeClassName, className)}
+          {...api.stateProps}
+          {...otherProps}
+        />
+      </PendingButtonProvider>
     );
   },
 );

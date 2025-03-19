@@ -10,13 +10,13 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider: withGroupProvider } = createRecipeContext(selectBoxGroup);
-const { withProvider, withContext } = createSlotRecipeContext(selectBox);
+const { withContext: withGroupContext } = createRecipeContext(selectBoxGroup);
+const { withContext, withProvider } = createSlotRecipeContext(selectBox);
 const withStateProps = createWithStateProps([useRadioGroupItemContext]);
 
 export interface RadioSelectBoxRootProps extends RadioGroupPrimitive.RootProps {}
 
-export const RadioSelectBoxRoot = withGroupProvider<HTMLDivElement, RadioSelectBoxRootProps>(
+export const RadioSelectBoxRoot = withGroupContext<HTMLDivElement, RadioSelectBoxRootProps>(
   RadioGroupPrimitive.Root,
 );
 

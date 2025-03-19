@@ -5,15 +5,12 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
-
-const { ClassNameProvider } = createRecipeContext(actionButton);
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
@@ -36,20 +33,18 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
     }
 
     return (
-      <ClassNameProvider value={recipeClassName}>
-        <PendingButtonProvider value={api}>
-          <IconRequired enabled={layout === "iconOnly"}>
-            <Primitive.button
-              ref={ref}
-              className={clsx(recipeClassName, className)}
-              {...api.stateProps}
-              {...otherProps}
-            >
-              {children}
-            </Primitive.button>
-          </IconRequired>
-        </PendingButtonProvider>
-      </ClassNameProvider>
+      <PendingButtonProvider value={api}>
+        <IconRequired enabled={layout === "iconOnly"}>
+          <Primitive.button
+            ref={ref}
+            className={clsx(recipeClassName, className)}
+            {...api.stateProps}
+            {...otherProps}
+          >
+            {children}
+          </Primitive.button>
+        </IconRequired>
+      </PendingButtonProvider>
     );
   },
 );

@@ -12,7 +12,7 @@ import * as React from "react";
 import { useMemo } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider, PropsProvider } = createRecipeContext(notificationBadge);
+const { withContext, PropsProvider } = createRecipeContext(notificationBadge);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,7 +21,7 @@ export interface NotificationBadgeProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const NotificationBadge = withProvider<HTMLSpanElement, NotificationBadgeProps>(
+export const NotificationBadge = withContext<HTMLSpanElement, NotificationBadgeProps>(
   Primitive.span,
 );
 

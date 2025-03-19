@@ -3,7 +3,7 @@ import { badge, type BadgeVariantProps } from "@seed-design/css/recipes/badge";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider } = createRecipeContext(badge);
+const { withContext } = createRecipeContext(badge);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -12,4 +12,4 @@ export interface BadgeProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const Badge = withProvider<HTMLSpanElement, BadgeProps>(Primitive.span);
+export const Badge = withContext<HTMLSpanElement, BadgeProps>(Primitive.span);

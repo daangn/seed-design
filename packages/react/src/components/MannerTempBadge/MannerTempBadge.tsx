@@ -6,7 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const { withProvider } = createRecipeContext(mannerTempBadge);
+const { withContext } = createRecipeContext(mannerTempBadge);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -15,4 +15,4 @@ export interface MannerTempBadgeProps
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const MannerTempBadge = withProvider<HTMLSpanElement, MannerTempBadgeProps>(Primitive.span);
+export const MannerTempBadge = withContext<HTMLSpanElement, MannerTempBadgeProps>(Primitive.span);

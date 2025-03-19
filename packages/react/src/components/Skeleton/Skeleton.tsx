@@ -4,7 +4,7 @@ import type * as React from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 
-const { withProvider } = createRecipeContext(skeleton);
+const { withContext } = createRecipeContext(skeleton);
 
 export interface SkeletonProps
   extends SkeletonVariantProps,
@@ -12,4 +12,4 @@ export interface SkeletonProps
     Pick<StyleProps, "height" | "width">,
     Omit<React.HTMLAttributes<HTMLDivElement>, "color"> {}
 
-export const Skeleton = withProvider<HTMLDivElement, SkeletonProps>(withStyleProps(Primitive.div));
+export const Skeleton = withContext<HTMLDivElement, SkeletonProps>(withStyleProps(Primitive.div));
