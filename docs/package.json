@@ -50,7 +50,7 @@
     "fumadocs-mdx": "11.5.6",
     "fumadocs-typescript": "^3.1.0",
     "fumadocs-ui": "^15.1.0",
-    "hast-util-to-jsx-runtime": "^2.3.4",
+    "hast-util-to-jsx-runtime": "^2.3.6",
     "next": "^14.2.8",
     "next-sanity": "^9.8.24",
     "nuqs": "^2.3.1",
@@ -59,7 +59,7 @@
     "react-error-boundary": "^4.1.2",
     "react-hook-form": "^7.53.2",
     "sanity": "3",
-    "shiki": "^3.0.0",
+    "shiki": "^3.2.1",
     "simple-reveal": "^0.8.0",
     "styled-components": "6"
   },
