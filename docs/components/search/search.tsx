@@ -56,6 +56,7 @@ export default function DefaultSearchDialog({
       initOrama,
       from: api,
     },
+    undefined,
     tag,
   );
 

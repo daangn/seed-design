@@ -33,19 +33,19 @@ export default function Layout({ children }: { children: ReactNode }) {
         <RootProvider
           search={{
             SearchDialog: DefaultSearchDialog,
-            // options: {
-            //   defaultTag: "design",
-            //   tags: [
-            //     {
-            //       name: "Design",
-            //       value: "design",
-            //     },
-            //     {
-            //       name: "React",
-            //       value: "react",
-            //     },
-            //   ],
-            // },
+            options: {
+              defaultTag: "design",
+              tags: [
+                {
+                  name: "Design",
+                  value: "design",
+                },
+                {
+                  name: "React",
+                  value: "react",
+                },
+              ],
+            },
           }}
         >
           <ThemeSync />
