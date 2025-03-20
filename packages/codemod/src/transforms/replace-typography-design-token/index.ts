@@ -266,7 +266,7 @@ const transform: Transform = (file, api) => {
 
   // 포맷팅 옵션 설정
   const printOptions = {
-    quote: "double" as const,
+    quote: "auto" as const,
     trailingComma: false,
     wrapColumn: 1000, // 매우 큰 값으로 설정하여 줄바꿈 방지
     tabWidth: 2,

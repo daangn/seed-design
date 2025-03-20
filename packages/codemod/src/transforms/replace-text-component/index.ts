@@ -230,7 +230,7 @@ const transform: Transform = (file, api) => {
 
   // 포맷팅 옵션 설정
   const printOptions = {
-    quote: "double" as const,
+    quote: "auto" as const,
     objectCurlySpacing: true,
   };
 

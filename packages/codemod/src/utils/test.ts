@@ -12,7 +12,7 @@ export function runFixtureTests(
   fixturesDir: string,
   extension = "tsx",
   transformOptions: z.infer<typeof transformOptionsSchema> = {
-    reporter: true,
+    log: true,
   },
 ) {
   const inputFiles = readdirSync(fixturesDir)
