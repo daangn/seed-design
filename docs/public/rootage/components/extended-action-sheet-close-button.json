@@ -8,7 +8,46 @@
     "id": "extended-action-sheet-close-button",
     "name": "Extended Action Sheet Close Button",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [
@@ -43,10 +82,6 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
                 }
               },
               "label": {

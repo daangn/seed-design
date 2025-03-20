@@ -4,6 +4,36 @@ metadata:
   id: extended-action-sheet-item
   name: Extended Action Sheet Item
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:
