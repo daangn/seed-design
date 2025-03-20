@@ -30,6 +30,12 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)",
         "color": "var(--seed-color-fg-neutral)"
       },
+      "description": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "color": "var(--seed-color-fg-neutral-muted)"
+      },
       "list": {
         "gap": "var(--seed-dimension-x2_5)"
       },
