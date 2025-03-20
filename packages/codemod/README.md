@@ -33,6 +33,28 @@ npx @seed-design/codemod <transform> <...경로> <옵션>
 
 ## 지원하는 Transforms
 
+### replace-stitches-color
+
+```shell
+npx @seed-design/codemod replace-stitches-color <...경로> <옵션>
+```
+
+```shell
+npx @seed-design/codemod replace-stitches-color src/components --extensions=ts,tsx
+```
+
+- Stitches에서 사용하는 컬러를 Seed Design V3 컬러 시스템으로 변환합니다.
+- styled 함수 내에서 사용하는 $로 시작하는 컬러값을 V3 형식으로 변환합니다.
+- 변환 예시:
+  - `$gray700` → `$palette-gray-800`
+  - `$white-static` → `$palette-static-white`
+  - `$blue500` → `$palette-blue-600`
+
+> [!IMPORTANT]
+>
+> - 이 transform은 Stitches의 styled 함수 내에서 사용되는 색상 변수만 변환합니다.
+> - 새로운 Stitches 어댑터 사용을 위해 import 구문도 업데이트해야 합니다.
+
 ### migrate-icons
 
 ```shell
