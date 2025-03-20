@@ -52,7 +52,7 @@ const Chart = ({ data }: { data: BarChartData[] }) => {
         <BarChart data={data} barSize={48} margin={{ top: 5, bottom: 5 }}>
           <CartesianGrid
             vertical={false}
-            stroke={vars.$color.stroke.onImage}
+            stroke={vars.$color.stroke.neutralMuted}
             horizontalValues={[0]}
           />
 
