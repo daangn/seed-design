@@ -14,7 +14,7 @@ export const vars = {
         "color": "var(--seed-color-bg-layer-floating)",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingY": "var(--seed-dimension-x4)",
-        "cornerTopRadius": "var(--seed-radius-r5)",
+        "topCornerRadius": "var(--seed-radius-r5)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
         "exitDuration": "var(--seed-duration-d4)",

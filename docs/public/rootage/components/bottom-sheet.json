@@ -55,7 +55,7 @@
                   "type": "color",
                   "value": "$color.bg.layer-default"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r6"
                 },

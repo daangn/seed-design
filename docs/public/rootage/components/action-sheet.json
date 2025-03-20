@@ -55,7 +55,7 @@
                   "type": "color",
                   "value": "$color.bg.layer-floating"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r5"
                 },

@@ -17,7 +17,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-default
-          cornerTopRadius: $radius.r6
+          topCornerRadius: $radius.r6
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           # Do we need translateY definition here?

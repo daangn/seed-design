@@ -42,8 +42,6 @@
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-default);
-    border-top-left-radius: var(--seed-radius-r6);
-    border-top-right-radius: var(--seed-radius-r6);
 }
 .seed-bottom-sheet__content:not(:is([data-state="open"], [data-open])) {
     animation: seed-exit;

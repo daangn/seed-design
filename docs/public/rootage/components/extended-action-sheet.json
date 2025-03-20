@@ -63,7 +63,7 @@
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r5"
                 },

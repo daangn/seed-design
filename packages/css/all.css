@@ -1328,8 +1328,6 @@
   word-break: break-all;
   z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
   background: var(--seed-color-bg-layer-default);
-  border-top-left-radius: var(--seed-radius-r6);
-  border-top-right-radius: var(--seed-radius-r6);
   flex-direction: column;
   flex: 1;
   display: flex;
@@ -1473,8 +1471,6 @@
   word-break: break-all;
   z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
   background: var(--seed-color-bg-layer-floating);
-  border-top-left-radius: var(--seed-radius-r5);
-  border-top-right-radius: var(--seed-radius-r5);
   flex-direction: column;
   flex: 1;
   display: flex;
@@ -1644,8 +1640,6 @@
   background: var(--seed-color-bg-layer-floating);
   padding-inline: var(--seed-dimension-spacing-x-global-gutter);
   padding-block: var(--seed-dimension-x4);
-  border-top-left-radius: var(--seed-radius-r5);
-  border-top-right-radius: var(--seed-radius-r5);
   flex-direction: column;
   flex: 1;
   display: flex;

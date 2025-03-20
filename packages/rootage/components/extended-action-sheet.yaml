@@ -19,7 +19,7 @@ data:
           color: $color.bg.layer-floating
           paddingX: $dimension.spacing-x.global-gutter
           paddingY: $dimension.x4
-          cornerTopRadius: $radius.r5
+          topCornerRadius: $radius.r5
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           # Do we need translateY definition here?
