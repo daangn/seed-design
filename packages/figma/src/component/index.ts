@@ -1,10 +1,12 @@
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
-import { createIconTagNameFromId, createIconTagNameFromKey } from "../icon";
+import * as metadata from "../data/__generated__/component-sets";
+import { createIconTagNameFromKey } from "../icon";
 import { type ElementNode, createElement } from "../jsx";
+import { findAll, findAllInstances, findOne } from "../node-util";
+import type { NormalizedInstanceNode, NormalizedTextNode } from "../normalizer/types";
 import { getLayoutVariableName } from "../variable";
 import { handleSize } from "./properties";
-import * as metadata from "../data/__generated__/component-sets";
 import type {
   ActionButtonProperties,
   ActionChipProperties,
@@ -49,14 +51,13 @@ import type {
   TextFieldProperties,
   ToggleButtonProperties,
 } from "./type";
-import { findMatchingInstancesInNode, instanceMatchesComponentKey } from "../instance";
-import { traverseNodeAsync } from "@create-figma-plugin/utilities";
 
 export interface ComponentHandler<
-  T extends InstanceNode["componentProperties"] = InstanceNode["componentProperties"],
+  T extends
+    NormalizedInstanceNode["componentProperties"] = NormalizedInstanceNode["componentProperties"],
 > {
   key: string;
-  codegen: (node: InstanceNode & { componentProperties: T }) => Promise<ElementNode>;
+  codegen: (node: NormalizedInstanceNode & { componentProperties: T }) => Promise<ElementNode>;
 }
 
 const actionButtonHandler: ComponentHandler<ActionButtonProperties> = {
@@ -64,33 +65,39 @@ const actionButtonHandler: ComponentHandler<ActionButtonProperties> = {
   codegen: async ({ componentProperties: props }) => {
     const states = props.State.value.split("-");
 
-    const { layout, prefixIcon, suffixIcon, children } = await match(props.Layout.value)
+    const { layout, children } = await match(props.Layout.value)
       .with("Icon Only", async () => ({
         layout: "iconOnly",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
-        children: createElement(await createIconTagNameFromId(props["Icon#7574:0"].value)),
+        children: [
+          createElement("Icon", {
+            svg: createElement(createIconTagNameFromKey(props["Icon#7574:0"].componentKey)),
+          }),
+        ],
       }))
       .with("Icon First", async () => ({
         layout: "withText",
-        prefixIcon: createElement(
-          await createIconTagNameFromId(props["Prefix Icon#5987:305"].value),
-        ),
-        suffixIcon: undefined,
-        children: props["Label#5987:61"].value,
+        children: [
+          createElement("PrefixIcon", {
+            svg: createElement(
+              createIconTagNameFromKey(props["Prefix Icon#5987:305"].componentKey),
+            ),
+          }),
+          props["Label#5987:61"].value,
+        ],
       }))
       .with("Icon Last", async () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: createElement(
-          await createIconTagNameFromId(props["Suffix Icon#5987:244"].value),
-        ),
-        children: props["Label#5987:61"].value,
+        children: [
+          props["Label#5987:61"].value,
+          createElement("SuffixIcon", {
+            svg: createElement(
+              createIconTagNameFromKey(props["Suffix Icon#5987:244"].componentKey),
+            ),
+          }),
+        ],
       }))
       .with("Text Only", () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
         children: props["Label#5987:61"].value,
       }))
       .exhaustive();
@@ -105,8 +112,6 @@ const actionButtonHandler: ComponentHandler<ActionButtonProperties> = {
       size: handleSize(props.Size.value),
       variant: camelCase(props.Variant.value),
       layout,
-      prefixIcon,
-      suffixIcon,
     };
 
     return createElement("ActionButton", commonProps, children);
@@ -118,35 +123,47 @@ const actionChipHandler: ComponentHandler<ActionChipProperties> = {
   codegen: async ({ componentProperties: props }) => {
     const states = props.State.value.split("-");
 
-    const { layout, prefixIcon, suffixIcon, children } = await match(props.Layout.value)
+    const { layout, children } = await match(props.Layout.value)
       .with("Icon Only", async () => ({
         layout: "iconOnly",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
-        children: createElement(await createIconTagNameFromId(props["Icon#8714:0"].value)),
+        children: [
+          createElement("Icon", {
+            svg: createElement(createIconTagNameFromKey(props["Icon#8714:0"].componentKey)),
+          }),
+        ],
       }))
       .with("Icon First", async () => ({
         layout: "withText",
-        prefixIcon: createElement(await createIconTagNameFromId(props["Prefix Icon#8711:0"].value)),
-        suffixIcon: undefined,
-        children: props["Label#7185:0"].value,
+        children: [
+          createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#8711:0"].componentKey)),
+          }),
+          props["Label#7185:0"].value,
+        ],
       }))
       .with("Icon Last", async () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: createElement(await createIconTagNameFromId(props["Suffix Icon#8711:3"].value)),
-        children: props["Label#7185:0"].value,
+        children: [
+          props["Label#7185:0"].value,
+          createElement("SuffixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Suffix Icon#8711:3"].componentKey)),
+          }),
+        ],
       }))
       .with("Icon Both", async () => ({
         layout: "withText",
-        prefixIcon: createElement(await createIconTagNameFromId(props["Prefix Icon#8711:0"].value)),
-        suffixIcon: createElement(await createIconTagNameFromId(props["Suffix Icon#8711:3"].value)),
-        children: props["Label#7185:0"].value,
+        children: [
+          createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#8711:0"].componentKey)),
+          }),
+          props["Label#7185:0"].value,
+          createElement("SuffixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Suffix Icon#8711:3"].componentKey)),
+          }),
+        ],
       }))
       .with("Text Only", () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
         children: props["Label#7185:0"].value,
       }))
       .exhaustive();
@@ -154,8 +171,6 @@ const actionChipHandler: ComponentHandler<ActionChipProperties> = {
     const commonProps = {
       size: handleSize(props.Size.value),
       layout,
-      prefixIcon,
-      suffixIcon,
       ...(states.includes("Disabled") && {
         disabled: true,
       }),
@@ -191,7 +206,7 @@ const actionSheetHandler: ComponentHandler<ActionSheetProperties> = {
       }))
       .exhaustive();
 
-    const items = await findMatchingInstancesInNode<ActionSheetItemProperties>({
+    const items = await findAllInstances<ActionSheetItemProperties>({
       node,
       key: actionSheetItemHandler.key,
     });
@@ -257,21 +272,21 @@ const appBarHandler: ComponentHandler<AppBarProperties> = {
       }
     })();
 
-    const mainNode = await findMatchingInstancesInNode<AppBarMainProperties>({
+    const mainNode = await findAllInstances<AppBarMainProperties>({
       key: appBarMainHandler.key,
       node,
     });
     const onlyMainNode = mainNode.length === 1 ? mainNode[0] : undefined;
     const main = onlyMainNode ? await appBarMainHandler.codegen(onlyMainNode) : undefined;
 
-    const leftNode = await findMatchingInstancesInNode<AppBarLeftProperties>({
+    const leftNode = await findAllInstances<AppBarLeftProperties>({
       key: appBarLeftHandler.key,
       node,
     });
     const onlyLeftNode = leftNode.length === 1 ? leftNode[0] : undefined;
     const left = onlyLeftNode ? await appBarLeftHandler.codegen(onlyLeftNode) : undefined;
 
-    const rightNode = await findMatchingInstancesInNode<AppBarRightProperties>({
+    const rightNode = await findAllInstances<AppBarRightProperties>({
       key: appBarRightHandler.key,
       node,
     });
@@ -336,13 +351,12 @@ const appBarLeftHandler: ComponentHandler<AppBarLeftProperties> = {
         case "Close":
           return createElement("AppBarCloseButton", undefined);
         case "Other": {
-          const iconNode = node.findOne(
+          const iconNode = findOne(
+            node,
             (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as InstanceNode | null;
+          ) as NormalizedInstanceNode | null;
 
-          const iconComponentKey = iconNode
-            ? (await iconNode.getMainComponentAsync())?.key
-            : undefined;
+          const iconComponentKey = iconNode?.componentKey ?? undefined;
 
           return createElement(
             "AppBarIconButton",
@@ -370,21 +384,20 @@ const appBarRightHandler: ComponentHandler<AppBarRightProperties> = {
     const children = await (async () => {
       switch (props.Type.value) {
         case "1 Text": {
-          const textNode = node.findOne((child) => child.type === "TEXT") as TextNode | null;
+          const textNode = findOne(
+            node,
+            (child) => child.type === "TEXT",
+          ) as NormalizedTextNode | null;
 
           return textNode?.characters;
         }
         default: {
-          const iconNodes = node.findAll(
+          const iconNodes = findAll(
+            node,
             (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as InstanceNode[];
+          ) as NormalizedInstanceNode[];
 
-          const iconComponentKeys = await Promise.all(
-            iconNodes.map(async (iconNode) => {
-              const iconComponent = await iconNode.getMainComponentAsync();
-              return iconComponent?.key;
-            }),
-          );
+          const iconComponentKeys = iconNodes.map((iconNode) => iconNode.componentKey);
 
           return iconComponentKeys.map((iconComponentKey) =>
             createElement(
@@ -409,7 +422,7 @@ const appBarRightHandler: ComponentHandler<AppBarRightProperties> = {
 const avatarHandler: ComponentHandler<AvatarProperties> = {
   key: metadata.avatar.key,
   codegen: async (node) => {
-    const [placeholder] = await findMatchingInstancesInNode<IdentityPlaceholderProperties>({
+    const [placeholder] = await findAllInstances<IdentityPlaceholderProperties>({
       node,
       key: identityPlaceholderHandler.key,
     });
@@ -440,7 +453,7 @@ const avatarHandler: ComponentHandler<AvatarProperties> = {
 const avatarStackHandler: ComponentHandler<AvatarStackProperties> = {
   key: metadata.avatarStack.key,
   codegen: async (node) => {
-    const avatarNodes = await findMatchingInstancesInNode<AvatarProperties>({
+    const avatarNodes = await findAllInstances<AvatarProperties>({
       node,
       key: avatarHandler.key,
     });
@@ -496,13 +509,13 @@ const calloutHandler: ComponentHandler<CalloutProperties> = {
       }
     })();
 
-    const textNode = children.find((child) => child.type === "TEXT") as TextNode | null;
+    const textNode = children.find((child) => child.type === "TEXT") as NormalizedTextNode | null;
 
     if (!textNode) {
       return createElement(tag, undefined, undefined, "내용을 제공해주세요.");
     }
 
-    const slices = textNode.getStyledTextSegments(["fontWeight", "textDecoration"]);
+    const slices = textNode.segments;
 
     let title: string | undefined;
     let description: string | undefined;
@@ -518,7 +531,7 @@ const calloutHandler: ComponentHandler<CalloutProperties> = {
         const firstSlice = slices[0];
         const secondSlice = slices[1];
 
-        if (firstSlice?.fontWeight === 700) {
+        if (firstSlice?.style.fontWeight === 700) {
           title = firstSlice?.characters.trim();
           description = secondSlice?.characters.trim();
           break;
@@ -552,7 +565,7 @@ const calloutHandler: ComponentHandler<CalloutProperties> = {
         children: linkLabel,
       },
       ...(props["Icon#12598:210"].value && {
-        icon: createElement(await createIconTagNameFromId(props["Icon#12598:210"].value)),
+        prefixIcon: createElement(createIconTagNameFromKey(props["Icon#12598:210"].componentKey)),
       }),
     };
 
@@ -589,7 +602,7 @@ const checkboxHandler: ComponentHandler<CheckboxProperties> = {
 const chipTabsHandler: ComponentHandler<ChipTabsProperties> = {
   key: metadata.chipTablist.key,
   codegen: async (node) => {
-    const chipTabsItems = await findMatchingInstancesInNode<ChipTabsItemProperties>({
+    const chipTabsItems = await findAllInstances<ChipTabsItemProperties>({
       node,
       key: chipTabsItemHandler.key,
     });
@@ -623,7 +636,6 @@ const chipTabsItemHandler: ComponentHandler<ChipTabsItemProperties> = {
     const commonProps = {
       value: props["Label#8876:0"].value,
       ...(states.includes("Disabled") && {
-        // XXX: 구현체 isDisabled, 수정 예정
         disabled: true,
       }),
     };
@@ -637,39 +649,47 @@ const controlChipHandler: ComponentHandler<ControlChipProperties> = {
   codegen: async ({ componentProperties: props }) => {
     const states = props.State.value.split("-");
 
-    const { layout, prefixIcon, suffixIcon, children } = await match(props.Layout.value)
+    const { layout, children } = await match(props.Layout.value)
       .with("Icon Only", async () => ({
         layout: "iconOnly",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
-        children: createElement(await createIconTagNameFromId(props["Icon#8722:41"].value)),
+        children: [
+          createElement("Icon", {
+            svg: createElement(createIconTagNameFromKey(props["Icon#8722:41"].componentKey)),
+          }),
+        ],
       }))
       .with("Icon First", async () => ({
         layout: "withText",
-        prefixIcon: createElement(await createIconTagNameFromId(props["Prefix Icon#8722:0"].value)),
-        suffixIcon: undefined,
-        children: props["Label#7185:0"].value,
+        children: [
+          createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#8722:0"].componentKey)),
+          }),
+          props["Label#7185:0"].value,
+        ],
       }))
       .with("Icon Last", async () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: createElement(
-          await createIconTagNameFromId(props["Suffix Icon#8722:82"].value),
-        ),
-        children: props["Label#7185:0"].value,
+        children: [
+          props["Label#7185:0"].value,
+          createElement("SuffixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Suffix Icon#8722:82"].componentKey)),
+          }),
+        ],
       }))
       .with("Icon Both", async () => ({
         layout: "withText",
-        prefixIcon: createElement(await createIconTagNameFromId(props["Prefix Icon#8722:0"].value)),
-        suffixIcon: createElement(
-          await createIconTagNameFromId(props["Suffix Icon#8722:82"].value),
-        ),
-        children: props["Label#7185:0"].value,
+        children: [
+          createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#8722:0"].componentKey)),
+          }),
+          props["Label#7185:0"].value,
+          createElement("SuffixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Suffix Icon#8722:82"].componentKey)),
+          }),
+        ],
       }))
       .with("Text Only", () => ({
         layout: "withText",
-        prefixIcon: undefined,
-        suffixIcon: undefined,
         children: props["Label#7185:0"].value,
       }))
       .exhaustive();
@@ -677,8 +697,6 @@ const controlChipHandler: ComponentHandler<ControlChipProperties> = {
     const commonProps = {
       size: handleSize(props.Size.value),
       layout,
-      prefixIcon,
-      suffixIcon,
       ...(states.includes("Selected") && {
         defaultChecked: true,
       }),
@@ -699,7 +717,7 @@ const errorStateHandler: ComponentHandler<ErrorStateProperties> = {
   codegen: async (node) => {
     const props = node.componentProperties;
 
-    const [actionButtonNode] = await findMatchingInstancesInNode<ActionButtonProperties>({
+    const [actionButtonNode] = await findAllInstances<ActionButtonProperties>({
       node,
       key: actionButtonHandler.key,
     });
@@ -729,7 +747,7 @@ const extendedActionSheetHandler: ComponentHandler<ExtendedActionSheetProperties
   codegen: async (node) => {
     const { componentProperties: props } = node;
 
-    const groups = await findMatchingInstancesInNode<ExtendedActionSheetGroupProperties>({
+    const groups = findAllInstances<ExtendedActionSheetGroupProperties>({
       node,
       key: extendedActionSheetGroupHandler.key,
     });
@@ -765,7 +783,7 @@ const extendedActionSheetHandler: ComponentHandler<ExtendedActionSheetProperties
 const extendedActionSheetGroupHandler: ComponentHandler<ExtendedActionSheetGroupProperties> = {
   key: "2a504a1c6b7810d5e652862dcba2cb7048f9eb16",
   codegen: async (node) => {
-    const items = await findMatchingInstancesInNode<ExtendedActionSheetItemProperties>({
+    const items = findAllInstances<ExtendedActionSheetItemProperties>({
       node,
       key: extendedActionSheetItemHandler.key,
     });
@@ -783,18 +801,19 @@ const extendedActionSheetItemHandler: ComponentHandler<ExtendedActionSheetItemPr
 
     const commonProps = {
       tone: camelCase(props.Tone.value),
-      label: props["Label#55905:8"].value,
-      ...(props["Show Prefix Icon#17043:5"].value && {
-        prefixIcon: createElement(
-          await createIconTagNameFromId(props["Prefix Icon#55948:0"].value),
-        ),
-      }),
       ...(states.includes("Disabled") && {
         disabled: true,
       }),
     };
 
-    return createElement("ExtendedActionSheetItem", commonProps);
+    return createElement("ExtendedActionSheetItem", commonProps, [
+      props["Show Prefix Icon#17043:5"].value
+        ? createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#55948:0"].componentKey)),
+          })
+        : undefined,
+      props["Label#55905:8"].value,
+    ]);
   },
 };
 
@@ -804,10 +823,14 @@ const extendedFabHandler: ComponentHandler<ExtendedFabProperties> = {
     const commonProps = {
       size: handleSize(props.Size.value),
       variant: camelCase(props.Variant.value),
-      prefixIcon: createElement(await createIconTagNameFromId(props["Icon#28796:0"].value)),
     };
 
-    return createElement("ExtendedFab", commonProps, props["Label#28936:0"].value);
+    return createElement("ExtendedFab", commonProps, [
+      createElement("PrefixIcon", {
+        svg: createElement(createIconTagNameFromKey(props["Icon#28796:0"].componentKey)),
+      }),
+      props["Label#28936:0"].value,
+    ]);
   },
 };
 
@@ -817,7 +840,7 @@ const fabHandler: ComponentHandler<FabProperties> = {
     return createElement(
       "Fab",
       undefined,
-      createElement(await createIconTagNameFromId(props["Icon#28796:0"].value)),
+      createElement(createIconTagNameFromKey(props["Icon#28796:0"].componentKey)),
       "aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
     );
   },
@@ -916,15 +939,16 @@ const inlineBannerHandler: ComponentHandler<InlineBannerProperties> = {
       }
     })();
 
-    const textNode = node.findOne(
+    const textNode = findOne(
+      node,
       (child) => child.type === "TEXT" && child.name === "Label",
-    ) as TextNode | null;
+    ) as NormalizedTextNode | null;
 
     if (!textNode) {
       return createElement(tag, undefined, undefined, "내용을 제공해주세요.");
     }
 
-    const slices = textNode.getStyledTextSegments(["fontWeight"]);
+    const slices = textNode.segments;
 
     let title: string | undefined;
     let description: string | undefined;
@@ -943,14 +967,15 @@ const inlineBannerHandler: ComponentHandler<InlineBannerProperties> = {
       }
     }
 
-    const iconNode = node.findOne(
+    const iconNode = findOne(
+      node,
       (child) => child.type === "INSTANCE" && child.name === "icon",
-    ) as InstanceNode | null;
+    ) as NormalizedInstanceNode | null;
 
-    const iconComponent =
-      props["Show Icon#11840:27"] && iconNode ? await iconNode.getMainComponentAsync() : undefined;
-    const icon = iconComponent
-      ? createElement(createIconTagNameFromKey(iconComponent.key))
+    const iconComponentKey =
+      props["Show Icon#11840:27"] && iconNode ? iconNode.componentKey : undefined;
+    const prefixIcon = iconComponentKey
+      ? createElement(createIconTagNameFromKey(iconComponentKey))
       : undefined;
 
     const commonProps = {
@@ -962,7 +987,7 @@ const inlineBannerHandler: ComponentHandler<InlineBannerProperties> = {
           children: props["Link Label#1547:81"].value,
         },
       }),
-      icon,
+      prefixIcon,
     };
 
     return createElement(tag, commonProps);
@@ -1106,10 +1131,6 @@ const reactionButtonHandler: ComponentHandler<ReactionButtonProperties> = {
     const states = props.State.value.split("-");
 
     const commonProps = {
-      prefixIcon: createElement(await createIconTagNameFromId(props["Icon#12379:0"].value)),
-      ...(props["Show Count#6397:33"].value && {
-        count: Number(props["Count#15816:0"].value),
-      }),
       size: handleSize(props.Size.value),
       ...(states.includes("Loading") && {
         loading: true,
@@ -1122,14 +1143,22 @@ const reactionButtonHandler: ComponentHandler<ReactionButtonProperties> = {
       }),
     };
 
-    return createElement("ReactionButton", commonProps, props["Label#6397:0"].value);
+    return createElement("ReactionButton", commonProps, [
+      createElement("PrefixIcon", {
+        svg: createElement(createIconTagNameFromKey(props["Icon#12379:0"].componentKey)),
+      }),
+      props["Label#6397:0"].value,
+      props["Show Count#6397:33"].value
+        ? createElement("Count", {}, props["Count#15816:0"].value)
+        : undefined,
+    ]);
   },
 };
 
 const segmentedControlHandler: ComponentHandler<SegmentedControlProperties> = {
   key: metadata.segmentedControl.key,
   codegen: async (node) => {
-    const segments = await findMatchingInstancesInNode<SegmentedControlItemProperties>({
+    const segments = await findAllInstances<SegmentedControlItemProperties>({
       node,
       key: segmentedControlItemHandler.key,
     });
@@ -1186,7 +1215,7 @@ const selectBoxGroupHandler: ComponentHandler<SelectBoxGroupProperties> = {
       }
     })();
 
-    const selectBoxes = await findMatchingInstancesInNode<SelectBoxProperties>({
+    const selectBoxes = await findAllInstances<SelectBoxProperties>({
       node,
       key: selectBoxHandler.key,
     });
@@ -1247,44 +1276,36 @@ const skeletonHandler: ComponentHandler<SkeletonProperties> = {
   key: metadata.skeleton.key,
   codegen: async ({
     componentProperties: props,
-    width,
-    height,
+    absoluteBoundingBox,
     layoutSizingHorizontal,
     layoutSizingVertical,
     boundVariables,
-    parent,
   }) => {
     const commonProps = {
       radius: camelCase(props.Radius.value),
-      width: await (async () => {
+      width: (() => {
         switch (layoutSizingHorizontal) {
           case "FIXED": {
-            const variableId = boundVariables?.width?.id;
-            if (variableId) return await getLayoutVariableName(variableId);
+            const variableId = boundVariables?.size?.x?.id;
+            if (variableId) return getLayoutVariableName(variableId);
 
-            return `${width}px`;
+            return `${absoluteBoundingBox?.width}px`;
           }
           case "FILL":
-            if (parent?.type === "FRAME" && parent.layoutMode === "VERTICAL") return "full";
-
-            // TODO: grow하는 Flex로 감싸야 할 수도 있다
             return "full";
           default:
             return "full";
         }
       })(),
-      height: await (async () => {
+      height: (() => {
         switch (layoutSizingVertical) {
           case "FIXED": {
-            const variableId = boundVariables?.height?.id;
-            if (variableId) return await getLayoutVariableName(variableId);
+            const variableId = boundVariables?.size?.y?.id;
+            if (variableId) return getLayoutVariableName(variableId);
 
-            return `${height}px`;
+            return `${absoluteBoundingBox?.height}px`;
           }
           case "FILL":
-            if (parent?.type === "FRAME" && parent.layoutMode === "HORIZONTAL") return "full";
-
-            // TODO: grow하는 Flex로 감싸야 할 수도 있다
             return "full";
           default:
             return "full";
@@ -1319,21 +1340,18 @@ const tabsHandler: ComponentHandler<TabsProperties> = {
       .map((child) => {
         if (child.type !== "INSTANCE") return null;
 
-        const componentKey =
-          child.mainComponent?.parent?.type === "COMPONENT_SET"
-            ? child.mainComponent?.parent?.key
-            : child.mainComponent?.key;
+        const componentKey = child.componentSetKey ? child.componentSetKey : child.componentKey;
 
         if (componentKey === tabsHugItemHandler.key)
           return {
-            layout: "hug" as const,
-            node: child as InstanceNode & { componentProperties: TabsHugItemProperties },
+            triggerLayout: "hug" as const,
+            node: child as NormalizedInstanceNode & { componentProperties: TabsHugItemProperties },
           };
 
         if (componentKey === tabsFillItemHandler.key)
           return {
-            layout: "fill" as const,
-            node: child as InstanceNode & { componentProperties: TabsFillItemProperties },
+            triggerLayout: "fill" as const,
+            node: child as NormalizedInstanceNode & { componentProperties: TabsFillItemProperties },
           };
 
         return null;
@@ -1348,8 +1366,8 @@ const tabsHandler: ComponentHandler<TabsProperties> = {
       "TabsList",
       undefined,
       await Promise.all(
-        tabsItems.map(({ layout, node }) => {
-          switch (layout) {
+        tabsItems.map(({ triggerLayout, node }) => {
+          switch (triggerLayout) {
             case "hug":
               return tabsHugItemHandler.codegen(node);
             case "fill":
@@ -1359,25 +1377,21 @@ const tabsHandler: ComponentHandler<TabsProperties> = {
       ),
     );
 
-    const tabContentList = createElement(
-      "TabContentList",
-      undefined,
-      tabsItems.map(({ node }) => {
-        const value = node.componentProperties["Label#4478:2"].value;
+    const tabContents = tabsItems.map(({ node }) => {
+      const value = node.componentProperties["Label#4478:2"].value;
 
-        return createElement("TabsContent", { value }, value);
-      }),
-    );
+      return createElement("TabsContent", { value }, "{/* TODO: 컨텐츠 추가 */}");
+    });
 
     const commonProps = {
-      layout: camelCase(props.Layout.value),
+      triggerLayout: camelCase(props.Layout.value),
       size: handleSize(props.Size.value),
       ...(selectedTabsItem && {
         defaultValue: selectedTabsItem.componentProperties["Label#4478:2"].value,
       }),
     };
 
-    return createElement("Tabs", commonProps, [tabTriggerList, tabContentList]);
+    return createElement("TabsRoot", commonProps, [tabTriggerList, ...tabContents]);
   },
 };
 
@@ -1392,7 +1406,6 @@ const tabsHugItemHandler: ComponentHandler<TabsHugItemProperties> = {
         alert: true,
       }),
       ...(states.includes("Disabled") && {
-        // XXX: 구현체 isDisabled, 수정 예정
         disabled: true,
       }),
     };
@@ -1412,7 +1425,6 @@ const tabsFillItemHandler: ComponentHandler<TabsFillItemProperties> = {
         alert: true,
       }),
       ...(states.includes("Disabled") && {
-        // XXX: 구현체 isDisabled, 수정 예정
         disabled: true,
       }),
     };
@@ -1430,16 +1442,19 @@ const textButtonHandler: ComponentHandler<TextButtonProperties> = {
 
     const { prefixIcon, suffixIcon, children } = await match(props.Layout.value)
       .with("Icon First", async () => ({
-        prefixIcon: createElement(await createIconTagNameFromId(props["Prefix Icon#7561:0"].value)),
+        prefixIcon: createElement(
+          createIconTagNameFromKey(props["Prefix Icon#7561:0"].componentKey),
+        ),
         suffixIcon: undefined,
         children: props["Label#6148:0"].value,
       }))
       .with("Icon Last", () => {
-        const suffixIconNode = node.findOne(
+        const suffixIconNode = findOne(
+          node,
           (node) => node.type === "INSTANCE" && node.name === "Suffix Icon",
-        ) as InstanceNode | null;
+        ) as NormalizedInstanceNode | null;
 
-        const suffixIconComponentKey = suffixIconNode?.mainComponent?.key;
+        const suffixIconComponentKey = suffixIconNode?.componentKey;
 
         return {
           prefixIcon: undefined,
@@ -1511,7 +1526,7 @@ const textFieldHandler: ComponentHandler<TextFieldProperties> = {
       // input affixes
       ...(showPrefix &&
         showPrefixIcon && {
-          prefixIcon: createElement(await createIconTagNameFromId(prefixIcon)),
+          prefixIcon: createElement(createIconTagNameFromKey(prefixIcon)),
         }),
       ...(showPrefix &&
         showPrefixText && {
@@ -1519,7 +1534,7 @@ const textFieldHandler: ComponentHandler<TextFieldProperties> = {
         }),
       ...(showSuffix &&
         showSuffixIcon && {
-          suffixIcon: createElement(await createIconTagNameFromId(suffixIcon)),
+          suffixIcon: createElement(createIconTagNameFromKey(suffixIcon)),
         }),
       ...(showSuffix &&
         showSuffixText && {
@@ -1599,18 +1614,7 @@ const toggleButtonHandler: ComponentHandler<ToggleButtonProperties> = {
     const commonProps = {
       variant: camelCase(props.Variant.value),
       size: handleSize(props.Size.value),
-      ...(props["Show Prefix Icon#6122:392"].value && {
-        prefixIcon: createElement(
-          await createIconTagNameFromId(props["Prefix Icon#6122:98"].value),
-        ),
-      }),
-      ...(props["Show Suffix Icon#6122:147"].value && {
-        suffixIcon: createElement(
-          await createIconTagNameFromId(props["Suffix Icon#6122:343"].value),
-        ),
-      }),
       ...(states.includes("Selected") && {
-        // XXX: selected vs pressed
         defaultPressed: true,
       }),
       ...(states.includes("Disabled") && {
@@ -1621,7 +1625,21 @@ const toggleButtonHandler: ComponentHandler<ToggleButtonProperties> = {
       }),
     };
 
-    return createElement("ToggleButton", commonProps, props["Label#6122:49"].value);
+    return createElement("ToggleButton", commonProps, [
+      props["Show Prefix Icon#6122:392"].value
+        ? createElement("PrefixIcon", {
+            svg: createElement(createIconTagNameFromKey(props["Prefix Icon#6122:98"].componentKey)),
+          })
+        : undefined,
+      props["Label#6122:49"].value,
+      props["Show Suffix Icon#6122:147"].value
+        ? createElement("SuffixIcon", {
+            svg: createElement(
+              createIconTagNameFromKey(props["Suffix Icon#6122:343"].componentKey),
+            ),
+          })
+        : undefined,
+    ]);
   },
 };
 

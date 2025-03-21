@@ -11,7 +11,7 @@
   "author": "Asher <asher@daangn.com>",
   "license": "MIT",
   "devDependencies": {
-    "@figma/plugin-typings": "^1.107.0-beta.1",
+    "@figma/plugin-typings": "^1.108.0",
     "@figma/widget-typings": "*",
     "@types/apca-w3": "^0.1.3",
     "concurrently": "^6.3.0",

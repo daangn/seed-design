@@ -1,7 +1,12 @@
 {
-  "extends": "@create-figma-plugin/tsconfig",
   "compilerOptions": {
-    "types": ["@figma/plugin-typings"]
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "strict": true,
+    "types": ["@figma/plugin-typings"],
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true
+  }
 }

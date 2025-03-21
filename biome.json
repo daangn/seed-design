@@ -41,7 +41,7 @@
         "useTemplate": "warn"
       },
       "complexity": {
-        "useLiteralKeys": "warn",
+        "useLiteralKeys": "off",
         "noBannedTypes": "off",
         "noForEach": "off"
       },

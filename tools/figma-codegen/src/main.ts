@@ -1,16 +1,29 @@
-import { generateCode } from "./codegen/generate-code";
+import { generateCode, createPluginNormalizer } from "@seed-design/figma";
 
 export default function () {
   if (figma.editorType === "dev" && figma.mode === "codegen") {
     // Register a callback to the "generate" event
     figma.codegen.on("generate", async ({ node }) => {
-      return [
-        {
-          title: "React",
-          language: "TYPESCRIPT",
-          code: await generateCode(node),
-        },
-      ];
+      try {
+        const normalizer = createPluginNormalizer();
+        const normalizedNode = await normalizer(node);
+        return [
+          {
+            title: "React",
+            language: "TYPESCRIPT",
+            code: await generateCode(normalizedNode),
+          },
+        ];
+      } catch (error) {
+        console.error(error);
+        return [
+          {
+            title: "React",
+            language: "TYPESCRIPT",
+            code: `Error: ${error}`,
+          },
+        ];
+      }
     });
   }
 }
