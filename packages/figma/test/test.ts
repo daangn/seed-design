@@ -3,7 +3,9 @@ import fs from "fs";
 import { generateCode } from "../src/generate-code";
 import { createRestNormalizer } from "../src/normalizer/from-rest";
 
-const response = JSON.parse(fs.readFileSync("./fixture.json", "utf8")) as GetFileNodesResponse;
+const response = JSON.parse(
+  fs.readFileSync("./fixtures/fixture.json", "utf8"),
+) as GetFileNodesResponse;
 
 const node = Object.values(response.nodes)[0]!;
 const normalizer = createRestNormalizer({

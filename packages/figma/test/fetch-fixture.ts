@@ -11,4 +11,4 @@ const response = await fetch(`https://api.figma.com/v1/files/${fileKey}/nodes?id
 
 const data = await response.json();
 
-fs.writeFileSync("fixture.json", JSON.stringify(data, null, 2));
+fs.writeFileSync("fixtures/fixture.json", JSON.stringify(data, null, 2));
