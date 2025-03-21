@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.10
+
+### Patch Changes
+
+- e4b704c: Avatar size=42를 추가합니다.
+
 ## 0.0.9
 
 ### Patch Changes
