@@ -11,7 +11,7 @@ import type {
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
 
-function handleColor(color: string | undefined) {
+export function handleColor(color: string | undefined) {
   if (!color) {
     return undefined;
   }
@@ -20,7 +20,7 @@ function handleColor(color: string | undefined) {
   return vars.$color[type][value] ?? undefined;
 }
 
-function handleDimension(dimension: string | 0 | undefined) {
+export function handleDimension(dimension: string | 0 | undefined) {
   if (dimension == null) {
     return undefined;
   }

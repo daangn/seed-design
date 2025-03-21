@@ -1,6 +1,8 @@
 import { Slot } from "@radix-ui/react-slot";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
+import type { ColorFg, ColorPalette, Dimension } from "@seed-design/css/vars";
 import { createContext, forwardRef, useCallback, useContext, useMemo, useRef } from "react";
+import { handleColor, handleDimension } from "../../utils/styled";
 
 export interface PrefixIconProps {
   svg: React.ReactNode;
@@ -103,29 +105,44 @@ export const IconRequired = ({
 
 export interface IconProps {
   svg: React.ReactNode;
+
+  size?: Dimension | string;
+
+  color?: `fg.${ColorFg}` | `palette.${ColorPalette}`;
 }
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(({ svg, ...otherProps }, ref) => {
-  const context = useContext(IconContext);
+export const Icon = forwardRef<SVGSVGElement, IconProps>(
+  ({ svg, size, color, ...otherProps }, ref) => {
+    const context = useContext(IconContext);
 
-  useLayoutEffect(() => {
-    context?.register();
-    return () => {
-      context?.unregister();
-    };
-  }, [context]);
+    useLayoutEffect(() => {
+      context?.register();
+      return () => {
+        context?.unregister();
+      };
+    }, [context]);
 
-  return (
-    <Slot
-      ref={ref as React.ForwardedRef<HTMLElement>}
-      aria-hidden
-      className="seed-icon"
-      {...otherProps}
-    >
-      {svg}
-    </Slot>
-  );
-});
+    const sizeValue = handleDimension(size);
+    const colorValue = handleColor(color);
+
+    return (
+      <Slot
+        ref={ref as React.ForwardedRef<HTMLElement>}
+        aria-hidden
+        className="seed-icon"
+        style={
+          {
+            "--seed-icon-size": sizeValue,
+            "--seed-icon-color": colorValue,
+          } as React.CSSProperties
+        }
+        {...otherProps}
+      >
+        {svg}
+      </Slot>
+    );
+  },
+);
 
 export function withIconRequired<P extends {}, R>(
   Component: React.ComponentType<P & React.RefAttributes<R>>,
