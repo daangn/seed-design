@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.1",
-    "@radix-ui/react-use-callback-ref": "^1.1.0",
     "@seed-design/dom-utils": "0.0.1",
     "@seed-design/react-primitive": "0.0.1"
   },
