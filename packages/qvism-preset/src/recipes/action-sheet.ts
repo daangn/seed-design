@@ -54,8 +54,8 @@ const actionSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
-      borderTopLeftRadius: vars.base.enabled.content.cornerTopRadius,
-      borderTopRightRadius: vars.base.enabled.content.cornerTopRadius,
+      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
+      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
       [pseudo(not(open))]: exitAnimation({
         timingFunction: vars.base.enabled.content.exitTimingFunction,

@@ -4,6 +4,28 @@ metadata:
   id: action-sheet-close-button
   name: Action Sheet Close Button
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:

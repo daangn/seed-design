@@ -1,4 +1,4 @@
-import { bottomSheet as vars } from "../vars/component";
+import { bottomSheet as vars, bottomSheetCloseButton as closeButtonVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { not, open, pseudo } from "../utils/pseudo";
@@ -56,8 +56,8 @@ const bottomSheet = defineSlotRecipe({
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
-      borderTopLeftRadius: vars.base.enabled.content.cornerTopRadius,
-      borderTopRightRadius: vars.base.enabled.content.cornerTopRadius,
+      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
+      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
       [pseudo(not(open))]: exitAnimation({
         timingFunction: vars.base.enabled.content.exitTimingFunction,
@@ -129,20 +129,20 @@ const bottomSheet = defineSlotRecipe({
 
       top: vars.base.enabled.closeButton.fromTop,
       right: vars.base.enabled.closeButton.fromRight,
-      borderRadius: vars.base.enabled.closeButton.cornerRadius,
-      background: vars.base.enabled.closeButton.color,
-      width: vars.base.enabled.closeButton.size,
-      height: vars.base.enabled.closeButton.size,
+      borderRadius: closeButtonVars.base.enabled.root.cornerRadius,
+      background: closeButtonVars.base.enabled.root.color,
+      width: closeButtonVars.base.enabled.root.size,
+      height: closeButtonVars.base.enabled.root.size,
 
       ...onlyIcon({
-        color: vars.base.enabled.closeIcon.color,
-        size: vars.base.enabled.closeIcon.size,
+        color: closeButtonVars.base.enabled.icon.color,
+        size: closeButtonVars.base.enabled.icon.size,
       }),
 
       "&:after": {
         content: '""',
         position: "absolute",
-        inset: `calc((${vars.base.enabled.closeButton.size} - ${vars.base.enabled.closeButton.targetSize}) / 2)`,
+        inset: `calc((${closeButtonVars.base.enabled.root.size} - ${closeButtonVars.base.enabled.root.targetSize}) / 2)`,
       },
     },
   },

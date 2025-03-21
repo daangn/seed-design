@@ -8,7 +8,133 @@
     "id": "bottom-sheet",
     "name": "Bottom Sheet",
     "schema": {
-      "slots": {},
+      "slots": {
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitOpacity": {
+              "type": "number"
+            }
+          }
+        },
+        "content": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "topCornerRadius": {
+              "type": "dimension"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "header": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension"
+            }
+          }
+        },
+        "body": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            }
+          }
+        },
+        "footer": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension"
+            }
+          }
+        },
+        "title": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "closeButton": {
+          "properties": {
+            "fromTop": {
+              "type": "dimension"
+            },
+            "fromRight": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [
@@ -55,7 +181,7 @@
                   "type": "color",
                   "value": "$color.bg.layer-default"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r6"
                 },
@@ -151,28 +277,6 @@
                 }
               },
               "closeButton": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 28,
-                    "unit": "px"
-                  }
-                },
                 "fromTop": {
                   "type": "dimension",
                   "value": "$dimension.x5"
@@ -180,19 +284,6 @@
                 "fromRight": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                }
-              },
-              "closeIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 14,
-                    "unit": "px"
-                  }
                 }
               }
             }

@@ -4,6 +4,86 @@ metadata:
   id: extended-action-sheet
   name: Extended Action Sheet
 data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          topCornerRadius:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      description:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      list:
+        properties:
+          gap:
+            type: dimension
+      group:
+        properties:
+          cornerRadius:
+            type: dimension
+      divider:
+        properties:
+          strokeBottomWidth:
+            type: dimension
+          strokeColor:
+            type: color
+      footer:
+        properties:
+          paddingTop:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -19,7 +99,7 @@ data:
           color: $color.bg.layer-floating
           paddingX: $dimension.spacing-x.global-gutter
           paddingY: $dimension.x4
-          cornerTopRadius: $radius.r5
+          topCornerRadius: $radius.r5
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           # Do we need translateY definition here?
@@ -33,6 +113,11 @@ data:
           lineHeight: $line-height.t6
           fontWeight: $font-weight.bold
           color: $color.fg.neutral
+        description:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.regular
+          color: $color.fg.neutral-muted
         # We might need description in near future
         list:
           gap: $dimension.x2_5

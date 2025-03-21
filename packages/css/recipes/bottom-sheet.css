@@ -118,7 +118,7 @@
     top: var(--seed-dimension-x5);
     right: var(--seed-dimension-x5);
     border-radius: var(--seed-radius-full);
-    background: var(--seed-color-palette-gray-300);
+    background: var(--seed-color-bg-neutral-weak);
     width: 28px;
     height: 28px;
     --seed-icon-size: 14px;

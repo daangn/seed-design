@@ -6,6 +6,7 @@ export { vars as actionSheet } from "./action-sheet.mjs";
 export { vars as avatarStack } from "./avatar-stack.mjs";
 export { vars as avatar } from "./avatar.mjs";
 export { vars as badge } from "./badge.mjs";
+export { vars as bottomSheetCloseButton } from "./bottom-sheet-close-button.mjs";
 export { vars as bottomSheet } from "./bottom-sheet.mjs";
 export { vars as callout } from "./callout.mjs";
 export { vars as checkbox } from "./checkbox.mjs";

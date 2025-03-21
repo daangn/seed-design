@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "extended-action-sheet-close-button",
-    "name": "Extended Action Sheet Close Button"
+    "id": "bottom-sheet-close-button",
+    "name": "Bottom Sheet Close Button"
   },
   "data": {
-    "id": "extended-action-sheet-close-button",
-    "name": "Extended Action Sheet Close Button",
+    "id": "bottom-sheet-close-button",
+    "name": "Bottom Sheet Close Button",
     "schema": {
       "slots": {
         "root": {
@@ -14,36 +14,24 @@
             "color": {
               "type": "color"
             },
-            "minHeight": {
-              "type": "dimension"
-            },
             "cornerRadius": {
               "type": "dimension"
             },
-            "paddingX": {
+            "targetSize": {
               "type": "dimension"
             },
-            "paddingY": {
-              "type": "dimension"
-            },
-            "gap": {
+            "size": {
               "type": "dimension"
             }
           }
         },
-        "label": {
+        "icon": {
           "properties": {
             "color": {
               "type": "color"
             },
-            "fontSize": {
+            "size": {
               "type": "dimension"
-            },
-            "lineHeight": {
-              "type": "dimension"
-            },
-            "fontWeight": {
-              "type": "number"
             }
           }
         }
@@ -64,42 +52,36 @@
                   "type": "color",
                   "value": "$color.bg.neutral-weak"
                 },
-                "minHeight": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "targetSize": {
                   "type": "dimension",
                   "value": {
-                    "value": 52,
+                    "value": 44,
                     "unit": "px"
                   }
                 },
-                "cornerRadius": {
+                "size": {
                   "type": "dimension",
-                  "value": "$radius.r3"
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
+                  "value": {
+                    "value": 28,
+                    "unit": "px"
+                  }
                 }
               },
-              "label": {
+              "icon": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
                 },
-                "fontSize": {
+                "size": {
                   "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
+                  "value": {
+                    "value": 14,
+                    "unit": "px"
+                  }
                 }
               }
             }

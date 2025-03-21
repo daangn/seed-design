@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: bottom-sheet-close-button
+  name: Bottom Sheet Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          targetSize:
+            type: dimension
+          size:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.neutral-weak
+          cornerRadius: $radius.full
+          targetSize: 44px
+          size: 28px
+        icon:
+          color: $color.fg.neutral
+          size: 14px
+      pressed:
+        root:
+          color: $color.bg.neutral-weak-pressed

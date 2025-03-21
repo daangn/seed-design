@@ -6,8 +6,7 @@ export declare const vars: {
         "minHeight": "52px",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x5)",
-        "paddingY": "var(--seed-dimension-x3_5)",
-        "gap": "var(--seed-dimension-x3)"
+        "paddingY": "var(--seed-dimension-x3_5)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",

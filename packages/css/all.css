@@ -1412,7 +1412,7 @@
   top: var(--seed-dimension-x5);
   right: var(--seed-dimension-x5);
   border-radius: var(--seed-radius-full);
-  background: var(--seed-color-palette-gray-300);
+  background: var(--seed-color-bg-neutral-weak);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral);
   justify-content: center;

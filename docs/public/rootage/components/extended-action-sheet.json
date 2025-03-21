@@ -8,7 +8,134 @@
     "id": "extended-action-sheet",
     "name": "Extended Action Sheet",
     "schema": {
-      "slots": {},
+      "slots": {
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitOpacity": {
+              "type": "number"
+            }
+          }
+        },
+        "content": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "topCornerRadius": {
+              "type": "dimension"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "header": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension"
+            }
+          }
+        },
+        "title": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "list": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "group": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "divider": {
+          "properties": {
+            "strokeBottomWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            }
+          }
+        },
+        "footer": {
+          "properties": {
+            "paddingTop": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [
@@ -63,7 +190,7 @@
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r5"
                 },
@@ -110,6 +237,24 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
+                }
+              },
+              "description": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
                 }
               },
               "list": {

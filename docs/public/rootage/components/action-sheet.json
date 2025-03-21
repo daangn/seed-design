@@ -8,7 +8,113 @@
     "id": "action-sheet",
     "name": "Action Sheet",
     "schema": {
-      "slots": {},
+      "slots": {
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitOpacity": {
+              "type": "number"
+            }
+          }
+        },
+        "content": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "topCornerRadius": {
+              "type": "dimension"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "header": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "title": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "divider": {
+          "properties": {
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "marginX": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [
@@ -55,7 +161,7 @@
                   "type": "color",
                   "value": "$color.bg.layer-floating"
                 },
-                "cornerTopRadius": {
+                "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r5"
                 },

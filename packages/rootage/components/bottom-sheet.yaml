@@ -4,6 +4,86 @@ metadata:
   id: bottom-sheet
   name: Bottom Sheet
 data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          topCornerRadius:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+      header:
+        properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      body:
+        properties:
+          paddingX:
+            type: dimension
+      footer:
+        properties:
+          paddingX:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingBottom:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      description:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      closeButton:
+        properties:
+          fromTop:
+            type: dimension
+          fromRight:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -17,7 +97,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-default
-          cornerTopRadius: $radius.r6
+          topCornerRadius: $radius.r6
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           # Do we need translateY definition here?
@@ -45,12 +125,5 @@ data:
           lineHeight: $line-height.t6
           fontWeight: $font-weight.regular
         closeButton:
-          color: $color.palette.gray-300
-          cornerRadius: $radius.full
-          targetSize: 44px
-          size: 28px
           fromTop: $dimension.x5
           fromRight: $dimension.x5
-        closeIcon:
-          color: $color.fg.neutral
-          size: 14px

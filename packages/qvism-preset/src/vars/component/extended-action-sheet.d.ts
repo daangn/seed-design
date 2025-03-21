@@ -14,7 +14,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-layer-floating)",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingY": "var(--seed-dimension-x4)",
-        "cornerTopRadius": "var(--seed-radius-r5)",
+        "topCornerRadius": "var(--seed-radius-r5)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
         "exitDuration": "var(--seed-duration-d4)",
@@ -29,6 +29,12 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t6)",
         "fontWeight": "var(--seed-font-weight-bold)",
         "color": "var(--seed-color-fg-neutral)"
+      },
+      "description": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       },
       "list": {
         "gap": "var(--seed-dimension-x2_5)"

@@ -4,6 +4,74 @@ metadata:
   id: action-sheet
   name: Action Sheet
 data:
+  schema:
+    slots:
+      backdrop:
+        properties:
+          color:
+            type: color
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          enterOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+          exitOpacity:
+            type: number
+      content:
+        properties:
+          color:
+            type: color
+          topCornerRadius:
+            type: dimension
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
+      header:
+        properties:
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+      title:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      description:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      divider:
+        properties:
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          marginX:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -17,7 +85,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-floating
-          cornerTopRadius: $radius.r5
+          topCornerRadius: $radius.r5
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
           # Do we need translateY definition here?
