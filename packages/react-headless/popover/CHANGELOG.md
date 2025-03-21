@@ -1,5 +1,11 @@
 # @seed-design/react-popover
 
+## 0.0.2
+
+### Patch Changes
+
+- 09fecb9: 누락된 seed-design/react-primitive 의존성 추가 및 불필요한 의존성 제거
+
 ## 0.0.1
 
 ### Patch Changes

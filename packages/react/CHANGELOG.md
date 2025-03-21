@@ -1,5 +1,20 @@
 # @seed-design/react
 
+## 0.0.10
+
+### Patch Changes
+
+- e4b704c: Avatar size=42를 추가합니다.
+- de5901d: Icon 컴포넌트에 color, size prop을 추가합니다.
+- Updated dependencies [e4b704c]
+- Updated dependencies [09fecb9]
+  - @seed-design/css@0.0.10
+  - @seed-design/react-segmented-control@0.0.2
+  - @seed-design/react-snackbar@0.0.2
+  - @seed-design/react-popover@0.0.2
+  - @seed-design/react-dialog@0.0.2
+  - @seed-design/react-tabs@0.0.2
+
 ## 0.0.9
 
 ### Patch Changes

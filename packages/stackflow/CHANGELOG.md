@@ -1,5 +1,12 @@
 # @seed-design/stackflow
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies [e4b704c]
+  - @seed-design/css@0.0.10
+
 ## 0.0.9
 
 ### Patch Changes

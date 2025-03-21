@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "author": "Asher <asher@daangn.com>",
   "dependencies": {
-    "@seed-design/figma": "0.0.1"
+    "@seed-design/figma": "0.0.2"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^3.0.2",
@@ -34,7 +34,9 @@
     "main": "src/main.ts",
     "documentAccess": "dynamic-page",
     "networkAccess": {
-      "allowedDomains": ["none"]
+      "allowedDomains": [
+        "none"
+      ]
     }
   }
 }
