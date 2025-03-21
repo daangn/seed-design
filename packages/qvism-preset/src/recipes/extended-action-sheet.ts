@@ -60,8 +60,8 @@ const extendedActionSheet = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       paddingInline: vars.base.enabled.content.paddingX,
       paddingBlock: vars.base.enabled.content.paddingY,
-      borderTopLeftRadius: vars.base.enabled.content.cornerTopRadius,
-      borderTopRightRadius: vars.base.enabled.content.cornerTopRadius,
+      borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
+      borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
       [pseudo(not(open))]: exitAnimation({
         timingFunction: vars.base.enabled.content.exitTimingFunction,

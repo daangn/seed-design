@@ -44,6 +44,8 @@
     background: var(--seed-color-bg-layer-floating);
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-block: var(--seed-dimension-x4);
+    border-top-left-radius: var(--seed-radius-r5);
+    border-top-right-radius: var(--seed-radius-r5);
 }
 .seed-extended-action-sheet__content:not(:is([data-state="open"], [data-open])) {
     animation: seed-exit;

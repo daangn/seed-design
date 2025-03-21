@@ -42,6 +42,8 @@
     word-break: break-all;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-default);
+    border-top-left-radius: var(--seed-radius-r6);
+    border-top-right-radius: var(--seed-radius-r6);
 }
 .seed-bottom-sheet__content:not(:is([data-state="open"], [data-open])) {
     animation: seed-exit;
@@ -116,7 +118,7 @@
     top: var(--seed-dimension-x5);
     right: var(--seed-dimension-x5);
     border-radius: var(--seed-radius-full);
-    background: var(--seed-color-palette-gray-300);
+    background: var(--seed-color-bg-neutral-weak);
     width: 28px;
     height: 28px;
     --seed-icon-size: 14px;
