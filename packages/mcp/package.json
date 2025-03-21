@@ -1,0 +1,36 @@
+{
+  "name": "@seed-design/mcp",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/mcp"
+  },
+  "author": "Asher <asher@daangn.com>",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "bin",
+    "src"
+  ],
+  "bin": "./bin/index.mjs",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@seed-design/figma": "0.0.1",
+    "express": "^4.21.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.33",
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

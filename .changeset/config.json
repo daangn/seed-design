@@ -11,7 +11,8 @@
       "@seed-design/webpack-plugin",
       "@seed-design/rsbuild-plugin"
     ],
-    ["@seed-design/codemod", "@seed-design/migration-index"]
+    ["@seed-design/codemod", "@seed-design/migration-index"],
+    ["@seed-design/figma", "@seed-design/mcp"]
   ],
   "access": "restricted",
   "baseBranch": "dev",
