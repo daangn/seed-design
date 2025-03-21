@@ -42,7 +42,7 @@ function setupCli(track) {
     )
     .option("--extensions <extensions>", "변환할 파일 확장자")
     .option("--ignore-config <ignoreConfig>", "Ignore config")
-    .example("  $ npx @seed-design/codemod migrate-icons src/ui")
+    .example("  $ npx @seed-design/codemod replace-react-icon src/ui")
     .action(async (transformName, paths, opts) => {
       const options = transformOptionsSchema.parse(opts);
 
@@ -98,7 +98,10 @@ Node.js 버전을 업그레이드해주세요.
   }
 }
 
-const cssTransformers = ["replace-css-color-variable", "replace-css-typography-variable"];
+const cssTransformers = [
+  "replace-css-seed-design-color-variable",
+  "replace-css-seed-design-typography-variable",
+];
 
 async function runTransform(
   transformPath: string,
