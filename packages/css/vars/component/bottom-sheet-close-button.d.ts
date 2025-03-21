@@ -2,7 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-gray-300)",
+        "color": "var(--seed-color-bg-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)",
         "targetSize": "44px",
         "size": "28px"

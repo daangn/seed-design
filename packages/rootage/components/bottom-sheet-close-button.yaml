@@ -26,7 +26,7 @@ data:
     base:
       enabled:
         root:
-          color: $color.palette.gray-300
+          color: $color.bg.neutral-weak
           cornerRadius: $radius.full
           targetSize: 44px
           size: 28px

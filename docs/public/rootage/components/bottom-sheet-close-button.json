@@ -50,7 +50,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.gray-300"
+                  "value": "$color.bg.neutral-weak"
                 },
                 "cornerRadius": {
                   "type": "dimension",
