@@ -6,15 +6,22 @@ import { describe, expect, test } from "vitest";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../schema.js";
 
-export function runFixtureTests(
-  transform: Transform,
-  fixturesDir: string,
+interface RunFixtureTestsOptions {
+  transform: Transform;
+  fixturesDir: string;
+  extension?: string;
+  transformOptions?: z.infer<typeof transformOptionsSchema>;
+  name?: string;
+}
+
+// 실제 구현체
+export function runFixtureTests({
+  transform,
+  fixturesDir,
   extension = "tsx",
-  transformOptions: z.infer<typeof transformOptionsSchema> = {
-    log: true,
-  },
-  name?: string,
-) {
+  transformOptions,
+  name,
+}: RunFixtureTestsOptions): void {
   // transform 폴더명을 fixturesDir에서 추론
   const transformName = name || basename(dirname(fixturesDir));
 
