@@ -1,3 +1,5 @@
+import type { NormalizedSceneNode } from "./normalizer/types";
+
 export function ensureArray<T>(maybeArray: T | T[]): T[] {
   if (Array.isArray(maybeArray)) {
     return maybeArray;

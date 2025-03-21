@@ -1,13 +1,18 @@
 import { pascalCase } from "change-case";
 
-import { iconRecord } from "./data/icons";
 import { createColorProps } from "./color";
+import { iconRecord } from "./data/icons";
+import type { NormalizedInstanceNode } from "./normalizer/types";
 
 export function isIconComponent(componentKey: string) {
   return !!iconRecord[componentKey];
 }
 
-export function createIconTagNameFromKey(key: string) {
+export function createIconTagNameFromKey(key?: string) {
+  if (!key) {
+    return "UnknownIcon";
+  }
+
   const iconData = iconRecord[key];
   if (!iconData) {
     throw new Error(`Icon not found: ${key}`);
@@ -18,14 +23,7 @@ export function createIconTagNameFromKey(key: string) {
   return pascalCase(`${name}${weight ? weight : ""}`);
 }
 
-export async function createIconTagNameFromId(id: string) {
-  const component = (await figma.getNodeByIdAsync(id)) as ComponentNode;
-  const componentKey = component.key;
-
-  return createIconTagNameFromKey(componentKey);
-}
-
-export async function createMonochromeIconColorProps(node: InstanceNode) {
+export function createMonochromeIconColorProps(node: NormalizedInstanceNode) {
   if (node.children.length === 0) {
     throw new Error("Icon node has no children");
   }
@@ -34,7 +32,7 @@ export async function createMonochromeIconColorProps(node: InstanceNode) {
     (child) => child.type === "VECTOR" || child.type === "BOOLEAN_OPERATION",
   );
 
-  const colorProps = await Promise.all(icons.map(createColorProps));
+  const colorProps = icons.map(createColorProps);
 
   const fills = new Set(
     colorProps.map((props) => props.color).filter((color) => color !== undefined),

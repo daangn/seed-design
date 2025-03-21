@@ -1,0 +1,44 @@
+{
+  "name": "@seed-design/figma",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/figma"
+  },
+  "author": "Asher <asher@daangn.com>",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "main": "./lib/index.cjs",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "lint:publish": "bun publint"
+  },
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^3.0.2",
+    "@seed-design/css": "0.0.9",
+    "change-case": "^5.2.0",
+    "ts-pattern": "^5.2.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.108.0",
+    "@seed-design/figma-extractor": "^0.0.3",
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

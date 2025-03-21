@@ -20,6 +20,7 @@ export type InferFromDefinition<T extends Record<string, ComponentPropertyDefini
   [K in keyof T]: {
     type: T[K]["type"];
     value: InferPropertyType<T[K]>;
+    componentKey?: string;
     preferredValues?: InstanceSwapPreferredValue[];
     readonly boundVariables?: {
       [field in VariableBindableComponentPropertyField]?: VariableAlias;

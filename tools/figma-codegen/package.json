@@ -4,15 +4,12 @@
   "version": "0.0.0",
   "author": "Asher <asher@daangn.com>",
   "dependencies": {
-    "@create-figma-plugin/utilities": "^3.0.2",
-    "change-case": "^5.2.0",
-    "ts-pattern": "^5.2.0"
+    "@seed-design/figma": "0.0.1"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^3.0.2",
     "@create-figma-plugin/tsconfig": "^3.0.2",
-    "@figma/plugin-typings": "^1.107.0-beta.1",
-    "@seed-design/figma-extractor": "^0.0.3",
+    "@figma/plugin-typings": "^1.108.0",
     "typescript": "^5.4.5"
   },
   "scripts": {
