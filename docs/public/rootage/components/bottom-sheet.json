@@ -126,32 +126,10 @@
         },
         "closeButton": {
           "properties": {
-            "color": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
-            "targetSize": {
-              "type": "dimension"
-            },
-            "size": {
-              "type": "dimension"
-            },
             "fromTop": {
               "type": "dimension"
             },
             "fromRight": {
-              "type": "dimension"
-            }
-          }
-        },
-        "closeIcon": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "size": {
               "type": "dimension"
             }
           }
@@ -299,28 +277,6 @@
                 }
               },
               "closeButton": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-300"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                },
-                "targetSize": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 28,
-                    "unit": "px"
-                  }
-                },
                 "fromTop": {
                   "type": "dimension",
                   "value": "$dimension.x5"
@@ -328,19 +284,6 @@
                 "fromRight": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                }
-              },
-              "closeIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 14,
-                    "unit": "px"
-                  }
                 }
               }
             }

@@ -33,6 +33,9 @@
       "path": "/components/badge.json"
     },
     {
+      "path": "/components/bottom-sheet-close-button.json"
+    },
+    {
       "path": "/components/bottom-sheet.json"
     },
     {

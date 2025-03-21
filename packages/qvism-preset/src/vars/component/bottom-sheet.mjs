@@ -45,16 +45,8 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
-        "color": "var(--seed-color-palette-gray-300)",
-        "cornerRadius": "var(--seed-radius-full)",
-        "targetSize": "44px",
-        "size": "28px",
         "fromTop": "var(--seed-dimension-x5)",
         "fromRight": "var(--seed-dimension-x5)"
-      },
-      "closeIcon": {
-        "color": "var(--seed-color-fg-neutral)",
-        "size": "14px"
       }
     }
   }

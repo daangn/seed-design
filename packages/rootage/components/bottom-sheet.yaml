@@ -80,23 +80,9 @@ data:
             type: number
       closeButton:
         properties:
-          color:
-            type: color
-          cornerRadius:
-            type: dimension
-          targetSize:
-            type: dimension
-          size:
-            type: dimension
           fromTop:
             type: dimension
           fromRight:
-            type: dimension
-      closeIcon:
-        properties:
-          color:
-            type: color
-          size:
             type: dimension
   definitions:
     base:
@@ -139,12 +125,5 @@ data:
           lineHeight: $line-height.t6
           fontWeight: $font-weight.regular
         closeButton:
-          color: $color.palette.gray-300
-          cornerRadius: $radius.full
-          targetSize: 44px
-          size: 28px
           fromTop: $dimension.x5
           fromRight: $dimension.x5
-        closeIcon:
-          color: $color.fg.neutral
-          size: 14px
