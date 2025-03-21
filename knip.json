@@ -1,0 +1,93 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignoreExportsUsedInFile": true,
+  "ignore": [
+    "**/__testfixtures__/**",
+    "**/*.stories.*",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "**/tools/figma-*/**"
+  ],
+  "ignoreDependencies": ["shiki", "server-only", "chromatic"],
+  "ignoreBinaries": ["build-storybook"],
+  "rules": {
+    "optionalPeerDependencies": "off"
+  },
+  "ignoreWorkspaces": ["packages/react-theming", "packages/design-token"],
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/**/*.{ts,tsx,js,jsx}", "vitest.workspace.ts"]
+    },
+    "packages/*": {
+      "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}", "src/scripts/**/*.mjs"]
+    },
+    "packages/css": {
+      "entry": [
+        "recipes/*.mjs",
+        "recipes/*.d.ts",
+        "theming/index.cjs",
+        "theming/index.mjs",
+        "theming/index.d.ts",
+        "vars/index.mjs",
+        "vars/index.d.ts",
+        "vars/component/*.mjs",
+        "vars/component/*.d.ts",
+        "qvism.config.{js,ts,cjs,mjs}"
+      ]
+    },
+    "packages/qvism-preset": {
+      "entry": ["write-tokens.mjs", "src/index.{ts,tsx,js,jsx}"]
+    },
+    "packages/react-headless/*": {
+      "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}"]
+    },
+    "packages/utils/*": {
+      "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}"]
+    },
+    "ecosystem/*": {
+      "entry": [
+        "index.{ts,tsx,js,jsx}",
+        "src/index.{ts,tsx,js,jsx}",
+        "src/cli/index.{ts,tsx,js,jsx}"
+      ]
+    },
+    "ecosystem/rootage/*": {
+      "entry": ["index.{ts,tsx,js,jsx}", "src/index.{ts,tsx,js,jsx}"]
+    },
+    "ecosystem/qvism/*": {
+      "entry": ["src/index.{ts,tsx,js,jsx}", "src/bin/*.{ts,tsx,js,jsx}"]
+    },
+    "tools/*": {
+      "entry": [
+        "index.{ts,tsx,js,jsx}",
+        "src/index.{ts,tsx,js,jsx}",
+        "bin/**/*.{ts,tsx,js,jsx}",
+        "src/main.{ts,tsx,js,jsx}",
+        "widget-src/**/*.{ts,tsx,js,jsx}",
+        "**/*.main.{ts,tsx,js,jsx}",
+        "**/*.ui.{ts,tsx,js,jsx}"
+      ]
+    },
+    "examples/*": {
+      "entry": [
+        "index.{ts,tsx,js,jsx}",
+        "src/index.{ts,tsx,js,jsx}",
+        "src/main.{ts,tsx,js,jsx}",
+        "src/App.{ts,tsx,js,jsx}",
+        "pages/**/*.{ts,tsx,js,jsx}",
+        "app/**/*.{ts,tsx,js,jsx}"
+      ],
+      "ignore": ["src/design-system/**"]
+    },
+    "docs": {
+      "entry": [
+        "source.config.{js,ts,cjs,mjs}",
+        "sanity.cli.ts",
+        "components/example/**/*.{js,jsx,ts,tsx}",
+        "registry/**/*.{js,jsx,ts,tsx}",
+        "content/**/*.{md,mdx}"
+      ],
+      "ignore": ["docs/.sanity/**"]
+    }
+  }
+}
