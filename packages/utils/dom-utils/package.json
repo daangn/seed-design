@@ -33,8 +33,7 @@
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.5",
-    "esbuild": "^0.25.0"
+    "@types/react": "^18.3.5"
   },
   "publishConfig": {
     "access": "public"

@@ -1,7 +1,7 @@
-import fg from "fast-glob";
 import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
 import { remarkInclude } from "fumadocs-mdx/config";
 import { remarkAutoTypeTable } from "fumadocs-typescript";
+import { globby } from "globby";
 import matter from "gray-matter";
 import * as fs from "node:fs/promises";
 import { remark } from "remark";
@@ -12,7 +12,7 @@ import remarkStringify from "remark-stringify";
 export const revalidate = false;
 
 export async function GET() {
-  const files = await fg(["./content/react/**/*.mdx", "!./content/react/index.mdx"]);
+  const files = await globby(["./content/react/**/*.mdx", "!./content/react/index.mdx"]);
 
   const scan = files.map(async (file) => {
     const fileContent = await fs.readFile(file);

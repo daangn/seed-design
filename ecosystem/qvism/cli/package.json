@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.2",
-    "esbuild": "^0.25.0",
     "typescript": "^5.4.5"
   },
   "publishConfig": {
