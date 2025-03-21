@@ -15,6 +15,11 @@
 - [@seed-design/react](./packages/react)
 - [@seed-design/stackflow](./packages/stackflow)
 
+**Integrations**
+
+- [@seed-design/figma](./packages/figma)
+- [@seed-design/mcp](./packages/mcp)
+
 **Ecosystem**
 
 - [@seed-design/ecosystem/rootage](./ecosystem/rootage)
