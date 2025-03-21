@@ -1,4 +1,4 @@
-import { vars } from "@seed-design/css/vars";
+import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
 
 export const globalCss = defineGlobalCss({
