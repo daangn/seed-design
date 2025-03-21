@@ -34,7 +34,7 @@
     "es-toolkit": "^1.31.0",
     "figma-api": "^2.0.1-beta",
     "fs-extra": "^11.3.0",
-    "zod": "^3.24.1"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
