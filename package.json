@@ -53,47 +53,12 @@
     "@testing-library/user-event": "^14.5.2",
     "bunchee": "^6.4.0",
     "jsdom": "^24.1.0",
-    "knip": "^5.41.1",
+    "knip": "^5.46.0",
     "publint": "^0.3.6",
     "typescript": "^5.4.5",
     "ultra-runner": "^3.10.5",
     "vitest": "^3.0.6",
     "watchlist": "^0.3.1",
     "wrangler": "^3.107.3"
-  },
-  "knip": {
-    "workspaces": {
-      ".": {
-        "entry": [
-          "index.{ts,tsx}",
-          "src/index.{ts,tsx}"
-        ],
-        "project": [
-          "**/*.{ts,tsx}",
-          "!packages/archive/**/*.{js,ts,tsx}"
-        ]
-      },
-      "docs": {
-        "entry": [
-          "next.config.{js,ts,cjs,mjs}",
-          "source.config.{js,ts,cjs,mjs}",
-          "{instrumentation,middleware}.{js,ts}",
-          "app/global-error.{js,jsx,ts,tsx}",
-          "app/**/{error,layout,loading,not-found,page,template,default}.{js,jsx,ts,tsx}",
-          "app/**/route.{js,jsx,ts,tsx}",
-          "app/{manifest,sitemap,robots}.{js,ts}",
-          "app/**/{icon,apple-icon}.{js,jsx,ts,tsx}",
-          "app/**/{opengraph,twitter}-image.{js,jsx,ts,tsx}",
-          "components/example/*.{js,jsx,ts,tsx}",
-          "registry/**/*.{js,jsx,ts,tsx}",
-          ".storybook/{manager,preview}.{js,jsx,ts,tsx}",
-          "**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))"
-        ],
-        "project": [
-          "**/*.{ts,tsx}",
-          ".storybook/**/*.{js,jsx,ts,tsx}"
-        ]
-      }
-    }
   }
 }
