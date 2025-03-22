@@ -68,6 +68,7 @@
         "react-dom": "^18.3.1",
         "react-error-boundary": "^4.1.2",
         "react-hook-form": "^7.53.2",
+        "recast": "^0.23.9",
         "remark": "^15.0.1",
         "remark-gfm": "^4.0.1",
         "remark-mdx": "^3.1.0",

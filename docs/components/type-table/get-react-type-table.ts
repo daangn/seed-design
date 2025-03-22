@@ -1,19 +1,8 @@
 // This code includes portions derived from fuma-nama/fumadocs (https://github.com/fuma-nama/fumadocs)
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
-import "server-only";
-
-import {
-  type GenerateDocumentationOptions,
-  generateDocumentation,
-  getProject,
-  renderMarkdownToHast,
-} from "fumadocs-typescript";
-import { TypeTable } from "fumadocs-ui/components/type-table";
-import defaultMdxComponents from "fumadocs-ui/mdx";
-import { type Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime";
+import { generateDocumentation, type GenerateDocumentationOptions } from "fumadocs-typescript";
 import fs from "node:fs/promises";
-import * as runtime from "react/jsx-runtime";
 
 export interface ReactTypeTableProps {
   /**
@@ -52,29 +41,12 @@ export interface ReactTypeTableProps {
   options?: GenerateDocumentationOptions;
 }
 
-export function createReactTypeTable(options: GenerateDocumentationOptions = {}): {
-  ReactTypeTable: (props: Omit<ReactTypeTableProps, "options">) => React.ReactNode;
-} {
-  const project = options.project ?? getProject(options.config);
-
-  return {
-    ReactTypeTable(props) {
-      return <ReactTypeTable {...props} options={{ ...options, project }} />;
-    },
-  };
-}
-
-/**
- * **Server Component Only**
- *
- * Display properties in an exported interface via Type Table
- */
-export async function ReactTypeTable({
+export async function getReactTypeTableOutput({
   path,
-  name,
   type,
+  name,
   options = {},
-}: ReactTypeTableProps): Promise<React.ReactElement> {
+}: ReactTypeTableProps) {
   let typeName = name;
   let content = "";
 
@@ -104,35 +76,10 @@ export async function ReactTypeTable({
   if (name && output.length === 0)
     throw new Error(`${name} in ${path ?? "empty file"} doesn't exist`);
 
-  return (
-    <>
-      {output.map(async (item) => {
-        const entries = item.entries
-          .filter((entry) => !entry.tags.external)
-          .map(
-            async (entry) =>
-              [
-                entry.name,
-                {
-                  type: entry.type,
-                  description: await renderMarkdown(entry.description),
-                  default: entry.tags.default || entry.tags.defaultValue,
-                },
-              ] as const,
-          );
-
-        return <TypeTable key={item.name} type={Object.fromEntries(await Promise.all(entries))} />;
-      })}
-    </>
-  );
-}
-
-async function renderMarkdown(md: string): Promise<React.ReactElement> {
-  return toJsxRuntime(await renderMarkdownToHast(md), {
-    Fragment: runtime.Fragment,
-    jsx: runtime.jsx as Jsx,
-    jsxs: runtime.jsxs as Jsx,
-    // @ts-ignore
-    components: { ...defaultMdxComponents, img: undefined },
-  }) as React.ReactElement;
+  return output.map((item) => {
+    return {
+      ...item,
+      entries: item.entries.filter((entry) => !entry.tags.external),
+    };
+  });
 }
