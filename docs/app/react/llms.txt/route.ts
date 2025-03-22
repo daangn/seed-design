@@ -14,22 +14,32 @@ export const revalidate = false;
 export async function GET() {
   const files = await globby(["./content/react/**/*.mdx", "!./content/react/index.mdx"]);
 
-  const scan = files.map(async (file) => {
-    const fileContent = await fs.readFile(file);
-    const { content, data } = matter(fileContent.toString());
+  // Process files in chunks to prevent OOM
+  const CHUNK_SIZE = 10;
+  const results: string[] = [];
 
-    const processed = await processContent(file, content);
-    return `file: ${file}
+  for (let i = 0; i < files.length; i += CHUNK_SIZE) {
+    const chunk = files.slice(i, i + CHUNK_SIZE);
+
+    const chunkPromises = chunk.map(async (file) => {
+      const fileContent = await fs.readFile(file);
+      const { content, data } = matter(fileContent.toString());
+
+      const processed = await processContent(file, content);
+      return `file: ${file}
 # ${data.title}
 
 ${data.description ?? ""}
         
 ${processed}`;
-  });
+    });
 
-  const scanned = await Promise.all(scan);
+    // Process this chunk and wait for completion before moving to next chunk
+    const chunkResults = await Promise.all(chunkPromises);
+    results.push(...chunkResults);
+  }
 
-  return new Response(scanned.join("\n\n"));
+  return new Response(results.join("\n\n"));
 }
 
 async function processContent(path: string, content: string): Promise<string> {
