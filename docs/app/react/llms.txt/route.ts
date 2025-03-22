@@ -1,6 +1,6 @@
+import { remarkReactTypeTable } from "@/components/type-table/remark-react-type-table";
 import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
 import { remarkInclude } from "fumadocs-mdx/config";
-import { remarkAutoTypeTable } from "fumadocs-typescript";
 import { globby } from "globby";
 import matter from "gray-matter";
 import * as fs from "node:fs/promises";
@@ -37,7 +37,7 @@ async function processContent(path: string, content: string): Promise<string> {
     .use(remarkMdx)
     .use(remarkInclude)
     .use(remarkGfm)
-    .use(remarkAutoTypeTable)
+    .use(remarkReactTypeTable)
     .use(remarkDocGen, { generators: [fileGenerator()] })
     .use(remarkInstall, { persist: { id: "package-manager" } })
     .use(remarkStringify)
