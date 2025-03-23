@@ -8,7 +8,101 @@
     "id": "help-bubble",
     "name": "Help Bubble",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            }
+          }
+        },
+        "arrow": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "width": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "gutter": {
+              "type": "dimension"
+            }
+          }
+        },
+        "title": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "description": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "closeButton": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fromRight": {
+              "type": "dimension"
+            },
+            "fromTop": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            },
+            "targetSize": {
+              "type": "dimension"
+            }
+          }
+        },
+        "backdrop": {
+          "properties": {
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [
