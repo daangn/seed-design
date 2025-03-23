@@ -8,7 +8,112 @@
     "id": "snackbar",
     "name": "Snackbar",
     "schema": {
-      "slots": {},
+      "slots": {
+        "region": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "offsetDuration": {
+              "type": "duration"
+            },
+            "offsetTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "exitOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "message": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "prefixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "actionButton": {
+          "properties": {
+            "targetPaddingX": {
+              "type": "dimension"
+            },
+            "targetMinHeight": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "variants": {
         "variant": {
           "values": {
