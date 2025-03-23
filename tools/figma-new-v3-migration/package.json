@@ -1,0 +1,43 @@
+{
+  "name": "figma-plugin-template",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "yarn build:ui && yarn build:main",
+    "build:ui": "vite build --config vite.ui.config.ts",
+    "build:main": "vite build --config vite.main.config.ts",
+    "watch": "concurrently \"yarn watch:ui\" \"yarn watch:main\"",
+    "watch:ui": "vite build --watch --config vite.ui.config.ts",
+    "watch:main": "vite build --watch --config vite.main.config.ts",
+    "dev": "concurrently \"yarn watch:ui\" \"yarn watch:main\"",
+    "lint": "biome check .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@create-figma-plugin/utilities": "^4.0.0-alpha.0",
+    "@daangn/react-monochrome-icon": "^0.0.19",
+    "@figmazing/event": "0.0.1",
+    "@seed-design/css": "^0.0.10",
+    "@seed-design/migration-index": "^0.0.18",
+    "@seed-design/react": "^0.0.10",
+    "@seed-design/vite-plugin": "^0.0.10",
+    "normalize.css": "^8.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@figma/plugin-typings": "^1.109.0",
+    "@types/node": "^22.13.11",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "globals": "^15.15.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.2.2",
+    "vite-plugin-singlefile": "^2.2.0"
+  }
+}
