@@ -13,12 +13,10 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "bun clean && bun build",
     "dev": "bun ./dev.mjs",
     "build": "bun ./build.mjs",
     "test": "LOG=true bun vitest",
-    "lint:publish": "bun publint",
-    "clean": "rm -rf .report"
+    "lint:publish": "bun publint"
   },
   "dependencies": {
     "@seed-design/migration-index": "^0.0.18",
