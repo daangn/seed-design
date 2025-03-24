@@ -18,8 +18,9 @@ import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
 import { IconographyMigrationIndex } from "./migration/iconography-migration-index";
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
+import { typeTableProject } from "./type-table/project";
 
-const { ReactTypeTable } = createReactTypeTable();
+const { ReactTypeTable } = createReactTypeTable({ project: typeTableProject });
 
 export const mdxComponents = {
   ...defaultMdxComponents,
