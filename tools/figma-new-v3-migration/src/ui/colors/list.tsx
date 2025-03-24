@@ -61,6 +61,10 @@ function LayerGroup({ groupId }: Pick<ListEntry, "groupId">) {
     ? getOldValueId(currentlyViewing.group.oldValue) === groupId && !currentlyViewing.item
     : false;
 
+  const isAllItemsMigrated = group.consumers.every(
+    ({ selectedNewVariableId }) => selectedNewVariableId,
+  );
+
   return (
     <Flex
       onClick={handleClick}
@@ -68,7 +72,13 @@ function LayerGroup({ groupId }: Pick<ListEntry, "groupId">) {
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       padding="x2"
-      style={{ cursor: "pointer" }}
+      style={{
+        cursor: "pointer",
+        ...(isAllItemsMigrated && {
+          opacity: 0.5,
+          textDecoration: "line-through",
+        }),
+      }}
     >
       {group.oldValue.type !== "uncheckable" && (
         <ColorSwatch hex={group.oldValue.hex} opacity={group.oldValue.opacity} />
@@ -104,9 +114,12 @@ function Layer({
   consumer: SerializedColorVariablesSuggestionsResults[number]["consumers"][number];
 }) {
   const { setCurrentlyViewingEntryId, currentlyViewing } = useColorMigration();
-  const { node, closestInstanceNode } = consumer;
+  const { node, closestInstanceNode, selectedNewVariableId } = consumer;
+
+  const isAlreadyMigrated = !!selectedNewVariableId;
 
   function handleClick() {
+    if (isAlreadyMigrated) return;
     setCurrentlyViewingEntryId({ groupId, itemId: node.id });
     events("focus-node").emit({ nodeIds: [node.id] });
   }
@@ -132,8 +145,11 @@ function Layer({
       alignItems="center"
       padding="x1"
       paddingLeft="x4"
-      style={{ cursor: "pointer" }}
       background={isHighlighted ? "bg.informativeWeak" : "bg.layerDefault"}
+      style={{
+        cursor: "pointer",
+        ...(isAlreadyMigrated && { opacity: 0.5, textDecoration: "line-through" }),
+      }}
     >
       <Text fontSize="t1">{node.name}</Text>
       {closestInstanceNode && (

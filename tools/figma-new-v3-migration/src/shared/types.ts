@@ -235,9 +235,9 @@ export interface PluginEventMap {
     results: SerializedColorVariablesSuggestionsResults;
   };
   "apply-color-variable": {
-    oldValue: ColorVariablesSuggestionsResults[number]["oldValue"];
-    consumerNodeIds: ColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
-    variableId: ColorVariablesSuggestionsResults[number]["suggestions"][number]["variable"]["id"];
+    oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"];
+    consumerNodeIds: SerializedColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
+    variableId: SerializedVariable["id"];
   };
 }
 

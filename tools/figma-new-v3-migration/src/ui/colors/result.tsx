@@ -26,7 +26,7 @@ export function Result() {
       <Text fontSize="t3" fontWeight="bold" style={{ marginBottom: "8px" }}>
         왼쪽에서 항목을 선택해주세요
       </Text>
-      <Text fontSize="t5">색상 토큰을 적용할 레이어를 선택하면 상세 내용이 표시됩니다.</Text>
+      <Text fontSize="t1">색상 토큰을 적용할 레이어를 선택하면 상세 내용이 표시됩니다.</Text>
     </Flex>
   );
 }
@@ -105,6 +105,8 @@ function LayerGroupResult() {
 
   const { oldValue, suggestions, consumers } = currentlyViewing.group;
 
+  const isAllItemsMigrated = consumers.every(({ selectedNewVariableId }) => selectedNewVariableId);
+
   return (
     <Flex direction="column" style={{ height: "100%", overflow: "hidden" }}>
       {/* 헤더 영역 */}
@@ -145,9 +147,9 @@ function LayerGroupResult() {
               variableId: selectedVariableId ?? "",
             })
           }
-          disabled={!selectedVariableId}
+          disabled={!selectedVariableId || isAllItemsMigrated}
         >
-          {consumers.length}개 레이어에 적용하기
+          {isAllItemsMigrated ? "모두 적용됨" : `${consumers.length}개 레이어에 적용하기`}
         </ActionButton>
       </Flex>
     </Flex>

@@ -1,7 +1,6 @@
 import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { events } from "../../shared/event";
 import type {
-  ColorVariablesSuggestionsResults,
   SerializedColorVariablesSuggestionsResults,
   SerializedVariable,
 } from "../../shared/types";
@@ -193,30 +192,37 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     consumerNodeIds: SerializedColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
     variableId: SerializedVariable["id"];
   }) {
-    const mappedOldValue: ColorVariablesSuggestionsResults[number]["oldValue"] =
-      oldValue.type === "style"
-        ? {
-            type: "style",
-            style: oldValue.style as unknown as PaintStyle,
-            hex: oldValue.hex,
-            opacity: oldValue.opacity,
-            paletteProperty: oldValue.paletteProperty,
-          }
-        : oldValue.type === "variable"
-          ? {
-              type: "variable",
-              variable: oldValue.variable as unknown as Variable,
-              hex: oldValue.hex,
-              opacity: oldValue.opacity,
-            }
-          : oldValue.type === "detached"
-            ? { type: "detached", hex: oldValue.hex, opacity: oldValue.opacity }
-            : { type: "uncheckable" };
+    setResults((prev) => {
+      if (!prev) return prev;
+
+      const oldValueFound = prev.find(
+        ({ oldValue: oldValueToCompare }) =>
+          getOldValueId(oldValue) === getOldValueId(oldValueToCompare),
+      );
+      if (!oldValueFound) return prev;
+
+      const updatedConsumers = oldValueFound.consumers.map((consumer) => {
+        if (consumerNodeIds.includes(consumer.node.id)) {
+          return {
+            ...consumer,
+            selectedNewVariableId: variableId,
+          };
+        }
+
+        return consumer;
+      });
+
+      return prev.map((group) =>
+        getOldValueId(group.oldValue) === getOldValueId(oldValue)
+          ? { ...group, consumers: updatedConsumers }
+          : group,
+      );
+    });
 
     events("apply-color-variable").emit({
       variableId,
       consumerNodeIds,
-      oldValue: mappedOldValue,
+      oldValue,
     });
   }
 
