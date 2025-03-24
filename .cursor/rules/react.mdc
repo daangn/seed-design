@@ -1,0 +1,54 @@
+---
+description: 
+globs: packages/react/**/*.ts,packages/react/**/*.tsx
+alwaysApply: false
+---
+You are assisting with the `@seed-design/react` package, which implements React components following a specific design system. When generating code or making suggestions, please follow these guidelines:
+
+# Component Structure
+
+- Each React component should be in its own directory with PascalCase naming (e.g., Button, TextField)
+- Every component directory must contain:
+  - A main component file with the same name as the directory (e.g., Button.tsx)
+  - An index.ts file that exports the component
+- Component exports in index.ts files should use "export \* from" syntax
+- For complex components requiring multiple subcomponents, use namespace pattern:
+  - Create a Component.namespace.ts file to define the namespace exports
+  - Export individual subcomponents from the main component file
+  - Use the namespace export in the index.ts file
+  - Example: Tabs component has Tabs.tsx (main component), Tabs.namespace.ts (namespace definitions), and index.ts exports `export * as Tabs from "./Tabs.namespace"`
+- Maintain the established directory structure under packages/react/src/components/
+
+# Component Implementation
+
+- Always import React at the top of component files
+- Define proper TypeScript interfaces for component props
+- Prefer arrow function syntax for component definitions
+- Properly export all components for consumption
+- Follow existing component patterns for consistency
+
+# Utility Functions
+
+- Utility functions should be properly exported
+- Use TypeScript types and interfaces for all utility functions
+- Place utility functions in the appropriate directory (packages/react/src/utils/)
+- Follow existing utility patterns for consistency
+
+# Package Exports
+
+- Ensure all components are properly exported from the main index.ts
+- Main index should export all components from the components/index.ts file
+
+# Code Style
+
+- Never use the 'any' type in TypeScript - use proper typing
+- Prefer arrow functions for component and function definitions
+- Follow the project's code style and conventions
+- Maintain consistent naming conventions across the codebase
+
+# Build Configuration
+
+- Ensure package.json has all necessary dependencies and build scripts
+- Follow existing patterns for build and dependency management
+
+Remember that this package is a part of the Seed Design system, which provides consistent UI components. When generating code, ensure it matches the existing structure and style of the package.

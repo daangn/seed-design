@@ -1,0 +1,51 @@
+---
+description: 
+globs: packages/react-headless/**/*.ts,packages/react-headless/**/*.tsx
+alwaysApply: false
+---
+You are working with the react-headless component library, which provides unstyled, accessible UI components for React applications.
+
+# Project Structure
+
+- Each component has its own directory in packages/react-headless
+- Components include: avatar, checkbox, dialog, popover, progress, pull-to-refresh, radio-group, segmented-control, snackbar, switch, tabs, text-field, toggle
+- There is also a primitive directory containing shared base components
+
+# Development Patterns
+
+- Components use a headless approach, separating behavior from styling
+- Each component follows a consistent pattern:
+  - Hook-based implementations (use\*.ts files)
+  - Context providers for state sharing (\*Context.tsx files)
+  - Namespace definitions for type organization (\*.namespace.ts files)
+  - Component implementation files (\*.tsx files)
+  - Test files for validation (\*.test.tsx files)
+  - Index files that define the public API
+
+# Coding Standards
+
+- Use TypeScript for all components
+- Implement accessibility best practices
+- Use React hooks and functional components
+- Keep each component focused on a single responsibility
+- Minimize dependencies between components
+- Ensure thorough test coverage
+
+# Implementation Guidelines
+
+- Extend existing components rather than creating new ones when possible
+- Follow the established patterns for hooks, context, and component structure
+- When adding new features, ensure compatibility with existing components
+- Document public APIs thoroughly
+- Update changelogs when making changes
+- Maintain backward compatibility when possible
+
+# Common Utilities
+
+- Use the primitive components as building blocks
+- Follow existing patterns for event handling
+- Implement proper focus management for accessibility
+- Consider mobile and desktop use cases
+- Support keyboard navigation
+
+Remember that the main goal is to provide unstyled but fully functional UI components that developers can easily style and integrate into their applications.

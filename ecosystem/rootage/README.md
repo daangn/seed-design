@@ -164,7 +164,7 @@ data:
   - `<Variant 키>=<Variant 이름>`: Variant를 정의하는 문자열입니다(예: `size=small`).
   - `<상태 이름>`: 상호 작용 상태(예: `enabled`, `hover`, `pressed`).
   - `<슬롯 이름>`: 디자인 속성을 적용할 요소나 슬롯(예: `root`, `icon`).
-  - `<속성>`: 디자인 속성(예: `color`, `size`, `borderRadius`).
+  - `<속성>`: 디자인 속성(예: `color`, `size`, `cornerRadius`).
   - `<값>`: 속성에 대한 값으로, 디자인 값을 작성하거나 다른 토큰을 참조할 수 있습니다.
 
 **Variant 표현**
