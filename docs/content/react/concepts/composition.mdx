@@ -3,4 +3,73 @@ title: Composition
 description: 컴포넌트를 조합하여 복잡한 UI를 구성하는 방법과 원칙을 설명합니다.
 ---
 
-작성 예정
+## `as` Prop
+
+`as` prop은 React 컴포넌트가 렌더링하는 기본 HTML 요소를 변경하는 데 사용됩니다. 컴포넌트의 기능은 유지하면서 기본 요소를 변경할 수 있는 간단한 방법을 제공합니다.
+
+```jsx
+<Text as="p">단락 텍스트</Text>
+<Text as="span">인라인 텍스트</Text>
+<Text as="h3">제목 텍스트</Text>
+```
+
+## `asChild` Prop
+
+`asChild` prop은 컴포넌트의 기능을 자식 요소에 합성하는 데 사용됩니다. 이를 활용해 HTML 태그를 변경하거나, 다른 컴포넌트에 기능을 주입할 수 있습니다.
+[Radix UI](https://www.radix-ui.com/primitives/docs/utilities/slot)에서 제공하는 asChild 패턴과 동일한 기능을 제공합니다.
+
+### 요소 타입 변경하기
+
+```jsx
+// FAB는 기본적으로 button 태그를 사용하지만, asChild를 사용해 링크로 변경할 수 있습니다.
+<FAB asChild>
+  <a href="/create">
+    <Icon svg={<IconPlusLine />} />
+  </a>
+</FAB>
+```
+
+> 기본 요소 타입을 변경하는 경우, 해당 요소가 접근성을 유지하고 올바르게 작동하는지 확인하는 것은 개발자의 책임입니다. 예를 들어, 버튼을 `div`로 변경하면 더 이상 키보드로 접근할 수 없게 될 수 있습니다.
+
+### React 컴포넌트와 조합하기
+
+```jsx
+// 라우터 라이브러리에서 제공하는 Link 컴포넌트에 기능을 합성할 수 있습니다.
+<Button asChild>
+  <Link to="/create">
+    <Icon svg={<IconPlusLine />} />
+  </Link>
+</Button>
+```
+
+`asChild`를 사용하여 컴포넌트를 조합할 때는 두 가지 원칙을 따라야 합니다.
+
+#### 1. 컴포넌트는 props를 전개해야 합니다
+
+asChild는 기능을 제공하고 접근성을 유지하기 위한 고유의 props와 이벤트 핸들러를 전달합니다. 컴포넌트가 이러한 props를 지원하지 않으면 제대로 작동하지 않습니다.
+
+```jsx
+// 잘못된 방법
+const MyButton = () => <button />;
+
+// 올바른 방법
+const MyButton = (props) => <button {...props} />;
+```
+
+asChild의 자식 컴포넌트에 대해서는 항상 모든 props를 전개(spread)하는 것이 좋은 방법입니다.
+
+#### 2. 컴포넌트는 ref를 전달해야 합니다
+
+컴포넌트에 `ref`를 전달해야 할 수 있습니다(예: 요소 크기 측정). 컴포넌트가 `ref`를 받지 않으면 제대로 작동하지 않을 수 있습니다.
+
+```jsx
+// 잘못된 방법
+const MyButton = (props) => <button {...props} />;
+
+// 올바른 방법
+const MyButton = React.forwardRef((props, forwardedRef) => (
+  <button {...props} ref={forwardedRef} />
+));
+```
+
+모든 경우에 필수는 아니지만, 항상 `React.forwardRef`를 사용하는 것이 가장 안전합니다.
