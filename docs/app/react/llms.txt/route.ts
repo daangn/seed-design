@@ -1,3 +1,4 @@
+import { typeTableProject } from "@/components/type-table/project";
 import { remarkReactTypeTable } from "@/components/type-table/remark-react-type-table";
 import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
 import { remarkInclude } from "fumadocs-mdx/config";
@@ -47,7 +48,7 @@ async function processContent(path: string, content: string): Promise<string> {
     .use(remarkMdx)
     .use(remarkInclude)
     .use(remarkGfm)
-    .use(remarkReactTypeTable)
+    .use(remarkReactTypeTable, { options: { project: typeTableProject } })
     .use(remarkDocGen, { generators: [fileGenerator()] })
     .use(remarkInstall, { persist: { id: "package-manager" } })
     .use(remarkStringify)

@@ -4,14 +4,6 @@
 import { generateDocumentation, type GenerateDocumentationOptions } from "fumadocs-typescript";
 import fs from "node:fs/promises";
 
-// Memoization cache for generateDocumentation
-const documentationCache = new Map<string, ReturnType<typeof generateDocumentation>>();
-
-// Create cache key from path, typeName, and content
-const createCacheKey = (path: string, typeName: string | undefined, content: string): string => {
-  return `${path}:${typeName || ""}:${content}`;
-};
-
 export interface ReactTypeTableProps {
   /**
    * The path to source TypeScript file.
@@ -69,20 +61,7 @@ export async function getReactTypeTableOutput({
     content += `\nexport type ${typeName} = ${type}`;
   }
 
-  const filePath = path ?? "temp.ts";
-  const cacheKey = createCacheKey(filePath, typeName, content);
-
-  // Check if we have a cached result
-  if (documentationCache.has(cacheKey)) {
-    return documentationCache.get(cacheKey)!.map((item) => {
-      return {
-        ...item,
-        entries: item.entries.filter((entry) => !entry.tags.external),
-      };
-    });
-  }
-
-  const output = generateDocumentation(filePath, typeName, content, {
+  const output = generateDocumentation(path ?? "temp.ts", typeName, content, {
     ...options,
     // get source file from ts symbol, and check if it's from node_modules
     transform: (entry, _type, symbol) => {
@@ -93,9 +72,6 @@ export async function getReactTypeTableOutput({
       }
     },
   });
-
-  // Store result in cache
-  documentationCache.set(cacheKey, output);
 
   if (name && output.length === 0)
     throw new Error(`${name} in ${path ?? "empty file"} doesn't exist`);
