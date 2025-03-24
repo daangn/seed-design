@@ -13,7 +13,6 @@
     "bin"
   ],
   "scripts": {
-    "prepack": "bun build",
     "dev": "bun ./dev.mjs",
     "build": "bun ./build.mjs",
     "test": "LOG=true bun vitest",
