@@ -11,8 +11,8 @@ import { SYSTEM_COMPONENT_KEYS_ALL } from "./data/component";
 
 // 플러그인 UI 크기 설정
 figma.showUI(__html__, {
-  width: 400,
-  height: 600,
+  width: 440,
+  height: 640,
 });
 
 /**
