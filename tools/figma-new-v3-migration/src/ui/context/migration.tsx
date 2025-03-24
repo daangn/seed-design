@@ -39,25 +39,14 @@ export type AvailableSteps = (typeof availableSteps)[number]["value"];
 export type Step = (typeof availableSteps)[number];
 
 interface MigrationState {
-  currentStep: Step | null;
-  setCurrentStep: (step: Step | null) => void;
   availableSteps: typeof availableSteps;
-  showNextStep: () => void;
   targets: SerializedBaseNode[];
   selections: SerializedBaseNode[];
 }
 
 function useMigrationState() {
-  const [currentStep, setCurrentStep] = useState<Step | null>(null);
   const [targets, setTargets] = useState<SerializedBaseNode[]>([]);
   const [selections, setSelections] = useState<SerializedBaseNode[]>([]);
-
-  const showNextStep = useCallback(() => {
-    if (currentStep === null) return;
-
-    const currentIndex = availableSteps.findIndex((step) => step.value === currentStep.value);
-    setCurrentStep(availableSteps[currentIndex + 1] ?? null);
-  }, [currentStep]);
 
   useEffect(() => {
     const unsubscribeSelection = events("announce-selection").on((data) => {
@@ -66,9 +55,6 @@ function useMigrationState() {
 
     const unsubscribeTarget = events("announce-target").on((data) => {
       setTargets(data.serializedTargets);
-
-      const componentStep = availableSteps.find((step) => step.value === "colors");
-      setCurrentStep(componentStep ?? null);
     });
 
     return () => {
@@ -78,10 +64,7 @@ function useMigrationState() {
   }, []);
 
   return {
-    currentStep,
-    setCurrentStep,
     availableSteps,
-    showNextStep,
     targets,
     selections,
   };

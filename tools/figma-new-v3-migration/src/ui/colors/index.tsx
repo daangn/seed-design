@@ -1,10 +1,9 @@
-import { ActionButton, Box, Flex, Icon, Text } from "@seed-design/react";
+import { IconArrow2ClockwiseCircularLine } from "@daangn/react-monochrome-icon";
+import { ActionButton, Box, Flex, Icon } from "@seed-design/react";
 import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "../../shared/constants";
-import { useMigration } from "../context/migration";
 import { ColorMigrationProvider, useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";
-import { IconArrow2ClockwiseCircularLine } from "@daangn/react-monochrome-icon";
 
 export function ColorsSection() {
   return (
@@ -33,56 +32,8 @@ export function ColorsSection() {
 
         {/* 하단 고정 액션 버튼 */}
         <ColorsFooter />
-
-        {/* 완료 배너 */}
-        <DoneBanner />
       </Flex>
     </ColorMigrationProvider>
-  );
-}
-
-function DoneBanner() {
-  const { hasAllItemsSelectedNewColorVariableId } = useColorMigration();
-  const { showNextStep } = useMigration();
-
-  if (!hasAllItemsSelectedNewColorVariableId) return null;
-
-  return (
-    <Box
-      style={{
-        position: "absolute",
-        bottom: "60px", // ColorFooter 영역 높이
-        left: "50%",
-        transform: "translateX(-50%)",
-        backgroundColor: "var(--seed-scale-color-neutral-800)",
-        color: "white",
-        zIndex: 10,
-        padding: "16px",
-        borderRadius: "12px",
-        boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        width: "320px",
-        textAlign: "center",
-      }}
-    >
-      <Text fontWeight="bold" fontSize="t3" style={{ textAlign: "center" }}>
-        모든 레이어에 새 색상 토큰이 적용되었습니다
-      </Text>
-      <ActionButton
-        onClick={showNextStep}
-        style={{
-          width: "100%",
-          backgroundColor: "var(--seed-scale-color-primary-500)",
-          color: "white",
-          fontWeight: "bold",
-          padding: "10px",
-        }}
-      >
-        다음 단계로
-      </ActionButton>
-    </Box>
   );
 }
 

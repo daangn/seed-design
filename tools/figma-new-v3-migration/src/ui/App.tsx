@@ -4,7 +4,6 @@ import { events } from "../shared/event";
 import type { FigmaMetadata } from "../shared/types";
 import { ColorsSection } from "./colors";
 import { MigrationProvider, useMigration } from "./context/migration";
-import { Callout } from "./seed-design/ui/callout";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "./seed-design/ui/tabs";
 
 // FigmaMetadata 컨텍스트
@@ -47,63 +46,53 @@ function TextStylesSection() {
 }
 
 function Steps() {
-  const { currentStep, targets } = useMigration();
+  const { targets } = useMigration();
 
   return (
     <Flex direction="column" height="100%" style={{ overflow: "hidden" }}>
-      {(!currentStep || targets.length === 0) && (
-        <Callout tone="informative" description="마이그레이션할 레이어를 선택해주세요." />
-      )}
-
-      {currentStep && targets.length > 0 && (
-        <Flex direction="column" height="full" style={{ overflow: "hidden" }}>
-          {/* 상단 헤더 영역 */}
-          <Flex borderBottomWidth={1} borderColor="palette.gray200" padding="x2" gap="x2">
-            <Flex gap="x1" alignItems="center">
-              <Text fontSize="t1">마이그레이션 대상 레이어</Text>
-              {targets.map((target) => (
-                <Badge
-                  tone="neutral"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
-                  key={target.id}
-                >
-                  {target.name}
-                </Badge>
-              ))}
-            </Flex>
+      <Flex direction="column" height="full" style={{ overflow: "hidden" }}>
+        {/* 상단 헤더 영역 */}
+        <Flex borderBottomWidth={1} borderColor="palette.gray200" padding="x2" gap="x2">
+          <Flex gap="x1" alignItems="center">
+            <Text fontSize="t1">마이그레이션 대상 레이어</Text>
+            {targets.map((target) => (
+              <Badge
+                tone="neutral"
+                style={{ cursor: "pointer" }}
+                onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
+                key={target.id}
+              >
+                {target.name}
+              </Badge>
+            ))}
           </Flex>
-
-          {/* 탭 네비게이션 */}
-          <TabsRoot
-            stickyList
-            defaultValue={currentStep?.value}
-            style={{ height: "calc(100% - 40px)" }}
-          >
-            <TabsList>
-              <TabsTrigger value="colors">컬러</TabsTrigger>
-              <TabsTrigger value="text-styles">텍스트 스타일</TabsTrigger>
-            </TabsList>
-
-            <TabsContent
-              style={{
-                height: "calc(100% - var(--tabs-list-height))" /* TabsList 높이를 뺀 값 */,
-              }}
-              value="colors"
-            >
-              <ColorsSection />
-            </TabsContent>
-            <TabsContent
-              style={{
-                height: "calc(100% - var(--tabs-list-height))",
-              }}
-              value="text-styles"
-            >
-              <TextStylesSection />
-            </TabsContent>
-          </TabsRoot>
         </Flex>
-      )}
+
+        {/* 탭 네비게이션 */}
+        <TabsRoot stickyList defaultValue="colors" style={{ height: "calc(100% - 40px)" }}>
+          <TabsList>
+            <TabsTrigger value="colors">컬러</TabsTrigger>
+            <TabsTrigger value="text-styles">텍스트 스타일</TabsTrigger>
+          </TabsList>
+
+          <TabsContent
+            style={{
+              height: "calc(100% - var(--tabs-list-height))" /* TabsList 높이를 뺀 값 */,
+            }}
+            value="colors"
+          >
+            <ColorsSection />
+          </TabsContent>
+          <TabsContent
+            style={{
+              height: "calc(100% - var(--tabs-list-height))",
+            }}
+            value="text-styles"
+          >
+            <TextStylesSection />
+          </TabsContent>
+        </TabsRoot>
+      </Flex>
     </Flex>
   );
 }
