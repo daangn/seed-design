@@ -1,8 +1,9 @@
-import { Badge, Box, Flex, Text } from "@seed-design/react";
+import { Box, Flex, Text } from "@seed-design/react";
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import { events } from "../shared/event";
 import type { FigmaMetadata } from "../shared/types";
 import { ColorsSection } from "./colors";
+import { TargetBadges } from "./components/TargetBadges";
 import { MigrationProvider, useMigration } from "./context/migration";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "./seed-design/ui/tabs";
 
@@ -53,19 +54,7 @@ function Steps() {
       <Flex direction="column" height="full" style={{ overflow: "hidden" }}>
         {/* 상단 헤더 영역 */}
         <Flex borderBottomWidth={1} borderColor="palette.gray200" padding="x2" gap="x2">
-          <Flex gap="x1" alignItems="center">
-            <Text fontSize="t1">마이그레이션 대상 레이어</Text>
-            {targets.map((target) => (
-              <Badge
-                tone="neutral"
-                style={{ cursor: "pointer" }}
-                onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
-                key={target.id}
-              >
-                {target.name}
-              </Badge>
-            ))}
-          </Flex>
+          <TargetBadges targets={targets} />
         </Flex>
 
         {/* 탭 네비게이션 */}
