@@ -3,8 +3,9 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 import { events } from "../shared/event";
 import type { FigmaMetadata } from "../shared/types";
 import { ColorsSection } from "./colors";
+import { ScanButton } from "./components/ScanButton";
 import { TargetBadges } from "./components/TargetBadges";
-import { MigrationProvider, useMigration } from "./context/migration";
+import { MigrationProvider, useMigration, type AvailableSteps } from "./context/migration";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "./seed-design/ui/tabs";
 
 // FigmaMetadata 컨텍스트
@@ -47,18 +48,35 @@ function TextStylesSection() {
 }
 
 function Steps() {
-  const { targets } = useMigration();
+  const { targets, selections } = useMigration();
+  const [currentTab, setCurrentTab] = useState<AvailableSteps>("colors");
 
   return (
     <Flex direction="column" height="100%" style={{ overflow: "hidden" }}>
       <Flex direction="column" height="full" style={{ overflow: "hidden" }}>
         {/* 상단 헤더 영역 */}
-        <Flex borderBottomWidth={1} borderColor="palette.gray200" padding="x2" gap="x2">
-          <TargetBadges targets={targets} />
+        <Flex
+          borderBottomWidth={1}
+          borderColor="palette.gray200"
+          paddingX="x2"
+          paddingY="x1"
+          gap="x2"
+        >
+          <Flex gap="x1" alignItems="center" flexGrow={1}>
+            <TargetBadges targets={targets} />
+          </Flex>
+          <Flex alignItems="center">
+            <ScanButton currentTab={currentTab} selections={selections} />
+          </Flex>
         </Flex>
 
         {/* 탭 네비게이션 */}
-        <TabsRoot stickyList defaultValue="colors" style={{ height: "calc(100% - 40px)" }}>
+        <TabsRoot
+          stickyList
+          value={currentTab}
+          onValueChange={(value) => setCurrentTab(value as AvailableSteps)}
+          style={{ height: "calc(100% - var(--tabs-list-height))" }}
+        >
           <TabsList>
             <TabsTrigger value="colors">컬러</TabsTrigger>
             <TabsTrigger value="text-styles">텍스트 스타일</TabsTrigger>

@@ -105,8 +105,8 @@ function ColorsFooter() {
     <Flex
       borderTopWidth={1}
       borderColor="palette.gray200"
+      padding="x3"
       style={{
-        padding: "16px",
         gap: "8px",
         flexShrink: 0,
         backgroundColor: "var(--seed-scale-color-palette-gray-0)",

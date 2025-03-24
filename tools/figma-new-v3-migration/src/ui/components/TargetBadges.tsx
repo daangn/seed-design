@@ -19,12 +19,12 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
 
   return (
     <Flex gap="x1" alignItems="center">
-      <Text fontSize="t1">마이그레이션 대상 레이어</Text>
+      <Text fontSize="t1">마이그레이션 대상</Text>
       {targets.length <= maxVisible ? (
         // maxVisible 이하면 모두 표시
         targets.map((target) => (
           <Badge
-            tone="neutral"
+            variant="weak"
             style={{ cursor: "pointer" }}
             onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
             key={target.id}
@@ -37,7 +37,7 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
         <>
           {targets.slice(0, maxVisible).map((target) => (
             <Badge
-              tone="neutral"
+              variant="weak"
               style={{ cursor: "pointer" }}
               onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
               key={target.id}
@@ -46,7 +46,7 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
             </Badge>
           ))}
           <Badge
-            tone="neutral"
+            variant="weak"
             style={{ cursor: "pointer" }}
             onClick={() =>
               events("focus-node").emit({ nodeIds: targets.slice(maxVisible).map((t) => t.id) })
