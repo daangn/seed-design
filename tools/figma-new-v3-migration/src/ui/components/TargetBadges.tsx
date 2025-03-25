@@ -17,6 +17,12 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
     return null;
   }
 
+  // 긴 이름을 적당한 길이로 자르는 함수
+  const truncateName = (name: string, maxLength = 10) => {
+    if (name.length <= maxLength) return name;
+    return name.slice(0, maxLength) + "...";
+  };
+
   return (
     <Flex gap="x1" alignItems="center">
       <Text fontSize="t1">마이그레이션 대상</Text>
@@ -25,11 +31,17 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
         targets.map((target) => (
           <Badge
             variant="weak"
-            style={{ cursor: "pointer" }}
+            style={{
+              cursor: "pointer",
+              maxWidth: "120px",
+              whiteSpace: "nowrap",
+              display: "inline-block",
+            }}
             onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
             key={target.id}
+            title={target.name} // 전체 이름을 툴팁으로 표시
           >
-            {target.name}
+            {truncateName(target.name)}
           </Badge>
         ))
       ) : (
@@ -38,16 +50,25 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
           {targets.slice(0, maxVisible).map((target) => (
             <Badge
               variant="weak"
-              style={{ cursor: "pointer" }}
+              style={{
+                cursor: "pointer",
+                maxWidth: "120px",
+                whiteSpace: "nowrap",
+                display: "inline-block",
+              }}
               onClick={() => events("focus-node").emit({ nodeIds: [target.id] })}
               key={target.id}
+              title={target.name} // 전체 이름을 툴팁으로 표시
             >
-              {target.name}
+              {truncateName(target.name)}
             </Badge>
           ))}
           <Badge
             variant="weak"
-            style={{ cursor: "pointer" }}
+            style={{
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
             onClick={() =>
               events("focus-node").emit({ nodeIds: targets.slice(maxVisible).map((t) => t.id) })
             }
