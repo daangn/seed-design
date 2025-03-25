@@ -1,4 +1,4 @@
-import { ActionChip } from "@seed-design/react";
+import { ActionButton } from "@seed-design/react";
 import { events } from "../../shared/event";
 import type { SerializedBaseNode } from "../../shared/types";
 import type { AvailableSteps } from "../context/migration";
@@ -51,8 +51,8 @@ export function ScanButton({ currentTab, selections }: ScanButtonProps) {
   const isDisabled = selections.length === 0;
 
   return (
-    <ActionChip onClick={handleScan} size="small" disabled={isDisabled}>
-      검사하기 {selections.length > 0 && `(${selections.length})`}
-    </ActionChip>
+    <ActionButton onClick={handleScan} size="xsmall" disabled={isDisabled} variant="neutralSolid">
+      {selections.length}개 프레임 검사하기
+    </ActionButton>
   );
 }
