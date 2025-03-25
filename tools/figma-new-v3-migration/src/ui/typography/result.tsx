@@ -20,10 +20,9 @@ export function Result() {
         color: "var(--seed-scale-color-neutral-500)",
       }}
     >
-      <Text fontSize="t3" fontWeight="bold" style={{ marginBottom: "8px" }}>
+      <Text fontSize="t3" style={{ marginBottom: "8px" }}>
         왼쪽에서 항목을 선택해주세요
       </Text>
-      <Text fontSize="t1">텍스트 스타일을 적용할 레이어를 선택하면 상세 내용이 표시됩니다.</Text>
     </Flex>
   );
 }
