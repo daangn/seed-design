@@ -16,6 +16,12 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "offsetDuration": {
+              "type": "duration"
+            },
+            "offsetTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -142,6 +148,14 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2"
+                },
+                "offsetDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "offsetTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "root": {

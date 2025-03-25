@@ -3,7 +3,9 @@ export const vars = {
     "enabled": {
       "region": {
         "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x2)"
+        "paddingY": "var(--seed-dimension-x2)",
+        "offsetDuration": "var(--seed-duration-d4)",
+        "offsetTimingFunction": "var(--seed-timing-function-easing)"
       },
       "root": {
         "color": "var(--seed-color-bg-neutral-solid)",
