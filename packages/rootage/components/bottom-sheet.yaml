@@ -127,12 +127,12 @@ data:
         closeButton:
           fromTop: $dimension.x5
           fromRight: $dimension.x5
-    alignment=left:
+    headerAlignment=left:
       enabled:
         header:
           paddingLeft: $dimension.spacing-x.global-gutter
           paddingRight: 50px
-    alignment=center:
+    headerAlignment=center:
       enabled:
         header:
           paddingLeft: 50px

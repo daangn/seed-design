@@ -50,7 +50,7 @@ export declare const vars: {
       }
     }
   },
-  "alignmentLeft": {
+  "headerAlignmentLeft": {
     "enabled": {
       "header": {
         "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
@@ -58,7 +58,7 @@ export declare const vars: {
       }
     }
   },
-  "alignmentCenter": {
+  "headerAlignmentCenter": {
     "enabled": {
       "header": {
         "paddingLeft": "50px",
