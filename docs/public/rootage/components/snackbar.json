@@ -200,7 +200,7 @@
                 },
                 "enterTimingFunction": {
                   "type": "cubicBezier",
-                  "value": "$timing-function.easing"
+                  "value": "$timing-function.enter"
                 },
                 "exitOpacity": {
                   "type": "number",

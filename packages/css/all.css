@@ -3709,7 +3709,7 @@
   gap: var(--seed-dimension-x2);
   min-height: 44px;
   animation: seed-enter;
-  animation-timing-function: var(--seed-timing-function-easing);
+  animation-timing-function: var(--seed-timing-function-enter);
   animation-duration: var(--seed-duration-d3);
   --seed-enter-translate-x: 0;
   --seed-enter-translate-y: 0;

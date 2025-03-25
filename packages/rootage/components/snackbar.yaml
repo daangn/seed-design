@@ -95,7 +95,7 @@ data:
           enterOpacity: 0
           enterScale: 0.8
           enterDuration: $duration.d3
-          enterTimingFunction: $timing-function.easing
+          enterTimingFunction: $timing-function.enter
           exitOpacity: 0
           exitScale: 0.8
           exitDuration: $duration.d2
