@@ -1,8 +1,13 @@
+import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
 import {
   getColorVariableSuggestionsInEffects,
   getColorVariableSuggestionsInFills,
   getColorVariableSuggestionsInStrokes,
 } from "../../main/services/get-color-variable-suggestions-by-properties";
+import {
+  SEED_V3_LIBRARY_NAME,
+  SEED_V3_LIBRARY_VARIABLE_COLLECTION_NAMES,
+} from "../../shared/constants";
 import type {
   ColorVariablesSuggestionsResults,
   SerializedColorVariablesSuggestionsResults,
@@ -11,17 +16,11 @@ import { getLibraryVariableCollection } from "../../shared/utils/libraries";
 import {
   getAllColorVariableBindableNodesInSceneNodes,
   getClosestInstanceNode,
-  isNodeWithinSystemComponents,
-  serializeInstanceNode,
   serializeBaseNode,
+  serializeInstanceNode,
 } from "../../shared/utils/nodes";
 import { serializePaintStyle } from "../../shared/utils/styles";
 import { serializeVariable } from "../../shared/utils/variables";
-import {
-  SEED_V3_LIBRARY_NAME,
-  SEED_V3_LIBRARY_VARIABLE_COLLECTION_NAMES,
-} from "../../shared/constants";
-import { convertRgbColorToHexColor, loadSettingsAsync } from "@create-figma-plugin/utilities";
 
 interface GetColorVariableSuggestionsParams {
   nodeIds: SceneNode["id"][];
@@ -47,7 +46,6 @@ function getSuggestionHash(
 
 export async function getColorVariableSuggestions({
   nodeIds,
-  systemComponentKeys,
 }: GetColorVariableSuggestionsParams): Promise<SerializedColorVariablesSuggestionsResults> {
   const nodes = (await Promise.all(nodeIds.map((nodeId) => figma.getNodeByIdAsync(nodeId)))).filter(
     (node) => node !== null && node.type !== "DOCUMENT" && node.type !== "PAGE",
@@ -101,14 +99,15 @@ export async function getColorVariableSuggestions({
   const uncheckableResults: ColorVariablesSuggestionsResults[number][] = [];
 
   for await (const node of nodesInTarget) {
-    if (
-      await isNodeWithinSystemComponents({
-        node,
-        excludeMonochromeIcons: true,
-        systemComponentKeys,
-      })
-    )
-      continue;
+    // 디자인시스템 컴포넌트 내에 있는 경우 컬러 변수 제안 생략
+    // if (
+    //   await isNodeWithinSystemComponents({
+    //     node,
+    //     excludeMonochromeIcons: true,
+    //     systemComponentKeys,
+    //   })
+    // )
+    //   continue;
 
     const fillResults = await getColorVariableSuggestionsInFills({ node, candidateVariables });
     const strokeResults = await getColorVariableSuggestionsInStrokes({ node, candidateVariables });

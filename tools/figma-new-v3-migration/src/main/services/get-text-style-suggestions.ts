@@ -1,5 +1,5 @@
-import * as v2TextStyles from "../data/__generated__/v2-styles";
-import * as v3TextStyles from "../data/__generated__/v3-styles";
+import { typographyMappings } from "@seed-design/migration-index/typography";
+import * as changeCase from "change-case";
 import type {
   GroupedSerializedTextStyleSuggestionsResults,
   SerializedTextStyleSuggestionsResults,
@@ -7,7 +7,6 @@ import type {
 import {
   getAllTextNodesInSceneNodes,
   getClosestInstanceNode,
-  isNodeWithinSystemComponents,
   serializeInstanceNode,
   serializeTextNode,
 } from "../../shared/utils/nodes";
@@ -16,14 +15,13 @@ import {
   getFontWeightLabel,
   getLineHeightUnitString,
 } from "../../shared/utils/text-node-properties";
-import { typographyMappings } from "@seed-design/migration-index/typography";
-import * as changeCase from "change-case";
+import * as v2TextStyles from "../data/__generated__/v2-styles";
+import * as v3TextStyles from "../data/__generated__/v3-styles";
 
 const v3TextStyleKeys = Object.values(v3TextStyles).map(({ key }) => key);
 
 export async function getSerializedTextStyleSuggestions({
   nodeIds,
-  systemComponentKeys,
 }: {
   nodeIds: SceneNode["id"][];
   systemComponentKeys: string[];
@@ -59,7 +57,8 @@ export async function getSerializedTextStyleSuggestions({
   const results = [];
 
   for await (const textNode of textNodesInTarget) {
-    if (await isNodeWithinSystemComponents({ node: textNode, systemComponentKeys })) continue;
+    // 디자인시스템 컴포넌트 내에 있는 경우 텍스트 스타일 제안 생략
+    // if (await isNodeWithinSystemComponents({ node: textNode, systemComponentKeys })) continue;
 
     const suggestions = await getTextStyleSuggestions(textNode, textStyles);
 
