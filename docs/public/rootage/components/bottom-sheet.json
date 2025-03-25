@@ -135,7 +135,15 @@
           }
         }
       },
-      "variants": {}
+      "variants": {
+        "alignment": {
+          "values": {
+            "left": {},
+            "center": {}
+          },
+          "defaultValue": "left"
+        }
+      }
     },
     "definitions": [
       {
@@ -284,6 +292,63 @@
                 "fromRight": {
                   "type": "dimension",
                   "value": "$dimension.x5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "alignment": "left"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "header": {
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": "$dimension.spacing-x.global-gutter"
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 50,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "alignment": "center"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "header": {
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 50,
+                    "unit": "px"
+                  }
+                },
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 50,
+                    "unit": "px"
+                  }
                 }
               }
             }
