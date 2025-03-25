@@ -1,4 +1,5 @@
-import { Box, Flex, Text } from "@seed-design/react";
+import { Flex, Text } from "@seed-design/react";
+import { ProgressBar } from "common/components/progress-bar";
 import { Fragment, useEffect, useMemo, useRef } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
@@ -29,24 +30,7 @@ export function TextStylesList() {
           </Fragment>
         ))}
       </Flex>
-      <Flex
-        padding="x2"
-        alignItems="center"
-        gap="x1"
-        borderTopWidth={1}
-        borderColor="palette.gray200"
-      >
-        <Box
-          width={`${progress.percent}%`}
-          height="x1"
-          background="palette.blue500"
-          borderRadius="r1"
-          style={{ transition: "width 0.3s" }}
-        />
-        <Text fontSize="t1" color="palette.gray700">
-          {progress.left === 0 ? "완료" : `${progress.left}개 남음`}
-        </Text>
-      </Flex>
+      <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
     </Flex>
   );
 }

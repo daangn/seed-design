@@ -1,4 +1,5 @@
 import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { ProgressBar } from "common/components/progress-bar";
 import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { events } from "shared/event";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
@@ -27,16 +28,7 @@ export function LayersWithColorList() {
         ))}
       </Stack>
 
-      <Flex padding="x2" gap="x1" alignItems="center">
-        <Text fontSize="t1" color="palette.gray700">
-          마이그레이션 진행 상황
-        </Text>
-        <Text fontSize="t1">
-          {progress.left === 0
-            ? "모든 항목이 새 토큰을 사용하고 있습니다."
-            : `${progress.left}개 남음`}
-        </Text>
-      </Flex>
+      <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
     </Flex>
   );
 }
