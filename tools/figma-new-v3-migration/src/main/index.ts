@@ -131,7 +131,9 @@ async function main() {
   // 텍스트 스타일 적용 처리
   events("apply-text-style").on(async ({ textNodeIds, textStyleId }) => {
     await applyTextStyles(textNodeIds, textStyleId);
-    figma.notify("텍스트 스타일이 적용되었습니다.");
+    figma.notify("텍스트 스타일이 적용되었습니다.", {
+      timeout: 2000,
+    });
     figma.commitUndo();
   });
 
@@ -155,7 +157,9 @@ async function main() {
   // 컬러 변수 적용 처리
   events("apply-color-variable").on(async ({ oldValue, consumerNodeIds, variableId }) => {
     await applyColorVariable({ oldValue, consumerNodeIds, variableId });
-    figma.notify("컬러 변수가 적용되었습니다.");
+    figma.notify("컬러 변수가 적용되었습니다.", {
+      timeout: 2000,
+    });
     figma.commitUndo();
   });
 }
