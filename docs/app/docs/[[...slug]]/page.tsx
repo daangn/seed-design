@@ -18,6 +18,8 @@ function styleToLevel(style: unknown) {
   return Number.parseInt(style.split("h")[1]);
 }
 
+export const dynamic = "force-static";
+
 export default async function Page({
   params,
 }: {
@@ -29,7 +31,7 @@ export default async function Page({
   const { body: MDX, toc, lastModified } = await page.data.load();
 
   const path = getPath(params.slug ?? []);
-  const guideline = await client.fetch(GUIDELINE_QUERY, { path });
+  const guideline = await client.fetch(GUIDELINE_QUERY, { path }, { cache: "no-store" });
   const guidelineToc =
     guideline?.toc?.map((item: PortableTextBlock) => {
       return {

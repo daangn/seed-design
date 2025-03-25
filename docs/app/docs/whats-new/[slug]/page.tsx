@@ -24,14 +24,22 @@ interface Article {
   }[];
 }
 
+export const dynamic = "force-static";
+
 export default async function Page({
   params,
 }: {
   params: { slug?: string };
 }) {
-  const page = await client.fetch<Article>(SINGLE_BLOG_QUERY, {
-    slug: params.slug,
-  });
+  const page = await client.fetch<Article>(
+    SINGLE_BLOG_QUERY,
+    {
+      slug: params.slug,
+    },
+    {
+      cache: "no-store",
+    },
+  );
 
   if (!page) {
     notFound();
@@ -70,6 +78,7 @@ export async function generateStaticParams() {
     {},
     {
       perspective: "published",
+      cache: "no-store",
     },
   );
 

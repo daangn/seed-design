@@ -18,6 +18,8 @@ interface Article {
   publishedAt: string;
 }
 
+export const dynamic = "force-static";
+
 export default async function Page() {
   const page = source.getPage(["whats-new"]);
   if (!page) notFound();
@@ -27,6 +29,7 @@ export default async function Page() {
     {},
     {
       perspective: "published",
+      cache: "no-store",
     },
   );
 
