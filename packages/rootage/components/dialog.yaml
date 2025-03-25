@@ -30,6 +30,8 @@ data:
             type: dimension
           marginX:
             type: dimension
+          marginY:
+            type: dimension
           paddingX:
             type: dimension
           paddingY:
@@ -95,6 +97,7 @@ data:
           color: $color.bg.layer-default
           cornerRadius: $radius.r5
           marginX: $dimension.x8
+          marginY: 80px
           paddingX: $dimension.x5
           paddingY: $dimension.x5
           maxWidth: 272px
