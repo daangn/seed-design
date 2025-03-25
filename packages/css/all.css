@@ -3712,9 +3712,9 @@
   animation-timing-function: var(--seed-timing-function-easing);
   animation-duration: var(--seed-duration-d3);
   --seed-enter-translate-x: 0;
-  --seed-enter-translate-y: 100%;
+  --seed-enter-translate-y: 0;
   --seed-enter-opacity: 0;
-  --seed-enter-scale: 1;
+  --seed-enter-scale: .8;
   display: flex;
 }
 
@@ -3723,9 +3723,9 @@
   animation-timing-function: var(--seed-timing-function-exit);
   animation-duration: var(--seed-duration-d2);
   --seed-exit-translate-x: 0;
-  --seed-exit-translate-y: 100%;
+  --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
-  --seed-exit-scale: 1;
+  --seed-exit-scale: .8;
   animation-fill-mode: forwards;
 }
 

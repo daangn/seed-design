@@ -48,7 +48,7 @@ export const snackbar = defineSlotRecipe({
         timingFunction: vars.base.enabled.root.enterTimingFunction,
         duration: vars.base.enabled.root.enterDuration,
         opacity: vars.base.enabled.root.enterOpacity,
-        translateY: "100%",
+        scale: vars.base.enabled.root.enterScale,
       }),
 
       "&:not([data-open])": {
@@ -56,7 +56,7 @@ export const snackbar = defineSlotRecipe({
           timingFunction: vars.base.enabled.root.exitTimingFunction,
           duration: vars.base.enabled.root.exitDuration, // TODO: should we use --remove-delay here?
           opacity: vars.base.enabled.root.exitOpacity,
-          translateY: "100%",
+          scale: vars.base.enabled.root.exitScale,
         }),
       },
     },
