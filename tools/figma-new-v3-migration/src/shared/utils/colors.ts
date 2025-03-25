@@ -1,4 +1,6 @@
-import { COLOR_MAPPING, type ColorMapping } from "../../main/data/colors";
+import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
+import { colorMappings } from "@seed-design/migration-index/color";
+import { deltaE } from "color-delta-e";
 import type {
   DetachedResultWithColorSuggestions,
   PaletteProperty,
@@ -7,14 +9,66 @@ import type {
   VariableWithResolvedColor,
 } from "../../main/services/get-color-variable-suggestions-by-properties";
 import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "../../shared/constants";
-import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
-import { deltaE } from "color-delta-e";
 
 const FILL_STYLE_PREFIXES = {
   SCALE: "$scale/",
   SEMANTIC: "$semantic/",
   STATIC: "$static/",
 };
+
+interface ColorMappingItem {
+  previous: string;
+  next: string[];
+  alternative?: string[];
+  description?: string;
+}
+
+type NormalizedValue = {
+  name: string;
+  isAlternative?: boolean;
+};
+
+type ColorMappingType = Record<string, NormalizedValue[] | null>;
+
+/**
+ * 새로운 맵핑의 키/값 포맷을 기존 맵핑의 포맷으로 변환합니다.
+ */
+function normalizeKey(key: string): string {
+  return key
+    .replace("$semantic.color.", "$semantic/")
+    .replace("$scale.color.", "$scale/")
+    .replace("$static.color.", "$static/");
+}
+
+function normalizeValue(value: string): string {
+  return value
+    .replace("$color.palette.", "palette/")
+    .replace("$color.bg.", "bg/")
+    .replace("$color.fg.", "fg/")
+    .replace("$color.stroke.", "stroke/");
+}
+
+/**
+ * color.mjs의 맵핑 데이터를 COLOR_MAPPING 형식으로 정규화합니다.
+ */
+function normalizeColorMappings(mappings: ColorMappingItem[]): ColorMappingType {
+  return mappings.reduce((acc, { previous, next, alternative }) => {
+    if (next.length === 0) {
+      acc[normalizeKey(previous)] = null;
+      return acc;
+    }
+
+    const normalizedValues = [
+      ...next.map((value) => ({ name: normalizeValue(value) })),
+      ...(alternative || []).map((value) => ({ name: normalizeValue(value), isAlternative: true })),
+    ];
+    acc[normalizeKey(previous)] = normalizedValues;
+    return acc;
+  }, {} as ColorMappingType);
+}
+
+// 정규화된 맵핑 데이터
+const NORMALIZED_MAPPING = normalizeColorMappings(colorMappings);
 
 /**
  * .theme-light/, .theme-dark/, theme/ 접두사를 제거한 PaintStyle 이름을 반환합니다.
@@ -121,19 +175,25 @@ export function getClosestPaletteVariablesWithResolvedColor({
 export function getVariableFromMapping({
   styleNameWithoutTheme,
   candidateVariables,
-  mapping,
+  mapping = NORMALIZED_MAPPING,
   propertyScope,
 }: {
   styleNameWithoutTheme: string;
   candidateVariables: VariableWithResolvedColor[];
-  mapping: ColorMapping;
+  mapping?: ColorMappingType;
   propertyScope?: string;
 }) {
   if (!(styleNameWithoutTheme in mapping)) return null;
 
-  const variables = candidateVariables.filter(({ variable }) =>
-    mapping[styleNameWithoutTheme]?.includes(variable.name),
-  );
+  const mappedValues = mapping[styleNameWithoutTheme];
+  if (!mappedValues) return null;
+
+  const variables = candidateVariables
+    .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
+    .map((variable) => ({
+      ...variable,
+      isAlternative: mappedValues.find((v) => v.name === variable.variable.name)?.isAlternative,
+    }));
 
   if (!propertyScope) return variables;
 
@@ -178,11 +238,16 @@ export async function getVariableSuggestionsFromPaintStyle({
   const suggestions = (() => {
     switch (getPaintStyleType(styleNameWithoutTheme)) {
       case "scale": {
-        const variablesFromMapping = getVariableFromMapping({
-          styleNameWithoutTheme,
-          candidateVariables,
-          mapping: COLOR_MAPPING,
-        });
+        const mappedValues = NORMALIZED_MAPPING[styleNameWithoutTheme];
+        const variablesFromMapping = mappedValues
+          ? candidateVariables
+              .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
+              .map((variable) => ({
+                ...variable,
+                isAlternative: mappedValues.find((v) => v.name === variable.variable.name)
+                  ?.isAlternative,
+              }))
+          : null;
 
         // scale -> palette 맵핑이 정의되어 있는 경우 ([]도 있다고 봄)
         // 맵핑에서 제공하는 variable을 사용
@@ -212,14 +277,28 @@ export async function getVariableSuggestionsFromPaintStyle({
 
       default: {
         // semantic -> 맵핑만을 참고
-        const variablesFromMapping = getVariableFromMapping({
-          styleNameWithoutTheme,
-          candidateVariables,
-          mapping: COLOR_MAPPING,
-          ...(paletteProperty && { propertyScope: paletteProperty }),
-        });
+        const mappedValues = NORMALIZED_MAPPING[styleNameWithoutTheme];
+        if (!mappedValues) return [];
 
-        return variablesFromMapping ?? [];
+        const variables = candidateVariables
+          .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
+          .map((variable) => ({
+            ...variable,
+            isAlternative: mappedValues.find((v) => v.name === variable.variable.name)
+              ?.isAlternative,
+          }));
+
+        if (!paletteProperty) return variables;
+
+        const variablesWithPropertyScopeMatched = variables.filter(
+          ({ variable }) =>
+            variable.name.startsWith(`${paletteProperty}/`) ||
+            variable.name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.PALETTE),
+        );
+
+        return variablesWithPropertyScopeMatched.length > 0
+          ? variablesWithPropertyScopeMatched
+          : variables;
       }
     }
   })();
