@@ -1,6 +1,6 @@
 import { Box, Flex } from "@seed-design/react";
-import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "../../shared/constants";
-import { Footer } from "../components/Footer";
+import { Footer } from "common/components/footer";
+import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "shared/constants";
 import { ColorMigrationProvider, useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";

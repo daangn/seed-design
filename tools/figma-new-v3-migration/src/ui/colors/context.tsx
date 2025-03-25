@@ -1,10 +1,7 @@
+import { useMigration } from "common/context/migration";
 import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { events } from "../../shared/event";
-import type {
-  SerializedColorVariablesSuggestionsResults,
-  SerializedVariable,
-} from "../../shared/types";
-import { useMigration } from "../context/migration";
+import { events } from "shared/event";
+import type { SerializedColorVariablesSuggestionsResults, SerializedVariable } from "shared/types";
 
 export interface ListEntry {
   groupId: string;

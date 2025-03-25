@@ -1,6 +1,6 @@
-import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
-import type { SerializedBaseNode } from "../../shared/types";
-import { events } from "../../shared/event";
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import { events } from "shared/event";
+import type { SerializedBaseNode } from "shared/types";
 
 const availableSteps = [
   //   {

@@ -1,13 +1,13 @@
 import { Box, Flex, Text } from "@seed-design/react";
+import { Footer } from "common/components/footer";
+import { ScanButton } from "common/components/scan-button";
+import { TargetBadges } from "common/components/taget-badges";
+import { MigrationProvider, useMigration, type AvailableSteps } from "common/context/migration";
 import { createContext, useEffect, useState, type ReactNode } from "react";
-import { events } from "../shared/event";
-import type { FigmaMetadata } from "../shared/types";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
+import { events } from "shared/event";
+import type { FigmaMetadata } from "shared/types";
 import { ColorsSection } from "./colors";
-import { Footer } from "./components/Footer";
-import { ScanButton } from "./components/ScanButton";
-import { TargetBadges } from "./components/TargetBadges";
-import { MigrationProvider, useMigration, type AvailableSteps } from "./context/migration";
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "./seed-design/ui/tabs";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {

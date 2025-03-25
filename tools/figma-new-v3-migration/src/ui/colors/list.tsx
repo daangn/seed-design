@@ -1,7 +1,7 @@
 import { Box, Flex, Stack, Text } from "@seed-design/react";
-import { events } from "../../shared/event";
-import type { SerializedColorVariablesSuggestionsResults } from "../../shared/types";
-import { ProgressCircle } from "../seed-design/ui/progress-circle";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
+import { events } from "shared/event";
+import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } from "./context";
 
 export function LayersWithColorList() {

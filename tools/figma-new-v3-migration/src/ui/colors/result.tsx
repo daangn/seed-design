@@ -1,8 +1,5 @@
 import { ActionButton, Box, Flex, Text } from "@seed-design/react";
-import type {
-  SerializedColorVariablesSuggestionsResults,
-  SerializedVariable,
-} from "../../shared/types";
+import type { SerializedColorVariablesSuggestionsResults, SerializedVariable } from "shared/types";
 import { getOldValueName, useColorMigration } from "./context";
 
 export function Result() {

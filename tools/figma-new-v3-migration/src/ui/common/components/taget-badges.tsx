@@ -1,6 +1,6 @@
 import { Badge, Flex, Text } from "@seed-design/react";
-import { events } from "../../shared/event";
-import type { SerializedBaseNode } from "../../shared/types";
+import { events } from "shared/event";
+import type { SerializedBaseNode } from "shared/types";
 
 interface TargetBadgesProps {
   targets: SerializedBaseNode[];

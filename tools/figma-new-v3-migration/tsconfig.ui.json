@@ -18,8 +18,13 @@
     "composite": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "allowImportingTsExtensions": true, 
+    "allowImportingTsExtensions": true,
     "declarationMap": true,
+    "paths": {
+      "common/*": ["./src/ui/common/*"],
+      "seed-design/*": ["./src/ui/common/design-system/*"],
+      "shared/*": ["./src/shared/*"]
+    }
   },
   "include": ["src/ui", "src/shared"]
 }

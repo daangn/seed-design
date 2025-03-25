@@ -1,7 +1,7 @@
 import { ActionButton } from "@seed-design/react";
-import { events } from "../../shared/event";
-import type { SerializedBaseNode } from "../../shared/types";
-import type { AvailableSteps } from "../context/migration";
+import type { AvailableSteps } from "common/context/migration";
+import { events } from "shared/event";
+import type { SerializedBaseNode } from "shared/types";
 
 interface ScanButtonProps {
   /**
