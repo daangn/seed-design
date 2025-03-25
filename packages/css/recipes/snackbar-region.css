@@ -8,7 +8,5 @@
     bottom: calc(env(safe-area-inset-bottom, 0px) + var(--snackbar-region-offset, 0px));
     padding-inline: var(--seed-dimension-x2);
     padding-block: var(--seed-dimension-x2);
-    transition-property: bottom;
-    transition-duration: var(--seed-duration-d4);
-    transition-timing-function: var(--seed-timing-function-easing)
+    transition-property: bottom
 }

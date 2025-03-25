@@ -3,9 +3,7 @@ export declare const vars: {
     "enabled": {
       "region": {
         "paddingX": "var(--seed-dimension-x2)",
-        "paddingY": "var(--seed-dimension-x2)",
-        "offsetDuration": "var(--seed-duration-d4)",
-        "offsetTimingFunction": "var(--seed-timing-function-easing)"
+        "paddingY": "var(--seed-dimension-x2)"
       },
       "root": {
         "color": "var(--seed-color-bg-neutral-solid)",
@@ -15,10 +13,12 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x2)",
         "enterOpacity": "0",
-        "enterDuration": "var(--seed-duration-d4)",
-        "enterTimingFunction": "var(--seed-timing-function-enter)",
+        "enterScale": "0.8",
+        "enterDuration": "var(--seed-duration-d3)",
+        "enterTimingFunction": "var(--seed-timing-function-easing)",
         "exitOpacity": "0",
-        "exitDuration": "var(--seed-duration-d4)",
+        "exitScale": "0.8",
+        "exitDuration": "var(--seed-duration-d2)",
         "exitTimingFunction": "var(--seed-timing-function-exit)"
       },
       "message": {

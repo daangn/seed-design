@@ -16,12 +16,6 @@
             },
             "paddingY": {
               "type": "dimension"
-            },
-            "offsetDuration": {
-              "type": "duration"
-            },
-            "offsetTimingFunction": {
-              "type": "cubicBezier"
             }
           }
         },
@@ -48,11 +42,17 @@
             "enterOpacity": {
               "type": "number"
             },
+            "enterScale": {
+              "type": "number"
+            },
             "enterDuration": {
               "type": "duration"
             },
             "enterTimingFunction": {
               "type": "cubicBezier"
+            },
+            "exitScale": {
+              "type": "number"
             },
             "exitOpacity": {
               "type": "number"
@@ -142,14 +142,6 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2"
-                },
-                "offsetDuration": {
-                  "type": "duration",
-                  "value": "$duration.d4"
-                },
-                "offsetTimingFunction": {
-                  "type": "cubicBezier",
-                  "value": "$timing-function.easing"
                 }
               },
               "root": {
@@ -184,21 +176,29 @@
                   "type": "number",
                   "value": 0
                 },
+                "enterScale": {
+                  "type": "number",
+                  "value": 0.8
+                },
                 "enterDuration": {
                   "type": "duration",
-                  "value": "$duration.d4"
+                  "value": "$duration.d3"
                 },
                 "enterTimingFunction": {
                   "type": "cubicBezier",
-                  "value": "$timing-function.enter"
+                  "value": "$timing-function.easing"
                 },
                 "exitOpacity": {
                   "type": "number",
                   "value": 0
                 },
+                "exitScale": {
+                  "type": "number",
+                  "value": 0.8
+                },
                 "exitDuration": {
                   "type": "duration",
-                  "value": "$duration.d4"
+                  "value": "$duration.d2"
                 },
                 "exitTimingFunction": {
                   "type": "cubicBezier",

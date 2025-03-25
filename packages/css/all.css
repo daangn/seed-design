@@ -3709,8 +3709,8 @@
   gap: var(--seed-dimension-x2);
   min-height: 44px;
   animation: seed-enter;
-  animation-timing-function: var(--seed-timing-function-enter);
-  animation-duration: var(--seed-duration-d4);
+  animation-timing-function: var(--seed-timing-function-easing);
+  animation-duration: var(--seed-duration-d3);
   --seed-enter-translate-x: 0;
   --seed-enter-translate-y: 100%;
   --seed-enter-opacity: 0;
@@ -3721,7 +3721,7 @@
 .seed-snackbar__root:not([data-open]) {
   animation: seed-exit;
   animation-timing-function: var(--seed-timing-function-exit);
-  animation-duration: var(--seed-duration-d4);
+  animation-duration: var(--seed-duration-d2);
   --seed-exit-translate-x: 0;
   --seed-exit-translate-y: 100%;
   --seed-exit-opacity: 0;
@@ -3795,11 +3795,9 @@
   bottom: calc(env(safe-area-inset-bottom, 0px)  + var(--snackbar-region-offset, 0px));
   padding-inline: var(--seed-dimension-x2);
   padding-block: var(--seed-dimension-x2);
-  transition-property: bottom;
-  transition-duration: var(--seed-duration-d4);
-  transition-timing-function: var(--seed-timing-function-easing);
   flex-direction: column;
   align-items: center;
+  transition-property: bottom;
   display: flex;
 }
 
