@@ -61,7 +61,10 @@
             "gap": {
               "type": "dimension"
             },
-            "paddingX": {
+            "paddingLeft": {
+              "type": "dimension"
+            },
+            "paddingRight": {
               "type": "dimension"
             },
             "paddingTop": {
