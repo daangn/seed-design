@@ -1,5 +1,4 @@
-import { Box, Flex, Text } from "@seed-design/react";
-import { Footer } from "common/components/footer";
+import { Flex } from "@seed-design/react";
 import { ScanButton } from "common/components/scan-button";
 import { TargetBadges } from "common/components/taget-badges";
 import { MigrationProvider, useMigration, type AvailableSteps } from "common/context/migration";
@@ -8,6 +7,7 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 import { events } from "shared/event";
 import type { FigmaMetadata } from "shared/types";
 import { ColorsSection } from "./colors";
+import { TypographySection } from "./typography";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {
@@ -31,42 +31,6 @@ function FigmaMetadataProvider({ children }: { children: ReactNode }) {
 
   return (
     <FigmaMetadataContext.Provider value={{ metadata }}>{children}</FigmaMetadataContext.Provider>
-  );
-}
-
-// 섹션 컴포넌트
-function TextStylesSection() {
-  // 텍스트 스타일 검사 요청 핸들러
-  const handleRefresh = () => {
-    // TODO: 텍스트 스타일 검사 요청 기능 구현
-    console.log("텍스트 스타일 검사 요청");
-  };
-
-  return (
-    <Flex direction="column" height="full" style={{ position: "relative" }}>
-      {/* 메인 컨텐츠 영역 */}
-      <Box flexGrow={1} style={{ overflow: "auto", height: "calc(100% - 60px)" }}>
-        <Box padding="x3">
-          <Text fontWeight="bold" style={{ fontSize: "16px", marginBottom: "16px" }}>
-            텍스트 스타일 마이그레이션
-          </Text>
-          <Text style={{ fontSize: "14px" }}>
-            텍스트 스타일을 선택하고 마이그레이션을 진행해주세요.
-          </Text>
-        </Box>
-      </Box>
-
-      {/* 하단 푸터 */}
-      <Footer
-        customContent={
-          <Text fontSize="t7" color="palette.gray700">
-            텍스트 스타일 마이그레이션 기능은 아직 준비 중입니다.
-          </Text>
-        }
-        onRefresh={handleRefresh}
-        showRefreshButton={true}
-      />
-    </Flex>
   );
 }
 
@@ -119,7 +83,7 @@ function Steps() {
             }}
             value="text-styles"
           >
-            <TextStylesSection />
+            <TypographySection />
           </TabsContent>
         </TabsRoot>
       </Flex>
