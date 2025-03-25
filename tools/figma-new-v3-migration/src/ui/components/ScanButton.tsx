@@ -47,9 +47,12 @@ export function ScanButton({ currentTab, selections }: ScanButtonProps) {
     }
   };
 
+  // 선택된 노드가 없을 때는 비활성화
+  const isDisabled = selections.length === 0;
+
   return (
-    <ActionChip onClick={handleScan} size="small">
-      검사하기
+    <ActionChip onClick={handleScan} size="small" disabled={isDisabled}>
+      검사하기 {selections.length > 0 && `(${selections.length})`}
     </ActionChip>
   );
 }
