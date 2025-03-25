@@ -17,7 +17,7 @@ export declare const vars: {
         "enterOpacity": "0",
         "enterScale": "0.8",
         "enterDuration": "var(--seed-duration-d3)",
-        "enterTimingFunction": "var(--seed-timing-function-easing)",
+        "enterTimingFunction": "var(--seed-timing-function-enter)",
         "exitOpacity": "0",
         "exitScale": "0.8",
         "exitDuration": "var(--seed-duration-d2)",
