@@ -32,10 +32,14 @@ data:
             type: dimension
           enterOpacity:
             type: number
+          enterScale:
+            type: number
           enterDuration:
             type: duration
           enterTimingFunction:
             type: cubicBezier
+          exitScale:
+            type: number
           exitOpacity:
             type: number
           exitDuration:
@@ -89,10 +93,12 @@ data:
           paddingY: $dimension.x2_5
           gap: $dimension.x2
           enterOpacity: 0
-          enterDuration: $duration.d4
-          enterTimingFunction: $timing-function.enter
+          enterScale: 0.8
+          enterDuration: $duration.d3
+          enterTimingFunction: $timing-function.easing
           exitOpacity: 0
-          exitDuration: $duration.d4
+          exitScale: 0.8
+          exitDuration: $duration.d2
           exitTimingFunction: $timing-function.exit
         message:
           color: $color.palette.static-white
