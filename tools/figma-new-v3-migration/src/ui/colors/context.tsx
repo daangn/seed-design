@@ -177,7 +177,7 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     requestSuggestions();
-  }, []);
+  }, [targets]);
 
   // 컬러 변수 적용
   function applyColorVariable({

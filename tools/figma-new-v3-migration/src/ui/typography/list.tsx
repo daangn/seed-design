@@ -1,10 +1,10 @@
-import { Flex, Text } from "@seed-design/react";
+import { IconTUppercaseSerifLine } from "@daangn/react-monochrome-icon";
+import { Flex, Stack, Text } from "@seed-design/react";
 import { ProgressBar } from "common/components/progress-bar";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration, type ListEntry } from "./context";
-import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 export function TextStylesList() {
   const { results, progress } = useTypographyMigration();
@@ -12,23 +12,25 @@ export function TextStylesList() {
   if (!results) {
     return (
       <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
-        <ProgressCircle size="24" />
+        <Text fontSize="t1" color="palette.gray700">
+          프레임 검사를 해주세요.
+        </Text>
       </Flex>
     );
   }
 
   return (
     <Flex direction="column" style={{ height: "100%" }}>
-      <Flex direction="column" style={{ overflow: "auto", flexGrow: 1 }}>
+      <Stack flexGrow={1} gap="x3">
         {results.map((group) => (
-          <Fragment key={group.groupId}>
+          <Stack key={group.groupId} borderBottomWidth={1} borderColor="palette.gray200">
             <TextStyleGroup groupId={group.groupId} />
             {group.items.map((item) => (
               <TextLayer key={item.textNode.id} groupId={group.groupId} item={item} />
             ))}
-          </Fragment>
+          </Stack>
         ))}
-      </Flex>
+      </Stack>
       <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
     </Flex>
   );
@@ -48,50 +50,33 @@ function TextStyleGroup({ groupId }: Pick<ListEntry, "groupId">) {
 
   const isAllItemsSelected = group.items.every((item) => item.selectedNewTextStyleId !== null);
 
-  const groupRef = useRef<HTMLDivElement | null>(null);
+  function handleClick() {
+    setCurrentlyViewingEntryId({ groupId });
+    if (!group || !group.items) return;
 
-  useEffect(() => {
-    if (isCurrentlyViewing && groupRef.current) {
-      groupRef.current.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    const nodeIds = group.items.map((item) => item.textNode.id);
+    if (nodeIds.length > 0) {
+      events("focus-node").emit({ nodeIds });
     }
-  }, [isCurrentlyViewing]);
-
-  const firstNodeId = group.items.length > 0 ? group.items[0].textNode.id : null;
+  }
 
   return (
     <Flex
-      ref={groupRef}
-      background={isCurrentlyViewing ? "bg.neutralWeak" : undefined}
-      borderColor={isCurrentlyViewing ? "stroke.neutral" : "stroke.neutralMuted"}
-      borderWidth={1}
-      borderRadius="r2"
+      onClick={handleClick}
+      gap="x1"
+      alignItems="center"
+      background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       padding="x2"
-      onClick={() => {
-        setCurrentlyViewingEntryId({ groupId });
-        if (firstNodeId) {
-          events("focus-node").emit({
-            nodeIds: [firstNodeId],
-          });
-        }
-      }}
       style={{
-        marginBottom: "8px",
-        marginLeft: "8px",
-        marginRight: "8px",
-        marginTop: "8px",
         cursor: "pointer",
-        opacity: isAllItemsSelected ? 0.6 : 1,
+        ...(isAllItemsSelected && {
+          opacity: 0.5,
+          textDecoration: "line-through",
+        }),
       }}
     >
-      <Text
-        fontSize="t2"
-        fontWeight="bold"
-        style={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
-      >
+      <IconTUppercaseSerifLine size={14} />
+      <Text fontSize="t2" fontWeight="bold">
         {groupId}
       </Text>
     </Flex>
@@ -107,51 +92,49 @@ function TextLayer({
 }) {
   const { setCurrentlyViewingEntryId, currentlyViewing } = useTypographyMigration();
 
-  const { textNode, selectedNewTextStyleId } = item;
+  const { textNode, selectedNewTextStyleId, closestInstanceNode } = item;
 
-  const isCurrentlyViewing = useMemo(
-    () => currentlyViewing?.item?.textNode.id === textNode.id,
-    [currentlyViewing, textNode.id],
-  );
+  const isAlreadyMigrated = !!selectedNewTextStyleId;
 
-  const itemRef = useRef<HTMLDivElement | null>(null);
+  function handleClick() {
+    if (isAlreadyMigrated) return;
+    setCurrentlyViewingEntryId({ groupId, itemId: textNode.id });
+    events("focus-node").emit({ nodeIds: [textNode.id] });
+  }
 
-  useEffect(() => {
-    if (isCurrentlyViewing && itemRef.current) {
-      itemRef.current.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    }
-  }, [isCurrentlyViewing]);
+  // 현재 아이템이 선택되었는지 확인
+  const isItemSelected = currentlyViewing?.item?.textNode.id === textNode.id;
+
+  // 현재 아이템의 그룹이 선택되었는지 확인 (아이템이 선택되지 않은 상태에서)
+  const isParentGroupSelected =
+    currentlyViewing && !currentlyViewing.item && currentlyViewing.group?.groupId === groupId;
+
+  // 아이템이 선택되었거나 부모 그룹이 선택되었을 때 하이라이트
+  const isHighlighted = isItemSelected || isParentGroupSelected;
+
+  const displayText = textNode.characters || "<빈 텍스트>";
+  const truncatedText =
+    displayText.length > 30 ? `${displayText.substring(0, 30)}...` : displayText;
 
   return (
     <Flex
-      ref={itemRef}
-      background={isCurrentlyViewing ? "bg.neutralWeak" : undefined}
-      borderColor={isCurrentlyViewing ? "stroke.neutral" : "stroke.neutralMuted"}
-      borderWidth={1}
-      borderRadius="r2"
-      padding="x2"
-      onClick={() => {
-        setCurrentlyViewingEntryId({ groupId, itemId: textNode.id });
-        events("focus-node").emit({ nodeIds: [textNode.id] });
-      }}
+      onClick={handleClick}
+      gap="x1"
+      alignItems="center"
+      padding="x1"
+      paddingLeft="x4"
+      background={isHighlighted ? "bg.informativeWeak" : "bg.layerDefault"}
       style={{
-        marginBottom: "4px",
-        marginLeft: "16px",
-        marginRight: "8px",
         cursor: "pointer",
-        opacity: selectedNewTextStyleId ? 0.6 : 1,
+        ...(isAlreadyMigrated && { opacity: 0.5, textDecoration: "line-through" }),
       }}
     >
-      <Text
-        fontSize="t1"
-        style={{
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {textNode.characters || "<빈 텍스트>"}
-      </Text>
+      <Text fontSize="t1">{truncatedText}</Text>
+      {closestInstanceNode && (
+        <Text fontSize="t1" color="palette.gray700">
+          인스턴스
+        </Text>
+      )}
     </Flex>
   );
 }

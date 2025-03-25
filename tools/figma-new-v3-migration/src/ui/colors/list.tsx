@@ -1,6 +1,5 @@
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { ProgressBar } from "common/components/progress-bar";
-import { ProgressCircle } from "seed-design/ui/progress-circle";
 import { events } from "shared/event";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } from "./context";
@@ -11,7 +10,9 @@ export function LayersWithColorList() {
   if (!results) {
     return (
       <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
-        <ProgressCircle size="24" />
+        <Text fontSize="t1" color="palette.gray700">
+          프레임 검사를 해주세요.
+        </Text>
       </Flex>
     );
   }
