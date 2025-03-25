@@ -72,27 +72,6 @@ async function main() {
     events("announce-selection").emit({
       serializedSelections: currentSelections.map(serializeBaseNode),
     });
-
-    if (currentSelections.length !== 1) return;
-
-    if (
-      currentTarget.length === 1 &&
-      !areSceneNodesWithinReferenceSceneNodes(currentSelections, currentTarget)
-    ) {
-      currentTarget = [...currentSelections];
-
-      events("announce-target").emit({
-        serializedTargets: currentTarget.map(serializeBaseNode),
-      });
-    }
-
-    if (currentTarget.length === 0) {
-      currentTarget = [...currentSelections];
-
-      events("announce-target").emit({
-        serializedTargets: currentTarget.map(serializeBaseNode),
-      });
-    }
   });
 
   // 현재 선택 및 타겟 노드 정보 전송
@@ -125,6 +104,10 @@ async function main() {
     ).filter(
       (node) => node !== null && node.type !== "DOCUMENT" && node.type !== "PAGE",
     ) as SceneNode[];
+
+    if (nodes.length > 0) {
+      currentTarget = nodes;
+    }
 
     events("announce-target").emit({
       serializedTargets: nodes.map(serializeBaseNode),
@@ -175,16 +158,6 @@ async function main() {
     figma.notify("컬러 변수가 적용되었습니다.");
     figma.commitUndo();
   });
-}
-
-// 노드가 참조 노드 내에 있는지 확인하는 함수
-function areSceneNodesWithinReferenceSceneNodes(
-  sceneNodes: readonly SceneNode[],
-  referenceSceneNodes: readonly SceneNode[],
-): boolean {
-  // 간단한 구현: ID 기반 비교
-  const referenceIds = new Set(referenceSceneNodes.map((node) => node.id));
-  return sceneNodes.every((node) => referenceIds.has(node.id));
 }
 
 // 메인 함수 실행
