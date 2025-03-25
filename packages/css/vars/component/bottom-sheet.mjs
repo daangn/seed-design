@@ -49,5 +49,21 @@ export const vars = {
         "fromRight": "var(--seed-dimension-x5)"
       }
     }
+  },
+  "alignmentLeft": {
+    "enabled": {
+      "header": {
+        "paddingLeft": "var(--seed-dimension-spacing-x-global-gutter)",
+        "paddingRight": "50px"
+      }
+    }
+  },
+  "alignmentCenter": {
+    "enabled": {
+      "header": {
+        "paddingLeft": "50px",
+        "paddingRight": "50px"
+      }
+    }
   }
 }
