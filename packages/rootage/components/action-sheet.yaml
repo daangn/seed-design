@@ -26,6 +26,8 @@ data:
         properties:
           color:
             type: color
+          maxWidth:
+            type: dimension
           topCornerRadius:
             type: dimension
           enterDuration:
@@ -85,6 +87,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-floating
+          maxWidth: 480px
           topCornerRadius: $radius.r5
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive

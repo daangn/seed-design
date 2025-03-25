@@ -12,6 +12,7 @@ export declare const vars: {
       },
       "content": {
         "color": "var(--seed-color-bg-layer-default)",
+        "maxWidth": "640px",
         "topCornerRadius": "var(--seed-radius-r6)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
