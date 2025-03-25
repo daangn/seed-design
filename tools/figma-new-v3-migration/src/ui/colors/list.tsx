@@ -1,11 +1,20 @@
+import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
+import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
+import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } from "./context";
 
 export function LayersWithColorList() {
   const { results, progress } = useColorMigration();
+
+  // 모든 그룹 ID 목록 (초기에 모두 펼친 상태로 설정)
+  const defaultOpenItems = useMemo(() => {
+    if (!results) return [];
+    return results.map(({ oldValue }) => getOldValueId(oldValue));
+  }, [results]);
 
   if (!results) {
     return (
@@ -19,28 +28,67 @@ export function LayersWithColorList() {
 
   return (
     <Flex direction="column" height="full">
-      <Stack flexGrow={1} overflowY="auto" gap="x3">
-        {results.map(({ oldValue, consumers }) => (
-          <Stack key={getOldValueId(oldValue)} borderBottomWidth={1} borderColor="palette.gray200">
-            <LayerGroup groupId={getOldValueId(oldValue)} />
-            {consumers.map((consumer) => (
-              <Layer key={consumer.node.id} groupId={getOldValueId(oldValue)} consumer={consumer} />
-            ))}
-          </Stack>
-        ))}
-      </Stack>
+      <CollapsibleGroup defaultOpenItems={defaultOpenItems}>
+        {/* 전체 접기/펴기 컨트롤 */}
+        <Flex
+          justifyContent="spaceBetween"
+          alignItems="center"
+          padding="x2"
+          borderBottomWidth={1}
+          borderColor="palette.gray200"
+        >
+          <Text fontSize="t1">컬러 그룹</Text>
+          <CollapsibleGroup.ToggleAll>
+            {({ isAllOpen }) => (
+              <Flex gap="x1" alignItems="center">
+                <Text fontSize="t1" color="palette.gray700">
+                  {isAllOpen ? "전체 접기" : "전체 펼치기"}
+                </Text>
+                {isAllOpen ? <IconChevronUpLine size={12} /> : <IconChevronDownLine size={12} />}
+              </Flex>
+            )}
+          </CollapsibleGroup.ToggleAll>
+        </Flex>
 
+        {/* 그룹 목록 */}
+        <Stack flexGrow={1} overflowY="auto">
+          {results.map(({ oldValue, consumers }) => (
+            <Collapsible key={getOldValueId(oldValue)} id={getOldValueId(oldValue)}>
+              <Stack borderBottomWidth={1} borderColor="palette.gray200">
+                <LayerGroup groupId={getOldValueId(oldValue)} itemCount={consumers.length} />
+                <Collapsible.Content>
+                  {consumers.map((consumer) => (
+                    <Layer
+                      key={consumer.node.id}
+                      groupId={getOldValueId(oldValue)}
+                      consumer={consumer}
+                    />
+                  ))}
+                </Collapsible.Content>
+              </Stack>
+            </Collapsible>
+          ))}
+        </Stack>
+      </CollapsibleGroup>
       <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
     </Flex>
   );
 }
 
-function LayerGroup({ groupId }: Pick<ListEntry, "groupId">) {
+function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemCount: number }) {
   const { results, setCurrentlyViewingEntryId, currentlyViewing } = useColorMigration();
   if (!results) return null;
 
   const group = results.find(({ oldValue }) => groupId === getOldValueId(oldValue));
   if (!group) return null;
+
+  const isCurrentlyViewing = currentlyViewing
+    ? getOldValueId(currentlyViewing.group.oldValue) === groupId && !currentlyViewing.item
+    : false;
+
+  const isAllItemsMigrated = group.consumers.every(
+    ({ selectedNewVariableId }) => selectedNewVariableId,
+  );
 
   function handleClick() {
     setCurrentlyViewingEntryId({ groupId });
@@ -51,35 +99,43 @@ function LayerGroup({ groupId }: Pick<ListEntry, "groupId">) {
     }
   }
 
-  const isCurrentlyViewing = currentlyViewing
-    ? getOldValueId(currentlyViewing.group.oldValue) === groupId && !currentlyViewing.item
-    : false;
-
-  const isAllItemsMigrated = group.consumers.every(
-    ({ selectedNewVariableId }) => selectedNewVariableId,
-  );
-
   return (
     <Flex
-      onClick={handleClick}
-      gap="x1"
+      justifyContent="spaceBetween"
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
-      padding="x2"
+      paddingY="x3"
+      paddingX="x2"
       style={{
-        cursor: "pointer",
         ...(isAllItemsMigrated && {
           opacity: 0.5,
           textDecoration: "line-through",
         }),
       }}
     >
-      {group.oldValue.type !== "uncheckable" && (
-        <ColorSwatch hex={group.oldValue.hex} opacity={group.oldValue.opacity} />
-      )}
-      <Text fontSize="t2" fontWeight="bold">
-        {getOldValueName(group.oldValue)}
-      </Text>
+      {/* 그룹 정보 */}
+      <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
+        {group.oldValue.type !== "uncheckable" && (
+          <ColorSwatch hex={group.oldValue.hex} opacity={group.oldValue.opacity} />
+        )}
+        <Text fontSize="t2" fontWeight="bold">
+          {getOldValueName(group.oldValue)}
+        </Text>
+        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px" }}>
+          ({itemCount})
+        </Text>
+      </Flex>
+
+      {/* 접기/펴기 버튼 */}
+      <Collapsible.Trigger>
+        {({ isOpen }) =>
+          isOpen ? (
+            <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
+          ) : (
+            <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
+          )
+        }
+      </Collapsible.Trigger>
     </Flex>
   );
 }

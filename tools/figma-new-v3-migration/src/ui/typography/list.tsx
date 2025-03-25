@@ -1,5 +1,10 @@
-import { IconTUppercaseSerifLine } from "@daangn/react-monochrome-icon";
+import {
+  IconChevronDownLine,
+  IconChevronUpLine,
+  IconTUppercaseSerifLine,
+} from "@daangn/react-monochrome-icon";
 import { Flex, Stack, Text } from "@seed-design/react";
+import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
 import { useMemo } from "react";
 import { events } from "shared/event";
@@ -8,6 +13,12 @@ import { useTypographyMigration, type ListEntry } from "./context";
 
 export function TextStylesList() {
   const { results, progress } = useTypographyMigration();
+
+  // 모든 그룹 ID 목록 (초기에 모두 펼친 상태로 설정)
+  const defaultOpenItems = useMemo(() => {
+    if (!results) return [];
+    return results.map((group) => group.groupId);
+  }, [results]);
 
   if (!results) {
     return (
@@ -21,22 +32,59 @@ export function TextStylesList() {
 
   return (
     <Flex direction="column" style={{ height: "100%" }}>
-      <Stack flexGrow={1} gap="x3">
-        {results.map((group) => (
-          <Stack key={group.groupId} borderBottomWidth={1} borderColor="palette.gray200">
-            <TextStyleGroup groupId={group.groupId} />
-            {group.items.map((item) => (
-              <TextLayer key={item.textNode.id} groupId={group.groupId} item={item} />
-            ))}
-          </Stack>
-        ))}
-      </Stack>
+      <CollapsibleGroup defaultOpenItems={defaultOpenItems}>
+        {/* 전체 접기/펴기 컨트롤 */}
+        <Flex
+          justifyContent="spaceBetween"
+          alignItems="center"
+          padding="x2"
+          borderBottomWidth={1}
+          borderColor="palette.gray200"
+        >
+          <Text fontSize="t2" fontWeight="bold">
+            텍스트 스타일 그룹
+          </Text>
+          <CollapsibleGroup.ToggleAll>
+            {({ isAllOpen }) => (
+              <Flex gap="x1" alignItems="center">
+                <Text fontSize="t1" color="palette.gray700">
+                  {isAllOpen ? "전체 접기" : "전체 펼치기"}
+                </Text>
+                {isAllOpen ? (
+                  <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
+                ) : (
+                  <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
+                )}
+              </Flex>
+            )}
+          </CollapsibleGroup.ToggleAll>
+        </Flex>
+
+        {/* 그룹 목록 */}
+        <Stack flexGrow={1} overflowY="auto" gap="x3">
+          {results.map((group) => (
+            <Collapsible key={group.groupId} id={group.groupId}>
+              <Stack borderBottomWidth={1} borderColor="palette.gray200">
+                <TextStyleGroup groupId={group.groupId} itemCount={group.items.length} />
+                <Collapsible.Content>
+                  {group.items.map((item) => (
+                    <TextLayer key={item.textNode.id} groupId={group.groupId} item={item} />
+                  ))}
+                </Collapsible.Content>
+              </Stack>
+            </Collapsible>
+          ))}
+        </Stack>
+      </CollapsibleGroup>
       <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
     </Flex>
   );
 }
 
-function TextStyleGroup({ groupId }: Pick<ListEntry, "groupId">) {
+function TextStyleGroup({
+  groupId,
+  itemCount,
+}: Pick<ListEntry, "groupId"> & { itemCount: number }) {
   const { results, setCurrentlyViewingEntryId, currentlyViewing } = useTypographyMigration();
   if (!results) return null;
 
@@ -62,23 +110,38 @@ function TextStyleGroup({ groupId }: Pick<ListEntry, "groupId">) {
 
   return (
     <Flex
-      onClick={handleClick}
-      gap="x1"
+      justifyContent="spaceBetween"
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       padding="x2"
       style={{
-        cursor: "pointer",
         ...(isAllItemsSelected && {
           opacity: 0.5,
           textDecoration: "line-through",
         }),
       }}
     >
-      <IconTUppercaseSerifLine size={14} />
-      <Text fontSize="t2" fontWeight="bold">
-        {groupId}
-      </Text>
+      {/* 그룹 정보 */}
+      <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
+        <IconTUppercaseSerifLine size={14} />
+        <Text fontSize="t2" fontWeight="bold">
+          {groupId}
+        </Text>
+        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px" }}>
+          ({itemCount})
+        </Text>
+      </Flex>
+
+      {/* 접기/펴기 버튼 */}
+      <Collapsible.Trigger>
+        {({ isOpen }) =>
+          isOpen ? (
+            <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
+          ) : (
+            <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
+          )
+        }
+      </Collapsible.Trigger>
     </Flex>
   );
 }
