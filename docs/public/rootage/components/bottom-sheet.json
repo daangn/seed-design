@@ -136,7 +136,7 @@
         }
       },
       "variants": {
-        "alignment": {
+        "headerAlignment": {
           "values": {
             "left": {},
             "center": {}
@@ -300,7 +300,7 @@
       },
       {
         "variants": {
-          "alignment": "left"
+          "headerAlignment": "left"
         },
         "definitions": [
           {
@@ -327,7 +327,7 @@
       },
       {
         "variants": {
-          "alignment": "center"
+          "headerAlignment": "center"
         },
         "definitions": [
           {
