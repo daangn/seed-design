@@ -20,7 +20,7 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
   // 긴 이름을 적당한 길이로 자르는 함수
   const truncateName = (name: string, maxLength = 8) => {
     if (name.length <= maxLength) return name;
-    return name.slice(0, maxLength) + "...";
+    return `${name.slice(0, maxLength)}...`;
   };
 
   return (
