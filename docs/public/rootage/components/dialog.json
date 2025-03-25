@@ -45,6 +45,9 @@
             "marginX": {
               "type": "dimension"
             },
+            "marginY": {
+              "type": "dimension"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -180,6 +183,13 @@
                 "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x8"
+                },
+                "marginY": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 80,
+                    "unit": "px"
+                  }
                 },
                 "paddingX": {
                   "type": "dimension",
