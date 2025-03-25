@@ -1,6 +1,6 @@
-import { IconArrow2ClockwiseCircularLine } from "@daangn/react-monochrome-icon";
-import { ActionButton, Box, Flex, Icon } from "@seed-design/react";
+import { Box, Flex } from "@seed-design/react";
 import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "../../shared/constants";
+import { Footer } from "../components/Footer";
 import { ColorMigrationProvider, useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";
@@ -8,36 +8,12 @@ import { Result } from "./result";
 export function ColorsSection() {
   return (
     <ColorMigrationProvider>
-      <Flex direction="column" style={{ width: "100%", height: "100%", position: "relative" }}>
-        {/* 메인 컨텐츠 영역 - 좌우 분리 */}
-        <Flex flexGrow={1} style={{ overflow: "hidden", height: "calc(100% - 60px)" }}>
-          {/* 왼쪽 사이드바 */}
-          <Box
-            width="40%"
-            borderRightWidth={1}
-            borderColor="palette.gray200"
-            style={{
-              overflow: "auto",
-              height: "100%",
-            }}
-          >
-            <LayersWithColorList />
-          </Box>
-
-          {/* 오른쪽 상세 내용 */}
-          <Box width="60%" style={{ overflow: "auto", height: "100%" }}>
-            <Result />
-          </Box>
-        </Flex>
-
-        {/* 하단 고정 액션 버튼 */}
-        <ColorsFooter />
-      </Flex>
+      <ColorsSectionContent />
     </ColorMigrationProvider>
   );
 }
 
-function ColorsFooter() {
+function ColorsSectionContent() {
   const { results, applyColorVariable, requestSuggestions } = useColorMigration();
 
   // 자동 연결 가능한 노드 개수 계산
@@ -102,31 +78,37 @@ function ColorsFooter() {
   }
 
   return (
-    <Flex
-      borderTopWidth={1}
-      borderColor="palette.gray200"
-      padding="x3"
-      style={{
-        gap: "8px",
-        flexShrink: 0,
-        backgroundColor: "var(--seed-scale-color-palette-gray-0)",
-      }}
-    >
-      <Box style={{ position: "relative", flexGrow: 1 }}>
-        <ActionButton
-          variant="neutralSolid"
-          onClick={bulkApply}
-          disabled={remainingConnectableNodeCount === 0}
-          style={{ width: "100%" }}
-          title="추천 토큰이 1개인 항목에 자동으로 추천을 적용합니다. 추천이 없거나 2개 이상인 항목은 변경되지 않습니다."
+    <Flex direction="column" style={{ width: "100%", height: "100%", position: "relative" }}>
+      {/* 메인 컨텐츠 영역 - 좌우 분리 */}
+      <Flex flexGrow={1} style={{ overflow: "hidden", height: "calc(100% - 60px)" }}>
+        {/* 왼쪽 사이드바 */}
+        <Box
+          width="40%"
+          borderRightWidth={1}
+          borderColor="palette.gray200"
+          style={{
+            overflow: "auto",
+            height: "100%",
+          }}
         >
-          {remainingConnectableNodeCount}개 자동 연결
-        </ActionButton>
-      </Box>
+          <LayersWithColorList />
+        </Box>
 
-      <ActionButton onClick={requestSuggestions} variant="neutralWeak" layout="iconOnly">
-        <Icon svg={<IconArrow2ClockwiseCircularLine />} />
-      </ActionButton>
+        {/* 오른쪽 상세 내용 */}
+        <Box width="60%" style={{ overflow: "auto", height: "100%" }}>
+          <Result />
+        </Box>
+      </Flex>
+
+      {/* 하단 고정 액션 버튼 */}
+      <Footer
+        actionText={`${remainingConnectableNodeCount}개 자동 연결`}
+        onAction={bulkApply}
+        actionDisabled={remainingConnectableNodeCount === 0}
+        actionTooltip="추천 토큰이 1개인 항목에 자동으로 추천을 적용합니다. 추천이 없거나 2개 이상인 항목은 변경되지 않습니다."
+        onRefresh={requestSuggestions}
+        showRefreshButton={true}
+      />
     </Flex>
   );
 }
