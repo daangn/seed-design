@@ -38,6 +38,9 @@ interface TypographyMigrationContext {
   requestSuggestions: () => void;
   selectedTextStyleId: string | null;
   setSelectedTextStyleId: (textStyleId: string | null) => void;
+  setResults: React.Dispatch<
+    React.SetStateAction<GroupedSerializedTextStyleSuggestionsResults | null>
+  >;
 }
 
 const TypographyMigrationContext = createContext<TypographyMigrationContext | null>(null);
@@ -182,6 +185,7 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
         requestSuggestions,
         selectedTextStyleId,
         setSelectedTextStyleId,
+        setResults,
       }}
     >
       {children}

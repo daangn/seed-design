@@ -20,6 +20,20 @@ export function TextStylesList() {
     return results.map((group) => group.groupId);
   }, [results]);
 
+  // 그룹 정렬: 적용되지 않은 항목이 있는 그룹을 상단으로, 모두 적용된 그룹을 하단으로 정렬
+  const sortedResults = useMemo(() => {
+    if (!results) return [];
+
+    return [...results].sort((a, b) => {
+      const aAllSelected = a.items.every((item) => item.selectedNewTextStyleId !== null);
+      const bAllSelected = b.items.every((item) => item.selectedNewTextStyleId !== null);
+
+      if (aAllSelected && !bAllSelected) return 1; // a를 아래로
+      if (!aAllSelected && bAllSelected) return -1; // a를 위로
+      return 0;
+    });
+  }, [results]);
+
   if (!results) {
     return (
       <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
@@ -62,7 +76,7 @@ export function TextStylesList() {
 
         {/* 그룹 목록 */}
         <Stack flexGrow={1} overflowY="auto" gap="x3">
-          {results.map((group) => (
+          {sortedResults.map((group) => (
             <Collapsible key={group.groupId} id={group.groupId}>
               <Stack borderBottomWidth={1} borderColor="palette.gray200">
                 <TextStyleGroup groupId={group.groupId} itemCount={group.items.length} />
@@ -97,6 +111,9 @@ function TextStyleGroup({
   );
 
   const isAllItemsSelected = group.items.every((item) => item.selectedNewTextStyleId !== null);
+  const selectedItemsCount = group.items.filter(
+    (item) => item.selectedNewTextStyleId !== null,
+  ).length;
 
   function handleClick() {
     setCurrentlyViewingEntryId({ groupId });
@@ -115,6 +132,7 @@ function TextStyleGroup({
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       padding="x2"
       style={{
+        // 이미 모든 아이템이 적용된 그룹은 시각적으로 구분
         ...(isAllItemsSelected && {
           opacity: 0.5,
           textDecoration: "line-through",
@@ -130,6 +148,11 @@ function TextStyleGroup({
         <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px" }}>
           ({itemCount})
         </Text>
+        {selectedItemsCount > 0 && selectedItemsCount < itemCount && (
+          <Text fontSize="t1" color="fg.positive" style={{ marginLeft: "4px" }}>
+            {selectedItemsCount}/{itemCount} 적용됨
+          </Text>
+        )}
       </Flex>
 
       {/* 접기/펴기 버튼 */}

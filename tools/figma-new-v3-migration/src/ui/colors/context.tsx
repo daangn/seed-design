@@ -33,6 +33,9 @@ interface ColorMigrationContext {
   requestSuggestions: () => void;
   selectedVariableId: string | null;
   setSelectedVariableId: (variableId: string | null) => void;
+  setResults: React.Dispatch<
+    React.SetStateAction<SerializedColorVariablesSuggestionsResults | null>
+  >;
 }
 
 const ColorMigrationContext = createContext<ColorMigrationContext | null>(null);
@@ -65,6 +68,21 @@ export function getOldValueName(
   }
   if (oldValue.type === "variable") {
     return getSlashLastPart(oldValue.variable.name);
+  }
+  if (oldValue.type === "detached") {
+    return `#${oldValue.hex}`;
+  }
+  return "감지 불가능";
+}
+
+export function getOldFullValueName(
+  oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"],
+): string {
+  if (oldValue.type === "style") {
+    return oldValue.style.name;
+  }
+  if (oldValue.type === "variable") {
+    return oldValue.variable.name;
   }
   if (oldValue.type === "detached") {
     return `#${oldValue.hex}`;
@@ -192,30 +210,26 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     setResults((prev) => {
       if (!prev) return prev;
 
-      const oldValueFound = prev.find(
-        ({ oldValue: oldValueToCompare }) =>
-          getOldValueId(oldValue) === getOldValueId(oldValueToCompare),
-      );
-      if (!oldValueFound) return prev;
+      // 모든 그룹에 대해 현재 선택된 노드들의 selectedNewVariableId 업데이트
+      return prev.map((group) => {
+        const updatedConsumers = group.consumers.map((consumer) => {
+          if (consumerNodeIds.includes(consumer.node.id)) {
+            return {
+              ...consumer,
+              selectedNewVariableId: variableId,
+            };
+          }
+          return consumer;
+        });
 
-      const updatedConsumers = oldValueFound.consumers.map((consumer) => {
-        if (consumerNodeIds.includes(consumer.node.id)) {
-          return {
-            ...consumer,
-            selectedNewVariableId: variableId,
-          };
-        }
-
-        return consumer;
+        return {
+          ...group,
+          consumers: updatedConsumers,
+        };
       });
-
-      return prev.map((group) =>
-        getOldValueId(group.oldValue) === getOldValueId(oldValue)
-          ? { ...group, consumers: updatedConsumers }
-          : group,
-      );
     });
 
+    // 백엔드로 이벤트 발생
     events("apply-color-variable").emit({
       variableId,
       consumerNodeIds,
@@ -234,6 +248,7 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     requestSuggestions,
     selectedVariableId,
     setSelectedVariableId,
+    setResults,
   };
 
   return <ColorMigrationContext.Provider value={value}>{children}</ColorMigrationContext.Provider>;

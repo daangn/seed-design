@@ -4,6 +4,8 @@ import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "shared/constants";
 import { ColorMigrationProvider, useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";
+import React from "react";
+import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 
 export function ColorsSection() {
   return (
@@ -14,7 +16,7 @@ export function ColorsSection() {
 }
 
 function ColorsSectionContent() {
-  const { results, applyColorVariable, requestSuggestions } = useColorMigration();
+  const { results, applyColorVariable, requestSuggestions, setResults } = useColorMigration();
 
   // 자동 연결 가능한 노드 개수 계산
   const remainingConnectableNodeCount = !results
@@ -41,40 +43,84 @@ function ColorsSectionContent() {
         .flatMap(({ consumers }) => consumers)
         .filter(({ selectedNewVariableId }) => selectedNewVariableId === null).length;
 
+  // 결과 정렬 함수 (적용되지 않은 항목을 위로, 적용된 항목을 아래로 정렬)
+  const sortResultsByUnselectedCount = () => {
+    setResults((prev: SerializedColorVariablesSuggestionsResults | null) => {
+      if (!prev) return prev;
+
+      return [...prev].sort((a, b) => {
+        const aUnselectedCount = a.consumers.filter(
+          (consumer) => consumer.selectedNewVariableId === null,
+        ).length;
+
+        const bUnselectedCount = b.consumers.filter(
+          (consumer) => consumer.selectedNewVariableId === null,
+        ).length;
+
+        // 미적용 항목(selectedNewVariableId가 null인 consumer)이 많은 그룹이 위로
+        if (aUnselectedCount === 0 && bUnselectedCount > 0) return 1;
+        if (aUnselectedCount > 0 && bUnselectedCount === 0) return -1;
+
+        return bUnselectedCount - aUnselectedCount;
+      });
+    });
+  };
+
   // 자동 연결 기능
   function bulkApply() {
     if (!results) return;
 
+    // 적용할 항목들을 먼저 수집
+    const itemsToApply = [];
+
     for (const { oldValue, consumers, suggestions } of results) {
-      if (suggestions.length !== 1) {
-        // V2 컴포넌트도 컬러 검사 옵션이 *꺼져* 있는 경우에는
-        // gray-900 -> gray-1000 + 시맨틱 토큰 조합에서 추천 2+인 경우에도 자동 연결 (시맨틱으로 연결)
-        if (oldValue.type === "style" && oldValue.style.name.endsWith("gray-900")) {
-          const semanticSuggestions = suggestions.filter(
-            ({ variable: { name } }) =>
-              name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.BG) ||
-              name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.FG) ||
-              name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.STROKE),
-          );
+      // 이미 모든 consumer가 적용된 경우 건너뛰기
+      const hasUnselectedConsumers = consumers.some(
+        (consumer) => consumer.selectedNewVariableId === null,
+      );
+      if (!hasUnselectedConsumers) continue;
 
-          if (semanticSuggestions.length !== 1) continue;
-
-          applyColorVariable({
-            oldValue,
-            consumerNodeIds: consumers.map(({ node: { id } }) => id),
-            variableId: semanticSuggestions[0].variable.id,
-          });
-        }
-
+      // 추천이 1개인 경우
+      if (suggestions.length === 1) {
+        itemsToApply.push({
+          oldValue,
+          consumerNodeIds: consumers
+            .filter((consumer) => consumer.selectedNewVariableId === null)
+            .map(({ node: { id } }) => id),
+          variableId: suggestions[0].variable.id,
+        });
         continue;
       }
 
-      applyColorVariable({
-        oldValue,
-        consumerNodeIds: consumers.map(({ node: { id } }) => id),
-        variableId: suggestions[0].variable.id,
-      });
+      // V2 컴포넌트도 컬러 검사 옵션이 *꺼져* 있는 경우에는
+      // gray-900 -> gray-1000 + 시맨틱 토큰 조합에서 추천 2+인 경우에도 자동 연결 (시맨틱으로 연결)
+      if (oldValue.type === "style" && oldValue.style.name.endsWith("gray-900")) {
+        const semanticSuggestions = suggestions.filter(
+          ({ variable: { name } }) =>
+            name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.BG) ||
+            name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.FG) ||
+            name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.STROKE),
+        );
+
+        if (semanticSuggestions.length === 1) {
+          itemsToApply.push({
+            oldValue,
+            consumerNodeIds: consumers
+              .filter((consumer) => consumer.selectedNewVariableId === null)
+              .map(({ node: { id } }) => id),
+            variableId: semanticSuggestions[0].variable.id,
+          });
+        }
+      }
     }
+
+    // 수집된 항목들 적용
+    for (const item of itemsToApply) {
+      applyColorVariable(item);
+    }
+
+    // 적용 후 결과 정렬
+    sortResultsByUnselectedCount();
   }
 
   return (

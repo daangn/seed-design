@@ -1,5 +1,6 @@
 import { Box, Flex } from "@seed-design/react";
 import { Footer } from "common/components/footer";
+import type { GroupedSerializedTextStyleSuggestionsResults } from "shared/types";
 import { TypographyMigrationProvider, useTypographyMigration } from "./context";
 import { TextStylesList } from "./list";
 import { Result } from "./result";
@@ -13,7 +14,7 @@ export function TypographySection() {
 }
 
 function TypographySectionContent() {
-  const { results, applyTextStyle, requestSuggestions } = useTypographyMigration();
+  const { results, applyTextStyle, requestSuggestions, setResults } = useTypographyMigration();
 
   // 자동 연결 가능한 노드 개수 계산
   const remainingConnectableNodeCount = !results
@@ -23,20 +24,51 @@ function TypographySectionContent() {
         .filter(({ suggestions }) => suggestions.length === 1)
         .filter(({ selectedNewTextStyleId }) => selectedNewTextStyleId === null).length;
 
+  // 결과 정렬 함수 (적용되지 않은 항목을 위로, 적용된 항목을 아래로 정렬)
+  const sortResultsByUnselectedCount = () => {
+    setResults((prev: GroupedSerializedTextStyleSuggestionsResults | null) => {
+      if (!prev) return prev;
+
+      return [...prev].sort((a, b) => {
+        const aAllSelected = a.items.every((item) => item.selectedNewTextStyleId !== null);
+        const bAllSelected = b.items.every((item) => item.selectedNewTextStyleId !== null);
+
+        if (aAllSelected && !bAllSelected) return 1; // a를 아래로
+        if (!aAllSelected && bAllSelected) return -1; // a를 위로
+        return 0;
+      });
+    });
+  };
+
   // 자동 연결 기능
   function bulkApply() {
     if (!results) return;
 
+    // 적용할 항목들을 먼저 수집
+    const itemsToApply = [];
+
     for (const group of results) {
       for (const item of group.items) {
-        if (item.suggestions.length !== 1 || item.selectedNewTextStyleId) continue;
+        // 이미 스타일이 적용된 항목은 건너뛰기
+        if (item.selectedNewTextStyleId !== null) continue;
 
-        applyTextStyle({
+        // 추천이 1개인 경우에만 자동 적용
+        if (item.suggestions.length !== 1) continue;
+
+        itemsToApply.push({
           textNodeIds: [item.textNode.id],
           textStyleId: item.suggestions[0].textStyle.id,
         });
       }
     }
+
+    // 수집된 항목들 적용
+    for (const item of itemsToApply) {
+      applyTextStyle(item);
+    }
+
+    // 적용 후 결과 정렬
+    sortResultsByUnselectedCount();
   }
 
   return (

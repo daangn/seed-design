@@ -1,6 +1,6 @@
 import { ActionButton, Box, Flex, Text } from "@seed-design/react";
 import type { SerializedColorVariablesSuggestionsResults, SerializedVariable } from "shared/types";
-import { getOldValueName, useColorMigration } from "./context";
+import { getOldFullValueName, getOldValueName, useColorMigration } from "./context";
 
 export function Result() {
   const { currentlyViewing } = useColorMigration();
@@ -109,7 +109,7 @@ function LayerGroupResult() {
       <Flex gap="x1" paddingTop="x3" paddingX="x3">
         <Flex direction="column" gap="x1">
           <Text fontSize="t4" fontWeight="bold">
-            {getOldValueName(oldValue)}
+            {getOldFullValueName(oldValue)}
           </Text>
           <Text fontSize="t2" color="palette.gray800">
             을 사용중인 모든 곳에 적용 ({consumers.length}개)

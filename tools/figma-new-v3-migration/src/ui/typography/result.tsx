@@ -126,9 +126,11 @@ function TextLayerGroupResult() {
       {/* 변수 선택 영역 */}
       <Flex direction="column" gap="x3" padding="x3" flexGrow={1} overflowY="auto">
         <Text fontSize="t2" color="palette.gray700">
-          {suggestions.length === 0
-            ? "이 텍스트 스타일은 더 이상 사용되지 않습니다. 다른 텍스트 스타일을 선택해주세요."
-            : "이 텍스트 스타일을 적용할 새 텍스트 스타일을 선택하세요."}
+          {isAllItemsMigrated
+            ? "이미 모든 텍스트 노드에 적용됨 (typography에서 확인 가능)"
+            : suggestions.length === 0
+              ? "이 텍스트 스타일은 더 이상 사용되지 않습니다. 다른 텍스트 스타일을 선택해주세요."
+              : "이 텍스트 스타일을 적용할 새 텍스트 스타일을 선택하세요."}
         </Text>
         {suggestions.map((suggestion) => (
           <TextStyleSuggestionButton
