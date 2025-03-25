@@ -14,9 +14,7 @@ export const vars = {
         "color": "var(--seed-color-bg-layer-default)",
         "cornerRadius": "var(--seed-radius-r5)",
         "marginX": "var(--seed-dimension-x8)",
-        "marginY": "80px",
-        "paddingX": "var(--seed-dimension-x5)",
-        "paddingY": "var(--seed-dimension-x5)",
+        "marginY": "var(--seed-dimension-x16)",
         "maxWidth": "272px",
         "enterDuration": "var(--seed-duration-d4)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
@@ -27,11 +25,15 @@ export const vars = {
         "exitOpacity": "0"
       },
       "header": {
-        "gap": "var(--seed-dimension-x1_5)"
+        "gap": "var(--seed-dimension-x1_5)",
+        "paddingX": "var(--seed-dimension-x5)",
+        "paddingTop": "var(--seed-dimension-x5)"
       },
       "footer": {
+        "gap": "var(--seed-dimension-x2)",
+        "paddingX": "var(--seed-dimension-x5)",
         "paddingTop": "var(--seed-dimension-x4)",
-        "gap": "var(--seed-dimension-x2)"
+        "paddingBottom": "var(--seed-dimension-x5)"
       },
       "title": {
         "color": "var(--seed-color-fg-neutral)",

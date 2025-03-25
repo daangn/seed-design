@@ -2116,7 +2116,7 @@
   background: var(--seed-color-bg-layer-default);
   max-width: 272px;
   margin: auto var(--seed-dimension-x8);
-  padding: var(--seed-dimension-x5) var(--seed-dimension-x5);
+  padding: undefined undefined;
   border-radius: var(--seed-radius-r5);
   flex-direction: column;
   flex: 1;
