@@ -8,12 +8,13 @@ import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } fro
 export function LayersWithColorList() {
   const { results, progress } = useColorMigration();
 
-  if (!results)
+  if (!results) {
     return (
-      <Flex justifyContent="center" alignItems="center" width="full" height="full">
+      <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
         <ProgressCircle size="24" />
       </Flex>
     );
+  }
 
   return (
     <Flex direction="column" height="full">

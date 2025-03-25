@@ -4,6 +4,7 @@ import { Fragment, useEffect, useMemo, useRef } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration, type ListEntry } from "./context";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 export function TextStylesList() {
   const { results, progress } = useTypographyMigration();
@@ -11,9 +12,7 @@ export function TextStylesList() {
   if (!results) {
     return (
       <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
-        <Text fontSize="t1" color="palette.gray700">
-          로딩 중...
-        </Text>
+        <ProgressCircle size="24" />
       </Flex>
     );
   }
