@@ -1,5 +1,5 @@
 import type { SerializedColorVariablesSuggestionsResults } from "../../shared/types";
-import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
+import { convertRgbColorToHexColor } from "../../shared/utils/colors";
 
 interface ApplyColorVariableParams {
   node: SceneNode;

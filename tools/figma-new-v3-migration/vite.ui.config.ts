@@ -22,6 +22,7 @@ export default defineConfig({
     assetsInlineLimit: 100000000,
     rollupOptions: {
       input: resolve(__dirname, "index.html"),
+      external: ["tabbable"],
     },
   },
 });

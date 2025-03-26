@@ -4,18 +4,17 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "yarn build:ui && yarn build:main",
+    "build": "bun run build:ui && bun run build:main",
     "build:ui": "vite build --config vite.ui.config.ts",
     "build:main": "vite build --config vite.main.config.ts",
-    "watch": "concurrently \"yarn watch:ui\" \"yarn watch:main\"",
+    "watch": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "watch:ui": "vite build --watch --config vite.ui.config.ts",
     "watch:main": "vite build --watch --config vite.main.config.ts",
-    "dev": "concurrently \"yarn watch:ui\" \"yarn watch:main\"",
+    "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "lint": "biome check .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@create-figma-plugin/utilities": "^4.0.0-alpha.0",
     "@daangn/react-monochrome-icon": "^0.0.19",
     "@figmazing/event": "0.0.1",
     "@seed-design/css": "^0.0.10",

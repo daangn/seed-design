@@ -5,7 +5,7 @@ import {
   STROKE_WEIGHT_VARIABLE_BINDABLE_NODE_FIELDS,
 } from "../constants";
 import type { SerializedInstanceNode, SerializedBaseNode, SerializedTextNode } from "../types";
-import { traverseNode } from "@create-figma-plugin/utilities";
+import { traverseNode } from "./traverse";
 
 /**
  * 자체 속성 혹은 부모 노드의 속성을 통해 숨겨진 노드인지 확인합니다.

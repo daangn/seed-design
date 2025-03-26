@@ -1,4 +1,3 @@
-import { loadSettingsAsync } from "@create-figma-plugin/utilities";
 import { DEFAULT_PREFERENCES, SETTINGS_KEY } from "../shared/constants";
 import { events } from "../shared/event";
 import type { FigmaMetadata } from "../shared/types";
@@ -8,6 +7,7 @@ import { getColorVariableSuggestions } from "./services/get-color-variable-sugge
 import { getSerializedTextStyleSuggestions } from "./services/get-text-style-suggestions";
 import { SYSTEM_COMPONENT_KEYS_V3_ONLY } from "./data/component";
 import { SYSTEM_COMPONENT_KEYS_ALL } from "./data/component";
+import { loadSettingsAsync } from "../shared/utils/setting";
 
 // 플러그인 UI 크기 설정
 figma.showUI(__html__, {

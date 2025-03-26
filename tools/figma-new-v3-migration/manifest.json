@@ -4,8 +4,11 @@
   "main": "dist/main/code.js",
   "ui": "dist/index.html",
   "editorType": ["figma"],
-  "id": "1436602638347777741",
+  "id": "1486304479851323780",
   "enablePrivatePluginApi": true,
   "documentAccess": "dynamic-page",
-  "permissions": ["currentuser", "teamlibrary"]
+  "permissions": ["currentuser", "teamlibrary"],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
 }

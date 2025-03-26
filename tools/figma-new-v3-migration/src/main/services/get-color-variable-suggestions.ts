@@ -1,4 +1,3 @@
-import { convertRgbColorToHexColor } from "@create-figma-plugin/utilities";
 import {
   getColorVariableSuggestionsInEffects,
   getColorVariableSuggestionsInFills,
@@ -12,6 +11,7 @@ import type {
   ColorVariablesSuggestionsResults,
   SerializedColorVariablesSuggestionsResults,
 } from "../../shared/types";
+import { convertRgbColorToHexColor } from "../../shared/utils/colors";
 import { getLibraryVariableCollection } from "../../shared/utils/libraries";
 import {
   getAllColorVariableBindableNodesInSceneNodes,
