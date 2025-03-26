@@ -82,7 +82,9 @@ export interface NormalizedVectorNode
   extends Pick<FigmaRestSpec.VectorNode, CommonProps | ShapeProps> {}
 
 export interface NormalizedBooleanOperationNode
-  extends Pick<FigmaRestSpec.BooleanOperationNode, CommonProps | "fills"> {}
+  extends Pick<FigmaRestSpec.BooleanOperationNode, CommonProps | "fills"> {
+  children: NormalizedSceneNode[];
+}
 
 export type NormalizedSceneNode =
   | NormalizedFrameNode
