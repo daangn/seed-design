@@ -3,56 +3,45 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Codemod
+You are working with the Seed Design codemod system for migrating from V2 to V3. When working with codemods, follow these guidelines:
 
-- seed-design 디자인시스템의 v2에서 v3로 마이그레이션 하기 위한 Codemod
-- 각 transform은 각 프로젝트에 맞춰져서 뾰족한 문제를 풀기위해 존재함
-- v2의 컬러와 타이포그래피가 각 프로젝트에서 사용되는 용례에 따라서 v3 컬러와 타이포그래피로 잘 변환이 되어야 함
+# Overview
 
-## transform 제작 규칙
+- Codemod is designed to migrate code from Seed Design V2 to V3
+- Each tresmigration challenges in ctal is to ensure correct conversion of V2 colors and typography to V3 equivalents based on usage context
 
-- 기본적으로 migration-index [typography.mjs](mdc:packages/migration-index/typography.mjs), [color.mjs](mdc:packages/migration-index/color.mjs) 매핑을 기준으로 매핑 데이터를 확인함
-- [typography.mjs](mdc:packages/migration-index/typography.mjs), [color.mjs](mdc:packages/migration-index/color.mjs) 는 토큰 이름을 기준으로 작성되었지만, 각 프로젝트에서 토큰의 이름에 변형을 가해서 사용하는 경우가 대부분이기 때문에 정규화 과정이 필요함
-- 변환 단계는 아래와 같이 진행된다.
-  - 1. {before} 코드에서 사용된 토큰을 정규화된 migration-index의 previous 필드의 토큰을 찾는 과정
-  - 2. 그렇게 찾은 migration-index 아이템의 next 토큰을 찾는 과정
-  - 3. 찾은 next 토큰을 {after} 코드에서 사용된 토큰으로 정규화 하는 과정
-  - 4. 그렇게 정규화된 토큰을 교체
-- reporter [logger.ts](mdc:packages/codemod/src/utils/logger.ts) 를 이용해서 log 파일을 기록한다.
-    - 변환 성공하면 success으로 기록
-    - 맵핑이 없다면 이유와 함께 warning으로 기록
-    - 어떤 이유로 실패한다면 이유와 함께 failure으로 기록하면 돼.
-- 위 과정 사이에 각 프로젝트에서의 용례나 스타일 라이브러리에 따라서 변형이 추가적으로 들어가거나 예외처리가 필요할 수 있음
+# Transform Creation Rules
 
-## string 기반 토큰 변경 규칙
+- Use mapping data from migration-index (typography.mjs, color.mjs) as the source of truth
+- Normalization is required since projects often modify token names from their standar Follow this transformation process:
+  1. Normalize source code tokens to match the 'previous' field format in migration-index
+  2. Find corresponding migration-index items and identify 'next' tokens
+  3. Normalize 'next' tokens to match target code's expected format
+  4. Replace original tokens with normalized target tokens
+- Use logger.ts to record transformation results:
+  - Success: Record successful transformations
+  - Warning: Record missing mappings with explanations
+  - Failure: Record failed transformations with reasons
+- Implement additional transformations or exceptions based on project-specific usage patterns
 
-- vanill-extract, emotion과 같은 TypeS
-- Stitches CSS, Tailwind CSS와 같은 
-- Tailwind CSS는 `-`로 이어붙인다. ex: `text-fg-brand`, `bg-palette-gray-100`
-- 나머지는 최대한 `@seed-design/react`의 Text 컴포넌트의 color prop, textStyle prop을 따라간다.
-  - color prop example: "fg.brand" | "fg.critical" | "fg.disabled" | "fg.informative" | "fg.magic" | "fg.neutral" | "fg.placeholder" | "fg.positive" | "fg.criticalContrast" | "fg.informativeContrast" | ... 83 more ... | "palette.yellow1000"
-  - textStyle prop example: "screenTitle" | "articleBody" | "t1Regular" | "t1Medium" | "t1Bold" | "t2Regular" | "t2Medium" | "t2Bold" | "t3Regular" | "t3Medium" | "t3Bold" | "t4Regular" | "t4Medium" | "t4Bold" | ... 11 more ... | "t10Bold"
+# Token Format Guidelines
 
-## transform 이름 규칙
+- For Tailwind CSS, use hyphen notation: `text-fg-brand`, `bg-palette-gray-100`
+- For other libraries, follow `@seed-design/react` Text component conventions:
+  - color prop format: "fg.brand", "fg.critical", "palette.gray100", etc.
+  - textStyle prop format: "screenTitle", "articleBody", "t1Regular", "t3Bold", etc.
+- For libraries that can't easily use dot notation with camelCase, propose alternative approaches
 
-- `replace`로 시작한다.
-- 특정 프로젝트에 국한된 transform은 `replace-custom` 으로 시작한다.
-- 파일 포맷, 스타일 라이브러리 이름이 제일 앞에 온다.
-  - ex: replace-stitches-*
-  - ex: replace-tailwind-*
-  - ex: replace-css-*
+# Transform Naming Conventions
 
-## 폴더 구조
+- All transform names must start with `replace`
+- Use `replace-custom` prefix for project-specific transforms
+- Begin names with file format or styling library identifiers:
+  - Examples: replace-stitches-*, replace-tailwind-*, replace-css-*
 
-- `index.ts`에 `transform 함수가 export default로 내보내져야함.
-- 각각의 transform안에는 `__testfixtures__`, `__tests__` 폴더가 존재함
-- `__testfixtures__` 폴더에는 실제 변환되는 input, output 코드가 존재함
-- `__tests__` 폴더에는 test 파일이 존재하고, `runFixtureTests` 함수를 통해서 transform 함수를 실행해서 `__testfixtures__`의 input, output을 비교함
+# Project Structure
 
-
-
-
-
-
-
-
+- Export default transform function in the index.ts file
+- Include both `__testfixtures__` and `__tests__` directories in each transform
+- Store input and output code examples in the `__testfixtures__` directory
+- Create test files in the `__tests__` directory using the `runFixtureTests` function to compare input/output files
