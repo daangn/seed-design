@@ -26,11 +26,11 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
 
 # Token Format Guidelines
 
-- For Tailwind CSS, use hyphen notation: `text-fg-brand`, `bg-palette-gray-100`
-- For other libraries, follow `@seed-design/react` Text component conventions:
-  - color prop format: "fg.brand", "fg.critical", "palette.gray100", etc.
-  - textStyle prop format: "screenTitle", "articleBody", "t1Regular", "t3Bold", etc.
-- For libraries that can't easily use dot notation with camelCase, propose alternative approaches
+- Use JavaScript friendly format.
+- For Tailwind CSS format exmaple: `text-fg-brand`, `bg-palette-gray100`
+- textStyle prop format example: `screenTitle`, `articleBody`, `t1Regular`, `t3Bold`, etc.
+- color prop format example: `fg-brand`, `palette-gray100`, `bg-brandSolid` etc.
+- For libraries that can't easily use dash (`-`) notation with "camelCase", propose alternative approaches
 
 # Transform Naming Conventions
 
