@@ -7,9 +7,14 @@ import type {
   NormalizedComponentNode,
   NormalizedInstanceNode,
   NormalizedVectorNode,
+  NormalizedBooleanOperationNode,
 } from "./types";
 
 export function createPluginNormalizer() {
+  async function normalizeNodes(nodes: readonly SceneNode[]): Promise<NormalizedSceneNode[]> {
+    return Promise.all(nodes.filter((node) => node.visible).map(normalizeNode));
+  }
+
   async function normalizeNode(node: SceneNode): Promise<NormalizedSceneNode> {
     if (node.type === "FRAME") {
       return normalizeFrameNode(node);
@@ -22,6 +27,9 @@ export function createPluginNormalizer() {
     }
     if (node.type === "VECTOR") {
       return normalizeVectorNode(node);
+    }
+    if (node.type === "BOOLEAN_OPERATION") {
+      return normalizeBooleanOperationNode(node);
     }
     if (node.type === "TEXT") {
       return normalizeTextNode(node);
@@ -44,7 +52,7 @@ export function createPluginNormalizer() {
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
       ...normalizeAutolayoutProps(node),
-      children: await Promise.all(node.children.map(normalizeNode)),
+      children: await normalizeNodes(node.children),
     };
   }
 
@@ -75,7 +83,7 @@ export function createPluginNormalizer() {
       counterAxisSpacing: node.inferredAutoLayout?.counterAxisSpacing ?? undefined,
       fills: [],
       strokes: [],
-      children: await Promise.all(node.children.map(normalizeNode)),
+      children: await normalizeNodes(node.children),
     };
   }
 
@@ -100,6 +108,18 @@ export function createPluginNormalizer() {
     };
   }
 
+  async function normalizeBooleanOperationNode(
+    node: BooleanOperationNode,
+  ): Promise<NormalizedBooleanOperationNode> {
+    return {
+      type: node.type,
+      id: node.id,
+      name: node.name,
+      boundVariables: await normalizeBoundVariables(node),
+      children: await normalizeNodes(node.children),
+      fills: normalizePaints(node.fills),
+    };
+  }
   async function normalizeTextNode(node: TextNode): Promise<NormalizedTextNode> {
     const segments = node.getStyledTextSegments([
       "fontSize",
@@ -173,7 +193,7 @@ export function createPluginNormalizer() {
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
       ...normalizeAutolayoutProps(node),
-      children: await Promise.all(node.children.map(normalizeNode)),
+      children: await normalizeNodes(node.children),
     };
   }
 
@@ -203,7 +223,7 @@ export function createPluginNormalizer() {
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
       ...normalizeAutolayoutProps(node),
-      children: await Promise.all(node.children.map(normalizeNode)),
+      children: await normalizeNodes(node.children),
       componentKey: mainComponent.key,
       componentSetKey:
         mainComponent.parent?.type === "COMPONENT_SET" ? mainComponent.parent.key : undefined,

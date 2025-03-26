@@ -8,6 +8,7 @@ import type {
   NormalizedInstanceNode,
   NormalizedTextSegment,
   NormalizedVectorNode,
+  NormalizedBooleanOperationNode,
 } from "./types";
 
 export interface RestNormalizerContext {
@@ -17,6 +18,11 @@ export interface RestNormalizerContext {
 }
 
 export function createRestNormalizer(ctx: RestNormalizerContext) {
+  function normalizeNodes(nodes: readonly FigmaRestSpec.Node[]): NormalizedSceneNode[] {
+    // Figma REST API omits default values for some fields, "visible" is one of them
+    return nodes.filter((node) => !("visible" in node) || node.visible).map(normalizeNode);
+  }
+
   function normalizeNode(node: FigmaRestSpec.Node): NormalizedSceneNode {
     if (node.type === "FRAME") {
       return normalizeFrameNode(node);
@@ -29,6 +35,9 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
     }
     if (node.type === "VECTOR") {
       return normalizeVectorNode(node);
+    }
+    if (node.type === "BOOLEAN_OPERATION") {
+      return normalizeBooleanOperationNode(node);
     }
     if (node.type === "TEXT") {
       return normalizeTextNode(node);
@@ -46,7 +55,7 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
   function normalizeFrameNode(node: FigmaRestSpec.FrameNode): NormalizedFrameNode {
     return {
       ...node,
-      children: node.children.map(normalizeNode),
+      children: normalizeNodes(node.children),
     };
   }
 
@@ -54,7 +63,7 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
     return {
       ...node,
       type: "FRAME",
-      children: node.children.map(normalizeNode),
+      children: normalizeNodes(node.children),
     };
   }
 
@@ -64,6 +73,15 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
 
   function normalizeVectorNode(node: FigmaRestSpec.VectorNode): NormalizedVectorNode {
     return node;
+  }
+
+  function normalizeBooleanOperationNode(
+    node: FigmaRestSpec.BooleanOperationNode,
+  ): NormalizedBooleanOperationNode {
+    return {
+      ...node,
+      children: normalizeNodes(node.children),
+    };
   }
 
   function normalizeTextNode(node: FigmaRestSpec.TextNode): NormalizedTextNode {
@@ -141,7 +159,7 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
   function normalizeComponentNode(node: FigmaRestSpec.ComponentNode): NormalizedComponentNode {
     return {
       ...node,
-      children: node.children.map(normalizeNode),
+      children: normalizeNodes(node.children),
     };
   }
 
@@ -167,7 +185,7 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
 
     return {
       ...node,
-      children: node.children.map(normalizeNode),
+      children: normalizeNodes(node.children),
       componentKey: mainComponent.key,
       componentSetKey: componentSet?.key,
       componentProperties,
