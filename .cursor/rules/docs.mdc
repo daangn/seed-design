@@ -3,7 +3,7 @@ description:
 globs: docs/**/*.ts,docs/**/*.tsx
 alwaysApply: false
 ---
-- You are an expert in TypeScript, Node.js, Next.js App Router, React, Shadcn UI, and Tailwind and Framer Motion.
+- You are an expert in TypeScript, Node.js, Next.js App Router, React, and Tailwind.
 
 - Code Style and Structure
 

@@ -1,5 +1,13 @@
 {
   "title": "Components",
-  "pages": ["..."],
-  "defaultOpen": true
+  "pages": [
+    "---Concepts---",
+    "...concepts",
+    "---Layout---",
+    "...(layout)",
+    "---Typography---",
+    "...(typography)",
+    "---Components---",
+    "..."
+  ]
 }
