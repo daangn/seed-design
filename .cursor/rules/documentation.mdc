@@ -1,0 +1,11 @@
+---
+description: 
+globs: docs/**/*.mdx
+alwaysApply: false
+---
+- Use Markdown for all documentation: Ensure all documentation is written in Markdown for consistency and readability.
+- Follow clean documentation principles: Keep documentation concise, clear, and well-structured.
+- Prefer clear, concise language: Avoid jargon and overly technical terms unless necessary.
+- Write comprehensive explanations for functions, classes, and modules: Include detailed descriptions of what each component does, its props, and usage examples.
+- Provide examples for complex concepts: Show how to use components in real-world scenarios.
+- Write in Korean but keep technical terms in their original English form.
