@@ -25,7 +25,9 @@ export function LayersWithColorList() {
         alignItems="center"
         style={{ height: "100%" }}
       >
-        <Text>검사중...</Text>
+        <Text fontSize="t1" color="palette.gray700">
+          검사중...
+        </Text>
       </Flex>
     );
   }
