@@ -3,7 +3,6 @@ import { vars } from "@seed-design/css/vars";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
-import { ProgressCircle } from "common/design-system/ui/progress-circle";
 import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
@@ -40,7 +39,7 @@ export function TextStylesList() {
         alignItems="center"
         style={{ height: "100%" }}
       >
-        <ProgressCircle size="24" />
+        <Text>검사중...</Text>
       </Flex>
     );
   }
