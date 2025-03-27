@@ -29,8 +29,8 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
 - Use JavaScript friendly format.
 - For Tailwind CSS format exmaple: `text-fg-brand`, `bg-palette-gray100`
 - textStyle prop format example: `screenTitle`, `articleBody`, `t1Regular`, `t3Bold`, etc.
-- color prop format example: `fg-brand`, `palette-gray100`, `bg-brandSolid` etc.
-- For libraries that can't easily use dash (`-`) notation with "camelCase", propose alternative approaches
+- color prop format example: `fg-brand`, `palette-gray-100`, `bg-brand-solid` etc.
+- For libraries that can't easily use dash (`-`) notation, propose alternative approaches
 
 # Transform Naming Conventions
 

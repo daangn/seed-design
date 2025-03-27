@@ -8,14 +8,14 @@ const Component = () => {
       <IconCloseRegular
         width={20}
         height={20}
-        color={theme.colors["palette-gray1000"].computedValue}
+        color={theme.colors["palette-gray-1000"].computedValue}
         onClick={closeFilterHalfview}
       />
       <IconWrapper onClick={handleShareClick}>
       {bridge.environment === "Android" ? (
-        <IconAndroidshareLine width={24} height={24} color={theme.colors["palette-gray1000"].computedValue} />
+        <IconAndroidshareLine width={24} height={24} color={theme.colors["palette-gray-1000"].computedValue} />
         ) : (
-        <IconArrowUpBracketDownLine width={24} height={24} color={theme.colors["palette-gray1000"].computedValue} />
+        <IconArrowUpBracketDownLine width={24} height={24} color={theme.colors["palette-gray-1000"].computedValue} />
       )}
       </IconWrapper>
     </div>)
@@ -27,9 +27,9 @@ const Radio: React.FCC<RadioProps> = ({ isSelected, isDisabled = false }) => {
     case isSelected && isDisabled:
       return (
         (<RadioIcon
-          outerCircleFill={theme.colors["palette-gray300"].computedValue}
-          middleCircleFill={theme.colors["bg-layerDefault"].computedValue}
-          innerCircleFill={theme.colors["palette-gray300"].computedValue}
+          outerCircleFill={theme.colors["palette-gray-300"].computedValue}
+          middleCircleFill={theme.colors["bg-layer-default"].computedValue}
+          innerCircleFill={theme.colors["palette-gray-300"].computedValue}
         />)
       );
     case isSelected && !isDisabled:
@@ -37,23 +37,23 @@ const Radio: React.FCC<RadioProps> = ({ isSelected, isDisabled = false }) => {
         (<RadioIcon
           outerCircleFill={theme.colors["fg-brand"].computedValue}
           middleCircleFill={theme.colors["fg-brand"].computedValue}
-          innerCircleFill={theme.colors["palette-staticWhite"].computedValue}
+          innerCircleFill={theme.colors["palette-static-white"].computedValue}
         />)
       );
     case !isSelected && isDisabled:
       return (
         (<RadioIcon
-          outerCircleFill={theme.colors["palette-gray400"].computedValue}
-          middleCircleFill={theme.colors["palette-gray300"].computedValue}
-          innerCircleFill={theme.colors["palette-gray300"].computedValue}
+          outerCircleFill={theme.colors["palette-gray-400"].computedValue}
+          middleCircleFill={theme.colors["palette-gray-300"].computedValue}
+          innerCircleFill={theme.colors["palette-gray-300"].computedValue}
         />)
       );
     case !isSelected && !isDisabled:
       return (
         (<RadioIcon
-          outerCircleFill={theme.colors["palette-gray600"].computedValue}
-          middleCircleFill={theme.colors["bg-layerDefault"].computedValue}
-          innerCircleFill={theme.colors["bg-layerDefault"].computedValue}
+          outerCircleFill={theme.colors["palette-gray-600"].computedValue}
+          middleCircleFill={theme.colors["bg-layer-default"].computedValue}
+          innerCircleFill={theme.colors["bg-layer-default"].computedValue}
         />)
       );
     default:

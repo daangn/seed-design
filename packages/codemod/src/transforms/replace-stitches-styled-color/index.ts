@@ -157,9 +157,9 @@ function normalizeOldColorName(oldColorValue: string): string {
 
 /**
  * 토큰 문자열을 V3 형식으로 변환합니다.
- * 예: $color.palette.gray-700 -> $palette-gray700
- * 예: $color.palette.static-white -> $palette-staticWhite
- * 예: $color.bg.layer-default -> $bg-layerDefault
+ * 예: $color.palette.gray-700 -> $palette-gray-700
+ * 예: $color.palette.static-white -> $palette-static-white
+ * 예: $color.bg.layer-default -> $bg-layer-default
  */
 function transformToken(token: string): string {
   // 이미 $ 형식인 경우 그대로 반환
@@ -174,16 +174,8 @@ function transformToken(token: string): string {
     const category = parts[0]; // palette, bg, fg, stroke 등
     const values = parts.slice(1).join(".");
 
-    // kebab-case를 camelCase로 변환
-    const camelCaseValues = values
-      .split("-")
-      .map((part, index) => {
-        // 첫 번째 부분은 소문자로 시작, 나머지는 대문자로 시작
-        return index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1);
-      })
-      .join("");
-
-    return `$${category}-${camelCaseValues}`;
+    // 대시(-) 형식 유지
+    return `$${category}-${values}`;
   }
 
   // 기본 처리 (변환할 수 없는 경우)
