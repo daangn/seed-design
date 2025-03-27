@@ -81,7 +81,7 @@ function TextLayerResult() {
           />
         ))}
         <ActionButton
-          variant="neutralSolid"
+          variant="brandSolid"
           onClick={() =>
             applyTextStyle({
               textNodeIds: [textNode.id],
