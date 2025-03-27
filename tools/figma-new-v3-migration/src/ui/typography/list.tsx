@@ -171,7 +171,7 @@ function TextLayer({
 }) {
   const { setCurrentlyViewingEntryId, currentlyViewing } = useTypographyMigration();
 
-  const { textNode, selectedNewTextStyleId, closestInstanceNode } = item;
+  const { textNode, selectedNewTextStyleId } = item;
 
   const isAlreadyMigrated = !!selectedNewTextStyleId;
 
@@ -209,11 +209,6 @@ function TextLayer({
       }}
     >
       <Text fontSize="t1">{truncatedText}</Text>
-      {closestInstanceNode && (
-        <Text fontSize="t1" color="palette.gray700">
-          인스턴스
-        </Text>
-      )}
     </Flex>
   );
 }

@@ -25,7 +25,6 @@ export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
 
   return (
     <Flex gap="x1" alignItems="center">
-      <Text fontSize="t1">마이그레이션 대상</Text>
       {targets.length <= maxVisible ? (
         // maxVisible 이하면 모두 표시
         targets.map((target) => (

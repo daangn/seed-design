@@ -167,7 +167,7 @@ function Layer({
   consumer: SerializedColorVariablesSuggestionsResults[number]["consumers"][number];
 }) {
   const { setCurrentlyViewingEntryId, currentlyViewing } = useColorMigration();
-  const { node, closestInstanceNode, selectedNewVariableId } = consumer;
+  const { node, selectedNewVariableId } = consumer;
 
   const isAlreadyMigrated = !!selectedNewVariableId;
 
@@ -205,11 +205,6 @@ function Layer({
       }}
     >
       <Text fontSize="t1">{node.name}</Text>
-      {closestInstanceNode && (
-        <Text fontSize="t1" color="palette.gray700">
-          인스턴스
-        </Text>
-      )}
     </Flex>
   );
 }
