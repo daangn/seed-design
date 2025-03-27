@@ -33,7 +33,10 @@ function TextLayerResult() {
 
   if (!currentlyViewing?.item) return null;
 
-  const { textNode, suggestions } = currentlyViewing.item;
+  const { textNode, suggestions, selectedNewTextStyleId } = currentlyViewing.item;
+  const isAlreadyMigrated = suggestions.some(
+    ({ textStyle }) => textStyle.id === selectedNewTextStyleId,
+  );
 
   return (
     <Flex direction="column" height="full" overflowY="hidden">
@@ -77,6 +80,7 @@ function TextLayerResult() {
             onClick={() => setSelectedTextStyleId(suggestion.textStyle.id)}
             key={suggestion.textStyle.id}
             isSelected={selectedTextStyleId === suggestion.textStyle.id}
+            isHighlighted={suggestion.textStyle.id === selectedNewTextStyleId}
             suggestion={suggestion}
           />
         ))}
@@ -88,9 +92,9 @@ function TextLayerResult() {
               textStyleId: selectedTextStyleId ?? "",
             })
           }
-          disabled={!selectedTextStyleId}
+          disabled={!selectedTextStyleId || isAlreadyMigrated}
         >
-          적용하기
+          {isAlreadyMigrated ? "이미 적용됨" : "적용하기"}
         </ActionButton>
       </Flex>
     </Flex>
@@ -171,10 +175,12 @@ function TextLayerGroupResult() {
 
 function TextStyleSuggestionButton({
   isSelected,
+  isHighlighted,
   suggestion,
   onClick,
 }: {
   isSelected?: boolean;
+  isHighlighted?: boolean;
   suggestion: SerializedTextStyleSuggestionsResults[number]["suggestions"][number];
   onClick: () => void;
   disabled?: boolean;
@@ -198,8 +204,12 @@ function TextStyleSuggestionButton({
       padding="x2"
       borderRadius="r2"
       alignItems="center"
-      background={isSelected ? "bg.neutralWeak" : "bg.layerDefault"}
-      borderColor={isSelected ? "stroke.neutral" : "stroke.neutralMuted"}
+      background={
+        isHighlighted ? "palette.carrot100" : isSelected ? "bg.neutralWeak" : "bg.layerDefault"
+      }
+      borderColor={
+        isHighlighted ? "palette.carrot200" : isSelected ? "stroke.neutral" : "stroke.neutralMuted"
+      }
       style={{ cursor: "pointer" }}
       borderWidth={1}
     >

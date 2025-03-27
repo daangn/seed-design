@@ -190,7 +190,6 @@ function TextLayer({
   const isAlreadyMigrated = !!selectedNewTextStyleId;
 
   function handleClick() {
-    if (isAlreadyMigrated) return;
     setCurrentlyViewingEntryId({ groupId, itemId: textNode.id });
     events("focus-node").emit({ nodeIds: [textNode.id] });
   }

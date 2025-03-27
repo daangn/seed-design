@@ -187,7 +187,6 @@ function Layer({
   const isAlreadyMigrated = !!selectedNewVariableId;
 
   function handleClick() {
-    if (isAlreadyMigrated) return;
     setCurrentlyViewingEntryId({ groupId, itemId: node.id });
     events("focus-node").emit({ nodeIds: [node.id] });
   }

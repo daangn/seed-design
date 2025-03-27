@@ -34,7 +34,10 @@ function LayerResult() {
   if (!currentlyViewing?.item) return null;
 
   const { oldValue, suggestions } = currentlyViewing.group;
-  const { node, properties } = currentlyViewing.item;
+  const { node, properties, selectedNewVariableId } = currentlyViewing.item;
+  const isAlreadyMigrated = suggestions.some(
+    ({ variable }) => variable.id === selectedNewVariableId,
+  );
 
   return (
     <Flex direction="column" height="full" overflowY="hidden">
@@ -80,6 +83,7 @@ function LayerResult() {
             onClick={() => setSelectedVariableId(suggestion.variable.id)}
             key={suggestion.variable.id}
             isSelected={selectedVariableId === suggestion.variable.id}
+            isHighlighted={suggestion.variable.id === selectedNewVariableId}
             suggestion={suggestion}
           />
         ))}
@@ -92,9 +96,9 @@ function LayerResult() {
               variableId: selectedVariableId ?? "",
             })
           }
-          disabled={!selectedVariableId}
+          disabled={!selectedVariableId || isAlreadyMigrated}
         >
-          적용하기
+          {isAlreadyMigrated ? "이미 적용됨" : "적용하기"}
         </ActionButton>
       </Flex>
     </Flex>
@@ -108,7 +112,6 @@ function LayerGroupResult() {
   if (!currentlyViewing?.group) return null;
 
   const { oldValue, suggestions, consumers } = currentlyViewing.group;
-
   const isAllItemsMigrated = consumers.every(({ selectedNewVariableId }) => selectedNewVariableId);
 
   return (
@@ -166,10 +169,12 @@ function LayerGroupResult() {
 
 function VariableSuggestionButton({
   isSelected,
+  isHighlighted,
   suggestion,
   onClick,
 }: {
   isSelected?: boolean;
+  isHighlighted?: boolean;
   suggestion: SerializedColorVariablesSuggestionsResults[number]["suggestions"][number];
   onClick: (variable: SerializedVariable) => void;
   disabled?: boolean;
@@ -181,8 +186,12 @@ function VariableSuggestionButton({
       padding="x2"
       borderRadius="r2"
       alignItems="center"
-      background={isSelected ? "bg.neutralWeak" : "bg.layerDefault"}
-      borderColor={isSelected ? "stroke.neutral" : "stroke.neutralMuted"}
+      background={
+        isHighlighted ? "palette.carrot100" : isSelected ? "bg.neutralWeak" : "bg.layerDefault"
+      }
+      borderColor={
+        isHighlighted ? "palette.carrot200" : isSelected ? "stroke.neutral" : "stroke.neutralMuted"
+      }
       style={{ cursor: "pointer" }}
       borderWidth={1}
     >
@@ -193,7 +202,7 @@ function VariableSuggestionButton({
           fontWeight="bold"
           style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
         >
-          {suggestion.variable.name}
+          {suggestion.variable.name} {isHighlighted ? "(적용된 색상)" : ""}
         </Text>
         <Text fontSize="t1" color="palette.gray900">
           #{suggestion.hex}
