@@ -41,6 +41,7 @@ interface TypographyMigrationContext {
   setResults: React.Dispatch<
     React.SetStateAction<GroupedSerializedTextStyleSuggestionsResults | null>
   >;
+  loading: boolean;
 }
 
 const TypographyMigrationContext = createContext<TypographyMigrationContext | null>(null);
@@ -76,6 +77,7 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
   const [results, setResults] = useState<GroupedSerializedTextStyleSuggestionsResults | null>(null);
   const [currentlyViewingEntry, setCurrentlyViewingEntry] = useState<ListEntry | null>(null);
   const [selectedTextStyleId, setSelectedTextStyleId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // progress 계산
   const progress = results
@@ -120,6 +122,7 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
   // 새로고침 요청
   function requestSuggestions() {
     setResults(null);
+    setLoading(true);
     events("request-text-style-suggestions").emit({
       nodeIds: targets.map(({ id }) => id),
     });
@@ -129,13 +132,16 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
   useEffect(() => {
     const unsubscribe = events("suggest-text-styles").on((payload) => {
       setResults(payload.results);
+      setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
   useEffect(() => {
-    requestSuggestions();
+    if (targets.length > 0) {
+      requestSuggestions();
+    }
   }, [targets]);
 
   // 타이포그래피 적용
@@ -186,6 +192,7 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
         selectedTextStyleId,
         setSelectedTextStyleId,
         setResults,
+        loading,
       }}
     >
       {children}

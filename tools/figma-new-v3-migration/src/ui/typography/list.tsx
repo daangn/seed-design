@@ -3,13 +3,14 @@ import { vars } from "@seed-design/css/vars";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
+import { ProgressCircle } from "common/design-system/ui/progress-circle";
 import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration, type ListEntry } from "./context";
 
 export function TextStylesList() {
-  const { results, progress } = useTypographyMigration();
+  const { results, progress, loading } = useTypographyMigration();
 
   // 모든 그룹 ID 목록 (초기에 모두 펼친 상태로 설정)
   const defaultOpenItems = useMemo(() => {
@@ -30,6 +31,19 @@ export function TextStylesList() {
       return 0;
     });
   }, [results]);
+
+  if (loading) {
+    return (
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        style={{ height: "100%" }}
+      >
+        <ProgressCircle size="24" />
+      </Flex>
+    );
+  }
 
   return (
     <Flex direction="column" style={{ height: "100%" }}>
