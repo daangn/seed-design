@@ -55,9 +55,7 @@ export function TextStylesList() {
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
-          <Text fontSize="t2" fontWeight="bold">
-            텍스트 스타일 그룹
-          </Text>
+          <Text fontSize="t2">텍스트 스타일</Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
               <Flex gap="x1" alignItems="center">
@@ -90,7 +88,9 @@ export function TextStylesList() {
           ))}
         </Stack>
       </CollapsibleGroup>
-      <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
+      {progress.total > 0 && (
+        <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
+      )}
     </Flex>
   );
 }

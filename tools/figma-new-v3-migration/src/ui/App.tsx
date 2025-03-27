@@ -8,6 +8,7 @@ import { events } from "shared/event";
 import type { FigmaMetadata } from "shared/types";
 import { ColorsSection } from "./colors";
 import { TypographySection } from "./typography";
+import { StartCallout } from "common/components/start-callout";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {
@@ -75,7 +76,7 @@ function Steps() {
             }}
             value="colors"
           >
-            <ColorsSection />
+            {targets.length > 0 ? <ColorsSection /> : <StartCallout />}
           </TabsContent>
           <TabsContent
             style={{
@@ -83,7 +84,7 @@ function Steps() {
             }}
             value="text-styles"
           >
-            <TypographySection />
+            {targets.length > 0 ? <TypographySection /> : <StartCallout />}
           </TabsContent>
         </TabsRoot>
       </Flex>

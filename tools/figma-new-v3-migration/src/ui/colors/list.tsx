@@ -37,7 +37,7 @@ export function LayersWithColorList() {
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
-          <Text fontSize="t1">컬러 그룹</Text>
+          <Text fontSize="t1">컬러</Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
               <Flex gap="x1" alignItems="center">
@@ -70,7 +70,9 @@ export function LayersWithColorList() {
           ))}
         </Stack>
       </CollapsibleGroup>
-      <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
+      {progress.total > 0 && (
+        <ProgressBar progress={progress} showTitle completeMessage="모두 변경 완료" />
+      )}
     </Flex>
   );
 }

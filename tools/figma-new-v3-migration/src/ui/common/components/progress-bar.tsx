@@ -32,7 +32,7 @@ export function ProgressBar({
   className,
   showStatusText = true,
   showTitle = false,
-  completeMessage = "완료",
+  completeMessage,
 }: ProgressBarProps) {
   return (
     <Flex
