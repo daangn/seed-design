@@ -87,9 +87,9 @@ function normalizeOldColorName(oldColorValue: string): string {
 
 /**
  * 토큰 문자열을 V3 형식으로 변환합니다.
- * 예: $color.palette.gray-700 -> $palette.gray700
- * 예: $color.palette.static-white -> $palette.staticWhite
- * 예: $color.bg.layer-default -> $bg.layerDefault
+ * 예: $color.palette.gray-700 -> $palette-gray700
+ * 예: $color.palette.static-white -> $palette-staticWhite
+ * 예: $color.bg.layer-default -> $bg-layerDefault
  */
 function transformToken(token: string): string {
   // 이미 $ 형식인 경우 그대로 반환
@@ -113,7 +113,7 @@ function transformToken(token: string): string {
       })
       .join("");
 
-    return `$${category}.${camelCaseValues}`;
+    return `$${category}-${camelCaseValues}`;
   }
 
   // 기본 처리 (변환할 수 없는 경우)
