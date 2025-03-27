@@ -40,19 +40,27 @@ function LayerResult() {
     <Flex direction="column" height="full" overflowY="hidden">
       {/* 헤더 영역 */}
       <Flex direction="column" gap="x1" paddingTop="x3" paddingX="x3">
-        <Flex gap="x1" alignItems="center">
-          <Text fontSize="t2" color="palette.gray700">
+        <Flex gap="x1" alignItems="center" style={{ minWidth: 0, width: "100%" }}>
+          <Text fontSize="t2" color="palette.gray700" style={{ flexShrink: 0 }}>
             프레임
           </Text>
-          <Text fontSize="t4" fontWeight="bold">
+          <Text
+            fontSize="t4"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {node.name}
           </Text>
         </Flex>
-        <Flex gap="x1" alignItems="center">
-          <Text fontSize="t2" color="palette.gray700">
+        <Flex gap="x1" alignItems="center" style={{ minWidth: 0, width: "100%" }}>
+          <Text fontSize="t2" color="palette.gray700" style={{ flexShrink: 0 }}>
             사용중인 색상
           </Text>
-          <Text fontSize="t2" fontWeight="bold">
+          <Text
+            fontSize="t2"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {getOldValueName(oldValue)} {properties.join(", ")}
           </Text>
         </Flex>
@@ -107,8 +115,12 @@ function LayerGroupResult() {
     <Flex direction="column" style={{ height: "100%", overflow: "hidden" }}>
       {/* 헤더 영역 */}
       <Flex gap="x1" paddingTop="x3" paddingX="x3">
-        <Flex direction="column" gap="x1">
-          <Text fontSize="t4" fontWeight="bold">
+        <Flex direction="column" gap="x1" style={{ width: "100%", minWidth: 0 }}>
+          <Text
+            fontSize="t4"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {getOldFullValueName(oldValue)}
           </Text>
           <Text fontSize="t2" color="palette.gray800">
@@ -175,8 +187,12 @@ function VariableSuggestionButton({
       borderWidth={1}
     >
       <ColorChip backgroundColor={`#${suggestion.hex}`} opacity={suggestion.opacity} />
-      <Flex direction="column" gap="x1">
-        <Text fontSize="t1" fontWeight="bold">
+      <Flex direction="column" gap="x1" style={{ flex: 1, minWidth: 0 }}>
+        <Text
+          fontSize="t1"
+          fontWeight="bold"
+          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        >
           {suggestion.variable.name}
         </Text>
         <Text fontSize="t1" color="palette.gray900">
@@ -201,6 +217,7 @@ function ColorChip({
       style={{
         backgroundColor,
         opacity,
+        flexShrink: 0,
       }}
     />
   );

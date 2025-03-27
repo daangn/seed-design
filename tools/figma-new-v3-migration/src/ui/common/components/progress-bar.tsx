@@ -45,7 +45,7 @@ export function ProgressBar({
     >
       {showTitle && (
         <Text fontSize="t1" color="palette.gray700" style={{ whiteSpace: "nowrap" }}>
-          마이그레이션 현황
+          progress
         </Text>
       )}
 

@@ -11,7 +11,7 @@ interface TargetBadgesProps {
  * 타겟 레이어를 뱃지 형태로 표시하는 컴포넌트
  * 기본적으로 최대 3개까지 표시하고 나머지는 +N 형태로 통합
  */
-export function TargetBadges({ targets, maxVisible = 3 }: TargetBadgesProps) {
+export function TargetBadges({ targets, maxVisible = 2 }: TargetBadgesProps) {
   // 타겟이 없는 경우 아무것도 표시하지 않음
   if (targets.length === 0) {
     return null;

@@ -1,4 +1,5 @@
 import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
+import { vars } from "@seed-design/css/vars";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
@@ -6,7 +7,6 @@ import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration, type ListEntry } from "./context";
-import { vars } from "@seed-design/css/vars";
 
 export function TextStylesList() {
   const { results, progress } = useTypographyMigration();
@@ -30,16 +30,6 @@ export function TextStylesList() {
       return 0;
     });
   }, [results]);
-
-  if (!results) {
-    return (
-      <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
-        <Text fontSize="t1" color="palette.gray700">
-          프레임 검사를 해주세요.
-        </Text>
-      </Flex>
-    );
-  }
 
   return (
     <Flex direction="column" style={{ height: "100%" }}>
@@ -145,15 +135,24 @@ function TextStyleGroup({
       </Box>
 
       {/* 그룹 정보 */}
-      <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
-        <Text fontSize="t2" fontWeight="bold">
+      <Flex
+        gap="x1"
+        alignItems="center"
+        onClick={handleClick}
+        style={{ cursor: "pointer", flex: 1, minWidth: 0 }}
+      >
+        <Text
+          fontSize="t2"
+          fontWeight="bold"
+          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        >
           {groupId}
         </Text>
-        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px" }}>
+        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px", flexShrink: 0 }}>
           ({itemCount})
         </Text>
         {selectedItemsCount > 0 && selectedItemsCount < itemCount && (
-          <Text fontSize="t1" color="fg.positive" style={{ marginLeft: "4px" }}>
+          <Text fontSize="t1" color="fg.positive" style={{ marginLeft: "4px", flexShrink: 0 }}>
             {selectedItemsCount}/{itemCount} 적용됨
           </Text>
         )}
@@ -192,8 +191,6 @@ function TextLayer({
   const isHighlighted = isItemSelected || isParentGroupSelected;
 
   const displayText = textNode.characters || "<빈 텍스트>";
-  const truncatedText =
-    displayText.length > 30 ? `${displayText.substring(0, 30)}...` : displayText;
 
   return (
     <Flex
@@ -208,7 +205,12 @@ function TextLayer({
         ...(isAlreadyMigrated && { opacity: 0.5, textDecoration: "line-through" }),
       }}
     >
-      <Text fontSize="t1">{truncatedText}</Text>
+      <Text
+        fontSize="t1"
+        style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}
+      >
+        {displayText}
+      </Text>
     </Flex>
   );
 }

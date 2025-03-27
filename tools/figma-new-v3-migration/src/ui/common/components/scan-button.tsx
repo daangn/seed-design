@@ -37,7 +37,7 @@ export function ScanButton({ currentTab, selections }: ScanButtonProps) {
           nodeIds: selections.map(({ id }) => id),
         });
         break;
-      case "text-styles":
+      case "typography":
         events("request-text-style-suggestions").emit({
           nodeIds: selections.map(({ id }) => id),
         });

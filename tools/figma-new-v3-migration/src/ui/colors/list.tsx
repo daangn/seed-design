@@ -1,4 +1,5 @@
 import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
+import { vars } from "@seed-design/css/vars";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
@@ -6,7 +7,6 @@ import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } from "./context";
-import { vars } from "@seed-design/css/vars";
 
 export function LayersWithColorList() {
   const { results, progress } = useColorMigration();
@@ -16,16 +16,6 @@ export function LayersWithColorList() {
     if (!results) return [];
     return results.map(({ oldValue }) => getOldValueId(oldValue));
   }, [results]);
-
-  if (!results) {
-    return (
-      <Flex justifyContent="center" alignItems="center" style={{ height: "100%", width: "100%" }}>
-        <Text fontSize="t1" color="palette.gray700">
-          프레임 검사를 해주세요.
-        </Text>
-      </Flex>
-    );
-  }
 
   return (
     <Flex direction="column" height="full">
@@ -52,7 +42,7 @@ export function LayersWithColorList() {
 
         {/* 그룹 목록 */}
         <Stack flexGrow={1} overflowY="auto">
-          {results.map(({ oldValue, consumers }) => (
+          {results?.map(({ oldValue, consumers }) => (
             <Collapsible key={getOldValueId(oldValue)} id={getOldValueId(oldValue)}>
               <Stack borderBottomWidth={1} borderColor="palette.gray200">
                 <LayerGroup groupId={getOldValueId(oldValue)} itemCount={consumers.length} />
@@ -128,14 +118,23 @@ function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemC
       </Box>
 
       {/* 그룹 정보 */}
-      <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
+      <Flex
+        gap="x1"
+        alignItems="center"
+        onClick={handleClick}
+        style={{ cursor: "pointer", flex: 1, minWidth: 0 }}
+      >
         {group.oldValue.type !== "uncheckable" && (
           <ColorSwatch hex={group.oldValue.hex} opacity={group.oldValue.opacity} />
         )}
-        <Text fontSize="t2" fontWeight="bold">
+        <Text
+          fontSize="t2"
+          fontWeight="bold"
+          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        >
           {getOldValueName(group.oldValue)}
         </Text>
-        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px" }}>
+        <Text fontSize="t1" color="palette.gray600" style={{ marginLeft: "4px", flexShrink: 0 }}>
           ({itemCount})
         </Text>
       </Flex>
@@ -155,6 +154,7 @@ function ColorSwatch({ hex, opacity }: { hex: string; opacity: number }) {
       height="x4"
       borderRadius="r1"
       borderColor="palette.gray200"
+      flexShrink={0}
     />
   );
 }
@@ -180,12 +180,14 @@ function Layer({
   // 현재 아이템이 선택되었는지 확인
   const isItemSelected =
     currentlyViewing?.item?.node.id === node.id &&
+    currentlyViewing?.group &&
     getOldValueId(currentlyViewing.group.oldValue) === groupId;
 
   // 현재 아이템의 그룹이 선택되었는지 확인 (아이템이 선택되지 않은 상태에서)
   const isParentGroupSelected =
     currentlyViewing &&
     !currentlyViewing.item &&
+    currentlyViewing.group &&
     getOldValueId(currentlyViewing.group.oldValue) === groupId;
 
   // 아이템이 선택되었거나 부모 그룹이 선택되었을 때 하이라이트
@@ -204,7 +206,12 @@ function Layer({
         ...(isAlreadyMigrated && { opacity: 0.5, textDecoration: "line-through" }),
       }}
     >
-      <Text fontSize="t1">{node.name}</Text>
+      <Text
+        fontSize="t1"
+        style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", flex: 1 }}
+      >
+        {node.name}
+      </Text>
     </Flex>
   );
 }

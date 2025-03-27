@@ -39,19 +39,27 @@ function TextLayerResult() {
     <Flex direction="column" height="full" overflowY="hidden">
       {/* 헤더 영역 */}
       <Flex direction="column" gap="x1" paddingTop="x3" paddingX="x3">
-        <Flex gap="x1" alignItems="center">
-          <Text fontSize="t2" color="palette.gray700">
+        <Flex gap="x1" alignItems="center" style={{ minWidth: 0, width: "100%" }}>
+          <Text fontSize="t2" color="palette.gray700" style={{ flexShrink: 0 }}>
             텍스트 레이어
           </Text>
-          <Text fontSize="t4" fontWeight="bold">
+          <Text
+            fontSize="t4"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {textNode.characters || "<빈 텍스트>"}
           </Text>
         </Flex>
-        <Flex gap="x1" alignItems="center">
-          <Text fontSize="t2" color="palette.gray700">
+        <Flex gap="x1" alignItems="center" style={{ minWidth: 0, width: "100%" }}>
+          <Text fontSize="t2" color="palette.gray700" style={{ flexShrink: 0 }}>
             현재 typography
           </Text>
-          <Text fontSize="t2" fontWeight="bold">
+          <Text
+            fontSize="t2"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {currentlyViewing.group?.groupId || "불명확한 스타일"}
           </Text>
         </Flex>
@@ -113,8 +121,12 @@ function TextLayerGroupResult() {
     <Flex direction="column" style={{ height: "100%", overflow: "hidden" }}>
       {/* 헤더 영역 */}
       <Flex gap="x1" paddingTop="x3" paddingX="x3">
-        <Flex direction="column" gap="x1">
-          <Text fontSize="t4" fontWeight="bold">
+        <Flex direction="column" gap="x1" style={{ width: "100%", minWidth: 0 }}>
+          <Text
+            fontSize="t4"
+            fontWeight="bold"
+            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+          >
             {groupId}
           </Text>
           <Text fontSize="t2" color="palette.gray800">
@@ -191,8 +203,12 @@ function TextStyleSuggestionButton({
       style={{ cursor: "pointer" }}
       borderWidth={1}
     >
-      <Flex direction="column" gap="x1" flexGrow={1}>
-        <Text fontSize="t1" fontWeight="bold">
+      <Flex direction="column" gap="x1" flexGrow={1} style={{ minWidth: 0 }}>
+        <Text
+          fontSize="t1"
+          fontWeight="bold"
+          style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        >
           {textStyle.name}
         </Text>
         <Flex gap="x2">
