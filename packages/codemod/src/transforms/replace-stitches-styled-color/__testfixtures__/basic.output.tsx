@@ -13,31 +13,31 @@ const BannerIcon = styled('div', {
   variants: {
     theme: {
       blue: {
-        background: "$palette.blue600",
-        color: "$palette.staticWhite",
+        background: "$palette-blue600",
+        color: "$palette-staticWhite",
       },
       carrot: {
-        background: "$palette.carrot600",
-        color: "$palette.staticWhite",
+        background: "$palette-carrot600",
+        color: "$palette-staticWhite",
       },
       green: {
-        background: "$palette.green600",
-        color: "$palette.staticBlack",
+        background: "$palette-green600",
+        color: "$palette-staticBlack",
       },
     },
   },
 });
 
 const Text = styled('div', {
-  color: "$palette.gray800",
+  color: "$palette-gray800",
   margin: '0 8px 0 6px',
   $text: 'caption1Bold',
 })
 
 const CashContainer = styled('div', {
-  background: "$palette.gray200",
+  background: "$palette-gray200",
   borderRadius: '6px',
-  border: "1px solid $stroke.neutralMuted",
+  border: "1px solid $stroke-neutralMuted",
   padding: '16px',
   margin: '16px',
 })
@@ -57,16 +57,16 @@ const Container = styled('div', {
     height: '100%',
     background: 'transparent',
     boxSizing: 'border-box',
-    borderBottom: "1px solid $stroke.neutralMuted",
+    borderBottom: "1px solid $stroke-neutralMuted",
   },
 
   variants: {
     isTopOnDocument: {
       true: {
-        background: "$bg.layerDefault",
+        background: "$bg-layerDefault",
       },
       false: {
-        background: "$bg.layerFill",
+        background: "$bg-layerFill",
       },
     },
   },
@@ -83,8 +83,8 @@ function generateCompoundVariants() {
     priority,
     disabled: true,
     css: {
-      background: "$palette.gray400",
-      color: "$palette.gray600",
+      background: "$palette-gray400",
+      color: "$palette-gray600",
     },
   }));
 }
