@@ -1,8 +1,4 @@
-import {
-  IconChevronDownLine,
-  IconChevronUpLine,
-  IconTUppercaseSerifLine,
-} from "@daangn/react-monochrome-icon";
+import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
 import { Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
@@ -73,7 +69,7 @@ export function TextStylesList() {
         </Flex>
 
         {/* 그룹 목록 */}
-        <Stack flexGrow={1} overflowY="auto" gap="x3">
+        <Stack flexGrow={1} overflowY="auto">
           {sortedResults.map((group) => (
             <Collapsible key={group.groupId} id={group.groupId}>
               <Stack borderBottomWidth={1} borderColor="palette.gray200">
@@ -130,7 +126,8 @@ function TextStyleGroup({
       justifyContent="spaceBetween"
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
-      padding="x2"
+      paddingY="x3"
+      paddingX="x2"
       style={{
         // 이미 모든 아이템이 적용된 그룹은 시각적으로 구분
         ...(isAllItemsSelected && {
@@ -141,7 +138,6 @@ function TextStyleGroup({
     >
       {/* 그룹 정보 */}
       <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
-        <IconTUppercaseSerifLine size={14} />
         <Text fontSize="t2" fontWeight="bold">
           {groupId}
         </Text>
