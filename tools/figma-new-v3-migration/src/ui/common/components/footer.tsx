@@ -64,7 +64,7 @@ export function Footer({
         actionText && (
           <Box style={{ position: "relative", flexGrow: 1 }}>
             <ActionButton
-              variant="neutralSolid"
+              variant="brandSolid"
               onClick={onAction}
               disabled={actionDisabled}
               style={{ width: "100%" }}

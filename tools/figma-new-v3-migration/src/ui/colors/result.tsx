@@ -135,7 +135,7 @@ function LayerGroupResult() {
           />
         ))}
         <ActionButton
-          variant="neutralSolid"
+          variant="brandSolid"
           onClick={() =>
             applyColorVariable({
               oldValue,
