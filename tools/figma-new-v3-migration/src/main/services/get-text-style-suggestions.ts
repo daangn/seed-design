@@ -12,8 +12,10 @@ import {
 } from "../../shared/utils/nodes";
 import { serializeTextStyle } from "../../shared/utils/styles";
 import {
+  getFontWeight,
   getFontWeightLabel,
   getLineHeightUnitString,
+  getTextPropertyDifferences,
 } from "../../shared/utils/text-node-properties";
 import * as v2TextStyles from "../data/__generated__/v2-styles";
 import * as v3TextStyles from "../data/__generated__/v3-styles";
@@ -160,6 +162,10 @@ export async function getTextStyleSuggestions(
   textNode: TextNode,
   availableTextStyles: TextStyle[],
 ) {
+  const closestTextStyle = getClosestTextStyle(availableTextStyles, textNode);
+
+  if (closestTextStyle) return closestTextStyle;
+
   const currentStyleId = textNode.getStyledTextSegments(["textStyleId"])[0]?.textStyleId;
 
   if (!currentStyleId) return [];
@@ -172,6 +178,8 @@ export async function getTextStyleSuggestions(
     // 텍스트 노드에서 스타일 이름을 가져옵니다
     try {
       const textStyle = (await figma.getStyleByIdAsync(currentStyleId)) as TextStyle | null;
+
+      console.log("textStyle", textStyle);
 
       if (textStyle) {
         const styleName = textStyle.name;
@@ -223,13 +231,15 @@ export async function getTextStyleSuggestions(
   if (uniqueNextStyles.length === 0) return [];
 
   const suggestions = await Promise.all(
-    uniqueNextStyles.map(async (nextStyleName) => {
+    uniqueNextStyles.map((nextStyleName) => {
       // nextStyleName을 kebab-case로 변환 (예: t1Bold -> t1-bold)
       const kebabNextStyleName = `scale/${changeCase.kebabCase(nextStyleName)}`;
 
       const matchedStyle = availableTextStyles.find((style) => style.name === kebabNextStyleName);
 
-      if (!matchedStyle) return null;
+      if (!matchedStyle) {
+        return null;
+      }
 
       return {
         distance: 0, // 매핑 테이블에 있는 경우 완벽한 매칭으로 간주
@@ -246,4 +256,63 @@ export async function getTextStyleSuggestions(
   return suggestions.filter(
     (suggestion): suggestion is NonNullable<typeof suggestion> => suggestion !== null,
   );
+}
+
+function getTextStyleDifferences(textStyle: TextStyle, textNode: TextNode) {
+  const { fontSize, fontWeight, lineHeight } = textNode;
+
+  // textStyle의 속성들은 mode가 달라져도 기본 mode(V3 Typo에서 iOS)의 값으로 나온다.
+  // (모드별 값을 알고 싶으면 boundVariables 참고 필요)
+  // 따라서, iOS 기준으로 그려진 대상 화면 - iOS 기준 textStyle 속성 값을 바로 비교 가능.
+  const {
+    fontSize: styleFontSize,
+    lineHeight: styleLineHeight,
+    fontName: { style: styleFontStyle },
+  } = textStyle;
+
+  const styleFontWeight = getFontWeight(styleFontStyle);
+
+  if (!styleFontWeight) return null;
+
+  return getTextPropertyDifferences(
+    { fontSize: styleFontSize, fontWeight: styleFontWeight, lineHeight: styleLineHeight },
+    { fontSize, fontWeight, lineHeight },
+  );
+}
+
+function getClosestTextStyle(availableTextStyles: TextStyle[], textNode: TextNode) {
+  return availableTextStyles
+    .map((textStyle) => {
+      const differences = getTextStyleDifferences(textStyle, textNode);
+
+      if (!differences) return null;
+
+      if (
+        differences.fontSize === null ||
+        differences.fontWeight === null ||
+        differences.lineHeight === null
+      )
+        return null;
+
+      // o: 정확히 일치하는 경우
+      if (
+        differences.fontSize === 0 &&
+        differences.fontWeight === 0 &&
+        differences.lineHeight === 0
+      )
+        return { distance: 0, textStyle, differences };
+
+      // o: fontSize와 fontWeight가 일치하는 경우
+      if (differences.fontSize === 0 && differences.fontWeight === 0)
+        return { distance: 1, textStyle, differences };
+
+      return null;
+    })
+    .filter((suggestion) => suggestion !== null)
+    .sort((a, b) => {
+      if (a.distance === b.distance)
+        return Math.abs(a.differences.lineHeight ?? 0) - Math.abs(b.differences.lineHeight ?? 0);
+
+      return a.distance - b.distance;
+    });
 }
