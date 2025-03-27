@@ -9,13 +9,13 @@ const availableSteps = [
   //     description: "V2 컴포넌트를 V3 컴포넌트로 마이그레이션합니다.",
   //   },
   {
-    value: "text-styles",
-    label: "텍스트 스타일",
-    description: "V2 텍스트 스타일을 V3 텍스트 스타일로 마이그레이션합니다.",
+    value: "typography",
+    label: "Typography",
+    description: "V2 타이포그래피을 V3 타이포그래피로 마이그레이션합니다.",
   },
   {
     value: "colors",
-    label: "컬러",
+    label: "Colors",
     description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
   },
   //   {

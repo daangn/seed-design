@@ -66,8 +66,8 @@ function Steps() {
           style={{ height: "calc(100% - var(--tabs-list-height))" }}
         >
           <TabsList>
-            <TabsTrigger value="colors">컬러</TabsTrigger>
-            <TabsTrigger value="text-styles">텍스트 스타일</TabsTrigger>
+            <TabsTrigger value="colors">Colors</TabsTrigger>
+            <TabsTrigger value="typography">Typography</TabsTrigger>
           </TabsList>
 
           <TabsContent
@@ -82,7 +82,7 @@ function Steps() {
             style={{
               height: "calc(100% - var(--tabs-list-height))",
             }}
-            value="text-styles"
+            value="typography"
           >
             {targets.length > 0 ? <TypographySection /> : <StartCallout />}
           </TabsContent>

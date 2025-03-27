@@ -99,7 +99,7 @@ function TypographySectionContent() {
         actionText={`${remainingConnectableNodeCount}개 자동 연결`}
         onAction={bulkApply}
         actionDisabled={remainingConnectableNodeCount === 0}
-        actionTooltip="추천 텍스트 스타일이 1개인 항목에 자동으로 추천을 적용합니다. 추천이 없거나 2개 이상인 항목은 변경되지 않습니다."
+        actionTooltip="추천 typography가 1개인 항목에 자동으로 추천을 적용합니다. 추천이 없거나 2개 이상인 항목은 변경되지 않습니다."
         onRefresh={requestSuggestions}
         showRefreshButton={true}
       />

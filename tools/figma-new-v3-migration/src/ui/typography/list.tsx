@@ -1,11 +1,12 @@
 import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
-import { Flex, Stack, Text } from "@seed-design/react";
+import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";
 import { ProgressBar } from "common/components/progress-bar";
 import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedTextStyleSuggestionsResults } from "shared/types";
 import { useTypographyMigration, type ListEntry } from "./context";
+import { vars } from "@seed-design/css/vars";
 
 export function TextStylesList() {
   const { results, progress } = useTypographyMigration();
@@ -45,24 +46,19 @@ export function TextStylesList() {
       <CollapsibleGroup defaultOpenItems={defaultOpenItems}>
         {/* 전체 접기/펴기 컨트롤 */}
         <Flex
-          justifyContent="spaceBetween"
+          justifyContent="flexEnd"
           alignItems="center"
           padding="x2"
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
-          <Text fontSize="t2">텍스트 스타일</Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
               <Flex gap="x1" alignItems="center">
                 <Text fontSize="t1" color="palette.gray700">
                   {isAllOpen ? "전체 접기" : "전체 펼치기"}
                 </Text>
-                {isAllOpen ? (
-                  <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
-                ) : (
-                  <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
-                )}
+                {isAllOpen ? <IconChevronUpLine size={12} /> : <IconChevronDownLine size={12} />}
               </Flex>
             )}
           </CollapsibleGroup.ToggleAll>
@@ -123,7 +119,6 @@ function TextStyleGroup({
 
   return (
     <Flex
-      justifyContent="spaceBetween"
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       paddingY="x3"
@@ -136,6 +131,19 @@ function TextStyleGroup({
         }),
       }}
     >
+      {/* 접기/펴기 버튼 */}
+      <Box paddingRight="x2">
+        <Collapsible.Trigger>
+          {({ isOpen }) =>
+            isOpen ? (
+              <IconChevronUpLine color={vars.$color.palette.gray700} size={12} />
+            ) : (
+              <IconChevronDownLine color={vars.$color.palette.gray700} size={12} />
+            )
+          }
+        </Collapsible.Trigger>
+      </Box>
+
       {/* 그룹 정보 */}
       <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
         <Text fontSize="t2" fontWeight="bold">
@@ -150,17 +158,6 @@ function TextStyleGroup({
           </Text>
         )}
       </Flex>
-
-      {/* 접기/펴기 버튼 */}
-      <Collapsible.Trigger>
-        {({ isOpen }) =>
-          isOpen ? (
-            <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
-          ) : (
-            <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
-          )
-        }
-      </Collapsible.Trigger>
     </Flex>
   );
 }

@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { events } from "shared/event";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } from "./context";
+import { vars } from "@seed-design/css/vars";
 
 export function LayersWithColorList() {
   const { results, progress } = useColorMigration();
@@ -31,13 +32,12 @@ export function LayersWithColorList() {
       <CollapsibleGroup defaultOpenItems={defaultOpenItems}>
         {/* 전체 접기/펴기 컨트롤 */}
         <Flex
-          justifyContent="spaceBetween"
+          justifyContent="flexEnd"
           alignItems="center"
           padding="x2"
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
-          <Text fontSize="t1">컬러</Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
               <Flex gap="x1" alignItems="center">
@@ -103,7 +103,6 @@ function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemC
 
   return (
     <Flex
-      justifyContent="spaceBetween"
       alignItems="center"
       background={isCurrentlyViewing ? "bg.informativeWeak" : "bg.layerDefault"}
       paddingY="x3"
@@ -115,6 +114,19 @@ function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemC
         }),
       }}
     >
+      {/* 접기/펴기 버튼 */}
+      <Box paddingRight="x2">
+        <Collapsible.Trigger>
+          {({ isOpen }) =>
+            isOpen ? (
+              <IconChevronUpLine color={vars.$color.palette.gray700} size={12} />
+            ) : (
+              <IconChevronDownLine color={vars.$color.palette.gray700} size={12} />
+            )
+          }
+        </Collapsible.Trigger>
+      </Box>
+
       {/* 그룹 정보 */}
       <Flex gap="x1" alignItems="center" onClick={handleClick} style={{ cursor: "pointer" }}>
         {group.oldValue.type !== "uncheckable" && (
@@ -127,17 +139,6 @@ function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemC
           ({itemCount})
         </Text>
       </Flex>
-
-      {/* 접기/펴기 버튼 */}
-      <Collapsible.Trigger>
-        {({ isOpen }) =>
-          isOpen ? (
-            <IconChevronUpLine size={16} color="var(--seed-scale-color-gray-700)" />
-          ) : (
-            <IconChevronDownLine size={16} color="var(--seed-scale-color-gray-700)" />
-          )
-        }
-      </Collapsible.Trigger>
     </Flex>
   );
 }

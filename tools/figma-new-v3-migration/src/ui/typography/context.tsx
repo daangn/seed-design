@@ -138,7 +138,7 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
     requestSuggestions();
   }, [targets]);
 
-  // 텍스트 스타일 적용
+  // 타이포그래피 적용
   function applyTextStyle({
     textNodeIds,
     textStyleId,

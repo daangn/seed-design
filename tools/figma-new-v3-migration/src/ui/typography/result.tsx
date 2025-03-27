@@ -49,7 +49,7 @@ function TextLayerResult() {
         </Flex>
         <Flex gap="x1" alignItems="center">
           <Text fontSize="t2" color="palette.gray700">
-            현재 텍스트 스타일
+            현재 typography
           </Text>
           <Text fontSize="t2" fontWeight="bold">
             {currentlyViewing.group?.groupId || "불명확한 스타일"}
@@ -61,8 +61,8 @@ function TextLayerResult() {
       <Flex direction="column" gap="x3" padding="x3" flexGrow={1} overflowY="auto">
         <Text fontSize="t2" color="palette.gray700">
           {suggestions.length === 0
-            ? "이 텍스트 스타일은 더 이상 사용되지 않습니다. 다른 텍스트 스타일을 선택해주세요."
-            : "이 레이어에 설정할 텍스트 스타일을 선택하세요."}
+            ? "이 typography는 더 이상 사용되지 않습니다. 다른 typography을 선택해주세요."
+            : "이 레이어에 설정할 typography을 선택하세요."}
         </Text>
         {suggestions.map((suggestion) => (
           <TextStyleSuggestionButton
@@ -118,7 +118,7 @@ function TextLayerGroupResult() {
             {groupId}
           </Text>
           <Text fontSize="t2" color="palette.gray800">
-            텍스트 스타일
+            Typography
           </Text>
         </Flex>
       </Flex>
@@ -129,8 +129,8 @@ function TextLayerGroupResult() {
           {isAllItemsMigrated
             ? "이미 모든 텍스트 노드에 적용됨 (typography에서 확인 가능)"
             : suggestions.length === 0
-              ? "이 텍스트 스타일은 더 이상 사용되지 않습니다. 다른 텍스트 스타일을 선택해주세요."
-              : "이 텍스트 스타일을 적용할 새 텍스트 스타일을 선택하세요."}
+              ? "이 typography는 더 이상 사용되지 않습니다. 다른 typography을 선택해주세요."
+              : "이 typography을 적용할 새 typography을 선택하세요."}
         </Text>
         {suggestions.map((suggestion) => (
           <TextStyleSuggestionButton

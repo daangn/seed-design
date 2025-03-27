@@ -42,22 +42,22 @@ export async function getSerializedTextStyleSuggestions({
     );
     textStyles = styles.filter(({ type }) => type === "TEXT") as TextStyle[];
 
-    // library 추가되어있지 않아도 텍스트 스타일 import는 가능함.
+    // library 추가되어있지 않아도 typography import는 가능함.
     if (textStyles.length === 0) {
       throw new Error(
-        "텍스트 스타일을 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
+        "Typography를 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
       );
     }
   } catch {
     throw new Error(
-      "텍스트 스타일을 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
+      "Typography를 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
     );
   }
 
   const results = [];
 
   for await (const textNode of textNodesInTarget) {
-    // 디자인시스템 컴포넌트 내에 있는 경우 텍스트 스타일 제안 생략
+    // 디자인시스템 컴포넌트 내에 있는 경우 typography 제안 생략
     // if (await isNodeWithinSystemComponents({ node: textNode, systemComponentKeys })) continue;
 
     const suggestions = await getTextStyleSuggestions(textNode, textStyles);
@@ -182,7 +182,7 @@ export async function getTextStyleSuggestions(
         );
       }
     } catch (error) {
-      console.log("텍스트 스타일 이름 가져오기 실패", error);
+      console.log("typography 이름 가져오기 실패", error);
     }
   }
 
