@@ -43,17 +43,17 @@ const ColorMigrationContext = createContext<ColorMigrationContext | null>(null);
 
 export function getOldValueId(
   oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"],
-): string {
-  if (oldValue.type === "style") {
-    return oldValue.style.id;
+) {
+  switch (oldValue.type) {
+    case "uncheckable":
+      return oldValue.type;
+    case "variable":
+      return oldValue.variable.id;
+    case "style":
+      return `${oldValue.paletteProperty}-${oldValue.style.id}`;
+    case "detached":
+      return `${oldValue.hex}-${Math.round(oldValue.opacity * 100)}`;
   }
-  if (oldValue.type === "variable") {
-    return oldValue.variable.id;
-  }
-  if (oldValue.type === "detached") {
-    return `hex-${oldValue.hex}-${oldValue.opacity}`;
-  }
-  return "uncheckable";
 }
 
 function getSlashLastPart(name: string) {
@@ -63,17 +63,20 @@ function getSlashLastPart(name: string) {
 
 export function getOldValueName(
   oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"],
-): string {
-  if (oldValue.type === "style") {
-    return getSlashLastPart(oldValue.style.name);
+) {
+  switch (oldValue.type) {
+    case "uncheckable":
+      return "알 수 없음";
+    case "variable":
+      return getSlashLastPart(oldValue.variable.name);
+    case "style":
+      return getSlashLastPart(oldValue.style.name);
+    case "detached": {
+      if (oldValue.opacity === 1) return `#${oldValue.hex}`;
+
+      return `#${oldValue.hex} ${Math.round(oldValue.opacity * 100)}%`;
+    }
   }
-  if (oldValue.type === "variable") {
-    return getSlashLastPart(oldValue.variable.name);
-  }
-  if (oldValue.type === "detached") {
-    return `#${oldValue.hex}`;
-  }
-  return "감지 불가능";
 }
 
 export function getOldFullValueName(
