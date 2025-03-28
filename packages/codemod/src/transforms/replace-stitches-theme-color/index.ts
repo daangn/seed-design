@@ -179,18 +179,30 @@ function findStaticMapping(staticName: string) {
   return mapping;
 }
 
+// 토큰 매핑 결과 인터페이스 정의
+interface TokenMappingResult {
+  token: string;
+  needsVerification?: boolean;
+  description?: string;
+}
+
 /**
  * 색상 값을 V3 형식으로 변환합니다.
  * property를 기반으로 bg/fg 선택을 결정합니다.
  */
-function getTokenMapping(oldColorValue: string, propertyName?: string): string | null {
+function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMappingResult | null {
   // -semantic 접미사가 있는 경우 특별 처리
   if (oldColorValue.endsWith("-semantic")) {
     const semanticName = oldColorValue.replace(/-semantic$/g, "");
     const mapping = findSemanticMapping(semanticName);
 
     if (mapping) {
-      return selectAndTransformToken(mapping, propertyName);
+      const token = selectAndTransformToken(mapping, propertyName);
+      return {
+        token,
+        needsVerification: mapping.needsVerification,
+        description: mapping.description,
+      };
     }
     return null;
   }
@@ -201,7 +213,12 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): string |
     const mapping = findStaticMapping(staticName);
 
     if (mapping) {
-      return selectAndTransformToken(mapping, propertyName);
+      const token = selectAndTransformToken(mapping, propertyName);
+      return {
+        token,
+        needsVerification: mapping.needsVerification,
+        description: mapping.description,
+      };
     }
     return null;
   }
@@ -215,14 +232,24 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): string |
     const mapping = scaleColorMappings.find((m) => m.previous === `$scale.color.${scaleColor}`);
 
     if (mapping) {
-      return selectAndTransformToken(mapping, propertyName);
+      const token = selectAndTransformToken(mapping, propertyName);
+      return {
+        token,
+        needsVerification: mapping.needsVerification,
+        description: mapping.description,
+      };
     }
   }
 
   // 다른 색상은 전체 colorMappings에서 찾기
   const mapping = colorMappings.find((m) => m.previous === previousToken);
   if (mapping) {
-    return selectAndTransformToken(mapping, propertyName);
+    const token = selectAndTransformToken(mapping, propertyName);
+    return {
+      token,
+      needsVerification: mapping.needsVerification,
+      description: mapping.description,
+    };
   }
 
   return null;
@@ -301,7 +328,16 @@ function processThemeColor(
   logger: ReturnType<typeof createTransformLogger>,
   filePath: string,
   processedPaths: Set<string>,
-  transformationLog: Map<string, { previous: string; next: string; line: number }>,
+  transformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
 ): void {
   // path가 MemberExpression인지 확인
   if (path.node.type !== "MemberExpression" || !path.node.property) return;
@@ -362,15 +398,12 @@ function processThemeColor(
     currentPath = currentPath.parent;
   }
 
-  // 색상 토큰 변환
-  let newToken: string | null = null;
-
   // 색상 토큰 매핑
-  newToken = getTokenMapping(colorName, propertyName);
+  const mappingResult = getTokenMapping(colorName, propertyName);
 
-  if (newToken) {
+  if (mappingResult) {
     // 변환된 토큰으로 업데이트
-    const processedToken = newToken.substring(1); // '$' 제거
+    const processedToken = mappingResult.token.substring(1); // '$' 제거
 
     path.node.property = j.stringLiteral(processedToken);
     path.node.computed = true;
@@ -378,8 +411,10 @@ function processThemeColor(
     // 변환 로그 추가
     transformationLog.set(`${colorName}:${line}`, {
       previous: colorName,
-      next: newToken,
+      next: mappingResult.token,
       line,
+      needsVerification: mappingResult.needsVerification,
+      description: mappingResult.description,
     });
 
     // 처리 완료 경로로 기록
@@ -411,7 +446,16 @@ const transform: Transform = (file, api) => {
   const processedPaths = new Set<string>();
 
   // 변환 내역 추적을 위한 Map
-  const transformationLog = new Map<string, { previous: string; next: string; line: number }>();
+  const transformationLog = new Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >();
 
   logger.startFile(file.path);
 
@@ -439,6 +483,8 @@ const transform: Transform = (file, api) => {
       nextToken: transformation.next,
       status: "success",
       line: transformation.line,
+      needsVerification: transformation.needsVerification,
+      description: transformation.description,
     });
   }
 

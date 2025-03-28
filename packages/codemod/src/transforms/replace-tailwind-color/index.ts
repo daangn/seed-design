@@ -79,6 +79,8 @@ function selectMappingToken(
 interface TodoInfo {
   description: string;
   token: string;
+  needsVerification?: boolean;
+  nextToken?: string;
 }
 
 // 단일 유틸리티 토큰에 대해 즉시 처리 (간소화 버전)
@@ -98,7 +100,19 @@ function transformUtilityTokenSimple(token: string, todosToAdd: Set<TodoInfo>): 
         if (chosenToken) {
           const newColorToken = transformNextToken("border", chosenToken);
           // border의 경우 기존 direction을 유지한 채 색상 부분만 변경
-          return `${directionPrefix}-${newColorToken.replace(/^border-/, "")}`;
+          const result = `${directionPrefix}-${newColorToken.replace(/^border-/, "")}`;
+
+          // 변환은 성공했지만 needsVerification이 있는 경우
+          if (m.needsVerification) {
+            todosToAdd.add({
+              description: m.description || "사용 확인 필요한 토큰입니다",
+              token: baseToken,
+              needsVerification: true,
+              nextToken: result,
+            });
+          }
+
+          return result;
         }
 
         // next와 alternative가 모두 없고 description이 있는 경우
@@ -126,7 +140,21 @@ function transformUtilityTokenSimple(token: string, todosToAdd: Set<TodoInfo>): 
 
       if (candidate === token) {
         const chosenToken = selectMappingToken(prefix, m);
-        if (chosenToken) return transformNextToken(prefix, chosenToken);
+        if (chosenToken) {
+          const result = transformNextToken(prefix, chosenToken);
+
+          // 변환은 성공했지만 needsVerification이 있는 경우
+          if (m.needsVerification) {
+            todosToAdd.add({
+              description: m.description || "사용 확인 필요한 토큰입니다",
+              token: token,
+              needsVerification: true,
+              nextToken: result,
+            });
+          }
+
+          return result;
+        }
 
         // next와 alternative가 모두 없고 description이 있는 경우
         if (
@@ -252,10 +280,7 @@ const transform: Transform = (file, api) => {
         });
       }
       attributeValue.expression.value = transformed;
-    }
-
-    // TemplateLiteral 처리
-    else if (
+    } else if (
       attributeValue.type === "JSXExpressionContainer" &&
       attributeValue.expression.type === "TemplateLiteral"
     ) {
@@ -277,14 +302,16 @@ const transform: Transform = (file, api) => {
       });
     }
 
-    // TODO 주석 추가
+    // TODO 주석 추가 - 별도 warning 로그로 생성
     if (todosToAdd.size > 0) {
       for (const todoInfo of todosToAdd) {
         logger.logTransformResult(file.path, {
           previousToken: todoInfo.token,
-          nextToken: todoInfo.token,
-          status: "warning",
+          nextToken: todoInfo.nextToken || todoInfo.token,
+          status: todoInfo.needsVerification ? "success" : "warning",
           failureReason: todoInfo.description,
+          description: todoInfo.description,
+          needsVerification: todoInfo.needsVerification,
           line: path.node.loc?.start.line,
         });
       }

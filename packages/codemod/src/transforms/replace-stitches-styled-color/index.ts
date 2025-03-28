@@ -3,7 +3,7 @@ import {
   semanticColorMappings,
   staticColorMappings,
   scaleColorMappings,
-} from "@seed-design/migration-index/color";
+} from "@seed-design/migration-index";
 import type { ObjectExpression, ObjectMethod, ObjectProperty, Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 
@@ -20,8 +20,8 @@ const COLOR_PROPERTIES = {
     "webkitTextStrokeColor",
   ],
 
-  // 배경 관련 색상 속성
-  background: ["background", "backgroundColor", "backgroundImage"],
+  // 배경 관련 색상 속성 (linear-gradient 포함)
+  background: ["background", "backgroundColor", "backgroundImage", "backgroundBlendMode"],
 
   // 테두리 관련 색상 속성
   border: [
@@ -59,10 +59,20 @@ const COLOR_PROPERTIES = {
   svg: ["fill", "fillColor", "stroke", "floodColor", "lightingColor", "stopColor"],
 
   // 기타 색상 속성
-  misc: ["accentColor", "scrollbarColor", "columnRuleColor", "textDecoration"],
+  misc: [
+    "accentColor",
+    "scrollbarColor",
+    "columnRuleColor",
+    "textDecoration",
+    "maskColor",
+    "maskBorderColor",
+    "outlineOffset",
+    "filter", // drop-shadow 필터 등에서 색상이 사용될 수 있음
+    "backdropFilter",
+  ],
 };
 
-// 모든 색상 속성을 하나의 배열로 병합
+// 색상 관련 속성 목록
 const ALL_COLOR_PROPERTIES = Object.values(COLOR_PROPERTIES).flat();
 
 // 복합 속성 (여러 값을 가질 수 있는 속성)
@@ -109,11 +119,64 @@ function normalizeSemanticName(semanticName: string): string {
 }
 
 /**
+ * 특정 문자열이 변환 대상 색상 토큰인지 확인하는 함수 - 더 많은 패턴 감지
+ */
+function isColorToken(value: string): boolean {
+  // $로 시작하는지 확인
+  if (!value.startsWith("$")) return false;
+
+  // -semantic이나 -static으로 끝나는 경우 색상 토큰으로 판단
+  if (value.endsWith("-semantic") || value.endsWith("-static")) {
+    return true;
+  }
+
+  // $gray900, $blue500 등의 패턴 확인 ($gray00도 포함)
+  if (/^\$([a-zA-Z]+)(\d+)$/.test(value)) {
+    return true;
+  }
+
+  // $grayAlpha50, $blueAlpha200 등의 패턴 확인
+  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)$/.test(value)) {
+    return true;
+  }
+
+  // $gray900-static, $blackAlpha200-static 패턴 확인 (숫자가 있는 색상 이름 + -static)
+  if (/^\$([a-zA-Z]+[A-Za-z]*)(\d+)-static$/.test(value)) {
+    return true;
+  }
+
+  // $whiteAlpha50-static 등의 특수 패턴 확인
+  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)-static$/.test(value)) {
+    return true;
+  }
+
+  // 이미 V3 형식인 경우 처리하지 않음
+  if (
+    value.startsWith("$palette-") ||
+    value.startsWith("$bg-") ||
+    value.startsWith("$fg-") ||
+    value.startsWith("$stroke-")
+  ) {
+    return false;
+  }
+
+  return false;
+}
+
+// 매핑 결과 인터페이스 정의
+interface TokenMappingResult {
+  token: string;
+  needsVerification?: boolean;
+  description?: string;
+}
+
+/**
  * V2 스타일 색상 이름을 마이그레이션 인덱스의 이전 형식으로 변환합니다.
  * 예: $gray700 -> $scale.color.gray-700
  * 예: $white-static -> $static.color.static-white
  * 예: $onPrimaryOverlay50-semantic -> $semantic.color.on-primary-overlay-50
  * 예: $divider1-semantic -> $semantic.color.divider-1
+ * 예: $gray900-static -> $static.color.static-gray-900
  */
 function normalizeOldColorName(oldColorValue: string): string {
   // $ 접두사 제거
@@ -132,8 +195,17 @@ function normalizeOldColorName(oldColorValue: string): string {
 
   // static 색상 처리 (예: $white-static -> $static.color.static-white)
   if (colorName.endsWith("-static")) {
-    const staticName = colorName.replace(/-static$/, "");
-    return `$static.color.static-${staticName}`;
+    // -static 접미사 제거
+    const staticPart = colorName.replace(/-static$/, "");
+
+    // gray900-static과 같은 패턴 처리
+    if (/^([a-zA-Z]+)(\d+)$/.test(staticPart)) {
+      // gray900 -> gray-900 변환
+      const colorWithDash = staticPart.replace(/([a-zA-Z]+)(\d+)/, "$1-$2");
+      return `$static.color.static-${colorWithDash}`;
+    }
+
+    return `$static.color.static-${staticPart}`;
   }
 
   // 이미 palette 형태인 경우 그대로 반환 (예: palette-gray-100)
@@ -227,8 +299,14 @@ function findSemanticMapping(semanticName: string) {
  * findStaticMapping 함수는 주어진 static 이름에 대한 매핑을 찾습니다.
  */
 function findStaticMapping(staticName: string) {
+  // camelCase에서 kebab-case로 변환 (예: blackAlpha200 -> black-alpha-200)
+  let normalizedStaticName = staticName;
+  if (/[A-Z]/.test(staticName)) {
+    normalizedStaticName = camelCaseToKebabCase(staticName);
+  }
+
   // 정규화된 static 이름
-  const staticToken = `$static.color.static-${staticName}`;
+  const staticToken = `$static.color.static-${normalizedStaticName}`;
 
   // 정확히 일치하는 매핑 찾기
   let mapping = staticColorMappings.find((m) => m.previous === staticToken);
@@ -239,7 +317,17 @@ function findStaticMapping(staticName: string) {
     for (const m of staticColorMappings) {
       const previousName = m.previous.replace("$static.color.static-", "");
 
-      if (previousName === staticName) {
+      // 일반 비교
+      if (previousName === normalizedStaticName || previousName === staticName) {
+        mapping = m;
+        break;
+      }
+
+      // kebab-case <-> camelCase 변환 시도
+      const kebabCasePrevious = previousName;
+      const camelCasePrevious = kebabCaseToCamelCase(previousName);
+
+      if (kebabCasePrevious === normalizedStaticName || camelCasePrevious === staticName) {
         mapping = m;
         break;
       }
@@ -250,41 +338,11 @@ function findStaticMapping(staticName: string) {
 }
 
 /**
- * 특정 문자열이 변환 대상 색상 토큰인지 확인하는 함수
- */
-function isColorToken(value: string): boolean {
-  // $로 시작하는지 확인
-  if (!value.startsWith("$")) return false;
-
-  // -semantic이나 -static으로 끝나는 경우 색상 토큰으로 판단
-  if (value.endsWith("-semantic") || value.endsWith("-static")) {
-    return true;
-  }
-
-  // $gray100, $blue500 등의 패턴 확인
-  if (/^\$([a-zA-Z]+)(\d+)$/.test(value)) {
-    return true;
-  }
-
-  // 이미 V3 형식인 경우 처리하지 않음
-  if (
-    value.startsWith("$palette-") ||
-    value.startsWith("$bg-") ||
-    value.startsWith("$fg-") ||
-    value.startsWith("$stroke-")
-  ) {
-    return false;
-  }
-
-  return false;
-}
-
-/**
  * 색상 값을 V3 형식으로 변환합니다.
  * colorMappings에서 매핑을 찾아 V3 형식으로 변환합니다.
  * 매핑에 없는 경우 원래 값을 그대로 반환합니다.
  */
-function getTokenMapping(oldColorValue: string): string | null {
+function getTokenMapping(oldColorValue: string): TokenMappingResult {
   // 현재 값이 이미 V3 형식이면 그대로 반환
   if (
     oldColorValue.startsWith("$palette-") ||
@@ -292,7 +350,11 @@ function getTokenMapping(oldColorValue: string): string | null {
     oldColorValue.startsWith("$fg-") ||
     oldColorValue.startsWith("$stroke-")
   ) {
-    return null;
+    return {
+      token: oldColorValue,
+      needsVerification: false,
+      description: "이미 V3 형식입니다",
+    };
   }
 
   // -semantic 접미사가 있는 경우 특별 처리
@@ -300,11 +362,23 @@ function getTokenMapping(oldColorValue: string): string | null {
     const semanticName = oldColorValue.replace(/^\$|-semantic$/g, "");
     const mapping = findSemanticMapping(semanticName);
 
-    if (mapping) {
-      return selectAndTransformToken(mapping);
+    if (mapping?.next?.length > 0) {
+      const token = selectAndTransformToken(mapping);
+
+      if (token && token !== oldColorValue) {
+        return {
+          token,
+          needsVerification: mapping.needsVerification,
+          description: mapping.description,
+        };
+      }
     }
-    // 매핑이 없는 경우 원래 값 반환
-    return null;
+    // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "시멘틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
   }
 
   // -static 접미사가 있는 경우 특별 처리
@@ -312,11 +386,23 @@ function getTokenMapping(oldColorValue: string): string | null {
     const staticName = oldColorValue.replace(/^\$|-static$/g, "");
     const mapping = findStaticMapping(staticName);
 
-    if (mapping) {
-      return selectAndTransformToken(mapping);
+    if (mapping?.next?.length > 0) {
+      const token = selectAndTransformToken(mapping);
+
+      if (token && token !== oldColorValue) {
+        return {
+          token,
+          needsVerification: mapping.needsVerification,
+          description: mapping.description,
+        };
+      }
     }
-    // 매핑이 없는 경우 원래 값 반환
-    return null;
+    // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "스태틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
   }
 
   // $로 시작하는 색상 토큰인지 확인 (기본 색상 패턴)
@@ -326,96 +412,129 @@ function getTokenMapping(oldColorValue: string): string | null {
 
     // 마이그레이션 매핑 찾기
     let result = null;
+    let needsVerification = false;
+    let description = null;
+    let mapping = null;
 
     // semantic 색상인 경우 semanticColorMappings에서 찾기
     if (previousToken.startsWith("$semantic.color.")) {
       const semanticName = previousToken.replace("$semantic.color.", "");
-      const mapping = findSemanticMapping(semanticName);
+      mapping = findSemanticMapping(semanticName);
 
-      if (mapping) {
+      if (mapping?.next?.length > 0) {
         result = selectAndTransformToken(mapping);
+        needsVerification = mapping.needsVerification;
+        description = mapping.description;
       }
     }
     // static 색상인 경우 staticColorMappings에서 찾기
     else if (previousToken.startsWith("$static.color.")) {
       const staticName = previousToken.replace("$static.color.static-", "");
-      const mapping = findStaticMapping(staticName);
+      mapping = findStaticMapping(staticName);
 
-      if (mapping) {
+      if (mapping?.next?.length > 0) {
         result = selectAndTransformToken(mapping);
+        needsVerification = mapping.needsVerification;
+        description = mapping.description;
       }
     }
     // scale 색상인 경우 처리
     else if (previousToken.startsWith("$scale.color.")) {
       const scaleColor = previousToken.replace("$scale.color.", "");
       // scaleColorMappings에서 정확히 일치하는 매핑 찾기
-      const mapping = scaleColorMappings.find((m) => m.previous === `$scale.color.${scaleColor}`);
-      if (mapping) {
+      mapping = scaleColorMappings.find((m) => m.previous === `$scale.color.${scaleColor}`);
+      if (mapping?.next?.length > 0) {
         result = selectAndTransformToken(mapping);
+        needsVerification = mapping.needsVerification;
+        description = mapping.description;
       }
     }
     // 다른 색상은 전체 colorMappings에서 찾기
     else {
-      const mapping = colorMappings.find((m) => m.previous === previousToken);
-      if (mapping) {
+      mapping = colorMappings.find((m) => m.previous === previousToken);
+      if (mapping?.next?.length > 0) {
         result = selectAndTransformToken(mapping);
+        needsVerification = mapping.needsVerification;
+        description = mapping.description;
       }
     }
 
-    return result; // 매핑이 없으면 null 반환
+    if (result && result !== oldColorValue) {
+      return {
+        token: result,
+        needsVerification,
+        description,
+      };
+    }
+
+    // 매핑이 없거나 원본 값과 동일한 경우 원래 값 유지
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
   }
 
-  // 패턴이 일치하지 않거나 매핑이 없는 경우 null 반환
-  return null;
+  // 패턴이 일치하지 않는 경우 원래 값 유지
+  return {
+    token: oldColorValue,
+    needsVerification: true,
+    description: "지원되지 않는 패턴이므로 원래 값을 유지합니다",
+  };
 }
 
 /**
- * 매핑에서 적절한 토큰을 선택하고 변환합니다.
+ * selectAndTransformToken 함수는 mapping의 next 배열에서 가장 적합한 토큰을 선택합니다.
+ * 만약 next가 없거나 빈 배열이면 null 대신 이전 토큰을 반환합니다.
  */
-function selectAndTransformToken(mapping: any): string | null {
-  // 매핑 토큰 선택 로직
-  let chosenToken: string | null = null;
+function selectAndTransformToken(mapping: any): string {
+  const preferred: string | undefined = mapping.preferred;
 
-  if (mapping.next.length === 1) {
-    // next의 요소가 하나이면 바로 사용
-    chosenToken = mapping.next[0];
-  } else if (mapping.next.length > 1) {
-    // next의 요소가 여러 개인 경우, palette 컬러를 우선 검색
-    const paletteTokens = mapping.next.filter((token: string) => token.includes("$color.palette"));
-    if (paletteTokens.length > 0) {
-      chosenToken = paletteTokens[0];
-    } else {
-      // palette 컬러가 없으면 첫 번째 매핑 사용
-      chosenToken = mapping.next[0];
+  // next 배열이 없거나 비어있으면 이전 토큰을 반환
+  if (!mapping.next || mapping.next.length === 0) {
+    // previous 값이 있으면 그대로 반환
+    if (mapping.previous) {
+      // stitches 토큰 형식으로 변환 ($semantic.color. -> $)
+      return mapping.previous
+        .replace(/^\$(semantic|static|scale)\.color\./, "$")
+        .replace(/^$/, "$");
     }
+    return ""; // previous가 없는 경우는 거의 없지만, 빈 문자열 반환
   }
 
-  // 매핑된 토큰이 없고 alternative가 있는 경우 alternative에서 찾기
-  if (
-    !chosenToken &&
-    "alternative" in mapping &&
-    Array.isArray(mapping.alternative) &&
-    mapping.alternative.length > 0
-  ) {
-    // alternative에서 palette 컬러 검색
-    const alternativePaletteTokens = mapping.alternative.filter((token: string) =>
-      token.includes("$color.palette"),
+  // preferred가 있으면 그것을 사용
+  if (preferred && mapping.next.includes(preferred)) {
+    return transformToken(preferred);
+  }
+
+  // 우선순위에 따라 다음을 선택
+  // 1. UI 스펙 관련 토큰 (bg-, fg-, stroke-)
+  // 2. 팔레트 토큰 (palette-)
+  // 3. 있는 것
+  const uiSpecTokens = mapping.next.filter(
+    (token: string) =>
+      token.startsWith("$color.bg.") ||
+      token.startsWith("$color.fg.") ||
+      token.startsWith("$color.stroke."),
+  );
+  const paletteTokens = mapping.next.filter((token: string) => token.startsWith("$color.palette."));
+
+  let selectedToken: string;
+
+  if (uiSpecTokens.length > 0) {
+    selectedToken = uiSpecTokens[0];
+  } else if (paletteTokens.length > 0) {
+    selectedToken = paletteTokens[0];
+  } else if (mapping.next.length > 0) {
+    selectedToken = mapping.next[0];
+  } else {
+    // mapping.next가 빈 배열인 경우, 원본 토큰을 사용
+    return (
+      mapping.previous?.replace(/^\$(semantic|static|scale)\.color\./, "$").replace(/^$/, "$") || ""
     );
-    if (alternativePaletteTokens.length > 0) {
-      chosenToken = alternativePaletteTokens[0];
-    } else if (mapping.alternative.length > 0) {
-      // 팔레트 컬러가 없으면 첫 번째 대안 사용
-      chosenToken = mapping.alternative[0];
-    }
   }
 
-  // 매핑을 찾지 못한 경우 null 반환
-  if (!chosenToken) {
-    return null;
-  }
-
-  // 선택된 토큰을 Stitches 형식으로 변환
-  return transformToken(chosenToken);
+  return transformToken(selectedToken);
 }
 
 /**
@@ -426,7 +545,16 @@ function processStyleObject(
   logger: ReturnType<typeof createTransformLogger>,
   filePath: string,
   processedTokens: Set<string>,
-  fileTransformationLog: Map<string, { previous: string; next: string; line: number }>,
+  fileTransformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
 ): void {
   // 객체의 모든 속성을 순회하며 색상 속성 처리
   if (!styleObj.properties) return;
@@ -459,79 +587,94 @@ function processColorProperty(
   logger: ReturnType<typeof createTransformLogger>,
   filePath: string,
   processedTokens: Set<string>,
-  fileTransformationLog: Map<string, { previous: string; next: string; line: number }>,
+  fileTransformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
 ): void {
-  const propName =
-    prop.key.type === "Identifier"
-      ? prop.key.name
-      : prop.key.type === "StringLiteral"
-        ? prop.key.value
-        : "";
-
-  // 단일 색상 속성 처리
+  // 모든 StringLiteral 타입 속성에서 색상 토큰 확인
   if (
-    ALL_COLOR_PROPERTIES.includes(propName) &&
     prop.value.type === "StringLiteral" &&
-    prop.value.value.startsWith("$") &&
-    isColorToken(prop.value.value)
+    prop.value.value != null // null이나 undefined가 아닌지 확인
   ) {
-    const oldValue = prop.value.value;
-    const line = prop.loc?.start.line || 0;
-    const column = prop.loc?.start.column || 0;
-    const tokenKey = `${filePath}:${line}:${column}:${oldValue}`;
+    const stringValue = prop.value.value;
 
-    // 이미 처리한 토큰은 건너뛰기
-    if (processedTokens.has(tokenKey)) {
-      return;
-    }
+    // $ 문자가 포함된 경우에만 처리 (성능 최적화)
+    if (stringValue.includes("$")) {
+      // 1. 값 자체가 단일 색상 토큰인 경우 (예: color: '$gray700')
+      if (stringValue.startsWith("$") && isColorToken(stringValue)) {
+        const oldValue = stringValue;
+        const line = prop.loc?.start.line || 0;
+        const column = prop.loc?.start.column || 0;
+        const tokenKey = `${filePath}:${line}:${column}:${oldValue}`;
 
-    const newValue = getTokenMapping(oldValue);
+        // 이미 처리한 토큰은 건너뛰기
+        if (processedTokens.has(tokenKey)) {
+          return;
+        }
 
-    if (newValue) {
-      // 원본 따옴표 스타일을 보존
-      prop.value.value = newValue;
+        const mappingResult = getTokenMapping(oldValue);
 
-      // 변환 로그에 추가 (실제 변경이 있는 경우만)
-      if (oldValue !== newValue) {
-        const logKey = `${oldValue}:${line}`;
-        fileTransformationLog.set(logKey, {
-          previous: oldValue,
-          next: newValue,
-          line: line,
-        });
+        // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
+        if (mappingResult && mappingResult.token !== oldValue) {
+          // 원본 따옴표 스타일을 보존
+          prop.value.value = mappingResult.token;
+
+          // 변환 로그에 추가
+          const logKey = `${oldValue}:${line}`;
+          fileTransformationLog.set(logKey, {
+            previous: oldValue,
+            next: mappingResult.token,
+            line: line,
+            needsVerification: mappingResult.needsVerification,
+            description: mappingResult.description,
+          });
+
+          // 성공 로그 기록
+          logger.logTransformResult(filePath, {
+            previousToken: oldValue,
+            nextToken: mappingResult.token,
+            status: "success",
+            line: line,
+            needsVerification: mappingResult.needsVerification,
+            description: mappingResult.description,
+          });
+        } else {
+          // 매핑이 없거나 변환되지 않은 경우 경고 로그 (V3 형식이 아닌 경우만)
+          if (
+            !oldValue.startsWith("$palette-") &&
+            !oldValue.startsWith("$bg-") &&
+            !oldValue.startsWith("$fg-") &&
+            !oldValue.startsWith("$stroke-")
+          ) {
+            const failureReason = mappingResult
+              ? "매핑은 존재하지만 변환 결과가 원본과 동일합니다"
+              : "매핑을 찾을 수 없어 변환되지 않았습니다";
+
+            logger.logTransformResult(filePath, {
+              previousToken: oldValue,
+              nextToken: oldValue, // 변경되지 않음
+              status: "warning",
+              line: line,
+              failureReason,
+            });
+          }
+        }
+
+        // 처리한 토큰 추적
+        processedTokens.add(tokenKey);
       }
-
-      // 처리한 토큰 추적
-      processedTokens.add(tokenKey);
-    } else {
-      // 매핑이 없는 경우 경고 로그 (V3 형식이 아닌 경우만)
-      if (
-        !oldValue.startsWith("$palette-") &&
-        !oldValue.startsWith("$bg-") &&
-        !oldValue.startsWith("$fg-") &&
-        !oldValue.startsWith("$stroke-") &&
-        !oldValue.startsWith("$palette.") &&
-        !oldValue.startsWith("$bg.") &&
-        !oldValue.startsWith("$fg.") &&
-        !oldValue.startsWith("$stroke.")
-      ) {
-        logger.logTransformResult(filePath, {
-          previousToken: oldValue,
-          nextToken: oldValue, // 변경되지 않음
-          status: "warning",
-          line: line,
-          failureReason: "매핑을 찾을 수 없어 변환되지 않았습니다",
-        });
+      // 2. 복합 값에 색상 토큰이 포함된 경우 (예: 'linear-gradient(...)')
+      else {
+        processComplexProperty(prop, logger, filePath, processedTokens, fileTransformationLog);
       }
-
-      // 처리한 토큰으로 표시
-      processedTokens.add(tokenKey);
     }
-  }
-
-  // 복합 속성 처리 (예: border, outline, boxShadow 등)
-  else if (COMPLEX_PROPERTIES.includes(propName) && prop.value.type === "StringLiteral") {
-    processComplexProperty(prop, logger, filePath, processedTokens, fileTransformationLog);
   }
 }
 
@@ -543,22 +686,33 @@ function processComplexProperty(
   logger: ReturnType<typeof createTransformLogger>,
   filePath: string,
   processedTokens: Set<string>,
-  fileTransformationLog: Map<string, { previous: string; next: string; line: number }>,
+  fileTransformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
 ): void {
-  // StringLiteral 타입 체크 추가
-  if (prop.value.type !== "StringLiteral") return;
+  // StringLiteral 타입과 value가 null이 아닌지 체크
+  if (prop.value.type !== "StringLiteral" || prop.value.value == null) return;
 
   const value = prop.value.value;
-  // 문자열에서 $로 시작하는 토큰 추출
-  const colorTokenPattern = /(\$[\w\-]+)/g;
+
+  // 개선된 정규식: 문자열 내에서 '$'로 시작하는 모든 토큰을 찾기
+  // 'linear-gradient(180deg, $blue50 0%, $paperDefault-semantic 100%)' 와 같은 복잡한 식에서도 동작
+  const colorTokenPattern = /(\$[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
   const matches: { token: string; index: number }[] = [];
-  let matchResult: RegExpExecArray | null = null;
+  let matchResult: RegExpExecArray | null;
 
   // 모든 토큰 위치를 먼저 찾기
   matchResult = colorTokenPattern.exec(value);
   while (matchResult !== null) {
     const token = matchResult[1];
-    if (isColorToken(token)) {
+    if (token && isColorToken(token)) {
       matches.push({
         token,
         index: matchResult.index,
@@ -584,52 +738,60 @@ function processComplexProperty(
         continue;
       }
 
-      const newColorToken = getTokenMapping(oldColorToken);
+      const mappingResult = getTokenMapping(oldColorToken);
 
-      if (newColorToken) {
+      // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
+      if (mappingResult && mappingResult.token !== oldColorToken) {
         // 해당 위치의 토큰만 교체
         const beforeReplace = newValue.substring(0, index);
         const afterReplace = newValue.substring(index + oldColorToken.length);
-        newValue = beforeReplace + newColorToken + afterReplace;
+        newValue = beforeReplace + mappingResult.token + afterReplace;
 
         hasChanges = true;
 
-        // 변환 로그에 추가 (실제 변경이 있는 경우만)
-        if (oldColorToken !== newColorToken) {
-          const logKey = `${oldColorToken}:${line}`;
-          fileTransformationLog.set(logKey, {
-            previous: oldColorToken,
-            next: newColorToken,
-            line: line,
-          });
-        }
+        // 변환 로그에 추가
+        const logKey = `${oldColorToken}:${line}`;
+        fileTransformationLog.set(logKey, {
+          previous: oldColorToken,
+          next: mappingResult.token,
+          line: line,
+          needsVerification: mappingResult.needsVerification,
+          description: mappingResult.description,
+        });
 
-        // 처리한 토큰 추적
-        processedTokens.add(tokenKey);
+        // 성공 로그 기록
+        logger.logTransformResult(filePath, {
+          previousToken: oldColorToken,
+          nextToken: mappingResult.token,
+          status: "success",
+          line: line,
+          needsVerification: mappingResult.needsVerification,
+          description: mappingResult.description,
+        });
       } else {
-        // 매핑이 없는 경우 경고 로그 (V3 형식이 아닌 경우만)
+        // 매핑이 없거나 변환되지 않은 경우 경고 로그 (V3 형식이 아닌 경우만)
         if (
           !oldColorToken.startsWith("$palette-") &&
           !oldColorToken.startsWith("$bg-") &&
           !oldColorToken.startsWith("$fg-") &&
-          !oldColorToken.startsWith("$stroke-") &&
-          !oldColorToken.startsWith("$palette.") &&
-          !oldColorToken.startsWith("$bg.") &&
-          !oldColorToken.startsWith("$fg.") &&
-          !oldColorToken.startsWith("$stroke.")
+          !oldColorToken.startsWith("$stroke-")
         ) {
+          const failureReason = mappingResult
+            ? "매핑은 존재하지만 변환 결과가 원본과 동일합니다"
+            : "매핑을 찾을 수 없어 변환되지 않았습니다";
+
           logger.logTransformResult(filePath, {
             previousToken: oldColorToken,
             nextToken: oldColorToken, // 변경되지 않음
             status: "warning",
             line: line,
-            failureReason: "매핑을 찾을 수 없어 변환되지 않았습니다",
+            failureReason,
           });
         }
-
-        // 처리한 토큰으로 표시 (중복 경고 방지)
-        processedTokens.add(tokenKey);
       }
+
+      // 처리한 토큰으로 표시 (중복 경고 방지)
+      processedTokens.add(tokenKey);
     }
 
     // 변경된 값이 있으면 업데이트
@@ -647,7 +809,16 @@ function processVariants(
   logger: ReturnType<typeof createTransformLogger>,
   filePath: string,
   processedTokens: Set<string>,
-  fileTransformationLog: Map<string, { previous: string; next: string; line: number }>,
+  fileTransformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
 ): void {
   if (prop.body.type === "BlockStatement") {
     prop.body.body.forEach((statement) => {
@@ -674,19 +845,125 @@ function processVariants(
 }
 
 /**
+ * 객체가 CSS 스타일 속성을 포함하는지 확인
+ */
+function hasStyleProperties(node: ObjectExpression): boolean {
+  if (!node.properties || !Array.isArray(node.properties)) {
+    return false;
+  }
+
+  // 어떤 CSS 속성이라도 가지고 있으면 스타일 객체로 처리
+  return node.properties.some((prop: any) => {
+    if (prop.type !== "ObjectProperty" || !prop.key) {
+      return false;
+    }
+
+    // 값이 문자열이고 $ 토큰을 포함하는지 확인 (색상 토큰 가능성)
+    if (
+      prop.value &&
+      prop.value.type === "StringLiteral" &&
+      prop.value.value &&
+      prop.value.value.includes("$")
+    ) {
+      return true;
+    }
+
+    // 키가 일반적인 CSS 속성인지 확인
+    if (prop.key.type === "Identifier") {
+      // 더 폭넓은 CSS 속성 탐지
+      if (
+        isColorProperty(prop.key.name) ||
+        COMPLEX_PROPERTIES.includes(prop.key.name) ||
+        /^(margin|padding|flex|grid|gap|font|text|align|justify|display|position|width|height|top|right|bottom|left)/.test(
+          prop.key.name,
+        )
+      ) {
+        return true;
+      }
+    }
+
+    // 키가 문자열인 경우
+    if (prop.key.type === "StringLiteral") {
+      if (
+        isColorProperty(prop.key.value) ||
+        COMPLEX_PROPERTIES.includes(prop.key.value) ||
+        /^(margin|padding|flex|grid|gap|font|text|align|justify|display|position|width|height|top|right|bottom|left)/.test(
+          prop.key.value,
+        )
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+}
+
+/**
+ * 정규식으로 color 속성 패턴 확인하는 함수
+ */
+function isColorProperty(propName: string): boolean {
+  // 기본 color 속성 목록
+  if (ALL_COLOR_PROPERTIES.includes(propName)) {
+    return true;
+  }
+
+  // color1, color2, color3... 또는 color-1, color-2, color-3... 패턴 확인
+  if (/^color(\d+|[-_]\d+)$/.test(propName)) {
+    return true;
+  }
+
+  // background 관련 속성 (linear-gradient가 사용되는 속성)
+  if (/^background/.test(propName)) {
+    return true;
+  }
+
+  // border 관련 속성
+  if (/^border/.test(propName)) {
+    return true;
+  }
+
+  // 그림자 관련 속성
+  if (/^(box|text)Shadow/.test(propName)) {
+    return true;
+  }
+
+  // 필터 관련 속성
+  if (/^(filter|backdrop-filter)$/.test(propName)) {
+    return true;
+  }
+
+  // 그라디언트, 필터 등 색상이 사용될 가능성이 있는 모든 CSS 속성
+  if (propName.includes("gradient") || propName.includes("color") || propName.includes("shadow")) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * 메인 transform 함수
  */
 const transform: Transform = (file, api) => {
-  const logger = createTransformLogger("replace-stitches-color");
   const j = api.jscodeshift;
   const root = j(file.source);
+  const logger = createTransformLogger("replace-stitches-styled-color");
 
   // 이미 처리한 토큰의 위치를 추적하기 위한 Set
   // 파일 경로를 포함하여 같은 파일을 여러 번 처리할 때도 중복 처리 방지
   const processedTokens = new Set<string>();
 
   // 각 파일의 색상 토큰 변환 내역을 추적 (로그 중복 방지용)
-  const fileTransformationLog = new Map<string, { previous: string; next: string; line: number }>();
+  const fileTransformationLog = new Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >();
 
   logger.startFile(file.path);
 
@@ -749,28 +1026,27 @@ const transform: Transform = (file, api) => {
   // 4. CSS 속성을 포함하는 모든 객체 리터럴 찾기
   root.find(j.ObjectExpression).forEach((path) => {
     // CSS 관련 속성이 있는지 확인
-    const hasStyleProps = path.node.properties.some((prop) => {
-      if (prop.type !== "ObjectProperty" || prop.key.type !== "Identifier") {
-        return false;
-      }
-      return ALL_COLOR_PROPERTIES.includes(prop.key.name);
-    });
-
-    // CSS 관련 속성이 있으면 처리
-    if (hasStyleProps) {
+    if (hasStyleProperties(path.node)) {
       processStyleObject(path.node, logger, file.path, processedTokens, fileTransformationLog);
     }
   });
 
   // 파일 처리가 끝나면 모든 변환 로그를 한 번에 출력
-  for (const [_, transformation] of fileTransformationLog.entries()) {
-    logger.logTransformResult(file.path, {
-      previousToken: transformation.previous,
-      nextToken: transformation.next,
-      status: "success",
-      line: transformation.line,
-    });
+  for (const transformResult of fileTransformationLog.values()) {
+    const { previous, next, line } = transformResult;
+    if (previous !== next) {
+      logger.logTransformResult(file.path, {
+        previousToken: previous,
+        nextToken: next,
+        status: "success",
+        line,
+        needsVerification: transformResult.needsVerification,
+        description: transformResult.description,
+      });
+    }
   }
+
+  logger.finishFile(file.path);
 
   return root.toSource();
 };
