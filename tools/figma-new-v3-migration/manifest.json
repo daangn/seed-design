@@ -1,5 +1,5 @@
 {
-  "name": "NEW V3 마이그레이션",
+  "name": "컬러, 텍스트 V3 마이그레이션",
   "api": "1.0.0",
   "main": "dist/main/code.js",
   "ui": "dist/index.html",

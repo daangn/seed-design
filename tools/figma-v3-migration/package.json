@@ -56,7 +56,7 @@
         "ui": "src/features/iconography/ui/index.tsx"
       },
       {
-        "name": "디자인시스템 (Deprecated)",
+        "name": "컴포넌트, 사이즈, 레이아웃, 스트로크, 둥글기",
         "main": "src/features/design-system/main.ts",
         "ui": "src/features/design-system/ui/index.tsx"
       }
