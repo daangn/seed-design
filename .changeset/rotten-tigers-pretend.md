@@ -3,3 +3,4 @@
 ---
 
 - static 색상들의 맵핑을 추가해요
+- `needsVerification` 필드를 추가해요

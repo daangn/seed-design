@@ -3,4 +3,5 @@ export interface FoundationTokenMapping {
   next: string[];
   description?: string;
   alternative?: string[];
+  needsVerification?: boolean;
 }
