@@ -51,7 +51,7 @@ function normalizeValue(value: string): string {
  * color.mjs의 맵핑 데이터를 COLOR_MAPPING 형식으로 정규화합니다.
  */
 function normalizeColorMappings(mappings: ColorMappingItem[]): ColorMappingType {
-  return mappings.reduce((acc, { previous, next, alternative }) => {
+  return mappings.reduce((acc, { previous, next }) => {
     if (next.length === 0) {
       acc[normalizeKey(previous)] = null;
       return acc;
@@ -59,7 +59,9 @@ function normalizeColorMappings(mappings: ColorMappingItem[]): ColorMappingType 
 
     const normalizedValues = [
       ...next.map((value) => ({ name: normalizeValue(value) })),
-      ...(alternative || []).map((value) => ({ name: normalizeValue(value), isAlternative: true })),
+
+      // NOTE: alternative는 현재 사용하지 않음
+      // ...(alternative || []).map((value) => ({ name: normalizeValue(value), isAlternative: true })),
     ];
     acc[normalizeKey(previous)] = normalizedValues;
     return acc;
