@@ -12,7 +12,7 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
 
 # Transform Creation Rules
 
-- Use mapping data from migration-index (typography.mjs, color.mjs) as the source of truth
+- Use mapping data from migration-index ([typography.mjs](mdc:packages/migration-index/typography.mjs), [color.mjs](mdc:packages/migration-index/color.mjs)) as the source of truth
 - Normalization is required since projects often modify token names from their standar Follow this transformation process:
   1. Normalize source code tokens to match the 'previous' field format in migration-index
   2. Find corresponding migration-index items and identify 'next' tokens
@@ -20,7 +20,7 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
   4. Replace original tokens with normalized target tokens
 - Use logger.ts to record transformation results:
   - Success: Record successful transformations
-  - Warning: Record missing mappings with explanations
+  - Warning: Record missing mappings with explanations (If `needsVerification` field in migration-index, then have to add warning)
   - Failure: Record failed transformations with reasons
 - Implement additional transformations or exceptions based on project-specific usage patterns
 
