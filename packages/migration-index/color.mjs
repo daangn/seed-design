@@ -130,27 +130,27 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.on-primary-overlay-50",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.on-primary-overlay-200",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.on-primary-low-overlay-50",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.on-primary-low-overlay-100",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.on-primary-low-overlay-200",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.on-gray-overlay-50",
@@ -159,7 +159,7 @@ export const semanticColorMappings = [
   {
     previous: "$semantic.color.on-gray-overlay-100",
     next: [],
-    description: "TBD",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$semantic.color.divider-1",
@@ -595,58 +595,58 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-gray-900",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.static-black"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-carrot-50",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.carrot-100"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-carrot-800",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.carrot-700"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-green-50",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.green-100"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-green-800",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.green-700"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-yellow-50",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.yellow-100"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-yellow-800",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.yellow-700"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-red-50",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.red-100"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-red-800",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.red-700"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-blue-50",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.blue-100"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-blue-800",
-    next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    next: ["$color.palette.blue-700"],
+    description: "static 색상 사용 확인 필요",
   },
   {
     previous: "$static.color.static-black-alpha-200",
@@ -659,7 +659,7 @@ export const staticColorMappings = [
   {
     previous: "$static.color.static-white-alpha-50",
     next: [],
-    description: "static 색상 사용 확인이 필요합니다.",
+    description: "V3에서 지원되지 않는 색상",
   },
   {
     previous: "$static.color.static-white-alpha-200",
