@@ -27,23 +27,6 @@ interface GetColorVariableSuggestionsParams {
   systemComponentKeys: string[];
 }
 
-/**
- * 변수 제안 배열에서 고유한 해시를 생성합니다.
- * 이를 통해 동일한 제안을 가진 색상을 그룹화할 수 있습니다.
- */
-function getSuggestionHash(
-  suggestions: { variable: Variable; hex: string; opacity: number }[],
-): string {
-  if (suggestions.length === 0) return "";
-
-  return suggestions
-    .map(
-      ({ variable, hex, opacity }) => `${variable.name}:${hex}:${Math.round(opacity * 100) / 100}`,
-    )
-    .sort()
-    .join("|");
-}
-
 export async function getColorVariableSuggestions({
   nodeIds,
 }: GetColorVariableSuggestionsParams): Promise<SerializedColorVariablesSuggestionsResults> {
@@ -93,22 +76,9 @@ export async function getColorVariableSuggestions({
     })
     .filter((item) => item !== null);
 
-  // 결과를 suggestion 해시별로 그룹화하는 Map
-  const groupedResultsMap = new Map<string, ColorVariablesSuggestionsResults[number]>();
-  // uncheckable 타입을 위한 특별 처리
-  const uncheckableResults: ColorVariablesSuggestionsResults[number][] = [];
+  const results: ColorVariablesSuggestionsResults = [];
 
   for await (const node of nodesInTarget) {
-    // 디자인시스템 컴포넌트 내에 있는 경우 컬러 변수 제안 생략
-    // if (
-    //   await isNodeWithinSystemComponents({
-    //     node,
-    //     excludeMonochromeIcons: true,
-    //     systemComponentKeys,
-    //   })
-    // )
-    //   continue;
-
     const fillResults = await getColorVariableSuggestionsInFills({ node, candidateVariables });
     const strokeResults = await getColorVariableSuggestionsInStrokes({ node, candidateVariables });
     const effectResults = await getColorVariableSuggestionsInEffects({ node, candidateVariables });
@@ -119,42 +89,42 @@ export async function getColorVariableSuggestions({
       { property: "Effect" as const, propertyResults: effectResults },
     ]) {
       for (const propertyResult of propertyResults) {
-        // uncheckable 타입은 별도로 처리
-        if (propertyResult.type === "uncheckable") {
-          const uncheckableResult = uncheckableResults.find(() => true); // 항상 첫 번째 것 사용
+        const oldValueFound = results.find((result) => {
+          switch (propertyResult.type) {
+            case "variable":
+              return (
+                result.oldValue.type === "variable" &&
+                result.oldValue.variable.id === propertyResult.variable.id
+              );
+            case "style":
+              return (
+                result.oldValue.type === "style" &&
+                result.oldValue.style.id === propertyResult.style.id &&
+                result.oldValue.paletteProperty === propertyResult.paletteProperty
+              );
+            case "detached":
+              return (
+                result.oldValue.type === "detached" &&
+                result.oldValue.hex === propertyResult.hex &&
+                result.oldValue.opacity === propertyResult.opacity
+              );
+            case "uncheckable":
+              return result.oldValue.type === "uncheckable";
+          }
+        });
 
-          if (!uncheckableResult) {
-            uncheckableResults.push({
+        if (!oldValueFound) {
+          if (propertyResult.type === "uncheckable") {
+            results.push({
               oldValue: { type: "uncheckable" },
               consumers: [{ node, properties: [property] }],
               suggestions: [],
             });
-          } else {
-            const consumerFound = uncheckableResult.consumers.find(
-              (consumer) => consumer.node.id === node.id,
-            );
 
-            if (consumerFound) {
-              if (!consumerFound.properties.includes(property)) {
-                consumerFound.properties.push(property);
-              }
-            } else {
-              uncheckableResult.consumers.push({ node, properties: [property] });
-            }
+            continue;
           }
 
-          continue;
-        }
-
-        // suggestion 해시를 생성
-        const suggestionHash = getSuggestionHash(propertyResult.suggestions);
-
-        // 이미 같은 suggestion을 가진 그룹이 있는지 확인
-        let resultGroup = groupedResultsMap.get(suggestionHash);
-
-        if (!resultGroup) {
-          // 새 그룹 생성
-          resultGroup = {
+          results.push({
             oldValue: ((): ColorVariablesSuggestionsResults[number]["oldValue"] => {
               switch (propertyResult.type) {
                 case "variable": {
@@ -201,32 +171,27 @@ export async function getColorVariableSuggestions({
             })(),
             consumers: [{ node, properties: [property] }],
             suggestions: propertyResult.suggestions,
-          };
+          });
 
-          groupedResultsMap.set(suggestionHash, resultGroup);
-        } else {
-          // 기존 그룹에 추가
-          const consumerFound = resultGroup.consumers.find(
-            (consumer) => consumer.node.id === node.id,
-          );
-
-          if (consumerFound) {
-            if (!consumerFound.properties.includes(property)) {
-              consumerFound.properties.push(property);
-            }
-          } else {
-            resultGroup.consumers.push({ node, properties: [property] });
-          }
+          continue;
         }
+
+        const consumerFound = oldValueFound.consumers.find(
+          (consumer) => consumer.node.id === node.id,
+        );
+
+        if (consumerFound) {
+          if (consumerFound.properties.includes(property)) continue;
+
+          consumerFound.properties.push(property);
+
+          continue;
+        }
+
+        oldValueFound.consumers.push({ node, properties: [property] });
       }
     }
   }
-
-  // Map에서 결과 배열로 변환하고 uncheckable 결과도 추가
-  const results: ColorVariablesSuggestionsResults = [
-    ...Array.from(groupedResultsMap.values()),
-    ...uncheckableResults,
-  ];
 
   const serializedResults: SerializedColorVariablesSuggestionsResults = results
     .map((result) => {
