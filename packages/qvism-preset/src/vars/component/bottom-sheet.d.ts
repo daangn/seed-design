@@ -21,7 +21,6 @@ export declare const vars: {
       },
       "header": {
         "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingTop": "var(--seed-dimension-x6)",
         "paddingBottom": "var(--seed-dimension-x4)"
       },

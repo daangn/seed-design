@@ -228,10 +228,6 @@
                   "type": "dimension",
                   "value": "$dimension.x2"
                 },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
-                },
                 "paddingTop": {
                   "type": "dimension",
                   "value": "$dimension.x6"
