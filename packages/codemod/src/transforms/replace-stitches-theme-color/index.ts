@@ -6,6 +6,7 @@ import {
 } from "@seed-design/migration-index/color";
 import type { Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
+import { camelCase } from "change-case";
 
 // 색상 속성 관련 상수
 const COLOR_BACKGROUND_PROPERTIES = [
@@ -80,9 +81,18 @@ function normalizeOldColorName(oldColorValue: string): string {
     return `$static.color.static-${staticName}`;
   }
 
-  // 일반 색상 처리 (gray700 -> gray-700)
-  const colorWithDash = colorName.replace(/([a-zA-Z]+)(\d+)/, "$1-$2");
-  return `$scale.color.${colorWithDash}`;
+  // 일반 색상 처리 (gray700 -> gray-700, carrotAlpha50 -> carrot-alpha-50)
+  let normalizedColorName = colorName;
+
+  // camelCase가 포함된 경우 kebab-case로 변환 (carrotAlpha50 -> carrot-alpha-50)
+  if (/[A-Z]/.test(colorName)) {
+    normalizedColorName = camelCaseToKebabCase(colorName);
+  } else {
+    // 숫자 앞에 - 추가 (gray700 -> gray-700)
+    normalizedColorName = colorName.replace(/([a-zA-Z]+)(\d+)/, "$1-$2");
+  }
+
+  return `$scale.color.${normalizedColorName}`;
 }
 
 /**
@@ -157,8 +167,14 @@ function findSemanticMapping(semanticName: string) {
  * findStaticMapping 함수는 주어진 static 이름에 대한 매핑을 찾습니다.
  */
 function findStaticMapping(staticName: string) {
+  // camelCase에서 kebab-case로 변환 (예: blackAlpha200 -> black-alpha-200)
+  let normalizedStaticName = staticName;
+  if (/[A-Z]/.test(staticName)) {
+    normalizedStaticName = camelCaseToKebabCase(staticName);
+  }
+
   // 정규화된 static 이름
-  const staticToken = `$static.color.static-${staticName}`;
+  const staticToken = `$static.color.static-${normalizedStaticName}`;
 
   // 정확히 일치하는 매핑 찾기
   let mapping = staticColorMappings.find((m) => m.previous === staticToken);
@@ -169,7 +185,17 @@ function findStaticMapping(staticName: string) {
     for (const m of staticColorMappings) {
       const previousName = m.previous.replace("$static.color.static-", "");
 
-      if (previousName === staticName) {
+      // 일반 비교
+      if (previousName === normalizedStaticName || previousName === staticName) {
+        mapping = m;
+        break;
+      }
+
+      // kebab-case <-> camelCase 변환 시도
+      const kebabCasePrevious = previousName;
+      const camelCasePrevious = kebabCaseToCamelCase(previousName);
+
+      if (kebabCasePrevious === normalizedStaticName || camelCasePrevious === staticName) {
         mapping = m;
         break;
       }
@@ -401,7 +427,7 @@ function processThemeColor(
   // 색상 토큰 매핑
   const mappingResult = getTokenMapping(colorName, propertyName);
 
-  if (mappingResult) {
+  if (mappingResult?.token) {
     // 변환된 토큰으로 업데이트
     const processedToken = mappingResult.token.substring(1); // '$' 제거
 

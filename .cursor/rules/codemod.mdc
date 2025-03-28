@@ -20,7 +20,7 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
   4. Replace original tokens with normalized target tokens
 - Use logger.ts to record transformation results:
   - Success: Record successful transformations
-  - Warning: Record missing mappings with explanations (If `needsVerification` field in migration-index, then have to add warning)
+  - Warning: Record missing mappings with explanations (If `needsVerification` field in migration-index, then have to add warning log file)
   - Failure: Record failed transformations with reasons
 - Implement additional transformations or exceptions based on project-specific usage patterns
 
