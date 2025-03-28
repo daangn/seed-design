@@ -37,6 +37,26 @@ function ColorsSectionContent() {
             return semanticSuggestions.length === 1;
           }
 
+          // fg 관련 노드이고, fg suggestion이 하나뿐이면 fg 컬러로 자동 매칭
+          if (oldValue.type === "style" && oldValue.paletteProperty === "fg") {
+            const fgColors = suggestions.filter(({ variable }) => variable.name.startsWith("fg"));
+            if (fgColors.length === 1) return true;
+          }
+
+          // bg 관련 노드이고, bg suggestion이 하나뿐이면 bg 컬러로 자동 매칭
+          if (oldValue.type === "style" && oldValue.paletteProperty === "bg") {
+            const bgColors = suggestions.filter(({ variable }) => variable.name.startsWith("bg"));
+            if (bgColors.length === 1) return true;
+          }
+
+          // stroke 관련 노드이고, stroke suggestion이 하나뿐이면 stroke 컬러로 자동 매칭
+          if (oldValue.type === "style" && oldValue.paletteProperty === "stroke") {
+            const strokeColors = suggestions.filter(({ variable }) =>
+              variable.name.startsWith("stroke"),
+            );
+            if (strokeColors.length === 1) return true;
+          }
+
           return false;
         })
         .flatMap(({ consumers }) => consumers)
@@ -89,6 +109,56 @@ function ColorsSectionContent() {
           variableId: suggestions[0].variable.id,
         });
         continue;
+      }
+
+      // fg 관련 노드이고, fg suggestion이 하나뿐이면 fg 컬러로 자동 매칭
+      if (
+        suggestions.length >= 2 &&
+        oldValue.type === "style" &&
+        oldValue.paletteProperty === "fg"
+      ) {
+        const fgColors = suggestions.filter(({ variable }) => variable.name.startsWith("fg"));
+        if (fgColors.length === 1) {
+          itemsToApply.push({
+            oldValue,
+            consumerNodeIds: consumers.map(({ node: { id } }) => id),
+            variableId: fgColors[0].variable.id,
+          });
+        }
+      }
+
+      // bg 관련 노드이고, bg suggestion이 하나뿐이면 bg 컬러로 자동 매칭
+      if (
+        suggestions.length >= 2 &&
+        oldValue.type === "style" &&
+        oldValue.paletteProperty === "bg"
+      ) {
+        const bgColors = suggestions.filter(({ variable }) => variable.name.startsWith("bg"));
+        if (bgColors.length === 1) {
+          itemsToApply.push({
+            oldValue,
+            consumerNodeIds: consumers.map(({ node: { id } }) => id),
+            variableId: bgColors[0].variable.id,
+          });
+        }
+      }
+
+      // stroke 관련 노드이고, stroke suggestion이 하나뿐이면 stroke 컬러로 자동 매칭
+      if (
+        suggestions.length >= 2 &&
+        oldValue.type === "style" &&
+        oldValue.paletteProperty === "stroke"
+      ) {
+        const strokeColors = suggestions.filter(({ variable }) =>
+          variable.name.startsWith("stroke"),
+        );
+        if (strokeColors.length === 1) {
+          itemsToApply.push({
+            oldValue,
+            consumerNodeIds: consumers.map(({ node: { id } }) => id),
+            variableId: strokeColors[0].variable.id,
+          });
+        }
       }
 
       // V2 컴포넌트도 컬러 검사 옵션이 *꺼져* 있는 경우에는
