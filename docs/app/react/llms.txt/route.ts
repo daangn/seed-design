@@ -1,13 +1,15 @@
 export const revalidate = false;
 
+const BASE_URL = "https://seed-design.io";
+
 export async function GET() {
   return new Response(`
 # SEED Design React Documentation for LLMs
 
 ## Documentation Sets
 
-- [Complete documentation](/react/llms-full.txt): The complete SEED Design React documentation.
-- [Components](/react/llms-components.txt): Documentation for all components in SEED Design React.
+- [Complete documentation](${BASE_URL}/react/llms-full.txt): The complete SEED Design React documentation.
+- [Components](${BASE_URL}/react/llms-components.txt): Documentation for all components in SEED Design React.
 
 ## Notes
 
