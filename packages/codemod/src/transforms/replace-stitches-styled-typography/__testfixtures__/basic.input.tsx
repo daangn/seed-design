@@ -14,6 +14,9 @@ const ContentText = styled('p', {
       large: {
         $text: 'bodyL1Regular',
       },
+      xlarge: {
+        $text: "h4",
+      },
     },
   },
 });

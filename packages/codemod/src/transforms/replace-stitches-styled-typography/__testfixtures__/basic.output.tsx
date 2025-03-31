@@ -14,6 +14,9 @@ const ContentText = styled('p', {
       large: {
         $text: "articleBody",
       },
+      xlarge: {
+        $text: "t10Bold",
+      },
     },
   },
 });

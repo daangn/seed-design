@@ -12,7 +12,7 @@ function normalizeTypographyName(typographyName: string): string {
 
   // 타이포그래피가 semantic.typography와 같은 형식이면 $semantic.typography 형식으로 변환
   if (normalized.startsWith("semantic.typography.")) {
-    normalized = "$" + normalized;
+    normalized = `$${normalized}`;
   } else if (!normalized.startsWith("$semantic.typography.")) {
     // 일반 토큰 (예: bodyM1Regular)을 semantic 형식으로 변환
     normalized = `$semantic.typography.${normalized}`;
@@ -37,6 +37,7 @@ function isTypographyToken(value: string): boolean {
     /subtitle[12](Regular|Bold)/,
     /caption[12](Regular|Bold)/,
     /label[123456](Regular|Bold)/,
+    /h[1234]/, // h1, h2, h3, h4와 같은 헤딩 패턴 추가
   ];
 
   if (typographyPatterns.some((pattern) => pattern.test(value))) {
@@ -49,7 +50,11 @@ function isTypographyToken(value: string): boolean {
 /**
  * getTokenMapping 함수는 이전 타이포그래피 토큰에 대응하는 새 토큰을 찾습니다.
  */
-function getTokenMapping(oldTypographyValue: string): string | null {
+function getTokenMapping(oldTypographyValue: string): {
+  token: string | null;
+  source: "next" | "alternative" | null;
+  mapping: any | null;
+} {
   // $를 포함한 값인 경우 정규화
   const normalizedTypography = normalizeTypographyName(oldTypographyValue);
 
@@ -57,19 +62,19 @@ function getTokenMapping(oldTypographyValue: string): string | null {
   const mapping = typographyMappings.find((mapping) => mapping.previous === normalizedTypography);
 
   if (!mapping) {
-    return null;
+    return { token: null, source: null, mapping: null };
   }
 
   // 새 토큰 선택 (우선순위: next > alternative)
   if (mapping.next && mapping.next.length > 0) {
-    return mapping.next[0]; // 첫 번째 next 값 사용
+    return { token: mapping.next[0], source: "next", mapping }; // 첫 번째 next 값 사용
   }
 
   if (mapping.alternative && mapping.alternative.length > 0) {
-    return mapping.alternative[0]; // 첫 번째 alternative 값 사용
+    return { token: mapping.alternative[0], source: "alternative", mapping }; // 첫 번째 alternative 값 사용
   }
 
-  return null;
+  return { token: null, source: null, mapping };
 }
 
 /**
@@ -153,7 +158,7 @@ function processTypographyProperty(
   processedTokens.add(tokenKey);
 
   // 매핑 찾기
-  const newValue = getTokenMapping(oldValue);
+  const { token: newValue, source, mapping } = getTokenMapping(oldValue);
   const line = prop.loc?.start.line;
 
   if (newValue) {
@@ -166,16 +171,36 @@ function processTypographyProperty(
       prop.value.quasis[0].value.cooked = newValue;
     }
 
-    logger.logTransformResult(filePath, {
-      previousToken: oldValue,
-      nextToken: newValue,
-      line,
-      status: "success",
-    });
+    // alternative를 사용한 경우 경고 로그 추가
+    if (source === "alternative") {
+      logger.logTransformResult(filePath, {
+        previousToken: oldValue,
+        nextToken: newValue,
+        line,
+        status: "warning",
+        failureReason: "Used alternative mapping because next value is not available.",
+      });
+    } else {
+      logger.logTransformResult(filePath, {
+        previousToken: oldValue,
+        nextToken: newValue,
+        line,
+        status: "success",
+      });
+    }
 
     if (line) {
       fileTransformationLog.set(tokenKey, { previous: oldValue, next: newValue, line });
     }
+  } else if (mapping) {
+    // 매핑은 있지만 next와 alternative 모두 없는 경우
+    logger.logTransformResult(filePath, {
+      previousToken: oldValue,
+      nextToken: null,
+      line,
+      status: "warning",
+      failureReason: "Found mapping but no next or alternative values available.",
+    });
   } else {
     // 매핑이 없으면 경고 로그 기록
     logger.logTransformResult(filePath, {
