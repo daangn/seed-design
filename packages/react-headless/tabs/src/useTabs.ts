@@ -5,7 +5,7 @@ import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-
 import type * as React from "react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import * as dom from "./dom";
-import { getNextIndex, getPrevIndex } from "./utils";
+import { getNextIndex, getPrevIndex, scrollTabIntoView } from "./utils";
 
 export interface UseTabsStateProps {
   value?: string;
@@ -42,6 +42,15 @@ function useTabsState(props: UseTabsStateProps) {
 
   const prevIndex = contentIndex >= 0 ? getPrevIndex(contentIndex, enabledValues.length) : -1;
   const nextIndex = contentIndex >= 0 ? getNextIndex(contentIndex, enabledValues.length) : -1;
+
+  // Scroll selected tab into view when it changes
+  // TODO: this implementation is temporary, we should create some sort of hook or plugin system
+  //       to allow users to customize the scroll behavior.
+  useEffect(() => {
+    if (selectedTriggerEl && listEl) {
+      scrollTabIntoView(selectedTriggerEl, listEl, { scrollPadding: 16 });
+    }
+  }, [selectedTriggerEl, listEl]);
 
   const actions = {
     selectPrev: () => {
