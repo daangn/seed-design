@@ -39,6 +39,9 @@
             "color": {
               "type": "color"
             },
+            "maxWidth": {
+              "type": "dimension"
+            },
             "topCornerRadius": {
               "type": "dimension"
             },
@@ -160,6 +163,13 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-floating"
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 480,
+                    "unit": "px"
+                  }
                 },
                 "topCornerRadius": {
                   "type": "dimension",

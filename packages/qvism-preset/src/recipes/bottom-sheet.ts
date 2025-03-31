@@ -75,7 +75,6 @@ const bottomSheet = defineSlotRecipe({
       flexDirection: "column",
 
       gap: vars.base.enabled.header.gap,
-      paddingInline: vars.base.enabled.header.paddingX,
       paddingTop: vars.base.enabled.header.paddingTop,
       paddingBottom: vars.base.enabled.header.paddingBottom,
     },
@@ -146,8 +145,27 @@ const bottomSheet = defineSlotRecipe({
       },
     },
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    headerAlign: {
+      left: {
+        header: {
+          justifyContent: "flex-start",
+          paddingLeft: vars.headerAlignmentLeft.enabled.header.paddingLeft,
+          paddingRight: vars.headerAlignmentLeft.enabled.header.paddingRight,
+        },
+      },
+      center: {
+        header: {
+          justifyContent: "center",
+          paddingLeft: vars.headerAlignmentCenter.enabled.header.paddingLeft,
+          paddingRight: vars.headerAlignmentCenter.enabled.header.paddingRight,
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    headerAlign: "left",
+  },
 });
 
 export default bottomSheet;

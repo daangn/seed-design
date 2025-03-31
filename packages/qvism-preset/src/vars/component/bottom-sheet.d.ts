@@ -12,6 +12,7 @@ export declare const vars: {
       },
       "content": {
         "color": "var(--seed-color-bg-layer-default)",
+        "maxWidth": "640px",
         "topCornerRadius": "var(--seed-radius-r6)",
         "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",
@@ -20,7 +21,6 @@ export declare const vars: {
       },
       "header": {
         "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingTop": "var(--seed-dimension-x6)",
         "paddingBottom": "var(--seed-dimension-x4)"
       },

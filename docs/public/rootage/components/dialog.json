@@ -48,12 +48,6 @@
             "marginY": {
               "type": "dimension"
             },
-            "paddingX": {
-              "type": "dimension"
-            },
-            "paddingY": {
-              "type": "dimension"
-            },
             "maxWidth": {
               "type": "dimension"
             },
@@ -84,15 +78,27 @@
           "properties": {
             "gap": {
               "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingBottom": {
+              "type": "dimension"
             }
           }
         },
         "footer": {
           "properties": {
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
             "paddingTop": {
               "type": "dimension"
             },
-            "gap": {
+            "paddingBottom": {
               "type": "dimension"
             }
           }
@@ -186,18 +192,7 @@
                 },
                 "marginY": {
                   "type": "dimension",
-                  "value": {
-                    "value": 80,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x5"
+                  "value": "$dimension.x16"
                 },
                 "maxWidth": {
                   "type": "dimension",
@@ -239,16 +234,32 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
                 }
               },
               "footer": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
                 "paddingTop": {
                   "type": "dimension",
                   "value": "$dimension.x4"
                 },
-                "gap": {
+                "paddingBottom": {
                   "type": "dimension",
-                  "value": "$dimension.x2"
+                  "value": "$dimension.x5"
                 }
               },
               "title": {

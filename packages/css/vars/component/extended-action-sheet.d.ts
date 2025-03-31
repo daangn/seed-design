@@ -12,6 +12,7 @@ export declare const vars: {
       },
       "content": {
         "color": "var(--seed-color-bg-layer-floating)",
+        "maxWidth": "480px",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "paddingY": "var(--seed-dimension-x4)",
         "topCornerRadius": "var(--seed-radius-r5)",

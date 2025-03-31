@@ -32,10 +32,6 @@ data:
             type: dimension
           marginY:
             type: dimension
-          paddingX:
-            type: dimension
-          paddingY:
-            type: dimension
           maxWidth:
             type: dimension
           enterDuration:
@@ -56,11 +52,19 @@ data:
         properties:
           gap:
             type: dimension
+          paddingX:
+            type: dimension
+          paddingBottom:
+            type: dimension
       footer:
         properties:
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
           paddingTop:
             type: dimension
-          gap:
+          paddingBottom:
             type: dimension
       title:
         properties:
@@ -97,9 +101,7 @@ data:
           color: $color.bg.layer-default
           cornerRadius: $radius.r5
           marginX: $dimension.x8
-          marginY: 80px
-          paddingX: $dimension.x5
-          paddingY: $dimension.x5
+          marginY: $dimension.x16
           maxWidth: 272px
           enterDuration: $duration.d4
           enterTimingFunction: $timing-function.enter-expressive
@@ -110,9 +112,13 @@ data:
           exitOpacity: 0
         header:
           gap: $dimension.x1_5
+          paddingX: $dimension.x5
+          paddingTop: $dimension.x5
         footer:
-          paddingTop: $dimension.x4
           gap: $dimension.x2
+          paddingX: $dimension.x5
+          paddingTop: $dimension.x4
+          paddingBottom: $dimension.x5
         title:
           color: $color.fg.neutral
           fontSize: $font-size.t7

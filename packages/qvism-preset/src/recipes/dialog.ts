@@ -56,7 +56,6 @@ const dialog = defineSlotRecipe({
       background: vars.base.enabled.content.color,
       maxWidth: vars.base.enabled.content.maxWidth,
       margin: `auto ${vars.base.enabled.content.marginX}`,
-      padding: `${vars.base.enabled.content.paddingY} ${vars.base.enabled.content.paddingX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,
 
       [pseudo(open)]: enterAnimation({
@@ -75,6 +74,8 @@ const dialog = defineSlotRecipe({
       display: "flex",
       flexDirection: "column",
 
+      paddingInline: vars.base.enabled.header.paddingX,
+      paddingTop: vars.base.enabled.header.paddingTop,
       gap: vars.base.enabled.header.gap,
     },
     title: {
@@ -99,7 +100,9 @@ const dialog = defineSlotRecipe({
       flexDirection: "column",
       alignItems: "stretch",
 
+      paddingInline: vars.base.enabled.footer.paddingX,
       paddingTop: vars.base.enabled.footer.paddingTop,
+      paddingBottom: vars.base.enabled.footer.paddingBottom,
     },
   },
   variants: {},

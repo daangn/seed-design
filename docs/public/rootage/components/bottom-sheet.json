@@ -39,6 +39,9 @@
             "color": {
               "type": "color"
             },
+            "maxWidth": {
+              "type": "dimension"
+            },
             "topCornerRadius": {
               "type": "dimension"
             },
@@ -192,6 +195,13 @@
                   "type": "color",
                   "value": "$color.bg.layer-default"
                 },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 640,
+                    "unit": "px"
+                  }
+                },
                 "topCornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r6"
@@ -217,10 +227,6 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x2"
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": "$dimension.spacing-x.global-gutter"
                 },
                 "paddingTop": {
                   "type": "dimension",

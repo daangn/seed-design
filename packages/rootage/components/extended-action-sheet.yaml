@@ -26,6 +26,8 @@ data:
         properties:
           color:
             type: color
+          maxWidth:
+            type: dimension
           paddingX:
             type: dimension
           paddingY:
@@ -97,6 +99,7 @@ data:
           exitOpacity: 0
         content:
           color: $color.bg.layer-floating
+          maxWidth: 480px
           paddingX: $dimension.spacing-x.global-gutter
           paddingY: $dimension.x4
           topCornerRadius: $radius.r5
