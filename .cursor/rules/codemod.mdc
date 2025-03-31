@@ -1,6 +1,6 @@
 ---
 description: 
-globs: 
+globs: packages/codemod/**/*
 alwaysApply: false
 ---
 You are working with the Seed Design codemod system for migrating from V2 to V3. When working with codemods, follow these guidelines:
@@ -23,6 +23,26 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
   - Warning: Record missing mappings with explanations (If `needsVerification` field in migration-index, then have to add warning log file)
   - Failure: Record failed transformations with reasons
 - Implement additional transformations or exceptions based on project-specific usage patterns
+- When working with JavaScript or TypeScript transformations, properly handle nested ternary operators: [ast.ts](mdc:packages/codemod/src/utils/ast.ts)
+  1. Use AST utilities to detect and process complex conditional expressions
+  2. Ensure property context is preserved throughout nested ternaries
+  3. Determine color token mapping based on parent property (e.g. backgroundColor, color, fill)
+  4. Reference parent context for deeply nested expressions
+- Semantic color token mapping rules:
+  1. Map semantic color tokens to appropriate token types (fg, bg, stroke) based on CSS property contexts
+  2. Color property context classification:
+     - Text/Foreground (fg): color, textColor, fill, caretColor and other UI foreground element properties
+     - Background (bg): backgroundColor, background, highlightBackground and other UI background properties
+     - Border/Line (stroke): borderColor, outlineColor, stroke and other boundary properties
+  3. Mapping decision process:
+     - Identify the CSS property in use (utilize parentPropertyName)
+     - Determine appropriate token type based on [color-properties.ts](mdc:packages/codemod/src/utils/color-properties.ts) classifications
+     - Use fg tokens for text/foreground properties, bg tokens for background properties, stroke tokens for border properties
+     - Default to palette tokens when property purpose is ambiguous
+  4. Handle various property patterns:
+     - Use getTokenTypeForProperty() function to determine appropriate token type for properties
+     - Check property nature with isBackgroundProperty(), isTextProperty(), isStrokeProperty() helper functions
+  5. Use palette tokens when context is unclear (inside object literals, etc.)
 
 # Token Format Guidelines
 
