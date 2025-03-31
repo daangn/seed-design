@@ -128,3 +128,13 @@
     position: absolute;
     inset: calc((28px - 44px) / 2);
 }
+.seed-bottom-sheet__header--headerAlign_left {
+    justify-content: flex-start;
+    padding-left: var(--seed-dimension-spacing-x-global-gutter);
+    padding-right: 50px;
+}
+.seed-bottom-sheet__header--headerAlign_center {
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}

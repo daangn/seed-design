@@ -44,7 +44,6 @@
     background: var(--seed-color-bg-layer-default);
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);
-    padding: undefined undefined;
     border-radius: var(--seed-radius-r5);
 }
 .seed-dialog__content:is([data-state="open"], [data-open]) {
@@ -69,6 +68,8 @@
 .seed-dialog__header {
     display: flex;
     flex-direction: column;
+    padding-inline: var(--seed-dimension-x5);
+    padding-top: var(--seed-dimension-x5);
     gap: var(--seed-dimension-x1_5);
 }
 .seed-dialog__title {
@@ -90,5 +91,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    padding-inline: var(--seed-dimension-x5);
     padding-top: var(--seed-dimension-x4);
+    padding-bottom: var(--seed-dimension-x5);
 }

@@ -1,5 +1,8 @@
 declare interface BottomSheetVariant {
-  
+  /**
+  * @default left
+  */
+  headerAlign: "left" | "center";
 }
 
 declare type BottomSheetVariantMap = {

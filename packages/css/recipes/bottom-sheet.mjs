@@ -39,11 +39,18 @@ const bottomSheetSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "headerAlign": "left"
+};
 
 const compoundVariants = [];
 
-export const bottomSheetVariantMap = {};
+export const bottomSheetVariantMap = {
+  "headerAlign": [
+    "left",
+    "center"
+  ]
+};
 
 export const bottomSheetVariantKeys = Object.keys(bottomSheetVariantMap);
 
