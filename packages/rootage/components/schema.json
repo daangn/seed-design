@@ -349,6 +349,7 @@
         { "const": "$dimension.spacing-x.global-gutter", "title": "$dimension.spacing-x.global-gutter", "description": "default: $dimension.x4", "markdownDescription": "- default: `$dimension.x4`" },
         { "const": "$dimension.spacing-y.component-default", "title": "$dimension.spacing-y.component-default", "description": "default: $dimension.x3", "markdownDescription": "- default: `$dimension.x3`" },
         { "const": "$dimension.spacing-y.nav-to-title", "title": "$dimension.spacing-y.nav-to-title", "description": "default: $dimension.x5", "markdownDescription": "- default: `$dimension.x5`" },
+        { "const": "$dimension.spacing-y.screen-bottom", "title": "$dimension.spacing-y.screen-bottom", "description": "default: $dimension.x14", "markdownDescription": "- default: `$dimension.x14`" },
         { "const": "$dimension.x0_5", "title": "$dimension.x0_5", "description": "default: 2px", "markdownDescription": "- default: `2px`" },
         { "const": "$dimension.x1", "title": "$dimension.x1", "description": "default: 4px", "markdownDescription": "- default: `4px`" },
         { "const": "$dimension.x1_5", "title": "$dimension.x1_5", "description": "default: 6px", "markdownDescription": "- default: `6px`" },

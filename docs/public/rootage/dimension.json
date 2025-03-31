@@ -251,6 +251,15 @@
           }
         },
         "description": "Top Navigation과 Page Title 사이의 간격입니다."
+      },
+      "$dimension.spacing-y.screen-bottom": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x14"
+          }
+        },
+        "description": "화면 하단의 여백입니다."
       }
     }
   }

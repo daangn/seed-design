@@ -78,3 +78,7 @@ data:
       description: Top Navigation과 Page Title 사이의 간격입니다.
       values:
         default: $dimension.x5
+    $dimension.spacing-y.screen-bottom:
+      description: 화면 하단의 여백입니다.
+      values:
+        default: $dimension.x14
