@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 0.0.11
+
+### Patch Changes
+
+- e70f340: Dialog 및 Sheet 컴포넌트 레이아웃 스펙 업데이트
+- 72f344f: `$dimension.spacing-y.screen-bottom` 토큰을 추가합니다.
+  `$dimension.spacing-y.between-text` 토큰을 추가합니다.
+
 ## 0.0.10
 
 ### Patch Changes
