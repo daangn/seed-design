@@ -260,6 +260,15 @@
           }
         },
         "description": "화면 하단의 여백입니다."
+      },
+      "$dimension.spacing-y.between-text": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": "$dimension.x1_5"
+          }
+        },
+        "description": "텍스트 요소 간의 수직 간격입니다."
       }
     }
   }

@@ -82,3 +82,7 @@ data:
       description: 화면 하단의 여백입니다.
       values:
         default: $dimension.x14
+    $dimension.spacing-y.between-text:
+      description: 텍스트 요소 간의 수직 간격입니다.
+      values:
+        default: $dimension.x1_5

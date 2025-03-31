@@ -36,6 +36,7 @@ export const tokens = {
   --seed-dimension-spacing-y-component-default: var(--seed-dimension-x3);
   --seed-dimension-spacing-y-nav-to-title: var(--seed-dimension-x5);
   --seed-dimension-spacing-y-screen-bottom: var(--seed-dimension-x14);
+  --seed-dimension-spacing-y-between-text: var(--seed-dimension-x1_5);
   --seed-duration-d1: 50ms;
   --seed-duration-d2: 100ms;
   --seed-duration-d3: 150ms;
