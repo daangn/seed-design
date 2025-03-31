@@ -82,7 +82,7 @@
             "paddingX": {
               "type": "dimension"
             },
-            "paddingBottom": {
+            "paddingTop": {
               "type": "dimension"
             }
           }
