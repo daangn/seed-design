@@ -347,6 +347,7 @@
         { "const": "$color.stroke.positive", "title": "$color.stroke.positive", "description": "theme-light: $color.palette.green-300\ntheme-dark: $color.palette.green-300", "markdownDescription": "- theme-light: `$color.palette.green-300`\n\n- theme-dark: `$color.palette.green-300`" },
         { "const": "$dimension.spacing-x.between-chips", "title": "$dimension.spacing-x.between-chips", "description": "default: $dimension.x2", "markdownDescription": "- default: `$dimension.x2`" },
         { "const": "$dimension.spacing-x.global-gutter", "title": "$dimension.spacing-x.global-gutter", "description": "default: $dimension.x4", "markdownDescription": "- default: `$dimension.x4`" },
+        { "const": "$dimension.spacing-y.between-text", "title": "$dimension.spacing-y.between-text", "description": "default: $dimension.x1_5", "markdownDescription": "- default: `$dimension.x1_5`" },
         { "const": "$dimension.spacing-y.component-default", "title": "$dimension.spacing-y.component-default", "description": "default: $dimension.x3", "markdownDescription": "- default: `$dimension.x3`" },
         { "const": "$dimension.spacing-y.nav-to-title", "title": "$dimension.spacing-y.nav-to-title", "description": "default: $dimension.x5", "markdownDescription": "- default: `$dimension.x5`" },
         { "const": "$dimension.spacing-y.screen-bottom", "title": "$dimension.spacing-y.screen-bottom", "description": "default: $dimension.x14", "markdownDescription": "- default: `$dimension.x14`" },
