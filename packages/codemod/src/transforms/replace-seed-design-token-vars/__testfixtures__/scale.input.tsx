@@ -1,0 +1,52 @@
+import { vars } from "@seed-design/design-token";
+
+const scaleColors = {
+  // Gray scale
+  gray00: vars.$scale.color.gray00,
+  gray50: vars.$scale.color.gray50,
+  gray100: vars.$scale.color.gray100,
+  gray200: vars.$scale.color.gray200,
+  gray300: vars.$scale.color.gray300,
+  gray400: vars.$scale.color.gray400,
+  gray500: vars.$scale.color.gray500,
+  gray600: vars.$scale.color.gray600,
+  gray700: vars.$scale.color.gray700,
+  gray800: vars.$scale.color.gray800,
+  gray900: vars.$scale.color.gray900,
+  grayAlpha50: vars.$scale.color.grayAlpha50,
+  grayAlpha100: vars.$scale.color.grayAlpha100,
+  grayAlpha200: vars.$scale.color.grayAlpha200,
+  grayAlpha500: vars.$scale.color.grayAlpha500,
+
+  // Carrot scale
+  carrot50: vars.$scale.color.carrot50,
+  carrot100: vars.$scale.color.carrot100,
+  carrot200: vars.$scale.color.carrot200,
+  carrot300: vars.$scale.color.carrot300,
+  carrot400: vars.$scale.color.carrot400,
+  carrot500: vars.$scale.color.carrot500,
+  carrot600: vars.$scale.color.carrot600,
+  carrot700: vars.$scale.color.carrot700,
+  carrot800: vars.$scale.color.carrot800,
+  carrot900: vars.$scale.color.carrot900,
+  carrot950: vars.$scale.color.carrot950,
+  carrotAlpha50: vars.$scale.color.carrotAlpha50,
+  carrotAlpha100: vars.$scale.color.carrotAlpha100,
+  carrotAlpha200: vars.$scale.color.carrotAlpha200,
+
+  // Blue scale
+  blue50: vars.$scale.color.blue50,
+  blue100: vars.$scale.color.blue100,
+  blue200: vars.$scale.color.blue200,
+  blue300: vars.$scale.color.blue300,
+  blue400: vars.$scale.color.blue400,
+  blue500: vars.$scale.color.blue500,
+  blue600: vars.$scale.color.blue600,
+  blue700: vars.$scale.color.blue700,
+  blue800: vars.$scale.color.blue800,
+  blue900: vars.$scale.color.blue900,
+  blue950: vars.$scale.color.blue950,
+  blueAlpha50: vars.$scale.color.blueAlpha50,
+  blueAlpha100: vars.$scale.color.blueAlpha100,
+  blueAlpha200: vars.$scale.color.blueAlpha200,
+};

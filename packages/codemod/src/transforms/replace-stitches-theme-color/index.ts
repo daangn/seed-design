@@ -6,11 +6,7 @@ import {
 } from "@seed-design/migration-index/color";
 import type { Transform } from "jscodeshift";
 import { getParentPropertyName, processTernaryExpressions } from "../../utils/ast";
-import {
-  isBackgroundProperty,
-  isStrokeProperty,
-  isTextProperty,
-} from "../../utils/color-properties";
+import { isBackgroundProperty, isStrokeProperty, isFgProperty } from "../../utils/color-properties";
 import { createTransformLogger } from "../../utils/logger.js";
 
 // 색상 속성 관련 상수는 이제 colorProperties 모듈에서 가져옵니다.
@@ -310,7 +306,7 @@ function selectAndTransformToken(mapping: any, propertyName?: string): string | 
 
     // 속성에 따라 분류
     const isBgProperty = isBackgroundProperty(propertyName);
-    const isTextProp = isTextProperty(propertyName);
+    const isTextProp = isFgProperty(propertyName);
     const isStrokeProp = isStrokeProperty(propertyName);
 
     // semanticColors나 명확한 용도가 없는 속성은 palette 토큰 우선 사용

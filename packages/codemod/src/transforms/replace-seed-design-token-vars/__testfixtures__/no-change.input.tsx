@@ -1,3 +1,3 @@
-import { vars } from "@seed-design/design-token";
+import { vars as typoVars } from "@seed-design/css/vars/component/typography";
 
-const color = vars.$semantic.typography.bodyL1Regular;
+const color = typoVars.textStyleArticleBody.enabled.root;

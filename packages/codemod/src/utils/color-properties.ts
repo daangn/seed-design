@@ -109,7 +109,7 @@ export const COLOR_PROPERTIES = {
   ],
 
   /**
-   * 아웃라인 관련 색상 속성 (stroke 토큰으로 매핑됨)
+   * 아웃라인 관련 색상 속성 (stroke 토큰 혹은 fg 토큰으로 매핑됨)
    * 경계를 구분하는 선에 사용하는 색상
    */
   outline: [
@@ -259,7 +259,7 @@ export function isBackgroundProperty(propertyName?: string): boolean {
 /**
  * 속성 이름이 텍스트 속성인지 확인하는 함수
  */
-export function isTextProperty(propertyName?: string): boolean {
+export function isFgProperty(propertyName?: string): boolean {
   if (!propertyName) return false;
   return COLOR_TEXT_PROPERTIES.includes(propertyName);
 }
@@ -282,9 +282,9 @@ export function isStrokeProperty(propertyName?: string): boolean {
 export function getTokenTypeForProperty(propertyName?: string): "bg" | "fg" | "stroke" | "palette" {
   if (!propertyName) return "palette"; // 속성 이름이 없으면 palette 토큰 사용
 
-  if (isBackgroundProperty(propertyName)) return "bg";
-  if (isTextProperty(propertyName)) return "fg";
   if (isStrokeProperty(propertyName)) return "stroke";
+  if (isFgProperty(propertyName)) return "fg";
+  if (isBackgroundProperty(propertyName)) return "bg";
 
   // 기본값으로 palette 토큰 사용
   return "palette";

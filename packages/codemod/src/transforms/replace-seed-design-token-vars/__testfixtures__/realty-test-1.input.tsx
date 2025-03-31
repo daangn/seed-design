@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from "@seed-design/design-token";
+import { vars } from "@seed-design/css/vars";
 
 type Props = {
   articleRef: WatchButton_article$key;
@@ -14,14 +14,14 @@ type Props = {
 function WatchButton({
   articleRef,
   size = 24,
-  color = vars.$scale.color.gray600,
+  color = vars.$color.palette.gray700,
   onClick,
   onWatchArticle,
   position,
   enableClickAnimation = true,
 }: Props) {
   return (
-    <button
+    (<button
       className="-m-1.5 inline-block p-1.5"
       disabled={isWatchArticleInFlight || isUnWatchArticleInFlight}
       onClick={handleClick}
@@ -31,12 +31,12 @@ function WatchButton({
           width={size}
           height={size}
           className={cn(enableClickAnimation && "animate-heartBounce")}
-          color={vars.$scale.color.carrot500}
+          color={vars.$color.palette.carrot600}
         />
       ) : (
         <IconHeartLine width={size} height={size} color={color} />
       )}
-    </button>
+    </button>)
   );
 }
 

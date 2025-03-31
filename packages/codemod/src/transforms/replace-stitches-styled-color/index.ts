@@ -529,9 +529,7 @@ function selectAndTransformToken(mapping: any): string {
     selectedToken = mapping.next[0];
   } else {
     // mapping.next가 빈 배열인 경우, 원본 토큰을 사용
-    return (
-      mapping.previous?.replace(/^\$(semantic|static|scale)\.color\./, "$").replace(/^$/, "$") || ""
-    );
+    return (mapping.previous?.replace(/^\$(semantic|static|scale)\.color\./, "$").replace(/^$/, "$") || "");
   }
 
   return transformToken(selectedToken);

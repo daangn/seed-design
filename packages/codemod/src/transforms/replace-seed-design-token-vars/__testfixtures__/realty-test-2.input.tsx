@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from '@seed-design/design-token';
+import { vars } from "@seed-design/css/vars";
 
 const Component = () => {
   const data = useMemo(() => {
@@ -8,14 +8,14 @@ const Component = () => {
       {
         name: '',
         value: 1,
-        color: vars.$scale.color.gray500,
-        fontColor: vars.$scale.color.gray600,
+        color: vars.$color.palette.gray600,
+        fontColor: vars.$color.palette.gray700,
       },
       {
         name: '',
         value: 1 + maxN * 3.5,
-        color: vars.$scale.color.gray800,
-        fontColor: vars.$scale.color.gray900,
+        color: vars.$color.palette.gray900,
+        fontColor: vars.$color.palette.gray1000,
         label: `${n}배`,
       },
     ];
@@ -47,12 +47,12 @@ export default Component;
 
 const Chart = ({ data }: { data: BarChartData[] }) => {
   return (
-    <div className="flex justify-center">
+    (<div className="flex justify-center">
       <ResponsiveContainer width="100%" height={105}>
         <BarChart data={data} barSize={48} margin={{ top: 5, bottom: 5 }}>
           <CartesianGrid
             vertical={false}
-            stroke={vars.$semantic.color.divider1}
+            stroke={vars.$color.stroke.neutralMuted}
             horizontalValues={[0]}
           />
 
@@ -66,7 +66,7 @@ const Chart = ({ data }: { data: BarChartData[] }) => {
           <Bar
             dataKey="value"
             radius={3}
-            fill={vars.$scale.color.carrot500}
+            fill={vars.$color.palette.carrot600}
             label={(props) => <CustomLabel {...props} data={data} />}
           >
             {data.map((entry, index) => (
@@ -75,6 +75,6 @@ const Chart = ({ data }: { data: BarChartData[] }) => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </div>)
   );
 };
