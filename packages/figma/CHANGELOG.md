@@ -1,5 +1,15 @@
 # @seed-design/figma
 
+## 0.0.3
+
+### Patch Changes
+
+- 9ff6487: - 숨겨진 노드 및 Fill을 무시하도록 수정합니다.
+  - BOOLEAN_OPERATION 노드를 지원합니다.
+- Updated dependencies [e70f340]
+- Updated dependencies [72f344f]
+  - @seed-design/css@0.0.11
+
 ## 0.0.2
 
 ### Patch Changes
