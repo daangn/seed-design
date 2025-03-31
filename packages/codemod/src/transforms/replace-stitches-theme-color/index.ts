@@ -1,22 +1,19 @@
 import {
   colorMappings,
+  scaleColorMappings,
   semanticColorMappings,
   staticColorMappings,
-  scaleColorMappings,
 } from "@seed-design/migration-index/color";
 import type { Transform } from "jscodeshift";
+import { getParentPropertyName, processTernaryExpressions } from "../../utils/ast";
+import {
+  isBackgroundProperty,
+  isStrokeProperty,
+  isTextProperty,
+} from "../../utils/color-properties";
 import { createTransformLogger } from "../../utils/logger.js";
-import { camelCase } from "change-case";
 
-// 색상 속성 관련 상수
-const COLOR_BACKGROUND_PROPERTIES = [
-  "background",
-  "backgroundColor",
-  "backgroundImage",
-  "fill",
-  "fillColor",
-  "stroke",
-];
+// 색상 속성 관련 상수는 이제 colorProperties 모듈에서 가져옵니다.
 
 /**
  * kebabCaseToCamelCase 함수는 kebab-case 형식을 camelCase로 변환합니다.
@@ -97,14 +94,14 @@ function normalizeOldColorName(oldColorValue: string): string {
 
 /**
  * 토큰 문자열을 V3 형식으로 변환합니다.
- * 예: $color.palette.gray-700 -> $palette-gray-700
- * 예: $color.palette.static-white -> $palette-static-white
- * 예: $color.bg.layer-default -> $bg-layer-default
+ * 예: $color.palette.gray-700 -> palette-gray-700
+ * 예: $color.palette.static-white -> palette-static-white
+ * 예: $color.bg.layer-default -> bg-layer-default
  */
 function transformToken(token: string): string {
   // 이미 $ 형식인 경우 그대로 반환
   if (!token.startsWith("$color.")) {
-    return token;
+    return token.startsWith("$") ? token.substring(1) : token;
   }
 
   // 토큰을 분해하여 새 형식으로 구성
@@ -114,12 +111,12 @@ function transformToken(token: string): string {
     const category = parts[0]; // palette, bg, fg, stroke 등
     const values = parts.slice(1).join(".");
 
-    // 대시(-) 형식 유지
-    return `$${category}-${values}`;
+    // $ 기호 없이 대시(-) 형식 유지
+    return `${category}-${values}`;
   }
 
   // 기본 처리 (변환할 수 없는 경우)
-  return token;
+  return token.startsWith("$") ? token.substring(1) : token;
 }
 
 /**
@@ -288,32 +285,62 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
 function selectAndTransformToken(mapping: any, propertyName?: string): string | null {
   let chosenToken: string | null = null;
 
+  // next가 비어있으면 원래 토큰을 그대로 반환 (변환하지 않음)
+  if (mapping.next.length === 0) {
+    // V3에서 지원되지 않는 색상은 원래 값 그대로 유지
+    return null;
+  }
+
   if (mapping.next.length === 1) {
     // next의 요소가 하나이면 바로 사용
     chosenToken = mapping.next[0];
   } else if (mapping.next.length > 1) {
-    // next의 요소가 여러 개인 경우, 속성에 따라 bg/fg 선택
-    const isBackgroundProperty = propertyName && COLOR_BACKGROUND_PROPERTIES.includes(propertyName);
+    // 각 토큰 타입별로 분류
+    const bgTokens = mapping.next.filter((token: string) => token.includes("$color.bg"));
+    const fgTokens = mapping.next.filter((token: string) => token.includes("$color.fg"));
+    const strokeTokens = mapping.next.filter((token: string) => token.includes("$color.stroke"));
+    const paletteTokens = mapping.next.filter((token: string) => token.includes("$color.palette"));
+    const otherTokens = mapping.next.filter(
+      (token: string) =>
+        !token.includes("$color.bg") &&
+        !token.includes("$color.fg") &&
+        !token.includes("$color.stroke") &&
+        !token.includes("$color.palette"),
+    );
 
-    // background 관련 속성이면 bg 토큰 우선, 아니면 fg 토큰 우선
-    const targetTokens = isBackgroundProperty
-      ? mapping.next.filter((token: string) => token.includes("$color.bg"))
-      : mapping.next.filter((token: string) => token.includes("$color.fg"));
+    // 속성에 따라 분류
+    const isBgProperty = isBackgroundProperty(propertyName);
+    const isTextProp = isTextProperty(propertyName);
+    const isStrokeProp = isStrokeProperty(propertyName);
 
-    if (targetTokens.length > 0) {
-      // 찾은 경우 첫 번째 토큰 사용
-      chosenToken = targetTokens[0];
+    // semanticColors나 명확한 용도가 없는 속성은 palette 토큰 우선 사용
+    const isGenericSemanticColor = !propertyName || (!isBgProperty && !isTextProp && !isStrokeProp);
+
+    // 토큰 선택 로직
+    if (isGenericSemanticColor && paletteTokens.length > 0) {
+      // semanticColors 같은 일반적인 색상 정의에는 palette 토큰 우선 사용
+      chosenToken = paletteTokens[0];
+    } else if (isBgProperty && bgTokens.length > 0) {
+      // 배경 속성이고 bg 토큰이 있으면 사용
+      chosenToken = bgTokens[0];
+    } else if (
+      (isTextProp || propertyName === "fill" || propertyName === "fillColor") &&
+      fgTokens.length > 0
+    ) {
+      // 텍스트/fill 속성이고 fg 토큰이 있으면 사용
+      chosenToken = fgTokens[0];
+    } else if ((isStrokeProp || propertyName === "stroke") && strokeTokens.length > 0) {
+      // stroke 속성이고 stroke 토큰이 있으면 사용
+      chosenToken = strokeTokens[0];
+    } else if (paletteTokens.length > 0) {
+      // 속성에 맞는 토큰이 없으면 palette 토큰 사용 (우선)
+      chosenToken = paletteTokens[0];
+    } else if (otherTokens.length > 0) {
+      // palette 토큰도 없으면 기타 토큰 사용
+      chosenToken = otherTokens[0];
     } else {
-      // palette 토큰 검색
-      const paletteTokens = mapping.next.filter((token: string) =>
-        token.includes("$color.palette"),
-      );
-      if (paletteTokens.length > 0) {
-        chosenToken = paletteTokens[0];
-      } else {
-        // 다른 토큰이 없으면 첫 번째 매핑 사용
-        chosenToken = mapping.next[0];
-      }
+      // 모든 필터링이 실패하면 첫 번째 토큰 사용
+      chosenToken = mapping.next[0];
     }
   }
 
@@ -324,13 +351,13 @@ function selectAndTransformToken(mapping: any, propertyName?: string): string | 
     Array.isArray(mapping.alternative) &&
     mapping.alternative.length > 0
   ) {
-    // alternative에서 palette 컬러 검색
+    // alternative에서 palette 컬러 검색을 항상 우선함
     const alternativePaletteTokens = mapping.alternative.filter((token: string) =>
       token.includes("$color.palette"),
     );
     if (alternativePaletteTokens.length > 0) {
       chosenToken = alternativePaletteTokens[0];
-    } else if (mapping.alternative.length > 0) {
+    } else {
       // 팔레트 컬러가 없으면 첫 번째 대안 사용
       chosenToken = mapping.alternative[0];
     }
@@ -351,7 +378,7 @@ function selectAndTransformToken(mapping: any, propertyName?: string): string | 
 function processThemeColor(
   j: any,
   path: any,
-  logger: ReturnType<typeof createTransformLogger>,
+  _logger: any, // 사용되지 않는 매개변수 (현재 사용하지 않지만 API 일관성을 위해 유지)
   filePath: string,
   processedPaths: Set<string>,
   transformationLog: Map<
@@ -364,99 +391,83 @@ function processThemeColor(
       description?: string;
     }
   >,
-): void {
-  // path가 MemberExpression인지 확인
-  if (path.node.type !== "MemberExpression" || !path.node.property) return;
-
-  // theme.colors.xxx.computedValue 또는 theme.colors["xxx"].computedValue 형태인지 확인
-  const themeObj = path.node.object;
-  if (!themeObj || themeObj.type !== "MemberExpression") return;
-
-  const colorsObj = themeObj.object;
-  if (!colorsObj || colorsObj.type !== "Identifier" || colorsObj.name !== "theme") return;
-
-  const colorsProp = themeObj.property;
-  if (!colorsProp || colorsProp.type !== "Identifier" || colorsProp.name !== "colors") return;
-
-  // 색상 토큰 이름 추출
-  let colorName: string | undefined;
-
-  // theme.colors["xxx"] 형태 처리
-  if (path.node.computed && path.node.property.type === "StringLiteral") {
-    colorName = path.node.property.value;
-  }
-  // theme.colors.xxx 형태 처리
-  else if (!path.node.computed && path.node.property.type === "Identifier") {
-    colorName = path.node.property.name;
-  }
-  // theme.colors['xxx'] 형태 처리
-  else if (path.node.computed && path.node.property.type === "Literal") {
-    colorName = path.node.property.value;
-  }
-
-  if (!colorName) return;
-
-  // 경로 ID 생성
-  const line = path.node.loc?.start.line || 0;
-  const column = path.node.loc?.start.column || 0;
-  const pathId = `${filePath}:${line}:${column}:${colorName}`;
-
+) {
   // 이미 처리한 경로는 건너뛰기
-  if (processedPaths.has(pathId)) return;
-
-  // 상위 속성 정보를 확인하여 속성 이름 찾기
-  let propertyName: string | undefined;
-
-  // 속성 이름을 찾기 위한 상위 컨텍스트 탐색
-  let currentPath = path.parent;
-  while (currentPath) {
-    // JSX 속성인 경우
-    if (currentPath.node.type === "JSXAttribute" && currentPath.node.name) {
-      propertyName = currentPath.node.name.name;
-      break;
-    }
-    // 객체 속성인 경우
-    if (currentPath.node.type === "Property" && currentPath.node.key) {
-      propertyName = currentPath.node.key.name || currentPath.node.key.value;
-      break;
-    }
-
-    currentPath = currentPath.parent;
+  const pathIdentifier = path.node.loc?.start.line + ":" + path.node.loc?.start.column;
+  if (processedPaths.has(pathIdentifier)) {
+    return;
   }
 
-  // 색상 토큰 매핑
-  const mappingResult = getTokenMapping(colorName, propertyName);
+  processedPaths.add(pathIdentifier);
 
-  if (mappingResult?.token) {
-    // 변환된 토큰으로 업데이트
-    const processedToken = mappingResult.token.substring(1); // '$' 제거
+  // 부모 속성 이름 가져오기 (색상 토큰 매핑에 사용)
+  const parentPropertyName = getParentPropertyName(path);
 
-    path.node.property = j.stringLiteral(processedToken);
-    path.node.computed = true;
+  // theme.colors['primary-semantic'] 처럼 직접 속성에 접근하는 방식
+  if (
+    path.node?.property &&
+    (path.node.property.type === "StringLiteral" || path.node.property.type === "Literal")
+  ) {
+    const colorValue = path.node.property.value;
 
-    // 변환 로그 추가
-    transformationLog.set(`${colorName}:${line}`, {
-      previous: colorName,
-      next: mappingResult.token,
-      line,
-      needsVerification: mappingResult.needsVerification,
-      description: mappingResult.description,
-    });
+    // 적절한 토큰으로 변환
+    const mappingResult = getTokenMapping(colorValue, parentPropertyName);
 
-    // 처리 완료 경로로 기록
-    processedPaths.add(pathId);
-  } else {
-    // 매핑을 찾지 못한 경우 경고 로그
-    logger.logTransformResult(filePath, {
-      previousToken: colorName,
-      nextToken: colorName,
-      status: "warning",
-      line,
-      failureReason: "매핑을 찾을 수 없어 변환되지 않았습니다",
-    });
+    if (mappingResult?.token) {
+      // 변환된 토큰 (V3 형식)
+      const transformedToken = transformToken(mappingResult.token);
 
-    // 처리 완료 경로로 기록
-    processedPaths.add(pathId);
+      // 로그 엔트리 생성
+      const logEntry = {
+        previous: colorValue,
+        next: transformedToken,
+        line: path.node.loc?.start.line,
+        needsVerification: mappingResult.needsVerification,
+        description: mappingResult.description,
+      };
+
+      // 로그 엔트리 저장
+      const logKey = `${filePath}:${path.node.loc?.start.line}:${path.node.loc?.start.column}`;
+      transformationLog.set(logKey, logEntry);
+
+      // StringLiteral 노드 대체
+      path.node.property = j.stringLiteral(transformedToken);
+    }
+  }
+  // theme.colors.primary 처럼 dot notation으로 속성에 접근하는 방식
+  else if (path.node?.property && path.node.property.type === "Identifier") {
+    const colorValue = path.node.property.name;
+
+    // 적절한 토큰으로 변환
+    const mappingResult = getTokenMapping(colorValue, parentPropertyName);
+
+    if (mappingResult?.token) {
+      // 변환된 토큰 (V3 형식)
+      const transformedToken = transformToken(mappingResult.token);
+
+      // 로그 엔트리 생성
+      const logEntry = {
+        previous: colorValue,
+        next: transformedToken,
+        line: path.node.loc?.start.line,
+        needsVerification: mappingResult.needsVerification,
+        description: mappingResult.description,
+      };
+
+      // 로그 엔트리 저장
+      const logKey = `${filePath}:${path.node.loc?.start.line}:${path.node.loc?.start.column}`;
+      transformationLog.set(logKey, logEntry);
+
+      // ObjectProperty, array bracket notation으로 변경
+      // 예: theme.colors.primary -> theme.colors["<transformedToken>"]
+      path.replace(
+        j.memberExpression(
+          j.memberExpression(j.identifier("theme"), j.identifier("colors"), false),
+          j.stringLiteral(transformedToken),
+          true,
+        ),
+      );
+    }
   }
 }
 
@@ -487,6 +498,56 @@ const transform: Transform = (file, api) => {
 
   // theme.colors 접근 패턴 찾기
   root
+    .find(j.MemberExpression, {
+      object: {
+        type: "MemberExpression",
+        object: {
+          name: "theme",
+        },
+        property: {
+          name: "colors",
+        },
+      },
+    })
+    .forEach((path) => {
+      processThemeColor(j, path, logger, file.path, processedPaths, transformationLog);
+    });
+
+  // 삼항 연산자(ConditionalExpression) 내의 theme.colors 접근 패턴 찾기
+  root.find(j.ConditionalExpression).forEach((ternaryPath) => {
+    // 새로운 유틸리티 함수를 사용하여 중첩된 삼항 연산자 처리
+    processTernaryExpressions(
+      j,
+      ternaryPath,
+      {
+        type: j.MemberExpression,
+        filter: {
+          object: {
+            type: "MemberExpression",
+            object: {
+              name: "theme",
+            },
+            property: {
+              name: "colors",
+            },
+          },
+        },
+      },
+      (path, _context) => {
+        // 컨텍스트 매개변수는 현재 사용하지 않음, 나중에 확장 가능성을 위해 유지
+        // 부모 속성 이름을 삼항 연산자 컨텍스트에서 가져온 값으로 덮어쓰기
+        // 중첩된 삼항 연산자에서는 최상위 부모 속성 이름을 사용
+        processThemeColor(j, path, logger, file.path, processedPaths, transformationLog);
+      },
+      {
+        processNestedTernaries: true, // 중첩된 삼항 연산자도 처리
+      },
+    );
+  });
+
+  // 템플릿 리터럴 내의 theme.colors 접근 패턴 찾기
+  root
+    .find(j.TemplateLiteral)
     .find(j.MemberExpression, {
       object: {
         type: "MemberExpression",

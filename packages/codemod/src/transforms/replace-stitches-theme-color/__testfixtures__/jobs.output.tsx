@@ -35,8 +35,8 @@ const Radio: React.FCC<RadioProps> = ({ isSelected, isDisabled = false }) => {
     case isSelected && !isDisabled:
       return (
         (<RadioIcon
-          outerCircleFill={theme.colors["fg-brand"].computedValue}
-          middleCircleFill={theme.colors["fg-brand"].computedValue}
+          outerCircleFill={theme.colors["bg-brand-solid"].computedValue}
+          middleCircleFill={theme.colors["bg-brand-solid"].computedValue}
           innerCircleFill={theme.colors["palette-static-white"].computedValue}
         />)
       );

@@ -3,12 +3,12 @@
 import { theme } from '@src/stitches/stitches.config'
 
 const semanticColors = {
-  primary: theme.colors["fg-brand"].computedValue,
+  primary: theme.colors["bg-brand-solid"].computedValue,
   onPrimary: theme.colors["palette-static-white"].computedValue,
   primaryLow: theme.colors["palette-carrot-100"].computedValue,
-  success: theme.colors["fg-positive"].computedValue,
+  success: theme.colors["bg-positive-solid"].computedValue,
   warning: theme.colors["bg-warning-solid"].computedValue,
-  danger: theme.colors["fg-critical"].computedValue,
+  danger: theme.colors["bg-critical-solid"].computedValue,
   paperDefault: theme.colors["bg-layer-default"].computedValue,
   paperContents: theme.colors["bg-layer-fill"].computedValue,
   paperDialog: theme.colors["bg-layer-floating"].computedValue,
@@ -17,7 +17,7 @@ const semanticColors = {
   divider1: theme.colors["stroke-neutral-muted"].computedValue,
   divider2: theme.colors["stroke-neutral"].computedValue,
   overlayDim: theme.colors["bg-overlay"].computedValue,
-  accent: theme.colors["fg-informative"].computedValue,
+  accent: theme.colors["bg-informative-solid"].computedValue,
 }
 
 const scaleColors = {
