@@ -54,7 +54,7 @@ data:
             type: dimension
           paddingX:
             type: dimension
-          paddingBottom:
+          paddingTop:
             type: dimension
       footer:
         properties:
