@@ -42,8 +42,9 @@
     word-break: break-all;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-default);
+    min-width: 272px;
     max-width: 272px;
-    margin: auto var(--seed-dimension-x8);
+    margin: auto var(--seed-dimension-x6);
     border-radius: var(--seed-radius-r5);
 }
 .seed-dialog__content:is([data-state="open"], [data-open]) {

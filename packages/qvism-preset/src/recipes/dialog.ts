@@ -54,6 +54,7 @@ const dialog = defineSlotRecipe({
       zIndex: "calc(var(--dialog-z-index) + var(--layer-index, 0))",
 
       background: vars.base.enabled.content.color,
+      minWidth: vars.base.enabled.content.minWidth,
       maxWidth: vars.base.enabled.content.maxWidth,
       margin: `auto ${vars.base.enabled.content.marginX}`,
       borderRadius: vars.base.enabled.content.cornerRadius,

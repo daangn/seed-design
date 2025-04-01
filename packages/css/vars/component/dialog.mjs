@@ -13,8 +13,9 @@ export const vars = {
       "content": {
         "color": "var(--seed-color-bg-layer-default)",
         "cornerRadius": "var(--seed-radius-r5)",
-        "marginX": "var(--seed-dimension-x8)",
+        "marginX": "var(--seed-dimension-x6)",
         "marginY": "var(--seed-dimension-x16)",
+        "minWidth": "272px",
         "maxWidth": "272px",
         "enterDuration": "var(--seed-duration-d4)",
         "enterTimingFunction": "var(--seed-timing-function-enter-expressive)",

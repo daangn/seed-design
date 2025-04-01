@@ -48,6 +48,9 @@
             "marginY": {
               "type": "dimension"
             },
+            "minWidth": {
+              "type": "dimension"
+            },
             "maxWidth": {
               "type": "dimension"
             },
@@ -188,11 +191,18 @@
                 },
                 "marginX": {
                   "type": "dimension",
-                  "value": "$dimension.x8"
+                  "value": "$dimension.x6"
                 },
                 "marginY": {
                   "type": "dimension",
                   "value": "$dimension.x16"
+                },
+                "minWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 272,
+                    "unit": "px"
+                  }
                 },
                 "maxWidth": {
                   "type": "dimension",

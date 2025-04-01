@@ -32,6 +32,8 @@ data:
             type: dimension
           marginY:
             type: dimension
+          minWidth:
+            type: dimension
           maxWidth:
             type: dimension
           enterDuration:
@@ -100,8 +102,9 @@ data:
         content:
           color: $color.bg.layer-default
           cornerRadius: $radius.r5
-          marginX: $dimension.x8
+          marginX: $dimension.x6
           marginY: $dimension.x16
+          minWidth: 272px
           maxWidth: 272px
           enterDuration: $duration.d4
           enterTimingFunction: $timing-function.enter-expressive
