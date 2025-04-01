@@ -6,7 +6,7 @@ import {
   ExtendedActionSheetGroup,
   ExtendedActionSheetItem,
   ExtendedActionSheetRoot,
-} from "../design-system/ui/extended-action-sheet";
+} from "../seed-design/ui/extended-action-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 import { PrefixIcon } from "@seed-design/react";
 

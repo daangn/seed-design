@@ -1,14 +1,9 @@
 import type { ActivityComponentType } from "@stackflow/react";
 
-import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
-import { ActionButton } from "../design-system/ui/action-button";
-import { HelpBubbleTrigger } from "../design-system/ui/help-bubble";
+import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { ActionButton } from "../seed-design/ui/action-button";
+import { HelpBubbleTrigger } from "../seed-design/ui/help-bubble";
 
 const ActivityHelpBubble: ActivityComponentType = () => {
   return (

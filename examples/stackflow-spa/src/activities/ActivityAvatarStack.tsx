@@ -1,17 +1,12 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { avatarStackVariantMap } from "@seed-design/css/recipes/avatar-stack";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { Avatar, AvatarStack, type AvatarStackProps } from "../design-system/ui/avatar";
-import { IdentityPlaceholder } from "../design-system/ui/identity-placeholder";
+import { Avatar, AvatarStack, type AvatarStackProps } from "../seed-design/ui/avatar";
+import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 
 const initialVariants = {
   size: "64",

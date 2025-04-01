@@ -1,14 +1,9 @@
 import type { ActivityComponentType } from "@stackflow/react";
 
 import React from "react";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
-import { ErrorState, type ErrorStateProps } from "../design-system/ui/error-state";
-import {
-  AppBar,
-  AppBarLeft,
-  AppBarMain,
-  AppBarBackButton,
-} from "../design-system/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { ErrorState, type ErrorStateProps } from "../seed-design/ui/error-state";
+import { AppBar, AppBarLeft, AppBarMain, AppBarBackButton } from "../seed-design/stackflow/AppBar";
 
 const ActivityErrorState: ActivityComponentType = () => {
   const [variant, setVariant] = React.useState<ErrorStateProps["variant"]>("default");

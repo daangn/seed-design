@@ -1,16 +1,11 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { fabVariantMap } from "@seed-design/css/recipes/fab";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { Fab, type FabProps } from "../design-system/ui/fab";
+import { Fab, type FabProps } from "../seed-design/ui/fab";
 import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
 
 const initialVariants = {} satisfies FabProps;

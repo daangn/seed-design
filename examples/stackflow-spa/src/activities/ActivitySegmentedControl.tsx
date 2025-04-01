@@ -1,12 +1,7 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
-import { SegmentedControl, SegmentedControlItem } from "../design-system/ui/segmented-control";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { SegmentedControl, SegmentedControlItem } from "../seed-design/ui/segmented-control";
 import { Stack } from "@seed-design/react";
 
 const ActivitySegmentedControl: ActivityComponentType = () => {

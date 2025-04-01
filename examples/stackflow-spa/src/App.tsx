@@ -1,6 +1,6 @@
 import type React from "react";
 
-import { SnackbarProvider } from "./design-system/ui/snackbar";
+import { SnackbarProvider } from "./seed-design/ui/snackbar";
 import { PreferenceProvider } from "./hooks/usePreference";
 import { Stack } from "./stackflow";
 import { Suspense } from "react";

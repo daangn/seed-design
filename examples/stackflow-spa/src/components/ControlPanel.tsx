@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Switch } from "../design-system/ui/switch";
+import { Switch } from "../seed-design/ui/switch";
 import { usePreference } from "../hooks/usePreference";
 import * as styles from "./ControlPanel.css";
 

@@ -1,6 +1,6 @@
 import { useActivity, type ActivityComponentType } from "@stackflow/react";
 
-import { ActionButton } from "../design-system/ui/action-button";
+import { ActionButton } from "../seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogRoot,
   AlertDialogTitle,
-} from "../design-system/ui/alert-dialog";
+} from "../seed-design/ui/alert-dialog";
 import { useFlow } from "../stackflow";
 import { Stack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";

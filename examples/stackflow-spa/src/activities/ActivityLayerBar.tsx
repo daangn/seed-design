@@ -6,8 +6,8 @@ import {
   AppBarMain,
   AppBarBackButton,
   AppBarIconButton,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+} from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { IconBellLine } from "@daangn/react-monochrome-icon";
 

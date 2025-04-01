@@ -1,11 +1,6 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 
@@ -13,7 +8,7 @@ import { IconChevronDownFill } from "@daangn/react-monochrome-icon";
 import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
 import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ActionButton, type ActionButtonProps } from "../design-system/ui/action-button";
+import { ActionButton, type ActionButtonProps } from "../seed-design/ui/action-button";
 
 const initialVariants = {
   variant: "brandSolid",

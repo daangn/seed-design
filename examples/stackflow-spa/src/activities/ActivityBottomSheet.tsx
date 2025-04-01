@@ -1,12 +1,12 @@
 import { useActivity, type ActivityComponentType } from "@stackflow/react";
 
-import { ActionButton } from "../design-system/ui/action-button";
+import { ActionButton } from "../seed-design/ui/action-button";
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
-} from "../design-system/ui/bottom-sheet";
+} from "../seed-design/ui/bottom-sheet";
 import { useFlow } from "../stackflow";
 
 const ActivityBottomSheet: ActivityComponentType = () => {

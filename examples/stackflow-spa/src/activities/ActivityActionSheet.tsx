@@ -4,7 +4,7 @@ import {
   ActionSheetContent,
   ActionSheetItem,
   ActionSheetRoot,
-} from "../design-system/ui/action-sheet";
+} from "../seed-design/ui/action-sheet";
 import { createCallbackActivity } from "../stackflow/createCallbackActivity";
 
 type Action = "add" | "edit" | "delete";

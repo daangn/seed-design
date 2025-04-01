@@ -2,10 +2,10 @@ import { Stack, useSnackbarAdapter } from "@seed-design/react";
 import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
 import { List, ListItem, ListItemGroup } from "../components/List";
-import { AppBar, AppBarMain } from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
-import { DialogPushTrigger } from "../design-system/stackflow/DialogPushTrigger";
-import { ActionButton } from "../design-system/ui/action-button";
+import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
+import { ActionButton } from "../seed-design/ui/action-button";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -14,9 +14,9 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../design-system/ui/alert-dialog";
-import { Snackbar } from "../design-system/ui/snackbar";
-import { useStepDialog } from "../design-system/util/use-step-dialog";
+} from "../seed-design/ui/alert-dialog";
+import { Snackbar } from "../seed-design/ui/snackbar";
+import { useStepDialog } from "../seed-design/util/use-step-dialog";
 import { useFlow } from "../stackflow";
 import { actionSheetCallback } from "./ActivityActionSheet";
 import { extendedActionSheetCallback } from "./ActivityExtendedActionSheet";

@@ -1,19 +1,8 @@
 import { Box } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
-import {
-  TabsCarousel,
-  TabsContent,
-  TabsList,
-  TabsRoot,
-  TabsTrigger,
-} from "../design-system/ui/tabs";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "../seed-design/ui/tabs";
 
 const ActivityAnimatedTabs: ActivityComponentType = () => {
   return (

@@ -1,16 +1,11 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-button";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ReactionButton, type ReactionButtonProps } from "../design-system/ui/reaction-button";
+import { ReactionButton, type ReactionButtonProps } from "../seed-design/ui/reaction-button";
 import { IconFaceSmileCircleFill } from "@daangn/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
 

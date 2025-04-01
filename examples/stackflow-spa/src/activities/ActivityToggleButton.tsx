@@ -1,17 +1,12 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 
 import { IconThumbUpFill } from "@daangn/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ToggleButton, type ToggleButtonProps } from "../design-system/ui/toggle-button";
+import { ToggleButton, type ToggleButtonProps } from "../seed-design/ui/toggle-button";
 import { PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {

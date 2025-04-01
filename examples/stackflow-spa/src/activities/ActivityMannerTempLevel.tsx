@@ -1,15 +1,10 @@
 import type { ActivityComponentType } from "@stackflow/react";
-import {
-  AppBar,
-  AppBarBackButton,
-  AppBarLeft,
-  AppBarMain,
-} from "../design-system/stackflow/AppBar";
-import { AppScreen, AppScreenContent } from "../design-system/stackflow/AppScreen";
+import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { mannerTempBadgeVariantMap } from "@seed-design/css/recipes/manner-temp-badge";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { MannerTempBadge, type MannerTempBadgeProps } from "../design-system/ui/manner-temp-badge";
+import { MannerTempBadge, type MannerTempBadgeProps } from "../seed-design/ui/manner-temp-badge";
 
 const initialVariants = {
   temperature: 36.5,
