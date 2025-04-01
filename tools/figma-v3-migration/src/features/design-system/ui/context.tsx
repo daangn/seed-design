@@ -14,16 +14,16 @@ const availableSteps = [
     value: "components",
     description: "V2 컴포넌트를 V3 컴포넌트로 마이그레이션합니다.",
   },
-  {
-    label: "Typography",
-    value: "text-styles",
-    description: "V2 텍스트 스타일을 V3 텍스트 스타일로 마이그레이션합니다.",
-  },
-  {
-    label: "Colors",
-    value: "colors",
-    description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
-  },
+  // {
+  //   label: "Typography",
+  //   value: "text-styles",
+  //   description: "V2 텍스트 스타일을 V3 텍스트 스타일로 마이그레이션합니다.",
+  // },
+  // {
+  //   label: "Colors",
+  //   value: "colors",
+  //   description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
+  // },
   {
     label: "Size",
     value: "sizings",

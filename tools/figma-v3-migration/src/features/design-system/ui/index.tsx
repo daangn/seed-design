@@ -39,10 +39,10 @@ function Steps() {
     switch (currentStep?.value) {
       case "components":
         return <ComponentsSection />;
-      case "text-styles":
-        return <TextStylesSection />;
-      case "colors":
-        return <ColorsSection />;
+      // case "text-styles":
+      //   return <TextStylesSection />;
+      // case "colors":
+      //   return <ColorsSection />;
       case "sizings":
         return <SizingsSection />;
       case "layouts":

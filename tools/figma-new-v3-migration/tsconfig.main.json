@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "lib": ["DOM", "ES2020"],
+    "module": "ES2020",
+    "target": "ES5",
+    "moduleResolution": "Node",
+    "strict": true,
+    "types": ["@figma/plugin-typings"],
+    "noEmit": false,
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/main", "src/shared"]
+}
