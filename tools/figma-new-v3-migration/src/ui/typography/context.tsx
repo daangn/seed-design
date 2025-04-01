@@ -138,12 +138,6 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (targets.length > 0) {
-      requestSuggestions();
-    }
-  }, [targets]);
-
   // 타이포그래피 적용
   function applyTextStyle({
     textNodeIds,

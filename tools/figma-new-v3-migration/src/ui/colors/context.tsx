@@ -201,12 +201,6 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     return unsubscribe;
   }, []);
 
-  useEffect(() => {
-    if (targets.length > 0) {
-      requestSuggestions();
-    }
-  }, [targets]);
-
   // 컬러 변수 적용
   function applyColorVariable({
     oldValue,
