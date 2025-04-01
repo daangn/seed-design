@@ -1,4 +1,4 @@
-import type { NormalizedFrameNode, NormalizedTextNode } from "../normalizer/types";
+import type { NormalizedFrameNode, NormalizedTextNode } from "../normalizer";
 import { getColorVariableName } from "./variable";
 
 export function createBackgroundProps(

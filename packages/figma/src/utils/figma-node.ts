@@ -1,4 +1,4 @@
-import type { NormalizedInstanceNode, NormalizedSceneNode } from "../normalizer/types";
+import type { NormalizedInstanceNode, NormalizedSceneNode } from "../normalizer";
 
 export function traverseNode(
   node: NormalizedSceneNode,

@@ -13,7 +13,7 @@ import type {
   NormalizedRectangleNode,
   NormalizedSceneNode,
   NormalizedTextNode,
-} from "./normalizer/types";
+} from "./normalizer";
 import { createBackgroundProps, createBorderProps } from "./props/color";
 import { createLayoutProps } from "./props/layout";
 import { createSizingProps } from "./props/sizing";

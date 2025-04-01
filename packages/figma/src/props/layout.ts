@@ -2,7 +2,7 @@ import type {
   NormalizedComponentNode,
   NormalizedFrameNode,
   NormalizedInstanceNode,
-} from "../normalizer/types";
+} from "../normalizer";
 import { getLayoutVariableName, inferDimension, inferRadius } from "./variable";
 
 // Basic handlers

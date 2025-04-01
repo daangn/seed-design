@@ -1,5 +1,5 @@
 import type { ElementNode } from "../jsx";
-import type { NormalizedInstanceNode } from "../normalizer/types";
+import type { NormalizedInstanceNode } from "../normalizer";
 
 interface ComponentPropertyDefinition {
   type: ComponentPropertyType;

@@ -2,7 +2,7 @@ import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
-import type { NormalizedTextNode } from "../../normalizer/types";
+import type { NormalizedTextNode } from "../../normalizer";
 import type { ComponentHandler } from "../type-helper";
 import type { CalloutProperties } from "../type";
 
