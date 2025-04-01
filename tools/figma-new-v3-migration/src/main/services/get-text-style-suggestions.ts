@@ -179,8 +179,6 @@ export async function getTextStyleSuggestions(
     try {
       const textStyle = (await figma.getStyleByIdAsync(currentStyleId)) as TextStyle | null;
 
-      console.log("textStyle", textStyle);
-
       if (textStyle) {
         const styleName = textStyle.name;
 
@@ -305,6 +303,11 @@ function getClosestTextStyle(availableTextStyles: TextStyle[], textNode: TextNod
       // o: fontSize와 fontWeight가 일치하는 경우
       if (differences.fontSize === 0 && differences.fontWeight === 0)
         return { distance: 1, textStyle, differences };
+
+      // o: fontSize가 1px 차이나고 lineHeight가 0인 경우
+      if (differences.fontSize === 1 && differences.fontWeight === 0) {
+        return { distance: 1, textStyle, differences };
+      }
 
       return null;
     })
