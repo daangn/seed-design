@@ -2,7 +2,7 @@ import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
-import { findOne } from "../../node-util";
+import { findOne } from "../../utils/figma-node";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "../../normalizer/types";
 import type { InlineBannerProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";

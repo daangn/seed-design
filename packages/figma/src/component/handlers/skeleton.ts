@@ -1,7 +1,7 @@
 import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createElement } from "../../jsx";
-import { getLayoutVariableName } from "../../variable";
+import { getLayoutVariableName } from "../../props/variable";
 import type { SkeletonProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";
 

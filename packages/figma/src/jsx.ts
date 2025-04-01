@@ -1,4 +1,4 @@
-import { ensureArray, exists } from "./util";
+import { ensureArray, exists } from "./utils/common";
 
 export interface ElementNode {
   __IS_JSX_ELEMENT_NODE: true;

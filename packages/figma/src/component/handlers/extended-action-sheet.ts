@@ -2,7 +2,7 @@ import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
-import { findAllInstances } from "../../node-util";
+import { findAllInstances } from "../../utils/figma-node";
 import type {
   ExtendedActionSheetGroupProperties,
   ExtendedActionSheetItemProperties,

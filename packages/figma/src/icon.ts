@@ -1,6 +1,6 @@
 import { pascalCase } from "change-case";
 
-import { createColorProps } from "./color";
+import { createColorProps } from "./props/color";
 import { iconRecord } from "./data/icons";
 import type { NormalizedInstanceNode } from "./normalizer/types";
 

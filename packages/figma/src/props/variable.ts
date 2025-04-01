@@ -1,6 +1,6 @@
 import { vars } from "@seed-design/css/vars";
 import { camelCase } from "change-case";
-import { FIGMA_VARIABLES } from "./data/variables";
+import { FIGMA_VARIABLES } from "../data/variables";
 
 function sanitizeVariableId(id: string) {
   return id.replace("VariableID:", "").split("/")[0]!;

@@ -1,6 +1,7 @@
-import type { NormalizedTextNode } from "./normalizer/types";
+import type { NormalizedTextNode } from "../normalizer/types";
 import { getTypographyVariableName } from "./variable";
 
+// TODO: handle raw values
 export function createTextProps(boundVariables: NormalizedTextNode["boundVariables"]) {
   const fontSizeBoundVariables = boundVariables?.fontSize?.[0];
   const fontStyleBoundVariables = boundVariables?.fontStyle?.[0];

@@ -2,7 +2,7 @@ import { match } from "ts-pattern";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
-import { findAll, findAllInstances, findOne } from "../../node-util";
+import { findAll, findAllInstances, findOne } from "../../utils/figma-node";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "../../normalizer/types";
 import type {
   AppBarLeftProperties,

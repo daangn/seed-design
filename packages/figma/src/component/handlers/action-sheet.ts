@@ -2,7 +2,7 @@ import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createElement } from "../../jsx";
-import { findAllInstances } from "../../node-util";
+import { findAllInstances } from "../../utils/figma-node";
 import type { ActionSheetItemProperties, ActionSheetProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";
 

@@ -1,7 +1,7 @@
 import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createElement } from "../../jsx";
-import { findAllInstances } from "../../node-util";
+import { findAllInstances } from "../../utils/figma-node";
 import type { ChipTabsItemProperties, ChipTabsProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";
 
