@@ -1,7 +1,7 @@
 import { camelCase } from "change-case";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createElement } from "../../jsx";
-import type { NormalizedInstanceNode } from "../../normalizer/types";
+import type { NormalizedInstanceNode } from "../../normalizer";
 import { handleSize } from "../properties";
 import type { TabsFillItemProperties, TabsHugItemProperties, TabsProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";

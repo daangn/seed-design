@@ -4,7 +4,7 @@ import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
 import { findOne } from "../../utils/figma-node";
-import type { NormalizedInstanceNode } from "../../normalizer/types";
+import type { NormalizedInstanceNode } from "../../normalizer";
 import { handleSize } from "../properties";
 import type { TextButtonProperties } from "../type";
 import type { ComponentHandler } from "../type-helper";

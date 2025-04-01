@@ -1,4 +1,4 @@
-import type { NormalizedTextNode } from "../normalizer/types";
+import type { NormalizedTextNode } from "../normalizer";
 import { getTypographyVariableName } from "./variable";
 
 // TODO: handle raw values

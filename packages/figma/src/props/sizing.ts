@@ -1,4 +1,4 @@
-import type { NormalizedFrameNode } from "../normalizer/types";
+import type { NormalizedFrameNode } from "../normalizer";
 import { getLayoutVariableName, inferDimension } from "./variable";
 
 type SizingPropHandler = (

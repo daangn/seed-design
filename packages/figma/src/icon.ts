@@ -2,7 +2,7 @@ import { pascalCase } from "change-case";
 
 import { createColorProps } from "./props/color";
 import { iconRecord } from "./data/icons";
-import type { NormalizedInstanceNode } from "./normalizer/types";
+import type { NormalizedInstanceNode } from "./normalizer";
 
 export function isIconComponent(componentKey: string) {
   return !!iconRecord[componentKey];
