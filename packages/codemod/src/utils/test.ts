@@ -1,25 +1,35 @@
 import type { Transform } from "jscodeshift";
 import { applyTransform } from "jscodeshift/src/testUtils.js";
 import { readdirSync, readFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, join, dirname } from "node:path";
 import { describe, expect, test } from "vitest";
 import type { z } from "zod";
 import type { transformOptionsSchema } from "../schema.js";
 
-export function runFixtureTests(
-  name: string,
-  transform: Transform,
-  fixturesDir: string,
+interface RunFixtureTestsOptions {
+  transform: Transform;
+  fixturesDir: string;
+  extension?: string;
+  transformOptions?: z.infer<typeof transformOptionsSchema>;
+  name?: string;
+}
+
+// 실제 구현체
+export function runFixtureTests({
+  transform,
+  fixturesDir,
   extension = "tsx",
-  transformOptions: z.infer<typeof transformOptionsSchema> = {
-    reporter: true,
-  },
-) {
+  transformOptions,
+  name,
+}: RunFixtureTestsOptions): void {
+  // transform 폴더명을 fixturesDir에서 추론
+  const transformName = name || basename(dirname(fixturesDir));
+
   const inputFiles = readdirSync(fixturesDir)
     .filter((filename) => filename.endsWith(`.input.${extension}`))
     .map((filename) => basename(filename, `.input.${extension}`));
 
-  describe(`${name} transform tests`, () => {
+  describe(`${transformName} transform tests`, () => {
     inputFiles.forEach((testCase) => {
       test(`transforms ${testCase} correctly`, () => {
         const inputPath = join(fixturesDir, `${testCase}.input.${extension}`);

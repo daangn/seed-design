@@ -21,7 +21,7 @@ export function ModifierExample() {
         <div className="!bg-palette-carrot-800">Scale Carrot High Background</div>
         <div className="first:bg-palette-static-black">Static Black Background</div>
         <div className="last:bg-palette-static-white">Static White Background</div>
-        <div className="odd:bg-staticGray900">Static Gray900 Background</div>
+        <div className="odd:bg-palette-static-black">Static Gray900 Background</div>
       </div>)
     );
   }

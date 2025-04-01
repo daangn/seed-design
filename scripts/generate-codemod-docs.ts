@@ -118,33 +118,39 @@ npx @seed-design/codemod --list
 
     // 각 transform에 대한 설명 추가
     switch (doc.name) {
-      case "replace-color-prop":
+      case "replace-custom-text-component-color-prop":
         mdx += "색상 prop을 V3 형식으로 변환해요.\n\n";
         break;
       case "replace-tailwind-typography":
         mdx += "Tailwind 타이포그래피 클래스를 V3 형식으로 변환해요.\n\n";
         break;
-      case "replace-typography-design-token":
+      case "replace-seed-design-token-typography-classname":
         mdx += "타이포그래피 디자인 토큰을 V3 형식으로 변환해요.\n\n";
         break;
-      case "replace-text-component":
+      case "replace-custom-seed-design-text-component":
         mdx += "Text 컴포넌트를 V3 형식으로 변환해요.\n\n";
         break;
-      case "migrate-icons":
+      case "replace-react-icon":
         mdx +=
           "아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/react/iconography/codemod) 문서를 참고해주세요.\n\n";
         break;
-      case "replace-css-typography-variable":
+      case "replace-css-seed-design-typography-variable":
         mdx += "CSS 타이포그래피 변수를 V3 형식으로 변환해요.\n\n";
         break;
-      case "replace-color-design-token":
+      case "replace-seed-design-token-vars":
         mdx += "색상 디자인 토큰을 V3 형식으로 변환해요.\n\n";
         break;
-      case "replace-css-color-variable":
+      case "replace-css-seed-design-color-variable":
         mdx += "CSS 색상 변수를 V3 형식으로 변환해요.\n\n";
         break;
       case "replace-tailwind-color":
         mdx += "Tailwind 색상 클래스를 V3 형식으로 변환해요.\n\n";
+        break;
+      case "replace-stitches-styled-color":
+        mdx += "Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해요.\n\n";
+        break;
+      case "replace-stitches-styled-typography":
+        mdx += "Stitches로 스타일링된 컴포넌트의 타이포그래피를 V3 형식으로 변환해요.\n\n";
         break;
       default:
         break;

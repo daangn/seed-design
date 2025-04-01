@@ -21,7 +21,7 @@ export function BackgroundExample() {
         <div UNSAFE_className="!bg-palette-carrot-800">Scale Carrot High Background</div>
         <div UNSAFE_className="bg-palette-static-black">Static Black Background</div>
         <div UNSAFE_className="bg-palette-static-white">Static White Background</div>
-        <div UNSAFE_className="bg-staticGray900">Static Gray900 Background</div>
+        <div UNSAFE_className="bg-palette-static-black">Static Gray900 Background</div>
         <div UNSAFE_className="[&_[data-part='field']]:!bg-bg-layer-default" />
       </div>)
     );

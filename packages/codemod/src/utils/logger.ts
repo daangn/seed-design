@@ -6,6 +6,8 @@ export interface TransformResult {
   line?: number;
   status: "success" | "failure" | "warning";
   failureReason?: string;
+  description?: string;
+  needsVerification?: boolean;
 }
 
 export function createTransformLogger(transformName: string) {
@@ -18,8 +20,9 @@ export function createTransformLogger(transformName: string) {
 
   // issues 파일용 포맷 (ERROR 및 WARNING 로그만 포함)
   const issuesFormat = format.printf(({ level, message, timestamp, failureReason, metadata }) => {
-    const { previousToken } = metadata as TransformResult;
-    return `${timestamp} [${level.toUpperCase()}]: ${message}\n ↳ reason: ${previousToken} ${failureReason || ""}`;
+    const { previousToken, description } = metadata as TransformResult;
+    const reason = description || failureReason || "";
+    return `${timestamp} [${level.toUpperCase()}]: ${message}\n ↳ reason: ${previousToken} ${reason}`;
   });
 
   // debug 파일용 포맷
@@ -75,16 +78,35 @@ export function createTransformLogger(transformName: string) {
   return {
     logger,
     logTransformResult(filePath: string, result: TransformResult) {
-      const { status, failureReason } = result;
+      const { status, failureReason, needsVerification, description, previousToken, nextToken } =
+        result;
       const logLevel = status === "success" ? "info" : status === "warning" ? "warn" : "error";
       const lineInfo = result.line ? `(line: ${result.line})` : "";
 
+      // 성공 로그 생성
       logger.log({
         level: logLevel,
         message: `${filePath} ${lineInfo}`,
         ...(failureReason && { failureReason }),
+        ...(description && { description }),
         metadata: result,
       });
+
+      // needsVerification이 true인 경우, 별도로 warning 로그도 생성
+      if (needsVerification && status === "success") {
+        logger.log({
+          level: "warn",
+          message: `${filePath} ${lineInfo}`,
+          metadata: {
+            previousToken,
+            nextToken,
+            status: "warning",
+            description: description || "사용 확인 필요한 토큰입니다",
+            needsVerification: true,
+            line: result.line,
+          },
+        });
+      }
     },
     startFile(filePath: string) {
       logger.debug(`Starting transformation of ${filePath}`);
