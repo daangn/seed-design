@@ -178,7 +178,7 @@ function processTypographyProperty(
         nextToken: newValue,
         line,
         status: "warning",
-        failureReason: "Used alternative mapping because next value is not available.",
+        failureReason: "Used alternative mapping",
       });
     } else {
       logger.logTransformResult(filePath, {
@@ -199,7 +199,7 @@ function processTypographyProperty(
       nextToken: null,
       line,
       status: "warning",
-      failureReason: "Found mapping but no next or alternative values available.",
+      failureReason: "No mapping found",
     });
   } else {
     // 매핑이 없으면 경고 로그 기록
@@ -208,7 +208,7 @@ function processTypographyProperty(
       nextToken: null,
       line,
       status: "warning",
-      failureReason: "No mapping found for this typography token.",
+      failureReason: "No mapping found",
     });
   }
 }
