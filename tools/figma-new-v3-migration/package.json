@@ -22,21 +22,21 @@
     "@seed-design/react": "^0.0.10",
     "@seed-design/vite-plugin": "^0.0.10",
     "normalize.css": "^8.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@figma/plugin-typings": "^1.109.0",
     "@types/node": "^22.13.11",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",
     "globals": "^15.15.0",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.2",
+    "vite": "^6.2.3",
     "vite-plugin-singlefile": "^2.2.0",
     "vite-tsconfig-paths": "^5.1.4"
   }

@@ -30,13 +30,13 @@
     "@seed-design/vite-plugin": "0.0.11",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
-    "@vanilla-extract/vite-plugin": "^4.0.18",
+    "@vanilla-extract/vite-plugin": "^5.0.1",
     "@vitejs/plugin-legacy": "^6.0.1",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "rollup-plugin-visualizer": "^5.14.0",
     "terser": "^5.24.0",
     "typescript": "^5.4.5",
-    "vite": "^6.1.1",
+    "vite": "^6.2.3",
     "vite-plugin-checker": "^0.9.0"
   }
 }
