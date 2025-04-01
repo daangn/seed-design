@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import type { ColorFg, ColorPalette, Dimension } from "@seed-design/css/vars";
+import type { Dimension, ScopedColorFg, ScopedColorPalette } from "@seed-design/css/vars";
 import { createContext, forwardRef, useCallback, useContext, useMemo, useRef } from "react";
 import { handleColor, handleDimension } from "../../utils/styled";
 
@@ -108,7 +108,7 @@ export interface IconProps {
 
   size?: Dimension | string;
 
-  color?: `fg.${ColorFg}` | `palette.${ColorPalette}`;
+  color?: ScopedColorFg | ScopedColorPalette;
 }
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(

@@ -1,8 +1,8 @@
 import type {
-  ColorBg,
-  ColorFg,
-  ColorPalette,
-  ColorStroke,
+  ScopedColorBg,
+  ScopedColorFg,
+  ScopedColorPalette,
+  ScopedColorStroke,
   Dimension,
   Radius,
   SpacingX,
@@ -105,11 +105,11 @@ function handleAlignItems(alignItems: string | undefined) {
 }
 
 export interface StyleProps {
-  background?: `bg.${ColorBg}` | `palette.${ColorPalette}`;
+  background?: ScopedColorBg | ScopedColorPalette;
 
-  color?: `fg.${ColorFg}` | `palette.${ColorPalette}`;
+  color?: ScopedColorFg | ScopedColorPalette;
 
-  borderColor?: `stroke.${ColorStroke}` | `palette.${ColorPalette}`;
+  borderColor?: ScopedColorStroke | ScopedColorPalette;
 
   borderWidth?: 0 | 1 | (number & {});
 

@@ -5,11 +5,23 @@ export type TokenObject = typeof vars;
 
 export type ColorFg = keyof TokenObject["$color"]["fg"];
 
+// Workaround for type docgen
+export type ScopedColorFg = Exclude<`fg.${ColorFg}`, "">;
+
 export type ColorBg = keyof TokenObject["$color"]["bg"];
+
+// Workaround for type docgen
+export type ScopedColorBg = Exclude<`bg.${ColorBg}`, "">;
 
 export type ColorStroke = keyof TokenObject["$color"]["stroke"];
 
+// Workaround for type docgen
+export type ScopedColorStroke = Exclude<`stroke.${ColorStroke}`, "">;
+
 export type ColorPalette = keyof TokenObject["$color"]["palette"];
+
+// Workaround for type docgen
+export type ScopedColorPalette = Exclude<`palette.${ColorPalette}`, "">;
 
 export type Duration = keyof TokenObject["$duration"];
 
