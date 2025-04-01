@@ -1,11 +1,11 @@
 import { camelCase } from "change-case";
-import { createBackgroundProps, createBorderProps } from "./color";
 import { componentHandlerMap, ignoredComponentKeys } from "./component";
 import { iconRecord } from "./data/icons";
+import { FIGMA_TEXT_STYLES } from "./data/styles";
 import { createIconTagNameFromKey, createMonochromeIconColorProps, isIconComponent } from "./icon";
 import type { ElementNode } from "./jsx";
 import { createElement, stringifyElement } from "./jsx";
-import { createLayoutProps } from "./layout";
+import { inferLayoutComponent } from "./layout";
 import type {
   NormalizedComponentNode,
   NormalizedFrameNode,
@@ -14,177 +14,215 @@ import type {
   NormalizedSceneNode,
   NormalizedTextNode,
 } from "./normalizer/types";
-import { createSizingProps } from "./sizing";
-import { createTextProps } from "./text";
-import { getColorVariableName, getLayoutVariableName, inferDimension } from "./variable";
-import { FIGMA_TEXT_STYLES } from "./data/styles";
-import { compactObject } from "./util";
+import { createBackgroundProps, createBorderProps } from "./props/color";
+import { createLayoutProps } from "./props/layout";
+import { createSizingProps } from "./props/sizing";
+import { createTextProps } from "./props/text";
+import { getColorVariableName, getLayoutVariableName, inferDimension } from "./props/variable";
+import { compactObject } from "./utils/common";
 
-export async function generateCode(selection: NormalizedSceneNode) {
-  async function handleFrameNode(
-    node: NormalizedFrameNode | NormalizedComponentNode | NormalizedInstanceNode,
-  ) {
-    const children = node.children;
+type PromiseLikeMaybe<T> = Promise<T | undefined> | T | undefined;
 
-    const props = {
-      ...createLayoutProps(node),
-      ...createSizingProps(node),
-      ...createBackgroundProps(node),
-      ...createBorderProps(node),
-    };
+export type FigmaNodeHandler = (node: NormalizedSceneNode) => PromiseLikeMaybe<ElementNode>;
 
-    if (
-      props.flexDirection === "row" &&
-      props.alignItems === "flexStart" &&
-      props.justifyContent === "flexStart" &&
-      props.flexWrap === "wrap"
-    ) {
-      const { flexDirection, flexWrap, alignItems, justifyContent, ...rest } = props;
+type FigmaNodeHandlerFactory<T extends NormalizedSceneNode> = (
+  traverse: FigmaNodeHandler,
+) => (node: T) => PromiseLikeMaybe<ElementNode>;
 
-      return createElement("Inline", rest, await Promise.all(children.map(traverse)));
-    }
+export type FrameNodeHandlerFactory = FigmaNodeHandlerFactory<
+  NormalizedFrameNode | NormalizedComponentNode | NormalizedInstanceNode
+>;
 
-    if (
-      props.flexDirection === "row" &&
-      props.justifyContent === "flexStart" &&
-      props.flexWrap === "nowrap"
-    ) {
-      const { flexDirection, flexWrap, justifyContent, ...rest } = props;
+export type TextNodeHandlerFactory = FigmaNodeHandlerFactory<NormalizedTextNode>;
 
-      const childrenResult = await Promise.all(children.map(traverse));
+export type RectangleNodeHandlerFactory = FigmaNodeHandlerFactory<NormalizedRectangleNode>;
 
-      return createElement(
-        "Columns",
-        rest,
-        childrenResult.map((child) => createElement("Column", {}, child)),
-      );
-    }
+export type ComponentNodeHandlerFactory = FigmaNodeHandlerFactory<NormalizedComponentNode>;
 
-    if (props.flexDirection === "column") {
-      const { flexDirection, ...rest } = props;
+export type InstanceNodeHandlerFactory = FigmaNodeHandlerFactory<NormalizedInstanceNode>;
 
-      return createElement("Stack", rest, await Promise.all(children.map(traverse)));
-    }
+const defaultFrameHandler: FrameNodeHandlerFactory = (traverse) => async (node) => {
+  const children = node.children;
 
-    return createElement("Flex", props, await Promise.all(children.map(traverse)));
+  const props = {
+    ...createLayoutProps(node),
+    ...createSizingProps(node),
+    ...createBackgroundProps(node),
+    ...createBorderProps(node),
+  };
+
+  const layoutComponent = inferLayoutComponent(props);
+
+  if (layoutComponent === "Stack") {
+    const { flexDirection, ...rest } = props;
+
+    return createElement("Stack", rest, await Promise.all(children.map(traverse)));
   }
 
-  function handleTextNode(node: NormalizedTextNode): ElementNode {
-    const maxLines =
-      node.style.textTruncation === "ENDING" ? (node.style.maxLines ?? undefined) : undefined;
+  if (layoutComponent === "Inline") {
+    const { flexDirection, flexWrap, alignItems, justifyContent, ...rest } = props;
 
-    if (node.fills.length > 1) {
-      throw new Error("Expected a single fill");
-    }
+    return createElement("Inline", rest, await Promise.all(children.map(traverse)));
+  }
 
-    const onlyFill = node.fills.length === 1 ? node.fills[0] : null;
-    const fillBoundVariableId =
-      onlyFill && onlyFill.type === "SOLID" ? (onlyFill.boundVariables?.color?.id ?? null) : null;
-    const color = fillBoundVariableId ? getColorVariableName(fillBoundVariableId) : undefined;
+  if (layoutComponent === "Columns") {
+    const { flexDirection, flexWrap, justifyContent, ...rest } = props;
 
-    const style = FIGMA_TEXT_STYLES.find((s) => s.key === node.textStyleKey);
+    const childrenResult = await Promise.all(children.map(traverse));
 
-    if (style) {
-      const styleNameSlugs = style.name.split("/");
-      const styleName = styleNameSlugs[styleNameSlugs.length - 1]!;
-      return createElement(
-        "Text",
-        compactObject({
-          textStyle: camelCase(styleName, { mergeAmbiguousCharacters: true }),
-          maxLines,
-          color,
-        }),
-        node.characters.replace(/\n/g, "<br />"),
-        color ? "" : "color 프로퍼티는 반영되지 않았습니다.",
-      );
-    }
+    return createElement(
+      "Columns",
+      rest,
+      childrenResult.map((child) => createElement("Column", {}, child)),
+    );
+  }
 
-    const { fontSize, fontWeight, lineHeight } = createTextProps(node.boundVariables);
+  return createElement("Flex", props, await Promise.all(children.map(traverse)));
+};
 
+const defaultTextNodeHandler: TextNodeHandlerFactory = () => (node) => {
+  const maxLines =
+    node.style.textTruncation === "ENDING" ? (node.style.maxLines ?? undefined) : undefined;
+
+  if (node.fills.length > 1) {
+    throw new Error("Expected a single fill");
+  }
+
+  const onlyFill = node.fills.length === 1 ? node.fills[0] : null;
+  const fillBoundVariableId =
+    onlyFill && onlyFill.type === "SOLID" ? (onlyFill.boundVariables?.color?.id ?? null) : null;
+  const color = fillBoundVariableId ? getColorVariableName(fillBoundVariableId) : undefined;
+
+  const style = FIGMA_TEXT_STYLES.find((s) => s.key === node.textStyleKey);
+
+  if (style) {
+    const styleNameSlugs = style.name.split("/");
+    const styleName = styleNameSlugs[styleNameSlugs.length - 1]!;
     return createElement(
       "Text",
       compactObject({
-        fontSize,
-        fontWeight,
-        lineHeight,
+        textStyle: camelCase(styleName, { mergeAmbiguousCharacters: true }),
+        maxLines,
         color,
       }),
       node.characters.replace(/\n/g, "<br />"),
+      color ? "" : "color 프로퍼티는 반영되지 않았습니다.",
     );
   }
 
-  async function handleRectangleNode(node: NormalizedRectangleNode) {
-    return createElement(
-      "Box",
-      { ...createSizingProps(node), background: "palette.gray200" },
-      undefined,
-      "Rectangle Node Placeholder",
-    );
+  const { fontSize, fontWeight, lineHeight } = createTextProps(node.boundVariables);
+
+  return createElement(
+    "Text",
+    compactObject({
+      fontSize,
+      fontWeight,
+      lineHeight,
+      color,
+    }),
+    node.characters.replace(/\n/g, "<br />"),
+  );
+};
+
+const defaultRectangleNodeHandler: RectangleNodeHandlerFactory = () => (node) => {
+  return createElement(
+    "Box",
+    { ...createSizingProps(node), background: "palette.gray200" },
+    undefined,
+    "Rectangle Node Placeholder",
+  );
+};
+
+const defaultComponentNodeHandler: ComponentNodeHandlerFactory = (traverse) => async (node) => {
+  return defaultFrameHandler(traverse)(node);
+};
+
+const defaultInstanceNodeHandler: InstanceNodeHandlerFactory = (traverse) => async (node) => {
+  const { componentKey, componentSetKey } = node;
+
+  if (isIconComponent(componentKey)) {
+    const iconElement = createElement(createIconTagNameFromKey(componentKey));
+
+    switch (iconRecord[componentKey]?.type) {
+      case "monochrome":
+        return createElement("Icon", {
+          size:
+            getLayoutVariableName(node.boundVariables?.size?.x?.id) ??
+            inferDimension(node.absoluteBoundingBox?.width ?? 0),
+          ...createMonochromeIconColorProps(node),
+          svg: iconElement,
+        });
+      case "multicolor":
+        return iconElement;
+      default:
+        return createElement("Icon", {
+          size:
+            getLayoutVariableName(node.boundVariables?.size?.x?.id) ??
+            inferDimension(node.absoluteBoundingBox?.width ?? 0),
+          svg: iconElement,
+          ...createMonochromeIconColorProps(node),
+        });
+    }
   }
 
-  async function handleComponentNode(node: NormalizedComponentNode) {
-    return await handleFrameNode(node);
+  if (ignoredComponentKeys.has(componentSetKey ?? componentKey)) {
+    return;
   }
 
-  async function handleInstanceNode(node: NormalizedInstanceNode) {
-    const { componentKey, componentSetKey } = node;
+  const componentData = componentSetKey
+    ? componentHandlerMap.get(componentSetKey)
+    : componentHandlerMap.get(componentKey);
 
-    if (isIconComponent(componentKey)) {
-      const iconElement = createElement(createIconTagNameFromKey(componentKey));
-
-      switch (iconRecord[componentKey]?.type) {
-        case "monochrome":
-          return createElement("Icon", {
-            size:
-              getLayoutVariableName(node.boundVariables?.size?.x?.id) ??
-              inferDimension(node.absoluteBoundingBox?.width ?? 0),
-            ...createMonochromeIconColorProps(node),
-            svg: iconElement,
-          });
-        case "multicolor":
-          return iconElement;
-        default:
-          return createElement("Icon", {
-            size:
-              getLayoutVariableName(node.boundVariables?.size?.x?.id) ??
-              inferDimension(node.absoluteBoundingBox?.width ?? 0),
-            svg: iconElement,
-            ...createMonochromeIconColorProps(node),
-          });
-      }
-    }
-
-    if (ignoredComponentKeys.has(componentSetKey ?? componentKey)) {
-      return;
-    }
-
-    const componentData = componentSetKey
-      ? componentHandlerMap.get(componentSetKey)
-      : componentHandlerMap.get(componentKey);
-
-    if (componentData) {
-      return componentData.codegen(node);
-    }
-
-    // if (node.id === selection.id) {
-    return await handleFrameNode(node);
-    // }
-
-    // const mainComponent = node.mainComponent;
-
-    // return createElement(
-    //   mainComponent.parent?.type === "COMPONENT_SET"
-    //     ? mainComponent.parent.name
-    //     : mainComponent.name,
-    //   Object.fromEntries(
-    //     Object.entries(node.componentProperties)
-    //       .filter(([_, props]) => props.type === "VARIANT" || props.type === "TEXT")
-    //       .map(([key, props]) => [camelCase(key), camelCase(props.value as string)]),
-    //   ),
-    //   undefined,
-    //   "Custom Component",
-    // );
+  if (componentData) {
+    return componentData.codegen(node);
   }
+
+  // if (node.id === selection.id) {
+  return await defaultFrameHandler(traverse)(node);
+  // }
+
+  // const mainComponent = node.mainComponent;
+
+  // return createElement(
+  //   mainComponent.parent?.type === "COMPONENT_SET"
+  //     ? mainComponent.parent.name
+  //     : mainComponent.name,
+  //   Object.fromEntries(
+  //     Object.entries(node.componentProperties)
+  //       .filter(([_, props]) => props.type === "VARIANT" || props.type === "TEXT")
+  //       .map(([key, props]) => [camelCase(key), camelCase(props.value as string)]),
+  //   ),
+  //   undefined,
+  //   "Custom Component",
+  // );
+};
+
+export async function generateCode(
+  selection: NormalizedSceneNode,
+  options?: {
+    handlers?: {
+      frame?: FrameNodeHandlerFactory;
+      text?: TextNodeHandlerFactory;
+      rectangle?: RectangleNodeHandlerFactory;
+      component?: ComponentNodeHandlerFactory;
+      instance?: InstanceNodeHandlerFactory;
+    };
+  },
+) {
+  const handlers = {
+    frame: defaultFrameHandler,
+    text: defaultTextNodeHandler,
+    rectangle: defaultRectangleNodeHandler,
+    component: defaultComponentNodeHandler,
+    instance: defaultInstanceNodeHandler,
+    ...options?.handlers,
+  };
+
+  const handleFrameNode = handlers.frame(traverse);
+  const handleTextNode = handlers.text(traverse);
+  const handleRectangleNode = handlers.rectangle(traverse);
+  const handleComponentNode = handlers.component(traverse);
+  const handleInstanceNode = handlers.instance(traverse);
 
   async function traverse(node: NormalizedSceneNode): Promise<ElementNode | undefined> {
     if ("visible" in node && !node.visible) {
