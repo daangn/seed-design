@@ -1,3 +1,6 @@
+import type { ElementNode } from "../jsx";
+import type { NormalizedInstanceNode } from "../normalizer/types";
+
 interface ComponentPropertyDefinition {
   type: ComponentPropertyType;
   preferredValues?: InstanceSwapPreferredValue[];
@@ -27,3 +30,11 @@ export type InferFromDefinition<T extends Record<string, ComponentPropertyDefini
     };
   };
 };
+
+export interface ComponentHandler<
+  T extends
+    NormalizedInstanceNode["componentProperties"] = NormalizedInstanceNode["componentProperties"],
+> {
+  key: string;
+  codegen: (node: NormalizedInstanceNode & { componentProperties: T }) => Promise<ElementNode>;
+}
