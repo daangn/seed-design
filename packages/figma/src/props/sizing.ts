@@ -1,28 +1,29 @@
-import type { NormalizedFrameNode } from "./normalizer/types";
+import type { NormalizedFrameNode } from "../normalizer/types";
 import { getLayoutVariableName, inferDimension } from "./variable";
 
-type SizingPropHandler = (props: {
-  boundVariables: NonNullable<NormalizedFrameNode["boundVariables"]>;
-  layoutSizingHorizontal: FrameNode["layoutSizingHorizontal"];
-  layoutSizingVertical: FrameNode["layoutSizingVertical"];
-  width: FrameNode["width"];
-  height: FrameNode["height"];
-}) => string | number | boolean | undefined;
+type SizingPropHandler = (
+  props: Pick<
+    NormalizedFrameNode,
+    "boundVariables" | "layoutSizingHorizontal" | "layoutSizingVertical" | "absoluteBoundingBox"
+  >,
+) => string | number | boolean | undefined;
 
 const sizingPropHandlers = {
-  height: ({ boundVariables, layoutSizingVertical, height }) =>
+  height: ({ boundVariables, layoutSizingVertical, absoluteBoundingBox }) =>
     layoutSizingVertical === "FIXED"
-      ? boundVariables.size?.y
+      ? boundVariables?.size?.y
         ? getLayoutVariableName(boundVariables.size.y.id)
-        : inferDimension(height)
+        : inferDimension(absoluteBoundingBox?.height ?? 0)
       : undefined,
-  width: ({ boundVariables, layoutSizingHorizontal, width }) =>
+  width: ({ boundVariables, layoutSizingHorizontal, absoluteBoundingBox }) =>
     layoutSizingHorizontal === "FIXED"
-      ? boundVariables.size?.x
+      ? boundVariables?.size?.x
         ? getLayoutVariableName(boundVariables.size.x.id)
-        : inferDimension(width)
+        : inferDimension(absoluteBoundingBox?.width ?? 0)
       : undefined,
 } satisfies Record<string, SizingPropHandler>;
+
+export type SizingProps = keyof typeof sizingPropHandlers;
 
 export function createSizingProps(
   node: Pick<
@@ -33,7 +34,7 @@ export function createSizingProps(
   const boundVariables = node.boundVariables;
   const layoutSizingHorizontal = node.layoutSizingHorizontal ?? "FIXED";
   const layoutSizingVertical = node.layoutSizingVertical ?? "FIXED";
-  const { width, height } = node.absoluteBoundingBox ?? { width: 0, height: 0 };
+  const absoluteBoundingBox = node.absoluteBoundingBox;
 
   if (!boundVariables) {
     return {};
@@ -46,8 +47,7 @@ export function createSizingProps(
       boundVariables,
       layoutSizingHorizontal,
       layoutSizingVertical,
-      width,
-      height,
+      absoluteBoundingBox,
     });
     if (value !== undefined) {
       result[prop] = value;

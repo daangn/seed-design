@@ -3,7 +3,7 @@ import { match } from "ts-pattern";
 import * as metadata from "../../data/__generated__/component-sets";
 import { createIconTagNameFromKey } from "../../icon";
 import { createElement } from "../../jsx";
-import { findOne } from "../../node-util";
+import { findOne } from "../../utils/figma-node";
 import type { NormalizedInstanceNode } from "../../normalizer/types";
 import { handleSize } from "../properties";
 import type { TextButtonProperties } from "../type";
