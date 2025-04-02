@@ -11,12 +11,14 @@ import {
   getTokenDeclarations,
   jsonschema,
   typescript,
+  tailwind,
   validate,
 } from "@seed-design/rootage-core";
 import fs from "fs-extra";
 import path from "node:path";
 import YAML from "yaml";
 import { createRequire } from "node:module";
+import yargs from "yargs";
 
 const require = createRequire(import.meta.url);
 
@@ -42,7 +44,7 @@ function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   return fileList;
 }
 
-function writeFile({ filename, writePath, code }) {
+function writeFileSync({ filename, writePath, code }) {
   console.log("Writing", filename, "to", writePath);
 
   if (!fs.existsSync(path.dirname(writePath))) {
@@ -94,7 +96,7 @@ async function writeTokenTs() {
   for (const result of mjsResults) {
     const writePath = path.join(process.cwd(), dir, result.path);
 
-    writeFile({
+    writeFileSync({
       filename: result.path,
       code: result.code,
       writePath: writePath,
@@ -104,7 +106,7 @@ async function writeTokenTs() {
   for (const result of dtsResults) {
     const writePath = path.join(process.cwd(), dir, result.path);
 
-    writeFile({
+    writeFileSync({
       filename: result.path,
       code: result.code,
       writePath: writePath,
@@ -120,7 +122,7 @@ async function writeComponentSpec() {
     const mjsCode = tsStringifier.getComponentSpecMjs(spec);
     const mjsWritePath = path.join(process.cwd(), dir, `${spec.id}.mjs`);
 
-    writeFile({
+    writeFileSync({
       filename: spec.id,
       code: mjsCode,
       writePath: mjsWritePath,
@@ -129,7 +131,7 @@ async function writeComponentSpec() {
     const dtsCode = tsStringifier.getComponentSpecDts(spec);
     const dtsWritePath = path.join(process.cwd(), dir, `${spec.id}.d.ts`);
 
-    writeFile({
+    writeFileSync({
       filename: spec.id,
       code: dtsCode,
       writePath: dtsWritePath,
@@ -139,7 +141,7 @@ async function writeComponentSpec() {
   const mjsIndexCode = tsStringifier.getComponentSpecIndexMjs(specs);
   const mjsIndexWritePath = path.join(process.cwd(), dir, "index.mjs");
 
-  writeFile({
+  writeFileSync({
     filename: "index",
     code: mjsIndexCode,
     writePath: mjsIndexWritePath,
@@ -148,7 +150,7 @@ async function writeComponentSpec() {
   const dtsIndexCode = tsStringifier.getComponentSpecIndexDts(specs);
   const dtsIndexWritePath = path.join(process.cwd(), dir, "index.d.ts");
 
-  writeFile({
+  writeFileSync({
     filename: "index",
     code: dtsIndexCode,
     writePath: dtsIndexWritePath,
@@ -197,7 +199,7 @@ async function writeTokenCss() {
 
   const writePath = path.join(process.cwd(), dir, "token.css");
 
-  writeFile({
+  writeFileSync({
     filename: "token.css",
     code,
     writePath: writePath,
@@ -210,7 +212,7 @@ async function writeJsonSchema() {
   const jsonSchema = jsonschema.getJsonSchema(getTokenDeclarations(ctx));
   const writePath = path.join(process.cwd(), dir, "schema.json");
 
-  writeFile({
+  writeFileSync({
     filename: "schema.json",
     code: jsonSchema,
     writePath: writePath,
@@ -227,7 +229,7 @@ async function writeJson() {
     const withoutExt = relativePath.replace(path.extname(relativePath), "");
     const writePath = path.join(process.cwd(), dir, `${withoutExt}.json`);
 
-    writeFile({
+    writeFileSync({
       filename: `${withoutExt}.json`,
       code,
       writePath: writePath,
@@ -241,11 +243,60 @@ async function writeJson() {
   const indexContent = exchange.getIndex(models, { version: artifactsPkg.version });
   const indexPath = path.join(process.cwd(), dir, "index.json");
 
-  writeFile({
+  writeFileSync({
     filename: "index.json",
     code: JSON.stringify(indexContent, null, 2),
     writePath: indexPath,
   });
+}
+
+async function readYamlFile(filePath: string) {
+  try {
+    const content = await fs.readFile(filePath, "utf-8");
+    const model = YAML.parse(content) as Authoring.Model;
+    const ctx = buildContext([
+      {
+        fileName: filePath,
+        ast: Authoring.fromObject(model),
+      },
+    ]);
+
+    return getTokenDeclarations(ctx);
+  } catch (error) {
+    console.error(`Error reading YAML file ${filePath}:`, error);
+    process.exit(1);
+  }
+}
+
+async function writeFile(filePath: string, content: string) {
+  try {
+    await fs.mkdirp(path.dirname(filePath));
+    await fs.writeFile(filePath, content);
+    return filePath;
+  } catch (error) {
+    console.error(`Error writing file ${filePath}:`, error);
+    process.exit(1);
+  }
+}
+
+async function writeTailwindPlugin(ymlFile?: string, outPath?: string): Promise<string> {
+  if (!ymlFile || !outPath) {
+    const { ctx } = await prepare();
+    const tokens = getTokenDeclarations(ctx);
+    const code = tailwind.getTailwindPluginCode(tokens);
+
+    const pluginPath = path.join(process.cwd(), dir, "index.ts");
+
+    await writeFile(pluginPath, code);
+    return pluginPath;
+  }
+
+  const tokens = await readYamlFile(ymlFile);
+  const code = tailwind.getTailwindPluginCode(tokens);
+  const outFile = path.join(outPath, "index.ts");
+
+  await writeFile(outFile, code);
+  return outFile;
 }
 
 if (command === "token-ts") {
@@ -287,3 +338,117 @@ if (command === "json") {
     process.exit(0);
   });
 }
+
+if (command === "tailwind-plugin") {
+  console.log("Start");
+  writeTailwindPlugin().then(() => {
+    console.log("Done");
+    process.exit(0);
+  });
+}
+
+yargs(process.argv.slice(2))
+  .command(
+    "token-ts <dir>",
+    "Generate TypeScript tokens",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeTokenTs();
+      console.log("Done");
+    },
+  )
+  .command(
+    "component-spec <dir>",
+    "Generate component specs",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeComponentSpec();
+      console.log("Done");
+    },
+  )
+  .command(
+    "token-css <dir>",
+    "Generate CSS tokens",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeTokenCss();
+      console.log("Done");
+    },
+  )
+  .command(
+    "json-schema <dir>",
+    "Generate JSON schema",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeJsonSchema();
+      console.log("Done");
+    },
+  )
+  .command(
+    "json <dir>",
+    "Generate JSON",
+    (yargs) => {
+      return yargs.positional("dir", {
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeJson();
+      console.log("Done");
+    },
+  )
+  .command(
+    "tailwind-plugin <outPath>",
+    "Generate Tailwind plugin",
+    (yargs) => {
+      return yargs
+        .positional("outPath", {
+          describe: "Output directory for Tailwind plugin",
+          type: "string",
+        })
+        .option("file", {
+          alias: "f",
+          describe: "YAML file to read",
+          type: "string",
+          default: "./packages/rootage/color.yaml",
+        });
+    },
+    async (argv) => {
+      console.log("Start");
+      const outFile = await writeTailwindPlugin(argv.file, argv.outPath as string);
+      console.log(`Writing index.ts to ${outFile}`);
+      console.log("Done");
+    },
+  )
+  .help().argv;

@@ -708,6 +708,13 @@
       "name": "@seed-design/stylesheet",
       "version": "1.1.1",
     },
+    "packages/tailwind-plugin": {
+      "name": "@seed-design/tailwind-plugin",
+      "version": "0.0.1",
+      "peerDependencies": {
+        "tailwindcss": "^3.0.0 || ^4.0.0",
+      },
+    },
     "packages/utils/dom-utils": {
       "name": "@seed-design/dom-utils",
       "version": "0.0.1",
@@ -1923,6 +1930,8 @@
     "@seed-design/stackflow-spa": ["@seed-design/stackflow-spa@workspace:examples/stackflow-spa"],
 
     "@seed-design/stylesheet": ["@seed-design/stylesheet@workspace:packages/stylesheet"],
+
+    "@seed-design/tailwind-plugin": ["@seed-design/tailwind-plugin@workspace:packages/tailwind-plugin"],
 
     "@seed-design/vite-plugin": ["@seed-design/vite-plugin@workspace:packages/vite-plugin"],
 

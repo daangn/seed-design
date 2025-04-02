@@ -1,0 +1,51 @@
+{
+  "name": "@seed-design/tailwind-plugin",
+  "version": "0.0.1",
+  "description": "Tailwind CSS plugin for Seed Design tokens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "packages/tailwind-plugin"
+  },
+  "author": "Daangn",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      },
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/index.cjs"
+      }
+    }
+  },
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bunchee",
+    "rootage:generate": "rootage tailwind-plugin ./src --file ../../packages/rootage/color.yaml",
+    "lint:publish": "bun publint"
+  },
+  "keywords": [
+    "tailwindcss",
+    "seed-design",
+    "design-tokens",
+    "plugin"
+  ],
+  "peerDependencies": {
+    "tailwindcss": "^3.0.0 || ^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
