@@ -1,11 +1,11 @@
 import { text, type TextVariantProps } from "@seed-design/css/recipes/text";
 import {
   vars,
-  type ColorFg,
-  type ColorPalette,
   type FontSize,
   type FontWeight,
   type LineHeight,
+  type ScopedColorFg,
+  type ScopedColorPalette,
 } from "@seed-design/css/vars";
 import clsx from "clsx";
 import type * as React from "react";
@@ -56,7 +56,7 @@ export interface TextProps
   /**
    * The color of the text.
    */
-  color?: `fg.${ColorFg}` | `palette.${ColorPalette}`;
+  color?: ScopedColorFg | ScopedColorPalette;
 
   /**
    * The font size of the text. Partially overrides the textStyle.
