@@ -266,8 +266,14 @@ const seedDesignPlugin: PluginWithConfig = plugin(
   "manner-temp-l5-bg": "var(--seed-color-color-manner-temp-l5-bg)",
   "manner-temp-l5-text": "var(--seed-color-color-manner-temp-l5-text)",
   "manner-temp-l6-bg": "var(--seed-color-color-manner-temp-l6-bg)",
-  "manner-temp-l6-text": "var(--seed-color-color-manner-temp-l6-text)",
-  "gradient-shimmer": "var(--seed-color-gradient-shimmer)"
+  "manner-temp-l6-text": "var(--seed-color-color-manner-temp-l6-text)"
+}
+      },
+    },
+  }
+);
+
+export default seedDesignPlugin;"
 }
       },
     },
