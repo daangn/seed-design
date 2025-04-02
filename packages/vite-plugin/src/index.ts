@@ -25,6 +25,7 @@ interface Options {
 }
 
 export function seedDesignPlugin(options: Options = {}): Plugin {
+  let isBuild = false;
   const { colorMode = "system", injectColorSchemeTag = true } = options;
 
   const colorScheme = {
@@ -38,27 +39,47 @@ export function seedDesignPlugin(options: Options = {}): Plugin {
   return {
     name: PLUGIN_NAME,
 
-    transform: {
-      order: "pre",
-      handler(code, id) {
-        const match = code.match(recipeRegex);
-        if (match) {
-          const cssFileName = id.replace(/\.(m?)js$/, ".css");
+    enforce: "pre",
 
-          if (
-            code.includes(`import "${cssFileName}"`) ||
-            code.includes(`import '${cssFileName}'`)
-          ) {
-            return code;
-          }
+    configResolved(config) {
+      isBuild = config.command === "build";
+    },
 
-          return {
-            code: `${code}\nimport "${cssFileName}";`,
-            map: null,
-          };
+    transform(code, id) {
+      if (!isBuild) return null;
+
+      const match = code.match(recipeRegex);
+      if (match) {
+        const cssFileName = id.replace(/\.(m?)js$/, ".css");
+
+        if (code.includes(`import "${cssFileName}"`) || code.includes(`import '${cssFileName}'`)) {
+          return code;
         }
-        return null;
-      },
+
+        return {
+          code: `${code}\nimport "${cssFileName}";`,
+          map: null,
+        };
+      }
+      return null;
+    },
+
+    resolveId(id) {
+      if (id === "virtual:seed-css") return id;
+    },
+
+    load(id) {
+      if (id === "virtual:seed-css") {
+        if (isBuild) {
+          return `
+            import '@seed-design/css/base.css';
+          `;
+        } else {
+          return `
+            import '@seed-design/css/all.css';
+          `;
+        }
+      }
     },
 
     transformIndexHtml(html) {
