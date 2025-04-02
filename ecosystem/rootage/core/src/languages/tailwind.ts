@@ -45,7 +45,7 @@ import plugin, { type PluginWithConfig } from "tailwindcss/plugin";
  * 
  * 모든 색상은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
-const seedDesignPlugin: PluginWithConfig = plugin(
+export const seedDesignPlugin: PluginWithConfig = plugin(
   ({ matchUtilities, theme }) => {
     // 배경색 유틸리티 (bg 카테고리)
     const bgColors = Object.entries(theme('colors'))
@@ -150,13 +150,13 @@ const seedDesignPlugin: PluginWithConfig = plugin(
   {
     theme: {
       extend: {
-        colors: ${JSON.stringify(flatColors, null, 2)}
+        colors: {
+          ...${JSON.stringify(flatColors, null, 2)}
+        }
       },
     },
   }
-);
-
-export default seedDesignPlugin;`;
+);`;
 
   return pluginCode;
 }
