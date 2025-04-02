@@ -1,4 +1,4 @@
-import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,

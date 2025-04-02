@@ -8,8 +8,8 @@ import {
 } from "@seed-design/react";
 import * as React from "react";
 
-import IconCheckmarkCircleFill from "@daangn/react-monochrome-icon/IconCheckmarkCircleFill";
-import IconExclamationmarkCircleFill from "@daangn/react-monochrome-icon/IconExclamationmarkCircleFill";
+import IconCheckmarkCircleFill from "@karrotmarket/react-monochrome-icon/IconCheckmarkCircleFill";
+import IconExclamationmarkCircleFill from "@karrotmarket/react-monochrome-icon/IconExclamationmarkCircleFill";
 
 export interface SnackbarProviderProps extends SeedSnackbar.RootProviderProps {}
 

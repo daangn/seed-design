@@ -1,4 +1,4 @@
-import { IconArrow2ClockwiseCircularLine } from "@daangn/react-monochrome-icon";
+import { IconArrow2ClockwiseCircularLine } from "@karrotmarket/react-monochrome-icon";
 import { ActionButton, Box, Flex, Icon } from "@seed-design/react";
 import type { ReactNode } from "react";
 

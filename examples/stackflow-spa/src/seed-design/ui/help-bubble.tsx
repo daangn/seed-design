@@ -1,6 +1,6 @@
 "use client";
 
-import IconXmarkLine from "@daangn/react-monochrome-icon/IconXmarkLine";
+import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, HelpBubble as SeedHelpBubble } from "@seed-design/react";
 import { forwardRef } from "react";
 

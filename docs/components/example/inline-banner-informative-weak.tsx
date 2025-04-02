@@ -1,4 +1,4 @@
-import { IconILowercaseSerifCircleFill } from "@daangn/react-monochrome-icon";
+import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,

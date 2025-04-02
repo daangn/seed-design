@@ -6,7 +6,7 @@ import { fabVariantMap } from "@seed-design/css/recipes/fab";
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { Fab, type FabProps } from "../seed-design/ui/fab";
-import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
+import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
 
 const initialVariants = {} satisfies FabProps;
 

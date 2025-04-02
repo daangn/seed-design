@@ -1,6 +1,6 @@
 "use client";
 
-import * as V3MonochromeIcons from "@daangn/react-monochrome-icon";
+import * as V3MonochromeIcons from "@karrotmarket/react-monochrome-icon";
 import {
   monochromeIconMappings,
   multicolorIconMappings,

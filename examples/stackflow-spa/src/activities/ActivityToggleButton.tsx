@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 
-import { IconThumbUpFill } from "@daangn/react-monochrome-icon";
+import { IconThumbUpFill } from "@karrotmarket/react-monochrome-icon";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ToggleButton, type ToggleButtonProps } from "../seed-design/ui/toggle-button";
 import { PrefixIcon } from "@seed-design/react";

@@ -1,7 +1,7 @@
 import { PrefixIcon, Callout as SeedCallout, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 
-import { IconChevronRightLine, IconXmarkLine } from "@daangn/react-monochrome-icon";
+import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 
 export interface CalloutProps
   extends Omit<

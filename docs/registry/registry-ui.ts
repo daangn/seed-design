@@ -84,7 +84,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "callout",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:callout.tsx"],
   },
   {
@@ -94,7 +94,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "checkbox",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:checkbox.tsx"],
   },
   {
@@ -104,12 +104,12 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "inline-banner",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:inline-banner.tsx"],
   },
   {
     name: "snackbar",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:snackbar.tsx"],
   },
   {
@@ -134,7 +134,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "select-box",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:select-box.tsx"],
   },
   {
@@ -149,7 +149,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "text-field",
-    dependencies: ["@seed-design/react", "@daangn/react-monochrome-icon"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:text-field.tsx"],
   },
 ];

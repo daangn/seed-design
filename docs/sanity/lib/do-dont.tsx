@@ -2,7 +2,7 @@ import { SanityImageAsset } from "@sanity/asset-utils";
 import { SanityImage } from "./image";
 import { ExternalImage } from "./external-image";
 import clsx from "clsx";
-import { IconCheckmarkCircleFill, IconXmarkCircleFill } from "@daangn/react-monochrome-icon";
+import { IconCheckmarkCircleFill, IconXmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 // TODO: typescript generate from sanity
 interface ImageField {

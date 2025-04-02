@@ -1,5 +1,5 @@
 import { ActionableInlineBanner, InlineBanner } from "seed-design/ui/inline-banner";
-import { IconExclamationmarkCircleFill } from "@daangn/react-monochrome-icon";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 
 export default function InlineBannerCriticalSolid() {

@@ -4,7 +4,7 @@ import { InlineBanner } from "seed-design/ui/inline-banner";
 
 import { inlineBannerVariantMap } from "@seed-design/css/recipes/inline-banner";
 import { VariantTable } from "./components/variant-table";
-import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 

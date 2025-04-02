@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 
 import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
 
-import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
+import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ControlChip, type ToggleControlChipProps } from "../seed-design/ui/control-chip";
 import { Count } from "@seed-design/react";

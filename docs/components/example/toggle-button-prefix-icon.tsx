@@ -1,4 +1,4 @@
-import { IconCheckmarkLine, IconPlusLine } from "@daangn/react-monochrome-icon";
+import { IconCheckmarkLine, IconPlusLine } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
 import { useState } from "react";
 import { ToggleButton } from "seed-design/ui/toggle-button";

@@ -2,7 +2,7 @@
 
 import { useIcon } from "./icon-context";
 
-import { IconMagnifyingglassLine } from "@daangn/react-monochrome-icon";
+import { IconMagnifyingglassLine } from "@karrotmarket/react-monochrome-icon";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export const IconSearch = () => {

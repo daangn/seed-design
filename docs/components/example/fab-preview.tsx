@@ -1,4 +1,4 @@
-import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
+import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
 import { Fab, Icon } from "@seed-design/react";
 
 export default function FabPreview() {

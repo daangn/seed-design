@@ -1,4 +1,4 @@
-import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { ExtendedFab, PrefixIcon } from "@seed-design/react";
 
 export default function ExtendedFabNeutralSolid() {

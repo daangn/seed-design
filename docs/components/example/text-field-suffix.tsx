@@ -1,4 +1,4 @@
-import { IconWonLine } from "@daangn/react-monochrome-icon";
+import { IconWonLine } from "@karrotmarket/react-monochrome-icon";
 import { Column, Columns } from "@seed-design/react";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 

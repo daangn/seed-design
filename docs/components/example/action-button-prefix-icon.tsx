@@ -1,4 +1,4 @@
-import { IconPlusFill } from "@daangn/react-monochrome-icon";
+import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 
