@@ -110,9 +110,7 @@
         "variants": {},
         "definitions": [
           {
-            "states": [
-              "enabled"
-            ],
+            "states": ["enabled"],
             "slots": {
               "root": {
                 "color": {
@@ -210,14 +208,14 @@
                 "fromRight": {
                   "type": "dimension",
                   "value": {
-                    "value": 4,
+                    "value": 12,
                     "unit": "px"
                   }
                 },
                 "fromTop": {
                   "type": "dimension",
                   "value": {
-                    "value": 4,
+                    "value": 12,
                     "unit": "px"
                   }
                 },

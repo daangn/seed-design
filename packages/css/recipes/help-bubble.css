@@ -45,8 +45,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 4px;
-    right: 4px;
+    top: calc(12px - 32px / 2 + 14px / 2);
+    right: calc(12px - 32px / 2 + 14px / 2);
     color: var(--seed-color-palette-static-white);
     width: 32px;
     height: 32px;
