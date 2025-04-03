@@ -66,6 +66,8 @@ export interface HelpBubbleAnchorProps
   showCloseButton?: boolean;
 
   children?: React.ReactNode;
+
+  contentProps?: SeedHelpBubble.ContentProps;
 }
 
 export const HelpBubbleAnchor = forwardRef<
@@ -73,20 +75,21 @@ export const HelpBubbleAnchor = forwardRef<
   HelpBubbleAnchorProps
 >((props, ref) => {
   const {
-    open,
-    defaultOpen,
-    onOpenChange,
     showCloseButton = false,
     title,
     description,
+    children,
+    contentProps,
     ...otherProps
   } = props;
 
   return (
-    <SeedHelpBubble.Root>
-      <SeedHelpBubble.Anchor asChild ref={ref} {...otherProps} />
+    <SeedHelpBubble.Root {...otherProps}>
+      <SeedHelpBubble.Anchor asChild ref={ref}>
+        {children}
+      </SeedHelpBubble.Anchor>
       <SeedHelpBubble.Positioner>
-        <SeedHelpBubble.Content>
+        <SeedHelpBubble.Content {...contentProps}>
           {showCloseButton ? (
             <SeedHelpBubble.CloseButton>
               <Icon svg={<IconXmarkLine />} />
