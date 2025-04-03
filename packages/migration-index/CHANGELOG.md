@@ -1,5 +1,12 @@
 # @seed-design/migration-index
 
+## 0.0.20
+
+### Patch Changes
+
+- f17f842: - static 색상들의 맵핑을 추가해요
+  - `needsVerification` 필드를 추가해요
+
 ## 0.0.18
 
 ### Patch Changes

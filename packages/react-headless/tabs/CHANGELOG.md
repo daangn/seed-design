@@ -1,5 +1,11 @@
 # @seed-design/react-tabs
 
+## 0.0.3
+
+### Patch Changes
+
+- fee050d: overflow된 Tab 선택 시 스크롤 동작을 추가합니다.
+
 ## 0.0.2
 
 ### Patch Changes
