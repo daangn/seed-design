@@ -3,15 +3,81 @@ title: Help Bubble
 description: Help Bubble은 사용자에게 컴포넌트의 상태나 특정 기능에 대한 추가 정보를 제공하는 부가적인 도움말 컴포넌트입니다.
 ---
 
-## 개요
+## Anatomy
 
-### 옵션 테이블
+- root
+- arrow
+- title
+- description
+- close button
 
-| 속성            | 값          | 기본값 |
-| --------------- | ----------- | ------ |
-| title           | string      |        |
-| description     | string      |        |
-| show close icon | true, false | false  |
+## Options
+
+### Placement
+
+Help Bubble은 목표 대상을 기준으로 다양한 위치에 표시될 수 있습니다. {side}-{alignment} 혹은 {side} 형식으로 표기되며, alignment가 생략된 경우 center를 의미합니다. 기본값은 top입니다.
+
+### Max Width
+
+[TODO: Max Width 옵션을 설명하는 이미지]
+
+Help Bubble의 최대 너비를 지정해야 합니다. 문구의 길이와 화면 맥락을 고려하여 적절한 값을 선택해야 합니다. 기본값은 undefined입니다.
+
+### Gutter
+
+[TODO: Gutter 옵션을 설명하는 이미지]
+
+Help Bubble과 목표 대상 사이의 거리를 조정할 수 있습니다. 기본값은 4px입니다.
+
+### Overflow Padding
+
+[TODO: Overflow Padding 옵션을 설명하는 이미지]
+
+Help Bubble이 특정 경계(예: 브라우저 창) 내에 머물도록 패딩 값을 정의할 수 있습니다. 기본값은 16px ($dimension.spacing-x.global-gutter) 입니다.
+
+### Arrow Padding
+
+[TODO: Arrow Padding 옵션을 설명하는 이미지]
+
+Help Bubble의 arrow와 root의 경계 사이의 최소 간격을 정의할 수 있습니다. 기본값은 14px입니다.
+
+### Close on Interact Outside
+
+[TODO: Close on Interact Outside 옵션을 설명하는 이미지]
+
+Help Bubble이 표시된 상태에서 외부 영역을 탭하면 닫히도록 할 수 있습니다. 기본값은 true입니다.
+
+## Behaviors
+
+### 자동 위치 조정
+
+Help Bubble은 화면 공간과 위치에 따라 자동으로 배치를 조정합니다. Placement 옵션은 "선호 배치"로, 실제 배치는 화면 공간에 따라 결정됩니다.
+
+### 표시 방식
+
+Help Bubble은 Trigger 방식 혹은 Anchor 방식으로 표시될 수 있습니다. Trigger 방식은 트리거 버튼을 탭하면 표시되며, Anchor 방식은 지정된 Anchor 요소를 기준으로 표시됩니다.
+
+## Usage Guidelines
+
+### 컨텐츠 형식
+
+[TODO: 올바른 형식을 사용한 Help Bubble 예시와 잘못된 예시 비교]
+
+제목 끝에 마침표를 추가하지 마세요. 맥락에 따라 물음표는 허용됩니다.
+
+설명은 단일 문장이라도 끝에 마침표를 추가하세요.
+
+### 최대 너비 지정하기
+
+Help Bubble을 사용할 경우 디자이너는 Max Width 옵션에 사용할 최대 너비를 함께 제공해야 합니다.
+
+### 다중 사용 제한
+
+Help Bubble은 동시에 여러 개 보여주는 것은 권장되지 않습니다. 특히 Anchor 방식으로 표시할 때는 화면에 하나의 Help Bubble만 표시하는 것이 사용자 경험에 좋습니다.
+
+### 화면 크기 고려하기
+
+모든 화면 크기에서 Help Bubble이 완전히 표시되는지 확인하고, 필요한 경우 위치를 조정하세요.
 
 ## 링크
 
@@ -25,5 +91,51 @@ description: Help Bubble은 사용자에게 컴포넌트의 상태나 특정 기
 </Cards>
 
 ## 스펙
+
+### Arrow 렌더링
+
+Arrow는 width, height, tipRadius를 사용하여 모양을 정의합니다. Arrow를 그리는 절차는 다음과 같습니다. (tip이 아래를 향하는 기준)
+
+1. 좌상단에서 시작합니다.
+
+시작점은 (0, 0)이라고 가정합니다.
+
+arrow의 왼쪽 위 모서리입니다.
+
+2. 가로로 오른쪽 끝까지 직선을 그립니다.
+
+윗변을 그리는 단계입니다.
+
+왼쪽에서 오른쪽으로 수평선 하나를 그립니다.
+
+(0, 0) → (width, 0)
+
+3. 왼쪽 아래로 직선을 그립니다.
+
+tip의 오른쪽 시작점입니다.
+
+(0, 0) -> (width / 2 + tipRadius, height - tipRadius)
+
+4. 중앙 아래쪽에 곡선을 그립니다.
+
+tip의 바닥 부분을 표현합니다.
+
+제어점: (width / 2, height)
+
+도착점 (width / 2 - tipRadius, height - tipRadius)
+
+5. 왼쪽 위로 닫습니다.
+
+(width / 2 - tipRadius, height - tipRadius) -> (0, 0)
+
+SVG Path 형식으로 표현하면 다음과 같습니다.
+
+```
+M0,0
+H${width}
+L${width / 2 + tipRadius},${height - tipRadius}
+Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
+Z
+```
 
 <ComponentSpecBlock id="help-bubble" />
