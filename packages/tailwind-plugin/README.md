@@ -42,3 +42,12 @@ Seed Design 토큰은 `-` 표기법으로 사용할 수 있습니다:
 ```bash
 npm run rootage:generate
 ```
+
+## TODO
+
+- [x] Color (fg, bg, stroke, palette, manner-temp)
+- [ ] Gradient
+- [ ] Typography (Font Size, Font Weight, Line Height)
+- [ ] Dimension
+- [ ] Radius
+- [ ] Motion (Timing Function, Duration)
