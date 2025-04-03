@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.0.12
+
+### Patch Changes
+
+- 6426379: 유틸리티 컴포넌트에 사용되는 ScopedColorFg, ScopedColorBg, ScopedColorPalette, ScopedColorStroke 타입을 제공합니다.
+- ee41f37: close button의 위치가 의도와 다르게 설정된 것을 수정합니다.
+
 ## 0.0.11
 
 ### Patch Changes

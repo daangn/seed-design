@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 0.0.12
+
+### Patch Changes
+
+- 6426379: 유틸리티 컴포넌트에 사용되는 ScopedColorFg, ScopedColorBg, ScopedColorPalette, ScopedColorStroke 타입을 제공합니다.
+- f5858ad: feat: icon scope를 `@daangn`에서 `@karrotmarket` 으로 변경해요
+- Updated dependencies [fee050d]
+- Updated dependencies [6426379]
+- Updated dependencies [ee41f37]
+  - @seed-design/react-tabs@0.0.3
+  - @seed-design/css@0.0.12
+
 ## 0.0.11
 
 ### Patch Changes

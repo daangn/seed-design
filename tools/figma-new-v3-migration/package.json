@@ -1,6 +1,6 @@
 {
   "name": "figma-plugin-template",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -17,10 +17,10 @@
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.21",
     "@figmazing/event": "0.0.1",
-    "@seed-design/css": "^0.0.10",
-    "@seed-design/migration-index": "^0.0.18",
-    "@seed-design/react": "^0.0.10",
-    "@seed-design/vite-plugin": "^0.0.10",
+    "@seed-design/css": "^0.0.12",
+    "@seed-design/migration-index": "^0.0.20",
+    "@seed-design/react": "^0.0.12",
+    "@seed-design/vite-plugin": "^0.0.12",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
