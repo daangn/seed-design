@@ -2,4 +2,4 @@
 "@seed-design/tailwind-plugin": patch
 ---
 
-tailwind-plugin (color, typography)
+tailwind-plugin을 만들어요
