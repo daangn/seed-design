@@ -33,7 +33,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "rootage:generate": "rootage tailwind-plugin ./src --file ../../packages/rootage/color.yaml",
+    "rootage:generate": "rootage tailwind-plugin ./src --file ../../packages/rootage/color.yaml --file ../../packages/rootage/components/typography.yaml",
     "lint:publish": "bun publint"
   },
   "keywords": [

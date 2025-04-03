@@ -279,7 +279,7 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-async function writeTailwindPlugin(ymlFile?: string, outPath?: string): Promise<string> {
+async function writeTailwindPlugin(ymlFile?: string | string[], outPath?: string): Promise<string> {
   if (!ymlFile || !outPath) {
     const { ctx } = await prepare();
     const tokens = getTokenDeclarations(ctx);
@@ -291,8 +291,22 @@ async function writeTailwindPlugin(ymlFile?: string, outPath?: string): Promise<
     return pluginPath;
   }
 
-  const tokens = await readYamlFile(ymlFile);
-  const code = tailwind.getTailwindPluginCode(tokens);
+  // 여러 YAML 파일 지원
+  const allTokens = [];
+  const fileList = Array.isArray(ymlFile) ? ymlFile : [ymlFile];
+
+  for (const filePath of fileList) {
+    try {
+      console.log(`Reading file: ${filePath}`);
+      const tokens = await readYamlFile(filePath);
+      allTokens.push(...tokens);
+    } catch (error) {
+      console.error(`Error reading YAML file ${filePath}:`, error);
+      process.exit(1);
+    }
+  }
+
+  const code = tailwind.getTailwindPluginCode(allTokens);
   const outFile = path.join(outPath, "index.ts");
 
   await writeFile(outFile, code);
@@ -429,25 +443,31 @@ yargs(process.argv.slice(2))
     },
   )
   .command(
-    "tailwind-plugin <outPath>",
-    "Generate Tailwind plugin",
+    "tailwind-plugin",
+    "생성된 tailwind 플러그인을 만듭니다",
     (yargs) => {
       return yargs
-        .positional("outPath", {
-          describe: "Output directory for Tailwind plugin",
-          type: "string",
-        })
         .option("file", {
           alias: "f",
-          describe: "YAML file to read",
+          describe: "YAML 파일 경로 (여러 파일 지정 가능)",
+          type: "array",
+          default: ["./packages/rootage/color.yaml"],
+        })
+        .option("output", {
+          alias: "o",
+          describe: "출력 파일 경로",
           type: "string",
-          default: "./packages/rootage/color.yaml",
+          default: "./packages/tailwind-plugin/src/index.ts",
         });
     },
     async (argv) => {
       console.log("Start");
-      const outFile = await writeTailwindPlugin(argv.file, argv.outPath as string);
-      console.log(`Writing index.ts to ${outFile}`);
+      // file 매개변수가 string[] 또는 string인지 확인하고 항상 string[] 배열로 반환
+      const files = Array.isArray(argv.file)
+        ? argv.file.map((file) => String(file))
+        : [String(argv.file)];
+
+      await writeTailwindPlugin(files, argv.output as string);
       console.log("Done");
     },
   )
