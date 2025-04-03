@@ -10,7 +10,7 @@ import * as React from "react";
 import {
   IconChevronRightLine,
   IconXmarkLine,
-} from "@daangn/react-monochrome-icon";
+} from "@karrotmarket/react-monochrome-icon";
 
 export interface CalloutProps
   extends Omit<

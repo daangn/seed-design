@@ -6,7 +6,7 @@ import { reactionButtonVariantMap } from "@seed-design/css/recipes/reaction-butt
 
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ReactionButton, type ReactionButtonProps } from "../seed-design/ui/reaction-button";
-import { IconFaceSmileCircleFill } from "@daangn/react-monochrome-icon";
+import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
 
 const initialVariants = {

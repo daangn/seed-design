@@ -2,8 +2,8 @@
 
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-import * as MonochormeComponents from "@daangn/react-monochrome-icon";
-import * as MulticolorComponents from "@daangn/react-multicolor-icon";
+import * as MonochormeComponents from "@karrotmarket/react-monochrome-icon";
+import * as MulticolorComponents from "@karrotmarket/react-multicolor-icon";
 
 import MonochromeData from "@daangn/icon-data/monochrome.json";
 import MulticolorData from "@daangn/icon-data/multicolor.json";

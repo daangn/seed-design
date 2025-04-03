@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCheckmarkFatFill } from "@daangn/react-monochrome-icon";
+import { IconCheckmarkFatFill } from "@karrotmarket/react-monochrome-icon";
 import {
   CheckSelectBox as SeedCheckSelectBox,
   RadioSelectBox as SeedRadioSelectBox,

@@ -1,4 +1,4 @@
-import { IconCheckmarkCircleFill } from "@daangn/react-monochrome-icon";
+import { IconCheckmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 import {
   ActionableInlineBanner,

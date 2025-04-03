@@ -15,7 +15,7 @@ description: SEED V2 아이콘을 V3 아이콘으로 변환하는 Codemod
 - [`@seed-design/icon`](https://www.npmjs.com/package/@seed-design/icon) (deprecated)
 - [`@karrotmarket/karrot-ui-icon`](https://www.npmjs.com/package/@karrotmarket/karrot-ui-icon) (deprecated) (React 컴포넌트를 사용하는 경우)
 
-3개 패키지에서 사용하고 있는 아이콘은 [`@daangn/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)의 아이콘으로 대체돼요.
+3개 패키지에서 사용하고 있는 아이콘은 [`@karrotmarket/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)의 아이콘으로 대체돼요.
 
 ### 수동 업그레이드
 
@@ -77,8 +77,8 @@ import {
   IconDothorizline3VerticalFill,
   IconCarFrontsideLine,
   IconPlusFill as AddIconAlias,
-} from "@daangn/react-monochrome-icon";
-import IconPlusSquareFill from "@daangn/react-monochrome-icon/IconPlusSquareFill";
+} from "@karrotmarket/react-monochrome-icon";
+import IconPlusSquareFill from "@karrotmarket/react-monochrome-icon/IconPlusSquareFill";
 
 function App() {
   console.log(IconPlusSquareLine);
@@ -104,18 +104,18 @@ function App() {
 #### 리뉴얼된 아이콘 패키지 설치
 
 ```package-install
-npm install @daangn/react-monochrome-icon @daangn/react-multicolor-icon
+npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon
 ```
 
 <Callout type="info" title="패키지 설명">
 
 2개 패키지 중 필요한 패키지만 설치해요.
 
-- [`@daangn/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)
+- [`@karrotmarket/react-monochrome-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-monochrome-icon)
   - 단색 아이콘 패키지에요. **일반** 아이콘, **카테고리** 아이콘, **서비스** 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 서비스 아이콘은 검은색으로만 사용할 수 있어요.
   - codemod 실행 시, 기존 패키지들의 아이콘은 모두 이 패키지의 아이콘으로 대체돼요.
-- [`@daangn/react-multicolor-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-multicolor-icon)
+- [`@karrotmarket/react-multicolor-icon`](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-multicolor-icon)
   - 멀티컬러 아이콘 패키지에요. **카테고리** 아이콘과 **서비스** 아이콘이 포함되어 있어요.
   - 이 패키지에서 제공되는 카테고리 아이콘과 서비스 아이콘은 패키지에서 제공되는 색상 그대로만 사용할 수 있어요.
   - 기존에 SVG로 사용하던 멀티컬러 아이콘들을 이 패키지로 직접 대체할 수 있어요. 따라서, 필요한 경우에만 설치해도 좋아요.
@@ -269,7 +269,7 @@ npm uninstall @seed-design/icon @seed-design/react-icon @karrotmarket/karrot-ui-
 ##### React
 
 ```package-install
-npm install @daangn/react-monochrome-icon @daangn/react-multicolor-icon
+npm install @karrotmarket/react-monochrome-icon @karrotmarket/react-multicolor-icon
 ```
 
 ##### Vue 2

@@ -9,7 +9,7 @@ import {
 } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
-import { IconBellLine } from "@daangn/react-monochrome-icon";
+import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 import img from "../assets/peng.jpeg";
 
 const ActivityTransparentBar: ActivityComponentType = () => {

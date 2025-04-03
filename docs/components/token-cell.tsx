@@ -1,4 +1,4 @@
-import IconArrowDownLine from "@daangn/react-monochrome-icon/IconArrowDownLine";
+import IconArrowDownLine from "@karrotmarket/react-monochrome-icon/IconArrowDownLine";
 import type { AST } from "@seed-design/rootage-core";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Fragment } from "react";

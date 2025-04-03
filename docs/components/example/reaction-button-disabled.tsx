@@ -1,4 +1,4 @@
-import { IconFaceSmileCircleFill } from "@daangn/react-monochrome-icon";
+import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
 import { ReactionButton } from "seed-design/ui/reaction-button";
 

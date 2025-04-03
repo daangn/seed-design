@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { Fab, Icon } from "@seed-design/react";
 
-import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { fabVariantMap } from "@seed-design/css/recipes/fab";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";

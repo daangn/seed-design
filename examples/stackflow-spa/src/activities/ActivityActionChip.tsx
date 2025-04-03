@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 
 import { actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
 
-import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
+import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ActionChip, type ActionChipProps } from "../seed-design/ui/action-chip";
 import { Count } from "@seed-design/react";

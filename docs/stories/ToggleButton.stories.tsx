@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
-import { IconBellFill, IconChevronRightFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
 import { toggleButtonVariantMap } from "@seed-design/css/recipes/toggle-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";

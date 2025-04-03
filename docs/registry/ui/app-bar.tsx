@@ -3,7 +3,7 @@
 import {
   IconChevronLeftLine,
   IconXmarkLine,
-} from "@daangn/react-monochrome-icon";
+} from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 import {
   AppBar as SeedAppBar,

@@ -1,4 +1,4 @@
-import { IconChevronLeftLine, IconXmarkLine } from "@daangn/react-monochrome-icon";
+import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
 import { Stack } from "@seed-design/react";
 import { AppBar as SeedAppBar, type AppBarIconButtonProps } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";

@@ -1,4 +1,4 @@
-import { IconChevronDownLine, IconChevronUpLine } from "@daangn/react-monochrome-icon";
+import { IconChevronDownLine, IconChevronUpLine } from "@karrotmarket/react-monochrome-icon";
 import { vars } from "@seed-design/css/vars";
 import { Box, Flex, Stack, Text } from "@seed-design/react";
 import { Collapsible, CollapsibleGroup } from "common/components/collapsible";

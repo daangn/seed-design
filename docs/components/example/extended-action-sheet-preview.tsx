@@ -1,4 +1,4 @@
-import { IconEyeSlashLine } from "@daangn/react-monochrome-icon";
+import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {

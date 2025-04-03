@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 
 import { extendedFabVariantMap } from "@seed-design/css/recipes/extended-fab";
 
-import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
+import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ExtendedFab, type ExtendedFabProps } from "../seed-design/ui/extended-fab";
 import { PrefixIcon } from "@seed-design/react";

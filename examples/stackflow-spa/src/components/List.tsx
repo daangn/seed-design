@@ -1,4 +1,4 @@
-import IconChevronRightFill from "@daangn/react-monochrome-icon/IconChevronRightFill";
+import IconChevronRightFill from "@karrotmarket/react-monochrome-icon/IconChevronRightFill";
 import type React from "react";
 import * as styles from "./List.css";
 import { forwardRef } from "react";

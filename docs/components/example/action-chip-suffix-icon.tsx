@@ -1,4 +1,4 @@
-import { IconChevronDownFill } from "@daangn/react-monochrome-icon";
+import { IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
 import { ActionChip, SuffixIcon } from "@seed-design/react";
 
 export default function ActionChipSuffixIcon() {

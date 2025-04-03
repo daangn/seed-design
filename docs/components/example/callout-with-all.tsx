@@ -1,4 +1,4 @@
-import { IconCalendarFill } from "@daangn/react-monochrome-icon";
+import { IconCalendarFill } from "@karrotmarket/react-monochrome-icon";
 import { Callout } from "seed-design/ui/callout";
 
 export default function CalloutWithAll() {

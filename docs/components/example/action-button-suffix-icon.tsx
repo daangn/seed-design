@@ -1,4 +1,4 @@
-import { IconChevronRightFill } from "@daangn/react-monochrome-icon";
+import { IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
 import { SuffixIcon } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 

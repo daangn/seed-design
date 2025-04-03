@@ -4,7 +4,7 @@ import { ActionChip } from "@seed-design/react";
 
 import { actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
 import { VariantTable } from "./components/variant-table";
-import { IconBellFill, IconChevronDownFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";

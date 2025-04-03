@@ -1,6 +1,10 @@
 import { useActivity, type ActivityComponentType } from "@stackflow/react";
 
-import { IconPencilLine, IconPlusLine, IconTrashcanLine } from "@daangn/react-monochrome-icon";
+import {
+  IconPencilLine,
+  IconPlusLine,
+  IconTrashcanLine,
+} from "@karrotmarket/react-monochrome-icon";
 import {
   ExtendedActionSheetContent,
   ExtendedActionSheetGroup,

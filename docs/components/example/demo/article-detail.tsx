@@ -17,7 +17,7 @@ import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 import { ErrorState } from "seed-design/ui/error-state";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Skeleton } from "@seed-design/react";
-import { IconILowercaseSerifCircleFill } from "@daangn/react-monochrome-icon";
+import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { ArticleAuthor } from "./components/article-author";
 import { formatDate } from "@/components/example/demo/utils/date";
 import { useState } from "react";

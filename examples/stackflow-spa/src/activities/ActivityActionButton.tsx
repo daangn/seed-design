@@ -4,8 +4,8 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 
 import { actionButtonVariantMap } from "@seed-design/css/recipes/action-button";
 
-import { IconChevronDownFill } from "@daangn/react-monochrome-icon";
-import IconPlusFill from "@daangn/react-monochrome-icon/IconPlusFill";
+import { IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
+import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
 import { ActionButton, type ActionButtonProps } from "../seed-design/ui/action-button";

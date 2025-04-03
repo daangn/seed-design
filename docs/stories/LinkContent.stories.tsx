@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { LinkContent } from "@seed-design/react";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { IconChevronRightLine } from "@daangn/react-monochrome-icon";
+import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
 import { linkContentVariantMap } from "@seed-design/css/recipes/link-content";
 import { SuffixIcon } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";

@@ -1,4 +1,4 @@
-import { IconBellFill } from "@daangn/react-monochrome-icon";
+import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import {
