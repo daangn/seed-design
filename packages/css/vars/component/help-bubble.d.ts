@@ -28,8 +28,8 @@ export declare const vars: {
       },
       "closeButton": {
         "color": "var(--seed-color-palette-static-white)",
-        "fromRight": "4px",
-        "fromTop": "4px",
+        "fromRight": "12px",
+        "fromTop": "12px",
         "size": "14px",
         "targetSize": "32px"
       },
