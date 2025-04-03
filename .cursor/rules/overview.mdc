@@ -1,0 +1,99 @@
+---
+description: Project Structure Overview
+globs: 
+alwaysApply: false
+---
+The `seed-design` project is a monorepo managed using Bun and `ultra-runner`. It houses multiple packages, tools, examples, and documentation related to the Seed Design System.
+
+**Key Directories:**
+
+*   **`packages/`**: Contains the core, publishable packages of the design system. This includes:
+    *   `css`: Core CSS variables, recipes, and theming logic.
+    *   `react`: The primary React component library, aggregating headless components.
+    *   `react-headless/*`: Individual headless React components (e.g., `avatar`, `checkbox`, `dialog`). These provide logic and structure without specific styling.
+    *   `utils/dom-utils`: Shared DOM utility functions.
+    *   `stackflow`: Integration components for Stackflow navigation.
+    *   Build tool plugins (`vite-plugin`, `webpack-plugin`, `rsbuild-plugin`).
+    *   `figma`: Utilities or components related to Figma integration.
+    *   `mcp`: Model Context Protocol for Figma code generation.
+    *   `rootage`: Contains design token specifications in YAML format.
+    *   `qvism-preset`: Contains component CSS recipe definitions.
+    *   Other utility/support packages like `codemod`, `cli`, etc.
+*   **`ecosystem/`**: Contains tools and packages that integrate with or support the core design system but might be separate concerns.
+    *   `figma-extractor`: A tool to extract design data (like variables) from Figma.
+    *   `rootage`: A system (core + cli) responsible for processing design token specifications into usable formats (e.g., CSS, TS).
+    *   `qvism`: A system (core + cli) responsible for generating CSS utility classes or recipes based on configurations.
+*   **`scripts/`**: Contains various build, generation, and utility scripts.
+*   **`examples/`**: Usage examples for the design system packages.
+*   **`docs/`**: Online documentation built on Next.js and Fumadocs.
+
+**Package Dependency Diagram (Mermaid)**
+```mermaid
+graph TD
+subgraph "Definitions"
+    rootage_artifacts["packages/rootage (artifacts)"]
+    qvism_preset["packages/qvism-preset"]
+end
+
+subgraph "Main Packages"
+    react["@seed-design/react"]
+    stackflow["packages/stackflow"]
+    css["@seed-design/css"]
+end
+
+subgraph "React Headless Components"
+    headless_group["@seed-design/(react-avatar, react-checkbox, ...)"]
+    domutils["@seed-design/dom-utils"]
+    primitive["@seed-design/react-primitive"]
+end
+
+subgraph "Bundler Plugins"
+    vite["packages/vite-plugin"]
+    webpack["packages/webpack-plugin"]
+    rsbuild["packages/rsbuild-plugin"]
+end
+
+subgraph "Figma Integration"
+    figma["packages/figma"]
+    mcp["packages/mcp"]
+end
+
+subgraph "Ecosystem"
+    figma_extractor["ecosystem/figma-extractor"]
+    qvism_core["ecosystem/qvism/core"]
+    qvism_cli["ecosystem/qvism/cli"]
+    rootage_core["ecosystem/rootage/core"]
+    rootage_cli["ecosystem/rootage/cli"]
+end
+
+%% Dependencies
+react --> domutils
+react --> primitive
+react --> headless_group
+react -.->|peer| css
+
+stackflow --> domutils
+stackflow --> primitive
+stackflow -.->|peer| css
+
+headless_group --> domutils
+headless_group --> primitive
+
+css -.->|generate| rootage_artifacts
+css -.->|generate| qvism_preset
+css -.->|dev| qvism_cli
+
+qvism_preset --> qvism_core
+qvism_cli --> qvism_core
+
+rootage_cli --> rootage_core
+
+vite -.->|peer| css
+webpack -.->|peer| css
+rsbuild -.->|peer| css
+
+figma --> css
+figma -.->|dev| figma_extractor
+
+mcp --> figma
+```
