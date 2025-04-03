@@ -1,6 +1,7 @@
 {
-  "name": "figma-plugin-template",
-  "version": "1.0.1",
+  "name": "figma-new-v3-migration",
+  "private": true,
+  "version": "1.0.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
