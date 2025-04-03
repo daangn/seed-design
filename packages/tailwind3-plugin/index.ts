@@ -280,135 +280,444 @@ export const seedDesignPlugin: PluginWithConfig = plugin(
   "manner-temp-l5-text": "var(--seed-color-color-manner-temp-l5-text)",
   "manner-temp-l6-bg": "var(--seed-color-color-manner-temp-l6-bg)",
   "manner-temp-l6-text": "var(--seed-color-color-manner-temp-l6-text)",
-  "gradient-shimmer": "var(--seed-color-gradient-shimmer)"
+  "dimension-x0_5": "var(--seed-color-dimension-x0_5)",
+  "dimension-x1": "var(--seed-color-dimension-x1)",
+  "dimension-x1_5": "var(--seed-color-dimension-x1_5)",
+  "dimension-x2": "var(--seed-color-dimension-x2)",
+  "dimension-x2_5": "var(--seed-color-dimension-x2_5)",
+  "dimension-x3": "var(--seed-color-dimension-x3)",
+  "dimension-x3_5": "var(--seed-color-dimension-x3_5)",
+  "dimension-x4": "var(--seed-color-dimension-x4)",
+  "dimension-x4_5": "var(--seed-color-dimension-x4_5)",
+  "dimension-x5": "var(--seed-color-dimension-x5)",
+  "dimension-x6": "var(--seed-color-dimension-x6)",
+  "dimension-x7": "var(--seed-color-dimension-x7)",
+  "dimension-x8": "var(--seed-color-dimension-x8)",
+  "dimension-x9": "var(--seed-color-dimension-x9)",
+  "dimension-x10": "var(--seed-color-dimension-x10)",
+  "dimension-x12": "var(--seed-color-dimension-x12)",
+  "dimension-x13": "var(--seed-color-dimension-x13)",
+  "dimension-x14": "var(--seed-color-dimension-x14)",
+  "dimension-x16": "var(--seed-color-dimension-x16)",
+  "dimension-spacing-x-between-chips": "var(--seed-color-dimension-spacing-x-between-chips)",
+  "dimension-spacing-x-global-gutter": "var(--seed-color-dimension-spacing-x-global-gutter)",
+  "dimension-spacing-y-component-default": "var(--seed-color-dimension-spacing-y-component-default)",
+  "dimension-spacing-y-nav-to-title": "var(--seed-color-dimension-spacing-y-nav-to-title)",
+  "dimension-spacing-y-screen-bottom": "var(--seed-color-dimension-spacing-y-screen-bottom)",
+  "dimension-spacing-y-between-text": "var(--seed-color-dimension-spacing-y-between-text)",
+  "duration-d1": "var(--seed-color-duration-d1)",
+  "duration-d2": "var(--seed-color-duration-d2)",
+  "duration-d3": "var(--seed-color-duration-d3)",
+  "duration-d4": "var(--seed-color-duration-d4)",
+  "duration-d5": "var(--seed-color-duration-d5)",
+  "duration-d6": "var(--seed-color-duration-d6)",
+  "font-size-t1": "var(--seed-color-font-size-t1)",
+  "font-size-t2": "var(--seed-color-font-size-t2)",
+  "font-size-t3": "var(--seed-color-font-size-t3)",
+  "font-size-t4": "var(--seed-color-font-size-t4)",
+  "font-size-t5": "var(--seed-color-font-size-t5)",
+  "font-size-t6": "var(--seed-color-font-size-t6)",
+  "font-size-t7": "var(--seed-color-font-size-t7)",
+  "font-size-t8": "var(--seed-color-font-size-t8)",
+  "font-size-t9": "var(--seed-color-font-size-t9)",
+  "font-size-t10": "var(--seed-color-font-size-t10)",
+  "font-size-t2-static": "var(--seed-color-font-size-t2-static)",
+  "font-size-t5-static": "var(--seed-color-font-size-t5-static)",
+  "font-size-t6-static": "var(--seed-color-font-size-t6-static)",
+  "font-weight-regular": "var(--seed-color-font-weight-regular)",
+  "font-weight-medium": "var(--seed-color-font-weight-medium)",
+  "font-weight-bold": "var(--seed-color-font-weight-bold)",
+  "gradient-shimmer": "var(--seed-color-gradient-shimmer)",
+  "line-height-t1": "var(--seed-color-line-height-t1)",
+  "line-height-t2": "var(--seed-color-line-height-t2)",
+  "line-height-t3": "var(--seed-color-line-height-t3)",
+  "line-height-t4": "var(--seed-color-line-height-t4)",
+  "line-height-t5": "var(--seed-color-line-height-t5)",
+  "line-height-t6": "var(--seed-color-line-height-t6)",
+  "line-height-t7": "var(--seed-color-line-height-t7)",
+  "line-height-t8": "var(--seed-color-line-height-t8)",
+  "line-height-t9": "var(--seed-color-line-height-t9)",
+  "line-height-t10": "var(--seed-color-line-height-t10)",
+  "radius-r0_5": "var(--seed-color-radius-r0_5)",
+  "radius-r1": "var(--seed-color-radius-r1)",
+  "radius-r1_5": "var(--seed-color-radius-r1_5)",
+  "radius-r2": "var(--seed-color-radius-r2)",
+  "radius-r2_5": "var(--seed-color-radius-r2_5)",
+  "radius-r3": "var(--seed-color-radius-r3)",
+  "radius-r3_5": "var(--seed-color-radius-r3_5)",
+  "radius-r4": "var(--seed-color-radius-r4)",
+  "radius-r5": "var(--seed-color-radius-r5)",
+  "radius-r6": "var(--seed-color-radius-r6)",
+  "radius-full": "var(--seed-color-radius-full)",
+  "timing-function-linear": "var(--seed-color-timing-function-linear)",
+  "timing-function-easing": "var(--seed-color-timing-function-easing)",
+  "timing-function-enter": "var(--seed-color-timing-function-enter)",
+  "timing-function-exit": "var(--seed-color-timing-function-exit)",
+  "timing-function-enter-expressive": "var(--seed-color-timing-function-enter-expressive)",
+  "timing-function-exit-expressive": "var(--seed-color-timing-function-exit-expressive)"
 },
         typography: {
-  "screenTitle": {
+  "base-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "sizexsmalllayoutwithText-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizesmalllayoutwithText-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemediumlayoutwithText-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizelargelayoutwithText-label": {
+    "fontSize": "var(--seed-font-size-t6)",
+    "lineHeight": "var(--seed-line-height-t6)"
+  },
+  "base-count": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "sizesmall-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizesmall-count": {
+    "fontSize": "var(--seed-font-size-t3)",
+    "lineHeight": "var(--seed-line-height-t3)"
+  },
+  "sizemedium-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemedium-count": {
+    "fontSize": "var(--seed-font-size-t4)"
+  },
+  "base-title": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "base-description": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "sizelarge-label": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "variantweak-label": {
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "variantsolid-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "variantoutline-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "base-link": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "weightdefault-label": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "weightstronger-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "variantneutralSolid-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "variantbrandSolid-label": {
+    "fontWeight": "var(--seed-font-weight-medium)"
+  },
+  "weightregular-label": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "weightbold-label": {
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "sizet4-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizet5-label": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizet6-label": {
+    "fontSize": "var(--seed-font-size-t6)",
+    "lineHeight": "var(--seed-line-height-t6)"
+  },
+  "sizexsmall-label": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizexsmall-count": {
+    "fontSize": "var(--seed-font-size-t3)",
+    "lineHeight": "var(--seed-line-height-t3)"
+  },
+  "base-message": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "base-actionButton": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "base-indicator": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "base-errorMessage": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "base-characterCount": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "base-maxCharacterCount": {
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "sizexlarge-label": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizexlarge-indicator": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizexlarge-value": {
+    "fontSize": "var(--seed-font-size-t6)",
+    "lineHeight": "var(--seed-line-height-t6)"
+  },
+  "sizexlarge-prefixText": {
+    "fontSize": "var(--seed-font-size-t6)",
+    "lineHeight": "var(--seed-line-height-t6)"
+  },
+  "sizexlarge-suffixText": {
+    "fontSize": "var(--seed-font-size-t6)",
+    "lineHeight": "var(--seed-line-height-t6)"
+  },
+  "sizexlarge-description": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizexlarge-errorMessage": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizexlarge-characterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizexlarge-maxCharacterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizelarge-indicator": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizelarge-value": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizelarge-prefixText": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizelarge-suffixText": {
+    "fontSize": "var(--seed-font-size-t5)",
+    "lineHeight": "var(--seed-line-height-t5)"
+  },
+  "sizelarge-description": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizelarge-errorMessage": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizelarge-characterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizelarge-maxCharacterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizemedium-indicator": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemedium-value": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemedium-prefixText": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemedium-suffixText": {
+    "fontSize": "var(--seed-font-size-t4)",
+    "lineHeight": "var(--seed-line-height-t4)"
+  },
+  "sizemedium-description": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizemedium-errorMessage": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizemedium-characterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "sizemedium-maxCharacterCount": {
+    "fontSize": "var(--seed-font-size-t2)",
+    "lineHeight": "var(--seed-line-height-t2)"
+  },
+  "titleLayouttitleOnly-title": {
+    "fontSize": "var(--seed-font-size-t6-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "titleLayoutwithSubtitle-title": {
+    "fontSize": "var(--seed-font-size-t5-static)",
+    "fontWeight": "var(--seed-font-weight-bold)"
+  },
+  "titleLayoutwithSubtitle-subtitle": {
+    "fontSize": "var(--seed-font-size-t2-static)",
+    "fontWeight": "var(--seed-font-weight-regular)"
+  },
+  "textStylescreenTitle": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "articleBody": {
+  "textStylearticleBody": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t1Regular": {
+  "textStylet1Regular": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t1Medium": {
+  "textStylet1Medium": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t1Bold": {
+  "textStylet1Bold": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t2Regular": {
+  "textStylet2Regular": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t2Medium": {
+  "textStylet2Medium": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t2Bold": {
+  "textStylet2Bold": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t3Regular": {
+  "textStylet3Regular": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t3Medium": {
+  "textStylet3Medium": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t3Bold": {
+  "textStylet3Bold": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t4Regular": {
+  "textStylet4Regular": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t4Medium": {
+  "textStylet4Medium": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t4Bold": {
+  "textStylet4Bold": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t5Regular": {
+  "textStylet5Regular": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t5Medium": {
+  "textStylet5Medium": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t5Bold": {
+  "textStylet5Bold": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t6Regular": {
+  "textStylet6Regular": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t6Medium": {
+  "textStylet6Medium": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t6Bold": {
+  "textStylet6Bold": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t7Regular": {
+  "textStylet7Regular": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "t7Medium": {
+  "textStylet7Medium": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "t7Bold": {
+  "textStylet7Bold": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t8Bold": {
+  "textStylet8Bold": {
     "fontSize": "var(--seed-font-size-t8)",
     "lineHeight": "var(--seed-line-height-t8)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t9Bold": {
+  "textStylet9Bold": {
     "fontSize": "var(--seed-font-size-t9)",
     "lineHeight": "var(--seed-line-height-t9)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "t10Bold": {
+  "textStylet10Bold": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
     "fontWeight": "var(--seed-font-weight-bold)"

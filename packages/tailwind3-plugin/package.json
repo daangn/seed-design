@@ -1,11 +1,11 @@
 {
-  "name": "@seed-design/tailwind-plugin",
+  "name": "@seed-design/tailwind3-plugin",
   "version": "0.0.1",
-  "description": "Tailwind CSS plugin for Seed Design tokens",
+  "description": "Tailwind3 CSS plugin for Seed Design tokens",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/tailwind-plugin"
+    "directory": "packages/tailwind3-plugin"
   },
   "author": "Daangn",
   "license": "MIT",
@@ -33,7 +33,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "rootage:generate": "rootage tailwind-plugin ./src --file ../../packages/rootage/color.yaml --file ../../packages/rootage/components/typography.yaml",
+    "rootage:generate": "rootage tailwind3-plugin ./src",
     "lint:publish": "bun publint"
   },
   "keywords": [
@@ -43,7 +43,7 @@
     "plugin"
   ],
   "peerDependencies": {
-    "tailwindcss": "^3.0.0 || ^4.0.0"
+    "tailwindcss": "^3.0.0"
   },
   "publishConfig": {
     "access": "public"

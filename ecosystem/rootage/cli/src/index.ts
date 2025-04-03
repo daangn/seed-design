@@ -11,7 +11,7 @@ import {
   getTokenDeclarations,
   jsonschema,
   typescript,
-  tailwind,
+  tailwind3,
   validate,
 } from "@seed-design/rootage-core";
 import fs from "fs-extra";
@@ -250,24 +250,6 @@ async function writeJson() {
   });
 }
 
-async function readYamlFile(filePath: string) {
-  try {
-    const content = await fs.readFile(filePath, "utf-8");
-    const model = YAML.parse(content) as Authoring.Model;
-    const ctx = buildContext([
-      {
-        fileName: filePath,
-        ast: Authoring.fromObject(model),
-      },
-    ]);
-
-    return getTokenDeclarations(ctx);
-  } catch (error) {
-    console.error(`Error reading YAML file ${filePath}:`, error);
-    process.exit(1);
-  }
-}
-
 async function writeFile(filePath: string, content: string) {
   try {
     await fs.mkdirp(path.dirname(filePath));
@@ -279,38 +261,16 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-async function writeTailwindPlugin(ymlFile?: string | string[], outPath?: string): Promise<string> {
-  if (!ymlFile || !outPath) {
-    const { ctx } = await prepare();
-    const tokens = getTokenDeclarations(ctx);
-    const code = tailwind.getTailwindPluginCode(tokens);
+async function writeTailwindPlugin(): Promise<string> {
+  const { ctx } = await prepare();
+  const tokens = getTokenDeclarations(ctx);
+  const typographyTokens = getComponentSpecDeclarations(ctx);
+  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens);
 
-    const pluginPath = path.join(process.cwd(), dir, "index.ts");
+  const pluginPath = path.join(process.cwd(), dir, "index.ts");
 
-    await writeFile(pluginPath, code);
-    return pluginPath;
-  }
-
-  // 여러 YAML 파일 지원
-  const allTokens = [];
-  const fileList = Array.isArray(ymlFile) ? ymlFile : [ymlFile];
-
-  for (const filePath of fileList) {
-    try {
-      console.log(`Reading file: ${filePath}`);
-      const tokens = await readYamlFile(filePath);
-      allTokens.push(...tokens);
-    } catch (error) {
-      console.error(`Error reading YAML file ${filePath}:`, error);
-      process.exit(1);
-    }
-  }
-
-  const code = tailwind.getTailwindPluginCode(allTokens);
-  const outFile = path.join(outPath, "index.ts");
-
-  await writeFile(outFile, code);
-  return outFile;
+  await writeFile(pluginPath, code);
+  return pluginPath;
 }
 
 if (command === "token-ts") {
@@ -443,31 +403,19 @@ yargs(process.argv.slice(2))
     },
   )
   .command(
-    "tailwind-plugin",
-    "생성된 tailwind 플러그인을 만듭니다",
+    "tailwind3-plugin <dir>",
+    "Generate Tailwind 3 plugin",
     (yargs) => {
-      return yargs
-        .option("file", {
-          alias: "f",
-          describe: "YAML 파일 경로 (여러 파일 지정 가능)",
-          type: "array",
-          default: ["./packages/rootage/color.yaml"],
-        })
-        .option("output", {
-          alias: "o",
-          describe: "출력 파일 경로",
-          type: "string",
-          default: "./packages/tailwind-plugin/src/index.ts",
-        });
+      return yargs.positional("dir", {
+        alias: "o",
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
     },
-    async (argv) => {
+    async () => {
       console.log("Start");
-      // file 매개변수가 string[] 또는 string인지 확인하고 항상 string[] 배열로 반환
-      const files = Array.isArray(argv.file)
-        ? argv.file.map((file) => String(file))
-        : [String(argv.file)];
-
-      await writeTailwindPlugin(files, argv.output as string);
+      await writeTailwindPlugin();
       console.log("Done");
     },
   )
