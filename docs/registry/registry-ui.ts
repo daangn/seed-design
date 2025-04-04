@@ -33,7 +33,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "bottom-sheet",
-    dependencies: ["@seed-design/react"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:bottom-sheet.tsx"],
   },
   {
@@ -114,7 +114,7 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "help-bubble",
-    dependencies: ["@seed-design/react"],
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:help-bubble.tsx"],
   },
   {
