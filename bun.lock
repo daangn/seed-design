@@ -712,7 +712,7 @@
       "name": "@seed-design/tailwind3-plugin",
       "version": "0.0.1",
       "peerDependencies": {
-        "tailwindcss": "^3.0.0",
+        "tailwindcss": "3",
       },
     },
     "packages/utils/dom-utils": {
