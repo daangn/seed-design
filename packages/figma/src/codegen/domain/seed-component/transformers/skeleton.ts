@@ -2,11 +2,10 @@ import { defineComponentTransformer } from "@/codegen/core";
 import { camelCase } from "change-case";
 import * as metadata from "../../../data/__generated__/component-sets";
 import { createElement } from "../../../core/jsx";
-import { getLayoutVariableName } from "../../../../props/variable";
 import type { SkeletonProperties } from "../properties.type";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
 
-export const createSkeletonTransformer = (_ctx: SeedComponentTransformerDeps) =>
+export const createSkeletonTransformer = (ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<SkeletonProperties>(
     metadata.skeleton.key,
     ({
@@ -22,7 +21,7 @@ export const createSkeletonTransformer = (_ctx: SeedComponentTransformerDeps) =>
           switch (layoutSizingHorizontal) {
             case "FIXED": {
               const variableId = boundVariables?.size?.x?.id;
-              if (variableId) return getLayoutVariableName(variableId);
+              if (variableId) return ctx.variableService.getVariableName(variableId);
 
               return `${absoluteBoundingBox?.width}px`;
             }
@@ -36,7 +35,7 @@ export const createSkeletonTransformer = (_ctx: SeedComponentTransformerDeps) =>
           switch (layoutSizingVertical) {
             case "FIXED": {
               const variableId = boundVariables?.size?.y?.id;
-              if (variableId) return getLayoutVariableName(variableId);
+              if (variableId) return ctx.variableService.getVariableName(variableId);
 
               return `${absoluteBoundingBox?.height}px`;
             }

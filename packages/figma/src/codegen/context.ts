@@ -82,6 +82,7 @@ const typeStylePropsService = createFrameTypeStylePropsService({
 const figmaComponentService = createFigmaComponentService({
   transformers: createSeedComponentTransformers({
     iconService,
+    variableService,
   }),
 });
 
