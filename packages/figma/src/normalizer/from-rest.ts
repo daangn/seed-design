@@ -18,12 +18,12 @@ export interface RestNormalizerContext {
 }
 
 export function createRestNormalizer(ctx: RestNormalizerContext) {
-  function normalizeNodes(nodes: readonly FigmaRestSpec.SubcanvasNode[]): NormalizedSceneNode[] {
+  function normalizeNodes(nodes: readonly FigmaRestSpec.Node[]): NormalizedSceneNode[] {
     // Figma REST API omits default values for some fields, "visible" is one of them
     return nodes.filter((node) => !("visible" in node) || node.visible).map(normalizeNode);
   }
 
-  function normalizeNode(node: FigmaRestSpec.SubcanvasNode): NormalizedSceneNode {
+  function normalizeNode(node: FigmaRestSpec.Node): NormalizedSceneNode {
     if (node.type === "FRAME") {
       return normalizeFrameNode(node);
     }
