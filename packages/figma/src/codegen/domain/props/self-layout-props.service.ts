@@ -32,16 +32,22 @@ export type SeedSelfLayoutProps = Partial<Record<LayoutPropsKey, string | number
 
 export function createSelfLayoutPropsService({
   variableService,
-}: { variableService: VariableService }): SelfLayoutPropsService<SeedSelfLayoutProps> {
+  shouldInferVariableName,
+}: {
+  variableService: VariableService;
+  shouldInferVariableName: boolean;
+}): SelfLayoutPropsService<SeedSelfLayoutProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
   const inferSizeVariableName = (value?: number) => {
     if (value === undefined) {
       return undefined;
     }
 
-    const inferred = variableService.inferVariableName("WIDTH_HEIGHT", value);
-    if (inferred) {
-      return inferred;
+    if (shouldInferVariableName) {
+      const inferred = variableService.inferVariableName("WIDTH_HEIGHT", value);
+      if (inferred) {
+        return inferred;
+      }
     }
 
     return value === 0 ? 0 : toCssPixel(value);

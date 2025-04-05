@@ -9,10 +9,7 @@ import { match } from "ts-pattern";
 
 export interface CodegenService {
   transform: (node: NormalizedSceneNode) => ElementNode | undefined;
-  transformToString: (
-    node: NormalizedSceneNode,
-    options: { printSource?: boolean },
-  ) => string | undefined;
+  transformToString: (node: NormalizedSceneNode) => string | undefined;
 }
 
 export interface SeedCodegenServiceDeps {
@@ -20,6 +17,7 @@ export interface SeedCodegenServiceDeps {
   textService: TextService;
   rectangleService: RectangleService;
   instanceService: InstanceService;
+  shouldPrintSource: boolean;
 }
 
 export function createCodegenService({
@@ -27,6 +25,7 @@ export function createCodegenService({
   textService,
   rectangleService,
   instanceService,
+  shouldPrintSource,
 }: SeedCodegenServiceDeps): CodegenService {
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
@@ -57,14 +56,13 @@ export function createCodegenService({
     return traverse(node);
   }
 
-  function transformToString(
-    node: NormalizedSceneNode,
-    options: { printSource?: boolean } = {},
-  ): string | undefined {
+  function transformToString(node: NormalizedSceneNode): string | undefined {
     const result = transform(node);
     if (!result) return undefined;
 
-    return stringifyElement(result, options);
+    return stringifyElement(result, {
+      printSource: shouldPrintSource,
+    });
   }
 
   return { transform, transformToString };

@@ -23,16 +23,22 @@ export type SeedRadiusProps = Partial<Record<RadiusPropsKey, string | number | b
 
 export function createRadiusPropsService({
   variableService,
-}: { variableService: VariableService }): RadiusPropsService<SeedRadiusProps> {
+  shouldInferVariableName,
+}: {
+  variableService: VariableService;
+  shouldInferVariableName: boolean;
+}): RadiusPropsService<SeedRadiusProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
   const inferRadiusVariableName = (value?: number) => {
     if (value === undefined) {
       return undefined;
     }
 
-    const inferred = variableService.inferVariableName("CORNER_RADIUS", value);
-    if (inferred) {
-      return inferred;
+    if (shouldInferVariableName) {
+      const inferred = variableService.inferVariableName("CORNER_RADIUS", value);
+      if (inferred) {
+        return inferred;
+      }
     }
 
     return value === 0 ? 0 : toCssPixel(value);

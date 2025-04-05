@@ -47,16 +47,22 @@ export type SeedContainerLayoutProps = Partial<
 
 export function createContainerLayoutPropsService({
   variableService,
-}: { variableService: VariableService }): ContainerLayoutPropsService<SeedContainerLayoutProps> {
+  shouldInferVariableName,
+}: {
+  variableService: VariableService;
+  shouldInferVariableName: boolean;
+}): ContainerLayoutPropsService<SeedContainerLayoutProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
   const inferSpacingVariableName = (value?: number) => {
     if (value === undefined) {
       return undefined;
     }
 
-    const inferred = variableService.inferVariableName("GAP", value);
-    if (inferred) {
-      return inferred;
+    if (shouldInferVariableName) {
+      const inferred = variableService.inferVariableName("GAP", value);
+      if (inferred) {
+        return inferred;
+      }
     }
 
     return value === 0 ? 0 : toCssPixel(value);
