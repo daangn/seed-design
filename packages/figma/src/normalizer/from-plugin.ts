@@ -41,7 +41,10 @@ export function createPluginNormalizer() {
       return normalizeInstanceNode(node);
     }
 
-    throw new Error(`Unimplemented node type: ${node.type}`);
+    return {
+      type: "UNHANDLED",
+      original: node,
+    };
   }
 
   async function normalizeFrameNode(node: FrameNode): Promise<NormalizedFrameNode> {
