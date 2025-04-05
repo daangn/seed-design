@@ -18,7 +18,12 @@
 
     "types": ["@figma/plugin-typings"],
 
-    "outDir": "lib"
+    "outDir": "lib",
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src"]
 }

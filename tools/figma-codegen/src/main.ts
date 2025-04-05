@@ -11,7 +11,7 @@ export default function () {
           {
             title: "React",
             language: "TYPESCRIPT",
-            code: await generateCode(normalizedNode),
+            code: generateCode(normalizedNode) ?? "Failed to generate code.",
           },
         ];
       } catch (error) {

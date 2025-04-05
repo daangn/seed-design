@@ -174,7 +174,7 @@ export class FigmaService {
     });
 
     const normalizedNode = normalizer(node.document);
-    const code = await generateCode(normalizedNode);
+    const code = generateCode(normalizedNode) ?? "";
 
     const result = {
       name: node.document.name,

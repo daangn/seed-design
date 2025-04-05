@@ -1,20 +1,40 @@
 import type * as FigmaRestSpec from "@figma/rest-api-spec";
 
-export type CommonProps = "type" | "id" | "name" | "boundVariables";
+export type NormalizedIsLayerTrait = Pick<
+  FigmaRestSpec.IsLayerTrait,
+  "type" | "id" | "name" | "boundVariables"
+>;
 
-export type RadiusProps = "cornerRadius" | "rectangleCornerRadii";
+export type NormalizedCornerTrait = Pick<
+  FigmaRestSpec.CornerTrait,
+  "cornerRadius" | "rectangleCornerRadii"
+>;
 
-export type ShapeProps =
-  | "layoutGrow"
+export type NormalizedHasChildrenTrait = {
+  children: NormalizedSceneNode[];
+};
+
+export type NormalizedHasLayoutTrait = Pick<
+  FigmaRestSpec.HasLayoutTrait,
   | "layoutAlign"
+  | "layoutGrow"
+  | "absoluteBoundingBox"
+  | "layoutPositioning"
   | "layoutSizingHorizontal"
   | "layoutSizingVertical"
-  | "absoluteBoundingBox"
-  | "fills"
-  | "strokes"
-  | "strokeWeight";
+  | "minHeight"
+  | "minWidth"
+  | "maxHeight"
+  | "maxWidth"
+>;
 
-export type LayoutProps =
+export type NormalizedHasGeometryTrait = Pick<
+  FigmaRestSpec.HasGeometryTrait,
+  "fills" | "strokes" | "strokeWeight" | "styles"
+>;
+
+export type NormalizedHasFramePropertiesTrait = Pick<
+  FigmaRestSpec.HasFramePropertiesTrait,
   | "layoutMode"
   | "layoutWrap"
   | "paddingLeft"
@@ -22,26 +42,43 @@ export type LayoutProps =
   | "paddingTop"
   | "paddingBottom"
   | "primaryAxisAlignItems"
-  | "counterAxisAlignItems"
   | "primaryAxisSizingMode"
+  | "counterAxisAlignItems"
   | "counterAxisSizingMode"
   | "itemSpacing"
-  | "counterAxisSpacing";
+  | "counterAxisSpacing"
+>;
 
-export interface NormalizedFrameNode
-  extends Pick<FigmaRestSpec.FrameNode, CommonProps | ShapeProps | RadiusProps | LayoutProps> {
-  children: NormalizedSceneNode[];
+export type NormalizedDefaultShapeTrait = NormalizedIsLayerTrait &
+  NormalizedHasLayoutTrait &
+  NormalizedHasGeometryTrait;
+
+export type NormalizedFrameTrait = NormalizedIsLayerTrait &
+  NormalizedHasLayoutTrait &
+  NormalizedHasGeometryTrait &
+  NormalizedHasChildrenTrait &
+  NormalizedCornerTrait &
+  NormalizedHasFramePropertiesTrait;
+
+export interface NormalizedFrameNode extends NormalizedFrameTrait {
+  type: FigmaRestSpec.FrameNode["type"];
 }
 
 export interface NormalizedRectangleNode
-  extends Pick<FigmaRestSpec.RectangleNode, CommonProps | ShapeProps | RadiusProps> {}
+  extends NormalizedDefaultShapeTrait,
+    NormalizedCornerTrait {
+  type: FigmaRestSpec.RectangleNode["type"];
+}
 
-export interface NormalizedTextNode
-  extends Pick<
-    FigmaRestSpec.TextNode,
-    CommonProps | "layoutGrow" | "layoutAlign" | "style" | "characters" | "fills"
-  > {
+export interface NormalizedTextNode extends NormalizedDefaultShapeTrait {
+  type: FigmaRestSpec.TextNode["type"];
+
+  style: FigmaRestSpec.TextNode["style"];
+
+  characters: FigmaRestSpec.TextNode["characters"];
+
   segments: NormalizedTextSegment[];
+
   textStyleKey?: string;
 }
 
@@ -60,13 +97,13 @@ export interface NormalizedTextSegment {
   };
 }
 
-export interface NormalizedComponentNode
-  extends Pick<FigmaRestSpec.ComponentNode, CommonProps | ShapeProps | RadiusProps | LayoutProps> {
-  children: NormalizedSceneNode[];
+export interface NormalizedComponentNode extends NormalizedFrameTrait {
+  type: FigmaRestSpec.ComponentNode["type"];
 }
 
-export interface NormalizedInstanceNode
-  extends Pick<FigmaRestSpec.InstanceNode, CommonProps | ShapeProps | RadiusProps | LayoutProps> {
+export interface NormalizedInstanceNode extends NormalizedFrameTrait {
+  type: FigmaRestSpec.InstanceNode["type"];
+
   componentProperties: {
     [key: string]: FigmaRestSpec.ComponentProperty & { componentKey?: string };
   };
@@ -78,12 +115,21 @@ export interface NormalizedInstanceNode
   children: NormalizedSceneNode[];
 }
 
-export interface NormalizedVectorNode
-  extends Pick<FigmaRestSpec.VectorNode, CommonProps | ShapeProps> {}
+export interface NormalizedVectorNode extends NormalizedDefaultShapeTrait, NormalizedCornerTrait {
+  type: FigmaRestSpec.VectorNode["type"];
+}
 
 export interface NormalizedBooleanOperationNode
-  extends Pick<FigmaRestSpec.BooleanOperationNode, CommonProps | "fills"> {
-  children: NormalizedSceneNode[];
+  extends NormalizedIsLayerTrait,
+    NormalizedHasChildrenTrait,
+    NormalizedHasLayoutTrait,
+    NormalizedHasGeometryTrait {
+  type: FigmaRestSpec.BooleanOperationNode["type"];
+}
+
+export interface NormalizedUnhandledNode {
+  type: "UNHANDLED";
+  original: FigmaRestSpec.Node | SceneNode;
 }
 
 export type NormalizedSceneNode =
