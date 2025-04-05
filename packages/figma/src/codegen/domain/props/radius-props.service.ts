@@ -1,6 +1,7 @@
 import { definePropsTransformer, type PropsTransformer } from "@/codegen/core";
 import type { NormalizedCornerTrait, NormalizedIsLayerTrait } from "@/normalizer";
 import { objectEntries } from "@/utils/common";
+import { toCssPixel } from "@/utils/css";
 import type { VariableService } from "../variable.service";
 
 type RadiusTrait = NormalizedCornerTrait & NormalizedIsLayerTrait;
@@ -24,8 +25,18 @@ export function createRadiusPropsService({
   variableService,
 }: { variableService: VariableService }): RadiusPropsService<SeedRadiusProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
-  const inferRadiusVariableName = (value: number) =>
-    variableService.inferVariableName("CORNER_RADIUS", value);
+  const inferRadiusVariableName = (value?: number) => {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    const inferred = variableService.inferVariableName("CORNER_RADIUS", value);
+    if (inferred) {
+      return inferred;
+    }
+
+    return value === 0 ? 0 : toCssPixel(value);
+  };
 
   const radiusPropHandlers: Record<RadiusPropsKey, ApperancePropHandler> = {
     borderRadius: ({ cornerRadius, boundVariables }) => {
@@ -38,7 +49,7 @@ export function createRadiusPropsService({
       ) {
         return boundVariables?.bottomLeftRadius
           ? getLayoutVariableName(boundVariables.bottomLeftRadius.id)
-          : inferRadiusVariableName(cornerRadius ?? 0);
+          : inferRadiusVariableName(cornerRadius);
       }
 
       // TODO: handle individual corner radii
@@ -47,19 +58,19 @@ export function createRadiusPropsService({
     borderTopLeftRadius: ({ rectangleCornerRadii, boundVariables }) =>
       boundVariables?.topLeftRadius
         ? getLayoutVariableName(boundVariables.topLeftRadius.id)
-        : inferRadiusVariableName(rectangleCornerRadii?.[0] ?? 0),
+        : inferRadiusVariableName(rectangleCornerRadii?.[0]),
     borderTopRightRadius: ({ rectangleCornerRadii, boundVariables }) =>
       boundVariables?.topRightRadius
         ? getLayoutVariableName(boundVariables.topRightRadius.id)
-        : inferRadiusVariableName(rectangleCornerRadii?.[1] ?? 0),
+        : inferRadiusVariableName(rectangleCornerRadii?.[1]),
     borderBottomLeftRadius: ({ rectangleCornerRadii, boundVariables }) =>
       boundVariables?.bottomLeftRadius
         ? getLayoutVariableName(boundVariables.bottomLeftRadius.id)
-        : inferRadiusVariableName(rectangleCornerRadii?.[2] ?? 0),
+        : inferRadiusVariableName(rectangleCornerRadii?.[2]),
     borderBottomRightRadius: ({ rectangleCornerRadii, boundVariables }) =>
       boundVariables?.bottomRightRadius
         ? getLayoutVariableName(boundVariables.bottomRightRadius.id)
-        : inferRadiusVariableName(rectangleCornerRadii?.[3] ?? 0),
+        : inferRadiusVariableName(rectangleCornerRadii?.[3]),
   };
 
   // Default values

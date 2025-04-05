@@ -5,6 +5,7 @@ import type {
   NormalizedIsLayerTrait,
 } from "@/normalizer";
 import { objectEntries } from "@/utils/common";
+import { toCssPixel } from "@/utils/css";
 import type { VariableService } from "../variable.service";
 
 type SelfLayoutTrait = NormalizedIsLayerTrait &
@@ -33,8 +34,18 @@ export function createSelfLayoutPropsService({
   variableService,
 }: { variableService: VariableService }): SelfLayoutPropsService<SeedSelfLayoutProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
-  const inferSizeVariableName = (value: number) =>
-    variableService.inferVariableName("WIDTH_HEIGHT", value);
+  const inferSizeVariableName = (value?: number) => {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    const inferred = variableService.inferVariableName("WIDTH_HEIGHT", value);
+    if (inferred) {
+      return inferred;
+    }
+
+    return value === 0 ? 0 : toCssPixel(value);
+  };
 
   const layoutPropHandlers: Record<LayoutPropsKey, LayoutPropHandler> = {
     flexGrow: ({ layoutGrow }) => layoutGrow,
@@ -51,40 +62,40 @@ export function createSelfLayoutPropsService({
       }
     },
     height: ({ boundVariables, layoutSizingVertical, absoluteBoundingBox }) =>
-      layoutSizingVertical === "FIXED"
+      layoutSizingVertical === "FIXED" || layoutSizingVertical === undefined
         ? boundVariables?.size?.y
           ? getLayoutVariableName(boundVariables.size.y.id)
-          : inferSizeVariableName(absoluteBoundingBox?.height ?? 0)
+          : inferSizeVariableName(absoluteBoundingBox?.height)
         : undefined,
     width: ({ boundVariables, layoutSizingHorizontal, absoluteBoundingBox }) =>
-      layoutSizingHorizontal === "FIXED"
+      layoutSizingHorizontal === "FIXED" || layoutSizingHorizontal === undefined
         ? boundVariables?.size?.x
           ? getLayoutVariableName(boundVariables.size.x.id)
-          : inferSizeVariableName(absoluteBoundingBox?.width ?? 0)
+          : inferSizeVariableName(absoluteBoundingBox?.width)
         : undefined,
     minHeight: ({ boundVariables, layoutSizingVertical, minHeight }) =>
       layoutSizingVertical === "HUG"
         ? boundVariables?.minHeight
           ? getLayoutVariableName(boundVariables.minHeight.id)
-          : inferSizeVariableName(minHeight ?? 0)
+          : inferSizeVariableName(minHeight)
         : undefined,
     maxHeight: ({ boundVariables, layoutSizingVertical, maxHeight }) =>
       layoutSizingVertical === "HUG"
         ? boundVariables?.maxHeight
           ? getLayoutVariableName(boundVariables.maxHeight.id)
-          : inferSizeVariableName(maxHeight ?? 0)
+          : inferSizeVariableName(maxHeight)
         : undefined,
     minWidth: ({ boundVariables, layoutSizingHorizontal, minWidth }) =>
       layoutSizingHorizontal === "HUG"
         ? boundVariables?.minWidth
           ? getLayoutVariableName(boundVariables.minWidth.id)
-          : inferSizeVariableName(minWidth ?? 0)
+          : inferSizeVariableName(minWidth)
         : undefined,
     maxWidth: ({ boundVariables, layoutSizingHorizontal, maxWidth }) =>
       layoutSizingHorizontal === "HUG"
         ? boundVariables?.maxWidth
           ? getLayoutVariableName(boundVariables.maxWidth.id)
-          : inferSizeVariableName(maxWidth ?? 0)
+          : inferSizeVariableName(maxWidth)
         : undefined,
   };
 

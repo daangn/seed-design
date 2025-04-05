@@ -5,6 +5,7 @@ import type {
   NormalizedIsLayerTrait,
 } from "@/normalizer";
 import { objectEntries } from "@/utils/common";
+import { toCssPixel } from "@/utils/css";
 import type { VariableService } from "../variable.service";
 
 type ContainerLayoutTrait = NormalizedHasFramePropertiesTrait &
@@ -48,8 +49,18 @@ export function createContainerLayoutPropsService({
   variableService,
 }: { variableService: VariableService }): ContainerLayoutPropsService<SeedContainerLayoutProps> {
   const getLayoutVariableName = (id: string) => variableService.getVariableName(id);
-  const inferSpacingVariableName = (value: number) =>
-    variableService.inferVariableName("GAP", value);
+  const inferSpacingVariableName = (value?: number) => {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    const inferred = variableService.inferVariableName("GAP", value);
+    if (inferred) {
+      return inferred;
+    }
+
+    return value === 0 ? 0 : toCssPixel(value);
+  };
 
   const layoutPropHandlers: Record<LayoutPropsKey, LayoutPropHandler> = {
     flexDirection: ({ layoutMode }) => (layoutMode === "HORIZONTAL" ? "row" : "column"),
@@ -97,23 +108,23 @@ export function createContainerLayoutPropsService({
           ? 0
           : boundVariables?.itemSpacing
             ? getLayoutVariableName(boundVariables.itemSpacing.id)
-            : inferSpacingVariableName(itemSpacing ?? 0),
+            : inferSpacingVariableName(itemSpacing),
     paddingTop: ({ paddingTop, boundVariables }) =>
       boundVariables?.paddingTop
         ? getLayoutVariableName(boundVariables.paddingTop.id)
-        : inferSpacingVariableName(paddingTop ?? 0),
+        : inferSpacingVariableName(paddingTop),
     paddingBottom: ({ paddingBottom, boundVariables }) =>
       boundVariables?.paddingBottom
         ? getLayoutVariableName(boundVariables.paddingBottom.id)
-        : inferSpacingVariableName(paddingBottom ?? 0),
+        : inferSpacingVariableName(paddingBottom),
     paddingLeft: ({ paddingLeft, boundVariables }) =>
       boundVariables?.paddingLeft
         ? getLayoutVariableName(boundVariables.paddingLeft.id)
-        : inferSpacingVariableName(paddingLeft ?? 0),
+        : inferSpacingVariableName(paddingLeft),
     paddingRight: ({ paddingRight, boundVariables }) =>
       boundVariables?.paddingRight
         ? getLayoutVariableName(boundVariables.paddingRight.id)
-        : inferSpacingVariableName(paddingRight ?? 0),
+        : inferSpacingVariableName(paddingRight),
   };
 
   const layoutShorthandHandlers: Record<LayoutShorthandPropsKey, LayoutShorthandHandler> = {

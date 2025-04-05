@@ -1,5 +1,6 @@
 import { definePropsTransformer, type PropsTransformer } from "@/codegen/core";
 import type { NormalizedHasGeometryTrait, NormalizedIsLayerTrait } from "@/normalizer";
+import { toCssRgba } from "@/utils/css";
 import type { VariableService } from "../variable.service";
 
 type FillTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
@@ -34,7 +35,7 @@ export function createFrameFillPropsService({
 
     const color = fill.color;
     return {
-      background: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${fill.opacity})`,
+      background: toCssRgba(color),
     };
   });
 
@@ -66,7 +67,7 @@ export function createShapeFillPropsService({
 
     const color = fill.color;
     return {
-      color: `rgba(${color.r * 255}, ${color.g * 255}, ${color.b * 255}, ${fill.opacity})`,
+      color: toCssRgba(color),
     };
   });
 
