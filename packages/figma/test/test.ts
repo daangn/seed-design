@@ -1,6 +1,6 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import fs from "fs";
-import { generateCode } from "../src/generate-code";
+import { generateCode } from "../src/codegen";
 import { createRestNormalizer } from "../src/normalizer/from-rest";
 
 const response = JSON.parse(
@@ -14,7 +14,7 @@ const normalizer = createRestNormalizer({
   componentSets: node.componentSets,
 });
 const normalizedNode = normalizer(node.document);
-const code = await generateCode(normalizedNode);
+const code = generateCode(normalizedNode);
 const simplifiedDesign = {
   name: node.document.name,
   lastModified: response.lastModified,

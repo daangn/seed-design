@@ -1,2 +1,2 @@
-export { generateCode } from "./generate-code";
-export { createPluginNormalizer, createRestNormalizer } from "./normalizer";
+export * from "./normalizer";
+export * from "./codegen";

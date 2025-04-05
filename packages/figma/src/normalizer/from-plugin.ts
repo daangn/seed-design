@@ -117,7 +117,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       children: await normalizeNodes(node.children),
-      fills: normalizePaints(node.fills),
+      ...normalizeShapeProps(node),
     };
   }
   async function normalizeTextNode(node: TextNode): Promise<NormalizedTextNode> {
@@ -132,7 +132,7 @@ export function createPluginNormalizer() {
       "fills",
       "boundVariables",
     ]);
-    const first = segments[0]!; // TODO: handle multiple segments
+    const first = segments[0]!;
 
     const textStyleKey =
       typeof node.textStyleId === "string"
@@ -144,8 +144,6 @@ export function createPluginNormalizer() {
       id: node.id,
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
-      layoutGrow: node.layoutGrow as 0 | 1 | undefined,
-      layoutAlign: node.layoutAlign,
       style: {
         fontSize: first.fontSize,
         fontWeight: first.fontWeight,
@@ -159,29 +157,20 @@ export function createPluginNormalizer() {
       },
       ...(textStyleKey ? { textStyleKey } : {}),
       characters: node.characters,
-      segments: node
-        .getStyledTextSegments([
-          "fontSize",
-          "fontWeight",
-          "fontName",
-          "letterSpacing",
-          "lineHeight",
-        ])
-        .map((segment) => ({
-          characters: segment.characters,
-          start: segment.start,
-          end: segment.end,
-          style: {
-            fontSize: segment.fontSize,
-            fontWeight: segment.fontWeight,
-            fontFamily: segment.fontName.family,
-            letterSpacing:
-              segment.letterSpacing.unit === "PIXELS" ? segment.letterSpacing.value : undefined,
-            lineHeightPx:
-              segment.lineHeight.unit === "PIXELS" ? segment.lineHeight.value : undefined,
-          },
-        })),
-      fills: normalizePaints(node.fills),
+      segments: segments.map((segment) => ({
+        characters: segment.characters,
+        start: segment.start,
+        end: segment.end,
+        style: {
+          fontSize: segment.fontSize,
+          fontWeight: segment.fontWeight,
+          fontFamily: segment.fontName.family,
+          letterSpacing:
+            segment.letterSpacing.unit === "PIXELS" ? segment.letterSpacing.value : undefined,
+          lineHeightPx: segment.lineHeight.unit === "PIXELS" ? segment.lineHeight.value : undefined,
+        },
+      })),
+      ...normalizeShapeProps(node),
     };
   }
 
@@ -303,6 +292,10 @@ export function createPluginNormalizer() {
       | "layoutSizingHorizontal"
       | "layoutSizingVertical"
       | "absoluteBoundingBox"
+      | "minHeight"
+      | "minWidth"
+      | "maxHeight"
+      | "maxWidth"
     > &
       Partial<Pick<FrameNode, "inferredAutoLayout">>,
   ) {
@@ -315,6 +308,10 @@ export function createPluginNormalizer() {
       fills: normalizePaints(node.fills),
       strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
+      minHeight: node.minHeight ?? undefined,
+      minWidth: node.minWidth ?? undefined,
+      maxHeight: node.maxHeight ?? undefined,
+      maxWidth: node.maxWidth ?? undefined,
     };
   }
 
