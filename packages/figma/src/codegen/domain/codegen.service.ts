@@ -1,6 +1,6 @@
 import type { NormalizedSceneNode } from "@/normalizer";
 import type { ElementNode } from "../core";
-import { stringifyElement } from "../core/jsx";
+import { createElement, stringifyElement } from "../core/jsx";
 import type { FrameService } from "./frame.service";
 import type { InstanceService } from "./instance.service";
 import type { RectangleService } from "./rectangle.service";
@@ -34,6 +34,7 @@ export function createCodegenService({
     if (node.type === "RECTANGLE") return rectangleService.transform(node, traverse);
     if (node.type === "COMPONENT") return frameService.transform(node, traverse); // NOTE: Treat component node as Frame for now
     if (node.type === "INSTANCE") return instanceService.transform(node, traverse);
+    if (node.type === "UNHANDLED") return createElement("UnhandledFigmaNode");
 
     return;
   }

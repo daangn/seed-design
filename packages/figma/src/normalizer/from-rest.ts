@@ -18,12 +18,12 @@ export interface RestNormalizerContext {
 }
 
 export function createRestNormalizer(ctx: RestNormalizerContext) {
-  function normalizeNodes(nodes: readonly FigmaRestSpec.Node[]): NormalizedSceneNode[] {
+  function normalizeNodes(nodes: readonly FigmaRestSpec.SubcanvasNode[]): NormalizedSceneNode[] {
     // Figma REST API omits default values for some fields, "visible" is one of them
     return nodes.filter((node) => !("visible" in node) || node.visible).map(normalizeNode);
   }
 
-  function normalizeNode(node: FigmaRestSpec.Node): NormalizedSceneNode {
+  function normalizeNode(node: FigmaRestSpec.SubcanvasNode): NormalizedSceneNode {
     if (node.type === "FRAME") {
       return normalizeFrameNode(node);
     }
@@ -49,7 +49,10 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
       return normalizeInstanceNode(node);
     }
 
-    throw new Error(`Unimplemented node type: ${node.type}, ${node.name}`);
+    return {
+      type: "UNHANDLED",
+      original: node,
+    };
   }
 
   function normalizeFrameNode(node: FigmaRestSpec.FrameNode): NormalizedFrameNode {

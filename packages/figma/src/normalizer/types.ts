@@ -139,4 +139,5 @@ export type NormalizedSceneNode =
   | NormalizedComponentNode
   | NormalizedInstanceNode
   | NormalizedVectorNode
-  | NormalizedBooleanOperationNode;
+  | NormalizedBooleanOperationNode
+  | NormalizedUnhandledNode;
