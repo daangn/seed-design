@@ -129,6 +129,7 @@ export interface NormalizedBooleanOperationNode
 
 export interface NormalizedUnhandledNode {
   type: "UNHANDLED";
+  id: string;
   original: FigmaRestSpec.Node | SceneNode;
 }
 

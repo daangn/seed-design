@@ -1,14 +1,18 @@
 import type { NormalizedSceneNode } from "@/normalizer";
 import type { ElementNode } from "../core";
-import { createElement, stringifyElement } from "../core/jsx";
+import { appendSource, createElement, stringifyElement } from "../core/jsx";
 import type { FrameService } from "./frame.service";
 import type { InstanceService } from "./instance.service";
 import type { RectangleService } from "./rectangle.service";
 import type { TextService } from "./text.service";
+import { match } from "ts-pattern";
 
 export interface CodegenService {
   transform: (node: NormalizedSceneNode) => ElementNode | undefined;
-  transformToString: (node: NormalizedSceneNode) => string | undefined;
+  transformToString: (
+    node: NormalizedSceneNode,
+    options: { printSource?: boolean },
+  ) => string | undefined;
 }
 
 export interface SeedCodegenServiceDeps {
@@ -29,12 +33,22 @@ export function createCodegenService({
       return;
     }
 
-    if (node.type === "FRAME") return frameService.transform(node, traverse);
-    if (node.type === "TEXT") return textService.transform(node, traverse);
-    if (node.type === "RECTANGLE") return rectangleService.transform(node, traverse);
-    if (node.type === "COMPONENT") return frameService.transform(node, traverse); // NOTE: Treat component node as Frame for now
-    if (node.type === "INSTANCE") return instanceService.transform(node, traverse);
-    if (node.type === "UNHANDLED") return createElement("UnhandledFigmaNode");
+    const result = match(node)
+      .with({ type: "FRAME" }, (node) => frameService.transform(node, traverse))
+      .with({ type: "TEXT" }, (node) => textService.transform(node, traverse))
+      .with({ type: "RECTANGLE" }, (node) => rectangleService.transform(node, traverse))
+      .with({ type: "COMPONENT" }, (node) => frameService.transform(node, traverse)) // NOTE: Treat component node as Frame for now
+      .with({ type: "INSTANCE" }, (node) => instanceService.transform(node, traverse))
+      .with({ type: "VECTOR" }, () => createElement("svg", {}, "Vector Node Placeholder"))
+      .with({ type: "BOOLEAN_OPERATION" }, () =>
+        createElement("svg", {}, "Boolean Operation Node Placeholder"),
+      )
+      .with({ type: "UNHANDLED" }, () => createElement("UnhandledFigmaNode"))
+      .exhaustive();
+
+    if (result) {
+      return appendSource(result, node.id);
+    }
 
     return;
   }
@@ -43,11 +57,14 @@ export function createCodegenService({
     return traverse(node);
   }
 
-  function transformToString(node: NormalizedSceneNode): string | undefined {
+  function transformToString(
+    node: NormalizedSceneNode,
+    options: { printSource?: boolean } = {},
+  ): string | undefined {
     const result = transform(node);
     if (!result) return undefined;
 
-    return stringifyElement(result);
+    return stringifyElement(result, options);
   }
 
   return { transform, transformToString };

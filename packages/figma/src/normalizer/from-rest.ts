@@ -51,6 +51,7 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
 
     return {
       type: "UNHANDLED",
+      id: node.id,
       original: node,
     };
   }

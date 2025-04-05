@@ -8,6 +8,6 @@ export function generateJsxTree(node: NormalizedSceneNode) {
   return codegenService.transform(node);
 }
 
-export function generateCode(node: NormalizedSceneNode) {
-  return codegenService.transformToString(node);
+export function generateCode(node: NormalizedSceneNode, options: { printSource?: boolean } = {}) {
+  return codegenService.transformToString(node, options);
 }

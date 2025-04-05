@@ -6,6 +6,7 @@ export interface ElementNode {
   props: Record<string, string | number | boolean | ElementNode | object | undefined>;
   children: (ElementNode | string)[];
   comment?: string;
+  source?: string;
 }
 
 export function createElement(
@@ -23,6 +24,13 @@ export function createElement(
   };
 }
 
+export function appendSource(element: ElementNode, source: string) {
+  return {
+    ...element,
+    source,
+  };
+}
+
 export function isElement(node: unknown): node is ElementNode {
   return (
     typeof node === "object" &&
@@ -32,14 +40,16 @@ export function isElement(node: unknown): node is ElementNode {
   );
 }
 
-export function stringifyElement(element: ElementNode) {
+export function stringifyElement(element: ElementNode, options: { printSource?: boolean } = {}) {
   function recursive(node: ElementNode | string, depth: number): string {
     if (typeof node === "string") {
       return node;
     }
 
     const { tag, props, children, comment } = node;
-    const propEntries = Object.entries(props);
+    const propEntries = Object.entries(
+      options.printSource ? { ...props, "data-figma-node-id": node.source } : props,
+    );
     const propFragments = propEntries
       .map(([key, value]) => {
         if (typeof value === "string") {

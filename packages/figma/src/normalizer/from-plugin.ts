@@ -43,6 +43,7 @@ export function createPluginNormalizer() {
 
     return {
       type: "UNHANDLED",
+      id: node.id,
       original: node,
     };
   }

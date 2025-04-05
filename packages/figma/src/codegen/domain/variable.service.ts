@@ -12,7 +12,7 @@ export interface VariableServiceDeps {
   variableNameTransformer: ({ slug }: { slug: string[] }) => string;
 }
 
-export function createSeedVariableService({
+export function createVariableService({
   variableRepository,
   variableNameTransformer,
 }: VariableServiceDeps): VariableService {
@@ -41,9 +41,7 @@ export function createSeedVariableService({
     );
 
     if (!variableCollection) {
-      console.log(
-        `Variable collection not found: ${variable.variableCollectionId}, falling back to variable.valuesByMode key`,
-      );
+      // Variable collection not found: ${variable.variableCollectionId}, falling back to variable.valuesByMode key
       return Object.keys(variable.valuesByMode)[0]!;
     }
 

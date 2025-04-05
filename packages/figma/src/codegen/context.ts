@@ -18,7 +18,7 @@ import {
   createSeedInstanceService,
   createSeedRectangleService,
   createSeedTextService,
-  createSeedVariableService,
+  createVariableService,
   createSelfLayoutPropsService,
   createShapeFillPropsService,
   createStaticIconRepository,
@@ -44,7 +44,7 @@ const styleService = createStyleService({
   styleNameTransformer: ({ slug }) =>
     camelCase(slug[slug.length - 1]!, { mergeAmbiguousCharacters: true }),
 });
-const variableService = createSeedVariableService({
+const variableService = createVariableService({
   variableRepository,
   variableNameTransformer: ({ slug }) =>
     slug
