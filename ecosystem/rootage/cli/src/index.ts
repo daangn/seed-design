@@ -12,6 +12,7 @@ import {
   jsonschema,
   typescript,
   tailwind3,
+  tailwind4,
   validate,
 } from "@seed-design/rootage-core";
 import fs from "fs-extra";
@@ -261,9 +262,10 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-async function writeTailwindPlugin(): Promise<string> {
+async function writeTailwind3Plugin(): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
+
   const typographyTokens = getComponentSpecDeclarations(ctx);
   const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens);
 
@@ -271,6 +273,28 @@ async function writeTailwindPlugin(): Promise<string> {
 
   await writeFile(pluginPath, code);
   return pluginPath;
+}
+
+async function writeTailwind4(): Promise<string> {
+  const { ctx } = await prepare();
+  const tokens = getTokenDeclarations(ctx);
+  const typographyTokens = getComponentSpecDeclarations(ctx);
+
+  // tailwind4 모듈의 함수 사용
+  const themeCode = tailwind4.getTailwind4CompleteThemeCode(tokens, typographyTokens, {
+    sourcePrefix: "seed",
+    prefix: "", // 접두사 제거 (--dimension-x0_5 형태로 출력)
+    banner: `/**
+ * SEED Design Tailwind 4.0 Theme
+ * 이 파일은 Tailwind CSS 4.0에서 SEED 디자인 토큰을 사용하기 위한 테마 변수를 제공합니다.
+ */
+`,
+  });
+
+  const writePath = path.join(process.cwd(), dir, "index.css");
+
+  await writeFile(writePath, themeCode);
+  return writePath;
 }
 
 if (command === "token-ts") {
@@ -313,9 +337,17 @@ if (command === "json") {
   });
 }
 
-if (command === "tailwind-plugin") {
+if (command === "tailwind3-plugin") {
   console.log("Start");
-  writeTailwindPlugin().then(() => {
+  writeTailwind3Plugin().then(() => {
+    console.log("Done");
+    process.exit(0);
+  });
+}
+
+if (command === "tailwind4") {
+  console.log("Start");
+  writeTailwind4().then(() => {
     console.log("Done");
     process.exit(0);
   });
@@ -415,7 +447,24 @@ yargs(process.argv.slice(2))
     },
     async () => {
       console.log("Start");
-      await writeTailwindPlugin();
+      await writeTailwind3Plugin();
+      console.log("Done");
+    },
+  )
+  .command(
+    "tailwind4 <dir>",
+    "Generate Tailwind 4.0",
+    (yargs) => {
+      return yargs.positional("dir", {
+        alias: "o",
+        describe: "Output directory",
+        type: "string",
+        default: "./",
+      });
+    },
+    async () => {
+      console.log("Start");
+      await writeTailwind4();
       console.log("Done");
     },
   )

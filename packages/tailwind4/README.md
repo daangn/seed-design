@@ -1,17 +1,17 @@
-# @seed-design/tailwind3-plugin
+# @seed-design/tailwind4
 
-SEED 디자인 시스템의 디자인 토큰을 Tailwind CSS 3.x에서 쉽게 사용할 수 있는 플러그인입니다.
+SEED 디자인 시스템의 디자인 토큰을 Tailwind CSS 4.0에서 사용할 수 있게 해주는 CSS 파일을 제공합니다.
 
 ## 설치
 
 ```bash
-npm install @seed-design/tailwind3-plugin
+npm install @seed-design/tailwind4
 ```
 
 또는
 
 ```bash
-yarn add @seed-design/tailwind3-plugin
+yarn add @seed-design/tailwind4
 ```
 
 ## 사용 방법
@@ -23,24 +23,16 @@ yarn add @seed-design/tailwind3-plugin
    import '@seed-design/css/all.css';
    ```
 
-2. Tailwind CSS 구성 파일에 플러그인을 추가합니다.
-   ```js
-   // tailwind.config.js
-   import seedPlugin from '@seed-design/tailwind3-plugin';
-   
-   /** @type {import('tailwindcss').Config} */
-   export default {
-     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-     theme: {
-       extend: {},
-     },
-     plugins: [seedPlugin],
-   };
+2. CSS 파일에 Tailwind CSS와 SEED 디자인 토큰을 가져옵니다.
+   ```css
+   /* index.css 또는 main.css 등 */
+   @import "tailwindcss";
+   @import "@seed-design/tailwind4";
    ```
 
-## 유틸리티 클래스
+3. 이제 SEED 디자인 토큰 변수들이 Tailwind CSS 4.0의 테마에 등록되며, 다음과 같은 유틸리티 클래스를 사용할 수 있습니다.
 
-SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸리티 클래스로 사용 가능합니다:
+## 유틸리티 클래스
 
 ### 색상 유틸리티
 ```jsx
@@ -79,7 +71,7 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 // 간격 유틸리티
 <div className="flex gap-x3">아이템 간격 설정</div>
-<div className="grid gap-x-x4 gap-y-x2">그리드 간격 설정</div>
+<div className="grid gap-y-x2 gap-x-x4">그리드 간격 설정</div>
 ```
 
 ### 테두리 반경
@@ -91,7 +83,7 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ## 지원하는 토큰
 
-이 플러그인은 다음과 같은 SEED 디자인 토큰을 지원합니다:
+이 패키지는 모든 SEED 디자인 토큰을 Tailwind CSS 4.0의 테마 변수로 제공합니다:
 
 - 색상 (fg-*, bg-*, stroke-*, palette-*)
 - 크기 (dimension-x*)
@@ -106,4 +98,4 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ## 버전 호환성
 
-이 패키지는 Tailwind CSS 3.x 버전에서 사용할 수 있습니다. Tailwind CSS 4.0 이상 버전은 `@seed-design/tailwind4`를 사용하세요.
+이 패키지는 Tailwind CSS 4.0 이상 버전에서만 사용할 수 있습니다. Tailwind CSS 3.x 버전은 `@seed-design/tailwind3-plugin`을 사용하세요.
