@@ -49,7 +49,7 @@ export function getTailwind4CompleteThemeCode(
   // 타이포그래피 스타일 매핑
   const typographyStyles = new Map<string, Map<string, string[]>>();
 
-  // 텍스트 스타일 매핑 (text-style-t1-regular, text-style-t1-medium 등)
+  // 텍스트 스타일 매핑 (t1-regular, t1-medium 등)
   const textStyleVariants = new Set<string>();
 
   // 모든 토큰 처리
@@ -86,8 +86,7 @@ export function getTailwind4CompleteThemeCode(
 
         // 정규표현식으로 추출한 t-level을 저장
         ["regular", "medium", "bold"].forEach((weight) => {
-          // text-style- 접두사 사용
-          const utilName = `text-style-${tLevel}-${weight}`;
+          const utilName = `${tLevel}-${weight}`;
           textStyleVariants.add(utilName);
 
           if (!typographyStyles.has(utilName)) {
@@ -112,8 +111,7 @@ export function getTailwind4CompleteThemeCode(
 
         // line-height 정보를 저장
         ["regular", "medium", "bold"].forEach((weight) => {
-          // text-style- 접두사 사용
-          const utilName = `text-style-${tLevel}-${weight}`;
+          const utilName = `${tLevel}-${weight}`;
 
           if (typographyStyles.has(utilName)) {
             const styleMap = typographyStyles.get(utilName);
@@ -155,8 +153,7 @@ export function getTailwind4CompleteThemeCode(
         const className = match[1];
         // className을 kebab-case로 변환
         const kebabClassName = convertToKebabCase(className);
-        // text-style- 접두사 사용
-        const utilName = `text-style-${kebabClassName}`;
+        const utilName = `${kebabClassName}`;
 
         const utilityContent = utility.replace(
           /^\s*\.([a-zA-Z0-9_-]+)\s*{/,
@@ -257,8 +254,7 @@ ${styleLines.join("\n")}
         const className = match[1];
         // className을 kebab-case로 변환
         const kebabClassName = convertToKebabCase(className);
-        // text-style- 접두사 사용
-        const utilName = `text-style-${kebabClassName}`;
+        const utilName = `${kebabClassName}`;
 
         const utilityContent = utility.replace(
           /^\s*\.([a-zA-Z0-9_-]+)\s*{/,

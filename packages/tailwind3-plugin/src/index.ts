@@ -6,7 +6,7 @@ import plugin from "tailwindcss/plugin";
  * 색상 토큰과 타이포그래피 토큰을 클래스 이름으로 사용할 수 있습니다
  * 예시: 
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
- * - 타이포그래피: text-style-t1-regular, text-style-t1-bold, text-style-screen-title
+ * - 타이포그래피: t1-regular, t1-bold, screen-title
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
@@ -254,132 +254,132 @@ export default plugin(
   "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)"
 },
         typography: {
-  "text-style-screen-title": {
+  "screen-title": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-article-body": {
+  "article-body": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t1-regular": {
+  "t1-regular": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t1-medium": {
+  "t1-medium": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t1-bold": {
+  "t1-bold": {
     "fontSize": "var(--seed-font-size-t1)",
     "lineHeight": "var(--seed-line-height-t1)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t2-regular": {
+  "t2-regular": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t2-medium": {
+  "t2-medium": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t2-bold": {
+  "t2-bold": {
     "fontSize": "var(--seed-font-size-t2)",
     "lineHeight": "var(--seed-line-height-t2)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t3-regular": {
+  "t3-regular": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t3-medium": {
+  "t3-medium": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t3-bold": {
+  "t3-bold": {
     "fontSize": "var(--seed-font-size-t3)",
     "lineHeight": "var(--seed-line-height-t3)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t4-regular": {
+  "t4-regular": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t4-medium": {
+  "t4-medium": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t4-bold": {
+  "t4-bold": {
     "fontSize": "var(--seed-font-size-t4)",
     "lineHeight": "var(--seed-line-height-t4)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t5-regular": {
+  "t5-regular": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t5-medium": {
+  "t5-medium": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t5-bold": {
+  "t5-bold": {
     "fontSize": "var(--seed-font-size-t5)",
     "lineHeight": "var(--seed-line-height-t5)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t6-regular": {
+  "t6-regular": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t6-medium": {
+  "t6-medium": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t6-bold": {
+  "t6-bold": {
     "fontSize": "var(--seed-font-size-t6)",
     "lineHeight": "var(--seed-line-height-t6)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t7-regular": {
+  "t7-regular": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-regular)"
   },
-  "text-style-t7-medium": {
+  "t7-medium": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-medium)"
   },
-  "text-style-t7-bold": {
+  "t7-bold": {
     "fontSize": "var(--seed-font-size-t7)",
     "lineHeight": "var(--seed-line-height-t7)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t8-bold": {
+  "t8-bold": {
     "fontSize": "var(--seed-font-size-t8)",
     "lineHeight": "var(--seed-line-height-t8)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t9-bold": {
+  "t9-bold": {
     "fontSize": "var(--seed-font-size-t9)",
     "lineHeight": "var(--seed-line-height-t9)",
     "fontWeight": "var(--seed-font-weight-bold)"
   },
-  "text-style-t10-bold": {
+  "t10-bold": {
     "fontSize": "var(--seed-font-size-t10)",
     "lineHeight": "var(--seed-line-height-t10)",
     "fontWeight": "var(--seed-font-weight-bold)"

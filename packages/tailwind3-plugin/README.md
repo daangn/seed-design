@@ -60,9 +60,9 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 
 ### 타이포그래피 유틸리티
 ```jsx
-<h1 className="text-style-screen-title">화면 제목</h1>
-<p className="text-style-t3-regular">본문 텍스트</p>
-<p className="text-style-article-body">아티클 본문</p>
+<h1 className="screen-title">화면 제목</h1>
+<p className="t3-regular">본문 텍스트</p>
+<p className="article-body">아티클 본문</p>
 ```
 
 ### 크기 및 여백 유틸리티
@@ -102,7 +102,7 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 - 줄 높이 (leading-*)
 - 애니메이션 지속 시간 (duration-d*)
 - 타이밍 함수 (easing-*)
-- 타이포그래피 스타일 (text-style-*)
+- 타이포그래피 스타일 (t1-regular, t1-bold, t2-regular, ...etc)
 
 ## 버전 호환성
 

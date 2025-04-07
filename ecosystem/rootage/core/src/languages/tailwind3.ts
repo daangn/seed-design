@@ -83,7 +83,7 @@ export function getTailwind3PluginCode(
 
           const className = textStyleVariant.value;
           // 캐멀케이스를 케밥케이스로 변환
-          const kebabClassName = `text-style-${convertToKebabCase(className)}`;
+          const kebabClassName = convertToKebabCase(className);
 
           // 각 state 순회
           for (const state of variant.body) {
@@ -180,7 +180,7 @@ import plugin from "tailwindcss/plugin";
  * 색상 토큰과 타이포그래피 토큰을 클래스 이름으로 사용할 수 있습니다
  * 예시: 
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
- * - 타이포그래피: text-style-t1-regular, text-style-t1-bold, text-style-screen-title
+ * - 타이포그래피: t1-regular, t1-bold, screen-title
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
