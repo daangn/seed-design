@@ -1,5 +1,5 @@
 {
-  "name": "@seed-design/tailwind4",
+  "name": "@seed-design/tailwind4-theme",
   "version": "0.1.0",
   "description": "SEED 디자인 토큰을 Tailwind CSS 4.0에서 사용하기 위한 플러그인",
   "main": "index.css",

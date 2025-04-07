@@ -1,17 +1,17 @@
-# @seed-design/tailwind4
+# @seed-design/tailwind4-theme
 
 SEED 디자인 시스템의 디자인 토큰을 Tailwind CSS 4.0에서 사용할 수 있게 해주는 CSS 파일을 제공합니다.
 
 ## 설치
 
 ```bash
-npm install @seed-design/tailwind4
+npm install @seed-design/tailwind4-theme
 ```
 
 또는
 
 ```bash
-yarn add @seed-design/tailwind4
+yarn add @seed-design/tailwind4-theme
 ```
 
 ## 사용 방법
@@ -27,7 +27,7 @@ yarn add @seed-design/tailwind4
    ```css
    /* index.css 또는 main.css 등 */
    @import "tailwindcss";
-   @import "@seed-design/tailwind4";
+   @import "@seed-design/tailwind4-theme";
    ```
 
 3. 이제 SEED 디자인 토큰 변수들이 Tailwind CSS 4.0의 테마에 등록되며, 다음과 같은 유틸리티 클래스를 사용할 수 있습니다.
