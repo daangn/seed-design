@@ -8,12 +8,22 @@
   },
   "license": "MIT",
   "bin": "./bin/index.cjs",
+  "main": "./bin/index.cjs",
+  "exports": {
+    "./transformers": {
+      "types": "./bin/transforms.d.ts",
+      "import": "./bin/transforms.cjs",
+      "require": "./bin/transforms.cjs"
+    }
+  },
   "files": [
     "bin"
   ],
   "scripts": {
     "dev": "bun ./dev.mjs",
+    "prebuild": "bun ./src/scripts/generate-transform-names.ts",
     "build": "bun ./build.mjs",
+    "generate-transformers": "bun ./src/scripts/generate-transform-names.ts",
     "test": "LOG=true bun vitest",
     "lint:publish": "bun publint"
   },

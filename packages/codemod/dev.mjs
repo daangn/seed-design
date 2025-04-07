@@ -25,6 +25,16 @@ esbuild
   .then((ctx) => ctx.watch())
   .catch(() => process.exit(1));
 
+// Build transformers script
+esbuild
+  .context({
+    ...commonConfig,
+    entryPoints: ["./src/scripts/generate-transform-names.ts"],
+    outfile: "./bin/generate-transform-names.cjs",
+  })
+  .then((ctx) => ctx.watch())
+  .catch(() => process.exit(1));
+
 // Build transforms
 fs.readdirSync("./src/transforms").forEach((folder) => {
   esbuild

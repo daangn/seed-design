@@ -36,15 +36,3 @@ esbuild
     outfile: "./bin/index.cjs",
   })
   .catch(() => process.exit(1));
-
-// Build transforms
-fs.readdirSync("./src/transforms").forEach((folder) => {
-  esbuild
-    .build({
-      ...commonConfig,
-      entryPoints: [path.join("./src/transforms", folder, "index.ts")],
-      outdir: path.join("./bin/transforms", folder),
-      outExtension: { ".js": ".js" },
-    })
-    .catch(() => process.exit(1));
-});
