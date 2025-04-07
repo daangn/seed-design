@@ -104,7 +104,7 @@ export function getTailwind3PluginCode(
                       if (prop.kind === "DimensionPropertyDeclaration") {
                         // token 참조인 경우
                         if (prop.value.kind === "TokenLit") {
-                          typographyStyle.fontSize = `var(--seed-${prop.value.identifier.replace("$", "").replace(".", "-")})`;
+                          typographyStyle.fontSize = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                         }
                         // 직접 값인 경우
                         else if (prop.value.kind === "DimensionLit") {
@@ -136,7 +136,7 @@ export function getTailwind3PluginCode(
                       if (prop.kind === "NumberPropertyDeclaration") {
                         // token 참조인 경우
                         if (prop.value.kind === "TokenLit") {
-                          typographyStyle.fontWeight = `var(--seed-${prop.value.identifier.replace("$", "").replace(".", "-")})`;
+                          typographyStyle.fontWeight = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                         }
                         // 직접 값인 경우
                         else if (prop.value.kind === "NumberLit") {
