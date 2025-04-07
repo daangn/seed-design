@@ -334,7 +334,9 @@ function processTailwindTypography(
                       if (prop.kind === "DimensionPropertyDeclaration") {
                         // token 참조인 경우
                         if (prop.value.kind === "TokenLit") {
-                          const tokenId = prop.value.identifier.replace("$", "").replace(".", "-");
+                          const tokenId = prop.value.identifier
+                            .replace(/\$/g, "")
+                            .replace(/\./g, "-");
                           typographyStyles.push(
                             `    font-size: var(--${sourcePrefix}-${tokenId});`,
                           );
@@ -355,7 +357,9 @@ function processTailwindTypography(
                       ) {
                         // token 참조인 경우
                         if (prop.value.kind === "TokenLit") {
-                          const tokenId = prop.value.identifier.replace("$", "").replace(".", "-");
+                          const tokenId = prop.value.identifier
+                            .replace(/\$/g, "")
+                            .replace(/\./g, "-");
                           typographyStyles.push(
                             `    line-height: var(--${sourcePrefix}-${tokenId});`,
                           );
@@ -375,7 +379,9 @@ function processTailwindTypography(
                       if (prop.kind === "NumberPropertyDeclaration") {
                         // token 참조인 경우
                         if (prop.value.kind === "TokenLit") {
-                          const tokenId = prop.value.identifier.replace("$", "").replace(".", "-");
+                          const tokenId = prop.value.identifier
+                            .replace(/\$/g, "")
+                            .replace(/\./g, "-");
                           typographyStyles.push(
                             `    font-weight: var(--${sourcePrefix}-${tokenId});`,
                           );
