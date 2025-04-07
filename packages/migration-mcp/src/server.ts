@@ -8,11 +8,11 @@ import {
   McpError,
   ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
+import { Transformers, transformerNames } from "@seed-design/codemod/transformers";
 
 // 도구 구현 임포트
 import { analyzeTokens } from "./tools/analyze-tokens.js";
 import { runCodemod } from "./tools/run-codemod.js";
-import { summarizeChanges } from "./tools/summarize-changes.js";
 import { generateMigrationPlan } from "./tools/migration-plan.js";
 
 // 리소스 구현 임포트
@@ -84,13 +84,7 @@ class SeedMigrationServer {
               transformName: {
                 type: "string",
                 description: "실행할 transform 이름",
-                enum: [
-                  "replace-stitches-styled-color",
-                  "replace-stitches-theme-color",
-                  "replace-stitches-styled-typography",
-                  "replace-seed-design-token-vars",
-                  "all",
-                ],
+                enum: [...transformerNames, "all"],
               },
               targetPath: {
                 type: "string",
@@ -166,8 +160,6 @@ class SeedMigrationServer {
           return await analyzeTokens(request.params.arguments as any);
         case "run_codemod":
           return await runCodemod(request.params.arguments as any);
-        case "summarize_changes":
-          return await summarizeChanges(request.params.arguments as any);
         case "generate_migration_plan":
           return await generateMigrationPlan(request.params.arguments as any);
         default:

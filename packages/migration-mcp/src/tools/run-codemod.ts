@@ -2,8 +2,8 @@ import { execa } from "execa";
 import * as path from "path";
 import * as fs from "fs";
 import { glob } from "glob";
-import { Transformers as CodemodTransformers } from "@seed-design/codemod/transformers";
 import { saveMigrationStatistics } from "../utils/file-system.js";
+import { Transformers, isValidTransformer } from "@seed-design/codemod/transformers";
 
 interface RunCodemodArgs {
   projectPath: string;
@@ -32,27 +32,24 @@ interface CodemodResult {
   };
 }
 
-// transformers 상수 정의
-const Transformers = {
-  REPLACE_STITCHES_STYLED_COLOR: "replace-stitches-styled-color",
-  REPLACE_STITCHES_THEME_COLOR: "replace-stitches-theme-color",
-  REPLACE_STITCHES_STYLED_TYPOGRAPHY: "replace-stitches-styled-typography",
-  REPLACE_SEED_DESIGN_TOKEN_VARS: "replace-seed-design-token-vars",
-  REPLACE_SEED_DESIGN_TOKEN_TYPOGRAPHY_CLASSNAME: "replace-seed-design-token-typography-classname",
-  REPLACE_TAILWIND_COLOR: "replace-tailwind-color",
-  REPLACE_TAILWIND_TYPOGRAPHY: "replace-tailwind-typography",
-  REPLACE_REACT_ICON: "replace-react-icon",
-  REPLACE_CUSTOM_TEXT_COMPONENT_COLOR_PROP: "replace-custom-text-component-color-prop",
-  REPLACE_CUSTOM_SEED_DESIGN_TEXT_COMPONENT: "replace-custom-seed-design-text-component",
-  REPLACE_CSS_SEED_DESIGN_COLOR_VARIABLE: "replace-css-seed-design-color-variable",
-  REPLACE_CSS_SEED_DESIGN_TYPOGRAPHY_VARIABLE: "replace-css-seed-design-typography-variable",
-};
-
 // Codemod 실행 도구
 export async function runCodemod(args: RunCodemodArgs) {
   const { projectPath, transformName, targetPath, options = {} } = args;
 
   try {
+    // transformName 유효성 검사
+    if (transformName !== "all" && !isValidTransformer(transformName)) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `유효하지 않은 transformer 이름입니다: ${transformName}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+
     // 결과 저장을 위한 객체
     const result: CodemodResult = {
       transform: transformName,
@@ -100,7 +97,7 @@ export async function runCodemod(args: RunCodemodArgs) {
       result.success = false;
       result.error = error.message;
       if (error.stderr) {
-        result.error += "\n" + error.stderr;
+        result.error += `\n${error.stder}`;
       }
     }
 

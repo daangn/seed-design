@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { glob } from "glob";
 import { saveTokenUsageData } from "../utils/file-system.js";
+import { Transformers } from "@seed-design/codemod/transformers";
 
 interface AnalyzeTokensArgs {
   projectPath: string;
@@ -30,10 +31,6 @@ interface AnalysisResult {
     examples: StitchesUsageExample[];
   };
   typeDependencies: {
-    count: number;
-    files: string[];
-  };
-  iconPackageDependencies: {
     count: number;
     files: string[];
   };
@@ -110,10 +107,6 @@ export async function analyzeTokens(args: AnalyzeTokensArgs) {
         examples: [],
       },
       typeDependencies: {
-        count: 0,
-        files: [],
-      },
-      iconPackageDependencies: {
         count: 0,
         files: [],
       },
@@ -196,12 +189,6 @@ export async function analyzeTokens(args: AnalyzeTokensArgs) {
         result.typeDependencies.files.push(file);
       }
 
-      // 아이콘 패키지 의존성 확인
-      if (content.match(/from ['"]@seed-design\/react-icon['"]/)) {
-        result.iconPackageDependencies.count++;
-        result.iconPackageDependencies.files.push(file);
-      }
-
       // CSS 스타일시트 의존성 확인
       if (content.match(/import.*@seed-design\/stylesheet/)) {
         result.cssStylesheetDependencies.count++;
@@ -214,34 +201,6 @@ export async function analyzeTokens(args: AnalyzeTokensArgs) {
 
     // 추천 transform 결정
     try {
-      // @seed-design/codemod 패키지의 transformers를 동적으로 가져옵니다 (해당 패키지가 설치되어 있을 경우)
-      // 로컬 개발 환경에서는 직접 참조하고, 빌드환경에서는 직접 상수를 사용합니다.
-      let Transformers;
-      try {
-        // 동적 import 시도
-        const transformersPath = require.resolve("@seed-design/codemod/transformers");
-        const transformersModule = require(transformersPath);
-        Transformers = transformersModule.Transformers;
-      } catch (e) {
-        // fallback - 기본 transformers 정의
-        Transformers = {
-          REPLACE_STITCHES_STYLED_COLOR: "replace-stitches-styled-color",
-          REPLACE_STITCHES_THEME_COLOR: "replace-stitches-theme-color",
-          REPLACE_STITCHES_STYLED_TYPOGRAPHY: "replace-stitches-styled-typography",
-          REPLACE_SEED_DESIGN_TOKEN_VARS: "replace-seed-design-token-vars",
-          REPLACE_SEED_DESIGN_TOKEN_TYPOGRAPHY_CLASSNAME:
-            "replace-seed-design-token-typography-classname",
-          REPLACE_TAILWIND_COLOR: "replace-tailwind-color",
-          REPLACE_TAILWIND_TYPOGRAPHY: "replace-tailwind-typography",
-          REPLACE_REACT_ICON: "replace-react-icon",
-          REPLACE_CUSTOM_TEXT_COMPONENT_COLOR_PROP: "replace-custom-text-component-color-prop",
-          REPLACE_CUSTOM_SEED_DESIGN_TEXT_COMPONENT: "replace-custom-seed-design-text-component",
-          REPLACE_CSS_SEED_DESIGN_COLOR_VARIABLE: "replace-css-seed-design-color-variable",
-          REPLACE_CSS_SEED_DESIGN_TYPOGRAPHY_VARIABLE:
-            "replace-css-seed-design-typography-variable",
-        };
-      }
-
       // 직접 토큰 참조가 있는 경우
       if (result.directTokenReferences.count > 0) {
         result.recommendedTransforms.push(Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS);
@@ -258,11 +217,6 @@ export async function analyzeTokens(args: AnalyzeTokensArgs) {
       if (hasTailwind) {
         result.recommendedTransforms.push(Transformers.REPLACE_TAILWIND_COLOR);
         result.recommendedTransforms.push(Transformers.REPLACE_TAILWIND_TYPOGRAPHY);
-      }
-
-      // 아이콘 패키지 의존성이 있는 경우
-      if (result.iconPackageDependencies.count > 0) {
-        result.recommendedTransforms.push(Transformers.REPLACE_REACT_ICON);
       }
 
       // CSS 스타일시트 의존성이 있는 경우
@@ -292,7 +246,6 @@ export async function analyzeTokens(args: AnalyzeTokensArgs) {
                 directTokenReferences: result.directTokenReferences.count,
                 stitchesIntegration: result.stitchesIntegration.count,
                 typeDependencies: result.typeDependencies.count,
-                iconPackageDependencies: result.iconPackageDependencies.count,
                 cssStylesheetDependencies: result.cssStylesheetDependencies.count,
                 hasTailwind,
                 hasStitches,

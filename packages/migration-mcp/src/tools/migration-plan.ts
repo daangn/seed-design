@@ -1,4 +1,5 @@
 import * as path from "path";
+import { Transformers } from "@seed-design/codemod/transformers";
 
 interface MigrationPlanArgs {
   projectPath: string;
@@ -21,48 +22,6 @@ interface MigrationPlan {
   estimatedTime: string;
   potentialIssues: string[];
 }
-
-// codemod transformer 자체 정의
-const Transformers = {
-  REPLACE_STITCHES_STYLED_COLOR: "replace-stitches-styled-color",
-  REPLACE_STITCHES_THEME_COLOR: "replace-stitches-theme-color",
-  REPLACE_STITCHES_STYLED_TYPOGRAPHY: "replace-stitches-styled-typography",
-  REPLACE_SEED_DESIGN_TOKEN_VARS: "replace-seed-design-token-vars",
-  REPLACE_SEED_DESIGN_TOKEN_TYPOGRAPHY_CLASSNAME: "replace-seed-design-token-typography-classname",
-  REPLACE_TAILWIND_COLOR: "replace-tailwind-color",
-  REPLACE_TAILWIND_TYPOGRAPHY: "replace-tailwind-typography",
-  REPLACE_REACT_ICON: "replace-react-icon",
-  REPLACE_CUSTOM_TEXT_COMPONENT_COLOR_PROP: "replace-custom-text-component-color-prop",
-  REPLACE_CUSTOM_SEED_DESIGN_TEXT_COMPONENT: "replace-custom-seed-design-text-component",
-  REPLACE_CSS_SEED_DESIGN_COLOR_VARIABLE: "replace-css-seed-design-color-variable",
-  REPLACE_CSS_SEED_DESIGN_TYPOGRAPHY_VARIABLE: "replace-css-seed-design-typography-variable",
-};
-
-// transformer 설명
-const transformerDescriptions: Record<string, string> = {
-  [Transformers.REPLACE_STITCHES_STYLED_COLOR]:
-    "Stitches styled 함수에서 사용하는 색상 토큰을 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_STITCHES_THEME_COLOR]:
-    "theme.colors 객체를 통해 접근하는 색상 토큰을 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_STITCHES_STYLED_TYPOGRAPHY]:
-    "Stitches styled 함수에서 $text 속성으로 사용하는 typography 토큰을 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS]:
-    "vars.$scale.color, vars.$semantic.color, vars.$static.color, vars.$semantic.typography와 같은 직접 토큰 참조를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_SEED_DESIGN_TOKEN_TYPOGRAPHY_CLASSNAME]:
-    "seed-design/design-token의 typography 클래스명 (ex: ts-text-01-m)을 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_TAILWIND_COLOR]: "Tailwind CSS의 컬러 클래스를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_TAILWIND_TYPOGRAPHY]:
-    "Tailwind CSS의 타이포그래피 클래스를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_REACT_ICON]: "React Icon 패키지를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_CUSTOM_TEXT_COMPONENT_COLOR_PROP]:
-    "커스텀 텍스트 컴포넌트의 color prop을 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_CUSTOM_SEED_DESIGN_TEXT_COMPONENT]:
-    "커스텀 seed-design 텍스트 컴포넌트를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_CSS_SEED_DESIGN_COLOR_VARIABLE]:
-    "CSS의 seed-design color 변수를 V3 형식으로 변환합니다.",
-  [Transformers.REPLACE_CSS_SEED_DESIGN_TYPOGRAPHY_VARIABLE]:
-    "CSS의 seed-design typography 변수를 V3 형식으로 변환합니다.",
-};
 
 // 마이그레이션 계획 생성 도구
 export async function generateMigrationPlan(args: MigrationPlanArgs) {
@@ -88,25 +47,27 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
           },
           {
             name: "색상 토큰 마이그레이션",
-            description: transformerDescriptions[Transformers.REPLACE_STITCHES_STYLED_COLOR],
+            description: "Stitches styled 함수에서 사용하는 색상 토큰을 V3 형식으로 변환합니다.",
             command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_STYLED_COLOR} src --log --ignore-config=".gitignore"`,
             priority: "high",
           },
           {
             name: "Stitches theme.color 마이그레이션",
-            description: transformerDescriptions[Transformers.REPLACE_STITCHES_THEME_COLOR],
+            description: "theme.colors 객체를 통해 접근하는 색상 토큰을 V3 형식으로 변환합니다.",
             command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_THEME_COLOR} src --log`,
             priority: "high",
           },
           {
             name: "타이포그래피 토큰 마이그레이션",
-            description: transformerDescriptions[Transformers.REPLACE_STITCHES_STYLED_TYPOGRAPHY],
+            description:
+              "Stitches styled 함수에서 $text 속성으로 사용하는 typography 토큰을 V3 형식으로 변환합니다.",
             command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_STYLED_TYPOGRAPHY} src --log`,
             priority: "high",
           },
           {
             name: "직접 토큰 참조 마이그레이션",
-            description: transformerDescriptions[Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS],
+            description:
+              "vars.$scale.color, vars.$semantic.color, vars.$static.color, vars.$semantic.typography와 같은 직접 토큰 참조를 V3 형식으로 변환합니다.",
             command: `npx @seed-design/codemod ${Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS} src --log`,
             priority: "medium",
           },
@@ -185,8 +146,8 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
     ) {
       // 추천 transform 기반으로 단계 추가
       for (const transformer of analysisResult.recommendedTransforms) {
-        const description =
-          transformerDescriptions[transformer] || `${transformer} 변환을 적용합니다.`;
+        // 변환기 이름으로 설명 생성 (기본 설명)
+        const description = `${transformer} 변환을 적용합니다.`;
 
         plan.steps.push({
           name: `${transformer} 마이그레이션`,
@@ -200,21 +161,22 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
       if (analysisResult.stitchesIntegration?.count > 0 || analysisResult.summary?.hasStitches) {
         plan.steps.push({
           name: "색상 토큰 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_STITCHES_STYLED_COLOR],
+          description: "Stitches styled 함수에서 사용하는 색상 토큰을 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_STYLED_COLOR} src --log --ignore-config=".gitignore"`,
           priority: "high",
         });
 
         plan.steps.push({
           name: "Stitches theme.color 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_STITCHES_THEME_COLOR],
+          description: "theme.colors 객체를 통해 접근하는 색상 토큰을 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_THEME_COLOR} src --log --ignore-config=".gitignore"`,
           priority: "high",
         });
 
         plan.steps.push({
           name: "타이포그래피 토큰 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_STITCHES_STYLED_TYPOGRAPHY],
+          description:
+            "Stitches styled 함수에서 $text 속성으로 사용하는 typography 토큰을 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_STITCHES_STYLED_TYPOGRAPHY} src --log --ignore-config=".gitignore"`,
           priority: "high",
         });
@@ -235,14 +197,14 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
       if (analysisResult.summary?.hasTailwind) {
         plan.steps.push({
           name: "Tailwind 색상 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_TAILWIND_COLOR],
+          description: "Tailwind CSS의 컬러 클래스를 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_TAILWIND_COLOR} src --log --ignore-config=".gitignore"`,
           priority: "high",
         });
 
         plan.steps.push({
           name: "Tailwind 타이포그래피 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_TAILWIND_TYPOGRAPHY],
+          description: "Tailwind CSS의 타이포그래피 클래스를 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_TAILWIND_TYPOGRAPHY} src --log --ignore-config=".gitignore"`,
           priority: "high",
         });
@@ -251,7 +213,8 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
       if (analysisResult.directTokenReferences?.count > 0) {
         plan.steps.push({
           name: "직접 토큰 참조 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS],
+          description:
+            "vars.$scale.color, vars.$semantic.color, vars.$static.color, vars.$semantic.typography와 같은 직접 토큰 참조를 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_SEED_DESIGN_TOKEN_VARS} src --log --ignore-config=".gitignore"`,
           priority: "medium",
         });
@@ -260,7 +223,7 @@ export async function generateMigrationPlan(args: MigrationPlanArgs) {
       if (analysisResult.iconPackageDependencies?.count > 0) {
         plan.steps.push({
           name: "React Icon 마이그레이션",
-          description: transformerDescriptions[Transformers.REPLACE_REACT_ICON],
+          description: "React Icon 패키지를 V3 형식으로 변환합니다.",
           command: `npx @seed-design/codemod ${Transformers.REPLACE_REACT_ICON} src --log --ignore-config=".gitignore"`,
           priority: "medium",
         });
