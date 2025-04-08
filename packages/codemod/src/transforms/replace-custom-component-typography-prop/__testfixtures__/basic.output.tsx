@@ -1,7 +1,5 @@
 // @ts-nocheck
 
-import { Text } from "@seed-design/react";
-
 const Component = () => {
   return (
     (<div>

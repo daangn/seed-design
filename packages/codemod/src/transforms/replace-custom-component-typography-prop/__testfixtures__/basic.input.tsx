@@ -1,7 +1,5 @@
 // @ts-nocheck
 
-import Text from 'components/Base/Text';
-
 const Component = () => {
   return (
     <div>

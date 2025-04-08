@@ -39,6 +39,128 @@ npx @seed-design/codemod --list
 
 ## 사용 가능한 Transforms
 
+### replace-custom-component-color-prop
+
+```package-install
+npx @seed-design/codemod replace-custom-component-color-prop <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+import { getSeedColor } from './utils';
+
+const Component = () => {
+  return (
+    <>
+      <Text color="gray100" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="gray700" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot100" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot500" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="carrot900" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="onPrimary" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color={isSelected ? "onPrimary" : "primary"} />
+      <Text color={isSelected ? 'primary' : 'gray900'}  />
+      <Text color={isSelected ? 'carrot600' : 'blue600'}  />
+      <Text color={"gray600"} />
+      {/* Box 컴포넌트 테스트 */}
+      <Box bg="paperDefault">
+        기본 박스 컴포넌트
+      </Box>
+      <Box bc="gray600" bg="gray100">
+        테두리가 있는 박스
+      </Box>
+      <Stack bc={'gray600'} br={8} gap={12} px={16} py={12}>
+        <div>스택 컴포넌트</div>
+      </Stack>
+      <HStack bg="carrot500" px={16} py={12}>
+        <div>가로 스택</div>
+      </HStack>
+      <VStack bc={'gray600'} br={8} gap={12} px={16} py={12}>
+        <div>세로 스택</div>
+      </VStack>
+      <CustomComponent 
+        color="primary"
+        defaultColor="gray600"
+        activeColor="carrot500"
+      />
+      <AnotherComponent color={isActive ? "carrot600" : "gray700"} />
+      <div style={{ 
+        color: getSeedColor("primary"),
+        backgroundColor: getSeedColor("paperDefault"),
+        borderColor: getSeedColor("gray600")
+      }}>
+        getSeedColor 함수 사용 예제
+      </div>
+    </>
+  );
+};
+
+export default Component;
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+import { getSeedColor } from './utils';
+
+const Component = () => {
+  return (<>
+    <Text color="palette.gray200" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.gray800" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot200" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot600" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.carrot800" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+    <Text color={isSelected ? "palette.staticWhite" : "fg.brand"} />
+    <Text color={isSelected ? "fg.brand" : "palette.gray1000"}  />
+    <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
+    <Text color={"palette.gray700"} />
+    {/* Box 컴포넌트 테스트 */}
+    <Box bg="bg.layerDefault">
+      기본 박스 컴포넌트
+    </Box>
+    <Box bc="palette.gray700" bg="palette.gray200">
+      테두리가 있는 박스
+    </Box>
+    <Stack bc={"palette.gray700"} br={8} gap={12} px={16} py={12}>
+      <div>스택 컴포넌트</div>
+    </Stack>
+    <HStack bg="palette.carrot600" px={16} py={12}>
+      <div>가로 스택</div>
+    </HStack>
+    <VStack bc={"palette.gray700"} br={8} gap={12} px={16} py={12}>
+      <div>세로 스택</div>
+    </VStack>
+    <CustomComponent 
+      color="fg.brand"
+      defaultColor="palette.gray700"
+      activeColor="palette.carrot600"
+    />
+    <AnotherComponent color={isActive ? "palette.carrot600" : "palette.gray800"} />
+    <div style={{ 
+      color: getSeedColor("fg.brand"),
+      backgroundColor: getSeedColor("bg.layerDefault"),
+      borderColor: getSeedColor("palette.gray700")
+    }}>
+      getSeedColor 함수 사용 예제
+    </div>
+  </>);
+};
+
+export default Component;
+```
+
+</Accordion>
+</Accordions>
+
 ### replace-tailwind-typography
 
 Tailwind 타이포그래피 클래스를 V3 형식으로 변환해요.
@@ -119,6 +241,9 @@ const ContentText = styled('p', {
       large: {
         $text: 'bodyL1Regular',
       },
+      xlarge: {
+        $text: "h4",
+      },
     },
   },
 });
@@ -141,9 +266,302 @@ const ContentText = styled('p', {
       large: {
         $text: "articleBody",
       },
+      xlarge: {
+        $text: "t10Bold",
+      },
     },
   },
 });
+```
+
+</Accordion>
+</Accordions>
+
+### replace-stitches-theme-color
+
+```package-install
+npx @seed-design/codemod replace-stitches-theme-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+import { theme } from '@src/stitches/stitches.config'
+
+const semanticColors = {
+  primary: theme.colors['primary-semantic'].computedValue,
+  onPrimary: theme.colors['onPrimary-semantic'].computedValue,
+  primaryLow: theme.colors['primaryLow-semantic'].computedValue,
+  success: theme.colors['success-semantic'].computedValue,
+  warning: theme.colors['warning-semantic'].computedValue,
+  danger: theme.colors['danger-semantic'].computedValue,
+  paperDefault: theme.colors['paperDefault-semantic'].computedValue,
+  paperContents: theme.colors['paperContents-semantic'].computedValue,
+  paperDialog: theme.colors['paperDialog-semantic'].computedValue,
+  inkText: theme.colors['inkText-semantic'].computedValue,
+  inkTextLow: theme.colors['inkTextLow-semantic'].computedValue,
+  divider1: theme.colors['divider1-semantic'].computedValue,
+  divider2: theme.colors['divider2-semantic'].computedValue,
+  overlayDim: theme.colors['overlayDim-semantic'].computedValue,
+  accent: theme.colors['accent-semantic'].computedValue,
+}
+
+const scaleColors = {
+  gray00: theme.colors.gray00.computedValue,
+  gray100: theme.colors.gray100.computedValue,
+  gray200: theme.colors.gray200.computedValue,
+  gray300: theme.colors.gray300.computedValue,
+  gray400: theme.colors.gray400.computedValue,
+  gray500: theme.colors.gray500.computedValue,
+  gray600: theme.colors.gray600.computedValue,
+  gray700: theme.colors.gray700.computedValue,
+  gray800: theme.colors.gray800.computedValue,
+  gray900: theme.colors.gray900.computedValue,
+  carrot100: theme.colors.carrot100.computedValue,
+  carrot500: theme.colors.carrot500.computedValue,
+  carrot900: theme.colors.carrot900.computedValue,
+  carrotAlpha50: theme.colors.carrotAlpha50.computedValue,
+  carrotAlpha100: theme.colors.carrotAlpha100.computedValue,
+  carrotAlpha200: theme.colors.carrotAlpha200.computedValue,
+  blue300: theme.colors.blue300.computedValue,
+  blue600: theme.colors.blue600.computedValue,
+  red500: theme.colors.red500.computedValue,
+}
+
+const staticColors = {
+  white: theme.colors['white-static'].computedValue,
+  black: theme.colors['black-static'].computedValue,
+  blackAlpha200: theme.colors['blackAlpha200-static'].computedValue,
+  whiteAlpha200: theme.colors['whiteAlpha200-static'].computedValue,
+  gray900: theme.colors['gray900-static'].computedValue,
+  carrot50: theme.colors['carrot50-static'].computedValue,
+  carrot800: theme.colors['carrot800-static'].computedValue,
+  blue50: theme.colors['blue50-static'].computedValue,
+  blue800: theme.colors['blue800-static'].computedValue,
+  red50: theme.colors['red50-static'].computedValue,
+  red800: theme.colors['red800-static'].computedValue,
+}
+
+const Component = () => {
+  return (
+    <div>
+      <Button
+        backgroundColor={theme.colors['primary-semantic'].computedValue}
+        color={theme.colors['onPrimary-semantic'].computedValue}
+      >
+        버튼
+      </Button>
+      <InfoBox borderColor={theme.colors.gray300.computedValue}>
+        <Text color={theme.colors.gray900.computedValue}>
+          안내사항
+        </Text>
+        <WarningIcon fill={theme.colors['warning-semantic'].computedValue} />
+      </InfoBox>
+      <Badge backgroundColor={theme.colors['danger-semantic'].computedValue}>
+        <BadgeText color={theme.colors['white-static'].computedValue}>
+          중요
+        </BadgeText>
+      </Badge>
+    </div>
+  );
+};
+
+const Dialog = ({ isOpen, onClose }) => {
+  const styles = {
+    overlay: {
+      backgroundColor: theme.colors['overlayDim-semantic'].computedValue,
+    },
+    container: {
+      backgroundColor: theme.colors['paperDialog-semantic'].computedValue,
+      borderColor: theme.colors.gray300.computedValue,
+    },
+    header: {
+      borderBottom: `1px solid ${theme.colors['divider1-semantic'].computedValue}`,
+    },
+    title: {
+      color: theme.colors.gray900.computedValue,
+    },
+    content: {
+      color: theme.colors.gray700.computedValue,
+      backgroundColor: theme.colors['paperContents-semantic'].computedValue,
+    },
+    footer: {
+      borderTop: `1px solid ${theme.colors['divider2-semantic'].computedValue}`,
+    },
+    closeButton: {
+      color: theme.colors.gray500.computedValue,
+    },
+    submitButton: {
+      backgroundColor: theme.colors.blue600.computedValue,
+      color: theme.colors['white-static'].computedValue,
+    },
+  };
+
+  return isOpen ? (
+    <div style={styles.overlay}>
+      <div style={styles.container}>
+        <div style={styles.header}>
+          <h2 style={styles.title}>다이얼로그 제목</h2>
+          <button style={styles.closeButton} onClick={onClose}>
+            닫기
+          </button>
+        </div>
+        <div style={styles.content}>
+          다이얼로그 내용
+        </div>
+        <div style={styles.footer}>
+          <button style={styles.submitButton}>
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+export { semanticColors, scaleColors, staticColors, Component, Dialog };
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+import { theme } from '@src/stitches/stitches.config'
+
+const semanticColors = {
+  primary: theme.colors["bg-brand-solid"].computedValue,
+  onPrimary: theme.colors["palette-static-white"].computedValue,
+  primaryLow: theme.colors["palette-carrot-100"].computedValue,
+  success: theme.colors["bg-positive-solid"].computedValue,
+  warning: theme.colors["bg-warning-solid"].computedValue,
+  danger: theme.colors["bg-critical-solid"].computedValue,
+  paperDefault: theme.colors["bg-layer-default"].computedValue,
+  paperContents: theme.colors["bg-layer-fill"].computedValue,
+  paperDialog: theme.colors["bg-layer-floating"].computedValue,
+  inkText: theme.colors["fg-neutral"].computedValue,
+  inkTextLow: theme.colors["fg-neutral-subtle"].computedValue,
+  divider1: theme.colors["stroke-neutral-muted"].computedValue,
+  divider2: theme.colors["stroke-neutral"].computedValue,
+  overlayDim: theme.colors["bg-overlay"].computedValue,
+  accent: theme.colors["bg-informative-solid"].computedValue,
+}
+
+const scaleColors = {
+  gray00: theme.colors["palette-gray-00"].computedValue,
+  gray100: theme.colors["palette-gray-200"].computedValue,
+  gray200: theme.colors["palette-gray-300"].computedValue,
+  gray300: theme.colors["palette-gray-400"].computedValue,
+  gray400: theme.colors["palette-gray-500"].computedValue,
+  gray500: theme.colors["palette-gray-600"].computedValue,
+  gray600: theme.colors["palette-gray-700"].computedValue,
+  gray700: theme.colors["palette-gray-800"].computedValue,
+  gray800: theme.colors["palette-gray-900"].computedValue,
+  gray900: theme.colors["palette-gray-1000"].computedValue,
+  carrot100: theme.colors["palette-carrot-200"].computedValue,
+  carrot500: theme.colors["palette-carrot-600"].computedValue,
+  carrot900: theme.colors["palette-carrot-800"].computedValue,
+  carrotAlpha50: theme.colors["palette-carrot-100"].computedValue,
+  carrotAlpha100: theme.colors["palette-carrot-200"].computedValue,
+  carrotAlpha200: theme.colors["palette-carrot-200"].computedValue,
+  blue300: theme.colors["palette-blue-400"].computedValue,
+  blue600: theme.colors["palette-blue-600"].computedValue,
+  red500: theme.colors["palette-red-700"].computedValue,
+}
+
+const staticColors = {
+  white: theme.colors["palette-static-white"].computedValue,
+  black: theme.colors["palette-static-black"].computedValue,
+  blackAlpha200: theme.colors["palette-static-black-alpha-200"].computedValue,
+  whiteAlpha200: theme.colors["palette-static-white-alpha-200"].computedValue,
+  gray900: theme.colors["palette-static-black"].computedValue,
+  carrot50: theme.colors["palette-carrot-100"].computedValue,
+  carrot800: theme.colors["palette-carrot-700"].computedValue,
+  blue50: theme.colors["palette-blue-100"].computedValue,
+  blue800: theme.colors["palette-blue-700"].computedValue,
+  red50: theme.colors["palette-red-100"].computedValue,
+  red800: theme.colors["palette-red-700"].computedValue,
+}
+
+const Component = () => {
+  return (
+    (<div>
+      <Button
+        backgroundColor={theme.colors["bg-brand-solid"].computedValue}
+        color={theme.colors["palette-static-white"].computedValue}
+      >
+        버튼
+      </Button>
+      <InfoBox borderColor={theme.colors["palette-gray-400"].computedValue}>
+        <Text color={theme.colors["palette-gray-1000"].computedValue}>
+          안내사항
+        </Text>
+        <WarningIcon fill={theme.colors["bg-warning-solid"].computedValue} />
+      </InfoBox>
+      <Badge backgroundColor={theme.colors["bg-critical-solid"].computedValue}>
+        <BadgeText color={theme.colors["palette-static-white"].computedValue}>
+          중요
+        </BadgeText>
+      </Badge>
+    </div>)
+  );
+};
+
+const Dialog = ({ isOpen, onClose }) => {
+  const styles = {
+    overlay: {
+      backgroundColor: theme.colors["bg-overlay"].computedValue,
+    },
+    container: {
+      backgroundColor: theme.colors["bg-layer-floating"].computedValue,
+      borderColor: theme.colors["palette-gray-400"].computedValue,
+    },
+    header: {
+      borderBottom: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
+    },
+    title: {
+      color: theme.colors["palette-gray-1000"].computedValue,
+    },
+    content: {
+      color: theme.colors["palette-gray-800"].computedValue,
+      backgroundColor: theme.colors["bg-layer-fill"].computedValue,
+    },
+    footer: {
+      borderTop: `1px solid ${theme.colors["stroke-neutral"].computedValue}`,
+    },
+    closeButton: {
+      color: theme.colors["palette-gray-600"].computedValue,
+    },
+    submitButton: {
+      backgroundColor: theme.colors["palette-blue-600"].computedValue,
+      color: theme.colors["palette-static-white"].computedValue,
+    },
+  };
+
+  return isOpen ? (
+    <div style={styles.overlay}>
+      <div style={styles.container}>
+        <div style={styles.header}>
+          <h2 style={styles.title}>다이얼로그 제목</h2>
+          <button style={styles.closeButton} onClick={onClose}>
+            닫기
+          </button>
+        </div>
+        <div style={styles.content}>
+          다이얼로그 내용
+        </div>
+        <div style={styles.footer}>
+          <button style={styles.submitButton}>
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+export { semanticColors, scaleColors, staticColors, Component, Dialog };
 ```
 
 </Accordion>
@@ -193,7 +611,7 @@ npx @seed-design/codemod replace-css-seed-design-color-variable <target_path>
 
 ### replace-react-icon
 
-아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/docs/react/iconography/codemod) 문서를 참고해주세요.
+아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/react/iconography/codemod) 문서를 참고해주세요.
 
 ```package-install
 npx @seed-design/codemod replace-react-icon <target_path>
@@ -236,11 +654,11 @@ import {
   IconPlusSquareLine,
   IconDothorizline3VerticalFill,
   IconPlusFill as AddIconAlias,
-} from "@karrotmarket/react-monochrome-icon";
-import IconPlusSquareFill from "@karrotmarket/react-monochrome-icon/IconPlusSquareFill";
-import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
-import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import IconCarFrontsideLine from "@karrotmarket/react-monochrome-icon/IconCarFrontsideLine";
+} from "@daangn/react-monochrome-icon";
+import IconPlusSquareFill from "@daangn/react-monochrome-icon/IconPlusSquareFill";
+import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
+import IconXmarkLine from "@daangn/react-monochrome-icon/IconXmarkLine";
+import IconCarFrontsideLine from "@daangn/react-monochrome-icon/IconCarFrontsideLine";
 
 function App() {
   console.log(IconPlusSquareLine);
@@ -269,63 +687,25 @@ npx @seed-design/codemod replace-seed-design-token-vars <target_path>
 <Accordion title="변경 예시">
 
 ```tsx title="basic.input.tsx"
-import { vars } from "@seed-design/design-token";
+import { vars as legacyVars } from "@seed-design/design-token";
 
-const color = vars.$scale.color.gray500;
-```
-
-```tsx title="basic.output.tsx"
 import { vars } from "@seed-design/css/vars";
+import { vars as typoVars } from "@seed-design/css/vars/component/typography";
 
 const color = vars.$color.palette.gray600;
-```
-
-</Accordion>
-</Accordions>
-
-### replace-custom-seed-design-text-component
-
-Text 컴포넌트를 V3 형식으로 변환해요.
-
-```package-install
-npx @seed-design/codemod replace-custom-seed-design-text-component <target_path>
-```
-
-<Accordions>
-<Accordion title="변경 예시">
-
-```tsx title="basic.input.tsx"
-// @ts-nocheck
-
-import Text from 'components/Base/Text';
-
-const Component = () => {
-  return (
-    <div>
-      <Text variant="title2Bold">광고 노출 기준</Text>
-      <Text variant="subtitle1Regular">
-        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
-      </Text>
-    </div>
-  );
-};
+const typography = typoVars.textStyleT5Bold.enabled.root;
+const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 ```
 
 ```tsx title="basic.output.tsx"
-// @ts-nocheck
+import { vars as legacyVars } from "@seed-design/design-token";
 
-import { Text } from "@seed-design/react";
+import { vars } from "@seed-design/css/vars";
+import { vars as typoVars } from "@seed-design/css/vars/component/typography";
 
-const Component = () => {
-  return (
-    (<div>
-      <Text textStyle="t7Bold">광고 노출 기준</Text>
-      <Text textStyle="t5Regular">
-        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
-      </Text>
-    </div>)
-  );
-};
+const color = vars.$color.palette.gray600;
+const typography = typoVars.textStyleT5Bold.enabled.root;
+const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 ```
 
 </Accordion>
@@ -385,245 +765,429 @@ npx @seed-design/codemod replace-stitches-styled-color <target_path>
 ```tsx title="basic.input.tsx"
 // @ts-nocheck
 
-const BannerIcon = styled('div', {
-  flex: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  margin: '0 10px 0 0',
-  
-  variants: {
-    theme: {
-      blue: {
-        background: '$blue500',
-        color: '$white-static',
-      },
-      carrot: {
-        background: '$carrot500',
-        color: '$white-static',
-      },
-      green: {
-        background: '$green500',
-        color: '$black-static',
-      },
-    },
-  },
+const SemanticColorTestComponent = styled('div', {
+  // Semantic Color 테스트
+  color: '$primary-semantic',
+  color: '$onPrimary-semantic',
+  color: '$primaryLow-semantic',
+  color: '$secondary-semantic',
+  color: '$secondaryLow-semantic',
+  color: '$success-semantic',
+  color: '$successLow-semantic',
+  color: '$warning-semantic',
+  color: '$warningLow-semantic',
+  color: '$danger-semantic',
+  color: '$dangerLow-semantic',
+  color: '$overlayDim-semantic',
+  color: '$overlayLow-semantic',
+  color: '$paperSheet-semantic',
+  color: '$paperDialog-semantic',
+  color: '$paperFloating-semantic',
+  color: '$paperContents-semantic',
+  color: '$paperDefault-semantic',
+  color: '$paperBackground-semantic',
+  color: '$paperAccent-semantic',
+  color: '$primaryHover-semantic',
+  color: '$primaryPressed-semantic',
+  color: '$primaryLowHover-semantic',
+  color: '$primaryLowActive-semantic',
+  color: '$primaryLowPressed-semantic',
+  color: '$grayHover-semantic',
+  color: '$grayPressed-semantic',
+  color: '$onPrimaryOverlay50-semantic',
+  color: '$onPrimaryOverlay200-semantic',
+  color: '$onPrimaryLowOverlay50-semantic',
+  color: '$onPrimaryLowOverlay100-semantic',
+  color: '$onPrimaryLowOverlay200-semantic',
+  color: '$onGrayOverlay50-semantic',
+  color: '$onGrayOverlay100-semantic',
+  color: '$divider1-semantic',
+  color: '$divider2-semantic',
+  color: '$divider3-semantic',
+  color: '$accent-semantic',
+  color: '$inkText-semantic',
+  color: '$inkTextLow-semantic',
+  color: '$grayActive-semantic',
 });
 
-const Text = styled('div', {
+const ScaleColorTestComponent = styled('div', {
+  // Scale Color Gray 테스트
+  color: '$gray00',
+  color: '$gray50',
+  color: '$gray100',
+  color: '$gray200',
+  color: '$gray300',
+  color: '$gray400',
+  color: '$gray500',
+  color: '$gray600',
   color: '$gray700',
-  margin: '0 8px 0 6px',
-  $text: 'caption1Bold',
-})
-
-const CashContainer = styled('div', {
-  background: '$gray100',
-  borderRadius: '6px',
-  border: '1px solid $divider1-semantic',
-  padding: '16px',
-  margin: '16px',
-})
-
-const Container = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '10px 16px',
-
-  position: 'relative',
-  '&:before': {
-    content: '',
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'transparent',
-    boxSizing: 'border-box',
-    borderBottom: '1px solid $divider1-semantic',
-  },
-
-  variants: {
-    isTopOnDocument: {
-      true: {
-        background: '$paperDefault-semantic',
-      },
-      false: {
-        background: '$paperContents-semantic',
-      },
-    },
-  },
-
-  defaultVariants: {
-    isTopOnDocument: true,
-  },
-})
-
-function generateCompoundVariants() {
-  const priorities = ['primary', 'primaryLow', 'secondary', 'text'] as const
-
-  return priorities.map((priority) => ({
-    priority,
-    disabled: true,
-    css: {
-      background: '$gray300',
-      color: '$gray500',
-    },
-  }))
-}
-```
-
-```tsx title="basic.output.tsx"
-// @ts-nocheck
-
-const BannerIcon = styled('div', {
-  flex: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  margin: '0 10px 0 0',
+  color: '$gray800',
+  color: '$gray900',
+  color: '$grayAlpha50',
+  color: '$grayAlpha100',
+  color: '$grayAlpha200',
+  color: '$grayAlpha500',
   
-  variants: {
-    theme: {
-      blue: {
-        background: "$palette-blue-600",
-        color: "$palette-static-white",
-      },
-      carrot: {
-        background: "$palette-carrot-600",
-        color: "$palette-static-white",
-      },
-      green: {
-        background: "$palette-green-600",
-        color: "$palette-static-black",
-      },
-    },
-  },
+  // Scale Color Carrot 테스트
+  color: '$carrot50',
+  color: '$carrot100',
+  color: '$carrot200',
+  color: '$carrot300',
+  color: '$carrot400',
+  color: '$carrot500',
+  color: '$carrot600',
+  color: '$carrot700',
+  color: '$carrot800',
+  color: '$carrot900',
+  color: '$carrot950',
+  color: '$carrotAlpha50',
+  color: '$carrotAlpha100',
+  color: '$carrotAlpha200',
+  
+  // Scale Color Blue 테스트
+  color: '$blue50',
+  color: '$blue100',
+  color: '$blue200',
+  color: '$blue300',
+  color: '$blue400',
+  color: '$blue500',
+  color: '$blue600',
+  color: '$blue700',
+  color: '$blue800',
+  color: '$blue900',
+  color: '$blue950',
+  color: '$blueAlpha50',
+  color: '$blueAlpha100',
+  color: '$blueAlpha200',
+  
+  // Scale Color Red 테스트
+  color: '$red50',
+  color: '$red100',
+  color: '$red200',
+  color: '$red300',
+  color: '$red400',
+  color: '$red500',
+  color: '$red600',
+  color: '$red700',
+  color: '$red800',
+  color: '$red900',
+  color: '$red950',
+  color: '$redAlpha50',
+  color: '$redAlpha100',
+  color: '$redAlpha200',
+  
+  // Scale Color Green 테스트
+  color: '$green50',
+  color: '$green100',
+  color: '$green200',
+  color: '$green300',
+  color: '$green400',
+  color: '$green500',
+  color: '$green600',
+  color: '$green700',
+  color: '$green800',
+  color: '$green900',
+  color: '$green950',
+  color: '$greenAlpha50',
+  color: '$greenAlpha100',
+  color: '$greenAlpha200',
+  
+  // Scale Color Yellow 테스트
+  color: '$yellow50',
+  color: '$yellow100',
+  color: '$yellow200',
+  color: '$yellow300',
+  color: '$yellow400',
+  color: '$yellow500',
+  color: '$yellow600',
+  color: '$yellow700',
+  color: '$yellow800',
+  color: '$yellow900',
+  color: '$yellow950',
+  color: '$yellowAlpha50',
+  color: '$yellowAlpha100',
+  color: '$yellowAlpha200',
+  
+  // Scale Color Purple 테스트
+  color: '$purple50',
+  color: '$purple100',
+  color: '$purple200',
+  color: '$purple300',
+  color: '$purple400',
+  color: '$purple500',
+  color: '$purple600',
+  color: '$purple700',
+  color: '$purple800',
+  color: '$purple900',
+  color: '$purple950',
 });
 
-const Text = styled('div', {
-  color: "$palette-gray-800",
-  margin: '0 8px 0 6px',
-  $text: 'caption1Bold',
-})
+const StaticColorTestComponent = styled('div', {
+  // Static Color 테스트
+  color: '$black-static',
+  color: '$white-static',
+  color: '$gray900-static',
+  color: '$carrot50-static',
+  color: '$carrot800-static',
+  color: '$green50-static',
+  color: '$green800-static',
+  color: '$yellow50-static',
+  color: '$yellow800-static',
+  color: '$red50-static',
+  color: '$red800-static',
+  color: '$blue50-static',
+  color: '$blue800-static',
+  color: '$blackAlpha200-static',
+  color: '$blackAlpha500-static',
+  color: '$whiteAlpha50-static',
+  color: '$whiteAlpha200-static',
+});
 
-const CashContainer = styled('div', {
-  background: "$palette-gray-200",
-  borderRadius: '6px',
-  border: "1px solid $stroke-neutral-muted",
-  padding: '16px',
-  margin: '16px',
-})
-
-const Container = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '10px 16px',
-
-  position: 'relative',
+// 복합 속성 테스트
+const ComplexPropertyTestComponent = styled('div', {
+  border: '1px solid $gray700',
+  boxShadow: '0 0 10px $overlayDim-semantic',
+  outline: '2px solid $accent-semantic',
+  textDecoration: 'underline $danger-semantic',
+  
+  // 네스팅된 속성 테스트
   '&:before': {
-    content: '',
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'transparent',
-    boxSizing: 'border-box',
-    borderBottom: "1px solid $stroke-neutral-muted",
+    borderBottom: '1px solid $divider1-semantic',
+    background: '$paperContents-semantic',
   },
-
+  
+  // 변형 테스트
   variants: {
-    isTopOnDocument: {
-      true: {
-        background: "$bg-layer-default",
+    theme: {
+      primary: {
+        background: '$primary-semantic',
+        color: '$onPrimary-semantic',
       },
-      false: {
-        background: "$bg-layer-fill",
+      secondary: {
+        background: '$secondaryLow-semantic',
+        color: '$inkText-semantic',
       },
-    },
-  },
-
-  defaultVariants: {
-    isTopOnDocument: true,
-  },
-})
-
-function generateCompoundVariants() {
-  const priorities = ['primary', 'primaryLow', 'secondary', 'text'] as const
-
-  return priorities.map((priority) => ({
-    priority,
-    disabled: true,
-    css: {
-      background: "$palette-gray-400",
-      color: "$palette-gray-600",
-    },
-  }));
-}
-```
-
-</Accordion>
-</Accordions>
-
-### replace-custom-text-component-color-prop
-
-색상 prop을 V3 형식으로 변환해요.
-
-```package-install
-npx @seed-design/codemod replace-custom-text-component-color-prop <target_path>
-```
-
-<Accordions>
-<Accordion title="변경 예시">
-
-```tsx title="basic.input.tsx"
-// @ts-nocheck
-
-const Component = () => {
-  return (
-    <>
-      <Text color="gray100" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="gray700" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="carrot100" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="carrot500" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="carrot900" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color="onPrimary" variant="subtitle2Regular" className="text-ellipsis-2" />
-      <Text color={isSelected ? "onPrimary" : "primary"} />
-      <Text color={isSelected ? 'primary' : 'gray900'}  />
-      <Text color={isSelected ? 'carrot600' : 'blue600'}  />
-    </>
-  );
-};
+      danger: {
+        background: '$danger-semantic',
+        color: '$white-static',
+      }
+    }
+  }
+});
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
-const Component = () => {
-  return (<>
-    <Text color="palette.gray200" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.gray800" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot200" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot600" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot800" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color={isSelected ? "palette.staticWhite" : "fg.brand"} />
-    <Text color={isSelected ? "fg.brand" : "palette.gray1000"}  />
-    <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
-  </>);
-};
+const SemanticColorTestComponent = styled('div', {
+  // Semantic Color 테스트
+  color: "$bg-brand-solid",
+  color: "$palette-static-white",
+  color: "$palette-carrot-100",
+  color: "$palette-gray-900",
+  color: "$bg-neutral-weak",
+  color: "$bg-positive-solid",
+  color: "$bg-positive-weak",
+  color: "$bg-warning-solid",
+  color: "$bg-warning-weak",
+  color: "$bg-critical-solid",
+  color: "$bg-critical-weak",
+  color: "$bg-overlay",
+  color: "$bg-overlay-muted",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-fill",
+  color: "$bg-layer-default",
+  color: "$bg-layer-basement",
+  color: "$palette-carrot-100",
+  color: "$bg-brand-solid-pressed",
+  color: "$bg-brand-solid-pressed",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$bg-neutral-weak-pressed",
+  color: "$bg-neutral-weak-pressed",
+  color: '$onPrimaryOverlay50-semantic',
+  color: '$onPrimaryOverlay200-semantic',
+  color: '$onPrimaryLowOverlay50-semantic',
+  color: '$onPrimaryLowOverlay100-semantic',
+  color: '$onPrimaryLowOverlay200-semantic',
+  color: "$stroke-on-image",
+  color: '$onGrayOverlay100-semantic',
+  color: "$stroke-neutral-muted",
+  color: "$stroke-neutral",
+  color: "$palette-gray-400",
+  color: "$bg-informative-solid",
+  color: "$fg-neutral",
+  color: "$fg-neutral-subtle",
+  color: "$fg-neutral-muted",
+});
+
+const ScaleColorTestComponent = styled('div', {
+  // Scale Color Gray 테스트
+  color: "$palette-gray-00",
+  color: "$palette-gray-100",
+  color: "$palette-gray-200",
+  color: "$palette-gray-300",
+  color: "$palette-gray-400",
+  color: "$palette-gray-500",
+  color: "$palette-gray-600",
+  color: "$palette-gray-700",
+  color: "$palette-gray-800",
+  color: "$palette-gray-900",
+  color: "$palette-gray-1000",
+  color: "$stroke-on-image",
+  color: "$palette-gray-300",
+  color: "$palette-gray-500",
+  color: "$palette-gray-700",
+  
+  // Scale Color Carrot 테스트
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-300",
+  color: "$palette-carrot-400",
+  color: "$palette-carrot-500",
+  color: "$palette-carrot-600",
+  color: "$palette-carrot-600",
+  color: "$palette-carrot-700",
+  color: "$palette-carrot-700",
+  color: "$palette-carrot-800",
+  color: "$palette-carrot-800",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-200",
+  
+  // Scale Color Blue 테스트
+  color: "$palette-blue-100",
+  color: "$palette-blue-200",
+  color: "$palette-blue-300",
+  color: "$palette-blue-400",
+  color: "$palette-blue-400",
+  color: "$palette-blue-600",
+  color: "$palette-blue-600",
+  color: "$palette-blue-800",
+  color: "$palette-blue-900",
+  color: "$palette-blue-900",
+  color: "$palette-blue-1000",
+  color: "$palette-blue-100",
+  color: "$palette-blue-100",
+  color: "$palette-blue-200",
+  
+  // Scale Color Red 테스트
+  color: "$palette-red-100",
+  color: "$palette-red-200",
+  color: "$palette-red-300",
+  color: "$palette-red-400",
+  color: "$palette-red-600",
+  color: "$palette-red-700",
+  color: "$palette-red-700",
+  color: "$palette-red-800",
+  color: "$palette-red-900",
+  color: "$palette-red-900",
+  color: "$palette-red-900",
+  color: "$palette-red-100",
+  color: "$palette-red-200",
+  color: "$palette-red-300",
+  
+  // Scale Color Green 테스트
+  color: "$palette-green-100",
+  color: "$palette-green-200",
+  color: "$palette-green-300",
+  color: "$palette-green-400",
+  color: "$palette-green-500",
+  color: "$palette-green-600",
+  color: "$palette-green-700",
+  color: "$palette-green-800",
+  color: "$palette-green-900",
+  color: "$palette-green-900",
+  color: "$palette-green-900",
+  color: "$palette-green-100",
+  color: "$palette-green-200",
+  color: "$palette-green-200",
+  
+  // Scale Color Yellow 테스트
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-200",
+  color: "$palette-yellow-300",
+  color: "$palette-yellow-400",
+  color: "$palette-yellow-500",
+  color: "$palette-yellow-700",
+  color: "$palette-yellow-700",
+  color: "$palette-yellow-800",
+  color: "$palette-yellow-800",
+  color: "$palette-yellow-900",
+  color: "$palette-yellow-900",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-100",
+  
+  // Scale Color Purple 테스트
+  color: "$palette-purple-100",
+  color: "$palette-purple-300",
+  color: "$palette-purple-400",
+  color: "$palette-purple-400",
+  color: "$palette-purple-500",
+  color: "$palette-purple-600",
+  color: "$palette-purple-700",
+  color: "$palette-purple-800",
+  color: "$palette-purple-900",
+  color: "$palette-purple-900",
+  color: "$palette-purple-1000",
+});
+
+const StaticColorTestComponent = styled('div', {
+  // Static Color 테스트
+  color: "$palette-static-black",
+  color: "$palette-static-white",
+  color: "$palette-static-black",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-700",
+  color: "$palette-green-100",
+  color: "$palette-green-700",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-700",
+  color: "$palette-red-100",
+  color: "$palette-red-700",
+  color: "$palette-blue-100",
+  color: "$palette-blue-700",
+  color: "$palette-static-black-alpha-200",
+  color: "$palette-static-black-alpha-500",
+  color: '$whiteAlpha50-static',
+  color: "$palette-static-white-alpha-200",
+});
+
+// 복합 속성 테스트
+const ComplexPropertyTestComponent = styled('div', {
+  border: "1px solid $palette-gray-800",
+  boxShadow: "0 0 10px $bg-overlay",
+  outline: "2px solid $bg-informative-solid",
+  textDecoration: "underline $bg-critical-solid",
+  
+  // 네스팅된 속성 테스트
+  '&:before': {
+    borderBottom: "1px solid $stroke-neutral-muted",
+    background: "$bg-layer-fill",
+  },
+  
+  // 변형 테스트
+  variants: {
+    theme: {
+      primary: {
+        background: "$bg-brand-solid",
+        color: "$palette-static-white",
+      },
+      secondary: {
+        background: "$bg-neutral-weak",
+        color: "$fg-neutral",
+      },
+      danger: {
+        background: "$bg-critical-solid",
+        color: "$palette-static-white",
+      }
+    }
+  }
+});
 ```
 
 </Accordion>
@@ -774,10 +1338,52 @@ export function BackgroundExample() {
       <div className="!bg-palette-carrot-800">Scale Carrot High Background</div>
       <div className="bg-palette-static-black">Static Black Background</div>
       <div className="bg-palette-static-white">Static White Background</div>
-      <div className="bg-staticGray900">Static Gray900 Background</div>
+      <div className="bg-palette-static-black">Static Gray900 Background</div>
     </div>)
   );
 }
+```
+
+</Accordion>
+</Accordions>
+
+### replace-custom-component-typography-prop
+
+```package-install
+npx @seed-design/codemod replace-custom-component-typography-prop <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+const Component = () => {
+  return (
+    <div>
+      <Text variant="title2Bold">광고 노출 기준</Text>
+      <Text variant="subtitle1Regular">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+    </div>
+  );
+};
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+const Component = () => {
+  return (
+    (<div>
+      <Text textStyle="t7Bold">광고 노출 기준</Text>
+      <Text textStyle="t5Regular">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+    </div>)
+  );
+};
 ```
 
 </Accordion>
