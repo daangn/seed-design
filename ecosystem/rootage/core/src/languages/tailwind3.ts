@@ -185,78 +185,8 @@ import plugin from "tailwindcss/plugin";
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
 export default plugin(
-  ({ matchUtilities, theme, addComponents }) => {
-    // 유틸리티 생성 헬퍼 함수
-    function createUtilities(utilityConfigs, themeValues) {
-      if (!themeValues) return;
-      
-      for (const [name, props] of Object.entries(utilityConfigs)) {
-        matchUtilities(
-          {
-            [name]: (value) => {
-              return Object.entries(props).reduce((acc, [prop, placeholder]) => {
-                acc[prop] = placeholder === 'value' ? value : placeholder;
-                return acc;
-              }, {});
-            },
-          },
-          { values: themeValues }
-        );
-      }
-    }
-
-    // 크기 유틸리티
-    const dimensions = theme('dimensions');
-    if (dimensions) {
-      // 크기 관련 유틸리티 설정
-      const dimensionUtilities = {
-        'size': { width: 'value', height: 'value' },
-        'w': { width: 'value' },
-        'h': { height: 'value' },
-        'p': { padding: 'value' },
-        'pt': { paddingTop: 'value' },
-        'pb': { paddingBottom: 'value' },
-        'pl': { paddingLeft: 'value' },
-        'pr': { paddingRight: 'value' },
-        'px': { paddingLeft: 'value', paddingRight: 'value' },
-        'py': { paddingTop: 'value', paddingBottom: 'value' },
-        'm': { margin: 'value' },
-        'mt': { marginTop: 'value' },
-        'mb': { marginBottom: 'value' },
-        'ml': { marginLeft: 'value' },
-        'mr': { marginRight: 'value' },
-        'mx': { marginLeft: 'value', marginRight: 'value' },
-        'my': { marginTop: 'value', marginBottom: 'value' },
-        'gap': { gap: 'value' },
-        'gap-x': { columnGap: 'value' },
-        'gap-y': { rowGap: 'value' },        
-      };
-
-      createUtilities(dimensionUtilities, dimensions);
-    }
-
-    // 둥근 모서리 유틸리티
-    const radiuses = theme('borderRadius');
-    const radiusUtilities = {
-      'radius': { borderRadius: 'value' },
-    };
-    createUtilities(radiusUtilities, radiuses);
-
-    // 폰트 크기 유틸리티
-    const fontSizes = theme('fontSize');
-    const fontSizeUtilities = {
-      'text-size': { fontSize: 'value' },
-    };
-    createUtilities(fontSizeUtilities, fontSizes);
-
-    // 트랜지션 타이밍 함수 유틸리티
-    const timingFunctions = theme('transitionTimingFunction');
-    const timingFunctionUtilities = {
-      'easing': { transitionTimingFunction: 'value' },
-    };
-    createUtilities(timingFunctionUtilities, timingFunctions);
-
-    // typography 유틸리티
+  ({ theme, addComponents }) => {  
+  // typography 유틸리티
    const typography = theme("typography");
    if (typography) {
      // matchUtilities 대신 addComponents 사용
@@ -274,7 +204,7 @@ export default plugin(
       extend: {
         colors: ${colorsJson},
         typography: ${typographyJson},
-        dimensions: ${dimensionsJson},
+        spacing: ${dimensionsJson},
         borderRadius: ${borderRadiusJson},
         fontSize: ${fontSizeJson},
         lineHeight: ${lineHeightJson},
