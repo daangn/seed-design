@@ -10,7 +10,17 @@ const TRANSFORM_NAME = "replace-custom-component-color-prop";
  * 지원하는 Box 컴포넌트 목록
  * Box를 확장한 컴포넌트들도 포함합니다.
  */
-const BOX_COMPONENTS = ["Box", "Stack", "HStack", "VStack"];
+const BOX_COMPONENTS = [
+  // car-webview
+  "Box",
+  "Stack",
+  "HStack",
+  "VStack",
+  "Container",
+  "HistoryItem",
+  "Center",
+  "Circle",
+];
 
 /**
  * 컬러 속성이 있는 React 컴포넌트의 속성 목록
