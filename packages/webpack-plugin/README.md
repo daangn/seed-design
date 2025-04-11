@@ -1,33 +1,47 @@
-# @seed-design/rsbuild-plugin
+# @seed-design/webpack-plugin
 
-Seed Design의 테마를 Rsbuild 프로젝트에 적용하기 위한 플러그인입니다.
+Seed Design의 테마를 Webpack 또는 Rspack 프로젝트에 적용하기 위한 플러그인입니다.
 
 ## 설치
 
 ```sh
-yarn add @seed-design/rsbuild-plugin
+yarn add @seed-design/webpack-plugin
 ```
 
 ```sh
-npm install @seed-design/rsbuild-plugin
+npm install @seed-design/webpack-plugin
 ```
 
 ## 사용 방법
 
-```ts
-// rsbuild.config.ts
-import { seedDesignPlugin } from '@seed-design/rsbuild-plugin';
-import { defineConfig, type RsbuildConfig } from '@rsbuild/core';
+### Webpack
 
-export default defineConfig((): RsbuildConfig => {
-  return {
-    // 다른 설정들...
-    plugins: [
-      // ...다른 플러그인들
-      seedDesignPlugin(),
-    ],
-  };
-});
+```js
+// webpack.config.js
+const { SeedDesignPlugin } = require('@seed-design/webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // webpack 설정...
+  plugins: [
+    new HtmlWebpackPlugin(), // HTML에 주입하기 위해 필요
+    new SeedDesignPlugin(),
+  ],
+};
+```
+
+### Rspack
+
+```js
+// rspack.config.js
+const { SeedDesignPlugin } = require('@seed-design/webpack-plugin');
+
+module.exports = {
+  // rspack 설정...
+  plugins: [
+    new SeedDesignPlugin(),
+  ],
+};
 ```
 
 ## 옵션
@@ -53,20 +67,18 @@ interface Options {
 
 ### 예시
 
-```ts
-// rsbuild.config.ts
-import { seedDesignPlugin } from '@seed-design/rsbuild-plugin';
-import { defineConfig } from '@rsbuild/core';
+```js
+const { SeedDesignPlugin } = require('@seed-design/webpack-plugin');
 
-export default defineConfig({
-  // 다른 설정들...
+module.exports = {
+  // webpack/rspack 설정...
   plugins: [
-    seedDesignPlugin({
+    new SeedDesignPlugin({
       colorMode: 'light-only',
       injectColorSchemeTag: true,
     }),
   ],
-});
+};
 ```
 
 ## 기능
@@ -76,6 +88,7 @@ export default defineConfig({
 1. Seed Design CSS 테마 스크립트를 자동으로 HTML에 주입합니다.
 2. 선택적으로 color-scheme 메타 태그를 추가하여 브라우저에 컬러 스킴을 알립니다.
 3. Recipe 주석 (`// @recipe(seed): 컴포넌트명`)이 있는 파일에 자동으로 CSS 파일을 임포트합니다.
+4. Webpack과 Rspack 모두 지원합니다.
 
 ## 라이센스
 

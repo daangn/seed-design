@@ -1,32 +1,29 @@
-# @seed-design/rsbuild-plugin
+# @seed-design/vite-plugin
 
-Seed Design의 테마를 Rsbuild 프로젝트에 적용하기 위한 플러그인입니다.
+Seed Design의 테마를 Vite 프로젝트에 적용하기 위한 플러그인입니다.
 
 ## 설치
 
 ```sh
-yarn add @seed-design/rsbuild-plugin
+yarn add @seed-design/vite-plugin
 ```
 
 ```sh
-npm install @seed-design/rsbuild-plugin
+npm install @seed-design/vite-plugin
 ```
 
 ## 사용 방법
 
 ```ts
-// rsbuild.config.ts
-import { seedDesignPlugin } from '@seed-design/rsbuild-plugin';
-import { defineConfig, type RsbuildConfig } from '@rsbuild/core';
+// vite.config.ts
+import { defineConfig } from "vite";
+import { seedDesignPlugin } from "@seed-design/vite-plugin";
 
-export default defineConfig((): RsbuildConfig => {
-  return {
-    // 다른 설정들...
-    plugins: [
-      // ...다른 플러그인들
-      seedDesignPlugin(),
-    ],
-  };
+export default defineConfig({
+  plugins: [
+    // ...다른 플러그인
+    seedDesignPlugin(),
+  ],
 });
 ```
 
@@ -54,15 +51,14 @@ interface Options {
 ### 예시
 
 ```ts
-// rsbuild.config.ts
-import { seedDesignPlugin } from '@seed-design/rsbuild-plugin';
-import { defineConfig } from '@rsbuild/core';
+// vite.config.ts
+import { defineConfig } from "vite";
+import { seedDesignPlugin } from "@seed-design/vite-plugin";
 
 export default defineConfig({
-  // 다른 설정들...
   plugins: [
     seedDesignPlugin({
-      colorMode: 'light-only',
+      colorMode: "light-only",
       injectColorSchemeTag: true,
     }),
   ],
