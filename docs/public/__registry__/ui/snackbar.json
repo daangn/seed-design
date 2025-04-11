@@ -1,6 +1,9 @@
 {
   "name": "snackbar",
-  "dependencies": ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+  "dependencies": [
+    "@seed-design/react",
+    "@karrotmarket/react-monochrome-icon"
+  ],
   "registries": [
     {
       "name": "snackbar.tsx",

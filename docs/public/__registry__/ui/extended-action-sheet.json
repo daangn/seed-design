@@ -1,6 +1,8 @@
 {
   "name": "extended-action-sheet",
-  "dependencies": ["@seed-design/react"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
   "registries": [
     {
       "name": "extended-action-sheet.tsx",

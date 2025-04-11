@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCheckmarkFatFill } from "@karrotmarket/react-monochrome-icon";
+import { IconCheckmarkFatFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import {
   CheckSelectBox as SeedCheckSelectBox,
   RadioSelectBox as SeedRadioSelectBox,

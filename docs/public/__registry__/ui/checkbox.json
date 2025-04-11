@@ -1,6 +1,9 @@
 {
   "name": "checkbox",
-  "dependencies": ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+  "dependencies": [
+    "@seed-design/react",
+    "@karrotmarket/react-monochrome-icon"
+  ],
   "registries": [
     {
       "name": "checkbox.tsx",

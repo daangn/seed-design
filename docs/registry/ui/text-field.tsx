@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { TextField as SeedTextField } from "@seed-design/react";
 
 export interface TextFieldProps
