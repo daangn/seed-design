@@ -715,8 +715,8 @@
         "tailwindcss": "3",
       },
     },
-    "packages/tailwind4": {
-      "name": "@seed-design/tailwind4",
+    "packages/tailwind4-theme": {
+      "name": "@seed-design/tailwind4-theme",
       "version": "0.1.0",
       "peerDependencies": {
         "tailwindcss": "^4.0.0",
@@ -1940,7 +1940,7 @@
 
     "@seed-design/tailwind3-plugin": ["@seed-design/tailwind3-plugin@workspace:packages/tailwind3-plugin"],
 
-    "@seed-design/tailwind4": ["@seed-design/tailwind4@workspace:packages/tailwind4"],
+    "@seed-design/tailwind4-theme": ["@seed-design/tailwind4-theme@workspace:packages/tailwind4-theme"],
 
     "@seed-design/vite-plugin": ["@seed-design/vite-plugin@workspace:packages/vite-plugin"],
 
