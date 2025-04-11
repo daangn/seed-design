@@ -1,0 +1,31 @@
+{
+  "name": "@seed-design/tailwind4-theme",
+  "version": "0.1.0",
+  "description": "SEED 디자인 토큰을 Tailwind CSS 4.0에서 사용하기 위한 플러그인",
+  "main": "index.css",
+  "files": [
+    "index.css",
+    "README.md"
+  ],
+  "scripts": {
+    "rootage:generate": "rootage tailwind4 ./"
+  },
+  "exports": {
+    ".": "./index.css"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "keywords": [
+    "tailwindcss",
+    "tailwind",
+    "css",
+    "plugin",
+    "seed-design",
+    "design-system"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+} 
