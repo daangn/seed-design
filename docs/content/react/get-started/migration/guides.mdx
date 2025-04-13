@@ -258,6 +258,66 @@ npx @seed-design/codemod <transform> <target_path> <옵션>
 - 기본적으로 `--seed-` prefix가 붙은 CSS Variable을 사용하는 경우가 있습니다.
 - [replace-css-seed-design-color-variable](/react/get-started/codemod#replace-css-seed-design-color-variable) CSS transform도 제공합니다.
 
+### Codemod 사용 시 주의사항
+
+Codemod는 다수의 파일을 변경하기 때문에 주의가 필요합니다.
+
+- 변경사항 추적과 히스토리 관리를 위해서 별도의 브랜치를 사용할 것을 권장합니다.
+- transform에 따라 커밋을 나누는 것을 권장합니다.
+- Codemod 실행 후 `lint`와 `test`를 진행해주세요.
+
+### Codemod Log 파일
+
+Codemod 실행 시 디버깅에 도움을 주는 로그 파일을 생성할 수 있습니다.
+
+- `--log` 옵션을 추가해주세요.
+- 로그 파일은 Codemod 실행 경로에 `.report` 폴더에 생성됩니다.
+- 로그 파일은 변경사항을 추적하고 히스토리 관리에 도움을 줍니다.
+
+<Files>
+  <Folder name=".report" defaultOpen>
+    <File name="{transform_name}-debug.log" />
+    <File name="{transform_name}-issues.log" />
+    <File name="{transform_name}-success.log" />
+  </Folder>
+</Files>
+
+#### debug.log
+
+- 디버깅 정보를 기록합니다.
+- 변경 시도한 파일 경로와 시간을 기록합니다.
+
+```log
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component1.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component2.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component3.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component4.tsx
+```
+
+#### issues.log
+
+- 확인이 필요한 변경사항을 기록합니다.
+- 문제가 있는 파일 경로와 라인 번호를 기록합니다.
+- 문제가 있는 이유를 기록합니다.
+- 매핑이 없는 경우를 제외하고는 이미 변경된 상태입니다.
+
+```log
+2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component1.tsx (line: 171)
+ ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
+2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component2.tsx (line: 194)
+ ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
+2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component3.tsx (line: 147)
+ ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
+2025-03-28 18:46:56 [WARN]: /Users/Documents/GitHub/src/component4.tsx (line: 242)
+ ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
+```
+
+자주 발생하는 문제들은 제일 아래 [issues.log 파일에 생긴 문제들은 어떻게 해결해야 하나요?](#issueslog-파일에-생긴-문제들은-어떻게-해결해야-하나요)에 정리해두었습니다.
+
+#### success.log
+
+- 변경사항 추적에 도움을 줍니다.
+
 ### V2 V3 Compatibility
 
 Color, Typography 마이그레이션이 끝나고 나면 기존 Sprout (V2) 컴포넌트와의 호환성 문제가 있을 수 있습니다.
@@ -280,6 +340,44 @@ TBD
 
 ## 자주 묻는 질문
 
-### 파운데이션을 토큰 매핑을 알고 싶습니다.
+### issues.log 파일에 생긴 문제들은 어떻게 해결해야 하나요?
+
+#### 토큰 매핑이 안되는 경우 (컬러, 타이포그래피)
+
+- V3에서 지원하지 않는 토큰을 사용하는 경우입니다. (주로 alpha 색상 토큰이거나 너무 작거나 큰 타이포 토큰입니다.)
+- 토큰 매핑을 확인할 수 있는 방법은 [파운데이션을 토큰 매핑을 알고 싶습니다.](#파운데이션을-토큰-매핑을-알고-싶습니다) 설명을 참고해주세요.
+- 해당 경우는 디자이너분과 상의 후 다른 적절한 토큰으로 직접 매핑해주세요.
+- 결정에 어려움이 있는 경우 디자인코어팀에 문의해주세요.
+
+#### alpha 토큰이 사라진 경우 (컬러)
+
+- alpha가 들어간 토큰은 대부분의 경우 더 이상 사용되지 않습니다.
+- 직접 CSS에 `alpha` 채널을 적용해주세요. (opacity 속성을 사용하거나, rgba 형식으로 직접 적용)
+
+#### static 토큰이 palette로 변경된 경우 (컬러)
+
+- V3에서 static 컬러 토큰은 웬만해서는 `white`, `black` 두 가지만 지원합니다.
+- 나머지 색상 (yellow, green, blue, red, gray) 등은 palette 토큰으로 변경되었습니다.
+- 다크모드와 라이트모드에 따라 색상이 달라질 수 있기 때문에 확인이 필요합니다.
+- 배경은 변하는데 텍스트 색상이 변하지 않거나, 그 반대의 상황이 나올 수 있습니다.
+- 대부분의 경우는 static 토큰이 필요한 경우가 아니기 때문에 palette 토큰으로 변경되었습니다.
+- 이 경우는 디자이너분과 상의 후 기존 static 토큰을 다른 적절한 palette 토큰으로 직접 매핑해주세요.
+
+#### 선택지가 두개인 토큰으로 매핑된 경우 (컬러)
+
+- 컬러 토큰의 경우 대체 토큰이 두 가지인 경우가 있습니다. (ex. `primary` -> `bg.brand-solid`, `fg.brand`)
+- `fg`는 텍스트, 아이콘 등 UI의 전경 요소에 사용되는 색상입니다. (color, fill, etc.)
+- `bg`는 전체 화면 또는 UI의 배경에 사용하는 색상입니다. (backgroundColor, etc.)
+- 변경되어야 하는 토큰을 Codemod가 판단하기 어려울 수 있습니다.
+- 이 경우는 직접 적절한 토큰으로 매핑해주세요.
+
+#### alternate 토큰으로 변경된 경우 (타이포그래피)
+
+- 기본적으로 [Mapping](/docs/migration/migration-reference)은 1:1 매핑을 지원합니다.
+- 하지만 V3에서 Deprecated 된 토큰인 경우, 대체 토큰으로 매핑 될 수 있습니다.
+- 그런 경우 font size나 line height가 변경되었을 수 있습니다.
+- 이 경우는 직접 UI를 확인해야 합니다.
+
+### 파운데이션을 토큰 매핑은 어디서 확인할 수 있나요?
 
 [Migration Reference](/docs/migration/migration-reference)에서 토큰 매핑을 확인할 수 있습니다.
