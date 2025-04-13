@@ -710,14 +710,14 @@
     },
     "packages/tailwind3-plugin": {
       "name": "@seed-design/tailwind3-plugin",
-      "version": "0.0.1",
+      "version": "0.0.12",
       "peerDependencies": {
         "tailwindcss": "3",
       },
     },
     "packages/tailwind4-theme": {
       "name": "@seed-design/tailwind4-theme",
-      "version": "0.1.0",
+      "version": "0.0.12",
       "peerDependencies": {
         "tailwindcss": "^4.0.0",
       },
