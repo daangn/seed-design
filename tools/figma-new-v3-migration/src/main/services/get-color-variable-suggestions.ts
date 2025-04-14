@@ -282,7 +282,17 @@ export async function getColorVariableSuggestions({
       return a.consumers.length - b.consumers.length;
     });
 
-  return serializedResults;
+  // 신규 변수인데, oldValue에 존재하는 경우 제거
+  const filteredNewValueInOldValue = serializedResults.filter(({ oldValue }) => {
+    if (oldValue.type !== "variable") return true;
+
+    return (
+      oldValue.type === "variable" &&
+      !availableVariables.find(({ key }) => key === oldValue.variable.key)
+    );
+  });
+
+  return filteredNewValueInOldValue;
 }
 
 const TYPE_ORDER: Record<
