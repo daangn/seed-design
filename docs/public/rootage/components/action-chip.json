@@ -79,19 +79,6 @@
               "type": "dimension"
             }
           }
-        },
-        "count": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "fontWeight": {
-              "type": "number"
-            },
-            "fontSize": {
-              "type": "dimension"
-            }
-          }
         }
       },
       "variants": {
@@ -157,16 +144,6 @@
                   "type": "color",
                   "value": "$color.fg.neutral"
                 }
-              },
-              "count": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
-                },
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
               }
             }
           },
@@ -217,12 +194,6 @@
                   "type": "color",
                   "value": "$color.fg.disabled"
                 }
-              },
-              "count": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
-                }
               }
             }
           }
@@ -256,6 +227,10 @@
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
                 }
               },
               "prefixIcon": {
@@ -268,12 +243,6 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
-                }
-              },
-              "count": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
                 }
               }
             }
@@ -308,6 +277,10 @@
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
                 }
               },
               "prefixIcon": {
@@ -320,12 +293,6 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
-                }
-              },
-              "count": {
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t4"
                 }
               }
             }
