@@ -287,11 +287,11 @@ Codemod 실행 시 디버깅에 도움을 주는 로그 파일을 생성할 수 
 - 디버깅 정보를 기록합니다.
 - 변경 시도한 파일 경로와 시간을 기록합니다.
 
-```log
-2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component1.tsx
-2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component2.tsx
-2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component3.tsx
-2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Users/{user_name}/Documents/GitHub/src/component4.tsx
+```log title="debug.log"
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Project/src/component1.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Project/src/component2.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Project/src/component3.tsx
+2025-03-28 19:17:36 [DEBUG]: Starting transformation of /Project/src/component4.tsx
 ```
 
 #### issues.log
@@ -301,14 +301,14 @@ Codemod 실행 시 디버깅에 도움을 주는 로그 파일을 생성할 수 
 - 문제가 있는 이유를 기록합니다.
 - 매핑이 없는 경우를 제외하고는 이미 변경된 상태입니다.
 
-```log
-2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component1.tsx (line: 171)
+```log title="issues.log"
+2025-03-28 18:46:55 [WARN]: /Project/src/component1.tsx (line: 171)
  ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
-2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component2.tsx (line: 194)
+2025-03-28 18:46:55 [WARN]: /Project/src/component2.tsx (line: 194)
  ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
-2025-03-28 18:46:55 [WARN]: /Users/Documents/GitHub/src/component3.tsx (line: 147)
+2025-03-28 18:46:55 [WARN]: /Project/src/component3.tsx (line: 147)
  ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
-2025-03-28 18:46:56 [WARN]: /Users/Documents/GitHub/src/component4.tsx (line: 242)
+2025-03-28 18:46:56 [WARN]: /Project/src/component4.tsx (line: 242)
  ↳ reason: $gray900-static static에서 palette로 변경되는 색상으로 용도 파악 필요
 ```
 
@@ -317,6 +317,17 @@ Codemod 실행 시 디버깅에 도움을 주는 로그 파일을 생성할 수 
 #### success.log
 
 - 변경사항 추적에 도움을 줍니다.
+- 변경된 파일 경로와 라인 번호를 기록합니다
+- 변경된 토큰을 기록합니다.
+- CSS 파일을 변경하는 transform의 경우는 토큰을 일일이 기록하지 않습니다.
+- tailwind 같은 경우는 변경된 className을 기록합니다.
+
+```log title="success.log"
+2025-03-28 18:46:54 /Project/src/hooks/hook1.tsx (line: 149): $gray900 → $palette-gray-1000 (line 149)
+2025-03-28 18:46:54 /Project/src/hooks/hook2.tsx (line: 155): $gray700 → $palette-gray-800 (line 155)
+2025-03-28 18:46:54 /Project/src/components/component1.tsx (line: 54): $divider1-semantic → $stroke-neutral-muted (line 54)
+2025-03-28 18:46:54 /Project/src/components/component2.tsx (line: 60): $paperDefault-semantic → $bg-layer-default (line 60)
+```
 
 ### V2 V3 Compatibility
 
