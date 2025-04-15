@@ -41,7 +41,6 @@ interface TypographyMigrationContext {
   setResults: React.Dispatch<
     React.SetStateAction<GroupedSerializedTextStyleSuggestionsResults | null>
   >;
-  loading: boolean;
 }
 
 const TypographyMigrationContext = createContext<TypographyMigrationContext | null>(null);
@@ -73,11 +72,10 @@ function calculateProgress(results: GroupedSerializedTextStyleSuggestionsResults
 }
 
 export function TypographyMigrationProvider({ children }: { children: ReactNode }) {
-  const { targets } = useMigration();
+  const { targets, setLoading } = useMigration();
   const [results, setResults] = useState<GroupedSerializedTextStyleSuggestionsResults | null>(null);
   const [currentlyViewingEntry, setCurrentlyViewingEntry] = useState<ListEntry | null>(null);
   const [selectedTextStyleId, setSelectedTextStyleId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   // progress 계산
   const progress = results
@@ -186,7 +184,6 @@ export function TypographyMigrationProvider({ children }: { children: ReactNode 
         selectedTextStyleId,
         setSelectedTextStyleId,
         setResults,
-        loading,
       }}
     >
       {children}

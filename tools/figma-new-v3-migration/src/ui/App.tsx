@@ -9,6 +9,8 @@ import type { FigmaMetadata } from "shared/types";
 import { ColorsSection } from "./colors";
 import { TypographySection } from "./typography";
 import { StartCallout } from "common/components/start-callout";
+import { useColorMigration } from "./colors/context";
+import { useTypographyMigration } from "./typography/context";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {
@@ -36,7 +38,7 @@ function FigmaMetadataProvider({ children }: { children: ReactNode }) {
 }
 
 function Steps() {
-  const { targets, selections } = useMigration();
+  const { targets, selections, loading, setLoading } = useMigration();
   const [currentTab, setCurrentTab] = useState<AvailableSteps>("colors");
 
   return (
@@ -54,7 +56,12 @@ function Steps() {
             <TargetBadges targets={targets} />
           </Flex>
           <Flex alignItems="center">
-            <ScanButton currentTab={currentTab} selections={selections} />
+            <ScanButton
+              currentTab={currentTab}
+              selections={selections}
+              isLoading={loading}
+              setLoading={setLoading}
+            />
           </Flex>
         </Flex>
 

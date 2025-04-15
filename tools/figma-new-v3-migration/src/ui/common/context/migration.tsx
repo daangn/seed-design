@@ -42,11 +42,14 @@ interface MigrationState {
   availableSteps: typeof availableSteps;
   targets: SerializedBaseNode[];
   selections: SerializedBaseNode[];
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function useMigrationState() {
   const [targets, setTargets] = useState<SerializedBaseNode[]>([]);
   const [selections, setSelections] = useState<SerializedBaseNode[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribeSelection = events("announce-selection").on((data) => {
@@ -67,6 +70,8 @@ function useMigrationState() {
     availableSteps,
     targets,
     selections,
+    loading,
+    setLoading,
   };
 }
 

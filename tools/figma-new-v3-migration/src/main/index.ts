@@ -123,6 +123,9 @@ async function main() {
       });
 
       events("suggest-text-styles").emit({ results });
+      figma.notify("타이포그래피 검사가 완료되었습니다.", {
+        timeout: 1000,
+      });
     } catch (error) {
       console.error("텍스트 스타일 제안 요청 처리 중 오류:", error);
     }
@@ -149,6 +152,9 @@ async function main() {
       });
 
       events("suggest-color-variables").emit({ results });
+      figma.notify("컬러 변수 검사가 완료되었습니다.", {
+        timeout: 1000,
+      });
     } catch (error) {
       console.error("컬러 제안 요청 처리 중 오류:", error);
     }

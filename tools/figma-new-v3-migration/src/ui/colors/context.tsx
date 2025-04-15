@@ -36,7 +36,6 @@ interface ColorMigrationContext {
   setResults: React.Dispatch<
     React.SetStateAction<SerializedColorVariablesSuggestionsResults | null>
   >;
-  loading: boolean;
 }
 
 const ColorMigrationContext = createContext<ColorMigrationContext | null>(null);
@@ -138,11 +137,10 @@ function calculateProgress(results: SerializedColorVariablesSuggestionsResults):
 }
 
 export function ColorMigrationProvider({ children }: { children: ReactNode }) {
-  const { targets } = useMigration();
+  const { targets, setLoading } = useMigration();
   const [results, setResults] = useState<SerializedColorVariablesSuggestionsResults | null>(null);
   const [currentlyViewingEntry, setCurrentlyViewingEntry] = useState<ListEntry | null>(null);
   const [selectedVariableId, setSelectedVariableId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   // progress 계산
   const progress = results ? calculateProgress(results) : { total: 0, left: 0, percent: 0 };
@@ -183,8 +181,8 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
 
   // 새로고침 요청
   function requestSuggestions() {
-    setResults(null);
     setLoading(true);
+    setResults(null);
     events("request-color-suggestions").emit({
       nodeIds: targets.map(({ id }) => id),
     });
@@ -193,9 +191,8 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
   // 이벤트 구독
   useEffect(() => {
     const unsubscribe = events("suggest-color-variables").on((payload) => {
-      console.log("suggest-color-variables", payload);
-      setResults(payload.results);
       setLoading(false);
+      setResults(payload.results);
     });
 
     return unsubscribe;
@@ -253,7 +250,6 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     selectedVariableId,
     setSelectedVariableId,
     setResults,
-    loading,
   };
 
   return <ColorMigrationContext.Provider value={value}>{children}</ColorMigrationContext.Provider>;
