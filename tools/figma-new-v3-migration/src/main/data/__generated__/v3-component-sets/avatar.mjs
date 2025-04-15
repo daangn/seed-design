@@ -1,27 +1,29 @@
 export const metadata = {
   "name": "🟢 Avatar",
-  "key": "d71644aeba2e29deda366798fdfe35977166d120",
+  "key": "4a8853c3068c08b69b13e71dd42ce186e968697e",
   "componentPropertyDefinitions": {
-    "Show Image#71850:57": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "Show Badge#1398:26": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
     "Size": {
       "type": "VARIANT",
       "defaultValue": "20",
       "variantOptions": [
+        "96",
         "20",
         "24",
         "36",
         "42",
         "48",
         "64",
-        "80",
-        "96"
+        "80"
+      ]
+    },
+    "Badge": {
+      "type": "VARIANT",
+      "defaultValue": "Flower",
+      "variantOptions": [
+        "Flower",
+        "Shield",
+        "Circle",
+        "None"
       ]
     }
   }

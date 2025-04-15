@@ -1,5 +1,5 @@
 export declare const metadata: {
-  "name": "🟢 Manner Temp (Bar)",
+  "name": "🟢 .Manner Temp (Bar)",
   "key": "49ca92c450fb5d450be00f69fae709dbb8edc494",
   "componentPropertyDefinitions": {
     "Size": {

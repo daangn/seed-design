@@ -33,14 +33,6 @@ export declare const metadata: {
         "Weak",
         "Outline"
       ]
-    },
-    "Shape": {
-      "type": "VARIANT",
-      "defaultValue": "Rectangle",
-      "variantOptions": [
-        "Rectangle",
-        "Pill"
-      ]
     }
   }
 };

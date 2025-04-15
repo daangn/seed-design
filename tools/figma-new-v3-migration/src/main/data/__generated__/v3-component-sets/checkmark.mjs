@@ -1,10 +1,14 @@
 export const metadata = {
-  "name": "🟢 Radio",
-  "key": "ac72d9e5ab04a1d59eaf77dffd380fd6e491ecf8",
+  "name": "🟢 Checkmark",
+  "key": "fae60fb392f55bde60de1dbccb2f453320068805",
   "componentPropertyDefinitions": {
-    "Label#49990:171": {
-      "type": "TEXT",
-      "defaultValue": "라벨"
+    "Shape": {
+      "type": "VARIANT",
+      "defaultValue": "Square",
+      "variantOptions": [
+        "Square",
+        "Ghost"
+      ]
     },
     "Size": {
       "type": "VARIANT",
@@ -20,10 +24,13 @@ export const metadata = {
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
         "Selected",
         "Selected-Pressed",
-        "Selected-Disabled"
+        "Indeterminate",
+        "Indeterminate-Pressed",
+        "Disabled",
+        "Disabled-Selected",
+        "Disabled-Indeterminate"
       ]
     }
   }
