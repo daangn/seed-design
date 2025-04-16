@@ -23,6 +23,13 @@ const mask = {
     "0 0, var(--badge-mask-offset) var(--badge-mask-offset)" /* SVG 마스크 위치/오프셋 제어 */,
   "-webkit-mask-repeat": "no-repeat",
   "-webkit-mask-composite": "source-out" /* SVG 모양(source)을 제외(out) */,
+
+  // 표준 브라우저 속성
+  "mask-image": `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
+  "mask-size": "100% 100%, var(--badge-mask-size) var(--badge-mask-size)",
+  "mask-position": "0 0, var(--badge-mask-offset) var(--badge-mask-offset)",
+  "mask-repeat": "no-repeat",
+  "mask-composite": "subtract",
 };
 
 const avatar = defineSlotRecipe({
