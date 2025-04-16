@@ -18,10 +18,10 @@
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.21",
     "@figmazing/event": "0.0.1",
-    "@seed-design/css": "^0.0.12",
+    "@seed-design/css": "^0.0.13",
     "@seed-design/migration-index": "^0.0.20",
-    "@seed-design/react": "^0.0.12",
-    "@seed-design/vite-plugin": "^0.0.12",
+    "@seed-design/react": "^0.0.13",
+    "@seed-design/vite-plugin": "^0.0.13",
     "normalize.css": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

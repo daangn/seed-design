@@ -1,5 +1,15 @@
 # @seed-design/react
 
+## 0.0.13
+
+### Patch Changes
+
+- 7fca755: Avatar의 Badge 스펙을 최신화합니다.
+- Updated dependencies [7fca755]
+- Updated dependencies [c0c0b7e]
+  - @seed-design/css@0.0.13
+  - @seed-design/react-pull-to-refresh@0.0.2
+
 ## 0.0.12
 
 ### Patch Changes

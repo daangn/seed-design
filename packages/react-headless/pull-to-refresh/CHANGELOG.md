@@ -1,5 +1,11 @@
 # @seed-design/react-pull-to-refresh
 
+## 0.0.2
+
+### Patch Changes
+
+- c0c0b7e: 여러 PTR 인스턴스가 동일한 상태를 공유하는 문제를 수정합니다.
+
 ## 0.0.1
 
 ### Patch Changes

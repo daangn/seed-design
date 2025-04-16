@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -44,7 +44,7 @@
     "@seed-design/react-popover": "0.0.2",
     "@seed-design/react-primitive": "0.0.1",
     "@seed-design/react-progress": "0.0.1",
-    "@seed-design/react-pull-to-refresh": "0.0.1",
+    "@seed-design/react-pull-to-refresh": "0.0.2",
     "@seed-design/react-radio-group": "0.0.1",
     "@seed-design/react-segmented-control": "0.0.2",
     "@seed-design/react-snackbar": "0.0.2",
@@ -55,12 +55,12 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.12",
+    "@seed-design/css": "0.0.13",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "0.0.12",
+    "@seed-design/css": "0.0.13",
     "@vitejs/plugin-react": "^4.3.4",
     "globby": "^14.1.0",
     "vite": "^6.2.3",
