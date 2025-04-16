@@ -3,10 +3,6 @@ export const vars = {
     "enabled": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)"
-      },
-      "badge": {
-        "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-layer-default)"
       }
     }
   },
@@ -14,9 +10,6 @@ export const vars = {
     "enabled": {
       "root": {
         "size": "20px"
-      },
-      "badge": {
-        "size": "10px"
       }
     }
   },
@@ -25,8 +18,13 @@ export const vars = {
       "root": {
         "size": "24px"
       },
-      "badge": {
+      "badgeMask": {
+        "offset": "14px",
         "size": "12px"
+      },
+      "badge": {
+        "offset": "15px",
+        "size": "10px"
       }
     }
   },
@@ -35,8 +33,13 @@ export const vars = {
       "root": {
         "size": "36px"
       },
+      "badgeMask": {
+        "offset": "20px",
+        "size": "18px"
+      },
       "badge": {
-        "size": "16px"
+        "offset": "22px",
+        "size": "14px"
       }
     }
   },
@@ -45,8 +48,13 @@ export const vars = {
       "root": {
         "size": "42px"
       },
+      "badgeMask": {
+        "offset": "24px",
+        "size": "20px"
+      },
       "badge": {
-        "size": "24px"
+        "offset": "26px",
+        "size": "16px"
       }
     }
   },
@@ -55,8 +63,13 @@ export const vars = {
       "root": {
         "size": "48px"
       },
+      "badgeMask": {
+        "offset": "28px",
+        "size": "22px"
+      },
       "badge": {
-        "size": "24px"
+        "offset": "30px",
+        "size": "18px"
       }
     }
   },
@@ -65,8 +78,13 @@ export const vars = {
       "root": {
         "size": "64px"
       },
+      "badgeMask": {
+        "offset": "40px",
+        "size": "26px"
+      },
       "badge": {
-        "size": "24px"
+        "offset": "42px",
+        "size": "22px"
       }
     }
   },
@@ -75,8 +93,13 @@ export const vars = {
       "root": {
         "size": "80px"
       },
+      "badgeMask": {
+        "offset": "52px",
+        "size": "32px"
+      },
       "badge": {
-        "size": "24px"
+        "offset": "54px",
+        "size": "28px"
       }
     }
   },
@@ -85,7 +108,12 @@ export const vars = {
       "root": {
         "size": "96px"
       },
+      "badgeMask": {
+        "offset": "62px",
+        "size": "38px"
+      },
       "badge": {
+        "offset": "65px",
         "size": "32px"
       }
     }

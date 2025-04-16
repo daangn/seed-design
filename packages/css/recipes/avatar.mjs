@@ -20,7 +20,8 @@ const avatarSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": 48
+  "size": 48,
+  "badgeMask": "none"
 };
 
 const compoundVariants = [];
@@ -35,6 +36,12 @@ export const avatarVariantMap = {
     "64",
     "80",
     "96"
+  ],
+  "badgeMask": [
+    "none",
+    "circle",
+    "flower",
+    "shield"
   ]
 };
 

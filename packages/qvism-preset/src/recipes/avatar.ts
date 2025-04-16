@@ -1,13 +1,29 @@
-import { avatar as vars } from "../vars/component";
+import type { StyleObject } from "@seed-design/qvism-core";
 import { defineSlotRecipe } from "../utils/define";
 import { not, pseudo } from "../utils/pseudo";
+import { avatar as vars } from "../vars/component";
 
-function calculateBadgePosition(avatarSize: string, badgeSize: string) {
-  return {
-    top: `calc(${avatarSize} / 2 + ${avatarSize} / 2.828 - ${badgeSize} / 2)`,
-    left: `calc(${avatarSize} / 2 + ${avatarSize} / 2.828 - ${badgeSize} / 2)`,
-  };
+const CIRCLE_SVG_MASK =
+  '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="white"/></svg>';
+const FLOWER_SVG_MASK =
+  '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path shape-rendering="crispEdges" fill-rule="evenodd" clip-rule="evenodd" d="M29.9115 8C28.4089 5.42609 25.682 4.02087 22.8994 4.10435C21.5637 1.68348 19.0037 0 15.9985 0C12.9933 0 10.4333 1.65565 9.09762 4.10435C6.32893 4.03478 3.60197 5.42609 2.09936 8C0.596754 10.5739 0.76371 13.6348 2.19675 16C0.749797 18.3652 0.596754 21.4261 2.09936 24C3.60197 26.5739 6.32893 27.9791 9.11154 27.8957C10.4472 30.3165 13.0072 32 16.0124 32C19.0176 32 21.5776 30.3443 22.9133 27.8957C25.682 27.9652 28.4089 26.5739 29.9115 24C31.4141 21.4261 31.2472 18.3652 29.8141 16C31.2611 13.6348 31.4141 10.5739 29.9115 8Z" fill="white"/></svg>';
+const SHIELD_SVG_MASK =
+  '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.137 31.4527C18.1171 31.4616 18.0943 31.4721 18.0531 31.491C18.046 31.4943 18.0356 31.4994 18.0221 31.5059C17.8282 31.5996 16.9959 32.0019 16.0001 32C15.0096 32.002 14.1895 31.6075 13.986 31.5096L13.8629 31.4527C13.5452 31.3105 13.1039 31.1059 12.5795 30.8436C11.541 30.3242 10.1273 29.554 8.68691 28.5676C7.2706 27.5976 5.67543 26.3154 4.39746 24.7323C3.12739 23.159 1.92743 20.9794 1.92743 18.3179V7.77468C1.92743 6.02645 3.02031 4.4647 4.66276 3.86583L14.5747 0.25173C15.4953 -0.0839101 16.5047 -0.0839101 17.4252 0.25173L27.3372 3.86583C28.9796 4.4647 30.0725 6.02646 30.0725 7.77468V18.3179C30.0725 20.9794 28.8726 23.159 27.6025 24.7323C26.3245 26.3154 24.7294 27.5976 23.313 28.5676C21.8727 29.554 20.4589 30.3242 19.4205 30.8436C18.8961 31.1059 18.4547 31.3106 18.137 31.4527Z" fill="white"/></svg>';
+
+function toDataUrl(svg: string) {
+  return `url('data:image/svg+xml;utf8,${svg}')`;
 }
+
+const mask = {
+  // NOTE: 얇은 선이 남는 현상을 방지하기 위해 borderRadius 대신 원형 SVG 마스크를 사용합니다.
+  "-webkit-mask-image": `${toDataUrl(CIRCLE_SVG_MASK)}, var(--svg-mask-uri)`,
+  "-webkit-mask-size":
+    "100% 100%, var(--badge-mask-size) var(--badge-mask-size)" /* SVG 마스크 크기 제어 */,
+  "-webkit-mask-position":
+    "0 0, var(--badge-mask-offset) var(--badge-mask-offset)" /* SVG 마스크 위치/오프셋 제어 */,
+  "-webkit-mask-repeat": "no-repeat",
+  "-webkit-mask-composite": "source-out" /* SVG 모양(source)을 제외(out) */,
+};
 
 const avatar = defineSlotRecipe({
   name: "avatar",
@@ -22,6 +38,8 @@ const avatar = defineSlotRecipe({
       verticalAlign: "top",
 
       borderRadius: vars.base.enabled.root.cornerRadius,
+      width: "var(--avatar-size)",
+      height: "var(--avatar-size)",
     },
     image: {
       display: "block",
@@ -29,12 +47,13 @@ const avatar = defineSlotRecipe({
       height: "100%",
       objectFit: "cover",
       overflow: "hidden",
-      borderRadius: vars.base.enabled.root.cornerRadius,
+
+      ...mask,
 
       [pseudo(not("[data-loading-state='loaded']"))]: {
         display: "none",
       },
-    },
+    } as StyleObject,
     fallback: {
       display: "flex",
       justifyContent: "center",
@@ -44,6 +63,8 @@ const avatar = defineSlotRecipe({
       objectFit: "cover",
       overflow: "hidden",
       borderRadius: vars.base.enabled.root.cornerRadius,
+
+      ...mask,
 
       [pseudo("[data-loading-state='loaded']")]: {
         display: "none",
@@ -56,104 +77,132 @@ const avatar = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       zIndex: 1,
-      background: vars.base.enabled.badge.color,
-      borderRadius: vars.base.enabled.badge.cornerRadius,
+
+      top: "var(--badge-offset)",
+      left: "var(--badge-offset)",
+      width: "var(--badge-size)",
+      height: "var(--badge-size)",
     },
   },
   variants: {
     size: {
       20: {
         root: {
-          width: vars.size20.enabled.root.size,
-          height: vars.size20.enabled.root.size,
+          "--avatar-size": vars.size20.enabled.root.size,
+          "--badge-mask-size": "0px", // 20px에서 뱃지를 사용하지 않음
+          "--badge-mask-offset": "0px", // 20px에서 뱃지를 사용하지 않음
         },
         badge: {
-          width: vars.size20.enabled.badge.size,
-          height: vars.size20.enabled.badge.size,
-          ...calculateBadgePosition(vars.size20.enabled.root.size, vars.size20.enabled.badge.size),
+          display: "none",
         },
       },
       24: {
         root: {
-          width: vars.size24.enabled.root.size,
-          height: vars.size24.enabled.root.size,
+          "--avatar-size": vars.size24.enabled.root.size,
+          "--badge-mask-size": vars.size24.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size24.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size24.enabled.badge.size,
-          height: vars.size24.enabled.badge.size,
-          ...calculateBadgePosition(vars.size24.enabled.root.size, vars.size24.enabled.badge.size),
+          "--badge-size": vars.size24.enabled.badge.size,
+          "--badge-offset": vars.size24.enabled.badge.offset,
         },
       },
       36: {
         root: {
-          width: vars.size36.enabled.root.size,
-          height: vars.size36.enabled.root.size,
+          "--avatar-size": vars.size36.enabled.root.size,
+          "--badge-mask-size": vars.size36.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size36.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size36.enabled.badge.size,
-          height: vars.size36.enabled.badge.size,
-          ...calculateBadgePosition(vars.size36.enabled.root.size, vars.size36.enabled.badge.size),
+          "--badge-size": vars.size36.enabled.badge.size,
+          "--badge-offset": vars.size36.enabled.badge.offset,
         },
       },
       42: {
         root: {
-          width: vars.size42.enabled.root.size,
-          height: vars.size42.enabled.root.size,
+          "--avatar-size": vars.size42.enabled.root.size,
+          "--badge-mask-size": vars.size42.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size42.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size42.enabled.badge.size,
-          height: vars.size42.enabled.badge.size,
-          ...calculateBadgePosition(vars.size42.enabled.root.size, vars.size42.enabled.badge.size),
+          "--badge-size": vars.size42.enabled.badge.size,
+          "--badge-offset": vars.size42.enabled.badge.offset,
         },
       },
       48: {
         root: {
-          width: vars.size48.enabled.root.size,
-          height: vars.size48.enabled.root.size,
+          "--avatar-size": vars.size48.enabled.root.size,
+          "--badge-mask-size": vars.size48.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size48.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size48.enabled.badge.size,
-          height: vars.size48.enabled.badge.size,
-          ...calculateBadgePosition(vars.size48.enabled.root.size, vars.size48.enabled.badge.size),
+          "--badge-size": vars.size48.enabled.badge.size,
+          "--badge-offset": vars.size48.enabled.badge.offset,
         },
       },
       64: {
         root: {
-          width: vars.size64.enabled.root.size,
-          height: vars.size64.enabled.root.size,
+          "--avatar-size": vars.size64.enabled.root.size,
+          "--badge-mask-size": vars.size64.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size64.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size64.enabled.badge.size,
-          height: vars.size64.enabled.badge.size,
-          ...calculateBadgePosition(vars.size64.enabled.root.size, vars.size64.enabled.badge.size),
+          "--badge-size": vars.size64.enabled.badge.size,
+          "--badge-offset": vars.size64.enabled.badge.offset,
         },
       },
       80: {
         root: {
-          width: vars.size80.enabled.root.size,
-          height: vars.size80.enabled.root.size,
+          "--avatar-size": vars.size80.enabled.root.size,
+          "--badge-mask-size": vars.size80.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size80.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size80.enabled.badge.size,
-          height: vars.size80.enabled.badge.size,
-          ...calculateBadgePosition(vars.size80.enabled.root.size, vars.size80.enabled.badge.size),
+          "--badge-size": vars.size80.enabled.badge.size,
+          "--badge-offset": vars.size80.enabled.badge.offset,
         },
       },
       96: {
         root: {
-          width: vars.size96.enabled.root.size,
-          height: vars.size96.enabled.root.size,
+          "--avatar-size": vars.size96.enabled.root.size,
+          "--badge-mask-size": vars.size96.enabled.badgeMask.size,
+          "--badge-mask-offset": vars.size96.enabled.badgeMask.offset,
         },
         badge: {
-          width: vars.size96.enabled.badge.size,
-          height: vars.size96.enabled.badge.size,
-          ...calculateBadgePosition(vars.size96.enabled.root.size, vars.size96.enabled.badge.size),
+          "--badge-size": vars.size96.enabled.badge.size,
+          "--badge-offset": vars.size96.enabled.badge.offset,
+        },
+      },
+    },
+    badgeMask: {
+      none: {
+        root: {
+          "--svg-mask-uri": toDataUrl("<svg />"),
+        },
+      },
+      circle: {
+        root: {
+          "--svg-mask-uri": toDataUrl(CIRCLE_SVG_MASK),
+        },
+        badge: {
+          borderRadius: "9999px",
+        },
+      },
+      flower: {
+        root: {
+          "--svg-mask-uri": toDataUrl(FLOWER_SVG_MASK),
+        },
+      },
+      shield: {
+        root: {
+          "--svg-mask-uri": toDataUrl(SHIELD_SVG_MASK),
         },
       },
     },
   },
   defaultVariants: {
     size: 48,
+    badgeMask: "none",
   },
 });
 
