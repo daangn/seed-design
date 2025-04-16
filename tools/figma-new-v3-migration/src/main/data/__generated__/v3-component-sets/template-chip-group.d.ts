@@ -19,10 +19,10 @@ export declare const metadata: {
       "type": "VARIANT",
       "defaultValue": "Full",
       "variantOptions": [
-        "Full",
-        "3",
         "2",
-        "4"
+        "3",
+        "4",
+        "Full"
       ]
     }
   }

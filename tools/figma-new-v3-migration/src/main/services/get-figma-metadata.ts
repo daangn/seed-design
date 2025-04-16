@@ -12,7 +12,6 @@ export const getFigmaMetadata = (): FigmaMetadata => {
 
   return {
     currentUser: {
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       id: currentUser.id!,
       name: currentUser.name,
     },

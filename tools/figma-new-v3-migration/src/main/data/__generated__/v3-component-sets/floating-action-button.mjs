@@ -4,7 +4,7 @@ export const metadata = {
   "componentPropertyDefinitions": {
     "Icon#28796:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17019:3007",
+      "defaultValue": "20433:16929",
       "preferredValues": []
     },
     "State": {

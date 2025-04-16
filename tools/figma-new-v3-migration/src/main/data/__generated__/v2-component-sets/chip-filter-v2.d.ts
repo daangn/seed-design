@@ -9,7 +9,7 @@ export declare const metadata: {
     },
     "↳Icon #52835:5": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "89311:4644",
+      "defaultValue": "91718:19837",
       "preferredValues": []
     },
     "Label#28900:0": {

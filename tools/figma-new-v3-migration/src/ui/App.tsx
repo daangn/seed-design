@@ -1,14 +1,15 @@
 import { Flex } from "@seed-design/react";
 import { ScanButton } from "common/components/scan-button";
+import { StartCallout } from "common/components/start-callout";
 import { TargetBadges } from "common/components/taget-badges";
 import { MigrationProvider, useMigration, type AvailableSteps } from "common/context/migration";
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 import { events } from "shared/event";
 import type { FigmaMetadata } from "shared/types";
-import { ColorsSection } from "./colors";
-import { TypographySection } from "./typography";
-import { StartCallout } from "common/components/start-callout";
+import { ColorSection } from "./color-section";
+import { ComponentSection } from "./component-section";
+import { TypographySection } from "./typography-section";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {
@@ -36,8 +37,8 @@ function FigmaMetadataProvider({ children }: { children: ReactNode }) {
 }
 
 function Steps() {
-  const { targets, selections } = useMigration();
-  const [currentTab, setCurrentTab] = useState<AvailableSteps>("colors");
+  const { targets, selections, loading, currentTab, setCurrentTab, scanCurrentTab } =
+    useMigration();
 
   return (
     <Flex direction="column" height="100%" style={{ overflow: "hidden" }}>
@@ -54,7 +55,7 @@ function Steps() {
             <TargetBadges targets={targets} />
           </Flex>
           <Flex alignItems="center">
-            <ScanButton currentTab={currentTab} selections={selections} />
+            <ScanButton selections={selections} isLoading={loading} onScan={scanCurrentTab} />
           </Flex>
         </Flex>
 
@@ -68,6 +69,7 @@ function Steps() {
           <TabsList>
             <TabsTrigger value="colors">Colors</TabsTrigger>
             <TabsTrigger value="typography">Typography</TabsTrigger>
+            <TabsTrigger value="components">Components</TabsTrigger>
           </TabsList>
 
           <TabsContent
@@ -76,7 +78,7 @@ function Steps() {
             }}
             value="colors"
           >
-            {targets.length > 0 ? <ColorsSection /> : <StartCallout />}
+            {targets.length > 0 ? <ColorSection /> : <StartCallout />}
           </TabsContent>
           <TabsContent
             style={{
@@ -85,6 +87,14 @@ function Steps() {
             value="typography"
           >
             {targets.length > 0 ? <TypographySection /> : <StartCallout />}
+          </TabsContent>
+          <TabsContent
+            style={{
+              height: "calc(100% - var(--tabs-list-height))",
+            }}
+            value="components"
+          >
+            {targets.length > 0 ? <ComponentSection /> : <StartCallout />}
           </TabsContent>
         </TabsRoot>
       </Flex>
