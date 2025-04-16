@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-text-field",
+  "name": "@seed-design/react-form-control",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/text-field"
+    "directory": "packages/react-headless/form-control"
   },
   "sideEffects": false,
   "type": "module",
@@ -27,12 +27,11 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
+    "@radix-ui/react-compose-refs": "^1.1.1",
     "@radix-ui/react-use-callback-ref": "^1.1.0",
     "@radix-ui/react-use-controllable-state": "1.1.0",
     "@seed-design/dom-utils": "0.0.1",
-    "@seed-design/react-primitive": "0.0.1",
-    "@seed-design/react-form-control": "0.0.1",
-    "unicode-segmenter": "^0.11.2"
+    "@seed-design/react-primitive": "0.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.5"

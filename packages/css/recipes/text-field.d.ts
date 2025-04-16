@@ -1,8 +1,8 @@
 declare interface TextFieldVariant {
   /**
-  * @default medium
+  * @default large
   */
-  size: "xlarge" | "large" | "medium";
+  size: "large" | "medium";
 }
 
 declare type TextFieldVariantMap = {
@@ -11,7 +11,7 @@ declare type TextFieldVariantMap = {
 
 export declare type TextFieldVariantProps = Partial<TextFieldVariant>;
 
-export declare type TextFieldSlotName = "root" | "header" | "label" | "indicator" | "field" | "value" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon" | "footer" | "description" | "errorMessage" | "errorIcon" | "characterCountArea" | "characterCount" | "maxCharacterCount";
+export declare type TextFieldSlotName = "root" | "value" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
 
 export declare const textFieldVariantMap: TextFieldVariantMap;
 

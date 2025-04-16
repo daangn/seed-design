@@ -1,0 +1,26 @@
+export {
+  FormControlCharacterCount,
+  FormControlCharacterCountArea,
+  FormControlDescription,
+  FormControlErrorIcon,
+  FormControlErrorMessage,
+  FormControlFooter,
+  FormControlHeader,
+  FormControlIndicator,
+  FormControlLabel,
+  FormControlMaxCharacterCount,
+  FormControlRoot,
+  type FormControlCharacterCountAreaProps,
+  type FormControlCharacterCountProps,
+  type FormControlDescriptionProps,
+  type FormControlErrorIconProps,
+  type FormControlErrorMessageProps,
+  type FormControlFooterProps,
+  type FormControlHeaderProps,
+  type FormControlIndicatorProps,
+  type FormControlLabelProps,
+  type FormControlMaxCharacterCountProps,
+  type FormControlRootProps,
+} from "./FormControl";
+
+export * as FormControl from "./FormControl.namespace";

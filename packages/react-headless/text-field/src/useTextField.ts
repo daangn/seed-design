@@ -1,46 +1,58 @@
 import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
-import { useCallback, useId, useMemo, useState } from "react";
-import { splitGraphemes } from "unicode-segmenter/grapheme";
-import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
-import { memoize } from "./memoize";
+import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { useFormControlContext } from "@seed-design/react-form-control";
+import { useCallback, useMemo, useState } from "react";
+import { useGraphemes } from "./useGraphemes";
 
 export interface UseTextFieldStateProps {
   value?: string;
+
   defaultValue?: string;
+
   onValueChange?: (values: {
     value: string;
     graphemes: string[];
-    slicedValue: string;
-    slicedGraphemes: string[];
   }) => void;
-  maxGraphemeCount?: number | undefined;
-}
 
-const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
-const memoizedGetGraphemes = memoize(getGraphemes);
+  /**
+   * Grapheme 기준 최대 길이
+   */
+  maxGraphemeCount?: number | undefined;
+
+  /**
+   * 최대 길이를 초과할 시 자동으로 잘라낼지 여부
+   * @default true
+   */
+  enforceMaxGraphemeCount?: boolean;
+}
 
 export function useTextFieldState({
   value: __value,
   defaultValue,
   onValueChange: __onValueChange,
   maxGraphemeCount,
+  enforceMaxGraphemeCount = true,
 }: UseTextFieldStateProps) {
+  const getGraphemes = useGraphemes();
   const onValueChange = useCallbackRef(__onValueChange);
 
   const handleValueChange = useCallback(
     (value: string) => {
-      const graphemes = memoizedGetGraphemes(value);
-      const slicedGraphemes = maxGraphemeCount ? graphemes.slice(0, maxGraphemeCount) : graphemes;
-      const slicedValue = slicedGraphemes.join("");
+      const graphemes = getGraphemes(value);
+      const enforcedGraphemes = enforceMaxGraphemeCount
+        ? graphemes.slice(0, maxGraphemeCount)
+        : graphemes;
 
-      onValueChange({ value, graphemes, slicedValue, slicedGraphemes });
+      onValueChange({
+        value: enforceMaxGraphemeCount ? enforcedGraphemes.join("") : value,
+        graphemes: enforcedGraphemes,
+      });
     },
-    [maxGraphemeCount, onValueChange],
+    [enforceMaxGraphemeCount, maxGraphemeCount, getGraphemes, onValueChange],
   );
 
-  const [value, setValue] = useControllableState({
+  const [value = "", setValue] = useControllableState({
     prop: __value,
     defaultProp: defaultValue,
     onChange: handleValueChange,
@@ -50,39 +62,15 @@ export function useTextFieldState({
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
-  const graphemes = useMemo(() => memoizedGetGraphemes(value ?? ""), [value]);
-
-  const [isLabelRendered, setIsLabelRendered] = useState(false);
-  const labelRef = useCallback((node: HTMLLabelElement | null) => {
-    setIsLabelRendered(!!node);
-  }, []);
-  const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
-  const descriptionRef = useCallback((node: HTMLElement | null) => {
-    setIsDescriptionRendered(!!node);
-  }, []);
-  const [isErrorMessageRendered, setIsErrorMessageRendered] = useState(false);
-  const errorMessageRef = useCallback((node: HTMLElement | null) => {
-    setIsErrorMessageRendered(!!node);
-  }, []);
+  const graphemes = useMemo(() => getGraphemes(value), [getGraphemes, value]);
 
   return {
-    refs: {
-      label: labelRef,
-      description: descriptionRef,
-      errorMessage: errorMessageRef,
-    },
-
     value,
     graphemes,
     isHovered,
     isActive,
     isFocused,
     isFocusVisible,
-    renderedElements: {
-      label: isLabelRendered,
-      description: isDescriptionRendered,
-      errorMessage: isErrorMessageRendered,
-    },
 
     setValue,
     setIsHovered,
@@ -109,28 +97,26 @@ export interface UseTextFieldProps extends UseTextFieldStateProps {
    * @default false
    */
   invalid?: boolean;
-
-  name?: string;
 }
 
 export type UseTextFieldReturn = ReturnType<typeof useTextField>;
 
 export function useTextField(props: UseTextFieldProps) {
-  const id = useId();
+  const ctx = useFormControlContext({ strict: false });
+
   const {
     value: propValue,
     defaultValue,
     onValueChange,
-    disabled = false,
-    invalid = false,
-    readOnly = false,
-    required = false,
+    disabled = ctx?.disabled ?? false,
+    invalid = ctx?.invalid ?? false,
+    readOnly = ctx?.readOnly ?? false,
+    required = ctx?.required ?? false,
     maxGraphemeCount,
+    enforceMaxGraphemeCount,
   } = props;
 
   const {
-    refs,
-    renderedElements,
     value: stateValue,
     graphemes,
     isHovered,
@@ -147,17 +133,10 @@ export function useTextField(props: UseTextFieldProps) {
     defaultValue,
     onValueChange,
     maxGraphemeCount,
+    enforceMaxGraphemeCount,
   });
 
   const isUncontrolled = propValue === undefined;
-
-  const ariaDescribedBy =
-    [
-      renderedElements.description ? getDescriptionId(id) : false,
-      renderedElements.errorMessage ? getErrorMessageId(id) : false,
-    ]
-      .filter(Boolean)
-      .join(" ") || undefined;
 
   const stateProps = elementProps({
     "data-hover": dataAttr(isHovered),
@@ -174,8 +153,6 @@ export function useTextField(props: UseTextFieldProps) {
   });
 
   return {
-    refs,
-
     value: stateValue,
     graphemes,
     active: isActive,
@@ -205,24 +182,15 @@ export function useTextField(props: UseTextFieldProps) {
       },
     }),
 
-    labelProps: labelProps({
-      ...stateProps,
-      id: getLabelId(id),
-      htmlFor: getInputId(id),
-    }),
-
     inputProps: inputProps({
+      id: ctx?.inputProps.id,
       ...stateProps,
       ...(isUncontrolled && defaultValue && { defaultValue }),
       ...(!isUncontrolled && { value: stateValue }),
-      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
-      "aria-describedby": ariaDescribedBy,
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
       disabled,
       readOnly,
-      id: getInputId(id),
-      name: props.name || id,
       onChange: (event) => {
         setIsFocusVisible(event.target.matches(":focus-visible"));
         setValue(event.target.value);
@@ -238,16 +206,5 @@ export function useTextField(props: UseTextFieldProps) {
     }) as
       | React.InputHTMLAttributes<HTMLInputElement>
       | React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-
-    descriptionProps: elementProps({
-      ...stateProps,
-      ...(invalid && { style: { display: "none" } }),
-      id: getDescriptionId(id),
-    }),
-
-    errorMessageProps: elementProps({
-      ...stateProps,
-      id: getErrorMessageId(id),
-    }),
   };
 }

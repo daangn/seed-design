@@ -18,6 +18,7 @@ export * from "./ExtendedActionSheet";
 export * from "./ExtendedFab";
 export * from "./Fab";
 export * from "./Flex";
+export * from "./FormControl";
 export * from "./HelpBubble";
 export * from "./Icon";
 export * from "./IdentityPlaceholder";

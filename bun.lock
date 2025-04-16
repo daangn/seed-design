@@ -458,6 +458,24 @@
         "react-dom": ">=18.0.0",
       },
     },
+    "packages/react-headless/form-control": {
+      "name": "@seed-design/react-form-control",
+      "version": "0.0.1",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.1",
+        "@radix-ui/react-use-callback-ref": "^1.1.0",
+        "@radix-ui/react-use-controllable-state": "1.1.0",
+        "@seed-design/dom-utils": "0.0.1",
+        "@seed-design/react-primitive": "0.0.1",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.5",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
     "packages/react-headless/popover": {
       "name": "@seed-design/react-popover",
       "version": "0.0.2",
@@ -612,10 +630,10 @@
       "name": "@seed-design/react-text-field",
       "version": "0.0.1",
       "dependencies": {
-        "@radix-ui/react-compose-refs": "^1.1.1",
         "@radix-ui/react-use-callback-ref": "^1.1.0",
         "@radix-ui/react-use-controllable-state": "1.1.0",
         "@seed-design/dom-utils": "0.0.1",
+        "@seed-design/react-form-control": "0.0.1",
         "@seed-design/react-primitive": "0.0.1",
         "unicode-segmenter": "^0.11.2",
       },
@@ -1897,6 +1915,8 @@
     "@seed-design/react-checkbox": ["@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"],
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
+
+    "@seed-design/react-form-control": ["@seed-design/react-form-control@workspace:packages/react-headless/form-control"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.3", "", { "peerDependencies": { "react": "17.x || 18.x" } }, "sha512-xF8puoyj4WbLCX9bQPTL2AbwJa2YP0TEjYUSdk+yBKUzQ6kFj6AP0KSxBPZFrHA4Qg64FZTlS1iAThvdO1g9Lg=="],
 

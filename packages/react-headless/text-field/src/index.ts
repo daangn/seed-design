@@ -1,18 +1,14 @@
 export {
-  TextFieldDescription,
-  TextFieldErrorMessage,
   TextFieldGraphemeCount,
   TextFieldInput,
-  TextFieldTextarea,
-  TextFieldLabel,
   TextFieldRoot,
-  type TextFieldDescriptionProps,
-  type TextFieldErrorMessageProps,
+  TextFieldRootProvider,
+  TextFieldTextarea,
   type TextFieldGraphemeCountProps,
   type TextFieldInputProps,
-  type TextFieldTextareaProps,
-  type TextFieldLabelProps,
   type TextFieldRootProps,
+  type TextFieldRootProviderProps,
+  type TextFieldTextareaProps,
 } from "./TextField";
 
 export { useTextFieldContext, type UseTextFieldContext } from "./useTextFieldContext";

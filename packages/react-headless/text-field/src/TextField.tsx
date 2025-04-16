@@ -1,10 +1,22 @@
-import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { forwardRef } from "react";
-import { useTextField, type UseTextFieldProps } from "./useTextField";
+import { useTextField, type UseTextFieldProps, type UseTextFieldReturn } from "./useTextField";
 import { TextFieldProvider, useTextFieldContext } from "./useTextFieldContext";
+
+export interface TextFieldRootProviderProps extends UseTextFieldReturn, PrimitiveProps {}
+
+export const TextFieldRootProvider = forwardRef<HTMLDivElement, TextFieldRootProviderProps>(
+  (props, ref) => {
+    const { ...otherProps } = props;
+    return (
+      <TextFieldProvider value={props}>
+        <Primitive.div ref={ref} {...otherProps} />
+      </TextFieldProvider>
+    );
+  },
+);
 
 export interface TextFieldRootProps
   extends UseTextFieldProps,
@@ -21,7 +33,6 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
     invalid,
     required,
     maxGraphemeCount,
-    name,
     ...otherProps
   } = props;
 
@@ -34,7 +45,6 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
     required,
     readOnly,
     maxGraphemeCount,
-    name,
   });
   const mergedProps = mergeProps(api.rootProps, otherProps);
 
@@ -45,44 +55,6 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
   );
 });
 TextFieldRoot.displayName = "TextFieldRoot";
-
-export interface TextFieldLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLLabelElement> {}
-
-export const TextFieldLabel = forwardRef<HTMLLabelElement, TextFieldLabelProps>((props, ref) => {
-  const { refs, labelProps } = useTextFieldContext();
-  const mergedProps = mergeProps(labelProps, props);
-  return <Primitive.label ref={composeRefs(refs.label, ref)} {...mergedProps} />;
-});
-TextFieldLabel.displayName = "TextFieldLabel";
-
-export interface TextFieldDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldDescription = forwardRef<HTMLSpanElement, TextFieldDescriptionProps>(
-  (props, ref) => {
-    const { refs, descriptionProps } = useTextFieldContext();
-    const mergedProps = mergeProps(descriptionProps, props);
-    return <Primitive.span ref={composeRefs(refs.description, ref)} {...mergedProps} />;
-  },
-);
-
-TextFieldDescription.displayName = "TextFieldDescription";
-
-export interface TextFieldErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldErrorMessage = forwardRef<HTMLSpanElement, TextFieldErrorMessageProps>(
-  (props, ref) => {
-    const { refs, errorMessageProps } = useTextFieldContext();
-    const mergedProps = mergeProps(errorMessageProps, props);
-    return <Primitive.span ref={composeRefs(refs.errorMessage, ref)} {...mergedProps} />;
-  },
-);
-TextFieldErrorMessage.displayName = "TextFieldErrorMessage";
 
 export interface TextFieldInputProps
   extends PrimitiveProps,
@@ -97,7 +69,7 @@ TextFieldInput.displayName = "TextFieldInput";
 
 export interface TextFieldTextareaProps
   extends PrimitiveProps,
-    React.InputHTMLAttributes<HTMLTextAreaElement> {}
+    React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
   (props, ref) => {
