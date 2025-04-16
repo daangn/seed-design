@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.13
+
+### Patch Changes
+
+- 7fca755: Avatar의 Badge 스펙을 최신화합니다.
+
 ## 0.0.12
 
 ### Patch Changes
