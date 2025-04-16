@@ -1,13 +1,14 @@
 import { DEFAULT_PREFERENCES, SETTINGS_KEY } from "../shared/constants";
 import { events } from "../shared/event";
 import type { FigmaMetadata } from "../shared/types";
+import { loadSettingsAsync } from "../shared/utils/setting";
+import { SYSTEM_COMPONENT_KEYS_ALL, SYSTEM_COMPONENT_KEYS_V3_ONLY } from "./data/component";
 import { applyColorVariable } from "./services/apply-color-variable";
 import { applyTextStyles } from "./services/apply-text-style";
 import { getColorVariableSuggestions } from "./services/get-color-variable-suggestions";
+import { getComponentInSelection } from "./services/get-component-in-selection";
 import { getSerializedTextStyleSuggestions } from "./services/get-text-style-suggestions";
-import { SYSTEM_COMPONENT_KEYS_V3_ONLY } from "./data/component";
-import { SYSTEM_COMPONENT_KEYS_ALL } from "./data/component";
-import { loadSettingsAsync } from "../shared/utils/setting";
+import { swapComponent } from "./services/swap-component";
 
 // 플러그인 UI 크기 설정
 figma.showUI(__html__, {
@@ -71,6 +72,16 @@ async function main() {
 
     events("announce-selection").emit({
       serializedSelections: currentSelections.map(serializeBaseNode),
+    });
+  });
+
+  events("request-component-suggestions").on(async ({ nodeIds }) => {
+    const results = await getComponentInSelection({ nodeIds });
+    console.log("results", results);
+
+    events("suggest-components").emit({ results });
+    figma.notify("컴포넌트 검사가 완료되었습니다.", {
+      timeout: 1000,
     });
   });
 
@@ -167,6 +178,25 @@ async function main() {
       timeout: 1000,
     });
     figma.commitUndo();
+  });
+
+  events("swap-component").on(async ({ instanceNode, selectedVariants }) => {
+    const results = await swapComponent(instanceNode, selectedVariants);
+    events("swap-result").emit({ results });
+    figma.notify("컴포넌트 교체가 완료되었습니다.", {
+      timeout: 1000,
+    });
+  });
+
+  events("swap-all-components").on(async ({ instanceNodes, selectedVariants }) => {
+    const results = await Promise.all(
+      instanceNodes.map((instanceNode) => swapComponent(instanceNode, selectedVariants)),
+    );
+    const swapResult = Object.assign({}, ...results);
+    events("swap-result").emit({ results: swapResult });
+    figma.notify("컴포넌트 교체가 완료되었습니다.", {
+      timeout: 1000,
+    });
   });
 }
 

@@ -52,7 +52,6 @@ export { metadata as topNavigation } from "./top-navigation.mjs";
 export { metadata as avatarImage } from "./avatar-image.mjs";
 export { metadata as bottomSheetActions } from "./bottom-sheet-actions.mjs";
 export { metadata as listItem } from "./list-item.mjs";
-export { metadata as listItem } from "./list-item.mjs";
 export { metadata as listBasic } from "./list-basic.mjs";
 export { metadata as os상태바FigmaOnly } from "./os-상태바-figma-only.mjs";
 export { metadata as os하단FigmaOnly } from "./os-하단-figma-only.mjs";

@@ -203,44 +203,6 @@ export interface FigmaMetadata {
   fileKey: string;
 }
 
-// 이벤트 타입 정의
-export interface PluginEventMap {
-  "announce-selection": {
-    serializedSelections: SerializedBaseNode[];
-  };
-  "announce-target": {
-    serializedTargets: SerializedBaseNode[];
-  };
-  "request-announce-target": {
-    nodeIds: string[];
-  };
-  "focus-node": {
-    nodeIds: string[];
-  };
-  "send-figma-metadata": FigmaMetadata;
-  "request-text-style-suggestions": {
-    nodeIds: string[];
-  };
-  "suggest-text-styles": {
-    results: GroupedSerializedTextStyleSuggestionsResults;
-  };
-  "apply-text-style": {
-    textNodeIds: string[];
-    textStyleId: string;
-  };
-  "request-color-suggestions": {
-    nodeIds: string[];
-  };
-  "suggest-color-variables": {
-    results: SerializedColorVariablesSuggestionsResults;
-  };
-  "apply-color-variable": {
-    oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"];
-    consumerNodeIds: SerializedColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
-    variableId: SerializedVariable["id"];
-  };
-}
-
 export interface SolidPaint {
   type: "SOLID";
   color: {
@@ -259,3 +221,23 @@ export interface SolidPaint {
   };
   variableId?: string;
 }
+
+// 컴포넌트
+
+export interface InstanceInfo {
+  id: string;
+  name: string;
+  key: string;
+  componentProperties: ComponentProperties;
+  version: "v2" | "v3";
+}
+
+export type SwapResult = Record<
+  InstanceInfo["id"],
+  {
+    ok: boolean;
+    errorMessage?: string;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    metadata?: Record<string, any>;
+  }
+>;
