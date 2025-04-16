@@ -19,4 +19,11 @@ export default defineWorkspace([
       environment: "node",
     },
   },
+  {
+    test: {
+      name: "figma",
+      include: ["./packages/figma/**/*.test.(tsx|ts)"],
+      environment: "node",
+    },
+  },
 ]);

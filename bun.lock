@@ -329,13 +329,13 @@
       "name": "@seed-design/figma",
       "version": "0.0.4",
       "dependencies": {
-        "@create-figma-plugin/utilities": "^3.0.2",
-        "@seed-design/css": "0.0.9",
+        "@seed-design/css": "0.0.12",
         "change-case": "^5.2.0",
         "ts-pattern": "^5.2.0",
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.108.0",
+        "@figma/rest-api-spec": "^0.23.0",
         "@seed-design/figma-extractor": "^0.0.3",
         "typescript": "^5.4.5",
       },
@@ -343,14 +343,18 @@
     "packages/mcp": {
       "name": "@seed-design/mcp",
       "version": "0.0.4",
-      "bin": "./bin/index.mjs",
+      "bin": {
+        "main": "./bin/main.mjs",
+        "socket": "./bin/socket.mjs",
+      },
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.7.0",
-        "@seed-design/figma": "0.0.1",
+        "@seed-design/figma": "0.0.4",
         "express": "^4.21.2",
         "yargs": "^17.7.2",
       },
       "devDependencies": {
+        "@types/bun": "^1.2.8",
         "@types/yargs": "^17.0.33",
         "typescript": "^5.4.5",
       },
@@ -804,6 +808,36 @@
         "@figma/plugin-typings": "^1.108.0",
         "concurrently": "^6.3.0",
         "esbuild": "^0.25.0",
+      },
+    },
+    "tools/figma-mcp": {
+      "name": "figma-mcp",
+      "version": "1.0.0",
+      "dependencies": {
+        "@karrotmarket/react-monochrome-icon": "^0.0.21",
+        "@seed-design/css": "^0.0.12",
+        "@seed-design/figma": "0.0.4",
+        "@seed-design/migration-index": "^0.0.20",
+        "@seed-design/react": "^0.0.12",
+        "@seed-design/vite-plugin": "^0.0.12",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+      },
+      "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@figma/plugin-typings": "^1.109.0",
+        "@figma/rest-api-spec": "^0.23.0",
+        "@types/node": "^22.13.11",
+        "@types/react": "^18.3.5",
+        "@types/react-dom": "^18.3.0",
+        "@vitejs/plugin-react": "^4.3.4",
+        "concurrently": "^9.1.2",
+        "globals": "^15.15.0",
+        "typescript": "^5.8.2",
+        "typescript-eslint": "^8.24.1",
+        "vite": "^6.2.3",
+        "vite-plugin-singlefile": "^2.2.0",
+        "vite-tsconfig-paths": "^5.1.4",
       },
     },
     "tools/figma-new-v3-migration": {
@@ -1334,7 +1368,7 @@
 
     "@fastify/deepmerge": ["@fastify/deepmerge@1.3.0", "", {}, "sha512-J8TOSBq3SoZbDhM9+R/u77hP93gz/rajSA+K2kGyijPpORPWUXHUpTaleoj+92As0S9uPRP7Oi8IqMf0u+ro6A=="],
 
-    "@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+    "@figma/plugin-typings": ["@figma/plugin-typings@1.109.0", "", {}, "sha512-6l628rOQGNd5ZD3Bru36/NK+PSKmHpsrWz0NMwUYZ8AIyfIl6sCJRc8+OhAy9+WkDXq/Dx3BYiBStjmCJ8O3Lw=="],
 
     "@figma/rest-api-spec": ["@figma/rest-api-spec@0.23.0", "", {}, "sha512-x7oWMfg8cYv1yGAxqEzq6m0Eg3mzqa96PvrXBLPWbm3xHiA3Zj9KvhfQau2hVi6BCVBW+ZcJYvllg25JXe6y+w=="],
 
@@ -2152,6 +2186,8 @@
 
     "@types/bonjour": ["@types/bonjour@3.5.13", "", { "dependencies": { "@types/node": "*" } }, "sha512-z9fJ5Im06zvUL548KvYNecEVlA7cVDkGUi6kZusb04mpyEFKCIZJvloCcmpmLaIahDpOQGHaHmG6imtPMmPXGQ=="],
 
+    "@types/bun": ["@types/bun@1.2.8", "", { "dependencies": { "bun-types": "1.2.7" } }, "sha512-t8L1RvJVUghW5V+M/fL3Thbxcs0HwNsXsnTEBEfEVqGteiJToOlZ/fyOEaR1kZsNqnu+3XA4RI/qmnX4w6+S+w=="],
+
     "@types/connect": ["@types/connect@3.4.38", "", { "dependencies": { "@types/node": "*" } }, "sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug=="],
 
     "@types/connect-history-api-fallback": ["@types/connect-history-api-fallback@1.5.4", "", { "dependencies": { "@types/express-serve-static-core": "*", "@types/node": "*" } }, "sha512-n6Cr2xS1h4uAulPRdlw6Jl6s1oG8KrVilPN2yUITEs+K48EzMJJ3W1xy8K5eWuFvjp3R74AOIGSmp2UfBJ8HFw=="],
@@ -2551,6 +2587,8 @@
     "builtin-status-codes": ["builtin-status-codes@3.0.0", "", {}, "sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ=="],
 
     "builtins": ["builtins@1.0.3", "", {}, "sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ=="],
+
+    "bun-types": ["bun-types@1.2.7", "", { "dependencies": { "@types/node": "*", "@types/ws": "*" } }, "sha512-P4hHhk7kjF99acXqKvltyuMQ2kf/rzIw3ylEDpCxDS9Xa0X0Yp/gJu/vDCucmWpiur5qJ0lwB2bWzOXa2GlHqA=="],
 
     "bunchee": ["bunchee@6.4.0", "", { "dependencies": { "@rollup/plugin-commonjs": "^28.0.2", "@rollup/plugin-json": "^6.1.0", "@rollup/plugin-node-resolve": "^16.0.0", "@rollup/plugin-replace": "^6.0.2", "@rollup/plugin-wasm": "^6.2.2", "@rollup/pluginutils": "^5.1.4", "@swc/core": "^1.10.16", "@swc/helpers": "^0.5.15", "clean-css": "^5.3.3", "fast-glob": "^3.3.3", "magic-string": "^0.30.17", "ora": "^8.0.1", "picomatch": "^4.0.2", "pretty-bytes": "^5.6.0", "rollup": "^4.34.7", "rollup-plugin-dts": "^6.1.1", "rollup-plugin-swc3": "^0.11.1", "rollup-preserve-directives": "^1.1.3", "tslib": "^2.8.1", "yargs": "^17.7.2" }, "peerDependencies": { "typescript": "^4.1 || ^5.0" }, "optionalPeers": ["typescript"], "bin": { "bunchee": "dist/bin/cli.js" } }, "sha512-GjYCzFBgq/kaotXa6Ssxu6msyxKKus5flqREp3++RpGJdvjYrM4jb0gDVIjniVu0V3zkYvBVErc1dYTWT1fjTA=="],
 
@@ -3091,6 +3129,8 @@
     "fflate": ["fflate@0.4.8", "", {}, "sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA=="],
 
     "figma-api": ["figma-api@2.0.1-beta", "", { "dependencies": { "@types/node": "^22.8.7", "axios": "^0.27.2" } }, "sha512-Hegr8g5UGIr3T5yRGUQsMy43OkQgx25zL1w7k5KRf6ady11mXIDq0k9DOpgWRyUltcd4GI001wOZz37J6osOkg=="],
+
+    "figma-mcp": ["figma-mcp@workspace:tools/figma-mcp"],
 
     "figma-new-v3-migration": ["figma-new-v3-migration@workspace:tools/figma-new-v3-migration"],
 
@@ -5196,6 +5236,20 @@
 
     "@seed-design/docs/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 
+    "@seed-design/figma/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
+
+    "@seed-design/figma-checklist-widget/@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+
+    "@seed-design/figma-codegen/@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+
+    "@seed-design/figma-contrast-checker/@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+
+    "@seed-design/figma-expose-variables/@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+
+    "@seed-design/figma-extractor/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
+
+    "@seed-design/figma-spec-widget/@figma/plugin-typings": ["@figma/plugin-typings@1.108.0", "", {}, "sha512-hZocQwkMUfQZSa/6H9qkSkIKMDC70OOcV8U7hBocAsD/bWEZh13uj+aP6IHHmStscoavo9Ir5pU7NWEUUcXLug=="],
+
     "@seed-design/figma-v3-migration/@create-figma-plugin/build": ["@create-figma-plugin/build@4.0.0-alpha.0", "", { "dependencies": { "@create-figma-plugin/common": "^4.0.0-alpha.0", "chokidar": "^3.6.0", "cssnano": "^7.0.5", "esbuild": "0.23.0", "find-up": "^7.0.0", "globby": "^14.0.2", "indent-string": "^5.0.0", "kleur": "^4.1.5", "path-exists": "^5.0.0", "postcss": "^8.4.41", "postcss-modules": "^6.0.0", "rev-hash": "^4.1.0", "sade": "^1.8.1", "temp-write": "^6.0.0", "tempy": "^3.1.0", "typed-css-modules": "^0.9.1" }, "peerDependencies": { "@figma/plugin-typings": ">=1", "typescript": ">=4" }, "bin": { "build-figma-plugin": "./lib/cli.js" } }, "sha512-FraOBvbmXndGhLxDbmAlr9bw7489j48uODMbZ6/Ag2/OkrwS/JvH0bl/10BRmsTtfWHqG7rc98j8Z9uRcuteHw=="],
 
     "@seed-design/figma-v3-migration/@figma/plugin-typings": ["@figma/plugin-typings@1.100.2", "", {}, "sha512-xRlneaT5D6afuzkt8J28DXgHAcglncqNVzh1qe5bJVzTLfniiDQY5N/IVXIJj/u7vXYMY6uqvJt8UBFe5l4FXA=="],
@@ -5203,6 +5257,8 @@
     "@seed-design/figma-v3-migration/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
     "@seed-design/figma-v3-migration/tailwindcss": ["tailwindcss@3.4.14", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "arg": "^5.0.2", "chokidar": "^3.5.3", "didyoumean": "^1.2.2", "dlv": "^1.1.3", "fast-glob": "^3.3.0", "glob-parent": "^6.0.2", "is-glob": "^4.0.3", "jiti": "^1.21.0", "lilconfig": "^2.1.0", "micromatch": "^4.0.5", "normalize-path": "^3.0.0", "object-hash": "^3.0.0", "picocolors": "^1.0.0", "postcss": "^8.4.23", "postcss-import": "^15.1.0", "postcss-js": "^4.0.1", "postcss-load-config": "^4.0.1", "postcss-nested": "^6.0.1", "postcss-selector-parser": "^6.0.11", "resolve": "^1.22.2", "sucrase": "^3.32.0" }, "bin": { "tailwind": "lib/cli.js", "tailwindcss": "lib/cli.js" } }, "sha512-IcSvOcTRcUtQQ7ILQL5quRDg7Xs93PdJEk1ZLbhhvJc7uj/OAhYOnruEiwnGgBvUtaUAJ8/mhSw1o8L2jCiENA=="],
+
+    "@seed-design/mcp/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 
     "@seed-design/qvism-cli/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 
@@ -5322,6 +5378,8 @@
 
     "browserslist-to-esbuild/meow": ["meow@13.2.0", "", {}, "sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA=="],
 
+    "bun-types/@types/node": ["@types/node@22.13.13", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ=="],
+
     "camel-case/tslib": ["tslib@2.6.2", "", {}, "sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q=="],
 
     "camelcase-keys/camelcase": ["camelcase@5.3.1", "", {}, "sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg=="],
@@ -5426,7 +5484,11 @@
 
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
-    "figma-new-v3-migration/@figma/plugin-typings": ["@figma/plugin-typings@1.109.0", "", {}, "sha512-6l628rOQGNd5ZD3Bru36/NK+PSKmHpsrWz0NMwUYZ8AIyfIl6sCJRc8+OhAy9+WkDXq/Dx3BYiBStjmCJ8O3Lw=="],
+    "figma-mcp/@types/node": ["@types/node@22.13.13", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ=="],
+
+    "figma-mcp/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
+
+    "figma-mcp/typescript": ["typescript@5.8.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ=="],
 
     "figma-new-v3-migration/@types/node": ["@types/node@22.13.13", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ=="],
 
@@ -6655,6 +6717,8 @@
     "express/debug/ms": ["ms@2.0.0", "", {}, "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A=="],
 
     "fast-glob/@nodelib/fs.walk/@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
+
+    "figma-mcp/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 
     "figma-new-v3-migration/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 
@@ -9647,6 +9711,8 @@
     "decompress-tar/tar-stream/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g=="],
 
     "decompress-tar/tar-stream/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg=="],
+
+    "figma-mcp/concurrently/chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 
     "figma-new-v3-migration/concurrently/chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 

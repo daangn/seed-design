@@ -1,0 +1,5 @@
+{
+  "tsx": true,
+  "rsc": false,
+  "path": "./src/design-system"
+}

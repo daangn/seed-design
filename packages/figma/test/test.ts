@@ -1,10 +1,10 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import fs from "fs";
-import { generateCode } from "../src/codegen";
+import { generateCode, generateFigmaSummary } from "../src/codegen";
 import { createRestNormalizer } from "../src/normalizer/from-rest";
 
 const node = JSON.parse(
-  fs.readFileSync("./fixtures/fixture2.json", "utf8"),
+  fs.readFileSync("./fixtures/fixture.json", "utf8"),
 ) as GetFileNodesResponse["nodes"]["string"];
 
 const normalizer = createRestNormalizer({
@@ -13,7 +13,9 @@ const normalizer = createRestNormalizer({
   componentSets: node.componentSets,
 });
 const normalizedNode = normalizer(node.document);
-const code = generateCode(normalizedNode);
+const code = generateFigmaSummary(normalizedNode, {
+  shouldInferAutoLayout: true,
+});
 const simplifiedDesign = {
   name: node.document.name,
   code,

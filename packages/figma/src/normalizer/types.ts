@@ -19,6 +19,7 @@ export type NormalizedHasLayoutTrait = Pick<
   | "layoutAlign"
   | "layoutGrow"
   | "absoluteBoundingBox"
+  | "relativeTransform"
   | "layoutPositioning"
   | "layoutSizingHorizontal"
   | "layoutSizingVertical"
@@ -49,6 +50,30 @@ export type NormalizedHasFramePropertiesTrait = Pick<
   | "counterAxisSpacing"
 >;
 
+export interface NormalizedTextSegment {
+  characters: string;
+  start: number;
+  end: number;
+  style: {
+    fontFamily?: string;
+    fontWeight?: number;
+    fontSize?: number;
+    italic?: boolean;
+    textDecoration?: string;
+    letterSpacing?: number;
+    lineHeight?: number | { unit: string; value: number };
+  };
+}
+
+export type NormalizedTypePropertiesTrait = Pick<
+  FigmaRestSpec.TypePropertiesTrait,
+  "style" | "characters"
+> & {
+  segments: NormalizedTextSegment[];
+
+  textStyleKey?: string;
+};
+
 export type NormalizedDefaultShapeTrait = NormalizedIsLayerTrait &
   NormalizedHasLayoutTrait &
   NormalizedHasGeometryTrait;
@@ -70,31 +95,10 @@ export interface NormalizedRectangleNode
   type: FigmaRestSpec.RectangleNode["type"];
 }
 
-export interface NormalizedTextNode extends NormalizedDefaultShapeTrait {
+export interface NormalizedTextNode
+  extends NormalizedDefaultShapeTrait,
+    NormalizedTypePropertiesTrait {
   type: FigmaRestSpec.TextNode["type"];
-
-  style: FigmaRestSpec.TextNode["style"];
-
-  characters: FigmaRestSpec.TextNode["characters"];
-
-  segments: NormalizedTextSegment[];
-
-  textStyleKey?: string;
-}
-
-export interface NormalizedTextSegment {
-  characters: string;
-  start: number;
-  end: number;
-  style: {
-    fontFamily?: string;
-    fontWeight?: number;
-    fontSize?: number;
-    italic?: boolean;
-    textDecoration?: string;
-    letterSpacing?: number;
-    lineHeight?: number | { unit: string; value: number };
-  };
 }
 
 export interface NormalizedComponentNode extends NormalizedFrameTrait {

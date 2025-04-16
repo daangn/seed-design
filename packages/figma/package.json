@@ -28,13 +28,13 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@create-figma-plugin/utilities": "^3.0.2",
     "@seed-design/css": "0.0.12",
     "change-case": "^5.2.0",
     "ts-pattern": "^5.2.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.108.0",
+    "@figma/rest-api-spec": "^0.23.0",
     "@seed-design/figma-extractor": "^0.0.3",
     "typescript": "^5.4.5"
   },
