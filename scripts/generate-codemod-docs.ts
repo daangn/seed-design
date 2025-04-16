@@ -75,6 +75,8 @@ title: Codemod
 description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
 ---
 
+{/* Auto-generated from \`scripts/generate-codemod-docs.ts\` */}
+
 \`@seed-design/codemod\`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
 
 ## 사용 방법

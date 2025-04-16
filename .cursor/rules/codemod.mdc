@@ -43,6 +43,7 @@ You are working with the Seed Design codemod system for migrating from V2 to V3.
      - Use getTokenTypeForProperty() function to determine appropriate token type for properties
      - Check property nature with isBackgroundProperty(), isTextProperty(), isStrokeProperty() helper functions
   5. Use palette tokens when context is unclear (inside object literals, etc.)
+- DO NOT add code to pass only certain cases
 
 # Token Format Guidelines
 
