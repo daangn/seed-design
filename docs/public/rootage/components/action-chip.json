@@ -79,6 +79,22 @@
               "type": "dimension"
             }
           }
+        },
+        "count": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
         }
       },
       "variants": {
@@ -144,6 +160,16 @@
                   "type": "color",
                   "value": "$color.fg.neutral"
                 }
+              },
+              "count": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
               }
             }
           },
@@ -190,6 +216,12 @@
                 }
               },
               "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "count": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
@@ -244,6 +276,16 @@
                   "type": "dimension",
                   "value": "$dimension.x3_5"
                 }
+              },
+              "count": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
               }
             }
           }
@@ -293,6 +335,16 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
+                }
+              },
+              "count": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
                 }
               }
             }

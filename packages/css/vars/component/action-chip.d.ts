@@ -17,6 +17,10 @@ export declare const vars: {
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral)"
+      },
+      "count": {
+        "color": "var(--seed-color-fg-neutral-muted)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     },
     "pressed": {
@@ -39,6 +43,9 @@ export declare const vars: {
       },
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
+      },
+      "count": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
@@ -58,6 +65,10 @@ export declare const vars: {
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x3_5)"
+      },
+      "count": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       }
     }
   },
@@ -77,6 +88,10 @@ export declare const vars: {
       },
       "suffixIcon": {
         "size": "var(--seed-dimension-x3_5)"
+      },
+      "count": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       }
     }
   },

@@ -50,6 +50,16 @@ data:
             type: color
           size:
             type: dimension
+      count:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -65,6 +75,9 @@ data:
           color: $color.fg.neutral-subtle
         icon:
           color: $color.fg.neutral
+        count:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.medium
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
@@ -79,6 +92,8 @@ data:
           color: $color.fg.disabled
         icon:
           color: $color.fg.disabled
+        count:
+          color: $color.fg.disabled
     size=small:
       enabled:
         root:
@@ -92,6 +107,9 @@ data:
           size: $dimension.x4
         suffixIcon:
           size: $dimension.x3_5
+        count:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
     size=medium:
       enabled:
         root:
@@ -105,6 +123,9 @@ data:
           size: $dimension.x4
         suffixIcon:
           size: $dimension.x3_5
+        count:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
     size=small,layout=withText:
       enabled:
         root:
