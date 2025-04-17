@@ -132,6 +132,103 @@ export const subtitle = style({
   ...vars.typography.bodyM2Regular,
   color: vars.color.secondary,
 });
+
+// 배경색 케이스
+export const cardBackground = style({
+  backgroundColor: vars.color.paperSheet,
+  padding: '16px',
+});
+
+// 테두리 케이스
+export const divider = style({
+  borderTop: `1px solid ${vars.color.divider1}`,
+  marginTop: '8px',
+  marginBottom: '8px',
+});
+
+// 상태 색상 케이스
+export const successMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.success,
+  backgroundColor: vars.color.successLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const warningMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.warning,
+  backgroundColor: vars.color.warningLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const errorMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.danger,
+  backgroundColor: vars.color.dangerLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+// 다양한 타이포그래피 케이스
+export const heading = style({
+  ...vars.typography.h4,
+  color: vars.color.inkText,
+});
+
+export const body = style({
+  ...vars.typography.bodyL1Regular,
+  color: vars.color.inkTextLow,
+});
+
+export const label = style({
+  ...vars.typography.label3Bold,
+  color: vars.color.grayActive,
+});
+
+// 알파 색상 케이스
+export const overlay = style({
+  backgroundColor: vars.color.overlayDim,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
+
+// 복합 케이스와 상호작용 상태
+export const button = style({
+  ...vars.typography.label2Bold,
+  backgroundColor: vars.color.primary,
+  color: vars.color.onPrimary,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.primaryHover,
+  },
+  ':active': {
+    backgroundColor: vars.color.primaryPressed,
+  },
+});
+
+export const secondaryButton = style({
+  ...vars.typography.label2Bold,
+  backgroundColor: vars.color.secondaryLow,
+  color: vars.color.secondary,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.grayHover,
+  },
+  ':active': {
+    backgroundColor: vars.color.grayPressed,
+  },
+});
 ```
 
 ```ts title="basic.output.ts"
@@ -163,6 +260,103 @@ export const title = style({
 export const subtitle = style({
   ...vars.typography.t4Regular,
   color: vars.color.palette.gray900,
+});
+
+// 배경색 케이스
+export const cardBackground = style({
+  backgroundColor: vars.color.bg.layerFloating,
+  padding: '16px',
+});
+
+// 테두리 케이스
+export const divider = style({
+  borderTop: `1px solid ${vars.color.stroke.neutralMuted}`,
+  marginTop: '8px',
+  marginBottom: '8px',
+});
+
+// 상태 색상 케이스
+export const successMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.fg.positive,
+  backgroundColor: vars.color.bg.positiveWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const warningMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.bg.warningSolid,
+  backgroundColor: vars.color.bg.warningWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const errorMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.fg.critical,
+  backgroundColor: vars.color.bg.criticalWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+// 다양한 타이포그래피 케이스
+export const heading = style({
+  ...vars.typography.t10Bold,
+  color: vars.color.fg.neutral,
+});
+
+export const body = style({
+  ...vars.typography.articleBody,
+  color: vars.color.fg.neutralSubtle,
+});
+
+export const label = style({
+  ...vars.typography.t4Bold,
+  color: vars.color.fg.neutralMuted,
+});
+
+// 알파 색상 케이스
+export const overlay = style({
+  backgroundColor: vars.color.bg.overlay,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
+
+// 복합 케이스와 상호작용 상태
+export const button = style({
+  ...vars.typography.t5Bold,
+  backgroundColor: vars.color.bg.brandSolid,
+  color: vars.color.palette.staticWhite,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.bg.brandSolidPressed,
+  },
+  ':active': {
+    backgroundColor: vars.color.bg.brandSolidPressed,
+  },
+});
+
+export const secondaryButton = style({
+  ...vars.typography.t5Bold,
+  backgroundColor: vars.color.bg.neutralWeak,
+  color: vars.color.palette.gray900,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.bg.neutralWeakPressed,
+  },
+  ':active': {
+    backgroundColor: vars.color.bg.neutralWeakPressed,
+  },
 });
 ```
 

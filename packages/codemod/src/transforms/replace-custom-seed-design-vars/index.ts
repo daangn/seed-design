@@ -1,22 +1,48 @@
 import { colorMappings } from "@seed-design/migration-index/color";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import type * as jscodeshift from "jscodeshift";
-import {
-  COLOR_BACKGROUND_PROPERTIES,
-  COLOR_STROKE_PROPERTIES,
-  COLOR_TEXT_PROPERTIES,
-  getTokenTypeForProperty,
-} from "../../utils/color-properties.js";
+import { camelCaseToKebabCase } from "../../utils/case.js";
+import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 import { createTransformLogger } from "../../utils/logger.js";
 
-// 하이픈(-) 제거 유틸리티 함수
-function removeHyphens(str: string): string {
-  return str.replace(/-/g, "");
+/**
+ * kebab-case를 camelCase로 변환하는 함수
+ * 예: primary-hover -> primaryHover, gray-600 -> gray600
+ */
+function kebabCaseToCamelCase(kebabCase: string): string {
+  return kebabCase.replace(/-([a-z0-9])/g, (_, char) => char.toUpperCase());
 }
 
-// 하이픈(-) 추가 유틸리티 함수 - gray600 -> gray-600
-function addHyphens(str: string): string {
-  return str.replace(/([a-zA-Z]+)(\d+)/g, "$1-$2");
+/**
+ * 토큰 경로를 camelCase로 변환하는 함수
+ * 예: bg.layer-floating -> bg.layerFloating
+ * 카테고리(bg, fg, stroke) 뒤의 경로는 점(.)을 제거하고 camelCase로 변환
+ */
+function tokenPathToCamel(path: string): string {
+  const parts = path.split(".");
+
+  // 첫 번째 부분(카테고리)는 그대로 유지
+  const category = parts[0];
+
+  if (parts.length <= 1) {
+    return category;
+  }
+
+  // 두 번째 이후 부분들을 모두 결합하여 camelCase로 변환
+  const restParts = parts.slice(1);
+
+  // 각 부분을 먼저 kebab에서 camel로 변환
+  const camelParts = restParts.map((part) => kebabCaseToCamelCase(part));
+
+  // 첫 번째 부분은 그대로 두고, 나머지 부분은 첫 글자를 대문자로 변환하여 결합
+  const combinedRest = camelParts
+    .map((part, index) => {
+      if (index === 0) return part;
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    })
+    .join("");
+
+  return `${category}.${combinedRest}`;
 }
 
 const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
@@ -139,44 +165,54 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
       const colorProperty = property.name;
       const line = path.node.loc?.start.line;
 
-      // 부모 컨텍스트 확인 (CSS property context)
-      const parentPropertyName = findParentPropertyName(path);
-      let preferredTokenType = getTokenTypeForProperty(parentPropertyName);
+      // static 색상 직접 처리 (vars.color.staticXxx -> vars.color.palette.staticXxx)
+      if (colorProperty.startsWith("static")) {
+        logger.logTransformResult(file.path, {
+          previousToken: `Direct static color: ${colorProperty}`,
+          nextToken: `palette.${colorProperty}`,
+          line,
+          status: "warning",
+        });
 
-      // 특정 속성에 대한 명시적 토큰 타입 지정
-      if (parentPropertyName) {
-        if (COLOR_TEXT_PROPERTIES.includes(parentPropertyName)) {
-          preferredTokenType = "fg";
-        } else if (COLOR_BACKGROUND_PROPERTIES.includes(parentPropertyName)) {
-          preferredTokenType = "bg";
-        } else if (COLOR_STROKE_PROPERTIES.includes(parentPropertyName)) {
-          preferredTokenType = "stroke";
-        }
+        // static 색상은 palette 카테고리로 변환
+        j(path).replaceWith(
+          j.memberExpression(
+            j.memberExpression(
+              j.memberExpression(j.identifier("vars"), j.identifier("color")),
+              j.identifier("palette"),
+            ),
+            j.identifier(colorProperty),
+          ),
+        );
+        return;
       }
 
-      // 색상 매핑 검색에 사용할 토큰 ID 생성
-      const semanticTokenId = `$semantic.color.${colorProperty}`;
+      // 부모 컨텍스트 확인 (CSS property context)
+      const parentPropertyName = findParentPropertyName(path);
 
-      // scale 컬러 토큰은 하이픈(-) 형태로 변환해야 합니다 (예: gray600 -> gray-600)
-      const colorWithDash = addHyphens(colorProperty);
-      const scaleTokenId = `$scale.color.${colorWithDash}`;
+      // color-properties.ts의 유틸 함수 활용하여 적절한 토큰 타입 결정
+      const preferredTokenType = getTokenTypeForProperty(parentPropertyName);
+
+      // 색상 속성을 kebab-case로 변환하여 매핑 검색에 사용
+      const colorPropertyKebab = camelCaseToKebabCase(colorProperty);
+
+      // 색상 매핑 검색에 사용할 토큰 ID 생성
+      const semanticTokenId = `$semantic.color.${colorPropertyKebab}`;
+      const scaleTokenId = `$scale.color.${colorPropertyKebab}`;
+
+      // 디버깅을 위한 로그 기록
+      logger.logTransformResult(file.path, {
+        previousToken: `Searching for: semantic=${semanticTokenId}, scale=${scaleTokenId}`,
+        nextToken: null,
+        line,
+        status: "warning",
+      });
 
       // 매핑 검색 - 우선순위를 가진 검색
       let mapping = colorMappings.find((m) => m.previous === semanticTokenId);
 
       if (!mapping) {
         mapping = colorMappings.find((m) => m.previous === scaleTokenId);
-      }
-
-      // 특정 케이스 디버깅 로그
-      if (!mapping && /([a-zA-Z]+)(\d+)/.test(colorProperty)) {
-        logger.logTransformResult(file.path, {
-          previousToken: `Original: ${colorProperty}, Searched semantic: ${semanticTokenId}, Searched scale: ${scaleTokenId}`,
-          nextToken: null,
-          line,
-          status: "warning",
-          failureReason: "Debug - No mapping found for color token with numeric suffix",
-        });
       }
 
       if (mapping) {
@@ -186,26 +222,56 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
         // 토큰 선택 로직
         if (mapping.next.length >= 1) {
           // 속성 타입에 따른 우선순위 매핑 선택
-          const typeMatchedTokens = mapping.next.filter((token) => {
-            if (preferredTokenType === "stroke" && token.includes("$color.stroke")) return true;
-            if (preferredTokenType === "fg" && token.includes("$color.fg")) return true;
-            if (preferredTokenType === "bg" && token.includes("$color.bg")) return true;
-            return false;
-          });
+          let matchedTokens: string[] = [];
 
-          if (typeMatchedTokens.length > 0) {
-            // 타입이 일치하는 토큰 중 첫 번째 선택
-            chosenToken = typeMatchedTokens[0];
-          } else if (preferredTokenType === "stroke") {
-            // stroke 타입이 필요하지만 없는 경우 fg 토큰으로 대체
-            const fgTokens = mapping.next.filter((token) => token.includes("$color.fg"));
-            if (fgTokens.length > 0) {
-              chosenToken = fgTokens[0];
-            }
+          // 각 타입에 따른 우선순위 결정 로직
+          switch (preferredTokenType) {
+            case "stroke":
+              // 1. stroke 토큰 시도
+              matchedTokens = mapping.next.filter((token) => token.includes("$color.stroke"));
+
+              // 2. stroke 토큰 없으면 fg 토큰 시도
+              if (matchedTokens.length === 0) {
+                matchedTokens = mapping.next.filter((token) => token.includes("$color.fg"));
+              }
+
+              // 3. fg 토큰도 없으면 palette 토큰 시도
+              if (matchedTokens.length === 0) {
+                matchedTokens = mapping.next.filter((token) => token.includes("$color.palette"));
+              }
+              break;
+
+            case "fg":
+              // 1. fg 토큰 시도
+              matchedTokens = mapping.next.filter((token) => token.includes("$color.fg"));
+
+              // 2. fg 토큰 없으면 palette 토큰 시도
+              if (matchedTokens.length === 0) {
+                matchedTokens = mapping.next.filter((token) => token.includes("$color.palette"));
+              }
+              break;
+
+            case "bg":
+              // 1. bg 토큰 시도
+              matchedTokens = mapping.next.filter((token) => token.includes("$color.bg"));
+
+              // 2. bg 토큰 없으면 palette 토큰 시도
+              if (matchedTokens.length === 0) {
+                matchedTokens = mapping.next.filter((token) => token.includes("$color.palette"));
+              }
+              break;
+
+            default:
+              // 기본은 palette 토큰 시도
+              matchedTokens = mapping.next.filter((token) => token.includes("$color.palette"));
+              break;
           }
 
-          // 타입 매칭에 실패한 경우 palette 토큰을 우선으로 선택하거나 첫 번째 토큰 사용
-          if (!chosenToken) {
+          // 일치하는 토큰이 있으면 첫 번째 선택
+          if (matchedTokens.length > 0) {
+            chosenToken = matchedTokens[0];
+          } else {
+            // 위 로직으로 매칭 실패한 경우 기본 palette 토큰 사용
             const paletteTokens = mapping.next.filter((token) => token.includes("$color.palette"));
             chosenToken = paletteTokens.length > 0 ? paletteTokens[0] : mapping.next[0];
           }
@@ -219,25 +285,68 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
           useAlternative = true;
 
           // alternative에서도 타입 매칭 시도
-          const typeMatchedAltTokens = mapping.alternative.filter((token) => {
-            if (preferredTokenType === "stroke" && token.includes("$color.stroke")) return true;
-            if (preferredTokenType === "fg" && token.includes("$color.fg")) return true;
-            if (preferredTokenType === "bg" && token.includes("$color.bg")) return true;
-            return false;
-          });
+          let altMatchedTokens: string[] = [];
 
-          if (typeMatchedAltTokens.length > 0) {
-            chosenToken = typeMatchedAltTokens[0];
-          } else if (preferredTokenType === "stroke") {
-            // stroke 타입이 필요하지만 alternative에 없는 경우 fg 토큰으로 대체
-            const fgAltTokens = mapping.alternative.filter((token) => token.includes("$color.fg"));
-            if (fgAltTokens.length > 0) {
-              chosenToken = fgAltTokens[0];
-            }
+          // 각 타입에 따른 우선순위 결정 로직
+          switch (preferredTokenType) {
+            case "stroke":
+              // 1. stroke 토큰 시도
+              altMatchedTokens = mapping.alternative.filter((token) =>
+                token.includes("$color.stroke"),
+              );
+
+              // 2. stroke 토큰 없으면 fg 토큰 시도
+              if (altMatchedTokens.length === 0) {
+                altMatchedTokens = mapping.alternative.filter((token) =>
+                  token.includes("$color.fg"),
+                );
+              }
+
+              // 3. fg 토큰도 없으면 palette 토큰 시도
+              if (altMatchedTokens.length === 0) {
+                altMatchedTokens = mapping.alternative.filter((token) =>
+                  token.includes("$color.palette"),
+                );
+              }
+              break;
+
+            case "fg":
+              // 1. fg 토큰 시도
+              altMatchedTokens = mapping.alternative.filter((token) => token.includes("$color.fg"));
+
+              // 2. fg 토큰 없으면 palette 토큰 시도
+              if (altMatchedTokens.length === 0) {
+                altMatchedTokens = mapping.alternative.filter((token) =>
+                  token.includes("$color.palette"),
+                );
+              }
+              break;
+
+            case "bg":
+              // 1. bg 토큰 시도
+              altMatchedTokens = mapping.alternative.filter((token) => token.includes("$color.bg"));
+
+              // 2. bg 토큰 없으면 palette 토큰 시도
+              if (altMatchedTokens.length === 0) {
+                altMatchedTokens = mapping.alternative.filter((token) =>
+                  token.includes("$color.palette"),
+                );
+              }
+              break;
+
+            default:
+              // 기본은 palette 토큰 시도
+              altMatchedTokens = mapping.alternative.filter((token) =>
+                token.includes("$color.palette"),
+              );
+              break;
           }
 
-          // 타입 매칭에 실패한 경우 palette 토큰을 우선으로 선택하거나 첫 번째 토큰 사용
-          if (!chosenToken) {
+          // 일치하는 토큰이 있으면 첫 번째 선택
+          if (altMatchedTokens.length > 0) {
+            chosenToken = altMatchedTokens[0];
+          } else {
+            // 위 로직으로 매칭 실패한 경우 기본 palette 토큰 사용
             const paletteAltTokens = mapping.alternative.filter((token) =>
               token.includes("$color.palette"),
             );
@@ -247,22 +356,26 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
         }
 
         if (chosenToken) {
-          // 새 노드를 생성하여 기존 노드 대체
-          // 컬러 토큰 형식: $color.palette.gray700 -> palette.gray700
-          // 형식 변환: $color.xxx.yyy -> xxx.yyy
-          const newNodePath = chosenToken.substring(7); // $color. 제거
-          const parts = newNodePath.split(".");
+          // $color. 제거하여 실제 토큰 경로만 추출 (예: $color.bg.overlay -> bg.overlay)
+          const tokenPath = chosenToken.substring(7);
 
-          // 하이픈(-) 제거 - 예: palette.gray-900 -> palette.gray900
-          for (let i = 0; i < parts.length; i++) {
-            if (parts[i].includes("-")) {
-              parts[i] = removeHyphens(parts[i]);
-            }
-          }
+          // 토큰 경로를 camelCase로 변환 (예: layer-floating -> layerFloating)
+          const camelTokenPath = tokenPathToCamel(tokenPath);
 
-          // 새 노드 생성
+          // 토큰 경로를 . 기준으로 분리
+          const parts = camelTokenPath.split(".");
+
+          // 디버깅용 로그
+          logger.logTransformResult(file.path, {
+            previousToken: "Token Path",
+            nextToken: `Original: ${tokenPath}, Camel: ${camelTokenPath}, Parts: ${parts.join(",")}`,
+            line,
+            status: "warning",
+          });
+
+          // 새 노드 생성 - 이제 항상 두 부분으로 나뉨 (category.rest)
           if (parts.length === 2) {
-            // 간단한 컬러 토큰 (palette.gray700)
+            // 예: palette.gray700, bg.layerFloating
             j(path).replaceWith(
               j.memberExpression(
                 j.memberExpression(
@@ -304,14 +417,8 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
       }
 
       // 매핑을 찾지 못하거나 chosenToken이 null인 경우
-      const searchedTokenIds = [semanticTokenId];
-      // scale 토큰 ID가 다르면 추가
-      if (colorProperty !== colorWithDash) {
-        searchedTokenIds.push(scaleTokenId);
-      }
-
       logger.logTransformResult(file.path, {
-        previousToken: searchedTokenIds.join(", "),
+        previousToken: `Failed to find mapping for: ${colorProperty} (kebab: ${colorPropertyKebab})`,
         nextToken: null,
         line,
         status: "failure",
@@ -329,10 +436,55 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
 function findParentPropertyName(
   path: jscodeshift.ASTPath<jscodeshift.MemberExpression>,
 ): string | undefined {
-  // 부모 객체 속성 체크
-  const parent = path.parent;
+  const parentNode = path.parent.node;
+
+  // 템플릿 리터럴 내부의 표현식인 경우: borderLeft: `4px solid ${vars.color.accent}`
+  if (parentNode.type === "TemplateExpression" || parentNode.type === "TemplateLiteral") {
+    // 트리를 위로 올라가며 부모 속성을 찾음
+    let templateParent = path.parent;
+    while (
+      templateParent &&
+      templateParent.node.type !== "ObjectProperty" &&
+      templateParent.node.type !== "AssignmentExpression" &&
+      templateParent.node.type !== "JSXAttribute"
+    ) {
+      templateParent = templateParent.parent;
+
+      // 안전장치: 너무 깊이 들어가지 않도록 확인
+      if (!templateParent) break;
+    }
+
+    // 올바른 부모 노드를 찾았으면 해당 속성명 반환
+    if (templateParent) {
+      if (templateParent.node.type === "ObjectProperty") {
+        if (templateParent.node.key.type === "Identifier") {
+          return templateParent.node.key.name;
+        }
+        if (templateParent.node.key.type === "StringLiteral") {
+          return templateParent.node.key.value;
+        }
+      }
+
+      if (
+        templateParent.node.type === "AssignmentExpression" &&
+        templateParent.node.left.type === "Identifier"
+      ) {
+        return templateParent.node.left.name;
+      }
+
+      if (
+        templateParent.node.type === "JSXAttribute" &&
+        templateParent.node.name.type === "JSXIdentifier"
+      ) {
+        return templateParent.node.name.name;
+      }
+    }
+
+    return undefined;
+  }
 
   // 일반적인 JSX 속성 케이스: <div style={{ color: vars.color.gray600 }} />
+  const parent = path.parent;
   if (parent.node.type === "ObjectProperty" && parent.node.key.type === "Identifier") {
     return parent.node.key.name;
   }
