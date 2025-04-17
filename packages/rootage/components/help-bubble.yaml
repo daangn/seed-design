@@ -105,7 +105,7 @@ data:
           exitScale: 1
           exitOpacity: 0
           exitDuration: $duration.d4
-          exitTimingFunction: $timing-function.exit
+          exitTimingFunction: $timing-function.easing
         arrow:
           color: $color.bg.neutral-solid
           width: 12px

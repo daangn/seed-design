@@ -1,7 +1,8 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo, open } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
+import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
@@ -19,6 +20,24 @@ const helpBubble = defineSlotRecipe({
 
       "--seed-box-max-width": "initial",
       maxWidth: "var(--seed-box-max-width)",
+
+      [pseudo(open)]: {
+        ...enterAnimation({
+          scale: vars.base.enabled.root.enterScale,
+          opacity: vars.base.enabled.root.enterOpacity,
+          duration: vars.base.enabled.root.enterDuration,
+          timingFunction: vars.base.enabled.root.enterTimingFunction,
+        }),
+      },
+
+      [pseudo(not(open))]: {
+        ...exitAnimation({
+          scale: vars.base.enabled.root.exitScale,
+          opacity: vars.base.enabled.root.exitOpacity,
+          duration: vars.base.enabled.root.exitDuration,
+          timingFunction: vars.base.enabled.root.exitTimingFunction,
+        }),
+      },
 
       [pseudo(hidden)]: {
         display: "none !important",

@@ -14,7 +14,7 @@ export const vars = {
         "exitScale": "1",
         "exitOpacity": "0",
         "exitDuration": "var(--seed-duration-d4)",
-        "exitTimingFunction": "var(--seed-timing-function-exit)"
+        "exitTimingFunction": "var(--seed-timing-function-easing)"
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-solid)",
@@ -42,9 +42,6 @@ export const vars = {
         "fromTop": "12px",
         "size": "14px",
         "targetSize": "32px"
-      },
-      "backdrop": {
-        "color": "var(--seed-color-bg-overlay)"
       }
     }
   }
