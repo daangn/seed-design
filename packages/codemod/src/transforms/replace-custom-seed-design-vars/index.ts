@@ -167,13 +167,6 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
 
       // static 색상 직접 처리 (vars.color.staticXxx -> vars.color.palette.staticXxx)
       if (colorProperty.startsWith("static")) {
-        logger.logTransformResult(file.path, {
-          previousToken: `Direct static color: ${colorProperty}`,
-          nextToken: `palette.${colorProperty}`,
-          line,
-          status: "warning",
-        });
-
         // static 색상은 palette 카테고리로 변환
         j(path).replaceWith(
           j.memberExpression(
@@ -199,14 +192,6 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
       // 색상 매핑 검색에 사용할 토큰 ID 생성
       const semanticTokenId = `$semantic.color.${colorPropertyKebab}`;
       const scaleTokenId = `$scale.color.${colorPropertyKebab}`;
-
-      // 디버깅을 위한 로그 기록
-      logger.logTransformResult(file.path, {
-        previousToken: `Searching for: semantic=${semanticTokenId}, scale=${scaleTokenId}`,
-        nextToken: null,
-        line,
-        status: "warning",
-      });
 
       // 매핑 검색 - 우선순위를 가진 검색
       let mapping = colorMappings.find((m) => m.previous === semanticTokenId);
@@ -364,14 +349,6 @@ const replaceCustomSeedDesignVars: jscodeshift.Transform = (file, api) => {
 
           // 토큰 경로를 . 기준으로 분리
           const parts = camelTokenPath.split(".");
-
-          // 디버깅용 로그
-          logger.logTransformResult(file.path, {
-            previousToken: "Token Path",
-            nextToken: `Original: ${tokenPath}, Camel: ${camelTokenPath}, Parts: ${parts.join(",")}`,
-            line,
-            status: "warning",
-          });
 
           // 새 노드 생성 - 이제 항상 두 부분으로 나뉨 (category.rest)
           if (parts.length === 2) {
