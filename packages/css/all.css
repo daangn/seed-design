@@ -3072,19 +3072,6 @@
   margin-top: calc(12px - .59375rem);
 }
 
-.seed-help-bubble__backdrop {
-  z-index: 1000;
-  background: var(--seed-color-bg-overlay);
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  inset: 0;
-}
-
-.seed-help-bubble__backdrop:is(:hidden, [hidden], [data-hidden]) {
-  display: none !important;
-}
-
 .seed-help-bubble__content {
   background: var(--seed-color-bg-neutral-solid);
   padding-inline: var(--seed-dimension-x3);

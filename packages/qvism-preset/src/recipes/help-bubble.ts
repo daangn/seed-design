@@ -5,22 +5,8 @@ import { onlyIcon } from "../utils/icon";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
-  slots: ["positioner", "backdrop", "content", "arrow", "title", "description", "closeButton"],
+  slots: ["positioner", "content", "arrow", "title", "description", "closeButton"],
   base: {
-    backdrop: {
-      position: "fixed",
-      inset: 0,
-      zIndex: 1000,
-
-      width: "100vw",
-      height: "100vh",
-
-      background: vars.base.enabled.backdrop.color,
-
-      [pseudo(hidden)]: {
-        display: "none !important",
-      },
-    },
     content: {
       display: "flex",
       flexDirection: "column",
