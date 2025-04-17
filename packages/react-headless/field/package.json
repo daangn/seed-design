@@ -1,10 +1,10 @@
 {
-  "name": "@seed-design/react-text-field",
+  "name": "@seed-design/react-field",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
-    "directory": "packages/react-headless/text-field"
+    "directory": "packages/react-headless/field"
   },
   "sideEffects": false,
   "type": "module",

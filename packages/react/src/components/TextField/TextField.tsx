@@ -1,6 +1,11 @@
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
+import {
+  Field,
+  useFieldContext,
+  GraphemeInput,
+  useGraphemeInputContext,
+} from "@seed-design/react-field";
 import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
 import clsx from "clsx";
 import type * as React from "react";
@@ -11,7 +16,7 @@ import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
-const withStateProps = createWithStateProps([useTextFieldContext]);
+const withStateProps = createWithStateProps([useFieldContext, useGraphemeInputContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

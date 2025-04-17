@@ -1,3 +1,6 @@
+import { useMemo } from "react";
+import { splitGraphemes } from "unicode-segmenter";
+
 export function memoize<Arg, Result>(fn: (arg: Arg) => Result): (arg: Arg) => Result {
   const cache = new Map<Arg, Result>();
 
@@ -11,4 +14,13 @@ export function memoize<Arg, Result>(fn: (arg: Arg) => Result): (arg: Arg) => Re
 
     return result;
   };
+}
+
+export function useGraphemes() {
+  const getGraphemes = useMemo(
+    () => memoize((text: string) => Array.from(splitGraphemes(text))),
+    [],
+  );
+
+  return getGraphemes;
 }

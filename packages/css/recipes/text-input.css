@@ -1,0 +1,134 @@
+.seed-text-input__root {
+    display: flex;
+    align-items: center;
+    background-color: var(--seed-color-bg-layer-default);
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--seed-color-stroke-field);
+}
+.seed-text-input__root:not(:is([data-readonly])):is(:focus, [data-focus]) {
+    border-color: var(--seed-color-stroke-field-focused);
+}
+.seed-text-input__root:is(:invalid, [data-invalid]) {
+    background-color: var(--seed-color-bg-critical-weak);
+    border-color: var(--seed-color-stroke-critical);
+}
+.seed-text-input__root:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
+    background-color: var(--seed-color-bg-layer-default);
+}
+.seed-text-input__root:is(:disabled, [disabled], [data-disabled]) {
+    background-color: var(--seed-color-bg-disabled);
+}
+.seed-text-input__root:is([data-readonly]) {
+    background-color: var(--seed-color-bg-disabled);
+}
+.seed-text-input__prefixText {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-text-input__prefixText:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__prefixIcon {
+    color: var(--seed-color-fg-neutral);
+    flex-shrink: 0;
+}
+.seed-text-input__prefixIcon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__suffixText {
+    color: var(--seed-color-fg-neutral);
+}
+.seed-text-input__suffixText:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__suffixIcon {
+    color: var(--seed-color-fg-neutral);
+    flex-shrink: 0;
+}
+.seed-text-input__suffixIcon:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__value {
+    box-sizing: border-box;
+    font: inherit;
+}
+.seed-text-input__value:is(input) {
+    padding-inline: 0;
+}
+.seed-text-input__value:is(textarea) {
+    padding-inline: 0;
+    min-height: 90px;
+    width: 100%;
+}
+.seed-text-input__value {
+    background: none;
+    border: none;
+    outline: none;
+    resize: none;
+    flex-grow: 1;
+    height: 100%;
+    color: var(--seed-color-fg-neutral);
+}
+.seed-text-input__value::placeholder {
+    color: var(--seed-color-fg-placeholder);
+}
+.seed-text-input__value:is(:disabled, [disabled], [data-disabled]) {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__value:is(:disabled, [disabled], [data-disabled])::placeholder {
+    color: var(--seed-color-fg-disabled);
+}
+.seed-text-input__root--size_large {
+    min-height: 52px;
+    border-radius: var(--seed-radius-r2_5);
+    gap: var(--seed-dimension-x2);
+    padding-inline: var(--seed-dimension-x4);
+}
+.seed-text-input__value--size_large {
+    padding-block: var(--seed-dimension-x3);
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__prefixText--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__prefixIcon--size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+}
+.seed-text-input__suffixText--size_large {
+    font-size: var(--seed-font-size-t5);
+    line-height: var(--seed-line-height-t5);
+}
+.seed-text-input__suffixIcon--size_large {
+    width: var(--seed-dimension-x5);
+    height: var(--seed-dimension-x5);
+}
+.seed-text-input__root--size_medium {
+    min-height: 40px;
+    border-radius: var(--seed-radius-r2);
+    gap: var(--seed-dimension-x1_5);
+    padding-inline: var(--seed-dimension-x3_5);
+}
+.seed-text-input__value--size_medium {
+    padding-block: var(--seed-dimension-x2_5);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__prefixText--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__prefixIcon--size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4);
+}
+.seed-text-input__suffixText--size_medium {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+}
+.seed-text-input__suffixIcon--size_medium {
+    width: var(--seed-dimension-x4);
+    height: var(--seed-dimension-x4);
+}

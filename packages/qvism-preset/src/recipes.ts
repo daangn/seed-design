@@ -15,6 +15,7 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
+import field from "./recipes/field";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
@@ -33,7 +34,7 @@ import { snackbar, snackbarRegion } from "./recipes/snackbar";
 import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
-import textField from "./recipes/text-field";
+import textField from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
@@ -75,6 +76,7 @@ export const recipes = {
   snackbarRegion,
   text,
   linkContent,
+  formControl: field,
   textField,
   notificationBadge,
   notificationBadgePositioner,
