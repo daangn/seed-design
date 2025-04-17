@@ -48,17 +48,6 @@ export const HelpBubblePositioner = withContext<HTMLDivElement, HelpBubblePositi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface HelpBubbleBackdropProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const HelpBubbleBackdrop = withContext<HTMLDivElement, HelpBubbleBackdropProps>(
-  withStateProps(Primitive.div),
-  "backdrop",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface HelpBubbleContentProps
   extends PrimitiveProps,
     Pick<StyleProps, "maxWidth">,

@@ -25,6 +25,30 @@
             },
             "shadow": {
               "type": "shadow"
+            },
+            "enterScale": {
+              "type": "number"
+            },
+            "enterOpacity": {
+              "type": "number"
+            },
+            "enterDuration": {
+              "type": "duration"
+            },
+            "enterTimingFunction": {
+              "type": "timing-function"
+            },
+            "exitScale": {
+              "type": "number"
+            },
+            "exitOpacity": {
+              "type": "number"
+            },
+            "exitDuration": {
+              "type": "duration"
+            },
+            "exitTimingFunction": {
+              "type": "timing-function"
             }
           }
         },
@@ -43,7 +67,12 @@
               "type": "dimension"
             },
             "gutter": {
-              "type": "dimension"
+              "type": "dimension",
+              "description": "arrow와 타겟 요소 사이의 거리를 정의합니다."
+            },
+            "padding": {
+              "type": "dimension",
+              "description": "arrow와 root의 경계 사이의 최소 간격을 정의합니다."
             }
           }
         },
@@ -95,13 +124,6 @@
             },
             "targetSize": {
               "type": "dimension"
-            }
-          }
-        },
-        "backdrop": {
-          "properties": {
-            "color": {
-              "type": "color"
             }
           }
         }
@@ -157,6 +179,38 @@
                       }
                     }
                   ]
+                },
+                "enterScale": {
+                  "type": "number",
+                  "value": 0.9
+                },
+                "enterOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter"
+                },
+                "exitScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "exitOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "arrow": {
@@ -189,6 +243,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 4,
+                    "unit": "px"
+                  }
+                },
+                "padding": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 14,
                     "unit": "px"
                   }
                 }
@@ -261,12 +322,6 @@
                     "value": 32,
                     "unit": "px"
                   }
-                }
-              },
-              "backdrop": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.overlay"
                 }
               }
             }

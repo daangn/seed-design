@@ -1,4 +1,10 @@
-import { useClick, useDismiss, useInteractions, useRole } from "@floating-ui/react";
+import {
+  useClick,
+  useDismiss,
+  useInteractions,
+  useRole,
+  useTransitionStatus,
+} from "@floating-ui/react";
 import { buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useMemo } from "react";
 import { usePositionedFloating, type UsePositionedFloatingProps } from "./floating";
@@ -27,6 +33,7 @@ export function usePopover(props: UsePopoverProps = {}) {
   const click = useClick(context);
   const dismiss = useDismiss(context);
 
+  const { status } = useTransitionStatus(context);
   const triggerInteractions = useInteractions([role, click, dismiss]);
   const anchorInteractions = useInteractions([role, dismiss]);
 
@@ -35,10 +42,11 @@ export function usePopover(props: UsePopoverProps = {}) {
       elementProps({
         "data-side": side,
         "data-alignment": alignment,
-        "data-hidden": dataAttr(!open),
+        "data-hidden": dataAttr(status === "unmounted"),
         "data-positioned": dataAttr(isPositioned),
+        "data-open": dataAttr(status === "open" || status === "initial"),
       }),
-    [side, alignment, open, isPositioned],
+    [side, alignment, isPositioned, status],
   );
 
   return useMemo(

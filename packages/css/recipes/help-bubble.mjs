@@ -6,10 +6,6 @@ const helpBubbleSlotNames = [
     "seed-help-bubble__positioner"
   ],
   [
-    "backdrop",
-    "seed-help-bubble__backdrop"
-  ],
-  [
     "content",
     "seed-help-bubble__content"
   ],
