@@ -215,7 +215,51 @@ Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이
 ### 마이그레이션 전략
 
 - 만약 여러 패키지를 사용하는 경우에는 공통 패키지 먼저 마이그레이션 합니다.
+- 전처리해서 사용하는 경우에는 전처리 코드 자체를 V3로 마이그레이션 한 후 나머지 코드들을 Codemod로 마이그레이션 하는게 좋습니다.
 - Color와 Typography 각각 진행해도 되지만, Color와 Typography 마이그레이션을 동시에 진행 후 한번에 QA를 진행하는게 더 간결합니다.
+
+### Typography 전처리 예시
+
+많은 프로젝트에서 기존 타이포그래피 토큰을 전처리해서 사용하는 경우가 있습니다.
+
+이런 경우에는 아래의 코드를 참고해서 전처리를 진행 후 코드들을 그에 맞게 변경해주세요.
+
+```ts title="typography.ts"
+import type { TextVariant } from '@seed-design/css/recipes/text';
+
+import { vars as typographyVars } from '@seed-design/css/vars/component/typography';
+
+/**
+ * @example
+ * typography.t1Bold
+ * typography.t2Regular
+ * typography.t3Bold
+ * typography.t4Regular
+ * typography.t5Bold
+ * typography.t6Bold
+ * typography.t7Bold
+ * typography.screenTitle
+ * ...
+ */
+export const typography = Object.entries(typographyVars).reduce(
+  (acc, [key, value]) => {
+    const withoutPrefix = key.replace('textStyle', '');
+    const firstChar = withoutPrefix.charAt(0).toLowerCase();
+    const restOfString = withoutPrefix.slice(1);
+    const name = (firstChar + restOfString) as TextVariant['textStyle'];
+    acc[name] = value.enabled.root;
+    return acc;
+  },
+  {} as Record<
+    TextVariant['textStyle'],
+    {
+      fontSize: string;
+      fontWeight: string;
+      lineHeight: string;
+    }
+  >,
+);
+```
 
 ### Codemod
 
