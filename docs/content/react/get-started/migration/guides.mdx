@@ -133,32 +133,32 @@ import { generateThemingScript } from "@seed-design/css/theming";
 <html>
   <head>
     <script>
-      function applyTheming(mode) {
+      (function applyTheming(mode) {
         try {
           document.documentElement.dataset.seed = '';
           document.documentElement.dataset.seedColorMode = mode;
         } catch (e) {}
-
+ 
         try {
           var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
+ 
           if ('addEventListener' in prefersDark) {
             prefersDark.addEventListener('change', apply);
           } else if ('addListener' in prefersDark) {
             prefersDark.addListener(apply);
           }
-
+ 
           if (prefersDark.matches) {
             document.documentElement.dataset.seedUserColorScheme = 'dark';
           } else {
             document.documentElement.dataset.seedUserColorScheme = 'light';
           }
-
+ 
           function apply() {
             document.documentElement.dataset.seedUserColorScheme = prefersDark.matches ? 'dark' : 'light';
           }
         } catch (e) {}
-
+ 
         try {
           if (typeof window.AndroidFunction !== 'undefined') {
             document.documentElement.dataset.seedPlatform = 'android';
@@ -168,8 +168,7 @@ import { generateThemingScript } from "@seed-design/css/theming";
             document.documentElement.dataset.seedPlatform = 'ios';
           }
         } catch (e) {}
-      }
-      applyTheming("system");
+      })('system');
     </script>
   </head>
 </html>
