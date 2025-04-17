@@ -16,6 +16,8 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          shadow:
+            type: shadow
       arrow:
         properties:
           color:
@@ -72,6 +74,14 @@ data:
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
+          shadow:
+            type: shadow
+            value:
+              - color: "#00000029"
+                blur: 24px
+                offsetX: 0px
+                offsetY: 8px
+                spread: 0px
         arrow:
           color: $color.bg.neutral-solid
           width: 12px

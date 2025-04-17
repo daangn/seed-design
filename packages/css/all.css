@@ -3095,6 +3095,7 @@
   max-width: var(--seed-box-max-width);
   flex-direction: column;
   display: flex;
+  box-shadow: 0 8px 24px #00000029;
 }
 
 .seed-help-bubble__content:is(:hidden, [hidden], [data-hidden]) {

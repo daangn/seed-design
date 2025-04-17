@@ -5,7 +5,8 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x3)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "paddingY": "var(--seed-dimension-x2_5)",
+        "shadow": "0px 8px 24px 0px #00000029"
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-solid)",

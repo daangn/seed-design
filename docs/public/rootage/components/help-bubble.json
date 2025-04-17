@@ -22,6 +22,9 @@
             },
             "paddingY": {
               "type": "dimension"
+            },
+            "shadow": {
+              "type": "shadow"
             }
           }
         },
@@ -130,6 +133,30 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                },
+                "shadow": {
+                  "type": "shadow",
+                  "value": [
+                    {
+                      "color": "#00000029",
+                      "offsetX": {
+                        "value": 0,
+                        "unit": "px"
+                      },
+                      "offsetY": {
+                        "value": 8,
+                        "unit": "px"
+                      },
+                      "blur": {
+                        "value": 24,
+                        "unit": "px"
+                      },
+                      "spread": {
+                        "value": 0,
+                        "unit": "px"
+                      }
+                    }
+                  ]
                 }
               },
               "arrow": {
