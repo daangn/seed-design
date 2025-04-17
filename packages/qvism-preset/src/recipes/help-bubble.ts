@@ -28,6 +28,7 @@ const helpBubble = defineSlotRecipe({
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
+      boxShadow: vars.base.enabled.root.shadow,
       wordBreak: "keep-all",
 
       "--seed-box-max-width": "initial",

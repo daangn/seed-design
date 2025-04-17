@@ -16,6 +16,7 @@
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
+    box-shadow: 0px 8px 24px 0px #00000029;
     word-break: keep-all;
     --seed-box-max-width: initial;
     max-width: var(--seed-box-max-width);
