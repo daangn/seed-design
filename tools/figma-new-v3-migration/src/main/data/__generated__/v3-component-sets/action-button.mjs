@@ -4,17 +4,17 @@ export const metadata = {
   "componentPropertyDefinitions": {
     "Suffix Icon#5987:244": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17023:53670",
+      "defaultValue": "20433:60127",
       "preferredValues": []
     },
     "Icon#7574:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17019:3007",
+      "defaultValue": "20433:16929",
       "preferredValues": []
     },
     "Prefix Icon#5987:305": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17019:3007",
+      "defaultValue": "20433:16929",
       "preferredValues": []
     },
     "Label#5987:61": {

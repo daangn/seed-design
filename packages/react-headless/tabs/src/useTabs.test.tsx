@@ -6,7 +6,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import type { ReactElement } from "react";
 import * as React from "react";
 
-import { useTabs, type ContentProps, type TriggerProps, type UseTabsProps } from "./index";
+import { useTabs, type UseTabsProps } from "./useTabs";
+import type { ContentProps, TriggerProps } from "./Tabs.namespace";
 
 /**
  * @see https://github.com/ZeeCoder/use-resize-observer/issues/40#issuecomment-644536259
@@ -58,24 +59,9 @@ function TabsList(props: React.PropsWithChildren) {
 function TabsTrigger(props: React.PropsWithChildren<TriggerProps>) {
   const { api } = useTabsContext();
   const { getTriggerProps: getTabsTriggerProps } = api;
-  const { labelProps, notificationProps, rootProps } = getTabsTriggerProps(props);
+  const { rootProps } = getTabsTriggerProps(props);
 
-  return (
-    <button {...rootProps}>
-      <span {...labelProps}>{props.children}</span>
-      <span {...notificationProps} />
-    </button>
-  );
-}
-
-function TabContentList(props: React.PropsWithChildren) {
-  const { api } = useTabsContext();
-  const { tabContentListProps, tabContentCameraProps } = api;
-  return (
-    <div {...tabContentListProps}>
-      <div {...tabContentCameraProps}>{props.children}</div>
-    </div>
-  );
+  return <button {...rootProps}>{props.children}</button>;
 }
 
 function TabsContent(props: React.PropsWithChildren<ContentProps>) {
@@ -105,13 +91,11 @@ function UncontrolledTabs({
           </TabsTrigger>
         ))}
       </TabsList>
-      <TabContentList>
-        {Object.values(items).map(({ value, content }) => (
-          <TabsContent key={content} value={value}>
-            {content}
-          </TabsContent>
-        ))}
-      </TabContentList>
+      {Object.values(items).map(({ value, content }) => (
+        <TabsContent key={content} value={value}>
+          {content}
+        </TabsContent>
+      ))}
     </Tabs>
   );
 }
@@ -172,7 +156,7 @@ describe("useTabs", () => {
         value: "Tab 2",
         label: "Label 2",
         content: "Content 2",
-        isDisabled: true,
+        disabled: true,
       },
       tab3: {
         value: "Tab 3",
@@ -192,6 +176,10 @@ describe("useTabs", () => {
       );
 
       const disabledTrigger = queryByText(tabItemsWithDisabled.tab2.label);
+
+      if (!disabledTrigger) {
+        throw new Error("Disabled trigger not found");
+      }
 
       await user.click(disabledTrigger);
 

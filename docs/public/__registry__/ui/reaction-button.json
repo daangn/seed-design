@@ -1,7 +1,11 @@
 {
   "name": "reaction-button",
-  "dependencies": ["@seed-design/react"],
-  "innerDependencies": ["ui:loading-indicator"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    "ui:loading-indicator"
+  ],
   "registries": [
     {
       "name": "reaction-button.tsx",

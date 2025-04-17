@@ -1,8 +1,8 @@
 export declare const metadata: {
   "name": "🟢 Manner Temp",
-  "key": "030dc68a26c24c37090c8b95ae21043855b5d589",
+  "key": "37c0a35f73a730fdfba7929cea91a7590fc93733",
   "componentPropertyDefinitions": {
-    "State": {
+    "Level": {
       "type": "VARIANT",
       "defaultValue": "L1 (~29.9)",
       "variantOptions": [

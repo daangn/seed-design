@@ -8,7 +8,7 @@ declare type HelpBubbleVariantMap = {
 
 export declare type HelpBubbleVariantProps = Partial<HelpBubbleVariant>;
 
-export declare type HelpBubbleSlotName = "positioner" | "backdrop" | "content" | "arrow" | "title" | "description" | "closeButton";
+export declare type HelpBubbleSlotName = "positioner" | "content" | "arrow" | "title" | "description" | "closeButton";
 
 export declare const helpBubbleVariantMap: HelpBubbleVariantMap;
 

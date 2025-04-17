@@ -1,7 +1,11 @@
 {
   "name": "error-state",
-  "dependencies": ["@seed-design/react"],
-  "innerDependencies": ["ui:action-button"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    "ui:action-button"
+  ],
   "registries": [
     {
       "name": "error-state.tsx",

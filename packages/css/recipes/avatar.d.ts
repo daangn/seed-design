@@ -3,6 +3,10 @@ declare interface AvatarVariant {
   * @default 48
   */
   size: "20" | "24" | "36" | "42" | "48" | "64" | "80" | "96";
+/**
+  * @default none
+  */
+  badgeMask: "none" | "circle" | "flower" | "shield";
 }
 
 declare type AvatarVariantMap = {

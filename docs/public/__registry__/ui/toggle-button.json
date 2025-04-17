@@ -1,7 +1,11 @@
 {
   "name": "toggle-button",
-  "dependencies": ["@seed-design/react"],
-  "innerDependencies": ["ui:loading-indicator"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    "ui:loading-indicator"
+  ],
   "registries": [
     {
       "name": "toggle-button.tsx",

@@ -1,7 +1,11 @@
 {
   "name": "avatar",
-  "dependencies": ["@seed-design/react"],
-  "innerDependencies": ["ui:identity-placeholder"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    "ui:identity-placeholder"
+  ],
   "registries": [
     {
       "name": "avatar.tsx",

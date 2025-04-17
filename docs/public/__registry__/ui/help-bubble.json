@@ -1,6 +1,9 @@
 {
   "name": "help-bubble",
-  "dependencies": ["@seed-design/react"],
+  "dependencies": [
+    "@seed-design/react",
+    "@karrotmarket/react-monochrome-icon"
+  ],
   "registries": [
     {
       "name": "help-bubble.tsx",

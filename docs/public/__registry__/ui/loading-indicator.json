@@ -1,7 +1,11 @@
 {
   "name": "loading-indicator",
-  "dependencies": ["@seed-design/react"],
-  "innerDependencies": ["ui:progress-circle"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "innerDependencies": [
+    "ui:progress-circle"
+  ],
   "registries": [
     {
       "name": "loading-indicator.tsx",

@@ -1,6 +1,9 @@
 {
   "name": "bottom-sheet",
-  "dependencies": ["@seed-design/react"],
+  "dependencies": [
+    "@seed-design/react",
+    "@karrotmarket/react-monochrome-icon"
+  ],
   "registries": [
     {
       "name": "bottom-sheet.tsx",

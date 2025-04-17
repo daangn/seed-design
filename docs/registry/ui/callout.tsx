@@ -10,7 +10,7 @@ import * as React from "react";
 import {
   IconChevronRightLine,
   IconXmarkLine,
-} from "@karrotmarket/react-monochrome-icon";
+} from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 
 export interface CalloutProps
   extends Omit<

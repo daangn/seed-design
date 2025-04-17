@@ -3,7 +3,7 @@
 import {
   IconChevronLeftLine,
   IconXmarkLine,
-} from "@karrotmarket/react-monochrome-icon";
+} from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { Stack } from "@seed-design/react";
 import {
   AppBar as SeedAppBar,

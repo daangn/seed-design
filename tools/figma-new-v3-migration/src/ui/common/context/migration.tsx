@@ -3,20 +3,20 @@ import { events } from "shared/event";
 import type { SerializedBaseNode } from "shared/types";
 
 const availableSteps = [
-  //   {
-  //     value: "components",
-  //     label: "컴포넌트",
-  //     description: "V2 컴포넌트를 V3 컴포넌트로 마이그레이션합니다.",
-  //   },
+  {
+    value: "colors",
+    label: "Colors",
+    description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
+  },
   {
     value: "typography",
     label: "Typography",
     description: "V2 타이포그래피을 V3 타이포그래피로 마이그레이션합니다.",
   },
   {
-    value: "colors",
-    label: "Colors",
-    description: "V2 컬러 스타일을 V3 컬러 Variable로 마이그레이션합니다.",
+    value: "components",
+    label: "컴포넌트",
+    description: "V2 컴포넌트를 V3 컴포넌트로 마이그레이션합니다.",
   },
   //   {
   //     value: "sizings",
@@ -42,11 +42,18 @@ interface MigrationState {
   availableSteps: typeof availableSteps;
   targets: SerializedBaseNode[];
   selections: SerializedBaseNode[];
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  currentTab: AvailableSteps;
+  setCurrentTab: React.Dispatch<React.SetStateAction<AvailableSteps>>;
+  scanCurrentTab: () => void;
 }
 
 function useMigrationState() {
   const [targets, setTargets] = useState<SerializedBaseNode[]>([]);
   const [selections, setSelections] = useState<SerializedBaseNode[]>([]);
+  const [currentTab, setCurrentTab] = useState<AvailableSteps>("colors");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribeSelection = events("announce-selection").on((data) => {
@@ -63,10 +70,39 @@ function useMigrationState() {
     };
   }, []);
 
+  const scanCurrentTab = () => {
+    setLoading(true);
+
+    switch (currentTab) {
+      case "colors":
+        events("request-color-suggestions").emit({
+          nodeIds: selections.map(({ id }) => id),
+        });
+        break;
+
+      case "typography":
+        events("request-text-style-suggestions").emit({
+          nodeIds: selections.map(({ id }) => id),
+        });
+        break;
+
+      case "components":
+        events("request-component-suggestions").emit({
+          nodeIds: selections.map(({ id }) => id),
+        });
+        break;
+    }
+  };
+
   return {
     availableSteps,
     targets,
     selections,
+    loading,
+    setLoading,
+    currentTab,
+    setCurrentTab,
+    scanCurrentTab,
   };
 }
 

@@ -1,7 +1,11 @@
 {
   "name": "alert-dialog",
-  "dependencies": ["@seed-design/stackflow"],
-  "innerDependencies": ["ui:action-button"],
+  "dependencies": [
+    "@seed-design/stackflow"
+  ],
+  "innerDependencies": [
+    "ui:action-button"
+  ],
   "registries": [
     {
       "name": "alert-dialog.tsx",

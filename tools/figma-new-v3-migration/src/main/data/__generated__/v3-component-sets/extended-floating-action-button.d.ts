@@ -8,7 +8,7 @@ export declare const metadata: {
     },
     "Icon#28796:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17024:98914",
+      "defaultValue": "20497:73668",
       "preferredValues": []
     },
     "Size": {

@@ -36,7 +36,7 @@ export declare const metadata: {
     },
     "Prefix Icon#1267:25": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17019:3006",
+      "defaultValue": "20433:16928",
       "preferredValues": []
     },
     "Show Prefix#958:125": {
@@ -69,7 +69,7 @@ export declare const metadata: {
     },
     "Suffix Icon #1267:100": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "17019:3006",
+      "defaultValue": "20433:16928",
       "preferredValues": []
     },
     "Show Description#958:50": {
@@ -94,11 +94,10 @@ export declare const metadata: {
     },
     "Size": {
       "type": "VARIANT",
-      "defaultValue": "XLarge",
+      "defaultValue": "Large(Default)",
       "variantOptions": [
         "Medium",
-        "Large",
-        "XLarge"
+        "Large(Default)"
       ]
     },
     "State": {

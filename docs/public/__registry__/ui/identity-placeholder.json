@@ -1,6 +1,8 @@
 {
   "name": "identity-placeholder",
-  "dependencies": ["@seed-design/react"],
+  "dependencies": [
+    "@seed-design/react"
+  ],
   "registries": [
     {
       "name": "identity-placeholder.tsx",
