@@ -36,7 +36,7 @@
               "type": "duration"
             },
             "enterTimingFunction": {
-              "type": "timing-function"
+              "type": "cubicBezier"
             },
             "exitScale": {
               "type": "number"
@@ -48,7 +48,7 @@
               "type": "duration"
             },
             "exitTimingFunction": {
-              "type": "timing-function"
+              "type": "cubicBezier"
             }
           }
         },
