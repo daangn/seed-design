@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.0.14
+
+### Patch Changes
+
+- 92c0b80: HelpBubble 디자인 스펙 업데이트 (shadow)
+- c1d94d0: HelpBubble의 enter, exit 모션을 추가합니다.
+
 ## 0.0.13
 
 ### Patch Changes
