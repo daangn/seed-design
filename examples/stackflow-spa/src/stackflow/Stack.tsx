@@ -43,6 +43,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivitySegmentedControl: React.lazy(() => import("../activities/ActivitySegmentedControl")),
     ActivityPartialDarkMode: React.lazy(() => import("../activities/ActivityPartialDarkMode")),
     ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
+    ActivityCodegenTest: React.lazy(() => import("../activities/ActivityCodegenTest")),
     ActivityNotFound,
   },
   plugins: [
@@ -78,6 +79,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivitySegmentedControl: "/segmented-control",
         ActivityPartialDarkMode: "/partial-dark-mode",
         ActivityMixedVersionTest: "/mixed-version-test",
+        ActivityCodegenTest: "/codegen-test",
         ActivityNotFound: "/404",
       },
     }),
