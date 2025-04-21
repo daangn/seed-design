@@ -1,4 +1,4 @@
-import type { Style } from "../domain";
+import type { Style } from "../style.interface";
 
 export const FIGMA_TEXT_STYLES: Style[] = [
   {

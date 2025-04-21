@@ -1,4 +1,4 @@
-import type { IconData } from "../domain";
+import type { IconData } from "../icon.interface";
 
 export const FIGMA_ICONS: Record<string, IconData> = {
   "8b12671ecc2e0d9bd87c854fd10f7907bd06c54b": {

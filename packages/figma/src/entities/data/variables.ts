@@ -1,4 +1,4 @@
-import type { Variable } from "../domain";
+import type { Variable } from "../variable.interface";
 
 export const FIGMA_VARIABLES: Record<string, Variable> = {
   "VariableID:1:129": {

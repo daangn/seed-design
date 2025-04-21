@@ -1,4 +1,4 @@
-import type { VariableCollection } from "../domain";
+import type { VariableCollection } from "../variable.interface";
 
 export const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollection> = {
   "VariableCollectionId:1:3": {
