@@ -219,7 +219,7 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
         const code =
           generateCode(normalizer(result.document), {
             shouldInferVariableName: true,
-            shouldPrintSource: true,
+            shouldPrintSource: false,
             shouldInferAutoLayout: true,
           }) ?? "Failed to generate code";
 

@@ -745,11 +745,11 @@
       "name": "@seed-design/vite-plugin",
       "version": "0.0.13",
       "devDependencies": {
-        "@seed-design/css": "^0.0.12",
+        "@seed-design/css": "^0.0.13",
         "vite": "^5.0.0 || ^6.0.0",
       },
       "peerDependencies": {
-        "@seed-design/css": "^0.0.12",
+        "@seed-design/css": "^0.0.13",
         "vite": "^5.0.0 || ^6.0.0",
       },
     },
@@ -830,11 +830,11 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^0.0.21",
-        "@seed-design/css": "^0.0.12",
-        "@seed-design/figma": "0.0.4",
+        "@seed-design/css": "^0.0.13",
+        "@seed-design/figma": "^0.0.5",
         "@seed-design/migration-index": "^0.0.20",
-        "@seed-design/react": "^0.0.12",
-        "@seed-design/vite-plugin": "^0.0.12",
+        "@seed-design/react": "^0.0.13",
+        "@seed-design/vite-plugin": "^0.0.13",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
       },
@@ -5505,13 +5505,7 @@
 
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
-    "figma-mcp/@seed-design/css": ["@seed-design/css@0.0.12", "", {}, "sha512-12zy8qhWmpvHoy05VE6gJOd168S6msHLZpHfELxC6NWVEjVHKHfot4RbUjgrf+JmIXikJot5ePkksaiTtWhnBQ=="],
-
-    "figma-mcp/@seed-design/figma": ["@seed-design/figma@0.0.4", "", { "dependencies": { "@create-figma-plugin/utilities": "^3.0.2", "@seed-design/css": "0.0.12", "change-case": "^5.2.0", "ts-pattern": "^5.2.0" } }, "sha512-f5HX+tDQ78ASZSHaK6TbW/FNjw1MOdwi6roL462Lv6DRBJLKUpCC60f0Y6w2QCM5oTibZ6BykM5wx3wHxs1E+g=="],
-
-    "figma-mcp/@seed-design/react": ["@seed-design/react@0.0.12", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.1", "@radix-ui/react-slot": "^1.1.1", "@radix-ui/react-use-controllable-state": "1.1.0", "@radix-ui/react-use-layout-effect": "^1.1.0", "@seed-design/dom-utils": "0.0.1", "@seed-design/react-avatar": "0.0.1", "@seed-design/react-checkbox": "0.0.1", "@seed-design/react-dialog": "0.0.2", "@seed-design/react-popover": "0.0.2", "@seed-design/react-primitive": "0.0.1", "@seed-design/react-progress": "0.0.1", "@seed-design/react-pull-to-refresh": "0.0.1", "@seed-design/react-radio-group": "0.0.1", "@seed-design/react-segmented-control": "0.0.2", "@seed-design/react-snackbar": "0.0.2", "@seed-design/react-switch": "0.0.1", "@seed-design/react-tabs": "0.0.3", "@seed-design/react-text-field": "0.0.1", "@seed-design/react-toggle": "0.0.1", "clsx": "^2.1.1" }, "peerDependencies": { "@seed-design/css": "0.0.12", "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-av+KatbVNIddT+4iNvIAXD22xv/oxppmnU6S10qlmqNiJxHggtKLV3fkjJA2qa8GxbFLzSqD8TxDQsT+00s+fQ=="],
-
-    "figma-mcp/@seed-design/vite-plugin": ["@seed-design/vite-plugin@0.0.12", "", { "peerDependencies": { "@seed-design/css": "^0.0.12", "vite": "^5.0.0 || ^6.0.0" } }, "sha512-K6gdxWj+KP0uBaY0IfY3Rx4lkAqWHHMs3or7Dmtegq0rl7iNf60Dh9XuGESvfYmZxasAD90trrYJ3vxQIGGbuw=="],
+    "figma-mcp/@seed-design/figma": ["@seed-design/figma@0.0.5", "", { "dependencies": { "@create-figma-plugin/utilities": "^3.0.2", "@seed-design/css": "0.0.13", "change-case": "^5.2.0", "ts-pattern": "^5.2.0" } }, "sha512-FwIox9e2GyaG9JCAuiKMjvmyIdQDKRzakt9i50fzGTnOY9AGD82DdQT7zYB3mie5JPuCD+rHP3rJojgQEq2nUA=="],
 
     "figma-mcp/@types/node": ["@types/node@22.13.13", "", { "dependencies": { "undici-types": "~6.20.0" } }, "sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ=="],
 
@@ -6758,8 +6752,6 @@
     "express/debug/ms": ["ms@2.0.0", "", {}, "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A=="],
 
     "fast-glob/@nodelib/fs.walk/@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
-
-    "figma-mcp/@seed-design/react/@seed-design/react-pull-to-refresh": ["@seed-design/react-pull-to-refresh@0.0.1", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.1", "@seed-design/dom-utils": "0.0.1", "@seed-design/react-primitive": "0.0.1" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-Dqxd97sKsI5UH5NfJJyp4uM5BO09eRiCbdOGxkscJ0559R+tPu4JCw1/IY/28uviLGpe19iicUPnRuANE28pYA=="],
 
     "figma-mcp/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 

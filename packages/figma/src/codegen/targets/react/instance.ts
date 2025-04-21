@@ -60,7 +60,7 @@ export function createInstanceTransformer({
         ...propsTransformers.selfLayout(node, traverse),
         ...transformIconColorProps(node, traverse),
       };
-      return createElement(tagName, props);
+      return createElement("Icon", { svg: createElement(tagName), ...props });
     }
 
     const componentTransformer = componentSetKey

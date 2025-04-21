@@ -6,7 +6,15 @@ alwaysApply: false
 UI and Styling
 
 - Use SEED Design for components and styling.
-- Prioritize SEED Design imports from local snippets over package import. If there are imports from `seed-design/ui` in example, this is local snippet. If there are imports from `@seed-design/react`, this is package import.
+- Prioritize SEED Design imports from local snippets over package import.
+- Components to import from `@seed-design/react`:
+  - `Box`
+  - `Flex`
+  - `Stack`
+  - `Text`
+  - `Icon`
+  - `PrefixIcon`
+  - `SuffixIcon`
 - Import icon components from `@karrotmarket/react-monochrome-icon`.
 - Carefully treat PrefixIcon, SuffixIcon, Icon usage in SEED Design. The usage of these icon components differs from the usage of the typical libraries.
 - Prefer meaningful color tokens over palette tokens.

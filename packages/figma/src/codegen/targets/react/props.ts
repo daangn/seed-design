@@ -334,7 +334,7 @@ export function createStrokePropsTransformer(
 ): PropsTransformer<StrokeTrait, StrokeProps> {
   return definePropsTransformer((node) => {
     const borderColor = valueTransformer.getFormattedValue.stroke(node);
-    const borderWidth = node.strokeWeight;
+    const borderWidth = borderColor ? node.strokeWeight : undefined;
 
     return {
       borderColor,
