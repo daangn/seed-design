@@ -174,8 +174,22 @@ export function createValueTransformer<TColor, TDimension, TFontDimension, TFont
 
     if (value) {
       if (shouldInferVariableName) {
+        const fontWeightToString: Record<number, string> = {
+          100: "thin",
+          200: "extra-light",
+          300: "light",
+          400: "regular",
+          500: "medium",
+          600: "semi-bold",
+          700: "bold",
+          800: "extra-bold",
+          900: "black",
+        };
+
         return (
-          variableService.inferVariableName(value, "FONT_WEIGHT") ?? formatters.fontWeight(value)
+          variableService.inferVariableName(value, "FONT_WEIGHT") ??
+          variableService.inferVariableName(fontWeightToString[value], "FONT_STYLE") ??
+          formatters.fontWeight(value)
         );
       }
 
