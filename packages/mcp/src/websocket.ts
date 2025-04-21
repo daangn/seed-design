@@ -110,7 +110,7 @@ export function createFigmaWebSocketClient(serverUrl: string) {
         logger.log("myResponse" + JSON.stringify(myResponse));
 
         // Handle response to a request
-        if (myResponse.id && pendingRequests.has(myResponse.id) && myResponse.result) {
+        if (myResponse.id && pendingRequests.has(myResponse.id)) {
           const request = pendingRequests.get(myResponse.id)!;
           clearTimeout(request.timeout);
 
@@ -118,14 +118,12 @@ export function createFigmaWebSocketClient(serverUrl: string) {
             logger.error(`Error from Figma: ${myResponse.error}`);
             request.reject(new Error(myResponse.error));
           } else {
-            if (myResponse.result) {
-              request.resolve(myResponse.result);
-            }
+            request.resolve(myResponse.result);
           }
 
           pendingRequests.delete(myResponse.id);
-        } else {
-          // Handle broadcast messages or events
+        } else if (json.type !== "progress_update") {
+          // Handle broadcast messages or events not associated with a request ID
           logger.info(`Received broadcast message: ${JSON.stringify(myResponse)}`);
         }
       } catch (error) {
