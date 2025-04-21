@@ -1,10 +1,8 @@
-import { useFlow } from "@stackflow/react/future";
-import { HStack, Inline, VStack } from "@seed-design/react";
-import { Text } from "@seed-design/react";
-import { Badge } from "@seed-design/react";
-import { CATEGORIES, type Article } from "@/components/example/demo/data";
 import { ArticleAuthor } from "@/components/example/demo/components/article-author";
+import { CATEGORIES, type Article } from "@/components/example/demo/data";
 import { formatDate } from "@/components/example/demo/utils/date";
+import { Badge, HStack, Text, VStack } from "@seed-design/react";
+import { useFlow } from "@stackflow/react/future";
 
 type ArticleProps = Article & {};
 
