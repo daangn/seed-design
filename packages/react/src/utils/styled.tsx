@@ -52,7 +52,8 @@ function handleDisplay(display: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] === "development") {
+  // @ts-ignore
+  if (process.env.NODE_ENV !== "production") {
     if (display === "inlineFlex" || display === "inlineBlock") {
       console.warn(
         `[SEED Design System] ${display} is deprecated. Use inline-flex or inline-block instead.`,
@@ -75,7 +76,8 @@ function handleFlexDirection(flexDirection: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] === "development") {
+  // @ts-ignore
+  if (process.env.NODE_ENV !== "production") {
     if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
       console.warn(
         `[SEED Design System] ${flexDirection} is deprecated. Use row-reverse or column-reverse instead.`,
@@ -98,7 +100,8 @@ function handleJustifyContent(justifyContent: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] === "development") {
+  // @ts-ignore
+  if (process.env.NODE_ENV !== "production") {
     if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
       console.warn(
         `[SEED Design System] ${justifyContent} is deprecated. Use flex-start or flex-end instead.`,
@@ -127,7 +130,8 @@ function handleAlignItems(alignItems: string | undefined) {
     return undefined;
   }
 
-  if (process.env["NODE_ENV"] === "development") {
+  // @ts-ignore
+  if (process.env.NODE_ENV !== "production") {
     if (alignItems === "flexStart" || alignItems === "flexEnd") {
       console.warn(
         `[SEED Design System] ${alignItems} is deprecated. Use flex-start or flex-end instead.`,
