@@ -106,10 +106,12 @@ export default function MultilineTextFieldForm() {
         </TextField>
       </HStack>
       <HStack gap="x2">
-        <ActionButton type="reset" variant="neutralWeak" flexGrow={1}>
+        <ActionButton type="reset" variant="neutralWeak">
           초기화
         </ActionButton>
-        <ActionButton type="submit">제출</ActionButton>
+        <ActionButton type="submit" flexGrow={1}>
+          제출
+        </ActionButton>
       </HStack>
     </VStack>
   );
