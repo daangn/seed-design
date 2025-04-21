@@ -19,6 +19,7 @@ import { match } from "ts-pattern";
 export interface PropsTransformers {
   containerLayout: PropsTransformer<ContainerLayoutTrait, ContainerLayoutProps>;
   selfLayout: PropsTransformer<SelfLayoutTrait, SelfLayoutProps>;
+  iconSelfLayout: PropsTransformer<SelfLayoutTrait, IconSelfLayoutProps>;
   radius: PropsTransformer<RadiusTrait, RadiusProps>;
   frameFill: PropsTransformer<FillTrait, FrameFillProps>;
   shapeFill: PropsTransformer<FillTrait, ShapeFillProps>;
@@ -204,6 +205,22 @@ export function createSelfLayoutPropsTransformer(
     },
     defaults: {
       flexGrow: 0,
+    },
+  });
+}
+
+export interface IconSelfLayoutProps {
+  size?: string | number;
+}
+
+export function createIconSelfLayoutPropsTransformer(valueTransformer: ReactValueTransformer) {
+  return createPropsTransformer({
+    _types: {
+      trait: {} as SelfLayoutTrait,
+      props: {} as IconSelfLayoutProps,
+    },
+    handlers: {
+      size: (node) => valueTransformer.getFormattedValue.width(node),
     },
   });
 }

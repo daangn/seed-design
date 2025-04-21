@@ -57,7 +57,7 @@ export function createInstanceTransformer({
     if (iconService?.isIconComponent(componentKey)) {
       const tagName = iconService.createIconTagName(componentKey);
       const props = {
-        ...propsTransformers.selfLayout(node, traverse),
+        ...propsTransformers.iconSelfLayout(node, traverse),
         ...transformIconColorProps(node, traverse),
       };
       return createElement("Icon", { svg: createElement(tagName), ...props });

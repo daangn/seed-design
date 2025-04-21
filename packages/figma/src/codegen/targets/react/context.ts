@@ -16,6 +16,7 @@ import { createInstanceTransformer } from "./instance";
 import {
   createContainerLayoutPropsTransformer,
   createFrameFillPropsTransformer,
+  createIconSelfLayoutPropsTransformer,
   createRadiusPropsTransformer,
   createSelfLayoutPropsTransformer,
   createShapeFillPropsTransformer,
@@ -111,6 +112,7 @@ export function createContext(options: CreateContextOptions) {
 
   const containerLayoutPropsTransformer = createContainerLayoutPropsTransformer(valueTransformer);
   const selfLayoutPropsTransformer = createSelfLayoutPropsTransformer(valueTransformer);
+  const iconSelfLayoutPropsTransformer = createIconSelfLayoutPropsTransformer(valueTransformer);
   const frameFillPropsTransformer = createFrameFillPropsTransformer(valueTransformer);
   const shapeFillPropsTransformer = createShapeFillPropsTransformer(valueTransformer);
   const textFillPropsTransformer = createTextFillPropsTransformer(valueTransformer);
@@ -123,6 +125,7 @@ export function createContext(options: CreateContextOptions) {
   const propsTransformers = {
     containerLayout: containerLayoutPropsTransformer,
     selfLayout: selfLayoutPropsTransformer,
+    iconSelfLayout: iconSelfLayoutPropsTransformer,
     frameFill: frameFillPropsTransformer,
     shapeFill: shapeFillPropsTransformer,
     textFill: textFillPropsTransformer,
