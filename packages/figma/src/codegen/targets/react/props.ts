@@ -44,18 +44,18 @@ export type StrokeTrait = NormalizedIsLayerTrait & NormalizedHasGeometryTrait;
 export type TypeStyleTrait = NormalizedTypePropertiesTrait & NormalizedIsLayerTrait;
 
 export interface ContainerLayoutProps {
-  flexDirection?: "row" | "column";
-  justifyContent?: "flexStart" | "center" | "flexEnd" | "spaceBetween";
-  alignItems?: "stretch" | "flexStart" | "center" | "flexEnd" | "baseline";
-  flexWrap?: "wrap" | "nowrap";
+  direction?: "row" | "column";
+  justify?: "flex-start" | "center" | "flex-end" | "space-between";
+  align?: "stretch" | "flex-start" | "center" | "flex-end" | "baseline";
+  wrap?: "wrap" | "nowrap" | true;
   gap?: string | 0;
-  paddingBottom?: string | 0;
-  paddingLeft?: string | 0;
-  paddingRight?: string | 0;
-  paddingTop?: string | 0;
-  paddingX?: string | 0;
-  paddingY?: string | 0;
-  padding?: string | 0;
+  pb?: string | 0;
+  pl?: string | 0;
+  pr?: string | 0;
+  pt?: string | 0;
+  px?: string | 0;
+  py?: string | 0;
+  p?: string | 0;
 }
 
 type ReactValueTransformer = ValueTransformer<string, string, string, number>;
@@ -69,22 +69,22 @@ export function createContainerLayoutPropsTransformer(
       props: {} as ContainerLayoutProps,
     },
     handlers: {
-      flexDirection: ({ layoutMode }) =>
+      direction: ({ layoutMode }) =>
         match(layoutMode)
           .with("HORIZONTAL", () => "row" as const)
           .with("VERTICAL", () => "column" as const)
           .with("NONE", () => undefined)
           .with(undefined, () => undefined)
           .exhaustive(),
-      justifyContent: ({ primaryAxisAlignItems }) =>
+      justify: ({ primaryAxisAlignItems }) =>
         match(primaryAxisAlignItems)
-          .with("MIN", () => "flexStart" as const)
+          .with("MIN", () => "flex-start" as const)
           .with("CENTER", () => "center" as const)
-          .with("MAX", () => "flexEnd" as const)
-          .with("SPACE_BETWEEN", () => "spaceBetween" as const)
+          .with("MAX", () => "flex-end" as const)
+          .with("SPACE_BETWEEN", () => "space-between" as const)
           .with(undefined, () => undefined)
           .exhaustive(),
-      alignItems: ({ counterAxisAlignItems, children }) => {
+      align: ({ counterAxisAlignItems, children }) => {
         const isStretch = children.every((child) => {
           if (!("layoutAlign" in child)) {
             return false;
@@ -98,16 +98,16 @@ export function createContainerLayoutPropsTransformer(
         }
 
         return match(counterAxisAlignItems)
-          .with("MIN", () => "flexStart" as const)
+          .with("MIN", () => "flex-start" as const)
           .with("CENTER", () => "center" as const)
-          .with("MAX", () => "flexEnd" as const)
+          .with("MAX", () => "flex-end" as const)
           .with("BASELINE", () => "baseline" as const)
           .with(undefined, () => undefined)
           .exhaustive();
       },
-      flexWrap: ({ layoutWrap }) =>
+      wrap: ({ layoutWrap }) =>
         match(layoutWrap)
-          .with("WRAP", () => "wrap" as const)
+          .with("WRAP", () => true as const)
           .with("NO_WRAP", () => "nowrap" as const)
           .with(undefined, () => undefined)
           .exhaustive(),
@@ -122,35 +122,35 @@ export function createContainerLayoutPropsTransformer(
 
         return valueTransformer.getFormattedValue.itemSpacing(node);
       },
-      paddingTop: (node) => valueTransformer.getFormattedValue.paddingTop(node),
-      paddingBottom: (node) => valueTransformer.getFormattedValue.paddingBottom(node),
-      paddingLeft: (node) => valueTransformer.getFormattedValue.paddingLeft(node),
-      paddingRight: (node) => valueTransformer.getFormattedValue.paddingRight(node),
+      pt: (node) => valueTransformer.getFormattedValue.paddingTop(node),
+      pb: (node) => valueTransformer.getFormattedValue.paddingBottom(node),
+      pl: (node) => valueTransformer.getFormattedValue.paddingLeft(node),
+      pr: (node) => valueTransformer.getFormattedValue.paddingRight(node),
     },
     shorthands: {
-      padding: ["paddingTop", "paddingBottom", "paddingLeft", "paddingRight"],
-      paddingX: ["paddingLeft", "paddingRight"],
-      paddingY: ["paddingTop", "paddingBottom"],
+      p: ["pt", "pb", "pl", "pr"],
+      px: ["pl", "pr"],
+      py: ["pt", "pb"],
     },
     defaults: {
-      justifyContent: "flexStart",
-      alignItems: "stretch",
-      flexWrap: "nowrap",
+      justify: "flex-start",
+      align: "stretch",
+      wrap: "nowrap",
       gap: 0,
-      padding: 0,
-      paddingX: 0,
-      paddingY: 0,
-      paddingBottom: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-      paddingTop: 0,
+      p: 0,
+      px: 0,
+      py: 0,
+      pb: 0,
+      pl: 0,
+      pr: 0,
+      pt: 0,
     },
   });
 }
 
 export interface SelfLayoutProps {
-  flexGrow?: number;
-  alignSelf?: "stretch" | "flexStart" | "center" | "flexEnd";
+  grow?: 0 | 1 | true;
+  alignSelf?: "stretch";
   width?: string | number;
   height?: string | number;
   minWidth?: string | number;
@@ -168,7 +168,7 @@ export function createSelfLayoutPropsTransformer(
       props: {} as SelfLayoutProps,
     },
     handlers: {
-      flexGrow: ({ layoutGrow }) => layoutGrow,
+      grow: ({ layoutGrow }) => (layoutGrow === 1 ? true : layoutGrow),
       alignSelf: ({ layoutAlign }) =>
         match(layoutAlign)
           .with("STRETCH", () => "stretch" as const)
@@ -204,7 +204,7 @@ export function createSelfLayoutPropsTransformer(
           : undefined,
     },
     defaults: {
-      flexGrow: 0,
+      grow: 0,
     },
   });
 }
@@ -300,15 +300,15 @@ export function createTypeStylePropsTransformer({
 }
 
 export interface FrameFillProps {
-  background?: string;
+  bg?: string;
 }
 
 export function createFrameFillPropsTransformer(valueTransformer: ReactValueTransformer) {
   return definePropsTransformer<FillTrait, FrameFillProps>((node) => {
-    const background = valueTransformer.getFormattedValue.frameFill(node);
+    const bg = valueTransformer.getFormattedValue.frameFill(node);
 
     return {
-      background,
+      bg,
     };
   });
 }

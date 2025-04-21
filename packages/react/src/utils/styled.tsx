@@ -17,7 +17,7 @@ export function handleColor(color: string | undefined) {
   }
   const [type, value] = color.split(".");
   // @ts-ignore
-  return vars.$color[type][value] ?? undefined;
+  return vars.$color[type]?.[value] ?? color;
 }
 
 export function handleDimension(dimension: string | 0 | undefined) {
@@ -47,21 +47,27 @@ function handleRadius(radius: string | 0 | undefined) {
   return vars.$radius[radius] ?? radius;
 }
 
-function handleDisplay(
-  display: "block" | "flex" | "inlineFlex" | "inline" | "inlineBlock" | "none" | undefined,
-) {
+function handleDisplay(display: string | undefined) {
   if (!display) {
     return undefined;
   }
 
-  return {
-    block: "block",
-    flex: "flex",
-    inlineFlex: "inline-flex",
-    inline: "inline",
-    inlineBlock: "inline-block",
-    none: "none",
-  }[display];
+  if (process.env["NODE_ENV"] === "development") {
+    if (display === "inlineFlex" || display === "inlineBlock") {
+      console.warn(
+        `[SEED Design System] ${display} is deprecated. Use inline-flex or inline-block instead.`,
+      );
+    }
+  }
+
+  return (
+    {
+      flex: "flex",
+      inlineFlex: "inline-flex", // @deprecated Use `inline-flex` instead.
+      inlineBlock: "inline-block", // @deprecated Use `inline-block` instead.
+      none: "none",
+    }[display] ?? display
+  );
 }
 
 function handleFlexDirection(flexDirection: string | undefined) {
@@ -69,12 +75,22 @@ function handleFlexDirection(flexDirection: string | undefined) {
     return undefined;
   }
 
-  return {
-    row: "row",
-    column: "column",
-    rowReverse: "row-reverse",
-    columnReverse: "column-reverse",
-  }[flexDirection];
+  if (process.env["NODE_ENV"] === "development") {
+    if (flexDirection === "rowReverse" || flexDirection === "columnReverse") {
+      console.warn(
+        `[SEED Design System] ${flexDirection} is deprecated. Use row-reverse or column-reverse instead.`,
+      );
+    }
+  }
+
+  return (
+    {
+      row: "row",
+      column: "column",
+      rowReverse: "row-reverse", // @deprecated Use `row-reverse` instead.
+      columnReverse: "column-reverse", // @deprecated Use `column-reverse` instead.
+    }[flexDirection] ?? flexDirection
+  );
 }
 
 function handleJustifyContent(justifyContent: string | undefined) {
@@ -82,13 +98,28 @@ function handleJustifyContent(justifyContent: string | undefined) {
     return undefined;
   }
 
-  return {
-    flexStart: "flex-start",
-    flexEnd: "flex-end",
-    center: "center",
-    spaceBetween: "space-between",
-    spaceAround: "space-around",
-  }[justifyContent];
+  if (process.env["NODE_ENV"] === "development") {
+    if (justifyContent === "flexStart" || justifyContent === "flexEnd") {
+      console.warn(
+        `[SEED Design System] ${justifyContent} is deprecated. Use flex-start or flex-end instead.`,
+      );
+    }
+    if (justifyContent === "spaceBetween" || justifyContent === "spaceAround") {
+      console.warn(
+        `[SEED Design System] ${justifyContent} is deprecated. Use space-between or space-around instead.`,
+      );
+    }
+  }
+
+  return (
+    {
+      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
+      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
+      center: "center",
+      spaceBetween: "space-between", // @deprecated Use `space-between` instead.
+      spaceAround: "space-around", // @deprecated Use `space-around` instead.
+    }[justifyContent] ?? justifyContent
+  );
 }
 
 function handleAlignItems(alignItems: string | undefined) {
@@ -96,40 +127,55 @@ function handleAlignItems(alignItems: string | undefined) {
     return undefined;
   }
 
-  return {
-    flexStart: "flex-start",
-    flexEnd: "flex-end",
-    center: "center",
-    stretch: "stretch",
-  }[alignItems];
+  if (process.env["NODE_ENV"] === "development") {
+    if (alignItems === "flexStart" || alignItems === "flexEnd") {
+      console.warn(
+        `[SEED Design System] ${alignItems} is deprecated. Use flex-start or flex-end instead.`,
+      );
+    }
+  }
+
+  return (
+    {
+      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
+      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
+      center: "center",
+      stretch: "stretch",
+    }[alignItems] ?? alignItems
+  );
 }
 
 export interface StyleProps {
-  background?: ScopedColorBg | ScopedColorPalette;
+  background?: ScopedColorBg | ScopedColorPalette | (string & {});
 
-  color?: ScopedColorFg | ScopedColorPalette;
+  /**
+   * Shorthand for `background`.
+   */
+  bg?: ScopedColorBg | ScopedColorPalette | (string & {});
 
-  borderColor?: ScopedColorStroke | ScopedColorPalette;
+  color?: ScopedColorFg | ScopedColorPalette | (string & {});
 
-  borderWidth?: 0 | 1 | (number & {});
+  borderColor?: ScopedColorStroke | ScopedColorPalette | (string & {});
 
-  borderTopWidth?: 0 | 1 | (number & {});
+  borderWidth?: 0 | 1 | (string & {});
 
-  borderRightWidth?: 0 | 1 | (number & {});
+  borderTopWidth?: 0 | 1 | (string & {});
 
-  borderBottomWidth?: 0 | 1 | (number & {});
+  borderRightWidth?: 0 | 1 | (string & {});
 
-  borderLeftWidth?: 0 | 1 | (number & {});
+  borderBottomWidth?: 0 | 1 | (string & {});
 
-  borderRadius?: Radius | 0;
+  borderLeftWidth?: 0 | 1 | (string & {});
 
-  borderTopLeftRadius?: Radius | 0;
+  borderRadius?: Radius | 0 | (string & {});
 
-  borderTopRightRadius?: Radius | 0;
+  borderTopLeftRadius?: Radius | 0 | (string & {});
 
-  borderBottomRightRadius?: Radius | 0;
+  borderTopRightRadius?: Radius | 0 | (string & {});
 
-  borderBottomLeftRadius?: Radius | 0;
+  borderBottomRightRadius?: Radius | 0 | (string & {});
+
+  borderBottomLeftRadius?: Radius | 0 | (string & {});
 
   width?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
@@ -143,29 +189,72 @@ export interface StyleProps {
 
   maxHeight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | "full" | (string & {});
 
-  top?: 0;
+  top?: 0 | (string & {});
 
-  left?: 0;
+  left?: 0 | (string & {});
 
-  right?: 0;
+  right?: 0 | (string & {});
 
-  bottom?: 0;
+  bottom?: 0 | (string & {});
 
-  padding?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  padding?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingX?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  /**
+   * Shorthand for `padding`.
+   */
+  p?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingY?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  paddingX?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingTop?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  /**
+   * Shorthand for `paddingX`.
+   */
+  px?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  paddingY?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingBottom?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  /**
+   * Shorthand for `paddingY`.
+   */
+  py?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  paddingTop?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  display?: "block" | "flex" | "inlineFlex" | "inline" | "inlineBlock" | "none";
+  /**
+   * Shorthand for `paddingTop`.
+   */
+  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  /**
+   * Shorthand for `paddingRight`.
+   */
+  pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  paddingBottom?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  /**
+   * Shorthand for `paddingBottom`.
+   */
+  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  /**
+   * Shorthand for `paddingLeft`.
+   */
+  pl?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  display?:
+    | "block"
+    | "flex"
+    | "inline-flex"
+    | "inline"
+    | "inline-block"
+    | "none"
+    | "inlineFlex" // @deprecated Use `inline-flex` instead.
+    | "inlineBlock"; // @deprecated Use `inline-block` instead.
 
   position?: "relative" | "absolute" | "fixed" | "sticky";
 
@@ -178,19 +267,52 @@ export interface StyleProps {
   flexShrink?: 0 | (number & {});
 
   // Flex
-  flexDirection?: "row" | "column" | "rowReverse" | "columnReverse";
+  flexDirection?:
+    | "row"
+    | "column"
+    | "row-reverse"
+    | "column-reverse"
+    | "rowReverse" // @deprecated Use `row-reverse` instead.
+    | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
   flexWrap?: "wrap" | "nowrap";
 
-  justifyContent?: "flexStart" | "flexEnd" | "center" | "spaceBetween" | "spaceAround";
+  justifyContent?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "space-between"
+    | "space-around"
+    | "flexStart" // @deprecated Use `flex-start` instead.
+    | "flexEnd" // @deprecated Use `flex-end` instead.
+    | "spaceBetween" // @deprecated Use `space-between` instead.
+    | "spaceAround"; // @deprecated Use `space-around` instead.
 
-  alignItems?: "flexStart" | "flexEnd" | "center" | "stretch";
+  alignItems?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "stretch"
+    | "flexStart" // @deprecated Use `flex-start` instead.
+    | "flexEnd"; // @deprecated Use `flex-end` instead.
 
-  alignContent?: "flexStart" | "flexEnd" | "center" | "stretch";
+  alignContent?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "stretch"
+    | "flexStart" // @deprecated Use `flex-start` instead.
+    | "flexEnd"; // @deprecated Use `flex-end` instead.
 
-  alignSelf?: "flexStart" | "flexEnd" | "center" | "stretch";
+  alignSelf?:
+    | "flex-start"
+    | "flex-end"
+    | "center"
+    | "stretch"
+    | "flexStart" // @deprecated Use `flex-start` instead.
+    | "flexEnd"; // @deprecated Use `flex-end` instead.
 
-  gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0;
+  gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 }
 
 interface UseStyleProps extends StyleProps {
@@ -205,6 +327,7 @@ export function useStyleProps<T extends UseStyleProps>(
 } {
   const {
     background,
+    bg,
     color,
     borderColor,
     borderWidth,
@@ -230,6 +353,13 @@ export function useStyleProps<T extends UseStyleProps>(
     paddingRight,
     paddingBottom,
     paddingLeft,
+    p,
+    px,
+    py,
+    pt,
+    pr,
+    pb,
+    pl,
     bottom,
     left,
     right,
@@ -253,7 +383,7 @@ export function useStyleProps<T extends UseStyleProps>(
 
   return {
     style: {
-      "--seed-box-background": handleColor(background),
+      "--seed-box-background": handleColor(background ?? bg),
       "--seed-box-color": handleColor(color),
       "--seed-box-border-color": handleColor(borderColor),
       "--seed-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
@@ -276,13 +406,13 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-height": handleDimension(height),
       "--seed-box-min-height": handleDimension(minHeight),
       "--seed-box-max-height": handleDimension(maxHeight),
-      "--seed-box-padding": handleDimension(padding),
-      "--seed-box-padding-x": handleDimension(paddingX),
-      "--seed-box-padding-y": handleDimension(paddingY),
-      "--seed-box-padding-top": handleDimension(paddingTop),
-      "--seed-box-padding-right": handleDimension(paddingRight),
-      "--seed-box-padding-bottom": handleDimension(paddingBottom),
-      "--seed-box-padding-left": handleDimension(paddingLeft),
+      "--seed-box-padding": handleDimension(padding ?? p),
+      "--seed-box-padding-x": handleDimension(paddingX ?? px),
+      "--seed-box-padding-y": handleDimension(paddingY ?? py),
+      "--seed-box-padding-top": handleDimension(paddingTop ?? pt),
+      "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
+      "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb),
+      "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
       "--seed-box-top": top,
       "--seed-box-left": left,
       "--seed-box-right": right,

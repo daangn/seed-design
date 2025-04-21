@@ -7,13 +7,53 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
    */
   display?: "flex" | "none";
 
-  direction?: "row" | "column" | "rowReverse" | "columnReverse";
+  /**
+   * Shorthand for `flexDirection`.
+   */
+  direction?: BoxProps["flexDirection"];
 
-  wrap?: "wrap" | "nowrap";
+  /**
+   * Shorthand for `flexWrap`.
+   * If true, flex-wrap will be set to `wrap`.
+   */
+  wrap?: BoxProps["flexWrap"] | true;
+
+  /**
+   * Shorthand for `alignItems`.
+   */
+  align?: BoxProps["alignItems"];
+
+  /**
+   * Shorthand for `justifyContent`.
+   */
+  justify?: BoxProps["justifyContent"];
+
+  /**
+   * Shorthand for `flexGrow`.
+   * If true, flex-grow will be set to `1`.
+   */
+  grow?: BoxProps["flexGrow"] | true;
+
+  /**
+   * Shorthand for `flexShrink`.
+   */
+  shrink?: BoxProps["flexShrink"];
 }
 
 export const Flex = React.forwardRef<HTMLDivElement, FlexProps>((props, ref) => {
-  const { direction, wrap, ...rest } = props;
+  const { direction, wrap, align, justify, grow, shrink, ...rest } = props;
 
-  return <Box ref={ref} display="flex" flexDirection={direction} flexWrap={wrap} {...rest} />;
+  return (
+    <Box
+      ref={ref}
+      display="flex"
+      flexDirection={direction}
+      flexWrap={wrap === true ? "wrap" : wrap}
+      alignItems={align}
+      justifyContent={justify}
+      flexGrow={grow === true ? 1 : grow}
+      flexShrink={shrink}
+      {...rest}
+    />
+  );
 });

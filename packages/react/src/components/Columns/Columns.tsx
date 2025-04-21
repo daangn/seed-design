@@ -1,8 +1,14 @@
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
 
+/**
+ * @deprecated Use `HStack` instead.
+ */
 export interface ColumnsProps extends Omit<BoxProps, "display" | "direction"> {}
 
+/**
+ * @deprecated Use `HStack` instead.
+ */
 export const Columns = React.forwardRef<HTMLDivElement, ColumnsProps>((props, ref) => {
   return (
     <Box
@@ -10,17 +16,22 @@ export const Columns = React.forwardRef<HTMLDivElement, ColumnsProps>((props, re
       display="flex"
       flexDirection="row"
       flexWrap="nowrap"
-      justifyContent="flexStart"
+      justifyContent="flex-start"
       {...props}
     />
   );
 });
 
+/**
+ * @deprecated Use `HStack` instead.
+ */
 export interface ColumnProps extends Omit<BoxProps, "display" | "flexDirection" | "width"> {
   width?: BoxProps["width"] | "content";
 }
 
-// TODO: do we need fractional width support?
+/**
+ * @deprecated Use `HStack` instead.
+ */
 export const Column = React.forwardRef<HTMLDivElement, ColumnProps>((props, ref) => {
   const { width, ...otherProps } = props;
 

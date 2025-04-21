@@ -3,7 +3,6 @@ import type {
   NormalizedFrameNode,
   NormalizedInstanceNode,
 } from "@/normalizer";
-import { compactObject } from "@/utils/common";
 import {
   cloneElement,
   createElement,
@@ -21,96 +20,55 @@ export function createFrameTransformer({
 }: FrameTransformerDeps): ElementTransformer<
   NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode
 > {
-  function inferLayoutComponent(props: ContainerLayoutProps) {
-    if (
-      props.flexDirection === "row" &&
-      props.alignItems === "flexStart" &&
-      props.justifyContent === "flexStart" &&
-      props.flexWrap === "wrap"
-    ) {
-      return "Inline";
+  function inferLayoutComponent(props: ContainerLayoutProps, isFlex: boolean) {
+    if (!isFlex) {
+      return "Box";
     }
 
-    if (
-      props.flexDirection === "row" &&
-      props.justifyContent === "flexStart" &&
-      props.flexWrap === "nowrap"
-    ) {
-      return "Columns";
+    if (props.direction === "column") {
+      return "VStack";
     }
 
-    if (props.flexDirection === "column") {
-      return "Stack";
-    }
-
-    if (props.flexDirection !== undefined) {
-      return "Flex";
-    }
-
-    return "Box";
+    return "HStack";
   }
 
   return defineElementTransformer(
     (node: NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode, traverse) => {
       const children = node.children;
       const transformedChildren = children.map(traverse);
+      const isFlex = node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL";
 
       const props = {
         ...propsTransformers.radius(node, traverse),
-        ...propsTransformers.containerLayout(node, traverse),
+        ...(isFlex ? propsTransformers.containerLayout(node, traverse) : {}),
         ...propsTransformers.selfLayout(node, traverse),
         ...propsTransformers.frameFill(node, traverse),
         ...propsTransformers.stroke(node, traverse),
       };
 
-      const isStretch = props.alignItems === undefined || props.alignItems === "stretch";
+      const isStretch = props.align === undefined || props.align === "stretch";
       const processedChildren = isStretch
         ? transformedChildren.map((child) =>
             child ? cloneElement(child, { alignSelf: undefined }) : child,
           )
         : transformedChildren;
 
-      const layoutComponent = inferLayoutComponent(props);
+      const layoutComponent = inferLayoutComponent(props, isFlex);
 
-      if (layoutComponent === "Stack") {
-        const { flexDirection, ...rest } = props;
+      if (layoutComponent === "VStack") {
+        const { direction, ...rest } = props;
 
-        return createElement("Stack", rest, processedChildren);
+        return createElement("VStack", rest, processedChildren);
       }
 
-      if (layoutComponent === "Inline") {
-        const { flexDirection, flexWrap, alignItems, justifyContent, ...rest } = props;
+      if (layoutComponent === "HStack") {
+        const { direction, ...rest } = props;
 
-        return createElement("Inline", rest, processedChildren);
-      }
-
-      if (layoutComponent === "Columns") {
-        const { flexDirection, flexWrap, justifyContent, ...rest } = props;
-
-        return createElement(
-          "Columns",
-          rest,
-          processedChildren.map((child) => createElement("Column", {}, child)),
-        );
-      }
-
-      if (layoutComponent === "Flex") {
-        const { flexDirection, ...rest } = props;
-
-        return createElement(
-          "Flex",
-          compactObject({
-            flexDirection: flexDirection === "row" ? undefined : flexDirection,
-            ...rest,
-          }),
-          processedChildren,
-        );
+        return createElement("HStack", rest, processedChildren);
       }
 
       if (layoutComponent === "Box") {
-        const { flexDirection, ...rest } = props;
-
-        return createElement("Box", rest, processedChildren);
+        return createElement("Box", props, processedChildren);
       }
     },
   );
