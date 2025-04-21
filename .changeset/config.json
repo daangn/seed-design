@@ -11,10 +11,11 @@
       "@seed-design/webpack-plugin",
       "@seed-design/rsbuild-plugin",
       "@seed-design/tailwind3-plugin",
-      "@seed-design/tailwind4-theme"
+      "@seed-design/tailwind4-theme",
+      "@seed-design/figma",
+      "@seed-design/mcp"
     ],
-    ["@seed-design/codemod", "@seed-design/migration-index"],
-    ["@seed-design/figma", "@seed-design/mcp"]
+    ["@seed-design/codemod", "@seed-design/migration-index"]
   ],
   "access": "restricted",
   "baseBranch": "dev",
