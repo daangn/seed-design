@@ -20,6 +20,9 @@ const actionButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
+    "--seed-box-flex-grow": "initial",
+    flexGrow: "var(--seed-box-flex-grow)",
+
     [pseudo(focus)]: {
       outline: "none",
     },
