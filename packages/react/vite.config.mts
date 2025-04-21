@@ -1,7 +1,8 @@
+import qvism from "@seed-design/qvism-rollup-plugin";
 import react from "@vitejs/plugin-react";
 import { globbySync } from "globby";
-import dts from "vite-plugin-dts";
 import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 import pkg from "./package.json";
 
 export default defineConfig({
@@ -12,6 +13,9 @@ export default defineConfig({
       staticImport: true,
     }),
     react(),
+    qvism({
+      recipePath: "@seed-design/css/recipes",
+    }),
   ],
   build: {
     target: "esnext",

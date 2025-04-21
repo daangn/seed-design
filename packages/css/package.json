@@ -13,8 +13,7 @@
     "lint:publish": "bun publint"
   },
   "sideEffects": [
-    "*.css",
-    "theming/index.mjs"
+    "*.css"
   ],
   "type": "module",
   "exports": {

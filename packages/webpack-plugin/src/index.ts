@@ -76,16 +76,6 @@ export class SeedDesignPlugin {
   }
 
   apply(compiler: Compiler | RspackCompiler) {
-    compiler.options.module.rules.push({
-      enforce: "pre",
-      test: /\.(m?js)$/,
-      use: [
-        {
-          loader: require.resolve("./seed-recipe-loader"),
-        },
-      ],
-    });
-
     if (isRspack(compiler)) {
       compiler.hooks.compilation.tap("SeedDesignPlugin", (compilation) => {
         //

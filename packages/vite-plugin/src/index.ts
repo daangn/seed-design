@@ -3,10 +3,6 @@ import type { HtmlTagDescriptor, Plugin } from "vite";
 
 const PLUGIN_NAME = "vite-plugin-seed-design";
 
-// Regex to match the special comment at the end of a recipe.
-// For example: "// @recipe(seed): action-button"
-const recipeRegex = /\/\/\s*@recipe\(\s*([^)]*)\s*\):\s*(\S+)/;
-
 interface Options {
   /**
    * The color mode to use.
@@ -25,7 +21,6 @@ interface Options {
 }
 
 export function seedDesignPlugin(options: Options = {}): Plugin {
-  let isBuild = false;
   const { colorMode = "system", injectColorSchemeTag = true } = options;
 
   const colorScheme = {
@@ -40,47 +35,6 @@ export function seedDesignPlugin(options: Options = {}): Plugin {
     name: PLUGIN_NAME,
 
     enforce: "pre",
-
-    configResolved(config) {
-      isBuild = config.command === "build";
-    },
-
-    transform(code, id) {
-      if (!isBuild) return null;
-
-      const match = code.match(recipeRegex);
-      if (match) {
-        const cssFileName = id.replace(/\.(m?)js$/, ".css");
-
-        if (code.includes(`import "${cssFileName}"`) || code.includes(`import '${cssFileName}'`)) {
-          return code;
-        }
-
-        return {
-          code: `${code}\nimport "${cssFileName}";`,
-          map: null,
-        };
-      }
-      return null;
-    },
-
-    resolveId(id) {
-      if (id === "virtual:seed-css") return id;
-    },
-
-    load(id) {
-      if (id === "virtual:seed-css") {
-        if (isBuild) {
-          return `
-            import '@seed-design/css/base.css';
-          `;
-        } else {
-          return `
-            import '@seed-design/css/all.css';
-          `;
-        }
-      }
-    },
 
     transformIndexHtml(html) {
       // 1. Inject meta tag which notifies the browser about the color scheme.
