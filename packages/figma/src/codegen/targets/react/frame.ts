@@ -4,7 +4,12 @@ import type {
   NormalizedInstanceNode,
 } from "@/normalizer";
 import { compactObject } from "@/utils/common";
-import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import {
+  cloneElement,
+  createElement,
+  defineElementTransformer,
+  type ElementTransformer,
+} from "../../core";
 import type { ContainerLayoutProps, PropsTransformers } from "./props";
 
 export interface FrameTransformerDeps {
@@ -48,6 +53,7 @@ export function createFrameTransformer({
   return defineElementTransformer(
     (node: NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode, traverse) => {
       const children = node.children;
+      const transformedChildren = children.map(traverse);
 
       const props = {
         ...propsTransformers.radius(node, traverse),
@@ -57,29 +63,34 @@ export function createFrameTransformer({
         ...propsTransformers.stroke(node, traverse),
       };
 
+      const isStretch = props.alignItems === undefined || props.alignItems === "stretch";
+      const processedChildren = isStretch
+        ? transformedChildren.map((child) =>
+            child ? cloneElement(child, { alignSelf: undefined }) : child,
+          )
+        : transformedChildren;
+
       const layoutComponent = inferLayoutComponent(props);
 
       if (layoutComponent === "Stack") {
         const { flexDirection, ...rest } = props;
 
-        return createElement("Stack", rest, children.map(traverse));
+        return createElement("Stack", rest, processedChildren);
       }
 
       if (layoutComponent === "Inline") {
         const { flexDirection, flexWrap, alignItems, justifyContent, ...rest } = props;
 
-        return createElement("Inline", rest, children.map(traverse));
+        return createElement("Inline", rest, processedChildren);
       }
 
       if (layoutComponent === "Columns") {
         const { flexDirection, flexWrap, justifyContent, ...rest } = props;
 
-        const childrenResult = children.map(traverse);
-
         return createElement(
           "Columns",
           rest,
-          childrenResult.map((child) => createElement("Column", {}, child)),
+          processedChildren.map((child) => createElement("Column", {}, child)),
         );
       }
 
@@ -92,14 +103,14 @@ export function createFrameTransformer({
             flexDirection: flexDirection === "row" ? undefined : flexDirection,
             ...rest,
           }),
-          children.map(traverse),
+          processedChildren,
         );
       }
 
       if (layoutComponent === "Box") {
         const { flexDirection, ...rest } = props;
 
-        return createElement("Box", rest, children.map(traverse));
+        return createElement("Box", rest, processedChildren);
       }
     },
   );

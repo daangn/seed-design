@@ -11,6 +11,7 @@ import type {
 import { match } from "ts-pattern";
 import { inferLayout, type ElementNode, type ElementTransformer } from "../core";
 import { appendSource, createElement } from "../core/jsx";
+import { applyInferredLayout } from "./infer-layout";
 
 export interface CodegenTransformerDeps {
   frameTransformer: ElementTransformer<
@@ -41,7 +42,7 @@ export function createCodegenTransformer({
     const result = match(node)
       .with({ type: "FRAME" }, (node) =>
         shouldInferAutoLayout
-          ? frameTransformer({ ...inferLayout(node), ...node }, traverse)
+          ? frameTransformer(applyInferredLayout(node, inferLayout(node)), traverse)
           : frameTransformer(node, traverse),
       )
       .with({ type: "TEXT" }, (node) => textTransformer(node, traverse))

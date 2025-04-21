@@ -14,6 +14,6 @@ export { createCodegenTransformer } from "./codegen";
 export { defineComponentTransformer } from "./component";
 export { defineElementTransformer } from "./element";
 export { inferLayout } from "./infer-layout";
-export { createElement } from "./jsx";
+export { createElement, cloneElement } from "./jsx";
 export { createPropsTransformer, definePropsTransformer } from "./props";
 export { createValueTransformer } from "./value";

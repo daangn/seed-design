@@ -13,8 +13,9 @@ const normalizer = createRestNormalizer({
   componentSets: node.componentSets,
 });
 const normalizedNode = normalizer(node.document);
-const code = generateFigmaSummary(normalizedNode, {
+const code = generateCode(normalizedNode, {
   shouldInferAutoLayout: true,
+  shouldInferVariableName: true,
 });
 const simplifiedDesign = {
   name: node.document.name,

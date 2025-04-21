@@ -2,6 +2,7 @@ import type {
   NormalizedHasChildrenTrait,
   NormalizedHasFramePropertiesTrait,
   NormalizedHasLayoutTrait,
+  NormalizedIsLayerTrait,
 } from "@/normalizer";
 
 interface BoundingBox {
@@ -24,7 +25,17 @@ interface LayoutProperties {
   itemSpacing?: number;
 }
 
-type LayoutNode = NormalizedHasFramePropertiesTrait &
+interface InferResult {
+  properties: LayoutProperties;
+  childProperties: {
+    [childId: string]: {
+      layoutAlign?: "MIN" | "STRETCH";
+    };
+  };
+}
+
+type LayoutNode = NormalizedIsLayerTrait &
+  NormalizedHasFramePropertiesTrait &
   NormalizedHasChildrenTrait &
   NormalizedHasLayoutTrait;
 
@@ -82,13 +93,23 @@ const EPSILON = 1; // 1 pixel tolerance
 
 // --- Main Inference Function ---
 
-export function inferLayout(parentNode: LayoutNode): LayoutProperties {
+export function inferLayout(parentNode: LayoutNode): InferResult {
+  if (parentNode.layoutMode !== "NONE") {
+    return {
+      properties: {},
+      childProperties: {},
+    };
+  }
+
   const children = (parentNode.children || []) as LayoutNode[];
   const parentBox = parentNode.absoluteBoundingBox!;
   const result: LayoutProperties = { layoutMode: "NONE" };
 
   if (children.length === 0) {
-    return result; // Cannot infer layout for no children
+    return {
+      properties: {},
+      childProperties: {},
+    }; // Cannot infer layout for no children
   }
 
   if (children.length === 1) {
@@ -111,7 +132,10 @@ export function inferLayout(parentNode: LayoutNode): LayoutProperties {
       0,
       parentBox.y + parentBox.height - (childBox.y + childBox.height),
     );
-    return result;
+    return {
+      properties: result,
+      childProperties: {},
+    };
   }
 
   // --- 1. Determine Layout Direction ---
@@ -295,23 +319,23 @@ export function inferLayout(parentNode: LayoutNode): LayoutProperties {
   const centerVariance = calculateVariance(counterCoordsCenter);
   const maxVariance = calculateVariance(counterCoordsMax);
 
-  // Choose alignment with the minimum variance (most consistent)
+  const alignmentTolerance = EPSILON * EPSILON * 4; // Allow slightly more variance for alignment match
   if (
     minVariance <= centerVariance &&
     minVariance <= maxVariance &&
-    minVariance < EPSILON * EPSILON
+    minVariance < alignmentTolerance
   ) {
     result.counterAxisAlignItems = "MIN";
   } else if (
     centerVariance <= minVariance &&
     centerVariance <= maxVariance &&
-    centerVariance < EPSILON * EPSILON
+    centerVariance < alignmentTolerance
   ) {
     result.counterAxisAlignItems = "CENTER";
   } else if (
     maxVariance <= minVariance &&
     maxVariance <= centerVariance &&
-    maxVariance < EPSILON * EPSILON
+    maxVariance < alignmentTolerance
   ) {
     result.counterAxisAlignItems = "MAX";
   } else {
@@ -338,5 +362,55 @@ export function inferLayout(parentNode: LayoutNode): LayoutProperties {
     }
   }
 
-  return result;
+  // 6. Infer layoutAlign for each child
+  const childProperties: InferResult["childProperties"] = {};
+  const availableWidth = parentBox.width - (result.paddingLeft ?? 0) - (result.paddingRight ?? 0);
+  const availableHeight = parentBox.height - (result.paddingTop ?? 0) - (result.paddingBottom ?? 0);
+
+  children.forEach((child) => {
+    const childBox = child.absoluteBoundingBox!;
+    let inferredChildAlign: "INHERIT" | "STRETCH" | undefined = undefined;
+
+    // Check STRETCH
+    if (result.layoutMode === "HORIZONTAL") {
+      // Counter: Vertical
+      if (Math.abs(childBox.height - availableHeight) < EPSILON && availableHeight > 0) {
+        inferredChildAlign = "STRETCH";
+      }
+    } else {
+      // Counter: Horizontal
+      if (Math.abs(childBox.width - availableWidth) < EPSILON && availableWidth > 0) {
+        inferredChildAlign = "STRETCH";
+      }
+    }
+
+    if (inferredChildAlign) {
+      childProperties[child.id] = { layoutAlign: inferredChildAlign };
+    }
+  });
+
+  return {
+    properties: result,
+    childProperties,
+  };
+}
+
+export function applyInferredLayout<T extends LayoutNode>(parentNode: T, result: InferResult): T {
+  const { properties, childProperties } = result;
+
+  if (properties.layoutMode === "NONE") {
+    return parentNode;
+  }
+
+  return {
+    ...parentNode,
+    ...properties,
+    children: parentNode.children.map((child) => {
+      const props = childProperties[child.id];
+      if (props) {
+        return { ...child, ...props };
+      }
+      return child;
+    }),
+  };
 }
