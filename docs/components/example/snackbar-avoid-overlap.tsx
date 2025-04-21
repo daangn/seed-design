@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { Flex, VStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   Snackbar,
@@ -11,7 +11,7 @@ function Component() {
   const adapter = useSnackbarAdapter();
 
   return (
-    <Flex direction="column" gap="x4">
+    <VStack gap="x4">
       <ActionButton
         onClick={() =>
           adapter.create({
@@ -24,17 +24,11 @@ function Component() {
         실행
       </ActionButton>
       <SnackbarAvoidOverlap>
-        <Flex
-          width="full"
-          height="x16"
-          background="bg.criticalWeak"
-          justifyContent="center"
-          alignItems="center"
-        >
+        <Flex width="full" height="x16" bg="bg.criticalWeak" justify="center" align="center">
           Snackbar가 이 영역과 겹치지 않게 조정됩니다. 스크롤은 무시합니다.
         </Flex>
       </SnackbarAvoidOverlap>
-    </Flex>
+    </VStack>
   );
 }
 

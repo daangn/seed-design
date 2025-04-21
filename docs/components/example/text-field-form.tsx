@@ -1,4 +1,4 @@
-import { Column, Columns, Stack } from "@seed-design/react";
+import { HStack, VStack } from "@seed-design/react";
 import { useCallback, useState, type FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
@@ -79,46 +79,40 @@ export default function TextFieldForm() {
   };
 
   return (
-    <Stack gap="x3" width="full" as="form" onSubmit={handleSubmit} onReset={handleReset}>
-      <Columns gap="x2">
-        <Column>
-          <TextField
-            label="이름"
-            indicator="(필수)"
-            description="이름을 써주세요"
-            required
-            value={formValues.name}
-            onValueChange={({ value }) => handleNameChange(value)}
-            {...(fieldErrors.name && { invalid: true, errorMessage: fieldErrors.name })}
-          >
-            <TextFieldInput placeholder="홍길동" />
-          </TextField>
-        </Column>
-        <Column>
-          <TextField
-            label="주소"
-            indicator="(필수)"
-            description="주소를 써주세요"
-            maxGraphemeCount={30}
-            required
-            value={formValues.address}
-            onValueChange={({ slicedValue }) => handleAddressChange(slicedValue)}
-            {...(fieldErrors.address && { invalid: true, errorMessage: fieldErrors.address })}
-          >
-            <TextFieldInput placeholder="대한민국" />
-          </TextField>
-        </Column>
-      </Columns>
-      <Columns gap="x2">
-        <Column width="content">
-          <ActionButton type="reset" variant="neutralWeak">
-            초기화
-          </ActionButton>
-        </Column>
-        <Column>
-          <ActionButton type="submit">제출</ActionButton>
-        </Column>
-      </Columns>
-    </Stack>
+    <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit} onReset={handleReset}>
+      <HStack gap="x2">
+        <TextField
+          label="이름"
+          indicator="(필수)"
+          description="이름을 써주세요"
+          required
+          value={formValues.name}
+          onValueChange={({ value }) => handleNameChange(value)}
+          {...(fieldErrors.name && { invalid: true, errorMessage: fieldErrors.name })}
+        >
+          <TextFieldInput placeholder="홍길동" />
+        </TextField>
+        <TextField
+          label="주소"
+          indicator="(필수)"
+          description="주소를 써주세요"
+          maxGraphemeCount={30}
+          required
+          value={formValues.address}
+          onValueChange={({ slicedValue }) => handleAddressChange(slicedValue)}
+          {...(fieldErrors.address && { invalid: true, errorMessage: fieldErrors.address })}
+        >
+          <TextFieldInput placeholder="대한민국" />
+        </TextField>
+      </HStack>
+      <HStack gap="x2">
+        <ActionButton type="reset" variant="neutralWeak">
+          초기화
+        </ActionButton>
+        <ActionButton type="submit" flexGrow={1}>
+          제출
+        </ActionButton>
+      </HStack>
+    </VStack>
   );
 }

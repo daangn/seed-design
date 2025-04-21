@@ -68,7 +68,7 @@ const conditionMap = {
     circle: {
       children: (
         <AvatarBadge asChild>
-          <Box background="palette.green600" />
+          <Box bg="palette.green600" />
         </AvatarBadge>
       ),
     },

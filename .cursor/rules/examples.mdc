@@ -10,7 +10,8 @@ UI and Styling
 - Components to import from `@seed-design/react`:
   - `Box`
   - `Flex`
-  - `Stack`
+  - `VStack`
+  - `HStack`
   - `Text`
   - `Icon`
   - `PrefixIcon`

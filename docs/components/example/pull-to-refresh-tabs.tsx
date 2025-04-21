@@ -1,4 +1,4 @@
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { ActivityComponentType } from "@stackflow/react/future";
 import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
@@ -36,16 +36,16 @@ const PullToRefreshTabs: ActivityComponentType<"pull-to-refresh-tabs"> = () => {
             >
               <PullToRefreshIndicator />
               <PullToRefreshContent asChild>
-                <Stack paddingX="spacingX.globalGutter">
+                <VStack px="spacingX.globalGutter">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam autem deserunt
                   reprehenderit ducimus sunt. Quod laudantium excepturi tempora fuga repellendus
                   accusantium nam maiores? Quas debitis, neque ullam eligendi minus sit?
-                </Stack>
+                </VStack>
               </PullToRefreshContent>
             </PullToRefreshRoot>
           </TabsContent>
           <TabsContent value="2">
-            <Stack paddingX="spacingX.globalGutter">PTR is not available in this tab.</Stack>
+            <VStack px="spacingX.globalGutter">PTR is not available in this tab.</VStack>
           </TabsContent>
         </TabsRoot>
       </AppScreenContent>

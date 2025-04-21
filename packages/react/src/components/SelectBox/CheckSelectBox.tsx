@@ -18,7 +18,7 @@ export interface CheckSelectBoxGroupProps
 
 /**
  * CheckSelectBoxGroup is a simple div wrapper for future extensibility.
- * It does not have spacing by default, nesting <Stack> under it is recommended.
+ * It does not have spacing by default, nesting <VStack> under it is recommended.
  */
 export const CheckSelectBoxGroup = withGroupContext<HTMLDivElement, CheckSelectBoxGroupProps>(
   forwardRef<HTMLDivElement, CheckSelectBoxGroupProps>((props, ref) => (

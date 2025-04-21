@@ -1,9 +1,9 @@
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { ErrorState } from "seed-design/ui/error-state";
 
 export default function ErrorStateBasement() {
   return (
-    <Stack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutral">
+    <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutral">
       <ErrorState
         variant="basement"
         title="에러 타이틀"
@@ -15,6 +15,6 @@ export default function ErrorStateBasement() {
           children: "보조 액션",
         }}
       />
-    </Stack>
+    </VStack>
   );
 }

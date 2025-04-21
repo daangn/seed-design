@@ -3,12 +3,12 @@ import { Box } from "@seed-design/react";
 export default function BoxPreview() {
   return (
     <Box
-      background="bg.neutralWeak"
-      borderWidth={2}
+      bg="bg.neutralWeak"
+      borderWidth="2px"
       borderColor="stroke.brand"
       borderRadius="r2"
-      paddingX="x3"
-      paddingY="x2"
+      px="x3"
+      py="x2"
     >
       Box Example
     </Box>

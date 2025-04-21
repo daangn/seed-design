@@ -1,6 +1,6 @@
 import { AppBar, AppScreen } from "@seed-design/stackflow";
 import { ActivityComponentType } from "@stackflow/react/future";
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
@@ -33,11 +33,11 @@ const PullToRefreshPreview: ActivityComponentType<"pull-to-refresh-preview"> = (
         <AppScreen.Layer>
           <PullToRefreshIndicator />
           <PullToRefreshContent asChild>
-            <Stack paddingX="spacingX.globalGutter">
+            <VStack px="spacingX.globalGutter">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam autem deserunt
               reprehenderit ducimus sunt. Quod laudantium excepturi tempora fuga repellendus
               accusantium nam maiores? Quas debitis, neque ullam eligendi minus sit?
-            </Stack>
+            </VStack>
           </PullToRefreshContent>
         </AppScreen.Layer>
       </PullToRefreshRoot>

@@ -1,5 +1,5 @@
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
@@ -8,7 +8,7 @@ import {
 
 export default function InlineBannerWarningSolid() {
   return (
-    <Stack gap="x4" width="full">
+    <VStack gap="x4" width="full">
       <InlineBanner
         variant="warningSolid"
         prefixIcon={<IconExclamationmarkCircleFill />}
@@ -24,6 +24,6 @@ export default function InlineBannerWarningSolid() {
         prefixIcon={<IconExclamationmarkCircleFill />}
         description="사업자 정보를 등록해주세요."
       />
-    </Stack>
+    </VStack>
   );
 }

@@ -15,7 +15,7 @@ const ActivityTabs: ActivityComponentType = () => {
         <AppBarMain title="Tabs" />
       </AppBar>
       <AppScreenContent>
-        <Box padding="x4">Sticky Tablist</Box>
+        <Box p="x4">Sticky Tablist</Box>
         <TabsRoot stickyList defaultValue="1" triggerLayout="hug" contentLayout="hug">
           <TabsList>
             <TabsTrigger value="1">Tab 1</TabsTrigger>
@@ -27,39 +27,39 @@ const ActivityTabs: ActivityComponentType = () => {
             <TabsTrigger value="7">Tab 7123123123123</TabsTrigger>
           </TabsList>
           <TabsContent value="1">
-            <Box borderWidth={1} borderColor="stroke.neutral" padding="x2" height="1000px">
+            <Box borderWidth={1} borderColor="stroke.neutral" p="x2" height="1000px">
               Tab 1 content
             </Box>
           </TabsContent>
           <TabsContent value="2">
             <AsyncContent>
-              <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+              <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
                 Tab 2 content
               </Box>
             </AsyncContent>
           </TabsContent>
           <TabsContent value="3">
-            <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
               Tab 3 content
             </Box>
           </TabsContent>
           <TabsContent value="4">
-            <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
               Tab 4 content
             </Box>
           </TabsContent>
           <TabsContent value="5">
-            <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
               Tab 5 content
             </Box>
           </TabsContent>
           <TabsContent value="6">
-            <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
               Tab 6 content
             </Box>
           </TabsContent>
           <TabsContent value="7">
-            <Box borderWidth={1} borderColor="stroke.neutral" paddingX="x2" paddingY="x10">
+            <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
               Tab 7 content
             </Box>
           </TabsContent>

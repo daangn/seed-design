@@ -4,7 +4,7 @@ import {
   IconChevronLeftLine,
   IconXmarkLine,
 } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import {
   AppBar as SeedAppBar,
   type AppBarIconButtonProps,
@@ -55,12 +55,12 @@ export const AppBarMain = forwardRef<HTMLDivElement, AppBarMainProps>(
         {...otherProps}
         ref={ref}
       >
-        <Stack overflowX="auto">
+        <VStack overflowX="auto">
           <SeedAppBar.Title>{children ?? title}</SeedAppBar.Title>
           {subtitle ? (
             <SeedAppBar.Subtitle>{subtitle}</SeedAppBar.Subtitle>
           ) : null}
-        </Stack>
+        </VStack>
       </SeedAppBar.Main>
     );
   },

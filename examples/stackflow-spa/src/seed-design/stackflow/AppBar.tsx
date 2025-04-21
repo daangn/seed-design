@@ -1,5 +1,5 @@
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon";
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { AppBar as SeedAppBar, type AppBarIconButtonProps } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import * as React from "react";
@@ -37,10 +37,10 @@ export const AppBarMain = forwardRef<HTMLDivElement, AppBarMainProps>(
 
     return (
       <SeedAppBar.Main layout={subtitle ? "withSubtitle" : "titleOnly"} {...otherProps} ref={ref}>
-        <Stack overflowX="auto">
+        <VStack overflowX="auto">
           <SeedAppBar.Title>{children ?? title}</SeedAppBar.Title>
           {subtitle ? <SeedAppBar.Subtitle>{subtitle}</SeedAppBar.Subtitle> : null}
-        </Stack>
+        </VStack>
       </SeedAppBar.Main>
     );
   },

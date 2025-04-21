@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
 } from "../seed-design/ui/alert-dialog";
 import { useFlow } from "../stackflow";
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { send } from "@stackflow/compat-await-push";
 
 const ActivityAlertDialog: ActivityComponentType = () => {
@@ -38,14 +38,14 @@ const ActivityAlertDialog: ActivityComponentType = () => {
           <AlertDialogDescription>다람쥐 헌 쳇바퀴에 타고파</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Stack gap="x2">
+          <VStack gap="x2">
             <AlertDialogAction asChild>
               <ActionButton>확인</ActionButton>
             </AlertDialogAction>
             <ActionButton variant="neutralSolid" onClick={() => push("ActivityActionChip", {})}>
               Push
             </ActionButton>
-          </Stack>
+          </VStack>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>
