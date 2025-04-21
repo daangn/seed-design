@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, type BoxProps } from "../Box/Box";
 
-export interface DividerProps extends Omit<BoxProps, "display"> {
+export interface DividerProps {
   /**
    * @default "hr"
    */
@@ -10,24 +10,25 @@ export interface DividerProps extends Omit<BoxProps, "display"> {
   /**
    * @default "stroke.neutral"
    */
-  borderColor?: BoxProps["borderColor"];
+  color?: BoxProps["borderColor"];
 
   /**
    * @default 1
    */
-  borderWidth?: BoxProps["borderWidth"];
+  thickness?: BoxProps["borderBottomWidth"];
 }
 
 export const Divider = React.forwardRef<HTMLHRElement, DividerProps>((props, ref) => {
-  const { as = "hr", borderColor = "stroke.neutral", borderWidth = 1, ...rest } = props;
+  const { as = "hr", color = "stroke.neutral", thickness = 1, ...rest } = props;
 
   return (
     <Box
       ref={ref}
       as={as}
       display="block"
-      borderColor={borderColor}
-      borderWidth={borderWidth}
+      borderColor={color}
+      borderWidth={0}
+      borderBottomWidth={thickness}
       {...rest}
     />
   );
