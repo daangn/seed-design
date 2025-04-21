@@ -20,21 +20,15 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   }, [name]);
 
   return (
-    <div
-      className="not-prose example-reset"
-      style={{
-        minHeight: "300px",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "var(--seed-color-bg-layer-default)",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <React.Suspense fallback={null}>
-        <div className="example-enter">{Preview}</div>
-      </React.Suspense>
-    </div>
+    <React.Suspense fallback={null}>
+      <div
+        className="not-prose example-reset example-enter min-h-[300px] w-full flex flex-col justify-center items-center"
+        style={{
+          backgroundColor: "var(--seed-color-bg-layer-default)",
+        }}
+      >
+        {Preview}
+      </div>
+    </React.Suspense>
   );
 }
