@@ -25,7 +25,7 @@ data:
           enterDuration:
             type: duration
           enterTimingFunction:
-            type: timing-function
+            type: cubicBezier
           exitScale:
             type: number
           exitOpacity:
@@ -33,7 +33,7 @@ data:
           exitDuration:
             type: duration
           exitTimingFunction:
-            type: timing-function
+            type: cubicBezier
       arrow:
         properties:
           color:

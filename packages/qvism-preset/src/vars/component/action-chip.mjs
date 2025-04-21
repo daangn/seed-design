@@ -57,7 +57,8 @@ export const vars = {
         "gap": "var(--seed-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
@@ -66,7 +67,8 @@ export const vars = {
         "size": "var(--seed-dimension-x3_5)"
       },
       "count": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       }
     }
   },
@@ -78,7 +80,8 @@ export const vars = {
         "gap": "var(--seed-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
@@ -87,7 +90,8 @@ export const vars = {
         "size": "var(--seed-dimension-x3_5)"
       },
       "count": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       }
     }
   },

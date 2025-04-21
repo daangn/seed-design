@@ -14,6 +14,7 @@ export * from "./ConsistentWidth";
 export * from "./ControlChip";
 export * from "./Count";
 export * from "./Dialog";
+export * from "./Divider";
 export * from "./ExtendedActionSheet";
 export * from "./ExtendedFab";
 export * from "./Fab";

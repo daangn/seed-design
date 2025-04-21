@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 0.0.14
+
+### Patch Changes
+
+- 87599b0: Divider 컴포넌트를 추가합니다.
+- 92c0b80: HelpBubble 디자인 스펙 업데이트 (shadow)
+- c1d94d0: HelpBubble의 enter, exit 모션을 추가합니다.
+- Updated dependencies [92c0b80]
+- Updated dependencies [c1d94d0]
+  - @seed-design/css@0.0.14
+  - @seed-design/react-popover@0.0.3
+
 ## 0.0.13
 
 ### Patch Changes
