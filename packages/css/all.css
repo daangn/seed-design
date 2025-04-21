@@ -807,8 +807,10 @@
   text-transform: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  border: none;
+  --seed-box-flex-grow: initial;
   flex-shrink: 0;
+  flex-grow: var(--seed-box-flex-grow);
+  border: none;
   justify-content: center;
   align-items: center;
   font-family: inherit;
