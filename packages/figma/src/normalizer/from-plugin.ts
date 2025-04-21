@@ -73,6 +73,7 @@ export function createPluginNormalizer() {
       layoutSizingHorizontal: node.layoutSizingHorizontal,
       layoutSizingVertical: node.layoutSizingVertical,
       absoluteBoundingBox: node.absoluteBoundingBox,
+      relativeTransform: node.relativeTransform,
       layoutMode: node.inferredAutoLayout?.layoutMode,
       layoutWrap: node.inferredAutoLayout?.layoutWrap,
       paddingLeft: node.inferredAutoLayout?.paddingLeft,
@@ -296,6 +297,7 @@ export function createPluginNormalizer() {
       | "layoutSizingHorizontal"
       | "layoutSizingVertical"
       | "absoluteBoundingBox"
+      | "relativeTransform"
       | "minHeight"
       | "minWidth"
       | "maxHeight"
@@ -309,6 +311,7 @@ export function createPluginNormalizer() {
       layoutSizingHorizontal: node.layoutSizingHorizontal,
       layoutSizingVertical: node.layoutSizingVertical,
       absoluteBoundingBox: node.absoluteBoundingBox,
+      relativeTransform: node.relativeTransform,
       fills: normalizePaints(node.fills),
       strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,

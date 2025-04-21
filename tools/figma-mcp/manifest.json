@@ -1,0 +1,16 @@
+{
+  "name": "SEED MCP",
+  "api": "1.0.0",
+  "main": "dist/main/code.js",
+  "ui": "dist/index.html",
+  "editorType": ["figma"],
+  "id": "123123",
+  "enablePrivatePluginApi": true,
+  "documentAccess": "dynamic-page",
+  "permissions": ["currentuser", "teamlibrary"],
+  "networkAccess": {
+    "allowedDomains": ["http://localhost:3055", "ws://localhost:3055"],
+    "devAllowedDomains": ["http://localhost:3055", "ws://localhost:3055"],
+    "reasoning": "SEED MCP is a plugin that allows you to communicate with Figma through Cursor."
+  }
+}

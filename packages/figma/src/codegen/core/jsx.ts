@@ -24,6 +24,18 @@ export function createElement(
   };
 }
 
+export function cloneElement(
+  element: ElementNode,
+  props: Record<string, string | number | boolean | object | undefined> = {},
+  children?: ElementNode | string | undefined | (ElementNode | string | undefined)[],
+) {
+  return {
+    ...element,
+    props: { ...element.props, ...props },
+    children: children ? ensureArray(children).filter(exists) : element.children,
+  };
+}
+
 export function appendSource(element: ElementNode, source: string) {
   return {
     ...element,

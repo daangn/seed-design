@@ -14,9 +14,13 @@
     "bin",
     "src"
   ],
-  "bin": "./bin/index.mjs",
+  "bin": {
+    "main": "./bin/main.mjs",
+    "socket": "./bin/socket.mjs"
+  },
   "scripts": {
     "clean": "rm -rf lib",
+    "dev": "bun run --watch ./src/bin/socket.ts",
     "build": "bunchee",
     "lint:publish": "bun publint"
   },
@@ -27,6 +31,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/bun": "^1.2.8",
     "@types/yargs": "^17.0.33",
     "typescript": "^5.4.5"
   },

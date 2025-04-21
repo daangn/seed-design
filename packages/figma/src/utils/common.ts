@@ -20,6 +20,10 @@ export function objectEntries<T extends Record<string, unknown>>(obj: T) {
   return Object.entries(obj) as [keyof T, T[keyof T]][];
 }
 
+export function identity<T>(value: T) {
+  return value;
+}
+
 /**
  * camelCase but preserve underscore between numbers.
  * temporary workaround to avoid x1_5 -> x15
