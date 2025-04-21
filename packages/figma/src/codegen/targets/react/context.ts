@@ -51,7 +51,10 @@ const variableService = createVariableService({
   variableRepository,
   variableNameTransformer: ({ slug }) =>
     slug
-      .filter((s) => s !== "dimension")
+      .filter(
+        (s) =>
+          !(s === "dimension" || s === "font-size" || s === "font-weight" || s === "line-height"),
+      )
       .map((s) => s.replaceAll(",", "_"))
       .map(camelCasePreserveUnderscoreBetweenNumbers)
       .join("."),
@@ -67,10 +70,10 @@ const variableService = createVariableService({
       if (name.includes("stroke")) {
         score += 100;
       }
-      if (name.includes("spacingX")) {
+      if (name.includes("spacing-x")) {
         score -= 100;
       }
-      if (name.includes("spacingY")) {
+      if (name.includes("spacing-y")) {
         score -= 100;
       }
       if (name.endsWith("pressed")) {

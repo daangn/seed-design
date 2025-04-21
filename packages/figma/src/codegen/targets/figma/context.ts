@@ -54,10 +54,10 @@ const variableService = createVariableService({
       if (name.includes("stroke")) {
         score += 100;
       }
-      if (name.includes("spacingX")) {
+      if (name.includes("spacing-x")) {
         score -= 100;
       }
-      if (name.includes("spacingY")) {
+      if (name.includes("spacing-y")) {
         score -= 100;
       }
       if (name.endsWith("pressed")) {
