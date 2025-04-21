@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack, Text } from "@seed-design/react";
+import { Text, VStack } from "@seed-design/react";
 import * as React from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 
@@ -52,20 +52,18 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>(
       secondaryActionProps || {};
 
     return (
-      <Box
+      <VStack
         ref={ref}
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
+        justify="center"
+        align="center"
         gap="x10"
-        paddingX="x14"
+        px="x14"
         height="full"
         flexGrow={1}
-        background={bg[variant]}
+        bg={bg[variant]}
         {...otherProps}
       >
-        <Stack gap="x1">
+        <VStack gap="x1">
           <Text align="center" textStyle="t5Bold">
             {title}
           </Text>
@@ -80,9 +78,9 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>(
           >
             {description}
           </Text>
-        </Stack>
+        </VStack>
         {(primaryActionProps || secondaryActionProps) && (
-          <Stack alignItems="center" gap="x4">
+          <VStack align="center" gap="x4">
             {primaryActionProps && (
               <ActionButton
                 variant={primaryActionVariant[variant]}
@@ -96,9 +94,9 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>(
                 </Text>
               </button>
             )}
-          </Stack>
+          </VStack>
         )}
-      </Box>
+      </VStack>
     );
   },
 );

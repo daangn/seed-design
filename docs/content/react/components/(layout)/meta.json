@@ -1,4 +1,4 @@
 {
   "title": "Layout",
-  "pages": ["..."]
+  "pages": ["...", "stack", "inline", "columns"]
 }

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { IconChevronDownFill, IconPenHorizlineFill } from "@karrotmarket/react-monochrome-icon";
 
-import { Flex, Inline, Stack } from "@seed-design/react";
+import { Flex, HStack, VStack } from "@seed-design/react";
 import { ControlChip } from "seed-design/ui/control-chip";
 import {
   BottomSheetBody,
@@ -77,12 +77,12 @@ export function Recommendations() {
   };
 
   return (
-    <Stack gap="spacingY.componentDefault" paddingTop="x4" paddingBottom="x16">
+    <VStack gap="spacingY.componentDefault" pt="x4" pb="x16">
       <ExtendedFab style={{ position: "fixed", insetBlockEnd: "16px", insetInlineEnd: "16px" }}>
         <PrefixIcon svg={<IconPenHorizlineFill />} />
         글쓰기
       </ExtendedFab>
-      <Flex gap="spacingX.betweenChips" paddingX="spacingX.globalGutter" overflowX="auto">
+      <Flex gap="spacingX.betweenChips" px="spacingX.globalGutter" overflowX="auto">
         {FILTERS.map(({ label, value }) => (
           <BottomSheetRoot
             key={value}
@@ -125,7 +125,7 @@ export function Recommendations() {
           </BottomSheetRoot>
         ))}
       </Flex>
-      <Stack gap="x4" as="ul">
+      <VStack gap="x4" as="ul">
         {filteredArticles
           .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
           .map((article) => (
@@ -133,8 +133,8 @@ export function Recommendations() {
               <ArticleListItem {...article} />
             </li>
           ))}
-      </Stack>
-    </Stack>
+      </VStack>
+    </VStack>
   );
 }
 
@@ -164,7 +164,7 @@ export function FilterBottomSheet({
   return (
     <BottomSheetContent title={FILTERS.find((f) => f.value === filter)?.label}>
       <BottomSheetBody>
-        <Inline gap="x2">
+        <HStack gap="x2" wrap>
           {options.map((option: Category) => (
             <ControlChip.Toggle
               size="medium"
@@ -180,7 +180,7 @@ export function FilterBottomSheet({
               {option.name}
             </ControlChip.Toggle>
           ))}
-        </Inline>
+        </HStack>
       </BottomSheetBody>
       <BottomSheetFooter>
         <ActionButton

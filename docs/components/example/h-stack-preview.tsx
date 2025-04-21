@@ -1,11 +1,8 @@
-import { Box, Inline } from "@seed-design/react";
+import { Box, HStack } from "@seed-design/react";
 
-/**
- * @deprecated Use `HStack` instead.
- */
-export default function InlinePreview() {
+export default function HStackPreview() {
   return (
-    <Inline bg="bg.layerDefault" gap="x2" width="full" borderRadius="r2">
+    <HStack bg="bg.layerDefault" gap="x2" width="full" borderRadius="r2">
       <Box bg="bg.brandSolid" px="x4" py="x3" borderRadius="r2">
         1
       </Box>
@@ -15,6 +12,6 @@ export default function InlinePreview() {
       <Box bg="bg.brandSolid" px="x4" py="x3" borderRadius="r2">
         3
       </Box>
-    </Inline>
+    </HStack>
   );
 }

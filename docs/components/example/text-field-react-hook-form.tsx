@@ -1,4 +1,4 @@
-import { Column, Columns, Stack } from "@seed-design/react";
+import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -49,47 +49,41 @@ export default function TextFieldReactHookForm() {
   );
 
   return (
-    <Stack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
-      <Columns gap="x2">
-        <Column>
-          <TextField
-            label="이름"
-            indicator="(필수)"
-            description="이름을 써주세요"
-            invalid={nameFieldState.invalid}
-            errorMessage={nameFieldState.error?.message}
-            required
-            {...nameField}
-          >
-            <TextFieldInput placeholder="홍길동" />
-          </TextField>
-        </Column>
-        <Column>
-          <TextField
-            label="주소"
-            indicator="(필수)"
-            description="주소를 써주세요"
-            invalid={addressFieldState.invalid}
-            errorMessage={addressFieldState.error?.message}
-            maxGraphemeCount={30}
-            onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
-            required
-            {...addressField}
-          >
-            <TextFieldInput placeholder="대한민국" />
-          </TextField>
-        </Column>
-      </Columns>
-      <Columns gap="x2">
-        <Column width="content">
-          <ActionButton type="reset" variant="neutralWeak">
-            초기화
-          </ActionButton>
-        </Column>
-        <Column>
-          <ActionButton type="submit">제출</ActionButton>
-        </Column>
-      </Columns>
-    </Stack>
+    <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
+      <HStack gap="x2">
+        <TextField
+          label="이름"
+          indicator="(필수)"
+          description="이름을 써주세요"
+          invalid={nameFieldState.invalid}
+          errorMessage={nameFieldState.error?.message}
+          required
+          {...nameField}
+        >
+          <TextFieldInput placeholder="홍길동" />
+        </TextField>
+        <TextField
+          label="주소"
+          indicator="(필수)"
+          description="주소를 써주세요"
+          invalid={addressFieldState.invalid}
+          errorMessage={addressFieldState.error?.message}
+          maxGraphemeCount={30}
+          onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
+          required
+          {...addressField}
+        >
+          <TextFieldInput placeholder="대한민국" />
+        </TextField>
+      </HStack>
+      <HStack gap="x2">
+        <ActionButton type="reset" variant="neutralWeak">
+          초기화
+        </ActionButton>
+        <ActionButton type="submit" flexGrow={1}>
+          제출
+        </ActionButton>
+      </HStack>
+    </VStack>
   );
 }

@@ -4,7 +4,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 import { Avatar } from "../seed-design/ui/avatar";
 import { ToggleButton } from "../seed-design/ui/toggle-button";
 import { IconPlusFill, IconStarFill } from "@karrotmarket/react-monochrome-icon";
-import { Box, Flex, Stack, Text, Icon, PrefixIcon } from "@seed-design/react";
+import { Box, VStack, HStack, Text, Icon, PrefixIcon } from "@seed-design/react";
 
 const ActivityCodegenTest: ActivityComponentType = () => {
   return (
@@ -13,38 +13,38 @@ const ActivityCodegenTest: ActivityComponentType = () => {
         <AppBarMain title="Codegen Test" />
       </AppBar>
       <AppScreenContent>
-        <Stack background="bg.layerDefault">
-          <Flex alignItems="center" padding="spacingX.globalGutter">
-            <Flex justifyContent="center" gap="spacingY.componentDefault" flexGrow={1}>
-              <Flex gap="x2_5" flexGrow={1}>
+        <VStack bg="bg.layerDefault">
+          <HStack align="center" p="spacingX.globalGutter">
+            <HStack justify="center" gap="spacingY.componentDefault" grow={true}>
+              <HStack gap="x2_5" grow={true}>
                 <Avatar src="https://placehold.co/42x42" size="42" />
                 {/* alt 텍스트를 제공해야 합니다. */}
-                <Stack gap="x0_5" paddingRight="x1_5" flexGrow={1}>
-                  <Flex alignItems="center">
+                <VStack gap="x0_5" pr="x1_5" grow={true}>
+                  <HStack align="center">
                     <Text textStyle="t5Bold" color="fg.neutral">
                       큐리오 베이커리
                     </Text>
-                  </Flex>
-                  <Flex flexWrap="wrap" gap="x1">
-                    <Stack>
-                      <Flex alignItems="center" gap="x0_5">
+                  </HStack>
+                  <HStack wrap={true} gap="x1">
+                    <VStack>
+                      <HStack align="center" gap="x0_5">
                         <Icon svg={<IconStarFill />} size="x3_5" color="fg.brand" />
                         <Text textStyle="t3Bold" color="fg.neutral">
                           4.2
                         </Text>
-                      </Flex>
-                    </Stack>
-                    <Flex alignItems="center" gap="x1">
+                      </HStack>
+                    </VStack>
+                    <HStack align="center" gap="x1">
                       <Text textStyle="t3Regular" color="fg.neutral">
                         ⸱
                       </Text>
                       <Text textStyle="t3Regular" color="fg.neutral">
                         후기 320
                       </Text>
-                    </Flex>
-                  </Flex>
-                  <Flex alignItems="center" gap="x1">
-                    <Flex alignItems="center">
+                    </HStack>
+                  </HStack>
+                  <HStack align="center" gap="x1">
+                    <HStack align="center">
                       <Text
                         fontSize="t3"
                         fontWeight="regular"
@@ -53,27 +53,27 @@ const ActivityCodegenTest: ActivityComponentType = () => {
                       >
                         서초동
                       </Text>
-                    </Flex>
+                    </HStack>
                     <Box height="x3_5" width="3px">
                       <Text textStyle="t3Regular" color="fg.neutralSubtle">
                         ⸱
                       </Text>
                     </Box>
-                    <Flex alignItems="center">
+                    <HStack align="center">
                       <Text textStyle="t3Regular" color="fg.neutralSubtle">
                         단골 1,234
                       </Text>
-                    </Flex>
-                  </Flex>
-                </Stack>
-              </Flex>
+                    </HStack>
+                  </HStack>
+                </VStack>
+              </HStack>
               <ToggleButton variant="brandSolid" size="xsmall">
                 <PrefixIcon svg={<IconPlusFill />} />
                 단골맺기
               </ToggleButton>
-            </Flex>
-          </Flex>
-        </Stack>
+            </HStack>
+          </HStack>
+        </VStack>
       </AppScreenContent>
     </AppScreen>
   );

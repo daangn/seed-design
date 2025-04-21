@@ -135,7 +135,9 @@
         "variants": {},
         "definitions": [
           {
-            "states": ["enabled"],
+            "states": [
+              "enabled"
+            ],
             "slots": {
               "root": {
                 "color": {

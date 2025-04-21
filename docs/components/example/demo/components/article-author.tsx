@@ -1,11 +1,11 @@
 import { Avatar } from "seed-design/ui/avatar";
 import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Text } from "@seed-design/react";
-import { Inline } from "@seed-design/react";
+import { HStack } from "@seed-design/react";
 
 export function ArticleAuthor({ author }: { author: string }) {
   return (
-    <Inline gap="x1_5" alignItems="center">
+    <HStack gap="x1_5" align="center" flexGrow={1}>
       <Avatar
         fallback={<IdentityPlaceholder identity="person" />}
         size="20"
@@ -14,6 +14,6 @@ export function ArticleAuthor({ author }: { author: string }) {
       <Text textStyle="t4Medium" color="fg.neutral">
         {author}
       </Text>
-    </Inline>
+    </HStack>
   );
 }

@@ -1,7 +1,7 @@
 import { ActionButton } from "@/design-system/ui/action-button";
 import { Callout } from "@/design-system/ui/callout";
 import { TextField, TextFieldInput } from "@/design-system/ui/text-field";
-import { Flex, Stack, Text } from "@seed-design/react";
+import { Flex, VStack, Text } from "@seed-design/react";
 import { useEffect, useRef, useState } from "react";
 
 interface PendingRequest {
@@ -304,14 +304,14 @@ export default function App() {
   }, [port]);
 
   return (
-    <Stack paddingX="spacingX.globalGutter" paddingY="x4" gap="x4">
+    <VStack px="spacingX.globalGutter" py="x4" gap="x4">
       <Flex>
         <Text textStyle="t5Bold" as="h1">
           SEED Design System MCP
         </Text>
       </Flex>
 
-      <Flex gap="x2" alignItems="flexEnd">
+      <Flex gap="x2" align="flex-end">
         <TextField
           id="port"
           label="WebSocket Server Port"
@@ -347,6 +347,6 @@ export default function App() {
         tone={state.connected ? "informative" : "neutral"}
         description={connectionStatusMessage}
       />
-    </Stack>
+    </VStack>
   );
 }

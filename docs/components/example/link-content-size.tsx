@@ -1,9 +1,9 @@
 import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
-import { LinkContent, Stack, SuffixIcon } from "@seed-design/react";
+import { LinkContent, SuffixIcon, VStack } from "@seed-design/react";
 
 export default function LinkContentSize() {
   return (
-    <Stack>
+    <VStack>
       <LinkContent size="t4">
         추가
         <SuffixIcon svg={<IconChevronRightLine />} />
@@ -16,6 +16,6 @@ export default function LinkContentSize() {
         추가
         <SuffixIcon svg={<IconChevronRightLine />} />
       </LinkContent>
-    </Stack>
+    </VStack>
   );
 }

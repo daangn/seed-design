@@ -32,12 +32,7 @@ const AppScreenTransparentBarActivity: ActivityComponentType<"app-screen-transpa
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Flex
-          height="full"
-          justifyContent="center"
-          alignItems="center"
-          background="palette.gray500"
-        >
+        <Flex height="full" justify="center" align="center" bg="palette.gray500">
           Preview
         </Flex>
       </AppScreenContent>

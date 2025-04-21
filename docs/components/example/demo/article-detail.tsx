@@ -8,7 +8,7 @@ import {
   AppBarRight,
   AppBarLeft,
 } from "seed-design/ui/app-bar";
-import { Stack, Columns, Column, Box } from "@seed-design/react";
+import { VStack, HStack, Box } from "@seed-design/react";
 import { Text } from "@seed-design/react";
 import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
@@ -54,7 +54,7 @@ const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Stack gap="x4">
+        <VStack gap="x4">
           <Box style={{ aspectRatio: "1 / 1", position: "relative" }}>
             <img
               src={img.src}
@@ -64,18 +64,14 @@ const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
             />
             {isImageLoading && <Skeleton width="full" height="full" radius="0" />}
           </Box>
-          <Stack gap="x6" paddingBottom="x4">
-            <Stack
-              paddingX="spacingX.globalGutter"
-              gap="spacingY.componentDefault"
-              alignItems="flexStart"
-            >
+          <VStack gap="x6" pb="x4">
+            <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault" align="flex-start">
               {article.isPopular && (
                 <Badge variant="outline" tone="brand" size="large">
                   인기
                 </Badge>
               )}
-              <Stack gap="x1">
+              <VStack gap="x1">
                 <Text as="h1" textStyle="t7Bold" color="fg.neutral">
                   {article.title}
                 </Text>
@@ -87,19 +83,15 @@ const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
                 >
                   {article.content}
                 </Text>
-              </Stack>
-              <Columns width="full" alignItems="center">
-                <Column>
-                  <ArticleAuthor author={article.author} />
-                </Column>
-                <Column width="content">
-                  <Text textStyle="t2Regular" color="fg.neutralMuted">
-                    {categoryName} ⸱ {formatDate(article.createdAt)}
-                  </Text>
-                </Column>
-              </Columns>
-            </Stack>
-            <Stack paddingX="spacingX.globalGutter" gap="spacingY.componentDefault">
+              </VStack>
+              <HStack width="full" align="center">
+                <ArticleAuthor author={article.author} />
+                <Text textStyle="t2Regular" color="fg.neutralMuted">
+                  {categoryName} ⸱ {formatDate(article.createdAt)}
+                </Text>
+              </HStack>
+            </VStack>
+            <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault">
               <Callout
                 tone="neutral"
                 description="따뜻한 댓글을 남겨주세요."
@@ -116,16 +108,16 @@ const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
                   </SegmentedControlItem>
                 ))}
               </SegmentedControl>
-              <Box paddingY="x3">
+              <Box py="x3">
                 <ErrorState title="댓글 없음" description="댓글이 없습니다." />
               </Box>
               <TextField label="댓글" maxGraphemeCount={200}>
                 <TextFieldTextarea placeholder="저는…" />
               </TextField>
               <ActionButton>게시</ActionButton>
-            </Stack>
-          </Stack>
-        </Stack>
+            </VStack>
+          </VStack>
+        </VStack>
       </AppScreenContent>
     </AppScreen>
   );
