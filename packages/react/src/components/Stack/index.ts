@@ -1,1 +1,8 @@
-export { Stack, type StackProps } from "./Stack";
+export {
+  Stack,
+  VStack,
+  HStack,
+  type StackProps,
+  type VStackProps,
+  type HStackProps,
+} from "./Stack";
