@@ -1,11 +1,5 @@
 # @seed-design/mcp
 
-## 0.0.17
-
-### Patch Changes
-
-- d572d82: bun 환경에서 실행되도록 shebang을 수정합니다.
-
 ## 0.0.16
 
 ### Patch Changes
