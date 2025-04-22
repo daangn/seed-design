@@ -160,13 +160,6 @@
         "typescript": "^5.4.5",
       },
     },
-    "ecosystem/qvism/rollup-plugin": {
-      "name": "@seed-design/qvism-rollup-plugin",
-      "version": "0.0.0",
-      "devDependencies": {
-        "rollup": "^4.34.8",
-      },
-    },
     "ecosystem/rootage/cli": {
       "name": "@seed-design/rootage-cli",
       "version": "0.0.0",
@@ -403,7 +396,6 @@
       },
       "devDependencies": {
         "@seed-design/css": "0.0.15",
-        "@seed-design/qvism-rollup-plugin": "0.0.0",
         "@vitejs/plugin-react": "^4.3.4",
         "globby": "^14.1.0",
         "vite": "^6.2.3",
@@ -701,7 +693,6 @@
       },
       "devDependencies": {
         "@seed-design/css": "0.0.15",
-        "@seed-design/qvism-rollup-plugin": "0.0.0",
         "@vitejs/plugin-react": "^4.3.4",
         "globby": "^14.1.0",
         "vite": "^6.2.3",
@@ -1930,8 +1921,6 @@
     "@seed-design/qvism-core": ["@seed-design/qvism-core@workspace:ecosystem/qvism/core"],
 
     "@seed-design/qvism-preset": ["@seed-design/qvism-preset@workspace:packages/qvism-preset"],
-
-    "@seed-design/qvism-rollup-plugin": ["@seed-design/qvism-rollup-plugin@workspace:ecosystem/qvism/rollup-plugin"],
 
     "@seed-design/react": ["@seed-design/react@workspace:packages/react"],
 

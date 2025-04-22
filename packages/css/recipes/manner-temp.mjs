@@ -1,3 +1,4 @@
+import './manner-temp.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {

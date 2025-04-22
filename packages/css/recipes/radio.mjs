@@ -1,3 +1,4 @@
+import './radio.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const radioSlotNames = [

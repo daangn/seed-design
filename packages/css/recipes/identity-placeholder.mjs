@@ -1,3 +1,4 @@
+import './identity-placeholder.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const identityPlaceholderSlotNames = [

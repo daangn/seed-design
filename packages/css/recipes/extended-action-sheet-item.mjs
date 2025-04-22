@@ -1,3 +1,4 @@
+import './extended-action-sheet-item.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {

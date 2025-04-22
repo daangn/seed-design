@@ -1,3 +1,4 @@
+import './notification-badge.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {

@@ -1,3 +1,4 @@
+import './chip-tabs.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const chipTabsSlotNames = [

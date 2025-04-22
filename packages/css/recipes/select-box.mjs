@@ -1,3 +1,4 @@
+import './select-box.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const selectBoxSlotNames = [

@@ -1,4 +1,3 @@
-import qvism from "@seed-design/qvism-rollup-plugin";
 import react from "@vitejs/plugin-react";
 import { globbySync } from "globby";
 import { defineConfig } from "vite";
@@ -13,9 +12,6 @@ export default defineConfig({
       staticImport: true,
     }),
     react(),
-    qvism({
-      recipePath: "@seed-design/css/recipes",
-    }),
   ],
   build: {
     target: "esnext",
