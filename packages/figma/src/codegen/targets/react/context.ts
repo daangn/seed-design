@@ -53,7 +53,13 @@ const variableService = createVariableService({
     slug
       .filter(
         (s) =>
-          !(s === "dimension" || s === "font-size" || s === "font-weight" || s === "line-height"),
+          !(
+            s === "dimension" ||
+            s === "radius" ||
+            s === "font-size" ||
+            s === "font-weight" ||
+            s === "line-height"
+          ),
       )
       .map((s) => s.replaceAll(",", "_"))
       .map(camelCasePreserveUnderscoreBetweenNumbers)
