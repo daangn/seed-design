@@ -1,0 +1,31 @@
+{
+  "name": "@seed-design/qvism-rollup-plugin",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daangn/seed-design.git",
+    "directory": "ecosystem/qvism/rollup-plugin"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
+    }
+  },
+  "files": [
+    "index.mjs",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "lint:publish": "bun publint"
+  },
+  "devDependencies": {
+    "rollup": "^4.34.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

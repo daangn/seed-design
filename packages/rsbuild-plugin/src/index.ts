@@ -1,10 +1,5 @@
 import type { HtmlBasicTag, RsbuildPlugin } from "@rsbuild/core";
 import { generateThemingScript, type ColorMode } from "@seed-design/css/theming";
-import path from "node:path";
-
-// Regex to match the special comment at the end of a recipe.
-// For example: "// @recipe(seed): action-button"
-const recipeRegex = /\/\/\s*@recipe\(\s*([^)]*)\s*\):\s*(\S+)/;
 
 const PLUGIN_NAME = "rsbuild:seed-design";
 
@@ -39,22 +34,6 @@ export const seedDesignPlugin = (options: Options = {}): RsbuildPlugin => {
   return {
     name: PLUGIN_NAME,
     setup(api) {
-      api.transform({ test: /\.(m?)js$/ }, ({ resourcePath, code }) => {
-        if (code.match(recipeRegex)) {
-          const filename = path.basename(resourcePath);
-          const cssFileName = filename.replace(/\.(m?js)$/, ".css");
-
-          // If the import is already present, skip injecting
-          if (code.includes(`import "./${cssFileName}"`)) {
-            return code;
-          }
-
-          // Otherwise, inject the CSS import at the end of the file
-          return `${code}\nimport "./${cssFileName}";\n`;
-        }
-        return code;
-      });
-
       api.modifyHTMLTags(({ headTags, bodyTags }) => {
         const scriptTags: HtmlBasicTag[] = [];
         // 1. Inject meta tag to notify the browser about the color scheme.
