@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 0.0.18
+
+### Patch Changes
+
+- b28303c: borderRadius codegen에 radius prefix가 붙지 않도록 수정합니다.
+
 ## 0.0.17
 
 ### Patch Changes

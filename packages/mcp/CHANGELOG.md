@@ -1,5 +1,13 @@
 # @seed-design/mcp
 
+## 0.0.18
+
+### Patch Changes
+
+- 4619fde: 번들에 의도치 않은 외부 의존성이 포함되는 문제를 수정합니다.
+- Updated dependencies [b28303c]
+  - @seed-design/figma@0.0.18
+
 ## 0.0.17
 
 ### Patch Changes
