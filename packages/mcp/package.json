@@ -12,21 +12,19 @@
   "sideEffects": false,
   "files": [
     "bin",
-    "src"
+    "src",
+    "package.json"
   ],
-  "bin": {
-    "main": "./bin/main.mjs",
-    "socket": "./bin/socket.mjs"
-  },
+  "bin": "./bin/index.mjs",
   "scripts": {
     "clean": "rm -rf lib",
-    "dev": "bun run --watch ./src/bin/socket.ts",
     "build": "bunchee",
     "lint:publish": "bun publint"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
     "@seed-design/figma": "0.0.15",
+    "cac": "^6.7.14",
     "express": "^4.21.2",
     "yargs": "^17.7.2"
   },

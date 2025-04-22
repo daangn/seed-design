@@ -3,6 +3,7 @@ import { Callout } from "@/design-system/ui/callout";
 import { TextField, TextFieldInput } from "@/design-system/ui/text-field";
 import { Flex, VStack, Text } from "@seed-design/react";
 import { useEffect, useRef, useState } from "react";
+import { version } from "@seed-design/mcp/package.json" assert { type: "json" };
 
 interface PendingRequest {
   resolve: (value: any) => void;
@@ -307,7 +308,7 @@ export default function App() {
     <VStack px="spacingX.globalGutter" py="x4" gap="x4">
       <Flex>
         <Text textStyle="t5Bold" as="h1">
-          SEED Design System MCP
+          SEED Design System MCP {version}
         </Text>
       </Flex>
 

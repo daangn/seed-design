@@ -230,28 +230,6 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
     },
   );
 
-  // Clone Node Tool
-  server.tool(
-    "clone_node",
-    "Clone an existing node in Figma",
-    {
-      nodeId: z.string().describe("The ID of the node to clone"),
-      x: z.number().optional().describe("New X position for the clone"),
-      y: z.number().optional().describe("New Y position for the clone"),
-    },
-    async ({ nodeId, x, y }) => {
-      try {
-        const result = await sendCommandToFigma("clone_node", { nodeId, x, y });
-        const typedResult = result as { name: string; id: string };
-        return formatTextResponse(
-          `Cloned node "${typedResult.name}" with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
-        );
-      } catch (error) {
-        return formatErrorResponse("clone_node", error);
-      }
-    },
-  );
-
   // Export Node as Image Tool
   server.tool(
     "export_node_as_image",
@@ -292,6 +270,32 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
         return formatObjectResponse(result);
       } catch (error) {
         return formatErrorResponse("retrieve_color_variable_names", error);
+      }
+    },
+  );
+}
+
+export function registerEditingTools(server: McpServer, figmaClient: FigmaWebSocketClient): void {
+  const { sendCommandToFigma } = figmaClient;
+
+  // Clone Node Tool
+  server.tool(
+    "clone_node",
+    "Clone an existing node in Figma",
+    {
+      nodeId: z.string().describe("The ID of the node to clone"),
+      x: z.number().optional().describe("New X position for the clone"),
+      y: z.number().optional().describe("New Y position for the clone"),
+    },
+    async ({ nodeId, x, y }) => {
+      try {
+        const result = await sendCommandToFigma("clone_node", { nodeId, x, y });
+        const typedResult = result as { name: string; id: string };
+        return formatTextResponse(
+          `Cloned node "${typedResult.name}" with new ID: ${typedResult.id}${x !== undefined && y !== undefined ? ` at position (${x}, ${y})` : ""}`,
+        );
+      } catch (error) {
+        return formatErrorResponse("clone_node", error);
       }
     },
   );
