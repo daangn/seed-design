@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { cac } from "cac";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
