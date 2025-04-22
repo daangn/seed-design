@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.17
+
+### Patch Changes
+
+- c042f90: recipe에서 직접 스타일시트 의존성을 표현하도록 변경합니다.
+
 ## 0.0.15
 
 ### Patch Changes
