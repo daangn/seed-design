@@ -1,3 +1,4 @@
+import './inline-banner.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const inlineBannerSlotNames = [

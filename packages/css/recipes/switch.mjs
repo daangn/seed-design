@@ -1,3 +1,4 @@
+import './switch.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const switchSlotNames = [

@@ -1,3 +1,4 @@
+import './select-box-group.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {};

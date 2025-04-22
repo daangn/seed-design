@@ -22,8 +22,9 @@ export function generateSharedJs(): string {
 
 export function generateSlotRecipeJs(
   definition: SlotRecipeDefinition<string, SlotRecipeVariantRecord<string>>,
-  options: { prefix?: string } = {},
+  options: { prefix?: string; importCss?: boolean } = {},
 ): string {
+  const { importCss = true } = options;
   const jsName = camelCase(definition.name);
 
   const slotNames = definition.slots.map((slot) => [
@@ -40,7 +41,9 @@ export function generateSlotRecipeJs(
 
   const compoundVariants = definition.compoundVariants?.map(({ css, ...rest }) => rest) ?? [];
 
-  return outdent`
+  return (
+    (importCss ? `import './${definition.name}.css';\n` : "") +
+    outdent`
   import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
   const ${jsName}SlotNames = ${JSON.stringify(slotNames, null, 2)};
@@ -67,13 +70,15 @@ export function generateSlotRecipeJs(
   Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
 
   // @recipe(seed): ${definition.name}
-  `;
+  `
+  );
 }
 
 export function generateRecipeJs(
   definition: RecipeDefinition<RecipeVariantRecord>,
-  options: { prefix?: string } = {},
+  options: { prefix?: string; importCss?: boolean } = {},
 ): string {
+  const { importCss = true } = options;
   const jsName = camelCase(definition.name);
 
   const variantMap = Object.fromEntries(
@@ -88,7 +93,9 @@ export function generateRecipeJs(
   const compoundVariants =
     definition.compoundVariants?.map(({ css, ...rest }: { css: StyleObject }) => rest) ?? [];
 
-  return outdent`
+  return (
+    (importCss ? `import './${definition.name}.css';\n` : "") +
+    outdent`
   import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
   
   const defaultVariant = ${JSON.stringify(definition.defaultVariants ?? {}, null, 2)};
@@ -110,7 +117,8 @@ export function generateRecipeJs(
   Object.assign(${escapeReservedWord(jsName)}, { splitVariantProps: (props) => splitVariantProps(props, ${jsName}VariantMap) });
 
   // @recipe(seed): ${definition.name}
-  `;
+  `
+  );
 }
 
 export function generateJs(

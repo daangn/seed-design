@@ -1,3 +1,4 @@
+import './app-bar.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const appBarSlotNames = [

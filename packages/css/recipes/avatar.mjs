@@ -1,3 +1,4 @@
+import './avatar.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const avatarSlotNames = [

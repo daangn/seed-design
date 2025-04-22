@@ -1,3 +1,4 @@
+import './action-sheet.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const actionSheetSlotNames = [
