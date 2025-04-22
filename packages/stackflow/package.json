@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/stackflow",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -35,7 +35,7 @@
     "clsx": "^2.1.1"
   },
   "devDependencies": {
-    "@seed-design/css": "0.0.14",
+    "@seed-design/css": "0.0.15",
     "@seed-design/qvism-rollup-plugin": "0.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "globby": "^14.1.0",
@@ -43,7 +43,7 @@
     "vite-plugin-dts": "^4.5.0"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.14",
+    "@seed-design/css": "0.0.15",
     "@stackflow/core": ">=1.1.0",
     "@stackflow/react": ">=1.4.1",
     "@stackflow/react-ui-core": ">=1.2.1",
