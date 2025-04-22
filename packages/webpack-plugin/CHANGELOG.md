@@ -1,5 +1,17 @@
 # @seed-design/webpack-plugin
 
+## 0.0.15
+
+### Patch Changes
+
+- 1bb9f7b: - vite dev에서 컴포넌트 스타일시트가 로드되지 않는 버그를 수정합니다.
+  - 플러그인이 컴포넌트 스타일시트를 로드하는 방식을 변경합니다.
+- Updated dependencies [1bb9f7b]
+- Updated dependencies [4511814]
+- Updated dependencies [f4b0723]
+- Updated dependencies [f4b0723]
+  - @seed-design/css@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes

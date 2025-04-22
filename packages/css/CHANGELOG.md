@@ -1,5 +1,20 @@
 # @seed-design/css
 
+## 0.0.15
+
+### Patch Changes
+
+- 1bb9f7b: - vite dev에서 컴포넌트 스타일시트가 로드되지 않는 버그를 수정합니다.
+  - 플러그인이 컴포넌트 스타일시트를 로드하는 방식을 변경합니다.
+- 4511814: - 레이아웃 및 flex 관련 shorthand prop을 추가합니다. (px, py, wrap, align, justify, direction)
+  - ActionButton에 flexGrow prop을 추가합니다.
+  - VStack, HStack 컴포넌트를 추가합니다.
+    - Stack, Inline, Columns 컴포넌트를 deprecated 처리합니다.
+  - 디자인 토큰이 아닌 css prop의 value가 유효한 css value가 되도록 변경합니다.
+    - flexStart, spaceBetween 등 camelCase로 제공되는 값을 deprecated 처리합니다.
+- f4b0723: HelpBubble 디자인 스펙 업데이트 (shadow)
+- f4b0723: HelpBubble의 enter, exit 모션을 추가합니다.
+
 ## 0.0.14
 
 ### Patch Changes

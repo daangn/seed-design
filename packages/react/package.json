@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -42,7 +42,7 @@
     "@seed-design/react-avatar": "0.0.1",
     "@seed-design/react-checkbox": "0.0.1",
     "@seed-design/react-dialog": "0.0.2",
-    "@seed-design/react-popover": "0.0.3",
+    "@seed-design/react-popover": "0.0.4",
     "@seed-design/react-primitive": "0.0.1",
     "@seed-design/react-progress": "0.0.1",
     "@seed-design/react-pull-to-refresh": "0.0.2",
@@ -56,12 +56,12 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.14",
+    "@seed-design/css": "0.0.15",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "0.0.14",
+    "@seed-design/css": "0.0.15",
     "@seed-design/qvism-rollup-plugin": "0.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "globby": "^14.1.0",
