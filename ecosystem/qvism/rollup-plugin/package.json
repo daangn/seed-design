@@ -11,18 +11,15 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./lib/index.d.ts",
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.cjs"
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
     }
   },
   "files": [
-    "lib",
-    "src"
+    "index.mjs",
+    "index.d.ts"
   ],
   "scripts": {
-    "clean": "rm -rf lib",
-    "build": "bunchee",
     "lint:publish": "bun publint"
   },
   "devDependencies": {

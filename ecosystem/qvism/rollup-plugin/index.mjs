@@ -1,10 +1,4 @@
-import type { Plugin } from "rollup";
-
-interface QvismPluginOptions {
-  recipePath: string;
-}
-
-export default function qvism(options: QvismPluginOptions): Plugin {
+export default function qvism(options) {
   if (!options.recipePath) {
     throw new Error("recipePath is required");
   }
