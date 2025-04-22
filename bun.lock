@@ -327,7 +327,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "0.0.17",
+      "version": "0.0.18",
       "dependencies": {
         "@create-figma-plugin/utilities": "^3.0.2",
         "@seed-design/css": "0.0.17",
@@ -343,7 +343,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "0.0.17",
+      "version": "0.0.18",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.7.0",
