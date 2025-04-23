@@ -1101,6 +1101,7 @@
   font-family: inherit;
   text-decoration: none;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-toggle-button:is(:focus, [data-focus]) {
@@ -1239,6 +1240,7 @@
   font-family: inherit;
   text-decoration: none;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-reaction-button:is(:focus, [data-focus]) {

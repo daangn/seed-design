@@ -1,5 +1,6 @@
 .seed-reaction-button {
     display: inline-flex;
+    position: relative;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;

@@ -2,4 +2,4 @@
 "@seed-design/css": patch
 ---
 
-action-button에 position: relative를 추가해요
+LoadingIndicator를 사용하는 컴포넌트에 position: relative를 추가합니다.
