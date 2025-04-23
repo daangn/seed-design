@@ -816,6 +816,7 @@
   font-family: inherit;
   text-decoration: none;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-action-button:is(:focus, [data-focus]) {
