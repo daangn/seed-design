@@ -179,6 +179,208 @@ export function BasicExample() {
 </Accordion>
 </Accordions>
 
+### replace-custom-imported-typography-variable
+
+Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 변수를 변환합니다.
+
+#### 기능
+
+- 타이포그래피 관련 import 문을 찾아 변수명을 변환합니다.
+- 변수가 사용된 모든 위치(템플릿 리터럴, 객체 속성 등)를 찾아 업데이트합니다.
+- typography.mjs의 매핑 정보에 따라 V2 타이포그래피 변수를 V3로 변환합니다.
+
+#### 테스트 케이스
+
+- **basic**: 기본적인 변환 케이스
+- **enhanced**: 다양한 타이포그래피 변수 매핑 케이스
+  - screenTitle 매핑 (h4 -> screenTitle)
+  - 일반 매핑 (title1Bold -> t9Bold)
+  - deprecated 토큰 처리 (title1Regular)
+  - 별칭을 사용한 import 처리
+  - 대체 토큰 처리 (bodyL2Regular -> t4Regular)
+  - 객체 속성으로 사용된 토큰 처리
+  - 다양한 컨텍스트에서의 변수 사용 패턴
+
+```package-install
+npx @seed-design/codemod replace-custom-imported-typography-variable <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { 
+  subtitle1Regular, 
+  subtitle2Regular, 
+  h4, 
+  title1Bold, 
+  title2Bold, 
+  bodyL1Regular, 
+  caption1Regular, 
+  caption2Regular, 
+  label5Regular 
+} from '@src/constants/typography'
+import { bodyM1Regular as customTypo } from '@karrot/typography'
+
+const S_StoreRequestTitle = styled.h1`
+  ${subtitle1Regular};
+  margin: 0 0 0.25rem;
+  color: ${vars.$scale.color.gray900};
+  text-align: center;
+`
+const S_StoreRequestText = styled.p`
+  ${subtitle2Regular};
+  margin: 0;
+  color: ${vars.$scale.color.gray600};
+  text-align: center;
+`
+
+// 추가 테스트 케이스
+// screenTitle 매핑 테스트
+const S_ScreenHeader = styled.h1`
+  ${h4};
+  margin-bottom: 1rem;
+`
+
+// 일반 매핑 테스트
+const S_Title = styled.h2`
+  ${title1Bold};
+  color: ${vars.$scale.color.gray900};
+`
+
+// 여러 테스트 케이스를 담은 컴포넌트
+const Card = styled.div`
+  // title2Bold 매핑 테스트
+  h3 {
+    ${title2Bold};
+    margin-bottom: 8px;
+  }
+  
+  // bodyL1Regular 매핑 테스트
+  p.description {
+    ${bodyL1Regular};
+    color: ${vars.$scale.color.gray800};
+  }
+  
+  // 캡션 스타일
+  p.caption {
+    ${caption1Regular};
+    color: ${vars.$scale.color.gray600};
+  }
+  
+  // 작은 텍스트
+  small {
+    ${caption2Regular};
+    color: ${vars.$scale.color.gray500};
+  }
+  
+  // 라벨 스타일
+  label {
+    ${label5Regular};
+    margin-right: 4px;
+  }
+`
+
+// 다른 모듈에서 가져온 타이포그래피 처리 (별칭 유지해야 함)
+const S_CustomContent = styled.div`
+  ${customTypo};
+  color: ${vars.$scale.color.gray700};
+`
+
+// 변수로 사용하는 경우
+const titleStyle = title1Bold;
+const textStyle = subtitle1Regular;
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { 
+  t5Regular, 
+  t4Regular, 
+  t10Bold, 
+  t9Bold, 
+  t7Bold, 
+  articleBody, 
+  t3Regular, 
+  t2Regular, 
+  t1Regular 
+} from '@src/constants/typography'
+import { t5Regular as customTypo } from '@karrot/typography'
+
+const S_StoreRequestTitle = styled.h1`
+  ${t5Regular};
+  margin: 0 0 0.25rem;
+  color: ${vars.$scale.color.gray900};
+  text-align: center;
+`
+const S_StoreRequestText = styled.p`
+  ${t4Regular};
+  margin: 0;
+  color: ${vars.$scale.color.gray600};
+  text-align: center;
+`
+
+// 추가 테스트 케이스
+// screenTitle 매핑 테스트
+const S_ScreenHeader = styled.h1`
+  ${t10Bold};
+  margin-bottom: 1rem;
+`
+
+// 일반 매핑 테스트
+const S_Title = styled.h2`
+  ${t9Bold};
+  color: ${vars.$scale.color.gray900};
+`
+
+// 여러 테스트 케이스를 담은 컴포넌트
+const Card = styled.div`
+  // title2Bold 매핑 테스트
+  h3 {
+    ${t7Bold};
+    margin-bottom: 8px;
+  }
+  
+  // bodyL1Regular 매핑 테스트
+  p.description {
+    ${articleBody};
+    color: ${vars.$scale.color.gray800};
+  }
+  
+  // 캡션 스타일
+  p.caption {
+    ${t3Regular};
+    color: ${vars.$scale.color.gray600};
+  }
+  
+  // 작은 텍스트
+  small {
+    ${t2Regular};
+    color: ${vars.$scale.color.gray500};
+  }
+  
+  // 라벨 스타일
+  label {
+    ${t1Regular};
+    margin-right: 4px;
+  }
+`
+
+// 다른 모듈에서 가져온 타이포그래피 처리 (별칭 유지해야 함)
+const S_CustomContent = styled.div`
+  ${customTypo};
+  color: ${vars.$scale.color.gray700};
+`
+
+// 변수로 사용하는 경우
+const titleStyle = t9Bold;
+const textStyle = t5Regular;
+```
+
+</Accordion>
+</Accordions>
+
 ### replace-custom-seed-design-vars
 
 ```package-install
@@ -1280,6 +1482,7 @@ npx @seed-design/codemod replace-seed-design-token-typography-classname <target_
 // @ts-nocheck
 
 import { classNames } from "@seed-design/design-token";
+import { style } from "@vanilla-extract/css";
 
 const typography = {
   one: classNames.$semantic.typography.title2Regular,
@@ -1287,12 +1490,23 @@ const typography = {
   three: classNames.$semantic.typography.label5Regular,
   four: classNames.$semantic.typography.label6Regular,
 }
+
+export const footer = style([
+  classNames.$semantic.typography.caption1Regular,
+  {
+    padding: "16px",
+    marginTop: "12px",
+    color: vars.$scale.color.gray700,
+    backgroundColor: vars.$semantic.color.paperContents,
+  },
+]);
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
 import { text } from "@seed-design/css/recipes/text";
+import { style } from "@vanilla-extract/css";
 
 const typography = {
   one: text({ textStyle: "t7Regular" }),
@@ -1300,6 +1514,16 @@ const typography = {
   three: text({ textStyle: "t1Regular" }),
   four: text({ textStyle: "t1Regular" }),
 }
+
+export const footer = style([
+  text({ textStyle: "t3Regular" }),
+  {
+    padding: "16px",
+    marginTop: "12px",
+    color: vars.$scale.color.gray700,
+    backgroundColor: vars.$semantic.color.paperContents,
+  },
+]);
 ```
 
 </Accordion>
