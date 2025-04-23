@@ -3,10 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
-import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
+import { fieldVariantMap } from "@seed-design/css/recipes/field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { PrefixIcon } from "@seed-design/react";
 
 const meta = {
   component: TextField,
@@ -58,15 +59,19 @@ const CommonStoryTemplate: Story = {
     description:
       "Sint pariatur labore et elit dolore sunt velit incididunt nisi laboris cillum et dolore ad ullamco.",
     errorMessage: "Error message",
-    prefixIcon: <IconPaperplaneLine />,
-    suffix: "Suffix",
     maxGraphemeCount: 10,
-    children: <TextFieldInput placeholder="Placeholder" />,
+    children: (
+      <>
+        <PrefixIcon svg={<IconPaperplaneLine />} />
+        <TextFieldInput placeholder="Placeholder" />
+        <span>Suffix</span>
+      </>
+    ),
   },
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={textFieldVariantMap}
+      variantMap={fieldVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
