@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.0.19
+
+### Patch Changes
+
+- 3c9ec66: feat: 와일드카드 지원하지 않는 곳을 위해 CSS 파일 명시적 export
+- b3bb6e7: LoadingIndicator를 사용하는 컴포넌트에 position: relative를 추가합니다.
+
 ## 0.0.17
 
 ### Patch Changes
