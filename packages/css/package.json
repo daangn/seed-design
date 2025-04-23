@@ -18,6 +18,10 @@
   "type": "module",
   "exports": {
     "./*.css": "./*.css",
+    "./base.css": "./base.css",
+    "./base.min.css": "./base.min.css",
+    "./all.css": "./all.css",
+    "./all.min.css": "./all.min.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",
