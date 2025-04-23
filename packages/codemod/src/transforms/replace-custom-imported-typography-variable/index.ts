@@ -16,6 +16,8 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
   // 변환 여부 추적
   let hasChanges = false;
   const variableMappings = new Map(); // 이전 변수명 -> 새 변수명 매핑
+  const importedTokens = new Map(); // 소스 -> 이미 변환된 토큰 목록
+  const importSources = new Map(); // 토큰 -> 원본 소스 맵핑
 
   // 스타일 관련 import 문 찾기 (typography 관련)
   root
@@ -25,13 +27,106 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
       return importSource.includes("typography") || importSource.includes("styles");
     })
     .forEach((path) => {
+      const importSource = path.node.source.value as string;
+
+      // 현재 import 소스에 대한 이미 변환된 토큰 목록 초기화
+      if (!importedTokens.has(importSource)) {
+        importedTokens.set(importSource, new Set());
+      }
+
       // ImportSpecifier 타입의 import 문만 처리 (named import)
       const specifiers = path.node.specifiers.filter(
         (specifier) => specifier.type === "ImportSpecifier",
       );
 
+      // 처리할 specifier들과 제거할 specifier들 구분
+      const specifiersToProcess = [];
+      const specifiersToRemove = [];
+
       // 각 specifier 확인
       specifiers.forEach((specifier) => {
+        if (specifier.type !== "ImportSpecifier") return;
+
+        const importedName = specifier.imported?.name || specifier.local.name;
+        const localName = specifier.local.name;
+        const hasAlias = specifier.imported && specifier.imported.name !== specifier.local.name;
+
+        // 매핑 찾기
+        const mapping = typographyMappings.find(
+          (m) =>
+            m.previous === importedName || m.previous === `$semantic.typography.${importedName}`,
+        );
+
+        if (mapping) {
+          let targetToken = "";
+
+          if (mapping.next.length > 0) {
+            // 첫 번째 매핑된 토큰 사용
+            targetToken = mapping.next[0];
+          } else if (mapping.alternative && mapping.alternative.length > 0) {
+            // 대체 토큰이 있는 경우
+            targetToken = mapping.alternative[0];
+          }
+
+          // 변환할 토큰이 있는 경우
+          if (targetToken) {
+            // 이 import 소스에서 해당 토큰이 이미 import되었는지 확인
+            const alreadyImported = importedTokens.get(importSource).has(targetToken);
+
+            // 별칭이 있는 경우는 항상 처리 (중복 확인 불필요)
+            if (hasAlias || !alreadyImported) {
+              // 처리 대상에 추가
+              specifiersToProcess.push(specifier);
+
+              // 별칭이 없는 경우만 토큰 추적
+              if (!hasAlias) {
+                importedTokens.get(importSource).add(targetToken);
+                importSources.set(targetToken, importSource);
+              }
+            } else {
+              // 이미 import된 경우 제거 대상에 추가
+              specifiersToRemove.push(specifier);
+
+              // 변수 매핑은 여전히 필요 (원래 변수 -> 새 변수 이름)
+              variableMappings.set(localName, targetToken);
+
+              // 로그 기록
+              logger.logTransformResult(file.path, {
+                previousToken: `Removed duplicate import: ${importedName}`,
+                nextToken: targetToken,
+                line: path.node.loc?.start.line || 0,
+                status: "success",
+              });
+            }
+          } else {
+            // 변환할 토큰이 없는 경우 기존 처리 유지
+            specifiersToProcess.push(specifier);
+          }
+        } else {
+          // 매핑이 없는 경우 그대로 유지
+          specifiersToProcess.push(specifier);
+
+          // 매핑을 찾지 못한 경우 실패 로깅
+          logger.logTransformResult(file.path, {
+            previousToken: `Failed to find mapping for typography token: ${importedName}`,
+            nextToken: null,
+            line: path.node.loc?.start.line || 0,
+            status: "failure",
+            failureReason: "No mapping found",
+          });
+        }
+      });
+
+      // 제거 대상이 있는 경우 specifier 목록에서 제거
+      if (specifiersToRemove.length > 0) {
+        path.node.specifiers = path.node.specifiers.filter(
+          (spec) => !specifiersToRemove.includes(spec),
+        );
+        hasChanges = true;
+      }
+
+      // 각 specifier 처리
+      specifiersToProcess.forEach((specifier) => {
         if (specifier.type !== "ImportSpecifier") return;
 
         const importedName = specifier.imported?.name || specifier.local.name;
@@ -129,17 +224,14 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
               failureReason: "Token is deprecated with no direct replacement",
             });
           }
-        } else {
-          // 매핑을 찾지 못한 경우 실패 로깅
-          logger.logTransformResult(file.path, {
-            previousToken: `Failed to find mapping for typography token: ${importedName}`,
-            nextToken: null,
-            line: path.node.loc?.start.line || 0,
-            status: "failure",
-            failureReason: "No mapping found",
-          });
         }
       });
+
+      // 변환 후 import 목록이 비어 있으면 import 문 자체를 제거
+      if (path.node.specifiers.length === 0) {
+        path.prune();
+        hasChanges = true;
+      }
     });
 
   // 변수 참조 위치 변경

@@ -1,15 +1,15 @@
 // @ts-nocheck
-import { 
-  t5Regular, 
-  t4Regular, 
-  t10Bold, 
-  t9Bold, 
-  t7Bold, 
-  articleBody, 
-  t3Regular, 
-  t2Regular, 
-  t1Regular 
-} from '@src/constants/typography'
+import {
+  t5Regular,
+  t4Regular,
+  t10Bold,
+  t9Bold,
+  t7Bold,
+  articleBody,
+  t3Regular,
+  t2Regular,
+  t1Regular,
+} from '@src/constants/typography';
 import { t5Regular as customTypo } from '@karrot/typography'
 
 const S_StoreRequestTitle = styled.h1`
@@ -50,6 +50,12 @@ const Card = styled.div`
   p.description {
     ${articleBody};
     color: ${vars.$scale.color.gray800};
+  }
+  
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${t4Regular};
+    margin: 0;
   }
   
   // 캡션 스타일

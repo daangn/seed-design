@@ -1,14 +1,15 @@
 // @ts-nocheck
-import { 
-  subtitle1Regular, 
-  subtitle2Regular, 
-  h4, 
-  title1Bold, 
-  title2Bold, 
-  bodyL1Regular, 
-  caption1Regular, 
-  caption2Regular, 
-  label5Regular 
+import {
+  subtitle1Regular,
+  subtitle2Regular,
+  h4,
+  title1Bold,
+  title2Bold,
+  bodyL1Regular,
+  bodyL2Regular,
+  caption1Regular,
+  caption2Regular,
+  label5Regular,
 } from '@src/constants/typography'
 import { bodyM1Regular as customTypo } from '@karrot/typography'
 
@@ -50,6 +51,12 @@ const Card = styled.div`
   p.description {
     ${bodyL1Regular};
     color: ${vars.$scale.color.gray800};
+  }
+  
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${bodyL2Regular};
+    margin: 0;
   }
   
   // 캡션 스타일

@@ -149,13 +149,5 @@ function processTypographyNode(
       });
     }
   } else {
-    // 매핑을 찾지 못한 경우 실패 로깅
-    logger.logTransformResult(file.path, {
-      previousToken: `Failed to find mapping for typography token: ${propertyName}`,
-      nextToken: null,
-      line: path.node.loc?.start.line || 0,
-      status: "failure",
-      failureReason: "No mapping found",
-    });
   }
 }
