@@ -1,5 +1,46 @@
 # @seed-design/css
 
+## 0.0.19
+
+### Patch Changes
+
+- 3c9ec66: feat: 와일드카드 지원하지 않는 곳을 위해 CSS 파일 명시적 export
+- b3bb6e7: LoadingIndicator를 사용하는 컴포넌트에 position: relative를 추가합니다.
+
+## 0.0.17
+
+### Patch Changes
+
+- c042f90: recipe에서 직접 스타일시트 의존성을 표현하도록 변경합니다.
+
+## 0.0.15
+
+### Patch Changes
+
+- 1bb9f7b: - vite dev에서 컴포넌트 스타일시트가 로드되지 않는 버그를 수정합니다.
+  - 플러그인이 컴포넌트 스타일시트를 로드하는 방식을 변경합니다.
+- 4511814: - 레이아웃 및 flex 관련 shorthand prop을 추가합니다. (px, py, wrap, align, justify, direction)
+  - ActionButton에 flexGrow prop을 추가합니다.
+  - VStack, HStack 컴포넌트를 추가합니다.
+    - Stack, Inline, Columns 컴포넌트를 deprecated 처리합니다.
+  - 디자인 토큰이 아닌 css prop의 value가 유효한 css value가 되도록 변경합니다.
+    - flexStart, spaceBetween 등 camelCase로 제공되는 값을 deprecated 처리합니다.
+- f4b0723: HelpBubble 디자인 스펙 업데이트 (shadow)
+- f4b0723: HelpBubble의 enter, exit 모션을 추가합니다.
+
+## 0.0.14
+
+### Patch Changes
+
+- 92c0b80: HelpBubble 디자인 스펙 업데이트 (shadow)
+- c1d94d0: HelpBubble의 enter, exit 모션을 추가합니다.
+
+## 0.0.13
+
+### Patch Changes
+
+- 7fca755: Avatar의 Badge 스펙을 최신화합니다.
+
 ## 0.0.12
 
 ### Patch Changes

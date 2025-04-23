@@ -133,32 +133,32 @@ import { generateThemingScript } from "@seed-design/css/theming";
 <html>
   <head>
     <script>
-      function applyTheming(mode) {
+      (function applyTheming(mode) {
         try {
           document.documentElement.dataset.seed = '';
           document.documentElement.dataset.seedColorMode = mode;
         } catch (e) {}
-
+ 
         try {
           var prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
+ 
           if ('addEventListener' in prefersDark) {
             prefersDark.addEventListener('change', apply);
           } else if ('addListener' in prefersDark) {
             prefersDark.addListener(apply);
           }
-
+ 
           if (prefersDark.matches) {
             document.documentElement.dataset.seedUserColorScheme = 'dark';
           } else {
             document.documentElement.dataset.seedUserColorScheme = 'light';
           }
-
+ 
           function apply() {
             document.documentElement.dataset.seedUserColorScheme = prefersDark.matches ? 'dark' : 'light';
           }
         } catch (e) {}
-
+ 
         try {
           if (typeof window.AndroidFunction !== 'undefined') {
             document.documentElement.dataset.seedPlatform = 'android';
@@ -168,8 +168,7 @@ import { generateThemingScript } from "@seed-design/css/theming";
             document.documentElement.dataset.seedPlatform = 'ios';
           }
         } catch (e) {}
-      }
-      applyTheming("system");
+      })('system');
     </script>
   </head>
 </html>
@@ -215,7 +214,51 @@ Seed Design System의 디자인 토큰을 새로운 토큰으로 마이그레이
 ### 마이그레이션 전략
 
 - 만약 여러 패키지를 사용하는 경우에는 공통 패키지 먼저 마이그레이션 합니다.
+- 전처리해서 사용하는 경우에는 전처리 코드 자체를 V3로 마이그레이션 한 후 나머지 코드들을 Codemod로 마이그레이션 하는게 좋습니다.
 - Color와 Typography 각각 진행해도 되지만, Color와 Typography 마이그레이션을 동시에 진행 후 한번에 QA를 진행하는게 더 간결합니다.
+
+### Typography 전처리 예시
+
+많은 프로젝트에서 기존 타이포그래피 토큰을 전처리해서 사용하는 경우가 있습니다.
+
+이런 경우에는 아래의 코드를 참고해서 전처리를 진행 후 코드들을 그에 맞게 변경해주세요.
+
+```ts title="typography.ts"
+import type { TextVariant } from '@seed-design/css/recipes/text';
+
+import { vars as typographyVars } from '@seed-design/css/vars/component/typography';
+
+/**
+ * @example
+ * typography.t1Bold
+ * typography.t2Regular
+ * typography.t3Bold
+ * typography.t4Regular
+ * typography.t5Bold
+ * typography.t6Bold
+ * typography.t7Bold
+ * typography.screenTitle
+ * ...
+ */
+export const typography = Object.entries(typographyVars).reduce(
+  (acc, [key, value]) => {
+    const withoutPrefix = key.replace('textStyle', '');
+    const firstChar = withoutPrefix.charAt(0).toLowerCase();
+    const restOfString = withoutPrefix.slice(1);
+    const name = (firstChar + restOfString) as TextVariant['textStyle'];
+    acc[name] = value.enabled.root;
+    return acc;
+  },
+  {} as Record<
+    TextVariant['textStyle'],
+    {
+      fontSize: string;
+      fontWeight: string;
+      lineHeight: string;
+    }
+  >,
+);
+```
 
 ### Codemod
 
@@ -345,6 +388,15 @@ V2 V3 Compatibility 버전까지 설치가 되었다면 파운데이션 마이�
 이론상 이때부터는 `@seed-design/design-token` 패키지와 `@seed-design/stylesheet` 패키지를 제거할 수 있습니다.
 또한 V3 컴포넌트를 점진적 사용이 가능합니다.
 
+### V3 Compat Script 제거
+
+```html
+<script src="https://assets.krrt.io/daangn/seed-design-critical-script/latest/lib/index.js"></script>
+```
+
+기존에 25.10.0 앱버전 이상에서 V2 백그라운드 색상을 V3로 변경하기 위해 추가했던 스크립트는
+마이그레이션이 끝나고 제거해도 됩니다.
+
 ## 컴포넌트 마이그레이션
 
 TBD
@@ -392,3 +444,10 @@ TBD
 ### 파운데이션을 토큰 매핑은 어디서 확인할 수 있나요?
 
 [Migration Reference](/docs/migration/migration-reference)에서 토큰 매핑을 확인할 수 있습니다.
+
+## Known Issues
+
+### Vanill Extract CSS + Vite + V3 사용시
+
+- `@vanilla-extract/vite-plugin`와 `@seed-design/vite-plugin`을 같이 사용하는 경우 빌드가 실패할 수 있습니다.
+- `@vanilla-extract/vite-plugin`의 버전을 `5` 이상으로 업그레이드 해주세요.

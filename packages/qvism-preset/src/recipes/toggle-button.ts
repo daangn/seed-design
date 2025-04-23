@@ -8,6 +8,7 @@ const toggleButton = defineRecipe({
   name: "toggle-button",
   base: {
     display: "inline-flex",
+    position: "relative",
     boxSizing: "border-box",
     alignItems: "center",
     justifyContent: "center",

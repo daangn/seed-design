@@ -1,6 +1,6 @@
 import "./reset.css";
 import "@seed-design/stylesheet/global.css";
-import "@seed-design/css/base.min.css";
+import "@seed-design/css/base.css";
 import "./global.css";
 
 import React, { StrictMode } from "react";

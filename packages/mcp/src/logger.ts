@@ -1,43 +1,41 @@
 /**
- * Centralized logger module for the Figma MCP Server
+ * Custom logging module that writes to stderr instead of stdout
+ * to avoid being captured in MCP protocol communication
  */
-export interface Logger {
-  log(...args: any[]): void;
-  error(...args: any[]): void;
-}
 
-/**
- * Default logger implementation that does nothing
- */
-export const NoOpLogger: Logger = {
-  log: () => {},
-  error: () => {},
+export const logger = {
+  /**
+   * Log an informational message
+   */
+  info: (message: string) => process.stderr.write(`[INFO] ${message}\n`),
+
+  /**
+   * Log a debug message
+   */
+  debug: (message: string) => process.stderr.write(`[DEBUG] ${message}\n`),
+
+  /**
+   * Log a warning message
+   */
+  warn: (message: string) => process.stderr.write(`[WARN] ${message}\n`),
+
+  /**
+   * Log an error message
+   */
+  error: (message: string) => process.stderr.write(`[ERROR] ${message}\n`),
+
+  /**
+   * Log a general message
+   */
+  log: (message: string) => process.stderr.write(`[LOG] ${message}\n`),
 };
 
 /**
- * Logger that writes to the console
+ * Format an error for logging
  */
-export const ConsoleLogger: Logger = {
-  log: console.log,
-  error: console.error,
-};
-
-/**
- * Creates a logger that sends messages to an MCP server
- */
-export function createMcpLogger(sendLoggingMessage: (message: any) => void): Logger {
-  return {
-    log: (...args: any[]) => {
-      sendLoggingMessage({
-        level: "info",
-        data: args,
-      });
-    },
-    error: (...args: any[]) => {
-      sendLoggingMessage({
-        level: "error",
-        data: args,
-      });
-    },
-  };
+export function formatError(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
 }

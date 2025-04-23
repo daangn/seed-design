@@ -11,7 +11,7 @@ export default function AvatarBadgeCircle() {
       fallback={<IdentityPlaceholder />}
     >
       <AvatarBadge asChild>
-        <Box background="palette.green600" borderRadius="full" />
+        <Box bg="palette.green600" borderRadius="full" />
       </AvatarBadge>
     </Avatar>
   );

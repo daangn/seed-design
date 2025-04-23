@@ -1,5 +1,5 @@
 import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
@@ -8,7 +8,7 @@ import {
 
 export default function InlineBannerInformativeWeak() {
   return (
-    <Stack gap="x4" width="full">
+    <VStack gap="x4" width="full">
       <InlineBanner
         variant="informativeWeak"
         prefixIcon={<IconILowercaseSerifCircleFill />}
@@ -24,6 +24,6 @@ export default function InlineBannerInformativeWeak() {
         prefixIcon={<IconILowercaseSerifCircleFill />}
         description="사업자 정보를 등록해주세요."
       />
-    </Stack>
+    </VStack>
   );
 }

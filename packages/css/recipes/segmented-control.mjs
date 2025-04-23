@@ -1,3 +1,4 @@
+import './segmented-control.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const segmentedControlSlotNames = [

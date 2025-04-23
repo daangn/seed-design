@@ -10,7 +10,7 @@ import {
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
 import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
-import { Box, Stack } from "@seed-design/react";
+import { Box, VStack } from "@seed-design/react";
 
 const ActivityPartialDarkMode: ActivityComponentType = () => {
   return (
@@ -30,27 +30,17 @@ const ActivityPartialDarkMode: ActivityComponentType = () => {
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Stack>
-          <Box background="bg.layerDefault" color="fg.neutral" padding="x4">
+        <VStack>
+          <Box bg="bg.layerDefault" color="fg.neutral" p="x4">
             This is System Mode
           </Box>
-          <Box
-            background="bg.layerDefault"
-            color="fg.neutral"
-            padding="x4"
-            data-seed-color-mode="light-only"
-          >
+          <Box bg="bg.layerDefault" color="fg.neutral" p="x4" data-seed-color-mode="light-only">
             This is Light Only Mode
           </Box>
-          <Box
-            background="bg.layerDefault"
-            color="fg.neutral"
-            padding="x4"
-            data-seed-color-mode="dark-only"
-          >
+          <Box bg="bg.layerDefault" color="fg.neutral" p="x4" data-seed-color-mode="dark-only">
             This is Dark Only Mode
           </Box>
-        </Stack>
+        </VStack>
       </AppScreenContent>
     </AppScreen>
   );

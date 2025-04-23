@@ -1,3 +1,4 @@
+import './checkbox.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const checkboxSlotNames = [

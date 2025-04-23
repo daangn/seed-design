@@ -32,7 +32,7 @@ const AppScreenPreviewActivity: ActivityComponentType<"app-screen-preview"> = ()
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Flex height="full" justifyContent="center" alignItems="center">
+        <Flex height="full" justify="center" align="center">
           Preview
         </Flex>
       </AppScreenContent>

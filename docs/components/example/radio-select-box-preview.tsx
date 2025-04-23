@@ -1,10 +1,10 @@
-import { Stack } from "@seed-design/react";
+import { VStack } from "@seed-design/react";
 import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";
 
 export default function RadioSelectBoxPreview() {
   return (
     <RadioSelectBoxRoot defaultValue="apple" aria-label="Fruit">
-      <Stack gap="spacingY.componentDefault">
+      <VStack gap="spacingY.componentDefault">
         <RadioSelectBoxItem value="apple" label="Apple" />
         <RadioSelectBoxItem
           value="melon"
@@ -12,7 +12,7 @@ export default function RadioSelectBoxPreview() {
           description="Elit cupidatat dolore fugiat enim veniam culpa."
         />
         <RadioSelectBoxItem value="mango" label="Mango" />
-      </Stack>
+      </VStack>
     </RadioSelectBoxRoot>
   );
 }

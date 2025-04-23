@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { globbySync } from "globby";
+import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import { defineConfig } from "vitest/config";
 import pkg from "./package.json";
 
 export default defineConfig({

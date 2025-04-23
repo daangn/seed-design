@@ -207,7 +207,8 @@
           },
           {
             "states": [
-              "disabledSelected"
+              "disabled",
+              "selected"
             ],
             "slots": {
               "label": {

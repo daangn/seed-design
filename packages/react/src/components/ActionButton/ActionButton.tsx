@@ -11,11 +11,13 @@ import {
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
+import { useStyleProps, type StyleProps } from "../../utils/styled";
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
+    Pick<StyleProps, "flexGrow">,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
@@ -25,6 +27,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
   ) => {
     const recipeClassName = actionButton({ variant, layout, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
+    const { style, restProps } = useStyleProps(otherProps);
 
     if (layout === "iconOnly" && !(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
       console.warn(
@@ -38,8 +41,9 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
           <Primitive.button
             ref={ref}
             className={clsx(recipeClassName, className)}
+            style={style}
             {...api.stateProps}
-            {...otherProps}
+            {...restProps}
           >
             {children}
           </Primitive.button>

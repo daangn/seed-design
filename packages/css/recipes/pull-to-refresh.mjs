@@ -1,3 +1,4 @@
+import './pull-to-refresh.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const pullToRefreshSlotNames = [

@@ -1,4 +1,4 @@
-import { Stack, useSnackbarAdapter } from "@seed-design/react";
+import { VStack, useSnackbarAdapter } from "@seed-design/react";
 import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
 import { List, ListItem, ListItemGroup } from "../components/List";
@@ -65,7 +65,7 @@ const ActivityHome: ActivityComponentType = () => {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <Stack gap="x2">
+                  <VStack gap="x2">
                     <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                     <ActionButton
                       variant="neutralSolid"
@@ -73,7 +73,7 @@ const ActivityHome: ActivityComponentType = () => {
                     >
                       Push
                     </ActionButton>
-                  </Stack>
+                  </VStack>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogRoot>

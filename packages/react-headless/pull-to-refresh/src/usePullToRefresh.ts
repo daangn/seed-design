@@ -55,25 +55,19 @@ interface PullToRefreshContext {
 
 export type PullToRefreshState = "idle" | "pulling" | "ready" | "loading";
 
-// We use useSyncExternalStore to only re-render indicator area on drag
-const contextStore = new Store<PullToRefreshContext>({
-  y0: 0,
-  y: -1,
-  displacement: 0,
-  displacementRatio: 0,
-});
-
-const useContextStore = () => {
-  return useSyncExternalStore(
-    (listener) => contextStore.subscribe(listener),
-    () => contextStore.getState(),
-    () => contextStore.getState(),
-  );
-};
-
 function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const threshold = props.threshold ?? 44;
   const displacementMultiplier = props.displacementMultiplier ?? 0.5;
+
+  // We use useSyncExternalStore to only re-render indicator area on drag
+  const [contextStore] = useState(
+    new Store<PullToRefreshContext>({
+      y0: 0,
+      y: -1,
+      displacement: 0,
+      displacementRatio: 0,
+    }),
+  );
 
   const [state, setState] = useState<PullToRefreshState>("idle");
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -137,6 +131,7 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
     threshold,
     refs: { root: rootRef },
     events,
+    contextStore,
   };
 }
 
@@ -151,7 +146,7 @@ export interface PullToRefreshIndicatorRenderProps {
 export type UsePullToRefreshReturn = ReturnType<typeof usePullToRefresh>;
 
 export function usePullToRefresh(props: UsePullToRefreshProps) {
-  const { state, threshold, refs, events } = usePullToRefreshState(props);
+  const { state, threshold, refs, events, contextStore } = usePullToRefreshState(props);
 
   const isDragging = state === "pulling" || state === "ready";
   const stateProps = elementProps({
@@ -193,7 +188,11 @@ export function usePullToRefresh(props: UsePullToRefreshProps) {
       },
     }),
     getIndicatorRenderProps: () => {
-      const ctx = useContextStore();
+      const ctx = useSyncExternalStore(
+        (listener) => contextStore.subscribe(listener),
+        () => contextStore.getState(),
+        () => contextStore.getState(),
+      );
       return {
         minValue: 0,
         maxValue: 100,

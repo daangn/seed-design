@@ -1,3 +1,4 @@
+import './snackbar.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const snackbarSlotNames = [

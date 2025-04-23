@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/css",
-  "version": "0.0.12",
+  "version": "0.0.19",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -13,12 +13,15 @@
     "lint:publish": "bun publint"
   },
   "sideEffects": [
-    "*.css",
-    "theming/index.mjs"
+    "*.css"
   ],
   "type": "module",
   "exports": {
     "./*.css": "./*.css",
+    "./base.css": "./base.css",
+    "./base.min.css": "./base.min.css",
+    "./all.css": "./all.css",
+    "./all.min.css": "./all.min.css",
     "./recipes/*.css": "./recipes/*.css",
     "./recipes/*": {
       "types": "./recipes/*.d.ts",

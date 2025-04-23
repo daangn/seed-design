@@ -1,26 +1,13 @@
 import { helpBubble as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { hidden, pseudo } from "../utils/pseudo";
+import { hidden, not, pseudo, open } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
+import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
-  slots: ["positioner", "backdrop", "content", "arrow", "title", "description", "closeButton"],
+  slots: ["positioner", "content", "arrow", "title", "description", "closeButton"],
   base: {
-    backdrop: {
-      position: "fixed",
-      inset: 0,
-      zIndex: 1000,
-
-      width: "100vw",
-      height: "100vh",
-
-      background: vars.base.enabled.backdrop.color,
-
-      [pseudo(hidden)]: {
-        display: "none !important",
-      },
-    },
     content: {
       display: "flex",
       flexDirection: "column",
@@ -28,10 +15,29 @@ const helpBubble = defineSlotRecipe({
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
       borderRadius: vars.base.enabled.root.cornerRadius,
+      boxShadow: vars.base.enabled.root.shadow,
       wordBreak: "keep-all",
 
       "--seed-box-max-width": "initial",
       maxWidth: "var(--seed-box-max-width)",
+
+      [pseudo(open)]: {
+        ...enterAnimation({
+          scale: vars.base.enabled.root.enterScale,
+          opacity: vars.base.enabled.root.enterOpacity,
+          duration: vars.base.enabled.root.enterDuration,
+          timingFunction: vars.base.enabled.root.enterTimingFunction,
+        }),
+      },
+
+      [pseudo(not(open))]: {
+        ...exitAnimation({
+          scale: vars.base.enabled.root.exitScale,
+          opacity: vars.base.enabled.root.exitOpacity,
+          duration: vars.base.enabled.root.exitDuration,
+          timingFunction: vars.base.enabled.root.exitTimingFunction,
+        }),
+      },
 
       [pseudo(hidden)]: {
         display: "none !important",

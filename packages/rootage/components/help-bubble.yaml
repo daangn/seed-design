@@ -16,6 +16,24 @@ data:
             type: dimension
           paddingY:
             type: dimension
+          shadow:
+            type: shadow
+          enterScale:
+            type: number
+          enterOpacity:
+            type: number
+          enterDuration:
+            type: duration
+          enterTimingFunction:
+            type: cubicBezier
+          exitScale:
+            type: number
+          exitOpacity:
+            type: number
+          exitDuration:
+            type: duration
+          exitTimingFunction:
+            type: cubicBezier
       arrow:
         properties:
           color:
@@ -28,6 +46,10 @@ data:
             type: dimension
           gutter:
             type: dimension
+            description: arrow와 타겟 요소 사이의 거리를 정의합니다.
+          padding:
+            type: dimension
+            description: arrow와 root의 경계 사이의 최소 간격을 정의합니다.
       title:
         properties:
           color:
@@ -60,10 +82,6 @@ data:
             type: dimension
           targetSize:
             type: dimension
-      backdrop:
-        properties:
-          color:
-            type: color
   definitions:
     base:
       enabled:
@@ -72,12 +90,29 @@ data:
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
+          shadow:
+            type: shadow
+            value:
+              - color: "#00000029"
+                blur: 24px
+                offsetX: 0px
+                offsetY: 8px
+                spread: 0px
+          enterScale: 0.9
+          enterOpacity: 0
+          enterDuration: $duration.d4
+          enterTimingFunction: $timing-function.enter
+          exitScale: 1
+          exitOpacity: 0
+          exitDuration: $duration.d4
+          exitTimingFunction: $timing-function.easing
         arrow:
           color: $color.bg.neutral-solid
           width: 12px
           height: 8px
           cornerRadius: 2px
           gutter: 4px
+          padding: 14px
         title:
           color: $color.palette.static-white
           fontSize: $font-size.t3
@@ -94,5 +129,3 @@ data:
           fromTop: 12px
           size: 14px
           targetSize: 32px
-        backdrop:
-          color: $color.bg.overlay

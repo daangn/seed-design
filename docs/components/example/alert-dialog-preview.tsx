@@ -1,4 +1,4 @@
-import { Column, Columns } from "@seed-design/react";
+import { HStack } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -24,18 +24,18 @@ const AlertDialogSingle = () => {
           <AlertDialogDescription>이 작업은 되돌릴 수 없습니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Columns gap="x2">
-            <Column>
-              <AlertDialogAction asChild>
-                <ActionButton variant="neutralSolid">취소</ActionButton>
-              </AlertDialogAction>
-            </Column>
-            <Column>
-              <AlertDialogAction asChild>
-                <ActionButton variant="neutralWeak">확인</ActionButton>
-              </AlertDialogAction>
-            </Column>
-          </Columns>
+          <HStack gap="x2">
+            <AlertDialogAction asChild>
+              <ActionButton variant="neutralSolid" flexGrow={1}>
+                취소
+              </ActionButton>
+            </AlertDialogAction>
+            <AlertDialogAction asChild>
+              <ActionButton variant="neutralWeak" flexGrow={1}>
+                확인
+              </ActionButton>
+            </AlertDialogAction>
+          </HStack>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

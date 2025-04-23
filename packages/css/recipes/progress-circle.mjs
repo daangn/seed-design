@@ -1,3 +1,4 @@
+import './progress-circle.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const progressCircleSlotNames = [

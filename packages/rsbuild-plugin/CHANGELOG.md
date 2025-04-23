@@ -1,5 +1,47 @@
 # @seed-design/rsbuild-plugin
 
+## 0.0.19
+
+### Patch Changes
+
+- Updated dependencies [3c9ec66]
+- Updated dependencies [b3bb6e7]
+  - @seed-design/css@0.0.19
+
+## 0.0.17
+
+### Patch Changes
+
+- Updated dependencies [c042f90]
+  - @seed-design/css@0.0.17
+
+## 0.0.15
+
+### Patch Changes
+
+- 1bb9f7b: - vite dev에서 컴포넌트 스타일시트가 로드되지 않는 버그를 수정합니다.
+  - 플러그인이 컴포넌트 스타일시트를 로드하는 방식을 변경합니다.
+- Updated dependencies [1bb9f7b]
+- Updated dependencies [4511814]
+- Updated dependencies [f4b0723]
+- Updated dependencies [f4b0723]
+  - @seed-design/css@0.0.15
+
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies [92c0b80]
+- Updated dependencies [c1d94d0]
+  - @seed-design/css@0.0.14
+
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies [7fca755]
+  - @seed-design/css@0.0.13
+
 ## 0.0.12
 
 ### Patch Changes

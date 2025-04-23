@@ -1,10 +1,8 @@
-import { useFlow } from "@stackflow/react/future";
-import { Inline, Stack } from "@seed-design/react";
-import { Text } from "@seed-design/react";
-import { Badge } from "@seed-design/react";
-import { CATEGORIES, type Article } from "@/components/example/demo/data";
 import { ArticleAuthor } from "@/components/example/demo/components/article-author";
+import { CATEGORIES, type Article } from "@/components/example/demo/data";
 import { formatDate } from "@/components/example/demo/utils/date";
+import { Badge, HStack, Text, VStack } from "@seed-design/react";
+import { useFlow } from "@stackflow/react/future";
 
 type ArticleProps = Article & {};
 
@@ -14,27 +12,27 @@ export function ArticleListItem(article: ArticleProps) {
   const { push } = useFlow();
 
   return (
-    <Stack
+    <VStack
       as="button"
       onClick={() => push("demo/article-detail", { article })}
       style={{ textAlign: "start" }}
       gap="x2_5"
-      paddingX="spacingX.globalGutter"
-      paddingY="x1"
+      px="spacingX.globalGutter"
+      py="x1"
     >
-      <Inline justifyContent="spaceBetween" alignItems="center">
+      <HStack justify="space-between" align="center">
         <ArticleAuthor author={author} />
-      </Inline>
-      <Stack gap="x2">
-        <Stack gap="x1">
+      </HStack>
+      <VStack gap="x2">
+        <VStack gap="x1">
           <Text as="h1" textStyle="t5Bold" color="fg.neutral" maxLines={1}>
             {title}
           </Text>
           <Text as="p" textStyle="t4Regular" color="fg.neutralMuted" maxLines={2}>
             {content}
           </Text>
-        </Stack>
-        <Inline alignItems="center" gap="x2">
+        </VStack>
+        <HStack align="center" gap="x2">
           {isPopular && (
             <Badge variant="outline" tone="brand">
               인기
@@ -43,8 +41,8 @@ export function ArticleListItem(article: ArticleProps) {
           <Text textStyle="t4Regular" color="fg.neutralSubtle">
             {categoryName} ⸱ 서초2동 ⸱ {formatDate(createdAt)}
           </Text>
-        </Inline>
-      </Stack>
-    </Stack>
+        </HStack>
+      </VStack>
+    </VStack>
   );
 }

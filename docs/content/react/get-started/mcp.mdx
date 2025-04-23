@@ -1,0 +1,89 @@
+---
+title: MCP
+description: AI Agent를 활용해 생산성을 높일 수 있는 Model Context Protocol(MCP)를 제공합니다.
+---
+
+## 설치
+
+### Prerequisites
+
+- [Bun](https://bun.sh/docs/installation)
+
+### Cursor
+
+Cursor Settings > MCP > Add MCP Server 에 다음 설정을 추가합니다.
+
+```json
+{
+  "mcpServers": {
+    "SEED Design": {
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp"],
+      "type": "stdio"
+    }
+  }
+}
+```
+
+[Cursor MCP에 대해 자세히 알아보기](https://docs.cursor.com/context/model-context-protocol)
+
+### Figma
+
+[Figma MCP 플러그인](https://www.figma.com/community/plugin/1496384010980477154)을 설치합니다.
+
+## 사용법
+
+<Steps>
+<Step>
+### 웹소켓 서버 실행
+
+```bash
+bunx --bun @seed-design/mcp socket
+```
+</Step>
+<Step>
+### Figma 플러그인 실행
+
+설치된 SEED Design MCP 플러그인을 실행합니다.
+</Step>
+<Step>
+### 채널 연결
+
+실행된 Figma 플러그인에 채널이 표기됩니다.
+
+예시:
+```
+Connected to server on port 3055 in channel: onh8wul9
+```
+
+에이전트에 아래 프롬프트를 전달해 웹소켓 서버와 채널을 연결합니다.
+```
+join_channel {채널명}
+```
+</Step>
+<Step>
+연결이 완료되면, `선택된 노드를 참고해 React로 구현해주세요.` 와 같은 요청을 전달할 수 있습니다.
+</Step>
+</Steps>
+
+## 주요 툴 목록
+
+### `join_channel`
+
+웹소켓 서버와 채널을 연결합니다.
+
+### `get_selection`
+
+선택한 노드의 id를 반환합니다.
+
+### `get_node_react_code`
+
+노드의 React codegen 결과를 반환합니다.
+
+### `export_node_as_image`
+
+노드의 이미지를 반환합니다. [Playwright MCP](https://github.com/microsoft/playwright-mcp) 등과 통합해 이미지 단위 비교에 활용할 수 있습니다.
+
+### `add_annotations`
+
+Figma 파일에 Annotation을 추가합니다. [참고](https://help.figma.com/hc/en-us/articles/20774752502935-Add-measurements-and-annotate-designs)

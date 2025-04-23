@@ -5,14 +5,24 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x3)",
-        "paddingY": "var(--seed-dimension-x2_5)"
+        "paddingY": "var(--seed-dimension-x2_5)",
+        "shadow": "0px 8px 24px 0px #00000029",
+        "enterScale": "0.9",
+        "enterOpacity": "0",
+        "enterDuration": "var(--seed-duration-d4)",
+        "enterTimingFunction": "var(--seed-timing-function-enter)",
+        "exitScale": "1",
+        "exitOpacity": "0",
+        "exitDuration": "var(--seed-duration-d4)",
+        "exitTimingFunction": "var(--seed-timing-function-easing)"
       },
       "arrow": {
         "color": "var(--seed-color-bg-neutral-solid)",
         "width": "12px",
         "height": "8px",
         "cornerRadius": "2px",
-        "gutter": "4px"
+        "gutter": "4px",
+        "padding": "14px"
       },
       "title": {
         "color": "var(--seed-color-palette-static-white)",
@@ -32,9 +42,6 @@ export declare const vars: {
         "fromTop": "12px",
         "size": "14px",
         "targetSize": "32px"
-      },
-      "backdrop": {
-        "color": "var(--seed-color-bg-overlay)"
       }
     }
   }

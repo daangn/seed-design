@@ -8,6 +8,7 @@ const actionButton = defineRecipe({
   name: "action-button",
   base: {
     display: "inline-flex",
+    position: "relative",
     boxSizing: "border-box",
     alignItems: "center",
     justifyContent: "center",
@@ -19,6 +20,9 @@ const actionButton = defineRecipe({
     textDecoration: "none",
     flexShrink: 0,
     fontFamily: "inherit",
+
+    "--seed-box-flex-grow": "initial",
+    flexGrow: "var(--seed-box-flex-grow)",
 
     [pseudo(focus)]: {
       outline: "none",

@@ -1,13 +1,10 @@
+import './help-bubble.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const helpBubbleSlotNames = [
   [
     "positioner",
     "seed-help-bubble__positioner"
-  ],
-  [
-    "backdrop",
-    "seed-help-bubble__backdrop"
   ],
   [
     "content",

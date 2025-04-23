@@ -1,9 +1,9 @@
 import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
-import { LinkContent, Stack, SuffixIcon } from "@seed-design/react";
+import { LinkContent, VStack, SuffixIcon } from "@seed-design/react";
 
 export default function LinkContentColor() {
   return (
-    <Stack>
+    <VStack>
       <LinkContent color="fg.neutral">
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
@@ -20,6 +20,6 @@ export default function LinkContentColor() {
         더보기
         <SuffixIcon svg={<IconChevronRightLine />} />
       </LinkContent>
-    </Stack>
+    </VStack>
   );
 }

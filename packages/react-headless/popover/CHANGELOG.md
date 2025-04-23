@@ -1,5 +1,17 @@
 # @seed-design/react-popover
 
+## 0.0.4
+
+### Patch Changes
+
+- f4b0723: HelpBubble의 enter, exit 모션을 추가합니다.
+
+## 0.0.3
+
+### Patch Changes
+
+- c1d94d0: HelpBubble의 enter, exit 모션을 추가합니다.
+
 ## 0.0.2
 
 ### Patch Changes
