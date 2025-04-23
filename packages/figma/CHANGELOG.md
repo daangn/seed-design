@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 0.0.20
+
+### Patch Changes
+
+- 38ece6a: Text style, 아이콘을 찾지 못했을 때 fallback을 추가합니다.
+
 ## 0.0.19
 
 ### Patch Changes
