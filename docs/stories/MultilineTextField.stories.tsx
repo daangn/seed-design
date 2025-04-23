@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
-import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
+import { fieldVariantMap } from "@seed-design/css/recipes/field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -26,7 +26,7 @@ const CommonStoryTemplate: Story = {
     children: <TextFieldTextarea placeholder="Placeholder" />,
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={textFieldVariantMap} {...args} />
+    <VariantTable Component={meta.component} variantMap={fieldVariantMap} {...args} />
   ),
 };
 
