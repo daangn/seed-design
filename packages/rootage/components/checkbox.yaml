@@ -48,7 +48,7 @@ data:
           color: $color.fg.disabled
         icon:
           color: $color.fg.disabled
-      disabledSelected:
+      disabled,selected:
         label:
           color: $color.fg.disabled
         icon:
