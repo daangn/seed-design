@@ -105,15 +105,6 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
         } else {
           // 매핑이 없는 경우 그대로 유지
           specifiersToProcess.push(specifier);
-
-          // 매핑을 찾지 못한 경우 실패 로깅
-          logger.logTransformResult(file.path, {
-            previousToken: `Failed to find mapping for typography token: ${importedName}`,
-            nextToken: null,
-            line: path.node.loc?.start.line || 0,
-            status: "failure",
-            failureReason: "No mapping found",
-          });
         }
       });
 
