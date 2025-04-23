@@ -8,6 +8,7 @@ const actionButton = defineRecipe({
   name: "action-button",
   base: {
     display: "inline-flex",
+    position: "relative",
     boxSizing: "border-box",
     alignItems: "center",
     justifyContent: "center",
