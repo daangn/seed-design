@@ -20,7 +20,7 @@ export function createIconService({
 
     const iconData = iconRepository.getIconData(key);
     if (!iconData) {
-      throw new Error(`Icon not found: ${key}`);
+      return "UnknownIcon";
     }
 
     const { name, weight } = iconData;
