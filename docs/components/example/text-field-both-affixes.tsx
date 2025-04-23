@@ -1,20 +1,19 @@
 import { IconPlusCircleLine, IconWonLine } from "@karrotmarket/react-monochrome-icon";
-import { HStack } from "@seed-design/react";
+import { HStack, PrefixIcon, SuffixIcon } from "@seed-design/react";
 import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
-export default function TextFieldSuffix() {
+export default function TextFieldBothAffixes() {
   return (
     <HStack width="full" gap="x3">
-      <TextField label="라벨" description="설명을 써주세요" prefix="만" suffix="세">
+      <TextField label="라벨" description="설명을 써주세요">
+        <span>만</span>
         <TextFieldInput placeholder="플레이스홀더" />
+        <span>세</span>
       </TextField>
-      <TextField
-        label="라벨"
-        description="설명을 써주세요"
-        prefixIcon={<IconPlusCircleLine />}
-        suffixIcon={<IconWonLine />}
-      >
+      <TextField label="라벨" description="설명을 써주세요">
+        <PrefixIcon svg={<IconPlusCircleLine />} />
         <TextFieldInput placeholder="플레이스홀더" />
+        <SuffixIcon svg={<IconWonLine />} />
       </TextField>
     </HStack>
   );

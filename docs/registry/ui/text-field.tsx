@@ -1,22 +1,14 @@
 "use client";
 
-import * as React from "react";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
-import { TextField as SeedTextField } from "@seed-design/react";
+import { PrefixIcon, TextField as SeedTextField } from "@seed-design/react";
+import * as React from "react";
 
 export interface TextFieldProps
   extends Omit<SeedTextField.RootProps, "prefix"> {
   label?: React.ReactNode;
 
   indicator?: React.ReactNode;
-
-  prefixIcon?: React.ReactNode;
-
-  prefix?: React.ReactNode;
-
-  suffixIcon?: React.ReactNode;
-
-  suffix?: React.ReactNode;
 
   description?: React.ReactNode;
 
@@ -33,10 +25,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     {
       description,
       errorMessage,
-      prefix,
-      prefixIcon,
-      suffix,
-      suffixIcon,
       indicator,
       label,
       children,
@@ -61,17 +49,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             <SeedTextField.Indicator>{indicator}</SeedTextField.Indicator>
           </SeedTextField.Header>
         )}
-        <SeedTextField.Field>
-          {prefixIcon && <SeedTextField.PrefixIcon svg={prefixIcon} />}
-          {prefix && (
-            <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>
-          )}
-          {children}
-          {suffix && (
-            <SeedTextField.SuffixText>{suffix}</SeedTextField.SuffixText>
-          )}
-          {suffixIcon && <SeedTextField.SuffixIcon svg={suffixIcon} />}
-        </SeedTextField.Field>
+        <SeedTextField.Body>{children}</SeedTextField.Body>
         {renderFooter && (
           <SeedTextField.Footer>
             {renderDescription && (
@@ -81,9 +59,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             )}
             {renderErrorMessage && (
               <SeedTextField.ErrorMessage>
-                <SeedTextField.ErrorIcon
-                  svg={<IconExclamationmarkCircleFill />}
-                />
+                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
                 {errorMessage}
               </SeedTextField.ErrorMessage>
             )}

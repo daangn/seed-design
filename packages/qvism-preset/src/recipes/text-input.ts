@@ -1,19 +1,28 @@
-import { textField as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
+import { prefixIcon, suffixIcon } from "../utils/icon";
+import { disabled, focus, invalid, not, pseudo, readOnly } from "../utils/pseudo";
+import { textField as vars } from "../vars/component";
 
 const textInput = defineSlotRecipe({
   name: "text-input",
-  slots: ["root", "value", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
+  slots: ["root", "value"],
   base: {
     root: {
       display: "flex",
       alignItems: "center",
 
       backgroundColor: vars.base.enabled.field.color,
+      color: vars.base.enabled.value.color,
       borderStyle: "solid",
       borderWidth: vars.base.enabled.field.strokeWidth,
       borderColor: vars.base.enabled.field.strokeColor,
+
+      ...prefixIcon({
+        color: vars.base.enabled.prefixIcon.color,
+      }),
+      ...suffixIcon({
+        color: vars.base.enabled.suffixIcon.color,
+      }),
 
       [pseudo(not(readOnly), focus)]: {
         borderColor: vars.base.focused.field.strokeColor,
@@ -30,40 +39,18 @@ const textInput = defineSlotRecipe({
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.field.color,
+        color: vars.base.disabled.value.color,
+
+        ...prefixIcon({
+          color: vars.base.disabled.prefixIcon.color,
+        }),
+        ...suffixIcon({
+          color: vars.base.disabled.suffixIcon.color,
+        }),
       },
 
       [pseudo(readOnly)]: {
         backgroundColor: vars.base.readonly.field.color,
-      },
-    },
-    prefixText: {
-      color: vars.base.enabled.prefixText.color,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixText.color,
-      },
-    },
-    prefixIcon: {
-      color: vars.base.enabled.prefixIcon.color,
-      flexShrink: 0,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixIcon.color,
-      },
-    },
-    suffixText: {
-      color: vars.base.enabled.suffixText.color,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixText.color,
-      },
-    },
-    suffixIcon: {
-      color: vars.base.enabled.suffixIcon.color,
-      flexShrink: 0,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixIcon.color,
       },
     },
     value: {
@@ -115,6 +102,13 @@ const textInput = defineSlotRecipe({
           gap: vars.sizeLarge.enabled.field.gap,
 
           paddingInline: vars.sizeLarge.enabled.field.paddingX,
+
+          ...prefixIcon({
+            size: vars.sizeLarge.enabled.prefixIcon.size,
+          }),
+          ...suffixIcon({
+            size: vars.sizeLarge.enabled.suffixIcon.size,
+          }),
         },
         value: {
           // We intentionally apply field's paddingY to value for input touch area.
@@ -122,22 +116,6 @@ const textInput = defineSlotRecipe({
 
           fontSize: vars.sizeLarge.enabled.value.fontSize,
           lineHeight: vars.sizeLarge.enabled.value.lineHeight,
-        },
-        prefixText: {
-          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
-        },
-        prefixIcon: {
-          width: vars.sizeLarge.enabled.prefixIcon.size,
-          height: vars.sizeLarge.enabled.prefixIcon.size,
-        },
-        suffixText: {
-          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
-        },
-        suffixIcon: {
-          width: vars.sizeLarge.enabled.suffixIcon.size,
-          height: vars.sizeLarge.enabled.suffixIcon.size,
         },
       },
       medium: {
@@ -147,6 +125,13 @@ const textInput = defineSlotRecipe({
           gap: vars.sizeMedium.enabled.field.gap,
 
           paddingInline: vars.sizeMedium.enabled.field.paddingX,
+
+          ...prefixIcon({
+            size: vars.sizeMedium.enabled.prefixIcon.size,
+          }),
+          ...suffixIcon({
+            size: vars.sizeMedium.enabled.suffixIcon.size,
+          }),
         },
         value: {
           // We intentionally apply field's paddingY to value for input touch area.
@@ -154,22 +139,6 @@ const textInput = defineSlotRecipe({
 
           fontSize: vars.sizeMedium.enabled.value.fontSize,
           lineHeight: vars.sizeMedium.enabled.value.lineHeight,
-        },
-        prefixText: {
-          fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
-        },
-        prefixIcon: {
-          width: vars.sizeMedium.enabled.prefixIcon.size,
-          height: vars.sizeMedium.enabled.prefixIcon.size,
-        },
-        suffixText: {
-          fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
-        },
-        suffixIcon: {
-          width: vars.sizeMedium.enabled.suffixIcon.size,
-          height: vars.sizeMedium.enabled.suffixIcon.size,
         },
       },
     },

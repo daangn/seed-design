@@ -1,30 +1,39 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
+import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
+import { textInput } from "@seed-design/css/recipes/text-input";
+import { TextField, useTextFieldContext } from "@seed-design/react-field";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import {
-  Field,
-  useFieldContext,
-  GraphemeInput,
-  useGraphemeInputContext,
-} from "@seed-design/react-field";
-import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
 import clsx from "clsx";
 import type * as React from "react";
-import { forwardRef, useCallback, useRef } from "react";
+import { forwardRef, useCallback, useMemo, useRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { composeRefs } from "@radix-ui/react-compose-refs";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
-const withStateProps = createWithStateProps([useFieldContext, useGraphemeInputContext]);
+const { withContext, useClassNames, ClassNamesProvider } = createSlotRecipeContext(field);
+const {
+  withProvider: withTextInputProvider,
+  withContext: withTextInputContext,
+  useClassNames: useTextInputClassNames,
+  PropsProvider: TextInputPropsProvider,
+} = createSlotRecipeContext(textInput);
+const withStateProps = createWithStateProps([useTextFieldContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
+export interface TextFieldRootProps extends FieldVariantProps, TextField.RootProps {}
 
-export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
-  TextField.Root,
-  "root",
+export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>(
+  ({ className, size, ...otherProps }, ref) => {
+    const classNames = field({ size });
+    return (
+      <TextInputPropsProvider value={useMemo(() => ({ size }), [size])}>
+        <ClassNamesProvider value={classNames}>
+          <TextField.Root ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
+        </ClassNamesProvider>
+      </TextInputPropsProvider>
+    );
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -73,58 +82,18 @@ export const TextFieldIndicator = forwardRef<HTMLSpanElement, TextFieldIndicator
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldFieldProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface TextFieldBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const TextFieldField = withContext<HTMLDivElement, TextFieldFieldProps>(
+export const TextFieldBody = withTextInputProvider<HTMLDivElement, TextFieldBodyProps>(
   withStateProps(Primitive.div),
-  "field",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldPrefixIconProps extends InternalIconProps {}
-
-export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIconProps>(
-  withStateProps(InternalIcon),
-  "prefixIcon",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldPrefixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixTextProps>(
-  withStateProps(Primitive.span),
-  "prefixText",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldSuffixIconProps extends InternalIconProps {}
-
-export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
-  withStateProps(InternalIcon),
-  "suffixIcon",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldSuffixTextProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixTextProps>(
-  withStateProps(Primitive.span),
-  "suffixText",
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldInputProps extends TextField.InputProps {}
 
-export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
+export const TextFieldInput = withTextInputContext<HTMLInputElement, TextFieldInputProps>(
   TextField.Input,
   "value",
 );
@@ -142,7 +111,7 @@ export interface TextFieldTextareaProps extends TextField.TextareaProps {
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
   (props, ref) => {
     const { className, autoresize = true, ...otherProps } = props;
-    const classNames = useClassNames();
+    const classNames = useTextInputClassNames();
     const { value } = useTextFieldContext();
 
     // referenced from React Spectrum
@@ -224,15 +193,6 @@ export const TextFieldErrorMessage = withContext<HTMLSpanElement, TextFieldError
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldErrorIconProps extends InternalIconProps {}
-
-export const TextFieldErrorIcon = withContext<SVGSVGElement, TextFieldErrorIconProps>(
-  withStateProps(InternalIcon),
-  "errorIcon",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldCharacterCountAreaProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -261,3 +221,5 @@ export const TextFieldMaxCharacterCount = withContext<
   HTMLSpanElement,
   TextFieldMaxCharacterCountProps
 >(withStateProps(Primitive.span), "maxCharacterCount");
+
+////////////////////////////////////////////////////////////////////////////////////

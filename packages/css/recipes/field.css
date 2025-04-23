@@ -16,6 +16,10 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
+}
+.seed-field__footer:is(:invalid, [data-invalid]) {
+    --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }
 .seed-field__description {
     font-weight: var(--seed-font-weight-regular);
@@ -26,10 +30,6 @@
     flex-direction: row;
     align-items: center;
     color: var(--seed-color-fg-critical);
-}
-.seed-field__errorIcon {
-    flex: none;
-    flex-shrink: 0;
 }
 .seed-field__characterCountArea {
     display: flex;
@@ -63,6 +63,8 @@
     gap: var(--seed-dimension-x3_5);
     padding-top: var(--seed-dimension-x2);
     min-height: 20px;
+    --seed-prefix-icon-size: var(--seed-dimension-x4);
+    --seed-prefix-icon-margin-right: var(--seed-dimension-x1);
 }
 .seed-field__description--size_large {
     font-size: var(--seed-font-size-t4);
@@ -71,11 +73,6 @@
 .seed-field__errorMessage--size_large {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
-}
-.seed-field__errorIcon--size_large {
-    width: var(--seed-dimension-x4);
-    height: var(--seed-dimension-x4);
-    margin-right: var(--seed-dimension-x1);
 }
 .seed-field__characterCount--size_large {
     font-size: var(--seed-font-size-t2);
@@ -100,6 +97,8 @@
     gap: var(--seed-dimension-x3_5);
     padding-top: var(--seed-dimension-x2);
     min-height: var(--seed-dimension-x4);
+    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
+    --seed-prefix-icon-margin-right: var(--seed-dimension-x1);
 }
 .seed-field__description--size_medium {
     font-size: var(--seed-font-size-t2);
@@ -108,11 +107,6 @@
 .seed-field__errorMessage--size_medium {
     font-size: var(--seed-font-size-t2);
     line-height: var(--seed-line-height-t2);
-}
-.seed-field__errorIcon--size_medium {
-    width: var(--seed-dimension-x3_5);
-    height: var(--seed-dimension-x3_5);
-    margin-right: var(--seed-dimension-x1);
 }
 .seed-field__characterCount--size_medium {
     font-size: var(--seed-font-size-t2);

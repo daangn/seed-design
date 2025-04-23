@@ -1,3 +1,4 @@
+import './text-input.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const textInputSlotNames = [
@@ -8,22 +9,6 @@ const textInputSlotNames = [
   [
     "value",
     "seed-text-input__value"
-  ],
-  [
-    "prefixText",
-    "seed-text-input__prefixText"
-  ],
-  [
-    "prefixIcon",
-    "seed-text-input__prefixIcon"
-  ],
-  [
-    "suffixText",
-    "seed-text-input__suffixText"
-  ],
-  [
-    "suffixIcon",
-    "seed-text-input__suffixIcon"
   ]
 ];
 

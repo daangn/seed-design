@@ -16,6 +16,10 @@ export function useFieldState() {
     setIsErrorMessageRendered(!!node);
   }, []);
 
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFocusVisible, setIsFocusVisible] = useState(false);
+  const [__data, __setData] = useState<{ type: "grapheme"; count: number }>();
+
   return {
     refs: {
       label: labelRef,
@@ -28,6 +32,14 @@ export function useFieldState() {
       description: isDescriptionRendered,
       errorMessage: isErrorMessageRendered,
     },
+
+    isFocused,
+    isFocusVisible,
+    setIsFocused,
+    setIsFocusVisible,
+
+    __data,
+    __setData,
   };
 }
 
@@ -56,7 +68,16 @@ export function useField(props: UseFieldProps) {
   const id = useId();
   const { disabled = false, invalid = false, readOnly = false, required = false } = props;
 
-  const { refs, renderedElements } = useFieldState();
+  const {
+    refs,
+    renderedElements,
+    isFocused,
+    isFocusVisible,
+    setIsFocused,
+    setIsFocusVisible,
+    __data,
+    __setData,
+  } = useFieldState();
 
   const ariaDescribedBy =
     [
@@ -70,6 +91,8 @@ export function useField(props: UseFieldProps) {
     "data-readonly": dataAttr(readOnly),
     "data-disabled": dataAttr(disabled),
     "data-invalid": dataAttr(invalid),
+    "data-focus": dataAttr(isFocused),
+    "data-focus-visible": dataAttr(isFocusVisible),
   });
 
   return {
@@ -79,6 +102,12 @@ export function useField(props: UseFieldProps) {
     readOnly,
     invalid,
     required,
+    focused: isFocused,
+    focusVisible: isFocusVisible,
+
+    __data,
+    __setData,
+
     stateProps,
 
     rootProps: elementProps({
@@ -101,6 +130,17 @@ export function useField(props: UseFieldProps) {
       readOnly,
       id: getInputId(id),
       name: id,
+      onChange: (event) => {
+        setIsFocusVisible(event.target.matches(":focus-visible"));
+      },
+      onBlur() {
+        setIsFocused(false);
+        setIsFocusVisible(false);
+      },
+      onFocus(event) {
+        setIsFocused(true);
+        setIsFocusVisible(event.target.matches(":focus-visible"));
+      },
     }) as
       | React.InputHTMLAttributes<HTMLInputElement>
       | React.TextareaHTMLAttributes<HTMLTextAreaElement>,

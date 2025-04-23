@@ -69,8 +69,8 @@ export interface FieldInputProps
     React.InputHTMLAttributes<HTMLInputElement> {}
 
 export const FieldInput = forwardRef<HTMLInputElement, FieldInputProps>((props, ref) => {
-  const { inputProps } = useFieldContext();
-  const mergedProps = mergeProps(inputProps, props);
+  const fieldCtx = useFieldContext({ strict: false });
+  const mergedProps = mergeProps(fieldCtx?.inputProps ?? {}, props);
   return <Primitive.input ref={ref} {...mergedProps} />;
 });
 FieldInput.displayName = "FieldInput";
@@ -80,8 +80,8 @@ export interface FieldTextareaProps
     React.InputHTMLAttributes<HTMLTextAreaElement> {}
 
 export const FieldTextarea = forwardRef<HTMLTextAreaElement, FieldTextareaProps>((props, ref) => {
-  const { inputProps } = useFieldContext();
-  const mergedProps = mergeProps(inputProps, props);
+  const fieldCtx = useFieldContext({ strict: false });
+  const mergedProps = mergeProps(fieldCtx?.inputProps ?? {}, props);
   return <Primitive.textarea ref={ref} {...mergedProps} />;
 });
 FieldTextarea.displayName = "FieldTextarea";

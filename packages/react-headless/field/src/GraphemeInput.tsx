@@ -44,8 +44,8 @@ export interface GraphemeInputInputProps
 
 export const GraphemeInputInput = forwardRef<HTMLInputElement, GraphemeInputInputProps>(
   (props, ref) => {
-    const { inputProps } = useGraphemeInputContext();
-    const mergedProps = mergeProps(inputProps, props);
+    const ctx = useGraphemeInputContext({ strict: false });
+    const mergedProps = mergeProps(ctx?.inputProps ?? {}, props);
     return <Primitive.input ref={ref} {...mergedProps} />;
   },
 );
@@ -57,8 +57,8 @@ export interface GraphemeInputTextareaProps
 
 export const GraphemeInputTextarea = forwardRef<HTMLTextAreaElement, GraphemeInputTextareaProps>(
   (props, ref) => {
-    const { inputProps } = useGraphemeInputContext();
-    const mergedProps = mergeProps(inputProps, props);
+    const ctx = useGraphemeInputContext({ strict: false });
+    const mergedProps = mergeProps(ctx?.inputProps ?? {}, props);
     return <Primitive.textarea ref={ref} {...mergedProps} />;
   },
 );

@@ -1,3 +1,4 @@
+import './field.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const fieldSlotNames = [
@@ -28,10 +29,6 @@ const fieldSlotNames = [
   [
     "errorMessage",
     "seed-field__errorMessage"
-  ],
-  [
-    "errorIcon",
-    "seed-field__errorIcon"
   ],
   [
     "characterCountArea",

@@ -29,46 +29,16 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   name="TextFieldInputProps"
 />
 
+### `TextFieldTextarea`
+
+<react-type-table
+  path="./registry/ui/text-field.tsx"
+  name="TextFieldTextareaProps"
+/>
+
 ## Examples
 
-### State
-
-#### Enabled
-
-<ComponentExample name="text-field-enabled">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/text-field-enabled.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Disabled
-
-<ComponentExample name="text-field-disabled">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/text-field-disabled.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Read Only
-
-<ComponentExample name="text-field-read-only">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/text-field-read-only.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Customizable Parts
-
-#### Prefix
+### Prefix
 
 <ComponentExample name="text-field-prefix">
   ```json doc-gen:file
@@ -79,7 +49,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
-#### Suffix
+### Suffix
 
 <ComponentExample name="text-field-suffix">
   ```json doc-gen:file
@@ -90,7 +60,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
-#### Both Affixes
+### Both Affixes
 
 <ComponentExample name="text-field-both-affixes">
   ```json doc-gen:file
@@ -101,7 +71,18 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
-#### Indicator
+### Description & Error Message
+
+<ComponentExample name="text-field-description-errormessage">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/text-field-description-errormessage.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Indicator
 
 <ComponentExample name="text-field-indicator">
   ```json doc-gen:file
@@ -112,7 +93,9 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
-#### Grapheme Count
+### Grapheme Count
+
+`maxGraphemeCount` prop을 사용하여 입력 가능한 문자 수를 제한할 수 있습니다.
 
 <ComponentExample name="text-field-grapheme-count">
   ```json doc-gen:file
@@ -123,53 +106,51 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
-### Size
+### Multiline
 
-#### XLarge
-
-<ComponentExample name="text-field-xlarge">
+<ComponentExample name="text-field-multiline">
   ```json doc-gen:file
   {
-    "file": "./components/example/text-field-xlarge.tsx",
+    "file": "./components/example/text-field-multiline.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### Large
+### Sizes
 
-<ComponentExample name="text-field-large">
+<ComponentExample name="text-field-sizes">
   ```json doc-gen:file
   {
-    "file": "./components/example/text-field-large.tsx",
+    "file": "./components/example/text-field-sizes.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### Medium
+### Disabled
 
-<ComponentExample name="text-field-medium">
+<ComponentExample name="text-field-disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/text-field-medium.tsx",
+    "file": "./components/example/text-field-disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Read Only
+
+<ComponentExample name="text-field-read-only">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/text-field-read-only.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
 ### Use Cases
-
-#### Form
-
-<ComponentExample name="text-field-form">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/text-field-form.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
 
 #### React Hook Form
 
@@ -188,17 +169,6 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```json doc-gen:file
   {
     "file": "./components/example/text-field-number-formatting.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-#### Slicing
-
-<ComponentExample name="text-field-slicing">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/text-field-slicing.tsx",
     "codeblock": true
   }
   ```

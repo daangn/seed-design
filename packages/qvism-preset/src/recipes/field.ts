@@ -1,5 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo } from "../utils/pseudo";
+import { prefixIcon } from "../utils/icon";
+import { invalid, pseudo } from "../utils/pseudo";
 import { textField as vars } from "../vars/component";
 
 // TODO: rootage에 formControl을 textField와 분리
@@ -14,7 +15,6 @@ const field = defineSlotRecipe({
     "footer",
     "description",
     "errorMessage",
-    "errorIcon",
     "characterCountArea",
     "characterCount",
     "maxCharacterCount",
@@ -39,6 +39,16 @@ const field = defineSlotRecipe({
       display: "flex",
       alignItems: "flex-start",
       justifyContent: "space-between",
+
+      ...prefixIcon({
+        color: vars.base.enabled.description.color,
+      }),
+
+      [pseudo(invalid)]: {
+        ...prefixIcon({
+          color: vars.base.enabled.errorMessage.color,
+        }),
+      },
     },
     description: {
       fontWeight: vars.base.enabled.description.fontWeight,
@@ -50,10 +60,6 @@ const field = defineSlotRecipe({
       alignItems: "center",
 
       color: vars.base.enabled.errorMessage.color,
-    },
-    errorIcon: {
-      flex: "none",
-      flexShrink: 0,
     },
     characterCountArea: {
       display: "flex",
@@ -94,6 +100,11 @@ const field = defineSlotRecipe({
           gap: vars.sizeLarge.enabled.footer.gap,
           paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
           minHeight: vars.sizeLarge.enabled.footer.minHeight,
+
+          ...prefixIcon({
+            size: vars.sizeLarge.enabled.errorIcon.size,
+            marginRight: vars.sizeLarge.enabled.errorIcon.marginRight,
+          }),
         },
         description: {
           fontSize: vars.sizeLarge.enabled.description.fontSize,
@@ -102,11 +113,6 @@ const field = defineSlotRecipe({
         errorMessage: {
           fontSize: vars.sizeLarge.enabled.errorMessage.fontSize,
           lineHeight: vars.sizeLarge.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeLarge.enabled.errorIcon.size,
-          height: vars.sizeLarge.enabled.errorIcon.size,
-          marginRight: vars.sizeLarge.enabled.errorIcon.marginRight,
         },
         characterCount: {
           fontSize: vars.sizeLarge.enabled.characterCount.fontSize,
@@ -133,6 +139,11 @@ const field = defineSlotRecipe({
           gap: vars.sizeMedium.enabled.footer.gap,
           paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
           minHeight: vars.sizeMedium.enabled.footer.minHeight,
+
+          ...prefixIcon({
+            size: vars.sizeMedium.enabled.errorIcon.size,
+            marginRight: vars.sizeMedium.enabled.errorIcon.marginRight,
+          }),
         },
         description: {
           fontSize: vars.sizeMedium.enabled.description.fontSize,
@@ -141,11 +152,6 @@ const field = defineSlotRecipe({
         errorMessage: {
           fontSize: vars.sizeMedium.enabled.errorMessage.fontSize,
           lineHeight: vars.sizeMedium.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeMedium.enabled.errorIcon.size,
-          height: vars.sizeMedium.enabled.errorIcon.size,
-          marginRight: vars.sizeMedium.enabled.errorIcon.marginRight,
         },
         characterCount: {
           fontSize: vars.sizeMedium.enabled.characterCount.fontSize,
