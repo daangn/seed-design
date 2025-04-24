@@ -20,7 +20,7 @@
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "cross-env": "^7.0.3",
-    "react-refresh": "^0.16.0",
+    "react-refresh": "^0.17.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

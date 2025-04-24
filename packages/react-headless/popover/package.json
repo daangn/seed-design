@@ -27,9 +27,9 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.26.28",
+    "@floating-ui/react": "^0.27.0",
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-use-controllable-state": "1.1.0",
+    "@radix-ui/react-use-controllable-state": "1.2.2",
     "@seed-design/dom-utils": "0.0.1",
     "@seed-design/react-primitive": "0.0.1"
   },
