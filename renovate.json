@@ -7,5 +7,12 @@
     "group:allNonMajor"
   ],
   "baseBranches": ["dev"],
-  "ignorePaths": ["packages/archive/**"]
+  "ignorePaths": ["packages/archive/**"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["tailwindcss"],
+      "matchPaths": ["packages/tailwind3-plugin"],
+      "enabled": false
+    }
+  ]
 }
