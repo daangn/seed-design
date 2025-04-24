@@ -16,7 +16,7 @@ export type InferPropertyType<T extends ComponentPropertyDefinition> = T["type"]
           : never
         : never;
 
-export type InferFromDefinition<T extends Record<string, ComponentPropertyDefinition>> = {
+export type InferComponentDefinition<T extends Record<string, ComponentPropertyDefinition>> = {
   [K in keyof T]: {
     type: T[K]["type"];
     value: InferPropertyType<T[K]>;

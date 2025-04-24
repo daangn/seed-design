@@ -1,3 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 # ComponentTransformer Implementation Guide
 
 ## Initial Context Gathering
@@ -33,11 +38,11 @@
 import {
   createElement,
   defineComponentTransformer,
-  type InferFromDefinition,
+  type InferComponentDefinition,
 } from "@seed-design/figma";
 
 // Define component properties based on Figma definition
-export type ComponentNameProperties = InferFromDefinition<{
+export type ComponentNameProperties = InferComponentDefinition<{
   // Map all component properties from Figma
   // Example:
   "PropertyName": {
