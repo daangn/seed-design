@@ -2,7 +2,7 @@ import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { SnackbarProperties } from "../properties.type";
+import type { SnackbarProperties } from "@/codegen/component-properties";
 
 export const createSnackbarTransformer = (_ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<SnackbarProperties>(

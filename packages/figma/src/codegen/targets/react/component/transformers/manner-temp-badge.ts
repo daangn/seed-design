@@ -1,7 +1,7 @@
 import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { MannerTempBadgeProperties } from "../properties.type";
+import type { MannerTempBadgeProperties } from "@/codegen/component-properties";
 
 export const createMannerTempBadgeTransformer = (_ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<MannerTempBadgeProperties>(

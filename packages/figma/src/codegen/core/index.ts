@@ -3,7 +3,7 @@ export type { ComponentTransformer } from "./component";
 export type {
   ComponentPropertyDefinition,
   InferComponentDefinition,
-  InferPropertyType,
+  InferComponentPropertyType,
 } from "./component.types";
 export type { ElementTransformer } from "./element";
 export type { ElementNode } from "./jsx";

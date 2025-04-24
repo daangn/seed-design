@@ -1,7 +1,7 @@
 import { defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createElement } from "@/codegen/core";
-import type { HelpBubbleProperties } from "../properties.type";
+import type { HelpBubbleProperties } from "@/codegen/component-properties";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
 
 export const createHelpBubbleTransformer = (_ctx: SeedComponentTransformerDeps) =>

@@ -1,7 +1,7 @@
 import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { MultilineTextFieldProperties } from "../properties.type";
+import type { MultilineTextFieldProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createMultilineTextFieldTransformer = (_ctx: SeedComponentTransformerDeps) =>

@@ -3,7 +3,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ActionButtonProperties, ErrorStateProperties } from "../properties.type";
+import type { ActionButtonProperties, ErrorStateProperties } from "@/codegen/component-properties";
 import { createActionButtonTransformer } from "./action-button";
 
 export const createErrorStateTransformer = (ctx: SeedComponentTransformerDeps) => {

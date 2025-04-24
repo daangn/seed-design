@@ -4,7 +4,10 @@ import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ActionSheetItemProperties, ActionSheetProperties } from "../properties.type";
+import type {
+  ActionSheetItemProperties,
+  ActionSheetProperties,
+} from "@/codegen/component-properties";
 
 const ACTION_SHEET_ITEM_KEY = "c3cafd3a3fdcd45fecb6971019d88eaf39a2e381";
 const createActionSheetItemTransformer = (_ctx: SeedComponentTransformerDeps) =>

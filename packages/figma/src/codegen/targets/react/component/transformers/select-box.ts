@@ -2,7 +2,7 @@ import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { SelectBoxGroupProperties, SelectBoxProperties } from "../properties.type";
+import type { SelectBoxGroupProperties, SelectBoxProperties } from "@/codegen/component-properties";
 
 export const createSelectBoxTransformer = (_ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<SelectBoxProperties>(

@@ -1,7 +1,7 @@
 import { defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createElement } from "@/codegen/core";
-import type { FabProperties } from "../properties.type";
+import type { FabProperties } from "@/codegen/component-properties";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
 
 export const createFabTransformer = (ctx: SeedComponentTransformerDeps) =>

@@ -35,7 +35,6 @@ import { createTextButtonTransformer } from "./transformers/text-button";
 import { createTextFieldTransformer } from "./transformers/text-field";
 import { createToggleButtonTransformer } from "./transformers/toggle-button";
 
-export type * from "./properties.type";
 export type { SeedComponentTransformerDeps };
 
 export const createSeedComponentTransformers = (

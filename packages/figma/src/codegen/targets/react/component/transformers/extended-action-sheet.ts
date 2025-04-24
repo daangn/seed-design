@@ -7,7 +7,7 @@ import type {
   ExtendedActionSheetGroupProperties,
   ExtendedActionSheetItemProperties,
   ExtendedActionSheetProperties,
-} from "../properties.type";
+} from "@/codegen/component-properties";
 
 const EXTENDED_ACTION_SHEET_ITEM_KEY = "057083e95466da59051119eec0b41d4ad5a07f8f";
 const createExtendedActionSheetItemTransformer = (ctx: SeedComponentTransformerDeps) =>

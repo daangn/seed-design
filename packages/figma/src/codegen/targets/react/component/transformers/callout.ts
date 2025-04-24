@@ -3,7 +3,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedTextNode } from "@/normalizer";
 import { camelCase } from "change-case";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { CalloutProperties } from "../properties.type";
+import type { CalloutProperties } from "@/codegen/component-properties";
 
 export const createCalloutTransformer = (ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<CalloutProperties>(

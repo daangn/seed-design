@@ -3,7 +3,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ActionButtonProperties } from "../properties.type";
+import type { ActionButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createActionButtonTransformer = (ctx: SeedComponentTransformerDeps) =>

@@ -3,7 +3,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ProgressCircleProperties } from "../properties.type";
+import type { ProgressCircleProperties } from "@/codegen/component-properties";
 
 export const createProgressCircleTransformer = (_ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<ProgressCircleProperties>(

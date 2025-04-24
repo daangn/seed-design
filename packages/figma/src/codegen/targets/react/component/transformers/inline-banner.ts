@@ -4,7 +4,7 @@ import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { InlineBannerProperties } from "../properties.type";
+import type { InlineBannerProperties } from "@/codegen/component-properties";
 
 export const createInlineBannerTransformer = (ctx: SeedComponentTransformerDeps) =>
   defineComponentTransformer<InlineBannerProperties>(metadata.inlineBanner.key, (node) => {
