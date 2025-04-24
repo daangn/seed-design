@@ -9,7 +9,7 @@ import type {
   AppBarMainProperties,
   AppBarProperties,
   AppBarRightProperties,
-} from "../properties.type";
+} from "@/codegen/component-properties";
 
 const APP_BAR_MAIN_KEY = "336b49b26c3933485d87cc460b06c390976ea58e";
 const createAppBarMainTransformer = (_ctx: SeedComponentTransformerDeps) =>

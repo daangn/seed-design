@@ -2,7 +2,7 @@ import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { AvatarProperties, AvatarStackProperties } from "../properties.type";
+import type { AvatarProperties, AvatarStackProperties } from "@/codegen/component-properties";
 import { createAvatarTransformer } from "./avatar";
 
 export const createAvatarStackTransformer = (ctx: SeedComponentTransformerDeps) => {

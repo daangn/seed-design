@@ -2,7 +2,7 @@ import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ControlChipProperties } from "../properties.type";
+import type { ControlChipProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createControlChipTransformer = (ctx: SeedComponentTransformerDeps) =>

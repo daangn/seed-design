@@ -5,7 +5,7 @@ import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { TextButtonProperties } from "../properties.type";
+import type { TextButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createTextButtonTransformer = (ctx: SeedComponentTransformerDeps) =>

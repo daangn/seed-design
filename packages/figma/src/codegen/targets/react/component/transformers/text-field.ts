@@ -1,7 +1,7 @@
 import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { TextFieldProperties } from "../properties.type";
+import type { TextFieldProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createTextFieldTransformer = (ctx: SeedComponentTransformerDeps) =>

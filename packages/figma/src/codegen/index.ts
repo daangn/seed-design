@@ -1,5 +1,6 @@
 export * from "./core";
 export * from "./targets";
+export * from "./component-properties";
 
 import type { NormalizedSceneNode } from "@/normalizer";
 import { stringifyElement } from "./core/jsx";

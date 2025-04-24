@@ -5,7 +5,7 @@ import type { SeedComponentTransformerDeps } from "../deps.interface";
 import type {
   SegmentedControlItemProperties,
   SegmentedControlProperties,
-} from "../properties.type";
+} from "@/codegen/component-properties";
 
 const SEGMENTED_CONTROL_ITEM_KEY = "9a7ba0d4c041ddbce84ee48881788434fd6bccc8";
 const createSegmentedControlItemTransformer = (_ctx: SeedComponentTransformerDeps) =>

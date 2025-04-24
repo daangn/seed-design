@@ -7,7 +7,7 @@ import type {
   TabsFillItemProperties,
   TabsHugItemProperties,
   TabsProperties,
-} from "../properties.type";
+} from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 const TABS_HUG_ITEM_KEY = "c242492543b327ceb84fa9933841512fc62a898c";

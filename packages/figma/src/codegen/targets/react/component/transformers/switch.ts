@@ -1,7 +1,7 @@
 import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { SwitchProperties } from "../properties.type";
+import type { SwitchProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createSwitchTransformer = (_ctx: SeedComponentTransformerDeps) =>

@@ -4,22 +4,23 @@ export interface ComponentPropertyDefinition {
   variantOptions?: string[];
 }
 
-export type InferPropertyType<T extends ComponentPropertyDefinition> = T["type"] extends "TEXT"
-  ? string
-  : T["type"] extends "BOOLEAN"
-    ? boolean
-    : T["type"] extends "INSTANCE_SWAP"
-      ? string
-      : T["type"] extends "VARIANT"
-        ? T["variantOptions"] extends string[]
-          ? T["variantOptions"][number]
-          : never
-        : never;
+export type InferComponentPropertyType<T extends ComponentPropertyDefinition> =
+  T["type"] extends "TEXT"
+    ? string
+    : T["type"] extends "BOOLEAN"
+      ? boolean
+      : T["type"] extends "INSTANCE_SWAP"
+        ? string
+        : T["type"] extends "VARIANT"
+          ? T["variantOptions"] extends string[]
+            ? T["variantOptions"][number]
+            : never
+          : never;
 
 export type InferComponentDefinition<T extends Record<string, ComponentPropertyDefinition>> = {
   [K in keyof T]: {
     type: T[K]["type"];
-    value: InferPropertyType<T[K]>;
+    value: InferComponentPropertyType<T[K]>;
     componentKey?: string;
     preferredValues?: InstanceSwapPreferredValue[];
     readonly boundVariables?: {

@@ -2,7 +2,7 @@ import { createElement, defineComponentTransformer } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
 import type { SeedComponentTransformerDeps } from "../deps.interface";
-import type { ActionChipProperties } from "../properties.type";
+import type { ActionChipProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createActionChipTransformer = (ctx: SeedComponentTransformerDeps) =>
