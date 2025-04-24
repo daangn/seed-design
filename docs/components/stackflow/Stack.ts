@@ -4,20 +4,20 @@ import { type ActivityComponentType, stackflow } from "@stackflow/react/future";
 import { defineConfig, type Register, type RegisteredActivityName } from "@stackflow/config";
 import { seedPlugin } from "@seed-design/stackflow";
 
-interface MakeStackProps<T extends RegisteredActivityName> {
+interface MakeStackProps {
   activities: {
-    name: T;
-    component: ActivityComponentType<T>;
+    name: RegisteredActivityName;
+    component: ActivityComponentType<RegisteredActivityName>;
   }[];
 }
 
-export const makeStack = <T extends RegisteredActivityName>({ activities }: MakeStackProps<T>) => {
+export const makeStack = ({ activities }: MakeStackProps) => {
   const components = activities.reduce(
     (acc, { name, component }) => {
       acc[name] = component;
       return acc;
     },
-    {} as Record<T, ActivityComponentType<T>>,
+    {} as Record<RegisteredActivityName, ActivityComponentType<RegisteredActivityName>>,
   );
 
   const { Stack, actions, stepActions } = stackflow({
