@@ -39,14 +39,14 @@
     padding-inline: var(--seed-dimension-x4);
 }
 .seed-app-bar__iconButton--theme_cupertino {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
 }
 .seed-app-bar__iconButton--theme_cupertino:first-child {
-    margin-left: calc(-1 * (40px - 24px) / 2);
+    margin-left: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__iconButton--theme_cupertino:last-child {
-    margin-right: calc(-1 * (40px - 24px) / 2);
+    margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_cupertino {
     width: 24px;
@@ -57,14 +57,14 @@
     padding-inline: var(--seed-dimension-x4);
 }
 .seed-app-bar__iconButton--theme_android {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
 }
 .seed-app-bar__iconButton--theme_android:first-child {
-    margin-left: calc(-1 * (40px - 24px) / 2);
+    margin-left: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__iconButton--theme_android:last-child {
-    margin-right: calc(-1 * (40px - 24px) / 2);
+    margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_android {
     width: 24px;
