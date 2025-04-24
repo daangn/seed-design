@@ -6,12 +6,20 @@
     ":preserveSemverRanges",
     "group:allNonMajor"
   ],
-  "baseBranches": ["dev"],
-  "ignorePaths": ["packages/archive/**"],
+  "baseBranches": [
+    "dev"
+  ],
+  "ignorePaths": [
+    "packages/archive/**"
+  ],
   "packageRules": [
     {
-      "matchPackageNames": ["tailwindcss"],
-      "matchPaths": ["packages/tailwind3-plugin/**"],
+      "matchPackageNames": [
+        "tailwindcss"
+      ],
+      "matchFileNames": [
+        "packages/tailwind3-plugin/**"
+      ],
       "enabled": false
     }
   ]
