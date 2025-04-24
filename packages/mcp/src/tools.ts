@@ -1,3 +1,4 @@
+import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   createRestNormalizer,
@@ -119,6 +120,46 @@ export function registerTools(
         return formatObjectResponse(result);
       } catch (error) {
         return formatErrorResponse("get_annotations", error);
+      }
+    },
+  );
+
+  // Component Info Tool
+  server.tool(
+    "get_component_info",
+    "Get detailed information about a specific component node in Figma",
+    {
+      nodeId: z.string().describe("The ID of the component node to get information about"),
+    },
+    async ({ nodeId }) => {
+      try {
+        const result = (await sendCommandToFigma("get_node_info", {
+          nodeId,
+        })) as GetFileNodesResponse["nodes"][string];
+
+        const node = result.document;
+        if (node.type !== "COMPONENT" && node.type !== "COMPONENT_SET") {
+          return formatErrorResponse(
+            "get_component_info",
+            new Error(`Node with ID ${nodeId} is not a component node`),
+          );
+        }
+
+        const key = result.componentSets[nodeId]?.key ?? result.components[nodeId]?.key;
+        if (!key) {
+          return formatErrorResponse(
+            "get_component_info",
+            new Error(`${nodeId} is not present in exported component data`),
+          );
+        }
+
+        return formatObjectResponse({
+          name: node.name,
+          key,
+          componentPropertyDefinitions: node.componentPropertyDefinitions,
+        });
+      } catch (error) {
+        return formatErrorResponse("get_node_info", error);
       }
     },
   );
