@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.21",
+    "@karrotmarket/react-monochrome-icon": "^0.0.22",
     "@seed-design/css": "0.0.19",
     "@seed-design/figma": "0.0.20",
     "@seed-design/migration-index": "0.0.20",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.23.0",
+    "@figma/rest-api-spec": "^0.28.0",
     "@types/node": "^22.14.1",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
