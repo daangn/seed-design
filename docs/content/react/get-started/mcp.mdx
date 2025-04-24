@@ -177,11 +177,11 @@ Cursor IDE를 사용하는 경우, [Cursor rule](https://docs.cursor.com/context
 import {
   createElement,
   defineComponentTransformer,
-  type InferFromDefinition,
+  type InferComponentDefinition,
 } from "@seed-design/figma";
 
 // Define component properties based on Figma definition
-export type ComponentNameProperties = InferFromDefinition<{
+export type ComponentNameProperties = InferComponentDefinition<{
   // Map all component properties from Figma
   // Example:
   "PropertyName": {
@@ -247,10 +247,10 @@ export const componentNameTransformer = defineComponentTransformer<ComponentName
 import {
   createElement,
   defineComponentTransformer,
-  type InferFromDefinition,
+  type InferComponentDefinition,
 } from "@seed-design/figma";
 
-export type CustomButtonProperties = InferFromDefinition<{
+export type CustomButtonProperties = InferComponentDefinition<{
   tone: {
     type: "VARIANT";
     variantOptions: ["neutral", "brand"];

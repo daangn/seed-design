@@ -1,19 +1,19 @@
-import type { InferFromDefinition } from "@/codegen/core";
+import type { InferComponentDefinition } from "@/codegen/core";
 import type * as metadata from "@/entities/data/__generated__/component-sets";
 
-export type ActionButtonProperties = InferFromDefinition<
+export type ActionButtonProperties = InferComponentDefinition<
   typeof metadata.actionButton.componentPropertyDefinitions
 >;
 
-export type ActionChipProperties = InferFromDefinition<
+export type ActionChipProperties = InferComponentDefinition<
   typeof metadata.actionChip.componentPropertyDefinitions
 >;
 
-export type ActionSheetProperties = InferFromDefinition<
+export type ActionSheetProperties = InferComponentDefinition<
   typeof metadata.actionSheet.componentPropertyDefinitions
 >;
 
-export type ActionSheetItemProperties = InferFromDefinition<{
+export type ActionSheetItemProperties = InferComponentDefinition<{
   "Label#15420:4": {
     type: "TEXT";
     defaultValue: "액션 버튼";
@@ -30,31 +30,31 @@ export type ActionSheetItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type AvatarProperties = InferFromDefinition<
+export type AvatarProperties = InferComponentDefinition<
   typeof metadata.avatar.componentPropertyDefinitions
 >;
 
-export type AvatarStackProperties = InferFromDefinition<
+export type AvatarStackProperties = InferComponentDefinition<
   typeof metadata.avatarStack.componentPropertyDefinitions
 >;
 
-export type BadgeProperties = InferFromDefinition<
+export type BadgeProperties = InferComponentDefinition<
   typeof metadata.badge.componentPropertyDefinitions
 >;
 
-export type CalloutProperties = InferFromDefinition<
+export type CalloutProperties = InferComponentDefinition<
   typeof metadata.callout.componentPropertyDefinitions
 >;
 
-export type CheckboxProperties = InferFromDefinition<
+export type CheckboxProperties = InferComponentDefinition<
   typeof metadata.checkbox.componentPropertyDefinitions
 >;
 
-export type ChipTabsProperties = InferFromDefinition<
+export type ChipTabsProperties = InferComponentDefinition<
   typeof metadata.chipTablist.componentPropertyDefinitions
 >;
 
-export type ChipTabsItemProperties = InferFromDefinition<{
+export type ChipTabsItemProperties = InferComponentDefinition<{
   "Label#8876:0": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -78,19 +78,19 @@ export type ChipTabsItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type ControlChipProperties = InferFromDefinition<
+export type ControlChipProperties = InferComponentDefinition<
   typeof metadata.controlChip.componentPropertyDefinitions
 >;
 
-export type ErrorStateProperties = InferFromDefinition<
+export type ErrorStateProperties = InferComponentDefinition<
   typeof metadata.errorState.componentPropertyDefinitions
 >;
 
-export type ExtendedActionSheetProperties = InferFromDefinition<
+export type ExtendedActionSheetProperties = InferComponentDefinition<
   typeof metadata.extendedActionSheet.componentPropertyDefinitions
 >;
 
-export type ExtendedActionSheetGroupProperties = InferFromDefinition<{
+export type ExtendedActionSheetGroupProperties = InferComponentDefinition<{
   "Action Count": {
     type: "VARIANT";
     defaultValue: "8";
@@ -98,7 +98,7 @@ export type ExtendedActionSheetGroupProperties = InferFromDefinition<{
   };
 }>;
 
-export type ExtendedActionSheetItemProperties = InferFromDefinition<{
+export type ExtendedActionSheetItemProperties = InferComponentDefinition<{
   "Show Prefix Icon#17043:5": {
     type: "BOOLEAN";
     defaultValue: true;
@@ -124,47 +124,47 @@ export type ExtendedActionSheetItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type ExtendedFabProperties = InferFromDefinition<
+export type ExtendedFabProperties = InferComponentDefinition<
   typeof metadata.extendedFloatingActionButton.componentPropertyDefinitions
 >;
 
-export type FabProperties = InferFromDefinition<
+export type FabProperties = InferComponentDefinition<
   typeof metadata.floatingActionButton.componentPropertyDefinitions
 >;
 
-export type HelpBubbleProperties = InferFromDefinition<
+export type HelpBubbleProperties = InferComponentDefinition<
   typeof metadata.helpBubble.componentPropertyDefinitions
 >;
 
-export type IdentityPlaceholderProperties = InferFromDefinition<
+export type IdentityPlaceholderProperties = InferComponentDefinition<
   typeof metadata.identityPlaceholder.componentPropertyDefinitions
 >;
 
-export type InlineBannerProperties = InferFromDefinition<
+export type InlineBannerProperties = InferComponentDefinition<
   typeof metadata.inlineBanner.componentPropertyDefinitions
 >;
 
-export type MannerTempBadgeProperties = InferFromDefinition<
+export type MannerTempBadgeProperties = InferComponentDefinition<
   typeof metadata.mannerTempBadge.componentPropertyDefinitions
 >;
 
-export type MultilineTextFieldProperties = InferFromDefinition<
+export type MultilineTextFieldProperties = InferComponentDefinition<
   typeof metadata.multilineTextField.componentPropertyDefinitions
 >;
 
-export type ProgressCircleProperties = InferFromDefinition<
+export type ProgressCircleProperties = InferComponentDefinition<
   typeof metadata.progressCircle.componentPropertyDefinitions
 >;
 
-export type ReactionButtonProperties = InferFromDefinition<
+export type ReactionButtonProperties = InferComponentDefinition<
   typeof metadata.reactionButton.componentPropertyDefinitions
 >;
 
-export type SegmentedControlProperties = InferFromDefinition<
+export type SegmentedControlProperties = InferComponentDefinition<
   typeof metadata.segmentedControl.componentPropertyDefinitions
 >;
 
-export type SegmentedControlItemProperties = InferFromDefinition<{
+export type SegmentedControlItemProperties = InferComponentDefinition<{
   "Label#11366:15": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -183,31 +183,31 @@ export type SegmentedControlItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type SelectBoxGroupProperties = InferFromDefinition<
+export type SelectBoxGroupProperties = InferComponentDefinition<
   typeof metadata.templateSelectBoxGroup.componentPropertyDefinitions
 >;
 
-export type SelectBoxProperties = InferFromDefinition<
+export type SelectBoxProperties = InferComponentDefinition<
   typeof metadata.selectBox.componentPropertyDefinitions
 >;
 
-export type SkeletonProperties = InferFromDefinition<
+export type SkeletonProperties = InferComponentDefinition<
   typeof metadata.skeleton.componentPropertyDefinitions
 >;
 
-export type SnackbarProperties = InferFromDefinition<
+export type SnackbarProperties = InferComponentDefinition<
   typeof metadata.snackbar.componentPropertyDefinitions
 >;
 
-export type SwitchProperties = InferFromDefinition<
+export type SwitchProperties = InferComponentDefinition<
   typeof metadata.switch.componentPropertyDefinitions
 >;
 
-export type TabsProperties = InferFromDefinition<
+export type TabsProperties = InferComponentDefinition<
   typeof metadata.tablist.componentPropertyDefinitions
 >;
 
-export type TabsHugItemProperties = InferFromDefinition<{
+export type TabsHugItemProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -229,7 +229,7 @@ export type TabsHugItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type TabsFillItemProperties = InferFromDefinition<{
+export type TabsFillItemProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -251,23 +251,23 @@ export type TabsFillItemProperties = InferFromDefinition<{
   };
 }>;
 
-export type TextButtonProperties = InferFromDefinition<
+export type TextButtonProperties = InferComponentDefinition<
   typeof metadata.textButton.componentPropertyDefinitions
 >;
 
-export type TextFieldProperties = InferFromDefinition<
+export type TextFieldProperties = InferComponentDefinition<
   typeof metadata.textField.componentPropertyDefinitions
 >;
 
-export type ToggleButtonProperties = InferFromDefinition<
+export type ToggleButtonProperties = InferComponentDefinition<
   typeof metadata.toggleButton.componentPropertyDefinitions
 >;
 
-export type AppBarProperties = InferFromDefinition<
+export type AppBarProperties = InferComponentDefinition<
   typeof metadata.standardNavigation.componentPropertyDefinitions
 >;
 
-export type AppBarMainProperties = InferFromDefinition<{
+export type AppBarMainProperties = InferComponentDefinition<{
   "Show Right#16958:13": {
     type: "BOOLEAN";
     defaultValue: false;
@@ -301,7 +301,7 @@ export type AppBarMainProperties = InferFromDefinition<{
   };
 }>;
 
-export type AppBarLeftProperties = InferFromDefinition<{
+export type AppBarLeftProperties = InferComponentDefinition<{
   Action: {
     type: "VARIANT";
     defaultValue: "Back";
@@ -309,7 +309,7 @@ export type AppBarLeftProperties = InferFromDefinition<{
   };
 }>;
 
-export type AppBarRightProperties = InferFromDefinition<{
+export type AppBarRightProperties = InferComponentDefinition<{
   Type: {
     type: "VARIANT";
     defaultValue: "1 Icon";

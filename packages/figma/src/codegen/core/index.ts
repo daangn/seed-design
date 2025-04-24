@@ -2,7 +2,7 @@ export type { CodegenTransformerDeps } from "./codegen";
 export type { ComponentTransformer } from "./component";
 export type {
   ComponentPropertyDefinition,
-  InferFromDefinition,
+  InferComponentDefinition,
   InferPropertyType,
 } from "./component.types";
 export type { ElementTransformer } from "./element";
