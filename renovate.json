@@ -11,7 +11,7 @@
   "packageRules": [
     {
       "matchPackageNames": ["tailwindcss"],
-      "matchPaths": ["packages/tailwind3-plugin"],
+      "matchPaths": ["packages/tailwind3-plugin/**"],
       "enabled": false
     }
   ]
