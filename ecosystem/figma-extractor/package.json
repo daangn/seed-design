@@ -30,16 +30,16 @@
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "cosmiconfig": "^9.0.0",
-    "dotenv": "^16.4.7",
-    "es-toolkit": "^1.31.0",
+    "dotenv": "^16.5.0",
+    "es-toolkit": "^1.35.0",
     "figma-api": "^2.0.1-beta",
     "fs-extra": "^11.3.0",
-    "zod": "^3.24.2"
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.7.3"
+    "esbuild": "^0.25.3",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

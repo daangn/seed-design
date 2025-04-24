@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import * as Icons from "@daangn/react-monochrome-icon";
+import * as Icons from "@karrotmarket/react-monochrome-icon";
 
 console.log(Icons.IconPlusSquareLine);
 

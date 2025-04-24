@@ -42,6 +42,9 @@
     "design-tokens",
     "plugin"
   ],
+  "devDependencies": {
+    "tailwindcss": "3"
+  },
   "peerDependencies": {
     "tailwindcss": "3"
   },

@@ -9,18 +9,18 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.21",
-    "@radix-ui/react-slot": "^1.1.1",
-    "@radix-ui/react-use-callback-ref": "^1.1.0",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/css": "0.0.19",
     "@seed-design/react": "0.0.19",
     "@seed-design/stackflow": "0.0.19",
     "@seed-design/stylesheet": "1.1.1",
     "@stackflow/compat-await-push": "^1.1.13",
-    "@stackflow/core": "^1.1.0",
-    "@stackflow/plugin-history-sync": "^1.7.0",
+    "@stackflow/core": "^1.2.0",
+    "@stackflow/plugin-history-sync": "^1.7.1",
     "@stackflow/plugin-renderer-basic": "^1.1.13",
-    "@stackflow/react": "^1.4.1",
-    "@vanilla-extract/css": "^1.16.1",
+    "@stackflow/react": "^1.5.1",
+    "@vanilla-extract/css": "^1.17.1",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
@@ -28,15 +28,15 @@
   "devDependencies": {
     "@seed-design/cli": "0.0.1",
     "@seed-design/vite-plugin": "0.0.19",
-    "@types/react": "^18.3.5",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
     "@vanilla-extract/vite-plugin": "^5.0.1",
-    "@vitejs/plugin-legacy": "^6.0.1",
-    "@vitejs/plugin-react-swc": "^3.8.0",
+    "@vitejs/plugin-legacy": "^6.1.0",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "rollup-plugin-visualizer": "^5.14.0",
-    "terser": "^5.24.0",
-    "typescript": "^5.4.5",
-    "vite": "^6.2.3",
-    "vite-plugin-checker": "^0.9.0"
+    "terser": "^5.39.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3",
+    "vite-plugin-checker": "^0.9.1"
   }
 }

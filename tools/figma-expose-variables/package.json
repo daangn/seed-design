@@ -14,8 +14,8 @@
     "@create-figma-plugin/utilities": "^3.2.1"
   },
   "devDependencies": {
-    "@figma/plugin-typings": "^1.108.0",
-    "concurrently": "^6.3.0",
-    "esbuild": "^0.25.0"
+    "@figma/plugin-typings": "^1.110.0",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.3"
   }
 }
