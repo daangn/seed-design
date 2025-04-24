@@ -6,5 +6,6 @@
     ":preserveSemverRanges",
     "group:allNonMajor"
   ],
-  "baseBranches": ["dev"]
+  "baseBranches": ["dev"],
+  "ignorePaths": ["packages/archive/**"]
 }
