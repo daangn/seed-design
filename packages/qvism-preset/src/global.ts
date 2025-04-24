@@ -209,6 +209,14 @@ export const globalCss = defineGlobalCss({
       background: "var(--seed-box-background--active)",
     },
   },
+  ".seed-grid": {
+    display: "grid",
+
+    "--seed-grid-columns": "repeat(2, minmax(0, 1fr))",
+    gridTemplateColumns: "var(--seed-grid-columns)",
+    "--seed-grid-rows": "initial",
+    gridTemplateRows: "var(--seed-grid-rows)",
+  },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes
     "&:before": {

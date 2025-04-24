@@ -191,6 +191,14 @@
   background: var(--seed-box-background--active);
 }
 
+.seed-grid {
+  --seed-grid-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: var(--seed-grid-columns);
+  --seed-grid-rows: initial;
+  grid-template-rows: var(--seed-grid-rows);
+  display: grid;
+}
+
 .seed-consistent-width:before {
   content: attr(data-text);
   visibility: hidden;

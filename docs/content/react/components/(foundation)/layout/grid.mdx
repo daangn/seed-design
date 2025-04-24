@@ -1,0 +1,41 @@
+---
+title: Grid
+description: Grid 컴포넌트는 CSS Grid를 사용하며 디자인 토큰을 JSX에서 사용할 수 있도록 도와줍니다.
+---
+
+<ComponentExample name="react/grid/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/grid/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Props
+
+<react-type-table path="../packages/react/src/components/Grid/Grid.tsx" name="GridProps" />
+
+## Columns
+
+`columns` prop에 number를 전달하면 `repeat(columns, minmax(0, 1fr))` 형태의 grid-template-columns가 적용됩니다.
+
+<ComponentExample name="react/grid/columns-number">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/grid/columns-number.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+`columns` prop에 string을 전달하면 grid-template-columns가 적용됩니다.
+
+<ComponentExample name="react/grid/columns-string">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/grid/columns-string.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
