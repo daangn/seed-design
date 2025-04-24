@@ -112,7 +112,7 @@
         "figma-extractor": "./bin/index.mjs",
       },
       "dependencies": {
-        "@figma/rest-api-spec": "^0.28.0",
+        "@figma/rest-api-spec": "^0.29.0",
         "cac": "^6.7.14",
         "change-case": "^5.4.4",
         "cosmiconfig": "^9.0.0",
@@ -335,7 +335,7 @@
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
-        "@figma/rest-api-spec": "^0.28.0",
+        "@figma/rest-api-spec": "^0.29.0",
         "@seed-design/figma-extractor": "^0.0.3",
         "typescript": "^5.8.3",
       },
@@ -883,7 +883,7 @@
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
-        "@figma/rest-api-spec": "^0.28.0",
+        "@figma/rest-api-spec": "^0.29.0",
         "@types/node": "^22.14.1",
         "@types/react": "^18.3.20",
         "@types/react-dom": "^18.3.6",
@@ -1416,7 +1416,7 @@
 
     "@figma/plugin-typings": ["@figma/plugin-typings@1.110.0", "", {}, "sha512-n1fZKjt2zApCVqxdJs+JCdpmLX2hDvhgoGbuXeAh7xt+IkSj21gB9vhV5KW+O5sDyPnt3H7doTDO47Oy9CRkQg=="],
 
-    "@figma/rest-api-spec": ["@figma/rest-api-spec@0.28.0", "", {}, "sha512-WOUX4lXCDNeK6lbGQlLQcbcMkVetj9wsNf8WMJgjbRovJPSBmmNPqa8JzDBezmjTiRBsj176/Y0oM5yNnhyBJw=="],
+    "@figma/rest-api-spec": ["@figma/rest-api-spec@0.29.0", "", {}, "sha512-Cxg4OtbtsHH4eIkvZ0t2Tia4QS4jqqMvb0sEUxh2lGTnybD+Lk74Y3pdzib6HTcrWn8NkMwF13Pr6nN1h7bA1g=="],
 
     "@figma/widget-typings": ["@figma/widget-typings@1.11.0", "", { "peerDependencies": { "@figma/plugin-typings": "1.x" } }, "sha512-LzGV/zikkgbDq3w2Rag2Lel/oltT7+gI+MmO61fKmCusrHjX+Y1Np84zwBTSlK1GxeA2Z4JQEYvSfiiQMW5W8A=="],
 
