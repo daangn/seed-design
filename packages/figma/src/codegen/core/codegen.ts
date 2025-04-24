@@ -9,9 +9,9 @@ import type {
   NormalizedVectorNode,
 } from "@/normalizer";
 import { match } from "ts-pattern";
-import { inferLayout, type ElementNode, type ElementTransformer } from "../core";
-import { appendSource, createElement } from "../core/jsx";
-import { applyInferredLayout } from "./infer-layout";
+import { appendSource, createElement, type ElementNode } from "../core/jsx";
+import type { ElementTransformer } from "./element";
+import { applyInferredLayout, inferLayout } from "./infer-layout";
 
 export interface CodegenTransformerDeps {
   frameTransformer: ElementTransformer<
