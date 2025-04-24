@@ -9,10 +9,11 @@ export function generateJsxTree(
   node: NormalizedSceneNode,
   options: Partial<react.CreateContextOptions> = {},
 ) {
-  const { shouldInferVariableName = true, shouldInferAutoLayout = true } = options;
+  const { shouldInferVariableName = true, shouldInferAutoLayout = true, extend } = options;
   const codegen = react.createContext({
     shouldInferVariableName,
     shouldInferAutoLayout,
+    extend,
   });
 
   return codegen(node);

@@ -1,4 +1,8 @@
-import { createCodegenTransformer, createValueTransformer } from "@/codegen/core";
+import {
+  createCodegenTransformer,
+  createValueTransformer,
+  type ComponentTransformer,
+} from "@/codegen/core";
 import {
   createIconService,
   createStyleService,
@@ -40,14 +44,17 @@ export interface CreateContextOptions {
   ignoredComponentKeys?: Set<string>;
   shouldInferVariableName: boolean;
   shouldInferAutoLayout: boolean;
+  extend?: {
+    componentTransformers?: ComponentTransformer[];
+  };
 }
 
-const styleService = createStyleService({
+export const styleService = createStyleService({
   styleRepository,
   styleNameTransformer: ({ slug }) =>
     camelCase(slug[slug.length - 1]!, { mergeAmbiguousCharacters: true }),
 });
-const variableService = createVariableService({
+export const variableService = createVariableService({
   variableRepository,
   variableNameTransformer: ({ slug }) =>
     slug
@@ -91,12 +98,12 @@ const variableService = createVariableService({
     return scoreFn(name2) - scoreFn(name1);
   },
 });
-const iconService = createIconService({
+export const iconService = createIconService({
   iconRepository,
 });
 
 // TODO: implement figma component service
-const componentTransformers = createSeedComponentTransformers({
+const seedComponentTransformers = createSeedComponentTransformers({
   iconService,
   variableService,
 });
@@ -104,6 +111,7 @@ const componentTransformers = createSeedComponentTransformers({
 export function createContext(options: CreateContextOptions) {
   const {
     ignoredComponentKeys = IGNORED_COMPONENT_KEYS,
+    extend = {},
     shouldInferVariableName,
     shouldInferAutoLayout,
   } = options;
@@ -142,6 +150,10 @@ export function createContext(options: CreateContextOptions) {
     stroke: strokePropsTransformer,
     typeStyle: typeStylePropsTransformer,
   };
+
+  const componentTransformers = Object.fromEntries(
+    [...seedComponentTransformers, ...(extend.componentTransformers ?? [])].map((t) => [t.key, t]),
+  );
 
   const frameTransformer = createFrameTransformer({
     propsTransformers,
