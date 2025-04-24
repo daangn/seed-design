@@ -107,7 +107,7 @@ export function inferLayout(parentNode: LayoutNode): InferResult {
 
   if (children.length === 0) {
     return {
-      properties: {},
+      properties: result,
       childProperties: {},
     }; // Cannot infer layout for no children
   }
