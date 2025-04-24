@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.1",
-    "@create-figma-plugin/tsconfig": "^3.2.1",
+    "@create-figma-plugin/tsconfig": "^4.0.0",
     "@figma/plugin-typings": "^1.110.0",
     "@seed-design/figma-extractor": "^0.0.3",
     "@types/node": "^22.14.1",
