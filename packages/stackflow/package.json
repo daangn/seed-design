@@ -27,19 +27,24 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@radix-ui/react-compose-refs": "^1.1.1",
-    "@radix-ui/react-slot": "^1.1.1",
-    "@radix-ui/react-use-callback-ref": "^1.1.0",
+    "@radix-ui/react-compose-refs": "^1.1.2",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/dom-utils": "0.0.1",
     "@seed-design/react-primitive": "0.0.1",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
     "@seed-design/css": "0.0.19",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@stackflow/core": "^1.2.0",
+    "@stackflow/react": "^1.5.1",
+    "@stackflow/react-ui-core": "^1.3.0",
+    "@vitejs/plugin-react": "^4.4.1",
     "globby": "^14.1.0",
-    "vite": "^6.2.3",
-    "vite-plugin-dts": "^4.5.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^6.3.3",
+    "vite-plugin-dts": "^4.5.3"
   },
   "peerDependencies": {
     "@seed-design/css": "0.0.19",

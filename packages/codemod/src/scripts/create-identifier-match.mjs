@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "url";
 import { pascalCase } from "change-case";
-import * as availableMonochromeIcons from "@daangn/react-monochrome-icon";
-import * as availableMulticolorIcons from "@daangn/react-multicolor-icon";
+import * as availableMonochromeIcons from "@karrotmarket/react-monochrome-icon";
+import * as availableMulticolorIcons from "@karrotmarket/react-multicolor-icon";
 
 const filePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "data.tsv");
 const data = fs.readFileSync(filePath, "utf8");
@@ -28,16 +28,22 @@ parse(data, { delimiter: "\t" }, (_err, records) => {
     };
 
     if (moveToMulticolor && pascalValue.default in availableMulticolorIcons === false) {
-      console.warn(`"${pascalValue.default}" is not available in @daangn/react-multicolor-icon.`);
+      console.warn(
+        `"${pascalValue.default}" is not available in @karrotmarket/react-multicolor-icon.`,
+      );
     }
 
     if (!moveToMulticolor) {
       if (pascalValue.line in availableMonochromeIcons === false) {
-        console.warn(`"${pascalValue.line}" is not available in @daangn/react-monochrome-icon.`);
+        console.warn(
+          `"${pascalValue.line}" is not available in @karrotmarket/react-monochrome-icon.`,
+        );
       }
 
       if (pascalValue.fill in availableMonochromeIcons === false) {
-        console.warn(`"${pascalValue.fill}" is not available in @daangn/react-monochrome-icon.`);
+        console.warn(
+          `"${pascalValue.fill}" is not available in @karrotmarket/react-monochrome-icon.`,
+        );
       }
     }
 

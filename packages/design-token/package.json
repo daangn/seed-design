@@ -29,6 +29,6 @@
     "dev": "bun dev.mjs"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.3"
   }
 }

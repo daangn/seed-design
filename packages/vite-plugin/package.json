@@ -29,12 +29,12 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "vite": "^5.0.0 || ^6.0.0",
-    "@seed-design/css": "^0.0.19"
+    "@seed-design/css": "^0.0.19",
+    "vite": "^6.3.3"
   },
   "peerDependencies": {
-    "vite": "^5.0.0 || ^6.0.0",
-    "@seed-design/css": "^0.0.19"
+    "@seed-design/css": "^0.0.19",
+    "vite": "^5.0.0 || ^6.0.0"
   },
   "publishConfig": {
     "access": "public"

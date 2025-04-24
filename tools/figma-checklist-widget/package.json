@@ -12,10 +12,10 @@
   "author": "Asher <asher@daangn.com>",
   "license": "MIT",
   "devDependencies": {
-    "@figma/plugin-typings": "^1.108.0",
+    "@figma/plugin-typings": "^1.110.0",
     "@figma/widget-typings": "*",
-    "concurrently": "^6.3.0",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.4.5"
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.8.3"
   }
 }
