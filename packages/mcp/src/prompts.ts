@@ -17,14 +17,14 @@ export function registerPrompts(server: McpServer): void {
      - First use get_selection() to understand the current selection
      - If no selection ask user to select single node
   
-  2. Get React code of the selected nodes:
+  2. Get React code of the selected node:
      - Use get_node_react_code() to get the React code of the selected node
      - If no selection ask user to select single node
   `,
             },
           },
         ],
-        description: "Best practices for reading Figma designs",
+        description: "Best practices for implementing React components",
       };
     },
   );
