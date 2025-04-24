@@ -6,6 +6,7 @@ import {
   getFigmaColorVariableNames,
 } from "@seed-design/figma";
 import { z } from "zod";
+import type { McpConfig } from "./config";
 import {
   formatErrorResponse,
   formatImageResponse,
@@ -14,8 +15,13 @@ import {
 } from "./responses";
 import type { FigmaWebSocketClient } from "./websocket";
 
-export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClient): void {
+export function registerTools(
+  server: McpServer,
+  figmaClient: FigmaWebSocketClient,
+  config: McpConfig | null = {},
+): void {
   const { joinChannel, sendCommandToFigma } = figmaClient;
+  const { extend } = config ?? {};
 
   // join_channel tool
   server.tool(
@@ -221,6 +227,7 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
             shouldInferVariableName: true,
             shouldPrintSource: false,
             shouldInferAutoLayout: true,
+            extend,
           }) ?? "Failed to generate code";
 
         return formatTextResponse(code);
