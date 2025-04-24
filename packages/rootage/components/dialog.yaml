@@ -98,7 +98,7 @@ data:
           exitTimingFunction: $timing-function.exit
           exitOpacity: 0
         content:
-          color: $color.bg.layer-default
+          color: $color.bg.layer-floating
           cornerRadius: $radius.r5
           marginX: $dimension.x8
           marginY: $dimension.x16

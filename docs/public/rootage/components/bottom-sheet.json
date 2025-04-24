@@ -193,7 +193,7 @@
               "content": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.layer-floating"
                 },
                 "maxWidth": {
                   "type": "dimension",

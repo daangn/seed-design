@@ -11,7 +11,7 @@ export declare const vars: {
         "exitOpacity": "0"
       },
       "content": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "var(--seed-color-bg-layer-floating)",
         "cornerRadius": "var(--seed-radius-r5)",
         "marginX": "var(--seed-dimension-x8)",
         "marginY": "var(--seed-dimension-x16)",

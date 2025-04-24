@@ -1368,7 +1368,7 @@
   box-sizing: border-box;
   word-break: break-all;
   z-index: calc(var(--sheet-z-index)  + var(--layer-index, 0));
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-layer-floating);
   border-top-left-radius: var(--seed-radius-r6);
   border-top-right-radius: var(--seed-radius-r6);
   flex-direction: column;
@@ -2165,7 +2165,7 @@
   box-sizing: border-box;
   word-break: break-all;
   z-index: calc(var(--dialog-z-index)  + var(--layer-index, 0));
-  background: var(--seed-color-bg-layer-default);
+  background: var(--seed-color-bg-layer-floating);
   max-width: 272px;
   margin: auto var(--seed-dimension-x8);
   border-radius: var(--seed-radius-r5);

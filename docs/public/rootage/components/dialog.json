@@ -180,7 +180,7 @@
               "content": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.bg.layer-floating"
                 },
                 "cornerRadius": {
                   "type": "dimension",
