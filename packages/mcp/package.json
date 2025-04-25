@@ -25,7 +25,7 @@
     "@modelcontextprotocol/sdk": "^1.10.2",
     "@seed-design/figma": "0.0.20",
     "cac": "^6.7.14",
-    "express": "^4.21.2",
+    "express": "^5.0.0",
     "uuid": "^11.1.0",
     "ws": "^8.18.1",
     "yargs": "^17.7.2",
