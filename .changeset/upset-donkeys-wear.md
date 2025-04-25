@@ -19,7 +19,6 @@
 "@seed-design/dom-utils": patch
 "@seed-design/rsbuild-plugin": patch
 "@seed-design/webpack-plugin": patch
-"@seed-design/react-theming": patch
 "@seed-design/design-token": patch
 "@seed-design/vite-plugin": patch
 "@seed-design/stackflow": patch
