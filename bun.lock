@@ -57,7 +57,7 @@
         "fumadocs-core": "^15.1.0",
         "fumadocs-docgen": "^2.0.0",
         "fumadocs-mdx": "11.6.1",
-        "fumadocs-typescript": "^3.1.0",
+        "fumadocs-typescript": "^4.0.0",
         "fumadocs-ui": "^15.1.0",
         "hast-util-to-jsx-runtime": "^2.3.6",
         "lucide-react": "^0.503.0",
@@ -3274,7 +3274,7 @@
 
     "fumadocs-mdx": ["fumadocs-mdx@11.6.1", "", { "dependencies": { "@mdx-js/mdx": "^3.1.0", "@standard-schema/spec": "^1.0.0", "chokidar": "^4.0.3", "cross-spawn": "^7.0.6", "esbuild": "^0.25.2", "estree-util-value-to-estree": "^3.3.3", "fast-glob": "^3.3.3", "gray-matter": "^4.0.3", "lru-cache": "^11.1.0", "picocolors": "^1.1.1", "unist-util-visit": "^5.0.0", "zod": "^3.24.3" }, "peerDependencies": { "@fumadocs/mdx-remote": "^1.2.0", "fumadocs-core": "^14.0.0 || ^15.0.0", "next": "^15.3.0" }, "optionalPeers": ["@fumadocs/mdx-remote"], "bin": { "fumadocs-mdx": "bin.js" } }, "sha512-z+H/eOJC4II0VW7rgf6btqeEkD9DEG1SNToNCYKMklCJAc9Y6l+NuQozKuknP2Ey6NK+Qqhvwhi2MOq38YLSeQ=="],
 
-    "fumadocs-typescript": ["fumadocs-typescript@3.1.0", "", { "dependencies": { "estree-util-value-to-estree": "^3.3.2", "fast-glob": "^3.3.3", "hast-util-to-estree": "^3.1.2", "hast-util-to-jsx-runtime": "^2.3.5", "remark": "^15.0.1", "remark-rehype": "^11.1.1", "shiki": "^3.1.0", "ts-morph": "^25.0.1", "unist-util-visit": "^5.0.0" }, "peerDependencies": { "typescript": "*" } }, "sha512-H8zEMUrQfM8dqUBGhMepAjXi5hRbSKSK5565ObXXzQI7kFHnLH5Jc1MFBa6LXyaatZIv7B7ozWdVm7XaUHDtiA=="],
+    "fumadocs-typescript": ["fumadocs-typescript@4.0.3", "", { "dependencies": { "estree-util-value-to-estree": "^3.3.3", "fast-glob": "^3.3.3", "hast-util-to-estree": "^3.1.3", "hast-util-to-jsx-runtime": "^2.3.6", "remark": "^15.0.1", "remark-rehype": "^11.1.2", "shiki": "^3.3.0", "ts-morph": "^25.0.1", "unist-util-visit": "^5.0.0" }, "peerDependencies": { "typescript": "*" } }, "sha512-ZrKxYtjtuEe4Cim0c6fU6yrEJITAaPuOaztwN1ORMMrxVs7GV/sY2iafZChDBJPDZ+pHdPIZzkKqJOsIa0EdEA=="],
 
     "fumadocs-ui": ["fumadocs-ui@15.2.10", "", { "dependencies": { "@radix-ui/react-accordion": "^1.2.7", "@radix-ui/react-collapsible": "^1.1.7", "@radix-ui/react-dialog": "^1.1.10", "@radix-ui/react-direction": "^1.1.1", "@radix-ui/react-navigation-menu": "^1.2.9", "@radix-ui/react-popover": "^1.1.10", "@radix-ui/react-scroll-area": "^1.2.5", "@radix-ui/react-slot": "^1.2.0", "@radix-ui/react-tabs": "^1.1.8", "class-variance-authority": "^0.7.1", "fumadocs-core": "15.2.10", "lodash.merge": "^4.6.2", "lucide-react": "^0.503.0", "next-themes": "^0.4.6", "postcss-selector-parser": "^7.1.0", "react-medium-image-zoom": "^5.2.14", "tailwind-merge": "^3.2.0" }, "peerDependencies": { "next": "14.x.x || 15.x.x", "react": "18.x.x || 19.x.x", "react-dom": "18.x.x || 19.x.x", "tailwindcss": "^3.4.14 || ^4.0.0" }, "optionalPeers": ["tailwindcss"] }, "sha512-pXxbQbomo8uxX8EgI2pG6WiVywWbmRyHCTxPWnY7JdIFZnnp+YMmvHTXsOws6/L0BLvOWnMIbkS+5z7r2KVMvg=="],
 
