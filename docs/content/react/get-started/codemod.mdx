@@ -188,18 +188,8 @@ Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 �
 - 타이포그래피 관련 import 문을 찾아 변수명을 변환합니다.
 - 변수가 사용된 모든 위치(템플릿 리터럴, 객체 속성 등)를 찾아 업데이트합니다.
 - typography.mjs의 매핑 정보에 따라 V2 타이포그래피 변수를 V3로 변환합니다.
-
-#### 테스트 케이스
-
-- **basic**: 기본적인 변환 케이스
-- **enhanced**: 다양한 타이포그래피 변수 매핑 케이스
-  - screenTitle 매핑 (h4 -> screenTitle)
-  - 일반 매핑 (title1Bold -> t9Bold)
-  - deprecated 토큰 처리 (title1Regular)
-  - 별칭을 사용한 import 처리
-  - 대체 토큰 처리 (bodyL2Regular -> t4Regular)
-  - 객체 속성으로 사용된 토큰 처리
-  - 다양한 컨텍스트에서의 변수 사용 패턴
+- 같은 V3 토큰으로 변환되는 중복 import를 제거합니다 (예: subtitle1Regular, bodyM1Regular가 모두 t5Regular로 변환되면 t5Regular는 한 번만 import).
+- 별칭(alias)으로 import된 변수명은 유지합니다 (예: `bodyM1Regular as customTypo`에서 `t5Regular as customTypo`로 변환).
 
 ```package-install
 npx @seed-design/codemod replace-custom-imported-typography-variable <target_path>
@@ -210,16 +200,17 @@ npx @seed-design/codemod replace-custom-imported-typography-variable <target_pat
 
 ```ts title="basic.input.ts"
 // @ts-nocheck
-import { 
-  subtitle1Regular, 
-  subtitle2Regular, 
-  h4, 
-  title1Bold, 
-  title2Bold, 
-  bodyL1Regular, 
-  caption1Regular, 
-  caption2Regular, 
-  label5Regular 
+import {
+  subtitle1Regular,
+  subtitle2Regular,
+  h4,
+  title1Bold,
+  title2Bold,
+  bodyL1Regular,
+  bodyL2Regular,
+  caption1Regular,
+  caption2Regular,
+  label5Regular,
 } from '@src/constants/typography'
 import { bodyM1Regular as customTypo } from '@karrot/typography'
 
@@ -263,6 +254,12 @@ const Card = styled.div`
     color: ${vars.$scale.color.gray800};
   }
   
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${bodyL2Regular};
+    margin: 0;
+  }
+  
   // 캡션 스타일
   p.caption {
     ${caption1Regular};
@@ -295,17 +292,17 @@ const textStyle = subtitle1Regular;
 
 ```ts title="basic.output.ts"
 // @ts-nocheck
-import { 
-  t5Regular, 
-  t4Regular, 
-  t10Bold, 
-  t9Bold, 
-  t7Bold, 
-  articleBody, 
-  t3Regular, 
-  t2Regular, 
-  t1Regular 
-} from '@src/constants/typography'
+import {
+  t5Regular,
+  t4Regular,
+  t10Bold,
+  t9Bold,
+  t7Bold,
+  articleBody,
+  t3Regular,
+  t2Regular,
+  t1Regular,
+} from '@src/constants/typography';
 import { t5Regular as customTypo } from '@karrot/typography'
 
 const S_StoreRequestTitle = styled.h1`
@@ -346,6 +343,12 @@ const Card = styled.div`
   p.description {
     ${articleBody};
     color: ${vars.$scale.color.gray800};
+  }
+  
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${t4Regular};
+    margin: 0;
   }
   
   // 캡션 스타일
@@ -2037,6 +2040,84 @@ const Component = () => {
     <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
   </>);
 };
+```
+
+</Accordion>
+</Accordions>
+
+### replace-custom-seed-design-color
+
+커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
+
+```package-install
+npx @seed-design/codemod replace-custom-seed-design-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { color, background } from "@/shared/styles";
+
+export const container = style({
+  backgroundColor: color.gray100,
+  color: color.gray900,
+  borderColor: color.carrot500,
+});
+
+export const box = style({
+  background: color.gray50,
+  color: color.red500,
+  border: `1px solid ${color.gray300}`,
+});
+
+export const alert = style({
+  backgroundColor: color.red50,
+  color: color.red900,
+});
+
+export const button = style({
+  backgroundColor: background.gray100,
+  color: color.gray900,
+});
+
+export const highlight = style({
+  color: color.carrot500,
+});
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { color, background } from "@/shared/styles";
+
+export const container = style({
+  backgroundColor: color.palette.gray200,
+  color: color.palette.gray1000,
+  borderColor: color.palette.carrot600,
+});
+
+export const box = style({
+  background: color.palette.gray100,
+  color: color.palette.red700,
+  border: `1px solid ${color.palette.gray400}`,
+});
+
+export const alert = style({
+  backgroundColor: color.palette.red100,
+  color: color.palette.red900,
+});
+
+export const button = style({
+  backgroundColor: background.palette.gray200,
+  color: color.palette.gray1000,
+});
+
+export const highlight = style({
+  color: color.palette.carrot600,
+});
 ```
 
 </Accordion>
