@@ -1,5 +1,6 @@
 import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
 import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
 
 export const docs = defineDocs({
@@ -29,7 +30,7 @@ export default defineConfig({
         },
       ],
       [remarkDocGen, { generators: [fileGenerator()] }],
-      remarkReactTypeTable,
+      [remarkReactTypeTable, { generator: typeTableGenerator }],
     ],
     rehypeCodeOptions: {
       lazy: true,

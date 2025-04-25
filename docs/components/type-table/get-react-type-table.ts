@@ -1,10 +1,15 @@
 // This code includes portions derived from fuma-nama/fumadocs (https://github.com/fuma-nama/fumadocs)
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
-import { generateDocumentation, type GenerateDocumentationOptions } from "fumadocs-typescript";
+import { GenerateOptions, Generator } from "fumadocs-typescript";
 import fs from "node:fs/promises";
 
 export interface ReactTypeTableProps {
+  /**
+   * The fumadocs-typescript generator instance.
+   */
+  generator: Generator;
+
   /**
    * The path to source TypeScript file.
    */
@@ -38,10 +43,11 @@ export interface ReactTypeTableProps {
    */
   type?: string;
 
-  options?: GenerateDocumentationOptions;
+  options?: GenerateOptions;
 }
 
 export async function getReactTypeTableOutput({
+  generator,
   path,
   type,
   name,
@@ -61,7 +67,7 @@ export async function getReactTypeTableOutput({
     content += `\nexport type ${typeName} = ${type}`;
   }
 
-  const output = generateDocumentation(path ?? "temp.ts", typeName, content, {
+  const output = generator.generateDocumentation({ path: path ?? "temp.ts", content }, typeName, {
     ...options,
     // get source file from ts symbol, and check if it's from node_modules
     transform: (entry, _type, symbol) => {

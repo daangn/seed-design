@@ -4,7 +4,7 @@
 import type { Expression, ExpressionStatement, ObjectExpression, Program, Property } from "estree";
 import { valueToEstree } from "estree-util-value-to-estree";
 import type { DocEntry } from "fumadocs-typescript";
-import { getProject, renderMarkdownToHast } from "fumadocs-typescript";
+import { type Generator, renderMarkdownToHast } from "fumadocs-typescript";
 import { toEstree } from "hast-util-to-estree";
 import type { Root } from "mdast";
 import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
@@ -80,6 +80,11 @@ async function mapProperty(
 
 export interface RemarkReactTypeTableOptions {
   /**
+   * The fumadocs-typescript generator instance.
+   */
+  generator: Generator;
+
+  /**
    * @defaultValue 'react-type-table'
    */
   name?: string;
@@ -103,13 +108,12 @@ export interface RemarkReactTypeTableOptions {
  * MDX is required to use this plugin.
  */
 export function remarkReactTypeTable({
+  generator,
   name = "react-type-table",
   outputName = "TypeTable",
   renderMarkdown = renderMarkdownToHast,
   options = {},
-}: RemarkReactTypeTableOptions = {}): Transformer<Root, Root> {
-  const project = options.project ?? getProject(options.config);
-
+}: RemarkReactTypeTableOptions): Transformer<Root, Root> {
   return async (tree, file) => {
     const queue: Promise<void>[] = [];
     const basePath = dirname(file.path);
@@ -127,10 +131,10 @@ export function remarkReactTypeTable({
 
       async function run() {
         const output = await getReactTypeTableOutput({
+          generator,
           ...props,
           options: {
             ...options,
-            project,
             basePath,
           },
         } as ReactTypeTableProps);
