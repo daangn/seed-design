@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
-    "@create-figma-plugin/ui": "^3.2.1",
+    "@create-figma-plugin/ui": "^4.0.0",
     "@create-figma-plugin/utilities": "^4.0.0",
     "@floating-ui/dom": "^1.6.13",
     "@floating-ui/react-dom": "^2.1.2",

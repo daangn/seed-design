@@ -943,7 +943,7 @@
       "name": "@seed-design/figma-v3-migration",
       "version": "0.0.0",
       "dependencies": {
-        "@create-figma-plugin/ui": "^3.2.1",
+        "@create-figma-plugin/ui": "^4.0.0",
         "@create-figma-plugin/utilities": "^4.0.0",
         "@floating-ui/dom": "^1.6.13",
         "@floating-ui/react-dom": "^2.1.2",
@@ -1302,7 +1302,7 @@
 
     "@create-figma-plugin/tsconfig": ["@create-figma-plugin/tsconfig@4.0.1", "", {}, "sha512-MNs8SVQ8hxRSCKa+JzYSkhuog7+cbsleBucniApaAhc2xMRvlS+zKMR39jOq5i97Vpow8rxZWBRIq1i5ruARdw=="],
 
-    "@create-figma-plugin/ui": ["@create-figma-plugin/ui@3.2.1", "", { "dependencies": { "@create-figma-plugin/utilities": "^3.2.1" }, "peerDependencies": { "preact": ">=10" } }, "sha512-x2bUyu0gyUiupLpvbM2CCSV//FZjasR3YVWear6DYV4o95BzyV7NnMjr/4cDfuokFMgSSI7rclioRTGUn2Lu5Q=="],
+    "@create-figma-plugin/ui": ["@create-figma-plugin/ui@4.0.1", "", { "dependencies": { "@create-figma-plugin/utilities": "^4.0.1" }, "peerDependencies": { "preact": ">=10" } }, "sha512-oJXXSqDMONdZHHZvIMglXqlO6l++Oh4zWeUJjSBIYvGhViImUCqxvT7RuuamC4XKTWu4cYEG4ypmL6M2DtxCRw=="],
 
     "@create-figma-plugin/utilities": ["@create-figma-plugin/utilities@4.0.1", "", { "dependencies": { "hex-rgb": "^5.0.0", "natural-compare-lite": "1.4.0", "rgb-hex": "^4.1.0" } }, "sha512-hVT5gOlIuA3GkpKeUrbS8wDtQFAmZdxQEmtFROzQX58Pz3ij1StoS1bPMn9zHLiTIVsSvXPZYhOV8TALBr0o0A=="],
 
@@ -5087,8 +5087,6 @@
     "@create-figma-plugin/build/esbuild": ["esbuild@0.25.1", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.1", "@esbuild/android-arm": "0.25.1", "@esbuild/android-arm64": "0.25.1", "@esbuild/android-x64": "0.25.1", "@esbuild/darwin-arm64": "0.25.1", "@esbuild/darwin-x64": "0.25.1", "@esbuild/freebsd-arm64": "0.25.1", "@esbuild/freebsd-x64": "0.25.1", "@esbuild/linux-arm": "0.25.1", "@esbuild/linux-arm64": "0.25.1", "@esbuild/linux-ia32": "0.25.1", "@esbuild/linux-loong64": "0.25.1", "@esbuild/linux-mips64el": "0.25.1", "@esbuild/linux-ppc64": "0.25.1", "@esbuild/linux-riscv64": "0.25.1", "@esbuild/linux-s390x": "0.25.1", "@esbuild/linux-x64": "0.25.1", "@esbuild/netbsd-arm64": "0.25.1", "@esbuild/netbsd-x64": "0.25.1", "@esbuild/openbsd-arm64": "0.25.1", "@esbuild/openbsd-x64": "0.25.1", "@esbuild/sunos-x64": "0.25.1", "@esbuild/win32-arm64": "0.25.1", "@esbuild/win32-ia32": "0.25.1", "@esbuild/win32-x64": "0.25.1" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-BGO5LtrGC7vxnqucAe/rmvKdJllfGaYWdyABvyMoXQlfYMb2bbRuReWR5tEGE//4LcNJj9XrkovTqNYRFZHAMQ=="],
 
     "@create-figma-plugin/build/find-up": ["find-up@7.0.0", "", { "dependencies": { "locate-path": "^7.2.0", "path-exists": "^5.0.0", "unicorn-magic": "^0.1.0" } }, "sha512-YyZM99iHrqLKjmt4LJDj58KI+fYyufRLBSYcqycxf//KpBk9FoewoGX0450m9nB44qrZnovzC2oeP5hUibxc/g=="],
-
-    "@create-figma-plugin/ui/@create-figma-plugin/utilities": ["@create-figma-plugin/utilities@3.2.1", "", { "dependencies": { "hex-rgb": "^5.0.0", "natural-compare-lite": "1.4.0", "rgb-hex": "^4.1.0" } }, "sha512-p32DEIv8VVakT9DBOk+QGDWMx9DtX/VKpuAcvo8B3zcqVRmL2DYPVkOLrC8UNmWySTm8I7rR3ztRG790UdACUg=="],
 
     "@cspotcode/source-map-support/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
 
