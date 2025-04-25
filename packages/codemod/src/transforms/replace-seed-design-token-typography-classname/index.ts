@@ -165,7 +165,7 @@ function parseExpression(j: any, code: string) {
 }
 
 const transform: Transform = (file, api) => {
-  const logger = createTransformLogger("replace-typography-design-token");
+  const logger = createTransformLogger("replace-seed-design-token-typography-classname");
   const j = api.jscodeshift;
   const root = j(file.source);
 

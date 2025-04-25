@@ -117,7 +117,7 @@ function transformConditionalExpression(j: any, expression: any): any {
 }
 
 const transform: Transform = (file, api) => {
-  const logger = createTransformLogger("replace-text-component");
+  const logger = createTransformLogger("replace-custom-seed-design-text-component");
   const j = api.jscodeshift;
   const root = j(file.source);
 

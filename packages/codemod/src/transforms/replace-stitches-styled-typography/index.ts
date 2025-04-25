@@ -263,7 +263,7 @@ const transform: Transform = (file, api) => {
   }
 
   // 로거 생성
-  const logger = createTransformLogger("replace-stitches-typography");
+  const logger = createTransformLogger("replace-stitches-styled-typography");
   logger.startFile(filePath);
 
   try {

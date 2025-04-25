@@ -103,7 +103,7 @@ const postcssPlugin: Plugin = {
 };
 
 const transform: Transform = (file, _api, _options) => {
-  const logger = createTransformLogger("replace-css-typography-variable");
+  const logger = createTransformLogger("replace-css-seed-design-typography-variable");
 
   // CSS 파일이 아닌 경우 건너뛰기
   if (!file.path.endsWith(".css")) {
@@ -142,7 +142,7 @@ const transform: Transform = (file, _api, _options) => {
  * @param options 옵션
  */
 export function processCssFiles(paths: string[], _options: any) {
-  const logger = createTransformLogger("replace-css-typography-variable");
+  const logger = createTransformLogger("replace-css-seed-design-typography-variable");
 
   let cssFilePaths: string[] = [];
 
