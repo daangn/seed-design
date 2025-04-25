@@ -14,6 +14,12 @@ const TARGET_PREFIXES = ["color", "background"];
 // 매핑 접두사 목록
 const TOKEN_PREFIXES = ["$semantic.color.", "$scale.color.", "$static.color."];
 
+// 새 import 경로
+const TARGET_IMPORT_PATH = "@seed-design/css/vars";
+
+// 원본 import 경로
+const SOURCE_IMPORT_PATH = "@/shared/styles";
+
 ///////////////////////////////////////////////////////////////////
 
 export default function transformer(file: FileInfo, api: API, options: Options) {
@@ -29,6 +35,9 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
   // 색상 매핑 정보를 가져옴
   const colorMap = colorMappings as FoundationTokenMapping[];
 
+  // vars import 추가 필요 여부 확인
+  let needsVarsImport = false;
+
   // 단일 접두사 (color, background와 같은) 처리
   TARGET_PREFIXES.filter((prefix) => !prefix.includes(".")).forEach((prefix) => {
     root
@@ -40,10 +49,72 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
       })
       .forEach((path) => {
         const parentPropertyName = getParentPropertyName(path);
-        processColorNode(j, path, file, colorMap, parentPropertyName);
+        processColorNode(j, path, file, colorMap, prefix, parentPropertyName);
         hasChanges = true;
+        needsVarsImport = true;
       });
   });
+
+  // vars import 추가
+  if (needsVarsImport) {
+    // 이미 존재하는 vars import 확인
+    let varsImportExists = false;
+
+    root
+      .find(j.ImportDeclaration, {
+        source: {
+          value: TARGET_IMPORT_PATH,
+        },
+      })
+      .forEach((path) => {
+        const specifiers = path.node.specifiers || [];
+        specifiers.forEach((spec: any) => {
+          if (spec.type === "ImportSpecifier" && spec.imported && spec.imported.name === "vars") {
+            varsImportExists = true;
+          }
+        });
+      });
+
+    // import가 없으면 추가
+    if (!varsImportExists) {
+      const varsImport = j.importDeclaration(
+        [j.importSpecifier(j.identifier("vars"))],
+        j.literal(TARGET_IMPORT_PATH),
+      );
+
+      // 파일 최상단에 import 추가
+      const body = root.get().node.program.body;
+      body.unshift(varsImport);
+    }
+
+    // 기존 import 구문에서 color, background 가 더 이상 사용되지 않는지 확인
+    root
+      .find(j.ImportDeclaration, {
+        source: {
+          value: SOURCE_IMPORT_PATH,
+        },
+      })
+      .forEach((path) => {
+        // color, background import 추출
+        const colorBackgroundImports = (path.node.specifiers || []).filter(
+          (spec: any) =>
+            spec.type === "ImportSpecifier" && TARGET_PREFIXES.includes(spec.imported.name),
+        );
+
+        if (colorBackgroundImports.length > 0) {
+          // color, background만 import하는 경우 import 문 제거
+          if (colorBackgroundImports.length === path.node.specifiers.length) {
+            j(path).remove();
+          } else {
+            // 다른 import도 있는 경우 color, background만 제거
+            path.node.specifiers = path.node.specifiers.filter(
+              (spec: any) =>
+                !(spec.type === "ImportSpecifier" && TARGET_PREFIXES.includes(spec.imported.name)),
+            );
+          }
+        }
+      });
+  }
 
   // 파일 변환 완료 로깅
   logger.finishFile(file.path);
@@ -58,6 +129,7 @@ function processColorNode(
   path: any,
   file: FileInfo,
   colorMap: FoundationTokenMapping[],
+  _prefix: string,
   parentPropertyName?: string,
 ) {
   // 속성명 가져오기
@@ -83,7 +155,7 @@ function processColorNode(
   // 매핑 후보 토큰 목록 생성
   const potentialTokens = [
     normalizedPropertyName,
-    ...TOKEN_PREFIXES.map((prefix) => `${prefix}${normalizedPropertyName}`),
+    ...TOKEN_PREFIXES.map((tokenPrefix) => `${tokenPrefix}${normalizedPropertyName}`),
   ];
 
   // 매핑에서 해당 토큰 찾기
@@ -96,14 +168,21 @@ function processColorNode(
 
       if (selectedToken) {
         // 토큰을 적용
-        applySelectedToken(j, path, file, propertyName, selectedToken, mapping.needsVerification);
+        applySelectedTokenWithVars(
+          j,
+          path,
+          file,
+          propertyName,
+          selectedToken,
+          mapping.needsVerification,
+        );
       } else if (mapping.alternative && mapping.alternative.length > 0) {
         // 대체 토큰이 있는 경우
         const alternativeToken = selectAppropriateToken(mapping.alternative, tokenType);
 
         if (alternativeToken) {
           // 대체 토큰을 적용
-          applySelectedToken(
+          applySelectedTokenWithVars(
             j,
             path,
             file,
@@ -148,7 +227,7 @@ function processColorNode(
     ) {
       // Gray-Alpha-200 처리
       if (propertyName.includes("Alpha") || propertyName.toLowerCase().includes("alpha")) {
-        applySelectedToken(j, path, file, propertyName, "$color.palette.gray-300", false);
+        applySelectedTokenWithVars(j, path, file, propertyName, "$color.palette.gray-300", false);
         return;
       }
 
@@ -159,7 +238,7 @@ function processColorNode(
       for (const mapping of colorMap) {
         // static-black-alpha 등의 패턴 찾기
         if (mapping.previous.includes("static") && specialToken.includes("static")) {
-          applySelectedToken(
+          applySelectedTokenWithVars(
             j,
             path,
             file,
@@ -212,16 +291,16 @@ function findColorMapping(
 }
 
 /**
- * 선택된 토큰을 적용하는 함수
+ * vars를 사용하여 선택된 토큰을 적용하는 함수
  */
-function applySelectedToken(
+function applySelectedTokenWithVars(
   j: API["jscodeshift"],
   path: any,
   file: FileInfo,
   propertyName: string,
   selectedToken: string,
-  needsVerification: boolean = false,
-  warningReason: string = "Needs manual verification",
+  needsVerification = false,
+  warningReason = "Needs manual verification",
 ): void {
   // property를 직접 수정하지 않고, 객체 구조로 변경
   const parts = selectedToken.split(".");
@@ -231,20 +310,22 @@ function applySelectedToken(
     const category = parts[1]; // palette, bg, fg, stroke
     const value = parts[2].replace(/-/g, ""); // gray-200 => gray200
 
-    // 기존 object 대신 새로운 MemberExpression 생성
-    const newObject = j.memberExpression(
-      j.identifier(path.node.object.name), // color 또는 background
-      j.identifier(category),
-    );
+    // vars.$color.palette.gray200 형식으로 변경
+    const varsNode = j.identifier("vars");
+    const dollarColorNode = j.memberExpression(varsNode, j.identifier("$color"));
+    const categoryNode = j.memberExpression(dollarColorNode, j.identifier(category));
+    const valueNode = j.identifier(value);
 
-    // 새로운 property로 교체
-    path.node.object = newObject;
-    path.node.property = j.identifier(value);
+    // 전체 멤버 표현식 작성: vars.$color.palette.gray100
+    const newNode = j.memberExpression(categoryNode, valueNode);
+
+    // 노드 교체
+    j(path).replaceWith(newNode);
 
     // 성공 로깅
     logger.logTransformResult(file.path, {
       previousToken: propertyName,
-      nextToken: `${category}.${value}`,
+      nextToken: `vars.$color.${category}.${value}`,
       line: path.node.loc?.start.line || 0,
       status: "success",
     });
@@ -253,7 +334,7 @@ function applySelectedToken(
     if (needsVerification) {
       logger.logTransformResult(file.path, {
         previousToken: propertyName,
-        nextToken: `${category}.${value}`,
+        nextToken: `vars.$color.${category}.${value}`,
         line: path.node.loc?.start.line || 0,
         status: "warning",
         failureReason: warningReason,
