@@ -860,7 +860,7 @@
       "name": "@seed-design/figma-expose-variables",
       "version": "0.0.0",
       "dependencies": {
-        "@create-figma-plugin/utilities": "^3.2.1",
+        "@create-figma-plugin/utilities": "^4.0.0",
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
@@ -944,7 +944,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@create-figma-plugin/ui": "^3.2.1",
-        "@create-figma-plugin/utilities": "^3.2.1",
+        "@create-figma-plugin/utilities": "^4.0.0",
         "@floating-ui/dom": "^1.6.13",
         "@floating-ui/react-dom": "^2.1.2",
         "@june-so-sandbox/api": "^0.3.1",
@@ -1304,7 +1304,7 @@
 
     "@create-figma-plugin/ui": ["@create-figma-plugin/ui@3.2.1", "", { "dependencies": { "@create-figma-plugin/utilities": "^3.2.1" }, "peerDependencies": { "preact": ">=10" } }, "sha512-x2bUyu0gyUiupLpvbM2CCSV//FZjasR3YVWear6DYV4o95BzyV7NnMjr/4cDfuokFMgSSI7rclioRTGUn2Lu5Q=="],
 
-    "@create-figma-plugin/utilities": ["@create-figma-plugin/utilities@3.2.1", "", { "dependencies": { "hex-rgb": "^5.0.0", "natural-compare-lite": "1.4.0", "rgb-hex": "^4.1.0" } }, "sha512-p32DEIv8VVakT9DBOk+QGDWMx9DtX/VKpuAcvo8B3zcqVRmL2DYPVkOLrC8UNmWySTm8I7rR3ztRG790UdACUg=="],
+    "@create-figma-plugin/utilities": ["@create-figma-plugin/utilities@4.0.1", "", { "dependencies": { "hex-rgb": "^5.0.0", "natural-compare-lite": "1.4.0", "rgb-hex": "^4.1.0" } }, "sha512-hVT5gOlIuA3GkpKeUrbS8wDtQFAmZdxQEmtFROzQX58Pz3ij1StoS1bPMn9zHLiTIVsSvXPZYhOV8TALBr0o0A=="],
 
     "@cspotcode/source-map-support": ["@cspotcode/source-map-support@0.8.1", "", { "dependencies": { "@jridgewell/trace-mapping": "0.3.9" } }, "sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw=="],
 
@@ -5088,6 +5088,8 @@
 
     "@create-figma-plugin/build/find-up": ["find-up@7.0.0", "", { "dependencies": { "locate-path": "^7.2.0", "path-exists": "^5.0.0", "unicorn-magic": "^0.1.0" } }, "sha512-YyZM99iHrqLKjmt4LJDj58KI+fYyufRLBSYcqycxf//KpBk9FoewoGX0450m9nB44qrZnovzC2oeP5hUibxc/g=="],
 
+    "@create-figma-plugin/ui/@create-figma-plugin/utilities": ["@create-figma-plugin/utilities@3.2.1", "", { "dependencies": { "hex-rgb": "^5.0.0", "natural-compare-lite": "1.4.0", "rgb-hex": "^4.1.0" } }, "sha512-p32DEIv8VVakT9DBOk+QGDWMx9DtX/VKpuAcvo8B3zcqVRmL2DYPVkOLrC8UNmWySTm8I7rR3ztRG790UdACUg=="],
+
     "@cspotcode/source-map-support/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
 
     "@eslint-community/eslint-utils/eslint-visitor-keys": ["eslint-visitor-keys@3.4.3", "", {}, "sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag=="],
@@ -5211,6 +5213,8 @@
     "@sanity/uuid/@types/uuid": ["@types/uuid@8.3.4", "", {}, "sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw=="],
 
     "@sanity/uuid/uuid": ["uuid@8.3.2", "", { "bin": { "uuid": "dist/bin/uuid" } }, "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="],
+
+    "@seed-design/figma-expose-variables/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
     "@seed-design/figma-v3-migration/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
@@ -5964,6 +5968,8 @@
 
     "@sanity/sdk/@sanity/mutate/nanoid": ["nanoid@5.1.5", "", { "bin": { "nanoid": "bin/nanoid.js" } }, "sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw=="],
 
+    "@seed-design/figma-expose-variables/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
+
     "@seed-design/figma-v3-migration/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 
     "@seed-design/tailwind3-plugin/tailwindcss/arg": ["arg@5.0.2", "", {}, "sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg=="],
@@ -6383,6 +6389,8 @@
     "@sanity/import/ora/chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 
     "@sanity/import/ora/cli-cursor/restore-cursor": ["restore-cursor@3.1.0", "", { "dependencies": { "onetime": "^5.1.0", "signal-exit": "^3.0.2" } }, "sha512-l+sSefzHpj5qimhFSE5a8nufZYAM3sBSVMAPtYkmC+4EH2anSGaEMXSD0izRQbu9nfyQ9y5JrVmp7E8oZrUjvA=="],
+
+    "@seed-design/figma-expose-variables/concurrently/chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 
     "@seed-design/figma-v3-migration/concurrently/chalk/supports-color": ["supports-color@7.2.0", "", { "dependencies": { "has-flag": "^4.0.0" } }, "sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw=="],
 

@@ -11,7 +11,7 @@
     "apply-manifest": "rm -rf dist && mkdir dist && cp src/manifest.json dist"
   },
   "dependencies": {
-    "@create-figma-plugin/utilities": "^3.2.1"
+    "@create-figma-plugin/utilities": "^4.0.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
