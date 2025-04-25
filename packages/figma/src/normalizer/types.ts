@@ -109,7 +109,10 @@ export interface NormalizedInstanceNode extends NormalizedFrameTrait {
   type: FigmaRestSpec.InstanceNode["type"];
 
   componentProperties: {
-    [key: string]: FigmaRestSpec.ComponentProperty & { componentKey?: string };
+    [key: string]: FigmaRestSpec.ComponentProperty & {
+      componentKey?: string;
+      componentSetKey?: string;
+    };
   };
 
   componentKey: string;
