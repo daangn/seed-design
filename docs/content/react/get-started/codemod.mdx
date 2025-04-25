@@ -3,6 +3,8 @@ title: Codemod
 description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
 ---
 
+{/* Auto-generated from `scripts/generate-codemod-docs.ts` */}
+
 `@seed-design/codemod`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
 
 ## 사용 방법
@@ -39,9 +41,95 @@ npx @seed-design/codemod --list
 
 ## 사용 가능한 Transforms
 
-### replace-tailwind-typography
+### replace-custom-seed-design-typography
 
-Tailwind 타이포그래피 클래스를 V3 형식으로 변환해요.
+```package-install
+npx @seed-design/codemod replace-custom-seed-design-typography <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { vars } from "@seed-design/css";
+import { f, reset } from "@/shared/styles";
+
+export const title = style([
+  typography.h4,
+  {
+    textAlign: "center",
+    color: vars.$scale.color.gray900,
+    margin: 0,
+  },
+]);
+
+export const subtitle = style([
+  f.typography.title2Bold,
+  {
+    marginBottom: "0.375rem",
+    color: vars.$scale.color.gray900,
+  },
+]);
+
+export const smallText = style([
+  typo.caption2Regular,
+  {
+    color: vars.$scale.color.gray700,
+  },
+]);
+
+export const largeTitle = style([
+  typo.bodyL1Regular,
+  {
+    color: vars.$scale.color.gray900,
+  },
+]);
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { vars } from "@seed-design/css";
+import { f, reset } from "@/shared/styles";
+
+export const title = style([
+  typography.t10Bold,
+  {
+    textAlign: "center",
+    color: vars.$scale.color.gray900,
+    margin: 0,
+  },
+]);
+
+export const subtitle = style([
+  f.typography.t7Bold,
+  {
+    marginBottom: "0.375rem",
+    color: vars.$scale.color.gray900,
+  },
+]);
+
+export const smallText = style([
+  typo.t2Regular,
+  {
+    color: vars.$scale.color.gray700,
+  },
+]);
+
+export const largeTitle = style([
+  typo.articleBody,
+  {
+    color: vars.$scale.color.gray900,
+  },
+]);
+```
+
+</Accordion>
+</Accordions>
+
+### replace-tailwind-typography
 
 ```package-install
 npx @seed-design/codemod replace-tailwind-typography <target_path>
@@ -91,9 +179,764 @@ export function BasicExample() {
 </Accordion>
 </Accordions>
 
-### replace-stitches-styled-typography
+### replace-custom-imported-typography-variable
 
-Stitches로 스타일링된 컴포넌트의 타이포그래피를 V3 형식으로 변환해요.
+Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 변수를 변환합니다.
+
+#### 기능
+
+- 타이포그래피 관련 import 문을 찾아 변수명을 변환합니다.
+- 변수가 사용된 모든 위치(템플릿 리터럴, 객체 속성 등)를 찾아 업데이트합니다.
+- typography.mjs의 매핑 정보에 따라 V2 타이포그래피 변수를 V3로 변환합니다.
+- 같은 V3 토큰으로 변환되는 중복 import를 제거합니다 (예: subtitle1Regular, bodyM1Regular가 모두 t5Regular로 변환되면 t5Regular는 한 번만 import).
+- 별칭(alias)으로 import된 변수명은 유지합니다 (예: `bodyM1Regular as customTypo`에서 `t5Regular as customTypo`로 변환).
+
+```package-install
+npx @seed-design/codemod replace-custom-imported-typography-variable <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import {
+  subtitle1Regular,
+  subtitle2Regular,
+  h4,
+  title1Bold,
+  title2Bold,
+  bodyL1Regular,
+  bodyL2Regular,
+  caption1Regular,
+  caption2Regular,
+  label5Regular,
+} from '@src/constants/typography'
+import { bodyM1Regular as customTypo } from '@karrot/typography'
+
+const S_StoreRequestTitle = styled.h1`
+  ${subtitle1Regular};
+  margin: 0 0 0.25rem;
+  color: ${vars.$scale.color.gray900};
+  text-align: center;
+`
+const S_StoreRequestText = styled.p`
+  ${subtitle2Regular};
+  margin: 0;
+  color: ${vars.$scale.color.gray600};
+  text-align: center;
+`
+
+// 추가 테스트 케이스
+// screenTitle 매핑 테스트
+const S_ScreenHeader = styled.h1`
+  ${h4};
+  margin-bottom: 1rem;
+`
+
+// 일반 매핑 테스트
+const S_Title = styled.h2`
+  ${title1Bold};
+  color: ${vars.$scale.color.gray900};
+`
+
+// 여러 테스트 케이스를 담은 컴포넌트
+const Card = styled.div`
+  // title2Bold 매핑 테스트
+  h3 {
+    ${title2Bold};
+    margin-bottom: 8px;
+  }
+  
+  // bodyL1Regular 매핑 테스트
+  p.description {
+    ${bodyL1Regular};
+    color: ${vars.$scale.color.gray800};
+  }
+  
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${bodyL2Regular};
+    margin: 0;
+  }
+  
+  // 캡션 스타일
+  p.caption {
+    ${caption1Regular};
+    color: ${vars.$scale.color.gray600};
+  }
+  
+  // 작은 텍스트
+  small {
+    ${caption2Regular};
+    color: ${vars.$scale.color.gray500};
+  }
+  
+  // 라벨 스타일
+  label {
+    ${label5Regular};
+    margin-right: 4px;
+  }
+`
+
+// 다른 모듈에서 가져온 타이포그래피 처리 (별칭 유지해야 함)
+const S_CustomContent = styled.div`
+  ${customTypo};
+  color: ${vars.$scale.color.gray700};
+`
+
+// 변수로 사용하는 경우
+const titleStyle = title1Bold;
+const textStyle = subtitle1Regular;
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import {
+  t5Regular,
+  t4Regular,
+  t10Bold,
+  t9Bold,
+  t7Bold,
+  articleBody,
+  t3Regular,
+  t2Regular,
+  t1Regular,
+} from '@src/constants/typography';
+import { t5Regular as customTypo } from '@karrot/typography'
+
+const S_StoreRequestTitle = styled.h1`
+  ${t5Regular};
+  margin: 0 0 0.25rem;
+  color: ${vars.$scale.color.gray900};
+  text-align: center;
+`
+const S_StoreRequestText = styled.p`
+  ${t4Regular};
+  margin: 0;
+  color: ${vars.$scale.color.gray600};
+  text-align: center;
+`
+
+// 추가 테스트 케이스
+// screenTitle 매핑 테스트
+const S_ScreenHeader = styled.h1`
+  ${t10Bold};
+  margin-bottom: 1rem;
+`
+
+// 일반 매핑 테스트
+const S_Title = styled.h2`
+  ${t9Bold};
+  color: ${vars.$scale.color.gray900};
+`
+
+// 여러 테스트 케이스를 담은 컴포넌트
+const Card = styled.div`
+  // title2Bold 매핑 테스트
+  h3 {
+    ${t7Bold};
+    margin-bottom: 8px;
+  }
+  
+  // bodyL1Regular 매핑 테스트
+  p.description {
+    ${articleBody};
+    color: ${vars.$scale.color.gray800};
+  }
+  
+  // 대체 토큰으로 매핑되는 케이스
+  p.content {
+    ${t4Regular};
+    margin: 0;
+  }
+  
+  // 캡션 스타일
+  p.caption {
+    ${t3Regular};
+    color: ${vars.$scale.color.gray600};
+  }
+  
+  // 작은 텍스트
+  small {
+    ${t2Regular};
+    color: ${vars.$scale.color.gray500};
+  }
+  
+  // 라벨 스타일
+  label {
+    ${t1Regular};
+    margin-right: 4px;
+  }
+`
+
+// 다른 모듈에서 가져온 타이포그래피 처리 (별칭 유지해야 함)
+const S_CustomContent = styled.div`
+  ${customTypo};
+  color: ${vars.$scale.color.gray700};
+`
+
+// 변수로 사용하는 경우
+const titleStyle = t9Bold;
+const textStyle = t5Regular;
+```
+
+</Accordion>
+</Accordions>
+
+### replace-custom-seed-design-vars
+
+```package-install
+npx @seed-design/codemod replace-custom-seed-design-vars <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { vars } from '@/shared/style/vars';
+
+export const date = style({
+  ...vars.typography.caption1Regular,
+  color: vars.color.gray600,
+});
+
+export const color1 = style({
+  color: vars.color.yellow500,
+});
+
+export const color2 = style({
+  color: vars.color.blue500,
+});
+
+export const color3 = style({
+  color: vars.color.red500,
+});
+
+export const title = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.primary,
+});
+
+export const subtitle = style({
+  ...vars.typography.bodyM2Regular,
+  color: vars.color.secondary,
+});
+
+// 배경색 케이스
+export const cardBackground = style({
+  backgroundColor: vars.color.paperSheet,
+  padding: '16px',
+});
+
+// 테두리 케이스
+export const divider = style({
+  borderTop: `1px solid ${vars.color.divider1}`,
+  marginTop: '8px',
+  marginBottom: '8px',
+});
+
+// 상태 색상 케이스
+export const successMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.success,
+  backgroundColor: vars.color.successLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const warningMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.warning,
+  backgroundColor: vars.color.warningLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const errorMessage = style({
+  ...vars.typography.bodyM1Bold,
+  color: vars.color.danger,
+  backgroundColor: vars.color.dangerLow,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+// 다양한 타이포그래피 케이스
+export const heading = style({
+  ...vars.typography.h4,
+  color: vars.color.inkText,
+});
+
+export const body = style({
+  ...vars.typography.bodyL1Regular,
+  color: vars.color.inkTextLow,
+});
+
+export const label = style({
+  ...vars.typography.label3Bold,
+  color: vars.color.grayActive,
+});
+
+// 알파 색상 케이스
+export const overlay = style({
+  backgroundColor: vars.color.overlayDim,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
+
+// 복합 케이스와 상호작용 상태
+export const button = style({
+  ...vars.typography.label2Bold,
+  backgroundColor: vars.color.primary,
+  color: vars.color.onPrimary,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.primaryHover,
+  },
+  ':active': {
+    backgroundColor: vars.color.primaryPressed,
+  },
+});
+
+export const secondaryButton = style({
+  ...vars.typography.label2Bold,
+  backgroundColor: vars.color.secondaryLow,
+  color: vars.color.secondary,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.grayHover,
+  },
+  ':active': {
+    backgroundColor: vars.color.grayPressed,
+  },
+});
+
+// 중첩 경로 케이스
+export const floatingPanel = style({
+  backgroundColor: vars.color.paperFloating,
+  boxShadow: `0 2px 8px ${vars.color.overlayLow}`,
+  padding: '20px',
+  borderRadius: '8px',
+});
+
+export const dialogPanel = style({
+  backgroundColor: vars.color.paperDialog,
+  padding: '24px',
+  boxShadow: `0 4px 16px ${vars.color.overlayDim}`,
+  borderRadius: '12px',
+});
+
+// 정적 색상 케이스
+export const staticColors = style({
+  color: vars.color.staticBlack,
+  backgroundColor: vars.color.staticWhite,
+  border: `1px solid ${vars.color.staticBlackAlpha200}`,
+});
+
+// 정적 색상 케이스 (명시적으로 static 프리픽스 테스트)
+export const staticExplicitColors = style({
+  color: vars.color.staticBlack,
+  backgroundColor: vars.color.staticWhite,
+  boxShadow: `0 2px 4px ${vars.color.staticBlackAlpha500}`,
+  outline: `1px solid ${vars.color.staticBlackAlpha200}`,
+});
+
+export const specialBackground = style({
+  background: `linear-gradient(to bottom, ${vars.color.staticWhiteAlpha50}, ${vars.color.staticWhiteAlpha200})`,
+  backdropFilter: 'blur(8px)',
+});
+
+// 복합 스타일 및 다중 속성 케이스
+export const multiProperty = style({
+  ...vars.typography.title2Bold,
+  color: vars.color.accent,
+  borderLeft: `4px solid ${vars.color.accent}`,
+  borderRight: `4px solid ${vars.color.accent}`,
+  boxShadow: `inset 0 0 0 1px ${vars.color.divider2}, 0 2px 4px ${vars.color.overlayLow}`,
+  padding: '16px',
+  backgroundColor: vars.color.paperDefault,
+});
+
+// 믹스인 스타일 케이스
+export const mixinStyle = {
+  primary: {
+    background: vars.color.primary,
+    color: vars.color.onPrimary,
+  },
+  secondary: {
+    background: vars.color.secondary,
+  },
+  accent: {
+    background: vars.color.accent,
+    color: vars.color.onGrayOverlay50,
+  },
+};
+
+// 특수 속성 및 스케일 색상 케이스
+export const scaleColors = style({
+  fill: vars.color.carrot500,
+  stroke: vars.color.gray400,
+  stopColor: vars.color.blue400,
+  floodColor: vars.color.red400,
+  lightingColor: vars.color.green400,
+});
+
+// 특수 타이포그래피 케이스
+export const specialTypographies = {
+  title: vars.typography.title1Bold,
+  subtitle: vars.typography.subtitle1Regular,
+  label: vars.typography.label5Regular,
+  caption: vars.typography.caption2Bold,
+};
+
+// 다양한 경로를 가진 컬러 토큰
+export const colorContexts = style({
+  // 일반 색상
+  color: vars.color.primaryLow,
+  // 배경 색상
+  backgroundColor: vars.color.paperBackground,
+  // 테두리 색상
+  borderColor: vars.color.divider3,
+  // 호버 색상
+  ':hover': {
+    backgroundColor: vars.color.primaryLowHover,
+    borderColor: vars.color.primaryLowActive,
+  },
+});
+
+// 복잡한 다중 경로와 중첩된 객체
+export const nestedStyleObject = {
+  button: {
+    default: {
+      backgroundColor: vars.color.paperAccent,
+      color: vars.color.inkText,
+      border: `1px solid ${vars.color.carrot300}`,
+    },
+    hover: {
+      backgroundColor: vars.color.carrot100,
+      borderColor: vars.color.carrot400,
+    },
+    active: {
+      backgroundColor: vars.color.carrot200,
+      color: vars.color.inkTextLow,
+    },
+  },
+  panel: {
+    header: {
+      ...vars.typography.subtitle2Bold,
+      color: vars.color.blue600,
+      borderBottom: `1px solid ${vars.color.blue200}`,
+    },
+    body: {
+      ...vars.typography.bodyM2Regular,
+      color: vars.color.inkTextLow,
+      backgroundColor: vars.color.blue50,
+    },
+    footer: {
+      backgroundColor: vars.color.blue100,
+      borderTop: `1px solid ${vars.color.blue200}`,
+    },
+  },
+};
+
+// 테두리 속성 매핑 테스트
+export const borderMapping = style({
+  // stroke 토큰으로 매핑될 속성
+  borderColor: vars.color.divider2,
+  // stroke 토큰이 없어서 fg 토큰으로 대체되는 케이스
+  borderTopColor: vars.color.primary,
+  borderBottomColor: vars.color.accent,
+  // stroke 또는 fg 토큰으로 대체
+  boxShadow: `0 0 0 1px ${vars.color.primary}, 0 2px 4px ${vars.color.overlayLow}`,
+  // 복합 속성
+  border: `1px solid ${vars.color.secondary}`,
+});
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { vars } from '@/shared/style/vars';
+
+export const date = style({
+  ...vars.typography.t3Regular,
+  color: vars.color.palette.gray700,
+});
+
+export const color1 = style({
+  color: vars.color.palette.yellow700,
+});
+
+export const color2 = style({
+  color: vars.color.palette.blue600,
+});
+
+export const color3 = style({
+  color: vars.color.palette.red700,
+});
+
+export const title = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.fg.brand,
+});
+
+export const subtitle = style({
+  ...vars.typography.t4Regular,
+  color: vars.color.palette.gray900,
+});
+
+// 배경색 케이스
+export const cardBackground = style({
+  backgroundColor: vars.color.bg.layerFloating,
+  padding: '16px',
+});
+
+// 테두리 케이스
+export const divider = style({
+  borderTop: `1px solid ${vars.color.stroke.neutralMuted}`,
+  marginTop: '8px',
+  marginBottom: '8px',
+});
+
+// 상태 색상 케이스
+export const successMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.fg.positive,
+  backgroundColor: vars.color.bg.positiveWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const warningMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.bg.warningSolid,
+  backgroundColor: vars.color.bg.warningWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+export const errorMessage = style({
+  ...vars.typography.t5Bold,
+  color: vars.color.fg.critical,
+  backgroundColor: vars.color.bg.criticalWeak,
+  padding: '12px',
+  borderRadius: '4px',
+});
+
+// 다양한 타이포그래피 케이스
+export const heading = style({
+  ...vars.typography.t10Bold,
+  color: vars.color.fg.neutral,
+});
+
+export const body = style({
+  ...vars.typography.articleBody,
+  color: vars.color.fg.neutralSubtle,
+});
+
+export const label = style({
+  ...vars.typography.t4Bold,
+  color: vars.color.fg.neutralMuted,
+});
+
+// 알파 색상 케이스
+export const overlay = style({
+  backgroundColor: vars.color.bg.overlay,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+});
+
+// 복합 케이스와 상호작용 상태
+export const button = style({
+  ...vars.typography.t5Bold,
+  backgroundColor: vars.color.bg.brandSolid,
+  color: vars.color.palette.staticWhite,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.bg.brandSolidPressed,
+  },
+  ':active': {
+    backgroundColor: vars.color.bg.brandSolidPressed,
+  },
+});
+
+export const secondaryButton = style({
+  ...vars.typography.t5Bold,
+  backgroundColor: vars.color.bg.neutralWeak,
+  color: vars.color.palette.gray900,
+  borderRadius: '4px',
+  padding: '8px 16px',
+  border: 'none',
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: vars.color.bg.neutralWeakPressed,
+  },
+  ':active': {
+    backgroundColor: vars.color.bg.neutralWeakPressed,
+  },
+});
+
+// 중첩 경로 케이스
+export const floatingPanel = style({
+  backgroundColor: vars.color.bg.layerFloating,
+  boxShadow: `0 2px 8px ${vars.color.bg.overlayMuted}`,
+  padding: '20px',
+  borderRadius: '8px',
+});
+
+export const dialogPanel = style({
+  backgroundColor: vars.color.bg.layerFloating,
+  padding: '24px',
+  boxShadow: `0 4px 16px ${vars.color.bg.overlay}`,
+  borderRadius: '12px',
+});
+
+// 정적 색상 케이스
+export const staticColors = style({
+  color: vars.color.palette.staticBlack,
+  backgroundColor: vars.color.palette.staticWhite,
+  border: `1px solid ${vars.color.palette.staticBlackAlpha200}`,
+});
+
+// 정적 색상 케이스 (명시적으로 static 프리픽스 테스트)
+export const staticExplicitColors = style({
+  color: vars.color.palette.staticBlack,
+  backgroundColor: vars.color.palette.staticWhite,
+  boxShadow: `0 2px 4px ${vars.color.palette.staticBlackAlpha500}`,
+  outline: `1px solid ${vars.color.palette.staticBlackAlpha200}`,
+});
+
+export const specialBackground = style({
+  background: `linear-gradient(to bottom, ${vars.color.palette.staticWhiteAlpha50}, ${vars.color.palette.staticWhiteAlpha200})`,
+  backdropFilter: 'blur(8px)',
+});
+
+// 복합 스타일 및 다중 속성 케이스
+export const multiProperty = style({
+  ...vars.typography.t7Bold,
+  color: vars.color.fg.informative,
+  borderLeft: `4px solid ${vars.color.fg.informative}`,
+  borderRight: `4px solid ${vars.color.fg.informative}`,
+  boxShadow: `inset 0 0 0 1px ${vars.color.stroke.neutral}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
+  padding: '16px',
+  backgroundColor: vars.color.bg.layerDefault,
+});
+
+// 믹스인 스타일 케이스
+export const mixinStyle = {
+  primary: {
+    background: vars.color.bg.brandSolid,
+    color: vars.color.palette.staticWhite,
+  },
+  secondary: {
+    background: vars.color.palette.gray900,
+  },
+  accent: {
+    background: vars.color.bg.informativeSolid,
+    color: vars.color.stroke.onImage,
+  },
+};
+
+// 특수 속성 및 스케일 색상 케이스
+export const scaleColors = style({
+  fill: vars.color.palette.carrot600,
+  stroke: vars.color.palette.gray500,
+  stopColor: vars.color.palette.blue400,
+  floodColor: vars.color.palette.red600,
+  lightingColor: vars.color.palette.green500,
+});
+
+// 특수 타이포그래피 케이스
+export const specialTypographies = {
+  title: vars.typography.t9Bold,
+  subtitle: vars.typography.t5Regular,
+  label: vars.typography.t1Regular,
+  caption: vars.typography.t2Bold,
+};
+
+// 다양한 경로를 가진 컬러 토큰
+export const colorContexts = style({
+  // 일반 색상
+  color: vars.color.palette.carrot100,
+  // 배경 색상
+  backgroundColor: vars.color.bg.layerBasement,
+  // 테두리 색상
+  borderColor: vars.color.palette.gray400,
+  // 호버 색상
+  ':hover': {
+    backgroundColor: vars.color.palette.carrot200,
+    borderColor: vars.color.palette.carrot100,
+  },
+});
+
+// 복잡한 다중 경로와 중첩된 객체
+export const nestedStyleObject = {
+  button: {
+    default: {
+      backgroundColor: vars.color.palette.carrot100,
+      color: vars.color.fg.neutral,
+      border: `1px solid ${vars.color.palette.carrot400}`,
+    },
+    hover: {
+      backgroundColor: vars.color.palette.carrot200,
+      borderColor: vars.color.palette.carrot500,
+    },
+    active: {
+      backgroundColor: vars.color.palette.carrot300,
+      color: vars.color.fg.neutralSubtle,
+    },
+  },
+  panel: {
+    header: {
+      ...vars.typography.t4Bold,
+      color: vars.color.palette.blue600,
+      borderBottom: `1px solid ${vars.color.palette.blue300}`,
+    },
+    body: {
+      ...vars.typography.t4Regular,
+      color: vars.color.fg.neutralSubtle,
+      backgroundColor: vars.color.palette.blue100,
+    },
+    footer: {
+      backgroundColor: vars.color.palette.blue200,
+      borderTop: `1px solid ${vars.color.palette.blue300}`,
+    },
+  },
+};
+
+// 테두리 속성 매핑 테스트
+export const borderMapping = style({
+  // stroke 토큰으로 매핑될 속성
+  borderColor: vars.color.stroke.neutral,
+  // stroke 토큰이 없어서 fg 토큰으로 대체되는 케이스
+  borderTopColor: vars.color.fg.brand,
+  borderBottomColor: vars.color.fg.informative,
+  // stroke 또는 fg 토큰으로 대체
+  boxShadow: `0 0 0 1px ${vars.color.bg.brandSolid}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
+  // 복합 속성
+  border: `1px solid ${vars.color.palette.gray900}`,
+});
+```
+
+</Accordion>
+</Accordions>
+
+### replace-stitches-styled-typography
 
 ```package-install
 npx @seed-design/codemod replace-stitches-styled-typography <target_path>
@@ -119,6 +962,9 @@ const ContentText = styled('p', {
       large: {
         $text: 'bodyL1Regular',
       },
+      xlarge: {
+        $text: "h4",
+      },
     },
   },
 });
@@ -141,6 +987,9 @@ const ContentText = styled('p', {
       large: {
         $text: "articleBody",
       },
+      xlarge: {
+        $text: "t10Bold",
+      },
     },
   },
 });
@@ -149,9 +998,297 @@ const ContentText = styled('p', {
 </Accordion>
 </Accordions>
 
-### replace-css-seed-design-color-variable
+### replace-stitches-theme-color
 
-CSS 색상 변수를 V3 형식으로 변환해요.
+```package-install
+npx @seed-design/codemod replace-stitches-theme-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+
+import { theme } from '@src/stitches/stitches.config'
+
+const semanticColors = {
+  primary: theme.colors['primary-semantic'].computedValue,
+  onPrimary: theme.colors['onPrimary-semantic'].computedValue,
+  primaryLow: theme.colors['primaryLow-semantic'].computedValue,
+  success: theme.colors['success-semantic'].computedValue,
+  warning: theme.colors['warning-semantic'].computedValue,
+  danger: theme.colors['danger-semantic'].computedValue,
+  paperDefault: theme.colors['paperDefault-semantic'].computedValue,
+  paperContents: theme.colors['paperContents-semantic'].computedValue,
+  paperDialog: theme.colors['paperDialog-semantic'].computedValue,
+  inkText: theme.colors['inkText-semantic'].computedValue,
+  inkTextLow: theme.colors['inkTextLow-semantic'].computedValue,
+  divider1: theme.colors['divider1-semantic'].computedValue,
+  divider2: theme.colors['divider2-semantic'].computedValue,
+  overlayDim: theme.colors['overlayDim-semantic'].computedValue,
+  accent: theme.colors['accent-semantic'].computedValue,
+}
+
+const scaleColors = {
+  gray00: theme.colors.gray00.computedValue,
+  gray100: theme.colors.gray100.computedValue,
+  gray200: theme.colors.gray200.computedValue,
+  gray300: theme.colors.gray300.computedValue,
+  gray400: theme.colors.gray400.computedValue,
+  gray500: theme.colors.gray500.computedValue,
+  gray600: theme.colors.gray600.computedValue,
+  gray700: theme.colors.gray700.computedValue,
+  gray800: theme.colors.gray800.computedValue,
+  gray900: theme.colors.gray900.computedValue,
+  carrot100: theme.colors.carrot100.computedValue,
+  carrot500: theme.colors.carrot500.computedValue,
+  carrot900: theme.colors.carrot900.computedValue,
+  carrotAlpha50: theme.colors.carrotAlpha50.computedValue,
+  carrotAlpha100: theme.colors.carrotAlpha100.computedValue,
+  carrotAlpha200: theme.colors.carrotAlpha200.computedValue,
+  blue300: theme.colors.blue300.computedValue,
+  blue600: theme.colors.blue600.computedValue,
+  red500: theme.colors.red500.computedValue,
+}
+
+const staticColors = {
+  white: theme.colors['white-static'].computedValue,
+  black: theme.colors['black-static'].computedValue,
+  blackAlpha200: theme.colors['blackAlpha200-static'].computedValue,
+  whiteAlpha200: theme.colors['whiteAlpha200-static'].computedValue,
+  gray900: theme.colors['gray900-static'].computedValue,
+  carrot50: theme.colors['carrot50-static'].computedValue,
+  carrot800: theme.colors['carrot800-static'].computedValue,
+  blue50: theme.colors['blue50-static'].computedValue,
+  blue800: theme.colors['blue800-static'].computedValue,
+  red50: theme.colors['red50-static'].computedValue,
+  red800: theme.colors['red800-static'].computedValue,
+}
+
+const Component = () => {
+  return (
+    <div>
+      <Button
+        backgroundColor={theme.colors['primary-semantic'].computedValue}
+        color={theme.colors['onPrimary-semantic'].computedValue}
+      >
+        버튼
+      </Button>
+      <InfoBox borderColor={theme.colors.gray300.computedValue}>
+        <Text color={theme.colors.gray900.computedValue}>
+          안내사항
+        </Text>
+        <WarningIcon fill={theme.colors['warning-semantic'].computedValue} />
+      </InfoBox>
+      <Badge backgroundColor={theme.colors['danger-semantic'].computedValue}>
+        <BadgeText color={theme.colors['white-static'].computedValue}>
+          중요
+        </BadgeText>
+      </Badge>
+    </div>
+  );
+};
+
+const Dialog = ({ isOpen, onClose }) => {
+  const styles = {
+    overlay: {
+      backgroundColor: theme.colors['overlayDim-semantic'].computedValue,
+    },
+    container: {
+      backgroundColor: theme.colors['paperDialog-semantic'].computedValue,
+      borderColor: theme.colors.gray300.computedValue,
+    },
+    header: {
+      borderBottom: `1px solid ${theme.colors['divider1-semantic'].computedValue}`,
+    },
+    title: {
+      color: theme.colors.gray900.computedValue,
+    },
+    content: {
+      color: theme.colors.gray700.computedValue,
+      backgroundColor: theme.colors['paperContents-semantic'].computedValue,
+    },
+    footer: {
+      borderTop: `1px solid ${theme.colors['divider2-semantic'].computedValue}`,
+    },
+    closeButton: {
+      color: theme.colors.gray500.computedValue,
+    },
+    submitButton: {
+      backgroundColor: theme.colors.blue600.computedValue,
+      color: theme.colors['white-static'].computedValue,
+    },
+  };
+
+  return isOpen ? (
+    <div style={styles.overlay}>
+      <div style={styles.container}>
+        <div style={styles.header}>
+          <h2 style={styles.title}>다이얼로그 제목</h2>
+          <button style={styles.closeButton} onClick={onClose}>
+            닫기
+          </button>
+        </div>
+        <div style={styles.content}>
+          다이얼로그 내용
+        </div>
+        <div style={styles.footer}>
+          <button style={styles.submitButton}>
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+export { semanticColors, scaleColors, staticColors, Component, Dialog };
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+
+import { theme } from '@src/stitches/stitches.config'
+
+const semanticColors = {
+  primary: theme.colors["bg-brand-solid"].computedValue,
+  onPrimary: theme.colors["palette-static-white"].computedValue,
+  primaryLow: theme.colors["palette-carrot-100"].computedValue,
+  success: theme.colors["bg-positive-solid"].computedValue,
+  warning: theme.colors["bg-warning-solid"].computedValue,
+  danger: theme.colors["bg-critical-solid"].computedValue,
+  paperDefault: theme.colors["bg-layer-default"].computedValue,
+  paperContents: theme.colors["bg-layer-fill"].computedValue,
+  paperDialog: theme.colors["bg-layer-floating"].computedValue,
+  inkText: theme.colors["fg-neutral"].computedValue,
+  inkTextLow: theme.colors["fg-neutral-subtle"].computedValue,
+  divider1: theme.colors["stroke-neutral-muted"].computedValue,
+  divider2: theme.colors["stroke-neutral"].computedValue,
+  overlayDim: theme.colors["bg-overlay"].computedValue,
+  accent: theme.colors["bg-informative-solid"].computedValue,
+}
+
+const scaleColors = {
+  gray00: theme.colors["palette-gray-00"].computedValue,
+  gray100: theme.colors["palette-gray-200"].computedValue,
+  gray200: theme.colors["palette-gray-300"].computedValue,
+  gray300: theme.colors["palette-gray-400"].computedValue,
+  gray400: theme.colors["palette-gray-500"].computedValue,
+  gray500: theme.colors["palette-gray-600"].computedValue,
+  gray600: theme.colors["palette-gray-700"].computedValue,
+  gray700: theme.colors["palette-gray-800"].computedValue,
+  gray800: theme.colors["palette-gray-900"].computedValue,
+  gray900: theme.colors["palette-gray-1000"].computedValue,
+  carrot100: theme.colors["palette-carrot-200"].computedValue,
+  carrot500: theme.colors["palette-carrot-600"].computedValue,
+  carrot900: theme.colors["palette-carrot-800"].computedValue,
+  carrotAlpha50: theme.colors["palette-carrot-100"].computedValue,
+  carrotAlpha100: theme.colors["palette-carrot-200"].computedValue,
+  carrotAlpha200: theme.colors["palette-carrot-200"].computedValue,
+  blue300: theme.colors["palette-blue-400"].computedValue,
+  blue600: theme.colors["palette-blue-600"].computedValue,
+  red500: theme.colors["palette-red-700"].computedValue,
+}
+
+const staticColors = {
+  white: theme.colors["palette-static-white"].computedValue,
+  black: theme.colors["palette-static-black"].computedValue,
+  blackAlpha200: theme.colors["palette-static-black-alpha-200"].computedValue,
+  whiteAlpha200: theme.colors["palette-static-white-alpha-200"].computedValue,
+  gray900: theme.colors["palette-static-black"].computedValue,
+  carrot50: theme.colors["palette-carrot-100"].computedValue,
+  carrot800: theme.colors["palette-carrot-700"].computedValue,
+  blue50: theme.colors["palette-blue-100"].computedValue,
+  blue800: theme.colors["palette-blue-700"].computedValue,
+  red50: theme.colors["palette-red-100"].computedValue,
+  red800: theme.colors["palette-red-700"].computedValue,
+}
+
+const Component = () => {
+  return (
+    (<div>
+      <Button
+        backgroundColor={theme.colors["bg-brand-solid"].computedValue}
+        color={theme.colors["palette-static-white"].computedValue}
+      >
+        버튼
+      </Button>
+      <InfoBox borderColor={theme.colors["palette-gray-400"].computedValue}>
+        <Text color={theme.colors["palette-gray-1000"].computedValue}>
+          안내사항
+        </Text>
+        <WarningIcon fill={theme.colors["bg-warning-solid"].computedValue} />
+      </InfoBox>
+      <Badge backgroundColor={theme.colors["bg-critical-solid"].computedValue}>
+        <BadgeText color={theme.colors["palette-static-white"].computedValue}>
+          중요
+        </BadgeText>
+      </Badge>
+    </div>)
+  );
+};
+
+const Dialog = ({ isOpen, onClose }) => {
+  const styles = {
+    overlay: {
+      backgroundColor: theme.colors["bg-overlay"].computedValue,
+    },
+    container: {
+      backgroundColor: theme.colors["bg-layer-floating"].computedValue,
+      borderColor: theme.colors["palette-gray-400"].computedValue,
+    },
+    header: {
+      borderBottom: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
+    },
+    title: {
+      color: theme.colors["palette-gray-1000"].computedValue,
+    },
+    content: {
+      color: theme.colors["palette-gray-800"].computedValue,
+      backgroundColor: theme.colors["bg-layer-fill"].computedValue,
+    },
+    footer: {
+      borderTop: `1px solid ${theme.colors["stroke-neutral"].computedValue}`,
+    },
+    closeButton: {
+      color: theme.colors["palette-gray-600"].computedValue,
+    },
+    submitButton: {
+      backgroundColor: theme.colors["palette-blue-600"].computedValue,
+      color: theme.colors["palette-static-white"].computedValue,
+    },
+  };
+
+  return isOpen ? (
+    <div style={styles.overlay}>
+      <div style={styles.container}>
+        <div style={styles.header}>
+          <h2 style={styles.title}>다이얼로그 제목</h2>
+          <button style={styles.closeButton} onClick={onClose}>
+            닫기
+          </button>
+        </div>
+        <div style={styles.content}>
+          다이얼로그 내용
+        </div>
+        <div style={styles.footer}>
+          <button style={styles.submitButton}>
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+export { semanticColors, scaleColors, staticColors, Component, Dialog };
+```
+
+</Accordion>
+</Accordions>
+
+### replace-css-seed-design-color-variable
 
 ```package-install
 npx @seed-design/codemod replace-css-seed-design-color-variable <target_path>
@@ -192,8 +1329,6 @@ npx @seed-design/codemod replace-css-seed-design-color-variable <target_path>
 </Accordions>
 
 ### replace-react-icon
-
-아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/docs/react/iconography/codemod) 문서를 참고해주세요.
 
 ```package-install
 npx @seed-design/codemod replace-react-icon <target_path>
@@ -236,11 +1371,11 @@ import {
   IconPlusSquareLine,
   IconDothorizline3VerticalFill,
   IconPlusFill as AddIconAlias,
-} from "@karrotmarket/react-monochrome-icon";
-import IconPlusSquareFill from "@karrotmarket/react-monochrome-icon/IconPlusSquareFill";
-import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
-import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
-import IconCarFrontsideLine from "@karrotmarket/react-monochrome-icon/IconCarFrontsideLine";
+} from "@daangn/react-monochrome-icon";
+import IconPlusSquareFill from "@daangn/react-monochrome-icon/IconPlusSquareFill";
+import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
+import IconXmarkLine from "@daangn/react-monochrome-icon/IconXmarkLine";
+import IconCarFrontsideLine from "@daangn/react-monochrome-icon/IconCarFrontsideLine";
 
 function App() {
   console.log(IconPlusSquareLine);
@@ -259,8 +1394,6 @@ function App() {
 
 ### replace-seed-design-token-vars
 
-색상 디자인 토큰을 V3 형식으로 변환해요.
-
 ```package-install
 npx @seed-design/codemod replace-seed-design-token-vars <target_path>
 ```
@@ -269,23 +1402,31 @@ npx @seed-design/codemod replace-seed-design-token-vars <target_path>
 <Accordion title="변경 예시">
 
 ```tsx title="basic.input.tsx"
-import { vars } from "@seed-design/design-token";
+import { vars as legacyVars } from "@seed-design/design-token";
 
-const color = vars.$scale.color.gray500;
+import { vars } from "@seed-design/css/vars";
+import { vars as typoVars } from "@seed-design/css/vars/component/typography";
+
+const color = vars.$color.palette.gray600;
+const typography = typoVars.textStyleT5Bold.enabled.root;
+const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 ```
 
 ```tsx title="basic.output.tsx"
+import { vars as legacyVars } from "@seed-design/design-token";
+
 import { vars } from "@seed-design/css/vars";
+import { vars as typoVars } from "@seed-design/css/vars/component/typography";
 
 const color = vars.$color.palette.gray600;
+const typography = typoVars.textStyleT5Bold.enabled.root;
+const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 ```
 
 </Accordion>
 </Accordions>
 
 ### replace-custom-seed-design-text-component
-
-Text 컴포넌트를 V3 형식으로 변환해요.
 
 ```package-install
 npx @seed-design/codemod replace-custom-seed-design-text-component <target_path>
@@ -333,8 +1474,6 @@ const Component = () => {
 
 ### replace-seed-design-token-typography-classname
 
-타이포그래피 디자인 토큰을 V3 형식으로 변환해요.
-
 ```package-install
 npx @seed-design/codemod replace-seed-design-token-typography-classname <target_path>
 ```
@@ -346,6 +1485,7 @@ npx @seed-design/codemod replace-seed-design-token-typography-classname <target_
 // @ts-nocheck
 
 import { classNames } from "@seed-design/design-token";
+import { style } from "@vanilla-extract/css";
 
 const typography = {
   one: classNames.$semantic.typography.title2Regular,
@@ -353,12 +1493,23 @@ const typography = {
   three: classNames.$semantic.typography.label5Regular,
   four: classNames.$semantic.typography.label6Regular,
 }
+
+export const footer = style([
+  classNames.$semantic.typography.caption1Regular,
+  {
+    padding: "16px",
+    marginTop: "12px",
+    color: vars.$scale.color.gray700,
+    backgroundColor: vars.$semantic.color.paperContents,
+  },
+]);
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
 import { text } from "@seed-design/css/recipes/text";
+import { style } from "@vanilla-extract/css";
 
 const typography = {
   one: text({ textStyle: "t7Regular" }),
@@ -366,6 +1517,16 @@ const typography = {
   three: text({ textStyle: "t1Regular" }),
   four: text({ textStyle: "t1Regular" }),
 }
+
+export const footer = style([
+  text({ textStyle: "t3Regular" }),
+  {
+    padding: "16px",
+    marginTop: "12px",
+    color: vars.$scale.color.gray700,
+    backgroundColor: vars.$semantic.color.paperContents,
+  },
+]);
 ```
 
 </Accordion>
@@ -374,6 +1535,21 @@ const typography = {
 ### replace-stitches-styled-color
 
 Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해요.
+
+#### 변환 내용
+
+- Stitches `styled()` 함수에서 사용된 Seed Design V2 색상 토큰을 V3 색상 토큰으로 변환합니다.
+- 모든 색상 관련 스타일 속성(color, backgroundColor, borderColor 등)을 지원합니다.
+- 상태 변이(variants)에 적용된 색상 변경도 함께 변환합니다.
+
+#### 대상 파일
+
+- `.tsx`, `.jsx`, `.ts`, `.js` 파일에서 Stitches 스타일링 사용 부분
+
+#### 주의사항
+
+- 기존 코드의 구조와 포맷을 최대한 유지하면서 색상 값만 변경합니다.
+- 커스텀 색상 값이나 CSS 변수는 변환하지 않습니다.
 
 ```package-install
 npx @seed-design/codemod replace-stitches-styled-color <target_path>
@@ -385,195 +1561,435 @@ npx @seed-design/codemod replace-stitches-styled-color <target_path>
 ```tsx title="basic.input.tsx"
 // @ts-nocheck
 
-const BannerIcon = styled('div', {
-  flex: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  margin: '0 10px 0 0',
-  
-  variants: {
-    theme: {
-      blue: {
-        background: '$blue500',
-        color: '$white-static',
-      },
-      carrot: {
-        background: '$carrot500',
-        color: '$white-static',
-      },
-      green: {
-        background: '$green500',
-        color: '$black-static',
-      },
-    },
-  },
+const SemanticColorTestComponent = styled('div', {
+  // Semantic Color 테스트
+  color: '$primary-semantic',
+  color: '$onPrimary-semantic',
+  color: '$primaryLow-semantic',
+  color: '$secondary-semantic',
+  color: '$secondaryLow-semantic',
+  color: '$success-semantic',
+  color: '$successLow-semantic',
+  color: '$warning-semantic',
+  color: '$warningLow-semantic',
+  color: '$danger-semantic',
+  color: '$dangerLow-semantic',
+  color: '$overlayDim-semantic',
+  color: '$overlayLow-semantic',
+  color: '$paperSheet-semantic',
+  color: '$paperDialog-semantic',
+  color: '$paperFloating-semantic',
+  color: '$paperContents-semantic',
+  color: '$paperDefault-semantic',
+  color: '$paperBackground-semantic',
+  color: '$paperAccent-semantic',
+  color: '$primaryHover-semantic',
+  color: '$primaryPressed-semantic',
+  color: '$primaryLowHover-semantic',
+  color: '$primaryLowActive-semantic',
+  color: '$primaryLowPressed-semantic',
+  color: '$grayHover-semantic',
+  color: '$grayPressed-semantic',
+  color: '$onPrimaryOverlay50-semantic',
+  color: '$onPrimaryOverlay200-semantic',
+  color: '$onPrimaryLowOverlay50-semantic',
+  color: '$onPrimaryLowOverlay100-semantic',
+  color: '$onPrimaryLowOverlay200-semantic',
+  color: '$onGrayOverlay50-semantic',
+  color: '$onGrayOverlay100-semantic',
+  color: '$divider1-semantic',
+  color: '$divider2-semantic',
+  color: '$divider3-semantic',
+  color: '$accent-semantic',
+  color: '$inkText-semantic',
+  color: '$inkTextLow-semantic',
+  color: '$grayActive-semantic',
 });
 
-const Text = styled('div', {
+const ScaleColorTestComponent = styled('div', {
+  // Scale Color Gray 테스트
+  color: '$gray00',
+  color: '$gray50',
+  color: '$gray100',
+  color: '$gray200',
+  color: '$gray300',
+  color: '$gray400',
+  color: '$gray500',
+  color: '$gray600',
   color: '$gray700',
-  margin: '0 8px 0 6px',
-  $text: 'caption1Bold',
-})
+  color: '$gray800',
+  color: '$gray900',
+  color: '$grayAlpha50',
+  color: '$grayAlpha100',
+  color: '$grayAlpha200',
+  color: '$grayAlpha500',
+  
+  // Scale Color Carrot 테스트
+  color: '$carrot50',
+  color: '$carrot100',
+  color: '$carrot200',
+  color: '$carrot300',
+  color: '$carrot400',
+  color: '$carrot500',
+  color: '$carrot600',
+  color: '$carrot700',
+  color: '$carrot800',
+  color: '$carrot900',
+  color: '$carrot950',
+  color: '$carrotAlpha50',
+  color: '$carrotAlpha100',
+  color: '$carrotAlpha200',
+  
+  // Scale Color Blue 테스트
+  color: '$blue50',
+  color: '$blue100',
+  color: '$blue200',
+  color: '$blue300',
+  color: '$blue400',
+  color: '$blue500',
+  color: '$blue600',
+  color: '$blue700',
+  color: '$blue800',
+  color: '$blue900',
+  color: '$blue950',
+  color: '$blueAlpha50',
+  color: '$blueAlpha100',
+  color: '$blueAlpha200',
+  
+  // Scale Color Red 테스트
+  color: '$red50',
+  color: '$red100',
+  color: '$red200',
+  color: '$red300',
+  color: '$red400',
+  color: '$red500',
+  color: '$red600',
+  color: '$red700',
+  color: '$red800',
+  color: '$red900',
+  color: '$red950',
+  color: '$redAlpha50',
+  color: '$redAlpha100',
+  color: '$redAlpha200',
+  
+  // Scale Color Green 테스트
+  color: '$green50',
+  color: '$green100',
+  color: '$green200',
+  color: '$green300',
+  color: '$green400',
+  color: '$green500',
+  color: '$green600',
+  color: '$green700',
+  color: '$green800',
+  color: '$green900',
+  color: '$green950',
+  color: '$greenAlpha50',
+  color: '$greenAlpha100',
+  color: '$greenAlpha200',
+  
+  // Scale Color Yellow 테스트
+  color: '$yellow50',
+  color: '$yellow100',
+  color: '$yellow200',
+  color: '$yellow300',
+  color: '$yellow400',
+  color: '$yellow500',
+  color: '$yellow600',
+  color: '$yellow700',
+  color: '$yellow800',
+  color: '$yellow900',
+  color: '$yellow950',
+  color: '$yellowAlpha50',
+  color: '$yellowAlpha100',
+  color: '$yellowAlpha200',
+  
+  // Scale Color Purple 테스트
+  color: '$purple50',
+  color: '$purple100',
+  color: '$purple200',
+  color: '$purple300',
+  color: '$purple400',
+  color: '$purple500',
+  color: '$purple600',
+  color: '$purple700',
+  color: '$purple800',
+  color: '$purple900',
+  color: '$purple950',
+});
 
-const CashContainer = styled('div', {
-  background: '$gray100',
-  borderRadius: '6px',
-  border: '1px solid $divider1-semantic',
-  padding: '16px',
-  margin: '16px',
-})
+const StaticColorTestComponent = styled('div', {
+  // Static Color 테스트
+  color: '$black-static',
+  color: '$white-static',
+  color: '$gray900-static',
+  color: '$carrot50-static',
+  color: '$carrot800-static',
+  color: '$green50-static',
+  color: '$green800-static',
+  color: '$yellow50-static',
+  color: '$yellow800-static',
+  color: '$red50-static',
+  color: '$red800-static',
+  color: '$blue50-static',
+  color: '$blue800-static',
+  color: '$blackAlpha200-static',
+  color: '$blackAlpha500-static',
+  color: '$whiteAlpha50-static',
+  color: '$whiteAlpha200-static',
+});
 
-const Container = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '10px 16px',
-
-  position: 'relative',
+// 복합 속성 테스트
+const ComplexPropertyTestComponent = styled('div', {
+  border: '1px solid $gray700',
+  boxShadow: '0 0 10px $overlayDim-semantic',
+  outline: '2px solid $accent-semantic',
+  textDecoration: 'underline $danger-semantic',
+  
+  // 네스팅된 속성 테스트
   '&:before': {
-    content: '',
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'transparent',
-    boxSizing: 'border-box',
     borderBottom: '1px solid $divider1-semantic',
+    background: '$paperContents-semantic',
   },
-
+  
+  // 변형 테스트
   variants: {
-    isTopOnDocument: {
-      true: {
-        background: '$paperDefault-semantic',
+    theme: {
+      primary: {
+        background: '$primary-semantic',
+        color: '$onPrimary-semantic',
       },
-      false: {
-        background: '$paperContents-semantic',
+      secondary: {
+        background: '$secondaryLow-semantic',
+        color: '$inkText-semantic',
       },
-    },
-  },
-
-  defaultVariants: {
-    isTopOnDocument: true,
-  },
-})
-
-function generateCompoundVariants() {
-  const priorities = ['primary', 'primaryLow', 'secondary', 'text'] as const
-
-  return priorities.map((priority) => ({
-    priority,
-    disabled: true,
-    css: {
-      background: '$gray300',
-      color: '$gray500',
-    },
-  }))
-}
+      danger: {
+        background: '$danger-semantic',
+        color: '$white-static',
+      }
+    }
+  }
+});
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
-const BannerIcon = styled('div', {
-  flex: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  margin: '0 10px 0 0',
-  
-  variants: {
-    theme: {
-      blue: {
-        background: "$palette-blue-600",
-        color: "$palette-static-white",
-      },
-      carrot: {
-        background: "$palette-carrot-600",
-        color: "$palette-static-white",
-      },
-      green: {
-        background: "$palette-green-600",
-        color: "$palette-static-black",
-      },
-    },
-  },
+const SemanticColorTestComponent = styled('div', {
+  // Semantic Color 테스트
+  color: "$bg-brand-solid",
+  color: "$palette-static-white",
+  color: "$palette-carrot-100",
+  color: "$palette-gray-900",
+  color: "$bg-neutral-weak",
+  color: "$bg-positive-solid",
+  color: "$bg-positive-weak",
+  color: "$bg-warning-solid",
+  color: "$bg-warning-weak",
+  color: "$bg-critical-solid",
+  color: "$bg-critical-weak",
+  color: "$bg-overlay",
+  color: "$bg-overlay-muted",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-floating",
+  color: "$bg-layer-fill",
+  color: "$bg-layer-default",
+  color: "$bg-layer-basement",
+  color: "$palette-carrot-100",
+  color: "$bg-brand-solid-pressed",
+  color: "$bg-brand-solid-pressed",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$bg-neutral-weak-pressed",
+  color: "$bg-neutral-weak-pressed",
+  color: '$onPrimaryOverlay50-semantic',
+  color: '$onPrimaryOverlay200-semantic',
+  color: '$onPrimaryLowOverlay50-semantic',
+  color: '$onPrimaryLowOverlay100-semantic',
+  color: '$onPrimaryLowOverlay200-semantic',
+  color: "$stroke-on-image",
+  color: '$onGrayOverlay100-semantic',
+  color: "$stroke-neutral-muted",
+  color: "$stroke-neutral",
+  color: "$palette-gray-400",
+  color: "$bg-informative-solid",
+  color: "$fg-neutral",
+  color: "$fg-neutral-subtle",
+  color: "$fg-neutral-muted",
 });
 
-const Text = styled('div', {
+const ScaleColorTestComponent = styled('div', {
+  // Scale Color Gray 테스트
+  color: "$palette-gray-00",
+  color: "$palette-gray-100",
+  color: "$palette-gray-200",
+  color: "$palette-gray-300",
+  color: "$palette-gray-400",
+  color: "$palette-gray-500",
+  color: "$palette-gray-600",
+  color: "$palette-gray-700",
   color: "$palette-gray-800",
-  margin: '0 8px 0 6px',
-  $text: 'caption1Bold',
-})
+  color: "$palette-gray-900",
+  color: "$palette-gray-1000",
+  color: "$stroke-on-image",
+  color: "$palette-gray-300",
+  color: "$palette-gray-500",
+  color: "$palette-gray-700",
+  
+  // Scale Color Carrot 테스트
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-300",
+  color: "$palette-carrot-400",
+  color: "$palette-carrot-500",
+  color: "$palette-carrot-600",
+  color: "$palette-carrot-600",
+  color: "$palette-carrot-700",
+  color: "$palette-carrot-700",
+  color: "$palette-carrot-800",
+  color: "$palette-carrot-800",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-200",
+  color: "$palette-carrot-200",
+  
+  // Scale Color Blue 테스트
+  color: "$palette-blue-100",
+  color: "$palette-blue-200",
+  color: "$palette-blue-300",
+  color: "$palette-blue-400",
+  color: "$palette-blue-400",
+  color: "$palette-blue-600",
+  color: "$palette-blue-600",
+  color: "$palette-blue-800",
+  color: "$palette-blue-900",
+  color: "$palette-blue-900",
+  color: "$palette-blue-1000",
+  color: "$palette-blue-100",
+  color: "$palette-blue-100",
+  color: "$palette-blue-200",
+  
+  // Scale Color Red 테스트
+  color: "$palette-red-100",
+  color: "$palette-red-200",
+  color: "$palette-red-300",
+  color: "$palette-red-400",
+  color: "$palette-red-600",
+  color: "$palette-red-700",
+  color: "$palette-red-700",
+  color: "$palette-red-800",
+  color: "$palette-red-900",
+  color: "$palette-red-900",
+  color: "$palette-red-900",
+  color: "$palette-red-100",
+  color: "$palette-red-200",
+  color: "$palette-red-300",
+  
+  // Scale Color Green 테스트
+  color: "$palette-green-100",
+  color: "$palette-green-200",
+  color: "$palette-green-300",
+  color: "$palette-green-400",
+  color: "$palette-green-500",
+  color: "$palette-green-600",
+  color: "$palette-green-700",
+  color: "$palette-green-800",
+  color: "$palette-green-900",
+  color: "$palette-green-900",
+  color: "$palette-green-900",
+  color: "$palette-green-100",
+  color: "$palette-green-200",
+  color: "$palette-green-200",
+  
+  // Scale Color Yellow 테스트
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-200",
+  color: "$palette-yellow-300",
+  color: "$palette-yellow-400",
+  color: "$palette-yellow-500",
+  color: "$palette-yellow-700",
+  color: "$palette-yellow-700",
+  color: "$palette-yellow-800",
+  color: "$palette-yellow-800",
+  color: "$palette-yellow-900",
+  color: "$palette-yellow-900",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-100",
+  
+  // Scale Color Purple 테스트
+  color: "$palette-purple-100",
+  color: "$palette-purple-300",
+  color: "$palette-purple-400",
+  color: "$palette-purple-400",
+  color: "$palette-purple-500",
+  color: "$palette-purple-600",
+  color: "$palette-purple-700",
+  color: "$palette-purple-800",
+  color: "$palette-purple-900",
+  color: "$palette-purple-900",
+  color: "$palette-purple-1000",
+});
 
-const CashContainer = styled('div', {
-  background: "$palette-gray-200",
-  borderRadius: '6px',
-  border: "1px solid $stroke-neutral-muted",
-  padding: '16px',
-  margin: '16px',
-})
+const StaticColorTestComponent = styled('div', {
+  // Static Color 테스트
+  color: "$palette-static-black",
+  color: "$palette-static-white",
+  color: "$palette-static-black",
+  color: "$palette-carrot-100",
+  color: "$palette-carrot-700",
+  color: "$palette-green-100",
+  color: "$palette-green-700",
+  color: "$palette-yellow-100",
+  color: "$palette-yellow-700",
+  color: "$palette-red-100",
+  color: "$palette-red-700",
+  color: "$palette-blue-100",
+  color: "$palette-blue-700",
+  color: "$palette-static-black-alpha-200",
+  color: "$palette-static-black-alpha-500",
+  color: '$whiteAlpha50-static',
+  color: "$palette-static-white-alpha-200",
+});
 
-const Container = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '10px 16px',
-
-  position: 'relative',
+// 복합 속성 테스트
+const ComplexPropertyTestComponent = styled('div', {
+  border: "1px solid $palette-gray-800",
+  boxShadow: "0 0 10px $bg-overlay",
+  outline: "2px solid $bg-informative-solid",
+  textDecoration: "underline $bg-critical-solid",
+  
+  // 네스팅된 속성 테스트
   '&:before': {
-    content: '',
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'transparent',
-    boxSizing: 'border-box',
     borderBottom: "1px solid $stroke-neutral-muted",
+    background: "$bg-layer-fill",
   },
-
+  
+  // 변형 테스트
   variants: {
-    isTopOnDocument: {
-      true: {
-        background: "$bg-layer-default",
+    theme: {
+      primary: {
+        background: "$bg-brand-solid",
+        color: "$palette-static-white",
       },
-      false: {
-        background: "$bg-layer-fill",
+      secondary: {
+        background: "$bg-neutral-weak",
+        color: "$fg-neutral",
       },
-    },
-  },
-
-  defaultVariants: {
-    isTopOnDocument: true,
-  },
-})
-
-function generateCompoundVariants() {
-  const priorities = ['primary', 'primaryLow', 'secondary', 'text'] as const
-
-  return priorities.map((priority) => ({
-    priority,
-    disabled: true,
-    css: {
-      background: "$palette-gray-400",
-      color: "$palette-gray-600",
-    },
-  }));
-}
+      danger: {
+        background: "$bg-critical-solid",
+        color: "$palette-static-white",
+      }
+    }
+  }
+});
 ```
 
 </Accordion>
 </Accordions>
 
 ### replace-custom-text-component-color-prop
-
-색상 prop을 V3 형식으로 변환해요.
 
 ```package-install
 npx @seed-design/codemod replace-custom-text-component-color-prop <target_path>
@@ -629,9 +2045,85 @@ const Component = () => {
 </Accordion>
 </Accordions>
 
-### replace-css-seed-design-typography-variable
+### replace-custom-seed-design-color
 
-CSS 타이포그래피 변수를 V3 형식으로 변환해요.
+커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
+
+```package-install
+npx @seed-design/codemod replace-custom-seed-design-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { color, background } from "@/shared/styles";
+
+export const container = style({
+  backgroundColor: color.gray100,
+  color: color.gray900,
+  borderColor: color.carrot500,
+});
+
+export const box = style({
+  background: color.gray50,
+  color: color.red500,
+  border: `1px solid ${color.gray300}`,
+});
+
+export const alert = style({
+  backgroundColor: color.red50,
+  color: color.red900,
+});
+
+export const button = style({
+  backgroundColor: background.gray100,
+  color: color.gray900,
+});
+
+export const highlight = style({
+  color: color.carrot500,
+});
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { style } from "@vanilla-extract/css";
+import { color, background } from "@/shared/styles";
+
+export const container = style({
+  backgroundColor: color.palette.gray200,
+  color: color.palette.gray1000,
+  borderColor: color.palette.carrot600,
+});
+
+export const box = style({
+  background: color.palette.gray100,
+  color: color.palette.red700,
+  border: `1px solid ${color.palette.gray400}`,
+});
+
+export const alert = style({
+  backgroundColor: color.palette.red100,
+  color: color.palette.red900,
+});
+
+export const button = style({
+  backgroundColor: background.palette.gray200,
+  color: color.palette.gray1000,
+});
+
+export const highlight = style({
+  color: color.palette.carrot600,
+});
+```
+
+</Accordion>
+</Accordions>
+
+### replace-css-seed-design-typography-variable
 
 ```package-install
 npx @seed-design/codemod replace-css-seed-design-typography-variable <target_path>
@@ -711,7 +2203,28 @@ npx @seed-design/codemod replace-css-seed-design-typography-variable <target_pat
 
 ### replace-tailwind-color
 
-Tailwind 색상 클래스를 V3 형식으로 변환해요.
+Tailwind CSS 색상 클래스를 Seed Design V3 형식으로 변환해요.
+
+#### 변환 내용
+
+- Seed Design V2의 색상 클래스 네이밍을 V3 형식으로 변환합니다.
+- `text-`, `bg-`, `border-` 등의 접두사를 가진 Tailwind 색상 클래스를 변환합니다.
+- 색상 강도(shade)에 따른 변환 매핑을 적용합니다.
+
+#### 변환 예시
+
+- `text-carrot-500` → `text-static-orange-base`
+- `bg-salmon-100` → `bg-static-red-light`
+- `border-navy-900` → `border-static-blue-dark`
+
+#### 대상 파일
+
+- `.tsx`, `.jsx`, `.ts`, `.js`, `.html`, `.css` 파일에서 Tailwind 클래스를 사용하는 부분
+
+#### 주의사항
+
+- className 문자열, 템플릿 리터럴, 배열 형태 모두 지원합니다.
+- Tailwind 동적 클래스 조합(`clsx`, `cx`, `classnames` 등)도 변환됩니다.
 
 ```package-install
 npx @seed-design/codemod replace-tailwind-color <target_path>
@@ -774,7 +2287,7 @@ export function BackgroundExample() {
       <div className="!bg-palette-carrot-800">Scale Carrot High Background</div>
       <div className="bg-palette-static-black">Static Black Background</div>
       <div className="bg-palette-static-white">Static White Background</div>
-      <div className="bg-staticGray900">Static Gray900 Background</div>
+      <div className="bg-palette-static-black">Static Gray900 Background</div>
     </div>)
   );
 }

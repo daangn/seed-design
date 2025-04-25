@@ -1,0 +1,139 @@
+---
+description: 
+globs: packages/codemod/**/*
+alwaysApply: false
+---
+ # Seed Design 코드모드 유틸리티 가이드
+
+Seed Design 코드모드 시스템에서 사용하는 유틸리티 함수와 모듈에 대한 설명입니다. 코드모드 개발 시 중복 코드를 줄이고 표준화된 방식으로 개발하기 위한 가이드라인입니다.
+
+## 유틸리티 모듈 개요
+
+Seed Design 코드모드 시스템은 다음과 같은 유틸리티 모듈을 제공합니다:
+
+| 모듈 | 설명 |
+|------|------|
+| `case.ts` | 케이스 변환 유틸리티 (camelCase, kebab-case 등) |
+| `color-properties.ts` | 색상 토큰 속성 타입 판별 유틸리티 |
+| `ast.ts` | AST 조작 및 분석 유틸리티 |
+| `logger.ts` | 변환 로깅 유틸리티 |
+
+## 케이스 변환 유틸리티 (case.ts)
+
+케이스 변환 유틸리티는 토큰명과 CSS 속성명 등의 다양한 케이스 스타일을 변환합니다.
+
+```typescript
+import { camelCaseToKebabCase } from "../../utils/case.js";
+
+// camelCase를 kebab-case로 변환
+// divider1 -> divider-1, paperDefault -> paper-default
+const kebabName = camelCaseToKebabCase(camelCaseName);
+```
+
+## 색상 속성 유틸리티 (color-properties.ts)
+
+CSS 속성이 어떤 타입의 색상 토큰(fg, bg, stroke)과 매핑되어야 하는지 결정하는 유틸리티입니다.
+
+```typescript
+import { getTokenTypeForProperty } from "../../utils/color-properties.js";
+
+// 속성명에 따라 적절한 토큰 타입 결정 ("bg" | "fg" | "stroke" | "palette")
+const tokenType = getTokenTypeForProperty(propertyName);
+
+// 특정 속성이 특정 타입인지 확인
+import { isBackgroundProperty, isFgProperty, isStrokeProperty } from "../../utils/color-properties.js";
+
+if (isStrokeProperty(propertyName)) {
+  // 테두리 관련 속성 처리 (border, outline 등)
+} else if (isFgProperty(propertyName)) {
+  // 텍스트/전경 관련 속성 처리 (color, fill 등)
+} else if (isBackgroundProperty(propertyName)) {
+  // 배경 관련 속성 처리 (backgroundColor 등)
+}
+```
+
+### 토큰 타입 우선순위
+
+색상 토큰은 다음과 같은 우선순위로 매핑됩니다:
+
+1. stroke 속성: `stroke` -> `fg` -> `palette` 순으로 시도
+2. fg 속성: `fg` -> `palette` 순으로 시도  
+3. bg 속성: `bg` -> `palette` 순으로 시도
+4. 기존 scale: `palette` 사용
+
+## AST 유틸리티 (ast.ts)
+
+AST(Abstract Syntax Tree) 조작 및 분석을 위한 유틸리티입니다.
+
+```typescript
+import { getParentPropertyName } from "../../utils/ast.js";
+
+// 노드의 부모 속성명 찾기 (예: color, backgroundColor 등)
+const parentPropertyName = getParentPropertyName(path);
+```
+
+### 삼항 연산자 처리
+
+삼항 연산자(조건부 표현식) 내에서 토큰을 찾고 변환하기 위한 유틸리티:
+
+```typescript
+import { processTernaryExpressions, PatternFilter } from "../../utils/ast.js";
+
+// 삼항 연산자 내에서 vars.color.XXX 패턴 찾기
+const pattern: PatternFilter = {
+  type: j.MemberExpression,
+  filter: {
+    object: {
+      type: "MemberExpression",
+      object: { type: "Identifier", name: "vars" },
+      property: { type: "Identifier", name: "color" }
+    }
+  }
+};
+
+// 삼항 연산자 내의 모든 vars.color.XXX 표현식 처리
+processTernaryExpressions(
+  j, 
+  ternaryPath, 
+  pattern,
+  (path, context) => {
+    // 각 매치된 노드 처리
+    // context.parentPropertyName - 삼항 연산자가 할당된 속성 이름
+    // context.depth - 중첩 깊이
+    // context.path - 삼항 연산자 내 위치 ('root', 'consequent', 'alternate')
+  }
+);
+```
+
+## 로깅 유틸리티 (logger.ts)
+
+transform 실행 결과를 로깅하기 위한 유틸리티입니다.
+
+```typescript
+import { createTransformLogger } from "../../utils/logger.js";
+
+const logger = createTransformLogger("transform-name");
+
+// 변환 시작 로깅
+logger.startFile(file.path);
+
+// 변환 결과 로깅
+logger.logTransformResult(file.path, {
+  previousToken: "이전 토큰",
+  nextToken: "새 토큰",
+  line: lineNumber,
+  status: "success", // "success" | "failure" | "warning"
+});
+
+// 실패 로깅
+logger.logTransformResult(file.path, {
+  previousToken: `Failed to find mapping for: ${token}`,
+  nextToken: null,
+  line: lineNumber,
+  status: "failure",
+  failureReason: "No mapping found"
+});
+
+// 변환 종료 로깅
+logger.finishFile(file.path);
+```

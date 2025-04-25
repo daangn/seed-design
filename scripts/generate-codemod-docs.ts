@@ -12,6 +12,7 @@ interface CodemodExample {
 interface TransformDoc {
   name: string;
   path: string;
+  readme: string;
   example: CodemodExample | null;
 }
 
@@ -51,6 +52,32 @@ async function findBasicExample(transformPath: string): Promise<CodemodExample |
   return null;
 }
 
+/**
+ * transform 폴더에서 README.md 파일을 읽어 설명을 가져옵니다.
+ */
+async function getTransformReadme(transformPath: string, transformName: string): Promise<string> {
+  const readmePath = join(transformPath, "README.md");
+
+  // README.md 파일이 존재하면 해당 내용을 읽어 반환
+  if (existsSync(readmePath)) {
+    try {
+      let content = await readFile(readmePath, "utf-8");
+
+      // 헤딩 레벨 조정 (# -> ###, ## -> ####, ### -> #####)
+      content = content.replace(/^(#{1,3}) (.+)$/gm, (_match, hashes, text) => {
+        return `${hashes}##`.substring(0, 5) + " " + text;
+      });
+
+      return content.trim();
+    } catch (error) {
+      console.warn(`Error reading README.md for ${transformName}: ${error}`);
+    }
+  }
+
+  // README.md 파일이 없거나 읽기 실패 시 기본 설명 반환
+  return `### ${transformName}`;
+}
+
 async function generateTransformDocs(): Promise<TransformDoc[]> {
   const transforms = await readdir(TRANSFORMS_DIR);
   const docs: TransformDoc[] = [];
@@ -58,10 +85,12 @@ async function generateTransformDocs(): Promise<TransformDoc[]> {
   for (const transform of transforms) {
     const transformPath = join(TRANSFORMS_DIR, transform);
     const example = await findBasicExample(transformPath);
+    const readme = await getTransformReadme(transformPath, transform);
 
     docs.push({
       name: transform,
       path: `${transform}`,
+      readme,
       example,
     });
   }
@@ -74,6 +103,8 @@ function generateMdx(docs: TransformDoc[]): string {
 title: Codemod
 description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
 ---
+
+{/* Auto-generated from \`scripts/generate-codemod-docs.ts\` */}
 
 \`@seed-design/codemod\`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
 
@@ -114,47 +145,7 @@ npx @seed-design/codemod --list
 `;
 
   for (const doc of docs) {
-    mdx += `### ${doc.name}\n\n`;
-
-    // 각 transform에 대한 설명 추가
-    switch (doc.name) {
-      case "replace-custom-text-component-color-prop":
-        mdx += "색상 prop을 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-tailwind-typography":
-        mdx += "Tailwind 타이포그래피 클래스를 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-seed-design-token-typography-classname":
-        mdx += "타이포그래피 디자인 토큰을 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-custom-seed-design-text-component":
-        mdx += "Text 컴포넌트를 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-react-icon":
-        mdx +=
-          "아이콘을 V3 형식으로 변환해요. 자세한 내용은 [아이콘 Codemod](/react/iconography/codemod) 문서를 참고해주세요.\n\n";
-        break;
-      case "replace-css-seed-design-typography-variable":
-        mdx += "CSS 타이포그래피 변수를 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-seed-design-token-vars":
-        mdx += "색상 디자인 토큰을 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-css-seed-design-color-variable":
-        mdx += "CSS 색상 변수를 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-tailwind-color":
-        mdx += "Tailwind 색상 클래스를 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-stitches-styled-color":
-        mdx += "Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해요.\n\n";
-        break;
-      case "replace-stitches-styled-typography":
-        mdx += "Stitches로 스타일링된 컴포넌트의 타이포그래피를 V3 형식으로 변환해요.\n\n";
-        break;
-      default:
-        break;
-    }
+    mdx += `${doc.readme}\n\n`;
 
     mdx += `\`\`\`package-install
 npx @seed-design/codemod ${doc.path} <target_path>

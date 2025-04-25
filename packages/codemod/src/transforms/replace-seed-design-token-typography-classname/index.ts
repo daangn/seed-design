@@ -208,6 +208,13 @@ const transform: Transform = (file, api) => {
           // 객체 속성인 경우 (key: value)
           // 값만 교체하고 키는 유지
           parentPath.node.value = textCallExpr;
+        } else if (parentPath.node.type === "ArrayExpression") {
+          // 배열 내부 요소인 경우 (예: style([classNames.$semantic.typography.*, {...}]))
+          // 배열 요소의 인덱스를 찾아 해당 요소만 교체
+          const elementIndex = parentPath.node.elements.findIndex((elem) => elem === path.node);
+          if (elementIndex !== -1) {
+            parentPath.node.elements[elementIndex] = textCallExpr;
+          }
         } else if (parentPath.node.type === "ConditionalExpression") {
           // 삼항 연산자인 경우 (condition ? classNames.$semantic.typography.* : something)
           if (parentPath.node.consequent === path.node) {
