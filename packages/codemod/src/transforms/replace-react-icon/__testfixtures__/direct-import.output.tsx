@@ -5,9 +5,9 @@ import IconPlusSquareLine from "@karrotmarket/react-monochrome-icon/dist/lib/tes
 
 function App() {
   return (
-    (<div>
+    <div>
       <IconDothorizline3VerticalLine />
       <IconPlusSquareLine />
-    </div>)
+    </div>
   );
 } 

@@ -2,7 +2,7 @@
 
 export function BackgroundExample() {
     return (
-      (<div>
+      <div>
         <div UNSAFE_className="bg-bg-brand-solid">Primary Background</div>
         <div UNSAFE_className="bg-palette-carrot-100">Primary Low Background</div>
         <div UNSAFE_className="hover:bg-palette-carrot-100">Hover Primary Low Background</div>
@@ -23,7 +23,7 @@ export function BackgroundExample() {
         <div UNSAFE_className="bg-palette-static-white">Static White Background</div>
         <div UNSAFE_className="bg-palette-static-black">Static Gray900 Background</div>
         <div UNSAFE_className="[&_[data-part='field']]:!bg-bg-layer-default" />
-      </div>)
+      </div>
     );
   }
   

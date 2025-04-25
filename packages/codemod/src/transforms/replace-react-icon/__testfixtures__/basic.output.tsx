@@ -13,10 +13,12 @@ import IconCarFrontsideLine from "@karrotmarket/react-monochrome-icon/IconCarFro
 function App() {
   console.log(IconPlusSquareLine);
 
-  return (<>
-    <IconDothorizline3VerticalFill />
-    <IconXmarkLine />
-    <IconCarFrontsideLine />
-    <AddIconAlias />
-  </>);
+  return (
+    <>
+      <IconDothorizline3VerticalFill />
+      <IconXmarkLine />
+      <IconCarFrontsideLine />
+      <AddIconAlias />
+    </>
+  );
 } 
