@@ -220,8 +220,8 @@ function applySelectedToken(
   file: FileInfo,
   propertyName: string,
   selectedToken: string,
-  needsVerification: boolean = false,
-  warningReason: string = "Needs manual verification",
+  needsVerification = false,
+  warningReason = "Needs manual verification",
 ): void {
   // property를 직접 수정하지 않고, 객체 구조로 변경
   const parts = selectedToken.split(".");
