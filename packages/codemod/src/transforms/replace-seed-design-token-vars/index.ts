@@ -1,7 +1,7 @@
 import { colorMappings } from "@seed-design/migration-index/color";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import type * as jscodeshift from "jscodeshift";
-import { getTokenTypeForProperty, isFgProperty } from "../../utils/color-properties.js";
+import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 import { createTransformLogger } from "../../utils/logger.js";
 import { buildMemberExpression, getMemberExpressionName } from "./ast-utils.js";
 import { handleImports } from "./import-handler.js";
@@ -12,7 +12,7 @@ import {
 } from "./token-utils.js";
 
 const replaceVarsColorAndTypography: jscodeshift.Transform = (file, api) => {
-  const logger = createTransformLogger("replace-color-design-token");
+  const logger = createTransformLogger("replace-seed-design-token-vars");
 
   const j = api.jscodeshift;
   const root = j(file.source);
