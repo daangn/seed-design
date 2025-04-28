@@ -1,4 +1,6 @@
-import { generateCode, createPluginNormalizer } from "@seed-design/figma";
+import { react, createPluginNormalizer } from "@seed-design/figma";
+
+const pipeline = react.createPipeline();
 
 export default function () {
   if (figma.editorType === "dev" && figma.mode === "codegen") {
@@ -11,7 +13,12 @@ export default function () {
           {
             title: "React",
             language: "TYPESCRIPT",
-            code: generateCode(normalizedNode) ?? "Failed to generate code.",
+            code:
+              pipeline.generateCode(normalizedNode, {
+                shouldInferAutoLayout: true,
+                shouldInferVariableName: true,
+                shouldPrintSource: false,
+              }) ?? "Failed to generate code.",
           },
         ];
       } catch (error) {

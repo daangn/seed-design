@@ -1,10 +1,4 @@
-import {
-  createPropsTransformer,
-  definePropsTransformer,
-  type PropsTransformer,
-  type ValueTransformer,
-} from "@/codegen/core";
-import type { StyleService } from "@/entities";
+import { createPropsConverter, definePropsConverter, type PropsConverter } from "@/codegen/core";
 import type {
   NormalizedCornerTrait,
   NormalizedHasChildrenTrait,
@@ -14,16 +8,17 @@ import type {
   NormalizedIsLayerTrait,
   NormalizedTypePropertiesTrait,
 } from "@/normalizer";
+import type { FigmaValueResolver } from "./value-resolver";
 
-export interface PropsTransformers {
-  containerLayout: PropsTransformer<ContainerLayoutTrait, ContainerLayoutProps>;
-  selfLayout: PropsTransformer<SelfLayoutTrait, SelfLayoutProps>;
-  radius: PropsTransformer<RadiusTrait, RadiusProps>;
-  frameFill: PropsTransformer<FillTrait, FillProps>;
-  shapeFill: PropsTransformer<FillTrait, FillProps>;
-  textFill: PropsTransformer<FillTrait, FillProps>;
-  stroke: PropsTransformer<StrokeTrait, StrokeProps>;
-  typeStyle: PropsTransformer<TypeStyleTrait, TypeStyleProps>;
+export interface PropsConverters {
+  containerLayout: PropsConverter<ContainerLayoutTrait, ContainerLayoutProps>;
+  selfLayout: PropsConverter<SelfLayoutTrait, SelfLayoutProps>;
+  radius: PropsConverter<RadiusTrait, RadiusProps>;
+  frameFill: PropsConverter<FillTrait, FillProps>;
+  shapeFill: PropsConverter<FillTrait, FillProps>;
+  textFill: PropsConverter<FillTrait, FillProps>;
+  stroke: PropsConverter<StrokeTrait, StrokeProps>;
+  typeStyle: PropsConverter<TypeStyleTrait, TypeStyleProps>;
 }
 
 export type ContainerLayoutTrait = NormalizedHasFramePropertiesTrait &
@@ -55,12 +50,10 @@ export interface ContainerLayoutProps {
   verticalPadding?: number | string; // string when variable
 }
 
-type FigmaValueTransformer = ValueTransformer<string, number, number, number>;
-
-export function createContainerLayoutPropsTransformer(
-  valueTransformer: FigmaValueTransformer,
-): PropsTransformer<ContainerLayoutTrait, ContainerLayoutProps> {
-  return createPropsTransformer({
+export function createContainerLayoutPropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<ContainerLayoutTrait, ContainerLayoutProps> {
+  return createPropsConverter({
     _types: {
       trait: {} as ContainerLayoutTrait,
       props: {} as ContainerLayoutProps,
@@ -71,10 +64,10 @@ export function createContainerLayoutPropsTransformer(
       counterAxisAlignItems: ({ counterAxisAlignItems }) => counterAxisAlignItems,
       layoutWrap: ({ layoutWrap }) => layoutWrap,
       itemSpacing: ({ itemSpacing }) => itemSpacing,
-      paddingTop: (node) => valueTransformer.getFormattedValue.paddingTop(node),
-      paddingBottom: (node) => valueTransformer.getFormattedValue.paddingBottom(node),
-      paddingLeft: (node) => valueTransformer.getFormattedValue.paddingLeft(node),
-      paddingRight: (node) => valueTransformer.getFormattedValue.paddingRight(node),
+      paddingTop: (node) => valueResolver.getFormattedValue.paddingTop(node),
+      paddingBottom: (node) => valueResolver.getFormattedValue.paddingBottom(node),
+      paddingLeft: (node) => valueResolver.getFormattedValue.paddingLeft(node),
+      paddingRight: (node) => valueResolver.getFormattedValue.paddingRight(node),
     },
     shorthands: {
       horizontalPadding: ["paddingLeft", "paddingRight"],
@@ -97,10 +90,10 @@ export interface SelfLayoutProps {
   maxHeight?: string | number; // string when variable
 }
 
-export function createSelfLayoutPropsTransformer(
-  valueTransformer: FigmaValueTransformer,
-): PropsTransformer<SelfLayoutTrait, SelfLayoutProps> {
-  return createPropsTransformer({
+export function createSelfLayoutPropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<SelfLayoutTrait, SelfLayoutProps> {
+  return createPropsConverter({
     _types: {
       trait: {} as SelfLayoutTrait,
       props: {} as SelfLayoutProps,
@@ -110,12 +103,12 @@ export function createSelfLayoutPropsTransformer(
       layoutAlign: ({ layoutAlign }) => layoutAlign,
       layoutSizingVertical: ({ layoutSizingVertical }) => layoutSizingVertical,
       layoutSizingHorizontal: ({ layoutSizingHorizontal }) => layoutSizingHorizontal,
-      width: (node) => valueTransformer.getFormattedValue.width(node),
-      height: (node) => valueTransformer.getFormattedValue.height(node),
-      minWidth: (node) => valueTransformer.getFormattedValue.minWidth(node),
-      minHeight: (node) => valueTransformer.getFormattedValue.minHeight(node),
-      maxWidth: (node) => valueTransformer.getFormattedValue.maxWidth(node),
-      maxHeight: (node) => valueTransformer.getFormattedValue.maxHeight(node),
+      width: (node) => valueResolver.getFormattedValue.width(node),
+      height: (node) => valueResolver.getFormattedValue.height(node),
+      minWidth: (node) => valueResolver.getFormattedValue.minWidth(node),
+      minHeight: (node) => valueResolver.getFormattedValue.minHeight(node),
+      maxWidth: (node) => valueResolver.getFormattedValue.maxWidth(node),
+      maxHeight: (node) => valueResolver.getFormattedValue.maxHeight(node),
     },
     defaults: {},
   });
@@ -129,17 +122,17 @@ export interface RadiusProps {
   bottomRightRadius?: number | string; // string when variable
 }
 
-export function createRadiusPropsTransformer(valueTransformer: FigmaValueTransformer) {
-  return createPropsTransformer({
+export function createRadiusPropsConverter(valueResolver: FigmaValueResolver) {
+  return createPropsConverter({
     _types: {
       trait: {} as RadiusTrait,
       props: {} as RadiusProps,
     },
     handlers: {
-      topLeftRadius: (node) => valueTransformer.getFormattedValue.topLeftRadius(node),
-      topRightRadius: (node) => valueTransformer.getFormattedValue.topRightRadius(node),
-      bottomLeftRadius: (node) => valueTransformer.getFormattedValue.bottomLeftRadius(node),
-      bottomRightRadius: (node) => valueTransformer.getFormattedValue.bottomRightRadius(node),
+      topLeftRadius: (node) => valueResolver.getFormattedValue.topLeftRadius(node),
+      topRightRadius: (node) => valueResolver.getFormattedValue.topRightRadius(node),
+      bottomLeftRadius: (node) => valueResolver.getFormattedValue.bottomLeftRadius(node),
+      bottomRightRadius: (node) => valueResolver.getFormattedValue.bottomRightRadius(node),
     },
     shorthands: {
       cornerRadius: ["topLeftRadius", "topRightRadius", "bottomLeftRadius", "bottomRightRadius"],
@@ -158,9 +151,9 @@ export interface FillProps {
   fill?: string;
 }
 
-export function createFrameFillPropsTransformer(valueTransformer: FigmaValueTransformer) {
-  return definePropsTransformer<FillTrait, FillProps>((node: FillTrait) => {
-    const fill = valueTransformer.getFormattedValue.frameFill(node);
+export function createFrameFillPropsConverter(valueResolver: FigmaValueResolver) {
+  return definePropsConverter<FillTrait, FillProps>((node: FillTrait) => {
+    const fill = valueResolver.getFormattedValue.frameFill(node);
 
     return {
       fill,
@@ -168,9 +161,9 @@ export function createFrameFillPropsTransformer(valueTransformer: FigmaValueTran
   });
 }
 
-export function createShapeFillPropsTransformer(valueTransformer: FigmaValueTransformer) {
-  return definePropsTransformer<FillTrait, FillProps>((node: FillTrait) => {
-    const fill = valueTransformer.getFormattedValue.shapeFill(node);
+export function createShapeFillPropsConverter(valueResolver: FigmaValueResolver) {
+  return definePropsConverter<FillTrait, FillProps>((node: FillTrait) => {
+    const fill = valueResolver.getFormattedValue.shapeFill(node);
 
     return {
       fill,
@@ -178,9 +171,9 @@ export function createShapeFillPropsTransformer(valueTransformer: FigmaValueTran
   });
 }
 
-export function createTextFillPropsTransformer(valueTransformer: FigmaValueTransformer) {
-  return definePropsTransformer<FillTrait, FillProps>((node: FillTrait) => {
-    const fill = valueTransformer.getFormattedValue.textFill(node);
+export function createTextFillPropsConverter(valueResolver: FigmaValueResolver) {
+  return definePropsConverter<FillTrait, FillProps>((node: FillTrait) => {
+    const fill = valueResolver.getFormattedValue.textFill(node);
 
     return {
       fill,
@@ -193,11 +186,11 @@ export interface StrokeProps {
   strokeWeight?: number;
 }
 
-export function createStrokePropsTransformer(
-  valueTransformer: FigmaValueTransformer,
-): PropsTransformer<StrokeTrait, StrokeProps> {
-  return definePropsTransformer((node: StrokeTrait) => {
-    const stroke = valueTransformer.getFormattedValue.stroke(node);
+export function createStrokePropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<StrokeTrait, StrokeProps> {
+  return definePropsConverter((node: StrokeTrait) => {
+    const stroke = valueResolver.getFormattedValue.stroke(node);
     const strokeWeight = node.strokeWeight;
 
     return {
@@ -215,15 +208,11 @@ export interface TypeStyleProps {
   maxLines?: number;
 }
 
-export function createTypeStylePropsTransformer({
-  valueTransformer,
-  styleService,
-}: {
-  valueTransformer: FigmaValueTransformer;
-  styleService: StyleService;
-}): PropsTransformer<TypeStyleTrait, TypeStyleProps> {
-  return definePropsTransformer((node) => {
-    const styleName = node.textStyleKey ? styleService.getStyleName(node.textStyleKey) : undefined;
+export function createTypeStylePropsConverter(
+  valueResolver: FigmaValueResolver,
+): PropsConverter<TypeStyleTrait, TypeStyleProps> {
+  return definePropsConverter((node) => {
+    const styleName = valueResolver.getTextStyleValue(node);
     const maxLines =
       node.style.textTruncation === "ENDING" ? (node.style.maxLines ?? undefined) : undefined;
 
@@ -235,9 +224,9 @@ export function createTypeStylePropsTransformer({
     }
 
     return {
-      fontSize: valueTransformer.getFormattedValue.fontSize(node),
-      fontWeight: valueTransformer.getFormattedValue.fontWeight(node),
-      lineHeight: valueTransformer.getFormattedValue.lineHeight(node),
+      fontSize: valueResolver.getFormattedValue.fontSize(node),
+      fontWeight: valueResolver.getFormattedValue.fontWeight(node),
+      lineHeight: valueResolver.getFormattedValue.lineHeight(node),
       maxLines,
     };
   });

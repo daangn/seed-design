@@ -1,20 +1,20 @@
 import type { NormalizedTextNode } from "@/normalizer";
 import { compactObject } from "@/utils/common";
 import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
-import type { PropsTransformers } from "./props";
+import type { PropsConverters } from "./props";
 
 export interface TextTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createTextTransformer({
-  propsTransformers,
+  propsConverters,
 }: TextTransformerDeps): ElementTransformer<NormalizedTextNode> {
-  return defineElementTransformer((node: NormalizedTextNode, traverse) => {
+  return defineElementTransformer((node: NormalizedTextNode) => {
     const hasMultipleFills = node.fills.length > 1;
 
-    const fillProps = propsTransformers.textFill(node, traverse);
-    const typeStyleProps = propsTransformers.typeStyle(node, traverse);
+    const fillProps = propsConverters.textFill(node);
+    const typeStyleProps = propsConverters.typeStyle(node);
 
     const props = compactObject({
       ...typeStyleProps,

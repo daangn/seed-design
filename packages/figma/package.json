@@ -14,6 +14,16 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
+    },
+    "./codegen": {
+      "types": "./lib/codegen/index.d.ts",
+      "import": "./lib/codegen/index.js",
+      "require": "./lib/codegen/index.cjs"
+    },
+    "./codegen/targets/react": {
+      "types": "./lib/codegen/targets/react/index.d.ts",
+      "import": "./lib/codegen/targets/react/index.js",
+      "require": "./lib/codegen/targets/react/index.cjs"
     }
   },
   "main": "./lib/index.cjs",

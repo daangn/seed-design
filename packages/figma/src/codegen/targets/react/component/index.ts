@@ -1,75 +1,72 @@
-import type { ComponentTransformer } from "@/codegen/core";
-import type { SeedComponentTransformerDeps } from "./deps.interface";
-import { createActionButtonTransformer } from "./transformers/action-button";
-import { createActionChipTransformer } from "./transformers/action-chip";
-import { createActionSheetTransformer } from "./transformers/action-sheet";
-import { createAppBarTransformer } from "./transformers/app-bar";
-import { createAvatarTransformer } from "./transformers/avatar";
-import { createAvatarStackTransformer } from "./transformers/avatar-stack";
-import { createBadgeTransformer } from "./transformers/badge";
-import { createCalloutTransformer } from "./transformers/callout";
-import { createCheckboxTransformer } from "./transformers/checkbox";
-import { createChipTabsTransformer } from "./transformers/chip-tabs";
-import { createControlChipTransformer } from "./transformers/control-chip";
-import { createErrorStateTransformer } from "./transformers/error-state";
-import { createExtendedActionSheetTransformer } from "./transformers/extended-action-sheet";
-import { createExtendedFabTransformer } from "./transformers/extended-fab";
-import { createFabTransformer } from "./transformers/fab";
-import { createHelpBubbleTransformer } from "./transformers/help-bubble";
-import { createIdentityPlaceholderTransformer } from "./transformers/identity-placeholder";
-import { createInlineBannerTransformer } from "./transformers/inline-banner";
-import { createMannerTempBadgeTransformer } from "./transformers/manner-temp-badge";
-import { createMultilineTextFieldTransformer } from "./transformers/multiline-text-field";
-import { createProgressCircleTransformer } from "./transformers/progress-circle";
-import { createReactionButtonTransformer } from "./transformers/reaction-button";
-import { createSegmentedControlTransformer } from "./transformers/segmented-control";
-import {
-  createSelectBoxGroupTransformer,
-  createSelectBoxTransformer,
-} from "./transformers/select-box";
-import { createSkeletonTransformer } from "./transformers/skeleton";
-import { createSnackbarTransformer } from "./transformers/snackbar";
-import { createSwitchTransformer } from "./transformers/switch";
-import { createTabsTransformer } from "./transformers/tabs";
-import { createTextButtonTransformer } from "./transformers/text-button";
-import { createTextFieldTransformer } from "./transformers/text-field";
-import { createToggleButtonTransformer } from "./transformers/toggle-button";
+import type { ComponentHandler } from "@/codegen/core";
+import type { SeedComponentHandlerDeps } from "./deps.interface";
+import { createActionButtonHandler } from "./handlers/action-button";
+import { createActionChipHandler } from "./handlers/action-chip";
+import { createActionSheetHandler } from "./handlers/action-sheet";
+import { createAppBarHandler } from "./handlers/app-bar";
+import { createAvatarHandler } from "./handlers/avatar";
+import { createAvatarStackHandler } from "./handlers/avatar-stack";
+import { createBadgeHandler } from "./handlers/badge";
+import { createCalloutHandler } from "./handlers/callout";
+import { createCheckboxHandler } from "./handlers/checkbox";
+import { createChipTabsHandler } from "./handlers/chip-tabs";
+import { createControlChipHandler } from "./handlers/control-chip";
+import { createErrorStateHandler } from "./handlers/error-state";
+import { createExtendedActionSheetHandler } from "./handlers/extended-action-sheet";
+import { createExtendedFabHandler } from "./handlers/extended-fab";
+import { createFabHandler } from "./handlers/fab";
+import { createHelpBubbleHandler } from "./handlers/help-bubble";
+import { createIdentityPlaceholderHandler } from "./handlers/identity-placeholder";
+import { createInlineBannerHandler } from "./handlers/inline-banner";
+import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
+import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field";
+import { createProgressCircleHandler } from "./handlers/progress-circle";
+import { createReactionButtonHandler } from "./handlers/reaction-button";
+import { createSegmentedControlHandler } from "./handlers/segmented-control";
+import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
+import { createSkeletonHandler } from "./handlers/skeleton";
+import { createSnackbarHandler } from "./handlers/snackbar";
+import { createSwitchHandler } from "./handlers/switch";
+import { createTabsHandler } from "./handlers/tabs";
+import { createTextButtonHandler } from "./handlers/text-button";
+import { createTextFieldHandler } from "./handlers/text-field";
+import { createToggleButtonHandler } from "./handlers/toggle-button";
 
-export type { SeedComponentTransformerDeps };
+export type { SeedComponentHandlerDeps };
 
-export const createSeedComponentTransformers = (
-  ctx: SeedComponentTransformerDeps,
-): ComponentTransformer<any>[] => [
-  createActionButtonTransformer(ctx),
-  createActionChipTransformer(ctx),
-  createActionSheetTransformer(ctx),
-  createAppBarTransformer(ctx),
-  createAvatarTransformer(ctx),
-  createAvatarStackTransformer(ctx),
-  createBadgeTransformer(ctx),
-  createCalloutTransformer(ctx),
-  createCheckboxTransformer(ctx),
-  createChipTabsTransformer(ctx),
-  createControlChipTransformer(ctx),
-  createErrorStateTransformer(ctx),
-  createExtendedActionSheetTransformer(ctx),
-  createExtendedFabTransformer(ctx),
-  createFabTransformer(ctx),
-  createHelpBubbleTransformer(ctx),
-  createIdentityPlaceholderTransformer(ctx),
-  createInlineBannerTransformer(ctx),
-  createMannerTempBadgeTransformer(ctx),
-  createMultilineTextFieldTransformer(ctx),
-  createProgressCircleTransformer(ctx),
-  createReactionButtonTransformer(ctx),
-  createSegmentedControlTransformer(ctx),
-  createSelectBoxGroupTransformer(ctx),
-  createSelectBoxTransformer(ctx),
-  createSkeletonTransformer(ctx),
-  createSnackbarTransformer(ctx),
-  createSwitchTransformer(ctx),
-  createTabsTransformer(ctx),
-  createTextButtonTransformer(ctx),
-  createTextFieldTransformer(ctx),
-  createToggleButtonTransformer(ctx),
+export const createSeedComponentHandlers = (
+  ctx: SeedComponentHandlerDeps,
+): ComponentHandler<any>[] => [
+  createActionButtonHandler(ctx),
+  createActionChipHandler(ctx),
+  createActionSheetHandler(ctx),
+  createAppBarHandler(ctx),
+  createAvatarHandler(ctx),
+  createAvatarStackHandler(ctx),
+  createBadgeHandler(ctx),
+  createCalloutHandler(ctx),
+  createCheckboxHandler(ctx),
+  createChipTabsHandler(ctx),
+  createControlChipHandler(ctx),
+  createErrorStateHandler(ctx),
+  createExtendedActionSheetHandler(ctx),
+  createExtendedFabHandler(ctx),
+  createFabHandler(ctx),
+  createHelpBubbleHandler(ctx),
+  createIdentityPlaceholderHandler(ctx),
+  createInlineBannerHandler(ctx),
+  createMannerTempBadgeHandler(ctx),
+  createMultilineTextFieldHandler(ctx),
+  createProgressCircleHandler(ctx),
+  createReactionButtonHandler(ctx),
+  createSegmentedControlHandler(ctx),
+  createSelectBoxGroupHandler(ctx),
+  createSelectBoxHandler(ctx),
+  createSkeletonHandler(ctx),
+  createSnackbarHandler(ctx),
+  createSwitchHandler(ctx),
+  createTabsHandler(ctx),
+  createTextButtonHandler(ctx),
+  createTextFieldHandler(ctx),
+  createToggleButtonHandler(ctx),
 ];
