@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-popover",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,8 +30,8 @@
     "@floating-ui/react": "^0.27.0",
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-use-controllable-state": "1.2.2",
-    "@seed-design/dom-utils": "0.0.1",
-    "@seed-design/react-primitive": "0.0.1"
+    "@seed-design/dom-utils": "0.0.2",
+    "@seed-design/react-primitive": "0.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.20",

@@ -1,5 +1,16 @@
 # @seed-design/mcp
 
+## 0.0.21
+
+### Patch Changes
+
+- e368c69: 패키지 의존성을 최신화합니다.
+- Updated dependencies [b167e95]
+- Updated dependencies [2f2f9b3]
+- Updated dependencies [4d34760]
+- Updated dependencies [e368c69]
+  - @seed-design/figma@0.0.21
+
 ## 0.0.20
 
 ### Patch Changes

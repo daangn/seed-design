@@ -20,7 +20,7 @@
     "@create-figma-plugin/build": "^4.0.1",
     "@create-figma-plugin/tsconfig": "^4.0.0",
     "@figma/plugin-typings": "^1.110.0",
-    "@seed-design/figma-extractor": "^0.0.3",
+    "@seed-design/figma-extractor": "^0.0.4",
     "@types/node": "^22.14.1",
     "concurrently": "^9.1.2",
     "dotenv": "^16.5.0",

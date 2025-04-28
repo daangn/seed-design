@@ -1,5 +1,11 @@
 # @seed-design/react-primitive
 
+## 0.0.2
+
+### Patch Changes
+
+- e368c69: 패키지 의존성을 최신화합니다.
+
 ## 0.0.1
 
 ### Patch Changes

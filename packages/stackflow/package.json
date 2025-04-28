@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/stackflow",
-  "version": "0.0.19",
+  "version": "0.0.21",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -30,12 +30,12 @@
     "@radix-ui/react-compose-refs": "^1.1.2",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
-    "@seed-design/dom-utils": "0.0.1",
-    "@seed-design/react-primitive": "0.0.1",
+    "@seed-design/dom-utils": "0.0.2",
+    "@seed-design/react-primitive": "0.0.2",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
-    "@seed-design/css": "0.0.19",
+    "@seed-design/css": "0.0.21",
     "@stackflow/core": "^1.2.0",
     "@stackflow/react": "^1.5.1",
     "@stackflow/react-ui-core": "^1.3.0",
@@ -47,7 +47,7 @@
     "vite-plugin-dts": "^4.5.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.19",
+    "@seed-design/css": "0.0.21",
     "@stackflow/core": ">=1.1.0",
     "@stackflow/react": ">=1.4.1",
     "@stackflow/react-ui-core": ">=1.2.1",
