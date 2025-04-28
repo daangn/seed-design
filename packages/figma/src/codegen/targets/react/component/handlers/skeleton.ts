@@ -3,49 +3,23 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import type { SeedComponentHandlerDeps } from "../deps.interface";
 import type { SkeletonProperties } from "@/codegen/component-properties";
+import { match } from "ts-pattern";
 
 export const createSkeletonHandler = (ctx: SeedComponentHandlerDeps) =>
-  defineComponentHandler<SkeletonProperties>(
-    metadata.skeleton.key,
-    ({
-      componentProperties: props,
-      absoluteBoundingBox,
-      layoutSizingHorizontal,
-      layoutSizingVertical,
-      boundVariables,
-    }) => {
-      const commonProps = {
-        radius: camelCase(props.Radius.value),
-        width: (() => {
-          switch (layoutSizingHorizontal) {
-            case "FIXED": {
-              const variableId = boundVariables?.size?.x?.id;
-              if (variableId) return ctx.variableService.getVariableName(variableId);
+  defineComponentHandler<SkeletonProperties>(metadata.skeleton.key, (node) => {
+    const { componentProperties: props, layoutSizingHorizontal, layoutSizingVertical } = node;
 
-              return `${absoluteBoundingBox?.width}px`;
-            }
-            case "FILL":
-              return "full";
-            default:
-              return "full";
-          }
-        })(),
-        height: (() => {
-          switch (layoutSizingVertical) {
-            case "FIXED": {
-              const variableId = boundVariables?.size?.y?.id;
-              if (variableId) return ctx.variableService.getVariableName(variableId);
+    const commonProps = {
+      radius: camelCase(props.Radius.value),
+      width: match(layoutSizingHorizontal)
+        .with("FIXED", () => ctx.valueResolver.getFormattedValue.width(node))
+        .with("FILL", () => "full")
+        .otherwise(() => "full"),
+      height: match(layoutSizingVertical)
+        .with("FIXED", () => ctx.valueResolver.getFormattedValue.height(node))
+        .with("FILL", () => "full")
+        .otherwise(() => "full"),
+    };
 
-              return `${absoluteBoundingBox?.height}px`;
-            }
-            case "FILL":
-              return "full";
-            default:
-              return "full";
-          }
-        })(),
-      };
-
-      return createElement("Skeleton", commonProps);
-    },
-  );
+    return createElement("Skeleton", commonProps);
+  });

@@ -1,4 +1,3 @@
-import type { IconService } from "@/entities";
 import type { NormalizedInstanceNode } from "@/normalizer";
 import {
   createElement,
@@ -6,17 +5,18 @@ import {
   type ComponentHandler,
   type ElementTransformer,
 } from "../../core";
+import type { IconHandler } from "./icon";
 import type { PropsConverters } from "./props";
 
 export interface InstanceTransformerDeps {
-  iconService?: IconService;
+  iconHandler?: IconHandler;
   propsConverters: PropsConverters;
   componentHandlers: Record<string, ComponentHandler>;
   frameTransformer: ElementTransformer<NormalizedInstanceNode>;
 }
 
 export function createInstanceTransformer({
-  iconService,
+  iconHandler,
   propsConverters,
   componentHandlers,
   frameTransformer,
@@ -24,13 +24,12 @@ export function createInstanceTransformer({
   const transform = defineElementTransformer((node: NormalizedInstanceNode, traverse) => {
     const { componentKey, componentSetKey } = node;
 
-    if (iconService?.isIconComponent(componentKey)) {
-      const tagName = iconService.createIconTagName(componentKey);
+    if (iconHandler?.isIconInstance(node)) {
       const props = {
         ...propsConverters.iconSelfLayout(node),
         ...propsConverters.vectorChildrenFill(node),
       };
-      return createElement("Icon", { svg: createElement(tagName), ...props });
+      return createElement("Icon", { svg: iconHandler.transform(node), ...props });
     }
 
     const componentHandler = componentSetKey

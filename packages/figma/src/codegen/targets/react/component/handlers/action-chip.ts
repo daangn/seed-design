@@ -16,9 +16,7 @@ export const createActionChipHandler = (ctx: SeedComponentHandlerDeps) =>
           layout: "iconOnly",
           children: [
             createElement("Icon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Icon#8714:0"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Icon#8714:0"]),
             }),
           ],
         }))
@@ -26,9 +24,7 @@ export const createActionChipHandler = (ctx: SeedComponentHandlerDeps) =>
           layout: "withText",
           children: [
             createElement("PrefixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Prefix Icon#8711:0"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
             }),
             props["Label#7185:0"].value,
           ],
@@ -38,9 +34,7 @@ export const createActionChipHandler = (ctx: SeedComponentHandlerDeps) =>
           children: [
             props["Label#7185:0"].value,
             createElement("SuffixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Suffix Icon#8711:3"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
             }),
           ],
         }))
@@ -48,15 +42,11 @@ export const createActionChipHandler = (ctx: SeedComponentHandlerDeps) =>
           layout: "withText",
           children: [
             createElement("PrefixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Prefix Icon#8711:0"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
             }),
             props["Label#7185:0"].value,
             createElement("SuffixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Suffix Icon#8711:3"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
             }),
           ],
         }))

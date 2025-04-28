@@ -78,9 +78,7 @@ export const createCalloutHandler = (ctx: SeedComponentHandlerDeps) =>
           children: linkLabel,
         },
         ...(props["Icon#12598:210"].value && {
-          prefixIcon: createElement(
-            ctx.iconService.createIconTagName(props["Icon#12598:210"].componentKey),
-          ),
+          prefixIcon: ctx.iconHandler.transform(props["Icon#12598:210"]),
         }),
       };
 

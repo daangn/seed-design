@@ -16,7 +16,7 @@ export const createExtendedFabHandler = (ctx: SeedComponentHandlerDeps) =>
 
       return createElement("ExtendedFab", commonProps, [
         createElement("PrefixIcon", {
-          svg: createElement(ctx.iconService.createIconTagName(props["Icon#28796:0"].componentKey)),
+          svg: ctx.iconHandler.transform(props["Icon#28796:0"]),
         }),
         props["Label#28936:0"].value,
       ]);

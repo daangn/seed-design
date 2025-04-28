@@ -18,14 +18,14 @@ export const createTextFieldHandler = (ctx: SeedComponentHandlerDeps) =>
         "Indicator#15327:249": { value: indicator },
         "Show Prefix#958:125": { value: showPrefix },
         "Show Prefix Icon#1267:50": { value: showPrefixIcon },
-        "Prefix Icon#1267:25": { componentKey: prefixIcon },
+        "Prefix Icon#1267:25": prefixIcon,
         "Show Prefix Text#1267:0": { value: showPrefixText },
         "Prefix Text#15327:101": { value: prefix },
         "Placeholder#958:0": { value: placeholder },
         "Filled Text#1304:0": { value: defaultValue },
         "Show Suffix#958:100": { value: showSuffix },
         "Show Suffix Icon#1267:75": { value: showSuffixIcon },
-        "Suffix Icon #1267:100": { componentKey: suffixIcon },
+        "Suffix Icon #1267:100": suffixIcon,
         "Show Suffix Text#1267:125": { value: showSuffixText },
         "Suffix Text#15327:138": { value: suffix },
         "Show Footer#958:25": { value: showFooter },
@@ -51,7 +51,7 @@ export const createTextFieldHandler = (ctx: SeedComponentHandlerDeps) =>
         // input affixes
         ...(showPrefix &&
           showPrefixIcon && {
-            prefixIcon: createElement(ctx.iconService.createIconTagName(prefixIcon)),
+            prefixIcon: ctx.iconHandler.transform(prefixIcon),
           }),
         ...(showPrefix &&
           showPrefixText && {
@@ -59,7 +59,7 @@ export const createTextFieldHandler = (ctx: SeedComponentHandlerDeps) =>
           }),
         ...(showSuffix &&
           showSuffixIcon && {
-            suffixIcon: createElement(ctx.iconService.createIconTagName(suffixIcon)),
+            suffixIcon: ctx.iconHandler.transform(suffixIcon),
           }),
         ...(showSuffix &&
           showSuffixText && {

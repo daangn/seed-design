@@ -1,3 +1,4 @@
+import type { TextButtonProperties } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode } from "@/normalizer";
@@ -5,7 +6,6 @@ import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { SeedComponentHandlerDeps } from "../deps.interface";
-import type { TextButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createTextButtonHandler = (ctx: SeedComponentHandlerDeps) =>
@@ -16,9 +16,7 @@ export const createTextButtonHandler = (ctx: SeedComponentHandlerDeps) =>
 
     const { prefixIcon, suffixIcon, children } = match(props.Layout.value)
       .with("Icon First", () => ({
-        prefixIcon: createElement(
-          ctx.iconService.createIconTagName(props["Prefix Icon#7561:0"].componentKey),
-        ),
+        prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#7561:0"]),
         suffixIcon: undefined,
         children: props["Label#6148:0"].value,
       }))
@@ -28,13 +26,9 @@ export const createTextButtonHandler = (ctx: SeedComponentHandlerDeps) =>
           (node) => node.type === "INSTANCE" && node.name === "Suffix Icon",
         ) as NormalizedInstanceNode | null;
 
-        const suffixIconComponentKey = suffixIconNode?.componentKey;
-
         return {
           prefixIcon: undefined,
-          suffixIcon: suffixIconComponentKey
-            ? createElement(ctx.iconService.createIconTagName(suffixIconComponentKey))
-            : undefined,
+          suffixIcon: suffixIconNode ? ctx.iconHandler.transform(suffixIconNode) : undefined,
           children: props["Label#6148:0"].value,
         };
       })

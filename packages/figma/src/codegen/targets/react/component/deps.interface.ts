@@ -1,6 +1,7 @@
-import type { IconService, VariableService } from "@/entities";
+import type { IconHandler } from "../icon";
+import type { ReactValueResolver } from "../value-resolver";
 
 export interface SeedComponentHandlerDeps {
-  iconService: IconService;
-  variableService: VariableService;
+  iconHandler: IconHandler;
+  valueResolver: ReactValueResolver;
 }

@@ -1,7 +1,7 @@
+import type { ReactionButtonProperties } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { SeedComponentHandlerDeps } from "../deps.interface";
-import type { ReactionButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createReactionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
@@ -25,7 +25,7 @@ export const createReactionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
 
       return createElement("ReactionButton", commonProps, [
         createElement("PrefixIcon", {
-          svg: createElement(ctx.iconService.createIconTagName(props["Icon#12379:0"].componentKey)),
+          svg: ctx.iconHandler.transform(props["Icon#12379:0"]),
         }),
         props["Label#6397:0"].value,
         props["Show Count#6397:33"].value

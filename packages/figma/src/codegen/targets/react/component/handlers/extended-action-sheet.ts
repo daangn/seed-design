@@ -26,9 +26,7 @@ const createExtendedActionSheetItemHandler = (ctx: SeedComponentHandlerDeps) =>
       return createElement("ExtendedActionSheetItem", commonProps, [
         props["Show Prefix Icon#17043:5"].value
           ? createElement("PrefixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Prefix Icon#55948:0"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Prefix Icon#55948:0"]),
             })
           : undefined,
         props["Label#55905:8"].value,
