@@ -15,6 +15,8 @@ const toggleButton = defineRecipe({
     cursor: "pointer",
     border: "none",
     textTransform: "none",
+    whiteSpace: "nowrap",
+    verticalAlign: "middle",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",
@@ -146,6 +148,7 @@ const toggleButton = defineRecipe({
         paddingInline: vars.sizeXsmall.enabled.root.paddingX,
         paddingBlock: vars.sizeXsmall.enabled.root.paddingY,
         fontSize: vars.sizeXsmall.enabled.label.fontSize,
+        lineHeight: vars.sizeXsmall.enabled.label.lineHeight,
 
         "--size": vars.sizeXsmall.enabled.progressCircle.size,
         "--thickness": vars.sizeXsmall.enabled.progressCircle.thickness,
@@ -164,6 +167,7 @@ const toggleButton = defineRecipe({
         paddingInline: vars.sizeSmall.enabled.root.paddingX,
         paddingBlock: vars.sizeSmall.enabled.root.paddingY,
         fontSize: vars.sizeSmall.enabled.label.fontSize,
+        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
 
         "--size": vars.sizeSmall.enabled.progressCircle.size,
         "--thickness": vars.sizeSmall.enabled.progressCircle.thickness,

@@ -123,6 +123,7 @@ data:
           gap: $dimension.x1
         label:
           fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         prefixIcon:
           size: $dimension.x4
         suffixIcon:
@@ -137,6 +138,7 @@ data:
           gap: $dimension.x1
         label:
           fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         prefixIcon:
           size: $dimension.x4
         suffixIcon:

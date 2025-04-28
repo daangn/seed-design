@@ -85,7 +85,8 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"
@@ -106,7 +107,8 @@ export declare const vars: {
         "gap": "var(--seed-dimension-x1)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "prefixIcon": {
         "size": "var(--seed-dimension-x4)"

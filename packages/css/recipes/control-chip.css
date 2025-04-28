@@ -7,6 +7,7 @@
     border: none;
     text-transform: none;
     text-align: start;
+    white-space: nowrap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     flex-shrink: 0;
@@ -54,6 +55,7 @@
     padding-block: var(--seed-dimension-x2);
     gap: var(--seed-dimension-x1);
     font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-size: var(--seed-dimension-x4);
@@ -64,6 +66,7 @@
     padding-block: var(--seed-dimension-x1_5);
     gap: var(--seed-dimension-x1);
     font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
     --seed-prefix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-size: var(--seed-dimension-x3_5);
     --seed-icon-size: var(--seed-dimension-x4);
