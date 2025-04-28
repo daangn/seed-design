@@ -37,7 +37,6 @@ const reactionButton = defineRecipe({
     "--range-color": vars.base.enabled.progressCircle.rangeColor,
 
     ...count({
-      lineHeight: 1,
       fontWeight: vars.base.enabled.count.fontWeight,
       color: vars.base.enabled.count.color,
     }),

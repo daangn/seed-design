@@ -34,7 +34,6 @@ const controlChip = defineRecipe({
     ...onlyIcon({ color: vars.base.enabled.icon.color }),
 
     ...count({
-      lineHeight: 1,
       fontWeight: vars.base.enabled.count.fontWeight,
       color: vars.base.enabled.count.color,
     }),

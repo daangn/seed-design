@@ -33,7 +33,6 @@ const actionChip = defineRecipe({
     ...suffixIcon({ color: vars.base.enabled.suffixIcon.color }),
     ...onlyIcon({ color: vars.base.enabled.icon.color }),
     ...count({
-      lineHeight: 1,
       fontWeight: vars.base.enabled.count.fontWeight,
       color: vars.base.enabled.count.color,
     }),
