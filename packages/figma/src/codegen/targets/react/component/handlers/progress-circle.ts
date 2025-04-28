@@ -2,10 +2,10 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ProgressCircleProperties } from "@/codegen/component-properties";
 
-export const createProgressCircleHandler = (_ctx: SeedComponentHandlerDeps) =>
+export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ProgressCircleProperties>(
     metadata.progressCircle.key,
     ({ componentProperties: props }) => {

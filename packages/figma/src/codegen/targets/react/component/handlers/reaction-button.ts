@@ -1,10 +1,10 @@
 import type { ReactionButtonProperties } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
-export const createReactionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createReactionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ReactionButtonProperties>(
     metadata.reactionButton.key,
     ({ componentProperties: props }) => {

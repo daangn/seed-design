@@ -2,7 +2,7 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode } from "@/normalizer";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   TabsFillItemProperties,
   TabsHugItemProperties,
@@ -11,7 +11,7 @@ import type {
 import { handleSizeProp } from "../size";
 
 const TABS_HUG_ITEM_KEY = "c242492543b327ceb84fa9933841512fc62a898c";
-const createTabsHugItemHandler = (_ctx: SeedComponentHandlerDeps) =>
+const createTabsHugItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TabsHugItemProperties>(
     TABS_HUG_ITEM_KEY,
     ({ componentProperties: props }) => {
@@ -32,7 +32,7 @@ const createTabsHugItemHandler = (_ctx: SeedComponentHandlerDeps) =>
   );
 
 const TABS_FILL_ITEM_KEY = "7275293344efb40ee9a3f5248ba2659b94a0b305";
-const createTabsFillItemHandler = (_ctx: SeedComponentHandlerDeps) =>
+const createTabsFillItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TabsFillItemProperties>(
     TABS_FILL_ITEM_KEY,
     ({ componentProperties: props }) => {
@@ -52,7 +52,7 @@ const createTabsFillItemHandler = (_ctx: SeedComponentHandlerDeps) =>
     },
   );
 
-export const createTabsHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
   const tabsHugItemHandler = createTabsHugItemHandler(ctx);
   const tabsFillItemHandler = createTabsFillItemHandler(ctx);
 

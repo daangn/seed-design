@@ -1,10 +1,10 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { SelectBoxGroupProperties, SelectBoxProperties } from "@/codegen/component-properties";
 
-export const createSelectBoxHandler = (_ctx: SeedComponentHandlerDeps) =>
+export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxProperties>(
     metadata.selectBox.key,
     ({ componentProperties: props }) => {
@@ -37,7 +37,7 @@ export const createSelectBoxHandler = (_ctx: SeedComponentHandlerDeps) =>
     },
   );
 
-export const createSelectBoxGroupHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
   const selectBoxHandler = createSelectBoxHandler(ctx);
 
   return defineComponentHandler<SelectBoxGroupProperties>(

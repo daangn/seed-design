@@ -1,11 +1,11 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { SkeletonProperties } from "@/codegen/component-properties";
 import { match } from "ts-pattern";
 
-export const createSkeletonHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createSkeletonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SkeletonProperties>(metadata.skeleton.key, (node) => {
     const { componentProperties: props, layoutSizingHorizontal, layoutSizingVertical } = node;
 

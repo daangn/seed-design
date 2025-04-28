@@ -1,6 +1,10 @@
-import { createCodeGenerator, type ComponentHandler } from "@/codegen/core";
+import { createCodeGenerator } from "@/codegen/core";
 import { iconService } from "@/codegen/default-services";
-import { createSeedComponentHandlers } from "./component";
+import {
+  type UnboundComponentHandler,
+  bindComponentHandler,
+  unboundSeedComponentHandlers,
+} from "./component";
 import { createFrameTransformer } from "./frame";
 import { createIconHandler } from "./icon";
 import { createInstanceTransformer } from "./instance";
@@ -26,17 +30,12 @@ import { valueResolver } from "./value-resolver";
 
 export interface CreatePipelineConfig {
   extend?: {
-    componentHandlers?: ComponentHandler[];
+    componentHandlers?: Array<UnboundComponentHandler<any>>;
   };
 }
 
 const iconHandler = createIconHandler({
   iconService,
-});
-
-const seedComponentHandlers = createSeedComponentHandlers({
-  iconHandler,
-  valueResolver,
 });
 
 export function createPipeline(options: CreatePipelineConfig = {}) {
@@ -68,7 +67,14 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
   };
 
   const componentHandlers = Object.fromEntries(
-    [...seedComponentHandlers, ...(extend.componentHandlers ?? [])].map((t) => [t.key, t]),
+    [...unboundSeedComponentHandlers, ...(extend.componentHandlers ?? [])]
+      .map((h) =>
+        bindComponentHandler(h, {
+          valueResolver,
+          iconHandler,
+        }),
+      )
+      .map((t) => [t.key, t]),
   );
 
   const frameTransformer = createFrameTransformer({
@@ -89,7 +95,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
   const vectorTransformer = createVectorTransformer();
   const booleanOperationTransformer = createBooleanOperationTransformer();
 
-  const codegenTransformer = createCodeGenerator({
+  const codeGenerator = createCodeGenerator({
     frameTransformer,
     textTransformer,
     rectangleTransformer,
@@ -98,5 +104,5 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     booleanOperationTransformer,
   });
 
-  return codegenTransformer;
+  return codeGenerator;
 }

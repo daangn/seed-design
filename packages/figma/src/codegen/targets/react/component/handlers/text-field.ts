@@ -1,10 +1,10 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { TextFieldProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createTextFieldHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createTextFieldHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TextFieldProperties>(
     metadata.textField.key,
     ({ componentProperties: props }) => {
