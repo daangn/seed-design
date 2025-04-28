@@ -2,11 +2,11 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ChipTabsItemProperties, ChipTabsProperties } from "@/codegen/component-properties";
 
 const CHIP_TABS_ITEM_KEY = "fa80168b02051fbb0ba032238bd76d840dbe2e15";
-const createChipTabsItemHandler = (_ctx: SeedComponentHandlerDeps) =>
+const createChipTabsItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ChipTabsItemProperties>(
     CHIP_TABS_ITEM_KEY,
     ({ componentProperties: props }) => {
@@ -23,7 +23,7 @@ const createChipTabsItemHandler = (_ctx: SeedComponentHandlerDeps) =>
     },
   );
 
-export const createChipTabsHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createChipTabsHandler = (ctx: ComponentHandlerDeps) => {
   const chipTabsItemHandler = createChipTabsItemHandler(ctx);
 
   return defineComponentHandler<ChipTabsProperties>(metadata.chipTablist.key, (node) => {

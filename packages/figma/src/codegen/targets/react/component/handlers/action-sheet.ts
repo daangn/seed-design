@@ -3,14 +3,14 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   ActionSheetItemProperties,
   ActionSheetProperties,
 } from "@/codegen/component-properties";
 
 const ACTION_SHEET_ITEM_KEY = "c3cafd3a3fdcd45fecb6971019d88eaf39a2e381";
-const createActionSheetItemHandler = (_ctx: SeedComponentHandlerDeps) =>
+const createActionSheetItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionSheetItemProperties>(
     ACTION_SHEET_ITEM_KEY,
     ({ componentProperties: props }) => {
@@ -28,7 +28,7 @@ const createActionSheetItemHandler = (_ctx: SeedComponentHandlerDeps) =>
     },
   );
 
-export const createActionSheetHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createActionSheetHandler = (ctx: ComponentHandlerDeps) => {
   const actionSheetItemHandler = createActionSheetItemHandler(ctx);
 
   return defineComponentHandler<ActionSheetProperties>(metadata.actionSheet.key, (node) => {

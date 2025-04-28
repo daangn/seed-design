@@ -2,11 +2,11 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ActionButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createActionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonProperties>(
     metadata.actionButton.key,
     ({ componentProperties: props }) => {

@@ -1,14 +1,14 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   SegmentedControlItemProperties,
   SegmentedControlProperties,
 } from "@/codegen/component-properties";
 
 const SEGMENTED_CONTROL_ITEM_KEY = "9a7ba0d4c041ddbce84ee48881788434fd6bccc8";
-const createSegmentedControlItemHandler = (_ctx: SeedComponentHandlerDeps) =>
+const createSegmentedControlItemHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SegmentedControlItemProperties>(
     SEGMENTED_CONTROL_ITEM_KEY,
     ({ componentProperties: props }) => {
@@ -24,7 +24,7 @@ const createSegmentedControlItemHandler = (_ctx: SeedComponentHandlerDeps) =>
     },
   );
 
-export const createSegmentedControlHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createSegmentedControlHandler = (ctx: ComponentHandlerDeps) => {
   const segmentedControlItemHandler = createSegmentedControlItemHandler(ctx);
 
   return defineComponentHandler<SegmentedControlProperties>(

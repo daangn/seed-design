@@ -2,9 +2,9 @@ import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createElement } from "@/codegen/core";
 import type { FabProperties } from "@/codegen/component-properties";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 
-export const createFabHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createFabHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<FabProperties>(
     metadata.floatingActionButton.key,
     ({ componentProperties: props }) => {

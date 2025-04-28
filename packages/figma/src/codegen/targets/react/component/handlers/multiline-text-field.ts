@@ -1,10 +1,10 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { MultilineTextFieldProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createMultilineTextFieldHandler = (_ctx: SeedComponentHandlerDeps) =>
+export const createMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MultilineTextFieldProperties>(
     metadata.multilineTextField.key,
     ({ componentProperties: props }) => {

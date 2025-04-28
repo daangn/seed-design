@@ -1,10 +1,10 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { SwitchProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createSwitchHandler = (_ctx: SeedComponentHandlerDeps) =>
+export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SwitchProperties>(
     metadata.switch.key,
     ({ componentProperties: props }) => {
