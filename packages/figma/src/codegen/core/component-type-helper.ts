@@ -1,3 +1,5 @@
+import type { ComponentPropertyType, InstanceSwapPreferredValue } from "@figma/rest-api-spec";
+
 export interface ComponentPropertyDefinition {
   type: ComponentPropertyType;
   preferredValues?: InstanceSwapPreferredValue[];
