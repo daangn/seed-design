@@ -65,17 +65,15 @@ const createAppBarLeftHandler = (ctx: SeedComponentHandlerDeps) =>
             (child) => child.type === "INSTANCE" && child.name === "Icon",
           ) as NormalizedInstanceNode | null;
 
-          const iconComponentKey = iconNode?.componentKey ?? undefined;
+          if (!iconNode) {
+            return undefined;
+          }
 
           return createElement(
             "AppBarIconButton",
             undefined,
-            iconComponentKey
-              ? createElement(ctx.iconService.createIconTagName(iconComponentKey))
-              : undefined,
-            iconComponentKey === undefined
-              ? "아이콘과, aria-label 또는 aria-labelledby를 제공해주세요."
-              : "aria-label 또는 aria-labelledby를 제공해주세요.",
+            ctx.iconHandler.transform(iconNode),
+            "aria-label 또는 aria-labelledby를 제공해주세요.",
           );
         }
       }
@@ -105,18 +103,12 @@ const createAppBarRightHandler = (ctx: SeedComponentHandlerDeps) =>
             (child) => child.type === "INSTANCE" && child.name === "Icon",
           ) as NormalizedInstanceNode[];
 
-          const iconComponentKeys = iconNodes.map((iconNode) => iconNode.componentKey);
-
-          return iconComponentKeys.map((iconComponentKey) =>
+          return iconNodes.map((iconNode) =>
             createElement(
               "AppBarIconButton",
               undefined,
-              iconComponentKey
-                ? createElement(ctx.iconService.createIconTagName(iconComponentKey))
-                : undefined,
-              iconComponentKey === undefined
-                ? "아이콘과, aria-label 또는 aria-labelledby를 제공해주세요."
-                : "aria-label 또는 aria-labelledby를 제공해주세요.",
+              ctx.iconHandler.transform(iconNode),
+              "aria-label 또는 aria-labelledby를 제공해주세요.",
             ),
           );
         }

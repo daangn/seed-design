@@ -28,17 +28,13 @@ export const createToggleButtonHandler = (ctx: SeedComponentHandlerDeps) =>
       return createElement("ToggleButton", commonProps, [
         props["Show Prefix Icon#6122:392"].value
           ? createElement("PrefixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Prefix Icon#6122:98"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Prefix Icon#6122:98"]),
             })
           : undefined,
         props["Label#6122:49"].value,
         props["Show Suffix Icon#6122:147"].value
           ? createElement("SuffixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Suffix Icon#6122:343"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Suffix Icon#6122:343"]),
             })
           : undefined,
       ]);

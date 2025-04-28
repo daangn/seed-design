@@ -11,7 +11,7 @@ export const createFabHandler = (ctx: SeedComponentHandlerDeps) =>
       return createElement(
         "Fab",
         undefined,
-        createElement(ctx.iconService.createIconTagName(props["Icon#28796:0"].componentKey)),
+        ctx.iconHandler.transform(props["Icon#28796:0"]),
         "aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
       );
     },

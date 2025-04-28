@@ -1,10 +1,10 @@
+import type { InlineBannerProperties } from "@/codegen/component-properties";
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import type { SeedComponentHandlerDeps } from "../deps.interface";
-import type { InlineBannerProperties } from "@/codegen/component-properties";
 
 export const createInlineBannerHandler = (ctx: SeedComponentHandlerDeps) =>
   defineComponentHandler<InlineBannerProperties>(metadata.inlineBanner.key, (node) => {
@@ -58,11 +58,8 @@ export const createInlineBannerHandler = (ctx: SeedComponentHandlerDeps) =>
       (child) => child.type === "INSTANCE" && child.name === "icon",
     ) as NormalizedInstanceNode | null;
 
-    const iconComponentKey =
-      props["Show Icon#11840:27"] && iconNode ? iconNode.componentKey : undefined;
-    const prefixIcon = iconComponentKey
-      ? createElement(ctx.iconService.createIconTagName(iconComponentKey))
-      : undefined;
+    const showIcon = props["Show Icon#11840:27"] && iconNode;
+    const prefixIcon = showIcon ? ctx.iconHandler.transform(iconNode) : undefined;
 
     const commonProps = {
       variant: camelCase(props.Variant.value),

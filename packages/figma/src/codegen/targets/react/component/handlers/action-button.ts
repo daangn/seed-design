@@ -17,9 +17,7 @@ export const createActionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
           layout: "iconOnly",
           children: [
             createElement("Icon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Icon#7574:0"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Icon#7574:0"]),
             }),
           ],
         }))
@@ -27,9 +25,7 @@ export const createActionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
           layout: "withText",
           children: [
             createElement("PrefixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Prefix Icon#5987:305"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Prefix Icon#5987:305"]),
             }),
             props["Label#5987:61"].value,
           ],
@@ -39,9 +35,7 @@ export const createActionButtonHandler = (ctx: SeedComponentHandlerDeps) =>
           children: [
             props["Label#5987:61"].value,
             createElement("SuffixIcon", {
-              svg: createElement(
-                ctx.iconService.createIconTagName(props["Suffix Icon#5987:244"].componentKey),
-              ),
+              svg: ctx.iconHandler.transform(props["Suffix Icon#5987:244"]),
             }),
           ],
         }))

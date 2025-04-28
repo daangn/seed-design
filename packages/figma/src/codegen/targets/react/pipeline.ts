@@ -1,7 +1,8 @@
 import { createCodeGenerator, type ComponentHandler } from "@/codegen/core";
-import { iconService, variableService } from "@/codegen/default-services";
+import { iconService } from "@/codegen/default-services";
 import { createSeedComponentHandlers } from "./component";
 import { createFrameTransformer } from "./frame";
+import { createIconHandler } from "./icon";
 import { createInstanceTransformer } from "./instance";
 import {
   createContainerLayoutPropsConverter,
@@ -29,9 +30,13 @@ export interface CreatePipelineConfig {
   };
 }
 
-const seedComponentHandlers = createSeedComponentHandlers({
+const iconHandler = createIconHandler({
   iconService,
-  variableService,
+});
+
+const seedComponentHandlers = createSeedComponentHandlers({
+  iconHandler,
+  valueResolver,
 });
 
 export function createPipeline(options: CreatePipelineConfig = {}) {
@@ -70,7 +75,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     propsConverters,
   });
   const instanceTransformer = createInstanceTransformer({
-    iconService,
+    iconHandler,
     propsConverters,
     componentHandlers,
     frameTransformer,
