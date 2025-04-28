@@ -1,4 +1,5 @@
 import type { ComponentHandler } from "@/codegen/core";
+import type { NormalizedInstanceNode } from "@/normalizer";
 import type { ComponentHandlerDeps } from "./deps.interface";
 import { createActionButtonHandler } from "./handlers/action-button";
 import { createActionChipHandler } from "./handlers/action-chip";
@@ -33,14 +34,14 @@ import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 
 export type { ComponentHandlerDeps };
-export type UnboundComponentHandler<T extends ComponentHandler<any>> = (
+export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
   deps: ComponentHandlerDeps,
-) => T;
+) => ComponentHandler<T>;
 
-export function bindComponentHandler<T extends UnboundComponentHandler<any>>(
-  unbound: T,
+export function bindComponentHandler<T extends NormalizedInstanceNode["componentProperties"]>(
+  unbound: UnboundComponentHandler<T>,
   deps: ComponentHandlerDeps,
-) {
+): ComponentHandler<T> {
   return unbound(deps);
 }
 
