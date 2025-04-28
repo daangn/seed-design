@@ -1,4 +1,4 @@
-export * from "./context";
+export * from "./pipeline";
 export * from "./frame";
 export * from "./instance";
 export * from "./props";

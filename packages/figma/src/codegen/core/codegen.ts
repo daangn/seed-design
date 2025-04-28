@@ -9,11 +9,12 @@ import type {
   NormalizedVectorNode,
 } from "@/normalizer";
 import { match } from "ts-pattern";
-import { appendSource, createElement, type ElementNode } from "../core/jsx";
-import type { ElementTransformer } from "./element";
+import { appendSource, createElement, stringifyElement, type ElementNode } from "../core/jsx";
+import { codegenOptionsContext, useCodegenOptions, type CodegenOptions } from "./context";
+import type { ElementTransformer } from "./element-transformer";
 import { applyInferredLayout, inferLayout } from "./infer-layout";
 
-export interface CodegenTransformerDeps {
+export interface CodeGeneratorDeps {
   frameTransformer: ElementTransformer<
     NormalizedFrameNode | NormalizedComponentNode | NormalizedInstanceNode
   >;
@@ -22,22 +23,22 @@ export interface CodegenTransformerDeps {
   instanceTransformer: ElementTransformer<NormalizedInstanceNode>;
   vectorTransformer: ElementTransformer<NormalizedVectorNode>;
   booleanOperationTransformer: ElementTransformer<NormalizedBooleanOperationNode>;
-  shouldInferAutoLayout: boolean;
 }
 
-export function createCodegenTransformer({
+export function createCodeGenerator({
   frameTransformer,
   textTransformer,
   rectangleTransformer,
   instanceTransformer,
   vectorTransformer,
   booleanOperationTransformer,
-  shouldInferAutoLayout,
-}: CodegenTransformerDeps): (node: NormalizedSceneNode) => ElementNode | undefined {
+}: CodeGeneratorDeps) {
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
       return;
     }
+
+    const { shouldInferAutoLayout } = useCodegenOptions();
 
     const result = match(node)
       .with({ type: "FRAME" }, (node) =>
@@ -61,5 +62,19 @@ export function createCodegenTransformer({
     return;
   }
 
-  return (node) => traverse(node);
+  function generateJsxTree(node: NormalizedSceneNode, options: CodegenOptions) {
+    return codegenOptionsContext.run(options, () => traverse(node));
+  }
+
+  function generateCode(
+    node: NormalizedSceneNode,
+    options: CodegenOptions & { shouldPrintSource: boolean },
+  ) {
+    const jsxTree = generateJsxTree(node, options);
+    return jsxTree
+      ? stringifyElement(jsxTree, { printSource: options.shouldPrintSource })
+      : undefined;
+  }
+
+  return { generateJsxTree, generateCode };
 }

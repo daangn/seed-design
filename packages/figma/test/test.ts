@@ -1,6 +1,6 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import fs from "fs";
-import { generateCode, generateFigmaSummary } from "../src/codegen";
+import { react } from "../src/codegen";
 import { createRestNormalizer } from "../src/normalizer/from-rest";
 
 const node = JSON.parse(
@@ -12,8 +12,9 @@ const normalizer = createRestNormalizer({
   components: node.components,
   componentSets: node.componentSets,
 });
+const pipeline = react.createPipeline();
 const normalizedNode = normalizer(node.document);
-const code = generateCode(normalizedNode, {
+const code = pipeline.generateCode(normalizedNode, {
   shouldInferAutoLayout: true,
   shouldInferVariableName: true,
 });

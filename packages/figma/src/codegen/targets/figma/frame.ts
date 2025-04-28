@@ -4,14 +4,14 @@ import type {
   NormalizedInstanceNode,
 } from "@/normalizer";
 import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
-import type { PropsTransformers } from "./props";
+import type { PropsConverters } from "./props";
 
 export interface FrameTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createFrameTransformer({
-  propsTransformers,
+  propsConverters,
 }: FrameTransformerDeps): ElementTransformer<
   NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode
 > {
@@ -20,11 +20,11 @@ export function createFrameTransformer({
       const children = node.children;
 
       const props = {
-        ...propsTransformers.radius(node, traverse),
-        ...propsTransformers.containerLayout(node, traverse),
-        ...propsTransformers.selfLayout(node, traverse),
-        ...propsTransformers.frameFill(node, traverse),
-        ...propsTransformers.stroke(node, traverse),
+        ...propsConverters.radius(node),
+        ...propsConverters.containerLayout(node),
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.frameFill(node),
+        ...propsConverters.stroke(node),
       };
 
       return createElement(
