@@ -9,14 +9,14 @@ import {
   defineElementTransformer,
   type ElementTransformer,
 } from "../../core";
-import type { ContainerLayoutProps, PropsTransformers } from "./props";
+import type { ContainerLayoutProps, PropsConverters } from "./props";
 
 export interface FrameTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createFrameTransformer({
-  propsTransformers,
+  propsConverters,
 }: FrameTransformerDeps): ElementTransformer<
   NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode
 > {
@@ -39,11 +39,11 @@ export function createFrameTransformer({
       const isFlex = node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL";
 
       const props = {
-        ...propsTransformers.radius(node, traverse),
-        ...(isFlex ? propsTransformers.containerLayout(node, traverse) : {}),
-        ...propsTransformers.selfLayout(node, traverse),
-        ...propsTransformers.frameFill(node, traverse),
-        ...propsTransformers.stroke(node, traverse),
+        ...propsConverters.radius(node),
+        ...(isFlex ? propsConverters.containerLayout(node) : {}),
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.frameFill(node),
+        ...propsConverters.stroke(node),
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";

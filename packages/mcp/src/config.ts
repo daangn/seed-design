@@ -1,13 +1,11 @@
-import type { ComponentTransformer } from "@seed-design/figma";
+import type { CreatePipelineConfig } from "@seed-design/figma/codegen/targets/react";
 import fs from "node:fs";
 import path from "node:path";
 import { logger } from "./logger";
 
 // Define config type
 export interface McpConfig {
-  extend?: {
-    componentTransformers?: ComponentTransformer[];
-  };
+  extend?: CreatePipelineConfig["extend"];
 }
 
 // Config loader

@@ -1,11 +1,6 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import {
-  createRestNormalizer,
-  generateCode,
-  generateFigmaSummary,
-  getFigmaColorVariableNames,
-} from "@seed-design/figma";
+import { createRestNormalizer, getFigmaColorVariableNames, react, figma } from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import {
@@ -23,6 +18,11 @@ export function registerTools(
 ): void {
   const { joinChannel, sendCommandToFigma } = figmaClient;
   const { extend } = config ?? {};
+
+  const figmaPipeline = figma.createPipeline();
+  const reactPipeline = react.createPipeline({
+    extend,
+  });
 
   // join_channel tool
   server.tool(
@@ -178,13 +178,13 @@ export function registerTools(
         const node = normalizer(result.document);
 
         const original =
-          generateFigmaSummary(node, {
+          figmaPipeline.generateCode(node, {
             shouldPrintSource: true,
             shouldInferVariableName: false,
             shouldInferAutoLayout: false,
           }) ?? "Failed to generate summarized node info";
         const inferred =
-          generateFigmaSummary(node, {
+          figmaPipeline.generateCode(node, {
             shouldPrintSource: true,
             shouldInferVariableName: false,
             shouldInferAutoLayout: true,
@@ -222,13 +222,13 @@ export function registerTools(
             const node = normalizer(result.document);
 
             const original =
-              generateFigmaSummary(node, {
+              figmaPipeline.generateCode(node, {
                 shouldInferVariableName: false,
                 shouldPrintSource: true,
                 shouldInferAutoLayout: false,
               }) ?? "Failed to generate summarized node info";
             const inferred =
-              generateFigmaSummary(node, {
+              figmaPipeline.generateCode(node, {
                 shouldInferVariableName: true,
                 shouldPrintSource: true,
                 shouldInferAutoLayout: false,
@@ -264,11 +264,10 @@ export function registerTools(
         const normalizer = createRestNormalizer(result);
 
         const code =
-          generateCode(normalizer(result.document), {
+          reactPipeline.generateCode(normalizer(result.document), {
             shouldInferVariableName: true,
             shouldPrintSource: false,
             shouldInferAutoLayout: true,
-            extend,
           }) ?? "Failed to generate code";
 
         return formatTextResponse(code);
