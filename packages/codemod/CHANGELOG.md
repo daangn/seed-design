@@ -1,5 +1,17 @@
 # @seed-design/codemod
 
+## 0.0.22
+
+### Patch Changes
+
+- b89ef88: - replace-custom-seed-design-vars를 추가해요
+  - replace-custom-imported-typography-variable를 추가해요
+  - replace-custom-seed-design-typography를 추가해요
+  - replace-custom-seed-design-color를 추가해요
+  - replace-seed-design-token-typography-classname VE에서 잘 변경되지 않던 이슈를 해결해요
+- 03cc680: transform logger의 이름을 transform 이름과 동일하게 수정해요
+- e368c69: 패키지 의존성을 최신화합니다.
+
 ## 0.0.21
 
 ### Patch Changes
