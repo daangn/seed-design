@@ -1,6 +1,5 @@
 import { useActivity } from "@stackflow/react";
 import { ActivityComponentType, useFlow } from "@stackflow/react/future";
-import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -29,9 +28,7 @@ const AlertDialogStackflow: ActivityComponentType<"alert-dialog-stackflow"> = ()
           <AlertDialogDescription>Stackflow</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction asChild>
-            <ActionButton variant="neutralSolid">확인</ActionButton>
-          </AlertDialogAction>
+          <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

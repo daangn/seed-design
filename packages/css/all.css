@@ -812,6 +812,8 @@
   --seed-box-flex-grow: initial;
   flex-shrink: 0;
   flex-grow: var(--seed-box-flex-grow);
+  --seed-box-min-width: var(--seed-box-min-width);
+  min-width: var(--seed-box-min-width);
   border: none;
   justify-content: center;
   align-items: center;

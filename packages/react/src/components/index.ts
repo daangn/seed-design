@@ -32,6 +32,7 @@ export * from "./NotificationBadge";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
 export * from "./ReactionButton";
+export * from "./ResponsivePair";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Skeleton";

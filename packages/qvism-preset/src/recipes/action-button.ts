@@ -25,6 +25,8 @@ const actionButton = defineRecipe({
 
     "--seed-box-flex-grow": "initial",
     flexGrow: "var(--seed-box-flex-grow)",
+    "--seed-box-min-width": "var(--seed-box-min-width)",
+    minWidth: "var(--seed-box-min-width)",
 
     [pseudo(focus)]: {
       outline: "none",

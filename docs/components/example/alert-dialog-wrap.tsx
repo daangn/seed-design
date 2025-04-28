@@ -1,4 +1,5 @@
-import { ResponsivePair } from "@seed-design/react";
+import { PrefixIcon, ResponsivePair } from "@seed-design/react";
+import { IconCheckFill } from "@seed-design/react-icon";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -11,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "seed-design/ui/alert-dialog";
 
-const AlertDialogNeutral = () => {
+const AlertDialogWrap = () => {
   return (
     // You can set z-index dialog with "--layer-index" custom property. useful for stackflow integration.
     <AlertDialogRoot>
@@ -20,14 +21,18 @@ const AlertDialogNeutral = () => {
       </AlertDialogTrigger>
       <AlertDialogContent layerIndex={50}>
         <AlertDialogHeader>
-          <AlertDialogTitle>제목</AlertDialogTitle>
-          <AlertDialogDescription>중립적인 선택지를 제공합니다.</AlertDialogDescription>
+          <AlertDialogTitle>Wrapping</AlertDialogTitle>
+          <AlertDialogDescription>
+            ResponsivePair 컴포넌트를 사용해 버튼 컨텐츠가 길어지는 경우 레이아웃을 세로로 접을 수
+            있습니다.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {/* ResponsivePair component wraps layout if button content is too long. */}
           <ResponsivePair gap="x2">
             <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
-            <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
+            <AlertDialogAction variant="neutralSolid">
+              <PrefixIcon svg={<IconCheckFill />} />긴 레이블 예시
+            </AlertDialogAction>
           </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -35,4 +40,4 @@ const AlertDialogNeutral = () => {
   );
 };
 
-export default AlertDialogNeutral;
+export default AlertDialogWrap;
