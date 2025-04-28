@@ -63,7 +63,7 @@ export function createContainerLayoutPropsConverter(
       primaryAxisAlignItems: ({ primaryAxisAlignItems }) => primaryAxisAlignItems,
       counterAxisAlignItems: ({ counterAxisAlignItems }) => counterAxisAlignItems,
       layoutWrap: ({ layoutWrap }) => layoutWrap,
-      itemSpacing: ({ itemSpacing }) => itemSpacing,
+      itemSpacing: (node) => valueResolver.getFormattedValue.itemSpacing(node),
       paddingTop: (node) => valueResolver.getFormattedValue.paddingTop(node),
       paddingBottom: (node) => valueResolver.getFormattedValue.paddingBottom(node),
       paddingLeft: (node) => valueResolver.getFormattedValue.paddingLeft(node),
