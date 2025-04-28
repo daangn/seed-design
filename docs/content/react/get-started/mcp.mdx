@@ -108,12 +108,12 @@ bunx --bun @seed-design/mcp --config /path/to/config.ts
 ### 설정 파일 예시
 
 ```typescript
-import { defineComponentTransformer, createElement } from "@seed-design/figma";
+import { type react, defineComponentHandler, createElement } from "@seed-design/figma";
 
 export default {
   extend: {
-    componentTransformers: [
-      defineComponentTransformer(
+    componentHandlers: [
+      (_deps: react.ComponentHandlerDeps) => defineComponentHandler(
         "figma_component_key",
         ({ componentProperties: props }) => {
           const tone = props.Tone.value.toLowerCase();
@@ -128,10 +128,10 @@ export default {
       )
     ]
   },
-};
+} satisfies react.CreatePipelineConfig;
 ```
 
-### MCP로 ComponentTransformer 작성하기
+### MCP로 ComponentHandler 작성하기
 
 <Steps>
 <Step>
@@ -142,7 +142,7 @@ export default {
 Cursor IDE를 사용하는 경우, [Cursor rule](https://docs.cursor.com/context/rules)로 저장할 수 있습니다.
 
 ```markdown
-# ComponentTransformer Implementation Guide
+# ComponentHandler Implementation Guide
 
 ## Initial Context Gathering
 
@@ -170,14 +170,15 @@ Cursor IDE를 사용하는 경우, [Cursor rule](https://docs.cursor.com/context
 
 ## Implementation
 
-5. **Create Component Transformer**:
-   - Implement the transformer using the following pattern:
+5. **Create Component Handler**:
+   - Implement the handler using the following pattern:
 
 \`\`\`typescript
 import {
   createElement,
-  defineComponentTransformer,
+  defineComponentHandler,
   type InferComponentDefinition,
+  type react,
 } from "@seed-design/figma";
 
 // Define component properties based on Figma definition
@@ -191,8 +192,8 @@ export type ComponentNameProperties = InferComponentDefinition<{
   }
 }>;
 
-// Create and export the transformer
-export const componentNameTransformer = defineComponentTransformer<ComponentNameProperties>(
+// Create and export the handler
+export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) => defineComponentHandler<ComponentNameProperties>(
   "component-key-from-figma", // Replace with actual component key
   ({ componentProperties: props }) => {
     // Transform Figma properties to React props
@@ -214,8 +215,8 @@ export const componentNameTransformer = defineComponentTransformer<ComponentName
 
 ## Validation and Testing
 
-6. **Verify Transformer Functionality**:
-   - Test the transformer with different component variants
+6. **Verify Handler Functionality**:
+   - Test the handler with different component variants
    - Ensure all properties are correctly mapped and transformed
    - Check that nested components and children are handled properly
 
@@ -235,19 +236,20 @@ export const componentNameTransformer = defineComponentTransformer<ComponentName
 
 **예시**:
 ```bash
-@CustomButton.tsx @ComponentTransformerRule.md CustomButton 컴포넌트의 ComponentTransformer를 구현해주세요.
+@CustomButton.tsx @ComponentHandlerRule.md CustomButton 컴포넌트의 ComponentHandler를 구현해주세요.
 ```
 </Step>
 <Step>
 #### 3. 결과 확인
-프롬프트 실행 결과로 생성된 ComponentTransformer를 확인합니다.
+프롬프트 실행 결과로 생성된 ComponentHandler를 확인합니다.
 
 **예시**
 ```typescript
 import {
   createElement,
-  defineComponentTransformer,
+  defineComponentHandler,
   type InferComponentDefinition,
+  type react,
 } from "@seed-design/figma";
 
 export type CustomButtonProperties = InferComponentDefinition<{
@@ -257,7 +259,7 @@ export type CustomButtonProperties = InferComponentDefinition<{
   };
 }>;
 
-export const customButtonTransformer = defineComponentTransformer<CustomButtonProperties>(
+export const createCustomButtonHandler = (_deps: react.ComponentHandlerDeps) => defineComponentHandler<CustomButtonProperties>(
   "figma_component_key",
   ({ componentProperties: props }) => {
     const tone = props.tone.value.toLowerCase();
@@ -275,18 +277,19 @@ export const customButtonTransformer = defineComponentTransformer<CustomButtonPr
 <Step>
 #### 4. 설정 파일 적용
 
-생성된 ComponentTransformer를 설정 파일에 추가합니다.
+생성된 ComponentHandler를 설정 파일에 추가합니다.
 
 ```typescript
-import { customButtonTransformer } from "./CustomButton";
+import { type react } from "@seed-design/figma";
+import { createCustomButtonHandler } from "./CustomButton";
 
 export default {
   extend: {
-    componentTransformers: [
-      customButtonTransformer,
+    componentHandlers: [
+      createCustomButtonHandler,
     ]
   },
-};
+} satisfies react.CreatePipelineConfig;
 ```
 </Step>
 </Steps>
