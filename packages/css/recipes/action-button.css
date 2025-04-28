@@ -16,6 +16,8 @@
     font-family: inherit;
     --seed-box-flex-grow: initial;
     flex-grow: var(--seed-box-flex-grow);
+    --seed-box-min-width: var(--seed-box-min-width);
+    min-width: var(--seed-box-min-width);
 }
 .seed-action-button:is(:focus, [data-focus]) {
     outline: none;

@@ -23,9 +23,7 @@ const AlertDialogSingle = () => {
           <AlertDialogDescription>단일 선택지를 제공합니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction asChild>
-            <ActionButton variant="neutralSolid">확인</ActionButton>
-          </AlertDialogAction>
+          <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>
