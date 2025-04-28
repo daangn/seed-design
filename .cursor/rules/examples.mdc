@@ -12,7 +12,12 @@ UI and Styling
   - `Flex`
   - `VStack`
   - `HStack`
+  - `Grid`
+  - `Divider`
   - `Text`
+  - `ActionChip`
+  - `Badge`
+  - `Skeleton`
   - `Icon`
   - `PrefixIcon`
   - `SuffixIcon`
