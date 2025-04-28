@@ -18,7 +18,7 @@
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.22",
     "@seed-design/css": "0.0.21",
-    "@seed-design/figma": "0.0.21",
+    "@seed-design/figma": "0.0.22",
     "@seed-design/migration-index": "0.0.20",
     "@seed-design/react": "0.0.21",
     "@seed-design/vite-plugin": "0.0.21",

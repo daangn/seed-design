@@ -1,5 +1,11 @@
 # @seed-design/figma
 
+## 0.0.22
+
+### Patch Changes
+
+- 6c0133a: 커스텀 컴포넌트를 등록할 수 있도록 extend.componentHandlers 설정을 제공합니다.
+
 ## 0.0.21
 
 ### Patch Changes
