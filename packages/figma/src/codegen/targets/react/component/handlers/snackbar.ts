@@ -1,10 +1,10 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { SnackbarProperties } from "@/codegen/component-properties";
 
-export const createSnackbarHandler = (_ctx: SeedComponentHandlerDeps) =>
+export const createSnackbarHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SnackbarProperties>(
     metadata.snackbar.key,
     ({ componentProperties: props }) => {

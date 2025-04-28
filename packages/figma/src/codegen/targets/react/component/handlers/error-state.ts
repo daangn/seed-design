@@ -2,11 +2,11 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ActionButtonProperties, ErrorStateProperties } from "@/codegen/component-properties";
 import { createActionButtonHandler } from "./action-button";
 
-export const createErrorStateHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createErrorStateHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonHandler = createActionButtonHandler(ctx);
 
   return defineComponentHandler<ErrorStateProperties>(metadata.errorState.key, (node) => {

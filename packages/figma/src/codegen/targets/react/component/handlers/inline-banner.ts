@@ -4,9 +4,9 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 
-export const createInlineBannerHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createInlineBannerHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<InlineBannerProperties>(metadata.inlineBanner.key, (node) => {
     const { componentProperties: props } = node;
 

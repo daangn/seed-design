@@ -1,14 +1,14 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   AvatarProperties,
   IdentityPlaceholderProperties,
 } from "@/codegen/component-properties";
 import { createIdentityPlaceholderHandler } from "./identity-placeholder";
 
-export const createAvatarHandler = (ctx: SeedComponentHandlerDeps) => {
+export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
   const identityPlaceholderHandler = createIdentityPlaceholderHandler(ctx);
 
   return defineComponentHandler<AvatarProperties>(metadata.avatar.key, (node) => {

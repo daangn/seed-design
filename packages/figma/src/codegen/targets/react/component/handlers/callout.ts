@@ -2,10 +2,10 @@ import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedTextNode } from "@/normalizer";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { CalloutProperties } from "@/codegen/component-properties";
 
-export const createCalloutHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CalloutProperties>(
     metadata.callout.key,
     ({ componentProperties: props, children }) => {

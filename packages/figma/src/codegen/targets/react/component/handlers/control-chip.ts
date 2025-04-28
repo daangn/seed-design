@@ -1,11 +1,11 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ControlChipProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createControlChipHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createControlChipHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ControlChipProperties>(
     metadata.controlChip.key,
     ({ componentProperties: props }) => {

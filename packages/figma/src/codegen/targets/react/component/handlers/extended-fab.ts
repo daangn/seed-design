@@ -1,11 +1,11 @@
 import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ExtendedFabProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
-export const createExtendedFabHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createExtendedFabHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ExtendedFabProperties>(
     metadata.extendedFloatingActionButton.key,
     ({ componentProperties: props }) => {

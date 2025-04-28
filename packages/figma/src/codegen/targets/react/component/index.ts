@@ -1,5 +1,5 @@
 import type { ComponentHandler } from "@/codegen/core";
-import type { SeedComponentHandlerDeps } from "./deps.interface";
+import type { ComponentHandlerDeps } from "./deps.interface";
 import { createActionButtonHandler } from "./handlers/action-button";
 import { createActionChipHandler } from "./handlers/action-chip";
 import { createActionSheetHandler } from "./handlers/action-sheet";
@@ -32,41 +32,49 @@ import { createTextButtonHandler } from "./handlers/text-button";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 
-export type { SeedComponentHandlerDeps };
+export type { ComponentHandlerDeps };
+export type UnboundComponentHandler<T extends ComponentHandler<any>> = (
+  deps: ComponentHandlerDeps,
+) => T;
 
-export const createSeedComponentHandlers = (
-  ctx: SeedComponentHandlerDeps,
-): ComponentHandler<any>[] => [
-  createActionButtonHandler(ctx),
-  createActionChipHandler(ctx),
-  createActionSheetHandler(ctx),
-  createAppBarHandler(ctx),
-  createAvatarHandler(ctx),
-  createAvatarStackHandler(ctx),
-  createBadgeHandler(ctx),
-  createCalloutHandler(ctx),
-  createCheckboxHandler(ctx),
-  createChipTabsHandler(ctx),
-  createControlChipHandler(ctx),
-  createErrorStateHandler(ctx),
-  createExtendedActionSheetHandler(ctx),
-  createExtendedFabHandler(ctx),
-  createFabHandler(ctx),
-  createHelpBubbleHandler(ctx),
-  createIdentityPlaceholderHandler(ctx),
-  createInlineBannerHandler(ctx),
-  createMannerTempBadgeHandler(ctx),
-  createMultilineTextFieldHandler(ctx),
-  createProgressCircleHandler(ctx),
-  createReactionButtonHandler(ctx),
-  createSegmentedControlHandler(ctx),
-  createSelectBoxGroupHandler(ctx),
-  createSelectBoxHandler(ctx),
-  createSkeletonHandler(ctx),
-  createSnackbarHandler(ctx),
-  createSwitchHandler(ctx),
-  createTabsHandler(ctx),
-  createTextButtonHandler(ctx),
-  createTextFieldHandler(ctx),
-  createToggleButtonHandler(ctx),
+export function bindComponentHandler<T extends UnboundComponentHandler<any>>(
+  unbound: T,
+  deps: ComponentHandlerDeps,
+) {
+  return unbound(deps);
+}
+
+export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> = [
+  createActionButtonHandler,
+  createActionChipHandler,
+  createActionSheetHandler,
+  createAppBarHandler,
+  createAvatarHandler,
+  createAvatarStackHandler,
+  createBadgeHandler,
+  createCalloutHandler,
+  createCheckboxHandler,
+  createChipTabsHandler,
+  createControlChipHandler,
+  createErrorStateHandler,
+  createExtendedActionSheetHandler,
+  createExtendedFabHandler,
+  createFabHandler,
+  createHelpBubbleHandler,
+  createIdentityPlaceholderHandler,
+  createInlineBannerHandler,
+  createMannerTempBadgeHandler,
+  createMultilineTextFieldHandler,
+  createProgressCircleHandler,
+  createReactionButtonHandler,
+  createSegmentedControlHandler,
+  createSelectBoxGroupHandler,
+  createSelectBoxHandler,
+  createSkeletonHandler,
+  createSnackbarHandler,
+  createSwitchHandler,
+  createTabsHandler,
+  createTextButtonHandler,
+  createTextFieldHandler,
+  createToggleButtonHandler,
 ];

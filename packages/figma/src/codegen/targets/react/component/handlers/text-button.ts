@@ -5,10 +5,10 @@ import type { NormalizedInstanceNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
-import type { SeedComponentHandlerDeps } from "../deps.interface";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
-export const createTextButtonHandler = (ctx: SeedComponentHandlerDeps) =>
+export const createTextButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TextButtonProperties>(metadata.textButton.key, (node) => {
     const { componentProperties: props } = node;
 
