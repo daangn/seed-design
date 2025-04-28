@@ -19,7 +19,6 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-subtle);
     --seed-icon-color: var(--seed-color-fg-neutral);
-    --seed-count-line-height: 1px;
     --seed-count-font-weight: var(--seed-font-weight-medium);
     --seed-count-color: var(--seed-color-fg-neutral-muted);
 }

@@ -25,7 +25,6 @@
     color: var(--seed-color-fg-neutral);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
-    --seed-count-line-height: 1px;
     --seed-count-font-weight: var(--seed-font-weight-bold);
     --seed-count-color: var(--seed-color-fg-neutral);
 }
