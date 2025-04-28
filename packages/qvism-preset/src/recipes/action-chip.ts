@@ -16,6 +16,7 @@ const actionChip = defineRecipe({
     border: "none",
     textTransform: "none",
     textAlign: "start",
+    whiteSpace: "nowrap",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     flexShrink: 0,
@@ -59,6 +60,7 @@ const actionChip = defineRecipe({
         paddingBlock: vars.sizeMedium.enabled.root.paddingY,
         gap: vars.sizeMedium.enabled.root.gap,
         fontSize: vars.sizeMedium.enabled.label.fontSize,
+        lineHeight: vars.sizeMedium.enabled.label.lineHeight,
 
         ...count({
           fontSize: vars.sizeMedium.enabled.count.fontSize,
@@ -72,6 +74,7 @@ const actionChip = defineRecipe({
         paddingBlock: vars.sizeSmall.enabled.root.paddingY,
         gap: vars.sizeSmall.enabled.root.gap,
         fontSize: vars.sizeSmall.enabled.label.fontSize,
+        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
 
         ...count({
           fontSize: vars.sizeSmall.enabled.count.fontSize,

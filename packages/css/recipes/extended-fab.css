@@ -6,6 +6,8 @@
     cursor: pointer;
     border: none;
     text-transform: none;
+    white-space: nowrap;
+    vertical-align: middle;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;

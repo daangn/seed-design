@@ -16,6 +16,8 @@ const reactionButton = defineRecipe({
     cursor: "pointer",
     border: "none",
     textTransform: "none",
+    whiteSpace: "nowrap",
+    verticalAlign: "middle",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",

@@ -334,6 +334,10 @@
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
                 }
               },
               "prefixIcon": {
@@ -386,6 +390,10 @@
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
                 }
               },
               "prefixIcon": {

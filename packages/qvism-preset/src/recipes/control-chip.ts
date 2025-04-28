@@ -16,6 +16,7 @@ const controlChip = defineRecipe({
     border: "none",
     textTransform: "none",
     textAlign: "start",
+    whiteSpace: "nowrap",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     flexShrink: 0,
@@ -73,6 +74,7 @@ const controlChip = defineRecipe({
         paddingBlock: vars.sizeMedium.enabled.root.paddingY,
         gap: vars.sizeMedium.enabled.root.gap,
         fontSize: vars.sizeMedium.enabled.label.fontSize,
+        lineHeight: vars.sizeMedium.enabled.label.lineHeight,
 
         ...prefixIcon({ size: vars.sizeMedium.enabled.prefixIcon.size }),
         ...suffixIcon({ size: vars.sizeMedium.enabled.suffixIcon.size }),
@@ -86,6 +88,7 @@ const controlChip = defineRecipe({
         paddingBlock: vars.sizeSmall.enabled.root.paddingY,
         gap: vars.sizeSmall.enabled.root.gap,
         fontSize: vars.sizeSmall.enabled.label.fontSize,
+        lineHeight: vars.sizeSmall.enabled.label.lineHeight,
 
         ...prefixIcon({ size: vars.sizeSmall.enabled.prefixIcon.size }),
         ...suffixIcon({ size: vars.sizeSmall.enabled.suffixIcon.size }),

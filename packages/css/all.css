@@ -805,6 +805,8 @@
   box-sizing: border-box;
   cursor: pointer;
   text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --seed-box-flex-grow: initial;
@@ -1041,6 +1043,7 @@
   padding-inline: var(--seed-dimension-x3_5);
   padding-block: var(--seed-dimension-x1_5);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
 }
 
 .seed-action-button--size_xsmall-layout_iconOnly {
@@ -1054,6 +1057,7 @@
   padding-inline: var(--seed-dimension-x3_5);
   padding-block: var(--seed-dimension-x2);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
 }
 
 .seed-action-button--size_small-layout_iconOnly {
@@ -1067,6 +1071,7 @@
   padding-inline: var(--seed-dimension-x4);
   padding-block: var(--seed-dimension-x2_5);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
 }
 
 .seed-action-button--size_medium-layout_iconOnly {
@@ -1080,6 +1085,7 @@
   padding-inline: var(--seed-dimension-x5);
   padding-block: var(--seed-dimension-x3_5);
   font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
 }
 
 .seed-action-button--size_large-layout_iconOnly {
@@ -1092,6 +1098,8 @@
   box-sizing: border-box;
   cursor: pointer;
   text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border: none;
@@ -1208,6 +1216,7 @@
   padding-inline: var(--seed-dimension-x3_5);
   padding-block: var(--seed-dimension-x1_5);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --size: 14px;
   --thickness: 2px;
   --seed-prefix-icon-size: var(--seed-dimension-x3_5);
@@ -1221,6 +1230,7 @@
   padding-inline: var(--seed-dimension-x4);
   padding-block: var(--seed-dimension-x2);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --size: 14px;
   --thickness: 2px;
   --seed-prefix-icon-size: var(--seed-dimension-x3_5);
@@ -1231,6 +1241,8 @@
   box-sizing: border-box;
   cursor: pointer;
   text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border: none;
@@ -1858,6 +1870,8 @@
   box-sizing: border-box;
   cursor: pointer;
   text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border: none;
@@ -2403,6 +2417,7 @@
   cursor: pointer;
   text-transform: none;
   text-align: start;
+  white-space: nowrap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: inherit;
@@ -2446,6 +2461,7 @@
   padding-block: var(--seed-dimension-x2);
   gap: var(--seed-dimension-x1);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --seed-count-font-size: var(--seed-font-size-t4);
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x3_5);
@@ -2457,6 +2473,7 @@
   padding-block: var(--seed-dimension-x1_5);
   gap: var(--seed-dimension-x1);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --seed-count-font-size: var(--seed-font-size-t4);
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x3_5);
@@ -2484,6 +2501,7 @@
   cursor: pointer;
   text-transform: none;
   text-align: start;
+  white-space: nowrap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: var(--seed-radius-full);
@@ -2541,6 +2559,7 @@
   padding-block: var(--seed-dimension-x2);
   gap: var(--seed-dimension-x1);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x3_5);
   --seed-icon-size: var(--seed-dimension-x4);
@@ -2552,6 +2571,7 @@
   padding-block: var(--seed-dimension-x1_5);
   gap: var(--seed-dimension-x1);
   font-size: var(--seed-font-size-t4);
+  line-height: var(--seed-line-height-t4);
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x3_5);
   --seed-icon-size: var(--seed-dimension-x4);
