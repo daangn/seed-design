@@ -21,10 +21,13 @@ export type InferComponentDefinition<T extends Record<string, ComponentPropertyD
   [K in keyof T]: {
     type: T[K]["type"];
     value: InferComponentPropertyType<T[K]>;
-    componentKey?: string;
-    preferredValues?: InstanceSwapPreferredValue[];
     readonly boundVariables?: {
       [field in VariableBindableComponentPropertyField]?: VariableAlias;
     };
-  };
+  } & (T[K]["type"] extends "INSTANCE_SWAP"
+    ? {
+        componentKey: string;
+        preferredValues: InstanceSwapPreferredValue[];
+      }
+    : {});
 };

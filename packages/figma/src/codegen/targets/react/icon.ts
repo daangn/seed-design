@@ -3,8 +3,8 @@ import { pascalCase } from "change-case";
 import { type ElementNode, createElement } from "../../core";
 
 export interface IconHandler {
-  isIconInstance: (node: { componentKey?: string }) => boolean;
-  transform: (node: { componentKey?: string }) => ElementNode;
+  isIconInstance: (node: { componentKey: string }) => boolean;
+  transform: (node: { componentKey: string }) => ElementNode;
 }
 
 export interface IconHandlerDeps {
@@ -19,7 +19,7 @@ export function createIconHandler({
   iconService,
   iconNameFormatter = defaultIconNameFormatter,
 }: IconHandlerDeps): IconHandler {
-  function isIconInstance(node: { componentKey?: string }) {
+  function isIconInstance(node: { componentKey: string }): boolean {
     const key = node.componentKey;
 
     if (!key) {
@@ -29,13 +29,8 @@ export function createIconHandler({
     return iconService.isAvailable(key);
   }
 
-  function transform(node: { componentKey?: string }) {
+  function transform(node: { componentKey: string }): ElementNode {
     const key = node.componentKey;
-
-    if (!key) {
-      return createElement("UnknownIcon");
-    }
-
     const iconData = iconService.getOne(key);
     if (!iconData) {
       return createElement("UnknownIcon");
