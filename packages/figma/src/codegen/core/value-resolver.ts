@@ -133,7 +133,13 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
       return undefined;
     }
 
-    return variableService.infer(value, scope)?.name;
+    const inferred = variableService.infer(value, scope);
+
+    if (!inferred) {
+      return undefined;
+    }
+
+    return getVariableName(inferred.key);
   }
 
   function getStyleName(key: string) {
