@@ -195,7 +195,9 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
       setResults(payload.results);
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // 컬러 변수 적용

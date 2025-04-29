@@ -56,18 +56,13 @@ function useMigrationState() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribeSelection = events("announce-selection").on((data) => {
+    events("announce-selection").on((data) => {
       setSelections(data.serializedSelections);
     });
 
-    const unsubscribeTarget = events("announce-target").on((data) => {
+    events("announce-target").on((data) => {
       setTargets(data.serializedTargets);
     });
-
-    return () => {
-      unsubscribeSelection();
-      unsubscribeTarget();
-    };
   }, []);
 
   const scanCurrentTab = () => {
@@ -76,19 +71,19 @@ function useMigrationState() {
     switch (currentTab) {
       case "colors":
         events("request-color-suggestions").emit({
-          nodeIds: selections.map(({ id }) => id),
+          nodeIds: targets.map(({ id }) => id),
         });
         break;
 
       case "typography":
         events("request-text-style-suggestions").emit({
-          nodeIds: selections.map(({ id }) => id),
+          nodeIds: targets.map(({ id }) => id),
         });
         break;
 
       case "components":
         events("request-component-suggestions").emit({
-          nodeIds: selections.map(({ id }) => id),
+          nodeIds: targets.map(({ id }) => id),
         });
         break;
     }

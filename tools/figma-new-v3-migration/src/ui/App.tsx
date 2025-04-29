@@ -8,8 +8,11 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 import { events } from "shared/event";
 import type { FigmaMetadata } from "shared/types";
 import { ColorSection } from "./color-section";
+import { ColorMigrationProvider } from "./color-section/context";
 import { ComponentSection } from "./component-section";
+import { ComponentSectionProvider } from "./component-section/context";
 import { TypographySection } from "./typography-section";
+import { TypographyMigrationProvider } from "./typography-section/context";
 
 // FigmaMetadata 컨텍스트
 interface FigmaMetadataContextType {
@@ -107,7 +110,13 @@ export default function App() {
   return (
     <FigmaMetadataProvider>
       <MigrationProvider>
-        <Steps />
+        <ColorMigrationProvider>
+          <TypographyMigrationProvider>
+            <ComponentSectionProvider>
+              <Steps />
+            </ComponentSectionProvider>
+          </TypographyMigrationProvider>
+        </ColorMigrationProvider>
       </MigrationProvider>
     </FigmaMetadataProvider>
   );

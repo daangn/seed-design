@@ -60,7 +60,6 @@ function getFigmaMetadata(): FigmaMetadata {
 async function main() {
   figma.skipInvisibleInstanceChildren = true;
 
-  let currentTarget: SceneNode[] = [...figma.currentPage.selection];
   const currentPreferences = await loadSettingsAsync(DEFAULT_PREFERENCES, SETTINGS_KEY);
 
   // Figma 메타데이터 전송
@@ -76,8 +75,17 @@ async function main() {
   });
 
   events("request-component-suggestions").on(async ({ nodeIds }) => {
-    const results = await getComponentInSelection({ nodeIds });
-    console.log("results", results);
+    let targetIds = nodeIds;
+
+    if (nodeIds.length === 0) {
+      const currentTarget = [...figma.currentPage.selection];
+      events("announce-target").emit({
+        serializedTargets: currentTarget.map(serializeBaseNode),
+      });
+      targetIds = currentTarget.map(({ id }) => id);
+    }
+
+    const results = await getComponentInSelection({ nodeIds: targetIds });
 
     events("suggest-components").emit({ results });
     figma.notify("컴포넌트 검사가 완료되었습니다.", {
@@ -87,11 +95,11 @@ async function main() {
 
   // 현재 선택 및 타겟 노드 정보 전송
   events("announce-selection").emit({
-    serializedSelections: currentTarget.map(serializeBaseNode),
+    serializedSelections: [...figma.currentPage.selection].map(serializeBaseNode),
   });
 
   events("announce-target").emit({
-    serializedTargets: currentTarget.map(serializeBaseNode),
+    serializedTargets: [...figma.currentPage.selection].map(serializeBaseNode),
   });
 
   // 노드 포커스 이벤트 처리
@@ -116,10 +124,6 @@ async function main() {
       (node) => node !== null && node.type !== "DOCUMENT" && node.type !== "PAGE",
     ) as SceneNode[];
 
-    if (nodes.length > 0) {
-      currentTarget = nodes;
-    }
-
     events("announce-target").emit({
       serializedTargets: nodes.map(serializeBaseNode),
     });
@@ -127,9 +131,19 @@ async function main() {
 
   // 텍스트 스타일 제안 요청 처리
   events("request-text-style-suggestions").on(async ({ nodeIds }) => {
+    let targetIds = nodeIds;
+
+    if (nodeIds.length === 0) {
+      const currentTarget = [...figma.currentPage.selection];
+      events("announce-target").emit({
+        serializedTargets: currentTarget.map(serializeBaseNode),
+      });
+      targetIds = currentTarget.map(({ id }) => id);
+    }
+
     try {
       const results = await getSerializedTextStyleSuggestions({
-        nodeIds,
+        nodeIds: targetIds,
         systemComponentKeys: [],
       });
 
@@ -153,9 +167,19 @@ async function main() {
 
   // 컬러 제안 요청 처리
   events("request-color-suggestions").on(async ({ nodeIds }) => {
+    let targetIds = nodeIds;
+
+    if (nodeIds.length === 0) {
+      const currentTarget = [...figma.currentPage.selection];
+      events("announce-target").emit({
+        serializedTargets: currentTarget.map(serializeBaseNode),
+      });
+      targetIds = currentTarget.map(({ id }) => id);
+    }
+
     try {
       const results = await getColorVariableSuggestions({
-        nodeIds,
+        nodeIds: targetIds,
         systemComponentKeys:
           currentPreferences["inspect-v2-components-on-color-migration"] === true
             ? SYSTEM_COMPONENT_KEYS_V3_ONLY

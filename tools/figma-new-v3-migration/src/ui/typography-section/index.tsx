@@ -1,19 +1,11 @@
 import { Box, Flex } from "@seed-design/react";
 import { Footer } from "common/components/footer";
 import type { GroupedSerializedTextStyleSuggestionsResults } from "shared/types";
-import { TypographyMigrationProvider, useTypographyMigration } from "./context";
+import { useTypographyMigration } from "./context";
 import { TextStylesList } from "./list";
 import { Result } from "./result";
 
 export function TypographySection() {
-  return (
-    <TypographyMigrationProvider>
-      <TypographySectionContent />
-    </TypographyMigrationProvider>
-  );
-}
-
-function TypographySectionContent() {
   const { results, applyTextStyle, requestSuggestions, setResults } = useTypographyMigration();
 
   // 자동 연결 가능한 노드 개수 계산

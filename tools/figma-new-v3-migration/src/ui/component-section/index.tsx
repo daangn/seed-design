@@ -1,17 +1,9 @@
 import { Flex } from "@seed-design/react";
 import { Footer } from "common/components/footer";
-import { ComponentSectionProvider, useComponentSection } from "./context";
+import { useComponentSection } from "./context";
 import { ComponentSuggestionsList } from "./list";
 
 export function ComponentSection() {
-  return (
-    <ComponentSectionProvider>
-      <ComponentSectionContent />
-    </ComponentSectionProvider>
-  );
-}
-
-function ComponentSectionContent() {
   const { swapAllComponents, selectedVariants, migrationTargets } = useComponentSection();
 
   return (

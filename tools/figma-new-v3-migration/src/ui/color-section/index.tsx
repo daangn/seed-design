@@ -2,19 +2,11 @@ import { Box, Flex } from "@seed-design/react";
 import { Footer } from "common/components/footer";
 import { SEED_V3_LIBRARY_VARIABLE_PREFIXES } from "shared/constants";
 import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
-import { ColorMigrationProvider, useColorMigration } from "./context";
+import { useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";
 
 export function ColorSection() {
-  return (
-    <ColorMigrationProvider>
-      <ColorSectionContent />
-    </ColorMigrationProvider>
-  );
-}
-
-function ColorSectionContent() {
   const { results, applyColorVariable, requestSuggestions, setResults } = useColorMigration();
 
   // 자동 연결 가능한 노드 개수 계산
