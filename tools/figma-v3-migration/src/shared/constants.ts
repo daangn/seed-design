@@ -21,3 +21,42 @@ export const SEED_V3_LIBRARY_VARIABLE_PREFIXES = {
     MANNER_TEMP: "manner-temp/",
   },
 } as const;
+
+// TODO: 이터레이션이 너무 많다
+
+export const SIZING_VARIABLE_BINDABLE_NODE_FIELDS = [
+  "width",
+  "height",
+  "minWidth",
+  "maxWidth",
+  "minHeight",
+  "maxHeight",
+] as const;
+
+export const LAYOUT_VARIABLE_BINDABLE_NODE_FIELDS = [
+  "itemSpacing",
+  "counterAxisSpacing",
+  "paddingLeft",
+  "paddingRight",
+  "paddingTop",
+  "paddingBottom",
+] as const;
+
+export const CORNER_RADIUS_VARIABLE_BINDABLE_NODE_FIELDS = [
+  "topLeftRadius",
+  "topRightRadius",
+  "bottomLeftRadius",
+  "bottomRightRadius",
+] as const;
+
+export const STROKE_WEIGHT_VARIABLE_BINDABLE_NODE_FIELDS = [
+  "strokeTopWeight",
+  "strokeRightWeight",
+  "strokeBottomWeight",
+  "strokeLeftWeight",
+] as const;
+
+export const DEFAULT_PREFERENCES = {
+  "inspect-v2-components-on-color-migration": false,
+  "inspect-v2-components-on-text-style-migration": false,
+};
