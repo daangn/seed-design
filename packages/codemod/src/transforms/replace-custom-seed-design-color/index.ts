@@ -14,6 +14,9 @@ const TARGET_PREFIXES = ["color", "background", "backgroundColor"];
 // 매핑 접두사 목록
 const TOKEN_PREFIXES = ["$semantic.color.", "$scale.color.", "$static.color."];
 
+// 세분화된 네임스페이스 객체 이름들
+const NAMESPACE_OBJECTS = ["semantic", "scale", "static"];
+
 ///////////////////////////////////////////////////////////////////
 
 export default function transformer(file: FileInfo, api: API, options: Options) {
@@ -31,6 +34,7 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
 
   // 단일 접두사 (color, background와 같은) 처리
   TARGET_PREFIXES.filter((prefix) => !prefix.includes(".")).forEach((prefix) => {
+    // 일반 접근 처리 (color.carrot500)
     root
       .find(j.MemberExpression, {
         object: {
@@ -39,10 +43,46 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
         },
       })
       .forEach((path) => {
+        // 네임스페이스 객체인 경우 처리하지 않음 (color.scale, color.semantic 등)
+        if (NAMESPACE_OBJECTS.includes(path.node.property.name)) {
+          return;
+        }
+
         const parentPropertyName = getParentPropertyName(path);
         processColorNode(j, path, file, colorMap, prefix, parentPropertyName);
         hasChanges = true;
       });
+
+    // 세분화된 네임스페이스 접근 처리 (color.scale.gray100, color.static.white 등)
+    NAMESPACE_OBJECTS.forEach((namespace) => {
+      root
+        .find(j.MemberExpression, {
+          object: {
+            type: "MemberExpression",
+            object: {
+              type: "Identifier",
+              name: prefix,
+            },
+            property: {
+              type: "Identifier",
+              name: namespace,
+            },
+          },
+        })
+        .forEach((path) => {
+          const parentPropertyName = getParentPropertyName(path);
+          processNamespacedColorNode(
+            j,
+            path,
+            file,
+            colorMap,
+            prefix,
+            namespace,
+            parentPropertyName,
+          );
+          hasChanges = true;
+        });
+    });
   });
 
   // 파일 변환 완료 로깅
@@ -50,6 +90,200 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
 
   // 변경사항이 있는 경우에만 소스 반환
   return hasChanges ? root.toSource(options) : file.source;
+}
+
+// 세분화된 네임스페이스 색상 노드 처리 함수
+function processNamespacedColorNode(
+  j: API["jscodeshift"],
+  path: any,
+  file: FileInfo,
+  colorMap: FoundationTokenMapping[],
+  prefix: string,
+  namespace: string,
+  parentPropertyName?: string,
+) {
+  // 속성명 가져오기
+  const propertyName = path.node.property.name || path.node.property.value;
+
+  if (!propertyName) {
+    logger.logTransformResult(file.path, {
+      previousToken: "Cannot determine property name",
+      nextToken: null,
+      line: path.node.loc?.start.line || 0,
+      status: "failure",
+      failureReason: "Property name not found",
+    });
+    return;
+  }
+
+  // 토큰 타입 결정 (background, color 등에 따라 다른 토큰 타입 사용)
+  let tokenType: "bg" | "fg" | "stroke" | "palette";
+
+  if (prefix === "backgroundColor") {
+    // backgroundColor 속성은 항상 bg 토큰 사용
+    tokenType = "bg";
+  } else {
+    // 다른 속성은 parentPropertyName에 따라 결정
+    tokenType = parentPropertyName ? getTokenTypeForProperty(parentPropertyName) : "fg";
+  }
+
+  // 정규화된 토큰 이름 생성 (scale.gray100 -> scale-gray-100)
+  const namespacePrefix = `$${namespace}.color.`;
+  const normalizedPropertyName = camelCaseToKebabCase(propertyName);
+  const fullTokenName = `${namespacePrefix}${normalizedPropertyName}`;
+
+  // 매핑 후보 토큰 목록 생성
+  const potentialTokens = [fullTokenName];
+
+  // 매핑에서 해당 토큰 찾기
+  const mapping = findColorMapping(colorMap, potentialTokens, normalizedPropertyName);
+
+  if (mapping) {
+    if (mapping.next && mapping.next.length > 0) {
+      // 적절한 토큰 선택 (bg, fg, stroke, palette 중)
+      const selectedToken = selectAppropriateToken(mapping.next, tokenType);
+
+      if (selectedToken) {
+        // 토큰을 적용
+        applySelectedToken(
+          j,
+          path,
+          file,
+          `${namespace}.${propertyName}`,
+          selectedToken,
+          prefix,
+          mapping.needsVerification,
+        );
+      } else if (mapping.alternative && mapping.alternative.length > 0) {
+        // 대체 토큰이 있는 경우
+        const alternativeToken = selectAppropriateToken(mapping.alternative, tokenType);
+
+        if (alternativeToken) {
+          // 대체 토큰을 적용
+          applySelectedToken(
+            j,
+            path,
+            file,
+            `${namespace}.${propertyName}`,
+            alternativeToken,
+            prefix,
+            true,
+            "Using alternative token as primary is deprecated",
+          );
+        } else {
+          // 적절한 대체 토큰이 없는 경우
+          logFailure(
+            file.path,
+            `${namespace}.${propertyName}`,
+            path.node.loc?.start.line || 0,
+            "No suitable alternative token found",
+          );
+        }
+      } else {
+        // 매핑이 있지만 다음 토큰이 없는 경우 (deprecated)
+        logFailure(
+          file.path,
+          `${namespace}.${propertyName}`,
+          path.node.loc?.start.line || 0,
+          "Token is deprecated with no direct replacement",
+        );
+      }
+    } else {
+      // next 배열이 비어있는 경우 (deprecated)
+      logFailure(
+        file.path,
+        `${namespace}.${propertyName}`,
+        path.node.loc?.start.line || 0,
+        "Token is deprecated with no direct replacement",
+      );
+    }
+  } else {
+    // Alpha와 같은 특수 토큰을 위한 처리
+    if (
+      propertyName.includes("Alpha") ||
+      propertyName.toLowerCase().includes("alpha") ||
+      namespace === "static"
+    ) {
+      // static.blackAlpha500, static.whiteAlpha200 등의 처리
+      if (propertyName.includes("Alpha") || propertyName.toLowerCase().includes("alpha")) {
+        // static.blackAlpha500 -> palette.staticBlackAlpha500
+        const staticTokenName = `static-${propertyName.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+        const potentialStaticTokens = [`$static.color.${staticTokenName}`];
+
+        const staticMapping = findColorMapping(colorMap, potentialStaticTokens, staticTokenName);
+
+        if (staticMapping?.next && staticMapping.next.length > 0) {
+          const selectedToken = selectAppropriateToken(staticMapping.next, tokenType);
+          if (selectedToken) {
+            applySelectedToken(
+              j,
+              path,
+              file,
+              `${namespace}.${propertyName}`,
+              selectedToken,
+              prefix,
+              staticMapping.needsVerification,
+            );
+            return;
+          }
+        }
+
+        // prefix에 따라 적절한 토큰 선택
+        if (prefix === "backgroundColor") {
+          applySelectedToken(
+            j,
+            path,
+            file,
+            `${namespace}.${propertyName}`,
+            "$color.bg.default",
+            prefix,
+            false,
+          );
+        } else {
+          applySelectedToken(
+            j,
+            path,
+            file,
+            `${namespace}.${propertyName}`,
+            "$color.fg.default",
+            prefix,
+            false,
+          );
+        }
+        return;
+      }
+
+      // static.white, static.black 등의 처리
+      const staticTokenName = `static-${camelCaseToKebabCase(propertyName)}`;
+      const potentialStaticTokens = [`$static.color.${staticTokenName}`];
+
+      const staticMapping = findColorMapping(colorMap, potentialStaticTokens, staticTokenName);
+
+      if (staticMapping?.next && staticMapping.next.length > 0) {
+        const selectedToken = selectAppropriateToken(staticMapping.next, tokenType);
+        if (selectedToken) {
+          applySelectedToken(
+            j,
+            path,
+            file,
+            `${namespace}.${propertyName}`,
+            selectedToken,
+            prefix,
+            staticMapping.needsVerification,
+          );
+          return;
+        }
+      }
+    }
+
+    // 매핑이 없는 경우
+    logFailure(
+      file.path,
+      `${namespace}.${propertyName}`,
+      path.node.loc?.start.line || 0,
+      "No mapping found in the color tokens",
+    );
+  }
 }
 
 // 색상 노드 처리 함수
