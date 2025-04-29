@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
-import { handleDimension, useStyleProps } from "../../utils/styled";
+import { handleDimension, createStyleProps } from "../../utils/styled";
 import { Flex, type FlexProps } from "../Flex";
 
 export interface ResponsivePairProps extends Omit<FlexProps, "flexDirection" | "flexWrap"> {
@@ -16,21 +16,13 @@ export const ResponsivePair = React.forwardRef<HTMLDivElement, ResponsivePairPro
   (props, ref) => {
     const { wrap = "wrap-reverse", gap, children, ...rest } = props;
     const childrenArray = React.Children.toArray(children);
-    const { style } = useStyleProps({
+    const { style } = createStyleProps({
       minWidth: `calc(${100 / childrenArray.length}% - ${handleDimension(gap)} / ${childrenArray.length})`,
       flexGrow: 1,
     });
 
     return (
-      <Flex
-        ref={ref}
-        display="flex"
-        flexDirection="row"
-        alignContent="stretch"
-        flexWrap={wrap}
-        gap={gap}
-        {...rest}
-      >
+      <Flex ref={ref} display="flex" flexDirection="row" flexWrap={wrap} gap={gap} {...rest}>
         <Slot style={style}>{childrenArray[0]}</Slot>
         <Slot style={style}>{childrenArray[1]}</Slot>
       </Flex>

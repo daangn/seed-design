@@ -1,15 +1,20 @@
 import type {
+  Dimension,
+  Radius,
   ScopedColorBg,
   ScopedColorFg,
   ScopedColorPalette,
   ScopedColorStroke,
-  Dimension,
-  Radius,
   SpacingX,
   SpacingY,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
+import clsx from "clsx";
 import { forwardRef } from "react";
+
+/**
+ * variable handlers
+ */
 
 export function handleColor(color: string | undefined) {
   if (!color) {
@@ -47,6 +52,10 @@ function handleRadius(radius: string | 0 | undefined) {
   return vars.$radius[radius] ?? radius;
 }
 
+/**
+ * className handlers
+ */
+
 function handleDisplay(display: string | undefined) {
   if (!display) {
     return undefined;
@@ -61,14 +70,27 @@ function handleDisplay(display: string | undefined) {
     }
   }
 
-  return (
-    {
-      flex: "flex",
-      inlineFlex: "inline-flex", // @deprecated Use `inline-flex` instead.
-      inlineBlock: "inline-block", // @deprecated Use `inline-block` instead.
-      none: "none",
-    }[display] ?? display
-  );
+  return {
+    inlineFlex: "seed-inline-flex", // @deprecated Use `inline-flex` instead.
+    inlineBlock: "seed-inline-block", // @deprecated Use `inline-block` instead.
+    flex: "seed-flex",
+    none: "seed-none",
+    "inline-flex": "seed-inline-flex",
+    "inline-block": "seed-inline-block",
+  }[display];
+}
+
+function handleOverflow(overflow: string | undefined) {
+  if (!overflow) {
+    return undefined;
+  }
+
+  return {
+    visible: "seed-overflow-visible",
+    hidden: "seed-overflow-hidden",
+    scroll: "seed-overflow-scroll",
+    auto: "seed-overflow-auto",
+  }[overflow];
 }
 
 function handleFlexDirection(flexDirection: string | undefined) {
@@ -85,14 +107,26 @@ function handleFlexDirection(flexDirection: string | undefined) {
     }
   }
 
-  return (
-    {
-      row: "row",
-      column: "column",
-      rowReverse: "row-reverse", // @deprecated Use `row-reverse` instead.
-      columnReverse: "column-reverse", // @deprecated Use `column-reverse` instead.
-    }[flexDirection] ?? flexDirection
-  );
+  return {
+    rowReverse: "seed-flex-row-reverse", // @deprecated Use `row-reverse` instead.
+    columnReverse: "seed-flex-column-reverse", // @deprecated Use `column-reverse` instead.
+    row: "seed-flex-row",
+    column: "seed-flex-column",
+    "row-reverse": "seed-flex-row-reverse",
+    "column-reverse": "seed-flex-column-reverse",
+  }[flexDirection];
+}
+
+function handleFlexWrap(flexWrap: string | undefined) {
+  if (!flexWrap) {
+    return undefined;
+  }
+
+  return {
+    wrap: "seed-flex-wrap",
+    "wrap-reverse": "seed-flex-wrap-reverse",
+    nowrap: "seed-flex-nowrap",
+  }[flexWrap];
 }
 
 function handleJustifyContent(justifyContent: string | undefined) {
@@ -114,15 +148,17 @@ function handleJustifyContent(justifyContent: string | undefined) {
     }
   }
 
-  return (
-    {
-      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
-      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
-      center: "center",
-      spaceBetween: "space-between", // @deprecated Use `space-between` instead.
-      spaceAround: "space-around", // @deprecated Use `space-around` instead.
-    }[justifyContent] ?? justifyContent
-  );
+  return {
+    flexStart: "seed-flex-start", // @deprecated Use `flex-start` instead.
+    flexEnd: "seed-flex-end", // @deprecated Use `flex-end` instead.
+    spaceBetween: "seed-space-between", // @deprecated Use `space-between` instead.
+    spaceAround: "seed-space-around", // @deprecated Use `space-around` instead.
+    "flex-start": "seed-flex-start",
+    "flex-end": "seed-flex-end",
+    "space-between": "seed-space-between",
+    "space-around": "seed-space-around",
+    center: "seed-center",
+  }[justifyContent];
 }
 
 function handleAlignItems(alignItems: string | undefined) {
@@ -139,14 +175,14 @@ function handleAlignItems(alignItems: string | undefined) {
     }
   }
 
-  return (
-    {
-      flexStart: "flex-start", // @deprecated Use `flex-start` instead.
-      flexEnd: "flex-end", // @deprecated Use `flex-end` instead.
-      center: "center",
-      stretch: "stretch",
-    }[alignItems] ?? alignItems
-  );
+  return {
+    flexStart: "seed-flex-start", // @deprecated Use `flex-start` instead.
+    flexEnd: "seed-flex-end", // @deprecated Use `flex-end` instead.
+    "flex-start": "seed-flex-start",
+    "flex-end": "seed-flex-end",
+    center: "seed-center",
+    stretch: "seed-self-stretch",
+  }[alignItems];
 }
 
 export interface StyleProps {
@@ -300,14 +336,6 @@ export interface StyleProps {
     | "flexStart" // @deprecated Use `flex-start` instead.
     | "flexEnd"; // @deprecated Use `flex-end` instead.
 
-  alignContent?:
-    | "flex-start"
-    | "flex-end"
-    | "center"
-    | "stretch"
-    | "flexStart" // @deprecated Use `flex-start` instead.
-    | "flexEnd"; // @deprecated Use `flex-end` instead.
-
   alignSelf?:
     | "flex-start"
     | "flex-end"
@@ -319,15 +347,17 @@ export interface StyleProps {
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 }
 
-interface UseStyleProps extends StyleProps {
+interface CreateStyleProps extends StyleProps {
   style?: React.CSSProperties;
+  className?: string;
 }
 
-export function useStyleProps<T extends UseStyleProps>(
+export function createStyleProps<T extends CreateStyleProps>(
   props: T,
 ): {
   style: React.CSSProperties;
-  restProps: Omit<T, keyof UseStyleProps>;
+  className: string;
+  restProps: Omit<T, keyof CreateStyleProps>;
 } {
   const {
     background,
@@ -368,74 +398,126 @@ export function useStyleProps<T extends UseStyleProps>(
     left,
     right,
     top,
+    flexGrow,
+    flexShrink,
+    gap,
+    // classNames
     display,
     position,
     overflowX,
     overflowY,
-    flexGrow,
-    flexShrink,
     flexDirection,
     flexWrap,
     justifyContent,
     alignItems,
-    alignContent,
     alignSelf,
-    gap,
+    // props
     style,
+    className,
     ...restProps
   } = props;
 
+  const variableObj = {
+    "--seed-box-background": handleColor(background ?? bg),
+    "--seed-box-color": handleColor(color),
+    "--seed-box-border-color": handleColor(borderColor),
+    "--seed-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
+    "--seed-box-border-top-width": borderTopWidth !== undefined ? `${borderTopWidth}px` : undefined,
+    "--seed-box-border-right-width":
+      borderRightWidth !== undefined ? `${borderRightWidth}px` : undefined,
+    "--seed-box-border-bottom-width":
+      borderBottomWidth !== undefined ? `${borderBottomWidth}px` : undefined,
+    "--seed-box-border-left-width":
+      borderLeftWidth !== undefined ? `${borderLeftWidth}px` : undefined,
+    "--seed-box-border-radius": handleRadius(borderRadius),
+    "--seed-box-border-top-left-radius": handleRadius(borderTopLeftRadius),
+    "--seed-box-border-top-right-radius": handleRadius(borderTopRightRadius),
+    "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
+    "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
+    "--seed-box-width": handleDimension(width),
+    "--seed-box-min-width": handleDimension(minWidth),
+    "--seed-box-max-width": handleDimension(maxWidth),
+    "--seed-box-height": handleDimension(height),
+    "--seed-box-min-height": handleDimension(minHeight),
+    "--seed-box-max-height": handleDimension(maxHeight),
+    "--seed-box-padding": handleDimension(padding ?? p),
+    "--seed-box-padding-top": handleDimension(paddingTop ?? pt ?? paddingY ?? py),
+    "--seed-box-padding-right": handleDimension(paddingRight ?? pr ?? paddingX ?? px),
+    "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb ?? paddingY ?? py),
+    "--seed-box-padding-left": handleDimension(paddingLeft ?? pl ?? paddingX ?? px),
+    "--seed-box-top": top,
+    "--seed-box-left": left,
+    "--seed-box-right": right,
+    "--seed-box-bottom": bottom,
+    "--seed-box-flex-grow": flexGrow,
+    "--seed-box-flex-shrink": flexShrink,
+  } as Record<string, string | number | undefined>;
+
+  const variableResult: Record<string, string | number | undefined> = {};
+  for (const key in variableObj) {
+    if (variableObj[key] !== undefined) {
+      variableResult[key] = variableObj[key];
+    }
+  }
+
+  const classNames = [
+    handleDisplay(display),
+    handleOverflow(overflowX),
+    handleOverflow(overflowY),
+    handleFlexDirection(flexDirection),
+    handleFlexWrap(flexWrap),
+    handleJustifyContent(justifyContent),
+    handleAlignItems(alignItems),
+    handleAlignItems(alignSelf),
+    variableResult["--seed-box-background"] && "seed-box-background",
+    variableResult["--seed-box-color"] && "seed-box-color",
+    variableResult["--seed-box-border-color"] && "seed-box-border-color",
+    variableResult["--seed-box-padding"] && "seed-box-padding",
+    variableResult["--seed-box-padding-top"] && "seed-box-padding-top",
+    variableResult["--seed-box-padding-bottom"] && "seed-box-padding-bottom",
+    variableResult["--seed-box-padding-left"] && "seed-box-padding-left",
+    variableResult["--seed-box-padding-right"] && "seed-box-padding-right",
+    variableResult["--seed-box-radius"] && "seed-box-radius",
+    variableResult["--seed-box-radius-top-left"] && "seed-box-radius-top-left",
+    variableResult["--seed-box-radius-top-right"] && "seed-box-radius-top-right",
+    variableResult["--seed-box-radius-bottom-right"] && "seed-box-radius-bottom-right",
+    variableResult["--seed-box-radius-bottom-left"] && "seed-box-radius-bottom-left",
+    variableResult["--seed-box-border-width"] && "seed-box-border",
+    variableResult["--seed-box-border-top-width"] && "seed-box-border-top",
+    variableResult["--seed-box-border-right-width"] && "seed-box-border-right",
+    variableResult["--seed-box-border-bottom-width"] && "seed-box-border-bottom",
+    variableResult["--seed-box-border-left-width"] && "seed-box-border-left",
+    variableResult["--seed-box-width"] && "seed-box-width",
+    variableResult["--seed-box-min-width"] && "seed-box-min-width",
+    variableResult["--seed-box-max-width"] && "seed-box-max-width",
+    variableResult["--seed-box-height"] && "seed-box-height",
+    variableResult["--seed-box-min-height"] && "seed-box-min-height",
+    variableResult["--seed-box-max-height"] && "seed-box-max-height",
+    (variableResult["--seed-box-top"] ||
+      variableResult["--seed-box-left"] ||
+      variableResult["--seed-box-right"] ||
+      variableResult["--seed-box-bottom"]) &&
+      "seed-box-inset",
+    variableResult["--seed-box-flex-grow"] && "seed-box-flex-grow",
+    variableResult["--seed-box-flex-shrink"] && "seed-box-flex-shrink",
+
+    // default border style
+    (variableResult["--seed-box-border-width"] ||
+      variableResult["--seed-box-border-top-width"] ||
+      variableResult["--seed-box-border-right-width"] ||
+      variableResult["--seed-box-border-bottom-width"] ||
+      variableResult["--seed-box-border-left-width"]) &&
+      "seed-border-solid",
+  ].filter(Boolean);
+
   return {
-    style: {
-      "--seed-box-background": handleColor(background ?? bg),
-      "--seed-box-color": handleColor(color),
-      "--seed-box-border-color": handleColor(borderColor),
-      "--seed-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
-      "--seed-box-border-top-width":
-        borderTopWidth !== undefined ? `${borderTopWidth}px` : undefined,
-      "--seed-box-border-right-width":
-        borderRightWidth !== undefined ? `${borderRightWidth}px` : undefined,
-      "--seed-box-border-bottom-width":
-        borderBottomWidth !== undefined ? `${borderBottomWidth}px` : undefined,
-      "--seed-box-border-left-width":
-        borderLeftWidth !== undefined ? `${borderLeftWidth}px` : undefined,
-      "--seed-box-border-radius": handleRadius(borderRadius),
-      "--seed-box-border-top-left-radius": handleRadius(borderTopLeftRadius),
-      "--seed-box-border-top-right-radius": handleRadius(borderTopRightRadius),
-      "--seed-box-border-bottom-right-radius": handleRadius(borderBottomRightRadius),
-      "--seed-box-border-bottom-left-radius": handleRadius(borderBottomLeftRadius),
-      "--seed-box-width": handleDimension(width),
-      "--seed-box-min-width": handleDimension(minWidth),
-      "--seed-box-max-width": handleDimension(maxWidth),
-      "--seed-box-height": handleDimension(height),
-      "--seed-box-min-height": handleDimension(minHeight),
-      "--seed-box-max-height": handleDimension(maxHeight),
-      "--seed-box-padding": handleDimension(padding ?? p),
-      "--seed-box-padding-x": handleDimension(paddingX ?? px),
-      "--seed-box-padding-y": handleDimension(paddingY ?? py),
-      "--seed-box-padding-top": handleDimension(paddingTop ?? pt),
-      "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
-      "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb),
-      "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
-      "--seed-box-top": top,
-      "--seed-box-left": left,
-      "--seed-box-right": right,
-      "--seed-box-bottom": bottom,
-      "--seed-box-gap": handleDimension(gap),
-      "--seed-box-display": handleDisplay(display),
-      "--seed-box-position": position,
-      "--seed-box-overflow-x": overflowX,
-      "--seed-box-overflow-y": overflowY,
-      "--seed-box-flex-grow": flexGrow,
-      "--seed-box-flex-shrink": flexShrink,
-      "--seed-box-flex-direction": handleFlexDirection(flexDirection),
-      "--seed-box-flex-wrap": flexWrap,
-      "--seed-box-justify-content": handleJustifyContent(justifyContent),
-      "--seed-box-align-items": handleAlignItems(alignItems),
-      "--seed-box-align-content": handleAlignItems(alignContent),
-      "--seed-box-align-self": handleAlignItems(alignSelf),
-      ...style,
-    } as React.CSSProperties,
+    style: style
+      ? {
+          ...variableResult,
+          ...style,
+        }
+      : variableResult,
+    className: clsx(classNames, className),
     restProps,
   };
 }
@@ -444,10 +526,10 @@ export function withStyleProps<P extends {}, R>(
   Component: React.ComponentType<P & React.RefAttributes<R>>,
 ) {
   const Node = forwardRef<R, P>((props, ref) => {
-    const { style, restProps } = useStyleProps(props);
+    const { style, className, restProps } = createStyleProps(props);
 
     // @ts-ignore
-    return <Component ref={ref} style={style} {...restProps} />;
+    return <Component ref={ref} className={className} style={style} {...restProps} />;
   });
 
   Node.displayName = Component.displayName || Component.name;

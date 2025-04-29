@@ -53,100 +53,230 @@ export const globalCss = defineGlobalCss({
     fontWeight: "var(--seed-count-font-weight)",
     color: "var(--seed-count-color)",
   },
-  ".seed-box": {
-    "--seed-box-background": "initial",
-    "--seed-box-color": "initial",
-    backgroundColor: "var(--seed-box-background)",
-    color: "var(--seed-box-color)",
-
-    "--seed-box-border-style": "solid",
-    "--seed-box-border-color": "initial",
-    borderStyle: "var(--seed-box-border-style)",
-    borderColor: "var(--seed-box-border-color)",
-
-    "--seed-box-border-width": "0",
-    "--seed-box-border-top-width": "var(--seed-box-border-width)",
-    "--seed-box-border-bottom-width": "var(--seed-box-border-width)",
-    "--seed-box-border-left-width": "var(--seed-box-border-width)",
-    "--seed-box-border-right-width": "var(--seed-box-border-width)",
-    borderTopWidth: "var(--seed-box-border-top-width)",
-    borderBottomWidth: "var(--seed-box-border-bottom-width)",
-    borderLeftWidth: "var(--seed-box-border-left-width)",
-    borderRightWidth: "var(--seed-box-border-right-width)",
-
+  ".seed-block": {
+    display: "block",
+  },
+  ".seed-flex": {
+    display: "flex",
+  },
+  ".seed-inline-flex": {
+    display: "inline-flex",
+  },
+  ".seed-inline-block": {
+    display: "inline-block",
+  },
+  ".seed-none": {
+    display: "none",
+  },
+  ".seed-absolute": {
+    position: "absolute",
+  },
+  ".seed-relative": {
+    position: "relative",
+  },
+  ".seed-fixed": {
+    position: "fixed",
+  },
+  ".seed-sticky": {
+    position: "sticky",
+  },
+  ".seed-flex-row": {
+    flexDirection: "row",
+  },
+  ".seed-flex-column": {
+    flexDirection: "column",
+  },
+  ".seed-flex-row-reverse": {
+    flexDirection: "row-reverse",
+  },
+  ".seed-flex-column-reverse": {
+    flexDirection: "column-reverse",
+  },
+  ".seed-flex-wrap": {
+    flexWrap: "wrap",
+  },
+  ".seed-flex-wrap-reverse": {
+    flexWrap: "wrap-reverse",
+  },
+  ".seed-justify-start": {
+    justifyContent: "flex-start",
+  },
+  ".seed-justify-end": {
+    justifyContent: "flex-end",
+  },
+  ".seed-justify-center": {
+    justifyContent: "center",
+  },
+  ".seed-justify-between": {
+    justifyContent: "space-between",
+  },
+  ".seed-justify-around": {
+    justifyContent: "space-around",
+  },
+  ".seed-align-start": {
+    alignItems: "flex-start",
+  },
+  ".seed-align-end": {
+    alignItems: "flex-end",
+  },
+  ".seed-align-center": {
+    alignItems: "center",
+  },
+  ".seed-align-stretch": {
+    alignItems: "stretch",
+  },
+  ".seed-self-start": {
+    alignSelf: "flex-start",
+  },
+  ".seed-self-end": {
+    alignSelf: "flex-end",
+  },
+  ".seed-self-center": {
+    alignSelf: "center",
+  },
+  ".seed-self-stretch": {
+    alignSelf: "stretch",
+  },
+  ".seed-overflow-x-visible": {
+    overflowX: "visible",
+  },
+  ".seed-overflow-x-hidden": {
+    overflowX: "hidden",
+  },
+  ".seed-overflow-x-scroll": {
+    overflowX: "scroll",
+  },
+  ".seed-overflow-x-auto": {
+    overflowX: "auto",
+  },
+  ".seed-overflow-y-visible": {
+    overflowY: "visible",
+  },
+  ".seed-overflow-y-hidden": {
+    overflowY: "hidden",
+  },
+  ".seed-overflow-y-scroll": {
+    overflowY: "scroll",
+  },
+  ".seed-overflow-y-auto": {
+    overflowY: "auto",
+  },
+  ".seed-border-solid": {
+    borderStyle: "solid",
+  },
+  ".seed-box-padding": {
     "--seed-box-padding": "0",
-    "--seed-box-padding-y": "var(--seed-box-padding)",
-    "--seed-box-padding-x": "var(--seed-box-padding)",
-    "--seed-box-padding-bottom": "var(--seed-box-padding-y)",
-    "--seed-box-padding-top": "var(--seed-box-padding-y)",
-    "--seed-box-padding-left": "var(--seed-box-padding-x)",
-    "--seed-box-padding-right": "var(--seed-box-padding-x)",
+    padding: "var(--seed-box-padding)",
+  },
+  ".seed-box-padding-top": {
+    "--seed-box-padding-top": "var(--seed-box-padding)",
     paddingTop: "var(--seed-box-padding-top)",
+  },
+  ".seed-box-padding-bottom": {
+    "--seed-box-padding-bottom": "var(--seed-box-padding)",
     paddingBottom: "var(--seed-box-padding-bottom)",
+  },
+  ".seed-box-padding-left": {
+    "--seed-box-padding-left": "var(--seed-box-padding)",
     paddingLeft: "var(--seed-box-padding-left)",
+  },
+  ".seed-box-padding-right": {
+    "--seed-box-padding-right": "var(--seed-box-padding)",
     paddingRight: "var(--seed-box-padding-right)",
-
-    "--seed-box-min-height": "initial",
-    "--seed-box-max-height": "initial",
-    "--seed-box-height": "initial",
-    "--seed-box-min-width": "initial",
-    "--seed-box-max-width": "initial",
-    "--seed-box-width": "initial",
-    minHeight: "var(--seed-box-min-height)",
-    maxHeight: "var(--seed-box-max-height)",
-    height: "var(--seed-box-height)",
-    minWidth: "var(--seed-box-min-width)",
-    maxWidth: "var(--seed-box-max-width)",
-    width: "var(--seed-box-width)",
-
-    "--seed-box-top": "initial",
-    "--seed-box-bottom": "initial",
-    "--seed-box-left": "initial",
-    "--seed-box-right": "initial",
+  },
+  ".seed-box-radius": {
+    "--seed-box-radius": "0",
+    borderRadius: "var(--seed-box-radius)",
+  },
+  ".seed-box-radius-top-left": {
+    "--seed-box-radius-top-left": "var(--seed-box-radius)",
+    borderTopLeftRadius: "var(--seed-box-radius-top-left)",
+  },
+  ".seed-box-radius-top-right": {
+    "--seed-box-radius-top-right": "var(--seed-box-radius)",
+    borderTopRightRadius: "var(--seed-box-radius-top-right)",
+  },
+  ".seed-box-radius-bottom-left": {
+    "--seed-box-radius-bottom-left": "var(--seed-box-radius)",
+    borderBottomLeftRadius: "var(--seed-box-radius-bottom-left)",
+  },
+  ".seed-box-radius-bottom-right": {
+    "--seed-box-radius-bottom-right": "var(--seed-box-radius)",
+    borderBottomRightRadius: "var(--seed-box-radius-bottom-right)",
+  },
+  ".seed-box-border": {
+    "--seed-box-border-color": "initial",
+    borderColor: "var(--seed-box-border-color)",
+  },
+  ".seed-box-border-top": {
+    "--seed-box-border-top-color": "var(--seed-box-border-color)",
+    borderTopColor: "var(--seed-box-border-top-color)",
+  },
+  ".seed-box-border-bottom": {
+    "--seed-box-border-bottom-color": "var(--seed-box-border-color)",
+    borderBottomColor: "var(--seed-box-border-bottom-color)",
+  },
+  ".seed-box-border-left": {
+    "--seed-box-border-left-color": "var(--seed-box-border-color)",
+    borderLeftColor: "var(--seed-box-border-left-color)",
+  },
+  ".seed-box-border-right": {
+    "--seed-box-border-right-color": "var(--seed-box-border-color)",
+    borderRightColor: "var(--seed-box-border-right-color)",
+  },
+  ".seed-box-inset": {
+    "--seed-box-top": "0",
+    "--seed-box-right": "0",
+    "--seed-box-bottom": "0",
+    "--seed-box-left": "0",
     top: "var(--seed-box-top)",
+    right: "var(--seed-box-right)",
     bottom: "var(--seed-box-bottom)",
     left: "var(--seed-box-left)",
-    right: "var(--seed-box-right)",
-
-    "--seed-box-border-radius": "initial",
-    "--seed-box-border-bottom-left-radius": "var(--seed-box-border-radius)",
-    "--seed-box-border-bottom-right-radius": "var(--seed-box-border-radius)",
-    "--seed-box-border-top-left-radius": "var(--seed-box-border-radius)",
-    "--seed-box-border-top-right-radius": "var(--seed-box-border-radius)",
-    borderBottomLeftRadius: "var(--seed-box-border-bottom-left-radius)",
-    borderBottomRightRadius: "var(--seed-box-border-bottom-right-radius)",
-    borderTopLeftRadius: "var(--seed-box-border-top-left-radius)",
-    borderTopRightRadius: "var(--seed-box-border-top-right-radius)",
-
-    "--seed-box-display": "block",
-    "--seed-box-position": "initial",
-    display: "var(--seed-box-display)",
-    position: "var(--seed-box-position)",
-
-    "--seed-box-overflow-x": "initial",
-    "--seed-box-overflow-y": "initial",
-    overflowX: "var(--seed-box-overflow-x)",
-    overflowY: "var(--seed-box-overflow-y)",
-
-    "--seed-box-flex-grow": "initial",
-    "--seed-box-flex-shrink": "initial",
-    flexGrow: "var(--seed-box-flex-grow)",
-    flexShrink: "var(--seed-box-flex-shrink)",
-
-    "--seed-box-flex-direction": "initial",
-    "--seed-box-flex-wrap": "initial",
-    "--seed-box-justify-content": "initial",
-    "--seed-box-align-items": "stretch",
-    "--seed-box-align-content": "stretch",
-    "--seed-box-align-self": "auto",
+  },
+  ".seed-box-gap": {
     "--seed-box-gap": "initial",
-    flexDirection: "var(--seed-box-flex-direction)",
-    flexWrap: "var(--seed-box-flex-wrap)",
-    justifyContent: "var(--seed-box-justify-content)",
-    alignItems: "var(--seed-box-align-items)",
-    alignContent: "var(--seed-box-align-content)",
-    alignSelf: "var(--seed-box-align-self)",
     gap: "var(--seed-box-gap)",
+  },
+  ".seed-box-grow": {
+    "--seed-box-flex-grow": "1",
+    flexGrow: "var(--seed-box-flex-grow)",
+  },
+  ".seed-box-shrink": {
+    "--seed-box-flex-shrink": "1",
+    flexShrink: "var(--seed-box-flex-shrink)",
+  },
+  ".seed-box-height": {
+    "--seed-box-height": "initial",
+    height: "var(--seed-box-height)",
+  },
+  ".seed-box-max-height": {
+    "--seed-box-max-height": "initial",
+    maxHeight: "var(--seed-box-max-height)",
+  },
+  ".seed-box-min-height": {
+    "--seed-box-min-height": "initial",
+    minHeight: "var(--seed-box-min-height)",
+  },
+  ".seed-box-width": {
+    "--seed-box-width": "initial",
+    width: "var(--seed-box-width)",
+  },
+  ".seed-box-max-width": {
+    "--seed-box-max-width": "initial",
+    maxWidth: "var(--seed-box-max-width)",
+  },
+  ".seed-box-min-width": {
+    "--seed-box-min-width": "initial",
+    minWidth: "var(--seed-box-min-width)",
+  },
+  ".seed-box-background": {
+    "--seed-box-background": "initial",
+    backgroundColor: "var(--seed-box-background)",
+  },
+  ".seed-box-color": {
+    "--seed-box-color": "initial",
+    color: "var(--seed-box-color)",
   },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes
