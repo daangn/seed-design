@@ -11,7 +11,7 @@ import {
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { createStyleProps, type StyleProps } from "../../utils/styled";
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
@@ -21,13 +21,10 @@ export interface ActionButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
-  (
-    { variant, size, loading = false, layout = "withText", className, children, ...otherProps },
-    ref,
-  ) => {
+  ({ variant, size, loading = false, layout = "withText", children, ...otherProps }, ref) => {
     const recipeClassName = actionButton({ variant, layout, size });
     const api = usePendingButton({ loading, disabled: otherProps.disabled });
-    const { style, restProps } = useStyleProps(otherProps);
+    const { style, className, restProps } = createStyleProps(otherProps);
 
     if (layout === "iconOnly" && !(otherProps["aria-label"] || otherProps["aria-labelledby"])) {
       console.warn(
