@@ -53,8 +53,8 @@ export default function App() {
       const socket = new WebSocket(`ws://localhost:${port}`);
 
       socket.onopen = () => {
-        // Generate random channel name
-        const channelName = generateChannelName();
+        // Use a consistent default channel for localhost
+        const channelName = "local-default";
         console.log("Joining channel:", channelName);
 
         // Join the channel
@@ -252,16 +252,6 @@ export default function App() {
         },
       }),
     );
-  };
-
-  // Generate random channel name
-  const generateChannelName = () => {
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    for (let i = 0; i < 8; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
   };
 
   // Set up message listener
