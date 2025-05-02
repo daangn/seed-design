@@ -15,7 +15,6 @@ import {
 } from "@/utils/figma-node";
 import type { RGBA } from "@figma/rest-api-spec";
 import type { VariableService } from "../../entities/variable.service";
-import { useCodegenOptions } from "./context";
 
 export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> {
   getFormattedValue: {
@@ -102,6 +101,7 @@ export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeig
     fontDimension: (value: number) => string | TFontDimension;
     fontWeight: (value: number) => string | TFontWeight;
   };
+  shouldInferVariableName: boolean;
 }
 
 export function createValueResolver<TColor, TDimension, TFontDimension, TFontWeight>({
@@ -110,6 +110,7 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
   styleService,
   styleNameFormatter,
   rawValueFormatters,
+  shouldInferVariableName,
 }: ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight>): ValueResolver<
   TColor,
   TDimension,
@@ -127,8 +128,6 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
   }
 
   function inferVariableName(value: VariableValueResolved, scope: VariableScope) {
-    const { shouldInferVariableName } = useCodegenOptions();
-
     if (!shouldInferVariableName) {
       return undefined;
     }

@@ -198,12 +198,10 @@ async function startMcpServer(serverUrl: string, experimental: boolean, configPa
       logger.info(`Loaded configuration from: ${configPath}`);
 
       // Log component transformers if present
-      if (configData.extend?.componentTransformers) {
-        const transformerKeys = configData.extend.componentTransformers.map((t) => t.key);
-        if (transformerKeys.length > 0) {
-          logger.info(
-            `Found ${transformerKeys.length} custom component transformers: ${transformerKeys.join(", ")}`,
-          );
+      if (configData.extend?.componentHandlers) {
+        const handlers = configData.extend.componentHandlers;
+        if (handlers.length > 0) {
+          logger.info(`Found ${handlers.length} custom component handlers`);
         }
       }
     }

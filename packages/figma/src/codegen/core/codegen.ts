@@ -10,7 +10,6 @@ import type {
 } from "@/normalizer";
 import { match } from "ts-pattern";
 import { appendSource, createElement, stringifyElement, type ElementNode } from "../core/jsx";
-import { codegenOptionsContext, useCodegenOptions, type CodegenOptions } from "./context";
 import type { ElementTransformer } from "./element-transformer";
 import { applyInferredLayout, inferLayout } from "./infer-layout";
 
@@ -23,6 +22,7 @@ export interface CodeGeneratorDeps {
   instanceTransformer: ElementTransformer<NormalizedInstanceNode>;
   vectorTransformer: ElementTransformer<NormalizedVectorNode>;
   booleanOperationTransformer: ElementTransformer<NormalizedBooleanOperationNode>;
+  shouldInferAutoLayout: boolean;
 }
 
 export function createCodeGenerator({
@@ -32,13 +32,12 @@ export function createCodeGenerator({
   instanceTransformer,
   vectorTransformer,
   booleanOperationTransformer,
+  shouldInferAutoLayout,
 }: CodeGeneratorDeps) {
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
       return;
     }
-
-    const { shouldInferAutoLayout } = useCodegenOptions();
 
     const result = match(node)
       .with({ type: "FRAME" }, (node) =>
@@ -62,15 +61,12 @@ export function createCodeGenerator({
     return;
   }
 
-  function generateJsxTree(node: NormalizedSceneNode, options: CodegenOptions) {
-    return codegenOptionsContext.run(options, () => traverse(node));
+  function generateJsxTree(node: NormalizedSceneNode) {
+    return traverse(node);
   }
 
-  function generateCode(
-    node: NormalizedSceneNode,
-    options: CodegenOptions & { shouldPrintSource: boolean },
-  ) {
-    const jsxTree = generateJsxTree(node, options);
+  function generateCode(node: NormalizedSceneNode, options: { shouldPrintSource: boolean }) {
+    const jsxTree = generateJsxTree(node);
     return jsxTree
       ? stringifyElement(jsxTree, { printSource: options.shouldPrintSource })
       : undefined;

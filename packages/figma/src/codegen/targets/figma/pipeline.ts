@@ -1,4 +1,5 @@
-import { createCodeGenerator } from "@/codegen/core";
+import { createCodeGenerator, createValueResolver } from "@/codegen/core";
+import { styleService, variableService } from "@/codegen/default-services";
 import { createFrameTransformer } from "./frame";
 import { createInstanceTransformer } from "./instance";
 import {
@@ -17,9 +18,29 @@ import {
   createVectorTransformer,
 } from "./shape";
 import { createTextTransformer } from "./text";
-import { valueResolver } from "./value-resolver";
+import {
+  defaultRawValueFormatters,
+  defaultStyleNameFormatter,
+  defaultVariableNameFormatter,
+} from "./value-resolver";
 
-export function createPipeline() {
+export interface CreatePipelineConfig {
+  shouldInferAutoLayout?: boolean;
+  shouldInferVariableName?: boolean;
+}
+
+export function createPipeline(options: CreatePipelineConfig = {}) {
+  const { shouldInferAutoLayout = true, shouldInferVariableName = true } = options;
+
+  const valueResolver = createValueResolver({
+    variableService,
+    variableNameFormatter: defaultVariableNameFormatter,
+    styleService,
+    styleNameFormatter: defaultStyleNameFormatter,
+    rawValueFormatters: defaultRawValueFormatters,
+    shouldInferVariableName,
+  });
+
   const containerLayoutPropsConverter = createContainerLayoutPropsConverter(valueResolver);
   const selfLayoutPropsConverter = createSelfLayoutPropsConverter(valueResolver);
   const frameFillPropsConverter = createFrameFillPropsConverter(valueResolver);
@@ -28,6 +49,7 @@ export function createPipeline() {
   const radiusPropsConverter = createRadiusPropsConverter(valueResolver);
   const strokePropsConverter = createStrokePropsConverter(valueResolver);
   const typeStylePropsConverter = createTypeStylePropsConverter(valueResolver);
+
   const propsConverters = {
     containerLayout: containerLayoutPropsConverter,
     selfLayout: selfLayoutPropsConverter,
@@ -65,6 +87,7 @@ export function createPipeline() {
     instanceTransformer,
     vectorTransformer,
     booleanOperationTransformer,
+    shouldInferAutoLayout,
   });
 
   return codegenTransformer;

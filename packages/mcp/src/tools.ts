@@ -1,6 +1,6 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createRestNormalizer, getFigmaColorVariableNames, react, figma } from "@seed-design/figma";
+import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
 import { z } from "zod";
 import type { McpConfig } from "./config";
 import {
@@ -18,11 +18,6 @@ export function registerTools(
 ): void {
   const { joinChannel, sendCommandToFigma } = figmaClient;
   const { extend } = config ?? {};
-
-  const figmaPipeline = figma.createPipeline();
-  const reactPipeline = react.createPipeline({
-    extend,
-  });
 
   // join_channel tool
   server.tool(
@@ -177,17 +172,21 @@ export function registerTools(
         const normalizer = createRestNormalizer(result);
         const node = normalizer(result.document);
 
+        const noInferPipeline = figma.createPipeline({
+          shouldInferAutoLayout: false,
+          shouldInferVariableName: false,
+        });
+        const inferPipeline = figma.createPipeline({
+          shouldInferAutoLayout: true,
+          shouldInferVariableName: true,
+        });
         const original =
-          figmaPipeline.generateCode(node, {
+          noInferPipeline.generateCode(node, {
             shouldPrintSource: true,
-            shouldInferVariableName: false,
-            shouldInferAutoLayout: false,
           }) ?? "Failed to generate summarized node info";
         const inferred =
-          figmaPipeline.generateCode(node, {
+          inferPipeline.generateCode(node, {
             shouldPrintSource: true,
-            shouldInferVariableName: false,
-            shouldInferAutoLayout: true,
           }) ?? "Failed to generate summarized node info";
 
         return formatObjectResponse({
@@ -221,17 +220,21 @@ export function registerTools(
             const normalizer = createRestNormalizer(result);
             const node = normalizer(result.document);
 
+            const noInferPipeline = figma.createPipeline({
+              shouldInferAutoLayout: false,
+              shouldInferVariableName: false,
+            });
+            const inferPipeline = figma.createPipeline({
+              shouldInferAutoLayout: true,
+              shouldInferVariableName: true,
+            });
             const original =
-              figmaPipeline.generateCode(node, {
-                shouldInferVariableName: false,
+              noInferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-                shouldInferAutoLayout: false,
               }) ?? "Failed to generate summarized node info";
             const inferred =
-              figmaPipeline.generateCode(node, {
-                shouldInferVariableName: true,
+              inferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-                shouldInferAutoLayout: false,
               }) ?? "Failed to generate summarized node info";
 
             return {
@@ -263,11 +266,14 @@ export function registerTools(
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
         const normalizer = createRestNormalizer(result);
 
+        const pipeline = react.createPipeline({
+          shouldInferAutoLayout: true,
+          shouldInferVariableName: true,
+          extend,
+        });
         const code =
-          reactPipeline.generateCode(normalizer(result.document), {
-            shouldInferVariableName: true,
+          pipeline.generateCode(normalizer(result.document), {
             shouldPrintSource: false,
-            shouldInferAutoLayout: true,
           }) ?? "Failed to generate code";
 
         return formatTextResponse(code);

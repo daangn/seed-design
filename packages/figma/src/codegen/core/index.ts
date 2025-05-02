@@ -5,7 +5,6 @@ export type {
   InferComponentDefinition,
   InferComponentPropertyType,
 } from "./component-type-helper";
-export type { CodegenOptions } from "./context";
 export type { ElementTransformer } from "./element-transformer";
 export type { ElementNode } from "./jsx";
 export type { PropsConverter } from "./props-converter";
@@ -13,7 +12,6 @@ export type { ValueResolver } from "./value-resolver";
 
 export { createCodeGenerator } from "./codegen";
 export { defineComponentHandler } from "./component-handler";
-export { useCodegenOptions } from "./context";
 export { defineElementTransformer } from "./element-transformer";
 export { inferLayout } from "./infer-layout";
 export { cloneElement, createElement } from "./jsx";

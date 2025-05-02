@@ -1,5 +1,5 @@
-import { createCodeGenerator } from "@/codegen/core";
-import { iconService } from "@/codegen/default-services";
+import { createCodeGenerator, createValueResolver } from "@/codegen/core";
+import { iconService, styleService, variableService } from "@/codegen/default-services";
 import {
   type UnboundComponentHandler,
   bindComponentHandler,
@@ -26,9 +26,15 @@ import {
   createVectorTransformer,
 } from "./shape";
 import { createTextTransformer } from "./text";
-import { valueResolver } from "./value-resolver";
+import {
+  defaultRawValueFormatters,
+  defaultStyleNameFormatter,
+  defaultVariableNameFormatter,
+} from "./value-resolver";
 
 export interface CreatePipelineConfig {
+  shouldInferAutoLayout?: boolean;
+  shouldInferVariableName?: boolean;
   extend?: {
     componentHandlers?: Array<UnboundComponentHandler<any>>;
   };
@@ -39,7 +45,16 @@ const iconHandler = createIconHandler({
 });
 
 export function createPipeline(options: CreatePipelineConfig = {}) {
-  const { extend = {} } = options;
+  const { shouldInferAutoLayout = true, shouldInferVariableName = true, extend = {} } = options;
+
+  const valueResolver = createValueResolver({
+    variableService,
+    variableNameFormatter: defaultVariableNameFormatter,
+    styleService,
+    styleNameFormatter: defaultStyleNameFormatter,
+    rawValueFormatters: defaultRawValueFormatters,
+    shouldInferVariableName,
+  });
 
   const containerLayoutPropsConverter = createContainerLayoutPropsConverter(valueResolver);
   const selfLayoutPropsConverter = createSelfLayoutPropsConverter(valueResolver);
@@ -102,6 +117,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     instanceTransformer,
     vectorTransformer,
     booleanOperationTransformer,
+    shouldInferAutoLayout,
   });
 
   return codeGenerator;
