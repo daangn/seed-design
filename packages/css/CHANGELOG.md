@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.23
+
+### Patch Changes
+
+- 63e1541: AppBar의 배경이 상단 safe-area를 덮도록 수정합니다.
+
 ## 0.0.21
 
 ### Patch Changes

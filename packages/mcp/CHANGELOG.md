@@ -1,5 +1,12 @@
 # @seed-design/mcp
 
+## 0.0.23
+
+### Patch Changes
+
+- bf38ec2: 기본적으로 local-default 채널을 사용하도록 변경합니다. join_channel을 매 세션마다 요청할 필요를 없앱니다.
+  - @seed-design/figma@0.0.23
+
 ## 0.0.22
 
 ### Patch Changes
