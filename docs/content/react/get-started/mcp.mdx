@@ -47,30 +47,11 @@ bunx --bun @seed-design/mcp socket
 설치된 SEED Design MCP 플러그인을 실행합니다.
 </Step>
 <Step>
-### 채널 연결
-
-실행된 Figma 플러그인에 채널이 표기됩니다.
-
-예시:
-```
-Connected to server on port 3055 in channel: onh8wul9
-```
-
-에이전트에 아래 프롬프트를 전달해 웹소켓 서버와 채널을 연결합니다.
-```
-join_channel {채널명}
-```
-</Step>
-<Step>
 연결이 완료되면, `선택된 노드를 참고해 React로 구현해주세요.` 와 같은 요청을 전달할 수 있습니다.
 </Step>
 </Steps>
 
 ## 주요 툴 목록
-
-### `join_channel`
-
-웹소켓 서버와 채널을 연결합니다.
 
 ### `get_selection`
 
@@ -135,7 +116,7 @@ export default {
 
 <Steps>
 <Step>
-#### 1. 프롬프트 복사
+#### 프롬프트 복사
 
 아래 프롬프트를 복사해 파일로 저장합니다.
 
@@ -230,7 +211,7 @@ export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
 ```
 </Step>
 <Step>
-#### 2. 프롬프트 실행
+#### 프롬프트 실행
 
 저장된 프롬프트 파일과 구현해야 할 컴포넌트 파일을 맥락으로 전달하며 프롬프트를 실행합니다.
 
@@ -240,7 +221,7 @@ export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) =>
 ```
 </Step>
 <Step>
-#### 3. 결과 확인
+#### 결과 확인
 프롬프트 실행 결과로 생성된 ComponentHandler를 확인합니다.
 
 **예시**
@@ -275,7 +256,7 @@ export const createCustomButtonHandler = (_deps: react.ComponentHandlerDeps) => 
 ```
 </Step>
 <Step>
-#### 4. 설정 파일 적용
+#### 설정 파일 적용
 
 생성된 ComponentHandler를 설정 파일에 추가합니다.
 
