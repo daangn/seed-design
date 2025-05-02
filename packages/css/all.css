@@ -4782,12 +4782,12 @@
 
 .seed-app-bar__root {
   z-index: var(--z-index-app-bar);
-  top: var(--seed-safe-area-top);
   box-sizing: border-box;
   align-items: flex-end;
   width: 100%;
   display: flex;
   position: absolute;
+  top: 0;
 }
 
 .seed-app-bar__root:before {
@@ -4823,8 +4823,9 @@
 }
 
 .seed-app-bar__root--theme_cupertino {
-  height: 44px;
+  height: calc(44px + var(--seed-safe-area-top));
   padding-inline: var(--seed-dimension-x4);
+  padding-top: var(--seed-safe-area-top);
 }
 
 .seed-app-bar__iconButton--theme_cupertino {
@@ -4846,8 +4847,9 @@
 }
 
 .seed-app-bar__root--theme_android {
-  height: 56px;
+  height: calc(56px + var(--seed-safe-area-top));
   padding-inline: var(--seed-dimension-x4);
+  padding-top: var(--seed-safe-area-top);
 }
 
 .seed-app-bar__iconButton--theme_android {
@@ -5005,7 +5007,6 @@
 
 .seed-app-bar-main__root {
   flex: 1;
-  height: 100%;
 }
 
 .seed-app-bar-main__title, .seed-app-bar-main__subtitle {
@@ -5031,13 +5032,14 @@
 
 .seed-app-bar-main__root--theme_cupertino {
   text-align: center;
-  height: 100%;
+  top: var(--seed-safe-area-top);
   padding-inline: var(--centered-title-padding-x, 0);
   pointer-events: none;
   justify-content: center;
   align-items: center;
   display: flex;
   position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
 }
@@ -5046,6 +5048,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  height: 100%;
   display: flex;
 }
 
