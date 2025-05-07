@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@figmazing/event": "0.0.1",
-    "@karrotmarket/react-monochrome-icon": "^0.0.22",
+    "@karrotmarket/react-monochrome-icon": "^0.0.23",
     "@seed-design/css": "^0.0.23",
     "@seed-design/migration-index": "^0.0.20",
     "@seed-design/react": "^0.0.23",
