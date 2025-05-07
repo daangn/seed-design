@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.29.0",
+    "@figma/rest-api-spec": "^0.30.0",
     "@seed-design/figma-extractor": "^0.0.4",
     "typescript": "^5.8.3"
   },
