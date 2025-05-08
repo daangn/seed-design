@@ -1544,6 +1544,7 @@
   flex: 1;
   display: flex;
   position: relative;
+  overflow: hidden;
 }
 
 .seed-action-sheet__content:not(:is([data-state="open"], [data-open])) {
