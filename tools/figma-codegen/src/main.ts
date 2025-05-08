@@ -1,6 +1,9 @@
 import { react, createPluginNormalizer } from "@seed-design/figma";
 
-const pipeline = react.createPipeline();
+const pipeline = react.createPipeline({
+  shouldInferAutoLayout: true,
+  shouldInferVariableName: true,
+});
 
 export default function () {
   if (figma.editorType === "dev" && figma.mode === "codegen") {
@@ -9,16 +12,30 @@ export default function () {
       try {
         const normalizer = createPluginNormalizer();
         const normalizedNode = await normalizer(node);
+        const generated = pipeline.generateCode(normalizedNode, {
+          shouldPrintSource: false,
+        });
+
+        if (!generated) {
+          return [
+            {
+              title: "React",
+              language: "TYPESCRIPT",
+              code: "Failed to generate code.",
+            },
+          ];
+        }
+
         return [
           {
             title: "React",
             language: "TYPESCRIPT",
-            code:
-              pipeline.generateCode(normalizedNode, {
-                shouldInferAutoLayout: true,
-                shouldInferVariableName: true,
-                shouldPrintSource: false,
-              }) ?? "Failed to generate code.",
+            code: generated.jsx,
+          },
+          {
+            title: "React",
+            language: "TYPESCRIPT",
+            code: generated.imports,
           },
         ];
       } catch (error) {

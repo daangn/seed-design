@@ -5,22 +5,26 @@ export interface ElementNode {
   tag: string;
   props: Record<string, string | number | boolean | ElementNode | object | undefined>;
   children: (ElementNode | string)[];
-  comment?: string;
-  source?: string;
+
+  meta: {
+    comment?: string;
+    source?: string;
+    importPath?: string;
+  };
 }
 
 export function createElement(
   tag: string,
   props: Record<string, string | number | boolean | object | undefined> = {},
   children?: ElementNode | string | undefined | (ElementNode | string | undefined)[],
-  comment?: string,
+  meta?: ElementNode["meta"],
 ): ElementNode {
   return {
     __IS_JSX_ELEMENT_NODE: true,
     tag,
     props,
     children: ensureArray(children).filter(exists),
-    comment,
+    meta: meta ?? {},
   };
 }
 
@@ -53,14 +57,31 @@ export function isElement(node: unknown): node is ElementNode {
 }
 
 export function stringifyElement(element: ElementNode, options: { printSource?: boolean } = {}) {
+  const importMap = new Map<string, Set<string>>();
+
   function recursive(node: ElementNode | string, depth: number): string {
     if (typeof node === "string") {
       return node;
     }
 
-    const { tag, props, children, comment } = node;
+    const {
+      tag,
+      props,
+      children,
+      meta: { comment, source, importPath },
+    } = node;
+
+    if (importPath) {
+      const existing = importMap.get(importPath);
+      if (existing) {
+        existing.add(tag);
+      } else {
+        importMap.set(importPath, new Set([tag]));
+      }
+    }
+
     const propEntries = Object.entries(
-      options.printSource ? { ...props, "data-figma-node-id": node.source } : props,
+      options.printSource ? { ...props, "data-figma-node-id": source } : props,
     );
     const propFragments = propEntries
       .map(([key, value]) => {
@@ -122,5 +143,15 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
     return result;
   }
 
-  return recursive(element, 0);
+  const jsx = recursive(element, 0);
+
+  const imports = Array.from(importMap.entries())
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([importPath, tags]) => `import { ${Array.from(tags).join(", ")} } from "${importPath}";`)
+    .join("\n");
+
+  return {
+    imports,
+    jsx,
+  };
 }

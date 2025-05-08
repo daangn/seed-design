@@ -1,9 +1,12 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { ToggleButtonProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { ToggleButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("toggle-button");
 
 export const createToggleButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ToggleButtonProperties>(
@@ -25,15 +28,15 @@ export const createToggleButtonHandler = (ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("ToggleButton", commonProps, [
+      return createLocalSnippetElement("ToggleButton", commonProps, [
         props["Show Prefix Icon#6122:392"].value
-          ? createElement("PrefixIcon", {
+          ? createSeedReactElement("PrefixIcon", {
               svg: ctx.iconHandler.transform(props["Prefix Icon#6122:98"]),
             })
           : undefined,
         props["Label#6122:49"].value,
         props["Show Suffix Icon#6122:147"].value
-          ? createElement("SuffixIcon", {
+          ? createSeedReactElement("SuffixIcon", {
               svg: ctx.iconHandler.transform(props["Suffix Icon#6122:343"]),
             })
           : undefined,

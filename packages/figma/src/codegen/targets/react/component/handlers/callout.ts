@@ -1,9 +1,12 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { CalloutProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedTextNode } from "@/normalizer";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { CalloutProperties } from "@/codegen/component-properties";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("callout");
 
 export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CalloutProperties>(
@@ -25,7 +28,9 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
       const textNode = children.find((child) => child.type === "TEXT") as NormalizedTextNode | null;
 
       if (!textNode) {
-        return createElement(tag, undefined, undefined, "내용을 제공해주세요.");
+        return createLocalSnippetElement(tag, undefined, undefined, {
+          comment: "내용을 제공해주세요.",
+        });
       }
 
       const slices = textNode.segments;
@@ -82,6 +87,6 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement(tag, commonProps);
+      return createLocalSnippetElement(tag, commonProps);
     },
   );

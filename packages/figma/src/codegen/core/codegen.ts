@@ -67,9 +67,12 @@ export function createCodeGenerator({
 
   function generateCode(node: NormalizedSceneNode, options: { shouldPrintSource: boolean }) {
     const jsxTree = generateJsxTree(node);
-    return jsxTree
-      ? stringifyElement(jsxTree, { printSource: options.shouldPrintSource })
-      : undefined;
+
+    if (!jsxTree) {
+      return undefined;
+    }
+
+    return stringifyElement(jsxTree, { printSource: options.shouldPrintSource });
   }
 
   return { generateJsxTree, generateCode };

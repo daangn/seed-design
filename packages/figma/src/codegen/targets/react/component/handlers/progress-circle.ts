@@ -1,9 +1,12 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { ProgressCircleProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { ProgressCircleProperties } from "@/codegen/component-properties";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("progress-circle");
 
 export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ProgressCircleProperties>(
@@ -45,6 +48,6 @@ export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
         tone: camelCase(props.Tone.value),
       };
 
-      return createElement("ProgressCircle", commonProps);
+      return createLocalSnippetElement("ProgressCircle", commonProps);
     },
   );

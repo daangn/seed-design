@@ -1,9 +1,12 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { CheckboxProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { CheckboxProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("checkbox");
 
 export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CheckboxProperties>(
@@ -28,6 +31,6 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("Checkbox", commonProps);
+      return createLocalSnippetElement("Checkbox", commonProps);
     },
   );

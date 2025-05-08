@@ -1,10 +1,13 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { ActionButtonProperties, ErrorStateProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { ActionButtonProperties, ErrorStateProperties } from "@/codegen/component-properties";
 import { createActionButtonHandler } from "./action-button";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("error-state");
 
 export const createErrorStateHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonHandler = createActionButtonHandler(ctx);
@@ -33,6 +36,6 @@ export const createErrorStateHandler = (ctx: ComponentHandlerDeps) => {
       }),
     };
 
-    return createElement("ErrorState", commonProps);
+    return createLocalSnippetElement("ErrorState", commonProps);
   });
 };

@@ -1,8 +1,11 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type { MultilineTextFieldProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("multiline-text-field");
 
 export const createMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MultilineTextFieldProperties>(
@@ -74,8 +77,8 @@ export const createMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps) =>
         placeholder,
       };
 
-      const TextFieldChildren = createElement("TextFieldTextarea", inputProps);
+      const TextFieldChildren = createLocalSnippetElement("TextFieldTextarea", inputProps);
 
-      return createElement("TextField", commonProps, TextFieldChildren);
+      return createLocalSnippetElement("TextField", commonProps, TextFieldChildren);
     },
   );

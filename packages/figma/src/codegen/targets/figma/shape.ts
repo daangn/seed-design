@@ -35,7 +35,9 @@ export function createVectorTransformer({
         ...propsConverters.shapeFill(node),
       },
       [],
-      "Vector Node Placeholder",
+      {
+        comment: "Vector Node Placeholder",
+      },
     );
   });
 }

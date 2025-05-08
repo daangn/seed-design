@@ -1,13 +1,16 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import { findAllInstances } from "@/utils/figma-node";
-import { camelCase } from "change-case";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   ExtendedActionSheetGroupProperties,
   ExtendedActionSheetItemProperties,
   ExtendedActionSheetProperties,
 } from "@/codegen/component-properties";
+import { createElement, defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { findAllInstances } from "@/utils/figma-node";
+import { camelCase } from "change-case";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("extended-action-sheet");
 
 const EXTENDED_ACTION_SHEET_ITEM_KEY = "057083e95466da59051119eec0b41d4ad5a07f8f";
 const createExtendedActionSheetItemHandler = (ctx: ComponentHandlerDeps) =>
@@ -23,9 +26,9 @@ const createExtendedActionSheetItemHandler = (ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("ExtendedActionSheetItem", commonProps, [
+      return createLocalSnippetElement("ExtendedActionSheetItem", commonProps, [
         props["Show Prefix Icon#17043:5"].value
-          ? createElement("PrefixIcon", {
+          ? createSeedReactElement("PrefixIcon", {
               svg: ctx.iconHandler.transform(props["Prefix Icon#55948:0"]),
             })
           : undefined,
@@ -48,7 +51,7 @@ const createExtendedActionSheetGroupHandler = (ctx: ComponentHandlerDeps) => {
 
       const contentChildren = items.map(extendedActionSheetItemHandler.transform);
 
-      return createElement("ExtendedActionSheetGroup", undefined, contentChildren);
+      return createLocalSnippetElement("ExtendedActionSheetGroup", undefined, contentChildren);
     },
   );
 };
@@ -70,27 +73,26 @@ export const createExtendedActionSheetHandler = (ctx: ComponentHandlerDeps) => {
 
       const title = props["Show Title#17043:12"].value ? props["Title#14599:0"].value : undefined;
 
-      const content = createElement(
+      const content = createLocalSnippetElement(
         "ExtendedActionSheetContent",
         { title },
         contentChildren,
-        title
-          ? undefined
-          : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
+        {
+          comment: title
+            ? undefined
+            : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
+        },
       );
 
-      const trigger = createElement(
+      const trigger = createLocalSnippetElement(
         "ExtendedActionSheetTrigger",
         { asChild: true },
-        createElement(
-          "ActionButton",
-          undefined,
-          "열기",
-          "ExtendedActionSheet을 여는 요소를 제공해주세요.",
-        ),
+        createElement("button", undefined, "열기", {
+          comment: "ExtendedActionSheet을 여는 요소를 제공해주세요.",
+        }),
       );
 
-      return createElement("ExtendedActionSheet", undefined, [trigger, content]);
+      return createLocalSnippetElement("ExtendedActionSheet", undefined, [trigger, content]);
     },
   );
 };

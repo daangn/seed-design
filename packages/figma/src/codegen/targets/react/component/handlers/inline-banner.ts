@@ -1,10 +1,13 @@
 import type { InlineBannerProperties } from "@/codegen/component-properties";
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("inline-banner");
 
 export const createInlineBannerHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<InlineBannerProperties>(metadata.inlineBanner.key, (node) => {
@@ -31,7 +34,9 @@ export const createInlineBannerHandler = (ctx: ComponentHandlerDeps) =>
     ) as NormalizedTextNode | null;
 
     if (!textNode) {
-      return createElement(tag, undefined, undefined, "내용을 제공해주세요.");
+      return createLocalSnippetElement(tag, undefined, undefined, {
+        comment: "내용을 제공해주세요.",
+      });
     }
 
     const slices = textNode.segments;
@@ -73,5 +78,5 @@ export const createInlineBannerHandler = (ctx: ComponentHandlerDeps) =>
       prefixIcon,
     };
 
-    return createElement(tag, commonProps);
+    return createLocalSnippetElement(tag, commonProps);
   });

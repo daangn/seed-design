@@ -1,8 +1,8 @@
-import { defineComponentHandler } from "@/codegen/core";
-import { camelCase } from "change-case";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import { createElement } from "@/codegen/core";
 import type { IdentityPlaceholderProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { camelCase } from "change-case";
+import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
 export const createIdentityPlaceholderHandler = (_ctx: ComponentHandlerDeps) =>
@@ -13,6 +13,6 @@ export const createIdentityPlaceholderHandler = (_ctx: ComponentHandlerDeps) =>
         identity: camelCase(props.Identity.value),
       };
 
-      return createElement("IdentityPlaceholder", commonProps);
+      return createSeedReactElement("IdentityPlaceholder", commonProps);
     },
   );

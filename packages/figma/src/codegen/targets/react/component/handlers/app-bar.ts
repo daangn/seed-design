@@ -1,15 +1,18 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
-import { findAll, findAllInstances, findOne } from "@/utils/figma-node";
-import { match } from "ts-pattern";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   AppBarLeftProperties,
   AppBarMainProperties,
   AppBarProperties,
   AppBarRightProperties,
 } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
+import { findAll, findAllInstances, findOne } from "@/utils/figma-node";
+import { match } from "ts-pattern";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("app-bar");
 
 const APP_BAR_MAIN_KEY = "336b49b26c3933485d87cc460b06c390976ea58e";
 const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) =>
@@ -39,12 +42,9 @@ const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) =>
         layout,
       };
 
-      return createElement(
-        "AppBarMain",
-        commonProps,
-        undefined,
-        title === undefined ? "Title을 제공해주세요." : undefined,
-      );
+      return createLocalSnippetElement("AppBarMain", commonProps, undefined, {
+        comment: title === undefined ? "Title을 제공해주세요." : undefined,
+      });
     },
   );
 
@@ -56,9 +56,9 @@ const createAppBarLeftHandler = (ctx: ComponentHandlerDeps) =>
     const children = (() => {
       switch (props.Action.value) {
         case "Back":
-          return createElement("AppBarBackButton", undefined);
+          return createLocalSnippetElement("AppBarBackButton");
         case "Close":
-          return createElement("AppBarCloseButton", undefined);
+          return createLocalSnippetElement("AppBarCloseButton");
         case "Other": {
           const iconNode = findOne(
             node,
@@ -69,17 +69,19 @@ const createAppBarLeftHandler = (ctx: ComponentHandlerDeps) =>
             return undefined;
           }
 
-          return createElement(
+          return createLocalSnippetElement(
             "AppBarIconButton",
             undefined,
             ctx.iconHandler.transform(iconNode),
-            "aria-label 또는 aria-labelledby를 제공해주세요.",
+            {
+              comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
+            },
           );
         }
       }
     })();
 
-    return createElement("AppBarLeft", undefined, children);
+    return createLocalSnippetElement("AppBarLeft", undefined, children);
   });
 
 const APP_BAR_RIGHT_KEY = "9e157fc2d1f89ffee938a5bc62f4a58064fec44e";
@@ -104,18 +106,20 @@ const createAppBarRightHandler = (ctx: ComponentHandlerDeps) =>
           ) as NormalizedInstanceNode[];
 
           return iconNodes.map((iconNode) =>
-            createElement(
+            createLocalSnippetElement(
               "AppBarIconButton",
               undefined,
               ctx.iconHandler.transform(iconNode),
-              "aria-label 또는 aria-labelledby를 제공해주세요.",
+              {
+                comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
+              },
             ),
           );
         }
       }
     })();
 
-    return createElement("AppBarRight", undefined, children);
+    return createLocalSnippetElement("AppBarRight", undefined, children);
   });
 
 export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
@@ -165,13 +169,16 @@ export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
     const onlyRightNode = rightNode.length === 1 ? rightNode[0] : undefined;
     const right = onlyRightNode ? appBarRightHandler.transform(onlyRightNode) : undefined;
 
-    return createElement(
+    return createLocalSnippetElement(
       "AppBar",
       { theme, tone },
       [left, main, right].filter(Boolean),
-      tone === "transparent"
-        ? `<AppScreen layerOffsetTop="none">으로 상단 패딩을 제거할 수 있습니다.`
-        : undefined,
+      {
+        comment:
+          tone === "transparent"
+            ? '<AppScreen layerOffsetTop="none">으로 상단 패딩을 제거할 수 있습니다.'
+            : undefined,
+      },
     );
   });
 };

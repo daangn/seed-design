@@ -1,6 +1,7 @@
 import type { NormalizedTextNode } from "@/normalizer";
 import { compactObject } from "@/utils/common";
-import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import { defineElementTransformer, type ElementTransformer } from "../../core";
+import { createSeedReactElement } from "./element-factories";
 import type { PropsConverters } from "./props";
 
 export interface TextTransformerDeps {
@@ -21,13 +22,10 @@ export function createTextTransformer({
       ...fillProps,
     });
 
-    return createElement(
-      "Text",
-      props,
-      node.characters.replace(/\n/g, "<br />"),
-      hasMultipleFills
+    return createSeedReactElement("Text", props, node.characters.replace(/\n/g, "<br />"), {
+      comment: hasMultipleFills
         ? "Multiple fills in Text node encountered, only the first fill is used."
-        : "",
-    );
+        : undefined,
+    });
   });
 }

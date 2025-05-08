@@ -1,10 +1,13 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import type { ActionButtonProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
+import { createLocalSnippetHelper } from "../../element-factories";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("action-button");
 
 export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonProperties>(
@@ -16,7 +19,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon Only", () => ({
           layout: "iconOnly",
           children: [
-            createElement("Icon", {
+            createLocalSnippetElement("Icon", {
               svg: ctx.iconHandler.transform(props["Icon#7574:0"]),
             }),
           ],
@@ -24,7 +27,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon First", () => ({
           layout: "withText",
           children: [
-            createElement("PrefixIcon", {
+            createLocalSnippetElement("PrefixIcon", {
               svg: ctx.iconHandler.transform(props["Prefix Icon#5987:305"]),
             }),
             props["Label#5987:61"].value,
@@ -34,7 +37,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
           layout: "withText",
           children: [
             props["Label#5987:61"].value,
-            createElement("SuffixIcon", {
+            createLocalSnippetElement("SuffixIcon", {
               svg: ctx.iconHandler.transform(props["Suffix Icon#5987:244"]),
             }),
           ],
@@ -57,6 +60,6 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         layout,
       };
 
-      return createElement("ActionButton", commonProps, children);
+      return createLocalSnippetElement("ActionButton", commonProps, children);
     },
   );

@@ -1,8 +1,10 @@
-import { defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import { createElement } from "@/codegen/core";
 import type { HelpBubbleProperties } from "@/codegen/component-properties";
+import { createElement, defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("help-bubble");
 
 export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<HelpBubbleProperties>(
@@ -59,10 +61,12 @@ export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
         placement,
       };
 
-      return createElement(
+      return createLocalSnippetElement(
         "HelpBubbleTrigger",
         commonProps,
-        createElement("ActionButton", undefined, "열기", "HelpBubble을 여는 요소를 제공해주세요."),
+        createElement("button", undefined, "열기", {
+          comment: "HelpBubble을 여는 요소를 제공해주세요.",
+        }),
       );
     },
   );

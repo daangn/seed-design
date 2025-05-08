@@ -1,14 +1,17 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { NormalizedInstanceNode } from "@/normalizer";
-import { camelCase } from "change-case";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type {
   TabsFillItemProperties,
   TabsHugItemProperties,
   TabsProperties,
 } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import type { NormalizedInstanceNode } from "@/normalizer";
+import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("tabs");
 
 const TABS_HUG_ITEM_KEY = "c242492543b327ceb84fa9933841512fc62a898c";
 const createTabsHugItemHandler = (_ctx: ComponentHandlerDeps) =>
@@ -27,7 +30,7 @@ const createTabsHugItemHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
+      return createLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -48,7 +51,7 @@ const createTabsFillItemHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
+      return createLocalSnippetElement("TabsTrigger", commonProps, props["Label#4478:2"].value);
     },
   );
 
@@ -96,7 +99,7 @@ export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
       componentProperties.State.value.split("-").includes("Selected"),
     )?.node;
 
-    const tabTriggerList = createElement(
+    const tabTriggerList = createLocalSnippetElement(
       "TabsList",
       undefined,
       tabsItems.map(({ triggerLayout, node }) => {
@@ -112,7 +115,7 @@ export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
     const tabContents = tabsItems.map(({ node }) => {
       const value = node.componentProperties["Label#4478:2"].value;
 
-      return createElement("TabsContent", { value }, "{/* TODO: 컨텐츠 추가 */}");
+      return createLocalSnippetElement("TabsContent", { value }, "{/* TODO: 컨텐츠 추가 */}");
     });
 
     const commonProps = {
@@ -123,6 +126,6 @@ export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
       }),
     };
 
-    return createElement("TabsRoot", commonProps, [tabTriggerList, ...tabContents]);
+    return createLocalSnippetElement("TabsRoot", commonProps, [tabTriggerList, ...tabContents]);
   });
 };
