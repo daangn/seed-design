@@ -21,13 +21,10 @@ export function createTextTransformer({
       ...fillProps,
     });
 
-    return createElement(
-      "Text",
-      props,
-      node.characters,
-      hasMultipleFills
+    return createElement("Text", props, node.characters, {
+      comment: hasMultipleFills
         ? "Multiple fills in Text node encountered, only the first fill is used."
-        : "",
-    );
+        : undefined,
+    });
   });
 }

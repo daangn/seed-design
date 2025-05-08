@@ -1,10 +1,10 @@
 import type { NormalizedInstanceNode } from "@/normalizer";
 import {
-  createElement,
   defineElementTransformer,
   type ComponentHandler,
   type ElementTransformer,
 } from "../../core";
+import { createSeedReactElement } from "./element-factories";
 import type { IconHandler } from "./icon";
 import type { PropsConverters } from "./props";
 
@@ -29,7 +29,7 @@ export function createInstanceTransformer({
         ...propsConverters.iconSelfLayout(node),
         ...propsConverters.vectorChildrenFill(node),
       };
-      return createElement("Icon", { svg: iconHandler.transform(node), ...props });
+      return createSeedReactElement("Icon", { svg: iconHandler.transform(node), ...props });
     }
 
     const componentHandler = componentSetKey

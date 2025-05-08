@@ -4,6 +4,7 @@ import type {
   NormalizedVectorNode,
 } from "@/normalizer";
 import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import { createSeedReactElement } from "./element-factories";
 import type { PropsConverters } from "./props";
 
 export interface RectangleTransformerDeps {
@@ -14,23 +15,29 @@ export function createRectangleTransformer({
   propsConverters,
 }: RectangleTransformerDeps): ElementTransformer<NormalizedRectangleNode> {
   return defineElementTransformer((node: NormalizedRectangleNode) => {
-    return createElement(
+    return createSeedReactElement(
       "Box",
       { ...propsConverters.selfLayout(node), background: "palette.gray200" },
       undefined,
-      "Rectangle Node Placeholder",
+      {
+        comment: "Rectangle Node Placeholder",
+      },
     );
   });
 }
 
 export function createVectorTransformer(): ElementTransformer<NormalizedVectorNode> {
   return defineElementTransformer(() => {
-    return createElement("svg", {}, [], "Vector Node Placeholder");
+    return createElement("svg", {}, [], {
+      comment: "Vector Node Placeholder",
+    });
   });
 }
 
 export function createBooleanOperationTransformer(): ElementTransformer<NormalizedBooleanOperationNode> {
   return defineElementTransformer(() => {
-    return createElement("svg", {}, [], "Boolean Operation Node Placeholder");
+    return createElement("svg", {}, [], {
+      comment: "Boolean Operation Node Placeholder",
+    });
   });
 }

@@ -1,10 +1,11 @@
 import type { TextButtonProperties } from "@/codegen/component-properties";
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode } from "@/normalizer";
 import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { match } from "ts-pattern";
+import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
@@ -44,5 +45,5 @@ export const createTextButtonHandler = (ctx: ComponentHandlerDeps) =>
       }),
     };
 
-    return createElement("TextButton", commonProps, children);
+    return createSeedReactElement("TextButton", commonProps, children);
   });

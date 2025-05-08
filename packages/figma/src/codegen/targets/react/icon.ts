@@ -1,6 +1,7 @@
 import type { IconService } from "@/entities";
 import { pascalCase } from "change-case";
 import { type ElementNode, createElement } from "../../core";
+import { createMonochromeIconElement, createMulticolorIconElement } from "./element-factories";
 
 export interface IconHandler {
   isIconInstance: (node: { componentKey: string }) => boolean;
@@ -36,11 +37,15 @@ export function createIconHandler({
       return createElement("UnknownIcon");
     }
 
-    const { name, weight } = iconData;
+    const { name, weight, type } = iconData;
 
     const tagName = iconNameFormatter({ name, weight });
 
-    return createElement(tagName);
+    if (type === "multicolor") {
+      return createMulticolorIconElement(tagName);
+    }
+
+    return createMonochromeIconElement(tagName);
   }
 
   return {

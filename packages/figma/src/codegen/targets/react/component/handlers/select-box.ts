@@ -1,21 +1,21 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { SelectBoxGroupProperties, SelectBoxProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
+import { match } from "ts-pattern";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { SelectBoxGroupProperties, SelectBoxProperties } from "@/codegen/component-properties";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("select-box");
 
 export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SelectBoxProperties>(
     metadata.selectBox.key,
     ({ componentProperties: props }) => {
-      const tag = (() => {
-        switch (props.Control.value) {
-          case "Checkbox":
-            return "CheckSelectBox";
-          case "Radio":
-            return "RadioSelectBox";
-        }
-      })();
+      const tag = match(props.Control.value)
+        .with("Checkbox", () => "CheckSelectBox")
+        .with("Radio", () => "RadioSelectBox")
+        .exhaustive();
 
       const states = props.State.value.split("-");
 
@@ -33,7 +33,7 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
           }),
       };
 
-      return createElement(tag, commonProps);
+      return createLocalSnippetElement(tag, commonProps);
     },
   );
 
@@ -45,14 +45,10 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
     (node) => {
       const props = node.componentProperties;
 
-      const tag = (() => {
-        switch (props.Control.value) {
-          case "Checkbox":
-            return "CheckSelectBoxGroup";
-          case "Radio":
-            return "RadioSelectBoxGroup";
-        }
-      })();
+      const tag = match(props.Control.value)
+        .with("Checkbox", () => "CheckSelectBoxGroup")
+        .with("Radio", () => "RadioSelectBoxGroup")
+        .exhaustive();
 
       const selectBoxes = findAllInstances<SelectBoxProperties>({
         node,
@@ -63,7 +59,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
         selectBox.componentProperties.State.value.split("-").includes("Selected"),
       );
 
-      const stack = createElement(
+      const stack = createSeedReactElement(
         "Stack",
         { gap: "spacingY.componentDefault" },
         selectBoxes.map(selectBoxHandler.transform),
@@ -75,7 +71,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
         }),
       };
 
-      return createElement(tag, commonProps, stack);
+      return createLocalSnippetElement(tag, commonProps, stack);
     },
   );
 };

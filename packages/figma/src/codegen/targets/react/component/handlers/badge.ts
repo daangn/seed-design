@@ -1,8 +1,9 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { BadgeProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
+import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { BadgeProperties } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
 
 export const createBadgeHandler = (_ctx: ComponentHandlerDeps) =>
@@ -14,5 +15,5 @@ export const createBadgeHandler = (_ctx: ComponentHandlerDeps) =>
       shape: camelCase(props.Shape.value),
     };
 
-    return createElement("Badge", commonProps, props["Label#1584:0"].value);
+    return createSeedReactElement("Badge", commonProps, props["Label#1584:0"].value);
   });

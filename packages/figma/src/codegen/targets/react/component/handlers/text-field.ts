@@ -1,8 +1,11 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type { TextFieldProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("text-field");
 
 export const createTextFieldHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<TextFieldProperties>(
@@ -101,8 +104,8 @@ export const createTextFieldHandler = (ctx: ComponentHandlerDeps) =>
         placeholder,
       };
 
-      const TextFieldChildren = createElement("TextFieldInput", inputProps);
+      const TextFieldChildren = createLocalSnippetElement("TextFieldInput", inputProps);
 
-      return createElement("TextField", commonProps, TextFieldChildren);
+      return createLocalSnippetElement("TextField", commonProps, TextFieldChildren);
     },
   );

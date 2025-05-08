@@ -1,8 +1,11 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type { SwitchProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("switch");
 
 export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SwitchProperties>(
@@ -25,6 +28,6 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
         }),
       };
 
-      return createElement("Switch", commonProps);
+      return createLocalSnippetElement("Switch", commonProps);
     },
   );

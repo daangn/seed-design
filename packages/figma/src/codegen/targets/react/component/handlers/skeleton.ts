@@ -1,9 +1,10 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { SkeletonProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
-import type { ComponentHandlerDeps } from "../deps.interface";
-import type { SkeletonProperties } from "@/codegen/component-properties";
 import { match } from "ts-pattern";
+import { createSeedReactElement } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
 
 export const createSkeletonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SkeletonProperties>(metadata.skeleton.key, (node) => {
@@ -21,5 +22,5 @@ export const createSkeletonHandler = (ctx: ComponentHandlerDeps) =>
         .otherwise(() => "full"),
     };
 
-    return createElement("Skeleton", commonProps);
+    return createSeedReactElement("Skeleton", commonProps);
   });

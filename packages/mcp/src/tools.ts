@@ -183,11 +183,11 @@ export function registerTools(
         const original =
           noInferPipeline.generateCode(node, {
             shouldPrintSource: true,
-          }) ?? "Failed to generate summarized node info";
+          })?.jsx ?? "Failed to generate summarized node info";
         const inferred =
           inferPipeline.generateCode(node, {
             shouldPrintSource: true,
-          }) ?? "Failed to generate summarized node info";
+          })?.jsx ?? "Failed to generate summarized node info";
 
         return formatObjectResponse({
           original: {
@@ -231,11 +231,11 @@ export function registerTools(
             const original =
               noInferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-              }) ?? "Failed to generate summarized node info";
+              })?.jsx ?? "Failed to generate summarized node info";
             const inferred =
               inferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-              }) ?? "Failed to generate summarized node info";
+              })?.jsx ?? "Failed to generate summarized node info";
 
             return {
               nodeId,
@@ -271,12 +271,15 @@ export function registerTools(
           shouldInferVariableName: true,
           extend,
         });
-        const code =
-          pipeline.generateCode(normalizer(result.document), {
-            shouldPrintSource: false,
-          }) ?? "Failed to generate code";
+        const generated = pipeline.generateCode(normalizer(result.document), {
+          shouldPrintSource: false,
+        });
 
-        return formatTextResponse(code);
+        if (!generated) {
+          return formatTextResponse("Failed to generate code");
+        }
+
+        return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
         return formatErrorResponse("get_node_react_code", error);
       }

@@ -1,7 +1,10 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { ComponentHandlerDeps } from "../deps.interface";
 import type { MannerTempBadgeProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
+import * as metadata from "@/entities/data/__generated__/component-sets";
+import { createLocalSnippetHelper } from "../../element-factories";
+import type { ComponentHandlerDeps } from "../deps.interface";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("manner-temp-badge");
 
 export const createMannerTempBadgeHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MannerTempBadgeProperties>(
@@ -13,6 +16,6 @@ export const createMannerTempBadgeHandler = (_ctx: ComponentHandlerDeps) =>
         temperature: Number(textNode?.characters.replace(/[^\d.-]/g, "") ?? "-1"),
       };
 
-      return createElement("MannerTempBadge", commonProps);
+      return createLocalSnippetElement("MannerTempBadge", commonProps);
     },
   );

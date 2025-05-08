@@ -1,8 +1,11 @@
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import type { SnackbarProperties } from "@/codegen/component-properties";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import type { SnackbarProperties } from "@/codegen/component-properties";
+
+const { createLocalSnippetElement } = createLocalSnippetHelper("snackbar");
 
 export const createSnackbarHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SnackbarProperties>(
@@ -17,6 +20,6 @@ export const createSnackbarHandler = (_ctx: ComponentHandlerDeps) =>
       };
 
       // TODO: adapter.create({ render })
-      return createElement("Snackbar", commonProps);
+      return createLocalSnippetElement("Snackbar", commonProps);
     },
   );
