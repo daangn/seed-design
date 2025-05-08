@@ -43,6 +43,7 @@
     "@seed-design/react-checkbox": "0.0.2",
     "@seed-design/react-dialog": "0.0.3",
     "@seed-design/react-popover": "0.0.5",
+    "@seed-design/react-portal": "0.0.0",
     "@seed-design/react-primitive": "0.0.2",
     "@seed-design/react-progress": "0.0.2",
     "@seed-design/react-pull-to-refresh": "0.0.3",

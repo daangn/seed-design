@@ -38,3 +38,20 @@ description: Action Sheet는 사용자의 작업과 관련된 선택지를 제�
   path="./registry/ui/action-sheet.tsx"
   name="ActionSheetItemProps"
 />
+
+## Examples
+
+### Portalled
+
+`<Portal>`으로 `<ActionSheetContent>`를 감싸서 컨텐츠를 원하는 요소에 렌더링할 수 있습니다.
+
+Portal은 기본적으로 `document.body`에 렌더링됩니다.
+
+<ComponentExample name="action-sheet-portalled">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/action-sheet-portalled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
