@@ -40,6 +40,7 @@
     flex-direction: column;
     box-sizing: border-box;
     word-break: break-all;
+    overflow: hidden;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
     background: var(--seed-color-bg-layer-floating);
     border-top-left-radius: var(--seed-radius-r5);
