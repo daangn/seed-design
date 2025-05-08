@@ -42,27 +42,13 @@ export const createActionChipHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon Both", () => ({
           layout: "withText",
           children: [
-            createSeedReactElement(
-              "PrefixIcon",
-              {
-                svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
-              },
-              undefined,
-              {
-                importPath: "@seed-design/react",
-              },
-            ),
+            createSeedReactElement("PrefixIcon", {
+              svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
+            }),
             props["Label#7185:0"].value,
-            createSeedReactElement(
-              "SuffixIcon",
-              {
-                svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
-              },
-              undefined,
-              {
-                importPath: "@seed-design/react",
-              },
-            ),
+            createSeedReactElement("SuffixIcon", {
+              svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
+            }),
           ],
         }))
         .with("Text Only", () => ({
