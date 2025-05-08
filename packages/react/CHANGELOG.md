@@ -1,5 +1,16 @@
 # @seed-design/react
 
+## 0.0.24
+
+### Patch Changes
+
+- 4da536f: ActionSheet의 header가 렌더링되지 않을 때 상단 radius가 누락되는 버그를 수정합니다.
+- 3efe201: `<Portal>` 컴포넌트를 제공합니다.
+- Updated dependencies [4da536f]
+- Updated dependencies [3efe201]
+  - @seed-design/css@0.0.24
+  - @seed-design/react-portal@0.0.1
+
 ## 0.0.23
 
 ### Patch Changes

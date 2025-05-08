@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/vite-plugin",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -29,11 +29,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@seed-design/css": "^0.0.23",
+    "@seed-design/css": "^0.0.24",
     "vite": "^6.3.3"
   },
   "peerDependencies": {
-    "@seed-design/css": "^0.0.23",
+    "@seed-design/css": "^0.0.24",
     "vite": "^5.0.0 || ^6.0.0"
   },
   "publishConfig": {

@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.24
+
+### Patch Changes
+
+- 4da536f: ActionSheet의 header가 렌더링되지 않을 때 상단 radius가 누락되는 버그를 수정합니다.
+
 ## 0.0.23
 
 ### Patch Changes

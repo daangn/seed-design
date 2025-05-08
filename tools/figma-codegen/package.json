@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "author": "Asher <asher@daangn.com>",
   "dependencies": {
-    "@seed-design/figma": "0.0.23"
+    "@seed-design/figma": "0.0.24"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.1",
