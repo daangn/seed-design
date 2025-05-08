@@ -384,6 +384,7 @@
         "@seed-design/react-checkbox": "0.0.2",
         "@seed-design/react-dialog": "0.0.3",
         "@seed-design/react-popover": "0.0.5",
+        "@seed-design/react-portal": "0.0.0",
         "@seed-design/react-primitive": "0.0.2",
         "@seed-design/react-progress": "0.0.2",
         "@seed-design/react-pull-to-refresh": "0.0.3",
@@ -481,6 +482,19 @@
         "@seed-design/dom-utils": "0.0.2",
         "@seed-design/react-primitive": "0.0.2",
       },
+      "devDependencies": {
+        "@types/react": "^18.3.20",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/portal": {
+      "name": "@seed-design/react-portal",
+      "version": "0.0.0",
       "devDependencies": {
         "@types/react": "^18.3.20",
         "react": "^18.3.1",
@@ -1925,6 +1939,8 @@
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
+
+    "@seed-design/react-portal": ["@seed-design/react-portal@workspace:packages/react-headless/portal"],
 
     "@seed-design/react-primitive": ["@seed-design/react-primitive@workspace:packages/react-headless/primitive"],
 

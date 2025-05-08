@@ -29,6 +29,7 @@ export * from "./LoadingIndicator";
 export * from "./MannerTemp";
 export * from "./MannerTempBadge";
 export * from "./NotificationBadge";
+export * from "./Portal";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
 export * from "./ReactionButton";
