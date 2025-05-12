@@ -52,6 +52,10 @@ V3를 사용하기 위한 기반 작업들을 먼저 진행합니다.
 V2 `@seed-design/stylesheet` 패키지의 `global.css`와 상호운용이 가능합니다.
 </Callout>
 
+<Callout type="warn">
+번들러 플러그인([webpack](https://github.com/daangn/seed-design/tree/dev/packages/webpack-plugin), [vite](https://github.com/daangn/seed-design/tree/dev/packages/vite-plugin), [rsbuild](https://github.com/daangn/seed-design/tree/dev/packages/rsbuild-plugin))을 사용하는 경우에는 `all.css` 대신 `base.css`를 사용해주세요.
+</Callout>
+
 ```ts title="index.tsx"
 import "@seed-design/css/all.css"; // [!code ++]
 ```
