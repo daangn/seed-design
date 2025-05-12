@@ -1,30 +1,30 @@
 // @ts-nocheck
 import { style } from "@vanilla-extract/css";
-import { color } from "@/shared/styles";
+import { f } from "@/shared/styles";
 
 export const container = style({
-  backgroundColor: color.palette.gray200,
-  color: color.palette.gray1000,
-  borderColor: color.palette.carrot600,
+  backgroundColor: f.color.palette.gray200,
+  color: f.color.palette.gray1000,
+  borderColor: f.color.palette.carrot600,
 });
 
 export const box = style({
-  background: color.palette.staticWhite,
-  color: color.palette.staticBlack,
-  border: `1px solid ${color.palette.gray400}`,
+  background: f.color.palette.staticWhite,
+  color: f.color.palette.staticBlack,
+  border: `1px solid ${f.color.palette.gray400}`,
 });
 
 export const alert = style({
-  backgroundColor: color.bg.criticalWeak,
-  color: color.fg.critical,
+  backgroundColor: f.color.bg.criticalWeak,
+  color: f.color.fg.critical,
 });
 
 export const button = style({
-  backgroundColor: color.bg.neutralWeak,
-  color: color.palette.gray900,
+  backgroundColor: f.color.bg.neutralWeak,
+  color: f.color.palette.gray900,
 });
 
 export const highlight = style({
-  color: color.fg.brand,
-  backgroundColor: color.palette.carrot100,
+  color: f.color.fg.brand,
+  backgroundColor: f.color.palette.carrot100,
 }); 

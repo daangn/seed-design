@@ -9,7 +9,7 @@ import { camelCaseToKebabCase } from "../../utils/case.js";
 const logger = createTransformLogger("replace-custom-seed-design-color");
 
 // 프로젝트별로 다양한 색상 속성 접두사를 허용
-const TARGET_PREFIXES = ["color", "background", "backgroundColor"];
+const TARGET_PREFIXES = ["color", "background", "backgroundColor", "f"];
 
 // 매핑 접두사 목록
 const TOKEN_PREFIXES = ["$semantic.color.", "$scale.color.", "$static.color."];
@@ -44,7 +44,19 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
       })
       .forEach((path) => {
         // 네임스페이스 객체인 경우 처리하지 않음 (color.scale, color.semantic 등)
-        if (NAMESPACE_OBJECTS.includes(path.node.property.name)) {
+        if (
+          path.node.property.type === "Identifier" &&
+          NAMESPACE_OBJECTS.includes(path.node.property.name)
+        ) {
+          return;
+        }
+
+        // color 네임스페이스 객체인 경우 처리하지 않음 (f.color)
+        if (
+          prefix === "f" &&
+          path.node.property.type === "Identifier" &&
+          path.node.property.name === "color"
+        ) {
           return;
         }
 
@@ -83,6 +95,46 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
           hasChanges = true;
         });
     });
+
+    // f.color.scale.gray100와 같은 중첩된 네임스페이스 접근 처리
+    if (prefix === "f") {
+      NAMESPACE_OBJECTS.forEach((namespace) => {
+        root
+          .find(j.MemberExpression, {
+            object: {
+              type: "MemberExpression",
+              object: {
+                type: "MemberExpression",
+                object: {
+                  type: "Identifier",
+                  name: prefix,
+                },
+                property: {
+                  type: "Identifier",
+                  name: "color",
+                },
+              },
+              property: {
+                type: "Identifier",
+                name: namespace,
+              },
+            },
+          })
+          .forEach((path) => {
+            const parentPropertyName = getParentPropertyName(path);
+            processNamespacedColorNode(
+              j,
+              path,
+              file,
+              colorMap,
+              "f.color",
+              namespace,
+              parentPropertyName,
+            );
+            hasChanges = true;
+          });
+      });
+    }
   });
 
   // 파일 변환 완료 로깅
@@ -119,7 +171,7 @@ function processNamespacedColorNode(
   // 토큰 타입 결정 (background, color 등에 따라 다른 토큰 타입 사용)
   let tokenType: "bg" | "fg" | "stroke" | "palette";
 
-  if (prefix === "backgroundColor") {
+  if (prefix === "backgroundColor" || parentPropertyName === "backgroundColor") {
     // backgroundColor 속성은 항상 bg 토큰 사용
     tokenType = "bg";
   } else {
@@ -229,7 +281,7 @@ function processNamespacedColorNode(
         }
 
         // prefix에 따라 적절한 토큰 선택
-        if (prefix === "backgroundColor") {
+        if (prefix === "backgroundColor" || parentPropertyName === "backgroundColor") {
           applySelectedToken(
             j,
             path,
@@ -275,14 +327,6 @@ function processNamespacedColorNode(
         }
       }
     }
-
-    // 매핑이 없는 경우
-    logFailure(
-      file.path,
-      `${namespace}.${propertyName}`,
-      path.node.loc?.start.line || 0,
-      "No mapping found in the color tokens",
-    );
   }
 }
 
@@ -312,7 +356,7 @@ function processColorNode(
   // 토큰 타입 결정 (background, color 등에 따라 다른 토큰 타입 사용)
   let tokenType: "bg" | "fg" | "stroke" | "palette";
 
-  if (prefix === "backgroundColor") {
+  if (prefix === "backgroundColor" || parentPropertyName === "backgroundColor") {
     // backgroundColor 속성은 항상 bg 토큰 사용
     tokenType = "bg";
   } else {
@@ -401,7 +445,7 @@ function processColorNode(
       // Gray-Alpha-200 처리
       if (propertyName.includes("Alpha") || propertyName.toLowerCase().includes("alpha")) {
         // prefix에 따라 적절한 토큰 선택
-        if (prefix === "backgroundColor") {
+        if (prefix === "backgroundColor" || parentPropertyName === "backgroundColor") {
           applySelectedToken(j, path, file, propertyName, "$color.bg.default", prefix, false);
         } else {
           applySelectedToken(j, path, file, propertyName, "$color.fg.default", prefix, false);
@@ -417,7 +461,7 @@ function processColorNode(
         // static-black-alpha 등의 패턴 찾기
         if (mapping.previous.includes("static") && specialToken.includes("static")) {
           // prefix에 따라 적절한 토큰 타입 선택
-          if (prefix === "backgroundColor") {
+          if (prefix === "backgroundColor" || parentPropertyName === "backgroundColor") {
             // bg 토큰 찾기
             const bgToken = mapping.next.find((token) => token.includes("$color.bg"));
             if (bgToken) {
@@ -454,14 +498,6 @@ function processColorNode(
         }
       }
     }
-
-    // 매핑이 없는 경우
-    logFailure(
-      file.path,
-      propertyName,
-      path.node.loc?.start.line || 0,
-      "No mapping found in the color tokens",
-    );
   }
 }
 
@@ -524,21 +560,23 @@ function applySelectedToken(
     // kebab-case를 camelCase로 변환 (gray-200 => gray200)
     const value = kebabToCamelCase(parts[2]);
 
-    // 객체 접근 방식 변경: color.palette, color.fg, backgroundColor.bg, backgroundColor.palette
-    // 객체 이름 (color 또는 background)은 유지
-    const objectName = prefix; // color 또는 background/backgroundColor
+    // 색상 객체 접근 계층 구조 가져오기
+    const colorObject = getColorObjectAccess(j, prefix);
 
-    // 새로운 멤버 표현식 생성 (color.palette 또는 color.fg 등)
-    const categoryAccess = j.memberExpression(j.identifier(objectName), j.identifier(category));
+    // 새로운 카테고리 접근식 생성 (palette, bg, fg 등)
+    const categoryAccess = j.memberExpression(colorObject, j.identifier(category));
 
     // 새로운 property 적용
     path.node.object = categoryAccess;
     path.node.property = j.identifier(value);
 
+    // prefix에 따른 로그 메시지 생성
+    const logPrefix = prefix.includes("f.") ? prefix : prefix;
+
     // 성공 로깅
     logger.logTransformResult(file.path, {
       previousToken: propertyName,
-      nextToken: `${objectName}.${category}.${value}`,
+      nextToken: `${logPrefix}.${category}.${value}`,
       line: path.node.loc?.start.line || 0,
       status: "success",
     });
@@ -547,7 +585,7 @@ function applySelectedToken(
     if (needsVerification) {
       logger.logTransformResult(file.path, {
         previousToken: propertyName,
-        nextToken: `${objectName}.${category}.${value}`,
+        nextToken: `${logPrefix}.${category}.${value}`,
         line: path.node.loc?.start.line || 0,
         status: "warning",
         failureReason: warningReason,
@@ -563,6 +601,20 @@ function applySelectedToken(
       failureReason: "Invalid token format",
     });
   }
+}
+
+/**
+ * 색상 객체 접근식을 생성하는 함수
+ */
+function getColorObjectAccess(j: API["jscodeshift"], prefix: string) {
+  // f.color 형태인 경우
+  if (prefix === "f.color") {
+    // f.color 접근식 생성
+    return j.memberExpression(j.identifier("f"), j.identifier("color"));
+  }
+
+  // 일반적인 경우 (color, background 등)
+  return j.identifier(prefix);
 }
 
 /**
