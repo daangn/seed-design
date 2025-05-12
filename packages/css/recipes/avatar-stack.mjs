@@ -23,8 +23,11 @@ export const avatarStackVariantMap = {
     "20",
     "24",
     "36",
+    "42",
     "48",
-    "64"
+    "64",
+    "80",
+    "96"
   ]
 };
 

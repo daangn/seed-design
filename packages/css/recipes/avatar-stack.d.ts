@@ -2,7 +2,7 @@ declare interface AvatarStackVariant {
   /**
   * @default 48
   */
-  size: "20" | "24" | "36" | "48" | "64";
+  size: "20" | "24" | "36" | "42" | "48" | "64" | "80" | "96";
 }
 
 declare type AvatarStackVariantMap = {

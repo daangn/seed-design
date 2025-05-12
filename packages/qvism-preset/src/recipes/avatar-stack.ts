@@ -46,6 +46,15 @@ const avatarStack = defineSlotRecipe({
           boxShadow: `0 0 0 ${vars.size36.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
         },
       },
+      42: {
+        item: {
+          [pseudo(not(":first-child"))]: {
+            marginLeft: vars.size42.enabled.root.gap,
+          },
+          clipPath: `inset(-${vars.size42.enabled.item.strokeWidth})`,
+          boxShadow: `0 0 0 ${vars.size42.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
+        },
+      },
       48: {
         item: {
           [pseudo(not(":first-child"))]: {
@@ -62,6 +71,24 @@ const avatarStack = defineSlotRecipe({
           },
           clipPath: `inset(-${vars.size64.enabled.item.strokeWidth})`,
           boxShadow: `0 0 0 ${vars.size64.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
+        },
+      },
+      80: {
+        item: {
+          [pseudo(not(":first-child"))]: {
+            marginLeft: vars.size80.enabled.root.gap,
+          },
+          clipPath: `inset(-${vars.size80.enabled.item.strokeWidth})`,
+          boxShadow: `0 0 0 ${vars.size80.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
+        },
+      },
+      96: {
+        item: {
+          [pseudo(not(":first-child"))]: {
+            marginLeft: vars.size96.enabled.root.gap,
+          },
+          clipPath: `inset(-${vars.size96.enabled.item.strokeWidth})`,
+          boxShadow: `0 0 0 ${vars.size96.enabled.item.strokeWidth} ${vars.base.enabled.item.strokeColor}`,
         },
       },
     },

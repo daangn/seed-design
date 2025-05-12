@@ -15,8 +15,11 @@
             "20": {},
             "24": {},
             "36": {},
+            "42": {},
             "48": {},
-            "64": {}
+            "64": {},
+            "80": {},
+            "96": {}
           },
           "defaultValue": "20"
         }
@@ -68,7 +71,7 @@
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 2,
+                    "value": 1,
                     "unit": "px"
                   }
                 }
@@ -100,7 +103,7 @@
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 2,
+                    "value": 1,
                     "unit": "px"
                   }
                 }
@@ -132,7 +135,39 @@
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 3,
+                    "value": 2,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "42"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": -10,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
                     "unit": "px"
                   }
                 }
@@ -155,7 +190,7 @@
                 "gap": {
                   "type": "dimension",
                   "value": {
-                    "value": -10,
+                    "value": -12,
                     "unit": "px"
                   }
                 }
@@ -164,7 +199,7 @@
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
-                    "value": 4,
+                    "value": 2,
                     "unit": "px"
                   }
                 }
@@ -187,7 +222,39 @@
                 "gap": {
                   "type": "dimension",
                   "value": {
-                    "value": -10,
+                    "value": -16,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 3,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "80"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": -20,
                     "unit": "px"
                   }
                 }
@@ -197,6 +264,38 @@
                   "type": "dimension",
                   "value": {
                     "value": 4,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "96"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": -24,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 5,
                     "unit": "px"
                   }
                 }
