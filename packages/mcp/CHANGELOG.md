@@ -1,5 +1,44 @@
 # @seed-design/mcp
 
+## 0.0.24
+
+### Patch Changes
+
+- @seed-design/figma@0.0.24
+
+## 0.0.23
+
+### Patch Changes
+
+- bf38ec2: 기본적으로 local-default 채널을 사용하도록 변경합니다. join_channel을 매 세션마다 요청할 필요를 없앱니다.
+  - @seed-design/figma@0.0.23
+
+## 0.0.22
+
+### Patch Changes
+
+- 6c0133a: 커스텀 컴포넌트를 등록할 수 있도록 extend.componentHandlers 설정을 제공합니다.
+- Updated dependencies [6c0133a]
+  - @seed-design/figma@0.0.22
+
+## 0.0.21
+
+### Patch Changes
+
+- e368c69: 패키지 의존성을 최신화합니다.
+- Updated dependencies [b167e95]
+- Updated dependencies [2f2f9b3]
+- Updated dependencies [4d34760]
+- Updated dependencies [e368c69]
+  - @seed-design/figma@0.0.21
+
+## 0.0.20
+
+### Patch Changes
+
+- Updated dependencies [38ece6a]
+  - @seed-design/figma@0.0.20
+
 ## 0.0.19
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/css",
-  "version": "0.0.19",
+  "version": "0.0.24",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -58,8 +58,8 @@
     "*.css"
   ],
   "devDependencies": {
-    "@seed-design/qvism-preset": "0.0.0",
-    "@seed-design/qvism-cli": "0.0.0"
+    "@seed-design/qvism-cli": "0.0.0",
+    "@seed-design/qvism-preset": "0.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,5 +1,11 @@
 # @seed-design/figma-extractor
 
+## 0.0.4
+
+### Patch Changes
+
+- e368c69: 패키지 의존성을 최신화합니다.
+
 ## 0.0.3
 
 ### Patch Changes

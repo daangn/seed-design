@@ -31,22 +31,22 @@ export const reactMatch: MigrateIconsOptions["match"] = {
     {
       startsWith: "@seed-design/icon",
       replaceWith: {
-        default: "@daangn/react-monochrome-icon",
-        multicolor: "@daangn/react-multicolor-icon",
+        default: "@karrotmarket/react-monochrome-icon",
+        multicolor: "@karrotmarket/react-multicolor-icon",
       },
     },
     {
       startsWith: "@seed-design/react-icon",
       replaceWith: {
-        default: "@daangn/react-monochrome-icon",
-        multicolor: "@daangn/react-multicolor-icon",
+        default: "@karrotmarket/react-monochrome-icon",
+        multicolor: "@karrotmarket/react-multicolor-icon",
       },
     },
     {
       startsWith: "@karrotmarket/karrot-ui-icon/lib/react",
       replaceWith: {
-        default: "@daangn/react-monochrome-icon",
-        multicolor: "@daangn/react-multicolor-icon",
+        default: "@karrotmarket/react-monochrome-icon",
+        multicolor: "@karrotmarket/react-multicolor-icon",
       },
     },
   ],

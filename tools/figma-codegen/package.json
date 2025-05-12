@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "author": "Asher <asher@daangn.com>",
   "dependencies": {
-    "@seed-design/figma": "0.0.19"
+    "@seed-design/figma": "0.0.24"
   },
   "devDependencies": {
-    "@create-figma-plugin/build": "^3.0.2",
-    "@create-figma-plugin/tsconfig": "^3.0.2",
-    "@figma/plugin-typings": "^1.108.0",
-    "typescript": "^5.4.5"
+    "@create-figma-plugin/build": "^4.0.1",
+    "@create-figma-plugin/tsconfig": "^4.0.0",
+    "@figma/plugin-typings": "^1.110.0",
+    "typescript": "^5.8.3"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",

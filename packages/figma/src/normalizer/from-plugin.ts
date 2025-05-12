@@ -206,6 +206,9 @@ export function createPluginNormalizer() {
         )) as ComponentNode;
         if (mainComponent) {
           componentProperties[key].componentKey = mainComponent.key;
+          if (mainComponent.parent?.type === "COMPONENT_SET") {
+            componentProperties[key].componentSetKey = mainComponent.parent.key;
+          }
         }
       }
     }

@@ -13,7 +13,7 @@ data:
           paddingX: $dimension.x4
         icon:
           size: 24px
-          targetSize: 40px
+          targetSize: 44px
     theme=android:
       enabled:
         root:
@@ -21,7 +21,7 @@ data:
           paddingX: $dimension.x4
         icon:
           size: 24px
-          targetSize: 40px
+          targetSize: 44px
     tone=layer:
       enabled:
         root:

@@ -1,11 +1,8 @@
+import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import {
-  createRestNormalizer,
-  generateCode,
-  generateFigmaSummary,
-  getFigmaColorVariableNames,
-} from "@seed-design/figma";
+import { createRestNormalizer, figma, getFigmaColorVariableNames, react } from "@seed-design/figma";
 import { z } from "zod";
+import type { McpConfig } from "./config";
 import {
   formatErrorResponse,
   formatImageResponse,
@@ -14,8 +11,13 @@ import {
 } from "./responses";
 import type { FigmaWebSocketClient } from "./websocket";
 
-export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClient): void {
+export function registerTools(
+  server: McpServer,
+  figmaClient: FigmaWebSocketClient,
+  config: McpConfig | null = {},
+): void {
   const { joinChannel, sendCommandToFigma } = figmaClient;
+  const { extend } = config ?? {};
 
   // join_channel tool
   server.tool(
@@ -117,6 +119,46 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
     },
   );
 
+  // Component Info Tool
+  server.tool(
+    "get_component_info",
+    "Get detailed information about a specific component node in Figma",
+    {
+      nodeId: z.string().describe("The ID of the component node to get information about"),
+    },
+    async ({ nodeId }) => {
+      try {
+        const result = (await sendCommandToFigma("get_node_info", {
+          nodeId,
+        })) as GetFileNodesResponse["nodes"][string];
+
+        const node = result.document;
+        if (node.type !== "COMPONENT" && node.type !== "COMPONENT_SET") {
+          return formatErrorResponse(
+            "get_component_info",
+            new Error(`Node with ID ${nodeId} is not a component node`),
+          );
+        }
+
+        const key = result.componentSets[nodeId]?.key ?? result.components[nodeId]?.key;
+        if (!key) {
+          return formatErrorResponse(
+            "get_component_info",
+            new Error(`${nodeId} is not present in exported component data`),
+          );
+        }
+
+        return formatObjectResponse({
+          name: node.name,
+          key,
+          componentPropertyDefinitions: node.componentPropertyDefinitions,
+        });
+      } catch (error) {
+        return formatErrorResponse("get_node_info", error);
+      }
+    },
+  );
+
   // Node Info Tool
   server.tool(
     "get_node_info",
@@ -130,18 +172,22 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
         const normalizer = createRestNormalizer(result);
         const node = normalizer(result.document);
 
+        const noInferPipeline = figma.createPipeline({
+          shouldInferAutoLayout: false,
+          shouldInferVariableName: false,
+        });
+        const inferPipeline = figma.createPipeline({
+          shouldInferAutoLayout: true,
+          shouldInferVariableName: true,
+        });
         const original =
-          generateFigmaSummary(node, {
+          noInferPipeline.generateCode(node, {
             shouldPrintSource: true,
-            shouldInferVariableName: false,
-            shouldInferAutoLayout: false,
-          }) ?? "Failed to generate summarized node info";
+          })?.jsx ?? "Failed to generate summarized node info";
         const inferred =
-          generateFigmaSummary(node, {
+          inferPipeline.generateCode(node, {
             shouldPrintSource: true,
-            shouldInferVariableName: false,
-            shouldInferAutoLayout: true,
-          }) ?? "Failed to generate summarized node info";
+          })?.jsx ?? "Failed to generate summarized node info";
 
         return formatObjectResponse({
           original: {
@@ -174,18 +220,22 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
             const normalizer = createRestNormalizer(result);
             const node = normalizer(result.document);
 
+            const noInferPipeline = figma.createPipeline({
+              shouldInferAutoLayout: false,
+              shouldInferVariableName: false,
+            });
+            const inferPipeline = figma.createPipeline({
+              shouldInferAutoLayout: true,
+              shouldInferVariableName: true,
+            });
             const original =
-              generateFigmaSummary(node, {
-                shouldInferVariableName: false,
+              noInferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-                shouldInferAutoLayout: false,
-              }) ?? "Failed to generate summarized node info";
+              })?.jsx ?? "Failed to generate summarized node info";
             const inferred =
-              generateFigmaSummary(node, {
-                shouldInferVariableName: true,
+              inferPipeline.generateCode(node, {
                 shouldPrintSource: true,
-                shouldInferAutoLayout: false,
-              }) ?? "Failed to generate summarized node info";
+              })?.jsx ?? "Failed to generate summarized node info";
 
             return {
               nodeId,
@@ -216,14 +266,20 @@ export function registerTools(server: McpServer, figmaClient: FigmaWebSocketClie
         const result: any = await sendCommandToFigma("get_node_info", { nodeId });
         const normalizer = createRestNormalizer(result);
 
-        const code =
-          generateCode(normalizer(result.document), {
-            shouldInferVariableName: true,
-            shouldPrintSource: false,
-            shouldInferAutoLayout: true,
-          }) ?? "Failed to generate code";
+        const pipeline = react.createPipeline({
+          shouldInferAutoLayout: true,
+          shouldInferVariableName: true,
+          extend,
+        });
+        const generated = pipeline.generateCode(normalizer(result.document), {
+          shouldPrintSource: false,
+        });
 
-        return formatTextResponse(code);
+        if (!generated) {
+          return formatTextResponse("Failed to generate code");
+        }
+
+        return formatTextResponse(`${generated.imports}\n\n${generated.jsx}`);
       } catch (error) {
         return formatErrorResponse("get_node_react_code", error);
       }

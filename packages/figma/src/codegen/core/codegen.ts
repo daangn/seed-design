@@ -9,11 +9,11 @@ import type {
   NormalizedVectorNode,
 } from "@/normalizer";
 import { match } from "ts-pattern";
-import { inferLayout, type ElementNode, type ElementTransformer } from "../core";
-import { appendSource, createElement } from "../core/jsx";
-import { applyInferredLayout } from "./infer-layout";
+import { appendSource, createElement, stringifyElement, type ElementNode } from "../core/jsx";
+import type { ElementTransformer } from "./element-transformer";
+import { applyInferredLayout, inferLayout } from "./infer-layout";
 
-export interface CodegenTransformerDeps {
+export interface CodeGeneratorDeps {
   frameTransformer: ElementTransformer<
     NormalizedFrameNode | NormalizedComponentNode | NormalizedInstanceNode
   >;
@@ -25,7 +25,7 @@ export interface CodegenTransformerDeps {
   shouldInferAutoLayout: boolean;
 }
 
-export function createCodegenTransformer({
+export function createCodeGenerator({
   frameTransformer,
   textTransformer,
   rectangleTransformer,
@@ -33,7 +33,7 @@ export function createCodegenTransformer({
   vectorTransformer,
   booleanOperationTransformer,
   shouldInferAutoLayout,
-}: CodegenTransformerDeps): (node: NormalizedSceneNode) => ElementNode | undefined {
+}: CodeGeneratorDeps) {
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
       return;
@@ -61,5 +61,19 @@ export function createCodegenTransformer({
     return;
   }
 
-  return (node) => traverse(node);
+  function generateJsxTree(node: NormalizedSceneNode) {
+    return traverse(node);
+  }
+
+  function generateCode(node: NormalizedSceneNode, options: { shouldPrintSource: boolean }) {
+    const jsxTree = generateJsxTree(node);
+
+    if (!jsxTree) {
+      return undefined;
+    }
+
+    return stringifyElement(jsxTree, { printSource: options.shouldPrintSource });
+  }
+
+  return { generateJsxTree, generateCode };
 }

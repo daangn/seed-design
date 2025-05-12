@@ -1,5 +1,34 @@
 # @seed-design/stackflow
 
+## 0.0.24
+
+### Patch Changes
+
+- Updated dependencies [4da536f]
+  - @seed-design/css@0.0.24
+
+## 0.0.23
+
+### Patch Changes
+
+- 63e1541: AppBar의 배경이 상단 safe-area를 덮도록 수정합니다.
+- Updated dependencies [63e1541]
+  - @seed-design/css@0.0.23
+
+## 0.0.21
+
+### Patch Changes
+
+- e368c69: 패키지 의존성을 최신화합니다.
+- Updated dependencies [5d69d1d]
+- Updated dependencies [4d34760]
+- Updated dependencies [7ae87f8]
+- Updated dependencies [f144d28]
+- Updated dependencies [e368c69]
+  - @seed-design/css@0.0.21
+  - @seed-design/react-primitive@0.0.2
+  - @seed-design/dom-utils@0.0.2
+
 ## 0.0.19
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "repository": {
     "type": "git",
@@ -25,27 +25,27 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@antfu/ni": "^23.3.1",
-    "@babel/core": "^7.24.9",
-    "@babel/parser": "^7.24.8",
-    "@babel/plugin-transform-typescript": "^7.24.8",
-    "@clack/prompts": "^0.7.0",
+    "@antfu/ni": "^24.3.0",
+    "@babel/core": "^7.26.10",
+    "@babel/parser": "^7.27.0",
+    "@babel/plugin-transform-typescript": "^7.27.0",
+    "@clack/prompts": "^0.10.0",
     "cac": "^6.7.14",
     "cosmiconfig": "^9.0.0",
-    "execa": "^9.3.0",
+    "execa": "^9.5.2",
     "findup-sync": "^5.0.0",
-    "fs-extra": "^11.2.0",
-    "picocolors": "^1.0.1",
-    "recast": "^0.23.9",
-    "ts-morph": "^23.0.0",
-    "zod": "^3.24.2"
+    "fs-extra": "^11.3.0",
+    "picocolors": "^1.1.1",
+    "recast": "^0.23.11",
+    "ts-morph": "^25.0.1",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
     "@types/fs-extra": "^11.0.4",
-    "esbuild": "^0.25.0",
-    "type-fest": "^4.23.0",
-    "typescript": "^5.4.5"
+    "esbuild": "^0.25.3",
+    "type-fest": "^4.40.0",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

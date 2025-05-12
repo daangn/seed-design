@@ -1,38 +1,36 @@
 import type { StyleRepository } from "./style.repository";
 
 export interface StyleService {
-  getStyleName: (id: string) => string;
+  getSlug: (id: string) => string[] | undefined;
 }
 
 // TODO: inferStyleName 추가해야 함, rest api에서 style value가 제공되지 않고 있어 보류
 export function createStyleService({
   styleRepository,
-  styleNameTransformer,
 }: {
   styleRepository: StyleRepository;
-  styleNameTransformer: ({ slug }: { slug: string[] }) => string;
 }): StyleService {
-  function getFigmaStyleName(id: string) {
+  function getName(id: string) {
     const style = styleRepository.findOneByKey(id);
 
     if (!style) {
-      throw new Error(`Style not found: ${id}`);
+      return undefined;
     }
 
     return style.name;
   }
 
-  function getFigmaStyleSlug(id: string): string[] {
-    const name = getFigmaStyleName(id);
+  function getSlug(id: string): string[] | undefined {
+    const name = getName(id);
+
+    if (!name) {
+      return undefined;
+    }
+
     return name.split("/");
   }
 
-  function getStyleName(id: string) {
-    const slug = getFigmaStyleSlug(id);
-    return styleNameTransformer({ slug });
-  }
-
   return {
-    getStyleName,
+    getSlug,
   };
 }

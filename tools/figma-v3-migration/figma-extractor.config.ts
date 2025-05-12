@@ -16,9 +16,6 @@ const componentSetTransform: GenerateComponentSetMetadataOptions["transform"] = 
 
 const config: Config = {
   data: {
-    components: {
-      transform: ({ name, key }) => ({ name, key }),
-    },
     componentSets: {
       transform: componentSetTransform,
     },

@@ -64,7 +64,7 @@ export const COLOR_PROPERTIES = {
   ],
 
   /**
-   * 테두리 관련 색상 속성 (stroke 토큰으로 매핑됨)
+   * 테두리 관련 색상 속성 (stroke 토큰으로 매핑, 혹은 fg 토큰으로 매핑)
    * 경계를 구분하는 선 또는 UI 요소의 윤곽선에 사용하는 색상
    */
   border: [

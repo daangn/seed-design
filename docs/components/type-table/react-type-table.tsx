@@ -3,25 +3,19 @@
 
 import "server-only";
 
-import {
-  type GenerateDocumentationOptions,
-  getProject,
-  renderMarkdownToHast,
-} from "fumadocs-typescript";
+import { type Generator, renderMarkdownToHast } from "fumadocs-typescript";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { type Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime";
 import * as runtime from "react/jsx-runtime";
 import { getReactTypeTableOutput, ReactTypeTableProps } from "./get-react-type-table";
 
-export function createReactTypeTable(options: GenerateDocumentationOptions = {}): {
+export function createReactTypeTable(generator: Generator): {
   ReactTypeTable: (props: Omit<ReactTypeTableProps, "options">) => React.ReactNode;
 } {
-  const project = options.project ?? getProject(options.config);
-
   return {
     ReactTypeTable(props) {
-      return <ReactTypeTable {...props} options={{ ...options, project }} />;
+      return <ReactTypeTable {...props} generator={generator} />;
     },
   };
 }

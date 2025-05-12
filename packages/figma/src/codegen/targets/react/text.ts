@@ -1,33 +1,31 @@
 import type { NormalizedTextNode } from "@/normalizer";
 import { compactObject } from "@/utils/common";
-import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
-import type { PropsTransformers } from "./props";
+import { defineElementTransformer, type ElementTransformer } from "../../core";
+import { createSeedReactElement } from "./element-factories";
+import type { PropsConverters } from "./props";
 
 export interface TextTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createTextTransformer({
-  propsTransformers,
+  propsConverters,
 }: TextTransformerDeps): ElementTransformer<NormalizedTextNode> {
-  return defineElementTransformer((node: NormalizedTextNode, traverse) => {
+  return defineElementTransformer((node: NormalizedTextNode) => {
     const hasMultipleFills = node.fills.length > 1;
 
-    const fillProps = propsTransformers.textFill(node, traverse);
-    const typeStyleProps = propsTransformers.typeStyle(node, traverse);
+    const fillProps = propsConverters.textFill(node);
+    const typeStyleProps = propsConverters.typeStyle(node);
 
     const props = compactObject({
       ...typeStyleProps,
       ...fillProps,
     });
 
-    return createElement(
-      "Text",
-      props,
-      node.characters.replace(/\n/g, "<br />"),
-      hasMultipleFills
+    return createSeedReactElement("Text", props, node.characters.replace(/\n/g, "<br />"), {
+      comment: hasMultipleFills
         ? "Multiple fills in Text node encountered, only the first fill is used."
-        : "",
-    );
+        : undefined,
+    });
   });
 }

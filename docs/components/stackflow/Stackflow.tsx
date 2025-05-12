@@ -38,14 +38,14 @@ const usePreventScroll = (ref: React.RefObject<HTMLElement>) => {
   }, [ref, isTouchInside]);
 };
 
-interface StackflowProps<T extends RegisteredActivityName> {
+interface StackflowProps {
   activities: {
-    name: T;
-    component: ActivityComponentType<T>;
+    name: RegisteredActivityName;
+    component: ActivityComponentType<RegisteredActivityName>;
   }[];
 }
 
-export const Stackflow = <T extends RegisteredActivityName>({ activities }: StackflowProps<T>) => {
+export const Stackflow = ({ activities }: StackflowProps) => {
   const { Stack } = makeStack({ activities });
   const { cn, ref, style } = useSimpleReveal({
     delay: 200,

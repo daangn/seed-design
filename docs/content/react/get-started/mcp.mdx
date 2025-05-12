@@ -47,30 +47,11 @@ bunx --bun @seed-design/mcp socket
 설치된 SEED Design MCP 플러그인을 실행합니다.
 </Step>
 <Step>
-### 채널 연결
-
-실행된 Figma 플러그인에 채널이 표기됩니다.
-
-예시:
-```
-Connected to server on port 3055 in channel: onh8wul9
-```
-
-에이전트에 아래 프롬프트를 전달해 웹소켓 서버와 채널을 연결합니다.
-```
-join_channel {채널명}
-```
-</Step>
-<Step>
 연결이 완료되면, `선택된 노드를 참고해 React로 구현해주세요.` 와 같은 요청을 전달할 수 있습니다.
 </Step>
 </Steps>
 
 ## 주요 툴 목록
-
-### `join_channel`
-
-웹소켓 서버와 채널을 연결합니다.
 
 ### `get_selection`
 
@@ -87,3 +68,209 @@ join_channel {채널명}
 ### `add_annotations`
 
 Figma 파일에 Annotation을 추가합니다. [참고](https://help.figma.com/hc/en-us/articles/20774752502935-Add-measurements-and-annotate-designs)
+
+## 커스텀 설정 사용하기
+
+`--config` 플래그를 통해 커스텀 설정 파일을 로드할 수 있습니다.
+
+```bash
+bunx --bun @seed-design/mcp --config /path/to/config.ts
+```
+
+### 지원하는 설정 파일 형식
+
+`@seed-design/mcp`는 다음 확장자의 설정 파일을 지원합니다:
+
+- `.js`
+- `.mjs`
+- `.ts`
+- `.mts`
+
+### 설정 파일 예시
+
+```typescript
+import { type react, defineComponentHandler, createElement } from "@seed-design/figma";
+
+export default {
+  extend: {
+    componentHandlers: [
+      (_deps: react.ComponentHandlerDeps) => defineComponentHandler(
+        "figma_component_key",
+        ({ componentProperties: props }) => {
+          const tone = props.Tone.value.toLowerCase();
+          
+          return createElement(
+            "CustomButton", 
+            {
+              tone
+            }
+          );
+        }
+      )
+    ]
+  },
+} satisfies react.CreatePipelineConfig;
+```
+
+### MCP로 ComponentHandler 작성하기
+
+<Steps>
+<Step>
+#### 프롬프트 복사
+
+아래 프롬프트를 복사해 파일로 저장합니다.
+
+Cursor IDE를 사용하는 경우, [Cursor rule](https://docs.cursor.com/context/rules)로 저장할 수 있습니다.
+
+```markdown
+# ComponentHandler Implementation Guide
+
+## Initial Context Gathering
+
+1. **Analyze Figma Selection**:
+   - Use \`get_selection()\` to examine the currently selected node(s)
+   - If no selection exists, prompt the user to select a specific component node
+   - Verify the selected node is a component that can be transformed
+
+2. **Retrieve Component Information**:
+   - Use \`get_component_info(nodeId)\` to extract detailed information about the component
+   - Collect the component key, all component properties, and variant definitions
+   - Identify any nested components or instances that might need special handling
+
+## Component Analysis and Planning
+
+3. **Determine Component Structure**:
+   - Analyze the component's visual structure, layout, and behavior patterns
+   - If the target React component implementation is unknown, request an example or props interface
+   - Identify which Figma properties should map to which React props
+
+4. **Define Transformation Strategy**:
+   - Plan how to handle variants, properties, nested components and children
+   - Determine if additional utilities or helper functions are needed
+   - Consider edge cases and special requirements for this component
+
+## Implementation
+
+5. **Create Component Handler**:
+   - Implement the handler using the following pattern:
+
+\`\`\`typescript
+import {
+  createElement,
+  defineComponentHandler,
+  type InferComponentDefinition,
+  type react,
+} from "@seed-design/figma";
+
+// Define component properties based on Figma definition
+export type ComponentNameProperties = InferComponentDefinition<{
+  // Map all component properties from Figma
+  // Example:
+  "PropertyName": {
+    type: "VARIANT" | "TEXT" | "BOOLEAN" | "INSTANCE_SWAP",
+    variantOptions?: string[], // For VARIANT type
+    defaultValue?: string | boolean
+  }
+}>;
+
+// Create and export the handler
+export const createComponentNameHandler = (_deps: react.ComponentHandlerDeps) => defineComponentHandler<ComponentNameProperties>(
+  "component-key-from-figma", // Replace with actual component key
+  ({ componentProperties: props }) => {
+    // Transform Figma properties to React props
+    // Use conditionals for variants and property handling
+    
+    return createElement(
+      "ComponentName", // The React component name
+      {
+        // Map properties appropriately
+        propName: props.PropertyName.value,
+        // Add additional props as needed
+      },
+      [], // Nested elements if any (undefined or omitted if not needed)
+      "Optional comment for accessibility or development notes, use sparingly"
+    );
+  }
+);
+\`\`\`
+
+## Validation and Testing
+
+6. **Verify Handler Functionality**:
+   - Test the handler with different component variants
+   - Ensure all properties are correctly mapped and transformed
+   - Check that nested components and children are handled properly
+
+## Best Practices
+
+- Create reusable helper functions for common transformation patterns
+- Handle edge cases and optional properties gracefully
+- Add descriptive comments for complex transformations
+- Consider performance implications for deeply nested components
+- Ensure type safety throughout the transformation process
+```
+</Step>
+<Step>
+#### 프롬프트 실행
+
+저장된 프롬프트 파일과 구현해야 할 컴포넌트 파일을 맥락으로 전달하며 프롬프트를 실행합니다.
+
+**예시**:
+```bash
+@CustomButton.tsx @ComponentHandlerRule.md CustomButton 컴포넌트의 ComponentHandler를 구현해주세요.
+```
+</Step>
+<Step>
+#### 결과 확인
+프롬프트 실행 결과로 생성된 ComponentHandler를 확인합니다.
+
+**예시**
+```typescript
+import {
+  createElement,
+  defineComponentHandler,
+  type InferComponentDefinition,
+  type react,
+} from "@seed-design/figma";
+
+export type CustomButtonProperties = InferComponentDefinition<{
+  tone: {
+    type: "VARIANT";
+    variantOptions: ["neutral", "brand"];
+  };
+}>;
+
+export const createCustomButtonHandler = (_deps: react.ComponentHandlerDeps) => defineComponentHandler<CustomButtonProperties>(
+  "figma_component_key",
+  ({ componentProperties: props }) => {
+    const tone = props.tone.value.toLowerCase();
+    
+    return createElement(
+      "CustomButton", 
+      {
+        tone
+      }
+    );
+  }
+)
+```
+</Step>
+<Step>
+#### 설정 파일 적용
+
+생성된 ComponentHandler를 설정 파일에 추가합니다.
+
+```typescript
+import { type react } from "@seed-design/figma";
+import { createCustomButtonHandler } from "./CustomButton";
+
+export default {
+  extend: {
+    componentHandlers: [
+      createCustomButtonHandler,
+    ]
+  },
+} satisfies react.CreatePipelineConfig;
+```
+</Step>
+</Steps>

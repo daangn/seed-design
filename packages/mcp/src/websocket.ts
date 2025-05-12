@@ -54,7 +54,7 @@ export function createFigmaWebSocketClient(serverUrl: string) {
     ws.on("open", () => {
       logger.info("Connected to Figma socket server");
       // Reset channel on new connection
-      currentChannel = null;
+      joinChannel("local-default");
     });
 
     ws.on("message", (data: any) => {

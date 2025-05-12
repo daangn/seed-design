@@ -184,6 +184,12 @@ export function createRestNormalizer(ctx: RestNormalizerContext) {
         if (mainComponent) {
           componentProperties[key].componentKey = mainComponent.key;
         }
+        const mainComponentSet = mainComponent.componentSetId
+          ? ctx.componentSets[mainComponent.componentSetId]
+          : undefined;
+        if (mainComponentSet) {
+          componentProperties[key].componentSetKey = mainComponentSet.key;
+        }
       }
     }
 

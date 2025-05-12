@@ -1,19 +1,19 @@
-export type { CodegenTransformerDeps } from "./codegen";
-export type { ComponentTransformer } from "./component";
+export type { CodeGeneratorDeps } from "./codegen";
+export type { ComponentHandler } from "./component-handler";
 export type {
   ComponentPropertyDefinition,
-  InferFromDefinition,
-  InferPropertyType,
-} from "./component.types";
-export type { ElementTransformer } from "./element";
+  InferComponentDefinition,
+  InferComponentPropertyType,
+} from "./component-type-helper";
+export type { ElementTransformer } from "./element-transformer";
 export type { ElementNode } from "./jsx";
-export type { PropsTransformer } from "./props";
-export type { ValueTransformer } from "./value";
+export type { PropsConverter } from "./props-converter";
+export type { ValueResolver } from "./value-resolver";
 
-export { createCodegenTransformer } from "./codegen";
-export { defineComponentTransformer } from "./component";
-export { defineElementTransformer } from "./element";
+export { createCodeGenerator } from "./codegen";
+export { defineComponentHandler } from "./component-handler";
+export { defineElementTransformer } from "./element-transformer";
 export { inferLayout } from "./infer-layout";
-export { createElement, cloneElement } from "./jsx";
-export { createPropsTransformer, definePropsTransformer } from "./props";
-export { createValueTransformer } from "./value";
+export { cloneElement, createElement } from "./jsx";
+export { createPropsConverter, definePropsConverter } from "./props-converter";
+export { createValueResolver } from "./value-resolver";

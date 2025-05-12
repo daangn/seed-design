@@ -57,7 +57,7 @@ function transformColorProp(value: string): string {
 }
 
 const transform: Transform = (file, api) => {
-  const logger = createTransformLogger("replace-color-prop");
+  const logger = createTransformLogger("replace-custom-text-component-color-prop");
   const j = api.jscodeshift;
   const root = j(file.source);
 

@@ -13,7 +13,7 @@ export declare const vars: {
         "gap": "-5px"
       },
       "item": {
-        "strokeWidth": "2px"
+        "strokeWidth": "1px"
       }
     }
   },
@@ -23,7 +23,7 @@ export declare const vars: {
         "gap": "-6px"
       },
       "item": {
-        "strokeWidth": "2px"
+        "strokeWidth": "1px"
       }
     }
   },
@@ -33,27 +33,57 @@ export declare const vars: {
         "gap": "-8px"
       },
       "item": {
-        "strokeWidth": "3px"
+        "strokeWidth": "2px"
+      }
+    }
+  },
+  "size42": {
+    "enabled": {
+      "root": {
+        "gap": "-10px"
+      },
+      "item": {
+        "strokeWidth": "2px"
       }
     }
   },
   "size48": {
     "enabled": {
       "root": {
-        "gap": "-10px"
+        "gap": "-12px"
       },
       "item": {
-        "strokeWidth": "4px"
+        "strokeWidth": "2px"
       }
     }
   },
   "size64": {
     "enabled": {
       "root": {
-        "gap": "-10px"
+        "gap": "-16px"
+      },
+      "item": {
+        "strokeWidth": "3px"
+      }
+    }
+  },
+  "size80": {
+    "enabled": {
+      "root": {
+        "gap": "-20px"
       },
       "item": {
         "strokeWidth": "4px"
+      }
+    }
+  },
+  "size96": {
+    "enabled": {
+      "root": {
+        "gap": "-24px"
+      },
+      "item": {
+        "strokeWidth": "5px"
       }
     }
   }

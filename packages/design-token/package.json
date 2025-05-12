@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/design-token",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
     "dev": "bun dev.mjs"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0"
+    "esbuild": "^0.25.3"
   }
 }

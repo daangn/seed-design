@@ -25,6 +25,7 @@ export default defineConfig({
   plugins: [
     structureTool({ structure }),
     presentationTool({
+      previewUrl: {},
       resolve: {
         // TODO: add design guidelines to mainDocuments
         mainDocuments: defineDocuments([

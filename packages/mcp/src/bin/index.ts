@@ -9,6 +9,7 @@ import { registerEditingTools, registerTools } from "../tools";
 import { registerPrompts } from "../prompts";
 import { version } from "../../package.json" assert { type: "json" };
 import type { Server, ServerWebSocket } from "bun";
+import { loadConfig, type McpConfig } from "../config";
 
 // Initialize CLI
 const cli = cac("@seed-design/mcp");
@@ -188,14 +189,31 @@ async function startWebSocketServer(port: number) {
   return server;
 }
 
-async function startMcpServer(serverUrl: string, experimental: boolean) {
+async function startMcpServer(serverUrl: string, experimental: boolean, configPath?: string) {
+  // Load config if provided
+  let configData: McpConfig | null = null;
+  if (configPath) {
+    configData = await loadConfig(configPath);
+    if (configData) {
+      logger.info(`Loaded configuration from: ${configPath}`);
+
+      // Log component transformers if present
+      if (configData.extend?.componentHandlers) {
+        const handlers = configData.extend.componentHandlers;
+        if (handlers.length > 0) {
+          logger.info(`Found ${handlers.length} custom component handlers`);
+        }
+      }
+    }
+  }
+
   const figmaClient = createFigmaWebSocketClient(serverUrl);
   const server = new McpServer({
     name: "SEED Design MCP",
     version,
   });
 
-  registerTools(server, figmaClient);
+  registerTools(server, figmaClient, configData);
   if (experimental) {
     registerEditingTools(server, figmaClient);
   }
@@ -220,8 +238,9 @@ cli
   .command("", "Start the MCP server")
   .option("--server <server>", "Server URL", { default: "localhost" })
   .option("--experimental", "Enable experimental features", { default: false })
+  .option("--config <config>", "Path to configuration file (.js, .mjs, .ts, .mts)")
   .action(async (options) => {
-    await startMcpServer(options.server, options.experimental);
+    await startMcpServer(options.server, options.experimental, options.config);
   });
 
 cli

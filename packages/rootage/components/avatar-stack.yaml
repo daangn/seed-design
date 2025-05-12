@@ -15,28 +15,46 @@ data:
         root:
           gap: -5px
         item:
-          strokeWidth: 2px
+          strokeWidth: 1px
     size=24:
       enabled:
         root:
           gap: -6px
         item:
-          strokeWidth: 2px
+          strokeWidth: 1px
     size=36:
       enabled:
         root:
           gap: -8px
         item:
-          strokeWidth: 3px
+          strokeWidth: 2px
+    size=42:
+      enabled:
+        root:
+          gap: -10px
+        item:
+          strokeWidth: 2px
     size=48:
       enabled:
         root:
-          gap: -10px
+          gap: -12px
         item:
-          strokeWidth: 4px
+          strokeWidth: 2px
     size=64:
       enabled:
         root:
-          gap: -10px
+          gap: -16px
+        item:
+          strokeWidth: 3px
+    size=80:
+      enabled:
+        root:
+          gap: -20px
         item:
           strokeWidth: 4px
+    size=96:
+      enabled:
+        root:
+          gap: -24px
+        item:
+          strokeWidth: 5px

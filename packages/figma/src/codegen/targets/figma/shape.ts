@@ -4,57 +4,59 @@ import type {
   NormalizedVectorNode,
 } from "@/normalizer";
 import { createElement, defineElementTransformer, type ElementTransformer } from "../../core";
-import type { PropsTransformers } from "./props";
+import type { PropsConverters } from "./props";
 
 export interface RectangleTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createRectangleTransformer({
-  propsTransformers,
+  propsConverters,
 }: RectangleTransformerDeps): ElementTransformer<NormalizedRectangleNode> {
-  return defineElementTransformer((node: NormalizedRectangleNode, traverse) => {
-    return createElement("Rectangle", { ...propsTransformers.selfLayout(node, traverse) });
+  return defineElementTransformer((node: NormalizedRectangleNode) => {
+    return createElement("Rectangle", { ...propsConverters.selfLayout(node) });
   });
 }
 
 export interface VectorTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createVectorTransformer({
-  propsTransformers,
+  propsConverters,
 }: VectorTransformerDeps): ElementTransformer<NormalizedVectorNode> {
-  return defineElementTransformer((node, traverse) => {
+  return defineElementTransformer((node) => {
     return createElement(
       "Vector",
       {
-        ...propsTransformers.selfLayout(node, traverse),
-        ...propsTransformers.radius(node, traverse),
-        ...propsTransformers.stroke(node, traverse),
-        ...propsTransformers.shapeFill(node, traverse),
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.radius(node),
+        ...propsConverters.stroke(node),
+        ...propsConverters.shapeFill(node),
       },
       [],
-      "Vector Node Placeholder",
+      {
+        comment: "Vector Node Placeholder",
+      },
     );
   });
 }
 
 export interface BooleanOperationTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createBooleanOperationTransformer({
-  propsTransformers,
+  propsConverters,
 }: BooleanOperationTransformerDeps): ElementTransformer<NormalizedBooleanOperationNode> {
   return defineElementTransformer((node, traverse) => {
     return createElement(
       "BooleanOperation",
       {
-        ...propsTransformers.selfLayout(node, traverse),
-        ...propsTransformers.radius(node, traverse),
-        ...propsTransformers.stroke(node, traverse),
-        ...propsTransformers.shapeFill(node, traverse),
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.radius(node),
+        ...propsConverters.stroke(node),
+        ...propsConverters.shapeFill(node),
       },
       node.children.map(traverse),
     );

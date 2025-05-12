@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -21,28 +21,28 @@
     "@seed-design/migration-index": "^0.0.20",
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
-    "es-toolkit": "^1.25.2",
-    "execa": "^9.4.1",
-    "glob": "^11.0.1",
-    "jscodeshift": "^17.1.2",
+    "es-toolkit": "^1.35.0",
+    "execa": "^9.5.2",
+    "glob": "^11.0.2",
+    "jscodeshift": "^17.3.0",
     "picocolors": "^1.1.1",
     "postcss": "^8.5.3",
-    "semver": "^7.6.3",
+    "semver": "^7.7.1",
     "simple-git": "^3.27.0",
-    "winston": "^3.15.0",
-    "zod": "^3.24.2"
+    "winston": "^3.17.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.12.0",
-    "@types/node": "^22.10.2",
-    "csv-parse": "^5.5.6",
-    "dotenv": "^16.4.5",
-    "esbuild": "^0.25.0",
-    "typescript": "^5.4.5"
+    "@types/jscodeshift": "^17.3.0",
+    "@types/node": "^22.14.1",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.5.0",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.8.3"
   },
   "optionalDependencies": {
-    "@daangn/react-monochrome-icon": "^0.0.13",
-    "@daangn/react-multicolor-icon": "^0.0.11"
+    "@karrotmarket/react-monochrome-icon": "^0.0.23",
+    "@karrotmarket/react-multicolor-icon": "^0.0.16"
   },
   "publishConfig": {
     "access": "public"

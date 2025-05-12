@@ -1,5 +1,52 @@
 # @seed-design/react
 
+## 0.0.24
+
+### Patch Changes
+
+- 4da536f: ActionSheet의 header가 렌더링되지 않을 때 상단 radius가 누락되는 버그를 수정합니다.
+- 3efe201: `<Portal>` 컴포넌트를 제공합니다.
+- Updated dependencies [4da536f]
+- Updated dependencies [3efe201]
+  - @seed-design/css@0.0.24
+  - @seed-design/react-portal@0.0.1
+
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies [63e1541]
+  - @seed-design/css@0.0.23
+
+## 0.0.21
+
+### Patch Changes
+
+- 7ae87f8: 2개의 컨텐츠를 동일한 비율로 나누어 배치하되, 너무 긴 경우 세로로 접는 `<ResponsivePair>` 컴포넌트를 추가합니다.
+- f144d28: BottomSheet, Dialog의 배경 색상을 layer-floating으로 변경합니다.
+- e368c69: 패키지 의존성을 최신화합니다.
+- Updated dependencies [5d69d1d]
+- Updated dependencies [4d34760]
+- Updated dependencies [7ae87f8]
+- Updated dependencies [f144d28]
+- Updated dependencies [e368c69]
+  - @seed-design/css@0.0.21
+  - @seed-design/react-segmented-control@0.0.3
+  - @seed-design/react-pull-to-refresh@0.0.3
+  - @seed-design/react-radio-group@0.0.2
+  - @seed-design/react-text-field@0.0.2
+  - @seed-design/react-primitive@0.0.2
+  - @seed-design/react-checkbox@0.0.2
+  - @seed-design/react-progress@0.0.2
+  - @seed-design/react-snackbar@0.0.3
+  - @seed-design/react-popover@0.0.5
+  - @seed-design/react-avatar@0.0.2
+  - @seed-design/react-dialog@0.0.3
+  - @seed-design/react-switch@0.0.2
+  - @seed-design/react-toggle@0.0.2
+  - @seed-design/react-tabs@0.0.4
+  - @seed-design/dom-utils@0.0.2
+
 ## 0.0.19
 
 ### Patch Changes

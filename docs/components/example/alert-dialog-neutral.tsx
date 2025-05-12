@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { ResponsivePair } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -24,18 +24,11 @@ const AlertDialogNeutral = () => {
           <AlertDialogDescription>중립적인 선택지를 제공합니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <HStack gap="x2">
-            <AlertDialogAction asChild>
-              <ActionButton variant="neutralSolid" flexGrow={1}>
-                취소
-              </ActionButton>
-            </AlertDialogAction>
-            <AlertDialogAction asChild>
-              <ActionButton variant="neutralWeak" flexGrow={1}>
-                확인
-              </ActionButton>
-            </AlertDialogAction>
-          </HStack>
+          {/* ResponsivePair component wraps layout if button content is too long. */}
+          <ResponsivePair gap="x2">
+            <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
+            <AlertDialogAction variant="neutralSolid">확인</AlertDialogAction>
+          </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

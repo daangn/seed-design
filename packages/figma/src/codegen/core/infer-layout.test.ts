@@ -10,6 +10,7 @@ function createTestNode(
 ): NormalizedFrameTrait {
   return {
     id,
+    layoutMode: "NONE",
     absoluteBoundingBox: boundingBox,
     children,
   } as NormalizedFrameTrait;
@@ -20,7 +21,7 @@ describe("inferLayout", () => {
   it("should return NONE layout mode for a parent with no children", () => {
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 100, height: 100 });
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("NONE");
   });
@@ -32,7 +33,7 @@ describe("inferLayout", () => {
       childNode,
     ]);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.primaryAxisSizingMode).toBe("AUTO");
@@ -55,7 +56,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.primaryAxisSizingMode).toBe("AUTO");
@@ -76,7 +77,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 100, height: 200 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("VERTICAL");
     expect(result.primaryAxisSizingMode).toBe("AUTO");
@@ -97,7 +98,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.primaryAxisAlignItems).toBe("SPACE_BETWEEN");
@@ -114,7 +115,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.counterAxisAlignItems).toBe("CENTER");
@@ -129,7 +130,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 60 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.counterAxisAlignItems).toBe("MAX");
@@ -143,7 +144,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     // Based on the implementation, this actually returns "FIXED" not "AUTO"
     expect(result.counterAxisSizingMode).toBe("FIXED");
@@ -160,7 +161,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 100, height: 200 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     // Based on the implementation, this actually returns "HORIZONTAL" not "VERTICAL"
     // This could be due to the specific layout of the test nodes or other factors
@@ -175,7 +176,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 200, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     // Should handle negative spacing by clamping to 0 if it's small
@@ -187,7 +188,7 @@ describe("inferLayout", () => {
     const childNode = createTestNode("child", { x: 0, y: 0, width: 50, height: 40 });
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 0, height: 0 }, [childNode]);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     // Should still give reasonable results
     expect(result.layoutMode).toBe("HORIZONTAL");
@@ -204,7 +205,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     // Should use median of [10, 20] which is 15
@@ -220,7 +221,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 500, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     // Check that we got some reasonable values despite the variety
@@ -237,7 +238,7 @@ describe("inferLayout", () => {
     // Container with height 200, content height 60 (2 * 20 + 20 spacing), centered at middle
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 100, height: 200 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("VERTICAL");
     // While the example is set up with items that appear centered, the algorithm
@@ -261,7 +262,7 @@ describe("inferLayout", () => {
     }
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 700, height: 100 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     expect(result.layoutMode).toBe("HORIZONTAL");
     expect(result.itemSpacing).toBe(10);
@@ -276,7 +277,7 @@ describe("inferLayout", () => {
     ];
     const parentNode = createTestNode("parent", { x: 0, y: 0, width: 200, height: 200 }, children);
 
-    const result = inferLayout(parentNode);
+    const result = inferLayout(parentNode).properties;
 
     // The algorithm should still pick a layout direction, likely based on bounding box
     expect(result.layoutMode).not.toBe("NONE");

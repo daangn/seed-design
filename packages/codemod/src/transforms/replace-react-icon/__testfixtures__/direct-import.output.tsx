@@ -1,7 +1,7 @@
 // @ts-nocheck
 
-import IconDothorizline3VerticalLine from "@daangn/react-monochrome-icon/IconDothorizline3VerticalLine";
-import IconPlusSquareLine from "@daangn/react-monochrome-icon/dist/lib/test/somewhat/IconPlusSquareLine";
+import IconDothorizline3VerticalLine from "@karrotmarket/react-monochrome-icon/IconDothorizline3VerticalLine";
+import IconPlusSquareLine from "@karrotmarket/react-monochrome-icon/dist/lib/test/somewhat/IconPlusSquareLine";
 
 function App() {
   return (

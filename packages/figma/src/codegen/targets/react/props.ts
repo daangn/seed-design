@@ -1,10 +1,4 @@
-import {
-  createPropsTransformer,
-  definePropsTransformer,
-  type PropsTransformer,
-  type ValueTransformer,
-} from "@/codegen/core";
-import type { StyleService } from "@/entities";
+import { createPropsConverter, definePropsConverter, type PropsConverter } from "@/codegen/core";
 import type {
   NormalizedCornerTrait,
   NormalizedHasChildrenTrait,
@@ -15,17 +9,19 @@ import type {
   NormalizedTypePropertiesTrait,
 } from "@/normalizer";
 import { match } from "ts-pattern";
+import type { ReactValueResolver } from "./value-resolver";
 
-export interface PropsTransformers {
-  containerLayout: PropsTransformer<ContainerLayoutTrait, ContainerLayoutProps>;
-  selfLayout: PropsTransformer<SelfLayoutTrait, SelfLayoutProps>;
-  iconSelfLayout: PropsTransformer<SelfLayoutTrait, IconSelfLayoutProps>;
-  radius: PropsTransformer<RadiusTrait, RadiusProps>;
-  frameFill: PropsTransformer<FillTrait, FrameFillProps>;
-  shapeFill: PropsTransformer<FillTrait, ShapeFillProps>;
-  textFill: PropsTransformer<FillTrait, TextFillProps>;
-  stroke: PropsTransformer<StrokeTrait, StrokeProps>;
-  typeStyle: PropsTransformer<TypeStyleTrait, TypeStyleProps>;
+export interface PropsConverters {
+  containerLayout: PropsConverter<ContainerLayoutTrait, ContainerLayoutProps>;
+  selfLayout: PropsConverter<SelfLayoutTrait, SelfLayoutProps>;
+  iconSelfLayout: PropsConverter<SelfLayoutTrait, IconSelfLayoutProps>;
+  radius: PropsConverter<RadiusTrait, RadiusProps>;
+  frameFill: PropsConverter<FillTrait, FrameFillProps>;
+  shapeFill: PropsConverter<FillTrait, ShapeFillProps>;
+  textFill: PropsConverter<FillTrait, TextFillProps>;
+  vectorChildrenFill: PropsConverter<ContainerLayoutTrait, VectorChildrenFillProps>;
+  stroke: PropsConverter<StrokeTrait, StrokeProps>;
+  typeStyle: PropsConverter<TypeStyleTrait, TypeStyleProps>;
 }
 
 export type ContainerLayoutTrait = NormalizedHasFramePropertiesTrait &
@@ -58,12 +54,10 @@ export interface ContainerLayoutProps {
   p?: string | 0;
 }
 
-type ReactValueTransformer = ValueTransformer<string, string, string, number>;
-
-export function createContainerLayoutPropsTransformer(
-  valueTransformer: ReactValueTransformer,
-): PropsTransformer<ContainerLayoutTrait, ContainerLayoutProps> {
-  return createPropsTransformer({
+export function createContainerLayoutPropsConverter(
+  valueResolver: ReactValueResolver,
+): PropsConverter<ContainerLayoutTrait, ContainerLayoutProps> {
+  return createPropsConverter({
     _types: {
       trait: {} as ContainerLayoutTrait,
       props: {} as ContainerLayoutProps,
@@ -120,12 +114,12 @@ export function createContainerLayoutPropsTransformer(
           return undefined;
         }
 
-        return valueTransformer.getFormattedValue.itemSpacing(node);
+        return valueResolver.getFormattedValue.itemSpacing(node);
       },
-      pt: (node) => valueTransformer.getFormattedValue.paddingTop(node),
-      pb: (node) => valueTransformer.getFormattedValue.paddingBottom(node),
-      pl: (node) => valueTransformer.getFormattedValue.paddingLeft(node),
-      pr: (node) => valueTransformer.getFormattedValue.paddingRight(node),
+      pt: (node) => valueResolver.getFormattedValue.paddingTop(node),
+      pb: (node) => valueResolver.getFormattedValue.paddingBottom(node),
+      pl: (node) => valueResolver.getFormattedValue.paddingLeft(node),
+      pr: (node) => valueResolver.getFormattedValue.paddingRight(node),
     },
     shorthands: {
       p: ["pt", "pb", "pl", "pr"],
@@ -159,10 +153,10 @@ export interface SelfLayoutProps {
   maxHeight?: string | number;
 }
 
-export function createSelfLayoutPropsTransformer(
-  valueTransformer: ReactValueTransformer,
-): PropsTransformer<SelfLayoutTrait, SelfLayoutProps> {
-  return createPropsTransformer({
+export function createSelfLayoutPropsConverter(
+  valueResolver: ReactValueResolver,
+): PropsConverter<SelfLayoutTrait, SelfLayoutProps> {
+  return createPropsConverter({
     _types: {
       trait: {} as SelfLayoutTrait,
       props: {} as SelfLayoutProps,
@@ -180,27 +174,27 @@ export function createSelfLayoutPropsTransformer(
           .exhaustive(),
       height: (node) =>
         node.layoutSizingVertical === "FIXED"
-          ? valueTransformer.getFormattedValue.height(node)
+          ? valueResolver.getFormattedValue.height(node)
           : undefined,
       width: (node) =>
         node.layoutSizingHorizontal === "FIXED"
-          ? valueTransformer.getFormattedValue.width(node)
+          ? valueResolver.getFormattedValue.width(node)
           : undefined,
       minHeight: (node) =>
         node.layoutSizingVertical === "HUG"
-          ? valueTransformer.getFormattedValue.minHeight(node)
+          ? valueResolver.getFormattedValue.minHeight(node)
           : undefined,
       maxHeight: (node) =>
         node.layoutSizingVertical === "HUG"
-          ? valueTransformer.getFormattedValue.maxHeight(node)
+          ? valueResolver.getFormattedValue.maxHeight(node)
           : undefined,
       minWidth: (node) =>
         node.layoutSizingHorizontal === "HUG"
-          ? valueTransformer.getFormattedValue.minWidth(node)
+          ? valueResolver.getFormattedValue.minWidth(node)
           : undefined,
       maxWidth: (node) =>
         node.layoutSizingHorizontal === "HUG"
-          ? valueTransformer.getFormattedValue.maxWidth(node)
+          ? valueResolver.getFormattedValue.maxWidth(node)
           : undefined,
     },
     defaults: {
@@ -213,14 +207,14 @@ export interface IconSelfLayoutProps {
   size?: string | number;
 }
 
-export function createIconSelfLayoutPropsTransformer(valueTransformer: ReactValueTransformer) {
-  return createPropsTransformer({
+export function createIconSelfLayoutPropsConverter(valueResolver: ReactValueResolver) {
+  return createPropsConverter({
     _types: {
       trait: {} as SelfLayoutTrait,
       props: {} as IconSelfLayoutProps,
     },
     handlers: {
-      size: (node) => valueTransformer.getFormattedValue.width(node),
+      size: (node) => valueResolver.getFormattedValue.width(node),
     },
   });
 }
@@ -233,17 +227,17 @@ export interface RadiusProps {
   borderBottomRightRadius?: string | 0;
 }
 
-export function createRadiusPropsTransformer(valueTransformer: ReactValueTransformer) {
-  return createPropsTransformer({
+export function createRadiusPropsConverter(valueResolver: ReactValueResolver) {
+  return createPropsConverter({
     _types: {
       trait: {} as RadiusTrait,
       props: {} as RadiusProps,
     },
     handlers: {
-      borderTopLeftRadius: (node) => valueTransformer.getFormattedValue.topLeftRadius(node),
-      borderTopRightRadius: (node) => valueTransformer.getFormattedValue.topRightRadius(node),
-      borderBottomLeftRadius: (node) => valueTransformer.getFormattedValue.bottomLeftRadius(node),
-      borderBottomRightRadius: (node) => valueTransformer.getFormattedValue.bottomRightRadius(node),
+      borderTopLeftRadius: (node) => valueResolver.getFormattedValue.topLeftRadius(node),
+      borderTopRightRadius: (node) => valueResolver.getFormattedValue.topRightRadius(node),
+      borderBottomLeftRadius: (node) => valueResolver.getFormattedValue.bottomLeftRadius(node),
+      borderBottomRightRadius: (node) => valueResolver.getFormattedValue.bottomRightRadius(node),
     },
     shorthands: {
       borderRadius: [
@@ -271,15 +265,13 @@ export interface TypeStyleProps {
   maxLines?: number;
 }
 
-export function createTypeStylePropsTransformer({
-  valueTransformer,
-  styleService,
+export function createTypeStylePropsConverter({
+  valueResolver,
 }: {
-  valueTransformer: ReactValueTransformer;
-  styleService: StyleService;
-}): PropsTransformer<TypeStyleTrait, TypeStyleProps> {
-  return definePropsTransformer((node) => {
-    const styleName = node.textStyleKey ? styleService.getStyleName(node.textStyleKey) : undefined;
+  valueResolver: ReactValueResolver;
+}): PropsConverter<TypeStyleTrait, TypeStyleProps> {
+  return definePropsConverter((node) => {
+    const styleName = valueResolver.getTextStyleValue(node);
     const maxLines =
       node.style.textTruncation === "ENDING" ? (node.style.maxLines ?? undefined) : undefined;
 
@@ -291,9 +283,9 @@ export function createTypeStylePropsTransformer({
     }
 
     return {
-      fontSize: valueTransformer.getFormattedValue.fontSize(node),
-      fontWeight: valueTransformer.getFormattedValue.fontWeight(node),
-      lineHeight: valueTransformer.getFormattedValue.lineHeight(node),
+      fontSize: valueResolver.getFormattedValue.fontSize(node),
+      fontWeight: valueResolver.getFormattedValue.fontWeight(node),
+      lineHeight: valueResolver.getFormattedValue.lineHeight(node),
       maxLines,
     };
   });
@@ -303,9 +295,9 @@ export interface FrameFillProps {
   bg?: string;
 }
 
-export function createFrameFillPropsTransformer(valueTransformer: ReactValueTransformer) {
-  return definePropsTransformer<FillTrait, FrameFillProps>((node) => {
-    const bg = valueTransformer.getFormattedValue.frameFill(node);
+export function createFrameFillPropsConverter(valueResolver: ReactValueResolver) {
+  return definePropsConverter<FillTrait, FrameFillProps>((node) => {
+    const bg = valueResolver.getFormattedValue.frameFill(node);
 
     return {
       bg,
@@ -317,9 +309,9 @@ export interface ShapeFillProps {
   color?: string;
 }
 
-export function createShapeFillPropsTransformer(valueTransformer: ReactValueTransformer) {
-  return definePropsTransformer<FillTrait, ShapeFillProps>((node) => {
-    const color = valueTransformer.getFormattedValue.shapeFill(node);
+export function createShapeFillPropsConverter(valueResolver: ReactValueResolver) {
+  return definePropsConverter<FillTrait, ShapeFillProps>((node) => {
+    const color = valueResolver.getFormattedValue.shapeFill(node);
 
     return {
       color,
@@ -331,13 +323,43 @@ export interface TextFillProps {
   color?: string;
 }
 
-export function createTextFillPropsTransformer(valueTransformer: ReactValueTransformer) {
-  return definePropsTransformer<FillTrait, TextFillProps>((node) => {
-    const color = valueTransformer.getFormattedValue.textFill(node);
+export function createTextFillPropsConverter(valueResolver: ReactValueResolver) {
+  return definePropsConverter<FillTrait, TextFillProps>((node) => {
+    const color = valueResolver.getFormattedValue.textFill(node);
 
     return {
       color,
     };
+  });
+}
+
+export interface VectorChildrenFillProps {
+  color?: string;
+}
+
+export function createVectorChildrenFillPropsConverter(valueResolver: ReactValueResolver) {
+  return definePropsConverter<ContainerLayoutTrait, VectorChildrenFillProps>((node) => {
+    if (node.children.length === 0) {
+      console.warn(
+        `createVectorChildrenFillPropsConverter: Node has no children. Name:${node.name}, ID:${node.id}`,
+      );
+      return {};
+    }
+
+    const vectors = node.children.filter(
+      (child) => child.type === "VECTOR" || child.type === "BOOLEAN_OPERATION",
+    );
+
+    const colors = vectors.map((vector) => valueResolver.getFormattedValue.shapeFill(vector));
+
+    const fills = new Set(colors.filter((color) => color !== undefined));
+
+    // If there are more than 1 color, colors are likely pre-defined in the icon component; we should ignore the color prop.
+    if (fills.size > 1) {
+      return {};
+    }
+
+    return { color: fills.values().next().value };
   });
 }
 
@@ -346,11 +368,11 @@ export interface StrokeProps {
   borderColor?: string;
 }
 
-export function createStrokePropsTransformer(
-  valueTransformer: ReactValueTransformer,
-): PropsTransformer<StrokeTrait, StrokeProps> {
-  return definePropsTransformer((node) => {
-    const borderColor = valueTransformer.getFormattedValue.stroke(node);
+export function createStrokePropsConverter(
+  valueResolver: ReactValueResolver,
+): PropsConverter<StrokeTrait, StrokeProps> {
+  return definePropsConverter((node) => {
+    const borderColor = valueResolver.getFormattedValue.stroke(node);
     const borderWidth = borderColor ? node.strokeWeight : undefined;
 
     return {

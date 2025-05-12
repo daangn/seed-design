@@ -1,5 +1,28 @@
 # @seed-design/css
 
+## 0.0.24
+
+### Patch Changes
+
+- 4da536f: ActionSheet의 header가 렌더링되지 않을 때 상단 radius가 누락되는 버그를 수정합니다.
+
+## 0.0.23
+
+### Patch Changes
+
+- 63e1541: AppBar의 배경이 상단 safe-area를 덮도록 수정합니다.
+
+## 0.0.21
+
+### Patch Changes
+
+- 5d69d1d: Button, Chip 컴포넌트들의 누락된 line-height를 추가합니다.
+  Button, Chip 컴포넌트들의 white-space를 nowrap으로 설정합니다.
+- 4d34760: 상단 내비게이션의 아이콘 버튼 터치영역을 44px로 변경합니다.
+- 7ae87f8: 2개의 컨텐츠를 동일한 비율로 나누어 배치하되, 너무 긴 경우 세로로 접는 `<ResponsivePair>` 컴포넌트를 추가합니다.
+- f144d28: BottomSheet, Dialog의 배경 색상을 layer-floating으로 변경합니다.
+- e368c69: 패키지 의존성을 최신화합니다.
+
 ## 0.0.19
 
 ### Patch Changes

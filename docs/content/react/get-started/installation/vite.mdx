@@ -106,20 +106,20 @@ npm install -D @seed-design/vite-plugin vite-tsconfig-paths
 ```
 
 <Callout>
-- `seedPlugin`은 theming 관련, CSS 파일 자동 로드 등을 담당해요.
+- `seedDesignPlugin`은 theming 관련, CSS 파일 자동 로드 등을 담당해요.
 - `tsconfigPaths`는 tsconfig.json의 경로를 자동으로 인식해요.
 </Callout>
 
 ```ts title="vite.config.ts"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-import { seedPlugin } from '@seed-design/vite-plugin'; // [!code highlight]
+import { seedDesignPlugin } from '@seed-design/vite-plugin'; // [!code highlight]
 import tsconfigPaths from 'vite-tsconfig-paths'; // [!code highlight]
 
 export default defineConfig({
   plugins: [
     react(),
-    seedPlugin(), // [!code highlight]
+    seedDesignPlugin(), // [!code highlight]
     tsconfigPaths(), // [!code highlight]
   ],
 })

@@ -44,6 +44,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityPartialDarkMode: React.lazy(() => import("../activities/ActivityPartialDarkMode")),
     ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
     ActivityCodegenTest: React.lazy(() => import("../activities/ActivityCodegenTest")),
+    ActivityPerfCheck: React.lazy(() => import("../activities/ActivityPerfCheck")),
     ActivityNotFound,
   },
   plugins: [
@@ -80,6 +81,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityPartialDarkMode: "/partial-dark-mode",
         ActivityMixedVersionTest: "/mixed-version-test",
         ActivityCodegenTest: "/codegen-test",
+        ActivityPerfCheck: "/perf-check",
         ActivityNotFound: "/404",
       },
     }),

@@ -1,5 +1,46 @@
 # @seed-design/figma
 
+## 0.0.24
+
+### Patch Changes
+
+- Updated dependencies [4da536f]
+  - @seed-design/css@0.0.24
+
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies [63e1541]
+  - @seed-design/css@0.0.23
+
+## 0.0.22
+
+### Patch Changes
+
+- 6c0133a: 커스텀 컴포넌트를 등록할 수 있도록 extend.componentHandlers 설정을 제공합니다.
+
+## 0.0.21
+
+### Patch Changes
+
+- b167e95: NormalizedInstanceNode의 componentProperties에 componentSetKey를 추가합니다.
+- 2f2f9b3: TextField codegen이 아이콘을 인식하지 못하는 문제를 수정합니다.
+- 4d34760: 상단 내비게이션의 아이콘 버튼 터치영역을 44px로 변경합니다.
+- e368c69: 패키지 의존성을 최신화합니다.
+- Updated dependencies [5d69d1d]
+- Updated dependencies [4d34760]
+- Updated dependencies [7ae87f8]
+- Updated dependencies [f144d28]
+- Updated dependencies [e368c69]
+  - @seed-design/css@0.0.21
+
+## 0.0.20
+
+### Patch Changes
+
+- 38ece6a: Text style, 아이콘을 찾지 못했을 때 fallback을 추가합니다.
+
 ## 0.0.19
 
 ### Patch Changes

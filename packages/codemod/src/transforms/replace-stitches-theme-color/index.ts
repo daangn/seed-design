@@ -6,7 +6,7 @@ import {
 } from "@seed-design/migration-index/color";
 import type { Transform } from "jscodeshift";
 import { getParentPropertyName, processTernaryExpressions } from "../../utils/ast";
-import { isBackgroundProperty, isStrokeProperty, isFgProperty } from "../../utils/color-properties";
+import { isBackgroundProperty, isFgProperty, isStrokeProperty } from "../../utils/color-properties";
 import { createTransformLogger } from "../../utils/logger.js";
 
 // 색상 속성 관련 상수는 이제 colorProperties 모듈에서 가져옵니다.

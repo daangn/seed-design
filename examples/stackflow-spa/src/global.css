@@ -7,3 +7,28 @@
 body {
   overscroll-behavior: none;
 }
+
+/* perf test */
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.w-50px {
+  width: 50px;
+}
+
+.h-50px {
+  height: 50px;
+}
+
+.bg-brandSolid {
+  background-color: var(--seed-color-bg-brand-solid);
+}

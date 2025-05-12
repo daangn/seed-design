@@ -3,20 +3,16 @@ import type {
   NormalizedFrameNode,
   NormalizedInstanceNode,
 } from "@/normalizer";
-import {
-  cloneElement,
-  createElement,
-  defineElementTransformer,
-  type ElementTransformer,
-} from "../../core";
-import type { ContainerLayoutProps, PropsTransformers } from "./props";
+import { cloneElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import { createSeedReactElement } from "./element-factories";
+import type { ContainerLayoutProps, PropsConverters } from "./props";
 
 export interface FrameTransformerDeps {
-  propsTransformers: PropsTransformers;
+  propsConverters: PropsConverters;
 }
 
 export function createFrameTransformer({
-  propsTransformers,
+  propsConverters,
 }: FrameTransformerDeps): ElementTransformer<
   NormalizedFrameNode | NormalizedInstanceNode | NormalizedComponentNode
 > {
@@ -39,11 +35,11 @@ export function createFrameTransformer({
       const isFlex = node.layoutMode === "HORIZONTAL" || node.layoutMode === "VERTICAL";
 
       const props = {
-        ...propsTransformers.radius(node, traverse),
-        ...(isFlex ? propsTransformers.containerLayout(node, traverse) : {}),
-        ...propsTransformers.selfLayout(node, traverse),
-        ...propsTransformers.frameFill(node, traverse),
-        ...propsTransformers.stroke(node, traverse),
+        ...propsConverters.radius(node),
+        ...(isFlex ? propsConverters.containerLayout(node) : {}),
+        ...propsConverters.selfLayout(node),
+        ...propsConverters.frameFill(node),
+        ...propsConverters.stroke(node),
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";
@@ -58,17 +54,17 @@ export function createFrameTransformer({
       if (layoutComponent === "VStack") {
         const { direction, ...rest } = props;
 
-        return createElement("VStack", rest, processedChildren);
+        return createSeedReactElement("VStack", rest, processedChildren);
       }
 
       if (layoutComponent === "HStack") {
         const { direction, ...rest } = props;
 
-        return createElement("HStack", rest, processedChildren);
+        return createSeedReactElement("HStack", rest, processedChildren);
       }
 
       if (layoutComponent === "Box") {
-        return createElement("Box", props, processedChildren);
+        return createSeedReactElement("Box", props, processedChildren);
       }
     },
   );

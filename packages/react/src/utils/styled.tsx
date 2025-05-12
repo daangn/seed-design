@@ -279,7 +279,7 @@ export interface StyleProps {
     | "rowReverse" // @deprecated Use `row-reverse` instead.
     | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
-  flexWrap?: "wrap" | "nowrap";
+  flexWrap?: "wrap" | "wrap-reverse" | "nowrap";
 
   justifyContent?:
     | "flex-start"

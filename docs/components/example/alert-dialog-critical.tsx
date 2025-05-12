@@ -1,4 +1,4 @@
-import { HStack } from "@seed-design/react";
+import { ResponsivePair } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
@@ -24,18 +24,11 @@ const AlertDialogCritical = () => {
           <AlertDialogDescription>파괴적, 비가역적 작업을 경고합니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <HStack gap="x2">
-            <AlertDialogAction asChild>
-              <ActionButton variant="neutralSolid" flexGrow={1}>
-                취소
-              </ActionButton>
-            </AlertDialogAction>
-            <AlertDialogAction asChild>
-              <ActionButton variant="criticalSolid" flexGrow={1}>
-                확인
-              </ActionButton>
-            </AlertDialogAction>
-          </HStack>
+          {/* ResponsivePair component wraps layout if button content is too long. */}
+          <ResponsivePair gap="x2">
+            <AlertDialogAction variant="neutralWeak">취소</AlertDialogAction>
+            <AlertDialogAction variant="criticalSolid">확인</AlertDialogAction>
+          </ResponsivePair>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialogRoot>

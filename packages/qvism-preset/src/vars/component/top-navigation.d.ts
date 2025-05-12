@@ -7,7 +7,7 @@ export declare const vars: {
       },
       "icon": {
         "size": "24px",
-        "targetSize": "40px"
+        "targetSize": "44px"
       }
     }
   },
@@ -19,7 +19,7 @@ export declare const vars: {
       },
       "icon": {
         "size": "24px",
-        "targetSize": "40px"
+        "targetSize": "44px"
       }
     }
   },

@@ -1,74 +1,43 @@
-import type { IconService } from "@/entities";
-import type { NormalizedFrameTrait, NormalizedInstanceNode } from "@/normalizer";
+import type { NormalizedInstanceNode } from "@/normalizer";
 import {
-  createElement,
   defineElementTransformer,
-  definePropsTransformer,
-  type ComponentTransformer,
+  type ComponentHandler,
   type ElementTransformer,
 } from "../../core";
-import type { PropsTransformers } from "./props";
+import { createSeedReactElement } from "./element-factories";
+import type { IconHandler } from "./icon";
+import type { PropsConverters } from "./props";
 
 export interface InstanceTransformerDeps {
-  iconService?: IconService;
-  ignoredComponentKeys?: Set<string>;
-  propsTransformers: PropsTransformers;
-  componentTransformers: Record<string, ComponentTransformer>;
+  iconHandler?: IconHandler;
+  propsConverters: PropsConverters;
+  componentHandlers: Record<string, ComponentHandler>;
   frameTransformer: ElementTransformer<NormalizedInstanceNode>;
 }
 
 export function createInstanceTransformer({
-  iconService,
-  ignoredComponentKeys,
-  propsTransformers,
-  componentTransformers,
+  iconHandler,
+  propsConverters,
+  componentHandlers,
   frameTransformer,
 }: InstanceTransformerDeps): ElementTransformer<NormalizedInstanceNode> {
-  const transformIconColorProps = definePropsTransformer((node: NormalizedFrameTrait, traverse) => {
-    if (node.children.length === 0) {
-      throw new Error("Node has no children");
-    }
-
-    const vectors = node.children.filter(
-      (child) => child.type === "VECTOR" || child.type === "BOOLEAN_OPERATION",
-    );
-
-    const colorProps = vectors.map((vector) => propsTransformers.shapeFill(vector, traverse));
-
-    const fills = new Set(
-      colorProps.map((props) => props.color).filter((color) => color !== undefined),
-    );
-
-    // If there are more than 1 color, colors are likely pre-defined in the icon component; we should ignore the color prop.
-    if (fills.size > 1) {
-      return {};
-    }
-
-    return { color: fills.values().next().value };
-  });
-
   const transform = defineElementTransformer((node: NormalizedInstanceNode, traverse) => {
     const { componentKey, componentSetKey } = node;
 
-    if (ignoredComponentKeys?.has(componentKey)) {
-      return undefined;
-    }
-
-    if (iconService?.isIconComponent(componentKey)) {
-      const tagName = iconService.createIconTagName(componentKey);
+    if (iconHandler?.isIconInstance(node)) {
       const props = {
-        ...propsTransformers.iconSelfLayout(node, traverse),
-        ...transformIconColorProps(node, traverse),
+        ...propsConverters.iconSelfLayout(node),
+        ...propsConverters.vectorChildrenFill(node),
       };
-      return createElement("Icon", { svg: createElement(tagName), ...props });
+      return createSeedReactElement("Icon", { svg: iconHandler.transform(node), ...props });
     }
 
-    const componentTransformer = componentSetKey
-      ? componentTransformers[componentSetKey]
-      : componentTransformers[componentKey];
+    const componentHandler = componentSetKey
+      ? componentHandlers[componentSetKey]
+      : componentHandlers[componentKey];
 
-    if (componentTransformer) {
-      return componentTransformer.transform(node);
+    if (componentHandler) {
+      return componentHandler.transform(node);
     }
 
     return frameTransformer(node, traverse);

@@ -100,7 +100,7 @@ data:
           exitTimingFunction: $timing-function.exit
           exitOpacity: 0
         content:
-          color: $color.bg.layer-default
+          color: $color.bg.layer-floating
           maxWidth: 640px
           topCornerRadius: $radius.r6
           enterDuration: $duration.d6

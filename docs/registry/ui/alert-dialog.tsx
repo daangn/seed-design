@@ -2,6 +2,7 @@
 
 import { Dialog } from "@seed-design/react";
 import { forwardRef } from "react";
+import { ActionButton, type ActionButtonProps } from "./action-button";
 
 export interface AlertDialogRootProps extends Dialog.RootProps {}
 
@@ -64,6 +65,17 @@ export interface AlertDialogFooterProps extends Dialog.FooterProps {}
 
 export const AlertDialogFooter = Dialog.Footer;
 
-export interface AlertDialogActionProps extends Dialog.ActionProps {}
+export interface AlertDialogActionProps
+  extends Dialog.ActionProps,
+    ActionButtonProps {}
 
-export const AlertDialogAction = Dialog.Action;
+export const AlertDialogAction = forwardRef<
+  HTMLButtonElement,
+  AlertDialogActionProps
+>((props, ref) => {
+  return (
+    <Dialog.Action asChild>
+      <ActionButton {...props} ref={ref} />
+    </Dialog.Action>
+  );
+});

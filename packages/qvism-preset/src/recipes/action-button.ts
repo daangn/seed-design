@@ -15,6 +15,8 @@ const actionButton = defineRecipe({
     cursor: "pointer",
     border: "none",
     textTransform: "none",
+    whiteSpace: "nowrap",
+    verticalAlign: "middle",
     WebkitFontSmoothing: "antialiased",
     MozOsxFontSmoothing: "grayscale",
     textDecoration: "none",
@@ -23,6 +25,8 @@ const actionButton = defineRecipe({
 
     "--seed-box-flex-grow": "initial",
     flexGrow: "var(--seed-box-flex-grow)",
+    "--seed-box-min-width": "var(--seed-box-min-width)",
+    minWidth: "var(--seed-box-min-width)",
 
     [pseudo(focus)]: {
       outline: "none",
@@ -352,6 +356,7 @@ const actionButton = defineRecipe({
         paddingInline: vars.sizeXsmallLayoutWithText.enabled.root.paddingX,
         paddingBlock: vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeXsmallLayoutWithText.enabled.label.fontSize,
+        lineHeight: vars.sizeXsmallLayoutWithText.enabled.label.lineHeight,
       },
     },
     {
@@ -371,6 +376,7 @@ const actionButton = defineRecipe({
         paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
         paddingBlock: vars.sizeSmallLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeSmallLayoutWithText.enabled.label.fontSize,
+        lineHeight: vars.sizeSmallLayoutWithText.enabled.label.lineHeight,
       },
     },
     {
@@ -390,6 +396,7 @@ const actionButton = defineRecipe({
         paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
         paddingBlock: vars.sizeMediumLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeMediumLayoutWithText.enabled.label.fontSize,
+        lineHeight: vars.sizeMediumLayoutWithText.enabled.label.lineHeight,
       },
     },
     {
@@ -409,6 +416,7 @@ const actionButton = defineRecipe({
         paddingInline: vars.sizeLargeLayoutWithText.enabled.root.paddingX,
         paddingBlock: vars.sizeLargeLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeLargeLayoutWithText.enabled.label.fontSize,
+        lineHeight: vars.sizeLargeLayoutWithText.enabled.label.lineHeight,
       },
     },
     {
