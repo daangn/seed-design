@@ -162,7 +162,7 @@ export function BasicExample() {
 
 export function BasicExample() {
   return (
-    (<div>
+    <div>
       <div className="t3-bold whitespace-pre-wrap text-center text-[--tick-color]">Primary Background</div>
       <p className="t4-regular text-palette-gray-800">{formState.content}</p>
       <div className="t6-bold">Hover Primary Low Background</div>
@@ -171,7 +171,7 @@ export function BasicExample() {
       <h3 className={cn("t5-bold", className)} {...props} />
       <h3 className={isDisabled ? "t5-regular" : "t5-bold"} {...props} />
       <p className="t2-regular text-palette-gray-800">{description}</p>
-    </div>)
+    </div>
   );
 }
 ```
@@ -1207,7 +1207,7 @@ const staticColors = {
 
 const Component = () => {
   return (
-    (<div>
+    <div>
       <Button
         backgroundColor={theme.colors["bg-brand-solid"].computedValue}
         color={theme.colors["palette-static-white"].computedValue}
@@ -1225,7 +1225,7 @@ const Component = () => {
           중요
         </BadgeText>
       </Badge>
-    </div>)
+    </div>
   );
 };
 
@@ -1371,21 +1371,23 @@ import {
   IconPlusSquareLine,
   IconDothorizline3VerticalFill,
   IconPlusFill as AddIconAlias,
-} from "@daangn/react-monochrome-icon";
-import IconPlusSquareFill from "@daangn/react-monochrome-icon/IconPlusSquareFill";
-import IconPlusLine from "@daangn/react-monochrome-icon/IconPlusLine";
-import IconXmarkLine from "@daangn/react-monochrome-icon/IconXmarkLine";
-import IconCarFrontsideLine from "@daangn/react-monochrome-icon/IconCarFrontsideLine";
+} from "@karrotmarket/react-monochrome-icon";
+import IconPlusSquareFill from "@karrotmarket/react-monochrome-icon/IconPlusSquareFill";
+import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
+import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
+import IconCarFrontsideLine from "@karrotmarket/react-monochrome-icon/IconCarFrontsideLine";
 
 function App() {
   console.log(IconPlusSquareLine);
 
-  return (<>
-    <IconDothorizline3VerticalFill />
-    <IconXmarkLine />
-    <IconCarFrontsideLine />
-    <AddIconAlias />
-  </>);
+  return (
+    <>
+      <IconDothorizline3VerticalFill />
+      <IconXmarkLine />
+      <IconCarFrontsideLine />
+      <AddIconAlias />
+    </>
+  );
 }
 ```
 
@@ -1459,12 +1461,12 @@ import { Text } from "@seed-design/react";
 
 const Component = () => {
   return (
-    (<div>
+    <div>
       <Text textStyle="t7Bold">광고 노출 기준</Text>
       <Text textStyle="t5Regular">
         앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
       </Text>
-    </div>)
+    </div>
   );
 };
 ```
@@ -2025,20 +2027,22 @@ const Component = () => {
 // @ts-nocheck
 
 const Component = () => {
-  return (<>
-    <Text color="palette.gray200" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.gray800" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot200" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot600" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.carrot800" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
-    <Text color={isSelected ? "palette.staticWhite" : "fg.brand"} />
-    <Text color={isSelected ? "fg.brand" : "palette.gray1000"}  />
-    <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
-  </>);
+  return (
+    <>
+      <Text color="palette.gray200" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.gray800" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.carrot200" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.carrot600" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.carrot700" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.carrot800" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.staticBlack" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color="palette.staticWhite" variant="subtitle2Regular" className="text-ellipsis-2" />
+      <Text color={isSelected ? "palette.staticWhite" : "fg.brand"} />
+      <Text color={isSelected ? "fg.brand" : "palette.gray1000"}  />
+      <Text color={isSelected ? "palette.carrot600" : "palette.blue600"}  />
+    </>
+  );
 };
 ```
 
@@ -2059,7 +2063,7 @@ npx @seed-design/codemod replace-custom-seed-design-color <target_path>
 ```ts title="basic.input.ts"
 // @ts-nocheck
 import { style } from "@vanilla-extract/css";
-import { color, background } from "@/shared/styles";
+import { color, backgroundColor, background } from "@/shared/styles";
 
 export const container = style({
   backgroundColor: color.gray100,
@@ -2085,13 +2089,18 @@ export const button = style({
 
 export const highlight = style({
   color: color.carrot500,
+  backgroundColor: backgroundColor.primary,
+}); 
+
+export const primary = style({
+  color: color.primary,
 });
 ```
 
 ```ts title="basic.output.ts"
 // @ts-nocheck
 import { style } from "@vanilla-extract/css";
-import { color, background } from "@/shared/styles";
+import { color, backgroundColor, background } from "@/shared/styles";
 
 export const container = style({
   backgroundColor: color.palette.gray200,
@@ -2117,6 +2126,11 @@ export const button = style({
 
 export const highlight = style({
   color: color.palette.carrot600,
+  backgroundColor: backgroundColor.bg.brandSolid,
+}); 
+
+export const primary = style({
+  color: color.fg.brand,
 });
 ```
 
@@ -2268,7 +2282,7 @@ export function BackgroundExample() {
 
 export function BackgroundExample() {
   return (
-    (<div>
+    <div>
       <div className="bg-bg-brand-solid">Primary Background</div>
       <div className="bg-palette-carrot-100">Primary Low Background</div>
       <div className="hover:bg-palette-carrot-100">Hover Primary Low Background</div>
@@ -2288,7 +2302,7 @@ export function BackgroundExample() {
       <div className="bg-palette-static-black">Static Black Background</div>
       <div className="bg-palette-static-white">Static White Background</div>
       <div className="bg-palette-static-black">Static Gray900 Background</div>
-    </div>)
+    </div>
   );
 }
 ```

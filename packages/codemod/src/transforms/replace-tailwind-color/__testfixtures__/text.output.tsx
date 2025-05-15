@@ -2,7 +2,7 @@
 
 export function TextExample() {
   return (
-    (<div>
+    <div>
       <p className="text-fg-brand">Primary Text</p>
       <p className="text-palette-gray-900">Secondary Text</p>
       <p className="text-fg-positive">Success Text</p>
@@ -26,6 +26,6 @@ export function TextExample() {
       <div className="text-palette-gray-200 hover:text-palette-gray-900">
         Complex State Text
       </div>
-    </div>)
+    </div>
   );
 }

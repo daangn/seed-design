@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { style } from "@vanilla-extract/css";
-import { color, background } from "@/shared/styles";
+import { color, backgroundColor, background } from "@/shared/styles";
 
 export const container = style({
   backgroundColor: color.gray100,
@@ -26,4 +26,9 @@ export const button = style({
 
 export const highlight = style({
   color: color.carrot500,
+  backgroundColor: backgroundColor.primary,
 }); 
+
+export const primary = style({
+  color: color.primary,
+});

@@ -7,7 +7,7 @@ const Component = () => {
   const isDisabled = false;
   
   return (
-    (<div>
+    <div>
       <Button 
         backgroundColor={isActive ? theme.colors["bg-brand-solid"].computedValue : theme.colors["palette-gray-300"].computedValue}
         color={isActive ? theme.colors["palette-static-white"].computedValue : theme.colors["palette-gray-1000"].computedValue}
@@ -30,7 +30,7 @@ const Component = () => {
         상태 표시
       </Badge>
       <StatusIcon fill={isActive ? isDisabled ? theme.colors["palette-gray-500"].computedValue : theme.colors["bg-informative-solid"].computedValue : theme.colors["bg-critical-solid"].computedValue} />
-    </div>)
+    </div>
   );
 };
 

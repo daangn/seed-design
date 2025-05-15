@@ -5,7 +5,7 @@ import transform, { reactMatch } from "../index.js";
 runFixtureTests({
   transform,
   fixturesDir: join(__dirname, "..", "__testfixtures__"),
-  extension: "tsx",
+  extension: ["tsx", "ts"],
   transformOptions: {
     log: true,
     match: reactMatch,

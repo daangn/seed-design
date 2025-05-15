@@ -2,7 +2,7 @@
 
 export function ModifierExample() {
     return (
-      (<div>
+      <div>
         <div className="!bg-bg-brand-solid">Primary Background</div>
         <div className="!bg-palette-carrot-100">Primary Low Background</div>
         <div className="hover:!bg-palette-carrot-100">Hover Primary Low Background</div>
@@ -22,7 +22,7 @@ export function ModifierExample() {
         <div className="first:bg-palette-static-black">Static Black Background</div>
         <div className="last:bg-palette-static-white">Static White Background</div>
         <div className="odd:bg-palette-static-black">Static Gray900 Background</div>
-      </div>)
+      </div>
     );
   }
   

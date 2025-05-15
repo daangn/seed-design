@@ -58,7 +58,7 @@ const staticColors = {
 
 const Component = () => {
   return (
-    (<div>
+    <div>
       <Button
         backgroundColor={theme.colors["bg-brand-solid"].computedValue}
         color={theme.colors["palette-static-white"].computedValue}
@@ -76,7 +76,7 @@ const Component = () => {
           중요
         </BadgeText>
       </Badge>
-    </div>)
+    </div>
   );
 };
 

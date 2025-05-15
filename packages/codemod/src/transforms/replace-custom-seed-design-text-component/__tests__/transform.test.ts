@@ -5,4 +5,5 @@ import transform from "../index.js";
 runFixtureTests({
   transform,
   fixturesDir: join(__dirname, "..", "__testfixtures__"),
+  extension: ["tsx", "ts"],
 });
