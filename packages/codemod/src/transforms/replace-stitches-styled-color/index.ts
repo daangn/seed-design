@@ -6,6 +6,7 @@ import {
 } from "@seed-design/migration-index";
 import type { ObjectExpression, ObjectMethod, ObjectProperty, Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
+import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 
 // 색상 관련 CSS 속성 목록 (전역 상수)
 const COLOR_PROPERTIES = {
@@ -130,6 +131,15 @@ function isColorToken(value: string): boolean {
     return true;
   }
 
+  // $semantic-, $scale-, $static- 접두사로 시작하는 새로운 패턴 확인
+  if (
+    value.startsWith("$semantic-") ||
+    value.startsWith("$scale-") ||
+    value.startsWith("$static-")
+  ) {
+    return true;
+  }
+
   // $gray900, $blue500 등의 패턴 확인 ($gray00도 포함)
   if (/^\$([a-zA-Z]+)(\d+)$/.test(value)) {
     return true;
@@ -177,10 +187,77 @@ interface TokenMappingResult {
  * 예: $onPrimaryOverlay50-semantic -> $semantic.color.on-primary-overlay-50
  * 예: $divider1-semantic -> $semantic.color.divider-1
  * 예: $gray900-static -> $static.color.static-gray-900
+ * 예: $semantic-primary -> $semantic.color.primary
+ * 예: $scale-gray700 -> $scale.color.gray-700
+ * 예: $static-staticBlack -> $static.color.static-black
  */
 function normalizeOldColorName(oldColorValue: string): string {
   // $ 접두사 제거
   const colorName = oldColorValue.startsWith("$") ? oldColorValue.substring(1) : oldColorValue;
+
+  // $semantic- 접두사 패턴 처리 (예: $semantic-primary)
+  if (colorName.startsWith("semantic-")) {
+    const semanticName = colorName.replace(/^semantic-/, "");
+
+    // 정규화된 시맨틱 이름으로 변환 (camelCase -> kebab-case)
+    const normalizedName = normalizeSemanticName(semanticName);
+
+    return `$semantic.color.${normalizedName}`;
+  }
+
+  // $scale- 접두사 패턴 처리 (예: $scale-gray700)
+  if (colorName.startsWith("scale-")) {
+    const scaleName = colorName.replace(/^scale-/, "");
+
+    // camelCase 형식의 색상을 처리 (grayAlpha50 -> gray-alpha-50)
+    if (/[A-Z]/.test(scaleName)) {
+      const normalized = camelCaseToKebabCase(scaleName);
+      return `$scale.color.${normalized}`;
+    }
+
+    // 일반 색상 처리 (gray700 -> gray-700)
+    const scaleWithDash = scaleName.replace(/([a-zA-Z]+)(\d+)/, "$1-$2");
+    return `$scale.color.${scaleWithDash}`;
+  }
+
+  // $static- 접두사 패턴 처리 (예: $static-staticBlack 또는 $static-black)
+  if (colorName.startsWith("static-")) {
+    const staticPart = colorName.replace(/^static-/, "");
+
+    // static-staticBlack 같은 경우 처리
+    if (staticPart.startsWith("static")) {
+      // staticBlack -> black 으로 변환
+      const normalizedStaticName = staticPart.replace(/^static/, "");
+
+      // 첫 글자를 소문자로 변환 (Black -> black)
+      const lowerFirstChar =
+        normalizedStaticName.charAt(0).toLowerCase() + normalizedStaticName.slice(1);
+
+      // camelCase를 kebab-case로 변환 (blackAlpha200 -> black-alpha-200)
+      if (/[A-Z]/.test(lowerFirstChar)) {
+        const normalized = camelCaseToKebabCase(lowerFirstChar);
+        return `$static.color.static-${normalized}`;
+      }
+
+      return `$static.color.static-${lowerFirstChar}`;
+    }
+
+    // static-black 형태 처리
+    // camelCase를 kebab-case로 변환 (blackAlpha200 -> black-alpha-200)
+    if (/[A-Z]/.test(staticPart)) {
+      const normalized = camelCaseToKebabCase(staticPart);
+      return `$static.color.static-${normalized}`;
+    }
+
+    // 일반 static-gray900과 같은 패턴 처리
+    if (/^([a-zA-Z]+)(\d+)$/.test(staticPart)) {
+      // gray900 -> gray-900 변환
+      const colorWithDash = staticPart.replace(/([a-zA-Z]+)(\d+)/, "$1-$2");
+      return `$static.color.static-${colorWithDash}`;
+    }
+
+    return `$static.color.static-${staticPart}`;
+  }
 
   // semantic 색상 처리 (예: $primary-semantic => $semantic.color.primary)
   if (colorName.endsWith("-semantic")) {
@@ -342,7 +419,7 @@ function findStaticMapping(staticName: string) {
  * colorMappings에서 매핑을 찾아 V3 형식으로 변환합니다.
  * 매핑에 없는 경우 원래 값을 그대로 반환합니다.
  */
-function getTokenMapping(oldColorValue: string): TokenMappingResult {
+function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMappingResult {
   // 현재 값이 이미 V3 형식이면 그대로 반환
   if (
     oldColorValue.startsWith("$palette-") ||
@@ -357,13 +434,102 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
     };
   }
 
+  // $semantic- 접두사로 시작하는 경우 처리
+  if (oldColorValue.startsWith("$semantic-")) {
+    const semanticName = oldColorValue.replace(/^\$semantic-/, "");
+    const mapping = findSemanticMapping(semanticName);
+
+    if (mapping?.next?.length > 0) {
+      const token = selectAndTransformToken(mapping, propertyName);
+
+      if (token && token !== oldColorValue) {
+        return {
+          token,
+          needsVerification: mapping.needsVerification,
+          description: mapping.description,
+        };
+      }
+    }
+    // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "시멘틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
+  }
+
+  // $scale- 접두사로 시작하는 경우 처리
+  if (oldColorValue.startsWith("$scale-")) {
+    // 정규화된 형식으로 변환
+    const previousToken = normalizeOldColorName(oldColorValue);
+
+    // 마이그레이션 매핑 찾기
+    const scaleColor = previousToken.replace("$scale.color.", "");
+    const mapping = scaleColorMappings.find((m) => m.previous === `$scale.color.${scaleColor}`);
+
+    if (mapping?.next?.length > 0) {
+      const token = selectAndTransformToken(mapping, propertyName);
+
+      if (token && token !== oldColorValue) {
+        return {
+          token,
+          needsVerification: mapping.needsVerification,
+          description: mapping.description,
+        };
+      }
+    }
+
+    // 매핑이 없는 경우 원래 값 반환
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "스케일 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
+  }
+
+  // $static- 접두사로 시작하는 경우 처리
+  if (oldColorValue.startsWith("$static-")) {
+    // static- 다음 부분 추출
+    const staticName = oldColorValue.replace(/^\$static-/, "");
+
+    // static-staticBlack 같은 경우는 static 중복 처리
+    let normalizedStaticName = staticName;
+    if (staticName.startsWith("static")) {
+      // staticBlack -> black 으로 변환
+      normalizedStaticName = staticName.replace(/^static/, "");
+      // 첫 글자를 소문자로 변환 (Black -> black)
+      normalizedStaticName =
+        normalizedStaticName.charAt(0).toLowerCase() + normalizedStaticName.slice(1);
+    }
+
+    const mapping = findStaticMapping(normalizedStaticName);
+
+    if (mapping?.next?.length > 0) {
+      const token = selectAndTransformToken(mapping, propertyName);
+
+      if (token && token !== oldColorValue) {
+        return {
+          token,
+          needsVerification: mapping.needsVerification,
+          description: mapping.description,
+        };
+      }
+    }
+    // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
+    return {
+      token: oldColorValue,
+      needsVerification: true,
+      description: "스태틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
+    };
+  }
+
   // -semantic 접미사가 있는 경우 특별 처리
   if (oldColorValue.endsWith("-semantic")) {
     const semanticName = oldColorValue.replace(/^\$|-semantic$/g, "");
     const mapping = findSemanticMapping(semanticName);
 
     if (mapping?.next?.length > 0) {
-      const token = selectAndTransformToken(mapping);
+      const token = selectAndTransformToken(mapping, propertyName);
 
       if (token && token !== oldColorValue) {
         return {
@@ -387,7 +553,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
     const mapping = findStaticMapping(staticName);
 
     if (mapping?.next?.length > 0) {
-      const token = selectAndTransformToken(mapping);
+      const token = selectAndTransformToken(mapping, propertyName);
 
       if (token && token !== oldColorValue) {
         return {
@@ -422,7 +588,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
       mapping = findSemanticMapping(semanticName);
 
       if (mapping?.next?.length > 0) {
-        result = selectAndTransformToken(mapping);
+        result = selectAndTransformToken(mapping, propertyName);
         needsVerification = mapping.needsVerification;
         description = mapping.description;
       }
@@ -433,7 +599,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
       mapping = findStaticMapping(staticName);
 
       if (mapping?.next?.length > 0) {
-        result = selectAndTransformToken(mapping);
+        result = selectAndTransformToken(mapping, propertyName);
         needsVerification = mapping.needsVerification;
         description = mapping.description;
       }
@@ -444,7 +610,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
       // scaleColorMappings에서 정확히 일치하는 매핑 찾기
       mapping = scaleColorMappings.find((m) => m.previous === `$scale.color.${scaleColor}`);
       if (mapping?.next?.length > 0) {
-        result = selectAndTransformToken(mapping);
+        result = selectAndTransformToken(mapping, propertyName);
         needsVerification = mapping.needsVerification;
         description = mapping.description;
       }
@@ -453,7 +619,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
     else {
       mapping = colorMappings.find((m) => m.previous === previousToken);
       if (mapping?.next?.length > 0) {
-        result = selectAndTransformToken(mapping);
+        result = selectAndTransformToken(mapping, propertyName);
         needsVerification = mapping.needsVerification;
         description = mapping.description;
       }
@@ -487,7 +653,7 @@ function getTokenMapping(oldColorValue: string): TokenMappingResult {
  * selectAndTransformToken 함수는 mapping의 next 배열에서 가장 적합한 토큰을 선택합니다.
  * 만약 next가 없거나 빈 배열이면 null 대신 이전 토큰을 반환합니다.
  */
-function selectAndTransformToken(mapping: any): string {
+function selectAndTransformToken(mapping: any, propertyName?: string): string {
   const preferred: string | undefined = mapping.preferred;
 
   // next 배열이 없거나 비어있으면 이전 토큰을 반환
@@ -507,24 +673,49 @@ function selectAndTransformToken(mapping: any): string {
     return transformToken(preferred);
   }
 
-  // 우선순위에 따라 다음을 선택
-  // 1. UI 스펙 관련 토큰 (bg-, fg-, stroke-)
-  // 2. 팔레트 토큰 (palette-)
-  // 3. 있는 것
-  const uiSpecTokens = mapping.next.filter(
-    (token: string) =>
-      token.startsWith("$color.bg.") ||
-      token.startsWith("$color.fg.") ||
-      token.startsWith("$color.stroke."),
+  // 속성 이름에 따라 적절한 토큰 타입 결정
+  let tokenType = "palette"; // 기본값
+
+  if (propertyName) {
+    // color-properties.ts의 유틸리티 함수 사용
+    tokenType = getTokenTypeForProperty(propertyName);
+  }
+
+  // 우선순위에 따라 토큰 선택
+  // 1. 속성에 맞는 타입의 토큰 (fg, bg, stroke)
+  // 2. 다른 UI 스펙 관련 토큰 (bg-, fg-, stroke-)
+  // 3. 팔레트 토큰 (palette-)
+  // 4. 있는 것
+  const typeSpecificTokens = mapping.next.filter((token: string) =>
+    token.startsWith(`$color.${tokenType}.`),
   );
+
+  const fgTokens = mapping.next.filter((token: string) => token.startsWith("$color.fg."));
+  const bgTokens = mapping.next.filter((token: string) => token.startsWith("$color.bg."));
+  const strokeTokens = mapping.next.filter((token: string) => token.startsWith("$color.stroke."));
   const paletteTokens = mapping.next.filter((token: string) => token.startsWith("$color.palette."));
 
   let selectedToken: string;
 
-  if (uiSpecTokens.length > 0) {
-    selectedToken = uiSpecTokens[0];
+  // 속성에 맞는 토큰 타입이 있으면 우선 사용
+  if (typeSpecificTokens.length > 0) {
+    selectedToken = typeSpecificTokens[0];
+  }
+  // 속성 기반으로 적절한 토큰 선택
+  else if (tokenType === "fg" && fgTokens.length > 0) {
+    selectedToken = fgTokens[0];
+  } else if (tokenType === "bg" && bgTokens.length > 0) {
+    selectedToken = bgTokens[0];
+  } else if (tokenType === "stroke" && strokeTokens.length > 0) {
+    selectedToken = strokeTokens[0];
   } else if (paletteTokens.length > 0) {
     selectedToken = paletteTokens[0];
+  } else if (fgTokens.length > 0) {
+    selectedToken = fgTokens[0];
+  } else if (bgTokens.length > 0) {
+    selectedToken = bgTokens[0];
+  } else if (strokeTokens.length > 0) {
+    selectedToken = strokeTokens[0];
   } else if (mapping.next.length > 0) {
     selectedToken = mapping.next[0];
   } else {
@@ -607,6 +798,14 @@ function processColorProperty(
 
     // $ 문자가 포함된 경우에만 처리 (성능 최적화)
     if (stringValue.includes("$")) {
+      // 속성 이름 가져오기
+      let propertyName: string | undefined;
+      if (prop.key.type === "Identifier") {
+        propertyName = prop.key.name;
+      } else if (prop.key.type === "StringLiteral") {
+        propertyName = prop.key.value;
+      }
+
       // 1. 값 자체가 단일 색상 토큰인 경우 (예: color: '$gray700')
       if (stringValue.startsWith("$") && isColorToken(stringValue)) {
         const oldValue = stringValue;
@@ -619,7 +818,7 @@ function processColorProperty(
           return;
         }
 
-        const mappingResult = getTokenMapping(oldValue);
+        const mappingResult = getTokenMapping(oldValue, propertyName);
 
         // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
         if (mappingResult && mappingResult.token !== oldValue) {
@@ -702,6 +901,14 @@ function processComplexProperty(
 
   const value = prop.value.value;
 
+  // 속성 이름 가져오기
+  let propertyName: string | undefined;
+  if (prop.key.type === "Identifier") {
+    propertyName = prop.key.name;
+  } else if (prop.key.type === "StringLiteral") {
+    propertyName = prop.key.value;
+  }
+
   // 개선된 정규식: 문자열 내에서 '$'로 시작하는 모든 토큰을 찾기
   // 'linear-gradient(180deg, $blue50 0%, $paperDefault-semantic 100%)' 와 같은 복잡한 식에서도 동작
   const colorTokenPattern = /(\$[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
@@ -738,7 +945,7 @@ function processComplexProperty(
         continue;
       }
 
-      const mappingResult = getTokenMapping(oldColorToken);
+      const mappingResult = getTokenMapping(oldColorToken, propertyName);
 
       // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
       if (mappingResult && mappingResult.token !== oldColorToken) {

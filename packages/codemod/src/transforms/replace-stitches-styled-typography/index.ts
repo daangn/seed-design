@@ -28,7 +28,7 @@ function isTypographyToken(value: string): boolean {
   if (typeof value !== "string") return false;
 
   // $text 등의 변수는 타이포그래피로 간주
-  if (value.startsWith("$text")) return true;
+  if (value.startsWith("$text") || value.startsWith("$typography")) return true;
 
   // bodyM1Regular, title1Bold 등의 패턴이 있으면 타이포그래피로 간주
   const typographyPatterns = [
@@ -105,7 +105,9 @@ function processStyleObject(
       // $text 속성이나 key가 오브젝트이면 처리
       if (
         (prop.key.type === "Identifier" && prop.key.name === "$text") ||
-        (prop.key.type === "StringLiteral" && prop.key.value === "$text")
+        (prop.key.type === "StringLiteral" && prop.key.value === "$text") ||
+        (prop.key.type === "Identifier" && prop.key.name === "$typography") ||
+        (prop.key.type === "StringLiteral" && prop.key.value === "$typography")
       ) {
         processTypographyProperty(prop, logger, filePath, processedTokens, fileTransformationLog);
       }
@@ -290,33 +292,35 @@ const transform: Transform = (file, api) => {
         }
       });
 
-    // $text 속성을 가진 객체 찾기 (styled 함수 호출이 아닌 경우도 포함)
-    root
-      .find(j.ObjectProperty, {
+    const textProperties = [
+      {
         key: {
           type: "Identifier",
           name: "$text",
         },
-      })
-      .forEach((path) => {
-        processTypographyProperty(
-          path.node,
-          logger,
-          filePath,
-          processedTokens,
-          fileTransformationLog,
-        );
-      });
-
-    // $text 속성을 가진 객체 찾기 (문자열 키 사용 경우)
-    root
-      .find(j.ObjectProperty, {
+      },
+      {
         key: {
           type: "StringLiteral",
           value: "$text",
         },
-      })
-      .forEach((path) => {
+      },
+      {
+        key: {
+          type: "Identifier",
+          name: "$typography",
+        },
+      },
+      {
+        key: {
+          type: "StringLiteral",
+          value: "$typography",
+        },
+      },
+    ] as const;
+
+    for (const textProperty of textProperties) {
+      root.find(j.ObjectProperty, textProperty).forEach((path) => {
         processTypographyProperty(
           path.node,
           logger,
@@ -325,6 +329,7 @@ const transform: Transform = (file, api) => {
           fileTransformationLog,
         );
       });
+    }
 
     logger.finishFile(filePath);
 

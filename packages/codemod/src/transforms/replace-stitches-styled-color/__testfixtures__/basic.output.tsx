@@ -2,16 +2,16 @@
 
 const SemanticColorTestComponent = styled('div', {
   // Semantic Color 테스트
-  color: "$bg-brand-solid",
+  color: "$fg-brand",
   color: "$palette-static-white",
   color: "$palette-carrot-100",
   color: "$palette-gray-900",
   color: "$bg-neutral-weak",
-  color: "$bg-positive-solid",
+  color: "$fg-positive",
   color: "$bg-positive-weak",
   color: "$bg-warning-solid",
   color: "$bg-warning-weak",
-  color: "$bg-critical-solid",
+  color: "$fg-critical",
   color: "$bg-critical-weak",
   color: "$bg-overlay",
   color: "$bg-overlay-muted",
@@ -39,7 +39,7 @@ const SemanticColorTestComponent = styled('div', {
   color: "$stroke-neutral-muted",
   color: "$stroke-neutral",
   color: "$palette-gray-400",
-  color: "$bg-informative-solid",
+  color: "$fg-informative",
   color: "$fg-neutral",
   color: "$fg-neutral-subtle",
   color: "$fg-neutral-muted",
@@ -58,7 +58,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-gray-800",
   color: "$palette-gray-900",
   color: "$palette-gray-1000",
-  color: "$stroke-on-image",
+  color: "$palette-gray-200",
   color: "$palette-gray-300",
   color: "$palette-gray-500",
   color: "$palette-gray-700",
@@ -182,8 +182,8 @@ const StaticColorTestComponent = styled('div', {
 const ComplexPropertyTestComponent = styled('div', {
   border: "1px solid $palette-gray-800",
   boxShadow: "0 0 10px $bg-overlay",
-  outline: "2px solid $bg-informative-solid",
-  textDecoration: "underline $bg-critical-solid",
+  outline: "2px solid $fg-informative",
+  textDecoration: "underline $fg-critical",
   
   // 네스팅된 속성 테스트
   '&:before': {
