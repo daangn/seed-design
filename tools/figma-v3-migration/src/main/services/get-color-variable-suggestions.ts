@@ -38,15 +38,25 @@ export async function getColorVariableSuggestions({
     libraryName: SEED_V3_LIBRARY_NAME,
     name: SEED_V3_LIBRARY_VARIABLE_COLLECTION_NAMES.COLOR,
   });
-  if (!library)
-    throw new Error("신규 라이브러리를 찾을 수 없습니다. 라이브러리가 추가되었는지 확인해주세요.");
+  if (!library) {
+    figma.notify("신규 라이브러리를 찾을 수 없습니다. 라이브러리가 추가되었는지 확인해주세요.", {
+      error: true,
+      timeout: 5000,
+    });
+    return [];
+  }
 
   const variableKeys = (
     await figma.teamLibrary.getVariablesInLibraryCollectionAsync(library.key)
   ).map(({ key }) => key);
 
-  if (variableKeys.length === 0)
-    throw new Error("신규 Variable을 찾을 수 없습니다. 라이브러리가 추가되었는지 확인해주세요.");
+  if (variableKeys.length === 0) {
+    figma.notify("신규 Variable을 찾을 수 없습니다. 라이브러리가 추가되었는지 확인해주세요.", {
+      error: true,
+      timeout: 5000,
+    });
+    return [];
+  }
 
   const nodesInTarget = getAllColorVariableBindableNodesInSceneNodes(nodes);
 
@@ -60,8 +70,13 @@ export async function getColorVariableSuggestions({
     (node) => Object.keys(node.explicitVariableModes).length === 0,
   );
 
-  if (!firstNodeWithoutExplicitVariableMode)
-    throw new Error("모든 레이어에 Variable Mode가 설정되어 있습니다.");
+  if (!firstNodeWithoutExplicitVariableMode) {
+    figma.notify("모든 레이어에 Variable Mode가 설정되어 있습니다.", {
+      error: true,
+      timeout: 5000,
+    });
+    return [];
+  }
 
   const candidateVariables = availableVariables
     .map((variable) => {

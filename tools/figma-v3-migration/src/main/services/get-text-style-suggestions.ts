@@ -46,14 +46,24 @@ export async function getSerializedTextStyleSuggestions({
 
     // library 추가되어있지 않아도 typography import는 가능함.
     if (textStyles.length === 0) {
-      throw new Error(
+      figma.notify(
         "Typography를 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
+        {
+          error: true,
+          timeout: 5000,
+        },
       );
+      return [];
     }
   } catch {
-    throw new Error(
+    figma.notify(
       "Typography를 찾을 수 없습니다. 최신 버전의 라이브러리가 추가되었는지 확인해주세요.",
+      {
+        error: true,
+        timeout: 5000,
+      },
     );
+    return [];
   }
 
   const results = [];

@@ -7,7 +7,24 @@ export const getFigmaMetadata = (): FigmaMetadata => {
   const fileKey = figma.fileKey;
 
   if (!currentUser || !currentPage || !currentRoot || !fileKey) {
-    throw new Error("Figma metadata not found");
+    figma.notify("Figma metadata not found", {
+      error: true,
+      timeout: 5000,
+    });
+    return {
+      currentUser: {
+        id: "",
+        name: "",
+      },
+      currentPage: {
+        id: "",
+        name: "",
+      },
+      currentRoot: {
+        name: "",
+      },
+      fileKey: "",
+    };
   }
 
   return {
