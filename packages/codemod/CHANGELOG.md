@@ -1,5 +1,12 @@
 # @seed-design/codemod
 
+## 0.0.23
+
+### Patch Changes
+
+- 1284609: feat: replace-custom-seed-design-color 직접 seed-design/css 패키지 import 하도록 변경
+- 6895bd0: feat(codemod): add more cases in stitches transform
+
 ## 0.0.22
 
 ### Patch Changes
