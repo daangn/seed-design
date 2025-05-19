@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 0.0.25
+
+### Patch Changes
+
+- c87ede9: Avatar Stack의 디자인을 업데이트합니다.
+- Updated dependencies [c87ede9]
+  - @seed-design/css@0.0.25
+
 ## 0.0.24
 
 ### Patch Changes

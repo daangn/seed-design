@@ -1,5 +1,13 @@
 # @seed-design/mcp
 
+## 0.0.25
+
+### Patch Changes
+
+- c8a6d41: codegen 결과물이 import 문을 함께 반환하는 기능을 추가합니다.
+- Updated dependencies [c8a6d41]
+  - @seed-design/figma@0.0.25
+
 ## 0.0.24
 
 ### Patch Changes
