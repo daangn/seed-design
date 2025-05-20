@@ -10,13 +10,13 @@ description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 �
 ## 사용 방법
 
 ```package-install
-npx @seed-design/codemod <transform> <target_path> <옵션>
+npx @seed-design/codemod@latest <transform> <target_path> <옵션>
 ```
 
 사용 가능한 transform 목록을 확인하려면 다음 명령어를 실행해요.
 
 ```package-install
-npx @seed-design/codemod --list
+npx @seed-design/codemod@latest --list
 ```
 
 ## 옵션
@@ -44,7 +44,7 @@ npx @seed-design/codemod --list
 ### replace-custom-seed-design-typography
 
 ```package-install
-npx @seed-design/codemod replace-custom-seed-design-typography <target_path>
+npx @seed-design/codemod@latest replace-custom-seed-design-typography <target_path>
 ```
 
 <Accordions>
@@ -132,7 +132,7 @@ export const largeTitle = style([
 ### replace-tailwind-typography
 
 ```package-install
-npx @seed-design/codemod replace-tailwind-typography <target_path>
+npx @seed-design/codemod@latest replace-tailwind-typography <target_path>
 ```
 
 <Accordions>
@@ -192,7 +192,7 @@ Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 �
 - 별칭(alias)으로 import된 변수명은 유지합니다 (예: `bodyM1Regular as customTypo`에서 `t5Regular as customTypo`로 변환).
 
 ```package-install
-npx @seed-design/codemod replace-custom-imported-typography-variable <target_path>
+npx @seed-design/codemod@latest replace-custom-imported-typography-variable <target_path>
 ```
 
 <Accordions>
@@ -387,7 +387,7 @@ const textStyle = t5Regular;
 ### replace-custom-seed-design-vars
 
 ```package-install
-npx @seed-design/codemod replace-custom-seed-design-vars <target_path>
+npx @seed-design/codemod@latest replace-custom-seed-design-vars <target_path>
 ```
 
 <Accordions>
@@ -939,7 +939,7 @@ export const borderMapping = style({
 ### replace-stitches-styled-typography
 
 ```package-install
-npx @seed-design/codemod replace-stitches-styled-typography <target_path>
+npx @seed-design/codemod@latest replace-stitches-styled-typography <target_path>
 ```
 
 <Accordions>
@@ -1043,7 +1043,7 @@ const ContentText2 = styled('p', {
 ### replace-stitches-theme-color
 
 ```package-install
-npx @seed-design/codemod replace-stitches-theme-color <target_path>
+npx @seed-design/codemod@latest replace-stitches-theme-color <target_path>
 ```
 
 <Accordions>
@@ -1333,7 +1333,7 @@ export { semanticColors, scaleColors, staticColors, Component, Dialog };
 ### replace-css-seed-design-color-variable
 
 ```package-install
-npx @seed-design/codemod replace-css-seed-design-color-variable <target_path>
+npx @seed-design/codemod@latest replace-css-seed-design-color-variable <target_path>
 ```
 
 <Accordions>
@@ -1373,7 +1373,7 @@ npx @seed-design/codemod replace-css-seed-design-color-variable <target_path>
 ### replace-react-icon
 
 ```package-install
-npx @seed-design/codemod replace-react-icon <target_path>
+npx @seed-design/codemod@latest replace-react-icon <target_path>
 ```
 
 <Accordions>
@@ -1439,7 +1439,7 @@ function App() {
 ### replace-seed-design-token-vars
 
 ```package-install
-npx @seed-design/codemod replace-seed-design-token-vars <target_path>
+npx @seed-design/codemod@latest replace-seed-design-token-vars <target_path>
 ```
 
 <Accordions>
@@ -1473,7 +1473,7 @@ const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 ### replace-custom-seed-design-text-component
 
 ```package-install
-npx @seed-design/codemod replace-custom-seed-design-text-component <target_path>
+npx @seed-design/codemod@latest replace-custom-seed-design-text-component <target_path>
 ```
 
 <Accordions>
@@ -1519,7 +1519,7 @@ const Component = () => {
 ### replace-seed-design-token-typography-classname
 
 ```package-install
-npx @seed-design/codemod replace-seed-design-token-typography-classname <target_path>
+npx @seed-design/codemod@latest replace-seed-design-token-typography-classname <target_path>
 ```
 
 <Accordions>
@@ -1596,7 +1596,7 @@ Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해�
 - 커스텀 색상 값이나 CSS 변수는 변환하지 않습니다.
 
 ```package-install
-npx @seed-design/codemod replace-stitches-styled-color <target_path>
+npx @seed-design/codemod@latest replace-stitches-styled-color <target_path>
 ```
 
 <Accordions>
@@ -1813,6 +1813,16 @@ const ComplexPropertyTestComponent = styled('div', {
       }
     }
   }
+});
+
+// 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
+const BorderAndColorTestComponent = styled('div', {
+  color: '$scale-red500 solid 1px',
+  color: '$red600 dashed 2px',
+  color: '$scale-blue400 dotted 3px',
+  color: '$scale-green600 double 4px',
+  color: '$scale-yellow500 groove 2px',
+  outlineColor: '$scale-purple500',
 });
 
 const ImportantTest = styled('div', {
@@ -2043,6 +2053,16 @@ const ComplexPropertyTestComponent = styled('div', {
   }
 });
 
+// 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
+const BorderAndColorTestComponent = styled('div', {
+  color: "$palette-red-700 solid 1px",
+  color: "$palette-red-700 dashed 2px",
+  color: "$palette-blue-400 dotted 3px",
+  color: "$palette-green-700 double 4px",
+  color: "$palette-yellow-700 groove 2px",
+  outlineColor: "$palette-purple-600",
+});
+
 const ImportantTest = styled('div', {
   color: "$fg-brand !important",
   color: "$palette-static-white !important",
@@ -2064,7 +2084,7 @@ const ImportantTest = styled('div', {
 ### replace-custom-text-component-color-prop
 
 ```package-install
-npx @seed-design/codemod replace-custom-text-component-color-prop <target_path>
+npx @seed-design/codemod@latest replace-custom-text-component-color-prop <target_path>
 ```
 
 <Accordions>
@@ -2124,7 +2144,7 @@ const Component = () => {
 커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
 
 ```package-install
-npx @seed-design/codemod replace-custom-seed-design-color <target_path>
+npx @seed-design/codemod@latest replace-custom-seed-design-color <target_path>
 ```
 
 <Accordions>
@@ -2210,7 +2230,7 @@ export const primary = style({
 ### replace-css-seed-design-typography-variable
 
 ```package-install
-npx @seed-design/codemod replace-css-seed-design-typography-variable <target_path>
+npx @seed-design/codemod@latest replace-css-seed-design-typography-variable <target_path>
 ```
 
 <Accordions>
@@ -2311,7 +2331,7 @@ Tailwind CSS 색상 클래스를 Seed Design V3 형식으로 변환해요.
 - Tailwind 동적 클래스 조합(`clsx`, `cx`, `classnames` 등)도 변환됩니다.
 
 ```package-install
-npx @seed-design/codemod replace-tailwind-color <target_path>
+npx @seed-design/codemod@latest replace-tailwind-color <target_path>
 ```
 
 <Accordions>

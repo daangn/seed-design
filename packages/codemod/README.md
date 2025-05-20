@@ -3,11 +3,11 @@
 코드 마이그레이션 도구
 
 ```shell
-npx @seed-design/codemod --list
+npx @seed-design/codemod@latest --list
 ```
 
 ```shell
-npx @seed-design/codemod <transform> <...경로> <옵션>
+npx @seed-design/codemod@latest <transform> <...경로> <옵션>
 ```
 
 ## 옵션

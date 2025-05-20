@@ -111,13 +111,13 @@ description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 �
 ## 사용 방법
 
 \`\`\`package-install
-npx @seed-design/codemod <transform> <target_path> <옵션>
+npx @seed-design/codemod@latest <transform> <target_path> <옵션>
 \`\`\`
 
 사용 가능한 transform 목록을 확인하려면 다음 명령어를 실행해요.
 
 \`\`\`package-install
-npx @seed-design/codemod --list
+npx @seed-design/codemod@latest --list
 \`\`\`
 
 ## 옵션
@@ -148,7 +148,7 @@ npx @seed-design/codemod --list
     mdx += `${doc.readme}\n\n`;
 
     mdx += `\`\`\`package-install
-npx @seed-design/codemod ${doc.path} <target_path>
+npx @seed-design/codemod@latest ${doc.path} <target_path>
 \`\`\`\n\n`;
 
     if (doc.example) {
