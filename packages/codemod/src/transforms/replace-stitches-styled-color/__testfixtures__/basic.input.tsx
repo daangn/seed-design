@@ -208,4 +208,18 @@ const ComplexPropertyTestComponent = styled('div', {
       }
     }
   }
-}); 
+});
+
+const ImportantTest = styled('div', {
+  color: '$primary-semantic !important',
+  color: '$onPrimary-semantic !important',
+  color: '$primaryLow-semantic !important',
+  color: '$gray00 !important',
+  color: '$gray50 !important',
+  color: '$gray100 !important',
+  css: {
+    color: '$scale-gray600 !important',
+    borderColor: '$scale-gray400 !important',
+    backgroundColor: '$scale-gray100 !important',
+  },
+});

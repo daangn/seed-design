@@ -123,49 +123,52 @@ function normalizeSemanticName(semanticName: string): string {
  * 특정 문자열이 변환 대상 색상 토큰인지 확인하는 함수 - 더 많은 패턴 감지
  */
 function isColorToken(value: string): boolean {
+  // !important 문자열 제거 후 확인
+  const cleanValue = value.replace(/\s*!important\s*$/i, "").trim();
+
   // $로 시작하는지 확인
-  if (!value.startsWith("$")) return false;
+  if (!cleanValue.startsWith("$")) return false;
 
   // -semantic이나 -static으로 끝나는 경우 색상 토큰으로 판단
-  if (value.endsWith("-semantic") || value.endsWith("-static")) {
+  if (cleanValue.endsWith("-semantic") || cleanValue.endsWith("-static")) {
     return true;
   }
 
   // $semantic-, $scale-, $static- 접두사로 시작하는 새로운 패턴 확인
   if (
-    value.startsWith("$semantic-") ||
-    value.startsWith("$scale-") ||
-    value.startsWith("$static-")
+    cleanValue.startsWith("$semantic-") ||
+    cleanValue.startsWith("$scale-") ||
+    cleanValue.startsWith("$static-")
   ) {
     return true;
   }
 
   // $gray900, $blue500 등의 패턴 확인 ($gray00도 포함)
-  if (/^\$([a-zA-Z]+)(\d+)$/.test(value)) {
+  if (/^\$([a-zA-Z]+)(\d+)$/.test(cleanValue)) {
     return true;
   }
 
   // $grayAlpha50, $blueAlpha200 등의 패턴 확인
-  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)$/.test(value)) {
+  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)$/.test(cleanValue)) {
     return true;
   }
 
   // $gray900-static, $blackAlpha200-static 패턴 확인 (숫자가 있는 색상 이름 + -static)
-  if (/^\$([a-zA-Z]+[A-Za-z]*)(\d+)-static$/.test(value)) {
+  if (/^\$([a-zA-Z]+[A-Za-z]*)(\d+)-static$/.test(cleanValue)) {
     return true;
   }
 
   // $whiteAlpha50-static 등의 특수 패턴 확인
-  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)-static$/.test(value)) {
+  if (/^\$([a-zA-Z]+)[A-Z][a-zA-Z]*(\d+)-static$/.test(cleanValue)) {
     return true;
   }
 
   // 이미 V3 형식인 경우 처리하지 않음
   if (
-    value.startsWith("$palette-") ||
-    value.startsWith("$bg-") ||
-    value.startsWith("$fg-") ||
-    value.startsWith("$stroke-")
+    cleanValue.startsWith("$palette-") ||
+    cleanValue.startsWith("$bg-") ||
+    cleanValue.startsWith("$fg-") ||
+    cleanValue.startsWith("$stroke-")
   ) {
     return false;
   }
@@ -420,29 +423,32 @@ function findStaticMapping(staticName: string) {
  * 매핑에 없는 경우 원래 값을 그대로 반환합니다.
  */
 function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMappingResult {
+  // !important 처리를 위해 제거하고 작업 (반환 값에는 포함시키지 않음)
+  const cleanValue = oldColorValue.replace(/\s*!important\s*$/i, "").trim();
+
   // 현재 값이 이미 V3 형식이면 그대로 반환
   if (
-    oldColorValue.startsWith("$palette-") ||
-    oldColorValue.startsWith("$bg-") ||
-    oldColorValue.startsWith("$fg-") ||
-    oldColorValue.startsWith("$stroke-")
+    cleanValue.startsWith("$palette-") ||
+    cleanValue.startsWith("$bg-") ||
+    cleanValue.startsWith("$fg-") ||
+    cleanValue.startsWith("$stroke-")
   ) {
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: false,
       description: "이미 V3 형식입니다",
     };
   }
 
   // $semantic- 접두사로 시작하는 경우 처리
-  if (oldColorValue.startsWith("$semantic-")) {
-    const semanticName = oldColorValue.replace(/^\$semantic-/, "");
+  if (cleanValue.startsWith("$semantic-")) {
+    const semanticName = cleanValue.replace(/^\$semantic-/, "");
     const mapping = findSemanticMapping(semanticName);
 
     if (mapping?.next?.length > 0) {
       const token = selectAndTransformToken(mapping, propertyName);
 
-      if (token && token !== oldColorValue) {
+      if (token && token !== cleanValue) {
         return {
           token,
           needsVerification: mapping.needsVerification,
@@ -452,16 +458,16 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     }
     // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "시멘틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
   }
 
   // $scale- 접두사로 시작하는 경우 처리
-  if (oldColorValue.startsWith("$scale-")) {
+  if (cleanValue.startsWith("$scale-")) {
     // 정규화된 형식으로 변환
-    const previousToken = normalizeOldColorName(oldColorValue);
+    const previousToken = normalizeOldColorName(cleanValue);
 
     // 마이그레이션 매핑 찾기
     const scaleColor = previousToken.replace("$scale.color.", "");
@@ -470,7 +476,7 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     if (mapping?.next?.length > 0) {
       const token = selectAndTransformToken(mapping, propertyName);
 
-      if (token && token !== oldColorValue) {
+      if (token && token !== cleanValue) {
         return {
           token,
           needsVerification: mapping.needsVerification,
@@ -481,16 +487,16 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
 
     // 매핑이 없는 경우 원래 값 반환
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "스케일 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
   }
 
   // $static- 접두사로 시작하는 경우 처리
-  if (oldColorValue.startsWith("$static-")) {
+  if (cleanValue.startsWith("$static-")) {
     // static- 다음 부분 추출
-    const staticName = oldColorValue.replace(/^\$static-/, "");
+    const staticName = cleanValue.replace(/^\$static-/, "");
 
     // static-staticBlack 같은 경우는 static 중복 처리
     let normalizedStaticName = staticName;
@@ -507,7 +513,7 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     if (mapping?.next?.length > 0) {
       const token = selectAndTransformToken(mapping, propertyName);
 
-      if (token && token !== oldColorValue) {
+      if (token && token !== cleanValue) {
         return {
           token,
           needsVerification: mapping.needsVerification,
@@ -517,21 +523,21 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     }
     // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "스태틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
   }
 
   // -semantic 접미사가 있는 경우 특별 처리
-  if (oldColorValue.endsWith("-semantic")) {
-    const semanticName = oldColorValue.replace(/^\$|-semantic$/g, "");
+  if (cleanValue.endsWith("-semantic")) {
+    const semanticName = cleanValue.replace(/^\$|-semantic$/g, "");
     const mapping = findSemanticMapping(semanticName);
 
     if (mapping?.next?.length > 0) {
       const token = selectAndTransformToken(mapping, propertyName);
 
-      if (token && token !== oldColorValue) {
+      if (token && token !== cleanValue) {
         return {
           token,
           needsVerification: mapping.needsVerification,
@@ -541,21 +547,21 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     }
     // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "시멘틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
   }
 
   // -static 접미사가 있는 경우 특별 처리
-  if (oldColorValue.endsWith("-static")) {
-    const staticName = oldColorValue.replace(/^\$|-static$/g, "");
+  if (cleanValue.endsWith("-static")) {
+    const staticName = cleanValue.replace(/^\$|-static$/g, "");
     const mapping = findStaticMapping(staticName);
 
     if (mapping?.next?.length > 0) {
       const token = selectAndTransformToken(mapping, propertyName);
 
-      if (token && token !== oldColorValue) {
+      if (token && token !== cleanValue) {
         return {
           token,
           needsVerification: mapping.needsVerification,
@@ -565,16 +571,16 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
     }
     // 매핑이 없거나 mapping.next가 빈 배열인 경우 원래 값 반환
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "스태틱 색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
   }
 
   // $로 시작하는 색상 토큰인지 확인 (기본 색상 패턴)
-  if (oldColorValue.startsWith("$") && /^\$([a-zA-Z]+)(\d+)$/.test(oldColorValue)) {
+  if (cleanValue.startsWith("$") && /^\$([a-zA-Z]+)(\d+)$/.test(cleanValue)) {
     // 정규화된 형식으로 변환
-    const previousToken = normalizeOldColorName(oldColorValue);
+    const previousToken = normalizeOldColorName(cleanValue);
 
     // 마이그레이션 매핑 찾기
     let result = null;
@@ -625,7 +631,7 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
       }
     }
 
-    if (result && result !== oldColorValue) {
+    if (result && result !== cleanValue) {
       return {
         token: result,
         needsVerification,
@@ -635,7 +641,7 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
 
     // 매핑이 없거나 원본 값과 동일한 경우 원래 값 유지
     return {
-      token: oldColorValue,
+      token: cleanValue,
       needsVerification: true,
       description: "색상 매핑을 찾을 수 없거나 매핑의 next가 비어있어 원래 값을 유지합니다",
     };
@@ -643,7 +649,7 @@ function getTokenMapping(oldColorValue: string, propertyName?: string): TokenMap
 
   // 패턴이 일치하지 않는 경우 원래 값 유지
   return {
-    token: oldColorValue,
+    token: cleanValue,
     needsVerification: true,
     description: "지원되지 않는 패턴이므로 원래 값을 유지합니다",
   };
@@ -806,9 +812,14 @@ function processColorProperty(
         propertyName = prop.key.value;
       }
 
+      // !important 문자열 처리를 위해 분리
+      const hasImportant = /\s*!important\s*$/i.test(stringValue);
+      const cleanValue = stringValue.replace(/\s*!important\s*$/i, "").trim();
+      const importantSuffix = hasImportant ? " !important" : "";
+
       // 1. 값 자체가 단일 색상 토큰인 경우 (예: color: '$gray700')
-      if (stringValue.startsWith("$") && isColorToken(stringValue)) {
-        const oldValue = stringValue;
+      if (cleanValue.startsWith("$") && isColorToken(cleanValue)) {
+        const oldValue = cleanValue;
         const line = prop.loc?.start.line || 0;
         const column = prop.loc?.start.column || 0;
         const tokenKey = `${filePath}:${line}:${column}:${oldValue}`;
@@ -822,8 +833,8 @@ function processColorProperty(
 
         // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
         if (mappingResult && mappingResult.token !== oldValue) {
-          // 원본 따옴표 스타일을 보존
-          prop.value.value = mappingResult.token;
+          // 원본 따옴표 스타일을 보존하고 !important가 있으면 다시 추가
+          prop.value.value = mappingResult.token + importantSuffix;
 
           // 변환 로그에 추가
           const logKey = `${oldValue}:${line}`;
@@ -901,6 +912,11 @@ function processComplexProperty(
 
   const value = prop.value.value;
 
+  // !important 문자열 처리를 위해 분리
+  const hasImportant = /\s*!important\s*$/i.test(value);
+  const cleanValue = value.replace(/\s*!important\s*$/i, "").trim();
+  const importantSuffix = hasImportant ? " !important" : "";
+
   // 속성 이름 가져오기
   let propertyName: string | undefined;
   if (prop.key.type === "Identifier") {
@@ -916,7 +932,7 @@ function processComplexProperty(
   let matchResult: RegExpExecArray | null;
 
   // 모든 토큰 위치를 먼저 찾기
-  matchResult = colorTokenPattern.exec(value);
+  matchResult = colorTokenPattern.exec(cleanValue);
   while (matchResult !== null) {
     const token = matchResult[1];
     if (token && isColorToken(token)) {
@@ -925,12 +941,12 @@ function processComplexProperty(
         index: matchResult.index,
       });
     }
-    matchResult = colorTokenPattern.exec(value);
+    matchResult = colorTokenPattern.exec(cleanValue);
   }
 
   // 찾은 토큰을 뒤에서부터 교체하여 인덱스 문제 회피
   if (matches.length > 0) {
-    let newValue = value;
+    let newValue = cleanValue;
     let hasChanges = false;
 
     // 뒤에서부터 교체하여 이전 교체로 인한 인덱스 변화 방지
@@ -1001,9 +1017,9 @@ function processComplexProperty(
       processedTokens.add(tokenKey);
     }
 
-    // 변경된 값이 있으면 업데이트
+    // 변경된 값이 있으면 업데이트, !important가 있었다면 다시 추가
     if (hasChanges) {
-      prop.value.value = newValue;
+      prop.value.value = newValue + importantSuffix;
     }
   }
 }

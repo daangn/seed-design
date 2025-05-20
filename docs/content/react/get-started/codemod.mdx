@@ -1814,6 +1814,20 @@ const ComplexPropertyTestComponent = styled('div', {
     }
   }
 });
+
+const ImportantTest = styled('div', {
+  color: '$primary-semantic !important',
+  color: '$onPrimary-semantic !important',
+  color: '$primaryLow-semantic !important',
+  color: '$gray00 !important',
+  color: '$gray50 !important',
+  color: '$gray100 !important',
+  css: {
+    color: '$scale-gray600 !important',
+    borderColor: '$scale-gray400 !important',
+    backgroundColor: '$scale-gray100 !important',
+  },
+});
 ```
 
 ```tsx title="basic.output.tsx"
@@ -2027,6 +2041,20 @@ const ComplexPropertyTestComponent = styled('div', {
       }
     }
   }
+});
+
+const ImportantTest = styled('div', {
+  color: "$fg-brand !important",
+  color: "$palette-static-white !important",
+  color: "$palette-carrot-100 !important",
+  color: "$palette-gray-00 !important",
+  color: "$palette-gray-100 !important",
+  color: "$palette-gray-200 !important",
+  css: {
+    color: "$palette-gray-700 !important",
+    borderColor: "$palette-gray-500 !important",
+    backgroundColor: "$palette-gray-200 !important",
+  },
 });
 ```
 
