@@ -233,3 +233,9 @@ const ImportantTest = styled('div', {
     backgroundColor: '$scale-gray100 !important',
   },
 });
+
+const Li_FieldItem = styled('li', {
+  borderBottom: `${rem(1)} solid $semantic-divider1`,
+  borderBottom: `0.5rem solid $semantic-paperBackground`,
+  border: check ? '1px solid $semantic-divider1' : '0.5rem solid $semantic-paperBackground',
+})

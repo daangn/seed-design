@@ -233,3 +233,9 @@ const ImportantTest = styled('div', {
     backgroundColor: "$palette-gray-200 !important",
   },
 });
+
+const Li_FieldItem = styled('li', {
+  borderBottom: `${rem(1)} solid $stroke-neutral-muted`,
+  borderBottom: `0.5rem solid $bg-layer-basement`,
+  border: check ? "1px solid $stroke-neutral-muted" : "0.5rem solid $bg-layer-basement",
+})

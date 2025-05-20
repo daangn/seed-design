@@ -7,6 +7,7 @@ import {
 import type { ObjectExpression, ObjectMethod, ObjectProperty, Transform } from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
 import { getTokenTypeForProperty } from "../../utils/color-properties.js";
+import { processTernaryExpressions, getParentPropertyName } from "../../utils/ast.js";
 
 // 색상 관련 CSS 속성 목록 (전역 상수)
 const COLOR_PROPERTIES = {
@@ -690,7 +691,7 @@ function selectAndTransformToken(mapping: any, propertyName?: string): string {
   // 우선순위에 따라 토큰 선택
   // 1. 속성에 맞는 타입의 토큰 (fg, bg, stroke)
   // 2. 다른 UI 스펙 관련 토큰 (bg-, fg-, stroke-)
-  // 3. 팔레트 토큰 (palette-)
+  // 3. 플레트 토큰 (palette-)
   // 4. 있는 것
   const typeSpecificTokens = mapping.next.filter((token: string) =>
     token.startsWith(`$color.${tokenType}.`),
@@ -885,6 +886,26 @@ function processColorProperty(
         processComplexProperty(prop, logger, filePath, processedTokens, fileTransformationLog);
       }
     }
+  }
+  // 템플릿 리터럴 처리 추가
+  else if (prop.value.type === "TemplateLiteral") {
+    // 속성 이름 가져오기
+    let propertyName: string | undefined;
+    if (prop.key.type === "Identifier") {
+      propertyName = prop.key.name;
+    } else if (prop.key.type === "StringLiteral") {
+      propertyName = prop.key.value;
+    }
+
+    // 템플릿 리터럴 처리
+    processTemplateLiteral(
+      prop.value,
+      propertyName,
+      logger,
+      filePath,
+      processedTokens,
+      fileTransformationLog,
+    );
   }
 }
 
@@ -1171,6 +1192,117 @@ function isColorProperty(propName: string): boolean {
 }
 
 /**
+ * 템플릿 리터럴 내의 색상 토큰을 처리하는 함수
+ */
+function processTemplateLiteral(
+  node: any,
+  propertyName: string | undefined,
+  logger: ReturnType<typeof createTransformLogger>,
+  filePath: string,
+  processedTokens: Set<string>,
+  fileTransformationLog: Map<
+    string,
+    {
+      previous: string;
+      next: string;
+      line: number;
+      needsVerification?: boolean;
+      description?: string;
+    }
+  >,
+): boolean {
+  if (node.type !== "TemplateLiteral") return false;
+
+  let changed = false;
+  const line = node.loc?.start.line || 0;
+
+  // quasis는 문자열 부분, expressions는 ${} 내부 표현식 부분
+  // 템플릿 리터럴 내의 모든 부분을 순회
+  for (let i = 0; i < node.quasis.length; i++) {
+    const quasi = node.quasis[i];
+    const quasiValue = quasi.value.raw;
+
+    // 색상 토큰 패턴 검색
+    const colorTokenPattern = /(\$[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
+    const matches = [...quasiValue.matchAll(colorTokenPattern)];
+
+    // 뒤에서부터 교체 (인덱스 문제 방지)
+    for (let j = matches.length - 1; j >= 0; j--) {
+      const match = matches[j];
+      const oldColorToken = match[0];
+      const index = match.index;
+
+      if (!isColorToken(oldColorToken)) continue;
+
+      const tokenKey = `${filePath}:${line}:${oldColorToken}:${index}`;
+
+      // 이미 처리한 토큰은 건너뛰기
+      if (processedTokens.has(tokenKey)) continue;
+
+      const mappingResult = getTokenMapping(oldColorToken, propertyName);
+
+      // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
+      if (mappingResult && mappingResult.token !== oldColorToken) {
+        // 해당 부분 문자열만 교체
+        const beforeReplace = quasiValue.substring(0, index);
+        const afterReplace = quasiValue.substring(index + oldColorToken.length);
+
+        // TemplateElement를 직접 수정
+        quasi.value.raw = beforeReplace + mappingResult.token + afterReplace;
+        quasi.value.cooked = beforeReplace + mappingResult.token + afterReplace;
+
+        changed = true;
+
+        // 변환 로그에 추가
+        const logKey = `${oldColorToken}:${line}`;
+        fileTransformationLog.set(logKey, {
+          previous: oldColorToken,
+          next: mappingResult.token,
+          line: line,
+          needsVerification: mappingResult.needsVerification,
+          description: mappingResult.description,
+        });
+
+        // 성공 로그 기록
+        logger.logTransformResult(filePath, {
+          previousToken: oldColorToken,
+          nextToken: mappingResult.token,
+          status: "success",
+          line: line,
+          needsVerification: mappingResult.needsVerification,
+          description: mappingResult.description,
+        });
+      } else {
+        // 매핑이 없거나 변환되지 않은 경우 경고 로그 (V3 형식이 아닌 경우만)
+        if (
+          !oldColorToken.startsWith("$palette-") &&
+          !oldColorToken.startsWith("$bg-") &&
+          !oldColorToken.startsWith("$fg-") &&
+          !oldColorToken.startsWith("$stroke-")
+        ) {
+          const failureReason = mappingResult
+            ? "매핑은 존재하지만 변환 결과가 원본과 동일합니다"
+            : "매핑을 찾을 수 없어 변환되지 않았습니다";
+
+          logger.logTransformResult(filePath, {
+            previousToken: oldColorToken,
+            nextToken: oldColorToken, // 변경되지 않음
+            status: "warning",
+            line: line,
+            failureReason,
+          });
+        }
+      }
+
+      // 처리한 토큰으로 표시
+      processedTokens.add(tokenKey);
+    }
+  }
+
+  return changed;
+}
+
+/**
  * 메인 transform 함수
  */
 const transform: Transform = (file, api) => {
@@ -1257,6 +1389,118 @@ const transform: Transform = (file, api) => {
     // CSS 관련 속성이 있는지 확인
     if (hasStyleProperties(path.node)) {
       processStyleObject(path.node, logger, file.path, processedTokens, fileTransformationLog);
+    }
+  });
+
+  // 5. 삼항 연산자 내의 문자열 리터럴 찾아서 처리
+  root.find(j.ConditionalExpression).forEach((path) => {
+    // 부모 속성 이름을 가져옴 (예: border, color 등)
+    const parentPropertyName = getParentPropertyName(path);
+
+    // 삼항 연산자의 양쪽 결과(consequent, alternate)에서 문자열 리터럴 노드 처리
+    const processStringLiteral = (node: any) => {
+      if (node && node.type === "StringLiteral" && node.value && node.value.includes("$")) {
+        const stringValue = node.value;
+        const hasImportant = /\s*!important\s*$/i.test(stringValue);
+        const cleanValue = stringValue.replace(/\s*!important\s*$/i, "").trim();
+        const importantSuffix = hasImportant ? " !important" : "";
+
+        // 색상 토큰 찾기
+        const colorTokenPattern = /(\$[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
+        let result = colorTokenPattern.exec(cleanValue);
+        const matches: { token: string; index: number }[] = [];
+
+        while (result !== null) {
+          const token = result[0];
+          if (isColorToken(token)) {
+            matches.push({
+              token,
+              index: result.index,
+            });
+          }
+          result = colorTokenPattern.exec(cleanValue);
+        }
+
+        // 찾은 토큰을 뒤에서부터 교체
+        if (matches.length > 0) {
+          let newValue = cleanValue;
+          let hasChanges = false;
+
+          for (let i = matches.length - 1; i >= 0; i--) {
+            const { token: oldColorToken, index } = matches[i];
+            const line = node.loc?.start.line || 0;
+            const tokenKey = `${file.path}:${line}:${oldColorToken}:${index}`;
+
+            // 이미 처리한 토큰은 건너뛰기
+            if (processedTokens.has(tokenKey)) continue;
+
+            const mappingResult = getTokenMapping(oldColorToken, parentPropertyName);
+
+            // 매핑 결과가 있고 원본과 변환된 값이 다른 경우에만 변경
+            if (mappingResult && mappingResult.token !== oldColorToken) {
+              // 해당 위치의 토큰만 교체
+              const beforeReplace = newValue.substring(0, index);
+              const afterReplace = newValue.substring(index + oldColorToken.length);
+              newValue = beforeReplace + mappingResult.token + afterReplace;
+
+              hasChanges = true;
+
+              // 로그 추가
+              const logKey = `${oldColorToken}:${line}`;
+              fileTransformationLog.set(logKey, {
+                previous: oldColorToken,
+                next: mappingResult.token,
+                line: line,
+                needsVerification: mappingResult.needsVerification,
+                description: mappingResult.description,
+              });
+
+              // 성공 로그 기록
+              logger.logTransformResult(file.path, {
+                previousToken: oldColorToken,
+                nextToken: mappingResult.token,
+                status: "success",
+                line: line,
+                needsVerification: mappingResult.needsVerification,
+                description: mappingResult.description,
+              });
+            }
+
+            // 처리한 토큰으로 표시
+            processedTokens.add(tokenKey);
+          }
+
+          // 변경된 값이 있으면 노드 업데이트
+          if (hasChanges) {
+            node.value = newValue + importantSuffix;
+          }
+        }
+      }
+    };
+
+    // 삼항 연산자의 조건 처리
+    if (path.node.test) {
+      processStringLiteral(path.node.test);
+    }
+
+    // 삼항 연산자의 참인 경우 결과 처리
+    if (path.node.consequent) {
+      processStringLiteral(path.node.consequent);
+
+      // 중첩된 삼항 연산자 재귀적 처리
+      if (path.node.consequent.type === "ConditionalExpression") {
+        j(path.node.consequent).forEach((p) => processStringLiteral(p.node));
+      }
+    }
+
+    // 삼항 연산자의 거짓인 경우 결과 처리
+    if (path.node.alternate) {
+      processStringLiteral(path.node.alternate);
+
+      // 중첩된 삼항 연산자 재귀적 처리
+      if (path.node.alternate.type === "ConditionalExpression") {
+        j(path.node.alternate).forEach((p) => processStringLiteral(p.node));
+      }
     }
   });
 
