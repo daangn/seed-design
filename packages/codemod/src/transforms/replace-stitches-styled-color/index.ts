@@ -818,7 +818,7 @@ function processColorProperty(
       const importantSuffix = hasImportant ? " !important" : "";
 
       // 1. 값 자체가 단일 색상 토큰인 경우 (예: color: '$gray700')
-      if (cleanValue.startsWith("$") && isColorToken(cleanValue)) {
+      if (cleanValue.startsWith("$") && isColorToken(cleanValue) && !cleanValue.includes(" ")) {
         const oldValue = cleanValue;
         const line = prop.loc?.start.line || 0;
         const column = prop.loc?.start.column || 0;
@@ -880,7 +880,7 @@ function processColorProperty(
         // 처리한 토큰 추적
         processedTokens.add(tokenKey);
       }
-      // 2. 복합 값에 색상 토큰이 포함된 경우 (예: 'linear-gradient(...)')
+      // 2. 복합 값에 색상 토큰이 포함된 경우 (예: '$palette-red-600 solid 1px', 'linear-gradient(...)')
       else {
         processComplexProperty(prop, logger, filePath, processedTokens, fileTransformationLog);
       }
@@ -925,9 +925,14 @@ function processComplexProperty(
     propertyName = prop.key.value;
   }
 
-  // 개선된 정규식: 문자열 내에서 '$'로 시작하는 모든 토큰을 찾기
-  // 'linear-gradient(180deg, $blue50 0%, $paperDefault-semantic 100%)' 와 같은 복잡한 식에서도 동작
-  const colorTokenPattern = /(\$[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
+  // 개선된 정규식: 문자열 내에서 다양한 형식의 색상 토큰을 찾기
+  // 1. 기본 $ 시작 토큰: $gray500, $carrot700 등
+  // 2. $scale- 시작 토큰: $scale-red500, $scale-blue700 등
+  // 3. $semantic- 시작 토큰: $semantic-primary, $semantic-warning 등
+  // 4. $static- 시작 토큰: $static-black, $static-white 등
+  // 5. 접미사 있는 토큰: $primary-semantic, $white-static 등
+  const colorTokenPattern =
+    /((\$(?:scale|semantic|static)-)?\$?[a-zA-Z0-9][\w\-A-Z]*(?:-semantic|-static)?)/g;
   const matches: { token: string; index: number }[] = [];
   let matchResult: RegExpExecArray | null;
 
@@ -935,7 +940,8 @@ function processComplexProperty(
   matchResult = colorTokenPattern.exec(cleanValue);
   while (matchResult !== null) {
     const token = matchResult[1];
-    if (token && isColorToken(token)) {
+    // $ 문자가 없으면 색상 토큰이 아님 (예: 'solid', 'px' 등)
+    if (token?.includes("$") && isColorToken(token)) {
       matches.push({
         token,
         index: matchResult.index,

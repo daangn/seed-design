@@ -210,6 +210,16 @@ const ComplexPropertyTestComponent = styled('div', {
   }
 });
 
+// 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
+const BorderAndColorTestComponent = styled('div', {
+  color: '$scale-red500 solid 1px',
+  color: '$red600 dashed 2px',
+  color: '$scale-blue400 dotted 3px',
+  color: '$scale-green600 double 4px',
+  color: '$scale-yellow500 groove 2px',
+  outlineColor: '$scale-purple500',
+});
+
 const ImportantTest = styled('div', {
   color: '$primary-semantic !important',
   color: '$onPrimary-semantic !important',
