@@ -1,5 +1,11 @@
 # @seed-design/rsbuild-plugin
 
+## 0.0.26
+
+### Patch Changes
+
+- c8b2921: types 필드와 exports 필드를 수정해요
+
 ## 0.0.25
 
 ### Patch Changes
