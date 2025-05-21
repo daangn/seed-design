@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@seed-design/cli": "0.0.2",
-    "@seed-design/vite-plugin": "0.0.25",
+    "@seed-design/vite-plugin": "0.0.26",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@vanilla-extract/vite-plugin": "^5.0.1",

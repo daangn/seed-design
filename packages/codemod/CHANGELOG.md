@@ -1,5 +1,14 @@
 # @seed-design/codemod
 
+## 0.0.24
+
+### Patch Changes
+
+- 03aaeb1: replace-stitches-styled-color 로직 강화
+  - !important 처리 강화
+  - color가 들어갈 수 있는 다양한 복합 포맷 대응
+  - 삼항연산자 변환 대응
+
 ## 0.0.23
 
 ### Patch Changes
