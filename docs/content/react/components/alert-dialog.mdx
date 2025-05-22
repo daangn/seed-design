@@ -71,6 +71,32 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
+### Controlled
+
+Trigger 외의 방식으로 AlertDialog를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 AlertDialog의 상태를 제어합니다.
+
+<ComponentExample name="alert-dialog-controlled">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/alert-dialog-controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Portalled
+
+Portal은 기본적으로 `document.body`에 렌더링됩니다.
+
+<ComponentExample name="alert-dialog-portalled">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/alert-dialog-portalled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Stackflow
 
 <StackflowExample names={["alert-dialog-stackflow"]}>
