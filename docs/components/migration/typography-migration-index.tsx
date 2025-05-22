@@ -1,5 +1,3 @@
-"use client";
-
 import { getRootage } from "@/components/rootage";
 import { FoundationTokenMapping } from "@seed-design/migration-index";
 import { typographyMappings } from "@seed-design/migration-index/typography";

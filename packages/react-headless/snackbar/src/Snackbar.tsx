@@ -1,3 +1,5 @@
+"use client";
+
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import * as React from "react";
