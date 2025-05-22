@@ -37,7 +37,7 @@
     "fs-extra": "^11.3.0",
     "picocolors": "^1.1.1",
     "recast": "^0.23.11",
-    "ts-morph": "^25.0.1",
+    "ts-morph": "^26.0.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
