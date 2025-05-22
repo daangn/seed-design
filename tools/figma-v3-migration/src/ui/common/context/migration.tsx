@@ -1,3 +1,4 @@
+import { usePostHog } from "../posthog";
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 import { events } from "shared/event";
 import type { SerializedBaseNode } from "shared/types";
@@ -54,6 +55,7 @@ function useMigrationState() {
   const [selections, setSelections] = useState<SerializedBaseNode[]>([]);
   const [currentTab, setCurrentTab] = useState<AvailableSteps>("colors");
   const [loading, setLoading] = useState(false);
+  const { capture } = usePostHog();
 
   useEffect(() => {
     events("announce-selection").on((data) => {
@@ -70,18 +72,27 @@ function useMigrationState() {
 
     switch (currentTab) {
       case "colors":
+        capture("request-color-suggestions", {
+          selections: selections.map(({ id }) => id),
+        });
         events("request-color-suggestions").emit({
           nodeIds: targets.map(({ id }) => id),
         });
         break;
 
       case "typography":
+        capture("request-text-style-suggestions", {
+          selections: selections.map(({ id }) => id),
+        });
         events("request-text-style-suggestions").emit({
           nodeIds: targets.map(({ id }) => id),
         });
         break;
 
       case "components":
+        capture("request-component-suggestions", {
+          selections: selections.map(({ id }) => id),
+        });
         events("request-component-suggestions").emit({
           nodeIds: targets.map(({ id }) => id),
         });

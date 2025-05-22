@@ -5,10 +5,11 @@ import type { SerializedColorVariablesSuggestionsResults } from "shared/types";
 import { useColorMigration } from "./context";
 import { LayersWithColorList } from "./list";
 import { Result } from "./result";
+import { usePostHog } from "../common/posthog";
 
 export function ColorSection() {
   const { results, applyColorVariable, requestSuggestions, setResults } = useColorMigration();
-
+  const { capture } = usePostHog();
   // 자동 연결 가능한 노드 개수 계산
   const remainingConnectableNodeCount = !results
     ? 0
@@ -174,6 +175,10 @@ export function ColorSection() {
         }
       }
     }
+
+    capture("bulk-apply-color-variable", {
+      itemsToApply,
+    });
 
     // 수집된 항목들 적용
     for (const item of itemsToApply) {

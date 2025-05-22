@@ -9,6 +9,6 @@
   "documentAccess": "dynamic-page",
   "permissions": ["currentuser", "teamlibrary"],
   "networkAccess": {
-    "allowedDomains": ["none"]
+    "allowedDomains": ["https://us.i.posthog.com", "https://us-assets.i.posthog.com"]
   }
 }

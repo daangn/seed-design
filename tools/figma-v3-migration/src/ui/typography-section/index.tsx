@@ -4,9 +4,11 @@ import type { GroupedSerializedTextStyleSuggestionsResults } from "shared/types"
 import { useTypographyMigration } from "./context";
 import { TextStylesList } from "./list";
 import { Result } from "./result";
+import { usePostHog } from "../common/posthog";
 
 export function TypographySection() {
   const { results, applyTextStyle, requestSuggestions, setResults } = useTypographyMigration();
+  const { capture } = usePostHog();
 
   // 자동 연결 가능한 노드 개수 계산
   const remainingConnectableNodeCount = !results
@@ -58,6 +60,10 @@ export function TypographySection() {
     for (const item of itemsToApply) {
       applyTextStyle(item);
     }
+
+    capture("bulk-apply-text-style", {
+      itemsToApply,
+    });
 
     // 적용 후 결과 정렬
     sortResultsByUnselectedCount();

@@ -2,9 +2,11 @@ import { Flex } from "@seed-design/react";
 import { Footer } from "common/components/footer";
 import { useComponentSection } from "./context";
 import { ComponentSuggestionsList } from "./list";
+import { usePostHog } from "../common/posthog";
 
 export function ComponentSection() {
   const { swapAllComponents, selectedVariants, migrationTargets } = useComponentSection();
+  const { capture } = usePostHog();
 
   return (
     <Flex direction="column" style={{ width: "100%", height: "100%", position: "relative" }}>
@@ -16,7 +18,12 @@ export function ComponentSection() {
       {/* 하단 고정 액션 버튼 */}
       <Footer
         actionText={`${migrationTargets.length}개 자동 연결`}
-        onAction={() => swapAllComponents(migrationTargets, selectedVariants)}
+        onAction={() => {
+          swapAllComponents(migrationTargets, selectedVariants);
+          capture("bulk-apply-component", {
+            itemsToApply: migrationTargets.map(({ id }) => id),
+          });
+        }}
         actionDisabled={migrationTargets.length === 0}
         showRefreshButton={true}
       />

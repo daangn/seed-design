@@ -2,46 +2,30 @@ import { Flex } from "@seed-design/react";
 import { ScanButton } from "common/components/scan-button";
 import { StartCallout } from "common/components/start-callout";
 import { TargetBadges } from "common/components/taget-badges";
+import { FigmaMetadataProvider } from "common/context/figma";
 import { MigrationProvider, useMigration, type AvailableSteps } from "common/context/migration";
-import { createContext, useEffect, useState, type ReactNode } from "react";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
-import { events } from "shared/event";
-import type { FigmaMetadata } from "shared/types";
 import { ColorSection } from "./color-section";
 import { ColorMigrationProvider } from "./color-section/context";
 import { ComponentSection } from "./component-section";
 import { ComponentSectionProvider } from "./component-section/context";
 import { TypographySection } from "./typography-section";
 import { TypographyMigrationProvider } from "./typography-section/context";
-
-// FigmaMetadata 컨텍스트
-interface FigmaMetadataContextType {
-  metadata: FigmaMetadata | null;
-}
-
-const FigmaMetadataContext = createContext<FigmaMetadataContextType | null>(null);
-
-function FigmaMetadataProvider({ children }: { children: ReactNode }) {
-  const [metadata, setMetadata] = useState<FigmaMetadata | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = events("send-figma-metadata").on((data) => {
-      setMetadata(data);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  return (
-    <FigmaMetadataContext.Provider value={{ metadata }}>{children}</FigmaMetadataContext.Provider>
-  );
-}
+import { useEffect } from "react";
+import { useFigmaMetadata } from "./common/context/figma";
+import { usePostHog } from "./common/posthog";
 
 function Steps() {
   const { targets, selections, loading, currentTab, setCurrentTab, scanCurrentTab } =
     useMigration();
+  const { metadata } = useFigmaMetadata();
+  const { identify } = usePostHog();
+
+  useEffect(() => {
+    if (metadata?.currentPage?.name) {
+      identify();
+    }
+  }, [metadata?.currentPage?.name, identify]);
 
   return (
     <Flex direction="column" height="100%" style={{ overflow: "hidden" }}>
