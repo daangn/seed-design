@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Children,
   type PropsWithChildren,
