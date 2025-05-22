@@ -13,7 +13,7 @@ export const usePostHog = () => {
 
   const identify = () => {
     posthog?.identify(metadata?.currentUser?.id, {
-      userName: metadata?.currentUser?.name,
+      name: metadata?.currentUser?.name,
       pageName: metadata?.currentPage?.name,
       rootName: metadata?.currentRoot?.name,
     });
