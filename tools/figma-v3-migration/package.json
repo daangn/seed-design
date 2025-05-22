@@ -13,7 +13,8 @@
     "watch:main": "vite build --watch --config vite.main.config.ts",
     "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "lint": "biome check .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "extract": "bun figma-extractor src/main/data component-sets"
   },
   "dependencies": {
     "@figmazing/event": "0.0.1",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
+    "@seed-design/figma-extractor": "^0.0.4",
     "@types/node": "^22.14.1",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",

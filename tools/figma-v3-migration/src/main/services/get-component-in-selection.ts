@@ -1,10 +1,14 @@
 import * as oldComponents from "../data/__generated__/v2-component-sets";
 import * as newComponents from "../data/__generated__/v3-component-sets";
+import * as oldCompatComponents from "../data/__generated__/v2-compat-component-sets";
 import { getTopmostComponent } from "../../shared/utils/nodes";
 import type { InstanceInfo } from "../../shared/types";
 
 const oldComponentKeys = Object.values(oldComponents).map((component) => component.key) as string[];
 const newComponentKeys = Object.values(newComponents).map((component) => component.key) as string[];
+const oldCompatComponentKeys = Object.values(oldCompatComponents).map(
+  (component) => component.key,
+) as string[];
 
 interface GetComponentInSceneNodesOptions {
   nodeIds: SceneNode["id"][];
@@ -46,6 +50,15 @@ export async function getComponentInSelection({ nodeIds }: GetComponentInSceneNo
         key,
         componentProperties: instanceNode.componentProperties,
         version: "v3",
+      };
+      filteredInstanceInfos.push(node);
+    } else if (oldCompatComponentKeys.includes(key)) {
+      const node: InstanceInfo = {
+        id: instanceNode.id,
+        name: instanceNode.name,
+        key,
+        componentProperties: instanceNode.componentProperties,
+        version: "v2",
       };
       filteredInstanceInfos.push(node);
     }

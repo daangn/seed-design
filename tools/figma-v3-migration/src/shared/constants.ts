@@ -22,8 +22,6 @@ export const SEED_V3_LIBRARY_VARIABLE_PREFIXES = {
   },
 } as const;
 
-// TODO: 이터레이션이 너무 많다
-
 export const SIZING_VARIABLE_BINDABLE_NODE_FIELDS = [
   "width",
   "height",

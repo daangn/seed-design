@@ -784,11 +784,11 @@
       "name": "@seed-design/vite-plugin",
       "version": "0.0.26",
       "devDependencies": {
-        "@seed-design/css": "^0.0.24",
+        "@seed-design/css": "^0.0.25",
         "vite": "^6.3.3",
       },
       "peerDependencies": {
-        "@seed-design/css": "^0.0.24",
+        "@seed-design/css": "^0.0.25",
         "vite": "^5.0.0 || ^6.0.0",
       },
     },
@@ -912,16 +912,17 @@
       "dependencies": {
         "@figmazing/event": "0.0.1",
         "@karrotmarket/react-monochrome-icon": "^0.0.23",
-        "@seed-design/css": "^0.0.24",
+        "@seed-design/css": "^0.0.25",
         "@seed-design/migration-index": "^0.0.20",
-        "@seed-design/react": "^0.0.24",
-        "@seed-design/vite-plugin": "^0.0.24",
+        "@seed-design/react": "^0.0.25",
+        "@seed-design/vite-plugin": "^0.0.26",
         "normalize.css": "^8.0.1",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
       },
       "devDependencies": {
         "@figma/plugin-typings": "^1.110.0",
+        "@seed-design/figma-extractor": "^0.0.4",
         "@types/node": "^22.14.1",
         "@types/react": "^18.3.20",
         "@types/react-dom": "^18.3.6",
@@ -5424,6 +5425,8 @@
 
     "figma-mcp/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
+    "figma-v3-migration/@seed-design/figma-extractor": ["@seed-design/figma-extractor@0.0.4", "", { "dependencies": { "@figma/rest-api-spec": "^0.29.0", "cac": "^6.7.14", "change-case": "^5.4.4", "cosmiconfig": "^9.0.0", "dotenv": "^16.5.0", "es-toolkit": "^1.35.0", "figma-api": "^2.0.1-beta", "fs-extra": "^11.3.0", "zod": "^3.24.3" }, "bin": { "figma-extractor": "bin/index.mjs" } }, "sha512-1yDt6Dris1TWqkT7GWlknORJj8VtAMTqGk2j0j6QKJcUtt6txJ04UcO4q5O37UP9ct4lotlozycIq6KnmOjf+g=="],
+
     "figma-v3-migration/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
     "file-entry-cache/flat-cache": ["flat-cache@4.0.1", "", { "dependencies": { "flatted": "^3.2.9", "keyv": "^4.5.4" } }, "sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw=="],
@@ -6155,6 +6158,10 @@
     "express/mime-types/mime-db": ["mime-db@1.54.0", "", {}, "sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ=="],
 
     "figma-mcp/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
+
+    "figma-v3-migration/@seed-design/figma-extractor/@figma/rest-api-spec": ["@figma/rest-api-spec@0.29.0", "", {}, "sha512-Cxg4OtbtsHH4eIkvZ0t2Tia4QS4jqqMvb0sEUxh2lGTnybD+Lk74Y3pdzib6HTcrWn8NkMwF13Pr6nN1h7bA1g=="],
+
+    "figma-v3-migration/@seed-design/figma-extractor/zod": ["zod@3.25.7", "", {}, "sha512-YGdT1cVRmKkOg6Sq7vY7IkxdphySKnXhaUmFI4r4FcuFVNgpCb9tZfNwXbT6BPjD5oz0nubFsoo9pIqKrDcCvg=="],
 
     "figma-v3-migration/concurrently/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
 

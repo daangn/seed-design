@@ -74,16 +74,12 @@ async function main() {
     });
   });
 
-  events("request-component-suggestions").on(async ({ nodeIds }) => {
-    let targetIds = nodeIds;
+  events("request-component-suggestions").on(async () => {
+    const targetIds = [...figma.currentPage.selection].map(({ id }) => id);
 
-    if (nodeIds.length === 0) {
-      const currentTarget = [...figma.currentPage.selection];
-      events("announce-target").emit({
-        serializedTargets: currentTarget.map(serializeBaseNode),
-      });
-      targetIds = currentTarget.map(({ id }) => id);
-    }
+    events("announce-target").emit({
+      serializedTargets: [...figma.currentPage.selection].map(serializeBaseNode),
+    });
 
     const results = await getComponentInSelection({ nodeIds: targetIds });
 
@@ -130,16 +126,12 @@ async function main() {
   });
 
   // 텍스트 스타일 제안 요청 처리
-  events("request-text-style-suggestions").on(async ({ nodeIds }) => {
-    let targetIds = nodeIds;
+  events("request-text-style-suggestions").on(async () => {
+    const targetIds = [...figma.currentPage.selection].map(({ id }) => id);
 
-    if (nodeIds.length === 0) {
-      const currentTarget = [...figma.currentPage.selection];
-      events("announce-target").emit({
-        serializedTargets: currentTarget.map(serializeBaseNode),
-      });
-      targetIds = currentTarget.map(({ id }) => id);
-    }
+    events("announce-target").emit({
+      serializedTargets: [...figma.currentPage.selection].map(serializeBaseNode),
+    });
 
     try {
       const results = await getSerializedTextStyleSuggestions({
@@ -166,16 +158,8 @@ async function main() {
   });
 
   // 컬러 제안 요청 처리
-  events("request-color-suggestions").on(async ({ nodeIds }) => {
-    let targetIds = nodeIds;
-
-    if (nodeIds.length === 0) {
-      const currentTarget = [...figma.currentPage.selection];
-      events("announce-target").emit({
-        serializedTargets: currentTarget.map(serializeBaseNode),
-      });
-      targetIds = currentTarget.map(({ id }) => id);
-    }
+  events("request-color-suggestions").on(async () => {
+    const targetIds = [...figma.currentPage.selection].map(({ id }) => id);
 
     try {
       const results = await getColorVariableSuggestions({
@@ -187,6 +171,9 @@ async function main() {
       });
 
       events("suggest-color-variables").emit({ results });
+      events("announce-target").emit({
+        serializedTargets: [...figma.currentPage.selection].map(serializeBaseNode),
+      });
       figma.notify("컬러 변수 검사가 완료되었습니다.", {
         timeout: 1000,
       });

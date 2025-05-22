@@ -24,9 +24,7 @@ interface PluginEventMap {
     nodeIds: string[];
   };
   "send-figma-metadata": FigmaMetadata;
-  "request-text-style-suggestions": {
-    nodeIds: string[];
-  };
+  "request-text-style-suggestions": {};
   "suggest-text-styles": {
     results: GroupedSerializedTextStyleSuggestionsResults;
   };
@@ -34,9 +32,7 @@ interface PluginEventMap {
     textNodeIds: string[];
     textStyleId: string;
   };
-  "request-color-suggestions": {
-    nodeIds: string[];
-  };
+  "request-color-suggestions": {};
   "suggest-color-variables": {
     results: SerializedColorVariablesSuggestionsResults;
   };
@@ -45,9 +41,7 @@ interface PluginEventMap {
     consumerNodeIds: SerializedColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
     variableId: SerializedVariable["id"];
   };
-  "request-component-suggestions": {
-    nodeIds: string[];
-  };
+  "request-component-suggestions": {};
   "suggest-components": {
     results: InstanceInfo[];
   };
