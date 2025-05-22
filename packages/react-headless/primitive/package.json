@@ -27,7 +27,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.0"
+    "@radix-ui/react-slot": "^1.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.3.20",

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.24",
-    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/css": "0.0.25",
     "@seed-design/react": "0.0.25",
