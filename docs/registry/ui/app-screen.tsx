@@ -6,7 +6,7 @@ import {
   PullToRefreshIndicator,
 } from "./pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
-import { useActions } from "@stackflow/react";
+import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
 
 export interface AppScreenProps extends SeedAppScreen.RootProps {}
@@ -14,6 +14,8 @@ export interface AppScreenProps extends SeedAppScreen.RootProps {}
 export const AppScreen = forwardRef<HTMLDivElement, AppScreenProps>(
   ({ children, onSwipeBackEnd, ...otherProps }, ref) => {
     const { pop } = useActions();
+    const { isRoot } = useActivity();
+    const shouldSwipeBack = !isRoot;
 
     return (
       <SeedAppScreen.Root
@@ -28,7 +30,7 @@ export const AppScreen = forwardRef<HTMLDivElement, AppScreenProps>(
       >
         <SeedAppScreen.Dim />
         {children}
-        <SeedAppScreen.Edge />
+        {shouldSwipeBack && <SeedAppScreen.Edge />}
       </SeedAppScreen.Root>
     );
   },
