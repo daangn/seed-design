@@ -2563,22 +2563,6 @@ export const multicolorIconMappings = [
     next: [],
     description: "없음",
   },
-  {
-    description: "중고거래(신규)",
-    next: ["IconShoppingbagItems"],
-  },
-  {
-    description: "이웃광고(신규)",
-    next: ["IconLinechartUpXaxis"],
-  },
-  {
-    description: "픽업(신규)",
-    next: ["IconForkSpoonBag"],
-  },
-  {
-    description: "동네스토리(신규)",
-    next: ["IconTriangleRightChatbubbleLeft"],
-  },
 ];
 
 export const iconMappings = [...monochromeIconMappings, ...multicolorIconMappings];
