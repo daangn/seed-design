@@ -2377,12 +2377,64 @@ export function BackgroundExample() {
     </div>
   );
 }
+
+export function SeedBackgroundExample() {
+  return (
+    <div>
+      <div className="bg-seed-primary">Primary Background</div>
+      <div className="bg-seed-primaryLow">Primary Low Background</div>
+      <div className="hover:bg-seed-primaryLow">Hover Primary Low Background</div>
+      <div className="focus:bg-seed-primaryLow">Focus Primary Low Background</div>
+      <div className="active:bg-seed-primaryLow">Active Primary Low Background</div>
+      <div className="bg-seed-gray500">Scale Background</div>
+      <div className="bg-seed-carrot100">Scale Carrot Low Background</div>
+      <div className="bg-seed-carrot200">Scale Carrot Mid Background</div>
+      <div className="bg-seed-carrot300">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot400">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot500">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot600">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot700">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot800">Scale Carrot High Background</div>
+      <div className="bg-seed-carrot900">Scale Carrot High Background</div>
+      <div className="!bg-seed-carrot900">Scale Carrot High Background</div>
+      <div className="bg-seed-staticBlack">Static Black Background</div>
+      <div className="bg-seed-staticWhite">Static White Background</div>
+      <div className="bg-seed-staticGray900">Static Gray900 Background</div>
+    </div>
+  );
+}
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
 export function BackgroundExample() {
+  return (
+    <div>
+      <div className="bg-bg-brand-solid">Primary Background</div>
+      <div className="bg-palette-carrot-100">Primary Low Background</div>
+      <div className="hover:bg-palette-carrot-100">Hover Primary Low Background</div>
+      <div className="focus:bg-palette-carrot-100">Focus Primary Low Background</div>
+      <div className="active:bg-palette-carrot-100">Active Primary Low Background</div>
+      <div className="bg-palette-gray-600">Scale Background</div>
+      <div className="bg-palette-carrot-200">Scale Carrot Low Background</div>
+      <div className="bg-palette-carrot-300">Scale Carrot Mid Background</div>
+      <div className="bg-palette-carrot-400">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-500">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-600">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-600">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-700">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-700">Scale Carrot High Background</div>
+      <div className="bg-palette-carrot-800">Scale Carrot High Background</div>
+      <div className="!bg-palette-carrot-800">Scale Carrot High Background</div>
+      <div className="bg-palette-static-black">Static Black Background</div>
+      <div className="bg-palette-static-white">Static White Background</div>
+      <div className="bg-palette-static-black">Static Gray900 Background</div>
+    </div>
+  );
+}
+
+export function SeedBackgroundExample() {
   return (
     <div>
       <div className="bg-bg-brand-solid">Primary Background</div>

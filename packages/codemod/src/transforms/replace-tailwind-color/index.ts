@@ -26,6 +26,13 @@ function normalizePreviousToken(previous: string): string {
   return camelCase(stripped, { mergeAmbiguousCharacters: true });
 }
 
+// seed prefix가 붙은 토큰을 정규화하는 함수 추가
+function normalizeSeedToken(token: string): string {
+  // seed- prefix 제거
+  const withoutSeedPrefix = token.replace(/^seed-/, "");
+  return camelCase(withoutSeedPrefix, { mergeAmbiguousCharacters: true });
+}
+
 // next 토큰 변환: 해당 접두사에 맞는 문자로 치환
 function transformNextToken(prefix: ColorPrefix, token: string): string {
   const transformations: [string, string][] = [
@@ -86,13 +93,18 @@ interface TodoInfo {
 // 단일 유틸리티 토큰에 대해 즉시 처리 (간소화 버전)
 // border 관련 토큰과 일반 토큰을 모두 처리합니다.
 function transformUtilityTokenSimple(token: string, todosToAdd: Set<TodoInfo>): string {
-  // Border 관련 토큰 처리 (예: border-t-gray200)
+  // Border 관련 토큰 처리 (예: border-t-gray200, border-t-seed-gray200)
   const borderRegex = /^(border(?:-[trblxys]+)?)-(.+)$/;
   let match = token.match(borderRegex);
   if (match) {
     const directionPrefix = match[1]; // 예: "border-t"
-    const rawColor = match[2]; // 예: "gray200" 또는 "gray-200"
-    const baseToken = `border-${rawColor}`;
+    const rawColor = match[2]; // 예: "gray200", "gray-200", "seed-gray200"
+
+    // seed prefix 처리
+    const isSeedToken = rawColor.startsWith("seed-");
+    const colorPart = isSeedToken ? rawColor.replace(/^seed-/, "") : rawColor;
+    const baseToken = `border-${colorPart}`;
+
     for (const m of colorMappings) {
       const candidate = `border-${normalizePreviousToken(m.previous)}`;
       if (candidate === baseToken) {
@@ -129,16 +141,22 @@ function transformUtilityTokenSimple(token: string, todosToAdd: Set<TodoInfo>): 
     return token;
   }
 
-  // 일반 유틸리티 토큰 처리 (예: text-primary, bg-blue500 등)
+  // 일반 유틸리티 토큰 처리 (예: text-primary, bg-blue500, text-seed-primary, bg-seed-blue500 등)
   const regex = /^([a-z]+)-(.+)$/;
   match = token.match(regex);
   if (match) {
     const prefix = match[1] as ColorPrefix;
+    const colorPart = match[2]; // 예: "primary", "blue500", "seed-primary", "seed-blue500"
+
+    // seed prefix 처리
+    const isSeedToken = colorPart.startsWith("seed-");
+    const normalizedColorPart = isSeedToken ? normalizeSeedToken(colorPart) : colorPart;
+
     for (const m of colorMappings) {
       // migration index의 previous를 정규화하여 `${prefix}-${normalized}`로 구성
       const candidate = `${prefix}-${normalizePreviousToken(m.previous)}`;
 
-      if (candidate === token) {
+      if (candidate === `${prefix}-${normalizedColorPart}`) {
         const chosenToken = selectMappingToken(prefix, m);
         if (chosenToken) {
           const result = transformNextToken(prefix, chosenToken);
