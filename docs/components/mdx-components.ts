@@ -1,7 +1,7 @@
 import { ColorGrid } from "@/components/color-grid";
 import { ComponentExample } from "@/components/component-example";
 import { ComponentSpecBlock } from "@/components/component-spec-block";
-import { Installation } from "@/components/installation";
+import { ManualInstallation } from "@/components/manual-installation";
 import { StackflowExample } from "@/components/stackflow-example";
 import { TokenReference } from "@/components/token-reference";
 import { createReactTypeTable } from "@/components/type-table/react-type-table";
@@ -10,6 +10,7 @@ import { File, Files, Folder } from "fumadocs-ui/components/files";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
+import { CodeBlock, Pre } from "fumadocs-ui/components/codeblock";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { AtomIcon } from "lucide-react";
 import { IconLibrary } from "./iconography/icons";
@@ -24,7 +25,7 @@ const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
 export const mdxComponents = {
   ...defaultMdxComponents,
-  Installation,
+  ManualInstallation,
   ComponentExample,
   TokenReference,
   ComponentSpecBlock,
@@ -37,6 +38,8 @@ export const mdxComponents = {
   Files,
   Accordion,
   Accordions,
+  CodeBlock,
+  Pre,
   AtomIcon,
   WebpackIcon,
   ViteIcon,
