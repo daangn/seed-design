@@ -16,6 +16,12 @@
             },
             "size": {
               "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
             }
           }
         },
@@ -69,6 +75,10 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.on-image"
                 }
               }
             }
@@ -92,6 +102,13 @@
                     "value": 20,
                     "unit": "px"
                   }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
                 }
               }
             }
@@ -113,6 +130,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 24,
+                    "unit": "px"
+                  }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
                     "unit": "px"
                   }
                 }
@@ -170,6 +194,13 @@
                     "value": 36,
                     "unit": "px"
                   }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
                 }
               },
               "badgeMask": {
@@ -223,6 +254,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 42,
+                    "unit": "px"
+                  }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
                     "unit": "px"
                   }
                 }
@@ -280,6 +318,13 @@
                     "value": 48,
                     "unit": "px"
                   }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
                 }
               },
               "badgeMask": {
@@ -333,6 +378,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 64,
+                    "unit": "px"
+                  }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
                     "unit": "px"
                   }
                 }
@@ -390,6 +442,13 @@
                     "value": 80,
                     "unit": "px"
                   }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
                 }
               },
               "badgeMask": {
@@ -443,6 +502,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 96,
+                    "unit": "px"
+                  }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
                     "unit": "px"
                   }
                 }

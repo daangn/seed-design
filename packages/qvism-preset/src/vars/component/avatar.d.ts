@@ -2,21 +2,24 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "cornerRadius": "var(--seed-radius-full)"
+        "cornerRadius": "var(--seed-radius-full)",
+        "strokeColor": "var(--seed-color-stroke-on-image)"
       }
     }
   },
   "size20": {
     "enabled": {
       "root": {
-        "size": "20px"
+        "size": "20px",
+        "strokeWidth": "1px"
       }
     }
   },
   "size24": {
     "enabled": {
       "root": {
-        "size": "24px"
+        "size": "24px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "14px",
@@ -31,7 +34,8 @@ export declare const vars: {
   "size36": {
     "enabled": {
       "root": {
-        "size": "36px"
+        "size": "36px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "20px",
@@ -46,7 +50,8 @@ export declare const vars: {
   "size42": {
     "enabled": {
       "root": {
-        "size": "42px"
+        "size": "42px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "24px",
@@ -61,7 +66,8 @@ export declare const vars: {
   "size48": {
     "enabled": {
       "root": {
-        "size": "48px"
+        "size": "48px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "28px",
@@ -76,7 +82,8 @@ export declare const vars: {
   "size64": {
     "enabled": {
       "root": {
-        "size": "64px"
+        "size": "64px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "40px",
@@ -91,7 +98,8 @@ export declare const vars: {
   "size80": {
     "enabled": {
       "root": {
-        "size": "80px"
+        "size": "80px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "52px",
@@ -106,7 +114,8 @@ export declare const vars: {
   "size96": {
     "enabled": {
       "root": {
-        "size": "96px"
+        "size": "96px",
+        "strokeWidth": "1px"
       },
       "badgeMask": {
         "offset": "62px",
