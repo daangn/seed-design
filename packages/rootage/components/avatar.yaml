@@ -12,6 +12,10 @@ data:
             type: dimension
           size:
             type: dimension
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
       badgeMask:
         properties:
           offset:
@@ -29,14 +33,17 @@ data:
       enabled:
         root:
           cornerRadius: $radius.full
+          strokeColor: $color.stroke.on-image
     size=20:
       enabled:
         root:
           size: 20px
+          strokeWidth: 1px
     size=24:
       enabled:
         root:
           size: 24px
+          strokeWidth: 1px
         badgeMask:
           offset: 14px
           size: 12px
@@ -47,6 +54,7 @@ data:
       enabled:
         root:
           size: 36px
+          strokeWidth: 1px
         badgeMask:
           offset: 20px
           size: 18px
@@ -57,6 +65,7 @@ data:
       enabled:
         root:
           size: 42px
+          strokeWidth: 1px
         badgeMask:
           offset: 24px
           size: 20px
@@ -67,6 +76,7 @@ data:
       enabled:
         root:
           size: 48px
+          strokeWidth: 1px
         badgeMask:
           offset: 28px
           size: 22px
@@ -77,6 +87,7 @@ data:
       enabled:
         root:
           size: 64px
+          strokeWidth: 1px
         badgeMask:
           offset: 40px
           size: 26px
@@ -87,6 +98,7 @@ data:
       enabled:
         root:
           size: 80px
+          strokeWidth: 1px
         badgeMask:
           offset: 52px
           size: 32px
@@ -97,6 +109,7 @@ data:
       enabled:
         root:
           size: 96px
+          strokeWidth: 1px
         badgeMask:
           offset: 62px
           size: 38px

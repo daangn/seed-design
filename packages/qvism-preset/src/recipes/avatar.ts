@@ -47,6 +47,20 @@ const avatar = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       width: "var(--avatar-size)",
       height: "var(--avatar-size)",
+
+      "&:after": {
+        content: '""',
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        pointerEvents: "none",
+        borderRadius: vars.base.enabled.root.cornerRadius,
+        boxShadow: `inset 0 0 0 var(--avatar-stroke-width) ${vars.base.enabled.root.strokeColor}`,
+
+        ...mask,
+      },
     },
     image: {
       display: "block",
@@ -96,6 +110,7 @@ const avatar = defineSlotRecipe({
       20: {
         root: {
           "--avatar-size": vars.size20.enabled.root.size,
+          "--avatar-stroke-width": vars.size20.enabled.root.strokeWidth,
           "--badge-mask-size": "0px", // 20px에서 뱃지를 사용하지 않음
           "--badge-mask-offset": "0px", // 20px에서 뱃지를 사용하지 않음
         },
@@ -106,6 +121,7 @@ const avatar = defineSlotRecipe({
       24: {
         root: {
           "--avatar-size": vars.size24.enabled.root.size,
+          "--avatar-stroke-width": vars.size24.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size24.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size24.enabled.badgeMask.offset,
         },
@@ -117,6 +133,7 @@ const avatar = defineSlotRecipe({
       36: {
         root: {
           "--avatar-size": vars.size36.enabled.root.size,
+          "--avatar-stroke-width": vars.size36.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size36.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size36.enabled.badgeMask.offset,
         },
@@ -128,6 +145,7 @@ const avatar = defineSlotRecipe({
       42: {
         root: {
           "--avatar-size": vars.size42.enabled.root.size,
+          "--avatar-stroke-width": vars.size42.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size42.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size42.enabled.badgeMask.offset,
         },
@@ -139,6 +157,7 @@ const avatar = defineSlotRecipe({
       48: {
         root: {
           "--avatar-size": vars.size48.enabled.root.size,
+          "--avatar-stroke-width": vars.size48.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size48.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size48.enabled.badgeMask.offset,
         },
@@ -150,6 +169,7 @@ const avatar = defineSlotRecipe({
       64: {
         root: {
           "--avatar-size": vars.size64.enabled.root.size,
+          "--avatar-stroke-width": vars.size64.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size64.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size64.enabled.badgeMask.offset,
         },
@@ -161,6 +181,7 @@ const avatar = defineSlotRecipe({
       80: {
         root: {
           "--avatar-size": vars.size80.enabled.root.size,
+          "--avatar-stroke-width": vars.size80.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size80.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size80.enabled.badgeMask.offset,
         },
@@ -172,6 +193,7 @@ const avatar = defineSlotRecipe({
       96: {
         root: {
           "--avatar-size": vars.size96.enabled.root.size,
+          "--avatar-stroke-width": vars.size96.enabled.root.strokeWidth,
           "--badge-mask-size": vars.size96.enabled.badgeMask.size,
           "--badge-mask-offset": vars.size96.enabled.badgeMask.offset,
         },

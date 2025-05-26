@@ -577,6 +577,25 @@
   position: relative;
 }
 
+.seed-avatar__root:after {
+  content: "";
+  pointer-events: none;
+  border-radius: var(--seed-radius-full);
+  box-shadow: inset 0 0 0 var(--avatar-stroke-width) var(--seed-color-stroke-on-image);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
+  -webkit-mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
+  -webkit-mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
+  -webkit-mask-composite: source-out;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
+  mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
+  mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
+  position: absolute;
+  inset: 0;
+  mask-repeat: no-repeat;
+  mask-composite: subtract;
+}
+
 .seed-avatar__image {
   object-fit: cover;
   width: 100%;
@@ -639,6 +658,7 @@
 
 .seed-avatar__root--size_20 {
   --avatar-size: 20px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 0px;
   --badge-mask-offset: 0px;
 }
@@ -649,6 +669,7 @@
 
 .seed-avatar__root--size_24 {
   --avatar-size: 24px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 12px;
   --badge-mask-offset: 14px;
 }
@@ -660,6 +681,7 @@
 
 .seed-avatar__root--size_36 {
   --avatar-size: 36px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 18px;
   --badge-mask-offset: 20px;
 }
@@ -671,6 +693,7 @@
 
 .seed-avatar__root--size_42 {
   --avatar-size: 42px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 20px;
   --badge-mask-offset: 24px;
 }
@@ -682,6 +705,7 @@
 
 .seed-avatar__root--size_48 {
   --avatar-size: 48px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 22px;
   --badge-mask-offset: 28px;
 }
@@ -693,6 +717,7 @@
 
 .seed-avatar__root--size_64 {
   --avatar-size: 64px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 26px;
   --badge-mask-offset: 40px;
 }
@@ -704,6 +729,7 @@
 
 .seed-avatar__root--size_80 {
   --avatar-size: 80px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 32px;
   --badge-mask-offset: 52px;
 }
@@ -715,6 +741,7 @@
 
 .seed-avatar__root--size_96 {
   --avatar-size: 96px;
+  --avatar-stroke-width: 1px;
   --badge-mask-size: 38px;
   --badge-mask-offset: 62px;
 }
