@@ -8,6 +8,7 @@ import {
   type SharedProps,
   type TagItem,
   TagsList,
+  TagsListItem,
 } from "fumadocs-ui/components/dialog/search";
 import { type ReactNode, useState } from "react";
 import { tokenize } from "./tokenizer";
@@ -73,7 +74,13 @@ export default function DefaultSearchDialog({
       {...props}
       footer={
         tags ? (
-          <TagsList tag={tag} onTagChange={setTag} items={tags} allowClear={allowClear} />
+          <TagsList tag={tag} onTagChange={setTag} allowClear={allowClear}>
+            {tags.map((item) => (
+              <TagsListItem key={item.value} value={item.value}>
+                {item.name}
+              </TagsListItem>
+            ))}
+          </TagsList>
         ) : null
       }
     />
