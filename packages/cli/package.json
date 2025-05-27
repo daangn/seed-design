@@ -25,7 +25,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@antfu/ni": "^24.3.0",
+    "@antfu/ni": "^25.0.0",
     "@babel/core": "^7.26.10",
     "@babel/parser": "^7.27.0",
     "@babel/plugin-transform-typescript": "^7.27.0",
