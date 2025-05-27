@@ -3279,6 +3279,7 @@
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
+  flex-shrink: 0;
   margin-inline-end: 1ch;
 }
 

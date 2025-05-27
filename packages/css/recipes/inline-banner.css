@@ -27,6 +27,7 @@
     margin-inline-end: auto;
 }
 .seed-inline-banner__title {
+    flex-shrink: 0;
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
