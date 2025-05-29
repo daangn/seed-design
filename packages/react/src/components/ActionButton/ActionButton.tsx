@@ -17,7 +17,7 @@ export interface ActionButtonProps
   extends ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
-    Pick<StyleProps, "flexGrow">,
+    Pick<StyleProps, "flexGrow" | "bleedX" | "bleedY">,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
