@@ -39,7 +39,7 @@ const callout = defineSlotRecipe({
       },
     },
     content: {
-      display: "inline-flex",
+      display: "block",
       marginInlineEnd: "auto",
     },
     title: {
@@ -52,6 +52,10 @@ const callout = defineSlotRecipe({
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
+
+      "&:not(:last-child)": {
+        marginInlineEnd: "1ch",
+      },
     },
     link: {
       fontFamily: "inherit",
@@ -66,8 +70,6 @@ const callout = defineSlotRecipe({
       fontWeight: vars.base.enabled.link.fontWeight,
       textDecoration: "underline",
       textUnderlineOffset: "2px",
-
-      marginInlineStart: "1ch",
     },
     closeButton: {
       border: "none",

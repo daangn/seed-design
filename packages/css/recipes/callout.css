@@ -20,7 +20,7 @@
     cursor: pointer;
 }
 .seed-callout__content {
-    display: inline-flex;
+    display: block;
     margin-inline-end: auto;
 }
 .seed-callout__title {
@@ -34,6 +34,9 @@
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
 }
+.seed-callout__description:not(:last-child) {
+    margin-inline-end: 1ch;
+}
 .seed-callout__link {
     font-family: inherit;
     display: inline-block;
@@ -46,7 +49,6 @@
     font-weight: var(--seed-font-weight-regular);
     text-decoration: underline;
     text-underline-offset: 2px;
-    margin-inline-start: 1ch;
 }
 .seed-callout__closeButton {
     border: none;
