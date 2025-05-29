@@ -25,6 +25,14 @@ export interface CodeGeneratorDeps {
   shouldInferAutoLayout: boolean;
 }
 
+export interface CodeGenerator {
+  generateJsxTree: (node: NormalizedSceneNode) => ElementNode | undefined;
+  generateCode: (
+    node: NormalizedSceneNode,
+    options: { shouldPrintSource: boolean },
+  ) => { imports: string; jsx: string } | undefined;
+}
+
 export function createCodeGenerator({
   frameTransformer,
   textTransformer,
@@ -33,7 +41,7 @@ export function createCodeGenerator({
   vectorTransformer,
   booleanOperationTransformer,
   shouldInferAutoLayout,
-}: CodeGeneratorDeps) {
+}: CodeGeneratorDeps): CodeGenerator {
   function traverse(node: NormalizedSceneNode): ElementNode | undefined {
     if ("visible" in node && !node.visible) {
       return;

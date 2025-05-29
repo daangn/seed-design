@@ -3,8 +3,10 @@ import { FIGMA_ICONS } from "./data/icons";
 import { FIGMA_TEXT_STYLES } from "./data/styles";
 import { FIGMA_VARIABLE_COLLECTIONS } from "./data/variable-collections";
 import { FIGMA_VARIABLES } from "./data/variables";
+import * as FIGMA_COMPONENTS from "./data/__generated__/component-sets";
 import { createStaticStyleRepository } from "./style.repository";
 import { createStaticVariableRepository } from "./variable.repository";
+import { createStaticComponentRepository } from "./component.repository";
 
 export * from "./icon.interface";
 export * from "./icon.repository";
@@ -15,6 +17,8 @@ export * from "./style.service";
 export * from "./variable.interface";
 export * from "./variable.repository";
 export * from "./variable.service";
+export * from "./component.interface";
+export * from "./component.repository";
 
 export const styleRepository = createStaticStyleRepository(FIGMA_TEXT_STYLES);
 export const variableRepository = createStaticVariableRepository({
@@ -22,6 +26,7 @@ export const variableRepository = createStaticVariableRepository({
   variableCollections: FIGMA_VARIABLE_COLLECTIONS,
 });
 export const iconRepository = createStaticIconRepository(FIGMA_ICONS);
+export const componentRepository = createStaticComponentRepository(FIGMA_COMPONENTS);
 
 export function getFigmaVariableKey(name: string) {
   return variableRepository.findVariableByName(name)?.key;

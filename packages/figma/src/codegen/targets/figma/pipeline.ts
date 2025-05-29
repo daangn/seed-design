@@ -1,5 +1,7 @@
 import { createCodeGenerator, createValueResolver } from "@/codegen/core";
+import type { CodeGenerator } from "@/codegen/core/codegen";
 import { styleService, variableService } from "@/codegen/default-services";
+import { componentRepository } from "@/entities";
 import { createFrameTransformer } from "./frame";
 import { createInstanceTransformer } from "./instance";
 import {
@@ -29,7 +31,7 @@ export interface CreatePipelineConfig {
   shouldInferVariableName?: boolean;
 }
 
-export function createPipeline(options: CreatePipelineConfig = {}) {
+export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerator {
   const { shouldInferAutoLayout = true, shouldInferVariableName = true } = options;
 
   const valueResolver = createValueResolver({
@@ -66,6 +68,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
   });
   const instanceTransformer = createInstanceTransformer({
     frameTransformer,
+    componentRepository,
   });
   const textTransformer = createTextTransformer({
     propsConverters,
