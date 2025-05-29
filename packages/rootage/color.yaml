@@ -71,7 +71,7 @@ data:
         theme-dark: "#e65200"
     $color.palette.carrot-700:
       values:
-        theme-light: "#e04f00"
+        theme-light: "#e14d00"
         theme-dark: "#ff6600"
     $color.palette.carrot-800:
       values:
@@ -96,7 +96,7 @@ data:
     $color.palette.gray-200:
       values:
         theme-light: "#f3f4f5"
-        theme-dark: "#22252b"
+        theme-dark: "#1d2025"
     $color.palette.gray-300:
       values:
         theme-light: "#eeeff1"
