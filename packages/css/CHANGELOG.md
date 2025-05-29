@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.28
+
+### Patch Changes
+
+- 5337e14: Callout의 wrapping 동작을 수정합니다.
+
 ## 0.0.27
 
 ### Patch Changes

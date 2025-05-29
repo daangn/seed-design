@@ -1,5 +1,13 @@
 # @seed-design/figma
 
+## 0.0.28
+
+### Patch Changes
+
+- b3da758: Figma XML 타겟에서 instance 노드의 컴포넌트 정보를 제공합니다.
+- Updated dependencies [5337e14]
+  - @seed-design/css@0.0.28
+
 ## 0.0.27
 
 ### Patch Changes
