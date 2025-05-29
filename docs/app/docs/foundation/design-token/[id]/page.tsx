@@ -12,11 +12,12 @@ function decodeTokenIdFromParams(id: string) {
   return decodeURIComponent(id) as `$${string}`;
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const rootage = await getRootage();
   const tokenId = decodeTokenIdFromParams(params.id);
   const decl = rootage.tokenEntities[tokenId];
@@ -93,7 +94,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const rootage = await getRootage();
   const tokenId = decodeTokenIdFromParams(params.id);
   const decl = rootage.tokenEntities[tokenId];

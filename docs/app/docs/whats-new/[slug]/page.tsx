@@ -26,11 +26,12 @@ interface Article {
 
 export const dynamic = "force-static";
 
-export default async function Page({
-  params,
-}: {
-  params: { slug?: string };
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ slug?: string }>;
+  }
+) {
+  const params = await props.params;
   const page = await client.fetch<Article>(
     SINGLE_BLOG_QUERY,
     {
@@ -89,7 +90,8 @@ export async function generateStaticParams() {
   return slugs;
 }
 
-export async function generateMetadata({ params }: { params: { slug?: string } }) {
+export async function generateMetadata(props: { params: Promise<{ slug?: string }> }) {
+  const params = await props.params;
   const articles = await client.fetch<Article[]>(
     BLOG_QUERY,
     {},
