@@ -1,5 +1,11 @@
 # @seed-design/react-tabs
 
+## 0.0.5
+
+### Patch Changes
+
+- 7851a31: RSC 지원을 위한 "use client" directive를 추가합니다.
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,30 @@
 # @seed-design/react
 
+## 0.0.27
+
+### Patch Changes
+
+- 7851a31: RSC 지원을 위한 "use client" directive를 추가합니다.
+- Updated dependencies [9d85c16]
+- Updated dependencies [d951317]
+- Updated dependencies [7851a31]
+- Updated dependencies [b3f964d]
+  - @seed-design/css@0.0.27
+  - @seed-design/react-segmented-control@0.0.4
+  - @seed-design/react-pull-to-refresh@0.0.4
+  - @seed-design/react-radio-group@0.0.3
+  - @seed-design/react-text-field@0.0.3
+  - @seed-design/react-checkbox@0.0.3
+  - @seed-design/react-progress@0.0.3
+  - @seed-design/react-snackbar@0.0.4
+  - @seed-design/react-popover@0.0.6
+  - @seed-design/react-avatar@0.0.3
+  - @seed-design/react-dialog@0.0.4
+  - @seed-design/react-portal@0.0.2
+  - @seed-design/react-switch@0.0.3
+  - @seed-design/react-toggle@0.0.3
+  - @seed-design/react-tabs@0.0.5
+
 ## 0.0.25
 
 ### Patch Changes

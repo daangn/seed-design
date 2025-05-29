@@ -1,5 +1,14 @@
 # @seed-design/vite-plugin
 
+## 0.0.27
+
+### Patch Changes
+
+- Updated dependencies [9d85c16]
+- Updated dependencies [d951317]
+- Updated dependencies [b3f964d]
+  - @seed-design/css@0.0.27
+
 ## 0.0.26
 
 ### Patch Changes

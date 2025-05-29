@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.25
+
+### Patch Changes
+
+- 3d7b0dc: replace-tailwind-color cva 처리 추가 및 `-seed` prefix 토큰 확인 로직 추가
+
 ## 0.0.24
 
 ### Patch Changes

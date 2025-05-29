@@ -1,5 +1,15 @@
 # @seed-design/figma
 
+## 0.0.27
+
+### Patch Changes
+
+- 4133c5e: 레이아웃 컴포넌트의 codegen이 default value를 정상적으로 제외하도록 수정합니다.
+- Updated dependencies [9d85c16]
+- Updated dependencies [d951317]
+- Updated dependencies [b3f964d]
+  - @seed-design/css@0.0.27
+
 ## 0.0.25
 
 ### Patch Changes
