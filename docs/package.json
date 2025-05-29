@@ -70,7 +70,6 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.0",
-    "@storybook/addon-onboarding": "^9.0.0",
     "@storybook/nextjs": "^9.0.0",
     "@tailwindcss/postcss": "^4.0.6",
     "@types/mdx": "^2.0.13",
