@@ -22,15 +22,15 @@
     "@seed-design/migration-index": "0.0.20",
     "@seed-design/react": "0.0.27",
     "@seed-design/vite-plugin": "0.0.27",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
     "@figma/rest-api-spec": "^0.31.0",
     "@types/node": "^22.14.1",
-    "@types/react": "^18.3.20",
-    "@types/react-dom": "^18.3.6",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.4.1",
     "concurrently": "^9.1.2",
     "typescript": "^5.8.3",
