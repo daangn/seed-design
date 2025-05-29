@@ -4,11 +4,12 @@ import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-export default async function Page({
-  params,
-}: {
-  params: { slug?: string[] };
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ slug?: string[] }>;
+  }
+) {
+  const params = await props.params;
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
@@ -37,7 +38,8 @@ export async function generateStaticParams() {
   return reactSource.generateParams();
 }
 
-export function generateMetadata({ params }: { params: { slug?: string[] } }) {
+export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+  const params = await props.params;
   const page = reactSource.getPage(params.slug ?? []);
   if (!page) notFound();
 
