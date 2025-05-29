@@ -2673,7 +2673,7 @@
 
 .seed-callout__content {
   margin-inline-end: auto;
-  display: inline-flex;
+  display: block;
 }
 
 .seed-callout__title {
@@ -2689,6 +2689,10 @@
   font-weight: var(--seed-font-weight-regular);
 }
 
+.seed-callout__description:not(:last-child) {
+  margin-inline-end: 1ch;
+}
+
 .seed-callout__link {
   cursor: pointer;
   font-family: inherit;
@@ -2698,7 +2702,6 @@
   text-underline-offset: 2px;
   background-color: #0000;
   border: none;
-  margin-inline-start: 1ch;
   padding: 0;
   text-decoration: underline;
   display: inline-block;
