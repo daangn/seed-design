@@ -1,4 +1,4 @@
-import { create } from "@storybook/theming/create";
+import { create } from "storybook/theming/create";
 
 const color = {
   white: "rgba(255, 255, 255, 1)",

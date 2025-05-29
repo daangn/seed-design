@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { selectBoxGroupVariantMap } from "@seed-design/css/recipes/select-box-group";
 import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";

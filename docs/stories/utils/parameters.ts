@@ -1,4 +1,4 @@
-import type { Parameters, StoryObj } from "@storybook/react";
+import type { Parameters, StoryObj } from "@storybook/nextjs";
 
 export const FONT_SCALE_MAP = {
   "Extra Small": "14px",

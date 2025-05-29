@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 
