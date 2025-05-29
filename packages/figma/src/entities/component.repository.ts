@@ -1,7 +1,7 @@
 import type { ComponentMetadata } from "./component.interface";
 
 export interface ComponentRepository {
-  getOne(key: string): ComponentMetadata;
+  getOne(key: string): ComponentMetadata | undefined;
 }
 
 export function createStaticComponentRepository(data: Record<string, ComponentMetadata>) {
