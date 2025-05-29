@@ -28,7 +28,7 @@ data:
         shimmer:
           duration: 1.5s
           timingFunction: $timing-function.easing
-          color: $gradient.shimmer
+          color: $gradient.neutral-shimmer
     radius=0:
       enabled:
         root:

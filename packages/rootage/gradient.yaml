@@ -5,7 +5,7 @@ metadata:
 data:
   collection: color
   tokens:
-    $gradient.shimmer:
+    $gradient.neutral-shimmer:
       description: Shimmer effect, used for loading states
       values:
         theme-light:

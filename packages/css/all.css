@@ -405,7 +405,7 @@
   --seed-color-manner-temp-l5-text: #d28500;
   --seed-color-manner-temp-l6-bg: #fff0e5;
   --seed-color-manner-temp-l6-text: #f06000;
-  --seed-gradient-shimmer: #fff0 0%, #fff6 46%, #fff6 54%, #fff0 100%;
+  --seed-gradient-neutral-shimmer: #fff0 0%, #fff6 46%, #fff6 54%, #fff0 100%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], :root[data-seed-color-mode="dark-only"], :root [data-seed-color-mode="dark-only"] {
@@ -562,7 +562,7 @@
   --seed-color-manner-temp-l5-text: #ffa100;
   --seed-color-manner-temp-l6-bg: #2e1d12;
   --seed-color-manner-temp-l6-text: #ff9147;
-  --seed-gradient-shimmer: #fff0 0%, #ffffff1a 46%, #ffffff1a 54%, #fff0 100%;
+  --seed-gradient-neutral-shimmer: #fff0 0%, #ffffff1a 46%, #ffffff1a 54%, #fff0 100%;
 }
 
 .seed-avatar__root {
@@ -3811,7 +3811,7 @@
 
 .seed-skeleton:after {
   content: "";
-  background-image: linear-gradient(90deg, var(--seed-gradient-shimmer));
+  background-image: linear-gradient(90deg, var(--seed-gradient-neutral-shimmer));
   width: 100%;
   height: 100%;
   animation-name: slide-x;

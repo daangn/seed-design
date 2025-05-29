@@ -7,7 +7,7 @@
   "data": {
     "collection": "color",
     "tokens": {
-      "$gradient.shimmer": {
+      "$gradient.neutral-shimmer": {
         "values": {
           "theme-light": {
             "type": "gradient",
