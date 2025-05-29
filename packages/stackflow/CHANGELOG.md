@@ -1,5 +1,15 @@
 # @seed-design/stackflow
 
+## 0.0.27
+
+### Patch Changes
+
+- 7851a31: RSC 지원을 위한 "use client" directive를 추가합니다.
+- Updated dependencies [9d85c16]
+- Updated dependencies [d951317]
+- Updated dependencies [b3f964d]
+  - @seed-design/css@0.0.27
+
 ## 0.0.25
 
 ### Patch Changes

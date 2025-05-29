@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 0.0.27
+
+### Patch Changes
+
+- 9d85c16: InlineBanner의 title 영역에 flex-shrink: 0을 추가해요
+- d951317: Color 토큰을 업데이트합니다.
+- b3f964d: Avatar의 디자인 업데이트를 반영합니다. (stroke 추가)
+
 ## 0.0.25
 
 ### Patch Changes
