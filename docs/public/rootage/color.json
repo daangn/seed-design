@@ -203,7 +203,7 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#e04f00"
+            "value": "#e14d00"
           },
           "theme-dark": {
             "type": "color",
@@ -279,7 +279,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "#22252b"
+            "value": "#1d2025"
           }
         }
       },
