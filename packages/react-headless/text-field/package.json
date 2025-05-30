@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-text-field",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -31,7 +31,7 @@
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-use-controllable-state": "1.2.2",
     "@seed-design/dom-utils": "0.0.2",
-    "@seed-design/react-primitive": "0.0.2",
+    "@seed-design/react-primitive": "0.0.3",
     "unicode-segmenter": "^0.13.0"
   },
   "devDependencies": {

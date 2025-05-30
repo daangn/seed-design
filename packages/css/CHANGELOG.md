@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.29
+
+### Patch Changes
+
+- 116ee2c: ActionButton의 min-width variable 기본값을 수정합니다.
+
 ## 0.0.28
 
 ### Patch Changes

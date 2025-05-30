@@ -1,5 +1,12 @@
 # @seed-design/react-snackbar
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [29ec9f0]
+  - @seed-design/react-primitive@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes
