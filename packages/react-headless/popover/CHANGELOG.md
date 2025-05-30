@@ -1,5 +1,12 @@
 # @seed-design/react-popover
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [29ec9f0]
+  - @seed-design/react-primitive@0.0.3
+
 ## 0.0.6
 
 ### Patch Changes

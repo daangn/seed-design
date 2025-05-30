@@ -1,5 +1,28 @@
 # @seed-design/react
 
+## 0.0.29
+
+### Patch Changes
+
+- 29ec9f0: `reactSlot.createSlot is not a function` 오류가 발생하지 않도록, radix-ui/react-slot 버전을 1.2.3으로 수정합니다.
+- Updated dependencies [116ee2c]
+- Updated dependencies [29ec9f0]
+  - @seed-design/css@0.0.29
+  - @seed-design/react-primitive@0.0.3
+  - @seed-design/react-avatar@0.0.4
+  - @seed-design/react-checkbox@0.0.4
+  - @seed-design/react-dialog@0.0.5
+  - @seed-design/react-popover@0.0.7
+  - @seed-design/react-progress@0.0.4
+  - @seed-design/react-pull-to-refresh@0.0.5
+  - @seed-design/react-radio-group@0.0.4
+  - @seed-design/react-segmented-control@0.0.5
+  - @seed-design/react-snackbar@0.0.5
+  - @seed-design/react-switch@0.0.4
+  - @seed-design/react-tabs@0.0.6
+  - @seed-design/react-text-field@0.0.4
+  - @seed-design/react-toggle@0.0.4
+
 ## 0.0.28
 
 ### Patch Changes

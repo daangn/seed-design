@@ -1,5 +1,12 @@
 # @seed-design/react-checkbox
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [29ec9f0]
+  - @seed-design/react-primitive@0.0.3
+
 ## 0.0.3
 
 ### Patch Changes
