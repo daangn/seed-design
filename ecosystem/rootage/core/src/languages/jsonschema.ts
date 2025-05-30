@@ -76,10 +76,13 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           },
           "name": {
             "type": "string"
+          },
+          "deprecated": {
+            "type": "string"
           }
         },
         "required": ["id", "name"],
-        "additionalProperties": false
+        "additionalProperties": true
       },
       "data": {
         "type": "object",
