@@ -75,10 +75,13 @@ test("getJsonSchema should generate jsonschema for component spec", () => {
             },
             "name": {
               "type": "string"
+            },
+            "deprecated": {
+              "type": "string"
             }
           },
           "required": ["id", "name"],
-          "additionalProperties": false
+          "additionalProperties": true
         },
         "data": {
           "type": "object",
