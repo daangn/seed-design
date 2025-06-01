@@ -119,11 +119,6 @@ const ActivityHome: ActivityComponentType = () => {
             <ListItem onClick={() => push("ActivityControlChip", {})} title="ControlChip" />
           </ListItemGroup>
 
-          <ListItemGroup title="Fabs">
-            <ListItem onClick={() => push("ActivityFab", {})} title="Fab" />
-            <ListItem onClick={() => push("ActivityExtendedFab", {})} title="ExtendedFab" />
-          </ListItemGroup>
-
           <ListItemGroup title="Snackbars">
             <ListItem
               onClick={() =>
