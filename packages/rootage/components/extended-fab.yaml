@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: extended-fab
   name: Extended Fab
+  deprecated: Use contextual-floating-button instead.
 data:
   definitions:
     base:

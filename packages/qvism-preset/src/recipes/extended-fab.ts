@@ -4,6 +4,9 @@ import { defineRecipe } from "../utils/define";
 import { active, disabled, focus, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
+/**
+ * @deprecated Use `contextual-floating-button` instead.
+ */
 const extendedFab = defineRecipe({
   name: "extended-fab",
   base: {
