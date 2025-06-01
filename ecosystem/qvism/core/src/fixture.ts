@@ -27,7 +27,7 @@ export const sharedMjs = `export const createClassName = (className, variants, c
 export function mergeVariants(a, b) {
   const result = { ...a };
   for (const k in b) {
-    if (b[k]) {
+    if (b[k] != null) {
       result[k] = b[k];
     }
   }
