@@ -122,6 +122,10 @@
   --seed-box-position: initial;
   display: var(--seed-box-display);
   position: var(--seed-box-position);
+  --seed-box-unstable-transform: initial;
+  transform: var(--seed-box-unstable-transform);
+  --seed-box-z-index: initial;
+  z-index: var(--seed-box-z-index);
   --seed-box-overflow-x: initial;
   --seed-box-overflow-y: initial;
   overflow-x: var(--seed-box-overflow-x);

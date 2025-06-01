@@ -123,6 +123,13 @@ export const globalCss = defineGlobalCss({
     display: "var(--seed-box-display)",
     position: "var(--seed-box-position)",
 
+    // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
+    "--seed-box-unstable-transform": "initial",
+    transform: "var(--seed-box-unstable-transform)",
+
+    "--seed-box-z-index": "initial",
+    zIndex: "var(--seed-box-z-index)",
+
     "--seed-box-overflow-x": "initial",
     "--seed-box-overflow-y": "initial",
     overflowX: "var(--seed-box-overflow-x)",
