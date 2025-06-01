@@ -434,4 +434,75 @@ describe("getComponentSpecModel", () => {
 
     expect(parsed).toEqual(expected);
   });
+
+  it("should transform external metadata fields", () => {
+    const yaml = `
+  kind: ComponentSpec
+  metadata:
+    id: test
+    name: test
+    deprecated: Deprecated
+  data:
+    schema:
+      slots:
+        root:
+          properties:
+            color:
+              type: color
+    definitions:
+      base:
+        enabled:
+          root:
+            color: "#ffffff"
+  `;
+
+    const transformed = getComponentSpecModel(
+      Authoring.parseComponentSpecDocument(YAML.parse(yaml)),
+    );
+
+    const expected: Exchange.ComponentSpecModel = {
+      kind: "ComponentSpec",
+      metadata: {
+        id: "test",
+        name: "test",
+        deprecated: "Deprecated",
+      },
+      data: {
+        id: "test",
+        name: "test",
+        schema: {
+          slots: {
+            root: {
+              properties: {
+                color: {
+                  type: "color",
+                },
+              },
+            },
+          },
+          variants: {},
+        },
+        definitions: [
+          {
+            variants: {},
+            definitions: [
+              {
+                states: ["enabled"],
+                slots: {
+                  root: {
+                    color: {
+                      type: "color",
+                      value: "#ffffff",
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    expect(transformed).toEqual(expected);
+  });
 });
