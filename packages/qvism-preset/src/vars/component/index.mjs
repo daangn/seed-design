@@ -12,6 +12,7 @@ export { vars as callout } from "./callout.mjs";
 export { vars as checkbox } from "./checkbox.mjs";
 export { vars as chipTab } from "./chip-tab.mjs";
 export { vars as chipTablist } from "./chip-tablist.mjs";
+export { vars as contextualFloatingButton } from "./contextual-floating-button.mjs";
 export { vars as controlChip } from "./control-chip.mjs";
 export { vars as dialog } from "./dialog.mjs";
 export { vars as divider } from "./divider.mjs";

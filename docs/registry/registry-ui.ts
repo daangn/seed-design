@@ -152,4 +152,10 @@ export const registryUI: RegistryUI = [
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:text-field.tsx"],
   },
+  {
+    name: "contextual-floating-button",
+    dependencies: ["@seed-design/react"],
+    innerDependencies: ["ui:loading-indicator"],
+    files: ["ui:contextual-floating-button.tsx"],
+  },
 ];
