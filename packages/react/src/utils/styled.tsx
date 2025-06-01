@@ -266,6 +266,8 @@ export interface StyleProps {
 
   overflowY?: "visible" | "hidden" | "scroll" | "auto";
 
+  zIndex?: number | (string & {});
+
   flexGrow?: 0 | 1 | (number & {});
 
   flexShrink?: 0 | (number & {});
@@ -317,6 +319,9 @@ export interface StyleProps {
     | "flexEnd"; // @deprecated Use `flex-end` instead.
 
   gap?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+
+  // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
+  unstable_transform?: string;
 }
 
 interface UseStyleProps extends StyleProps {
@@ -372,6 +377,7 @@ export function useStyleProps<T extends UseStyleProps>(
     position,
     overflowX,
     overflowY,
+    zIndex,
     flexGrow,
     flexShrink,
     flexDirection,
@@ -381,6 +387,7 @@ export function useStyleProps<T extends UseStyleProps>(
     alignContent,
     alignSelf,
     gap,
+    unstable_transform,
     style,
     ...restProps
   } = props;
@@ -426,6 +433,7 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-position": position,
       "--seed-box-overflow-x": overflowX,
       "--seed-box-overflow-y": overflowY,
+      "--seed-box-z-index": zIndex,
       "--seed-box-flex-grow": flexGrow,
       "--seed-box-flex-shrink": flexShrink,
       "--seed-box-flex-direction": handleFlexDirection(flexDirection),
@@ -434,6 +442,7 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-align-items": handleAlignItems(alignItems),
       "--seed-box-align-content": handleAlignItems(alignContent),
       "--seed-box-align-self": handleAlignItems(alignSelf),
+      "--seed-box-unstable-transform": unstable_transform,
       ...style,
     } as React.CSSProperties,
     restProps,
