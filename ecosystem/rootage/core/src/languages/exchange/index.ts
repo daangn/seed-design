@@ -17,14 +17,11 @@ export function getModel(
 export function getTokenCollectionsModel(
   ast: AST.TokenCollectionsDocument,
 ): Exchange.TokenCollectionsModel {
-  const idField = ast.metadata.fields.find((f) => f.key === "id");
-  const nameField = ast.metadata.fields.find((f) => f.key === "name");
-  const id = idField ? String(idField.value) : "";
-  const name = nameField ? String(nameField.value) : "";
+  const metadata = getMetadata(ast.metadata);
 
   return {
     kind: "TokenCollections",
-    metadata: { id, name },
+    metadata,
     data: ast.data.map((tc) => ({
       name: tc.name,
       modes: tc.modes,
@@ -33,11 +30,6 @@ export function getTokenCollectionsModel(
 }
 
 export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
-  const idField = ast.metadata.fields.find((f) => f.key === "id");
-  const nameField = ast.metadata.fields.find((f) => f.key === "name");
-  const id = idField ? String(idField.value) : "";
-  const name = nameField ? String(nameField.value) : "";
-
   const collection = ast.data.length ? ast.data[0]!.collection : "";
   const tokens: Record<string, { values: Record<string, Exchange.Value>; description?: string }> =
     {};
@@ -137,7 +129,7 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
 
   return {
     kind: "Tokens",
-    metadata: { id, name },
+    metadata: getMetadata(ast.metadata),
     data: {
       collection,
       tokens,
@@ -146,11 +138,6 @@ export function getTokensModel(ast: AST.TokensDocument): Exchange.TokensModel {
 }
 
 export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.ComponentSpecModel {
-  const idField = ast.metadata.fields.find((f) => f.key === "id");
-  const nameField = ast.metadata.fields.find((f) => f.key === "name");
-  const id = idField ? String(idField.value) : "";
-  const name = nameField ? String(nameField.value) : "";
-
   function buildValue(prop: AST.PropertyDeclaration): Exchange.Value {
     switch (prop.kind) {
       case "ColorPropertyDeclaration":
@@ -271,12 +258,14 @@ export function getComponentSpecModel(ast: AST.ComponentSpecDocument): Exchange.
     };
   }
 
+  const metadata = getMetadata(ast.metadata);
+
   return {
     kind: "ComponentSpec",
-    metadata: { id, name },
+    metadata,
     data: {
-      id,
-      name,
+      id: metadata.id,
+      name: metadata.name,
       schema: buildSchema(ast.data.schema),
       definitions: ast.data.body.map(buildVariant),
     },
@@ -324,4 +313,25 @@ export function getIndex(
     version,
     resources,
   };
+}
+
+function getMetadata(metadata: AST.MetadataDeclaration): Record<
+  string,
+  string | number | boolean
+> & {
+  id: string;
+  name: string;
+} {
+  return compactObject(
+    metadata.fields.reduce(
+      (acc, f) => {
+        acc[f.key] = f.value;
+        return acc;
+      },
+      {} as Record<string, string | number | boolean> & {
+        id: string;
+        name: string;
+      },
+    ),
+  );
 }

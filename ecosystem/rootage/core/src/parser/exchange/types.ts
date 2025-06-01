@@ -57,6 +57,7 @@ export interface ComponentSpecModel {
   metadata: {
     id: string;
     name: string;
+    [key: string]: string | number | boolean;
   };
   data: ComponentSpecData;
 }
@@ -118,6 +119,7 @@ export interface TokensModel {
   metadata: {
     id: string;
     name: string;
+    [key: string]: string | number | boolean;
   };
   data: TokensData;
 }
@@ -139,6 +141,7 @@ export interface TokenCollectionsModel {
   metadata: {
     id: string;
     name: string;
+    [key: string]: string | number | boolean;
   };
   data: Array<{
     name: string;
