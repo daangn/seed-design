@@ -6,11 +6,17 @@ const { withContext } = createRecipeContext(extendedFab);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `ContextualFloatingButton` instead.
+ */
 export interface ExtendedFabProps
   extends ExtendedFabVariantProps,
     PrimitiveProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
+/**
+ * @deprecated Use `ContextualFloatingButton` instead.
+ */
 export const ExtendedFab = withContext<HTMLButtonElement, ExtendedFabProps>(Primitive.button, {
   defaultProps: {
     variant: "neutralSolid",
