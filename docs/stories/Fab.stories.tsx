@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Fab, Icon } from "@seed-design/react";
+import { Fab } from "seed-design/ui/fab";
 
+import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { fabVariantMap } from "@seed-design/css/recipes/fab";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
 
 const meta = {
   component: Fab,
@@ -19,7 +19,8 @@ type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
   args: {
-    children: <Icon svg={<IconBellFill />} />,
+    icon: <IconBellFill />,
+    label: "Example FAB",
   },
   render: (args) => (
     <VariantTable Component={meta.component} variantMap={fabVariantMap} {...args} />

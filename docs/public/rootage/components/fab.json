@@ -9,7 +9,15 @@
     "name": "Fab",
     "schema": {
       "slots": {},
-      "variants": {}
+      "variants": {
+        "extended": {
+          "values": {
+            "true": {},
+            "false": {}
+          },
+          "defaultValue": "true"
+        }
+      }
     },
     "definitions": [
       {
@@ -23,18 +31,11 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-floating"
+                  "value": "$color.bg.brand-solid"
                 },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
-                },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 44,
-                    "unit": "px"
-                  }
                 },
                 "shadow": {
                   "type": "shadow",
@@ -59,19 +60,36 @@
                       }
                     }
                   ]
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "layoutDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "layoutTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "icon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.palette.static-white"
                 },
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
+                "sizeDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "sizeTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -84,7 +102,95 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-floating-pressed"
+                  "value": "$color.bg.brand-solid-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "extended": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4_5"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 48,
+                    "unit": "px"
+                  }
+                }
+              },
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "extended": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 56,
+                    "unit": "px"
+                  }
+                }
+              },
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
                 }
               }
             }

@@ -1,5 +1,8 @@
 declare interface FabVariant {
-  
+  /**
+  * @default true
+  */
+  extended: boolean;
 }
 
 declare type FabVariantMap = {
@@ -8,11 +11,13 @@ declare type FabVariantMap = {
 
 export declare type FabVariantProps = Partial<FabVariant>;
 
+export declare type FabSlotName = "root" | "icon" | "label";
+
 export declare const fabVariantMap: FabVariantMap;
 
 export declare const fab: ((
   props?: FabVariantProps,
-) => string) & {
+) => Record<FabSlotName, string>) & {
   splitVariantProps: <T extends FabVariantProps>(
     props: T,
   ) => [FabVariantProps, Omit<T, keyof FabVariantProps>];

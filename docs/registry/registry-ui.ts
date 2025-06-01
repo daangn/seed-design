@@ -158,4 +158,9 @@ export const registryUI: RegistryUI = [
     innerDependencies: ["ui:loading-indicator"],
     files: ["ui:contextual-floating-button.tsx"],
   },
+  {
+    name: "fab",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:fab.tsx"],
+  },
 ];
