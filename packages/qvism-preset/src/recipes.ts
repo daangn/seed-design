@@ -9,6 +9,7 @@ import bottomSheet from "./recipes/bottom-sheet";
 import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
 import chipTabs from "./recipes/chip-tabs";
+import contextualFloatingButton from "./recipes/contextual-floating-button";
 import controlChip from "./recipes/control-chip";
 import dialog from "./recipes/dialog";
 import extendedActionSheet from "./recipes/extended-action-sheet";
@@ -49,6 +50,7 @@ export const recipes = {
   actionSheetItem,
   extendedActionSheet,
   extendedActionSheetItem,
+  contextualFloatingButton,
   fab,
   extendedFab,
   badge,

@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: contextual-floating-button
+  name: Contextual Floating Button
+data:
+  definitions:
+    base:
+      enabled:
+        root:
+          cornerRadius: $radius.full
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 2px
+                blur: 6px
+                spread: 0px
+                color: "#00000026"
+          colorDuration: $duration.d4
+          colorTimingFunction: $timing-function.easing
+        progressCircle:
+          size: 16px
+          thickness: 2px
+    variant=solid:
+      enabled:
+        root:
+          color: $color.bg.neutral-inverted
+        progressCircle:
+          trackColor: $color.palette.static-white-alpha-200
+          rangeColor: $color.palette.static-white
+        label:
+          color: $color.palette.static-white
+        prefixIcon:
+          color: $color.palette.static-white
+        icon:
+          color: $color.palette.static-white
+      pressed:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+      disabled:
+        root:
+          color: $color.bg.disabled
+        label:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        icon:
+          color: $color.fg.disabled
+      loading:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+    variant=layer:
+      enabled:
+        root:
+          color: $color.bg.layer-floating
+        progressCircle:
+          trackColor: $color.palette.gray-500
+          rangeColor: $color.fg.neutral
+        label:
+          color: $color.fg.neutral
+        prefixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.layer-floating-pressed
+      disabled:
+        root:
+          color: $color.bg.disabled
+        label:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        icon:
+          color: $color.fg.disabled
+      loading:
+        root:
+          color: $color.bg.layer-floating-pressed
+    layout=withText:
+      enabled:
+        root:
+          minHeight: 36px
+          paddingX: $dimension.x3_5
+          paddingY: $dimension.x2
+          gap: $dimension.x1
+        label:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.medium
+        prefixIcon:
+          size: 16px
+    layout=iconOnly:
+      enabled:
+        root:
+          size: 44px
+        icon:
+          size: 22px
