@@ -1,5 +1,13 @@
 # @seed-design/react-tabs
 
+## 0.0.7
+
+### Patch Changes
+
+- 739b6bf: Tabs.Indicator의 width가 첫 렌더링 시 0으로 설정되는 문제를 수정합니다.
+
+  Tabs의 불필요한 리렌더링을 줄입니다.
+
 ## 0.0.6
 
 ### Patch Changes

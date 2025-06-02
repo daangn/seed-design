@@ -1,5 +1,24 @@
 # @seed-design/react
 
+## 0.0.30
+
+### Patch Changes
+
+- 4610b5b: PullToRefresh에 disabled prop을 추가합니다.
+- 739b6bf: Tabs.Indicator의 width가 첫 렌더링 시 0으로 설정되는 문제를 수정합니다.
+
+  Tabs의 불필요한 리렌더링을 줄입니다.
+
+- 285cb9b: - `ContextualFloatingButton`과 `FloatingActionButton` 컴포넌트를 제공합니다.
+  - 기존의 `Fab` 및 `ExtendedFab`를 deprecate합니다.
+  - Floating 요소들의 위치를 편리하게 제어하도록 `Float` 유틸리티 컴포넌트를 제공합니다.
+- Updated dependencies [4610b5b]
+- Updated dependencies [739b6bf]
+- Updated dependencies [285cb9b]
+  - @seed-design/react-pull-to-refresh@0.0.6
+  - @seed-design/react-tabs@0.0.7
+  - @seed-design/css@0.0.30
+
 ## 0.0.29
 
 ### Patch Changes
