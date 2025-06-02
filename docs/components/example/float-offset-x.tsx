@@ -4,8 +4,8 @@ export default function FloatOffsetX() {
   return (
     <Box
       position="relative"
-      width="300px"
-      height="300px"
+      width="480px"
+      height="480px"
       borderWidth={1}
       borderColor="stroke.neutral"
     >
@@ -15,7 +15,7 @@ export default function FloatOffsetX() {
       <Float placement="middle-center" offsetX="16px">
         <ContextualFloatingButton>Middle Center</ContextualFloatingButton>
       </Float>
-      <Float placement="middle-end">
+      <Float placement="middle-end" offsetX="16px">
         <ContextualFloatingButton>Middle End</ContextualFloatingButton>
       </Float>
     </Box>
