@@ -33,8 +33,8 @@ function getPlacementStyle(
   offsetX: 0 | (string & {}) | undefined,
   offsetY: 0 | (string & {}) | undefined,
 ) {
-  const centerLeft = offsetX ? `calc(50% + ${offsetX}px)` : "50%";
-  const middleTop = offsetY ? `calc(50% + ${offsetY}px)` : "50%";
+  const centerLeft = offsetX ? `calc(50% + ${offsetX})` : "50%";
+  const middleTop = offsetY ? `calc(50% + ${offsetY})` : "50%";
 
   const shiftLeft = "translateX(-50%)";
   const shiftTop = "translateY(-50%)";
@@ -73,7 +73,7 @@ function getPlacementStyle(
       return {
         top: middleTop,
         right: offsetX ?? 0,
-        unstable_transform: shiftLeft,
+        unstable_transform: shiftTop,
       };
     case "bottom-start":
       return {
