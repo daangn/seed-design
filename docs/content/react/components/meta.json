@@ -8,6 +8,8 @@
     "---Typography---",
     "...(typography)",
     "---Components---",
-    "..."
+    "...",
+    "fab",
+    "extended-fab"
   ]
 }

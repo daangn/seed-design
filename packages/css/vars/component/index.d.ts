@@ -21,6 +21,7 @@ export { vars as extendedActionSheetItem } from "./extended-action-sheet-item";
 export { vars as extendedActionSheet } from "./extended-action-sheet";
 export { vars as extendedFab } from "./extended-fab";
 export { vars as fab } from "./fab";
+export { vars as floatingActionButton } from "./floating-action-button";
 export { vars as helpBubble } from "./help-bubble";
 export { vars as identityPlaceholder } from "./identity-placeholder";
 export { vars as inlineBanner } from "./inline-banner";

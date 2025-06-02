@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Fab } from "seed-design/ui/fab";
+import { FloatingActionButton } from "@/registry/ui/floating-action-button";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
-import { fabVariantMap } from "@seed-design/css/recipes/fab";
+import { floatingActionButtonVariantMap } from "@seed-design/css/recipes/floating-action-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 
 const meta = {
-  component: Fab,
+  component: FloatingActionButton,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Fab>;
+} satisfies Meta<typeof FloatingActionButton>;
 
 export default meta;
 
@@ -23,7 +23,11 @@ const CommonStoryTemplate: Story = {
     label: "Example FAB",
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={fabVariantMap} {...args} />
+    <VariantTable
+      Component={meta.component}
+      variantMap={floatingActionButtonVariantMap}
+      {...args}
+    />
   ),
 };
 

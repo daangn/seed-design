@@ -1,0 +1,47 @@
+---
+title: Floating Action Button
+description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+---
+
+<ComponentExample name="floating-action-button-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/floating-action-button-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Props
+
+<react-type-table path="./registry/ui/floating-action-button.tsx" name="FloatingActionButtonProps" />
+
+## Examples
+
+### Extended
+
+`extended` prop을 사용하여 label 표시 여부 및 레이아웃을 제어할 수 있습니다.
+
+`extended` 사용 유무에 관계없이 `label`은 접근성을 위해 필수 prop으로 지정되어 있습니다.
+
+<ComponentExample name="floating-action-button-extended">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/floating-action-button-extended.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Float Composition
+
+Floating Action Button은 `<Float>` 컴포넌트와 함께 사용하면 편리합니다.
+
+<ComponentExample name="floating-action-button-float-composition">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/floating-action-button-float-composition.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

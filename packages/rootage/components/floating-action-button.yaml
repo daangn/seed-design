@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: floating-action-button
+  name: Floating Action Button
+data:
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.brand-solid
+          cornerRadius: $radius.full
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 2px
+                blur: 6px
+                spread: 0px
+                color: "#00000026"
+          colorDuration: $duration.d4
+          colorTimingFunction: $timing-function.easing
+          layoutDuration: $duration.d4
+          layoutTimingFunction: $timing-function.easing
+        icon:
+          color: $color.palette.static-white
+          sizeDuration: $duration.d4
+          sizeTimingFunction: $timing-function.easing
+      pressed:
+        root:
+          color: $color.bg.brand-solid-pressed
+    extended=true:
+      enabled:
+        root:
+          gap: $dimension.x1
+          paddingX: $dimension.x4_5
+          paddingY: $dimension.x3
+          minHeight: 48px
+        icon:
+          size: $dimension.x5
+        label:
+          color: $color.palette.static-white
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.bold
+    extended=false:
+      enabled:
+        root:
+          size: 56px
+        icon:
+          size: $dimension.x6

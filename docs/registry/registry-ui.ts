@@ -159,8 +159,8 @@ export const registryUI: RegistryUI = [
     files: ["ui:contextual-floating-button.tsx"],
   },
   {
-    name: "fab",
+    name: "floating-action-button",
     dependencies: ["@seed-design/react"],
-    files: ["ui:fab.tsx"],
+    files: ["ui:floating-action-button.tsx"],
   },
 ];

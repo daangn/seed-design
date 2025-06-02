@@ -2,52 +2,19 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)",
+        "color": "var(--seed-color-bg-layer-floating)",
         "cornerRadius": "var(--seed-radius-full)",
-        "shadow": "0px 2px 6px 0px #00000026",
-        "colorDuration": "var(--seed-duration-d4)",
-        "colorTimingFunction": "var(--seed-timing-function-easing)",
-        "layoutDuration": "var(--seed-duration-d4)",
-        "layoutTimingFunction": "var(--seed-timing-function-easing)"
+        "size": "44px",
+        "shadow": "0px 2px 6px 0px #00000026"
       },
       "icon": {
-        "color": "var(--seed-color-palette-static-white)",
-        "sizeDuration": "var(--seed-duration-d4)",
-        "sizeTimingFunction": "var(--seed-timing-function-easing)"
+        "color": "var(--seed-color-fg-neutral)",
+        "size": "22px"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
-      }
-    }
-  },
-  "extendedTrue": {
-    "enabled": {
-      "root": {
-        "gap": "var(--seed-dimension-x1)",
-        "paddingX": "var(--seed-dimension-x4_5)",
-        "paddingY": "var(--seed-dimension-x3)",
-        "minHeight": "48px"
-      },
-      "icon": {
-        "size": "var(--seed-dimension-x5)"
-      },
-      "label": {
-        "color": "var(--seed-color-palette-static-white)",
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-bold)"
-      }
-    }
-  },
-  "extendedFalse": {
-    "enabled": {
-      "root": {
-        "size": "56px"
-      },
-      "icon": {
-        "size": "var(--seed-dimension-x6)"
+        "color": "var(--seed-color-bg-layer-floating-pressed)"
       }
     }
   }

@@ -78,6 +78,9 @@
       "path": "/components/fab.json"
     },
     {
+      "path": "/components/floating-action-button.json"
+    },
+    {
       "path": "/components/help-bubble.json"
     },
     {

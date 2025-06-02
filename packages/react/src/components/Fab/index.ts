@@ -1,10 +1,4 @@
 export {
-  FabIcon,
-  FabLabel,
-  FabRoot,
-  type FabIconProps,
-  type FabLabelProps,
-  type FabRootProps,
+  Fab,
+  type FabProps,
 } from "./Fab";
-
-export * as Fab from "./Fab.namespace";

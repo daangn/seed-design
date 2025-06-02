@@ -1,6 +1,6 @@
 ---
-title: FAB
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+title: FAB (Deprecated)
+description: Deprecated. `ContextualFloatingButton` 혹은 `FloatingActionButton`을 사용하세요.
 ---
 
 <ComponentExample name="fab-preview">
@@ -12,44 +12,19 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
   ```
 </ComponentExample>
 
+## Usage
+
+```tsx
+import { Fab, Icon } from "@seed-design/react";
+import { IconPlusLine } from "@karrotmarket/react-monochrome-icon";
+```
+
+```tsx
+<Fab>
+  <Icon svg={<IconPlusLine />} />
+</Fab>
+```
+
 ## Props
 
-<react-type-table path="./registry/ui/fab.tsx" name="FabProps" />
-
-## Examples
-
-### Extended
-
-`extended` prop을 사용하여 label 표시 여부 및 레이아웃을 제어할 수 있습니다.
-
-`extended` 사용 유무에 관계없이 `label`은 접근성을 위해 필수 prop으로 지정되어 있습니다.
-
-<ComponentExample name="fab-extended">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/fab-extended.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Float Composition
-
-FAB는 `<Float>` 컴포넌트와 함께 사용하면 편리합니다.
-
-<ComponentExample name="fab-float-composition">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/fab-float-composition.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-## Changelog
-
-### 0.1.0
-
-기존의 Neutral 톤의 FAB 및 Extended FAB를 Contextual Floating Button 컴포넌트로 통합하고, Brand 톤과 모션을 가진 새로운 FAB 컴포넌트로 변경합니다.
-
-0.1.0 이전의 FAB 컴포넌트는 `ContextualFloatingButton`의 iconOnly 레이아웃으로 동일하게 구현할 수 있습니다.
+<react-type-table path="../packages/react/src/components/Fab/Fab.tsx" name="FabProps" />

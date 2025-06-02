@@ -1,0 +1,13 @@
+{
+  "name": "floating-action-button",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registries": [
+    {
+      "name": "floating-action-button.tsx",
+      "type": "ui",
+      "content": "\"use client\";\n\nimport { FloatingActionButton as SeedFloatingActionButton } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface FloatingActionButtonProps\n  extends Omit<SeedFloatingActionButton.RootProps, \"children\"> {\n  icon: React.ReactNode;\n\n  label: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/fab\n */\nexport const FloatingActionButton = React.forwardRef<\n  React.ElementRef<typeof SeedFloatingActionButton.Root>,\n  FloatingActionButtonProps\n>(({ icon, label, ...otherProps }, ref) => {\n  return (\n    <SeedFloatingActionButton.Root ref={ref} {...otherProps}>\n      <SeedFloatingActionButton.Icon svg={icon} />\n      <SeedFloatingActionButton.Label>{label}</SeedFloatingActionButton.Label>\n    </SeedFloatingActionButton.Root>\n  );\n});\nFloatingActionButton.displayName = \"FloatingActionButton\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+    }
+  ]
+}
