@@ -1,9 +1,8 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { useSize } from "@radix-ui/react-use-size";
 import { ariaAttr, buttonProps, dataAttr, elementProps } from "@seed-design/dom-utils";
 import type * as React from "react";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import * as dom from "./dom";
 import { getNextIndex, getPrevIndex, scrollTabIntoView } from "./utils";
 
@@ -33,8 +32,7 @@ function useTabsState(props: UseTabsStateProps) {
   }, []);
 
   const [listEl, listRef] = useState<HTMLElement | null>(null);
-  const [triggerEls, setTriggerEls] = useState<Record<string, HTMLElement>>({});
-  const selectedTriggerEl = value ? triggerEls[value] : null;
+  const [selectedTriggerEl, setSelectedTriggerEl] = useState<HTMLElement | null>(null);
   const selectedTriggerSize = useSize(selectedTriggerEl);
 
   const enabledValues = useMemo(() => (listEl ? dom.getEnabledValues(listEl) : []), [listEl]);
@@ -52,132 +50,204 @@ function useTabsState(props: UseTabsStateProps) {
     }
   }, [selectedTriggerEl, listEl]);
 
-  const actions = {
-    selectPrev: () => {
-      const prevValue = enabledValues[prevIndex];
-      if (!prevValue) return;
-      setValue(prevValue);
-    },
-    selectNext: () => {
-      const nextValue = enabledValues[nextIndex];
-      if (!nextValue) return;
-      setValue(nextValue);
-    },
-    selectFirst: () => {
-      const firstValue = enabledValues[0];
-      if (!firstValue) return;
-      setValue(firstValue);
-    },
-    selectLast: () => {
-      const lastValue = enabledValues[enabledValues.length - 1];
-      if (!lastValue) return;
-      setValue(lastValue);
-    },
-    setFocusedValue: (value: string) => {
-      setFocusedValue(value);
-    },
-    clearFocusedValue: () => {
-      setFocusedValue(null);
-    },
-    setValue: (value: string) => {
+  const selectPrevAction = useCallback(() => {
+    const prevValue = enabledValues[prevIndex];
+    if (!prevValue) return;
+    setValue(prevValue);
+  }, [enabledValues, prevIndex, setValue]);
+
+  const selectNextAction = useCallback(() => {
+    const nextValue = enabledValues[nextIndex];
+    if (!nextValue) return;
+    setValue(nextValue);
+  }, [enabledValues, nextIndex, setValue]);
+
+  const selectFirstAction = useCallback(() => {
+    const firstValue = enabledValues[0];
+    if (!firstValue) return;
+    setValue(firstValue);
+  }, [enabledValues, setValue]);
+
+  const selectLastAction = useCallback(() => {
+    const lastValue = enabledValues[enabledValues.length - 1];
+    if (!lastValue) return;
+    setValue(lastValue);
+  }, [enabledValues, setValue]);
+
+  const setFocusedValueAction = useCallback((value: string) => {
+    setFocusedValue(value);
+  }, []);
+
+  const clearFocusedValueAction = useCallback(() => {
+    setFocusedValue(null);
+  }, []);
+
+  const setValueAction = useCallback(
+    (value: string) => {
       setValue(value);
     },
+    [setValue],
+  );
+
+  const actions = {
+    selectPrev: selectPrevAction,
+    selectNext: selectNextAction,
+    selectFirst: selectFirstAction,
+    selectLast: selectLastAction,
+    setFocusedValue: setFocusedValueAction,
+    clearFocusedValue: clearFocusedValueAction,
+    setValue: setValueAction,
   };
 
-  const events = {
-    arrowPrev: () => {
-      if (interactionState === "focused") {
-        actions.selectPrev();
-        setIsFocusVisible(true);
-      }
-    },
-    arrowNext: () => {
-      if (interactionState === "focused") {
-        actions.selectNext();
-        setIsFocusVisible(true);
-      }
-    },
-    arrowUp: () => {
-      if (interactionState === "focused") {
-        actions.selectPrev();
-        setIsFocusVisible(true);
-      }
-    },
-    arrowDown: () => {
-      if (interactionState === "focused") {
-        actions.selectNext();
-        setIsFocusVisible(true);
-      }
-    },
-    home: () => {
-      if (interactionState === "focused") {
-        actions.selectFirst();
-        setIsFocusVisible(true);
-      }
-    },
-    end: () => {
-      if (interactionState === "focused") {
-        actions.selectLast();
-        setIsFocusVisible(true);
-      }
-    },
-    tabFocus: (value: string) => {
+  const arrowPrevEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectPrev();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectPrev]);
+
+  const arrowNextEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectNext();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectNext]);
+
+  const arrowUpEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectPrev();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectPrev]);
+
+  const arrowDownEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectNext();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectNext]);
+
+  const homeEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectFirst();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectFirst]);
+
+  const endEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectLast();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectLast]);
+
+  const tabFocusEvent = useCallback(
+    (value: string) => {
       actions.setFocusedValue(value);
       if (interactionState === "idle") {
         setInteractionState("focused");
       }
     },
-    tabBlur: () => {
-      if (interactionState === "focused") {
-        actions.clearFocusedValue();
-        setInteractionState("idle");
-      }
-    },
-    tabClick: (value: string) => {
-      actions.setFocusedValue(value);
+    [interactionState, actions.setFocusedValue],
+  );
+
+  const tabBlurEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.clearFocusedValue();
+      setInteractionState("idle");
+    }
+  }, [interactionState, actions.clearFocusedValue]);
+
+  const tabClickEvent = useCallback(
+    (value: string) => {
       actions.setValue(value);
       if (interactionState === "idle") {
         setInteractionState("focused");
       }
     },
+    [interactionState, actions.setValue],
+  );
 
-    setValue: actions.setValue,
-    selectNext: actions.selectNext,
-    selectPrev: actions.selectPrev,
-    setContentIndex: useCallback(
-      (index: number) => {
-        const valueFromIndex = enabledValues[index];
-        if (!valueFromIndex) return;
-
-        setValue(valueFromIndex);
-      },
-      [enabledValues, setValue],
-    ),
-    setIsFocusVisible,
-
-    mountTrigger: (value: string, el: HTMLElement) => {
-      setTriggerEls((prev) => ({ ...prev, [value]: el }));
+  const setValueEvent = useCallback(
+    (value: string) => {
+      actions.setValue(value);
     },
-    unmountTrigger: (value: string) => {
-      setTriggerEls((prev) => {
-        const { [value]: _, ...rest } = prev;
-        return rest;
-      });
+    [actions.setValue],
+  );
+
+  const selectNextEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectNext();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectNext]);
+
+  const selectPrevEvent = useCallback(() => {
+    if (interactionState === "focused") {
+      actions.selectPrev();
+      setIsFocusVisible(true);
+    }
+  }, [interactionState, actions.selectPrev]);
+
+  const setContentIndexEvent = useCallback(
+    (index: number) => {
+      const valueFromIndex = enabledValues[index];
+      if (!valueFromIndex) return;
+      actions.setValue(valueFromIndex);
     },
+    [actions.setValue, enabledValues],
+  );
+
+  const setIsFocusVisibleEvent = useCallback((isFocusVisible: boolean) => {
+    setIsFocusVisible(isFocusVisible);
+  }, []);
+
+  const setSelectedTriggerElEvent = useCallback((element: HTMLElement) => {
+    setSelectedTriggerEl(element);
+  }, []);
+
+  const events = {
+    arrowPrev: arrowPrevEvent,
+    arrowNext: arrowNextEvent,
+    arrowUp: arrowUpEvent,
+    arrowDown: arrowDownEvent,
+    home: homeEvent,
+    end: endEvent,
+    tabFocus: tabFocusEvent,
+    tabBlur: tabBlurEvent,
+    tabClick: tabClickEvent,
+
+    setValue: setValueEvent,
+    selectNext: selectNextEvent,
+    selectPrev: selectPrevEvent,
+    setContentIndex: setContentIndexEvent,
+
+    setIsFocusVisible: setIsFocusVisibleEvent,
+
+    setSelectedTriggerEl: setSelectedTriggerElEvent,
   };
 
-  return {
-    refs: {
+  const refs = useMemo(
+    () => ({
       list: listRef,
-    },
+    }),
+    [],
+  );
+
+  const triggerRect = useMemo(
+    () => ({
+      width: selectedTriggerSize?.width ?? selectedTriggerEl?.offsetWidth ?? 0,
+      left: selectedTriggerEl?.offsetLeft ?? 0,
+    }),
+    [selectedTriggerSize, selectedTriggerEl],
+  );
+
+  return {
+    refs,
     interactionState,
     value,
     isSSR,
-    triggerRect: {
-      width: selectedTriggerSize?.width || 0,
-      height: selectedTriggerSize?.height || 0,
-      left: selectedTriggerEl?.offsetLeft || 0,
-    },
+    triggerRect,
     focusedValue,
     isFocusVisible,
     contentIndex,
@@ -219,11 +289,15 @@ export function useTabs(props: UseTabsProps) {
   const { orientation = "horizontal" } = props;
   const focused = interactionState === "focused";
 
-  const stateProps = elementProps({
-    "data-orientation": orientation,
-    "data-focus": dataAttr(focused),
-    "data-ssr": dataAttr(isSSR),
-  });
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-orientation": orientation,
+        "data-focus": dataAttr(focused),
+        "data-ssr": dataAttr(isSSR),
+      }),
+    [orientation, focused, isSSR],
+  );
 
   return {
     refs,
@@ -305,17 +379,11 @@ export function useTabs(props: UseTabsProps) {
         "aria-selected": ariaAttr(itemState.isSelected),
       };
 
-      const ref = useRef<HTMLButtonElement>(null);
-
-      useLayoutEffect(() => {
-        if (ref.current) {
-          events.mountTrigger(triggerValue, ref.current);
+      const ref = (element: HTMLButtonElement | null) => {
+        if (element && triggerValue === value) {
+          events.setSelectedTriggerEl(element);
         }
-
-        () => {
-          events.unmountTrigger(triggerValue);
-        };
-      }, [triggerValue]);
+      };
 
       return {
         ...itemState,
