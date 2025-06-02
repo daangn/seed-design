@@ -1,5 +1,7 @@
+import type { Dimension } from "@seed-design/css/vars";
 import * as React from "react";
 import { Box } from "../Box/Box";
+import { handleDimension } from "../../utils/styled";
 
 export interface FloatProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: React.ElementType;
@@ -18,12 +20,12 @@ export interface FloatProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * @default 0
    */
-  offsetX?: 0 | (string & {});
+  offsetX?: 0 | Dimension | (string & {});
 
   /**
    * @default 0
    */
-  offsetY?: 0 | (string & {});
+  offsetY?: 0 | Dimension | (string & {});
 
   zIndex?: number | (string & {});
 }
@@ -32,9 +34,18 @@ function getPlacementStyle(
   placement: FloatProps["placement"],
   offsetX: 0 | (string & {}) | undefined,
   offsetY: 0 | (string & {}) | undefined,
-) {
-  const centerLeft = offsetX ? `calc(50% + ${offsetX})` : "50%";
-  const middleTop = offsetY ? `calc(50% + ${offsetY})` : "50%";
+): {
+  top?: 0 | string | undefined;
+  left?: 0 | string | undefined;
+  right?: 0 | string | undefined;
+  bottom?: 0 | string | undefined;
+  unstable_transform?: string | undefined;
+} {
+  const offsetXValue = handleDimension(offsetX);
+  const offsetYValue = handleDimension(offsetY);
+
+  const centerLeft = offsetXValue ? `calc(50% + ${offsetXValue})` : "50%";
+  const middleTop = offsetYValue ? `calc(50% + ${offsetYValue})` : "50%";
 
   const shiftLeft = "translateX(-50%)";
   const shiftTop = "translateY(-50%)";
@@ -43,24 +54,24 @@ function getPlacementStyle(
   switch (placement) {
     case "top-start":
       return {
-        top: offsetY ?? 0,
-        left: offsetX ?? 0,
+        top: offsetYValue ?? 0,
+        left: offsetXValue ?? 0,
       };
     case "top-center":
       return {
-        top: offsetY ?? 0,
+        top: offsetYValue ?? 0,
         left: centerLeft,
         unstable_transform: shiftLeft,
       };
     case "top-end":
       return {
-        top: offsetY ?? 0,
-        right: offsetX ?? 0,
+        top: offsetYValue ?? 0,
+        right: offsetXValue ?? 0,
       };
     case "middle-start":
       return {
         top: middleTop,
-        left: offsetX ?? 0,
+        left: offsetXValue ?? 0,
         unstable_transform: shiftTop,
       };
     case "middle-center":
@@ -72,24 +83,24 @@ function getPlacementStyle(
     case "middle-end":
       return {
         top: middleTop,
-        right: offsetX ?? 0,
+        right: offsetXValue ?? 0,
         unstable_transform: shiftTop,
       };
     case "bottom-start":
       return {
-        bottom: offsetY ?? 0,
-        left: offsetX ?? 0,
+        bottom: offsetYValue ?? 0,
+        left: offsetXValue ?? 0,
       };
     case "bottom-center":
       return {
-        bottom: offsetY ?? 0,
+        bottom: offsetYValue ?? 0,
         left: centerLeft,
         unstable_transform: shiftLeft,
       };
     case "bottom-end":
       return {
-        bottom: offsetY ?? 0,
-        right: offsetX ?? 0,
+        bottom: offsetYValue ?? 0,
+        right: offsetXValue ?? 0,
       };
   }
 }

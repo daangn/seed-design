@@ -11,7 +11,7 @@ export default function ContextualFloatingButtonFloatComposition() {
       borderWidth={1}
       borderColor="stroke.neutral"
     >
-      <Float placement="bottom-center" offsetY="16px">
+      <Float placement="bottom-center" offsetY="x4">
         <ContextualFloatingButton>
           <PrefixIcon svg={<IconBellFill />} />
           알림 설정

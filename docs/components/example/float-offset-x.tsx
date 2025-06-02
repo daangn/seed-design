@@ -9,13 +9,13 @@ export default function FloatOffsetX() {
       borderWidth={1}
       borderColor="stroke.neutral"
     >
-      <Float placement="middle-start" offsetX="16px">
+      <Float placement="middle-start" offsetX="x4">
         <ContextualFloatingButton>Middle Start</ContextualFloatingButton>
       </Float>
-      <Float placement="middle-center" offsetX="16px">
+      <Float placement="middle-center" offsetX="x4">
         <ContextualFloatingButton>Middle Center</ContextualFloatingButton>
       </Float>
-      <Float placement="middle-end" offsetX="16px">
+      <Float placement="middle-end" offsetX="x4">
         <ContextualFloatingButton>Middle End</ContextualFloatingButton>
       </Float>
     </Box>
