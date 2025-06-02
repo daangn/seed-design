@@ -112,29 +112,29 @@
               "progressCircle": {
                 "trackColor": {
                   "type": "color",
-                  "value": "$color.palette.static-white-alpha-200"
+                  "value": "$color.palette.gray-800"
                 },
                 "rangeColor": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 }
               },
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 }
               },
               "prefixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 }
               },
               "icon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 }
               }
             }

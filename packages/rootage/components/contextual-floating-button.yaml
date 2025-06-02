@@ -27,14 +27,14 @@ data:
         root:
           color: $color.bg.neutral-inverted
         progressCircle:
-          trackColor: $color.palette.static-white-alpha-200
-          rangeColor: $color.palette.static-white
+          trackColor: $color.palette.gray-800
+          rangeColor: $color.fg.neutral-inverted
         label:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
         prefixIcon:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
         icon:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
       pressed:
         root:
           color: $color.bg.neutral-inverted-pressed

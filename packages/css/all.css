@@ -1938,11 +1938,11 @@
 
 .seed-contextual-floating-button--variant_solid {
   background: var(--seed-color-bg-neutral-inverted);
-  color: var(--seed-color-palette-static-white);
-  --seed-icon-color: var(--seed-color-palette-static-white);
-  --seed-prefix-icon-color: var(--seed-color-palette-static-white);
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
-  --range-color: var(--seed-color-palette-static-white);
+  color: var(--seed-color-fg-neutral-inverted);
+  --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+  --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
+  --track-color: var(--seed-color-palette-gray-800);
+  --range-color: var(--seed-color-fg-neutral-inverted);
 }
 
 .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
