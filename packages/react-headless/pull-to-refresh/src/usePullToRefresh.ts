@@ -1,5 +1,6 @@
+import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
-import { useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { getClientY, isLeftPress, touchEnd, touchMove } from "./normalize-event";
 import { Store } from "./store";
 
@@ -41,6 +42,12 @@ interface UsePullToRefreshStateProps {
    * Callback when the pull-to-refresh is released after ready.
    */
   onPtrRefresh?: () => Promise<void>;
+
+  /**
+   * Whether to disable the pull-to-refresh.
+   * @default false
+   */
+  disabled?: boolean;
 }
 
 interface PullToRefreshContext {
@@ -58,6 +65,7 @@ export type PullToRefreshState = "idle" | "pulling" | "ready" | "loading";
 function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const threshold = props.threshold ?? 44;
   const displacementMultiplier = props.displacementMultiplier ?? 0.5;
+  const disabled = props.disabled ?? false;
 
   // We use useSyncExternalStore to only re-render indicator area on drag
   const [contextStore] = useState(
@@ -72,23 +80,35 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
   const [state, setState] = useState<PullToRefreshState>("idle");
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  function setContext({ y0, y, displacement }: Omit<PullToRefreshContext, "displacementRatio">) {
-    contextStore.setState({
-      y0,
-      y,
-      displacement,
-      displacementRatio: Math.min(displacement / threshold, 1),
-    });
-    rootRef.current?.style.setProperty("--ptr-displacement", `${displacement}px`);
-  }
+  const setContext = useCallback(
+    ({ y0, y, displacement }: Omit<PullToRefreshContext, "displacementRatio">) => {
+      contextStore.setState({
+        y0,
+        y,
+        displacement,
+        displacementRatio: Math.min(displacement / threshold, 1),
+      });
+      rootRef.current?.style.setProperty("--ptr-displacement", `${displacement}px`);
+    },
+    [contextStore, threshold],
+  );
 
-  const events = {
-    move: ({ y, scrollTop }: { y: number; scrollTop: number }) => {
+  const onPtrPullStart = useCallbackRef(props.onPtrPullStart);
+  const onPtrPullMove = useCallbackRef(props.onPtrPullMove);
+  const onPtrPullEnd = useCallbackRef(props.onPtrPullEnd);
+  const onPtrReady = useCallbackRef(props.onPtrReady);
+  const onPtrRefresh = useCallbackRef(props.onPtrRefresh);
+  const isPtrRefreshProvided = !!props.onPtrRefresh;
+
+  const moveEvent = useCallback(
+    ({ y, scrollTop }: { y: number; scrollTop: number }) => {
+      if (disabled) return;
+
       if (state === "idle") {
         const ctx = contextStore.getState();
         if (scrollTop <= 0 && ctx.y !== -1 && y > ctx.y) {
           setContext({ y0: y, y, displacement: 0 });
-          props.onPtrPullStart?.(contextStore.getState());
+          onPtrPullStart?.(contextStore.getState());
           setState("pulling");
         } else {
           contextStore.setState({ ...ctx, y });
@@ -98,33 +118,78 @@ function usePullToRefreshState(props: UsePullToRefreshStateProps) {
         const { y0 } = contextStore.getState();
         const displacement = (y - y0) * displacementMultiplier;
         setContext({ y0, y, displacement });
-        props.onPtrPullMove?.(contextStore.getState());
+        onPtrPullMove?.(contextStore.getState());
 
         if (displacement > threshold) {
           setState("ready");
-          props.onPtrReady?.();
+          onPtrReady?.();
         } else {
           setState("pulling");
         }
       }
     },
-    end: () => {
-      if (state === "pulling" || state === "ready") {
-        props.onPtrPullEnd?.(contextStore.getState());
-      }
-      if (state === "ready" && props.onPtrRefresh) {
-        setState("loading");
-        setContext({ y0: 0, y: -1, displacement: threshold });
-        props.onPtrRefresh().then(() => {
-          setState("idle");
-          setContext({ y0: 0, y: -1, displacement: 0 });
-        });
-      } else if (state === "ready" || state === "pulling") {
+    [
+      state,
+      contextStore,
+      displacementMultiplier,
+      threshold,
+      disabled,
+      setContext,
+      onPtrPullStart,
+      onPtrPullMove,
+      onPtrReady,
+    ],
+  );
+
+  const endEvent = useCallback(() => {
+    if (disabled) return;
+
+    if (state === "pulling" || state === "ready") {
+      onPtrPullEnd?.(contextStore.getState());
+    }
+    if (state === "ready" && isPtrRefreshProvided) {
+      setState("loading");
+      setContext({ y0: 0, y: -1, displacement: threshold });
+      onPtrRefresh().then(() => {
         setState("idle");
         setContext({ y0: 0, y: -1, displacement: 0 });
-      }
-    },
+      });
+    } else if (state === "ready" || state === "pulling") {
+      setState("idle");
+      setContext({ y0: 0, y: -1, displacement: 0 });
+    }
+  }, [
+    state,
+    contextStore,
+    threshold,
+    disabled,
+    isPtrRefreshProvided,
+    setContext,
+    onPtrPullEnd,
+    onPtrRefresh,
+  ]);
+
+  const disableEvent = useCallback(() => {
+    if (!disabled) return;
+
+    // If loading, we let props.onPtrRefresh handle the state change.
+    if (state === "pulling" || state === "ready") {
+      setState("idle");
+      setContext({ y0: 0, y: -1, displacement: 0 });
+    }
+  }, [disabled, state, setContext]);
+
+  const events = {
+    move: moveEvent,
+    end: endEvent,
+    disable: disableEvent,
   };
+
+  useEffect(() => {
+    if (disabled) {
+      events.disable();
+    }
+  }, [disabled, events.disable]);
 
   return {
     state,

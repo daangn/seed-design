@@ -21,6 +21,7 @@ export const PullToRefreshRoot = forwardRef<HTMLDivElement, PullToRefreshRootPro
     const {
       displacementMultiplier,
       threshold,
+      disabled,
       onPtrPullStart,
       onPtrPullMove,
       onPtrPullEnd,
@@ -31,6 +32,7 @@ export const PullToRefreshRoot = forwardRef<HTMLDivElement, PullToRefreshRootPro
     const api = usePullToRefresh({
       displacementMultiplier,
       threshold,
+      disabled,
       onPtrPullStart,
       onPtrPullMove,
       onPtrPullEnd,
