@@ -20,7 +20,7 @@ export function handleColor(color: string | undefined) {
   return vars.$color[type]?.[value] ?? color;
 }
 
-export function handleDimension(dimension: string | 0 | undefined) {
+export function handleDimension(dimension: string | 0 | undefined): string | undefined {
   if (dimension == null) {
     return undefined;
   }

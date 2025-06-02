@@ -11,7 +11,7 @@ export default function FabFloatComposition() {
       borderWidth={1}
       borderColor="stroke.neutral"
     >
-      <Float placement="bottom-end" offsetX="16px" offsetY="16px">
+      <Float placement="bottom-end" offsetX="x4" offsetY="x4">
         <Fab icon={<IconBellFill />} label="알림 설정" />
       </Float>
     </Box>

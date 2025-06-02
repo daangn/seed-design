@@ -9,13 +9,13 @@ export default function FloatOffsetY() {
       borderWidth={1}
       borderColor="stroke.neutral"
     >
-      <Float placement="top-center" offsetY="16px">
+      <Float placement="top-center" offsetY="x4">
         <ContextualFloatingButton>Top Center</ContextualFloatingButton>
       </Float>
-      <Float placement="middle-center" offsetY="16px">
+      <Float placement="middle-center" offsetY="x4">
         <ContextualFloatingButton>Middle Center</ContextualFloatingButton>
       </Float>
-      <Float placement="bottom-center" offsetY="16px">
+      <Float placement="bottom-center" offsetY="x4">
         <ContextualFloatingButton>Bottom Center</ContextualFloatingButton>
       </Float>
     </Box>
