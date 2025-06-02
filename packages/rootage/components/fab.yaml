@@ -3,13 +3,15 @@ kind: ComponentSpec
 metadata:
   id: fab
   name: Fab
+  deprecated: Use contextual-floating-button instead.
 data:
   definitions:
     base:
       enabled:
         root:
-          color: $color.bg.brand-solid
+          color: $color.bg.layer-floating
           cornerRadius: $radius.full
+          size: 44px
           shadow:
             type: shadow
             value:
@@ -18,34 +20,9 @@ data:
                 blur: 6px
                 spread: 0px
                 color: "#00000026"
-          colorDuration: $duration.d4
-          colorTimingFunction: $timing-function.easing
-          layoutDuration: $duration.d4
-          layoutTimingFunction: $timing-function.easing
         icon:
-          color: $color.palette.static-white
-          sizeDuration: $duration.d4
-          sizeTimingFunction: $timing-function.easing
+          color: $color.fg.neutral
+          size: 22px
       pressed:
         root:
-          color: $color.bg.brand-solid-pressed
-    extended=true:
-      enabled:
-        root:
-          gap: $dimension.x1
-          paddingX: $dimension.x4_5
-          paddingY: $dimension.x3
-          minHeight: 48px
-        icon:
-          size: $dimension.x5
-        label:
-          color: $color.palette.static-white
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-          fontWeight: $font-weight.bold
-    extended=false:
-      enabled:
-        root:
-          size: 56px
-        icon:
-          size: $dimension.x6
+          color: $color.bg.layer-floating-pressed

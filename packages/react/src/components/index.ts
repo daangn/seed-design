@@ -19,6 +19,7 @@ export * from "./Divider";
 export * from "./ExtendedActionSheet";
 export * from "./ExtendedFab";
 export * from "./Fab";
+export * from "./FloatingActionButton";
 export * from "./Flex";
 export * from "./Float";
 export * from "./HelpBubble";

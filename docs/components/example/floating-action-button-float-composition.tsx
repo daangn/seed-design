@@ -1,8 +1,8 @@
+import { FloatingActionButton } from "@/registry/ui/floating-action-button";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";
 import { Box, Float } from "@seed-design/react";
-import { Fab } from "seed-design/ui/fab";
 
-export default function FabFloatComposition() {
+export default function FloatingActionButtonFloatComposition() {
   return (
     <Box
       position="relative"
@@ -12,7 +12,7 @@ export default function FabFloatComposition() {
       borderColor="stroke.neutral"
     >
       <Float placement="bottom-end" offsetX="x4" offsetY="x4">
-        <Fab icon={<IconBellFill />} label="알림 설정" />
+        <FloatingActionButton icon={<IconBellFill />} label="알림 설정" />
       </Float>
     </Box>
   );

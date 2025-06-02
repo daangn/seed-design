@@ -16,6 +16,7 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
+import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
@@ -51,6 +52,7 @@ export const recipes = {
   extendedActionSheet,
   extendedActionSheetItem,
   contextualFloatingButton,
+  floatingActionButton,
   fab,
   extendedFab,
   badge,

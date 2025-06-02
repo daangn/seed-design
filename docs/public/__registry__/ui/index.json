@@ -307,12 +307,12 @@
     ]
   },
   {
-    "name": "fab",
+    "name": "floating-action-button",
     "dependencies": [
       "@seed-design/react"
     ],
     "files": [
-      "ui:fab.tsx"
+      "ui:floating-action-button.tsx"
     ]
   }
 ]
