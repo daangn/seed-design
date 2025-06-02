@@ -4,8 +4,8 @@ export default function FloatPreview() {
   return (
     <Box
       position="relative"
-      width="300px"
-      height="300px"
+      width="480px"
+      height="480px"
       borderWidth={1}
       borderColor="stroke.neutral"
     >
