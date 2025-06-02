@@ -11,7 +11,7 @@ export interface ContextualFloatingButtonProps
   extends SeedContextualFloatingButtonProps {}
 
 /**
- * @see https://seed-design.io/react/components/action-button
+ * @see https://seed-design.io/react/components/contextual-floating-button
  * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.
  */
 export const ContextualFloatingButton = React.forwardRef<
