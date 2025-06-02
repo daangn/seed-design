@@ -5,7 +5,8 @@ metadata:
 data:
   collection: color
   tokens:
-    $gradient.shimmer:
+  # 추가 토큰에 맞춰서 네이밍 변경
+    $gradient.shimmer.neutral:
       description: Shimmer effect, used for loading states
       values:
         theme-light:
@@ -30,3 +31,130 @@ data:
               position: 0.54
             - color: "#ffffff00"
               position: 1
+
+# 추가 토큰 - shimmer AI 토큰 추가
+    $gradient.shimmer.magic:
+      description: Shimmer effect, used for loading states AI
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#fef0e700"
+              position: 0
+            - color: "#fef0e78a"
+              position: 0.46
+            - color: "#fef0e78a"
+              position: 0.54
+            - color: "#fef0e700"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#fef0e700"
+              position: 0
+            - color: "#fef0e729"
+              position: 0.46
+            - color: "#fef0e729"
+              position: 0.54
+            - color: "#fef0e700"
+              position: 1
+  # 추가 토큰 - callout에 사용되는 그라디언트 컬러
+  #start point와 end point도 추가하긴 했는데 맞는지 모르겠어서 검토가 필요해요.
+    $gradient.glow.magic:
+      description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#fef6f7"
+              position: 0
+            - color: "#fef0e7"
+              position: 0.8
+            - color: "#f9f7f5"
+              position: 1
+          startPoint: 0, 1
+          endPoint: 1, 0
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#2d252d"
+              position: 0
+            - color: "#3a312b"
+              position: 0.8
+            - color: "#333232"
+              position: 1
+          startPoint: 0, 1
+          endPoint: 1, 0
+    # 추가 토큰 - callout에 사용되는 그라디언트 컬러의 pressed컬러
+    $gradient.glow.magic.pressed:
+      description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#fbf0f2"
+              position: 0
+            - color: "#ffe8db"
+              position: 0.8
+            - color: "#f5f2ef"
+              position: 1
+          startPoint: 0, 1
+          endPoint: 1, 0
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#3e333e"
+              position: 0
+            - color: "#51453e"
+              position: 0.8
+            - color: "#434242"
+              position: 1
+          startPoint: 0, 1
+          endPoint: 1, 0
+  # 추가 토큰 - icon, shape에 사용되는 그라디언트 컬러
+    $gradient.highlight.magic:
+      description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0.28
+            - color: "#d25aca"
+              position: 1
+          startPoint: 0.24, 0.79
+          endPoint: 0.83, 0.14
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0
+            - color: "#d25aca"
+              position: 1
+          startPoint: 0.24, 0.79
+          endPoint: 0.83, 0.14
+    # 추가 토큰 - scroll이 가능하다는 시각적 장치(scrim)에 표현되는 그라디언트 컬러
+    $gradient.fade:
+      description: 스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#ffffff"
+              position: 0
+            - color: "#ffffff00"
+              position: 1
+          startPoint: 0.5, 1
+          endPoint: 0.5, 0
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#1d2025"
+              position: 0
+            - color: "#1d202500"
+              position: 1
+          startPoint: 0.5, 1
+          endPoint: 0.5, 0          
+
+        
+            
