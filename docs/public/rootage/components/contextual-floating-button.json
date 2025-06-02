@@ -112,7 +112,7 @@
               "progressCircle": {
                 "trackColor": {
                   "type": "color",
-                  "value": "$color.palette.gray-800"
+                  "value": "$color.palette.gray-700"
                 },
                 "rangeColor": {
                   "type": "color",

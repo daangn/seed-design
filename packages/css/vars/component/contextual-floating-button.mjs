@@ -19,7 +19,7 @@ export const vars = {
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-gray-800)",
+        "trackColor": "var(--seed-color-palette-gray-700)",
         "rangeColor": "var(--seed-color-fg-neutral-inverted)"
       },
       "label": {

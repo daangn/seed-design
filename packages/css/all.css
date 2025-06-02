@@ -1941,7 +1941,7 @@
   color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
   --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
-  --track-color: var(--seed-color-palette-gray-800);
+  --track-color: var(--seed-color-palette-gray-700);
   --range-color: var(--seed-color-fg-neutral-inverted);
 }
 

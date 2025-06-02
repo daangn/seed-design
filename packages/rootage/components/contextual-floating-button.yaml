@@ -27,7 +27,7 @@ data:
         root:
           color: $color.bg.neutral-inverted
         progressCircle:
-          trackColor: $color.palette.gray-800
+          trackColor: $color.palette.gray-700
           rangeColor: $color.fg.neutral-inverted
         label:
           color: $color.fg.neutral-inverted
