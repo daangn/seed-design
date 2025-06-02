@@ -1,5 +1,11 @@
 # @seed-design/react-pull-to-refresh
 
+## 0.0.6
+
+### Patch Changes
+
+- 4610b5b: PullToRefresh에 disabled prop을 추가합니다.
+
 ## 0.0.5
 
 ### Patch Changes
