@@ -1,6 +1,16 @@
-import { VStack, useSnackbarAdapter } from "@seed-design/react";
+import { IconBellFill, IconPlusFill } from "@karrotmarket/react-monochrome-icon";
+import {
+  ContextualFloatingButton,
+  Float,
+  FloatingActionButton,
+  PrefixIcon,
+  VStack,
+  useSnackbarAdapter
+} from "@seed-design/react";
+import { AppScreenLayer } from "@seed-design/stackflow";
 import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
+import { useState } from "react";
 import { List, ListItem, ListItemGroup } from "../components/List";
 import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
@@ -25,6 +35,8 @@ const ActivityHome: ActivityComponentType = () => {
   const { push } = useFlow();
   const { dialogProps, setOpen } = useStepDialog();
   const snackbarAdapter = useSnackbarAdapter();
+
+  const [isFabExtended, setIsFabExtended] = useState(true);
 
   return (
     <AppScreen>
@@ -160,6 +172,23 @@ const ActivityHome: ActivityComponentType = () => {
           />
         </List>
       </AppScreenContent>
+      <Float placement="bottom-center" offsetY="16px" zIndex={AppScreenLayer.vars.zIndex}>
+        <ContextualFloatingButton>
+          <PrefixIcon svg={<IconBellFill />} />
+          알림 설정
+        </ContextualFloatingButton>
+      </Float>
+      <Float
+        placement="bottom-end"
+        offsetX="16px"
+        offsetY="16px"
+        zIndex={AppScreenLayer.vars.zIndex}
+      >
+        <FloatingActionButton.Root extended={isFabExtended} onClick={() => setIsFabExtended(!isFabExtended)}>
+          <FloatingActionButton.Icon svg={<IconPlusFill />} />
+          <FloatingActionButton.Label>글쓰기</FloatingActionButton.Label>
+        </FloatingActionButton.Root>
+      </Float>
     </AppScreen>
   );
 };

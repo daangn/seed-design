@@ -21,30 +21,37 @@ export const AppBarPropsProvider = PropsProvider;
 
 export interface AppBarProps extends AppBarVariantProps, AppBarPrimitive.RootProps {}
 
-export const AppBarRoot = forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
-  const contextProps = useProps();
-  const [variantProps, otherProps] = appBar.splitVariantProps({ ...contextProps, ...props });
+export const AppBarRoot = Object.assign(
+  forwardRef<HTMLDivElement, AppBarProps>((props, ref) => {
+    const contextProps = useProps();
+    const [variantProps, otherProps] = appBar.splitVariantProps({ ...contextProps, ...props });
 
-  const classNames = appBar(variantProps);
+    const classNames = appBar(variantProps);
 
-  return (
-    <ClassNamesProvider value={classNames}>
-      <MainPropsProvider
-        value={{
-          theme: variantProps.theme,
-          transitionStyle: variantProps.transitionStyle,
-          tone: variantProps.tone,
-        }}
-      >
-        <AppBarPrimitive.Root
-          ref={ref}
-          {...mergeProps({ className: classNames.root }, otherProps)}
-        />
-      </MainPropsProvider>
-    </ClassNamesProvider>
-  );
-});
-AppBarRoot.displayName = "AppBarRoot";
+    return (
+      <ClassNamesProvider value={classNames}>
+        <MainPropsProvider
+          value={{
+            theme: variantProps.theme,
+            transitionStyle: variantProps.transitionStyle,
+            tone: variantProps.tone,
+          }}
+        >
+          <AppBarPrimitive.Root
+            ref={ref}
+            {...mergeProps({ className: classNames.root }, otherProps)}
+          />
+        </MainPropsProvider>
+      </ClassNamesProvider>
+    );
+  }),
+  {
+    displayName: "AppBarRoot",
+    vars: {
+      zIndex: "var(--z-index-app-bar)",
+    },
+  },
+);
 
 export interface AppBarLeftProps extends AppBarPrimitive.LeftProps {}
 
