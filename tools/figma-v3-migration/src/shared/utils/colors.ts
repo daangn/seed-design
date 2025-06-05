@@ -96,9 +96,10 @@ export function convertRgbColorToHexColor(rgbColor: RGB): null | string {
 /**
  * .theme-light/, .theme-dark/, theme/ 접두사를 제거한 PaintStyle 이름을 반환합니다.
  * @example getPaintStyleNameWithoutTheme(".theme-light/$scale/primary-500") // => "$scale/primary-500"
+ * @example getPaintStyleNameWithoutTheme("theme-light/$scale/primary-500") // => "$scale/primary-500"
  */
 export function getPaintStyleNameWithoutTheme(fillStyleName: PaintStyle["name"]) {
-  return fillStyleName.replace(/.theme-(light|dark)\/|(theme)\//, "");
+  return fillStyleName.replace(/\.?theme-(light|dark)\/|(theme)\//, "");
 }
 
 /**
