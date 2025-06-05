@@ -23,3 +23,5 @@ export {
   type UseTabsCarouselContext,
 } from "./useTabsCarouselContext";
 export { useTabsTriggerContext, type UseTabsTriggerContext } from "./useTabsTriggerContext";
+
+export { tabsCarouselPreventDrag } from "./dom";

@@ -3,6 +3,7 @@ import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import AutoHeight from "embla-carousel-auto-height";
 import useEmblaCarousel from "embla-carousel-react";
 import { useEffect } from "react";
+import { isDragPrevented } from "./dom";
 import { useTabsContext } from "./useTabsContext";
 
 export interface UseTabsCarouselStateProps {
@@ -27,6 +28,14 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
       loop: props.loop,
       dragThreshold: props.dragThreshold,
       duration: 20,
+      watchDrag: (_, event: MouseEvent | TouchEvent) => {
+        if (event.target instanceof HTMLElement) {
+          if (isDragPrevented(event.target)) {
+            return false;
+          }
+        }
+        return true;
+      },
     },
     plugins,
   );

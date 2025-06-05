@@ -14,3 +14,5 @@ export {
   type TabsCarouselProps as CarouselProps,
   type TabsTriggerProps as TriggerProps,
 } from "./Tabs";
+
+export { tabsCarouselPreventDrag as carouselPreventDrag } from "./dom";

@@ -15,3 +15,16 @@ export const getEnabledValues = (el: HTMLElement) => {
     .map((child) => child.getAttribute("data-value"))
     .filter(Boolean);
 };
+
+/* Prevent Drag -----------------------------------------------------------------------
+-------------------------------------------------------------------------------- */
+
+const PREVENT_DRAG_ATTRIBUTE = "data-embla-prevent-drag";
+
+export const tabsCarouselPreventDrag = {
+  [PREVENT_DRAG_ATTRIBUTE]: "",
+};
+
+export const isDragPrevented = (el: HTMLElement) => {
+  return el.closest(`[${PREVENT_DRAG_ATTRIBUTE}]`);
+};
