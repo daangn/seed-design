@@ -1,4 +1,4 @@
-import { HStack, PullToRefresh, Text, VStack } from "@seed-design/react";
+import { Box, HStack, PullToRefresh, Text, VStack } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
@@ -38,6 +38,9 @@ const ActivitySwipeableTabs: ActivityComponentType = () => {
                 </PullToRefresh.Indicator>
                 <PullToRefresh.Content>
                   <VStack>
+                    <Box overflowX="scroll" data-embla-prevent-drag>
+                      <Box width="1000px">Scrolling Area</Box>
+                    </Box>
                     <Feed />
                     <Feed />
                     <Feed />
