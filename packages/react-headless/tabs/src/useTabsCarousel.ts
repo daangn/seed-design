@@ -19,7 +19,7 @@ export interface UseTabsCarouselStateProps {
 }
 
 const autoHeight = AutoHeight();
-const plugins = [autoHeight, autoHeight];
+const plugins = [autoHeight];
 
 const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
   const api = useTabsContext();
