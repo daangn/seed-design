@@ -3750,8 +3750,6 @@
   height: 2px;
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .seed-tabs__list--triggerLayout_fill {
@@ -3768,6 +3766,11 @@
   flex: 1;
 }
 
+.seed-tabs__trigger--triggerLayout_fill:is(:selected, [data-selected])[data-ssr]:after {
+  left: var(--seed-dimension-spacing-x-global-gutter);
+  right: var(--seed-dimension-spacing-x-global-gutter);
+}
+
 .seed-tabs__list--triggerLayout_hug {
   padding-inline: var(--seed-dimension-spacing-x-global-gutter);
   justify-content: flex-start;
@@ -3776,6 +3779,11 @@
 .seed-tabs__indicator--triggerLayout_hug {
   left: calc(var(--indicator-left, 0px)  + 0px);
   width: calc(var(--indicator-width, 0px)  - 2 * 0px);
+}
+
+.seed-tabs__trigger--triggerLayout_hug:is(:selected, [data-selected])[data-ssr]:after {
+  left: 0;
+  right: 0;
 }
 
 .seed-tabs__root--contentLayout_fill {
