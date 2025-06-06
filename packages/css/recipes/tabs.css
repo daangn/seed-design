@@ -36,6 +36,9 @@
     overflow-y: auto;
     overflow-x: hidden;
 }
+.seed-tabs__content[data-ssr]:not(:is(:selected, [data-selected])) {
+    display: none;
+}
 .seed-tabs__content:not([data-carousel]):not(:is(:selected, [data-selected])) {
     display: none;
 }
