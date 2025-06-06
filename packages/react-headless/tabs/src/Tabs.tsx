@@ -4,17 +4,17 @@ import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
-import { forwardRef } from "react";
+import { forwardRef, useMemo } from "react";
 import { useRenderStrategy, type UseRenderStrategyProps } from "./private/useRenderStrategy";
 import {
-  RenderStrategyProvider,
-  useRenderStrategyContext,
-} from "./private/useRenderStrategyContext";
-import { useTabsCarousel, type UseTabsCarouselProps } from "./useTabsCarousel";
+  RenderStrategyPropsProvider,
+  useRenderStrategyPropsContext,
+} from "./private/useRenderStrategyPropsContext";
 import type { UseTabsContentProps, UseTabsProps, UseTabsTriggerProps } from "./useTabs";
 import { useTabs } from "./useTabs";
-import { TabsProvider, useTabsContext } from "./useTabsContext";
+import { useTabsCarousel, type UseTabsCarouselProps } from "./useTabsCarousel";
 import { TabsCarouselProvider, useTabsCarouselContext } from "./useTabsCarouselContext";
+import { TabsProvider, useTabsContext } from "./useTabsContext";
 import { TabsTriggerProvider } from "./useTabsTriggerContext";
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -41,12 +41,13 @@ export const TabsRoot = forwardRef<HTMLDivElement, TabsRootProps>((props, ref) =
     onValueChange,
     orientation,
   });
-  const renderStrategyApi = useRenderStrategy({ lazyMount, unmountOnExit });
   return (
     <TabsProvider value={api}>
-      <RenderStrategyProvider value={renderStrategyApi}>
+      <RenderStrategyPropsProvider
+        value={useMemo(() => ({ lazyMount, unmountOnExit }), [lazyMount, unmountOnExit])}
+      >
         <Primitive.div ref={ref} {...mergeProps(api.rootProps, otherProps)} />
-      </RenderStrategyProvider>
+      </RenderStrategyPropsProvider>
     </TabsProvider>
   );
 });
@@ -97,8 +98,12 @@ export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>((props, 
   const { value, ...otherProps } = props;
   const api = useTabsContext();
   const carouselApi = useTabsCarouselContext({ strict: false });
-  const { getUnmounted } = useRenderStrategyContext();
-  const unmounted = getUnmounted(api.value === value);
+  const renderStrategyProps = useRenderStrategyPropsContext();
+  const { unmounted } = useRenderStrategy({
+    ...renderStrategyProps,
+    present: api.value === value,
+  });
+
   if (unmounted) return null;
 
   return (
