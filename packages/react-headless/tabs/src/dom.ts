@@ -25,6 +25,6 @@ export const tabsCarouselPreventDrag = {
   [PREVENT_DRAG_ATTRIBUTE]: "",
 };
 
-export const isDragPrevented = (el: HTMLElement) => {
-  return el.closest(`[${PREVENT_DRAG_ATTRIBUTE}]`);
+export const isDragPrevented = (el: HTMLElement): boolean => {
+  return el.closest(`[${PREVENT_DRAG_ATTRIBUTE}]`) != null;
 };
