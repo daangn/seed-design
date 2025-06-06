@@ -5,6 +5,7 @@ import type * as React from "react";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import * as dom from "./dom";
 import { getNextIndex, getPrevIndex, scrollTabIntoView } from "./utils";
+import { useIsSSR } from "./useIsSSR";
 
 export interface UseTabsStateProps {
   value?: string;
@@ -25,11 +26,6 @@ function useTabsState(props: UseTabsStateProps) {
 
   const [focusedValue, setFocusedValue] = useState<string | null>(null);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
-  const [isSSR, setIsSSR] = useState(true);
-
-  useEffect(() => {
-    setIsSSR(false);
-  }, []);
 
   const [listEl, listRef] = useState<HTMLElement | null>(null);
   const [selectedTriggerEl, setSelectedTriggerEl] = useState<HTMLElement | null>(null);
@@ -242,6 +238,8 @@ function useTabsState(props: UseTabsStateProps) {
     [selectedTriggerSize, selectedTriggerEl],
   );
 
+  const isSSR = useIsSSR();
+
   return {
     refs,
     interactionState,
@@ -442,6 +440,7 @@ export function useTabs(props: UseTabsProps) {
         "data-selected": dataAttr(isSelected),
         "data-orientation": orientation,
         "data-ownedby": dom.getListId(autoId),
+        "data-ssr": dataAttr(isSSR),
       });
     },
 
