@@ -46,6 +46,9 @@ const tabs = defineSlotRecipe({
       overflowY: "auto",
       overflowX: "hidden",
 
+      [pseudo("[data-ssr]", not(selected))]: {
+        display: "none",
+      },
       [pseudo(not("[data-carousel]"), not(selected))]: {
         display: "none",
       },

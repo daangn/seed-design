@@ -2,7 +2,7 @@ import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import AutoHeight from "embla-carousel-auto-height";
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { isDragPrevented } from "./dom";
 import { useTabsContext } from "./useTabsContext";
 
@@ -70,6 +70,8 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
     }
   }, [emblaApi, props.swipeable]);
 
+  const isInitialScroll = useRef(true);
+
   useEffect(() => {
     if (emblaApi && api.contentIndex !== emblaApi.selectedScrollSnap()) {
       const engine = emblaApi.internalEngine();
@@ -128,7 +130,12 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
        * ensuring that the animation snaps quickly without overshooting (avoiding the rubber-band effect)
        * when switching tabs.
        */
-      engine.scrollBody.useDuration(4).useFriction(0.4);
+      if (isInitialScroll.current) {
+        engine.scrollBody.useDuration(0);
+        isInitialScroll.current = false;
+      } else {
+        engine.scrollBody.useDuration(4).useFriction(0.4);
+      }
       engine.scrollTo.index(api.contentIndex, 0);
     }
   }, [emblaApi, api.contentIndex]);
