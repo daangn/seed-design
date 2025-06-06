@@ -96,8 +96,6 @@ const tabs = defineSlotRecipe({
         content: "''",
         position: "absolute",
         bottom: 0,
-        left: 0,
-        right: 0,
         height: vars.base.enabled.indicator.height,
         backgroundColor: vars.base.enabled.indicator.color,
       },
@@ -116,6 +114,11 @@ const tabs = defineSlotRecipe({
         },
         trigger: {
           flex: 1,
+
+          [pseudo(selected, "[data-ssr]:after")]: {
+            left: vars.layoutFill.enabled.indicator.insetX,
+            right: vars.layoutFill.enabled.indicator.insetX,
+          },
         },
       },
       hug: {
@@ -126,6 +129,12 @@ const tabs = defineSlotRecipe({
         indicator: {
           left: `calc(var(--indicator-left, 0px) + ${vars.layoutHug.enabled.indicator.insetX})`,
           width: `calc(var(--indicator-width, 0px) - 2 * ${vars.layoutHug.enabled.indicator.insetX})`,
+        },
+        trigger: {
+          [pseudo(selected, "[data-ssr]:after")]: {
+            left: 0,
+            right: 0,
+          },
         },
       },
     },
