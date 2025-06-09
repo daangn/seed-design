@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.26
+
+### Patch Changes
+
+- 2854d72: replace-tailwind-typography가 `text-` 접두사가 붙은 className도 처리해요
+
 ## 0.0.25
 
 ### Patch Changes

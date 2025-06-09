@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -38,7 +38,7 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/css": "0.0.30",
+    "@seed-design/css": "0.0.31",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },
