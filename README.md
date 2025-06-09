@@ -29,4 +29,3 @@
 **Documentation**
 
 - [@seed-design/docs](./docs)
-  - [contributing guide](./docs/CONTRIBUTING.md)
