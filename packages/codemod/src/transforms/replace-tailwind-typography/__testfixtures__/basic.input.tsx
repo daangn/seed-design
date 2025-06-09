@@ -11,6 +11,9 @@ export function BasicExample() {
       <h3 className={cn('subtitle1Bold', className)} {...props} />
       <h3 className={isDisabled ? 'subtitle1Regular' : 'subtitle1Bold'} {...props} />
       <p className="caption2Regular text-palette-gray-800">{description}</p>
+      <div className="text-caption1Bold">Text with prefix</div>
+      <span className="text-bodyL2Regular">Another text with prefix</span>
+      <h2 className="text-title3Bold">Title with prefix</h2>
     </div>
   );
 }

@@ -5,15 +5,18 @@ import { createTransformLogger } from "../../utils/logger.js";
 
 /**
  * 타이포그래피 클래스명을 변환하는 함수
- * @param className 변환할 클래스명 (예: "caption1Bold")
+ * @param className 변환할 클래스명 (예: "caption1Bold" 또는 "text-caption1Bold")
  * @returns 변환된 클래스명 (예: "t3-bold")
  */
 function transformTypographyClass(className: string): string {
+  // text- 접두사 확인 후 제거
+  const actualClassName = className.startsWith("text-") ? className.slice(5) : className;
+  
   // 매핑 정보에서 찾기
   const mapping = typographyMappings.find((m) => {
     const tokenParts = m.previous.split(".");
     const lastPart = tokenParts[tokenParts.length - 1];
-    return lastPart === className;
+    return lastPart === actualClassName;
   });
 
   if (mapping) {

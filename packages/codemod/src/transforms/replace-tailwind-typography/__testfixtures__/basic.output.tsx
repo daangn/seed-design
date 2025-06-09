@@ -11,6 +11,9 @@ export function BasicExample() {
       <h3 className={cn("t5-bold", className)} {...props} />
       <h3 className={isDisabled ? "t5-regular" : "t5-bold"} {...props} />
       <p className="t2-regular text-palette-gray-800">{description}</p>
+      <div className="t3-bold">Text with prefix</div>
+      <span className="t4-regular">Another text with prefix</span>
+      <h2 className="t6-bold">Title with prefix</h2>
     </div>
   );
 }
