@@ -397,6 +397,7 @@
   --seed-color-stroke-field-focused: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-gray-200);
   --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-50);
+  --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-300);
   --seed-color-manner-temp-l1-bg: #eff0f1;
   --seed-color-manner-temp-l1-text: #62666a;
   --seed-color-manner-temp-l2-bg: #e7f2fc;
@@ -554,6 +555,7 @@
   --seed-color-stroke-field-focused: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-gray-200);
   --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-50);
+  --seed-color-stroke-neutral-solid: var(--seed-color-palette-gray-400);
   --seed-color-manner-temp-l1-bg: #222226;
   --seed-color-manner-temp-l1-text: #b1b5b9;
   --seed-color-manner-temp-l2-bg: #16212b;

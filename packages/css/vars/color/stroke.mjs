@@ -8,3 +8,4 @@ export const positive = "var(--seed-color-stroke-positive)";
 export const fieldFocused = "var(--seed-color-stroke-field-focused)";
 export const neutralMuted = "var(--seed-color-stroke-neutral-muted)";
 export const onImage = "var(--seed-color-stroke-on-image)";
+export const neutralSolid = "var(--seed-color-stroke-neutral-solid)";
