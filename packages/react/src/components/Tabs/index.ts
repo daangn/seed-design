@@ -15,4 +15,6 @@ export {
   type TabsTriggerProps,
 } from "./Tabs";
 
+export { tabsCarouselPreventDrag } from "@seed-design/react-tabs";
+
 export * as Tabs from "./Tabs.namespace";
