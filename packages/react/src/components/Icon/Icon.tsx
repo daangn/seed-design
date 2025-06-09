@@ -106,7 +106,7 @@ export const IconRequired = ({
 export interface IconProps {
   svg: React.ReactNode;
 
-  size?: Dimension | string;
+  size?: Dimension | (string & {});
 
   color?: ScopedColorFg | ScopedColorPalette;
 }
