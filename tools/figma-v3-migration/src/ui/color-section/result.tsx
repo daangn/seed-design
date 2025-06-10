@@ -202,7 +202,7 @@ function VariableSuggestionButton({
             backgroundColor={`#${suggestion.lightMode.hex}`}
             opacity={suggestion.lightMode.opacity}
           />
-          <Text textStyle="t1Regular" color="palette.gray600">
+          <Text textStyle="t1Regular" color="palette.gray700">
             Light
           </Text>
         </Flex>
@@ -211,7 +211,7 @@ function VariableSuggestionButton({
             backgroundColor={`#${suggestion.darkMode.hex}`}
             opacity={suggestion.darkMode.opacity}
           />
-          <Text textStyle="t1Regular" color="palette.gray600">
+          <Text textStyle="t1Regular" color="palette.gray700">
             Dark
           </Text>
         </Flex>
