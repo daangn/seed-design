@@ -1,5 +1,5 @@
 {
   "tsx": true,
   "rsc": false,
-  "path": "./src/ui/shared/design-system"
+  "path": "./src/ui/common/design-system"
 }
