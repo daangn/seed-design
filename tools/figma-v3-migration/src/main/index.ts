@@ -158,8 +158,8 @@ async function main() {
   });
 
   // 컬러 제안 요청 처리
-  events("request-color-suggestions").on(async () => {
-    const targetIds = [...figma.currentPage.selection].map(({ id }) => id);
+  events("request-color-suggestions").on(async ({ nodeIds }) => {
+    const targetIds = nodeIds || [...figma.currentPage.selection].map(({ id }) => id);
 
     try {
       const results = await getColorVariableSuggestions({

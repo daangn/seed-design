@@ -113,7 +113,13 @@ export type SerializedColorVariablesSuggestionsResults = {
     | { type: "detached"; hex: string; opacity: number }
     | { type: "variable"; variable: SerializedVariable; hex: string; opacity: number }
     | { type: "uncheckable" };
-  suggestions: { variable: SerializedVariable; hex: string; opacity: number }[];
+  suggestions: { 
+    variable: SerializedVariable; 
+    hex: string; 
+    opacity: number;
+    lightMode: { hex: string; opacity: number };
+    darkMode: { hex: string; opacity: number };
+  }[];
   consumers: {
     node: SerializedBaseNode;
     closestInstanceNode: SerializedInstanceNode | null;

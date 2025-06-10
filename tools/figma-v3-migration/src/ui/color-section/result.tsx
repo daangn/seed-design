@@ -195,7 +195,28 @@ function VariableSuggestionButton({
       style={{ cursor: "pointer" }}
       borderWidth={1}
     >
-      <ColorChip backgroundColor={`#${suggestion.hex}`} opacity={suggestion.opacity} />
+      {/* Light/Dark 모드 색상 표시 */}
+      <Flex direction="column" gap="x1">
+        <Flex alignItems="center" gap="x1">
+          <ColorChip
+            backgroundColor={`#${suggestion.lightMode.hex}`}
+            opacity={suggestion.lightMode.opacity}
+          />
+          <Text textStyle="t1Regular" color="palette.gray600">
+            Light
+          </Text>
+        </Flex>
+        <Flex alignItems="center" gap="x1">
+          <ColorChip
+            backgroundColor={`#${suggestion.darkMode.hex}`}
+            opacity={suggestion.darkMode.opacity}
+          />
+          <Text textStyle="t1Regular" color="palette.gray600">
+            Dark
+          </Text>
+        </Flex>
+      </Flex>
+
       <Flex direction="column" gap="x1" style={{ flex: 1, minWidth: 0 }}>
         <Text
           fontSize="t1"
@@ -205,7 +226,10 @@ function VariableSuggestionButton({
           {suggestion.variable.name} {isHighlighted ? "(적용된 색상)" : ""}
         </Text>
         <Text fontSize="t1" color="palette.gray900">
-          #{suggestion.hex}
+          Light: #{suggestion.lightMode.hex}
+        </Text>
+        <Text fontSize="t1" color="palette.gray900">
+          Dark: #{suggestion.darkMode.hex}
         </Text>
       </Flex>
     </Flex>

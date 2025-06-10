@@ -78,18 +78,27 @@ export async function getColorVariableSuggestions({
     return [];
   }
 
-  const candidateVariables = availableVariables
-    .map((variable) => {
-      const { value } = variable.resolveForConsumer(firstNodeWithoutExplicitVariableMode);
+  const candidateVariables = (
+    await Promise.all(
+      availableVariables.map(async (variable) => {
+        // Light 모드 기준으로 매칭하기 위해 Light 모드 값을 기본으로 사용
+        const lightModeId = await getVariableModeIdForTheme(variable, "light");
+        const lightValue = variable.valuesByMode[lightModeId];
 
-      if (typeof value !== "object" || "type" in value || !("a" in value)) return null;
+        if (typeof lightValue !== "object" || "type" in lightValue || !("a" in lightValue))
+          return null;
 
-      const hex = convertRgbColorToHexColor(value);
-      if (!hex) return null;
+        const lightHex = convertRgbColorToHexColor(lightValue);
+        if (!lightHex) return null;
 
-      return { variable, hex, opacity: value.a };
-    })
-    .filter((item) => item !== null);
+        return {
+          variable,
+          hex: lightHex,
+          opacity: lightValue.a,
+        };
+      }),
+    )
+  ).filter((item) => item !== null);
 
   const results: ColorVariablesSuggestionsResults = [];
 
@@ -208,8 +217,8 @@ export async function getColorVariableSuggestions({
     }
   }
 
-  const serializedResults: SerializedColorVariablesSuggestionsResults = results
-    .map((result) => {
+  const mappedResults = await Promise.all(
+    results.map(async (result) => {
       const serializedOldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"] =
         (() => {
           switch (result.oldValue.type) {
@@ -260,19 +269,55 @@ export async function getColorVariableSuggestions({
           };
         });
 
-      const serializedSuggestions = result.suggestions.map(({ variable, hex, opacity }) => ({
-        variable: serializeVariable(variable),
-        hex,
-        opacity,
-      }));
+      const serializedSuggestions = await Promise.all(
+        result.suggestions.map(async ({ variable, hex, opacity }) => {
+          // Light와 Dark 모드의 색상 값 가져오기
+          const lightModeId = await getVariableModeIdForTheme(variable, "light");
+          const darkModeId = await getVariableModeIdForTheme(variable, "dark");
+
+          const lightValue = variable.valuesByMode[lightModeId];
+          const darkValue = variable.valuesByMode[darkModeId];
+
+          console.log("lightValue", lightValue);
+          console.log("darkValue", darkValue);
+
+          let lightMode = { hex, opacity };
+          let darkMode = { hex, opacity };
+
+          if (typeof lightValue === "object" && "a" in lightValue) {
+            const lightHex = convertRgbColorToHexColor(lightValue);
+            if (lightHex) {
+              lightMode = { hex: lightHex, opacity: lightValue.a };
+            }
+          }
+
+          if (typeof darkValue === "object" && "a" in darkValue) {
+            const darkHex = convertRgbColorToHexColor(darkValue);
+            if (darkHex) {
+              darkMode = { hex: darkHex, opacity: darkValue.a };
+            }
+          }
+
+          return {
+            variable: serializeVariable(variable),
+            hex,
+            opacity,
+            lightMode,
+            darkMode,
+          };
+        }),
+      );
 
       return {
         oldValue: serializedOldValue,
         consumers: serializedConsumers,
         suggestions: serializedSuggestions,
       };
-    })
-    .sort((a, b) => {
+    }),
+  );
+
+  const serializedResults: SerializedColorVariablesSuggestionsResults = mappedResults.sort(
+    (a, b) => {
       const aUnselectedCount = a.consumers.filter(
         ({ selectedNewVariableId }) => selectedNewVariableId === null,
       ).length;
@@ -295,7 +340,8 @@ export async function getColorVariableSuggestions({
       if (TYPE_ORDER[a.oldValue.type] > TYPE_ORDER[b.oldValue.type]) return 1;
 
       return a.consumers.length - b.consumers.length;
-    });
+    },
+  );
 
   // 신규 변수인데, oldValue에 존재하는 경우 제거
   const filteredNewValueInOldValue = serializedResults.filter(({ oldValue }) => {
@@ -308,6 +354,28 @@ export async function getColorVariableSuggestions({
   });
 
   return filteredNewValueInOldValue;
+}
+
+// 테마 모드에 따른 Variable Mode ID 가져오는 유틸 함수
+async function getVariableModeIdForTheme(
+  variable: Variable,
+  themeMode: "light" | "dark",
+): Promise<string> {
+  const collection = await figma.variables.getVariableCollectionByIdAsync(
+    variable.variableCollectionId,
+  );
+
+  if (!collection) return Object.keys(variable.valuesByMode)[0]; // 기본값
+
+  // 테마 모드명에 따라 적절한 mode 찾기
+  const targetModeName = themeMode === "light" ? "theme-light" : "theme-dark";
+  const targetMode = collection.modes.find(
+    (mode) =>
+      mode.name.toLowerCase().includes(targetModeName) ||
+      mode.name.toLowerCase().includes(themeMode),
+  );
+
+  return targetMode ? targetMode.modeId : collection.modes[0].modeId;
 }
 
 const TYPE_ORDER: Record<

@@ -32,7 +32,9 @@ interface PluginEventMap {
     textNodeIds: string[];
     textStyleId: string;
   };
-  "request-color-suggestions": {};
+  "request-color-suggestions": {
+    nodeIds?: string[];
+  };
   "suggest-color-variables": {
     results: SerializedColorVariablesSuggestionsResults;
   };
