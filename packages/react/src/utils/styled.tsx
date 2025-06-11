@@ -322,6 +322,12 @@ export interface StyleProps {
 
   // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
   unstable_transform?: string;
+
+  _active?: {
+    bg?: ScopedColorBg | ScopedColorPalette | (string & {});
+
+    background?: ScopedColorBg | ScopedColorPalette | (string & {});
+  };
 }
 
 interface UseStyleProps extends StyleProps {
@@ -388,6 +394,7 @@ export function useStyleProps<T extends UseStyleProps>(
     alignSelf,
     gap,
     unstable_transform,
+    _active,
     style,
     ...restProps
   } = props;
@@ -443,6 +450,9 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-align-content": handleAlignItems(alignContent),
       "--seed-box-align-self": handleAlignItems(alignSelf),
       "--seed-box-unstable-transform": unstable_transform,
+
+      // Active
+      "--seed-box-background--active": handleColor(_active?.bg ?? _active?.background),
       ...style,
     } as React.CSSProperties,
     restProps,

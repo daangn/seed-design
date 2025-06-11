@@ -150,6 +150,10 @@
   gap: var(--seed-box-gap);
 }
 
+.seed-box:is(:active, [data-active]) {
+  --seed-box-background: var(--seed-box-background--active);
+}
+
 .seed-consistent-width:before {
   content: attr(data-text);
   visibility: hidden;

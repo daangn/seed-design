@@ -1,5 +1,6 @@
 import { vars } from "./vars";
 import { defineGlobalCss } from "./utils/define";
+import { active, pseudo } from "./utils/pseudo";
 
 export const globalCss = defineGlobalCss({
   ":root": {
@@ -154,6 +155,10 @@ export const globalCss = defineGlobalCss({
     alignContent: "var(--seed-box-align-content)",
     alignSelf: "var(--seed-box-align-self)",
     gap: "var(--seed-box-gap)",
+
+    [pseudo(active)]: {
+      "--seed-box-background": "var(--seed-box-background--active)",
+    },
   },
   ".seed-consistent-width": {
     // Consistent text width between font-weight changes
