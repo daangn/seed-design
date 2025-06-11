@@ -1,8 +1,7 @@
 import { Slot } from "@radix-ui/react-slot";
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
-import type { Dimension, ScopedColorFg, ScopedColorPalette } from "@seed-design/css/vars";
 import { createContext, forwardRef, useCallback, useContext, useMemo, useRef } from "react";
-import { handleColor, handleDimension } from "../../utils/styled";
+import { handleColor, handleDimension, type StyleProps } from "../../utils/styled";
 
 export interface PrefixIconProps {
   svg: React.ReactNode;
@@ -106,9 +105,9 @@ export const IconRequired = ({
 export interface IconProps {
   svg: React.ReactNode;
 
-  size?: Dimension | (string & {});
+  size?: StyleProps["height"];
 
-  color?: ScopedColorFg | ScopedColorPalette;
+  color?: StyleProps["color"];
 }
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(
