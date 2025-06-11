@@ -151,6 +151,7 @@
 }
 
 .seed-box:is(:active, [data-active]) {
+  --seed-box-background--active: var(--seed-box-background);
   background-color: var(--seed-box-background--active);
 }
 
