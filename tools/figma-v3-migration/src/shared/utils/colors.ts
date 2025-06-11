@@ -300,29 +300,41 @@ export async function getVariableSuggestionsFromPaintStyle({
       }
 
       default: {
-        // semantic -> 맵핑만을 참고
+        // semantic -> 맵핑을 우선 참고, 실패시 근접 색상 찾기
         const mappedValues = NORMALIZED_MAPPING[styleNameWithoutTheme];
-        if (!mappedValues) return [];
+        
+        if (mappedValues) {
+          const variables = candidateVariables
+            .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
+            .map((variable) => ({
+              ...variable,
+              isAlternative: mappedValues.find((v) => v.name === variable.variable.name)
+                ?.isAlternative,
+            }));
 
-        const variables = candidateVariables
-          .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
-          .map((variable) => ({
-            ...variable,
-            isAlternative: mappedValues.find((v) => v.name === variable.variable.name)
-              ?.isAlternative,
-          }));
+          if (!paletteProperty) {
+            if (variables.length > 0) return variables;
+          } else {
+            const variablesWithPropertyScopeMatched = variables.filter(
+              ({ variable }) =>
+                variable.name.startsWith(`${paletteProperty}/`) ||
+                variable.name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.PALETTE),
+            );
 
-        if (!paletteProperty) return variables;
+            if (variablesWithPropertyScopeMatched.length > 0) {
+              return variablesWithPropertyScopeMatched;
+            }
+            if (variables.length > 0) return variables;
+          }
+        }
 
-        const variablesWithPropertyScopeMatched = variables.filter(
-          ({ variable }) =>
-            variable.name.startsWith(`${paletteProperty}/`) ||
-            variable.name.startsWith(SEED_V3_LIBRARY_VARIABLE_PREFIXES.COLOR.PALETTE),
-        );
-
-        return variablesWithPropertyScopeMatched.length > 0
-          ? variablesWithPropertyScopeMatched
-          : variables;
+        // 매핑이 없거나 매핑된 변수가 없는 경우 근접 색상으로 fallback
+        return getClosestPaletteVariablesWithResolvedColor({
+          hex,
+          opacity: onlyPaint.opacity ?? 1,
+          candidateVariables,
+          paletteProperty,
+        });
       }
     }
   })();
