@@ -1,5 +1,12 @@
 # @seed-design/react
 
+## 0.0.32
+
+### Patch Changes
+
+- e9db89f: 레이아웃 컴포넌트에 `asChild` 속성을 추가합니다.
+- abfda51: Text 컴포넌트에 ref forwarding을 추가합니다.
+
 ## 0.0.31
 
 ### Patch Changes

@@ -42,7 +42,7 @@
         "@sanity/vision": "3.90.0",
         "@seed-design/css": "0.0.31",
         "@seed-design/migration-index": "0.0.20",
-        "@seed-design/react": "0.0.31",
+        "@seed-design/react": "0.0.32",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "0.0.31",
@@ -366,7 +366,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "0.0.31",
+      "version": "0.0.32",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
