@@ -133,14 +133,14 @@ export function getEquivalentVariables({
         ? candidateVariable.name.startsWith(`${propertyScope}/`)
         : true;
 
-      return (
-        isInScope &&
-        variables.some(
-          ({ hex: variableHex, opacity: variableOpacity }) =>
-            variableHex === candidateHex &&
-            Math.round(variableOpacity * 100) === Math.round(candidateOpacity * 100),
-        )
-      );
+      const hasMatchingColor = variables.some(({ hex: variableHex, opacity: variableOpacity }) => {
+        const hexMatch = variableHex === candidateHex;
+        const opacityMatch =
+          Math.round(variableOpacity * 100) === Math.round(candidateOpacity * 100);
+        return hexMatch && opacityMatch;
+      });
+
+      return isInScope && hasMatchingColor;
     },
   );
 
@@ -302,7 +302,7 @@ export async function getVariableSuggestionsFromPaintStyle({
       default: {
         // semantic -> 맵핑을 우선 참고, 실패시 근접 색상 찾기
         const mappedValues = NORMALIZED_MAPPING[styleNameWithoutTheme];
-        
+
         if (mappedValues) {
           const variables = candidateVariables
             .filter(({ variable }) => mappedValues.some((v) => v.name === variable.name))
@@ -329,11 +329,15 @@ export async function getVariableSuggestionsFromPaintStyle({
         }
 
         // 매핑이 없거나 매핑된 변수가 없는 경우 근접 색상으로 fallback
-        return getClosestPaletteVariablesWithResolvedColor({
-          hex,
-          opacity: onlyPaint.opacity ?? 1,
+        // palette 변수를 찾고, 그 변수를 사용하는 semantic 변수들도 함께 반환
+        return getEquivalentVariables({
+          variables: getClosestPaletteVariablesWithResolvedColor({
+            hex,
+            opacity: onlyPaint.opacity ?? 1,
+            candidateVariables,
+          }),
           candidateVariables,
-          paletteProperty,
+          ...(paletteProperty && { propertyScope: paletteProperty }),
         });
       }
     }

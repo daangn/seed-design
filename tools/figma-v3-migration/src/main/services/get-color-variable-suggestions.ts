@@ -85,16 +85,67 @@ export async function getColorVariableSuggestions({
         const lightModeId = await getVariableModeIdForTheme(variable, "light");
         const lightValue = variable.valuesByMode[lightModeId];
 
-        if (typeof lightValue !== "object" || "type" in lightValue || !("a" in lightValue))
-          return null;
+        // Variable Alias 처리 (semantic 변수들이 palette 변수를 참조하는 경우)
+        let resolvedValue = lightValue;
+        if (
+          typeof lightValue === "object" &&
+          "type" in lightValue &&
+          lightValue.type === "VARIABLE_ALIAS"
+        ) {
+          try {
+            // Variable Alias를 해석해서 최종 색상값 가져오기
+            const referencedVariable = await figma.variables.getVariableByIdAsync(lightValue.id);
+            if (referencedVariable) {
+              const referencedLightModeId = await getVariableModeIdForTheme(
+                referencedVariable,
+                "light",
+              );
+              const referencedValue = referencedVariable.valuesByMode[referencedLightModeId];
+              resolvedValue = referencedValue;
 
-        const lightHex = convertRgbColorToHexColor(lightValue);
-        if (!lightHex) return null;
+              if (variable.name.startsWith("bg/") || variable.name.startsWith("fg/")) {
+                console.log(
+                  `🔗 ${variable.name} resolved alias:`,
+                  referencedVariable.name,
+                  referencedValue,
+                );
+              }
+            }
+          } catch (error) {
+            if (variable.name.startsWith("bg/") || variable.name.startsWith("fg/")) {
+              console.log(`  ❌ ${variable.name} failed to resolve alias:`, error);
+            }
+            return null;
+          }
+        }
+
+        if (
+          typeof resolvedValue !== "object" ||
+          "type" in resolvedValue ||
+          !("a" in resolvedValue)
+        ) {
+          if (variable.name.startsWith("bg/") || variable.name.startsWith("fg/")) {
+            console.log(`  ❌ ${variable.name} filtered out: invalid resolvedValue`, resolvedValue);
+          }
+          return null;
+        }
+
+        const lightHex = convertRgbColorToHexColor(resolvedValue);
+        if (!lightHex) {
+          if (variable.name.startsWith("bg/") || variable.name.startsWith("fg/")) {
+            console.log(`  ❌ ${variable.name} filtered out: convertRgbColorToHexColor failed`);
+          }
+          return null;
+        }
+
+        if (variable.name.startsWith("bg/") || variable.name.startsWith("fg/")) {
+          console.log(`  ✅ ${variable.name} included: ${lightHex}, ${resolvedValue.a}`);
+        }
 
         return {
           variable,
           hex: lightHex,
-          opacity: lightValue.a,
+          opacity: resolvedValue.a,
         };
       }),
     )
@@ -278,25 +329,66 @@ export async function getColorVariableSuggestions({
           const lightValue = variable.valuesByMode[lightModeId];
           const darkValue = variable.valuesByMode[darkModeId];
 
-          console.log("lightValue", lightValue);
-          console.log("darkValue", darkValue);
-
           let lightMode = { hex, opacity };
           let darkMode = { hex, opacity };
 
-          if (typeof lightValue === "object" && "a" in lightValue) {
-            const lightHex = convertRgbColorToHexColor(lightValue);
-            if (lightHex) {
-              lightMode = { hex: lightHex, opacity: lightValue.a };
+          // Light mode 값 처리 (Variable Alias 해석 포함)
+          let resolvedLightValue = lightValue;
+          if (
+            typeof lightValue === "object" &&
+            "type" in lightValue &&
+            lightValue.type === "VARIABLE_ALIAS"
+          ) {
+            try {
+              const referencedVariable = await figma.variables.getVariableByIdAsync(lightValue.id);
+              if (referencedVariable) {
+                const referencedLightModeId = await getVariableModeIdForTheme(
+                  referencedVariable,
+                  "light",
+                );
+                resolvedLightValue = referencedVariable.valuesByMode[referencedLightModeId];
+              }
+            } catch (error) {
+              console.log(`Failed to resolve light mode alias for ${variable.name}:`, error);
             }
           }
 
-          if (typeof darkValue === "object" && "a" in darkValue) {
-            const darkHex = convertRgbColorToHexColor(darkValue);
-            if (darkHex) {
-              darkMode = { hex: darkHex, opacity: darkValue.a };
+          if (typeof resolvedLightValue === "object" && "a" in resolvedLightValue) {
+            const lightHex = convertRgbColorToHexColor(resolvedLightValue);
+            if (lightHex) {
+              lightMode = { hex: lightHex, opacity: resolvedLightValue.a };
             }
           }
+
+          // Dark mode 값 처리 (Variable Alias 해석 포함)
+          let resolvedDarkValue = darkValue;
+          if (
+            typeof darkValue === "object" &&
+            "type" in darkValue &&
+            darkValue.type === "VARIABLE_ALIAS"
+          ) {
+            try {
+              const referencedVariable = await figma.variables.getVariableByIdAsync(darkValue.id);
+              if (referencedVariable) {
+                const referencedDarkModeId = await getVariableModeIdForTheme(
+                  referencedVariable,
+                  "dark",
+                );
+                resolvedDarkValue = referencedVariable.valuesByMode[referencedDarkModeId];
+              }
+            } catch (error) {
+              console.log(`Failed to resolve dark mode alias for ${variable.name}:`, error);
+            }
+          }
+
+          if (typeof resolvedDarkValue === "object" && "a" in resolvedDarkValue) {
+            const darkHex = convertRgbColorToHexColor(resolvedDarkValue);
+            if (darkHex) {
+              darkMode = { hex: darkHex, opacity: resolvedDarkValue.a };
+            }
+          }
+
+          console.log(`🌓 ${variable.name} modes:`, { lightMode, darkMode });
 
           return {
             variable: serializeVariable(variable),
@@ -342,6 +434,8 @@ export async function getColorVariableSuggestions({
       return a.consumers.length - b.consumers.length;
     },
   );
+
+  console.log("serializedResults", serializedResults);
 
   // 신규 변수인데, oldValue에 존재하는 경우 제거
   const filteredNewValueInOldValue = serializedResults.filter(({ oldValue }) => {
