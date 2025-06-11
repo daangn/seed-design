@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.35
+
+### Patch Changes
+
+- 0789dc8: `_active` style prop이 값이 없는 경우에 기존 style prop을 제거하는 버그를 수정합니다.
+
 ## 0.0.34
 
 ### Patch Changes
