@@ -76,7 +76,7 @@ function useMigrationState() {
           selections: selections.map(({ id }) => id),
         });
         events("request-color-suggestions").emit({
-          nodeIds: targets.map(({ id }) => id),
+          nodeIds: selections.map(({ id }) => id),
         });
         break;
 
@@ -85,7 +85,7 @@ function useMigrationState() {
           selections: selections.map(({ id }) => id),
         });
         events("request-text-style-suggestions").emit({
-          nodeIds: targets.map(({ id }) => id),
+          nodeIds: selections.map(({ id }) => id),
         });
         break;
 
@@ -94,7 +94,7 @@ function useMigrationState() {
           selections: selections.map(({ id }) => id),
         });
         events("request-component-suggestions").emit({
-          nodeIds: targets.map(({ id }) => id),
+          nodeIds: selections.map(({ id }) => id),
         });
         break;
     }
