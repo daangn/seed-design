@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 0.0.33
+
+### Patch Changes
+
+- fbdb091: Style prop에 `_active`를 추가합니다. background 속성만을 지원합니다.
+- Updated dependencies [fbdb091]
+  - @seed-design/css@0.0.33
+
 ## 0.0.32
 
 ### Patch Changes
