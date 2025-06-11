@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.34
+
+### Patch Changes
+
+- 92801a2: `_active` style prop이 상태가 없는 값보다 우선순위가 낮게 적용되는 문제를 수정합니다.
+
 ## 0.0.33
 
 ### Patch Changes
