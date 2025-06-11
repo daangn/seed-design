@@ -9,7 +9,7 @@ import {
 } from "@seed-design/css/vars";
 import clsx from "clsx";
 import type * as React from "react";
-import { useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 
 function handleColor(color: string | undefined) {
   if (!color) {
@@ -94,46 +94,55 @@ function mapMaxLines(maxLines: number | undefined): "none" | "single" | "multi" 
   return "multi";
 }
 
-export const Text = ({
-  as,
-  color,
-  textStyle,
-  fontSize,
-  lineHeight,
-  fontWeight,
-  maxLines,
-  children,
-  className,
-  style,
-  ...otherProps
-}: TextProps) => {
-  const Comp = as || "span";
-  const textClassName = useMemo(
-    () =>
-      text({
-        textStyle,
-        maxLines: mapMaxLines(maxLines),
-      }),
-    [textStyle, maxLines],
-  );
+export const Text = forwardRef<HTMLSpanElement, TextProps>(
+  (
+    {
+      as,
+      color,
+      textStyle,
+      fontSize,
+      lineHeight,
+      fontWeight,
+      maxLines,
+      children,
+      className,
+      style,
+      ...otherProps
+    },
+    ref,
+  ) => {
+    const Comp = as || "span";
+    const textClassName = useMemo(
+      () =>
+        text({
+          textStyle,
+          maxLines: mapMaxLines(maxLines),
+        }),
+      [textStyle, maxLines],
+    );
 
-  return (
-    <Comp
-      className={clsx(textClassName, className)}
-      style={
-        {
-          "--seed-max-lines": maxLines,
-          "--seed-text-color": handleColor(color),
-          "--seed-font-size": handleFontSize(fontSize),
-          "--seed-line-height": handleLineHeight(lineHeight ?? fontSize),
-          "--seed-font-weight": handleFontWeight(fontWeight),
-          "--seed-text-align": otherProps.align,
-          ...style,
-        } as React.CSSProperties
-      }
-      {...otherProps}
-    >
-      {children}
-    </Comp>
-  );
-};
+    return (
+      <Comp
+        // @ts-ignore: We might need overloading for ref types, not a big deal for now.
+        ref={ref}
+        className={clsx(textClassName, className)}
+        style={
+          {
+            "--seed-max-lines": maxLines,
+            "--seed-text-color": handleColor(color),
+            "--seed-font-size": handleFontSize(fontSize),
+            "--seed-line-height": handleLineHeight(lineHeight ?? fontSize),
+            "--seed-font-weight": handleFontWeight(fontWeight),
+            "--seed-text-align": otherProps.align,
+            ...style,
+          } as React.CSSProperties
+        }
+        {...otherProps}
+      >
+        {children}
+      </Comp>
+    );
+  },
+);
+
+Text.displayName = "Text";
