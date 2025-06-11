@@ -157,7 +157,7 @@ export const globalCss = defineGlobalCss({
     gap: "var(--seed-box-gap)",
 
     [pseudo(active)]: {
-      "--seed-box-background": "var(--seed-box-background--active)",
+      backgroundColor: "var(--seed-box-background--active)",
     },
   },
   ".seed-consistent-width": {
