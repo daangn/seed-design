@@ -40,7 +40,7 @@ jobs:
         run: bun packages:build
 
       - name: Publish to Chromatic
-        uses: chromaui/action@8536229ee904071f8edce292596f6dbe0da96b9b # v12
+        uses: chromaui/action@3378c92d26c32353e53166beac732e2edc14213c # v13
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
