@@ -5,7 +5,7 @@ import type { SerializedColorVariablesSuggestionsResults, SerializedVariable } f
 
 export interface ListEntry {
   groupId: string;
-  itemId?: string;
+  itemIds?: string[];
 }
 
 export interface Progress {
@@ -16,7 +16,7 @@ export interface Progress {
 
 interface CurrentlyViewing {
   group: SerializedColorVariablesSuggestionsResults[number];
-  item?: SerializedColorVariablesSuggestionsResults[number]["consumers"][number];
+  items?: SerializedColorVariablesSuggestionsResults[number]["consumers"][number][];
 }
 
 interface ColorMigrationContext {
@@ -25,6 +25,7 @@ interface ColorMigrationContext {
   currentlyViewing: CurrentlyViewing | null;
   hasAllItemsSelectedNewColorVariableId: boolean;
   setCurrentlyViewingEntryId: (entry: ListEntry) => void;
+  focusNodesWithCurrentFrameName: () => void;
   applyColorVariable: (params: {
     oldValue: SerializedColorVariablesSuggestionsResults[number]["oldValue"];
     consumerNodeIds: SerializedColorVariablesSuggestionsResults[number]["consumers"][number]["node"]["id"][];
@@ -160,12 +161,14 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     );
 
     if (group) {
-      if (!currentlyViewingEntry.itemId) {
+      if (!currentlyViewingEntry.itemIds) {
         currentlyViewing = { group };
       } else {
-        const item = group.consumers.find(({ node }) => node.id === currentlyViewingEntry.itemId);
-        if (item) {
-          currentlyViewing = { group, item };
+        const items = group.consumers.filter(({ node }) =>
+          currentlyViewingEntry.itemIds?.includes(node.id),
+        );
+        if (items.length > 0) {
+          currentlyViewing = { group, items };
         } else {
           currentlyViewing = { group };
         }
@@ -199,6 +202,30 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
       unsubscribe();
     };
   }, []);
+
+  // focusNodesWithCurrentFrameName 함수
+  function focusNodesWithCurrentFrameName() {
+    if (!currentlyViewing?.items || currentlyViewing.items.length === 0) return;
+
+    const firstItem = currentlyViewing.items[0];
+    const targetGroup = results?.filter(({ consumers }) =>
+      consumers.some(({ node }) => node.id === firstItem.node.id),
+    );
+    if (!targetGroup) return;
+
+    const targetNodesNames = targetGroup[0].consumers.filter(
+      ({ node }) => node.name === firstItem.node.name,
+    );
+
+    const nodeIds = targetNodesNames.map(({ node }) => node.id);
+
+    setCurrentlyViewingEntry({
+      groupId: getOldValueId(targetGroup[0].oldValue),
+      itemIds: nodeIds,
+    });
+
+    events("focus-node").emit({ nodeIds });
+  }
 
   // 컬러 변수 적용
   function applyColorVariable({
@@ -245,7 +272,9 @@ export function ColorMigrationProvider({ children }: { children: ReactNode }) {
     results,
     progress,
     currentlyViewing,
+    currentlyViewingEntry,
     setCurrentlyViewingEntryId,
+    focusNodesWithCurrentFrameName,
     applyColorVariable,
     hasAllItemsSelectedNewColorVariableId,
     requestSuggestions,

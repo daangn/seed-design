@@ -11,7 +11,7 @@ import { getOldValueId, getOldValueName, type ListEntry, useColorMigration } fro
 
 export function LayersWithColorList() {
   const { loading } = useMigration();
-  const { results, progress } = useColorMigration();
+  const { results, progress, focusNodesWithCurrentFrameName } = useColorMigration();
 
   // 모든 그룹 ID 목록 (초기에 모두 펼친 상태로 설정)
   const defaultOpenItems = useMemo(() => {
@@ -39,18 +39,18 @@ export function LayersWithColorList() {
       <CollapsibleGroup defaultOpenItems={defaultOpenItems}>
         {/* 전체 접기/펴기 컨트롤 */}
         <Flex
-          justifyContent="flexEnd"
+          justifyContent="space-between"
           alignItems="center"
           padding="x2"
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
+          <Text fontSize="t1" color="palette.gray700" onClick={focusNodesWithCurrentFrameName}>
+            선택된 프레임 전체 포커스
+          </Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
               <Flex gap="x1" alignItems="center">
-                <Text fontSize="t1" color="palette.gray700">
-                  {isAllOpen ? "전체 접기" : "전체 펼치기"}
-                </Text>
                 {isAllOpen ? <IconChevronUpLine size={12} /> : <IconChevronDownLine size={12} />}
               </Flex>
             )}
@@ -92,7 +92,8 @@ function LayerGroup({ groupId, itemCount }: Pick<ListEntry, "groupId"> & { itemC
   if (!group) return null;
 
   const isCurrentlyViewing = currentlyViewing
-    ? getOldValueId(currentlyViewing.group.oldValue) === groupId && !currentlyViewing.item
+    ? getOldValueId(currentlyViewing.group.oldValue) === groupId &&
+      (!currentlyViewing.items || currentlyViewing.items.length === 0)
     : false;
 
   const isAllItemsMigrated = group.consumers.every(
@@ -189,20 +190,17 @@ function Layer({
   const isAlreadyMigrated = !!selectedNewVariableId;
 
   function handleClick() {
-    setCurrentlyViewingEntryId({ groupId, itemId: node.id });
+    setCurrentlyViewingEntryId({ groupId, itemIds: [node.id] });
     events("focus-node").emit({ nodeIds: [node.id] });
   }
 
-  // 현재 아이템이 선택되었는지 확인
-  const isItemSelected =
-    currentlyViewing?.item?.node.id === node.id &&
-    currentlyViewing?.group &&
-    getOldValueId(currentlyViewing.group.oldValue) === groupId;
+  // 현재 아이템이 선택되었는지 확인 (그룹과 무관하게 currentlyViewing.items에만 속하는지 확인)
+  const isItemSelected = currentlyViewing?.items?.some((item) => item.node.id === node.id) ?? false;
 
   // 현재 아이템의 그룹이 선택되었는지 확인 (아이템이 선택되지 않은 상태에서)
   const isParentGroupSelected =
     currentlyViewing &&
-    !currentlyViewing.item &&
+    (!currentlyViewing.items || currentlyViewing.items.length === 0) &&
     currentlyViewing.group &&
     getOldValueId(currentlyViewing.group.oldValue) === groupId;
 
