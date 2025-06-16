@@ -45,7 +45,12 @@ export function LayersWithColorList() {
           borderBottomWidth={1}
           borderColor="palette.gray200"
         >
-          <Text fontSize="t1" color="palette.gray700" onClick={focusNodesWithCurrentFrameName}>
+          <Text
+            fontSize="t1"
+            color="palette.gray700"
+            onClick={focusNodesWithCurrentFrameName}
+            style={{ cursor: "pointer" }}
+          >
             선택된 프레임 전체 포커스
           </Text>
           <CollapsibleGroup.ToggleAll>
