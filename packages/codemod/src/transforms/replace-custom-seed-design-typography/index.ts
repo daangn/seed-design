@@ -78,7 +78,7 @@ function processTypographyNode(
   file: FileInfo,
   typographyMap: FoundationTokenMapping[],
 ) {
-  // 속성명 가져오기
+  // 속성명 가져기기 (dot notation과 bracket notation 모두 지원)
   const propertyName = path.node.property.name || path.node.property.value;
 
   if (!propertyName) {
@@ -93,8 +93,17 @@ function processTypographyNode(
   }
 
   // 매핑에서 해당 토큰 찾기
+  // bracket notation의 경우 $semantic.{token} 형태를 $semantic.typography.{token} 형태로 변환하여 매칭
+  let searchKey = propertyName;
+  if (propertyName.startsWith("$semantic.") && !propertyName.startsWith("$semantic.typography.")) {
+    searchKey = propertyName.replace("$semantic.", "$semantic.typography.");
+  }
+
   const mapping = typographyMap.find(
-    (m) => m.previous === propertyName || m.previous === `$semantic.typography.${propertyName}`,
+    (m) =>
+      m.previous === propertyName ||
+      m.previous === `$semantic.typography.${propertyName}` ||
+      m.previous === searchKey,
   );
 
   if (mapping) {
@@ -102,7 +111,8 @@ function processTypographyNode(
       // 첫 번째 매핑된 토큰 사용
       const nextToken = mapping.next[0];
 
-      // 속성명 변경
+      // 속성명 변경 (bracket notation을 dot notation으로 변환)
+      path.node.computed = false;
       path.node.property = j.identifier(nextToken);
 
       // 성공 로깅
@@ -127,7 +137,8 @@ function processTypographyNode(
       // 대체 토큰이 있는 경우
       const alternativeToken = mapping.alternative[0];
 
-      // 속성명 변경
+      // 속성명 변경 (bracket notation을 dot notation으로 변환)
+      path.node.computed = false;
       path.node.property = j.identifier(alternativeToken);
 
       // 성공 로깅 (대체 토큰 사용)

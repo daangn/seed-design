@@ -1,19 +1,36 @@
+import { colorMappings } from "@seed-design/migration-index";
 import { typographyMappings } from "@seed-design/migration-index/typography";
 import type { Transform } from "jscodeshift";
+import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 import { createTransformLogger } from "../../utils/logger.js";
 
+// Typography 속성명 목록 - variant 뿐만 아니라 다양한 속성 지원
+const TYPOGRAPHY_PROPS = ["variant", "typography", "textStyle", "typographyVariant"];
+
+// Color 속성명 목록 - color 뿐만 아니라 다양한 속성 지원
+const COLOR_PROPS = ["color", "textColor", "fontColor"];
+
 /**
- * variant 값을 textStyle 값으로 변환하는 함수
- * @param variant 이전 variant 값 (예: "title2Bold")
- * @returns 새 textStyle 값 (예: "t7Bold") 또는 null (매핑 없을 경우)
+ * Typography 값을 textStyle 값으로 변환하는 함수
+ * @param value 이전 typography 값 (예: "title2Bold", "$semantic.bodyL1Regular")
+ * @returns 새 textStyle 값 (예: "t7Bold", "articleBody") 또는 null (매핑 없을 경우)
  */
-function transformVariantToTextStyle(variant: string): string | null {
-  // 매핑 찾기 (variant 값은 토큰 이름의 마지막 부분과 일치)
-  const mapping = typographyMappings.find((m) => {
+function transformTypographyValue(value: string): string | null {
+  // $semantic., $scale. 등의 접두사 제거
+  const cleanValue = value.replace(/^\$(semantic|scale|static)\./, "");
+
+  // 매핑 찾기 - 여러 패턴으로 시도
+  let mapping = typographyMappings.find((m) => {
     const tokenParts = m.previous.split(".");
     const lastPart = tokenParts[tokenParts.length - 1];
-    return lastPart === variant;
+    return lastPart === cleanValue || lastPart === value || m.previous === value;
   });
+
+  // 직접 매칭이 안되면 $semantic.typography. 접두사를 붙여서 시도
+  if (!mapping) {
+    const semanticToken = `$semantic.typography.${cleanValue}`;
+    mapping = typographyMappings.find((m) => m.previous === semanticToken);
+  }
 
   if (!mapping) return null;
 
@@ -33,6 +50,85 @@ function transformVariantToTextStyle(variant: string): string | null {
 
   // 둘 다 없으면 null 반환
   return null;
+}
+
+/**
+ * Color 값을 적절한 색상 토큰으로 변환하는 함수
+ * @param value 이전 color 값 (예: "$scale.gray700", "$palette-gray-700")
+ * @param propertyName 속성명 (색상 타입 결정용)
+ * @returns 새 color 값 (예: "palette.gray700") 또는 null (매핑 없을 경우)
+ */
+function transformColorValue(value: string, propertyName?: string): string | null {
+  // 이미 변환된 형태인지 확인 (palette.*, bg.*, fg.*, stroke.*)
+  if (/^(palette|bg|fg|stroke)\.[a-zA-Z0-9]+/.test(value)) {
+    return value;
+  }
+
+  // $로 시작하지 않으면 변환하지 않음
+  if (!value.startsWith("$")) {
+    return value; // 기존 값 유지
+  }
+
+  // $semantic., $scale., $static. 형태를 정규화하고 kebab-case로 변환
+  let normalizedValue = value;
+  if (value.startsWith("$scale.")) {
+    const colorPart = value.replace("$scale.", "");
+    // camelCase를 kebab-case로 변환 (gray600 -> gray-600)
+    const kebabCase = colorPart
+      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+      .replace(/([a-zA-Z])(\d+)/g, "$1-$2")
+      .toLowerCase();
+    normalizedValue = `$scale.color.${kebabCase}`;
+  } else if (value.startsWith("$semantic.")) {
+    const colorPart = value.replace("$semantic.", "");
+    const kebabCase = colorPart
+      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+      .replace(/([a-zA-Z])(\d+)/g, "$1-$2")
+      .toLowerCase();
+    normalizedValue = `$semantic.color.${kebabCase}`;
+  } else if (value.startsWith("$static.")) {
+    const colorPart = value.replace("$static.", "");
+    const kebabCase = colorPart
+      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+      .replace(/([a-zA-Z])(\d+)/g, "$1-$2")
+      .toLowerCase();
+    normalizedValue = `$static.color.${kebabCase}`;
+  }
+
+  // 매핑에서 찾기
+  const mapping = colorMappings.find((m) => m.previous === normalizedValue);
+
+  if (!mapping || !mapping.next || mapping.next.length === 0) {
+    return value; // 매핑이 없으면 기존 값 유지
+  }
+
+  // 속성에 따라 적절한 토큰 타입 결정
+  const tokenType = propertyName ? getTokenTypeForProperty(propertyName) : "fg";
+
+  // 적절한 토큰 선택
+  let selectedToken = mapping.next.find((token) => token.includes(`$color.${tokenType}.`));
+
+  // 선호 타입이 없으면 다른 타입 시도
+  if (!selectedToken) {
+    selectedToken =
+      mapping.next.find((token) => token.includes("$color.fg.")) ||
+      mapping.next.find((token) => token.includes("$color.palette.")) ||
+      mapping.next[0];
+  }
+
+  if (!selectedToken) {
+    return value; // 선택된 토큰이 없으면 기존 값 유지
+  }
+
+  // $color.palette.gray-700 -> palette.gray700 형태로 변환
+  const parts = selectedToken.split(".");
+  if (parts.length >= 3 && parts[0] === "$color") {
+    const category = parts[1]; // palette, bg, fg, stroke
+    const colorName = parts.slice(2).join(".").replace(/-/g, ""); // gray-700 -> gray700
+    return `${category}.${colorName}`;
+  }
+
+  return value; // 기본값 유지
 }
 
 /**
@@ -84,13 +180,123 @@ function handleImports(j: any, root: any, hasTransformedComponents: boolean) {
 }
 
 /**
- * 조건부 표현식(삼항 연산자)을 처리하는 함수
+ * Typography 속성을 처리하는 함수
  */
-function transformConditionalExpression(j: any, expression: any): any {
-  // 조건부 표현식의 참 결과(consequent)와 거짓 결과(alternate) 모두 처리
+function processTypographyAttribute(
+  j: any,
+  openingElement: any,
+  attr: any,
+  propName: string,
+  file: any,
+  logger: any,
+) {
+  if (attr.value?.type === "StringLiteral") {
+    const value = attr.value.value;
+    const transformedValue = transformTypographyValue(value);
+
+    if (transformedValue) {
+      // 기존 속성 제거
+      openingElement.attributes = openingElement.attributes.filter(
+        (a) => !(a.type === "JSXAttribute" && a.name.name === propName),
+      );
+
+      // textStyle 속성 추가
+      openingElement.attributes.push(
+        j.jsxAttribute(j.jsxIdentifier("textStyle"), j.stringLiteral(transformedValue)),
+      );
+
+      logger.logTransformResult(file.path, {
+        previousToken: `${propName}="${value}"`,
+        nextToken: `textStyle="${transformedValue}"`,
+        status: "success",
+        line: attr.loc?.start.line,
+      });
+    }
+  } else if (attr.value?.type === "JSXExpressionContainer") {
+    const expression = attr.value.expression;
+
+    if (expression.type === "StringLiteral") {
+      const value = expression.value;
+      const transformedValue = transformTypographyValue(value);
+
+      if (transformedValue) {
+        // 기존 속성 제거
+        openingElement.attributes = openingElement.attributes.filter(
+          (a) => !(a.type === "JSXAttribute" && a.name.name === propName),
+        );
+
+        // textStyle 속성 추가
+        openingElement.attributes.push(
+          j.jsxAttribute(j.jsxIdentifier("textStyle"), j.stringLiteral(transformedValue)),
+        );
+      }
+    } else if (expression.type === "ConditionalExpression") {
+      const transformedExpression = transformTypographyConditionalExpression(j, expression);
+
+      // 기존 속성 제거
+      openingElement.attributes = openingElement.attributes.filter(
+        (a) => !(a.type === "JSXAttribute" && a.name.name === propName),
+      );
+
+      // textStyle 속성 추가
+      openingElement.attributes.push(
+        j.jsxAttribute(
+          j.jsxIdentifier("textStyle"),
+          j.jsxExpressionContainer(transformedExpression),
+        ),
+      );
+    }
+  }
+}
+
+/**
+ * Color 속성을 처리하는 함수
+ */
+function processColorAttribute(
+  j: any,
+  openingElement: any,
+  attr: any,
+  propName: string,
+  file: any,
+  logger: any,
+) {
+  if (attr.value?.type === "StringLiteral") {
+    const value = attr.value.value;
+    const transformedValue = transformColorValue(value, propName);
+
+    if (transformedValue && transformedValue !== value) {
+      attr.value.value = transformedValue;
+
+      logger.logTransformResult(file.path, {
+        previousToken: `${propName}="${value}"`,
+        nextToken: `${propName}="${transformedValue}"`,
+        status: "success",
+        line: attr.loc?.start.line,
+      });
+    }
+  } else if (attr.value?.type === "JSXExpressionContainer") {
+    const expression = attr.value.expression;
+
+    if (expression.type === "StringLiteral") {
+      const value = expression.value;
+      const transformedValue = transformColorValue(value, propName);
+
+      if (transformedValue && transformedValue !== value) {
+        expression.value = transformedValue;
+      }
+    } else if (expression.type === "ConditionalExpression") {
+      transformColorConditionalExpression(j, expression, propName);
+    }
+  }
+}
+
+/**
+ * Typography 조건부 표현식(삼항 연산자)을 처리하는 함수
+ */
+function transformTypographyConditionalExpression(j: any, expression: any): any {
   if (expression.consequent.type === "StringLiteral") {
     const originalValue = expression.consequent.value;
-    const transformedValue = transformVariantToTextStyle(originalValue);
+    const transformedValue = transformTypographyValue(originalValue);
     if (transformedValue) {
       expression.consequent.value = transformedValue;
     }
@@ -98,19 +304,49 @@ function transformConditionalExpression(j: any, expression: any): any {
 
   if (expression.alternate.type === "StringLiteral") {
     const originalValue = expression.alternate.value;
-    const transformedValue = transformVariantToTextStyle(originalValue);
+    const transformedValue = transformTypographyValue(originalValue);
     if (transformedValue) {
       expression.alternate.value = transformedValue;
     }
   }
 
-  // 중첩된 조건부 표현식 처리
   if (expression.consequent.type === "ConditionalExpression") {
-    transformConditionalExpression(j, expression.consequent);
+    transformTypographyConditionalExpression(j, expression.consequent);
   }
 
   if (expression.alternate.type === "ConditionalExpression") {
-    transformConditionalExpression(j, expression.alternate);
+    transformTypographyConditionalExpression(j, expression.alternate);
+  }
+
+  return expression;
+}
+
+/**
+ * Color 조건부 표현식(삼항 연산자)을 처리하는 함수
+ */
+function transformColorConditionalExpression(j: any, expression: any, propName: string): any {
+  if (expression.consequent.type === "StringLiteral") {
+    const originalValue = expression.consequent.value;
+    const transformedValue = transformColorValue(originalValue, propName);
+    if (transformedValue) {
+      expression.consequent.value = transformedValue;
+    }
+  }
+
+  if (expression.alternate.type === "StringLiteral") {
+    const originalValue = expression.alternate.value;
+    const transformedValue = transformColorValue(originalValue, propName);
+    if (transformedValue) {
+      expression.alternate.value = transformedValue;
+    }
+  }
+
+  if (expression.consequent.type === "ConditionalExpression") {
+    transformColorConditionalExpression(j, expression.consequent, propName);
+  }
+
+  if (expression.alternate.type === "ConditionalExpression") {
+    transformColorConditionalExpression(j, expression.alternate, propName);
   }
 
   return expression;
@@ -136,91 +372,31 @@ const transform: Transform = (file, api) => {
     .forEach((path) => {
       const openingElement = path.node.openingElement;
 
-      // variant 속성 찾기
-      const variantAttr = openingElement.attributes.find(
-        (attr) => attr.type === "JSXAttribute" && attr.name.name === "variant",
-      );
+      // Typography 속성들 처리
+      TYPOGRAPHY_PROPS.forEach((propName) => {
+        const typographyAttr = openingElement.attributes.find(
+          (attr) => attr.type === "JSXAttribute" && attr.name.name === propName,
+        );
 
-      if (variantAttr && variantAttr.type === "JSXAttribute") {
-        // variant 속성 값 처리
-        if (variantAttr.value?.type === "StringLiteral") {
-          // 문자열 리터럴인 경우
-          const variantValue = variantAttr.value.value;
-          const textStyleValue = transformVariantToTextStyle(variantValue);
-
-          if (textStyleValue) {
-            // variant 속성 제거
-            openingElement.attributes = openingElement.attributes.filter(
-              (attr) => !(attr.type === "JSXAttribute" && attr.name.name === "variant"),
-            );
-
-            // textStyle 속성 추가
-            openingElement.attributes.push(
-              j.jsxAttribute(j.jsxIdentifier("textStyle"), j.stringLiteral(textStyleValue)),
-            );
-
-            // 변환된 컴포넌트가 있음을 표시
-            hasTransformedComponents = true;
-
-            logger.logTransformResult(file.path, {
-              previousToken: `variant="${variantValue}"`,
-              nextToken: `textStyle="${textStyleValue}"`,
-              status: "success",
-              line: variantAttr.loc?.start.line,
-            });
-          }
-        } else if (variantAttr.value?.type === "JSXExpressionContainer") {
-          // JSX 표현식 컨테이너인 경우
-          const expression = variantAttr.value.expression;
-
-          if (expression.type === "StringLiteral") {
-            // 컨테이너 내 문자열 리터럴인 경우
-            const variantValue = expression.value;
-            const textStyleValue = transformVariantToTextStyle(variantValue);
-
-            if (textStyleValue) {
-              // variant 속성 제거
-              openingElement.attributes = openingElement.attributes.filter(
-                (attr) => !(attr.type === "JSXAttribute" && attr.name.name === "variant"),
-              );
-
-              // textStyle 속성 추가
-              openingElement.attributes.push(
-                j.jsxAttribute(j.jsxIdentifier("textStyle"), j.stringLiteral(textStyleValue)),
-              );
-
-              // 변환된 컴포넌트가 있음을 표시
-              hasTransformedComponents = true;
-            }
-          } else if (expression.type === "ConditionalExpression") {
-            // 조건부 표현식(삼항 연산자)인 경우
-            const transformedExpression = transformConditionalExpression(j, expression);
-
-            // variant 속성 제거
-            openingElement.attributes = openingElement.attributes.filter(
-              (attr) => !(attr.type === "JSXAttribute" && attr.name.name === "variant"),
-            );
-
-            // textStyle 속성 추가
-            openingElement.attributes.push(
-              j.jsxAttribute(
-                j.jsxIdentifier("textStyle"),
-                j.jsxExpressionContainer(transformedExpression),
-              ),
-            );
-
-            // 변환된 컴포넌트가 있음을 표시
-            hasTransformedComponents = true;
-
-            logger.logTransformResult(file.path, {
-              previousToken: "variant={조건부 표현식}",
-              nextToken: "textStyle={조건부 표현식}",
-              status: "success",
-              line: variantAttr.loc?.start.line,
-            });
-          }
+        if (typographyAttr && typographyAttr.type === "JSXAttribute") {
+          processTypographyAttribute(j, openingElement, typographyAttr, propName, file, logger);
+          hasTransformedComponents = true;
         }
-      }
+      });
+
+      // Color 속성들 처리
+      COLOR_PROPS.forEach((propName) => {
+        const colorAttr = openingElement.attributes.find(
+          (attr) => attr.type === "JSXAttribute" && attr.name.name === propName,
+        );
+
+        if (colorAttr && colorAttr.type === "JSXAttribute") {
+          processColorAttribute(j, openingElement, colorAttr, propName, file, logger);
+          hasTransformedComponents = true;
+        }
+      });
+
+      // 기존 variant 속성 처리는 TYPOGRAPHY_PROPS에서 이미 처리됨
     });
 
   // import 처리
@@ -232,6 +408,8 @@ const transform: Transform = (file, api) => {
   const printOptions = {
     quote: "auto" as const,
     objectCurlySpacing: true,
+    reuseWhitespace: true,
+    lineTerminator: "\n",
   };
 
   return root.toSource(printOptions);
