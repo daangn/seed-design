@@ -51,7 +51,7 @@ export function LayersWithColorList() {
             onClick={focusNodesWithCurrentFrameName}
             style={{ cursor: "pointer" }}
           >
-            선택된 프레임 전체 포커스
+            동일명 프레임 찾기
           </Text>
           <CollapsibleGroup.ToggleAll>
             {({ isAllOpen }) => (
