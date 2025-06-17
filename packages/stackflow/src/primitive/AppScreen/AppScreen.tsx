@@ -3,6 +3,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { forwardRef } from "react";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
+import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 
 export interface AppScreenRootProps
   extends PrimitiveProps,
@@ -24,6 +25,10 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackEnd,
     onSwipeBackMove,
     onSwipeBackStart,
+  });
+
+  usePreventTouchDuringTransition({
+    appScreenRef: ref as React.RefObject<HTMLDivElement>,
   });
 
   return (
