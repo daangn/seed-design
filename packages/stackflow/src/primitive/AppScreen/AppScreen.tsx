@@ -1,6 +1,7 @@
+import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
 import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
@@ -19,6 +20,7 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackStart,
     ...otherProps
   } = props;
+  const innerRef = useRef<HTMLDivElement>(null);
   const api = useAppScreen({
     swipeBackDisplacementRatioThreshold,
     swipeBackVelocityThreshold,
@@ -26,15 +28,14 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackMove,
     onSwipeBackStart,
   });
-
   usePreventTouchDuringTransition({
-    appScreenRef: ref as React.RefObject<HTMLDivElement>,
+    appScreenRef: innerRef as React.RefObject<HTMLDivElement>,
   });
 
   return (
     <AppScreenProvider value={api}>
       <Primitive.div
-        ref={ref}
+        ref={composeRefs(innerRef, ref)}
         data-stackflow-component-name="AppScreen"
         {...mergeProps(api.activityProps, otherProps)}
       />
