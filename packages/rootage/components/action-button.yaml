@@ -90,7 +90,7 @@ data:
         suffixIcon:
           color: $color.palette.static-white
         progressCircle:
-          trackColor: $color.palette.static-white-alpha-200
+          trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
       pressed:
         root:
@@ -122,7 +122,7 @@ data:
         suffixIcon:
           color: $color.fg.neutral-inverted
         progressCircle:
-          trackColor: $color.palette.static-white-alpha-200
+          trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
       pressed:
         root:
@@ -186,7 +186,7 @@ data:
         suffixIcon:
           color: $color.palette.static-white
         progressCircle:
-          trackColor: $color.palette.static-white-alpha-200
+          trackColor: $color.palette.static-white-alpha-300
           rangeColor: $color.palette.static-white
       pressed:
         root:

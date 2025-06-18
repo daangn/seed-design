@@ -257,26 +257,90 @@ data:
       values:
         theme-light: "#ffffff"
         theme-dark: "#ffffff"
-    $color.palette.static-black-alpha-50:
+    $color.palette.static-black-alpha-100:
       values:
-        theme-light: "#0000000d"
-        theme-dark: "#0000000d"
+        theme-light: "#00000007"
+        theme-dark: "#00000007"
     $color.palette.static-black-alpha-200:
       values:
-        theme-light: "#00000033"
-        theme-dark: "#00000033"
+        theme-light: "#0000000c"
+        theme-dark: "#0000000c"
+    $color.palette.static-black-alpha-300:
+      values:
+        theme-light: "#00000010"
+        theme-dark: "#00000010"
+    $color.palette.static-black-alpha-400:
+      values:
+        theme-light: "#00000021"
+        theme-dark: "#00000021"
     $color.palette.static-black-alpha-500:
       values:
-        theme-light: "#00000080"
-        theme-dark: "#00000080"
+        theme-light: "#0000002c"
+        theme-dark: "#0000002c"
+    $color.palette.static-black-alpha-600:
+      values:
+        theme-light: "#0000004c"
+        theme-dark: "#0000004c"
+    $color.palette.static-black-alpha-700:
+      values:
+        theme-light: "#00000074"
+        theme-dark: "#00000074"
+    $color.palette.static-black-alpha-800:
+      values:
+        theme-light: "#000000a2"
+        theme-dark: "#000000a2"
+    $color.palette.static-black-alpha-900:
+      values:
+        theme-light: "#000000d0"
+        theme-dark: "#000000d0"
+    $color.palette.static-black-alpha-1000:
+      values:
+        theme-light: "#000000e3"
+        theme-dark: "#000000e3"
+    $color.palette.static-white-alpha-50:
+      values:
+        theme-light: "#ffffff0d"
+        theme-dark: "#ffffff0d"
+    $color.palette.static-white-alpha-100:
+      values:
+        theme-light: "#ffffff17"
+        theme-dark: "#ffffff17"
     $color.palette.static-white-alpha-200:
       values:
-        theme-light: "#ffffff33"
-        theme-dark: "#ffffff33"
+        theme-light: "#ffffff20"
+        theme-dark: "#ffffff20"
+    $color.palette.static-white-alpha-300:
+      values:
+        theme-light: "#ffffff2e"
+        theme-dark: "#ffffff2e"
+    $color.palette.static-white-alpha-400:
+      values:
+        theme-light: "#ffffff3d"
+        theme-dark: "#ffffff3d"
+    $color.palette.static-white-alpha-500:
+      values:
+        theme-light: "#ffffff60"
+        theme-dark: "#ffffff60"
+    $color.palette.static-white-alpha-600:
+      values:
+        theme-light: "#ffffff8b"
+        theme-dark: "#ffffff8b"
+    $color.palette.static-white-alpha-700:
+      values:
+        theme-light: "#ffffffb3"
+        theme-dark: "#ffffffb3"
     $color.palette.static-white-alpha-800:
       values:
-        theme-light: "#ffffffcc"
-        theme-dark: "#ffffffcc"
+        theme-light: "#ffffffde"
+        theme-dark: "#ffffffde"
+    $color.palette.static-white-alpha-900:
+      values:
+        theme-light: "#ffffffea"
+        theme-dark: "#ffffffea"
+    $color.palette.static-white-alpha-1000:
+      values:
+        theme-light: "#fffffff4"
+        theme-dark: "#fffffff4"
     $color.palette.yellow-100:
       values:
         theme-light: "#fff7de"
@@ -387,8 +451,8 @@ data:
         theme-dark: $color.palette.gray-300
     $color.bg.overlay:
       values:
-        theme-light: $color.palette.static-black-alpha-500
-        theme-dark: $color.palette.static-black-alpha-500
+        theme-light: $color.palette.static-black-alpha-700
+        theme-dark: $color.palette.static-black-alpha-700
     $color.bg.brand-solid:
       values:
         theme-light: $color.palette.carrot-600
@@ -499,8 +563,8 @@ data:
         theme-dark: $color.palette.gray-400
     $color.bg.overlay-muted:
       values:
-        theme-light: $color.palette.static-black-alpha-200
-        theme-dark: $color.palette.static-black-alpha-200
+        theme-light: $color.palette.static-black-alpha-500
+        theme-dark: $color.palette.static-black-alpha-500
     $color.bg.positive-solid:
       values:
         theme-light: $color.palette.green-700
@@ -567,8 +631,8 @@ data:
         theme-dark: $color.palette.gray-200
     $color.stroke.on-image:
       values:
-        theme-light: $color.palette.static-black-alpha-50
-        theme-dark: $color.palette.static-black-alpha-50
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-black-alpha-200
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#eff0f1"
