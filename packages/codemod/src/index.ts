@@ -98,7 +98,9 @@ Node.js 버전을 업그레이드해주세요.
   }
 }
 
-const cssTransformers = [
+// CSS 파일을 처리하는 transform 목록
+const CSS_PROCESSING_TRANSFORMS = [
+  "replace-alpha-color",
   "replace-css-seed-design-color-variable",
   "replace-css-seed-design-typography-variable",
 ];
@@ -113,12 +115,6 @@ async function runTransform(
 
   const jscodeshiftPath = require.resolve("jscodeshift/bin/jscodeshift");
   const fixedPaths = paths.map((path) => resolve(process.cwd(), path));
-
-  if (cssTransformers.includes(transformName)) {
-    const transformModule = require(transformPath);
-    transformModule.processCssFiles(paths, options);
-    return;
-  }
 
   if (isTrackEnabled) {
     globalTrack?.({
@@ -138,7 +134,22 @@ async function runTransform(
     ...fixedPaths,
   ];
 
-  if (extensions) args.push("--extensions", extensions);
+  // CSS를 처리하는 transform의 경우 자동으로 CSS 확장자 포함
+  let finalExtensions = extensions;
+  if (CSS_PROCESSING_TRANSFORMS.includes(transformName)) {
+    if (extensions) {
+      // 기존 extensions에 css 추가 (중복 제거)
+      const extList = extensions.split(",").map((ext) => ext.trim());
+      if (!extList.includes("css")) {
+        finalExtensions = [...extList, "css"].join(",");
+      }
+    } else {
+      // 기본 jscodeshift extensions + css
+      finalExtensions = "js,jsx,ts,tsx,css";
+    }
+  }
+
+  if (finalExtensions) args.push("--extensions", finalExtensions);
   if (ignoreConfig) args.push("--ignore-config", ignoreConfig);
 
   try {

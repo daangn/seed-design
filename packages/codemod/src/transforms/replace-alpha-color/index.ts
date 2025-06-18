@@ -5,6 +5,9 @@ import {
   getMemberExpressionName,
 } from "../replace-seed-design-token-vars/ast-utils.js";
 
+// transform 최상단에 logger 정의
+const logger = createTransformLogger("replace-alpha-color");
+
 // 알파 컬러 매핑 정의 (연쇄 변환 방지를 위해 큰 번호부터 작은 번호 순서로)
 const alphaColorMappings = [
   {
@@ -37,12 +40,11 @@ const alphaColorMappings = [
  * JavaScript/TypeScript 파일을 처리하는 메인 transform
  */
 const replaceAlphaColor: jscodeshift.Transform = (file, api) => {
-  // CSS 파일은 별도로 처리하므로 건너뛰기
+  // CSS 파일은 별도로 처리
   if (file.path?.endsWith(".css")) {
     return processCssFile(file.source, file.path);
   }
 
-  const logger = createTransformLogger("replace-alpha-color");
   const j = api.jscodeshift;
   const root = j(file.source);
 
@@ -98,24 +100,52 @@ const replaceAlphaColor: jscodeshift.Transform = (file, api) => {
  * 단일 CSS 파일을 처리하는 함수
  */
 function processCssFile(source: string, filePath: string): string {
+  logger.startFile(filePath);
+
   try {
     let result = source;
+    let hasChanges = false;
 
     // 각 매핑에 대해 순차적으로 문자열 치환 (연쇄 변환 방지)
     for (const mapping of alphaColorMappings) {
       const cssVarFrom = `var(--seed-color-palette-${mapping.cssFrom})`;
       const cssVarTo = `var(--seed-color-palette-${mapping.cssTo})`;
 
-      // 전역 치환 수행
-      result = result.replace(
-        new RegExp(cssVarFrom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
-        cssVarTo,
-      );
+      // 치환 전에 해당 패턴이 있는지 확인
+      const regex = new RegExp(cssVarFrom.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+      const matches = result.match(regex);
+
+      if (matches) {
+        // 전역 치환 수행
+        result = result.replace(regex, cssVarTo);
+        hasChanges = true;
+
+        logger.logTransformResult(filePath, {
+          previousToken: cssVarFrom,
+          nextToken: cssVarTo,
+          status: "success",
+        });
+      }
     }
 
+    if (!hasChanges) {
+      logger.logTransformResult(filePath, {
+        previousToken: "No alpha color variables found",
+        nextToken: null,
+        status: "warning",
+      });
+    }
+
+    logger.finishFile(filePath);
     return result;
   } catch (error) {
-    console.error(`Error processing CSS file ${filePath}:`, error);
+    logger.logTransformResult(filePath, {
+      previousToken: `Error processing CSS file: ${error.message}`,
+      nextToken: null,
+      status: "failure",
+      failureReason: error.message,
+    });
+    logger.finishFile(filePath);
     return source; // 에러 발생 시 원본 소스 반환
   }
 }
