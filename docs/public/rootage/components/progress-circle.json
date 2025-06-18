@@ -286,7 +286,7 @@
               "track": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white-alpha-200"
+                  "value": "$color.palette.static-white-alpha-300"
                 }
               },
               "range": {

@@ -57,7 +57,7 @@ export const vars = {
   "toneStaticWhite": {
     "enabled": {
       "track": {
-        "color": "var(--seed-color-palette-static-white-alpha-200)"
+        "color": "var(--seed-color-palette-static-white-alpha-300)"
       },
       "range": {
         "color": "var(--seed-color-palette-static-white)"
