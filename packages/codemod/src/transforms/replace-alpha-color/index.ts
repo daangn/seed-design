@@ -1,7 +1,4 @@
 import type * as jscodeshift from "jscodeshift";
-import { glob } from "glob";
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { createTransformLogger } from "../../utils/logger.js";
 
 // 알파 컬러 매핑 정의 (연쇄 변환 방지를 위해 큰 번호부터 작은 번호 순서로)
