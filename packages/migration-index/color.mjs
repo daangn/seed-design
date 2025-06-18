@@ -661,20 +661,19 @@ export const staticColorMappings = [
   },
   {
     previous: "$static.color.static-black-alpha-200",
-    next: ["$color.palette.static-black-alpha-200"],
-  },
-  {
-    previous: "$static.color.static-black-alpha-500",
     next: ["$color.palette.static-black-alpha-500"],
   },
   {
+    previous: "$static.color.static-black-alpha-500",
+    next: ["$color.palette.static-black-alpha-700"],
+  },
+  {
     previous: "$static.color.static-white-alpha-50",
-    next: [],
-    description: "V3에서 지원되지 않는 색상",
+    next: ["$color.palette.static-white-alpha-50"],
   },
   {
     previous: "$static.color.static-white-alpha-200",
-    next: ["$color.palette.static-white-alpha-200"],
+    next: ["$color.palette.static-white-alpha-300"],
   },
 ];
 
