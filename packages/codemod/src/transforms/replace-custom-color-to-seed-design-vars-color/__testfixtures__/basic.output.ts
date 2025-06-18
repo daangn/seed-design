@@ -50,7 +50,7 @@ export const scaleColors = style({
 export const staticColors = style({
   backgroundColor: vars.$color.palette.staticWhite,
   color: vars.$color.palette.staticBlack,
-  borderColor: vars.$color.palette.staticBlackAlpha200,
+  borderColor: vars.$color.palette.staticBlackAlpha500,
 });
 
 // Test deprecated tokens with alternative
