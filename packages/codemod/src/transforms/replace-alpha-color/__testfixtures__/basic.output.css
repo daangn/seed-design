@@ -1,0 +1,27 @@
+.overlay {
+  background-color: var(--seed-color-palette-static-black-alpha-200);
+  backdrop-filter: blur(10px);
+}
+
+.shadow {
+  box-shadow: 0 2px 8px var(--seed-color-palette-static-black-alpha-500);
+}
+
+.dark-overlay {
+  background-color: var(--seed-color-palette-static-black-alpha-700);
+  opacity: 0.8;
+}
+
+.light-overlay {
+  background-color: var(--seed-color-palette-static-white-alpha-300);
+  backdrop-filter: brightness(1.1);
+}
+
+.complex-example {
+  background: linear-gradient(
+    to bottom,
+    var(--seed-color-palette-static-black-alpha-200),
+    var(--seed-color-palette-static-black-alpha-500)
+  );
+  border: 1px solid var(--seed-color-palette-static-white-alpha-300);
+}

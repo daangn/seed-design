@@ -40,7 +40,7 @@ export function runFixtureTests({
 
   describe(`${transformName} transform tests`, () => {
     inputFiles.forEach(({ testCase, extension: ext }) => {
-      test(`transforms ${testCase} correctly (${ext})`, () => {
+      test(`${testCase} (${ext})`, () => {
         const inputPath = join(fixturesDir, `${testCase}.input.${ext}`);
         const outputPath = join(fixturesDir, `${testCase}.output.${ext}`);
 
