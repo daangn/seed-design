@@ -55,6 +55,7 @@ npx @seed-design/codemod@latest replace-custom-seed-design-typography <target_pa
 import { style } from "@vanilla-extract/css";
 import { vars } from "@seed-design/css";
 import { f, reset } from "@/shared/styles";
+import { typography } from '@/src/styles/tokens';
 
 export const title = style([
   typography.h4,
@@ -86,6 +87,87 @@ export const largeTitle = style([
     color: vars.$scale.color.gray900,
   },
 ]);
+
+export const button = style([
+  typography['$semantic.label2Regular'],
+  {
+    width: '100%',
+    paddingTop: rem(14),
+    paddingRight: rem(16),
+    paddingBottom: rem(14),
+    paddingLeft: rem(16),
+  },
+]);
+
+export const day = style([
+  {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: rem(30),
+  },
+  typography['$semantic.caption1Regular'],
+]);
+
+// Additional test cases for various mappings
+export const titleBold = style([
+  typography.title3Bold,
+  {
+    fontWeight: 'bold',
+  },
+]);
+
+export const subtitleRegular = style([
+  f.typography.subtitle2Regular,
+  {
+    color: vars.$scale.color.gray800,
+  },
+]);
+
+export const bodyText = style([
+  typo.bodyM1Regular,
+  {
+    lineHeight: 1.5,
+  },
+]);
+
+export const labelText = style([
+  typography['$semantic.label1Bold'],
+  {
+    textTransform: 'uppercase',
+  },
+]);
+
+export const captionBold = style([
+  typography['$semantic.caption2Bold'],
+  {
+    fontSize: '12px',
+  },
+]);
+
+// Test deprecated tokens with alternative
+export const deprecatedBody = style([
+  typo.bodyL2Regular,
+  {
+    margin: '8px 0',
+  },
+]);
+
+export const deprecatedLabel = style([
+  typography['$semantic.label6Regular'],
+  {
+    opacity: 0.8,
+  },
+]);
+
+// Test multiple token choices (should use first one)
+export const headerText = style([
+  typography.h4,
+  {
+    textAlign: 'center',
+  },
+]);
 ```
 
 ```ts title="basic.output.ts"
@@ -93,6 +175,7 @@ export const largeTitle = style([
 import { style } from "@vanilla-extract/css";
 import { vars } from "@seed-design/css";
 import { f, reset } from "@/shared/styles";
+import { typography } from '@/src/styles/tokens';
 
 export const title = style([
   typography.t10Bold,
@@ -124,6 +207,87 @@ export const largeTitle = style([
     color: vars.$scale.color.gray900,
   },
 ]);
+
+export const button = style([
+  typography.t5Regular,
+  {
+    width: '100%',
+    paddingTop: rem(14),
+    paddingRight: rem(16),
+    paddingBottom: rem(14),
+    paddingLeft: rem(16),
+  },
+]);
+
+export const day = style([
+  {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: rem(30),
+  },
+  typography.t3Regular,
+]);
+
+// Additional test cases for various mappings
+export const titleBold = style([
+  typography.t6Bold,
+  {
+    fontWeight: 'bold',
+  },
+]);
+
+export const subtitleRegular = style([
+  f.typography.t4Regular,
+  {
+    color: vars.$scale.color.gray800,
+  },
+]);
+
+export const bodyText = style([
+  typo.t5Regular,
+  {
+    lineHeight: 1.5,
+  },
+]);
+
+export const labelText = style([
+  typography.t6Bold,
+  {
+    textTransform: 'uppercase',
+  },
+]);
+
+export const captionBold = style([
+  typography.t2Bold,
+  {
+    fontSize: '12px',
+  },
+]);
+
+// Test deprecated tokens with alternative
+export const deprecatedBody = style([
+  typo.t4Regular,
+  {
+    margin: '8px 0',
+  },
+]);
+
+export const deprecatedLabel = style([
+  typography.t1Regular,
+  {
+    opacity: 0.8,
+  },
+]);
+
+// Test multiple token choices (should use first one)
+export const headerText = style([
+  typography.t10Bold,
+  {
+    textAlign: 'center',
+  },
+]);
 ```
 
 </Accordion>
@@ -152,6 +316,9 @@ export function BasicExample() {
       <h3 className={cn('subtitle1Bold', className)} {...props} />
       <h3 className={isDisabled ? 'subtitle1Regular' : 'subtitle1Bold'} {...props} />
       <p className="caption2Regular text-palette-gray-800">{description}</p>
+      <div className="text-caption1Bold">Text with prefix</div>
+      <span className="text-bodyL2Regular">Another text with prefix</span>
+      <h2 className="text-title3Bold">Title with prefix</h2>
     </div>
   );
 }
@@ -171,6 +338,9 @@ export function BasicExample() {
       <h3 className={cn("t5-bold", className)} {...props} />
       <h3 className={isDisabled ? "t5-regular" : "t5-bold"} {...props} />
       <p className="t2-regular text-palette-gray-800">{description}</p>
+      <div className="t3-bold">Text with prefix</div>
+      <span className="t4-regular">Another text with prefix</span>
+      <h2 className="t6-bold">Title with prefix</h2>
     </div>
   );
 }
@@ -1236,8 +1406,8 @@ const scaleColors = {
 const staticColors = {
   white: theme.colors["palette-static-white"].computedValue,
   black: theme.colors["palette-static-black"].computedValue,
-  blackAlpha200: theme.colors["palette-static-black-alpha-200"].computedValue,
-  whiteAlpha200: theme.colors["palette-static-white-alpha-200"].computedValue,
+  blackAlpha200: theme.colors["palette-static-black-alpha-500"].computedValue,
+  whiteAlpha200: theme.colors["palette-static-white-alpha-300"].computedValue,
   gray900: theme.colors["palette-static-black"].computedValue,
   carrot50: theme.colors["palette-carrot-100"].computedValue,
   carrot800: theme.colors["palette-carrot-700"].computedValue,
@@ -1487,9 +1657,39 @@ import Text from 'components/Base/Text';
 const Component = () => {
   return (
     <div>
+      {/* 기존 variant prop 케이스 */}
       <Text variant="title2Bold">광고 노출 기준</Text>
       <Text variant="subtitle1Regular">
         앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+      
+      {/* typography prop + color prop 케이스 */}
+      <Text typography="$semantic.bodyL1Regular" color="$scale.gray700">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+      <Text typography="$semantic.label3Bold" color="$scale.gray600" className={marginLeft['4px']}>
+        지역 선택하기
+      </Text>
+      <Text typography="$semantic.label2Bold" color="$scale.gray900">
+        지표별 성과
+      </Text>
+      
+      {/* 다양한 typography prop 형태 */}
+      <Text typography="bodyL1Regular">접두사 없는 토큰</Text>
+      <Text typography="label2Bold">또 다른 토큰</Text>
+      
+      {/* 다양한 color prop 형태 */}
+      <Text variant="title1Bold" color="$semantic.primary">시맨틱 컬러</Text>
+      <Text variant="body1Regular" color="$static.white">스태틱 컬러</Text>
+      <Text variant="caption1Regular" textColor="$scale.carrot500">textColor prop</Text>
+      
+      {/* 조건부 표현식 케이스 */}
+      <Text variant={isActive ? "title1Bold" : "body1Regular"}>조건부 variant</Text>
+      <Text color={isError ? "$semantic.danger" : "$scale.gray700"}>조건부 color</Text>
+      
+      {/* JSX 표현식 컨테이너 케이스 */}
+      <Text typography={"$semantic.bodyL1Regular"} color={"$scale.gray500"}>
+        표현식 컨테이너
       </Text>
     </div>
   );
@@ -1504,9 +1704,34 @@ import { Text } from "@seed-design/react";
 const Component = () => {
   return (
     <div>
+      {/* 기존 variant prop 케이스 */}
       <Text textStyle="t7Bold">광고 노출 기준</Text>
       <Text textStyle="t5Regular">
         앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+      {/* typography prop + color prop 케이스 */}
+      <Text color="palette.gray800" textStyle="articleBody">
+        앱 내 최근 활동 이력을 분석하여 이용자의 관심사와 관련성이 높은 게시글을 노출해요.
+      </Text>
+      <Text color="palette.gray700" className={marginLeft['4px']} textStyle="t4Bold">
+        지역 선택하기
+      </Text>
+      <Text color="palette.gray1000" textStyle="t5Bold">
+        지표별 성과
+      </Text>
+      {/* 다양한 typography prop 형태 */}
+      <Text textStyle="articleBody">접두사 없는 토큰</Text>
+      <Text textStyle="t5Bold">또 다른 토큰</Text>
+      {/* 다양한 color prop 형태 */}
+      <Text color="fg.brand" textStyle="t9Bold">시맨틱 컬러</Text>
+      <Text variant="body1Regular" color="$static.white">스태틱 컬러</Text>
+      <Text textColor="palette.carrot600" textStyle="t3Regular">textColor prop</Text>
+      {/* 조건부 표현식 케이스 */}
+      <Text textStyle={isActive ? "t9Bold" : "body1Regular"}>조건부 variant</Text>
+      <Text color={isError ? "fg.critical" : "palette.gray800"}>조건부 color</Text>
+      {/* JSX 표현식 컨테이너 케이스 */}
+      <Text color={"palette.gray600"} textStyle="articleBody">
+        표현식 컨테이너
       </Text>
     </div>
   );
@@ -2021,10 +2246,10 @@ const StaticColorTestComponent = styled('div', {
   color: "$palette-red-700",
   color: "$palette-blue-100",
   color: "$palette-blue-700",
-  color: "$palette-static-black-alpha-200",
   color: "$palette-static-black-alpha-500",
-  color: '$whiteAlpha50-static',
-  color: "$palette-static-white-alpha-200",
+  color: "$palette-static-black-alpha-700",
+  color: "$palette-static-white-alpha-50",
+  color: "$palette-static-white-alpha-300",
 });
 
 // 복합 속성 테스트
@@ -2151,6 +2376,98 @@ const Component = () => {
 </Accordion>
 </Accordions>
 
+### replace-alpha-color
+
+Seed Design V3에서 V3로 알파 컬러 토큰을 업데이트하는 transform입니다.
+이 transform은 다음과 같은 알파 컬러 토큰들을 새로운 값으로 변경합니다:
+
+- `staticBlackAlpha50` → `staticBlackAlpha200`
+- `staticBlackAlpha200` → `staticBlackAlpha500`
+- `staticBlackAlpha500` → `staticBlackAlpha700`
+- `staticWhiteAlpha200` → `staticWhiteAlpha300`
+
+#### 주의사항
+
+- 이 transform은 JavaScript/TypeScript 파일과 CSS 파일을 모두 자동으로 처리합니다.
+- **한 번만 실행**: 동일한 파일에 여러 번 실행하면 연쇄 변환이 발생할 수 있습니다
+- **V3 → V3 마이그레이션**: 이미 V3를 사용 중인 프로젝트에서만 사용하세요
+- **백업 권장**: 변환 전에 코드를 백업하는 것을 권장합니다
+- **순서 중요**: 큰 번호부터 작은 번호 순으로 변환하여 연쇄 변환을 방지합니다
+
+```package-install
+npx @seed-design/codemod@latest replace-alpha-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+import { vars } from "@seed-design/css/vars";
+
+export const Component = () => {
+  const styles = {
+    overlay: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha50,
+    },
+    shadow: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha200,
+    },
+    darkOverlay: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha500,
+    },
+    lightOverlay: {
+      backgroundColor: vars.$color.palette.staticWhiteAlpha200,
+    },
+  };
+
+  return (
+    <div>
+      <div style={styles.overlay}>Light overlay</div>
+      <div style={styles.shadow}>Shadow</div>
+      <div style={styles.darkOverlay}>Dark overlay</div>
+      <div style={styles.lightOverlay}>Light overlay</div>
+      <div style={{ color: vars.$color.palette.staticBlackAlpha50 }}>Direct usage</div>
+    </div>
+  );
+};
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+import { vars } from "@seed-design/css/vars";
+
+export const Component = () => {
+  const styles = {
+    overlay: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha200,
+    },
+    shadow: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha500,
+    },
+    darkOverlay: {
+      backgroundColor: vars.$color.palette.staticBlackAlpha700,
+    },
+    lightOverlay: {
+      backgroundColor: vars.$color.palette.staticWhiteAlpha300,
+    },
+  };
+
+  return (
+    <div>
+      <div style={styles.overlay}>Light overlay</div>
+      <div style={styles.shadow}>Shadow</div>
+      <div style={styles.darkOverlay}>Dark overlay</div>
+      <div style={styles.lightOverlay}>Light overlay</div>
+      <div style={{ color: vars.$color.palette.staticBlackAlpha200 }}>Direct usage</div>
+    </div>
+  );
+};
+```
+
+</Accordion>
+</Accordions>
+
 ### replace-custom-seed-design-color
 
 커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
@@ -2233,6 +2550,154 @@ export const highlight = style({
 
 export const primary = style({
   color: color.fg.brand,
+});
+```
+
+</Accordion>
+</Accordions>
+
+### replace-custom-color-to-seed-design-vars-color
+
+```package-install
+npx @seed-design/codemod@latest replace-custom-color-to-seed-design-vars-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```ts title="basic.input.ts"
+// @ts-nocheck
+import { color, typography, mode } from '@/src/styles/tokens';
+
+export const container = style({
+  backgroundColor: color['$semantic.paperDefault'],
+  color: color['$scale.gray900'],
+  borderColor: color['$scale.carrot500'],
+});
+
+export const box = style({
+  background: color['$scale.gray50'],
+  color: color['$scale.red500'],
+  border: `1px solid ${color['$scale.gray300']}`,
+});
+
+export const alert = style({
+  backgroundColor: color['$scale.red50'],
+  color: color['$scale.red900'],
+});
+
+export const button = style({
+  backgroundColor: color['$scale.gray100'],
+  color: color['$scale.gray900'],
+});
+
+export const highlight = style({
+  color: color['$scale.carrot500'],
+  backgroundColor: color['$semantic.primary'],
+});
+
+export const primary = style({
+  color: color['$semantic.primary'],
+});
+
+// Additional test cases for various mappings
+export const semanticColors = style({
+  backgroundColor: color['$semantic.primary'],
+  color: color['$semantic.inkText'],
+  borderColor: color['$semantic.divider1'],
+});
+
+export const scaleColors = style({
+  background: color['$scale.gray100'],
+  color: color['$scale.carrot600'],
+  border: `1px solid ${color['$scale.blue500']}`,
+});
+
+export const staticColors = style({
+  backgroundColor: color['$static.staticWhite'],
+  color: color['$static.staticBlack'],
+  borderColor: color['$static.staticBlackAlpha200'],
+});
+
+// Test deprecated tokens with alternative
+export const deprecatedColors = style({
+  backgroundColor: color['$semantic.paperContents'],
+  color: color['$semantic.inkTextLow'],
+});
+
+// Test multiple token choices (should use first one)
+export const multipleChoices = style({
+  backgroundColor: color['$semantic.success'],
+  color: color['$semantic.warning'],
+});
+```
+
+```ts title="basic.output.ts"
+// @ts-nocheck
+import { typography, mode } from '@/src/styles/tokens';
+
+import { vars } from "@seed-design/css/vars";
+
+export const container = style({
+  backgroundColor: vars.$color.bg.layerDefault,
+  color: vars.$color.palette.gray1000,
+  borderColor: vars.$color.palette.carrot600,
+});
+
+export const box = style({
+  background: vars.$color.palette.gray100,
+  color: vars.$color.palette.red700,
+  border: `1px solid ${vars.$color.palette.gray400}`,
+});
+
+export const alert = style({
+  backgroundColor: vars.$color.palette.red100,
+  color: vars.$color.palette.red900,
+});
+
+export const button = style({
+  backgroundColor: vars.$color.palette.gray200,
+  color: vars.$color.palette.gray1000,
+});
+
+export const highlight = style({
+  color: vars.$color.palette.carrot600,
+  backgroundColor: vars.$color.bg.brandSolid,
+});
+
+export const primary = style({
+  color: vars.$color.fg.brand,
+});
+
+// Additional test cases for various mappings
+export const semanticColors = style({
+  backgroundColor: vars.$color.bg.brandSolid,
+  color: vars.$color.fg.neutral,
+  borderColor: vars.$color.stroke.neutralMuted,
+});
+
+export const scaleColors = style({
+  background: vars.$color.palette.gray200,
+  color: vars.$color.palette.carrot600,
+  border: `1px solid ${vars.$color.palette.blue600}`,
+});
+
+export const staticColors = style({
+  backgroundColor: vars.$color.palette.staticWhite,
+  color: vars.$color.palette.staticBlack,
+  borderColor: vars.$color.palette.staticBlackAlpha500,
+});
+
+// Test deprecated tokens with alternative
+export const deprecatedColors = style({
+  backgroundColor: vars.$color.bg.layerFill,
+  color: vars.$color.fg.neutralSubtle,
+});
+
+// Test multiple token choices (should use first one)
+export const multipleChoices = style({
+  backgroundColor: vars.$color.bg.positiveSolid,
+  color: vars.$color.bg.warningSolid,
 });
 ```
 
@@ -2403,6 +2868,36 @@ export function SeedBackgroundExample() {
     </div>
   );
 }
+
+// Class Variance Authority Example
+import { cva } from "class-variance-authority";
+
+// Button component with variants
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-staticWhite hover:bg-primaryLow",
+        destructive: "bg-danger text-staticWhite hover:bg-dangerLow",
+        outline: "border border-gray300 bg-staticWhite text-gray900 hover:bg-gray100",
+        secondary: "bg-seed-secondaryLow text-seed-secondary hover:bg-seed-gray200",
+        ghost: "text-seed-primary hover:bg-seed-primaryLow",
+        link: "text-seed-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
 ```
 
 ```tsx title="basic.output.tsx"
@@ -2459,6 +2954,36 @@ export function SeedBackgroundExample() {
     </div>
   );
 }
+
+// Class Variance Authority Example
+import { cva } from "class-variance-authority";
+
+// Button component with variants
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "bg-bg-brand-solid text-palette-static-white hover:bg-palette-carrot-100",
+        destructive: "bg-bg-critical-solid text-palette-static-white hover:bg-bg-critical-weak",
+        outline: "border border-palette-gray-400 bg-palette-static-white text-palette-gray-1000 hover:bg-palette-gray-200",
+        secondary: "bg-bg-neutral-weak text-palette-gray-900 hover:bg-palette-gray-300",
+        ghost: "text-fg-brand hover:bg-palette-carrot-100",
+        link: "text-fg-brand underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+);
 ```
 
 </Accordion>
