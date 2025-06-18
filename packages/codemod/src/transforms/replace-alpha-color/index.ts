@@ -1,5 +1,9 @@
 import type * as jscodeshift from "jscodeshift";
 import { createTransformLogger } from "../../utils/logger.js";
+import {
+  buildMemberExpression,
+  getMemberExpressionName,
+} from "../replace-seed-design-token-vars/ast-utils.js";
 
 // 알파 컬러 매핑 정의 (연쇄 변환 방지를 위해 큰 번호부터 작은 번호 순서로)
 const alphaColorMappings = [
@@ -28,47 +32,6 @@ const alphaColorMappings = [
     cssTo: "static-white-alpha-300",
   },
 ];
-
-/**
- * 멤버 표현식의 전체 이름을 가져오는 유틸리티 함수
- */
-function getMemberExpressionName(path: jscodeshift.ASTPath<jscodeshift.MemberExpression>): string {
-  const parts: string[] = [];
-  let current: any = path.node;
-
-  while (current) {
-    if (current.type === "MemberExpression") {
-      if (current.property.type === "Identifier") {
-        parts.unshift(current.property.name);
-      }
-      current = current.object;
-    } else if (current.type === "Identifier") {
-      parts.unshift(current.name);
-      break;
-    } else {
-      break;
-    }
-  }
-
-  return parts.join(".");
-}
-
-/**
- * 멤버 표현식을 빌드하는 유틸리티 함수
- */
-function buildMemberExpression(
-  j: jscodeshift.JSCodeshift,
-  name: string,
-): jscodeshift.MemberExpression {
-  const parts = name.split(".");
-  let expr: jscodeshift.MemberExpression | jscodeshift.Identifier = j.identifier(parts[0]);
-
-  for (let i = 1; i < parts.length; i++) {
-    expr = j.memberExpression(expr, j.identifier(parts[i]));
-  }
-
-  return expr as jscodeshift.MemberExpression;
-}
 
 /**
  * JavaScript/TypeScript 파일을 처리하는 메인 transform
