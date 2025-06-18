@@ -35,7 +35,7 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
     --seed-icon-color: var(--seed-color-palette-static-white);
-    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
@@ -57,7 +57,7 @@
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
-    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
@@ -101,7 +101,7 @@
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
     --seed-icon-color: var(--seed-color-palette-static-white);
-    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {

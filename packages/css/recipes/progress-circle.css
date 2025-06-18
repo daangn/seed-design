@@ -31,7 +31,7 @@
     --range-color: var(--seed-color-bg-brand-solid);
 }
 .seed-progress-circle__root--tone_staticWhite {
-    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-progress-circle__root--tone_inherit {}

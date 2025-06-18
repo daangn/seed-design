@@ -28,7 +28,7 @@
 .seed-toggle-button--variant_brandSolid {
     background: var(--seed-color-bg-brand-solid);
     color: var(--seed-color-palette-static-white);
-    --track-color: var(--seed-color-palette-static-white-alpha-200);
+    --track-color: var(--seed-color-palette-static-white-alpha-300);
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-toggle-button--variant_brandSolid:is(:active, [data-active]) {
