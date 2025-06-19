@@ -29,7 +29,7 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     onSwipeBackStart,
   });
   usePreventTouchDuringTransition({
-    appScreenRef: innerRef as React.RefObject<HTMLDivElement>,
+    ref: innerRef as React.RefObject<HTMLDivElement>,
   });
 
   return (
