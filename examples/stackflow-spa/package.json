@@ -13,7 +13,7 @@
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/css": "0.0.35",
     "@seed-design/react": "0.0.35",
-    "@seed-design/stackflow": "0.0.36",
+    "@seed-design/stackflow": "0.0.37",
     "@seed-design/stylesheet": "1.1.1",
     "@stackflow/compat-await-push": "^1.1.13",
     "@stackflow/core": "^1.2.0",
