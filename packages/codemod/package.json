@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/codemod",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",

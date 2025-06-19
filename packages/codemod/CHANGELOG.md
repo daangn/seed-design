@@ -1,5 +1,13 @@
 # @seed-design/codemod
 
+## 0.0.27
+
+### Patch Changes
+
+- 7a146c2: - replace-custom-color-to-seed-design-vars-color 추가
+  - replace-custom-seed-design-text-component 케이스 추가
+  - replace-custom-seed-design-typography 케이스 추가
+
 ## 0.0.26
 
 ### Patch Changes

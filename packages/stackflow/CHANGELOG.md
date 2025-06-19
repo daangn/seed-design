@@ -1,5 +1,11 @@
 # @seed-design/stackflow
 
+## 0.0.36
+
+### Patch Changes
+
+- 479e38b: 화면 전환 중 터치 입력이 차단합니다.
+
 ## 0.0.35
 
 ### Patch Changes
