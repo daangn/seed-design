@@ -1,5 +1,14 @@
 # @seed-design/react
 
+## 0.0.38
+
+### Patch Changes
+
+- 145b718: Float 컴포넌트의 기본 display를 inline-flex로 변경합니다.
+- 70fbaaf: Action Button에 type="ghost"를 추가합니다.
+- Updated dependencies [70fbaaf]
+  - @seed-design/css@0.0.38
+
 ## 0.0.35
 
 ### Patch Changes
