@@ -23,10 +23,29 @@ const actionButton = defineRecipe({
     flexShrink: 0,
     fontFamily: "inherit",
 
+    // Intentional duplication with seed-box; we'll adjust utility styles later
     "--seed-box-flex-grow": "initial",
     flexGrow: "var(--seed-box-flex-grow)",
     "--seed-box-min-width": "initial",
     minWidth: "var(--seed-box-min-width)",
+
+    "--seed-box-padding-bottom": "initial",
+    "--seed-box-padding-top": "initial",
+    "--seed-box-padding-left": "initial",
+    "--seed-box-padding-right": "initial",
+    paddingTop: "var(--seed-box-padding-top)",
+    paddingBottom: "var(--seed-box-padding-bottom)",
+    paddingLeft: "var(--seed-box-padding-left)",
+    paddingRight: "var(--seed-box-padding-right)",
+
+    "--seed-box-bleed-bottom": "initial",
+    "--seed-box-bleed-top": "initial",
+    "--seed-box-bleed-left": "initial",
+    "--seed-box-bleed-right": "initial",
+    marginTop: "calc(var(--seed-box-bleed-top) * -1)",
+    marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
+    marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
+    marginRight: "calc(var(--seed-box-bleed-right) * -1)",
 
     [pseudo(focus)]: {
       outline: "none",
@@ -271,6 +290,41 @@ const actionButton = defineRecipe({
           background: vars.variantNeutralOutline.loading.root.color,
         },
       },
+      ghost: {
+        background: vars.variantGhost.enabled.root.color,
+        "--seed-box-color": vars.variantGhost.enabled.label.color,
+        color: "var(--seed-box-color)",
+        ...prefixIcon({
+          color: "var(--seed-box-color)",
+        }),
+        ...suffixIcon({
+          color: "var(--seed-box-color)",
+        }),
+        ...onlyIcon({
+          color: "var(--seed-box-color)",
+        }),
+        "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
+        "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
+        [pseudo(active)]: {
+          background: vars.variantGhost.pressed.root.color,
+        },
+        [pseudo(disabled)]: {
+          background: vars.variantGhost.disabled.root.color,
+          color: vars.variantGhost.disabled.label.color,
+          ...prefixIcon({
+            color: vars.variantGhost.disabled.prefixIcon.color,
+          }),
+          ...suffixIcon({
+            color: vars.variantGhost.disabled.suffixIcon.color,
+          }),
+          ...onlyIcon({
+            color: vars.variantGhost.disabled.icon.color,
+          }),
+        },
+        [pseudo(loading)]: {
+          background: vars.variantGhost.loading.root.color,
+        },
+      },
     },
     size: {
       xsmall: {
@@ -353,8 +407,10 @@ const actionButton = defineRecipe({
       layout: "withText",
       css: {
         gap: vars.sizeXsmallLayoutWithText.enabled.root.gap,
-        paddingInline: vars.sizeXsmallLayoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeXsmallLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeXsmallLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeXsmallLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeXsmallLayoutWithText.enabled.label.fontSize,
         lineHeight: vars.sizeXsmallLayoutWithText.enabled.label.lineHeight,
       },
@@ -364,8 +420,10 @@ const actionButton = defineRecipe({
       layout: "iconOnly",
       css: {
         minWidth: vars.sizeXsmallLayoutIconOnly.enabled.root.minWidth,
-        paddingInline: vars.sizeXsmallLayoutIconOnly.enabled.root.paddingX,
-        paddingBlock: vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeXsmallLayoutIconOnly.enabled.root.paddingY,
       },
     },
     {
@@ -373,8 +431,10 @@ const actionButton = defineRecipe({
       layout: "withText",
       css: {
         gap: vars.sizeSmallLayoutWithText.enabled.root.gap,
-        paddingInline: vars.sizeSmallLayoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmallLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeSmallLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeSmallLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeSmallLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeSmallLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeSmallLayoutWithText.enabled.label.fontSize,
         lineHeight: vars.sizeSmallLayoutWithText.enabled.label.lineHeight,
       },
@@ -384,8 +444,10 @@ const actionButton = defineRecipe({
       layout: "iconOnly",
       css: {
         minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
-        paddingInline: vars.sizeSmallLayoutIconOnly.enabled.root.paddingX,
-        paddingBlock: vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeSmallLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeSmallLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeSmallLayoutIconOnly.enabled.root.paddingY,
       },
     },
     {
@@ -393,8 +455,10 @@ const actionButton = defineRecipe({
       layout: "withText",
       css: {
         gap: vars.sizeMediumLayoutWithText.enabled.root.gap,
-        paddingInline: vars.sizeMediumLayoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.sizeMediumLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeMediumLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeMediumLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeMediumLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeMediumLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeMediumLayoutWithText.enabled.label.fontSize,
         lineHeight: vars.sizeMediumLayoutWithText.enabled.label.lineHeight,
       },
@@ -404,8 +468,10 @@ const actionButton = defineRecipe({
       layout: "iconOnly",
       css: {
         minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
-        paddingInline: vars.sizeMediumLayoutIconOnly.enabled.root.paddingX,
-        paddingBlock: vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeMediumLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeMediumLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeMediumLayoutIconOnly.enabled.root.paddingY,
       },
     },
     {
@@ -413,8 +479,10 @@ const actionButton = defineRecipe({
       layout: "withText",
       css: {
         gap: vars.sizeLargeLayoutWithText.enabled.root.gap,
-        paddingInline: vars.sizeLargeLayoutWithText.enabled.root.paddingX,
-        paddingBlock: vars.sizeLargeLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeLargeLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeLargeLayoutWithText.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeLargeLayoutWithText.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeLargeLayoutWithText.enabled.root.paddingY,
         fontSize: vars.sizeLargeLayoutWithText.enabled.label.fontSize,
         lineHeight: vars.sizeLargeLayoutWithText.enabled.label.lineHeight,
       },
@@ -424,8 +492,10 @@ const actionButton = defineRecipe({
       layout: "iconOnly",
       css: {
         minWidth: vars.sizeLargeLayoutIconOnly.enabled.root.minWidth,
-        paddingInline: vars.sizeLargeLayoutIconOnly.enabled.root.paddingX,
-        paddingBlock: vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-left": vars.sizeLargeLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-right": vars.sizeLargeLayoutIconOnly.enabled.root.paddingX,
+        "--seed-box-padding-top": vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
+        "--seed-box-padding-bottom": vars.sizeLargeLayoutIconOnly.enabled.root.paddingY,
       },
     },
   ],

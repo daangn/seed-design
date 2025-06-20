@@ -316,6 +316,56 @@ export declare const vars: {
       }
     }
   },
+  "variantGhost": {
+    "enabled": {
+      "root": {
+        "color": "#ffffff00"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-neutral)"
+      },
+      "progressCircle": {
+        "trackColor": "var(--seed-color-palette-gray-500)",
+        "rangeColor": "var(--seed-color-fg-neutral)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "color": "var(--seed-color-bg-layer-default-pressed)"
+      }
+    },
+    "disabled": {
+      "root": {
+        "color": "#ffffff00"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      }
+    },
+    "loading": {
+      "root": {
+        "color": "var(--seed-color-bg-layer-default-pressed)"
+      }
+    }
+  },
   "sizeXsmall": {
     "enabled": {
       "root": {

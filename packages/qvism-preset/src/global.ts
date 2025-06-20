@@ -87,6 +87,15 @@ export const globalCss = defineGlobalCss({
     paddingLeft: "var(--seed-box-padding-left)",
     paddingRight: "var(--seed-box-padding-right)",
 
+    "--seed-box-bleed-bottom": "initial",
+    "--seed-box-bleed-top": "initial",
+    "--seed-box-bleed-left": "initial",
+    "--seed-box-bleed-right": "initial",
+    marginTop: "calc(var(--seed-box-bleed-top) * -1)",
+    marginBottom: "calc(var(--seed-box-bleed-bottom) * -1)",
+    marginLeft: "calc(var(--seed-box-bleed-left) * -1)",
+    marginRight: "calc(var(--seed-box-bleed-right) * -1)",
+
     "--seed-box-min-height": "initial",
     "--seed-box-max-height": "initial",
     "--seed-box-height": "initial",
