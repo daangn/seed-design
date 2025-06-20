@@ -91,6 +91,19 @@ npx @seed-design/cli@latest add action-button
   ```
 </ComponentExample>
 
+### Ghost
+
+Ghost variant는 `color` 속성을 사용해 레이블과 아이콘의 색상을 변경할 수 있습니다.
+
+<ComponentExample name="action-button-ghost">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/action-button-ghost.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Icon Only
 
 <ComponentExample name="action-button-icon-only">
@@ -147,6 +160,10 @@ npx @seed-design/cli@latest add action-button
 </ComponentExample>
 
 ### Bleed
+
+`bleedX`, `bleedY` 속성을 사용해 버튼이 레이아웃에서 "빠져나오게" 할 수 있습니다.
+
+Ghost variant를 시각적으로 정렬해야 할 때 유용합니다.
 
 <ComponentExample name="action-button-bleed">
   ```json doc-gen:file

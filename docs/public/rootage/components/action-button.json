@@ -119,7 +119,7 @@
             "criticalSolid": {},
             "neutralOutline": {},
             "brandOutline": {},
-            "neutralGhost": {}
+            "ghost": {}
           },
           "defaultValue": "brandSolid"
         },
@@ -904,7 +904,7 @@
       },
       {
         "variants": {
-          "variant": "neutralGhost"
+          "variant": "ghost"
         },
         "definitions": [
           {

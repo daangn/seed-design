@@ -316,7 +316,7 @@ export const vars = {
       }
     }
   },
-  "variantNeutralGhost": {
+  "variantGhost": {
     "enabled": {
       "root": {
         "color": "#ffffff00"

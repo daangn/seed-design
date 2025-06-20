@@ -1087,21 +1087,22 @@
   background: var(--seed-color-bg-layer-default);
 }
 
-.seed-action-button--variant_neutralGhost {
-  color: var(--seed-color-fg-neutral);
-  --seed-prefix-icon-color: var(--seed-color-fg-neutral);
-  --seed-suffix-icon-color: var(--seed-color-fg-neutral);
-  --seed-icon-color: var(--seed-color-fg-neutral);
+.seed-action-button--variant_ghost {
+  --seed-box-color: var(--seed-color-fg-neutral);
+  color: var(--seed-box-color);
+  --seed-prefix-icon-color: var(--seed-box-color);
+  --seed-suffix-icon-color: var(--seed-box-color);
+  --seed-icon-color: var(--seed-box-color);
   --track-color: var(--seed-color-palette-gray-500);
   --range-color: var(--seed-color-fg-neutral);
   background: #fff0;
 }
 
-.seed-action-button--variant_neutralGhost:is(:active, [data-active]) {
+.seed-action-button--variant_ghost:is(:active, [data-active]) {
   background: var(--seed-color-bg-layer-default-pressed);
 }
 
-.seed-action-button--variant_neutralGhost:is(:disabled, [disabled], [data-disabled]) {
+.seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
   color: var(--seed-color-fg-disabled);
   --seed-prefix-icon-color: var(--seed-color-fg-disabled);
   --seed-suffix-icon-color: var(--seed-color-fg-disabled);
@@ -1109,7 +1110,7 @@
   background: #fff0;
 }
 
-.seed-action-button--variant_neutralGhost[data-loading] {
+.seed-action-button--variant_ghost[data-loading] {
   background: var(--seed-color-bg-layer-default-pressed);
 }
 

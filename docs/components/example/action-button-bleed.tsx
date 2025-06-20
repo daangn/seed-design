@@ -12,7 +12,7 @@ export default function ActionButtonBleed() {
       </HStack>
       <HStack align="center" justify="space-between" borderWidth={1} borderColor="palette.red600">
         <Text fontSize="t6">Bleed Example</Text>
-        <ActionButton bleedX="asPadding" bleedY="asPadding" variant="neutralGhost">
+        <ActionButton bleedX="asPadding" bleedY="asPadding" variant="ghost">
           Bleed X and Y
         </ActionButton>
       </HStack>

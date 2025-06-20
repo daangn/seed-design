@@ -275,7 +275,7 @@ data:
       loading:
         root:
           color: $color.bg.layer-default
-    variant=neutralGhost:
+    variant=ghost:
       enabled:
         root:
           color: "#ffffff00"

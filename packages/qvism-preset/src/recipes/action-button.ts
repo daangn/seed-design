@@ -290,38 +290,39 @@ const actionButton = defineRecipe({
           background: vars.variantNeutralOutline.loading.root.color,
         },
       },
-      neutralGhost: {
-        background: vars.variantNeutralGhost.enabled.root.color,
-        color: vars.variantNeutralGhost.enabled.label.color,
+      ghost: {
+        background: vars.variantGhost.enabled.root.color,
+        "--seed-box-color": vars.variantGhost.enabled.label.color,
+        color: "var(--seed-box-color)",
         ...prefixIcon({
-          color: vars.variantNeutralGhost.enabled.prefixIcon.color,
+          color: "var(--seed-box-color)",
         }),
         ...suffixIcon({
-          color: vars.variantNeutralGhost.enabled.suffixIcon.color,
+          color: "var(--seed-box-color)",
         }),
         ...onlyIcon({
-          color: vars.variantNeutralGhost.enabled.icon.color,
+          color: "var(--seed-box-color)",
         }),
-        "--track-color": vars.variantNeutralGhost.enabled.progressCircle.trackColor,
-        "--range-color": vars.variantNeutralGhost.enabled.progressCircle.rangeColor,
+        "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
+        "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
         [pseudo(active)]: {
-          background: vars.variantNeutralGhost.pressed.root.color,
+          background: vars.variantGhost.pressed.root.color,
         },
         [pseudo(disabled)]: {
-          background: vars.variantNeutralGhost.disabled.root.color,
-          color: vars.variantNeutralGhost.disabled.label.color,
+          background: vars.variantGhost.disabled.root.color,
+          color: vars.variantGhost.disabled.label.color,
           ...prefixIcon({
-            color: vars.variantNeutralGhost.disabled.prefixIcon.color,
+            color: vars.variantGhost.disabled.prefixIcon.color,
           }),
           ...suffixIcon({
-            color: vars.variantNeutralGhost.disabled.suffixIcon.color,
+            color: vars.variantGhost.disabled.suffixIcon.color,
           }),
           ...onlyIcon({
-            color: vars.variantNeutralGhost.disabled.icon.color,
+            color: vars.variantGhost.disabled.icon.color,
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantNeutralGhost.loading.root.color,
+          background: vars.variantGhost.loading.root.color,
         },
       },
     },

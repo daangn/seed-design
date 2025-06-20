@@ -2,7 +2,7 @@ declare interface ActionButtonVariant {
   /**
   * @default brandSolid
   */
-  variant: "brandSolid" | "neutralSolid" | "neutralWeak" | "criticalSolid" | "brandOutline" | "neutralOutline" | "neutralGhost";
+  variant: "brandSolid" | "neutralSolid" | "neutralWeak" | "criticalSolid" | "brandOutline" | "neutralOutline" | "ghost";
 /**
   * @default medium
   */
