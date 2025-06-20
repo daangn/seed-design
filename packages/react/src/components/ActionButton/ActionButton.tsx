@@ -5,7 +5,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { useStyleProps, type StyleProps } from "../../utils/styled";
+import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
@@ -58,7 +58,8 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
           <Primitive.button
             ref={ref}
             className={clsx(recipeClassName, className)}
-            style={{ ...style, "--seed-box-color": color } as React.CSSProperties}
+            // NOTE: Should we handle color as a style prop?
+            style={{ ...style, "--seed-box-color": handleColor(color) } as React.CSSProperties}
             {...api.stateProps}
             {...restProps}
           >
