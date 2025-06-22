@@ -41,8 +41,8 @@
     "typescript": "^5.8.3"
   },
   "optionalDependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.26",
-    "@karrotmarket/react-multicolor-icon": "^0.0.16"
+    "@karrotmarket/react-monochrome-icon": "^0.0.27",
+    "@karrotmarket/react-multicolor-icon": "^0.0.18"
   },
   "publishConfig": {
     "access": "public"
