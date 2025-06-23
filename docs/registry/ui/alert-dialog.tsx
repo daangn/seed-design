@@ -66,7 +66,7 @@ export interface AlertDialogFooterProps extends Dialog.FooterProps {}
 export const AlertDialogFooter = Dialog.Footer;
 
 export interface AlertDialogActionProps
-  extends Dialog.ActionProps,
+  extends Omit<Dialog.ActionProps, "color">,
     ActionButtonProps {}
 
 export const AlertDialogAction = forwardRef<
