@@ -1,5 +1,14 @@
 # @seed-design/codemod
 
+## 0.0.28
+
+### Patch Changes
+
+- ab52481: `replace-custom-seed-design-typography`, `replace-custom-color-to-seed-design-vars-color` 로직 변경
+- f801300: 새로운 black, white alpha 값 추가에 대해서 대응하고, V3로 이미 마이그레이션 된 프로젝트의 alpha 값들 변환해주는 transform을 추가합니다 (replace-alpha-color)
+- Updated dependencies [f801300]
+  - @seed-design/migration-index@0.0.28
+
 ## 0.0.27
 
 ### Patch Changes
