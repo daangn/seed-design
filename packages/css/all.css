@@ -332,11 +332,27 @@
   --seed-color-palette-red-1000: #4a1209;
   --seed-color-palette-static-black: #000;
   --seed-color-palette-static-white: #fff;
-  --seed-color-palette-static-black-alpha-50: #0000000d;
-  --seed-color-palette-static-black-alpha-200: #0003;
-  --seed-color-palette-static-black-alpha-500: #00000080;
-  --seed-color-palette-static-white-alpha-200: #fff3;
-  --seed-color-palette-static-white-alpha-800: #fffc;
+  --seed-color-palette-static-black-alpha-100: #00000007;
+  --seed-color-palette-static-black-alpha-200: #0000000c;
+  --seed-color-palette-static-black-alpha-300: #00000010;
+  --seed-color-palette-static-black-alpha-400: #00000021;
+  --seed-color-palette-static-black-alpha-500: #0000002c;
+  --seed-color-palette-static-black-alpha-600: #0000004c;
+  --seed-color-palette-static-black-alpha-700: #00000074;
+  --seed-color-palette-static-black-alpha-800: #000000a2;
+  --seed-color-palette-static-black-alpha-900: #000000d0;
+  --seed-color-palette-static-black-alpha-1000: #000000e3;
+  --seed-color-palette-static-white-alpha-50: #ffffff0d;
+  --seed-color-palette-static-white-alpha-100: #ffffff17;
+  --seed-color-palette-static-white-alpha-200: #ffffff20;
+  --seed-color-palette-static-white-alpha-300: #ffffff2e;
+  --seed-color-palette-static-white-alpha-400: #ffffff3d;
+  --seed-color-palette-static-white-alpha-500: #ffffff60;
+  --seed-color-palette-static-white-alpha-600: #ffffff8b;
+  --seed-color-palette-static-white-alpha-700: #ffffffb3;
+  --seed-color-palette-static-white-alpha-800: #ffffffde;
+  --seed-color-palette-static-white-alpha-900: #ffffffea;
+  --seed-color-palette-static-white-alpha-1000: #fffffff4;
   --seed-color-palette-yellow-100: #fff7de;
   --seed-color-palette-yellow-200: #fdefb9;
   --seed-color-palette-yellow-300: #fbdc65;
@@ -364,7 +380,7 @@
   --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
   --seed-color-fg-warning-contrast: var(--seed-color-palette-yellow-900);
   --seed-color-bg-disabled: var(--seed-color-palette-gray-200);
-  --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-500);
+  --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-600);
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-700);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-700);
@@ -392,7 +408,7 @@
   --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-800);
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-300);
-  --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-200);
+  --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
   --seed-color-bg-positive-solid: var(--seed-color-palette-green-700);
   --seed-color-bg-positive-weak: var(--seed-color-palette-green-100);
   --seed-color-bg-positive-solid-pressed: var(--seed-color-palette-green-800);
@@ -409,7 +425,7 @@
   --seed-color-stroke-positive: var(--seed-color-palette-green-300);
   --seed-color-stroke-field-focused: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-gray-200);
-  --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-50);
+  --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-200);
   --seed-color-manner-temp-l1-bg: #eff0f1;
   --seed-color-manner-temp-l1-text: #62666a;
   --seed-color-manner-temp-l2-bg: #e7f2fc;
@@ -489,11 +505,27 @@
   --seed-color-palette-red-1000: #fdf2f2;
   --seed-color-palette-static-black: #000;
   --seed-color-palette-static-white: #fff;
-  --seed-color-palette-static-black-alpha-50: #0000000d;
-  --seed-color-palette-static-black-alpha-200: #0003;
-  --seed-color-palette-static-black-alpha-500: #00000080;
-  --seed-color-palette-static-white-alpha-200: #fff3;
-  --seed-color-palette-static-white-alpha-800: #fffc;
+  --seed-color-palette-static-black-alpha-100: #00000007;
+  --seed-color-palette-static-black-alpha-200: #0000000c;
+  --seed-color-palette-static-black-alpha-300: #00000010;
+  --seed-color-palette-static-black-alpha-400: #00000021;
+  --seed-color-palette-static-black-alpha-500: #0000002c;
+  --seed-color-palette-static-black-alpha-600: #0000004c;
+  --seed-color-palette-static-black-alpha-700: #00000074;
+  --seed-color-palette-static-black-alpha-800: #000000a2;
+  --seed-color-palette-static-black-alpha-900: #000000d0;
+  --seed-color-palette-static-black-alpha-1000: #000000e3;
+  --seed-color-palette-static-white-alpha-50: #ffffff0d;
+  --seed-color-palette-static-white-alpha-100: #ffffff17;
+  --seed-color-palette-static-white-alpha-200: #ffffff20;
+  --seed-color-palette-static-white-alpha-300: #ffffff2e;
+  --seed-color-palette-static-white-alpha-400: #ffffff3d;
+  --seed-color-palette-static-white-alpha-500: #ffffff60;
+  --seed-color-palette-static-white-alpha-600: #ffffff8b;
+  --seed-color-palette-static-white-alpha-700: #ffffffb3;
+  --seed-color-palette-static-white-alpha-800: #ffffffde;
+  --seed-color-palette-static-white-alpha-900: #ffffffea;
+  --seed-color-palette-static-white-alpha-1000: #fffffff4;
   --seed-color-palette-yellow-100: #302819;
   --seed-color-palette-yellow-200: #413218;
   --seed-color-palette-yellow-300: #543e15;
@@ -521,7 +553,7 @@
   --seed-color-fg-positive-contrast: var(--seed-color-palette-green-900);
   --seed-color-fg-warning-contrast: var(--seed-color-palette-yellow-900);
   --seed-color-bg-disabled: var(--seed-color-palette-gray-300);
-  --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-500);
+  --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-800);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-600);
@@ -549,7 +581,7 @@
   --seed-color-bg-neutral-solid-muted: var(--seed-color-palette-gray-400);
   --seed-color-bg-neutral-solid-muted-pressed: var(--seed-color-palette-gray-500);
   --seed-color-bg-neutral-weak-pressed: var(--seed-color-palette-gray-400);
-  --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-200);
+  --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
   --seed-color-bg-positive-solid: var(--seed-color-palette-green-500);
   --seed-color-bg-positive-weak: var(--seed-color-palette-green-100);
   --seed-color-bg-positive-solid-pressed: var(--seed-color-palette-green-500);
@@ -566,7 +598,7 @@
   --seed-color-stroke-positive: var(--seed-color-palette-green-300);
   --seed-color-stroke-field-focused: var(--seed-color-palette-gray-800);
   --seed-color-stroke-neutral-muted: var(--seed-color-palette-gray-200);
-  --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-50);
+  --seed-color-stroke-on-image: var(--seed-color-palette-static-black-alpha-200);
   --seed-color-manner-temp-l1-bg: #222226;
   --seed-color-manner-temp-l1-text: #b1b5b9;
   --seed-color-manner-temp-l2-bg: #16212b;
@@ -929,7 +961,7 @@
   --seed-prefix-icon-color: var(--seed-color-palette-static-white);
   --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   --seed-icon-color: var(--seed-color-palette-static-white);
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
+  --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
 
@@ -955,7 +987,7 @@
   --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
   --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
+  --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
 
@@ -1007,7 +1039,7 @@
   --seed-prefix-icon-color: var(--seed-color-palette-static-white);
   --seed-suffix-icon-color: var(--seed-color-palette-static-white);
   --seed-icon-color: var(--seed-color-palette-static-white);
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
+  --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
 
@@ -1260,7 +1292,7 @@
 .seed-toggle-button--variant_brandSolid {
   background: var(--seed-color-bg-brand-solid);
   color: var(--seed-color-palette-static-white);
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
+  --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
 
@@ -3714,7 +3746,7 @@
 }
 
 .seed-progress-circle__root--tone_staticWhite {
-  --track-color: var(--seed-color-palette-static-white-alpha-200);
+  --track-color: var(--seed-color-palette-static-white-alpha-300);
   --range-color: var(--seed-color-palette-static-white);
 }
 

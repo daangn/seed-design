@@ -25,7 +25,7 @@ export const vars = {
         "color": "var(--seed-color-palette-static-white)"
       },
       "progressCircle": {
-        "trackColor": "var(--seed-color-palette-static-white-alpha-200)",
+        "trackColor": "var(--seed-color-palette-static-white-alpha-300)",
         "rangeColor": "var(--seed-color-palette-static-white)"
       }
     },

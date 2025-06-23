@@ -1,10 +1,10 @@
 import type { Transform } from "jscodeshift";
 import postcss, { type Plugin } from "postcss";
 import { typographyMappings } from "@seed-design/migration-index/typography";
-import { writeFileSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import { glob } from "glob";
 import { createTransformLogger } from "../../utils/logger.js";
+
+// transform 최상단에 logger 정의
+const logger = createTransformLogger("replace-css-seed-design-typography-variable");
 
 /**
  * 이전 토큰에서 새 토큰으로 변환하는 함수
@@ -40,9 +40,20 @@ function transformTypographyToken(previousToken: string): string | null {
  * @param value CSS 변수 값 (예: "var(--seed-semantic-typography-label4-regular-font-size)")
  * @returns 변환된 CSS 변수 값 (예: "var(--seed-font-size-t2)")
  */
-function transformCssVarValue(value: string): string {
+function transformCssVarValue(
+  value: string,
+  filePath: string,
+): {
+  newValue: string;
+  hasChanges: boolean;
+  transformResults: Array<{ from: string; to: string }>;
+} {
+  let newValue = value;
+  let hasChanges = false;
+  const transformResults: Array<{ from: string; to: string }> = [];
+
   // CSS 변수 패턴을 찾아서 각각 변환
-  return value.replace(
+  newValue = value.replace(
     /var\(--seed-semantic-typography-([^-]+)-([^-]+)-([^)]+)\)/g,
     (match, style, weight, property) => {
       try {
@@ -51,7 +62,15 @@ function transformCssVarValue(value: string): string {
 
         // 매핑 찾기
         const newToken = transformTypographyToken(previousToken);
-        if (!newToken) return match;
+        if (!newToken) {
+          logger.logTransformResult(filePath, {
+            previousToken: match,
+            nextToken: null,
+            status: "warning",
+            failureReason: `No mapping found for ${previousToken}`,
+          });
+          return match;
+        }
 
         // 속성에 따라 새 변수 이름 생성
         let newVarName = "";
@@ -73,53 +92,80 @@ function transformCssVarValue(value: string): string {
             break;
           case "letter-spacing":
             // 새 디자인 시스템에서는 letter-spacing이 명시적으로 지정되지 않음
+            transformResults.push({ from: match, to: "normal" });
+            hasChanges = true;
             return "normal";
           default:
+            logger.logTransformResult(filePath, {
+              previousToken: match,
+              nextToken: null,
+              status: "warning",
+              failureReason: `Unknown property: ${property}`,
+            });
             return match;
         }
 
-        return `var(${newVarName})`;
+        const newVar = `var(${newVarName})`;
+        transformResults.push({ from: match, to: newVar });
+        hasChanges = true;
+        return newVar;
       } catch (error) {
-        console.error(`Error transforming token: ${match}`, error);
+        logger.logTransformResult(filePath, {
+          previousToken: match,
+          nextToken: null,
+          status: "failure",
+          failureReason: `Error transforming token: ${error.message}`,
+        });
         return match; // 오류 발생 시 원래 값 유지
       }
     },
   );
+
+  return { newValue, hasChanges, transformResults };
 }
 
-const postcssPlugin: Plugin = {
-  postcssPlugin: "replace-css-typography-variable",
-  Declaration(decl) {
-    // var(--seed-semantic-typography를 포함하는 선언만 처리
-    if (decl.value.includes("var(--seed-semantic-typography")) {
-      const originalValue = decl.value;
-      const newValue = transformCssVarValue(originalValue);
-
-      if (originalValue !== newValue) {
-        decl.value = newValue;
-      }
-    }
-  },
-};
-
-const transform: Transform = (file, _api, _options) => {
-  const logger = createTransformLogger("replace-css-seed-design-typography-variable");
-
-  // CSS 파일이 아닌 경우 건너뛰기
-  if (!file.path.endsWith(".css")) {
-    return file.source;
-  }
-
-  logger.startFile(file.path);
+/**
+ * CSS 파일을 처리하는 함수
+ */
+function processCssFile(source: string, filePath: string): string {
+  logger.startFile(filePath);
 
   try {
-    // PostCSS로 CSS 처리
-    const processor = postcss([postcssPlugin]);
+    let hasAnyChanges = false;
 
-    const fileSource = file.source as unknown as Record<string, any>;
+    // PostCSS로 CSS 처리
+    const postcssPlugin: Plugin = {
+      postcssPlugin: "replace-css-typography-variable",
+      Declaration(decl) {
+        // var(--seed-semantic-typography를 포함하는 선언만 처리
+        if (decl.value.includes("var(--seed-semantic-typography")) {
+          const originalValue = decl.value;
+          const { newValue, hasChanges, transformResults } = transformCssVarValue(
+            originalValue,
+            filePath,
+          );
+
+          if (hasChanges) {
+            decl.value = newValue;
+            hasAnyChanges = true;
+
+            // 각 변환 결과 로깅
+            transformResults.forEach((result) => {
+              logger.logTransformResult(filePath, {
+                previousToken: result.from,
+                nextToken: result.to,
+                status: "success",
+              });
+            });
+          }
+        }
+      },
+    };
+
+    const processor = postcss([postcssPlugin]);
     const result = processor
-      .process(fileSource, {
-        from: file.path,
+      .process(source, {
+        from: filePath,
         parser: postcss.parse,
       })
       .sync();
@@ -127,84 +173,35 @@ const transform: Transform = (file, _api, _options) => {
     // toString()을 사용하여 변환된 CSS 문자열 얻기
     const transformedCss = result.root.toString();
 
-    logger.finishFile(file.path);
+    if (!hasAnyChanges) {
+      logger.logTransformResult(filePath, {
+        previousToken: "No CSS typography variables found to transform",
+        nextToken: null,
+        status: "warning",
+      });
+    }
 
+    logger.finishFile(filePath);
     return transformedCss;
   } catch (error) {
-    console.error("Error processing CSS:", error);
-    return file.source; // 에러 발생 시 원본 소스 반환
+    logger.logTransformResult(filePath, {
+      previousToken: `Error processing CSS: ${error.message}`,
+      nextToken: null,
+      status: "failure",
+      failureReason: error.message,
+    });
+    logger.finishFile(filePath);
+    return source; // 에러 발생 시 원본 소스 반환
   }
-};
-
-/**
- * 여러 CSS 파일을 처리하는 함수
- * @param paths 처리할 파일 경로 배열
- * @param options 옵션
- */
-export function processCssFiles(paths: string[], _options: any) {
-  const logger = createTransformLogger("replace-css-seed-design-typography-variable");
-
-  let cssFilePaths: string[] = [];
-
-  // 각 경로에 대해 glob 패턴으로 CSS 파일 찾기
-  for (const path of paths) {
-    try {
-      // 경로가 CSS 파일인지 확인
-      if (path.endsWith(".css")) {
-        cssFilePaths.push(resolve(path));
-        continue;
-      }
-
-      // glob 패턴으로 CSS 파일 찾기
-      const files = glob.sync(`${path}/**/*.css`, {
-        ignore: ["**/node_modules/**", "**/dist/**", "**/build/**"],
-      });
-
-      cssFilePaths = [...cssFilePaths, ...files];
-    } catch (error) {
-      console.error(`경로 처리 중 오류 발생: ${path}`, error);
-    }
-  }
-
-  // 중복 제거
-  const uniqueCssFiles = [...new Set(cssFilePaths)];
-
-  if (uniqueCssFiles.length === 0) {
-    console.log("변환할 CSS 파일을 찾을 수 없습니다.");
-    return;
-  }
-
-  console.log(`총 ${uniqueCssFiles.length}개의 CSS 파일을 찾았습니다.`);
-
-  // 각 CSS 파일 처리
-  let totalChanged = 0;
-
-  for (const filePath of uniqueCssFiles) {
-    try {
-      const source = readFileSync(filePath, "utf8");
-      const transformedCss = transform({ path: filePath, source }, null, {});
-
-      if (source !== transformedCss) {
-        writeFileSync(filePath, transformedCss as string, "utf8");
-        logger.logTransformResult(filePath, {
-          previousToken: filePath,
-          nextToken: "transformed",
-          status: "success",
-        });
-        totalChanged++;
-      }
-    } catch (error) {
-      console.error(`파일 변환 중 오류 발생: ${filePath}`, error);
-      logger.logTransformResult(filePath, {
-        previousToken: filePath,
-        nextToken: null,
-        status: "failure",
-        failureReason: error.message,
-      });
-    }
-  }
-
-  console.log(`CSS 변환 완료: 총 ${totalChanged}개 파일 변경됨`);
 }
+
+const transform: Transform = (file, _api, _options) => {
+  // CSS 파일이 아닌 경우 건너뛰기
+  if (!file.path.endsWith(".css")) {
+    return file.source;
+  }
+
+  return processCssFile(file.source, file.path);
+};
 
 export default transform;

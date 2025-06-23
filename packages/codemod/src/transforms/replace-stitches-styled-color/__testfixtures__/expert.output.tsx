@@ -89,9 +89,9 @@ const StaticColorTestComponent = styled('div', {
   color: "$palette-red-700",
   color: "$palette-blue-100",
   color: "$palette-blue-700",
-  color: "$palette-static-black-alpha-200",
   color: "$palette-static-black-alpha-500",
-  color: "$palette-static-white-alpha-200",
+  color: "$palette-static-black-alpha-700",
+  color: "$palette-static-white-alpha-300",
 
   css: {
     color: "$palette-static-black",
@@ -114,9 +114,9 @@ const StaticColorTestComponent2 = styled('div', {
   color: "$palette-red-700",
   color: "$palette-blue-100",
   color: "$palette-blue-700",
-  color: "$palette-static-black-alpha-200",
   color: "$palette-static-black-alpha-500",
-  color: "$palette-static-white-alpha-200",
+  color: "$palette-static-black-alpha-700",
+  color: "$palette-static-white-alpha-300",
 
   css: {
     color: "$palette-static-black",

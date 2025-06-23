@@ -79,6 +79,6 @@ data:
     tone=staticWhite:
       enabled:
         track:
-          color: $color.palette.static-white-alpha-200
+          color: $color.palette.static-white-alpha-300
         range:
           color: $color.palette.static-white

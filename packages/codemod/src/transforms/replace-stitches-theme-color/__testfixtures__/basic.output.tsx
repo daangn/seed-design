@@ -45,8 +45,8 @@ const scaleColors = {
 const staticColors = {
   white: theme.colors["palette-static-white"].computedValue,
   black: theme.colors["palette-static-black"].computedValue,
-  blackAlpha200: theme.colors["palette-static-black-alpha-200"].computedValue,
-  whiteAlpha200: theme.colors["palette-static-white-alpha-200"].computedValue,
+  blackAlpha200: theme.colors["palette-static-black-alpha-500"].computedValue,
+  whiteAlpha200: theme.colors["palette-static-white-alpha-300"].computedValue,
   gray900: theme.colors["palette-static-black"].computedValue,
   carrot50: theme.colors["palette-carrot-100"].computedValue,
   carrot800: theme.colors["palette-carrot-700"].computedValue,
