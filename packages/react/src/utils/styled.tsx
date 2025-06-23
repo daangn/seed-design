@@ -39,6 +39,17 @@ export function handleDimension(dimension: string | 0 | undefined): string | und
   return vars.$dimension[dimension] ?? vars.$dimension[type]?.[value] ?? dimension;
 }
 
+function handleBleed(
+  dimension: "asPadding" | string | 0 | undefined,
+  direction: "top" | "right" | "bottom" | "left",
+) {
+  if (dimension === "asPadding") {
+    return `var(--seed-box-padding-${direction})`;
+  }
+
+  return handleDimension(dimension);
+}
+
 function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
@@ -250,6 +261,78 @@ export interface StyleProps {
    */
   pl?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
+  /**
+   * Negative x-axis margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedX?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
+  /**
+   * Negative y-axis margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedY?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
+  /**
+   * Negative top margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedTop?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
+  /**
+   * Negative right margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedRight?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
+  /**
+   * Negative bottom margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedBottom?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
+  /**
+   * Negative left margin to extend the element outside its parent.
+   * If set to "asPadding", it will use the padding value in the same direction.
+   */
+  bleedLeft?:
+    | "asPadding"
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | (string & {});
+
   display?:
     | "block"
     | "flex"
@@ -375,6 +458,12 @@ export function useStyleProps<T extends UseStyleProps>(
     pr,
     pb,
     pl,
+    bleedX,
+    bleedY,
+    bleedTop,
+    bleedRight,
+    bleedBottom,
+    bleedLeft,
     bottom,
     left,
     right,
@@ -431,6 +520,10 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
       "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb),
       "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
+      "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
+      "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
+      "--seed-box-bleed-bottom": handleBleed(bleedBottom ?? bleedY, "bottom"),
+      "--seed-box-bleed-left": handleBleed(bleedLeft ?? bleedX, "left"),
       "--seed-box-top": top,
       "--seed-box-left": left,
       "--seed-box-right": right,

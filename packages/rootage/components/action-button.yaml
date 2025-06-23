@@ -275,6 +275,38 @@ data:
       loading:
         root:
           color: $color.bg.layer-default
+    variant=ghost:
+      enabled:
+        root:
+          color: "#ffffff00"
+        label:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        progressCircle:
+          trackColor: $color.palette.gray-500
+          rangeColor: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      disabled:
+        root:
+          color: "#ffffff00"
+        label:
+          color: $color.fg.disabled
+        icon:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled
+      loading:
+        root:
+          color: $color.bg.layer-default-pressed
     size=xsmall:
       enabled:
         root:

@@ -1,5 +1,24 @@
 # @seed-design/stackflow
 
+## 0.0.38
+
+### Patch Changes
+
+- Updated dependencies [70fbaaf]
+  - @seed-design/css@0.0.38
+
+## 0.0.37
+
+### Patch Changes
+
+- 97a1237: `@stackflow/react-ui-core`의 usePreventTouchDuringTransition prop `ref`로 이름을 변경했습니다
+
+## 0.0.36
+
+### Patch Changes
+
+- 479e38b: 화면 전환 중 터치 입력이 차단합니다.
+
 ## 0.0.35
 
 ### Patch Changes

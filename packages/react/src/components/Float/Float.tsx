@@ -111,6 +111,14 @@ export const Float = React.forwardRef<HTMLDivElement, FloatProps>((props, ref) =
   const placementStyle = getPlacementStyle(placement, offsetX, offsetY);
 
   return (
-    <Box ref={ref} as={as} position="absolute" zIndex={zIndex} {...placementStyle} {...rest} />
+    <Box
+      ref={ref}
+      as={as}
+      position="absolute"
+      display="inline-flex"
+      zIndex={zIndex}
+      {...placementStyle}
+      {...rest}
+    />
   );
 });

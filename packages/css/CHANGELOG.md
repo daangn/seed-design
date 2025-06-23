@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.0.38
+
+### Patch Changes
+
+- 70fbaaf: Action Button에 type="ghost"를 추가합니다.
+
 ## 0.0.35
 
 ### Patch Changes

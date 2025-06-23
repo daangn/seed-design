@@ -49,7 +49,8 @@ export const actionButtonVariantMap = {
     "neutralWeak",
     "criticalSolid",
     "brandOutline",
-    "neutralOutline"
+    "neutralOutline",
+    "ghost"
   ],
   "size": [
     "xsmall",

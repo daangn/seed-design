@@ -89,6 +89,14 @@
   padding-bottom: var(--seed-box-padding-bottom);
   padding-left: var(--seed-box-padding-left);
   padding-right: var(--seed-box-padding-right);
+  --seed-box-bleed-bottom: initial;
+  --seed-box-bleed-top: initial;
+  --seed-box-bleed-left: initial;
+  --seed-box-bleed-right: initial;
+  margin-top: calc(var(--seed-box-bleed-top) * -1);
+  margin-bottom: calc(var(--seed-box-bleed-bottom) * -1);
+  margin-left: calc(var(--seed-box-bleed-left) * -1);
+  margin-right: calc(var(--seed-box-bleed-right) * -1);
   --seed-box-min-height: initial;
   --seed-box-max-height: initial;
   --seed-box-height: initial;
