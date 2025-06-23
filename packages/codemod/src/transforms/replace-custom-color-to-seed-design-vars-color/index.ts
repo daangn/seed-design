@@ -8,21 +8,8 @@ import { getTokenTypeForProperty } from "../../utils/color-properties.js";
 const logger = createTransformLogger("replace-custom-color-to-seed-design-vars-color");
 
 // 프로젝트별로 다양한 컬러 접두사를 허용
-const TARGET_PREFIXES = ["color", "f.color", "c"];
+const TARGET_PREFIXES = ["color", "f.color", "c", "bg"];
 
-// import 변환 매핑
-const IMPORT_TRANSFORMATIONS = {
-  "@/src/styles/tokens": "@seed-design/css/vars",
-  "@/src/styles/tokens/color.css": "@seed-design/css/vars",
-  "@/src/styles/fn.css": "@seed-design/css/vars",
-  "./tokens": "@seed-design/css/vars",
-  "../tokens": "@seed-design/css/vars",
-  "../../styles/tokens": "@seed-design/css/vars",
-  "../../../styles/tokens": "@seed-design/css/vars",
-  "../../../../styles/tokens": "@seed-design/css/vars",
-  "../../../styles/fn.css": "@seed-design/css/vars",
-  "../../../../styles/fn.css": "@seed-design/css/vars",
-};
 
 ///////////////////////////////////////////////////////////////////
 
@@ -38,67 +25,6 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
 
   // 컬러 매핑 정보를 가져옴
   const colorMap = colorMappings as FoundationTokenMapping[];
-
-  // @seed-design/css/vars가 이미 import되어 있는지 확인
-  const hasVarsImport =
-    root
-      .find(j.ImportDeclaration)
-      .filter((path) => path.node.source.value === "@seed-design/css/vars").length > 0;
-
-  // import 문 변환
-  root.find(j.ImportDeclaration).forEach((path) => {
-    const importSource = path.node.source.value;
-
-    if (typeof importSource === "string" && IMPORT_TRANSFORMATIONS[importSource]) {
-      if (path.node.specifiers) {
-        // color 관련 specifier만 찾기
-        const colorSpecifiers = path.node.specifiers.filter((spec) => {
-          if (spec.type === "ImportSpecifier" && spec.imported.type === "Identifier") {
-            return TARGET_PREFIXES.some((prefix) => prefix.split(".")[0] === spec.imported.name);
-          }
-          return false;
-        });
-
-        // color가 아닌 다른 specifier들
-        const otherSpecifiers = path.node.specifiers.filter((spec) => {
-          if (spec.type === "ImportSpecifier" && spec.imported.type === "Identifier") {
-            return !TARGET_PREFIXES.some((prefix) => prefix.split(".")[0] === spec.imported.name);
-          }
-          return true; // default import 등
-        });
-
-        if (colorSpecifiers.length > 0) {
-          // @seed-design/css/vars가 이미 없는 경우에만 vars import 추가
-          if (!hasVarsImport) {
-            // vars import 추가
-            const varsImport = j.importDeclaration(
-              [j.importSpecifier(j.identifier("vars"))],
-              j.literal("@seed-design/css/vars"),
-            );
-
-            // 두 번째 import 위치에 추가 (첫 번째가 @/src/styles/fn.css 같은 경우)
-            const imports = root.find(j.ImportDeclaration);
-            if (imports.length > 0) {
-              imports.at(0).insertAfter(varsImport);
-            } else {
-              // import가 없는 경우 파일 최상단에 추가
-              root.get().node.body.unshift(varsImport);
-            }
-          }
-
-          // 다른 specifier가 있으면 color만 제거하고 유지
-          if (otherSpecifiers.length > 0) {
-            path.node.specifiers = otherSpecifiers;
-          } else {
-            // color만 있었으면 전체 import 제거
-            j(path).remove();
-          }
-
-          hasChanges = true;
-        }
-      }
-    }
-  });
 
   // 복합 접두사 (f.color와 같은) 처리
   TARGET_PREFIXES.filter((prefix) => prefix.includes(".")).forEach((prefix) => {
@@ -121,14 +47,14 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
         },
       })
       .forEach((path) => {
-        // f.color -> f.vars로 변경
+        // f.color -> color로 변경
         if (
           path.node.object.type === "MemberExpression" &&
           path.node.object.property.type === "Identifier"
         ) {
-          path.node.object.property.name = "vars";
+          path.node.object.property.name = "color";
         }
-        processColorNode(j, path, file, colorMap);
+        processColorNode(j, path, file, colorMap, prefix);
         hasChanges = true;
       });
   });
@@ -143,11 +69,8 @@ export default function transformer(file: FileInfo, api: API, options: Options) 
         },
       })
       .forEach((path) => {
-        // color -> vars로 변경
-        if (path.node.object.type === "Identifier") {
-          path.node.object.name = "vars";
-        }
-        processColorNode(j, path, file, colorMap);
+        // color는 그대로 유지
+        processColorNode(j, path, file, colorMap, prefix);
         hasChanges = true;
       });
   });
@@ -205,6 +128,7 @@ function processColorNode(
   path: any,
   file: FileInfo,
   colorMap: FoundationTokenMapping[],
+  objectName?: string,
 ) {
   // 속성명 가져오기 (dot notation과 bracket notation 모두 지원)
   const propertyName = path.node.property.name || path.node.property.value;
@@ -280,7 +204,7 @@ function processColorNode(
         const transformedToken = transformTokenToDotNotation(selectedToken);
 
         // 속성명 변경 (bracket notation을 dot notation으로 변환)
-        applyTransformedToken(j, path, transformedToken);
+        applyTransformedToken(j, path, transformedToken, objectName);
 
         // 성공 로깅
         logger.logTransformResult(file.path, {
@@ -318,7 +242,7 @@ function processColorNode(
         const transformedToken = transformTokenToDotNotation(selectedToken);
 
         // 속성명 변경 (bracket notation을 dot notation으로 변환)
-        applyTransformedToken(j, path, transformedToken);
+        applyTransformedToken(j, path, transformedToken, objectName);
 
         // 성공 로깅 (대체 토큰 사용)
         logger.logTransformResult(file.path, {
@@ -362,7 +286,12 @@ function processColorNode(
 }
 
 // 변환된 토큰을 AST에 적용하는 함수
-function applyTransformedToken(j: API["jscodeshift"], path: any, transformedToken: string) {
+function applyTransformedToken(
+  j: API["jscodeshift"],
+  path: any,
+  transformedToken: string,
+  objectName?: string,
+) {
   // $color.palette.gray00 -> palette.gray00 형태로 분해
   const parts = transformedToken.split(".");
 
@@ -370,15 +299,20 @@ function applyTransformedToken(j: API["jscodeshift"], path: any, transformedToke
     const category = parts[1]; // palette, bg, fg, stroke
     const value = parts.slice(2).join("."); // gray00 또는 복합값
 
-    // vars.$color.palette.gray00 형태로 변환
-    const colorAccess = j.memberExpression(j.identifier("vars"), j.identifier("$color"));
-
-    const categoryAccess = j.memberExpression(colorAccess, j.identifier(category));
-
-    // bracket notation을 dot notation으로 변환
-    path.node.computed = false;
-    path.node.object = categoryAccess;
-    path.node.property = j.identifier(value);
+    // bg 객체는 그대로 유지, color는 bracket notation으로 변환
+    if (objectName === "bg") {
+      // bg['palette.gray00'] 형태로 변환
+      const tokenPath = `${category}.${value}`;
+      path.node.computed = true;
+      path.node.object = j.identifier("bg");
+      path.node.property = j.literal(tokenPath);
+    } else {
+      // color['palette.gray00'] 형태로 변환
+      const tokenPath = `${category}.${value}`;
+      path.node.computed = true;
+      path.node.object = j.identifier("color");
+      path.node.property = j.literal(tokenPath);
+    }
   }
 }
 

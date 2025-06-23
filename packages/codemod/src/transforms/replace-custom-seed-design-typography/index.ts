@@ -6,7 +6,7 @@ import { createTransformLogger } from "../../utils/logger.js";
 const logger = createTransformLogger("replace-custom-seed-design-typography");
 
 // 프로젝트별로 다양한 타이포그래피 접두사를 허용
-const TARGET_PREFIXES = ["typography", "f.typography", "typo"];
+const TARGET_PREFIXES = ["typography", "f.typography", "typo", "text"];
 
 ///////////////////////////////////////////////////////////////////
 
@@ -110,6 +110,11 @@ function processTypographyNode(
     if (mapping.next.length > 0) {
       // 첫 번째 매핑된 토큰 사용
       const nextToken = mapping.next[0];
+
+      // text 객체명을 'typography'로 변경
+      if (path.node.object.name === "text") {
+        path.node.object.name = "typography";
+      }
 
       // 속성명 변경 (bracket notation을 dot notation으로 변환)
       path.node.computed = false;

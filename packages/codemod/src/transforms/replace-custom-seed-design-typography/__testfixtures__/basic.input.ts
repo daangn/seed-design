@@ -115,3 +115,7 @@ export const headerText = style([
     textAlign: 'center',
   },
 ]);
+
+export const text = style([
+  text['$semantic.bodyL2Bold'],
+]);

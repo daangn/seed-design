@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { color, typography, mode } from '@/src/styles/tokens';
+import { color, bg, typography, mode } from '@/src/styles/tokens';
 
 export const container = style({
   backgroundColor: color['$semantic.paperDefault'],
@@ -62,3 +62,8 @@ export const multipleChoices = style({
   backgroundColor: color['$semantic.success'],
   color: color['$semantic.warning'],
 });
+
+export const icon = {
+  color: color['$scale.gray600'],
+  bg: bg['$scale.gray100'],
+};
