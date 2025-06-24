@@ -111,11 +111,6 @@ function processTypographyNode(
       // 첫 번째 매핑된 토큰 사용
       const nextToken = mapping.next[0];
 
-      // text 객체명을 'typography'로 변경
-      if (path.node.object.name === "text") {
-        path.node.object.name = "typography";
-      }
-
       // 속성명 변경 (bracket notation을 dot notation으로 변환)
       path.node.computed = false;
       path.node.property = j.identifier(nextToken);

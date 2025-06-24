@@ -2,7 +2,7 @@
 import { style } from "@vanilla-extract/css";
 import { vars } from "@seed-design/css";
 import { f, reset } from "@/shared/styles";
-import { typography } from '@/src/styles/tokens';
+import { typography, text } from '@/src/styles/tokens';
 
 export const title = style([
   typography.h4,
