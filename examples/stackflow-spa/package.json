@@ -31,7 +31,7 @@
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@vanilla-extract/vite-plugin": "^5.0.1",
-    "@vitejs/plugin-legacy": "^6.1.0",
+    "@vitejs/plugin-legacy": "^7.0.0",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "rollup-plugin-visualizer": "^6.0.0",
     "terser": "^5.39.0",
