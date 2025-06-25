@@ -89,11 +89,26 @@ SEED 디자인 시스템의 모든 디자인 토큰은 다음과 같은 유틸�
 <button className="radius-r8">매우 둥근 버튼</button>
 ```
 
+### 그라데이션 유틸리티
+```jsx
+// 방향성 그라데이션 배경
+<div className="bg-shimmer-neutral-to-r">우측으로 그라데이션</div>
+<div className="bg-shimmer-magic-to-b">아래로 그라데이션</div>
+<div className="bg-shimmer-neutral-to-tr">우측 상단으로 그라데이션</div>
+
+// 색상 stops와 함께 사용 (from-, via-, to- 유틸리티)
+<div className="bg-gradient-to-r from-gradient-shimmer-neutral via-transparent to-transparent">
+  커스텀 그라데이션
+</div>
+```
+
 ## 지원하는 토큰
 
 이 플러그인은 다음과 같은 SEED 디자인 토큰을 지원합니다:
 
 - 색상 (fg-*, bg-*, stroke-*, palette-*)
+- 그라데이션 (shimmer-*-to-t, shimmer-*-to-r, shimmer-*-to-b, shimmer-*-to-l, shimmer-*-to-tr, shimmer-*-to-br, shimmer-*-to-bl, shimmer-*-to-tl)
+- 그라데이션 색상 stops (gradient-shimmer-*, from-, via-, to- 유틸리티와 함께 사용)
 - 크기 (dimension-x*)
 - 여백 (p-x*, m-x*, gap-x*)
 - 반경 (radius-r*)

@@ -1,178 +1,231 @@
-import type { ComponentSpecDeclaration, TokenDeclaration } from "../parser/ast";
+import type { ComponentSpecDeclaration, TokenDeclaration, GradientLit } from "../parser/ast";
 import { convertToKebabCase } from "../utils/string";
 
-// Tailwind 플러그인 코드 생성 함수
-export function getTailwind3PluginCode(
-  foundationTokens: TokenDeclaration[],
-  typographyTokens: ComponentSpecDeclaration[],
-): string {
-  // 각 카테고리별 토큰을 저장할 객체 초기화
-  const colorTokens: Record<string, string> = {};
-  const dimensionTokens: Record<string, string> = {};
-  const radiusTokens: Record<string, string> = {};
-  const fontSizeTokens: Record<string, string> = {};
-  const lineHeightTokens: Record<string, string> = {};
-  const fontWeightTokens: Record<string, string> = {};
-  const durationTokens: Record<string, string> = {};
-  const timingFunctionTokens: Record<string, string> = {};
+// 토큰 타입별 저장소 인터페이스
+interface TokenCollections {
+  colors: Record<string, string>;
+  gradients: Record<string, string>;
+  dimensions: Record<string, string>;
+  radius: Record<string, string>;
+  fontSize: Record<string, string>;
+  lineHeight: Record<string, string>;
+  fontWeight: Record<string, string>;
+  duration: Record<string, string>;
+  timingFunction: Record<string, string>;
+  typography: Record<string, Record<string, string>>;
+}
 
-  // 타이포그래피 토큰을 저장할 객체 초기화
-  const flatTypography: Record<string, Record<string, string>> = {};
+// Gradient를 색상 stops만으로 변환하는 함수 (방향 없이)
+function gradientToColorStops(gradient: GradientLit): string {
+  return gradient.stops
+    .map((stop) => `${stop.color.value} ${(stop.position.value * 100).toFixed(2)}%`)
+    .join(", ");
+}
 
-  // 토큰 처리
+// 토큰 키 생성 함수
+function createTokenKey(tokenGroup: string[], tokenKey: string): string {
+  return tokenGroup.join("-") + (tokenKey ? `-${tokenKey.replaceAll(".", "-")}` : "");
+}
+
+// CSS 변수명 생성 함수
+function createCssVarName(tokenGroup: string[], tokenKey: string): string {
+  return `--seed-${tokenGroup.join("-")}${tokenGroup.length > 0 && tokenKey ? "-" : ""}${tokenKey}`;
+}
+
+// 토큰 처리 함수
+function processFoundationTokens(foundationTokens: TokenDeclaration[]): TokenCollections {
+  const collections: TokenCollections = {
+    colors: {},
+    gradients: {},
+    dimensions: {},
+    radius: {},
+    fontSize: {},
+    lineHeight: {},
+    fontWeight: {},
+    duration: {},
+    timingFunction: {},
+    typography: {},
+  };
+
   for (const token of foundationTokens) {
-    // 토큰 그룹이 비어있으면 스킵
     const tokenGroup = token.token.group;
     if (tokenGroup.length === 0) continue;
 
-    // 키 생성: 카테고리-나머지 경로 사용
-    const tokenKey =
-      tokenGroup.join("-") + (token.token.key ? `-${token.token.key.replaceAll(".", "-")}` : "");
-
-    // CSS 변수 이름 생성
-    const cssVarName = `--seed-${token.token.group.join("-")}${
-      token.token.group.length > 0 && token.token.key ? "-" : ""
-    }${token.token.key}`;
-
-    // CSS 변수 값
+    const tokenKey = createTokenKey(tokenGroup, token.token.key || "");
+    const cssVarName = createCssVarName(tokenGroup, token.token.key || "");
     const cssVarValue = `var(${cssVarName})`;
 
-    // 토큰 타입에 따라 적절한 객체에 저장
+    // 토큰 타입별 분류
     if (tokenGroup[0] === "color") {
-      // 색상 토큰의 경우
-      // 첫 번째 그룹 요소 'color' 제외하고 카테고리-나머지 경로 사용
       const relevantGroups = tokenGroup.slice(1);
-      if (relevantGroups.length === 0) continue;
+      if (relevantGroups.length > 0) {
+        const colorKey =
+          relevantGroups.join("-") +
+          (token.token.key ? `-${token.token.key.replaceAll(".", "-")}` : "");
+        collections.colors[colorKey] = cssVarValue;
+      }
+    } else if (tokenGroup[0] === "gradient") {
+      // gradient 토큰 처리 - 색상 stops만 제공하여 사용자가 방향을 자유롭게 설정할 수 있도록
+      const gradientKey = tokenKey.substring(9); // "gradient-" 제거
 
-      const colorKey =
-        relevantGroups.join("-") +
-        (token.token.key ? `-${token.token.key.replaceAll(".", "-")}` : "");
+      // 토큰에서 실제 gradient 값을 찾아서 색상 stops만 변환
+      if (token.kind === "GradientTokenDeclaration") {
+        const themeLight = token.values.find((v) => v.mode === "theme-light");
+        if (themeLight?.value && themeLight.value.kind === "GradientLit") {
+          const colorStops = gradientToColorStops(themeLight.value);
+          collections.gradients[gradientKey] = colorStops;
 
-      colorTokens[colorKey] = cssVarValue;
+          // 방향성 유틸리티들 추가
+          collections.gradients[`${gradientKey}-to-t`] = `linear-gradient(to top, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-tr`] =
+            `linear-gradient(to top right, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-r`] = `linear-gradient(to right, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-br`] =
+            `linear-gradient(to bottom right, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-b`] =
+            `linear-gradient(to bottom, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-bl`] =
+            `linear-gradient(to bottom left, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-l`] = `linear-gradient(to left, ${colorStops})`;
+          collections.gradients[`${gradientKey}-to-tl`] =
+            `linear-gradient(to top left, ${colorStops})`;
+        } else {
+          // fallback으로 CSS 변수 참조 - 방향 없는 gradient는 제거
+        }
+      } else {
+        // fallback으로 CSS 변수 참조 - 방향 없는 gradient는 제거
+      }
     } else if (tokenKey.startsWith("dimension-")) {
-      dimensionTokens[tokenKey.substring(10)] = cssVarValue;
+      collections.dimensions[tokenKey.substring(10)] = cssVarValue;
     } else if (tokenKey.startsWith("radius-")) {
-      radiusTokens[tokenKey.substring(7)] = cssVarValue;
+      collections.radius[tokenKey.substring(7)] = cssVarValue;
     } else if (tokenKey.startsWith("font-size-")) {
-      fontSizeTokens[tokenKey.substring(10)] = cssVarValue;
+      collections.fontSize[tokenKey.substring(10)] = cssVarValue;
     } else if (tokenKey.startsWith("line-height-")) {
-      lineHeightTokens[tokenKey.substring(12)] = cssVarValue;
+      collections.lineHeight[tokenKey.substring(12)] = cssVarValue;
     } else if (tokenKey.startsWith("font-weight-")) {
-      fontWeightTokens[tokenKey.substring(12)] = cssVarValue;
+      collections.fontWeight[tokenKey.substring(12)] = cssVarValue;
     } else if (tokenKey.startsWith("duration-")) {
-      durationTokens[tokenKey.substring(9)] = cssVarValue;
+      collections.duration[tokenKey.substring(9)] = cssVarValue;
     } else if (tokenKey.startsWith("timing-function-")) {
-      timingFunctionTokens[tokenKey.substring(16)] = cssVarValue;
-    } else if (tokenKey.startsWith("gradient-shimmer-")) {
-      // 그라데이션 쉐이머 토큰의 경우
-      colorTokens[tokenKey.substring(16)] = cssVarValue;
+      collections.timingFunction[tokenKey.substring(16)] = cssVarValue;
     }
   }
 
-  // 타이포그래피 토큰 처리 (ComponentSpecDeclaration에서 추출)
-  // typographyTokens의 variant, state, slot 구조에서 타이포그래피 정보 추출
+  return collections;
+}
+
+// 타이포그래피 토큰 처리 함수
+function processTypographyTokens(
+  typographyTokens: ComponentSpecDeclaration[],
+): Record<string, Record<string, string>> {
+  const flatTypography: Record<string, Record<string, string>> = {};
+
   for (const typographyToken of typographyTokens) {
-    if (typographyToken?.body) {
-      // 컴포넌트 스펙의 body에서 variant 순회
-      for (const variant of typographyToken.body) {
-        // variant 이름 처리 - "textStyle=" 으로 시작하는 variant만 처리
-        if (variant.variants.length > 0 && variant.variants.some((v) => v.name === "textStyle")) {
-          // textStyle=screenTitle에서 screenTitle 부분만 추출하여 className으로 사용
-          const textStyleVariant = variant.variants.find((v) => v.name === "textStyle");
-          if (!textStyleVariant) continue;
+    if (!typographyToken?.body) continue;
 
-          const className = textStyleVariant.value;
-          // 캐멀케이스를 케밥케이스로 변환
-          const kebabClassName = convertToKebabCase(className);
+    for (const variant of typographyToken.body) {
+      if (!variant.variants.some((v) => v.name === "textStyle")) continue;
 
-          // 각 state 순회
-          for (const state of variant.body) {
-            // state가 enabled인 경우에만 처리
-            if (state.states.some((s: { value: string }) => s.value === "enabled")) {
-              // 각 slot 순회
-              for (const slot of state.body) {
-                // slot 이름이 있으면 사용, 없으면 root 사용
-                const slotName = slot.slot || "root";
+      const textStyleVariant = variant.variants.find((v) => v.name === "textStyle");
+      if (!textStyleVariant) continue;
 
-                // slotName이 root인 경우에만 처리 (필요에 따라 조정 가능)
-                if (slotName === "root") {
-                  // property 순회하여 fontSize, lineHeight, fontWeight 추출
-                  const typographyStyle: Record<string, string> = {};
+      const className = textStyleVariant.value;
+      const kebabClassName = convertToKebabCase(className);
 
-                  for (const prop of slot.body) {
-                    if (prop.property === "fontSize" && "value" in prop) {
-                      if (prop.kind === "DimensionPropertyDeclaration") {
-                        // token 참조인 경우
-                        if (prop.value.kind === "TokenLit") {
-                          typographyStyle.fontSize = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-                        }
-                        // 직접 값인 경우
-                        else if (prop.value.kind === "DimensionLit") {
-                          typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
-                        }
-                      }
-                    }
+      for (const state of variant.body) {
+        if (!state.states.some((s: { value: string }) => s.value === "enabled")) continue;
 
-                    if (prop.property === "lineHeight" && "value" in prop) {
-                      if (
-                        prop.kind === "NumberPropertyDeclaration" ||
-                        prop.kind === "DimensionPropertyDeclaration"
-                      ) {
-                        // token 참조인 경우
-                        if (prop.value.kind === "TokenLit") {
-                          typographyStyle.lineHeight = `var(--seed-${prop.value.identifier.replace("$", "").replace(".", "-")})`;
-                        }
-                        // 직접 값인 경우 (NumberLit 또는 DimensionLit)
-                        else if ("value" in prop.value) {
-                          typographyStyle.lineHeight =
-                            prop.value.kind === "DimensionLit"
-                              ? `${prop.value.value}${prop.value.unit}`
-                              : `${prop.value.value}`;
-                        }
-                      }
-                    }
+        for (const slot of state.body) {
+          const slotName = slot.slot || "root";
+          if (slotName !== "root") continue;
 
-                    if (prop.property === "fontWeight" && "value" in prop) {
-                      if (prop.kind === "NumberPropertyDeclaration") {
-                        // token 참조인 경우
-                        if (prop.value.kind === "TokenLit") {
-                          typographyStyle.fontWeight = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
-                        }
-                        // 직접 값인 경우
-                        else if (prop.value.kind === "NumberLit") {
-                          typographyStyle.fontWeight = `${prop.value.value}`;
-                        }
-                      }
-                    }
-                  }
+          const typographyStyle: Record<string, string> = {};
 
-                  // 스타일 정보가 있으면 저장
-                  if (Object.keys(typographyStyle).length > 0) {
-                    // kebabClassName 사용 (camelCase를 kebab-case로 변환)
-                    flatTypography[kebabClassName] = typographyStyle;
-                  }
+          for (const prop of slot.body) {
+            if (prop.property === "fontSize" && "value" in prop) {
+              if (prop.kind === "DimensionPropertyDeclaration") {
+                if (prop.value.kind === "TokenLit") {
+                  typographyStyle.fontSize = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+                } else if (prop.value.kind === "DimensionLit") {
+                  typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
                 }
               }
             }
+
+            if (prop.property === "lineHeight" && "value" in prop) {
+              if (
+                prop.kind === "NumberPropertyDeclaration" ||
+                prop.kind === "DimensionPropertyDeclaration"
+              ) {
+                if (prop.value.kind === "TokenLit") {
+                  typographyStyle.lineHeight = `var(--seed-${prop.value.identifier.replace("$", "").replace(".", "-")})`;
+                } else if ("value" in prop.value) {
+                  typographyStyle.lineHeight =
+                    prop.value.kind === "DimensionLit"
+                      ? `${prop.value.value}${prop.value.unit}`
+                      : `${prop.value.value}`;
+                }
+              }
+            }
+
+            if (prop.property === "fontWeight" && "value" in prop) {
+              if (prop.kind === "NumberPropertyDeclaration") {
+                if (prop.value.kind === "TokenLit") {
+                  typographyStyle.fontWeight = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+                } else if (prop.value.kind === "NumberLit") {
+                  typographyStyle.fontWeight = `${prop.value.value}`;
+                }
+              }
+            }
+          }
+
+          if (Object.keys(typographyStyle).length > 0) {
+            flatTypography[kebabClassName] = typographyStyle;
           }
         }
       }
     }
   }
 
+  return flatTypography;
+}
+
+// Tailwind 플러그인 코드 생성 함수
+export function getTailwind3PluginCode(
+  foundationTokens: TokenDeclaration[],
+  typographyTokens: ComponentSpecDeclaration[],
+): string {
+  // 토큰 처리
+  const collections = processFoundationTokens(foundationTokens);
+  const typography = processTypographyTokens(typographyTokens);
+
+  // gradient stops를 colors에도 추가 (from-, via-, to- 유틸리티와 함께 사용 가능)
+  const gradientStops: Record<string, string> = {};
+  Object.entries(collections.gradients)
+    .filter(([key]) => !key.includes("-to-"))
+    .forEach(([key, value]) => {
+      gradientStops[`gradient-${key}`] = value;
+    });
+
+  const extendedColors = {
+    ...collections.colors,
+    ...gradientStops,
+  };
+
+  // backgroundImage에는 방향성이 있는 gradient만 추가 (-to-가 포함된 것들)
+  const gradientBackgrounds: Record<string, string> = {};
+  Object.entries(collections.gradients)
+    .filter(([key]) => key.includes("-to-"))
+    .forEach(([key, value]) => {
+      gradientBackgrounds[key] = value;
+    });
+
   // JSON 직렬화
-  const colorsJson = JSON.stringify(colorTokens, null, 2);
-  const typographyJson = JSON.stringify(flatTypography, null, 2);
-  const dimensionsJson = JSON.stringify(dimensionTokens, null, 2);
-  const borderRadiusJson = JSON.stringify(radiusTokens, null, 2);
-  const fontSizeJson = JSON.stringify(fontSizeTokens, null, 2);
-  const lineHeightJson = JSON.stringify(lineHeightTokens, null, 2);
-  const fontWeightJson = JSON.stringify(fontWeightTokens, null, 2);
-  const durationJson = JSON.stringify(durationTokens, null, 2);
-  const timingFunctionJson = JSON.stringify(timingFunctionTokens, null, 2);
+  const serializeJson = (obj: any) => JSON.stringify(obj, null, 2);
 
   // Tailwind Plugin 코드 생성
-  const pluginCode = `// @ts-nocheck
+  return `// @ts-nocheck
 import plugin from "tailwindcss/plugin";
 
 /**
@@ -181,40 +234,41 @@ import plugin from "tailwindcss/plugin";
  * 예시: 
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
  * - 타이포그래피: t1-regular, t1-bold, screen-title
+ * - 그라데이션: 
+ *   * bg-shimmer-neutral-to-r (방향성 포함)
+ *   * bg-linear-[25deg,var(--seed-gradient-shimmer-neutral)] (임의 각도)
+ *   * bg-shimmer-neutral (색상 stops만)
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
 export default plugin(
   ({ theme, addComponents }) => {  
-  // typography 유틸리티
-   const typography = theme("typography");
-   if (typography) {
-     // matchUtilities 대신 addComponents 사용
-     addComponents(
-       Object.entries(typography).reduce((acc, [key, value]) => {
-         acc[\`.\${key}\`] = value;
-         return acc;
-       }, {})
-     );
-   }
-    
+    // typography 유틸리티
+    const typography = theme("typography");
+    if (typography) {
+      addComponents(
+        Object.entries(typography).reduce((acc, [key, value]) => {
+          acc[\`.\${key}\`] = value;
+          return acc;
+        }, {})
+      );
+    }
   },
   {
     theme: {
       extend: {
-        colors: ${colorsJson},
-        typography: ${typographyJson},
-        spacing: ${dimensionsJson},
-        borderRadius: ${borderRadiusJson},
-        fontSize: ${fontSizeJson},
-        lineHeight: ${lineHeightJson},
-        fontWeight: ${fontWeightJson},
-        transitionDuration: ${durationJson},
-        transitionTimingFunction: ${timingFunctionJson},
+        colors: ${serializeJson(extendedColors)},
+        backgroundImage: ${serializeJson(gradientBackgrounds)},
+        typography: ${serializeJson(typography)},
+        spacing: ${serializeJson(collections.dimensions)},
+        borderRadius: ${serializeJson(collections.radius)},
+        fontSize: ${serializeJson(collections.fontSize)},
+        lineHeight: ${serializeJson(collections.lineHeight)},
+        fontWeight: ${serializeJson(collections.fontWeight)},
+        transitionDuration: ${serializeJson(collections.duration)},
+        transitionTimingFunction: ${serializeJson(collections.timingFunction)},
       }
     }
   }
 );`;
-
-  return pluginCode;
 }

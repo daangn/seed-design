@@ -220,11 +220,17 @@
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
   --gradient-shimmer-neutral: var(--seed-gradient-shimmer-neutral);
+  --shimmer-neutral-css: #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%;
   --gradient-shimmer-magic: var(--seed-gradient-shimmer-magic);
+  --shimmer-magic-css: #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%;
   --gradient-fade-neutral: var(--seed-gradient-fade-neutral);
+  --fade-neutral-css: #FFFFFF 0.00%, #FFFFFF00 100.00%;
   --gradient-glow-magic: var(--seed-gradient-glow-magic);
+  --glow-magic-css: #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%;
   --gradient-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed);
+  --glow-magic-pressed-css: #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%;
   --gradient-highlight-magic: var(--seed-gradient-highlight-magic);
+  --highlight-magic-css: #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%;
   --line-height-t1: var(--seed-line-height-t1);
   --line-height-t2: var(--seed-line-height-t2);
   --line-height-t3: var(--seed-line-height-t3);
@@ -252,6 +258,60 @@
   --timing-function-exit: var(--seed-timing-function-exit);
   --timing-function-enter-expressive: var(--seed-timing-function-enter-expressive);
   --timing-function-exit-expressive: var(--seed-timing-function-exit-expressive);
+  --color-gradient-shimmer-neutral: #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%;
+  --color-gradient-shimmer-magic: #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%;
+  --color-gradient-fade-neutral: #FFFFFF 0.00%, #FFFFFF00 100.00%;
+  --color-gradient-glow-magic: #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%;
+  --color-gradient-glow-magic-pressed: #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%;
+  --color-gradient-highlight-magic: #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%;
+  --background-image-shimmer-neutral-to-t: linear-gradient(to top, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-tr: linear-gradient(to top right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-r: linear-gradient(to right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-br: linear-gradient(to bottom right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-b: linear-gradient(to bottom, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-bl: linear-gradient(to bottom left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-l: linear-gradient(to left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-neutral-to-tl: linear-gradient(to top left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --background-image-shimmer-magic-to-t: linear-gradient(to top, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-tr: linear-gradient(to top right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-r: linear-gradient(to right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-br: linear-gradient(to bottom right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-b: linear-gradient(to bottom, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-bl: linear-gradient(to bottom left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-l: linear-gradient(to left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-shimmer-magic-to-tl: linear-gradient(to top left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --background-image-fade-neutral-to-t: linear-gradient(to top, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-tr: linear-gradient(to top right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-r: linear-gradient(to right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-br: linear-gradient(to bottom right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-b: linear-gradient(to bottom, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-bl: linear-gradient(to bottom left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-l: linear-gradient(to left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-fade-neutral-to-tl: linear-gradient(to top left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --background-image-glow-magic-to-t: linear-gradient(to top, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-tr: linear-gradient(to top right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-r: linear-gradient(to right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-br: linear-gradient(to bottom right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-b: linear-gradient(to bottom, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-bl: linear-gradient(to bottom left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-l: linear-gradient(to left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-to-tl: linear-gradient(to top left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --background-image-glow-magic-pressed-to-t: linear-gradient(to top, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-tr: linear-gradient(to top right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-r: linear-gradient(to right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-br: linear-gradient(to bottom right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-b: linear-gradient(to bottom, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-bl: linear-gradient(to bottom left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-l: linear-gradient(to left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-glow-magic-pressed-to-tl: linear-gradient(to top left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --background-image-highlight-magic-to-t: linear-gradient(to top, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-tr: linear-gradient(to top right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-r: linear-gradient(to right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-br: linear-gradient(to bottom right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-b: linear-gradient(to bottom, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-bl: linear-gradient(to bottom left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-l: linear-gradient(to left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-tl: linear-gradient(to top left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
 }
 
 @utility screen-title {
@@ -517,4 +577,8 @@
 
 @utility easing-* {
   transitionTimingFunction: var(--timing-function- --value(--timing-function-*, *));
+}
+
+@utility bg-* {
+  backgroundImage: var(--background-image- --value(--background-image-*, *));
 }
