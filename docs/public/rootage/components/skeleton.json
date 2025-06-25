@@ -74,7 +74,7 @@
                 },
                 "color": {
                   "type": "gradient",
-                  "value": "$gradient.shimmer"
+                  "value": "$gradient.shimmer-neutral"
                 }
               }
             }

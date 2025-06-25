@@ -197,7 +197,9 @@ export default plugin(
   "manner-temp-l5-bg": "var(--seed-color-manner-temp-l5-bg)",
   "manner-temp-l5-text": "var(--seed-color-manner-temp-l5-text)",
   "manner-temp-l6-bg": "var(--seed-color-manner-temp-l6-bg)",
-  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)"
+  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)",
+  "-neutral": "var(--seed-gradient-shimmer-neutral)",
+  "-magic": "var(--seed-gradient-shimmer-magic)"
 },
         typography: {
   "screen-title": {

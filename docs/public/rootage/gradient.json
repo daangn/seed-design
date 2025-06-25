@@ -7,25 +7,25 @@
   "data": {
     "collection": "color",
     "tokens": {
-      "$gradient.shimmer": {
+      "$gradient.shimmer-neutral": {
         "values": {
           "theme-light": {
             "type": "gradient",
             "value": [
               {
-                "color": "#ffffff00",
+                "color": "#FFFFFF00",
                 "position": 0
               },
               {
-                "color": "#ffffff66",
+                "color": "#FFFFFF66",
                 "position": 0.46
               },
               {
-                "color": "#ffffff66",
+                "color": "#FFFFFF66",
                 "position": 0.54
               },
               {
-                "color": "#ffffff00",
+                "color": "#FFFFFF00",
                 "position": 1
               }
             ]
@@ -34,25 +34,216 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#ffffff00",
+                "color": "#FFFFFF00",
                 "position": 0
               },
               {
-                "color": "#ffffff1a",
+                "color": "#FFFFFF1A",
                 "position": 0.46
               },
               {
-                "color": "#ffffff1a",
+                "color": "#FFFFFF1A",
                 "position": 0.54
               },
               {
-                "color": "#ffffff00",
+                "color": "#FFFFFF00",
                 "position": 1
               }
             ]
           }
         },
         "description": "Shimmer effect, used for loading states"
+      },
+      "$gradient.shimmer-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FEF0E700",
+                "position": 0
+              },
+              {
+                "color": "#FEF0E78A",
+                "position": 0.46
+              },
+              {
+                "color": "#FEF0E78A",
+                "position": 0.54
+              },
+              {
+                "color": "#FEF0E700",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FEF0E700",
+                "position": 0
+              },
+              {
+                "color": "#FEF0E71A",
+                "position": 0.46
+              },
+              {
+                "color": "#FEF0E71A",
+                "position": 0.54
+              },
+              {
+                "color": "#FEF0E700",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "Shimmer effect, used for magic states"
+      },
+      "$gradient.fade-neutral": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FFFFFF",
+                "position": 0
+              },
+              {
+                "color": "#FFFFFF00",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#1D2025",
+                "position": 0
+              },
+              {
+                "color": "#1D202500",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "Fade effect, used for loading states"
+      },
+      "$gradient.glow-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FEF6F7",
+                "position": 0
+              },
+              {
+                "color": "#FEF0E7",
+                "position": 0.8
+              },
+              {
+                "color": "#F9F7F5",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#2D252D",
+                "position": 0
+              },
+              {
+                "color": "#3A312B",
+                "position": 0.8
+              },
+              {
+                "color": "#333232",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "Glow effect, used for magic states"
+      },
+      "$gradient.glow-magic-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FBF0F2",
+                "position": 0
+              },
+              {
+                "color": "#FFE8DB",
+                "position": 0.8
+              },
+              {
+                "color": "#F5F2EF",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#3E333E",
+                "position": 0
+              },
+              {
+                "color": "#51453E",
+                "position": 0.8
+              },
+              {
+                "color": "#434242",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "Glow effect, used for magic pressed states"
+      },
+      "$gradient.highlight-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FF6000",
+                "position": 0
+              },
+              {
+                "color": "#D25ACA",
+                "position": 0.3986
+              },
+              {
+                "color": "#D25ACA",
+                "position": 0.849
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#FF6000",
+                "position": 0.3986
+              },
+              {
+                "color": "#D25ACA",
+                "position": 0.849
+              }
+            ]
+          }
+        },
+        "description": "Highlight effect, used for magic states"
       }
     }
   }

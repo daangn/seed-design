@@ -219,7 +219,12 @@
   --font-weight-regular: var(--seed-font-weight-regular);
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
-  --gradient-shimmer: var(--seed-gradient-shimmer);
+  --gradient-shimmer-neutral: var(--seed-gradient-shimmer-neutral);
+  --gradient-shimmer-magic: var(--seed-gradient-shimmer-magic);
+  --gradient-fade-neutral: var(--seed-gradient-fade-neutral);
+  --gradient-glow-magic: var(--seed-gradient-glow-magic);
+  --gradient-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed);
+  --gradient-highlight-magic: var(--seed-gradient-highlight-magic);
   --line-height-t1: var(--seed-line-height-t1);
   --line-height-t2: var(--seed-line-height-t2);
   --line-height-t3: var(--seed-line-height-t3);
