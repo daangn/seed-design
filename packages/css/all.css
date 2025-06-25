@@ -63,7 +63,7 @@
 .seed-box {
   --seed-box-background: initial;
   --seed-box-color: initial;
-  background-color: var(--seed-box-background);
+  background: var(--seed-box-background);
   color: var(--seed-box-color);
   --seed-box-border-style: solid;
   --seed-box-border-color: initial;
@@ -160,7 +160,7 @@
 
 .seed-box:is(:active, [data-active]) {
   --seed-box-background--active: var(--seed-box-background);
-  background-color: var(--seed-box-background--active);
+  background: var(--seed-box-background--active);
 }
 
 .seed-consistent-width:before {

@@ -57,7 +57,7 @@ export const globalCss = defineGlobalCss({
   ".seed-box": {
     "--seed-box-background": "initial",
     "--seed-box-color": "initial",
-    backgroundColor: "var(--seed-box-background)",
+    background: "var(--seed-box-background)",
     color: "var(--seed-box-color)",
 
     "--seed-box-border-style": "solid",
@@ -167,7 +167,7 @@ export const globalCss = defineGlobalCss({
 
     [pseudo(active)]: {
       "--seed-box-background--active": "var(--seed-box-background)",
-      backgroundColor: "var(--seed-box-background--active)",
+      background: "var(--seed-box-background--active)",
     },
   },
   ".seed-consistent-width": {
