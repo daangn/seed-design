@@ -190,7 +190,6 @@ export const tokens = {
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
-  --seed-color-fg-magic: var(--seed-color-palette-purple-700);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
@@ -220,10 +219,6 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
-  --seed-color-bg-magic-solid: var(--seed-color-palette-purple-700);
-  --seed-color-bg-magic-weak: var(--seed-color-palette-purple-100);
-  --seed-color-bg-magic-solid-pressed: var(--seed-color-palette-purple-800);
-  --seed-color-bg-magic-weak-pressed: var(--seed-color-palette-purple-200);
   --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-200);
@@ -370,7 +365,6 @@ export const tokens = {
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
-  --seed-color-fg-magic: var(--seed-color-palette-purple-700);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
@@ -400,10 +394,6 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
-  --seed-color-bg-magic-solid: var(--seed-color-palette-purple-600);
-  --seed-color-bg-magic-weak: var(--seed-color-palette-purple-100);
-  --seed-color-bg-magic-solid-pressed: var(--seed-color-palette-purple-700);
-  --seed-color-bg-magic-weak-pressed: var(--seed-color-palette-purple-200);
   --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-300);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-300);

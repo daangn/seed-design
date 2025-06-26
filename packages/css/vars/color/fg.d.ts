@@ -2,7 +2,6 @@ export declare const brand = "var(--seed-color-fg-brand)";
 export declare const critical = "var(--seed-color-fg-critical)";
 export declare const disabled = "var(--seed-color-fg-disabled)";
 export declare const informative = "var(--seed-color-fg-informative)";
-export declare const magic = "var(--seed-color-fg-magic)";
 export declare const neutral = "var(--seed-color-fg-neutral)";
 export declare const placeholder = "var(--seed-color-fg-placeholder)";
 export declare const positive = "var(--seed-color-fg-positive)";

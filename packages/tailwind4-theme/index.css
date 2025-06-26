@@ -101,7 +101,6 @@
   --color-fg-critical: var(--seed-color-fg-critical);
   --color-fg-disabled: var(--seed-color-fg-disabled);
   --color-fg-informative: var(--seed-color-fg-informative);
-  --color-fg-magic: var(--seed-color-fg-magic);
   --color-fg-neutral: var(--seed-color-fg-neutral);
   --color-fg-placeholder: var(--seed-color-fg-placeholder);
   --color-fg-positive: var(--seed-color-fg-positive);
@@ -131,10 +130,6 @@
   --color-bg-layer-floating: var(--seed-color-bg-layer-floating);
   --color-bg-layer-default-pressed: var(--seed-color-bg-layer-default-pressed);
   --color-bg-layer-floating-pressed: var(--seed-color-bg-layer-floating-pressed);
-  --color-bg-magic-solid: var(--seed-color-bg-magic-solid);
-  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
-  --color-bg-magic-solid-pressed: var(--seed-color-bg-magic-solid-pressed);
-  --color-bg-magic-weak-pressed: var(--seed-color-bg-magic-weak-pressed);
   --color-bg-neutral-inverted: var(--seed-color-bg-neutral-inverted);
   --color-bg-neutral-solid: var(--seed-color-bg-neutral-solid);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
