@@ -216,16 +216,12 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#FF6000",
-                "position": 0
+                "color": "#FF6600",
+                "position": 0.2
               },
               {
                 "color": "#D25ACA",
-                "position": 0.3986
-              },
-              {
-                "color": "#D25ACA",
-                "position": 0.849
+                "position": 0.8
               }
             ]
           },
@@ -234,11 +230,11 @@
             "value": [
               {
                 "color": "#FF6000",
-                "position": 0.3986
+                "position": 0.2
               },
               {
                 "color": "#D25ACA",
-                "position": 0.849
+                "position": 0.8
               }
             ]
           }

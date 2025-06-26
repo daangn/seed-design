@@ -230,7 +230,7 @@
   --gradient-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed);
   --glow-magic-pressed-css: #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%;
   --gradient-highlight-magic: var(--seed-gradient-highlight-magic);
-  --highlight-magic-css: #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%;
+  --highlight-magic-css: #FF6600 20.00%, #D25ACA 80.00%;
   --line-height-t1: var(--seed-line-height-t1);
   --line-height-t2: var(--seed-line-height-t2);
   --line-height-t3: var(--seed-line-height-t3);
@@ -263,7 +263,7 @@
   --color-gradient-fade-neutral: #FFFFFF 0.00%, #FFFFFF00 100.00%;
   --color-gradient-glow-magic: #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%;
   --color-gradient-glow-magic-pressed: #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%;
-  --color-gradient-highlight-magic: #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%;
+  --color-gradient-highlight-magic: #FF6600 20.00%, #D25ACA 80.00%;
   --background-image-shimmer-neutral-to-t: linear-gradient(to top, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
   --background-image-shimmer-neutral-to-tr: linear-gradient(to top right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
   --background-image-shimmer-neutral-to-r: linear-gradient(to right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
@@ -304,14 +304,14 @@
   --background-image-glow-magic-pressed-to-bl: linear-gradient(to bottom left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
   --background-image-glow-magic-pressed-to-l: linear-gradient(to left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
   --background-image-glow-magic-pressed-to-tl: linear-gradient(to top left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
-  --background-image-highlight-magic-to-t: linear-gradient(to top, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-tr: linear-gradient(to top right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-r: linear-gradient(to right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-br: linear-gradient(to bottom right, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-b: linear-gradient(to bottom, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-bl: linear-gradient(to bottom left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-l: linear-gradient(to left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
-  --background-image-highlight-magic-to-tl: linear-gradient(to top left, #FF6000 0.00%, #D25ACA 39.86%, #D25ACA 84.90%);
+  --background-image-highlight-magic-to-t: linear-gradient(to top, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-tr: linear-gradient(to top right, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-r: linear-gradient(to right, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-br: linear-gradient(to bottom right, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-b: linear-gradient(to bottom, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-bl: linear-gradient(to bottom left, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-l: linear-gradient(to left, #FF6600 20.00%, #D25ACA 80.00%);
+  --background-image-highlight-magic-to-tl: linear-gradient(to top left, #FF6600 20.00%, #D25ACA 80.00%);
 }
 
 @utility screen-title {

@@ -266,7 +266,7 @@ export const tokens = {
   --seed-gradient-fade-neutral: #FFFFFF 0%, #FFFFFF00 100%;
   --seed-gradient-glow-magic: #FEF6F7 0%, #FEF0E7 80%, #F9F7F5 100%;
   --seed-gradient-glow-magic-pressed: #FBF0F2 0%, #FFE8DB 80%, #F5F2EF 100%;
-  --seed-gradient-highlight-magic: #FF6000 0%, #D25ACA 39.86%, #D25ACA 84.89999999999999%;
+  --seed-gradient-highlight-magic: #FF6600 20%, #D25ACA 80%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
@@ -446,6 +446,6 @@ export const tokens = {
   --seed-gradient-fade-neutral: #1D2025 0%, #1D202500 100%;
   --seed-gradient-glow-magic: #2D252D 0%, #3A312B 80%, #333232 100%;
   --seed-gradient-glow-magic-pressed: #3E333E 0%, #51453E 80%, #434242 100%;
-  --seed-gradient-highlight-magic: #FF6000 39.86%, #D25ACA 84.89999999999999%;
+  --seed-gradient-highlight-magic: #FF6000 20%, #D25ACA 80%;
 }`
 };

@@ -443,7 +443,7 @@
   --seed-gradient-fade-neutral: #fff 0%, #fff0 100%;
   --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
-  --seed-gradient-highlight-magic: #ff6000 0%, #d25aca 39.86%, #d25aca 84.9%;
+  --seed-gradient-highlight-magic: #f60 20%, #d25aca 80%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"], :root[data-seed-color-mode="dark-only"], :root [data-seed-color-mode="dark-only"] {
@@ -621,7 +621,7 @@
   --seed-gradient-fade-neutral: #1d2025 0%, #1d202500 100%;
   --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
-  --seed-gradient-highlight-magic: #ff6000 39.86%, #d25aca 84.9%;
+  --seed-gradient-highlight-magic: #ff6000 20%, #d25aca 80%;
 }
 
 @keyframes seed-enter {
