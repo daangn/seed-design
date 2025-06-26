@@ -2,11 +2,7 @@ export const metadata = {
   "name": "✅ Bottom Sheet v2",
   "key": "2f6e2b9907d10b1ea4f0c318d944e9fbbe67c54d",
   "componentPropertyDefinitions": {
-    "OS Indicator (Figma Only)#69548:0": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "↳ Description#33712:4": {
+    "↳ Close Btn#33160:3": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
@@ -14,9 +10,13 @@ export const metadata = {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "↳ Close Btn#33160:3": {
+    "↳ Description#33712:4": {
       "type": "BOOLEAN",
       "defaultValue": true
+    },
+    "OS Indicator (Figma Only)#69548:0": {
+      "type": "BOOLEAN",
+      "defaultValue": false
     },
     "Overlay": {
       "type": "VARIANT",

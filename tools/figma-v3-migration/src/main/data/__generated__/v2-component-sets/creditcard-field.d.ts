@@ -2,7 +2,7 @@ export declare const metadata: {
   "name": "creditcard_field",
   "key": "821e7c781ae5c6c2d8de2ebb456019503fee2ae9",
   "componentPropertyDefinitions": {
-    "Description#28753:18": {
+    "Label#28753:0": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
@@ -10,7 +10,7 @@ export declare const metadata: {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "Label#28753:0": {
+    "Description#28753:18": {
       "type": "BOOLEAN",
       "defaultValue": true
     },

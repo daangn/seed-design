@@ -85,5 +85,3 @@ export { metadata as toggleTab } from "./toggle-tab";
 export { metadata as uploadImageWall } from "./upload-image-wall";
 export { metadata as uploader } from "./uploader";
 export { metadata as uploadImage } from "./upload-image";
-export { metadata as buttonGroup } from "./button-group";
-export { metadata as buttonGroupFixed } from "./button-group-fixed";

@@ -2,7 +2,7 @@ export declare const metadata: {
   "name": "search_field",
   "key": "cc6889d2e6e9244bb16359ade9acab140f915641",
   "componentPropertyDefinitions": {
-    "Search icon#40159:0": {
+    "Cancel btn#29525:38": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
@@ -14,7 +14,7 @@ export declare const metadata: {
       "type": "TEXT",
       "defaultValue": "Placeholder"
     },
-    "Cancel btn#29525:38": {
+    "Search icon#40159:0": {
       "type": "BOOLEAN",
       "defaultValue": true
     },

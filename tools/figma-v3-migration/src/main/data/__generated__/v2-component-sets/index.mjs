@@ -85,5 +85,3 @@ export { metadata as toggleTab } from "./toggle-tab.mjs";
 export { metadata as uploadImageWall } from "./upload-image-wall.mjs";
 export { metadata as uploader } from "./uploader.mjs";
 export { metadata as uploadImage } from "./upload-image.mjs";
-export { metadata as buttonGroup } from "./button-group.mjs";
-export { metadata as buttonGroupFixed } from "./button-group-fixed.mjs";

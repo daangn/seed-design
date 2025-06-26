@@ -2,17 +2,13 @@ export const metadata = {
   "name": "✅ Text Button v2",
   "key": "ace2dc9bcd5adfe4fc782aaa0263f9f7c4850f36",
   "componentPropertyDefinitions": {
-    "Prefix Icon#28702:112": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "Suffix icon#28702:111": {
-      "type": "BOOLEAN",
-      "defaultValue": true
+    "Label#28702:109": {
+      "type": "TEXT",
+      "defaultValue": "Label"
     },
     "↳Icons#28702:110": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "89277:7396",
+      "defaultValue": "92346:3754",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -952,9 +948,13 @@ export const metadata = {
         }
       ]
     },
-    "Label#28702:109": {
-      "type": "TEXT",
-      "defaultValue": "Label"
+    "Suffix icon#28702:111": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "Prefix Icon#28702:112": {
+      "type": "BOOLEAN",
+      "defaultValue": false
     },
     "Variant": {
       "type": "VARIANT",

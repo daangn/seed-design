@@ -4,15 +4,16 @@ export declare const metadata: {
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",
-      "defaultValue": "40(xxSmall)",
+      "defaultValue": "40",
       "variantOptions": [
-        "40(xxSmall)",
-        "48(xSmall)",
-        "64(Small)",
-        "72(Medium)",
-        "92(Large)",
-        "108(xLarge)",
-        "140(xxLarge)",
+        "40",
+        "48",
+        "64",
+        "72",
+        "92",
+        "108",
+        "120",
+        "140",
         "Full Width"
       ]
     }

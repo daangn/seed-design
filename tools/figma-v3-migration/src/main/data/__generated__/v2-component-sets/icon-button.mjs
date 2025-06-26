@@ -2,6 +2,28 @@ export const metadata = {
   "name": "icon_button",
   "key": "175e67d817b19ddd01b05c45a6f009531a9d77ac",
   "componentPropertyDefinitions": {
+    "Icon#28768:6": {
+      "type": "INSTANCE_SWAP",
+      "defaultValue": "89311:109094",
+      "preferredValues": []
+    },
+    "Avatar icon#28778:0": {
+      "type": "INSTANCE_SWAP",
+      "defaultValue": "28778:33916",
+      "preferredValues": []
+    },
+    "Label#91436:0": {
+      "type": "TEXT",
+      "defaultValue": "Label"
+    },
+    "Suffix icon#91436:1": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
+    "Prefix icon#91436:2": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
     "↳Icons#91436:3": {
       "type": "INSTANCE_SWAP",
       "defaultValue": "89277:7396",
@@ -943,28 +965,6 @@ export const metadata = {
           "key": "0c3d22bcedd4180cd0786b811c60029e08448718"
         }
       ]
-    },
-    "Label#91436:0": {
-      "type": "TEXT",
-      "defaultValue": "Label"
-    },
-    "Avatar icon#28778:0": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "28778:33916",
-      "preferredValues": []
-    },
-    "Prefix icon#91436:2": {
-      "type": "BOOLEAN",
-      "defaultValue": true
-    },
-    "Suffix icon#91436:1": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "Icon#28768:6": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "89311:109094",
-      "preferredValues": []
     },
     "Size": {
       "type": "VARIANT",
