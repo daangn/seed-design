@@ -2,13 +2,13 @@ export declare const metadata: {
   "name": "🟢 Inline Banner",
   "key": "ce587d0f21754af05240cb32a4880227cb0ea1e1",
   "componentPropertyDefinitions": {
-    "Show Icon#11840:27": {
-      "type": "BOOLEAN",
-      "defaultValue": true
-    },
     "Link Label#1547:81": {
       "type": "TEXT",
       "defaultValue": "자세히보기"
+    },
+    "Show Icon#11840:27": {
+      "type": "BOOLEAN",
+      "defaultValue": true
     },
     "Interaction": {
       "type": "VARIANT",

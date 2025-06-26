@@ -2,14 +2,21 @@ export declare const metadata: {
   "name": "🟢 Action Chip",
   "key": "3d21594ef116e94a9465d507447b858aea062575",
   "componentPropertyDefinitions": {
-    "Icon#8714:0": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:16929",
-      "preferredValues": []
+    "Label#7185:0": {
+      "type": "TEXT",
+      "defaultValue": "라벨"
+    },
+    "Count#7185:21": {
+      "type": "TEXT",
+      "defaultValue": "10"
+    },
+    "Show Count#7185:42": {
+      "type": "BOOLEAN",
+      "defaultValue": false
     },
     "Prefix Icon#8711:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:16928",
+      "defaultValue": "26621:24681",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -19,20 +26,13 @@ export declare const metadata: {
     },
     "Suffix Icon#8711:3": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:50968",
+      "defaultValue": "26621:23688",
       "preferredValues": []
     },
-    "Label#7185:0": {
-      "type": "TEXT",
-      "defaultValue": "라벨"
-    },
-    "Show Count#7185:42": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "Count#7185:21": {
-      "type": "TEXT",
-      "defaultValue": "10"
+    "Icon#8714:0": {
+      "type": "INSTANCE_SWAP",
+      "defaultValue": "26621:24682",
+      "preferredValues": []
     },
     "Size": {
       "type": "VARIANT",
