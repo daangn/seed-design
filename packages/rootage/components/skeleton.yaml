@@ -51,6 +51,6 @@ data:
     tone=magic:
       enabled:
         root:
-          color: "#FEF0E7"
+          color: "#F9F7F5"
         shimmer:
           color: $gradient.shimmer-magic

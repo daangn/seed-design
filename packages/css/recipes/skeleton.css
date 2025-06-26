@@ -38,7 +38,7 @@
     background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-neutral));
 }
 .seed-skeleton--tone_magic {
-    background: #FEF0E7;
+    background: #F9F7F5;
 }
 .seed-skeleton--tone_magic::after {
     background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-magic));
