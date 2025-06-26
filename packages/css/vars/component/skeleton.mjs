@@ -1,13 +1,9 @@
 export const vars = {
   "base": {
     "enabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-200)"
-      },
       "shimmer": {
         "duration": "1.5s",
-        "timingFunction": "var(--seed-timing-function-easing)",
-        "color": "var(--seed-gradient-shimmer-neutral)"
+        "timingFunction": "var(--seed-timing-function-easing)"
       }
     }
   },
@@ -36,6 +32,26 @@ export const vars = {
     "enabled": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-200)"
+      },
+      "shimmer": {
+        "color": "var(--seed-gradient-shimmer-neutral)"
+      }
+    }
+  },
+  "toneMagic": {
+    "enabled": {
+      "root": {
+        "color": "#FEF0E7"
+      },
+      "shimmer": {
+        "color": "var(--seed-gradient-shimmer-magic)"
       }
     }
   }

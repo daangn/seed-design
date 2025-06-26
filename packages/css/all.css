@@ -4122,7 +4122,6 @@
 
 .seed-skeleton {
   box-sizing: border-box;
-  background: var(--seed-color-palette-gray-200);
   --seed-box-width: initial;
   --seed-box-height: initial;
   width: var(--seed-box-width);
@@ -4133,7 +4132,6 @@
 
 .seed-skeleton:after {
   content: "";
-  background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-neutral));
   width: 100%;
   height: 100%;
   animation-name: slide-x;
@@ -4159,6 +4157,22 @@
 
 .seed-skeleton--radius_full {
   border-radius: var(--seed-radius-full);
+}
+
+.seed-skeleton--tone_neutral {
+  background: var(--seed-color-palette-gray-200);
+}
+
+.seed-skeleton--tone_neutral:after {
+  background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-neutral));
+}
+
+.seed-skeleton--tone_magic {
+  background: #fef0e7;
+}
+
+.seed-skeleton--tone_magic:after {
+  background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-magic));
 }
 
 .seed-snackbar__root {

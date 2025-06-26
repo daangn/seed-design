@@ -42,6 +42,13 @@
             "full": {}
           },
           "defaultValue": "0"
+        },
+        "tone": {
+          "values": {
+            "neutral": {},
+            "magic": {}
+          },
+          "defaultValue": "neutral"
         }
       }
     },
@@ -54,12 +61,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-200"
-                }
-              },
               "shimmer": {
                 "duration": {
                   "type": "duration",
@@ -71,10 +72,6 @@
                 "timingFunction": {
                   "type": "cubicBezier",
                   "value": "$timing-function.easing"
-                },
-                "color": {
-                  "type": "gradient",
-                  "value": "$gradient.shimmer-neutral"
                 }
               }
             }
@@ -164,6 +161,58 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-200"
+                }
+              },
+              "shimmer": {
+                "color": {
+                  "type": "gradient",
+                  "value": "$gradient.shimmer-neutral"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "magic"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "#FEF0E7"
+                }
+              },
+              "shimmer": {
+                "color": {
+                  "type": "gradient",
+                  "value": "$gradient.shimmer-magic"
                 }
               }
             }
