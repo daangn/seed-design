@@ -273,7 +273,7 @@
     },
     "packages/codemod": {
       "name": "@seed-design/codemod",
-      "version": "0.0.28",
+      "version": "0.0.29",
       "bin": "./bin/index.cjs",
       "dependencies": {
         "@seed-design/migration-index": "^0.0.20",
@@ -320,7 +320,7 @@
     },
     "packages/figma": {
       "name": "@seed-design/figma",
-      "version": "0.0.39",
+      "version": "0.0.40",
       "dependencies": {
         "@seed-design/css": "0.0.38",
         "change-case": "^5.4.4",
@@ -335,7 +335,7 @@
     },
     "packages/mcp": {
       "name": "@seed-design/mcp",
-      "version": "0.0.39",
+      "version": "0.0.40",
       "bin": "./bin/index.mjs",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.10.2",
