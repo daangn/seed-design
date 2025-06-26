@@ -476,38 +476,38 @@
             "slots": {
               "root": {
                 "color": {
-                  "type": "color",
-                  "value": "$color.bg.magic-weak"
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic"
                 }
               },
               "prefixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.magic-contrast"
+                  "value": "$color.fg.neutral"
                 }
               },
               "title": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.magic-contrast"
+                  "value": "$color.fg.neutral"
                 }
               },
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.magic-contrast"
+                  "value": "$color.fg.neutral"
                 }
               },
               "link": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.magic-contrast"
+                  "value": "$color.fg.neutral"
                 }
               },
               "suffixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.magic-contrast"
+                  "value": "$color.fg.neutral"
                 }
               }
             }
@@ -519,8 +519,8 @@
             "slots": {
               "root": {
                 "color": {
-                  "type": "color",
-                  "value": "$color.bg.magic-weak-pressed"
+                  "type": "gradient",
+                  "value": "$gradient.glow-magic-pressed"
                 }
               }
             }
