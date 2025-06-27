@@ -3,7 +3,8 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const defaultVariant = {
   "textStyle": "t5Regular",
-  "maxLines": "none"
+  "maxLines": "none",
+  "textDecorationLine": "none"
 };
 
 const compoundVariants = [];
@@ -41,6 +42,10 @@ export const textVariantMap = {
     "none",
     "single",
     "multi"
+  ],
+  "textDecorationLine": [
+    "none",
+    "line-through"
   ]
 };
 

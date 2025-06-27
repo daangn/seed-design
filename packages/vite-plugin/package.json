@@ -36,11 +36,11 @@
   "dependencies": {},
   "devDependencies": {
     "@seed-design/css": "^0.0.39",
-    "vite": "^6.3.3"
+    "vite": "^7.0.0"
   },
   "peerDependencies": {
     "@seed-design/css": "^0.0.39",
-    "vite": "^5.0.0 || ^6.0.0"
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0"
   },
   "publishConfig": {
     "access": "public"

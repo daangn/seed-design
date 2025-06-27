@@ -166,3 +166,9 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--seed-max-lines)
 }
+.seed-text--textDecorationLine_none {
+    text-decoration-line: none
+}
+.seed-text--textDecorationLine_line-through {
+    text-decoration-line: line-through
+}

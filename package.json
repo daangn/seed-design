@@ -42,7 +42,7 @@
     "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@changesets/cli": "^2.29.2",
     "@seed-design/figma-extractor": "workspace:*",
     "@seed-design/qvism-cli": "workspace:*",
