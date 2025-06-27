@@ -117,8 +117,10 @@ export async function getSelectedComponentInfo() {
     // 컴포넌트 인스턴스인 경우
     else if (node.type === "INSTANCE") {
       const mainComponent = await node.getMainComponentAsync();
-      componentInfo.componentProperties = node.componentProperties;
-      componentInfo.oldComponentStructure = getComponentStructure(node);
+      // componentInfo.componentProperties = node.componentProperties;
+      // componentInfo.oldComponentStructure = getComponentStructure(node);
+      componentInfo.componentPropertyDefinitions =
+        mainComponent?.componentPropertyDefinitions || {};
       componentInfo.key = mainComponent?.key || "";
     } else if (node.type === "COMPONENT_SET") {
       return getComponentSetInfo(node);

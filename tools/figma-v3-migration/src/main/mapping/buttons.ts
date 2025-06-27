@@ -208,23 +208,23 @@ export const iconButtonMapping: ComponentMapping<"icon_button", "🟢 Action But
   },
 };
 
-export const textButtonMapping: ComponentMapping<"✅ Text Button v2", "🟢 Text Button"> = {
-  oldComponent: "✅ Text Button v2",
-  newComponent: "🟢 Text Button",
-  variantMap: {},
-  calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Text Button"> = {
-      "Label#19789:0": oldProperties["Label#28702:109"].value,
-      State: "Enabled",
-    };
+// export const textButtonMapping: ComponentMapping<"✅ Text Button v2", "🟢 Text Button"> = {
+//   oldComponent: "✅ Text Button v2",
+//   newComponent: "🟢 Text Button",
+//   variantMap: {},
+//   calculateProperties(oldProperties) {
+//     const newProperties: NewComponentProperties<"🟢 Text Button"> = {
+//       "Label#19789:0": oldProperties["Label#28702:109"].value,
+//       State: "Enabled",
+//     };
 
-    return newProperties;
-  },
-  // swappableVariants: [
-  //   {
-  //     oldVariant: "Variant:Accent",
-  //     newVariants: ["Tone:Neutral Subtle", "Tone:Neutral", "Tone:Brand", "Tone:Danger"],
-  //     description: "Accent는 네 가지 종류가 있습니다.",
-  //   },
-  // ],
-};
+//     return newProperties;
+//   },
+// swappableVariants: [
+//   {
+//     oldVariant: "Variant:Accent",
+//     newVariants: ["Tone:Neutral Subtle", "Tone:Neutral", "Tone:Brand", "Tone:Danger"],
+//     description: "Accent는 네 가지 종류가 있습니다.",
+//   },
+// ],
+// };

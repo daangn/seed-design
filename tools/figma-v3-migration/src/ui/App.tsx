@@ -1,4 +1,4 @@
-import { Flex } from "@seed-design/react";
+import { ActionButton, Flex } from "@seed-design/react";
 import { ScanButton } from "common/components/scan-button";
 import { StartCallout } from "common/components/start-callout";
 import { TargetBadges } from "common/components/taget-badges";
@@ -14,6 +14,7 @@ import { TypographyMigrationProvider } from "./typography-section/context";
 import { useEffect } from "react";
 import { useFigmaMetadata } from "./common/context/figma";
 import { usePostHog } from "./common/posthog";
+import { events } from "shared/event";
 
 function Steps() {
   const { targets, selections, loading, currentTab, setCurrentTab, scanCurrentTab } =
@@ -42,6 +43,16 @@ function Steps() {
             <TargetBadges targets={targets} />
           </Flex>
           <Flex alignItems="center">
+            {/* TODO: Internal Component 알아낼 때 사용 */}
+            {/* <ActionButton
+              variant="neutralSolid"
+              size="small"
+              onClick={() => {
+                events("get-selected-info").emit({});
+              }}
+            >
+              I
+            </ActionButton> */}
             <ScanButton selections={selections} isLoading={loading} onScan={scanCurrentTab} />
           </Flex>
         </Flex>

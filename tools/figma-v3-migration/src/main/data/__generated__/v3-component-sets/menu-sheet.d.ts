@@ -18,6 +18,10 @@ export declare const metadata: {
       "type": "BOOLEAN",
       "defaultValue": true
     },
+    "Show Description#32984:0": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
     "Menu Group Count": {
       "type": "VARIANT",
       "defaultValue": "1",

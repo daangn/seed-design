@@ -3,53 +3,59 @@ import {
   boxToggleButtonMapping,
   capsuleToggleButtonMapping,
   iconButtonMapping,
-  textButtonMapping,
 } from "./buttons";
 
-import { menuFabMapping, fabMapping, extendedFabMapping } from "./fabs";
 import { alertDialogMapping } from "./alert-dialog";
-import { avatarMapping } from "./avatars";
-import { calloutMapping, actionableCalloutMapping, dismissableCalloutMapping } from "./callouts";
-import { checkboxCircleMapping, checkboxSquareMapping, checkboxGhostMapping } from "./checkbox";
+import { avatarGroupMapping, avatarMapping } from "./avatars";
+import { buttonGroupFixedMapping, buttonGroupMapping } from "./button-group";
+import { actionableCalloutMapping, calloutMapping, dismissableCalloutMapping } from "./callouts";
+import { checkboxCircleMapping, checkboxGhostMapping, checkboxSquareMapping } from "./checkbox";
 import {
   chipButtonMapping,
   chipFilterMapping,
   chipRadioMapping,
   chipToggleButtonMapping,
 } from "./chips";
+import { extendedFabMapping, fabMapping, menuFabMapping } from "./fabs";
 import { helpBubbleMapping } from "./help-bubble";
 import {
-  inlineAlertMapping,
   actionableInlineAlertMapping,
   dismissableInlineAlertMapping,
+  inlineAlertMapping,
 } from "./inline-alerts";
+import { spinnerMapping } from "./progress-circle";
 import { radioMapping } from "./radio";
 import { selectBoxMapping } from "./select-box";
-import { sliderMapping, rangeSliderMapping } from "./sliders";
+import { rangeSliderMapping, sliderMapping } from "./sliders";
 import { snackbarMapping } from "./snackbar";
-import { tabsMapping } from "./tabs";
-import { spinnerMapping } from "./progress-circle";
 import { switchMapping } from "./switches";
+import { tabsMapping } from "./tabs";
 import {
-  underlinedTextFieldMapping,
   multilineTextFieldMapping,
   outlineTextFieldMapping,
+  underlinedTextFieldMapping,
 } from "./text-fields";
-import { buttonGroupMapping, buttonGroupFixedMapping } from "./button-group";
+import { dividerMapping, dividerNavMapping } from "./divider";
+import { actionSheetMapping, actionSheetV2BetaMapping } from "./action-sheet";
+import { squareBadgeMapping, pillBadgeMapping } from "./badges";
 
 export default [
+  squareBadgeMapping,
+  pillBadgeMapping,
+  actionSheetMapping,
+  actionSheetV2BetaMapping,
   buttonGroupMapping,
   buttonGroupFixedMapping,
   boxButtonMapping,
   boxToggleButtonMapping,
   capsuleToggleButtonMapping,
   iconButtonMapping,
-  textButtonMapping,
   menuFabMapping,
   fabMapping,
   extendedFabMapping,
   alertDialogMapping,
   avatarMapping,
+  avatarGroupMapping,
   calloutMapping,
   actionableCalloutMapping,
   dismissableCalloutMapping,
@@ -59,6 +65,8 @@ export default [
   chipButtonMapping,
   chipFilterMapping,
   chipRadioMapping,
+  dividerMapping,
+  dividerNavMapping,
   chipToggleButtonMapping,
   helpBubbleMapping,
   inlineAlertMapping,

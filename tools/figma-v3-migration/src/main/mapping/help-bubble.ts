@@ -4,8 +4,6 @@ export const helpBubbleMapping: ComponentMapping<"✅ Help Bubble v2", "🟢 Hel
   oldComponent: "✅ Help Bubble v2",
   newComponent: "🟢 Help Bubble",
   variantMap: {
-    "Close Button:False": "Show Close Button:False",
-    "Close Button:true": "Show Close Button:True",
     "Placement (side-align):Bottom-Center": "Placement:Bottom-Center",
     "Placement (side-align):Bottom-Left": "Placement:Bottom-Left",
     "Placement (side-align):Bottom-Right": "Placement:Bottom-Right",

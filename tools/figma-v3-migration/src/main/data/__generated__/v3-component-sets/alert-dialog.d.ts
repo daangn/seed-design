@@ -14,7 +14,7 @@ export declare const metadata: {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "\bLayout": {
+    "Layout": {
       "type": "VARIANT",
       "defaultValue": "Single",
       "variantOptions": [

@@ -1,5 +1,5 @@
 export const metadata = {
-  "name": "search_field",
+  "name": "Search Field",
   "key": "87c8b0709a1954cf269a27e7d33a8bce7f6ef7e6",
   "componentPropertyDefinitions": {
     "Cancel btn#29525:38": {

@@ -14,7 +14,7 @@
     "dev": "concurrently \"bun run watch:ui\" \"bun run watch:main\"",
     "lint": "biome check .",
     "preview": "vite preview",
-    "extract": "bun figma-extractor src/main/data component-sets"
+    "extract": "bun figma-extractor src/main/data/__generated__/v3-component-sets component-sets"
   },
   "dependencies": {
     "@figmazing/event": "0.0.1",
