@@ -104,6 +104,7 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
       lineHeight,
       fontWeight,
       maxLines,
+      textDecorationLine,
       children,
       className,
       style,
@@ -116,9 +117,10 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
       () =>
         text({
           textStyle,
+          textDecorationLine,
           maxLines: mapMaxLines(maxLines),
         }),
-      [textStyle, maxLines],
+      [textStyle, textDecorationLine, maxLines],
     );
 
     return (
