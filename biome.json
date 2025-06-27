@@ -1,15 +1,19 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "organizeImports": {
-    "enabled": false
-  },
+  "assist": { "actions": { "source": { "organizeImports": "off" } } },
   "formatter": {
-    "ignore": ["package.json", "**/archive/**/*", "**/.next/**/*", "__testfixtures__"],
+    "includes": [
+      "**",
+      "!**/package.json",
+      "!**/archive/**/*",
+      "!**/.next/**/*",
+      "!**/__testfixtures__"
+    ],
     "enabled": true,
     "indentStyle": "space",
     "lineEnding": "lf",
@@ -17,20 +21,21 @@
   },
   "linter": {
     "enabled": true,
-    "ignore": [
-      "public",
-      "node_modules",
-      ".cache",
-      "lib",
-      "dist",
-      "**/archive/**/*",
-      "**/tools/**/build/**/*",
-      ".next",
-      ".source",
-      ".vscode",
-      "out",
-      "bin",
-      "__testfixtures__"
+    "includes": [
+      "**",
+      "!**/public",
+      "!**/node_modules",
+      "!**/.cache",
+      "!**/lib",
+      "!**/dist",
+      "!**/archive/**/*",
+      "!**/tools/**/build/**/*",
+      "!**/.next",
+      "!**/.source",
+      "!**/.vscode",
+      "!**/out",
+      "!**/bin",
+      "!**/__testfixtures__"
     ],
     "rules": {
       "recommended": true,
@@ -38,7 +43,16 @@
         "useNodejsImportProtocol": "off",
         "noNonNullAssertion": "warn",
         "noUnusedTemplateLiteral": "warn",
-        "useTemplate": "warn"
+        "useTemplate": "warn",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       },
       "complexity": {
         "useLiteralKeys": "off",
@@ -64,7 +78,7 @@
   },
   "overrides": [
     {
-      "include": ["tools/**/*"],
+      "includes": ["**/tools/**/*"],
       "linter": {
         "rules": {
           "style": {
@@ -74,8 +88,14 @@
       }
     },
     {
-      "include": ["docs/**/*"],
-      "ignore": ["public", "node_modules", ".cache", "lib", "dist"],
+      "includes": [
+        "**/docs/**/*",
+        "!**/public",
+        "!**/node_modules",
+        "!**/.cache",
+        "!**/lib",
+        "!**/dist"
+      ],
       "linter": {
         "rules": {
           "style": {
@@ -94,16 +114,16 @@
       }
     },
     {
-      "include": ["docs/**/*"],
-      "ignore": [
-        "**/*.css",
-        "registry/**/*",
-        "public/**/*",
-        "node_modules",
-        ".cache",
-        "lib",
-        "dist",
-        ".eslintrc"
+      "includes": [
+        "**/docs/**/*",
+        "!**/*.css",
+        "!**/registry/**/*",
+        "!**/public/**/*",
+        "!**/node_modules",
+        "!**/.cache",
+        "!**/lib",
+        "!**/dist",
+        "!**/.eslintrc"
       ],
       "linter": {
         "rules": {
