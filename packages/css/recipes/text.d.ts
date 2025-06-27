@@ -7,6 +7,10 @@ declare interface TextVariant {
   * @default none
   */
   maxLines: "none" | "single" | "multi";
+/**
+  * @default none
+  */
+  textDecorationLine: "none" | "line-through";
 }
 
 declare type TextVariantMap = {
