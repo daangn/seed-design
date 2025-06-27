@@ -29,9 +29,9 @@
       "version": "0.0.0",
       "dependencies": {
         "@fumadocs/mdx-remote": "^1.3.2",
-        "@karrotmarket/icon-data": "^0.0.35",
+        "@karrotmarket/icon-data": "^0.0.39",
         "@karrotmarket/react-monochrome-icon": "^0.0.27",
-        "@karrotmarket/react-multicolor-icon": "^0.0.18",
+        "@karrotmarket/react-multicolor-icon": "^0.0.22",
         "@orama/orama": "^3.1.3",
         "@portabletext/react": "^3.2.1",
         "@sanity/asset-utils": "^2.2.1",
@@ -1501,7 +1501,7 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@0.0.35", "", {}, "sha512-yOjee6kzO/IaTUnX/2OwhudsNs02atmRTVDpHHvXlxDcpFTGy2lckAYBySDp/XxqEsFkG07UIASX2dClYZvDzg=="],
+    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@0.0.39", "", {}, "sha512-0I8GrwBWUcXHE7ysd2k3TUa8ilofc/Xsj5XQU2TT/5KlNT4dctC+OWANBGfWyFBY/VUnh81khaOs9iR9YJFq1w=="],
 
     "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@0.0.27", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-WEowaPYCaAZKNFv8nssiuvn5Gt44r9dgPE9Bsn2+56IBSnQt5y1K1z/BacAfG+5Phycf73rjIhpSxQSt9ZrdTQ=="],
 
@@ -5506,6 +5506,8 @@
     "@sanity/visual-editing-csm/@sanity/visual-editing-types": ["@sanity/visual-editing-types@1.0.18", "", { "peerDependencies": { "@sanity/client": "^7.1.0", "@sanity/types": "*" }, "optionalPeers": ["@sanity/types"] }, "sha512-5opaVrSIdDnvVSmt3aQE5KIro8w7lbgshAX5mjB8T4i2beyUWA1FECKLzCmYN1JQoZk1CamdFqXfz6t7SnptWA=="],
 
     "@seed-design/design-token/esbuild": ["esbuild@0.25.3", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.3", "@esbuild/android-arm": "0.25.3", "@esbuild/android-arm64": "0.25.3", "@esbuild/android-x64": "0.25.3", "@esbuild/darwin-arm64": "0.25.3", "@esbuild/darwin-x64": "0.25.3", "@esbuild/freebsd-arm64": "0.25.3", "@esbuild/freebsd-x64": "0.25.3", "@esbuild/linux-arm": "0.25.3", "@esbuild/linux-arm64": "0.25.3", "@esbuild/linux-ia32": "0.25.3", "@esbuild/linux-loong64": "0.25.3", "@esbuild/linux-mips64el": "0.25.3", "@esbuild/linux-ppc64": "0.25.3", "@esbuild/linux-riscv64": "0.25.3", "@esbuild/linux-s390x": "0.25.3", "@esbuild/linux-x64": "0.25.3", "@esbuild/netbsd-arm64": "0.25.3", "@esbuild/netbsd-x64": "0.25.3", "@esbuild/openbsd-arm64": "0.25.3", "@esbuild/openbsd-x64": "0.25.3", "@esbuild/sunos-x64": "0.25.3", "@esbuild/win32-arm64": "0.25.3", "@esbuild/win32-ia32": "0.25.3", "@esbuild/win32-x64": "0.25.3" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q=="],
+
+    "@seed-design/docs/@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@0.0.22", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-d6B635xwBfayQpDXHmYKN23dtx/PM+hbmeKk+2uV751qlXQFje2pO50hKl44nad0cLlho1gY/in0gI11mijrNA=="],
 
     "@seed-design/figma-checklist-widget/esbuild": ["esbuild@0.25.3", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.3", "@esbuild/android-arm": "0.25.3", "@esbuild/android-arm64": "0.25.3", "@esbuild/android-x64": "0.25.3", "@esbuild/darwin-arm64": "0.25.3", "@esbuild/darwin-x64": "0.25.3", "@esbuild/freebsd-arm64": "0.25.3", "@esbuild/freebsd-x64": "0.25.3", "@esbuild/linux-arm": "0.25.3", "@esbuild/linux-arm64": "0.25.3", "@esbuild/linux-ia32": "0.25.3", "@esbuild/linux-loong64": "0.25.3", "@esbuild/linux-mips64el": "0.25.3", "@esbuild/linux-ppc64": "0.25.3", "@esbuild/linux-riscv64": "0.25.3", "@esbuild/linux-s390x": "0.25.3", "@esbuild/linux-x64": "0.25.3", "@esbuild/netbsd-arm64": "0.25.3", "@esbuild/netbsd-x64": "0.25.3", "@esbuild/openbsd-arm64": "0.25.3", "@esbuild/openbsd-x64": "0.25.3", "@esbuild/sunos-x64": "0.25.3", "@esbuild/win32-arm64": "0.25.3", "@esbuild/win32-ia32": "0.25.3", "@esbuild/win32-x64": "0.25.3" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q=="],
 

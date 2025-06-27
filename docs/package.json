@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "@fumadocs/mdx-remote": "^1.3.2",
-    "@karrotmarket/icon-data": "^0.0.35",
+    "@karrotmarket/icon-data": "^0.0.39",
     "@karrotmarket/react-monochrome-icon": "^0.0.27",
-    "@karrotmarket/react-multicolor-icon": "^0.0.18",
+    "@karrotmarket/react-multicolor-icon": "^0.0.22",
     "@orama/orama": "^3.1.3",
     "@portabletext/react": "^3.2.1",
     "@sanity/asset-utils": "^2.2.1",
