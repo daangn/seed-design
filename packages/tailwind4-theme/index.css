@@ -106,7 +106,6 @@
   --color-fg-positive: var(--seed-color-fg-positive);
   --color-fg-critical-contrast: var(--seed-color-fg-critical-contrast);
   --color-fg-informative-contrast: var(--seed-color-fg-informative-contrast);
-  --color-fg-magic-contrast: var(--seed-color-fg-magic-contrast);
   --color-fg-neutral-inverted: var(--seed-color-fg-neutral-inverted);
   --color-fg-neutral-muted: var(--seed-color-fg-neutral-muted);
   --color-fg-neutral-subtle: var(--seed-color-fg-neutral-subtle);
@@ -115,6 +114,7 @@
   --color-bg-disabled: var(--seed-color-bg-disabled);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-brand-solid: var(--seed-color-bg-brand-solid);
+  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
   --color-bg-brand-solid-pressed: var(--seed-color-bg-brand-solid-pressed);
   --color-bg-critical-solid: var(--seed-color-bg-critical-solid);
   --color-bg-critical-weak: var(--seed-color-bg-critical-weak);

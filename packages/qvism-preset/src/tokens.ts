@@ -195,7 +195,6 @@ export const tokens = {
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
-  --seed-color-fg-magic-contrast: var(--seed-color-palette-purple-900);
   --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
@@ -204,6 +203,7 @@ export const tokens = {
   --seed-color-bg-disabled: var(--seed-color-palette-gray-200);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-600);
+  --seed-color-bg-magic-weak: #F9F2EE;
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-700);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-700);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);
@@ -370,7 +370,6 @@ export const tokens = {
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
-  --seed-color-fg-magic-contrast: var(--seed-color-palette-purple-900);
   --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
@@ -379,6 +378,7 @@ export const tokens = {
   --seed-color-bg-disabled: var(--seed-color-palette-gray-300);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-700);
+  --seed-color-bg-magic-weak: #201F1F;
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-800);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-600);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);

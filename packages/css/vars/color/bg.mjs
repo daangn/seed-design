@@ -1,6 +1,7 @@
 export const disabled = "var(--seed-color-bg-disabled)";
 export const overlay = "var(--seed-color-bg-overlay)";
 export const brandSolid = "var(--seed-color-bg-brand-solid)";
+export const magicWeak = "var(--seed-color-bg-magic-weak)";
 export const brandSolidPressed = "var(--seed-color-bg-brand-solid-pressed)";
 export const criticalSolid = "var(--seed-color-bg-critical-solid)";
 export const criticalWeak = "var(--seed-color-bg-critical-weak)";

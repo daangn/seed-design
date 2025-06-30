@@ -7,7 +7,6 @@ export declare const placeholder = "var(--seed-color-fg-placeholder)";
 export declare const positive = "var(--seed-color-fg-positive)";
 export declare const criticalContrast = "var(--seed-color-fg-critical-contrast)";
 export declare const informativeContrast = "var(--seed-color-fg-informative-contrast)";
-export declare const magicContrast = "var(--seed-color-fg-magic-contrast)";
 export declare const neutralInverted = "var(--seed-color-fg-neutral-inverted)";
 export declare const neutralMuted = "var(--seed-color-fg-neutral-muted)";
 export declare const neutralSubtle = "var(--seed-color-fg-neutral-subtle)";

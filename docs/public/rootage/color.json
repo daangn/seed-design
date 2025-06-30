@@ -1243,18 +1243,6 @@
           }
         }
       },
-      "$color.fg.magic-contrast": {
-        "values": {
-          "theme-light": {
-            "type": "color",
-            "value": "$color.palette.purple-900"
-          },
-          "theme-dark": {
-            "type": "color",
-            "value": "$color.palette.purple-900"
-          }
-        }
-      },
       "$color.fg.neutral-inverted": {
         "values": {
           "theme-light": {
@@ -1348,6 +1336,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.carrot-700"
+          }
+        }
+      },
+      "$color.bg.magic-weak": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "#F9F2EE"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "#201F1F"
           }
         }
       },

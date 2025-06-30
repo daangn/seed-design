@@ -417,10 +417,6 @@ data:
       values:
         theme-light: $color.palette.blue-900
         theme-dark: $color.palette.blue-900
-    $color.fg.magic-contrast:
-      values:
-        theme-light: $color.palette.purple-900
-        theme-dark: $color.palette.purple-900
     $color.fg.neutral-inverted:
       values:
         theme-light: $color.palette.gray-00
@@ -453,6 +449,10 @@ data:
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
+    $color.bg.magic-weak:
+      values:
+        theme-light: "#F9F2EE"
+        theme-dark: "#201F1F"
     $color.bg.brand-solid-pressed:
       values:
         theme-light: $color.palette.carrot-700
