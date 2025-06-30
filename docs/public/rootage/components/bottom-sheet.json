@@ -282,7 +282,7 @@
                 },
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t6"
+                  "value": "$font-size.t5"
                 },
                 "lineHeight": {
                   "type": "dimension",
