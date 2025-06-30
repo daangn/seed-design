@@ -382,9 +382,16 @@ export default plugin(
   "t8": "var(--seed-font-size-t8)",
   "t9": "var(--seed-font-size-t9)",
   "t10": "var(--seed-font-size-t10)",
+  "t1-static": "var(--seed-font-size-t1-static)",
   "t2-static": "var(--seed-font-size-t2-static)",
+  "t3-static": "var(--seed-font-size-t3-static)",
+  "t4-static": "var(--seed-font-size-t4-static)",
   "t5-static": "var(--seed-font-size-t5-static)",
-  "t6-static": "var(--seed-font-size-t6-static)"
+  "t6-static": "var(--seed-font-size-t6-static)",
+  "t7-static": "var(--seed-font-size-t7-static)",
+  "t8-static": "var(--seed-font-size-t8-static)",
+  "t9-static": "var(--seed-font-size-t9-static)",
+  "t10-static": "var(--seed-font-size-t10-static)"
 },
         lineHeight: {
   "t1": "var(--seed-line-height-t1)",
@@ -396,7 +403,17 @@ export default plugin(
   "t7": "var(--seed-line-height-t7)",
   "t8": "var(--seed-line-height-t8)",
   "t9": "var(--seed-line-height-t9)",
-  "t10": "var(--seed-line-height-t10)"
+  "t10": "var(--seed-line-height-t10)",
+  "t1-static": "var(--seed-line-height-t1-static)",
+  "t2-static": "var(--seed-line-height-t2-static)",
+  "t3-static": "var(--seed-line-height-t3-static)",
+  "t4-static": "var(--seed-line-height-t4-static)",
+  "t5-static": "var(--seed-line-height-t5-static)",
+  "t6-static": "var(--seed-line-height-t6-static)",
+  "t7-static": "var(--seed-line-height-t7-static)",
+  "t8-static": "var(--seed-line-height-t8-static)",
+  "t9-static": "var(--seed-line-height-t9-static)",
+  "t10-static": "var(--seed-line-height-t10-static)"
 },
         fontWeight: {
   "regular": "var(--seed-font-weight-regular)",

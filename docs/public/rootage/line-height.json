@@ -116,6 +116,116 @@
             }
           }
         }
+      },
+      "$line-height.t1-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 15,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t2-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 16,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t3-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 18,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t4-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 19,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t5-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 22,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t6-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t7-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 27,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t8-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 30,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t9-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 32,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$line-height.t10-static": {
+        "values": {
+          "default": {
+            "type": "dimension",
+            "value": {
+              "value": 35,
+              "unit": "px"
+            }
+          }
+        }
       }
     }
   }

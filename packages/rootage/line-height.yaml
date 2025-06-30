@@ -35,3 +35,33 @@ data:
     $line-height.t10:
       values:
         default: 2.1875rem # 35px ÷ 16
+    $line-height.t1-static:
+      values:
+        default: 15px
+    $line-height.t2-static:
+      values:
+        default: 16px
+    $line-height.t3-static:
+      values:
+        default: 18px
+    $line-height.t4-static:
+      values:
+        default: 19px
+    $line-height.t5-static:
+      values:
+        default: 22px
+    $line-height.t6-static:
+      values:
+        default: 24px
+    $line-height.t7-static:
+      values:
+        default: 27px
+    $line-height.t8-static:
+      values:
+        default: 30px
+    $line-height.t9-static:
+      values:
+        default: 32px
+    $line-height.t10-static:
+      values:
+        default: 35px
