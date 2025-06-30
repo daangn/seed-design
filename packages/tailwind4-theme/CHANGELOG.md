@@ -1,5 +1,11 @@
 # @seed-design/tailwind4-theme
 
+## 0.0.41
+
+### Patch Changes
+
+- b43de05: Gradient 컬러를 추가합니다
+
 ## 0.0.39
 
 ### Patch Changes
