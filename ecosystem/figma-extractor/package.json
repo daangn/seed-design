@@ -30,7 +30,7 @@
     "cac": "^6.7.14",
     "change-case": "^5.4.4",
     "cosmiconfig": "^9.0.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "es-toolkit": "^1.35.0",
     "figma-api": "^2.0.1-beta",
     "fs-extra": "^11.3.0",
