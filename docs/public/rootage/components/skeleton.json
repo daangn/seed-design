@@ -206,7 +206,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "#F9F7F5"
+                  "value": "$color.bg.magic-weak"
                 }
               },
               "shimmer": {

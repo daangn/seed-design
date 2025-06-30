@@ -51,6 +51,6 @@ data:
     tone=magic:
       enabled:
         root:
-          color: "#F9F7F5"
+          color: $color.bg.magic-weak
         shimmer:
           color: $gradient.shimmer-magic

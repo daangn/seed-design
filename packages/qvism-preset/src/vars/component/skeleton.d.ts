@@ -48,7 +48,7 @@ export declare const vars: {
   "toneMagic": {
     "enabled": {
       "root": {
-        "color": "#F9F7F5"
+        "color": "var(--seed-color-bg-magic-weak)"
       },
       "shimmer": {
         "color": "var(--seed-gradient-shimmer-magic)"

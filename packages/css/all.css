@@ -4158,7 +4158,7 @@
 }
 
 .seed-skeleton--tone_magic {
-  background: #f9f7f5;
+  background: var(--seed-color-bg-magic-weak);
 }
 
 .seed-skeleton--tone_magic:after {
