@@ -397,10 +397,6 @@ data:
       values:
         theme-light: $color.palette.blue-700
         theme-dark: $color.palette.blue-700
-    $color.fg.magic:
-      values:
-        theme-light: $color.palette.purple-700
-        theme-dark: $color.palette.purple-700
     $color.fg.neutral:
       values:
         theme-light: $color.palette.gray-1000
@@ -421,10 +417,6 @@ data:
       values:
         theme-light: $color.palette.blue-900
         theme-dark: $color.palette.blue-900
-    $color.fg.magic-contrast:
-      values:
-        theme-light: $color.palette.purple-900
-        theme-dark: $color.palette.purple-900
     $color.fg.neutral-inverted:
       values:
         theme-light: $color.palette.gray-00
@@ -457,6 +449,10 @@ data:
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
+    $color.bg.magic-weak:
+      values:
+        theme-light: "#F9F2EE"
+        theme-dark: "#201F1F"
     $color.bg.brand-solid-pressed:
       values:
         theme-light: $color.palette.carrot-700
@@ -517,22 +513,6 @@ data:
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
-    $color.bg.magic-solid:
-      values:
-        theme-light: $color.palette.purple-700
-        theme-dark: $color.palette.purple-600
-    $color.bg.magic-weak:
-      values:
-        theme-light: $color.palette.purple-100
-        theme-dark: $color.palette.purple-100
-    $color.bg.magic-solid-pressed:
-      values:
-        theme-light: $color.palette.purple-800
-        theme-dark: $color.palette.purple-700
-    $color.bg.magic-weak-pressed:
-      values:
-        theme-light: $color.palette.purple-200
-        theme-dark: $color.palette.purple-200
     $color.bg.neutral-inverted:
       values:
         theme-light: $color.palette.gray-900

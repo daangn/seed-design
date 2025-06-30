@@ -7,23 +7,48 @@ import plugin from "tailwindcss/plugin";
  * 예시: 
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
  * - 타이포그래피: t1-regular, t1-bold, screen-title
+ * - 그라데이션: 
+ *   * bg-gradient-shimmer-neutral-to-r (방향성 포함)
+ *   * bg-gradient-shimmer-neutral-[45deg] (임의 각도)
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
 export default plugin(
-  ({ theme, addComponents }) => {  
-  // typography 유틸리티
-   const typography = theme("typography");
-   if (typography) {
-     // matchUtilities 대신 addComponents 사용
-     addComponents(
-       Object.entries(typography).reduce((acc, [key, value]) => {
-         acc[`.${key}`] = value;
-         return acc;
-       }, {})
-     );
-   }
-    
+  ({ theme, addComponents, matchUtilities }) => {  
+    // typography 유틸리티
+    const typography = theme("typography");
+    if (typography) {
+      addComponents(
+        Object.entries(typography).reduce((acc, [key, value]) => {
+          acc[`.${key}`] = value;
+          return acc;
+        }, {})
+      );
+    }
+
+    // gradient arbitrary value 지원
+    const gradientStopsForArbitrary = {
+      "shimmer-neutral": "#FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%",
+      "shimmer-magic": "#FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%",
+      "fade-neutral": "#FFFFFF 0.00%, #FFFFFF00 100.00%",
+      "glow-magic": "#FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%",
+      "glow-magic-pressed": "#FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%",
+      "highlight-magic": "#FF6600 20.00%, #D25ACA 80.00%"
+};
+
+    Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
+      matchUtilities(
+        {
+          [`bg-gradient-${gradientName}`]: (value) => ({
+            backgroundImage: `linear-gradient(${value}, ${colorStops})`
+          })
+        },
+        {
+          type: 'any',
+          values: {}
+        }
+      );
+    });
   },
   {
     theme: {
@@ -127,13 +152,11 @@ export default plugin(
   "fg-critical": "var(--seed-color-fg-critical)",
   "fg-disabled": "var(--seed-color-fg-disabled)",
   "fg-informative": "var(--seed-color-fg-informative)",
-  "fg-magic": "var(--seed-color-fg-magic)",
   "fg-neutral": "var(--seed-color-fg-neutral)",
   "fg-placeholder": "var(--seed-color-fg-placeholder)",
   "fg-positive": "var(--seed-color-fg-positive)",
   "fg-critical-contrast": "var(--seed-color-fg-critical-contrast)",
   "fg-informative-contrast": "var(--seed-color-fg-informative-contrast)",
-  "fg-magic-contrast": "var(--seed-color-fg-magic-contrast)",
   "fg-neutral-inverted": "var(--seed-color-fg-neutral-inverted)",
   "fg-neutral-muted": "var(--seed-color-fg-neutral-muted)",
   "fg-neutral-subtle": "var(--seed-color-fg-neutral-subtle)",
@@ -142,6 +165,7 @@ export default plugin(
   "bg-disabled": "var(--seed-color-bg-disabled)",
   "bg-overlay": "var(--seed-color-bg-overlay)",
   "bg-brand-solid": "var(--seed-color-bg-brand-solid)",
+  "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
   "bg-brand-solid-pressed": "var(--seed-color-bg-brand-solid-pressed)",
   "bg-critical-solid": "var(--seed-color-bg-critical-solid)",
   "bg-critical-weak": "var(--seed-color-bg-critical-weak)",
@@ -157,10 +181,6 @@ export default plugin(
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-default-pressed": "var(--seed-color-bg-layer-default-pressed)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
-  "bg-magic-solid": "var(--seed-color-bg-magic-solid)",
-  "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
-  "bg-magic-solid-pressed": "var(--seed-color-bg-magic-solid-pressed)",
-  "bg-magic-weak-pressed": "var(--seed-color-bg-magic-weak-pressed)",
   "bg-neutral-inverted": "var(--seed-color-bg-neutral-inverted)",
   "bg-neutral-solid": "var(--seed-color-bg-neutral-solid)",
   "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",
@@ -197,7 +217,63 @@ export default plugin(
   "manner-temp-l5-bg": "var(--seed-color-manner-temp-l5-bg)",
   "manner-temp-l5-text": "var(--seed-color-manner-temp-l5-text)",
   "manner-temp-l6-bg": "var(--seed-color-manner-temp-l6-bg)",
-  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)"
+  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)",
+  "gradient-stops-shimmer-neutral": "#FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%",
+  "gradient-stops-shimmer-magic": "#FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%",
+  "gradient-stops-fade-neutral": "#FFFFFF 0.00%, #FFFFFF00 100.00%",
+  "gradient-stops-glow-magic": "#FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%",
+  "gradient-stops-glow-magic-pressed": "#FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%",
+  "gradient-stops-highlight-magic": "#FF6600 20.00%, #D25ACA 80.00%"
+},
+        backgroundImage: {
+  "shimmer-neutral-to-t": "linear-gradient(to top, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-tr": "linear-gradient(to top right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-r": "linear-gradient(to right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-br": "linear-gradient(to bottom right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-b": "linear-gradient(to bottom, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-l": "linear-gradient(to left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-neutral-to-tl": "linear-gradient(to top left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%)",
+  "shimmer-magic-to-t": "linear-gradient(to top, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-tr": "linear-gradient(to top right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-r": "linear-gradient(to right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-br": "linear-gradient(to bottom right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-b": "linear-gradient(to bottom, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-bl": "linear-gradient(to bottom left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-l": "linear-gradient(to left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "shimmer-magic-to-tl": "linear-gradient(to top left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%)",
+  "fade-neutral-to-t": "linear-gradient(to top, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-tr": "linear-gradient(to top right, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-r": "linear-gradient(to right, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-br": "linear-gradient(to bottom right, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-b": "linear-gradient(to bottom, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-bl": "linear-gradient(to bottom left, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-l": "linear-gradient(to left, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "fade-neutral-to-tl": "linear-gradient(to top left, #FFFFFF 0.00%, #FFFFFF00 100.00%)",
+  "glow-magic-to-t": "linear-gradient(to top, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-tr": "linear-gradient(to top right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-r": "linear-gradient(to right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-br": "linear-gradient(to bottom right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-b": "linear-gradient(to bottom, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-bl": "linear-gradient(to bottom left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-l": "linear-gradient(to left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-to-tl": "linear-gradient(to top left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%)",
+  "glow-magic-pressed-to-t": "linear-gradient(to top, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-tr": "linear-gradient(to top right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-r": "linear-gradient(to right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-br": "linear-gradient(to bottom right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-b": "linear-gradient(to bottom, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-bl": "linear-gradient(to bottom left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-l": "linear-gradient(to left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "glow-magic-pressed-to-tl": "linear-gradient(to top left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%)",
+  "highlight-magic-to-t": "linear-gradient(to top, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-tr": "linear-gradient(to top right, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-r": "linear-gradient(to right, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-br": "linear-gradient(to bottom right, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-b": "linear-gradient(to bottom, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-bl": "linear-gradient(to bottom left, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-l": "linear-gradient(to left, #FF6600 20.00%, #D25ACA 80.00%)",
+  "highlight-magic-to-tl": "linear-gradient(to top left, #FF6600 20.00%, #D25ACA 80.00%)"
 },
         typography: {
   "screen-title": {
@@ -419,7 +495,7 @@ export default plugin(
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
   "exit-expressive": "var(--seed-timing-function-exit-expressive)"
 },
-      }
-    }
-  }
+      },
+    },
+  },
 );

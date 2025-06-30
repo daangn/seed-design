@@ -190,13 +190,11 @@ export const tokens = {
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
-  --seed-color-fg-magic: var(--seed-color-palette-purple-700);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
-  --seed-color-fg-magic-contrast: var(--seed-color-palette-purple-900);
   --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-00);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
@@ -205,6 +203,7 @@ export const tokens = {
   --seed-color-bg-disabled: var(--seed-color-palette-gray-200);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-600);
+  --seed-color-bg-magic-weak: #F9F2EE;
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-700);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-700);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);
@@ -220,10 +219,6 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-00);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-100);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-100);
-  --seed-color-bg-magic-solid: var(--seed-color-palette-purple-700);
-  --seed-color-bg-magic-weak: var(--seed-color-palette-purple-100);
-  --seed-color-bg-magic-solid-pressed: var(--seed-color-palette-purple-800);
-  --seed-color-bg-magic-weak-pressed: var(--seed-color-palette-purple-200);
   --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-900);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-200);
@@ -261,7 +256,12 @@ export const tokens = {
   --seed-color-manner-temp-l5-text: #d28500;
   --seed-color-manner-temp-l6-bg: #fff0e5;
   --seed-color-manner-temp-l6-text: #f06000;
-  --seed-gradient-shimmer: #ffffff00 0%, #ffffff66 46%, #ffffff66 54%, #ffffff00 100%;
+  --seed-gradient-shimmer-neutral: #FFFFFF00 0%, #FFFFFF66 46%, #FFFFFF66 54%, #FFFFFF00 100%;
+  --seed-gradient-shimmer-magic: #FEF0E700 0%, #FEF0E78A 46%, #FEF0E78A 54%, #FEF0E700 100%;
+  --seed-gradient-fade-neutral: #FFFFFF 0%, #FFFFFF00 100%;
+  --seed-gradient-glow-magic: #FEF6F7 0%, #FEF0E7 80%, #F9F7F5 100%;
+  --seed-gradient-glow-magic-pressed: #FBF0F2 0%, #FFE8DB 80%, #F5F2EF 100%;
+  --seed-gradient-highlight-magic: #FF6600 20%, #D25ACA 80%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
@@ -365,13 +365,11 @@ export const tokens = {
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
-  --seed-color-fg-magic: var(--seed-color-palette-purple-700);
   --seed-color-fg-neutral: var(--seed-color-palette-gray-1000);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
-  --seed-color-fg-magic-contrast: var(--seed-color-palette-purple-900);
   --seed-color-fg-neutral-inverted: var(--seed-color-palette-gray-100);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
   --seed-color-fg-neutral-subtle: var(--seed-color-palette-gray-700);
@@ -380,6 +378,7 @@ export const tokens = {
   --seed-color-bg-disabled: var(--seed-color-palette-gray-300);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-700);
+  --seed-color-bg-magic-weak: #201F1F;
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-800);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-600);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);
@@ -395,10 +394,6 @@ export const tokens = {
   --seed-color-bg-layer-floating: var(--seed-color-palette-gray-200);
   --seed-color-bg-layer-default-pressed: var(--seed-color-palette-gray-300);
   --seed-color-bg-layer-floating-pressed: var(--seed-color-palette-gray-300);
-  --seed-color-bg-magic-solid: var(--seed-color-palette-purple-600);
-  --seed-color-bg-magic-weak: var(--seed-color-palette-purple-100);
-  --seed-color-bg-magic-solid-pressed: var(--seed-color-palette-purple-700);
-  --seed-color-bg-magic-weak-pressed: var(--seed-color-palette-purple-200);
   --seed-color-bg-neutral-inverted: var(--seed-color-palette-gray-1000);
   --seed-color-bg-neutral-solid: var(--seed-color-palette-gray-300);
   --seed-color-bg-neutral-weak: var(--seed-color-palette-gray-300);
@@ -436,6 +431,11 @@ export const tokens = {
   --seed-color-manner-temp-l5-text: #ffa100;
   --seed-color-manner-temp-l6-bg: #2e1d12;
   --seed-color-manner-temp-l6-text: #ff9147;
-  --seed-gradient-shimmer: #ffffff00 0%, #ffffff1a 46%, #ffffff1a 54%, #ffffff00 100%;
+  --seed-gradient-shimmer-neutral: #FFFFFF00 0%, #FFFFFF1A 46%, #FFFFFF1A 54%, #FFFFFF00 100%;
+  --seed-gradient-shimmer-magic: #FEF0E700 0%, #FEF0E71A 46%, #FEF0E71A 54%, #FEF0E700 100%;
+  --seed-gradient-fade-neutral: #1D2025 0%, #1D202500 100%;
+  --seed-gradient-glow-magic: #2D252D 0%, #3A312B 80%, #333232 100%;
+  --seed-gradient-glow-magic-pressed: #3E333E 0%, #51453E 80%, #434242 100%;
+  --seed-gradient-highlight-magic: #FF6000 20%, #D25ACA 80%;
 }`
 };

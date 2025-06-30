@@ -101,13 +101,11 @@
   --color-fg-critical: var(--seed-color-fg-critical);
   --color-fg-disabled: var(--seed-color-fg-disabled);
   --color-fg-informative: var(--seed-color-fg-informative);
-  --color-fg-magic: var(--seed-color-fg-magic);
   --color-fg-neutral: var(--seed-color-fg-neutral);
   --color-fg-placeholder: var(--seed-color-fg-placeholder);
   --color-fg-positive: var(--seed-color-fg-positive);
   --color-fg-critical-contrast: var(--seed-color-fg-critical-contrast);
   --color-fg-informative-contrast: var(--seed-color-fg-informative-contrast);
-  --color-fg-magic-contrast: var(--seed-color-fg-magic-contrast);
   --color-fg-neutral-inverted: var(--seed-color-fg-neutral-inverted);
   --color-fg-neutral-muted: var(--seed-color-fg-neutral-muted);
   --color-fg-neutral-subtle: var(--seed-color-fg-neutral-subtle);
@@ -116,6 +114,7 @@
   --color-bg-disabled: var(--seed-color-bg-disabled);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-brand-solid: var(--seed-color-bg-brand-solid);
+  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
   --color-bg-brand-solid-pressed: var(--seed-color-bg-brand-solid-pressed);
   --color-bg-critical-solid: var(--seed-color-bg-critical-solid);
   --color-bg-critical-weak: var(--seed-color-bg-critical-weak);
@@ -131,10 +130,6 @@
   --color-bg-layer-floating: var(--seed-color-bg-layer-floating);
   --color-bg-layer-default-pressed: var(--seed-color-bg-layer-default-pressed);
   --color-bg-layer-floating-pressed: var(--seed-color-bg-layer-floating-pressed);
-  --color-bg-magic-solid: var(--seed-color-bg-magic-solid);
-  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
-  --color-bg-magic-solid-pressed: var(--seed-color-bg-magic-solid-pressed);
-  --color-bg-magic-weak-pressed: var(--seed-color-bg-magic-weak-pressed);
   --color-bg-neutral-inverted: var(--seed-color-bg-neutral-inverted);
   --color-bg-neutral-solid: var(--seed-color-bg-neutral-solid);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
@@ -219,7 +214,12 @@
   --font-weight-regular: var(--seed-font-weight-regular);
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
-  --gradient-shimmer: var(--seed-gradient-shimmer);
+  --gradient-shimmer-neutral: var(--seed-gradient-shimmer-neutral);
+  --gradient-shimmer-magic: var(--seed-gradient-shimmer-magic);
+  --gradient-fade-neutral: var(--seed-gradient-fade-neutral);
+  --gradient-glow-magic: var(--seed-gradient-glow-magic);
+  --gradient-glow-magic-pressed: var(--seed-gradient-glow-magic-pressed);
+  --gradient-highlight-magic: var(--seed-gradient-highlight-magic);
   --line-height-t1: var(--seed-line-height-t1);
   --line-height-t2: var(--seed-line-height-t2);
   --line-height-t3: var(--seed-line-height-t3);
@@ -247,6 +247,60 @@
   --timing-function-exit: var(--seed-timing-function-exit);
   --timing-function-enter-expressive: var(--seed-timing-function-enter-expressive);
   --timing-function-exit-expressive: var(--seed-timing-function-exit-expressive);
+  --gradient-stops-shimmer-neutral: #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%;
+  --gradient-stops-shimmer-magic: #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%;
+  --gradient-stops-fade-neutral: #FFFFFF 0.00%, #FFFFFF00 100.00%;
+  --gradient-stops-glow-magic: #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%;
+  --gradient-stops-glow-magic-pressed: #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%;
+  --gradient-stops-highlight-magic: #FF6600 20.00%, #D25ACA 80.00%;
+  --gradient-shimmer-neutral-to-t: linear-gradient(to top, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-tr: linear-gradient(to top right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-r: linear-gradient(to right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-br: linear-gradient(to bottom right, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-b: linear-gradient(to bottom, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-bl: linear-gradient(to bottom left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-l: linear-gradient(to left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-neutral-to-tl: linear-gradient(to top left, #FFFFFF00 0.00%, #FFFFFF66 46.00%, #FFFFFF66 54.00%, #FFFFFF00 100.00%);
+  --gradient-shimmer-magic-to-t: linear-gradient(to top, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-tr: linear-gradient(to top right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-r: linear-gradient(to right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-br: linear-gradient(to bottom right, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-b: linear-gradient(to bottom, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-bl: linear-gradient(to bottom left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-l: linear-gradient(to left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-shimmer-magic-to-tl: linear-gradient(to top left, #FEF0E700 0.00%, #FEF0E78A 46.00%, #FEF0E78A 54.00%, #FEF0E700 100.00%);
+  --gradient-fade-neutral-to-t: linear-gradient(to top, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-tr: linear-gradient(to top right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-r: linear-gradient(to right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-br: linear-gradient(to bottom right, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-b: linear-gradient(to bottom, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-bl: linear-gradient(to bottom left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-l: linear-gradient(to left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-fade-neutral-to-tl: linear-gradient(to top left, #FFFFFF 0.00%, #FFFFFF00 100.00%);
+  --gradient-glow-magic-to-t: linear-gradient(to top, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-tr: linear-gradient(to top right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-r: linear-gradient(to right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-br: linear-gradient(to bottom right, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-b: linear-gradient(to bottom, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-bl: linear-gradient(to bottom left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-l: linear-gradient(to left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-to-tl: linear-gradient(to top left, #FEF6F7 0.00%, #FEF0E7 80.00%, #F9F7F5 100.00%);
+  --gradient-glow-magic-pressed-to-t: linear-gradient(to top, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-tr: linear-gradient(to top right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-r: linear-gradient(to right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-br: linear-gradient(to bottom right, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-b: linear-gradient(to bottom, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-bl: linear-gradient(to bottom left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-l: linear-gradient(to left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-glow-magic-pressed-to-tl: linear-gradient(to top left, #FBF0F2 0.00%, #FFE8DB 80.00%, #F5F2EF 100.00%);
+  --gradient-highlight-magic-to-t: linear-gradient(to top, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-tr: linear-gradient(to top right, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-r: linear-gradient(to right, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-br: linear-gradient(to bottom right, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-b: linear-gradient(to bottom, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-bl: linear-gradient(to bottom left, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-l: linear-gradient(to left, #FF6600 20.00%, #D25ACA 80.00%);
+  --gradient-highlight-magic-to-tl: linear-gradient(to top left, #FF6600 20.00%, #D25ACA 80.00%);
 }
 
 @utility screen-title {
@@ -512,4 +566,28 @@
 
 @utility easing-* {
   transitionTimingFunction: var(--timing-function- --value(--timing-function-*, *));
+}
+
+@utility bg-gradient-shimmer-neutral-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-shimmer-neutral));
+}
+
+@utility bg-gradient-shimmer-magic-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-shimmer-magic));
+}
+
+@utility bg-gradient-fade-neutral-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-fade-neutral));
+}
+
+@utility bg-gradient-glow-magic-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-glow-magic));
+}
+
+@utility bg-gradient-glow-magic-pressed-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-glow-magic-pressed));
+}
+
+@utility bg-gradient-highlight-magic-* {
+  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-highlight-magic));
 }

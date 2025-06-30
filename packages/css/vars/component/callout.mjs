@@ -143,27 +143,27 @@ export const vars = {
   "toneMagic": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-magic-weak)"
+        "color": "var(--seed-gradient-glow-magic)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-magic-contrast)"
+        "color": "var(--seed-color-fg-neutral)"
       },
       "title": {
-        "color": "var(--seed-color-fg-magic-contrast)"
+        "color": "var(--seed-color-fg-neutral)"
       },
       "description": {
-        "color": "var(--seed-color-fg-magic-contrast)"
+        "color": "var(--seed-color-fg-neutral)"
       },
       "link": {
-        "color": "var(--seed-color-fg-magic-contrast)"
+        "color": "var(--seed-color-fg-neutral)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-magic-contrast)"
+        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "pressed": {
       "root": {
-        "color": "var(--seed-color-bg-magic-weak-pressed)"
+        "color": "var(--seed-gradient-glow-magic-pressed)"
       }
     }
   }
