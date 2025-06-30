@@ -7,6 +7,7 @@ import type {
   Radius,
   SpacingX,
   SpacingY,
+  Gradient,
 } from "@seed-design/css/vars";
 import { vars } from "@seed-design/css/vars";
 import { forwardRef } from "react";
@@ -56,6 +57,41 @@ function handleRadius(radius: string | 0 | undefined) {
   }
   // @ts-ignore
   return vars.$radius[radius] ?? radius;
+}
+
+function handleGradientDirection(direction: string | undefined) {
+  if (!direction) {
+    return undefined;
+  }
+
+  const directionMap: Record<string, string> = {
+    "to-r": "to right",
+    "to-l": "to left",
+    "to-t": "to top",
+    "to-b": "to bottom",
+    "to-tr": "to top right",
+    "to-tl": "to top left",
+    "to-br": "to bottom right",
+    "to-bl": "to bottom left",
+  };
+
+  return directionMap[direction] ?? direction;
+}
+
+function handleGradient(gradientToken: string | undefined, direction: string | undefined) {
+  if (!gradientToken || !direction) {
+    return undefined;
+  }
+
+  // @ts-ignore
+  const colorStops = vars.$gradient[gradientToken];
+  if (!colorStops) {
+    return undefined;
+  }
+
+  const mappedDirection = handleGradientDirection(direction);
+
+  return `linear-gradient(${mappedDirection}, ${colorStops})`;
 }
 
 function handleDisplay(display: string | undefined) {
@@ -161,12 +197,48 @@ function handleAlignItems(alignItems: string | undefined) {
 }
 
 export interface StyleProps {
-  background?: ScopedColorBg | ScopedColorPalette | (string & {});
-
   /**
    * Shorthand for `background`.
    */
   bg?: ScopedColorBg | ScopedColorPalette | (string & {});
+
+  background?: ScopedColorBg | ScopedColorPalette | (string & {});
+
+  /**
+   * Shorthand for `backgroundGradient`.
+   */
+  bgGradient?: Gradient;
+
+  backgroundGradient?: Gradient;
+
+  /**
+   * Shorthand for `backgroundGradientDirection`.
+   * e.g. `43deg`
+   */
+  bgGradientDirection?:
+    | "to-r"
+    | "to-l"
+    | "to-t"
+    | "to-b"
+    | "to-tr"
+    | "to-tl"
+    | "to-br"
+    | "to-bl"
+    | (string & {});
+
+  /**
+   * e.g. `43deg`
+   */
+  backgroundGradientDirection?:
+    | "to-r"
+    | "to-l"
+    | "to-t"
+    | "to-b"
+    | "to-tr"
+    | "to-tl"
+    | "to-br"
+    | "to-bl"
+    | (string & {});
 
   color?: ScopedColorFg | ScopedColorPalette | (string & {});
 
@@ -426,6 +498,10 @@ export function useStyleProps<T extends UseStyleProps>(
   const {
     background,
     bg,
+    bgGradient,
+    backgroundGradient,
+    bgGradientDirection,
+    backgroundGradientDirection,
     color,
     borderColor,
     borderWidth,
@@ -488,9 +564,14 @@ export function useStyleProps<T extends UseStyleProps>(
     ...restProps
   } = props;
 
+  const gradientValue = handleGradient(
+    bgGradient ?? backgroundGradient,
+    bgGradientDirection ?? backgroundGradientDirection,
+  );
+
   return {
     style: {
-      "--seed-box-background": handleColor(background ?? bg),
+      "--seed-box-background": handleColor(background ?? bg) ?? gradientValue,
       "--seed-box-color": handleColor(color),
       "--seed-box-border-color": handleColor(borderColor),
       "--seed-box-border-width": borderWidth !== undefined ? `${borderWidth}px` : undefined,
