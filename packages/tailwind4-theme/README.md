@@ -88,10 +88,11 @@ yarn add @seed-design/tailwind4-theme
 <div className="bg-shimmer-magic-to-b">아래로 그라데이션</div>
 <div className="bg-shimmer-neutral-to-tr">우측 상단으로 그라데이션</div>
 
-// 색상 stops와 함께 사용 (from-, via-, to- 유틸리티)
-<div className="bg-gradient-to-r from-gradient-shimmer-neutral via-transparent to-transparent">
-  커스텀 그라데이션
-</div>
+// 임의 각도 그라데이션 (새로 추가)
+<div className="bg-gradient-shimmer-neutral-45deg">45도 각도 그라데이션</div>
+<div className="bg-gradient-glow-magic-120deg">120도 각도 그라데이션</div>
+<div className="bg-gradient-highlight-magic-270deg">270도 각도 그라데이션</div>
+
 ```
 
 ## 지원하는 토큰
@@ -99,8 +100,8 @@ yarn add @seed-design/tailwind4-theme
 이 패키지는 모든 SEED 디자인 토큰을 Tailwind CSS 4.0의 테마 변수로 제공합니다:
 
 - 색상 (fg-*, bg-*, stroke-*, palette-*)
-- 그라데이션 (shimmer-*-to-t, shimmer-*-to-r, shimmer-*-to-b, shimmer-*-to-l, shimmer-*-to-tr, shimmer-*-to-br, shimmer-*-to-bl, shimmer-*-to-tl)
-- 그라데이션 색상 stops (gradient-shimmer-*, from-, via-, to- 유틸리티와 함께 사용)
+- 그라데이션 (bg-gradient-{gradient-stops-name}-to-t, bg-gradient-{gradient-stops-name}-to-r, bg-gradient-{gradient-stops-name}-to-b, bg-gradient-{gradient-stops-name}-to-l, bg-gradient-{gradient-stops-name}-to-tr, bg-gradient-{gradient-stops-name}-to-br, bg-gradient-{gradient-stops-name}-to-bl, bg-gradient-{gradient-stops-name}-to-tl)
+- 그라데이션 임의 각도 (bg-gradient-{gradient-stops-name}-45deg, bg-gradient-{gradient-stops-name}-120deg, bg-gradient-{gradient-stops-name}-270deg 등)
 - 크기 (dimension-x*)
 - 여백 (p-x*, m-x*, gap-x*)
 - 반경 (radius-r*)

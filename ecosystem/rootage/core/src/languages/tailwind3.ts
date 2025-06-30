@@ -205,7 +205,7 @@ export function getTailwind3PluginCode(
   Object.entries(collections.gradients)
     .filter(([key]) => !key.includes("-to-"))
     .forEach(([key, value]) => {
-      gradientStops[`gradient-${key}`] = value;
+      gradientStops[`gradient-stops-${key}`] = value;
     });
 
   const extendedColors = {
@@ -235,14 +235,13 @@ import plugin from "tailwindcss/plugin";
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
  * - 타이포그래피: t1-regular, t1-bold, screen-title
  * - 그라데이션: 
- *   * bg-shimmer-neutral-to-r (방향성 포함)
- *   * bg-linear-[25deg,var(--seed-gradient-shimmer-neutral)] (임의 각도)
- *   * bg-shimmer-neutral (색상 stops만)
+ *   * bg-gradient-shimmer-neutral-to-r (방향성 포함)
+ *   * bg-gradient-shimmer-neutral-[45deg] (임의 각도)
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
 export default plugin(
-  ({ theme, addComponents }) => {  
+  ({ theme, addComponents, matchUtilities }) => {  
     // typography 유틸리티
     const typography = theme("typography");
     if (typography) {
@@ -253,6 +252,31 @@ export default plugin(
         }, {})
       );
     }
+
+    // gradient arbitrary value 지원
+    const gradientStopsForArbitrary = ${JSON.stringify(
+      Object.fromEntries(
+        Object.entries(collections.gradients)
+          .filter(([key]) => !key.includes("-to-"))
+          .map(([key, value]) => [key, value]),
+      ),
+      null,
+      6,
+    )};
+
+    Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
+      matchUtilities(
+        {
+          [\`bg-gradient-\${gradientName}\`]: (value) => ({
+            backgroundImage: \`linear-gradient(\${value}, \${colorStops})\`
+          })
+        },
+        {
+          type: 'any',
+          values: {}
+        }
+      );
+    });
   },
   {
     theme: {
@@ -267,8 +291,8 @@ export default plugin(
         fontWeight: ${serializeJson(collections.fontWeight)},
         transitionDuration: ${serializeJson(collections.duration)},
         transitionTimingFunction: ${serializeJson(collections.timingFunction)},
-      }
-    }
-  }
+      },
+    },
+  },
 );`;
 }

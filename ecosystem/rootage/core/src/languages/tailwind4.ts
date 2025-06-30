@@ -104,10 +104,9 @@ class TokenProcessor {
       const themeLight = token.values.find((v) => v.mode === "theme-light");
       if (themeLight?.value && themeLight.value.kind === "GradientLit") {
         const gradientCss = gradientToColorStops(themeLight.value);
-        this.themeDeclarations.push(`  --${gradientKey}-css: ${gradientCss};`);
 
         // gradient stops를 colors에 사용하기 위해 저장
-        this.gradientStops[`gradient-${gradientKey}`] = gradientCss;
+        this.gradientStops[`gradient-stops-${gradientKey}`] = gradientCss;
 
         // 방향성 유틸리티들 추가
         this.gradientDirections[`${gradientKey}-to-t`] = `linear-gradient(to top, ${gradientCss})`;
@@ -266,11 +265,19 @@ ${styleLines.join("\n")}
       "font-*": { fontWeight: "--font-weight-*" },
       "duration-*": { transitionDuration: "--duration-*" },
       "easing-*": { transitionTimingFunction: "--timing-function-*" },
-      "bg-*": { backgroundImage: "--background-image-*" }, // gradient 방향성 유틸리티 사용
     };
 
     Object.entries(otherUtilities).forEach(([name, props]) => {
       this.utilityDeclarations.push(this.createUtilityDeclaration(name, props));
+    });
+  }
+
+  generateGradientArbitraryUtilities(gradientStops: Record<string, string>): void {
+    Object.keys(gradientStops).forEach((gradientStop) => {
+      const gradientName = gradientStop.replace("stops-", "");
+      this.utilityDeclarations.push(`@utility bg-${gradientName}-* {
+  background-image: linear-gradient(--value(*, angle), var(--${gradientStop}));
+}`);
     });
   }
 
@@ -400,6 +407,7 @@ export function getTailwind4CompleteThemeCode(
   utilityGenerator.generateComponentUtilities(typographyTokens, sourcePrefix);
   utilityGenerator.generateDimensionUtilities();
   utilityGenerator.generateOtherUtilities();
+  utilityGenerator.generateGradientArbitraryUtilities(tokenProcessor.getGradientStops());
 
   // 테마 코드 생성
   const themeDeclarations = tokenProcessor.getThemeDeclarations();
@@ -410,19 +418,19 @@ export function getTailwind4CompleteThemeCode(
   // gradient stops를 colors로 추가
   const colorDeclarations: string[] = [];
   Object.entries(gradientStops).forEach(([key, value]) => {
-    colorDeclarations.push(`  --color-${key}: ${value};`);
+    colorDeclarations.push(`  --${key}: ${value};`);
   });
 
-  // gradient 방향성 유틸리티를 background-image로 추가
-  const backgroundImageDeclarations: string[] = [];
+  // gradient 방향성 유틸리티를 gradient로 추가
+  const gradientDirectionDeclarations: string[] = [];
   Object.entries(gradientDirections).forEach(([key, value]) => {
-    backgroundImageDeclarations.push(`  --background-image-${key}: ${value};`);
+    gradientDirectionDeclarations.push(`  --gradient-${key}: ${value};`);
   });
 
   const allThemeDeclarations = [
     ...themeDeclarations,
     ...colorDeclarations,
-    ...backgroundImageDeclarations,
+    ...gradientDirectionDeclarations,
   ];
 
   return `${options.banner ?? ""}@theme {
