@@ -1,5 +1,11 @@
 # @seed-design/codemod
 
+## 0.0.29
+
+### Patch Changes
+
+- 6d6d465: replace-custom-seed-design-typography 사용된 객체 그대로 사용하게끔 수정합니다
+
 ## 0.0.28
 
 ### Patch Changes

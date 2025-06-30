@@ -6,24 +6,24 @@ export const metadata = {
       "type": "VARIANT",
       "defaultValue": "20",
       "variantOptions": [
-        "96",
         "20",
         "24",
         "36",
         "42",
         "48",
         "64",
-        "80"
+        "80",
+        "96"
       ]
     },
     "Badge": {
       "type": "VARIANT",
-      "defaultValue": "Flower",
+      "defaultValue": "None",
       "variantOptions": [
-        "Flower",
-        "Shield",
+        "None",
         "Circle",
-        "None"
+        "Shield",
+        "Flower"
       ]
     }
   }

@@ -2,7 +2,7 @@ export const metadata = {
   "name": "idcard_field",
   "key": "362362f42a06b20f47505426efe5e04761d03e2b",
   "componentPropertyDefinitions": {
-    "Information#28759:55": {
+    "Label#28759:45": {
       "type": "BOOLEAN",
       "defaultValue": false
     },
@@ -10,7 +10,7 @@ export const metadata = {
       "type": "BOOLEAN",
       "defaultValue": false
     },
-    "Label#28759:45": {
+    "Information#28759:55": {
       "type": "BOOLEAN",
       "defaultValue": false
     },

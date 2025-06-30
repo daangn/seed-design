@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.31.0",
+    "@figma/rest-api-spec": "^0.32.0",
     "@seed-design/figma-extractor": "^0.0.4",
     "typescript": "^5.8.3"
   },

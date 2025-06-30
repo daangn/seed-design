@@ -2,9 +2,21 @@ export declare const metadata: {
   "name": "✅ Box Button v2",
   "key": "ceccff867341e997c9802d06eb6de20aeaccf5bd",
   "componentPropertyDefinitions": {
+    "Suffix icon#28272:76": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
+    "Label#28272:77": {
+      "type": "TEXT",
+      "defaultValue": "Label"
+    },
+    "Prefix icon#28272:78": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
     "↳Icons#28292:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "89277:7396",
+      "defaultValue": "92346:3754",
       "preferredValues": [
         {
           "type": "COMPONENT_SET",
@@ -943,18 +955,6 @@ export declare const metadata: {
           "key": "0c3d22bcedd4180cd0786b811c60029e08448718"
         }
       ]
-    },
-    "Prefix icon#28272:78": {
-      "type": "BOOLEAN",
-      "defaultValue": true
-    },
-    "Label#28272:77": {
-      "type": "TEXT",
-      "defaultValue": "Label"
-    },
-    "Suffix icon#28272:76": {
-      "type": "BOOLEAN",
-      "defaultValue": false
     },
     "Variant": {
       "type": "VARIANT",

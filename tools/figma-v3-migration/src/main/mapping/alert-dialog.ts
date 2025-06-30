@@ -37,9 +37,9 @@ export const alertDialogMapping: ComponentMapping<"✅ Alert Dialog v2", "🟢 A
     };
 
     if (!hasSecondaryAction) {
-      newProperties.Actions = "Single";
+      newProperties["Layout"] = "Single";
     } else {
-      newProperties.Actions = "Neutral";
+      newProperties["Layout"] = "Neutral";
     }
 
     return newProperties;

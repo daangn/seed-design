@@ -11,6 +11,14 @@ export const metadata = {
         "16",
         "Full"
       ]
+    },
+    "Tone": {
+      "type": "VARIANT",
+      "defaultValue": "Neutral",
+      "variantOptions": [
+        "Magic",
+        "Neutral"
+      ]
     }
   }
 };

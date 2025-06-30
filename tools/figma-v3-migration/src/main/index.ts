@@ -7,6 +7,7 @@ import { applyColorVariable } from "./services/apply-color-variable";
 import { applyTextStyles } from "./services/apply-text-style";
 import { getColorVariableSuggestions } from "./services/get-color-variable-suggestions";
 import { getComponentInSelection } from "./services/get-component-in-selection";
+import { getSelectedComponentInfo } from "./services/get-selected-info";
 import { getSerializedTextStyleSuggestions } from "./services/get-text-style-suggestions";
 import { swapComponent } from "./services/swap-component";
 
@@ -208,6 +209,11 @@ async function main() {
     figma.notify("컴포넌트 교체가 완료되었습니다.", {
       timeout: 1000,
     });
+  });
+
+  events("get-selected-info").on(async () => {
+    const selectedInfo = await getSelectedComponentInfo();
+    console.log(selectedInfo);
   });
 }
 

@@ -2,9 +2,14 @@ export declare const metadata: {
   "name": "✅ Chip Radio v2",
   "key": "873d5b79423752df1cfa464da2b173c2cbb1a324",
   "componentPropertyDefinitions": {
-    "Label#54090:52": {
-      "type": "TEXT",
-      "defaultValue": "Label"
+    "Prefix#54090:0": {
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    "↳Icon#54090:13": {
+      "type": "INSTANCE_SWAP",
+      "defaultValue": "92346:3744",
+      "preferredValues": []
     },
     "Suffix#54090:26": {
       "type": "BOOLEAN",
@@ -12,17 +17,12 @@ export declare const metadata: {
     },
     "↳Icon #54090:39": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "89277:7396",
+      "defaultValue": "92346:3754",
       "preferredValues": []
     },
-    "↳Icon#54090:13": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "89311:4638",
-      "preferredValues": []
-    },
-    "Prefix#54090:0": {
-      "type": "BOOLEAN",
-      "defaultValue": true
+    "Label#54090:52": {
+      "type": "TEXT",
+      "defaultValue": "Label"
     },
     "Selected": {
       "type": "VARIANT",

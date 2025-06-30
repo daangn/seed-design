@@ -8,7 +8,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.27",
+    "@karrotmarket/react-monochrome-icon": "^0.0.28",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@seed-design/css": "0.0.39",
@@ -31,12 +31,12 @@
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@vanilla-extract/vite-plugin": "^5.0.1",
-    "@vitejs/plugin-legacy": "^6.1.0",
+    "@vitejs/plugin-legacy": "^7.0.0",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "rollup-plugin-visualizer": "^6.0.0",
     "terser": "^5.39.0",
     "typescript": "^5.8.3",
-    "vite": "^6.3.3",
+    "vite": "^7.0.0",
     "vite-plugin-checker": "^0.9.1"
   }
 }

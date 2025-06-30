@@ -1,5 +1,5 @@
 export const metadata = {
-  "name": "Tag group",
+  "name": "Tag Group",
   "key": "30d4c37f3bc5f292633cf0aba9a0b640d31ec301",
   "componentPropertyDefinitions": {
     "Size": {

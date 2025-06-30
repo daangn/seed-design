@@ -4469,6 +4469,14 @@
   overflow: hidden;
 }
 
+.seed-text--textDecorationLine_none {
+  text-decoration-line: none;
+}
+
+.seed-text--textDecorationLine_line-through {
+  text-decoration-line: line-through;
+}
+
 .seed-link-content {
   cursor: pointer;
   box-sizing: border-box;

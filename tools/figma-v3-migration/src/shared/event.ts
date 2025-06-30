@@ -58,6 +58,7 @@ interface PluginEventMap {
   "swap-result": {
     results: SwapResult;
   };
+  "get-selected-info": {};
 }
 
 export const events = createEventSystem<PluginEventMap>();

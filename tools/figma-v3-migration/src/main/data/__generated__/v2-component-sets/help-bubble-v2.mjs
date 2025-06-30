@@ -2,6 +2,10 @@ export const metadata = {
   "name": "✅ Help Bubble v2",
   "key": "c943332e4f8984a057c8498ac33db1db82320a11",
   "componentPropertyDefinitions": {
+    "Description#62499:0": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
     "Title Text#62535:0": {
       "type": "TEXT",
       "defaultValue": "Help Bubble \n두 줄일 땐 줄바꿈해요"
@@ -9,10 +13,6 @@ export const metadata = {
     "↳ Description Text#62535:98": {
       "type": "TEXT",
       "defaultValue": "디스크립션"
-    },
-    "Description#62499:0": {
-      "type": "BOOLEAN",
-      "defaultValue": false
     },
     "Variant": {
       "type": "VARIANT",

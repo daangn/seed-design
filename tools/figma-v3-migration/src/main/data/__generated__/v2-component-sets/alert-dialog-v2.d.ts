@@ -2,6 +2,10 @@ export declare const metadata: {
   "name": "✅ Alert Dialog v2",
   "key": "2e00f1502fa9e60e2a3e185b083c03d5c4c5103a",
   "componentPropertyDefinitions": {
+    "🅃 Description text#626:0": {
+      "type": "TEXT",
+      "defaultValue": "본문 내용을 입력해보세요"
+    },
     "🅃 Title text#626:13": {
       "type": "TEXT",
       "defaultValue": "Title은 작성을 권장해요."
@@ -23,10 +27,6 @@ export declare const metadata: {
           "key": "27a5e1a3edb95a19d6c38cf9034d03d0fe6c364a"
         }
       ]
-    },
-    "🅃 Description text#626:0": {
-      "type": "TEXT",
-      "defaultValue": "본문 내용을 입력해보세요"
     },
     "Overlay": {
       "type": "VARIANT",

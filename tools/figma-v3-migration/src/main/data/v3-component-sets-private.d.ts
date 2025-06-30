@@ -1,5 +1,63 @@
 // info: "." prefix가 붙은 피그마 파일들은 extractor에 감지되지 않으므로 수동으로 작성해야 함
 
+export declare const itemMenuGroup: {
+  name: ".Item / Menu Group";
+  key: "2a504a1c6b7810d5e652862dcba2cb7048f9eb16";
+  componentPropertyDefinitions: {
+    "Action Count": {
+      type: "VARIANT";
+      defaultValue: "8";
+      variantOptions: ["1", "2", "3", "4", "5", "6", "7", "8"];
+    };
+  };
+};
+
+export declare const itemMenuItem: {
+  name: ".Item / Menu Item";
+  key: "057083e95466da59051119eec0b41d4ad5a07f8f";
+  componentPropertyDefinitions: {
+    "Show Prefix Icon#17043:5": {
+      type: "BOOLEAN";
+      defaultValue: true;
+    };
+    "Label#55905:8": {
+      type: "TEXT";
+      defaultValue: "라벨";
+    };
+    "Prefix Icon#55948:0": {
+      type: "INSTANCE_SWAP";
+      defaultValue: "26621:23245";
+    };
+    Tone: {
+      type: "VARIANT";
+      defaultValue: "Neutral";
+      variantOptions: ["Neutral", "Critical"];
+    };
+    State: {
+      type: "VARIANT";
+      defaultValue: "Enabled";
+      variantOptions: ["Enabled", "Pressed", "Disabled"];
+    };
+    Layout: {
+      type: "VARIANT";
+      defaultValue: "\bText Only";
+      variantOptions: ["Text with Icon", "\bText Only"];
+    };
+  };
+};
+
+export declare const itemCloseButton: {
+  name: ".Item / Close Button";
+  key: "f922b991d2cc135d3089f720f1efb00ab74833e7";
+  componentPropertyDefinitions: {
+    State: {
+      type: "VARIANT";
+      defaultValue: "Enabled";
+      variantOptions: ["Enabled", "Pressed"];
+    };
+  };
+};
+
 export declare const itemTabHug: {
   name: ".Item / Tab (Hug)";
   key: "c242492543b327ceb84fa9933841512fc62a898c";

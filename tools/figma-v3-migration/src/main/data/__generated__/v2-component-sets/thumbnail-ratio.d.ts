@@ -9,7 +9,8 @@ export declare const metadata: {
         "1:1",
         "4:3",
         "16:9",
-        "2:1"
+        "2:1",
+        "2:3"
       ]
     }
   }

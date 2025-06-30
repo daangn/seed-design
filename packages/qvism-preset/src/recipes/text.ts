@@ -59,10 +59,20 @@ const text = defineRecipe({
         WebkitLineClamp: "var(--seed-max-lines)",
       },
     },
+    textDecorationLine: {
+      none: {
+        textDecorationLine: "none",
+      },
+      // NOTE: We keep kebab-case for textDecorationLine because it's a CSS property.
+      "line-through": {
+        textDecorationLine: "line-through",
+      },
+    },
   },
   defaultVariants: {
     textStyle: "t5Regular",
     maxLines: "none",
+    textDecorationLine: "none",
   },
 });
 

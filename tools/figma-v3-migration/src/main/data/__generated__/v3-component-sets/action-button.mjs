@@ -2,24 +2,24 @@ export const metadata = {
   "name": "🟢 Action Button",
   "key": "450ede9d0bf42fc6ef14345c77e6e407d6d5ee89",
   "componentPropertyDefinitions": {
+    "Label#5987:61": {
+      "type": "TEXT",
+      "defaultValue": "라벨"
+    },
     "Suffix Icon#5987:244": {
       "type": "INSTANCE_SWAP",
       "defaultValue": "20433:60127",
       "preferredValues": []
     },
-    "Icon#7574:0": {
-      "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:16929",
-      "preferredValues": []
-    },
     "Prefix Icon#5987:305": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "20433:16929",
+      "defaultValue": "26621:24682",
       "preferredValues": []
     },
-    "Label#5987:61": {
-      "type": "TEXT",
-      "defaultValue": "라벨"
+    "Icon#7574:0": {
+      "type": "INSTANCE_SWAP",
+      "defaultValue": "26621:24682",
+      "preferredValues": []
     },
     "Size": {
       "type": "VARIANT",

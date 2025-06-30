@@ -52,23 +52,16 @@ import type { ComponentMapping, NewComponentProperties } from "./types";
 
 export const menuFabMapping: ComponentMapping<
   "✅ Menu Floating Action Button v2",
-  "🟢 Primary Floating Action Button"
+  "🟢 Floating Action Button"
 > = {
   oldComponent: "✅ Menu Floating Action Button v2",
-  newComponent: "🟢 Primary Floating Action Button",
+  newComponent: "🟢 Floating Action Button",
   variantMap: {
-    "State:Pressed": "State:Pressed",
-    "State:Enabled": "State:Enabled",
-    "Open:True": "Open:True",
-    "Open:False": "Open:False",
-    "Extended:True": "Extended:True",
-    "Extended:False": "Extended:False",
+    "Open:True": "Type:Menu",
+    "Open:False": "Type:Button",
   },
-  calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Primary Floating Action Button"> = {
-      "Label#28936:0": oldProperties["Label#28936:0"].value,
-      Type: "Menu",
-    };
+  calculateProperties() {
+    const newProperties: NewComponentProperties<"🟢 Floating Action Button"> = {};
     return newProperties;
   },
   childrenMappings: [
@@ -84,13 +77,10 @@ export const fabMapping: ComponentMapping<
 > = {
   oldComponent: "✅ Floating Action Button v2",
   newComponent: "🟢 Floating Action Button",
-  variantMap: {
-    "State:Enabled": "State:Enabled",
-    "State:Pressed": "State:Pressed",
-  },
-  calculateProperties(oldProperties) {
+  variantMap: {},
+  calculateProperties() {
     const newProperties: NewComponentProperties<"🟢 Floating Action Button"> = {
-      "Icon#28796:0": oldProperties["Icon#28796:0"].value,
+      Type: "Button",
     };
     return newProperties;
   },
@@ -98,21 +88,18 @@ export const fabMapping: ComponentMapping<
 
 export const extendedFabMapping: ComponentMapping<
   "✅ Extended Floating Action Button v2",
-  "🟢 Extended Floating Action Button"
+  "🟢 Contextual Floating Button"
 > = {
   oldComponent: "✅ Extended Floating Action Button v2",
-  newComponent: "🟢 Extended Floating Action Button",
+  newComponent: "🟢 Contextual Floating Button",
   variantMap: {
-    "Size:Medium": "Size:Medium",
-    "Size:Small": "Size:Small",
-    "Variant:Over Image": "Variant:Layer Floating",
-    "Variant:Over Paper": "Variant:Neutral Solid",
-    "State:Enabled": "State:Enabled",
-    "State:Pressed": "State:Pressed",
+    "Variant:Over Paper": "Variant:Solid",
+    "Variant:Over Image": "Variant:Layer",
   },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Extended Floating Action Button"> = {
-      "Label#28936:0": oldProperties["Label#28936:0"].value,
+    const newProperties: NewComponentProperties<"🟢 Contextual Floating Button"> = {
+      Layout: "Icon First",
+      "Icon#28796:0": oldProperties["Icon#28796:0"].value,
     };
 
     // Small일 때는 Regular을 사용하고 있고, Medium 일때는 Regular을 사용하고 있음
