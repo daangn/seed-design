@@ -3500,6 +3500,7 @@
   fill: var(--seed-color-bg-neutral-solid);
   width: 12px;
   height: 8px;
+  font-size: 0;
 }
 
 .seed-help-bubble__title {
