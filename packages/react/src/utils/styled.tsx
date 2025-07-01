@@ -59,7 +59,6 @@ function handleRadius(radius: string | 0 | undefined) {
   return vars.$radius[radius] ?? radius;
 }
 
-
 function handleGradient(gradientToken: string | undefined, direction: string | undefined) {
   if (!gradientToken || !direction) {
     return undefined;
