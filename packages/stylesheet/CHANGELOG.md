@@ -40,7 +40,7 @@
 
 - 21773c2: style(stylesheet): add css selector
 
-## 0.1.0
+## 1.0.0
 
 ### Major Changes
 
