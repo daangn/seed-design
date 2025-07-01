@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.1.0
+
+### Minor Changes
+
+- 7cc6087: HelpBubble의 arrow가 상위 요소의 font-size에 영향을 받는 것을 수정합니다
+- bdca898: BottomSheet의 description font-size를 t5로 변경합니다
+
 ## 0.0.41
 
 ### Patch Changes
