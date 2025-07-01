@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 0.1.1
+
+### Patch Changes
+
+- e3b782d: `stroke.neutral`, `stroke.neutral-muted`, `stroke.on-image`의 컬러를 alpha 값으로 변경합니다.
+
 ## 0.1.0
 
 ### Minor Changes
