@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/tailwind4-theme",
-  "version": "0.0.41",
+  "version": "0.1.1",
   "description": "SEED 디자인 토큰을 Tailwind CSS 4.0에서 사용하기 위한 플러그인",
   "main": "index.css",
   "files": [
