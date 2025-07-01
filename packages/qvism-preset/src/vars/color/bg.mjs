@@ -1,7 +1,6 @@
 export const disabled = "var(--seed-color-bg-disabled)";
 export const overlay = "var(--seed-color-bg-overlay)";
 export const brandSolid = "var(--seed-color-bg-brand-solid)";
-export const magicWeak = "var(--seed-color-bg-magic-weak)";
 export const brandSolidPressed = "var(--seed-color-bg-brand-solid-pressed)";
 export const criticalSolid = "var(--seed-color-bg-critical-solid)";
 export const criticalWeak = "var(--seed-color-bg-critical-weak)";
@@ -17,6 +16,7 @@ export const layerFill = "var(--seed-color-bg-layer-fill)";
 export const layerFloating = "var(--seed-color-bg-layer-floating)";
 export const layerDefaultPressed = "var(--seed-color-bg-layer-default-pressed)";
 export const layerFloatingPressed = "var(--seed-color-bg-layer-floating-pressed)";
+export const magicWeak = "var(--seed-color-bg-magic-weak)";
 export const neutralInverted = "var(--seed-color-bg-neutral-inverted)";
 export const neutralSolid = "var(--seed-color-bg-neutral-solid)";
 export const neutralWeak = "var(--seed-color-bg-neutral-weak)";
