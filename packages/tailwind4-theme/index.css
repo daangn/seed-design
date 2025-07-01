@@ -114,7 +114,6 @@
   --color-bg-disabled: var(--seed-color-bg-disabled);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-brand-solid: var(--seed-color-bg-brand-solid);
-  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
   --color-bg-brand-solid-pressed: var(--seed-color-bg-brand-solid-pressed);
   --color-bg-critical-solid: var(--seed-color-bg-critical-solid);
   --color-bg-critical-weak: var(--seed-color-bg-critical-weak);
@@ -130,6 +129,7 @@
   --color-bg-layer-floating: var(--seed-color-bg-layer-floating);
   --color-bg-layer-default-pressed: var(--seed-color-bg-layer-default-pressed);
   --color-bg-layer-floating-pressed: var(--seed-color-bg-layer-floating-pressed);
+  --color-bg-magic-weak: var(--seed-color-bg-magic-weak);
   --color-bg-neutral-inverted: var(--seed-color-bg-neutral-inverted);
   --color-bg-neutral-solid: var(--seed-color-bg-neutral-solid);
   --color-bg-neutral-weak: var(--seed-color-bg-neutral-weak);
