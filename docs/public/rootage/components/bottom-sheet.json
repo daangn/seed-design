@@ -286,7 +286,7 @@
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t6"
+                  "value": "$line-height.t5"
                 },
                 "fontWeight": {
                   "type": "number",

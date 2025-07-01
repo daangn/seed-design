@@ -126,7 +126,7 @@ data:
         description:
           color: $color.fg.neutral-muted
           fontSize: $font-size.t5
-          lineHeight: $line-height.t6
+          lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
         closeButton:
           fromTop: $dimension.x5
