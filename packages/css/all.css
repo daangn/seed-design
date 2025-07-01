@@ -1591,8 +1591,8 @@
 
 .seed-bottom-sheet__description {
   color: var(--seed-color-fg-neutral-muted);
-  font-size: var(--seed-font-size-t6);
-  line-height: var(--seed-line-height-t6);
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-regular);
   white-space: pre-wrap;
   margin: 0;

@@ -40,8 +40,8 @@ export const vars = {
       },
       "description": {
         "color": "var(--seed-color-fg-neutral-muted)",
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)",
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "closeButton": {
