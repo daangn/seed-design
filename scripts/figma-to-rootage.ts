@@ -93,26 +93,52 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
 
   const bgColors = Object.fromEntries(
     bgs.map((bg) => {
-      const lightValue = bg.valuesByMode["1928:7"] as VariableAlias;
-      const darkValue = bg.valuesByMode["1928:8"] as VariableAlias;
+      const lightValue = bg.valuesByMode["1928:7"];
+      const darkValue = bg.valuesByMode["1928:8"];
 
       if (!lightValue || !darkValue) {
         throw new Error(`BG ${bg.name} is missing values for light or dark mode`);
       }
 
-      const lightName = paletteMap.get(lightValue.id)?.name;
-      const darkName = paletteMap.get(darkValue.id)?.name;
+      // Check if values are RGBA (hex) or VariableAlias (palette reference)
+      const isLightRGBA =
+        "r" in lightValue && "g" in lightValue && "b" in lightValue && "a" in lightValue;
+      const isDarkRGBA =
+        "r" in darkValue && "g" in darkValue && "b" in darkValue && "a" in darkValue;
 
-      if (!lightName || !darkName) {
-        throw new Error(`BG ${bg.name} is missing palette values for light or dark mode`);
+      let lightColor: string;
+      let darkColor: string;
+
+      if (isLightRGBA) {
+        const rgba = lightValue as any;
+        lightColor = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
+      } else {
+        const alias = lightValue as VariableAlias;
+        const lightName = paletteMap.get(alias.id)?.name;
+        if (!lightName) {
+          throw new Error(`BG ${bg.name} is missing palette value for light mode`);
+        }
+        lightColor = transformName(lightName);
+      }
+
+      if (isDarkRGBA) {
+        const rgba = darkValue as any;
+        darkColor = rgbaToHex(rgba.r, rgba.g, rgba.b, rgba.a);
+      } else {
+        const alias = darkValue as VariableAlias;
+        const darkName = paletteMap.get(alias.id)?.name;
+        if (!darkName) {
+          throw new Error(`BG ${bg.name} is missing palette value for dark mode`);
+        }
+        darkColor = transformName(darkName);
       }
 
       return [
         `$color.${bg.name.split("/").join(".")}`,
         {
           values: {
-            "theme-light": transformName(lightName),
-            "theme-dark": transformName(darkName),
+            "theme-light": lightColor,
+            "theme-dark": darkColor,
           },
         },
       ];
