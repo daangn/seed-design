@@ -59,24 +59,6 @@ function handleRadius(radius: string | 0 | undefined) {
   return vars.$radius[radius] ?? radius;
 }
 
-function handleGradientDirection(direction: string | undefined) {
-  if (!direction) {
-    return undefined;
-  }
-
-  const directionMap: Record<string, string> = {
-    "to-r": "to right",
-    "to-l": "to left",
-    "to-t": "to top",
-    "to-b": "to bottom",
-    "to-tr": "to top right",
-    "to-tl": "to top left",
-    "to-br": "to bottom right",
-    "to-bl": "to bottom left",
-  };
-
-  return directionMap[direction] ?? direction;
-}
 
 function handleGradient(gradientToken: string | undefined, direction: string | undefined) {
   if (!gradientToken || !direction) {
@@ -89,9 +71,7 @@ function handleGradient(gradientToken: string | undefined, direction: string | u
     return undefined;
   }
 
-  const mappedDirection = handleGradientDirection(direction);
-
-  return `linear-gradient(${mappedDirection}, ${colorStops})`;
+  return `linear-gradient(${direction}, ${colorStops})`;
 }
 
 function handleDisplay(display: string | undefined) {
@@ -216,28 +196,28 @@ export interface StyleProps {
    * e.g. `43deg`
    */
   bgGradientDirection?:
-    | "to-r"
-    | "to-l"
-    | "to-t"
-    | "to-b"
-    | "to-tr"
-    | "to-tl"
-    | "to-br"
-    | "to-bl"
+    | "to right"
+    | "to left"
+    | "to top"
+    | "to bottom"
+    | "to top right"
+    | "to top left"
+    | "to bottom right"
+    | "to bottom left"
     | (string & {});
 
   /**
    * e.g. `43deg`
    */
   backgroundGradientDirection?:
-    | "to-r"
-    | "to-l"
-    | "to-t"
-    | "to-b"
-    | "to-tr"
-    | "to-tl"
-    | "to-br"
-    | "to-bl"
+    | "to right"
+    | "to left"
+    | "to top"
+    | "to bottom"
+    | "to top right"
+    | "to top left"
+    | "to bottom right"
+    | "to bottom left"
     | (string & {});
 
   color?: ScopedColorFg | ScopedColorPalette | (string & {});

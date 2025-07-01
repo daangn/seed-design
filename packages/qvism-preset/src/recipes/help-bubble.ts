@@ -47,6 +47,11 @@ const helpBubble = defineSlotRecipe({
       fill: vars.base.enabled.arrow.color,
       width: vars.base.enabled.arrow.width,
       height: vars.base.enabled.arrow.height,
+
+      /**
+       * Prevent the arrow position from being calculated differently due to the font-size of the parent element
+       */
+      fontSize: "0",
     },
     title: {
       color: vars.base.enabled.title.color,
