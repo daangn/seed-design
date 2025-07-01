@@ -1,5 +1,22 @@
 # @seed-design/react
 
+## 0.1.0
+
+### Minor Changes
+
+- b0f7a4e: AI Gradient 관련 토큰을 추가합니다. (0.0.41)
+
+  - direction 관련 속성을 css property에 맞게 변경합니다. (0.1.0)
+
+- 7cc6087: HelpBubble의 arrow가 상위 요소의 font-size에 영향을 받는 것을 수정합니다
+- bdca898: BottomSheet의 description font-size를 t5로 변경합니다
+
+### Patch Changes
+
+- Updated dependencies [7cc6087]
+- Updated dependencies [bdca898]
+  - @seed-design/css@0.1.0
+
 ## 0.0.41
 
 ### Patch Changes

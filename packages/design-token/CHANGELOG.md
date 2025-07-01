@@ -24,7 +24,7 @@
 
 - 420299b: fix missing letterSpacing scale export
 
-## 1.0.0
+## 0.1.0
 
 ### Major Changes
 

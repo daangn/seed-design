@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "0.0.41",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -57,12 +57,12 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "@seed-design/css": "0.0.41",
+    "@seed-design/css": "0.1.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "0.0.41",
+    "@seed-design/css": "0.1.0",
     "@vitejs/plugin-react": "^4.4.1",
     "globby": "^14.1.0",
     "react": "^19.1.0",
