@@ -449,10 +449,6 @@ data:
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
-    $color.bg.magic-weak:
-      values:
-        theme-light: "#F9F2EE"
-        theme-dark: "#201F1F"
     $color.bg.brand-solid-pressed:
       values:
         theme-light: $color.palette.carrot-700
@@ -513,6 +509,10 @@ data:
       values:
         theme-light: $color.palette.gray-100
         theme-dark: $color.palette.gray-300
+    $color.bg.magic-weak:
+      values:
+        theme-light: "#f9f2ee"
+        theme-dark: "#201f1f"
     $color.bg.neutral-inverted:
       values:
         theme-light: $color.palette.gray-900
@@ -595,8 +595,8 @@ data:
         theme-dark: $color.palette.blue-300
     $color.stroke.neutral:
       values:
-        theme-light: $color.palette.gray-300
-        theme-dark: $color.palette.gray-300
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-100
     $color.stroke.positive:
       values:
         theme-light: $color.palette.green-300
@@ -607,12 +607,12 @@ data:
         theme-dark: $color.palette.gray-800
     $color.stroke.neutral-muted:
       values:
-        theme-light: $color.palette.gray-200
-        theme-dark: $color.palette.gray-200
+        theme-light: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-50
     $color.stroke.on-image:
       values:
         theme-light: $color.palette.static-black-alpha-200
-        theme-dark: $color.palette.static-black-alpha-200
+        theme-dark: $color.palette.static-white-alpha-50
     $color.manner-temp.l1.bg:
       values:
         theme-light: "#eff0f1"
