@@ -3,7 +3,7 @@ import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import legacy from "@vitejs/plugin-legacy";
 import react from "@vitejs/plugin-react-swc";
 import { visualizer } from "rollup-plugin-visualizer";
-import { defineConfig } from "vite";
+import { defineConfig, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 
 export default defineConfig({
@@ -21,7 +21,7 @@ export default defineConfig({
      * Babel 컴파일러를 사용하는 @vitejs/plugin-react 대신에
      * 속도가 개선된 SWC 컴파일러를 적용한 @vitejs/plugin-react-swc을 사용해요.
      */
-    react(),
+    react() as PluginOption,
     checker({
       typescript: true,
     }),
@@ -37,7 +37,7 @@ export default defineConfig({
       renderLegacyChunks: false,
     }),
 
-    vanillaExtractPlugin(),
+    vanillaExtractPlugin() as PluginOption,
 
     seedDesignPlugin(),
 
