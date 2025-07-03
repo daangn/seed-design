@@ -1,5 +1,13 @@
 # @seed-design/react
 
+## 0.1.2
+
+### Patch Changes
+
+- 00eafa3: package.json에 `types` 필드를 추가합니다.
+- Updated dependencies [7b2c0f3]
+  - @seed-design/css@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

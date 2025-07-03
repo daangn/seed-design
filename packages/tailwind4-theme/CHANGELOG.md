@@ -1,5 +1,11 @@
 # @seed-design/tailwind4-theme
 
+## 0.1.2
+
+### Patch Changes
+
+- 0070c90: 문법 이상하던 부분을 수정해요
+
 ## 0.1.1
 
 ### Patch Changes
