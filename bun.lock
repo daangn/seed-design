@@ -187,8 +187,8 @@
       "name": "@seed-design/example-rspack",
       "version": "1.0.0",
       "dependencies": {
-        "@seed-design/css": "0.0.27",
-        "@seed-design/react": "0.0.27",
+        "@seed-design/css": "0.1.1",
+        "@seed-design/react": "0.1.1",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -196,7 +196,7 @@
         "@rspack/cli": "^1.3.6",
         "@rspack/core": "^1.3.6",
         "@rspack/plugin-react-refresh": "^1.4.1",
-        "@seed-design/webpack-plugin": "0.0.27",
+        "@seed-design/webpack-plugin": "0.1.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
         "cross-env": "^7.0.3",
@@ -322,7 +322,7 @@
       "name": "@seed-design/figma",
       "version": "0.1.1",
       "dependencies": {
-        "@seed-design/css": "0.0.39",
+        "@seed-design/css": "0.1.1",
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
       },
@@ -691,7 +691,7 @@
     },
     "packages/rsbuild-plugin": {
       "name": "@seed-design/rsbuild-plugin",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "devDependencies": {
         "@rsbuild/core": "^1.3.11",
         "@seed-design/css": "^0.0.19",
@@ -703,7 +703,7 @@
     },
     "packages/stackflow": {
       "name": "@seed-design/stackflow",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -775,7 +775,7 @@
     },
     "packages/vite-plugin": {
       "name": "@seed-design/vite-plugin",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "devDependencies": {
         "@seed-design/css": "^0.1.0",
         "vite": "^7.0.0",
@@ -787,7 +787,7 @@
     },
     "packages/webpack-plugin": {
       "name": "@seed-design/webpack-plugin",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "devDependencies": {
         "@rspack/core": "^1.3.6",
         "@seed-design/css": "^0.0.27",
@@ -861,11 +861,11 @@
       "version": "1.0.0",
       "dependencies": {
         "@karrotmarket/react-monochrome-icon": "^0.0.28",
-        "@seed-design/css": "0.0.39",
-        "@seed-design/figma": "0.0.40",
+        "@seed-design/css": "0.1.1",
+        "@seed-design/figma": "0.1.1",
         "@seed-design/migration-index": "0.0.28",
-        "@seed-design/react": "0.0.39",
-        "@seed-design/vite-plugin": "0.0.39",
+        "@seed-design/react": "0.1.1",
+        "@seed-design/vite-plugin": "0.1.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -5529,6 +5529,10 @@
 
     "@seed-design/design-token/esbuild": ["esbuild@0.25.3", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.3", "@esbuild/android-arm": "0.25.3", "@esbuild/android-arm64": "0.25.3", "@esbuild/android-x64": "0.25.3", "@esbuild/darwin-arm64": "0.25.3", "@esbuild/darwin-x64": "0.25.3", "@esbuild/freebsd-arm64": "0.25.3", "@esbuild/freebsd-x64": "0.25.3", "@esbuild/linux-arm": "0.25.3", "@esbuild/linux-arm64": "0.25.3", "@esbuild/linux-ia32": "0.25.3", "@esbuild/linux-loong64": "0.25.3", "@esbuild/linux-mips64el": "0.25.3", "@esbuild/linux-ppc64": "0.25.3", "@esbuild/linux-riscv64": "0.25.3", "@esbuild/linux-s390x": "0.25.3", "@esbuild/linux-x64": "0.25.3", "@esbuild/netbsd-arm64": "0.25.3", "@esbuild/netbsd-x64": "0.25.3", "@esbuild/openbsd-arm64": "0.25.3", "@esbuild/openbsd-x64": "0.25.3", "@esbuild/sunos-x64": "0.25.3", "@esbuild/win32-arm64": "0.25.3", "@esbuild/win32-ia32": "0.25.3", "@esbuild/win32-x64": "0.25.3" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q=="],
 
+    "@seed-design/docs/@seed-design/stackflow": ["@seed-design/stackflow@0.1.0", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.2", "@radix-ui/react-slot": "^1.2.3", "@radix-ui/react-use-callback-ref": "^1.1.1", "@seed-design/dom-utils": "0.0.2", "@seed-design/react-primitive": "0.0.3", "clsx": "^2.1.1" }, "peerDependencies": { "@seed-design/css": ">=0.1.0", "@stackflow/core": ">=1.1.0", "@stackflow/react": ">=1.4.1", "@stackflow/react-ui-core": ">=1.3.2", "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-T9wElzN/OVdiGI8g9aEetUQCLVLHA/F3LCnInUDMjBt94CBziOeKaNr9pBQYPC5z0lqsn/o+Xycz1LKRro/cAQ=="],
+
+    "@seed-design/example-rspack/@seed-design/webpack-plugin": ["@seed-design/webpack-plugin@0.1.0", "", { "peerDependencies": { "@rspack/core": "^1.2.0", "@seed-design/css": "^0.1.0", "html-webpack-plugin": "^5.0.0", "webpack": "^5.0.0" }, "optionalPeers": ["@rspack/core", "html-webpack-plugin", "webpack"] }, "sha512-QLV6BXE7sAPYiJlKDxfxzhjPDVpjfOnXEalGkDBN2Dje/m21158dp01hEO9fJdrorymF/ggvmTj7ysDNNQAiyA=="],
+
     "@seed-design/figma-checklist-widget/esbuild": ["esbuild@0.25.3", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.3", "@esbuild/android-arm": "0.25.3", "@esbuild/android-arm64": "0.25.3", "@esbuild/android-x64": "0.25.3", "@esbuild/darwin-arm64": "0.25.3", "@esbuild/darwin-x64": "0.25.3", "@esbuild/freebsd-arm64": "0.25.3", "@esbuild/freebsd-x64": "0.25.3", "@esbuild/linux-arm": "0.25.3", "@esbuild/linux-arm64": "0.25.3", "@esbuild/linux-ia32": "0.25.3", "@esbuild/linux-loong64": "0.25.3", "@esbuild/linux-mips64el": "0.25.3", "@esbuild/linux-ppc64": "0.25.3", "@esbuild/linux-riscv64": "0.25.3", "@esbuild/linux-s390x": "0.25.3", "@esbuild/linux-x64": "0.25.3", "@esbuild/netbsd-arm64": "0.25.3", "@esbuild/netbsd-x64": "0.25.3", "@esbuild/openbsd-arm64": "0.25.3", "@esbuild/openbsd-x64": "0.25.3", "@esbuild/sunos-x64": "0.25.3", "@esbuild/win32-arm64": "0.25.3", "@esbuild/win32-ia32": "0.25.3", "@esbuild/win32-x64": "0.25.3" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q=="],
 
     "@seed-design/figma-expose-variables/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
@@ -5540,6 +5544,8 @@
     "@seed-design/mcp/zod": ["zod@3.25.28", "", {}, "sha512-/nt/67WYKnr5by3YS7LroZJbtcCBurDKKPBPWWzaxvVCGuG/NOsiKkrjoOhI8mJ+SQUXEbUzeB3S+6XDUEEj7Q=="],
 
     "@seed-design/rootage-cli/esbuild": ["esbuild@0.25.3", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.3", "@esbuild/android-arm": "0.25.3", "@esbuild/android-arm64": "0.25.3", "@esbuild/android-x64": "0.25.3", "@esbuild/darwin-arm64": "0.25.3", "@esbuild/darwin-x64": "0.25.3", "@esbuild/freebsd-arm64": "0.25.3", "@esbuild/freebsd-x64": "0.25.3", "@esbuild/linux-arm": "0.25.3", "@esbuild/linux-arm64": "0.25.3", "@esbuild/linux-ia32": "0.25.3", "@esbuild/linux-loong64": "0.25.3", "@esbuild/linux-mips64el": "0.25.3", "@esbuild/linux-ppc64": "0.25.3", "@esbuild/linux-riscv64": "0.25.3", "@esbuild/linux-s390x": "0.25.3", "@esbuild/linux-x64": "0.25.3", "@esbuild/netbsd-arm64": "0.25.3", "@esbuild/netbsd-x64": "0.25.3", "@esbuild/openbsd-arm64": "0.25.3", "@esbuild/openbsd-x64": "0.25.3", "@esbuild/sunos-x64": "0.25.3", "@esbuild/win32-arm64": "0.25.3", "@esbuild/win32-ia32": "0.25.3", "@esbuild/win32-x64": "0.25.3" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-qKA6Pvai73+M2FtftpNKRxJ78GIjmFXFxd/1DVBqGo/qNhLSfv+G12n9pNoWdytJC8U00TrViOwpjT0zgqQS8Q=="],
+
+    "@seed-design/stackflow-spa/@seed-design/stackflow": ["@seed-design/stackflow@0.1.0", "", { "dependencies": { "@radix-ui/react-compose-refs": "^1.1.2", "@radix-ui/react-slot": "^1.2.3", "@radix-ui/react-use-callback-ref": "^1.1.1", "@seed-design/dom-utils": "0.0.2", "@seed-design/react-primitive": "0.0.3", "clsx": "^2.1.1" }, "peerDependencies": { "@seed-design/css": ">=0.1.0", "@stackflow/core": ">=1.1.0", "@stackflow/react": ">=1.4.1", "@stackflow/react-ui-core": ">=1.3.2", "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-T9wElzN/OVdiGI8g9aEetUQCLVLHA/F3LCnInUDMjBt94CBziOeKaNr9pBQYPC5z0lqsn/o+Xycz1LKRro/cAQ=="],
 
     "@seed-design/tailwind3-plugin/tailwindcss": ["tailwindcss@3.4.17", "", { "dependencies": { "@alloc/quick-lru": "^5.2.0", "arg": "^5.0.2", "chokidar": "^3.6.0", "didyoumean": "^1.2.2", "dlv": "^1.1.3", "fast-glob": "^3.3.2", "glob-parent": "^6.0.2", "is-glob": "^4.0.3", "jiti": "^1.21.6", "lilconfig": "^3.1.3", "micromatch": "^4.0.8", "normalize-path": "^3.0.0", "object-hash": "^3.0.0", "picocolors": "^1.1.1", "postcss": "^8.4.47", "postcss-import": "^15.1.0", "postcss-js": "^4.0.1", "postcss-load-config": "^4.0.2", "postcss-nested": "^6.2.0", "postcss-selector-parser": "^6.1.2", "resolve": "^1.22.8", "sucrase": "^3.35.0" }, "bin": { "tailwind": "lib/cli.js", "tailwindcss": "lib/cli.js" } }, "sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og=="],
 
@@ -5826,6 +5832,8 @@
     "fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
 
     "figma-api/@types/node": ["@types/node@22.14.1", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw=="],
+
+    "figma-mcp/@seed-design/vite-plugin": ["@seed-design/vite-plugin@0.1.0", "", { "peerDependencies": { "@seed-design/css": "^0.1.0", "vite": "^5.0.0 || ^6.0.0 || ^7.0.0" } }, "sha512-juFV5eT5vVHsEomNSSFrqlrwCnlUFQyh9swJjFo+wU1TFUmLu6CJK00NTWPUoewIr1A5mMKJqaWWVeAlQnGQew=="],
 
     "figma-mcp/concurrently": ["concurrently@9.1.2", "", { "dependencies": { "chalk": "^4.1.2", "lodash": "^4.17.21", "rxjs": "^7.8.1", "shell-quote": "^1.8.1", "supports-color": "^8.1.1", "tree-kill": "^1.2.2", "yargs": "^17.7.2" }, "bin": { "concurrently": "dist/bin/concurrently.js", "conc": "dist/bin/concurrently.js" } }, "sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ=="],
 
