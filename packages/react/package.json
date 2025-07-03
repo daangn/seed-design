@@ -24,6 +24,7 @@
     "./package.json": "./package.json"
   },
   "main": "./lib/index.cjs",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib",
     "src"
