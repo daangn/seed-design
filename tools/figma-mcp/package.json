@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.28",
-    "@seed-design/css": "0.1.1",
-    "@seed-design/figma": "0.1.1",
+    "@seed-design/css": "0.1.2",
+    "@seed-design/figma": "0.1.2",
     "@seed-design/migration-index": "0.0.28",
-    "@seed-design/react": "0.1.1",
-    "@seed-design/vite-plugin": "0.1.0",
+    "@seed-design/react": "0.1.2",
+    "@seed-design/vite-plugin": "0.1.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
