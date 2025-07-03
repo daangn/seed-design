@@ -460,134 +460,134 @@
   }
 
 @utility size-* {
-  width: var(--dimension- --value(--dimension-*, *));
-  height: var(--dimension- --value(--dimension-*, *));
+  width: --value(--dimension-*);
+  height: --value(--dimension-*);
 }
 
 @utility w-* {
-  width: var(--dimension- --value(--dimension-*, *));
+  width: --value(--dimension-*);
 }
 
 @utility h-* {
-  height: var(--dimension- --value(--dimension-*, *));
+  height: --value(--dimension-*);
 }
 
 @utility p-* {
-  padding: var(--dimension- --value(--dimension-*, *));
+  padding: --value(--dimension-*);
 }
 
 @utility pt-* {
-  paddingTop: var(--dimension- --value(--dimension-*, *));
+  padding-top: --value(--dimension-*);
 }
 
 @utility pb-* {
-  paddingBottom: var(--dimension- --value(--dimension-*, *));
+  padding-bottom: --value(--dimension-*);
 }
 
 @utility pl-* {
-  paddingLeft: var(--dimension- --value(--dimension-*, *));
+  padding-left: --value(--dimension-*);
 }
 
 @utility pr-* {
-  paddingRight: var(--dimension- --value(--dimension-*, *));
+  padding-right: --value(--dimension-*);
 }
 
 @utility px-* {
-  paddingLeft: var(--dimension- --value(--dimension-*, *));
-  paddingRight: var(--dimension- --value(--dimension-*, *));
+  padding-left: --value(--dimension-*);
+  padding-right: --value(--dimension-*);
 }
 
 @utility py-* {
-  paddingTop: var(--dimension- --value(--dimension-*, *));
-  paddingBottom: var(--dimension- --value(--dimension-*, *));
+  padding-top: --value(--dimension-*);
+  padding-bottom: --value(--dimension-*);
 }
 
 @utility m-* {
-  margin: var(--dimension- --value(--dimension-*, *));
+  margin: --value(--dimension-*);
 }
 
 @utility mt-* {
-  marginTop: var(--dimension- --value(--dimension-*, *));
+  margin-top: --value(--dimension-*);
 }
 
 @utility mb-* {
-  marginBottom: var(--dimension- --value(--dimension-*, *));
+  margin-bottom: --value(--dimension-*);
 }
 
 @utility ml-* {
-  marginLeft: var(--dimension- --value(--dimension-*, *));
+  margin-left: --value(--dimension-*);
 }
 
 @utility mr-* {
-  marginRight: var(--dimension- --value(--dimension-*, *));
+  margin-right: --value(--dimension-*);
 }
 
 @utility mx-* {
-  marginLeft: var(--dimension- --value(--dimension-*, *));
-  marginRight: var(--dimension- --value(--dimension-*, *));
+  margin-left: --value(--dimension-*);
+  margin-right: --value(--dimension-*);
 }
 
 @utility my-* {
-  marginTop: var(--dimension- --value(--dimension-*, *));
-  marginBottom: var(--dimension- --value(--dimension-*, *));
+  margin-top: --value(--dimension-*);
+  margin-bottom: --value(--dimension-*);
 }
 
 @utility gap-* {
-  gap: var(--dimension- --value(--dimension-*, *));
+  gap: --value(--dimension-*);
 }
 
 @utility gap-x-* {
-  columnGap: var(--dimension- --value(--dimension-*, *));
+  column-gap: --value(--dimension-*);
 }
 
 @utility gap-y-* {
-  rowGap: var(--dimension- --value(--dimension-*, *));
+  row-gap: --value(--dimension-*);
 }
 
 @utility radius-* {
-  borderRadius: var(--radius- --value(--radius-*, *));
+  border-radius: --value(--radius-*);
 }
 
 @utility text-size-* {
-  fontSize: var(--font-size- --value(--font-size-*, *));
+  font-size: --value(--font-size-*);
 }
 
 @utility leading-* {
-  lineHeight: var(--line-height- --value(--line-height-*, *));
+  line-height: --value(--line-height-*);
 }
 
 @utility font-* {
-  fontWeight: var(--font-weight- --value(--font-weight-*, *));
+  font-weight: --value(--font-weight-*);
 }
 
 @utility duration-* {
-  transitionDuration: var(--duration- --value(--duration-*, *));
+  transition-duration: --value(--duration-*);
 }
 
 @utility easing-* {
-  transitionTimingFunction: var(--timing-function- --value(--timing-function-*, *));
+  transition-timing-function: --value(--timing-function-*);
 }
 
 @utility bg-gradient-shimmer-neutral-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-shimmer-neutral));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-neutral));
 }
 
 @utility bg-gradient-shimmer-magic-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-shimmer-magic));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-shimmer-magic));
 }
 
 @utility bg-gradient-fade-neutral-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-fade-neutral));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-fade-neutral));
 }
 
 @utility bg-gradient-glow-magic-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-glow-magic));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic));
 }
 
 @utility bg-gradient-glow-magic-pressed-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-glow-magic-pressed));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-glow-magic-pressed));
 }
 
 @utility bg-gradient-highlight-magic-* {
-  background-image: linear-gradient(--value(*, angle), var(--gradient-stops-highlight-magic));
+  background-image: linear-gradient(--value([angle]), var(--gradient-stops-highlight-magic));
 }

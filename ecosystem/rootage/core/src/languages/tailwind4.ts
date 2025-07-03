@@ -9,6 +9,7 @@ import type {
   TokenDeclaration as ASTTokenDeclaration,
 } from "../parser/ast";
 import { convertToKebabCase } from "../utils/string";
+import { kebabCase } from "change-case";
 
 // AST에서 가져온 TokenDeclaration 타입을 사용합니다
 
@@ -276,18 +277,18 @@ ${styleLines.join("\n")}
     Object.keys(gradientStops).forEach((gradientStop) => {
       const gradientName = gradientStop.replace("stops-", "");
       this.utilityDeclarations.push(`@utility bg-${gradientName}-* {
-  background-image: linear-gradient(--value(*, angle), var(--${gradientStop}));
+  background-image: linear-gradient(--value([angle]), var(--${gradientStop}));
 }`);
     });
   }
 
   private createUtilityDeclaration(name: string, props: Record<string, string>): string {
     const styleLines = Object.entries(props).map(([prop, value]) => {
+      const cssProperty = kebabCase(prop);
       if (value.startsWith("--")) {
-        const [prefix] = value.split("-*");
-        return `  ${prop}: var(${prefix}- --value(${value}, *));`;
+        return `  ${cssProperty}: --value(${value});`;
       }
-      return `  ${prop}: ${value};`;
+      return `  ${cssProperty}: ${value};`;
     });
 
     return `@utility ${name} {
