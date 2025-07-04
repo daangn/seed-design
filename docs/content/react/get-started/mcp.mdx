@@ -18,7 +18,7 @@ Cursor Settings > MCP > Add MCP Server 에 다음 설정을 추가합니다.
   "mcpServers": {
     "SEED Design": {
       "command": "bunx",
-      "args": ["-y", "@seed-design/mcp"],
+      "args": ["-y", "@seed-design/mcp@latest"],
       "type": "stdio"
     }
   }
@@ -38,7 +38,7 @@ Cursor Settings > MCP > Add MCP Server 에 다음 설정을 추가합니다.
 ### 웹소켓 서버 실행
 
 ```bash
-bunx --bun @seed-design/mcp socket
+bunx --bun @seed-design/mcp@latest socket
 ```
 </Step>
 <Step>
@@ -74,7 +74,7 @@ Figma 파일에 Annotation을 추가합니다. [참고](https://help.figma.com/h
 `--config` 플래그를 통해 커스텀 설정 파일을 로드할 수 있습니다.
 
 ```bash
-bunx --bun @seed-design/mcp --config /path/to/config.ts
+bunx --bun @seed-design/mcp@latest --config /path/to/config.ts
 ```
 
 ### 지원하는 설정 파일 형식
