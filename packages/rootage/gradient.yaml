@@ -5,134 +5,146 @@ metadata:
 data:
   collection: color
   tokens:
-    $gradient.shimmer-neutral:
-      description: Shimmer effect, used for loading states
+    $gradient.fade-layer-floating:
+      description: 스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
       values:
         theme-light:
           type: gradient
           value:
-            - color: "#FFFFFF00"
+            - color: "#ffffff00"
               position: 0
-            - color: "#FFFFFF66"
-              position: 0.46
-            - color: "#FFFFFF66"
-              position: 0.54
-            - color: "#FFFFFF00"
+            - color: "#000000"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#FFFFFF00"
+            - color: "#1d202500"
               position: 0
-            - color: "#FFFFFF1A"
-              position: 0.46
-            - color: "#FFFFFF1A"
-              position: 0.54
-            - color: "#FFFFFF00"
+            - color: "#000000"
               position: 1
-
-    $gradient.shimmer-magic:
-      description: Shimmer effect, used for magic states
+    $gradient.fade-layer-default:
+      description: 스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.
       values:
         theme-light:
           type: gradient
           value:
-            - color: "#FEF0E700"
+            - color: "#ffffff00"
               position: 0
-            - color: "#FEF0E78A"
-              position: 0.46
-            - color: "#FEF0E78A"
-              position: 0.54
-            - color: "#FEF0E700"
+            - color: "#000000"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#FEF0E700"
+            - color: "#16171b00"
               position: 0
-            - color: "#FEF0E71A"
-              position: 0.46
-            - color: "#FEF0E71A"
-              position: 0.54
-            - color: "#FEF0E700"
+            - color: "#000000"
               position: 1
-
-    $gradient.fade-neutral:
-      description: Fade effect, used for loading states
-      values:
-        theme-light:
-          type: gradient
-          value:
-            - color: "#FFFFFF"
-              position: 0
-            - color: "#FFFFFF00"
-              position: 1
-        theme-dark:
-          type: gradient
-          value:
-            - color: "#1D2025"
-              position: 0
-            - color: "#1D202500"
-              position: 1
-
     $gradient.glow-magic:
-      description: Glow effect, used for magic states
+      description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.
       values:
         theme-light:
           type: gradient
           value:
-            - color: "#FEF6F7"
+            - color: "#fef6f7"
               position: 0
-            - color: "#FEF0E7"
-              position: 0.80
-            - color: "#F9F7F5"
+            - color: "#fef0e7"
+              position: 0.8
+            - color: "#f9f7f5"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#2D252D"
+            - color: "#2d252d"
               position: 0
-            - color: "#3A312B"
-              position: 0.80
+            - color: "#3a312b"
+              position: 0.8
             - color: "#333232"
               position: 1
-
-    $gradient.glow-magic-pressed:
-      description: Glow effect, used for magic pressed states
+    $gradient.shimmer-magic:
+      description: Skeleton AI shimmer
       values:
         theme-light:
           type: gradient
           value:
-            - color: "#FBF0F2"
+            - color: "#fef0e700"
               position: 0
-            - color: "#FFE8DB"
-              position: 0.80
-            - color: "#F5F2EF"
+            - color: "#fef0e78a"
+              position: 0.46
+            - color: "#fef0e78a"
+              position: 0.54
+            - color: "#fef0e700"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#3E333E"
+            - color: "#fef0e700"
               position: 0
-            - color: "#51453E"
-              position: 0.80
+            - color: "#fef0e729"
+              position: 0.46
+            - color: "#fef0e729"
+              position: 0.54
+            - color: "#fef0e700"
+              position: 1
+    $gradient.highlight-magic:
+      description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0.2
+            - color: "#d25aca"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0.2
+            - color: "#d25aca"
+              position: 1
+    $gradient.glow-magic-pressed:
+      description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#fbf0f2"
+              position: 0
+            - color: "#ffe8db"
+              position: 0.8
+            - color: "#f5f2ef"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#3e333e"
+              position: 0
+            - color: "#51453e"
+              position: 0.8
             - color: "#434242"
               position: 1
-
-    $gradient.highlight-magic:
-      description: Highlight effect, used for magic states
+    $gradient.shimmer-neutral:
+      description: Skeleton shimmer
       values:
         theme-light:
           type: gradient
           value:
-            - color: "#FF6600"
-              position: 0.2
-            - color: "#D25ACA"
-              position: 0.80
+            - color: "#ffffff00"
+              position: 0
+            - color: "#ffffff66"
+              position: 0.46
+            - color: "#ffffff66"
+              position: 0.54
+            - color: "#ffffff00"
+              position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#FF6000"
-              position: 0.2
-            - color: "#D25ACA"
-              position: 0.8
+            - color: "#ffffff00"
+              position: 0
+            - color: "#ffffff1a"
+              position: 0.46
+            - color: "#ffffff1a"
+              position: 0.54
+            - color: "#ffffff00"
+              position: 1
