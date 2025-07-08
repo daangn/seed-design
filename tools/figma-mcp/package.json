@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.28",
+    "@karrotmarket/react-monochrome-icon": "^0.0.29",
     "@seed-design/css": "0.1.2",
     "@seed-design/figma": "0.1.2",
     "@seed-design/migration-index": "0.0.28",
