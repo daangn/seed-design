@@ -16,7 +16,17 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-top": "env(safe-area-inset-top)",
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
+
+    "--seed-font-size-multiplier": "1",
   },
+
+  "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
+    "@supports (font: -apple-system-body)": {
+      "--seed-font-size-multiplier": "0.9412",
+      font: "-apple-system-body",
+    },
+  },
+
   ".seed-loading-indicator": {
     position: "absolute",
     display: "inline-flex",
