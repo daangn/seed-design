@@ -35,7 +35,7 @@ const scaleFromCenterAndroidPresence = createPresence(
 export const iOSAnimations = {
   layer: iOSPresence.getAnimations({
     in: {
-      translateX: "0",
+      translateX: "var(--swipe-back-displacement, 0)",
     },
     interaction: {
       translateX: "var(--swipe-back-displacement, 0)",

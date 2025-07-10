@@ -70,7 +70,7 @@
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 1;
     --seed-enter-scale: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
 }
 [data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
@@ -91,7 +91,7 @@
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 1;
     --seed-enter-scale: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
 }
 [data-swipe-back-state=swiping] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
