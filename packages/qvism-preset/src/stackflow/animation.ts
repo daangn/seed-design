@@ -1,8 +1,8 @@
 import { createPresence } from "../utils/animation";
 
 const TransitionIOS = {
-  duration: "300ms",
-  timingFunction: "cubic-bezier(0.22, 0.1, 0.3, 0.85)", // approximates iOS spring animation
+  duration: "350ms",
+  timingFunction: "cubic-bezier(0.2, 0.0, 0.0, 1.0)", // approximates iOS spring animation
 };
 
 const FadeInFromBottomAndroid = {
@@ -35,7 +35,7 @@ const scaleFromCenterAndroidPresence = createPresence(
 export const iOSAnimations = {
   layer: iOSPresence.getAnimations({
     in: {
-      translateX: "var(--swipe-back-displacement, 0)",
+      translateX: "var(--swipe-back-target, var(--swipe-back-displacement, 0))",
     },
     interaction: {
       translateX: "var(--swipe-back-displacement, 0)",

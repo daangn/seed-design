@@ -77,8 +77,8 @@
 }
 [data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     --seed-enter-translate-x: 100%;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 1;
@@ -88,8 +88,8 @@
 [data-global-transition-state=exit-active] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 100%;
     --seed-exit-translate-y: 0;
@@ -98,8 +98,8 @@
 }
 [data-global-transition-state=enter-done] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     --seed-enter-translate-x: var(--swipe-back-displacement, 0);
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 1;
@@ -108,8 +108,8 @@
 }
 [data-global-transition-state=enter-active] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: 0;
@@ -119,8 +119,8 @@
 [data-global-transition-state=exit-active] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 0;
     --seed-exit-translate-y: 0;
@@ -129,8 +129,8 @@
 }
 [data-global-transition-state=enter-done] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
@@ -144,8 +144,8 @@
 [data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     opacity: 1;
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 0;
     --seed-exit-translate-y: 0;
@@ -154,8 +154,8 @@
 }
 [data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
     --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
@@ -165,8 +165,8 @@
 [data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.22, 0.1, 0.3, 0.85);
-    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 0;
     --seed-exit-translate-y: 0;
