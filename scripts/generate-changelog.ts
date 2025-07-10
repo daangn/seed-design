@@ -1,15 +1,21 @@
 #!/usr/bin/env bun
 
-import { readdir, readFile, stat, writeFile } from "fs/promises";
-import matter from "gray-matter";
-import { join } from "path";
-import { inc } from "semver";
+/**
+ * Docs에 자동으로 추가되는 Changelog를 생성하는 스크립트입니다.
+ * changelog의 package graph를 참고하여 관련된 패키지들을 추출하여 버전 업데이트 내용을 자동으로 생성합니다.
+ * llms.txt와 같은 파일에 추후에 도움을 받기 위해 변경 이력들을 한 파일에 쌓습니다.
+ *
+ * 사용법:
+ * 1. 프로젝트 루트에서 `bun run generate:changelog` 명령어를 실행합니다.
+ * 2. 생성된 Changelog 파일은 `docs/content/react/get-started/changelog.mdx`에 추가됩니다.
+ */
 
-interface ChangesetData {
-  packages: Record<string, string>;
-  content: string;
-  createdAt: Date;
-}
+import assembleReleasePlan from "@changesets/assemble-release-plan";
+import { readPreState } from "@changesets/pre";
+import readChangesets from "@changesets/read";
+import { getPackages } from "@manypkg/get-packages";
+import { readFile, writeFile } from "fs/promises";
+import { join } from "path";
 
 interface ChangelogEntry {
   date: string;
@@ -21,6 +27,16 @@ interface ChangelogEntry {
     }>;
   }>;
   manualContent?: string;
+}
+
+interface ChangesetConfig {
+  linked?: string[][];
+  ignore?: string[];
+  privatePackages?: {
+    version?: boolean;
+    tag?: boolean;
+  };
+  [key: string]: any; // changeset의 다른 설정들도 포함
 }
 
 /**
@@ -44,38 +60,55 @@ function formatISODate(date: Date): string {
 }
 
 /**
- * changeset 파일들을 파싱하여 데이터 추출
+ * changeset config 파일 읽기
  */
-async function parseChangesetFiles(): Promise<ChangesetData[]> {
-  const changesetDir = join(process.cwd(), ".changeset");
-  const files = await readdir(changesetDir);
-  const changesetFiles = files.filter((file) => file.endsWith(".md") && file !== "README.md");
+async function readChangesetConfig(): Promise<ChangesetConfig> {
+  try {
+    const configPath = join(process.cwd(), ".changeset/config.json");
+    const configContent = await readFile(configPath, "utf-8");
+    const config = JSON.parse(configContent);
 
-  const changesetData: ChangesetData[] = [];
-
-  for (const file of changesetFiles) {
-    const filePath = join(changesetDir, file);
-    const fileContent = await readFile(filePath, "utf-8");
-    const fileStat = await stat(filePath);
-
-    const { data, content } = matter(fileContent);
-
-    // frontmatter에서 패키지 정보 추출
-    const packages: Record<string, string> = {};
-    for (const [key, value] of Object.entries(data)) {
-      if (key.startsWith("@seed-design/")) {
-        packages[key] = value as string;
-      }
-    }
-
-    changesetData.push({
-      packages,
-      content: content.trim(),
-      createdAt: fileStat.birthtime,
-    });
+    // 기본값 설정
+    return {
+      ignore: [],
+      privatePackages: {
+        version: false,
+        tag: false,
+      },
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        onlyUpdatePeerDependentsWhenOutOfRange: false,
+        updateInternalDependents: "patch",
+        useCalculatedVersionForSnapshots: false,
+      },
+      fixed: [],
+      bumpVersionsWithWorkspaceProtocolOnly: false,
+      snapshot: {
+        prereleaseTemplate: null,
+        useCalculatedVersion: false,
+      },
+      ...config,
+    };
+  } catch {
+    return {
+      ignore: [],
+      privatePackages: {
+        version: false,
+        tag: false,
+      },
+      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
+        onlyUpdatePeerDependentsWhenOutOfRange: false,
+        updateInternalDependents: "patch",
+        useCalculatedVersionForSnapshots: false,
+      },
+      fixed: [],
+      linked: [],
+      bumpVersionsWithWorkspaceProtocolOnly: false,
+      snapshot: {
+        prereleaseTemplate: null,
+        useCalculatedVersion: false,
+      },
+    };
   }
-
-  return changesetData;
 }
 
 /**
@@ -110,73 +143,56 @@ async function extractManualContent(changelogPath: string): Promise<Record<strin
 }
 
 /**
- * changeset 데이터를 날짜별로 그룹핑
+ * ReleasePlan을 ChangelogEntry로 변환
  */
-function groupChangesetsByDate(changesetData: ChangesetData[]): Record<string, ChangesetData[]> {
-  const grouped: Record<string, ChangesetData[]> = {};
+function organizeChangelogEntries(
+  releasePlan: any,
+  manualContents: Record<string, string>,
+): ChangelogEntry[] {
+  // 실제로 버전이 변경되는 releases만 필터링 (type !== "none")
+  const actualReleases = releasePlan.releases.filter((release: any) => release.type !== "none");
 
-  for (const data of changesetData) {
-    const date = formatKoreanDate(data.createdAt);
-    if (!grouped[date]) {
-      grouped[date] = [];
-    }
-    grouped[date].push(data);
-  }
-
-  return grouped;
-}
-
-/**
- * 패키지의 현재 버전 조회
- */
-async function getPackageVersion(packageName: string): Promise<string> {
-  try {
-    const packagePath = join(
-      process.cwd(),
-      "packages",
-      packageName.replace("@seed-design/", ""),
-      "package.json",
+  console.log(`🔍 Debug: Found ${actualReleases.length} actual releases (type !== "none"):`);
+  actualReleases.forEach((release: any) => {
+    console.log(
+      `  - ${release.name}: ${release.oldVersion} → ${release.newVersion} (${release.type}), changesets: [${release.changesets.join(", ")}]`,
     );
-    const packageContent = await readFile(packagePath, "utf-8");
-    const packageData = JSON.parse(packageContent);
-    return packageData.version || "0.0.0";
-  } catch {
-    return "0.0.0";
+  });
+
+  console.log(`🔍 Debug: Found ${releasePlan.changesets.length} changesets:`);
+  releasePlan.changesets.forEach((changeset: any, index: number) => {
+    console.log(`  ${index + 1}. ${changeset.id}: "${changeset.summary}"`);
+  });
+
+  if (actualReleases.length === 0) {
+    return [];
   }
-}
 
-/**
- * changeset별 변경사항 정리
- */
-async function organizeChangesets(changesetData: ChangesetData[]): Promise<
-  Array<{
-    content: string;
-    packages: Array<{
-      name: string;
-      version: string;
-    }>;
-  }>
-> {
-  const result = [];
+  // 단순화된 접근: 모든 실제 릴리스를 하나의 엔트리로 그룹핑
+  const createdAt = new Date();
+  const dateKey = formatKoreanDate(createdAt);
 
-  for (const data of changesetData) {
-    const packages = [];
-    for (const [packageName, bumpType] of Object.entries(data.packages)) {
-      const currentVersion = await getPackageVersion(packageName);
-      const newVersion = inc(currentVersion, bumpType as any) || currentVersion;
-      packages.push({
-        name: packageName,
-        version: newVersion,
-      });
-    }
+  const entries: ChangelogEntry[] = [];
 
-    result.push({
-      content: data.content,
-      packages,
+  if (releasePlan.changesets.length > 0) {
+    entries.push({
+      date: dateKey,
+      changesets: [
+        {
+          content: releasePlan.changesets[0].summary, // 첫 번째 changeset 사용
+          packages: actualReleases.map((release: any) => ({
+            name: release.name,
+            version: release.newVersion,
+          })),
+        },
+      ],
+      manualContent: manualContents[dateKey],
     });
+
+    console.log(`🔍 Debug: Created entry with ${actualReleases.length} packages`);
   }
 
-  return result;
+  return entries;
 }
 
 /**
@@ -309,33 +325,39 @@ function extractExistingEntries(
  */
 async function main() {
   try {
-    console.log("🔍 Parsing changeset files...");
-    const changesetData = await parseChangesetFiles();
+    console.log("🔧 Reading changeset config...");
+    const config = await readChangesetConfig();
 
-    if (changesetData.length === 0) {
+    console.log("🔍 Reading changesets...");
+    const changesets = await readChangesets(process.cwd());
+
+    if (changesets.length === 0) {
       console.log("📝 No changeset files found.");
       return;
     }
 
-    console.log(`📊 Found ${changesetData.length} changeset files`);
+    console.log(`📊 Found ${changesets.length} changeset files`);
+
+    console.log("📦 Getting packages...");
+    const packages = await getPackages(process.cwd());
+
+    console.log("📋 Assembling release plan...");
+    const preState = await readPreState(process.cwd());
+    const releasePlan = assembleReleasePlan(changesets, packages, config, preState);
+
+    console.log(`🎯 Release plan: ${releasePlan.releases.length} packages to update`);
+    releasePlan.releases.forEach((release: any) => {
+      console.log(
+        `  - ${release.name}: ${release.oldVersion} → ${release.newVersion} (${release.type})`,
+      );
+    });
 
     const changelogPath = join(process.cwd(), "docs/content/react/get-started/changelog.mdx");
     console.log("📖 Extracting manual content...");
     const manualContents = await extractManualContent(changelogPath);
 
-    console.log("🗂️ Grouping changes by date...");
-    const groupedData = groupChangesetsByDate(changesetData);
-
-    const entries: ChangelogEntry[] = [];
-
-    for (const [date, data] of Object.entries(groupedData)) {
-      const changesets = await organizeChangesets(data);
-      entries.push({
-        date,
-        changesets,
-        manualContent: manualContents[date],
-      });
-    }
+    console.log("🗂️ Organizing changelog entries...");
+    const entries = organizeChangelogEntries(releasePlan, manualContents);
 
     console.log("📝 Generating changelog markdown...");
     const existingContent = await readFile(changelogPath, "utf-8").catch(() => "");
