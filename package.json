@@ -39,7 +39,8 @@
     "headless:test:watch": "vitest dev --project react-headless",
     "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts"
+    "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts",
+    "generate:changelog": "bun scripts/generate-changelog.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
@@ -51,10 +52,13 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/semver": "^7.7.0",
     "bunchee": "^6.5.1",
+    "gray-matter": "^4.0.3",
     "jsdom": "^26.1.0",
     "knip": "^5.50.5",
     "publint": "^0.3.12",
+    "semver": "^7.7.2",
     "typescript": "^5.8.3",
     "ultra-runner": "^3.10.5",
     "vitest": "^3.1.2",

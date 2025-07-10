@@ -8,6 +8,7 @@
     "mcp",
     "figma-codegen",
     "migration",
-    "codemod"
+    "codemod",
+    "changelog"
   ]
 }
