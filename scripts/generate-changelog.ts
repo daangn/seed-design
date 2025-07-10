@@ -208,7 +208,7 @@ function generateChangelogMarkdown(entries: ChangelogEntry[], existingContent = 
     // 새로운 frontmatter 생성
     frontmatter = `---
 title: Changelog
-description: 최신 업데이트와 변경사항을 확인하세요.
+description: 최신 업데이트와 변경사항을 기록합니다.
 updatedAt: ${currentDate}
 ---
 
