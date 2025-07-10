@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-      - main
-      - dev # V3 deployment; remove this when V3 is stable
+      - "*"
     paths:
       - "examples/stackflow-spa/**"
       - "packages/css/**"
