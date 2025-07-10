@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.32.0",
+    "@figma/rest-api-spec": "^0.33.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
