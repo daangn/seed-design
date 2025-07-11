@@ -14,8 +14,12 @@ import assembleReleasePlan from "@changesets/assemble-release-plan";
 import { readPreState } from "@changesets/pre";
 import readChangesets from "@changesets/read";
 import { getPackages } from "@manypkg/get-packages";
+import { exec } from "child_process";
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 interface ChangelogEntry {
   date: string;
@@ -49,7 +53,6 @@ function formatKoreanDate(date: Date): string {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}.${month}.${day}`;
 }
-
 
 /**
  * changeset config 파일 읽기
@@ -144,11 +147,61 @@ function createCommitLink(commitHash: string): string {
 }
 
 /**
- * 현재 commit hash 가져오기
+ * Git 명령어 실행
  */
-function getCurrentCommitHash(): string | undefined {
-  // 환경변수에서 commit hash 가져오기 (GitHub Actions에서 설정)
-  return process.env.GITHUB_SHA || process.env.COMMIT_SHA;
+async function execCommand(command: string): Promise<string> {
+  try {
+    const { stdout } = await execAsync(command);
+    return stdout.trim();
+  } catch (error) {
+    console.log(`⚠️  Git command failed: ${command}`, error);
+    return "";
+  }
+}
+
+/**
+ * .changeset 폴더의 .md 파일들(README.md 제외)의 commit hash 가져오기
+ */
+async function getChangesetCommits(): Promise<string | undefined> {
+  try {
+    // .changeset 폴더의 .md 파일들 찾기 (README.md 제외)
+    const files = await execCommand(
+      "find .changeset -name '*.md' -not -name 'README.md' | head -10",
+    );
+
+    if (!files) {
+      console.log("📝 No changeset files found in .changeset folder");
+      return undefined;
+    }
+
+    const fileList = files.split("\n").filter((file) => file.trim());
+    console.log(`📊 Found ${fileList.length} changeset files:`, fileList);
+
+    // 각 파일이 추가된 commit 찾기
+    const commits: string[] = [];
+    for (const file of fileList) {
+      const commit = await execCommand(
+        `git log --format="%H" --max-count=1 --diff-filter=A -- "${file}"`,
+      );
+      if (commit) {
+        commits.push(commit);
+        console.log(`  📄 ${file} → ${commit.slice(0, 7)}`);
+      }
+    }
+
+    if (commits.length === 0) {
+      console.log("⚠️  No commits found for changeset files");
+      return undefined;
+    }
+
+    // 가장 최근 commit 사용 (첫 번째 파일의 commit)
+    const latestCommit = commits[0];
+    console.log(`✅ Using commit: ${latestCommit.slice(0, 7)}`);
+    return latestCommit;
+  } catch (error) {
+    console.log("⚠️  Error getting changeset commits:", error);
+    return undefined;
+  }
 }
 
 /**
@@ -184,26 +237,29 @@ async function organizeChangelogEntries(
   const entries: ChangelogEntry[] = [];
 
   if (releasePlan.changesets.length > 0) {
-    // 현재 commit hash 가져오기
-    const commitHash = getCurrentCommitHash();
+    // changeset 파일들의 commit hash 가져오기
+    const commitHash = await getChangesetCommits();
     const commitLink = commitHash ? createCommitLink(commitHash) : undefined;
+
+    // 모든 changeset을 개별적으로 처리
+    const changesetEntries = releasePlan.changesets.map((changeset: any) => ({
+      content: changeset.summary,
+      packages: actualReleases.map((release: any) => ({
+        name: release.name,
+        version: release.newVersion,
+      })),
+    }));
 
     entries.push({
       date: dateKey,
-      changesets: [
-        {
-          content: releasePlan.changesets[0].summary, // 첫 번째 changeset 사용
-          packages: actualReleases.map((release: any) => ({
-            name: release.name,
-            version: release.newVersion,
-          })),
-        },
-      ],
+      changesets: changesetEntries,
       commitLink,
       manualContent: manualContents[dateKey],
     });
 
-    console.log(`🔍 Debug: Created entry with ${actualReleases.length} packages`);
+    console.log(
+      `🔍 Debug: Created entry with ${actualReleases.length} packages and ${releasePlan.changesets.length} changesets`,
+    );
   }
 
   return entries;
