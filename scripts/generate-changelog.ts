@@ -50,15 +50,6 @@ function formatKoreanDate(date: Date): string {
   return `${year}.${month}.${day}`;
 }
 
-/**
- * YYYY-MM-DD 형식으로 날짜 변환
- */
-function formatISODate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
 
 /**
  * changeset config 파일 읽기
@@ -222,33 +213,18 @@ async function organizeChangelogEntries(
  * changelog 마크다운 생성
  */
 function generateChangelogMarkdown(entries: ChangelogEntry[], existingContent = ""): string {
-  // 기존 frontmatter 추출 및 updatedAt 업데이트
+  // 기존 frontmatter 추출 (updatedAt은 Git lastModified 사용하므로 업데이트하지 않음)
   const frontmatterMatch = existingContent.match(/^---\n([\s\S]*?)\n---\n/);
-  const currentDate = formatISODate(new Date());
 
   let frontmatter: string;
   if (frontmatterMatch) {
-    const existingFrontmatter = frontmatterMatch[1];
-    const updatedAtMatch = existingFrontmatter.match(/updatedAt:\s*.*/);
-
-    if (updatedAtMatch) {
-      // 기존 updatedAt 업데이트
-      const updatedFrontmatter = existingFrontmatter.replace(
-        /updatedAt:\s*.*/,
-        `updatedAt: ${currentDate}`,
-      );
-      frontmatter = `---\n${updatedFrontmatter}\n---\n\n`;
-    } else {
-      // updatedAt 추가
-      const updatedFrontmatter = existingFrontmatter + `\nupdatedAt: ${currentDate}`;
-      frontmatter = `---\n${updatedFrontmatter}\n---\n\n`;
-    }
+    // 기존 frontmatter 그대로 유지
+    frontmatter = frontmatterMatch[0] + "\n";
   } else {
-    // 새로운 frontmatter 생성
+    // 새로운 frontmatter 생성 (updatedAt 없이)
     frontmatter = `---
 title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
-updatedAt: ${currentDate}
 ---
 
 `;
