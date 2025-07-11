@@ -14,8 +14,12 @@ import assembleReleasePlan from "@changesets/assemble-release-plan";
 import { readPreState } from "@changesets/pre";
 import readChangesets from "@changesets/read";
 import { getPackages } from "@manypkg/get-packages";
+import { exec } from "child_process";
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 interface ChangelogEntry {
   date: string;
@@ -26,6 +30,7 @@ interface ChangelogEntry {
       version: string;
     }>;
   }>;
+  commitLink?: string;
   manualContent?: string;
 }
 
@@ -47,16 +52,6 @@ function formatKoreanDate(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}.${month}.${day}`;
-}
-
-/**
- * YYYY-MM-DD 형식으로 날짜 변환
- */
-function formatISODate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
 }
 
 /**
@@ -143,12 +138,79 @@ async function extractManualContent(changelogPath: string): Promise<Record<strin
 }
 
 /**
+ * GitHub commit 링크 생성
+ */
+function createCommitLink(commitHash: string): string {
+  const repo = "daangn/seed-design";
+  const shortHash = commitHash.slice(0, 7);
+  return `[\`${shortHash}\`](https://github.com/${repo}/commit/${commitHash})`;
+}
+
+/**
+ * Git 명령어 실행
+ */
+async function execCommand(command: string): Promise<string> {
+  try {
+    const { stdout } = await execAsync(command);
+    return stdout.trim();
+  } catch (error) {
+    console.log(`⚠️  Git command failed: ${command}`, error);
+    return "";
+  }
+}
+
+/**
+ * .changeset 폴더의 .md 파일들(README.md 제외)의 commit hash 가져오기
+ */
+async function getChangesetCommits(): Promise<string | undefined> {
+  try {
+    // .changeset 폴더의 .md 파일들 찾기 (README.md 제외)
+    const files = await execCommand(
+      "find .changeset -name '*.md' -not -name 'README.md' | head -10",
+    );
+
+    if (!files) {
+      console.log("📝 No changeset files found in .changeset folder");
+      return undefined;
+    }
+
+    const fileList = files.split("\n").filter((file) => file.trim());
+    console.log(`📊 Found ${fileList.length} changeset files:`, fileList);
+
+    // 각 파일이 추가된 commit 찾기
+    const commits: string[] = [];
+    for (const file of fileList) {
+      const commit = await execCommand(
+        `git log --format="%H" --max-count=1 --diff-filter=A -- "${file}"`,
+      );
+      if (commit) {
+        commits.push(commit);
+        console.log(`  📄 ${file} → ${commit.slice(0, 7)}`);
+      }
+    }
+
+    if (commits.length === 0) {
+      console.log("⚠️  No commits found for changeset files");
+      return undefined;
+    }
+
+    // 가장 최근 commit 사용 (첫 번째 파일의 commit)
+    const latestCommit = commits[0];
+    console.log(`✅ Using commit: ${latestCommit.slice(0, 7)}`);
+    return latestCommit;
+  } catch (error) {
+    console.log("⚠️  Error getting changeset commits:", error);
+    return undefined;
+  }
+}
+
+/**
  * ReleasePlan을 ChangelogEntry로 변환
  */
-function organizeChangelogEntries(
+async function organizeChangelogEntries(
   releasePlan: any,
   manualContents: Record<string, string>,
-): ChangelogEntry[] {
+): Promise<ChangelogEntry[]> {
   // 실제로 버전이 변경되는 releases만 필터링 (type !== "none")
   const actualReleases = releasePlan.releases.filter((release: any) => release.type !== "none");
 
@@ -175,21 +237,29 @@ function organizeChangelogEntries(
   const entries: ChangelogEntry[] = [];
 
   if (releasePlan.changesets.length > 0) {
+    // changeset 파일들의 commit hash 가져오기
+    const commitHash = await getChangesetCommits();
+    const commitLink = commitHash ? createCommitLink(commitHash) : undefined;
+
+    // 모든 changeset을 개별적으로 처리
+    const changesetEntries = releasePlan.changesets.map((changeset: any) => ({
+      content: changeset.summary,
+      packages: actualReleases.map((release: any) => ({
+        name: release.name,
+        version: release.newVersion,
+      })),
+    }));
+
     entries.push({
       date: dateKey,
-      changesets: [
-        {
-          content: releasePlan.changesets[0].summary, // 첫 번째 changeset 사용
-          packages: actualReleases.map((release: any) => ({
-            name: release.name,
-            version: release.newVersion,
-          })),
-        },
-      ],
+      changesets: changesetEntries,
+      commitLink,
       manualContent: manualContents[dateKey],
     });
 
-    console.log(`🔍 Debug: Created entry with ${actualReleases.length} packages`);
+    console.log(
+      `🔍 Debug: Created entry with ${actualReleases.length} packages and ${releasePlan.changesets.length} changesets`,
+    );
   }
 
   return entries;
@@ -199,33 +269,18 @@ function organizeChangelogEntries(
  * changelog 마크다운 생성
  */
 function generateChangelogMarkdown(entries: ChangelogEntry[], existingContent = ""): string {
-  // 기존 frontmatter 추출 및 updatedAt 업데이트
+  // 기존 frontmatter 추출 (updatedAt은 Git lastModified 사용하므로 업데이트하지 않음)
   const frontmatterMatch = existingContent.match(/^---\n([\s\S]*?)\n---\n/);
-  const currentDate = formatISODate(new Date());
 
   let frontmatter: string;
   if (frontmatterMatch) {
-    const existingFrontmatter = frontmatterMatch[1];
-    const updatedAtMatch = existingFrontmatter.match(/updatedAt:\s*.*/);
-
-    if (updatedAtMatch) {
-      // 기존 updatedAt 업데이트
-      const updatedFrontmatter = existingFrontmatter.replace(
-        /updatedAt:\s*.*/,
-        `updatedAt: ${currentDate}`,
-      );
-      frontmatter = `---\n${updatedFrontmatter}\n---\n\n`;
-    } else {
-      // updatedAt 추가
-      const updatedFrontmatter = existingFrontmatter + `\nupdatedAt: ${currentDate}`;
-      frontmatter = `---\n${updatedFrontmatter}\n---\n\n`;
-    }
+    // 기존 frontmatter 그대로 유지
+    frontmatter = frontmatterMatch[0] + "\n";
   } else {
-    // 새로운 frontmatter 생성
+    // 새로운 frontmatter 생성 (updatedAt 없이)
     frontmatter = `---
 title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
-updatedAt: ${currentDate}
 ---
 
 `;
@@ -243,9 +298,16 @@ updatedAt: ${currentDate}
   for (const entry of sortedEntries) {
     markdown += `## ${entry.date}\n\n`;
 
-    // changeset별 변경사항 (업데이트 내용 먼저)
+    // changeset별 변경사항 (commit 링크와 함께)
     for (const changeset of entry.changesets) {
-      markdown += `${changeset.content}\n\n`;
+      let changesetContent = changeset.content;
+
+      // commit 링크를 내용 앞에 추가
+      if (entry.commitLink) {
+        changesetContent = `${entry.commitLink} ${changesetContent}`;
+      }
+
+      markdown += `${changesetContent}\n\n`;
     }
 
     // 패키지 버전 목록
@@ -302,7 +364,7 @@ function extractExistingEntries(
             const match = line.match(/- (.+)@(.+)/);
             return match ? { name: match[1], version: match[2] } : null;
           })
-          .filter(Boolean);
+          .filter((pkg): pkg is { name: string; version: string } => pkg !== null);
 
         changesets.push({
           content: contentBeforePackages.trim(),
@@ -357,7 +419,7 @@ async function main() {
     const manualContents = await extractManualContent(changelogPath);
 
     console.log("🗂️ Organizing changelog entries...");
-    const entries = organizeChangelogEntries(releasePlan, manualContents);
+    const entries = await organizeChangelogEntries(releasePlan, manualContents);
 
     console.log("📝 Generating changelog markdown...");
     const existingContent = await readFile(changelogPath, "utf-8").catch(() => "");

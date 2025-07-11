@@ -7,12 +7,15 @@ import { createElement } from "react";
 
 /**
  * 한국 시간 기준으로 7일 이내에 업데이트된 문서인지 확인
+ * Git lastModified 또는 manual updatedAt을 기준으로 판단
  */
-function isRecentlyUpdated(updatedAt?: Date | string): boolean {
-  if (!updatedAt) return false;
+function isRecentlyUpdated(lastModified?: Date, updatedAt?: Date | string): boolean {
+  // Git lastModified를 우선 사용, 없으면 manual updatedAt 사용
+  const dateToCheck = lastModified || updatedAt;
+  if (!dateToCheck) return false;
 
   // 문자열인 경우 Date 객체로 변환
-  const updatedDate = typeof updatedAt === "string" ? new Date(updatedAt) : updatedAt;
+  const updatedDate = typeof dateToCheck === "string" ? new Date(dateToCheck) : dateToCheck;
 
   const now = new Date();
   // 7일 전 자정으로 설정
@@ -37,7 +40,7 @@ export const source = loader({
 
       const data = file.data;
 
-      if (isRecentlyUpdated(data?.updatedAt)) {
+      if (isRecentlyUpdated(file.lastModified, data?.updatedAt)) {
         node.name = createElement(
           "div",
           {
@@ -67,7 +70,7 @@ export const reactSource = loader({
 
       const data = file.data;
 
-      if (isRecentlyUpdated(data?.updatedAt)) {
+      if (isRecentlyUpdated(file.lastModified, data?.updatedAt)) {
         node.name = createElement(
           "div",
           {
