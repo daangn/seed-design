@@ -1,13 +1,56 @@
-import * as YAML from "yaml";
+import type {
+  LocalVariable,
+  RGBA,
+  VariableAlias,
+  Paint,
+  GradientPaint,
+  ColorStop,
+  Node,
+} from "@figma/rest-api-spec";
+import { Api as figma } from "figma-api";
 import * as fs from "node:fs";
 import * as path from "node:path";
-import type { LocalVariable, VariableAlias } from "@figma/rest-api-spec";
+import * as YAML from "yaml";
+
+function getKoreanDateString(): string {
+  const now = new Date();
+  const koreanTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+  const year = String(koreanTime.getFullYear()).slice(-2);
+  const month = String(koreanTime.getMonth() + 1).padStart(2, "0");
+  const day = String(koreanTime.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 function rgbaToHex(r: number, g: number, b: number, a: number) {
+  // RGBA 값이 유효한지 확인 (NaN, null, undefined 모두 체크)
+  if (
+    Number.isNaN(r) ||
+    Number.isNaN(g) ||
+    Number.isNaN(b) ||
+    Number.isNaN(a) ||
+    r === null ||
+    g === null ||
+    b === null ||
+    a === null ||
+    r === undefined ||
+    g === undefined ||
+    b === undefined ||
+    a === undefined
+  ) {
+    console.warn(`Invalid RGBA values: r=${r}, g=${g}, b=${b}, a=${a}`);
+    return "#000000"; // 기본값 반환
+  }
+
   // Convert r, g, b from range [0, 1] to [0, 255]
   const red = Math.round(r * 255);
   const green = Math.round(g * 255);
   const blue = Math.round(b * 255);
+
+  // 변환된 값도 NaN인지 확인
+  if (Number.isNaN(red) || Number.isNaN(green) || Number.isNaN(blue)) {
+    console.warn(`NaN values after conversion: red=${red}, green=${green}, blue=${blue}`);
+    return "#000000";
+  }
 
   // Convert to hex string with padding
   const hexRed = red.toString(16).padStart(2, "0");
@@ -20,6 +63,10 @@ function rgbaToHex(r: number, g: number, b: number, a: number) {
   }
   // Convert alpha from range [0, 1] to [0, 255]
   const alpha = Math.round(a * 255);
+  if (Number.isNaN(alpha)) {
+    console.warn(`NaN alpha value after conversion: ${alpha}`);
+    return `#${hexRed}${hexGreen}${hexBlue}`;
+  }
   const hexAlpha = alpha.toString(16).padStart(2, "0");
   // Return #RRGGBBAA
   return `#${hexRed}${hexGreen}${hexBlue}${hexAlpha}`;
@@ -203,6 +250,7 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
     metadata: {
       id: "color",
       name: "Color",
+      lastUpdated: getKoreanDateString(),
     },
     data: {
       collection: "color",
@@ -246,3 +294,298 @@ fs.writeFileSync(
       }),
   ),
 );
+
+// Figma API 설정 - 환경변수에서 가져오기
+const FIGMA_FILE_KEY = process.env.FIGMA_FILE_KEY;
+const FIGMA_TOKEN = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
+
+async function fetchFigmaStyles() {
+  if (!FIGMA_TOKEN) {
+    console.warn(
+      "FIGMA_PERSONAL_ACCESS_TOKEN 환경변수가 설정되지 않았습니다. 스타일 추출을 건너뜁니다.",
+    );
+    return [];
+  }
+
+  if (!FIGMA_FILE_KEY) {
+    console.warn("FIGMA_FILE_KEY 환경변수가 설정되지 않았습니다. 스타일 추출을 건너뜁니다.");
+    return [];
+  }
+
+  try {
+    const api = new figma({ personalAccessToken: FIGMA_TOKEN });
+    const {
+      meta: { styles },
+    } = await api.getFileStyles({ file_key: FIGMA_FILE_KEY });
+    return styles;
+  } catch (error) {
+    console.warn("Figma 스타일을 가져오는데 실패했습니다:", error);
+    return [];
+  }
+}
+
+async function fetchFigmaVariables() {
+  if (!FIGMA_TOKEN || !FIGMA_FILE_KEY) {
+    console.warn("Figma 환경변수가 설정되지 않았습니다. 변수 추출을 건너뜁니다.");
+    return [];
+  }
+
+  try {
+    const api = new figma({ personalAccessToken: FIGMA_TOKEN });
+    const {
+      meta: { variables },
+    } = await api.getLocalVariables({ file_key: FIGMA_FILE_KEY });
+    return Object.values(variables);
+  } catch (error) {
+    console.warn("Figma 변수를 가져오는데 실패했습니다:", error);
+    return [];
+  }
+}
+
+// 변수 ID를 색상 값으로 매핑하는 Map 생성
+function createVariableColorMap(
+  variables: LocalVariable[],
+): Map<string, { light: string; dark: string }> {
+  const variableColorMap = new Map<string, { light: string; dark: string }>();
+
+  variables.forEach((variable) => {
+    if (variable.resolvedType === "COLOR") {
+      const lightValue = variable.valuesByMode["1928:7"] as RGBA;
+      const darkValue = variable.valuesByMode["1928:8"] as RGBA;
+
+      if (lightValue && darkValue) {
+        variableColorMap.set(variable.id, {
+          light: rgbaToHex(lightValue.r, lightValue.g, lightValue.b, lightValue.a),
+          dark: rgbaToHex(darkValue.r, darkValue.g, darkValue.b, darkValue.a),
+        });
+      }
+    }
+  });
+
+  return variableColorMap;
+}
+
+async function fetchStyleNodeDetails(nodeIds: string[]) {
+  if (!FIGMA_TOKEN || !FIGMA_FILE_KEY) {
+    return {};
+  }
+
+  try {
+    // API URL을 직접 구성해서 요청
+    const idsParam = nodeIds.join(",");
+    const url = `https://api.figma.com/v1/files/${FIGMA_FILE_KEY}/nodes?ids=${idsParam}`;
+
+    const response = await fetch(url, {
+      headers: {
+        "X-Figma-Token": FIGMA_TOKEN,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.nodes;
+  } catch (error) {
+    console.warn("Figma 노드 상세 정보를 가져오는데 실패했습니다:", error);
+    return {};
+  }
+}
+
+function parseGradientFill(fill: Paint): {
+  type: string;
+  gradientStops: Array<{ position: number; color: RGBA; boundVariableId?: string }>;
+} | null {
+  if (
+    fill.type !== "GRADIENT_LINEAR" &&
+    fill.type !== "GRADIENT_RADIAL" &&
+    fill.type !== "GRADIENT_ANGULAR"
+  ) {
+    return null;
+  }
+
+  const gradientFill = fill as GradientPaint;
+  const gradientStops = gradientFill.gradientStops?.map((stop: ColorStop) => {
+    // ColorVariable 참조가 있는지 확인
+    const boundVariableId = stop.boundVariables?.color?.id;
+
+    return {
+      position: stop.position,
+      color: {
+        r: stop.color.r,
+        g: stop.color.g,
+        b: stop.color.b,
+        a: stop.color.a,
+      },
+      boundVariableId, // Variable ID 저장 (있는 경우)
+    };
+  });
+
+  return {
+    type: gradientFill.type,
+    gradientStops: gradientStops || [],
+  };
+}
+
+function getGradientTypeName(styleName: string): string {
+  // 백스페이스 문자 제거 및 방향 정보 제거하고 타입명만 추출
+  // 예: "gradient/fade/layer-floating/↑(to-top)" -> "fade-layer-floating"
+  const cleanName = styleName
+    .replace(/\\b/g, "") // 백스페이스 문자 제거
+    .replace(/\/[↑↓→←].*$/, ""); // 방향 부분 제거
+  const parts = cleanName.split("/").slice(1); // "gradient/" 제거
+  return parts.join("-");
+}
+
+function cleanTokenName(name: string): string {
+  // 토큰 이름에서 백스페이스 문자 제거 및 정규화
+  return name.replace(/\\b/g, "").replace(/[^\w.-]/g, "-");
+}
+
+function roundPosition(position: number): number {
+  // position 값을 소수점 둘째자리로 반올림 (0.54, 0.43 형식)
+  return Math.round(position * 100) / 100;
+}
+
+// 테마에 따른 색상 해결 함수
+function resolveStopColor(
+  stop: { position: number; color: RGBA; boundVariableId?: string },
+  theme: "light" | "dark",
+  variableColorMap: Map<string, { light: string; dark: string }>,
+): string {
+  // Variable 참조가 있는 경우 해당 변수의 색상 사용
+  if (stop.boundVariableId) {
+    const variableColors = variableColorMap.get(stop.boundVariableId);
+    if (variableColors) {
+      console.log(
+        `✅ Variable resolved: ${stop.boundVariableId} -> ${variableColors[theme]} (${theme})`,
+      );
+      return variableColors[theme];
+    }
+    console.warn(`❌ Variable not found in map: ${stop.boundVariableId}`);
+    // Variable 참조가 있지만 찾을 수 없는 경우 기본값 반환
+    return "#000000";
+  }
+
+  // Variable 참조가 없는 경우에만 직접 RGBA 색상 사용
+  // 단, RGBA 값이 유효한지 먼저 확인
+  if (
+    Number.isNaN(stop.color.r) ||
+    Number.isNaN(stop.color.g) ||
+    Number.isNaN(stop.color.b) ||
+    Number.isNaN(stop.color.a)
+  ) {
+    console.warn(
+      `❌ Invalid RGBA in stop without variable: r=${stop.color.r}, g=${stop.color.g}, b=${stop.color.b}, a=${stop.color.a}`,
+    );
+    return "#000000";
+  }
+
+  console.log(
+    `✅ Using direct RGBA: r=${stop.color.r}, g=${stop.color.g}, b=${stop.color.b}, a=${stop.color.a}`,
+  );
+  return rgbaToHex(stop.color.r, stop.color.g, stop.color.b, stop.color.a);
+}
+
+async function generateGradientTokensFromStyles(): Promise<string> {
+  const styles = await fetchFigmaStyles();
+  const variables = await fetchFigmaVariables();
+  const variableColorMap = createVariableColorMap(variables);
+
+  // 그라디언트 관련 스타일 필터링
+  const gradientStyles = styles.filter(
+    (style) =>
+      style.name.toLowerCase().includes("gradient") ||
+      style.description?.toLowerCase().includes("gradient"),
+  );
+
+  // 노드 상세 정보 가져오기
+  const nodeIds = gradientStyles.map((style) => style.node_id);
+  const nodeDetails = await fetchStyleNodeDetails(nodeIds);
+
+  // 타입별로 그룹핑 (방향 무시)
+  const groupedStyles = new Map<
+    string,
+    {
+      description: string | undefined;
+      gradientStops: Array<{ position: number; color: RGBA; boundVariableId?: string }>;
+    }
+  >();
+
+  gradientStyles.forEach((style) => {
+    const typeName = getGradientTypeName(style.name);
+
+    // 노드 상세 정보에서 fill 정보 추출
+    const nodeDetail = nodeDetails[style.node_id];
+    if (nodeDetail?.document) {
+      // 타입 가드: fills 속성이 있는지 확인
+      const document = nodeDetail.document as Node;
+      if ("fills" in document && Array.isArray(document.fills)) {
+        const fills = document.fills as Paint[];
+        if (fills && fills.length > 0) {
+          const fill = fills[0]; // 첫 번째 fill 사용
+          const gradientInfo = parseGradientFill(fill);
+          if (gradientInfo?.gradientStops) {
+            groupedStyles.set(typeName, {
+              description: style.description,
+              gradientStops: gradientInfo.gradientStops,
+            });
+          }
+        }
+      }
+    }
+  });
+
+  // 토큰 생성
+  const tokens = Object.fromEntries(
+    Array.from(groupedStyles.entries()).map(([typeName, data]) => [
+      `$gradient.${cleanTokenName(typeName)}`,
+      {
+        description: data.description,
+        values: {
+          "theme-light": {
+            type: "gradient",
+            value: data.gradientStops.map((stop) => ({
+              color: resolveStopColor(stop, "light", variableColorMap),
+              position: roundPosition(stop.position),
+            })),
+          },
+          "theme-dark": {
+            type: "gradient",
+            value: data.gradientStops.map((stop) => ({
+              color: resolveStopColor(stop, "dark", variableColorMap),
+              position: roundPosition(stop.position),
+            })),
+          },
+        },
+      },
+    ]),
+  );
+
+  return YAML.stringify({
+    kind: "Tokens",
+    metadata: { 
+      id: "gradient", 
+      name: "Gradient",
+      lastUpdated: getKoreanDateString(),
+    },
+    data: { collection: "color", tokens },
+  });
+}
+
+async function logGradientStyles() {
+  console.log("=== Generating Gradient Tokens from Figma Styles ===");
+  const yamlContent = await generateGradientTokensFromStyles();
+
+  const gradientWritePath = path.join(import.meta.dirname, "../packages/rootage/gradient.yaml");
+  if (!fs.existsSync(path.dirname(gradientWritePath))) {
+    fs.mkdirSync(path.dirname(gradientWritePath), { recursive: true });
+  }
+
+  fs.writeFileSync(gradientWritePath, yamlContent);
+  console.log(`✅ gradient.yaml 파일이 생성되었습니다: ${gradientWritePath}`);
+}
+
+// 그라디언트 스타일에서 토큰 생성
+logGradientStyles().catch(console.error);

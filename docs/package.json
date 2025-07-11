@@ -69,8 +69,9 @@
     "styled-components": "6"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.0.0",
-    "@storybook/nextjs": "^9.0.0",
+    "@chromatic-com/storybook": "^4.0.1",
+    "@storybook/builder-webpack5": "^9.0.16",
+    "@storybook/nextjs": "^9.0.16",
     "@tailwindcss/postcss": "^4.0.6",
     "@types/mdx": "^2.0.13",
     "@types/node": "^24.0.0",
@@ -81,7 +82,7 @@
     "globby": "^14.1.0",
     "gray-matter": "^4.0.3",
     "postcss": "^8.5.3",
-    "storybook": "^9.0.0",
+    "storybook": "^9.0.16",
     "tailwindcss": "^4.1.4",
     "ts-pattern": "^5.7.0",
     "typescript": "^5.8.3",

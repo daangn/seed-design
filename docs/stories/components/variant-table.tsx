@@ -53,7 +53,7 @@ export const VariantTable = (props: Props) => {
   return (
     <div>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
+        <thead data-chromatic="ignore">
           <tr style={{ fontSize: "14px" }}>
             {keys.map((key) => (
               <th key={key}>{key}</th>
@@ -122,6 +122,7 @@ export const VariantTable = (props: Props) => {
         </tbody>
       </table>
       <div
+        data-chromatic="ignore"
         style={{
           marginTop: "16px",
           fontSize: "16px",
