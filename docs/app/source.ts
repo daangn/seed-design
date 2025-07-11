@@ -38,9 +38,12 @@ export const source = loader({
     attachFile(node, file) {
       if (!file) return node;
 
-      const data = file.data;
+      const lastModified =
+        "lastModified" in file && file.lastModified
+          ? new Date(file.lastModified as string)
+          : undefined;
 
-      if (isRecentlyUpdated(file.lastModified, data?.updatedAt)) {
+      if (isRecentlyUpdated(lastModified)) {
         node.name = createElement(
           "div",
           {
@@ -68,9 +71,12 @@ export const reactSource = loader({
     attachFile(node, file) {
       if (!file) return node;
 
-      const data = file.data;
+      const lastModified =
+        "lastModified" in file && file.lastModified
+          ? new Date(file.lastModified as string)
+          : undefined;
 
-      if (isRecentlyUpdated(file.lastModified, data?.updatedAt)) {
+      if (isRecentlyUpdated(lastModified)) {
         node.name = createElement(
           "div",
           {
