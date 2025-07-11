@@ -1,5 +1,14 @@
 # @seed-design/tailwind4-theme
 
+## 0.1.3
+
+### Patch Changes
+
+- 946faf7: 그라디언트 토큰 추가 및 변경
+
+  - `fade-layer-floating`, `fade-layer-default` 토큰이 추가되었습니다.
+  - `$gradient.shimmer-magic` 토큰 stop color가 변경되었습니다.
+
 ## 0.1.2
 
 ### Patch Changes
