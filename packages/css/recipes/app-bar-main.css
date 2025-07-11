@@ -45,7 +45,7 @@
 }
 [data-global-transition-state=enter-active] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: 25%;
     --seed-enter-translate-y: 0;
@@ -58,7 +58,7 @@
     transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.25), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 25%;
@@ -68,7 +68,7 @@
 }
 [data-global-transition-state=enter-done] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * 0.25);
     --seed-enter-translate-y: 0;
@@ -86,7 +86,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1;
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: -25%;
@@ -96,7 +96,7 @@
 }
 [data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: calc(-25% + var(--swipe-back-displacement, 0) * 0.25);
     --seed-enter-translate-y: 0;
@@ -109,7 +109,7 @@
     transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * 0.25), 0, 0);
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: -25%;

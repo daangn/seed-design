@@ -2,7 +2,7 @@ import { createPresence } from "../utils/animation";
 
 const TransitionIOS = {
   duration: "350ms",
-  timingFunction: "cubic-bezier(0.2, 0.0, 0.0, 1.0)", // approximates iOS spring animation
+  timingFunction: "cubic-bezier(0.2, 0.1, 0.21, 0.99)", // approximates iOS spring animation
 };
 
 const FadeInFromBottomAndroid = {

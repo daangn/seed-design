@@ -64,7 +64,7 @@
 }
 [data-global-transition-state=enter-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: 100%;
     --seed-enter-translate-y: 0;
@@ -75,7 +75,7 @@
 [data-global-transition-state=exit-active] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 100%;
@@ -85,7 +85,7 @@
 }
 [data-global-transition-state=enter-done] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: var(--swipe-back-displacement, 0);
     --seed-enter-translate-y: 0;
@@ -100,7 +100,7 @@
 [data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(0, 0, 0);
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: -30%;
@@ -110,7 +110,7 @@
 }
 [data-global-transition-state=exit-active][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: calc(-30% + var(--swipe-back-displacement, 0) * 0.3);
     --seed-enter-translate-y: 0;
@@ -121,7 +121,7 @@
 [data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     transform: translate3d(calc(-30% + var(--swipe-back-displacement, 0) * 0.3), 0, 0);
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: -30%;
@@ -135,7 +135,7 @@
 }
 [data-global-transition-state=enter-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
@@ -146,7 +146,7 @@
 [data-global-transition-state=exit-active] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     animation-fill-mode: forwards;
     --seed-exit-translate-x: 0;
@@ -156,7 +156,7 @@
 }
 [data-global-transition-state=enter-done] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
-    animation-timing-function: cubic-bezier(0.2, 0.0, 0.0, 1.0);
+    animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;

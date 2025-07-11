@@ -5016,7 +5016,7 @@
   --seed-enter-opacity: 1;
   --seed-enter-scale: 1;
   transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-global-transition-state="exit-active"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5025,7 +5025,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 1;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="enter-done"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5034,7 +5034,7 @@
   --seed-enter-opacity: 1;
   --seed-enter-scale: 1;
   transform: translate3d(var(--swipe-back-target, var(--swipe-back-displacement, 0)), 0, 0);
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
@@ -5047,7 +5047,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 1;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5056,7 +5056,7 @@
   --seed-enter-translate-y: 0;
   --seed-enter-opacity: 1;
   --seed-enter-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5066,7 +5066,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 1;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
@@ -5080,7 +5080,7 @@
   --seed-enter-opacity: 0;
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-global-transition-state="exit-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5089,7 +5089,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="enter-done"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5098,7 +5098,7 @@
   --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
@@ -5273,7 +5273,7 @@
   --seed-enter-translate-y: 0;
   --seed-enter-opacity: 1;
   --seed-enter-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5283,7 +5283,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 1;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="enter-done"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:before {
@@ -5291,7 +5291,7 @@
   --seed-enter-translate-y: 0;
   --seed-enter-opacity: 1;
   --seed-enter-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5301,7 +5301,7 @@
   --seed-enter-opacity: 0;
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-global-transition-state="exit-active"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5310,7 +5310,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="enter-done"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5319,7 +5319,7 @@
   --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
@@ -5333,7 +5333,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
@@ -5342,7 +5342,7 @@
   --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
@@ -5351,7 +5351,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
@@ -5452,7 +5452,7 @@
   --seed-enter-opacity: 0;
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5463,7 +5463,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-global-transition-state="enter-done"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
@@ -5472,7 +5472,7 @@
   --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5488,7 +5488,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5498,7 +5498,7 @@
   --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) seed-enter;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
   transform: translate3d(0, 0, 0);
 }
 
@@ -5509,7 +5509,7 @@
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
-  animation: .35s cubic-bezier(.2, 0, 0, 1) forwards seed-exit;
+  animation: .35s cubic-bezier(.2, .1, .21, .99) forwards seed-exit;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
