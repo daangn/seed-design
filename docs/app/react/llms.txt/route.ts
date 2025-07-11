@@ -10,6 +10,7 @@ export async function GET() {
 
 - [Complete documentation](${BASE_URL}/react/llms-full.txt): The complete SEED Design React documentation.
 - [Components](${BASE_URL}/react/llms-components.txt): Documentation for all components in SEED Design React.
+- [Changelog](${BASE_URL}/react/llms-changelog.txt): Latest updates and version history of SEED Design React.
 
 ## Notes
 
