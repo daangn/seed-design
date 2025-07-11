@@ -114,19 +114,19 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#fef0e700",
+                "color": "#fff9f500",
                 "position": 0
               },
               {
-                "color": "#fef0e78a",
+                "color": "#fff9f58a",
                 "position": 0.46
               },
               {
-                "color": "#fef0e78a",
+                "color": "#fff9f58a",
                 "position": 0.54
               },
               {
-                "color": "#fef0e700",
+                "color": "#fff9f500",
                 "position": 1
               }
             ]
@@ -135,56 +135,25 @@
             "type": "gradient",
             "value": [
               {
-                "color": "#fef0e700",
+                "color": "#fff9f500",
                 "position": 0
               },
               {
-                "color": "#fef0e729",
+                "color": "#fff9f51a",
                 "position": 0.46
               },
               {
-                "color": "#fef0e729",
+                "color": "#fff9f51a",
                 "position": 0.54
               },
               {
-                "color": "#fef0e700",
+                "color": "#fff9f500",
                 "position": 1
               }
             ]
           }
         },
         "description": "Skeleton AI shimmer"
-      },
-      "$gradient.highlight-magic": {
-        "values": {
-          "theme-light": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#ff6600",
-                "position": 0.2
-              },
-              {
-                "color": "#d25aca",
-                "position": 1
-              }
-            ]
-          },
-          "theme-dark": {
-            "type": "gradient",
-            "value": [
-              {
-                "color": "#ff6600",
-                "position": 0.2
-              },
-              {
-                "color": "#d25aca",
-                "position": 1
-              }
-            ]
-          }
-        },
-        "description": "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다."
       },
       "$gradient.glow-magic-pressed": {
         "values": {
@@ -271,6 +240,37 @@
           }
         },
         "description": "Skeleton shimmer"
+      },
+      "$gradient.highlight-magic": {
+        "values": {
+          "theme-light": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#ff6600",
+                "position": 0.2
+              },
+              {
+                "color": "#d25aca",
+                "position": 1
+              }
+            ]
+          },
+          "theme-dark": {
+            "type": "gradient",
+            "value": [
+              {
+                "color": "#ff6600",
+                "position": 0.2
+              },
+              {
+                "color": "#d25aca",
+                "position": 1
+              }
+            ]
+          }
+        },
+        "description": "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다."
       }
     }
   }

@@ -258,10 +258,10 @@
   --seed-gradient-fade-layer-floating: #ffffff00 0%, #000000 100%;
   --seed-gradient-fade-layer-default: #ffffff00 0%, #000000 100%;
   --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
-  --seed-gradient-shimmer-magic: #fef0e700 0%, #fef0e78a 46%, #fef0e78a 54%, #fef0e700 100%;
-  --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
+  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff66 46%, #ffffff66 54%, #ffffff00 100%;
+  --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
@@ -434,8 +434,8 @@
   --seed-gradient-fade-layer-floating: #1d202500 0%, #000000 100%;
   --seed-gradient-fade-layer-default: #16171b00 0%, #000000 100%;
   --seed-gradient-glow-magic: #2d252d 0%, #3a312b 80%, #333232 100%;
-  --seed-gradient-shimmer-magic: #fef0e700 0%, #fef0e729 46%, #fef0e729 54%, #fef0e700 100%;
-  --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
+  --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f51a 46%, #fff9f51a 54%, #fff9f500 100%;
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff1a 46%, #ffffff1a 54%, #ffffff00 100%;
+  --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
 }
