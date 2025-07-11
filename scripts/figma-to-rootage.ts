@@ -12,6 +12,15 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as YAML from "yaml";
 
+function getKoreanDateString(): string {
+  const now = new Date();
+  const koreanTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+  const year = String(koreanTime.getFullYear()).slice(-2);
+  const month = String(koreanTime.getMonth() + 1).padStart(2, "0");
+  const day = String(koreanTime.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function rgbaToHex(r: number, g: number, b: number, a: number) {
   // RGBA 값이 유효한지 확인 (NaN, null, undefined 모두 체크)
   if (
@@ -241,6 +250,7 @@ function getColorRootageTokens(variables: LocalVariable[]): string {
     metadata: {
       id: "color",
       name: "Color",
+      lastUpdated: getKoreanDateString(),
     },
     data: {
       collection: "color",
@@ -555,7 +565,11 @@ async function generateGradientTokensFromStyles(): Promise<string> {
 
   return YAML.stringify({
     kind: "Tokens",
-    metadata: { id: "gradient", name: "Gradient" },
+    metadata: { 
+      id: "gradient", 
+      name: "Gradient",
+      lastUpdated: getKoreanDateString(),
+    },
     data: { collection: "color", tokens },
   });
 }
