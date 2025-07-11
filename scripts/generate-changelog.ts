@@ -29,8 +29,8 @@ interface ChangelogEntry {
       name: string;
       version: string;
     }>;
+    commitLink?: string;
   }>;
-  commitLink?: string;
   manualContent?: string;
 }
 
@@ -161,8 +161,9 @@ async function execCommand(command: string): Promise<string> {
 
 /**
  * .changeset 폴더의 .md 파일들(README.md 제외)의 commit hash 가져오기
+ * 각 changeset ID별로 해당하는 커밋 해시를 매핑하여 반환
  */
-async function getChangesetCommits(): Promise<string | undefined> {
+async function getChangesetCommits(): Promise<Record<string, string>> {
   try {
     // .changeset 폴더의 .md 파일들 찾기 (README.md 제외)
     const files = await execCommand(
@@ -171,36 +172,43 @@ async function getChangesetCommits(): Promise<string | undefined> {
 
     if (!files) {
       console.log("📝 No changeset files found in .changeset folder");
-      return undefined;
+      return {};
     }
 
     const fileList = files.split("\n").filter((file) => file.trim());
     console.log(`📊 Found ${fileList.length} changeset files:`, fileList);
 
-    // 각 파일이 추가된 commit 찾기
-    const commits: string[] = [];
+    // 각 파일별로 dev 브랜치에 머지된 commit 찾기
+    const commitMap: Record<string, string> = {};
     for (const file of fileList) {
+      // changeset ID 추출 (파일명에서 .md 제거)
+      const changesetId = file.split("/").pop()?.replace(".md", "") || "";
+
+      // Version Packages 커밋을 제외하고 dev 브랜치에 머지된 커밋 찾기
       const commit = await execCommand(
-        `git log --format="%H" --max-count=1 --diff-filter=A -- "${file}"`,
+        `git log --oneline --first-parent dev -- "${file}" | grep -v "Version Packages" | head -1 | cut -d' ' -f1`,
       );
+
       if (commit) {
-        commits.push(commit);
-        console.log(`  📄 ${file} → ${commit.slice(0, 7)}`);
+        // 전체 커밋 해시 가져오기
+        const fullCommit = await execCommand(`git rev-parse ${commit}`);
+        if (fullCommit) {
+          commitMap[changesetId] = fullCommit;
+          console.log(`  📄 ${changesetId} → ${fullCommit.slice(0, 7)}`);
+        }
       }
     }
 
-    if (commits.length === 0) {
+    if (Object.keys(commitMap).length === 0) {
       console.log("⚠️  No commits found for changeset files");
-      return undefined;
+      return {};
     }
 
-    // 가장 최근 commit 사용 (첫 번째 파일의 commit)
-    const latestCommit = commits[0];
-    console.log(`✅ Using commit: ${latestCommit.slice(0, 7)}`);
-    return latestCommit;
+    console.log(`✅ Found ${Object.keys(commitMap).length} changeset commits`);
+    return commitMap;
   } catch (error) {
     console.log("⚠️  Error getting changeset commits:", error);
-    return undefined;
+    return {};
   }
 }
 
@@ -237,23 +245,29 @@ async function organizeChangelogEntries(
   const entries: ChangelogEntry[] = [];
 
   if (releasePlan.changesets.length > 0) {
-    // changeset 파일들의 commit hash 가져오기
-    const commitHash = await getChangesetCommits();
-    const commitLink = commitHash ? createCommitLink(commitHash) : undefined;
+    // changeset 파일들의 commit hash 가져오기 (ID별로 매핑)
+    const commitMap = await getChangesetCommits();
 
-    // 모든 changeset을 개별적으로 처리
-    const changesetEntries = releasePlan.changesets.map((changeset: any) => ({
-      content: changeset.summary,
-      packages: actualReleases.map((release: any) => ({
-        name: release.name,
-        version: release.newVersion,
-      })),
-    }));
+    // 모든 changeset을 개별적으로 처리하며 각각의 커밋 링크 포함
+    const changesetEntries = releasePlan.changesets.map((changeset: any) => {
+      const commitHash = commitMap[changeset.id];
+      const commitLink = commitHash ? createCommitLink(commitHash) : undefined;
+
+      return {
+        content: changeset.summary,
+        packages: actualReleases
+          .filter((release: any) => release.changesets.includes(changeset.id))
+          .map((release: any) => ({
+            name: release.name,
+            version: release.newVersion,
+          })),
+        commitLink,
+      };
+    });
 
     entries.push({
       date: dateKey,
       changesets: changesetEntries,
-      commitLink,
       manualContent: manualContents[dateKey],
     });
 
@@ -298,13 +312,13 @@ description: 최신 업데이트와 변경사항을 기록합니다.
   for (const entry of sortedEntries) {
     markdown += `## ${entry.date}\n\n`;
 
-    // changeset별 변경사항 (commit 링크와 함께)
+    // changeset별 변경사항 (각 changeset의 개별 commit 링크와 함께)
     for (const changeset of entry.changesets) {
       let changesetContent = changeset.content;
 
-      // commit 링크를 내용 앞에 추가
-      if (entry.commitLink) {
-        changesetContent = `${entry.commitLink} ${changesetContent}`;
+      // 각 changeset의 개별 commit 링크를 내용 앞에 추가
+      if (changeset.commitLink) {
+        changesetContent = `${changeset.commitLink} ${changesetContent}`;
       }
 
       markdown += `${changesetContent}\n\n`;
