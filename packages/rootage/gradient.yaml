@@ -66,41 +66,24 @@ data:
         theme-light:
           type: gradient
           value:
-            - color: "#fef0e700"
+            - color: "#fff9f500"
               position: 0
-            - color: "#fef0e78a"
+            - color: "#fff9f58a"
               position: 0.46
-            - color: "#fef0e78a"
+            - color: "#fff9f58a"
               position: 0.54
-            - color: "#fef0e700"
+            - color: "#fff9f500"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#fef0e700"
+            - color: "#fff9f500"
               position: 0
-            - color: "#fef0e729"
+            - color: "#fff9f51a"
               position: 0.46
-            - color: "#fef0e729"
+            - color: "#fff9f51a"
               position: 0.54
-            - color: "#fef0e700"
-              position: 1
-    $gradient.highlight-magic:
-      description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.
-      values:
-        theme-light:
-          type: gradient
-          value:
-            - color: "#ff6600"
-              position: 0.2
-            - color: "#d25aca"
-              position: 1
-        theme-dark:
-          type: gradient
-          value:
-            - color: "#ff6600"
-              position: 0.2
-            - color: "#d25aca"
+            - color: "#fff9f500"
               position: 1
     $gradient.glow-magic-pressed:
       description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.
@@ -147,4 +130,21 @@ data:
             - color: "#ffffff1a"
               position: 0.54
             - color: "#ffffff00"
+              position: 1
+    $gradient.highlight-magic:
+      description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0.2
+            - color: "#d25aca"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#ff6600"
+              position: 0.2
+            - color: "#d25aca"
               position: 1
