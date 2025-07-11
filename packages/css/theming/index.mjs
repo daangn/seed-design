@@ -1,6 +1,6 @@
 import { DefaultColorModeValue, isValidColorMode } from "./mode.mjs";
 
-export const generateThemingScript = ({ mode = DefaultColorModeValue }) => {
+export const generateThemingScript = ({ mode = DefaultColorModeValue, fontScaling = false }) => {
   if (!isValidColorMode(mode)) {
     throw new Error(`Invalid color mode: ${mode}`);
   }
@@ -39,6 +39,12 @@ export const generateThemingScript = ({ mode = DefaultColorModeValue }) => {
           document.documentElement.dataset.seedPlatform = 'ios';
         } else {
           document.documentElement.dataset.seedPlatform = 'ios';
+        }
+      } catch (e) {}
+
+      try {
+        if (${fontScaling} && document.documentElement.dataset.seedPlatform === 'ios') {
+          document.documentElement.dataset.seedFontScaling = 'enabled';
         }
       } catch (e) {}
     })(window, document, '${mode}');

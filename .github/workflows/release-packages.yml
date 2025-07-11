@@ -39,6 +39,16 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
+      - name: Generate Changelog
+        run: |
+          if [ -n "$(ls -A .changeset/*.md 2>/dev/null || true)" ]; then
+            bun generate:changelog
+          else
+            echo "No changeset files found, skipping changelog generation"
+          fi
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+
       - name: 릴리즈 Pull Request를 만들거나 패키지를 배포해요
         id: changesets
         uses: changesets/action@v1

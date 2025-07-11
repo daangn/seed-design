@@ -6,7 +6,11 @@ import { processContent } from "../_llms/process-content";
 export const revalidate = false;
 
 export async function GET() {
-  const files = await globby(["./content/react/**/*.mdx", "!./content/react/index.mdx"]);
+  const files = await globby([
+    "./content/react/**/*.mdx",
+    "!./content/react/index.mdx",
+    "./content/react/get-started/changelog.mdx",
+  ]);
 
   const results = await Promise.all(
     files.map(async (file) => {
