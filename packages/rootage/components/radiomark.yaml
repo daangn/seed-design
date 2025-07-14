@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root, icon
+kind: ComponentSpec
+metadata:
+  id: radiomark
+  name: Radiomark
+data:
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.layer-default
+          strokeWidth: 1px
+          strokeColor: $color.stroke.control
+          cornerRadius: $radius.full
+        icon:
+          cornerRadius: $radius.full
+      enabled,pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+          strokeWidth: 0px
+        icon:
+          color: $color.palette.static-white
+      enabled,selected,pressed:
+        root:
+          color: $color.bg.brand-solid-pressed
+      disabled:
+        root:
+          color: $color.palette.gray-300
+      disabled,selected:
+        root:
+          strokeColor: $color.palette.gray-300
+        icon:
+          color: $color.palette.gray-300
+
+    size=large:
+      enabled:
+        root:
+          size: $dimension.x6
+        icon:
+          size: $dimension.x2_5
+      disabled:
+        icon:
+          size: $dimension.x3
+    size=medium:
+      enabled:
+        root:
+          size: $dimension.x5
+        icon:
+          size: $dimension.x2
+      disabled:
+        icon:
+          size: $dimension.x2_5 

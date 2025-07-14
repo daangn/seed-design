@@ -1,77 +1,55 @@
 export const vars = {
-  "base": {
-    "enabled": {
-      "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-control)",
-        "cornerRadius": "var(--seed-radius-full)"
+  base: {
+    enabled: {
+      label: {
+        color: "var(--seed-color-fg-neutral)",
       },
-      "icon": {
-        "cornerRadius": "var(--seed-radius-full)"
-      }
-    },
-    "enabledPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-layer-default-pressed)"
-      }
-    },
-    "enabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid)",
-        "strokeWidth": "0px"
+      root: {
+        gap: "var(--seed-dimension-x2)",
       },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
-      }
     },
-    "enabledSelectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
-      }
-    },
-    "disabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
-    },
-    "disabledSelected": {
-      "root": {
-        "strokeColor": "var(--seed-color-palette-gray-300)"
+    disabled: {
+      label: {
+        color: "var(--seed-color-fg-disabled)",
       },
-      "icon": {
-        "color": "var(--seed-color-palette-gray-300)"
-      }
-    }
+    },
   },
-  "sizeLarge": {
-    "enabled": {
-      "root": {
-        "size": "var(--seed-dimension-x6)"
+  weightDefault: {
+    enabled: {
+      label: {
+        fontWeight: "var(--seed-font-weight-regular)",
       },
-      "icon": {
-        "size": "var(--seed-dimension-x2_5)"
-      }
     },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-dimension-x3)"
-      }
-    }
   },
-  "sizeMedium": {
-    "enabled": {
-      "root": {
-        "size": "var(--seed-dimension-x5)"
+  weightStronger: {
+    enabled: {
+      label: {
+        fontWeight: "var(--seed-font-weight-bold)",
       },
-      "icon": {
-        "size": "var(--seed-dimension-x2)"
-      }
     },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-dimension-x2_5)"
-      }
-    }
-  }
-}
+  },
+  sizeMedium: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-dimension-x8)",
+        size: "var(--seed-dimension-x5)",
+      },
+      label: {
+        fontSize: "var(--seed-font-size-t4)",
+        lineHeight: "var(--seed-line-height-t4)",
+      },
+    },
+  },
+  sizeLarge: {
+    enabled: {
+      root: {
+        minHeight: "var(--seed-dimension-x9)",
+        size: "var(--seed-dimension-x6)",
+      },
+      label: {
+        fontSize: "var(--seed-font-size-t5)",
+        lineHeight: "var(--seed-line-height-t5)",
+      },
+    },
+  },
+};

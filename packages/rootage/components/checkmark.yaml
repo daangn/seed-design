@@ -1,0 +1,84 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root, icon
+kind: ComponentSpec
+metadata:
+  id: checkmark
+  name: Checkmark
+data:
+  definitions:
+    variant=square:
+      enabled:
+        root:
+          strokeColor: $color.stroke.control
+          strokeWidth: 1px
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+        icon:
+          color: $color.palette.static-white
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      pressed,selected:
+        root:
+          color: $color.bg.brand-solid-pressed
+        icon:
+          color: $color.palette.static-white
+      disabled:
+        root:
+          color: $color.bg.disabled
+          strokeColor: $color.stroke.neutral
+        icon:
+          color: $color.fg.disabled
+      disabled,selected:
+        icon:
+          color: $color.fg.disabled
+
+    variant=ghost:
+      enabled:
+        icon:
+          color: $color.fg.placeholder
+      enabled,selected:
+        icon:
+          color: $color.fg.brand
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      pressed,selected:
+        root:
+          color: $color.palette.carrot-200
+      disabled:
+        icon:
+          color: $color.fg.disabled
+      disabled,selected:
+        icon:
+          color: $color.fg.disabled
+
+    size=medium:
+      enabled:
+        root:
+          size: $dimension.x5
+          cornerRadius: $radius.r1
+
+    size=large:
+      enabled:
+        root:
+          size: $dimension.x6
+          cornerRadius: $radius.r1
+
+    variant=square,size=medium:
+      enabled:
+        icon:
+          size: 12px
+    variant=square,size=large:
+      enabled:
+        icon:
+          size: 14px
+    variant=ghost,size=medium:
+      enabled:
+        icon:
+          size: 14px
+    variant=ghost,size=large:
+      enabled:
+        icon:
+          size: 18px

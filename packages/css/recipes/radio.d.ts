@@ -1,5 +1,9 @@
 declare interface RadioVariant {
   /**
+  * @default default
+  */
+  weight: "default" | "stronger";
+/**
   * @default medium
   */
   size: "large" | "medium";
@@ -11,7 +15,7 @@ declare type RadioVariantMap = {
 
 export declare type RadioVariantProps = Partial<RadioVariant>;
 
-export declare type RadioSlotName = "root" | "icon";
+export declare type RadioSlotName = "root" | "label";
 
 export declare const radioVariantMap: RadioVariantMap;
 

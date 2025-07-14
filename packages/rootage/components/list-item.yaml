@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: list-item
+  name: List Item
+data:
+  definitions:
+    base:
+      enabled:
+        root:
+          paddingY: $dimension.x2_5
+          paddingX: $dimension.spacing-x.global-gutter
+          colorDuration: $duration.d3
+          colorTimingFunction: $timing-function.easing
+        content:
+          gap: $dimension.x0_5
+          paddingRight: $dimension.x2_5
+        title:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.medium
+        detail:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.regular
+        prefix:
+          paddingRight: $dimension.x3
+        prefixIcon:
+          size: 22px
+          color: $color.fg.neutral
+        suffix:
+          gap: $dimension.x1
+        suffixText:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+        suffixIcon:
+          size: 18px
+          color: $color.fg.neutral-subtle
+      highlighted:
+        root:
+          color: $color.palette.carrot-100
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      disabled:
+        title:
+          color: $color.fg.disabled
+        detail:
+          color: $color.fg.neutral-subtle

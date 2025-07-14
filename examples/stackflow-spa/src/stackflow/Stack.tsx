@@ -43,6 +43,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
     ActivityCodegenTest: React.lazy(() => import("../activities/ActivityCodegenTest")),
     ActivityPerfCheck: React.lazy(() => import("../activities/ActivityPerfCheck")),
+    ActivityList: React.lazy(() => import("../activities/ActivityList")),
     ActivityNotFound,
   },
   plugins: [
@@ -78,6 +79,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityMixedVersionTest: "/mixed-version-test",
         ActivityCodegenTest: "/codegen-test",
         ActivityPerfCheck: "/perf-check",
+        ActivityList: "/list",
         ActivityNotFound: "/404",
       },
     }),

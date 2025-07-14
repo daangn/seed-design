@@ -1,31 +1,66 @@
+import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
+import { checkmark, type CheckmarkVariantProps } from "@seed-design/css/recipes/checkmark";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
-import { forwardRef } from "react";
+import clsx from "clsx";
+import { forwardRef, useMemo } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(checkbox);
+const { ClassNamesProvider, withContext } = createSlotRecipeContext(checkbox);
+const {
+  withProvider: withCheckmarkProvider,
+  useClassNames: useCheckmarkClassNames,
+  PropsProvider: CheckmarkPropsProvider,
+} = createSlotRecipeContext(checkmark);
 const withStateProps = createWithStateProps([useCheckboxContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxRootProps extends CheckboxVariantProps, CheckboxPrimitive.RootProps {}
+export interface CheckboxRootProps
+  extends CheckboxVariantProps,
+    CheckmarkVariantProps,
+    CheckboxPrimitive.RootProps {}
 
-export const CheckboxRoot = withProvider<HTMLLabelElement, CheckboxRootProps>(
-  CheckboxPrimitive.Root,
-  "root",
+export const CheckboxRoot = Object.assign(
+  forwardRef<HTMLLabelElement, CheckboxRootProps>((props, ref) => {
+    const { variant, className, ...otherProps } = props;
+    const [variantProps, restProps] = checkbox.splitVariantProps(otherProps);
+    const classNames = checkbox(variantProps);
+
+    return (
+      <CheckmarkPropsProvider value={useMemo(() => ({ variant }), [variant])}>
+        <ClassNamesProvider value={classNames}>
+          <CheckboxPrimitive.Root
+            ref={ref}
+            className={clsx(classNames.root, className)}
+            {...restProps}
+          />
+        </ClassNamesProvider>
+      </CheckmarkPropsProvider>
+    );
+  }),
+  {
+    Primitive: CheckboxPrimitive.Root,
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface CheckboxControlProps extends CheckboxPrimitive.ControlProps {}
+/**
+ * CheckboxControl combines Checkbox.Primitive with checkmark.root styling
+ * This enables standalone usage of Checkbox.Control with variants
+ */
 
-export const CheckboxControl = withContext<HTMLDivElement, CheckboxControlProps>(
+export interface CheckboxControlProps
+  extends CheckmarkVariantProps,
+    CheckboxPrimitive.ControlProps {}
+
+export const CheckboxControl = withCheckmarkProvider<HTMLDivElement, CheckboxControlProps>(
   CheckboxPrimitive.Control,
-  "control",
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +93,7 @@ export const CheckboxIndicator = forwardRef<SVGSVGElement, CheckboxIndicatorProp
     ref,
   ) => {
     const { stateProps, checked, indeterminate } = useCheckboxContext();
-    const classNames = useClassNames();
+    const classNames = useCheckmarkClassNames();
 
     const mergedProps = mergeProps(
       stateProps,

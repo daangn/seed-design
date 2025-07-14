@@ -7,14 +7,6 @@ const checkboxSlotNames = [
     "seed-checkbox__root"
   ],
   [
-    "control",
-    "seed-checkbox__control"
-  ],
-  [
-    "icon",
-    "seed-checkbox__icon"
-  ],
-  [
     "label",
     "seed-checkbox__label"
   ]
@@ -22,37 +14,15 @@ const checkboxSlotNames = [
 
 const defaultVariant = {
   "size": "medium",
-  "variant": "square",
   "weight": "default"
 };
 
-const compoundVariants = [
-  {
-    "size": "medium",
-    "variant": "ghost"
-  },
-  {
-    "size": "large",
-    "variant": "ghost"
-  },
-  {
-    "size": "medium",
-    "variant": "square"
-  },
-  {
-    "size": "large",
-    "variant": "square"
-  }
-];
+const compoundVariants = [];
 
 export const checkboxVariantMap = {
   "weight": [
     "default",
     "stronger"
-  ],
-  "variant": [
-    "square",
-    "ghost"
   ],
   "size": [
     "large",

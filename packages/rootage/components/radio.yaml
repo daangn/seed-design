@@ -1,75 +1,42 @@
 # yaml-language-server: $schema=./schema.json
+# parts: root, label
 kind: ComponentSpec
 metadata:
   id: radio
   name: Radio
 data:
-  schema:
-    slots:
-      root:
-        properties:
-          color:
-            type: color
-          size:
-            type: dimension
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
-          cornerRadius:
-            type: dimension
-      icon:
-        properties:
-          color:
-            type: color
-          size:
-            type: dimension
   definitions:
     base:
       enabled:
+        label:
+          color: $color.fg.neutral
         root:
-          color: $color.bg.layer-default
-          strokeWidth: 1px
-          strokeColor: $color.stroke.control
-          cornerRadius: $radius.full
-        icon:
-          cornerRadius: $radius.full
-      enabled,pressed:
-        root:
-          color: $color.bg.layer-default-pressed
-      enabled,selected:
-        root:
-          color: $color.bg.brand-solid
-          strokeWidth: 0px
-        icon:
-          color: $color.palette.static-white
-      enabled,selected,pressed:
-        root:
-          color: $color.bg.brand-solid-pressed
+          gap: $dimension.x2
       disabled:
+        label:
+          color: $color.fg.disabled
+
+    weight=default:
+      enabled:
+        label:
+          fontWeight: $font-weight.regular
+    weight=stronger:
+      enabled:
+        label:
+          fontWeight: $font-weight.bold
+
+    size=medium:
+      enabled:
         root:
-          color: $color.palette.gray-300
-      disabled,selected:
-        root:
-          strokeColor: $color.palette.gray-300
-        icon:
-          color: $color.palette.gray-300
+          minHeight: $dimension.x8
+        label:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
 
     size=large:
       enabled:
         root:
-          size: $dimension.x6
-        icon:
-          size: $dimension.x2_5
-      disabled:
-        icon:
-          size: $dimension.x3
-    size=medium:
-      enabled:
-        root:
-          size: $dimension.x5
-        icon:
-          size: $dimension.x2
-      disabled:
-        icon:
-          size: $dimension.x2_5
+          minHeight: $dimension.x9
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5

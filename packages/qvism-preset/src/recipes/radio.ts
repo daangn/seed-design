@@ -1,99 +1,75 @@
-import { radio as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo } from "../utils/pseudo";
+import { disabled, pseudo } from "../utils/pseudo";
+import { radio as vars } from "../vars/component";
 
 const radio = defineSlotRecipe({
   name: "radio",
-  slots: ["root", "icon"],
+  slots: ["root", "label"],
   base: {
     root: {
-      borderStyle: "solid",
-      boxSizing: "border-box",
+      display: "inline-flex",
+      alignItems: "flex-start",
+      position: "relative",
+      maxInlineSize: "100%",
+      verticalAlign: "top",
+      isolation: "isolate",
+      cursor: "pointer",
 
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flex: "none",
-
-      backgroundColor: vars.base.enabled.root.color,
-
-      borderWidth: vars.base.enabled.root.strokeWidth,
-      borderColor: vars.base.enabled.root.strokeColor,
-
-      borderRadius: vars.base.enabled.root.cornerRadius,
-
-      [pseudo(active)]: {
-        backgroundColor: vars.base.enabledPressed.root.color,
-      },
-
-      [pseudo(checked)]: {
-        backgroundColor: vars.base.enabledSelected.root.color,
-        borderWidth: vars.base.enabledSelected.root.strokeWidth,
-      },
-
-      [pseudo(active, checked)]: {
-        backgroundColor: vars.base.enabledSelectedPressed.root.color,
-      },
+      gap: vars.base.enabled.root.gap,
 
       [pseudo(disabled)]: {
-        backgroundColor: vars.base.disabled.root.color,
-      },
-
-      [pseudo(disabled, checked)]: {
-        backgroundColor: "none",
-        borderColor: vars.base.disabledSelected.root.strokeColor,
+        cursor: "not-allowed",
       },
     },
-    icon: {
-      display: "none",
-      borderRadius: vars.base.enabled.icon.cornerRadius,
+    label: {
+      color: vars.base.enabled.label.color,
 
-      [pseudo(checked)]: {
-        display: "block",
-        backgroundColor: vars.base.enabledSelected.icon.color,
-      },
-
-      [pseudo(disabled, checked)]: {
-        backgroundColor: vars.base.disabledSelected.icon.color,
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.label.color,
       },
     },
   },
   variants: {
+    weight: {
+      default: {
+        label: {
+          fontWeight: vars.weightDefault.enabled.label.fontWeight,
+        },
+      },
+      stronger: {
+        label: {
+          fontWeight: vars.weightStronger.enabled.label.fontWeight,
+        },
+      },
+    },
     size: {
       large: {
         root: {
-          width: vars.sizeLarge.enabled.root.size,
-          height: vars.sizeLarge.enabled.root.size,
+          minHeight: vars.sizeLarge.enabled.root.minHeight,
+          "--radiomark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${vars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
-        icon: {
-          width: vars.sizeLarge.enabled.icon.size,
-          height: vars.sizeLarge.enabled.icon.size,
-
-          [pseudo(disabled)]: {
-            width: vars.sizeLarge.disabled.icon.size,
-            height: vars.sizeLarge.disabled.icon.size,
-          },
+        label: {
+          fontSize: vars.sizeLarge.enabled.label.fontSize,
+          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
+          marginBlockStart: "calc(18px - 0.65625rem)", // 수직 위치 보정, 36 / 2 - label.lineHeight / 2
         },
       },
       medium: {
         root: {
-          width: vars.sizeMedium.enabled.root.size,
-          height: vars.sizeMedium.enabled.root.size,
+          minHeight: vars.sizeMedium.enabled.root.minHeight,
+          "--radiomark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${vars.sizeMedium.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
-        icon: {
-          width: vars.sizeMedium.enabled.icon.size,
-          height: vars.sizeMedium.enabled.icon.size,
-
-          [pseudo(disabled)]: {
-            width: vars.sizeMedium.disabled.icon.size,
-            height: vars.sizeMedium.disabled.icon.size,
-          },
+        label: {
+          fontSize: vars.sizeMedium.enabled.label.fontSize,
+          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          marginBlockStart: "calc(16px - 0.59375rem)", // 수직 위치 보정, 32 / 2 - label.lineHeight / 2
         },
       },
     },
   },
   defaultVariants: {
     size: "medium",
+    weight: "default",
   },
 });
 

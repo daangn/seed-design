@@ -1,0 +1,13 @@
+{
+  "name": "radio-group",
+  "dependencies": [
+    "@seed-design/react"
+  ],
+  "registries": [
+    {
+      "name": "radio-group.tsx",
+      "type": "ui",
+      "content": "\"use client\";\n\nimport { RadioGroup as SeedRadioGroup } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface RadioGroupProps extends SeedRadioGroup.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/radio-group\n */\nexport const RadioGroup = SeedRadioGroup.Root;\n\nexport interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {\n  label?: React.ReactNode;\n\n  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;\n\n  rootRef?: React.Ref<HTMLLabelElement>;\n}\n\n/**\n * @see https://seed-design.io/react/components/radio-group\n */\nexport const RadioGroupItem = React.forwardRef<\n  HTMLInputElement,\n  RadioGroupItemProps\n>(({ label, inputProps, rootRef, ...otherProps }, ref) => {\n  return (\n    <SeedRadioGroup.Item ref={rootRef} {...otherProps}>\n      <SeedRadioGroup.ItemControl>\n        <SeedRadioGroup.ItemIndicator\n          checked={\n            <svg aria-hidden viewBox=\"0 0 24 24\">\n              <circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"currentColor\" />\n            </svg>\n          }\n        />\n      </SeedRadioGroup.ItemControl>\n      {label && <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel>}\n      <SeedRadioGroup.ItemHiddenInput ref={ref} {...inputProps} />\n    </SeedRadioGroup.Item>\n  );\n});\nRadioGroupItem.displayName = \"RadioGroupItem\";\n\nexport interface RadioMarkProps extends SeedRadioGroup.ItemControlProps {}\n\n/**\n * @see https://seed-design.io/react/components/radio-group\n */\nexport const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>(\n  (props, ref) => {\n    return (\n      <SeedRadioGroup.ItemControl ref={ref} {...props}>\n        <SeedRadioGroup.ItemIndicator\n          checked={\n            <svg aria-hidden=\"true\" viewBox=\"0 0 24 24\">\n              <circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"currentColor\" />\n            </svg>\n          }\n        />\n      </SeedRadioGroup.ItemControl>\n    );\n  },\n);\nRadioMark.displayName = \"RadioMark\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
+    }
+  ]
+}

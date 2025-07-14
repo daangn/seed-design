@@ -34,3 +34,20 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   },
 );
 Checkbox.displayName = "Checkbox";
+
+export interface CheckmarkProps extends SeedCheckbox.ControlProps {}
+
+export const Checkmark = React.forwardRef<HTMLDivElement, CheckmarkProps>(
+  ({ variant = "square", ...otherProps }, ref) => {
+    return (
+      <SeedCheckbox.Control ref={ref} variant={variant} {...otherProps}>
+        <SeedCheckbox.Indicator
+          unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : null}
+          checked={<IconCheckmarkFatFill />}
+          indeterminate={<IconMinusFatFill />}
+        />
+      </SeedCheckbox.Control>
+    );
+  },
+);
+Checkmark.displayName = "Checkmark";

@@ -12,6 +12,9 @@ data:
           color: $color.fg.neutral
         root:
           gap: $dimension.x2
+      disabled:
+        label:
+          color: $color.fg.disabled
 
     weight=default:
       enabled:
@@ -22,62 +25,6 @@ data:
         label:
           fontWeight: $font-weight.bold
 
-    variant=square:
-      enabled:
-        control:
-          strokeColor: $color.stroke.control
-          strokeWidth: 1px
-      enabled,selected:
-        control:
-          color: $color.bg.brand-solid
-        icon:
-          color: $color.palette.static-white
-      pressed:
-        control:
-          color: $color.bg.layer-default-pressed
-      pressed,selected:
-        control:
-          color: $color.bg.brand-solid-pressed
-        icon:
-          color: $color.palette.static-white
-      disabled:
-        control:
-          color: $color.bg.disabled
-          strokeColor: $color.stroke.neutral
-        label:
-          color: $color.fg.disabled
-        icon:
-          color: $color.fg.disabled
-      disabled,selected:
-        label:
-          color: $color.fg.disabled
-        icon:
-          color: $color.fg.disabled
-
-    variant=ghost:
-      enabled:
-        icon:
-          color: $color.fg.placeholder
-      enabled,selected:
-        icon:
-          color: $color.fg.brand
-      pressed:
-        control:
-          color: $color.bg.layer-default-pressed
-      pressed,selected:
-        control:
-          color: $color.palette.carrot-200
-      disabled:
-        label:
-          color: $color.fg.disabled
-        icon:
-          color: $color.fg.disabled
-      disabled,selected:
-        label:
-          color: $color.fg.disabled
-        icon:
-          color: $color.fg.disabled
-
     size=medium:
       enabled:
         root:
@@ -85,9 +32,6 @@ data:
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-        control:
-          size: $dimension.x5
-          cornerRadius: $radius.r1
 
     size=large:
       enabled:
@@ -96,23 +40,3 @@ data:
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-        control:
-          size: $dimension.x6
-          cornerRadius: $radius.r1
-
-    variant=square,size=medium:
-      enabled:
-        icon:
-          size: 12px
-    variant=square,size=large:
-      enabled:
-        icon:
-          size: 14px
-    variant=ghost,size=medium:
-      enabled:
-        icon:
-          size: 14px
-    variant=ghost,size=large:
-      enabled:
-        icon:
-          size: 18px

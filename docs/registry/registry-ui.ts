@@ -133,6 +133,11 @@ export const registryUI: RegistryUI = [
     files: ["ui:progress-circle.tsx"],
   },
   {
+    name: "radio-group",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:radio-group.tsx"],
+  },
+  {
     name: "select-box",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:select-box.tsx"],

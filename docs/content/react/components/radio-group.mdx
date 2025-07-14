@@ -1,0 +1,147 @@
+---
+title: Radio Group
+description: "Radio Group 컴포넌트는 사용자가 여러 옵션 중 하나를 선택할 수 있도록 합니다."
+---
+
+<ComponentExample name="radio-group-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/radio-group-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add radio-group
+```
+
+<ManualInstallation name="radio-group" />
+
+## Props
+
+### `RadioGroup`
+
+<react-type-table
+  path="./registry/ui/radio-group.tsx"
+  name="RadioGroupProps"
+/>
+
+### `RadioGroupItem`
+
+<react-type-table
+  path="./registry/ui/radio-group.tsx"
+  name="RadioGroupItemProps"
+/>
+
+### `RadioMark`
+
+<react-type-table
+  path="./registry/ui/radio-group.tsx"
+  name="RadioMarkProps"
+/>
+
+## Examples
+
+### Size
+
+<ComponentExample name="radio-group-size">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/radio-group-size.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+<ComponentExample name="radio-group-disabled">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/radio-group-disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### React Hook Form
+
+<ComponentExample name="radio-group-react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/radio-group-react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## 사용법
+
+### 기본 사용법
+
+`RadioGroup`은 여러 옵션 중 하나만 선택할 수 있는 컴포넌트입니다. 각 옵션은 `RadioGroupItem`으로 구성됩니다.
+
+`RadioGroup`은 기본적으로 레이아웃을 제공하지 않습니다. `HStack` 또는 `VStack`과 같은 레이아웃 컴포넌트와 함께 사용해야 합니다.
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
+
+function HorizontalRadioGroup() {
+  const [value, setValue] = useState("option1");
+
+  return (
+    <RadioGroup value={value} onValueChange={setValue} aria-label="Options">
+      <HStack gap="x3">
+        <RadioGroupItem value="option1" label="첫 번째 옵션" />
+        <RadioGroupItem value="option2" label="두 번째 옵션" />
+        <RadioGroupItem value="option3" label="세 번째 옵션" />
+      </HStack>
+    </RadioGroup>
+  );
+}
+
+function VerticalRadioGroup() {
+  const [value, setValue] = useState("option1");
+
+  return (
+    <RadioGroup value={value} onValueChange={setValue} aria-label="Options">
+      <VStack>
+        <RadioGroupItem value="option1" label="첫 번째 옵션" />
+        <RadioGroupItem value="option2" label="두 번째 옵션" />
+        <RadioGroupItem value="option3" label="세 번째 옵션" />
+      </VStack>
+    </RadioGroup>
+  );
+}
+```
+
+### RadioMark 사용법
+
+`RadioMark`는 독립적인 라디오 마크 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+
+```tsx
+import { RadioGroup, RadioMark } from "seed-design/ui/radio-group";
+import { HStack, Text } from "@seed-design/react";
+
+function CustomRadioGroup() {
+  return (
+    <RadioGroup defaultValue="red" aria-label="Colors">
+      <HStack gap="x3" align="center">
+        <RadioMark />
+        <Text>빨간색</Text>
+      </HStack>
+      {/* 다른 옵션들... */}
+    </RadioGroup>
+  );
+}
+```
+
+## 접근성
+
+- 라디오 그룹은 반드시 `aria-label` 또는 `aria-labelledby` 속성을 제공해야 합니다.
+- 키보드 탐색이 지원됩니다 (화살표 키로 옵션 간 이동).
+- 스크린 리더가 현재 선택된 옵션을 읽을 수 있습니다.
+- 비활성화된 옵션도 접근성 규칙에 따라 처리됩니다. 

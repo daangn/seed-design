@@ -1,0 +1,151 @@
+---
+title: List
+description: List 컴포넌트는 정보를 구조화된 목록 형태로 표시하는 데 사용됩니다.
+---
+
+<ComponentExample name="list-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { List } from "@seed-design/react";
+```
+
+```tsx
+<List.Root>
+  <List.Item>
+    <List.Content>
+      <List.Title>리스트 아이템</List.Title>
+    </List.Content>
+  </List.Item>
+</List.Root>
+```
+
+## Props
+
+### `List.Root`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListRootProps" />
+
+### `List.Item`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListItemProps" />
+
+### `List.Content`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListContentProps" />
+
+### `List.Prefix`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListPrefixProps" />
+
+### `List.Suffix`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListSuffixProps" />
+
+### `List.Title`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListTitleProps" />
+
+### `List.Detail`
+
+<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListDetailProps" />
+
+## Examples
+
+### 기본 사용법
+
+가장 기본적인 형태의 리스트입니다. 제목만 포함된 간단한 리스트 아이템들을 표시합니다.
+
+<ComponentExample name="list-basic">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-basic.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 아바타가 있는 리스트
+
+사용자 목록이나 프로필 관련 리스트에서 아바타를 Prefix 영역에 표시하는 예제입니다.
+
+<ComponentExample name="list-with-avatar">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-with-avatar.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 액션 버튼이 있는 리스트
+
+설정 메뉴나 관리 화면에서 각 항목에 대한 액션을 제공하는 리스트입니다.
+
+<ComponentExample name="list-with-actions">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-with-actions.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 인터랙티브 리스트
+
+체크박스나 라디오 버튼과 같은 폼 요소를 포함한 리스트입니다. `asChild` prop을 사용하여 다른 컴포넌트와 조합할 수 있습니다.
+
+<ComponentExample name="list-interactive">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-interactive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## 구조
+
+List 컴포넌트는 다음과 같은 구조로 구성됩니다:
+
+```
+List.Root
+└── List.Item
+    ├── List.Prefix (선택사항)
+    ├── List.Content
+    │   ├── List.Title
+    │   └── List.Detail (선택사항)
+    └── List.Suffix (선택사항)
+```
+
+### 영역별 역할
+
+- **List.Root**: 전체 리스트를 감싸는 컨테이너 역할
+- **List.Item**: 개별 리스트 아이템을 나타내며, 클릭 가능한 영역을 정의
+- **List.Prefix**: 아이콘, 아바타, 체크박스 등을 표시하는 왼쪽 영역
+- **List.Content**: 주요 콘텐츠가 들어가는 중앙 영역
+- **List.Title**: 리스트 아이템의 주제목
+- **List.Detail**: 부가 설명이나 세부 정보
+- **List.Suffix**: 액션 버튼, 화살표, 상태 표시 등을 위한 오른쪽 영역
+
+## 사용 가이드
+
+### 접근성
+
+- `List.Item`에 `asChild` prop을 사용하여 적절한 시맨틱 요소와 조합하세요
+- 클릭 가능한 아이템의 경우 키보드 접근성을 고려하세요
+- 스크린 리더를 위해 적절한 aria 속성을 추가하세요
+
+### 성능 최적화
+
+- 긴 리스트의 경우 가상화를 고려하세요
+- 이미지가 포함된 경우 lazy loading을 적용하세요
+- 불필요한 리렌더링을 방지하기 위해 key prop을 적절히 사용하세요 
