@@ -9,15 +9,15 @@ description: AI Agent를 활용해 생산성을 높일 수 있는 Model Context 
 
 - [Bun](https://bun.sh/docs/installation)
 
-### Cursor
+### Install MCP Server
 
-Cursor Settings > MCP > Add MCP Server 에 다음 설정을 추가합니다.
-
+<Tabs items={['Cursor', 'Claude Code']}>
+  <Tab value="Cursor">
 ```json
 {
   "mcpServers": {
     "SEED Design": {
-      "command": "bunx",
+      "command": "bunx", // or your package manager's execution command
       "args": ["-y", "@seed-design/mcp@latest"],
       "type": "stdio"
     }
@@ -26,6 +26,13 @@ Cursor Settings > MCP > Add MCP Server 에 다음 설정을 추가합니다.
 ```
 
 [Cursor MCP에 대해 자세히 알아보기](https://docs.cursor.com/context/model-context-protocol)
+  </Tab>
+  <Tab value="Claude Code">
+    ```sh
+      claude mcp add SEED bunx @seed-design/mcp@latest
+    ```
+  </Tab>
+</Tabs>
 
 ### Figma
 
