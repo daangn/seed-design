@@ -18,6 +18,9 @@
         },
         "deprecated": {
           "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
         }
       },
       "required": ["id", "name"],
