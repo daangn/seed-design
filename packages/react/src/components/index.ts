@@ -8,6 +8,7 @@ export * from "./Box";
 export * from "./Callout";
 export * from "./Celcius";
 export * from "./Checkbox";
+export * from "./Chip";
 export * from "./ChipTabs";
 export * from "./Columns";
 export * from "./ConsistentWidth";

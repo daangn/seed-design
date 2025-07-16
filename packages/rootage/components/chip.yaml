@@ -1,0 +1,211 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: chip
+  name: Chip
+  lastUpdated: 25-07-17
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          minWidth:
+            type: dimension
+          color:
+            type: color
+          opacity:
+            type: number
+      label:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      prefixAvatar:
+        properties:
+          size:
+            type: dimension
+      suffixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          colorDuration: $duration.d4
+          colorTimingFunction: $timing-function.easing
+          cornerRadius: $radius.full
+        prefixIcon:
+          paddingLeft: $dimension.x1_5
+        prefixAvatar:
+          size: $dimension.x6
+        suffixIcon:
+          paddingRight: $dimension.x1_5
+        label:
+          fontWeight: $font-weight.medium
+          paddingX: $dimension.x1_5
+
+    variant=solid:
+      enabled:
+        root:
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.neutral-weak
+      pressed:
+        root:
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.neutral-weak-pressed
+      disabled:
+        root:
+          opacity: 0.5
+      selected:
+        root:
+          color: $color.fg.neutral-inverted
+          backgroundColor: $color.bg.neutral-inverted
+      selected, pressed:
+        root:
+          color: $color.fg.neutral-inverted
+          backgroundColor: $color.bg.neutral-inverted-pressed
+      selected, disabled:
+        root:
+          opacity: 0.5
+
+    variant=outlineStrong:
+      enabled:
+        root:
+          strokeColor: $color.stroke.neutral
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          # TODO: 넣을건지 말건지
+          # backgroundColor: $color.bg.layer-default
+      pressed:
+        root:
+          strokeColor: $color.stroke.neutral
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.layer-default-pressed
+      disabled:
+        root:
+          opacity: 0.5
+      selected:
+        root:
+          color: $color.fg.neutral-inverted
+          backgroundColor: $color.bg.neutral-inverted
+      selected, pressed:
+        root:
+          color: $color.fg.neutral-inverted
+          backgroundColor: $color.bg.neutral-inverted-pressed
+      selected, disabled:
+        root:
+          opacity: 0.5
+
+    variant=outlineWeak:
+      enabled:
+        root:
+          strokeColor: $color.stroke.neutral
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          # TODO: 넣을건지 말건지
+          # backgroundColor: $color.bg.layer-default
+      pressed:
+        root:
+          strokeColor: $color.stroke.neutral
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.layer-default-pressed
+      disabled:
+        root:
+          opacity: 0.5
+      selected:
+        root:
+          strokeColor: $color.stroke.field-focused
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.neutral-weak
+      selected, pressed:
+        root:
+          strokeColor: $color.stroke.field-focused
+          strokeWidth: 1px
+          color: $color.fg.neutral
+          backgroundColor: $color.bg.neutral-weak-pressed
+      selected, disabled:
+        root:
+          opacity: 0.5
+
+    size=small:
+      enabled:
+        root:
+          height: 32px
+          gap: $dimension.x1
+          paddingX: $dimension.x1_5
+          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
+        label:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixIcon:
+          size: $dimension.x4
+        suffixIcon:
+          size: $dimension.x3_5
+        prefixAvatar:
+          size: $dimension.x5
+    size=medium:
+      enabled:
+        root:
+          height: 36px
+          gap: $dimension.x1
+          paddingX: $dimension.x2
+          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
+        label:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixIcon:
+          size: $dimension.x4
+        suffixIcon:
+          size: $dimension.x3_5
+        prefixAvatar:
+          size: $dimension.x6
+    size=large:
+      enabled:
+        root:
+          height: 40px
+          gap: $dimension.x1_5
+          paddingX: $dimension.x2_5
+          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+          paddingLeft: $dimension.x1_5
+        suffixIcon:
+          size: $dimension.x4
+        prefixAvatar:
+          size: $dimension.x7

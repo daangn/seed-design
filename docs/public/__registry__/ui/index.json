@@ -181,6 +181,15 @@
     ]
   },
   {
+    "name": "chip",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "files": [
+      "ui:chip.tsx"
+    ]
+  },
+  {
     "name": "checkbox",
     "dependencies": [
       "@seed-design/react",

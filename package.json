@@ -40,7 +40,8 @@
     "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts",
-    "generate:changelog": "bun scripts/generate-changelog.ts"
+    "generate:changelog": "bun scripts/generate-changelog.ts",
+    "mcp:start": "bunx --bun @seed-design/mcp@latest socket"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
