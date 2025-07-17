@@ -1,14 +1,11 @@
 import { docs, reactDocs } from "@/.source";
-import { IconContainer } from "@/components/ui/icon";
 import { getRootageMetadata } from "@/components/rootage";
-import { loader } from "fumadocs-core/source";
+import { IconContainer } from "@/components/ui/icon";
 import type { PageTree } from "fumadocs-core/server";
+import { loader } from "fumadocs-core/source";
 
 import { icons } from "lucide-react";
 import { createElement } from "react";
-
-const ONE_DAY_IN_MS = 1 * 24 * 60 * 60 * 1000;
-const TWO_WEEKS_IN_MS = ONE_DAY_IN_MS * 14;
 
 const DeprecatedBadge = () => {
   return (
@@ -16,27 +13,10 @@ const DeprecatedBadge = () => {
   );
 };
 
-const UpdatedBadge = () => {
-  return (
-    <span className="px-1.5 py-0.5 text-xs bg-green-100 text-green-800 rounded ml-1">Updated</span>
-  );
-};
-
 function getComponentIdFromUrl(url: string): string | null {
   const urlParts = url.split("/");
   const isComponentPage = urlParts.includes("components");
   return isComponentPage ? urlParts[urlParts.length - 1] : null;
-}
-
-async function isPageUpdatedRecently(
-  page: ReturnType<typeof baseSource.getNodePage>,
-): Promise<boolean> {
-  if (page) {
-    const { lastModified } = await page.data.load();
-    const threshold = new Date(Date.now() - TWO_WEEKS_IN_MS);
-    return lastModified ? new Date(lastModified) > threshold : false;
-  }
-  return false;
 }
 
 async function transformPageTreeWithBadges(
@@ -57,15 +37,13 @@ async function transformPageTreeWithBadges(
         // Determine deprecated status and message
         const deprecated = frontmatterDeprecated ? true : Boolean(metadata?.deprecated);
         // 3. Check updated status (priority 3) - only if not deprecated
-        const updated = await isPageUpdatedRecently(page);
-
-        if (deprecated || updated) {
+        if (deprecated) {
           return {
             ...node,
             name: (
               <div className="flex items-center">
                 <span>{node.name}</span>
-                {deprecated ? <DeprecatedBadge /> : updated ? <UpdatedBadge /> : null}
+                <DeprecatedBadge />
               </div>
             ),
           };
