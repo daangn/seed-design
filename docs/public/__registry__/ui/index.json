@@ -185,6 +185,9 @@
     "dependencies": [
       "@seed-design/react"
     ],
+    "innerDependencies": [
+      "ui:avatar"
+    ],
     "files": [
       "ui:chip.tsx"
     ]
