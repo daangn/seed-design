@@ -3,7 +3,7 @@
   "metadata": {
     "id": "chip",
     "name": "Chip",
-    "lastUpdated": "25-07-14"
+    "lastUpdated": "25-07-17"
   },
   "data": {
     "id": "chip",
@@ -550,10 +550,6 @@
                     "unit": "px"
                   }
                 },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
@@ -608,10 +604,6 @@
                     "value": 36,
                     "unit": "px"
                   }
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
                 },
                 "paddingX": {
                   "type": "dimension",
@@ -668,10 +660,6 @@
                     "unit": "px"
                   }
                 },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1_5"
-                },
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
@@ -680,11 +668,11 @@
               "label": {
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t5"
+                  "value": "$font-size.t4"
                 },
                 "lineHeight": {
                   "type": "dimension",
-                  "value": "$line-height.t5"
+                  "value": "$line-height.t4"
                 }
               },
               "prefixIcon": {

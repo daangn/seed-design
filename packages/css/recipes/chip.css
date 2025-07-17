@@ -144,12 +144,11 @@
 }
 .seed-chip__root--size_large {
     height: 40px;
-    gap: var(--seed-dimension-x1_5);
     padding-inline: var(--seed-dimension-x2_5);
 }
 .seed-chip__label--size_large {
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
 }
 .seed-chip__prefixIcon--size_large {
     --seed-icon-size: var(--seed-dimension-x5);
@@ -161,7 +160,6 @@
 }
 .seed-chip__root--size_medium {
     height: 36px;
-    gap: var(--seed-dimension-x1);
     padding-inline: var(--seed-dimension-x2);
 }
 .seed-chip__label--size_medium {
@@ -178,7 +176,6 @@
 }
 .seed-chip__root--size_small {
     height: 32px;
-    gap: var(--seed-dimension-x1);
     padding-inline: var(--seed-dimension-x1_5);
 }
 .seed-chip__label--size_small {

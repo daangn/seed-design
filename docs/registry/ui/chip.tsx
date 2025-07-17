@@ -7,6 +7,7 @@ import {
   ChipPrefixIcon as SeedChipPrefixIcon,
   ChipRoot as SeedChipRoot,
   ChipSuffixIcon as SeedChipSuffixIcon,
+  type ChipRootProps as SeedChipRootProps,
   type ChipLabelProps as SeedChipLabelProps,
   type ChipPrefixAvatarProps as SeedChipPrefixAvatarProps,
   type ChipPrefixIconProps as SeedChipPrefixIconProps,
@@ -50,7 +51,7 @@ export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
 );
 ToggleChip.displayName = "Chip.Toggle";
 
-export interface ButtonChipProps extends ChipBaseProps {
+export interface ButtonChipProps extends ChipBaseProps, SeedChipRootProps {
   children?: React.ReactNode;
 }
 

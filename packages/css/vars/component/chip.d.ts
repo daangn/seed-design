@@ -143,7 +143,6 @@ export declare const vars: {
     "enabled": {
       "root": {
         "height": "32px",
-        "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x1_5)"
       },
       "label": {
@@ -165,7 +164,6 @@ export declare const vars: {
     "enabled": {
       "root": {
         "height": "36px",
-        "gap": "var(--seed-dimension-x1)",
         "paddingX": "var(--seed-dimension-x2)"
       },
       "label": {
@@ -187,12 +185,11 @@ export declare const vars: {
     "enabled": {
       "root": {
         "height": "40px",
-        "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x2_5)"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "prefixIcon": {
         "size": "var(--seed-dimension-x5)",

@@ -164,9 +164,7 @@ data:
       enabled:
         root:
           height: 32px
-          gap: $dimension.x1
           paddingX: $dimension.x1_5
-          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
@@ -180,9 +178,7 @@ data:
       enabled:
         root:
           height: 36px
-          gap: $dimension.x1
           paddingX: $dimension.x2
-          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
@@ -196,12 +192,10 @@ data:
       enabled:
         root:
           height: 40px
-          gap: $dimension.x1_5
           paddingX: $dimension.x2_5
-          # TODO: Update gap and paddingX based on prefix type (Icon/Avatar/Image)
         label:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         prefixIcon:
           size: $dimension.x5
           paddingLeft: $dimension.x1_5
