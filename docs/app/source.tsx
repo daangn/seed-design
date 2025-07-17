@@ -57,15 +57,27 @@ async function transformPageTreeWithBadges(
         // Determine deprecated status and message
         const deprecated = frontmatterDeprecated ? true : Boolean(metadata?.deprecated);
         // 3. Check updated status (priority 3) - only if not deprecated
-        const updated = await isPageUpdatedRecently(page);
-
-        if (deprecated || updated) {
+        if (deprecated) {
           return {
             ...node,
             name: (
               <div className="flex items-center">
                 <span>{node.name}</span>
-                {deprecated ? <DeprecatedBadge /> : updated ? <UpdatedBadge /> : null}
+                <DeprecatedBadge />
+              </div>
+            ),
+          };
+        }
+
+        const updated = await isPageUpdatedRecently(page);
+
+        if (updated) {
+          return {
+            ...node,
+            name: (
+              <div className="flex items-center">
+                <span>{node.name}</span>
+                <UpdatedBadge />
               </div>
             ),
           };
