@@ -2,17 +2,17 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { Chip } from "seed-design/ui/chip";
 
-import { IconBellFill, IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
+import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { IconHeartFill } from "@karrotmarket/react-monochrome-icon";
 import { chipVariantMap } from "@seed-design/css/recipes/chip";
+import { Icon } from "@seed-design/react";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
-import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { Count, Icon, PrefixIcon, SuffixIcon } from "@seed-design/react";
 
 const meta = {
-  component: Chip.Toggle,
+  component: Chip.Button,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Chip.Toggle>;
+} satisfies Meta<typeof Chip.Button>;
 
 export default meta;
 
@@ -23,23 +23,17 @@ const conditionMap = {
     false: { disabled: false },
     true: { disabled: true },
   },
-  checked: {
-    false: { checked: false },
-    true: { checked: true },
-  },
   layout: {
     withText: {
-      layout: "withText",
       children: (
         <>
-          <PrefixIcon svg={<IconBellFill />} />
-          Chip
-          <Count>10</Count>
-          <SuffixIcon svg={<IconChevronDownFill />} />
+          <Chip.PrefixIcon>
+            <Icon svg={<IconHeartFill />} />
+          </Chip.PrefixIcon>
+          <Chip.Label>With Icon Button</Chip.Label>
         </>
       ),
     },
-    iconOnly: { layout: "iconOnly", children: <Icon svg={<IconBellFill />} /> },
   },
 };
 

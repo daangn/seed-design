@@ -30,7 +30,20 @@ const defaultVariant = {
   "layout": "withText"
 };
 
-const compoundVariants = [];
+const compoundVariants = [
+  {
+    "size": "small",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "medium",
+    "layout": "iconOnly"
+  },
+  {
+    "size": "large",
+    "layout": "iconOnly"
+  }
+];
 
 export const chipVariantMap = {
   "variant": [
@@ -44,8 +57,8 @@ export const chipVariantMap = {
     "small"
   ],
   "layout": [
-    "withText",
-    "iconOnly"
+    "iconOnly",
+    "withText"
   ]
 };
 

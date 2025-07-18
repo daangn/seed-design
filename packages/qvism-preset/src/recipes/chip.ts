@@ -2,7 +2,7 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, checked, disabled, focus, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focus, not, pressed, pseudo } from "../utils/pseudo";
 
 const chip = defineSlotRecipe({
   name: "chip",
@@ -34,6 +34,9 @@ const chip = defineSlotRecipe({
       [pseudo(disabled)]: {
         cursor: "not-allowed",
       },
+      ...onlyIcon({
+        color: "inherit",
+      }),
     },
     label: {
       display: "inline-flex",
@@ -41,17 +44,14 @@ const chip = defineSlotRecipe({
       justifyContent: "center",
       fontWeight: vars.base.enabled.label.fontWeight,
       paddingInline: vars.base.enabled.label.paddingX,
+      color: "inherit",
     },
     prefixIcon: {
       display: "inline-flex",
       alignItems: "center",
       flexShrink: 0,
       paddingLeft: vars.base.enabled.prefixIcon.paddingLeft,
-
-      ...onlyIcon({
-        color: "inherit",
-        size: "inherit",
-      }),
+      ...onlyIcon({ color: "inherit" }),
     },
     prefixAvatar: {
       display: "inline-flex",
@@ -63,110 +63,114 @@ const chip = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
       paddingRight: vars.base.enabled.suffixIcon.paddingRight,
-
-      ...onlyIcon({
-        color: "inherit",
-        size: "inherit",
-      }),
+      ...onlyIcon({ color: "inherit" }),
     },
   },
   variants: {
     variant: {
       solid: {
         root: {
-          color: vars.variantSolid.enabled.root.color,
-          background: vars.variantSolid.enabled.root.backgroundColor,
-          [pseudo(active)]: {
-            color: vars.variantSolid.pressed.root.color,
-            background: vars.variantSolid.pressed.root.backgroundColor,
-          },
+          background: vars.variantSolid.enabled.root.color,
+          color: vars.variantSolid.enabled.label.color,
           [pseudo(checked)]: {
             boxShadow: "none",
-            color: vars.variantSolid.selected.root.color,
-            background: vars.variantSolid.selected.root.backgroundColor,
+            background: vars.variantSolid.selected.root.color,
+            color: vars.variantSolid.selected.label.color,
+            ...onlyIcon({
+              color: vars.variantSolid.selected.prefixIcon.color,
+            }),
           },
-          [pseudo(checked, active)]: {
-            color: vars.variantSolid.selectedPressed.root.color,
-            background: vars.variantSolid.selectedPressed.root.backgroundColor,
+          [pseudo(active, not(disabled))]: {
+            background: vars.variantSolid.pressed.root.color,
+            color: vars.variantSolid.pressed.label.color,
+            ...onlyIcon({
+              color: vars.variantSolid.pressed.prefixIcon.color,
+            }),
+          },
+          [pseudo(checked, active, not(disabled))]: {
+            background: vars.variantSolid.selectedPressed.root.color,
+            color: vars.variantSolid.selectedPressed.label.color,
+            ...onlyIcon({
+              color: vars.variantSolid.selectedPressed.prefixIcon.color,
+            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantSolid.disabled.root.opacity,
           },
-        },
-        label: {
-          color: "inherit",
-        },
-        prefixIcon: {
-          color: "inherit",
-        },
-        suffixIcon: {
-          color: "inherit",
+          ...onlyIcon({
+            color: vars.variantSolid.enabled.icon.color,
+          }),
         },
       },
       outlineStrong: {
         root: {
-          color: vars.variantOutlineStrong.enabled.root.color,
+          background: vars.variantOutlineStrong.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineStrong.enabled.root.strokeWidth} ${vars.variantOutlineStrong.enabled.root.strokeColor}`,
-          [pseudo(active)]: {
-            color: vars.variantOutlineStrong.pressed.root.color,
-            background: vars.variantOutlineStrong.pressed.root.backgroundColor,
+          color: vars.variantOutlineStrong.enabled.label.color,
+          [pseudo(active, not(disabled))]: {
+            background: vars.variantOutlineStrong.pressed.root.color,
+            color: vars.variantOutlineStrong.pressed.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineStrong.pressed.prefixIcon.color,
+            }),
           },
           [pseudo(checked)]: {
-            color: vars.variantOutlineStrong.selected.root.color,
-            background: vars.variantOutlineStrong.selected.root.backgroundColor,
+            background: vars.variantOutlineStrong.selected.root.color,
+            color: vars.variantOutlineStrong.selected.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineStrong.selected.prefixIcon.color,
+            }),
           },
-          [pseudo(checked, active)]: {
-            color: vars.variantOutlineStrong.selectedPressed.root.color,
-            background: vars.variantOutlineStrong.selectedPressed.root.backgroundColor,
+          [pseudo(checked, active, not(disabled))]: {
+            background: vars.variantOutlineStrong.selectedPressed.root.color,
+            color: vars.variantOutlineStrong.selectedPressed.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineStrong.selectedPressed.prefixIcon.color,
+            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineStrong.disabled.root.opacity,
           },
-        },
-        label: {
-          color: "inherit",
-        },
-        prefixIcon: {
-          color: "inherit",
-        },
-        suffixIcon: {
-          color: "inherit",
-        },
-        icon: {
-          ...onlyIcon({ color: "inherit" }),
+          ...onlyIcon({
+            color: vars.variantOutlineStrong.enabled.icon.color,
+          }),
         },
       },
       outlineWeak: {
         root: {
-          color: vars.variantOutlineWeak.enabled.root.color,
+          background: vars.variantOutlineWeak.enabled.root.color,
           boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.enabled.root.strokeWidth} ${vars.variantOutlineWeak.enabled.root.strokeColor}`,
-          [pseudo(active)]: {
-            color: vars.variantOutlineWeak.pressed.root.color,
-            background: vars.variantOutlineWeak.pressed.root.backgroundColor,
+          color: vars.variantOutlineWeak.enabled.label.color,
+          [pseudo(active, not(disabled))]: {
+            background: vars.variantOutlineWeak.pressed.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.pressed.root.strokeWidth} ${vars.variantOutlineWeak.pressed.root.strokeColor}`,
+            color: vars.variantOutlineWeak.pressed.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineWeak.pressed.prefixIcon.color,
+            }),
           },
           [pseudo(checked)]: {
-            color: vars.variantOutlineWeak.selected.root.color,
-            background: vars.variantOutlineWeak.selected.root.backgroundColor,
+            background: vars.variantOutlineWeak.selected.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.selected.root.strokeWidth} ${vars.variantOutlineWeak.selected.root.strokeColor}`,
+            color: vars.variantOutlineWeak.selected.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineWeak.selected.prefixIcon.color,
+            }),
           },
-          [pseudo(checked, active)]: {
-            color: vars.variantOutlineWeak.selectedPressed.root.color,
-            background: vars.variantOutlineWeak.selectedPressed.root.backgroundColor,
+          [pseudo(checked, active, not(disabled))]: {
+            background: vars.variantOutlineWeak.selectedPressed.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantOutlineWeak.selectedPressed.root.strokeWidth} ${vars.variantOutlineWeak.selectedPressed.root.strokeColor}`,
+            color: vars.variantOutlineWeak.selectedPressed.label.color,
+            ...onlyIcon({
+              color: vars.variantOutlineWeak.selectedPressed.prefixIcon.color,
+            }),
           },
           [pseudo(disabled)]: {
             opacity: vars.variantOutlineWeak.disabled.root.opacity,
           },
-        },
-        label: {
-          color: "inherit",
-        },
-        prefixIcon: {
-          color: "inherit",
-        },
-        suffixIcon: {
-          color: "inherit",
+          ...onlyIcon({
+            color: vars.variantOutlineWeak.enabled.icon.color,
+          }),
         },
       },
     },
@@ -174,8 +178,10 @@ const chip = defineSlotRecipe({
       large: {
         root: {
           height: vars.sizeLarge.enabled.root.height,
-          gap: vars.sizeLarge.enabled.root.gap,
           paddingInline: vars.sizeLarge.enabled.root.paddingX,
+          ...onlyIcon({
+            size: vars.sizeLarge.enabled.icon.size,
+          }),
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -184,21 +190,22 @@ const chip = defineSlotRecipe({
         prefixIcon: {
           ...onlyIcon({
             size: vars.sizeLarge.enabled.prefixIcon.size,
-            color: "inherit",
           }),
         },
         suffixIcon: {
           ...onlyIcon({
             size: vars.sizeLarge.enabled.suffixIcon.size,
-            color: "inherit",
           }),
         },
       },
       medium: {
         root: {
           height: vars.sizeMedium.enabled.root.height,
-          gap: vars.sizeMedium.enabled.root.gap,
           paddingInline: vars.sizeMedium.enabled.root.paddingX,
+
+          ...onlyIcon({
+            size: vars.sizeMedium.enabled.icon.size,
+          }),
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -207,21 +214,22 @@ const chip = defineSlotRecipe({
         prefixIcon: {
           ...onlyIcon({
             size: vars.sizeMedium.enabled.prefixIcon.size,
-            color: "inherit",
           }),
         },
         suffixIcon: {
           ...onlyIcon({
             size: vars.sizeMedium.enabled.suffixIcon.size,
-            color: "inherit",
           }),
         },
       },
       small: {
         root: {
           height: vars.sizeSmall.enabled.root.height,
-          gap: vars.sizeSmall.enabled.root.gap,
           paddingInline: vars.sizeSmall.enabled.root.paddingX,
+
+          ...onlyIcon({
+            size: vars.sizeSmall.enabled.icon.size,
+          }),
         },
         label: {
           fontSize: vars.sizeSmall.enabled.label.fontSize,
@@ -230,23 +238,49 @@ const chip = defineSlotRecipe({
         prefixIcon: {
           ...onlyIcon({
             size: vars.sizeSmall.enabled.prefixIcon.size,
-            color: "inherit",
           }),
         },
         suffixIcon: {
           ...onlyIcon({
             size: vars.sizeSmall.enabled.suffixIcon.size,
-            color: "inherit",
           }),
         },
       },
     },
     layout: {
-      withText: {},
       iconOnly: {},
+      withText: {},
     },
   },
-  compoundVariants: [],
+  compoundVariants: [
+    {
+      size: "small",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeSmallLayoutIconOnly.enabled.root.minWidth,
+        },
+      },
+    },
+    {
+      size: "medium",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeMediumLayoutIconOnly.enabled.root.minWidth,
+        },
+      },
+    },
+    {
+      size: "large",
+      layout: "iconOnly",
+      css: {
+        root: {
+          minWidth: vars.sizeLargeLayoutIconOnly.enabled.root.minWidth,
+        },
+      },
+    },
+  ],
   defaultVariants: {
     variant: "solid",
     size: "medium",

@@ -57,6 +57,12 @@ data:
             type: color
           size:
             type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -73,27 +79,57 @@ data:
         label:
           fontWeight: $font-weight.medium
           paddingX: $dimension.x1_5
+        icon:
+          color: $color.fg.neutral
 
     variant=solid:
       enabled:
         root:
+          color: $color.bg.neutral-weak
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.neutral-weak
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       pressed:
         root:
+          color: $color.bg.neutral-weak-pressed
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.neutral-weak-pressed
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       disabled:
         root:
           opacity: 0.5
       selected:
         root:
+          color: $color.bg.neutral-inverted
+        label:
           color: $color.fg.neutral-inverted
-          backgroundColor: $color.bg.neutral-inverted
+        prefixIcon:
+          color: $color.fg.neutral-inverted
+        suffixIcon:
+          color: $color.fg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
       selected, pressed:
         root:
+          color: $color.bg.neutral-inverted-pressed
+        label:
           color: $color.fg.neutral-inverted
-          backgroundColor: $color.bg.neutral-inverted-pressed
+        prefixIcon:
+          color: $color.fg.neutral-inverted
+        suffixIcon:
+          color: $color.fg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
       selected, disabled:
         root:
           opacity: 0.5
@@ -103,26 +139,53 @@ data:
         root:
           strokeColor: $color.stroke.neutral
           strokeWidth: 1px
+          color: $color.bg.layer-default
+        label:
           color: $color.fg.neutral
-          # TODO: 넣을건지 말건지
-          # backgroundColor: $color.bg.layer-default
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       pressed:
         root:
           strokeColor: $color.stroke.neutral
           strokeWidth: 1px
+          color: $color.bg.layer-default-pressed
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.layer-default-pressed
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       disabled:
         root:
           opacity: 0.5
       selected:
         root:
+          color: $color.bg.neutral-inverted
+        label:
           color: $color.fg.neutral-inverted
-          backgroundColor: $color.bg.neutral-inverted
+        prefixIcon:
+          color: $color.fg.neutral-inverted
+        suffixIcon:
+          color: $color.fg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
       selected, pressed:
         root:
+          color: $color.bg.neutral-inverted-pressed
+        label:
           color: $color.fg.neutral-inverted
-          backgroundColor: $color.bg.neutral-inverted-pressed
+        prefixIcon:
+          color: $color.fg.neutral-inverted
+        suffixIcon:
+          color: $color.fg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
       selected, disabled:
         root:
           opacity: 0.5
@@ -132,15 +195,28 @@ data:
         root:
           strokeColor: $color.stroke.neutral
           strokeWidth: 1px
+          color: $color.bg.layer-default
+        label:
           color: $color.fg.neutral
-          # TODO: 넣을건지 말건지
-          # backgroundColor: $color.bg.layer-default
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       pressed:
         root:
           strokeColor: $color.stroke.neutral
           strokeWidth: 1px
+          color: $color.bg.layer-default-pressed
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.layer-default-pressed
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       disabled:
         root:
           opacity: 0.5
@@ -148,14 +224,28 @@ data:
         root:
           strokeColor: $color.stroke.field-focused
           strokeWidth: 1px
+          color: $color.bg.neutral-weak
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.neutral-weak
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       selected, pressed:
         root:
           strokeColor: $color.stroke.field-focused
           strokeWidth: 1px
+          color: $color.bg.neutral-weak-pressed
+        label:
           color: $color.fg.neutral
-          backgroundColor: $color.bg.neutral-weak-pressed
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+        icon:
+          color: $color.fg.neutral
       selected, disabled:
         root:
           opacity: 0.5
@@ -169,11 +259,13 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         prefixIcon:
-          size: $dimension.x4
+          size: $dimension.x3_5
         suffixIcon:
           size: $dimension.x3_5
         prefixAvatar:
           size: $dimension.x5
+        icon:
+          size: $dimension.x3_5
     size=medium:
       enabled:
         root:
@@ -188,6 +280,8 @@ data:
           size: $dimension.x3_5
         prefixAvatar:
           size: $dimension.x6
+        icon:
+          size: $dimension.x4
     size=large:
       enabled:
         root:
@@ -197,9 +291,24 @@ data:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         prefixIcon:
-          size: $dimension.x5
+          size: $dimension.x4
           paddingLeft: $dimension.x1_5
         suffixIcon:
           size: $dimension.x4
         prefixAvatar:
           size: $dimension.x7
+        icon:
+          size: $dimension.x4
+
+    size=small,layout=iconOnly:
+      enabled:
+        root:
+          minWidth: $dimension.x8
+    size=medium,layout=iconOnly:
+      enabled:
+        root:
+          minWidth: $dimension.x9
+    size=large,layout=iconOnly:
+      enabled:
+        root:
+          minWidth: $dimension.x10

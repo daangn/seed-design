@@ -2,6 +2,7 @@ import { chip, type ChipVariantProps } from "@seed-design/css/recipes/chip";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
+import { withIconRequired } from "../Icon/Icon";
 
 const { withProvider, withContext } = createSlotRecipeContext(chip);
 
@@ -12,7 +13,10 @@ export interface ChipRootProps
     ChipVariantProps,
     React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const ChipRoot = withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root");
+export const ChipRoot = withIconRequired(
+  withProvider<HTMLButtonElement, ChipRootProps>(Primitive.button, "root"),
+  (props: ChipRootProps) => props.layout === "iconOnly",
+);
 ChipRoot.displayName = "Chip.Root";
 
 ////////////////////////////////////////////////////////////////////////////////////

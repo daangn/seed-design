@@ -7,10 +7,10 @@ import {
   ChipPrefixIcon as SeedChipPrefixIcon,
   ChipRoot as SeedChipRoot,
   ChipSuffixIcon as SeedChipSuffixIcon,
-  type ChipRootProps as SeedChipRootProps,
   type ChipLabelProps as SeedChipLabelProps,
   type ChipPrefixAvatarProps as SeedChipPrefixAvatarProps,
   type ChipPrefixIconProps as SeedChipPrefixIconProps,
+  type ChipRootProps as SeedChipRootProps,
   type ChipSuffixIconProps as SeedChipSuffixIconProps,
 } from "@seed-design/react";
 import type { PrimitiveProps } from "@seed-design/react-primitive";
@@ -26,6 +26,9 @@ export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
   rootRef?: React.Ref<HTMLLabelElement>;
 }
 
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
 export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
   (
     {
@@ -55,6 +58,9 @@ export interface ButtonChipProps extends ChipBaseProps, SeedChipRootProps {
   children?: React.ReactNode;
 }
 
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
 export const ButtonChip = React.forwardRef<HTMLButtonElement, ButtonChipProps>(
   ({ children, ...otherProps }, ref) => {
     return (

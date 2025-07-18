@@ -10,7 +10,7 @@ declare interface ChipVariant {
 /**
   * @default withText
   */
-  layout: "withText" | "iconOnly";
+  layout: "iconOnly" | "withText";
 }
 
 declare type ChipVariantMap = {
