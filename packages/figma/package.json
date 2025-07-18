@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -38,13 +38,13 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@seed-design/css": "0.1.2",
+    "@seed-design/css": "0.1.3",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.110.0",
-    "@figma/rest-api-spec": "^0.32.0",
+    "@figma/rest-api-spec": "^0.33.0",
     "@seed-design/figma-extractor": "^0.0.4",
     "typescript": "^5.8.3"
   },

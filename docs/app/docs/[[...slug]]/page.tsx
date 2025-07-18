@@ -1,5 +1,6 @@
 import { source } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
+import { getComponentStatus } from "@/components/rootage";
 import { client } from "@/sanity/lib/client";
 import { GUIDELINE_QUERY } from "@/sanity/lib/queries";
 import { PortableContent } from "@/sanity/lib/sanity-content";
@@ -20,14 +21,15 @@ function styleToLevel(style: unknown) {
 
 export const dynamic = "force-static";
 
-export default async function Page(props: {
-  params: Promise<{ slug?: string[] }>;
-}) {
+export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
   const params = await props.params;
   const page = source.getPage(params.slug ?? []);
   if (!page) notFound();
 
   const { body: MDX, toc, lastModified } = await page.data.load();
+  const { deprecated, deprecatedMessage } = await getComponentStatus(params, {
+    deprecated: page.data.deprecated,
+  });
 
   const path = getPath(params.slug ?? []);
   const guideline = await client.fetch(GUIDELINE_QUERY, { path }, { cache: "no-store" });
@@ -47,10 +49,18 @@ export default async function Page(props: {
       };
     }) ?? [];
 
+  const displayTitle = deprecated ? `${page.data.title} (Deprecated)` : page.data.title;
+  const displayDescription = deprecated ? (
+    <span className="text-red-800">
+      {deprecatedMessage} <span className="text-gray-600">{page.data.description}</span>
+    </span>
+  ) : (
+    <span>{page.data.description}</span>
+  );
   return (
     <DocsPage toc={[...guidelineToc, ...toc]} full={page.data.full} lastUpdate={lastModified}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+      <DocsTitle>{displayTitle}</DocsTitle>
+      <DocsDescription>{displayDescription}</DocsDescription>
       <DocsBody>
         {guideline && <PortableContent content={guideline.content} />}
         <MDX components={mdxComponents} />
@@ -68,8 +78,18 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const loadedData = await page.data.load();
+  const frontmatterDeprecated = (loadedData as any).deprecated;
+  const { deprecated } = await getComponentStatus(params, { deprecated: frontmatterDeprecated });
+
+  // Add (Deprecated) to title if component is deprecated
+  const displayTitle =
+    deprecated && !page.data.title.includes("(Deprecated)")
+      ? `${page.data.title} (Deprecated)`
+      : page.data.title;
+
   return {
-    title: page.data.title,
+    title: displayTitle,
     description: page.data.description,
   } satisfies Metadata;
 }

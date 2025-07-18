@@ -1,5 +1,5 @@
-import { topNavigation as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
+import { topNavigation as vars } from "../vars/component";
 import { fadeFromBottomAndroidAnimations, iOSAnimations } from "./animation";
 import {
   idle,

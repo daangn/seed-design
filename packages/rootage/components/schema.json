@@ -18,6 +18,9 @@
         },
         "deprecated": {
           "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
         }
       },
       "required": ["id", "name"],
@@ -406,12 +409,13 @@
         { "const": "$font-weight.bold", "title": "$font-weight.bold", "description": "default: 700", "markdownDescription": "- default: `700`" },
         { "const": "$font-weight.medium", "title": "$font-weight.medium", "description": "default: 500", "markdownDescription": "- default: `500`" },
         { "const": "$font-weight.regular", "title": "$font-weight.regular", "description": "default: 400", "markdownDescription": "- default: `400`" },
-        { "const": "$gradient.fade-neutral", "title": "$gradient.fade-neutral", "description": "theme-light: 0%: #FFFFFF, 100%: #FFFFFF00\ntheme-dark: 0%: #1D2025, 100%: #1D202500", "markdownDescription": "- theme-light: `0%: #FFFFFF, 100%: #FFFFFF00`\n\n- theme-dark: `0%: #1D2025, 100%: #1D202500`" },
-        { "const": "$gradient.glow-magic", "title": "$gradient.glow-magic", "description": "theme-light: 0%: #FEF6F7, 80%: #FEF0E7, 100%: #F9F7F5\ntheme-dark: 0%: #2D252D, 80%: #3A312B, 100%: #333232", "markdownDescription": "- theme-light: `0%: #FEF6F7, 80%: #FEF0E7, 100%: #F9F7F5`\n\n- theme-dark: `0%: #2D252D, 80%: #3A312B, 100%: #333232`" },
-        { "const": "$gradient.glow-magic-pressed", "title": "$gradient.glow-magic-pressed", "description": "theme-light: 0%: #FBF0F2, 80%: #FFE8DB, 100%: #F5F2EF\ntheme-dark: 0%: #3E333E, 80%: #51453E, 100%: #434242", "markdownDescription": "- theme-light: `0%: #FBF0F2, 80%: #FFE8DB, 100%: #F5F2EF`\n\n- theme-dark: `0%: #3E333E, 80%: #51453E, 100%: #434242`" },
-        { "const": "$gradient.highlight-magic", "title": "$gradient.highlight-magic", "description": "theme-light: 20%: #FF6600, 80%: #D25ACA\ntheme-dark: 20%: #FF6000, 80%: #D25ACA", "markdownDescription": "- theme-light: `20%: #FF6600, 80%: #D25ACA`\n\n- theme-dark: `20%: #FF6000, 80%: #D25ACA`" },
-        { "const": "$gradient.shimmer-magic", "title": "$gradient.shimmer-magic", "description": "theme-light: 0%: #FEF0E700, 46%: #FEF0E78A, 54%: #FEF0E78A, 100%: #FEF0E700\ntheme-dark: 0%: #FEF0E700, 46%: #FEF0E71A, 54%: #FEF0E71A, 100%: #FEF0E700", "markdownDescription": "- theme-light: `0%: #FEF0E700, 46%: #FEF0E78A, 54%: #FEF0E78A, 100%: #FEF0E700`\n\n- theme-dark: `0%: #FEF0E700, 46%: #FEF0E71A, 54%: #FEF0E71A, 100%: #FEF0E700`" },
-        { "const": "$gradient.shimmer-neutral", "title": "$gradient.shimmer-neutral", "description": "theme-light: 0%: #FFFFFF00, 46%: #FFFFFF66, 54%: #FFFFFF66, 100%: #FFFFFF00\ntheme-dark: 0%: #FFFFFF00, 46%: #FFFFFF1A, 54%: #FFFFFF1A, 100%: #FFFFFF00", "markdownDescription": "- theme-light: `0%: #FFFFFF00, 46%: #FFFFFF66, 54%: #FFFFFF66, 100%: #FFFFFF00`\n\n- theme-dark: `0%: #FFFFFF00, 46%: #FFFFFF1A, 54%: #FFFFFF1A, 100%: #FFFFFF00`" },
+        { "const": "$gradient.fade-layer-default", "title": "$gradient.fade-layer-default", "description": "theme-light: 0%: #ffffff00, 100%: #000000\ntheme-dark: 0%: #16171b00, 100%: #000000", "markdownDescription": "- theme-light: `0%: #ffffff00, 100%: #000000`\n\n- theme-dark: `0%: #16171b00, 100%: #000000`" },
+        { "const": "$gradient.fade-layer-floating", "title": "$gradient.fade-layer-floating", "description": "theme-light: 0%: #ffffff00, 100%: #000000\ntheme-dark: 0%: #1d202500, 100%: #000000", "markdownDescription": "- theme-light: `0%: #ffffff00, 100%: #000000`\n\n- theme-dark: `0%: #1d202500, 100%: #000000`" },
+        { "const": "$gradient.glow-magic", "title": "$gradient.glow-magic", "description": "theme-light: 0%: #fef6f7, 80%: #fef0e7, 100%: #f9f7f5\ntheme-dark: 0%: #2d252d, 80%: #3a312b, 100%: #333232", "markdownDescription": "- theme-light: `0%: #fef6f7, 80%: #fef0e7, 100%: #f9f7f5`\n\n- theme-dark: `0%: #2d252d, 80%: #3a312b, 100%: #333232`" },
+        { "const": "$gradient.glow-magic-pressed", "title": "$gradient.glow-magic-pressed", "description": "theme-light: 0%: #fbf0f2, 80%: #ffe8db, 100%: #f5f2ef\ntheme-dark: 0%: #3e333e, 80%: #51453e, 100%: #434242", "markdownDescription": "- theme-light: `0%: #fbf0f2, 80%: #ffe8db, 100%: #f5f2ef`\n\n- theme-dark: `0%: #3e333e, 80%: #51453e, 100%: #434242`" },
+        { "const": "$gradient.highlight-magic", "title": "$gradient.highlight-magic", "description": "theme-light: 20%: #ff6600, 100%: #d25aca\ntheme-dark: 20%: #ff6600, 100%: #d25aca", "markdownDescription": "- theme-light: `20%: #ff6600, 100%: #d25aca`\n\n- theme-dark: `20%: #ff6600, 100%: #d25aca`" },
+        { "const": "$gradient.shimmer-magic", "title": "$gradient.shimmer-magic", "description": "theme-light: 0%: #fff9f500, 46%: #fff9f58a, 54%: #fff9f58a, 100%: #fff9f500\ntheme-dark: 0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500", "markdownDescription": "- theme-light: `0%: #fff9f500, 46%: #fff9f58a, 54%: #fff9f58a, 100%: #fff9f500`\n\n- theme-dark: `0%: #fff9f500, 46%: #fff9f51a, 54%: #fff9f51a, 100%: #fff9f500`" },
+        { "const": "$gradient.shimmer-neutral", "title": "$gradient.shimmer-neutral", "description": "theme-light: 0%: #ffffff00, 46%: #ffffff66, 54%: #ffffff66, 100%: #ffffff00\ntheme-dark: 0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00", "markdownDescription": "- theme-light: `0%: #ffffff00, 46%: #ffffff66, 54%: #ffffff66, 100%: #ffffff00`\n\n- theme-dark: `0%: #ffffff00, 46%: #ffffff1a, 54%: #ffffff1a, 100%: #ffffff00`" },
         { "const": "$line-height.t1", "title": "$line-height.t1", "description": "default: 0.9375rem", "markdownDescription": "- default: `0.9375rem`" },
         { "const": "$line-height.t10", "title": "$line-height.t10", "description": "default: 2.1875rem", "markdownDescription": "- default: `2.1875rem`" },
         { "const": "$line-height.t2", "title": "$line-height.t2", "description": "default: 1rem", "markdownDescription": "- default: `1rem`" },

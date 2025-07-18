@@ -35,12 +35,12 @@ export const baseOptions: HomeLayoutProps = {
 
 export const docsOptions: DocsLayoutProps = {
   ...baseOptions,
-  tree: source.pageTree,
+  tree: await source.getTransformedPageTree(),
 };
 
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
-  tree: reactSource.pageTree,
+  tree: await reactSource.getTransformedReactPageTree(),
   nav: {
     ...baseOptions.nav,
     transparentMode: "none",

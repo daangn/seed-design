@@ -79,6 +79,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           },
           "deprecated": {
             "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string"
           }
         },
         "required": ["id", "name"],

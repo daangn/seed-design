@@ -1,5 +1,26 @@
 # @seed-design/css
 
+## 0.1.3
+
+### Patch Changes
+
+- cdc0930: `@seed-design/stackflow` 백스와이프 애니메이션 개선
+
+  - iOS 스타일 화면 전환 애니메이션의 지속 시간과 타이밍 함수가 `300ms`에서 `350ms`로 조정되어 더 부드러운 전환 효과를 제공합니다.
+  - 스와이프 백 제스처 시 애니메이션이 보다 자연스럽고 일관되게 표현됩니다.
+  - 스와이프 백 종료 시 CSS 변수를 활용해 전환 상태를 명확히 하여 사용자 경험이 개선되었습니다.
+
+- 946faf7: 그라디언트 토큰 추가 및 변경
+
+  - `fade-layer-floating`, `fade-layer-default` 토큰이 추가되었습니다.
+  - `$gradient.shimmer-magic` 토큰 stop color가 변경되었습니다.
+
+- 71c58fd: iOS Font Scaling
+
+  - iOS 기기에서 시스템 폰트 크기 설정에 따라 동적으로 폰트 크기와 줄 높이를 조정하는 폰트 스케일링 옵션이 추가되었습니다.
+  - 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
+  - `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
+
 ## 0.1.2
 
 ### Patch Changes
