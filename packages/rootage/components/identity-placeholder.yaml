@@ -4,6 +4,16 @@ metadata:
   id: identity-placeholder
   name: Identity Placeholder
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+      image:
+        properties:
+          color:
+            type: color
   definitions:
     base:
       enabled:

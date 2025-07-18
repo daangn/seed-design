@@ -4,6 +4,26 @@ metadata:
   id: tab
   name: Tab
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:

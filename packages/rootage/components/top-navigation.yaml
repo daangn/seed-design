@@ -5,6 +5,44 @@ metadata:
   id: top-navigation
   name: Top Navigation
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          color:
+            type: color
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          targetSize:
+            type: dimension
+          color:
+            type: color
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          fontWeight:
+            type: number
+      subtitle:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     theme=cupertino:
       enabled:

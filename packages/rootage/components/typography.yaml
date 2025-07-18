@@ -4,6 +4,16 @@ metadata:
   id: typography
   name: Typography
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     textStyle=screenTitle:
       enabled:
