@@ -1,6 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { disabled, pseudo } from "../utils/pseudo";
-import { radio as vars } from "../vars/component";
+import { radio as vars, radiomark as radiomarkVars } from "../vars/component";
 
 const radio = defineSlotRecipe({
   name: "radio",
@@ -46,7 +46,7 @@ const radio = defineSlotRecipe({
       large: {
         root: {
           minHeight: vars.sizeLarge.enabled.root.minHeight,
-          "--radiomark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${vars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
+          "--radiomark-margin-top": `calc((${vars.sizeLarge.enabled.root.minHeight} - ${radiomarkVars.sizeLarge.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -57,7 +57,7 @@ const radio = defineSlotRecipe({
       medium: {
         root: {
           minHeight: vars.sizeMedium.enabled.root.minHeight,
-          "--radiomark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${vars.sizeMedium.enabled.root.size}) / 2)`, // 수직 위치 보정
+          "--radiomark-margin-top": `calc((${vars.sizeMedium.enabled.root.minHeight} - ${radiomarkVars.sizeMedium.enabled.root.size}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
