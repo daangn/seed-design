@@ -51,16 +51,22 @@ function handleBleed(
   return handleDimension(dimension);
 }
 
-function handlePaddingWithSafeArea(
+export function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
   safeArea: boolean | undefined,
   direction: "top" | "bottom",
 ): string | undefined {
-  const paddingValue = handleDimension(padding);
   const safeAreaVar = `var(--seed-safe-area-${direction})`;
 
+  // Check if padding is "safeArea" string
+  if (padding === "safeArea") {
+    return safeAreaVar;
+  }
+
+  const paddingValue = handleDimension(padding);
+
   // Both padding and safe area boolean are specified
-  if (safeArea && paddingValue && padding !== "safeArea") {
+  if (safeArea && paddingValue) {
     return `calc(${paddingValue} + ${safeAreaVar})`;
   }
 

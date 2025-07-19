@@ -32,7 +32,8 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "vite build",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "test": "vitest"
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.2",
