@@ -4,6 +4,32 @@ metadata:
   id: tablist
   name: Tablist
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          strokeBottomWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          paddingX:
+            type: dimension
+          height:
+            type: dimension
+      indicator:
+        properties:
+          height:
+            type: dimension
+          color:
+            type: color
+          transformDuration:
+            type: duration
+          transformTimingFunction:
+            type: cubicBezier
+          insetX:
+            type: dimension
   definitions:
     base:
       enabled:

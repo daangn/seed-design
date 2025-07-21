@@ -4,6 +4,14 @@ metadata:
   id: chip-tablist
   name: Chip Tablist
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
   definitions:
     base:
       enabled:
