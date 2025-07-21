@@ -8,7 +8,21 @@
     "id": "typography",
     "name": "Typography",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "variants": {
         "textStyle": {
           "values": {

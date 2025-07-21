@@ -8,7 +8,28 @@
     "id": "avatar-stack",
     "name": "Avatar Stack",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "item": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "size": {
           "values": {
