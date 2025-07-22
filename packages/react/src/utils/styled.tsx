@@ -53,26 +53,13 @@ function handleBleed(
 
 export function handlePaddingWithSafeArea(
   padding: string | 0 | undefined,
-  safeArea: boolean | undefined,
   direction: "top" | "bottom",
 ): string | undefined {
-  const safeAreaVar = `var(--seed-safe-area-${direction})`;
-
-  // Check if padding is "safeArea" string
   if (padding === "safeArea") {
-    return safeAreaVar;
+    return `var(--seed-safe-area-${direction})`;
   }
 
   const paddingValue = handleDimension(padding);
-
-  // Both padding and safe area boolean are specified
-  if (safeArea && paddingValue) {
-    return `calc(${paddingValue} + ${safeAreaVar})`;
-  }
-
-  if (safeArea && !paddingValue) {
-    return safeAreaVar;
-  }
 
   return paddingValue;
 }
@@ -495,18 +482,6 @@ export interface StyleProps {
   // NOTE: Not sure how to treat transform/translate right now, mark as unstable until we have a better solution.
   unstable_transform?: string;
 
-  /**
-   * Apply safe area inset as top padding.
-   * When used with paddingTop/pt, both values will be combined.
-   */
-  safeAreaTop?: boolean;
-
-  /**
-   * Apply safe area inset as bottom padding.
-   * When used with paddingBottom/pb, both values will be combined.
-   */
-  safeAreaBottom?: boolean;
-
   _active?: {
     bg?: ScopedColorBg | ScopedColorPalette | (string & {});
 
@@ -588,8 +563,6 @@ export function useStyleProps<T extends UseStyleProps>(
     alignSelf,
     gap,
     unstable_transform,
-    safeAreaTop,
-    safeAreaBottom,
     _active,
     style,
     ...restProps
@@ -628,13 +601,9 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-padding": handleDimension(padding ?? p),
       "--seed-box-padding-x": handleDimension(paddingX ?? px),
       "--seed-box-padding-y": handleDimension(paddingY ?? py),
-      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, safeAreaTop, "top"),
+      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
       "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
-      "--seed-box-padding-bottom": handlePaddingWithSafeArea(
-        paddingBottom ?? pb,
-        safeAreaBottom,
-        "bottom",
-      ),
+      "--seed-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
       "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
       "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
       "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
