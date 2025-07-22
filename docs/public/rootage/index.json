@@ -51,6 +51,9 @@
       "path": "/components/chip-tablist.json"
     },
     {
+      "path": "/components/chip.json"
+    },
+    {
       "path": "/components/contextual-floating-button.json"
     },
     {

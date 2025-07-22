@@ -93,6 +93,12 @@ export const registryUI: RegistryUI = [
     files: ["ui:control-chip.tsx"],
   },
   {
+    name: "chip",
+    dependencies: ["@seed-design/react"],
+    innerDependencies: ["ui:avatar"],
+    files: ["ui:chip.tsx"],
+  },
+  {
     name: "checkbox",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:checkbox.tsx"],

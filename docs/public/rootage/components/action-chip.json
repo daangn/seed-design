@@ -2,7 +2,9 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "action-chip",
-    "name": "Action Chip"
+    "name": "Action Chip",
+    "deprecated": "Use Chip.Button with variant=\"solid\" instead.",
+    "lastUpdated": "25-07-16"
   },
   "data": {
     "id": "action-chip",

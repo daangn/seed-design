@@ -181,6 +181,18 @@
     ]
   },
   {
+    "name": "chip",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "innerDependencies": [
+      "ui:avatar"
+    ],
+    "files": [
+      "ui:chip.tsx"
+    ]
+  },
+  {
     "name": "checkbox",
     "dependencies": [
       "@seed-design/react",
