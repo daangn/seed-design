@@ -1,16 +1,12 @@
 export declare const metadata: {
   "name": "🟢 Floating Action Button",
-  "key": "1974b94703032585bb9e20bd54743e01094b965c",
+  "key": "65f9e7eede627b893fb8ff94ed9a7d0db900c464",
   "componentPropertyDefinitions": {
-    "Icon#28796:0": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
-    },
-    "State": {
+    "Type": {
       "type": "VARIANT",
       "variantOptions": [
-        "Enabled",
-        "Pressed"
+        "Button",
+        "Menu"
       ]
     }
   }

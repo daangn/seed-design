@@ -1,36 +1,26 @@
 export const metadata = {
-  "name": "🟢 Text Button",
-  "key": "601f788792916250e33d04bd3165dee1404342df",
+  "name": "🟢 Contextual Floating Button",
+  "key": "032f3fddaad0aa3fa5a7f680768c1f5d02fb463f",
   "componentPropertyDefinitions": {
-    "Prefix Icon#7561:0": {
+    "Icon#28796:0": {
       "type": "INSTANCE_SWAP",
       "preferredValues": []
     },
-    "Label#6148:0": {
+    "Label#28936:0": {
       "type": "TEXT"
-    },
-    "Size": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Small",
-        "Medium",
-        "Large"
-      ]
     },
     "Layout": {
       "type": "VARIANT",
       "variantOptions": [
         "Icon First",
-        "Icon Last"
+        "Icon Only"
       ]
     },
-    "Tone": {
+    "Variant": {
       "type": "VARIANT",
       "variantOptions": [
-        "Neutral",
-        "Neutral Subtle",
-        "Brand",
-        "Critical"
+        "Solid",
+        "Layer"
       ]
     },
     "State": {
@@ -38,6 +28,7 @@ export const metadata = {
       "variantOptions": [
         "Enabled",
         "Pressed",
+        "Loading",
         "Disabled"
       ]
     }

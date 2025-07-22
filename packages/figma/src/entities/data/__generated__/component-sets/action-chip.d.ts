@@ -2,9 +2,14 @@ export declare const metadata: {
   "name": "🟢 Action Chip",
   "key": "3d21594ef116e94a9465d507447b858aea062575",
   "componentPropertyDefinitions": {
-    "Icon#8714:0": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
+    "Label#7185:0": {
+      "type": "TEXT"
+    },
+    "Count#7185:21": {
+      "type": "TEXT"
+    },
+    "Show Count#7185:42": {
+      "type": "BOOLEAN"
     },
     "Prefix Icon#8711:0": {
       "type": "INSTANCE_SWAP",
@@ -19,14 +24,9 @@ export declare const metadata: {
       "type": "INSTANCE_SWAP",
       "preferredValues": []
     },
-    "Label#7185:0": {
-      "type": "TEXT"
-    },
-    "Show Count#7185:42": {
-      "type": "BOOLEAN"
-    },
-    "Count#7185:21": {
-      "type": "TEXT"
+    "Icon#8714:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
     },
     "Size": {
       "type": "VARIANT",

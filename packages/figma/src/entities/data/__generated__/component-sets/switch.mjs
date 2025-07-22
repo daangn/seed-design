@@ -18,7 +18,7 @@ export const metadata = {
         "Enabled",
         "Selected",
         "Disabled",
-        "Disabled-Selected"
+        "Selected-Disabled"
       ]
     }
   }

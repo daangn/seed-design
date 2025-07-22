@@ -5,6 +5,15 @@ export declare const metadata: {
     "Action Button#17406:0": {
       "type": "BOOLEAN"
     },
+    "Sub Title#20497:0": {
+      "type": "BOOLEAN"
+    },
+    "Large Title#20497:5": {
+      "type": "TEXT"
+    },
+    "Sub Title #20497:10": {
+      "type": "TEXT"
+    },
     "Variants": {
       "type": "VARIANT",
       "variantOptions": [
@@ -12,13 +21,6 @@ export declare const metadata: {
         "Standard",
         "Standard Transparent",
         "Large Title"
-      ]
-    },
-    "OS": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "iOS",
-        "Android"
       ]
     }
   }
