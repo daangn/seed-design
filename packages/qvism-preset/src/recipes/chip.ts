@@ -2,7 +2,7 @@ import { chip as vars } from "../vars/component";
 
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, checked, disabled, focus, not, pressed, pseudo } from "../utils/pseudo";
+import { active, checked, disabled, focus, not, pseudo } from "../utils/pseudo";
 
 const chip = defineSlotRecipe({
   name: "chip",
