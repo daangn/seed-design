@@ -439,5 +439,5 @@ export const tokens = {
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff1a 46%, #ffffff1a 54%, #ffffff00 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
-}`,
+}`
 };
