@@ -5,6 +5,42 @@ metadata:
   id: checkbox
   name: Checkbox
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+          minHeight:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      control:
+        properties:
+          color:
+            type: color
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+          size:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
   definitions:
     base:
       enabled:

@@ -8,7 +8,100 @@
     "id": "reaction-button",
     "name": "Reaction Button",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "count": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "prefixIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "progressCircle": {
+          "properties": {
+            "trackColor": {
+              "type": "color"
+            },
+            "rangeColor": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            },
+            "thickness": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "size": {
           "values": {

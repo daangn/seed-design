@@ -5,6 +5,50 @@ metadata:
   id: switch
   name: Switch
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          gap:
+            type: dimension
+          opacity:
+            type: number
+      control:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          width:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      thumb:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          width:
+            type: dimension
+          shadow:
+            type: shadow
+      label:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:
