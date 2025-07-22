@@ -84,13 +84,28 @@ export function createStringifier(options: { prefix?: string } = {}) {
     const value = valueOrToken(decl.values.find((v) => v.mode === mode)!.value);
     const MULTIPLIER_TOKEN = "var(--seed-font-size-multiplier)";
 
-    // Apply font-size multiplier for font-size tokens (excluding static ones)
-    if (decl.token.group.includes("font-size") && !decl.token.key.toString().includes("static")) {
-      return `${tokenName(decl.token)}: calc(${value} * ${MULTIPLIER_TOKEN});`;
+    // Handle static tokens first - no multiplier needed
+    if (decl.token.key.toString().includes("static")) {
+      return `${tokenName(decl.token)}: ${value};`;
     }
 
-    // Apply font-size multiplier for line-height tokens as well
-    if (decl.token.group.includes("line-height")) {
+    // Apply font-size multiplier for font-size and line-height tokens
+    const isFontSize = decl.token.group.includes("font-size");
+    const isLineHeight = decl.token.group.includes("line-height");
+
+    if (isFontSize || isLineHeight) {
+      // Extract numeric value and unit from the value (e.g., "1rem" → 1 and "rem")
+      const match = value.match(/^([\d.]+)(.*)$/);
+      if (match?.[1]) {
+        const numericValue = Number.parseFloat(match[1]);
+        const unit = match[2] || "";
+        const maxValue = `${(numericValue * 1.35).toFixed(4)}${unit}`;
+
+        // Use clamp to limit font size/line-height to 135% of the base value
+        return `${tokenName(decl.token)}: clamp(calc(${value} * ${MULTIPLIER_TOKEN}), calc(${value} * ${MULTIPLIER_TOKEN}), calc(${maxValue} * ${MULTIPLIER_TOKEN}));`;
+      }
+
+      // Fallback to original behavior if parsing fails
       return `${tokenName(decl.token)}: calc(${value} * ${MULTIPLIER_TOKEN});`;
     }
 

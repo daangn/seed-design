@@ -22,6 +22,11 @@ export const globalCss = defineGlobalCss({
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
     "@supports (font: -apple-system-body)": {
+      /**
+       * 0.9412 is the font size multiplier for iOS
+       * It converts iOS default 17px to web standard 16px
+       * Individual font sizes are clamped to max 135% in the token system
+       */
       "--seed-font-size-multiplier": "0.9412",
       font: "-apple-system-body",
     },
