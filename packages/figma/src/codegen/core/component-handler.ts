@@ -1,4 +1,4 @@
-import type { NormalizedInstanceNode } from "@/normalizer";
+import type { NormalizedInstanceNode, NormalizedSceneNode } from "@/normalizer";
 import type { ElementNode } from "./jsx";
 
 export interface ComponentHandler<
@@ -6,13 +6,17 @@ export interface ComponentHandler<
     NormalizedInstanceNode["componentProperties"] = NormalizedInstanceNode["componentProperties"],
 > {
   key: string;
-  transform: (node: NormalizedInstanceNode & { componentProperties: T }) => ElementNode;
+  transform: (
+    node: NormalizedInstanceNode & { componentProperties: T },
+    traverse: (node: NormalizedSceneNode) => ElementNode | undefined
+  ) => ElementNode;
 }
 
 export function defineComponentHandler<T extends NormalizedInstanceNode["componentProperties"]>(
   key: string,
   transform: (
     node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
+    traverse: (node: NormalizedSceneNode) => ElementNode | undefined
   ) => ElementNode,
 ): ComponentHandler<T> {
   return { key, transform };

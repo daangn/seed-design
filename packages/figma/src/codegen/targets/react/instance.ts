@@ -37,7 +37,7 @@ export function createInstanceTransformer({
       : componentHandlers[componentKey];
 
     if (componentHandler) {
-      return componentHandler.transform(node);
+      return componentHandler.transform(node, traverse);
     }
 
     return frameTransformer(node, traverse);
