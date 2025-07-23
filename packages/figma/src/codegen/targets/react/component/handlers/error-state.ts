@@ -12,30 +12,33 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("error-state");
 export const createErrorStateHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonHandler = createActionButtonHandler(ctx);
 
-  return defineComponentHandler<ErrorStateProperties>(metadata.templateErrorState.key, (node) => {
-    const props = node.componentProperties;
+  return defineComponentHandler<ErrorStateProperties>(
+    metadata.templateErrorState.key,
+    (node, traverse) => {
+      const props = node.componentProperties;
 
-    const [actionButtonNode] = findAllInstances<ActionButtonProperties>({
-      node,
-      key: actionButtonHandler.key,
-    });
+      const [actionButtonNode] = findAllInstances<ActionButtonProperties>({
+        node,
+        key: actionButtonHandler.key,
+      });
 
-    const commonProps = {
-      variant: camelCase(props.Variant.value),
-      ...(props.Layout.value === "With Title" && {
-        title: props["Title#16237:0"].value,
-      }),
-      description: props["Description#16237:5"].value,
-      ...(actionButtonNode && {
-        primaryActionProps: {
-          children: actionButtonHandler.transform(actionButtonNode).children[0],
-        },
-        secondaryActionProps: {
-          children: props["Secondary Action Label#17042:0"].value,
-        },
-      }),
-    };
+      const commonProps = {
+        variant: camelCase(props.Variant.value),
+        ...(props.Layout.value === "With Title" && {
+          title: props["Title#16237:0"].value,
+        }),
+        description: props["Description#16237:5"].value,
+        ...(actionButtonNode && {
+          primaryActionProps: {
+            children: actionButtonHandler.transform(actionButtonNode, traverse).children[0],
+          },
+          secondaryActionProps: {
+            children: props["Secondary Action Label#17042:0"].value,
+          },
+        }),
+      };
 
-    return createLocalSnippetElement("ErrorState", commonProps);
-  });
+      return createLocalSnippetElement("ErrorState", commonProps);
+    },
+  );
 };

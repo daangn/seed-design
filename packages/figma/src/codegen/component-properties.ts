@@ -64,6 +64,25 @@ export type ActionButtonGhostProperties = InferComponentDefinition<{
   };
 }>;
 
+export type AlertDialogProperties = InferComponentDefinition<
+  typeof metadata.alertDialog.componentPropertyDefinitions
+>;
+
+export type AlertDialogFooterProperties = InferComponentDefinition<{
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Single";
+    variantOptions: [
+      "Single",
+      "Neutral",
+      "Neutral (Overflow)",
+      "Critical",
+      "Critical (Overflow)",
+      "Nonpreferred",
+    ];
+  };
+}>;
+
 export type ActionChipProperties = InferComponentDefinition<
   typeof metadata.actionChip.componentPropertyDefinitions
 >;
