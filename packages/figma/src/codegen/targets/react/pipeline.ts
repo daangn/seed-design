@@ -29,6 +29,7 @@ import { createTextTransformer } from "./text";
 import {
   defaultRawValueFormatters,
   defaultStyleNameFormatter,
+  defaultStyleNameToGradient,
   defaultVariableNameFormatter,
 } from "./value-resolver";
 
@@ -52,6 +53,7 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     variableNameFormatter: defaultVariableNameFormatter,
     styleService,
     styleNameFormatter: defaultStyleNameFormatter,
+    styleNameToGradient: defaultStyleNameToGradient,
     rawValueFormatters: defaultRawValueFormatters,
     shouldInferVariableName,
   });

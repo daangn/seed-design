@@ -32,7 +32,9 @@ export type NormalizedHasLayoutTrait = Pick<
 export type NormalizedHasGeometryTrait = Pick<
   FigmaRestSpec.HasGeometryTrait,
   "fills" | "strokes" | "strokeWeight" | "styles"
->;
+> & {
+  fillStyleKey?: string;
+};
 
 export type NormalizedHasFramePropertiesTrait = Pick<
   FigmaRestSpec.HasFramePropertiesTrait,

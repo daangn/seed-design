@@ -16,11 +16,11 @@ import {
 import type { RGBA } from "@figma/rest-api-spec";
 import type { VariableService } from "../../entities/variable.service";
 
-export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   getFormattedValue: {
     frameFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
-    ) => string | TColor | undefined;
+    ) => string | TColor | TGradient | undefined;
     shapeFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
     ) => string | TColor | undefined;
@@ -90,11 +90,13 @@ export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> 
   ) => string | undefined; // TODO: we might turn this into a generic; not sure yet
 }
 
-export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   variableService: VariableService;
   variableNameFormatter: (props: { slug: string[] }) => string;
   styleService: StyleService;
   styleNameFormatter: (props: { slug: string[] }) => string;
+  // TODO: rename
+  styleNameToGradient: (props: { slug: string[] }) => TGradient | undefined;
   rawValueFormatters: {
     color: (value: RGBA) => string | TColor;
     dimension: (value: number) => string | TDimension;
@@ -104,15 +106,17 @@ export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeig
   shouldInferVariableName: boolean;
 }
 
-export function createValueResolver<TColor, TDimension, TFontDimension, TFontWeight>({
+export function createValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight>({
   variableService,
   variableNameFormatter,
   styleService,
   styleNameFormatter,
+  styleNameToGradient,
   rawValueFormatters,
   shouldInferVariableName,
-}: ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight>): ValueResolver<
+}: ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight>): ValueResolver<
   TColor,
+  TGradient,
   TDimension,
   TFontDimension,
   TFontWeight
@@ -165,6 +169,16 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     }
 
     return undefined;
+  }
+
+  function processGradient(key: string) {
+    const slug = styleService.getSlug(key);
+
+    if (!slug) {
+      return undefined;
+    }
+
+    return styleNameToGradient({ slug });
   }
 
   function processDimension(
@@ -229,6 +243,7 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
 
   const getFormattedValue: ValueResolver<
     TColor,
+    TGradient,
     TDimension,
     TFontDimension,
     TFontWeight
@@ -264,7 +279,14 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
     frameFill: (node) =>
-      processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "FRAME_FILL"),
+      // TODO: fill style이 있으면 항상 gradient라고 할 수 있나? 이걸 core에 결부시켜도 되나
+      node.fillStyleKey
+        ? processGradient(node.fillStyleKey)
+        : processColor(
+            getFirstFillVariable(node)?.id,
+            getFirstSolidFill(node)?.color,
+            "FRAME_FILL",
+          ),
     shapeFill: (node) =>
       processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "SHAPE_FILL"),
     textFill: (node) =>
