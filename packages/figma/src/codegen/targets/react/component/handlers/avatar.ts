@@ -2,12 +2,13 @@ import type {
   AvatarProperties,
   IdentityPlaceholderProperties,
 } from "@/codegen/component-properties";
-import { defineComponentHandler } from "@/codegen/core";
+import { createElement, defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { findAllInstances } from "@/utils/figma-node";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { createIdentityPlaceholderHandler } from "./identity-placeholder";
+import { camelCase } from "change-case";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("avatar");
 
@@ -21,7 +22,7 @@ export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
     });
     const { componentProperties: props } = node;
 
-    const avatarHasSrc = props["Show Image#71850:57"].value;
+    const avatarHasSrc = props["Has Image Contents#33407:0"].value;
 
     const commonProps = {
       ...(avatarHasSrc && {
@@ -31,16 +32,24 @@ export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
       ...(placeholder && {
         fallback: identityPlaceholderHandler.transform(placeholder),
       }),
+      ...(props["Badge"].value !== "None" && {
+        badgeMask: camelCase(props["Badge"].value),
+      }),
       size: props.Size.value,
     };
 
     return createLocalSnippetElement(
       "Avatar",
       commonProps,
-      props["Show Badge#1398:26"].value ? createLocalSnippetElement("AvatarBadge", {}) : undefined,
-      {
-        comment: avatarHasSrc ? "alt 텍스트를 제공해야 합니다." : undefined,
-      },
+      props["Badge"].value === "None"
+        ? undefined
+        : createLocalSnippetElement(
+            "AvatarBadge",
+            { asChild: true },
+            createElement("img", { src: "https://placehold.co/20x20" }),
+            { comment: "뱃지를 설명하는 alt 텍스트를 제공해야 합니다." },
+          ),
+      { comment: avatarHasSrc ? "alt 텍스트를 제공해야 합니다." : undefined },
     );
   });
 };

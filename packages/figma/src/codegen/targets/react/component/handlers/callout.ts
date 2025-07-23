@@ -79,10 +79,12 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
         tone: camelCase(props.Tone.value),
         title,
         description,
-        linkProps: {
-          children: linkLabel,
-        },
-        ...(props["Icon#12598:210"].value && {
+        ...(linkLabel && {
+          linkProps: {
+            children: linkLabel,
+          },
+        }),
+        ...(props["Show Prefix Icon#35087:1"].value && {
           prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#35087:0"]),
         }),
       };

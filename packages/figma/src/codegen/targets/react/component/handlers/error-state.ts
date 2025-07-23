@@ -12,7 +12,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("error-state");
 export const createErrorStateHandler = (ctx: ComponentHandlerDeps) => {
   const actionButtonHandler = createActionButtonHandler(ctx);
 
-  return defineComponentHandler<ErrorStateProperties>(metadata.errorState.key, (node) => {
+  return defineComponentHandler<ErrorStateProperties>(metadata.templateErrorState.key, (node) => {
     const props = node.componentProperties;
 
     const [actionButtonNode] = findAllInstances<ActionButtonProperties>({

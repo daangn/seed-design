@@ -1,13 +1,14 @@
 import type { IdentityPlaceholderProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
-import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
 import { createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
+const IDENTITY_PLACEHOLDER_KEY = "b3563b6f16ba4cfe4240c9b33eef7edad4c304eb";
+
 export const createIdentityPlaceholderHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<IdentityPlaceholderProperties>(
-    metadata.identityPlaceholder.key,
+    IDENTITY_PLACEHOLDER_KEY,
     ({ componentProperties: props }) => {
       const commonProps = {
         identity: camelCase(props.Identity.value),

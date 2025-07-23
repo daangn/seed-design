@@ -59,40 +59,37 @@ const createExtendedActionSheetGroupHandler = (ctx: ComponentHandlerDeps) => {
 export const createExtendedActionSheetHandler = (ctx: ComponentHandlerDeps) => {
   const extendedActionSheetGroupHandler = createExtendedActionSheetGroupHandler(ctx);
 
-  return defineComponentHandler<ExtendedActionSheetProperties>(
-    metadata.extendedActionSheet.key,
-    (node) => {
-      const { componentProperties: props } = node;
+  return defineComponentHandler<ExtendedActionSheetProperties>(metadata.menuSheet.key, (node) => {
+    const { componentProperties: props } = node;
 
-      const groups = findAllInstances<ExtendedActionSheetGroupProperties>({
-        node,
-        key: extendedActionSheetGroupHandler.key,
-      });
+    const groups = findAllInstances<ExtendedActionSheetGroupProperties>({
+      node,
+      key: extendedActionSheetGroupHandler.key,
+    });
 
-      const contentChildren = groups.map(extendedActionSheetGroupHandler.transform);
+    const contentChildren = groups.map(extendedActionSheetGroupHandler.transform);
 
-      const title = props["Show Title#17043:12"].value ? props["Title#14599:0"].value : undefined;
+    const title = props["Show Title#17043:12"].value ? props["Title#14599:0"].value : undefined;
 
-      const content = createLocalSnippetElement(
-        "ExtendedActionSheetContent",
-        { title },
-        contentChildren,
-        {
-          comment: title
-            ? undefined
-            : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
-        },
-      );
+    const content = createLocalSnippetElement(
+      "ExtendedActionSheetContent",
+      { title },
+      contentChildren,
+      {
+        comment: title
+          ? undefined
+          : "title을 제공하지 않는 경우 aria-label이나 aria-labelledby 중 하나를 제공해야 합니다.",
+      },
+    );
 
-      const trigger = createLocalSnippetElement(
-        "ExtendedActionSheetTrigger",
-        { asChild: true },
-        createElement("button", undefined, "열기", {
-          comment: "ExtendedActionSheet을 여는 요소를 제공해주세요.",
-        }),
-      );
+    const trigger = createLocalSnippetElement(
+      "ExtendedActionSheetTrigger",
+      { asChild: true },
+      createElement("button", undefined, "열기", {
+        comment: "ExtendedActionSheet을 여는 요소를 제공해주세요.",
+      }),
+    );
 
-      return createLocalSnippetElement("ExtendedActionSheet", undefined, [trigger, content]);
-    },
-  );
+    return createLocalSnippetElement("ExtendedActionSheet", undefined, [trigger, content]);
+  });
 };

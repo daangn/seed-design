@@ -14,6 +14,10 @@ const TITLE_NODE_NAME = "Title";
 const RIGHT_NODE_NAME = "RightSlot";
 
 export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
+  const appBarMainHandler = createAppBarMainHandler(ctx);
+  const appBarLeftHandler = createAppBarLeftHandler(ctx);
+  const appBarRightHandler = createAppBarRightHandler(ctx);
+
   return defineComponentHandler<AppBarProperties>(metadata.topNavigation.key, (node) => {
     const props = node.componentProperties;
 
