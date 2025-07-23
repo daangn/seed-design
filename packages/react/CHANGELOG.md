@@ -1,5 +1,24 @@
 # @seed-design/react
 
+## 0.1.4
+
+### Patch Changes
+
+- 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+  - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+  - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+- 56e03ca: Layout 컴포넌트 `pb`, `pt`, `paddingBottom`, `paddingTop` 속성에 `safeArea` 값을 지정할 수 있도록 지원
+
+  ```tsx
+  <Box pt="safeArea" paddingTop="safeArea" />
+  <Box pb="safeArea" paddingBottom="safeArea" />
+  ```
+
+- Updated dependencies [0ffcd48]
+  - @seed-design/css@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
