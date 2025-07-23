@@ -136,6 +136,7 @@ export function createPluginNormalizer() {
       "textStyleId",
       "fills",
       "boundVariables",
+      "textDecoration",
     ]);
     const first = segments[0]!;
 
