@@ -60,7 +60,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       );
 
       const stack = createSeedReactElement(
-        "Stack",
+        "VStack",
         { gap: "spacingY.componentDefault" },
         selectBoxes.map(selectBoxHandler.transform),
       );

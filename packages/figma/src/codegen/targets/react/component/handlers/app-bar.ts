@@ -1,137 +1,24 @@
-import type {
-  AppBarLeftProperties,
-  AppBarMainProperties,
-  AppBarProperties,
-  AppBarRightProperties,
-} from "@/codegen/component-properties";
+import type { AppBarProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
 import { findAll, findAllInstances, findOne } from "@/utils/figma-node";
 import { match } from "ts-pattern";
-import { createLocalSnippetHelper } from "../../element-factories";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("app-bar");
 
-const APP_BAR_MAIN_KEY = "336b49b26c3933485d87cc460b06c390976ea58e";
-const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarMainProperties>(
-    APP_BAR_MAIN_KEY,
-    ({ componentProperties: props }) => {
-      const { title, subtitle, layout } = match(props.Type.value)
-        .with("Title", () => ({
-          title: props["Title#16944:0"].value,
-          subtitle: undefined,
-          layout: undefined,
-        }))
-        .with("Title-Subtitle", () => ({
-          title: props["Title#16944:0"].value,
-          subtitle: props["Subtitle#16958:9"].value,
-          layout: "withSubtitle",
-        }))
-        .otherwise(() => ({
-          title: undefined,
-          subtitle: undefined,
-          layout: undefined,
-        }));
-
-      const commonProps = {
-        title,
-        subtitle,
-        layout,
-      };
-
-      return createLocalSnippetElement("AppBarMain", commonProps, undefined, {
-        comment: title === undefined ? "Title을 제공해주세요." : undefined,
-      });
-    },
-  );
-
-const APP_BAR_LEFT_KEY = "e5d2e47052a22395db79f195a0991a570dc1b6c9";
-const createAppBarLeftHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarLeftProperties>(APP_BAR_LEFT_KEY, (node) => {
-    const props = node.componentProperties;
-
-    const children = (() => {
-      switch (props.Action.value) {
-        case "Back":
-          return createLocalSnippetElement("AppBarBackButton");
-        case "Close":
-          return createLocalSnippetElement("AppBarCloseButton");
-        case "Other": {
-          const iconNode = findOne(
-            node,
-            (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as NormalizedInstanceNode | null;
-
-          if (!iconNode) {
-            return undefined;
-          }
-
-          return createLocalSnippetElement(
-            "AppBarIconButton",
-            undefined,
-            ctx.iconHandler.transform(iconNode),
-            {
-              comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
-            },
-          );
-        }
-      }
-    })();
-
-    return createLocalSnippetElement("AppBarLeft", undefined, children);
-  });
-
-const APP_BAR_RIGHT_KEY = "9e157fc2d1f89ffee938a5bc62f4a58064fec44e";
-const createAppBarRightHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarRightProperties>(APP_BAR_RIGHT_KEY, (node) => {
-    const props = node.componentProperties;
-
-    const children = (() => {
-      switch (props.Type.value) {
-        case "1 Text": {
-          const textNode = findOne(
-            node,
-            (child) => child.type === "TEXT",
-          ) as NormalizedTextNode | null;
-
-          return textNode?.characters;
-        }
-        default: {
-          const iconNodes = findAll(
-            node,
-            (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as NormalizedInstanceNode[];
-
-          return iconNodes.map((iconNode) =>
-            createLocalSnippetElement(
-              "AppBarIconButton",
-              undefined,
-              ctx.iconHandler.transform(iconNode),
-              {
-                comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
-              },
-            ),
-          );
-        }
-      }
-    })();
-
-    return createLocalSnippetElement("AppBarRight", undefined, children);
-  });
+const LEFT_NODE_NAME = "LeftWrapper";
+const TITLE_NODE_NAME = "Title";
+const RIGHT_NODE_NAME = "RightSlot";
 
 export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
-  const appBarMainHandler = createAppBarMainHandler(ctx);
-  const appBarLeftHandler = createAppBarLeftHandler(ctx);
-  const appBarRightHandler = createAppBarRightHandler(ctx);
-
-  return defineComponentHandler<AppBarProperties>(metadata.standardNavigation.key, (node) => {
+  return defineComponentHandler<AppBarProperties>(metadata.topNavigation.key, (node) => {
     const props = node.componentProperties;
 
     const theme = (() => {
-      switch (props.OS.value) {
+      switch (props["OS (Figma Only)"].value) {
         case "Android":
           return "android";
         case "iOS":
@@ -148,26 +35,84 @@ export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
       }
     })();
 
-    const mainNode = findAllInstances<AppBarMainProperties>({
-      key: appBarMainHandler.key,
-      node,
-    });
-    const onlyMainNode = mainNode.length === 1 ? mainNode[0] : undefined;
-    const main = onlyMainNode ? appBarMainHandler.transform(onlyMainNode) : undefined;
+    const titleNode = findOne(node, (n) => n.type === "TEXT" && n.name === TITLE_NODE_NAME) as
+      | NormalizedTextNode
+      | undefined;
 
-    const leftNode = findAllInstances<AppBarLeftProperties>({
-      key: appBarLeftHandler.key,
-      node,
-    });
-    const onlyLeftNode = leftNode.length === 1 ? leftNode[0] : undefined;
-    const left = onlyLeftNode ? appBarLeftHandler.transform(onlyLeftNode) : undefined;
+    const main = titleNode
+      ? createLocalSnippetElement("AppBarMain", { title: titleNode.characters })
+      : undefined;
 
-    const rightNode = findAllInstances<AppBarRightProperties>({
-      key: appBarRightHandler.key,
-      node,
-    });
-    const onlyRightNode = rightNode.length === 1 ? rightNode[0] : undefined;
-    const right = onlyRightNode ? appBarRightHandler.transform(onlyRightNode) : undefined;
+    const left = (() => {
+      switch (props["Left"].value) {
+        case "Back":
+          return createLocalSnippetElement("AppBarBackButton");
+        case "Close":
+          return createLocalSnippetElement("AppBarCloseButton");
+        case "Custom": {
+          const container = findOne(node, (n) => n.type === "FRAME" && n.name === LEFT_NODE_NAME);
+          
+          if (container) {
+            // Find icon instances within the container
+            const iconInstances = findAllInstances(container);
+            
+            if (iconInstances.length > 0) {
+              // Get the first icon instance
+              const iconInstance = iconInstances[0];
+              return createLocalSnippetElement("AppBarIconButton", {
+                icon: iconInstance.name,
+              });
+            }
+          }
+          
+          return undefined;
+        }
+        case "None":
+          return undefined;
+      }
+    })();
+
+    const right = (() => {
+      switch (props["Right"].value) {
+        case "1 Icon Button":
+        case "2 Icon Button":
+        case "3 Icon Button": {
+          const rightContainer = findOne(node, (n) => n.type === "FRAME" && n.name === RIGHT_NODE_NAME);
+          
+          if (rightContainer) {
+            const iconInstances = findAllInstances(rightContainer);
+            const iconButtons = iconInstances.map((iconInstance) =>
+              createLocalSnippetElement("AppBarIconButton", {
+                icon: iconInstance.name,
+              })
+            );
+            
+            return iconButtons.length > 0
+              ? createLocalSnippetElement("AppBarRight", {}, iconButtons)
+              : undefined;
+          }
+          
+          return undefined;
+        }
+        case "Text Button": {
+          const rightContainer = findOne(node, (n) => n.type === "FRAME" && n.name === RIGHT_NODE_NAME);
+          
+          if (rightContainer) {
+            const textNode = findOne(rightContainer, (n) => n.type === "TEXT") as NormalizedTextNode | undefined;
+            
+            if (textNode) {
+              return createLocalSnippetElement("AppBarRight", {}, [
+                createLocalSnippetElement("AppBarTextButton", {}, textNode.characters)
+              ]);
+            }
+          }
+          
+          return undefined;
+        }
+        case "None":
+          return undefined;
+      }
+    })();
 
     return createLocalSnippetElement(
       "AppBar",

@@ -14,7 +14,7 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props, children }) => {
       const tag = (() => {
         switch (props.Interaction.value) {
-          case "Default":
+          case "Display":
             return "Callout";
           case "Actionable":
             return "ActionableCallout";
@@ -83,7 +83,7 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
           children: linkLabel,
         },
         ...(props["Icon#12598:210"].value && {
-          prefixIcon: ctx.iconHandler.transform(props["Icon#12598:210"]),
+          prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#35087:0"]),
         }),
       };
 
