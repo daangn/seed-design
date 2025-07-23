@@ -349,23 +349,59 @@ export function createPluginNormalizer() {
     };
   }
 
-  async function normalizeBoundVariables(node: Pick<FrameNode, "boundVariables">) {
+  async function normalizeBoundVariables({
+    boundVariables,
+  }: Pick<FrameNode, "boundVariables">): Promise<FigmaRestSpec.IsLayerTrait["boundVariables"]> {
+    if (!boundVariables) return undefined;
+
+    const { width, height, componentProperties: _componentProperties, ...rest } = boundVariables;
+
+    // replace VariableAlias' id with the actual variable key
+    const resolveVariableId = async (variable: VariableAlias): Promise<VariableAlias> => ({
+      ...variable,
+      id: (await figma.variables.getVariableByIdAsync(variable.id))?.key ?? variable.id,
+    });
+
+    const needsResolution = [
+      "fills",
+      "itemSpacing",
+      "counterAxisSpacing",
+      "bottomLeftRadius",
+      "bottomRightRadius",
+      "topLeftRadius",
+      "topRightRadius",
+      "paddingBottom",
+      "paddingLeft",
+      "paddingRight",
+      "paddingTop",
+      "maxHeight",
+      "minHeight",
+      "maxWidth",
+      "minWidth",
+    ];
+
+    // Process all properties in parallel
+    const resolvedEntries = await Promise.all(
+      Object.entries(rest).map(async ([key, value]) => {
+        if (!value || !needsResolution.includes(key)) return [key, value];
+
+        if (Array.isArray(value)) {
+          return [key, await Promise.all(value.map(resolveVariableId))];
+        }
+
+        return [key, await resolveVariableId(value)];
+      }),
+    );
+
     return {
-      ...node.boundVariables,
-      fills: await Promise.all(
-        node.boundVariables?.fills?.map((fill) =>
-          figma.variables.getVariableByIdAsync(fill.id).then((res) => {
-            return {
-              ...fill,
-              id: res?.key ?? fill.id,
-            };
-          }),
-        ) ?? [],
-      ),
-      size: {
-        x: node.boundVariables?.width,
-        y: node.boundVariables?.height,
-      },
+      ...Object.fromEntries(resolvedEntries),
+      ...(width &&
+        height && {
+          size: {
+            x: width,
+            y: height,
+          },
+        }),
     };
   }
 
