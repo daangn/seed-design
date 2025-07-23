@@ -9,6 +9,8 @@
     "...(typography)",
     "---Components---",
     "...",
+    "action-chip",
+    "control-chip",
     "fab",
     "extended-fab"
   ]
