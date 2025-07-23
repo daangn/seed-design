@@ -11,7 +11,9 @@ export interface ComponentHandler<
 
 export function defineComponentHandler<T extends NormalizedInstanceNode["componentProperties"]>(
   key: string,
-  transform: (node: NormalizedInstanceNode & { componentProperties: T }) => ElementNode,
+  transform: (
+    node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
+  ) => ElementNode,
 ): ComponentHandler<T> {
   return { key, transform };
 }
