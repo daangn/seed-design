@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "puppeteer": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer@latest"]
+    },
+    "seed-design": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"]
+    }
+  }
+}
