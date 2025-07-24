@@ -46,10 +46,15 @@
 - **Important Notes**:
   - React 컴포넌트 제작 후에는 `bun package:build` 명령어를 실행해 컴포넌트를 빌드해주세요.
 
-## 6. Registry UI 컴포넌트
+## (Optional) 6. Registry UI 컴포넌트
 - **Path**: `@docs/registry/ui/[$component-name].tsx`
 - **Description**: 문서 사이트에서 사용할 컴포넌트 snippet
+- **Note**: 단일 parts 컴포넌트의 경우 필요 없음
 - **Pattern**: 복합 컴포넌트의 경우 사용자 친화적 API 제공 (Button, Toggle 등)
+- **Important Notes**:
+  - 5번에서 작성한 React 컴포넌트를 이용해 snippet 작성
+  - 컴포넌트 이름은 컴포넌트 이름과 동일하게 작성해주세요.
+  - 이름이 겹칠 경우 `Seed` 접두사를 붙여서 내부에서 사용해주세요.
 
 ## (Optional) 6-1. docs/registry/registry-ui.ts 업데이트
 - **Path**: `@docs/registry/registry-ui.ts`
@@ -89,9 +94,11 @@
 - **Structure**:
   - front-matter: 컴포넌트 이름과 설명
   - Component Example: <ComponentExample> 사용, 예시 컴포넌트 이름은 ${component-name}-preview
+    - ComponentExample 컴포넌트는 mdx-components 폴더에서 자동으로 가져오기 때문에 import 필요 없음
   - Installation: package-install 사용
   - Props: react-type-table tag 사용, path는 컴포넌트 registry 파일 경로, name은 컴포넌트 타입 이름
   - Examples: 컴포넌트 사용 예제 작성, 예시 컴포넌트 이름은 ${component-name}-${example-name}
+  - 같은 경로에 있는 다른 컴포넌트 문서를 참고
 
 ## 10. Design 문서 작성
 - **Path**: `@docs/content/docs/components/[$component-name].mdx`
@@ -102,6 +109,8 @@
   - 옵션 테이블: 컴포넌트의 옵션 테이블
   - 링크: 컴포넌트 링크
   - 스펙: 컴포넌트 스펙
+- **Important Notes**:
+  - 같은 경로에 있는 다른 컴포넌트 문서를 참고
 
 ## 11. Figma 통합 핸들러 업데이트
 - **Path**: `@packages/figma/src/codegen/targets/react/component/handlers/[$component-name].ts`
