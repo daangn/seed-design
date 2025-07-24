@@ -12,6 +12,9 @@
 - **Path**: `@packages/rootage/components/[$component-name].yaml`
 - **Description**: 컴포넌트의 스키마, 슬롯, variants 정의
 - **Schema**: JSON schema를 따라 slots, properties, definitions 작성
+- **Instructions**:
+  - 컴포넌트 스키마 정의 시 컴포넌트의 모든 상태를 고려해 정의해주세요.
+  - 상태나 Variant는 seed-design MCP와 $FIGMA_IMAGE를 참고해 정의해주세요.
 
 ## 3. 타입 및 스타일 생성
 - **Command**: `bun generate:all`
@@ -62,8 +65,10 @@
 - **Description**: 스토리북에서 사용할 컴포넌트 스토리 정의
 - **Content**: LightTheme, DarkTheme, FontScalingExtraSmall, FontScalingExtraExtraExtraLarge 스토리 추가
 - **Instructions**:
-  - 유저가 입력한 $FIGMA_IMAGE와 localhost:6006/?path=/story/$component-name--${theme} 경로의 이미지를 puppeteer로 비교해 Variant 별로 비교해 스타일이 정확히 일치하는지 확인해주세요.
-  - 비교 결과 스타일이 다른 경우 rootage부터, qvism-preset, css, react 순으로 문제를 찾아 수정해주세요.
+  - 유저가 입력한 $FIGMA_IMAGE와 localhost:6006/?path=/story/$component-name--${theme} 경로의 이미지를 playwright로 비교해 Variant 별로 비교해 스타일이 정확히 일치하는지 확인해주세요.
+  - 비교 결과 스타일이 다른 경우 1번 과정부터 다시 시작해서 문제가 있는 부분을 찾아 수정해주세요.
+  - Storybook 스크린샷 비교 시 비교 대상 경로를 입력해주세요.
+    - 예시: `localhost:6006/?path=/story/$component-name--${theme}`
 
 ## 9. React 문서 작성
 - **Path**: `@docs/content/react/components/[$component-name].mdx`
@@ -109,3 +114,11 @@ The following files are auto-generated from source definitions and should NEVER 
 - Generated files will be overwritten on next generation
 - Changes will be lost and can cause inconsistencies
 - Source of truth should always be the rootage YAML definitions
+
+## Playwright 사용시 주의사항
+- 스토리안의 스크롤 위치를 조정해서 스크린샷을 찍고, 끝까지 스크롤해서 스크린샷을 찍고, 비교해주세요.
+- 스크린샷은 root의 /playwright-report 폴더에 저장해주세요.
+- playwright --help 명령어를 참고하세요.
+
+## Seed Design MCP 사용시 주의사항
+- 현재 선택된 frame이 없다면 유저에게 선택을 요청해주세요.
