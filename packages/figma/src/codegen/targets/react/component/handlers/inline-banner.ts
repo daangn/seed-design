@@ -6,6 +6,7 @@ import { findOne } from "@/utils/figma-node";
 import { camelCase } from "change-case";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("inline-banner");
 
@@ -13,20 +14,12 @@ export const createInlineBannerHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<InlineBannerProperties>(metadata.inlineBanner.key, (node) => {
     const { componentProperties: props } = node;
 
-    const tag = (() => {
-      switch (props.Interaction.value) {
-        case "Default":
-          return "InlineBanner";
-        case "Actionable":
-          return "ActionableInlineBanner";
-        case "Dismissible":
-          return "DismissibleInlineBanner";
-        case "Link":
-          return "InlineBanner";
-        default:
-          return "InlineBanner";
-      }
-    })();
+    const tag = match(props.Interaction.value)
+      .with("Default", () => "InlineBanner")
+      .with("Actionable", () => "ActionableInlineBanner")
+      .with("Dismissible", () => "DismissibleInlineBanner")
+      .with("Link", () => "InlineBanner")
+      .exhaustive();
 
     const textNode = findOne(
       node,

@@ -5,6 +5,7 @@ import type { NormalizedTextNode } from "@/normalizer";
 import { camelCase } from "change-case";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("callout");
 
@@ -12,18 +13,11 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CalloutProperties>(
     metadata.callout.key,
     ({ componentProperties: props, children }) => {
-      const tag = (() => {
-        switch (props.Interaction.value) {
-          case "Display":
-            return "Callout";
-          case "Actionable":
-            return "ActionableCallout";
-          case "Dismissible":
-            return "DismissibleCallout";
-          default:
-            return "Callout";
-        }
-      })();
+      const tag = match(props.Interaction.value)
+        .with("Display", () => "Callout")
+        .with("Actionable", () => "ActionableCallout")
+        .with("Dismissible", () => "DismissibleCallout")
+        .exhaustive();
 
       const textNode = children.find((child) => child.type === "TEXT") as NormalizedTextNode | null;
 

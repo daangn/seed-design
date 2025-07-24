@@ -7,7 +7,11 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { findAllInstances } from "@/utils/figma-node";
+import { match } from "ts-pattern";
+
 const { createLocalSnippetElement } = createLocalSnippetHelper("alert-dialog");
+const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
+  createLocalSnippetHelper("action-button");
 
 const ALERT_DIALOG_FOOTER_KEY = "00b1b131d67edf2875a7a1df8dfa88098d7c04be";
 
@@ -47,22 +51,15 @@ export const createAlertDialogHandler = (_ctx: ComponentHandlerDeps) =>
 
     const buttons = footerNode.children.map(traverse);
 
-    const alertDialogFooterChildren = (() => {
-      switch (footerNode.componentProperties.Type.value) {
-        case "Single":
-          // 컨테이너 없이 제공
-          return buttons;
-        case "Neutral":
-        case "Critical":
-          // overflow 시 wrap
-          return createSeedReactElement("ResponsivePair", footerNodeProps, buttons);
-        case "Neutral (Overflow)":
-        case "Critical (Overflow)":
-        case "Nonpreferred":
-          // 항상 vertical stack
-          return createSeedReactElement("VStack", footerNodeProps, buttons);
-      }
-    })();
+    const alertDialogFooterChildren = match(footerNode.componentProperties.Type.value)
+      .with("Single", () => buttons)
+      .with("Neutral", "Critical", () =>
+        createSeedReactElement("ResponsivePair", footerNodeProps, buttons),
+      )
+      .with("Neutral (Overflow)", "Critical (Overflow)", "Nonpreferred", () =>
+        createSeedReactElement("VStack", footerNodeProps, buttons),
+      )
+      .exhaustive();
 
     const alertDialogFooter = createLocalSnippetElement(
       "AlertDialogFooter",
@@ -70,8 +67,15 @@ export const createAlertDialogHandler = (_ctx: ComponentHandlerDeps) =>
       alertDialogFooterChildren,
     );
 
-    return createLocalSnippetElement("AlertDialog", undefined, [
-      alertDialogHeader,
-      alertDialogFooter,
+    return createLocalSnippetElement("AlertDialogRoot", { open: true }, [
+      createLocalSnippetElement(
+        "AlertDialogTrigger",
+        { asChild: true },
+        createLocalSnippetElementTrigger("ActionButton", {}, "AlertDialog 열기"),
+      ),
+      createLocalSnippetElement("AlertDialogContent", undefined, [
+        alertDialogHeader,
+        alertDialogFooter,
+      ]),
     ]);
   });
