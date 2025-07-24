@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
-    "@storybook/builder-webpack5": "^9.0.16",
+    "@storybook/builder-webpack5": "^9.0.18",
     "@storybook/nextjs": "^9.0.16",
     "@tailwindcss/postcss": "^4.0.6",
     "@types/mdx": "^2.0.13",
@@ -86,6 +86,7 @@
     "tailwindcss": "^4.1.4",
     "ts-pattern": "^5.7.0",
     "typescript": "^5.8.3",
+    "webpack-virtual-modules": "^0.5.0",
     "zod": "^3.24.3"
   }
 }
