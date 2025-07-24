@@ -1,0 +1,324 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "editor-toolbar",
+    "name": "Editor Toolbar"
+  },
+  "data": {
+    "id": "editor-toolbar",
+    "name": "Editor Toolbar",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            }
+          }
+        },
+        "item": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "minWidth": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          },
+          "description": "Icon Only 레이아웃에서 사용되는 아이콘 슬롯입니다."
+        },
+        "prefixIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {
+        "layout": {
+          "values": {
+            "iconOnly": {}
+          },
+          "defaultValue": "iconOnly"
+        },
+        "showKeyboard": {
+          "values": {
+            "false": {},
+            "true": {}
+          },
+          "defaultValue": "false"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-floating"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x12"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "color": {
+                  "type": "color",
+                  "value": "#ffffff00"
+                },
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x8"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r2"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t4"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t4"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "item": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-weak-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "selected"
+            ],
+            "slots": {
+              "item": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-weak"
+                }
+              },
+              "label": {
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "layout": "iconOnly"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "item": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": "$dimension.x8"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "showKeyboard": "false"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x12"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "showKeyboard": "true"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "minHeight": {
+                  "type": "dimension",
+                  "value": "$dimension.x12"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
