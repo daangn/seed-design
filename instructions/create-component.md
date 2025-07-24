@@ -29,13 +29,17 @@
 - **Path**: `@packages/react/src/components/[$ComponentName]/`
 - **Files**:
   - `[$ComponentName].tsx`: 메인 컴포넌트
-  - `index.ts`: 익스포트 설정
+  - `index.ts`: export 설정
 - **Export**: `components/index.ts`에 추가
 - **Architecture**: 
   - **단일 컴포넌트**: `createRecipeContext` 사용 (Button, Badge 등)
   - **복합 컴포넌트**: `createSlotRecipeContext` 사용 (TextField, Chip 등)
   - **다중 슬롯**: Root, Label, PrefixIcon 등 개별 컴포넌트로 분리
   - **Children 파싱**: 복합 컴포넌트는 자동으로 children을 적절한 슬롯으로 분배
+- **Reference**:
+  - Composition: `@docs/content/react/components/concepts/composition.mdx`
+  - Icon: `@docs/content/react/components/concepts/icon.mdx`
+  - Snippet: `@docs/content/react/components/concepts/snippet.mdx`
 
 ## 6. Registry UI 컴포넌트
 - **Path**: `@docs/registry/ui/[$component-name].tsx`
