@@ -119,17 +119,17 @@
 
 ## IMPORTANT INSTRUCTIONS
 
-- 해당 과정들을 통해서 다른 컴포넌트를 제작할 때 추가되어야 하는 맥락이 있다면 이 문서에 추가해주세요.
-- 같은 폴더에 있는 파일을 참고해 위 절차를 따라 컴포넌트를 생성해주세요.
-- Do what has been asked; nothing more, nothing less.
-- NEVER create files unless they're absolutely necessary for achieving your goal.
-- ALWAYS prefer editing an existing file to creating a new one.
-- NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+- IMPORTANT: 위 모든 과정을 빠짐없이 순차적으로 진행해주세요. (Optional 과정은 생략 가능)
+- IMPORTANT: 해당 과정들을 통해서 다른 컴포넌트를 제작할 때 추가되어야 하는 맥락이 있다면 이 문서에 추가해주세요.
+- IMPORTANT: 같은 폴더에 있는 파일을 참고해 위 절차를 따라 컴포넌트를 생성해주세요.
+- IMPORTANT: Do what has been asked; nothing more, nothing less.
+- IMPORTANT: NEVER create files unless they're absolutely necessary for achieving your goal.
+- IMPORTANT: ALWAYS prefer editing an existing file to creating a new one.
+- IMPORTANT: NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the user.
 
-## 🚫 NEVER DIRECTLY EDIT GENERATED FILES
+## IMPORTANT: NEVER DIRECTLY EDIT GENERATED FILES
 
 The following files are auto-generated from source definitions and should NEVER be manually edited:
-
 **Generated from Rootage definitions (`bun generate:all`):**
 - `@packages/qvism-preset/src/vars/component/*.d.ts` - Generated TypeScript definitions
 - `@packages/qvism-preset/src/vars/component/*.mjs` - Generated JavaScript modules  
