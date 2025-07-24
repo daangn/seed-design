@@ -1,0 +1,91 @@
+---
+title: Editor Toolbar
+description: 에디터 툴바는 가상 키보드 위에 표시되어 텍스트 편집 기능을 제공하는 컴포넌트입니다.
+---
+
+import ComponentExample from "@/components/component-example";
+
+## Overview
+
+Editor Toolbar는 모바일 웹뷰 환경에서 가상 키보드와 함께 사용되는 텍스트 편집 도구 모음입니다. 사용자가 텍스트 서식을 적용하거나 정렬, 리스트 등의 편집 기능을 쉽게 사용할 수 있도록 도와줍니다.
+
+## Usage
+
+### 기본 사용법
+
+<ComponentExample name="editor-toolbar-preview" />
+
+### Icon Only Layout
+
+공간이 제한적인 경우 아이콘만 표시하는 컴팩트한 레이아웃을 사용할 수 있습니다.
+
+<ComponentExample name="editor-toolbar-icon-only" />
+
+## Anatomy
+
+에디터 툴바는 다음과 같은 요소로 구성됩니다:
+
+1. **Root**: 툴바의 컨테이너
+2. **Item**: 개별 편집 기능을 나타내는 버튼
+3. **Label**: 기능의 이름을 표시하는 텍스트
+4. **Icon**: 기능을 시각적으로 나타내는 아이콘
+5. **PrefixIcon**: 라벨 앞에 표시되는 아이콘
+
+## Variants
+
+### Layout
+
+#### Icon with Text (기본값)
+아이콘과 텍스트를 함께 표시하여 기능을 명확하게 전달합니다.
+
+#### Icon Only
+아이콘만 표시하여 더 많은 기능을 제한된 공간에 배치할 수 있습니다.
+
+### Show Keyboard
+
+#### False (기본값)
+가상 키보드가 숨겨진 상태에서의 기본 높이를 가집니다.
+
+#### True
+가상 키보드가 표시된 상태에서 적절한 높이로 조정됩니다.
+
+## States
+
+### Default
+기본 상태에서 아이템은 투명한 배경을 가집니다.
+
+### Selected
+선택된 아이템은 배경색이 변경되어 현재 적용된 서식을 나타냅니다.
+
+### Active
+사용자가 아이템을 누르고 있을 때 시각적 피드백을 제공합니다.
+
+## Interaction
+
+- **터치**: 아이템을 탭하여 해당 기능을 활성화/비활성화합니다.
+- **스크롤**: 많은 아이템이 있을 경우 가로 스크롤이 가능합니다.
+- **멀티 선택**: 여러 서식을 동시에 적용할 수 있습니다.
+
+## Best Practices
+
+### Do
+- 관련된 기능들을 논리적으로 그룹화합니다.
+- 자주 사용하는 기능을 왼쪽에 배치합니다.
+- 선택된 상태를 명확하게 표시합니다.
+- Icon Only 레이아웃 사용 시 반드시 aria-label을 제공합니다.
+
+### Don't
+- 너무 많은 기능을 한 화면에 표시하지 않습니다.
+- 아이콘의 의미가 불명확한 경우 Icon Only 레이아웃을 사용하지 않습니다.
+- 비활성화된 기능과 선택되지 않은 기능을 혼동하게 만들지 않습니다.
+
+## Accessibility
+
+- 모든 아이템은 키보드로 접근 가능해야 합니다.
+- Icon Only 레이아웃 사용 시 스크린 리더를 위한 레이블을 제공해야 합니다.
+- 선택된 상태는 시각적 표시뿐만 아니라 ARIA 속성으로도 전달되어야 합니다.
+
+## Related Components
+
+- [Text Field](/docs/components/text-field): 텍스트 입력 컴포넌트
+- [Action Button](/docs/components/action-button): 개별 액션 버튼

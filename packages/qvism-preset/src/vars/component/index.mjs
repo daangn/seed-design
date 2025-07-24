@@ -17,6 +17,7 @@ export { vars as contextualFloatingButton } from "./contextual-floating-button.m
 export { vars as controlChip } from "./control-chip.mjs";
 export { vars as dialog } from "./dialog.mjs";
 export { vars as divider } from "./divider.mjs";
+export { vars as editorToolbar } from "./editor-toolbar.mjs";
 export { vars as extendedActionSheetCloseButton } from "./extended-action-sheet-close-button.mjs";
 export { vars as extendedActionSheetItem } from "./extended-action-sheet-item.mjs";
 export { vars as extendedActionSheet } from "./extended-action-sheet.mjs";

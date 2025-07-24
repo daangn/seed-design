@@ -1,0 +1,176 @@
+---
+title: Editor Toolbar
+description: 에디터 툴바는 가상 키보드 위에 표시되어 텍스트 편집 기능을 제공하는 컴포넌트입니다.
+---
+
+import ComponentExample from "@/components/component-example";
+import ComponentSpec from "@/components/component-spec-block";
+import { EditorToolbar, EditorToolbarItem, PrefixIcon, Icon } from "@/registry/ui/editor-toolbar";
+
+## Overview
+
+Editor Toolbar 컴포넌트는 웹뷰에서 가상 키보드 위에 위치하여 텍스트 서식, 정렬, 리스트 등의 편집 기능을 제공합니다.
+
+## Import
+
+```tsx
+import { EditorToolbar } from "@seed-design/react";
+```
+
+## Usage
+
+### 기본 사용법
+
+<ComponentExample name="editor-toolbar-preview" />
+
+```tsx
+<EditorToolbar showKeyboard={false}>
+  <EditorToolbarItem>
+    <PrefixIcon svg={<IconBold />} />
+    굵게
+  </EditorToolbarItem>
+  <EditorToolbarItem>
+    <PrefixIcon svg={<IconItalic />} />
+    기울임
+  </EditorToolbarItem>
+  <EditorToolbarItem>
+    <PrefixIcon svg={<IconUnderline />} />
+    밑줄
+  </EditorToolbarItem>
+</EditorToolbar>
+```
+
+### Icon Only Layout
+
+아이콘만 표시하는 컴팩트한 레이아웃을 제공합니다.
+
+<ComponentExample name="editor-toolbar-icon-only" />
+
+```tsx
+<EditorToolbar showKeyboard={false}>
+  <EditorToolbarItem layout="iconOnly" aria-label="굵게">
+    <Icon svg={<IconBold />} />
+  </EditorToolbarItem>
+  <EditorToolbarItem layout="iconOnly" aria-label="기울임">
+    <Icon svg={<IconItalic />} />
+  </EditorToolbarItem>
+  <EditorToolbarItem layout="iconOnly" aria-label="밑줄">
+    <Icon svg={<IconUnderline />} />
+  </EditorToolbarItem>
+</EditorToolbar>
+```
+
+## Component API
+
+### EditorToolbar
+
+<ComponentSpec
+  scope="react"
+  component="EditorToolbar.Root"
+  props={[
+    {
+      name: "showKeyboard",
+      type: "boolean",
+      defaultValue: "false",
+      description: "가상 키보드의 표시 여부에 따라 툴바의 높이를 조정합니다.",
+    },
+    {
+      name: "children",
+      type: "React.ReactNode",
+      description: "툴바에 표시할 아이템들입니다.",
+    },
+  ]}
+/>
+
+### EditorToolbarItem
+
+<ComponentSpec
+  scope="react"
+  component="EditorToolbar.Item"
+  props={[
+    {
+      name: "selected",
+      type: "boolean",
+      defaultValue: "false",
+      description: "아이템의 선택 상태를 나타냅니다.",
+    },
+    {
+      name: "layout",
+      type: '"iconWithText" | "iconOnly"',
+      defaultValue: '"iconWithText"',
+      description: "아이템의 레이아웃을 설정합니다.",
+    },
+    {
+      name: "onClick",
+      type: "() => void",
+      description: "아이템 클릭 시 호출되는 함수입니다.",
+    },
+    {
+      name: "aria-label",
+      type: "string",
+      description: "iconOnly 레이아웃 사용 시 필수적으로 제공해야 하는 접근성 레이블입니다.",
+    },
+  ]}
+/>
+
+## Accessibility
+
+### ARIA Labels
+
+`iconOnly` 레이아웃을 사용할 경우, 반드시 `aria-label` 또는 `aria-labelledby`를 제공해야 합니다.
+
+```tsx
+<EditorToolbarItem layout="iconOnly" aria-label="굵게">
+  <Icon svg={<IconBold />} />
+</EditorToolbarItem>
+```
+
+### Keyboard Navigation
+
+툴바 아이템들은 버튼으로 구현되어 있어 키보드로 접근 가능하며, Space 또는 Enter 키로 활성화할 수 있습니다.
+
+## Best Practices
+
+### 아이템 그룹화
+
+관련된 기능들을 논리적으로 그룹화하여 사용자가 쉽게 찾을 수 있도록 합니다.
+
+```tsx
+<EditorToolbar showKeyboard={false}>
+  {/* 텍스트 서식 */}
+  <EditorToolbarItem><PrefixIcon svg={<IconBold />} />굵게</EditorToolbarItem>
+  <EditorToolbarItem><PrefixIcon svg={<IconItalic />} />기울임</EditorToolbarItem>
+  
+  {/* 정렬 */}
+  <EditorToolbarItem><PrefixIcon svg={<IconAlignLeft />} />왼쪽</EditorToolbarItem>
+  <EditorToolbarItem><PrefixIcon svg={<IconAlignCenter />} />가운데</EditorToolbarItem>
+</EditorToolbar>
+```
+
+### 상태 관리
+
+선택된 아이템의 상태를 관리하여 현재 적용된 서식을 표시합니다.
+
+```tsx
+function MyEditor() {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+
+  const toggleSelection = (item: string) => {
+    setSelectedItems((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+    );
+  };
+
+  return (
+    <EditorToolbar showKeyboard={false}>
+      <EditorToolbarItem
+        selected={selectedItems.includes("bold")}
+        onClick={() => toggleSelection("bold")}
+      >
+        <PrefixIcon svg={<IconBold />} />
+        굵게
+      </EditorToolbarItem>
+    </EditorToolbar>
+  );
+}
+```
