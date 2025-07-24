@@ -40,62 +40,62 @@
 .seed-badge--tone_positive {}
 .seed-badge--tone_critical {}
 .seed-badge--tone_neutral-variant_weak {
-    background-color: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral-muted)
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-weak));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted))
 }
 .seed-badge--tone_neutral-variant_solid {
-    background-color: var(--seed-color-palette-gray-800);
-    color: var(--seed-color-fg-neutral-inverted)
+    background-color: var(--seed-box-background, var(--seed-color-palette-gray-800));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-inverted))
 }
 .seed-badge--tone_neutral-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral);
-    color: var(--seed-color-fg-neutral-muted)
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted))
 }
 .seed-badge--tone_brand-variant_weak {
-    background-color: var(--seed-color-palette-carrot-100);
-    color: var(--seed-color-palette-carrot-900)
+    background-color: var(--seed-box-background, var(--seed-color-palette-carrot-100));
+    color: var(--seed-box-color, var(--seed-color-palette-carrot-900))
 }
 .seed-badge--tone_brand-variant_solid {
-    background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-badge--tone_brand-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand);
-    color: var(--seed-color-fg-brand)
+    color: var(--seed-box-color, var(--seed-color-fg-brand))
 }
 .seed-badge--tone_informative-variant_weak {
-    background-color: var(--seed-color-bg-informative-weak);
-    color: var(--seed-color-fg-informative-contrast)
+    background-color: var(--seed-box-background, var(--seed-color-bg-informative-weak));
+    color: var(--seed-box-color, var(--seed-color-fg-informative-contrast))
 }
 .seed-badge--tone_informative-variant_solid {
-    background-color: var(--seed-color-bg-informative-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--seed-box-background, var(--seed-color-bg-informative-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-badge--tone_informative-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-informative);
-    color: var(--seed-color-fg-informative)
+    color: var(--seed-box-color, var(--seed-color-fg-informative))
 }
 .seed-badge--tone_positive-variant_weak {
-    background-color: var(--seed-color-bg-positive-weak);
-    color: var(--seed-color-fg-positive-contrast)
+    background-color: var(--seed-box-background, var(--seed-color-bg-positive-weak));
+    color: var(--seed-box-color, var(--seed-color-fg-positive-contrast))
 }
 .seed-badge--tone_positive-variant_solid {
-    background-color: var(--seed-color-bg-positive-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--seed-box-background, var(--seed-color-bg-positive-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-badge--tone_positive-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-positive);
-    color: var(--seed-color-fg-positive)
+    color: var(--seed-box-color, var(--seed-color-fg-positive))
 }
 .seed-badge--tone_critical-variant_weak {
-    background-color: var(--seed-color-bg-critical-weak);
-    color: var(--seed-color-fg-critical-contrast)
+    background-color: var(--seed-box-background, var(--seed-color-bg-critical-weak));
+    color: var(--seed-box-color, var(--seed-color-fg-critical-contrast))
 }
 .seed-badge--tone_critical-variant_solid {
-    background-color: var(--seed-color-bg-critical-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--seed-box-background, var(--seed-color-bg-critical-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-badge--tone_critical-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-critical);
-    color: var(--seed-color-fg-critical)
+    color: var(--seed-box-color, var(--seed-color-fg-critical))
 }

@@ -11,7 +11,7 @@
 .seed-action-sheet__backdrop {
     position: fixed;
     inset: 0;
-    background: var(--seed-color-bg-overlay);
+    background: var(--seed-box-background, var(--seed-color-bg-overlay));
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
 }
 .seed-action-sheet__backdrop:not(:is([data-state="open"], [data-open])) {
@@ -42,7 +42,7 @@
     word-break: break-all;
     overflow: hidden;
     z-index: calc(var(--sheet-z-index) + var(--layer-index, 0));
-    background: var(--seed-color-bg-layer-floating);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating));
     border-top-left-radius: var(--seed-radius-r5);
     border-top-right-radius: var(--seed-radius-r5);
 }
@@ -82,16 +82,16 @@
     right: var(--seed-dimension-spacing-x-global-gutter);
     bottom: 0;
     height: 1px;
-    background: var(--seed-color-stroke-neutral);
+    background: var(--seed-box-background, var(--seed-color-stroke-neutral));
 }
 .seed-action-sheet__title {
-    color: var(--seed-color-fg-neutral-muted);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted));
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-action-sheet__description {
-    color: var(--seed-color-fg-neutral-muted);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted));
     font-size: var(--seed-font-size-t3);
     line-height: var(--seed-line-height-t3);
     font-weight: var(--seed-font-weight-regular);
@@ -105,15 +105,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--seed-color-bg-layer-floating);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-floating));
     min-height: 50px;
     padding-inline: var(--seed-dimension-spacing-x-global-gutter);
     padding-block: var(--seed-dimension-x3_5);
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-action-sheet__closeButton:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-floating-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-floating-pressed));
 }

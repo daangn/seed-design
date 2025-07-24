@@ -55,54 +55,54 @@
     gap: 0px;
 }
 .seed-chip-tabs__trigger--variant_neutralSolid {
-    background-color: transparent;
-    color: var(--seed-color-fg-neutral);
+    background-color: var(--seed-box-background, transparent);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-neutral-inverted);
-    color: var(--seed-color-fg-neutral-inverted);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-inverted));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-inverted));
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-inverted-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
 }
 .seed-chip-tabs__trigger--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background-color: var(--seed-box-background, var(--seed-color-bg-disabled));
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
 }
 .seed-chip-tabs__list--variant_brandSolid {
     gap: 8px;
 }
 .seed-chip-tabs__trigger--variant_brandSolid {
-    background-color: var(--seed-color-bg-neutral-weak);
-    color: var(--seed-color-fg-neutral-muted);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-weak));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted));
     font-weight: var(--seed-font-weight-medium);
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white);
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white));
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:selected, [data-selected]):is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid-pressed));
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    background-color: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background-color: var(--seed-box-background, var(--seed-color-bg-disabled));
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
 }
 .seed-chip-tabs__trigger--variant_brandSolid:is(:disabled, [disabled], [data-disabled]):is(:selected, [data-selected]) {
-    background-color: var(--seed-color-bg-disabled);
+    background-color: var(--seed-box-background, var(--seed-color-bg-disabled));
 }
 .seed-chip-tabs__root--contentLayout_fill {
     display: flex;

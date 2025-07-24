@@ -489,6 +489,19 @@ export interface StyleProps {
   };
 }
 
+// Export specific props for override capability
+export type OverridableStyleProps = Pick<
+  StyleProps,
+  | "bg"
+  | "background"
+  | "bgGradient"
+  | "backgroundGradient"
+  | "bgGradientDirection"
+  | "backgroundGradientDirection"
+  | "color"
+  | "borderColor"
+>;
+
 interface UseStyleProps extends StyleProps {
   style?: React.CSSProperties;
 }

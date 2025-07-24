@@ -41,44 +41,44 @@
     transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
 }
 .seed-contextual-floating-button--variant_solid {
-    background: var(--seed-color-bg-neutral-inverted);
-    color: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-inverted));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-inverted));
     --seed-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
     --track-color: var(--seed-color-palette-gray-700);
     --range-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-contextual-floating-button--variant_solid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-contextual-floating-button--variant_solid:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background: var(--seed-box-background, var(--seed-color-bg-disabled));
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-contextual-floating-button--variant_solid[data-loading] {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-contextual-floating-button--variant_layer {
-    background: var(--seed-color-bg-layer-floating);
-    color: var(--seed-color-fg-neutral);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     --seed-icon-color: var(--seed-color-fg-neutral);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-contextual-floating-button--variant_layer:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating-pressed));
 }
 .seed-contextual-floating-button--variant_layer:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background: var(--seed-box-background, var(--seed-color-bg-disabled));
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-contextual-floating-button--variant_layer[data-loading] {
-    background: var(--seed-color-bg-layer-floating-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating-pressed));
 }
 .seed-contextual-floating-button--layout_withText {
     min-height: 36px;

@@ -201,16 +201,16 @@
     --seed-exit-scale: 1;
 }
 .seed-app-bar__root--tone_layer:before {
-    background-color: var(--seed-color-bg-layer-default);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-default));
 }
 .seed-app-bar__icon--tone_layer {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
 }
 .seed-app-bar__root--tone_transparent:before {
-    background-color: #00000000;
+    background-color: var(--seed-box-background, #00000000);
 }
 .seed-app-bar__icon--tone_transparent {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-box-color, var(--seed-color-palette-static-white));
 }
 .seed-app-bar__root--divider_true:before {
     box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);

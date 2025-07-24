@@ -43,7 +43,7 @@
 .seed-icon {
   width: var(--seed-icon-size);
   height: var(--seed-icon-size);
-  color: var(--seed-icon-color, currentColor);
+  color: var(--seed-box-color, var(--seed-icon-color, currentColor));
 }
 
 .seed-prefix-icon {
@@ -52,7 +52,7 @@
   margin-left: var(--seed-prefix-icon-margin-left);
   margin-right: var(--seed-prefix-icon-margin-right);
   margin-top: var(--seed-prefix-icon-margin-top);
-  color: var(--seed-prefix-icon-color, currentColor);
+  color: var(--seed-box-color, var(--seed-prefix-icon-color, currentColor));
 }
 
 .seed-suffix-icon {
@@ -61,25 +61,25 @@
   margin-left: var(--seed-suffix-icon-margin-left);
   margin-right: var(--seed-suffix-icon-margin-right);
   margin-top: var(--seed-suffix-icon-margin-top);
-  color: var(--seed-suffix-icon-color, currentColor);
+  color: var(--seed-box-color, var(--seed-suffix-icon-color, currentColor));
 }
 
 .seed-count {
   font-size: var(--seed-count-font-size);
   line-height: var(--seed-count-line-height);
   font-weight: var(--seed-count-font-weight);
-  color: var(--seed-count-color);
+  color: var(--seed-box-color, var(--seed-count-color));
 }
 
 .seed-box {
   --seed-box-background: initial;
   --seed-box-color: initial;
-  background: var(--seed-box-background);
-  color: var(--seed-box-color);
+  background: var(--seed-box-background, var(--seed-box-background));
+  color: var(--seed-box-color, var(--seed-box-color));
   --seed-box-border-style: solid;
   --seed-box-border-color: initial;
   border-style: var(--seed-box-border-style);
-  border-color: var(--seed-box-border-color);
+  border-color: var(--seed-box-border-color, var(--seed-box-border-color));
   --seed-box-border-width: 0;
   --seed-box-border-top-width: var(--seed-box-border-width);
   --seed-box-border-bottom-width: var(--seed-box-border-width);
@@ -171,7 +171,7 @@
 
 .seed-box:is(:active, [data-active]) {
   --seed-box-background--active: var(--seed-box-background);
-  background: var(--seed-box-background--active);
+  background: var(--seed-box-background, var(--seed-box-background--active));
 }
 
 .seed-consistent-width:before {

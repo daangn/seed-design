@@ -2,7 +2,7 @@
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    background-color: transparent;
+    background-color: var(--seed-box-background, transparent);
     box-sizing: border-box;
     border: none;
     outline: none;
@@ -12,7 +12,7 @@
     text-align: center;
     padding-inline: 0;
     padding-block: 0;
-    color: var(--seed-box-color);
+    color: var(--seed-box-color, var(--seed-box-color));
     --seed-suffix-icon-color: var(--seed-box-color)
 }
 .seed-link-content--weight_bold {

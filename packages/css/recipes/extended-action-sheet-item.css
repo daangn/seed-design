@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background-color: var(--seed-color-bg-neutral-weak);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-weak));
     min-height: 52px;
     padding-inline: var(--seed-dimension-x4);
     padding-block: var(--seed-dimension-x3_5);
@@ -13,7 +13,7 @@
     font-weight: var(--seed-font-weight-regular);
 }
 .seed-extended-action-sheet-item:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-neutral-weak-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-extended-action-sheet-item:last-child {
     box-shadow: none;
@@ -22,10 +22,10 @@
     --seed-prefix-icon-size: 22px;
 }
 .seed-extended-action-sheet-item--tone_neutral {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
 }
 .seed-extended-action-sheet-item--tone_critical {
-    color: var(--seed-color-fg-critical);
+    color: var(--seed-box-color, var(--seed-color-fg-critical));
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }

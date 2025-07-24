@@ -5,27 +5,27 @@
     align-items: center;
     justify-content: center;
     flex: none;
-    background-color: var(--seed-color-bg-layer-default);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-default));
     border-width: 1px;
-    border-color: var(--seed-color-stroke-control);
+    border-color: var(--seed-box-border-color, var(--seed-color-stroke-control));
     border-radius: var(--seed-radius-full);
 }
 .seed-radio__root:is(:active, [data-active]) {
-    background-color: var(--seed-color-bg-layer-default-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-radio__root:is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-brand-solid);
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid));
     border-width: 0px;
 }
 .seed-radio__root:is(:active, [data-active]):is(:checked, [data-checked]) {
-    background-color: var(--seed-color-bg-brand-solid-pressed);
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid-pressed));
 }
 .seed-radio__root:is(:disabled, [disabled], [data-disabled]) {
-    background-color: var(--seed-color-palette-gray-300);
+    background-color: var(--seed-box-background, var(--seed-color-palette-gray-300));
 }
 .seed-radio__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    background-color: none;
-    border-color: var(--seed-color-palette-gray-300);
+    background-color: var(--seed-box-background, none);
+    border-color: var(--seed-box-border-color, var(--seed-color-palette-gray-300));
 }
 .seed-radio__icon {
     display: none;
@@ -33,10 +33,10 @@
 }
 .seed-radio__icon:is(:checked, [data-checked]) {
     display: block;
-    background-color: var(--seed-color-palette-static-white);
+    background-color: var(--seed-box-background, var(--seed-color-palette-static-white));
 }
 .seed-radio__icon:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    background-color: var(--seed-color-palette-gray-300);
+    background-color: var(--seed-box-background, var(--seed-color-palette-gray-300));
 }
 .seed-radio__root--size_large {
     width: var(--seed-dimension-x6);

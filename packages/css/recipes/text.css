@@ -1,7 +1,7 @@
 .seed-text {
     margin: 0;
     text-align: var(--seed-text-align);
-    color: var(--seed-text-color);
+    color: var(--seed-box-color, var(--seed-text-color));
     font-size: var(--seed-font-size);
     line-height: var(--seed-line-height);
     font-weight: var(--seed-font-weight);

@@ -20,40 +20,40 @@
 }
 .seed-reaction-button {
     transition: background-color var(--seed-duration-d4) var(--seed-timing-function-easing);
-    background: var(--seed-color-bg-neutral-weak);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-weak));
     font-weight: var(--seed-font-weight-medium);
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     --track-color: var(--seed-color-palette-gray-500);
     --range-color: var(--seed-color-fg-neutral);
     --seed-count-font-weight: var(--seed-font-weight-bold);
     --seed-count-color: var(--seed-color-fg-neutral);
 }
 .seed-reaction-button:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-reaction-button:is([aria-pressed=true], [data-pressed]) {
-    background: var(--seed-color-bg-layer-default);
-    color: var(--seed-color-fg-brand);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default));
+    color: var(--seed-box-color, var(--seed-color-fg-brand));
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand);
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
     --seed-count-color: var(--seed-color-fg-brand);
 }
 .seed-reaction-button:is([aria-pressed=true], [data-pressed]):is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-reaction-button:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    background: var(--seed-color-bg-disabled);
-    color: var(--seed-color-fg-disabled);
+    background: var(--seed-box-background, var(--seed-color-bg-disabled));
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
     box-shadow: inset 0 0 0 0px var(--seed-color-stroke-brand);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-count-color: var(--seed-color-fg-disabled);
 }
 .seed-reaction-button[data-loading] {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-reaction-button:is([aria-pressed=true], [data-pressed])[data-loading] {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default-pressed));
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-brand);
     --track-color: var(--seed-color-palette-carrot-200);
     --range-color: var(--seed-color-fg-brand);

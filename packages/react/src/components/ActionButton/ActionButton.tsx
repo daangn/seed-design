@@ -5,41 +5,25 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
-import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";
+import { useStyleProps, type OverridableStyleProps, type StyleProps } from "../../utils/styled";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
-import type { ScopedColorFg, ScopedColorPalette } from "@seed-design/css/vars";
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
     Pick<StyleProps, "flexGrow" | "bleedX" | "bleedY">,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * Color of the label and icons inside the button.
-   * Works only when `variant` is `ghost`.
-   * @default "fg.neutral"
-   */
-  color?: ScopedColorFg | ScopedColorPalette;
-}
+    OverridableStyleProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
   (
-    {
-      variant,
-      size,
-      loading = false,
-      layout = "withText",
-      color,
-      className,
-      children,
-      ...otherProps
-    },
+    { variant, size, loading = false, layout = "withText", className, children, ...otherProps },
     ref,
   ) => {
     const recipeClassName = actionButton({ variant, layout, size });
@@ -58,8 +42,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
           <Primitive.button
             ref={ref}
             className={clsx(recipeClassName, className)}
-            // NOTE: Should we handle color as a style prop?
-            style={{ ...style, "--seed-box-color": handleColor(color) } as React.CSSProperties}
+            style={style}
             {...api.stateProps}
             {...restProps}
           >

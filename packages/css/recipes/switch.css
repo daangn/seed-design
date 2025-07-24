@@ -18,15 +18,15 @@
     display: block;
     position: relative;
     border-radius: var(--seed-radius-full);
-    background: var(--seed-color-palette-gray-600);
+    background: var(--seed-box-background, var(--seed-color-palette-gray-600));
     transition: background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms;
 }
 .seed-switch__control:is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-brand-solid);
+    background: var(--seed-box-background, var(--seed-color-bg-brand-solid));
 }
 .seed-switch__thumb {
     border-radius: var(--seed-radius-full);
-    background: var(--seed-color-palette-static-white);
+    background: var(--seed-box-background, var(--seed-color-palette-static-white));
     transition: transform 150ms cubic-bezier(0.35, 0, 0.35, 1);
 }
 .seed-switch__root--size_medium {

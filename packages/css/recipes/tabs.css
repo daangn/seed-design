@@ -16,7 +16,7 @@
     display: none;
 }
 .seed-tabs__list {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-default));
     box-shadow: inset 0 -1px var(--seed-color-stroke-neutral);
 }
 .seed-tabs__carousel {
@@ -50,7 +50,7 @@
     transition-timing-function: var(--seed-timing-function-easing);
     left: var(--indicator-left, 0px);
     width: var(--indicator-width, 0px);
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     border-bottom: 2px solid var(--seed-color-fg-neutral);
     bottom: 0;
 }
@@ -65,23 +65,23 @@
     cursor: pointer;
     border: none;
     box-sizing: border-box;
-    background-color: transparent;
+    background-color: var(--seed-box-background, transparent);
     white-space: nowrap;
-    color: var(--seed-color-fg-neutral-subtle);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-subtle));
 }
 .seed-tabs__trigger:is(:selected, [data-selected]) {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
 }
 .seed-tabs__trigger:is(:disabled, [disabled], [data-disabled]) {
     cursor: not-allowed;
-    color: var(--seed-color-fg-disabled);
+    color: var(--seed-box-color, var(--seed-color-fg-disabled));
 }
 .seed-tabs__trigger:is(:selected, [data-selected])[data-ssr]:after {
     content: '';
     position: absolute;
     bottom: 0;
     height: 2px;
-    background-color: var(--seed-color-fg-neutral);
+    background-color: var(--seed-box-background, var(--seed-color-fg-neutral));
 }
 .seed-tabs__list--triggerLayout_fill {
     padding-inline: 0px;

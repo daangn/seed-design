@@ -1,7 +1,7 @@
 .seed-help-bubble__content {
     display: flex;
     flex-direction: column;
-    background: var(--seed-color-bg-neutral-solid);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-solid));
     padding-inline: var(--seed-dimension-x3);
     padding-block: var(--seed-dimension-x2_5);
     border-radius: var(--seed-radius-r3);
@@ -39,13 +39,13 @@
     font-size: 0;
 }
 .seed-help-bubble__title {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-box-color, var(--seed-color-palette-static-white));
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-bold);
     line-height: var(--seed-line-height-t3);
 }
 .seed-help-bubble__description {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-box-color, var(--seed-color-palette-static-white));
     font-size: var(--seed-font-size-t3);
     font-weight: var(--seed-font-weight-regular);
     line-height: var(--seed-line-height-t3);
@@ -57,7 +57,7 @@
     justify-content: center;
     top: calc(12px - 32px / 2 + 14px / 2);
     right: calc(12px - 32px / 2 + 14px / 2);
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-box-color, var(--seed-color-palette-static-white));
     width: 32px;
     height: 32px;
     --seed-icon-size: 14px;

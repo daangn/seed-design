@@ -25,21 +25,21 @@
     box-shadow: 0px 2px 6px 0px #00000026;
 }
 .seed-extended-fab--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
-    color: var(--seed-color-fg-neutral-inverted);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-inverted));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-inverted));
 }
 .seed-extended-fab--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-extended-fab--variant_neutralSolid {
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
 }
 .seed-extended-fab--variant_layerFloating {
-    background: var(--seed-color-bg-layer-floating);
-    color: var(--seed-color-fg-neutral);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating));
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
 }
 .seed-extended-fab--variant_layerFloating:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-floating-pressed);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating-pressed));
 }
 .seed-extended-fab--variant_layerFloating {
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);

@@ -8,8 +8,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
-    background-color: var(--seed-color-bg-brand-solid);
-    color: var(--seed-color-palette-static-white)
+    background-color: var(--seed-box-background, var(--seed-color-bg-brand-solid));
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-notification-badge--size_small {
     width: 6px;

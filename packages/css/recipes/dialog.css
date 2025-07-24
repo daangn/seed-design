@@ -11,7 +11,7 @@
 .seed-dialog__backdrop {
     position: fixed;
     inset: 0;
-    background: var(--seed-color-bg-overlay);
+    background: var(--seed-box-background, var(--seed-color-bg-overlay));
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
 }
 .seed-dialog__backdrop:is([data-state="open"], [data-open]) {
@@ -41,7 +41,7 @@
     box-sizing: border-box;
     word-break: break-all;
     z-index: calc(var(--dialog-z-index) + var(--layer-index, 0));
-    background: var(--seed-color-bg-layer-floating);
+    background: var(--seed-box-background, var(--seed-color-bg-layer-floating));
     max-width: 272px;
     margin: auto var(--seed-dimension-x8);
     border-radius: var(--seed-radius-r5);
@@ -73,14 +73,14 @@
     gap: var(--seed-dimension-x1_5);
 }
 .seed-dialog__title {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     font-size: var(--seed-font-size-t7);
     line-height: var(--seed-line-height-t7);
     font-weight: var(--seed-font-weight-bold);
     margin: 0;
 }
 .seed-dialog__description {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-box-color, var(--seed-color-fg-neutral));
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-regular);

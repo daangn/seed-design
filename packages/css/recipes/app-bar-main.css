@@ -123,20 +123,20 @@
     opacity: calc(1 - var(--swipe-back-displacement-ratio, 0))
 }
 .seed-app-bar-main__root--tone_layer {
-    color: var(--seed-color-fg-neutral)
+    color: var(--seed-box-color, var(--seed-color-fg-neutral))
 }
 .seed-app-bar-main__title--tone_layer {
-    color: var(--seed-color-fg-neutral)
+    color: var(--seed-box-color, var(--seed-color-fg-neutral))
 }
 .seed-app-bar-main__subtitle--tone_layer {
-    color: var(--seed-color-fg-neutral-muted)
+    color: var(--seed-box-color, var(--seed-color-fg-neutral-muted))
 }
 .seed-app-bar-main__root--tone_transparent {
-    color: var(--seed-color-palette-static-white)
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-app-bar-main__title--tone_transparent {
-    color: var(--seed-color-palette-static-white)
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }
 .seed-app-bar-main__subtitle--tone_transparent {
-    color: var(--seed-color-palette-static-white)
+    color: var(--seed-box-color, var(--seed-color-palette-static-white))
 }

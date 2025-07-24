@@ -29,6 +29,14 @@ const UNITLESS: Record<string, boolean> = {
   "stroke-width": true,
 };
 
+// Override 가능한 CSS 속성과 대응하는 CSS 변수
+const OVERRIDABLE_PROPERTIES: Record<string, string> = {
+  background: "--seed-box-background",
+  "background-color": "--seed-box-background",
+  color: "--seed-box-color",
+  "border-color": "--seed-box-border-color",
+};
+
 function dashify(str: string): string {
   return str
     .replace(/([A-Z])/g, "-$1")
@@ -64,6 +72,14 @@ function decl(parent: Container, name: string, value: CSSValue): void {
     valueStr = value === 0 || UNITLESS[name] ? value.toString() : value + "px";
   } else {
     valueStr = String(value);
+  }
+
+  if (name in OVERRIDABLE_PROPERTIES) {
+    const cssVar = OVERRIDABLE_PROPERTIES[name];
+    // 이미 해당 CSS 변수로 래핑되어 있지 않은 경우만 처리
+    if (!valueStr.startsWith(`var(${cssVar},`)) {
+      valueStr = `var(${cssVar}, ${valueStr})`;
+    }
   }
 
   if (name === "css-float") name = "float";
