@@ -307,15 +307,6 @@
     ]
   },
   {
-    "name": "editor-toolbar",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:editor-toolbar.tsx"
-    ]
-  },
-  {
     "name": "contextual-floating-button",
     "dependencies": [
       "@seed-design/react"

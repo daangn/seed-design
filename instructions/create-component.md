@@ -24,9 +24,6 @@
 - **Path**: `@packages/qvism-preset/src/recipes/[$component-name].ts`
 - **Description**: 컴포넌트 스타일 recipe 정의
 - **Note**: recipes.ts에 새 recipe 추가 필요
-- **Important Notes**:
-  - 사용 가능한 pseudo: active(hover), focus, disabled 등
-  - 기본적으로 hover 보다는 active 상태 사용 권장 (모바일 우선)
 
 ## 5. React 컴포넌트 구현
 - **Path**: `@packages/react/src/components/[$ComponentName]/`
@@ -43,8 +40,6 @@
   - Composition: `@docs/content/react/components/concepts/composition.mdx`
   - Icon: `@docs/content/react/components/concepts/icon.mdx`
   - Snippet: `@docs/content/react/components/concepts/snippet.mdx`
-- **Important Notes**:
-  - React 컴포넌트 제작 후에는 `bun package:build` 명령어를 실행해 컴포넌트를 빌드해주세요.
 
 ## 6. Registry UI 컴포넌트
 - **Path**: `@docs/registry/ui/[$component-name].tsx`
@@ -73,10 +68,6 @@
 - **Command**: `bun storybook` in `@docs`
 - **Description**: 스토리북에서 사용할 컴포넌트 스토리 정의
 - **Content**: LightTheme, DarkTheme, FontScalingExtraSmall, FontScalingExtraExtraExtraLarge 스토리 추가
-- **Component Structure**:
-  - 복합 컴포넌트의 경우: `ComponentName.Root`, `ComponentName.Item` 등 사용
-  - meta.component는 Root 컴포넌트 지정
-  - VariantTable에 variantMap과 conditionMap 전달
 - **Instructions**:
   - 유저가 입력한 $FIGMA_IMAGE와 localhost:6006/?path=/story/$component-name--${theme} 경로의 이미지를 playwright로 비교해 Variant 별로 비교해 스타일이 정확히 일치하는지 확인해주세요.
   - 비교 결과 스타일이 다른 경우 1번 과정부터 다시 시작해서 문제가 있는 부분을 찾아 수정해주세요.
@@ -86,31 +77,18 @@
 ## 9. React 문서 작성
 - **Path**: `@docs/content/react/components/[$component-name].mdx`
 - **Content**: installation, props, examples, migration guide
-- **Structure**:
-  - front-matter: 컴포넌트 이름과 설명
-  - Component Example: <ComponentExample> 사용, 예시 컴포넌트 이름은 ${component-name}-preview
-  - Installation: package-install 사용
-  - Props: react-type-table tag 사용, path는 컴포넌트 registry 파일 경로, name은 컴포넌트 타입 이름
-  - Examples: 컴포넌트 사용 예제 작성, 예시 컴포넌트 이름은 ${component-name}-${example-name}
 
 ## 10. Design 문서 작성
-- **Path**: `@docs/content/docs/components/[$component-name].mdx`
+- **Path**: `@docs/content/design/components/[$component-name].mdx`
 - **Content**: 컴포넌트 Spec 작성
-- **Structure**:
-  - front-matter: 컴포넌트 이름과 설명
-  - 개요: 컴포넌트 설명과 용도
-  - 옵션 테이블: 컴포넌트의 옵션 테이블
-  - 링크: 컴포넌트 링크
-  - 스펙: 컴포넌트 스펙
 
 ## 11. Figma 통합 핸들러 업데이트
 - **Path**: `@packages/figma/src/codegen/targets/react/component/handlers/[$component-name].ts`
 - **Description**: Figma Codegen 컴포넌트 핸들러 업데이트
 - **Note**: 컴포넌트 세트 업데이트 시 필요
 
-## IMPORTANT INSTRUCTIONS
+## 중요 지시 사항
 
-- 해당 과정들을 통해서 다른 컴포넌트를 제작할 때 추가되어야 하는 맥락이 있다면 이 문서에 추가해주세요.
 - 같은 폴더에 있는 파일을 참고해 위 절차를 따라 컴포넌트를 생성해주세요.
 - Do what has been asked; nothing more, nothing less.
 - NEVER create files unless they're absolutely necessary for achieving your goal.
@@ -148,8 +126,3 @@ The following files are auto-generated from source definitions and should NEVER 
 
 ## Seed Design MCP 사용시 주의사항
 - 현재 선택된 frame이 없다면 유저에게 선택을 요청해주세요.
-- MCP 서버 연결 오류 시: `bun mcp:start` 명령어 실행 필요
-
-## 추가 고려사항
-- **토큰 참조 오류 처리**: 정의되지 않은 토큰은 개발자에게 보고
-- **Recipe exports**: 모든 recipe는 반드시 recipes/index.ts에서 export 필요

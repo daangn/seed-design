@@ -159,11 +159,6 @@ export const registryUI: RegistryUI = [
     files: ["ui:text-field.tsx"],
   },
   {
-    name: "editor-toolbar",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:editor-toolbar.tsx"],
-  },
-  {
     name: "contextual-floating-button",
     dependencies: ["@seed-design/react"],
     innerDependencies: ["ui:loading-indicator"],

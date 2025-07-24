@@ -13,7 +13,6 @@ import chipTabs from "./recipes/chip-tabs";
 import contextualFloatingButton from "./recipes/contextual-floating-button";
 import controlChip from "./recipes/control-chip";
 import dialog from "./recipes/dialog";
-import editorToolbar from "./recipes/editor-toolbar";
 import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
@@ -65,7 +64,6 @@ export const recipes = {
   chip,
   controlChip,
   callout,
-  editorToolbar,
   mannerTemp,
   mannerTempBadge,
   segmentedControl,
