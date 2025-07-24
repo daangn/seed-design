@@ -8,11 +8,9 @@ import type {
   ActionButtonProperties,
 } from "@/codegen/component-properties";
 import { handleSizeProp } from "../size";
-import { createLocalSnippetHelper } from "../../element-factories";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("action-button");
-
-const ACTION_BUTTON_GHOST_BUTTON_KEY = "ea69291fb4d76217419f3d9613ae16aadafb56a5";
 
 export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonProperties>(
@@ -24,7 +22,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon Only", () => ({
           layout: "iconOnly",
           children: [
-            createLocalSnippetElement("Icon", {
+            createSeedReactElement("Icon", {
               svg: ctx.iconHandler.transform(props["Icon#7574:0"]),
             }),
           ],
@@ -32,7 +30,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon First", () => ({
           layout: "withText",
           children: [
-            createLocalSnippetElement("PrefixIcon", {
+            createSeedReactElement("PrefixIcon", {
               svg: ctx.iconHandler.transform(props["Prefix Icon#5987:305"]),
             }),
             props["Label#5987:61"].value,
@@ -42,7 +40,7 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
           layout: "withText",
           children: [
             props["Label#5987:61"].value,
-            createLocalSnippetElement("SuffixIcon", {
+            createSeedReactElement("SuffixIcon", {
               svg: ctx.iconHandler.transform(props["Suffix Icon#5987:244"]),
             }),
           ],
@@ -69,6 +67,8 @@ export const createActionButtonHandler = (ctx: ComponentHandlerDeps) =>
     },
   );
 
+const ACTION_BUTTON_GHOST_BUTTON_KEY = "ea69291fb4d76217419f3d9613ae16aadafb56a5";
+
 export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ActionButtonGhostProperties>(
     ACTION_BUTTON_GHOST_BUTTON_KEY,
@@ -79,7 +79,7 @@ export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon Only", () => ({
           layout: "iconOnly",
           children: [
-            createLocalSnippetElement("Icon", {
+            createSeedReactElement("Icon", {
               svg: ctx.iconHandler.transform(props["Icon#30525:15"]),
             }),
           ],
@@ -87,7 +87,7 @@ export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
         .with("Icon First", () => ({
           layout: "withText",
           children: [
-            createLocalSnippetElement("PrefixIcon", {
+            createSeedReactElement("PrefixIcon", {
               svg: ctx.iconHandler.transform(props["Prefix Icon#30511:3"]),
             }),
             props["Label#30511:2"].value,
@@ -97,7 +97,7 @@ export const createActionButtonGhostHandler = (ctx: ComponentHandlerDeps) =>
           layout: "withText",
           children: [
             props["Label#30511:2"].value,
-            createLocalSnippetElement("SuffixIcon", {
+            createSeedReactElement("SuffixIcon", {
               svg: ctx.iconHandler.transform(props["Suffix Icon#30525:0"]),
             }),
           ],
