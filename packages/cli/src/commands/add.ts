@@ -16,6 +16,7 @@ import { BASE_URL } from "../constants";
 import { addRelativeRegistries } from "../utils/add-relative-registries";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
+import type { RegistryUIMachineGenerated } from "../schema";
 
 const addOptionsSchema = z.object({
   components: z.array(z.string()).optional(),
@@ -107,7 +108,7 @@ export const addCommand = (cli: CAC) => {
         libRegistryIndex,
       });
 
-      const allRegistryItems = [];
+      const allRegistryItems: RegistryUIMachineGenerated = [];
 
       const { start, stop } = p.spinner();
       start("Registry를 가져오고 있어요...");
