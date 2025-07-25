@@ -40,11 +40,13 @@ export const registryUI: RegistryUI = [
     name: "action-sheet",
     dependencies: ["@seed-design/react"],
     files: ["ui:action-sheet.tsx"],
+    deprecated: true,
   },
   {
     name: "extended-action-sheet",
     dependencies: ["@seed-design/react"],
     files: ["ui:extended-action-sheet.tsx"],
+    deprecated: true,
   },
   {
     name: "avatar",
