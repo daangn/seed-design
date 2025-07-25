@@ -103,9 +103,11 @@ Usage:
   $ seed-design add [...components]
 
 Options:
-  -a, --all        Add all components (default: false)
-  -c, --cwd <cwd>  the working directory. defaults to the current directory.
-  -h, --help       Display this message 
+  -a, --all                Add all components (default: false)
+  --include-deprecated     Include deprecated components when used with `--all` (default: false)
+  -c, --cwd <cwd>          the working directory. defaults to the current directory.
+  -u, --baseUrl <baseUrl>  the base url of the registry. defaults to the current directory.
+  -h, --help               Display this message 
 
 Examples:
 seed-design add action-button
