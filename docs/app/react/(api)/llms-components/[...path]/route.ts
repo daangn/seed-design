@@ -72,12 +72,9 @@ ${data.description ?? ""}
 
 ${processed}`;
 
-    const fileName = path[path.length - 1];
-
     return new Response(response, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Content-Disposition": `inline; filename="${fileName}.txt"`,
       },
     });
   } catch (error) {
