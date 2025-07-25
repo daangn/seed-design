@@ -91,6 +91,7 @@ export const registryUI: RegistryUI = [
     name: "control-chip",
     dependencies: ["@seed-design/react"],
     files: ["ui:control-chip.tsx"],
+    deprecated: true,
   },
   {
     name: "chip",
