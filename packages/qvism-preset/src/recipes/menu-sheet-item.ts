@@ -47,7 +47,7 @@ const menuSheetItem = defineRecipe({
         }),
       },
     },
-    labelAlignment: {
+    labelAlign: {
       left: {
         justifyContent: "flex-start",
       },
@@ -58,7 +58,7 @@ const menuSheetItem = defineRecipe({
   },
   defaultVariants: {
     tone: "neutral",
-    labelAlignment: "left",
+    labelAlign: "left",
   },
 });
 

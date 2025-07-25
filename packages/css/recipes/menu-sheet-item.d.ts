@@ -6,7 +6,7 @@ declare interface MenuSheetItemVariant {
 /**
   * @default left
   */
-  labelAlignment: "left" | "center";
+  labelAlign: "left" | "center";
 }
 
 declare type MenuSheetItemVariantMap = {

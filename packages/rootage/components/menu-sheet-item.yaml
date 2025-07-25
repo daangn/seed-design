@@ -64,7 +64,7 @@ data:
           color: $color.fg.critical
         label:
           color: $color.fg.critical
-    labelAlignment=left:
+    labelAlign=left:
       enabled: {}
-    labelAlignment=center:
+    labelAlign=center:
       enabled: {}

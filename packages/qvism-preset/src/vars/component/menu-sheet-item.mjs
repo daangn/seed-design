@@ -43,10 +43,10 @@ export const vars = {
       }
     }
   },
-  "labelAlignmentLeft": {
+  "labelAlignLeft": {
     "enabled": {}
   },
-  "labelAlignmentCenter": {
+  "labelAlignCenter": {
     "enabled": {}
   }
 }

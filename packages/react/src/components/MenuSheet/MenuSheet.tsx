@@ -57,17 +57,17 @@ export const MenuSheetBackdrop = withContext<HTMLDivElement, MenuSheetBackdropPr
 
 export interface MenuSheetContentProps
   extends DialogPrimitive.ContentProps,
-    Pick<MenuSheetItemVariantProps, "labelAlignment"> {}
+    Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 export const MenuSheetContent = React.forwardRef<HTMLDivElement, MenuSheetContentProps>(
-  ({ labelAlignment, children, ...props }, ref) => {
+  ({ labelAlign, children, ...props }, ref) => {
     const ContentComponent = withContext<HTMLDivElement, DialogPrimitive.ContentProps>(
       DialogPrimitive.Content,
       "content",
     );
 
     return (
-      <ItemPropsProvider value={React.useMemo(() => ({ labelAlignment }), [labelAlignment])}>
+      <ItemPropsProvider value={React.useMemo(() => ({ labelAlign }), [labelAlign])}>
         <ContentComponent ref={ref} {...props}>
           {children}
         </ContentComponent>
@@ -109,12 +109,12 @@ export const MenuSheetList = withContext<HTMLDivElement, MenuSheetListProps>(
 
 export interface MenuSheetGroupProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    Pick<MenuSheetItemVariantProps, "labelAlignment"> {}
+    Pick<MenuSheetItemVariantProps, "labelAlign"> {}
 
 export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupProps>(
-  ({ labelAlignment: overriddenLabelAlignment, children, ...props }, ref) => {
+  ({ labelAlign: overriddenLabelAlign, children, ...props }, ref) => {
     const parentProps = useItemProps();
-    const labelAlignment = overriddenLabelAlignment ?? parentProps?.labelAlignment;
+    const labelAlign = overriddenLabelAlign ?? parentProps?.labelAlign;
 
     const GroupComponent = withContext<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
       withStateProps(Primitive.div),
@@ -122,7 +122,7 @@ export const MenuSheetGroup = React.forwardRef<HTMLDivElement, MenuSheetGroupPro
     );
 
     return (
-      <ItemPropsProvider value={React.useMemo(() => ({ labelAlignment }), [labelAlignment])}>
+      <ItemPropsProvider value={React.useMemo(() => ({ labelAlign }), [labelAlign])}>
         <GroupComponent ref={ref} {...props}>
           {children}
         </GroupComponent>
@@ -139,15 +139,15 @@ export interface MenuSheetItemProps
     React.HTMLAttributes<HTMLButtonElement> {}
 
 export const MenuSheetItem = React.forwardRef<HTMLButtonElement, MenuSheetItemProps>(
-  ({ labelAlignment: overriddenLabelAlignment, ...props }, ref) => {
+  ({ labelAlign: overriddenLabelAlign, ...props }, ref) => {
     const parentProps = useItemProps();
-    const labelAlignment = overriddenLabelAlignment ?? parentProps?.labelAlignment;
+    const labelAlign = overriddenLabelAlign ?? parentProps?.labelAlign;
 
     const ItemComponent = withItemContext<HTMLButtonElement, MenuSheetItemProps>(
       withStateProps(Primitive.button),
     );
 
-    return <ItemComponent ref={ref} labelAlignment={labelAlignment} {...props} />;
+    return <ItemComponent ref={ref} labelAlign={labelAlign} {...props} />;
   },
 );
 

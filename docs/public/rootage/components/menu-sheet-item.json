@@ -63,7 +63,7 @@
           },
           "defaultValue": "neutral"
         },
-        "labelAlignment": {
+        "labelAlign": {
           "values": {
             "left": {},
             "center": {}
@@ -200,7 +200,7 @@
       },
       {
         "variants": {
-          "labelAlignment": "left"
+          "labelAlign": "left"
         },
         "definitions": [
           {
@@ -213,7 +213,7 @@
       },
       {
         "variants": {
-          "labelAlignment": "center"
+          "labelAlign": "center"
         },
         "definitions": [
           {

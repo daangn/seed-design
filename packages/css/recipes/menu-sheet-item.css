@@ -28,9 +28,9 @@
     color: var(--seed-color-fg-critical);
     --seed-prefix-icon-color: var(--seed-color-fg-critical);
 }
-.seed-menu-sheet-item--labelAlignment_left {
+.seed-menu-sheet-item--labelAlign_left {
     justify-content: flex-start;
 }
-.seed-menu-sheet-item--labelAlignment_center {
+.seed-menu-sheet-item--labelAlign_center {
     justify-content: center;
 }

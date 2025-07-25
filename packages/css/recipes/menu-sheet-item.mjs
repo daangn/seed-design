@@ -3,7 +3,7 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const defaultVariant = {
   "tone": "neutral",
-  "labelAlignment": "left"
+  "labelAlign": "left"
 };
 
 const compoundVariants = [];
@@ -13,7 +13,7 @@ export const menuSheetItemVariantMap = {
     "neutral",
     "critical"
   ],
-  "labelAlignment": [
+  "labelAlign": [
     "left",
     "center"
   ]
