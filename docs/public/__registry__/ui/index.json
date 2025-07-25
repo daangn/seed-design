@@ -72,12 +72,21 @@
     ]
   },
   {
-    "name": "menu-sheet",
+    "name": "action-sheet",
     "dependencies": [
       "@seed-design/react"
     ],
     "files": [
-      "ui:menu-sheet.tsx"
+      "ui:action-sheet.tsx"
+    ]
+  },
+  {
+    "name": "extended-action-sheet",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "files": [
+      "ui:extended-action-sheet.tsx"
     ]
   },
   {
@@ -211,6 +220,15 @@
     ],
     "files": [
       "ui:inline-banner.tsx"
+    ]
+  },
+  {
+    "name": "menu-sheet",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "files": [
+      "ui:menu-sheet.tsx"
     ]
   },
   {

@@ -115,6 +115,11 @@ export const registryUI: RegistryUI = [
     files: ["ui:inline-banner.tsx"],
   },
   {
+    name: "menu-sheet",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:menu-sheet.tsx"],
+  },
+  {
     name: "snackbar",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:snackbar.tsx"],
