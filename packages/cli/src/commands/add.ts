@@ -138,6 +138,19 @@ export const addCommand = (cli: CAC) => {
         filtered: new Set(),
       };
       for (const component of allRegistryItems) {
+        if (component.deprecated && !options.includeDeprecated) {
+          const confirm = await p.confirm({
+            message: `${highlight(component.name)}는 deprecated 되었어요. 추가할까요?`,
+            initialValue: false,
+          });
+
+          if (confirm === false || p.isCancel(confirm)) {
+            p.log.info(`${highlight(component.name)} 컴포넌트는 추가하지 않을게요.`);
+
+            continue;
+          }
+        }
+
         for (const registry of component.registries) {
           let targetPath = "";
           switch (registry.type) {
