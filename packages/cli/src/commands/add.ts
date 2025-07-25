@@ -20,7 +20,7 @@ import { installDependencies } from "../utils/install";
 const addOptionsSchema = z.object({
   components: z.array(z.string()).optional(),
   all: z.boolean(),
-  allIncludeDeprecated: z.boolean().optional(),
+  includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
   // yes: z.boolean(),
@@ -34,7 +34,7 @@ export const addCommand = (cli: CAC) => {
     .option("-a, --all", "Add all components", {
       default: false,
     })
-    .option("--all-include-deprecated", "Add all components including deprecated ones", {
+    .option("--include-deprecated", "Include deprecated components when used with `--all`", {
       default: false,
     })
     .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
@@ -62,10 +62,11 @@ export const addCommand = (cli: CAC) => {
       const libRegistryIndex = await getRegistryLibIndex(baseUrl);
 
       const selectedComponents: string[] = await (async () => {
-        if (options.allIncludeDeprecated) return registryComponentIndex.map((c) => c.name);
+        if (options.all) {
+          if (options.includeDeprecated) return registryComponentIndex.map((c) => c.name);
 
-        if (options.all)
           return registryComponentIndex.filter(({ deprecated }) => !deprecated).map((c) => c.name);
+        }
 
         if (options.components.length > 0) return options.components;
 
