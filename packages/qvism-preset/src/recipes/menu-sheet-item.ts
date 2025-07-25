@@ -1,13 +1,10 @@
-import {
-  extendedActionSheetItem as vars,
-  extendedActionSheet as rootVars,
-} from "../vars/component";
+import { menuSheetItem as vars, menuSheet as rootVars } from "../vars/component";
 import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
-const extendedActionSheetItem = defineRecipe({
-  name: "extended-action-sheet-item",
+const menuSheetItem = defineRecipe({
+  name: "menu-sheet-item",
   base: {
     display: "flex",
     alignItems: "center",
@@ -65,4 +62,4 @@ const extendedActionSheetItem = defineRecipe({
   },
 });
 
-export default extendedActionSheetItem;
+export default menuSheetItem;

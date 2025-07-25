@@ -1,13 +1,10 @@
-import {
-  extendedActionSheet as vars,
-  extendedActionSheetCloseButton as closeVars,
-} from "../vars/component";
+import { menuSheet as vars, menuSheetCloseButton as closeVars } from "../vars/component";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";
 
-const extendedActionSheet = defineSlotRecipe({
-  name: "extended-action-sheet",
+const menuSheet = defineSlotRecipe({
+  name: "menu-sheet",
   slots: [
     "backdrop",
     "positioner",
@@ -135,4 +132,4 @@ const extendedActionSheet = defineSlotRecipe({
   defaultVariants: {},
 });
 
-export default extendedActionSheet;
+export default menuSheet;
