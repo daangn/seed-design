@@ -30,7 +30,7 @@
     "semver": "^7.7.1",
     "simple-git": "^3.27.0",
     "winston": "^3.17.0",
-    "zod": "^3.24.3"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@types/jscodeshift": "^17.3.0",
