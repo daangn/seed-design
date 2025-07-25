@@ -29,14 +29,15 @@ export async function generateStaticParams() {
   return params;
 }
 
-export async function GET(_: Request, { params }: { params: { path: string[] } }) {
-  const componentPath = params.path.join("/");
+export async function GET(_: Request, { params }: { params: Promise<{ path: string[] }> }) {
+  const { path } = await params;
+  const componentPath = path.join("/");
 
   try {
     const possiblePaths = [`./content/react/components/${componentPath}.mdx`];
 
-    if (params.path.length > 1) {
-      const [firstSegment, ...restSegments] = params.path;
+    if (path.length > 1) {
+      const [firstSegment, ...restSegments] = path;
       possiblePaths.push(
         `./content/react/components/(${firstSegment})/${restSegments.join("/")}.mdx`,
       );
@@ -71,7 +72,7 @@ ${data.description ?? ""}
 
 ${processed}`;
 
-    const fileName = params.path[params.path.length - 1];
+    const fileName = path[path.length - 1];
 
     return new Response(response, {
       headers: {
