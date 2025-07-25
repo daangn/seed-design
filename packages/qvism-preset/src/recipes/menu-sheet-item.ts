@@ -6,15 +6,11 @@ import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
-/**
- * @deprecated Use `menu-sheet-item` instead.
- */
 const extendedActionSheetItem = defineRecipe({
   name: "extended-action-sheet-item",
   base: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
 
     backgroundColor: vars.base.enabled.root.color,
     minHeight: vars.base.enabled.root.minHeight,
@@ -30,6 +26,7 @@ const extendedActionSheetItem = defineRecipe({
     [pseudo(active)]: {
       backgroundColor: vars.base.pressed.root.color,
     },
+
     "&:last-child": {
       boxShadow: "none",
     },
@@ -53,9 +50,18 @@ const extendedActionSheetItem = defineRecipe({
         }),
       },
     },
+    labelAlignment: {
+      left: {
+        justifyContent: "flex-start",
+      },
+      center: {
+        justifyContent: "center",
+      },
+    },
   },
   defaultVariants: {
     tone: "neutral",
+    labelAlignment: "left",
   },
 });
 

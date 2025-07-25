@@ -1,13 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "extended-action-sheet-item",
-    "name": "Extended Action Sheet Item",
-    "deprecated": "Use menu-sheet-item instead."
+    "id": "menu-sheet-item",
+    "name": "Menu Sheet Item"
   },
   "data": {
-    "id": "extended-action-sheet-item",
-    "name": "Extended Action Sheet Item",
+    "id": "menu-sheet-item",
+    "name": "Menu Sheet Item",
     "schema": {
       "slots": {
         "root": {
@@ -63,6 +62,13 @@
             "critical": {}
           },
           "defaultValue": "neutral"
+        },
+        "labelAlignment": {
+          "values": {
+            "left": {},
+            "center": {}
+          },
+          "defaultValue": "left"
         }
       }
     },
@@ -189,6 +195,32 @@
                 }
               }
             }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "labelAlignment": "left"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {}
+          }
+        ]
+      },
+      {
+        "variants": {
+          "labelAlignment": "center"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {}
           }
         ]
       }

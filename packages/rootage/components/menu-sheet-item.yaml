@@ -1,9 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: extended-action-sheet-item
-  name: Extended Action Sheet Item
-  deprecated: Use menu-sheet-item instead.
+  id: menu-sheet-item
+  name: Menu Sheet Item
 data:
   schema:
     slots:
@@ -65,3 +64,7 @@ data:
           color: $color.fg.critical
         label:
           color: $color.fg.critical
+    labelAlignment=left:
+      enabled: {}
+    labelAlignment=center:
+      enabled: {}

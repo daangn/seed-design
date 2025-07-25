@@ -1,13 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "extended-action-sheet-item",
-    "name": "Extended Action Sheet Item",
-    "deprecated": "Use menu-sheet-item instead."
+    "id": "menu-sheet-close-button",
+    "name": "Menu Sheet Close Button"
   },
   "data": {
-    "id": "extended-action-sheet-item",
-    "name": "Extended Action Sheet Item",
+    "id": "menu-sheet-close-button",
+    "name": "Menu Sheet Close Button",
     "schema": {
       "slots": {
         "root": {
@@ -18,6 +17,9 @@
             "minHeight": {
               "type": "dimension"
             },
+            "cornerRadius": {
+              "type": "dimension"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -26,16 +28,6 @@
             },
             "gap": {
               "type": "dimension"
-            }
-          }
-        },
-        "prefixIcon": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
             }
           }
         },
@@ -56,15 +48,7 @@
           }
         }
       },
-      "variants": {
-        "tone": {
-          "values": {
-            "neutral": {},
-            "critical": {}
-          },
-          "defaultValue": "neutral"
-        }
-      }
+      "variants": {}
     },
     "definitions": [
       {
@@ -87,29 +71,24 @@
                     "unit": "px"
                   }
                 },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x5"
                 },
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x3_5"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                }
-              },
-              "prefixIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 22,
-                    "unit": "px"
-                  }
                 }
               },
               "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t5"
@@ -120,7 +99,7 @@
                 },
                 "fontWeight": {
                   "type": "number",
-                  "value": "$font-weight.regular"
+                  "value": "$font-weight.medium"
                 }
               }
             }
@@ -134,58 +113,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "tone": "neutral"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "tone": "critical"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
                 }
               }
             }

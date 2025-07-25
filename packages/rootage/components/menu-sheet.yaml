@@ -1,9 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: action-sheet
-  name: Action Sheet
-  deprecated: Use menu-sheet instead.
+  id: menu-sheet
+  name: Menu Sheet
 data:
   schema:
     slots:
@@ -29,6 +28,10 @@ data:
             type: color
           maxWidth:
             type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
           topCornerRadius:
             type: dimension
           enterDuration:
@@ -41,11 +44,9 @@ data:
             type: cubicBezier
       header:
         properties:
-          paddingX:
-            type: dimension
-          paddingY:
-            type: dimension
           gap:
+            type: dimension
+          paddingBottom:
             type: dimension
       title:
         properties:
@@ -67,13 +68,23 @@ data:
             type: number
           color:
             type: color
+      list:
+        properties:
+          gap:
+            type: dimension
+      group:
+        properties:
+          cornerRadius:
+            type: dimension
       divider:
         properties:
-          strokeWidth:
+          strokeBottomWidth:
             type: dimension
           strokeColor:
             type: color
-          marginX:
+      footer:
+        properties:
+          paddingTop:
             type: dimension
   definitions:
     base:
@@ -89,6 +100,8 @@ data:
         content:
           color: $color.bg.layer-floating
           maxWidth: 480px
+          paddingX: $dimension.spacing-x.global-gutter
+          paddingY: $dimension.x4
           topCornerRadius: $radius.r5
           enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter-expressive
@@ -96,20 +109,25 @@ data:
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.exit
         header:
-          paddingX: $dimension.spacing-x.global-gutter
-          paddingY: $dimension.x3_5
           gap: $dimension.x1
+          paddingBottom: $dimension.x4
         title:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+          fontWeight: $font-weight.bold
+          color: $color.fg.neutral
+        description:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-          fontWeight: $font-weight.bold
-          color: $color.fg.neutral-muted
-        description:
-          fontSize: $font-size.t3
-          lineHeight: $line-height.t3
           fontWeight: $font-weight.regular
           color: $color.fg.neutral-muted
+        # We might need description in near future
+        list:
+          gap: $dimension.x2_5
+        group:
+          cornerRadius: $radius.r4
         divider:
-          strokeWidth: 1px
+          strokeBottomWidth: 1px
           strokeColor: $color.stroke.neutral
-          marginX: $dimension.spacing-x.global-gutter
+        footer:
+          paddingTop: $dimension.x2_5

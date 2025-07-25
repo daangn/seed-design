@@ -2,6 +2,9 @@ import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { actionSheet as rootVars, actionSheetItem as vars } from "../vars/component";
 
+/**
+ * @deprecated Use `menu-sheet-item` instead.
+ */
 const actionSheetItem = defineRecipe({
   name: "action-sheet-item",
   base: {

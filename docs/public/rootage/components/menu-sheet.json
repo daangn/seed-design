@@ -1,13 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "extended-action-sheet",
-    "name": "Extended Action Sheet",
-    "deprecated": "Use menu-sheet instead."
+    "id": "menu-sheet",
+    "name": "Menu Sheet"
   },
   "data": {
-    "id": "extended-action-sheet",
-    "name": "Extended Action Sheet",
+    "id": "menu-sheet",
+    "name": "Menu Sheet",
     "schema": {
       "slots": {
         "backdrop": {

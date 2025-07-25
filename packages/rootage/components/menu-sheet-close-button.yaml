@@ -1,9 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: extended-action-sheet-item
-  name: Extended Action Sheet Item
-  deprecated: Use menu-sheet-item instead.
+  id: menu-sheet-close-button
+  name: Menu Sheet Close Button
 data:
   schema:
     slots:
@@ -13,18 +12,14 @@ data:
             type: color
           minHeight:
             type: dimension
+          cornerRadius:
+            type: dimension
           paddingX:
             type: dimension
           paddingY:
             type: dimension
           gap:
             type: dimension
-      prefixIcon:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
       label:
         properties:
           color:
@@ -41,27 +36,14 @@ data:
         root:
           color: $color.bg.neutral-weak
           minHeight: 52px
-          paddingX: $dimension.x4
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x5
           paddingY: $dimension.x3_5
-          gap: $dimension.x3_5
-        prefixIcon:
-          size: 22px
         label:
+          color: $color.fg.neutral
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-          fontWeight: $font-weight.regular
+          fontWeight: $font-weight.medium
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
-    tone=neutral:
-      enabled:
-        prefixIcon:
-          color: $color.fg.neutral
-        label:
-          color: $color.fg.neutral
-    tone=critical:
-      enabled:
-        prefixIcon:
-          color: $color.fg.critical
-        label:
-          color: $color.fg.critical
