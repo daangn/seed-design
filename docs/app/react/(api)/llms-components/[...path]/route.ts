@@ -59,6 +59,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ path: stri
         status: 404,
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
+          "X-Content-Type-Options": "nosniff",
         },
       });
     }
@@ -75,6 +76,7 @@ ${processed}`;
     return new Response(response, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch (error) {
@@ -85,6 +87,7 @@ ${processed}`;
         status: 500,
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
+          "X-Content-Type-Options": "nosniff",
         },
       },
     );
