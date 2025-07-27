@@ -19,7 +19,7 @@ export async function GET() {
       const relativePath = file.replace("./content/react/components/", "");
       const componentPath = relativePath.replace(".mdx", "");
       const cleanPath = componentPath.replace(/\(([^)]+)\)\//g, "$1/");
-      const apiUrl = `${BASE_URL}/react/llms-components/${cleanPath}`;
+      const apiUrl = `${BASE_URL}/react/llms-components/${cleanPath}.txt`;
       return `- [${cleanPath}](${apiUrl})`;
     })
     .sort();
