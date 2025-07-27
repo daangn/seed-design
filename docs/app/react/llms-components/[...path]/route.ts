@@ -15,25 +15,18 @@ export async function generateStaticParams() {
     "!./content/react/components/concepts/**/*.mdx",
   ]);
 
-  const params = files.flatMap((file) => {
+  const params = files.map((file) => {
     const relativePath = file.replace("./content/react/components/", "");
     const componentPath = relativePath.replace(".mdx", "");
     const cleanPath = componentPath.replace(/\(([^)]+)\)\//g, "$1/");
     const pathArray = cleanPath.split("/");
+    
+    // Add .txt extension to the last segment
+    pathArray[pathArray.length - 1] += ".txt";
 
-    // Generate both with and without .txt extension
-    const baseParams = {
+    return {
       path: pathArray,
     };
-
-    // Add .txt extension to the last segment
-    const pathArrayWithTxt = [...pathArray];
-    pathArrayWithTxt[pathArrayWithTxt.length - 1] += ".txt";
-    const txtParams = {
-      path: pathArrayWithTxt,
-    };
-
-    return [baseParams, txtParams];
   });
 
   return params;
@@ -41,23 +34,9 @@ export async function generateStaticParams() {
 
 export async function GET(_: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
-
-  // Check if the last segment ends with .txt
-  const lastSegment = path[path.length - 1];
-  if (lastSegment && !lastSegment.endsWith(".txt")) {
-    // Redirect to the same path with .txt extension
-    const pathWithTxt = [...path.slice(0, -1), `${lastSegment}.txt`];
-    const redirectUrl = `/react/llms-components/${pathWithTxt.join("/")}`;
-
-    return new Response(null, {
-      status: 301,
-      headers: {
-        Location: redirectUrl,
-      },
-    });
-  }
-
+  
   // Remove .txt extension from the last segment for processing
+  const lastSegment = path[path.length - 1];
   if (lastSegment?.endsWith(".txt")) {
     path[path.length - 1] = lastSegment.slice(0, -4);
   }
