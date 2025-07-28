@@ -19,6 +19,7 @@ type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
   args: {
+    title: "enim consectetur",
     description:
       "Ex do aliqua est non ea adipisicing nostrud. Exercitation ea mollit sunt magna quis quis exercitation.",
     prefixIcon: <IconBellFill />,
