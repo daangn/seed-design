@@ -3,6 +3,22 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.07.28
+
+[`9b271d6`](https://github.com/daangn/seed-design/commit/9b271d613f2067c8cc8cbc517cd1d334f4e04e92) snippet의 deprecated 여부를 기록합니다. cli add 명령 실행 시 snippet 목록에서 deprecate 여부를 표시하고, `--all`로 모든 스니펫 추가 시 기본적으로 deprecated snippet을 제외합니다.
+
+```sh
+seed-design add --all # deprecated snippet 제외
+```
+
+```sh
+seed-design add --all --include-deprecated # deprecated snippet 포함
+```
+
+### Version Updates
+
+- @seed-design/cli@0.0.3
+
 ## 2025.07.23
 
 [`0ffcd48`](https://github.com/daangn/seed-design/commit/0ffcd481d3be71cff6a7cfea6985a7c063086ff7) Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
