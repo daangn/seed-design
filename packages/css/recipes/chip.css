@@ -10,6 +10,7 @@
     white-space: nowrap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: inherit;
     flex-shrink: 0;
     line-height: 1;
     border-radius: var(--seed-radius-full);

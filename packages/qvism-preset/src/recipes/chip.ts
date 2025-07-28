@@ -20,6 +20,7 @@ const chip = defineSlotRecipe({
       whiteSpace: "nowrap",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
+      fontFamily: "inherit",
       flexShrink: 0,
       lineHeight: 1,
 

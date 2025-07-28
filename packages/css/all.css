@@ -2883,6 +2883,7 @@
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
+  font-family: inherit;
   line-height: 1;
   transition-property: background-color, color, border-color, box-shadow;
   display: inline-flex;
