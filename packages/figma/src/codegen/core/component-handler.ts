@@ -7,8 +7,8 @@ export interface ComponentHandler<
 > {
   key: string;
   transform: (
-    node: NormalizedInstanceNode & { componentProperties: T },
-    traverse: (node: NormalizedSceneNode) => ElementNode | undefined
+    node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
+    traverse: (node: NormalizedSceneNode) => ElementNode | undefined,
   ) => ElementNode;
 }
 
@@ -16,7 +16,7 @@ export function defineComponentHandler<T extends NormalizedInstanceNode["compone
   key: string,
   transform: (
     node: Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T },
-    traverse: (node: NormalizedSceneNode) => ElementNode | undefined
+    traverse: (node: NormalizedSceneNode) => ElementNode | undefined,
   ) => ElementNode,
 ): ComponentHandler<T> {
   return { key, transform };
