@@ -37,8 +37,6 @@ const ActivityMenuSheet: ActivityComponentType = () => {
     }
   };
 
-  console.log({ menuSheet: activity.isActive });
-
   return (
     <MenuSheetRoot open={activity.isActive} onOpenChange={handleClose}>
       <MenuSheetContent title="Actions" layerIndex={activity.zIndex * 5}>
