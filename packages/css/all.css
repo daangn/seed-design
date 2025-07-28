@@ -4005,7 +4005,11 @@
   line-height: var(--seed-line-height-t4);
   font-weight: var(--seed-font-weight-bold);
   flex-shrink: 0;
-  margin-inline-end: 1ch;
+}
+
+.seed-inline-banner__title:after {
+  content: "  ";
+  white-space: pre;
 }
 
 .seed-inline-banner__description {

@@ -54,7 +54,11 @@ const inlineBanner = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
-      marginInlineEnd: "1ch",
+
+      [pseudo("::after")]: {
+        content: '"  "',
+        whiteSpace: "pre",
+      },
     },
     description: {
       fontSize: vars.base.enabled.description.fontSize,
