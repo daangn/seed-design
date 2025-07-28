@@ -3994,10 +3994,9 @@
 }
 
 .seed-inline-banner__content {
-  box-sizing: border-box;
   text-align: start;
   margin-inline-end: auto;
-  display: inline-flex;
+  display: block;
 }
 
 .seed-inline-banner__title {

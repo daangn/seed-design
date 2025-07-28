@@ -42,10 +42,8 @@ const inlineBanner = defineSlotRecipe({
       },
     },
     content: {
-      display: "inline-flex",
-      boxSizing: "border-box",
+      display: "block",
       textAlign: "start",
-
       marginInlineEnd: "auto",
     },
     title: {

@@ -21,8 +21,7 @@
     cursor: pointer;
 }
 .seed-inline-banner__content {
-    display: inline-flex;
-    box-sizing: border-box;
+    display: block;
     text-align: start;
     margin-inline-end: auto;
 }
