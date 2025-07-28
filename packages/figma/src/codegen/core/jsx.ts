@@ -101,6 +101,8 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
         }
 
         if (typeof value === "boolean") {
+          if (value === true) return key;
+
           return `${key}={${value}}`;
         }
 
