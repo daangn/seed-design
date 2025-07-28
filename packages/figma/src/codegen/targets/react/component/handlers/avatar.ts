@@ -15,7 +15,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("avatar");
 export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
   const identityPlaceholderHandler = createIdentityPlaceholderHandler(ctx);
 
-  return defineComponentHandler<AvatarProperties>(metadata.avatar.key, (node) => {
+  return defineComponentHandler<AvatarProperties>(metadata.avatar.key, (node, traverse) => {
     const [placeholder] = findAllInstances<IdentityPlaceholderProperties>({
       node,
       key: identityPlaceholderHandler.key,
@@ -30,7 +30,7 @@ export const createAvatarHandler = (ctx: ComponentHandlerDeps) => {
         src: `https://placehold.co/${props.Size.value}x${props.Size.value}`,
       }),
       ...(placeholder && {
-        fallback: identityPlaceholderHandler.transform(placeholder),
+        fallback: identityPlaceholderHandler.transform(placeholder, traverse),
       }),
       ...(props["Badge"].value !== "None" && {
         badgeMask: camelCase(props["Badge"].value),

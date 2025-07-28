@@ -36,7 +36,7 @@ export const createSegmentedControlHandler = (ctx: ComponentHandlerDeps) => {
 
   return defineComponentHandler<SegmentedControlProperties>(
     metadata.segmentedControl.key,
-    (node) => {
+    (node, traverse) => {
       const segments = findAllInstances<SegmentedControlItemProperties>({
         node,
         key: segmentedControlItemHandler.key,
@@ -46,7 +46,9 @@ export const createSegmentedControlHandler = (ctx: ComponentHandlerDeps) => {
         segment.componentProperties.State.value.split("-").includes("Selected"),
       );
 
-      const segmentedControlChildren = segments.map(segmentedControlItemHandler.transform);
+      const segmentedControlChildren = segments.map((segment) =>
+        segmentedControlItemHandler.transform(segment, traverse),
+      );
 
       const commonProps = {
         ...(selectedSegment && {

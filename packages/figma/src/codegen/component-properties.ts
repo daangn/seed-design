@@ -174,6 +174,55 @@ export type FloatingActionButtonProperties = InferComponentDefinition<
   typeof metadata.floatingActionButton.componentPropertyDefinitions
 >;
 
+export type FloatingActionButtonButtonItemProperties = InferComponentDefinition<{
+  "Icon#29766:18": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:24681";
+    preferredValues: [];
+  };
+  "Label#29808:0": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: ["Enabled", "Pressed"];
+  };
+  Extended: {
+    type: "VARIANT";
+    defaultValue: "True";
+    variantOptions: ["True", "False"];
+  };
+}>;
+
+export type FloatingActionButtonMenuItemProperties = InferComponentDefinition<{
+  "Icon#29766:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:24681";
+    preferredValues: [];
+  };
+  "Label#29766:9": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Enabled";
+    variantOptions: ["Pressed", "Enabled"];
+  };
+  Extended: {
+    type: "VARIANT";
+    defaultValue: "True";
+    variantOptions: ["True", "False"];
+  };
+  Open: {
+    type: "VARIANT";
+    defaultValue: "False";
+    variantOptions: ["True", "False"];
+  };
+}>;
+
 export type HelpBubbleProperties = InferComponentDefinition<
   typeof metadata.helpBubble.componentPropertyDefinitions
 >;
@@ -188,6 +237,10 @@ export type IdentityPlaceholderProperties = InferComponentDefinition<{
 
 export type InlineBannerProperties = InferComponentDefinition<
   typeof metadata.inlineBanner.componentPropertyDefinitions
+>;
+
+export type MannerTempProperties = InferComponentDefinition<
+  typeof metadata.mannerTemp.componentPropertyDefinitions
 >;
 
 export type MannerTempBadgeProperties = InferComponentDefinition<
