@@ -178,7 +178,8 @@
     ],
     "files": [
       "ui:control-chip.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "chip",
