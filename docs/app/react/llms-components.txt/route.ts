@@ -1,27 +1,55 @@
 import { globby } from "globby";
-import matter from "gray-matter";
-import * as fs from "node:fs/promises";
-import { processContent } from "../_llms/process-content";
 
 export const revalidate = false;
 
+const BASE_URL = "https://seed-design.io";
+
+/**
+ * This is an entry point for accessing individual component documentation.
+ * Each component can be accessed through its specific endpoint.
+ */
 export async function GET() {
-  const files = await globby(["./content/react/components/**/*.mdx"]);
+  const files = await globby([
+    "./content/react/components/**/*.mdx",
+    "!./content/react/components/concepts/**/*.mdx", // Exclude concept pages
+  ]);
 
-  const results = await Promise.all(
-    files.map(async (file) => {
-      const fileContent = await fs.readFile(file);
-      const { content, data } = matter(fileContent.toString());
+  const components = files
+    .map((file) => {
+      const relativePath = file.replace("./content/react/components/", "");
+      const componentPath = relativePath.replace(".mdx", "");
+      const cleanPath = componentPath.replace(/\(([^)]+)\)\//g, "$1/");
+      const apiUrl = `${BASE_URL}/react/llms-components/${cleanPath}.txt`;
+      return `- [${cleanPath}](${apiUrl})`;
+    })
+    .sort();
 
-      const processed = await processContent(file, content);
-      return `file: ${file}
-# ${data.title}
+  const entryContent = `# SEED Design React Components - LLM Reference Entry
 
-${data.description ?? ""}
-        
-${processed}`;
-    }),
-  );
+This is an entry point for accessing individual component documentation.
+Each component can be accessed through its specific endpoint.
 
-  return new Response(results.join("\n\n"));
+## Available Components
+
+${components.join("\n")}
+
+## Usage
+
+To get information about a specific component, access its endpoint:
+Example: /react/llms-components/action-button
+
+The response will include the full MDX content for that component, processed and ready for LLM consumption.
+
+## Additional Resources
+
+- Full components documentation (all in one): /react/llms-full.txt
+- Changelog: /react/llms-changelog.txt
+`;
+
+  return new Response(entryContent, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Disposition": 'inline; filename="llms-components.txt"',
+    },
+  });
 }
