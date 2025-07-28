@@ -281,7 +281,9 @@ export function createPluginNormalizer() {
 
   function normalizePaints(fills: readonly Paint[] | PluginAPI["mixed"]): FigmaRestSpec.Paint[] {
     if (fills === figma.mixed) {
-      throw new Error("Mixed fills are not supported");
+      console.warn("Mixed fills are not supported");
+
+      return [];
     }
 
     return fills.map(normalizePaint);
