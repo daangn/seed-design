@@ -73,10 +73,13 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
 
     if (importPath) {
       const existing = importMap.get(importPath);
+
+      const [namespace] = tag.split(".");
+
       if (existing) {
-        existing.add(tag);
+        existing.add(namespace);
       } else {
-        importMap.set(importPath, new Set([tag]));
+        importMap.set(importPath, new Set([namespace]));
       }
     }
 
