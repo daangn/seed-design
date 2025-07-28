@@ -1,7 +1,7 @@
 import { globby } from "globby";
 import matter from "gray-matter";
 import * as fs from "node:fs/promises";
-import { processContent } from "../../../_llms/process-content";
+import { processContent } from "../../_llms/process-content";
 
 export const revalidate = false;
 
@@ -20,6 +20,9 @@ export async function generateStaticParams() {
     const componentPath = relativePath.replace(".mdx", "");
     const cleanPath = componentPath.replace(/\(([^)]+)\)\//g, "$1/");
     const pathArray = cleanPath.split("/");
+    
+    // Add .txt extension to the last segment
+    pathArray[pathArray.length - 1] += ".txt";
 
     return {
       path: pathArray,
@@ -31,6 +34,13 @@ export async function generateStaticParams() {
 
 export async function GET(_: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
+  
+  // Remove .txt extension from the last segment for processing
+  const lastSegment = path[path.length - 1];
+  if (lastSegment?.endsWith(".txt")) {
+    path[path.length - 1] = lastSegment.slice(0, -4);
+  }
+
   const componentPath = path.join("/");
 
   try {
@@ -58,8 +68,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ path: stri
       return new Response(`Component not found: ${componentPath}`, {
         status: 404,
         headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Content-Disposition": "inline",
+          "Content-Type": "text/markdown; charset=utf-8",
           "X-Content-Type-Options": "nosniff",
         },
       });
@@ -76,9 +85,9 @@ ${processed}`;
 
     return new Response(response, {
       headers: {
-        "Content-Type": "text/plain; charset=utf-8",
-        "Content-Disposition": "inline",
+        "Content-Type": "text/markdown; charset=utf-8",
         "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=0",
       },
     });
   } catch (error) {
@@ -88,8 +97,7 @@ ${processed}`;
       {
         status: 500,
         headers: {
-          "Content-Type": "text/plain; charset=utf-8",
-          "Content-Disposition": "inline",
+          "Content-Type": "text/markdown; charset=utf-8",
           "X-Content-Type-Options": "nosniff",
         },
       },
