@@ -44,7 +44,7 @@ const createTabsFillItemHandler = (_ctx: ComponentHandlerDeps) =>
       const commonProps = {
         value: props["Label#4478:2"].value,
         ...(props.Notification.value === "True" && {
-          alert: true,
+          notification: true,
         }),
         ...(states.includes("Disabled") && {
           disabled: true,
@@ -59,7 +59,7 @@ export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
   const tabsHugItemHandler = createTabsHugItemHandler(ctx);
   const tabsFillItemHandler = createTabsFillItemHandler(ctx);
 
-  return defineComponentHandler<TabsProperties>(metadata.tablist.key, (node) => {
+  return defineComponentHandler<TabsProperties>(metadata.tablist.key, (node, traverse) => {
     const { componentProperties: props, children } = node;
 
     const mappedItems = children.map(
@@ -105,9 +105,9 @@ export const createTabsHandler = (ctx: ComponentHandlerDeps) => {
       tabsItems.map(({ triggerLayout, node }) => {
         switch (triggerLayout) {
           case "hug":
-            return tabsHugItemHandler.transform(node);
+            return tabsHugItemHandler.transform(node, traverse);
           case "fill":
-            return tabsFillItemHandler.transform(node);
+            return tabsFillItemHandler.transform(node, traverse);
         }
       }),
     );

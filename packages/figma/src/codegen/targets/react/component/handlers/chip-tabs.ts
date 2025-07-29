@@ -29,7 +29,7 @@ const createChipTabsItemHandler = (_ctx: ComponentHandlerDeps) =>
 export const createChipTabsHandler = (ctx: ComponentHandlerDeps) => {
   const chipTabsItemHandler = createChipTabsItemHandler(ctx);
 
-  return defineComponentHandler<ChipTabsProperties>(metadata.chipTablist.key, (node) => {
+  return defineComponentHandler<ChipTabsProperties>(metadata.chipTablist.key, (node, traverse) => {
     const chipTabsItems = findAllInstances<ChipTabsItemProperties>({
       node,
       key: chipTabsItemHandler.key,
@@ -42,7 +42,7 @@ export const createChipTabsHandler = (ctx: ComponentHandlerDeps) => {
     const chipTabsList = createLocalSnippetElement(
       "ChipTabsList",
       undefined,
-      chipTabsItems.map(chipTabsItemHandler.transform),
+      chipTabsItems.map((item) => chipTabsItemHandler.transform(item, traverse)),
     );
 
     const commonProps = {
@@ -52,6 +52,6 @@ export const createChipTabsHandler = (ctx: ComponentHandlerDeps) => {
       }),
     };
 
-    return createLocalSnippetElement("ChipTabs", commonProps, chipTabsList);
+    return createLocalSnippetElement("ChipTabsRoot", commonProps, chipTabsList);
   });
 };
