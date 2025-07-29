@@ -127,11 +127,11 @@ export type ErrorStateProperties = InferComponentDefinition<
   typeof metadata.templateErrorState.componentPropertyDefinitions
 >;
 
-export type ExtendedActionSheetProperties = InferComponentDefinition<
+export type MenuSheetProperties = InferComponentDefinition<
   typeof metadata.menuSheet.componentPropertyDefinitions
 >;
 
-export type ExtendedActionSheetGroupProperties = InferComponentDefinition<{
+export type MenuSheetGroupProperties = InferComponentDefinition<{
   "Action Count": {
     type: "VARIANT";
     defaultValue: "8";
@@ -139,7 +139,7 @@ export type ExtendedActionSheetGroupProperties = InferComponentDefinition<{
   };
 }>;
 
-export type ExtendedActionSheetItemProperties = InferComponentDefinition<{
+export type MenuSheetItemProperties = InferComponentDefinition<{
   "Show Prefix Icon#17043:5": {
     type: "BOOLEAN";
     defaultValue: true;
