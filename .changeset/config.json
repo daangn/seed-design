@@ -26,6 +26,5 @@
   "privatePackages": {
     "tag": false,
     "version": false
-  },
-  "ignore": ["@seed-design/rootage-artifacts"]
+  }
 }
