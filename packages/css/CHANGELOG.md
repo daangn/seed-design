@@ -1,5 +1,28 @@
 # @seed-design/css
 
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- 3889eb6: Inline Banner의 스타일 문제를 수정합니다.
+
+  - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+  - `title`과 `description` 간의 간격을 조정합니다.
+  - 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+  Callout의 스타일 문제를 수정합니다.
+
+  - `title`과 `description` 간의 간격을 조정합니다.
+
+  Chip의 스타일 문제를 수정합니다.
+
+  - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
 ## 0.1.4
 
 ### Patch Changes
