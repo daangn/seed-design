@@ -37,7 +37,7 @@ cli
   .action(async (paramDir, paramDataTypes) => {
     const { dataTypes, dir } = paramSchema.parse({ dataTypes: paramDataTypes, dir: paramDir });
 
-    const resolvedDir = path.join(process.cwd(), dir);
+    const resolvedDir = path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
 
     const generateAll = dataTypes.length === 0;
 
