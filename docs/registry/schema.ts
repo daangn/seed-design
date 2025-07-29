@@ -44,6 +44,11 @@ export const registryUIItemSchema = z.object({
    * @description 컴포넌트 deprecated 여부
    */
   deprecated: z.literal(true).optional(),
+
+  /**
+   * @description 컴포넌트 experimental 여부
+   */
+  experimental: z.literal(true).optional(),
 });
 export const registryUISchema = z.array(registryUIItemSchema);
 

@@ -74,11 +74,12 @@ export const addCommand = (cli: CAC) => {
         const selected = await p.multiselect({
           message: "추가할 컴포넌트를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
           options: registryComponentIndex
-            .map(({ name, description, deprecated }) => ({
-              label: `${deprecated ? "(deprecated) " : ""}${name}`,
+            .map(({ name, description, deprecated, experimental }) => ({
+              label: `${deprecated ? "(deprecated) " : ""}${experimental ? "(experimental) " : ""}${name}`,
               value: name,
               hint: description,
               deprecated,
+              experimental,
             }))
             .sort((a, b) => {
               if (a.deprecated === b.deprecated) return a.label.localeCompare(b.label);
@@ -142,6 +143,19 @@ export const addCommand = (cli: CAC) => {
           const confirm = await p.confirm({
             message: `${highlight(component.name)}는 deprecated 되었어요. 추가할까요?`,
             initialValue: false,
+          });
+
+          if (confirm === false || p.isCancel(confirm)) {
+            p.log.info(`${highlight(component.name)} 컴포넌트는 추가하지 않을게요.`);
+
+            continue;
+          }
+        }
+
+        if (component.experimental) {
+          const confirm = await p.confirm({
+            message: `${highlight(component.name)}는 experimental 컴포넌트예요. API가 변경될 수 있어요. 추가할까요?`,
+            initialValue: true,
           });
 
           if (confirm === false || p.isCancel(confirm)) {

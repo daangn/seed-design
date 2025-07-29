@@ -80,6 +80,9 @@ export function getJsonSchema(tokens: TokenDeclaration[]): string {
           "deprecated": {
             "type": "string"
           },
+          "experimental": {
+            "type": "boolean"
+          },
           "lastUpdated": {
             "type": "string"
           }

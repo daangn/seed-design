@@ -19,6 +19,9 @@
         "deprecated": {
           "type": "string"
         },
+        "experimental": {
+          "type": "boolean"
+        },
         "lastUpdated": {
           "type": "string"
         }
