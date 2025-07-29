@@ -61,6 +61,7 @@
   margin-left: var(--seed-suffix-icon-margin-left);
   margin-right: var(--seed-suffix-icon-margin-right);
   margin-top: var(--seed-suffix-icon-margin-top);
+  margin-bottom: var(--seed-suffix-icon-margin-bottom);
   color: var(--seed-suffix-icon-color, currentColor);
 }
 
