@@ -6,6 +6,7 @@ Inline Banner의 스타일 문제를 수정합니다.
 
 - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
 - `title`과 `description` 간의 간격을 조정합니다.
+- 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
 
 Callout의 스타일 문제를 수정합니다.
 
