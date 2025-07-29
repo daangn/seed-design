@@ -78,7 +78,8 @@
     ],
     "files": [
       "ui:action-sheet.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "extended-action-sheet",
@@ -87,7 +88,8 @@
     ],
     "files": [
       "ui:extended-action-sheet.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "avatar",
@@ -220,6 +222,15 @@
     ],
     "files": [
       "ui:inline-banner.tsx"
+    ]
+  },
+  {
+    "name": "menu-sheet",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "files": [
+      "ui:menu-sheet.tsx"
     ]
   },
   {

@@ -2,19 +2,20 @@ import type { ActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
-import { actionChipVariantMap } from "@seed-design/css/recipes/action-chip";
+import { chipVariantMap } from "@seed-design/css/recipes/chip";
 
 import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ActionChip, type ActionChipProps } from "../seed-design/ui/action-chip";
-import { Count } from "@seed-design/react";
+import { Chip, type ToggleChipProps } from "../seed-design/ui/chip";
+import { Icon } from "@seed-design/react";
 
 const initialVariants = {
   size: "medium",
   layout: "withText",
-} satisfies ActionChipProps;
+  variant: "solid",
+} satisfies ToggleChipProps;
 
-const ActivityActionChip: ActivityComponentType = () => {
+const ActivityChipToggle: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
@@ -25,18 +26,16 @@ const ActivityActionChip: ActivityComponentType = () => {
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer
-          variantsMap={actionChipVariantMap}
+          variantsMap={chipVariantMap}
           initialVariants={initialVariants}
           render={(variants) => (
-            <ActionChip key={JSON.stringify(variants)} {...variants}>
+            <Chip.Button key={JSON.stringify(variants)} {...variants}>
               {variants.layout === "withText" ? (
-                <>
-                  야옹 <Count>10</Count>
-                </>
+                <Chip.Label>야옹</Chip.Label>
               ) : (
-                <IconPlusFill />
+                <Icon svg={<IconPlusFill />} />
               )}
-            </ActionChip>
+            </Chip.Button>
           )}
         />
       </AppScreenContent>
@@ -44,4 +43,4 @@ const ActivityActionChip: ActivityComponentType = () => {
   );
 };
 
-export default ActivityActionChip;
+export default ActivityChipToggle;

@@ -1,0 +1,81 @@
+---
+title: Menu Sheet
+description: Menu Sheet는 사용자가 특정 작업에 관한 선택지뿐만 아니라 추가적인 선택지를 제공할 때 사용하는 시트 형태의 컴포넌트입니다.
+---
+
+<ComponentExample name="menu-sheet-preview">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/menu-sheet-preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add menu-sheet
+```
+
+<ManualInstallation name="menu-sheet" />
+
+## Props
+
+### `MenuSheetRoot`
+
+<react-type-table
+  path="./registry/ui/menu-sheet.tsx"
+  name="MenuSheetRootProps"
+/>
+
+### `MenuSheetContent`
+
+<react-type-table
+  path="./registry/ui/menu-sheet.tsx"
+  name="MenuSheetContentProps"
+/>
+
+### `MenuSheetItem`
+
+<react-type-table
+  path="./registry/ui/menu-sheet.tsx"
+  name="MenuSheetItemProps"
+/>
+
+## Examples
+
+### `labelAlign="left"` (with `PrefixIcon`)
+
+<ComponentExample name="menu-sheet-with-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/menu-sheet-with-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `labelAlign="center"` (without `PrefixIcon`)
+
+<ComponentExample name="menu-sheet-without-prefix-icon">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/menu-sheet-without-prefix-icon.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+  
+### Overriding `labelAlign`
+
+`MenuSheetContent`에 지정한 `labelAlign`을 `MenuSheetGroup` 또는 `MenuSheetItem`에 지정한 `labelAlign`으로 덮어쓸 수 있습니다.
+
+<ComponentExample name="menu-sheet-overriding-label-align">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/menu-sheet-overriding-label-align.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

@@ -24,6 +24,8 @@ import inlineBanner from "./recipes/inline-banner";
 import linkContent from "./recipes/link-content";
 import mannerTemp from "./recipes/manner-temp";
 import mannerTempBadge from "./recipes/manner-temp-badge";
+import menuSheet from "./recipes/menu-sheet";
+import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
@@ -66,6 +68,8 @@ export const recipes = {
   callout,
   mannerTemp,
   mannerTempBadge,
+  menuSheet,
+  menuSheetItem,
   segmentedControl,
   selectBoxGroup,
   selectBox,

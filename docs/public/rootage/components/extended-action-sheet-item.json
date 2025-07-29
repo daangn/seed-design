@@ -2,7 +2,8 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "extended-action-sheet-item",
-    "name": "Extended Action Sheet Item"
+    "name": "Extended Action Sheet Item",
+    "deprecated": "Use menu-sheet-item instead."
   },
   "data": {
     "id": "extended-action-sheet-item",

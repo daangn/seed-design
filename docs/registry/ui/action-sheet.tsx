@@ -3,10 +3,14 @@
 import { ActionSheet as SeedActionSheet } from "@seed-design/react";
 import { forwardRef } from "react";
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export interface ActionSheetRootProps extends SeedActionSheet.RootProps {}
 
 /**
  * @see https://seed-design.io/react/components/action-sheet
+ * @deprecated Use menu-sheet instead.
  */
 export const ActionSheetRoot = (props: ActionSheetRootProps) => {
   const { children, ...otherProps } = props;
@@ -17,10 +21,19 @@ export const ActionSheetRoot = (props: ActionSheetRootProps) => {
   );
 };
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export interface ActionSheetTriggerProps extends SeedActionSheet.TriggerProps {}
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export const ActionSheetTrigger = SeedActionSheet.Trigger;
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export interface ActionSheetContentProps
   extends Omit<SeedActionSheet.ContentProps, "title"> {
   title?: React.ReactNode;
@@ -30,6 +43,9 @@ export interface ActionSheetContentProps
   layerIndex?: number;
 }
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export const ActionSheetContent = forwardRef<
   HTMLDivElement,
   ActionSheetContentProps
@@ -71,11 +87,17 @@ export const ActionSheetContent = forwardRef<
   );
 });
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export interface ActionSheetItemProps
   extends Omit<SeedActionSheet.ItemProps, "asChild" | "children"> {
   label: React.ReactNode;
 }
 
+/**
+ * @deprecated Use menu-sheet instead.
+ */
 export const ActionSheetItem = forwardRef<
   HTMLButtonElement,
   ActionSheetItemProps

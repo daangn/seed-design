@@ -2,41 +2,40 @@ import type { ActivityComponentType } from "@stackflow/react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 
-import { controlChipVariantMap } from "@seed-design/css/recipes/control-chip";
+import { chipVariantMap } from "@seed-design/css/recipes/chip";
 
 import IconPlusFill from "@karrotmarket/react-monochrome-icon/IconPlusFill";
 import { ComponentAnalyzer } from "../components/ComponentAnalyzer";
-import { ControlChip, type ToggleControlChipProps } from "../seed-design/ui/control-chip";
-import { Count } from "@seed-design/react";
+import { Chip, type ButtonChipProps } from "../seed-design/ui/chip";
+import { Icon } from "@seed-design/react";
 
 const initialVariants = {
   size: "medium",
   layout: "withText",
-} satisfies ToggleControlChipProps;
+  variant: "solid",
+} satisfies ButtonChipProps;
 
-const ActivityControlChip: ActivityComponentType = () => {
+const ActivityChipButton: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain>Control Chip</AppBarMain>
+        <AppBarMain>Action Chip</AppBarMain>
       </AppBar>
       <AppScreenContent>
         <ComponentAnalyzer
-          variantsMap={controlChipVariantMap}
+          variantsMap={chipVariantMap}
           initialVariants={initialVariants}
           render={(variants) => (
-            <ControlChip.Toggle key={JSON.stringify(variants)} {...variants}>
+            <Chip.Button key={JSON.stringify(variants)} {...variants}>
               {variants.layout === "withText" ? (
-                <>
-                  야옹 <Count>10</Count>
-                </>
+                <Chip.Label>야옹</Chip.Label>
               ) : (
-                <IconPlusFill />
+                <Icon svg={<IconPlusFill />} />
               )}
-            </ControlChip.Toggle>
+            </Chip.Button>
           )}
         />
       </AppScreenContent>
@@ -44,4 +43,4 @@ const ActivityControlChip: ActivityComponentType = () => {
   );
 };
 
-export default ActivityControlChip;
+export default ActivityChipButton;
