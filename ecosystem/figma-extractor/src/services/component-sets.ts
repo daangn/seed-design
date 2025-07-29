@@ -1,4 +1,5 @@
 import path from "node:path";
+import type { Api as figma } from "figma-api";
 import { getComponentSetMetadataItemsInFile, type ComponentSetMetadataItem } from "../api/nodes";
 import { createContent, createIndex, getFileName, writeFile } from "../cli/write";
 import { POSSIBLE_DATA_TYPES } from "../constants";
@@ -10,13 +11,14 @@ export type GenerateComponentSetMetadataOptions = {
 };
 
 export async function generateComponentSetMetadata({
+  api,
   fileKey,
   dir,
   options: { filter = defaultFilter, transform = defaultTransform } = {},
-}: { fileKey: string; dir: string; options?: GenerateComponentSetMetadataOptions }) {
+}: { api: figma; fileKey: string; dir: string; options?: GenerateComponentSetMetadataOptions }) {
   console.log("component set 메타데이터 생성 중");
 
-  const componentSetsMetadata = (await getComponentSetMetadataItemsInFile({ fileKey }))
+  const componentSetsMetadata = (await getComponentSetMetadataItemsInFile({ api, fileKey }))
     .filter(filter)
     .map(transform)
     .sort((a, b) => a.name.localeCompare(b.name));

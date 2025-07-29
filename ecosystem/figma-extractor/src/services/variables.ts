@@ -1,4 +1,5 @@
 import path from "node:path";
+import type { Api as figma } from "figma-api";
 import { getVariableMetadataItemsInFile, type VariableMetadataItem } from "../api/variables";
 import { defaultFilter, defaultTransform, type Filter, type Transform } from "../cli/config";
 import { createJson, writeFile } from "../cli/write";
@@ -9,17 +10,19 @@ export type GenerateVariablesMetadataOptions = {
 };
 
 export async function generateVariableMetadata({
+  api,
   fileKey,
   dir,
   options: { filter = defaultFilter, transform = defaultTransform } = {},
 }: {
+  api: figma;
   fileKey: string;
   dir: string;
   options?: GenerateVariablesMetadataOptions;
 }) {
   console.log("variable 메타데이터 생성 중");
 
-  const variablesMetadata = (await getVariableMetadataItemsInFile({ fileKey }))
+  const variablesMetadata = (await getVariableMetadataItemsInFile({ api, fileKey }))
     .filter(filter)
     .map(transform)
     .sort((a, b) => a.name.localeCompare(b.name));

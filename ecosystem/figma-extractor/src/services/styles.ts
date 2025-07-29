@@ -1,4 +1,5 @@
 import path from "node:path";
+import type { Api as figma } from "figma-api";
 import { getStylesMetadataInFile, type StyleMetadataItem } from "../api/styles";
 import { createContent, createIndex, getFileName, writeFile } from "../cli/write";
 import { POSSIBLE_DATA_TYPES } from "../constants";
@@ -10,17 +11,19 @@ export type GenerateStylesMetadataOptions = {
 };
 
 export async function generateStyleMetadata({
+  api,
   fileKey,
   dir,
   options: { filter = defaultFilter, transform = defaultTransform } = {},
 }: {
+  api: figma;
   fileKey: string;
   dir: string;
   options?: GenerateStylesMetadataOptions;
 }) {
   console.log("style 메타데이터 생성 중");
 
-  const styles = await getStylesMetadataInFile({ fileKey });
+  const styles = await getStylesMetadataInFile({ api, fileKey });
 
   const stylesMetadata = styles
     .filter(filter)
