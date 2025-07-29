@@ -21,8 +21,6 @@
     cursor: pointer;
 }
 .seed-inline-banner__content {
-    display: block;
-    text-align: start;
     margin-inline-end: auto;
 }
 .seed-inline-banner__title {

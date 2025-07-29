@@ -3214,7 +3214,6 @@
 
 .seed-callout__content {
   margin-inline-end: auto;
-  display: block;
 }
 
 .seed-callout__title {
@@ -3994,9 +3993,7 @@
 }
 
 .seed-inline-banner__content {
-  text-align: start;
   margin-inline-end: auto;
-  display: block;
 }
 
 .seed-inline-banner__title {

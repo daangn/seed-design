@@ -20,7 +20,6 @@
     cursor: pointer;
 }
 .seed-callout__content {
-    display: block;
     margin-inline-end: auto;
 }
 .seed-callout__title {

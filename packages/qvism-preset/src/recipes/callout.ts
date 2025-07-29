@@ -39,7 +39,6 @@ const callout = defineSlotRecipe({
       },
     },
     content: {
-      display: "block",
       marginInlineEnd: "auto",
     },
     title: {
