@@ -4,6 +4,7 @@ export interface IconProps {
   marginLeft?: string;
   marginRight?: string;
   marginTop?: string;
+  marginBottom?: string;
 }
 
 export function prefixIcon(props: IconProps) {
@@ -27,6 +28,10 @@ export function prefixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-prefix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-prefix-icon-margin-bottom"] = props.marginBottom;
   }
 
   return result;
@@ -53,6 +58,10 @@ export function suffixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-suffix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-suffix-icon-margin-bottom"] = props.marginBottom;
   }
 
   return result;
