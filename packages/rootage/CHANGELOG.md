@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 0.0.3
+
+### Patch Changes
+
+- 284682d: [TEST] update color token
+- e81ecf5: [TEST] action button rootage 수정
+
 ## 0.0.2
 
 ### Patch Changes
