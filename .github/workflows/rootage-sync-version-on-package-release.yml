@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - "changeset-release/**"
+    paths:
+      - ".changeset/**"
+
+name: Sync Rootage Public Version on Package Release
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  sync-version:
+    name: Sync Rootage Version
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Update Rootage Version
+        run: |
+          bun rootage:build
+          bun install # link
+          bun rootage:generate
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/public/rootage
+          git commit -m "Update public rootage version"
+          git push
