@@ -382,7 +382,7 @@ data:
         prefixIcon:
           size: $dimension.x4
         suffixIcon:
-          size: $dimension.x4
+          size: $dimension.x6
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
