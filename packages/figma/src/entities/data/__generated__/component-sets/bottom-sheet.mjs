@@ -14,7 +14,7 @@ export const metadata = {
     "Show Footer#25162:14": {
       "type": "BOOLEAN"
     },
-    "Show Desciption#25192:0": {
+    "Show Description#25192:0": {
       "type": "BOOLEAN"
     },
     "Contents#25320:0": {

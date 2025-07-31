@@ -1,0 +1,86 @@
+export const metadata = {
+  "name": "🟢 Chip",
+  "key": "8156ef08d9aaa2b0de1cc4a113ec0c9d0586f831",
+  "componentPropertyDefinitions": {
+    "Label#7185:0": {
+      "type": "TEXT"
+    },
+    "Prefix Icon#8722:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT_SET",
+          "key": "8ed05ef62a40f2dc034ee7eb6945bd0e63ad49aa"
+        }
+      ]
+    },
+    "Suffix Type#32538:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": [
+        {
+          "type": "COMPONENT",
+          "key": "27343e0e5ab2c66948e9b10fde03d58b5e037212"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "5f0d74c959c49dadf5920b19c6267924982ab130"
+        },
+        {
+          "type": "COMPONENT",
+          "key": "a1233c35c4368aba2439d39bc8aedc37cf95bd86"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "43b6e51bc372e108a4ee17fbf4c75800d95f4b8c"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "df43b92004c850e7c6d2869e7a4ba1ef9a2d7db6"
+        }
+      ]
+    },
+    "Has Suffix#32538:181": {
+      "type": "BOOLEAN"
+    },
+    "Variant": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
+      ]
+    },
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Large",
+        "Medium",
+        "Small"
+      ]
+    },
+    "State": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Enabled",
+        "Pressed",
+        "Disabled"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
+    "Prefix Type": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "None",
+        "Icon",
+        "Avatar",
+        "Image"
+      ]
+    }
+  }
+};
