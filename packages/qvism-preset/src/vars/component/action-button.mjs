@@ -475,7 +475,7 @@ export const vars = {
         "size": "var(--seed-dimension-x4)"
       },
       "suffixIcon": {
-        "size": "var(--seed-dimension-x4)"
+        "size": "var(--seed-dimension-x6)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t4)",
