@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - test/*
     paths:
       - "packages/**"
       - "docs/**"
@@ -58,3 +59,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: 릴리즈 PR이 만들어진 경우 코드 변경사항을 가져와요
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        if: steps.changesets.outputs.published == 'false'
+        with:
+          ref: ${{ github.head_ref }} # current branch
+
+      - name: 릴리즈 PR이 만들어진 경우 public rootage 버전을 업데이트해요
+        if: steps.changesets.outputs.published == 'false'
+        run: |
+          bun install --frozen-lockfile
+          bun rootage:build
+          bun install # link
+          bun rootage:generate
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/public/rootage
+          git commit -m "Update public rootage version"
+          git push
