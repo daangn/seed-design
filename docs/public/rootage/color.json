@@ -23,7 +23,7 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#e2edfc"
+            "value": "#0000ff"
           },
           "theme-dark": {
             "type": "color",
