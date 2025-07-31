@@ -1,148 +1,66 @@
-import type { ActionChipProperties, ControlChipProperties } from "@/codegen/component-properties";
+import type { AvatarProperties, ChipProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
-import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
+import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+import { camelCase } from "change-case";
+import { findAllInstances } from "@/utils/figma-node";
+import { createAvatarHandler } from "@/codegen/targets/react/component/handlers/avatar";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("chip");
 
-// TODO: chips are getting updated
+export const createChipHandler = (ctx: ComponentHandlerDeps) => {
+  const avatarHandler = createAvatarHandler(ctx);
 
-export const createChipButtonHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ActionChipProperties>(
-    metadata.actionChip.key,
-    ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
+  return defineComponentHandler<ChipProperties>(metadata.chip.key, (node, traverse) => {
+    const props = node.componentProperties;
+    const states = props.State.value.split("-");
 
-      const { layout, children } = match(props.Layout.value)
-        .with("Icon Only", () => ({
-          layout: "iconOnly",
-          children: [
-            createSeedReactElement("Icon", {
-              svg: ctx.iconHandler.transform(props["Icon#8714:0"]),
-            }),
-          ],
-        }))
-        .with("Icon First", () => ({
-          layout: "withText",
-          children: [
-            createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
-            }),
-            props["Label#7185:0"].value,
-          ],
-        }))
-        .with("Icon Last", () => ({
-          layout: "withText",
-          children: [
-            props["Label#7185:0"].value,
-            createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
-            }),
-          ],
-        }))
-        .with("Icon Both", () => ({
-          layout: "withText",
-          children: [
-            createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#8711:0"]),
-            }),
-            props["Label#7185:0"].value,
-            createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#8711:3"]),
-            }),
-          ],
-        }))
-        .with("Text Only", () => ({
-          layout: "withText",
-          children: props["Label#7185:0"].value,
-        }))
-        .exhaustive();
+    const prefix = match(props["Prefix Type"].value)
+      .with("None", "Image", () => undefined)
+      .with("Icon", () =>
+        createLocalSnippetElement(
+          "Chip.PrefixIcon",
+          undefined,
+          ctx.iconHandler.transform(props["Prefix Icon#8722:0"]),
+        ),
+      )
+      .with("Avatar", () => {
+        const [avatar] = findAllInstances<AvatarProperties>({ node, key: metadata.avatar.key });
+        if (!avatar) return undefined;
 
-      const commonProps = {
-        size: handleSizeProp(props.Size.value),
-        layout,
-        ...(states.includes("Disabled") && {
-          disabled: true,
-        }),
-        ...(props["Show Count#7185:42"].value && {
-          count: Number(props["Count#7185:21"].value),
-        }),
-      };
-      return createLocalSnippetElement("Chip.Button", commonProps, children);
-    },
-  );
+        return createLocalSnippetElement(
+          "Chip.PrefixAvatar",
+          undefined,
+          avatarHandler.transform(avatar, traverse),
+        );
+      })
+      .exhaustive();
 
-export const createChipToggleHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<ControlChipProperties>(
-    metadata.controlChip.key,
-    ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
+    const suffix = props["Has Suffix#32538:181"].value
+      ? createLocalSnippetElement(
+          "Chip.SuffixIcon",
+          undefined,
+          ctx.iconHandler.transform(props["Suffix Type#32538:0"]),
+        )
+      : undefined;
 
-      const count = props["Show Count#7185:42"].value ? props["Count#7185:21"].value : undefined;
+    const commonProps = {
+      variant: camelCase(props.Variant.value),
+      size: handleSizeProp(props.Size.value),
+      layout: props["Label#7185:0"].value ? "withText" : "iconOnly",
+      ...(states.includes("Disabled") && {
+        disabled: true,
+      }),
+    };
 
-      const { layout, children } = match(props.Layout.value)
-        .with("Icon Only", () => ({
-          layout: "iconOnly",
-          children: [
-            createSeedReactElement("Icon", {
-              svg: ctx.iconHandler.transform(props["Icon#8722:41"]),
-            }),
-          ],
-        }))
-        .with("Icon First", () => ({
-          layout: "withText",
-          children: [
-            createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#8722:0"]),
-            }),
-            props["Label#7185:0"].value,
-            count ? createSeedReactElement("Count", undefined, [count]) : undefined,
-          ],
-        }))
-        .with("Icon Last", () => ({
-          layout: "withText",
-          children: [
-            props["Label#7185:0"].value,
-            createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#8722:82"]),
-            }),
-          ],
-        }))
-        .with("Icon Both", () => ({
-          layout: "withText",
-          children: [
-            createSeedReactElement("PrefixIcon", {
-              svg: ctx.iconHandler.transform(props["Prefix Icon#8722:0"]),
-            }),
-            props["Label#7185:0"].value,
-            createSeedReactElement("SuffixIcon", {
-              svg: ctx.iconHandler.transform(props["Suffix Icon#8722:82"]),
-            }),
-          ],
-        }))
-        .with("Text Only", () => ({
-          layout: "withText",
-          children: props["Label#7185:0"].value,
-        }))
-        .exhaustive();
-
-      const commonProps = {
-        size: handleSizeProp(props.Size.value),
-        layout,
-        ...(states.includes("Selected") && {
-          defaultChecked: true,
-        }),
-        ...(states.includes("Disabled") && {
-          disabled: true,
-        }),
-        ...(props["Show Count#7185:42"].value && {
-          count: Number(props["Count#7185:21"].value),
-        }),
-      };
-
-      return createLocalSnippetElement("Chip.Toggle", commonProps, children);
-    },
-  );
+    return createLocalSnippetElement(
+      "Chip.Button",
+      commonProps,
+      [prefix, props["Label#7185:0"].value, suffix],
+      { comment: "목적에 따라 Chip.Toggle, Chip.RadioItem 등으로도 사용할 수 있습니다." },
+    );
+  });
+};

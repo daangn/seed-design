@@ -25,7 +25,7 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
 
     const contentProps = {
       title: props["Title#19787:3"].value,
-      ...(props["Show Desciption#25192:0"].value === true && {
+      ...(props["Show Description#25192:0"].value === true && {
         description: props["Description#19787:7"].value,
       }),
       ...(props["Show Close Button#19787:11"].value === false && {

@@ -83,10 +83,6 @@ export type AlertDialogFooterProperties = InferComponentDefinition<{
   };
 }>;
 
-export type ActionChipProperties = InferComponentDefinition<
-  typeof metadata.actionChip.componentPropertyDefinitions
->;
-
 export type AvatarProperties = InferComponentDefinition<
   typeof metadata.avatar.componentPropertyDefinitions
 >;
@@ -111,12 +107,12 @@ export type CheckboxProperties = InferComponentDefinition<
   typeof metadata.checkbox.componentPropertyDefinitions
 >;
 
-export type ContextualFloatingButtonProperties = InferComponentDefinition<
-  typeof metadata.contextualFloatingButton.componentPropertyDefinitions
+export type ChipProperties = InferComponentDefinition<
+  typeof metadata.chip.componentPropertyDefinitions
 >;
 
-export type ControlChipProperties = InferComponentDefinition<
-  typeof metadata.controlChip.componentPropertyDefinitions
+export type ContextualFloatingButtonProperties = InferComponentDefinition<
+  typeof metadata.contextualFloatingButton.componentPropertyDefinitions
 >;
 
 export type DividerProperties = InferComponentDefinition<
@@ -299,82 +295,6 @@ export type SelectBoxProperties = InferComponentDefinition<
   typeof metadata.selectBox.componentPropertyDefinitions
 >;
 
-export type ChipTabsProperties = InferComponentDefinition<
-  typeof metadata.chipTablist.componentPropertyDefinitions
->;
-
-export type ChipTabsItemProperties = InferComponentDefinition<{
-  "Label#8876:0": {
-    type: "TEXT";
-    defaultValue: "라벨";
-  };
-  Variant: {
-    type: "VARIANT";
-    defaultValue: "Neutral Solid";
-    variantOptions: ["Neutral Solid", "Brand Solid"];
-  };
-  State: {
-    type: "VARIANT";
-    defaultValue: "Enabled";
-    variantOptions: [
-      "Enabled",
-      "Pressed",
-      "Selected",
-      "Selected-Pressed",
-      "Disabled",
-      "Disabled-Selected",
-    ];
-  };
-}>;
-
-export type TabsProperties = InferComponentDefinition<
-  typeof metadata.tablist.componentPropertyDefinitions
->;
-
-export type TabsHugItemProperties = InferComponentDefinition<{
-  "Label#4478:2": {
-    type: "TEXT";
-    defaultValue: "라벨";
-  };
-  Size: {
-    type: "VARIANT";
-    defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
-  };
-  Notification: {
-    type: "VARIANT";
-    defaultValue: "False";
-    variantOptions: ["True", "False"];
-  };
-  State: {
-    type: "VARIANT";
-    defaultValue: "Selected";
-    variantOptions: ["Enabled", "Selected", "Disabled"];
-  };
-}>;
-
-export type TabsFillItemProperties = InferComponentDefinition<{
-  "Label#4478:2": {
-    type: "TEXT";
-    defaultValue: "라벨";
-  };
-  Size: {
-    type: "VARIANT";
-    defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
-  };
-  Notification: {
-    type: "VARIANT";
-    defaultValue: "False";
-    variantOptions: ["True", "False"];
-  };
-  State: {
-    type: "VARIANT";
-    defaultValue: "Selected";
-    variantOptions: ["Enabled", "Selected", "Disabled"];
-  };
-}>;
-
 export type TextFieldProperties = InferComponentDefinition<
   typeof metadata.textField.componentPropertyDefinitions
 >;
@@ -476,5 +396,60 @@ export type AppBarRightIconButtonProperties = InferComponentDefinition<{
     type: "VARIANT";
     defaultValue: "False";
     variantOptions: ["False", "True"];
+  };
+}>;
+
+export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
+  "Label#4478:2": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  "Has Notification#32892:0": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  Size: {
+    type: "VARIANT";
+    defaultValue: "Small";
+    variantOptions: ["Small", "Medium"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Selected";
+    variantOptions: ["Enabled", "Selected", "Disabled"];
+  };
+}>;
+
+export type TabsUnderlineFillItemProperties = InferComponentDefinition<{
+  "Label#4478:2": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  "Has Notification#32892:0": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  Size: {
+    type: "VARIANT";
+    defaultValue: "Small";
+    variantOptions: ["Small", "Medium"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Selected";
+    variantOptions: ["Enabled", "Selected", "Disabled"];
+  };
+}>;
+
+export type TabsChipItemProperties = InferComponentDefinition<{
+  Size: {
+    type: "VARIANT";
+    defaultValue: "Large";
+    variantOptions: ["Medium", "Large"];
+  };
+  Variant: {
+    type: "VARIANT";
+    defaultValue: "Solid";
+    variantOptions: ["Solid", "Outline"];
   };
 }>;

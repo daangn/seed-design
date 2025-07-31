@@ -14,8 +14,7 @@ import { createBadgeHandler } from "./handlers/badge";
 import { createBottomSheetHandler } from "./handlers/bottom-sheet";
 import { createCalloutHandler } from "./handlers/callout";
 import { createCheckboxHandler } from "./handlers/checkbox";
-import { createChipButtonHandler, createChipToggleHandler } from "./handlers/chip";
-import { createChipTabsHandler } from "./handlers/chip-tabs";
+import { createChipHandler } from "./handlers/chip";
 import { createContextualFloatingButtonHandler } from "./handlers/contextual-floating-button";
 import { createDividerHandler } from "./handlers/divider";
 import { createErrorStateHandler } from "./handlers/error-state";
@@ -34,7 +33,6 @@ import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/
 import { createSkeletonHandler } from "./handlers/skeleton";
 import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchHandler } from "./handlers/switch";
-import { createTabsHandler } from "./handlers/tabs";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 
@@ -61,9 +59,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createBottomSheetHandler,
   createCalloutHandler,
   createCheckboxHandler,
-  createChipButtonHandler,
-  createChipTabsHandler,
-  createChipToggleHandler,
+  createChipHandler,
   createContextualFloatingButtonHandler,
   createDividerHandler,
   createErrorStateHandler,
@@ -83,7 +79,6 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,
-  createTabsHandler,
   createTextFieldHandler,
   createToggleButtonHandler,
 ];

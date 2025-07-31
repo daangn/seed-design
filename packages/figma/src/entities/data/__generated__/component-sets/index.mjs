@@ -1,4 +1,3 @@
-export { metadata as templateBannerDetach후사용 } from "./template-banner-detach-후-사용.mjs";
 export { metadata as templateButtonGroup } from "./template-button-group.mjs";
 export { metadata as templateChipGroup } from "./template-chip-group.mjs";
 export { metadata as templateCompletion } from "./template-completion.mjs";
