@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - test/*
     paths:
       - "packages/**"
       - "docs/**"
