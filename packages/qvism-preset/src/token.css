@@ -92,7 +92,7 @@
 :root[data-seed-color-mode="light-only"],
 :root [data-seed-color-mode="light-only"] {
   --seed-color-palette-blue-100: #eff6ff;
-  --seed-color-palette-blue-200: #e2edfc;
+  --seed-color-palette-blue-200: #0000ff;
   --seed-color-palette-blue-300: #cbdffa;
   --seed-color-palette-blue-400: #aacefd;
   --seed-color-palette-blue-500: #85b8fd;

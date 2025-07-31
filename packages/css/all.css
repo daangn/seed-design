@@ -282,7 +282,7 @@
 
 :root, :root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"], :root[data-seed-color-mode="light-only"], :root [data-seed-color-mode="light-only"] {
   --seed-color-palette-blue-100: #eff6ff;
-  --seed-color-palette-blue-200: #e2edfc;
+  --seed-color-palette-blue-200: #00f;
   --seed-color-palette-blue-300: #cbdffa;
   --seed-color-palette-blue-400: #aacefd;
   --seed-color-palette-blue-500: #85b8fd;
@@ -1188,7 +1188,7 @@
   --size: 16px;
   --thickness: 2px;
   --seed-prefix-icon-size: var(--seed-dimension-x4);
-  --seed-suffix-icon-size: var(--seed-dimension-x4);
+  --seed-suffix-icon-size: var(--seed-dimension-x6);
   --seed-icon-size: 18px;
 }
 

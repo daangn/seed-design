@@ -11,7 +11,7 @@ data:
         theme-dark: "#202742"
     $color.palette.blue-200:
       values:
-        theme-light: "#e2edfc"
+        theme-light: "#0000ff"
         theme-dark: "#1e3352"
     $color.palette.blue-300:
       values:
