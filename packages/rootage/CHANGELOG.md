@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 0.0.3
+
+### Patch Changes
+
+- 1d50af7: [TEST] action button rootage 수정
+
 ## 0.0.2
 
 ### Patch Changes
