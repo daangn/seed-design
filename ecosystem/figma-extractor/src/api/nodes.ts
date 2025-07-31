@@ -27,7 +27,15 @@ async function getComponentsInFile({ api, fileKey }: { api: figma; fileKey: stri
   return components;
 }
 
-async function getNodesInFile({ api, fileKey, nodeIds }: { api: figma; fileKey: string; nodeIds: string[] }) {
+async function getNodesInFile({
+  api,
+  fileKey,
+  nodeIds,
+}: {
+  api: figma;
+  fileKey: string;
+  nodeIds: string[];
+}) {
   const chunks = chunk(nodeIds, 500);
 
   if (chunks.length > 1) {
@@ -44,7 +52,8 @@ async function getNodesInFile({ api, fileKey, nodeIds }: { api: figma; fileKey: 
     }),
   );
 
-  return responses.flatMap(({ nodes }) => Object.values(nodes));
+  // figma sometimes returns null
+  return responses.flatMap(({ nodes }) => Object.values(nodes)).filter((node) => node);
 }
 
 export async function getComponentMetadataItemsInFile({

@@ -1,29 +1,17 @@
 import { cosmiconfig } from "cosmiconfig";
-import type { GenerateComponentSetMetadataOptions } from "../services/component-sets";
-import type { GenerateStylesMetadataOptions } from "../services/styles";
-import type { GenerateVariablesMetadataOptions } from "../services/variables";
 import type { MetadataItem } from "./write";
 import { MODULE_NAME } from "../constants";
-import type { GenerateComponentMetadataOptions } from "../services/components";
+import type { Pipeline } from "../pipeline/builder";
 
-export type Config = {
+export interface Config {
   fileKey?: string;
   personalAccessToken?: string;
-  data?: {
-    components?: GenerateComponentMetadataOptions;
-    componentSets?: GenerateComponentSetMetadataOptions;
-    variables?: GenerateVariablesMetadataOptions;
-    styles?: GenerateStylesMetadataOptions;
-  };
-};
+  pipelines: Record<string, Pipeline>;
+}
 
-const DEFAULT_CONFIG: Config = {
-  data: {
-    componentSets: {},
-    variables: {},
-    styles: {},
-  },
-};
+export function createConfig(config: Config) {
+  return config;
+}
 
 export async function loadConfig(configPath?: string): Promise<Config> {
   const explorer = cosmiconfig(MODULE_NAME, {
@@ -43,12 +31,14 @@ export async function loadConfig(configPath?: string): Promise<Config> {
 
   const searchResult = await explorer.search();
 
-  if (!searchResult) {
-    console.warn(
-      `${configPath ? `${configPath} 설정 파일을 사용할 수 없습니다. ` : ""}기본 설정을 사용합니다.`,
-    );
+  if (!searchResult && !configPath) {
+    throw new Error(`${configPath} 설정 파일을 사용할 수 없습니다.`);
+  }
 
-    return DEFAULT_CONFIG;
+  if (!searchResult) {
+    throw new Error(
+      `설정 파일을 찾을 수 없습니다. ${MODULE_NAME}.config.ts 설정 파일을 생성해주세요.`,
+    );
   }
 
   console.log(`${searchResult.filepath} 설정 파일을 사용합니다.`);
@@ -57,7 +47,4 @@ export async function loadConfig(configPath?: string): Promise<Config> {
 }
 
 export type Filter<T> = (item: T) => boolean;
-export type Transform<T> = (item: T) => MetadataItem;
-
-export const defaultFilter = () => true;
-export const defaultTransform = <T>(item: T) => item;
+export type Transform<TInput, TOutput = MetadataItem> = (item: TInput) => TOutput;

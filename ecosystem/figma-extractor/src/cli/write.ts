@@ -1,8 +1,18 @@
 import fs from "fs-extra";
 import path from "node:path";
-import { camelCase, kebabCase } from "change-case";
 
 export type MetadataItem = Record<string | number, unknown> & { name: string };
+
+export interface WriterContext {
+  absoluteDir: string;
+  write: (relativePath: string, content: string) => Promise<void>;
+  utils: {
+    toJson: (data: any, pretty?: boolean) => string;
+    toTypeScript: (name: string, data: any) => string;
+    toMjs: (name: string, data: any) => string;
+    toDts: (name: string, data: any) => string;
+  };
+}
 
 export async function writeFile(dir: string, content: string) {
   console.log("Writing to", dir);
@@ -14,39 +24,28 @@ export async function writeFile(dir: string, content: string) {
   fs.writeFileSync(dir, content);
 }
 
-export function createContent(metadataItem: MetadataItem) {
-  const mjs = `export const metadata = ${JSON.stringify(metadataItem, null, 2)};\n`;
-  const dts = `export declare const metadata: ${JSON.stringify(metadataItem, null, 2)};\n`;
-
-  return { mjs, dts };
-}
-
-export function createJson(metadataItems: MetadataItem[]) {
-  return JSON.stringify(metadataItems, null, 2);
-}
-
-export function createIndex(metadataItems: MetadataItem[]) {
-  const mjsLines = [];
-  const dtsLines = [];
-
-  for (const { name } of metadataItems) {
-    const mjsLine = `export { metadata as ${getVariableName(name)} } from "./${getFileName(name)}.mjs";`;
-    const dtsLine = `export { metadata as ${getVariableName(name)} } from "./${getFileName(name)}";`;
-
-    mjsLines.push(mjsLine);
-    dtsLines.push(dtsLine);
-  }
-
+export function createWriterContext(absoluteDir: string): WriterContext {
   return {
-    mjs: mjsLines.join("\n").concat("\n"),
-    dts: dtsLines.join("\n").concat("\n"),
+    absoluteDir,
+    write: async (relativePath: string, content: string) => {
+      await writeFile(path.join(absoluteDir, relativePath), content);
+    },
+    utils: {
+      toJson: (data: unknown, pretty = true) => {
+        return JSON.stringify(data, null, pretty ? 2 : undefined);
+      },
+      toTypeScript: (name: string, data: unknown) => {
+        const jsonStr = JSON.stringify(data, null, 2);
+        return `export const ${name} = ${jsonStr} as const;\n`;
+      },
+      toMjs: (name: string, data: unknown) => {
+        const jsonStr = JSON.stringify(data, null, 2);
+        return `export const ${name} = ${jsonStr};\n`;
+      },
+      toDts: (name: string, data: unknown) => {
+        const jsonStr = JSON.stringify(data, null, 2);
+        return `export declare const ${name}: ${jsonStr};\n`;
+      },
+    },
   };
-}
-
-export function getFileName(name: string) {
-  return kebabCase(name.replace(/ |\//g, " "));
-}
-
-export function getVariableName(name: string) {
-  return camelCase(name.replace(/ |\//g, " "));
 }

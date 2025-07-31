@@ -8,60 +8,63 @@ bun add -D @seed-design/figma-extractor
 
 ## 사용
 
-### Component 정보를 src/data에 추출
-
-```shell
-bun figma-extractor src/data components
-```
-
-### Component Set 정보를 src/data에 추출
-
-```shell
-bun figma-extractor src/data component-sets
-```
-
-### Variable 정보를 src/data에 추출
-
-```shell
-bun figma-extractor src/data variables
-```
-
-### Style 정보를 src/data에 추출
-
-```shell
-bun figma-extractor src/data styles
-```
-
-### 사용 가능한 모든 정보를 src/data에 추출
+### 모든 파이프라인 실행 결과를 `src/data`에 추출
 
 ```shell
 bun figma-extractor src/data
 ```
 
-## 설정 파일
+### 특정 파이프라인만 실행하여 결과를 `src/data`에 추출
 
-설정 파일 없이도 실행 가능하지만, 필요에 따라 설정 파일(`figma-extractor.config.ts`)을 작성할 수 있습니다.
+```shell
+bun figma-extractor src/data icons buttons
+```
+
+## 설정
+
+설정 파일이 필요합니다. `figma-extractor.config.ts` 파일을 프로젝트 루트에 작성합니다.
 
 ```ts
-import type { Config } from "@seed-design/figma-extractor";
+import {
+  createConfig,
+  createPipeline,
+  sources,
+} from "@seed-design/figma-extractor";
 
-const config: Config = {
-  data: {
-    components: {
-      filter: ({ componentSetId }) => componentSetId === undefined,
-      transform: ({ name, key }) => ({ name, key }),
-    },
-    componentSets: {
-      filter: ({ name }) => name.includes("Button"),
-      transform: ({ name, key }) => ({ name, key }),
-    },
+const config = createConfig({
+  pipelines: {
+    // 아이콘 추출 파이프라인
+    icons: createPipeline()
+      // 모든 component set 선택
+      .source(sources.componentSets)
+      // icon_으로 시작하는 컴포넌트만 필터링
+      .filter((componentSet) => componentSet.name.startsWith("icon_"))
+      // 아이콘의 ID와 이름만 추출
+      .transform(({ id, name }) => ({ id, name: name.replace(/^icon_/, "") }))
+      // 단일 파일로 저장
+      .write(async (items, { utils, write }) => {
+        const record = Object.fromEntries(items.map((item) => [item.id, item]));
+
+        const json = utils.toJson(record, true);
+
+        await write("icons.json", json);
+      }),
+
+    // 텍스트 스타일 추출 파이프라인
+    buttons: createPipeline()
+      // 모든 스타일 선택
+      .source(sources.styles)
+      // 버튼 스타일만 필터링
+      .filter((style) => style.type === "TEXT")
+      // 각각을 `.mjs`, `.d.ts` 파일로 저장
+      .write(writers.default),
   },
-};
+});
 
 export default config;
 ```
 
-### `fileKey`
+### `fileKey` (optional)
 
 - 가져올 정보가 있는 Figma 파일의 Key (Figma에서 제공)
 - 등록하지 않는 경우 `FIGMA_FILE_KEY` 환경 변수를 사용합니다. (둘 중 하나는 필수)
@@ -70,77 +73,87 @@ export default config;
   1. 개발자 도구 - Console 탭을 엽니다
   1. `figma.fileKey` 실행
 
-### `personalAccessToken`
+### `personalAccessToken` (optional)
 
 - Figma API 사용을 위한 토큰 (Figma에서 제공)
 - 등록하지 않는 경우 `FIGMA_PERSONAL_ACCESS_TOKEN` 환경 변수를 사용합니다. (둘 중 하나는 필수)
-- [Personal Access Token 받기](https://www.figma.com/developers/api#access-tokens)
-- 생성된 Access Token은 24시간이 지나면 만료됩니다.
+- [Personal Access Token 받는 방법에 관한 Figma 문서](https://www.figma.com/developers/api#access-tokens)
+- 문서 페이지에서 테스트 용도로 생성된 Access Token은 24시간이 지나면 만료됩니다. Figma 설정 페이지에서 생성하면 더 긴 유효 기간을 설정할 수 있습니다.
 
-### `data`
+### `pipelines` (필수)
 
-- 데이터 종류 별 설정
+파이프라인 방식으로 Figma 데이터를 추출하고 변환합니다. 자세한 내용은 다음 내용을 참고하세요.
 
-#### `filter`
+## 파이프라인 작성하기
 
-- 기본값: `() => true`
-- 특정 조건을 만족하는 항목만 추출합니다.
-- 레이어에 대한 접근 가능한 모든 정보를 가져오기 때문에, 설정하는 것을 권장합니다.
+1. **source**: 데이터 소스 선택 (`components`, `componentSets`, `styles`, `variables`)
+2. **filter** (선택): 필요한 항목만 필터링
+3. **sort** (선택): 항목 정렬
+4. **transform** (선택): 데이터 변환
+5. **write**: 파일로 저장
 
-#### `transform`
+### `source`
 
-- 기본값: `(metadataItem) => metadataItem`
-- 특정 필드만 추출하는 등 원하는 형태로 변환합니다.
-- 파일 생성을 위해 `name` 필드가 있는 Record를 반환해야 합니다.
+데이터 소스를 선택합니다.
 
-### 설정 파일 예시
+- `sources.components`
+- `sources.componentSets`
+- `sources.styles`
+- `sources.variables`
+- 직접 작성할 수도 있습니다.
+
+### `write`
+
+직전 단계에서 결과로 생성한 데이터를 가공하여 파일로 저장합니다.
+
+- `writers.default`: item 각각에 대해 `.mjs`, `.d.ts` 파일을 생성하고 index 파일을 생성합니다.
+- 직접 작성할 수도 있습니다.
+
+#### `write` 직접 작성하기
+
+`WriterContext`에서 제공하는 메서드를 활용하여 원하는 형태로 파일을 저장할 수 있습니다. (모든 항목을 합쳐서 하나의 파일로 저장 등)
+
+- `context.write(path, content)`: 파일 쓰기
+- `context.utils`: JSON 등으로 변환
+
+## 설정 파일 경로 지정하기
+
+설정 파일의 경로를 직접 설정할 수 있습니다. 여러 개의 Figma 파일을 다루는 경우에 유용합니다.
+
+```shell
+bun figma-extractor --config=.config/figma-extractor-design-system-a.config.ts src/data/icons
+```
 
 ```ts
-import type {
-  Config,
-  GenerateComponentMetadataOptions,
-  GenerateComponentSetMetadataOptions,
+// .config/figma-extractor-design-system-a.config.ts
+
+import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
+
+const config = createConfig({
+  fileKey: process.env.FIGMA_DESIGN_SYSTEM_A_FILE_KEY // a 파일의 Figma File Key
+  pipelines: {
+    components: createPipeline()
+      .source(sources.components)
+      .write(writers.default),
+  },
+});
+```
+
+```ts
+// .config/figma-extractor-design-system-b.config.ts
+import {
+  createConfig,
+  createPipeline,
+  sources,
+  writers,
 } from "@seed-design/figma-extractor";
 
-// name, key, componentPropertyDefinitions 추출
-// componentPropertyDefinitions에서는 defaultValue 필드 제거
-const transform: GenerateComponentMetadataOptions["transform"] &
-  GenerateComponentSetMetadataOptions["transform"] = ({
-  name,
-  key,
-  componentPropertyDefinitions,
-}) => ({
-  name,
-  key,
-  ...(componentPropertyDefinitions && {
-    componentPropertyDefinitions: Object.fromEntries(
-      Object.entries(componentPropertyDefinitions).map(
-        ([key, { defaultValue, ...rest }]) => [key, rest]
-      )
-    ),
-  }),
-});
-
-const config: Config = {
-  data: {
-    components: {
-      filter: ({ name, componentSetId }) =>
-        (name.startsWith("🔵 ") || name.startsWith("🟢 ")) &&
-        // Component Set에 속한 Component는 추출하지 않습니다.
-        componentSetId === undefined,
-      transform,
-    },
-    componentSets: {
-      filter: ({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "),
-      transform,
-    },
-    styles: {
-      // Text Style만 추출
-      filter: ({ style_type }) => style_type === "TEXT",
-      transform: ({ name, key }) => ({ name, key }),
-    },
+const config = createConfig({
+  fileKey: process.env.FIGMA_DESIGN_SYSTEM_B_FILE_KEY, // b 파일의 Figma File Key
+  pipelines: {
+    components: createPipeline()
+      .source(sources.components)
+      .write(writers.default),
   },
-};
-
-export default config;
+});
 ```
