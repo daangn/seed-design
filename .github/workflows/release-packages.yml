@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - test/*
     paths:
       - "packages/**"
       - "docs/**"
@@ -27,6 +28,7 @@ jobs:
 
     steps:
       - name: Checkout Repo
+        id: checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
@@ -58,3 +60,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR을 체크아웃해요
+        if: steps.changesets.outputs.published == 'false'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          ref: changeset-release/${{ steps.checkout.outputs.ref}}
+
+      - name: 새 패키지 버전에 맞춰 Rootage 버전을 동기화해요
+        if: steps.changesets.outputs.published == 'false'
+        run: |
+          bun install --frozen-lockfile
+          bun rootage:build
+          bun install # link
+          bun rootage:generate
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/public/rootage
+          git commit -m "Update public rootage version"
+          git push
