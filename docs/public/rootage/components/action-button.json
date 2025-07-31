@@ -1345,7 +1345,7 @@
               "suffixIcon": {
                 "size": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x6"
                 }
               },
               "label": {
