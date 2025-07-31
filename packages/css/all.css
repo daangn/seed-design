@@ -1237,7 +1237,7 @@
 }
 
 .seed-action-button--size_medium-layout_withText {
-  gap: var(--seed-dimension-x1);
+  gap: var(--seed-dimension-x1_5);
   --seed-box-padding-left: var(--seed-dimension-x4);
   --seed-box-padding-right: var(--seed-dimension-x4);
   --seed-box-padding-top: var(--seed-dimension-x2_5);
