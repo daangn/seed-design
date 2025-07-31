@@ -382,3 +382,99 @@ export type TextFieldProperties = InferComponentDefinition<
 export type AppBarProperties = InferComponentDefinition<
   typeof metadata.topNavigation.componentPropertyDefinitions
 >;
+
+export type AppBarMainProperties = InferComponentDefinition<{
+  "Title#16944:0": {
+    type: "TEXT";
+    defaultValue: "타이틀";
+  };
+  "Logo#16958:5": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "1574:3942";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "c7dab3f6d0df0a150564e696c0df00bd43ffef3f";
+      },
+    ];
+  };
+  "Subtitle#16958:9": {
+    type: "TEXT";
+    defaultValue: "서브타이틀";
+  };
+  "Show Right#16958:13": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  "Show Left#16958:17": {
+    type: "BOOLEAN";
+    defaultValue: false;
+  };
+  Type: {
+    type: "VARIANT";
+    defaultValue: "Title";
+    variantOptions: ["Title", "Title-Subtitle", "Logo (Figma Only)"];
+  };
+}>;
+
+export type AppBarLeftIconButtonProperties = InferComponentDefinition<{
+  "Icon#33580:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:23427";
+    preferredValues: [];
+  };
+}>;
+
+export type AppBarRightIconButtonProperties = InferComponentDefinition<{
+  "Icon#6406:3": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102301";
+    preferredValues: [
+      {
+        type: "COMPONENT_SET";
+        key: "bc7bc98e19d8ffdd9efdc94b610c6af28156f867";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "d766c026e52ee6c78cbf1a474068264e831ddfe3";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "a4cb85e4d25a320d27a48c3e8132a6c01b45ab3c";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "e262d9b447adff63d15a6f1af60ae47cbc1ca47f";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "1d3918afcac320eff3aafc2719b98cf5141afa55";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "8ed05ef62a40f2dc034ee7eb6945bd0e63ad49aa";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "98ee886122c725ac9e3e682f31efd1d1a1bec90d";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "bf71b0c5c8664149298fe1b3c58905715a523e19";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "47a8df3d59bc52aef1c584d992c05771a8125965";
+      },
+      {
+        type: "COMPONENT_SET";
+        key: "0fcbc3c123d5c7ee7a5dd20e0860ee25bdc19e30";
+      },
+    ];
+  };
+  Notification: {
+    type: "VARIANT";
+    defaultValue: "False";
+    variantOptions: ["False", "True"];
+  };
+}>;
