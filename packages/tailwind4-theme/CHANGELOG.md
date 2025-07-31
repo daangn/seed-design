@@ -1,5 +1,11 @@
 # @seed-design/tailwind4-theme
 
+## 0.1.6
+
+### Patch Changes
+
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
 ## 0.1.3
 
 ### Patch Changes

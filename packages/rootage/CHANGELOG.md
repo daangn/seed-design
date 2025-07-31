@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 0.0.2
+
+### Patch Changes
+
+- 235147d: action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
 ## 0.0.1
 
 ### Patch Changes
