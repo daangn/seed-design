@@ -258,7 +258,7 @@ export const tokens = {
   --seed-color-manner-temp-l6-text: #f06000;
   --seed-gradient-fade-layer-floating: #ffffff00 0%, #000000 100%;
   --seed-gradient-fade-layer-default: #ffffff00 0%, #000000 100%;
-  --seed-gradient-glow-magic: #fef6f7 0%, #fef0e7 80%, #f9f7f5 100%;
+  --seed-gradient-glow-magic: #ffffff 0%, #fef0e7 80%, #f9f7f5 100%;
   --seed-gradient-shimmer-magic: #fff9f500 0%, #fff9f58a 46%, #fff9f58a 54%, #fff9f500 100%;
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff66 46%, #ffffff66 54%, #ffffff00 100%;

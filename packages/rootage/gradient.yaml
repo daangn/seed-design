@@ -46,7 +46,7 @@ data:
         theme-light:
           type: gradient
           value:
-            - color: "#fef6f7"
+            - color: "#ffffff"
               position: 0
             - color: "#fef0e7"
               position: 0.8
