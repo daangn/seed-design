@@ -65,7 +65,7 @@ jobs:
         with:
           ref: changeset-release/${{ github.ref_name }}
 
-      - name: rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
+      - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
         if: steps.changesets.outputs.published == 'false'
         run: |
           bun install --frozen-lockfile
@@ -77,3 +77,20 @@ jobs:
           git add docs/public/rootage
           git commit -m "Update public rootage version" || echo "No changes to commit"
           git push
+
+      - name: 배포된 버전을 가져와요
+        id: get-package-versions
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          PACKAGE_VERSIONS=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -c 'map({name: .name, value: .version}) | from_entries')
+          echo "packageVersions=$PACKAGE_VERSIONS" >> $GITHUB_OUTPUT
+
+      - name: rootage-artifacts가 배포된 경우 Slack에 알려요
+        if: steps.changesets.outputs.published == 'true' && contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: '새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}\n\n변경사항: https://seed-design.io/react/get-started/changelog'
