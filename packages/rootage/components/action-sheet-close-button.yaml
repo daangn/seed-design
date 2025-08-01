@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: action-sheet-close-button
   name: Action Sheet Close Button
+  deprecated: Use menu-sheet-close-button instead.
 data:
   schema:
     slots:

@@ -1,5 +1,52 @@
 # @seed-design/css
 
+## 0.1.7
+
+### Patch Changes
+
+- 4afe80b: MultilineTextField의 스타일 문제를 수정합니다.
+
+  - 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
+## 0.1.6
+
+### Patch Changes
+
+- 235147d: action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- 3889eb6: Inline Banner의 스타일 문제를 수정합니다.
+
+  - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+  - `title`과 `description` 간의 간격을 조정합니다.
+  - 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+  Callout의 스타일 문제를 수정합니다.
+
+  - `title`과 `description` 간의 간격을 조정합니다.
+
+  Chip의 스타일 문제를 수정합니다.
+
+  - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
+## 0.1.4
+
+### Patch Changes
+
+- 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+  - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+  - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
 ## 0.1.3
 
 ### Patch Changes

@@ -6,6 +6,9 @@ import { defineRecipe } from "../utils/define";
 import { active, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
+/**
+ * @deprecated Use `menu-sheet-item` instead.
+ */
 const extendedActionSheetItem = defineRecipe({
   name: "extended-action-sheet-item",
   base: {

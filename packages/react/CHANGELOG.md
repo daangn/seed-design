@@ -1,5 +1,52 @@
 # @seed-design/react
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [4afe80b]
+  - @seed-design/css@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [235147d]
+- Updated dependencies [3c13ad7]
+  - @seed-design/css@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- Updated dependencies [861ecb4]
+- Updated dependencies [3889eb6]
+  - @seed-design/css@0.1.5
+
+## 0.1.4
+
+### Patch Changes
+
+- 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+  - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+  - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+- 56e03ca: Layout 컴포넌트 `pb`, `pt`, `paddingBottom`, `paddingTop` 속성에 `safeArea` 값을 지정할 수 있도록 지원
+
+  ```tsx
+  <Box pt="safeArea" paddingTop="safeArea" />
+  <Box pb="safeArea" paddingBottom="safeArea" />
+  ```
+
+- Updated dependencies [0ffcd48]
+  - @seed-design/css@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

@@ -9,6 +9,10 @@
     "...(typography)",
     "---Components---",
     "...",
+    "action-chip",
+    "action-sheet",
+    "control-chip",
+    "extended-action-sheet",
     "fab",
     "extended-fab"
   ]

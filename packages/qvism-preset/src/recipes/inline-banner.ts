@@ -5,7 +5,6 @@ import { prefixIcon, suffixIcon } from "../utils/icon";
 
 const closeButtonNegativeMargin = `(${vars.base.enabled.suffixIcon.targetSize} - ${vars.base.enabled.suffixIcon.size}) * -0.5`;
 const prefixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.prefixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
-const suffixIconVerticalAdjustMargin = `(${vars.base.enabled.root.minHeight} - ${vars.base.enabled.suffixIcon.size}) * 0.5 - ${vars.base.enabled.root.paddingY}`;
 
 const inlineBanner = defineSlotRecipe({
   name: "inline-banner",
@@ -20,6 +19,7 @@ const inlineBanner = defineSlotRecipe({
 
       display: "flex",
       alignItems: "flex-start",
+      textAlign: "start",
       width: "100%",
       minHeight: vars.base.enabled.root.minHeight,
 
@@ -34,7 +34,8 @@ const inlineBanner = defineSlotRecipe({
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,
         marginLeft: vars.base.enabled.suffixIcon.marginLeft,
-        marginTop: `calc(${suffixIconVerticalAdjustMargin})`,
+        marginTop: "auto",
+        marginBottom: "auto",
       }),
 
       [pseudo(":is(button)")]: {
@@ -42,10 +43,6 @@ const inlineBanner = defineSlotRecipe({
       },
     },
     content: {
-      display: "inline-flex",
-      boxSizing: "border-box",
-      textAlign: "start",
-
       marginInlineEnd: "auto",
     },
     title: {
@@ -54,7 +51,11 @@ const inlineBanner = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
-      marginInlineEnd: "1ch",
+
+      [pseudo("::after")]: {
+        content: '"  "',
+        whiteSpace: "pre",
+      },
     },
     description: {
       fontSize: vars.base.enabled.description.fontSize,
@@ -73,6 +74,7 @@ const inlineBanner = defineSlotRecipe({
       alignItems: "center",
 
       // TODO: handle targetHeight
+      marginBlock: "auto",
       marginLeft: vars.base.enabled.link.marginLeft,
 
       fontSize: vars.base.enabled.link.fontSize,
@@ -94,11 +96,13 @@ const inlineBanner = defineSlotRecipe({
       height: vars.base.enabled.suffixIcon.targetSize,
 
       margin: `calc(${closeButtonNegativeMargin})`,
+
       // Consume suffixIcon margin here, and reset suffix icon margin.
-      marginTop: `calc(${closeButtonNegativeMargin} + ${suffixIconVerticalAdjustMargin})`,
+      // there's no need to reset suffix icon top and bottom margin because they're auto.
       marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
-      "--seed-suffix-icon-margin-top": "initial",
       "--seed-suffix-icon-margin-left": "initial",
+
+      alignSelf: "center",
 
       border: "none",
       backgroundColor: "transparent",

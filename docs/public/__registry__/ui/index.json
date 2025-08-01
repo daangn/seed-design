@@ -78,7 +78,8 @@
     ],
     "files": [
       "ui:action-sheet.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "extended-action-sheet",
@@ -87,7 +88,8 @@
     ],
     "files": [
       "ui:extended-action-sheet.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "avatar",
@@ -178,6 +180,19 @@
     ],
     "files": [
       "ui:control-chip.tsx"
+    ],
+    "deprecated": true
+  },
+  {
+    "name": "chip",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "innerDependencies": [
+      "ui:avatar"
+    ],
+    "files": [
+      "ui:chip.tsx"
     ]
   },
   {
@@ -207,6 +222,15 @@
     ],
     "files": [
       "ui:inline-banner.tsx"
+    ]
+  },
+  {
+    "name": "menu-sheet",
+    "dependencies": [
+      "@seed-design/react"
+    ],
+    "files": [
+      "ui:menu-sheet.tsx"
     ]
   },
   {

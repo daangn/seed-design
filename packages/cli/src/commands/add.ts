@@ -16,11 +16,13 @@ import { BASE_URL } from "../constants";
 import { addRelativeRegistries } from "../utils/add-relative-registries";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
+import type { RegistryUIMachineGenerated } from "../schema";
 
 const addOptionsSchema = z.object({
   components: z.array(z.string()).optional(),
-  cwd: z.string(),
   all: z.boolean(),
+  includeDeprecated: z.boolean().optional(),
+  cwd: z.string(),
   baseUrl: z.string().optional(),
   // yes: z.boolean(),
   // overwrite: z.boolean(),
@@ -31,6 +33,9 @@ export const addCommand = (cli: CAC) => {
   cli
     .command("add [...components]", "add component")
     .option("-a, --all", "Add all components", {
+      default: false,
+    })
+    .option("--include-deprecated", "Include deprecated components when used with `--all`", {
       default: false,
     })
     .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
@@ -56,32 +61,39 @@ export const addCommand = (cli: CAC) => {
       const config = await getConfig(cwd);
       const registryComponentIndex = await getRegistryUIIndex(baseUrl);
       const libRegistryIndex = await getRegistryLibIndex(baseUrl);
-      let selectedComponents: string[] = options.all
-        ? registryComponentIndex.map((registry) => registry.name)
-        : options.components;
 
-      if (!options.components?.length && !options.all) {
-        const selects = await p.multiselect<
-          { label: string; value: string; hint: string }[],
-          string
-        >({
+      const selectedComponents: string[] = await (async () => {
+        if (options.all) {
+          if (options.includeDeprecated) return registryComponentIndex.map((c) => c.name);
+
+          return registryComponentIndex.filter(({ deprecated }) => !deprecated).map((c) => c.name);
+        }
+
+        if (options.components.length > 0) return options.components;
+
+        const selected = await p.multiselect({
           message: "추가할 컴포넌트를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
-          options: registryComponentIndex.map((metadata) => {
-            return {
-              label: metadata.name,
-              value: metadata.name,
-              hint: metadata.description,
-            };
-          }),
+          options: registryComponentIndex
+            .map(({ name, description, deprecated }) => ({
+              label: `${deprecated ? "(deprecated) " : ""}${name}`,
+              value: name,
+              hint: description,
+              deprecated,
+            }))
+            .sort((a, b) => {
+              if (a.deprecated === b.deprecated) return a.label.localeCompare(b.label);
+
+              return a.deprecated ? 1 : -1;
+            }),
         });
 
-        if (p.isCancel(selects)) {
+        if (p.isCancel(selected)) {
           p.log.error("취소되었어요.");
           process.exit(0);
         }
 
-        selectedComponents = selects as string[];
-      }
+        return selected;
+      })();
 
       if (!selectedComponents?.length) {
         p.log.error("컴포넌트를 찾을 수 없어요.");
@@ -96,7 +108,7 @@ export const addCommand = (cli: CAC) => {
         libRegistryIndex,
       });
 
-      const allRegistryItems = [];
+      const allRegistryItems: RegistryUIMachineGenerated = [];
 
       const { start, stop } = p.spinner();
       start("Registry를 가져오고 있어요...");
@@ -126,6 +138,19 @@ export const addCommand = (cli: CAC) => {
         filtered: new Set(),
       };
       for (const component of allRegistryItems) {
+        if (component.deprecated && !options.includeDeprecated) {
+          const confirm = await p.confirm({
+            message: `${highlight(component.name)}는 deprecated 되었어요. 추가할까요?`,
+            initialValue: false,
+          });
+
+          if (confirm === false || p.isCancel(confirm)) {
+            p.log.info(`${highlight(component.name)} 컴포넌트는 추가하지 않을게요.`);
+
+            continue;
+          }
+        }
+
         for (const registry of component.registries) {
           let targetPath = "";
           switch (registry.type) {

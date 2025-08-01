@@ -3,6 +3,91 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.01
+
+[`4afe80b`](https://github.com/daangn/seed-design/commit/4afe80b81e6845ec917426039ef8d7817e67e7ec) MultilineTextField의 스타일 문제를 수정합니다.
+
+- 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
+### Version Updates
+
+- @seed-design/css@0.1.7
+
+## 2025.07.31
+
+[`235147d`](https://github.com/daangn/seed-design/commit/235147def530d1d2ab6441f0e5b965efb1d67e43) action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+
+[`3c13ad7`](https://github.com/daangn/seed-design/commit/3c13ad76a32bbf909b44f4ffbca1277d6d0f1d7a) `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
+### Version Updates
+
+- @seed-design/css@0.1.6
+- @seed-design/rootage-artifacts@0.0.2
+- @seed-design/tailwind3-plugin@0.1.6
+- @seed-design/tailwind4-theme@0.1.6
+
+## 2025.07.29
+
+[`a059fb0`](https://github.com/daangn/seed-design/commit/a059fb02b051fc4ca8fd0c79c5706dec90448097) Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+- [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+- Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+[`3889eb6`](https://github.com/daangn/seed-design/commit/3889eb6c82915c6ae4df05c815841f0ad54d27a6) Inline Banner의 스타일 문제를 수정합니다.
+
+- `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+- `title`과 `description` 간의 간격을 조정합니다.
+- 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+Callout의 스타일 문제를 수정합니다.
+
+- `title`과 `description` 간의 간격을 조정합니다.
+
+Chip의 스타일 문제를 수정합니다.
+
+- `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
+### Version Updates
+
+- @seed-design/css@0.1.5
+- @seed-design/react@0.1.5
+- @seed-design/rootage-artifacts@0.0.1
+
+## 2025.07.28
+
+[`9b271d6`](https://github.com/daangn/seed-design/commit/9b271d613f2067c8cc8cbc517cd1d334f4e04e92) snippet의 deprecated 여부를 기록합니다. cli add 명령 실행 시 snippet 목록에서 deprecate 여부를 표시하고, `--all`로 모든 스니펫 추가 시 기본적으로 deprecated snippet을 제외합니다.
+
+```sh
+seed-design add --all # deprecated snippet 제외
+```
+
+```sh
+seed-design add --all --include-deprecated # deprecated snippet 포함
+```
+
+### Version Updates
+
+- @seed-design/cli@0.0.3
+
+## 2025.07.23
+
+[`0ffcd48`](https://github.com/daangn/seed-design/commit/0ffcd481d3be71cff6a7cfea6985a7c063086ff7) Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+- [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+- Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+[`56e03ca`](https://github.com/daangn/seed-design/commit/56e03cad0841e4a77e284da12d63e81d412e84b9) Layout 컴포넌트 `pb`, `pt`, `paddingBottom`, `paddingTop` 속성에 `safeArea` 값을 지정할 수 있도록 지원
+  
+```tsx
+<Box pt="safeArea" paddingTop="safeArea" />
+<Box pb="safeArea" paddingBottom="safeArea" />
+```
+
+### Version Updates
+
+- @seed-design/css@0.1.4
+- @seed-design/react@0.1.4
+
 ## 2025.07.11
 
 [`cdc0930`](https://github.com/daangn/seed-design/commit/cdc09303deb05db51455c779b72c148b975014c5) `@seed-design/stackflow` 백스와이프 애니메이션 개선
@@ -48,13 +133,13 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 ### Version Updates
 
 - @seed-design/css@0.1.0
-- @seed-design/react@0.1.0
 - @seed-design/figma@0.1.0
+- @seed-design/mcp@0.1.0
+- @seed-design/react@0.1.0
 - @seed-design/rsbuild-plugin@0.1.0
 - @seed-design/stackflow@0.1.0
 - @seed-design/vite-plugin@0.1.0
 - @seed-design/webpack-plugin@0.1.0
-- @seed-design/mcp@0.1.0
 
 ## 2025.06.24
 
@@ -71,16 +156,16 @@ Alpha 컬러 업데이트
 
 ### Version Updates
 
+- @seed-design/codemod@0.0.28
 - @seed-design/css@0.0.39
-- @seed-design/react@0.0.39
 - @seed-design/figma@0.0.39
+- @seed-design/mcp@0.0.39
+- @seed-design/migration-index@0.0.28
+- @seed-design/react@0.0.39
 - @seed-design/rsbuild-plugin@0.0.39
 - @seed-design/stackflow@0.0.39
-- @seed-design/vite-plugin@0.0.39
-- @seed-design/webpack-plugin@0.0.39
-- @seed-design/mcp@0.0.39
-- @seed-design/codemod@0.0.28
-- @seed-design/migration-index@0.0.28
 - @seed-design/tailwind3-plugin@0.0.39
 - @seed-design/tailwind4-theme@0.0.39
+- @seed-design/vite-plugin@0.0.39
+- @seed-design/webpack-plugin@0.0.39
 

@@ -61,6 +61,7 @@ export const globalCss = defineGlobalCss({
     marginLeft: "var(--seed-suffix-icon-margin-left)",
     marginRight: "var(--seed-suffix-icon-margin-right)",
     marginTop: "var(--seed-suffix-icon-margin-top)",
+    marginBottom: "var(--seed-suffix-icon-margin-bottom)",
     color: "var(--seed-suffix-icon-color, currentColor)",
   },
   ".seed-count": {

@@ -2,7 +2,8 @@
   "kind": "ComponentSpec",
   "metadata": {
     "id": "action-sheet-close-button",
-    "name": "Action Sheet Close Button"
+    "name": "Action Sheet Close Button",
+    "deprecated": "Use menu-sheet-close-button instead."
   },
   "data": {
     "id": "action-sheet-close-button",

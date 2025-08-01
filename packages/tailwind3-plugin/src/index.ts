@@ -34,7 +34,8 @@ export default plugin(
       "shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
       "glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
       "shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%",
-      "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%"
+      "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
+      "highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%"
 };
 
     Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
@@ -225,7 +226,8 @@ export default plugin(
   "gradient-stops-shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
   "gradient-stops-glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
   "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%",
-  "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%"
+  "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%",
+  "gradient-stops-highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%"
 },
         backgroundImage: {
   "fade-layer-floating-to-t": "linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%)",
@@ -283,7 +285,15 @@ export default plugin(
   "highlight-magic-to-b": "linear-gradient(to bottom, #ff6600 20.00%, #d25aca 100.00%)",
   "highlight-magic-to-bl": "linear-gradient(to bottom left, #ff6600 20.00%, #d25aca 100.00%)",
   "highlight-magic-to-l": "linear-gradient(to left, #ff6600 20.00%, #d25aca 100.00%)",
-  "highlight-magic-to-tl": "linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%)"
+  "highlight-magic-to-tl": "linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-pressed-to-t": "linear-gradient(to top, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-tr": "linear-gradient(to top right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-r": "linear-gradient(to right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-br": "linear-gradient(to bottom right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-b": "linear-gradient(to bottom, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-bl": "linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-l": "linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-tl": "linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%)"
 },
         typography: {
   "screen-title": {

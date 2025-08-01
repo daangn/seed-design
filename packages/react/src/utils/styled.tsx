@@ -51,6 +51,19 @@ function handleBleed(
   return handleDimension(dimension);
 }
 
+export function handlePaddingWithSafeArea(
+  padding: string | 0 | undefined,
+  direction: "top" | "bottom",
+): string | undefined {
+  if (padding === "safeArea") {
+    return `var(--seed-safe-area-${direction})`;
+  }
+
+  const paddingValue = handleDimension(padding);
+
+  return paddingValue;
+}
+
 function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
@@ -284,12 +297,18 @@ export interface StyleProps {
    */
   py?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingTop?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingTop?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingTop`.
    */
-  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
   paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
@@ -298,12 +317,18 @@ export interface StyleProps {
    */
   pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingBottom?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingBottom?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingBottom`.
    */
-  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
   paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
@@ -576,9 +601,9 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-padding": handleDimension(padding ?? p),
       "--seed-box-padding-x": handleDimension(paddingX ?? px),
       "--seed-box-padding-y": handleDimension(paddingY ?? py),
-      "--seed-box-padding-top": handleDimension(paddingTop ?? pt),
+      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
       "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
-      "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb),
+      "--seed-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
       "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
       "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
       "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
