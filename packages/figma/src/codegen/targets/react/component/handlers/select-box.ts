@@ -42,7 +42,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
 
   return defineComponentHandler<SelectBoxGroupProperties>(
     metadata.templateSelectBoxGroup.key,
-    (node) => {
+    (node, traverse) => {
       const props = node.componentProperties;
 
       const tag = match(props.Control.value)
@@ -59,10 +59,13 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
         selectBox.componentProperties.State.value.split("-").includes("Selected"),
       );
 
+      // traverse the container like it's a frame
+      const vStackProps = traverse({ ...node, type: "FRAME" })?.props;
+
       const stack = createSeedReactElement(
-        "Stack",
-        { gap: "spacingY.componentDefault" },
-        selectBoxes.map(selectBoxHandler.transform),
+        "VStack",
+        vStackProps,
+        selectBoxes.map((box) => selectBoxHandler.transform(box, traverse)),
       );
 
       const commonProps = {

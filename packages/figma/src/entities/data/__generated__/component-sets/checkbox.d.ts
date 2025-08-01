@@ -31,13 +31,13 @@ export declare const metadata: {
       "variantOptions": [
         "Enabled",
         "Pressed",
+        "Disabled",
         "Selected",
         "Selected-Pressed",
+        "Selected-Disabled",
         "Indeterminate",
         "Indeterminate-Pressed",
-        "Disabled",
-        "Disabled-Selected",
-        "Disabled-Indeterminate"
+        "Indeterminate-Disabled"
       ]
     }
   }

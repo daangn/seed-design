@@ -5,6 +5,7 @@ import type { NormalizedTextNode } from "@/normalizer";
 import { camelCase } from "change-case";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
+import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("callout");
 
@@ -12,18 +13,11 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CalloutProperties>(
     metadata.callout.key,
     ({ componentProperties: props, children }) => {
-      const tag = (() => {
-        switch (props.Interaction.value) {
-          case "Default":
-            return "Callout";
-          case "Actionable":
-            return "ActionableCallout";
-          case "Dismissible":
-            return "DismissibleCallout";
-          default:
-            return "Callout";
-        }
-      })();
+      const tag = match(props.Interaction.value)
+        .with("Display", () => "Callout")
+        .with("Actionable", () => "ActionableCallout")
+        .with("Dismissible", () => "DismissibleCallout")
+        .exhaustive();
 
       const textNode = children.find((child) => child.type === "TEXT") as NormalizedTextNode | null;
 
@@ -79,11 +73,13 @@ export const createCalloutHandler = (ctx: ComponentHandlerDeps) =>
         tone: camelCase(props.Tone.value),
         title,
         description,
-        linkProps: {
-          children: linkLabel,
-        },
-        ...(props["Icon#12598:210"].value && {
-          prefixIcon: ctx.iconHandler.transform(props["Icon#12598:210"]),
+        ...(linkLabel && {
+          linkProps: {
+            children: linkLabel,
+          },
+        }),
+        ...(props["Show Prefix Icon#35087:1"].value && {
+          prefixIcon: ctx.iconHandler.transform(props["Prefix Icon#35087:0"]),
         }),
       };
 

@@ -291,16 +291,23 @@ export function createTypeStylePropsConverter({
   });
 }
 
-export interface FrameFillProps {
-  bg?: string;
-}
+export type FrameFillProps =
+  | { bg?: string | undefined; bgGradient?: never; bgGradientDirection?: never }
+  | { bg?: never; bgGradient: string; bgGradientDirection?: string };
 
 export function createFrameFillPropsConverter(valueResolver: ReactValueResolver) {
   return definePropsConverter<FillTrait, FrameFillProps>((node) => {
     const bg = valueResolver.getFormattedValue.frameFill(node);
 
+    if (bg === undefined || typeof bg === "string") {
+      return {
+        bg,
+      };
+    }
+
     return {
-      bg,
+      bgGradient: bg.value,
+      ...(bg.direction && { bgGradientDirection: bg.direction }),
     };
   });
 }

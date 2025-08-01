@@ -9,6 +9,7 @@ import type {
   NormalizedVectorNode,
   NormalizedBooleanOperationNode,
 } from "./types";
+import { convertTransformToGradientHandles } from "@/utils/figma-gradient";
 
 export function createPluginNormalizer() {
   async function normalizeNodes(nodes: readonly SceneNode[]): Promise<NormalizedSceneNode[]> {
@@ -55,7 +56,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
-      ...normalizeAutolayoutProps(node),
+      ...(await normalizeAutolayoutProps(node)),
       children: await normalizeNodes(node.children),
     };
   }
@@ -99,7 +100,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
-      ...normalizeShapeProps(node),
+      ...(await normalizeShapeProps(node)),
     };
   }
 
@@ -109,7 +110,7 @@ export function createPluginNormalizer() {
       id: node.id,
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
-      ...normalizeShapeProps(node),
+      ...(await normalizeShapeProps(node)),
     };
   }
 
@@ -122,7 +123,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       children: await normalizeNodes(node.children),
-      ...normalizeShapeProps(node),
+      ...(await normalizeShapeProps(node)),
     };
   }
   async function normalizeTextNode(node: TextNode): Promise<NormalizedTextNode> {
@@ -136,6 +137,7 @@ export function createPluginNormalizer() {
       "textStyleId",
       "fills",
       "boundVariables",
+      "textDecoration",
     ]);
     const first = segments[0]!;
 
@@ -175,7 +177,7 @@ export function createPluginNormalizer() {
           lineHeightPx: segment.lineHeight.unit === "PIXELS" ? segment.lineHeight.value : undefined,
         },
       })),
-      ...normalizeShapeProps(node),
+      ...(await normalizeShapeProps(node)),
     };
   }
 
@@ -186,7 +188,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
-      ...normalizeAutolayoutProps(node),
+      ...(await normalizeAutolayoutProps(node)),
       children: await normalizeNodes(node.children),
     };
   }
@@ -219,7 +221,7 @@ export function createPluginNormalizer() {
       name: node.name,
       boundVariables: await normalizeBoundVariables(node),
       ...normalizeRadiusProps(node),
-      ...normalizeAutolayoutProps(node),
+      ...(await normalizeAutolayoutProps(node)),
       children: await normalizeNodes(node.children),
       componentKey: mainComponent.key,
       componentSetKey:
@@ -244,29 +246,44 @@ export function createPluginNormalizer() {
   }
 
   function normalizePaint(paint: Paint): FigmaRestSpec.Paint {
-    if (paint.type === "SOLID") {
-      return normalizeSolidPaint(paint);
+    switch (paint.type) {
+      case "SOLID":
+        return normalizeSolidPaint(paint);
+      case "IMAGE":
+        return {
+          type: "IMAGE",
+          scaleMode: paint.scaleMode === "CROP" ? "STRETCH" : paint.scaleMode,
+          imageTransform: paint.imageTransform,
+          scalingFactor: paint.scalingFactor,
+          filters: paint.filters,
+          rotation: paint.rotation,
+          imageRef: paint.imageHash ?? "",
+          blendMode: paint.blendMode ?? "NORMAL",
+          visible: paint.visible,
+          opacity: paint.opacity,
+        };
+      case "GRADIENT_LINEAR":
+      case "GRADIENT_RADIAL":
+      case "GRADIENT_ANGULAR":
+      case "GRADIENT_DIAMOND":
+        return {
+          type: paint.type,
+          gradientStops: [...paint.gradientStops],
+          visible: paint.visible,
+          opacity: paint.opacity,
+          blendMode: paint.blendMode ?? "NORMAL",
+          gradientHandlePositions: convertTransformToGradientHandles(paint.gradientTransform),
+        };
+      default:
+        throw new Error(`Unimplemented paint type: ${paint.type}`);
     }
-    if (paint.type === "IMAGE") {
-      return {
-        type: "IMAGE",
-        scaleMode: paint.scaleMode === "CROP" ? "STRETCH" : paint.scaleMode,
-        imageTransform: paint.imageTransform,
-        scalingFactor: paint.scalingFactor,
-        filters: paint.filters,
-        rotation: paint.rotation,
-        imageRef: paint.imageHash ?? "",
-        blendMode: paint.blendMode ?? "NORMAL",
-        visible: paint.visible,
-        opacity: paint.opacity,
-      };
-    }
-    throw new Error(`Unimplemented paint type: ${paint.type}`);
   }
 
   function normalizePaints(fills: readonly Paint[] | PluginAPI["mixed"]): FigmaRestSpec.Paint[] {
     if (fills === figma.mixed) {
-      throw new Error("Mixed fills are not supported");
+      console.warn("Mixed fills are not supported");
+
+      return [];
     }
 
     return fills.map(normalizePaint);
@@ -289,10 +306,11 @@ export function createPluginNormalizer() {
     };
   }
 
-  function normalizeShapeProps(
+  async function normalizeShapeProps(
     node: Pick<
       RectangleNode,
       | "fills"
+      | "fillStyleId"
       | "strokes"
       | "strokeWeight"
       | "layoutGrow"
@@ -308,6 +326,11 @@ export function createPluginNormalizer() {
     > &
       Partial<Pick<FrameNode, "inferredAutoLayout">>,
   ) {
+    const fillStyleKey =
+      typeof node.fillStyleId === "string"
+        ? (await figma.getStyleByIdAsync(node.fillStyleId))?.key
+        : undefined;
+
     return {
       layoutGrow: (node.inferredAutoLayout?.layoutGrow ?? node.layoutGrow) as 0 | 1 | undefined,
       layoutAlign: node.inferredAutoLayout?.layoutAlign ?? node.layoutAlign,
@@ -316,6 +339,7 @@ export function createPluginNormalizer() {
       absoluteBoundingBox: node.absoluteBoundingBox,
       relativeTransform: node.relativeTransform,
       fills: normalizePaints(node.fills),
+      ...(fillStyleKey ? { fillStyleKey } : {}),
       strokes: normalizePaints(node.strokes),
       strokeWeight: node.strokeWeight === figma.mixed ? undefined : node.strokeWeight,
       minHeight: node.minHeight ?? undefined,
@@ -325,9 +349,9 @@ export function createPluginNormalizer() {
     };
   }
 
-  function normalizeAutolayoutProps(node: Omit<FrameNode, "type" | "clone">) {
+  async function normalizeAutolayoutProps(node: Omit<FrameNode, "type" | "clone">) {
     return {
-      ...normalizeShapeProps(node),
+      ...(await normalizeShapeProps(node)),
       layoutMode: node.inferredAutoLayout?.layoutMode ?? node.layoutMode,
       layoutWrap: node.inferredAutoLayout?.layoutWrap ?? node.layoutWrap,
       paddingLeft: node.inferredAutoLayout?.paddingLeft ?? node.paddingLeft,
@@ -348,23 +372,59 @@ export function createPluginNormalizer() {
     };
   }
 
-  async function normalizeBoundVariables(node: Pick<FrameNode, "boundVariables">) {
+  async function normalizeBoundVariables({
+    boundVariables,
+  }: Pick<FrameNode, "boundVariables">): Promise<FigmaRestSpec.IsLayerTrait["boundVariables"]> {
+    if (!boundVariables) return undefined;
+
+    const { width, height, componentProperties: _componentProperties, ...rest } = boundVariables;
+
+    // replace VariableAlias' id with the actual variable key
+    const resolveVariableId = async (variable: VariableAlias): Promise<VariableAlias> => ({
+      ...variable,
+      id: (await figma.variables.getVariableByIdAsync(variable.id))?.key ?? variable.id,
+    });
+
+    const needsResolution = [
+      "fills",
+      "itemSpacing",
+      "counterAxisSpacing",
+      "bottomLeftRadius",
+      "bottomRightRadius",
+      "topLeftRadius",
+      "topRightRadius",
+      "paddingBottom",
+      "paddingLeft",
+      "paddingRight",
+      "paddingTop",
+      "maxHeight",
+      "minHeight",
+      "maxWidth",
+      "minWidth",
+    ];
+
+    // Process all properties in parallel
+    const resolvedEntries = await Promise.all(
+      Object.entries(rest).map(async ([key, value]) => {
+        if (!value || !needsResolution.includes(key)) return [key, value];
+
+        if (Array.isArray(value)) {
+          return [key, await Promise.all(value.map(resolveVariableId))];
+        }
+
+        return [key, await resolveVariableId(value)];
+      }),
+    );
+
     return {
-      ...node.boundVariables,
-      fills: await Promise.all(
-        node.boundVariables?.fills?.map((fill) =>
-          figma.variables.getVariableByIdAsync(fill.id).then((res) => {
-            return {
-              ...fill,
-              id: res?.key ?? fill.id,
-            };
-          }),
-        ) ?? [],
-      ),
-      size: {
-        x: node.boundVariables?.width,
-        y: node.boundVariables?.height,
-      },
+      ...Object.fromEntries(resolvedEntries),
+      ...(width &&
+        height && {
+          size: {
+            x: width,
+            y: height,
+          },
+        }),
     };
   }
 

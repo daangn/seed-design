@@ -45,7 +45,9 @@ export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
         minValue,
         maxValue,
         size: props.Size.value,
-        tone: camelCase(props.Tone.value),
+        ...(props.Tone.value !== "Custom" && {
+          tone: camelCase(props.Tone.value),
+        }),
       };
 
       return createLocalSnippetElement("ProgressCircle", commonProps);

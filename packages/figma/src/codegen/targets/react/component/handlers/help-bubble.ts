@@ -1,10 +1,12 @@
 import type { HelpBubbleProperties } from "@/codegen/component-properties";
-import { createElement, defineComponentHandler } from "@/codegen/core";
+import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("help-bubble");
+const { createLocalSnippetElement: createLocalSnippetElementTrigger } =
+  createLocalSnippetHelper("action-button");
 
 export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<HelpBubbleProperties>(
@@ -56,7 +58,6 @@ export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
         ...(props["Show Description#62499:0"].value && {
           description: props["Description#62535:98"].value,
         }),
-        showCloseButton: props["Show Close Button"].value === "True",
         defaultOpen: true,
         placement,
       };
@@ -64,9 +65,7 @@ export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
       return createLocalSnippetElement(
         "HelpBubbleTrigger",
         commonProps,
-        createElement("button", undefined, "열기", {
-          comment: "HelpBubble을 여는 요소를 제공해주세요.",
-        }),
+        createLocalSnippetElementTrigger("ActionButton", {}, "HelpBubble 열기"),
       );
     },
   );

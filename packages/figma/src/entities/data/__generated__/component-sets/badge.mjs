@@ -29,13 +29,6 @@ export const metadata = {
         "Weak",
         "Outline"
       ]
-    },
-    "Shape": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Rectangle",
-        "Pill"
-      ]
     }
   }
 };
