@@ -5,7 +5,7 @@ import { camelCase } from "change-case";
 
 export type ReactValueResolver = ValueResolver<
   string,
-  { value: string; direction: string },
+  { value: string; direction?: string },
   string,
   string,
   number
@@ -27,14 +27,14 @@ export const defaultVariableNameFormatter = ({ slug }: { slug: string[] }) =>
     .map(camelCasePreserveUnderscoreBetweenNumbers)
     .join(".");
 
-export const defaultStyleNameFormatter = ({ slug }: { slug: string[] }) => {
+export const defaultTextStyleNameFormatter = ({ slug }: { slug: string[] }) => {
   return camelCase(slug[slug.length - 1]!, { mergeAmbiguousCharacters: true });
 };
 
-export const defaultStyleNameToGradient = ({ slug }: { slug: string[] }) => {
+export const defaultFillStyleResolver = ({ slug }: { slug: string[] }) => {
   const [, ...rest] = slug;
 
-  if (rest.includes("fade")) {
+  if (rest[0] === "fade") {
     // ["fade", "layer-default", "↓(to-bottom)"]
 
     const last = rest[rest.length - 1];
@@ -56,8 +56,6 @@ export const defaultStyleNameToGradient = ({ slug }: { slug: string[] }) => {
 
   return {
     value: camelCase(rest.join("-"), { mergeAmbiguousCharacters: true }),
-    // TODO: 스타일 이름만으로 방향을 알 수 없음
-    direction: "unknown",
   };
 };
 

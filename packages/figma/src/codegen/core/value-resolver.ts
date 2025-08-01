@@ -94,9 +94,8 @@ export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension
   variableService: VariableService;
   variableNameFormatter: (props: { slug: string[] }) => string;
   styleService: StyleService;
-  styleNameFormatter: (props: { slug: string[] }) => string;
-  // TODO: rename
-  styleNameToGradient: (props: { slug: string[] }) => TGradient | undefined;
+  textStyleNameFormatter: (props: { slug: string[] }) => string;
+  fillStyleResolver: (props: { slug: string[] }) => TGradient | undefined;
   rawValueFormatters: {
     color: (value: RGBA) => string | TColor;
     dimension: (value: number) => string | TDimension;
@@ -110,8 +109,8 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
   variableService,
   variableNameFormatter,
   styleService,
-  styleNameFormatter,
-  styleNameToGradient,
+  textStyleNameFormatter,
+  fillStyleResolver,
   rawValueFormatters,
   shouldInferVariableName,
 }: ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight>): ValueResolver<
@@ -145,16 +144,6 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
     return getVariableName(inferred.key);
   }
 
-  function getStyleName(key: string) {
-    const slug = styleService.getSlug(key);
-
-    if (!slug) {
-      return undefined;
-    }
-
-    return styleNameFormatter({ slug });
-  }
-
   function processColor(
     key: string | undefined,
     value: RGBA | undefined,
@@ -171,14 +160,14 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
     return undefined;
   }
 
-  function processGradient(key: string) {
+  function processFillStyle(key: string) {
     const slug = styleService.getSlug(key);
 
     if (!slug) {
       return undefined;
     }
 
-    return styleNameToGradient({ slug });
+    return fillStyleResolver({ slug });
   }
 
   function processDimension(
@@ -279,9 +268,8 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
     frameFill: (node) =>
-      // TODO: fill style이 있으면 항상 gradient라고 할 수 있나? 이걸 core에 결부시켜도 되나
       node.fillStyleKey
-        ? processGradient(node.fillStyleKey)
+        ? processFillStyle(node.fillStyleKey)
         : processColor(
             getFirstFillVariable(node)?.id,
             getFirstSolidFill(node)?.color,
@@ -334,11 +322,15 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
   };
 
   function getTextStyleValue(node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait) {
-    if (node.textStyleKey) {
-      return getStyleName(node.textStyleKey);
+    if (!node.textStyleKey) return undefined;
+
+    const slug = styleService.getSlug(node.textStyleKey);
+
+    if (!slug) {
+      return undefined;
     }
 
-    return undefined;
+    return textStyleNameFormatter({ slug });
   }
 
   return {

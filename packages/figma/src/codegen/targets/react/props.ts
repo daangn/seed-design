@@ -292,8 +292,8 @@ export function createTypeStylePropsConverter({
 }
 
 export type FrameFillProps =
-  | { bg: string | undefined; bgGradient?: never; bgGradientDirection?: never }
-  | { bg?: never; bgGradient: string; bgGradientDirection: string };
+  | { bg?: string | undefined; bgGradient?: never; bgGradientDirection?: never }
+  | { bg?: never; bgGradient: string; bgGradientDirection?: string };
 
 export function createFrameFillPropsConverter(valueResolver: ReactValueResolver) {
   return definePropsConverter<FillTrait, FrameFillProps>((node) => {
@@ -307,7 +307,7 @@ export function createFrameFillPropsConverter(valueResolver: ReactValueResolver)
 
     return {
       bgGradient: bg.value,
-      bgGradientDirection: bg.direction,
+      ...(bg.direction && { bgGradientDirection: bg.direction }),
     };
   });
 }

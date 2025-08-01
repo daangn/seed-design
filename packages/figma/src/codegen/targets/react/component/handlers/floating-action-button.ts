@@ -27,8 +27,6 @@ export const createFloatingActionButtonHandler = (ctx: ComponentHandlerDeps) =>
         key: MENU_TYPE_KEY,
       });
 
-      console.log({ button, menu });
-
       const commonProps = (() => {
         if (button)
           return {

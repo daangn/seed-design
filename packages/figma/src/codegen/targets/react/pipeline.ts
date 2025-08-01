@@ -28,8 +28,8 @@ import {
 import { createTextTransformer } from "./text";
 import {
   defaultRawValueFormatters,
-  defaultStyleNameFormatter,
-  defaultStyleNameToGradient,
+  defaultTextStyleNameFormatter,
+  defaultFillStyleResolver,
   defaultVariableNameFormatter,
 } from "./value-resolver";
 
@@ -52,8 +52,8 @@ export function createPipeline(options: CreatePipelineConfig = {}) {
     variableService,
     variableNameFormatter: defaultVariableNameFormatter,
     styleService,
-    styleNameFormatter: defaultStyleNameFormatter,
-    styleNameToGradient: defaultStyleNameToGradient,
+    textStyleNameFormatter: defaultTextStyleNameFormatter,
+    fillStyleResolver: defaultFillStyleResolver,
     rawValueFormatters: defaultRawValueFormatters,
     shouldInferVariableName,
   });
