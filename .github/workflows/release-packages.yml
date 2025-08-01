@@ -75,5 +75,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/public/rootage
-          git commit -m "Update public rootage version"
+          git commit -m "Update public rootage version" || echo "No changes to commit"
           git push
