@@ -48,6 +48,8 @@ const textField = defineSlotRecipe({
       borderWidth: vars.base.enabled.field.strokeWidth,
       borderColor: vars.base.enabled.field.strokeColor,
 
+      overflow: "hidden",
+
       [pseudo(not(readOnly), focus)]: {
         borderColor: vars.base.focused.field.strokeColor,
       },
@@ -103,13 +105,7 @@ const textField = defineSlotRecipe({
       boxSizing: "border-box",
       font: "inherit",
 
-      [pseudo(":is(input)")]: {
-        paddingInline: 0,
-      },
-
       [pseudo(":is(textarea)")]: {
-        paddingInline: 0,
-
         minHeight: "90px",
         width: "100%",
       },
@@ -194,12 +190,18 @@ const textField = defineSlotRecipe({
           minHeight: vars.sizeXlarge.enabled.field.minHeight,
           borderRadius: vars.sizeXlarge.enabled.field.cornerRadius,
           gap: vars.sizeXlarge.enabled.field.gap,
-
-          paddingInline: vars.sizeXlarge.enabled.field.paddingX,
         },
         value: {
           // We intentionally apply field's paddingY to value for input touch area.
           paddingBlock: vars.sizeXlarge.enabled.field.paddingY,
+
+          [pseudo(":first-child")]: {
+            paddingInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+          },
+
+          [pseudo(":last-child")]: {
+            paddingInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+          },
 
           fontSize: vars.sizeXlarge.enabled.value.fontSize,
           lineHeight: vars.sizeXlarge.enabled.value.lineHeight,
@@ -207,18 +209,34 @@ const textField = defineSlotRecipe({
         prefixText: {
           fontSize: vars.sizeXlarge.enabled.prefixText.fontSize,
           lineHeight: vars.sizeXlarge.enabled.prefixText.lineHeight,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+          },
         },
         prefixIcon: {
           width: vars.sizeXlarge.enabled.prefixIcon.size,
           height: vars.sizeXlarge.enabled.prefixIcon.size,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+          },
         },
         suffixText: {
           fontSize: vars.sizeXlarge.enabled.suffixText.fontSize,
           lineHeight: vars.sizeXlarge.enabled.suffixText.lineHeight,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+          },
         },
         suffixIcon: {
           width: vars.sizeXlarge.enabled.suffixIcon.size,
           height: vars.sizeXlarge.enabled.suffixIcon.size,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+          },
         },
         footer: {
           gap: vars.sizeXlarge.enabled.footer.gap,
@@ -264,12 +282,18 @@ const textField = defineSlotRecipe({
           minHeight: vars.sizeLarge.enabled.field.minHeight,
           borderRadius: vars.sizeLarge.enabled.field.cornerRadius,
           gap: vars.sizeLarge.enabled.field.gap,
-
-          paddingInline: vars.sizeLarge.enabled.field.paddingX,
         },
         value: {
           // We intentionally apply field's paddingY to value for input touch area.
           paddingBlock: vars.sizeLarge.enabled.field.paddingY,
+
+          [pseudo(":first-child")]: {
+            paddingInlineStart: vars.sizeLarge.enabled.field.paddingX,
+          },
+
+          [pseudo(":last-child")]: {
+            paddingInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+          },
 
           fontSize: vars.sizeLarge.enabled.value.fontSize,
           lineHeight: vars.sizeLarge.enabled.value.lineHeight,
@@ -277,18 +301,34 @@ const textField = defineSlotRecipe({
         prefixText: {
           fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
           lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeLarge.enabled.field.paddingX,
+          },
         },
         prefixIcon: {
           width: vars.sizeLarge.enabled.prefixIcon.size,
           height: vars.sizeLarge.enabled.prefixIcon.size,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeLarge.enabled.field.paddingX,
+          },
         },
         suffixText: {
           fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
           lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+          },
         },
         suffixIcon: {
           width: vars.sizeLarge.enabled.suffixIcon.size,
           height: vars.sizeLarge.enabled.suffixIcon.size,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+          },
         },
         footer: {
           gap: vars.sizeLarge.enabled.footer.gap,
@@ -333,12 +373,18 @@ const textField = defineSlotRecipe({
           minHeight: vars.sizeMedium.enabled.field.minHeight,
           borderRadius: vars.sizeMedium.enabled.field.cornerRadius,
           gap: vars.sizeMedium.enabled.field.gap,
-
-          paddingInline: vars.sizeMedium.enabled.field.paddingX,
         },
         value: {
           // We intentionally apply field's paddingY to value for input touch area.
           paddingBlock: vars.sizeMedium.enabled.field.paddingY,
+
+          [pseudo(":first-child")]: {
+            paddingInlineStart: vars.sizeMedium.enabled.field.paddingX,
+          },
+
+          [pseudo(":last-child")]: {
+            paddingInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+          },
 
           fontSize: vars.sizeMedium.enabled.value.fontSize,
           lineHeight: vars.sizeMedium.enabled.value.lineHeight,
@@ -346,18 +392,34 @@ const textField = defineSlotRecipe({
         prefixText: {
           fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
           lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeMedium.enabled.field.paddingX,
+          },
         },
         prefixIcon: {
           width: vars.sizeMedium.enabled.prefixIcon.size,
           height: vars.sizeMedium.enabled.prefixIcon.size,
+
+          [pseudo(":first-child")]: {
+            marginInlineStart: vars.sizeMedium.enabled.field.paddingX,
+          },
         },
         suffixText: {
           fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
           lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+          },
         },
         suffixIcon: {
           width: vars.sizeMedium.enabled.suffixIcon.size,
           height: vars.sizeMedium.enabled.suffixIcon.size,
+
+          [pseudo(":last-child")]: {
+            marginInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+          },
         },
         footer: {
           gap: vars.sizeMedium.enabled.footer.gap,
