@@ -5,7 +5,7 @@ import { camelCase, kebabCase } from "change-case";
 export const writers = {
   default: async <T extends { name: string }>(
     items: T[],
-    { absoluteDir, utils, write }: WriterContext,
+    { pipelineName, utils, write }: WriterContext,
   ) => {
     const indexMjsLines = [];
     const indexDtsLines = [];
@@ -16,8 +16,8 @@ export const writers = {
       const mjs = utils.toMjs("metadata", item);
       const dts = utils.toDts("metadata", item);
 
-      const mjsPath = path.join(absoluteDir, `${fileName}.mjs`);
-      const dtsPath = path.join(absoluteDir, `${fileName}.d.ts`);
+      const mjsPath = path.join(pipelineName, `${fileName}.mjs`);
+      const dtsPath = path.join(pipelineName, `${fileName}.d.ts`);
 
       await write(mjsPath, mjs);
       await write(dtsPath, dts);
@@ -28,13 +28,13 @@ export const writers = {
       indexDtsLines.push(`export { metadata as ${identifierName} } from "./${fileName}";`);
     }
 
-    const indexMjsPath = path.join(absoluteDir, "index.mjs");
-    const indexDtsPath = path.join(absoluteDir, "index.d.ts");
+    const indexMjsPath = path.join(pipelineName, "index.mjs");
+    const indexDtsPath = path.join(pipelineName, "index.d.ts");
 
     await write(indexMjsPath, indexMjsLines.join("\n").concat("\n"));
     await write(indexDtsPath, indexDtsLines.join("\n").concat("\n"));
 
-    console.log(`${items.length}개 항목 ${absoluteDir} 에 생성 완료`);
+    console.log(`${items.length}개 항목 ${pipelineName} 에 생성 완료`);
   },
 };
 

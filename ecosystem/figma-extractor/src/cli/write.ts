@@ -4,7 +4,7 @@ import path from "node:path";
 export type MetadataItem = Record<string | number, unknown> & { name: string };
 
 export interface WriterContext {
-  absoluteDir: string;
+  pipelineName: string;
   write: (relativePath: string, content: string) => Promise<void>;
   utils: {
     toJson: (data: any, pretty?: boolean) => string;
@@ -24,11 +24,13 @@ export async function writeFile(dir: string, content: string) {
   fs.writeFileSync(dir, content);
 }
 
-export function createWriterContext(absoluteDir: string): WriterContext {
+export function createWriterContext({ baseDir, pipelineName }: { baseDir: string; pipelineName: string }): WriterContext {
   return {
-    absoluteDir,
+    pipelineName,
     write: async (relativePath: string, content: string) => {
-      await writeFile(path.join(absoluteDir, relativePath), content);
+      const fullPath = path.join(baseDir, relativePath);
+
+      await writeFile(fullPath, content);
     },
     utils: {
       toJson: (data: unknown, pretty = true) => {

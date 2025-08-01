@@ -16,7 +16,7 @@ describe("sources", () => {
   const context = {
     api,
     fileKey,
-    absoluteDir: "/test/dir",
+    pipelineName: "test-pipeline",
     write: () => Promise.resolve(),
     utils: {
       toJson: () => "",

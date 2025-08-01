@@ -1,13 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { createWriterContext } from "../cli/write";
 
+const context = createWriterContext({ baseDir: "/", pipelineName: "test" });
+
 describe("writers", () => {
   describe("createWriterContext", () => {
-    const absoluteDir = "/absolute/dir";
-
     describe("utils", () => {
       it("toJson should stringify data with pretty print by default", () => {
-        const context = createWriterContext(absoluteDir);
         const data = { key: "value", nested: { prop: 1 } };
 
         const result = context.utils.toJson(data);
@@ -15,7 +14,6 @@ describe("writers", () => {
       });
 
       it("toJson should stringify data without pretty print when false", () => {
-        const context = createWriterContext(absoluteDir);
         const data = { key: "value" };
 
         const result = context.utils.toJson(data, false);
@@ -23,7 +21,6 @@ describe("writers", () => {
       });
 
       it("toTypeScript should generate TypeScript const export", () => {
-        const context = createWriterContext(absoluteDir);
         const name = "myData";
         const data = { key: "value" };
 
@@ -32,7 +29,6 @@ describe("writers", () => {
       });
 
       it("toMjs should generate JavaScript module export", () => {
-        const context = createWriterContext(absoluteDir);
         const name = "myData";
         const data = { key: "value" };
 
@@ -41,7 +37,6 @@ describe("writers", () => {
       });
 
       it("toDts should generate TypeScript declaration", () => {
-        const context = createWriterContext(absoluteDir);
         const name = "myData";
         const data = { key: "value" };
 

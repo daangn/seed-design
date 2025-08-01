@@ -5,7 +5,6 @@ import { z } from "zod";
 import { ENV } from "../env";
 import { loadConfig } from "./config";
 import { createApiClient } from "../api/client";
-import path from "node:path";
 import pkg from "../../package.json" with { type: "json" };
 import { createWriterContext } from "./write";
 
@@ -31,8 +30,6 @@ cli
     const { pipelines, dir } = paramSchema.parse({ pipelines: paramPipelines, dir: paramDir });
     const { config: configPath } = optionsSchema.parse(options);
 
-    const absoluteDir = path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir);
-
     const generateAll = pipelines.length === 0;
 
     const config = await loadConfig(configPath);
@@ -45,9 +42,6 @@ cli
         );
 
       const api = createApiClient(config.personalAccessToken);
-
-      const writerContext = createWriterContext(absoluteDir);
-      const pipelineContext = { ...writerContext, api, fileKey };
 
       const pipelinesToRun = generateAll
         ? Object.entries(config.pipelines)
@@ -62,7 +56,9 @@ cli
       for (const [name, pipeline] of pipelinesToRun) {
         console.log(`Executing pipeline: ${name}`);
 
-        await pipeline.execute(pipelineContext);
+        const writerContext = createWriterContext({ baseDir: dir, pipelineName: name });
+
+        await pipeline.execute({ ...writerContext, api, fileKey });
       }
     } catch (error) {
       console.error(error);

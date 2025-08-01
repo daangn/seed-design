@@ -106,7 +106,7 @@ export default config;
 
 직전 단계에서 결과로 생성한 데이터를 가공하여 파일로 저장합니다.
 
-- `writers.default`: item 각각에 대해 `.mjs`, `.d.ts` 파일을 생성하고 index 파일을 생성합니다.
+- `writers.default`: item 각각에 대해 `.mjs`, `.d.ts` 파일을 생성하고 index 파일을 생성합니다. 모든 파일은 pipeline 이름을 상위 디렉토리로 사용합니다.
 - 직접 작성할 수도 있습니다.
 
 #### `write` 직접 작성하기
