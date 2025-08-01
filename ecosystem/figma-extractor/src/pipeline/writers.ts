@@ -4,7 +4,6 @@ import { camelCase, kebabCase } from "change-case";
 
 export const writers = {
   default: async <T extends { name: string }>(
-    dir: string,
     items: T[],
     { absoluteDir, utils, write }: WriterContext,
   ) => {
@@ -17,8 +16,8 @@ export const writers = {
       const mjs = utils.toMjs("metadata", item);
       const dts = utils.toDts("metadata", item);
 
-      const mjsPath = path.join(absoluteDir, dir, `${fileName}.mjs`);
-      const dtsPath = path.join(absoluteDir, dir, `${fileName}.d.ts`);
+      const mjsPath = path.join(absoluteDir, `${fileName}.mjs`);
+      const dtsPath = path.join(absoluteDir, `${fileName}.d.ts`);
 
       await write(mjsPath, mjs);
       await write(dtsPath, dts);
@@ -29,8 +28,8 @@ export const writers = {
       indexDtsLines.push(`export { metadata as ${identifierName} } from "./${fileName}";`);
     }
 
-    const indexMjsPath = path.join(absoluteDir, dir, "index.mjs");
-    const indexDtsPath = path.join(absoluteDir, dir, "index.d.ts");
+    const indexMjsPath = path.join(absoluteDir, "index.mjs");
+    const indexDtsPath = path.join(absoluteDir, "index.d.ts");
 
     await write(indexMjsPath, indexMjsLines.join("\n").concat("\n"));
     await write(indexDtsPath, indexDtsLines.join("\n").concat("\n"));
