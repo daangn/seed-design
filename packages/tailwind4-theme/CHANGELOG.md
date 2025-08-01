@@ -1,5 +1,11 @@
 # @seed-design/tailwind4-theme
 
+## 0.1.7
+
+### Patch Changes
+
+- d95582b: [TEST] gradient 토큰 수정
+
 ## 0.1.6
 
 ### Patch Changes
