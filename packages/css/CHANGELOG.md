@@ -1,5 +1,12 @@
 # @seed-design/css
 
+## 0.1.7
+
+### Patch Changes
+
+- 6767ce0: [TEST] update color tokens
+- 00ed6a8: [TEST] action button rootage 수정
+
 ## 0.1.6
 
 ### Patch Changes
