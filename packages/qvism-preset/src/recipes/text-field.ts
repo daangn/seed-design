@@ -105,7 +105,13 @@ const textField = defineSlotRecipe({
       boxSizing: "border-box",
       font: "inherit",
 
+      [pseudo(":is(input)")]: {
+        paddingInline: 0,
+      },
+
       [pseudo(":is(textarea)")]: {
+        paddingInline: 0,
+
         minHeight: "90px",
         width: "100%",
       },
