@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 0.1.7
+
+### Patch Changes
+
+- 4afe80b: MultilineTextField의 스타일 문제를 수정합니다.
+
+  - 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
 ## 0.1.6
 
 ### Patch Changes
