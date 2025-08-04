@@ -56,7 +56,7 @@ const config = createConfig({
       // 모든 스타일 선택
       .source(sources.styles)
       // 버튼 스타일만 필터링
-      .filter((style) => style.type === "TEXT")
+      .filter(({ style_type }) => style_type === "TEXT")
       // 각각을 `.mjs`, `.d.ts` 파일로 저장
       .write(writers.default),
   },
@@ -143,6 +143,8 @@ const config = createConfig({
       .write(writers.default),
   },
 });
+
+export default config;
 ```
 
 ```ts
@@ -162,4 +164,6 @@ const config = createConfig({
       .write(writers.default),
   },
 });
+
+export default config;
 ```
