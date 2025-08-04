@@ -1,5 +1,13 @@
 # @seed-design/figma-extractor
 
+## 0.0.5
+
+### Patch Changes
+
+- 99e7f2c: figma-extractor (Figma REST API 호출 결과를 파일로 저장하는 CLI 툴) 설정 파일 작성 방법을 개선합니다.
+
+  - 사용자가 직접 API 호출부터 파일 저장까지의 파이프라인을 작성할 수 있습니다.
+
 ## 0.0.4
 
 ### Patch Changes

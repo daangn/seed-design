@@ -3,6 +3,27 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.04
+
+[`2e2cc53`](https://github.com/daangn/seed-design/commit/2e2cc530648f5d10432f23fa8169e3c4225f6315) - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.
+- normalize 과정에서 그라디언트 정보를 포함하도록 수정합니다.
+
+[`609b8f3`](https://github.com/daangn/seed-design/commit/609b8f3b69bc98f0b3a2c971f17409559811f376) iOS의 `더 큰 텍스트` 기능에 제한을 둡니다.
+
+- iOS는 7단계(XS ~ XXXL)의 텍스트 크기 조절 이외에도, 보다 더 큰 텍스트를 위한 `더 큰 텍스트` 기능을 제공합니다.
+- iOS 네이티브에서는 `더 큰 텍스트`의 UI 레이아웃 대응이 어렵다고 결정하여, XXXL(135%) 이상의 텍스트 크기 조절을 지원하지 않습니다.
+- 웹뷰도 iOS와 동일한 제한을 위한 기능이 추가되었습니다.
+
+[`99e7f2c`](https://github.com/daangn/seed-design/commit/99e7f2c693ac2a4d433791719b25d4818bc41170) figma-extractor (Figma REST API 호출 결과를 파일로 저장하는 CLI 툴) 설정 파일 작성 방법을 개선합니다.
+
+- 사용자가 직접 API 호출부터 파일 저장까지의 파이프라인을 작성할 수 있습니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.8](https://npmjs.com/package/@seed-design/css/v/0.1.8)
+- [@seed-design/figma@0.1.8](https://npmjs.com/package/@seed-design/figma/v/0.1.8)
+- [@seed-design/figma-extractor@0.0.5](https://npmjs.com/package/@seed-design/figma-extractor/v/0.0.5)
+
 ## 2025.08.01
 
 [`4afe80b`](https://github.com/daangn/seed-design/commit/4afe80b81e6845ec917426039ef8d7817e67e7ec) MultilineTextField의 스타일 문제를 수정합니다.
@@ -11,7 +32,7 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 
 ### Version Updates
 
-- @seed-design/css@0.1.7
+- [@seed-design/css@0.1.7](https://npmjs.com/package/@seed-design/css/v/0.1.7)
 
 ## 2025.07.31
 
@@ -21,10 +42,10 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 
 ### Version Updates
 
-- @seed-design/css@0.1.6
-- @seed-design/rootage-artifacts@0.0.2
-- @seed-design/tailwind3-plugin@0.1.6
-- @seed-design/tailwind4-theme@0.1.6
+- [@seed-design/css@0.1.6](https://npmjs.com/package/@seed-design/css/v/0.1.6)
+- [@seed-design/rootage-artifacts@0.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.2)
+- [@seed-design/tailwind3-plugin@0.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.6)
+- [@seed-design/tailwind4-theme@0.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.6)
 
 ## 2025.07.29
 
@@ -49,9 +70,9 @@ Chip의 스타일 문제를 수정합니다.
 
 ### Version Updates
 
-- @seed-design/css@0.1.5
-- @seed-design/react@0.1.5
-- @seed-design/rootage-artifacts@0.0.1
+- [@seed-design/css@0.1.5](https://npmjs.com/package/@seed-design/css/v/0.1.5)
+- [@seed-design/react@0.1.5](https://npmjs.com/package/@seed-design/react/v/0.1.5)
+- [@seed-design/rootage-artifacts@0.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.1)
 
 ## 2025.07.28
 
@@ -67,7 +88,7 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 
 ### Version Updates
 
-- @seed-design/cli@0.0.3
+- [@seed-design/cli@0.0.3](https://npmjs.com/package/@seed-design/cli/v/0.0.3)
 
 ## 2025.07.23
 
@@ -85,8 +106,8 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 
 ### Version Updates
 
-- @seed-design/css@0.1.4
-- @seed-design/react@0.1.4
+- [@seed-design/css@0.1.4](https://npmjs.com/package/@seed-design/css/v/0.1.4)
+- [@seed-design/react@0.1.4](https://npmjs.com/package/@seed-design/react/v/0.1.4)
 
 ## 2025.07.11
 
@@ -109,13 +130,13 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 
 ### Version Updates
 
-- @seed-design/css@0.1.3
-- @seed-design/rsbuild-plugin@0.1.3
-- @seed-design/stackflow@0.1.3
-- @seed-design/tailwind3-plugin@0.1.3
-- @seed-design/tailwind4-theme@0.1.3
-- @seed-design/vite-plugin@0.1.3
-- @seed-design/webpack-plugin@0.1.3
+- [@seed-design/css@0.1.3](https://npmjs.com/package/@seed-design/css/v/0.1.3)
+- [@seed-design/rsbuild-plugin@0.1.3](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.3)
+- [@seed-design/stackflow@0.1.3](https://npmjs.com/package/@seed-design/stackflow/v/0.1.3)
+- [@seed-design/tailwind3-plugin@0.1.3](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.3)
+- [@seed-design/tailwind4-theme@0.1.3](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.3)
+- [@seed-design/vite-plugin@0.1.3](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.3)
+- [@seed-design/webpack-plugin@0.1.3](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.3)
 
 ## 2025.07.01
 
@@ -132,14 +153,14 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 
 ### Version Updates
 
-- @seed-design/css@0.1.0
-- @seed-design/figma@0.1.0
-- @seed-design/mcp@0.1.0
-- @seed-design/react@0.1.0
-- @seed-design/rsbuild-plugin@0.1.0
-- @seed-design/stackflow@0.1.0
-- @seed-design/vite-plugin@0.1.0
-- @seed-design/webpack-plugin@0.1.0
+- [@seed-design/css@0.1.0](https://npmjs.com/package/@seed-design/css/v/0.1.0)
+- [@seed-design/figma@0.1.0](https://npmjs.com/package/@seed-design/figma/v/0.1.0)
+- [@seed-design/mcp@0.1.0](https://npmjs.com/package/@seed-design/mcp/v/0.1.0)
+- [@seed-design/react@0.1.0](https://npmjs.com/package/@seed-design/react/v/0.1.0)
+- [@seed-design/rsbuild-plugin@0.1.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.0)
+- [@seed-design/stackflow@0.1.0](https://npmjs.com/package/@seed-design/stackflow/v/0.1.0)
+- [@seed-design/vite-plugin@0.1.0](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.0)
+- [@seed-design/webpack-plugin@0.1.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.0)
 
 ## 2025.06.24
 
@@ -156,16 +177,16 @@ Alpha 컬러 업데이트
 
 ### Version Updates
 
-- @seed-design/codemod@0.0.28
-- @seed-design/css@0.0.39
-- @seed-design/figma@0.0.39
-- @seed-design/mcp@0.0.39
-- @seed-design/migration-index@0.0.28
-- @seed-design/react@0.0.39
-- @seed-design/rsbuild-plugin@0.0.39
-- @seed-design/stackflow@0.0.39
-- @seed-design/tailwind3-plugin@0.0.39
-- @seed-design/tailwind4-theme@0.0.39
-- @seed-design/vite-plugin@0.0.39
-- @seed-design/webpack-plugin@0.0.39
+- [@seed-design/codemod@0.0.28](https://npmjs.com/package/@seed-design/codemod/v/0.0.28)
+- [@seed-design/css@0.0.39](https://npmjs.com/package/@seed-design/css/v/0.0.39)
+- [@seed-design/figma@0.0.39](https://npmjs.com/package/@seed-design/figma/v/0.0.39)
+- [@seed-design/mcp@0.0.39](https://npmjs.com/package/@seed-design/mcp/v/0.0.39)
+- [@seed-design/migration-index@0.0.28](https://npmjs.com/package/@seed-design/migration-index/v/0.0.28)
+- [@seed-design/react@0.0.39](https://npmjs.com/package/@seed-design/react/v/0.0.39)
+- [@seed-design/rsbuild-plugin@0.0.39](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.0.39)
+- [@seed-design/stackflow@0.0.39](https://npmjs.com/package/@seed-design/stackflow/v/0.0.39)
+- [@seed-design/tailwind3-plugin@0.0.39](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.0.39)
+- [@seed-design/tailwind4-theme@0.0.39](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.0.39)
+- [@seed-design/vite-plugin@0.0.39](https://npmjs.com/package/@seed-design/vite-plugin/v/0.0.39)
+- [@seed-design/webpack-plugin@0.0.39](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.0.39)
 
