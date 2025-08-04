@@ -1,20 +1,15 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { getComponentMetadataItemsInFile, getComponentSetMetadataItemsInFile } from "../api/nodes";
 import { createApiClient } from "../api/client";
 
+vi.mock("../api/client");
+
 describe("nodes", () => {
-  const fileKey = process.env.FIGMA_FILE_KEY;
-  const token = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
+  const fileKey = "test-file-key";
+  const api = createApiClient("test-token");
 
-  if (!fileKey || !token) {
-    it.skip("skipping integration tests - FIGMA_FILE_KEY or FIGMA_PERSONAL_ACCESS_TOKEN not set", () => {});
-    return;
-  }
-
-  const api = createApiClient(token);
-
-  describe("getComponentMetadataItemsInFile", { timeout: 10000 }, () => {
-    it("should fetch component metadata from Figma", async () => {
+  describe("getComponentMetadataItemsInFile", () => {
+    it("should fetch component metadata", async () => {
       const result = await getComponentMetadataItemsInFile({ api, fileKey });
 
       expect(result).toMatchInlineSnapshot(`
@@ -382,8 +377,8 @@ describe("nodes", () => {
     });
   });
 
-  describe("getComponentSetMetadataItemsInFile", { timeout: 10000 }, () => {
-    it("should fetch component set metadata from Figma", async () => {
+  describe("getComponentSetMetadataItemsInFile", () => {
+    it("should fetch component set metadata", async () => {
       const result = await getComponentSetMetadataItemsInFile({ api, fileKey });
 
       expect(result).toMatchInlineSnapshot(`

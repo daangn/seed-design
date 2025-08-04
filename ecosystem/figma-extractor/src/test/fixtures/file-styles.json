@@ -1,0 +1,43 @@
+{
+  "error": false,
+  "status": 200,
+  "meta": {
+    "styles": [
+      {
+        "key": "9b53b42c4d29a255f2d090f0dae6e5317ece866f",
+        "file_key": "",
+        "node_id": "1:16",
+        "style_type": "EFFECT",
+        "thumbnail_url": "",
+        "name": "shadow",
+        "description": "",
+        "created_at": "2025-08-01T09:53:20.075Z",
+        "updated_at": "2025-08-01T09:53:20.075Z",
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        },
+        "sort_position": "#"
+      },
+      {
+        "key": "7e94b16f9d4e09437a16d398ba8b3ca851da360d",
+        "file_key": "",
+        "node_id": "1:15",
+        "style_type": "TEXT",
+        "thumbnail_url": "",
+        "name": "cool style",
+        "description": "it's for being cool",
+        "created_at": "2025-08-01T09:53:20.080Z",
+        "updated_at": "2025-08-01T09:53:20.080Z",
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        },
+        "sort_position": "\""
+      }
+    ]
+  },
+  "i18n": null
+}

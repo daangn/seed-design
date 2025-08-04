@@ -1,0 +1,28 @@
+{
+  "error": false,
+  "status": 200,
+  "meta": {
+    "component_sets": [
+      {
+        "key": "6a6d68deca1a25d7c12c7015acb82b7486de3e7d",
+        "file_key": "",
+        "node_id": "1:12",
+        "thumbnail_url": "",
+        "name": "Rectangle 1",
+        "description": "",
+        "created_at": "2025-08-01T09:53:20.034Z",
+        "updated_at": "2025-08-01T09:53:20.034Z",
+        "containing_frame": {
+          "pageId": "0:1",
+          "pageName": "Page 1"
+        },
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        }
+      }
+    ]
+  },
+  "i18n": null
+}

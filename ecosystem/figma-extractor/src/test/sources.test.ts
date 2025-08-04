@@ -1,17 +1,12 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { sources } from "../pipeline/sources";
 import { createApiClient } from "../api/client";
 
+vi.mock("../api/client");
+
 describe("sources", () => {
-  const fileKey = process.env.FIGMA_FILE_KEY;
-  const token = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
-
-  if (!fileKey || !token) {
-    it.skip("skipping integration tests - FIGMA_FILE_KEY or FIGMA_PERSONAL_ACCESS_TOKEN not set", () => {});
-    return;
-  }
-
-  const api = createApiClient(token);
+  const fileKey = "test-file-key";
+  const api = createApiClient("test-token");
 
   const context = {
     api,
@@ -26,8 +21,8 @@ describe("sources", () => {
     },
   };
 
-  describe("components source", { timeout: 10000 }, () => {
-    it("should fetch real component metadata from Figma", async () => {
+  describe("components source", () => {
+    it("should fetch real component metadata", async () => {
       const result = await sources.components(context);
 
       expect(result.map(({ name }) => ({ name }))).toMatchInlineSnapshot(`
@@ -46,8 +41,8 @@ describe("sources", () => {
     });
   });
 
-  describe("component sets source", { timeout: 10000 }, () => {
-    it("should fetch real component set metadata from Figma", async () => {
+  describe("component sets source", () => {
+    it("should fetch real component set metadata", async () => {
       const result = await sources.componentSets(context);
 
       expect(result.map(({ name }) => ({ name }))).toMatchInlineSnapshot(`
@@ -60,8 +55,8 @@ describe("sources", () => {
     });
   });
 
-  describe("styles source", { timeout: 10000 }, () => {
-    it("should fetch real style metadata from Figma", async () => {
+  describe("styles source", () => {
+    it("should fetch real style metadata", async () => {
       const result = await sources.styles(context);
 
       expect(result.map(({ name }) => ({ name }))).toMatchInlineSnapshot(`
@@ -77,8 +72,8 @@ describe("sources", () => {
     });
   });
 
-  describe("variables source", { timeout: 10000 }, () => {
-    it("should fetch real variable metadata from Figma", async () => {
+  describe("variables source", () => {
+    it("should fetch real variable metadata", async () => {
       const result = await sources.variables(context);
 
       expect(result.map(({ name }) => ({ name }))).toMatchInlineSnapshot(`

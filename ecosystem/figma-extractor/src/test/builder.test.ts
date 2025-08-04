@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { createPipeline } from "../pipeline/builder";
 import { createApiClient } from "../api/client";
 
+vi.mock("../api/client");
+
 const testItems = [
   { name: "Button", type: "COMPONENT", order: 2, priority: 3 },
   { name: "Input", type: "COMPONENT", order: 1, priority: 1 },
@@ -10,15 +12,8 @@ const testItems = [
 ];
 
 describe("pipeline builder", () => {
-  const fileKey = process.env.FIGMA_FILE_KEY;
-  const token = process.env.FIGMA_PERSONAL_ACCESS_TOKEN;
-
-  if (!fileKey || !token) {
-    it.skip("skipping integration tests - FIGMA_FILE_KEY or FIGMA_PERSONAL_ACCESS_TOKEN not set", () => {});
-    return;
-  }
-
-  const api = createApiClient(token);
+  const fileKey = "test-file-key";
+  const api = createApiClient("test-token");
 
   const context = {
     api,
@@ -40,7 +35,7 @@ describe("pipeline builder", () => {
     mockSource.mockResolvedValue(testItems);
   });
 
-  describe("filter", { timeout: 10000 }, () => {
+  describe("filter", () => {
     it("should filter items based on predicate", async () => {
       const pipeline = createPipeline()
         .source<(typeof testItems)[number]>(mockSource)
@@ -69,7 +64,7 @@ describe("pipeline builder", () => {
     });
   });
 
-  describe("sort", { timeout: 10000 }, () => {
+  describe("sort", () => {
     it("should sort items based on compareFn", async () => {
       const pipeline = createPipeline()
         .source<(typeof testItems)[number]>(mockSource)
@@ -109,7 +104,7 @@ describe("pipeline builder", () => {
     });
   });
 
-  describe("transform", { timeout: 10000 }, () => {
+  describe("transform", () => {
     it("should transform items using the transform function", async () => {
       const pipeline = createPipeline()
         .source<(typeof testItems)[number]>(mockSource)
@@ -161,7 +156,7 @@ describe("pipeline builder", () => {
     });
   });
 
-  describe("chained operations", { timeout: 10000 }, () => {
+  describe("chained operations", () => {
     it("should handle multiple chained operations", async () => {
       const pipeline = createPipeline()
         .source<(typeof testItems)[number]>(mockSource)
