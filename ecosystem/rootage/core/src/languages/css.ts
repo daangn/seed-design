@@ -133,11 +133,13 @@ export function createStringifier(options: { prefix?: string } = {}) {
       }
 
       if (basePx) {
+        // Calculate min pixel value: base * 0.8 (80% minimum)
+        const minPx = Number.parseFloat((basePx * 0.8).toFixed(1));
         // Calculate max pixel value: base * 0.9412 (iOS multiplier) * 1.35 (135% limit)
         const maxPx = Number.parseFloat((basePx * 0.9412 * 1.35).toFixed(2));
 
-        // Return clamp with dynamic min/preferred and fixed px max
-        return `${tokenName(decl.token)}: clamp(calc(${value} * ${MULTIPLIER_TOKEN}), calc(${value} * ${MULTIPLIER_TOKEN}), ${maxPx}px);`;
+        // Return clamp with fixed px min, dynamic preferred, and fixed px max
+        return `${tokenName(decl.token)}: clamp(${minPx}px, calc(${value} * ${MULTIPLIER_TOKEN}), ${maxPx}px);`;
       }
     }
 
