@@ -29,6 +29,7 @@ import {
   createConfig,
   createPipeline,
   sources,
+  writers,
 } from "@seed-design/figma-extractor";
 
 const config = createConfig({
@@ -127,10 +128,15 @@ bun figma-extractor --config=.config/figma-extractor-design-system-a.config.ts s
 ```ts
 // .config/figma-extractor-design-system-a.config.ts
 
-import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
+import {
+  createConfig,
+  createPipeline,
+  sources,
+  writers,
+} from "@seed-design/figma-extractor";
 
 const config = createConfig({
-  fileKey: process.env.FIGMA_DESIGN_SYSTEM_A_FILE_KEY // a 파일의 Figma File Key
+  fileKey: process.env.FIGMA_DESIGN_SYSTEM_A_FILE_KEY, // a 파일의 Figma File Key
   pipelines: {
     components: createPipeline()
       .source(sources.components)
