@@ -1,8 +1,6 @@
 import fs from "fs-extra";
 import path from "node:path";
 
-export type MetadataItem = Record<string | number, unknown> & { name: string };
-
 export interface WriterContext {
   pipelineName: string;
   write: (relativePath: string, content: string) => Promise<void>;
@@ -24,7 +22,13 @@ export async function writeFile(dir: string, content: string) {
   fs.writeFileSync(dir, content);
 }
 
-export function createWriterContext({ baseDir, pipelineName }: { baseDir: string; pipelineName: string }): WriterContext {
+export function createWriterContext({
+  baseDir,
+  pipelineName,
+}: {
+  baseDir: string;
+  pipelineName: string;
+}): WriterContext {
   return {
     pipelineName,
     write: async (relativePath: string, content: string) => {

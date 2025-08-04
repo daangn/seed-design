@@ -1,4 +1,4 @@
-export { createConfig } from "./cli/config";
+export { createConfig, type Config } from "./cli/config";
 export { createPipeline } from "./pipeline/builder";
 
 export { sources } from "./pipeline/sources";

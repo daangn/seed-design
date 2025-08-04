@@ -1,5 +1,4 @@
 import { cosmiconfig } from "cosmiconfig";
-import type { MetadataItem } from "./write";
 import { MODULE_NAME } from "../constants";
 import type { Pipeline } from "../pipeline/builder";
 
@@ -45,6 +44,3 @@ export async function loadConfig(configPath?: string): Promise<Config> {
 
   return searchResult.config;
 }
-
-export type Filter<T> = (item: T) => boolean;
-export type Transform<TInput, TOutput = MetadataItem> = (item: TInput) => TOutput;
