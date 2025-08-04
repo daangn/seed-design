@@ -31,14 +31,14 @@ export async function loadConfig(configPath?: string): Promise<Config> {
 
   const searchResult = await explorer.search();
 
-  if (!searchResult && !configPath) {
-    throw new Error(`${configPath} 설정 파일을 사용할 수 없습니다.`);
-  }
-
   if (!searchResult) {
-    throw new Error(
-      `설정 파일을 찾을 수 없습니다. ${MODULE_NAME}.config.ts 설정 파일을 생성해주세요.`,
-    );
+    if (!configPath) {
+      throw new Error(
+        `설정 파일을 찾을 수 없습니다. ${MODULE_NAME}.config.ts 설정 파일을 생성하거나 --config로 설정 파일을 지정해주세요.`,
+      );
+    }
+
+    throw new Error(`${configPath} 설정 파일이 존재하지 않습니다.`);
   }
 
   console.log(`${searchResult.filepath} 설정 파일을 사용합니다.`);
