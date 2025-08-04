@@ -1,0 +1,91 @@
+{
+  "error": false,
+  "status": 200,
+  "meta": {
+    "components": [
+      {
+        "key": "43441327cc12a9e49589040d940d1d27fa077b2a",
+        "file_key": "",
+        "node_id": "1:11",
+        "thumbnail_url": "",
+        "name": "Property 1=Default",
+        "description": "",
+        "description_rt": "",
+        "created_at": "2025-08-01T09:53:20.044Z",
+        "updated_at": "2025-08-01T09:53:20.044Z",
+        "containing_frame": {
+          "name": "Rectangle 1",
+          "nodeId": "1:12",
+          "pageId": "0:1",
+          "pageName": "Page 1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "containingStateGroup": {
+            "name": "Rectangle 1",
+            "nodeId": "1:12"
+          },
+          "containingComponentSet": {
+            "name": "Rectangle 1",
+            "nodeId": "1:12"
+          }
+        },
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        }
+      },
+      {
+        "key": "f92feb5bac9aa7681c4c9bf00e212d3d4119e919",
+        "file_key": "",
+        "node_id": "1:13",
+        "thumbnail_url": "",
+        "name": "Property 1=Variant2",
+        "description": "",
+        "description_rt": "",
+        "created_at": "2025-08-01T09:53:20.049Z",
+        "updated_at": "2025-08-01T09:53:20.049Z",
+        "containing_frame": {
+          "name": "Rectangle 1",
+          "nodeId": "1:12",
+          "pageId": "0:1",
+          "pageName": "Page 1",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "containingStateGroup": {
+            "name": "Rectangle 1",
+            "nodeId": "1:12"
+          },
+          "containingComponentSet": {
+            "name": "Rectangle 1",
+            "nodeId": "1:12"
+          }
+        },
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        }
+      },
+      {
+        "key": "91ee9d58f268180af7fee4b2cc44d1c73da4e4a8",
+        "file_key": "",
+        "node_id": "1:10",
+        "thumbnail_url": "",
+        "name": "Rectangle 2",
+        "description": "",
+        "description_rt": "",
+        "created_at": "2025-08-01T09:53:20.053Z",
+        "updated_at": "2025-08-01T09:53:20.053Z",
+        "containing_frame": {
+          "pageId": "0:1",
+          "pageName": "Page 1"
+        },
+        "user": {
+          "id": "1404718620223529089",
+          "handle": "",
+          "img_url": ""
+        }
+      }
+    ]
+  },
+  "i18n": null
+}
