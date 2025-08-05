@@ -80,7 +80,6 @@
     "chalk": "^5.3.0",
     "chromatic": "^13.0.0",
     "globby": "^14.1.0",
-    "gray-matter": "^4.0.3",
     "postcss": "^8.5.3",
     "storybook": "^9.0.16",
     "tailwindcss": "^4.1.4",
