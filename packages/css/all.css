@@ -3698,6 +3698,7 @@
 .seed-select-box__content {
   gap: var(--seed-dimension-x0_5);
   flex-direction: column;
+  flex-grow: 1;
   display: flex;
 }
 
