@@ -14,7 +14,7 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const tag = match(props.Control.value)
         .with("Checkbox", () => "CheckSelectBox")
-        .with("Radio", () => "RadioSelectBox")
+        .with("Radio", () => "RadioSelectBoxItem")
         .exhaustive();
 
       const states = props.State.value.split("-");
@@ -24,7 +24,7 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
         ...(props["Show Description#3033:0"].value && {
           description: props["Description #3033:5"].value,
         }),
-        ...(tag === "RadioSelectBox" && {
+        ...(tag === "RadioSelectBoxItem" && {
           value: props["Label#3635:0"].value,
         }),
         ...(tag === "CheckSelectBox" &&
@@ -47,7 +47,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
 
       const tag = match(props.Control.value)
         .with("Checkbox", () => "CheckSelectBoxGroup")
-        .with("Radio", () => "RadioSelectBoxGroup")
+        .with("Radio", () => "RadioSelectBoxRoot")
         .exhaustive();
 
       const selectBoxes = findAllInstances<SelectBoxProperties>({
@@ -69,7 +69,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       );
 
       const commonProps = {
-        ...(tag === "RadioSelectBoxGroup" && {
+        ...(tag === "RadioSelectBoxRoot" && {
           defaultValue: selectedSelectBox?.componentProperties["Label#3635:0"].value,
         }),
       };
