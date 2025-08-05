@@ -1,19 +1,11 @@
 name: Claude PR Review
 
 on:
-  issue_comment:
-    types: [created]
-  pull_request_review_comment:
-    types: [created]
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types: [opened]
 
 jobs:
   claude-code-action:
-    if: |
-      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/claude-review')) ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '/claude-review')) ||
-      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '/claude-review'))
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -27,7 +19,7 @@ jobs:
           fetch-depth: 1
 
       - name: Run Claude PR Action
-        uses: anthropics/claude-code-action@beta
+        uses: anthropics/claude-code-action@main
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           timeout_minutes: "60"
