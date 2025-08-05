@@ -78,7 +78,7 @@ export function ViewOptions({
   const items = useMemo(() => {
     const fullMarkdownUrl =
       typeof window !== "undefined" ? new URL(markdownUrl, window.location.origin) : "loading";
-    const q = `Read ${fullMarkdownUrl}, I want to ask questions about it.`;
+    const q = `문서에 대한 몇 가지 질문을 하고 싶어. 다음 문서를 읽어줘: ${fullMarkdownUrl}`;
 
     return [
       {
