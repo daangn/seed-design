@@ -3,8 +3,7 @@ export const revalidate = false;
 const BASE_URL = "https://seed-design.io";
 
 export async function GET() {
-  return new Response(`
-# SEED Design React Documentation for LLMs
+  return new Response(`# SEED Design React Documentation for LLMs
 
 ## Documentation Sets
 
