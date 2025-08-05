@@ -33,7 +33,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "rootage:generate": "rootage tailwind3-plugin ./src",
+    "rootage:generate": "rootage tailwind3-plugin ./src --prefix seed",
     "lint:publish": "bun publint"
   },
   "keywords": [

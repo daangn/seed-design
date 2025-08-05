@@ -4,6 +4,7 @@ import {
   Authoring,
   buildContext,
   css,
+  runGenerator,
   exchange,
   getComponentSpecDeclarations,
   getSourceFiles,
@@ -26,7 +27,7 @@ const require = createRequire(import.meta.url);
 const artifactsPath = require.resolve("@seed-design/rootage-artifacts");
 const artifactsDir = path.dirname(artifactsPath);
 
-const [, , command, dir = "./"] = process.argv;
+const [, , , dir = "./"] = process.argv;
 
 function readYAMLFilesSync(dir: string, fileList: string[] = []) {
   const files = fs.readdirSync(dir);
@@ -83,13 +84,15 @@ async function prepare() {
   };
 }
 
-const PREFIX = "seed";
-const tsStringifier = typescript.createStringifier({
-  prefix: PREFIX,
-});
+const DEFAULT_PREFIX = "rootage";
+// TypeScript stringifier will be created in each function with the provided prefix
 
-async function writeTokenTs() {
+async function writeTokenTs(prefix: string = DEFAULT_PREFIX) {
   const { ctx } = await prepare();
+  
+  const tsStringifier = typescript.createStringifier({
+    prefix,
+  });
 
   const mjsResults = tsStringifier.getTokenMjs(getTokenDeclarations(ctx));
   const dtsResults = tsStringifier.getTokenDts(getTokenDeclarations(ctx));
@@ -115,8 +118,12 @@ async function writeTokenTs() {
   }
 }
 
-async function writeComponentSpec() {
+async function writeComponentSpec(prefix: string = DEFAULT_PREFIX) {
   const { ctx } = await prepare();
+  
+  const tsStringifier = typescript.createStringifier({
+    prefix,
+  });
 
   const specs = getComponentSpecDeclarations(ctx);
   for (const spec of specs) {
@@ -158,45 +165,34 @@ async function writeComponentSpec() {
   });
 }
 
-async function writeTokenCss() {
+async function writeTokenCss(generatorPath?: string, prefix: string = DEFAULT_PREFIX) {
   const { ctx } = await prepare();
 
-  const code = css.getTokenCss(
-    {
-      tokens: getTokenDeclarations(ctx),
-      tokenCollections: getTokenCollectionDeclarations(ctx),
-    },
-    {
-      prefix: PREFIX,
-      banner: `:root, [data-seed-color-mode="system"] {
-  color-scheme: light dark;
-}
+  const ast = {
+    tokens: getTokenDeclarations(ctx),
+    tokenCollections: getTokenCollectionDeclarations(ctx),
+  };
 
-[data-seed-color-mode="light-only"] {
-  color-scheme: light;
-}
-
-[data-seed-color-mode="dark-only"] {
-  color-scheme: dark;
-}
-
-`,
-      selectors: {
-        global: {
-          default: ":root",
-        },
-        color: {
-          "theme-light": `:root,
-:root[data-seed-color-mode="system"][data-seed-user-color-scheme="light"],
-:root[data-seed-color-mode="light-only"],
-:root [data-seed-color-mode="light-only"]`,
-          "theme-dark": `:root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
-:root[data-seed-color-mode="dark-only"],
-:root [data-seed-color-mode="dark-only"]`,
-        },
+  // Default minimal options - custom generators should provide their own
+  const options = {
+    prefix,
+    banner: "",
+    selectors: {
+      global: {
+        default: ":root",
       },
     },
-  );
+  };
+
+  let code: string;
+  
+  if (generatorPath) {
+    // Use custom generator
+    code = await runGenerator(generatorPath, ast, options);
+  } else {
+    // Use default CSS generator from core
+    code = css.getTokenCss(ast, options);
+  }
 
   const writePath = path.join(process.cwd(), dir, "token.css");
 
@@ -262,7 +258,7 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-async function writeTailwind3Plugin(): Promise<string> {
+async function writeTailwind3Plugin(prefix: string = DEFAULT_PREFIX): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
 
@@ -275,20 +271,16 @@ async function writeTailwind3Plugin(): Promise<string> {
   return pluginPath;
 }
 
-async function writeTailwind4(): Promise<string> {
+async function writeTailwind4(prefix: string = DEFAULT_PREFIX): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
   const typographyTokens = getComponentSpecDeclarations(ctx);
 
   // tailwind4 모듈의 함수 사용
   const themeCode = tailwind4.getTailwind4CompleteThemeCode(tokens, typographyTokens, {
-    sourcePrefix: "seed",
+    sourcePrefix: prefix,
     prefix: "", // 접두사 제거 (--dimension-x0_5 형태로 출력)
-    banner: `/**
- * SEED Design Tailwind 4.0 Theme
- * 이 파일은 Tailwind CSS 4.0에서 SEED 디자인 토큰을 사용하기 위한 테마 변수를 제공합니다.
- */
-`,
+    banner: "",
   });
 
   const writePath = path.join(process.cwd(), dir, "index.css");
@@ -297,76 +289,40 @@ async function writeTailwind4(): Promise<string> {
   return writePath;
 }
 
-if (command === "token-ts") {
-  console.log("Start");
-  writeTokenTs().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "component-spec") {
-  console.log("Start");
-  writeComponentSpec().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "token-css") {
-  console.log("Start");
-  writeTokenCss().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "json-schema") {
-  console.log("Start");
-  writeJsonSchema().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "json") {
-  console.log("Start");
-  writeJson().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "tailwind3-plugin") {
-  console.log("Start");
-  writeTailwind3Plugin().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
-if (command === "tailwind4") {
-  console.log("Start");
-  writeTailwind4().then(() => {
-    console.log("Done");
-    process.exit(0);
-  });
-}
+// Legacy command support is now handled by yargs
 
 yargs(process.argv.slice(2))
   .command(
     "token-ts <dir>",
     "Generate TypeScript tokens",
     (yargs) => {
-      return yargs.positional("dir", {
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
+      return yargs
+        .positional("dir", {
+          describe: "Output directory",
+          type: "string",
+          default: "./",
+        })
+        .option("prefix", {
+          describe: "Prefix for generated tokens",
+          type: "string",
+          default: DEFAULT_PREFIX,
+        });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
-      await writeTokenTs();
+      await writeTokenTs(argv.prefix);
       console.log("Done");
     },
   )
@@ -374,15 +330,21 @@ yargs(process.argv.slice(2))
     "component-spec <dir>",
     "Generate component specs",
     (yargs) => {
-      return yargs.positional("dir", {
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
+      return yargs
+        .positional("dir", {
+          describe: "Output directory",
+          type: "string",
+          default: "./",
+        })
+        .option("prefix", {
+          describe: "Prefix for generated tokens",
+          type: "string",
+          default: DEFAULT_PREFIX,
+        });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
-      await writeComponentSpec();
+      await writeComponentSpec(argv.prefix);
       console.log("Done");
     },
   )
@@ -390,15 +352,25 @@ yargs(process.argv.slice(2))
     "token-css <dir>",
     "Generate CSS tokens",
     (yargs) => {
-      return yargs.positional("dir", {
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
+      return yargs
+        .positional("dir", {
+          describe: "Output directory",
+          type: "string",
+          default: "./",
+        })
+        .option("generator", {
+          describe: "Path to custom generator module",
+          type: "string",
+        })
+        .option("prefix", {
+          describe: "Prefix for generated tokens",
+          type: "string",
+          default: DEFAULT_PREFIX,
+        });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
-      await writeTokenCss();
+      await writeTokenCss(argv.generator, argv.prefix);
       console.log("Done");
     },
   )
@@ -438,16 +410,22 @@ yargs(process.argv.slice(2))
     "tailwind3-plugin <dir>",
     "Generate Tailwind 3 plugin",
     (yargs) => {
-      return yargs.positional("dir", {
-        alias: "o",
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
+      return yargs
+        .positional("dir", {
+          alias: "o",
+          describe: "Output directory",
+          type: "string",
+          default: "./",
+        })
+        .option("prefix", {
+          describe: "Prefix for generated tokens",
+          type: "string",
+          default: DEFAULT_PREFIX,
+        });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
-      await writeTailwind3Plugin();
+      await writeTailwind3Plugin(argv.prefix);
       console.log("Done");
     },
   )
@@ -455,16 +433,22 @@ yargs(process.argv.slice(2))
     "tailwind4 <dir>",
     "Generate Tailwind 4.0",
     (yargs) => {
-      return yargs.positional("dir", {
-        alias: "o",
-        describe: "Output directory",
-        type: "string",
-        default: "./",
-      });
+      return yargs
+        .positional("dir", {
+          alias: "o",
+          describe: "Output directory",
+          type: "string",
+          default: "./",
+        })
+        .option("prefix", {
+          describe: "Prefix for generated tokens",
+          type: "string",
+          default: DEFAULT_PREFIX,
+        });
     },
-    async () => {
+    async (argv) => {
       console.log("Start");
-      await writeTailwind4();
+      await writeTailwind4(argv.prefix);
       console.log("Done");
     },
   )
