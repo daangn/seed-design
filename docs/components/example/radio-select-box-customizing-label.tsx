@@ -1,7 +1,7 @@
 import { Badge, Box, Flex, VStack } from "@seed-design/react";
 import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";
 
-export default function CheckSelectBoxPreview() {
+export default function RadioSelectBoxCustomizingLabel() {
   return (
     <RadioSelectBoxRoot defaultValue="apple" aria-label="Fruit">
       <VStack gap="spacingY.componentDefault">
