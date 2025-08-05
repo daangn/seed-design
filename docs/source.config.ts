@@ -1,4 +1,5 @@
-import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
+import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
+import { remarkNpm } from "fumadocs-core/mdx-plugins";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
@@ -29,7 +30,7 @@ export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
       [
-        remarkInstall,
+        remarkNpm,
         {
           persist: {
             id: "package-manager",
