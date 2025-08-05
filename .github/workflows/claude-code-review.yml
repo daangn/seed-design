@@ -1,0 +1,56 @@
+name: Claude PR Review
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude-code-action:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '/claude-review')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '/claude-review')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '/claude-review'))
+    runs-on: k8s-ubuntu-x64-4cores
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude PR Action
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          timeout_minutes: "60"
+          allowed_tools: |
+            mcp__github__create_pending_pull_request_review
+            mcp__github__add_pull_request_review_comment_to_pending_review
+            mcp__github__submit_pending_pull_request_review
+            mcp__github__get_pull_request_diff
+          direct_prompt: |
+            Please review this PR and provide inline feedback using the GitHub review system. Follow these steps:
+
+            1. **Start a review**: Use `mcp__github__create_pending_pull_request_review` to begin a pending review
+            2. **Get diff information**: Use `mcp__github__get_pull_request_diff` to understand the code changes and line numbers
+            3. **Add inline comments**: Use `mcp__github__add_pull_request_review_comment_to_pending_review` for each specific piece of feedback on particular lines
+            4. **Submit the review**: Use `mcp__github__submit_pending_pull_request_review` with event type "COMMENT" (not "REQUEST_CHANGES") to publish all comments as a non-blocking review
+
+            Focus your review on:
+            - Code quality and best practices
+            - Potential bugs or security issues
+            - Performance considerations
+            - Maintainability and readability
+            - Architecture and design decisions
+            - Documentation completeness
+
+            Provide specific, actionable feedback. Use inline comments for line-specific issues and include an overall summary when submitting the review. 
+            **Important**: Submit as "COMMENT" type so the review doesn't block the PR. Please write the review in **Korean**.
