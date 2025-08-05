@@ -371,7 +371,7 @@ export function createVectorChildrenFillPropsConverter(valueResolver: ReactValue
 }
 
 export interface StrokeProps {
-  borderWidth?: number;
+  borderWidth?: string;
   borderColor?: string;
 }
 
@@ -380,7 +380,7 @@ export function createStrokePropsConverter(
 ): PropsConverter<StrokeTrait, StrokeProps> {
   return definePropsConverter((node) => {
     const borderColor = valueResolver.getFormattedValue.stroke(node);
-    const borderWidth = borderColor ? node.strokeWeight : undefined;
+    const borderWidth = borderColor && node.strokeWeight ? `${node.strokeWeight}` : undefined;
 
     return {
       borderColor,
