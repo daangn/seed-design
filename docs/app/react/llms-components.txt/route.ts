@@ -1,14 +1,15 @@
-import type { NextRequest } from "next/server";
 import { reactSource } from "@/app/source";
 import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 
 export const revalidate = false;
 
+const BASE_URL = "https://seed-design.io";
+
 /**
  * This is an entry point for accessing individual component documentation.
  * Each component can be accessed through its specific endpoint.
  */
-export async function GET({ nextUrl }: NextRequest) {
+export async function GET() {
   const componentPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
   const components = componentPages
@@ -24,7 +25,7 @@ export async function GET({ nextUrl }: NextRequest) {
         })
         .join("/");
 
-      const txtUrl = new URL(`/react/llms-components/${path}`, nextUrl.origin);
+      const txtUrl = new URL(`/react/llms-components/${path}`, BASE_URL);
 
       return `- [${data.title}](${txtUrl})`;
     })
