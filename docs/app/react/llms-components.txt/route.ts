@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { reactSource } from "@/app/source";
+import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 
 export const revalidate = false;
 
@@ -8,11 +9,7 @@ export const revalidate = false;
  * Each component can be accessed through its specific endpoint.
  */
 export async function GET({ nextUrl }: NextRequest) {
-  const componentPages = reactSource.getPages().filter((page) => {
-    const [firstSlug, secondSlug] = page.slugs;
-
-    return firstSlug === "components" && secondSlug !== "concepts";
-  });
+  const componentPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
   const components = componentPages
     .map(({ data, slugs }) => {

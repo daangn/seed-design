@@ -1,4 +1,6 @@
+import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 import { processContent } from "@/app/react/_llms/process-content";
+import { getSourceUrl } from "@/app/react/_llms/url";
 import { reactSource } from "@/app/source";
 import { notFound } from "next/navigation";
 
@@ -15,15 +17,11 @@ export const revalidate = false;
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const componentPageSlugs = reactSource
     .getPages()
-    .map(({ slugs }) => {
-      const [firstSlug, secondSlug] = slugs;
-
-      // include components/** but exclude components/concepts
-      if (firstSlug !== "components" || secondSlug === "concepts") return undefined;
-
+    .filter(shouldGenerateLLMFriendlyText)
+    .map((page) => {
       // Attach .txt extension to the last slug
-      const slugsExtensionAttached = slugs.map((slug, index) => {
-        if (index === slugs.length - 1) return `${slug}.txt`;
+      const slugsExtensionAttached = page.slugs.map((slug, index) => {
+        if (index === page.slugs.length - 1) return `${slug}.txt`;
 
         return slug;
       });
@@ -52,9 +50,10 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
 
   const processed = await processContent(page.path, page.data.content);
 
-  const response = `file: ${page.path}
+  const response = `# ${page.data.title}
 
-# ${page.data.title}
+URL: ${page.url}
+Source: ${getSourceUrl(page.path)}
 
 ${page.data.description ?? ""}
 
