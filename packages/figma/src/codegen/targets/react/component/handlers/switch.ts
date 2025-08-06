@@ -18,7 +18,7 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
       const commonProps = {
         size,
         ...(size === "small" && {
-          label: props["Label#15191:2"].value,
+          label: props["Label#36578:0"].value,
         }),
         ...(states.includes("Selected") && {
           defaultChecked: true,
