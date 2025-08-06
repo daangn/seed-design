@@ -41,6 +41,15 @@ export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   },
 );
 
+// XXX: use when the deprecated size props are removed
+
+// export interface SwitchRootProps extends SwitchVariantProps, SwitchPrimitive.RootProps {}
+
+// export const SwitchRoot = withProvider<HTMLLabelElement, SwitchRootProps>(
+//   SwitchPrimitive.Root,
+//   "root",
+// );
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchControlProps extends SwitchPrimitive.ControlProps {}
