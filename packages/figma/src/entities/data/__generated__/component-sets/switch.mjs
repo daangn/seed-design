@@ -8,9 +8,9 @@ export const metadata = {
     "Size": {
       "type": "VARIANT",
       "variantOptions": [
-        "Small",
-        "Medium",
-        "Large"
+        "16",
+        "24",
+        "32"
       ]
     },
     "State": {
