@@ -22,8 +22,9 @@ const conditionMap = {
     false: { checked: false },
   },
   size: {
-    small: { size: "small", label: "라벨" },
-    medium: { size: "medium" },
+    16: { size: "16", label: "라벨" },
+    24: { size: "24", label: "라벨" },
+    32: { size: "32", label: "라벨" },
   },
 };
 

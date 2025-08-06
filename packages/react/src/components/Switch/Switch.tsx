@@ -3,17 +3,42 @@ import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/s
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
+import React from "react";
+import clsx from "clsx";
 
-const { withProvider, withContext } = createSlotRecipeContext(switchStyle);
+const { withContext, ClassNamesProvider } = createSlotRecipeContext(switchStyle);
 const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchRootProps extends SwitchVariantProps, SwitchPrimitive.RootProps {}
+/**
+ * @deprecated Use `16` or `32` instead of `small` or `medium`.
+ */
+type SwitchVariantDeprecatedSizeProps = "small" | "medium";
 
-export const SwitchRoot = withProvider<HTMLLabelElement, SwitchRootProps>(
-  SwitchPrimitive.Root,
-  "root",
+export interface SwitchRootProps
+  extends Omit<SwitchVariantProps, "size">,
+    SwitchPrimitive.RootProps {
+  size?: SwitchVariantProps["size"] | SwitchVariantDeprecatedSizeProps;
+}
+
+export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
+  ({ size: propSize, className, ...otherProps }, ref) => {
+    const classNames = switchStyle({
+      // TODO: remove this mapping completely
+      size: propSize === "small" ? "16" : propSize === "medium" ? "32" : propSize,
+    });
+
+    return (
+      <ClassNamesProvider value={classNames}>
+        <SwitchPrimitive.Root
+          ref={ref}
+          className={clsx(classNames.root, className)}
+          {...otherProps}
+        />
+      </ClassNamesProvider>
+    );
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
