@@ -2890,6 +2890,7 @@
   line-height: 1;
   transition-property: background-color, color, border-color, box-shadow;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-chip__root:is(:focus, [data-focus]) {
@@ -3118,6 +3119,7 @@
   justify-content: center;
   align-items: center;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-control-chip:is(:focus, [data-focus]) {
