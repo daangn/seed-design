@@ -4,7 +4,7 @@ import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
-const { createLocalSnippetElement } = createLocalSnippetHelper("manner-temp-badge");
+const { createLocalSnippetElement } = createLocalSnippetHelper("manner-temp");
 
 export const createMannerTempHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MannerTempProperties>(metadata.mannerTemp.key, ({ children }) => {

@@ -111,6 +111,14 @@ export type ChipProperties = InferComponentDefinition<
   typeof metadata.chip.componentPropertyDefinitions
 >;
 
+export type ChipIconSuffixProperties = InferComponentDefinition<{
+  "Icon#33203:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:23250";
+    preferredValues: [];
+  };
+}>;
+
 export type ContextualFloatingButtonProperties = InferComponentDefinition<
   typeof metadata.contextualFloatingButton.componentPropertyDefinitions
 >;

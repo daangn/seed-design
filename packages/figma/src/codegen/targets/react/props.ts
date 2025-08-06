@@ -143,7 +143,7 @@ export function createContainerLayoutPropsConverter(
 }
 
 export interface SelfLayoutProps {
-  grow?: 0 | 1 | true;
+  flexGrow?: 0 | 1 | true;
   alignSelf?: "stretch";
   width?: string | number;
   height?: string | number;
@@ -162,7 +162,7 @@ export function createSelfLayoutPropsConverter(
       props: {} as SelfLayoutProps,
     },
     handlers: {
-      grow: ({ layoutGrow }) => (layoutGrow === 1 ? true : layoutGrow),
+      flexGrow: ({ layoutGrow }) => (layoutGrow === 1 ? true : layoutGrow),
       alignSelf: ({ layoutAlign }) =>
         match(layoutAlign)
           .with("STRETCH", () => "stretch" as const)
@@ -198,7 +198,7 @@ export function createSelfLayoutPropsConverter(
           : undefined,
     },
     defaults: {
-      grow: 0,
+      flexGrow: 0,
     },
   });
 }
@@ -371,7 +371,7 @@ export function createVectorChildrenFillPropsConverter(valueResolver: ReactValue
 }
 
 export interface StrokeProps {
-  borderWidth?: number;
+  borderWidth?: string;
   borderColor?: string;
 }
 
@@ -380,7 +380,7 @@ export function createStrokePropsConverter(
 ): PropsConverter<StrokeTrait, StrokeProps> {
   return definePropsConverter((node) => {
     const borderColor = valueResolver.getFormattedValue.stroke(node);
-    const borderWidth = borderColor ? node.strokeWeight : undefined;
+    const borderWidth = borderColor && node.strokeWeight ? `${node.strokeWeight}` : undefined;
 
     return {
       borderColor,
