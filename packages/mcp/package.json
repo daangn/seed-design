@@ -25,6 +25,8 @@
     "@modelcontextprotocol/sdk": "^1.10.2",
     "@seed-design/figma": "0.1.12",
     "cac": "^6.7.14",
+    "cosmiconfig": "^9.0.0",
+    "typescript": "^5.9.2",
     "uuid": "^11.1.0",
     "ws": "^8.18.1",
     "yargs": "^18.0.0",
@@ -33,8 +35,7 @@
   "devDependencies": {
     "@types/bun": "^1.2.10",
     "@types/ws": "^8.18.1",
-    "@types/yargs": "^17.0.33",
-    "typescript": "^5.8.3"
+    "@types/yargs": "^17.0.33"
   },
   "publishConfig": {
     "access": "public"
