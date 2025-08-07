@@ -3,6 +3,36 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.07
+
+[`5a025b7`](https://github.com/daangn/seed-design/commit/5a025b7b12b7d288bc07dbea88e26cfb41d5b661) Switch 컴포넌트를 업데이트합니다.
+
+- size: medium → 32, small → 16으로 rename합니다.
+  - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+- size: 24를 추가합니다.
+- 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+[`f9379e0`](https://github.com/daangn/seed-design/commit/f9379e09d64d047136383ca4b16a704a5d82268e) Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+- Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+- `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+[`ac35731`](https://github.com/daangn/seed-design/commit/ac35731de335a06b4aa2f87bf03ebce002e61e2b) Chip.Root `position: relative` 속성 추가
+
+- 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
+
+[`f9041e9`](https://github.com/daangn/seed-design/commit/f9041e9cf4ee90acef8e52be1dc483d01438e0e2) `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+- `span` 대신 `div`를 렌더링합니다.
+- 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.9](https://npmjs.com/package/@seed-design/css/v/0.1.9)
+- [@seed-design/figma@0.1.9](https://npmjs.com/package/@seed-design/figma/v/0.1.9)
+- [@seed-design/react@0.1.9](https://npmjs.com/package/@seed-design/react/v/0.1.9)
+- [@seed-design/rootage-artifacts@0.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.3)
+
 ## 2025.08.04
 
 [`2e2cc53`](https://github.com/daangn/seed-design/commit/2e2cc530648f5d10432f23fa8169e3c4225f6315) - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.
