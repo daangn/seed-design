@@ -150,12 +150,35 @@ export const TextFieldCharacterCountArea = withContext<
 
 export interface TextFieldCharacterCountProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLSpanElement> {
+  /**
+   * The current number of characters/graphemes
+   */
+  current: number;
+  /**
+   * The maximum allowed characters/graphemes
+   */
+  max: number;
+}
 
-export const TextFieldCharacterCount = withContext<HTMLDivElement, TextFieldCharacterCountProps>(
-  Primitive.span,
-  "characterCount",
+export const TextFieldCharacterCount = forwardRef<HTMLSpanElement, TextFieldCharacterCountProps>(
+  ({ current, max, className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const exceeded = current > max;
+    
+    return (
+      <span
+        ref={ref}
+        className={clsx(classNames.characterCount, className)}
+        data-exceeded={exceeded}
+        {...otherProps}
+      >
+        {current}
+      </span>
+    );
+  },
 );
+TextFieldCharacterCount.displayName = "TextFieldCharacterCount";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
