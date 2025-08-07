@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldNumberFormatting() {
   const [value, setValue] = useState("1000");
@@ -14,13 +14,10 @@ export default function TextFieldNumberFormatting() {
   }, [value]);
 
   return (
-    <TextField
-      label="금액"
-      description="금액을 써주세요"
+    <TextFieldInput
+      inputProps={{ placeholder: "9,999,999" }}
       value={formattedValue}
-      onValueChange={({ value }) => setValue(value)}
-    >
-      <TextFieldInput placeholder="9,999,999" />
-    </TextField>
+      onValueChange={(value) => setValue(value)}
+    />
   );
 }

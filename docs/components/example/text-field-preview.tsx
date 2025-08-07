@@ -1,9 +1,5 @@
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldPreview() {
-  return (
-    <TextField>
-      <TextFieldInput autoFocus />
-    </TextField>
-  );
+  return <TextFieldInput inputProps={{ autoFocus: true }} />;
 }

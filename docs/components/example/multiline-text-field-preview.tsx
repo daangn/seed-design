@@ -1,9 +1,5 @@
-import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
+import { TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function MultilineTextFieldPreview() {
-  return (
-    <TextField>
-      <TextFieldTextarea autoFocus />
-    </TextField>
-  );
+  return <TextFieldTextarea textareaProps={{ autoFocus: true }} />;
 }

@@ -1,15 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
+import * as React from "react"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { TextField as SeedTextField } from "@seed-design/react";
 
-export interface TextFieldProps
-  extends Omit<SeedTextField.RootProps, "prefix"> {
-  label?: React.ReactNode;
-
-  indicator?: React.ReactNode;
-
+export interface TextFieldInputProps extends Omit<SeedTextField.RootProps, "prefix"> {
   prefixIcon?: React.ReactNode;
 
   prefix?: React.ReactNode;
@@ -18,95 +12,41 @@ export interface TextFieldProps
 
   suffix?: React.ReactNode;
 
-  description?: React.ReactNode;
+  rootRef?: React.Ref<HTMLDivElement>;
 
-  errorMessage?: React.ReactNode;
-
-  hideCharacterCount?: boolean;
+  inputProps?: SeedTextField.InputProps;
 }
 
 /**
- * @see https://seed-design.io/react/components/text-fields/text-field
+ * @see https://seed-design.io/react/components/text-field
  */
-export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  (
-    {
-      description,
-      errorMessage,
-      prefix,
-      prefixIcon,
-      suffix,
-      suffixIcon,
-      indicator,
-      label,
-      children,
-      hideCharacterCount,
-      ...otherProps
-    },
-    ref,
-  ) => {
-    const renderCharacterCount =
-      !hideCharacterCount && otherProps.maxGraphemeCount;
-    const renderDescription = description && !otherProps.invalid;
-    const renderErrorMessage = errorMessage && otherProps.invalid;
-    const renderFooter =
-      renderDescription || renderErrorMessage || renderCharacterCount;
-    const renderHeader = label || indicator;
-
+export const TextFieldInput = React.forwardRef<HTMLInputElement, TextFieldInputProps>(
+  ({ prefix, prefixIcon, suffix, suffixIcon, size, inputProps, rootRef, ...otherProps }, ref) => {
     return (
-      <SeedTextField.Root ref={ref} {...otherProps}>
-        {renderHeader && (
-          <SeedTextField.Header>
-            <SeedTextField.Label>{label}</SeedTextField.Label>
-            <SeedTextField.Indicator>{indicator}</SeedTextField.Indicator>
-          </SeedTextField.Header>
-        )}
-        <SeedTextField.Field>
-          {prefixIcon && <SeedTextField.PrefixIcon svg={prefixIcon} />}
-          {prefix && (
-            <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>
-          )}
-          {children}
-          {suffix && (
-            <SeedTextField.SuffixText>{suffix}</SeedTextField.SuffixText>
-          )}
-          {suffixIcon && <SeedTextField.SuffixIcon svg={suffixIcon} />}
-        </SeedTextField.Field>
-        {renderFooter && (
-          <SeedTextField.Footer>
-            {renderDescription && (
-              <SeedTextField.Description>
-                {description}
-              </SeedTextField.Description>
-            )}
-            {renderErrorMessage && (
-              <SeedTextField.ErrorMessage>
-                <SeedTextField.ErrorIcon
-                  svg={<IconExclamationmarkCircleFill />}
-                />
-                {errorMessage}
-              </SeedTextField.ErrorMessage>
-            )}
-            {renderCharacterCount && (
-              <SeedTextField.CharacterCountArea>
-                <SeedTextField.CharacterCount />
-                <SeedTextField.MaxCharacterCount>
-                  /{otherProps.maxGraphemeCount}
-                </SeedTextField.MaxCharacterCount>
-              </SeedTextField.CharacterCountArea>
-            )}
-          </SeedTextField.Footer>
-        )}
+      <SeedTextField.Root ref={rootRef} size={size} {...otherProps}>
+        {prefixIcon && <SeedTextField.PrefixIcon svg={prefixIcon} />}
+        {prefix && <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>}
+        <SeedTextField.Input ref={ref} {...inputProps} />
+        {suffix && <SeedTextField.SuffixText>{suffix}</SeedTextField.SuffixText>}
+        {suffixIcon && <SeedTextField.SuffixIcon svg={suffixIcon} />}
       </SeedTextField.Root>
     );
   },
 );
-TextField.displayName = "TextField";
+TextFieldInput.displayName = "TextFieldInput";
 
-export interface TextFieldInputProps extends SeedTextField.InputProps {}
+export interface TextFieldTextareaProps extends SeedTextField.RootProps {
+  rootRef?: React.Ref<HTMLDivElement>;
 
-export const TextFieldInput = SeedTextField.Input;
+  textareaProps?: SeedTextField.TextareaProps;
+}
 
-export interface TextFieldTextareaProps extends SeedTextField.TextareaProps {}
-
-export const TextFieldTextarea = SeedTextField.Textarea;
+export const TextFieldTextarea = React.forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
+  ({ size, textareaProps, rootRef, ...otherProps }, ref) => {
+    return (
+      <SeedTextField.Root ref={rootRef} size={size} {...otherProps}>
+        <SeedTextField.Textarea ref={ref} {...textareaProps} />
+      </SeedTextField.Root>
+    );
+  },
+);

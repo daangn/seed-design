@@ -19,59 +19,6 @@ export interface TextFieldRootProps extends TextFieldVariantProps, TextField.Roo
 
 export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
   TextField.Root,
-  "root",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldHeader = withContext<HTMLDivElement, TextFieldHeaderProps>(
-  withStateProps(Primitive.div),
-  "header",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldLabelProps extends TextField.LabelProps {}
-
-export const TextFieldLabel = withContext<HTMLLabelElement, TextFieldLabelProps>(
-  TextField.Label,
-  "label",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldIndicatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldIndicator = forwardRef<HTMLSpanElement, TextFieldIndicatorProps>(
-  (props, ref) => {
-    const { className, ...otherProps } = props;
-    const classNames = useClassNames();
-
-    return (
-      <>
-        <Primitive.span> </Primitive.span>
-        <Primitive.span
-          ref={ref}
-          className={clsx(classNames.indicator, className)}
-          {...otherProps}
-        />
-      </>
-    );
-  },
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldFieldProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldField = withContext<HTMLDivElement, TextFieldFieldProps>(
-  withStateProps(Primitive.div),
   "field",
 );
 
@@ -117,7 +64,7 @@ export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixT
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldInputProps extends TextField.InputProps {}
+export interface TextFieldInputProps extends Omit<TextField.InputProps, "size"> {}
 
 export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
   TextField.Input,
@@ -190,44 +137,6 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldFooter = withContext<HTMLDivElement, TextFieldFooterProps>(
-  withStateProps(Primitive.div),
-  "footer",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldDescriptionProps extends TextField.DescriptionProps {}
-
-export const TextFieldDescription = withContext<HTMLSpanElement, TextFieldDescriptionProps>(
-  TextField.Description,
-  "description",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldErrorMessageProps extends TextField.ErrorMessageProps {}
-
-export const TextFieldErrorMessage = withContext<HTMLSpanElement, TextFieldErrorMessageProps>(
-  TextField.ErrorMessage,
-  "errorMessage",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldErrorIconProps extends InternalIconProps {}
-
-export const TextFieldErrorIcon = withContext<SVGSVGElement, TextFieldErrorIconProps>(
-  withStateProps(InternalIcon),
-  "errorIcon",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldCharacterCountAreaProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
@@ -239,10 +148,12 @@ export const TextFieldCharacterCountArea = withContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldCharacterCountProps extends TextField.GraphemeCountProps {}
+export interface TextFieldCharacterCountProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldCharacterCount = withContext<HTMLDivElement, TextFieldCharacterCountProps>(
-  TextField.GraphemeCount,
+  Primitive.span,
   "characterCount",
 );
 

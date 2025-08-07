@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { TextField, TextFieldInput } from "seed-design/ui/text-field";
+import { TextFieldInput } from "seed-design/ui/text-field";
 
 import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
@@ -9,9 +9,9 @@ import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 
 const meta = {
-  component: TextField,
+  component: TextFieldInput,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof TextField>;
+} satisfies Meta<typeof TextFieldInput>;
 
 export default meta;
 
@@ -54,14 +54,12 @@ const conditionMap = {
 
 const CommonStoryTemplate: Story = {
   args: {
-    label: "Label",
-    description:
-      "Sint pariatur labore et elit dolore sunt velit incididunt nisi laboris cillum et dolore ad ullamco.",
-    errorMessage: "Error message",
     prefixIcon: <IconPaperplaneLine />,
     suffix: "Suffix",
-    maxGraphemeCount: 10,
-    children: <TextFieldInput placeholder="Placeholder" />,
+    inputProps: {
+      placeholder: "Placeholder",
+    },
+    children: <TextFieldInput />,
   },
   render: (args) => (
     <VariantTable
