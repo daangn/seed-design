@@ -35,12 +35,12 @@ export interface RadioGroupItemProps
 
 export const RadioGroupItem = Object.assign(
   forwardRef<HTMLLabelElement, RadioGroupItemProps>((props, ref) => {
-    const { size, className, ...otherProps } = props;
+    const { className, ...otherProps } = props;
     const [variantProps, restProps] = radio.splitVariantProps(otherProps);
     const classNames = radio(variantProps);
 
     return (
-      <RadiomarkPropsProvider value={useMemo(() => ({ size }), [size])}>
+      <RadiomarkPropsProvider value={variantProps}>
         <ClassNamesProvider value={classNames}>
           <RadioGroupPrimitive.Item
             ref={ref}
