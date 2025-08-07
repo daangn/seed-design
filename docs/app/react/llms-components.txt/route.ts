@@ -1,9 +1,8 @@
+import { baseUrl } from "@/app/metadata";
 import { reactSource } from "@/app/source";
 import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 
 export const revalidate = false;
-
-const BASE_URL = "https://seed-design.io";
 
 /**
  * This is an entry point for accessing individual component documentation.
@@ -25,7 +24,7 @@ export async function GET() {
         })
         .join("/");
 
-      const txtUrl = new URL(`/react/llms-components/${path}`, BASE_URL);
+      const txtUrl = new URL(`/react/llms-components/${path}`, baseUrl);
 
       return `- [${data.title}](${txtUrl})`;
     })
