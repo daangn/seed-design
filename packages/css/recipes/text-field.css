@@ -14,7 +14,7 @@
 }
 .seed-text-field__field {
     display: flex;
-    align-items: center;
+    width: 100%;
     background-color: var(--seed-color-bg-layer-default);
     border-style: solid;
     border-width: 1px;
@@ -73,7 +73,6 @@
 .seed-text-field__value:is(textarea) {
     padding-inline: 0;
     min-height: 90px;
-    width: 100%;
 }
 .seed-text-field__value {
     background: none;

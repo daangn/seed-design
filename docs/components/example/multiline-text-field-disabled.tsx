@@ -3,7 +3,7 @@ import { TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function MultilineTextFieldDisabled() {
   return (
-    <HStack width="full" gap="x3">
+    <HStack width="full" gap="x3" align="flex-start">
       <TextFieldTextarea disabled textareaProps={{ placeholder: "플레이스홀더" }} />
       <TextFieldTextarea disabled invalid textareaProps={{ placeholder: "플레이스홀더" }} />
     </HStack>

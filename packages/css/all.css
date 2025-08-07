@@ -5023,7 +5023,7 @@
   border-style: solid;
   border-width: 1px;
   border-color: var(--seed-color-stroke-field);
-  align-items: center;
+  width: 100%;
   display: flex;
   overflow: hidden;
 }
@@ -5089,7 +5089,6 @@
 }
 
 .seed-text-field__value:is(textarea) {
-  width: 100%;
   min-height: 90px;
   padding-inline: 0;
 }
