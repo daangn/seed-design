@@ -3,7 +3,6 @@ import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
-import { handleSizeProp } from "../size";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("switch");
 
@@ -13,13 +12,9 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const states = props.State.value.split("-");
 
-      const size = handleSizeProp(props.Size.value);
-
       const commonProps = {
-        size,
-        ...(size === "small" && {
-          label: props["Label#36578:0"].value,
-        }),
+        size: props.Size.value,
+        label: props["Label#36578:0"].value,
         ...(states.includes("Selected") && {
           defaultChecked: true,
         }),
