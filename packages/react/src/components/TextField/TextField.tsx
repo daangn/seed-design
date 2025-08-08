@@ -134,3 +134,4 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
     );
   },
 );
+TextFieldTextarea.displayName = "TextFieldTextarea";
