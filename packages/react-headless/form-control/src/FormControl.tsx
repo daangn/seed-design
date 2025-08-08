@@ -62,13 +62,13 @@ FormControlDescription.displayName = "FormControlDescription";
 
 export interface FormControlErrorMessageProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
-export const FormControlErrorMessage = forwardRef<HTMLSpanElement, FormControlErrorMessageProps>(
+export const FormControlErrorMessage = forwardRef<HTMLDivElement, FormControlErrorMessageProps>(
   (props, ref) => {
     const { refs, errorMessageProps } = useFormControlContext();
     const mergedProps = mergeProps(errorMessageProps, props);
-    return <Primitive.span ref={composeRefs(refs.errorMessage, ref)} {...mergedProps} />;
+    return <Primitive.div ref={composeRefs(refs.errorMessage, ref)} {...mergedProps} />;
   },
 );
 FormControlErrorMessage.displayName = "FormControlErrorMessage";

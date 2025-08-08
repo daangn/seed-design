@@ -7,9 +7,7 @@ export {
   FormControlDescription as Description,
   FormControlErrorIcon as ErrorIcon,
   FormControlErrorMessage as ErrorMessage,
-  FormControlCharacterCountArea as CharacterCountArea,
   FormControlCharacterCount as CharacterCount,
-  FormControlMaxCharacterCount as MaxCharacterCount,
   type FormControlRootProps as RootProps,
   type FormControlHeaderProps as HeaderProps,
   type FormControlLabelProps as LabelProps,
@@ -18,7 +16,5 @@ export {
   type FormControlDescriptionProps as DescriptionProps,
   type FormControlErrorIconProps as ErrorIconProps,
   type FormControlErrorMessageProps as ErrorMessageProps,
-  type FormControlCharacterCountAreaProps as CharacterCountAreaProps,
   type FormControlCharacterCountProps as CharacterCountProps,
-  type FormControlMaxCharacterCountProps as MaxCharacterCountProps,
 } from "./FormControl";

@@ -36,7 +36,7 @@ export const FormControlHeader = withContext<HTMLDivElement, FormControlHeaderPr
 export interface FormControlLabelProps extends FormControl.LabelProps {}
 
 export const FormControlLabel = withContext<HTMLLabelElement, FormControlLabelProps>(
-  FormControl.Label,
+  withStateProps(FormControl.Label),
   "label",
 );
 
@@ -96,6 +96,8 @@ export const FormControlErrorMessage = withContext<HTMLSpanElement, FormControlE
 
 export interface FormControlErrorIconProps extends InternalIconProps {}
 
+// TODO: 필요없는 경우, withStateProps는 빼는 게 좋을 것 같음
+
 export const FormControlErrorIcon = withContext<SVGSVGElement, FormControlErrorIconProps>(
   withStateProps(InternalIcon),
   "errorIcon",
@@ -103,20 +105,9 @@ export const FormControlErrorIcon = withContext<SVGSVGElement, FormControlErrorI
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlCharacterCountAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const FormControlCharacterCountArea = withContext<
-  HTMLDivElement,
-  FormControlCharacterCountAreaProps
->(withStateProps(Primitive.div), "characterCountArea");
-
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface FormControlCharacterCountProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
+    React.HTMLAttributes<HTMLDivElement> {
   /**
    * The current number of characters/graphemes
    */
@@ -127,33 +118,25 @@ export interface FormControlCharacterCountProps
   max: number;
 }
 
-export const FormControlCharacterCount = forwardRef<
-  HTMLSpanElement,
-  FormControlCharacterCountProps
->(({ current, max, className, ...otherProps }, ref) => {
-  const classNames = useClassNames();
-  const exceeded = current > max;
+export const FormControlCharacterCount = forwardRef<HTMLDivElement, FormControlCharacterCountProps>(
+  ({ current, max, className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
 
-  return (
-    <span
-      ref={ref}
-      className={clsx(classNames.characterCount, className)}
-      data-exceeded={exceeded}
-      {...otherProps}
-    >
-      {current}
-    </span>
-  );
-});
-FormControlCharacterCount.displayName = "FormControlCharacterCount";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface FormControlMaxCharacterCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const FormControlMaxCharacterCount = withContext<
-  HTMLSpanElement,
-  FormControlMaxCharacterCountProps
->(withStateProps(Primitive.span), "maxCharacterCount");
+    return (
+      <Primitive.div
+        ref={ref}
+        className={clsx(classNames.characterCountArea, className)}
+        {...otherProps}
+      >
+        <span
+          {...(current === 0 ? { "data-empty": true } : {})}
+          {...(current > max ? { "data-exceeded": true } : {})}
+          className={clsx(classNames.characterCount)}
+        >
+          {current}
+        </span>
+        <span className={clsx(classNames.maxCharacterCount)}>/{max}</span>
+      </Primitive.div>
+    );
+  },
+);
