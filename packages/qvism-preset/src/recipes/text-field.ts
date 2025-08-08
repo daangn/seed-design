@@ -4,101 +4,38 @@ import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo
 
 const textField = defineSlotRecipe({
   name: "text-field",
-  slots: [
-    "root",
-    "header",
-    "label",
-    "indicator",
-    "field",
-    "value",
-    "prefixText",
-    "prefixIcon",
-    "suffixText",
-    "suffixIcon",
-    "footer",
-    "description",
-    "errorMessage",
-    "errorIcon",
-    "characterCountArea",
-    "characterCount",
-    "maxCharacterCount",
-  ],
+  slots: ["root", "value", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
   base: {
     root: {
       display: "flex",
-      flexDirection: "column",
-
-      width: "100%",
-    },
-    header: {},
-    label: {
-      color: vars.base.enabled.label.color,
-      fontWeight: vars.base.enabled.label.fontWeight,
-    },
-    indicator: {
-      color: vars.base.enabled.indicator.color,
-      fontWeight: vars.base.enabled.indicator.fontWeight,
-    },
-    field: {
-      display: "flex",
       width: "100%",
 
-      backgroundColor: vars.base.enabled.field.color,
+      backgroundColor: vars.base.enabled.root.color,
       borderStyle: "solid",
-      borderWidth: vars.base.enabled.field.strokeWidth,
-      borderColor: vars.base.enabled.field.strokeColor,
+      borderWidth: vars.base.enabled.root.strokeWidth,
+      borderColor: vars.base.enabled.root.strokeColor,
 
       overflow: "hidden",
 
       [pseudo(not(readOnly), focus)]: {
-        borderColor: vars.base.focused.field.strokeColor,
+        borderColor: vars.base.focused.root.strokeColor,
       },
 
       [pseudo(invalid)]: {
-        backgroundColor: vars.base.invalid.field.color,
-        borderColor: vars.base.invalid.field.strokeColor,
+        backgroundColor: vars.base.invalid.root.color,
+        borderColor: vars.base.invalid.root.strokeColor,
       },
 
       [pseudo(invalid, focus)]: {
-        backgroundColor: vars.base.invalidFocused.field.color,
+        backgroundColor: vars.base.invalidFocused.root.color,
       },
 
       [pseudo(disabled)]: {
-        backgroundColor: vars.base.disabled.field.color,
+        backgroundColor: vars.base.disabled.root.color,
       },
 
       [pseudo(readOnly)]: {
-        backgroundColor: vars.base.readonly.field.color,
-      },
-    },
-    prefixText: {
-      color: vars.base.enabled.prefixText.color,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixText.color,
-      },
-    },
-    prefixIcon: {
-      color: vars.base.enabled.prefixIcon.color,
-      flexShrink: 0,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixIcon.color,
-      },
-    },
-    suffixText: {
-      color: vars.base.enabled.suffixText.color,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixText.color,
-      },
-    },
-    suffixIcon: {
-      color: vars.base.enabled.suffixIcon.color,
-      flexShrink: 0,
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixIcon.color,
+        backgroundColor: vars.base.readonly.root.color,
       },
     },
     value: {
@@ -136,41 +73,35 @@ const textField = defineSlotRecipe({
         color: vars.base.disabled.placeholder.color,
       },
     },
-    footer: {
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "space-between",
-    },
-    description: {
-      fontWeight: vars.base.enabled.description.fontWeight,
-      color: vars.base.enabled.description.color,
-    },
-    errorMessage: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
+    prefixText: {
+      color: vars.base.enabled.prefixText.color,
 
-      color: vars.base.enabled.errorMessage.color,
-    },
-    errorIcon: {
-      flex: "none",
-      flexShrink: 0,
-    },
-    characterCountArea: {
-      display: "flex",
-      flex: "none",
-      marginInlineStart: "auto",
-    },
-    characterCount: {
-      color: vars.base.enabled.characterCount.color,
-      fontWeight: vars.base.enabled.characterCount.fontWeight,
-      [pseudo("[data-empty]")]: {
-        color: vars.base.enabled.maxCharacterCount.color,
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixText.color,
       },
     },
-    maxCharacterCount: {
-      color: vars.base.enabled.maxCharacterCount.color,
-      fontWeight: vars.base.enabled.maxCharacterCount.fontWeight,
+    prefixIcon: {
+      color: vars.base.enabled.prefixIcon.color,
+      flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.prefixIcon.color,
+      },
+    },
+    suffixText: {
+      color: vars.base.enabled.suffixText.color,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixText.color,
+      },
+    },
+    suffixIcon: {
+      color: vars.base.enabled.suffixIcon.color,
+      flexShrink: 0,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.suffixIcon.color,
+      },
     },
   },
   defaultVariants: {
@@ -179,33 +110,21 @@ const textField = defineSlotRecipe({
   variants: {
     size: {
       xlarge: {
-        header: {
-          paddingBottom: vars.sizeXlarge.enabled.header.paddingBottom,
-          gap: vars.sizeXlarge.enabled.header.gap,
-        },
-        label: {
-          fontSize: vars.sizeXlarge.enabled.label.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.label.lineHeight,
-        },
-        indicator: {
-          fontSize: vars.sizeXlarge.enabled.indicator.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.indicator.lineHeight,
-        },
-        field: {
-          minHeight: vars.sizeXlarge.enabled.field.minHeight,
-          borderRadius: vars.sizeXlarge.enabled.field.cornerRadius,
-          gap: vars.sizeXlarge.enabled.field.gap,
+        root: {
+          minHeight: vars.sizeXlarge.enabled.root.minHeight,
+          borderRadius: vars.sizeXlarge.enabled.root.cornerRadius,
+          gap: vars.sizeXlarge.enabled.root.gap,
         },
         value: {
-          // We intentionally apply field's paddingY to value for input touch area.
-          paddingBlock: vars.sizeXlarge.enabled.field.paddingY,
+          // We intentionally apply root's paddingY to value for input touch area.
+          paddingBlock: vars.sizeXlarge.enabled.root.paddingY,
 
           [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+            paddingInlineStart: vars.sizeXlarge.enabled.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+            paddingInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
           },
 
           fontSize: vars.sizeXlarge.enabled.value.fontSize,
@@ -216,7 +135,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeXlarge.enabled.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+            marginInlineStart: vars.sizeXlarge.enabled.root.paddingX,
           },
         },
         prefixIcon: {
@@ -224,7 +143,7 @@ const textField = defineSlotRecipe({
           height: vars.sizeXlarge.enabled.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeXlarge.enabled.field.paddingX,
+            marginInlineStart: vars.sizeXlarge.enabled.root.paddingX,
           },
         },
         suffixText: {
@@ -232,7 +151,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeXlarge.enabled.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
           },
         },
         suffixIcon: {
@@ -240,64 +159,26 @@ const textField = defineSlotRecipe({
           height: vars.sizeXlarge.enabled.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeXlarge.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
           },
-        },
-        footer: {
-          gap: vars.sizeXlarge.enabled.footer.gap,
-          paddingTop: vars.sizeXlarge.enabled.footer.paddingTop,
-          minHeight: vars.sizeXlarge.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeXlarge.enabled.description.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeXlarge.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeXlarge.enabled.errorIcon.size,
-          height: vars.sizeXlarge.enabled.errorIcon.size,
-          marginRight: vars.sizeXlarge.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeXlarge.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeXlarge.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.maxCharacterCount.lineHeight,
         },
       },
       large: {
-        header: {
-          paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
-          gap: vars.sizeLarge.enabled.header.gap,
-        },
-        label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-        },
-        indicator: {
-          fontSize: vars.sizeLarge.enabled.indicator.fontSize,
-          lineHeight: vars.sizeLarge.enabled.indicator.lineHeight,
-        },
-        field: {
-          minHeight: vars.sizeLarge.enabled.field.minHeight,
-          borderRadius: vars.sizeLarge.enabled.field.cornerRadius,
-          gap: vars.sizeLarge.enabled.field.gap,
+        root: {
+          minHeight: vars.sizeLarge.enabled.root.minHeight,
+          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
+          gap: vars.sizeLarge.enabled.root.gap,
         },
         value: {
-          // We intentionally apply field's paddingY to value for input touch area.
-          paddingBlock: vars.sizeLarge.enabled.field.paddingY,
+          // We intentionally apply root's paddingY to value for input touch area.
+          paddingBlock: vars.sizeLarge.enabled.root.paddingY,
 
           [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeLarge.enabled.field.paddingX,
+            paddingInlineStart: vars.sizeLarge.enabled.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+            paddingInlineEnd: vars.sizeLarge.enabled.root.paddingX,
           },
 
           fontSize: vars.sizeLarge.enabled.value.fontSize,
@@ -308,7 +189,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeLarge.enabled.field.paddingX,
+            marginInlineStart: vars.sizeLarge.enabled.root.paddingX,
           },
         },
         prefixIcon: {
@@ -316,7 +197,7 @@ const textField = defineSlotRecipe({
           height: vars.sizeLarge.enabled.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeLarge.enabled.field.paddingX,
+            marginInlineStart: vars.sizeLarge.enabled.root.paddingX,
           },
         },
         suffixText: {
@@ -324,7 +205,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeLarge.enabled.root.paddingX,
           },
         },
         suffixIcon: {
@@ -332,63 +213,26 @@ const textField = defineSlotRecipe({
           height: vars.sizeLarge.enabled.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeLarge.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeLarge.enabled.root.paddingX,
           },
-        },
-        footer: {
-          gap: vars.sizeLarge.enabled.footer.gap,
-          paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
-          minHeight: vars.sizeLarge.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeLarge.enabled.description.fontSize,
-          lineHeight: vars.sizeLarge.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeLarge.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeLarge.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeLarge.enabled.errorIcon.size,
-          height: vars.sizeLarge.enabled.errorIcon.size,
-          marginRight: vars.sizeLarge.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeLarge.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeLarge.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeLarge.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeLarge.enabled.maxCharacterCount.lineHeight,
         },
       },
       medium: {
-        header: {
-          paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
-        },
-        label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
-        },
-        indicator: {
-          fontSize: vars.sizeMedium.enabled.indicator.fontSize,
-          lineHeight: vars.sizeMedium.enabled.indicator.lineHeight,
-        },
-        field: {
-          minHeight: vars.sizeMedium.enabled.field.minHeight,
-          borderRadius: vars.sizeMedium.enabled.field.cornerRadius,
-          gap: vars.sizeMedium.enabled.field.gap,
+        root: {
+          minHeight: vars.sizeMedium.enabled.root.minHeight,
+          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
+          gap: vars.sizeMedium.enabled.root.gap,
         },
         value: {
-          // We intentionally apply field's paddingY to value for input touch area.
-          paddingBlock: vars.sizeMedium.enabled.field.paddingY,
+          // We intentionally apply root's paddingY to value for input touch area.
+          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
 
           [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeMedium.enabled.field.paddingX,
+            paddingInlineStart: vars.sizeMedium.enabled.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+            paddingInlineEnd: vars.sizeMedium.enabled.root.paddingX,
           },
 
           fontSize: vars.sizeMedium.enabled.value.fontSize,
@@ -399,7 +243,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeMedium.enabled.field.paddingX,
+            marginInlineStart: vars.sizeMedium.enabled.root.paddingX,
           },
         },
         prefixIcon: {
@@ -407,7 +251,7 @@ const textField = defineSlotRecipe({
           height: vars.sizeMedium.enabled.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeMedium.enabled.field.paddingX,
+            marginInlineStart: vars.sizeMedium.enabled.root.paddingX,
           },
         },
         suffixText: {
@@ -415,7 +259,7 @@ const textField = defineSlotRecipe({
           lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeMedium.enabled.root.paddingX,
           },
         },
         suffixIcon: {
@@ -423,34 +267,8 @@ const textField = defineSlotRecipe({
           height: vars.sizeMedium.enabled.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeMedium.enabled.field.paddingX,
+            marginInlineEnd: vars.sizeMedium.enabled.root.paddingX,
           },
-        },
-        footer: {
-          gap: vars.sizeMedium.enabled.footer.gap,
-          paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
-          minHeight: vars.sizeMedium.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeMedium.enabled.description.fontSize,
-          lineHeight: vars.sizeMedium.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeMedium.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeMedium.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeMedium.enabled.errorIcon.size,
-          height: vars.sizeMedium.enabled.errorIcon.size,
-          marginRight: vars.sizeMedium.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeMedium.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeMedium.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeMedium.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeMedium.enabled.maxCharacterCount.lineHeight,
         },
       },
     },

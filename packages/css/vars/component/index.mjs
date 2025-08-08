@@ -23,6 +23,7 @@ export { vars as extendedActionSheet } from "./extended-action-sheet.mjs";
 export { vars as extendedFab } from "./extended-fab.mjs";
 export { vars as fab } from "./fab.mjs";
 export { vars as floatingActionButton } from "./floating-action-button.mjs";
+export { vars as formControl } from "./form-control.mjs";
 export { vars as helpBubble } from "./help-bubble.mjs";
 export { vars as identityPlaceholder } from "./identity-placeholder.mjs";
 export { vars as inlineBanner } from "./inline-banner.mjs";

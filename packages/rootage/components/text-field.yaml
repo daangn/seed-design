@@ -6,33 +6,7 @@ metadata:
 data:
   schema:
     slots:
-      header:
-        properties:
-          paddingBottom:
-            type: dimension
-          gap:
-            type: dimension
-      label:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-      indicator:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-      field:
+      root:
         properties:
           color:
             type: color
@@ -90,70 +64,10 @@ data:
             type: color
           size:
             type: dimension
-      footer:
-        properties:
-          gap:
-            type: dimension
-          paddingTop:
-            type: dimension
-          minHeight:
-            type: dimension
-      description:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-      errorMessage:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-      errorIcon:
-        properties:
-          size:
-            type: dimension
-          marginRight:
-            type: dimension
-      characterCount:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
-      maxCharacterCount:
-        properties:
-          color:
-            type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
-            type: dimension
   definitions:
     base:
       enabled:
-        label:
-          color: $color.fg.neutral
-          fontWeight: $font-weight.bold
-        indicator:
-          color: $color.fg.neutral
-          fontWeight: $font-weight.regular
-        field:
+        root:
           color: $color.bg.layer-default
           strokeWidth: 1px
           strokeColor: $color.stroke.field
@@ -169,34 +83,22 @@ data:
           color: $color.fg.neutral
         suffixIcon:
           color: $color.fg.neutral
-        description:
-          color: $color.fg.neutral-subtle
-          fontWeight: $font-weight.regular
-        errorMessage:
-          color: $color.fg.critical
-          fontWeight: $font-weight.regular
-        characterCount:
-          color: $color.fg.neutral
-          fontWeight: $font-weight.regular
-        maxCharacterCount:
-          color: $color.fg.neutral-subtle
-          fontWeight: $font-weight.regular
       focused:
-        field:
+        root:
           strokeColor: $color.stroke.field-focused
       invalid:
-        field:
+        root:
           color: $color.bg.critical-weak
           strokeColor: $color.stroke.critical
       invalid,focused:
-        field:
+        root:
           color: $color.bg.layer-default
           strokeColor: $color.stroke.field
       readonly:
-        field:
+        root:
           color: $color.bg.disabled
       disabled:
-        field:
+        root:
           color: $color.bg.disabled
         value:
           color: $color.fg.disabled
@@ -213,16 +115,7 @@ data:
 
     size=xlarge:
       enabled:
-        header:
-          paddingBottom: $dimension.x3
-          gap: $dimension.x1_5
-        label:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        indicator:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        field:
+        root:
           minHeight: 56px
           cornerRadius: $radius.r2_5
           gap: $dimension.x2
@@ -241,38 +134,10 @@ data:
           lineHeight: $line-height.t6
         suffixIcon:
           size: $dimension.x5
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: 20px
-        description:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorMessage:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorIcon:
-          size: $dimension.x4
-          marginRight: $dimension.x1
-        characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
 
     size=large:
       enabled:
-        header:
-          paddingBottom: $dimension.x3
-          gap: $dimension.x1_5
-        label:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        indicator:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        field:
+        root:
           minHeight: 52px
           cornerRadius: $radius.r2_5
           gap: $dimension.x2
@@ -291,37 +156,10 @@ data:
           lineHeight: $line-height.t5
         suffixIcon:
           size: $dimension.x5
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: 20px
-        description:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorMessage:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorIcon:
-          size: $dimension.x4
-          marginRight: $dimension.x1
-        characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
 
     size=medium:
       enabled:
-        header:
-          paddingBottom: $dimension.x3
-        label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        indicator:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        field:
+        root:
           minHeight: 40px
           cornerRadius: $radius.r2
           gap: $dimension.x1_5
@@ -340,22 +178,3 @@ data:
           lineHeight: $line-height.t4
         suffixIcon:
           size: $dimension.x4
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: $dimension.x4
-        description:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        errorMessage:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        errorIcon:
-          size: $dimension.x3_5
-          marginRight: $dimension.x1
-        characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2

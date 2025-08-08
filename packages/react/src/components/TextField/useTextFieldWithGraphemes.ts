@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { splitGraphemes } from "unicode-segmenter/grapheme";
+import { memoize } from "./memoize";
 
 interface UseTextFieldWithGraphemesOptions {
   maxGraphemes?: number;
@@ -13,6 +14,9 @@ interface UseTextFieldWithGraphemesOptions {
   }) => void;
 }
 
+const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
+const memoizedGetGraphemes = memoize(getGraphemes);
+
 interface UseTextFieldWithGraphemesReturn {
   inputProps: {
     value: string;
@@ -23,32 +27,8 @@ interface UseTextFieldWithGraphemesReturn {
     max: number;
   };
   graphemes: string[];
-  slicedValue: string;
-  slicedGraphemes: string[];
 }
 
-/**
- * Hook for managing text input with grapheme counting.
- * Provides both the raw value and sliced value, allowing users to control how to handle limits.
- *
- * @example
- * ```tsx
- * // Auto-slice at limit
- * const [value, setValue] = useState("");
- * const bio = useTextFieldWithGraphemes({ 
- *   maxGraphemes: 200,
- *   value,
- *   onValueChange: ({ slicedValue }) => setValue(slicedValue)
- * });
- *
- * // Or allow overflow with visual feedback
- * const bio = useTextFieldWithGraphemes({ 
- *   maxGraphemes: 200,
- *   value,
- *   onValueChange: ({ value }) => setValue(value)
- * });
- * ```
- */
 export function useTextFieldWithGraphemes({
   maxGraphemes,
   value: controlledValue,
@@ -60,27 +40,13 @@ export function useTextFieldWithGraphemes({
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
 
-  // Calculate graphemes from current value
-  const graphemes = useMemo(() => Array.from(splitGraphemes(value)), [value]);
-  
-  // Calculate sliced values
-  const slicedGraphemes = useMemo(
-    () => maxGraphemes ? graphemes.slice(0, maxGraphemes) : graphemes,
-    [graphemes, maxGraphemes]
-  );
-  const slicedValue = useMemo(
-    () => slicedGraphemes.join(""),
-    [slicedGraphemes]
-  );
+  const graphemes = useMemo(() => memoizedGetGraphemes(value), [value]);
 
-  // Handle change - provide both raw and sliced values
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const newValue = event.target.value;
-      const newGraphemes = Array.from(splitGraphemes(newValue));
-      const newSlicedGraphemes = maxGraphemes 
-        ? newGraphemes.slice(0, maxGraphemes)
-        : newGraphemes;
+      const newGraphemes = memoizedGetGraphemes(newValue);
+      const newSlicedGraphemes = maxGraphemes ? newGraphemes.slice(0, maxGraphemes) : newGraphemes;
       const newSlicedValue = newSlicedGraphemes.join("");
 
       // Update internal state if uncontrolled
@@ -111,7 +77,5 @@ export function useTextFieldWithGraphemes({
         }
       : undefined,
     graphemes,
-    slicedValue,
-    slicedGraphemes,
   };
 }

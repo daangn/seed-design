@@ -19,7 +19,7 @@ export interface TextFieldRootProps extends TextFieldVariantProps, TextField.Roo
 
 export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
   TextField.Root,
-  "field",
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -134,59 +134,3 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
     );
   },
 );
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldCharacterCountAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldCharacterCountArea = withContext<
-  HTMLDivElement,
-  TextFieldCharacterCountAreaProps
->(withStateProps(Primitive.div), "characterCountArea");
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldCharacterCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {
-  /**
-   * The current number of characters/graphemes
-   */
-  current: number;
-  /**
-   * The maximum allowed characters/graphemes
-   */
-  max: number;
-}
-
-export const TextFieldCharacterCount = forwardRef<HTMLSpanElement, TextFieldCharacterCountProps>(
-  ({ current, max, className, ...otherProps }, ref) => {
-    const classNames = useClassNames();
-    const exceeded = current > max;
-    
-    return (
-      <span
-        ref={ref}
-        className={clsx(classNames.characterCount, className)}
-        data-exceeded={exceeded}
-        {...otherProps}
-      >
-        {current}
-      </span>
-    );
-  },
-);
-TextFieldCharacterCount.displayName = "TextFieldCharacterCount";
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldMaxCharacterCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldMaxCharacterCount = withContext<
-  HTMLSpanElement,
-  TextFieldMaxCharacterCountProps
->(withStateProps(Primitive.span), "maxCharacterCount");

@@ -84,6 +84,9 @@
       "path": "/components/floating-action-button.json"
     },
     {
+      "path": "/components/form-control.json"
+    },
+    {
       "path": "/components/help-bubble.json"
     },
     {
