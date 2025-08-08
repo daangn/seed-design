@@ -18,9 +18,9 @@ const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
 const memoizedGetGraphemes = memoize(getGraphemes);
 
 interface UseTextFieldWithGraphemesReturn {
-  inputProps: {
+  textFieldRootProps: {
     value: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onValueChange: (value: string) => void;
   };
   counterProps?: {
     current: number;
@@ -42,9 +42,8 @@ export function useTextFieldWithGraphemes({
 
   const graphemes = useMemo(() => memoizedGetGraphemes(value), [value]);
 
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const newValue = event.target.value;
+  const handleValueChange = useCallback(
+    (newValue: string) => {
       const newGraphemes = memoizedGetGraphemes(newValue);
       const newSlicedGraphemes = maxGraphemes ? newGraphemes.slice(0, maxGraphemes) : newGraphemes;
       const newSlicedValue = newSlicedGraphemes.join("");
@@ -66,16 +65,16 @@ export function useTextFieldWithGraphemes({
   );
 
   return {
-    inputProps: {
+    textFieldRootProps: {
       value,
-      onChange: handleChange,
+      onValueChange: handleValueChange,
     },
-    counterProps: maxGraphemes
-      ? {
-          current: graphemes.length,
-          max: maxGraphemes,
-        }
-      : undefined,
+    ...(maxGraphemes && {
+      counterProps: {
+        current: graphemes.length,
+        max: maxGraphemes,
+      },
+    }),
     graphemes,
   };
 }

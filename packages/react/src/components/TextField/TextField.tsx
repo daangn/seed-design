@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
+import { useFormControlContext } from "@seed-design/react-form-control";
 import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
 import clsx from "clsx";
 import type * as React from "react";
@@ -9,17 +10,22 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { mergeProps } from "@seed-design/dom-utils";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
-const withStateProps = createWithStateProps([useTextFieldContext]);
+
+const withTextFieldStateProps = createWithStateProps([useTextFieldContext]);
+
+const withFormControlStateProps = createWithStateProps([
+  { useContext: useFormControlContext, strict: false },
+]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
 
-export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
-  TextField.Root,
-  "root",
+export const TextFieldRoot = withFormControlStateProps(
+  withProvider<HTMLDivElement, TextFieldRootProps>(TextField.Root, "root"),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -27,7 +33,7 @@ export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
 export interface TextFieldPrefixIconProps extends InternalIconProps {}
 
 export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIconProps>(
-  withStateProps(InternalIcon),
+  withTextFieldStateProps(InternalIcon),
   "prefixIcon",
 );
 
@@ -38,7 +44,7 @@ export interface TextFieldPrefixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixTextProps>(
-  withStateProps(Primitive.span),
+  withTextFieldStateProps(Primitive.span),
   "prefixText",
 );
 
@@ -47,7 +53,7 @@ export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixT
 export interface TextFieldSuffixIconProps extends InternalIconProps {}
 
 export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
-  withStateProps(InternalIcon),
+  withTextFieldStateProps(InternalIcon),
   "suffixIcon",
 );
 
@@ -58,7 +64,7 @@ export interface TextFieldSuffixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixTextProps>(
-  withStateProps(Primitive.span),
+  withTextFieldStateProps(Primitive.span),
   "suffixText",
 );
 
@@ -66,10 +72,31 @@ export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixT
 
 export interface TextFieldInputProps extends Omit<TextField.InputProps, "size"> {}
 
-export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
-  TextField.Input,
-  "value",
+// export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
+//   withTextFieldStateProps(TextField.Input),
+//   "value",
+// );
+
+export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
+  ({ className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const textFieldContext = useTextFieldContext();
+    const formControlContext = useFormControlContext({ strict: false });
+
+    const mergedProps = mergeProps(
+      textFieldContext.inputProps,
+      formControlContext ? formControlContext.inputProps : {},
+      otherProps,
+    );
+
+    // TODO: maybe warn users if formControlContext is present but props are given to TextFieldInput(.Root)
+
+    return (
+      <TextField.Input ref={ref} {...mergedProps} className={clsx(classNames.value, className)} />
+    );
+  },
 );
+TextFieldInput.displayName = "TextFieldInput";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -82,10 +109,17 @@ export interface TextFieldTextareaProps extends TextField.TextareaProps {
 }
 
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
-  (props, ref) => {
-    const { className, autoresize = true, ...otherProps } = props;
+  ({ className, autoresize = true, ...otherProps }, ref) => {
     const classNames = useClassNames();
-    const { value } = useTextFieldContext();
+    const { value, inputProps } = useTextFieldContext();
+
+    const formControlContext = useFormControlContext({ strict: false });
+
+    const mergedProps = mergeProps(
+      formControlContext ? formControlContext.inputProps : {},
+      inputProps,
+      otherProps,
+    );
 
     // referenced from React Spectrum
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -128,7 +162,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
     return (
       <TextField.Textarea
         ref={composeRefs(inputRef, ref)}
-        {...otherProps}
+        {...mergedProps}
         className={clsx(classNames.value, className)}
       />
     );
