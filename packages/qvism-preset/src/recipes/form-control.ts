@@ -45,7 +45,7 @@ const formControl = defineSlotRecipe({
     errorMessage: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "start",
 
       color: vars.base.enabled.errorMessage.color,
     },
@@ -61,6 +61,7 @@ const formControl = defineSlotRecipe({
     characterCount: {
       color: vars.base.enabled.characterCount.color,
       fontWeight: vars.base.enabled.characterCount.fontWeight,
+
       [pseudo("[data-empty]")]: {
         color: vars.base.enabled.maxCharacterCount.color,
       },

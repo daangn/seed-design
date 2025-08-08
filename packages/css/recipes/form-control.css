@@ -24,7 +24,7 @@
 .seed-form-control__errorMessage {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     color: var(--seed-color-fg-critical);
 }
 .seed-form-control__errorIcon {
