@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 0.1.10
+
+### Patch Changes
+
+- ef91c21: Bottom Sheet의 스타일 문제를 수정해요.
+
+  - Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
+
 ## 0.1.9
 
 ### Patch Changes
