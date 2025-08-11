@@ -10,15 +10,13 @@ export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SwitchProperties>(
     metadata.switch.key,
     ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
-
       const commonProps = {
         size: props.Size.value,
         label: props["Label#36578:0"].value,
-        ...(states.includes("Selected") && {
+        ...(props.Selected.value === "True" && {
           defaultChecked: true,
         }),
-        ...(states.includes("Disabled") && {
+        ...(props.State.value === "Disabled" && {
           disabled: true,
         }),
       };

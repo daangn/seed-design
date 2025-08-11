@@ -62,19 +62,19 @@ export const metadata = {
         "Small"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
         "Disabled"
-      ]
-    },
-    "Selected": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "False",
-        "True"
       ]
     },
     "Prefix Type": {

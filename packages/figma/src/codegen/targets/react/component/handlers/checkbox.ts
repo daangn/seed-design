@@ -12,21 +12,19 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CheckboxProperties>(
     metadata.checkbox.key,
     ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
-
       const commonProps = {
         label: props["Label#49990:0"].value,
         weight: camelCase(props.Weight.value),
         variant: camelCase(props.Shape.value),
         size: handleSizeProp(props.Size.value),
-        ...(states.includes("Selected") && {
+        ...(props.Selected.value === "True" && {
           defaultChecked: true,
         }),
-        ...(states.includes("Indeterminate") && {
+        ...(props.Selected.value === "Indeterminate" && {
           defaultChecked: true,
           indeterminate: true,
         }),
-        ...(states.includes("Disabled") && {
+        ...(props.State.value === "Disabled" && {
           disabled: true,
         }),
       };

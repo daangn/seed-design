@@ -26,18 +26,20 @@ export declare const metadata: {
         "Stronger"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False",
+        "Indeterminate"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Disabled",
-        "Indeterminate",
-        "Indeterminate-Pressed",
-        "Indeterminate-Disabled"
+        "Disabled"
       ]
     }
   }

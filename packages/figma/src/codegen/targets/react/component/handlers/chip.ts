@@ -37,7 +37,6 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
 
   return defineComponentHandler<ChipProperties>(metadata.chip.key, (node, traverse) => {
     const props = node.componentProperties;
-    const states = props.State.value.split("-");
 
     const prefix = match(props["Prefix Type"].value)
       .with("None", "Image", () => undefined)
@@ -73,7 +72,7 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
       variant: camelCase(props.Variant.value),
       size: handleSizeProp(props.Size.value),
       layout: props["Label#7185:0"].value ? "withText" : "iconOnly",
-      ...(states.includes("Disabled") && {
+      ...(props.State.value === "Disabled" && {
         disabled: true,
       }),
     };

@@ -17,8 +17,6 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
         .with("Radio", () => "RadioSelectBoxItem")
         .exhaustive();
 
-      const states = props.State.value.split("-");
-
       const commonProps = {
         label: props["Label#3635:0"].value,
         ...(props["Show Description#3033:0"].value && {
@@ -28,7 +26,7 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
           value: props["Label#3635:0"].value,
         }),
         ...(tag === "CheckSelectBox" &&
-          states.includes("Selected") && {
+          props.Selected.value === "True" && {
             defaultChecked: true,
           }),
       };
@@ -56,7 +54,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       const selectedSelectBox = selectBoxes.find((selectBox) =>
-        selectBox.componentProperties.State.value.split("-").includes("Selected"),
+        selectBox.componentProperties.Selected.value === "True",
       );
 
       // traverse the container like it's a frame
