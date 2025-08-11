@@ -134,9 +134,11 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
     onChange: props.onOpenChange,
   });
   const [arrowEl, setArrowEl] = useState<HTMLElement | null>(null);
-  const arrowWidth = arrowEl?.clientWidth ?? 0;
-  const arrowHeight = arrowEl?.clientHeight ?? 0;
-  const arrowOffset = arrowHeight;
+  const [arrowTipEl, setArrowTipEl] = useState<HTMLElement | null>(null);
+
+  const arrowTipWidth = arrowTipEl?.clientWidth ?? 0;
+  const arrowTipHeight = arrowTipEl?.clientHeight ?? 0;
+  const arrowTipOffset = arrowTipHeight;
 
   const { refs, context, floatingStyles, middlewareData, isPositioned } = useFloating({
     strategy: options.strategy,
@@ -145,7 +147,7 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
     onOpenChange: onOpenChange,
     whileElementsMounted: autoUpdate,
     middleware: [
-      getOffsetMiddleware(arrowOffset, options),
+      getOffsetMiddleware(arrowTipOffset, options),
       getFlipMiddleware(options),
       getShiftMiddleware(options),
       getArrowMiddleware(arrowEl, options),
@@ -175,12 +177,14 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
         ...refs,
         arrow: arrowEl,
         setArrow: setArrowEl,
+        arrowTip: arrowTipEl,
+        setArrowTip: setArrowTipEl,
       },
       rects: {
         ...middlewareData.rects,
-        arrow: {
-          width: arrowWidth,
-          height: arrowHeight,
+        arrowTip: {
+          width: arrowTipWidth,
+          height: arrowTipHeight,
         },
       },
       isPositioned,
@@ -195,6 +199,7 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
       onOpenChange,
       refs,
       arrowEl,
+      arrowTipEl,
       middlewareData.rects,
       context,
       side,
@@ -202,8 +207,8 @@ export function usePositionedFloating(props: UsePositionedFloatingProps) {
       floatingStyles,
       arrowStyles,
       isPositioned,
-      arrowWidth,
-      arrowHeight,
+      arrowTipWidth,
+      arrowTipHeight,
     ],
   );
 }

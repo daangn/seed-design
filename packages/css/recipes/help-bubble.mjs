@@ -15,6 +15,10 @@ const helpBubbleSlotNames = [
     "seed-help-bubble__arrow"
   ],
   [
+    "arrowTip",
+    "seed-help-bubble__arrowTip"
+  ],
+  [
     "title",
     "seed-help-bubble__title"
   ],
