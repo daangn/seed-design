@@ -121,6 +121,8 @@ export interface NormalizedInstanceNode extends NormalizedFrameTrait {
 
   componentSetKey?: string;
 
+  overrides?: FigmaRestSpec.InstanceNode["overrides"];
+
   children: NormalizedSceneNode[];
 }
 
