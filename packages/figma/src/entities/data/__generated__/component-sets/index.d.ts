@@ -40,6 +40,7 @@ export { metadata as selectBox } from "./select-box";
 export { metadata as skeleton } from "./skeleton";
 export { metadata as slider } from "./slider";
 export { metadata as snackbar } from "./snackbar";
+export { metadata as superscriptChild } from "./superscript-child";
 export { metadata as switch } from "./switch";
 export { metadata as tabs } from "./tabs";
 export { metadata as textField } from "./text-field";

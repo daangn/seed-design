@@ -13,13 +13,18 @@ export const metadata = {
         "32"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
-        "Disabled",
-        "Selected",
-        "Selected-Disabled"
+        "Disabled"
       ]
     },
     "Label Layout(Figma Only)": {
