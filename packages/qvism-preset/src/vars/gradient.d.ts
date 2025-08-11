@@ -5,3 +5,4 @@ export declare const shimmerMagic = "var(--seed-gradient-shimmer-magic)";
 export declare const glowMagicPressed = "var(--seed-gradient-glow-magic-pressed)";
 export declare const shimmerNeutral = "var(--seed-gradient-shimmer-neutral)";
 export declare const highlightMagic = "var(--seed-gradient-highlight-magic)";
+export declare const highlightMagicPressed = "var(--seed-gradient-highlight-magic-pressed)";

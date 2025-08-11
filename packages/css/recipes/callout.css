@@ -20,22 +20,25 @@
     cursor: pointer;
 }
 .seed-callout__content {
-    display: block;
     margin-inline-end: auto;
 }
 .seed-callout__title {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-bold);
-    margin-inline-end: 1ch;
+}
+.seed-callout__title::after {
+    content: "  ";
+    white-space: pre;
 }
 .seed-callout__description {
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-callout__description:not(:last-child) {
-    margin-inline-end: 1ch;
+.seed-callout__description:not(:last-child)::after {
+    content: "  ";
+    white-space: pre;
 }
 .seed-callout__link {
     font-family: inherit;

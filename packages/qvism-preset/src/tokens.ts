@@ -43,32 +43,32 @@ export const tokens = {
   --seed-duration-d4: 200ms;
   --seed-duration-d5: 250ms;
   --seed-duration-d6: 300ms;
-  --seed-font-size-t1: calc(0.6875rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t2: calc(0.75rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t3: calc(0.8125rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t4: calc(0.875rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t5: calc(1rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t6: calc(1.125rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t7: calc(1.25rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t8: calc(1.375rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t9: calc(1.5rem * var(--seed-font-size-multiplier));
-  --seed-font-size-t10: calc(1.625rem * var(--seed-font-size-multiplier));
+  --seed-font-size-t1: clamp(8.8px, calc(0.6875rem * var(--seed-font-size-multiplier)), 13.98px);
+  --seed-font-size-t2: clamp(9.6px, calc(0.75rem * var(--seed-font-size-multiplier)), 15.25px);
+  --seed-font-size-t3: clamp(10.4px, calc(0.8125rem * var(--seed-font-size-multiplier)), 16.52px);
+  --seed-font-size-t4: clamp(11.2px, calc(0.875rem * var(--seed-font-size-multiplier)), 17.79px);
+  --seed-font-size-t5: clamp(12.8px, calc(1rem * var(--seed-font-size-multiplier)), 20.33px);
+  --seed-font-size-t6: clamp(14.4px, calc(1.125rem * var(--seed-font-size-multiplier)), 22.87px);
+  --seed-font-size-t7: clamp(16px, calc(1.25rem * var(--seed-font-size-multiplier)), 25.41px);
+  --seed-font-size-t8: clamp(17.6px, calc(1.375rem * var(--seed-font-size-multiplier)), 27.95px);
+  --seed-font-size-t9: clamp(19.2px, calc(1.5rem * var(--seed-font-size-multiplier)), 30.49px);
+  --seed-font-size-t10: clamp(20.8px, calc(1.625rem * var(--seed-font-size-multiplier)), 33.04px);
   --seed-font-size-t2-static: 12px;
   --seed-font-size-t5-static: 16px;
   --seed-font-size-t6-static: 18px;
   --seed-font-weight-regular: 400;
   --seed-font-weight-medium: 500;
   --seed-font-weight-bold: 700;
-  --seed-line-height-t1: calc(0.9375rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t2: calc(1rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t3: calc(1.125rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t4: calc(1.1875rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t5: calc(1.375rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t6: calc(1.5rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t7: calc(1.6875rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t8: calc(1.875rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t9: calc(2rem * var(--seed-font-size-multiplier));
-  --seed-line-height-t10: calc(2.1875rem * var(--seed-font-size-multiplier));
+  --seed-line-height-t1: clamp(12px, calc(0.9375rem * var(--seed-font-size-multiplier)), 19.06px);
+  --seed-line-height-t2: clamp(12.8px, calc(1rem * var(--seed-font-size-multiplier)), 20.33px);
+  --seed-line-height-t3: clamp(14.4px, calc(1.125rem * var(--seed-font-size-multiplier)), 22.87px);
+  --seed-line-height-t4: clamp(15.2px, calc(1.1875rem * var(--seed-font-size-multiplier)), 24.14px);
+  --seed-line-height-t5: clamp(17.6px, calc(1.375rem * var(--seed-font-size-multiplier)), 27.95px);
+  --seed-line-height-t6: clamp(19.2px, calc(1.5rem * var(--seed-font-size-multiplier)), 30.49px);
+  --seed-line-height-t7: clamp(21.6px, calc(1.6875rem * var(--seed-font-size-multiplier)), 34.31px);
+  --seed-line-height-t8: clamp(24px, calc(1.875rem * var(--seed-font-size-multiplier)), 38.12px);
+  --seed-line-height-t9: clamp(25.6px, calc(2rem * var(--seed-font-size-multiplier)), 40.66px);
+  --seed-line-height-t10: clamp(28px, calc(2.1875rem * var(--seed-font-size-multiplier)), 44.47px);
   --seed-radius-r0_5: 2px;
   --seed-radius-r1: 4px;
   --seed-radius-r1_5: 6px;
@@ -263,6 +263,7 @@ export const tokens = {
   --seed-gradient-glow-magic-pressed: #fbf0f2 0%, #ffe8db 80%, #f5f2ef 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff66 46%, #ffffff66 54%, #ffffff00 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
+  --seed-gradient-highlight-magic-pressed: #e14f00 20%, #ae58bf 100%;
 }
 
 :root[data-seed-color-mode="system"][data-seed-user-color-scheme="dark"],
@@ -439,5 +440,6 @@ export const tokens = {
   --seed-gradient-glow-magic-pressed: #3e333e 0%, #51453e 80%, #434242 100%;
   --seed-gradient-shimmer-neutral: #ffffff00 0%, #ffffff1a 46%, #ffffff1a 54%, #ffffff00 100%;
   --seed-gradient-highlight-magic: #ff6600 20%, #d25aca 100%;
+  --seed-gradient-highlight-magic-pressed: #ff9e65 20%, #e89bee 100%;
 }`
 };

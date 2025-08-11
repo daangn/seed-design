@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma-extractor",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "bun build.mjs && tsc",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "test": "vitest"
   },
   "bin": {
     "figma-extractor": "./bin/index.mjs"
@@ -17,6 +18,7 @@
   "type": "module",
   "exports": {
     ".": {
+      "import": "./lib/index.mjs",
       "types": "./lib/index.d.ts"
     }
   },

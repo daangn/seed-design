@@ -114,6 +114,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: none;
     top: var(--seed-dimension-x5);
     right: var(--seed-dimension-x5);
     border-radius: var(--seed-radius-full);

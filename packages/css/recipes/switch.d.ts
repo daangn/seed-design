@@ -1,8 +1,8 @@
 declare interface SwitchVariant {
   /**
-  * @default medium
+  * @default 32
   */
-  size: "medium" | "small";
+  size: "16" | "24" | "32";
 }
 
 declare type SwitchVariantMap = {

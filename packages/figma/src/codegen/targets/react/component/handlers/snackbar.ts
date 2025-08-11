@@ -14,8 +14,8 @@ export const createSnackbarHandler = (_ctx: ComponentHandlerDeps) =>
       const commonProps = {
         message: props["Message#1528:4"].value,
         variant: camelCase(props.Variant.value),
-        ...(props["Show Action Button#1528:0"].value && {
-          actionLabel: props["Action Button Label#1528:8"].value,
+        ...(props["Show Action#1528:0"].value && {
+          actionLabel: props["Action Label#1528:8"].value,
         }),
       };
 

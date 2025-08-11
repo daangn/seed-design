@@ -14,7 +14,8 @@ export declare const metadata: {
       "variantOptions": [
         "Neutral",
         "Brand",
-        "Static White"
+        "Static White",
+        "Custom(inherit)"
       ]
     },
     "Value": {

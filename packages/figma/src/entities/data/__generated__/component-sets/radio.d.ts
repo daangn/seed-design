@@ -12,15 +12,19 @@ export declare const metadata: {
         "Large"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Selected",
-        "Selected-Pressed",
-        "Disabled",
-        "Disabled-Selected"
+        "Disabled"
       ]
     }
   }

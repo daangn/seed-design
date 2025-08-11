@@ -3,6 +3,9 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
 import { active, not, open, pseudo } from "../utils/pseudo";
 
+/**
+ * @deprecated Use `menu-sheet` instead.
+ */
 const actionSheet = defineSlotRecipe({
   name: "action-sheet",
   slots: [

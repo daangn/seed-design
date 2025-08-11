@@ -376,7 +376,7 @@ data:
     size=medium, layout=withText:
       enabled:
         root:
-          gap: $dimension.x1
+          gap: $dimension.x1_5
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
         prefixIcon:

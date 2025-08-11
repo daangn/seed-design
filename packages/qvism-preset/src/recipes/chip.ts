@@ -9,6 +9,7 @@ const chip = defineSlotRecipe({
   slots: ["root", "label", "prefixIcon", "suffixIcon", "prefixAvatar"],
   base: {
     root: {
+      position: "relative",
       display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
@@ -20,6 +21,7 @@ const chip = defineSlotRecipe({
       whiteSpace: "nowrap",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
+      fontFamily: "inherit",
       flexShrink: 0,
       lineHeight: 1,
 

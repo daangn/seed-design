@@ -16,11 +16,11 @@ import {
 import type { RGBA } from "@figma/rest-api-spec";
 import type { VariableService } from "../../entities/variable.service";
 
-export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   getFormattedValue: {
     frameFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
-    ) => string | TColor | undefined;
+    ) => string | TColor | TGradient | undefined;
     shapeFill: (
       node: NormalizedHasGeometryTrait & NormalizedIsLayerTrait,
     ) => string | TColor | undefined;
@@ -90,11 +90,12 @@ export interface ValueResolver<TColor, TDimension, TFontDimension, TFontWeight> 
   ) => string | undefined; // TODO: we might turn this into a generic; not sure yet
 }
 
-export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight> {
+export interface ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight> {
   variableService: VariableService;
   variableNameFormatter: (props: { slug: string[] }) => string;
   styleService: StyleService;
-  styleNameFormatter: (props: { slug: string[] }) => string;
+  textStyleNameFormatter: (props: { slug: string[] }) => string;
+  fillStyleResolver: (props: { slug: string[] }) => TGradient | undefined;
   rawValueFormatters: {
     color: (value: RGBA) => string | TColor;
     dimension: (value: number) => string | TDimension;
@@ -104,15 +105,17 @@ export interface ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeig
   shouldInferVariableName: boolean;
 }
 
-export function createValueResolver<TColor, TDimension, TFontDimension, TFontWeight>({
+export function createValueResolver<TColor, TGradient, TDimension, TFontDimension, TFontWeight>({
   variableService,
   variableNameFormatter,
   styleService,
-  styleNameFormatter,
+  textStyleNameFormatter,
+  fillStyleResolver,
   rawValueFormatters,
   shouldInferVariableName,
-}: ValueResolverDeps<TColor, TDimension, TFontDimension, TFontWeight>): ValueResolver<
+}: ValueResolverDeps<TColor, TGradient, TDimension, TFontDimension, TFontWeight>): ValueResolver<
   TColor,
+  TGradient,
   TDimension,
   TFontDimension,
   TFontWeight
@@ -141,16 +144,6 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     return getVariableName(inferred.key);
   }
 
-  function getStyleName(key: string) {
-    const slug = styleService.getSlug(key);
-
-    if (!slug) {
-      return undefined;
-    }
-
-    return styleNameFormatter({ slug });
-  }
-
   function processColor(
     key: string | undefined,
     value: RGBA | undefined,
@@ -165,6 +158,16 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     }
 
     return undefined;
+  }
+
+  function processFillStyle(key: string) {
+    const slug = styleService.getSlug(key);
+
+    if (!slug) {
+      return undefined;
+    }
+
+    return fillStyleResolver({ slug });
   }
 
   function processDimension(
@@ -229,6 +232,7 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
 
   const getFormattedValue: ValueResolver<
     TColor,
+    TGradient,
     TDimension,
     TFontDimension,
     TFontWeight
@@ -264,7 +268,13 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
     itemSpacing: (node) =>
       processDimension(node.boundVariables?.itemSpacing?.id, node.itemSpacing, "GAP"),
     frameFill: (node) =>
-      processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "FRAME_FILL"),
+      node.fillStyleKey
+        ? processFillStyle(node.fillStyleKey)
+        : processColor(
+            getFirstFillVariable(node)?.id,
+            getFirstSolidFill(node)?.color,
+            "FRAME_FILL",
+          ),
     shapeFill: (node) =>
       processColor(getFirstFillVariable(node)?.id, getFirstSolidFill(node)?.color, "SHAPE_FILL"),
     textFill: (node) =>
@@ -312,11 +322,15 @@ export function createValueResolver<TColor, TDimension, TFontDimension, TFontWei
   };
 
   function getTextStyleValue(node: NormalizedTypePropertiesTrait & NormalizedIsLayerTrait) {
-    if (node.textStyleKey) {
-      return getStyleName(node.textStyleKey);
+    if (!node.textStyleKey) return undefined;
+
+    const slug = styleService.getSlug(node.textStyleKey);
+
+    if (!slug) {
+      return undefined;
     }
 
-    return undefined;
+    return textStyleNameFormatter({ slug });
   }
 
   return {

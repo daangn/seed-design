@@ -9,7 +9,9 @@ import { createElement } from "react";
 
 const DeprecatedBadge = () => {
   return (
-    <span className="px-1.5 py-0.5 text-xs bg-red-100 text-red-800 rounded ml-1">Deprecated</span>
+    <span className="px-1.5 py-0.5 text-xs bg-red-100 text-red-800 rounded ml-1 flex-none">
+      Deprecated
+    </span>
   );
 };
 
@@ -41,10 +43,10 @@ async function transformPageTreeWithBadges(
           return {
             ...node,
             name: (
-              <div className="flex items-center">
+              <span className="flex items-center">
                 <span>{node.name}</span>
                 <DeprecatedBadge />
-              </div>
+              </span>
             ),
           };
         }

@@ -8,6 +8,10 @@ export const vars = {
       "thumb": {
         "color": "var(--seed-color-palette-static-white)",
         "cornerRadius": "var(--seed-radius-full)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-neutral)",
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     },
     "enabledSelected": {
@@ -16,15 +20,19 @@ export const vars = {
       }
     },
     "disabled": {
-      "root": {
+      "control": {
         "opacity": "0.38"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   },
-  "sizeMedium": {
+  "size32": {
     "enabled": {
       "root": {
-        "height": "32px"
+        "height": "32px",
+        "gap": "var(--seed-dimension-x2_5)"
       },
       "control": {
         "height": "32px",
@@ -36,14 +44,41 @@ export const vars = {
         "height": "28px",
         "width": "28px",
         "shadow": "0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f"
+      },
+      "label": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
       }
     }
   },
-  "sizeSmall": {
+  "size24": {
     "enabled": {
       "root": {
         "height": "24px",
         "gap": "var(--seed-dimension-x2)"
+      },
+      "control": {
+        "height": "24px",
+        "width": "38px",
+        "paddingX": "2px",
+        "paddingY": "2px"
+      },
+      "thumb": {
+        "height": "20px",
+        "width": "20px",
+        "shadow": "0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f"
+      },
+      "label": {
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      }
+    }
+  },
+  "size16": {
+    "enabled": {
+      "root": {
+        "height": "24px",
+        "gap": "var(--seed-dimension-x1_5)"
       },
       "control": {
         "height": "16px",
@@ -56,9 +91,8 @@ export const vars = {
         "width": "12px"
       },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontSize": "var(--seed-font-size-t3)",
+        "lineHeight": "var(--seed-line-height-t3)"
       }
     }
   }

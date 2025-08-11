@@ -1,25 +1,30 @@
 import type { ComponentHandler } from "@/codegen/core";
 import type { NormalizedInstanceNode } from "@/normalizer";
 import type { ComponentHandlerDeps } from "./deps.interface";
-import { createActionButtonHandler } from "./handlers/action-button";
-import { createActionChipHandler } from "./handlers/action-chip";
-import { createActionSheetHandler } from "./handlers/action-sheet";
+
+import {
+  createActionButtonHandler,
+  createActionButtonGhostHandler,
+} from "./handlers/action-button";
+import { createAlertDialogHandler } from "./handlers/alert-dialog";
 import { createAppBarHandler } from "./handlers/app-bar";
 import { createAvatarHandler } from "./handlers/avatar";
 import { createAvatarStackHandler } from "./handlers/avatar-stack";
 import { createBadgeHandler } from "./handlers/badge";
+import { createBottomSheetHandler } from "./handlers/bottom-sheet";
 import { createCalloutHandler } from "./handlers/callout";
 import { createCheckboxHandler } from "./handlers/checkbox";
-import { createChipTabsHandler } from "./handlers/chip-tabs";
-import { createControlChipHandler } from "./handlers/control-chip";
+import { createChipHandler } from "./handlers/chip";
+import { createContextualFloatingButtonHandler } from "./handlers/contextual-floating-button";
+import { createDividerHandler } from "./handlers/divider";
 import { createErrorStateHandler } from "./handlers/error-state";
-import { createExtendedActionSheetHandler } from "./handlers/extended-action-sheet";
-import { createExtendedFabHandler } from "./handlers/extended-fab";
-import { createFabHandler } from "./handlers/fab";
+import { createFloatingActionButtonHandler } from "./handlers/floating-action-button";
 import { createHelpBubbleHandler } from "./handlers/help-bubble";
 import { createIdentityPlaceholderHandler } from "./handlers/identity-placeholder";
 import { createInlineBannerHandler } from "./handlers/inline-banner";
 import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
+import { createMannerTempHandler } from "./handlers/manner-temp";
+import { createMenuSheetHandler } from "./handlers/menu-sheet";
 import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
@@ -28,8 +33,6 @@ import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/
 import { createSkeletonHandler } from "./handlers/skeleton";
 import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchHandler } from "./handlers/switch";
-import { createTabsHandler } from "./handlers/tabs";
-import { createTextButtonHandler } from "./handlers/text-button";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 
@@ -46,25 +49,27 @@ export function bindComponentHandler<T extends NormalizedInstanceNode["component
 }
 
 export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> = [
+  createActionButtonGhostHandler,
   createActionButtonHandler,
-  createActionChipHandler,
-  createActionSheetHandler,
+  createAlertDialogHandler,
   createAppBarHandler,
   createAvatarHandler,
   createAvatarStackHandler,
   createBadgeHandler,
+  createBottomSheetHandler,
   createCalloutHandler,
   createCheckboxHandler,
-  createChipTabsHandler,
-  createControlChipHandler,
+  createChipHandler,
+  createContextualFloatingButtonHandler,
+  createDividerHandler,
   createErrorStateHandler,
-  createExtendedActionSheetHandler,
-  createExtendedFabHandler,
-  createFabHandler,
+  createFloatingActionButtonHandler,
   createHelpBubbleHandler,
   createIdentityPlaceholderHandler,
   createInlineBannerHandler,
   createMannerTempBadgeHandler,
+  createMannerTempHandler,
+  createMenuSheetHandler,
   createMultilineTextFieldHandler,
   createProgressCircleHandler,
   createReactionButtonHandler,
@@ -74,8 +79,6 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,
-  createTabsHandler,
-  createTextButtonHandler,
   createTextFieldHandler,
   createToggleButtonHandler,
 ];

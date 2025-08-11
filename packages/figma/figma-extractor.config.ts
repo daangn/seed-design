@@ -1,39 +1,25 @@
-import type {
-  Config,
-  GenerateComponentMetadataOptions,
-  GenerateComponentSetMetadataOptions,
-} from "@seed-design/figma-extractor";
+import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
 
-const transform: GenerateComponentMetadataOptions["transform"] &
-  GenerateComponentSetMetadataOptions["transform"] = ({
-  name,
-  key,
-  componentPropertyDefinitions,
-}) => ({
-  name,
-  key,
-  ...(componentPropertyDefinitions && {
-    componentPropertyDefinitions: Object.fromEntries(
-      Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
+const config = createConfig({
+  pipelines: {
+    "component-sets": createPipeline()
+      .source(sources.componentSets)
+      .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .transform(({ name, key, componentPropertyDefinitions }) => ({
+        name,
         key,
-        rest,
-      ]),
-    ),
-  }),
-});
-
-const config: Config = {
-  data: {
-    components: {
-      filter: ({ name, componentSetId }) =>
-        (name.startsWith("🔵 ") || name.startsWith("🟢 ")) && componentSetId === undefined,
-      transform,
-    },
-    componentSets: {
-      filter: ({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "),
-      transform,
-    },
+        ...(componentPropertyDefinitions && {
+          componentPropertyDefinitions: Object.fromEntries(
+            Object.entries(componentPropertyDefinitions).map(([key, { defaultValue, ...rest }]) => [
+              key,
+              rest,
+            ]),
+          ),
+        }),
+      }))
+      .write(writers.default),
   },
-};
+});
 
 export default config;

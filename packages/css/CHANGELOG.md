@@ -1,5 +1,81 @@
 # @seed-design/css
 
+## 0.1.10
+
+### Patch Changes
+
+- ef91c21: Bottom Sheet의 스타일 문제를 수정해요.
+
+  - Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- ac35731: Chip.Root `position: relative` 속성 추가
+
+  - 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
+
+- f9041e9: `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+  - `span` 대신 `div`를 렌더링합니다.
+  - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+## 0.1.8
+
+### Patch Changes
+
+- 609b8f3: iOS의 `더 큰 텍스트` 기능에 제한을 둡니다.
+
+  - iOS는 7단계(XS ~ XXXL)의 텍스트 크기 조절 이외에도, 보다 더 큰 텍스트를 위한 `더 큰 텍스트` 기능을 제공합니다.
+  - iOS 네이티브에서는 `더 큰 텍스트`의 UI 레이아웃 대응이 어렵다고 결정하여, XXXL(135%) 이상의 텍스트 크기 조절을 지원하지 않습니다.
+  - 웹뷰도 iOS와 동일한 제한을 위한 기능이 추가되었습니다.
+
+## 0.1.7
+
+### Patch Changes
+
+- 4afe80b: MultilineTextField의 스타일 문제를 수정합니다.
+
+  - 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
+## 0.1.6
+
+### Patch Changes
+
+- 235147d: action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- 3889eb6: Inline Banner의 스타일 문제를 수정합니다.
+
+  - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+  - `title`과 `description` 간의 간격을 조정합니다.
+  - 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+  Callout의 스타일 문제를 수정합니다.
+
+  - `title`과 `description` 간의 간격을 조정합니다.
+
+  Chip의 스타일 문제를 수정합니다.
+
+  - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
 ## 0.1.4
 
 ### Patch Changes
