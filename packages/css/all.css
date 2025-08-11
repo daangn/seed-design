@@ -1646,6 +1646,7 @@
   background: var(--seed-color-bg-neutral-weak);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral);
+  border: none;
   justify-content: center;
   align-items: center;
   width: 28px;
