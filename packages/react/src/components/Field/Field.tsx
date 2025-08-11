@@ -1,111 +1,98 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { FormControl, useFormControlContext } from "@seed-design/react-form-control";
+import { Field, useFieldContext } from "@seed-design/react-field";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { formControl, type FormControlVariantProps } from "@seed-design/css/recipes/form-control";
+import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(formControl);
-const withStateProps = createWithStateProps([useFormControlContext]);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(field);
+const withStateProps = createWithStateProps([useFieldContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlRootProps extends FormControlVariantProps, FormControl.RootProps {}
+export interface FieldRootProps extends FieldVariantProps, Field.RootProps {}
 
-export const FormControlRoot = withProvider<HTMLDivElement, FormControlRootProps>(
-  FormControl.Root,
-  "root",
-);
+export const FieldRoot = withProvider<HTMLDivElement, FieldRootProps>(Field.Root, "root");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface FieldHeaderProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const FormControlHeader = withContext<HTMLDivElement, FormControlHeaderProps>(
+export const FieldHeader = withContext<HTMLDivElement, FieldHeaderProps>(
   withStateProps(Primitive.div),
   "header",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlLabelProps extends FormControl.LabelProps {}
+export interface FieldLabelProps extends Field.LabelProps {}
 
-export const FormControlLabel = withContext<HTMLLabelElement, FormControlLabelProps>(
-  withStateProps(FormControl.Label),
+export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(
+  withStateProps(Field.Label),
   "label",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlIndicatorProps
+export interface FieldIndicatorProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FormControlIndicator = forwardRef<HTMLSpanElement, FormControlIndicatorProps>(
-  (props, ref) => {
-    const { className, ...otherProps } = props;
-    const classNames = useClassNames();
+export const FieldIndicator = forwardRef<HTMLSpanElement, FieldIndicatorProps>((props, ref) => {
+  const { className, ...otherProps } = props;
+  const classNames = useClassNames();
 
-    return (
-      <>
-        <Primitive.span> </Primitive.span>
-        <Primitive.span
-          ref={ref}
-          className={clsx(classNames.indicator, className)}
-          {...otherProps}
-        />
-      </>
-    );
-  },
-);
+  return (
+    <>
+      <Primitive.span> </Primitive.span>
+      <Primitive.span ref={ref} className={clsx(classNames.indicator, className)} {...otherProps} />
+    </>
+  );
+});
 
 ////////////////////////////////////////////////////////////////////////////////////
-export interface FormControlFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+export interface FieldFooterProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const FormControlFooter = withContext<HTMLDivElement, FormControlFooterProps>(
+export const FieldFooter = withContext<HTMLDivElement, FieldFooterProps>(
   withStateProps(Primitive.div),
   "footer",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlDescriptionProps extends FormControl.DescriptionProps {}
+export interface FieldDescriptionProps extends Field.DescriptionProps {}
 
-export const FormControlDescription = withContext<HTMLSpanElement, FormControlDescriptionProps>(
-  FormControl.Description,
+export const FieldDescription = withContext<HTMLSpanElement, FieldDescriptionProps>(
+  Field.Description,
   "description",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlErrorMessageProps extends FormControl.ErrorMessageProps {}
+export interface FieldErrorMessageProps extends Field.ErrorMessageProps {}
 
-export const FormControlErrorMessage = withContext<HTMLSpanElement, FormControlErrorMessageProps>(
-  FormControl.ErrorMessage,
+export const FieldErrorMessage = withContext<HTMLSpanElement, FieldErrorMessageProps>(
+  Field.ErrorMessage,
   "errorMessage",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlErrorIconProps extends InternalIconProps {}
+export interface FieldErrorIconProps extends InternalIconProps {}
 
 // TODO: 필요없는 경우, withStateProps는 빼는 게 좋을 것 같음
 
-export const FormControlErrorIcon = withContext<SVGSVGElement, FormControlErrorIconProps>(
+export const FieldErrorIcon = withContext<SVGSVGElement, FieldErrorIconProps>(
   withStateProps(InternalIcon),
   "errorIcon",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FormControlCharacterCountProps
+export interface FieldCharacterCountProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -118,7 +105,7 @@ export interface FormControlCharacterCountProps
   max: number;
 }
 
-export const FormControlCharacterCount = forwardRef<HTMLDivElement, FormControlCharacterCountProps>(
+export const FieldCharacterCount = forwardRef<HTMLDivElement, FieldCharacterCountProps>(
   ({ current, max, className, ...otherProps }, ref) => {
     const classNames = useClassNames();
 

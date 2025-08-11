@@ -23,7 +23,7 @@ export * from "./Fab";
 export * from "./Flex";
 export * from "./Float";
 export * from "./FloatingActionButton";
-export * from "./FormControl";
+export * from "./Field";
 export * from "./HelpBubble";
 export * from "./Icon";
 export * from "./IdentityPlaceholder";

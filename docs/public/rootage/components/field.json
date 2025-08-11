@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "form-control",
-    "name": "Form Control"
+    "id": "field",
+    "name": "Field"
   },
   "data": {
-    "id": "form-control",
-    "name": "Form Control",
+    "id": "field",
+    "name": "Field",
     "schema": {
       "slots": {
         "header": {
@@ -147,6 +147,13 @@
             "medium": {}
           },
           "defaultValue": "xlarge"
+        },
+        "orientation": {
+          "values": {
+            "horizontal": {},
+            "vertical": {}
+          },
+          "defaultValue": "horizontal"
         }
       }
     },
@@ -548,6 +555,18 @@
             }
           }
         ]
+      },
+      {
+        "variants": {
+          "orientation": "horizontal"
+        },
+        "definitions": []
+      },
+      {
+        "variants": {
+          "orientation": "vertical"
+        },
+        "definitions": []
       }
     ]
   }

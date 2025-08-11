@@ -14,7 +14,7 @@ import {
   TextFieldLabel,
   TextFieldRoot,
   type TextFieldRootProps,
-} from "./FormControl";
+} from "./Field";
 
 afterEach(cleanup);
 

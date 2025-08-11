@@ -1,9 +1,9 @@
-import { formControl as vars } from "../vars/component";
+import { field as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 
-const formControl = defineSlotRecipe({
-  name: "form-control",
+const field = defineSlotRecipe({
+  name: "field",
   slots: [
     "root",
     "header",
@@ -20,7 +20,6 @@ const formControl = defineSlotRecipe({
   base: {
     root: {
       display: "flex",
-      flexDirection: "column",
 
       width: "100%",
     },
@@ -73,6 +72,7 @@ const formControl = defineSlotRecipe({
   },
   defaultVariants: {
     size: "medium",
+    orientation: "vertical",
   },
   variants: {
     size: {
@@ -196,7 +196,20 @@ const formControl = defineSlotRecipe({
         },
       },
     },
+    orientation: {
+      horizontal: {
+        root: {
+          flexDirection: "row",
+          alignItems: "center",
+        },
+      },
+      vertical: {
+        root: {
+          flexDirection: "column",
+        },
+      },
+    },
   },
 });
 
-export default formControl;
+export default field;

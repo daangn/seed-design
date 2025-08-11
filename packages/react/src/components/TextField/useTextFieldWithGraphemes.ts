@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { splitGraphemes } from "unicode-segmenter/grapheme";
 import { memoize } from "./memoize";
 
-interface UseTextFieldWithGraphemesOptions {
+interface UseTextFieldWithGraphemesParams {
   maxGraphemes?: number;
   value?: string;
   defaultValue?: string;
@@ -17,24 +17,14 @@ interface UseTextFieldWithGraphemesOptions {
 const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
 const memoizedGetGraphemes = memoize(getGraphemes);
 
-interface UseTextFieldWithGraphemesReturn {
-  textFieldRootProps: {
-    value: string;
-    onValueChange: (value: string) => void;
-  };
-  counterProps?: {
-    current: number;
-    max: number;
-  };
-  graphemes: string[];
-}
+export type UseTextFieldWithGraphemesReturn = ReturnType<typeof useTextFieldWithGraphemes>;
 
 export function useTextFieldWithGraphemes({
   maxGraphemes,
   value: controlledValue,
   defaultValue = "",
   onValueChange,
-}: UseTextFieldWithGraphemesOptions = {}): UseTextFieldWithGraphemesReturn {
+}: UseTextFieldWithGraphemesParams = {}) {
   // Handle controlled/uncontrolled state
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = controlledValue !== undefined;

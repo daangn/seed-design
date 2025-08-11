@@ -475,8 +475,8 @@
         "react-dom": ">=18.0.0",
       },
     },
-    "packages/react-headless/form-control": {
-      "name": "@seed-design/react-form-control",
+    "packages/react-headless/field": {
+      "name": "@seed-design/react-field",
       "version": "0.0.4",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
@@ -2090,7 +2090,7 @@
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 
-    "@seed-design/react-form-control": ["@seed-design/react-form-control@workspace:packages/react-headless/form-control"],
+    "@seed-design/react-field": ["@seed-design/react-field@workspace:packages/react-headless/field"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 
@@ -5342,7 +5342,7 @@
 
     "@seed-design/docs/zod": ["zod@4.0.17", "", {}, "sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ=="],
 
-    "@seed-design/react-form-control/unicode-segmenter": ["unicode-segmenter@0.13.2", "", {}, "sha512-yMZ3lyVp1T5f/cLbeCw6dRuWzjMZcz1UK0cLtEN+SOQQBzqTTcJyBe6UKuL+6Xz5sktwchVBM8Q2A++4mXrihw=="],
+    "@seed-design/react-field/unicode-segmenter": ["unicode-segmenter@0.13.2", "", {}, "sha512-yMZ3lyVp1T5f/cLbeCw6dRuWzjMZcz1UK0cLtEN+SOQQBzqTTcJyBe6UKuL+6Xz5sktwchVBM8Q2A++4mXrihw=="],
 
     "@seed-design/react-text-field/unicode-segmenter": ["unicode-segmenter@0.13.2", "", {}, "sha512-yMZ3lyVp1T5f/cLbeCw6dRuWzjMZcz1UK0cLtEN+SOQQBzqTTcJyBe6UKuL+6Xz5sktwchVBM8Q2A++4mXrihw=="],
 

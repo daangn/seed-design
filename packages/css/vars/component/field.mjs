@@ -1,4 +1,4 @@
-export declare const vars: {
+export const vars = {
   "base": {
     "enabled": {
       "label": {
@@ -148,5 +148,7 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t2)"
       }
     }
-  }
+  },
+  "orientationHorizontal": {},
+  "orientationVertical": {}
 }

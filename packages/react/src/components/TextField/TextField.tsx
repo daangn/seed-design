@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
-import { useFormControlContext } from "@seed-design/react-form-control";
+import { useFieldContext } from "@seed-design/react-field";
 import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
 import clsx from "clsx";
 import type * as React from "react";
@@ -17,7 +17,7 @@ const { withProvider, withContext, useClassNames } = createSlotRecipeContext(tex
 const withTextFieldStateProps = createWithStateProps([useTextFieldContext]);
 
 const withFormControlStateProps = createWithStateProps([
-  { useContext: useFormControlContext, strict: false },
+  { useContext: useFieldContext, strict: false },
 ]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
   ({ className, ...otherProps }, ref) => {
     const classNames = useClassNames();
     const textFieldContext = useTextFieldContext();
-    const formControlContext = useFormControlContext({ strict: false });
+    const formControlContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
       textFieldContext.inputProps,
@@ -113,7 +113,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
     const classNames = useClassNames();
     const { value, inputProps } = useTextFieldContext();
 
-    const formControlContext = useFormControlContext({ strict: false });
+    const formControlContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
       formControlContext ? formControlContext.inputProps : {},

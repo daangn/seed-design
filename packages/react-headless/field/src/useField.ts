@@ -2,7 +2,7 @@ import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
-export function useFormControlState() {
+export function useFieldState() {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -45,7 +45,7 @@ export function useFormControlState() {
   };
 }
 
-export interface UseFormControlProps {
+export interface UseFieldProps {
   /**
    * @default false
    */
@@ -66,9 +66,9 @@ export interface UseFormControlProps {
   name?: string;
 }
 
-export type UseFormControlReturn = ReturnType<typeof useFormControl>;
+export type UseFieldReturn = ReturnType<typeof useField>;
 
-export function useFormControl(props: UseFormControlProps) {
+export function useField(props: UseFieldProps) {
   const id = useId();
   const { disabled = false, invalid = false, readOnly = false, required = false } = props;
 
@@ -83,7 +83,7 @@ export function useFormControl(props: UseFormControlProps) {
     setIsActive,
     setIsFocused,
     setIsFocusVisible,
-  } = useFormControlState();
+  } = useFieldState();
 
   const ariaDescribedBy =
     [

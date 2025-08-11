@@ -15,6 +15,9 @@ export {
   type TextFieldSuffixTextProps,
 } from "./TextField";
 
-export { useTextFieldWithGraphemes } from "./useTextFieldWithGraphemes";
+export {
+  useTextFieldWithGraphemes,
+  type UseTextFieldWithGraphemesReturn,
+} from "./useTextFieldWithGraphemes";
 
 export * as TextField from "./TextField.namespace";

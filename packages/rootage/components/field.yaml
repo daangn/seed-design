@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: form-control
-  name: Form Control
+  id: field
+  name: Field
 data:
   schema:
     slots:
@@ -199,3 +199,7 @@ data:
         maxCharacterCount:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
+
+    orientation=horizontal: {}
+    
+    orientation=vertical: {}

@@ -1,6 +1,7 @@
 .seed-text-field__root {
     display: flex;
     width: 100%;
+    align-items: center;
     background-color: var(--seed-color-bg-layer-default);
     border-style: solid;
     border-width: 1px;
