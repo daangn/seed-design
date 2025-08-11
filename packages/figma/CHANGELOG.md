@@ -1,5 +1,16 @@
 # @seed-design/figma
 
+## 0.1.10
+
+### Patch Changes
+
+- aa40f66: Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+  - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
 ## 0.1.9
 
 ### Patch Changes
