@@ -37,7 +37,21 @@ export function createInstanceTransformer({
       : componentHandlers[componentKey];
 
     if (componentHandler) {
-      return componentHandler.transform(node, traverse);
+      const handled = componentHandler.transform(node, traverse);
+
+      if (node.overrides && node.overrides.length > 0) {
+        const overriddenFields = node.overrides.flatMap(({ overriddenFields }) => overriddenFields);
+
+        return {
+          ...handled,
+          meta: {
+            ...handled.meta,
+            comment: `${handled.meta.comment ? `${handled.meta.comment} ` : ""}오버라이드된 필드: ${overriddenFields.join(", ")}`,
+          },
+        };
+      }
+
+      return handled;
     }
 
     return frameTransformer(node, traverse);
