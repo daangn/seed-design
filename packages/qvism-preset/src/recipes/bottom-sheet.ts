@@ -125,6 +125,7 @@ const bottomSheet = defineSlotRecipe({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      border: "none",
 
       top: vars.base.enabled.closeButton.fromTop,
       right: vars.base.enabled.closeButton.fromRight,
