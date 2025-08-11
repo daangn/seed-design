@@ -67,6 +67,7 @@ export function createContainerLayoutPropsConverter(
         match(layoutMode)
           .with("HORIZONTAL", () => "row" as const)
           .with("VERTICAL", () => "column" as const)
+          .with("GRID", () => undefined)
           .with("NONE", () => undefined)
           .with(undefined, () => undefined)
           .exhaustive(),
