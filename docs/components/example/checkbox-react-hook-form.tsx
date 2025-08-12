@@ -55,12 +55,12 @@ export default function CheckboxReactHookForm() {
         <ActionButton
           type="button"
           variant="neutralWeak"
-          flexGrow={1}
+          flexGrow
           onClick={() => setValue("mango", true)}
         >
           mango 선택
         </ActionButton>
-        <ActionButton type="submit" flexGrow={1}>
+        <ActionButton type="submit" flexGrow>
           제출
         </ActionButton>
       </HStack>

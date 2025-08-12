@@ -5,7 +5,7 @@ import { HStack } from "@seed-design/react";
 
 export function ArticleAuthor({ author }: { author: string }) {
   return (
-    <HStack gap="x1_5" align="center" flexGrow={1}>
+    <HStack gap="x1_5" align="center" flexGrow>
       <Avatar
         fallback={<IdentityPlaceholder identity="person" />}
         size="20"

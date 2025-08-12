@@ -16,7 +16,7 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
    * Shorthand for `flexWrap`.
    * If true, flex-wrap will be set to `wrap`.
    */
-  wrap?: BoxProps["flexWrap"] | true;
+  wrap?: BoxProps["flexWrap"];
 
   /**
    * Shorthand for `alignItems`.
@@ -32,7 +32,7 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
    * Shorthand for `flexGrow`.
    * If true, flex-grow will be set to `1`.
    */
-  grow?: BoxProps["flexGrow"] | true;
+  grow?: BoxProps["flexGrow"];
 
   /**
    * Shorthand for `flexShrink`.
@@ -48,10 +48,10 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>((props, ref) => 
       ref={ref}
       display="flex"
       flexDirection={direction}
-      flexWrap={wrap === true ? "wrap" : wrap}
+      flexWrap={wrap}
       alignItems={align}
       justifyContent={justify}
-      flexGrow={grow === true ? 1 : grow}
+      flexGrow={grow}
       flexShrink={shrink}
       {...rest}
     />
