@@ -60,13 +60,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
-        if: steps.changesets.outputs.published == 'false'
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: changeset-release/${{ github.ref_name }}
 
       - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
-        if: steps.changesets.outputs.published == 'false'
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
         run: |
           bun install --frozen-lockfile
           bun rootage:build
