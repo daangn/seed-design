@@ -427,9 +427,15 @@ export interface StyleProps {
 
   zIndex?: number | (string & {});
 
-  flexGrow?: 0 | 1 | (number & {});
+  /**
+   * If true, flex-grow will be set to `1`.
+   */
+  flexGrow?: 0 | 1 | (number & {}) | true;
 
-  flexShrink?: 0 | (number & {});
+  /**
+   * If true, flex-shrink will be set to `1`.
+   */
+  flexShrink?: 0 | (number & {}) | true;
 
   // Flex
   flexDirection?:
@@ -440,7 +446,10 @@ export interface StyleProps {
     | "rowReverse" // @deprecated Use `row-reverse` instead.
     | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
-  flexWrap?: "wrap" | "wrap-reverse" | "nowrap";
+  /**
+   * If true, flex-wrap will be set to `wrap`.
+   */
+  flexWrap?: "wrap" | "wrap-reverse" | "nowrap" | true;
 
   justifyContent?:
     | "flex-start"
@@ -619,10 +628,10 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-overflow-x": overflowX,
       "--seed-box-overflow-y": overflowY,
       "--seed-box-z-index": zIndex,
-      "--seed-box-flex-grow": flexGrow,
-      "--seed-box-flex-shrink": flexShrink,
+      "--seed-box-flex-grow": flexGrow === true ? 1 : flexGrow,
+      "--seed-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
       "--seed-box-flex-direction": handleFlexDirection(flexDirection),
-      "--seed-box-flex-wrap": flexWrap,
+      "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
       "--seed-box-justify-content": handleJustifyContent(justifyContent),
       "--seed-box-align-items": handleAlignItems(alignItems),
       "--seed-box-align-content": handleAlignItems(alignContent),
