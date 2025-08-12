@@ -427,8 +427,14 @@ export interface StyleProps {
 
   zIndex?: number | (string & {});
 
+  /**
+   * If true, flex-grow will be set to `1`.
+   */
   flexGrow?: 0 | 1 | (number & {}) | true;
 
+  /**
+   * If true, flex-shrink will be set to `1`.
+   */
   flexShrink?: 0 | (number & {}) | true;
 
   // Flex
@@ -440,6 +446,9 @@ export interface StyleProps {
     | "rowReverse" // @deprecated Use `row-reverse` instead.
     | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
+  /**
+   * If true, flex-wrap will be set to `wrap`.
+   */
   flexWrap?: "wrap" | "wrap-reverse" | "nowrap" | true;
 
   justifyContent?:

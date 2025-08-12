@@ -14,7 +14,6 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
 
   /**
    * Shorthand for `flexWrap`.
-   * If true, flex-wrap will be set to `wrap`.
    */
   wrap?: BoxProps["flexWrap"];
 
@@ -30,7 +29,6 @@ export interface FlexProps extends Omit<BoxProps, "display"> {
 
   /**
    * Shorthand for `flexGrow`.
-   * If true, flex-grow will be set to `1`.
    */
   grow?: BoxProps["flexGrow"];
 
