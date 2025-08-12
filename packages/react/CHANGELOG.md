@@ -1,5 +1,17 @@
 # @seed-design/react
 
+## 0.1.12
+
+### Patch Changes
+
+- 62094b6: Help Bubble의 스타일 문제를 수정합니다.
+
+  - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+- Updated dependencies [62094b6]
+  - @seed-design/react-popover@0.0.8
+  - @seed-design/css@0.1.12
+
 ## 0.1.11
 
 ### Patch Changes
