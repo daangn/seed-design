@@ -1,6 +1,17 @@
 import './badge.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const badgeSlotNames = [
+  [
+    "root",
+    "seed-badge__root"
+  ],
+  [
+    "label",
+    "seed-badge__label"
+  ]
+];
+
 const defaultVariant = {
   "size": "medium",
   "variant": "solid",
@@ -22,10 +33,6 @@ const compoundVariants = [
   },
   {
     "tone": "brand",
-    "variant": "weak"
-  },
-  {
-    "tone": "brand",
     "variant": "solid"
   },
   {
@@ -55,6 +62,14 @@ const compoundVariants = [
   {
     "tone": "positive",
     "variant": "outline"
+  },
+  {
+    "tone": "warning",
+    "variant": "weak"
+  },
+  {
+    "tone": "warning",
+    "variant": "solid"
   },
   {
     "tone": "critical",
@@ -85,6 +100,7 @@ export const badgeVariantMap = {
     "brand",
     "informative",
     "positive",
+    "warning",
     "critical"
   ]
 };
@@ -92,10 +108,13 @@ export const badgeVariantMap = {
 export const badgeVariantKeys = Object.keys(badgeVariantMap);
 
 export function badge(props) {
-  return createClassName(
-    "seed-badge",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    badgeSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
   args: {
-    children: "뱃지",
+    children: "뱃지 내용은 길지 않은 것이 가장 좋겠지만 길어지는 경우 ellipsis 처리합니다.",
   },
   render: (args) => (
     <VariantTable Component={meta.component} variantMap={badgeVariantMap} {...args} />
