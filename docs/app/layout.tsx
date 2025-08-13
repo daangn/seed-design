@@ -6,6 +6,7 @@ import "./global.css";
 import GoogleAnalytics from "@/components/google-analytics";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
+import ThemeSync from "@/components/theme-sync";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,7 +27,10 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <link rel="icon" href="/favicon.svg" />
         <GoogleAnalytics GA_MEASUREMENT_ID="G-02SS22W02G" />
       </head>
-      <body>{children}</body>
+      <body>
+        <ThemeSync />
+        {children}
+      </body>
     </html>
   );
 }

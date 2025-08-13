@@ -1,7 +1,6 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { reactOptions } from "../layout.config";
-import ThemeSync from "@/components/theme-sync";
 import { RootProvider } from "fumadocs-ui/provider";
 import DefaultSearchDialog from "@/components/search/search";
 
@@ -19,7 +18,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         },
       }}
     >
-      <ThemeSync />
       <DocsLayout {...reactOptions}>{children}</DocsLayout>
     </RootProvider>
   );
