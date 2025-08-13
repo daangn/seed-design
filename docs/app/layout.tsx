@@ -12,7 +12,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default async function Layout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="ko"

@@ -4,6 +4,7 @@ import { docsOptions } from "../layout.config";
 import { source } from "../source";
 import { RootProvider } from "fumadocs-ui/provider";
 import DefaultSearchDialog from "@/components/search/search";
+import { TAGS } from "@/app/api/search/constants";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const transformedTree = await source.getTransformedPageTree();
@@ -13,11 +14,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
       search={{
         SearchDialog: DefaultSearchDialog,
         options: {
-          defaultTag: "design",
-          tags: [
-            { name: "Design", value: "design" },
-            { name: "React", value: "react" },
-          ],
+          defaultTag: TAGS.design.value,
+          tags: Object.values(TAGS),
         },
       }}
     >
