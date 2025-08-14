@@ -1,20 +1,24 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, expect, it, vi } from "vitest";
-
-import type { ReactElement } from "react";
-import React, { useMemo } from "react";
+import { afterEach, describe, expect, it } from "vitest";
 
 import {
-  TextFieldDescription,
-  TextFieldErrorMessage,
-  TextFieldGraphemeCount,
-  TextFieldInput,
-  TextFieldLabel,
-  TextFieldRoot,
-  type TextFieldRootProps,
+  forwardRef,
+  type InputHTMLAttributes,
+  type ReactElement,
+  type ReactNode,
+  type TextareaHTMLAttributes,
+} from "react";
+
+import {
+  FieldDescription,
+  FieldErrorMessage,
+  FieldLabel,
+  FieldRoot,
+  type FieldRootProps,
 } from "./Field";
+import { useFieldContext } from "./useFieldContext";
 
 afterEach(cleanup);
 
@@ -25,332 +29,589 @@ function setUp(jsx: ReactElement) {
   };
 }
 
-interface TextFieldProps extends TextFieldRootProps {
-  label?: string;
-  placeholder?: string;
-  description?: string;
-  errorMessage?: string;
+const FieldInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+  (props, ref) => {
+    const { inputProps } = useFieldContext();
 
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+    return <input ref={ref} data-testid="field-input" {...inputProps} {...props} />;
+  },
+);
+FieldInput.displayName = "FieldInput";
+
+const _FieldTextarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(
+  (props, ref) => {
+    const { inputProps } = useFieldContext();
+
+    return <textarea ref={ref} data-testid="field-textarea" {...inputProps} {...props} />;
+  },
+);
+_FieldTextarea.displayName = "FieldTextarea";
+
+interface TestFieldProps extends FieldRootProps {
+  label?: ReactNode;
+  description?: ReactNode;
+  errorMessage?: ReactNode;
 }
 
-const TextField = (props: TextFieldProps) => {
-  const { label, placeholder, description, errorMessage, inputProps, ...otherProps } = props;
+const Field = forwardRef<HTMLDivElement, TestFieldProps>(
+  ({ label, description, errorMessage, children, ...rootProps }, ref) => {
+    return (
+      <FieldRoot data-testid="field-root" {...rootProps} ref={ref}>
+        {label && <FieldLabel data-testid="field-label">{label}</FieldLabel>}
+        {children}
+        {description && (
+          <FieldDescription data-testid="field-description">{description}</FieldDescription>
+        )}
+        {errorMessage && (
+          <FieldErrorMessage data-testid="field-error-message">{errorMessage}</FieldErrorMessage>
+        )}
+      </FieldRoot>
+    );
+  },
+);
+Field.displayName = "Field";
 
-  return (
-    <TextFieldRoot {...otherProps}>
-      <TextFieldLabel data-testid="label">{label}</TextFieldLabel>
-      <TextFieldInput placeholder={placeholder} {...inputProps} />
-      {description && (
-        <TextFieldDescription data-testid="description">{description}</TextFieldDescription>
-      )}
-      {errorMessage && (
-        <TextFieldErrorMessage data-testid="error-message">{errorMessage}</TextFieldErrorMessage>
-      )}
-      <TextFieldGraphemeCount data-testid="grapheme-count" />
-    </TextFieldRoot>
-  );
-};
+describe("Field components", () => {
+  describe("basic functionality", () => {
+    it("should render as a label element", () => {
+      const { getByTestId } = setUp(
+        <Field label="Test Label">
+          <FieldInput />
+        </Field>,
+      );
 
-function ControlledTextField(props: Omit<TextFieldProps, "value" | "onValueChange">) {
-  const { defaultValue = "" } = props;
-  const [value, setValue] = React.useState(defaultValue);
-  const mockSetValue = vi.fn(({ value }) => setValue(value));
+      const label = getByTestId("field-label");
 
-  return <TextField value={value} onValueChange={mockSetValue} {...props} />;
-}
+      expect(label).toBeInTheDocument();
+      expect(label.tagName).toBe("LABEL");
+    });
 
-function SlicingControlledTextField(props: Omit<TextFieldProps, "value" | "onValueChange">) {
-  const { defaultValue = "" } = props;
-  const [value, setValue] = React.useState(defaultValue);
-  const mockSliceSetValue = vi.fn(({ slicedValue }) => setValue(slicedValue));
+    it("should render as a span element", () => {
+      const { getByTestId } = setUp(
+        <Field description="Test Description">
+          <FieldInput />
+        </Field>,
+      );
 
-  return <TextField value={value} onValueChange={mockSliceSetValue} {...props} />;
-}
+      const description = getByTestId("field-description");
 
-describe("useTextField", () => {
-  describe("aria test", () => {
-    it("should render the input with aria-invalid=true when isInvalid=true", () => {
-      const { getByRole } = setUp(<TextField invalid />);
-      const input = getByRole("textbox");
+      expect(description).toBeInTheDocument();
+      expect(description.tagName).toBe("SPAN");
+    });
+
+    it("should render as a div element", () => {
+      const { getByTestId } = setUp(
+        <Field errorMessage="Test Error">
+          <FieldInput />
+        </Field>,
+      );
+
+      const errorMessage = getByTestId("field-error-message");
+
+      expect(errorMessage).toBeInTheDocument();
+      expect(errorMessage.tagName).toBe("DIV");
+    });
+  });
+
+  describe("props and aria attributes", () => {
+    it("should set aria-invalid on input when invalid", () => {
+      const { getByTestId } = setUp(
+        <Field invalid>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
 
       expect(input).toHaveAttribute("aria-invalid", "true");
     });
 
-    it("should render the input with aria-required=true when isRequired=true", () => {
-      const { getByRole } = setUp(<TextField required />);
-      const input = getByRole("textbox");
+    it("should set aria-required on input when required", () => {
+      const { getByTestId } = setUp(
+        <Field required>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
 
       expect(input).toHaveAttribute("aria-required", "true");
     });
 
-    it("should not render the input with aria-describedby when provided neither description nor errorMessage", () => {
-      const { getByRole } = setUp(<TextField />);
-      const input = getByRole("textbox");
-
-      expect(input).not.toHaveAttribute("aria-describedby");
-    });
-
-    it("should render the input with aria-describedby when description is provided", () => {
-      const { getByRole } = setUp(<TextField description="description" />);
-      const input = getByRole("textbox");
-      const ariaDescribedBy = input.getAttribute("aria-describedby");
-
-      expect(ariaDescribedBy).toContain("description");
-    });
-
-    it("should render the input with only description's aria-describedby when errorMessage and description are provided", () => {
-      const { getByRole } = setUp(<TextField errorMessage="error" description="description" />);
-      const input = getByRole("textbox");
-      const ariaDescribedBy = input.getAttribute("aria-describedby");
-
-      expect(ariaDescribedBy).toContain("description");
-    });
-
-    it("should render the input with error and description's id as aria-describedby when errorMessage and description and invalid are provided, while hiding the description from the interface", () => {
-      const { getByRole, getByTestId } = setUp(
-        <TextField errorMessage="error" description="description" invalid />,
+    it("should **not** set required on input even when required", () => {
+      const { getByTestId } = setUp(
+        <Field required>
+          <FieldInput />
+        </Field>,
       );
-      const input = getByRole("textbox");
-      const description = getByTestId("description");
-      const ariaDescribedBy = input.getAttribute("aria-describedby");
+      const input = getByTestId("field-input");
 
-      expect(description.style.display).toBe("none");
-      expect(ariaDescribedBy).toContain("error");
-      expect(ariaDescribedBy).toContain("description");
+      // this is intentional
+      expect(input).not.toHaveAttribute("required");
     });
-  });
 
-  it("should render correctly", () => {
-    const { getByRole } = setUp(<TextField />);
-    const input = getByRole("textbox");
-
-    expect(input).toHaveValue("");
-  });
-
-  it("should type correctly", async () => {
-    const { getByRole, user } = setUp(<TextField />);
-    const input = getByRole("textbox");
-
-    expect(input).toHaveValue("");
-
-    await user.type(input, "a");
-    expect(input).toHaveValue("a");
-  });
-
-  it("should render `defaultValue` correctly", () => {
-    const defaultValue = "abcde";
-    const { getByRole } = setUp(<TextField defaultValue={defaultValue} />);
-    const input = getByRole("textbox");
-
-    expect(input).toHaveValue(defaultValue);
-  });
-
-  it("should autofocus correctly", () => {
-    const { getByRole } = setUp(<TextField inputProps={{ autoFocus: true }} />);
-    const input = getByRole("textbox");
-
-    expect(input).toHaveFocus();
-  });
-
-  it("should onValueChange be called", async () => {
-    const handleValueChange = vi.fn();
-
-    const { getByRole, user } = setUp(<TextField onValueChange={handleValueChange} />);
-    const input = getByRole("textbox");
-
-    await user.type(input, "a");
-    expect(input).toHaveValue("a");
-    expect(handleValueChange).toHaveBeenCalledWith({
-      value: "a",
-      graphemes: ["a"],
-      slicedValue: "a",
-      slicedGraphemes: ["a"],
-    });
-  });
-
-  it("should onValueChange be called with proper values on maxGraphemeCount set", async () => {
-    const handleValueChange = vi.fn();
-
-    const timesToType = 10;
-    const maxGrahemeCount = 5;
-
-    const expectedValue = "a".repeat(timesToType);
-    const expectedSlicedValue = "a".repeat(maxGrahemeCount);
-
-    const { getByRole, user } = setUp(
-      <TextField onValueChange={handleValueChange} maxGraphemeCount={maxGrahemeCount} />,
-    );
-    const input = getByRole("textbox");
-
-    await user.type(input, "a".repeat(timesToType));
-    // uncontrollable하므로 slicedValue로 set하지 않음. 10글자가 입력됨
-    expect(input).toHaveValue("a".repeat(timesToType));
-    expect(handleValueChange).toHaveBeenCalledWith({
-      value: expectedValue,
-      graphemes: expectedValue.split(""),
-      slicedValue: expectedSlicedValue,
-      slicedGraphemes: expectedSlicedValue.split(""),
-    });
-  });
-
-  it("should set value from outside correctly (number formatting)", async () => {
-    function NumberFormattedInput() {
-      const [value, setValue] = React.useState("");
-
-      const formattedValue = useMemo(() => {
-        if (value === "") return value;
-
-        const number = Number(value.replace(/,/g, ""));
-        if (Number.isNaN(number)) return "";
-
-        return number.toLocaleString();
-      }, [value]);
-
-      return (
-        <TextField
-          label="금액"
-          placeholder="9,999,999"
-          description="금액을 써주세요"
-          value={formattedValue}
-          onValueChange={({ value }) => setValue(value)}
-        />
+    it("should have htmlFor attribute pointing to input", () => {
+      const { getByTestId } = setUp(
+        <Field label="Test Label">
+          <FieldInput />
+        </Field>,
       );
-    }
+      const label = getByTestId("field-label");
+      const input = getByTestId("field-input");
 
-    const { getByRole, user } = setUp(<NumberFormattedInput />);
-    const input = getByRole("textbox");
+      expect(label).toHaveAttribute("for");
+      expect(input).toHaveAttribute("id");
+      expect(label.getAttribute("for")).toBe(input.getAttribute("id"));
+    });
 
-    await user.type(input, "11111111");
-    expect(input).toHaveValue("11,111,111");
+    it("should connect label to input with aria-labelledby", () => {
+      const { getByTestId } = setUp(
+        <Field label="Username">
+          <FieldInput />
+        </Field>,
+      );
+      const label = getByTestId("field-label");
+      const input = getByTestId("field-input");
+
+      expect(label).toHaveAttribute("id");
+      expect(input).toHaveAttribute("aria-labelledby", label.getAttribute("id"));
+    });
+
+    it("should have correct id for aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <Field description="Test Description">
+          <FieldInput />
+        </Field>,
+      );
+      const description = getByTestId("field-description");
+      const input = getByTestId("field-input");
+
+      expect(description).toHaveAttribute("id");
+      expect(input).toHaveAttribute("aria-describedby");
+      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(
+        description.getAttribute("id"),
+      );
+    });
+
+    it("should have correct id for aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <Field errorMessage="Test Error">
+          <FieldInput />
+        </Field>,
+      );
+
+      const errorMessage = getByTestId("field-error-message");
+      const input = getByTestId("field-input");
+
+      expect(errorMessage).toHaveAttribute("id");
+      expect(input).toHaveAttribute("aria-describedby");
+      expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(
+        errorMessage.getAttribute("id"),
+      );
+    });
+
+    it("should combine description and error in aria-describedby", () => {
+      const { getByTestId } = setUp(
+        <Field description="Enter your username" errorMessage="Username is required">
+          <FieldInput />
+        </Field>,
+      );
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+      const input = getByTestId("field-input");
+
+      const ariaDescribedBy = input.getAttribute("aria-describedby");
+      expect(ariaDescribedBy?.split(" ")).toContain(description.getAttribute("id"));
+      expect(ariaDescribedBy?.split(" ")).toContain(errorMessage.getAttribute("id"));
+    });
+
+    it("should apply aria attributes only to input element", () => {
+      const { getByTestId } = setUp(
+        <Field
+          required
+          invalid
+          label="Username"
+          description="Enter username"
+          errorMessage="Invalid username"
+        >
+          <FieldInput />
+        </Field>,
+      );
+
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+
+      expect(input).toHaveAttribute("aria-required", "true");
+      expect(input).toHaveAttribute("aria-invalid", "true");
+      expect(input).toHaveAttribute("aria-describedby");
+      expect(input).toHaveAttribute("aria-labelledby");
+
+      [root, label, description, errorMessage].forEach((element) => {
+        expect(element).not.toHaveAttribute("aria-required");
+        expect(element).not.toHaveAttribute("aria-invalid");
+        expect(element).not.toHaveAttribute("aria-describedby");
+        expect(element).not.toHaveAttribute("aria-labelledby");
+      });
+    });
   });
 
-  describe("graphemes test", () => {
-    describe("graphemes test with uncontrolled", () => {
-      it("should grapheme count 5 when type 5 text", async () => {
-        const { getByRole, getByTestId, user } = setUp(<TextField />);
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
+  describe("data attributes", () => {
+    it("should have data-disabled when disabled", () => {
+      const { getByTestId } = setUp(
+        <Field disabled label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
 
-        input.focus();
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
 
-        await user.type(input, "a".repeat(5));
-
-        expect(graphemeCount).toHaveTextContent("5");
-      });
-
-      it("should grapheme count 5 when type 5 emoji", async () => {
-        const { getByRole, getByTestId, user } = setUp(<TextField />);
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
-
-        input.focus();
-
-        await user.type(input, "🥕".repeat(5));
-
-        expect(graphemeCount).toHaveTextContent("5");
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-disabled", "");
       });
     });
 
-    describe("graphemes test with controlled", () => {
-      it("should grapheme count 5 when type 5 text", async () => {
-        const { getByRole, getByTestId, user } = setUp(<ControlledTextField />);
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
+    it("should have data-readonly when readOnly", () => {
+      const { getByTestId } = setUp(
+        <Field readOnly label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
 
-        input.focus();
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
 
-        await user.type(input, "a".repeat(5));
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-readonly", "");
+      });
+    });
 
-        expect(graphemeCount).toHaveTextContent("5");
+    it("should have data-invalid when invalid", () => {
+      const { getByTestId } = setUp(
+        <Field invalid label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
+
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-invalid", "");
+      });
+    });
+
+    it("should have data-hover on hover", async () => {
+      const { getByTestId, user } = setUp(
+        <Field label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
+
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).not.toHaveAttribute("data-hover");
       });
 
-      it("should grapheme count 5 when type 5 emoji", async () => {
-        const { getByRole, getByTestId, user } = setUp(<ControlledTextField />);
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
-
-        input.focus();
-
-        await user.type(input, "🥕".repeat(5));
-
-        expect(graphemeCount).toHaveTextContent("5");
+      await user.hover(input);
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-hover", "");
       });
 
-      it("should grapheme count 10 when maxGraphemeCount is 10, type 15 text", async () => {
-        const { getByRole, getByTestId, user } = setUp(
-          <SlicingControlledTextField maxGraphemeCount={10} />,
-        );
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
+      await user.unhover(input);
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).not.toHaveAttribute("data-hover");
+      });
+    });
 
-        input.focus();
+    it("should have data-active on pointer down", () => {
+      const { getByTestId } = setUp(
+        <Field label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
 
-        await user.type(input, "a".repeat(15));
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
 
-        expect(graphemeCount).toHaveTextContent("10");
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).not.toHaveAttribute("data-active");
       });
 
-      it("should grapheme count 10 when maxGraphemeCount is 10, type 15 emoji", async () => {
-        const { getByRole, getByTestId, user } = setUp(
-          <SlicingControlledTextField maxGraphemeCount={10} />,
-        );
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
-
-        input.focus();
-
-        await user.type(input, "🥕".repeat(15));
-
-        expect(graphemeCount).toHaveTextContent("10");
+      fireEvent.pointerDown(input);
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).toHaveAttribute("data-active", "");
       });
 
-      it("should grapheme count 10 when maxGraphemeCount is 10, type 15 emoji and text", async () => {
-        const { getByRole, getByTestId, user } = setUp(
-          <SlicingControlledTextField maxGraphemeCount={10} />,
-        );
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
+      fireEvent.pointerUp(input);
+      [root, input, label, description, errorMessage].forEach((element) => {
+        expect(element).not.toHaveAttribute("data-active");
+      });
+    });
 
-        input.focus();
+    it("should remove data-active and data-hover on pointer leave", async () => {
+      const { getByTestId, user } = setUp(
+        <Field label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
 
-        await user.type(input, "a🥕a".repeat(5));
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+      const allElements = [root, input, label, description, errorMessage];
 
-        expect(graphemeCount).toHaveTextContent("10");
+      allElements.forEach((element) => {
+        expect(element).not.toHaveAttribute("data-hover");
+        expect(element).not.toHaveAttribute("data-active");
       });
 
-      it("should slice correctly when paste over maxGraphemeCount", async () => {
-        const { getByRole, getByTestId, user } = setUp(
-          <SlicingControlledTextField maxGraphemeCount={12} />,
-        );
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
-
-        const value = "a".repeat(10);
-        await user.type(input, value);
-        expect(input).toHaveValue(value);
-
-        await user.paste("aaaaa");
-        expect(input).toHaveValue(`${value}${"a".repeat(2)}`);
-        expect(graphemeCount).toHaveTextContent("12");
+      await user.hover(input);
+      fireEvent.pointerDown(input);
+      allElements.forEach((element) => {
+        expect(element).toHaveAttribute("data-hover", "");
+        expect(element).toHaveAttribute("data-active", "");
       });
 
-      it("should slice correctly when paste over maxGraphemeCount with emoji", async () => {
-        const maxGraphemeCount = 5;
-        const { getByRole, getByTestId, user } = setUp(
-          <SlicingControlledTextField maxGraphemeCount={maxGraphemeCount} />,
-        );
-        const input = getByRole("textbox");
-        const graphemeCount = getByTestId("grapheme-count");
-
-        input.focus();
-
-        await user.paste("🥕".repeat(4));
-        await user.paste("🥕".repeat(4));
-
-        expect(input).toHaveValue("🥕".repeat(maxGraphemeCount));
-        expect(graphemeCount).toHaveTextContent("5");
+      fireEvent.pointerLeave(input);
+      allElements.forEach((element) => {
+        expect(element).not.toHaveAttribute("data-hover");
+        expect(element).not.toHaveAttribute("data-active");
       });
+    });
+
+    it("should have data-focus when input is focused", async () => {
+      const { getByTestId, user } = setUp(
+        <Field label="Label" description="Desc" errorMessage="Error">
+          <FieldInput />
+        </Field>,
+      );
+
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+      const label = getByTestId("field-label");
+      const description = getByTestId("field-description");
+      const errorMessage = getByTestId("field-error-message");
+      const allElements = [root, input, label, description, errorMessage];
+
+      allElements.forEach((element) => {
+        expect(element).not.toHaveAttribute("data-focus");
+      });
+
+      await user.click(input);
+      allElements.forEach((element) => {
+        expect(element).toHaveAttribute("data-focus", "");
+      });
+
+      await user.tab();
+      allElements.forEach((element) => {
+        expect(element).not.toHaveAttribute("data-focus");
+      });
+    });
+  });
+
+  describe("disabled state", () => {
+    it("should propagate disabled prop to input", () => {
+      const { getByTestId } = setUp(
+        <Field disabled>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
+
+      expect(input).toBeDisabled();
+      expect(input).toHaveAttribute("disabled");
+    });
+
+    it("should not allow typing when disabled", async () => {
+      const { getByTestId, user } = setUp(
+        <Field disabled>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input") as HTMLInputElement;
+
+      await user.type(input, "test");
+      expect(input.value).toBe("");
+    });
+
+    it("should still trigger hover state when disabled", async () => {
+      const { getByTestId, user } = setUp(
+        <Field disabled>
+          <FieldInput />
+        </Field>,
+      );
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+
+      expect(root).not.toHaveAttribute("data-hover");
+      expect(input).not.toHaveAttribute("data-hover");
+
+      await user.hover(input);
+      expect(root).toHaveAttribute("data-hover", "");
+      expect(input).toHaveAttribute("data-hover", "");
+    });
+  });
+
+  describe("readOnly state", () => {
+    it("should propagate readOnly prop to input", () => {
+      const { getByTestId } = setUp(
+        <Field readOnly>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
+
+      expect(input).toHaveAttribute("readonly");
+    });
+
+    it("should not allow typing when readOnly", async () => {
+      const { getByTestId, user } = setUp(
+        <Field readOnly>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input") as HTMLInputElement;
+
+      await user.type(input, "test");
+      expect(input.value).toBe("");
+    });
+
+    it("should allow focus when readOnly", async () => {
+      const { getByTestId, user } = setUp(
+        <Field readOnly>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
+
+      await user.click(input);
+      expect(input).toHaveFocus();
+    });
+  });
+
+  describe("name prop", () => {
+    it("should use provided name", () => {
+      const { getByTestId } = setUp(
+        <Field name="custom-name">
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
+
+      expect(input).toHaveAttribute("name", "custom-name");
+    });
+
+    it("should generate unique name when not provided", () => {
+      const { getAllByTestId } = setUp(
+        <>
+          <Field>
+            <FieldInput />
+          </Field>
+          <Field>
+            <FieldInput />
+          </Field>
+        </>,
+      );
+      const inputs = getAllByTestId("field-input");
+
+      expect(inputs[0]).toHaveAttribute("name");
+      expect(inputs[1]).toHaveAttribute("name");
+      expect(inputs[0].getAttribute("name")).not.toBe(inputs[1].getAttribute("name"));
+    });
+  });
+
+  describe("focus management", () => {
+    it("should handle focus-visible state", async () => {
+      const { getByTestId, user } = setUp(
+        <Field>
+          <FieldInput />
+        </Field>,
+      );
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+
+      await user.tab();
+      expect(input).toHaveFocus();
+      expect(root).toHaveAttribute("data-focus", "");
+      expect(root).toHaveAttribute("data-focus-visible", "");
+      expect(input).toHaveAttribute("data-focus", "");
+      expect(input).toHaveAttribute("data-focus-visible", "");
+
+      await user.tab();
+      expect(root).not.toHaveAttribute("data-focus-visible");
+      expect(input).not.toHaveAttribute("data-focus-visible");
+    });
+
+    it("should update focus-visible correctly on change event", async () => {
+      const { getByTestId, user } = setUp(
+        <Field>
+          <FieldInput />
+        </Field>,
+      );
+      const input = getByTestId("field-input");
+      const root = getByTestId("field-root");
+
+      expect(root).not.toHaveAttribute("data-focus-visible");
+      expect(input).not.toHaveAttribute("data-focus-visible");
+
+      await user.tab();
+      expect(input).toHaveFocus();
+      expect(root).toHaveAttribute("data-focus-visible", "");
+      expect(input).toHaveAttribute("data-focus-visible", "");
+
+      await user.type(input, "a");
+      expect(root).toHaveAttribute("data-focus-visible", "");
+      expect(input).toHaveAttribute("data-focus-visible", "");
+    });
+
+    it("should clear focus states on blur", async () => {
+      const { getByTestId, user } = setUp(
+        <Field>
+          <FieldInput />
+        </Field>,
+      );
+      const root = getByTestId("field-root");
+      const input = getByTestId("field-input");
+
+      expect(root).not.toHaveAttribute("data-focus");
+      expect(root).not.toHaveAttribute("data-focus-visible");
+      expect(input).not.toHaveAttribute("data-focus");
+      expect(input).not.toHaveAttribute("data-focus-visible");
+
+      await user.tab();
+      expect(input).toHaveFocus();
+      expect(root).toHaveAttribute("data-focus", "");
+      expect(root).toHaveAttribute("data-focus-visible", "");
+      expect(input).toHaveAttribute("data-focus", "");
+      expect(input).toHaveAttribute("data-focus-visible", "");
+
+      await user.tab();
+      expect(input).not.toHaveFocus();
+      expect(root).not.toHaveAttribute("data-focus");
+      expect(root).not.toHaveAttribute("data-focus-visible");
+      expect(input).not.toHaveAttribute("data-focus");
+      expect(input).not.toHaveAttribute("data-focus-visible");
     });
   });
 });

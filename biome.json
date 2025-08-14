@@ -44,6 +44,7 @@
         "noNonNullAssertion": "warn",
         "noUnusedTemplateLiteral": "warn",
         "useTemplate": "warn",
+        "noParameterAssign": "error",
         "useAsConstAssertion": "error",
         "useDefaultParameterLast": "error",
         "useEnumInitializers": "error",

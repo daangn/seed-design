@@ -161,9 +161,8 @@ export function useField(props: UseFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }) as
-      | React.InputHTMLAttributes<HTMLInputElement>
-      | React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    }) as React.InputHTMLAttributes<HTMLInputElement> & // only allow the intersect to make typescript happy when destructuring to input & textarea
+      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
 
     descriptionProps: elementProps({
       ...stateProps,
