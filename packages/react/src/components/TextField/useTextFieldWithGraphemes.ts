@@ -25,7 +25,6 @@ export function useTextFieldWithGraphemes({
   defaultValue = "",
   onValueChange,
 }: UseTextFieldWithGraphemesParams = {}) {
-  // Handle controlled/uncontrolled state
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
@@ -43,7 +42,6 @@ export function useTextFieldWithGraphemes({
         setUncontrolledValue(newValue);
       }
 
-      // Call onChange with all values - let user decide what to use
       onValueChange?.({
         value: newValue,
         graphemes: newGraphemes,
@@ -59,7 +57,8 @@ export function useTextFieldWithGraphemes({
       value,
       onValueChange: handleValueChange,
     },
-    ...(maxGraphemes && {
+    // should handle maxGraphemes of 0
+    ...(maxGraphemes !== undefined && {
       counterProps: {
         current: graphemes.length,
         max: maxGraphemes,

@@ -37,8 +37,6 @@ export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIco
   "prefixIcon",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldPrefixTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
@@ -48,16 +46,12 @@ export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixT
   "prefixText",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldSuffixIconProps extends InternalIconProps {}
 
 export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
   withTextFieldStateProps(InternalIcon),
   "suffixIcon",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldSuffixTextProps
   extends PrimitiveProps,
@@ -70,12 +64,7 @@ export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixT
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldInputProps extends Omit<TextField.InputProps, "size"> {}
-
-// export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
-//   withTextFieldStateProps(TextField.Input),
-//   "value",
-// );
+export interface TextFieldInputProps extends TextField.InputProps {}
 
 export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
   ({ className, ...otherProps }, ref) => {
@@ -98,8 +87,6 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
 );
 TextFieldInput.displayName = "TextFieldInput";
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldTextareaProps extends TextField.TextareaProps {
   /**
    * If true, the textarea will automatically resize based on its content.
@@ -111,13 +98,12 @@ export interface TextFieldTextareaProps extends TextField.TextareaProps {
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
   ({ className, autoresize = true, ...otherProps }, ref) => {
     const classNames = useClassNames();
-    const { value, inputProps } = useTextFieldContext();
-
+    const textFieldContext = useTextFieldContext();
     const formControlContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
+      textFieldContext.inputProps,
       formControlContext ? formControlContext.inputProps : {},
-      inputProps,
       otherProps,
     );
 
@@ -157,7 +143,7 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
       if (inputRef.current) {
         onHeightChange();
       }
-    }, [onHeightChange, value, inputRef]);
+    }, [onHeightChange, textFieldContext.value, inputRef]);
 
     return (
       <TextField.Textarea
