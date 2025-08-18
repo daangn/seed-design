@@ -84,12 +84,11 @@ async function prepare() {
   };
 }
 
-const DEFAULT_PREFIX = "rootage";
 // TypeScript stringifier will be created in each function with the provided prefix
 
-async function writeTokenTs(prefix: string = DEFAULT_PREFIX) {
+async function writeTokenTs(prefix?: string) {
   const { ctx } = await prepare();
-  
+
   const tsStringifier = typescript.createStringifier({
     prefix,
   });
@@ -118,9 +117,9 @@ async function writeTokenTs(prefix: string = DEFAULT_PREFIX) {
   }
 }
 
-async function writeComponentSpec(prefix: string = DEFAULT_PREFIX) {
+async function writeComponentSpec(prefix?: string) {
   const { ctx } = await prepare();
-  
+
   const tsStringifier = typescript.createStringifier({
     prefix,
   });
@@ -165,7 +164,7 @@ async function writeComponentSpec(prefix: string = DEFAULT_PREFIX) {
   });
 }
 
-async function writeTokenCss(generatorPath?: string, prefix: string = DEFAULT_PREFIX) {
+async function writeTokenCss(generatorPath?: string, prefix?: string) {
   const { ctx } = await prepare();
 
   const ast = {
@@ -185,7 +184,7 @@ async function writeTokenCss(generatorPath?: string, prefix: string = DEFAULT_PR
   };
 
   let code: string;
-  
+
   if (generatorPath) {
     // Use custom generator
     code = await runGenerator(generatorPath, ast, options);
@@ -258,12 +257,12 @@ async function writeFile(filePath: string, content: string) {
   }
 }
 
-async function writeTailwind3Plugin(prefix: string = DEFAULT_PREFIX): Promise<string> {
+async function writeTailwind3Plugin(prefix?: string): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
 
   const typographyTokens = getComponentSpecDeclarations(ctx);
-  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens);
+  const code = tailwind3.getTailwind3PluginCode(tokens, typographyTokens, { prefix });
 
   const pluginPath = path.join(process.cwd(), dir, "index.ts");
 
@@ -271,7 +270,7 @@ async function writeTailwind3Plugin(prefix: string = DEFAULT_PREFIX): Promise<st
   return pluginPath;
 }
 
-async function writeTailwind4(prefix: string = DEFAULT_PREFIX): Promise<string> {
+async function writeTailwind4(prefix?: string): Promise<string> {
   const { ctx } = await prepare();
   const tokens = getTokenDeclarations(ctx);
   const typographyTokens = getComponentSpecDeclarations(ctx);
@@ -317,7 +316,6 @@ yargs(process.argv.slice(2))
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
-          default: DEFAULT_PREFIX,
         });
     },
     async (argv) => {
@@ -339,7 +337,6 @@ yargs(process.argv.slice(2))
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
-          default: DEFAULT_PREFIX,
         });
     },
     async (argv) => {
@@ -365,7 +362,6 @@ yargs(process.argv.slice(2))
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
-          default: DEFAULT_PREFIX,
         });
     },
     async (argv) => {
@@ -420,7 +416,6 @@ yargs(process.argv.slice(2))
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
-          default: DEFAULT_PREFIX,
         });
     },
     async (argv) => {
@@ -443,7 +438,6 @@ yargs(process.argv.slice(2))
         .option("prefix", {
           describe: "Prefix for generated tokens",
           type: "string",
-          default: DEFAULT_PREFIX,
         });
     },
     async (argv) => {

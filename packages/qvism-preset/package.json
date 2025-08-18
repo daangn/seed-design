@@ -23,8 +23,8 @@
   ],
   "scripts": {
     "clean": "rm -rf lib",
-    "build:generator": "bun build ./src/seed-css-generator.ts --outfile=./lib/seed-css-generator.js --target=node",
-    "rootage:generate": "bun run build:generator && bun rootage token-css ./src --generator ./lib/seed-css-generator.js --prefix seed && bun run ./write-tokens.mjs --prefix seed && bun rootage token-ts ./src/vars --prefix seed && rootage component-spec ./src/vars/component --prefix seed",
+    "build:generator": "bun build ./src/seed-css.ts --outfile=./lib/seed-css.js --target=node",
+    "rootage:generate": "bun run build:generator && bun rootage token-css ./src --generator ./lib/seed-css.js --prefix seed && bun run ./write-tokens.mjs --prefix seed && bun rootage token-ts ./src/vars --prefix seed && rootage component-spec ./src/vars/component --prefix seed",
     "build": "bunchee",
     "typecheck": "tsc --noEmit"
   },
