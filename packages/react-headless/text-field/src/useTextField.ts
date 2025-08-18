@@ -2,13 +2,13 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useId, useState } from "react";
 
-export interface UseTextFieldStateProps {
+interface UseTextFieldStateProps {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
 }
 
-export function useTextFieldState({
+function useTextFieldState({
   value: __value,
   defaultValue,
   onValueChange,

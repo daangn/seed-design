@@ -2,7 +2,7 @@ import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
-export function useFieldState() {
+function useFieldState() {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
