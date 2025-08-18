@@ -6,7 +6,7 @@ const isErrored = true;
 
 export default function FieldGraphemeCount() {
   const field = useTextFieldWithGraphemes({
-    maxGraphemes: 5,
+    maxGraphemeCount: 5,
     defaultValue: "foobar",
   });
 

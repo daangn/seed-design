@@ -8,7 +8,7 @@ export default function FieldTextFields() {
         <Field.Header>
           <Field.Label>Text Field</Field.Label>
         </Field.Header>
-        <TextFieldInput inputProps={{ placeholder: "플레이스홀더" }} />
+        <TextFieldInput textareaProps={{ placeholder: "플레이스홀더" }} />
       </Field.Root>
       <Field.Root>
         <Field.Header>

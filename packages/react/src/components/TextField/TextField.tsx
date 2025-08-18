@@ -16,15 +16,13 @@ const { withProvider, withContext, useClassNames } = createSlotRecipeContext(tex
 
 const withTextFieldStateProps = createWithStateProps([useTextFieldContext]);
 
-const withFormControlStateProps = createWithStateProps([
-  { useContext: useFieldContext, strict: false },
-]);
+const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
 
-export const TextFieldRoot = withFormControlStateProps(
+export const TextFieldRoot = withFieldStateProps(
   withProvider<HTMLDivElement, TextFieldRootProps>(TextField.Root, "root"),
 );
 
@@ -70,15 +68,15 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
   ({ className, ...otherProps }, ref) => {
     const classNames = useClassNames();
     const textFieldContext = useTextFieldContext();
-    const formControlContext = useFieldContext({ strict: false });
+    const fieldContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
       textFieldContext.inputProps,
-      formControlContext ? formControlContext.inputProps : {},
+      fieldContext ? fieldContext.inputProps : {},
       otherProps,
     );
 
-    // TODO: maybe warn users if formControlContext is present but props are given to TextFieldInput(.Root)
+    // TODO: maybe warn users if fieldContext is present but props are given to TextFieldInput(.Root)
 
     return (
       <TextField.Input ref={ref} {...mergedProps} className={clsx(classNames.value, className)} />
@@ -99,11 +97,11 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
   ({ className, autoresize = true, ...otherProps }, ref) => {
     const classNames = useClassNames();
     const textFieldContext = useTextFieldContext();
-    const formControlContext = useFieldContext({ strict: false });
+    const fieldContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
       textFieldContext.inputProps,
-      formControlContext ? formControlContext.inputProps : {},
+      fieldContext ? fieldContext.inputProps : {},
       otherProps,
     );
 

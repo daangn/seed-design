@@ -43,7 +43,7 @@ const TextFieldWithGraphemes = ({
   onValueChange,
 }: TextFieldWithGraphemesProps) => {
   const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
-    maxGraphemes,
+    maxGraphemeCount,
     value,
     defaultValue,
     onValueChange,

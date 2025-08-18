@@ -17,7 +17,7 @@ export {
 
 export {
   useTextFieldWithGraphemes,
-  type UseTextFieldWithGraphemesReturn,
+  type UseTextFieldWithGraphemesParams,
 } from "./useTextFieldWithGraphemes";
 
 export * as TextField from "./TextField.namespace";

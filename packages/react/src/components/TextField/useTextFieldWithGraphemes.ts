@@ -2,8 +2,8 @@ import { useState, useMemo, useCallback } from "react";
 import { splitGraphemes } from "unicode-segmenter/grapheme";
 import { memoize } from "./memoize";
 
-interface UseTextFieldWithGraphemesParams {
-  maxGraphemes?: number;
+export interface UseTextFieldWithGraphemesParams {
+  maxGraphemeCount: number;
   value?: string;
   defaultValue?: string;
   onValueChange?: (values: {
@@ -17,14 +17,12 @@ interface UseTextFieldWithGraphemesParams {
 const getGraphemes = (string: string) => Array.from(splitGraphemes(string));
 const memoizedGetGraphemes = memoize(getGraphemes);
 
-export type UseTextFieldWithGraphemesReturn = ReturnType<typeof useTextFieldWithGraphemes>;
-
 export function useTextFieldWithGraphemes({
-  maxGraphemes,
+  maxGraphemeCount,
   value: controlledValue,
   defaultValue = "",
   onValueChange,
-}: UseTextFieldWithGraphemesParams = {}) {
+}: UseTextFieldWithGraphemesParams) {
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
@@ -34,7 +32,9 @@ export function useTextFieldWithGraphemes({
   const handleValueChange = useCallback(
     (newValue: string) => {
       const newGraphemes = memoizedGetGraphemes(newValue);
-      const newSlicedGraphemes = maxGraphemes ? newGraphemes.slice(0, maxGraphemes) : newGraphemes;
+      const newSlicedGraphemes = maxGraphemeCount
+        ? newGraphemes.slice(0, maxGraphemeCount)
+        : newGraphemes;
       const newSlicedValue = newSlicedGraphemes.join("");
 
       // Update internal state if uncontrolled
@@ -49,7 +49,7 @@ export function useTextFieldWithGraphemes({
         slicedGraphemes: newSlicedGraphemes,
       });
     },
-    [isControlled, maxGraphemes, onValueChange],
+    [isControlled, maxGraphemeCount, onValueChange],
   );
 
   return {
@@ -57,13 +57,10 @@ export function useTextFieldWithGraphemes({
       value,
       onValueChange: handleValueChange,
     },
-    // should handle maxGraphemes of 0
-    ...(maxGraphemes !== undefined && {
-      counterProps: {
-        current: graphemes.length,
-        max: maxGraphemes,
-      },
-    }),
+    counterProps: {
+      current: graphemes.length,
+      max: maxGraphemeCount,
+    },
     graphemes,
   };
 }
