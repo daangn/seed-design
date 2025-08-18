@@ -1,5 +1,5 @@
 import { readdir, readFile, writeFile } from "fs/promises";
-import { join, extname } from "path";
+import { join } from "path";
 import { existsSync } from "fs";
 
 interface CodemodExample {
@@ -17,7 +17,10 @@ interface TransformDoc {
 }
 
 const TRANSFORMS_DIR = join(process.cwd(), "packages/codemod/src/transforms");
-const DOCS_OUTPUT_PATH = join(process.cwd(), "docs/content/react/get-started/codemod.mdx");
+const DOCS_OUTPUT_PATH = join(
+  process.cwd(),
+  "docs/content/react/developer-tools/codemods/available-transforms.mdx",
+);
 
 async function findBasicExample(transformPath: string): Promise<CodemodExample | null> {
   const fixturesPath = join(transformPath, "__testfixtures__");
@@ -63,9 +66,9 @@ async function getTransformReadme(transformPath: string, transformName: string):
     try {
       let content = await readFile(readmePath, "utf-8");
 
-      // 헤딩 레벨 조정 (# -> ###, ## -> ####, ### -> #####)
+      // 헤딩 레벨 조정 (# -> ##, ## -> ###, ### -> ####)
       content = content.replace(/^(#{1,3}) (.+)$/gm, (_match, hashes, text) => {
-        return `${hashes}##`.substring(0, 5) + " " + text;
+        return `${hashes}#`.substring(0, 5) + " " + text;
       });
 
       return content.trim();
@@ -100,47 +103,11 @@ async function generateTransformDocs(): Promise<TransformDoc[]> {
 
 function generateMdx(docs: TransformDoc[]): string {
   let mdx = `---
-title: Codemod
-description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
+title: Available Transforms
+description: codemod를 통해 실행 가능한 변환 목록입니다.
 ---
 
 {/* Auto-generated from \`scripts/generate-codemod-docs.ts\` */}
-
-\`@seed-design/codemod\`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
-
-## 사용 방법
-
-\`\`\`package-install
-npx @seed-design/codemod@latest <transform> <target_path> <옵션>
-\`\`\`
-
-사용 가능한 transform 목록을 확인하려면 다음 명령어를 실행해요.
-
-\`\`\`package-install
-npx @seed-design/codemod@latest --list
-\`\`\`
-
-## 옵션
-
-- \`--list\`
-  - 사용 가능한 transform 목록을 보여줘요.
-- \`--log\`
-  - 로그를 파일로 저장해요.
-  - \`./\`에 \`combined.log\`와 \`warnings.log\` 파일이 생성돼요.
-- \`--parser\`
-  - jscodeshift가 사용할 파서를 지정해요
-  - \`babel\` | \`babylon\` | \`flow\` | \`ts\` | \`tsx\`
-  - 기본값: \`tsx\`
-  - 예시: \`--parser=babel\`
-- \`--extensions\`
-  - 변환할 파일 확장자를 지정해요.
-  - 지정하지 않으면 \`<경로>\` 안의 \`js,jsx,ts,tsx\` 파일을 변환해요. (\`d.ts\`는 제외)
-  - 예시: \`--extensions="ts,tsx"\`
-- \`--ignore-config\`
-  - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
-  - 예시: \`--ignore-config=".gitignore"\`
-
-## 사용 가능한 Transforms
 
 `;
 
@@ -157,14 +124,14 @@ npx @seed-design/codemod@latest ${doc.path} <target_path>
       // 입력 코드 블록 (파일명 포함)
       mdx += `\`\`\`${doc.example.fileExt} title="basic.input.${doc.example.fileExt}"\n`;
       mdx += `${doc.example.input}\n`;
-      mdx += `\`\`\`\n\n`;
+      mdx += "\`\`\`\n\n";
 
       // 출력 코드 블록 (파일명 포함)
       mdx += `\`\`\`${doc.example.fileExt} title="basic.output.${doc.example.fileExt}"\n`;
       mdx += `${doc.example.output}\n`;
-      mdx += `\`\`\`\n\n`;
+      mdx += "\`\`\`\n\n";
 
-      mdx += `</Accordion>\n</Accordions>\n\n`;
+      mdx += "</Accordion>\n</Accordions>\n\n";
     }
   }
 

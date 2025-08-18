@@ -5,11 +5,13 @@
   "pages": [
     "index",
     "---Getting Started---",
-    "...get-started",
-    "---Iconography---",
-    "...iconography",
+    "...getting-started",
     "...components",
-    "---Links---",
-    "[SEED Design](/docs)"
+    "---Guides and Patterns---",
+    "...(guides-and-patterns)",
+    "---Developer Tools---",
+    "...developer-tools",
+    "---Updates and Migration---",
+    "...(updates-and-migration)"
   ]
 }

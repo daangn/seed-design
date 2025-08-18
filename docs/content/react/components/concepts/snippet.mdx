@@ -3,11 +3,13 @@ title: Snippet
 description: 자주 사용되는 UI 패턴을 스니펫으로 제공하여 개발 효율성을 높이는 방법을 안내합니다.
 ---
 
+import { Terminal } from "lucide-react";
+
 ## 개요
 
 Snippet은 **Compound Components**를 기본으로 채택하면서도 개발자 경험(DX)을 최적화하기 위한 해결책입니다. 복잡한 compound components를 간단하게 사용할 수 있도록 도와주는 패턴입니다.
 
-## **Compound Components**란?
+## Compound Components
 
 기존의 닫힌 컴포넌트 방식에서는 컴포넌트의 커스터마이징이 제한적이었습니다. 예를 들어, 다음과 같은 닫힌 컴포넌트는:
 
@@ -38,7 +40,10 @@ Compound components는 뛰어난 유연성을 제공하지만, 매번 이렇게 
 
 ## Snippet 사용하기
 
-### 1. CLI 실행
+<Steps>
+<Step>
+
+### CLI 실행
 
 다음 명령어를 통해 필요한 컴포넌트의 snippet을 프로젝트에 추가할 수 있습니다:
 
@@ -46,12 +51,23 @@ Compound components는 뛰어난 유연성을 제공하지만, 매번 이렇게 
 npx @seed-design/cli add
 ```
 
-### 2. 생성된 Snippet 활용
+<Card title="CLI Commands" href="/react/getting-started/cli/commands" icon={<Terminal/>}>
+
+CLI 명령어에 대해 더 알아봅니다.
+
+</Card>
+
+</Step>
+
+<Step>
+
+### 생성된 Snippet 활용
 
 CLI 실행 후, `seed-design/ui/*` 디렉토리에 snippet이 생성됩니다. 예를 들어:
 
 ```tsx
 // seed-design/ui/checkbox.tsx
+
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ inputProps, rootRef, label, variant = "square", ...otherProps }, ref) => {
     return (
@@ -71,7 +87,10 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 );
 ```
 
-### 3. 간단한 사용법
+</Step>
+<Step>
+
+### 사용
 
 Snippet을 통해 복잡한 compound components를 간단하게 사용할 수 있습니다:
 
@@ -80,3 +99,6 @@ import { Checkbox } from "@/seed-design/ui/checkbox"
 
 const Demo = () => <Checkbox>Click me</Checkbox>
 ```
+
+</Step>
+</Steps>

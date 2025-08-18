@@ -393,7 +393,10 @@ async function main() {
       );
     });
 
-    const changelogPath = join(process.cwd(), "docs/content/react/get-started/changelog.mdx");
+    const changelogPath = join(
+      process.cwd(),
+      "docs/content/react/(updates-and-migration)/updates/changelog.mdx",
+    );
     console.log("📖 Reading existing changelog...");
     const existingContent = await readFile(changelogPath, "utf-8");
 

@@ -171,10 +171,6 @@
   --layer-index: 100;
 }
 
-#nd-sidebar {
-  --color-fd-muted-foreground: #4d4d4d;
-}
-
 .dark {
   --design-color: 250 100% 80%;
   --react-color: 217deg 92% 76%;
@@ -195,10 +191,6 @@
   --color-fd-accent: #2b2b2b;
   --color-fd-accent-foreground: #e6e6e6;
   --color-fd-ring: #262626;
-}
-
-.dark #nd-sidebar {
-  --color-fd-muted: #292929;
 }
 
 .example-reset {
