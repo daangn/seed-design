@@ -16,6 +16,41 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const conditionMap = {
+  disabled: {
+    false: {
+      disabled: false,
+    },
+    true: {
+      disabled: true,
+    },
+  },
+  readOnly: {
+    false: {
+      readOnly: false,
+    },
+    true: {
+      readOnly: true,
+    },
+  },
+  invalid: {
+    false: {
+      invalid: false,
+    },
+    true: {
+      invalid: true,
+    },
+  },
+  hasValue: {
+    false: {
+      value: "",
+    },
+    true: {
+      value: "Value",
+    },
+  },
+};
+
 const CommonStoryTemplate: Story = {
   args: {
     textareaProps: {
@@ -24,7 +59,12 @@ const CommonStoryTemplate: Story = {
     children: <TextFieldTextarea />,
   },
   render: (args) => (
-    <VariantTable Component={meta.component} variantMap={textFieldVariantMap} {...args} />
+    <VariantTable
+      Component={meta.component}
+      variantMap={textFieldVariantMap}
+      conditionMap={conditionMap}
+      {...args}
+    />
   ),
 };
 
