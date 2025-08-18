@@ -33,17 +33,20 @@ export const metadata = {
         "Brand Solid"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
         "Loading",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Loading",
-        "Disabled",
-        "Disabled-Selected"
+        "Disabled"
       ]
     }
   }

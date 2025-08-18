@@ -3,6 +3,74 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.12 #2
+
+[`62094b6`](https://github.com/daangn/seed-design/commit/62094b6e6d445edd1fbd7085f80a8e1cc4da03bf) Help Bubble의 스타일 문제를 수정합니다.
+
+- `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.12](https://npmjs.com/package/@seed-design/css/v/0.1.12)
+- [@seed-design/react@0.1.12](https://npmjs.com/package/@seed-design/react/v/0.1.12)
+- [@seed-design/react-popover@0.0.8](https://npmjs.com/package/@seed-design/react-popover/v/0.0.8)
+
+## 2025.08.12
+
+[`9993e0e`](https://github.com/daangn/seed-design/commit/9993e0ea799258e88a5d81777ab7785e21cafa97) 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+### Version Updates
+
+- [@seed-design/figma@0.1.11](https://npmjs.com/package/@seed-design/figma/v/0.1.11)
+- [@seed-design/react@0.1.11](https://npmjs.com/package/@seed-design/react/v/0.1.11)
+
+## 2025.08.11
+
+[`ef91c21`](https://github.com/daangn/seed-design/commit/ef91c21da109e74405fc57f0fd0246af63dcd1a9) Bottom Sheet의 스타일 문제를 수정해요.
+
+- Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
+
+[`aa40f66`](https://github.com/daangn/seed-design/commit/aa40f66e33a6d050d4728cce4d749f56a79e7975) Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+- Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.10](https://npmjs.com/package/@seed-design/css/v/0.1.10)
+- [@seed-design/figma@0.1.10](https://npmjs.com/package/@seed-design/figma/v/0.1.10)
+
+## 2025.08.07
+
+[`5a025b7`](https://github.com/daangn/seed-design/commit/5a025b7b12b7d288bc07dbea88e26cfb41d5b661) Switch 컴포넌트를 업데이트합니다.
+
+- size: medium → 32, small → 16으로 rename합니다.
+  - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+- size: 24를 추가합니다.
+- 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+[`f9379e0`](https://github.com/daangn/seed-design/commit/f9379e09d64d047136383ca4b16a704a5d82268e) Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+- Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+- `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+[`ac35731`](https://github.com/daangn/seed-design/commit/ac35731de335a06b4aa2f87bf03ebce002e61e2b) Chip.Root `position: relative` 속성 추가
+
+- 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
+
+[`f9041e9`](https://github.com/daangn/seed-design/commit/f9041e9cf4ee90acef8e52be1dc483d01438e0e2) `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+- `span` 대신 `div`를 렌더링합니다.
+- 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.9](https://npmjs.com/package/@seed-design/css/v/0.1.9)
+- [@seed-design/figma@0.1.9](https://npmjs.com/package/@seed-design/figma/v/0.1.9)
+- [@seed-design/react@0.1.9](https://npmjs.com/package/@seed-design/react/v/0.1.9)
+- [@seed-design/rootage-artifacts@0.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.3)
+
 ## 2025.08.04
 
 [`2e2cc53`](https://github.com/daangn/seed-design/commit/2e2cc530648f5d10432f23fa8169e3c4225f6315) - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.

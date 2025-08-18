@@ -16,18 +16,12 @@ export declare const metadata: {
         "False"
       ]
     },
-    "Pressed": {
+    "State": {
       "type": "VARIANT",
       "variantOptions": [
-        "True",
-        "False"
-      ]
-    },
-    "Disabled": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "True",
-        "False"
+        "Enabled",
+        "Pressed",
+        "Disabled"
       ]
     }
   }

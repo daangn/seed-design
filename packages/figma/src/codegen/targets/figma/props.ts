@@ -59,7 +59,7 @@ export function createContainerLayoutPropsConverter(
       props: {} as ContainerLayoutProps,
     },
     handlers: {
-      layoutMode: ({ layoutMode }) => layoutMode ?? "NONE",
+      layoutMode: ({ layoutMode }) => (!layoutMode || layoutMode === "GRID" ? "NONE" : layoutMode),
       primaryAxisAlignItems: ({ primaryAxisAlignItems }) => primaryAxisAlignItems,
       counterAxisAlignItems: ({ counterAxisAlignItems }) => counterAxisAlignItems,
       layoutWrap: ({ layoutWrap }) => layoutWrap,

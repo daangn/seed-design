@@ -1,5 +1,52 @@
 # @seed-design/figma
 
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies [62094b6]
+  - @seed-design/css@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- 9993e0e: 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+  Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- aa40f66: Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+  - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- f9379e0: Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+  - Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+  - `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [ac35731]
+- Updated dependencies [f9041e9]
+  - @seed-design/css@0.1.9
+
 ## 0.1.8
 
 ### Patch Changes

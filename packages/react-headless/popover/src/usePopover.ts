@@ -57,6 +57,7 @@ export function usePopover(props: UsePopoverProps = {}) {
         trigger: refs.setReference as (instance: HTMLElement | null) => void,
         positioner: refs.setFloating as (instance: HTMLElement | null) => void,
         arrow: refs.setArrow as (instance: HTMLElement | null) => void,
+        arrowTip: refs.setArrowTip as (instance: SVGSVGElement | null) => void,
       },
       rects,
       stateProps,

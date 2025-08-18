@@ -18,8 +18,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./lib/index.mjs",
-      "types": "./lib/index.d.ts"
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs"
     }
   },
   "files": [

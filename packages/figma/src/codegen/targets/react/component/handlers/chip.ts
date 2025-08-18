@@ -1,8 +1,12 @@
-import type { AvatarProperties, ChipProperties } from "@/codegen/component-properties";
+import type {
+  AvatarProperties,
+  ChipIconSuffixProperties,
+  ChipProperties,
+} from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { match } from "ts-pattern";
-import { createLocalSnippetHelper } from "../../element-factories";
+import { createLocalSnippetHelper, createSeedReactElement } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 import { camelCase } from "change-case";
@@ -11,12 +15,28 @@ import { createAvatarHandler } from "@/codegen/targets/react/component/handlers/
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("chip");
 
+const CHIP_ICON_SUFFIX_KEY = "27343e0e5ab2c66948e9b10fde03d58b5e037212";
+const createChipIconSuffixHandler = (ctx: ComponentHandlerDeps) => {
+  return defineComponentHandler<ChipIconSuffixProperties>(
+    CHIP_ICON_SUFFIX_KEY,
+    ({ componentProperties }) => {
+      return createLocalSnippetElement(
+        "Chip.SuffixIcon",
+        undefined,
+        createSeedReactElement("Icon", {
+          svg: ctx.iconHandler.transform(componentProperties["Icon#33203:0"]),
+        }),
+      );
+    },
+  );
+};
+
 export const createChipHandler = (ctx: ComponentHandlerDeps) => {
   const avatarHandler = createAvatarHandler(ctx);
+  const iconSuffixHandler = createChipIconSuffixHandler(ctx);
 
   return defineComponentHandler<ChipProperties>(metadata.chip.key, (node, traverse) => {
     const props = node.componentProperties;
-    const states = props.State.value.split("-");
 
     const prefix = match(props["Prefix Type"].value)
       .with("None", "Image", () => undefined)
@@ -24,7 +44,9 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
         createLocalSnippetElement(
           "Chip.PrefixIcon",
           undefined,
-          ctx.iconHandler.transform(props["Prefix Icon#8722:0"]),
+          createSeedReactElement("Icon", {
+            svg: ctx.iconHandler.transform(props["Prefix Icon#8722:0"]),
+          }),
         ),
       )
       .with("Avatar", () => {
@@ -39,19 +61,18 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
       })
       .exhaustive();
 
-    const suffix = props["Has Suffix#32538:181"].value
-      ? createLocalSnippetElement(
-          "Chip.SuffixIcon",
-          undefined,
-          ctx.iconHandler.transform(props["Suffix Type#32538:0"]),
-        )
-      : undefined;
+    const label = createLocalSnippetElement("Chip.Label", undefined, props["Label#7185:0"].value);
+
+    const [suffixIcon] = findAllInstances<ChipIconSuffixProperties>({
+      node,
+      key: CHIP_ICON_SUFFIX_KEY,
+    });
 
     const commonProps = {
       variant: camelCase(props.Variant.value),
       size: handleSizeProp(props.Size.value),
       layout: props["Label#7185:0"].value ? "withText" : "iconOnly",
-      ...(states.includes("Disabled") && {
+      ...(props.State.value === "Disabled" && {
         disabled: true,
       }),
     };
@@ -59,8 +80,8 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
     return createLocalSnippetElement(
       "Chip.Button",
       commonProps,
-      [prefix, props["Label#7185:0"].value, suffix],
-      { comment: "목적에 따라 Chip.Toggle, Chip.RadioItem 등으로도 사용할 수 있습니다." },
+      [prefix, label, suffixIcon ? iconSuffixHandler.transform(suffixIcon, traverse) : undefined],
+      { comment: "목적에 따라 Chip.Toggle, Chip.RadioItem 등으로 바꿔 사용하세요." },
     );
   });
 };

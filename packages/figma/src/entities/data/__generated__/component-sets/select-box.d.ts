@@ -18,13 +18,18 @@ export declare const metadata: {
         "Radio"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
-        "Pressed",
-        "Selected",
-        "Selected-Pressed"
+        "Pressed"
       ]
     }
   }

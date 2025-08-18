@@ -15,7 +15,7 @@ export declare const metadata: {
         "Neutral",
         "Brand",
         "Static White",
-        "Custom"
+        "Custom(inherit)"
       ]
     },
     "Value": {

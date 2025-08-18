@@ -21,14 +21,12 @@ const conditionMap = {
     true: { checked: true },
     false: { checked: false },
   },
-  size: {
-    small: { size: "small", label: "라벨" },
-    medium: { size: "medium" },
-  },
 };
 
 const CommonStoryTemplate: Story = {
-  args: {},
+  args: {
+    label: "라벨",
+  },
   render: (args) => (
     <VariantTable
       Component={meta.component}

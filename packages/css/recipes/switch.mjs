@@ -21,15 +21,16 @@ const switchSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "medium"
+  "size": 32
 };
 
 const compoundVariants = [];
 
 export const switchVariantMap = {
   "size": [
-    "medium",
-    "small"
+    "16",
+    "24",
+    "32"
   ]
 };
 

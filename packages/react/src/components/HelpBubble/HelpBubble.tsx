@@ -5,8 +5,10 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import clsx from "clsx";
 
-const { withRootProvider, withContext } = createSlotRecipeContext(helpBubble);
+const { withRootProvider, withContext, useClassNames } = createSlotRecipeContext(helpBubble);
 const withStateProps = createWithStateProps([usePopoverContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -81,11 +83,16 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
   (props, ref) => {
     const {
       tipRadius = 2, // TODO: get value from rootage spec
+      className,
       ...otherProps
     } = props;
     const api = usePopoverContext();
-    const width = api.rects.arrow?.width || 0;
-    const height = api.rects.arrow?.height || 0;
+
+    const classNames = useClassNames();
+
+    const width = api.rects.arrowTip?.width || 0;
+    const height = api.rects.arrowTip?.height || 0;
+
     const pathData = `M0,0
       H${width}
       L${width / 2 + tipRadius},${height - tipRadius}
@@ -96,10 +103,9 @@ export const HelpBubbleArrowTip = forwardRef<SVGSVGElement, HelpBubbleArrowTipPr
     return (
       <svg
         aria-hidden="true"
-        width={width}
-        height={width}
-        viewBox={`0 0 ${width} ${height > width ? height : width}`}
-        ref={ref}
+        viewBox={`0 0 ${width} ${height}`}
+        ref={composeRefs(api.refs.arrowTip, ref)}
+        className={clsx(classNames.arrowTip, className)}
         {...otherProps}
       >
         <path stroke="none" d={pathData} />

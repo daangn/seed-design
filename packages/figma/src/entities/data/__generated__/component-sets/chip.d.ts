@@ -36,6 +36,10 @@ export declare const metadata: {
         {
           "type": "COMPONENT_SET",
           "key": "df43b92004c850e7c6d2869e7a4ba1ef9a2d7db6"
+        },
+        {
+          "type": "COMPONENT_SET",
+          "key": "19923052d4152393ecdc6e2f5853ea0359849127"
         }
       ]
     },
@@ -58,19 +62,19 @@ export declare const metadata: {
         "Small"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "False",
+        "True"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
         "Disabled"
-      ]
-    },
-    "Selected": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "False",
-        "True"
       ]
     },
     "Prefix Type": {

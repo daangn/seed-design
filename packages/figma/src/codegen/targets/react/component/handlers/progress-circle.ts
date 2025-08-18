@@ -45,7 +45,7 @@ export const createProgressCircleHandler = (_ctx: ComponentHandlerDeps) =>
         minValue,
         maxValue,
         size: props.Size.value,
-        ...(props.Tone.value !== "Custom" && {
+        ...(props.Tone.value !== "Custom(inherit)" && {
           tone: camelCase(props.Tone.value),
         }),
       };

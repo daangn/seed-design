@@ -227,6 +227,7 @@ export function createPluginNormalizer() {
       componentSetKey:
         mainComponent.parent?.type === "COMPONENT_SET" ? mainComponent.parent.key : undefined,
       componentProperties,
+      overrides: node.overrides,
     };
   }
 

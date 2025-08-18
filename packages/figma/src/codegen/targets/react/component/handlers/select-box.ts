@@ -14,21 +14,19 @@ export const createSelectBoxHandler = (_ctx: ComponentHandlerDeps) =>
     ({ componentProperties: props }) => {
       const tag = match(props.Control.value)
         .with("Checkbox", () => "CheckSelectBox")
-        .with("Radio", () => "RadioSelectBox")
+        .with("Radio", () => "RadioSelectBoxItem")
         .exhaustive();
-
-      const states = props.State.value.split("-");
 
       const commonProps = {
         label: props["Label#3635:0"].value,
         ...(props["Show Description#3033:0"].value && {
           description: props["Description #3033:5"].value,
         }),
-        ...(tag === "RadioSelectBox" && {
+        ...(tag === "RadioSelectBoxItem" && {
           value: props["Label#3635:0"].value,
         }),
         ...(tag === "CheckSelectBox" &&
-          states.includes("Selected") && {
+          props.Selected.value === "True" && {
             defaultChecked: true,
           }),
       };
@@ -47,7 +45,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
 
       const tag = match(props.Control.value)
         .with("Checkbox", () => "CheckSelectBoxGroup")
-        .with("Radio", () => "RadioSelectBoxGroup")
+        .with("Radio", () => "RadioSelectBoxRoot")
         .exhaustive();
 
       const selectBoxes = findAllInstances<SelectBoxProperties>({
@@ -56,7 +54,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       });
 
       const selectedSelectBox = selectBoxes.find((selectBox) =>
-        selectBox.componentProperties.State.value.split("-").includes("Selected"),
+        selectBox.componentProperties.Selected.value === "True",
       );
 
       // traverse the container like it's a frame
@@ -69,7 +67,7 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
       );
 
       const commonProps = {
-        ...(tag === "RadioSelectBoxGroup" && {
+        ...(tag === "RadioSelectBoxRoot" && {
           defaultValue: selectedSelectBox?.componentProperties["Label#3635:0"].value,
         }),
       };

@@ -1646,6 +1646,7 @@
   background: var(--seed-color-bg-neutral-weak);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral);
+  border: none;
   justify-content: center;
   align-items: center;
   width: 28px;
@@ -2890,6 +2891,7 @@
   line-height: 1;
   transition-property: background-color, color, border-color, box-shadow;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-chip__root:is(:focus, [data-focus]) {
@@ -3118,6 +3120,7 @@
   justify-content: center;
   align-items: center;
   display: inline-flex;
+  position: relative;
 }
 
 .seed-control-chip:is(:focus, [data-focus]) {
@@ -3696,6 +3699,7 @@
 .seed-select-box__content {
   gap: var(--seed-dimension-x0_5);
   flex-direction: column;
+  flex-grow: 1;
   display: flex;
 }
 
@@ -3797,7 +3801,6 @@
   box-sizing: border-box;
   vertical-align: top;
   isolation: isolate;
-  opacity: 1;
   cursor: pointer;
   justify-content: space-between;
   align-items: flex-start;
@@ -3806,7 +3809,6 @@
 }
 
 .seed-switch__root:is(:disabled, [disabled], [data-disabled]) {
-  opacity: .38;
   cursor: not-allowed;
 }
 
@@ -3819,6 +3821,10 @@
   position: relative;
 }
 
+.seed-switch__control:is(:disabled, [disabled], [data-disabled]) {
+  opacity: .38;
+}
+
 .seed-switch__control:is(:checked, [data-checked]) {
   background: var(--seed-color-bg-brand-solid);
 }
@@ -3829,52 +3835,96 @@
   transition: transform .15s cubic-bezier(.35, 0, .35, 1);
 }
 
-.seed-switch__root--size_medium {
-  min-height: 32px;
+.seed-switch__label {
+  font-weight: var(--seed-font-weight-medium);
+  color: var(--seed-color-fg-neutral);
 }
 
-.seed-switch__control--size_medium {
-  min-block-size: 32px;
-  min-inline-size: 52px;
-  padding: 2px;
+.seed-switch__label:is(:disabled, [disabled], [data-disabled]) {
+  color: var(--seed-color-fg-disabled);
 }
 
-.seed-switch__thumb--size_medium {
-  width: 28px;
-  height: 28px;
-  box-shadow: 0 3px 8px #00000026, 0 1px 3px #0000000f;
-}
-
-.seed-switch__thumb--size_medium:is(:checked, [data-checked]) {
-  transform: translateX(20px);
-}
-
-.seed-switch__root--size_small {
-  gap: var(--seed-dimension-x2);
+.seed-switch__root--size_16 {
+  gap: var(--seed-dimension-x1_5);
   min-height: 24px;
 }
 
-.seed-switch__control--size_small {
+.seed-switch__control--size_16 {
   min-block-size: 16px;
   min-inline-size: 26px;
   margin: 4px 0;
   padding: 2px;
 }
 
-.seed-switch__thumb--size_small {
+.seed-switch__thumb--size_16 {
   width: 12px;
   height: 12px;
 }
 
-.seed-switch__thumb--size_small:is(:checked, [data-checked]) {
+.seed-switch__thumb--size_16:is(:checked, [data-checked]) {
   transform: translateX(10px);
 }
 
-.seed-switch__label--size_small {
+.seed-switch__label--size_16 {
+  font-size: var(--seed-font-size-t3);
+  line-height: var(--seed-line-height-t3);
+  margin-top: calc(12px - .5625rem);
+}
+
+.seed-switch__root--size_24 {
+  gap: var(--seed-dimension-x2);
+  min-height: 24px;
+}
+
+.seed-switch__control--size_24 {
+  min-block-size: 24px;
+  min-inline-size: 38px;
+  margin: 0;
+  padding: 2px;
+}
+
+.seed-switch__thumb--size_24 {
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 3px 8px #00000026, 0 1px 3px #0000000f;
+}
+
+.seed-switch__thumb--size_24:is(:checked, [data-checked]) {
+  transform: translateX(14px);
+}
+
+.seed-switch__label--size_24 {
   font-size: var(--seed-font-size-t4);
   line-height: var(--seed-line-height-t4);
-  font-weight: var(--seed-font-weight-regular);
   margin-top: calc(12px - .59375rem);
+}
+
+.seed-switch__root--size_32 {
+  gap: var(--seed-dimension-x2_5);
+  min-height: 32px;
+}
+
+.seed-switch__control--size_32 {
+  min-block-size: 32px;
+  min-inline-size: 52px;
+  margin: 0;
+  padding: 2px;
+}
+
+.seed-switch__thumb--size_32 {
+  width: 28px;
+  height: 28px;
+  box-shadow: 0 3px 8px #00000026, 0 1px 3px #0000000f;
+}
+
+.seed-switch__thumb--size_32:is(:checked, [data-checked]) {
+  transform: translateX(20px);
+}
+
+.seed-switch__label--size_32 {
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
+  margin-top: calc(16px - .6875rem);
 }
 
 .seed-help-bubble__content {
@@ -3916,10 +3966,15 @@
 }
 
 .seed-help-bubble__arrow {
+  width: 12px;
+  height: 12px;
+  font-size: 0;
+}
+
+.seed-help-bubble__arrowTip {
   fill: var(--seed-color-bg-neutral-solid);
   width: 12px;
   height: 8px;
-  font-size: 0;
 }
 
 .seed-help-bubble__title {

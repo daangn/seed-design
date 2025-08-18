@@ -27,12 +27,12 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -60,13 +60,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
-        if: steps.changesets.outputs.published == 'false'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
         with:
           ref: changeset-release/${{ github.ref_name }}
 
       - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
-        if: steps.changesets.outputs.published == 'false'
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
         run: |
           bun install --frozen-lockfile
           bun rootage:build
@@ -93,4 +93,9 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: '새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}\n\n변경사항: https://seed-design.io/react/get-started/changelog'
+            text: '새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "[변경사항](https://seed-design.io/react/get-started/changelog) (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"

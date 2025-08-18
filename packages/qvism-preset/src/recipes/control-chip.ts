@@ -8,6 +8,7 @@ import { active, checked, disabled, focus, pseudo } from "../utils/pseudo";
 const controlChip = defineRecipe({
   name: "control-chip",
   base: {
+    position: "relative",
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",

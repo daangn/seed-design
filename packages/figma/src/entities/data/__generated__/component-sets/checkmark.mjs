@@ -16,18 +16,20 @@ export const metadata = {
         "Large"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False",
+        "Indeterminate"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Selected",
-        "Selected-Pressed",
-        "Indeterminate",
-        "Indeterminate-Pressed",
-        "Disabled",
-        "Disabled-Selected",
-        "Disabled-Indeterminate"
+        "Disabled"
       ]
     }
   }
