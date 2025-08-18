@@ -25,7 +25,7 @@ function setUp(jsx: ReactElement) {
 }
 
 interface TextFieldWithGraphemesProps {
-  maxGraphemes?: number;
+  maxGraphemeCount?: number;
   value?: string;
   defaultValue?: string;
   onValueChange?: (values: {
@@ -36,17 +36,10 @@ interface TextFieldWithGraphemesProps {
   }) => void;
 }
 
-const TextFieldWithGraphemes = ({
-  maxGraphemes,
-  value,
-  defaultValue,
-  onValueChange,
-}: TextFieldWithGraphemesProps) => {
+const TextFieldWithGraphemes = ({ maxGraphemeCount, ...props }: TextFieldWithGraphemesProps) => {
   const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
-    maxGraphemeCount,
-    value,
-    defaultValue,
-    onValueChange,
+    ...props,
+    maxGraphemeCount: maxGraphemeCount ?? 0,
   });
 
   return (
@@ -58,7 +51,7 @@ const TextFieldWithGraphemes = ({
         <TextFieldInput data-testid="input" />
       </TextFieldRoot>
       <FieldFooter>
-        {counterProps && <FieldCharacterCount {...counterProps} data-testid="counter" />}
+        <FieldCharacterCount {...counterProps} data-testid="counter" />
       </FieldFooter>
     </FieldRoot>
   );
@@ -108,7 +101,7 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should track grapheme count with counter", async () => {
-      const { getByTestId, user } = setUp(<TextFieldWithGraphemes maxGraphemes={20} />);
+      const { getByTestId, user } = setUp(<TextFieldWithGraphemes maxGraphemeCount={20} />);
       const input = getByTestId("input");
       const counter = getByTestId("counter");
 
@@ -123,24 +116,9 @@ describe("useTextFieldWithGraphemes", () => {
   });
 
   describe("counter functionality", () => {
-    it("should not show counter when maxGraphemes is not set", () => {
-      const { queryByTestId } = setUp(<TextFieldWithGraphemes />);
-      const counter = queryByTestId("counter");
-
-      expect(counter).not.toBeInTheDocument();
-    });
-
-    it("should show counter when maxGraphemes is set", () => {
-      const { getByTestId } = setUp(<TextFieldWithGraphemes maxGraphemes={10} />);
-      const counter = getByTestId("counter");
-
-      expect(counter).toBeInTheDocument();
-      expect(counter).toHaveTextContent("0/10");
-    });
-
     it("should show the right character count with defaultValue", () => {
       const { getByTestId } = setUp(
-        <TextFieldWithGraphemes maxGraphemes={10} defaultValue="Hello" />,
+        <TextFieldWithGraphemes maxGraphemeCount={10} defaultValue="Hello" />,
       );
       const counter = getByTestId("counter");
 
@@ -149,7 +127,7 @@ describe("useTextFieldWithGraphemes", () => {
     });
 
     it("should update counter as user types", async () => {
-      const { getByTestId, user } = setUp(<TextFieldWithGraphemes maxGraphemes={10} />);
+      const { getByTestId, user } = setUp(<TextFieldWithGraphemes maxGraphemeCount={10} />);
       const input = getByTestId("input");
       const counter = getByTestId("counter");
 
@@ -164,7 +142,7 @@ describe("useTextFieldWithGraphemes", () => {
 
     it("should handle maxGraphemes of 0", () => {
       const { getByTestId } = setUp(
-        <TextFieldWithGraphemes maxGraphemes={0} defaultValue="Test" />,
+        <TextFieldWithGraphemes maxGraphemeCount={0} defaultValue="Test" />,
       );
       const counter = getByTestId("counter");
 
@@ -200,7 +178,7 @@ describe("useTextFieldWithGraphemes", () => {
     it("should provide sliced values when maxGraphemes is set", async () => {
       const handleValueChange = vi.fn();
       const { getByTestId, user } = setUp(
-        <TextFieldWithGraphemes maxGraphemes={3} onValueChange={handleValueChange} />,
+        <TextFieldWithGraphemes maxGraphemeCount={3} onValueChange={handleValueChange} />,
       );
       const input = getByTestId("input");
 
@@ -293,7 +271,7 @@ describe("useTextFieldWithGraphemes", () => {
     it("should handle very long text", () => {
       const longText = "a".repeat(1000);
       const { getByTestId } = setUp(
-        <TextFieldWithGraphemes defaultValue={longText} maxGraphemes={2000} />,
+        <TextFieldWithGraphemes defaultValue={longText} maxGraphemeCount={2000} />,
       );
       const counter = getByTestId("counter");
 
@@ -302,7 +280,7 @@ describe("useTextFieldWithGraphemes", () => {
 
     it("should handle special unicode characters", () => {
       const { getByTestId } = setUp(
-        <TextFieldWithGraphemes defaultValue="👫🏼é🏳️‍🌈" maxGraphemes={2} />,
+        <TextFieldWithGraphemes defaultValue="👫🏼é🏳️‍🌈" maxGraphemeCount={2} />,
       );
       const counter = getByTestId("counter");
 
