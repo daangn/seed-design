@@ -6,7 +6,6 @@ import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { placeholder } from "@seed-design/css/vars/color/fg";
 
 const meta = {
   component: TextFieldTextarea,
