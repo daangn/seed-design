@@ -20,6 +20,7 @@ const field = defineSlotRecipe({
   base: {
     root: {
       display: "flex",
+      flexDirection: "column",
 
       width: "100%",
     },
@@ -72,7 +73,6 @@ const field = defineSlotRecipe({
   },
   defaultVariants: {
     size: "medium",
-    orientation: "vertical",
   },
   variants: {
     size: {
@@ -193,19 +193,6 @@ const field = defineSlotRecipe({
         maxCharacterCount: {
           fontSize: vars.sizeMedium.enabled.maxCharacterCount.fontSize,
           lineHeight: vars.sizeMedium.enabled.maxCharacterCount.lineHeight,
-        },
-      },
-    },
-    orientation: {
-      horizontal: {
-        root: {
-          flexDirection: "row",
-          alignItems: "center",
-        },
-      },
-      vertical: {
-        root: {
-          flexDirection: "column",
         },
       },
     },

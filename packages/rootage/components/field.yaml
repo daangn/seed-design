@@ -199,7 +199,3 @@ data:
         maxCharacterCount:
           fontSize: $font-size.t2
           lineHeight: $line-height.t2
-
-    orientation=horizontal: {}
-    
-    orientation=vertical: {}

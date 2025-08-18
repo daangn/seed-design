@@ -49,8 +49,7 @@ const fieldSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "medium",
-  "orientation": "vertical"
+  "size": "medium"
 };
 
 const compoundVariants = [];
@@ -60,10 +59,6 @@ export const fieldVariantMap = {
     "xlarge",
     "large",
     "medium"
-  ],
-  "orientation": [
-    "horizontal",
-    "vertical"
   ]
 };
 

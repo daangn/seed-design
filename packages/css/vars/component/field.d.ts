@@ -148,7 +148,5 @@ export declare const vars: {
         "lineHeight": "var(--seed-line-height-t2)"
       }
     }
-  },
-  "orientationHorizontal": {},
-  "orientationVertical": {}
+  }
 }

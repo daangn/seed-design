@@ -3,10 +3,6 @@ declare interface FieldVariant {
   * @default medium
   */
   size: "xlarge" | "large" | "medium";
-/**
-  * @default vertical
-  */
-  orientation: "horizontal" | "vertical";
 }
 
 declare type FieldVariantMap = {

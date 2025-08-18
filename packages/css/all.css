@@ -3776,6 +3776,7 @@
 }
 
 .seed-field__root {
+  flex-direction: column;
   width: 100%;
   display: flex;
 }
@@ -3925,15 +3926,6 @@
 .seed-field__characterCount--size_medium, .seed-field__maxCharacterCount--size_medium {
   font-size: var(--seed-font-size-t2);
   line-height: var(--seed-line-height-t2);
-}
-
-.seed-field__root--orientation_horizontal {
-  flex-direction: row;
-  align-items: center;
-}
-
-.seed-field__root--orientation_vertical {
-  flex-direction: column;
 }
 
 .seed-help-bubble__content {
