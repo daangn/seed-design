@@ -56,6 +56,14 @@ const CommonStoryTemplate: Story = {
   args: {
     prefixIcon: <IconPaperplaneLine />,
     suffix: "Suffix",
+    label:
+      "Officia ad consectetur mollit incididunt tempor tempor in mollit exercitation velit veniam laborum.",
+    indicator:
+      "Officia nostrud aute minim consectetur mollit incididunt tempor tempor cupidatat nostrud est.",
+    description:
+      "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
+    errorMessage:
+      "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
     inputProps: {
       placeholder: "Placeholder",
     },
