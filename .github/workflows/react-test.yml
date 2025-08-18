@@ -9,6 +9,9 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
