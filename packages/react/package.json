@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@seed-design/css": "0.1.12",
-    "@vitejs/plugin-react": "^4.4.1",
+    "@vitejs/plugin-react": "^5.0.0",
     "ajv": "^8.17.1",
     "globby": "^14.1.0",
     "react": "^19.1.0",
