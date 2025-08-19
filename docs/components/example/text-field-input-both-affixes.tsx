@@ -2,7 +2,7 @@ import { IconPlusCircleLine, IconWonLine } from "@karrotmarket/react-monochrome-
 import { HStack } from "@seed-design/react";
 import { TextFieldInput } from "seed-design/ui/text-field";
 
-export default function TextFieldInputSuffix() {
+export default function TextFieldInputBothAffixes() {
   return (
     <HStack width="full" gap="x3">
       <TextFieldInput
