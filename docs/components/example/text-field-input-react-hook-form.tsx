@@ -17,7 +17,10 @@ export default function TextFieldInputReactHookForm() {
     },
   });
 
-  const { field: nameField, fieldState: nameFieldState } = useController({
+  const {
+    field: { onChange: nameOnChange, ...nameField },
+    fieldState: nameFieldState,
+  } = useController({
     name: "name",
     control,
     rules: {
@@ -57,6 +60,7 @@ export default function TextFieldInputReactHookForm() {
           description="이름을 써주세요"
           invalid={nameFieldState.invalid}
           errorMessage={nameFieldState.error?.message}
+          onValueChange={({ value }) => nameOnChange(value)}
           required
           inputProps={{ placeholder: "홍길동" }}
           {...nameField}

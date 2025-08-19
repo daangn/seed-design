@@ -18,7 +18,10 @@ export default function TextFieldTextareaReactHookForm() {
     shouldFocusError: true,
   });
 
-  const { field: bioField, fieldState: bioFieldState } = useController({
+  const {
+    field: { onChange: bioOnChange, ...bioField },
+    fieldState: bioFieldState,
+  } = useController({
     name: "bio",
     control,
     rules: {
@@ -68,6 +71,7 @@ export default function TextFieldTextareaReactHookForm() {
           description="자기소개를 써주세요"
           invalid={bioFieldState.invalid}
           errorMessage={bioFieldState.error?.message}
+          onValueChange={({ value }) => bioOnChange(value)}
           required
           textareaProps={{ placeholder: "저는…", onKeyDown: onMetaReturn }}
           {...bioField}
