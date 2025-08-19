@@ -98,7 +98,7 @@ export const TextFieldInput = React.forwardRef<HTMLInputElement, TextFieldInputP
         {renderFooter && (
           <SeedField.Footer>
             {renderDescription && (
-              <SeedField.Description {...(invalid && { style: visuallyHidden })}>
+              <SeedField.Description {...(renderErrorMessage && { style: visuallyHidden })}>
                 {description}
               </SeedField.Description>
             )}
