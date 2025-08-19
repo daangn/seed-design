@@ -163,7 +163,11 @@ export const registryUI: RegistryUI = [
   },
   {
     name: "text-field",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    dependencies: [
+      "@seed-design/react",
+      "@seed-design/dom-utils",
+      "@karrotmarket/react-monochrome-icon",
+    ],
     files: ["ui:text-field.tsx"],
   },
   {
