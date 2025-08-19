@@ -16,10 +16,7 @@ export const IconSearch = () => {
       value={search}
       autoFocus
       size="xlarge"
-      className="mb-10 mt-4"
-      inputProps={{
-        placeholder: "person, car, 알파벳, etc...",
-      }}
+      inputProps={{ placeholder: "person, car, 알파벳, etc..." }}
     />
   );
 };

@@ -27,7 +27,9 @@ export const IconLibrary = () => {
           }}
         >
           <IconSegmentedControl />
-          <IconSearch />
+          <div className="pb-10 pt-4">
+            <IconSearch />
+          </div>
           <IconGrid />
           <IconBottomInfomation />
         </IconProvider>
