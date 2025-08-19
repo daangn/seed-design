@@ -1,4 +1,3 @@
 {
-  "title": "Developer Tools",
-  "pages": ["figma-integration", "llm-support", "codemods"]
+  "title": "Developer Tools"
 }

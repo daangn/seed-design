@@ -43,62 +43,6 @@ import { Terminal } from "lucide-react";
 
 ### Codemod 스크립트
 
-<Accordions>
-
-<Accordion title="실행 결과 미리보기">
-
-실행 전
-
-```tsx
-import {
-  IconSellRegular,
-  IconListFill,
-  IconCarRegular,
-  IconAddFill as AddIconAlias,
-} from "@seed-design/react-icon";
-import IconSellFill from "@seed-design/react-icon/IconSellFill";
-
-function App() {
-  console.log(IconSellRegular);
-
-  return (
-    <>
-      <IconListFill />
-      <AddIconAlias />
-      <IconCarRegular />
-    </>
-  );
-}
-```
-
-실행 후
-
-```tsx
-import {
-  IconPlusSquareLine,
-  IconDothorizline3VerticalFill,
-  IconCarFrontsideLine,
-  IconPlusFill as AddIconAlias,
-} from "@karrotmarket/react-monochrome-icon";
-import IconPlusSquareFill from "@karrotmarket/react-monochrome-icon/IconPlusSquareFill";
-
-function App() {
-  console.log(IconPlusSquareLine);
-
-  return (
-    <>
-      <IconDothorizline3VerticalFill />
-      <AddIconAlias />
-      <IconCarFrontsideLine />
-    </>
-  );
-}
-```
-
-</Accordion>
-
-</Accordions>
-
 <Steps>
 
 <Step>

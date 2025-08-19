@@ -6,12 +6,14 @@
     "index",
     "---Getting Started---",
     "...getting-started",
+    "---AI Support---",
+    "...ai-support",
     "...components",
-    "---Guides and Patterns---",
-    "...(guides-and-patterns)",
     "---Developer Tools---",
     "...developer-tools",
-    "---Updates and Migration---",
-    "...(updates-and-migration)"
+    "---Updates---",
+    "...updates",
+    "---Migration---",
+    "...migration"
   ]
 }
