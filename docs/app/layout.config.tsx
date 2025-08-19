@@ -1,6 +1,24 @@
 import { reactSource, source } from "@/app/source";
+import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
-import type { HomeLayoutProps } from "fumadocs-ui/layouts/home";
+import { Atom, File } from "lucide-react";
+import type { PropsWithChildren } from "react";
+
+function SidebarTabIconContainer({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div
+      className={clsx(
+        className,
+        "[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5",
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
 /**
  * Shared layout configurations
@@ -9,8 +27,32 @@ import type { HomeLayoutProps } from "fumadocs-ui/layouts/home";
  * Home Layout: app/(home)/layout.tsx
  * Docs Layout: app/docs/layout.tsx
  */
-export const baseOptions: HomeLayoutProps = {
+export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
   githubUrl: "https://github.com/daangn/seed-design",
+  sidebar: {
+    tabs: [
+      {
+        title: "Docs",
+        description: "당근 앱을 위한 디자인 언어",
+        url: "/docs",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--design-color)]">
+            <File />
+          </SidebarTabIconContainer>
+        ),
+      },
+      {
+        title: "React",
+        description: "React 라이브러리",
+        url: "/react",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--react-color)]">
+            <Atom />
+          </SidebarTabIconContainer>
+        ),
+      },
+    ],
+  },
   nav: {
     title: (
       <div className="flex gap-2 justify-center items-center">
