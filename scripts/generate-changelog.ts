@@ -7,7 +7,7 @@
  *
  * 사용법:
  * 1. 프로젝트 루트에서 `bun run generate:changelog` 명령어를 실행합니다.
- * 2. 생성된 Changelog 파일은 `docs/content/react/get-started/changelog.mdx`에 추가됩니다.
+ * 2. 생성된 Changelog 파일은 `changelog.mdx`에 추가됩니다.
  */
 
 import { read } from "@changesets/config";

@@ -281,7 +281,7 @@ npm install @daangn/vue3-monochrome-icon @daangn/vue3-multicolor-icon
 
 #### 아이콘 이름 변경
 
-[V2 V3 아이콘 맵핑](/react/foundation/iconography/v2-v3-list) 문서를 참고하여 리뉴얼된 패키지를 사용하도록 코드를 수정해요.
+[V2 V3 아이콘 맵핑](/docs/migration/migration-reference#iconography) 문서를 참고하여 리뉴얼된 패키지를 사용하도록 코드를 수정해요.
 
 <Callout type="warn" title="이름 변경 관련 유의 사항">
 
@@ -301,7 +301,7 @@ npm install @daangn/vue3-monochrome-icon @daangn/vue3-multicolor-icon
 #### 사이드 이펙트 확인
 
 - [사이드 이펙트](#발생-가능한-사이드-이펙트)가 발생했는지 확인하여 의도한 대로 변경이 이루어졌는지 검토해요.
-- 디자인 QA 과정에서, [V2 V3 아이콘 맵핑](/react/foundation/iconography/v2-v3-list)에 따른 아이콘이 아닌 새로운 아이콘을 사용하도록 결정되었을 수 있어요. 이러한 경우, Figma 디자인 파일을 참고하여 코드에 반영해요.
+- 디자인 QA 과정에서, [V2 V3 아이콘 맵핑](/docs/migration/migration-reference#iconography)에 따른 아이콘이 아닌 새로운 아이콘을 사용하도록 결정되었을 수 있어요. 이러한 경우, Figma 디자인 파일을 참고하여 코드에 반영해요.
 - 멀티컬러 아이콘 사용이 필요한 곳에는 [멀티컬러 아이콘 패키지](https://github.com/daangn/seed-icon-v3/pkgs/npm/react-multicolor-icon)를 사용해주세요.
 
 </Step>
@@ -367,7 +367,7 @@ git grep -E '(IconBold|IconCobuying|IconDelivery|IconSuggest|IconWriteStory)(Thi
 **이전 아이콘과 리뉴얼된 아이콘은 `n:1`로 대응돼요.** 따라서, 같은 페이지에 표시되었던 서로 다른 여러 개의 아이콘이, 동일한 리뉴얼된 아이콘으로 대체되는 경우가 있어요. 의도한 목적대로 아이콘이 표시되는지 확인해요.
 
 - 한 이전 아이콘의 3개 variant 중 `Thin` variant와 `Regular` variant는 리뉴얼된 아이콘에서 모두 `Line` variant로 대체돼요.
-  - 예를 들면, `IconForwardThin`, `IconForwardRegular`는 모두 [`IconArrowRightLine`](/docs/foundation/iconography/monochrome?icon=icon_arrow_right_line)으로 대체돼요.
+  - 예를 들면, `IconForwardThin`, `IconForwardRegular`는 모두 [`IconArrowRightLine`](/docs/foundation/iconography/library?icon=icon_arrow_right_line)으로 대체돼요.
   - 이전 아이콘의 `Fill` variant는 리뉴얼된 아이콘에서도 `Fill` variant로 대체돼요.
 - 여러 개의 이전 아이콘이 하나의 리뉴얼된 아이콘으로 대체되는 경우도 있어요.
-  - 예를 들면, `IconHeadphoneRegular`, `IconHelpcenterRegular`, `IconHelperRegular`는 모두 [`IconHeadsetLine`](/docs/foundation/iconography/monochrome?icon=icon_headset_line)으로 대체돼요.
+  - 예를 들면, `IconHeadphoneRegular`, `IconHelpcenterRegular`, `IconHelperRegular`는 모두 [`IconHeadsetLine`](/docs/foundation/iconography/library?icon=icon_headset_line)으로 대체돼요.
