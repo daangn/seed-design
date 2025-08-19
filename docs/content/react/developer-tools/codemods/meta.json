@@ -1,4 +1,4 @@
 {
   "title": "Codemods",
-  "pages": ["introduction", "available-transforms", "replace-react-icons"]
+  "pages": ["introduction", "available-transforms"]
 }
