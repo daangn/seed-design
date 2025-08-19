@@ -3805,7 +3805,7 @@
 .seed-field__errorMessage {
   color: var(--seed-color-fg-critical);
   flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
   display: flex;
 }
 

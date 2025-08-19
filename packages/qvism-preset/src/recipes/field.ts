@@ -45,7 +45,7 @@ const field = defineSlotRecipe({
     errorMessage: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "start",
+      alignItems: "flex-start",
 
       color: vars.base.enabled.errorMessage.color,
     },
