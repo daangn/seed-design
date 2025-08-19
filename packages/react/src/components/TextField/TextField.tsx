@@ -31,7 +31,7 @@ export const TextFieldRoot = withFieldStateProps(
 export interface TextFieldPrefixIconProps extends InternalIconProps {}
 
 export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIconProps>(
-  withTextFieldStateProps(InternalIcon),
+  withFieldStateProps(withTextFieldStateProps(InternalIcon)),
   "prefixIcon",
 );
 
@@ -40,14 +40,14 @@ export interface TextFieldPrefixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixTextProps>(
-  withTextFieldStateProps(Primitive.span),
+  withFieldStateProps(withTextFieldStateProps(Primitive.span)),
   "prefixText",
 );
 
 export interface TextFieldSuffixIconProps extends InternalIconProps {}
 
 export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
-  withTextFieldStateProps(InternalIcon),
+  withFieldStateProps(withTextFieldStateProps(InternalIcon)),
   "suffixIcon",
 );
 
@@ -56,7 +56,7 @@ export interface TextFieldSuffixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixTextProps>(
-  withTextFieldStateProps(Primitive.span),
+  withFieldStateProps(withTextFieldStateProps(Primitive.span)),
   "suffixText",
 );
 
