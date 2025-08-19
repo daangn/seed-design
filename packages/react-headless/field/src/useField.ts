@@ -1,5 +1,11 @@
 import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
-import { useCallback, useId, useState } from "react";
+import {
+  useCallback,
+  useId,
+  useState,
+  type InputHTMLAttributes,
+  type TextareaHTMLAttributes,
+} from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
 function useFieldState() {
@@ -161,8 +167,8 @@ export function useField(props: UseFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }) as React.InputHTMLAttributes<HTMLInputElement> & // only allow the intersect to make typescript happy when destructuring to input & textarea
-      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    }) as InputHTMLAttributes<HTMLInputElement> & // only allow the intersect to make typescript happy when destructuring to input & textarea
+      TextareaHTMLAttributes<HTMLTextAreaElement>,
 
     descriptionProps: elementProps({
       ...stateProps,
