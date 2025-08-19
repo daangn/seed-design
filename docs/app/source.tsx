@@ -42,7 +42,7 @@ async function transformPageTreeWithBadges(
           return {
             ...node,
             name: (
-              <span className="flex items-center">
+              <span className="flex items-center" key={node.$id}>
                 <span>{node.name}</span>
                 <DeprecatedBadge />
               </span>
