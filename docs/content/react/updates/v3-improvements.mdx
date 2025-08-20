@@ -1,8 +1,7 @@
 ---
-title: Improvements
+title: V3 Improvements
+description: Seed Design V3의 개선사항을 안내합니다.
 ---
-
-Seed Design V3의 개선사항을 안내합니다.
 
 ## Composition
 
@@ -46,7 +45,7 @@ Compound Components 패턴과 Snippet의 조합을 통해 복잡한 컴포넌트
 
 V3에서의 아이콘 사용 방식이 달라졌습니다.
 
-[Icon Usage](/react/components/concepts/icon) 페이지에서 자세히 설명합니다.
+[Icon Usage](/react/components/concepts/composition) 페이지에서 자세히 설명합니다.
 
 ```tsx title="Icon Usage"
 import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
@@ -234,7 +233,7 @@ import { TextField, TextFieldInput, TextFieldTextarea } from "seed-design/ui/tex
 - `TextFieldTextarea`는 다중 라인 입력 컴포넌트로 사용
 - `maxGraphemeCount` prop 추가 (기존 `maxLength` prop을 override해서 사용하던걸 명시적으로 표현)
 - [V3 컴포넌트 보러가기 (TextField)](/react/components/text-field)
-- [V3 컴포넌트 보러가기 (MultilineTextField)](/react/components/text-field/multiline-text-field)
+- [V3 컴포넌트 보러가기 (MultilineTextField)](/react/components/multiline-text-field)
 
 ## InlineAlert 관련 컴포넌트 변경
 
@@ -294,7 +293,7 @@ import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
 - `SelectBoxCheck` -> `CheckSelectBox`
 - 그룹 컴포넌트 추가: `CheckSelectBoxGroup`
-- [V3 컴포넌트 보러가기 (CheckSelectBox)](/react/components/select-box/check-select-box)
+- [V3 컴포넌트 보러가기 (CheckSelectBox)](/react/components/check-select-box)
 
 ### SelectBoxRadio, SelectBoxRadioGroup -> RadioSelectBoxItem, RadioSelectBoxRoot
 
@@ -307,7 +306,7 @@ import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-bo
 
 - `SelectBoxRadio` -> `RadioSelectBoxItem`
 - `SelectBoxRadioGroup` -> `RadioSelectBoxRoot`
-- [V3 컴포넌트 보러가기 (RadioSelectBox)](/react/components/select-box/radio-select-box)
+- [V3 컴포넌트 보러가기 (RadioSelectBox)](/react/components/radio-select-box)
 
 ## Tabs 관련 컴포넌트 변경
 
@@ -330,7 +329,7 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 - 렌더링 관련 prop 변경
   - `isLazy` -> `lazyMount`
   - `lazyMode` (unmount, keepMounted) -> `unmountOnExit` (boolean)
-- [V3 컴포넌트 보러가기 (Tabs)](/react/components/tabs/tabs)
+- [V3 컴포넌트 보러가기 (Tabs)](/react/components/tabs)
 
 ### ChipTabs (신규)
 
@@ -340,7 +339,7 @@ import { ChipTabsRoot, ChipTabsList, ChipTabsTrigger, ChipTabsContent, ChipTabsC
 ```
 
 - V3 Tabs와 동일한 인터페이스
-- [V3 컴포넌트 보러가기 (ChipTabs)](/react/components/tabs/chip-tabs)
+- [V3 컴포넌트 보러가기 (ChipTabs)](/react/components/chip-tabs)
 
 ## Switch 컴포넌트 변경
 
@@ -586,7 +585,7 @@ import { Box, Flex, VStack, HStack } from "@seed-design/react";
 - `Flex`: Flex 레이아웃을 구성하기 위한 컴포넌트
 - `VStack`: 수직 방향으로 요소를 쌓는 레이아웃
 - `HStack`: 수평 방향으로 요소를 쌓는 레이아웃
-- [V3 컴포넌트 보러가기 (Box)](/react/layout/box)
-- [V3 컴포넌트 보러가기 (Flex)](/react/layout/flex)
-- [V3 컴포넌트 보러가기 (VStack)](/react/layout/v-stack)
-- [V3 컴포넌트 보러가기 (HStack)](/react/layout/h-stack)
+- [V3 컴포넌트 보러가기 (Box)](/react/components/layout/box)
+- [V3 컴포넌트 보러가기 (Flex)](/react/components/layout/flex)
+- [V3 컴포넌트 보러가기 (VStack)](/react/components/layout/v-stack)
+- [V3 컴포넌트 보러가기 (HStack)](/react/components/layout/h-stack)

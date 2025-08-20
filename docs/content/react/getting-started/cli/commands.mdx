@@ -1,15 +1,20 @@
 ---
-title: CLI
+title: Commands
+description: "@seed-design/cli 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있어요."
 ---
 
-`@seed-design/cli` 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있어요.
+import { File } from "lucide-react";
 
 ## init
 
 `seed-design.json` 파일을 생성하기 위한 명령어에요.
 
-<Tabs items={['CLI로 추가', '직접 추가']}>
-<Tab value="CLI로 추가">
+<Card icon={<File />} title="Configuration" href="/react/getting-started/cli/configuration#옵션">
+
+`seed-design.json` 파일에 대해 알아봐요.
+
+</Card>
+
 <Steps>
 <Step>
 
@@ -36,22 +41,8 @@ npx @seed-design/cli@latest init
 ```
 </Step>
 </Steps>
-</Tab>
 
-<Tab value="직접 추가">
-아래 파일을 프로젝트 루트에 생성해주세요.
-
-```json title="seed-design.json"
-{
-  "rsc": false,
-  "tsx": true,
-  "path": "./seed-design"
-}
-```
-</Tab>
-</Tabs>
-
-### 옵션들
+### 옵션
 
 ```sh copy
 Usage:
@@ -96,7 +87,7 @@ npx @seed-design/cli@latest add
 npx @seed-design/cli@latest add action-button alert-dialog
 ```
 
-### 옵션들
+### 옵션
 
 ```sh copy
 Usage:

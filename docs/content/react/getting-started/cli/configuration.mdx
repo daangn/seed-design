@@ -1,40 +1,23 @@
 ---
-title: seed-design.json
+title: Configuration
+description: seed-design.json 파일을 통해 CLI를 사용할 때 필요한 설정을 명시해요.
 ---
 
-[@seed-design/cli](./cli) 를 사용할 때 필요한 설정들을 명시할 파일이에요.
+import { Terminal } from "lucide-react";
 
 ## 설정
 
-`seed-design.json` 파일을 생성하기 위한 명령어에요.
+`seed-design.json` 파일은 CLI로 생성하거나 직접 추가할 수 있어요.
 
 <Tabs items={['CLI로 추가', '직접 추가']}>
 <Tab value="CLI로 추가">
-<Steps>
-<Step>
 
-### init 명령어 입력하기
+<Card icon={<Terminal />} title="CLI" href="/react/getting-started/cli#init">
 
-</Step>
-```sh
-npx @seed-design/cli@latest init
-```
+CLI로 seed-design을 추가하는 방법을 알아봐요.
 
-<Step>
+</Card>
 
-### seed-design 설정
-```sh
-◇  TypeScript를 사용중이신가요?
-│  Yes
-│
-◇  React Server Components를 사용중이신가요?
-│  No
-│
-◇  seed-design 폴더 경로를 입력해주세요. (기본값은 프로젝트 루트에 생성됩니다.)
-│  ./seed-design
-```
-</Step>
-</Steps>
 </Tab>
 
 <Tab value="직접 추가">

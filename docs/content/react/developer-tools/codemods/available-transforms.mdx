@@ -1,47 +1,11 @@
 ---
-title: Codemod
-description: Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구
+title: Available Transforms
+description: codemod를 통해 실행 가능한 변환 목록입니다.
 ---
 
 {/* Auto-generated from `scripts/generate-codemod-docs.ts` */}
 
-`@seed-design/codemod`는 Seed Design V2에서 V3로 마이그레이션하기 위한 코드 변환 도구예요.
-
-## 사용 방법
-
-```package-install
-npx @seed-design/codemod@latest <transform> <target_path> <옵션>
-```
-
-사용 가능한 transform 목록을 확인하려면 다음 명령어를 실행해요.
-
-```package-install
-npx @seed-design/codemod@latest --list
-```
-
-## 옵션
-
-- `--list`
-  - 사용 가능한 transform 목록을 보여줘요.
-- `--log`
-  - 로그를 파일로 저장해요.
-  - `./`에 `combined.log`와 `warnings.log` 파일이 생성돼요.
-- `--parser`
-  - jscodeshift가 사용할 파서를 지정해요
-  - `babel` | `babylon` | `flow` | `ts` | `tsx`
-  - 기본값: `tsx`
-  - 예시: `--parser=babel`
-- `--extensions`
-  - 변환할 파일 확장자를 지정해요.
-  - 지정하지 않으면 `<경로>` 안의 `js,jsx,ts,tsx` 파일을 변환해요. (`d.ts`는 제외)
-  - 예시: `--extensions="ts,tsx"`
-- `--ignore-config`
-  - 변환하지 않을 파일 패턴이 정의된 파일을 지정해요.
-  - 예시: `--ignore-config=".gitignore"`
-
-## 사용 가능한 Transforms
-
-### replace-custom-seed-design-typography
+## replace-custom-seed-design-typography
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-seed-design-typography <target_path>
@@ -301,7 +265,7 @@ export const text = style([
 </Accordion>
 </Accordions>
 
-### replace-tailwind-typography
+## replace-tailwind-typography
 
 ```package-install
 npx @seed-design/codemod@latest replace-tailwind-typography <target_path>
@@ -357,11 +321,11 @@ export function BasicExample() {
 </Accordion>
 </Accordions>
 
-### replace-custom-imported-typography-variable
+## replace-custom-imported-typography-variable
 
 Seed Design V2에서 V3로 마이그레이션 시 import된 타이포그래피 변수를 변환합니다.
 
-#### 기능
+### 기능
 
 - 타이포그래피 관련 import 문을 찾아 변수명을 변환합니다.
 - 변수가 사용된 모든 위치(템플릿 리터럴, 객체 속성 등)를 찾아 업데이트합니다.
@@ -562,7 +526,7 @@ const textStyle = t5Regular;
 </Accordion>
 </Accordions>
 
-### replace-custom-seed-design-vars
+## replace-custom-seed-design-vars
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-seed-design-vars <target_path>
@@ -1114,7 +1078,7 @@ export const borderMapping = style({
 </Accordion>
 </Accordions>
 
-### replace-stitches-styled-typography
+## replace-stitches-styled-typography
 
 ```package-install
 npx @seed-design/codemod@latest replace-stitches-styled-typography <target_path>
@@ -1218,7 +1182,7 @@ const ContentText2 = styled('p', {
 </Accordion>
 </Accordions>
 
-### replace-stitches-theme-color
+## replace-stitches-theme-color
 
 ```package-install
 npx @seed-design/codemod@latest replace-stitches-theme-color <target_path>
@@ -1508,7 +1472,7 @@ export { semanticColors, scaleColors, staticColors, Component, Dialog };
 </Accordion>
 </Accordions>
 
-### replace-css-seed-design-color-variable
+## replace-css-seed-design-color-variable
 
 ```package-install
 npx @seed-design/codemod@latest replace-css-seed-design-color-variable <target_path>
@@ -1548,7 +1512,7 @@ npx @seed-design/codemod@latest replace-css-seed-design-color-variable <target_p
 </Accordion>
 </Accordions>
 
-### replace-react-icon
+## replace-react-icon
 
 ```package-install
 npx @seed-design/codemod@latest replace-react-icon <target_path>
@@ -1614,7 +1578,7 @@ function App() {
 </Accordion>
 </Accordions>
 
-### replace-seed-design-token-vars
+## replace-seed-design-token-vars
 
 ```package-install
 npx @seed-design/codemod@latest replace-seed-design-token-vars <target_path>
@@ -1648,7 +1612,7 @@ const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
 </Accordion>
 </Accordions>
 
-### replace-custom-seed-design-text-component
+## replace-custom-seed-design-text-component
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-seed-design-text-component <target_path>
@@ -1749,7 +1713,7 @@ const Component = () => {
 </Accordion>
 </Accordions>
 
-### replace-seed-design-token-typography-classname
+## replace-seed-design-token-typography-classname
 
 ```package-install
 npx @seed-design/codemod@latest replace-seed-design-token-typography-classname <target_path>
@@ -1809,21 +1773,21 @@ export const footer = style([
 </Accordion>
 </Accordions>
 
-### replace-stitches-styled-color
+## replace-stitches-styled-color
 
 Stitches로 스타일링된 컴포넌트의 색상을 V3 형식으로 변환해요.
 
-#### 변환 내용
+### 변환 내용
 
 - Stitches `styled()` 함수에서 사용된 Seed Design V2 색상 토큰을 V3 색상 토큰으로 변환합니다.
 - 모든 색상 관련 스타일 속성(color, backgroundColor, borderColor 등)을 지원합니다.
 - 상태 변이(variants)에 적용된 색상 변경도 함께 변환합니다.
 
-#### 대상 파일
+### 대상 파일
 
 - `.tsx`, `.jsx`, `.ts`, `.js` 파일에서 Stitches 스타일링 사용 부분
 
-#### 주의사항
+### 주의사항
 
 - 기존 코드의 구조와 포맷을 최대한 유지하면서 색상 값만 변경합니다.
 - 커스텀 색상 값이나 CSS 변수는 변환하지 않습니다.
@@ -2326,7 +2290,7 @@ const Li_FieldItem = styled('li', {
 </Accordion>
 </Accordions>
 
-### replace-custom-text-component-color-prop
+## replace-custom-text-component-color-prop
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-text-component-color-prop <target_path>
@@ -2384,7 +2348,7 @@ const Component = () => {
 </Accordion>
 </Accordions>
 
-### replace-alpha-color
+## replace-alpha-color
 
 Seed Design V3에서 V3로 알파 컬러 토큰을 업데이트하는 transform입니다.
 이 transform은 다음과 같은 알파 컬러 토큰들을 새로운 값으로 변경합니다:
@@ -2394,7 +2358,7 @@ Seed Design V3에서 V3로 알파 컬러 토큰을 업데이트하는 transform�
 - `staticBlackAlpha500` → `staticBlackAlpha700`
 - `staticWhiteAlpha200` → `staticWhiteAlpha300`
 
-#### 주의사항
+### 주의사항
 
 - 이 transform은 JavaScript/TypeScript 파일과 CSS 파일을 모두 자동으로 처리합니다.
 - **한 번만 실행**: 동일한 파일에 여러 번 실행하면 연쇄 변환이 발생할 수 있습니다
@@ -2476,7 +2440,7 @@ export const Component = () => {
 </Accordion>
 </Accordions>
 
-### replace-custom-seed-design-color
+## replace-custom-seed-design-color
 
 커스텀 Seed Design 컬러 토큰을 V3 형식으로 변환하는 트랜스폼
 
@@ -2564,7 +2528,7 @@ export const primary = style({
 </Accordion>
 </Accordions>
 
-### replace-custom-color-to-seed-design-vars-color
+## replace-custom-color-to-seed-design-vars-color
 
 ```package-install
 npx @seed-design/codemod@latest replace-custom-color-to-seed-design-vars-color <target_path>
@@ -2720,7 +2684,7 @@ export const icon = {
 </Accordion>
 </Accordions>
 
-### replace-css-seed-design-typography-variable
+## replace-css-seed-design-typography-variable
 
 ```package-install
 npx @seed-design/codemod@latest replace-css-seed-design-typography-variable <target_path>
@@ -2798,27 +2762,27 @@ npx @seed-design/codemod@latest replace-css-seed-design-typography-variable <tar
 </Accordion>
 </Accordions>
 
-### replace-tailwind-color
+## replace-tailwind-color
 
 Tailwind CSS 색상 클래스를 Seed Design V3 형식으로 변환해요.
 
-#### 변환 내용
+### 변환 내용
 
 - Seed Design V2의 색상 클래스 네이밍을 V3 형식으로 변환합니다.
 - `text-`, `bg-`, `border-` 등의 접두사를 가진 Tailwind 색상 클래스를 변환합니다.
 - 색상 강도(shade)에 따른 변환 매핑을 적용합니다.
 
-#### 변환 예시
+### 변환 예시
 
 - `text-carrot-500` → `text-static-orange-base`
 - `bg-salmon-100` → `bg-static-red-light`
 - `border-navy-900` → `border-static-blue-dark`
 
-#### 대상 파일
+### 대상 파일
 
 - `.tsx`, `.jsx`, `.ts`, `.js`, `.html`, `.css` 파일에서 Tailwind 클래스를 사용하는 부분
 
-#### 주의사항
+### 주의사항
 
 - className 문자열, 템플릿 리터럴, 배열 형태 모두 지원합니다.
 - Tailwind 동적 클래스 조합(`clsx`, `cx`, `classnames` 등)도 변환됩니다.
