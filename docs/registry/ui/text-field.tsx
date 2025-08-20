@@ -11,13 +11,14 @@ import { visuallyHidden } from "@seed-design/dom-utils";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange"> {
+  label?: React.ReactNode;
+  indicator?: React.ReactNode;
+
   prefixIcon?: React.ReactNode;
   prefix?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   suffix?: React.ReactNode;
 
-  label?: React.ReactNode;
-  indicator?: React.ReactNode;
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   hideGraphemeCount?: boolean;
@@ -27,7 +28,7 @@ export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix" |
 }
 
 /**
- * @see https://seed-design.io/react/components/text-field
+ * @see https://seed-design.io/react/components/text-field-input
  */
 export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
   (
@@ -50,19 +51,28 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       readOnly,
       name,
 
+      // useTextFieldWithGraphemes params
+      value,
+      onValueChange,
+      maxGraphemeCount,
+
       ...otherProps
     },
     ref,
   ) => {
-    const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes(otherProps);
+    const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
+      value,
+      onValueChange,
+      maxGraphemeCount,
+    });
 
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
-    const renderGraphemeCount = !hideGraphemeCount && otherProps.maxGraphemeCount !== undefined;
+    const renderGraphemeCount = !hideGraphemeCount && maxGraphemeCount !== undefined;
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
     const renderHeader = label || indicator;
 
-    // we are manually propagating the size because the variant props might not always match
+    // we are manually assigning the size to SeedField.Root because the variant props might not always match
 
     return (
       <SeedField.Root
