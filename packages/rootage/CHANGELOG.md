@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 0.0.4
+
+### Patch Changes
+
+- 0be9b00: Avatar, Avatar Stack 컴포넌트에 `size=108` variant를 추가합니다.
+
 ## 0.0.3
 
 ### Patch Changes
