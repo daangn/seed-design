@@ -1,7 +1,7 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, useState, type FormEvent } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { TextFieldInput } from "seed-design/ui/text-field";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 interface FormValues {
   name: string;
@@ -81,17 +81,18 @@ export default function TextFieldInputForm() {
   return (
     <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit} onReset={handleReset}>
       <HStack gap="x2">
-        <TextFieldInput
+        <TextField
           label="이름"
           indicator="(필수)"
           description="이름을 써주세요"
           required
           value={formValues.name}
           onValueChange={({ value }) => handleNameChange(value)}
-          inputProps={{ placeholder: "홍길동" }}
           {...(fieldErrors.name && { invalid: true, errorMessage: fieldErrors.name })}
-        />
-        <TextFieldInput
+        >
+          <TextFieldInput placeholder="홍길동" />
+        </TextField>
+        <TextField
           label="주소"
           indicator="(필수)"
           description="주소를 써주세요"
@@ -99,9 +100,10 @@ export default function TextFieldInputForm() {
           required
           value={formValues.address}
           onValueChange={({ slicedValue }) => handleAddressChange(slicedValue)}
-          inputProps={{ placeholder: "대한민국" }}
           {...(fieldErrors.address && { invalid: true, errorMessage: fieldErrors.address })}
-        />
+        >
+          <TextFieldInput placeholder="대한민국" />
+        </TextField>
       </HStack>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">

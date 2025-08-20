@@ -2,7 +2,7 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import { TextFieldInput } from "seed-design/ui/text-field";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 interface FormValues {
   name: string;
@@ -54,7 +54,7 @@ export default function TextFieldInputReactHookForm() {
   return (
     <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
       <HStack gap="x2">
-        <TextFieldInput
+        <TextField
           label="이름"
           indicator="(필수)"
           description="이름을 써주세요"
@@ -62,10 +62,11 @@ export default function TextFieldInputReactHookForm() {
           errorMessage={nameFieldState.error?.message}
           onValueChange={({ value }) => nameOnChange(value)}
           required
-          inputProps={{ placeholder: "홍길동" }}
           {...nameField}
-        />
-        <TextFieldInput
+        >
+          <TextFieldInput placeholder="홍길동" />
+        </TextField>
+        <TextField
           label="주소"
           indicator="(필수)"
           description="주소를 써주세요"
@@ -74,9 +75,10 @@ export default function TextFieldInputReactHookForm() {
           maxGraphemeCount={30}
           onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
           required
-          inputProps={{ placeholder: "대한민국" }}
           {...addressField}
-        />
+        >
+          <TextFieldInput placeholder="대한민국" />
+        </TextField>
       </HStack>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">

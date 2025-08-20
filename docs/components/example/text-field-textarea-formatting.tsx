@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { TextFieldTextarea } from "seed-design/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function TextFieldTextareaFormatting() {
   const [value, setValue] = useState("");
@@ -14,12 +14,13 @@ export default function TextFieldTextareaFormatting() {
   );
 
   return (
-    <TextFieldTextarea
+    <TextField
       label="레이블"
       description="공백을 입력할 수 없어요"
       value={formattedValue}
       onValueChange={({ value }) => setValue(value)}
-      textareaProps={{ placeholder: "공백을 입력해보세요" }}
-    />
+    >
+      <TextFieldTextarea placeholder="공백을 입력해보세요" />
+    </TextField>
   );
 }

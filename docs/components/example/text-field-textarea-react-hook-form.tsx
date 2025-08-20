@@ -2,7 +2,7 @@ import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent, type KeyboardEvent } from "react";
 import { useController, useForm } from "react-hook-form";
 import { ActionButton } from "seed-design/ui/action-button";
-import { TextFieldTextarea } from "seed-design/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 interface FormValues {
   bio: string;
@@ -65,7 +65,7 @@ export default function TextFieldTextareaReactHookForm() {
   return (
     <VStack gap="x3" width="full" as="form" onSubmit={handleSubmit(onValid)} onReset={onReset}>
       <HStack gap="x2">
-        <TextFieldTextarea
+        <TextField
           label="자기소개"
           indicator="(필수)"
           description="자기소개를 써주세요"
@@ -73,10 +73,11 @@ export default function TextFieldTextareaReactHookForm() {
           errorMessage={bioFieldState.error?.message}
           onValueChange={({ value }) => bioOnChange(value)}
           required
-          textareaProps={{ placeholder: "저는…", onKeyDown: onMetaReturn }}
           {...bioField}
-        />
-        <TextFieldTextarea
+        >
+          <TextFieldTextarea placeholder="저는…" onKeyDown={onMetaReturn} />
+        </TextField>
+        <TextField
           label="주소"
           indicator="(필수)"
           description="주소를 써주세요"
@@ -85,9 +86,10 @@ export default function TextFieldTextareaReactHookForm() {
           maxGraphemeCount={30}
           onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
           required
-          textareaProps={{ placeholder: "대한민국", onKeyDown: onMetaReturn }}
           {...addressField}
-        />
+        >
+          <TextFieldTextarea placeholder="대한민국" onKeyDown={onMetaReturn} />
+        </TextField>
       </HStack>
       <HStack gap="x2">
         <ActionButton type="reset" variant="neutralWeak">

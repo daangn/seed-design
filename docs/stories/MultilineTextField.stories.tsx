@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { TextFieldTextarea } from "seed-design/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
 import { SeedThemeDecorator } from "./components/decorator";
@@ -8,9 +8,9 @@ import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 
 const meta = {
-  component: TextFieldTextarea,
+  component: TextField,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof TextFieldTextarea>;
+} satisfies Meta<typeof TextField>;
 
 export default meta;
 
@@ -61,10 +61,7 @@ const CommonStoryTemplate: Story = {
       "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
     errorMessage:
       "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
-    textareaProps: {
-      placeholder: "Placeholder",
-    },
-    children: <TextFieldTextarea />,
+    children: <TextFieldTextarea placeholder="Placeholder" />,
   },
   render: (args) => (
     <VariantTable
