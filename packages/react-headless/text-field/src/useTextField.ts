@@ -1,6 +1,6 @@
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { ariaAttr, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
-import { useId, useState } from "react";
+import { useId, useState, type TextareaHTMLAttributes, type InputHTMLAttributes } from "react";
 
 interface UseTextFieldStateProps {
   value?: string;
@@ -154,8 +154,6 @@ export function useTextField(props: UseTextFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }) as
-      | React.InputHTMLAttributes<HTMLInputElement>
-      | React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    }) as InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>,
   };
 }
