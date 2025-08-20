@@ -86,7 +86,7 @@ jobs:
           echo "packageVersions=$PACKAGE_VERSIONS" >> $GITHUB_OUTPUT
 
       - name: rootage-artifacts가 배포된 경우 Slack에 알려요
-        if: ${{ (steps.changesets.outputs.published == 'true') && (contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')) }}
+        if: steps.changesets.outputs.published == 'true' && contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           method: chat.postMessage
