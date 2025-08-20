@@ -42,7 +42,6 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       errorMessage,
       hideGraphemeCount,
       children,
-      maxGraphemeCount,
 
       // field props
       required,
@@ -55,14 +54,11 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
     },
     ref,
   ) => {
-    const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
-      ...otherProps,
-      maxGraphemeCount: maxGraphemeCount ?? 0,
-    });
+    const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes(otherProps);
 
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
-    const renderGraphemeCount = !hideGraphemeCount && maxGraphemeCount !== undefined;
+    const renderGraphemeCount = !hideGraphemeCount && otherProps.maxGraphemeCount !== undefined;
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
     const renderHeader = label || indicator;
 

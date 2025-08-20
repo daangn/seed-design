@@ -36,11 +36,8 @@ interface TextFieldWithGraphemesProps {
   }) => void;
 }
 
-const TextFieldWithGraphemes = ({ maxGraphemeCount, ...props }: TextFieldWithGraphemesProps) => {
-  const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes({
-    ...props,
-    maxGraphemeCount: maxGraphemeCount ?? 0,
-  });
+const TextFieldWithGraphemes = (props: TextFieldWithGraphemesProps) => {
+  const { textFieldRootProps, counterProps } = useTextFieldWithGraphemes(props);
 
   return (
     <FieldRoot>

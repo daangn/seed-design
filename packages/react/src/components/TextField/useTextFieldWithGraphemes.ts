@@ -3,7 +3,7 @@ import { splitGraphemes } from "unicode-segmenter/grapheme";
 import { memoize } from "./memoize";
 
 export interface UseTextFieldWithGraphemesParams {
-  maxGraphemeCount: number;
+  maxGraphemeCount?: number;
   value?: string;
   defaultValue?: string;
   onValueChange?: (values: {
@@ -32,9 +32,8 @@ export function useTextFieldWithGraphemes({
   const handleValueChange = useCallback(
     (newValue: string) => {
       const newGraphemes = memoizedGetGraphemes(newValue);
-      const newSlicedGraphemes = maxGraphemeCount
-        ? newGraphemes.slice(0, maxGraphemeCount)
-        : newGraphemes;
+      const newSlicedGraphemes =
+        maxGraphemeCount === undefined ? newGraphemes : newGraphemes.slice(0, maxGraphemeCount);
       const newSlicedValue = newSlicedGraphemes.join("");
 
       // Update internal state if uncontrolled
@@ -59,7 +58,7 @@ export function useTextFieldWithGraphemes({
     },
     counterProps: {
       current: graphemes.length,
-      max: maxGraphemeCount,
+      max: maxGraphemeCount ?? 0,
     },
     graphemes,
   };
