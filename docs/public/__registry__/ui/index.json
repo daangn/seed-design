@@ -312,6 +312,7 @@
     "name": "text-field",
     "dependencies": [
       "@seed-design/react",
+      "@seed-design/dom-utils",
       "@karrotmarket/react-monochrome-icon"
     ],
     "files": [
