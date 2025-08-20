@@ -60,13 +60,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
+        if: ${{ (steps.changesets.outputs.published == 'false') && (steps.changesets.outputs.hasChangesets) }}
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           ref: changeset-release/${{ github.ref_name }}
 
       - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
+        if: ${{ (steps.changesets.outputs.published == 'false') && (steps.changesets.outputs.hasChangesets) }}
         run: |
           bun install --frozen-lockfile
           bun rootage:build
@@ -86,7 +86,7 @@ jobs:
           echo "packageVersions=$PACKAGE_VERSIONS" >> $GITHUB_OUTPUT
 
       - name: rootage-artifacts가 배포된 경우 Slack에 알려요
-        if: steps.changesets.outputs.published == 'true' && contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')
+        if: ${{ (steps.changesets.outputs.published == 'true') && (contains(fromJson(steps.changesets.outputs.publishedPackages || '[]').*.name, '@seed-design/rootage-artifacts')) }}
         uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a # v2.1.1
         with:
           method: chat.postMessage
