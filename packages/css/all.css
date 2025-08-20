@@ -816,6 +816,18 @@
   --badge-offset: 65px;
 }
 
+.seed-avatar__root--size_108 {
+  --avatar-size: 108px;
+  --avatar-stroke-width: 1px;
+  --badge-mask-size: 44px;
+  --badge-mask-offset: 70px;
+}
+
+.seed-avatar__badge--size_108 {
+  --badge-size: 36px;
+  --badge-offset: 74px;
+}
+
 .seed-avatar__root--badgeMask_none {
   --svg-mask-uri: url("data:image/svg+xml;utf8,<svg />");
 }
@@ -916,6 +928,15 @@
 }
 
 .seed-avatar-stack__item--size_96 {
+  clip-path: inset(-5px);
+  box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default);
+}
+
+.seed-avatar-stack__item--size_108:not(:first-child) {
+  margin-left: -27px;
+}
+
+.seed-avatar-stack__item--size_108 {
   clip-path: inset(-5px);
   box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default);
 }

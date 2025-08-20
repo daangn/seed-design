@@ -36,7 +36,8 @@ export const avatarVariantMap = {
     "48",
     "64",
     "80",
-    "96"
+    "96",
+    "108"
   ],
   "badgeMask": [
     "none",

@@ -126,5 +126,21 @@ export declare const vars: {
         "size": "32px"
       }
     }
+  },
+  "size108": {
+    "enabled": {
+      "root": {
+        "size": "108px",
+        "strokeWidth": "1px"
+      },
+      "badgeMask": {
+        "offset": "70px",
+        "size": "44px"
+      },
+      "badge": {
+        "offset": "74px",
+        "size": "36px"
+      }
+    }
   }
 }
