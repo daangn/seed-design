@@ -79,7 +79,6 @@ const field = defineSlotRecipe({
       xlarge: {
         header: {
           paddingBottom: vars.sizeXlarge.enabled.header.paddingBottom,
-          gap: vars.sizeXlarge.enabled.header.gap,
         },
         label: {
           fontSize: vars.sizeXlarge.enabled.label.fontSize,
@@ -88,6 +87,8 @@ const field = defineSlotRecipe({
         indicator: {
           fontSize: vars.sizeXlarge.enabled.indicator.fontSize,
           lineHeight: vars.sizeXlarge.enabled.indicator.lineHeight,
+
+          marginLeft: vars.sizeXlarge.enabled.header.gap,
         },
         footer: {
           gap: vars.sizeXlarge.enabled.footer.gap,
@@ -119,7 +120,6 @@ const field = defineSlotRecipe({
       large: {
         header: {
           paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
-          gap: vars.sizeLarge.enabled.header.gap,
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -128,6 +128,8 @@ const field = defineSlotRecipe({
         indicator: {
           fontSize: vars.sizeLarge.enabled.indicator.fontSize,
           lineHeight: vars.sizeLarge.enabled.indicator.lineHeight,
+
+          marginLeft: vars.sizeLarge.enabled.header.gap,
         },
         footer: {
           gap: vars.sizeLarge.enabled.footer.gap,
@@ -167,6 +169,8 @@ const field = defineSlotRecipe({
         indicator: {
           fontSize: vars.sizeMedium.enabled.indicator.fontSize,
           lineHeight: vars.sizeMedium.enabled.indicator.lineHeight,
+
+          marginLeft: vars.sizeMedium.enabled.header.gap,
         },
         footer: {
           gap: vars.sizeMedium.enabled.footer.gap,

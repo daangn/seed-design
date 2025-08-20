@@ -41,17 +41,10 @@ export interface FieldIndicatorProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FieldIndicator = forwardRef<HTMLSpanElement, FieldIndicatorProps>((props, ref) => {
-  const { className, ...otherProps } = props;
-  const classNames = useClassNames();
-
-  return (
-    <>
-      <Primitive.span> </Primitive.span>
-      <Primitive.span ref={ref} className={clsx(classNames.indicator, className)} {...otherProps} />
-    </>
-  );
-});
+export const FieldIndicator = withContext<HTMLSpanElement, FieldIndicatorProps>(
+  withStateProps(Primitive.span),
+  "indicator",
+);
 
 ////////////////////////////////////////////////////////////////////////////////////
 export interface FieldFooterProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}

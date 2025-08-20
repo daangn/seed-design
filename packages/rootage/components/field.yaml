@@ -173,7 +173,8 @@ data:
     size=medium:
       enabled:
         header:
-          paddingBottom: $dimension.x3 # gap 빠져있는 듯
+          paddingBottom: $dimension.x3
+          gap: $dimension.x1
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4

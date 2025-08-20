@@ -459,6 +459,10 @@
                 "paddingBottom": {
                   "type": "dimension",
                   "value": "$dimension.x3"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
                 }
               },
               "label": {

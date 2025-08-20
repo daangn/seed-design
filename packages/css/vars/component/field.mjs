@@ -112,7 +112,8 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "header": {
-        "paddingBottom": "var(--seed-dimension-x3)"
+        "paddingBottom": "var(--seed-dimension-x3)",
+        "gap": "var(--seed-dimension-x1)"
       },
       "label": {
         "fontSize": "var(--seed-font-size-t4)",
