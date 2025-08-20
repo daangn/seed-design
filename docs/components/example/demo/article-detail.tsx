@@ -13,7 +13,7 @@ import { Text } from "@seed-design/react";
 import { Badge } from "@seed-design/react";
 import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { Callout } from "seed-design/ui/callout";
-import { TextFieldTextarea } from "seed-design/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 import { ErrorState } from "seed-design/ui/error-state";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Skeleton } from "@seed-design/react";
@@ -111,11 +111,9 @@ const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
               <Box py="x3">
                 <ErrorState title="댓글 없음" description="댓글이 없습니다." />
               </Box>
-              <TextFieldTextarea
-                label="댓글"
-                maxGraphemeCount={200}
-                textareaProps={{ placeholder: "저는…" }}
-              />
+              <TextField label="댓글" maxGraphemeCount={200}>
+                <TextFieldTextarea placeholder="저는…" />
+              </TextField>
               <ActionButton>게시</ActionButton>
             </VStack>
           </VStack>
