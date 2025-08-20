@@ -2,7 +2,6 @@ import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 import { processContent } from "@/app/react/_llms/process-content";
 import { getSourceUrl } from "@/app/react/_llms/url";
 import { reactSource } from "@/app/source";
-import { notFound } from "next/navigation";
 
 type StaticParams = {
   path: string[];
@@ -46,7 +45,7 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
   });
 
   const page = reactSource.getPage(["components", ...slugsExtensionRemoved]);
-  if (!page) return notFound();
+  if (!page) throw new Error("Page not found");
 
   const processed = await processContent(page.path, page.data.content);
 
