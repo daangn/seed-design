@@ -222,7 +222,8 @@
     ],
     "files": [
       "ui:inline-banner.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "menu-sheet",

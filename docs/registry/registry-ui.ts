@@ -115,6 +115,7 @@ export const registryUI: RegistryUI = [
     name: "inline-banner",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:inline-banner.tsx"],
+    deprecated: true,
   },
   {
     name: "menu-sheet",
