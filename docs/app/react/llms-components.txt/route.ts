@@ -9,9 +9,41 @@ export const revalidate = false;
  * Each component can be accessed through its specific endpoint.
  */
 export async function GET() {
-  const componentPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
+  const allPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
+  // Separate components and bits
+  const componentPages = allPages.filter(({ slugs }) => {
+    const [firstSlug] = slugs;
+    return firstSlug === "components";
+  });
+
+  const bitsPages = allPages.filter(({ slugs }) => {
+    const [firstSlug] = slugs;
+    return firstSlug === "bits";
+  });
+
+  // Process components
   const components = componentPages
+    .map(({ data, slugs }) => {
+      const [_firstSlug, ...restSlugs] = slugs;
+
+      // Attach .txt extension to the last slug
+      const path = restSlugs
+        .map((slug, index) => {
+          if (index === restSlugs.length - 1) return `${slug}.txt`;
+
+          return slug;
+        })
+        .join("/");
+
+      const txtUrl = new URL(`/react/llms-components/${path}`, baseUrl);
+
+      return `- [${data.title}](${txtUrl})`;
+    })
+    .sort((a, b) => a.localeCompare(b));
+
+  // Process bits
+  const bits = bitsPages
     .map(({ data, slugs }) => {
       const [_firstSlug, ...restSlugs] = slugs;
 
@@ -39,10 +71,19 @@ Each component can be accessed through its specific endpoint.
 
 ${components.join("\n")}
 
+## Available Bits
+
+Bits are utility components that enhance your SEED Design applications.
+
+${bits.join("\n")}
+
 ## Usage
 
 To get information about a specific component, access its endpoint:
 Example: /react/llms-components/action-button.txt
+
+To get information about a specific bits component, access its endpoint:
+Example: /react/llms-components/animate-number.txt
 
 The response will include the full MDX content for that component, processed and ready for LLM consumption.
 
