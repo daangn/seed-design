@@ -237,6 +237,7 @@ export const tokens = {
   --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
   --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-300);
+  --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-400);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
   --seed-color-stroke-neutral: var(--seed-color-palette-static-black-alpha-300);
   --seed-color-stroke-brand: var(--seed-color-palette-carrot-300);
@@ -415,10 +416,11 @@ export const tokens = {
   --seed-color-bg-overlay-muted: var(--seed-color-palette-static-black-alpha-500);
   --seed-color-bg-positive-weak: var(--seed-color-palette-green-100);
   --seed-color-bg-positive-solid: var(--seed-color-palette-green-500);
-  --seed-color-bg-positive-solid-pressed: var(--seed-color-palette-green-500);
+  --seed-color-bg-positive-solid-pressed: var(--seed-color-palette-green-600);
   --seed-color-bg-positive-weak-pressed: var(--seed-color-palette-green-200);
   --seed-color-bg-warning-weak: var(--seed-color-palette-yellow-100);
   --seed-color-bg-warning-solid: var(--seed-color-palette-yellow-600);
+  --seed-color-bg-warning-solid-pressed: var(--seed-color-palette-yellow-700);
   --seed-color-bg-warning-weak-pressed: var(--seed-color-palette-yellow-200);
   --seed-color-stroke-neutral: var(--seed-color-palette-static-white-alpha-100);
   --seed-color-stroke-brand: var(--seed-color-palette-carrot-300);

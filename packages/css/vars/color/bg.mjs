@@ -33,4 +33,5 @@ export const positiveSolidPressed = "var(--seed-color-bg-positive-solid-pressed)
 export const positiveWeakPressed = "var(--seed-color-bg-positive-weak-pressed)";
 export const warningWeak = "var(--seed-color-bg-warning-weak)";
 export const warningSolid = "var(--seed-color-bg-warning-solid)";
+export const warningSolidPressed = "var(--seed-color-bg-warning-solid-pressed)";
 export const warningWeakPressed = "var(--seed-color-bg-warning-weak-pressed)";
