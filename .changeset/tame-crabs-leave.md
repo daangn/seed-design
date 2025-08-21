@@ -2,6 +2,7 @@
 "@seed-design/tailwind3-plugin": patch
 "@seed-design/tailwind4-theme": patch
 "@seed-design/rootage-artifacts": patch
+"@seed-design/figma": patch
 "@seed-design/react": patch
 "@seed-design/css": patch
 ---
