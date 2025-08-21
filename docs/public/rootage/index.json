@@ -114,6 +114,9 @@
       "path": "/components/notification-badge.json"
     },
     {
+      "path": "/components/page-banner.json"
+    },
+    {
       "path": "/components/progress-circle.json"
     },
     {

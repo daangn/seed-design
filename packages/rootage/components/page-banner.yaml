@@ -1,0 +1,273 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: page-banner
+  name: Page Banner
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          minHeight:
+            type: dimension
+          color:
+            type: color
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          marginRight:
+            type: dimension
+          color:
+            type: color
+      textContent:
+        properties:
+          gap:
+            type: dimension
+      title:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      description:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      button:
+        properties:
+          targetHeight:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          marginLeft:
+            type: dimension
+          color:
+            type: color
+      suffixIcon:
+        properties:
+          size:
+            type: dimension
+          targetSize:
+            type: dimension
+          marginLeft:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          paddingX: $dimension.x4
+          paddingY: $dimension.x2_5
+          minHeight: $dimension.x10
+        prefixIcon:
+          size: $dimension.x4
+          marginRight: $dimension.x2
+        textContent:
+          gap: $dimension.x1_5
+        title:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.bold
+        description:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+          fontWeight: $font-weight.medium
+        button:
+          targetHeight: $dimension.x10
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+          fontWeight: $font-weight.bold
+        suffixIcon:
+          size: $dimension.x4
+          targetSize: $dimension.x10
+          marginLeft: $dimension.x2
+    tone=neutral, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.neutral-weak
+        prefixIcon:
+          color: $color.fg.neutral
+        title:
+          color: $color.fg.neutral
+        description:
+          color: $color.fg.neutral
+        button:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.neutral-weak-pressed
+    tone=neutral, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.neutral-inverted
+        prefixIcon:
+          color: $color.fg.neutral-inverted
+        title:
+          color: $color.fg.neutral-inverted
+        description:
+          color: $color.fg.neutral-inverted
+        button:
+          color: $color.fg.neutral-inverted
+        suffixIcon:
+          color: $color.fg.neutral-inverted
+      pressed:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+    tone=positive, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.positive-weak
+        prefixIcon:
+          color: $color.fg.positive-contrast
+        title:
+          color: $color.fg.positive-contrast
+        description:
+          color: $color.fg.positive-contrast
+        button:
+          color: $color.fg.positive-contrast
+        suffixIcon:
+          color: $color.fg.positive-contrast
+      pressed:
+        root:
+          color: $color.bg.positive-weak-pressed
+    tone=positive, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.positive-solid
+        prefixIcon:
+          color: $color.palette.static-white
+        title:
+          color: $color.palette.static-white
+        description:
+          color: $color.palette.static-white
+        button:
+          color: $color.palette.static-white
+        suffixIcon:
+          color: $color.palette.static-white
+      pressed:
+        root:
+          color: $color.bg.positive-solid-pressed
+    tone=informative, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.informative-weak
+        prefixIcon:
+          color: $color.fg.informative-contrast
+        title:
+          color: $color.fg.informative-contrast
+        description:
+          color: $color.fg.informative-contrast
+        button:
+          color: $color.fg.informative-contrast
+        suffixIcon:
+          color: $color.fg.informative-contrast
+      pressed:
+        root:
+          color: $color.bg.informative-weak-pressed
+    tone=informative, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.informative-solid
+        prefixIcon:
+          color: $color.palette.static-white
+        title:
+          color: $color.palette.static-white
+        description:
+          color: $color.palette.static-white
+        button:
+          color: $color.palette.static-white
+        suffixIcon:
+          color: $color.palette.static-white
+      pressed:
+        root:
+          color: $color.bg.informative-solid-pressed
+    tone=warning, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.warning-weak
+        prefixIcon:
+          color: $color.fg.warning-contrast
+        title:
+          color: $color.fg.warning-contrast
+        description:
+          color: $color.fg.warning-contrast
+        button:
+          color: $color.fg.warning-contrast
+        suffixIcon:
+          color: $color.fg.warning-contrast
+      pressed:
+        root:
+          color: $color.bg.warning-weak-pressed
+    tone=warning, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.warning-solid
+        prefixIcon:
+          color: $color.fg.neutral
+        title:
+          color: $color.fg.neutral
+        description:
+          color: $color.fg.neutral
+        button:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+      pressed:
+        root:
+          color: $color.bg.warning-solid-pressed
+    tone=critical, variant=weak:
+      enabled:
+        root:
+          color: $color.bg.critical-weak
+        prefixIcon:
+          color: $color.fg.critical-contrast
+        title:
+          color: $color.fg.critical-contrast
+        description:
+          color: $color.fg.critical-contrast
+        button:
+          color: $color.fg.critical-contrast
+        suffixIcon:
+          color: $color.fg.critical-contrast
+      pressed:
+        root:
+          color: $color.bg.critical-weak-pressed
+    tone=critical, variant=solid:
+      enabled:
+        root:
+          color: $color.bg.critical-solid
+        prefixIcon:
+          color: $color.palette.static-white
+        title:
+          color: $color.palette.static-white
+        description:
+          color: $color.palette.static-white
+        button:
+          color: $color.palette.static-white
+        suffixIcon:
+          color: $color.palette.static-white
+      pressed:
+        root:
+          color: $color.bg.critical-solid-pressed

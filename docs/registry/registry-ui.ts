@@ -142,6 +142,11 @@ export const registryUI: RegistryUI = [
     files: ["ui:chip-tabs.tsx"],
   },
   {
+    name: "page-banner",
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    files: ["ui:page-banner.tsx"],
+  },
+  {
     name: "progress-circle",
     dependencies: ["@seed-design/react"],
     files: ["ui:progress-circle.tsx"],

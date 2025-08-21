@@ -272,6 +272,16 @@
     ]
   },
   {
+    "name": "page-banner",
+    "dependencies": [
+      "@seed-design/react",
+      "@karrotmarket/react-monochrome-icon"
+    ],
+    "files": [
+      "ui:page-banner.tsx"
+    ]
+  },
+  {
     "name": "progress-circle",
     "dependencies": [
       "@seed-design/react"

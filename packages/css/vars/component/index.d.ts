@@ -33,6 +33,7 @@ export { vars as menuSheetCloseButton } from "./menu-sheet-close-button";
 export { vars as menuSheetItem } from "./menu-sheet-item";
 export { vars as menuSheet } from "./menu-sheet";
 export { vars as notificationBadge } from "./notification-badge";
+export { vars as pageBanner } from "./page-banner";
 export { vars as progressCircle } from "./progress-circle";
 export { vars as radio } from "./radio";
 export { vars as reactionButton } from "./reaction-button";
