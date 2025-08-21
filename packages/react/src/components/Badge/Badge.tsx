@@ -13,10 +13,11 @@ export interface BadgeProps
 
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, children, ...props }, ref) => {
-    const { root, label } = badge(props);
+    const [variantProps, restProps] = badge.splitVariantProps(props);
+    const { root, label } = badge(variantProps);
 
     return (
-      <Primitive.span className={clsx(root, className)} {...props} ref={ref}>
+      <Primitive.span className={clsx(root, className)} {...restProps} ref={ref}>
         <Primitive.span className={label}>{children}</Primitive.span>
       </Primitive.span>
     );
