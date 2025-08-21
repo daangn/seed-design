@@ -106,16 +106,16 @@ const badge = defineSlotRecipe({
         },
       },
     },
-    // {
-    //   tone: "brand",
-    //   variant: "weak",
-    //   css: {
-    //     root: {
-    //       backgroundColor: vars.toneBrandVariantWeak.enabled.root.color,
-    //       color: vars.toneBrandVariantWeak.enabled.label.color,
-    //     },
-    //   },
-    // },
+    {
+      tone: "brand",
+      variant: "weak",
+      css: {
+        root: {
+          backgroundColor: vars.toneBrandVariantWeak.enabled.root.color,
+          color: vars.toneBrandVariantWeak.enabled.label.color,
+        },
+      },
+    },
     {
       tone: "brand",
       variant: "solid",
@@ -216,14 +216,16 @@ const badge = defineSlotRecipe({
         },
       },
     },
-    // {
-    //   tone: "warning",
-    //   variant: "outline",
-    //   css: {
-    //     boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneWarningVariantOutline.enabled.root.strokeColor}`,
-    //     color: vars.toneWarningVariantOutline.enabled.label.color,
-    //   },
-    // },
+    {
+      tone: "warning",
+      variant: "outline",
+      css: {
+        root: {
+          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.toneWarningVariantOutline.enabled.root.strokeColor}`,
+          color: vars.toneWarningVariantOutline.enabled.label.color,
+        },
+      },
+    },
     {
       tone: "critical",
       variant: "weak",

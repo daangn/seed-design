@@ -33,6 +33,10 @@ const compoundVariants = [
   },
   {
     "tone": "brand",
+    "variant": "weak"
+  },
+  {
+    "tone": "brand",
     "variant": "solid"
   },
   {
@@ -70,6 +74,10 @@ const compoundVariants = [
   {
     "tone": "warning",
     "variant": "solid"
+  },
+  {
+    "tone": "warning",
+    "variant": "outline"
   },
   {
     "tone": "critical",
