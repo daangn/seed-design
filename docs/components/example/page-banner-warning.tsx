@@ -3,6 +3,7 @@ import {
   ActionablePageBanner,
   DismissiblePageBanner,
   PageBanner,
+  PageBannerButton,
 } from "seed-design/ui/page-banner";
 
 export default function PageBannerWarning() {
@@ -12,42 +13,44 @@ export default function PageBannerWarning() {
         tone="warning"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
       />
       <PageBanner
         tone="warning"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
       />
       <ActionablePageBanner
         tone="warning"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
       <ActionablePageBanner
         tone="warning"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
       <DismissiblePageBanner
         tone="warning"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
       <DismissiblePageBanner
         tone="warning"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
     </div>

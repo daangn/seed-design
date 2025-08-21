@@ -13,44 +13,44 @@ export default function PageBannerNeutral() {
         tone="neutral"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
-        description="사업자 정보를 등록해주세요. Fugiat nulla laboris consectetur quis sunt tempor Lorem. Occaecat velit ullamco duis sit occaecat amet velit pariatur aliquip anim velit sit. Do culpa ullamco tempor ad Lorem nostrud elit minim irure excepteur cupidatat exercitation dolore."
-        suffix={<PageBannerButton>foobar</PageBannerButton>}
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
       />
       <PageBanner
         tone="neutral"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
-        suffix={<PageBannerButton>foobar</PageBannerButton>}
+        suffix={<PageBannerButton>등록하기</PageBannerButton>}
       />
       <ActionablePageBanner
         tone="neutral"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
-        description="사업자 정보를 등록해주세요. Fugiat nulla laboris consectetur quis sunt tempor Lorem. Occaecat velit ullamco duis sit occaecat amet velit pariatur aliquip anim velit sit. Do culpa ullamco tempor ad Lorem nostrud elit minim irure excepteur cupidatat exercitation dolore."
+        title="미노출"
+        description="사업자 정보를 등록해주세요."
       />
       <ActionablePageBanner
         tone="neutral"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
       <DismissiblePageBanner
         tone="neutral"
         variant="weak"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
       <DismissiblePageBanner
         tone="neutral"
         variant="solid"
         prefixIcon={<IconExclamationmarkCircleFill />}
-        title="미등록"
+        title="미노출"
         description="사업자 정보를 등록해주세요."
       />
     </div>
