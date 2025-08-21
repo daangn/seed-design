@@ -15,7 +15,8 @@ export declare const metadata: {
         "48",
         "64",
         "80",
-        "96"
+        "96",
+        "108"
       ]
     },
     "Badge": {
