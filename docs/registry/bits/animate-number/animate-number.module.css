@@ -1,0 +1,51 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  user-select: none;
+  position: relative;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.digit {
+  position: relative;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.number {
+  position: absolute;
+  width: 1ch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.comma {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.minus {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+

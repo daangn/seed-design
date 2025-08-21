@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const registryType = z.union([z.literal("ui"), z.literal("lib")]);
+export const registryType = z.union([z.literal("ui"), z.literal("lib"), z.literal("bits")]);
 
 export const registryUIItemSchema = z.object({
   /**
@@ -53,23 +53,21 @@ export const registryUISchema = z.array(registryUIItemSchema);
 const omittedRegistryUISchema = registryUIItemSchema.omit({
   files: true,
 });
-export const registryUIItemMachineGeneratedSchema =
-  omittedRegistryUISchema.extend({
-    registries: z.array(
-      z.object({
-        name: z.string(),
-        type: registryType,
-        content: z.string(),
-      }),
-    ),
-  });
+export const registryUIItemMachineGeneratedSchema = omittedRegistryUISchema.extend({
+  registries: z.array(
+    z.object({
+      name: z.string(),
+      type: registryType,
+      content: z.string(),
+    }),
+  ),
+});
 export const registryComponentMachineGeneratedSchema = z.array(
   registryUIItemMachineGeneratedSchema,
 );
 
 // NOTE: 현재는 lib이 ui와 타입이 동일하지만, 따로 가져가야한다면 타입을 변경해야해요.
-export const registryLibItemMachineGeneratedSchema =
-  registryUIItemMachineGeneratedSchema;
+export const registryLibItemMachineGeneratedSchema = registryUIItemMachineGeneratedSchema;
 
 // NOTE: 현재는 lib이 ui와 타입이 동일하지만, 따로 가져가야한다면 타입을 변경해야해요.
 export type RegistryLibItem = z.infer<typeof registryUIItemSchema>;
@@ -77,15 +75,7 @@ export type RegistryLib = z.infer<typeof registryUISchema>;
 export type RegistryUIItem = z.infer<typeof registryUIItemSchema>;
 export type RegistryUI = z.infer<typeof registryUISchema>;
 
-export type RegistryUIItemMachineGenerated = z.infer<
-  typeof registryUIItemMachineGeneratedSchema
->;
-export type RegistryUIMachineGenerated = z.infer<
-  typeof registryComponentMachineGeneratedSchema
->;
-export type RegistryLibItemMachineGenerated = z.infer<
-  typeof registryLibItemMachineGeneratedSchema
->;
-export type RegistryLibMachineGenerated = z.infer<
-  typeof registryComponentMachineGeneratedSchema
->;
+export type RegistryUIItemMachineGenerated = z.infer<typeof registryUIItemMachineGeneratedSchema>;
+export type RegistryUIMachineGenerated = z.infer<typeof registryComponentMachineGeneratedSchema>;
+export type RegistryLibItemMachineGenerated = z.infer<typeof registryLibItemMachineGeneratedSchema>;
+export type RegistryLibMachineGenerated = z.infer<typeof registryComponentMachineGeneratedSchema>;

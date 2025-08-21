@@ -51,6 +51,7 @@
     "fumadocs-ui": "15.6.12",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^0.539.0",
+    "motion": "^12.23.12",
     "next": "15.4.6",
     "next-sanity": "^9.12.0",
     "nuqs": "^2.3.1",
