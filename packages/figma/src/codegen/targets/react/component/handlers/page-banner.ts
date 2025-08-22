@@ -84,7 +84,7 @@ export const createPageBannerHandler = (ctx: ComponentHandlerDeps) => {
       (child) => child.type === "INSTANCE" && child.name === "icon",
     ) as NormalizedInstanceNode | null;
 
-    const showPrefixIcon = props["Show Prefix Icon#11840:27"] && iconNode;
+    const showPrefixIcon = props["Show Prefix Icon#11840:27"].value && iconNode;
     const prefixIcon = showPrefixIcon ? ctx.iconHandler.transform(iconNode) : undefined;
 
     const commonProps = {
