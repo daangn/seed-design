@@ -3,6 +3,54 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.22
+
+[`f806356`](https://github.com/daangn/seed-design/commit/f806356f0ca5d419647c9672426e14ca3350f479) Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+- Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+```tsx
+<PageBanner
+  tone="informative"
+  variant="weak"
+  description="사업자 정보를 등록해주세요."
+  suffix={
+    <PageBannerButton asChild>
+      <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+        새 탭에서 열기
+      </a>
+    </PageBannerButton>
+  }
+/>
+```
+
+시맨틱 색상 토큰을 추가하고 수정합니다.
+
+- `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+- `$color.bg.warning-solid-pressed` 추가
+
+[`1982494`](https://github.com/daangn/seed-design/commit/198249432e62bcc693c469aa233fabe6a6b23532) Badge 컴포넌트를 업데이트합니다.
+
+- `tone=warning` variant를 추가합니다.
+- `maxWidth` 스펙을 추가합니다.
+
+신규 시맨틱 색상 토큰을 추가합니다.
+
+- `$color.fg.warning`
+- `$color.stroke.warning`
+- `$color.fg.brand-contrast`
+- `$color.bg.brand-weak`
+- `$color.bg.brand-weak-pressed`
+
+### Version Updates
+
+- [@seed-design/css@0.1.14](https://npmjs.com/package/@seed-design/css/v/0.1.14)
+- [@seed-design/figma@0.1.14](https://npmjs.com/package/@seed-design/figma/v/0.1.14)
+- [@seed-design/react@0.1.14](https://npmjs.com/package/@seed-design/react/v/0.1.14)
+- [@seed-design/rootage-artifacts@0.0.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.5)
+- [@seed-design/tailwind3-plugin@0.1.14](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.14)
+- [@seed-design/tailwind4-theme@0.1.14](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.14)
+
 ## 2025.08.20
 
 [`0be9b00`](https://github.com/daangn/seed-design/commit/0be9b00baad2502eb4ea32e641c5c1d8c3f3eb4c) Avatar, Avatar Stack 컴포넌트에 `size=108` variant를 추가합니다.
