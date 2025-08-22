@@ -11,6 +11,7 @@ export default function AvatarSize() {
       <Avatar size="64" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
       <Avatar size="80" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
       <Avatar size="96" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
+      <Avatar size="108" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
     </Flex>
   );
 }

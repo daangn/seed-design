@@ -1,0 +1,269 @@
+---
+title: Changelog
+description: 최신 업데이트와 변경사항을 기록합니다.
+---
+
+## 2025.08.20
+
+[`0be9b00`](https://github.com/daangn/seed-design/commit/0be9b00baad2502eb4ea32e641c5c1d8c3f3eb4c) Avatar, Avatar Stack 컴포넌트에 `size=108` variant를 추가합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.13](https://npmjs.com/package/@seed-design/css/v/0.1.13)
+- [@seed-design/rootage-artifacts@0.0.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.4)
+
+## 2025.08.12 #2
+
+[`62094b6`](https://github.com/daangn/seed-design/commit/62094b6e6d445edd1fbd7085f80a8e1cc4da03bf) Help Bubble의 스타일 문제를 수정합니다.
+
+- `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.12](https://npmjs.com/package/@seed-design/css/v/0.1.12)
+- [@seed-design/react@0.1.12](https://npmjs.com/package/@seed-design/react/v/0.1.12)
+- [@seed-design/react-popover@0.0.8](https://npmjs.com/package/@seed-design/react-popover/v/0.0.8)
+
+## 2025.08.12
+
+[`9993e0e`](https://github.com/daangn/seed-design/commit/9993e0ea799258e88a5d81777ab7785e21cafa97) 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+### Version Updates
+
+- [@seed-design/figma@0.1.11](https://npmjs.com/package/@seed-design/figma/v/0.1.11)
+- [@seed-design/react@0.1.11](https://npmjs.com/package/@seed-design/react/v/0.1.11)
+
+## 2025.08.11
+
+[`ef91c21`](https://github.com/daangn/seed-design/commit/ef91c21da109e74405fc57f0fd0246af63dcd1a9) Bottom Sheet의 스타일 문제를 수정해요.
+
+- Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
+
+[`aa40f66`](https://github.com/daangn/seed-design/commit/aa40f66e33a6d050d4728cce4d749f56a79e7975) Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+- Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.10](https://npmjs.com/package/@seed-design/css/v/0.1.10)
+- [@seed-design/figma@0.1.10](https://npmjs.com/package/@seed-design/figma/v/0.1.10)
+
+## 2025.08.07
+
+[`5a025b7`](https://github.com/daangn/seed-design/commit/5a025b7b12b7d288bc07dbea88e26cfb41d5b661) Switch 컴포넌트를 업데이트합니다.
+
+- size: medium → 32, small → 16으로 rename합니다.
+  - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+- size: 24를 추가합니다.
+- 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+[`f9379e0`](https://github.com/daangn/seed-design/commit/f9379e09d64d047136383ca4b16a704a5d82268e) Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+- Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+- `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+[`ac35731`](https://github.com/daangn/seed-design/commit/ac35731de335a06b4aa2f87bf03ebce002e61e2b) Chip.Root `position: relative` 속성 추가
+
+- 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
+
+[`f9041e9`](https://github.com/daangn/seed-design/commit/f9041e9cf4ee90acef8e52be1dc483d01438e0e2) `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+- `span` 대신 `div`를 렌더링합니다.
+- 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.9](https://npmjs.com/package/@seed-design/css/v/0.1.9)
+- [@seed-design/figma@0.1.9](https://npmjs.com/package/@seed-design/figma/v/0.1.9)
+- [@seed-design/react@0.1.9](https://npmjs.com/package/@seed-design/react/v/0.1.9)
+- [@seed-design/rootage-artifacts@0.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.3)
+
+## 2025.08.04
+
+[`2e2cc53`](https://github.com/daangn/seed-design/commit/2e2cc530648f5d10432f23fa8169e3c4225f6315) - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.
+- normalize 과정에서 그라디언트 정보를 포함하도록 수정합니다.
+
+[`609b8f3`](https://github.com/daangn/seed-design/commit/609b8f3b69bc98f0b3a2c971f17409559811f376) iOS의 `더 큰 텍스트` 기능에 제한을 둡니다.
+
+- iOS는 7단계(XS ~ XXXL)의 텍스트 크기 조절 이외에도, 보다 더 큰 텍스트를 위한 `더 큰 텍스트` 기능을 제공합니다.
+- iOS 네이티브에서는 `더 큰 텍스트`의 UI 레이아웃 대응이 어렵다고 결정하여, XXXL(135%) 이상의 텍스트 크기 조절을 지원하지 않습니다.
+- 웹뷰도 iOS와 동일한 제한을 위한 기능이 추가되었습니다.
+
+[`99e7f2c`](https://github.com/daangn/seed-design/commit/99e7f2c693ac2a4d433791719b25d4818bc41170) figma-extractor (Figma REST API 호출 결과를 파일로 저장하는 CLI 툴) 설정 파일 작성 방법을 개선합니다.
+
+- 사용자가 직접 API 호출부터 파일 저장까지의 파이프라인을 작성할 수 있습니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.8](https://npmjs.com/package/@seed-design/css/v/0.1.8)
+- [@seed-design/figma@0.1.8](https://npmjs.com/package/@seed-design/figma/v/0.1.8)
+- [@seed-design/figma-extractor@0.0.5](https://npmjs.com/package/@seed-design/figma-extractor/v/0.0.5)
+
+## 2025.08.01
+
+[`4afe80b`](https://github.com/daangn/seed-design/commit/4afe80b81e6845ec917426039ef8d7817e67e7ec) MultilineTextField의 스타일 문제를 수정합니다.
+
+- 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.7](https://npmjs.com/package/@seed-design/css/v/0.1.7)
+
+## 2025.07.31
+
+[`235147d`](https://github.com/daangn/seed-design/commit/235147def530d1d2ab6441f0e5b965efb1d67e43) action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+
+[`3c13ad7`](https://github.com/daangn/seed-design/commit/3c13ad76a32bbf909b44f4ffbca1277d6d0f1d7a) `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.6](https://npmjs.com/package/@seed-design/css/v/0.1.6)
+- [@seed-design/rootage-artifacts@0.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.2)
+- [@seed-design/tailwind3-plugin@0.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.6)
+- [@seed-design/tailwind4-theme@0.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.6)
+
+## 2025.07.29
+
+[`a059fb0`](https://github.com/daangn/seed-design/commit/a059fb02b051fc4ca8fd0c79c5706dec90448097) Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+- [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+- Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+[`3889eb6`](https://github.com/daangn/seed-design/commit/3889eb6c82915c6ae4df05c815841f0ad54d27a6) Inline Banner의 스타일 문제를 수정합니다.
+
+- `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+- `title`과 `description` 간의 간격을 조정합니다.
+- 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+Callout의 스타일 문제를 수정합니다.
+
+- `title`과 `description` 간의 간격을 조정합니다.
+
+Chip의 스타일 문제를 수정합니다.
+
+- `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.5](https://npmjs.com/package/@seed-design/css/v/0.1.5)
+- [@seed-design/react@0.1.5](https://npmjs.com/package/@seed-design/react/v/0.1.5)
+- [@seed-design/rootage-artifacts@0.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.1)
+
+## 2025.07.28
+
+[`9b271d6`](https://github.com/daangn/seed-design/commit/9b271d613f2067c8cc8cbc517cd1d334f4e04e92) snippet의 deprecated 여부를 기록합니다. cli add 명령 실행 시 snippet 목록에서 deprecate 여부를 표시하고, `--all`로 모든 스니펫 추가 시 기본적으로 deprecated snippet을 제외합니다.
+
+```sh
+seed-design add --all # deprecated snippet 제외
+```
+
+```sh
+seed-design add --all --include-deprecated # deprecated snippet 포함
+```
+
+### Version Updates
+
+- [@seed-design/cli@0.0.3](https://npmjs.com/package/@seed-design/cli/v/0.0.3)
+
+## 2025.07.23
+
+[`0ffcd48`](https://github.com/daangn/seed-design/commit/0ffcd481d3be71cff6a7cfea6985a7c063086ff7) Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+- [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+- Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+[`56e03ca`](https://github.com/daangn/seed-design/commit/56e03cad0841e4a77e284da12d63e81d412e84b9) Layout 컴포넌트 `pb`, `pt`, `paddingBottom`, `paddingTop` 속성에 `safeArea` 값을 지정할 수 있도록 지원
+  
+```tsx
+<Box pt="safeArea" paddingTop="safeArea" />
+<Box pb="safeArea" paddingBottom="safeArea" />
+```
+
+### Version Updates
+
+- [@seed-design/css@0.1.4](https://npmjs.com/package/@seed-design/css/v/0.1.4)
+- [@seed-design/react@0.1.4](https://npmjs.com/package/@seed-design/react/v/0.1.4)
+
+## 2025.07.11
+
+[`cdc0930`](https://github.com/daangn/seed-design/commit/cdc09303deb05db51455c779b72c148b975014c5) `@seed-design/stackflow` 백스와이프 애니메이션 개선
+
+- iOS 스타일 화면 전환 애니메이션의 지속 시간과 타이밍 함수가 `300ms`에서 `350ms`로 조정되어 더 부드러운 전환 효과를 제공합니다.
+- 스와이프 백 제스처 시 애니메이션이 보다 자연스럽고 일관되게 표현됩니다.
+- 스와이프 백 종료 시 CSS 변수를 활용해 전환 상태를 명확히 하여 사용자 경험이 개선되었습니다.
+
+[`946faf7`](https://github.com/daangn/seed-design/commit/946faf79c824b435da30e4cf6162b7ba4dba49ec) 그라디언트 토큰 추가 및 변경
+
+- `fade-layer-floating`, `fade-layer-default` 토큰이 추가되었습니다.
+- `$gradient.shimmer-magic` 토큰 stop color가 변경되었습니다.
+
+[`71c58fd`](https://github.com/daangn/seed-design/commit/71c58fd22901d6296f09a852082839e1b2888e31) iOS Font Scaling
+
+- iOS 기기에서 시스템 폰트 크기 설정에 따라 동적으로 폰트 크기와 줄 높이를 조정하는 폰트 스케일링 옵션이 추가되었습니다.
+- 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
+- `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.3](https://npmjs.com/package/@seed-design/css/v/0.1.3)
+- [@seed-design/rsbuild-plugin@0.1.3](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.3)
+- [@seed-design/stackflow@0.1.3](https://npmjs.com/package/@seed-design/stackflow/v/0.1.3)
+- [@seed-design/tailwind3-plugin@0.1.3](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.3)
+- [@seed-design/tailwind4-theme@0.1.3](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.3)
+- [@seed-design/vite-plugin@0.1.3](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.3)
+- [@seed-design/webpack-plugin@0.1.3](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.3)
+
+## 2025.07.01
+
+그라디언트 토큰 및 AI 관련 컴포넌트 업데이트
+
+- AI용 magic 테마와 중립적인 테마의 다양한 그라디언트(Shimmer, Fade, Glow, Highlight) 컬러 토큰이 추가되었습니다.
+- `<Callout />` 컴포넌트의 `tone="magic"` 스타일이 변경되었습니다.
+- `<Skeleton />` 컴포넌트에 `tone` prop이 추가되어 `neutral`과 `magic` 옵션을 제공합니다.
+- 모든 Layout 컴포넌트(Box, VStack, HStack 등)에서 `bg/bgGradient` 속성을 통해 그라디언트를 지정할 수 있습니다.
+- `<Text />` 컴포넌트에 `textDecorationLine` 옵션이 추가되었습니다.
+- `<HelpBubble />` 컴포넌트의 arrow가 상위 요소의 font-size에 영향받지 않도록 수정되었습니다.
+- `<BottomSheet />` 컴포넌트의 description font-size가 t6에서 t5로 변경되었습니다.
+- 기존 보라색 계열 magic 관련 시맨틱 색상들(`fg/magic`, `fg/magic-contrast`, `bg/magic-solid`)이 삭제되었습니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.0](https://npmjs.com/package/@seed-design/css/v/0.1.0)
+- [@seed-design/figma@0.1.0](https://npmjs.com/package/@seed-design/figma/v/0.1.0)
+- [@seed-design/mcp@0.1.0](https://npmjs.com/package/@seed-design/mcp/v/0.1.0)
+- [@seed-design/react@0.1.0](https://npmjs.com/package/@seed-design/react/v/0.1.0)
+- [@seed-design/rsbuild-plugin@0.1.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.0)
+- [@seed-design/stackflow@0.1.0](https://npmjs.com/package/@seed-design/stackflow/v/0.1.0)
+- [@seed-design/vite-plugin@0.1.0](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.0)
+- [@seed-design/webpack-plugin@0.1.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.0)
+
+## 2025.06.24
+
+Alpha 컬러 업데이트
+
+- White와 black의 alpha 색상이 새롭게 추가되었습니다. (staticWhiteAlpha50 ~ staticWhiteAlpha1000, staticBlackAlpha100 ~ staticBlackAlpha1000)
+- stroke 색상에도 alpha 색상이 추가되었습니다.
+- 기존 alpha 색상 값들의 매핑이 변경되었습니다:
+  - `staticBlackAlpha500` → `staticBlackAlpha700`
+  - `staticBlackAlpha200` → `staticBlackAlpha500`
+  - `staticBlackAlpha50` → `staticBlackAlpha200`
+  - `staticWhiteAlpha200` → `staticWhiteAlpha300`
+- `npx @seed-design/codemod@latest replace-alpha-color` 코드모드를 제공합니다.
+
+### Version Updates
+
+- [@seed-design/codemod@0.0.28](https://npmjs.com/package/@seed-design/codemod/v/0.0.28)
+- [@seed-design/css@0.0.39](https://npmjs.com/package/@seed-design/css/v/0.0.39)
+- [@seed-design/figma@0.0.39](https://npmjs.com/package/@seed-design/figma/v/0.0.39)
+- [@seed-design/mcp@0.0.39](https://npmjs.com/package/@seed-design/mcp/v/0.0.39)
+- [@seed-design/migration-index@0.0.28](https://npmjs.com/package/@seed-design/migration-index/v/0.0.28)
+- [@seed-design/react@0.0.39](https://npmjs.com/package/@seed-design/react/v/0.0.39)
+- [@seed-design/rsbuild-plugin@0.0.39](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.0.39)
+- [@seed-design/stackflow@0.0.39](https://npmjs.com/package/@seed-design/stackflow/v/0.0.39)
+- [@seed-design/tailwind3-plugin@0.0.39](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.0.39)
+- [@seed-design/tailwind4-theme@0.0.39](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.0.39)
+- [@seed-design/vite-plugin@0.0.39](https://npmjs.com/package/@seed-design/vite-plugin/v/0.0.39)
+- [@seed-design/webpack-plugin@0.0.39](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.0.39)
+

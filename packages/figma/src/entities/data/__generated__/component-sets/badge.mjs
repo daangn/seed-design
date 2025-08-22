@@ -19,15 +19,16 @@ export const metadata = {
         "Brand",
         "Informative",
         "Positive",
-        "Critical"
+        "Critical",
+        "Warning"
       ]
     },
     "Variant": {
       "type": "VARIANT",
       "variantOptions": [
-        "Solid",
         "Weak",
-        "Outline"
+        "Outline",
+        "Solid"
       ]
     }
   }
