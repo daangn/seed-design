@@ -21,13 +21,13 @@ export { metadata as contextualFloatingButton } from "./contextual-floating-butt
 export { metadata as divider } from "./divider";
 export { metadata as floatingActionButton } from "./floating-action-button";
 export { metadata as helpBubble } from "./help-bubble";
-export { metadata as inlineBanner } from "./inline-banner";
 export { metadata as mainTabNavigationGlobal } from "./main-tab-navigation-global";
 export { metadata as mainTabNavigationKr } from "./main-tab-navigation-kr";
 export { metadata as mannerTemp } from "./manner-temp";
 export { metadata as mannerTempBadge } from "./manner-temp-badge";
 export { metadata as menuSheet } from "./menu-sheet";
 export { metadata as multilineTextField } from "./multiline-text-field";
+export { metadata as pageBanner } from "./page-banner";
 export { metadata as progressCircle } from "./progress-circle";
 export { metadata as radio } from "./radio";
 export { metadata as radioMark } from "./radio-mark";

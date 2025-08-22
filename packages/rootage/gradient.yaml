@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: gradient
   name: Gradient
-  lastUpdated: 25-08-21
+  lastUpdated: 25-08-22
 data:
   collection: color
   tokens:

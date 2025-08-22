@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-08-21
+  lastUpdated: 25-08-22
 data:
   collection: color
   tokens:
@@ -573,7 +573,7 @@ data:
     $color.bg.positive-solid-pressed:
       values:
         theme-light: $color.palette.green-800
-        theme-dark: $color.palette.green-500
+        theme-dark: $color.palette.green-600
     $color.bg.positive-weak-pressed:
       values:
         theme-light: $color.palette.green-200
@@ -586,6 +586,10 @@ data:
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-600
+    $color.bg.warning-solid-pressed:
+      values:
+        theme-light: $color.palette.yellow-400
+        theme-dark: $color.palette.yellow-700
     $color.bg.warning-weak-pressed:
       values:
         theme-light: $color.palette.yellow-200
