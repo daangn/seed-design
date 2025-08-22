@@ -1,173 +1,138 @@
 import type {
-  AppBarLeftProperties,
-  AppBarMainProperties,
   AppBarProperties,
-  AppBarRightProperties,
+  AppBarMainProperties,
+  AppBarRightIconButtonProperties,
+  AppBarLeftIconButtonProperties,
 } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
-import type { NormalizedInstanceNode, NormalizedTextNode } from "@/normalizer";
-import { findAll, findAllInstances, findOne } from "@/utils/figma-node";
+import { findAllInstances } from "@/utils/figma-node";
 import { match } from "ts-pattern";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("app-bar");
 
-const APP_BAR_MAIN_KEY = "336b49b26c3933485d87cc460b06c390976ea58e";
-const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarMainProperties>(
-    APP_BAR_MAIN_KEY,
+const APP_BAR_TITLE_KEY = "d2cc4f615b2b44098be89448ad1c573f94af0355";
+const APP_BAR_LEFT_ICON_BUTTON_KEY = "5a953f7bafc0df744777517458396e9f6c915825";
+const APP_BAR_RIGHT_ICON_BUTTON_KEY = "c08db793288077e53bd45ef11aa419a835e88fce";
+
+const createAppBarMainHandler = (_ctx: ComponentHandlerDeps) => {
+  return defineComponentHandler<AppBarMainProperties>(
+    APP_BAR_TITLE_KEY,
     ({ componentProperties: props }) => {
-      const { title, subtitle, layout } = match(props.Type.value)
+      const { title, subtitle } = match(props.Type.value)
         .with("Title", () => ({
           title: props["Title#16944:0"].value,
           subtitle: undefined,
-          layout: undefined,
         }))
         .with("Title-Subtitle", () => ({
           title: props["Title#16944:0"].value,
           subtitle: props["Subtitle#16958:9"].value,
-          layout: "withSubtitle",
         }))
-        .otherwise(() => ({
+        .with("Logo (Figma Only)", () => ({
           title: undefined,
           subtitle: undefined,
-          layout: undefined,
-        }));
+        }))
+        .exhaustive();
 
-      const commonProps = {
-        title,
-        subtitle,
-        layout,
-      };
+      if (title) {
+        return createLocalSnippetElement("AppBarMain", { title, subtitle });
+      }
 
-      return createLocalSnippetElement("AppBarMain", commonProps, undefined, {
-        comment: title === undefined ? "Title을 제공해주세요." : undefined,
+      return createLocalSnippetElement("AppBarMain", undefined, undefined, {
+        comment: "AppBarMain 내부를 직접 작성해주세요.",
       });
     },
   );
-
-const APP_BAR_LEFT_KEY = "e5d2e47052a22395db79f195a0991a570dc1b6c9";
-const createAppBarLeftHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarLeftProperties>(APP_BAR_LEFT_KEY, (node) => {
-    const props = node.componentProperties;
-
-    const children = (() => {
-      switch (props.Action.value) {
-        case "Back":
-          return createLocalSnippetElement("AppBarBackButton");
-        case "Close":
-          return createLocalSnippetElement("AppBarCloseButton");
-        case "Other": {
-          const iconNode = findOne(
-            node,
-            (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as NormalizedInstanceNode | null;
-
-          if (!iconNode) {
-            return undefined;
-          }
-
-          return createLocalSnippetElement(
-            "AppBarIconButton",
-            undefined,
-            ctx.iconHandler.transform(iconNode),
-            {
-              comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
-            },
-          );
-        }
-      }
-    })();
-
-    return createLocalSnippetElement("AppBarLeft", undefined, children);
-  });
-
-const APP_BAR_RIGHT_KEY = "9e157fc2d1f89ffee938a5bc62f4a58064fec44e";
-const createAppBarRightHandler = (ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<AppBarRightProperties>(APP_BAR_RIGHT_KEY, (node) => {
-    const props = node.componentProperties;
-
-    const children = (() => {
-      switch (props.Type.value) {
-        case "1 Text": {
-          const textNode = findOne(
-            node,
-            (child) => child.type === "TEXT",
-          ) as NormalizedTextNode | null;
-
-          return textNode?.characters;
-        }
-        default: {
-          const iconNodes = findAll(
-            node,
-            (child) => child.type === "INSTANCE" && child.name === "Icon",
-          ) as NormalizedInstanceNode[];
-
-          return iconNodes.map((iconNode) =>
-            createLocalSnippetElement(
-              "AppBarIconButton",
-              undefined,
-              ctx.iconHandler.transform(iconNode),
-              {
-                comment: "aria-label 또는 aria-labelledby를 제공해주세요.",
-              },
-            ),
-          );
-        }
-      }
-    })();
-
-    return createLocalSnippetElement("AppBarRight", undefined, children);
-  });
+};
 
 export const createAppBarHandler = (ctx: ComponentHandlerDeps) => {
   const appBarMainHandler = createAppBarMainHandler(ctx);
-  const appBarLeftHandler = createAppBarLeftHandler(ctx);
-  const appBarRightHandler = createAppBarRightHandler(ctx);
 
-  return defineComponentHandler<AppBarProperties>(metadata.standardNavigation.key, (node) => {
+  return defineComponentHandler<AppBarProperties>(metadata.topNavigation.key, (node, traverse) => {
     const props = node.componentProperties;
 
-    const theme = (() => {
-      switch (props.OS.value) {
-        case "Android":
-          return "android";
-        case "iOS":
-          return "cupertino";
+    const { theme, tone } = {
+      theme: match(props["OS (Figma Only)"].value)
+        .with("Android", () => "android")
+        .with("iOS", () => "cupertino")
+        .exhaustive(),
+
+      tone: match(props.Variant.value)
+        .with("Layer Default", () => "layer")
+        .with("Transparent", () => "transparent")
+        .exhaustive(),
+    };
+
+    const main = (() => {
+      if (!props["Show Title#33588:82"].value) {
+        return undefined;
       }
+
+      const [mainNode] = findAllInstances<AppBarMainProperties>({ node, key: APP_BAR_TITLE_KEY });
+
+      if (!mainNode) {
+        return undefined;
+      }
+
+      return appBarMainHandler.transform(mainNode, traverse);
     })();
 
-    const tone = (() => {
-      switch (props.Variant.value) {
-        case "Layer Default":
-          return "layer";
-        case "Transparent":
-          return "transparent";
-      }
-    })();
+    const leftChildren = match(props.Left.value)
+      .with("None", () => undefined)
+      .with("Back", () => [createLocalSnippetElement("AppBarBackButton")])
+      .with("Close", () => [createLocalSnippetElement("AppBarCloseButton")])
+      .with("Custom", () => {
+        const buttons = findAllInstances<AppBarLeftIconButtonProperties>({
+          node,
+          key: APP_BAR_LEFT_ICON_BUTTON_KEY,
+        });
 
-    const mainNode = findAllInstances<AppBarMainProperties>({
-      key: appBarMainHandler.key,
-      node,
-    });
-    const onlyMainNode = mainNode.length === 1 ? mainNode[0] : undefined;
-    const main = onlyMainNode ? appBarMainHandler.transform(onlyMainNode) : undefined;
+        if (buttons.length > 0) {
+          return buttons.map((button) =>
+            createLocalSnippetElement(
+              "AppBarIconButton",
+              undefined,
+              ctx.iconHandler.transform(button.componentProperties["Icon#33580:0"]),
+              { comment: "AppBarIconButton에 aria-label 속성을 추가해주세요." },
+            ),
+          );
+        }
 
-    const leftNode = findAllInstances<AppBarLeftProperties>({
-      key: appBarLeftHandler.key,
-      node,
-    });
-    const onlyLeftNode = leftNode.length === 1 ? leftNode[0] : undefined;
-    const left = onlyLeftNode ? appBarLeftHandler.transform(onlyLeftNode) : undefined;
+        return undefined;
+      })
+      .exhaustive();
 
-    const rightNode = findAllInstances<AppBarRightProperties>({
-      key: appBarRightHandler.key,
-      node,
-    });
-    const onlyRightNode = rightNode.length === 1 ? rightNode[0] : undefined;
-    const right = onlyRightNode ? appBarRightHandler.transform(onlyRightNode) : undefined;
+    const left =
+      leftChildren && leftChildren.length > 0
+        ? createLocalSnippetElement("AppBarLeft", {}, leftChildren)
+        : undefined;
+
+    const rightChildren = match(props.Right.value)
+      .with("None", () => undefined)
+      .with("1 Icon Button", "2 Icon Button", "3 Icon Button", () => {
+        const buttons = findAllInstances<AppBarRightIconButtonProperties>({
+          node,
+          key: APP_BAR_RIGHT_ICON_BUTTON_KEY,
+        });
+
+        return buttons.map((button) =>
+          createLocalSnippetElement(
+            "AppBarIconButton",
+            undefined,
+            ctx.iconHandler.transform(button.componentProperties["Icon#6406:3"]),
+            { comment: "AppBarIconButton에 aria-label 속성을 추가해주세요." },
+          ),
+        );
+      })
+      .with("Text Button", () => undefined)
+      .exhaustive();
+
+    const right =
+      rightChildren && rightChildren.length > 0
+        ? createLocalSnippetElement("AppBarRight", {}, rightChildren)
+        : undefined;
 
     return createLocalSnippetElement(
       "AppBar",

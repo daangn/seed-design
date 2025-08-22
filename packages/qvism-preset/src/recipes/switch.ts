@@ -16,11 +16,9 @@ const switchRecipe = defineSlotRecipe({
 
       verticalAlign: "top",
       isolation: "isolate",
-      opacity: 1,
       cursor: "pointer",
 
       [pseudo(disabled)]: {
-        opacity: vars.base.disabled.root.opacity,
         cursor: "not-allowed",
       },
     },
@@ -34,6 +32,10 @@ const switchRecipe = defineSlotRecipe({
 
       transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
 
+      [pseudo(disabled)]: {
+        opacity: vars.base.disabled.control.opacity,
+      },
+
       [pseudo(checked)]: {
         background: vars.base.enabledSelected.control.color,
       },
@@ -44,58 +46,98 @@ const switchRecipe = defineSlotRecipe({
 
       transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
     },
+    label: {
+      fontWeight: vars.base.enabled.label.fontWeight,
+      color: vars.base.enabled.label.color,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.label.color,
+      },
+    },
   },
   variants: {
     size: {
-      medium: {
+      32: {
         root: {
-          minHeight: vars.sizeMedium.enabled.root.height,
+          minHeight: vars.size32.enabled.root.height,
+          gap: vars.size32.enabled.root.gap,
         },
         control: {
-          minInlineSize: vars.sizeMedium.enabled.control.width,
-          minBlockSize: vars.sizeMedium.enabled.control.height,
-          padding: `${vars.sizeMedium.enabled.control.paddingY} ${vars.sizeMedium.enabled.control.paddingX}`,
+          minInlineSize: vars.size32.enabled.control.width,
+          minBlockSize: vars.size32.enabled.control.height,
+          padding: `${vars.size32.enabled.control.paddingY} ${vars.size32.enabled.control.paddingX}`,
+          margin: `calc((${vars.size32.enabled.root.height} - ${vars.size32.enabled.control.height}) / 2) 0`, // 수직 위치 보정
         },
         thumb: {
-          width: vars.sizeMedium.enabled.thumb.width,
-          height: vars.sizeMedium.enabled.thumb.height,
-          boxShadow: vars.sizeMedium.enabled.thumb.shadow,
+          width: vars.size32.enabled.thumb.width,
+          height: vars.size32.enabled.thumb.height,
+          boxShadow: vars.size32.enabled.thumb.shadow,
 
           [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.sizeMedium.enabled.control.width} - ${vars.sizeMedium.enabled.control.height}))`,
-          },
-        },
-      },
-      small: {
-        root: {
-          minHeight: vars.sizeSmall.enabled.root.height,
-          gap: vars.sizeSmall.enabled.root.gap,
-        },
-        control: {
-          minInlineSize: vars.sizeSmall.enabled.control.width,
-          minBlockSize: vars.sizeSmall.enabled.control.height,
-          padding: `${vars.sizeSmall.enabled.control.paddingY} ${vars.sizeSmall.enabled.control.paddingX}`,
-          margin: `calc((${vars.sizeSmall.enabled.root.height} - ${vars.sizeSmall.enabled.control.height}) / 2) 0`, // 수직 위치 보정
-        },
-        thumb: {
-          width: vars.sizeSmall.enabled.thumb.width,
-          height: vars.sizeSmall.enabled.thumb.height,
-
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.sizeSmall.enabled.control.width} - ${vars.sizeSmall.enabled.control.height}))`,
+            transform: `translateX(calc(${vars.size32.enabled.control.width} - ${vars.size32.enabled.control.height}))`,
           },
         },
         label: {
-          fontSize: vars.sizeSmall.enabled.label.fontSize,
-          lineHeight: vars.sizeSmall.enabled.label.lineHeight,
-          fontWeight: vars.sizeSmall.enabled.label.fontWeight,
+          fontSize: vars.size32.enabled.label.fontSize,
+          lineHeight: vars.size32.enabled.label.lineHeight,
+          marginTop: "calc(16px - 0.6875rem)", // 수직 위치 보정, 32 / 2 - label.lineHeight / 2
+        },
+      },
+      24: {
+        root: {
+          minHeight: vars.size24.enabled.root.height,
+          gap: vars.size24.enabled.root.gap,
+        },
+        control: {
+          minInlineSize: vars.size24.enabled.control.width,
+          minBlockSize: vars.size24.enabled.control.height,
+          padding: `${vars.size24.enabled.control.paddingY} ${vars.size24.enabled.control.paddingX}`,
+          margin: `calc((${vars.size24.enabled.root.height} - ${vars.size24.enabled.control.height}) / 2) 0`, // 수직 위치 보정
+        },
+        thumb: {
+          width: vars.size24.enabled.thumb.width,
+          height: vars.size24.enabled.thumb.height,
+          boxShadow: vars.size24.enabled.thumb.shadow,
+
+          [pseudo(checked)]: {
+            transform: `translateX(calc(${vars.size24.enabled.control.width} - ${vars.size24.enabled.control.height}))`,
+          },
+        },
+        label: {
+          fontSize: vars.size24.enabled.label.fontSize,
+          lineHeight: vars.size24.enabled.label.lineHeight,
           marginTop: "calc(12px - 0.59375rem)", // 수직 위치 보정, 24 / 2 - label.lineHeight / 2
+        },
+      },
+      16: {
+        root: {
+          minHeight: vars.size16.enabled.root.height,
+          gap: vars.size16.enabled.root.gap,
+        },
+        control: {
+          minInlineSize: vars.size16.enabled.control.width,
+          minBlockSize: vars.size16.enabled.control.height,
+          padding: `${vars.size16.enabled.control.paddingY} ${vars.size16.enabled.control.paddingX}`,
+          margin: `calc((${vars.size16.enabled.root.height} - ${vars.size16.enabled.control.height}) / 2) 0`, // 수직 위치 보정
+        },
+        thumb: {
+          width: vars.size16.enabled.thumb.width,
+          height: vars.size16.enabled.thumb.height,
+
+          [pseudo(checked)]: {
+            transform: `translateX(calc(${vars.size16.enabled.control.width} - ${vars.size16.enabled.control.height}))`,
+          },
+        },
+        label: {
+          fontSize: vars.size16.enabled.label.fontSize,
+          lineHeight: vars.size16.enabled.label.lineHeight,
+          marginTop: "calc(12px - 0.5625rem)", // 수직 위치 보정, 24 / 2 - label.lineHeight / 2
         },
       },
     },
   },
   defaultVariants: {
-    size: "medium",
+    size: 32,
   },
 });
 

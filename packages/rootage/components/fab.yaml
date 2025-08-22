@@ -5,6 +5,24 @@ metadata:
   name: Fab
   deprecated: Use contextual-floating-button instead.
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          size:
+            type: dimension
+          shadow:
+            type: shadow
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
   definitions:
     base:
       enabled:

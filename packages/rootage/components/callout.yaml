@@ -161,17 +161,17 @@ data:
     tone=magic:
       enabled:
         root:
-          color: $color.bg.magic-weak
+          color: $gradient.glow-magic
         prefixIcon:
-          color: $color.fg.magic-contrast
+          color: $color.fg.neutral
         title:
-          color: $color.fg.magic-contrast
+          color: $color.fg.neutral
         description:
-          color: $color.fg.magic-contrast
+          color: $color.fg.neutral
         link:
-          color: $color.fg.magic-contrast
+          color: $color.fg.neutral
         suffixIcon:
-          color: $color.fg.magic-contrast
+          color: $color.fg.neutral
       pressed:
         root:
-          color: $color.bg.magic-weak-pressed
+          color: $gradient.glow-magic-pressed

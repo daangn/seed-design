@@ -1,49 +1,46 @@
 import { cosmiconfig } from "cosmiconfig";
-import type { GenerateComponentSetMetadataOptions } from "../services/component-sets";
-import type { GenerateStylesMetadataOptions } from "../services/styles";
-import type { GenerateVariablesMetadataOptions } from "../services/variables";
-import type { MetadataItem } from "./write";
 import { MODULE_NAME } from "../constants";
-import type { GenerateComponentMetadataOptions } from "../services/components";
+import type { Pipeline } from "../pipeline/builder";
 
-export type Config = {
+export interface Config {
   fileKey?: string;
   personalAccessToken?: string;
-  data?: {
-    components?: GenerateComponentMetadataOptions;
-    componentSets?: GenerateComponentSetMetadataOptions;
-    variables?: GenerateVariablesMetadataOptions;
-    styles?: GenerateStylesMetadataOptions;
-  };
-};
+  pipelines: Record<string, Pipeline>;
+}
 
-const explorer = cosmiconfig(MODULE_NAME, {
-  searchPlaces: [
-    `.config/${MODULE_NAME}.js`,
-    `.config/${MODULE_NAME}.ts`,
-    `.config/${MODULE_NAME}.mjs`,
-    `.config/${MODULE_NAME}.cjs`,
-    `${MODULE_NAME}.config.js`,
-    `${MODULE_NAME}.config.ts`,
-    `${MODULE_NAME}.config.mjs`,
-    `${MODULE_NAME}.config.cjs`,
-  ],
-});
+export function createConfig(config: Config) {
+  return config;
+}
 
-const DEFAULT_CONFIG: Config = {
-  data: {
-    componentSets: {},
-    variables: {},
-    styles: {},
-  },
-};
+export async function loadConfig(configPath?: string): Promise<Config> {
+  const explorer = cosmiconfig(MODULE_NAME, {
+    searchPlaces: configPath
+      ? [configPath]
+      : [
+          `.config/${MODULE_NAME}.js`,
+          `.config/${MODULE_NAME}.ts`,
+          `.config/${MODULE_NAME}.mjs`,
+          `.config/${MODULE_NAME}.cjs`,
+          `${MODULE_NAME}.config.js`,
+          `${MODULE_NAME}.config.ts`,
+          `${MODULE_NAME}.config.mjs`,
+          `${MODULE_NAME}.config.cjs`,
+        ],
+  });
 
-const searchResult = await explorer.search();
+  const searchResult = await explorer.search();
 
-export const config = searchResult ? (searchResult.config as Config) : DEFAULT_CONFIG;
+  if (!searchResult) {
+    if (!configPath) {
+      throw new Error(
+        `설정 파일을 찾을 수 없습니다. ${MODULE_NAME}.config.ts 설정 파일을 생성하거나 --config로 설정 파일을 지정해주세요.`,
+      );
+    }
 
-export type Filter<T> = (item: T) => boolean;
-export type Transform<T> = (item: T) => MetadataItem;
+    throw new Error(`${configPath} 설정 파일이 존재하지 않습니다.`);
+  }
 
-export const defaultFilter = () => true;
-export const defaultTransform = <T>(item: T) => item;
+  console.log(`${searchResult.filepath} 설정 파일을 사용합니다.`);
+
+  return searchResult.config;
+}

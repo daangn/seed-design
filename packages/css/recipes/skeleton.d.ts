@@ -3,6 +3,10 @@ declare interface SkeletonVariant {
   * @default 8
   */
   radius: "0" | "8" | "16" | "full";
+/**
+  * @default neutral
+  */
+  tone: "neutral" | "magic";
 }
 
 declare type SkeletonVariantMap = {

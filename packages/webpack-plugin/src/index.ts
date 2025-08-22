@@ -37,17 +37,26 @@ interface Options {
    * @default true
    */
   injectColorSchemeTag?: boolean;
+
+  /**
+   * Whether to enable font scaling for iOS devices.
+   * When enabled, text will scale according to the user's system font size preferences.
+   * @default false
+   */
+  fontScaling?: boolean;
 }
 
 export class SeedDesignPlugin {
   private readonly colorMode: ColorMode;
   private readonly injectColorSchemeTag: boolean;
+  private readonly fontScaling: boolean;
   private themingScript: string;
   private colorScheme: string;
 
   constructor(options: Options = {}) {
     this.colorMode = options.colorMode ?? "system";
     this.injectColorSchemeTag = options.injectColorSchemeTag ?? true;
+    this.fontScaling = options.fontScaling ?? false;
 
     // E.g. 'system' => "light dark"
     this.colorScheme = {
@@ -56,7 +65,7 @@ export class SeedDesignPlugin {
       "dark-only": "dark",
     }[this.colorMode];
 
-    this.themingScript = generateThemingScript({ mode: this.colorMode });
+    this.themingScript = generateThemingScript({ mode: this.colorMode, fontScaling: this.fontScaling });
   }
 
   private transformHtml(input: string): string {

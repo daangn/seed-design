@@ -4,6 +4,20 @@ metadata:
   id: avatar-stack
   name: Avatar Stack
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+      item:
+        properties:
+          cornerRadius:
+            type: dimension
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -56,5 +70,11 @@ data:
       enabled:
         root:
           gap: -24px
+        item:
+          strokeWidth: 5px
+    size=108:
+      enabled:
+        root:
+          gap: -27px
         item:
           strokeWidth: 5px

@@ -17,3 +17,5 @@ docs/.source
 docs/out
 
 scripts/data
+
+.env

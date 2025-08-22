@@ -9,7 +9,59 @@
     "id": "extended-fab",
     "name": "Extended Fab",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "shadow": {
+              "type": "shadow"
+            },
+            "color": {
+              "type": "color"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        },
+        "prefixIcon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "variant": {
           "values": {

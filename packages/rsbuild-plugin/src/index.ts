@@ -18,10 +18,17 @@ interface Options {
    * @default true
    */
   injectColorSchemeTag?: boolean;
+
+  /**
+   * Whether to enable font scaling for iOS devices.
+   * When enabled, text will scale according to the user's system font size preferences.
+   * @default false
+   */
+  fontScaling?: boolean;
 }
 
 export const seedDesignPlugin = (options: Options = {}): RsbuildPlugin => {
-  const { colorMode = "system", injectColorSchemeTag = true } = options;
+  const { colorMode = "system", injectColorSchemeTag = true, fontScaling = false } = options;
 
   const colorScheme = {
     system: "light dark",
@@ -29,7 +36,7 @@ export const seedDesignPlugin = (options: Options = {}): RsbuildPlugin => {
     "dark-only": "dark",
   }[colorMode];
 
-  const themeScript = generateThemingScript({ mode: colorMode });
+  const themeScript = generateThemingScript({ mode: colorMode, fontScaling });
 
   return {
     name: PLUGIN_NAME,

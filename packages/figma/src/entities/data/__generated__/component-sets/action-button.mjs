@@ -2,11 +2,10 @@ export const metadata = {
   "name": "🟢 Action Button",
   "key": "450ede9d0bf42fc6ef14345c77e6e407d6d5ee89",
   "componentPropertyDefinitions": {
-    "Suffix Icon#5987:244": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
+    "Label#5987:61": {
+      "type": "TEXT"
     },
-    "Icon#7574:0": {
+    "Suffix Icon#5987:244": {
       "type": "INSTANCE_SWAP",
       "preferredValues": []
     },
@@ -14,8 +13,9 @@ export const metadata = {
       "type": "INSTANCE_SWAP",
       "preferredValues": []
     },
-    "Label#5987:61": {
-      "type": "TEXT"
+    "Icon#7574:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
     },
     "Size": {
       "type": "VARIANT",

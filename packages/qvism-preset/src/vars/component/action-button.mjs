@@ -467,7 +467,7 @@ export const vars = {
   "sizeMediumLayoutWithText": {
     "enabled": {
       "root": {
-        "gap": "var(--seed-dimension-x1)",
+        "gap": "var(--seed-dimension-x1_5)",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)"
       },

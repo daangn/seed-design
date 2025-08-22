@@ -1,12 +1,17 @@
-import { fileGenerator, remarkDocGen, remarkInstall } from "fumadocs-docgen";
-import { defineConfig, defineDocs } from "fumadocs-mdx/config";
+import { fileGenerator, remarkDocGen } from "fumadocs-docgen";
+import { remarkNpm } from "fumadocs-core/mdx-plugins";
+import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
+import z from "zod";
 
 export const docs = defineDocs({
   dir: "content/docs",
   docs: {
     async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
   },
 });
 
@@ -14,6 +19,9 @@ export const reactDocs = defineDocs({
   dir: "content/react",
   docs: {
     async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
   },
 });
 
@@ -22,7 +30,7 @@ export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
       [
-        remarkInstall,
+        remarkNpm,
         {
           persist: {
             id: "package-manager",

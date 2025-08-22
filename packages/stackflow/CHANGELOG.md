@@ -1,5 +1,45 @@
 # @seed-design/stackflow
 
+## 0.1.3
+
+### Patch Changes
+
+- cdc0930: `@seed-design/stackflow` 백스와이프 애니메이션 개선
+
+  - iOS 스타일 화면 전환 애니메이션의 지속 시간과 타이밍 함수가 `300ms`에서 `350ms`로 조정되어 더 부드러운 전환 효과를 제공합니다.
+  - 스와이프 백 제스처 시 애니메이션이 보다 자연스럽고 일관되게 표현됩니다.
+  - 스와이프 백 종료 시 CSS 변수를 활용해 전환 상태를 명확히 하여 사용자 경험이 개선되었습니다.
+
+- Updated dependencies [cdc0930]
+- Updated dependencies [946faf7]
+- Updated dependencies [71c58fd]
+  - @seed-design/css@0.1.3
+
+## 0.1.2
+
+### Patch Changes
+
+- 7b2c0f3: Updated dependencies
+  - @seed-design/react@0.1.1
+- Updated dependencies [7b2c0f3]
+  - @seed-design/css@0.1.2
+
+## 0.1.0
+
+### Patch Changes
+
+- Updated dependencies [7cc6087]
+- Updated dependencies [bdca898]
+  - @seed-design/css@0.1.0
+
+## 0.0.41
+
+### Patch Changes
+
+- Updated dependencies [561f74c]
+- Updated dependencies [b43de05]
+  - @seed-design/css@0.0.41
+
 ## 0.0.39
 
 ### Patch Changes

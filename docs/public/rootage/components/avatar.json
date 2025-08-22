@@ -56,7 +56,8 @@
             "48": {},
             "64": {},
             "80": {},
-            "96": {}
+            "96": {},
+            "108": {}
           },
           "defaultValue": "20"
         }
@@ -541,6 +542,68 @@
                   "type": "dimension",
                   "value": {
                     "value": 32,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "108"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 108,
+                    "unit": "px"
+                  }
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              },
+              "badgeMask": {
+                "offset": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 70,
+                    "unit": "px"
+                  }
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 44,
+                    "unit": "px"
+                  }
+                }
+              },
+              "badge": {
+                "offset": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 74,
+                    "unit": "px"
+                  }
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 36,
                     "unit": "px"
                   }
                 }

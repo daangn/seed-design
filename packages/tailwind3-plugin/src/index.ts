@@ -7,23 +7,50 @@ import plugin from "tailwindcss/plugin";
  * 예시: 
  * - 색상: bg-bg-layer-basement, text-fg-brand, border-stroke-divider
  * - 타이포그래피: t1-regular, t1-bold, screen-title
+ * - 그라데이션: 
+ *   * bg-gradient-shimmer-neutral-to-r (방향성 포함)
+ *   * bg-gradient-shimmer-neutral-[45deg] (임의 각도)
  * 
  * 모든 토큰은 CSS 변수를 사용하여 다크 모드와 자동 호환됩니다.
  */
 export default plugin(
-  ({ theme, addComponents }) => {  
-  // typography 유틸리티
-   const typography = theme("typography");
-   if (typography) {
-     // matchUtilities 대신 addComponents 사용
-     addComponents(
-       Object.entries(typography).reduce((acc, [key, value]) => {
-         acc[`.${key}`] = value;
-         return acc;
-       }, {})
-     );
-   }
-    
+  ({ theme, addComponents, matchUtilities }) => {  
+    // typography 유틸리티
+    const typography = theme("typography");
+    if (typography) {
+      addComponents(
+        Object.entries(typography).reduce((acc, [key, value]) => {
+          acc[`.${key}`] = value;
+          return acc;
+        }, {})
+      );
+    }
+
+    // gradient arbitrary value 지원
+    const gradientStopsForArbitrary = {
+      "fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
+      "fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
+      "glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
+      "glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
+      "shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%",
+      "shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
+      "highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
+      "highlight-magic": "#ff6600 20.00%, #d25aca 100.00%"
+};
+
+    Object.entries(gradientStopsForArbitrary).forEach(([gradientName, colorStops]) => {
+      matchUtilities(
+        {
+          [`bg-gradient-${gradientName}`]: (value) => ({
+            backgroundImage: `linear-gradient(${value}, ${colorStops})`
+          })
+        },
+        {
+          type: 'any',
+          values: {}
+        }
+      );
+    });
   },
   {
     theme: {
@@ -123,32 +150,34 @@ export default plugin(
   "palette-yellow-800": "var(--seed-color-palette-yellow-800)",
   "palette-yellow-900": "var(--seed-color-palette-yellow-900)",
   "palette-yellow-1000": "var(--seed-color-palette-yellow-1000)",
+  "fg-neutral": "var(--seed-color-fg-neutral)",
   "fg-brand": "var(--seed-color-fg-brand)",
   "fg-critical": "var(--seed-color-fg-critical)",
-  "fg-disabled": "var(--seed-color-fg-disabled)",
-  "fg-informative": "var(--seed-color-fg-informative)",
-  "fg-magic": "var(--seed-color-fg-magic)",
-  "fg-neutral": "var(--seed-color-fg-neutral)",
-  "fg-placeholder": "var(--seed-color-fg-placeholder)",
   "fg-positive": "var(--seed-color-fg-positive)",
+  "fg-warning": "var(--seed-color-fg-warning)",
+  "fg-informative": "var(--seed-color-fg-informative)",
+  "fg-placeholder": "var(--seed-color-fg-placeholder)",
+  "fg-disabled": "var(--seed-color-fg-disabled)",
+  "fg-brand-contrast": "var(--seed-color-fg-brand-contrast)",
   "fg-critical-contrast": "var(--seed-color-fg-critical-contrast)",
   "fg-informative-contrast": "var(--seed-color-fg-informative-contrast)",
-  "fg-magic-contrast": "var(--seed-color-fg-magic-contrast)",
-  "fg-neutral-inverted": "var(--seed-color-fg-neutral-inverted)",
   "fg-neutral-muted": "var(--seed-color-fg-neutral-muted)",
   "fg-neutral-subtle": "var(--seed-color-fg-neutral-subtle)",
+  "fg-neutral-inverted": "var(--seed-color-fg-neutral-inverted)",
   "fg-positive-contrast": "var(--seed-color-fg-positive-contrast)",
   "fg-warning-contrast": "var(--seed-color-fg-warning-contrast)",
-  "bg-disabled": "var(--seed-color-bg-disabled)",
   "bg-overlay": "var(--seed-color-bg-overlay)",
+  "bg-disabled": "var(--seed-color-bg-disabled)",
+  "bg-brand-weak": "var(--seed-color-bg-brand-weak)",
   "bg-brand-solid": "var(--seed-color-bg-brand-solid)",
   "bg-brand-solid-pressed": "var(--seed-color-bg-brand-solid-pressed)",
-  "bg-critical-solid": "var(--seed-color-bg-critical-solid)",
+  "bg-brand-weak-pressed": "var(--seed-color-bg-brand-weak-pressed)",
   "bg-critical-weak": "var(--seed-color-bg-critical-weak)",
+  "bg-critical-solid": "var(--seed-color-bg-critical-solid)",
   "bg-critical-solid-pressed": "var(--seed-color-bg-critical-solid-pressed)",
   "bg-critical-weak-pressed": "var(--seed-color-bg-critical-weak-pressed)",
-  "bg-informative-solid": "var(--seed-color-bg-informative-solid)",
   "bg-informative-weak": "var(--seed-color-bg-informative-weak)",
+  "bg-informative-solid": "var(--seed-color-bg-informative-solid)",
   "bg-informative-solid-pressed": "var(--seed-color-bg-informative-solid-pressed)",
   "bg-informative-weak-pressed": "var(--seed-color-bg-informative-weak-pressed)",
   "bg-layer-basement": "var(--seed-color-bg-layer-basement)",
@@ -157,47 +186,120 @@ export default plugin(
   "bg-layer-floating": "var(--seed-color-bg-layer-floating)",
   "bg-layer-default-pressed": "var(--seed-color-bg-layer-default-pressed)",
   "bg-layer-floating-pressed": "var(--seed-color-bg-layer-floating-pressed)",
-  "bg-magic-solid": "var(--seed-color-bg-magic-solid)",
   "bg-magic-weak": "var(--seed-color-bg-magic-weak)",
-  "bg-magic-solid-pressed": "var(--seed-color-bg-magic-solid-pressed)",
-  "bg-magic-weak-pressed": "var(--seed-color-bg-magic-weak-pressed)",
+  "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",
   "bg-neutral-inverted": "var(--seed-color-bg-neutral-inverted)",
   "bg-neutral-solid": "var(--seed-color-bg-neutral-solid)",
-  "bg-neutral-weak": "var(--seed-color-bg-neutral-weak)",
   "bg-neutral-inverted-pressed": "var(--seed-color-bg-neutral-inverted-pressed)",
   "bg-neutral-solid-muted": "var(--seed-color-bg-neutral-solid-muted)",
   "bg-neutral-solid-muted-pressed": "var(--seed-color-bg-neutral-solid-muted-pressed)",
   "bg-neutral-weak-pressed": "var(--seed-color-bg-neutral-weak-pressed)",
   "bg-overlay-muted": "var(--seed-color-bg-overlay-muted)",
-  "bg-positive-solid": "var(--seed-color-bg-positive-solid)",
   "bg-positive-weak": "var(--seed-color-bg-positive-weak)",
+  "bg-positive-solid": "var(--seed-color-bg-positive-solid)",
   "bg-positive-solid-pressed": "var(--seed-color-bg-positive-solid-pressed)",
   "bg-positive-weak-pressed": "var(--seed-color-bg-positive-weak-pressed)",
-  "bg-warning-solid": "var(--seed-color-bg-warning-solid)",
   "bg-warning-weak": "var(--seed-color-bg-warning-weak)",
+  "bg-warning-solid": "var(--seed-color-bg-warning-solid)",
+  "bg-warning-solid-pressed": "var(--seed-color-bg-warning-solid-pressed)",
   "bg-warning-weak-pressed": "var(--seed-color-bg-warning-weak-pressed)",
+  "stroke-neutral": "var(--seed-color-stroke-neutral)",
   "stroke-brand": "var(--seed-color-stroke-brand)",
-  "stroke-control": "var(--seed-color-stroke-control)",
+  "stroke-positive": "var(--seed-color-stroke-positive)",
+  "stroke-informative": "var(--seed-color-stroke-informative)",
+  "stroke-warning": "var(--seed-color-stroke-warning)",
   "stroke-critical": "var(--seed-color-stroke-critical)",
   "stroke-field": "var(--seed-color-stroke-field)",
-  "stroke-informative": "var(--seed-color-stroke-informative)",
-  "stroke-neutral": "var(--seed-color-stroke-neutral)",
-  "stroke-positive": "var(--seed-color-stroke-positive)",
+  "stroke-control": "var(--seed-color-stroke-control)",
   "stroke-field-focused": "var(--seed-color-stroke-field-focused)",
   "stroke-neutral-muted": "var(--seed-color-stroke-neutral-muted)",
   "stroke-on-image": "var(--seed-color-stroke-on-image)",
-  "manner-temp-l1-bg": "var(--seed-color-manner-temp-l1-bg)",
   "manner-temp-l1-text": "var(--seed-color-manner-temp-l1-text)",
-  "manner-temp-l2-bg": "var(--seed-color-manner-temp-l2-bg)",
   "manner-temp-l2-text": "var(--seed-color-manner-temp-l2-text)",
-  "manner-temp-l3-bg": "var(--seed-color-manner-temp-l3-bg)",
   "manner-temp-l3-text": "var(--seed-color-manner-temp-l3-text)",
-  "manner-temp-l4-bg": "var(--seed-color-manner-temp-l4-bg)",
   "manner-temp-l4-text": "var(--seed-color-manner-temp-l4-text)",
-  "manner-temp-l5-bg": "var(--seed-color-manner-temp-l5-bg)",
+  "manner-temp-l4-bg": "var(--seed-color-manner-temp-l4-bg)",
   "manner-temp-l5-text": "var(--seed-color-manner-temp-l5-text)",
+  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)",
+  "manner-temp-l1-bg": "var(--seed-color-manner-temp-l1-bg)",
+  "manner-temp-l2-bg": "var(--seed-color-manner-temp-l2-bg)",
+  "manner-temp-l3-bg": "var(--seed-color-manner-temp-l3-bg)",
+  "manner-temp-l5-bg": "var(--seed-color-manner-temp-l5-bg)",
   "manner-temp-l6-bg": "var(--seed-color-manner-temp-l6-bg)",
-  "manner-temp-l6-text": "var(--seed-color-manner-temp-l6-text)"
+  "gradient-stops-fade-layer-floating": "#ffffff00 0.00%, #000000 100.00%",
+  "gradient-stops-fade-layer-default": "#000000 0.00%, #ffffff00 100.00%",
+  "gradient-stops-glow-magic": "#fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%",
+  "gradient-stops-glow-magic-pressed": "#fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%",
+  "gradient-stops-shimmer-neutral": "#ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%",
+  "gradient-stops-shimmer-magic": "#fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%",
+  "gradient-stops-highlight-magic-pressed": "#e14f00 20.00%, #ae58bf 100.00%",
+  "gradient-stops-highlight-magic": "#ff6600 20.00%, #d25aca 100.00%"
+},
+        backgroundImage: {
+  "fade-layer-floating-to-t": "linear-gradient(to top, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-r": "linear-gradient(to right, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-l": "linear-gradient(to left, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-floating-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #000000 100.00%)",
+  "fade-layer-default-to-t": "linear-gradient(to top, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-tr": "linear-gradient(to top right, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-r": "linear-gradient(to right, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-br": "linear-gradient(to bottom right, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-b": "linear-gradient(to bottom, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-bl": "linear-gradient(to bottom left, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-l": "linear-gradient(to left, #000000 0.00%, #ffffff00 100.00%)",
+  "fade-layer-default-to-tl": "linear-gradient(to top left, #000000 0.00%, #ffffff00 100.00%)",
+  "glow-magic-to-t": "linear-gradient(to top, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-tr": "linear-gradient(to top right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-r": "linear-gradient(to right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-br": "linear-gradient(to bottom right, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-b": "linear-gradient(to bottom, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-bl": "linear-gradient(to bottom left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-l": "linear-gradient(to left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-to-tl": "linear-gradient(to top left, #fef6f7 0.00%, #fef0e7 80.00%, #f9f7f5 100.00%)",
+  "glow-magic-pressed-to-t": "linear-gradient(to top, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-tr": "linear-gradient(to top right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-r": "linear-gradient(to right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-br": "linear-gradient(to bottom right, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-b": "linear-gradient(to bottom, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-bl": "linear-gradient(to bottom left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-l": "linear-gradient(to left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "glow-magic-pressed-to-tl": "linear-gradient(to top left, #fbf0f2 0.00%, #ffe8db 80.00%, #f5f2ef 100.00%)",
+  "shimmer-neutral-to-t": "linear-gradient(to top, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-tr": "linear-gradient(to top right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-r": "linear-gradient(to right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-br": "linear-gradient(to bottom right, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-b": "linear-gradient(to bottom, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-bl": "linear-gradient(to bottom left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-l": "linear-gradient(to left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-neutral-to-tl": "linear-gradient(to top left, #ffffff00 0.00%, #ffffff66 46.00%, #ffffff66 54.00%, #ffffff00 100.00%)",
+  "shimmer-magic-to-t": "linear-gradient(to top, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-tr": "linear-gradient(to top right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-r": "linear-gradient(to right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-br": "linear-gradient(to bottom right, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-b": "linear-gradient(to bottom, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-bl": "linear-gradient(to bottom left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-l": "linear-gradient(to left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "shimmer-magic-to-tl": "linear-gradient(to top left, #fff9f500 0.00%, #fff9f58a 46.00%, #fff9f58a 54.00%, #fff9f500 100.00%)",
+  "highlight-magic-pressed-to-t": "linear-gradient(to top, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-tr": "linear-gradient(to top right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-r": "linear-gradient(to right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-br": "linear-gradient(to bottom right, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-b": "linear-gradient(to bottom, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-bl": "linear-gradient(to bottom left, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-l": "linear-gradient(to left, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-pressed-to-tl": "linear-gradient(to top left, #e14f00 20.00%, #ae58bf 100.00%)",
+  "highlight-magic-to-t": "linear-gradient(to top, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-tr": "linear-gradient(to top right, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-r": "linear-gradient(to right, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-br": "linear-gradient(to bottom right, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-b": "linear-gradient(to bottom, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-bl": "linear-gradient(to bottom left, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-l": "linear-gradient(to left, #ff6600 20.00%, #d25aca 100.00%)",
+  "highlight-magic-to-tl": "linear-gradient(to top left, #ff6600 20.00%, #d25aca 100.00%)"
 },
         typography: {
   "screen-title": {
@@ -436,7 +538,7 @@ export default plugin(
   "enter-expressive": "var(--seed-timing-function-enter-expressive)",
   "exit-expressive": "var(--seed-timing-function-exit-expressive)"
 },
-      }
-    }
-  }
+      },
+    },
+  },
 );

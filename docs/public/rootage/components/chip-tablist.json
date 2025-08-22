@@ -8,7 +8,18 @@
     "id": "chip-tablist",
     "name": "Chip Tablist",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "variant": {
           "values": {

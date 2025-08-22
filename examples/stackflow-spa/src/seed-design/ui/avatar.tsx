@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar as SeedAvatar } from "@seed-design/react";
 import * as React from "react";
 
@@ -9,6 +11,9 @@ export interface AvatarProps extends SeedAvatar.RootProps {
   fallback?: React.ReactNode;
 }
 
+/**
+ * @see https://seed-design.io/react/components/avatar
+ */
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   ({ src, alt, fallback, children, ...otherProps }, ref) => {
     return (

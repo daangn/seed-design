@@ -119,9 +119,13 @@ export function useGlobalInteraction() {
             swipeBackContextRef.current.displacementRatio > displacementRatioThreshold ||
             swipeBackContextRef.current.velocity > velocityThreshold;
 
-          // we intentionally do not reset context here, so that the displacement can be used for exit animation
-          setSwipeBackState("transitioning");
+          if (swiped) {
+            stackRef.current?.style.setProperty("--swipe-back-target", "100%");
+          } else {
+            stackRef.current?.style.setProperty("--swipe-back-target", "0");
+          }
 
+          setSwipeBackState("transitioning");
           onSwipeEnd?.({ swiped });
         },
         [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
@@ -135,6 +139,7 @@ export function useGlobalInteraction() {
           displacementRatio: 0,
           velocity: 0,
         });
+        stackRef.current?.style.setProperty("--swipe-back-target", "0");
         setSwipeBackState("idle");
       }, []);
 

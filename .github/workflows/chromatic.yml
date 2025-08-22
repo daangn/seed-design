@@ -25,11 +25,11 @@ jobs:
     # Job steps
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
@@ -40,7 +40,7 @@ jobs:
         run: bun packages:build
 
       - name: Publish to Chromatic
-        uses: chromaui/action@b5848056bb67ce5f1cccca8e62a37cbd9dd42871 # v13
+        uses: chromaui/action@v13
         # Chromatic GitHub Action options
         with:
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.

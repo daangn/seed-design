@@ -5,7 +5,7 @@ import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
 
-const { createLocalSnippetElement } = createLocalSnippetHelper("multiline-text-field");
+const { createLocalSnippetElement } = createLocalSnippetHelper("text-field");
 
 export const createMultilineTextFieldHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<MultilineTextFieldProperties>(

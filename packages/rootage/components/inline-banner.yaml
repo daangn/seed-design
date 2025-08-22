@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: inline-banner
   name: Inline Banner
+  deprecated: Use Page Banner instead.
 data:
   schema:
     slots:

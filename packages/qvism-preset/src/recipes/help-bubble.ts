@@ -6,7 +6,7 @@ import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const helpBubble = defineSlotRecipe({
   name: "help-bubble",
-  slots: ["positioner", "content", "arrow", "title", "description", "closeButton"],
+  slots: ["positioner", "content", "arrow", "arrowTip", "title", "description", "closeButton"],
   base: {
     content: {
       display: "flex",
@@ -44,7 +44,18 @@ const helpBubble = defineSlotRecipe({
       },
     },
     arrow: {
+      width: vars.base.enabled.arrow.width,
+      // we're making it square
+      height: vars.base.enabled.arrow.width,
+
+      /**
+       * Prevent the arrow position from being calculated differently due to the font-size of the parent element
+       */
+      fontSize: "0",
+    },
+    arrowTip: {
       fill: vars.base.enabled.arrow.color,
+
       width: vars.base.enabled.arrow.width,
       height: vars.base.enabled.arrow.height,
     },

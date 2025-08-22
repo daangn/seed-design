@@ -41,7 +41,7 @@ export interface RadioSelectBoxLabelProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const RadioSelectBoxLabel = withContext<HTMLSpanElement, RadioSelectBoxLabelProps>(
-  withStateProps(Primitive.span),
+  withStateProps(Primitive.div),
   "label",
 );
 
@@ -52,7 +52,7 @@ export interface RadioSelectBoxDescriptionProps
 export const RadioSelectBoxDescription = withContext<
   HTMLSpanElement,
   RadioSelectBoxDescriptionProps
->(withStateProps(Primitive.span), "description");
+>(withStateProps(Primitive.div), "description");
 
 export interface RadioSelectBoxControlProps extends RadioGroupPrimitive.ItemControlProps {}
 

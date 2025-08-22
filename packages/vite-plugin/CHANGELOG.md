@@ -1,5 +1,46 @@
 # @seed-design/vite-plugin
 
+## 0.1.3
+
+### Patch Changes
+
+- 71c58fd: iOS Font Scaling
+
+  - iOS 기기에서 시스템 폰트 크기 설정에 따라 동적으로 폰트 크기와 줄 높이를 조정하는 폰트 스케일링 옵션이 추가되었습니다.
+  - 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
+  - `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
+
+- Updated dependencies [cdc0930]
+- Updated dependencies [946faf7]
+- Updated dependencies [71c58fd]
+  - @seed-design/css@0.1.3
+
+## 0.1.2
+
+### Patch Changes
+
+- 7b2c0f3: Updated dependencies
+  - @seed-design/react@0.1.1
+- Updated dependencies [7b2c0f3]
+  - @seed-design/css@0.1.2
+
+## 0.1.0
+
+### Patch Changes
+
+- Updated dependencies [7cc6087]
+- Updated dependencies [bdca898]
+  - @seed-design/css@0.1.0
+
+## 0.0.41
+
+### Patch Changes
+
+- 7382c71: peer dependency에 vite 7을 추가합니다.
+- Updated dependencies [561f74c]
+- Updated dependencies [b43de05]
+  - @seed-design/css@0.0.41
+
 ## 0.0.39
 
 ### Patch Changes

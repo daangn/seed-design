@@ -22,7 +22,9 @@ export const V3Icon = ({
   return (
     <div className="flex items-center gap-2">
       <NewIcon size={20} />
-      <Link href={`/docs/foundation/iconography/${type}?icon=${snakeCase}`}>
+      <Link
+        href={`/docs/foundation/iconography/library?icon=${snakeCase}${type !== "monochrome" ? `&style=${type}` : ""}`}
+      >
         <code>{name}</code>
       </Link>
     </div>

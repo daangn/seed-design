@@ -16,7 +16,22 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-top": "env(safe-area-inset-top)",
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
+
+    "--seed-font-size-multiplier": "1",
   },
+
+  "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
+    "@supports (font: -apple-system-body)": {
+      /**
+       * 0.9412 is the font size multiplier for iOS
+       * It converts iOS default 17px to web standard 16px
+       * Individual font sizes are clamped to max 135% in the token system
+       */
+      "--seed-font-size-multiplier": "0.9412",
+      font: "-apple-system-body",
+    },
+  },
+
   ".seed-loading-indicator": {
     position: "absolute",
     display: "inline-flex",
@@ -46,6 +61,7 @@ export const globalCss = defineGlobalCss({
     marginLeft: "var(--seed-suffix-icon-margin-left)",
     marginRight: "var(--seed-suffix-icon-margin-right)",
     marginTop: "var(--seed-suffix-icon-margin-top)",
+    marginBottom: "var(--seed-suffix-icon-margin-bottom)",
     color: "var(--seed-suffix-icon-color, currentColor)",
   },
   ".seed-count": {
@@ -57,7 +73,7 @@ export const globalCss = defineGlobalCss({
   ".seed-box": {
     "--seed-box-background": "initial",
     "--seed-box-color": "initial",
-    backgroundColor: "var(--seed-box-background)",
+    background: "var(--seed-box-background)",
     color: "var(--seed-box-color)",
 
     "--seed-box-border-style": "solid",
@@ -167,7 +183,7 @@ export const globalCss = defineGlobalCss({
 
     [pseudo(active)]: {
       "--seed-box-background--active": "var(--seed-box-background)",
-      backgroundColor: "var(--seed-box-background--active)",
+      background: "var(--seed-box-background--active)",
     },
   },
   ".seed-consistent-width": {

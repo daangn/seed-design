@@ -7,7 +7,6 @@ const skeleton = defineRecipe({
     display: "inline-block",
     boxSizing: "border-box",
     overflow: "hidden",
-    background: vars.base.enabled.root.color,
 
     "--seed-box-width": "initial",
     "--seed-box-height": "initial",
@@ -20,7 +19,6 @@ const skeleton = defineRecipe({
       width: "100%",
       height: "100%",
 
-      backgroundImage: `linear-gradient(90deg, ${vars.base.enabled.shimmer.color})`,
       backgroundRepeat: "no-repeat",
       animationFillMode: "forwards",
 
@@ -45,9 +43,26 @@ const skeleton = defineRecipe({
         borderRadius: vars.radiusFull.enabled.root.cornerRadius,
       },
     },
+    tone: {
+      neutral: {
+        background: vars.toneNeutral.enabled.root.color,
+
+        "&::after": {
+          backgroundImage: `linear-gradient(90deg, ${vars.toneNeutral.enabled.shimmer.color})`,
+        },
+      },
+      magic: {
+        background: vars.toneMagic.enabled.root.color,
+
+        "&::after": {
+          backgroundImage: `linear-gradient(90deg, ${vars.toneMagic.enabled.shimmer.color})`,
+        },
+      },
+    },
   },
   defaultVariants: {
     radius: 8,
+    tone: "neutral",
   },
 });
 

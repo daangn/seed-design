@@ -23,12 +23,9 @@ data:
   definitions:
     base:
       enabled:
-        root:
-          color: $color.palette.gray-200
         shimmer:
           duration: 1.5s
           timingFunction: $timing-function.easing
-          color: $gradient.shimmer
     radius=0:
       enabled:
         root:
@@ -45,3 +42,15 @@ data:
       enabled:
         root:
           cornerRadius: $radius.full
+    tone=neutral:
+      enabled:
+        root:
+          color: $color.palette.gray-200
+        shimmer:
+          color: $gradient.shimmer-neutral
+    tone=magic:
+      enabled:
+        root:
+          color: $color.bg.magic-weak
+        shimmer:
+          color: $gradient.shimmer-magic

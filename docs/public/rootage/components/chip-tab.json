@@ -8,7 +8,40 @@
     "id": "chip-tab",
     "name": "Chip Tab",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
       "variants": {
         "variant": {
           "values": {

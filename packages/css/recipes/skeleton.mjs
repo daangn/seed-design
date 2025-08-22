@@ -2,7 +2,8 @@ import './skeleton.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {
-  "radius": 8
+  "radius": 8,
+  "tone": "neutral"
 };
 
 const compoundVariants = [];
@@ -13,6 +14,10 @@ export const skeletonVariantMap = {
     "8",
     "16",
     "full"
+  ],
+  "tone": [
+    "neutral",
+    "magic"
   ]
 };
 

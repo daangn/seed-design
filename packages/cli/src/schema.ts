@@ -39,6 +39,11 @@ export const registryUIItemSchema = z.object({
    * @example lib:manner-temp-level.ts
    */
   files: z.array(z.string()),
+
+  /**
+   * @description 컴포넌트 deprecated 여부
+   */
+  deprecated: z.literal(true).optional(),
 });
 export const registryUISchema = z.array(registryUIItemSchema);
 

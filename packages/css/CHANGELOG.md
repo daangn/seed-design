@@ -1,5 +1,193 @@
 # @seed-design/css
 
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+## 0.1.13
+
+### Patch Changes
+
+- 0be9b00: Avatar, Avatar Stack 컴포넌트에 `size=108` variant를 추가합니다.
+
+## 0.1.12
+
+### Patch Changes
+
+- 62094b6: Help Bubble의 스타일 문제를 수정합니다.
+
+  - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- ef91c21: Bottom Sheet의 스타일 문제를 수정해요.
+
+  - Close Button에 브라우저 기본 스타일이 표시되는 문제를 수정해요.
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- ac35731: Chip.Root `position: relative` 속성 추가
+
+  - 이제 Chip.Toggle을 사용해도 예상치 못한 스크롤이 발생하지 않습니다.
+
+- f9041e9: `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+  - `span` 대신 `div`를 렌더링합니다.
+  - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+## 0.1.8
+
+### Patch Changes
+
+- 609b8f3: iOS의 `더 큰 텍스트` 기능에 제한을 둡니다.
+
+  - iOS는 7단계(XS ~ XXXL)의 텍스트 크기 조절 이외에도, 보다 더 큰 텍스트를 위한 `더 큰 텍스트` 기능을 제공합니다.
+  - iOS 네이티브에서는 `더 큰 텍스트`의 UI 레이아웃 대응이 어렵다고 결정하여, XXXL(135%) 이상의 텍스트 크기 조절을 지원하지 않습니다.
+  - 웹뷰도 iOS와 동일한 제한을 위한 기능이 추가되었습니다.
+
+## 0.1.7
+
+### Patch Changes
+
+- 4afe80b: MultilineTextField의 스타일 문제를 수정합니다.
+
+  - 스크롤바가 요소 끝에 표시되도록 수정합니다.
+
+## 0.1.6
+
+### Patch Changes
+
+- 235147d: action-button: `size=medium, layout=withText` variant에서 gap을 1 → 1.5로 수정합니다.
+- 3c13ad7: `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- 3889eb6: Inline Banner의 스타일 문제를 수정합니다.
+
+  - `title`과 `description`이 `inline-flex`로 레이아웃되던 문제를 해결합니다.
+  - `title`과 `description` 간의 간격을 조정합니다.
+  - 닫기 버튼(Dismissible)과 `suffix icon`, `link label`이 상단으로 레이아웃되던 문제를 해결합니다.
+
+  Callout의 스타일 문제를 수정합니다.
+
+  - `title`과 `description` 간의 간격을 조정합니다.
+
+  Chip의 스타일 문제를 수정합니다.
+
+  - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
+
+## 0.1.4
+
+### Patch Changes
+
+- 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+  - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+  - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+## 0.1.3
+
+### Patch Changes
+
+- cdc0930: `@seed-design/stackflow` 백스와이프 애니메이션 개선
+
+  - iOS 스타일 화면 전환 애니메이션의 지속 시간과 타이밍 함수가 `300ms`에서 `350ms`로 조정되어 더 부드러운 전환 효과를 제공합니다.
+  - 스와이프 백 제스처 시 애니메이션이 보다 자연스럽고 일관되게 표현됩니다.
+  - 스와이프 백 종료 시 CSS 변수를 활용해 전환 상태를 명확히 하여 사용자 경험이 개선되었습니다.
+
+- 946faf7: 그라디언트 토큰 추가 및 변경
+
+  - `fade-layer-floating`, `fade-layer-default` 토큰이 추가되었습니다.
+  - `$gradient.shimmer-magic` 토큰 stop color가 변경되었습니다.
+
+- 71c58fd: iOS Font Scaling
+
+  - iOS 기기에서 시스템 폰트 크기 설정에 따라 동적으로 폰트 크기와 줄 높이를 조정하는 폰트 스케일링 옵션이 추가되었습니다.
+  - 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
+  - `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
+
+## 0.1.2
+
+### Patch Changes
+
+- 7b2c0f3: Updated dependencies
+  - @seed-design/react@0.1.1
+
+## 0.1.1
+
+### Patch Changes
+
+- e3b782d: `stroke.neutral`, `stroke.neutral-muted`, `stroke.on-image`의 컬러를 alpha 값으로 변경합니다.
+
+## 0.1.0
+
+### Minor Changes
+
+- 7cc6087: HelpBubble의 arrow가 상위 요소의 font-size에 영향을 받는 것을 수정합니다
+- bdca898: BottomSheet의 description font-size를 t5로 변경합니다
+
+## 0.0.41
+
+### Patch Changes
+
+- 561f74c: Text 컴포넌트에 `textDecorationLine` 옵션을 추가합니다.
+- b43de05: Gradient 컬러를 추가합니다
+
 ## 0.0.39
 
 ### Patch Changes

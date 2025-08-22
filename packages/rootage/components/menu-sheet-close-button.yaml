@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: menu-sheet-close-button
+  name: Menu Sheet Close Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.neutral-weak
+          minHeight: 52px
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x5
+          paddingY: $dimension.x3_5
+        label:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.medium
+      pressed:
+        root:
+          color: $color.bg.neutral-weak-pressed

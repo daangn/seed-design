@@ -64,3 +64,10 @@
     clip-path: inset(-5px);
     box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default)
 }
+.seed-avatar-stack__item--size_108:not(:first-child) {
+    margin-left: -27px
+}
+.seed-avatar-stack__item--size_108 {
+    clip-path: inset(-5px);
+    box-shadow: 0 0 0 5px var(--seed-color-bg-layer-default)
+}

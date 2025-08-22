@@ -1,15 +1,15 @@
+import { baseUrl } from "@/app/metadata";
+
 export const revalidate = false;
 
-const BASE_URL = "https://seed-design.io";
-
 export async function GET() {
-  return new Response(`
-# SEED Design React Documentation for LLMs
+  return new Response(`# SEED Design React Documentation for LLMs
 
 ## Documentation Sets
 
-- [Complete documentation](${BASE_URL}/react/llms-full.txt): The complete SEED Design React documentation.
-- [Components](${BASE_URL}/react/llms-components.txt): Documentation for all components in SEED Design React.
+- [Complete documentation](${new URL("/react/llms-full.txt", baseUrl)}): The complete SEED Design React documentation.
+- [Components Entry](${new URL("/react/llms-components.txt", baseUrl)}): Entry point for accessing individual component documentation.
+- [Changelog](${new URL("/react/llms-changelog.txt", baseUrl)}): Latest updates and version history of SEED Design React.
 
 ## Notes
 

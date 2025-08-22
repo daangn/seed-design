@@ -5,6 +5,52 @@ metadata:
   id: switch
   name: Switch
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          gap:
+            type: dimension
+      control:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          opacity:
+            type: number
+          height:
+            type: dimension
+          width:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      thumb:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          width:
+            type: dimension
+          shadow:
+            type: shadow
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:
@@ -14,16 +60,22 @@ data:
         thumb:
           color: $color.palette.static-white
           cornerRadius: $radius.full
+        label:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.medium
       enabled,selected:
         control:
           color: $color.bg.brand-solid
       disabled:
-        root:
+        control:
           opacity: 0.38
-    size=medium:
+        label:
+          color: $color.fg.disabled
+    size=32:
       enabled:
         root:
           height: 32px
+          gap: $dimension.x2_5
         control:
           height: 32px
           width: 52px
@@ -45,11 +97,43 @@ data:
                 blur: 3px
                 spread: 0px
                 color: "#0000000f"
-    size=small:
+        label:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+    size=24:
       enabled:
         root:
           height: 24px
           gap: $dimension.x2
+        control:
+          height: 24px
+          width: 38px
+          paddingX: 2px
+          paddingY: 2px
+        thumb:
+          height: 20px
+          width: 20px
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 3px
+                blur: 8px
+                spread: 0px
+                color: "#00000026"
+              - offsetX: 0px
+                offsetY: 1px
+                blur: 3px
+                spread: 0px
+                color: "#0000000f"
+        label:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+    size=16:
+      enabled:
+        root:
+          height: 24px
+          gap: $dimension.x1_5
         control:
           height: 16px
           width: 26px
@@ -59,6 +143,5 @@ data:
           height: 12px
           width: 12px
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-          fontWeight: $font-weight.regular
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3

@@ -8,7 +8,80 @@
     "id": "floating-action-button",
     "name": "Floating Action Button",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "shadow": {
+              "type": "shadow"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "layoutDuration": {
+              "type": "duration"
+            },
+            "layoutTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "minHeight": {
+              "type": "dimension"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "sizeDuration": {
+              "type": "duration"
+            },
+            "sizeTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        },
+        "label": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            }
+          }
+        }
+      },
       "variants": {
         "extended": {
           "values": {

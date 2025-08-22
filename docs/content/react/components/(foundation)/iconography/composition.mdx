@@ -1,0 +1,67 @@
+---
+title: Composition
+description: 아이콘을 사용하는 방법을 설명합니다.
+---
+
+## 개요
+
+[당근 아이콘 라이브러리](/docs/foundation/iconography/library)는 디자인 시스템에 독립적(agnostic)으로 설계되었으며 SEED Design의 의견이 포함되어 있지 않습니다. 때로는 라이브러리에 없는 커스텀 아이콘을 사용하면서도 아이콘 합성 패턴을 활용해야 하는 경우가 있습니다.
+
+이를 위해 `svg` 속성을 통해 아이콘을 받아 디자인 시스템에 연결하는 유틸리티 컴포넌트를 제공합니다:
+
+- `Icon`: 아이콘을 독립적으로 사용하거나 아이콘만 표시하는 컴포넌트에서 사용합니다.
+- `PrefixIcon`, `SuffixIcon`: 컴포넌트 내에 아이콘과 텍스트를 함께 배치할 때 사용합니다.
+
+## Icon 컴포넌트
+
+`Icon` 컴포넌트는 아이콘을 독립적으로 사용하거나 아이콘만 표시하는 컴포넌트에서 사용합니다.
+
+```jsx
+import { Icon } from "@seed-design/react";
+import { IconHeartFill } from "@karrotmarket/react-monochrome-icon";
+
+// 독립형 아이콘
+<Icon svg={<IconHeartFill />} />
+
+// 아이콘만 표시하는 버튼
+<ActionButton layout="iconOnly">
+  <Icon svg={<IconPlusLine />} />
+</ActionButton>
+```
+
+## PrefixIcon과 SuffixIcon
+
+컴포넌트 내에 아이콘과 텍스트를 함께 배치할 때는 `PrefixIcon`, `SuffixIcon` 컴포넌트를 children으로 배치합니다.
+
+```jsx
+import { PrefixIcon, SuffixIcon } from "@seed-design/react";
+import { ActionButton } from "seed-design/ui/action-button";
+import { IconPlusFill, IconChevronRightFill } from "@karrotmarket/react-monochrome-icon";
+
+// 앞에 아이콘 배치
+<ActionButton>
+  <PrefixIcon svg={<IconPlusFill />} />
+  라벨
+</ActionButton>
+
+// 뒤에 아이콘 배치
+<ActionButton>
+  라벨
+  <SuffixIcon svg={<IconChevronRightFill />} />
+</ActionButton>
+
+// 아이콘 양쪽에 배치
+<ActionButton>
+  <PrefixIcon svg={<IconPlusFill />} />
+  라벨
+  <SuffixIcon svg={<IconChevronRightFill />} />
+</ActionButton>
+```
+
+이 패턴은 다음과 같은 컴포넌트에서 일관되게 사용됩니다:
+
+- `ActionButton`: 버튼 내 아이콘 배치
+- `Button`: 일반 버튼 내 아이콘 배치
+- `ToggleButton`: 토글 버튼 내 아이콘 배치 
+- `ActionChip`: 액션 칩 내 아이콘 배치
+- `ControlChip`: 컨트롤 칩 내 아이콘 배치

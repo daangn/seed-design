@@ -39,22 +39,26 @@ const callout = defineSlotRecipe({
       },
     },
     content: {
-      display: "block",
       marginInlineEnd: "auto",
     },
     title: {
       fontSize: vars.base.enabled.title.fontSize,
       lineHeight: vars.base.enabled.title.lineHeight,
       fontWeight: vars.base.enabled.title.fontWeight,
-      marginInlineEnd: "1ch",
+
+      [pseudo("::after")]: {
+        content: '"  "',
+        whiteSpace: "pre",
+      },
     },
     description: {
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
       fontWeight: vars.base.enabled.description.fontWeight,
 
-      "&:not(:last-child)": {
-        marginInlineEnd: "1ch",
+      [pseudo(":not(:last-child)::after")]: {
+        content: '"  "',
+        whiteSpace: "pre",
       },
     },
     link: {
@@ -196,7 +200,7 @@ const callout = defineSlotRecipe({
       },
       magic: {
         root: {
-          backgroundColor: vars.toneMagic.enabled.root.color,
+          backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.enabled.root.color})`,
 
           ...prefixIcon({
             color: vars.toneMagic.enabled.prefixIcon.color,
@@ -206,7 +210,7 @@ const callout = defineSlotRecipe({
           }),
 
           [pseudo(":is(button)", active)]: {
-            backgroundColor: vars.toneMagic.pressed.root.color,
+            backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.color})`,
           },
         },
         title: {

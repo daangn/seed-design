@@ -1,5 +1,210 @@
 # @seed-design/react
 
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/css@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies [0be9b00]
+  - @seed-design/css@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- 62094b6: Help Bubble의 스타일 문제를 수정합니다.
+
+  - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
+
+- Updated dependencies [62094b6]
+  - @seed-design/react-popover@0.0.8
+  - @seed-design/css@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- 9993e0e: 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+  Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- f9041e9: `CheckSelectBox`, `RadioSelectBox`의 `label`, `description` 영역을 수정합니다.
+
+  - `span` 대신 `div`를 렌더링합니다.
+  - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [ac35731]
+- Updated dependencies [f9041e9]
+  - @seed-design/css@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [609b8f3]
+  - @seed-design/css@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [4afe80b]
+  - @seed-design/css@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [235147d]
+- Updated dependencies [3c13ad7]
+  - @seed-design/css@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- 861ecb4: Menu Sheet 컴포넌트를 추가하는 동시에 Action Sheet과 Extended Action Sheet 컴포넌트를 deprecate합니다.
+
+  - [Menu Sheet React 문서](https://seed-design.io/react/components/menu-sheet)
+  - Menu Sheet는 기존 Extended Action Sheet의 모든 기능을 포함하는 동시에, `labelAlign` prop으로 `MenuSheetItem`를 `left` 또는 `center`로 정렬할 수 있습니다.
+
+- Updated dependencies [861ecb4]
+- Updated dependencies [3889eb6]
+  - @seed-design/css@0.1.5
+
+## 0.1.4
+
+### Patch Changes
+
+- 0ffcd48: Chip 컴포넌트가 추가되고, ActionChip, ControlChip 컴포넌트가 Deprecated 되었습니다.
+
+  - [Chip 컴포넌트](https://seed-design.io/react/components/chip)
+  - Chip 컴포넌트는 버튼과 토글 컴포넌트를 모두 포함하고 있습니다.
+
+- 56e03ca: Layout 컴포넌트 `pb`, `pt`, `paddingBottom`, `paddingTop` 속성에 `safeArea` 값을 지정할 수 있도록 지원
+
+  ```tsx
+  <Box pt="safeArea" paddingTop="safeArea" />
+  <Box pb="safeArea" paddingBottom="safeArea" />
+  ```
+
+- Updated dependencies [0ffcd48]
+  - @seed-design/css@0.1.4
+
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [cdc0930]
+- Updated dependencies [946faf7]
+- Updated dependencies [71c58fd]
+  - @seed-design/css@0.1.3
+
+## 0.1.2
+
+### Patch Changes
+
+- 00eafa3: package.json에 `types` 필드를 추가합니다.
+- Updated dependencies [7b2c0f3]
+  - @seed-design/css@0.1.2
+
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [e3b782d]
+  - @seed-design/css@0.1.1
+
+## 0.1.0
+
+### Minor Changes
+
+- b0f7a4e: AI Gradient 관련 토큰을 추가합니다. (0.0.41)
+
+  - direction 관련 속성을 css property에 맞게 변경합니다. (0.1.0)
+
+- 7cc6087: HelpBubble의 arrow가 상위 요소의 font-size에 영향을 받는 것을 수정합니다
+- bdca898: BottomSheet의 description font-size를 t5로 변경합니다
+
+### Patch Changes
+
+- Updated dependencies [7cc6087]
+- Updated dependencies [bdca898]
+  - @seed-design/css@0.1.0
+
+## 0.0.41
+
+### Patch Changes
+
+- 561f74c: Text 컴포넌트에 `textDecorationLine` 옵션을 추가합니다.
+- b43de05: Gradient 컬러를 추가합니다
+- Updated dependencies [561f74c]
+- Updated dependencies [b43de05]
+  - @seed-design/css@0.0.41
+
 ## 0.0.39
 
 ### Patch Changes

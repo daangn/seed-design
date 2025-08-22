@@ -1,6 +1,5 @@
-export type { Config } from "./cli/config";
+export { createConfig, type Config } from "./cli/config";
+export { createPipeline } from "./pipeline/builder";
 
-export type { GenerateComponentMetadataOptions } from "./services/components";
-export type { GenerateComponentSetMetadataOptions } from "./services/component-sets";
-export type { GenerateStylesMetadataOptions } from "./services/styles";
-export type { GenerateVariablesMetadataOptions } from "./services/variables";
+export { sources } from "./pipeline/sources";
+export { writers } from "./pipeline/writers";

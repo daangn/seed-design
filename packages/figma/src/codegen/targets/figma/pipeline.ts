@@ -21,8 +21,9 @@ import {
 } from "./shape";
 import { createTextTransformer } from "./text";
 import {
+  defaultFillStyleResolver,
   defaultRawValueFormatters,
-  defaultStyleNameFormatter,
+  defaultTextStyleNameFormatter,
   defaultVariableNameFormatter,
 } from "./value-resolver";
 
@@ -38,7 +39,8 @@ export function createPipeline(options: CreatePipelineConfig = {}): CodeGenerato
     variableService,
     variableNameFormatter: defaultVariableNameFormatter,
     styleService,
-    styleNameFormatter: defaultStyleNameFormatter,
+    textStyleNameFormatter: defaultTextStyleNameFormatter,
+    fillStyleResolver: defaultFillStyleResolver,
     rawValueFormatters: defaultRawValueFormatters,
     shouldInferVariableName,
   });
