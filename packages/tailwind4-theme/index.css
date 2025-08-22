@@ -101,9 +101,11 @@
   --color-fg-brand: var(--seed-color-fg-brand);
   --color-fg-critical: var(--seed-color-fg-critical);
   --color-fg-positive: var(--seed-color-fg-positive);
+  --color-fg-warning: var(--seed-color-fg-warning);
   --color-fg-informative: var(--seed-color-fg-informative);
   --color-fg-placeholder: var(--seed-color-fg-placeholder);
   --color-fg-disabled: var(--seed-color-fg-disabled);
+  --color-fg-brand-contrast: var(--seed-color-fg-brand-contrast);
   --color-fg-critical-contrast: var(--seed-color-fg-critical-contrast);
   --color-fg-informative-contrast: var(--seed-color-fg-informative-contrast);
   --color-fg-neutral-muted: var(--seed-color-fg-neutral-muted);
@@ -113,8 +115,10 @@
   --color-fg-warning-contrast: var(--seed-color-fg-warning-contrast);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-disabled: var(--seed-color-bg-disabled);
+  --color-bg-brand-weak: var(--seed-color-bg-brand-weak);
   --color-bg-brand-solid: var(--seed-color-bg-brand-solid);
   --color-bg-brand-solid-pressed: var(--seed-color-bg-brand-solid-pressed);
+  --color-bg-brand-weak-pressed: var(--seed-color-bg-brand-weak-pressed);
   --color-bg-critical-weak: var(--seed-color-bg-critical-weak);
   --color-bg-critical-solid: var(--seed-color-bg-critical-solid);
   --color-bg-critical-solid-pressed: var(--seed-color-bg-critical-solid-pressed);
@@ -149,6 +153,7 @@
   --color-stroke-brand: var(--seed-color-stroke-brand);
   --color-stroke-positive: var(--seed-color-stroke-positive);
   --color-stroke-informative: var(--seed-color-stroke-informative);
+  --color-stroke-warning: var(--seed-color-stroke-warning);
   --color-stroke-critical: var(--seed-color-stroke-critical);
   --color-stroke-field: var(--seed-color-stroke-field);
   --color-stroke-control: var(--seed-color-stroke-control);

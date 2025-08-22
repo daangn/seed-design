@@ -1184,6 +1184,18 @@
           }
         }
       },
+      "$color.fg.warning": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.yellow-700"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.yellow-700"
+          }
+        }
+      },
       "$color.fg.informative": {
         "values": {
           "theme-light": {
@@ -1217,6 +1229,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.gray-500"
+          }
+        }
+      },
+      "$color.fg.brand-contrast": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.carrot-700"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.carrot-700"
           }
         }
       },
@@ -1328,6 +1352,18 @@
           }
         }
       },
+      "$color.bg.brand-weak": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.carrot-100"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.carrot-100"
+          }
+        }
+      },
       "$color.bg.brand-solid": {
         "values": {
           "theme-light": {
@@ -1349,6 +1385,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.carrot-800"
+          }
+        }
+      },
+      "$color.bg.brand-weak-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.carrot-200"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.carrot-200"
           }
         }
       },
@@ -1757,6 +1805,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.blue-300"
+          }
+        }
+      },
+      "$color.stroke.warning": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.yellow-300"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.yellow-300"
           }
         }
       },

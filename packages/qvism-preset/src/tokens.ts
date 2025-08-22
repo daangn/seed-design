@@ -190,9 +190,11 @@ export const tokens = {
   --seed-color-fg-brand: var(--seed-color-palette-carrot-600);
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
+  --seed-color-fg-warning: var(--seed-color-palette-yellow-700);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
+  --seed-color-fg-brand-contrast: var(--seed-color-palette-carrot-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
@@ -202,8 +204,10 @@ export const tokens = {
   --seed-color-fg-warning-contrast: var(--seed-color-palette-yellow-900);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-disabled: var(--seed-color-palette-gray-200);
+  --seed-color-bg-brand-weak: var(--seed-color-palette-carrot-100);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-600);
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-700);
+  --seed-color-bg-brand-weak-pressed: var(--seed-color-palette-carrot-200);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-700);
   --seed-color-bg-critical-solid-pressed: var(--seed-color-palette-red-800);
@@ -238,6 +242,7 @@ export const tokens = {
   --seed-color-stroke-brand: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-positive: var(--seed-color-palette-green-300);
   --seed-color-stroke-informative: var(--seed-color-palette-blue-300);
+  --seed-color-stroke-warning: var(--seed-color-palette-yellow-300);
   --seed-color-stroke-critical: var(--seed-color-palette-red-300);
   --seed-color-stroke-field: var(--seed-color-palette-gray-400);
   --seed-color-stroke-control: var(--seed-color-palette-gray-400);
@@ -367,9 +372,11 @@ export const tokens = {
   --seed-color-fg-brand: var(--seed-color-palette-carrot-700);
   --seed-color-fg-critical: var(--seed-color-palette-red-700);
   --seed-color-fg-positive: var(--seed-color-palette-green-700);
+  --seed-color-fg-warning: var(--seed-color-palette-yellow-700);
   --seed-color-fg-informative: var(--seed-color-palette-blue-700);
   --seed-color-fg-placeholder: var(--seed-color-palette-gray-600);
   --seed-color-fg-disabled: var(--seed-color-palette-gray-500);
+  --seed-color-fg-brand-contrast: var(--seed-color-palette-carrot-700);
   --seed-color-fg-critical-contrast: var(--seed-color-palette-red-900);
   --seed-color-fg-informative-contrast: var(--seed-color-palette-blue-900);
   --seed-color-fg-neutral-muted: var(--seed-color-palette-gray-800);
@@ -379,8 +386,10 @@ export const tokens = {
   --seed-color-fg-warning-contrast: var(--seed-color-palette-yellow-900);
   --seed-color-bg-overlay: var(--seed-color-palette-static-black-alpha-700);
   --seed-color-bg-disabled: var(--seed-color-palette-gray-300);
+  --seed-color-bg-brand-weak: var(--seed-color-palette-carrot-100);
   --seed-color-bg-brand-solid: var(--seed-color-palette-carrot-700);
   --seed-color-bg-brand-solid-pressed: var(--seed-color-palette-carrot-800);
+  --seed-color-bg-brand-weak-pressed: var(--seed-color-palette-carrot-200);
   --seed-color-bg-critical-weak: var(--seed-color-palette-red-100);
   --seed-color-bg-critical-solid: var(--seed-color-palette-red-600);
   --seed-color-bg-critical-solid-pressed: var(--seed-color-palette-red-700);
@@ -415,6 +424,7 @@ export const tokens = {
   --seed-color-stroke-brand: var(--seed-color-palette-carrot-300);
   --seed-color-stroke-positive: var(--seed-color-palette-green-300);
   --seed-color-stroke-informative: var(--seed-color-palette-blue-300);
+  --seed-color-stroke-warning: var(--seed-color-palette-yellow-300);
   --seed-color-stroke-critical: var(--seed-color-palette-red-300);
   --seed-color-stroke-field: var(--seed-color-palette-gray-400);
   --seed-color-stroke-control: var(--seed-color-palette-gray-400);

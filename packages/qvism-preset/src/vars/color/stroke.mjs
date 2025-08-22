@@ -2,6 +2,7 @@ export const neutral = "var(--seed-color-stroke-neutral)";
 export const brand = "var(--seed-color-stroke-brand)";
 export const positive = "var(--seed-color-stroke-positive)";
 export const informative = "var(--seed-color-stroke-informative)";
+export const warning = "var(--seed-color-stroke-warning)";
 export const critical = "var(--seed-color-stroke-critical)";
 export const field = "var(--seed-color-stroke-field)";
 export const control = "var(--seed-color-stroke-control)";
