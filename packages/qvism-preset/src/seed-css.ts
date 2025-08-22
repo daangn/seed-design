@@ -33,62 +33,65 @@ const lineHeightBasePx: Record<string, number> = {
 };
 
 /**
- * SEED-specific declaration function that handles font scaling with clamp()
+ * Creates a SEED-specific declaration function with proper prefix handling
  */
-const seedDeclaration = ({
-  decl,
-  mode,
-  helpers,
-}: {
-  decl: TokenDeclaration;
-  mode: string;
-  helpers: {
-    tokenName: (token: TokenLit) => string;
-    valueOrToken: (value: ValueLit | TokenLit) => string;
-  };
-}) => {
-  const { tokenName, valueOrToken } = helpers;
-  const valueObj = decl.values.find((v) => v.mode === mode);
-  if (!valueObj) {
-    throw new Error(`No value found for mode ${mode}`);
-  }
-  const value = valueOrToken(valueObj.value);
-  const MULTIPLIER_TOKEN = "var(--seed-font-size-multiplier)";
+const createSeedDeclaration =
+  (prefix: string) =>
+  ({
+    decl,
+    mode,
+    helpers,
+  }: {
+    decl: TokenDeclaration;
+    mode: string;
+    helpers: {
+      tokenName: (token: TokenLit) => string;
+      valueOrToken: (value: ValueLit | TokenLit) => string;
+    };
+  }) => {
+    const { tokenName, valueOrToken } = helpers;
+    const valueObj = decl.values.find((v) => v.mode === mode);
+    if (!valueObj) {
+      throw new Error(`No value found for mode ${mode}`);
+    }
+    const value = valueOrToken(valueObj.value);
+    // Use the correct prefix and provide fallback value of 1
+    const MULTIPLIER_TOKEN = `var(--${prefix}-font-size-multiplier, 1)`;
 
-  // Handle static tokens first - no multiplier needed
-  if (decl.token.key.toString().includes("static")) {
+    // Handle static tokens first - no multiplier needed
+    if (decl.token.key.toString().includes("static")) {
+      return `${tokenName(decl.token)}: ${value};`;
+    }
+
+    // Apply font-size multiplier for font-size and line-height tokens
+    const isFontSize = decl.token.group.includes("font-size");
+    const isLineHeight = decl.token.group.includes("line-height");
+
+    if (isFontSize || isLineHeight) {
+      const tokenKey = decl.token.key.toString();
+
+      // Get base pixel value
+      let basePx: number | undefined;
+      if (isFontSize) {
+        basePx = fontSizeBasePx[tokenKey];
+      } else if (isLineHeight) {
+        basePx = lineHeightBasePx[tokenKey];
+      }
+
+      if (basePx) {
+        // Calculate min pixel value: base * 0.8 (80% minimum)
+        const minPx = Number.parseFloat((basePx * 0.8).toFixed(1));
+        // Calculate max pixel value: base * 0.9412 (iOS multiplier) * 1.35 (135% limit)
+        const maxPx = Number.parseFloat((basePx * 0.9412 * 1.35).toFixed(2));
+
+        // Return clamp with fixed px min, dynamic preferred, and fixed px max
+        return `${tokenName(decl.token)}: clamp(${minPx}px, calc(${value} * ${MULTIPLIER_TOKEN}), ${maxPx}px);`;
+      }
+    }
+
+    // Default behavior for other tokens
     return `${tokenName(decl.token)}: ${value};`;
-  }
-
-  // Apply font-size multiplier for font-size and line-height tokens
-  const isFontSize = decl.token.group.includes("font-size");
-  const isLineHeight = decl.token.group.includes("line-height");
-
-  if (isFontSize || isLineHeight) {
-    const tokenKey = decl.token.key.toString();
-
-    // Get base pixel value
-    let basePx: number | undefined;
-    if (isFontSize) {
-      basePx = fontSizeBasePx[tokenKey];
-    } else if (isLineHeight) {
-      basePx = lineHeightBasePx[tokenKey];
-    }
-
-    if (basePx) {
-      // Calculate min pixel value: base * 0.8 (80% minimum)
-      const minPx = Number.parseFloat((basePx * 0.8).toFixed(1));
-      // Calculate max pixel value: base * 0.9412 (iOS multiplier) * 1.35 (135% limit)
-      const maxPx = Number.parseFloat((basePx * 0.9412 * 1.35).toFixed(2));
-
-      // Return clamp with fixed px min, dynamic preferred, and fixed px max
-      return `${tokenName(decl.token)}: clamp(${minPx}px, calc(${value} * ${MULTIPLIER_TOKEN}), ${maxPx}px);`;
-    }
-  }
-
-  // Default behavior for other tokens
-  return `${tokenName(decl.token)}: ${value};`;
-};
+  };
 
 /**
  * SEED CSS Generator function
@@ -100,8 +103,9 @@ export default function generateSeedCss(
 ): string {
   // SEED-specific default options - we ignore most of the passed options
   // and use our own defaults because CLI provides minimal options
+  const prefix = options?.prefix || "seed"; // Extract prefix for use in declaration
   const seedOptions = {
-    prefix: options?.prefix || "seed", // Only use prefix from options
+    prefix,
     banner:
       options?.banner ||
       `:root, [data-seed-color-mode="system"] {
@@ -131,7 +135,7 @@ export default function generateSeedCss(
 :root [data-seed-color-mode="dark-only"]`,
       },
     },
-    customDeclaration: seedDeclaration,
+    customDeclaration: createSeedDeclaration(prefix), // Pass prefix to declaration factory
   };
 
   // Use core's getTokenCss with our custom declaration
