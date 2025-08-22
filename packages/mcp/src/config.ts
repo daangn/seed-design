@@ -1,7 +1,6 @@
 import type { CreatePipelineConfig } from "@seed-design/figma/codegen/targets/react";
-import fs from "node:fs";
-import path from "node:path";
 import { logger } from "./logger";
+import { cosmiconfig } from "cosmiconfig";
 
 // Define config type
 export interface McpConfig {
@@ -9,39 +8,16 @@ export interface McpConfig {
 }
 
 // Config loader
-export async function loadConfig(configPath: string) {
-  try {
-    const resolvedPath = path.resolve(process.cwd(), configPath);
+export async function loadConfig(configPath: string): Promise<McpConfig | null> {
+  const explorer = cosmiconfig("mcp");
 
-    if (!fs.existsSync(resolvedPath)) {
-      logger.error(`Config file not found: ${resolvedPath}`);
-      return null;
-    }
+  const searchResult = await explorer.load(configPath);
 
-    // Handle different file types
-    if (resolvedPath.endsWith(".json")) {
-      const content = fs.readFileSync(resolvedPath, "utf-8");
-      return JSON.parse(content);
-    }
+  if (!searchResult) {
+    logger.error(`Config file not found: ${configPath}`);
 
-    if (
-      resolvedPath.endsWith(".js") ||
-      resolvedPath.endsWith(".mjs") ||
-      resolvedPath.endsWith(".ts") ||
-      resolvedPath.endsWith(".mts")
-    ) {
-      // For JS/MJS/TS/MTS files, we can dynamically import with Bun
-      // Bun has built-in TypeScript support without requiring transpilation
-      const config = await import(resolvedPath);
-      return config.default || config;
-    }
-
-    logger.error(`Unsupported config file format: ${resolvedPath}`);
-    return null;
-  } catch (error) {
-    logger.error(
-      `Failed to load config file: ${error instanceof Error ? error.message : String(error)}`,
-    );
     return null;
   }
+
+  return searchResult.config;
 }

@@ -7,7 +7,7 @@ import { logger } from "../logger";
 import { createFigmaWebSocketClient } from "../websocket";
 import { registerEditingTools, registerTools } from "../tools";
 import { registerPrompts } from "../prompts";
-import { version } from "../../package.json" assert { type: "json" };
+import { version } from "../../package.json" with { type: "json" };
 import type { Server, ServerWebSocket } from "bun";
 import { loadConfig, type McpConfig } from "../config";
 
