@@ -50,19 +50,40 @@ export const globalCss = defineGlobalCss({
   ".seed-prefix-icon": {
     width: "var(--seed-prefix-icon-size)",
     height: "var(--seed-prefix-icon-size)",
+    color: "var(--seed-prefix-icon-color, currentColor)",
+
+    // 네 변에 대해 모두 margin 프로퍼티가 지정되어 있는 경우
+    // cssnano 등 최적화 도구가
+    // margin: var(--seed-prefix-icon-margin-top) var(--seed-prefix-icon-margin-right) var(--seed-prefix-icon-margin-bottom) var(--seed-prefix-icon-margin-left);
+    // 로 선언을 합칩니다.
+    // 이때 네 개의 CSS variable 중 하나라도 정의되어 있지 않은 경우 어떤 margin도 적용되지 않으므로
+    // 여기에서 marginBottom을 의도적으로 정의하지 않습니다.
+    // also see: https://github.com/cssnano/cssnano/issues/1472
     marginLeft: "var(--seed-prefix-icon-margin-left)",
     marginRight: "var(--seed-prefix-icon-margin-right)",
     marginTop: "var(--seed-prefix-icon-margin-top)",
-    color: "var(--seed-prefix-icon-color, currentColor)",
+
+    alignSelf: "var(--seed-prefix-icon-align-self)",
+    justifySelf: "var(--seed-prefix-icon-justify-self)",
   },
   ".seed-suffix-icon": {
     width: "var(--seed-suffix-icon-size)",
     height: "var(--seed-suffix-icon-size)",
+    color: "var(--seed-suffix-icon-color, currentColor)",
+
+    // 네 변에 대해 모두 margin 프로퍼티가 지정되어 있는 경우
+    // cssnano 등 최적화 도구가
+    // margin: var(--seed-prefix-icon-margin-top) var(--seed-prefix-icon-margin-right) var(--seed-prefix-icon-margin-bottom) var(--seed-prefix-icon-margin-left);
+    // 로 선언을 합칩니다.
+    // 이때 네 개의 CSS variable 중 하나라도 정의되어 있지 않은 경우 어떤 margin도 적용되지 않으므로
+    // 여기에서 marginBottom을 의도적으로 정의하지 않습니다.
+    // also see: https://github.com/cssnano/cssnano/issues/1472
     marginLeft: "var(--seed-suffix-icon-margin-left)",
     marginRight: "var(--seed-suffix-icon-margin-right)",
     marginTop: "var(--seed-suffix-icon-margin-top)",
-    marginBottom: "var(--seed-suffix-icon-margin-bottom)",
-    color: "var(--seed-suffix-icon-color, currentColor)",
+
+    alignSelf: "var(--seed-suffix-icon-align-self)",
+    justifySelf: "var(--seed-suffix-icon-justify-self)",
   },
   ".seed-count": {
     fontSize: "var(--seed-count-font-size)",
