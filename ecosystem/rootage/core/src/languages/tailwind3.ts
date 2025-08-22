@@ -163,7 +163,7 @@ function processTypographyTokens(
               ) {
                 if (prop.value.kind === "TokenLit") {
                   const prefixPart = options?.prefix ? `${options.prefix}-` : "";
-                  typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace("$", "").replace(".", "-")})`;
+                  typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if ("value" in prop.value) {
                   typographyStyle.lineHeight =
                     prop.value.kind === "DimensionLit"
