@@ -21,7 +21,7 @@ import { createErrorStateHandler } from "./handlers/error-state";
 import { createFloatingActionButtonHandler } from "./handlers/floating-action-button";
 import { createHelpBubbleHandler } from "./handlers/help-bubble";
 import { createIdentityPlaceholderHandler } from "./handlers/identity-placeholder";
-import { createInlineBannerHandler } from "./handlers/inline-banner";
+import { createPageBannerHandler } from "./handlers/page-banner";
 import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
 import { createMannerTempHandler } from "./handlers/manner-temp";
 import { createMenuSheetHandler } from "./handlers/menu-sheet";
@@ -66,7 +66,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,
   createIdentityPlaceholderHandler,
-  createInlineBannerHandler,
+  createPageBannerHandler,
   createMannerTempBadgeHandler,
   createMannerTempHandler,
   createMenuSheetHandler,

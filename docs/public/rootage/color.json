@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "25-08-21"
+    "lastUpdated": "25-08-22"
   },
   "data": {
     "collection": "color",
@@ -1708,7 +1708,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "$color.palette.green-500"
+            "value": "$color.palette.green-600"
           }
         }
       },
@@ -1745,6 +1745,18 @@
           "theme-dark": {
             "type": "color",
             "value": "$color.palette.yellow-600"
+          }
+        }
+      },
+      "$color.bg.warning-solid-pressed": {
+        "values": {
+          "theme-light": {
+            "type": "color",
+            "value": "$color.palette.yellow-400"
+          },
+          "theme-dark": {
+            "type": "color",
+            "value": "$color.palette.yellow-700"
           }
         }
       },
