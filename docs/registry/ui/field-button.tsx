@@ -1,0 +1,98 @@
+"use client";
+
+import * as React from "react";
+import { FieldButton as SeedFieldButton } from "@seed-design/react";
+import { visuallyHidden } from "@seed-design/dom-utils";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+
+export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix"> {
+  label?: React.ReactNode;
+  indicator?: React.ReactNode;
+
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+
+  onButtonClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+/**
+ * @see https://seed-design.io/react/components/field-button
+ */
+export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
+  (
+    {
+      label,
+      indicator,
+      description,
+      errorMessage,
+      children,
+
+      required,
+      disabled,
+      invalid,
+      readOnly,
+      name,
+
+      onButtonClick,
+
+      ...otherProps
+    },
+    ref,
+  ) => {
+    const renderDescription = !!description;
+    const renderErrorMessage = errorMessage && invalid;
+    const renderFooter = renderDescription || renderErrorMessage;
+    const renderHeader = label || indicator;
+
+    // label이 없는데 **Button**에 aria-label이 없으면 알려줘야 해
+    // prop을 어떻게 받지? 하..
+    // RootProps를 받아야되는데 label에 꽂아줘야 하는 애들도 있어..
+    // buttonProps를 받아야 하나
+
+    // if (
+    //   !label &&
+    //   !otherProps["aria-labelledby"] &&
+    //   !otherProps["aria-label"] &&
+    //   process.env.NODE_ENV !== "production"
+    // ) {
+    //   console.warn(
+    //     "TextField: aria-labelledby or aria-label should be provided if label is not provided.",
+    //   );
+    // }
+
+    // we are manually assigning the size to SeedFieldButton.Root because the variant props might not always match
+
+    return (
+      <SeedFieldButton.Root ref={ref} {...otherProps}>
+        {renderHeader && (
+          <SeedFieldButton.Header>
+            {label && <SeedFieldButton.Label>{label}</SeedFieldButton.Label>}
+            {indicator && <SeedFieldButton.Indicator>{indicator}</SeedFieldButton.Indicator>}
+          </SeedFieldButton.Header>
+        )}
+        <SeedFieldButton.Foobar>
+          <SeedFieldButton.Button onClick={onButtonClick} />
+          {children}
+          {/* TODO: children should be aria-hidden ?? ?? ??? ???? ? */}
+        </SeedFieldButton.Foobar>
+        {renderFooter && (
+          <SeedFieldButton.Footer>
+            {renderDescription && (
+              <SeedFieldButton.Description {...(renderErrorMessage && { style: visuallyHidden })}>
+                {description}
+              </SeedFieldButton.Description>
+            )}
+            {renderErrorMessage && (
+              <SeedFieldButton.ErrorMessage>
+                <SeedFieldButton.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
+                {errorMessage}
+              </SeedFieldButton.ErrorMessage>
+            )}
+          </SeedFieldButton.Footer>
+        )}
+        <SeedFieldButton.HiddenInputs />
+      </SeedFieldButton.Root>
+    );
+  },
+);
+FieldButton.displayName = "FieldButton";

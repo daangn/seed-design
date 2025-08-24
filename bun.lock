@@ -386,6 +386,7 @@
         "@seed-design/react-checkbox": "0.0.4",
         "@seed-design/react-dialog": "0.0.5",
         "@seed-design/react-field": "0.0.0",
+        "@seed-design/react-field-button": "0.0.0",
         "@seed-design/react-popover": "0.0.8",
         "@seed-design/react-portal": "0.0.2",
         "@seed-design/react-primitive": "0.0.3",
@@ -482,6 +483,25 @@
       "version": "0.0.0",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
+        "@seed-design/dom-utils": "^0.0.2",
+        "@seed-design/react-primitive": "^0.0.3",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/field-button": {
+      "name": "@seed-design/react-field-button",
+      "version": "0.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
         "@seed-design/dom-utils": "^0.0.2",
         "@seed-design/react-primitive": "^0.0.3",
       },
@@ -2095,6 +2115,8 @@
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 
     "@seed-design/react-field": ["@seed-design/react-field@workspace:packages/react-headless/field"],
+
+    "@seed-design/react-field-button": ["@seed-design/react-field-button@workspace:packages/react-headless/field-button"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
 
@@ -5347,8 +5369,6 @@
     "@sanity/uuid/uuid": ["uuid@8.3.2", "", { "bin": { "uuid": "dist/bin/uuid" } }, "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="],
 
     "@seed-design/design-token/esbuild": ["esbuild@0.25.6", "", { "optionalDependencies": { "@esbuild/aix-ppc64": "0.25.6", "@esbuild/android-arm": "0.25.6", "@esbuild/android-arm64": "0.25.6", "@esbuild/android-x64": "0.25.6", "@esbuild/darwin-arm64": "0.25.6", "@esbuild/darwin-x64": "0.25.6", "@esbuild/freebsd-arm64": "0.25.6", "@esbuild/freebsd-x64": "0.25.6", "@esbuild/linux-arm": "0.25.6", "@esbuild/linux-arm64": "0.25.6", "@esbuild/linux-ia32": "0.25.6", "@esbuild/linux-loong64": "0.25.6", "@esbuild/linux-mips64el": "0.25.6", "@esbuild/linux-ppc64": "0.25.6", "@esbuild/linux-riscv64": "0.25.6", "@esbuild/linux-s390x": "0.25.6", "@esbuild/linux-x64": "0.25.6", "@esbuild/netbsd-arm64": "0.25.6", "@esbuild/netbsd-x64": "0.25.6", "@esbuild/openbsd-arm64": "0.25.6", "@esbuild/openbsd-x64": "0.25.6", "@esbuild/openharmony-arm64": "0.25.6", "@esbuild/sunos-x64": "0.25.6", "@esbuild/win32-arm64": "0.25.6", "@esbuild/win32-ia32": "0.25.6", "@esbuild/win32-x64": "0.25.6" }, "bin": { "esbuild": "bin/esbuild" } }, "sha512-GVuzuUwtdsghE3ocJ9Bs8PNoF13HNQ5TXbEi2AhvVb8xU1Iwt9Fos9FEamfoee+u/TOsn7GUWc04lz46n2bbTg=="],
-
-    "@seed-design/docs/@seed-design/dom-utils": ["@seed-design/dom-utils@0.0.2", "", { "dependencies": { "clsx": "^2.1.1" }, "peerDependencies": { "react": ">=18.0.0", "react-dom": ">=18.0.0" } }, "sha512-0nhspKXZT633RaP+THqIVWEAK8ZXbCdJU5u9Is4BmPTW5YsnMAqFd8l9WmlWPM/oVeP0tIwuC3M5MEYJpvqXkQ=="],
 
     "@seed-design/docs/zod": ["zod@4.0.17", "", {}, "sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ=="],
 

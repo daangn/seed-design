@@ -181,4 +181,13 @@ export const registryUI: RegistryUI = [
     dependencies: ["@seed-design/react"],
     files: ["ui:floating-action-button.tsx"],
   },
+  {
+    name: "field-button",
+    dependencies: [
+      "@seed-design/react",
+      "@seed-design/dom-utils",
+      "@karrotmarket/react-monochrome-icon",
+    ],
+    files: ["ui:field-button.tsx"],
+  },
 ];

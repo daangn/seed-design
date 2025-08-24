@@ -1,0 +1,15 @@
+{
+  "name": "field-button",
+  "dependencies": [
+    "@seed-design/react",
+    "@seed-design/dom-utils",
+    "@karrotmarket/react-monochrome-icon"
+  ],
+  "registries": [
+    {
+      "name": "field-button.tsx",
+      "type": "ui",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { FieldButton as SeedFieldButton } from \"@seed-design/react\";\nimport { visuallyHidden } from \"@seed-design/dom-utils\";\nimport { IconExclamationmarkCircleFill } from \"@karrotmarket/react-monochrome-icon\";\n\nexport interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, \"prefix\"> {\n  label?: React.ReactNode;\n  indicator?: React.ReactNode;\n\n  description?: React.ReactNode;\n  errorMessage?: React.ReactNode;\n}\n\n/**\n * @see https://seed-design.io/react/components/field-button\n */\nexport const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(\n  (\n    {\n      label,\n      indicator,\n      description,\n      errorMessage,\n      children,\n\n      required,\n      disabled,\n      invalid,\n      readOnly,\n      name,\n\n      values,\n      onValuesChange,\n\n      ...otherProps\n    },\n    ref,\n  ) => {\n    const renderDescription = !!description;\n    const renderErrorMessage = errorMessage && invalid;\n    const renderFooter = renderDescription || renderErrorMessage;\n    const renderHeader = label || indicator;\n\n    // if (\n    //   !label &&\n    //   !otherProps[\"aria-labelledby\"] &&\n    //   !otherProps[\"aria-label\"] &&\n    //   process.env.NODE_ENV !== \"production\"\n    // ) {\n    //   console.warn(\n    //     \"TextField: aria-labelledby or aria-label should be provided if label is not provided.\",\n    //   );\n    // }\n\n    // we are manually assigning the size to SeedFieldButton.Root because the variant props might not always match\n\n    return (\n      <SeedFieldButton.Root ref={ref} {...otherProps}>\n        {renderHeader && (\n          <SeedFieldButton.Header>\n            {label && <SeedFieldButton.Label>{label}</SeedFieldButton.Label>}\n            {indicator && <SeedFieldButton.Indicator>{indicator}</SeedFieldButton.Indicator>}\n          </SeedFieldButton.Header>\n        )}\n        <SeedFieldButton.Button>foobar</SeedFieldButton.Button>\n        <div>{children}</div>\n        <SeedFieldButton.HiddenInputs />\n        {renderFooter && (\n          <SeedFieldButton.Footer>\n            {renderDescription && (\n              <SeedFieldButton.Description {...(renderErrorMessage && { style: visuallyHidden })}>\n                {description}\n              </SeedFieldButton.Description>\n            )}\n            {renderErrorMessage && (\n              <SeedFieldButton.ErrorMessage>\n                <SeedFieldButton.ErrorIcon svg={<IconExclamationmarkCircleFill />} />\n                {errorMessage}\n              </SeedFieldButton.ErrorMessage>\n            )}\n          </SeedFieldButton.Footer>\n        )}\n      </SeedFieldButton.Root>\n    );\n  },\n);\nFieldButton.displayName = \"FieldButton\";\n"
+    }
+  ]
+}

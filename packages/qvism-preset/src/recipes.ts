@@ -19,6 +19,7 @@ import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
 import floatingActionButton from "./recipes/floating-action-button";
 import field from "./recipes/field";
+import fieldButton from "./recipes/field-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
@@ -69,6 +70,7 @@ export const recipes = {
   fab,
   floatingActionButton,
   field,
+  fieldButton,
   helpBubble,
   identityPlaceholder,
   inlineBanner,

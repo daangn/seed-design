@@ -1,0 +1,134 @@
+"use client";
+
+import { composeRefs } from "@radix-ui/react-compose-refs";
+import { mergeProps } from "@seed-design/dom-utils";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from "react";
+import { useFieldButton, type UseFieldButtonProps } from "./useFieldButton";
+import { FieldButtonProvider, useFieldButtonContext } from "./useFieldButtonContext";
+
+export interface FieldButtonRootProps
+  extends UseFieldButtonProps,
+    PrimitiveProps,
+    HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>((props, ref) => {
+  const {
+    readOnly,
+    disabled,
+    invalid,
+    required,
+    name,
+    values,
+    defaultValues,
+    onValuesChange,
+    onClear,
+    ...otherProps
+  } = props;
+
+  const api = useFieldButton({
+    disabled,
+    invalid,
+    required,
+    readOnly,
+    name,
+    values,
+    defaultValues,
+    onValuesChange,
+    onClear,
+  });
+  const mergedProps = mergeProps(api.rootProps, otherProps);
+
+  return (
+    <FieldButtonProvider value={api}>
+      <Primitive.div ref={ref} {...mergedProps} />
+    </FieldButtonProvider>
+  );
+});
+FieldButtonRoot.displayName = "FieldButtonRoot";
+
+export interface FieldButtonLabelProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonLabel = forwardRef<HTMLDivElement, FieldButtonLabelProps>((props, ref) => {
+  const { refs, labelProps } = useFieldButtonContext();
+  const mergedProps = mergeProps(labelProps, props);
+
+  return <Primitive.label ref={composeRefs(refs.label, ref)} {...mergedProps} />;
+});
+FieldButtonLabel.displayName = "FieldButtonLabel";
+
+export interface FieldButtonButtonProps
+  extends PrimitiveProps,
+    ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const FieldButtonButton = forwardRef<HTMLButtonElement, FieldButtonButtonProps>(
+  (props, ref) => {
+    const { buttonProps } = useFieldButtonContext();
+    const mergedProps = mergeProps(buttonProps, props);
+
+    return <Primitive.button ref={ref} {...mergedProps} />;
+  },
+);
+FieldButtonButton.displayName = "FieldButtonButton";
+
+export interface FieldButtonDescriptionProps
+  extends PrimitiveProps,
+    HTMLAttributes<HTMLSpanElement> {}
+
+export const FieldButtonDescription = forwardRef<HTMLSpanElement, FieldButtonDescriptionProps>(
+  (props, ref) => {
+    const { refs, descriptionProps } = useFieldButtonContext();
+    const mergedProps = mergeProps(descriptionProps, props);
+
+    return <Primitive.span ref={composeRefs(refs.description, ref)} {...mergedProps} />;
+  },
+);
+FieldButtonDescription.displayName = "FieldButtonDescription";
+
+export interface FieldButtonErrorMessageProps
+  extends PrimitiveProps,
+    HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonErrorMessage = forwardRef<HTMLDivElement, FieldButtonErrorMessageProps>(
+  (props, ref) => {
+    const { refs, errorMessageProps } = useFieldButtonContext();
+    const mergedProps = mergeProps(errorMessageProps, props);
+
+    return <Primitive.div ref={composeRefs(refs.errorMessage, ref)} {...mergedProps} />;
+  },
+);
+FieldButtonErrorMessage.displayName = "FieldButtonErrorMessage";
+
+export interface FieldButtonHiddenInputsProps
+  extends PrimitiveProps,
+    HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonHiddenInputs = forwardRef<HTMLDivElement, FieldButtonHiddenInputsProps>(
+  (_props, ref) => {
+    const { hiddenInputsProps } = useFieldButtonContext();
+
+    console.log({ hiddenInputsProps });
+
+    return (
+      <Primitive.div ref={ref}>
+        {hiddenInputsProps.map((inputProps, index) => {
+          return <Primitive.input key={index} {...inputProps} />;
+        })}
+      </Primitive.div>
+    );
+  },
+);
+FieldButtonHiddenInputs.displayName = "FieldButtonHiddenInputs";
+
+export interface FieldButtonClearButtonProps
+  extends PrimitiveProps,
+    ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const FieldButtonClearButton = forwardRef<HTMLButtonElement, FieldButtonClearButtonProps>(
+  (props, ref) => {
+    const { clearButtonProps } = useFieldButtonContext();
+    const mergedProps = mergeProps(clearButtonProps, props);
+
+    return <Primitive.button ref={ref} {...mergedProps} />;
+  },
+);

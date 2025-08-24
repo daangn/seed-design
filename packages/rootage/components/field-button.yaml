@@ -1,0 +1,180 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: field-button
+  name: Field Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          minHeight:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      value:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      placeholder:
+        properties:
+          color:
+            type: color
+      prefixText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      suffixText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      suffixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.bg.layer-default
+          strokeWidth: 1px
+          strokeColor: $color.stroke.field
+        value:
+          color: $color.fg.neutral
+        placeholder:
+          color: $color.fg.placeholder
+        prefixText:
+          color: $color.fg.neutral
+        prefixIcon:
+          color: $color.fg.neutral
+        suffixText:
+          color: $color.fg.neutral
+        suffixIcon:
+          color: $color.fg.neutral
+      focused:
+        root:
+          strokeColor: $color.stroke.field-focused
+      invalid:
+        root:
+          color: $color.bg.critical-weak
+          strokeColor: $color.stroke.critical
+      invalid,focused:
+        root:
+          color: $color.bg.layer-default
+          strokeColor: $color.stroke.field
+      readonly:
+        root:
+          color: $color.bg.disabled
+      disabled:
+        root:
+          color: $color.bg.disabled
+        value:
+          color: $color.fg.disabled
+        placeholder:
+          color: $color.fg.disabled
+        prefixText:
+          color: $color.fg.disabled
+        prefixIcon:
+          color: $color.fg.disabled
+        suffixText:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled
+
+    size=xlarge:
+      enabled:
+        root:
+          minHeight: 56px
+          cornerRadius: $radius.r2_5
+          gap: $dimension.x2
+          paddingX: $dimension.x4
+          paddingY: $dimension.x3
+        value:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        suffixIcon:
+          size: $dimension.x5
+
+    size=large:
+      enabled:
+        root:
+          minHeight: 52px
+          cornerRadius: $radius.r2_5
+          gap: $dimension.x2
+          paddingX: $dimension.x4
+          paddingY: $dimension.x3
+        value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x5
+
+    size=medium:
+      enabled:
+        root:
+          minHeight: 40px
+          cornerRadius: $radius.r2
+          gap: $dimension.x1_5
+          paddingX: $dimension.x3_5
+          paddingY: $dimension.x2_5
+        value:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        prefixIcon:
+          size: $dimension.x4
+        suffixText:
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        suffixIcon:
+          size: $dimension.x4

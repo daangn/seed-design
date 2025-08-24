@@ -72,6 +72,17 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
     const renderHeader = label || indicator;
 
+    if (
+      !label &&
+      !otherProps["aria-labelledby"] &&
+      !otherProps["aria-label"] &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      console.warn(
+        "TextField: aria-labelledby or aria-label should be provided if label is not provided.",
+      );
+    }
+
     // we are manually assigning the size to SeedField.Root because the variant props might not always match
 
     return (
@@ -86,8 +97,8 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       >
         {renderHeader && (
           <SeedField.Header>
-            <SeedField.Label>{label}</SeedField.Label>
-            <SeedField.Indicator>{indicator}</SeedField.Indicator>
+            {label && <SeedField.Label>{label}</SeedField.Label>}
+            {indicator && <SeedField.Indicator>{indicator}</SeedField.Indicator>}
           </SeedField.Header>
         )}
         <SeedTextField.Root {...otherProps} {...textFieldRootProps}>
