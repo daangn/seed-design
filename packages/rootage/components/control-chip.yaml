@@ -3,6 +3,8 @@ kind: ComponentSpec
 metadata:
   id: control-chip
   name: Control Chip
+  deprecated: Use Chip.Toggle or Chip.Button instead.
+  lastUpdated: 25-07-16
 data:
   schema:
     slots:

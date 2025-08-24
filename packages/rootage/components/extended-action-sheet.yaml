@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: extended-action-sheet
   name: Extended Action Sheet
+  deprecated: Use menu-sheet instead.
 data:
   schema:
     slots:

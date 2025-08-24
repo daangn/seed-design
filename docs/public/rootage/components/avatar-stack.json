@@ -8,7 +8,28 @@
     "id": "avatar-stack",
     "name": "Avatar Stack",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
+        "item": {
+          "properties": {
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "size": {
           "values": {
@@ -19,7 +40,8 @@
             "48": {},
             "64": {},
             "80": {},
-            "96": {}
+            "96": {},
+            "108": {}
           },
           "defaultValue": "20"
         }
@@ -287,6 +309,38 @@
                   "type": "dimension",
                   "value": {
                     "value": -24,
+                    "unit": "px"
+                  }
+                }
+              },
+              "item": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 5,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "108"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": {
+                    "value": -27,
                     "unit": "px"
                   }
                 }

@@ -16,8 +16,14 @@ const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetRootProps extends ActionSheetVariantProps, DialogPrimitive.RootProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetRoot = withRootProvider<ActionSheetRootProps>(DialogPrimitive.Root, {
   defaultProps: {
     lazyMount: true,
@@ -27,14 +33,26 @@ export const ActionSheetRoot = withRootProvider<ActionSheetRootProps>(DialogPrim
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetTriggerProps extends DialogPrimitive.TriggerProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetTrigger = DialogPrimitive.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetPositionerProps extends DialogPrimitive.PositionerProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetPositioner = withContext<HTMLDivElement, ActionSheetPositionerProps>(
   DialogPrimitive.Positioner,
   "positioner",
@@ -42,8 +60,14 @@ export const ActionSheetPositioner = withContext<HTMLDivElement, ActionSheetPosi
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetBackdropProps extends DialogPrimitive.BackdropProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetBackdrop = withContext<HTMLDivElement, ActionSheetBackdropProps>(
   DialogPrimitive.Backdrop,
   "backdrop",
@@ -51,8 +75,14 @@ export const ActionSheetBackdrop = withContext<HTMLDivElement, ActionSheetBackdr
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetContentProps extends DialogPrimitive.ContentProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetContent = withContext<HTMLDivElement, ActionSheetContentProps>(
   DialogPrimitive.Content,
   "content",
@@ -60,10 +90,16 @@ export const ActionSheetContent = withContext<HTMLDivElement, ActionSheetContent
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetHeaderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetHeader = withContext<HTMLDivElement, ActionSheetHeaderProps>(
   withStateProps(Primitive.div),
   "header",
@@ -71,8 +107,14 @@ export const ActionSheetHeader = withContext<HTMLDivElement, ActionSheetHeaderPr
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetTitleProps extends DialogPrimitive.TitleProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetTitle = withContext<HTMLHeadingElement, ActionSheetTitleProps>(
   withStateProps(Primitive.h2),
   "title",
@@ -80,8 +122,14 @@ export const ActionSheetTitle = withContext<HTMLHeadingElement, ActionSheetTitle
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetDescription = withContext<
   HTMLParagraphElement,
   ActionSheetDescriptionProps
@@ -89,8 +137,14 @@ export const ActionSheetDescription = withContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetList = withContext<HTMLDivElement, ActionSheetListProps>(
   withStateProps(Primitive.div),
   "list",
@@ -98,19 +152,31 @@ export const ActionSheetList = withContext<HTMLDivElement, ActionSheetListProps>
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetItemProps
   extends PrimitiveProps,
     ActionSheetItemVariantProps,
     React.HTMLAttributes<HTMLButtonElement> {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetItem = withItemContext<HTMLButtonElement, ActionSheetItemProps>(
   withStateProps(Primitive.button),
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export interface ActionSheetCloseButtonProps extends DialogPrimitive.CloseButtonProps {}
 
+/**
+ * @deprecated Use `MenuSheet` instead.
+ */
 export const ActionSheetCloseButton = withContext<HTMLDivElement, ActionSheetCloseButtonProps>(
   DialogPrimitive.CloseButton,
   "closeButton",

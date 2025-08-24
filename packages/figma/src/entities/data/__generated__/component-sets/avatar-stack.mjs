@@ -1,6 +1,6 @@
 export const metadata = {
   "name": "🟢 Avatar Stack",
-  "key": "019467fdad2192abb48699dcfb79e344df04b799",
+  "key": "e8e91e01000d878742c55cd6e44b6786460440f7",
   "componentPropertyDefinitions": {
     "Size": {
       "type": "VARIANT",
@@ -8,24 +8,12 @@ export const metadata = {
         "20",
         "24",
         "36",
+        "42",
         "48",
-        "64"
-      ]
-    },
-    "Item Count": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "2",
-        "3",
-        "4",
-        "5"
-      ]
-    },
-    "Top Item": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Last Item",
-        "First Item"
+        "64",
+        "80",
+        "96",
+        "108"
       ]
     }
   }

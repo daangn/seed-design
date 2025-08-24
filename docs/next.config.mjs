@@ -7,14 +7,7 @@ const config = {
   output: "export",
   reactStrictMode: true,
   transpilePackages: ["@seed-design/react", "@seed-design/stackflow"],
-  experimental: {
-    serverComponentsExternalPackages: [
-      "ts-morph",
-      "typescript",
-      "oxc-transform",
-      "@shikijs/twoslash",
-    ],
-  },
+  serverExternalPackages: ["ts-morph", "typescript", "oxc-transform", "@shikijs/twoslash"],
   images: {
     // FIXME: temporal use for static export; will remove after image optimization setup
     unoptimized: true,

@@ -1,6 +1,6 @@
 import type { GetFileNodesResponse } from "@figma/rest-api-spec";
 import fs from "fs";
-import { react, figma } from "../src/codegen";
+import { figma } from "../src/codegen";
 import { createRestNormalizer } from "../src/normalizer/from-rest";
 
 const node = JSON.parse(

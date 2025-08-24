@@ -164,6 +164,16 @@
     --badge-size: 32px;
     --badge-offset: 65px;
 }
+.seed-avatar__root--size_108 {
+    --avatar-size: 108px;
+    --avatar-stroke-width: 1px;
+    --badge-mask-size: 44px;
+    --badge-mask-offset: 70px;
+}
+.seed-avatar__badge--size_108 {
+    --badge-size: 36px;
+    --badge-offset: 74px;
+}
 .seed-avatar__root--badgeMask_none {
     --svg-mask-uri: url('data:image/svg+xml;utf8,<svg />');
 }

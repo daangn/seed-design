@@ -48,6 +48,9 @@ export interface SnackbarProps extends SeedSnackbar.RootProps {
   shouldCloseOnAction?: boolean;
 }
 
+/**
+ * @see https://seed-design.io/react/components/snackbar
+ */
 export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
   (
     {
@@ -84,7 +87,9 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
           }
         />
         <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
-        <SeedSnackbar.ActionButton onClick={handleAction}>{actionLabel}</SeedSnackbar.ActionButton>
+        <SeedSnackbar.ActionButton onClick={handleAction}>
+          {actionLabel}
+        </SeedSnackbar.ActionButton>
         <SeedSnackbar.HiddenCloseButton />
       </SeedSnackbar.Root>
     );

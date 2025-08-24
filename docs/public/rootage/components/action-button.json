@@ -1325,7 +1325,7 @@
               "root": {
                 "gap": {
                   "type": "dimension",
-                  "value": "$dimension.x1"
+                  "value": "$dimension.x1_5"
                 },
                 "paddingX": {
                   "type": "dimension",

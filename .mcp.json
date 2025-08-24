@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "seed-design": {
+      "type": "stdio",
+      "command": "bunx",
+      "args": ["-y", "@seed-design/mcp@latest"]
+    },
+    "playwright": {
+      "command": "bunx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}

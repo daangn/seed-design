@@ -5,6 +5,30 @@ metadata:
   id: segmented-control-item
   name: Segmented Control Item
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+          minWidth:
+            type: dimension
+          color:
+            type: color
+      label:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
   definitions:
     base:
       enabled:

@@ -2,6 +2,7 @@ export const vars = {
   "sizeLarge": {
     "enabled": {
       "root": {
+        "maxWidth": "6.75rem",
         "minHeight": "var(--seed-dimension-x6)",
         "paddingX": "var(--seed-dimension-x2)",
         "paddingY": "var(--seed-dimension-x1)",
@@ -16,6 +17,7 @@ export const vars = {
   "sizeMedium": {
     "enabled": {
       "root": {
+        "maxWidth": "7.5rem",
         "minHeight": "var(--seed-dimension-x5)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "paddingY": "var(--seed-dimension-x0_5)",
@@ -84,10 +86,10 @@ export const vars = {
   "toneBrandVariantWeak": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-palette-carrot-100)"
+        "color": "var(--seed-color-bg-brand-weak)"
       },
       "label": {
-        "color": "var(--seed-color-palette-carrot-900)"
+        "color": "var(--seed-color-fg-brand-contrast)"
       }
     }
   },
@@ -168,6 +170,36 @@ export const vars = {
       },
       "label": {
         "color": "var(--seed-color-fg-positive)"
+      }
+    }
+  },
+  "toneWarningVariantWeak": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-bg-warning-weak)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-warning-contrast)"
+      }
+    }
+  },
+  "toneWarningVariantSolid": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-bg-warning-solid)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-neutral)"
+      }
+    }
+  },
+  "toneWarningVariantOutline": {
+    "enabled": {
+      "root": {
+        "strokeColor": "var(--seed-color-stroke-warning)"
+      },
+      "label": {
+        "color": "var(--seed-color-fg-warning)"
       }
     }
   },

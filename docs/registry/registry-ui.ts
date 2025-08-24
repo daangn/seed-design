@@ -40,11 +40,13 @@ export const registryUI: RegistryUI = [
     name: "action-sheet",
     dependencies: ["@seed-design/react"],
     files: ["ui:action-sheet.tsx"],
+    deprecated: true,
   },
   {
     name: "extended-action-sheet",
     dependencies: ["@seed-design/react"],
     files: ["ui:extended-action-sheet.tsx"],
+    deprecated: true,
   },
   {
     name: "avatar",
@@ -91,6 +93,13 @@ export const registryUI: RegistryUI = [
     name: "control-chip",
     dependencies: ["@seed-design/react"],
     files: ["ui:control-chip.tsx"],
+    deprecated: true,
+  },
+  {
+    name: "chip",
+    dependencies: ["@seed-design/react"],
+    innerDependencies: ["ui:avatar"],
+    files: ["ui:chip.tsx"],
   },
   {
     name: "checkbox",
@@ -106,6 +115,12 @@ export const registryUI: RegistryUI = [
     name: "inline-banner",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:inline-banner.tsx"],
+    deprecated: true,
+  },
+  {
+    name: "menu-sheet",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:menu-sheet.tsx"],
   },
   {
     name: "snackbar",
@@ -126,6 +141,11 @@ export const registryUI: RegistryUI = [
     name: "chip-tabs",
     dependencies: ["@seed-design/react"],
     files: ["ui:chip-tabs.tsx"],
+  },
+  {
+    name: "page-banner",
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    files: ["ui:page-banner.tsx"],
   },
   {
     name: "progress-circle",

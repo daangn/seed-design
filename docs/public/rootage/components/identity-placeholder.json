@@ -8,7 +8,22 @@
     "id": "identity-placeholder",
     "name": "Identity Placeholder",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "image": {
+          "properties": {
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
       "variants": {}
     },
     "definitions": [

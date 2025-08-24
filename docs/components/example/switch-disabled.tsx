@@ -1,10 +1,11 @@
+import { VStack } from "@seed-design/react";
 import { Switch } from "seed-design/ui/switch";
 
 export default function SwitchDisabled() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <Switch disabled />
-      <Switch checked disabled />
-    </div>
+    <VStack gap="spacingY.componentDefault">
+      <Switch disabled label="라벨" />
+      <Switch checked disabled label="라벨" />
+    </VStack>
   );
 }

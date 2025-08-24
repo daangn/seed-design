@@ -2,17 +2,17 @@ export declare const metadata: {
   "name": "🟢 Reaction Button",
   "key": "ec43e4e881f7048e95601f8b58c01a0905a174e0",
   "componentPropertyDefinitions": {
-    "Icon#12379:0": {
-      "type": "INSTANCE_SWAP",
-      "preferredValues": []
+    "Label#6397:0": {
+      "type": "TEXT"
     },
     "Show Count#6397:33": {
       "type": "BOOLEAN"
     },
-    "Count#15816:0": {
-      "type": "TEXT"
+    "Icon#12379:0": {
+      "type": "INSTANCE_SWAP",
+      "preferredValues": []
     },
-    "Label#6397:0": {
+    "Count#15816:0": {
       "type": "TEXT"
     },
     "Size": {
@@ -22,17 +22,20 @@ export declare const metadata: {
         "Small"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "variantOptions": [
         "Enabled",
         "Pressed",
         "Loading",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Loading",
-        "Disabled",
-        "Disabled-Selected"
+        "Disabled"
       ]
     }
   }

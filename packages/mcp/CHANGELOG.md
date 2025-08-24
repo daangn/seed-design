@@ -1,5 +1,78 @@
 # @seed-design/mcp
 
+## 0.1.14
+
+### Patch Changes
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/figma@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- @seed-design/figma@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- @seed-design/figma@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- Updated dependencies [9993e0e]
+  - @seed-design/figma@0.1.11
+
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [aa40f66]
+  - @seed-design/figma@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [f9379e0]
+  - @seed-design/figma@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [2e2cc53]
+  - @seed-design/figma@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- @seed-design/figma@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- @seed-design/figma@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- @seed-design/figma@0.1.5
+
+## 0.1.4
+
+### Patch Changes
+
+- @seed-design/figma@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

@@ -47,7 +47,7 @@ export interface CheckSelectBoxLabelProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const CheckSelectBoxLabel = withContext<HTMLSpanElement, CheckSelectBoxLabelProps>(
-  withStateProps(Primitive.span),
+  withStateProps(Primitive.div),
   "label",
 );
 
@@ -58,7 +58,7 @@ export interface CheckSelectBoxDescriptionProps
 export const CheckSelectBoxDescription = withContext<
   HTMLSpanElement,
   CheckSelectBoxDescriptionProps
->(withStateProps(Primitive.span), "description");
+>(withStateProps(Primitive.div), "description");
 
 export interface CheckSelectBoxControlProps extends CheckboxPrimitive.ControlProps {}
 

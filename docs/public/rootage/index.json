@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "resources": [
     {
       "path": "/collections.json"
@@ -54,6 +54,9 @@
       "path": "/components/chip-tablist.json"
     },
     {
+      "path": "/components/chip.json"
+    },
+    {
       "path": "/components/contextual-floating-button.json"
     },
     {
@@ -105,7 +108,19 @@
       "path": "/components/manner-temp.json"
     },
     {
+      "path": "/components/menu-sheet-close-button.json"
+    },
+    {
+      "path": "/components/menu-sheet-item.json"
+    },
+    {
+      "path": "/components/menu-sheet.json"
+    },
+    {
       "path": "/components/notification-badge.json"
+    },
+    {
+      "path": "/components/page-banner.json"
     },
     {
       "path": "/components/progress-circle.json"

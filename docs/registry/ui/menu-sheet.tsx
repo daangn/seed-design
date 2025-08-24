@@ -1,0 +1,78 @@
+"use client";
+
+import { MenuSheet as SeedMenuSheet } from "@seed-design/react";
+import { forwardRef } from "react";
+
+export interface MenuSheetRootProps extends SeedMenuSheet.RootProps {}
+
+/**
+ * @see https://seed-design.io/react/components/menu-sheet
+ */
+export const MenuSheetRoot = (props: MenuSheetRootProps) => {
+  const { children, ...otherProps } = props;
+  return (
+    <SeedMenuSheet.Root closeOnInteractOutside={true} {...otherProps}>
+      {children}
+    </SeedMenuSheet.Root>
+  );
+};
+
+export interface MenuSheetTriggerProps extends SeedMenuSheet.TriggerProps {}
+
+export const MenuSheetTrigger = SeedMenuSheet.Trigger;
+
+export interface MenuSheetContentProps
+  extends Omit<SeedMenuSheet.ContentProps, "title"> {
+  title?: React.ReactNode;
+
+  layerIndex?: number;
+}
+
+export const MenuSheetContent = forwardRef<
+  HTMLDivElement,
+  MenuSheetContentProps
+>(({ children, title, layerIndex, ...otherProps }, ref) => {
+  if (
+    !title &&
+    !otherProps["aria-labelledby"] &&
+    !otherProps["aria-label"] &&
+    process.env.NODE_ENV !== "production"
+  ) {
+    console.warn(
+      "MenuSheetContent: aria-labelledby or aria-label should be provided if title is not provided.",
+    );
+  }
+
+  return (
+    <SeedMenuSheet.Positioner
+      style={{ "--layer-index": layerIndex } as React.CSSProperties}
+    >
+      <SeedMenuSheet.Backdrop />
+      <SeedMenuSheet.Content ref={ref} {...otherProps}>
+        {title && (
+          <SeedMenuSheet.Header>
+            <SeedMenuSheet.Title>{title}</SeedMenuSheet.Title>
+          </SeedMenuSheet.Header>
+        )}
+        <SeedMenuSheet.List>{children}</SeedMenuSheet.List>
+        <SeedMenuSheet.Footer>
+          {/* You may implement your own i18n for dismiss label */}
+          <SeedMenuSheet.CloseButton>취소</SeedMenuSheet.CloseButton>
+        </SeedMenuSheet.Footer>
+      </SeedMenuSheet.Content>
+    </SeedMenuSheet.Positioner>
+  );
+});
+
+export interface MenuSheetGroupProps extends SeedMenuSheet.GroupProps {}
+
+export const MenuSheetGroup = SeedMenuSheet.Group;
+
+export interface MenuSheetItemProps extends SeedMenuSheet.ItemProps {}
+
+export const MenuSheetItem = SeedMenuSheet.Item;
+
+/**
+ * This file is generated snippet from the Seed Design.
+ * You can extend the functionality from this snippet if needed.
+ */

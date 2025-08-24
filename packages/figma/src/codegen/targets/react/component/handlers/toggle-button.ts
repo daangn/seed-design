@@ -12,18 +12,16 @@ export const createToggleButtonHandler = (ctx: ComponentHandlerDeps) =>
   defineComponentHandler<ToggleButtonProperties>(
     metadata.toggleButton.key,
     ({ componentProperties: props }) => {
-      const states = props.State.value.split("-");
-
       const commonProps = {
         variant: camelCase(props.Variant.value),
         size: handleSizeProp(props.Size.value),
-        ...(states.includes("Selected") && {
+        ...(props.Selected.value === "True" && {
           defaultPressed: true,
         }),
-        ...(states.includes("Disabled") && {
+        ...(props.State.value === "Disabled" && {
           disabled: true,
         }),
-        ...(states.includes("Loading") && {
+        ...(props.State.value === "Loading" && {
           loading: true,
         }),
       };

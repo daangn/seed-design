@@ -7,9 +7,10 @@
  *
  * 사용법:
  * 1. 프로젝트 루트에서 `bun run generate:changelog` 명령어를 실행합니다.
- * 2. 생성된 Changelog 파일은 `docs/content/react/get-started/changelog.mdx`에 추가됩니다.
+ * 2. 생성된 Changelog 파일은 `changelog.mdx`에 추가됩니다.
  */
 
+import { read } from "@changesets/config";
 import assembleReleasePlan from "@changesets/assemble-release-plan";
 import { readPreState } from "@changesets/pre";
 import readChangesets from "@changesets/read";
@@ -18,6 +19,7 @@ import { exec } from "child_process";
 import { readFile, writeFile } from "fs/promises";
 import { join } from "path";
 import { promisify } from "util";
+import type { ReleasePlan } from "@changesets/types";
 
 const execAsync = promisify(exec);
 
@@ -34,16 +36,6 @@ interface ChangelogEntry {
   manualContent?: string;
 }
 
-interface ChangesetConfig {
-  linked?: string[][];
-  ignore?: string[];
-  privatePackages?: {
-    version?: boolean;
-    tag?: boolean;
-  };
-  [key: string]: any; // changeset의 다른 설정들도 포함
-}
-
 /**
  * 한국식 날짜 형식으로 변환 (YYYY.MM.DD)
  */
@@ -55,55 +47,12 @@ function formatKoreanDate(date: Date): string {
 }
 
 /**
- * changeset config 파일 읽기
+ * 특정 날짜의 기존 릴리스 개수 계산
  */
-async function readChangesetConfig(): Promise<ChangesetConfig> {
-  try {
-    const configPath = join(process.cwd(), ".changeset/config.json");
-    const configContent = await readFile(configPath, "utf-8");
-    const config = JSON.parse(configContent);
-
-    // 기본값 설정
-    return {
-      ignore: [],
-      privatePackages: {
-        version: false,
-        tag: false,
-      },
-      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
-        onlyUpdatePeerDependentsWhenOutOfRange: false,
-        updateInternalDependents: "patch",
-        useCalculatedVersionForSnapshots: false,
-      },
-      fixed: [],
-      bumpVersionsWithWorkspaceProtocolOnly: false,
-      snapshot: {
-        prereleaseTemplate: null,
-        useCalculatedVersion: false,
-      },
-      ...config,
-    };
-  } catch {
-    return {
-      ignore: [],
-      privatePackages: {
-        version: false,
-        tag: false,
-      },
-      ___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH: {
-        onlyUpdatePeerDependentsWhenOutOfRange: false,
-        updateInternalDependents: "patch",
-        useCalculatedVersionForSnapshots: false,
-      },
-      fixed: [],
-      linked: [],
-      bumpVersionsWithWorkspaceProtocolOnly: false,
-      snapshot: {
-        prereleaseTemplate: null,
-        useCalculatedVersion: false,
-      },
-    };
-  }
+function countExistingReleasesForDate(existingContent: string, date: string): number {
+  const dateRegex = new RegExp(`## ${date}(?: #\\d+)?`, "g");
+  const matches = existingContent.match(dateRegex) || [];
+  return matches.length;
 }
 
 /**
@@ -114,8 +63,8 @@ async function extractManualContent(changelogPath: string): Promise<Record<strin
     const existingContent = await readFile(changelogPath, "utf-8");
     const manualContents: Record<string, string> = {};
 
-    // 날짜별 섹션에서 수동 작성 내용 추출
-    const dateRegex = /## (\d{4}\.\d{2}\.\d{2})/g;
+    // 날짜별 섹션에서 수동 작성 내용 추출 (번호가 있는 경우도 포함)
+    const dateRegex = /## (\d{4}\.\d{2}\.\d{2}(?: #\d+)?)/g;
     const sections = existingContent.split(dateRegex);
 
     for (let i = 1; i < sections.length; i += 2) {
@@ -172,6 +121,7 @@ async function getChangesetCommits(): Promise<Record<string, string>> {
 
     if (!files) {
       console.log("📝 No changeset files found in .changeset folder");
+
       return {};
     }
 
@@ -216,21 +166,22 @@ async function getChangesetCommits(): Promise<Record<string, string>> {
  * ReleasePlan을 ChangelogEntry로 변환
  */
 async function organizeChangelogEntries(
-  releasePlan: any,
+  releasePlan: ReleasePlan,
   manualContents: Record<string, string>,
+  existingContent: string,
 ): Promise<ChangelogEntry[]> {
   // 실제로 버전이 변경되는 releases만 필터링 (type !== "none")
-  const actualReleases = releasePlan.releases.filter((release: any) => release.type !== "none");
+  const actualReleases = releasePlan.releases.filter((release) => release.type !== "none");
 
   console.log(`🔍 Debug: Found ${actualReleases.length} actual releases (type !== "none"):`);
-  actualReleases.forEach((release: any) => {
+  actualReleases.forEach((release) => {
     console.log(
       `  - ${release.name}: ${release.oldVersion} → ${release.newVersion} (${release.type}), changesets: [${release.changesets.join(", ")}]`,
     );
   });
 
   console.log(`🔍 Debug: Found ${releasePlan.changesets.length} changesets:`);
-  releasePlan.changesets.forEach((changeset: any, index: number) => {
+  releasePlan.changesets.forEach((changeset, index) => {
     console.log(`  ${index + 1}. ${changeset.id}: "${changeset.summary}"`);
   });
 
@@ -240,7 +191,14 @@ async function organizeChangelogEntries(
 
   // 단순화된 접근: 모든 실제 릴리스를 하나의 엔트리로 그룹핑
   const createdAt = new Date();
-  const dateKey = formatKoreanDate(createdAt);
+  const baseDateKey = formatKoreanDate(createdAt);
+
+  // 같은 날짜의 기존 릴리스 개수 확인
+  const existingReleaseCount = countExistingReleasesForDate(existingContent, baseDateKey);
+
+  // 릴리스 개수가 1개 이상이면 번호를 추가
+  const dateKey =
+    existingReleaseCount > 0 ? `${baseDateKey} #${existingReleaseCount + 1}` : baseDateKey;
 
   const entries: ChangelogEntry[] = [];
 
@@ -249,15 +207,15 @@ async function organizeChangelogEntries(
     const commitMap = await getChangesetCommits();
 
     // 모든 changeset을 개별적으로 처리하며 각각의 커밋 링크 포함
-    const changesetEntries = releasePlan.changesets.map((changeset: any) => {
+    const changesetEntries = releasePlan.changesets.map((changeset) => {
       const commitHash = commitMap[changeset.id];
       const commitLink = commitHash ? createCommitLink(commitHash) : undefined;
 
       return {
         content: changeset.summary,
         packages: actualReleases
-          .filter((release: any) => release.changesets.includes(changeset.id))
-          .map((release: any) => ({
+          .filter((release) => release.changesets.includes(changeset.id))
+          .map((release) => ({
             name: release.name,
             version: release.newVersion,
           })),
@@ -289,7 +247,7 @@ function generateChangelogMarkdown(entries: ChangelogEntry[], existingContent = 
   let frontmatter: string;
   if (frontmatterMatch) {
     // 기존 frontmatter 그대로 유지
-    frontmatter = frontmatterMatch[0] + "\n";
+    frontmatter = `${frontmatterMatch[0]}\n`;
   } else {
     // 새로운 frontmatter 생성 (updatedAt 없이)
     frontmatter = `---
@@ -329,9 +287,9 @@ description: 최신 업데이트와 변경사항을 기록합니다.
     const uniquePackages = Array.from(new Map(allPackages.map((pkg) => [pkg.name, pkg])).values());
 
     if (uniquePackages.length > 0) {
-      markdown += `### Version Updates\n\n`;
+      markdown += "### Version Updates\n\n";
       for (const pkg of uniquePackages.sort((a, b) => a.name.localeCompare(b.name))) {
-        markdown += `- ${pkg.name}@${pkg.version}\n`;
+        markdown += `- [${pkg.name}@${pkg.version}](https://npmjs.com/package/${pkg.name}/v/${pkg.version})\n`;
       }
       markdown += "\n";
     }
@@ -350,8 +308,8 @@ function extractExistingEntries(
   const existingEntries: ChangelogEntry[] = [];
   const newDates = new Set(newEntries.map((entry) => entry.date));
 
-  // 날짜별 섹션 파싱
-  const dateRegex = /## (\d{4}\.\d{2}\.\d{2})/g;
+  // 날짜별 섹션 파싱 (번호가 있는 경우도 포함)
+  const dateRegex = /## (\d{4}\.\d{2}\.\d{2}(?: #\d+)?)/g;
   const sections = existingContent.split(dateRegex);
 
   for (let i = 1; i < sections.length; i += 2) {
@@ -375,8 +333,13 @@ function extractExistingEntries(
           .filter((line) => line.trim().startsWith("- "));
         const packages = packageLines
           .map((line) => {
-            const match = line.match(/- (.+)@(.+)/);
-            return match ? { name: match[1], version: match[2] } : null;
+            const linkMatch = line.match(/- \[(.+?)@(.+?)\]\(.+?\)/);
+            if (linkMatch) {
+              return { name: linkMatch[1], version: linkMatch[2] };
+            }
+
+            const plainMatch = line.match(/- (.+?)@(.+)/);
+            return plainMatch ? { name: plainMatch[1], version: plainMatch[2] } : null;
           })
           .filter((pkg): pkg is { name: string; version: string } => pkg !== null);
 
@@ -402,13 +365,14 @@ function extractExistingEntries(
 async function main() {
   try {
     console.log("🔧 Reading changeset config...");
-    const config = await readChangesetConfig();
+    const config = await read(process.cwd());
 
     console.log("🔍 Reading changesets...");
     const changesets = await readChangesets(process.cwd());
 
     if (changesets.length === 0) {
-      console.log("📝 No changeset files found.");
+      console.error("📝 No changeset files found.");
+
       return;
     }
 
@@ -422,21 +386,24 @@ async function main() {
     const releasePlan = assembleReleasePlan(changesets, packages, config, preState);
 
     console.log(`🎯 Release plan: ${releasePlan.releases.length} packages to update`);
-    releasePlan.releases.forEach((release: any) => {
+
+    releasePlan.releases.forEach((release) => {
       console.log(
         `  - ${release.name}: ${release.oldVersion} → ${release.newVersion} (${release.type})`,
       );
     });
 
-    const changelogPath = join(process.cwd(), "docs/content/react/get-started/changelog.mdx");
+    const changelogPath = join(process.cwd(), "docs/content/react/updates/changelog.mdx");
+    console.log("📖 Reading existing changelog...");
+    const existingContent = await readFile(changelogPath, "utf-8");
+
     console.log("📖 Extracting manual content...");
     const manualContents = await extractManualContent(changelogPath);
 
     console.log("🗂️ Organizing changelog entries...");
-    const entries = await organizeChangelogEntries(releasePlan, manualContents);
+    const entries = await organizeChangelogEntries(releasePlan, manualContents, existingContent);
 
     console.log("📝 Generating changelog markdown...");
-    const existingContent = await readFile(changelogPath, "utf-8").catch(() => "");
     const markdown = generateChangelogMarkdown(entries, existingContent);
 
     console.log("💾 Writing changelog file...");

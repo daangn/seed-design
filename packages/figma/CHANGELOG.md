@@ -1,5 +1,143 @@
 # @seed-design/figma
 
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/css@0.1.14
+
+## 0.1.13
+
+### Patch Changes
+
+- Updated dependencies [0be9b00]
+  - @seed-design/css@0.1.13
+
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies [62094b6]
+  - @seed-design/css@0.1.12
+
+## 0.1.11
+
+### Patch Changes
+
+- 9993e0e: 레이아웃 컴포넌트를 사용할 때 `flexGrow`, `flexShrink`, `flexWrap`에도 `true`를 사용할 수 있도록 수정합니다.
+
+  Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
+
+## 0.1.10
+
+### Patch Changes
+
+- aa40f66: Figma 컴포넌트 정보 및 핸들러를 최신화하고 codegen을 업데이트합니다.
+
+  - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
+
+- Updated dependencies [ef91c21]
+  - @seed-design/css@0.1.10
+
+## 0.1.9
+
+### Patch Changes
+
+- 5a025b7: Switch 컴포넌트를 업데이트합니다.
+
+  - size: medium → 32, small → 16으로 rename합니다.
+    - (React) `size="medium"`으로 `32`, `size="small"`로 `16`을 사용할 수 있습니다. (deprecated)
+  - size: 24를 추가합니다.
+  - 모든 size에 대해 레이블 스타일을 추가합니다. (기존: small에만 존재)
+
+- f9379e0: Figma 컴포넌트 핸들러 정보를 최신화하고 정확한 prop을 생성하도록 수정합니다.
+
+  - Chip, Progress Circle, Switch 컴포넌트 핸들러를 업데이트합니다.
+  - `grow` 대신 `flexGrow`가 생성되도록, `borderWidth`가 `string`으로 생성되도록 수정합니다.
+
+- Updated dependencies [5a025b7]
+- Updated dependencies [ac35731]
+- Updated dependencies [f9041e9]
+  - @seed-design/css@0.1.9
+
+## 0.1.8
+
+### Patch Changes
+
+- 2e2cc53: - Figma 컴포넌트 핸들러 및 스타일 정보를 최신화합니다.
+  - normalize 과정에서 그라디언트 정보를 포함하도록 수정합니다.
+- Updated dependencies [609b8f3]
+  - @seed-design/css@0.1.8
+
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [4afe80b]
+  - @seed-design/css@0.1.7
+
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [235147d]
+- Updated dependencies [3c13ad7]
+  - @seed-design/css@0.1.6
+
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [861ecb4]
+- Updated dependencies [3889eb6]
+  - @seed-design/css@0.1.5
+
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [0ffcd48]
+  - @seed-design/css@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

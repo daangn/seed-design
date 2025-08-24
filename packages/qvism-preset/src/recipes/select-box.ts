@@ -58,6 +58,7 @@ export const selectBox = defineSlotRecipe({
     content: {
       display: "flex",
       flexDirection: "column",
+      flexGrow: 1,
 
       gap: vars.base.enabled.content.gap,
     },

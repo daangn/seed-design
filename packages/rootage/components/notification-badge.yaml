@@ -4,6 +4,38 @@ metadata:
   id: notification-badge
   name: Notification Badge
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          iconAttachedInsetEnd:
+            type: dimension
+          iconAttachedInsetTop:
+            type: dimension
+          textAttachedGap:
+            type: dimension
+          size:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
   definitions:
     base:
       enabled:

@@ -5,14 +5,15 @@ import type {
   NormalizedIsLayerTrait,
   NormalizedSceneNode,
 } from "../normalizer";
+
 export function traverseNode(
   node: NormalizedSceneNode,
   callback: (node: NormalizedSceneNode) => void,
 ) {
+  callback(node);
+
   if ("children" in node) {
     node.children.forEach((child) => traverseNode(child, callback));
-  } else {
-    callback(node);
   }
 }
 
@@ -50,7 +51,7 @@ export function findAllInstances<T>({ node, key }: { node: NormalizedSceneNode; 
   return findAll(
     node,
     (n) => n.type === "INSTANCE" && (n.componentKey === key || n.componentSetKey === key),
-  ) as (NormalizedInstanceNode & { componentProperties: T })[];
+  ) as (Omit<NormalizedInstanceNode, "componentProperties"> & { componentProperties: T })[];
 }
 
 export function getFirstSolidFill(node: NormalizedHasGeometryTrait) {

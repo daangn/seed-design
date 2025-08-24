@@ -42,7 +42,7 @@ const ActivityAlertDialog: ActivityComponentType = () => {
             <AlertDialogAction asChild>
               <ActionButton>확인</ActionButton>
             </AlertDialogAction>
-            <ActionButton variant="neutralSolid" onClick={() => push("ActivityActionChip", {})}>
+            <ActionButton variant="neutralSolid" onClick={() => push("ActivityChipButton", {})}>
               Push
             </ActionButton>
           </VStack>

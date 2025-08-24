@@ -18,8 +18,7 @@ import {
 import { Snackbar } from "../seed-design/ui/snackbar";
 import { useStepDialog } from "../seed-design/util/use-step-dialog";
 import { useFlow } from "../stackflow";
-import { actionSheetCallback } from "./ActivityActionSheet";
-import { extendedActionSheetCallback } from "./ActivityExtendedActionSheet";
+import { menuSheetCallback } from "./ActivityMenuSheet";
 
 const ActivityHome: ActivityComponentType = () => {
   const { push } = useFlow();
@@ -69,7 +68,7 @@ const ActivityHome: ActivityComponentType = () => {
                     <ActionButton onClick={() => setOpen(false)}>확인</ActionButton>
                     <ActionButton
                       variant="neutralSolid"
-                      onClick={() => push("ActivityActionChip", {})}
+                      onClick={() => push("ActivityChipButton", {})}
                     >
                       Push
                     </ActionButton>
@@ -95,28 +94,19 @@ const ActivityHome: ActivityComponentType = () => {
           <ListItemGroup title="BottomSheets">
             <ListItem onClick={() => push("ActivityBottomSheet", {})} title="BottomSheet" />
             <DialogPushTrigger
-              callbackActivity={actionSheetCallback}
+              callbackActivity={menuSheetCallback}
               params={{}}
               onPop={(result) => {
                 console.log(result?.action);
               }}
             >
-              <ListItem title="ActionSheet" />
-            </DialogPushTrigger>
-            <DialogPushTrigger
-              callbackActivity={extendedActionSheetCallback}
-              params={{}}
-              onPop={(result) => {
-                console.log(result?.action);
-              }}
-            >
-              <ListItem title="ExtendedActionSheet" />
+              <ListItem title="MenuSheet" />
             </DialogPushTrigger>
           </ListItemGroup>
 
           <ListItemGroup title="Chips">
-            <ListItem onClick={() => push("ActivityActionChip", {})} title="ActionChip" />
-            <ListItem onClick={() => push("ActivityControlChip", {})} title="ControlChip" />
+            <ListItem onClick={() => push("ActivityChipButton", {})} title="Chip.Button" />
+            <ListItem onClick={() => push("ActivityChipToggle", {})} title="Chip.Toggle" />
           </ListItemGroup>
 
           <ListItemGroup title="Snackbars">

@@ -3,13 +3,10 @@
   "pages": [
     "---Concepts---",
     "...concepts",
-    "---Layout---",
-    "...(layout)",
-    "---Typography---",
-    "...(typography)",
+    "---Foundation---",
+    "...(foundation)",
     "---Components---",
     "...",
-    "fab",
-    "extended-fab"
+    "(deprecated)"
   ]
 }

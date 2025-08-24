@@ -8,7 +8,46 @@
     "id": "tablist",
     "name": "Tablist",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "strokeBottomWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "height": {
+              "type": "dimension"
+            }
+          }
+        },
+        "indicator": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "transformDuration": {
+              "type": "duration"
+            },
+            "transformTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "insetX": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "layout": {
           "values": {

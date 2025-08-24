@@ -51,6 +51,19 @@ function handleBleed(
   return handleDimension(dimension);
 }
 
+export function handlePaddingWithSafeArea(
+  padding: string | 0 | undefined,
+  direction: "top" | "bottom",
+): string | undefined {
+  if (padding === "safeArea") {
+    return `var(--seed-safe-area-${direction})`;
+  }
+
+  const paddingValue = handleDimension(padding);
+
+  return paddingValue;
+}
+
 function handleRadius(radius: string | 0 | undefined) {
   if (radius == null) {
     return undefined;
@@ -284,12 +297,18 @@ export interface StyleProps {
    */
   py?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingTop?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingTop?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingTop`.
    */
-  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  pt?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
   paddingRight?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
@@ -298,12 +317,18 @@ export interface StyleProps {
    */
   pr?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
-  paddingBottom?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  paddingBottom?:
+    | Dimension
+    | `spacingX.${SpacingX}`
+    | `spacingY.${SpacingY}`
+    | 0
+    | "safeArea"
+    | (string & {});
 
   /**
    * Shorthand for `paddingBottom`.
    */
-  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
+  pb?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | "safeArea" | (string & {});
 
   paddingLeft?: Dimension | `spacingX.${SpacingX}` | `spacingY.${SpacingY}` | 0 | (string & {});
 
@@ -402,9 +427,15 @@ export interface StyleProps {
 
   zIndex?: number | (string & {});
 
-  flexGrow?: 0 | 1 | (number & {});
+  /**
+   * If true, flex-grow will be set to `1`.
+   */
+  flexGrow?: 0 | 1 | (number & {}) | true;
 
-  flexShrink?: 0 | (number & {});
+  /**
+   * If true, flex-shrink will be set to `1`.
+   */
+  flexShrink?: 0 | (number & {}) | true;
 
   // Flex
   flexDirection?:
@@ -415,7 +446,10 @@ export interface StyleProps {
     | "rowReverse" // @deprecated Use `row-reverse` instead.
     | "columnReverse"; // @deprecated Use `column-reverse` instead.
 
-  flexWrap?: "wrap" | "wrap-reverse" | "nowrap";
+  /**
+   * If true, flex-wrap will be set to `wrap`.
+   */
+  flexWrap?: "wrap" | "wrap-reverse" | "nowrap" | true;
 
   justifyContent?:
     | "flex-start"
@@ -576,9 +610,9 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-padding": handleDimension(padding ?? p),
       "--seed-box-padding-x": handleDimension(paddingX ?? px),
       "--seed-box-padding-y": handleDimension(paddingY ?? py),
-      "--seed-box-padding-top": handleDimension(paddingTop ?? pt),
+      "--seed-box-padding-top": handlePaddingWithSafeArea(paddingTop ?? pt, "top"),
       "--seed-box-padding-right": handleDimension(paddingRight ?? pr),
-      "--seed-box-padding-bottom": handleDimension(paddingBottom ?? pb),
+      "--seed-box-padding-bottom": handlePaddingWithSafeArea(paddingBottom ?? pb, "bottom"),
       "--seed-box-padding-left": handleDimension(paddingLeft ?? pl),
       "--seed-box-bleed-top": handleBleed(bleedTop ?? bleedY, "top"),
       "--seed-box-bleed-right": handleBleed(bleedRight ?? bleedX, "right"),
@@ -594,10 +628,10 @@ export function useStyleProps<T extends UseStyleProps>(
       "--seed-box-overflow-x": overflowX,
       "--seed-box-overflow-y": overflowY,
       "--seed-box-z-index": zIndex,
-      "--seed-box-flex-grow": flexGrow,
-      "--seed-box-flex-shrink": flexShrink,
+      "--seed-box-flex-grow": flexGrow === true ? 1 : flexGrow,
+      "--seed-box-flex-shrink": flexShrink === true ? 1 : flexShrink,
       "--seed-box-flex-direction": handleFlexDirection(flexDirection),
-      "--seed-box-flex-wrap": flexWrap,
+      "--seed-box-flex-wrap": flexWrap === true ? "wrap" : flexWrap,
       "--seed-box-justify-content": handleJustifyContent(justifyContent),
       "--seed-box-align-items": handleAlignItems(alignItems),
       "--seed-box-align-content": handleAlignItems(alignContent),

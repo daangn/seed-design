@@ -1,27 +1,56 @@
-import { globby } from "globby";
-import matter from "gray-matter";
-import * as fs from "node:fs/promises";
-import { processContent } from "../_llms/process-content";
+import { baseUrl } from "@/app/metadata";
+import { reactSource } from "@/app/source";
+import { shouldGenerateLLMFriendlyText } from "@/app/react/_llms/page-filter";
 
 export const revalidate = false;
 
+/**
+ * This is an entry point for accessing individual component documentation.
+ * Each component can be accessed through its specific endpoint.
+ */
 export async function GET() {
-  const files = await globby(["./content/react/components/**/*.mdx"]);
+  const componentPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
-  const results = await Promise.all(
-    files.map(async (file) => {
-      const fileContent = await fs.readFile(file);
-      const { content, data } = matter(fileContent.toString());
+  const components = componentPages
+    .map(({ data, slugs }) => {
+      const [_firstSlug, ...restSlugs] = slugs;
 
-      const processed = await processContent(file, content);
-      return `file: ${file}
-# ${data.title}
+      // Attach .txt extension to the last slug
+      const path = restSlugs
+        .map((slug, index) => {
+          if (index === restSlugs.length - 1) return `${slug}.txt`;
 
-${data.description ?? ""}
-        
-${processed}`;
-    }),
-  );
+          return slug;
+        })
+        .join("/");
 
-  return new Response(results.join("\n\n"));
+      const txtUrl = new URL(`/react/llms-components/${path}`, baseUrl);
+
+      return `- [${data.title}](${txtUrl})`;
+    })
+    .sort((a, b) => a.localeCompare(b));
+
+  const response = `# SEED Design React Components - LLM Reference Entry
+
+This is an entry point for accessing individual component documentation.
+Each component can be accessed through its specific endpoint.
+
+## Available Components
+
+${components.join("\n")}
+
+## Usage
+
+To get information about a specific component, access its endpoint:
+Example: /react/llms-components/action-button.txt
+
+The response will include the full MDX content for that component, processed and ready for LLM consumption.
+
+## Additional Resources
+
+- Full components documentation (all in one): /react/llms-full.txt
+- Changelog: /react/llms-changelog.txt
+`;
+
+  return new Response(response);
 }

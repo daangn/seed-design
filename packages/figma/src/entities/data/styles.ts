@@ -1,5 +1,99 @@
 import type { Style } from "../style.interface";
 
+export const FIGMA_FILL_STYLES: Style[] = [
+  {
+    styleType: "FILL",
+    key: "46186d7dd037e8e54983ee6677cf7915790d84cc",
+    name: "gradient/fade/layer-floating/↑(to-top)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "b28d9c9adc816fdd4ecec3a0b3e25d8aec802b6a",
+    name: "gradient/fade/layer-floating/↓(to-bottom)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "063c0dc05b438ac36499492e783520a722782d74",
+    name: "gradient/fade/layer-floating/→(to-right)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "c1cee6b89c357c6a12d020654d73a4490cafdf51",
+    name: "gradient/fade/layer-default/←(to-left)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "826457503b7ee3d472eab91581b1fcd499c47c00",
+    name: "gradient/fade/layer-default/↑(to-top)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "df22450a8f8e9c323baf40d8981920d1b6376cbf",
+    name: "gradient/fade/layer-floating/←(to-left)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "ff436e73cf9477a1006e6f8a1f9d2c9dbe0e5edd",
+    name: "gradient/fade/layer-default/→(to-right)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "353baa82e0440385eb121cd0ae98d2fcb1a70b18",
+    name: "gradient/glow/magic",
+    description: "반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "f83f54c1840aaf26742629e2c696c363b8df0a82",
+    name: "gradient/glow/magic-pressed",
+    description: "반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "408cb970f1de672217f452152b0398a4bb4f4e12",
+    name: "gradient/fade/layer-default/↓(to-bottom)",
+    description: "스크롤이 가능하도록 그라디언트로 특정 영역을 덮는 요소로 사용해요.",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "71971dde923a11c615296a16f8172c0671d5a3a6",
+    name: "gradient/shimmer/neutral",
+    description: "Skeleton shimmer",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "2ed61bff1a187f39389698cf63b74d6997aed609",
+    name: "gradient/shimmer/magic",
+    description: "Skeleton AI shimmer",
+    remote: false,
+  },
+  {
+    styleType: "FILL",
+    key: "1101a7c6a505d97904c3a0ce6a9ee17fe15de879",
+    name: "gradient/highlight/magic",
+    description: "아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.",
+    remote: false,
+  },
+];
+
 export const FIGMA_TEXT_STYLES: Style[] = [
   {
     styleType: "TEXT",

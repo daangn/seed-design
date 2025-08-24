@@ -22,6 +22,7 @@
 .seed-select-box__content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: var(--seed-dimension-x0_5);
 }
 .seed-select-box__checkboxControl {

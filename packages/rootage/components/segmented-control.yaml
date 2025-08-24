@@ -5,6 +5,28 @@ metadata:
   id: segmented-control
   name: Segmented Control
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          padding:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          color:
+            type: color
+      indicator:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          shadow:
+            type: shadow
+          transformDuration:
+            type: duration
+          transformTimingFunction:
+            type: cubicBezier
   definitions:
     base:
       enabled:

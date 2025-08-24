@@ -4,6 +4,62 @@ metadata:
   id: contextual-floating-button
   name: Contextual Floating Button
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          cornerRadius:
+            type: dimension
+          shadow:
+            type: shadow
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          color:
+            type: color
+          minHeight:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+          size:
+            type: dimension
+      progressCircle:
+        properties:
+          size:
+            type: dimension
+          thickness:
+            type: dimension
+          trackColor:
+            type: color
+          rangeColor:
+            type: color
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
   definitions:
     base:
       enabled:
