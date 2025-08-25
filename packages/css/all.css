@@ -49,20 +49,23 @@
 .seed-prefix-icon {
   width: var(--seed-prefix-icon-size);
   height: var(--seed-prefix-icon-size);
+  color: var(--seed-prefix-icon-color, currentColor);
   margin-left: var(--seed-prefix-icon-margin-left);
   margin-right: var(--seed-prefix-icon-margin-right);
   margin-top: var(--seed-prefix-icon-margin-top);
-  color: var(--seed-prefix-icon-color, currentColor);
+  align-self: var(--seed-prefix-icon-align-self);
+  justify-self: var(--seed-prefix-icon-justify-self);
 }
 
 .seed-suffix-icon {
   width: var(--seed-suffix-icon-size);
   height: var(--seed-suffix-icon-size);
+  color: var(--seed-suffix-icon-color, currentColor);
   margin-left: var(--seed-suffix-icon-margin-left);
   margin-right: var(--seed-suffix-icon-margin-right);
   margin-top: var(--seed-suffix-icon-margin-top);
-  margin-bottom: var(--seed-suffix-icon-margin-bottom);
-  color: var(--seed-suffix-icon-color, currentColor);
+  align-self: var(--seed-suffix-icon-align-self);
+  justify-self: var(--seed-suffix-icon-justify-self);
 }
 
 .seed-count {
@@ -3960,8 +3963,7 @@
   --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
   --seed-suffix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-margin-left: var(--seed-dimension-x4);
-  --seed-suffix-icon-margin-top: auto;
-  --seed-suffix-icon-margin-bottom: auto;
+  --seed-suffix-icon-align-self: center;
   border: none;
   align-items: flex-start;
   font-family: inherit;
@@ -4492,8 +4494,7 @@
   --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10)  - var(--seed-dimension-x4)) * .5 - var(--seed-dimension-x2_5));
   --seed-suffix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-margin-left: var(--seed-dimension-x2);
-  --seed-suffix-icon-margin-top: auto;
-  --seed-suffix-icon-margin-bottom: auto;
+  --seed-suffix-icon-align-self: center;
   border: none;
   align-items: flex-start;
   font-family: inherit;
