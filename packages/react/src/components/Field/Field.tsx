@@ -30,10 +30,7 @@ export const FieldHeader = withContext<HTMLDivElement, FieldHeaderProps>(
 
 export interface FieldLabelProps extends Field.LabelProps {}
 
-export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(
-  withStateProps(Field.Label),
-  "label",
-);
+export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(Field.Label, "label");
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -75,8 +72,6 @@ export const FieldErrorMessage = withContext<HTMLSpanElement, FieldErrorMessageP
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldErrorIconProps extends InternalIconProps {}
-
-// TODO: 필요없는 경우, withStateProps는 빼는 게 좋을 것 같음
 
 export const FieldErrorIcon = withContext<SVGSVGElement, FieldErrorIconProps>(
   withStateProps(InternalIcon),

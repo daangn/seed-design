@@ -11,6 +11,12 @@ export {
   FieldButtonButton,
   FieldButtonClearButton,
   FieldButtonFoobar,
+  FieldButtonValue,
+  FieldButtonPlaceholder,
+  FieldButtonPrefixIcon,
+  FieldButtonPrefixText,
+  FieldButtonSuffixIcon,
+  FieldButtonSuffixText,
   type FieldButtonFoobarProps,
   type FieldButtonRootProps,
   type FieldButtonHeaderProps,
@@ -23,6 +29,12 @@ export {
   type FieldButtonHiddenInputsProps,
   type FieldButtonButtonProps,
   type FieldButtonClearButtonProps,
+  type FieldButtonValueProps,
+  type FieldButtonPlaceholderProps,
+  type FieldButtonPrefixIconProps,
+  type FieldButtonPrefixTextProps,
+  type FieldButtonSuffixIconProps,
+  type FieldButtonSuffixTextProps,
 } from "./FieldButton";
 
 export * as FieldButton from "./FieldButton.namespace";

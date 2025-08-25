@@ -187,6 +187,9 @@ export function useFieldButton(props: UseFieldButtonProps) {
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
 
+      disabled,
+      "aria-disabled": ariaAttr(disabled),
+
       onBlur() {
         setIsFocused(false);
         setIsFocusVisible(false);

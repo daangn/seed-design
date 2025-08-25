@@ -1,8 +1,5 @@
 declare interface FieldButtonVariant {
-  /**
-  * @default medium
-  */
-  size: "xlarge" | "large" | "medium";
+  
 }
 
 declare type FieldButtonVariantMap = {
@@ -11,7 +8,7 @@ declare type FieldButtonVariantMap = {
 
 export declare type FieldButtonVariantProps = Partial<FieldButtonVariant>;
 
-export declare type FieldButtonSlotName = "root" | "value" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
+export declare type FieldButtonSlotName = "root" | "value" | "placeholder" | "button" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
 
 export declare const fieldButtonVariantMap: FieldButtonVariantMap;
 

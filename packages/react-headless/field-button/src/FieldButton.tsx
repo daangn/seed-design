@@ -107,8 +107,6 @@ export const FieldButtonHiddenInputs = forwardRef<HTMLDivElement, FieldButtonHid
   (_props, ref) => {
     const { hiddenInputsProps } = useFieldButtonContext();
 
-    console.log({ hiddenInputsProps });
-
     return (
       <Primitive.div ref={ref}>
         {hiddenInputsProps.map((inputProps, index) => {

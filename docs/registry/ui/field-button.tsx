@@ -9,6 +9,11 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefi
   label?: React.ReactNode;
   indicator?: React.ReactNode;
 
+  prefixIcon?: React.ReactNode;
+  prefix?: React.ReactNode;
+  suffixIcon?: React.ReactNode;
+  suffix?: React.ReactNode;
+
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
 
@@ -21,6 +26,10 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefi
 export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
   (
     {
+      prefix,
+      prefixIcon,
+      suffix,
+      suffixIcon,
       label,
       indicator,
       description,
@@ -63,7 +72,16 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
     // we are manually assigning the size to SeedFieldButton.Root because the variant props might not always match
 
     return (
-      <SeedFieldButton.Root ref={ref} {...otherProps}>
+      <SeedFieldButton.Root
+        size={otherProps.size}
+        required={required}
+        disabled={disabled}
+        invalid={invalid}
+        readOnly={readOnly}
+        name={name}
+        ref={ref}
+        {...otherProps}
+      >
         {renderHeader && (
           <SeedFieldButton.Header>
             {label && <SeedFieldButton.Label>{label}</SeedFieldButton.Label>}
@@ -71,9 +89,13 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
           </SeedFieldButton.Header>
         )}
         <SeedFieldButton.Foobar>
-          <SeedFieldButton.Button onClick={onButtonClick} />
+          <SeedFieldButton.Button type="button" onClick={onButtonClick} />
+          {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
+          {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
+          {/* TODO: aria-hidden */}
           {children}
-          {/* TODO: children should be aria-hidden ?? ?? ??? ???? ? */}
+          {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
+          {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
         </SeedFieldButton.Foobar>
         {renderFooter && (
           <SeedFieldButton.Footer>
@@ -96,3 +118,26 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
   },
 );
 FieldButton.displayName = "FieldButton";
+
+export interface FieldButtonValueProps extends SeedFieldButton.ValueProps {
+  placeholder?: React.ReactNode;
+}
+
+export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValueProps>(
+  ({ placeholder, ...otherProps }, ref) => {
+    if (
+      placeholder &&
+      (otherProps.children === null ||
+        otherProps.children === undefined ||
+        otherProps.children === "") // TODO
+    ) {
+      return (
+        <SeedFieldButton.Placeholder ref={ref} {...otherProps}>
+          {placeholder}
+        </SeedFieldButton.Placeholder>
+      );
+    }
+
+    return <SeedFieldButton.Value ref={ref} {...otherProps} />;
+  },
+);

@@ -11,6 +11,14 @@ const fieldButtonSlotNames = [
     "seed-field-button__value"
   ],
   [
+    "placeholder",
+    "seed-field-button__placeholder"
+  ],
+  [
+    "button",
+    "seed-field-button__button"
+  ],
+  [
     "prefixText",
     "seed-field-button__prefixText"
   ],
@@ -28,19 +36,11 @@ const fieldButtonSlotNames = [
   ]
 ];
 
-const defaultVariant = {
-  "size": "medium"
-};
+const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const fieldButtonVariantMap = {
-  "size": [
-    "xlarge",
-    "large",
-    "medium"
-  ]
-};
+export const fieldButtonVariantMap = {};
 
 export const fieldButtonVariantKeys = Object.keys(fieldButtonVariantMap);
 
