@@ -29,6 +29,7 @@ import mannerTempBadge from "./recipes/manner-temp-badge";
 import menuSheet from "./recipes/menu-sheet";
 import menuSheetItem from "./recipes/menu-sheet-item";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
+import pageBanner from "./recipes/page-banner";
 import progressCircle from "./recipes/progress-circle";
 import pullToRefresh from "./recipes/pull-to-refresh";
 import radio from "./recipes/radio";
@@ -68,9 +69,9 @@ export const recipes = {
   extendedActionSheetItem,
   extendedFab,
   fab,
-  floatingActionButton,
   field,
   fieldButton,
+  floatingActionButton,
   helpBubble,
   identityPlaceholder,
   inlineBanner,
@@ -81,6 +82,7 @@ export const recipes = {
   menuSheetItem,
   notificationBadge,
   notificationBadgePositioner,
+  pageBanner,
   progressCircle,
   pullToRefresh,
   radio,

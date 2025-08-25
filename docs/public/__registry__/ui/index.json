@@ -222,7 +222,8 @@
     ],
     "files": [
       "ui:inline-banner.tsx"
-    ]
+    ],
+    "deprecated": true
   },
   {
     "name": "menu-sheet",
@@ -269,6 +270,16 @@
     ],
     "files": [
       "ui:chip-tabs.tsx"
+    ]
+  },
+  {
+    "name": "page-banner",
+    "dependencies": [
+      "@seed-design/react",
+      "@karrotmarket/react-monochrome-icon"
+    ],
+    "files": [
+      "ui:page-banner.tsx"
     ]
   },
   {

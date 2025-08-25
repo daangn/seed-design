@@ -35,6 +35,7 @@ export { vars as menuSheetCloseButton } from "./menu-sheet-close-button.mjs";
 export { vars as menuSheetItem } from "./menu-sheet-item.mjs";
 export { vars as menuSheet } from "./menu-sheet.mjs";
 export { vars as notificationBadge } from "./notification-badge.mjs";
+export { vars as pageBanner } from "./page-banner.mjs";
 export { vars as progressCircle } from "./progress-circle.mjs";
 export { vars as radio } from "./radio.mjs";
 export { vars as reactionButton } from "./reaction-button.mjs";

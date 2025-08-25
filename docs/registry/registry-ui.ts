@@ -115,6 +115,7 @@ export const registryUI: RegistryUI = [
     name: "inline-banner",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
     files: ["ui:inline-banner.tsx"],
+    deprecated: true,
   },
   {
     name: "menu-sheet",
@@ -140,6 +141,11 @@ export const registryUI: RegistryUI = [
     name: "chip-tabs",
     dependencies: ["@seed-design/react"],
     files: ["ui:chip-tabs.tsx"],
+  },
+  {
+    name: "page-banner",
+    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    files: ["ui:page-banner.tsx"],
   },
   {
     name: "progress-circle",

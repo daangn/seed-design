@@ -5,11 +5,15 @@
   "pages": [
     "index",
     "---Getting Started---",
-    "...get-started",
-    "---Iconography---",
-    "...iconography",
+    "...getting-started",
+    "---AI Integration---",
+    "...ai-integration",
     "...components",
-    "---Links---",
-    "[SEED Design](/docs)"
+    "---Developer Tools---",
+    "...developer-tools",
+    "---Updates---",
+    "...updates",
+    "---Migration---",
+    "...migration"
   ]
 }

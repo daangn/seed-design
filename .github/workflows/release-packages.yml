@@ -60,13 +60,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           ref: changeset-release/${{ github.ref_name }}
 
       - name: 배포 전인 경우 rootage json 파일의 버전을 @seed-design/rootage-artifacts 버전에 맞춰요
-        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets
+        if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
         run: |
           bun install --frozen-lockfile
           bun rootage:build
@@ -93,9 +93,9 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: '새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}
+            text: "새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
             blocks:
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "[변경사항](https://seed-design.io/react/get-started/changelog) (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"
+                  text: "[변경사항](https://seed-design.io/react/updates/changelog) (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"

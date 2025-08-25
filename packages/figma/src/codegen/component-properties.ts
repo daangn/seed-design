@@ -239,9 +239,16 @@ export type IdentityPlaceholderProperties = InferComponentDefinition<{
   };
 }>;
 
-export type InlineBannerProperties = InferComponentDefinition<
-  typeof metadata.inlineBanner.componentPropertyDefinitions
+export type PageBannerProperties = InferComponentDefinition<
+  typeof metadata.pageBanner.componentPropertyDefinitions
 >;
+
+export type PageBannerButtonProperties = InferComponentDefinition<{
+  "Label#39890:0": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+}>;
 
 export type MannerTempProperties = InferComponentDefinition<
   typeof metadata.mannerTemp.componentPropertyDefinitions

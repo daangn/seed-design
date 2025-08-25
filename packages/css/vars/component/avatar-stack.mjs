@@ -86,5 +86,15 @@ export const vars = {
         "strokeWidth": "5px"
       }
     }
+  },
+  "size108": {
+    "enabled": {
+      "root": {
+        "gap": "-27px"
+      },
+      "item": {
+        "strokeWidth": "5px"
+      }
+    }
   }
 }

@@ -1,13 +1,11 @@
 import { processContent } from "../_llms/process-content";
 import { reactSource } from "@/app/source";
-import { notFound } from "next/navigation";
 
 export const revalidate = false;
 
 export async function GET() {
-  const page = reactSource.getPage(["get-started", "changelog"]);
-
-  if (!page) return notFound();
+  const page = reactSource.getPage(["updates", "changelog"]);
+  if (!page) throw new Error("Changelog not found");
 
   const processed = await processContent(page.path, page.data.content);
 
