@@ -8,37 +8,35 @@ data:
     slots:
       header:
         properties:
-          paddingBottom:
+          paddingX:
             type: dimension
+          gap:
+            type: dimension
+      labelContainer:
+        properties:
           gap:
             type: dimension
       label:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
       indicator:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
-          fontSize:
-            type: dimension
-          lineHeight:
+          paddingTop:
             type: dimension
       footer:
         properties:
+          paddingX:
+            type: dimension
           gap:
-            type: dimension
-          paddingTop:
-            type: dimension
-          minHeight:
             type: dimension
       description:
         properties:
@@ -49,6 +47,10 @@ data:
           fontSize:
             type: dimension
           lineHeight:
+            type: dimension
+      errorContainer:
+        properties:
+          gap:
             type: dimension
       errorMessage:
         properties:
@@ -62,9 +64,9 @@ data:
             type: dimension
       errorIcon:
         properties:
+          color:
+            type: color
           size:
-            type: dimension
-          marginRight:
             type: dimension
       characterCount:
         properties:
@@ -89,114 +91,58 @@ data:
   definitions:
     base:
       enabled:
+        header:
+          paddingX: $dimension.x0_5
+          gap: $dimension.x3 # 미정
+        labelContainer:
+          gap: $dimension.x0_5
         label:
           color: $color.fg.neutral
-          fontWeight: $font-weight.bold
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
         indicator:
           color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
           fontWeight: $font-weight.regular
+        footer:
+          paddingX: $dimension.x0_5
+          gap: $dimension.x3 # 미정
         description:
-          color: $color.fg.neutral-subtle
+          color: $color.palette.gray-700 # 시맨틱 검토 필요
           fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        errorContainer:
+          gap: $dimension.x1_5
         errorMessage:
           color: $color.fg.critical
           fontWeight: $font-weight.regular
-        characterCount:
-          color: $color.fg.neutral
-          fontWeight: $font-weight.regular
-        maxCharacterCount:
-          color: $color.fg.neutral-subtle
-          fontWeight: $font-weight.regular
-
-    size=xlarge:
-      enabled:
-        header:
-          paddingBottom: $dimension.x3
-          gap: $dimension.x1_5
-        label:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        indicator:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: 20px
-        description:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorMessage:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         errorIcon:
+          color: $color.fg.critical
           size: $dimension.x4
-          marginRight: $dimension.x1
         characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
+          color: $color.palette.gray-700
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
         maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-
-    size=large:
+          color: $color.palette.gray-600
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+      invalid:
+        characterCount:
+          color: $color.fg.critical
+        maxCharacterCount:
+          color: $color.fg.critical
+    weight=medium: # field 전체의 variant가 medium/bold처럼 느껴지진 않아서 고민 (rootage를 쪼개야 하나)
       enabled:
-        header:
-          paddingBottom: $dimension.x3
-          gap: $dimension.x1_5
         label:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        indicator:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: 20px
-        description:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorMessage:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        errorIcon:
-          size: $dimension.x4
-          marginRight: $dimension.x1
-        characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-
-    size=medium:
+          fontWeight: $font-weight.medium # checkbox.yaml 보면 또 어색하지 않기도 한데
+    weight=bold:
       enabled:
-        header:
-          paddingBottom: $dimension.x3
-          gap: $dimension.x1
         label:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        indicator:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        footer:
-          gap: $dimension.x3_5
-          paddingTop: $dimension.x2
-          minHeight: $dimension.x4
-        description:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        errorMessage:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        errorIcon:
-          size: $dimension.x3_5
-          marginRight: $dimension.x1
-        characterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
-        maxCharacterCount:
-          fontSize: $font-size.t2
-          lineHeight: $line-height.t2
+          fontWeight: $font-weight.bold

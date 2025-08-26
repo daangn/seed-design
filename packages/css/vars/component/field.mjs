@@ -1,152 +1,78 @@
 export const vars = {
   "base": {
     "enabled": {
+      "header": {
+        "paddingX": "var(--seed-dimension-x0_5)",
+        "gap": "var(--seed-dimension-x3)"
+      },
+      "labelContainer": {
+        "gap": "var(--seed-dimension-x0_5)"
+      },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)"
       },
-      "indicator": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+      "requiredIndicator": {
+        "color": "var(--seed-color-fg-critical)",
+        "paddingTop": "var(--seed-dimension-x1)"
+      },
+      "footer": {
+        "paddingX": "var(--seed-dimension-x0_5)",
+        "gap": "var(--seed-dimension-x3)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral-subtle)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "color": "var(--seed-color-palette-gray-700)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      },
+      "errorContainer": {
+        "gap": "var(--seed-dimension-x1_5)"
       },
       "errorMessage": {
         "color": "var(--seed-color-fg-critical)",
-        "fontWeight": "var(--seed-font-weight-regular)"
-      },
-      "characterCount": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontWeight": "var(--seed-font-weight-regular)"
-      },
-      "maxCharacterCount": {
-        "color": "var(--seed-color-fg-neutral-subtle)",
-        "fontWeight": "var(--seed-font-weight-regular)"
-      }
-    }
-  },
-  "sizeXlarge": {
-    "enabled": {
-      "header": {
-        "paddingBottom": "var(--seed-dimension-x3)",
-        "gap": "var(--seed-dimension-x1_5)"
-      },
-      "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "indicator": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "footer": {
-        "gap": "var(--seed-dimension-x3_5)",
-        "paddingTop": "var(--seed-dimension-x2)",
-        "minHeight": "20px"
-      },
-      "description": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "errorMessage": {
+        "fontWeight": "var(--seed-font-weight-regular)",
         "fontSize": "var(--seed-font-size-t4)",
         "lineHeight": "var(--seed-line-height-t4)"
       },
       "errorIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "marginRight": "var(--seed-dimension-x1)"
+        "color": "var(--seed-color-fg-critical)",
+        "size": "var(--seed-dimension-x4)"
       },
       "characterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "color": "var(--seed-color-palette-gray-700)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
       },
       "maxCharacterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "color": "var(--seed-color-palette-gray-600)",
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "fontSize": "var(--seed-font-size-t4)",
+        "lineHeight": "var(--seed-line-height-t4)"
+      }
+    },
+    "invalid": {
+      "characterCount": {
+        "color": "var(--seed-color-fg-critical)"
+      },
+      "maxCharacterCount": {
+        "color": "var(--seed-color-fg-critical)"
       }
     }
   },
-  "sizeLarge": {
+  "weightMedium": {
     "enabled": {
-      "header": {
-        "paddingBottom": "var(--seed-dimension-x3)",
-        "gap": "var(--seed-dimension-x1_5)"
-      },
       "label": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "indicator": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "footer": {
-        "gap": "var(--seed-dimension-x3_5)",
-        "paddingTop": "var(--seed-dimension-x2)",
-        "minHeight": "20px"
-      },
-      "description": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "errorMessage": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "errorIcon": {
-        "size": "var(--seed-dimension-x4)",
-        "marginRight": "var(--seed-dimension-x1)"
-      },
-      "characterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
-      },
-      "maxCharacterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "fontWeight": "var(--seed-font-weight-medium)"
       }
     }
   },
-  "sizeMedium": {
+  "weightBold": {
     "enabled": {
-      "header": {
-        "paddingBottom": "var(--seed-dimension-x3)",
-        "gap": "var(--seed-dimension-x1)"
-      },
       "label": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "indicator": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "footer": {
-        "gap": "var(--seed-dimension-x3_5)",
-        "paddingTop": "var(--seed-dimension-x2)",
-        "minHeight": "var(--seed-dimension-x4)"
-      },
-      "description": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
-      },
-      "errorMessage": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
-      },
-      "errorIcon": {
-        "size": "var(--seed-dimension-x3_5)",
-        "marginRight": "var(--seed-dimension-x1)"
-      },
-      "characterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
-      },
-      "maxCharacterCount": {
-        "fontSize": "var(--seed-font-size-t2)",
-        "lineHeight": "var(--seed-line-height-t2)"
+        "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
   }

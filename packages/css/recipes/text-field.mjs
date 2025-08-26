@@ -28,19 +28,11 @@ const textFieldSlotNames = [
   ]
 ];
 
-const defaultVariant = {
-  "size": "medium"
-};
+const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const textFieldVariantMap = {
-  "size": [
-    "xlarge",
-    "large",
-    "medium"
-  ]
-};
+export const textFieldVariantMap = {};
 
 export const textFieldVariantKeys = Object.keys(textFieldVariantMap);
 

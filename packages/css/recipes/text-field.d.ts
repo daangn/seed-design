@@ -1,8 +1,5 @@
 declare interface TextFieldVariant {
-  /**
-  * @default medium
-  */
-  size: "xlarge" | "large" | "medium";
+  
 }
 
 declare type TextFieldVariantMap = {

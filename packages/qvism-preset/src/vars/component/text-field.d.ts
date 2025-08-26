@@ -2,49 +2,65 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "minHeight": "52px",
+        "cornerRadius": "var(--seed-radius-r3)",
+        "gap": "var(--seed-dimension-x2_5)",
+        "paddingX": "var(--seed-dimension-x4)",
+        "paddingY": "var(--seed-dimension-x2_5)",
+        "color": "var(--seed-color-bg-layer-fill)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-field)"
+        "strokeColor": "var(--seed-color-stroke-neutral)"
       },
       "value": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
         "color": "var(--seed-color-fg-neutral)"
       },
       "placeholder": {
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
         "color": "var(--seed-color-fg-placeholder)"
       },
       "prefixText": {
-        "color": "var(--seed-color-fg-neutral)"
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "size": "var(--seed-dimension-x5)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       },
       "suffixText": {
-        "color": "var(--seed-color-fg-neutral)"
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "size": "var(--seed-dimension-x5)",
+        "color": "var(--seed-color-fg-neutral-muted)"
       }
     },
     "focused": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-field-focused)"
+        "color": "var(--seed-color-bg-layer-default)",
+        "strokeWidth": "2px",
+        "strokeColor": "var(--seed-color-fg-neutral)"
       }
     },
     "invalid": {
       "root": {
-        "color": "var(--seed-color-bg-critical-weak)",
-        "strokeColor": "var(--seed-color-stroke-critical)"
+        "strokeWidth": "2px",
+        "strokeColor": "var(--seed-color-fg-critical)"
       }
     },
     "invalidFocused": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-field)"
+        "strokeColor": "var(--seed-color-fg-critical)"
       }
     },
     "readonly": {
       "root": {
-        "color": "var(--seed-color-bg-disabled)"
+        "strokeColor": "var(--seed-color-stroke-neutral)"
       }
     },
     "disabled": {
@@ -56,105 +72,6 @@ export declare const vars: {
       },
       "placeholder": {
         "color": "var(--seed-color-fg-disabled)"
-      },
-      "prefixText": {
-        "color": "var(--seed-color-fg-disabled)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
-      },
-      "suffixText": {
-        "color": "var(--seed-color-fg-disabled)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-disabled)"
-      }
-    }
-  },
-  "sizeXlarge": {
-    "enabled": {
-      "root": {
-        "minHeight": "56px",
-        "cornerRadius": "var(--seed-radius-r2_5)",
-        "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x3)"
-      },
-      "value": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
-      },
-      "prefixText": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
-      },
-      "prefixIcon": {
-        "size": "var(--seed-dimension-x5)"
-      },
-      "suffixText": {
-        "fontSize": "var(--seed-font-size-t6)",
-        "lineHeight": "var(--seed-line-height-t6)"
-      },
-      "suffixIcon": {
-        "size": "var(--seed-dimension-x5)"
-      }
-    }
-  },
-  "sizeLarge": {
-    "enabled": {
-      "root": {
-        "minHeight": "52px",
-        "cornerRadius": "var(--seed-radius-r2_5)",
-        "gap": "var(--seed-dimension-x2)",
-        "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x3)"
-      },
-      "value": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "prefixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "prefixIcon": {
-        "size": "var(--seed-dimension-x5)"
-      },
-      "suffixText": {
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
-      "suffixIcon": {
-        "size": "var(--seed-dimension-x5)"
-      }
-    }
-  },
-  "sizeMedium": {
-    "enabled": {
-      "root": {
-        "minHeight": "40px",
-        "cornerRadius": "var(--seed-radius-r2)",
-        "gap": "var(--seed-dimension-x1_5)",
-        "paddingX": "var(--seed-dimension-x3_5)",
-        "paddingY": "var(--seed-dimension-x2_5)"
-      },
-      "value": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "prefixText": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "prefixIcon": {
-        "size": "var(--seed-dimension-x4)"
-      },
-      "suffixText": {
-        "fontSize": "var(--seed-font-size-t4)",
-        "lineHeight": "var(--seed-line-height-t4)"
-      },
-      "suffixIcon": {
-        "size": "var(--seed-dimension-x4)"
       }
     }
   }

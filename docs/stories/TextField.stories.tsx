@@ -64,6 +64,7 @@ const CommonStoryTemplate: Story = {
       "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
     errorMessage:
       "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
+    maxGraphemeCount: 100,
     children: <TextFieldInput placeholder="Placeholder" />,
   },
   render: (args) => (

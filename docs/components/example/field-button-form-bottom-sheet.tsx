@@ -37,7 +37,7 @@ export default function FieldButtonFormBottomSheet() {
   const handleNameClick = () => {
     const inputName = window.prompt("상품명을 입력해주세요");
 
-    if (inputName === "" || inputName === null) return;
+    if (inputName === null) return;
 
     updateFormData("name")(inputName);
   };

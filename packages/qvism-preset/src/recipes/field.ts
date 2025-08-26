@@ -1,6 +1,6 @@
 import { field as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo } from "../utils/pseudo";
+import { invalid, not, pseudo } from "../utils/pseudo";
 
 const field = defineSlotRecipe({
   name: "field",
@@ -8,9 +8,10 @@ const field = defineSlotRecipe({
     "root",
     "header",
     "label",
-    "indicator",
+    "requiredIndicator",
     "footer",
     "description",
+    "errorContainer",
     "errorMessage",
     "errorIcon",
     "characterCountArea",
@@ -24,179 +25,99 @@ const field = defineSlotRecipe({
 
       width: "100%",
     },
-    header: {},
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+
+      paddingInline: vars.base.enabled.header.paddingX,
+      gap: vars.base.enabled.header.gap,
+    },
     label: {
+      display: "flex",
+      gap: vars.base.enabled.labelContainer.gap,
+
       color: vars.base.enabled.label.color,
-      fontWeight: vars.base.enabled.label.fontWeight,
+      fontSize: vars.base.enabled.label.fontSize,
+      lineHeight: vars.base.enabled.label.lineHeight,
     },
     indicator: {
       color: vars.base.enabled.indicator.color,
+      fontSize: vars.base.enabled.indicator.fontSize,
+      lineHeight: vars.base.enabled.indicator.lineHeight,
       fontWeight: vars.base.enabled.indicator.fontWeight,
     },
     footer: {
       display: "flex",
-      alignItems: "flex-start",
       justifyContent: "space-between",
-    },
-    description: {
-      fontWeight: vars.base.enabled.description.fontWeight,
-      color: vars.base.enabled.description.color,
-    },
-    errorMessage: {
-      display: "flex",
-      flexDirection: "row",
       alignItems: "flex-start",
 
+      paddingInline: vars.base.enabled.footer.paddingX,
+      gap: vars.base.enabled.footer.gap,
+    },
+    description: {
+      color: vars.base.enabled.description.color,
+      fontWeight: vars.base.enabled.description.fontWeight,
+      fontSize: vars.base.enabled.description.fontSize,
+      lineHeight: vars.base.enabled.description.lineHeight,
+    },
+    errorContainer: {
+      display: "flex",
+      gap: vars.base.enabled.errorContainer.gap,
+      alignItems: "center",
+    },
+    errorMessage: {
       color: vars.base.enabled.errorMessage.color,
+      fontWeight: vars.base.enabled.errorMessage.fontWeight,
+      fontSize: vars.base.enabled.errorMessage.fontSize,
+      lineHeight: vars.base.enabled.errorMessage.lineHeight,
     },
     errorIcon: {
+      color: vars.base.enabled.errorIcon.color,
+
       flex: "none",
-      flexShrink: 0,
-    },
-    characterCountArea: {
-      display: "flex",
-      flex: "none",
-      marginInlineStart: "auto",
+      width: vars.base.enabled.errorIcon.size,
+      height: vars.base.enabled.errorIcon.size,
     },
     characterCount: {
       color: vars.base.enabled.characterCount.color,
       fontWeight: vars.base.enabled.characterCount.fontWeight,
+      fontSize: vars.base.enabled.characterCount.fontSize,
+      lineHeight: vars.base.enabled.characterCount.lineHeight,
 
-      [pseudo("[data-empty]")]: {
+      [pseudo("[data-empty]", not(invalid))]: {
+        // rootage에 스펙 없는 문제 + 스펙인지부터 논의 필요해 보임
         color: vars.base.enabled.maxCharacterCount.color,
+      },
+
+      [pseudo(invalid)]: {
+        color: vars.base.invalid.characterCount.color,
       },
     },
     maxCharacterCount: {
       color: vars.base.enabled.maxCharacterCount.color,
       fontWeight: vars.base.enabled.maxCharacterCount.fontWeight,
+      fontSize: vars.base.enabled.maxCharacterCount.fontSize,
+      lineHeight: vars.base.enabled.maxCharacterCount.lineHeight,
+
+      [pseudo(invalid)]: {
+        color: vars.base.invalid.maxCharacterCount.color,
+      },
     },
   },
   defaultVariants: {
-    size: "medium",
+    weight: "medium",
   },
   variants: {
-    size: {
-      xlarge: {
-        header: {
-          paddingBottom: vars.sizeXlarge.enabled.header.paddingBottom,
-        },
-        label: {
-          fontSize: vars.sizeXlarge.enabled.label.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.label.lineHeight,
-        },
-        indicator: {
-          fontSize: vars.sizeXlarge.enabled.indicator.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.indicator.lineHeight,
-
-          marginLeft: vars.sizeXlarge.enabled.header.gap,
-        },
-        footer: {
-          gap: vars.sizeXlarge.enabled.footer.gap,
-          paddingTop: vars.sizeXlarge.enabled.footer.paddingTop,
-          minHeight: vars.sizeXlarge.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeXlarge.enabled.description.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeXlarge.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeXlarge.enabled.errorIcon.size,
-          height: vars.sizeXlarge.enabled.errorIcon.size,
-          marginRight: vars.sizeXlarge.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeXlarge.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeXlarge.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.maxCharacterCount.lineHeight,
-        },
-      },
-      large: {
-        header: {
-          paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
-        },
-        label: {
-          fontSize: vars.sizeLarge.enabled.label.fontSize,
-          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
-        },
-        indicator: {
-          fontSize: vars.sizeLarge.enabled.indicator.fontSize,
-          lineHeight: vars.sizeLarge.enabled.indicator.lineHeight,
-
-          marginLeft: vars.sizeLarge.enabled.header.gap,
-        },
-        footer: {
-          gap: vars.sizeLarge.enabled.footer.gap,
-          paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
-          minHeight: vars.sizeLarge.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeLarge.enabled.description.fontSize,
-          lineHeight: vars.sizeLarge.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeLarge.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeLarge.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeLarge.enabled.errorIcon.size,
-          height: vars.sizeLarge.enabled.errorIcon.size,
-          marginRight: vars.sizeLarge.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeLarge.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeLarge.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeLarge.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeLarge.enabled.maxCharacterCount.lineHeight,
-        },
-      },
+    weight: {
       medium: {
-        header: {
-          paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
-        },
         label: {
-          fontSize: vars.sizeMedium.enabled.label.fontSize,
-          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
+          fontWeight: vars.weightMedium.enabled.label.fontWeight,
         },
-        indicator: {
-          fontSize: vars.sizeMedium.enabled.indicator.fontSize,
-          lineHeight: vars.sizeMedium.enabled.indicator.lineHeight,
-
-          marginLeft: vars.sizeMedium.enabled.header.gap,
-        },
-        footer: {
-          gap: vars.sizeMedium.enabled.footer.gap,
-          paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
-          minHeight: vars.sizeMedium.enabled.footer.minHeight,
-        },
-        description: {
-          fontSize: vars.sizeMedium.enabled.description.fontSize,
-          lineHeight: vars.sizeMedium.enabled.description.lineHeight,
-        },
-        errorMessage: {
-          fontSize: vars.sizeMedium.enabled.errorMessage.fontSize,
-          lineHeight: vars.sizeMedium.enabled.errorMessage.lineHeight,
-        },
-        errorIcon: {
-          width: vars.sizeMedium.enabled.errorIcon.size,
-          height: vars.sizeMedium.enabled.errorIcon.size,
-          marginRight: vars.sizeMedium.enabled.errorIcon.marginRight,
-        },
-        characterCount: {
-          fontSize: vars.sizeMedium.enabled.characterCount.fontSize,
-          lineHeight: vars.sizeMedium.enabled.characterCount.lineHeight,
-        },
-        maxCharacterCount: {
-          fontSize: vars.sizeMedium.enabled.maxCharacterCount.fontSize,
-          lineHeight: vars.sizeMedium.enabled.maxCharacterCount.lineHeight,
+      },
+      bold: {
+        label: {
+          fontWeight: vars.weightBold.enabled.label.fontWeight,
         },
       },
     },

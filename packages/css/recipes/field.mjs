@@ -15,8 +15,8 @@ const fieldSlotNames = [
     "seed-field__label"
   ],
   [
-    "indicator",
-    "seed-field__indicator"
+    "requiredIndicator",
+    "seed-field__requiredIndicator"
   ],
   [
     "footer",
@@ -25,6 +25,10 @@ const fieldSlotNames = [
   [
     "description",
     "seed-field__description"
+  ],
+  [
+    "errorContainer",
+    "seed-field__errorContainer"
   ],
   [
     "errorMessage",
@@ -49,16 +53,15 @@ const fieldSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "medium"
+  "weight": "medium"
 };
 
 const compoundVariants = [];
 
 export const fieldVariantMap = {
-  "size": [
-    "xlarge",
-    "large",
-    "medium"
+  "weight": [
+    "medium",
+    "bold"
   ]
 };
 

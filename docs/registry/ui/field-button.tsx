@@ -105,10 +105,10 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
               </SeedFieldButton.Description>
             )}
             {renderErrorMessage && (
-              <SeedFieldButton.ErrorMessage>
+              <>
                 <SeedFieldButton.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
-                {errorMessage}
-              </SeedFieldButton.ErrorMessage>
+                <SeedFieldButton.ErrorMessage>{errorMessage}</SeedFieldButton.ErrorMessage>
+              </>
             )}
           </SeedFieldButton.Footer>
         )}

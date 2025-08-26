@@ -12,37 +12,53 @@ const textField = defineSlotRecipe({
 
       alignItems: "center",
 
+      minHeight: vars.base.enabled.root.minHeight,
+      borderRadius: vars.base.enabled.root.cornerRadius,
+      gap: vars.base.enabled.root.gap,
+
       backgroundColor: vars.base.enabled.root.color,
-      borderStyle: "solid",
-      borderWidth: vars.base.enabled.root.strokeWidth,
-      borderColor: vars.base.enabled.root.strokeColor,
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
       overflow: "hidden",
 
       [pseudo(not(readOnly), focus)]: {
-        borderColor: vars.base.focused.root.strokeColor,
+        backgroundColor: vars.base.focused.root.color,
+        boxShadow: `inset 0 0 0 ${vars.base.focused.root.strokeWidth} ${vars.base.focused.root.strokeColor}`,
       },
 
       [pseudo(invalid)]: {
-        backgroundColor: vars.base.invalid.root.color,
-        borderColor: vars.base.invalid.root.strokeColor,
+        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
       },
 
       [pseudo(invalid, focus)]: {
-        backgroundColor: vars.base.invalidFocused.root.color,
+        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalidFocused.root.strokeColor}`,
       },
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.root.color,
       },
 
-      [pseudo(readOnly)]: {
-        backgroundColor: vars.base.readonly.root.color,
-      },
+      // [pseudo(readOnly)]: {
+      //   backgroundColor: vars.base.readonly.root.color,
+      // },
     },
     value: {
       boxSizing: "border-box",
       font: "inherit",
+
+      // We intentionally apply root's paddingY to value for input touch area.
+      paddingBlock: vars.base.enabled.root.paddingY,
+
+      [pseudo(":first-child")]: {
+        paddingInlineStart: vars.base.enabled.root.paddingX,
+      },
+
+      [pseudo(":last-child")]: {
+        paddingInlineEnd: vars.base.enabled.root.paddingX,
+      },
+
+      fontSize: vars.base.enabled.value.fontSize,
+      lineHeight: vars.base.enabled.value.lineHeight,
 
       [pseudo(":is(input)")]: {
         paddingInline: 0,
@@ -78,203 +94,48 @@ const textField = defineSlotRecipe({
     prefixText: {
       color: vars.base.enabled.prefixText.color,
 
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixText.color,
+      fontSize: vars.base.enabled.prefixText.fontSize,
+      lineHeight: vars.base.enabled.prefixText.lineHeight,
+
+      [pseudo(":first-child")]: {
+        marginInlineStart: vars.base.enabled.root.paddingX,
       },
     },
     prefixIcon: {
       color: vars.base.enabled.prefixIcon.color,
       flexShrink: 0,
 
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.prefixIcon.color,
+      width: vars.base.enabled.prefixIcon.size,
+      height: vars.base.enabled.prefixIcon.size,
+
+      [pseudo(":first-child")]: {
+        marginInlineStart: vars.base.enabled.root.paddingX,
       },
     },
     suffixText: {
       color: vars.base.enabled.suffixText.color,
 
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixText.color,
+      fontSize: vars.base.enabled.suffixText.fontSize,
+      lineHeight: vars.base.enabled.suffixText.lineHeight,
+
+      [pseudo(":last-child")]: {
+        marginInlineEnd: vars.base.enabled.root.paddingX,
       },
     },
     suffixIcon: {
       color: vars.base.enabled.suffixIcon.color,
       flexShrink: 0,
 
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.suffixIcon.color,
+      width: vars.base.enabled.suffixIcon.size,
+      height: vars.base.enabled.suffixIcon.size,
+
+      [pseudo(":last-child")]: {
+        marginInlineEnd: vars.base.enabled.root.paddingX,
       },
     },
   },
-  defaultVariants: {
-    size: "medium",
-  },
-  variants: {
-    size: {
-      xlarge: {
-        root: {
-          minHeight: vars.sizeXlarge.enabled.root.minHeight,
-          borderRadius: vars.sizeXlarge.enabled.root.cornerRadius,
-          gap: vars.sizeXlarge.enabled.root.gap,
-        },
-        value: {
-          // We intentionally apply root's paddingY to value for input touch area.
-          paddingBlock: vars.sizeXlarge.enabled.root.paddingY,
-
-          [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeXlarge.enabled.root.paddingX,
-          },
-
-          [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
-          },
-
-          fontSize: vars.sizeXlarge.enabled.value.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.value.lineHeight,
-        },
-        prefixText: {
-          fontSize: vars.sizeXlarge.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.prefixText.lineHeight,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeXlarge.enabled.root.paddingX,
-          },
-        },
-        prefixIcon: {
-          width: vars.sizeXlarge.enabled.prefixIcon.size,
-          height: vars.sizeXlarge.enabled.prefixIcon.size,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeXlarge.enabled.root.paddingX,
-          },
-        },
-        suffixText: {
-          fontSize: vars.sizeXlarge.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeXlarge.enabled.suffixText.lineHeight,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
-          },
-        },
-        suffixIcon: {
-          width: vars.sizeXlarge.enabled.suffixIcon.size,
-          height: vars.sizeXlarge.enabled.suffixIcon.size,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeXlarge.enabled.root.paddingX,
-          },
-        },
-      },
-      large: {
-        root: {
-          minHeight: vars.sizeLarge.enabled.root.minHeight,
-          borderRadius: vars.sizeLarge.enabled.root.cornerRadius,
-          gap: vars.sizeLarge.enabled.root.gap,
-        },
-        value: {
-          // We intentionally apply root's paddingY to value for input touch area.
-          paddingBlock: vars.sizeLarge.enabled.root.paddingY,
-
-          [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeLarge.enabled.root.paddingX,
-          },
-
-          [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeLarge.enabled.root.paddingX,
-          },
-
-          fontSize: vars.sizeLarge.enabled.value.fontSize,
-          lineHeight: vars.sizeLarge.enabled.value.lineHeight,
-        },
-        prefixText: {
-          fontSize: vars.sizeLarge.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.prefixText.lineHeight,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeLarge.enabled.root.paddingX,
-          },
-        },
-        prefixIcon: {
-          width: vars.sizeLarge.enabled.prefixIcon.size,
-          height: vars.sizeLarge.enabled.prefixIcon.size,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeLarge.enabled.root.paddingX,
-          },
-        },
-        suffixText: {
-          fontSize: vars.sizeLarge.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeLarge.enabled.suffixText.lineHeight,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeLarge.enabled.root.paddingX,
-          },
-        },
-        suffixIcon: {
-          width: vars.sizeLarge.enabled.suffixIcon.size,
-          height: vars.sizeLarge.enabled.suffixIcon.size,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeLarge.enabled.root.paddingX,
-          },
-        },
-      },
-      medium: {
-        root: {
-          minHeight: vars.sizeMedium.enabled.root.minHeight,
-          borderRadius: vars.sizeMedium.enabled.root.cornerRadius,
-          gap: vars.sizeMedium.enabled.root.gap,
-        },
-        value: {
-          // We intentionally apply root's paddingY to value for input touch area.
-          paddingBlock: vars.sizeMedium.enabled.root.paddingY,
-
-          [pseudo(":first-child")]: {
-            paddingInlineStart: vars.sizeMedium.enabled.root.paddingX,
-          },
-
-          [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.sizeMedium.enabled.root.paddingX,
-          },
-
-          fontSize: vars.sizeMedium.enabled.value.fontSize,
-          lineHeight: vars.sizeMedium.enabled.value.lineHeight,
-        },
-        prefixText: {
-          fontSize: vars.sizeMedium.enabled.prefixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.prefixText.lineHeight,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeMedium.enabled.root.paddingX,
-          },
-        },
-        prefixIcon: {
-          width: vars.sizeMedium.enabled.prefixIcon.size,
-          height: vars.sizeMedium.enabled.prefixIcon.size,
-
-          [pseudo(":first-child")]: {
-            marginInlineStart: vars.sizeMedium.enabled.root.paddingX,
-          },
-        },
-        suffixText: {
-          fontSize: vars.sizeMedium.enabled.suffixText.fontSize,
-          lineHeight: vars.sizeMedium.enabled.suffixText.lineHeight,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeMedium.enabled.root.paddingX,
-          },
-        },
-        suffixIcon: {
-          width: vars.sizeMedium.enabled.suffixIcon.size,
-          height: vars.sizeMedium.enabled.suffixIcon.size,
-
-          [pseudo(":last-child")]: {
-            marginInlineEnd: vars.sizeMedium.enabled.root.paddingX,
-          },
-        },
-      },
-    },
-  },
+  defaultVariants: {},
+  variants: {},
 });
 
 export default textField;

@@ -1,6 +1,5 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { Field, useFieldContext } from "@seed-design/react-field";
-import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
@@ -26,32 +25,25 @@ export const FieldHeader = withContext<HTMLDivElement, FieldHeaderProps>(
   "header",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface FieldLabelProps extends Field.LabelProps {}
 
 export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(Field.Label, "label");
 
-////////////////////////////////////////////////////////////////////////////////////
+export interface FieldRequiredIndicatorProps extends InternalIconProps {}
 
-export interface FieldIndicatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const FieldIndicator = withContext<HTMLSpanElement, FieldIndicatorProps>(
-  withStateProps(Primitive.span),
-  "indicator",
+export const FieldRequiredIndicator = withContext<SVGSVGElement, FieldRequiredIndicatorProps>(
+  withStateProps(InternalIcon),
+  "requiredIndicator",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
+
 export interface FieldFooterProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldFooter = withContext<HTMLDivElement, FieldFooterProps>(
   withStateProps(Primitive.div),
   "footer",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldDescriptionProps extends Field.DescriptionProps {}
 
@@ -60,7 +52,14 @@ export const FieldDescription = withContext<HTMLSpanElement, FieldDescriptionPro
   "description",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
+export interface FieldErrorContainerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const FieldErrorContainer = withContext<HTMLDivElement, FieldErrorContainerProps>(
+  withStateProps(Primitive.div),
+  "errorContainer",
+);
 
 export interface FieldErrorMessageProps extends Field.ErrorMessageProps {}
 
@@ -68,8 +67,6 @@ export const FieldErrorMessage = withContext<HTMLSpanElement, FieldErrorMessageP
   Field.ErrorMessage,
   "errorMessage",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldErrorIconProps extends InternalIconProps {}
 
@@ -94,23 +91,23 @@ export interface FieldCharacterCountProps
 }
 
 export const FieldCharacterCount = forwardRef<HTMLDivElement, FieldCharacterCountProps>(
-  ({ current, max, className, ...otherProps }, ref) => {
+  ({ current, max, ...otherProps }, ref) => {
     const classNames = useClassNames();
+    const { stateProps } = useFieldContext();
 
     return (
-      <Primitive.div
-        ref={ref}
-        className={clsx(classNames.characterCountArea, className)}
-        {...otherProps}
-      >
+      <Primitive.div ref={ref} {...otherProps}>
         <span
           {...(current === 0 ? { "data-empty": true } : {})}
           {...(current > max ? { "data-exceeded": true } : {})}
-          className={clsx(classNames.characterCount)}
+          className={classNames.characterCount}
+          {...stateProps}
         >
           {current}
         </span>
-        <span className={clsx(classNames.maxCharacterCount)}>/{max}</span>
+        <span className={classNames.maxCharacterCount} {...stateProps}>
+          /{max}
+        </span>
       </Primitive.div>
     );
   },

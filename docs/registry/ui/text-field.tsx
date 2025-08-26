@@ -66,11 +66,11 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       maxGraphemeCount,
     });
 
+    const renderHeader = label || indicator;
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
     const renderGraphemeCount = !hideGraphemeCount && maxGraphemeCount !== undefined;
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
-    const renderHeader = label || indicator;
 
     if (
       !label &&
@@ -87,7 +87,6 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
 
     return (
       <SeedField.Root
-        size={otherProps.size}
         required={required}
         disabled={disabled}
         invalid={invalid}
@@ -97,8 +96,11 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       >
         {renderHeader && (
           <SeedField.Header>
-            {label && <SeedField.Label>{label}</SeedField.Label>}
-            {indicator && <SeedField.Indicator>{indicator}</SeedField.Indicator>}
+            <SeedField.Label>
+              {label}
+              {indicator}
+            </SeedField.Label>
+            {/* You might want to put your custom element here */}
           </SeedField.Header>
         )}
         <SeedTextField.Root {...otherProps} {...textFieldRootProps}>
@@ -116,10 +118,10 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
               </SeedField.Description>
             )}
             {renderErrorMessage && (
-              <SeedField.ErrorMessage>
+              <SeedField.ErrorContainer>
                 <SeedField.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
-                {errorMessage}
-              </SeedField.ErrorMessage>
+                <SeedField.ErrorMessage>{errorMessage}</SeedField.ErrorMessage>
+              </SeedField.ErrorContainer>
             )}
             {renderGraphemeCount && <SeedField.CharacterCount {...counterProps} />}
           </SeedField.Footer>

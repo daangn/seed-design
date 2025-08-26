@@ -8,12 +8,6 @@ data:
     slots:
       root:
         properties:
-          color:
-            type: color
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
           minHeight:
             type: dimension
           cornerRadius:
@@ -24,79 +18,112 @@ data:
             type: dimension
           paddingY:
             type: dimension
-      value:
-        properties:
           color:
             type: color
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+      value:
+        properties:
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          color:
+            type: color
       placeholder:
         properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
           color:
             type: color
       prefixText:
         properties:
-          color:
-            type: color
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          color:
+            type: color
       prefixIcon:
         properties:
-          color:
-            type: color
           size:
             type: dimension
-      suffixText:
-        properties:
           color:
             type: color
+      suffixText:
+        properties:
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
-      suffixIcon:
-        properties:
           color:
             type: color
+      suffixIcon:
+        properties:
           size:
             type: dimension
+          color:
+            type: color
   definitions:
     base:
       enabled:
         root:
-          color: $color.bg.layer-default
+          minHeight: 52px
+          cornerRadius: $radius.r3
+          gap: $dimension.x2_5
+          paddingX: $dimension.x4
+          paddingY: $dimension.x2_5
+
+          color: $color.bg.layer-fill
           strokeWidth: 1px
-          strokeColor: $color.stroke.field
+          strokeColor: $color.stroke.neutral
         value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+
           color: $color.fg.neutral
         placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+
           color: $color.fg.placeholder
-        prefixText:
-          color: $color.fg.neutral
+        prefixText: # TODO: 확인
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+
+          color: $color.fg.neutral-muted
         prefixIcon:
-          color: $color.fg.neutral
-        suffixText:
-          color: $color.fg.neutral
+          size: $dimension.x5
+
+          color: $color.fg.neutral-muted
+        suffixText: # TODO: 확인
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+
+          color: $color.fg.neutral-muted
         suffixIcon:
-          color: $color.fg.neutral
+          size: $dimension.x5
+
+          color: $color.fg.neutral-muted
       focused:
         root:
-          strokeColor: $color.stroke.field-focused
+          color: $color.bg.layer-default # TODO: 확인 필요
+          strokeWidth: 2px
+          strokeColor: $color.fg.neutral # TODO: field-focused?
       invalid:
         root:
-          color: $color.bg.critical-weak
-          strokeColor: $color.stroke.critical
+          strokeWidth: 2px
+          strokeColor: $color.fg.critical
       invalid,focused:
         root:
-          color: $color.bg.layer-default
-          strokeColor: $color.stroke.field
-      readonly:
+          strokeColor: $color.fg.critical # being obvious
+      readonly: # 전반적으로 확인
         root:
-          color: $color.bg.disabled
+          strokeColor: $color.stroke.neutral
       disabled:
         root:
           color: $color.bg.disabled
@@ -104,77 +131,3 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
-        prefixText:
-          color: $color.fg.disabled
-        prefixIcon:
-          color: $color.fg.disabled
-        suffixText:
-          color: $color.fg.disabled
-        suffixIcon:
-          color: $color.fg.disabled
-
-    size=xlarge:
-      enabled:
-        root:
-          minHeight: 56px
-          cornerRadius: $radius.r2_5
-          gap: $dimension.x2
-          paddingX: $dimension.x4
-          paddingY: $dimension.x3
-        value:
-          fontSize: $font-size.t6
-          lineHeight: $line-height.t6
-        prefixText:
-          fontSize: $font-size.t6
-          lineHeight: $line-height.t6
-        prefixIcon:
-          size: $dimension.x5
-        suffixText:
-          fontSize: $font-size.t6
-          lineHeight: $line-height.t6
-        suffixIcon:
-          size: $dimension.x5
-
-    size=large:
-      enabled:
-        root:
-          minHeight: 52px
-          cornerRadius: $radius.r2_5
-          gap: $dimension.x2
-          paddingX: $dimension.x4
-          paddingY: $dimension.x3
-        value:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        prefixText:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        prefixIcon:
-          size: $dimension.x5
-        suffixText:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-        suffixIcon:
-          size: $dimension.x5
-
-    size=medium:
-      enabled:
-        root:
-          minHeight: 40px
-          cornerRadius: $radius.r2
-          gap: $dimension.x1_5
-          paddingX: $dimension.x3_5
-          paddingY: $dimension.x2_5
-        value:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        prefixText:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        prefixIcon:
-          size: $dimension.x4
-        suffixText:
-          fontSize: $font-size.t4
-          lineHeight: $line-height.t4
-        suffixIcon:
-          size: $dimension.x4
