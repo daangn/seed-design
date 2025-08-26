@@ -45,7 +45,8 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>((props, ref
       role={role}
       // if hr, aria-orientation=horizontal is implied if not specified
       // if not hr, aria-orientation is needed
-      {...(((as === "hr" && orientation !== "horizontal") || as !== "hr") && {
+      {...(((as === "hr" && orientation !== "horizontal") ||
+        (as !== "hr" && role === "separator")) && {
         "aria-orientation": orientation,
       })}
       display="block"
