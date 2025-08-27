@@ -17,6 +17,7 @@ const listItem = defineSlotRecipe({
       position: "relative",
       display: "flex",
       width: "100%",
+      zIndex: 0,
 
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
@@ -72,12 +73,14 @@ const listItem = defineSlotRecipe({
       "--seed-box-padding-right": vars.base.enabled.content.paddingRight,
       paddingRight: "var(--seed-box-padding-right)",
 
+      // this ensures the touch size of the content to be the size of the root
       "&:after": {
         content: "''",
         position: "absolute",
         inset: 0,
       },
 
+      // this is for showing the active state
       [pseudo(":before")]: {
         content: "''",
         position: "absolute",
