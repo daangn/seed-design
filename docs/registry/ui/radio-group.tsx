@@ -21,26 +21,25 @@ export interface RadioGroupItemProps extends SeedRadioGroup.ItemProps {
 /**
  * @see https://seed-design.io/react/components/radio-group
  */
-export const RadioGroupItem = React.forwardRef<
-  HTMLInputElement,
-  RadioGroupItemProps
->(({ label, inputProps, rootRef, ...otherProps }, ref) => {
-  return (
-    <SeedRadioGroup.Item ref={rootRef} {...otherProps}>
-      <SeedRadioGroup.ItemControl>
-        <SeedRadioGroup.ItemIndicator
-          checked={
-            <svg aria-hidden viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="12" fill="currentColor" />
-            </svg>
-          }
-        />
-      </SeedRadioGroup.ItemControl>
-      {label && <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel>}
-      <SeedRadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
-    </SeedRadioGroup.Item>
-  );
-});
+export const RadioGroupItem = React.forwardRef<HTMLInputElement, RadioGroupItemProps>(
+  ({ label, inputProps, rootRef, ...otherProps }, ref) => {
+    return (
+      <SeedRadioGroup.Item ref={rootRef} {...otherProps}>
+        <SeedRadioGroup.ItemControl>
+          <SeedRadioGroup.ItemIndicator
+            checked={
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="currentColor" />
+              </svg>
+            }
+          />
+        </SeedRadioGroup.ItemControl>
+        {label && <SeedRadioGroup.ItemLabel>{label}</SeedRadioGroup.ItemLabel>}
+        <SeedRadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
+      </SeedRadioGroup.Item>
+    );
+  },
+);
 RadioGroupItem.displayName = "RadioGroupItem";
 
 export interface RadioMarkProps extends SeedRadioGroup.ItemControlProps {}
@@ -48,21 +47,19 @@ export interface RadioMarkProps extends SeedRadioGroup.ItemControlProps {}
 /**
  * @see https://seed-design.io/react/components/radio-group
  */
-export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>(
-  (props, ref) => {
-    return (
-      <SeedRadioGroup.ItemControl ref={ref} {...props}>
-        <SeedRadioGroup.ItemIndicator
-          checked={
-            <svg aria-hidden="true" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="12" fill="currentColor" />
-            </svg>
-          }
-        />
-      </SeedRadioGroup.ItemControl>
-    );
-  },
-);
+export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props, ref) => {
+  return (
+    <SeedRadioGroup.ItemControl ref={ref} {...props}>
+      <SeedRadioGroup.ItemIndicator
+        checked={
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="12" fill="currentColor" />
+          </svg>
+        }
+      />
+    </SeedRadioGroup.ItemControl>
+  );
+});
 RadioMark.displayName = "RadioMark";
 
 /**

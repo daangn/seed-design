@@ -4969,8 +4969,8 @@
 }
 
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-  background-color: none;
   border-color: var(--seed-color-palette-gray-300);
+  background: none;
 }
 
 .seed-radiomark__icon {

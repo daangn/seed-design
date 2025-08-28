@@ -27,7 +27,7 @@
     background-color: var(--seed-color-palette-gray-300);
 }
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
-    background-color: none;
+    background: none;
     border-color: var(--seed-color-palette-gray-300);
 }
 .seed-radiomark__icon {
