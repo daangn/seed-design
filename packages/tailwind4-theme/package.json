@@ -8,7 +8,7 @@
     "README.md"
   ],
   "scripts": {
-    "rootage:generate": "rootage tailwind4 ./"
+    "rootage:generate": "rootage tailwind4 ./ --prefix seed"
   },
   "exports": {
     ".": "./index.css"

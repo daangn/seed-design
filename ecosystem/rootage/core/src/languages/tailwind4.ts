@@ -1,6 +1,6 @@
 /**
  * Tailwind CSS 4.0 테마 변수 생성 모듈
- * @seed-design/tailwind4 패키지를 위한 @theme 변수 생성
+ * Tailwind 4.0 @theme 변수 생성
  */
 
 import type {
@@ -388,7 +388,7 @@ ${typographyStyles.join("\n")}
 }
 
 /**
- * Tailwind CSS 4.0에서 SEED 디자인 토큰을 사용하기 위한 @theme 코드를 생성
+ * Tailwind CSS 4.0에서 디자인 토큰을 사용하기 위한 @theme 코드를 생성
  * Tailwind 4.0은 @theme 디렉티브를 통해 테마 변수를 정의하고 유틸리티 클래스를 생성
  */
 export function getTailwind4CompleteThemeCode(
@@ -396,7 +396,7 @@ export function getTailwind4CompleteThemeCode(
   typographyTokens: ComponentSpecDeclaration[],
   options: ThemeGenerationOptions = {},
 ): string {
-  const { prefix = "", sourcePrefix = "seed" } = options;
+  const { prefix = "", sourcePrefix = "" } = options;
 
   // 토큰 처리
   const tokenProcessor = new TokenProcessor({ prefix, sourcePrefix });
