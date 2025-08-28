@@ -36,6 +36,7 @@ export const snackbar = defineSlotRecipe({
       alignItems: "center",
 
       width: "100%",
+      maxWidth: vars.base.enabled.root.maxWidth,
 
       background: vars.base.enabled.root.color,
       borderRadius: vars.base.enabled.root.cornerRadius,
