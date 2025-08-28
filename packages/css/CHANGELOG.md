@@ -1,5 +1,26 @@
 # @seed-design/css
 
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 5f2ee39: CSS 최적화 도구(e.g. cssnano)가 CSS variable로 정의된 longhand declaration을 병합하지 않도록 합니다. (workaround, [관련 issue](https://github.com/cssnano/cssnano/issues/1472))
+- 8299ba9: Snackbar 컴포넌트를 업데이트합니다.
+
+  - root 영역에 maxWidth 스펙을 추가합니다.
+  - `pauseOnInteraction`의 기본값을 `false`에서 `true`로 변경합니다.
+
+- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+  - global.ts에 폰트 스케일링 변수 통합
+
 ## 0.1.14
 
 ### Patch Changes

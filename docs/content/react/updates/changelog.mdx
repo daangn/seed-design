@@ -3,6 +3,41 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.08.28
+
+[`c51a261`](https://github.com/daangn/seed-design/commit/c51a261858087bc4a7a572af52bd0ebcacc69d49) font-size, line-height 토큰에 static variant를 추가합니다.
+
+- `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+- `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+[`5f2ee39`](https://github.com/daangn/seed-design/commit/5f2ee39374372be285e6679e3aa08b822b0ef938) CSS 최적화 도구(e.g. cssnano)가 CSS variable로 정의된 longhand declaration을 병합하지 않도록 합니다. (workaround, [관련 issue](https://github.com/cssnano/cssnano/issues/1472))
+
+[`8299ba9`](https://github.com/daangn/seed-design/commit/8299ba91f2f77ee3a226b8059d56a7c1c2317232) Snackbar 컴포넌트를 업데이트합니다.
+
+- root 영역에 maxWidth 스펙을 추가합니다.
+- `pauseOnInteraction`의 기본값을 `false`에서 `true`로 변경합니다.
+
+[`d497166`](https://github.com/daangn/seed-design/commit/d497166f648952a68bfef445a39f9822f2cfa44d) 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+- CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+- 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+- global.ts에 폰트 스케일링 변수 통합
+
+[`9a3c76a`](https://github.com/daangn/seed-design/commit/9a3c76a74eec244736f8bc7807d3629b4d5328c5) Divider 컴포넌트를 업데이트합니다.
+
+- `orientation`을 지정할 수 있습니다.
+- Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+- Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.15](https://npmjs.com/package/@seed-design/css/v/0.1.15)
+- [@seed-design/react@0.1.15](https://npmjs.com/package/@seed-design/react/v/0.1.15)
+- [@seed-design/react-snackbar@0.0.6](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.6)
+- [@seed-design/rootage-artifacts@0.0.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.6)
+- [@seed-design/tailwind3-plugin@0.1.15](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.15)
+- [@seed-design/tailwind4-theme@0.1.15](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.15)
+
 ## 2025.08.22
 
 [`f806356`](https://github.com/daangn/seed-design/commit/f806356f0ca5d419647c9672426e14ca3350f479) Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
