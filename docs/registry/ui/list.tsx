@@ -146,9 +146,9 @@ export type ListItemCheckboxProps = Omit<
  */
 export const ListItemCheckbox = React.forwardRef<HTMLInputElement, ListItemCheckboxProps>(
   ({ title, detail, position = "suffix", prefix, suffix, inputProps, rootRef, ...props }, ref) => {
-    const [variantProps] = listItem.splitVariantProps(props);
+    const [variantProps, __otherProps] = listItem.splitVariantProps(props);
     const [{ size = "large", ...otherCheckmarkVariantProps }, otherProps] =
-      checkmark.splitVariantProps(props);
+      checkmark.splitVariantProps(__otherProps);
 
     return (
       <SeedList.Item {...variantProps} asChild>
@@ -206,9 +206,9 @@ export type ListItemRadioProps = Omit<
  */
 export const ListItemRadio = React.forwardRef<HTMLInputElement, ListItemRadioProps>(
   ({ title, detail, position = "suffix", prefix, suffix, inputProps, rootRef, ...props }, ref) => {
-    const [variantProps] = listItem.splitVariantProps(props);
+    const [variantProps, __otherProps] = listItem.splitVariantProps(props);
     const [{ size = "large", ...otherRadiomarkVariantProps }, otherProps] =
-      radiomark.splitVariantProps(props);
+      radiomark.splitVariantProps(__otherProps);
 
     return (
       <SeedList.Item {...variantProps} asChild>
