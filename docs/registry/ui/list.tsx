@@ -5,6 +5,7 @@ import {
   Checkbox as SeedCheckbox,
   RadioGroup as SeedRadioGroup,
 } from "@seed-design/react";
+import { dataAttr } from "@seed-design/dom-utils";
 import { Checkmark } from "./checkbox";
 import { RadioMark } from "./radio-group";
 import * as React from "react";
@@ -18,7 +19,7 @@ export const List = SeedList.Root;
 
 export interface ListItemProps
   extends Omit<SeedList.ItemProps, "title" | "prefix" | "asChild" | "children"> {
-  title?: React.ReactNode;
+  title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
@@ -46,9 +47,11 @@ ListItem.displayName = "ListItem";
 type ListItemBaseProps = Omit<SeedList.ItemProps, keyof React.HTMLAttributes<HTMLDivElement>>;
 
 export interface ListItemButtonProps
-  extends ListItemBaseProps,
-    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "title" | "prefix" | "prefix" | "suffix"> {
-  title?: React.ReactNode;
+  extends Omit<
+    ListItemBaseProps & React.ButtonHTMLAttributes<HTMLButtonElement>,
+    "title" | "prefix" | "asChild" | "children"
+  > {
+  title: React.ReactNode;
   detail?: React.ReactNode;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
@@ -61,14 +64,53 @@ export interface ListItemButtonProps
  */
 export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButtonProps>(
   ({ title, detail, prefix, suffix, rootRef, ...otherProps }, ref) => {
+    const stateProps = React.useMemo(
+      () => ({ "data-disabled": dataAttr(otherProps.disabled) }),
+      [otherProps.disabled],
+    );
+
+    return (
+      <SeedList.Item ref={rootRef}>
+        {prefix && <SeedList.Prefix {...stateProps}>{prefix}</SeedList.Prefix>}
+        <SeedList.Content asChild>
+          <button type="button" ref={ref} {...otherProps}>
+            {title && <SeedList.Title {...stateProps}>{title}</SeedList.Title>}
+            {detail && <SeedList.Detail {...stateProps}>{detail}</SeedList.Detail>}
+          </button>
+        </SeedList.Content>
+        {suffix && <SeedList.Suffix {...stateProps}>{suffix}</SeedList.Suffix>}
+      </SeedList.Item>
+    );
+  },
+);
+ListItemButton.displayName = "ListItemButton";
+
+export interface ListItemAnchorProps
+  extends Omit<
+    ListItemBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    "title" | "prefix" | "asChild" | "children"
+  > {
+  title: React.ReactNode;
+  detail?: React.ReactNode;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+
+  rootRef?: React.Ref<HTMLDivElement>;
+}
+
+/**
+ * @see https://seed-design.io/react/components/list
+ */
+export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchorProps>(
+  ({ title, detail, prefix, suffix, rootRef, ...otherProps }, ref) => {
     return (
       <SeedList.Item ref={rootRef}>
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
-          <button type="button" ref={ref} {...otherProps}>
+          <a ref={ref} {...otherProps}>
             {title && <SeedList.Title>{title}</SeedList.Title>}
             {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
-          </button>
+          </a>
         </SeedList.Content>
         {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
       </SeedList.Item>
@@ -82,7 +124,7 @@ export type ListItemCheckboxProps = Omit<
   SeedCheckbox.RootProps,
   "title" | "prefix" | "asChild" | "children"
 > & {
-  title?: React.ReactNode;
+  title: React.ReactNode;
   detail?: React.ReactNode;
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -141,7 +183,7 @@ export type ListItemRadioProps = Omit<
   SeedRadioGroup.ItemProps,
   "title" | "prefix" | "asChild" | "children"
 > & {
-  title?: React.ReactNode;
+  title: React.ReactNode;
   detail?: React.ReactNode;
 
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;

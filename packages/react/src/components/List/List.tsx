@@ -6,8 +6,14 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { withStyleProps, type StyleProps } from "../../utils/styled";
 import { VStack, type VStackProps } from "../Stack";
+import { useCheckboxContext } from "@seed-design/react-checkbox";
+import { createWithStateProps } from "../../utils/createWithStateProps";
+import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
+const withStateProps = createWithStateProps([useCheckboxContext, useRadioGroupItemContext], {
+  strict: false,
+});
 
 export interface ListRootProps extends VStackProps {}
 
@@ -22,7 +28,7 @@ export interface ListItemProps
     ListItemVariantProps {}
 
 export const ListItem = withProvider<HTMLDivElement, ListItemProps>(
-  withStyleProps(Primitive.div),
+  withStateProps(withStyleProps(Primitive.div)),
   "root",
 );
 
@@ -32,7 +38,7 @@ export interface ListContentProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const ListContent = withContext<HTMLDivElement, ListContentProps>(
-  withStyleProps(Primitive.div),
+  withStateProps(withStyleProps(Primitive.div)),
   "content",
 );
 
@@ -42,7 +48,7 @@ export interface ListPrefixProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const ListPrefix = withContext<HTMLDivElement, ListPrefixProps>(
-  withStyleProps(Primitive.div),
+  withStateProps(withStyleProps(Primitive.div)),
   "prefix",
 );
 
@@ -52,14 +58,20 @@ export interface ListSuffixProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const ListSuffix = withContext<HTMLDivElement, ListSuffixProps>(
-  withStyleProps(Primitive.div),
+  withStateProps(withStyleProps(Primitive.div)),
   "suffix",
 );
 
-export interface ListTitleProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface ListTitleProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const ListTitle = withContext<HTMLSpanElement, ListTitleProps>(Primitive.span, "title");
+export const ListTitle = withContext<HTMLDivElement, ListTitleProps>(
+  withStateProps(Primitive.div),
+  "title",
+);
 
-export interface ListDetailProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface ListDetailProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const ListDetail = withContext<HTMLSpanElement, ListDetailProps>(Primitive.span, "detail");
+export const ListDetail = withContext<HTMLDivElement, ListDetailProps>(
+  withStateProps(Primitive.div),
+  "detail",
+);

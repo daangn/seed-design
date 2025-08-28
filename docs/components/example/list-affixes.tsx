@@ -1,6 +1,9 @@
 "use client";
 
-import { IconChevronRightLine } from "@karrotmarket/react-monochrome-icon";
+import {
+  IconArrowUpBracketDownLine,
+  IconILowercaseSerifCircleLine,
+} from "@karrotmarket/react-monochrome-icon";
 import { Divider, Icon } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -22,24 +25,34 @@ export default function ListAffixes() {
             fallback={<IdentityPlaceholder />}
           />
         }
-        title="사용자 이름"
-        detail="온라인 상태"
+        title="Prefix에 Avatar 넣기"
+        detail="Amet elit ullamco magna."
       />
       <Divider as="div" />
       <ListItem
-        prefix={<Avatar size="48" fallback={<IdentityPlaceholder />} />}
-        title="익명 사용자"
-        detail="오프라인"
+        title="Prefix에 아이콘 넣기"
+        detail="Deserunt nulla elit est."
+        prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
       />
       <Divider as="div" />
       <ListItem
-        title="ullamco"
+        title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
         suffix={<ActionButton size="xsmall">액션 버튼</ActionButton>}
       />
       <Divider as="div" />
       <ListItem
-        title="aliqua"
+        title="Suffix에 Action Button (Ghost) 넣기"
+        detail="Deserunt nulla elit est."
+        suffix={
+          <ActionButton size="small" variant="ghost" layout="iconOnly" aria-label="공유">
+            <Icon svg={<IconArrowUpBracketDownLine />} />
+          </ActionButton>
+        }
+      />
+      <Divider as="div" />
+      <ListItem
+        title="Suffix에 Toggle Button 넣기"
         detail="Sit eu incididunt aute ea elit ex."
         suffix={
           <ToggleButton
@@ -50,12 +63,6 @@ export default function ListAffixes() {
             {isToggleButtonPressed ? "선택됨" : "토글 버튼"}
           </ToggleButton>
         }
-      />
-      <Divider as="div" />
-      <ListItem
-        title="occaecat"
-        detail="Deserunt nulla elit est."
-        suffix={<Icon svg={<IconChevronRightLine />} />}
       />
     </List>
   );

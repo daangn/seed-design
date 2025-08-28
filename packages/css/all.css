@@ -4234,7 +4234,7 @@
   inset: 0;
 }
 
-.seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before, .seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
   background-color: var(--seed-color-bg-layer-default-pressed);
 }
 

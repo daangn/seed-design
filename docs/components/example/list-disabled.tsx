@@ -11,20 +11,17 @@ export default function ListDisabled() {
     <List width="full">
       <ListItemButton
         prefix={<Icon svg={<IconPersonCircleLine />} />}
-        title="활성화된 항목"
-        detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+        title="활성화된 ListItemButton"
         suffix={<Icon svg={<IconChevronRightLine />} />}
       />
       <ListItemCheckbox
         prefix={<Icon svg={<IconPersonCircleLine />} />}
-        title="활성화된 항목"
-        detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+        title="활성화된 ListItemCheckbox"
       />
-      <RadioGroup.Root>
+      <RadioGroup.Root defaultValue="foo">
         <ListItemRadio
           prefix={<Icon svg={<IconPersonCircleLine />} />}
-          title="활성화된 항목"
-          detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+          title="활성화된 ListItemRadio"
           value="foo"
         />
       </RadioGroup.Root>
@@ -32,22 +29,19 @@ export default function ListDisabled() {
       <ListItemButton
         disabled
         prefix={<Icon svg={<IconSlashCircleLine />} />}
-        title="비활성화된 항목"
-        detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+        title="비활성화된 ListItemButton"
         suffix={<Icon svg={<IconChevronRightLine />} />}
       />
       <ListItemCheckbox
         disabled
         prefix={<Icon svg={<IconSlashCircleLine />} />}
-        title="비활성화된 항목"
-        detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+        title="비활성화된 ListItemCheckbox"
       />
-      <RadioGroup.Root>
+      <RadioGroup.Root defaultValue="foo">
         <ListItemRadio
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
-          title="비활성화된 항목"
-          detail="Enim aute duis magna mollit aute sit aliquip duis ut tempor sunt."
+          title="비활성화된 ListItemRadio"
           value="foo"
         />
       </RadioGroup.Root>

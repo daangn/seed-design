@@ -102,7 +102,15 @@ const listItem = defineSlotRecipe({
         transitionDuration: vars.base.enabled.root.colorDuration,
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
-      [pseudo(not(disabled), active, ":before")]: {
+
+      // :active pseudoselector is only allowed when the item is a button or an anchor
+      [pseudo(":is(button, a)", not(disabled), active, ":before")]: {
+        backgroundColor: vars.base.pressed.root.color,
+      },
+
+      // otherwise, see if it has [data-active]. e.g. ListItemCheckbox
+      // this restriction allows noninteractive(static/presentation/decorative) list items not to have an active style
+      [pseudo(not(disabled), "[data-active]", ":before")]: {
         backgroundColor: vars.base.pressed.root.color,
       },
     },

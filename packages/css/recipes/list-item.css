@@ -69,7 +69,10 @@
     transition-duration: var(--seed-duration-d3);
     transition-timing-function: var(--seed-timing-function-easing);
 }
-.seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+.seed-list-item__content:is(button, a):not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]):before {
+    background-color: var(--seed-color-bg-layer-default-pressed);
+}
+.seed-list-item__content:not(:is(:disabled, [disabled], [data-disabled]))[data-active]:before {
     background-color: var(--seed-color-bg-layer-default-pressed);
 }
 .seed-list-item__title {
