@@ -4,7 +4,7 @@ import { Authoring } from "../parser";
 import { createStringifier } from "./typescript";
 
 const { getComponentSpecDts, getComponentSpecMjs, getTokenDts, getTokenMjs } = createStringifier({
-  prefix: "seed",
+  prefix: "test",
 });
 
 describe("getTokenMjs", () => {
@@ -69,16 +69,16 @@ describe("getTokenMjs", () => {
           "path": "color/index.mjs",
         },
         {
-          "code": "export const gray00 = "var(--seed-color-palette-gray-00)";
-      export const gray100 = "var(--seed-color-palette-gray-100)";",
+          "code": "export const gray00 = "var(--test-color-palette-gray-00)";
+      export const gray100 = "var(--test-color-palette-gray-100)";",
           "path": "color/palette.mjs",
         },
         {
-          "code": "export const layer1 = "var(--seed-color-bg-layer-1)";",
+          "code": "export const layer1 = "var(--test-color-bg-layer-1)";",
           "path": "color/bg.mjs",
         },
         {
-          "code": "export const s1_5 = "var(--seed-dimension-s1_5)";",
+          "code": "export const s1_5 = "var(--test-dimension-s1_5)";",
           "path": "dimension.mjs",
         },
       ]
@@ -121,19 +121,19 @@ describe("getTokenMjs", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export const s1_5 = "var(--seed-dimension-s1_5)";
+          "code": "export const s1_5 = "var(--test-dimension-s1_5)";
 
       export * as spacingX from "./spacing-x/index.mjs";",
           "path": "dimension/index.mjs",
         },
         {
-          "code": "export const default = "var(--seed-dimension-spacing-x-default)";
+          "code": "export const default = "var(--test-dimension-spacing-x-default)";
 
       export * as test from "./test.mjs";",
           "path": "dimension/spacing-x/index.mjs",
         },
         {
-          "code": "export const value = "var(--seed-dimension-spacing-x-test-value)";",
+          "code": "export const value = "var(--test-dimension-spacing-x-test-value)";",
           "path": "dimension/spacing-x/test.mjs",
         },
       ]
@@ -203,16 +203,16 @@ describe("getTokenDts", () => {
           "path": "color/index.d.ts",
         },
         {
-          "code": "export declare const gray00 = "var(--seed-color-palette-gray-00)";
-      export declare const gray100 = "var(--seed-color-palette-gray-100)";",
+          "code": "export declare const gray00 = "var(--test-color-palette-gray-00)";
+      export declare const gray100 = "var(--test-color-palette-gray-100)";",
           "path": "color/palette.d.ts",
         },
         {
-          "code": "export declare const layer1 = "var(--seed-color-bg-layer-1)";",
+          "code": "export declare const layer1 = "var(--test-color-bg-layer-1)";",
           "path": "color/bg.d.ts",
         },
         {
-          "code": "export declare const s1_5 = "var(--seed-dimension-s1_5)";",
+          "code": "export declare const s1_5 = "var(--test-dimension-s1_5)";",
           "path": "dimension.d.ts",
         },
       ]
@@ -250,13 +250,13 @@ describe("getTokenDts", () => {
     expect(result).toMatchInlineSnapshot(`
       [
         {
-          "code": "export declare const s1_5 = "var(--seed-dimension-s1_5)";
+          "code": "export declare const s1_5 = "var(--test-dimension-s1_5)";
 
       export * as spacingX from "./spacing-x";",
           "path": "dimension/index.d.ts",
         },
         {
-          "code": "export declare const default = "var(--seed-dimension-spacing-x-default)";",
+          "code": "export declare const default = "var(--test-dimension-spacing-x-default)";",
           "path": "dimension/spacing-x.d.ts",
         },
       ]

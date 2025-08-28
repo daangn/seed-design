@@ -1,5 +1,20 @@
 # @seed-design/tailwind3-plugin
 
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+  - global.ts에 폰트 스케일링 변수 통합
+
 ## 0.1.14
 
 ### Patch Changes

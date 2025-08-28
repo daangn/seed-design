@@ -2,7 +2,175 @@
 
 Rootage는 디자인 토큰과 컴포넌트 디자인을 구조화된 방식으로 정의하고, 다양한 환경에서 일관된 디자인 구현을 돕기 위해 작성되었습니다.
 
-## **리소스 종류**
+## 개요
+
+Rootage는 특정 디자인 시스템에 종속되지 않는 범용 디자인 토큰 생성 도구입니다. 이 문서는 Rootage의 유연성과 확장성을 유지하기 위한 아키텍처 원칙과 가이드라인을 제시합니다.
+
+## 핵심 원칙
+
+### 1. 프레임워크 중립성
+Rootage는 특정 디자인 시스템의 로직이나 의존성을 포함하지 않아야 합니다. 토큰 생성을 위한 인프라를 제공하되, 토큰이 어떻게 생성되어야 하는지는 규정하지 않습니다.
+
+### 2. 생성기(Generator)를 통한 확장성
+디자인 시스템별 로직은 `--generator` CLI 옵션을 통해 동적으로 로드할 수 있는 커스텀 생성기로 구현해야 합니다.
+
+### 3. 설정 가능한 기본값
+모든 기본값(예: prefix)은 하드코딩된 값이 아닌 CLI 옵션을 통해 설정 가능해야 합니다.
+
+## 아키텍처
+
+### 관심사의 분리
+
+```
+rootage/
+├── core/           # 범용 토큰 처리 로직
+├── cli/            # 확장 가능한 옵션을 제공하는 CLI
+└── artifacts/      # 디자인 시스템 아티팩트 (YAML 정의)
+```
+
+## 패키지별 가이드라인
+
+### Core 패키지 (`@seed-design/rootage-core`)
+
+**목적**: 범용 토큰 처리 유틸리티와 확장 가능한 인터페이스 제공
+
+**해야 할 것:**
+- 범용 토큰 처리 유틸리티 제공
+- 커스터마이징을 위한 인터페이스 노출 (예: `customDeclaration`)
+- 다양한 출력 형식 지원 (CSS, TypeScript 등)
+
+**하지 말아야 할 것:**
+- 디자인 시스템별 로직 포함
+- 디자인 시스템 이름이나 규칙 하드코딩
+- 토큰 사용 패턴에 대한 가정
+
+**주요 인터페이스:**
+```typescript
+export type DeclarationFunction = (params: { 
+  decl: TokenDeclaration; 
+  mode: string;
+  helpers: {
+    tokenName: (token: TokenLit) => string;
+    valueOrToken: (value: ValueLit | TokenLit) => string;
+  };
+}) => string;
+
+export function createStringifier(options: { 
+  prefix?: string; 
+  customDeclaration?: DeclarationFunction 
+} = {}) {
+  // ...
+}
+```
+
+### CLI 패키지 (`@seed-design/rootage-cli`)
+
+**목적**: 커맨드라인 인터페이스 제공 및 확장 가능한 옵션 지원
+
+**해야 할 것:**
+- 커맨드라인 옵션을 통한 설정 수용
+- 동적 생성기 로딩 지원
+- 합리적이고 재정의 가능한 기본값 사용
+
+**하지 말아야 할 것:**
+- 디자인 시스템별 접두사 하드코딩
+- 디자인 시스템별 테마나 모드 포함
+
+**CLI 옵션:**
+- `--generator <path>`: 커스텀 생성기 모듈 로드
+- `--prefix <prefix>`: 토큰 접두사 설정 (기본값: "rootage")
+
+**사용 예시:**
+```bash
+# 기본 동작
+bun rootage token-css ./src
+
+# 커스텀 생성기 사용
+bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system
+```
+
+## 커스텀 생성기 작성하기
+
+커스텀 생성기를 통해 디자인 시스템은 Rootage 코어를 수정하지 않고도 특정 요구사항을 구현할 수 있습니다.
+
+### 생성기 요구사항
+- AST와 옵션을 받는 함수를 export해야 함
+- 생성된 출력을 문자열로 반환해야 함
+- 자체 설정과 기본값을 처리해야 함
+- TypeScript로 작성된 경우 JavaScript로 컴파일되어야 함
+
+### 예시: 커스텀 CSS 생성기
+
+```typescript
+// my-design-system-generator.ts
+import { css, type AST } from "@seed-design/rootage-core";
+
+type TokenDeclaration = AST.TokenDeclaration;
+type ValueLit = AST.ValueLit;
+type TokenLit = AST.TokenLit;
+
+const customDeclaration = ({ decl, mode, helpers }) => {
+  // 커스텀 로직
+  const { tokenName, valueOrToken } = helpers;
+  const value = valueOrToken(decl.values.find(v => v.mode === mode)?.value);
+  
+  // 커스텀 변환 적용
+  if (shouldTransform(decl)) {
+    return `${tokenName(decl.token)}: ${transformValue(value)};`;
+  }
+  
+  return `${tokenName(decl.token)}: ${value};`;
+};
+
+export default function generateCSS(ast, options) {
+  return css.getTokenCss(ast, {
+    ...options,
+    customDeclaration,
+  });
+}
+```
+
+### 커스텀 생성기 사용하기
+
+```bash
+# 생성기 빌드 (TypeScript인 경우)
+bun build ./src/my-generator.ts --outfile=./lib/my-generator.js
+
+# rootage CLI와 함께 사용
+bun rootage token-css ./src --generator ./lib/my-generator.js --prefix my-system
+```
+
+## 마이그레이션 가이드
+
+Rootage에서 디자인 시스템별 로직을 분리할 때:
+
+1. 코어 패키지에서 디자인 시스템별 코드 식별
+2. 해당 로직으로 커스텀 생성기 생성
+3. 커스텀 생성기를 사용하도록 빌드 스크립트 업데이트
+4. 코어 패키지에서 로직 제거
+
+## 테스트
+
+기본 동작과 커스텀 생성기 모두로 변경사항을 테스트하세요:
+
+```bash
+# 기본 동작 테스트
+bun rootage token-css ./src
+
+# 커스텀 생성기로 테스트
+bun rootage token-css ./src --generator ./custom-generator.js --prefix custom
+```
+
+## 향후 고려사항
+
+- 생성기 패키지 지원 (npm 설치 가능)
+- 생성기 마켓플레이스/레지스트리
+- 내장 생성기 템플릿
+- 생성기 조합/체이닝
+
+---
+
+## 리소스 종류
 
 Rootage에는 세 가지 주요 리소스 종류가 있습니다:
 
@@ -13,14 +181,14 @@ Rootage에는 세 가지 주요 리소스 종류가 있습니다:
 각 리소스는 다음과 같은 공통 구조를 가집니다:
 
 - `kind`: 리소스의 종류를 나타내는 문자열입니다.
-- `metadata`: 리소스에 대한 메타데이터로, `id`와 `name`을 포함합니다.
+- `metadata`: 리소스에 대한 메타데이터로, `id`와 `name`을 포함합니다.
 - `data`: 리소스 종류에 따라 구조화된 데이터입니다.
 
-### **TokenCollections**
+### TokenCollections
 
 TokenCollections 리소스는 토큰이 의존하는 맥락과 맥락에 포함되는 모드를 정의합니다.
 
-### **구조**
+### 구조
 
 ```yaml
 kind: TokenCollections
@@ -35,13 +203,13 @@ data:
       # 추가 모드...
 ```
 
-- `kind`: `"TokenCollections"`로 고정됩니다.
-- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
-- `data`: 각 컬렉션 선언의 배열이며, 각 선언은 `name`과 `modes`를 포함합니다.
+- `kind`: `"TokenCollections"`로 고정됩니다.
+- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
+- `data`: 각 컬렉션 선언의 배열이며, 각 선언은 `name`과 `modes`를 포함합니다.
   - `name`: 컬렉션의 이름.
   - `modes`: 지원되는 모드의 배열.
 
-### **예제**
+### 예제
 
 ```yaml
 ---
@@ -62,13 +230,13 @@ data:
 이 예제에서는 두 가지 컬렉션을 정의합니다:
 
 - `global`: 맥락에 의존하지 않는 토큰은 global 컬렉션을 사용하고, `default` 모드에만 값을 선언할 것입니다.
-- `color`: 라이트, 다크 테마 맥락에 의존하는 토큰은 color 컬렉션을 사용하고, `theme-light`와 `theme-dark` 두 가지 모드 각각에 대한 값을 선언할 것입니다.
+- `color`: 라이트, 다크 테마 맥락에 의존하는 토큰은 color 컬렉션을 사용하고, `theme-light`와 `theme-dark` 두 가지 모드 각각에 대한 값을 선언할 것입니다.
 
-### **Tokens**
+### Tokens
 
 Tokens 리소스는 디자인 토큰 집합을 정의하는 데 사용됩니다. 각 토큰은 디자인 토큰 이름과 바인딩된 값의 선언을 포함합니다.
 
-### **구조**
+### 구조
 
 ```yaml
 kind: Tokens
@@ -83,8 +251,8 @@ data:
         <모드>: <값>
 ```
 
-- `kind`: `"Tokens"`로 고정됩니다.
-- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
+- `kind`: `"Tokens"`로 고정됩니다.
+- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
 - `data.collection`: 토큰들이 속한 컬렉션의 이름입니다.
 - `data.tokens`: 토큰 이름과 그 값의 매핑들을 나열합니다.
   - `<토큰 이름>`: 토큰 이름 규칙을 따르는 이름을 선언합니다.
@@ -94,9 +262,9 @@ data:
 **토큰 이름 규칙**
 
 - 시작 문자: 모든 토큰 이름은 `$`로 시작해야 합니다.
-- 그룹 구분자: `.` 문자는 그룹을 나타내는 데 사용됩니다. 예를 들어, `$color.bg.brand`는 `color/bg/brand`와 같은 구조로 해석됩니다.
+- 그룹 구분자: `.` 문자는 그룹을 나타내는 데 사용됩니다. 예를 들어, `$color.bg.brand`는 `color/bg/brand`와 같은 구조로 해석됩니다.
 
-### **예제**
+### 예제
 
 ```yaml
 ---
@@ -129,13 +297,13 @@ data:
         theme-dark: "$color.palette.gray-300"
 ```
 
-이 예제에서는 `color` 컬렉션 내에서 색상을 토큰으로 정의합니다.
+이 예제에서는 `color` 컬렉션 내에서 색상을 토큰으로 정의합니다.
 
-### **ComponentSpec**
+### ComponentSpec
 
 ComponentSpec 리소스는 컴포넌트의 디자인 스펙을 정의합니다.
 
-### **구조**
+### 구조
 
 ```yaml
 kind: ComponentSpec
@@ -157,14 +325,14 @@ data:
         <속성>: <값>
 ```
 
-- `kind`: `"ComponentSpec"`로 고정됩니다.
-- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
+- `kind`: `"ComponentSpec"`로 고정됩니다.
+- `metadata`: 리소스의 `id`와 `name`을 포함합니다. 이 정보는 api url 등에 활용될 수 있습니다.
 - `data`: 컴포넌트의 디자인 사양을 정의하는 객체입니다.
   - `base`: 모든 Variant에 적용되는 기본 디자인을 정의합니다.
-  - `<Variant 키>=<Variant 이름>`: Variant를 정의하는 문자열입니다(예: `size=small`).
-  - `<상태 이름>`: 상호 작용 상태(예: `enabled`, `hover`, `pressed`).
-  - `<슬롯 이름>`: 디자인 속성을 적용할 요소나 슬롯(예: `root`, `icon`).
-  - `<속성>`: 디자인 속성(예: `color`, `size`, `cornerRadius`).
+  - `<Variant 키>=<Variant 이름>`: Variant를 정의하는 문자열입니다(예: `size=small`).
+  - `<상태 이름>`: 상호 작용 상태(예: `enabled`, `hover`, `pressed`).
+  - `<슬롯 이름>`: 디자인 속성을 적용할 요소나 슬롯(예: `root`, `icon`).
+  - `<속성>`: 디자인 속성(예: `color`, `size`, `cornerRadius`).
   - `<값>`: 속성에 대한 값으로, 디자인 값을 작성하거나 다른 토큰을 참조할 수 있습니다.
 
 **Variant 표현**
@@ -183,7 +351,7 @@ data:
 
 - 여러 상태가 동시에 유효한 경우, 아래에 선언된 상태가 높은 우선순위를 가집니다.
 
-### **예제**
+### 예제
 
 ```yaml
 ---
@@ -218,17 +386,17 @@ data:
 
 이 예제에서는 Floating Action Button (`Fab`) 컴포넌트의 디자인 사양을 정의합니다.
 
-- `base` 디자인은 모든 Variant에 적용되는 속성을 정의합니다.
-  - `enabled` 상태에서:
-    - `root` 슬롯은 layer-floating 배경 색상과 full radius를 가집니다.
-    - `icon` 슬롯은 neutral 전경 색상을 가집니다.
-  - `pressed` 상태에서:
-    - `root` 슬롯은 눌린 상태의 배경 색상으로 변경됩니다.
-- Variant는 `size` 키를 기반으로 `small`과 `medium`을 각각 정의합니다:
-  - 각 Variant는 `enabled` 상태의 속성을 재정의합니다.
-  - `root`와 `icon` 슬롯은 Variant에 따라 특정 크기를 가집니다.
+- `base` 디자인은 모든 Variant에 적용되는 속성을 정의합니다.
+  - `enabled` 상태에서:
+    - `root` 슬롯은 layer-floating 배경 색상과 full radius를 가집니다.
+    - `icon` 슬롯은 neutral 전경 색상을 가집니다.
+  - `pressed` 상태에서:
+    - `root` 슬롯은 눌린 상태의 배경 색상으로 변경됩니다.
+- Variant는 `size` 키를 기반으로 `small`과 `medium`을 각각 정의합니다:
+  - 각 Variant는 `enabled` 상태의 속성을 재정의합니다.
+  - `root`와 `icon` 슬롯은 Variant에 따라 특정 크기를 가집니다.
 
-### **상태 표현 및 우선순위 예시**
+### 상태 표현 및 우선순위 예시
 
 ```yaml
 ---
@@ -260,50 +428,50 @@ data:
         color: $color.fg.disabled
 ```
 
-- 컴포넌트가 `enabled` 상태인 경우:
-  - `enabled` 스타일이 적용됩니다.
-- 컴포넌트가 `enabled`이면서 `pressed` 상태인 경우:
-  - `enabled,pressed` 스타일이 적용됩니다.
-- 컴포넌트가 `enabled`, `pressed`, `selected` 상태인 경우:
-  - 아래에 선언된 `pressed,selected` 스타일이 `enabled,selected`보다 우선하여 적용됩니다.
-- 컴포넌트가 `disabled` 상태인 경우:
-  - 모든 `enabled` 관련 스타일보다 `disabled` 스타일이 우선하여 적용됩니다.
+- 컴포넌트가 `enabled` 상태인 경우:
+  - `enabled` 스타일이 적용됩니다.
+- 컴포넌트가 `enabled`이면서 `pressed` 상태인 경우:
+  - `enabled,pressed` 스타일이 적용됩니다.
+- 컴포넌트가 `enabled`, `pressed`, `selected` 상태인 경우:
+  - 아래에 선언된 `pressed,selected` 스타일이 `enabled,selected`보다 우선하여 적용됩니다.
+- 컴포넌트가 `disabled` 상태인 경우:
+  - 모든 `enabled` 관련 스타일보다 `disabled` 스타일이 우선하여 적용됩니다.
 
-## **허용되는 값**
+## 허용되는 값
 
 `<값>` 에는 아래와 같은 유형이 대입될 수 있습니다.
 
 - **Color**
   - 16진수 색상 코드:
-    - `#rrggbb` (24비트 RGB)
-    - `#rrggbbaa` (24비트 RGB + 8비트 알파)
+    - `#rrggbb` (24비트 RGB)
+    - `#rrggbbaa` (24비트 RGB + 8비트 알파)
 - **Dimension**
   - https://tr.designtokens.org/format/#dimension
-  - px: `${number}px` (예: `16px`)
+  - px: `${number}px` (예: `16px`)
     - Android에서 대응되는 단위는 dp, iOS에서는 pt입니다.
-  - rem: `${number}rem` (예: `1rem`)
+  - rem: `${number}rem` (예: `1rem`)
     - 사용자가 설정한 시스템 기본 폰트 크기의 배수를 나타냅니다. Android에서 1rem에 해당하는 값은 16sp입니다.
 - **Duration**
-  - 밀리초: `${number}ms` (예: `200ms`)
-  - 초: `${number}s` (예: `0.5s`)
+  - 밀리초: `${number}ms` (예: `200ms`)
+  - 초: `${number}s` (예: `0.5s`)
 - **Number**
-  - 단위 없는 숫자 (예: `0.5`, `1`, `100`)
+  - 단위 없는 숫자 (예: `0.5`, `1`, `100`)
 - **Cubic-bezier**
-  - `{ type: "cubicBezier", value: [p1x, p1y, p2x, p2y] }` 형태로 `type`을 명시해야 합니다.
+  - `{ type: "cubicBezier", value: [p1x, p1y, p2x, p2y] }` 형태로 `type`을 명시해야 합니다.
 - **Shadow**
-  - `{ type: "shadow", value: [{ color, offsetX, offsetY, blur, spread }] }` 형태로 `type`을 명시해야 합니다.
+  - `{ type: "shadow", value: [{ color, offsetX, offsetY, blur, spread }] }` 형태로 `type`을 명시해야 합니다.
 - **Gradient**
   - `{ type: "gradient", value: [{ color, position }] }` 형태로 `type` 을 명시해야 합니다.
   - position은 [0, 1] 범위의 실수입니다.
 - **Reference**
-  - `$`로 시작하는 토큰 이름, 예: `$token-name`
+  - `$`로 시작하는 토큰 이름, 예: `$token-name`
 
-### **값 작성 방법**
+### 값 작성 방법
 
-- **Shorthand 값**은 문자열로 작성할 수 있습니다. 예를 들어, `#FFFFFF`, `16px`, `1rem`, `200ms` 등은 그대로 사용할 수 있습니다.
-- **Cubic-bezier**와 **Shadow** 타입은 반드시 `type`을 명시하고, 해당 구조에 맞게 값을 작성해야 합니다.
+- **Shorthand 값**은 문자열로 작성할 수 있습니다. 예를 들어, `#FFFFFF`, `16px`, `1rem`, `200ms` 등은 그대로 사용할 수 있습니다.
+- **Cubic-bezier**와 **Shadow** 타입은 반드시 `type`을 명시하고, 해당 구조에 맞게 값을 작성해야 합니다.
 
-### **Cubic-bezier 예제**
+### Cubic-bezier 예제
 
 ```yaml
 $animation.ease-in-out:
@@ -313,7 +481,7 @@ $animation.ease-in-out:
       value: [0.42, 0, 0.58, 1]
 ```
 
-### **Shadow 예제**
+### Shadow 예제
 
 ```yaml
 $shadow.default:

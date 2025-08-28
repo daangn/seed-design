@@ -19,6 +19,15 @@
 
 :root {
   --seed-font-size-multiplier: 1;
+  --seed-font-size-limit-min: .8;
+  --seed-font-size-limit-max: 1.5;
+  --seed-line-height-limit-min: .8;
+  --seed-line-height-limit-max: 1.5;
+}
+
+[data-seed-platform="ios"] {
+  --seed-font-size-limit-max: 1.35;
+  --seed-line-height-limit-max: 1.35;
 }
 
 @supports (font: -apple-system-body) {

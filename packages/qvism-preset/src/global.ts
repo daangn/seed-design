@@ -17,7 +17,18 @@ export const globalCss = defineGlobalCss({
       "--seed-safe-area-bottom": "env(safe-area-inset-bottom)",
     },
 
+    // Font scaling variables
     "--seed-font-size-multiplier": "1",
+    "--seed-font-size-limit-min": "0.8",
+    "--seed-font-size-limit-max": "1.5",  // Android default 150%
+    "--seed-line-height-limit-min": "0.8",
+    "--seed-line-height-limit-max": "1.5",  // Android default 150%
+  },
+
+  // iOS platform-specific overrides
+  "[data-seed-platform='ios']": {
+    "--seed-font-size-limit-max": "1.35",  // iOS 135% limit
+    "--seed-line-height-limit-max": "1.35",
   },
 
   "html[data-seed-platform='ios'][data-seed-font-scaling='enabled']": {
