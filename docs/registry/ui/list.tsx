@@ -37,7 +37,7 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
       <SeedList.Item ref={ref} {...otherProps}>
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content>
-          {title && <SeedList.Title>{title}</SeedList.Title>}
+          <SeedList.Title>{title}</SeedList.Title>{" "}
           {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
         </SeedList.Content>
         {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
@@ -79,7 +79,7 @@ export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButton
         {prefix && <SeedList.Prefix {...stateProps}>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <button type="button" ref={ref} {...otherProps}>
-            {title && <SeedList.Title {...stateProps}>{title}</SeedList.Title>}
+            <SeedList.Title {...stateProps}>{title}</SeedList.Title>{" "}
             {detail && <SeedList.Detail {...stateProps}>{detail}</SeedList.Detail>}
           </button>
         </SeedList.Content>
@@ -115,7 +115,7 @@ export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchor
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <a ref={ref} {...otherProps}>
-            {title && <SeedList.Title>{title}</SeedList.Title>}
+            <SeedList.Title>{title}</SeedList.Title>{" "}
             {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
           </a>
         </SeedList.Content>
@@ -124,7 +124,7 @@ export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchor
     );
   },
 );
-ListItemButton.displayName = "ListItemButton";
+ListItemAnchor.displayName = "ListItemAnchor";
 
 export type ListItemCheckboxProps = Omit<
   ListItemBaseProps & SeedCheckbox.RootProps,
@@ -165,7 +165,7 @@ export const ListItemCheckbox = React.forwardRef<HTMLInputElement, ListItemCheck
             </SeedList.Prefix>
           )}
           <SeedList.Content>
-            {title && <SeedList.Title>{title}</SeedList.Title>}
+            <SeedList.Title>{title}</SeedList.Title>{" "}
             {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
           </SeedList.Content>
           {(position === "suffix" || suffix) && (
@@ -225,7 +225,7 @@ export const ListItemRadio = React.forwardRef<HTMLInputElement, ListItemRadioPro
             </SeedList.Prefix>
           )}
           <SeedList.Content>
-            {title && <SeedList.Title>{title}</SeedList.Title>}
+            <SeedList.Title>{title}</SeedList.Title>{" "}
             {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
           </SeedList.Content>
           {(position === "suffix" || suffix) && (
