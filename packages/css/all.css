@@ -5205,6 +5205,7 @@
   background: var(--seed-color-bg-neutral-solid);
   border-radius: var(--seed-radius-r2);
   width: 100%;
+  max-width: 560px;
   padding-inline: var(--seed-dimension-x4);
   padding-block: var(--seed-dimension-x2_5);
   justify-content: space-between;
