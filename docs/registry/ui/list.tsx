@@ -66,7 +66,7 @@ export interface ListItemButtonProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButtonProps>(
-  ({ title, detail, prefix, suffix, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     const stateProps = React.useMemo(
@@ -75,7 +75,7 @@ export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButton
     );
 
     return (
-      <SeedList.Item ref={rootRef} {...variantProps}>
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
         {prefix && <SeedList.Prefix {...stateProps}>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <button type="button" ref={ref} {...otherProps}>
@@ -107,11 +107,11 @@ export interface ListItemAnchorProps
  * @see https://seed-design.io/react/components/list
  */
 export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchorProps>(
-  ({ title, detail, prefix, suffix, rootRef, ...props }, ref) => {
+  ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     return (
-      <SeedList.Item ref={rootRef} {...variantProps}>
+      <SeedList.Item ref={rootRef} alignItems={alignItems} {...variantProps}>
         {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
         <SeedList.Content asChild>
           <a ref={ref} {...otherProps}>
@@ -145,13 +145,26 @@ export type ListItemCheckboxProps = Omit<
  * @see https://seed-design.io/react/components/list
  */
 export const ListItemCheckbox = React.forwardRef<HTMLInputElement, ListItemCheckboxProps>(
-  ({ title, detail, position = "suffix", prefix, suffix, inputProps, rootRef, ...props }, ref) => {
+  (
+    {
+      title,
+      detail,
+      position = "suffix",
+      prefix,
+      suffix,
+      inputProps,
+      alignItems,
+      rootRef,
+      ...props
+    },
+    ref,
+  ) => {
     const [variantProps, __otherProps] = listItem.splitVariantProps(props);
     const [{ size = "large", ...otherCheckmarkVariantProps }, otherProps] =
       checkmark.splitVariantProps(__otherProps);
 
     return (
-      <SeedList.Item {...variantProps} asChild>
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
         <SeedCheckbox.Root.Primitive ref={rootRef} {...otherProps}>
           {(position === "prefix" || prefix) && (
             <SeedList.Prefix>
@@ -205,13 +218,26 @@ export type ListItemRadioProps = Omit<
  * @see https://seed-design.io/react/components/list
  */
 export const ListItemRadio = React.forwardRef<HTMLInputElement, ListItemRadioProps>(
-  ({ title, detail, position = "suffix", prefix, suffix, inputProps, rootRef, ...props }, ref) => {
+  (
+    {
+      title,
+      detail,
+      position = "suffix",
+      prefix,
+      suffix,
+      inputProps,
+      alignItems,
+      rootRef,
+      ...props
+    },
+    ref,
+  ) => {
     const [variantProps, __otherProps] = listItem.splitVariantProps(props);
     const [{ size = "large", ...otherRadiomarkVariantProps }, otherProps] =
       radiomark.splitVariantProps(__otherProps);
 
     return (
-      <SeedList.Item {...variantProps} asChild>
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
         <SeedRadioGroup.Item.Primitive ref={rootRef} {...otherProps}>
           {(position === "prefix" || prefix) && (
             <SeedList.Prefix>
