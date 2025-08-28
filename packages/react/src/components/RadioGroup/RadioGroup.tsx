@@ -7,7 +7,7 @@ import {
 } from "@seed-design/react-radio-group";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
-import { forwardRef, useMemo } from "react";
+import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
@@ -34,10 +34,9 @@ export interface RadioGroupItemProps
     RadioGroupPrimitive.ItemProps {}
 
 export const RadioGroupItem = Object.assign(
-  forwardRef<HTMLLabelElement, RadioGroupItemProps>((props, ref) => {
-    const { className, ...otherProps } = props;
-    const [variantProps, restProps] = radio.splitVariantProps(otherProps);
-    const classNames = radio(variantProps);
+  forwardRef<HTMLLabelElement, RadioGroupItemProps>(({ className, ...props }, ref) => {
+    const [variantProps, restProps] = radiomark.splitVariantProps(props);
+    const classNames = radio(props);
 
     return (
       <RadiomarkPropsProvider value={variantProps}>
@@ -69,7 +68,9 @@ export const RadioGroupItemLabel = withContext<HTMLSpanElement, RadioGroupItemLa
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface RadioGroupItemControlProps extends RadioGroupPrimitive.ItemControlProps {}
+export interface RadioGroupItemControlProps
+  extends RadiomarkVariantProps,
+    RadioGroupPrimitive.ItemControlProps {}
 
 export const RadioGroupItemControl = withRadiomarkProvider<
   HTMLDivElement,

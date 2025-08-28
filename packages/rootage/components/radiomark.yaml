@@ -36,15 +36,6 @@ data:
         icon:
           color: $color.palette.gray-300
 
-    size=large:
-      enabled:
-        root:
-          size: $dimension.x6
-        icon:
-          size: $dimension.x2_5
-      disabled:
-        icon:
-          size: $dimension.x3
     size=medium:
       enabled:
         root:
@@ -54,3 +45,12 @@ data:
       disabled:
         icon:
           size: $dimension.x2_5 
+    size=large:
+      enabled:
+        root:
+          size: $dimension.x6
+        icon:
+          size: $dimension.x2_5
+      disabled:
+        icon:
+          size: $dimension.x3

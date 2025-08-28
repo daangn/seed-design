@@ -19,6 +19,7 @@ export default function ListFormControls() {
         detail="마케팅 정보를 받으시겠습니까?"
         defaultChecked
       />
+      <ListItemCheckbox position="prefix" title="Ghost Variant" variant="ghost" size="large" />
       <Divider />
       <RadioGroup.Root defaultValue="option1">
         <ListItemRadio value="option1" title="옵션 1" detail="첫 번째 선택지" />

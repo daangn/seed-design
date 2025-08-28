@@ -25,10 +25,9 @@ export interface CheckboxRootProps
     CheckboxPrimitive.RootProps {}
 
 export const CheckboxRoot = Object.assign(
-  forwardRef<HTMLLabelElement, CheckboxRootProps>((props, ref) => {
-    const { className, ...otherProps } = props;
-    const [variantProps, restProps] = checkbox.splitVariantProps(otherProps);
-    const classNames = checkbox(variantProps);
+  forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
+    const [variantProps, restProps] = checkmark.splitVariantProps(props);
+    const classNames = checkbox(props);
 
     return (
       <CheckmarkPropsProvider value={variantProps}>

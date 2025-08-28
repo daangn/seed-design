@@ -12,10 +12,10 @@
       "variants": {
         "size": {
           "values": {
-            "large": {},
-            "medium": {}
+            "medium": {},
+            "large": {}
           },
-          "defaultValue": "large"
+          "defaultValue": "medium"
         }
       }
     },
@@ -150,45 +150,6 @@
       },
       {
         "variants": {
-          "size": "large"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "root": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                }
-              },
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "disabled"
-            ],
-            "slots": {
-              "icon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
           "size": "medium"
         },
         "definitions": [
@@ -220,6 +181,45 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "size": "large"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              },
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "icon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
                 }
               }
             }

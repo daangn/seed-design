@@ -40,7 +40,7 @@ export default function ListClickable() {
       <Divider as="div" />
       <ListItemButton
         title="ListItemButton은 클릭할 수 있어요. 눌러보세요."
-        detail="리스트 항목 전체와 우측의 Toggle Button 모두 클릭할 수 있어요"
+        detail="리스트 항목 전체와 우측의 Toggle Button 각각을 클릭할 수 있어요"
         onClick={() => alert("리스트 아이템 클릭됨")}
         suffix={
           <HStack gap="x2" align="center">
@@ -55,7 +55,7 @@ export default function ListClickable() {
       <Divider as="div" />
       <ListItemAnchor
         title="ListItemAnchor도 클릭할 수 있어요. 눌러보세요."
-        detail="리스트 항목 전체와 우측의 Action Button 모두 클릭할 수 있어요"
+        detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
         suffix={
           <HStack gap="x2" align="center">
             <ActionButton size="xsmall" onClick={onCopyClick}>

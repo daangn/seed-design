@@ -44,21 +44,6 @@ export declare const vars: {
       }
     }
   },
-  "sizeLarge": {
-    "enabled": {
-      "root": {
-        "size": "var(--seed-dimension-x6)"
-      },
-      "icon": {
-        "size": "var(--seed-dimension-x2_5)"
-      }
-    },
-    "disabled": {
-      "icon": {
-        "size": "var(--seed-dimension-x3)"
-      }
-    }
-  },
   "sizeMedium": {
     "enabled": {
       "root": {
@@ -71,6 +56,21 @@ export declare const vars: {
     "disabled": {
       "icon": {
         "size": "var(--seed-dimension-x2_5)"
+      }
+    }
+  },
+  "sizeLarge": {
+    "enabled": {
+      "root": {
+        "size": "var(--seed-dimension-x6)"
+      },
+      "icon": {
+        "size": "var(--seed-dimension-x2_5)"
+      }
+    },
+    "disabled": {
+      "icon": {
+        "size": "var(--seed-dimension-x3)"
       }
     }
   }
