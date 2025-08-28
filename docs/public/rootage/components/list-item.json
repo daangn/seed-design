@@ -184,6 +184,18 @@
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
                 }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
               }
             }
           }

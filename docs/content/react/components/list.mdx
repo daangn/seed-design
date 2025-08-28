@@ -14,51 +14,35 @@ import { Component } from "lucide-react";
   ```
 </ComponentExample>
 
-## Usage
+## Installation
 
-```tsx
-import { List } from "@seed-design/react";
+```package-install
+npx @seed-design/cli@latest add list
 ```
 
-```tsx
-<List.Root>
-  <List.Item>
-    <List.Content>
-      <List.Title>리스트 아이템</List.Title>
-    </List.Content>
-  </List.Item>
-</List.Root>
-```
+<ManualInstallation name="list" />
 
 ## Props
 
-### `List.Root`
+### `List`
 
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListRootProps" />
+[`VStackProps`](/react/components/layout/v-stack#props)와 동일합니다.
 
-### `List.Item`
+### `ListItem`
 
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListItemProps" />
+<react-type-table path="./registry/ui/list.tsx" name="ListItemProps" />
 
-### `List.Content`
+### `ListItemButton`
 
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListContentProps" />
+<react-type-table path="./registry/ui/list.tsx" name="ListItemButtonProps" />
 
-### `List.Prefix`
+### `ListItemCheckbox`
 
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListPrefixProps" />
+<react-type-table path="./registry/ui/list.tsx" name="ListItemCheckboxProps" />
 
-### `List.Suffix`
+### `ListItemRadio`
 
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListSuffixProps" />
-
-### `List.Title`
-
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListTitleProps" />
-
-### `List.Detail`
-
-<react-type-table path="../packages/react/src/components/List/List.tsx" name="ListDetailProps" />
+<react-type-table path="./registry/ui/list.tsx" name="ListItemRadioProps" />
 
 ## Examples
 
@@ -75,27 +59,30 @@ import { List } from "@seed-design/react";
   ```
 </ComponentExample>
 
-### 아바타가 있는 리스트
+### Prefix 또는 Suffix가 있는 리스트 항목
 
-사용자 목록이나 프로필 관련 리스트에서 아바타를 Prefix 영역에 표시하는 예제입니다.
+예를 들어,
 
-<ComponentExample name="list-with-avatar">
+- [Avatar](/react/components/avatar)와 같은 요소를 Prefix 영역에 표시할 수 있습니다.
+- [Action Button](/react/components/action-button)이나 아이콘과 같은 요소를 Suffix 영역에 추가할 수 있습니다.
+
+<ComponentExample name="list-affixes">
   ```json doc-gen:file
   {
-    "file": "./components/example/list-with-avatar.tsx",
+    "file": "./components/example/list-affixes.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### 버튼이 있는 리스트
+### 리스트 항목 전체를 클릭 가능한 버튼으로 만들기
 
-설정 메뉴나 관리 화면에서 각 항목에 대한 액션을 제공하는 리스트입니다.
+`ListItemButton`을 사용해서 리스트 항목 전체를 클릭 가능한 버튼으로 만들 수 있습니다.
 
-<ComponentExample name="list-with-actions">
+<ComponentExample name="list-clickable">
   ```json doc-gen:file
   {
-    "file": "./components/example/list-with-actions.tsx",
+    "file": "./components/example/list-clickable.tsx",
     "codeblock": true
   }
   ```
@@ -109,6 +96,28 @@ import { List } from "@seed-design/react";
   ```json doc-gen:file
   {
     "file": "./components/example/list-interactive.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Highlighted
+
+<ComponentExample name="list-highlighted">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-highlighted.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+<ComponentExample name="list-disabled">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-disabled.tsx",
     "codeblock": true
   }
   ```
@@ -164,11 +173,34 @@ List.Root
     {/* [!code highlight] */}
   </List.Content>
   <List.Suffix>
-    <ActionButton size="xsmall" variant="brandSolid" onClick={() => alert("보기 클릭됨")}>
+    <ActionButton
+      size="xsmall"
+      variant="brandSolid"
+      onClick={() => alert("보기 클릭됨")}
+    >
       보기
     </ActionButton>
   </List.Suffix>
 </List.Item>
+```
+
+[Snippet](/react/components/concepts/snippet)으로 제공되는 `ListItemButton`은 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
+
+```tsx
+<ListItemButton
+  onClick={() => alert("사용자 클릭됨")}
+  title="사용자"
+  detail="항목 6개"
+  suffix={
+    <ActionButton
+      size="xsmall"
+      variant="brandSolid"
+      onClick={() => alert("보기 클릭됨")}
+    >
+      보기
+    </ActionButton>
+  }
+/>
 ```
 
 #### `List.Item`에 `asChild` prop을 사용하는 경우
@@ -187,10 +219,16 @@ List.Root
       <Checkmark />
       <Checkbox.HiddenInput />
     </List.Suffix>
-  {/* [!code highlight] */}
+    {/* [!code highlight] */}
   </Checkbox.Root.Primitive>
-{/* [!code highlight] */}
+  {/* [!code highlight] */}
 </List.Item>
+```
+
+[Snippet](/react/components/concepts/snippet)으로 제공되는 `ListItemCheckbox` 및 `ListItemRadio`는 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
+
+```tsx
+<ListItemCheckbox defaultChecked title="동의" />
 ```
 
 ### 클릭 가능한 아이템의 경우 키보드 접근성을 고려하세요
@@ -200,4 +238,4 @@ List.Root
 ### 성능 최적화
 
 - 긴 리스트의 경우 가상화를 고려하세요
-- 배열을 바탕으로 리스트 항목을 생성하는 경우 불필요한 리렌더링을 방지하기 위해 `key` prop을 적절히 사용하세요 
+- 배열을 바탕으로 리스트 항목을 생성하는 경우 불필요한 리렌더링을 방지하기 위해 `key` prop을 적절히 사용하세요

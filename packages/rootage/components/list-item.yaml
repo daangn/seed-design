@@ -51,3 +51,7 @@ data:
           color: $color.fg.disabled
         detail:
           color: $color.fg.neutral-subtle
+        prefixIcon:
+          color: $color.fg.disabled
+        suffixIcon:
+          color: $color.fg.disabled

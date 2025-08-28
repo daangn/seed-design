@@ -1,6 +1,6 @@
 import { defineSlotRecipe } from "../utils/define";
 import { onlyIcon } from "../utils/icon";
-import { active, disabled, pseudo } from "../utils/pseudo";
+import { active, disabled, not, pseudo } from "../utils/pseudo";
 import { listItem as vars } from "../vars/component";
 
 const listItem = defineSlotRecipe({
@@ -38,6 +38,12 @@ const listItem = defineSlotRecipe({
         size: vars.base.enabled.prefixIcon.size,
         // marginTop: `calc(${prefixIconVerticalAdjustMargin})`,
       }),
+
+      [pseudo(disabled)]: {
+        ...onlyIcon({
+          color: vars.base.disabled.prefixIcon.color,
+        }),
+      },
     },
     suffix: {
       display: "inline-flex",
@@ -58,6 +64,12 @@ const listItem = defineSlotRecipe({
         color: vars.base.enabled.suffixIcon.color,
         size: vars.base.enabled.suffixIcon.size,
       }),
+
+      [pseudo(disabled)]: {
+        ...onlyIcon({
+          color: vars.base.disabled.suffixIcon.color,
+        }),
+      },
     },
     content: {
       display: "inline-flex",
@@ -90,7 +102,7 @@ const listItem = defineSlotRecipe({
         transitionDuration: vars.base.enabled.root.colorDuration,
         transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
       },
-      [pseudo(active, ":before")]: {
+      [pseudo(not(disabled), active, ":before")]: {
         backgroundColor: vars.base.pressed.root.color,
       },
     },
@@ -122,7 +134,7 @@ const listItem = defineSlotRecipe({
       false: {},
       true: {
         root: {
-          color: vars.base.highlighted.root.color,
+          backgroundColor: vars.base.highlighted.root.color,
         },
       },
     },

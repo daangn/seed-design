@@ -188,4 +188,10 @@ export const registryUI: RegistryUI = [
     dependencies: ["@seed-design/react"],
     files: ["ui:floating-action-button.tsx"],
   },
+  {
+    name: "list",
+    dependencies: ["@seed-design/react"],
+    innerDependencies: ["ui:checkbox", "ui:radio-group"],
+    files: ["ui:list.tsx"],
+  },
 ];

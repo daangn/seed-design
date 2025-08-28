@@ -1,27 +1,14 @@
-import { Divider, List } from "@seed-design/react";
+import { Divider } from "@seed-design/react";
+import { List, ListItem } from "seed-design/ui/list";
 
 export default function ListBasic() {
   return (
-    <List.Root width="300px">
-      <List.Item>
-        <List.Content>
-          <List.Title>첫 번째 아이템</List.Title>
-        </List.Content>
-      </List.Item>
-      <Divider />
-
-      <List.Item>
-        <List.Content>
-          <List.Title>두 번째 아이템</List.Title>
-        </List.Content>
-      </List.Item>
-      <Divider />
-
-      <List.Item>
-        <List.Content>
-          <List.Title>세 번째 아이템</List.Title>
-        </List.Content>
-      </List.Item>
-    </List.Root>
+    <List width="full">
+      <ListItem title="첫 번째 아이템" />
+      <Divider as="div" />
+      <ListItem title="두 번째 아이템" />
+      <Divider as="div" />
+      <ListItem title="세 번째 아이템" />
+    </List>
   );
 }

@@ -60,6 +60,12 @@ export const vars = {
       },
       "detail": {
         "color": "var(--seed-color-fg-neutral-subtle)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-disabled)"
       }
     }
   }
