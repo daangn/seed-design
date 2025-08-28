@@ -1,7 +1,7 @@
 ---
-"@seed-design/tailwind3-plugin": minor
-"@seed-design/tailwind4-theme": minor
-"@seed-design/css": minor
+"@seed-design/tailwind3-plugin": patch
+"@seed-design/tailwind4-theme": patch
+"@seed-design/css": patch
 ---
 
 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
