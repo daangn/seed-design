@@ -373,6 +373,9 @@
       "dependencies": {
         "@seed-design/qvism-core": "0.0.0",
       },
+      "devDependencies": {
+        "csstype": "^3.1.3",
+      },
     },
     "packages/react": {
       "name": "@seed-design/react",

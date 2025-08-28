@@ -34,8 +34,7 @@ const inlineBanner = defineSlotRecipe({
       ...suffixIcon({
         size: vars.base.enabled.suffixIcon.size,
         marginLeft: vars.base.enabled.suffixIcon.marginLeft,
-        marginTop: "auto",
-        marginBottom: "auto",
+        alignSelf: "center",
       }),
 
       [pseudo(":is(button)")]: {
@@ -98,7 +97,6 @@ const inlineBanner = defineSlotRecipe({
       margin: `calc(${closeButtonNegativeMargin})`,
 
       // Consume suffixIcon margin here, and reset suffix icon margin.
-      // there's no need to reset suffix icon top and bottom margin because they're auto.
       marginLeft: `calc(${closeButtonNegativeMargin} + ${vars.base.enabled.suffixIcon.marginLeft})`,
       "--seed-suffix-icon-margin-left": "initial",
 
