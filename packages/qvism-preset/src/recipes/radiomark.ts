@@ -45,6 +45,7 @@ const radiomark = defineSlotRecipe({
 
       [pseudo(disabled, checked)]: {
         background: "none",
+        borderWidth: vars.base.enabled.root.strokeWidth,
         borderColor: vars.base.disabledSelected.root.strokeColor,
       },
     },

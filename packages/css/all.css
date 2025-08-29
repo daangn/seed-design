@@ -4983,6 +4983,7 @@
 }
 
 .seed-radiomark__root:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+  border-width: 1px;
   border-color: var(--seed-color-palette-gray-300);
   background: none;
 }
