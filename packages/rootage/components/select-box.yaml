@@ -46,40 +46,6 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-      checkboxControl:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
-          cornerRadius:
-            type: dimension
-      checkboxIcon:
-        properties:
-          size:
-            type: dimension
-      radioControl:
-        properties:
-          size:
-            type: dimension
-          color:
-            type: color
-          strokeWidth:
-            type: dimension
-          strokeColor:
-            type: color
-          cornerRadius:
-            type: dimension
-      radioIcon:
-        properties:
-          size:
-            type: dimension
-          cornerRadius:
-            type: dimension
   definitions:
     base:
       enabled:
@@ -102,51 +68,16 @@ data:
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-        checkboxControl:
-          size: $dimension.x6
-          color: $color.bg.layer-default
-          strokeWidth: 1px
-          strokeColor: $color.stroke.control
-          cornerRadius: $radius.r1
-        checkboxIcon:
-          size: $dimension.x3_5
-        radioControl:
-          size: $dimension.x6
-          color: $color.bg.layer-default
-          strokeWidth: 1px
-          strokeColor: $color.stroke.control
-          cornerRadius: $radius.full
-        radioIcon:
-          size: $dimension.x2_5
-          cornerRadius: $radius.full
 
       enabled,pressed:
         root:
-          color: $color.bg.layer-default-pressed
-        checkboxControl:
-          color: $color.bg.layer-default-pressed
-        radioControl:
           color: $color.bg.layer-default-pressed
 
       enabled,selected:
         root:
           color: $color.bg.neutral-weak
           strokeColor: $color.stroke.control
-        checkboxControl:
-          color: $color.bg.brand-solid
-          strokeWidth: 0
-        checkboxIcon:
-          color: $color.palette.static-white
-        radioControl:
-          color: $color.bg.brand-solid
-          strokeWidth: 0
-        radioIcon:
-          color: $color.palette.static-white
 
       enabled,selected,pressed:
         root:
           color: $color.bg.neutral-weak-pressed
-        checkboxControl:
-          color: $color.bg.brand-solid-pressed
-        radioControl:
-          color: $color.bg.brand-solid-pressed

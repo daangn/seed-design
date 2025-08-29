@@ -17,22 +17,6 @@ const selectBoxSlotNames = [
   [
     "description",
     "seed-select-box__description"
-  ],
-  [
-    "checkboxControl",
-    "seed-select-box__checkboxControl"
-  ],
-  [
-    "checkboxIcon",
-    "seed-select-box__checkboxIcon"
-  ],
-  [
-    "radioControl",
-    "seed-select-box__radioControl"
-  ],
-  [
-    "radioIcon",
-    "seed-select-box__radioIcon"
   ]
 ];
 
