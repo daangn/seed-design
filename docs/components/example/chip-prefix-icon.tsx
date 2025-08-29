@@ -19,7 +19,7 @@ export default function ChipPrefixIcon() {
           <Chip.Label>With Icon Toggle</Chip.Label>
         </Chip.Toggle>
       </HStack>
-      <Chip.RadioRoot defaultValue="option1">
+      <Chip.RadioRoot defaultValue="option1" aria-label="Options">
         <HStack gap="x2">
           <Chip.RadioItem value="option1">
             <Chip.PrefixIcon>

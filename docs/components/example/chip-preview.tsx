@@ -12,7 +12,7 @@ export default function ChipPreview() {
           <Chip.Label>Toggle Chip</Chip.Label>
         </Chip.Toggle>
       </HStack>
-      <Chip.RadioRoot defaultValue="option1">
+      <Chip.RadioRoot defaultValue="option1" aria-label="Options">
         <HStack gap="x2">
           <Chip.RadioItem value="option1">
             <Chip.Label>Radio Chip 1</Chip.Label>

@@ -12,7 +12,7 @@ export default function ChipOutlineStrong() {
           <Chip.Label>Outline Strong Toggle</Chip.Label>
         </Chip.Toggle>
       </HStack>
-      <Chip.RadioRoot defaultValue="option1">
+      <Chip.RadioRoot defaultValue="option1" aria-label="Options">
         <HStack gap="x2">
           <Chip.RadioItem value="option1" variant="outlineStrong">
             <Chip.Label>Outline Strong Radio 1</Chip.Label>
