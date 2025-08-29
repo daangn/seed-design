@@ -9,43 +9,45 @@ data:
     slots:
       root:
         properties:
-          colorDuration:
-            type: duration
-          colorTimingFunction:
-            type: cubicBezier
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
           strokeColor:
             type: color
           strokeWidth:
             type: dimension
-          cornerRadius:
-            type: dimension
           height:
-            type: dimension
-          gap:
             type: dimension
           paddingX:
             type: dimension
           minWidth:
             type: dimension
-          color:
-            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
           opacity:
             type: number
       label:
         properties:
           color:
             type: color
-          fontWeight:
-            type: number
           fontSize:
             type: dimension
           lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          paddingX:
             type: dimension
       prefixIcon:
         properties:
           color:
             type: color
           size:
+            type: dimension
+          paddingLeft:
             type: dimension
       prefixAvatar:
         properties:
@@ -56,6 +58,8 @@ data:
           color:
             type: color
           size:
+            type: dimension
+          paddingRight:
             type: dimension
       icon:
         properties:

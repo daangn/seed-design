@@ -12,11 +12,11 @@
       "slots": {
         "root": {
           "properties": {
-            "colorDuration": {
-              "type": "duration"
+            "color": {
+              "type": "color"
             },
-            "colorTimingFunction": {
-              "type": "cubicBezier"
+            "cornerRadius": {
+              "type": "dimension"
             },
             "strokeColor": {
               "type": "color"
@@ -24,13 +24,7 @@
             "strokeWidth": {
               "type": "dimension"
             },
-            "cornerRadius": {
-              "type": "dimension"
-            },
             "height": {
-              "type": "dimension"
-            },
-            "gap": {
               "type": "dimension"
             },
             "paddingX": {
@@ -39,8 +33,11 @@
             "minWidth": {
               "type": "dimension"
             },
-            "color": {
-              "type": "color"
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             },
             "opacity": {
               "type": "number"
@@ -52,13 +49,16 @@
             "color": {
               "type": "color"
             },
-            "fontWeight": {
-              "type": "number"
-            },
             "fontSize": {
               "type": "dimension"
             },
             "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "paddingX": {
               "type": "dimension"
             }
           }
@@ -69,6 +69,9 @@
               "type": "color"
             },
             "size": {
+              "type": "dimension"
+            },
+            "paddingLeft": {
               "type": "dimension"
             }
           }
@@ -86,6 +89,9 @@
               "type": "color"
             },
             "size": {
+              "type": "dimension"
+            },
+            "paddingRight": {
               "type": "dimension"
             }
           }
