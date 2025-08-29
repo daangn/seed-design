@@ -17,12 +17,12 @@ export interface CheckboxProps extends SeedCheckbox.RootProps {
  * @see https://seed-design.io/react/components/checkbox
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ inputProps, rootRef, label, variant = "square", ...otherProps }, ref) => {
+  ({ inputProps, rootRef, label, ...otherProps }, ref) => {
     return (
-      <SeedCheckbox.Root ref={rootRef} variant={variant} {...otherProps}>
+      <SeedCheckbox.Root ref={rootRef} {...otherProps}>
         <SeedCheckbox.Control>
           <SeedCheckbox.Indicator
-            unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : null}
+            unchecked={otherProps.variant === "ghost" ? <IconCheckmarkFatFill /> : null}
             checked={<IconCheckmarkFatFill />}
             indeterminate={<IconMinusFatFill />}
           />
@@ -37,17 +37,15 @@ Checkbox.displayName = "Checkbox";
 
 export interface CheckmarkProps extends SeedCheckbox.ControlProps {}
 
-export const Checkmark = React.forwardRef<HTMLDivElement, CheckmarkProps>(
-  ({ variant = "square", ...otherProps }, ref) => {
-    return (
-      <SeedCheckbox.Control ref={ref} variant={variant} {...otherProps}>
-        <SeedCheckbox.Indicator
-          unchecked={variant === "ghost" ? <IconCheckmarkFatFill /> : null}
-          checked={<IconCheckmarkFatFill />}
-          indeterminate={<IconMinusFatFill />}
-        />
-      </SeedCheckbox.Control>
-    );
-  },
-);
+export const Checkmark = React.forwardRef<HTMLDivElement, CheckmarkProps>((props, ref) => {
+  return (
+    <SeedCheckbox.Control ref={ref} {...props}>
+      <SeedCheckbox.Indicator
+        unchecked={props.variant === "ghost" ? <IconCheckmarkFatFill /> : null}
+        checked={<IconCheckmarkFatFill />}
+        indeterminate={<IconMinusFatFill />}
+      />
+    </SeedCheckbox.Control>
+  );
+});
 Checkmark.displayName = "Checkmark";

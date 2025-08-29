@@ -7,7 +7,7 @@ import {
   IconPlusFill,
   IconSquare2StackedFill,
 } from "@karrotmarket/react-monochrome-icon";
-import { HStack, PrefixIcon, Icon } from "@seed-design/react";
+import { PrefixIcon, Icon } from "@seed-design/react";
 import { useCallback, useState } from "react";
 import { List, ListItem, ListItemButton, ListItemLink } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";
@@ -43,13 +43,13 @@ export default function ListClickable() {
         detail="리스트 항목 전체와 우측의 Toggle Button 각각을 클릭할 수 있어요"
         onClick={() => alert("리스트 아이템 클릭됨")}
         suffix={
-          <HStack gap="x2" align="center">
+          <>
             <ToggleButton size="xsmall" pressed={isSubscribed} onPressedChange={setIsSubscribed}>
               <PrefixIcon svg={isSubscribed ? <IconCheckmarkFill /> : <IconPlusFill />} />
               {isSubscribed ? "모아보는 중" : "모아보기"}
             </ToggleButton>
             <Icon svg={<IconChevronRightLine />} />
-          </HStack>
+          </>
         }
         showDivider
       />
@@ -57,13 +57,13 @@ export default function ListClickable() {
         title="ListItemLink도 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
         suffix={
-          <HStack gap="x2" align="center">
+          <>
             <ActionButton size="xsmall" onClick={onCopyClick}>
               <PrefixIcon svg={isCopied ? <IconCheckmarkFill /> : <IconSquare2StackedFill />} />
               {isCopied ? "복사됨" : "URL 복사"}
             </ActionButton>
             <Icon svg={<IconArrowUpRightLine />} />
-          </HStack>
+          </>
         }
         href={href}
         target="_blank"

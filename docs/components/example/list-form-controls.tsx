@@ -1,10 +1,10 @@
 import { Badge, HStack, RadioGroup } from "@seed-design/react";
-import { List, ListItemCheckbox, ListItemRadio } from "seed-design/ui/list";
+import { List, ListItemCheck, ListItemRadio } from "seed-design/ui/list";
 
 export default function ListFormControls() {
   return (
     <List width="full">
-      <ListItemCheckbox
+      <ListItemCheck
         title={
           <HStack gap="x1_5">
             <span>알림 수신 동의</span>
@@ -13,13 +13,13 @@ export default function ListFormControls() {
         }
         detail="푸시 알림을 받으시겠습니까?"
       />
-      <ListItemCheckbox
+      <ListItemCheck
         position="prefix"
         title="마케팅 정보 수신 동의"
         detail="마케팅 정보를 받으시겠습니까?"
         defaultChecked
       />
-      <ListItemCheckbox
+      <ListItemCheck
         position="prefix"
         title="Ghost Variant"
         variant="ghost"

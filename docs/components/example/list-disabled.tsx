@@ -4,7 +4,7 @@ import {
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon, RadioGroup } from "@seed-design/react";
-import { List, ListItemButton, ListItemCheckbox, ListItemRadio } from "seed-design/ui/list";
+import { List, ListItemButton, ListItemCheck, ListItemRadio } from "seed-design/ui/list";
 
 export default function ListDisabled() {
   return (
@@ -14,9 +14,9 @@ export default function ListDisabled() {
         title="활성화된 ListItemButton"
         suffix={<Icon svg={<IconChevronRightLine />} />}
       />
-      <ListItemCheckbox
+      <ListItemCheck
         prefix={<Icon svg={<IconPersonCircleLine />} />}
-        title="활성화된 ListItemCheckbox"
+        title="활성화된 ListItemCheck"
       />
       <RadioGroup.Root defaultValue="foo">
         <ListItemRadio
@@ -32,10 +32,10 @@ export default function ListDisabled() {
         title="비활성화된 ListItemButton"
         suffix={<Icon svg={<IconChevronRightLine />} />}
       />
-      <ListItemCheckbox
+      <ListItemCheck
         disabled
         prefix={<Icon svg={<IconSlashCircleLine />} />}
-        title="비활성화된 ListItemCheckbox"
+        title="비활성화된 ListItemCheck"
       />
       <RadioGroup.Root defaultValue="foo">
         <ListItemRadio
