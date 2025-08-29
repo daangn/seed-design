@@ -3,7 +3,7 @@ import {
   IconPersonCircleLine,
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon, RadioGroup } from "@seed-design/react";
+import { Icon, RadioGroup } from "@seed-design/react";
 import { List, ListItemButton, ListItemCheckbox, ListItemRadio } from "seed-design/ui/list";
 
 export default function ListDisabled() {
@@ -23,9 +23,9 @@ export default function ListDisabled() {
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 ListItemRadio"
           value="foo"
+          showDivider
         />
       </RadioGroup.Root>
-      <Divider />
       <ListItemButton
         disabled
         prefix={<Icon svg={<IconSlashCircleLine />} />}

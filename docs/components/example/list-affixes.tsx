@@ -4,7 +4,7 @@ import {
   IconArrowUpBracketDownLine,
   IconILowercaseSerifCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon } from "@seed-design/react";
+import { Icon } from "@seed-design/react";
 import { useState } from "react";
 import { ActionButton } from "seed-design/ui/action-button";
 import { Avatar } from "seed-design/ui/avatar";
@@ -27,20 +27,26 @@ export default function ListAffixes() {
         }
         title="Prefix에 Avatar 넣기"
         detail="Amet elit ullamco magna."
+        showDivider
       />
-      <Divider as="div" />
+      <ListItem
+        prefix={<Avatar size="48" fallback={<IdentityPlaceholder />} />}
+        title="Prefix에 Avatar 넣고 상단으로 정렬하기. 일반적으로 `title`이 길어질 때 사용합니다. Veniam elit velit esse ea incididunt sunt sit aute."
+        detail="Et proident sit ullamco ut voluptate."
+        alignItems="flex-start"
+      />
       <ListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
         prefix={<Icon svg={<IconILowercaseSerifCircleLine />} />}
+        showDivider
       />
-      <Divider as="div" />
       <ListItem
         title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
         suffix={<ActionButton size="xsmall">액션 버튼</ActionButton>}
+        showDivider
       />
-      <Divider as="div" />
       <ListItem
         title="Suffix에 Action Button (Ghost) 넣기"
         detail="Deserunt nulla elit est."
@@ -49,8 +55,8 @@ export default function ListAffixes() {
             <Icon svg={<IconArrowUpBracketDownLine />} />
           </ActionButton>
         }
+        showDivider
       />
-      <Divider as="div" />
       <ListItem
         title="Suffix에 Toggle Button 넣기"
         detail="Sit eu incididunt aute ea elit ex."

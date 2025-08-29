@@ -4,6 +4,82 @@ metadata:
   id: list-item
   name: List Item
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          paddingY:
+            type: dimension
+          paddingX:
+            type: dimension
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          color:
+            type: color
+      content:
+        properties:
+          gap:
+            type: dimension
+          paddingRight:
+            type: dimension
+      title:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      detail:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      prefix:
+        properties:
+          paddingRight:
+            type: dimension
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      suffix:
+        properties:
+          gap:
+            type: dimension
+      suffixText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      suffixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      divider:
+        properties:
+          thickness:
+            type: dimension
+          color:
+            type: color
   definitions:
     base:
       enabled:
@@ -40,6 +116,9 @@ data:
         suffixIcon:
           size: 18px
           color: $color.fg.neutral-subtle
+        divider:
+          thickness: 1px
+          color: $color.stroke.neutral
       highlighted:
         root:
           color: $color.palette.carrot-100

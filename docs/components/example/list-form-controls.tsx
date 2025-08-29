@@ -1,4 +1,4 @@
-import { Badge, Divider, HStack, RadioGroup } from "@seed-design/react";
+import { Badge, HStack, RadioGroup } from "@seed-design/react";
 import { List, ListItemCheckbox, ListItemRadio } from "seed-design/ui/list";
 
 export default function ListFormControls() {
@@ -19,8 +19,13 @@ export default function ListFormControls() {
         detail="마케팅 정보를 받으시겠습니까?"
         defaultChecked
       />
-      <ListItemCheckbox position="prefix" title="Ghost Variant" variant="ghost" size="large" />
-      <Divider />
+      <ListItemCheckbox
+        position="prefix"
+        title="Ghost Variant"
+        variant="ghost"
+        size="large"
+        showDivider
+      />
       <RadioGroup.Root defaultValue="option1">
         <ListItemRadio value="option1" title="옵션 1" detail="첫 번째 선택지" />
         <ListItemRadio position="prefix" value="option2" title="옵션 2" detail="두 번째 선택지" />

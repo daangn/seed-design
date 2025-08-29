@@ -109,7 +109,7 @@ const listItem = defineSlotRecipe({
       },
 
       // otherwise, see if it has [data-active]. e.g. ListItemCheckbox
-      // this restriction allows noninteractive(static/presentation/decorative) list items not to have an active style
+      // this restriction prevents noninteractive(static/presentation/decorative) list items from having an active style
       [pseudo(not(disabled), "[data-active]", ":before")]: {
         backgroundColor: vars.base.pressed.root.color,
       },
@@ -146,9 +146,18 @@ const listItem = defineSlotRecipe({
         },
       },
     },
+    showDivider: {
+      false: {},
+      true: {
+        root: {
+          boxShadow: `inset 0px calc(${vars.base.enabled.divider.thickness} * -1) 0 0 ${vars.base.enabled.divider.color}`,
+        },
+      },
+    },
   },
   defaultVariants: {
     highlighted: false,
+    showDivider: false,
   },
 });
 
