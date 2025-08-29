@@ -1,14 +1,27 @@
+import { HStack, VStack } from "@seed-design/react";
 import { Chip } from "@/registry/ui/chip";
 
 export default function ChipPreview() {
   return (
-    <div className="flex items-center gap-2">
-      <Chip.Button>
-        <Chip.Label>Button Chip</Chip.Label>
-      </Chip.Button>
-      <Chip.Toggle>
-        <Chip.Label>Toggle Chip</Chip.Label>
-      </Chip.Toggle>
-    </div>
+    <VStack gap="x3" align="center">
+      <HStack gap="x2">
+        <Chip.Button>
+          <Chip.Label>Button Chip</Chip.Label>
+        </Chip.Button>
+        <Chip.Toggle>
+          <Chip.Label>Toggle Chip</Chip.Label>
+        </Chip.Toggle>
+      </HStack>
+      <Chip.RadioRoot defaultValue="option1">
+        <HStack gap="x2">
+          <Chip.RadioItem value="option1">
+            <Chip.Label>Radio Chip 1</Chip.Label>
+          </Chip.RadioItem>
+          <Chip.RadioItem value="option2">
+            <Chip.Label>Radio Chip 2</Chip.Label>
+          </Chip.RadioItem>
+        </HStack>
+      </Chip.RadioRoot>
+    </VStack>
   );
 }
