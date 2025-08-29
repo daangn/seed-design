@@ -2854,11 +2854,8 @@
 
 .seed-chip__suffixIcon {
   padding-right: var(--seed-dimension-x1_5);
-  transition-duration: var(--seed-duration-d4);
-  transition-timing-function: var(--seed-timing-function-easing);
   flex-shrink: 0;
   align-items: center;
-  transition-property: color;
   display: inline-flex;
 }
 

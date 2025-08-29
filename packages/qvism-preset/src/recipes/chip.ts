@@ -60,10 +60,6 @@ const chip = defineSlotRecipe({
       alignItems: "center",
       flexShrink: 0,
       paddingRight: vars.base.enabled.suffixIcon.paddingRight,
-
-      transitionDuration: vars.base.enabled.root.colorDuration,
-      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
-      transitionProperty: "color",
     },
   },
   variants: {
@@ -81,7 +77,7 @@ const chip = defineSlotRecipe({
             background: vars.variantSolid.selected.root.color,
 
             ...onlyIcon({
-              color: vars.variantSolid.selected.prefixIcon.color,
+              color: vars.variantSolid.selected.icon.color,
             }),
           },
           [pseudo(active, not(disabled))]: {
@@ -123,7 +119,7 @@ const chip = defineSlotRecipe({
           [pseudo(checked)]: {
             background: vars.variantOutlineStrong.selected.root.color,
             ...onlyIcon({
-              color: vars.variantOutlineStrong.selected.prefixIcon.color,
+              color: vars.variantOutlineStrong.selected.icon.color,
             }),
           },
           [pseudo(checked, active, not(disabled))]: {

@@ -48,9 +48,6 @@
     align-items: center;
     flex-shrink: 0;
     padding-right: var(--seed-dimension-x1_5);
-    transition-duration: var(--seed-duration-d4);
-    transition-timing-function: var(--seed-timing-function-easing);
-    transition-property: color;
 }
 .seed-chip__root--variant_solid {
     background: var(--seed-color-bg-neutral-weak);
