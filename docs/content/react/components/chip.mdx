@@ -52,7 +52,9 @@ npx @seed-design/cli@latest add chip
 
 ## Examples
 
-### Size: Small
+### Sizes
+
+#### Small
 
 <ComponentExample name="chip-small">
   ```json doc-gen:file
@@ -63,7 +65,7 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-### Size: Medium
+#### Medium
 
 <ComponentExample name="chip-medium">
   ```json doc-gen:file
@@ -74,7 +76,7 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-### Size: Large
+#### Large
 
 <ComponentExample name="chip-large">
   ```json doc-gen:file
@@ -85,7 +87,9 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-### Variant: Solid
+### Variants
+
+#### Solid
 
 <ComponentExample name="chip-solid">
   ```json doc-gen:file
@@ -96,7 +100,7 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-### Variant: Outline Strong
+#### Outline Strong
 
 <ComponentExample name="chip-outline-strong">
   ```json doc-gen:file
@@ -107,7 +111,7 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-### Variant: Outline Weak
+#### Outline Weak
 
 <ComponentExample name="chip-outline-weak">
   ```json doc-gen:file
@@ -140,9 +144,20 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
+### Icon Only
+
+<ComponentExample name="chip-icon-only">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/chip-icon-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Prefix Avatar
 
-아바타와 함께 사용할 수 있습니다.
+[Avatar](/react/components/avatar)와 함께 사용할 수 있습니다.
 
 <ComponentExample name="chip-prefix-avatar">
   ```json doc-gen:file
@@ -153,9 +168,9 @@ npx @seed-design/cli@latest add chip
   ```
 </ComponentExample>
 
-## Migration from ActionChip/ControlChip
+## Migrating from ActionChip/ControlChip
 
-기존 ActionChip과 ControlChip은 새로운 Chip 컴포넌트로 통합되었습니다.
+[Action Chip](/react/components/action-chip)과 [Control Chip](/react/components/control-chip)을 대체합니다.
 
 ### ActionChip → Chip.Button
 
@@ -168,7 +183,9 @@ import { ActionChip } from "@seed-design/react";
 // After
 import { Chip } from "@seed-design/react";
 
-<Chip.Button size="medium" variant="solid">Label</Chip.Button>
+<Chip.Button size="medium" variant="solid">
+  <Chip.Label>Label</Chip.Label>
+</Chip.Button>
 ```
 
 ### ControlChip → Chip.Toggle
@@ -182,5 +199,7 @@ import { ControlChip } from "@seed-design/react";
 // After
 import { Chip } from "@seed-design/react";
 
-<Chip.Toggle size="medium" variant="outlineStrong">Label</Chip.Toggle>
+<Chip.Toggle size="medium" variant="outlineStrong">
+  <Chip.Label>Label</Chip.Label>
+</Chip.Toggle>
 ```
