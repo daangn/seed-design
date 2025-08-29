@@ -239,30 +239,6 @@
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
                 }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
               }
             }
           },
@@ -326,30 +302,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted-pressed"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
                 }
               }
             }
@@ -429,44 +381,9 @@
             ],
             "slots": {
               "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               }
             }
@@ -531,30 +448,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted-pressed"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
                 }
               }
             }
@@ -634,44 +527,9 @@
             ],
             "slots": {
               "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               }
             }
@@ -699,40 +557,9 @@
                   "type": "color",
                   "value": "$color.stroke.neutral-contrast"
                 },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               }
             }
@@ -744,44 +571,9 @@
             ],
             "slots": {
               "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-contrast"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "prefixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "suffixIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               }
             }
