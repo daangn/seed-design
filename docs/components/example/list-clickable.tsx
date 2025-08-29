@@ -9,7 +9,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Divider, HStack, PrefixIcon, Icon } from "@seed-design/react";
 import { useCallback, useState } from "react";
-import { List, ListItem, ListItemButton, ListItemAnchor } from "seed-design/ui/list";
+import { List, ListItem, ListItemButton, ListItemLink } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
@@ -53,8 +53,8 @@ export default function ListClickable() {
         }
       />
       <Divider as="div" />
-      <ListItemAnchor
-        title="ListItemAnchor도 클릭할 수 있어요. 눌러보세요."
+      <ListItemLink
+        title="ListItemLink도 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
         suffix={
           <HStack gap="x2" align="center">

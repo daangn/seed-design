@@ -90,7 +90,7 @@ export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButton
 );
 ListItemButton.displayName = "ListItemButton";
 
-export interface ListItemAnchorProps
+export interface ListItemLinkProps
   extends Omit<
     ListItemBaseProps & React.AnchorHTMLAttributes<HTMLAnchorElement>,
     "title" | "prefix" | "asChild" | "children"
@@ -106,7 +106,7 @@ export interface ListItemAnchorProps
 /**
  * @see https://seed-design.io/react/components/list
  */
-export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchorProps>(
+export const ListItemLink = React.forwardRef<HTMLAnchorElement, ListItemLinkProps>(
   ({ title, detail, prefix, suffix, alignItems, rootRef, ...props }, ref) => {
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
@@ -124,7 +124,7 @@ export const ListItemAnchor = React.forwardRef<HTMLAnchorElement, ListItemAnchor
     );
   },
 );
-ListItemAnchor.displayName = "ListItemAnchor";
+ListItemLink.displayName = "ListItemLink";
 
 export type ListItemCheckboxProps = Omit<
   ListItemBaseProps & SeedCheckbox.RootProps,
