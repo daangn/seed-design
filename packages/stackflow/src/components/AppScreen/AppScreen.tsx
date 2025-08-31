@@ -45,21 +45,33 @@ AppScreenRoot.displayName = "AppScreenRoot";
 
 export interface AppScreenDimProps extends AppScreenPrimitive.DimProps {}
 
-export const AppScreenDim = withContext<HTMLDivElement, AppScreenDimProps>(
-  AppScreenPrimitive.Dim,
-  "dim",
+export const AppScreenDim = Object.assign(
+  withContext<HTMLDivElement, AppScreenDimProps>(AppScreenPrimitive.Dim, "dim"),
+  {
+    vars: {
+      zIndex: "var(--z-index-dim)",
+    },
+  },
 );
 
 export interface AppScreenEdgeProps extends AppScreenPrimitive.EdgeProps {}
 
-export const AppScreenEdge = withContext<HTMLDivElement, AppScreenEdgeProps>(
-  AppScreenPrimitive.Edge,
-  "edge",
+export const AppScreenEdge = Object.assign(
+  withContext<HTMLDivElement, AppScreenEdgeProps>(AppScreenPrimitive.Edge, "edge"),
+  {
+    vars: {
+      zIndex: "var(--z-index-edge)",
+    },
+  },
 );
 
 export interface AppScreenLayerProps extends AppScreenPrimitive.LayerProps {}
 
-export const AppScreenLayer = withContext<HTMLDivElement, AppScreenLayerProps>(
-  AppScreenPrimitive.Layer,
-  "layer",
+export const AppScreenLayer = Object.assign(
+  withContext<HTMLDivElement, AppScreenLayerProps>(AppScreenPrimitive.Layer, "layer"),
+  {
+    vars: {
+      zIndex: "var(--z-index-layer)",
+    },
+  },
 );
