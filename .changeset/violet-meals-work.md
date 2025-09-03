@@ -29,7 +29,7 @@
 
 **색상이 변경되는 stroke 토큰 (마이그레이션 불필요)**
 
-`$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused)
+`$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused`)
 
 모든 theme mode에서 `$color.palette.gray-800` → `$color.palette.gray-1000`로 변경되었습니다.
 
