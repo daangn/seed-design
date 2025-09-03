@@ -17,9 +17,9 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
   const componentPageSlugs = reactSource
     .getPages()
     .filter((page) => {
-      // Include both components and bits
+      // Include both components
       const [firstSlug] = page.slugs;
-      return firstSlug === "components" || firstSlug === "bits";
+      return firstSlug === "components";
     })
     .filter(shouldGenerateLLMFriendlyText)
     .map((page) => {
@@ -49,7 +49,7 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
     return slug;
   });
 
-  // Try to find in components first, then in bits
+  // Try to find in components
   const page = reactSource.getPage(["components", ...slugsExtensionRemoved]);
   if (!page) throw new Error("Page not found");
 
