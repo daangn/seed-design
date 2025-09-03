@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/tailwind3-plugin",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Tailwind3 CSS plugin for Seed Design tokens",
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "rootage:generate": "rootage tailwind3-plugin ./src",
+    "rootage:generate": "rootage tailwind3-plugin ./src --prefix seed",
     "lint:publish": "bun publint"
   },
   "keywords": [

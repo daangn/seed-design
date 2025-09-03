@@ -1,5 +1,27 @@
 # @seed-design/react
 
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 9a3c76a: Divider 컴포넌트를 업데이트합니다.
+
+  - `orientation`을 지정할 수 있습니다.
+  - Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+  - Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+- Updated dependencies [c51a261]
+- Updated dependencies [5f2ee39]
+- Updated dependencies [8299ba9]
+- Updated dependencies [3de4cec]
+  - @seed-design/css@0.1.15
+  - @seed-design/react-snackbar@0.0.6
+
 ## 0.1.14
 
 ### Patch Changes

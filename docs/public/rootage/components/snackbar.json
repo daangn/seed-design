@@ -36,6 +36,9 @@
             "minHeight": {
               "type": "dimension"
             },
+            "maxWidth": {
+              "type": "dimension"
+            },
             "paddingX": {
               "type": "dimension"
             },
@@ -171,6 +174,13 @@
                   "type": "dimension",
                   "value": {
                     "value": 44,
+                    "unit": "px"
+                  }
+                },
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 560,
                     "unit": "px"
                   }
                 },

@@ -3,7 +3,7 @@ import { factory, Authoring } from "../parser";
 import { createStringifier, getTokenCss } from "./css";
 
 const { value, tokenReference } = createStringifier({
-  prefix: "seed",
+  prefix: "test",
 });
 
 test("stringifier.tokenReference should stringify token expression", () => {
@@ -11,7 +11,7 @@ test("stringifier.tokenReference should stringify token expression", () => {
 
   const result = tokenReference(token);
 
-  expect(result).toEqual("var(--seed-color-bg-layer-1)");
+  expect(result).toEqual("var(--test-color-bg-layer-1)");
 });
 
 test("stringifier.value should stringify shadow expression", () => {
@@ -111,7 +111,7 @@ test("getTokenCss should generate css code", () => {
       tokens: tokens.flatMap((x) => Authoring.parseTokensDocument(x).data),
     },
     {
-      prefix: "seed",
+      prefix: "test",
       banner: "",
       selectors: {
         global: {
@@ -127,17 +127,17 @@ test("getTokenCss should generate css code", () => {
 
   expect(result).toMatchInlineSnapshot(`
     ":root[data-theme="light"] {
-      --seed-color-palette-gray-00: #ffffff;
-      --seed-color-bg-layer-1: var(--seed-color-palette-gray-00);
+      --test-color-palette-gray-00: #ffffff;
+      --test-color-bg-layer-1: var(--test-color-palette-gray-00);
     }
 
     :root[data-theme="dark"] {
-      --seed-color-palette-gray-00: #000000;
-      --seed-color-bg-layer-1: var(--seed-color-palette-gray-00);
+      --test-color-palette-gray-00: #000000;
+      --test-color-bg-layer-1: var(--test-color-palette-gray-00);
     }
 
     :root {
-      --seed-dimension-s1: 4px;
+      --test-dimension-s1: 4px;
     }"
   `);
 });

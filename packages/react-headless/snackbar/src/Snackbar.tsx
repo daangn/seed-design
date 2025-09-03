@@ -33,7 +33,7 @@ export const SnackbarRegion = forwardRef<HTMLDivElement, SnackbarRegionProps>((p
 });
 SnackbarRegion.displayName = "SnackbarRegion";
 
-export interface SnackbarRendererProps {}
+export type SnackbarRendererProps = {};
 
 export const SnackbarRenderer = (_props: SnackbarRendererProps) => {
   const api = useSnackbarContext();

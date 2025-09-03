@@ -1,7 +1,3 @@
-/**
- * SEED Design Tailwind 4.0 Theme
- * 이 파일은 Tailwind CSS 4.0에서 SEED 디자인 토큰을 사용하기 위한 테마 변수를 제공합니다.
- */
 @theme {
   --color-palette-blue-100: var(--seed-color-palette-blue-100);
   --color-palette-blue-200: var(--seed-color-palette-blue-200);

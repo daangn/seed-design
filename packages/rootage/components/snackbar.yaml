@@ -24,6 +24,8 @@ data:
             type: dimension
           minHeight:
             type: dimension
+          maxWidth:
+            type: dimension
           paddingX:
             type: dimension
           paddingY:
@@ -89,6 +91,7 @@ data:
           color: $color.bg.neutral-solid
           cornerRadius: $radius.r2
           minHeight: 44px
+          maxWidth: 560px
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
           gap: $dimension.x2
