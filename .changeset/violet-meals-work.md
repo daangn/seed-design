@@ -6,9 +6,12 @@
 "@seed-design/css": minor
 ---
 
-시맨틱 stroke 컬러 토큰을 업데이트합니다. 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 마이그레이션이 필요합니다.
+시맨틱 stroke 컬러 토큰을 업데이트합니다.
 
-- 이름이 변경되는 stroke 토큰
+**이름이 변경되는 stroke 토큰**
+
+- [Color Role 규칙](https://seed-design.io/docs/foundation/color/color-role)에 맞춰 일관적인 토큰 이름을 유지할 수 있도록 업데이트합니다.
+- 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 Find & Replace 마이그레이션이 필요합니다.
 
 | 기존                            | 신규                            | 비고                               |
 | ------------------------------- | ------------------------------- | ---------------------------------- |
@@ -24,13 +27,13 @@
 | $color.stroke.warning           | $color.stroke.warning-weak      |
 | $color.stroke.critical          | $color.stroke.critical-weak     |
 
-- 색상이 변경되는 stroke 토큰 (마이그레이션 불필요)
+**색상이 변경되는 stroke 토큰 (마이그레이션 불필요)**
 
 `$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused)
 
 모든 theme mode에서 `$color.palette.gray-800` → `$color.palette.gray-1000`로 변경되었습니다.
 
-- 신규 stroke 토큰 (마이그레이션 불필요)
+**신규 stroke 토큰 (마이그레이션 불필요)**
 
 | 신규                            |
 | ------------------------------- |
