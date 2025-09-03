@@ -17,38 +17,40 @@ interface DigitProps {
 }
 
 // 개별 숫자 컴포넌트
-const SingleNumber = React.memo(({ 
-  animatedValue, 
-  number, 
-  height
-}: { 
-  animatedValue: ReturnType<typeof useSpring>; 
-  number: number; 
-  height: number; 
-}) => {
-  const y = useTransform(animatedValue, (latest: number) => {
-    const placeValue = latest % 10;
-    const offset = (10 + number - placeValue) % 10;
-    let yPosition = offset * height;
-    if (offset > 5) {
-      yPosition -= 10 * height;
-    }
-    return yPosition;
-  });
+const SingleNumber = React.memo(
+  ({
+    animatedValue,
+    number,
+    height,
+  }: {
+    animatedValue: ReturnType<typeof useSpring>;
+    number: number;
+    height: number;
+  }) => {
+    const y = useTransform(animatedValue, (latest: number) => {
+      const placeValue = latest % 10;
+      const offset = (10 + number - placeValue) % 10;
+      let yPosition = offset * height;
+      if (offset > 5) {
+        yPosition -= 10 * height;
+      }
+      return yPosition;
+    });
 
-  return (
-    <m.span
-      className={styles.number}
-      style={{
-        y,
-        height: `${height}px`,
-        lineHeight: `${height}px`,
-      }}
-    >
-      {number}
-    </m.span>
-  );
-});
+    return (
+      <m.span
+        className={styles.number}
+        style={{
+          y,
+          height: `${height}px`,
+          lineHeight: `${height}px`,
+        }}
+      >
+        {number}
+      </m.span>
+    );
+  },
+);
 
 // 최적화된 Digit 컴포넌트
 const Digit = React.memo(({ place, value, height }: DigitProps) => {
@@ -163,15 +165,17 @@ export default function AnimateNumber({
 
   const height = fontSizeNumber * 1.2;
 
-  // 최대 7자리까지 지원
-  const maxPlaces = [1000000, 100000, 10000, 1000, 100, 10, 1];
-
-  // 실제로 표시할 자리수 계산
+  // 실제로 표시할 자리수 계산(상위 자리부터 1까지)
   const displayPlaces = React.useMemo(() => {
-    const absValue = Math.abs(value);
-    if (absValue === 0) return [1];
-
-    return maxPlaces.filter((place) => absValue >= place || place === 1);
+    const abs = Math.abs(value);
+    if (!Number.isFinite(abs) || abs === 0) return [1];
+    const places: number[] = [];
+    let p = 1;
+    while (p <= abs) p *= 10;
+    for (p = Math.floor(p / 10); p >= 1; p = Math.floor(p / 10)) {
+      places.push(p);
+    }
+    return places;
   }, [value]);
 
   // 마스크 스타일

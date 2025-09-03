@@ -44,7 +44,9 @@ export async function GET(_: Request, { params }: { params: StaticParams }) {
   });
 
   const page = breezeSource.getPage(slugsExtensionRemoved);
-  if (!page) throw new Error("Page not found");
+  if (!page) {
+    return new Response("Page not found", { status: 404 });
+  }
 
   const processed = await processContent(page.path, page.data.content || "");
 
