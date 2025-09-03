@@ -7,11 +7,12 @@ export async function GET() {
   const pages = reactSource
     .getPages()
     .filter(({ path }) => {
-      if (["get-started/changelog.mdx", "index.mdx"].includes(path)) return false;
+      if (["(updates-and-migration)/updates/changelog.mdx", "index.mdx"].includes(path))
+        return false;
 
       return true;
     })
-    // components/** -> get-started/** -> iconography/**
+    // components/** -> getting-started/** -> iconography/**
     .sort((a, b) => a.path.localeCompare(b.path));
 
   const results = await Promise.all(

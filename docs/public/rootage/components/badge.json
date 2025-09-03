@@ -11,6 +11,9 @@
       "slots": {
         "root": {
           "properties": {
+            "maxWidth": {
+              "type": "dimension"
+            },
             "minHeight": {
               "type": "dimension"
             },
@@ -73,6 +76,7 @@
             "brand": {},
             "informative": {},
             "positive": {},
+            "warning": {},
             "critical": {}
           },
           "defaultValue": "neutral"
@@ -91,6 +95,13 @@
             ],
             "slots": {
               "root": {
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 6.75,
+                    "unit": "rem"
+                  }
+                },
                 "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x6"
@@ -133,6 +144,13 @@
             ],
             "slots": {
               "root": {
+                "maxWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 7.5,
+                    "unit": "rem"
+                  }
+                },
                 "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x5"
@@ -328,13 +346,13 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.carrot-100"
+                  "value": "$color.bg.brand-weak"
                 }
               },
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.carrot-900"
+                  "value": "$color.fg.brand-contrast"
                 }
               }
             }
@@ -551,6 +569,87 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.positive"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "warning",
+          "variant": "weak"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.warning-weak"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.warning-contrast"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "warning",
+          "variant": "solid"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.warning-solid"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "warning",
+          "variant": "outline"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.warning"
+                }
+              },
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.warning"
                 }
               }
             }

@@ -5,7 +5,6 @@ import type { PageTree } from "fumadocs-core/server";
 import { loader } from "fumadocs-core/source";
 
 import { icons } from "lucide-react";
-import { createElement } from "react";
 
 const DeprecatedBadge = () => {
   return (
@@ -43,7 +42,7 @@ async function transformPageTreeWithBadges(
           return {
             ...node,
             name: (
-              <span className="flex items-center">
+              <span className="flex items-center" key={node.$id}>
                 <span>{node.name}</span>
                 <DeprecatedBadge />
               </span>
@@ -74,21 +73,24 @@ async function transformPageTreeWithBadges(
   }
 }
 
-// Create base sources
+const iconHandler = (icon: string | undefined) => {
+  if (!icon || !(icon in icons)) {
+    return undefined;
+  }
+
+  return <IconContainer icon={icons[icon as keyof typeof icons]} />;
+};
+
 const baseSource = loader({
   baseUrl: "/docs",
-  icon(icon) {
-    if (icon && icon in icons)
-      return createElement(IconContainer, {
-        icon: icons[icon as keyof typeof icons],
-      });
-  },
   source: docs.toFumadocsSource(),
+  icon: iconHandler,
 });
 
 const baseReactSource = loader({
   baseUrl: "/react",
   source: reactDocs.toFumadocsSource(),
+  icon: iconHandler,
 });
 
 // Transform page trees with badges

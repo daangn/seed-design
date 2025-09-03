@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: gradient
   name: Gradient
-  lastUpdated: 25-07-12
+  lastUpdated: 25-08-22
 data:
   collection: color
   tokens:
@@ -29,16 +29,16 @@ data:
         theme-light:
           type: gradient
           value:
-            - color: "#ffffff00"
-              position: 0
             - color: "#000000"
+              position: 0
+            - color: "#ffffff00"
               position: 1
         theme-dark:
           type: gradient
           value:
-            - color: "#16171b00"
-              position: 0
             - color: "#000000"
+              position: 0
+            - color: "#16171b00"
               position: 1
     $gradient.glow-magic:
       description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러입니다.
@@ -60,31 +60,6 @@ data:
             - color: "#3a312b"
               position: 0.8
             - color: "#333232"
-              position: 1
-    $gradient.shimmer-magic:
-      description: Skeleton AI shimmer
-      values:
-        theme-light:
-          type: gradient
-          value:
-            - color: "#fff9f500"
-              position: 0
-            - color: "#fff9f58a"
-              position: 0.46
-            - color: "#fff9f58a"
-              position: 0.54
-            - color: "#fff9f500"
-              position: 1
-        theme-dark:
-          type: gradient
-          value:
-            - color: "#fff9f500"
-              position: 0
-            - color: "#fff9f51a"
-              position: 0.46
-            - color: "#fff9f51a"
-              position: 0.54
-            - color: "#fff9f500"
               position: 1
     $gradient.glow-magic-pressed:
       description: 반짝이는 것처럼 느껴지는 배경에 쓰이는 ai 컬러의 pressed컬러입니다.
@@ -132,6 +107,48 @@ data:
               position: 0.54
             - color: "#ffffff00"
               position: 1
+    $gradient.shimmer-magic:
+      description: Skeleton AI shimmer
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#fff9f500"
+              position: 0
+            - color: "#fff9f58a"
+              position: 0.46
+            - color: "#fff9f58a"
+              position: 0.54
+            - color: "#fff9f500"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#fff9f500"
+              position: 0
+            - color: "#fff9f51a"
+              position: 0.46
+            - color: "#fff9f51a"
+              position: 0.54
+            - color: "#fff9f500"
+              position: 1
+    $gradient.highlight-magic-pressed:
+      description: ""
+      values:
+        theme-light:
+          type: gradient
+          value:
+            - color: "#e14f00"
+              position: 0.2
+            - color: "#ae58bf"
+              position: 1
+        theme-dark:
+          type: gradient
+          value:
+            - color: "#ff9e65"
+              position: 0.2
+            - color: "#e89bee"
+              position: 1
     $gradient.highlight-magic:
       description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러입니다.
       values:
@@ -148,21 +165,4 @@ data:
             - color: "#ff6600"
               position: 0.2
             - color: "#d25aca"
-              position: 1
-    $gradient.highlight-magic-pressed:
-      description: 아이콘 및 shape 영역에서 AI 기능을 표현할 때 사용하는 컬러의 pressed 컬러입니다.
-      values:
-        theme-light:
-          type: gradient
-          value:
-            - color: "#e14f00"
-              position: 0.2
-            - color: "#ae58bf"
-              position: 1
-        theme-dark:
-          type: gradient
-          value:
-            - color: "#ff9e65"
-              position: 0.2
-            - color: "#e89bee"
               position: 1

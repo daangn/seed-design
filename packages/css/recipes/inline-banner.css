@@ -16,8 +16,7 @@
     --seed-prefix-icon-margin-top: calc((var(--seed-dimension-x10) - var(--seed-dimension-x4)) * 0.5 - var(--seed-dimension-x2_5));
     --seed-suffix-icon-size: var(--seed-dimension-x4);
     --seed-suffix-icon-margin-left: var(--seed-dimension-x4);
-    --seed-suffix-icon-margin-top: auto;
-    --seed-suffix-icon-margin-bottom: auto;
+    --seed-suffix-icon-align-self: center;
 }
 .seed-inline-banner__root:is(button) {
     cursor: pointer;

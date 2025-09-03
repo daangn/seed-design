@@ -4,6 +4,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    max-width: 560px;
     background: var(--seed-color-bg-neutral-solid);
     border-radius: var(--seed-radius-r2);
     padding-inline: var(--seed-dimension-x4);

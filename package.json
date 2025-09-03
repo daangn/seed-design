@@ -24,7 +24,7 @@
     "format:all": "bun biome format --fix",
     "test:all": "bun vitest run",
     "generate:all": "bun rootage:generate && bun qvism:generate",
-    "figma:sync": "bun figma-extractor scripts/data variables && bun run ./scripts/figma-to-rootage.ts",
+    "figma:sync": "bun figma-extractor --config=scripts/.config/figma-extractor.config.ts scripts/data variables && bun run ./scripts/figma-to-rootage.ts",
     "rootage:build": "ultra -r --build rootage:build",
     "rootage:generate": "ultra -r --rebuild rootage:generate",
     "rootage:generate:watch": "watchlist packages/rootage/artifacts -- bun rootage:generate",
@@ -44,7 +44,7 @@
     "mcp:start": "bunx --bun @seed-design/mcp@latest socket"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.3",
+    "@biomejs/biome": "^2.1.4",
     "@changesets/assemble-release-plan": "^6.0.9",
     "@changesets/cli": "^2.29.2",
     "@changesets/config": "^3.1.1",

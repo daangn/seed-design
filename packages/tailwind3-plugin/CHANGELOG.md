@@ -1,5 +1,61 @@
 # @seed-design/tailwind3-plugin
 
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+  - global.ts에 폰트 스케일링 변수 통합
+
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
 ## 0.1.6
 
 ### Patch Changes

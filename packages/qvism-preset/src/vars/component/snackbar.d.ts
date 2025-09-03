@@ -11,6 +11,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-neutral-solid)",
         "cornerRadius": "var(--seed-radius-r2)",
         "minHeight": "44px",
+        "maxWidth": "560px",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
         "gap": "var(--seed-dimension-x2)",

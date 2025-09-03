@@ -3,7 +3,12 @@ import type {
   NormalizedFrameNode,
   NormalizedInstanceNode,
 } from "@/normalizer";
-import { cloneElement, defineElementTransformer, type ElementTransformer } from "../../core";
+import {
+  cloneElement,
+  createElement,
+  defineElementTransformer,
+  type ElementTransformer,
+} from "../../core";
 import { createSeedReactElement } from "./element-factories";
 import type { ContainerLayoutProps, PropsConverters } from "./props";
 
@@ -43,28 +48,34 @@ export function createFrameTransformer({
       };
 
       const isStretch = props.align === undefined || props.align === "stretch";
-      const processedChildren = isStretch
-        ? transformedChildren.map((child) =>
-            child ? cloneElement(child, { alignSelf: undefined }) : child,
-          )
-        : transformedChildren;
 
       const layoutComponent = inferLayoutComponent(props, isFlex);
 
-      if (layoutComponent === "VStack") {
-        const { direction, ...rest } = props;
+      const hasImageFill = node.fills.some(({ type }) => type === "IMAGE");
+      const imgElement = hasImageFill
+        ? createElement("img", {
+            src: `https://placehold.co/${node.absoluteBoundingBox?.width ?? 100}x${node.absoluteBoundingBox?.height ?? 100}`,
+          })
+        : undefined;
 
-        return createSeedReactElement("VStack", rest, processedChildren);
-      }
+      const processedChildren = [
+        imgElement,
+        ...(isStretch
+          ? transformedChildren.map((child) =>
+              child ? cloneElement(child, { alignSelf: undefined }) : child,
+            )
+          : transformedChildren),
+      ];
 
-      if (layoutComponent === "HStack") {
-        const { direction, ...rest } = props;
+      switch (layoutComponent) {
+        case "VStack":
+        case "HStack": {
+          const { direction: _direction, ...rest } = props;
 
-        return createSeedReactElement("HStack", rest, processedChildren);
-      }
-
-      if (layoutComponent === "Box") {
-        return createSeedReactElement("Box", props, processedChildren);
+          return createSeedReactElement(layoutComponent, rest, processedChildren);
+        }
+        case "Box":
+          return createSeedReactElement("Box", props, processedChildren);
       }
     },
   );

@@ -72,3 +72,9 @@ data:
           gap: -24px
         item:
           strokeWidth: 5px
+    size=108:
+      enabled:
+        root:
+          gap: -27px
+        item:
+          strokeWidth: 5px

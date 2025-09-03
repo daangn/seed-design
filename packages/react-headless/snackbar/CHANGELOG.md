@@ -1,5 +1,14 @@
 # @seed-design/react-snackbar
 
+## 0.0.6
+
+### Patch Changes
+
+- 8299ba9: Snackbar 컴포넌트를 업데이트합니다.
+
+  - root 영역에 maxWidth 스펙을 추가합니다.
+  - `pauseOnInteraction`의 기본값을 `false`에서 `true`로 변경합니다.
+
 ## 0.0.5
 
 ### Patch Changes
