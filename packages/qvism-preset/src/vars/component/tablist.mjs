@@ -4,7 +4,7 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeBottomWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "indicator": {
         "height": "2px",

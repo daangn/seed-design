@@ -7,7 +7,7 @@
     flex: none;
     background-color: var(--seed-color-bg-layer-default);
     border-width: 1px;
-    border-color: var(--seed-color-stroke-control);
+    border-color: var(--seed-color-stroke-neutral-weak);
     border-radius: var(--seed-radius-full);
 }
 .seed-radio__root:is(:active, [data-active]) {

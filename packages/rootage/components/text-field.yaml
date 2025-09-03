@@ -156,7 +156,7 @@ data:
         field:
           color: $color.bg.layer-default
           strokeWidth: 1px
-          strokeColor: $color.stroke.field
+          strokeColor: $color.stroke.neutral-weak
         value:
           color: $color.fg.neutral
         placeholder:
@@ -183,15 +183,15 @@ data:
           fontWeight: $font-weight.regular
       focused:
         field:
-          strokeColor: $color.stroke.field-focused
+          strokeColor: $color.stroke.neutral-contrast
       invalid:
         field:
           color: $color.bg.critical-weak
-          strokeColor: $color.stroke.critical
+          strokeColor: $color.stroke.critical-weak
       invalid,focused:
         field:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.field
+          strokeColor: $color.stroke.neutral-weak
       readonly:
         field:
           color: $color.bg.disabled

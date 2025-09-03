@@ -17,7 +17,7 @@
 }
 .seed-tabs__list {
     background: var(--seed-color-bg-layer-default);
-    box-shadow: inset 0 -1px var(--seed-color-stroke-neutral);
+    box-shadow: inset 0 -1px var(--seed-color-stroke-neutral-muted);
 }
 .seed-tabs__carousel {
     display: block;

@@ -88,7 +88,7 @@ data:
       selected:
         root:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.brand
+          strokeColor: $color.stroke.brand-weak
           strokeWidth: 1px
         label:
           color: $color.fg.brand

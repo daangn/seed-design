@@ -30,7 +30,7 @@ data:
         root:
           color: $color.bg.layer-default
           strokeWidth: 1px
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.full
         icon:
           cornerRadius: $radius.full

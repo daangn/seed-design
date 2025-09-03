@@ -33,7 +33,7 @@ data:
       enabled:
         root:
           cornerRadius: $radius.full
-          strokeColor: $color.stroke.on-image
+          strokeColor: $color.stroke.neutral-subtle
     size=20:
       enabled:
         root:

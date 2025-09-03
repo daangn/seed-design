@@ -40,7 +40,7 @@
 .seed-checkbox__control--variant_square {
     border-width: 1px;
     border-style: solid;
-    border-color: var(--seed-color-stroke-control);
+    border-color: var(--seed-color-stroke-neutral-weak);
 }
 .seed-checkbox__control--variant_square:is(:checked, :indeterminate, [data-checked], [data-indeterminate]) {
     background: var(--seed-color-bg-brand-solid);
@@ -54,7 +54,7 @@
 }
 .seed-checkbox__control--variant_square:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-disabled);
-    border-color: var(--seed-color-stroke-neutral);
+    border-color: var(--seed-color-stroke-neutral-muted);
 }
 .seed-checkbox__control--variant_square:is(:disabled, [disabled], [data-disabled]):is(:active, [data-active]) {
     background: var(--seed-color-bg-disabled);

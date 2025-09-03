@@ -2,7 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "cornerRadius": "var(--seed-radius-full)"
       },

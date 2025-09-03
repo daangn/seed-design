@@ -36,7 +36,7 @@ data:
         root:
           color: $color.bg.layer-default
           strokeBottomWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         indicator:
           height: 2px
           color: $color.fg.neutral

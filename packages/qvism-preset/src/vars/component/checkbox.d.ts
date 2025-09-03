@@ -26,7 +26,7 @@ export declare const vars: {
   "variantSquare": {
     "enabled": {
       "control": {
-        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "strokeWidth": "1px"
       }
     },
@@ -54,7 +54,7 @@ export declare const vars: {
     "disabled": {
       "control": {
         "color": "var(--seed-color-bg-disabled)",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"

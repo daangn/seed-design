@@ -72,7 +72,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.control"
+                  "value": "$color.stroke.neutral-weak"
                 },
                 "cornerRadius": {
                   "type": "dimension",

@@ -6,7 +6,7 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x5)",
         "gap": "var(--seed-dimension-x2_5)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "cornerRadius": "var(--seed-radius-r3)"
       },
       "content": {
@@ -28,7 +28,7 @@ export declare const vars: {
         "size": "var(--seed-dimension-x6)",
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-r1)"
       },
       "checkboxIcon": {
@@ -38,7 +38,7 @@ export declare const vars: {
         "size": "var(--seed-dimension-x6)",
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       "radioIcon": {
@@ -60,7 +60,7 @@ export declare const vars: {
     "enabledSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)",
-        "strokeColor": "var(--seed-color-stroke-control)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "checkboxControl": {
         "color": "var(--seed-color-bg-brand-solid)",

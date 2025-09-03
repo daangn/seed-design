@@ -76,7 +76,7 @@ export const vars = {
   "toneNeutralVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral-muted)"
@@ -106,7 +106,7 @@ export const vars = {
   "toneBrandVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-brand)"
+        "strokeColor": "var(--seed-color-stroke-brand-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-brand)"
@@ -136,7 +136,7 @@ export const vars = {
   "toneInformativeVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-informative)"
+        "strokeColor": "var(--seed-color-stroke-informative-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-informative)"
@@ -166,7 +166,7 @@ export const vars = {
   "tonePositiveVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-positive)"
+        "strokeColor": "var(--seed-color-stroke-positive-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-positive)"
@@ -196,7 +196,7 @@ export const vars = {
   "toneWarningVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-warning)"
+        "strokeColor": "var(--seed-color-stroke-warning-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-warning)"
@@ -226,7 +226,7 @@ export const vars = {
   "toneCriticalVariantOutline": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-weak)"
       },
       "label": {
         "color": "var(--seed-color-fg-critical)"

@@ -88,7 +88,7 @@ data:
           paddingY: $dimension.x5
           gap: $dimension.x2_5
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           cornerRadius: $radius.r3
         content:
           gap: $dimension.x0_5
@@ -106,7 +106,7 @@ data:
           size: $dimension.x6
           color: $color.bg.layer-default
           strokeWidth: 1px
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.r1
         checkboxIcon:
           size: $dimension.x3_5
@@ -114,7 +114,7 @@ data:
           size: $dimension.x6
           color: $color.bg.layer-default
           strokeWidth: 1px
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.full
         radioIcon:
           size: $dimension.x2_5
@@ -131,7 +131,7 @@ data:
       enabled,selected:
         root:
           color: $color.bg.neutral-weak
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
         checkboxControl:
           color: $color.bg.brand-solid
           strokeWidth: 0

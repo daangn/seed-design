@@ -1,11 +1,11 @@
 export const neutral = "var(--seed-color-fg-neutral)";
+export const placeholder = "var(--seed-color-fg-placeholder)";
+export const disabled = "var(--seed-color-fg-disabled)";
 export const brand = "var(--seed-color-fg-brand)";
+export const informative = "var(--seed-color-fg-informative)";
 export const critical = "var(--seed-color-fg-critical)";
 export const positive = "var(--seed-color-fg-positive)";
 export const warning = "var(--seed-color-fg-warning)";
-export const informative = "var(--seed-color-fg-informative)";
-export const placeholder = "var(--seed-color-fg-placeholder)";
-export const disabled = "var(--seed-color-fg-disabled)";
 export const brandContrast = "var(--seed-color-fg-brand-contrast)";
 export const criticalContrast = "var(--seed-color-fg-critical-contrast)";
 export const informativeContrast = "var(--seed-color-fg-informative-contrast)";
