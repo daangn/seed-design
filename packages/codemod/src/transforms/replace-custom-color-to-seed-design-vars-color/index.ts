@@ -10,7 +10,6 @@ const logger = createTransformLogger("replace-custom-color-to-seed-design-vars-c
 // 프로젝트별로 다양한 컬러 접두사를 허용
 const TARGET_PREFIXES = ["color", "f.color", "c", "bg"];
 
-
 ///////////////////////////////////////////////////////////////////
 
 export default function transformer(file: FileInfo, api: API, options: Options) {

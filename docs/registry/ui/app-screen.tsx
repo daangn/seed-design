@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  PullToRefreshRoot,
-  PullToRefreshContent,
-  PullToRefreshIndicator,
-} from "./pull-to-refresh";
+import { PullToRefreshRoot, PullToRefreshContent, PullToRefreshIndicator } from "./pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
@@ -45,28 +41,23 @@ export interface AppScreenContentProps extends SeedAppScreen.LayerProps {
   onPtrRefresh?: () => Promise<void>;
 }
 
-export const AppScreenContent = forwardRef<
-  HTMLDivElement,
-  AppScreenContentProps
->(({ children, ptr, onPtrReady, onPtrRefresh, ...otherProps }, ref) => {
-  if (!ptr) {
-    return (
-      <SeedAppScreen.Layer ref={ref} {...otherProps}>
-        {children}
-      </SeedAppScreen.Layer>
-    );
-  }
+export const AppScreenContent = forwardRef<HTMLDivElement, AppScreenContentProps>(
+  ({ children, ptr, onPtrReady, onPtrRefresh, ...otherProps }, ref) => {
+    if (!ptr) {
+      return (
+        <SeedAppScreen.Layer ref={ref} {...otherProps}>
+          {children}
+        </SeedAppScreen.Layer>
+      );
+    }
 
-  return (
-    <PullToRefreshRoot
-      asChild
-      onPtrReady={onPtrReady}
-      onPtrRefresh={onPtrRefresh}
-    >
-      <SeedAppScreen.Layer ref={ref} {...otherProps}>
-        <PullToRefreshIndicator />
-        <PullToRefreshContent asChild>{children}</PullToRefreshContent>
-      </SeedAppScreen.Layer>
-    </PullToRefreshRoot>
-  );
-});
+    return (
+      <PullToRefreshRoot asChild onPtrReady={onPtrReady} onPtrRefresh={onPtrRefresh}>
+        <SeedAppScreen.Layer ref={ref} {...otherProps}>
+          <PullToRefreshIndicator />
+          <PullToRefreshContent asChild>{children}</PullToRefreshContent>
+        </SeedAppScreen.Layer>
+      </PullToRefreshRoot>
+    );
+  },
+);

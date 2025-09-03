@@ -9,9 +9,9 @@ export const SegmentedControlItemProvider = SegmentedControlItemContext.Provider
 
 export function useSegmentedControlItemContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false
-  ? UseSegmentedControlItemContext | null
-  : UseSegmentedControlItemContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseSegmentedControlItemContext | null : UseSegmentedControlItemContext {
   const context = useContext(SegmentedControlItemContext);
   if (!context && strict) {
     throw new Error("useSegmentedControlItemContext must be used within a SegmentedControlItem");

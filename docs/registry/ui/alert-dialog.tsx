@@ -9,16 +9,9 @@ export interface AlertDialogRootProps extends Dialog.RootProps {}
 /**
  * @see https://seed-design.io/react/components/alert-dialog
  */
-export const AlertDialogRoot = ({
-  children,
-  ...otherProps
-}: AlertDialogRootProps) => {
+export const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {
   return (
-    <Dialog.Root
-      role="alertdialog"
-      closeOnInteractOutside={false}
-      {...otherProps}
-    >
+    <Dialog.Root role="alertdialog" closeOnInteractOutside={false} {...otherProps}>
       {children}
     </Dialog.Root>
   );
@@ -29,21 +22,18 @@ export interface AlertDialogContentProps extends Dialog.ContentProps {
   layerIndex?: number;
 }
 
-export const AlertDialogContent = forwardRef<
-  HTMLDivElement,
-  AlertDialogContentProps
->(({ children, layerIndex, ...otherProps }, ref) => {
-  return (
-    <Dialog.Positioner
-      style={{ "--layer-index": layerIndex } as React.CSSProperties}
-    >
-      <Dialog.Backdrop />
-      <Dialog.Content ref={ref} {...otherProps}>
-        {children}
-      </Dialog.Content>
-    </Dialog.Positioner>
-  );
-});
+export const AlertDialogContent = forwardRef<HTMLDivElement, AlertDialogContentProps>(
+  ({ children, layerIndex, ...otherProps }, ref) => {
+    return (
+      <Dialog.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
+        <Dialog.Backdrop />
+        <Dialog.Content ref={ref} {...otherProps}>
+          {children}
+        </Dialog.Content>
+      </Dialog.Positioner>
+    );
+  },
+);
 
 export interface AlertDialogTriggerProps extends Dialog.TriggerProps {}
 
@@ -69,13 +59,12 @@ export interface AlertDialogActionProps
   extends Omit<Dialog.ActionProps, "color">,
     ActionButtonProps {}
 
-export const AlertDialogAction = forwardRef<
-  HTMLButtonElement,
-  AlertDialogActionProps
->((props, ref) => {
-  return (
-    <Dialog.Action asChild>
-      <ActionButton {...props} ref={ref} />
-    </Dialog.Action>
-  );
-});
+export const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(
+  (props, ref) => {
+    return (
+      <Dialog.Action asChild>
+        <ActionButton {...props} ref={ref} />
+      </Dialog.Action>
+    );
+  },
+);

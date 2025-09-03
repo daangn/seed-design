@@ -2,7 +2,7 @@ import iconData from "@karrotmarket/karrot-ui-icon/lib/IconData.js";
 import { writeFileSync } from "fs";
 import { resolve } from "path";
 import dedent from "string-dedent";
-import pkg from "../package.json" assert { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 
 const iconSchema = dedent`
   {

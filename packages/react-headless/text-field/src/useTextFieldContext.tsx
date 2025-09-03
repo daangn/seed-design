@@ -9,7 +9,9 @@ export const TextFieldProvider = TextFieldContext.Provider;
 
 export function useTextFieldContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseTextFieldContext | null : UseTextFieldContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseTextFieldContext | null : UseTextFieldContext {
   const context = useContext(TextFieldContext);
   if (!context && strict) {
     throw new Error("useTextFieldContext must be used within a TextField");

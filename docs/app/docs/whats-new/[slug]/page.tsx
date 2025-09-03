@@ -26,11 +26,7 @@ interface Article {
 
 export const dynamic = "force-static";
 
-export default async function Page(
-  props: {
-    params: Promise<{ slug?: string }>;
-  }
-) {
+export default async function Page(props: { params: Promise<{ slug?: string }> }) {
   const params = await props.params;
   const page = await client.fetch<Article>(
     SINGLE_BLOG_QUERY,

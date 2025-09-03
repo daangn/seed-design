@@ -4,7 +4,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import kleur from "kleur";
 import path from "path";
-import pkg from "../../package.json" assert { type: "json" };
+import pkg from "../../package.json" with { type: "json" };
 
 import { generateComponent } from "../templates/component";
 import type { IconConfig } from "../types";

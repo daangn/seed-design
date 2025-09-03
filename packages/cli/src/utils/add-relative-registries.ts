@@ -16,7 +16,10 @@ export function addRelativeRegistries({
   function addSeedDependencies({
     registryName,
     type,
-  }: { registryName: string; type: "ui" | "lib" }) {
+  }: {
+    registryName: string;
+    type: "ui" | "lib";
+  }) {
     if (selectedComponents.some((c) => c.name === registryName && c.type === type)) return;
 
     selectedComponents.push({ type, name: registryName });

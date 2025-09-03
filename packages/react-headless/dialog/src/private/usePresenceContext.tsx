@@ -9,7 +9,9 @@ export const PresenceProvider = PresenceContext.Provider;
 
 export function usePresenceContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UsePresenceContext | null : UsePresenceContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UsePresenceContext | null : UsePresenceContext {
   const context = useContext(PresenceContext);
   if (!context && strict) {
     throw new Error("usePresenceContext must be used within a Presence");

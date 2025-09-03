@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import pkg from "../package.json" assert { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 import { generate } from "./commands/generate";
 import { init } from "./commands/init";
 

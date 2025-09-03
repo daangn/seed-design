@@ -2,7 +2,7 @@
 
 import { cac } from "cac";
 import { cosmiconfig } from "cosmiconfig";
-import pkg from "../../package.json" assert { type: "json" };
+import pkg from "../../package.json" with { type: "json" };
 import fs from "fs-extra";
 import path from "node:path";
 import {

@@ -20,9 +20,7 @@
         ],
         "key": "f8abc6bf3077013d60f1c14aea25622e3ae8eee0",
         "hiddenFromPublishing": false,
-        "variableIds": [
-          "VariableID:1:4"
-        ]
+        "variableIds": ["VariableID:1:4"]
       },
       "VariableCollectionId:1:5": {
         "defaultModeId": "1:2",
@@ -41,10 +39,7 @@
         ],
         "key": "b147bcb610a704844ea55504a15dd7ab76e40e1f",
         "hiddenFromPublishing": false,
-        "variableIds": [
-          "VariableID:1:6",
-          "VariableID:1:7"
-        ]
+        "variableIds": ["VariableID:1:6", "VariableID:1:7"]
       }
     },
     "variables": {
@@ -71,9 +66,7 @@
             "a": 1
           }
         },
-        "scopes": [
-          "ALL_SCOPES"
-        ],
+        "scopes": ["ALL_SCOPES"],
         "codeSyntax": {}
       },
       "VariableID:1:6": {
@@ -89,9 +82,7 @@
           "1:2": 3,
           "1:3": 3
         },
-        "scopes": [
-          "ALL_SCOPES"
-        ],
+        "scopes": ["ALL_SCOPES"],
         "codeSyntax": {}
       },
       "VariableID:1:7": {
@@ -107,9 +98,7 @@
           "1:2": false,
           "1:3": false
         },
-        "scopes": [
-          "ALL_SCOPES"
-        ],
+        "scopes": ["ALL_SCOPES"],
         "codeSyntax": {}
       }
     }

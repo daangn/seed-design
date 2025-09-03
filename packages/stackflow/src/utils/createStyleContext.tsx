@@ -18,7 +18,10 @@ export function createStyleContext<
   const ClassNamesProvider = ({
     children,
     value,
-  }: { children: React.ReactNode; value: Classnames }) => {
+  }: {
+    children: React.ReactNode;
+    value: Classnames;
+  }) => {
     return <ClassNamesContext.Provider value={value}>{children}</ClassNamesContext.Provider>;
   };
 

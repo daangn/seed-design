@@ -38,68 +38,59 @@ const descriptionTextStyle = {
 /**
  * @see https://seed-design.io/react/components/error-state
  */
-export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>(
-  (props, ref) => {
-    const {
-      title,
-      description,
-      primaryActionProps,
-      secondaryActionProps,
-      variant = "default",
-      ...otherProps
-    } = props;
-    const { children: secondaryActionLabel, ...secondaryActionOtherProps } =
-      secondaryActionProps || {};
+export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((props, ref) => {
+  const {
+    title,
+    description,
+    primaryActionProps,
+    secondaryActionProps,
+    variant = "default",
+    ...otherProps
+  } = props;
+  const { children: secondaryActionLabel, ...secondaryActionOtherProps } =
+    secondaryActionProps || {};
 
-    return (
-      <VStack
-        ref={ref}
-        justify="center"
-        align="center"
-        gap="x10"
-        px="x14"
-        height="full"
-        flexGrow={1}
-        bg={bg[variant]}
-        {...otherProps}
-      >
-        <VStack gap="x1">
-          <Text align="center" textStyle="t5Bold">
-            {title}
-          </Text>
-          <Text
-            align="center"
-            color="fg.neutralSubtle"
-            textStyle={
-              title
-                ? descriptionTextStyle.withTitle
-                : descriptionTextStyle.descriptionOnly
-            }
-          >
-            {description}
-          </Text>
-        </VStack>
-        {(primaryActionProps || secondaryActionProps) && (
-          <VStack align="center" gap="x4">
-            {primaryActionProps && (
-              <ActionButton
-                variant={primaryActionVariant[variant]}
-                {...primaryActionProps}
-              />
-            )}
-            {secondaryActionProps && (
-              <button {...secondaryActionOtherProps}>
-                <Text color="fg.neutralMuted" textStyle="t4Medium">
-                  {secondaryActionLabel}
-                </Text>
-              </button>
-            )}
-          </VStack>
-        )}
+  return (
+    <VStack
+      ref={ref}
+      justify="center"
+      align="center"
+      gap="x10"
+      px="x14"
+      height="full"
+      flexGrow={1}
+      bg={bg[variant]}
+      {...otherProps}
+    >
+      <VStack gap="x1">
+        <Text align="center" textStyle="t5Bold">
+          {title}
+        </Text>
+        <Text
+          align="center"
+          color="fg.neutralSubtle"
+          textStyle={title ? descriptionTextStyle.withTitle : descriptionTextStyle.descriptionOnly}
+        >
+          {description}
+        </Text>
       </VStack>
-    );
-  },
-);
+      {(primaryActionProps || secondaryActionProps) && (
+        <VStack align="center" gap="x4">
+          {primaryActionProps && (
+            <ActionButton variant={primaryActionVariant[variant]} {...primaryActionProps} />
+          )}
+          {secondaryActionProps && (
+            <button {...secondaryActionOtherProps}>
+              <Text color="fg.neutralMuted" textStyle="t4Medium">
+                {secondaryActionLabel}
+              </Text>
+            </button>
+          )}
+        </VStack>
+      )}
+    </VStack>
+  );
+});
 ErrorState.displayName = "ErrorState";
 
 /**
