@@ -79,7 +79,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.on-image"
+                  "value": "$color.stroke.neutral-subtle"
                 }
               }
             }

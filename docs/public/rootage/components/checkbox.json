@@ -167,7 +167,7 @@
               "control": {
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.control"
+                  "value": "$color.stroke.neutral-weak"
                 },
                 "strokeWidth": {
                   "type": "dimension",
@@ -244,7 +244,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "label": {

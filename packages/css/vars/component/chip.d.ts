@@ -107,7 +107,7 @@ export declare const vars: {
   "variantOutlineStrong": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default)"
       },
@@ -126,7 +126,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default-pressed)"
       },
@@ -191,7 +191,7 @@ export declare const vars: {
   "variantOutlineWeak": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default)"
       },
@@ -210,7 +210,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default-pressed)"
       },
@@ -234,7 +234,7 @@ export declare const vars: {
     },
     "selected": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-field-focused)",
+        "strokeColor": "var(--seed-color-stroke-neutral-contrast)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-neutral-weak)"
       },
@@ -253,7 +253,7 @@ export declare const vars: {
     },
     "selectedPressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-field-focused)",
+        "strokeColor": "var(--seed-color-stroke-neutral-contrast)",
         "strokeWidth": "1px",
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
       },

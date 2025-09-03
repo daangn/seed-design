@@ -655,7 +655,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 },
                 "strokeWidth": {
                   "type": "dimension",
@@ -726,7 +726,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "label": {
@@ -787,7 +787,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 },
                 "strokeWidth": {
                   "type": "dimension",
@@ -858,7 +858,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "label": {
