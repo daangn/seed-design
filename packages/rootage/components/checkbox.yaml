@@ -61,7 +61,7 @@ data:
     variant=square:
       enabled:
         control:
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
       enabled,selected:
         control:

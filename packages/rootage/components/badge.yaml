@@ -107,7 +107,7 @@ data:
     tone=brand, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.brand
+          strokeColor: $color.stroke.brand-weak
         label:
           color: $color.fg.brand
 
@@ -126,7 +126,7 @@ data:
     tone=informative, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.informative
+          strokeColor: $color.stroke.informative-weak
         label:
           color: $color.fg.informative
 
@@ -145,7 +145,7 @@ data:
     tone=positive, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.positive
+          strokeColor: $color.stroke.positive-weak
         label:
           color: $color.fg.positive
 
@@ -164,7 +164,7 @@ data:
     tone=warning, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.warning
+          strokeColor: $color.stroke.warning-weak
         label:
           color: $color.fg.warning
 
@@ -183,6 +183,6 @@ data:
     tone=critical, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.critical
+          strokeColor: $color.stroke.critical-weak
         label:
           color: $color.fg.critical

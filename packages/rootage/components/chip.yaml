@@ -222,7 +222,7 @@ data:
           opacity: 0.5
       selected:
         root:
-          strokeColor: $color.stroke.field-focused
+          strokeColor: $color.stroke.neutral-contrast
           strokeWidth: 1px
           color: $color.bg.neutral-weak
         label:
@@ -235,7 +235,7 @@ data:
           color: $color.fg.neutral
       selected, pressed:
         root:
-          strokeColor: $color.stroke.field-focused
+          strokeColor: $color.stroke.neutral-contrast
           strokeWidth: 1px
           color: $color.bg.neutral-weak-pressed
         label:
