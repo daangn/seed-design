@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "biomejs.biome",
-    "formulahendry.auto-close-tag",
-    "redhat.vscode-yaml"
-  ]
+  "recommendations": ["biomejs.biome", "formulahendry.auto-close-tag", "redhat.vscode-yaml"]
 }

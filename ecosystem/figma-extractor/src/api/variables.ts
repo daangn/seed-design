@@ -14,7 +14,10 @@ async function getVariablesInFile({ api, fileKey }: { api: figma; fileKey: strin
 export async function getVariableMetadataItemsInFile({
   api,
   fileKey,
-}: { api: figma; fileKey: string }): Promise<LocalVariable[]> {
+}: {
+  api: figma;
+  fileKey: string;
+}): Promise<LocalVariable[]> {
   const variablesInFile = await getVariablesInFile({ api, fileKey });
 
   return Object.values(variablesInFile);

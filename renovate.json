@@ -1,24 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    ":preserveSemverRanges",
-    "group:allNonMajor"
-  ],
-  "baseBranches": [
-    "dev"
-  ],
-  "ignorePaths": [
-    "packages/archive/**"
-  ],
+  "extends": ["config:recommended", ":preserveSemverRanges", "group:allNonMajor"],
+  "baseBranches": ["dev"],
+  "ignorePaths": ["packages/archive/**"],
   "packageRules": [
     {
-      "matchPackageNames": [
-        "tailwindcss"
-      ],
-      "matchFileNames": [
-        "packages/tailwind3-plugin/**"
-      ],
+      "matchPackageNames": ["tailwindcss"],
+      "matchFileNames": ["packages/tailwind3-plugin/**"],
       "enabled": false
     }
   ]

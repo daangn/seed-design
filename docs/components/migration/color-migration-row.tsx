@@ -4,11 +4,7 @@ import { Fragment, useState } from "react";
 import { TokenCell } from "../token-cell";
 import { TokenMappingItem } from "./color-migration-index";
 
-export function ColorMigrationRow({
-  item,
-}: {
-  item: TokenMappingItem;
-}) {
+export function ColorMigrationRow({ item }: { item: TokenMappingItem }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (

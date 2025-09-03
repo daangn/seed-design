@@ -239,7 +239,10 @@ function VariableSuggestionButton({
 function ColorChip({
   backgroundColor,
   opacity = 1,
-}: { backgroundColor: string; opacity?: number }) {
+}: {
+  backgroundColor: string;
+  opacity?: number;
+}) {
   return (
     <Box
       borderWidth={1}

@@ -9,7 +9,9 @@ export const PopoverProvider = PopoverContext.Provider;
 
 export function usePopoverContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UsePopoverContext | null : UsePopoverContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UsePopoverContext | null : UsePopoverContext {
   const context = useContext(PopoverContext);
   if (!context && strict) {
     throw new Error("usePopoverContext must be used within a Popover");

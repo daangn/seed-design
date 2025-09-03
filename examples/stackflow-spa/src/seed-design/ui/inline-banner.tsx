@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  PrefixIcon,
-  InlineBanner as SeedInlineBanner,
-  SuffixIcon,
-} from "@seed-design/react";
+import { PrefixIcon, InlineBanner as SeedInlineBanner, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 
-import {
-  IconChevronRightLine,
-  IconXmarkLine,
-} from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
+import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 
 export interface InlineBannerProps
   extends Omit<
@@ -38,9 +31,7 @@ export const InlineBanner = React.forwardRef<
       {prefixIcon && <PrefixIcon svg={prefixIcon} />}
       <SeedInlineBanner.Content>
         {title && <SeedInlineBanner.Title>{title}</SeedInlineBanner.Title>}
-        <SeedInlineBanner.Description>
-          {description}
-        </SeedInlineBanner.Description>
+        <SeedInlineBanner.Description>{description}</SeedInlineBanner.Description>
       </SeedInlineBanner.Content>
       {linkProps && <SeedInlineBanner.Link {...linkProps} />}
     </SeedInlineBanner.Root>
@@ -73,9 +64,7 @@ export const ActionableInlineBanner = React.forwardRef<
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
         <SeedInlineBanner.Content>
           {title && <SeedInlineBanner.Title>{title}</SeedInlineBanner.Title>}
-          <SeedInlineBanner.Description>
-            {description}
-          </SeedInlineBanner.Description>
+          <SeedInlineBanner.Description>{description}</SeedInlineBanner.Description>
         </SeedInlineBanner.Content>
         <SuffixIcon svg={<IconChevronRightLine />} />
       </button>
@@ -85,10 +74,7 @@ export const ActionableInlineBanner = React.forwardRef<
 ActionableInlineBanner.displayName = "ActionableInlineBanner";
 
 export interface DismissibleInlineBannerProps
-  extends Omit<
-    SeedInlineBanner.RootProps,
-    "variant" | "children" | "title" | "asChild"
-  > {
+  extends Omit<SeedInlineBanner.RootProps, "variant" | "children" | "title" | "asChild"> {
   prefixIcon?: React.ReactNode;
 
   title?: React.ReactNode;
@@ -96,10 +82,7 @@ export interface DismissibleInlineBannerProps
   description: React.ReactNode;
 
   // While critical variants are discouraged in dismissible, you may remove the restriction if needed.
-  variant?: Exclude<
-    SeedInlineBanner.RootProps["variant"],
-    "criticalWeak" | "criticalSolid"
-  >;
+  variant?: Exclude<SeedInlineBanner.RootProps["variant"], "criticalWeak" | "criticalSolid">;
 }
 
 /**
@@ -114,9 +97,7 @@ export const DismissibleInlineBanner = React.forwardRef<
       {prefixIcon && <PrefixIcon svg={prefixIcon} />}
       <SeedInlineBanner.Content>
         {title && <SeedInlineBanner.Title>{title}</SeedInlineBanner.Title>}
-        <SeedInlineBanner.Description>
-          {description}
-        </SeedInlineBanner.Description>
+        <SeedInlineBanner.Description>{description}</SeedInlineBanner.Description>
       </SeedInlineBanner.Content>
       {/* You may implement your own i18n for dismiss label */}
       <SeedInlineBanner.CloseButton aria-label="닫기">

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -12,7 +12,13 @@
       "!**/package.json",
       "!**/archive/**/*",
       "!**/.next/**/*",
-      "!**/__testfixtures__"
+      "!**/__testfixtures__",
+      "!**/__generated__",
+      "!**/__registry__",
+      "!**/public",
+      "!packages/css/**/*",
+      "!**/schema.json",
+      "!packages/qvism-preset/src/vars/**/*"
     ],
     "enabled": true,
     "indentStyle": "space",

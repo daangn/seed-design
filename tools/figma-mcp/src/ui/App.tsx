@@ -3,7 +3,7 @@ import { Callout } from "@/design-system/ui/callout";
 import { TextField, TextFieldInput } from "@/design-system/ui/text-field";
 import { Flex, VStack, Text } from "@seed-design/react";
 import { useEffect, useRef, useState } from "react";
-import { version } from "@seed-design/mcp/package.json" assert { type: "json" };
+import { version } from "@seed-design/mcp/package.json" with { type: "json" };
 
 interface PendingRequest {
   resolve: (value: any) => void;

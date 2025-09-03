@@ -30,18 +30,7 @@ export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
  * @see https://seed-design.io/react/components/chip
  */
 export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
-  (
-    {
-      children,
-      size,
-      layout = "withText",
-      variant,
-      inputProps,
-      rootRef,
-      ...otherProps
-    },
-    ref,
-  ) => {
+  ({ children, size, layout = "withText", variant, inputProps, rootRef, ...otherProps }, ref) => {
     return (
       <SeedChipRoot asChild size={size} layout={layout} variant={variant}>
         <Checkbox.Root ref={rootRef} {...otherProps}>
@@ -76,29 +65,13 @@ export interface RadioChipRootProps extends RadioGroup.RootProps {}
 
 export const RadioChipRoot = RadioGroup.Root;
 
-export interface RadioChipItemProps
-  extends ChipBaseProps,
-    RadioGroup.ItemProps {
+export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   rootRef?: React.Ref<HTMLLabelElement>;
 }
 
-export const RadioChipItem = React.forwardRef<
-  HTMLInputElement,
-  RadioChipItemProps
->(
-  (
-    {
-      children,
-      inputProps,
-      rootRef,
-      size,
-      layout = "withText",
-      variant,
-      ...otherProps
-    },
-    ref,
-  ) => {
+export const RadioChipItem = React.forwardRef<HTMLInputElement, RadioChipItemProps>(
+  ({ children, inputProps, rootRef, size, layout = "withText", variant, ...otherProps }, ref) => {
     return (
       <SeedChipRoot asChild size={size} layout={layout} variant={variant}>
         <RadioGroup.Item ref={rootRef} {...otherProps}>

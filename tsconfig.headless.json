@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "emitDeclarationOnly": true,
     "declaration": true,
-    
+
     "jsx": "react-jsx"
-  },
+  }
 }

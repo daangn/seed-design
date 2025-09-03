@@ -9,9 +9,9 @@ export const PullToRefreshProvider = PullToRefreshContext.Provider;
 
 export function usePullToRefreshContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false
-  ? UsePullToRefreshContext | null
-  : UsePullToRefreshContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UsePullToRefreshContext | null : UsePullToRefreshContext {
   const context = useContext(PullToRefreshContext);
   if (!context && strict) {
     throw new Error("usePullToRefreshContext must be used within a PullToRefresh");

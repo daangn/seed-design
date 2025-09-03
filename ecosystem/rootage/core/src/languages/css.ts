@@ -60,8 +60,8 @@ export const staticStringifier = {
   value: stringifyValueLit,
 };
 
-export type DeclarationFunction = (params: { 
-  decl: TokenDeclaration; 
+export type DeclarationFunction = (params: {
+  decl: TokenDeclaration;
   mode: string;
   helpers: {
     tokenName: (token: TokenLit) => string;
@@ -69,7 +69,9 @@ export type DeclarationFunction = (params: {
   };
 }) => string;
 
-export function createStringifier(options: { prefix?: string; customDeclaration?: DeclarationFunction } = {}) {
+export function createStringifier(
+  options: { prefix?: string; customDeclaration?: DeclarationFunction } = {},
+) {
   const { prefix, customDeclaration } = options;
 
   function tokenName(token: TokenLit) {
@@ -91,10 +93,10 @@ export function createStringifier(options: { prefix?: string; customDeclaration?
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {
     if (customDeclaration) {
-      return customDeclaration({ 
-        decl, 
+      return customDeclaration({
+        decl,
         mode,
-        helpers: { tokenName, valueOrToken }
+        helpers: { tokenName, valueOrToken },
       });
     }
     const value = valueOrToken(decl.values.find((v) => v.mode === mode)!.value);
