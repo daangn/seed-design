@@ -51,9 +51,7 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
 
   // Try to find in components first, then in bits
   const page = reactSource.getPage(["components", ...slugsExtensionRemoved]);
-  if (!page) {
-    return new Response("Page not found", { status: 404 });
-  }
+  if (!page) throw new Error("Page not found");
 
   const processed = await processContent(page.path, page.data.content);
 
