@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-08-22
+  lastUpdated: 25-09-03
 data:
   collection: color
   tokens:
@@ -386,10 +386,22 @@ data:
       values:
         theme-light: $color.palette.gray-1000
         theme-dark: $color.palette.gray-1000
+    $color.fg.placeholder:
+      values:
+        theme-light: $color.palette.gray-600
+        theme-dark: $color.palette.gray-600
+    $color.fg.disabled:
+      values:
+        theme-light: $color.palette.gray-500
+        theme-dark: $color.palette.gray-500
     $color.fg.brand:
       values:
         theme-light: $color.palette.carrot-600
         theme-dark: $color.palette.carrot-700
+    $color.fg.informative:
+      values:
+        theme-light: $color.palette.blue-700
+        theme-dark: $color.palette.blue-700
     $color.fg.critical:
       values:
         theme-light: $color.palette.red-700
@@ -402,18 +414,6 @@ data:
       values:
         theme-light: $color.palette.yellow-700
         theme-dark: $color.palette.yellow-700
-    $color.fg.informative:
-      values:
-        theme-light: $color.palette.blue-700
-        theme-dark: $color.palette.blue-700
-    $color.fg.placeholder:
-      values:
-        theme-light: $color.palette.gray-600
-        theme-dark: $color.palette.gray-600
-    $color.fg.disabled:
-      values:
-        theme-light: $color.palette.gray-500
-        theme-dark: $color.palette.gray-500
     $color.fg.brand-contrast:
       values:
         theme-light: $color.palette.carrot-700
@@ -594,50 +594,66 @@ data:
       values:
         theme-light: $color.palette.yellow-200
         theme-dark: $color.palette.yellow-200
-    $color.stroke.neutral:
-      values:
-        theme-light: $color.palette.static-black-alpha-300
-        theme-dark: $color.palette.static-white-alpha-100
-    $color.stroke.brand:
+    $color.stroke.brand-weak:
       values:
         theme-light: $color.palette.carrot-300
         theme-dark: $color.palette.carrot-300
-    $color.stroke.positive:
+    $color.stroke.brand-solid:
       values:
-        theme-light: $color.palette.green-300
-        theme-dark: $color.palette.green-300
-    $color.stroke.informative:
-      values:
-        theme-light: $color.palette.blue-300
-        theme-dark: $color.palette.blue-300
-    $color.stroke.warning:
-      values:
-        theme-light: $color.palette.yellow-300
-        theme-dark: $color.palette.yellow-300
-    $color.stroke.critical:
+        theme-light: $color.palette.carrot-700
+        theme-dark: $color.palette.carrot-700
+    $color.stroke.critical-weak:
       values:
         theme-light: $color.palette.red-300
         theme-dark: $color.palette.red-300
-    $color.stroke.field:
+    $color.stroke.critical-solid:
       values:
-        theme-light: $color.palette.gray-400
-        theme-dark: $color.palette.gray-400
-    $color.stroke.control:
+        theme-light: $color.palette.red-700
+        theme-dark: $color.palette.red-700
+    $color.stroke.informative-weak:
       values:
-        theme-light: $color.palette.gray-400
-        theme-dark: $color.palette.gray-400
-    $color.stroke.field-focused:
+        theme-light: $color.palette.blue-300
+        theme-dark: $color.palette.blue-300
+    $color.stroke.informative-solid:
+      values:
+        theme-light: $color.palette.blue-700
+        theme-dark: $color.palette.blue-700
+    $color.stroke.neutral-contrast:
+      values:
+        theme-light: $color.palette.gray-1000
+        theme-dark: $color.palette.gray-1000
+    $color.stroke.neutral-solid:
       values:
         theme-light: $color.palette.gray-800
         theme-dark: $color.palette.gray-800
+    $color.stroke.neutral-weak:
+      values:
+        theme-light: $color.palette.gray-400
+        theme-dark: $color.palette.gray-400
     $color.stroke.neutral-muted:
       values:
-        theme-light: $color.palette.static-black-alpha-200
-        theme-dark: $color.palette.static-white-alpha-50
-    $color.stroke.on-image:
+        theme-light: $color.palette.static-black-alpha-300
+        theme-dark: $color.palette.static-white-alpha-100
+    $color.stroke.neutral-subtle:
       values:
         theme-light: $color.palette.static-black-alpha-200
         theme-dark: $color.palette.static-white-alpha-50
+    $color.stroke.positive-weak:
+      values:
+        theme-light: $color.palette.green-300
+        theme-dark: $color.palette.green-300
+    $color.stroke.positive-solid:
+      values:
+        theme-light: $color.palette.green-700
+        theme-dark: $color.palette.green-700
+    $color.stroke.warning-weak:
+      values:
+        theme-light: $color.palette.yellow-300
+        theme-dark: $color.palette.yellow-300
+    $color.stroke.warning-solid:
+      values:
+        theme-light: $color.palette.yellow-700
+        theme-dark: $color.palette.yellow-700
     $color.manner-temp.l1.text:
       values:
         theme-light: "#62666a"
