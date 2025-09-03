@@ -88,7 +88,7 @@ data:
           paddingY: $dimension.x5
           gap: $dimension.x2_5
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           cornerRadius: $radius.r3
         content:
           gap: $dimension.x0_5

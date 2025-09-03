@@ -137,7 +137,7 @@ data:
     variant=outlineStrong:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           color: $color.bg.layer-default
         label:
@@ -150,7 +150,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           color: $color.bg.layer-default-pressed
         label:
@@ -193,7 +193,7 @@ data:
     variant=outlineWeak:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           color: $color.bg.layer-default
         label:
@@ -206,7 +206,7 @@ data:
           color: $color.fg.neutral
       pressed:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           color: $color.bg.layer-default-pressed
         label:

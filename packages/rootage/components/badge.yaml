@@ -88,7 +88,7 @@ data:
     tone=neutral, variant=outline:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.neutral-muted
 

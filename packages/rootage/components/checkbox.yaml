@@ -79,7 +79,7 @@ data:
       disabled:
         control:
           color: $color.bg.disabled
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
         icon:
