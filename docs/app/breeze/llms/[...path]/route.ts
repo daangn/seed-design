@@ -1,5 +1,5 @@
-import { processContent } from "@/app/react/_llms/process-content";
-import { getSourceUrl } from "@/app/react/_llms/url";
+import { processContent } from "@/app/breeze/_llms/process-content";
+import { getSourceUrl } from "@/app/breeze/_llms/url";
 import { breezeSource } from "@/app/source";
 
 type StaticParams = {
@@ -18,7 +18,7 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
     .map((page) => {
       // Skip empty slugs or root pages
       if (page.slugs.length === 0) return null;
-      
+
       // Attach .txt extension to the last slug
       const slugsExtensionAttached = page.slugs.map((slug, index) => {
         if (index === page.slugs.length - 1) return `${slug}.txt`;
