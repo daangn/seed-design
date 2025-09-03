@@ -83,7 +83,7 @@ data:
     divider=true:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-subtle
           strokeWidth: 1px
     titleLayout=titleOnly:
       enabled:
