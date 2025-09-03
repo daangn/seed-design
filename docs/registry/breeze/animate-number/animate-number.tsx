@@ -69,6 +69,7 @@ const Digit = React.memo(({ place, value, height }: DigitProps) => {
       animate={{ width: "1ch", opacity: 1, x: 0, scale: 1 }}
       exit={{ width: 0, opacity: 0, x: -20, scale: 0.8 }}
       transition={ANIMATION_CONFIG}
+      aria-hidden="true"
     >
       {DIGIT_NUMBERS.map((num) => (
         <SingleNumber
@@ -202,6 +203,7 @@ export default function AnimateNumber({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.2 }}
+              aria-hidden="true"
             >
               -
             </m.span>
@@ -224,6 +226,7 @@ export default function AnimateNumber({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.2 }}
+                  aria-hidden="true"
                 >
                   ,
                 </m.span>
@@ -231,6 +234,20 @@ export default function AnimateNumber({
             ].filter(Boolean);
           })}
         </AnimatePresence>
+        {/* Live region for screen readers */}
+        <output
+          aria-live="polite"
+          aria-atomic="true"
+          style={{
+            position: "absolute",
+            left: "-10000px",
+            width: "1px",
+            height: "1px",
+            overflow: "hidden",
+          }}
+        >
+          {showComma ? value.toLocaleString() : value.toString()}
+        </output>
       </div>
     </div>
   );

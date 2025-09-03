@@ -143,9 +143,14 @@
   --primary: var(--design-color);
 }
 
+.breeze {
+  --primary: var(--breeze-color);
+}
+
 :root {
   --design-color: hsl(250deg 80% 54%);
   --react-color: hsl(220, 74%, 54%);
+  --breeze-color: hsl(26, 100%, 46%);
 
   --color-fd-background: #ffffff;
   --color-fd-foreground: #0f172a;
@@ -174,6 +179,7 @@
 .dark {
   --design-color: 250 100% 80%;
   --react-color: 217deg 92% 76%;
+  --breeze-color: 180deg 82% 76%;
 
   --color-fd-background: #171717;
   --color-fd-foreground: #ebebeb;

@@ -10,10 +10,5 @@ export function shouldGenerateLLMFriendlyText({ slugs }: Page) {
     return true;
   }
 
-  // include bits/**
-  if (firstSlug === "bits") {
-    return true;
-  }
-
   return false;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import AnimateNumber from "@/registry/bits/animate-number/animate-number";
+import AnimateNumber from "@/registry/breeze/animate-number/animate-number";
 import { ActionButton } from "@/registry/ui/action-button";
 import { HStack } from "@seed-design/react";
 import { useState } from "react";

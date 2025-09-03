@@ -4,20 +4,20 @@ import path from "node:path";
 
 import { match } from "ts-pattern";
 
-import { registryUI } from "../registry/registry-ui.js";
+import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
-import { registryBits } from "../registry/registry-bits.js";
+import { registryUI } from "../registry/registry-ui.js";
 import {
-  type RegistryUI,
   type RegistryLib,
-  registryUIItemMachineGeneratedSchema,
   registryLibItemMachineGeneratedSchema,
+  type RegistryUI,
+  registryUIItemMachineGeneratedSchema,
 } from "../registry/schema.js";
 
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
 
-type RegistryType = "ui" | "lib" | "bits";
+type RegistryType = "ui" | "lib" | "bits" | "breeze";
 
 interface GenerateRegistryIndexProps {
   registry: RegistryUI | RegistryLib;
@@ -41,9 +41,9 @@ interface GenerateRegistryProps {
   type: RegistryType;
 }
 
-function generateRegistryFromFile(file: string, registryType: RegistryType) {
+function generateRegistryFromFile(file: string, _registryType: RegistryType) {
   const [type, name] = file.split(":");
-  
+
   // 모든 레지스트리는 registry 폴더에서 읽음
   const filePath = path.join(REGISTRY_PATH, type, name);
 
@@ -73,7 +73,6 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
   for (const item of registry) {
     const fileRegistries =
       item.files?.map((file) => generateRegistryFromFile(file, type)).filter(Boolean) || [];
-    
 
     const removeFiles = {
       ...item,
@@ -89,6 +88,7 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
       .with("ui", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .with("lib", () => registryLibItemMachineGeneratedSchema.parse(payload))
       .with("bits", () => registryUIItemMachineGeneratedSchema.parse(payload))
+      .with("breeze", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .exhaustive();
 
     await fs.writeFile(
@@ -107,9 +107,9 @@ async function main() {
   await generateRegistryIndex({ registry: registryLib, type: "lib" });
   await generateRegistry({ registry: registryLib, type: "lib" });
 
-  console.log(chalk.gray("Generate Bits Registry..."));
-  await generateRegistryIndex({ registry: registryBits, type: "bits" });
-  await generateRegistry({ registry: registryBits, type: "bits" });
+  console.log(chalk.gray("Generate Breeze Registry..."));
+  await generateRegistryIndex({ registry: registryBreeze, type: "breeze" });
+  await generateRegistry({ registry: registryBreeze, type: "breeze" });
 
   console.log(chalk.green("All Registries Generated !"));
 }

@@ -6,28 +6,28 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import ErrorBoundary from "./error-boundary";
 
-interface BitsManualInstallationProps {
+interface BreezeManualInstallationProps {
   name: string;
 }
 
 /**
- * Bits용 Manual Installation 컴포넌트
+ * Breeze용 Manual Installation 컴포넌트
  * CSS Modules와 Vanilla Extract 두 가지 스타일 옵션 제공
  */
-export async function BitsManualInstallation(props: BitsManualInstallationProps) {
+export async function BreezeManualInstallation(props: BreezeManualInstallationProps) {
   const { name } = props;
 
   let json: RegistryUIItemMachineGenerated | null = null;
 
   try {
-    json = (await import(`@/public/__registry__/bits/${name}.json`).then((module) => {
+    json = (await import(`@/public/__registry__/breeze/${name}.json`).then((module) => {
       return module.default;
     })) as RegistryUIItemMachineGenerated;
   } catch (error) {
-    console.error(`Failed to load bits registry for ${name}:`, error);
+    console.error(`Failed to load breeze registry for ${name}:`, error);
     return (
       <ErrorBoundary>
-        <div>Bits 레지스트리를 불러올 수 없습니다. `bun generate:all`을 실행해주세요.</div>
+        <div>Breeze 레지스트리를 불러올 수 없습니다. `bun generate:all`을 실행해주세요.</div>
       </ErrorBoundary>
     );
   }
@@ -36,9 +36,9 @@ export async function BitsManualInstallation(props: BitsManualInstallationProps)
 
   // 파일 분리
   const componentFiles =
-    json?.registries?.filter((r) => r.type === "bits" && r.name.includes(".tsx")) || [];
+    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".tsx")) || [];
   const styleFiles =
-    json?.registries?.filter((r) => r.type === "bits" && r.name.includes(".module.css")) || [];
+    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".module.css")) || [];
 
   return (
     <ErrorBoundary>
