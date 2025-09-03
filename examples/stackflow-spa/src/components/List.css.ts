@@ -14,7 +14,7 @@ export const item = style({
   paddingInline: vars.$dimension.x4,
   minHeight: vars.$dimension.x13,
 
-  borderBottom: `1px solid ${vars.$color.stroke.neutral}`,
+  borderBottom: `1px solid ${vars.$color.stroke.neutralMuted}`,
   ":last-child": {
     borderBottom: "none",
   },
@@ -45,7 +45,7 @@ export const icon = style({
 export const listItemGroup = style({
   display: "flex",
   flexDirection: "column",
-  borderBottom: `1px solid ${vars.$color.stroke.neutral}`,
+  borderBottom: `1px solid ${vars.$color.stroke.neutralMuted}`,
 
   marginTop: vars.$dimension.x6,
   fontWeight: vars.$fontWeight.bold,
