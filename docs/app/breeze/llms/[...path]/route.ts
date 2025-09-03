@@ -27,7 +27,7 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
 
       return slugsExtensionAttached;
     })
-    .filter((slugs) => slugs !== null)
+    .filter((slugs): slugs is string[] => slugs !== null)
     .map((slugs) => ({ path: slugs }));
 
   return breezePageSlugs;
