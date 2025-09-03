@@ -33,8 +33,8 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
   return breezePageSlugs;
 }
 
-export async function GET(_: Request, { params }: { params: StaticParams }) {
-  const { path } = params;
+export async function GET(_: Request, { params }: { params: Promise<StaticParams> }) {
+  const { path } = await params;
 
   const slugsExtensionRemoved = path.map((slug, index) => {
     if (index === path.length - 1) {
