@@ -1,6 +1,6 @@
 ---
 "@seed-design/tailwind3-plugin": minor
-"@seed-design/migration-index": minor
+"@seed-design/migration-index": patch
 "@seed-design/tailwind4-theme": minor
 "@seed-design/rootage-artifacts": minor
 "@seed-design/css": minor
