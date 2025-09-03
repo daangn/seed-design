@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-08-21
+  lastUpdated: 25-08-22
 data:
   collection: color
   tokens:
@@ -398,6 +398,10 @@ data:
       values:
         theme-light: $color.palette.green-700
         theme-dark: $color.palette.green-700
+    $color.fg.warning:
+      values:
+        theme-light: $color.palette.yellow-700
+        theme-dark: $color.palette.yellow-700
     $color.fg.informative:
       values:
         theme-light: $color.palette.blue-700
@@ -410,6 +414,10 @@ data:
       values:
         theme-light: $color.palette.gray-500
         theme-dark: $color.palette.gray-500
+    $color.fg.brand-contrast:
+      values:
+        theme-light: $color.palette.carrot-700
+        theme-dark: $color.palette.carrot-700
     $color.fg.critical-contrast:
       values:
         theme-light: $color.palette.red-900
@@ -446,6 +454,10 @@ data:
       values:
         theme-light: $color.palette.gray-200
         theme-dark: $color.palette.gray-300
+    $color.bg.brand-weak:
+      values:
+        theme-light: $color.palette.carrot-100
+        theme-dark: $color.palette.carrot-100
     $color.bg.brand-solid:
       values:
         theme-light: $color.palette.carrot-600
@@ -454,6 +466,10 @@ data:
       values:
         theme-light: $color.palette.carrot-700
         theme-dark: $color.palette.carrot-800
+    $color.bg.brand-weak-pressed:
+      values:
+        theme-light: $color.palette.carrot-200
+        theme-dark: $color.palette.carrot-200
     $color.bg.critical-weak:
       values:
         theme-light: $color.palette.red-100
@@ -557,7 +573,7 @@ data:
     $color.bg.positive-solid-pressed:
       values:
         theme-light: $color.palette.green-800
-        theme-dark: $color.palette.green-500
+        theme-dark: $color.palette.green-600
     $color.bg.positive-weak-pressed:
       values:
         theme-light: $color.palette.green-200
@@ -570,6 +586,10 @@ data:
       values:
         theme-light: $color.palette.yellow-300
         theme-dark: $color.palette.yellow-600
+    $color.bg.warning-solid-pressed:
+      values:
+        theme-light: $color.palette.yellow-400
+        theme-dark: $color.palette.yellow-700
     $color.bg.warning-weak-pressed:
       values:
         theme-light: $color.palette.yellow-200
@@ -590,6 +610,10 @@ data:
       values:
         theme-light: $color.palette.blue-300
         theme-dark: $color.palette.blue-300
+    $color.stroke.warning:
+      values:
+        theme-light: $color.palette.yellow-300
+        theme-dark: $color.palette.yellow-300
     $color.stroke.critical:
       values:
         theme-light: $color.palette.red-300

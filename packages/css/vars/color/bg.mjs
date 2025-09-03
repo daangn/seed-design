@@ -1,7 +1,9 @@
 export const overlay = "var(--seed-color-bg-overlay)";
 export const disabled = "var(--seed-color-bg-disabled)";
+export const brandWeak = "var(--seed-color-bg-brand-weak)";
 export const brandSolid = "var(--seed-color-bg-brand-solid)";
 export const brandSolidPressed = "var(--seed-color-bg-brand-solid-pressed)";
+export const brandWeakPressed = "var(--seed-color-bg-brand-weak-pressed)";
 export const criticalWeak = "var(--seed-color-bg-critical-weak)";
 export const criticalSolid = "var(--seed-color-bg-critical-solid)";
 export const criticalSolidPressed = "var(--seed-color-bg-critical-solid-pressed)";
@@ -31,4 +33,5 @@ export const positiveSolidPressed = "var(--seed-color-bg-positive-solid-pressed)
 export const positiveWeakPressed = "var(--seed-color-bg-positive-weak-pressed)";
 export const warningWeak = "var(--seed-color-bg-warning-weak)";
 export const warningSolid = "var(--seed-color-bg-warning-solid)";
+export const warningSolidPressed = "var(--seed-color-bg-warning-solid-pressed)";
 export const warningWeakPressed = "var(--seed-color-bg-warning-weak-pressed)";

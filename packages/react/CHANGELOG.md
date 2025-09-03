@@ -1,5 +1,72 @@
 # @seed-design/react
 
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 9a3c76a: Divider 컴포넌트를 업데이트합니다.
+
+  - `orientation`을 지정할 수 있습니다.
+  - Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+  - Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+- Updated dependencies [c51a261]
+- Updated dependencies [5f2ee39]
+- Updated dependencies [8299ba9]
+- Updated dependencies [3de4cec]
+  - @seed-design/css@0.1.15
+  - @seed-design/react-snackbar@0.0.6
+
+## 0.1.14
+
+### Patch Changes
+
+- f806356: Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.
+
+  - Inline Banner 컴포넌트 대비 모든 `tone`에서 모든 `variant`를 지원하며, 내부 Button의 충분한 터치 영역을 보장합니다.
+
+  ```tsx
+  <PageBanner
+    tone="informative"
+    variant="weak"
+    description="사업자 정보를 등록해주세요."
+    suffix={
+      <PageBannerButton asChild>
+        <a href="https://www.daangn.com" target="_blank" rel="noreferrer">
+          새 탭에서 열기
+        </a>
+      </PageBannerButton>
+    }
+  />
+  ```
+
+  시맨틱 색상 토큰을 추가하고 수정합니다.
+
+  - `$color.bg.positive-solid-pressed`: theme-dark에서 `$color.palette.green-500` → `$color.palette.green-600`
+  - `$color.bg.warning-solid-pressed` 추가
+
+- 1982494: Badge 컴포넌트를 업데이트합니다.
+
+  - `tone=warning` variant를 추가합니다.
+  - `maxWidth` 스펙을 추가합니다.
+
+  신규 시맨틱 색상 토큰을 추가합니다.
+
+  - `$color.fg.warning`
+  - `$color.stroke.warning`
+  - `$color.fg.brand-contrast`
+  - `$color.bg.brand-weak`
+  - `$color.bg.brand-weak-pressed`
+
+- Updated dependencies [f806356]
+- Updated dependencies [1982494]
+  - @seed-design/css@0.1.14
+
 ## 0.1.13
 
 ### Patch Changes

@@ -39,7 +39,9 @@ npx @seed-design/cli@latest add snackbar
 
 ## Examples
 
-### Positive
+### Variants
+
+#### Positive
 
 <ComponentExample name="snackbar-positive">
   ```json doc-gen:file
@@ -50,12 +52,32 @@ npx @seed-design/cli@latest add snackbar
   ```
 </ComponentExample>
 
-### Critical
+#### Critical
 
 <ComponentExample name="snackbar-critical">
   ```json doc-gen:file
   {
     "file": "./components/example/snackbar-critical.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Pause on Interaction
+
+사용자가 Snackbar와 상호작용(hover 및 active) 하는 동안 Snackbar가 timeout으로 인해 dismiss되지 않도록 하려면 `SnackbarProvider`의 `pauseOnInteraction`을 `true`로 설정합니다.
+
+<Callout type="warning" title="기본값">
+
+- `@seed-design/react@0.1.14`까지: `false`: 명시하지 않는 경우, 상호작용 여부와 관계없이 timeout이 지나면 dismiss됩니다.
+- 이후 버전: `true`: 명시하지 않는 경우, 사용자가 상호작용하는 동안 timeout이 멈춥니다.
+
+</Callout>
+
+<ComponentExample name="snackbar-pause-on-interaction">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/snackbar-pause-on-interaction.tsx",
     "codeblock": true
   }
   ```

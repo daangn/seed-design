@@ -2,6 +2,7 @@ export declare const neutral = "var(--seed-color-stroke-neutral)";
 export declare const brand = "var(--seed-color-stroke-brand)";
 export declare const positive = "var(--seed-color-stroke-positive)";
 export declare const informative = "var(--seed-color-stroke-informative)";
+export declare const warning = "var(--seed-color-stroke-warning)";
 export declare const critical = "var(--seed-color-stroke-critical)";
 export declare const field = "var(--seed-color-stroke-field)";
 export declare const control = "var(--seed-color-stroke-control)";

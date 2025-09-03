@@ -93,9 +93,13 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            text: '새 rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}
+            text: "새 Rootage 버전이 배포되었어요."
             blocks:
+              - type: "header"
+                text:
+                  type: "mrkdwn"
+                  text: "새 Rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
               - type: "section"
                 text:
                   type: "mrkdwn"
-                  text: "[변경사항](https://seed-design.io/react/updates/changelog) (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"
+                  text: "<https://seed-design.io/react/updates/changelog|*변경사항*> (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"

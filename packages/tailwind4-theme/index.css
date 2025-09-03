@@ -1,7 +1,3 @@
-/**
- * SEED Design Tailwind 4.0 Theme
- * 이 파일은 Tailwind CSS 4.0에서 SEED 디자인 토큰을 사용하기 위한 테마 변수를 제공합니다.
- */
 @theme {
   --color-palette-blue-100: var(--seed-color-palette-blue-100);
   --color-palette-blue-200: var(--seed-color-palette-blue-200);
@@ -101,9 +97,11 @@
   --color-fg-brand: var(--seed-color-fg-brand);
   --color-fg-critical: var(--seed-color-fg-critical);
   --color-fg-positive: var(--seed-color-fg-positive);
+  --color-fg-warning: var(--seed-color-fg-warning);
   --color-fg-informative: var(--seed-color-fg-informative);
   --color-fg-placeholder: var(--seed-color-fg-placeholder);
   --color-fg-disabled: var(--seed-color-fg-disabled);
+  --color-fg-brand-contrast: var(--seed-color-fg-brand-contrast);
   --color-fg-critical-contrast: var(--seed-color-fg-critical-contrast);
   --color-fg-informative-contrast: var(--seed-color-fg-informative-contrast);
   --color-fg-neutral-muted: var(--seed-color-fg-neutral-muted);
@@ -113,8 +111,10 @@
   --color-fg-warning-contrast: var(--seed-color-fg-warning-contrast);
   --color-bg-overlay: var(--seed-color-bg-overlay);
   --color-bg-disabled: var(--seed-color-bg-disabled);
+  --color-bg-brand-weak: var(--seed-color-bg-brand-weak);
   --color-bg-brand-solid: var(--seed-color-bg-brand-solid);
   --color-bg-brand-solid-pressed: var(--seed-color-bg-brand-solid-pressed);
+  --color-bg-brand-weak-pressed: var(--seed-color-bg-brand-weak-pressed);
   --color-bg-critical-weak: var(--seed-color-bg-critical-weak);
   --color-bg-critical-solid: var(--seed-color-bg-critical-solid);
   --color-bg-critical-solid-pressed: var(--seed-color-bg-critical-solid-pressed);
@@ -144,11 +144,13 @@
   --color-bg-positive-weak-pressed: var(--seed-color-bg-positive-weak-pressed);
   --color-bg-warning-weak: var(--seed-color-bg-warning-weak);
   --color-bg-warning-solid: var(--seed-color-bg-warning-solid);
+  --color-bg-warning-solid-pressed: var(--seed-color-bg-warning-solid-pressed);
   --color-bg-warning-weak-pressed: var(--seed-color-bg-warning-weak-pressed);
   --color-stroke-neutral: var(--seed-color-stroke-neutral);
   --color-stroke-brand: var(--seed-color-stroke-brand);
   --color-stroke-positive: var(--seed-color-stroke-positive);
   --color-stroke-informative: var(--seed-color-stroke-informative);
+  --color-stroke-warning: var(--seed-color-stroke-warning);
   --color-stroke-critical: var(--seed-color-stroke-critical);
   --color-stroke-field: var(--seed-color-stroke-field);
   --color-stroke-control: var(--seed-color-stroke-control);
@@ -208,9 +210,16 @@
   --font-size-t8: var(--seed-font-size-t8);
   --font-size-t9: var(--seed-font-size-t9);
   --font-size-t10: var(--seed-font-size-t10);
+  --font-size-t1-static: var(--seed-font-size-t1-static);
   --font-size-t2-static: var(--seed-font-size-t2-static);
+  --font-size-t3-static: var(--seed-font-size-t3-static);
+  --font-size-t4-static: var(--seed-font-size-t4-static);
   --font-size-t5-static: var(--seed-font-size-t5-static);
   --font-size-t6-static: var(--seed-font-size-t6-static);
+  --font-size-t7-static: var(--seed-font-size-t7-static);
+  --font-size-t8-static: var(--seed-font-size-t8-static);
+  --font-size-t9-static: var(--seed-font-size-t9-static);
+  --font-size-t10-static: var(--seed-font-size-t10-static);
   --font-weight-regular: var(--seed-font-weight-regular);
   --font-weight-medium: var(--seed-font-weight-medium);
   --font-weight-bold: var(--seed-font-weight-bold);
@@ -232,6 +241,16 @@
   --line-height-t8: var(--seed-line-height-t8);
   --line-height-t9: var(--seed-line-height-t9);
   --line-height-t10: var(--seed-line-height-t10);
+  --line-height-t1-static: var(--seed-line-height-t1-static);
+  --line-height-t2-static: var(--seed-line-height-t2-static);
+  --line-height-t3-static: var(--seed-line-height-t3-static);
+  --line-height-t4-static: var(--seed-line-height-t4-static);
+  --line-height-t5-static: var(--seed-line-height-t5-static);
+  --line-height-t6-static: var(--seed-line-height-t6-static);
+  --line-height-t7-static: var(--seed-line-height-t7-static);
+  --line-height-t8-static: var(--seed-line-height-t8-static);
+  --line-height-t9-static: var(--seed-line-height-t9-static);
+  --line-height-t10-static: var(--seed-line-height-t10-static);
   --radius-r0_5: var(--seed-radius-r0_5);
   --radius-r1: var(--seed-radius-r1);
   --radius-r1_5: var(--seed-radius-r1_5);
