@@ -18,4 +18,4 @@ const staticColors = {
   staticBlackAlpha500: vars.$color.palette.staticBlackAlpha700,
   staticWhiteAlpha50: vars.$color.palette.staticWhiteAlpha50,
   staticWhiteAlpha200: vars.$color.palette.staticWhiteAlpha300,
-}; 
+};
