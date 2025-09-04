@@ -3,7 +3,7 @@ import { List, ListDivider, ListItemRadio } from "seed-design/ui/list";
 
 export default function ListRadio() {
   return (
-    <List as="fieldset" width="full" asChild>
+    <List width="full" asChild>
       <RadioGroup.Root defaultValue="option1" aria-label="옵션 선택">
         <ListItemRadio value="option1" title="옵션 1" detail="첫 번째 선택지" />
         <ListDivider as="div" />
