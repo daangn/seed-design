@@ -7,7 +7,7 @@ export default function FloatPreview() {
       width="480px"
       height="480px"
       borderWidth={1}
-      borderColor="stroke.neutral"
+      borderColor="stroke.neutralMuted"
     >
       <Float placement="top-start">
         <ContextualFloatingButton>Top Start</ContextualFloatingButton>

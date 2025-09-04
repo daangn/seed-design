@@ -3,7 +3,7 @@ import { ErrorState } from "seed-design/ui/error-state";
 
 export default function ErrorStateBasement() {
   return (
-    <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutral">
+    <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
       <ErrorState
         variant="basement"
         title="에러 타이틀"

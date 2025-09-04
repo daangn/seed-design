@@ -5,7 +5,7 @@ export default function BoxPreview() {
     <Box
       bg="bg.neutralWeak"
       borderWidth="2"
-      borderColor="stroke.brand"
+      borderColor="stroke.brandWeak"
       borderRadius="r2"
       px="x3"
       py="x2"
