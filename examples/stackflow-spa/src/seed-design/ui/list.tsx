@@ -10,7 +10,6 @@ import {
 import { listItem } from "@seed-design/css/recipes/list-item";
 import { checkmark } from "@seed-design/css/recipes/checkmark";
 import { radiomark } from "@seed-design/css/recipes/radiomark";
-import { dataAttr } from "@seed-design/dom-utils";
 import { Checkmark } from "./checkbox";
 import { RadioMark } from "./radio-group";
 import * as React from "react";
@@ -72,7 +71,7 @@ export const ListItemButton = React.forwardRef<HTMLButtonElement, ListItemButton
     const [variantProps, otherProps] = listItem.splitVariantProps(props);
 
     const stateProps = React.useMemo(
-      () => ({ "data-disabled": dataAttr(otherProps.disabled) }),
+      () => ({ "data-disabled": otherProps.disabled ? "" : undefined }),
       [otherProps.disabled],
     );
 
