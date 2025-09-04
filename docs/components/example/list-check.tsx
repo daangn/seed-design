@@ -3,7 +3,7 @@ import { List, ListDivider, ListItemCheck } from "seed-design/ui/list";
 
 export default function ListCheckbox() {
   return (
-    <List as="fieldset">
+    <List as="fieldset" width="full">
       <ListItemCheck
         title={
           <HStack gap="x1_5">
@@ -12,6 +12,7 @@ export default function ListCheckbox() {
           </HStack>
         }
         detail="푸시 알림을 받으시겠습니까?"
+        defaultChecked
       />
       <ListDivider as="div" />
       <ListItemCheck
