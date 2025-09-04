@@ -1,6 +1,6 @@
 declare interface RadioVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium";
 }

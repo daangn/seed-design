@@ -1,6 +1,6 @@
 declare interface BottomSheetVariant {
   /**
-  * @default left
+  * @default "left"
   */
   headerAlign: "left" | "center";
 }

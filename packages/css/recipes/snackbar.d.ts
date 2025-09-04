@@ -1,6 +1,6 @@
 declare interface SnackbarVariant {
   /**
-  * @default default
+  * @default "default"
   */
   variant: "default" | "positive" | "critical";
 }

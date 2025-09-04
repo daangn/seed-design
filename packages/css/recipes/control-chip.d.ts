@@ -1,10 +1,10 @@
 declare interface ControlChipVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "medium" | "small";
 /**
-  * @default withText
+  * @default "withText"
   */
   layout: "withText" | "iconOnly";
 }
