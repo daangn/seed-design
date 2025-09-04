@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-const SemanticColorTestComponent = styled('div', {
+const SemanticColorTestComponent = styled("div", {
   // Semantic Color 테스트
   color: "$fg-brand",
   color: "$palette-static-white",
@@ -29,15 +29,15 @@ const SemanticColorTestComponent = styled('div', {
   color: "$palette-carrot-200",
   color: "$bg-neutral-weak-pressed",
   color: "$bg-neutral-weak-pressed",
-  color: '$onPrimaryOverlay50-semantic',
-  color: '$onPrimaryOverlay200-semantic',
-  color: '$onPrimaryLowOverlay50-semantic',
-  color: '$onPrimaryLowOverlay100-semantic',
-  color: '$onPrimaryLowOverlay200-semantic',
-  color: "$stroke-on-image",
-  color: '$onGrayOverlay100-semantic',
+  color: "$onPrimaryOverlay50-semantic",
+  color: "$onPrimaryOverlay200-semantic",
+  color: "$onPrimaryLowOverlay50-semantic",
+  color: "$onPrimaryLowOverlay100-semantic",
+  color: "$onPrimaryLowOverlay200-semantic",
+  color: "$stroke-neutral-subtle",
+  color: "$onGrayOverlay100-semantic",
+  color: "$stroke-neutral-subtle",
   color: "$stroke-neutral-muted",
-  color: "$stroke-neutral",
   color: "$palette-gray-400",
   color: "$fg-informative",
   color: "$fg-neutral",
@@ -45,7 +45,7 @@ const SemanticColorTestComponent = styled('div', {
   color: "$fg-neutral-muted",
 });
 
-const ScaleColorTestComponent = styled('div', {
+const ScaleColorTestComponent = styled("div", {
   // Scale Color Gray 테스트
   color: "$palette-gray-00",
   color: "$palette-gray-100",
@@ -62,7 +62,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-gray-300",
   color: "$palette-gray-500",
   color: "$palette-gray-700",
-  
+
   // Scale Color Carrot 테스트
   color: "$palette-carrot-100",
   color: "$palette-carrot-200",
@@ -78,7 +78,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-carrot-100",
   color: "$palette-carrot-200",
   color: "$palette-carrot-200",
-  
+
   // Scale Color Blue 테스트
   color: "$palette-blue-100",
   color: "$palette-blue-200",
@@ -94,7 +94,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-blue-100",
   color: "$palette-blue-100",
   color: "$palette-blue-200",
-  
+
   // Scale Color Red 테스트
   color: "$palette-red-100",
   color: "$palette-red-200",
@@ -110,7 +110,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-red-100",
   color: "$palette-red-200",
   color: "$palette-red-300",
-  
+
   // Scale Color Green 테스트
   color: "$palette-green-100",
   color: "$palette-green-200",
@@ -126,7 +126,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-green-100",
   color: "$palette-green-200",
   color: "$palette-green-200",
-  
+
   // Scale Color Yellow 테스트
   color: "$palette-yellow-100",
   color: "$palette-yellow-200",
@@ -142,7 +142,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-yellow-100",
   color: "$palette-yellow-100",
   color: "$palette-yellow-100",
-  
+
   // Scale Color Purple 테스트
   color: "$palette-purple-100",
   color: "$palette-purple-300",
@@ -157,7 +157,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-purple-1000",
 });
 
-const StaticColorTestComponent = styled('div', {
+const StaticColorTestComponent = styled("div", {
   // Static Color 테스트
   color: "$palette-static-black",
   color: "$palette-static-white",
@@ -179,18 +179,18 @@ const StaticColorTestComponent = styled('div', {
 });
 
 // 복합 속성 테스트
-const ComplexPropertyTestComponent = styled('div', {
+const ComplexPropertyTestComponent = styled("div", {
   border: "1px solid $palette-gray-800",
   boxShadow: "0 0 10px $bg-overlay",
   outline: "2px solid $fg-informative",
   textDecoration: "underline $fg-critical",
-  
+
   // 네스팅된 속성 테스트
-  '&:before': {
-    borderBottom: "1px solid $stroke-neutral-muted",
+  "&:before": {
+    borderBottom: "1px solid $stroke-neutral-subtle",
     background: "$bg-layer-fill",
   },
-  
+
   // 변형 테스트
   variants: {
     theme: {
@@ -205,13 +205,13 @@ const ComplexPropertyTestComponent = styled('div', {
       danger: {
         background: "$bg-critical-solid",
         color: "$palette-static-white",
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 // 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
-const BorderAndColorTestComponent = styled('div', {
+const BorderAndColorTestComponent = styled("div", {
   color: "$palette-red-700 solid 1px",
   color: "$palette-red-700 dashed 2px",
   color: "$palette-blue-400 dotted 3px",
@@ -220,7 +220,7 @@ const BorderAndColorTestComponent = styled('div', {
   outlineColor: "$palette-purple-600",
 });
 
-const ImportantTest = styled('div', {
+const ImportantTest = styled("div", {
   color: "$fg-brand !important",
   color: "$palette-static-white !important",
   color: "$palette-carrot-100 !important",
@@ -234,8 +234,8 @@ const ImportantTest = styled('div', {
   },
 });
 
-const Li_FieldItem = styled('li', {
-  borderBottom: `${rem(1)} solid $stroke-neutral-muted`,
+const Li_FieldItem = styled("li", {
+  borderBottom: `${rem(1)} solid $stroke-neutral-subtle`,
   borderBottom: `0.5rem solid $bg-layer-basement`,
-  border: check ? "1px solid $stroke-neutral-muted" : "0.5rem solid $bg-layer-basement",
-})
+  border: check ? "1px solid $stroke-neutral-subtle" : "0.5rem solid $bg-layer-basement",
+});

@@ -45,7 +45,7 @@
       "!**/.vscode",
       "!**/out",
       "!**/bin",
-      "!**/__testfixtures__"
+      "!**/__testfixtures__/**/*"
     ],
     "rules": {
       "recommended": true,

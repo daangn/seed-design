@@ -52,4 +52,4 @@ const labelTypography = {
   label5Regular: vars.$semantic.typography.label5Regular,
   label6Bold: vars.$semantic.typography.label6Bold,
   label6Regular: vars.$semantic.typography.label6Regular,
-}; 
+};
