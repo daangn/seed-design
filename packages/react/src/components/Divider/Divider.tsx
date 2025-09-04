@@ -11,7 +11,7 @@ export interface DividerProps {
   as?: "hr" | "div" | "li";
 
   /**
-   * @default "stroke.neutral"
+   * @default "stroke.neutralMuted"
    */
   color?: BoxProps["borderColor"];
 
