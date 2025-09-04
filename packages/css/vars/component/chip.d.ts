@@ -45,18 +45,6 @@ export declare const vars: {
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "disabled": {
@@ -84,18 +72,6 @@ export declare const vars: {
     "selectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
     "selectedDisabled": {
@@ -126,21 +102,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "disabled": {
@@ -168,18 +130,6 @@ export declare const vars: {
     "selectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
       }
     },
     "selectedDisabled": {
@@ -210,21 +160,7 @@ export declare const vars: {
     },
     "pressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
-        "strokeWidth": "1px",
         "color": "var(--seed-color-bg-layer-default-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "disabled": {
@@ -235,39 +171,12 @@ export declare const vars: {
     "selected": {
       "root": {
         "strokeColor": "var(--seed-color-stroke-neutral-contrast)",
-        "strokeWidth": "1px",
         "color": "var(--seed-color-bg-neutral-weak)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "selectedPressed": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-contrast)",
-        "strokeWidth": "1px",
         "color": "var(--seed-color-bg-neutral-weak-pressed)"
-      },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral)"
       }
     },
     "selectedDisabled": {

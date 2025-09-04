@@ -1,20 +1,10 @@
 "use client";
 
 import type { ChipVariantProps } from "@seed-design/css/recipes/chip";
-import {
-  ChipLabel as SeedChipLabel,
-  ChipPrefixAvatar as SeedChipPrefixAvatar,
-  ChipPrefixIcon as SeedChipPrefixIcon,
-  ChipRoot as SeedChipRoot,
-  ChipSuffixIcon as SeedChipSuffixIcon,
-  type ChipLabelProps as SeedChipLabelProps,
-  type ChipPrefixAvatarProps as SeedChipPrefixAvatarProps,
-  type ChipPrefixIconProps as SeedChipPrefixIconProps,
-  type ChipRootProps as SeedChipRootProps,
-  type ChipSuffixIconProps as SeedChipSuffixIconProps,
-} from "@seed-design/react";
+import { Chip as SeedChip } from "@seed-design/react";
 import type { PrimitiveProps } from "@seed-design/react-primitive";
 import { Checkbox, RadioGroup } from "@seed-design/react/primitive";
+import { chip } from "@seed-design/css/recipes/chip";
 import * as React from "react";
 
 // Create a base props interface that doesn't include DOM attributes to avoid conflicts
@@ -30,76 +20,91 @@ export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
  * @see https://seed-design.io/react/components/chip
  */
 export const ToggleChip = React.forwardRef<HTMLInputElement, ToggleChipProps>(
-  ({ children, size, layout = "withText", variant, inputProps, rootRef, ...otherProps }, ref) => {
+  ({ children, inputProps, rootRef, ...props }, ref) => {
+    const [variantProps, otherProps] = chip.splitVariantProps(props);
+
     return (
-      <SeedChipRoot asChild size={size} layout={layout} variant={variant}>
+      <SeedChip.Root asChild {...variantProps}>
         <Checkbox.Root ref={rootRef} {...otherProps}>
           {children}
           <Checkbox.HiddenInput ref={ref} {...inputProps} />
         </Checkbox.Root>
-      </SeedChipRoot>
+      </SeedChip.Root>
     );
   },
 );
 ToggleChip.displayName = "Chip.Toggle";
 
-export interface ButtonChipProps extends ChipBaseProps, SeedChipRootProps {
-  children?: React.ReactNode;
+export interface ButtonChipProps extends ChipBaseProps, SeedChip.RootProps {}
+
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const ButtonChip = SeedChip.Root;
+
+export interface RadioChipRootProps extends RadioGroup.RootProps {}
+
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const RadioChipRoot = RadioGroup.Root;
+
+export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps {
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+
+  rootRef?: React.Ref<HTMLLabelElement>;
 }
 
 /**
  * @see https://seed-design.io/react/components/chip
  */
-export const ButtonChip = React.forwardRef<HTMLButtonElement, ButtonChipProps>(
-  ({ children, ...otherProps }, ref) => {
-    return (
-      <SeedChipRoot ref={ref} {...otherProps}>
-        {children}
-      </SeedChipRoot>
-    );
-  },
-);
-ButtonChip.displayName = "Chip.Button";
-
-export interface RadioChipRootProps extends RadioGroup.RootProps {}
-
-export const RadioChipRoot = RadioGroup.Root;
-
-export interface RadioChipItemProps extends ChipBaseProps, RadioGroup.ItemProps {
-  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-  rootRef?: React.Ref<HTMLLabelElement>;
-}
-
 export const RadioChipItem = React.forwardRef<HTMLInputElement, RadioChipItemProps>(
-  ({ children, inputProps, rootRef, size, layout = "withText", variant, ...otherProps }, ref) => {
+  ({ children, inputProps, rootRef, ...props }, ref) => {
+    const [variantProps, otherProps] = chip.splitVariantProps(props);
+
     return (
-      <SeedChipRoot asChild size={size} layout={layout} variant={variant}>
+      <SeedChip.Root asChild {...variantProps}>
         <RadioGroup.Item ref={rootRef} {...otherProps}>
           {children}
           <RadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
         </RadioGroup.Item>
-      </SeedChipRoot>
+      </SeedChip.Root>
     );
   },
 );
 RadioChipItem.displayName = "Chip.RadioItem";
 
-export interface ChipLabelProps extends SeedChipLabelProps {}
+export interface ChipLabelProps extends SeedChip.LabelProps {}
 
-export const ChipLabel = SeedChipLabel;
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const ChipLabel = SeedChip.Label;
 
-export interface ChipPrefixIconProps extends SeedChipPrefixIconProps {}
+export interface ChipPrefixIconProps extends SeedChip.PrefixIconProps {}
 
-export const ChipPrefixIcon = SeedChipPrefixIcon;
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const ChipPrefixIcon = SeedChip.PrefixIcon;
 
-export interface ChipPrefixAvatarProps extends SeedChipPrefixAvatarProps {}
+export interface ChipPrefixAvatarProps extends SeedChip.PrefixAvatarProps {}
 
-export const ChipPrefixAvatar = SeedChipPrefixAvatar;
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const ChipPrefixAvatar = SeedChip.PrefixAvatar;
 
-export interface ChipSuffixIconProps extends SeedChipSuffixIconProps {}
+export interface ChipSuffixIconProps extends SeedChip.SuffixIconProps {}
 
-export const ChipSuffixIcon = SeedChipSuffixIcon;
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
+export const ChipSuffixIcon = SeedChip.SuffixIcon;
 
+/**
+ * @see https://seed-design.io/react/components/chip
+ */
 export const Chip = Object.assign(
   () => {
     console.warn(
