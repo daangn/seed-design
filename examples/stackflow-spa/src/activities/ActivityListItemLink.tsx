@@ -5,12 +5,13 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
+import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { ActionButton } from "../seed-design/ui/action-button";
 import { Avatar } from "../seed-design/ui/avatar";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { List, ListItemLink } from "../seed-design/ui/list";
+import { List, ListDivider, ListItemLink } from "../seed-design/ui/list";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -79,16 +80,17 @@ const ActivityListItemLink: ActivityComponentType = () => {
                 const key = `${prefix.key}-${content.key}-${suffix.key}`;
 
                 return (
-                  <ListItemLink
-                    href="https://example.com"
-                    target="_blank"
-                    key={key}
-                    title={key}
-                    detail={content.detail}
-                    prefix={prefix.element}
-                    suffix={suffix.element}
-                    showDivider={showDivider}
-                  />
+                  <Fragment key={key}>
+                    <ListItemLink
+                      href="https://example.com"
+                      target="_blank"
+                      title={key}
+                      detail={content.detail}
+                      prefix={prefix.element}
+                      suffix={suffix.element}
+                    />
+                    {showDivider && <ListDivider />}
+                  </Fragment>
                 );
               }),
             ),

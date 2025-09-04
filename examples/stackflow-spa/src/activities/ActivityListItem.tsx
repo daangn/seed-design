@@ -10,7 +10,8 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 import { ActionButton } from "../seed-design/ui/action-button";
 import { Avatar } from "../seed-design/ui/avatar";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { List, ListItem } from "../seed-design/ui/list";
+import { List, ListDivider, ListItem } from "../seed-design/ui/list";
+import { Fragment } from "react";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -79,14 +80,15 @@ const ActivityListItem: ActivityComponentType = () => {
                 const key = `${prefix.key}-${content.key}-${suffix.key}`;
 
                 return (
-                  <ListItem
-                    key={key}
-                    title={key}
-                    detail={content.detail}
-                    prefix={prefix.element}
-                    suffix={suffix.element}
-                    showDivider={showDivider}
-                  />
+                  <Fragment key={key}>
+                    <ListItem
+                      title={key}
+                      detail={content.detail}
+                      prefix={prefix.element}
+                      suffix={suffix.element}
+                    />
+                    {showDivider && <ListDivider />}
+                  </Fragment>
                 );
               }),
             ),

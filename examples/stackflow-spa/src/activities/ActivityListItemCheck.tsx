@@ -1,7 +1,8 @@
 import type { ActivityComponentType } from "@stackflow/react";
+import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListItemCheck } from "../seed-design/ui/list";
+import { List, ListDivider, ListItemCheck } from "../seed-design/ui/list";
 import { Icon } from "@seed-design/react";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import { Avatar } from "../seed-design/ui/avatar";
@@ -82,7 +83,7 @@ const ActivityListItemCheck: ActivityComponentType = () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <List>
+        <List as="fieldset">
           {positionVariants.map((position) =>
             contentVariants.map((content) =>
               stateVariants.map((state) => {
@@ -105,17 +106,18 @@ const ActivityListItemCheck: ActivityComponentType = () => {
                       const key = `${position.key}-${content.key}-${state.key}-suffix-${suffix.key}`;
 
                       return (
-                        <ListItemCheck
-                          key={key}
-                          title={key}
-                          detail={content.detail}
-                          position={position.position}
-                          defaultChecked={state.defaultChecked}
-                          disabled={state.disabled}
-                          showDivider={showDivider}
-                          variant={state.variant}
-                          suffix={suffix.element}
-                        />
+                        <Fragment key={key}>
+                          <ListItemCheck
+                            title={key}
+                            detail={content.detail}
+                            position={position.position}
+                            defaultChecked={state.defaultChecked}
+                            disabled={state.disabled}
+                            variant={state.variant}
+                            suffix={suffix.element}
+                          />
+                          {showDivider && <ListDivider as="div" />}
+                        </Fragment>
                       );
                     });
                   }
@@ -138,17 +140,18 @@ const ActivityListItemCheck: ActivityComponentType = () => {
                       const key = `${position.key}-${content.key}-${state.key}-prefix-${prefix.key}`;
 
                       return (
-                        <ListItemCheck
-                          key={key}
-                          title={key}
-                          detail={content.detail}
-                          position={position.position}
-                          defaultChecked={state.defaultChecked}
-                          disabled={state.disabled}
-                          showDivider={showDivider}
-                          variant={state.variant}
-                          prefix={prefix.element}
-                        />
+                        <Fragment key={key}>
+                          <ListItemCheck
+                            title={key}
+                            detail={content.detail}
+                            position={position.position}
+                            defaultChecked={state.defaultChecked}
+                            disabled={state.disabled}
+                            variant={state.variant}
+                            prefix={prefix.element}
+                          />
+                          {showDivider && <ListDivider as="div" />}
+                        </Fragment>
                       );
                     });
                   }

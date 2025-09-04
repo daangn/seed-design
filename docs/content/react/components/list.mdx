@@ -48,6 +48,12 @@ npx @seed-design/cli@latest add list
 
 <react-type-table path="./registry/ui/list.tsx" name="ListItemRadioProps" />
 
+### `ListDivider`
+
+[`DividerProps`](/react/components/layout/divider#props)와 동일하나, 기본적으로 `<li aria-hidden></li>`로 렌더링됩니다.
+
+{/* <react-type-table path="./registry/ui/list.tsx" name="ListDividerProps" /> */}
+
 ## Examples
 
 ### 기본 사용법
@@ -89,10 +95,19 @@ npx @seed-design/cli@latest add list
 
 `ListItemCheck`와 `ListItemRadio`를 사용해서 리스트 항목 전체를 폼 요소로 만들 수 있습니다. 두 컴포넌트는 [`CheckboxRootProps`](/react/components/form/checkbox#props) 및 [`RadioGroupItemProps`](/react/components/form/radio-group#radiogroupitem)와 동일한 prop을 지원합니다.
 
-<ComponentExample name="list-form-controls">
+<ComponentExample name="list-checkbox">
   ```json doc-gen:file
   {
-    "file": "./components/example/list-form-controls.tsx",
+    "file": "./components/example/list-checkbox.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+<ComponentExample name="list-radio">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-radio.tsx",
     "codeblock": true
   }
   ```

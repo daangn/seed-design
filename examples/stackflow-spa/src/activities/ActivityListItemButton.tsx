@@ -6,12 +6,18 @@ import {
 import { Icon } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
+import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { ActionButton } from "../seed-design/ui/action-button";
 import { Avatar } from "../seed-design/ui/avatar";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { List, ListItemButton, type ListItemButtonProps } from "../seed-design/ui/list";
+import {
+  List,
+  ListDivider,
+  ListItemButton,
+  type ListItemButtonProps,
+} from "../seed-design/ui/list";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -117,14 +123,15 @@ const ActivityListItemButton: ActivityComponentType = () => {
                 const key = `${prefix.key}-${content.key}-${suffix.key}`;
 
                 return (
-                  <AlertDialogListItemButton
-                    key={key}
-                    title={key}
-                    detail={content.detail}
-                    prefix={prefix.element}
-                    suffix={suffix.element}
-                    showDivider={showDivider}
-                  />
+                  <Fragment key={key}>
+                    <AlertDialogListItemButton
+                      title={key}
+                      detail={content.detail}
+                      prefix={prefix.element}
+                      suffix={suffix.element}
+                    />
+                    {showDivider && <ListDivider />}
+                  </Fragment>
                 );
               }),
             ),

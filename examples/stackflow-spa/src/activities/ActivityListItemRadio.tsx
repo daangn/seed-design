@@ -1,8 +1,9 @@
 import { RadioGroup, Icon } from "@seed-design/react";
 import type { ActivityComponentType } from "@stackflow/react";
+import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListItemRadio } from "../seed-design/ui/list";
+import { List, ListDivider, ListItemRadio } from "../seed-design/ui/list";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import { Avatar } from "../seed-design/ui/avatar";
 import {
@@ -76,8 +77,11 @@ const ActivityListItemRadio: ActivityComponentType = () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
       >
-        <List>
-          <RadioGroup.Root defaultValue="prefix-title-unchecked-suffix-none">
+        <List asChild>
+          <RadioGroup.Root
+            defaultValue="prefix-title-unchecked-suffix-none"
+            aria-label="ListItemRadio 예시"
+          >
             {positionVariants.map((position) =>
               contentVariants.map((content) =>
                 stateVariants.map((state) => {
@@ -101,16 +105,17 @@ const ActivityListItemRadio: ActivityComponentType = () => {
                         const radioValue = `${position.key}-${content.key}-${state.key}-suffix-${suffix.key}`;
 
                         return (
-                          <ListItemRadio
-                            key={radioValue}
-                            title={radioValue}
-                            value={radioValue}
-                            detail={content.detail}
-                            position={position.position}
-                            disabled={state.disabled}
-                            showDivider={showDivider}
-                            suffix={suffix.element}
-                          />
+                          <Fragment key={radioValue}>
+                            <ListItemRadio
+                              title={radioValue}
+                              value={radioValue}
+                              detail={content.detail}
+                              position={position.position}
+                              disabled={state.disabled}
+                              suffix={suffix.element}
+                            />
+                            {showDivider && <ListDivider as="div" />}
+                          </Fragment>
                         );
                       });
                     }
@@ -134,16 +139,17 @@ const ActivityListItemRadio: ActivityComponentType = () => {
                         const radioValue = `${position.key}-${content.key}-${state.key}-prefix-${prefix.key}`;
 
                         return (
-                          <ListItemRadio
-                            key={radioValue}
-                            value={radioValue}
-                            title={radioValue}
-                            detail={content.detail}
-                            position={position.position}
-                            disabled={state.disabled}
-                            showDivider={showDivider}
-                            prefix={prefix.element}
-                          />
+                          <Fragment key={radioValue}>
+                            <ListItemRadio
+                              value={radioValue}
+                              title={radioValue}
+                              detail={content.detail}
+                              position={position.position}
+                              disabled={state.disabled}
+                              prefix={prefix.element}
+                            />
+                            {showDivider && <ListDivider as="div" />}
+                          </Fragment>
                         );
                       });
                     }

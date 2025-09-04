@@ -314,14 +314,26 @@ export interface ListDividerProps extends SeedDividerProps {
    * @default "li"
    */
   as?: SeedDividerProps["as"]; // this redeclaration is for JSDoc
+
+  /**
+   * @default true
+   */
+  "aria-hidden"?: SeedDividerProps["aria-hidden"]; // this redeclaration is for JSDoc
 }
 
 /**
  * @see https://seed-design.io/react/components/list
  */
 export const ListDivider = React.forwardRef<HTMLLIElement, ListDividerProps>(
-  ({ as = "li", ...props }, ref) => {
-    return <SeedDivider as={as} ref={ref as React.ForwardedRef<HTMLHRElement>} {...props} />;
+  ({ as = "li", "aria-hidden": ariaHidden = true, ...props }, ref) => {
+    return (
+      <SeedDivider
+        as={as}
+        aria-hidden={ariaHidden}
+        ref={ref as React.ForwardedRef<HTMLHRElement>}
+        {...props}
+      />
+    );
   },
 );
 ListDivider.displayName = "ListDivider";

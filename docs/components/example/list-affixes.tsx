@@ -35,6 +35,7 @@ export default function ListAffixes() {
         detail="Et proident sit ullamco ut voluptate."
         alignItems="flex-start"
       />
+      <ListDivider />
       <ListItem
         title="Prefix에 아이콘 넣기"
         detail="Deserunt nulla elit est."
