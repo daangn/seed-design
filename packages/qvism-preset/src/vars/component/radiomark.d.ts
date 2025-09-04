@@ -4,7 +4,7 @@ export declare const vars: {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-control)",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       "icon": {

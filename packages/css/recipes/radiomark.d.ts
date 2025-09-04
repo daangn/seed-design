@@ -1,6 +1,6 @@
 declare interface RadiomarkVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium";
 }

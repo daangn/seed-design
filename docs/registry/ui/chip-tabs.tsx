@@ -14,8 +14,7 @@ export interface ChipTabsTriggerProps extends SeedChipTabs.TriggerProps {}
 
 export const ChipTabsTrigger = SeedChipTabs.Trigger;
 
-export interface ChipTabsCarouselProps
-  extends Omit<SeedChipTabs.CarouselProps, "asChild"> {}
+export interface ChipTabsCarouselProps extends Omit<SeedChipTabs.CarouselProps, "asChild"> {}
 
 export const ChipTabsCarousel = (props: ChipTabsCarouselProps) => {
   const { children, ...otherProps } = props;

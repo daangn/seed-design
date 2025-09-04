@@ -1,10 +1,10 @@
 declare interface CheckmarkVariant {
   /**
-  * @default square
+  * @default "square"
   */
   variant: "square" | "ghost";
 /**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium";
 }

@@ -6,7 +6,7 @@ export declare const vars: {
         "paddingY": "var(--seed-dimension-x5)",
         "gap": "var(--seed-dimension-x2_5)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "cornerRadius": "var(--seed-radius-r3)"
       },
       "content": {
@@ -33,7 +33,7 @@ export declare const vars: {
     "enabledSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-weak)",
-        "strokeColor": "var(--seed-color-stroke-control)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },
     "enabledSelectedPressed": {

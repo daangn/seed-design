@@ -9,7 +9,9 @@ export const SwitchProvider = SwitchContext.Provider;
 
 export function useSwitchContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseSwitchContext | null : UseSwitchContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseSwitchContext | null : UseSwitchContext {
   const context = useContext(SwitchContext);
   if (!context && strict) {
     throw new Error("useSwitchContext must be used within a Switch");

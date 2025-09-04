@@ -9,7 +9,7 @@ data:
     variant=square:
       enabled:
         root:
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
       enabled,selected:
         root:
@@ -27,7 +27,7 @@ data:
       disabled:
         root:
           color: $color.bg.disabled
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         icon:
           color: $color.fg.disabled
       disabled,selected:

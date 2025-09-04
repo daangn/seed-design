@@ -1,6 +1,6 @@
 declare interface TextFieldVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "xlarge" | "large" | "medium";
 }

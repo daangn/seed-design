@@ -68,7 +68,7 @@ data:
     base:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
           cornerRadius: $radius.full
         label:

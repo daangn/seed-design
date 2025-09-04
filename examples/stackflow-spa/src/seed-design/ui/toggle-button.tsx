@@ -19,11 +19,7 @@ export const ToggleButton = React.forwardRef<
 >(({ loading = false, children, ...otherProps }, ref) => {
   return (
     <SeedToggleButton ref={ref} loading={loading} {...otherProps}>
-      {loading && !otherProps.asChild ? (
-        <LoadingIndicator>{children}</LoadingIndicator>
-      ) : (
-        children
-      )}
+      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}
     </SeedToggleButton>
   );
 });

@@ -1,10 +1,10 @@
 declare interface CheckboxVariant {
   /**
-  * @default default
+  * @default "default"
   */
   weight: "default" | "stronger";
 /**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium";
 }

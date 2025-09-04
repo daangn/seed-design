@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 esbuild
   .context({

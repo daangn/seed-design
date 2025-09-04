@@ -289,7 +289,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "footer": {

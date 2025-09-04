@@ -9,7 +9,9 @@ export const AppScreenProvider = AppScreenContext.Provider;
 
 export function useAppScreenContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseAppScreenContext | null : UseAppScreenContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseAppScreenContext | null : UseAppScreenContext {
   const context = useContext(AppScreenContext);
   if (!context && strict) {
     throw new Error("useAppScreenContext must be used within a AppScreen");

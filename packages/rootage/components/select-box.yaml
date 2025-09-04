@@ -54,7 +54,7 @@ data:
           paddingY: $dimension.x5
           gap: $dimension.x2_5
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           cornerRadius: $radius.r3
         content:
           gap: $dimension.x0_5
@@ -76,7 +76,7 @@ data:
       enabled,selected:
         root:
           color: $color.bg.neutral-weak
-          strokeColor: $color.stroke.control
+          strokeColor: $color.stroke.neutral-weak
 
       enabled,selected,pressed:
         root:
