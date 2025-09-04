@@ -8,7 +8,37 @@
     "id": "checkmark",
     "name": "Checkmark",
     "schema": {
-      "slots": {},
+      "slots": {
+        "root": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            }
+          }
+        },
+        "icon": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "size": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
       "variants": {
         "variant": {
           "values": {

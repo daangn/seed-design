@@ -5,6 +5,26 @@ metadata:
   id: checkmark
   name: Checkmark
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
   definitions:
     variant=square:
       enabled:

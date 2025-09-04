@@ -5,6 +5,28 @@ metadata:
   id: radiomark
   name: Radiomark
 data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          cornerRadius:
+            type: dimension
+      icon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
   definitions:
     base:
       enabled:
