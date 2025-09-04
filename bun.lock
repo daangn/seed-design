@@ -37,8 +37,8 @@
       "version": "0.0.0",
       "dependencies": {
         "@fumadocs/mdx-remote": "^1.3.2",
-        "@karrotmarket/icon-data": "^0.0.49",
-        "@karrotmarket/react-monochrome-icon": "^0.0.33",
+        "@karrotmarket/icon-data": "^0.0.50",
+        "@karrotmarket/react-monochrome-icon": "^0.0.34",
         "@karrotmarket/react-multicolor-icon": "^0.0.27",
         "@orama/orama": "^3.1.3",
         "@portabletext/react": "^4.0.0",
@@ -219,12 +219,12 @@
       "name": "@seed-design/stackflow-spa",
       "version": "0.0.0",
       "dependencies": {
-        "@karrotmarket/react-monochrome-icon": "^0.0.33",
+        "@karrotmarket/react-monochrome-icon": "^0.0.34",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "0.1.14",
-        "@seed-design/react": "0.1.14",
-        "@seed-design/stackflow": "0.1.3",
+        "@seed-design/css": "0.2.1",
+        "@seed-design/react": "0.2.1",
+        "@seed-design/stackflow": "0.2.0",
         "@seed-design/stylesheet": "1.1.1",
         "@stackflow/compat-await-push": "^1.1.13",
         "@stackflow/core": "^1.2.0",
@@ -238,7 +238,7 @@
       },
       "devDependencies": {
         "@seed-design/cli": "0.0.3",
-        "@seed-design/vite-plugin": "^0.1.3",
+        "@seed-design/vite-plugin": "^0.2.0",
         "@types/react": "^19.1.6",
         "@types/react-dom": "^19.1.5",
         "@vanilla-extract/vite-plugin": "^5.1.1",
@@ -286,7 +286,7 @@
       "version": "0.0.30",
       "bin": "./bin/index.cjs",
       "dependencies": {
-        "@seed-design/migration-index": "^0.0.28",
+        "@seed-design/migration-index": "^0.0.30",
         "cac": "^6.7.14",
         "change-case": "^5.4.4",
         "es-toolkit": "^1.35.0",
@@ -309,7 +309,7 @@
         "typescript": "^5.8.3",
       },
       "optionalDependencies": {
-        "@karrotmarket/react-monochrome-icon": "^0.0.33",
+        "@karrotmarket/react-monochrome-icon": "^0.0.34",
         "@karrotmarket/react-multicolor-icon": "^0.0.27",
       },
     },
@@ -332,7 +332,7 @@
       "name": "@seed-design/figma",
       "version": "0.2.1",
       "dependencies": {
-        "@seed-design/css": "0.1.14",
+        "@seed-design/css": "0.2.1",
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
       },
@@ -874,12 +874,12 @@
       "name": "figma-mcp",
       "version": "1.0.0",
       "dependencies": {
-        "@karrotmarket/react-monochrome-icon": "^0.0.33",
-        "@seed-design/css": "0.1.14",
-        "@seed-design/figma": "0.1.14",
-        "@seed-design/migration-index": "0.0.28",
-        "@seed-design/react": "0.1.14",
-        "@seed-design/vite-plugin": "0.1.3",
+        "@karrotmarket/react-monochrome-icon": "^0.0.34",
+        "@seed-design/css": "0.2.1",
+        "@seed-design/figma": "0.2.1",
+        "@seed-design/migration-index": "0.0.30",
+        "@seed-design/react": "0.2.1",
+        "@seed-design/vite-plugin": "0.2.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
       },
@@ -918,11 +918,11 @@
       "version": "1.0.0",
       "dependencies": {
         "@figmazing/event": "0.0.1",
-        "@karrotmarket/react-monochrome-icon": "^0.0.33",
-        "@seed-design/css": "^0.1.14",
-        "@seed-design/migration-index": "^0.0.28",
-        "@seed-design/react": "^0.1.14",
-        "@seed-design/vite-plugin": "^0.1.3",
+        "@karrotmarket/react-monochrome-icon": "^0.0.34",
+        "@seed-design/css": "^0.2.1",
+        "@seed-design/migration-index": "^0.0.30",
+        "@seed-design/react": "^0.2.1",
+        "@seed-design/vite-plugin": "^0.2.0",
         "normalize.css": "^8.0.1",
         "posthog-js": "^1.245.1",
         "react": "^19.1.0",
@@ -1549,9 +1549,9 @@
 
     "@juggle/resize-observer": ["@juggle/resize-observer@3.4.0", "", {}, "sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA=="],
 
-    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@0.0.49", "", {}, "sha512-qy4poCq7YWuvP5xM2XQnNNomAY7TX59Pe7WibWUZi3gjRyZefLVGmgLkrDPMFlCBr5BtRlXO+4UAhJVNbcxTWg=="],
+    "@karrotmarket/icon-data": ["@karrotmarket/icon-data@0.0.50", "", {}, "sha512-MmSftY+k0RSrbKN+X4SoZQp0aIlec/URM0quVmHgiTxSykP4TBv6Ur3TXFxwYdubPnPuGbxK2MRelHCO2Y1D+A=="],
 
-    "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@0.0.33", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-3bUIsbBPGR6+MKewey5jJQyhLWH2j6W+wn0lV3VsEBQd1ZKI89/TchkagSdUK2rOCKetBmzgXpxltmTZGEHIaQ=="],
+    "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@0.0.34", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-boZv6Songg3v1q5vZSd8Qx2l6bZIpy+Bx9HV6zFDcscHvNo8JskYahfGrGdcCt0DOAjdc6Bni4eJoYsSMHYk8A=="],
 
     "@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@0.0.27", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-OpN4JHqXloP6JsX9WTHAi427y75Uu7pOErL4fyGwa9Ghw/h73tUoDew7o8UVzZeQKT42nHRHU64gOp5+ns5hOw=="],
 
