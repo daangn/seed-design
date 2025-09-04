@@ -64,15 +64,18 @@ async function mapProperty(
     });
   }
 
+  // if this matches, it can be a valid 'Identifier'
+  // if not (e.g. aria-hidden, data-foobar), it should be handled as a 'Literal'
+  const needsLiteral = !/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(entry.name);
+
   return {
     type: "Property",
     method: false,
     shorthand: false,
     computed: false,
-    key: {
-      type: "Identifier",
-      name: entry.name,
-    },
+    key: needsLiteral
+      ? { type: "Literal", value: entry.name }
+      : { type: "Identifier", name: entry.name },
     kind: "init",
     value,
   };
