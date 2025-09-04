@@ -161,6 +161,9 @@ export type ListItemCheckProps = Omit<
       }
   );
 
+/**
+ * @see https://seed-design.io/react/components/list
+ */
 export const ListItemCheck = React.forwardRef<HTMLInputElement, ListItemCheckProps>(
   (
     {
