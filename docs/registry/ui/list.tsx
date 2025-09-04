@@ -135,17 +135,33 @@ export type ListItemCheckProps = Omit<
   title: React.ReactNode;
   detail?: React.ReactNode;
 
+  /**
+   * @default "large"
+   */
+  size?: SeedCheckbox.RootProps["size"]; // this redeclaration is for JSDoc
+
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
 } & (
-    | { position: "prefix"; prefix?: never; suffix?: React.ReactNode }
-    | { position?: "suffix"; prefix?: React.ReactNode; suffix?: never }
+    | {
+        /**
+         * @default "suffix"
+         */
+        position: "prefix";
+        prefix?: never;
+        suffix?: React.ReactNode;
+      }
+    | {
+        /**
+         * @default "suffix"
+         */
+        position?: "suffix";
+        prefix?: React.ReactNode;
+        suffix?: never;
+      }
   );
 
-/**
- * @see https://seed-design.io/react/components/list
- */
 export const ListItemCheck = React.forwardRef<HTMLInputElement, ListItemCheckProps>(
   (
     {
@@ -208,12 +224,31 @@ export type ListItemRadioProps = Omit<
   title: React.ReactNode;
   detail?: React.ReactNode;
 
+  /**
+   * @default "large"
+   */
+  size?: SeedRadioGroup.ItemProps["size"]; // this redeclaration is for JSDoc
+
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   rootRef?: React.Ref<HTMLLabelElement>;
 } & (
-    | { position: "prefix"; prefix?: never; suffix?: React.ReactNode }
-    | { position?: "suffix"; prefix?: React.ReactNode; suffix?: never }
+    | {
+        /**
+         * @default "suffix"
+         */
+        position: "prefix";
+        prefix?: never;
+        suffix?: React.ReactNode;
+      }
+    | {
+        /**
+         * @default "suffix"
+         */
+        position?: "suffix";
+        prefix?: React.ReactNode;
+        suffix?: never;
+      }
   );
 
 /**
@@ -274,7 +309,12 @@ export const ListItemRadio = React.forwardRef<HTMLInputElement, ListItemRadioPro
 );
 ListItemRadio.displayName = "ListItemRadio";
 
-export interface ListDividerProps extends SeedDividerProps {}
+export interface ListDividerProps extends SeedDividerProps {
+  /**
+   * @default "li"
+   */
+  as?: SeedDividerProps["as"]; // this redeclaration is for JSDoc
+}
 
 /**
  * @see https://seed-design.io/react/components/list

@@ -87,12 +87,7 @@ npx @seed-design/cli@latest add list
 
 ### 리스트 항목 전체를 폼 요소로 만들기
 
-`ListItemCheck`와 `ListItemRadio`를 사용해서 리스트 항목 전체를 폼 요소로 만들 수 있습니다.
-
-- `position="prefix"`를 사용해서 컨트롤을 리스트 항목의 시작 부분에 배치하고, `suffix`를 추가할 수 있습니다.
-- `position="suffix"`를 사용해서 컨트롤을 리스트 항목의 끝 부분에 배치하고, `prefix`를 추가할 수 있습니다.
-
-두 컴포넌트는 [`CheckboxRootProps`](/react/components/form/checkbox#props) 및 [`RadioGroupItemProps`](/react/components/form/radio-group#radiogroupitem)와 동일한 prop을 지원합니다.
+`ListItemCheck`와 `ListItemRadio`를 사용해서 리스트 항목 전체를 폼 요소로 만들 수 있습니다. 두 컴포넌트는 [`CheckboxRootProps`](/react/components/form/checkbox#props) 및 [`RadioGroupItemProps`](/react/components/form/radio-group#radiogroupitem)와 동일한 prop을 지원합니다.
 
 <ComponentExample name="list-form-controls">
   ```json doc-gen:file
@@ -102,6 +97,58 @@ npx @seed-design/cli@latest add list
   }
   ```
 </ComponentExample>
+
+#### 접근 가능하게 만들기
+
+`List`는 기본적으로 `<ul>`입니다. `ListItemCheck`와 `ListItemRadio`를 사용하는 경우 `List`에 적절한 role을 부여해야 합니다.
+
+```tsx
+{/* [!code highlight] */}
+<List as="fieldset">
+  <ListItemCheck
+    title="알림 수신 동의"
+    detail="푸시 알림을 받으시겠습니까?"
+  />
+  <ListItemCheck
+    title="마케팅 정보 수신 동의"
+    detail="마케팅 정보를 받으시겠습니까?"
+  />
+</List>
+```
+
+```tsx
+{/* [!code highlight] */}
+<List asChild>
+  <RadioGroup.Root defaultValue="짜장" aria-label="점심 메뉴"> {/* <div role="radiogroup"> */}
+    <ListItemRadio value="짜장" title="짜장" />
+    <ListItemRadio value="짬뽕" title="짬뽕" />
+  </RadioGroup.Root>
+</List>
+```
+
+#### 컨트롤 요소 배치하기
+
+`position="prefix"`를 사용해서 컨트롤을 리스트 항목의 시작 부분에 배치하고, `suffix`를 추가할 수 있습니다.
+
+```tsx
+<ListItemCheck
+  position="prefix"
+  suffix={<Icon svg={<IconPersonCircleLine />} />}
+  title="동의"
+  detail="약관에 동의합니다."
+/>
+```
+
+`position="suffix"`를 사용해서 컨트롤을 리스트 항목의 끝 부분에 배치하고, `prefix`를 추가할 수 있습니다.
+
+```tsx
+<ListItemCheck
+  position="suffix"
+  prefix={<Icon svg={<IconPersonCircleLine />} />}
+  title="동의"
+  detail="약관에 동의합니다."
+/>
+```
 
 ### Highlighted
 
@@ -178,8 +225,6 @@ import { List, Icon } from "@seed-design/react";
 `asChild` prop에 대해 자세히 알아봅니다.
 
 </Card>
-
-#### `List.Content`에 `asChild` prop을 사용하는 경우
 
 리스트 항목 전체 영역을 클릭 가능하게 만드는 경우 사용합니다. `List.Item`에 `asChild` prop을 사용하지 않도록 유의하세요. `List.Suffix`에 버튼을 넣는 경우 `button`이 중첩되는 등 유효하지 않은 HTML이 생성될 수 있습니다.
 
@@ -260,12 +305,3 @@ import { ListItemCheck } from "seed-design/ui/list"
 
 <ListItemCheck defaultChecked title="동의" />
 ```
-
-### 클릭 가능한 항목의 경우 키보드 접근성을 고려하세요
-
-### 스크린 리더를 위해 적절한 aria 속성을 추가하세요
-
-### 성능 최적화
-
-- 긴 리스트의 경우 가상화를 고려하세요
-- 배열을 바탕으로 리스트 항목을 생성하는 경우 불필요한 리렌더링을 방지하기 위해 `key` prop을 적절히 사용하세요

@@ -9,7 +9,7 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon, Icon } from "@seed-design/react";
 import { useCallback, useState } from "react";
-import { List, ListItem, ListItemButton, ListItemLink } from "seed-design/ui/list";
+import { List, ListDivider, ListItem, ListItemButton, ListItemLink } from "seed-design/ui/list";
 import { ActionButton } from "seed-design/ui/action-button";
 import { ToggleButton } from "seed-design/ui/toggle-button";
 
@@ -36,8 +36,8 @@ export default function ListClickable() {
             편집
           </ActionButton>
         }
-        showDivider
       />
+      <ListDivider />
       <ListItemButton
         title="ListItemButton은 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Toggle Button 각각을 클릭할 수 있어요"
@@ -51,8 +51,8 @@ export default function ListClickable() {
             <Icon svg={<IconChevronRightLine />} />
           </>
         }
-        showDivider
       />
+      <ListDivider />
       <ListItemLink
         title="ListItemLink도 클릭할 수 있어요. 눌러보세요."
         detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
