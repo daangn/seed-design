@@ -17,18 +17,20 @@ const withStateProps = createWithStateProps([useCheckboxContext, useRadioGroupIt
 
 export interface ListRootProps extends VStackProps {}
 
-export const ListRoot = forwardRef<HTMLDivElement, ListRootProps>((props, ref) => {
-  return <VStack ref={ref} {...props} />;
-});
+export const ListRoot = forwardRef<HTMLUListElement, ListRootProps>(
+  ({ as = "ul", ...props }, ref) => {
+    return <VStack as={as} ref={ref as React.ForwardedRef<HTMLDivElement>} {...props} />;
+  },
+);
 
 export interface ListItemProps
   extends PrimitiveProps,
     Pick<StyleProps, "alignItems">,
-    React.HTMLAttributes<HTMLDivElement>,
+    React.HTMLAttributes<HTMLLIElement>,
     ListItemVariantProps {}
 
-export const ListItem = withProvider<HTMLDivElement, ListItemProps>(
-  withStateProps(withStyleProps(Primitive.div)),
+export const ListItem = withProvider<HTMLLIElement, ListItemProps>(
+  withStateProps(withStyleProps(Primitive.li)),
   "root",
 );
 

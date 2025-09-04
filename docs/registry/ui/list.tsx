@@ -4,6 +4,8 @@ import {
   List as SeedList,
   Checkbox as SeedCheckbox,
   RadioGroup as SeedRadioGroup,
+  Divider as SeedDivider,
+  type DividerProps as SeedDividerProps,
 } from "@seed-design/react";
 import { listItem } from "@seed-design/css/recipes/list-item";
 import { checkmark } from "@seed-design/css/recipes/checkmark";
@@ -31,7 +33,7 @@ export interface ListItemProps
 /**
  * @see https://seed-design.io/react/components/list
  */
-export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
+export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(
   ({ title, detail, prefix, suffix, ...otherProps }, ref) => {
     return (
       <SeedList.Item ref={ref} {...otherProps}>
@@ -47,7 +49,7 @@ export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
 );
 ListItem.displayName = "ListItem";
 
-type ListItemBaseProps = Omit<SeedList.ItemProps, keyof React.HTMLAttributes<HTMLDivElement>>;
+type ListItemBaseProps = Omit<SeedList.ItemProps, keyof React.HTMLAttributes<HTMLLIElement>>;
 
 export interface ListItemButtonProps
   extends Omit<
@@ -59,7 +61,7 @@ export interface ListItemButtonProps
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
 
-  rootRef?: React.Ref<HTMLDivElement>;
+  rootRef?: React.Ref<HTMLLIElement>;
 }
 
 /**
@@ -100,7 +102,7 @@ export interface ListItemLinkProps
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
 
-  rootRef?: React.Ref<HTMLDivElement>;
+  rootRef?: React.Ref<HTMLLIElement>;
 }
 
 /**
@@ -271,3 +273,15 @@ export const ListItemRadio = React.forwardRef<HTMLInputElement, ListItemRadioPro
   },
 );
 ListItemRadio.displayName = "ListItemRadio";
+
+export interface ListDividerProps extends SeedDividerProps {}
+
+/**
+ * @see https://seed-design.io/react/components/list
+ */
+export const ListDivider = React.forwardRef<HTMLLIElement, ListDividerProps>(
+  ({ as = "li", ...props }, ref) => {
+    return <SeedDivider as={as} ref={ref as React.ForwardedRef<HTMLHRElement>} {...props} />;
+  },
+);
+ListDivider.displayName = "ListDivider";
