@@ -146,18 +146,9 @@ const listItem = defineSlotRecipe({
         },
       },
     },
-    showDivider: {
-      false: {},
-      true: {
-        root: {
-          boxShadow: `inset 0px calc(${vars.base.enabled.divider.thickness} * -1) 0 0 ${vars.base.enabled.divider.color}`,
-        },
-      },
-    },
   },
   defaultVariants: {
     highlighted: false,
-    showDivider: false,
   },
 });
 

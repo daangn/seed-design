@@ -3,10 +3,6 @@ declare interface ListItemVariant {
   * @default false
   */
   highlighted: boolean;
-/**
-  * @default false
-  */
-  showDivider: boolean;
 }
 
 declare type ListItemVariantMap = {

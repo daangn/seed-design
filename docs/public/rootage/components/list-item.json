@@ -119,16 +119,6 @@
               "type": "color"
             }
           }
-        },
-        "divider": {
-          "properties": {
-            "thickness": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            }
-          }
         }
       },
       "variants": {}
@@ -260,19 +250,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
-                }
-              },
-              "divider": {
-                "thickness": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral"
                 }
               }
             }

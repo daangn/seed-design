@@ -42,10 +42,6 @@ export declare const vars: {
       "suffixIcon": {
         "size": "18px",
         "color": "var(--seed-color-fg-neutral-subtle)"
-      },
-      "divider": {
-        "thickness": "1px",
-        "color": "var(--seed-color-stroke-neutral)"
       }
     },
     "highlighted": {

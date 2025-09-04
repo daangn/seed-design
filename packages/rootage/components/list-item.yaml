@@ -74,12 +74,6 @@ data:
             type: dimension
           color:
             type: color
-      divider:
-        properties:
-          thickness:
-            type: dimension
-          color:
-            type: color
   definitions:
     base:
       enabled:
@@ -116,9 +110,6 @@ data:
         suffixIcon:
           size: 18px
           color: $color.fg.neutral-subtle
-        divider:
-          thickness: 1px
-          color: $color.stroke.neutral
       highlighted:
         root:
           color: $color.palette.carrot-100

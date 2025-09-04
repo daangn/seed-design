@@ -4276,10 +4276,6 @@
   background-color: var(--seed-color-palette-carrot-100);
 }
 
-.seed-list-item__root--showDivider_true {
-  box-shadow: inset 0px calc(1px * -1) 0 0 var(--seed-color-stroke-neutral);
-}
-
 .seed-manner-temp {
   box-sizing: border-box;
   justify-content: flex-start;

@@ -29,18 +29,13 @@ const listItemSlotNames = [
 ];
 
 const defaultVariant = {
-  "highlighted": false,
-  "showDivider": false
+  "highlighted": false
 };
 
 const compoundVariants = [];
 
 export const listItemVariantMap = {
   "highlighted": [
-    false,
-    true
-  ],
-  "showDivider": [
     false,
     true
   ]
