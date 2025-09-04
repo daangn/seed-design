@@ -7,7 +7,7 @@ export default function FloatOffsetY() {
       width="480px"
       height="480px"
       borderWidth={1}
-      borderColor="stroke.neutral"
+      borderColor="stroke.neutralMuted"
     >
       <Float placement="top-center" offsetY="x4">
         <ContextualFloatingButton>Top Center</ContextualFloatingButton>

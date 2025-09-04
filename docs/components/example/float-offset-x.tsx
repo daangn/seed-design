@@ -7,7 +7,7 @@ export default function FloatOffsetX() {
       width="480px"
       height="480px"
       borderWidth={1}
-      borderColor="stroke.neutral"
+      borderColor="stroke.neutralMuted"
     >
       <Float placement="middle-start" offsetX="x4">
         <ContextualFloatingButton>Middle Start</ContextualFloatingButton>

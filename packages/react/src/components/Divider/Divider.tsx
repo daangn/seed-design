@@ -31,7 +31,7 @@ export interface DividerProps {
 export const Divider = React.forwardRef<HTMLHRElement, DividerProps>((props, ref) => {
   const {
     as = "hr",
-    color = "stroke.neutral",
+    color = "stroke.neutralMuted",
     thickness = 1,
     orientation = "horizontal",
     role,
