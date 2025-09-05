@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Box,
-  NotificationBadge,
-  NotificationBadgePositioner,
-  ChipTabs as SeedChipTabs,
-} from "@seed-design/react";
+import { HStack, NotificationBadge, ChipTabs as SeedChipTabs } from "@seed-design/react";
 import { forwardRef } from "react";
 
 export interface ChipTabsRootProps extends SeedChipTabs.RootProps {}
@@ -40,12 +35,10 @@ export const ChipTabsTrigger = forwardRef<HTMLButtonElement, ChipTabsTriggerProp
   return (
     <SeedChipTabs.Trigger ref={ref} {...otherProps}>
       {notification ? (
-        <Box as="span" position="relative">
+        <HStack as="span" gap="x1_5">
           {children}
-          <NotificationBadgePositioner size="small" attach="text">
-            <NotificationBadge />
-          </NotificationBadgePositioner>
-        </Box>
+          <NotificationBadge size="small" />
+        </HStack>
       ) : (
         children
       )}
