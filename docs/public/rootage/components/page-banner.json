@@ -707,31 +707,31 @@
               "prefixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               },
               "title": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               },
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               },
               "button": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               },
               "suffixIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               }
             }

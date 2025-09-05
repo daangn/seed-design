@@ -622,7 +622,7 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.bg.neutral-solid"
                 }
               }
             }

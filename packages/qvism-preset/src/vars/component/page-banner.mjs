@@ -231,19 +231,19 @@ export const vars = {
         "color": "var(--seed-color-bg-warning-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-bg-neutral-solid)"
       }
     },
     "pressed": {

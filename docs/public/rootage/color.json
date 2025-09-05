@@ -1744,7 +1744,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "$color.palette.yellow-600"
+            "value": "$color.palette.yellow-800"
           }
         }
       },
@@ -1756,7 +1756,7 @@
           },
           "theme-dark": {
             "type": "color",
-            "value": "$color.palette.yellow-700"
+            "value": "$color.palette.yellow-900"
           }
         }
       },
