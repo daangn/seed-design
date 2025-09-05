@@ -25,6 +25,16 @@ export const reactDocs = defineDocs({
   },
 });
 
+export const breezeDocs = defineDocs({
+  dir: "content/breeze",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
+  },
+});
+
 export default defineConfig({
   lastModifiedTime: "git",
   mdxOptions: {
