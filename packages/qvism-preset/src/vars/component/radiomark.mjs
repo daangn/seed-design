@@ -18,16 +18,7 @@ export const vars = {
     },
     "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid)",
         "strokeWidth": "0px"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
-      }
-    },
-    "enabledSelectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
     },
     "disabled": {
@@ -41,6 +32,36 @@ export const vars = {
       },
       "icon": {
         "color": "var(--seed-color-palette-gray-300)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "enabledSelectedPressed": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    }
+  },
+  "toneBrand": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-solid)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-static-white)"
+      }
+    },
+    "enabledSelectedPressed": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-solid-pressed)"
       }
     }
   },

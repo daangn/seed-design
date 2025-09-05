@@ -13,12 +13,17 @@ const radiomarkSlotNames = [
 ];
 
 const defaultVariant = {
+  "tone": "neutral",
   "size": "medium"
 };
 
 const compoundVariants = [];
 
 export const radiomarkVariantMap = {
+  "tone": [
+    "neutral",
+    "brand"
+  ],
   "size": [
     "large",
     "medium"

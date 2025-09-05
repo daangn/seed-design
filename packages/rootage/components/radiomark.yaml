@@ -42,13 +42,7 @@ data:
           color: $color.bg.layer-default-pressed
       enabled,selected:
         root:
-          color: $color.bg.brand-solid
           strokeWidth: 0px
-        icon:
-          color: $color.palette.static-white
-      enabled,selected,pressed:
-        root:
-          color: $color.bg.brand-solid-pressed
       disabled:
         root:
           color: $color.palette.gray-300
@@ -57,6 +51,25 @@ data:
           strokeColor: $color.palette.gray-300
         icon:
           color: $color.palette.gray-300
+
+    tone=neutral:
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
+      enabled,selected,pressed:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+    tone=brand:
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+        icon:
+          color: $color.palette.static-white
+      enabled,selected,pressed:
+        root:
+          color: $color.bg.brand-solid-pressed
 
     size=medium:
       enabled:

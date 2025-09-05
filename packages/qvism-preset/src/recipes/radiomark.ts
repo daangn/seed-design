@@ -31,12 +31,7 @@ const radiomark = defineSlotRecipe({
       },
 
       [pseudo(checked)]: {
-        backgroundColor: vars.base.enabledSelected.root.color,
         borderWidth: vars.base.enabledSelected.root.strokeWidth,
-      },
-
-      [pseudo(active, checked)]: {
-        backgroundColor: vars.base.enabledSelectedPressed.root.color,
       },
 
       [pseudo(disabled)]: {
@@ -55,7 +50,6 @@ const radiomark = defineSlotRecipe({
 
       [pseudo(checked)]: {
         display: "block",
-        color: vars.base.enabledSelected.icon.color,
       },
 
       [pseudo(disabled, checked)]: {
@@ -64,6 +58,40 @@ const radiomark = defineSlotRecipe({
     },
   },
   variants: {
+    tone: {
+      neutral: {
+        root: {
+          [pseudo(checked)]: {
+            backgroundColor: vars.toneNeutral.enabledSelected.root.color,
+          },
+
+          [pseudo(active, checked)]: {
+            backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checked)]: {
+            color: vars.toneNeutral.enabledSelected.icon.color,
+          },
+        },
+      },
+      brand: {
+        root: {
+          [pseudo(checked)]: {
+            backgroundColor: vars.toneBrand.enabledSelected.root.color,
+          },
+
+          [pseudo(active, checked)]: {
+            backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checked)]: {
+            color: vars.toneBrand.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
     size: {
       large: {
         root: {
@@ -98,6 +126,7 @@ const radiomark = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    tone: "neutral",
     size: "medium",
   },
 });
