@@ -61,24 +61,42 @@ const chipTabs = defineSlotRecipe({
       fontFamily: "inherit",
 
       borderRadius: triggerVars.base.enabled.root.cornerRadius,
-      padding: `${triggerVars.base.enabled.root.paddingY} ${triggerVars.base.enabled.root.paddingX}`,
-      minHeight: triggerVars.base.enabled.root.minHeight,
-
-      fontSize: triggerVars.base.enabled.label.fontSize,
+      paddingTop: triggerVars.base.enabled.root.paddingY,
+      paddingBottom: triggerVars.base.enabled.root.paddingY,
       fontWeight: triggerVars.base.enabled.label.fontWeight,
     },
   },
   variants: {
-    variant: {
-      neutralSolid: {
+    size: {
+      medium: {
         list: {
-          gap: vars.variantNeutralSolid.enabled.root.gap,
+          gap: vars.base.enabled.root.gap,
         },
         trigger: {
-          backgroundColor: "transparent",
+          minHeight: triggerVars.sizeMedium.enabled.root.minHeight,
+          fontSize: triggerVars.sizeMedium.enabled.label.fontSize,
+          paddingLeft: triggerVars.sizeMedium.enabled.root.paddingX,
+          paddingRight: triggerVars.sizeMedium.enabled.root.paddingX,
+        },
+      },
+      large: {
+        list: {
+          gap: vars.base.enabled.root.gap,
+        },
+        trigger: {
+          minHeight: triggerVars.sizeLarge.enabled.root.minHeight,
+          fontSize: triggerVars.sizeLarge.enabled.label.fontSize,
+          paddingLeft: triggerVars.sizeLarge.enabled.root.paddingX,
+          paddingRight: triggerVars.sizeLarge.enabled.root.paddingX,
+        },
+      },
+    },
+    variant: {
+      neutralSolid: {
+        trigger: {
+          backgroundColor: triggerVars.variantNeutralSolid.enabled.root.color,
 
           color: triggerVars.variantNeutralSolid.enabled.label.color,
-          fontWeight: triggerVars.base.enabled.label.fontWeight,
 
           [pseudo(selected)]: {
             backgroundColor: triggerVars.variantNeutralSolid.selected.root.color,
@@ -105,20 +123,48 @@ const chipTabs = defineSlotRecipe({
           },
         },
       },
-      brandSolid: {
-        list: {
-          gap: vars.variantBrandSolid.enabled.root.gap,
+      neutralOutline: {
+        trigger: {
+          backgroundColor: "transparent",
+          border: `1px solid ${triggerVars.variantNeutralOutline.enabled.root.stroke}`,
+
+          color: triggerVars.variantNeutralOutline.enabled.label.color,
+
+          [pseudo(selected)]: {
+            backgroundColor: triggerVars.variantNeutralOutline.selected.root.color,
+            borderColor: "transparent",
+            color: triggerVars.variantNeutralOutline.selected.label.color,
+          },
+
+          [pseudo(active)]: {
+            backgroundColor: triggerVars.variantNeutralOutline.enabledPressed.root.color,
+          },
+
+          [pseudo(selected, active)]: {
+            backgroundColor: triggerVars.variantNeutralOutline.selectedPressed.root.color,
+          },
+
+          [pseudo(disabled)]: {
+            cursor: "not-allowed",
+            backgroundColor: undefined,
+            color: triggerVars.variantNeutralOutline.disabled.label.color,
+          },
+
+          [pseudo(disabled, selected)]: {
+            backgroundColor: triggerVars.variantNeutralOutline.selectedDisabled.root.color,
+            color: triggerVars.variantNeutralOutline.selectedDisabled.label.color,
+          },
         },
+      },
+      brandSolid: {
         trigger: {
           backgroundColor: triggerVars.variantBrandSolid.enabled.root.color,
 
           color: triggerVars.variantBrandSolid.enabled.label.color,
-          fontWeight: triggerVars.variantBrandSolid.enabled.label.fontWeight,
 
           [pseudo(selected)]: {
             backgroundColor: triggerVars.variantBrandSolid.selected.root.color,
             color: triggerVars.variantBrandSolid.selected.label.color,
-            fontWeight: triggerVars.variantBrandSolid.selected.label.fontWeight,
           },
 
           [pseudo(active)]: {
@@ -177,6 +223,7 @@ const chipTabs = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    size: "medium",
     variant: "neutralSolid",
     contentLayout: "hug",
     stickyList: false,
