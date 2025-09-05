@@ -24,6 +24,10 @@ const listItem = defineSlotRecipe({
 
       "--seed-box-align-items": "center",
       alignItems: "var(--seed-box-align-items)",
+
+      transitionProperty: "background-color",
+      transitionDuration: vars.base.enabled.root.colorDuration,
+      transitionTimingFunction: vars.base.enabled.root.colorTimingFunction,
     },
     prefix: {
       display: "inline-flex",

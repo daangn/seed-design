@@ -4175,6 +4175,9 @@
   padding-block: var(--seed-dimension-x2_5);
   --seed-box-align-items: center;
   align-items: var(--seed-box-align-items);
+  transition-property: background-color;
+  transition-duration: var(--seed-duration-d3);
+  transition-timing-function: var(--seed-timing-function-easing);
   border: none;
   font-family: inherit;
   display: flex;
