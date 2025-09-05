@@ -105,6 +105,16 @@ const textField = defineSlotRecipe({
       boxSizing: "border-box",
       font: "inherit",
 
+      background: "none",
+      border: "none",
+      outline: "none",
+      resize: "none",
+      height: "100%",
+
+      flexGrow: 1,
+
+      color: vars.base.enabled.value.color,
+
       [pseudo(":is(input)")]: {
         paddingInline: 0,
 
@@ -113,7 +123,6 @@ const textField = defineSlotRecipe({
         // this sets the width to 0 to prevent any overflow and fill the available space of the parent flex container
         // note: this only works with flexGrow: 1
       },
-      flexGrow: 1,
 
       [pseudo(":is(textarea)")]: {
         paddingInline: 0,
@@ -123,14 +132,6 @@ const textField = defineSlotRecipe({
         // this is safe because textarea won't have any affixes
         width: "100%",
       },
-
-      background: "none",
-      border: "none",
-      outline: "none",
-      resize: "none",
-      height: "100%",
-
-      color: vars.base.enabled.value.color,
 
       [pseudo("::placeholder")]: {
         color: vars.base.enabled.placeholder.color,

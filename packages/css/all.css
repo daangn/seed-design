@@ -6014,6 +6014,13 @@
 .seed-text-field__value {
   box-sizing: border-box;
   font: inherit;
+  resize: none;
+  height: 100%;
+  color: var(--seed-color-fg-neutral);
+  background: none;
+  border: none;
+  outline: none;
+  flex-grow: 1;
 }
 
 .seed-text-field__value:is(input) {
@@ -6021,23 +6028,10 @@
   padding-inline: 0;
 }
 
-.seed-text-field__value {
-  flex-grow: 1;
-}
-
 .seed-text-field__value:is(textarea) {
   width: 100%;
   min-height: 90px;
   padding-inline: 0;
-}
-
-.seed-text-field__value {
-  resize: none;
-  height: 100%;
-  color: var(--seed-color-fg-neutral);
-  background: none;
-  border: none;
-  outline: none;
 }
 
 .seed-text-field__value::placeholder {
