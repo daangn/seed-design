@@ -1,8 +1,9 @@
+import { VStack } from "@seed-design/react";
 import { Checkbox } from "seed-design/ui/checkbox";
 
 export default function CheckboxLongText() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+    <VStack gap="x2">
       <Checkbox
         size="medium"
         label="Lorem ipsum dolor sit, amet consectetur adipisicing elit. At a eaque fugiat sint sapiente.
@@ -47,6 +48,6 @@ export default function CheckboxLongText() {
           sed itaque at veritatis nihil officia esse qui provident ipsa adipisci necessitatibus
           officiis distinctio laborum!"
       />
-    </div>
+    </VStack>
   );
 }

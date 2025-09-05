@@ -13,11 +13,28 @@ const checkmarkSlotNames = [
 ];
 
 const defaultVariant = {
-  "size": "medium",
-  "variant": "square"
+  "variant": "square",
+  "tone": "neutral",
+  "size": "medium"
 };
 
 const compoundVariants = [
+  {
+    "variant": "square",
+    "tone": "neutral"
+  },
+  {
+    "variant": "square",
+    "tone": "brand"
+  },
+  {
+    "variant": "ghost",
+    "tone": "neutral"
+  },
+  {
+    "variant": "ghost",
+    "tone": "brand"
+  },
   {
     "size": "medium",
     "variant": "ghost"
@@ -40,6 +57,10 @@ export const checkmarkVariantMap = {
   "variant": [
     "square",
     "ghost"
+  ],
+  "tone": [
+    "neutral",
+    "brand"
   ],
   "size": [
     "large",

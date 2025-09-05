@@ -31,19 +31,9 @@ data:
         root:
           strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
-      enabled,selected:
-        root:
-          color: $color.bg.brand-solid
-        icon:
-          color: $color.palette.static-white
       pressed:
         root:
           color: $color.bg.layer-default-pressed
-      pressed,selected:
-        root:
-          color: $color.bg.brand-solid-pressed
-        icon:
-          color: $color.palette.static-white
       disabled:
         root:
           color: $color.bg.disabled
@@ -54,25 +44,57 @@ data:
         icon:
           color: $color.fg.disabled
 
+    variant=square,tone=neutral:
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
+      pressed,selected:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+        icon:
+          color: $color.fg.neutral-inverted
+    variant=square,tone=brand:
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+        icon:
+          color: $color.palette.static-white
+      pressed,selected:
+        root:
+          color: $color.bg.brand-solid-pressed
+        icon:
+          color: $color.palette.static-white
+
     variant=ghost:
       enabled:
         icon:
           color: $color.fg.placeholder
-      enabled,selected:
-        icon:
-          color: $color.fg.brand
       pressed:
         root:
           color: $color.bg.layer-default-pressed
-      pressed,selected:
-        root:
-          color: $color.palette.carrot-200
       disabled:
         icon:
           color: $color.fg.disabled
       disabled,selected:
         icon:
           color: $color.fg.disabled
+
+    variant=ghost,tone=neutral:
+      enabled,selected:
+        icon:
+          color: $color.fg.neutral-muted
+      pressed,selected:
+        root:
+          color: $color.palette.gray-200
+    variant=ghost,tone=brand:
+      enabled,selected:
+        icon:
+          color: $color.fg.brand
+      pressed,selected:
+        root:
+          color: $color.palette.carrot-200
 
     size=medium:
       enabled:

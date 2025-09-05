@@ -35,14 +35,10 @@ const checkmark = defineSlotRecipe({
           borderColor: vars.variantSquare.enabled.root.strokeColor,
 
           [pseudo(checkedOrIndeterminate)]: {
-            background: vars.variantSquare.enabledSelected.root.color,
             borderWidth: 0,
           },
           [pseudo(active)]: {
             background: vars.variantSquare.pressed.root.color,
-          },
-          [pseudo(active, checkedOrIndeterminate)]: {
-            background: vars.variantSquare.pressedSelected.root.color,
           },
           [pseudo(disabled)]: {
             background: vars.variantSquare.disabled.root.color,
@@ -55,7 +51,6 @@ const checkmark = defineSlotRecipe({
         icon: {
           [pseudo(checkedOrIndeterminate)]: {
             display: "block",
-            color: vars.variantSquare.enabledSelected.icon.color,
           },
           [pseudo(disabled, checkedOrIndeterminate)]: {
             display: "block",
@@ -73,9 +68,6 @@ const checkmark = defineSlotRecipe({
           [pseudo(active)]: {
             background: vars.variantGhost.pressed.root.color,
           },
-          [pseudo(active, checkedOrIndeterminate)]: {
-            background: vars.variantGhost.pressedSelected.root.color,
-          },
           [pseudo(disabled, checkedOrIndeterminate)]: {
             background: "none",
           },
@@ -87,9 +79,6 @@ const checkmark = defineSlotRecipe({
           display: "block",
           color: vars.variantGhost.enabled.icon.color,
 
-          [pseudo(checkedOrIndeterminate)]: {
-            color: vars.variantGhost.enabledSelected.icon.color,
-          },
           [pseudo(disabled, checkedOrIndeterminate)]: {
             color: vars.variantGhost.disabledSelected.icon.color,
           },
@@ -98,6 +87,10 @@ const checkmark = defineSlotRecipe({
           },
         },
       },
+    },
+    tone: {
+      neutral: {},
+      brand: {},
     },
     size: {
       large: {
@@ -117,6 +110,76 @@ const checkmark = defineSlotRecipe({
     },
   },
   compoundVariants: [
+    {
+      variant: "square",
+      tone: "neutral",
+      css: {
+        root: {
+          [pseudo(checkedOrIndeterminate)]: {
+            background: vars.variantSquareToneNeutral.enabledSelected.root.color,
+          },
+          [pseudo(active, checkedOrIndeterminate)]: {
+            background: vars.variantSquareToneNeutral.pressedSelected.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checkedOrIndeterminate)]: {
+            color: vars.variantSquareToneNeutral.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
+    {
+      variant: "square",
+      tone: "brand",
+      css: {
+        root: {
+          [pseudo(checkedOrIndeterminate)]: {
+            background: vars.variantSquareToneBrand.enabledSelected.root.color,
+          },
+          [pseudo(active, checkedOrIndeterminate)]: {
+            background: vars.variantSquareToneBrand.pressedSelected.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checkedOrIndeterminate)]: {
+            color: vars.variantSquareToneBrand.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
+    {
+      variant: "ghost",
+      tone: "neutral",
+      css: {
+        root: {
+          [pseudo(active, checkedOrIndeterminate)]: {
+            background: vars.variantGhostToneNeutral.pressedSelected.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checkedOrIndeterminate)]: {
+            color: vars.variantGhostToneNeutral.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
+    {
+      variant: "ghost",
+      tone: "brand",
+      css: {
+        root: {
+          [pseudo(active, checkedOrIndeterminate)]: {
+            background: vars.variantGhostToneBrand.pressedSelected.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checkedOrIndeterminate)]: {
+            color: vars.variantGhostToneBrand.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
     {
       size: "medium",
       variant: "ghost",
@@ -159,8 +222,9 @@ const checkmark = defineSlotRecipe({
     },
   ],
   defaultVariants: {
-    size: "medium",
     variant: "square",
+    tone: "neutral",
+    size: "medium",
   },
 });
 

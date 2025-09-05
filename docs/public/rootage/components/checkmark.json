@@ -47,6 +47,13 @@
           },
           "defaultValue": "square"
         },
+        "tone": {
+          "values": {
+            "neutral": {},
+            "brand": {}
+          },
+          "defaultValue": "neutral"
+        },
         "size": {
           "values": {
             "medium": {},
@@ -84,26 +91,6 @@
           },
           {
             "states": [
-              "enabled",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "pressed"
             ],
             "slots": {
@@ -111,26 +98,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "pressed",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid-pressed"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
                 }
               }
             }
@@ -176,6 +143,102 @@
       },
       {
         "variants": {
+          "variant": "square",
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted-pressed"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "square",
+          "tone": "brand"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid-pressed"
+                }
+              },
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
           "variant": "ghost"
         },
         "definitions": [
@@ -194,20 +257,6 @@
           },
           {
             "states": [
-              "enabled",
-              "selected"
-            ],
-            "slots": {
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.brand"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "pressed"
             ],
             "slots": {
@@ -215,20 +264,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "pressed",
-              "selected"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.carrot-200"
                 }
               }
             }
@@ -256,6 +291,78 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "ghost",
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-200"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "ghost",
+          "tone": "brand"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "icon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.brand"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.carrot-200"
                 }
               }
             }
