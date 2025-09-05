@@ -1,51 +1,52 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Checkbox } from "seed-design/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
-import { checkboxVariantMap } from "@seed-design/css/recipes/checkbox";
+import { radioVariantMap } from "@seed-design/css/recipes/radio";
+import { radiomarkVariantMap } from "@seed-design/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
-import { checkmarkVariantMap } from "@seed-design/css/recipes/checkmark";
+import { HStack } from "@seed-design/react";
 
 const meta = {
-  component: Checkbox,
+  component: RadioGroup,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Checkbox>;
+} satisfies Meta<typeof RadioGroup>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const RadioGroupWrapper = ({ ...props }) => {
+  return (
+    <HStack gap="x3" asChild>
+      <RadioGroup defaultValue="option1">
+        <RadioGroupItem value="option1" label="Option 1" {...props} />
+        <RadioGroupItem value="option2" label="Option 2" {...props} />
+        <RadioGroupItem value="option3" label="Option 3" {...props} />
+      </RadioGroup>
+    </HStack>
+  );
+};
+
 const conditionMap = {
-  indeterminate: {
+  disabled: {
     false: {
-      indeterminate: false,
+      disabled: false,
     },
     true: {
-      indeterminate: true,
-    },
-  },
-  checked: {
-    false: {
-      checked: false,
-    },
-    true: {
-      checked: true,
+      disabled: true,
     },
   },
 };
 
 const CommonStoryTemplate: Story = {
-  args: {
-    label: "Checkbox",
-  },
-  render: (args) => (
+  render: () => (
     <VariantTable
-      Component={meta.component}
-      variantMap={{ ...checkboxVariantMap, ...checkmarkVariantMap }}
+      Component={RadioGroupWrapper}
+      variantMap={{ ...radioVariantMap, ...radiomarkVariantMap }}
       conditionMap={conditionMap}
-      {...args}
     />
   ),
 };
