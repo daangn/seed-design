@@ -107,12 +107,20 @@ const textField = defineSlotRecipe({
 
       [pseudo(":is(input)")]: {
         paddingInline: 0,
+
+        // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
+        width: 0,
+        // this sets the width to 0 to prevent any overflow and fill the available space of the parent flex container
+        // note: this only works with flexGrow: 1
       },
+      flexGrow: 1,
 
       [pseudo(":is(textarea)")]: {
         paddingInline: 0,
 
         minHeight: "90px",
+
+        // this is safe because textarea won't have any affixes
         width: "100%",
       },
 
@@ -120,7 +128,6 @@ const textField = defineSlotRecipe({
       border: "none",
       outline: "none",
       resize: "none",
-      flexGrow: 1,
       height: "100%",
 
       color: vars.base.enabled.value.color,

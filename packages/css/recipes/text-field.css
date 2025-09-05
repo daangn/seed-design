@@ -69,6 +69,10 @@
 }
 .seed-text-field__value:is(input) {
     padding-inline: 0;
+    width: 0;
+}
+.seed-text-field__value {
+    flex-grow: 1;
 }
 .seed-text-field__value:is(textarea) {
     padding-inline: 0;
@@ -80,7 +84,6 @@
     border: none;
     outline: none;
     resize: none;
-    flex-grow: 1;
     height: 100%;
     color: var(--seed-color-fg-neutral);
 }

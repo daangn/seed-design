@@ -6017,7 +6017,12 @@
 }
 
 .seed-text-field__value:is(input) {
+  width: 0;
   padding-inline: 0;
+}
+
+.seed-text-field__value {
+  flex-grow: 1;
 }
 
 .seed-text-field__value:is(textarea) {
@@ -6033,7 +6038,6 @@
   background: none;
   border: none;
   outline: none;
-  flex-grow: 1;
 }
 
 .seed-text-field__value::placeholder {
