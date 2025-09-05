@@ -20,7 +20,7 @@
     "@seed-design/css": "0.2.1",
     "@seed-design/figma": "0.2.1",
     "@seed-design/migration-index": "0.0.30",
-    "@seed-design/react": "0.2.1",
+    "@seed-design/react": "0.2.2",
     "@seed-design/vite-plugin": "0.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
