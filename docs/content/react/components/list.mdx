@@ -32,13 +32,31 @@ npx @seed-design/cli@latest add list
 
 <react-type-table path="./registry/ui/list.tsx" name="ListItemProps" />
 
+### `ListButtonItem`
+
+<react-type-table path="./registry/ui/list.tsx" name="ListButtonItemProps" />
+
+### `ListLinkItem`
+
+<react-type-table path="./registry/ui/list.tsx" name="ListLinkItemProps" />
+
+### `ListCheckItem`
+
+<react-type-table path="./registry/ui/list.tsx" name="ListCheckItemProps" />
+
+### `ListRadioItem`
+
+<react-type-table path="./registry/ui/list.tsx" name="ListRadioItemProps" />
+
 ### `ListDivider`
 
 [`DividerProps`](/react/components/divider#props)와 동일하나, 기본적으로 `<li aria-hidden></li>`로 렌더링됩니다. `List`를 `fieldset` 등으로 바꿔 사용하는 경우 `ListDivider` 역시 적절한 태그로 교체해주세요.
 
 <react-type-table path="./registry/ui/list.tsx" name="ListDividerProps" />
 
-## 리스트 항목에 Prefix 또는 Suffix 추가하기
+## Examples
+
+### 리스트 항목에 Prefix 또는 Suffix 추가하기
 
 <ComponentExample name="list-affixes">
   ```json doc-gen:file
@@ -49,7 +67,7 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-## 리스트 항목 전체를 클릭 가능하게 만들기
+### 리스트 항목 전체를 클릭 가능하게 만들기
 
 `ListButtonItem` 또는 `ListLinkItem`를 사용해서 리스트 항목 전체를 클릭 가능하도록 만들 수 있습니다.
 
@@ -62,15 +80,7 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-### `ListButtonItem`
-
-<react-type-table path="./registry/ui/list.tsx" name="ListButtonItemProps" />
-
-### `ListLinkItem`
-
-<react-type-table path="./registry/ui/list.tsx" name="ListLinkItemProps" />
-
-## 리스트 항목 전체를 폼 요소로 만들기
+### 리스트 항목 전체를 폼 요소로 만들기
 
 `ListCheckItem`와 `ListRadioItem`를 사용해서 리스트 항목 전체를 폼 요소로 만들 수 있습니다. [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)와 같은 컨트롤 요소를 `prefix`나 `suffix` 영역에 넣어 사용합니다.
 
@@ -83,10 +93,6 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-### `ListCheckItem`
-
-<react-type-table path="./registry/ui/list.tsx" name="ListCheckItemProps" />
-
 <ComponentExample name="list-radio">
   ```json doc-gen:file
   {
@@ -96,11 +102,7 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-### `ListRadioItem`
-
-<react-type-table path="./registry/ui/list.tsx" name="ListRadioItemProps" />
-
-### 접근 가능하게 만들기
+#### 접근 가능하게 만들기
 
 `List`는 기본적으로 `<ul>`입니다. `ListCheckItem`와 `ListRadioItem`를 사용하는 경우 `List`에 적절한 role을 부여해야 합니다.
 
@@ -138,7 +140,7 @@ npx @seed-design/cli@latest add list
 </List>
 ```
 
-## Disabled
+### Disabled
 
 <ComponentExample name="list-disabled">
   ```json doc-gen:file
@@ -149,9 +151,9 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-## Variants
+### Variants
 
-### Highlighted
+#### Highlighted
 
 <ComponentExample name="list-highlighted">
   ```json doc-gen:file
@@ -218,7 +220,7 @@ import { List, Icon } from "@seed-design/react";
 
 #### `List.Content`에 `asChild` prop을 사용하는 경우
 
-리스트 항목 전체 영역을 클릭 가능한 버튼으로 만드는 경우 사용할 수 있습니다. 이 경우 `List.Item`에 `asChild` prop을 사용하지 않도록 유의하세요. `List.Prefix` 또는 `List.Suffix`에 버튼을 넣는 경우 `button`이 중첩되는 등 유효하지 않은 HTML이 생성됩니다.
+리스트 항목 전체 영역을 클릭 가능한 버튼으로 만드는 경우 활용할 수 있는 패턴입니다. 이 경우 `List.Item`에 `asChild` prop을 사용하지 않도록 유의하세요. `List.Prefix` 또는 `List.Suffix`에 버튼을 넣는 경우 `button`이 중첩되는 등 유효하지 않은 HTML이 생성됩니다.
 
 ```tsx
 import { List as SeedList } from "@seed-design/react";
@@ -268,7 +270,7 @@ import { ListButtonItem } from "seed-design/ui/list";
 
 #### `List.Item`에 `asChild` prop을 사용하는 경우
 
-리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)를 넣는 경우 사용할 수 있습니다.
+리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)를 넣는 경우 활용할 수 있는 패턴입니다.
 
 ```tsx
 import { List as SeedList } from "@seed-design/react";

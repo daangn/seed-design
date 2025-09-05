@@ -12,7 +12,6 @@ import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { ActionButton } from "../seed-design/ui/action-button";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -43,19 +42,6 @@ const suffixVariants = [
   { key: "none", element: null },
   { key: "icon-info", element: <Icon svg={<IconILowercaseSerifCircleLine />} /> },
   { key: "icon-chevron", element: <Icon svg={<IconChevronRightLine />} /> },
-  {
-    key: "buttons",
-    element: (
-      <>
-        <ActionButton size="xsmall" variant="neutralWeak">
-          라벨
-        </ActionButton>
-        <ActionButton size="xsmall" variant="neutralWeak">
-          라벨
-        </ActionButton>
-      </>
-    ),
-  },
 ];
 
 const stateVariants = [
@@ -66,7 +52,12 @@ const stateVariants = [
   { key: "ghost-unchecked", defaultChecked: false, disabled: false, checkmarkVariant: "ghost" },
   { key: "ghost-checked", defaultChecked: true, disabled: false, checkmarkVariant: "ghost" },
   { key: "ghost-disabled", defaultChecked: false, disabled: true, checkmarkVariant: "ghost" },
-  { key: "ghost-disabled-checked", defaultChecked: true, disabled: true, checkmarkVariant: "ghost" },
+  {
+    key: "ghost-disabled-checked",
+    defaultChecked: true,
+    disabled: true,
+    checkmarkVariant: "ghost",
+  },
 ] as const;
 
 const ActivityListCheckItem: ActivityComponentType = () => {

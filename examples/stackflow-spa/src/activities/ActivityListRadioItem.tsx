@@ -12,7 +12,6 @@ import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { ActionButton } from "../seed-design/ui/action-button";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -43,19 +42,6 @@ const suffixVariants = [
   { key: "none", element: null },
   { key: "icon-info", element: <Icon svg={<IconILowercaseSerifCircleLine />} /> },
   { key: "icon-chevron", element: <Icon svg={<IconChevronRightLine />} /> },
-  {
-    key: "buttons",
-    element: (
-      <>
-        <ActionButton size="xsmall" variant="neutralWeak">
-          라벨
-        </ActionButton>
-        <ActionButton size="xsmall" variant="neutralWeak">
-          라벨
-        </ActionButton>
-      </>
-    ),
-  },
 ];
 
 const stateVariants = [
