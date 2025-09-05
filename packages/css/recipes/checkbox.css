@@ -17,10 +17,10 @@
 .seed-checkbox__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
 }
-.seed-checkbox__label--weight_default {
+.seed-checkbox__label--weight_regular {
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-checkbox__label--weight_stronger {
+.seed-checkbox__label--weight_bold {
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-checkbox__root--size_large {

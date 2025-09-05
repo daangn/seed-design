@@ -2656,11 +2656,11 @@
   color: var(--seed-color-fg-disabled);
 }
 
-.seed-checkbox__label--weight_default {
+.seed-checkbox__label--weight_regular {
   font-weight: var(--seed-font-weight-regular);
 }
 
-.seed-checkbox__label--weight_stronger {
+.seed-checkbox__label--weight_bold {
   font-weight: var(--seed-font-weight-bold);
 }
 
@@ -4918,11 +4918,11 @@
   color: var(--seed-color-fg-disabled);
 }
 
-.seed-radio__label--weight_default {
+.seed-radio__label--weight_regular {
   font-weight: var(--seed-font-weight-regular);
 }
 
-.seed-radio__label--weight_stronger {
+.seed-radio__label--weight_bold {
   font-weight: var(--seed-font-weight-bold);
 }
 

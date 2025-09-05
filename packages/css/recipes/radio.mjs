@@ -14,15 +14,15 @@ const radioSlotNames = [
 
 const defaultVariant = {
   "size": "medium",
-  "weight": "default"
+  "weight": "regular"
 };
 
 const compoundVariants = [];
 
 export const radioVariantMap = {
   "weight": [
-    "default",
-    "stronger"
+    "regular",
+    "bold"
   ],
   "size": [
     "large",
