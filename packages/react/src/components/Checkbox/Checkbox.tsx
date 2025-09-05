@@ -33,7 +33,7 @@ export interface CheckboxRootProps
 
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
-    const [checkboxVariantProps, otherProps] = checkbox.splitVariantProps({
+    const normalizedProps = {
       ...props,
       // TODO: replace this mapping completely
       weight:
@@ -42,8 +42,13 @@ export const CheckboxRoot = Object.assign(
           : props.weight === "default"
             ? "regular"
             : props.weight,
-    });
-    const [checkmarkVariantProps] = checkmark.splitVariantProps(props);
+    };
+
+    const [checkboxVariantProps, __otherProps] = checkbox.splitVariantProps(normalizedProps);
+    const [checkmarkVariantProps] = checkmark.splitVariantProps(normalizedProps);
+
+    const [, otherProps] = checkmark.splitVariantProps(__otherProps);
+
     const classNames = checkbox(checkboxVariantProps);
 
     return (
