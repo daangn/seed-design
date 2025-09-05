@@ -3,6 +3,7 @@ kind: ComponentSpec
 metadata:
   id: link-content
   name: Link Content
+  deprecated: Use Action Button with variant="ghost" instead.
 data:
   schema:
     slots:
