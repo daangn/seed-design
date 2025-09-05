@@ -15,8 +15,8 @@ import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import {
   List,
   ListDivider,
-  ListItemButton,
-  type ListItemButtonProps,
+  ListButtonItem,
+  type ListButtonItemProps,
 } from "../seed-design/ui/list";
 import {
   AlertDialogContent,
@@ -68,14 +68,14 @@ const suffixVariants = [
   },
 ];
 
-const AlertDialogListItemButton = React.forwardRef<HTMLButtonElement, ListItemButtonProps>(
+const AlertDialogListButtonItem = React.forwardRef<HTMLButtonElement, ListButtonItemProps>(
   (props, ref) => {
     const { dialogProps, setOpen } = useStepDialog();
 
     return (
       <AlertDialogRoot {...dialogProps}>
         <AlertDialogTrigger asChild>
-          <ListItemButton ref={ref} onClick={() => setOpen(true)} {...props} />
+          <ListButtonItem ref={ref} onClick={() => setOpen(true)} {...props} />
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -93,16 +93,16 @@ const AlertDialogListItemButton = React.forwardRef<HTMLButtonElement, ListItemBu
     );
   },
 );
-AlertDialogListItemButton.displayName = "AlertDialogListItemButton";
+AlertDialogListButtonItem.displayName = "AlertDialogListButtonItem";
 
-const ActivityListItemButton: ActivityComponentType = () => {
+const ActivityListButtonItem: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="ListItemButton" />
+        <AppBarMain title="ListButtonItem" />
       </AppBar>
       <AppScreenContent
         ptr
@@ -124,7 +124,7 @@ const ActivityListItemButton: ActivityComponentType = () => {
 
                 return (
                   <Fragment key={key}>
-                    <AlertDialogListItemButton
+                    <AlertDialogListButtonItem
                       title={key}
                       detail={content.detail}
                       prefix={prefix.element}
@@ -142,4 +142,4 @@ const ActivityListItemButton: ActivityComponentType = () => {
   );
 };
 
-export default ActivityListItemButton;
+export default ActivityListButtonItem;

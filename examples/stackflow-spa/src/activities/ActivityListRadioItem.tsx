@@ -3,7 +3,8 @@ import type { ActivityComponentType } from "@stackflow/react";
 import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListItemRadio } from "../seed-design/ui/list";
+import { List, ListDivider, ListRadioItem } from "../seed-design/ui/list";
+import { RadioMark } from "../seed-design/ui/radio-group";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import { Avatar } from "../seed-design/ui/avatar";
 import {
@@ -62,14 +63,14 @@ const stateVariants = [
   { key: "disabled", disabled: true },
 ] as const;
 
-const ActivityListItemRadio: ActivityComponentType = () => {
+const ActivityListRadioItem: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="ListItemRadio" />
+        <AppBarMain title="ListRadioItem" />
       </AppBar>
       <AppScreenContent
         ptr
@@ -80,7 +81,7 @@ const ActivityListItemRadio: ActivityComponentType = () => {
         <List asChild>
           <RadioGroup.Root
             defaultValue="prefix-title-unchecked-suffix-none"
-            aria-label="ListItemRadio 예시"
+            aria-label="ListRadioItem 예시"
           >
             {positionVariants.map((position) =>
               contentVariants.map((content) =>
@@ -106,11 +107,11 @@ const ActivityListItemRadio: ActivityComponentType = () => {
 
                         return (
                           <Fragment key={radioValue}>
-                            <ListItemRadio
+                            <ListRadioItem
                               title={radioValue}
                               value={radioValue}
                               detail={content.detail}
-                              position={position.position}
+                              prefix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               suffix={suffix.element}
                             />
@@ -140,11 +141,11 @@ const ActivityListItemRadio: ActivityComponentType = () => {
 
                         return (
                           <Fragment key={radioValue}>
-                            <ListItemRadio
+                            <ListRadioItem
                               value={radioValue}
                               title={radioValue}
                               detail={content.detail}
-                              position={position.position}
+                              suffix={<RadioMark size="large" />}
                               disabled={state.disabled}
                               prefix={prefix.element}
                             />
@@ -167,4 +168,4 @@ const ActivityListItemRadio: ActivityComponentType = () => {
   );
 };
 
-export default ActivityListItemRadio;
+export default ActivityListRadioItem;

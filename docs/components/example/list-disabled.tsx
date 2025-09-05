@@ -4,55 +4,61 @@ import {
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Divider, Icon, RadioGroup, VStack } from "@seed-design/react";
-import { List, ListItemButton, ListItemCheck, ListItemRadio } from "seed-design/ui/list";
+import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
+import { Checkmark } from "seed-design/ui/checkbox";
+import { RadioMark } from "seed-design/ui/radio-group";
 
 export default function ListDisabled() {
   return (
     <VStack width="full">
       <List>
-        <ListItemButton
+        <ListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
-          title="활성화된 ListItemButton"
+          title="활성화된 ListButtonItem"
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </List>
       <List as="fieldset">
-        <ListItemCheck
+        <ListCheckItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
-          title="활성화된 ListItemCheck"
+          title="활성화된 ListCheckItem"
+          suffix={<Checkmark size="large" />}
         />
       </List>
       <List asChild>
         <RadioGroup.Root defaultValue="foo" aria-label="옵션 선택">
-          <ListItemRadio
+          <ListRadioItem
             prefix={<Icon svg={<IconPersonCircleLine />} />}
-            title="활성화된 ListItemRadio"
+            title="활성화된 ListRadioItem"
+            suffix={<RadioMark size="large" />}
             value="foo"
           />
         </RadioGroup.Root>
       </List>
       <Divider />
       <List>
-        <ListItemButton
+        <ListButtonItem
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
-          title="비활성화된 ListItemButton"
+          title="비활성화된 ListButtonItem"
           suffix={<Icon svg={<IconChevronRightLine />} />}
         />
       </List>
       <List as="fieldset">
-        <ListItemCheck
+        <ListCheckItem
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
-          title="비활성화된 ListItemCheck"
+          title="비활성화된 ListCheckItem"
+          suffix={<Checkmark size="large" />}
         />
       </List>
       <List asChild>
         <RadioGroup.Root defaultValue="foo" aria-label="옵션 선택">
-          <ListItemRadio
+          <ListRadioItem
             disabled
             prefix={<Icon svg={<IconSlashCircleLine />} />}
-            title="비활성화된 ListItemRadio"
+            title="비활성화된 ListRadioItem"
+            suffix={<RadioMark size="large" />}
             value="foo"
           />
         </RadioGroup.Root>

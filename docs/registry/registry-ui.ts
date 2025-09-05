@@ -191,7 +191,6 @@ export const registryUI: RegistryUI = [
   {
     name: "list",
     dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:checkbox", "ui:radio-group"],
     files: ["ui:list.tsx"],
   },
 ];

@@ -2,7 +2,7 @@ import { Divider, VStack, useSnackbarAdapter } from "@seed-design/react";
 import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
-import { List, ListItemButton } from "../seed-design/ui/list";
+import { List, ListButtonItem } from "../seed-design/ui/list";
 import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
@@ -60,7 +60,7 @@ const ActivityHome: ActivityComponentType = () => {
               component: (
                 <AlertDialogRoot {...dialogProps}>
                   <AlertDialogTrigger asChild>
-                    <ListItemButton title="AlertDialog (step)" />
+                    <ListButtonItem title="AlertDialog (step)" />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -115,7 +115,7 @@ const ActivityHome: ActivityComponentType = () => {
                     console.log(result?.action);
                   }}
                 >
-                  <ListItemButton title="MenuSheet" />
+                  <ListButtonItem title="MenuSheet" />
                 </DialogPushTrigger>
               ),
             },
@@ -132,10 +132,10 @@ const ActivityHome: ActivityComponentType = () => {
           title: "List",
           items: [
             { title: "ListItem", onClick: () => push("ActivityListItem", {}) },
-            { title: "ListItemButton", onClick: () => push("ActivityListItemButton", {}) },
-            { title: "ListItemLink", onClick: () => push("ActivityListItemLink", {}) },
-            { title: "ListItemCheck", onClick: () => push("ActivityListItemCheck", {}) },
-            { title: "ListItemRadio", onClick: () => push("ActivityListItemRadio", {}) },
+            { title: "ListButtonItem", onClick: () => push("ActivityListButtonItem", {}) },
+            { title: "ListLinkItem", onClick: () => push("ActivityListLinkItem", {}) },
+            { title: "ListCheckItem", onClick: () => push("ActivityListCheckItem", {}) },
+            { title: "ListRadioItem", onClick: () => push("ActivityListRadioItem", {}) },
           ],
         },
         {
@@ -216,7 +216,7 @@ const ActivityHome: ActivityComponentType = () => {
                   item.component ? (
                     <React.Fragment key={item.title}>{item.component}</React.Fragment>
                   ) : (
-                    <ListItemButton key={item.title} onClick={item.onClick} title={item.title} />
+                    <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
                   ),
                 )}
               </List>

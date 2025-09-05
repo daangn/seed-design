@@ -2,7 +2,8 @@ import type { ActivityComponentType } from "@stackflow/react";
 import { Fragment } from "react";
 import { AppBar, AppBarBackButton, AppBarLeft, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
-import { List, ListDivider, ListItemCheck } from "../seed-design/ui/list";
+import { List, ListDivider, ListCheckItem } from "../seed-design/ui/list";
+import { Checkmark } from "../seed-design/ui/checkbox";
 import { Icon } from "@seed-design/react";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
 import { Avatar } from "../seed-design/ui/avatar";
@@ -58,24 +59,24 @@ const suffixVariants = [
 ];
 
 const stateVariants = [
-  { key: "unchecked", defaultChecked: false, disabled: false, variant: undefined },
-  { key: "checked", defaultChecked: true, disabled: false, variant: undefined },
-  { key: "disabled", defaultChecked: false, disabled: true, variant: undefined },
-  { key: "disabled-checked", defaultChecked: true, disabled: true, variant: undefined },
-  { key: "ghost-unchecked", defaultChecked: false, disabled: false, variant: "ghost" },
-  { key: "ghost-checked", defaultChecked: true, disabled: false, variant: "ghost" },
-  { key: "ghost-disabled", defaultChecked: false, disabled: true, variant: "ghost" },
-  { key: "ghost-disabled-checked", defaultChecked: true, disabled: true, variant: "ghost" },
+  { key: "unchecked", defaultChecked: false, disabled: false, checkmarkVariant: undefined },
+  { key: "checked", defaultChecked: true, disabled: false, checkmarkVariant: undefined },
+  { key: "disabled", defaultChecked: false, disabled: true, checkmarkVariant: undefined },
+  { key: "disabled-checked", defaultChecked: true, disabled: true, checkmarkVariant: undefined },
+  { key: "ghost-unchecked", defaultChecked: false, disabled: false, checkmarkVariant: "ghost" },
+  { key: "ghost-checked", defaultChecked: true, disabled: false, checkmarkVariant: "ghost" },
+  { key: "ghost-disabled", defaultChecked: false, disabled: true, checkmarkVariant: "ghost" },
+  { key: "ghost-disabled-checked", defaultChecked: true, disabled: true, checkmarkVariant: "ghost" },
 ] as const;
 
-const ActivityListItemCheck: ActivityComponentType = () => {
+const ActivityListCheckItem: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="ListItemCheck" />
+        <AppBarMain title="ListCheckItem" />
       </AppBar>
       <AppScreenContent
         ptr
@@ -107,13 +108,12 @@ const ActivityListItemCheck: ActivityComponentType = () => {
 
                       return (
                         <Fragment key={key}>
-                          <ListItemCheck
+                          <ListCheckItem
                             title={key}
                             detail={content.detail}
-                            position={position.position}
+                            prefix={<Checkmark size="large" variant={state.checkmarkVariant} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
-                            variant={state.variant}
                             suffix={suffix.element}
                           />
                           {showDivider && <ListDivider as="div" />}
@@ -141,13 +141,12 @@ const ActivityListItemCheck: ActivityComponentType = () => {
 
                       return (
                         <Fragment key={key}>
-                          <ListItemCheck
+                          <ListCheckItem
                             title={key}
                             detail={content.detail}
-                            position={position.position}
+                            suffix={<Checkmark size="large" variant={state.checkmarkVariant} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
-                            variant={state.variant}
                             prefix={prefix.element}
                           />
                           {showDivider && <ListDivider as="div" />}
@@ -168,4 +167,4 @@ const ActivityListItemCheck: ActivityComponentType = () => {
   );
 };
 
-export default ActivityListItemCheck;
+export default ActivityListCheckItem;

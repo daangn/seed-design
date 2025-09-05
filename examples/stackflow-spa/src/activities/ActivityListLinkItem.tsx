@@ -11,7 +11,7 @@ import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen"
 import { ActionButton } from "../seed-design/ui/action-button";
 import { Avatar } from "../seed-design/ui/avatar";
 import { IdentityPlaceholder } from "../seed-design/ui/identity-placeholder";
-import { List, ListDivider, ListItemLink } from "../seed-design/ui/list";
+import { List, ListDivider, ListLinkItem } from "../seed-design/ui/list";
 
 const prefixVariants = [
   { key: "none", element: null },
@@ -52,14 +52,14 @@ const suffixVariants = [
   },
 ];
 
-const ActivityListItemLink: ActivityComponentType = () => {
+const ActivityListLinkItem: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>
-        <AppBarMain title="ListItemLink" />
+        <AppBarMain title="ListLinkItem" />
       </AppBar>
       <AppScreenContent
         ptr
@@ -81,7 +81,7 @@ const ActivityListItemLink: ActivityComponentType = () => {
 
                 return (
                   <Fragment key={key}>
-                    <ListItemLink
+                    <ListLinkItem
                       href="https://example.com"
                       target="_blank"
                       title={key}
@@ -101,4 +101,4 @@ const ActivityListItemLink: ActivityComponentType = () => {
   );
 };
 
-export default ActivityListItemLink;
+export default ActivityListLinkItem;
