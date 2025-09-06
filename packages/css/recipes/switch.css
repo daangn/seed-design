@@ -22,9 +22,6 @@
 .seed-switch__control:is(:disabled, [disabled], [data-disabled]) {
     opacity: 0.38;
 }
-.seed-switch__control:is(:checked, [data-checked]) {
-    background: var(--seed-color-bg-brand-solid);
-}
 .seed-switch__thumb {
     border-radius: var(--seed-radius-full);
     background: var(--seed-color-palette-static-white);
@@ -36,6 +33,12 @@
 }
 .seed-switch__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
+}
+.seed-switch__control--tone_neutral:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-neutral-solid);
+}
+.seed-switch__control--tone_brand:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-brand-solid);
 }
 .seed-switch__root--size_16 {
     min-height: 24px;

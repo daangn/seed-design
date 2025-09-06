@@ -35,10 +35,6 @@ const switchRecipe = defineSlotRecipe({
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.control.opacity,
       },
-
-      [pseudo(checked)]: {
-        background: vars.base.enabledSelected.control.color,
-      },
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,
@@ -56,6 +52,22 @@ const switchRecipe = defineSlotRecipe({
     },
   },
   variants: {
+    tone: {
+      neutral: {
+        control: {
+          [pseudo(checked)]: {
+            background: vars.toneNeutral.enabledSelected.control.color,
+          },
+        },
+      },
+      brand: {
+        control: {
+          [pseudo(checked)]: {
+            background: vars.toneBrand.enabledSelected.control.color,
+          },
+        },
+      },
+    },
     size: {
       32: {
         root: {
@@ -137,6 +149,7 @@ const switchRecipe = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    tone: "neutral",
     size: 32,
   },
 });

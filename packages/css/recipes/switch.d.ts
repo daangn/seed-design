@@ -1,5 +1,9 @@
 declare interface SwitchVariant {
   /**
+  * @default "neutral"
+  */
+  tone: "neutral" | "brand";
+/**
   * @default 32
   */
   size: "16" | "24" | "32";

@@ -81,6 +81,13 @@
         }
       },
       "variants": {
+        "tone": {
+          "values": {
+            "neutral": {},
+            "brand": {}
+          },
+          "defaultValue": "neutral"
+        },
         "size": {
           "values": {
             "16": {},
@@ -134,20 +141,6 @@
           },
           {
             "states": [
-              "enabled",
-              "selected"
-            ],
-            "slots": {
-              "control": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "disabled"
             ],
             "slots": {
@@ -161,6 +154,48 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "control": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-solid"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "brand"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "control": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.brand-solid"
                 }
               }
             }

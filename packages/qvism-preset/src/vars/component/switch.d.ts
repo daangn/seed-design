@@ -14,17 +14,26 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-medium)"
       }
     },
-    "enabledSelected": {
-      "control": {
-        "color": "var(--seed-color-bg-brand-solid)"
-      }
-    },
     "disabled": {
       "control": {
         "opacity": "0.38"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabledSelected": {
+      "control": {
+        "color": "var(--seed-color-bg-neutral-solid)"
+      }
+    }
+  },
+  "toneBrand": {
+    "enabledSelected": {
+      "control": {
+        "color": "var(--seed-color-bg-brand-solid)"
       }
     }
   },

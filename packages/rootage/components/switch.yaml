@@ -63,14 +63,21 @@ data:
         label:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium
-      enabled,selected:
-        control:
-          color: $color.bg.brand-solid
       disabled:
         control:
           opacity: 0.38
         label:
           color: $color.fg.disabled
+    
+    tone=neutral:
+      enabled,selected:
+        control:
+          color: $color.bg.neutral-solid
+    tone=brand:
+      enabled,selected:
+        control:
+          color: $color.bg.brand-solid
+
     size=32:
       enabled:
         root:
