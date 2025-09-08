@@ -49,26 +49,8 @@ const textField = defineSlotRecipe({
       // We intentionally apply root's paddingY to value for input touch area.
       paddingBlock: vars.base.enabled.root.paddingY,
 
-      [pseudo(":first-child")]: {
-        paddingInlineStart: vars.base.enabled.root.paddingX,
-      },
-
-      [pseudo(":last-child")]: {
-        paddingInlineEnd: vars.base.enabled.root.paddingX,
-      },
-
       fontSize: vars.base.enabled.value.fontSize,
       lineHeight: vars.base.enabled.value.lineHeight,
-
-      [pseudo(":is(input)")]: {
-        paddingInline: 0,
-      },
-
-      [pseudo(":is(textarea)")]: {
-        paddingInline: 0,
-
-        minHeight: "90px",
-      },
 
       background: "none",
       border: "none",
@@ -78,6 +60,29 @@ const textField = defineSlotRecipe({
       height: "100%",
 
       color: vars.base.enabled.value.color,
+
+      [pseudo(":first-child")]: {
+        paddingInlineStart: vars.base.enabled.root.paddingX,
+      },
+
+      [pseudo(":last-child")]: {
+        paddingInlineEnd: vars.base.enabled.root.paddingX,
+      },
+
+      [pseudo(":is(input)")]: {
+        // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
+        width: 0,
+        // this sets the width to 0 to prevent any overflow and fill the available space of the parent flex container
+        // note: this only works with flexGrow: 1
+
+        paddingInline: 0,
+      },
+
+      [pseudo(":is(textarea)")]: {
+        paddingInline: 0,
+
+        minHeight: "90px",
+      },
 
       [pseudo("::placeholder")]: {
         color: vars.base.enabled.placeholder.color,

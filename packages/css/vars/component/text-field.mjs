@@ -44,18 +44,18 @@ export const vars = {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "2px",
-        "strokeColor": "var(--seed-color-fg-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-solid)"
       }
     },
     "invalid": {
       "root": {
         "strokeWidth": "2px",
-        "strokeColor": "var(--seed-color-fg-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
     "invalidFocused": {
       "root": {
-        "strokeColor": "var(--seed-color-fg-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
     "readonly": {

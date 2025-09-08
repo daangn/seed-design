@@ -113,14 +113,14 @@ data:
         root:
           color: $color.bg.layer-default # TODO: 확인 필요
           strokeWidth: 2px
-          strokeColor: $color.fg.neutral # TODO: field-focused?
+          strokeColor: $color.stroke.neutral-solid
       invalid:
         root:
           strokeWidth: 2px
-          strokeColor: $color.fg.critical
+          strokeColor: $color.stroke.critical-solid
       invalid,focused:
         root:
-          strokeColor: $color.fg.critical # being obvious
+          strokeColor: $color.stroke.critical-solid # being obvious
       readonly: # 전반적으로 확인
         root:
           strokeColor: $color.stroke.neutral-muted

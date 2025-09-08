@@ -6,6 +6,10 @@ metadata:
 data:
   schema:
     slots:
+      root:
+        properties:
+          gap:
+            type: dimension
       header:
         properties:
           paddingX:
@@ -91,6 +95,8 @@ data:
   definitions:
     base:
       enabled:
+        root:
+          gap: $dimension.x2
         header:
           paddingX: $dimension.x0_5
           gap: $dimension.x3 # 미정

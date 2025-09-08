@@ -1,6 +1,9 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      "root": {
+        "gap": "var(--seed-dimension-x2)"
+      },
       "header": {
         "paddingX": "var(--seed-dimension-x0_5)",
         "gap": "var(--seed-dimension-x3)"
