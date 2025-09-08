@@ -89,25 +89,20 @@ export interface DismissibleCalloutProps
 export const DismissibleCallout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,
   DismissibleCalloutProps
->(
-  (
-    { prefixIcon, title, description, linkProps, defaultOpen, open, onDismiss, ...otherProps },
-    ref,
-  ) => {
-    return (
-      <SeedCallout.Root ref={ref} {...otherProps}>
-        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-        <SeedCallout.Content>
-          {title && <SeedCallout.Title>{title}</SeedCallout.Title>}
-          <SeedCallout.Description>{description}</SeedCallout.Description>
-          {linkProps && <SeedCallout.Link {...linkProps} />}
-        </SeedCallout.Content>
-        {/* You may implement your own i18n for dismiss label */}
-        <SeedCallout.CloseButton aria-label="닫기">
-          <SuffixIcon svg={<IconXmarkLine />} />
-        </SeedCallout.CloseButton>
-      </SeedCallout.Root>
-    );
-  },
-);
+>(({ prefixIcon, title, description, linkProps, ...otherProps }, ref) => {
+  return (
+    <SeedCallout.Root ref={ref} {...otherProps}>
+      {prefixIcon && <PrefixIcon svg={prefixIcon} />}
+      <SeedCallout.Content>
+        {title && <SeedCallout.Title>{title}</SeedCallout.Title>}
+        <SeedCallout.Description>{description}</SeedCallout.Description>
+        {linkProps && <SeedCallout.Link {...linkProps} />}
+      </SeedCallout.Content>
+      {/* You may implement your own i18n for dismiss label */}
+      <SeedCallout.CloseButton aria-label="닫기">
+        <SuffixIcon svg={<IconXmarkLine />} />
+      </SeedCallout.CloseButton>
+    </SeedCallout.Root>
+  );
+});
 DismissibleCallout.displayName = "DismissibleCallout";

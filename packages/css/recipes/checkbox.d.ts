@@ -1,14 +1,10 @@
 declare interface CheckboxVariant {
   /**
-  * @default default
+  * @default "default"
   */
   weight: "default" | "stronger";
 /**
-  * @default square
-  */
-  variant: "square" | "ghost";
-/**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium";
 }
@@ -19,7 +15,7 @@ declare type CheckboxVariantMap = {
 
 export declare type CheckboxVariantProps = Partial<CheckboxVariant>;
 
-export declare type CheckboxSlotName = "root" | "control" | "icon" | "label";
+export declare type CheckboxSlotName = "root" | "label";
 
 export declare const checkboxVariantMap: CheckboxVariantMap;
 

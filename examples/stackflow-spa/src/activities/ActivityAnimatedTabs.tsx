@@ -26,12 +26,12 @@ const ActivityAnimatedTabs: ActivityComponentType = () => {
           </TabsList>
           <TabsCarousel autoHeight>
             <TabsContent value="1">
-              <Box borderWidth={1} borderColor="stroke.neutral" p="x2" height="1000px">
+              <Box borderWidth={1} borderColor="stroke.neutralMuted" p="x2" height="1000px">
                 Tab 1 content
               </Box>
             </TabsContent>
             <TabsContent value="2">
-              <Box borderWidth={1} borderColor="stroke.neutral" px="x2" py="x10">
+              <Box borderWidth={1} borderColor="stroke.neutralMuted" px="x2" py="x10">
                 Tab 2 content
               </Box>
             </TabsContent>

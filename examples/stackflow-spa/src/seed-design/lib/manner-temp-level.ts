@@ -9,18 +9,9 @@ const MANNER_TEMP_BOUNDARIES = [
   52,
   Number.POSITIVE_INFINITY,
 ] as const;
-const MANNER_TEMP_LEVELS: MannerTempLevel[] = [
-  "l1",
-  "l2",
-  "l3",
-  "l4",
-  "l5",
-  "l6",
-];
+const MANNER_TEMP_LEVELS: MannerTempLevel[] = ["l1", "l2", "l3", "l4", "l5", "l6"];
 
-export function mannerTempToLevel(
-  temperature: number,
-): MannerTempLevel | undefined {
+export function mannerTempToLevel(temperature: number): MannerTempLevel | undefined {
   for (let i = 0; i < MANNER_TEMP_BOUNDARIES.length - 1; i++) {
     const lower = MANNER_TEMP_BOUNDARIES[i];
     const upper = MANNER_TEMP_BOUNDARIES[i + 1];

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { vars } from '@/shared/style/vars';
+import { vars } from "@/shared/style/vars";
 
 export const date = style({
   ...vars.typography.t3Regular,
@@ -31,14 +31,14 @@ export const subtitle = style({
 // 배경색 케이스
 export const cardBackground = style({
   backgroundColor: vars.color.bg.layerFloating,
-  padding: '16px',
+  padding: "16px",
 });
 
 // 테두리 케이스
 export const divider = style({
-  borderTop: `1px solid ${vars.color.stroke.neutralMuted}`,
-  marginTop: '8px',
-  marginBottom: '8px',
+  borderTop: `1px solid ${vars.color.stroke.neutralSubtle}`,
+  marginTop: "8px",
+  marginBottom: "8px",
 });
 
 // 상태 색상 케이스
@@ -46,24 +46,24 @@ export const successMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.fg.positive,
   backgroundColor: vars.color.bg.positiveWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 export const warningMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.bg.warningSolid,
   backgroundColor: vars.color.bg.warningWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 export const errorMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.fg.critical,
   backgroundColor: vars.color.bg.criticalWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 // 다양한 타이포그래피 케이스
@@ -85,7 +85,7 @@ export const label = style({
 // 알파 색상 케이스
 export const overlay = style({
   backgroundColor: vars.color.bg.overlay,
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
@@ -97,14 +97,14 @@ export const button = style({
   ...vars.typography.t5Bold,
   backgroundColor: vars.color.bg.brandSolid,
   color: vars.color.palette.staticWhite,
-  borderRadius: '4px',
-  padding: '8px 16px',
-  border: 'none',
-  cursor: 'pointer',
-  ':hover': {
+  borderRadius: "4px",
+  padding: "8px 16px",
+  border: "none",
+  cursor: "pointer",
+  ":hover": {
     backgroundColor: vars.color.bg.brandSolidPressed,
   },
-  ':active': {
+  ":active": {
     backgroundColor: vars.color.bg.brandSolidPressed,
   },
 });
@@ -113,14 +113,14 @@ export const secondaryButton = style({
   ...vars.typography.t5Bold,
   backgroundColor: vars.color.bg.neutralWeak,
   color: vars.color.palette.gray900,
-  borderRadius: '4px',
-  padding: '8px 16px',
-  border: 'none',
-  cursor: 'pointer',
-  ':hover': {
+  borderRadius: "4px",
+  padding: "8px 16px",
+  border: "none",
+  cursor: "pointer",
+  ":hover": {
     backgroundColor: vars.color.bg.neutralWeakPressed,
   },
-  ':active': {
+  ":active": {
     backgroundColor: vars.color.bg.neutralWeakPressed,
   },
 });
@@ -129,15 +129,15 @@ export const secondaryButton = style({
 export const floatingPanel = style({
   backgroundColor: vars.color.bg.layerFloating,
   boxShadow: `0 2px 8px ${vars.color.bg.overlayMuted}`,
-  padding: '20px',
-  borderRadius: '8px',
+  padding: "20px",
+  borderRadius: "8px",
 });
 
 export const dialogPanel = style({
   backgroundColor: vars.color.bg.layerFloating,
-  padding: '24px',
+  padding: "24px",
   boxShadow: `0 4px 16px ${vars.color.bg.overlay}`,
-  borderRadius: '12px',
+  borderRadius: "12px",
 });
 
 // 정적 색상 케이스
@@ -157,7 +157,7 @@ export const staticExplicitColors = style({
 
 export const specialBackground = style({
   background: `linear-gradient(to bottom, ${vars.color.palette.staticWhiteAlpha50}, ${vars.color.palette.staticWhiteAlpha200})`,
-  backdropFilter: 'blur(8px)',
+  backdropFilter: "blur(8px)",
 });
 
 // 복합 스타일 및 다중 속성 케이스
@@ -167,7 +167,7 @@ export const multiProperty = style({
   borderLeft: `4px solid ${vars.color.fg.informative}`,
   borderRight: `4px solid ${vars.color.fg.informative}`,
   boxShadow: `inset 0 0 0 1px ${vars.color.stroke.neutral}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
-  padding: '16px',
+  padding: "16px",
   backgroundColor: vars.color.bg.layerDefault,
 });
 
@@ -212,7 +212,7 @@ export const colorContexts = style({
   // 테두리 색상
   borderColor: vars.color.palette.gray400,
   // 호버 색상
-  ':hover': {
+  ":hover": {
     backgroundColor: vars.color.palette.carrot200,
     borderColor: vars.color.palette.carrot100,
   },

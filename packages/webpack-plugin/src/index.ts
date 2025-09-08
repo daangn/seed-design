@@ -65,7 +65,10 @@ export class SeedDesignPlugin {
       "dark-only": "dark",
     }[this.colorMode];
 
-    this.themingScript = generateThemingScript({ mode: this.colorMode, fontScaling: this.fontScaling });
+    this.themingScript = generateThemingScript({
+      mode: this.colorMode,
+      fontScaling: this.fontScaling,
+    });
   }
 
   private transformHtml(input: string): string {

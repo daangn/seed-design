@@ -9,7 +9,9 @@ export const AppBarProvider = AppBarContext.Provider;
 
 export function useAppBarContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseAppBarContext | null : UseAppBarContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseAppBarContext | null : UseAppBarContext {
   const context = useContext(AppBarContext);
   if (!context && strict) {
     throw new Error("useAppBarContext must be used within a AppBar");

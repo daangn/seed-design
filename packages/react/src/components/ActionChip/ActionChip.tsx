@@ -8,12 +8,12 @@ const { withContext } = createRecipeContext(actionChip);
 
 /**
  * @deprecated ActionChip is deprecated. Use Chip.Button with variant="solid" instead.
- * 
+ *
  * Migration guide:
  * ```tsx
  * // Before
  * <ActionChip size="medium">Label</ActionChip>
- * 
+ *
  * // After
  * import { Chip } from "@seed-design/react";
  * <Chip.Button size="medium" variant="solid">Label</Chip.Button>

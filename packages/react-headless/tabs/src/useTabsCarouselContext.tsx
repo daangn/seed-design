@@ -9,7 +9,9 @@ export const TabsCarouselProvider = TabsCarouselContext.Provider;
 
 export function useTabsCarouselContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseTabsCarouselContext | null : UseTabsCarouselContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseTabsCarouselContext | null : UseTabsCarouselContext {
   const context = useContext(TabsCarouselContext);
   if (!context && strict) {
     throw new Error("useTabsCarouselContext must be used within a TabsCarousel");

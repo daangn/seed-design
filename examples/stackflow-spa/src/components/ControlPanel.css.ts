@@ -11,7 +11,7 @@ export const root = style({
   zIndex: 1000,
 
   backgroundColor: vars.$color.bg.layerDefault,
-  borderTop: `1px solid ${vars.$color.stroke.neutral}`,
+  borderTop: `1px solid ${vars.$color.stroke.neutralMuted}`,
 });
 
 export const item = style({
@@ -22,7 +22,7 @@ export const item = style({
   paddingInline: vars.$dimension.x4,
   minHeight: vars.$dimension.x13,
 
-  borderBottom: `1px solid ${vars.$color.stroke.neutral}`,
+  borderBottom: `1px solid ${vars.$color.stroke.neutralMuted}`,
 });
 
 export const title = style({

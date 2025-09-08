@@ -6,13 +6,13 @@ const Component = () => {
     const maxN = n > 2 ? 2 : n;
     return [
       {
-        name: '',
+        name: "",
         value: 1,
         color: vars.$color.palette.gray600,
         fontColor: vars.$color.palette.gray700,
       },
       {
-        name: '',
+        name: "",
         value: 1 + maxN * 3.5,
         color: vars.$color.palette.gray900,
         fontColor: vars.$color.palette.gray1000,
@@ -23,17 +23,17 @@ const Component = () => {
 
   const PropertyText = useMemo(
     () => (animate ? <RollingText text={property} /> : <>{property}</>),
-    [target, animate]
+    [target, animate],
   );
 
   return (
     <ImpressionLog>
       <Stack spacing={12}>
         <Title>
-          지금 광고하면 {''}
-          {PropertyText}가{' '}
+          지금 광고하면 {""}
+          {PropertyText}가{" "}
           <span>
-            {n}배 {''}
+            {n}배 {""}
           </span>
           많아져요.
         </Title>
@@ -47,12 +47,12 @@ export default Component;
 
 const Chart = ({ data }: { data: BarChartData[] }) => {
   return (
-    (<div className="flex justify-center">
+    <div className="flex justify-center">
       <ResponsiveContainer width="100%" height={105}>
         <BarChart data={data} barSize={48} margin={{ top: 5, bottom: 5 }}>
           <CartesianGrid
             vertical={false}
-            stroke={vars.$color.stroke.neutralMuted}
+            stroke={vars.$color.stroke.neutralSubtle}
             horizontalValues={[0]}
           />
 
@@ -75,6 +75,6 @@ const Chart = ({ data }: { data: BarChartData[] }) => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-    </div>)
+    </div>
   );
 };

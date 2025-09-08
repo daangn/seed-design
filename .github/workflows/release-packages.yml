@@ -97,9 +97,17 @@ jobs:
             blocks:
               - type: "header"
                 text:
-                  type: "mrkdwn"
+                  type: "plain_text"
                   text: "새 Rootage 버전이 배포되었어요: v${{ fromJson(steps.get-package-versions.outputs.packageVersions || '{}')['@seed-design/rootage-artifacts'] }}"
               - type: "section"
                 text:
-                  type: "mrkdwn"
-                  text: "<https://seed-design.io/react/updates/changelog|*변경사항*> (문서 빌드까지 시간이 조금 더 걸릴 수 있어요)"
+                  type: "plain_text"
+                  text: "문서 빌드까지는 시간이 조금 더 걸릴 수 있어요."
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    style: "primary"
+                    text:
+                      type: "plain_text"
+                      text: "Changelog"
+                    url: "https://seed-design.io/react/updates/changelog"

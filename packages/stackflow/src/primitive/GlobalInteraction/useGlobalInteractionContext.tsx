@@ -9,9 +9,9 @@ export const GlobalInteractionProvider = GlobalInteractionContext.Provider;
 
 export function useGlobalInteractionContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false
-  ? UseGlobalInteractionContext | null
-  : UseGlobalInteractionContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseGlobalInteractionContext | null : UseGlobalInteractionContext {
   const context = useContext(GlobalInteractionContext);
   if (!context && strict) {
     throw new Error("useGlobalInteractionContext must be used within a GlobalInteractionProvider");

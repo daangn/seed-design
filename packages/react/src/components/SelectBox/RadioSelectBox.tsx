@@ -8,7 +8,6 @@ import {
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withContext: withGroupContext } = createRecipeContext(selectBoxGroup);
 const { withContext, withProvider } = createSlotRecipeContext(selectBox);
@@ -53,21 +52,3 @@ export const RadioSelectBoxDescription = withContext<
   HTMLSpanElement,
   RadioSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
-
-export interface RadioSelectBoxControlProps extends RadioGroupPrimitive.ItemControlProps {}
-
-export const RadioSelectBoxControl = withContext<HTMLDivElement, RadioSelectBoxControlProps>(
-  RadioGroupPrimitive.ItemControl,
-  "radioControl",
-);
-
-export interface RadioSelectBoxIconProps extends InternalIconProps {}
-
-export const RadioSelectBoxIcon = withContext<SVGSVGElement, RadioSelectBoxIconProps>(
-  withStateProps(InternalIcon),
-  "radioIcon",
-);
-
-export interface RadioSelectBoxHiddenInputProps extends RadioGroupPrimitive.ItemHiddenInputProps {}
-
-export const RadioSelectBoxHiddenInput = RadioGroupPrimitive.ItemHiddenInput;

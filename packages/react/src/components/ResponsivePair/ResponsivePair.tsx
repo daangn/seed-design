@@ -5,7 +5,7 @@ import { Flex, type FlexProps } from "../Flex";
 
 export interface ResponsivePairProps extends Omit<FlexProps, "flexDirection" | "flexWrap"> {
   /**
-   * @default wrap-reverse
+   * @default "wrap-reverse"
    */
   wrap?: "wrap" | "wrap-reverse";
 

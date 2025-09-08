@@ -1,6 +1,6 @@
 declare interface ExtendedActionSheetItemVariant {
   /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "critical";
 }

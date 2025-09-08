@@ -81,7 +81,10 @@ interface TabItem extends TriggerProps {
 function UncontrolledTabs({
   items,
   tabsProps,
-}: { items: Record<string, TabItem>; tabsProps: UseTabsProps }) {
+}: {
+  items: Record<string, TabItem>;
+  tabsProps: UseTabsProps;
+}) {
   return (
     <Tabs {...tabsProps}>
       <TabsList>

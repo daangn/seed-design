@@ -209,7 +209,7 @@ data:
       enabled:
         root:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
           color: $color.fg.neutral
@@ -228,7 +228,7 @@ data:
       disabled:
         root:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
         icon:
@@ -244,7 +244,7 @@ data:
       enabled:
         root:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
           strokeWidth: 1px
         label:
           color: $color.fg.brand
@@ -263,7 +263,7 @@ data:
       disabled:
         root:
           color: $color.bg.layer-default
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         label:
           color: $color.fg.disabled
         icon:

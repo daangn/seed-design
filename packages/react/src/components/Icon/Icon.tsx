@@ -46,7 +46,10 @@ const IconContext = createContext<{ register: () => void; unregister: () => void
 export const IconRequired = ({
   children,
   enabled,
-}: { children: React.ReactNode; enabled: boolean }) => {
+}: {
+  children: React.ReactNode;
+  enabled: boolean;
+}) => {
   const registeredRef = useRef(false);
   const parentContext = useContext(IconContext);
 

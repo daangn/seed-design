@@ -565,8 +565,8 @@ async function generateGradientTokensFromStyles(): Promise<string> {
 
   return YAML.stringify({
     kind: "Tokens",
-    metadata: { 
-      id: "gradient", 
+    metadata: {
+      id: "gradient",
       name: "Gradient",
       lastUpdated: getKoreanDateString(),
     },

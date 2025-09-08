@@ -1,18 +1,18 @@
 declare interface AppBarMainVariant {
   /**
-  * @default titleOnly
+  * @default "titleOnly"
   */
   layout: "titleOnly" | "withSubtitle";
 /**
-  * @default cupertino
+  * @default "cupertino"
   */
   theme: "cupertino" | "android";
 /**
-  * @default slideFromRightIOS
+  * @default "slideFromRightIOS"
   */
   transitionStyle: "slideFromRightIOS" | "fadeFromBottomAndroid";
 /**
-  * @default layer
+  * @default "layer"
   */
   tone: "layer" | "transparent";
 }

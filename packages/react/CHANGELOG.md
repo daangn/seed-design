@@ -1,5 +1,31 @@
 # @seed-design/react
 
+## 0.2.2
+
+### Patch Changes
+
+- 9d93518: Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
+## 0.2.1
+
+### Patch Changes
+
+- 35984d0: Chip 컴포넌트를 업데이트합니다.
+
+  - 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
+  - Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
+
+- c5bed96: Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
+- Updated dependencies [35984d0]
+  - @seed-design/css@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
+
 ## 0.1.15
 
 ### Patch Changes

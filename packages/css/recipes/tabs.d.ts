@@ -1,14 +1,14 @@
 declare interface TabsVariant {
   /**
-  * @default fill
+  * @default "fill"
   */
   triggerLayout: "fill" | "hug";
 /**
-  * @default hug
+  * @default "hug"
   */
   contentLayout: "fill" | "hug";
 /**
-  * @default small
+  * @default "small"
   */
   size: "small" | "medium";
 /**

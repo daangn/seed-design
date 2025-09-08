@@ -1,139 +1,13 @@
 @import "tailwindcss" source(none);
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
+@import "@seed-design/tailwind4-theme";
 
 @source ".";
 @source "../components";
 @source "../content";
 @source "../sanity";
 @source "../../node_modules/fumadocs-ui/dist/**/*.js";
-
-@theme {
-  --seed-color-palette-gray-0: var(--seed-color-palette-gray-00);
-  --seed-color-palette-gray-100: var(--seed-color-palette-gray-100);
-  --seed-color-palette-gray-200: var(--seed-color-palette-gray-200);
-  --seed-color-palette-gray-300: var(--seed-color-palette-gray-300);
-  --seed-color-palette-gray-400: var(--seed-color-palette-gray-400);
-  --seed-color-palette-gray-500: var(--seed-color-palette-gray-500);
-  --seed-color-palette-gray-600: var(--seed-color-palette-gray-600);
-  --seed-color-palette-gray-700: var(--seed-color-palette-gray-700);
-  --seed-color-palette-gray-800: var(--seed-color-palette-gray-800);
-  --seed-color-palette-gray-900: var(--seed-color-palette-gray-900);
-
-  --seed-color-palette-blue-100: var(--seed-color-palette-blue-100);
-  --seed-color-palette-blue-200: var(--seed-color-palette-blue-200);
-  --seed-color-palette-blue-300: var(--seed-color-palette-blue-300);
-  --seed-color-palette-blue-400: var(--seed-color-palette-blue-400);
-  --seed-color-palette-blue-500: var(--seed-color-palette-blue-500);
-  --seed-color-palette-blue-600: var(--seed-color-palette-blue-600);
-  --seed-color-palette-blue-700: var(--seed-color-palette-blue-700);
-  --seed-color-palette-blue-800: var(--seed-color-palette-blue-800);
-  --seed-color-palette-blue-900: var(--seed-color-palette-blue-900);
-  --seed-color-palette-blue-1000: var(--seed-color-palette-blue-1000);
-
-  --seed-color-palette-carrot-100: var(--seed-color-palette-carrot-100);
-  --seed-color-palette-carrot-200: var(--seed-color-palette-carrot-200);
-  --seed-color-palette-carrot-300: var(--seed-color-palette-carrot-300);
-  --seed-color-palette-carrot-400: var(--seed-color-palette-carrot-400);
-  --seed-color-palette-carrot-500: var(--seed-color-palette-carrot-500);
-  --seed-color-palette-carrot-600: var(--seed-color-palette-carrot-600);
-  --seed-color-palette-carrot-700: var(--seed-color-palette-carrot-700);
-  --seed-color-palette-carrot-800: var(--seed-color-palette-carrot-800);
-  --seed-color-palette-carrot-900: var(--seed-color-palette-carrot-900);
-  --seed-color-palette-carrot-1000: var(--seed-color-palette-carrot-1000);
-
-  --seed-color-palette-green-100: var(--seed-color-palette-green-100);
-  --seed-color-palette-green-200: var(--seed-color-palette-green-200);
-  --seed-color-palette-green-300: var(--seed-color-palette-green-300);
-  --seed-color-palette-green-400: var(--seed-color-palette-green-400);
-  --seed-color-palette-green-500: var(--seed-color-palette-green-500);
-  --seed-color-palette-green-600: var(--seed-color-palette-green-600);
-  --seed-color-palette-green-700: var(--seed-color-palette-green-700);
-  --seed-color-palette-green-800: var(--seed-color-palette-green-800);
-  --seed-color-palette-green-900: var(--seed-color-palette-green-900);
-  --seed-color-palette-green-1000: var(--seed-color-palette-green-1000);
-
-  --seed-color-palette-purple-100: var(--seed-color-palette-purple-100);
-  --seed-color-palette-purple-200: var(--seed-color-palette-purple-200);
-  --seed-color-palette-purple-300: var(--seed-color-palette-purple-300);
-  --seed-color-palette-purple-400: var(--seed-color-palette-purple-400);
-  --seed-color-palette-purple-500: var(--seed-color-palette-purple-500);
-  --seed-color-palette-purple-600: var(--seed-color-palette-purple-600);
-  --seed-color-palette-purple-700: var(--seed-color-palette-purple-700);
-  --seed-color-palette-purple-800: var(--seed-color-palette-purple-800);
-  --seed-color-palette-purple-900: var(--seed-color-palette-purple-900);
-  --seed-color-palette-purple-1000: var(--seed-color-palette-purple-1000);
-
-  --seed-color-palette-red-100: var(--seed-color-palette-red-100);
-  --seed-color-palette-red-200: var(--seed-color-palette-red-200);
-  --seed-color-palette-red-300: var(--seed-color-palette-red-300);
-  --seed-color-palette-red-400: var(--seed-color-palette-red-400);
-  --seed-color-palette-red-500: var(--seed-color-palette-red-500);
-  --seed-color-palette-red-600: var(--seed-color-palette-red-600);
-  --seed-color-palette-red-700: var(--seed-color-palette-red-700);
-  --seed-color-palette-red-800: var(--seed-color-palette-red-800);
-  --seed-color-palette-red-900: var(--seed-color-palette-red-900);
-  --seed-color-palette-red-1000: var(--seed-color-palette-red-1000);
-
-  --seed-color-palette-yellow-100: var(--seed-color-palette-yellow-100);
-  --seed-color-palette-yellow-200: var(--seed-color-palette-yellow-200);
-  --seed-color-palette-yellow-300: var(--seed-color-palette-yellow-300);
-  --seed-color-palette-yellow-400: var(--seed-color-palette-yellow-400);
-  --seed-color-palette-yellow-500: var(--seed-color-palette-yellow-500);
-  --seed-color-palette-yellow-600: var(--seed-color-palette-yellow-600);
-  --seed-color-palette-yellow-700: var(--seed-color-palette-yellow-700);
-  --seed-color-palette-yellow-800: var(--seed-color-palette-yellow-800);
-  --seed-color-palette-yellow-900: var(--seed-color-palette-yellow-900);
-  --seed-color-palette-yellow-1000: var(--seed-color-palette-yellow-1000);
-
-  --seed-color-palette-static-black: var(--seed-color-palette-static-black);
-  --seed-color-palette-static-black-alpha-50: var(
-    --seed-color-palette-static-black-alpha-50
-  );
-  --seed-color-palette-static-black-alpha-200: var(
-    --seed-color-palette-static-black-alpha-200
-  );
-  --seed-color-palette-static-black-alpha-500: var(
-    --seed-color-palette-static-black-alpha-500
-  );
-
-  --seed-color-palette-static-white: var(--seed-color-palette-static-white);
-  --seed-color-palette-static-white-alpha-50: var(
-    --seed-color-palette-static-white-alpha-50
-  );
-  --seed-color-palette-static-white-alpha-200: var(
-    --seed-color-palette-static-white-alpha-200
-  );
-
-  --seed-color-fg-brand-contrast: var(--seed-color-fg-brand-contrast);
-  --seed-color-fg-brand: var(--seed-color-fg-brand);
-
-  --seed-color-fg-critical-contrast: var(--seed-color-fg-critical-contrast);
-  --seed-color-fg-critical: var(--seed-color-fg-critical);
-
-  --seed-color-fg-disabled: var(--seed-color-fg-disabled);
-
-  --seed-color-fg-informative-contrast: var(
-    --seed-color-fg-informative-contrast
-  );
-  --seed-color-fg-informative: var(--seed-color-fg-informative);
-
-  --seed-color-bg-layer-basement: var(--seed-color-bg-layer-basement);
-  --seed-color-bg-layer-default-pressed: var(
-    --seed-color-bg-layer-default-pressed
-  );
-  --seed-color-bg-layer-default: var(--seed-color-bg-layer-default);
-  --seed-color-bg-layer-fill: var(--seed-color-bg-layer-fill);
-  --seed-color-bg-layer-floating-pressed: var(
-    --seed-color-bg-layer-floating-pressed
-  );
-  --seed-color-bg-layer-floating: var(--seed-color-bg-layer-floating);
-
-  --seed-color-stroke-brand: var(--seed-color-stroke-brand);
-  --seed-color-stroke-control: var(--seed-color-stroke-control);
-  --seed-color-stroke-field: var(--seed-color-stroke-field);
-  --seed-color-stroke-field-focused: var(--seed-color-stroke-field-focused);
-}
 
 .react {
   --primary: var(--react-color);
@@ -143,9 +17,14 @@
   --primary: var(--design-color);
 }
 
+.breeze {
+  --primary: var(--breeze-color);
+}
+
 :root {
   --design-color: hsl(250deg 80% 54%);
   --react-color: hsl(220, 74%, 54%);
+  --breeze-color: hsl(26, 100%, 46%);
 
   --color-fd-background: #ffffff;
   --color-fd-foreground: #0f172a;
@@ -174,6 +53,7 @@
 .dark {
   --design-color: 250 100% 80%;
   --react-color: 217deg 92% 76%;
+  --breeze-color: 180deg 82% 76%;
 
   --color-fd-background: #171717;
   --color-fd-foreground: #ebebeb;
@@ -195,8 +75,9 @@
 
 .example-reset {
   line-height: normal;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .example-enter {

@@ -2,14 +2,22 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "paddingX": "var(--seed-dimension-x4)"
+        "paddingX": "var(--seed-dimension-x4)",
+        "gap": "8px"
       }
     }
   },
   "variantNeutralSolid": {
     "enabled": {
       "root": {
-        "gap": "0px"
+        "gap": "8px"
+      }
+    }
+  },
+  "variantNeutralOutline": {
+    "enabled": {
+      "root": {
+        "gap": "8px"
       }
     }
   },

@@ -10,8 +10,7 @@ import {
 import * as React from "react";
 import { mannerTempToLevel } from "../lib/manner-temp-level";
 
-export interface MannerTempProps
-  extends Omit<SeedMannerTempProps, "children" | "asChild"> {
+export interface MannerTempProps extends Omit<SeedMannerTempProps, "children" | "asChild"> {
   /**
    * The manner temperature of the MannerTemp component.
    * Level will be calculated based on this value.
@@ -23,11 +22,7 @@ export interface MannerTempProps
 export const MannerTemp = React.forwardRef<HTMLSpanElement, MannerTempProps>(
   ({ temperature, level, ...otherProps }, ref) => {
     return (
-      <SeedMannerTemp
-        ref={ref}
-        level={level ?? mannerTempToLevel(temperature)}
-        {...otherProps}
-      >
+      <SeedMannerTemp ref={ref} level={level ?? mannerTempToLevel(temperature)} {...otherProps}>
         <Celcius value={temperature} />
         <SuffixIcon svg={<MannerTempEmote />} />
       </SeedMannerTemp>

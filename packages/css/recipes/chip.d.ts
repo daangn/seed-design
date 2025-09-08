@@ -1,14 +1,14 @@
 declare interface ChipVariant {
   /**
-  * @default solid
+  * @default "solid"
   */
   variant: "solid" | "outlineStrong" | "outlineWeak";
 /**
-  * @default medium
+  * @default "medium"
   */
   size: "large" | "medium" | "small";
 /**
-  * @default withText
+  * @default "withText"
   */
   layout: "iconOnly" | "withText";
 }

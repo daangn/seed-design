@@ -3,9 +3,9 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, HelpBubble as SeedHelpBubble } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
-export interface HelpBubbleTriggerProps
-  extends Omit<SeedHelpBubble.RootProps, "children"> {
+export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   title: string;
 
   description?: string;
@@ -17,48 +17,44 @@ export interface HelpBubbleTriggerProps
   contentProps?: SeedHelpBubble.ContentProps;
 }
 
-export const HelpBubbleTrigger = forwardRef<
-  HTMLButtonElement,
-  HelpBubbleTriggerProps
->((props, ref) => {
-  const {
-    showCloseButton = false,
-    title,
-    description,
-    contentProps,
-    children,
-    ...otherProps
-  } = props;
+export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTriggerProps>(
+  (props, ref) => {
+    const {
+      showCloseButton = false,
+      title,
+      description,
+      contentProps,
+      children,
+      ...otherProps
+    } = props;
 
-  return (
-    <SeedHelpBubble.Root {...otherProps}>
-      <SeedHelpBubble.Trigger asChild ref={ref}>
-        {children}
-      </SeedHelpBubble.Trigger>
-      <SeedHelpBubble.Positioner>
-        <SeedHelpBubble.Content {...contentProps}>
-          {showCloseButton ? (
-            <SeedHelpBubble.CloseButton>
-              <Icon svg={<IconXmarkLine />} />
-            </SeedHelpBubble.CloseButton>
-          ) : null}
-          <SeedHelpBubble.Arrow>
-            <SeedHelpBubble.ArrowTip />
-          </SeedHelpBubble.Arrow>
-          <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
-          {props.description && (
-            <SeedHelpBubble.Description>
-              {props.description}
-            </SeedHelpBubble.Description>
-          )}
-        </SeedHelpBubble.Content>
-      </SeedHelpBubble.Positioner>
-    </SeedHelpBubble.Root>
-  );
-});
+    return (
+      <SeedHelpBubble.Root {...otherProps}>
+        <SeedHelpBubble.Trigger asChild ref={ref}>
+          {children}
+        </SeedHelpBubble.Trigger>
+        <SeedHelpBubble.Positioner>
+          <SeedHelpBubble.Content {...contentProps}>
+            {showCloseButton ? (
+              <SeedHelpBubble.CloseButton>
+                <Icon svg={<IconXmarkLine />} />
+              </SeedHelpBubble.CloseButton>
+            ) : null}
+            <SeedHelpBubble.Arrow>
+              <SeedHelpBubble.ArrowTip />
+            </SeedHelpBubble.Arrow>
+            <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
+            {props.description && (
+              <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
+            )}
+          </SeedHelpBubble.Content>
+        </SeedHelpBubble.Positioner>
+      </SeedHelpBubble.Root>
+    );
+  },
+);
 
-export interface HelpBubbleAnchorProps
-  extends Omit<SeedHelpBubble.RootProps, "children"> {
+export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   title: string;
 
   description?: string;
@@ -70,10 +66,7 @@ export interface HelpBubbleAnchorProps
   contentProps?: SeedHelpBubble.ContentProps;
 }
 
-export const HelpBubbleAnchor = forwardRef<
-  HTMLDivElement,
-  HelpBubbleAnchorProps
->((props, ref) => {
+export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps>((props, ref) => {
   const {
     showCloseButton = false,
     title,
@@ -100,9 +93,7 @@ export const HelpBubbleAnchor = forwardRef<
           </SeedHelpBubble.Arrow>
           <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
           {props.description && (
-            <SeedHelpBubble.Description>
-              {props.description}
-            </SeedHelpBubble.Description>
+            <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
           )}
         </SeedHelpBubble.Content>
       </SeedHelpBubble.Positioner>

@@ -9,7 +9,9 @@ export const DialogProvider = DialogContext.Provider;
 
 export function useDialogContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseDialogContext | null : UseDialogContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseDialogContext | null : UseDialogContext {
   const context = useContext(DialogContext);
   if (!context && strict) {
     throw new Error("useDialogContext must be used within a Dialog");

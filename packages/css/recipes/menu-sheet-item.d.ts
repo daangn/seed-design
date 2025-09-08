@@ -1,10 +1,10 @@
 declare interface MenuSheetItemVariant {
   /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "critical";
 /**
-  * @default left
+  * @default "left"
   */
   labelAlign: "left" | "center";
 }

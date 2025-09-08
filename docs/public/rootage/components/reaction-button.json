@@ -198,7 +198,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.brand"
+                  "value": "$color.stroke.brand-weak"
                 },
                 "strokeWidth": {
                   "type": "dimension",

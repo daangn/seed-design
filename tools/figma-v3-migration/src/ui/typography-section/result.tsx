@@ -208,7 +208,7 @@ function TextStyleSuggestionButton({
         isHighlighted ? "palette.carrot100" : isSelected ? "bg.neutralWeak" : "bg.layerDefault"
       }
       borderColor={
-        isHighlighted ? "palette.carrot200" : isSelected ? "stroke.neutral" : "stroke.neutralMuted"
+        isHighlighted ? "palette.carrot200" : isSelected ? "stroke.neutralMuted" : "stroke.neutralSubtle"
       }
       style={{ cursor: "pointer" }}
       borderWidth={1}

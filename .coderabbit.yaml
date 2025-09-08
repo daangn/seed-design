@@ -1,0 +1,17 @@
+language: ko-KR
+reviews:
+  path_filters:
+    - "!**/package.json"
+    - "!**/archive/**/*"
+    - "!**/.next/**/*"
+    - "!**/__testfixtures__/**/*"
+    - "!**/__generated__/**/*"
+    - "!**/__registry__/**/*"
+    - "!**/public/**/*"
+    - "!packages/css/**/*"
+    - "!**/schema.json"
+    - "!packages/qvism-preset/src/vars/**/*"
+    - "!packages/qvism-preset/src/token.css"
+    - "!packages/qvism-preset/src/tokens.ts"
+    - "!packages/tailwind3-plugin/src/index.ts"
+    - "!packages/tailwind4-theme/src/index.css"
