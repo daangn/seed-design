@@ -59,6 +59,7 @@ export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
           description: props["Description#62535:98"].value,
         }),
         defaultOpen: true,
+        showCloseButton: props["Show Close Button#40538:0"].value,
         placement,
       };
 
@@ -66,6 +67,7 @@ export const createHelpBubbleHandler = (_ctx: ComponentHandlerDeps) =>
         "HelpBubbleTrigger",
         commonProps,
         createLocalSnippetElementTrigger("ActionButton", {}, "HelpBubble 열기"),
+        { comment: "필요에 따라 HelpBubbleAnchor로 변경하여 사용하세요." },
       );
     },
   );
