@@ -11,9 +11,10 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
-const withStateProps = createWithStateProps([useCheckboxContext, useRadioGroupItemContext], {
-  strict: false,
-});
+const withStateProps = createWithStateProps([
+  { useContext: useCheckboxContext, strict: false },
+  { useContext: useRadioGroupItemContext, strict: false },
+]);
 
 export interface ListRootProps extends VStackProps {}
 
