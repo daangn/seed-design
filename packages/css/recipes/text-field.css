@@ -33,6 +33,12 @@
 .seed-text-field__value:is(:disabled, [disabled], [data-disabled])::placeholder {
     color: var(--seed-color-fg-disabled);
 }
+.seed-text-field__value:is([data-readonly]) {
+    color: var(--seed-color-fg-neutral-muted);
+}
+.seed-text-field__value:is([data-readonly])::placeholder {
+    color: var(--seed-color-fg-neutral-muted);
+}
 .seed-text-field__prefixText {
     color: var(--seed-color-fg-neutral-muted);
 }
@@ -66,6 +72,9 @@
 }
 .seed-text-field__root--variant_rounded:is(:disabled, [disabled], [data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
+}
+.seed-text-field__root--variant_rounded:is([data-readonly]) {
+    background-color: var(--seed-color-bg-layer-default);
 }
 .seed-text-field__value--variant_rounded {
     font-size: var(--seed-font-size-t5);

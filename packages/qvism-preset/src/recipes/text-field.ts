@@ -13,10 +13,6 @@ const textField = defineSlotRecipe({
       overflow: "hidden",
 
       gap: vars.base.enabled.root.gap,
-
-      // [pseudo(readOnly)]: {
-      //   backgroundColor: vars.base.readonly.root.color,
-      // },
     },
     value: {
       boxSizing: "border-box",
@@ -56,6 +52,14 @@ const textField = defineSlotRecipe({
 
       [pseudo(disabled, "::placeholder")]: {
         color: vars.base.disabled.placeholder.color,
+      },
+
+      [pseudo(readOnly)]: {
+        color: vars.base.readonly.value.color,
+      },
+
+      [pseudo(readOnly, "::placeholder")]: {
+        color: vars.base.readonly.placeholder.color,
       },
     },
     prefixText: {
@@ -102,6 +106,10 @@ const textField = defineSlotRecipe({
 
           [pseudo(disabled)]: {
             backgroundColor: vars.variantRounded.disabled.root.color,
+          },
+
+          [pseudo(readOnly)]: {
+            backgroundColor: vars.variantRounded.readonly.root.color,
           },
         },
         value: {

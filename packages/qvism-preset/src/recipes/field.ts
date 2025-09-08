@@ -26,6 +26,8 @@ const field = defineSlotRecipe({
       width: "100%",
 
       gap: vars.base.enabled.root.gap,
+
+      overflowX: "auto",
     },
     header: {
       display: "flex",

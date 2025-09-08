@@ -40,8 +40,11 @@ export const vars = {
       }
     },
     "readonly": {
-      "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+      "value": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      },
+      "placeholder": {
+        "color": "var(--seed-color-fg-neutral-muted)"
       }
     },
     "disabled": {
@@ -96,6 +99,11 @@ export const vars = {
     "invalid": {
       "root": {
         "strokeWidth": "2px"
+      }
+    },
+    "readonly": {
+      "root": {
+        "color": "var(--seed-color-bg-layer-default)"
       }
     },
     "disabled": {

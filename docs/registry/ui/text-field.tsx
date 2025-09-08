@@ -98,7 +98,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
           <SeedField.Header>
             <SeedField.Label>
               {label}
-              <SeedField.Indicator>{indicator}</SeedField.Indicator>
+              {indicator && <SeedField.Indicator>{indicator}</SeedField.Indicator>}
             </SeedField.Label>
             {/* You might want to put your custom element here */}
           </SeedField.Header>

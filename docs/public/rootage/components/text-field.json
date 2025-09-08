@@ -222,10 +222,16 @@
               "readonly"
             ],
             "slots": {
-              "root": {
-                "strokeColor": {
+              "value": {
+                "color": {
                   "type": "color",
-                  "value": "$color.stroke.neutral-muted"
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
                 }
               }
             }
@@ -383,6 +389,19 @@
                     "value": 2,
                     "unit": "px"
                   }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default"
                 }
               }
             }

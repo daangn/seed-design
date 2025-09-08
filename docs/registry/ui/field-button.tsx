@@ -48,10 +48,10 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
     },
     ref,
   ) => {
+    const renderHeader = label || indicator;
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
     const renderFooter = renderDescription || renderErrorMessage;
-    const renderHeader = label || indicator;
 
     // label이 없는데 **Button**에 aria-label이 없으면 알려줘야 해
     // prop을 어떻게 받지? 하..
@@ -73,7 +73,6 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
 
     return (
       <SeedFieldButton.Root
-        size={otherProps.size}
         required={required}
         disabled={disabled}
         invalid={invalid}
@@ -84,8 +83,10 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
       >
         {renderHeader && (
           <SeedFieldButton.Header>
-            {label && <SeedFieldButton.Label>{label}</SeedFieldButton.Label>}
-            {indicator && <SeedFieldButton.Indicator>{indicator}</SeedFieldButton.Indicator>}
+            <SeedFieldButton.Label>
+              {label}
+              {indicator && <SeedFieldButton.Indicator>{indicator}</SeedFieldButton.Indicator>}
+            </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
         <SeedFieldButton.Foobar>
@@ -105,10 +106,10 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
               </SeedFieldButton.Description>
             )}
             {renderErrorMessage && (
-              <>
+              <SeedFieldButton.ErrorContainer>
                 <SeedFieldButton.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
                 <SeedFieldButton.ErrorMessage>{errorMessage}</SeedFieldButton.ErrorMessage>
-              </>
+              </SeedFieldButton.ErrorContainer>
             )}
           </SeedFieldButton.Footer>
         )}

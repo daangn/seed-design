@@ -3816,6 +3816,7 @@
   flex-direction: column;
   width: 100%;
   display: flex;
+  overflow-x: auto;
 }
 
 .seed-field__header {
@@ -6204,7 +6205,7 @@
   color: var(--seed-color-fg-disabled);
 }
 
-.seed-text-field__prefixText {
+.seed-text-field__value[data-readonly], .seed-text-field__value[data-readonly]::placeholder, .seed-text-field__prefixText {
   color: var(--seed-color-fg-neutral-muted);
 }
 
@@ -6241,6 +6242,10 @@
 
 .seed-text-field__root--variant_rounded:is(:disabled, [disabled], [data-disabled]) {
   background-color: var(--seed-color-bg-disabled);
+}
+
+.seed-text-field__root--variant_rounded[data-readonly] {
+  background-color: var(--seed-color-bg-layer-default);
 }
 
 .seed-text-field__value--variant_rounded {

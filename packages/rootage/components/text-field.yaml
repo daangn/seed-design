@@ -95,9 +95,11 @@ data:
       invalid,focused:
         root:
           strokeColor: $color.stroke.critical-solid # being obvious
-      readonly: # 전반적으로 확인
-        root:
-          strokeColor: $color.stroke.neutral-muted
+      readonly:
+        value:
+          color: $color.fg.neutral-muted
+        placeholder:
+          color: $color.fg.neutral-muted
       disabled:
         value:
           color: $color.fg.disabled
@@ -137,6 +139,9 @@ data:
       invalid:
         root:
           strokeWidth: 2px
+      readonly:
+        root:
+          color: $color.bg.layer-default # TODO: 확인 필요
       disabled:
         root:
           color: $color.bg.disabled

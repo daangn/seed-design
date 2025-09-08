@@ -103,6 +103,15 @@ export const FieldButtonDescription = withFieldContext<
   FieldButtonDescriptionProps
 >(withFieldStateProps(FieldButton.Description), "description");
 
+export interface FieldButtonErrorContainerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonErrorContainer = withFieldContext<
+  HTMLDivElement,
+  FieldButtonErrorContainerProps
+>(withFieldStateProps(Primitive.div), "errorContainer");
+
 export interface FieldButtonErrorMessageProps extends FieldButton.ErrorMessageProps {}
 
 export const FieldButtonErrorMessage = withFieldContext<
