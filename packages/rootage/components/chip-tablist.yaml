@@ -17,10 +17,15 @@ data:
       enabled:
         root:
           paddingX: $dimension.x4
+          gap: 8px
     variant=neutralSolid:
       enabled:
         root:
-          gap: 0px
+          gap: 8px
+    variant=neutralOutline:
+      enabled:
+        root:
+          gap: 8px
     variant=brandSolid:
       enabled:
         root:
