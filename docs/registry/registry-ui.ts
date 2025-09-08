@@ -160,6 +160,7 @@ export const registryUI: RegistryUI = [
   {
     name: "select-box",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    innerDependencies: ["ui:checkbox", "ui:radio-group"],
     files: ["ui:select-box.tsx"],
   },
   {
