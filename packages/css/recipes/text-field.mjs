@@ -28,11 +28,18 @@ const textFieldSlotNames = [
   ]
 ];
 
-const defaultVariant = {};
+const defaultVariant = {
+  "variant": "rounded"
+};
 
 const compoundVariants = [];
 
-export const textFieldVariantMap = {};
+export const textFieldVariantMap = {
+  "variant": [
+    "rounded",
+    "underline"
+  ]
+};
 
 export const textFieldVariantKeys = Object.keys(textFieldVariantMap);
 

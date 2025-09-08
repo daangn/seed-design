@@ -110,11 +110,151 @@
           }
         }
       },
-      "variants": {}
+      "variants": {
+        "variant": {
+          "values": {
+            "rounded": {},
+            "underline": {}
+          },
+          "defaultValue": "rounded"
+        }
+      }
     },
     "definitions": [
       {
         "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              },
+              "value": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.placeholder"
+                }
+              },
+              "prefixText": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "suffixText": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "focused"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-solid"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "invalid"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.critical-solid"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "invalid",
+              "focused"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.critical-solid"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "readonly"
+            ],
+            "slots": {
+              "root": {
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-muted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "value": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "rounded"
+        },
         "definitions": [
           {
             "states": [
@@ -155,10 +295,6 @@
                     "value": 1,
                     "unit": "px"
                   }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "value": {
@@ -169,10 +305,6 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               },
               "placeholder": {
@@ -183,10 +315,6 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.placeholder"
                 }
               },
               "prefixText": {
@@ -197,20 +325,12 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
                 }
               },
               "prefixIcon": {
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
                 }
               },
               "suffixText": {
@@ -221,20 +341,12 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
                 }
               },
               "suffixIcon": {
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x5"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-muted"
                 }
               }
             }
@@ -255,10 +367,6 @@
                     "value": 2,
                     "unit": "px"
                   }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
                 }
               }
             }
@@ -275,37 +383,6 @@
                     "value": 2,
                     "unit": "px"
                   }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "invalid",
-              "focused"
-            ],
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.fg.critical"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "readonly"
-            ],
-            "slots": {
-              "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-muted"
                 }
               }
             }
@@ -320,17 +397,116 @@
                   "type": "color",
                   "value": "$color.bg.disabled"
                 }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "underline"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                },
+                "strokeBottomWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
               },
               "value": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
                 }
               },
               "placeholder": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t6"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x6"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "focused"
+            ],
+            "slots": {
+              "root": {
+                "strokeBottomWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "invalid"
+            ],
+            "slots": {
+              "root": {
+                "strokeBottomWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
                 }
               }
             }

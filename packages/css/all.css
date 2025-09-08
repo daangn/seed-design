@@ -6167,36 +6167,16 @@
 }
 
 .seed-text-field__root {
-  border-radius: var(--seed-radius-r3);
   align-items: center;
   gap: var(--seed-dimension-x2_5);
-  background-color: var(--seed-color-bg-layer-fill);
   width: 100%;
-  min-height: 52px;
-  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
   display: flex;
   overflow: hidden;
-}
-
-.seed-text-field__root:not([data-readonly]):is(:focus, [data-focus]) {
-  background-color: var(--seed-color-bg-layer-default);
-  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-solid);
-}
-
-.seed-text-field__root:is(:invalid, [data-invalid]), .seed-text-field__root:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
-  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
-}
-
-.seed-text-field__root:is(:disabled, [disabled], [data-disabled]) {
-  background-color: var(--seed-color-bg-disabled);
 }
 
 .seed-text-field__value {
   box-sizing: border-box;
   font: inherit;
-  padding-block: var(--seed-dimension-x2_5);
-  font-size: var(--seed-font-size-t5);
-  line-height: var(--seed-line-height-t5);
   resize: none;
   height: 100%;
   color: var(--seed-color-fg-neutral);
@@ -6204,14 +6184,6 @@
   border: none;
   outline: none;
   flex-grow: 1;
-}
-
-.seed-text-field__value:first-child {
-  padding-inline-start: var(--seed-dimension-x4);
-}
-
-.seed-text-field__value:last-child {
-  padding-inline-end: var(--seed-dimension-x4);
 }
 
 .seed-text-field__value:is(input) {
@@ -6234,44 +6206,130 @@
 
 .seed-text-field__prefixText {
   color: var(--seed-color-fg-neutral-muted);
-  font-size: var(--seed-font-size-t5);
-  line-height: var(--seed-line-height-t5);
-}
-
-.seed-text-field__prefixText:first-child {
-  margin-inline-start: var(--seed-dimension-x4);
 }
 
 .seed-text-field__prefixIcon {
   color: var(--seed-color-fg-neutral-muted);
-  width: var(--seed-dimension-x5);
-  height: var(--seed-dimension-x5);
   flex-shrink: 0;
-}
-
-.seed-text-field__prefixIcon:first-child {
-  margin-inline-start: var(--seed-dimension-x4);
 }
 
 .seed-text-field__suffixText {
   color: var(--seed-color-fg-neutral-muted);
-  font-size: var(--seed-font-size-t5);
-  line-height: var(--seed-line-height-t5);
-}
-
-.seed-text-field__suffixText:last-child {
-  margin-inline-end: var(--seed-dimension-x4);
 }
 
 .seed-text-field__suffixIcon {
   color: var(--seed-color-fg-neutral-muted);
-  width: var(--seed-dimension-x5);
-  height: var(--seed-dimension-x5);
   flex-shrink: 0;
 }
 
-.seed-text-field__suffixIcon:last-child {
+.seed-text-field__root--variant_rounded {
+  border-radius: var(--seed-radius-r3);
+  gap: var(--seed-dimension-x2_5);
+  background-color: var(--seed-color-bg-layer-fill);
+  min-height: 52px;
+  box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+}
+
+.seed-text-field__root--variant_rounded:not([data-readonly]):is(:focus, [data-focus]) {
+  background-color: var(--seed-color-bg-layer-default);
+  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-solid);
+}
+
+.seed-text-field__root--variant_rounded:is(:invalid, [data-invalid]), .seed-text-field__root--variant_rounded:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
+  box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
+}
+
+.seed-text-field__root--variant_rounded:is(:disabled, [disabled], [data-disabled]) {
+  background-color: var(--seed-color-bg-disabled);
+}
+
+.seed-text-field__value--variant_rounded {
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
+  padding-block: var(--seed-dimension-x2_5);
+}
+
+.seed-text-field__value--variant_rounded:first-child {
+  padding-inline-start: var(--seed-dimension-x4);
+}
+
+.seed-text-field__value--variant_rounded:last-child {
+  padding-inline-end: var(--seed-dimension-x4);
+}
+
+.seed-text-field__value--variant_rounded::placeholder, .seed-text-field__prefixText--variant_rounded {
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
+}
+
+.seed-text-field__prefixText--variant_rounded:first-child {
+  margin-inline-start: var(--seed-dimension-x4);
+}
+
+.seed-text-field__prefixIcon--variant_rounded {
+  width: var(--seed-dimension-x5);
+  height: var(--seed-dimension-x5);
+}
+
+.seed-text-field__prefixIcon--variant_rounded:first-child {
+  margin-inline-start: var(--seed-dimension-x4);
+}
+
+.seed-text-field__suffixText--variant_rounded {
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
+}
+
+.seed-text-field__suffixText--variant_rounded:last-child {
   margin-inline-end: var(--seed-dimension-x4);
+}
+
+.seed-text-field__suffixIcon--variant_rounded {
+  width: var(--seed-dimension-x5);
+  height: var(--seed-dimension-x5);
+}
+
+.seed-text-field__suffixIcon--variant_rounded:last-child {
+  margin-inline-end: var(--seed-dimension-x4);
+}
+
+.seed-text-field__root--variant_underline {
+  padding-block: var(--seed-dimension-x2);
+  box-shadow: inset 0 calc(1px * -1) 0 0 var(--seed-color-stroke-neutral-muted);
+}
+
+.seed-text-field__root--variant_underline:not([data-readonly]):is(:focus, [data-focus]) {
+  box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-neutral-solid);
+}
+
+.seed-text-field__root--variant_underline:is(:invalid, [data-invalid]), .seed-text-field__root--variant_underline:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
+  box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-critical-solid);
+}
+
+.seed-text-field__value--variant_underline {
+  font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
+  padding-block: var(--seed-dimension-x2);
+}
+
+.seed-text-field__value--variant_underline::placeholder, .seed-text-field__prefixText--variant_underline {
+  font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
+}
+
+.seed-text-field__prefixIcon--variant_underline {
+  width: var(--seed-dimension-x6);
+  height: var(--seed-dimension-x6);
+}
+
+.seed-text-field__suffixText--variant_underline {
+  font-size: var(--seed-font-size-t6);
+  line-height: var(--seed-line-height-t6);
+}
+
+.seed-text-field__suffixIcon--variant_underline {
+  width: var(--seed-dimension-x6);
+  height: var(--seed-dimension-x6);
 }
 
 .seed-toggle-button {

@@ -1,5 +1,8 @@
 declare interface TextFieldVariant {
-  
+  /**
+  * @default "rounded"
+  */
+  variant: "rounded" | "underline";
 }
 
 declare type TextFieldVariantMap = {

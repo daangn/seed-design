@@ -29,11 +29,11 @@ export interface FieldLabelProps extends Field.LabelProps {}
 
 export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(Field.Label, "label");
 
-export interface FieldRequiredIndicatorProps extends InternalIconProps {}
+export interface FieldIndicatorProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldRequiredIndicator = withContext<SVGSVGElement, FieldRequiredIndicatorProps>(
-  withStateProps(InternalIcon),
-  "requiredIndicator",
+export const FieldIndicator = withContext<HTMLDivElement, FieldIndicatorProps>(
+  withStateProps(Primitive.div),
+  "indicator",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////

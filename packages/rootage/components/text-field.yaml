@@ -72,51 +72,25 @@ data:
     base:
       enabled:
         root:
-          minHeight: 52px
-          cornerRadius: $radius.r3
           gap: $dimension.x2_5
-          paddingX: $dimension.x4
-          paddingY: $dimension.x2_5
-
-          color: $color.bg.layer-fill
-          strokeWidth: 1px
           strokeColor: $color.stroke.neutral-muted
         value:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-
           color: $color.fg.neutral
         placeholder:
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-
           color: $color.fg.placeholder
-        prefixText: # TODO: 확인
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-
+        prefixText:
           color: $color.fg.neutral-muted
         prefixIcon:
-          size: $dimension.x5
-
           color: $color.fg.neutral-muted
-        suffixText: # TODO: 확인
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
-
+        suffixText:
           color: $color.fg.neutral-muted
         suffixIcon:
-          size: $dimension.x5
-
           color: $color.fg.neutral-muted
       focused:
         root:
-          color: $color.bg.layer-default # TODO: 확인 필요
-          strokeWidth: 2px
           strokeColor: $color.stroke.neutral-solid
       invalid:
         root:
-          strokeWidth: 2px
           strokeColor: $color.stroke.critical-solid
       invalid,focused:
         root:
@@ -125,9 +99,71 @@ data:
         root:
           strokeColor: $color.stroke.neutral-muted
       disabled:
-        root:
-          color: $color.bg.disabled
         value:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
+    variant=rounded:
+      enabled:
+        root:
+          minHeight: 52px
+          cornerRadius: $radius.r3
+          gap: $dimension.x2_5
+          paddingX: $dimension.x4
+          paddingY: $dimension.x2_5
+
+          color: $color.bg.layer-fill
+          strokeWidth: 1px
+        value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x5
+      focused:
+        root:
+          color: $color.bg.layer-default # TODO: 확인 필요
+          strokeWidth: 2px
+      invalid:
+        root:
+          strokeWidth: 2px
+      disabled:
+        root:
+          color: $color.bg.disabled
+    variant=underline:
+      enabled:
+        root:
+          paddingY: $dimension.x2
+          strokeBottomWidth: 1px
+        value:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        placeholder:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixIcon:
+          size: $dimension.x6
+        suffixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        suffixIcon:
+          size: $dimension.x6
+      focused:
+        root:
+          strokeBottomWidth: 2px
+      invalid:
+        root:
+          strokeBottomWidth: 2px

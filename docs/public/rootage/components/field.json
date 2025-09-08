@@ -9,6 +9,13 @@
     "name": "Field",
     "schema": {
       "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "header": {
           "properties": {
             "paddingX": {
@@ -163,6 +170,12 @@
               "enabled"
             ],
             "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2"
+                }
+              },
               "header": {
                 "paddingX": {
                   "type": "dimension",
