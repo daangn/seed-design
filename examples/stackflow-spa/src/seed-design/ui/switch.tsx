@@ -8,9 +8,6 @@ export interface SwitchProps extends SeedSwitch.RootProps {
 
   rootRef?: React.Ref<HTMLLabelElement>;
 
-  /**
-   * label is supported in small size only currently.
-   */
   label?: React.ReactNode;
 }
 

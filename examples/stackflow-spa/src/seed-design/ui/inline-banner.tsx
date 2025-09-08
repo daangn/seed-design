@@ -5,6 +5,9 @@ import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 
+/**
+ * @deprecated Use page-banner instead.
+ */
 export interface InlineBannerProps
   extends Omit<
     SeedInlineBanner.RootProps,
@@ -21,6 +24,7 @@ export interface InlineBannerProps
 
 /**
  * @see https://seed-design.io/react/components/inline-banner
+ * @deprecated Use page-banner instead.
  */
 export const InlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,
@@ -39,6 +43,9 @@ export const InlineBanner = React.forwardRef<
 });
 InlineBanner.displayName = "InlineBanner";
 
+/**
+ * @deprecated Use page-banner instead.
+ */
 export interface ActionableInlineBannerProps
   extends Omit<
     SeedInlineBanner.RootProps,
@@ -53,6 +60,7 @@ export interface ActionableInlineBannerProps
 
 /**
  * @see https://seed-design.io/react/components/inline-banner
+ * @deprecated Use page-banner instead.
  */
 export const ActionableInlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,
@@ -73,6 +81,9 @@ export const ActionableInlineBanner = React.forwardRef<
 });
 ActionableInlineBanner.displayName = "ActionableInlineBanner";
 
+/**
+ * @deprecated Use page-banner instead.
+ */
 export interface DismissibleInlineBannerProps
   extends Omit<SeedInlineBanner.RootProps, "variant" | "children" | "title" | "asChild"> {
   prefixIcon?: React.ReactNode;
@@ -87,6 +98,7 @@ export interface DismissibleInlineBannerProps
 
 /**
  * @see https://seed-design.io/react/components/inline-banner
+ * @deprecated Use page-banner instead.
  */
 export const DismissibleInlineBanner = React.forwardRef<
   React.ElementRef<typeof SeedInlineBanner.Root>,

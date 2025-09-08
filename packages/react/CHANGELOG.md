@@ -1,5 +1,11 @@
 # @seed-design/react
 
+## 0.2.2
+
+### Patch Changes
+
+- 9d93518: Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
 ## 0.2.1
 
 ### Patch Changes

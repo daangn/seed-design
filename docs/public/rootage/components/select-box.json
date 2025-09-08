@@ -72,61 +72,6 @@
               "type": "dimension"
             }
           }
-        },
-        "checkboxControl": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            },
-            "strokeWidth": {
-              "type": "dimension"
-            },
-            "strokeColor": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            }
-          }
-        },
-        "checkboxIcon": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            }
-          }
-        },
-        "radioControl": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            },
-            "strokeWidth": {
-              "type": "dimension"
-            },
-            "strokeColor": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            }
-          }
-        },
-        "radioIcon": {
-          "properties": {
-            "size": {
-              "type": "dimension"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            }
-          }
         }
       },
       "variants": {}
@@ -210,72 +155,6 @@
                   "type": "dimension",
                   "value": "$line-height.t4"
                 }
-              },
-              "checkboxControl": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-weak"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.r1"
-                }
-              },
-              "checkboxIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x3_5"
-                }
-              },
-              "radioControl": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x6"
-                },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
-                "strokeWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 1,
-                    "unit": "px"
-                  }
-                },
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-weak"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                }
-              },
-              "radioIcon": {
-                "size": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                }
               }
             }
           },
@@ -286,18 +165,6 @@
             ],
             "slots": {
               "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
-                }
-              },
-              "checkboxControl": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
-                }
-              },
-              "radioControl": {
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
@@ -320,38 +187,6 @@
                   "type": "color",
                   "value": "$color.stroke.neutral-weak"
                 }
-              },
-              "checkboxControl": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                },
-                "strokeWidth": {
-                  "type": "number",
-                  "value": 0
-                }
-              },
-              "checkboxIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
-              },
-              "radioControl": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                },
-                "strokeWidth": {
-                  "type": "number",
-                  "value": 0
-                }
-              },
-              "radioIcon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
               }
             }
           },
@@ -366,18 +201,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-weak-pressed"
-                }
-              },
-              "checkboxControl": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid-pressed"
-                }
-              },
-              "radioControl": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid-pressed"
                 }
               }
             }

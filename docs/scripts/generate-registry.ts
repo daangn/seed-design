@@ -4,19 +4,20 @@ import path from "node:path";
 
 import { match } from "ts-pattern";
 
-import { registryUI } from "../registry/registry-ui.js";
+import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
+import { registryUI } from "../registry/registry-ui.js";
 import {
-  type RegistryUI,
   type RegistryLib,
-  registryUIItemMachineGeneratedSchema,
   registryLibItemMachineGeneratedSchema,
+  type RegistryUI,
+  registryUIItemMachineGeneratedSchema,
 } from "../registry/schema.js";
 
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
 
-type RegistryType = "ui" | "lib";
+type RegistryType = "ui" | "lib" | "bits" | "breeze";
 
 interface GenerateRegistryIndexProps {
   registry: RegistryUI | RegistryLib;
@@ -36,12 +37,14 @@ async function generateRegistryIndex({ registry, type }: GenerateRegistryIndexPr
 }
 
 interface GenerateRegistryProps {
-  registry: RegistryUI;
+  registry: RegistryUI | RegistryLib;
   type: RegistryType;
 }
 
-function generateRegistryFromFile(file: string) {
+function generateRegistryFromFile(file: string, _registryType: RegistryType) {
   const [type, name] = file.split(":");
+
+  // 모든 레지스트리는 registry 폴더에서 읽음
   const filePath = path.join(REGISTRY_PATH, type, name);
 
   if (!existsSync(filePath)) {
@@ -69,7 +72,7 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
 
   for (const item of registry) {
     const fileRegistries =
-      item.files?.map((file) => generateRegistryFromFile(file)).filter(Boolean) || [];
+      item.files?.map((file) => generateRegistryFromFile(file, type)).filter(Boolean) || [];
 
     const removeFiles = {
       ...item,
@@ -78,12 +81,14 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
 
     const payload = {
       ...removeFiles,
-      registries: [...fileRegistries],
+      registries: fileRegistries,
     };
 
     const parsedPayload = match(type)
       .with("ui", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .with("lib", () => registryLibItemMachineGeneratedSchema.parse(payload))
+      .with("bits", () => registryUIItemMachineGeneratedSchema.parse(payload))
+      .with("breeze", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .exhaustive();
 
     await fs.writeFile(
@@ -102,7 +107,11 @@ async function main() {
   await generateRegistryIndex({ registry: registryLib, type: "lib" });
   await generateRegistry({ registry: registryLib, type: "lib" });
 
-  console.log(chalk.green("Component Registry Generated !"));
+  console.log(chalk.gray("Generate Breeze Registry..."));
+  await generateRegistryIndex({ registry: registryBreeze, type: "breeze" });
+  await generateRegistry({ registry: registryBreeze, type: "breeze" });
+
+  console.log(chalk.green("All Registries Generated !"));
 }
 
 main();
