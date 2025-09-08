@@ -38,7 +38,6 @@ const switchRecipe = defineSlotRecipe({
     },
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,
-      background: vars.base.enabled.thumb.color,
 
       transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
     },
@@ -59,12 +58,18 @@ const switchRecipe = defineSlotRecipe({
             background: vars.toneNeutral.enabledSelected.control.color,
           },
         },
+        thumb: {
+          background: vars.toneNeutral.enabled.thumb.color,
+        },
       },
       brand: {
         control: {
           [pseudo(checked)]: {
             background: vars.toneBrand.enabledSelected.control.color,
           },
+        },
+        thumb: {
+          background: vars.toneBrand.enabled.thumb.color,
         },
       },
     },

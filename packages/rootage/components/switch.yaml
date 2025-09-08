@@ -58,7 +58,6 @@ data:
           color: $color.palette.gray-600
           cornerRadius: $radius.full
         thumb:
-          color: $color.palette.static-white
           cornerRadius: $radius.full
         label:
           color: $color.fg.neutral
@@ -70,10 +69,16 @@ data:
           color: $color.fg.disabled
     
     tone=neutral:
+      enabled:
+        thumb:
+          color: $color.fg.neutral-inverted
       enabled,selected:
         control:
-          color: $color.bg.neutral-solid
+          color: $color.bg.neutral-inverted
     tone=brand:
+      enabled:
+        thumb:
+          color: $color.palette.static-white
       enabled,selected:
         control:
           color: $color.bg.brand-solid
@@ -86,11 +91,11 @@ data:
         control:
           height: 32px
           width: 52px
-          paddingX: 2px
-          paddingY: 2px
+          paddingX: 3px
+          paddingY: 3px
         thumb:
-          height: 28px
-          width: 28px
+          height: 26px
+          width: 26px
           shadow:
             type: shadow
             value:

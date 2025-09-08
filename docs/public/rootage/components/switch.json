@@ -118,10 +118,6 @@
                 }
               },
               "thumb": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
@@ -167,6 +163,19 @@
         "definitions": [
           {
             "states": [
+              "enabled"
+            ],
+            "slots": {
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
               "enabled",
               "selected"
             ],
@@ -174,7 +183,7 @@
               "control": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-solid"
+                  "value": "$color.bg.neutral-inverted"
                 }
               }
             }
@@ -186,6 +195,19 @@
           "tone": "brand"
         },
         "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-white"
+                }
+              }
+            }
+          },
           {
             "states": [
               "enabled",
@@ -243,14 +265,14 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": {
-                    "value": 2,
+                    "value": 3,
                     "unit": "px"
                   }
                 },
                 "paddingY": {
                   "type": "dimension",
                   "value": {
-                    "value": 2,
+                    "value": 3,
                     "unit": "px"
                   }
                 }
@@ -259,14 +281,14 @@
                 "height": {
                   "type": "dimension",
                   "value": {
-                    "value": 28,
+                    "value": 26,
                     "unit": "px"
                   }
                 },
                 "width": {
                   "type": "dimension",
                   "value": {
-                    "value": 28,
+                    "value": 26,
                     "unit": "px"
                   }
                 },
