@@ -1,14 +1,14 @@
 declare interface BadgeVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   size: "medium" | "large";
 /**
-  * @default solid
+  * @default "solid"
   */
   variant: "weak" | "solid" | "outline";
 /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "brand" | "informative" | "positive" | "warning" | "critical";
 }

@@ -7,8 +7,8 @@
     "downlevelIteration": true,
     "preserveWatchOutput": true,
     "isolatedModules": false,
-    "skipLibCheck": false,
+    "skipLibCheck": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "src/**/*.jsx"],
-  "exclude": ["node_modules", "__testfixtures__"],
+  "exclude": ["node_modules", "__testfixtures__"]
 }

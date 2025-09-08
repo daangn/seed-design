@@ -3,6 +3,118 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.09.05
+
+[`9d93518`](https://github.com/daangn/seed-design/commit/9d935189cff6c528338d9a00b103a7be5366eb18) Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
+[`91952e4`](https://github.com/daangn/seed-design/commit/91952e408d31d919b6c6f1a77739b04e7164e61b) `replace-semantic-stroke-color` transform을 추가합니다.
+
+- `@seed-design/css` v0.2.0에 맞춰 `replace-semantic-stroke-color` transform을 추가합니다.
+- `@seed-design/css/vars`에서 사용한 stroke 토큰을 업데이트하는 마이그레이션 코드모드를 추가합니다.
+
+### Version Updates
+
+- [@seed-design/codemod@0.0.31](https://npmjs.com/package/@seed-design/codemod/v/0.0.31)
+- [@seed-design/react@0.2.2](https://npmjs.com/package/@seed-design/react/v/0.2.2)
+
+## 2025.09.04
+
+[`35984d0`](https://github.com/daangn/seed-design/commit/35984d05ac4cd9677526152e975d3daf2c4c345d) Chip 컴포넌트를 업데이트합니다.
+
+- 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
+- Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
+
+[`c5bed96`](https://github.com/daangn/seed-design/commit/c5bed9674a1c036bd0c84acf9e81ebed72215b79) Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.2.1](https://npmjs.com/package/@seed-design/css/v/0.2.1)
+- [@seed-design/react@0.2.1](https://npmjs.com/package/@seed-design/react/v/0.2.1)
+- [@seed-design/rootage-artifacts@0.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.1)
+
+## 2025.09.03
+
+[`8448880`](https://github.com/daangn/seed-design/commit/8448880aa424edcd3af8e78a5c3ff5a0f142ae8d) 시맨틱 stroke 컬러 토큰을 업데이트합니다.
+
+**이름이 변경되는 stroke 토큰**
+
+- [Color Role 규칙](https://seed-design.io/docs/foundation/color/color-role)에 맞춰 일관적인 토큰 이름을 유지할 수 있도록 업데이트합니다.
+- 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 Find & Replace 마이그레이션이 필요합니다.
+
+| 기존                            | 신규                            | 비고                               |
+| ------------------------------- | ------------------------------- | ---------------------------------- |
+| **$color.stroke.neutral-muted** | $color.stroke.neutral-subtle    | 가장 먼저 마이그레이션해야 합니다. |
+| $color.stroke.on-image          | $color.stroke.neutral-subtle    |
+| $color.stroke.neutral           | **$color.stroke.neutral-muted** |
+| $color.stroke.field-focused     | $color.stroke.neutral-contrast  |
+| $color.stroke.control           | $color.stroke.neutral-weak      |
+| $color.stroke.field             | $color.stroke.neutral-weak      |
+| $color.stroke.brand             | $color.stroke.brand-weak        |
+| $color.stroke.positive          | $color.stroke.positive-weak     |
+| $color.stroke.informative       | $color.stroke.informative-weak  |
+| $color.stroke.warning           | $color.stroke.warning-weak      |
+| $color.stroke.critical          | $color.stroke.critical-weak     |
+
+**색상이 변경되는 stroke 토큰 (마이그레이션 불필요)**
+
+`$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused`)
+
+모든 theme mode에서 `$color.palette.gray-800` → `$color.palette.gray-1000`로 변경되었습니다.
+
+**신규 stroke 토큰 (마이그레이션 불필요)**
+
+| 신규                            |
+| ------------------------------- |
+| $color.stroke.neutral-solid     |
+| $color.stroke.brand-solid       |
+| $color.stroke.positive-solid    |
+| $color.stroke.informative-solid |
+| $color.stroke.warning-solid     |
+| $color.stroke.critical-solid    |
+
+### Version Updates
+
+- [@seed-design/css@0.2.0](https://npmjs.com/package/@seed-design/css/v/0.2.0)
+- [@seed-design/migration-index@0.0.31](https://npmjs.com/package/@seed-design/migration-index/v/0.0.31)
+- [@seed-design/rootage-artifacts@0.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.2.0)
+- [@seed-design/tailwind3-plugin@0.2.0](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.2.0)
+- [@seed-design/tailwind4-theme@0.2.0](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.2.0)
+
+## 2025.08.28
+
+[`c51a261`](https://github.com/daangn/seed-design/commit/c51a261858087bc4a7a572af52bd0ebcacc69d49) font-size, line-height 토큰에 static variant를 추가합니다.
+
+- `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+- `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+[`5f2ee39`](https://github.com/daangn/seed-design/commit/5f2ee39374372be285e6679e3aa08b822b0ef938) CSS 최적화 도구(e.g. cssnano)가 CSS variable로 정의된 longhand declaration을 병합하지 않도록 합니다. (workaround, [관련 issue](https://github.com/cssnano/cssnano/issues/1472))
+
+[`8299ba9`](https://github.com/daangn/seed-design/commit/8299ba91f2f77ee3a226b8059d56a7c1c2317232) Snackbar 컴포넌트를 업데이트합니다.
+
+- root 영역에 maxWidth 스펙을 추가합니다.
+- `pauseOnInteraction`의 기본값을 `false`에서 `true`로 변경합니다.
+
+[`d497166`](https://github.com/daangn/seed-design/commit/d497166f648952a68bfef445a39f9822f2cfa44d) 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+- CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+- 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+- global.ts에 폰트 스케일링 변수 통합
+
+[`9a3c76a`](https://github.com/daangn/seed-design/commit/9a3c76a74eec244736f8bc7807d3629b4d5328c5) Divider 컴포넌트를 업데이트합니다.
+
+- `orientation`을 지정할 수 있습니다.
+- Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+- Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+### Version Updates
+
+- [@seed-design/css@0.1.15](https://npmjs.com/package/@seed-design/css/v/0.1.15)
+- [@seed-design/react@0.1.15](https://npmjs.com/package/@seed-design/react/v/0.1.15)
+- [@seed-design/react-snackbar@0.0.6](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.6)
+- [@seed-design/rootage-artifacts@0.0.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.6)
+- [@seed-design/tailwind3-plugin@0.1.15](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.15)
+- [@seed-design/tailwind4-theme@0.1.15](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.15)
+
 ## 2025.08.22
 
 [`f806356`](https://github.com/daangn/seed-design/commit/f806356f0ca5d419647c9672426e14ca3350f479) Page Banner 컴포넌트를 추가합니다. Inline Banner 컴포넌트를 deprecate합니다.

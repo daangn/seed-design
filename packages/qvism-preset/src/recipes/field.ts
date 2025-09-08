@@ -8,7 +8,7 @@ const field = defineSlotRecipe({
     "root",
     "header",
     "label",
-    "requiredIndicator",
+    "indicator",
     "footer",
     "description",
     "errorContainer",

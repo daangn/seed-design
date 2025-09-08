@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "resources": [
     {
       "path": "/collections.json"
@@ -43,6 +43,9 @@
     },
     {
       "path": "/components/checkbox.json"
+    },
+    {
+      "path": "/components/checkmark.json"
     },
     {
       "path": "/components/chip-tab.json"
@@ -102,6 +105,9 @@
       "path": "/components/link-content.json"
     },
     {
+      "path": "/components/list-item.json"
+    },
+    {
       "path": "/components/manner-temp-badge.json"
     },
     {
@@ -127,6 +133,9 @@
     },
     {
       "path": "/components/radio.json"
+    },
+    {
+      "path": "/components/radiomark.json"
     },
     {
       "path": "/components/reaction-button.json"

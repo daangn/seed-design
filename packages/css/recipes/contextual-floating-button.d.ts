@@ -1,10 +1,10 @@
 declare interface ContextualFloatingButtonVariant {
   /**
-  * @default solid
+  * @default "solid"
   */
   variant: "solid" | "layer";
 /**
-  * @default withText
+  * @default "withText"
   */
   layout: "withText" | "iconOnly";
 }

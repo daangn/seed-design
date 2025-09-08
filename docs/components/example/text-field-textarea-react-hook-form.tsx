@@ -95,7 +95,7 @@ export default function TextFieldTextareaReactHookForm() {
         <ActionButton type="reset" variant="neutralWeak">
           초기화
         </ActionButton>
-        <ActionButton type="submit" flexGrow>
+        <ActionButton type="submit" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>

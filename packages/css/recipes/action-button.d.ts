@@ -1,14 +1,14 @@
 declare interface ActionButtonVariant {
   /**
-  * @default brandSolid
+  * @default "brandSolid"
   */
   variant: "brandSolid" | "neutralSolid" | "neutralWeak" | "criticalSolid" | "brandOutline" | "neutralOutline" | "ghost";
 /**
-  * @default medium
+  * @default "medium"
   */
   size: "xsmall" | "small" | "medium" | "large";
 /**
-  * @default withText
+  * @default "withText"
   */
   layout: "withText" | "iconOnly";
 }

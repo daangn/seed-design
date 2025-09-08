@@ -1,10 +1,10 @@
 declare interface PageBannerVariant {
   /**
-  * @default weak
+  * @default "weak"
   */
   variant: "weak" | "solid";
 /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "informative" | "positive" | "warning" | "critical";
 }

@@ -11,7 +11,7 @@ const PullToRefreshDisabled = () => {
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <Box width="300px" height="500px" borderColor="stroke.neutral" borderWidth={1}>
+    <Box width="300px" height="500px" borderColor="stroke.neutralMuted" borderWidth={1}>
       <PullToRefreshRoot
         onPtrReady={() => {}}
         onPtrRefresh={async () => {

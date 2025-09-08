@@ -1,8 +1,7 @@
 import { useMemo, useState } from "react";
 import { IconChevronDownFill, IconPenHorizlineFill } from "@karrotmarket/react-monochrome-icon";
-
-import { Flex, HStack, VStack } from "@seed-design/react";
-import { ControlChip } from "seed-design/ui/control-chip";
+import { Flex, HStack, VStack, Icon } from "@seed-design/react";
+import { Chip } from "seed-design/ui/chip";
 import {
   BottomSheetBody,
   BottomSheetRoot,
@@ -11,11 +10,11 @@ import {
   BottomSheetTrigger,
 } from "seed-design/ui/bottom-sheet";
 import { ActionButton } from "seed-design/ui/action-button";
+import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-import { ExtendedFab } from "@seed-design/react";
 import { ARTICLES, CATEGORIES, type Category } from "@/components/example/demo/data";
 import { ArticleListItem } from "@/components/example/demo/components/article-list-item";
-import { PrefixIcon, SuffixIcon } from "@seed-design/react";
+import { List } from "seed-design/ui/list";
 
 const FILTERS = [
   { label: "카테고리", value: "category" },
@@ -78,10 +77,11 @@ export function Recommendations() {
 
   return (
     <VStack gap="spacingY.componentDefault" pt="x4" pb="x16">
-      <ExtendedFab style={{ position: "fixed", insetBlockEnd: "16px", insetInlineEnd: "16px" }}>
-        <PrefixIcon svg={<IconPenHorizlineFill />} />
-        글쓰기
-      </ExtendedFab>
+      <FloatingActionButton
+        label="글쓰기"
+        icon={<IconPenHorizlineFill />}
+        style={{ position: "fixed", insetBlockEnd: "16px", insetInlineEnd: "16px" }}
+      />
       <Flex gap="spacingX.betweenChips" px="spacingX.globalGutter" overflowX="auto">
         {FILTERS.map(({ label, value }) => (
           <BottomSheetRoot
@@ -93,28 +93,26 @@ export function Recommendations() {
           >
             {value === "category" ? (
               <BottomSheetTrigger asChild>
-                <ControlChip.Button
-                  size="medium"
-                  layout="withText"
-                  onClick={value !== "category" ? onUnavailableFilterClick : undefined}
-                >
-                  {selectedFilters[value]?.length
-                    ? selectedFilters[value]
-                        .map((id) => CATEGORIES.find((c) => c.id === id)?.name)
-                        .join(", ") || label
-                    : label}
-                  <SuffixIcon svg={<IconChevronDownFill />} />
-                </ControlChip.Button>
+                <Chip.Button onClick={value !== "category" ? onUnavailableFilterClick : undefined}>
+                  <Chip.Label>
+                    {selectedFilters[value]?.length
+                      ? selectedFilters[value]
+                          .map((id) => CATEGORIES.find((c) => c.id === id)?.name)
+                          .join(", ") || label
+                      : label}
+                  </Chip.Label>
+                  <Chip.SuffixIcon>
+                    <Icon svg={<IconChevronDownFill />} />
+                  </Chip.SuffixIcon>
+                </Chip.Button>
               </BottomSheetTrigger>
             ) : (
-              <ControlChip.Button
-                size="medium"
-                layout="withText"
-                onClick={onUnavailableFilterClick}
-              >
-                {label}
-                <SuffixIcon svg={<IconChevronDownFill />} />
-              </ControlChip.Button>
+              <Chip.Button onClick={onUnavailableFilterClick}>
+                <Chip.Label>{label}</Chip.Label>
+                <Chip.SuffixIcon>
+                  <Icon svg={<IconChevronDownFill />} />
+                </Chip.SuffixIcon>
+              </Chip.Button>
             )}
             <FilterBottomSheet
               filter={value}
@@ -166,9 +164,8 @@ export function FilterBottomSheet({
       <BottomSheetBody>
         <HStack gap="x2" wrap>
           {options.map((option: Category) => (
-            <ControlChip.Toggle
-              size="medium"
-              layout="withText"
+            <Chip.Toggle
+              variant="outlineStrong"
               key={option.id}
               checked={selectedOptions.includes(option.id)}
               onCheckedChange={(checked) =>
@@ -177,8 +174,8 @@ export function FilterBottomSheet({
                 )
               }
             >
-              {option.name}
-            </ControlChip.Toggle>
+              <Chip.Label>{option.name}</Chip.Label>
+            </Chip.Toggle>
           ))}
         </HStack>
       </BottomSheetBody>

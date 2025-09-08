@@ -28,12 +28,16 @@ function createTokenKey(tokenGroup: string[], tokenKey: string): string {
 }
 
 // CSS 변수명 생성 함수
-function createCssVarName(tokenGroup: string[], tokenKey: string): string {
-  return `--seed-${tokenGroup.join("-")}${tokenGroup.length > 0 && tokenKey ? "-" : ""}${tokenKey}`;
+function createCssVarName(tokenGroup: string[], tokenKey: string, prefix?: string): string {
+  const prefixPart = prefix ? `${prefix}-` : "";
+  return `--${prefixPart}${tokenGroup.join("-")}${tokenGroup.length > 0 && tokenKey ? "-" : ""}${tokenKey}`;
 }
 
 // 토큰 처리 함수
-function processFoundationTokens(foundationTokens: TokenDeclaration[]): TokenCollections {
+function processFoundationTokens(
+  foundationTokens: TokenDeclaration[],
+  options?: { prefix?: string },
+): TokenCollections {
   const collections: TokenCollections = {
     colors: {},
     gradients: {},
@@ -52,7 +56,7 @@ function processFoundationTokens(foundationTokens: TokenDeclaration[]): TokenCol
     if (tokenGroup.length === 0) continue;
 
     const tokenKey = createTokenKey(tokenGroup, token.token.key || "");
-    const cssVarName = createCssVarName(tokenGroup, token.token.key || "");
+    const cssVarName = createCssVarName(tokenGroup, token.token.key || "", options?.prefix);
     const cssVarValue = `var(${cssVarName})`;
 
     // 토큰 타입별 분류
@@ -118,6 +122,7 @@ function processFoundationTokens(foundationTokens: TokenDeclaration[]): TokenCol
 // 타이포그래피 토큰 처리 함수
 function processTypographyTokens(
   typographyTokens: ComponentSpecDeclaration[],
+  options?: { prefix?: string },
 ): Record<string, Record<string, string>> {
   const flatTypography: Record<string, Record<string, string>> = {};
 
@@ -146,7 +151,8 @@ function processTypographyTokens(
             if (prop.property === "fontSize" && "value" in prop) {
               if (prop.kind === "DimensionPropertyDeclaration") {
                 if (prop.value.kind === "TokenLit") {
-                  typographyStyle.fontSize = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  typographyStyle.fontSize = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if (prop.value.kind === "DimensionLit") {
                   typographyStyle.fontSize = `${prop.value.value}${prop.value.unit}`;
                 }
@@ -159,7 +165,8 @@ function processTypographyTokens(
                 prop.kind === "DimensionPropertyDeclaration"
               ) {
                 if (prop.value.kind === "TokenLit") {
-                  typographyStyle.lineHeight = `var(--seed-${prop.value.identifier.replace("$", "").replace(".", "-")})`;
+                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  typographyStyle.lineHeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if ("value" in prop.value) {
                   typographyStyle.lineHeight =
                     prop.value.kind === "DimensionLit"
@@ -172,7 +179,8 @@ function processTypographyTokens(
             if (prop.property === "fontWeight" && "value" in prop) {
               if (prop.kind === "NumberPropertyDeclaration") {
                 if (prop.value.kind === "TokenLit") {
-                  typographyStyle.fontWeight = `var(--seed-${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
+                  const prefixPart = options?.prefix ? `${options.prefix}-` : "";
+                  typographyStyle.fontWeight = `var(--${prefixPart}${prop.value.identifier.replace(/\$/g, "").replace(/\./g, "-")})`;
                 } else if (prop.value.kind === "NumberLit") {
                   typographyStyle.fontWeight = `${prop.value.value}`;
                 }
@@ -195,10 +203,11 @@ function processTypographyTokens(
 export function getTailwind3PluginCode(
   foundationTokens: TokenDeclaration[],
   typographyTokens: ComponentSpecDeclaration[],
+  options?: { prefix?: string },
 ): string {
   // 토큰 처리
-  const collections = processFoundationTokens(foundationTokens);
-  const typography = processTypographyTokens(typographyTokens);
+  const collections = processFoundationTokens(foundationTokens, options);
+  const typography = processTypographyTokens(typographyTokens, options);
 
   // gradient stops를 colors에도 추가 (from-, via-, to- 유틸리티와 함께 사용 가능)
   const gradientStops: Record<string, string> = {};

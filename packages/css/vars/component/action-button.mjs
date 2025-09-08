@@ -214,7 +214,7 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
@@ -242,7 +242,7 @@ export const vars = {
     "disabled": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
@@ -267,7 +267,7 @@ export const vars = {
     "enabled": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)",
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
         "strokeWidth": "1px"
       },
       "label": {
@@ -295,7 +295,7 @@ export const vars = {
     "disabled": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"

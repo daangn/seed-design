@@ -213,5 +213,5 @@
     color: var(--seed-color-palette-static-white);
 }
 .seed-app-bar__root--divider_true:before {
-    box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);
 }

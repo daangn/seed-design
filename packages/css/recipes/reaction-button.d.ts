@@ -1,6 +1,6 @@
 declare interface ReactionButtonVariant {
   /**
-  * @default small
+  * @default "small"
   */
   size: "xsmall" | "small";
 }

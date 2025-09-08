@@ -153,8 +153,14 @@ export const registryUI: RegistryUI = [
     files: ["ui:progress-circle.tsx"],
   },
   {
+    name: "radio-group",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:radio-group.tsx"],
+  },
+  {
     name: "select-box",
     dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
+    innerDependencies: ["ui:checkbox", "ui:radio-group"],
     files: ["ui:select-box.tsx"],
   },
   {
@@ -195,5 +201,10 @@ export const registryUI: RegistryUI = [
       "@karrotmarket/react-monochrome-icon",
     ],
     files: ["ui:field-button.tsx"],
+  },
+  {
+    name: "list",
+    dependencies: ["@seed-design/react"],
+    files: ["ui:list.tsx"],
   },
 ];

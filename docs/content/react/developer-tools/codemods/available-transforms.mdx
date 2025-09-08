@@ -807,7 +807,7 @@ export const borderMapping = style({
 
 ```ts title="basic.output.ts"
 // @ts-nocheck
-import { vars } from '@/shared/style/vars';
+import { vars } from "@/shared/style/vars";
 
 export const date = style({
   ...vars.typography.t3Regular,
@@ -839,14 +839,14 @@ export const subtitle = style({
 // 배경색 케이스
 export const cardBackground = style({
   backgroundColor: vars.color.bg.layerFloating,
-  padding: '16px',
+  padding: "16px",
 });
 
 // 테두리 케이스
 export const divider = style({
-  borderTop: `1px solid ${vars.color.stroke.neutralMuted}`,
-  marginTop: '8px',
-  marginBottom: '8px',
+  borderTop: `1px solid ${vars.color.stroke.neutralSubtle}`,
+  marginTop: "8px",
+  marginBottom: "8px",
 });
 
 // 상태 색상 케이스
@@ -854,24 +854,24 @@ export const successMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.fg.positive,
   backgroundColor: vars.color.bg.positiveWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 export const warningMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.bg.warningSolid,
   backgroundColor: vars.color.bg.warningWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 export const errorMessage = style({
   ...vars.typography.t5Bold,
   color: vars.color.fg.critical,
   backgroundColor: vars.color.bg.criticalWeak,
-  padding: '12px',
-  borderRadius: '4px',
+  padding: "12px",
+  borderRadius: "4px",
 });
 
 // 다양한 타이포그래피 케이스
@@ -893,7 +893,7 @@ export const label = style({
 // 알파 색상 케이스
 export const overlay = style({
   backgroundColor: vars.color.bg.overlay,
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
@@ -905,14 +905,14 @@ export const button = style({
   ...vars.typography.t5Bold,
   backgroundColor: vars.color.bg.brandSolid,
   color: vars.color.palette.staticWhite,
-  borderRadius: '4px',
-  padding: '8px 16px',
-  border: 'none',
-  cursor: 'pointer',
-  ':hover': {
+  borderRadius: "4px",
+  padding: "8px 16px",
+  border: "none",
+  cursor: "pointer",
+  ":hover": {
     backgroundColor: vars.color.bg.brandSolidPressed,
   },
-  ':active': {
+  ":active": {
     backgroundColor: vars.color.bg.brandSolidPressed,
   },
 });
@@ -921,14 +921,14 @@ export const secondaryButton = style({
   ...vars.typography.t5Bold,
   backgroundColor: vars.color.bg.neutralWeak,
   color: vars.color.palette.gray900,
-  borderRadius: '4px',
-  padding: '8px 16px',
-  border: 'none',
-  cursor: 'pointer',
-  ':hover': {
+  borderRadius: "4px",
+  padding: "8px 16px",
+  border: "none",
+  cursor: "pointer",
+  ":hover": {
     backgroundColor: vars.color.bg.neutralWeakPressed,
   },
-  ':active': {
+  ":active": {
     backgroundColor: vars.color.bg.neutralWeakPressed,
   },
 });
@@ -937,15 +937,15 @@ export const secondaryButton = style({
 export const floatingPanel = style({
   backgroundColor: vars.color.bg.layerFloating,
   boxShadow: `0 2px 8px ${vars.color.bg.overlayMuted}`,
-  padding: '20px',
-  borderRadius: '8px',
+  padding: "20px",
+  borderRadius: "8px",
 });
 
 export const dialogPanel = style({
   backgroundColor: vars.color.bg.layerFloating,
-  padding: '24px',
+  padding: "24px",
   boxShadow: `0 4px 16px ${vars.color.bg.overlay}`,
-  borderRadius: '12px',
+  borderRadius: "12px",
 });
 
 // 정적 색상 케이스
@@ -965,7 +965,7 @@ export const staticExplicitColors = style({
 
 export const specialBackground = style({
   background: `linear-gradient(to bottom, ${vars.color.palette.staticWhiteAlpha50}, ${vars.color.palette.staticWhiteAlpha200})`,
-  backdropFilter: 'blur(8px)',
+  backdropFilter: "blur(8px)",
 });
 
 // 복합 스타일 및 다중 속성 케이스
@@ -975,7 +975,7 @@ export const multiProperty = style({
   borderLeft: `4px solid ${vars.color.fg.informative}`,
   borderRight: `4px solid ${vars.color.fg.informative}`,
   boxShadow: `inset 0 0 0 1px ${vars.color.stroke.neutral}, 0 2px 4px ${vars.color.bg.overlayMuted}`,
-  padding: '16px',
+  padding: "16px",
   backgroundColor: vars.color.bg.layerDefault,
 });
 
@@ -1020,7 +1020,7 @@ export const colorContexts = style({
   // 테두리 색상
   borderColor: vars.color.palette.gray400,
   // 호버 색상
-  ':hover': {
+  ":hover": {
     backgroundColor: vars.color.palette.carrot200,
     borderColor: vars.color.palette.carrot100,
   },
@@ -1194,25 +1194,25 @@ npx @seed-design/codemod@latest replace-stitches-theme-color <target_path>
 ```tsx title="basic.input.tsx"
 // @ts-nocheck
 
-import { theme } from '@src/stitches/stitches.config'
+import { theme } from "@src/stitches/stitches.config";
 
 const semanticColors = {
-  primary: theme.colors['primary-semantic'].computedValue,
-  onPrimary: theme.colors['onPrimary-semantic'].computedValue,
-  primaryLow: theme.colors['primaryLow-semantic'].computedValue,
-  success: theme.colors['success-semantic'].computedValue,
-  warning: theme.colors['warning-semantic'].computedValue,
-  danger: theme.colors['danger-semantic'].computedValue,
-  paperDefault: theme.colors['paperDefault-semantic'].computedValue,
-  paperContents: theme.colors['paperContents-semantic'].computedValue,
-  paperDialog: theme.colors['paperDialog-semantic'].computedValue,
-  inkText: theme.colors['inkText-semantic'].computedValue,
-  inkTextLow: theme.colors['inkTextLow-semantic'].computedValue,
-  divider1: theme.colors['divider1-semantic'].computedValue,
-  divider2: theme.colors['divider2-semantic'].computedValue,
-  overlayDim: theme.colors['overlayDim-semantic'].computedValue,
-  accent: theme.colors['accent-semantic'].computedValue,
-}
+  primary: theme.colors["primary-semantic"].computedValue,
+  onPrimary: theme.colors["onPrimary-semantic"].computedValue,
+  primaryLow: theme.colors["primaryLow-semantic"].computedValue,
+  success: theme.colors["success-semantic"].computedValue,
+  warning: theme.colors["warning-semantic"].computedValue,
+  danger: theme.colors["danger-semantic"].computedValue,
+  paperDefault: theme.colors["paperDefault-semantic"].computedValue,
+  paperContents: theme.colors["paperContents-semantic"].computedValue,
+  paperDialog: theme.colors["paperDialog-semantic"].computedValue,
+  inkText: theme.colors["inkText-semantic"].computedValue,
+  inkTextLow: theme.colors["inkTextLow-semantic"].computedValue,
+  divider1: theme.colors["divider1-semantic"].computedValue,
+  divider2: theme.colors["divider2-semantic"].computedValue,
+  overlayDim: theme.colors["overlayDim-semantic"].computedValue,
+  accent: theme.colors["accent-semantic"].computedValue,
+};
 
 const scaleColors = {
   gray00: theme.colors.gray00.computedValue,
@@ -1234,41 +1234,37 @@ const scaleColors = {
   blue300: theme.colors.blue300.computedValue,
   blue600: theme.colors.blue600.computedValue,
   red500: theme.colors.red500.computedValue,
-}
+};
 
 const staticColors = {
-  white: theme.colors['white-static'].computedValue,
-  black: theme.colors['black-static'].computedValue,
-  blackAlpha200: theme.colors['blackAlpha200-static'].computedValue,
-  whiteAlpha200: theme.colors['whiteAlpha200-static'].computedValue,
-  gray900: theme.colors['gray900-static'].computedValue,
-  carrot50: theme.colors['carrot50-static'].computedValue,
-  carrot800: theme.colors['carrot800-static'].computedValue,
-  blue50: theme.colors['blue50-static'].computedValue,
-  blue800: theme.colors['blue800-static'].computedValue,
-  red50: theme.colors['red50-static'].computedValue,
-  red800: theme.colors['red800-static'].computedValue,
-}
+  white: theme.colors["white-static"].computedValue,
+  black: theme.colors["black-static"].computedValue,
+  blackAlpha200: theme.colors["blackAlpha200-static"].computedValue,
+  whiteAlpha200: theme.colors["whiteAlpha200-static"].computedValue,
+  gray900: theme.colors["gray900-static"].computedValue,
+  carrot50: theme.colors["carrot50-static"].computedValue,
+  carrot800: theme.colors["carrot800-static"].computedValue,
+  blue50: theme.colors["blue50-static"].computedValue,
+  blue800: theme.colors["blue800-static"].computedValue,
+  red50: theme.colors["red50-static"].computedValue,
+  red800: theme.colors["red800-static"].computedValue,
+};
 
 const Component = () => {
   return (
     <div>
       <Button
-        backgroundColor={theme.colors['primary-semantic'].computedValue}
-        color={theme.colors['onPrimary-semantic'].computedValue}
+        backgroundColor={theme.colors["primary-semantic"].computedValue}
+        color={theme.colors["onPrimary-semantic"].computedValue}
       >
         버튼
       </Button>
       <InfoBox borderColor={theme.colors.gray300.computedValue}>
-        <Text color={theme.colors.gray900.computedValue}>
-          안내사항
-        </Text>
-        <WarningIcon fill={theme.colors['warning-semantic'].computedValue} />
+        <Text color={theme.colors.gray900.computedValue}>안내사항</Text>
+        <WarningIcon fill={theme.colors["warning-semantic"].computedValue} />
       </InfoBox>
-      <Badge backgroundColor={theme.colors['danger-semantic'].computedValue}>
-        <BadgeText color={theme.colors['white-static'].computedValue}>
-          중요
-        </BadgeText>
+      <Badge backgroundColor={theme.colors["danger-semantic"].computedValue}>
+        <BadgeText color={theme.colors["white-static"].computedValue}>중요</BadgeText>
       </Badge>
     </div>
   );
@@ -1277,31 +1273,31 @@ const Component = () => {
 const Dialog = ({ isOpen, onClose }) => {
   const styles = {
     overlay: {
-      backgroundColor: theme.colors['overlayDim-semantic'].computedValue,
+      backgroundColor: theme.colors["overlayDim-semantic"].computedValue,
     },
     container: {
-      backgroundColor: theme.colors['paperDialog-semantic'].computedValue,
+      backgroundColor: theme.colors["paperDialog-semantic"].computedValue,
       borderColor: theme.colors.gray300.computedValue,
     },
     header: {
-      borderBottom: `1px solid ${theme.colors['divider1-semantic'].computedValue}`,
+      borderBottom: `1px solid ${theme.colors["divider1-semantic"].computedValue}`,
     },
     title: {
       color: theme.colors.gray900.computedValue,
     },
     content: {
       color: theme.colors.gray700.computedValue,
-      backgroundColor: theme.colors['paperContents-semantic'].computedValue,
+      backgroundColor: theme.colors["paperContents-semantic"].computedValue,
     },
     footer: {
-      borderTop: `1px solid ${theme.colors['divider2-semantic'].computedValue}`,
+      borderTop: `1px solid ${theme.colors["divider2-semantic"].computedValue}`,
     },
     closeButton: {
       color: theme.colors.gray500.computedValue,
     },
     submitButton: {
       backgroundColor: theme.colors.blue600.computedValue,
-      color: theme.colors['white-static'].computedValue,
+      color: theme.colors["white-static"].computedValue,
     },
   };
 
@@ -1314,13 +1310,9 @@ const Dialog = ({ isOpen, onClose }) => {
             닫기
           </button>
         </div>
-        <div style={styles.content}>
-          다이얼로그 내용
-        </div>
+        <div style={styles.content}>다이얼로그 내용</div>
         <div style={styles.footer}>
-          <button style={styles.submitButton}>
-            확인
-          </button>
+          <button style={styles.submitButton}>확인</button>
         </div>
       </div>
     </div>
@@ -1333,7 +1325,7 @@ export { semanticColors, scaleColors, staticColors, Component, Dialog };
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
-import { theme } from '@src/stitches/stitches.config'
+import { theme } from "@src/stitches/stitches.config";
 
 const semanticColors = {
   primary: theme.colors["bg-brand-solid"].computedValue,
@@ -1347,11 +1339,11 @@ const semanticColors = {
   paperDialog: theme.colors["bg-layer-floating"].computedValue,
   inkText: theme.colors["fg-neutral"].computedValue,
   inkTextLow: theme.colors["fg-neutral-subtle"].computedValue,
-  divider1: theme.colors["stroke-neutral-muted"].computedValue,
-  divider2: theme.colors["stroke-neutral"].computedValue,
+  divider1: theme.colors["stroke-neutral-subtle"].computedValue,
+  divider2: theme.colors["stroke-neutral-muted"].computedValue,
   overlayDim: theme.colors["bg-overlay"].computedValue,
   accent: theme.colors["bg-informative-solid"].computedValue,
-}
+};
 
 const scaleColors = {
   gray00: theme.colors["palette-gray-00"].computedValue,
@@ -1373,7 +1365,7 @@ const scaleColors = {
   blue300: theme.colors["palette-blue-400"].computedValue,
   blue600: theme.colors["palette-blue-600"].computedValue,
   red500: theme.colors["palette-red-700"].computedValue,
-}
+};
 
 const staticColors = {
   white: theme.colors["palette-static-white"].computedValue,
@@ -1387,7 +1379,7 @@ const staticColors = {
   blue800: theme.colors["palette-blue-700"].computedValue,
   red50: theme.colors["palette-red-100"].computedValue,
   red800: theme.colors["palette-red-700"].computedValue,
-}
+};
 
 const Component = () => {
   return (
@@ -1399,15 +1391,11 @@ const Component = () => {
         버튼
       </Button>
       <InfoBox borderColor={theme.colors["palette-gray-400"].computedValue}>
-        <Text color={theme.colors["palette-gray-1000"].computedValue}>
-          안내사항
-        </Text>
+        <Text color={theme.colors["palette-gray-1000"].computedValue}>안내사항</Text>
         <WarningIcon fill={theme.colors["bg-warning-solid"].computedValue} />
       </InfoBox>
       <Badge backgroundColor={theme.colors["bg-critical-solid"].computedValue}>
-        <BadgeText color={theme.colors["palette-static-white"].computedValue}>
-          중요
-        </BadgeText>
+        <BadgeText color={theme.colors["palette-static-white"].computedValue}>중요</BadgeText>
       </Badge>
     </div>
   );
@@ -1423,7 +1411,7 @@ const Dialog = ({ isOpen, onClose }) => {
       borderColor: theme.colors["palette-gray-400"].computedValue,
     },
     header: {
-      borderBottom: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
+      borderBottom: `1px solid ${theme.colors["stroke-neutral-subtle"].computedValue}`,
     },
     title: {
       color: theme.colors["palette-gray-1000"].computedValue,
@@ -1433,7 +1421,7 @@ const Dialog = ({ isOpen, onClose }) => {
       backgroundColor: theme.colors["bg-layer-fill"].computedValue,
     },
     footer: {
-      borderTop: `1px solid ${theme.colors["stroke-neutral"].computedValue}`,
+      borderTop: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
     },
     closeButton: {
       color: theme.colors["palette-gray-600"].computedValue,
@@ -1453,13 +1441,9 @@ const Dialog = ({ isOpen, onClose }) => {
             닫기
           </button>
         </div>
-        <div style={styles.content}>
-          다이얼로그 내용
-        </div>
+        <div style={styles.content}>다이얼로그 내용</div>
         <div style={styles.footer}>
-          <button style={styles.submitButton}>
-            확인
-          </button>
+          <button style={styles.submitButton}>확인</button>
         </div>
       </div>
     </div>
@@ -1607,6 +1591,234 @@ import { vars as typoVars } from "@seed-design/css/vars/component/typography";
 const color = vars.$color.palette.gray600;
 const typography = typoVars.textStyleT5Bold.enabled.root;
 const legacyColor = legacyVars.$static.color.staticWhiteAlpha50;
+```
+
+</Accordion>
+</Accordions>
+
+## replace-semantic-stroke-color
+
+시맨틱 stroke 컬러 토큰을 v0.2.0에 맞춰 마이그레이션하는 transform입니다.
+
+### 목적
+
+@seed-design/css v0.2.0에서 업데이트된 시맨틱 stroke 컬러 토큰을 자동으로 마이그레이션합니다.
+이전 버전의 stroke 토큰들을 새로운 네이밍 규칙에 맞게 변환합니다.
+
+### 변환 매핑
+
+#### 우선 순위 변환 (1차)
+⚠️ **중요**: 다음 변환은 반드시 다른 변환보다 먼저 처리됩니다.
+
+| 기존 토큰 | 신규 토큰 | 비고 |
+|----------|-----------|------|
+| `vars.$color.stroke.neutralMuted` | `vars.$color.stroke.neutralSubtle` | 가장 먼저 마이그레이션해야 합니다 |
+
+#### 일반 변환 (2차)
+
+| 기존 토큰 | 신규 토큰 |
+|----------|-----------|
+| `vars.$color.stroke.onImage` | `vars.$color.stroke.neutralSubtle` |
+| `vars.$color.stroke.neutral` | `vars.$color.stroke.neutralMuted` |
+| `vars.$color.stroke.fieldFocused` | `vars.$color.stroke.neutralContrast` |
+| `vars.$color.stroke.control` | `vars.$color.stroke.neutralWeak` |
+| `vars.$color.stroke.field` | `vars.$color.stroke.neutralWeak` |
+| `vars.$color.stroke.brand` | `vars.$color.stroke.brandWeak` |
+| `vars.$color.stroke.positive` | `vars.$color.stroke.positiveWeak` |
+| `vars.$color.stroke.informative` | `vars.$color.stroke.informativeWeak` |
+| `vars.$color.stroke.warning` | `vars.$color.stroke.warningWeak` |
+| `vars.$color.stroke.critical` | `vars.$color.stroke.criticalWeak` |
+
+### 지원하는 파일 형식
+
+- TypeScript (`.ts`)
+- TypeScript JSX (`.tsx`)
+
+### 변환 예시
+
+#### 기본 사용
+```typescript
+// Before
+import { vars } from "@seed-design/css/vars";
+const borderColor = vars.$color.stroke.neutralMuted;
+const outlineColor = vars.$color.stroke.neutral;
+
+// After
+import { vars } from "@seed-design/css/vars";
+const borderColor = vars.$color.stroke.neutralSubtle;
+const outlineColor = vars.$color.stroke.neutralMuted;
+```
+
+#### React 컴포넌트에서의 사용
+```tsx
+// Before
+const Component = () => (
+  <div style={{ 
+    borderColor: vars.$color.stroke.control,
+    outlineColor: vars.$color.stroke.brand 
+  }} />
+);
+
+// After
+const Component = () => (
+  <div style={{ 
+    borderColor: vars.$color.stroke.neutralWeak,
+    outlineColor: vars.$color.stroke.brandWeak 
+  }} />
+);
+```
+
+### 우선 순위의 중요성
+
+이 transform은 **2-pass 방식**으로 동작합니다:
+
+1. **1차 변환**: `neutralMuted` → `neutralSubtle`을 먼저 처리
+2. **2차 변환**: `neutral` → `neutralMuted` 등 나머지 변환들을 처리
+
+이 순서가 중요한 이유는 연쇄 변환을 방지하기 위해서입니다. 
+만약 순서가 바뀌면 `neutralMuted`가 `neutralSubtle`로 변환되기 전에 
+`neutral`이 `neutralMuted`로 변환될 수 있어 예상치 못한 결과가 나올 수 있습니다.
+
+### 변환되지 않는 토큰들
+
+다음 토큰들은 이미 v3 형식이므로 변환되지 않습니다:
+- `vars.$color.stroke.brandWeak`
+- `vars.$color.stroke.brandSolid`
+- `vars.$color.stroke.neutralSubtle`
+- `vars.$color.stroke.neutralContrast`
+- `vars.$color.stroke.neutralWeak`
+- 기타 `-weak`, `-solid` 접미사를 가진 토큰들
+
+### 로깅
+
+transform 실행 시 다음과 같은 로그가 생성됩니다:
+- `.report/replace-semantic-stroke-color-success.log`: 성공한 변환들
+- `.report/replace-semantic-stroke-color-issues.log`: 경고 및 실패
+- `.report/replace-semantic-stroke-color-debug.log`: 디버그 정보
+
+```package-install
+npx @seed-design/codemod@latest replace-semantic-stroke-color <target_path>
+```
+
+<Accordions>
+<Accordion title="변경 예시">
+
+```tsx title="basic.input.tsx"
+// @ts-nocheck
+import React from "react";
+import { vars } from "@seed-design/css/vars";
+
+// 인라인 스타일에서 stroke 토큰 사용
+const Component1 = () => (
+  <div
+    style={{
+      borderColor: vars.$color.stroke.neutralMuted,
+      borderTopColor: vars.$color.stroke.neutral,
+      borderBottomColor: vars.$color.stroke.onImage,
+      outlineColor: vars.$color.stroke.fieldFocused,
+    }}
+  />
+);
+
+// 객체 스타일에서 사용
+const styles = {
+  container: {
+    borderColor: vars.$color.stroke.control,
+    border: `1px solid ${vars.$color.stroke.field}`,
+  },
+  button: {
+    borderColor: vars.$color.stroke.brand,
+    outlineColor: vars.$color.stroke.positive,
+  },
+  input: {
+    borderColor: vars.$color.stroke.informative,
+    "&:focus": {
+      borderColor: vars.$color.stroke.warning,
+    },
+  },
+  error: {
+    borderColor: vars.$color.stroke.critical,
+  },
+};
+
+// 삼항 연산자에서 사용
+const ConditionalComponent = ({ isActive }: { isActive: boolean }) => (
+  <div
+    style={{
+      borderColor: isActive ? vars.$color.stroke.neutralMuted : vars.$color.stroke.neutral,
+      stroke: vars.$color.stroke.onImage,
+    }}
+  />
+);
+
+// 새로운 토큰들 (변경되지 않아야 함)
+const NewTokensComponent = () => (
+  <div
+    style={{
+      borderColor: vars.$color.stroke.brandWeak,
+      outlineColor: vars.$color.stroke.neutralSubtle,
+    }}
+  />
+);
+```
+
+```tsx title="basic.output.tsx"
+// @ts-nocheck
+import React from "react";
+import { vars } from "@seed-design/css/vars";
+
+// 인라인 스타일에서 stroke 토큰 사용
+const Component1 = () => (
+  <div
+    style={{
+      borderColor: vars.$color.stroke.neutralSubtle,
+      borderTopColor: vars.$color.stroke.neutralMuted,
+      borderBottomColor: vars.$color.stroke.neutralSubtle,
+      outlineColor: vars.$color.stroke.neutralContrast,
+    }}
+  />
+);
+
+// 객체 스타일에서 사용
+const styles = {
+  container: {
+    borderColor: vars.$color.stroke.neutralWeak,
+    border: `1px solid ${vars.$color.stroke.neutralWeak}`,
+  },
+  button: {
+    borderColor: vars.$color.stroke.brandWeak,
+    outlineColor: vars.$color.stroke.positiveWeak,
+  },
+  input: {
+    borderColor: vars.$color.stroke.informativeWeak,
+    "&:focus": {
+      borderColor: vars.$color.stroke.warningWeak,
+    },
+  },
+  error: {
+    borderColor: vars.$color.stroke.criticalWeak,
+  },
+};
+
+// 삼항 연산자에서 사용
+const ConditionalComponent = ({ isActive }: { isActive: boolean }) => (
+  <div
+    style={{
+      borderColor: isActive ? vars.$color.stroke.neutralSubtle : vars.$color.stroke.neutralMuted,
+      stroke: vars.$color.stroke.neutralSubtle,
+    }}
+  />
+);
+
+// 새로운 토큰들 (변경되지 않아야 함)
+const NewTokensComponent = () => (
+  <div
+    style={{
+      borderColor: vars.$color.stroke.brandWeak,
+      outlineColor: vars.$color.stroke.neutralSubtle,
+    }}
+  />
+);
 ```
 
 </Accordion>
@@ -1802,251 +2014,251 @@ npx @seed-design/codemod@latest replace-stitches-styled-color <target_path>
 ```tsx title="basic.input.tsx"
 // @ts-nocheck
 
-const SemanticColorTestComponent = styled('div', {
+const SemanticColorTestComponent = styled("div", {
   // Semantic Color 테스트
-  color: '$primary-semantic',
-  color: '$onPrimary-semantic',
-  color: '$primaryLow-semantic',
-  color: '$secondary-semantic',
-  color: '$secondaryLow-semantic',
-  color: '$success-semantic',
-  color: '$successLow-semantic',
-  color: '$warning-semantic',
-  color: '$warningLow-semantic',
-  color: '$danger-semantic',
-  color: '$dangerLow-semantic',
-  color: '$overlayDim-semantic',
-  color: '$overlayLow-semantic',
-  color: '$paperSheet-semantic',
-  color: '$paperDialog-semantic',
-  color: '$paperFloating-semantic',
-  color: '$paperContents-semantic',
-  color: '$paperDefault-semantic',
-  color: '$paperBackground-semantic',
-  color: '$paperAccent-semantic',
-  color: '$primaryHover-semantic',
-  color: '$primaryPressed-semantic',
-  color: '$primaryLowHover-semantic',
-  color: '$primaryLowActive-semantic',
-  color: '$primaryLowPressed-semantic',
-  color: '$grayHover-semantic',
-  color: '$grayPressed-semantic',
-  color: '$onPrimaryOverlay50-semantic',
-  color: '$onPrimaryOverlay200-semantic',
-  color: '$onPrimaryLowOverlay50-semantic',
-  color: '$onPrimaryLowOverlay100-semantic',
-  color: '$onPrimaryLowOverlay200-semantic',
-  color: '$onGrayOverlay50-semantic',
-  color: '$onGrayOverlay100-semantic',
-  color: '$divider1-semantic',
-  color: '$divider2-semantic',
-  color: '$divider3-semantic',
-  color: '$accent-semantic',
-  color: '$inkText-semantic',
-  color: '$inkTextLow-semantic',
-  color: '$grayActive-semantic',
+  color: "$primary-semantic",
+  color: "$onPrimary-semantic",
+  color: "$primaryLow-semantic",
+  color: "$secondary-semantic",
+  color: "$secondaryLow-semantic",
+  color: "$success-semantic",
+  color: "$successLow-semantic",
+  color: "$warning-semantic",
+  color: "$warningLow-semantic",
+  color: "$danger-semantic",
+  color: "$dangerLow-semantic",
+  color: "$overlayDim-semantic",
+  color: "$overlayLow-semantic",
+  color: "$paperSheet-semantic",
+  color: "$paperDialog-semantic",
+  color: "$paperFloating-semantic",
+  color: "$paperContents-semantic",
+  color: "$paperDefault-semantic",
+  color: "$paperBackground-semantic",
+  color: "$paperAccent-semantic",
+  color: "$primaryHover-semantic",
+  color: "$primaryPressed-semantic",
+  color: "$primaryLowHover-semantic",
+  color: "$primaryLowActive-semantic",
+  color: "$primaryLowPressed-semantic",
+  color: "$grayHover-semantic",
+  color: "$grayPressed-semantic",
+  color: "$onPrimaryOverlay50-semantic",
+  color: "$onPrimaryOverlay200-semantic",
+  color: "$onPrimaryLowOverlay50-semantic",
+  color: "$onPrimaryLowOverlay100-semantic",
+  color: "$onPrimaryLowOverlay200-semantic",
+  color: "$onGrayOverlay50-semantic",
+  color: "$onGrayOverlay100-semantic",
+  color: "$divider1-semantic",
+  color: "$divider2-semantic",
+  color: "$divider3-semantic",
+  color: "$accent-semantic",
+  color: "$inkText-semantic",
+  color: "$inkTextLow-semantic",
+  color: "$grayActive-semantic",
 });
 
-const ScaleColorTestComponent = styled('div', {
+const ScaleColorTestComponent = styled("div", {
   // Scale Color Gray 테스트
-  color: '$gray00',
-  color: '$gray50',
-  color: '$gray100',
-  color: '$gray200',
-  color: '$gray300',
-  color: '$gray400',
-  color: '$gray500',
-  color: '$gray600',
-  color: '$gray700',
-  color: '$gray800',
-  color: '$gray900',
-  color: '$grayAlpha50',
-  color: '$grayAlpha100',
-  color: '$grayAlpha200',
-  color: '$grayAlpha500',
-  
+  color: "$gray00",
+  color: "$gray50",
+  color: "$gray100",
+  color: "$gray200",
+  color: "$gray300",
+  color: "$gray400",
+  color: "$gray500",
+  color: "$gray600",
+  color: "$gray700",
+  color: "$gray800",
+  color: "$gray900",
+  color: "$grayAlpha50",
+  color: "$grayAlpha100",
+  color: "$grayAlpha200",
+  color: "$grayAlpha500",
+
   // Scale Color Carrot 테스트
-  color: '$carrot50',
-  color: '$carrot100',
-  color: '$carrot200',
-  color: '$carrot300',
-  color: '$carrot400',
-  color: '$carrot500',
-  color: '$carrot600',
-  color: '$carrot700',
-  color: '$carrot800',
-  color: '$carrot900',
-  color: '$carrot950',
-  color: '$carrotAlpha50',
-  color: '$carrotAlpha100',
-  color: '$carrotAlpha200',
-  
+  color: "$carrot50",
+  color: "$carrot100",
+  color: "$carrot200",
+  color: "$carrot300",
+  color: "$carrot400",
+  color: "$carrot500",
+  color: "$carrot600",
+  color: "$carrot700",
+  color: "$carrot800",
+  color: "$carrot900",
+  color: "$carrot950",
+  color: "$carrotAlpha50",
+  color: "$carrotAlpha100",
+  color: "$carrotAlpha200",
+
   // Scale Color Blue 테스트
-  color: '$blue50',
-  color: '$blue100',
-  color: '$blue200',
-  color: '$blue300',
-  color: '$blue400',
-  color: '$blue500',
-  color: '$blue600',
-  color: '$blue700',
-  color: '$blue800',
-  color: '$blue900',
-  color: '$blue950',
-  color: '$blueAlpha50',
-  color: '$blueAlpha100',
-  color: '$blueAlpha200',
-  
+  color: "$blue50",
+  color: "$blue100",
+  color: "$blue200",
+  color: "$blue300",
+  color: "$blue400",
+  color: "$blue500",
+  color: "$blue600",
+  color: "$blue700",
+  color: "$blue800",
+  color: "$blue900",
+  color: "$blue950",
+  color: "$blueAlpha50",
+  color: "$blueAlpha100",
+  color: "$blueAlpha200",
+
   // Scale Color Red 테스트
-  color: '$red50',
-  color: '$red100',
-  color: '$red200',
-  color: '$red300',
-  color: '$red400',
-  color: '$red500',
-  color: '$red600',
-  color: '$red700',
-  color: '$red800',
-  color: '$red900',
-  color: '$red950',
-  color: '$redAlpha50',
-  color: '$redAlpha100',
-  color: '$redAlpha200',
-  
+  color: "$red50",
+  color: "$red100",
+  color: "$red200",
+  color: "$red300",
+  color: "$red400",
+  color: "$red500",
+  color: "$red600",
+  color: "$red700",
+  color: "$red800",
+  color: "$red900",
+  color: "$red950",
+  color: "$redAlpha50",
+  color: "$redAlpha100",
+  color: "$redAlpha200",
+
   // Scale Color Green 테스트
-  color: '$green50',
-  color: '$green100',
-  color: '$green200',
-  color: '$green300',
-  color: '$green400',
-  color: '$green500',
-  color: '$green600',
-  color: '$green700',
-  color: '$green800',
-  color: '$green900',
-  color: '$green950',
-  color: '$greenAlpha50',
-  color: '$greenAlpha100',
-  color: '$greenAlpha200',
-  
+  color: "$green50",
+  color: "$green100",
+  color: "$green200",
+  color: "$green300",
+  color: "$green400",
+  color: "$green500",
+  color: "$green600",
+  color: "$green700",
+  color: "$green800",
+  color: "$green900",
+  color: "$green950",
+  color: "$greenAlpha50",
+  color: "$greenAlpha100",
+  color: "$greenAlpha200",
+
   // Scale Color Yellow 테스트
-  color: '$yellow50',
-  color: '$yellow100',
-  color: '$yellow200',
-  color: '$yellow300',
-  color: '$yellow400',
-  color: '$yellow500',
-  color: '$yellow600',
-  color: '$yellow700',
-  color: '$yellow800',
-  color: '$yellow900',
-  color: '$yellow950',
-  color: '$yellowAlpha50',
-  color: '$yellowAlpha100',
-  color: '$yellowAlpha200',
-  
+  color: "$yellow50",
+  color: "$yellow100",
+  color: "$yellow200",
+  color: "$yellow300",
+  color: "$yellow400",
+  color: "$yellow500",
+  color: "$yellow600",
+  color: "$yellow700",
+  color: "$yellow800",
+  color: "$yellow900",
+  color: "$yellow950",
+  color: "$yellowAlpha50",
+  color: "$yellowAlpha100",
+  color: "$yellowAlpha200",
+
   // Scale Color Purple 테스트
-  color: '$purple50',
-  color: '$purple100',
-  color: '$purple200',
-  color: '$purple300',
-  color: '$purple400',
-  color: '$purple500',
-  color: '$purple600',
-  color: '$purple700',
-  color: '$purple800',
-  color: '$purple900',
-  color: '$purple950',
+  color: "$purple50",
+  color: "$purple100",
+  color: "$purple200",
+  color: "$purple300",
+  color: "$purple400",
+  color: "$purple500",
+  color: "$purple600",
+  color: "$purple700",
+  color: "$purple800",
+  color: "$purple900",
+  color: "$purple950",
 });
 
-const StaticColorTestComponent = styled('div', {
+const StaticColorTestComponent = styled("div", {
   // Static Color 테스트
-  color: '$black-static',
-  color: '$white-static',
-  color: '$gray900-static',
-  color: '$carrot50-static',
-  color: '$carrot800-static',
-  color: '$green50-static',
-  color: '$green800-static',
-  color: '$yellow50-static',
-  color: '$yellow800-static',
-  color: '$red50-static',
-  color: '$red800-static',
-  color: '$blue50-static',
-  color: '$blue800-static',
-  color: '$blackAlpha200-static',
-  color: '$blackAlpha500-static',
-  color: '$whiteAlpha50-static',
-  color: '$whiteAlpha200-static',
+  color: "$black-static",
+  color: "$white-static",
+  color: "$gray900-static",
+  color: "$carrot50-static",
+  color: "$carrot800-static",
+  color: "$green50-static",
+  color: "$green800-static",
+  color: "$yellow50-static",
+  color: "$yellow800-static",
+  color: "$red50-static",
+  color: "$red800-static",
+  color: "$blue50-static",
+  color: "$blue800-static",
+  color: "$blackAlpha200-static",
+  color: "$blackAlpha500-static",
+  color: "$whiteAlpha50-static",
+  color: "$whiteAlpha200-static",
 });
 
 // 복합 속성 테스트
-const ComplexPropertyTestComponent = styled('div', {
-  border: '1px solid $gray700',
-  boxShadow: '0 0 10px $overlayDim-semantic',
-  outline: '2px solid $accent-semantic',
-  textDecoration: 'underline $danger-semantic',
-  
+const ComplexPropertyTestComponent = styled("div", {
+  border: "1px solid $gray700",
+  boxShadow: "0 0 10px $overlayDim-semantic",
+  outline: "2px solid $accent-semantic",
+  textDecoration: "underline $danger-semantic",
+
   // 네스팅된 속성 테스트
-  '&:before': {
-    borderBottom: '1px solid $divider1-semantic',
-    background: '$paperContents-semantic',
+  "&:before": {
+    borderBottom: "1px solid $divider1-semantic",
+    background: "$paperContents-semantic",
   },
-  
+
   // 변형 테스트
   variants: {
     theme: {
       primary: {
-        background: '$primary-semantic',
-        color: '$onPrimary-semantic',
+        background: "$primary-semantic",
+        color: "$onPrimary-semantic",
       },
       secondary: {
-        background: '$secondaryLow-semantic',
-        color: '$inkText-semantic',
+        background: "$secondaryLow-semantic",
+        color: "$inkText-semantic",
       },
       danger: {
-        background: '$danger-semantic',
-        color: '$white-static',
-      }
-    }
-  }
-});
-
-// 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
-const BorderAndColorTestComponent = styled('div', {
-  color: '$scale-red500 solid 1px',
-  color: '$red600 dashed 2px',
-  color: '$scale-blue400 dotted 3px',
-  color: '$scale-green600 double 4px',
-  color: '$scale-yellow500 groove 2px',
-  outlineColor: '$scale-purple500',
-});
-
-const ImportantTest = styled('div', {
-  color: '$primary-semantic !important',
-  color: '$onPrimary-semantic !important',
-  color: '$primaryLow-semantic !important',
-  color: '$gray00 !important',
-  color: '$gray50 !important',
-  color: '$gray100 !important',
-  css: {
-    color: '$scale-gray600 !important',
-    borderColor: '$scale-gray400 !important',
-    backgroundColor: '$scale-gray100 !important',
+        background: "$danger-semantic",
+        color: "$white-static",
+      },
+    },
   },
 });
 
-const Li_FieldItem = styled('li', {
+// 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
+const BorderAndColorTestComponent = styled("div", {
+  color: "$scale-red500 solid 1px",
+  color: "$red600 dashed 2px",
+  color: "$scale-blue400 dotted 3px",
+  color: "$scale-green600 double 4px",
+  color: "$scale-yellow500 groove 2px",
+  outlineColor: "$scale-purple500",
+});
+
+const ImportantTest = styled("div", {
+  color: "$primary-semantic !important",
+  color: "$onPrimary-semantic !important",
+  color: "$primaryLow-semantic !important",
+  color: "$gray00 !important",
+  color: "$gray50 !important",
+  color: "$gray100 !important",
+  css: {
+    color: "$scale-gray600 !important",
+    borderColor: "$scale-gray400 !important",
+    backgroundColor: "$scale-gray100 !important",
+  },
+});
+
+const Li_FieldItem = styled("li", {
   borderBottom: `${rem(1)} solid $semantic-divider1`,
   borderBottom: `0.5rem solid $semantic-paperBackground`,
-  border: check ? '1px solid $semantic-divider1' : '0.5rem solid $semantic-paperBackground',
-})
+  border: check ? "1px solid $semantic-divider1" : "0.5rem solid $semantic-paperBackground",
+});
 ```
 
 ```tsx title="basic.output.tsx"
 // @ts-nocheck
 
-const SemanticColorTestComponent = styled('div', {
+const SemanticColorTestComponent = styled("div", {
   // Semantic Color 테스트
   color: "$fg-brand",
   color: "$palette-static-white",
@@ -2075,15 +2287,15 @@ const SemanticColorTestComponent = styled('div', {
   color: "$palette-carrot-200",
   color: "$bg-neutral-weak-pressed",
   color: "$bg-neutral-weak-pressed",
-  color: '$onPrimaryOverlay50-semantic',
-  color: '$onPrimaryOverlay200-semantic',
-  color: '$onPrimaryLowOverlay50-semantic',
-  color: '$onPrimaryLowOverlay100-semantic',
-  color: '$onPrimaryLowOverlay200-semantic',
-  color: "$stroke-on-image",
-  color: '$onGrayOverlay100-semantic',
+  color: "$onPrimaryOverlay50-semantic",
+  color: "$onPrimaryOverlay200-semantic",
+  color: "$onPrimaryLowOverlay50-semantic",
+  color: "$onPrimaryLowOverlay100-semantic",
+  color: "$onPrimaryLowOverlay200-semantic",
+  color: "$stroke-neutral-subtle",
+  color: "$onGrayOverlay100-semantic",
+  color: "$stroke-neutral-subtle",
   color: "$stroke-neutral-muted",
-  color: "$stroke-neutral",
   color: "$palette-gray-400",
   color: "$fg-informative",
   color: "$fg-neutral",
@@ -2091,7 +2303,7 @@ const SemanticColorTestComponent = styled('div', {
   color: "$fg-neutral-muted",
 });
 
-const ScaleColorTestComponent = styled('div', {
+const ScaleColorTestComponent = styled("div", {
   // Scale Color Gray 테스트
   color: "$palette-gray-00",
   color: "$palette-gray-100",
@@ -2108,7 +2320,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-gray-300",
   color: "$palette-gray-500",
   color: "$palette-gray-700",
-  
+
   // Scale Color Carrot 테스트
   color: "$palette-carrot-100",
   color: "$palette-carrot-200",
@@ -2124,7 +2336,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-carrot-100",
   color: "$palette-carrot-200",
   color: "$palette-carrot-200",
-  
+
   // Scale Color Blue 테스트
   color: "$palette-blue-100",
   color: "$palette-blue-200",
@@ -2140,7 +2352,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-blue-100",
   color: "$palette-blue-100",
   color: "$palette-blue-200",
-  
+
   // Scale Color Red 테스트
   color: "$palette-red-100",
   color: "$palette-red-200",
@@ -2156,7 +2368,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-red-100",
   color: "$palette-red-200",
   color: "$palette-red-300",
-  
+
   // Scale Color Green 테스트
   color: "$palette-green-100",
   color: "$palette-green-200",
@@ -2172,7 +2384,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-green-100",
   color: "$palette-green-200",
   color: "$palette-green-200",
-  
+
   // Scale Color Yellow 테스트
   color: "$palette-yellow-100",
   color: "$palette-yellow-200",
@@ -2188,7 +2400,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-yellow-100",
   color: "$palette-yellow-100",
   color: "$palette-yellow-100",
-  
+
   // Scale Color Purple 테스트
   color: "$palette-purple-100",
   color: "$palette-purple-300",
@@ -2203,7 +2415,7 @@ const ScaleColorTestComponent = styled('div', {
   color: "$palette-purple-1000",
 });
 
-const StaticColorTestComponent = styled('div', {
+const StaticColorTestComponent = styled("div", {
   // Static Color 테스트
   color: "$palette-static-black",
   color: "$palette-static-white",
@@ -2225,18 +2437,18 @@ const StaticColorTestComponent = styled('div', {
 });
 
 // 복합 속성 테스트
-const ComplexPropertyTestComponent = styled('div', {
+const ComplexPropertyTestComponent = styled("div", {
   border: "1px solid $palette-gray-800",
   boxShadow: "0 0 10px $bg-overlay",
   outline: "2px solid $fg-informative",
   textDecoration: "underline $fg-critical",
-  
+
   // 네스팅된 속성 테스트
-  '&:before': {
-    borderBottom: "1px solid $stroke-neutral-muted",
+  "&:before": {
+    borderBottom: "1px solid $stroke-neutral-subtle",
     background: "$bg-layer-fill",
   },
-  
+
   // 변형 테스트
   variants: {
     theme: {
@@ -2251,13 +2463,13 @@ const ComplexPropertyTestComponent = styled('div', {
       danger: {
         background: "$bg-critical-solid",
         color: "$palette-static-white",
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 // 복합 속성 (색상 토큰이 앞에 있는 경우) 테스트
-const BorderAndColorTestComponent = styled('div', {
+const BorderAndColorTestComponent = styled("div", {
   color: "$palette-red-700 solid 1px",
   color: "$palette-red-700 dashed 2px",
   color: "$palette-blue-400 dotted 3px",
@@ -2266,7 +2478,7 @@ const BorderAndColorTestComponent = styled('div', {
   outlineColor: "$palette-purple-600",
 });
 
-const ImportantTest = styled('div', {
+const ImportantTest = styled("div", {
   color: "$fg-brand !important",
   color: "$palette-static-white !important",
   color: "$palette-carrot-100 !important",
@@ -2280,11 +2492,11 @@ const ImportantTest = styled('div', {
   },
 });
 
-const Li_FieldItem = styled('li', {
-  borderBottom: `${rem(1)} solid $stroke-neutral-muted`,
+const Li_FieldItem = styled("li", {
+  borderBottom: `${rem(1)} solid $stroke-neutral-subtle`,
   borderBottom: `0.5rem solid $bg-layer-basement`,
-  border: check ? "1px solid $stroke-neutral-muted" : "0.5rem solid $bg-layer-basement",
-})
+  border: check ? "1px solid $stroke-neutral-subtle" : "0.5rem solid $bg-layer-basement",
+});
 ```
 
 </Accordion>
@@ -2611,7 +2823,7 @@ export const icon = {
 
 ```ts title="basic.output.ts"
 // @ts-nocheck
-import { color, bg, typography, mode } from '@/src/styles/tokens';
+import { color, bg, typography, mode } from "@/src/styles/tokens";
 
 export const container = style({
   backgroundColor: color["bg.layerDefault"],
@@ -2648,7 +2860,7 @@ export const primary = style({
 export const semanticColors = style({
   backgroundColor: color["bg.brandSolid"],
   color: color["fg.neutral"],
-  borderColor: color["stroke.neutralMuted"],
+  borderColor: color["stroke.neutralSubtle"],
 });
 
 export const scaleColors = style({

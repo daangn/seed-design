@@ -1,6 +1,6 @@
 declare interface CalloutVariant {
   /**
-  * @default neutral
+  * @default "neutral"
   */
   tone: "neutral" | "informative" | "warning" | "critical" | "magic";
 }

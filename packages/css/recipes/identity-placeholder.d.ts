@@ -1,6 +1,6 @@
 declare interface IdentityPlaceholderVariant {
   /**
-  * @default person
+  * @default "person"
   */
   identity: "person";
 }

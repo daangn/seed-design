@@ -80,7 +80,7 @@ data:
 
           color: $color.bg.layer-fill
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         value:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
@@ -123,7 +123,7 @@ data:
           strokeColor: $color.fg.critical # being obvious
       readonly: # 전반적으로 확인
         root:
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
       disabled:
         root:
           color: $color.bg.disabled

@@ -1,5 +1,53 @@
 # @seed-design/react
 
+## 0.2.2
+
+### Patch Changes
+
+- 9d93518: Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
+## 0.2.1
+
+### Patch Changes
+
+- 35984d0: Chip 컴포넌트를 업데이트합니다.
+
+  - 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
+  - Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
+
+- c5bed96: Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
+- Updated dependencies [35984d0]
+  - @seed-design/css@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
+
+## 0.1.15
+
+### Patch Changes
+
+- c51a261: font-size, line-height 토큰에 static variant를 추가합니다.
+
+  - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
+  - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 9a3c76a: Divider 컴포넌트를 업데이트합니다.
+
+  - `orientation`을 지정할 수 있습니다.
+  - Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
+  - Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
+
+- Updated dependencies [c51a261]
+- Updated dependencies [5f2ee39]
+- Updated dependencies [8299ba9]
+- Updated dependencies [3de4cec]
+  - @seed-design/css@0.1.15
+  - @seed-design/react-snackbar@0.0.6
+
 ## 0.1.14
 
 ### Patch Changes

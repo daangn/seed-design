@@ -1,10 +1,10 @@
 declare interface NotificationBadgePositionerVariant {
   /**
-  * @default icon
+  * @default "icon"
   */
   attach: "icon" | "text";
 /**
-  * @default large
+  * @default "large"
   */
   size: "small" | "large";
 }

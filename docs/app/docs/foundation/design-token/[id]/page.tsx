@@ -12,11 +12,7 @@ function decodeTokenIdFromParams(id: string) {
   return decodeURIComponent(id) as `$${string}`;
 }
 
-export default async function Page(
-  props: {
-    params: Promise<{ id: string }>;
-  }
-) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const rootage = await getRootage();
   const tokenId = decodeTokenIdFromParams(params.id);

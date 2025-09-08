@@ -11,7 +11,7 @@ import { createTransformLogger } from "../../utils/logger.js";
 function transformTypographyClass(className: string): string {
   // text- 접두사 확인 후 제거
   const actualClassName = className.startsWith("text-") ? className.slice(5) : className;
-  
+
   // 매핑 정보에서 찾기
   const mapping = typographyMappings.find((m) => {
     const tokenParts = m.previous.split(".");

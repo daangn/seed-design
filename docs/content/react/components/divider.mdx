@@ -16,7 +16,7 @@ description: Divider는 구분선을 표시하는 컴포넌트입니다.
 
 <react-type-table path="../packages/react/src/components/Divider/Divider.tsx" name="DividerProps" />
 
-## Examples
+## Usage
 
 ```tsx
 import { Divider } from "@seed-design/react";
@@ -25,3 +25,24 @@ import { Divider } from "@seed-design/react";
 ```
 <Divider />
 ```
+
+## Screen Reader Behavior
+
+Divider는 기본적으로 `<hr />`을 렌더링합니다. **`<hr />`은 의미를 가진(semantic) 구분선이며, 스크린 리더 역시 해당 요소를 "수평(수직) 분할선"으로 읽습니다.**
+
+Divider가 의미를 가지지 않은 장식적 요소라면, `as` prop을 활용해 `<div>` 등으로 렌더링하여 스크린 리더가 해당 요소를 읽지 않도록 해야 합니다.
+
+반대로, Divider를 `<li>` 등 `<hr />`이 아닌 요소로 렌더링해야 하는 상황에서, 스크린 리더가 해당 요소를 읽어야 한다면, `role="separator"`를 명시적으로 지정해야 합니다.
+
+## Examples
+
+### Orientation
+
+<ComponentExample name="divider-orientation">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/divider-orientation.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

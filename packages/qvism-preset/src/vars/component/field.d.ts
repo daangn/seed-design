@@ -13,9 +13,11 @@ export declare const vars: {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)"
       },
-      "requiredIndicator": {
-        "color": "var(--seed-color-fg-critical)",
-        "paddingTop": "var(--seed-dimension-x1)"
+      "indicator": {
+        "color": "var(--seed-color-fg-neutral)",
+        "fontSize": "var(--seed-font-size-t5)",
+        "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)"
       },
       "footer": {
         "paddingX": "var(--seed-dimension-x0_5)",

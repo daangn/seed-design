@@ -45,7 +45,7 @@ export const vars = {
       },
       "divider": {
         "strokeBottomWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "footer": {
         "paddingTop": "var(--seed-dimension-x2_5)"

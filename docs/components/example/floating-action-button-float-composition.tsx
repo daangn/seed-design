@@ -9,7 +9,7 @@ export default function FloatingActionButtonFloatComposition() {
       width="300px"
       height="500px"
       borderWidth={1}
-      borderColor="stroke.neutral"
+      borderColor="stroke.neutralMuted"
     >
       <Float placement="bottom-end" offsetX="x4" offsetY="x4">
         <FloatingActionButton icon={<IconBellFill />} label="알림 설정" />

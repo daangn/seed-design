@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { theme } from '@src/stitches/stitches.config'
+import { theme } from "@src/stitches/stitches.config";
 
 const semanticColors = {
   primary: theme.colors["bg-brand-solid"].computedValue,
@@ -14,11 +14,11 @@ const semanticColors = {
   paperDialog: theme.colors["bg-layer-floating"].computedValue,
   inkText: theme.colors["fg-neutral"].computedValue,
   inkTextLow: theme.colors["fg-neutral-subtle"].computedValue,
-  divider1: theme.colors["stroke-neutral-muted"].computedValue,
-  divider2: theme.colors["stroke-neutral"].computedValue,
+  divider1: theme.colors["stroke-neutral-subtle"].computedValue,
+  divider2: theme.colors["stroke-neutral-muted"].computedValue,
   overlayDim: theme.colors["bg-overlay"].computedValue,
   accent: theme.colors["bg-informative-solid"].computedValue,
-}
+};
 
 const scaleColors = {
   gray00: theme.colors["palette-gray-00"].computedValue,
@@ -40,7 +40,7 @@ const scaleColors = {
   blue300: theme.colors["palette-blue-400"].computedValue,
   blue600: theme.colors["palette-blue-600"].computedValue,
   red500: theme.colors["palette-red-700"].computedValue,
-}
+};
 
 const staticColors = {
   white: theme.colors["palette-static-white"].computedValue,
@@ -54,7 +54,7 @@ const staticColors = {
   blue800: theme.colors["palette-blue-700"].computedValue,
   red50: theme.colors["palette-red-100"].computedValue,
   red800: theme.colors["palette-red-700"].computedValue,
-}
+};
 
 const Component = () => {
   return (
@@ -66,15 +66,11 @@ const Component = () => {
         버튼
       </Button>
       <InfoBox borderColor={theme.colors["palette-gray-400"].computedValue}>
-        <Text color={theme.colors["palette-gray-1000"].computedValue}>
-          안내사항
-        </Text>
+        <Text color={theme.colors["palette-gray-1000"].computedValue}>안내사항</Text>
         <WarningIcon fill={theme.colors["bg-warning-solid"].computedValue} />
       </InfoBox>
       <Badge backgroundColor={theme.colors["bg-critical-solid"].computedValue}>
-        <BadgeText color={theme.colors["palette-static-white"].computedValue}>
-          중요
-        </BadgeText>
+        <BadgeText color={theme.colors["palette-static-white"].computedValue}>중요</BadgeText>
       </Badge>
     </div>
   );
@@ -90,7 +86,7 @@ const Dialog = ({ isOpen, onClose }) => {
       borderColor: theme.colors["palette-gray-400"].computedValue,
     },
     header: {
-      borderBottom: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
+      borderBottom: `1px solid ${theme.colors["stroke-neutral-subtle"].computedValue}`,
     },
     title: {
       color: theme.colors["palette-gray-1000"].computedValue,
@@ -100,7 +96,7 @@ const Dialog = ({ isOpen, onClose }) => {
       backgroundColor: theme.colors["bg-layer-fill"].computedValue,
     },
     footer: {
-      borderTop: `1px solid ${theme.colors["stroke-neutral"].computedValue}`,
+      borderTop: `1px solid ${theme.colors["stroke-neutral-muted"].computedValue}`,
     },
     closeButton: {
       color: theme.colors["palette-gray-600"].computedValue,
@@ -120,13 +116,9 @@ const Dialog = ({ isOpen, onClose }) => {
             닫기
           </button>
         </div>
-        <div style={styles.content}>
-          다이얼로그 내용
-        </div>
+        <div style={styles.content}>다이얼로그 내용</div>
         <div style={styles.footer}>
-          <button style={styles.submitButton}>
-            확인
-          </button>
+          <button style={styles.submitButton}>확인</button>
         </div>
       </div>
     </div>

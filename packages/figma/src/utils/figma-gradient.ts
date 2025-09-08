@@ -14,28 +14,28 @@ const identityMatrixHandlePositions = [
  */
 function inv(matrix: number[][]): number[][] {
   const [[a, b, c], [d, e, f]] = matrix;
-  
+
   // Calculate determinant of the 2x2 linear part
   const det = a * e - b * d;
-  
+
   if (Math.abs(det) < 1e-10) {
     throw new Error("Matrix is not invertible");
   }
-  
+
   // Invert the 2x2 linear part
   const invDet = 1 / det;
   const a_inv = e * invDet;
   const b_inv = -b * invDet;
   const d_inv = -d * invDet;
   const e_inv = a * invDet;
-  
+
   // Calculate the inverted translation
   const c_inv = -(a_inv * c + b_inv * f);
   const f_inv = -(d_inv * c + e_inv * f);
-  
+
   return [
     [a_inv, b_inv, c_inv],
-    [d_inv, e_inv, f_inv]
+    [d_inv, e_inv, f_inv],
   ];
 }
 
@@ -46,7 +46,7 @@ function inv(matrix: number[][]): number[][] {
 function multiply(matrix1: number[][], matrix2: number[][]): number[][] {
   const [[a, b, c], [d, e, f]] = matrix1;
   const result: number[][] = [[], []];
-  
+
   // For each column in matrix2
   for (let col = 0; col < matrix2[0].length; col++) {
     // First row of result
@@ -54,7 +54,7 @@ function multiply(matrix1: number[][], matrix2: number[][]): number[][] {
     // Second row of result
     result[1][col] = d * matrix2[0][col] + e * matrix2[1][col] + f * matrix2[2][col];
   }
-  
+
   return result;
 }
 

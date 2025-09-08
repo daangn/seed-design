@@ -9,7 +9,7 @@ export const vars = {
         "paddingY": "var(--seed-dimension-x2_5)",
         "color": "var(--seed-color-bg-layer-fill)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -60,7 +60,7 @@ export const vars = {
     },
     "readonly": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral)"
+        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
       }
     },
     "disabled": {

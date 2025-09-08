@@ -37,7 +37,7 @@ const generateVariantInterface = (
     if (defaultValue !== undefined) {
       return outdent`
         /**
-          * @default ${defaultValue}
+          * @default ${typeof defaultValue === "string" ? stringLiteralType(defaultValue) : defaultValue}
           */
           ${variantName}: ${typeString};
       `;

@@ -9,7 +9,7 @@ export default function ContextualFloatingButtonFloatComposition() {
       width="300px"
       height="500px"
       borderWidth={1}
-      borderColor="stroke.neutral"
+      borderColor="stroke.neutralMuted"
     >
       <Float placement="bottom-center" offsetY="x4">
         <ContextualFloatingButton>

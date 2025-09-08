@@ -1,6 +1,6 @@
 declare interface FieldVariant {
   /**
-  * @default medium
+  * @default "medium"
   */
   weight: "medium" | "bold";
 }
@@ -11,7 +11,7 @@ declare type FieldVariantMap = {
 
 export declare type FieldVariantProps = Partial<FieldVariant>;
 
-export declare type FieldSlotName = "root" | "header" | "label" | "requiredIndicator" | "footer" | "description" | "errorContainer" | "errorMessage" | "errorIcon" | "characterCountArea" | "characterCount" | "maxCharacterCount";
+export declare type FieldSlotName = "root" | "header" | "label" | "indicator" | "footer" | "description" | "errorContainer" | "errorMessage" | "errorIcon" | "characterCountArea" | "characterCount" | "maxCharacterCount";
 
 export declare const fieldVariantMap: FieldVariantMap;
 

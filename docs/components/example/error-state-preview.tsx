@@ -3,7 +3,7 @@ import { ErrorState } from "seed-design/ui/error-state";
 
 export default function ErrorStatePreview() {
   return (
-    <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutral">
+    <VStack minHeight="480px" width="320px" borderWidth={1} borderColor="stroke.neutralMuted">
       <ErrorState
         title="에러 타이틀"
         description="Lorem ipsum dolor sit amet consectetur adipisicing elit."

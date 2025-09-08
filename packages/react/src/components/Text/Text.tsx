@@ -17,7 +17,7 @@ function handleColor(color: string | undefined) {
   }
   const [type, value] = color.split(".");
   // @ts-ignore
-  return vars.$color[type][value] ?? undefined;
+  return vars.$color[type]?.[value] ?? color;
 }
 
 function handleFontWeight(fontWeight: string | undefined) {
@@ -56,17 +56,17 @@ export interface TextProps
   /**
    * The color of the text.
    */
-  color?: ScopedColorFg | ScopedColorPalette;
+  color?: ScopedColorFg | ScopedColorPalette | (string & {});
 
   /**
    * The font size of the text. Partially overrides the textStyle.
    */
-  fontSize?: FontSize;
+  fontSize?: FontSize | (string & {});
 
   /**
    * The line height of the text. Partially overrides the textStyle.
    */
-  lineHeight?: LineHeight;
+  lineHeight?: LineHeight | (string & {});
 
   /**
    * The font weight of the text. Partially overrides the textStyle.

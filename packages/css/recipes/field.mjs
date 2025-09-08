@@ -15,8 +15,8 @@ const fieldSlotNames = [
     "seed-field__label"
   ],
   [
-    "requiredIndicator",
-    "seed-field__requiredIndicator"
+    "indicator",
+    "seed-field__indicator"
   ],
   [
     "footer",

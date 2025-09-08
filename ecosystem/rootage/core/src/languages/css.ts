@@ -60,36 +60,19 @@ export const staticStringifier = {
   value: stringifyValueLit,
 };
 
-export function createStringifier(options: { prefix?: string } = {}) {
-  const { prefix } = options;
-
-  // Font size base pixel values mapping
-  const fontSizeBasePx: Record<string, number> = {
-    t1: 11, // 0.6875rem
-    t2: 12, // 0.75rem
-    t3: 13, // 0.8125rem
-    t4: 14, // 0.875rem
-    t5: 16, // 1rem
-    t6: 18, // 1.125rem
-    t7: 20, // 1.25rem
-    t8: 22, // 1.375rem
-    t9: 24, // 1.5rem
-    t10: 26, // 1.625rem
+export type DeclarationFunction = (params: {
+  decl: TokenDeclaration;
+  mode: string;
+  helpers: {
+    tokenName: (token: TokenLit) => string;
+    valueOrToken: (value: ValueLit | TokenLit) => string;
   };
+}) => string;
 
-  // Line height base pixel values mapping
-  const lineHeightBasePx: Record<string, number> = {
-    t1: 15, // 0.9375rem
-    t2: 16, // 1rem
-    t3: 18, // 1.125rem
-    t4: 19, // 1.1875rem
-    t5: 22, // 1.375rem
-    t6: 24, // 1.5rem
-    t7: 27, // 1.6875rem
-    t8: 30, // 1.875rem
-    t9: 32, // 2rem
-    t10: 35, // 2.1875rem
-  };
+export function createStringifier(
+  options: { prefix?: string; customDeclaration?: DeclarationFunction } = {},
+) {
+  const { prefix, customDeclaration } = options;
 
   function tokenName(token: TokenLit) {
     const words = [
@@ -109,40 +92,14 @@ export function createStringifier(options: { prefix?: string } = {}) {
   }
 
   function declaration({ decl, mode }: { decl: TokenDeclaration; mode: string }) {
+    if (customDeclaration) {
+      return customDeclaration({
+        decl,
+        mode,
+        helpers: { tokenName, valueOrToken },
+      });
+    }
     const value = valueOrToken(decl.values.find((v) => v.mode === mode)!.value);
-    const MULTIPLIER_TOKEN = "var(--seed-font-size-multiplier)";
-
-    // Handle static tokens first - no multiplier needed
-    if (decl.token.key.toString().includes("static")) {
-      return `${tokenName(decl.token)}: ${value};`;
-    }
-
-    // Apply font-size multiplier for font-size and line-height tokens
-    const isFontSize = decl.token.group.includes("font-size");
-    const isLineHeight = decl.token.group.includes("line-height");
-
-    if (isFontSize || isLineHeight) {
-      const tokenKey = decl.token.key.toString();
-
-      // Get base pixel value
-      let basePx: number | undefined;
-      if (isFontSize) {
-        basePx = fontSizeBasePx[tokenKey];
-      } else if (isLineHeight) {
-        basePx = lineHeightBasePx[tokenKey];
-      }
-
-      if (basePx) {
-        // Calculate min pixel value: base * 0.8 (80% minimum)
-        const minPx = Number.parseFloat((basePx * 0.8).toFixed(1));
-        // Calculate max pixel value: base * 0.9412 (iOS multiplier) * 1.35 (135% limit)
-        const maxPx = Number.parseFloat((basePx * 0.9412 * 1.35).toFixed(2));
-
-        // Return clamp with fixed px min, dynamic preferred, and fixed px max
-        return `${tokenName(decl.token)}: clamp(${minPx}px, calc(${value} * ${MULTIPLIER_TOKEN}), ${maxPx}px);`;
-      }
-    }
-
     return `${tokenName(decl.token)}: ${value};`;
   }
 
@@ -185,6 +142,7 @@ export interface CssOptions {
       [mode: string]: string;
     };
   };
+  customDeclaration?: DeclarationFunction;
 }
 
 export function getTokenCss(
@@ -194,7 +152,10 @@ export function getTokenCss(
   },
   options: CssOptions,
 ) {
-  const stringifier = createStringifier(options);
+  const stringifier = createStringifier({
+    prefix: options.prefix,
+    customDeclaration: options.customDeclaration,
+  });
   const { tokens, tokenCollections } = ast;
 
   const rules = tokenCollections.flatMap((collection) => {

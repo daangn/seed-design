@@ -53,8 +53,8 @@ export const createSelectBoxGroupHandler = (ctx: ComponentHandlerDeps) => {
         key: selectBoxHandler.key,
       });
 
-      const selectedSelectBox = selectBoxes.find((selectBox) =>
-        selectBox.componentProperties.Selected.value === "True",
+      const selectedSelectBox = selectBoxes.find(
+        (selectBox) => selectBox.componentProperties.Selected.value === "True",
       );
 
       // traverse the container like it's a frame

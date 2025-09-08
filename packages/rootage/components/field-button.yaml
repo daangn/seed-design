@@ -77,7 +77,7 @@ data:
 
           color: $color.bg.layer-fill
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
 
         value:
           fontSize: $font-size.t5

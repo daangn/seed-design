@@ -9,7 +9,9 @@ export const ToggleProvider = ToggleContext.Provider;
 
 export function useToggleContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseToggleContext | null : UseToggleContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseToggleContext | null : UseToggleContext {
   const context = useContext(ToggleContext);
   if (!context && strict) {
     throw new Error("useToggleContext must be used within a Toggle");

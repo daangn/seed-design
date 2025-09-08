@@ -42,7 +42,7 @@
             }
           }
         },
-        "requiredIndicator": {
+        "indicator": {
           "properties": {
             "color": {
               "type": "color"
@@ -193,14 +193,22 @@
                   "value": "$line-height.t5"
                 }
               },
-              "requiredIndicator": {
+              "indicator": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.critical"
+                  "value": "$color.fg.neutral"
                 },
-                "paddingTop": {
+                "fontSize": {
                   "type": "dimension",
-                  "value": "$dimension.x1"
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
                 }
               },
               "footer": {

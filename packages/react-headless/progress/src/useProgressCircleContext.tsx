@@ -9,9 +9,9 @@ export const ProgressCircleProvider = ProgressCircleContext.Provider;
 
 export function useProgressCircleContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false
-  ? UseProgressCircleContext | null
-  : UseProgressCircleContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseProgressCircleContext | null : UseProgressCircleContext {
   const context = useContext(ProgressCircleContext);
   if (!context && strict) {
     throw new Error("useProgressCircleContext must be used within a ProgressCircle");

@@ -190,7 +190,11 @@ function VariableSuggestionButton({
         isHighlighted ? "palette.carrot100" : isSelected ? "bg.neutralWeak" : "bg.layerDefault"
       }
       borderColor={
-        isHighlighted ? "palette.carrot200" : isSelected ? "stroke.neutral" : "stroke.neutralMuted"
+        isHighlighted
+          ? "palette.carrot200"
+          : isSelected
+            ? "stroke.neutralMuted"
+            : "stroke.neutralSubtle"
       }
       style={{ cursor: "pointer" }}
       borderWidth={1}
@@ -239,7 +243,10 @@ function VariableSuggestionButton({
 function ColorChip({
   backgroundColor,
   opacity = 1,
-}: { backgroundColor: string; opacity?: number }) {
+}: {
+  backgroundColor: string;
+  opacity?: number;
+}) {
   return (
     <Box
       borderWidth={1}

@@ -1,5 +1,21 @@
 # @seed-design/codemod
 
+## 0.0.31
+
+### Patch Changes
+
+- 91952e4: `replace-semantic-stroke-color` transform을 추가합니다.
+
+  - `@seed-design/css` v0.2.0에 맞춰 `replace-semantic-stroke-color` transform을 추가합니다.
+  - `@seed-design/css/vars`에서 사용한 stroke 토큰을 업데이트하는 마이그레이션 코드모드를 추가합니다.
+
+## 0.0.30
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/migration-index@0.0.30
+
 ## 0.0.29
 
 ### Patch Changes

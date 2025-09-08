@@ -30,7 +30,7 @@ export const vars = {
     "selected": {
       "root": {
         "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-brand)",
+        "strokeColor": "var(--seed-color-stroke-brand-weak)",
         "strokeWidth": "1px"
       },
       "label": {

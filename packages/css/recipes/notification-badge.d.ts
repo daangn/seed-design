@@ -1,6 +1,6 @@
 declare interface NotificationBadgeVariant {
   /**
-  * @default large
+  * @default "large"
   */
   size: "small" | "large";
 }

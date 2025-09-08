@@ -158,7 +158,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               },
               "value": {
@@ -305,7 +305,7 @@
               "root": {
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral"
+                  "value": "$color.stroke.neutral-muted"
                 }
               }
             }

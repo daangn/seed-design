@@ -49,4 +49,4 @@ const scaleColors = {
   blueAlpha50: vars.$color.palette.blue100,
   blueAlpha100: vars.$color.palette.blue100,
   blueAlpha200: vars.$color.palette.blue200,
-}; 
+};
