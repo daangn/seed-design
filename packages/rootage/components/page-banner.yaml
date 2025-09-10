@@ -225,15 +225,15 @@ data:
         root:
           color: $color.bg.warning-solid
         prefixIcon:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
         title:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
         description:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
         button:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
         suffixIcon:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
       pressed:
         root:
           color: $color.bg.warning-solid-pressed

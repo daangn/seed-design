@@ -622,7 +622,7 @@
               "label": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-solid"
+                  "value": "$color.palette.static-black-alpha-900"
                 }
               }
             }

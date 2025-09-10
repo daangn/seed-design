@@ -160,7 +160,7 @@ data:
         root:
           color: $color.bg.warning-solid
         label:
-          color: $color.bg.neutral-solid
+          color: $color.palette.static-black-alpha-900
     tone=warning, variant=outline:
       enabled:
         root:
