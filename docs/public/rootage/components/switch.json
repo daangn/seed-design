@@ -83,10 +83,10 @@
       "variants": {
         "tone": {
           "values": {
-            "neutral": {},
-            "brand": {}
+            "brand": {},
+            "neutral": {}
           },
-          "defaultValue": "neutral"
+          "defaultValue": "brand"
         },
         "size": {
           "values": {
@@ -158,40 +158,6 @@
       },
       {
         "variants": {
-          "tone": "neutral"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "thumb": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "enabled",
-              "selected"
-            ],
-            "slots": {
-              "control": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.neutral-inverted"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
           "tone": "brand"
         },
         "definitions": [
@@ -218,6 +184,40 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.brand-solid"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "neutral"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "control": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
                 }
               }
             }

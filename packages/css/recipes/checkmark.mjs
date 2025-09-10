@@ -14,7 +14,7 @@ const checkmarkSlotNames = [
 
 const defaultVariant = {
   "variant": "square",
-  "tone": "neutral",
+  "tone": "brand",
   "size": "medium"
 };
 

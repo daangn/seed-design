@@ -154,7 +154,7 @@ const switchRecipe = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    tone: "neutral",
+    tone: "brand",
     size: 32,
   },
 });

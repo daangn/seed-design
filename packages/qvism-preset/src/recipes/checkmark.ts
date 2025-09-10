@@ -223,7 +223,7 @@ const checkmark = defineSlotRecipe({
   ],
   defaultVariants: {
     variant: "square",
-    tone: "neutral",
+    tone: "brand",
     size: "medium",
   },
 });

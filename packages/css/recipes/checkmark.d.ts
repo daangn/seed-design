@@ -4,7 +4,7 @@ declare interface CheckmarkVariant {
   */
   variant: "square" | "ghost";
 /**
-  * @default "neutral"
+  * @default "brand"
   */
   tone: "neutral" | "brand";
 /**

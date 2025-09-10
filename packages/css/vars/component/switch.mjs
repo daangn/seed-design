@@ -22,18 +22,6 @@ export const vars = {
       }
     }
   },
-  "toneNeutral": {
-    "enabled": {
-      "thumb": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      }
-    },
-    "enabledSelected": {
-      "control": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
-      }
-    }
-  },
   "toneBrand": {
     "enabled": {
       "thumb": {
@@ -43,6 +31,18 @@ export const vars = {
     "enabledSelected": {
       "control": {
         "color": "var(--seed-color-bg-brand-solid)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabled": {
+      "thumb": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "enabledSelected": {
+      "control": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
       }
     }
   },

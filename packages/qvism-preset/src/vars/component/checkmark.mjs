@@ -26,24 +26,6 @@ export const vars = {
       }
     }
   },
-  "variantSquareToneNeutral": {
-    "enabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      }
-    },
-    "pressedSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      }
-    }
-  },
   "variantSquareToneBrand": {
     "enabledSelected": {
       "root": {
@@ -59,6 +41,24 @@ export const vars = {
       },
       "icon": {
         "color": "var(--seed-color-palette-static-white)"
+      }
+    }
+  },
+  "variantSquareToneNeutral": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
       }
     }
   },
@@ -84,18 +84,6 @@ export const vars = {
       }
     }
   },
-  "variantGhostToneNeutral": {
-    "enabledSelected": {
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-muted)"
-      }
-    },
-    "pressedSelected": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-200)"
-      }
-    }
-  },
   "variantGhostToneBrand": {
     "enabledSelected": {
       "icon": {
@@ -105,6 +93,18 @@ export const vars = {
     "pressedSelected": {
       "root": {
         "color": "var(--seed-color-palette-carrot-200)"
+      }
+    }
+  },
+  "variantGhostToneNeutral": {
+    "enabledSelected": {
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-200)"
       }
     }
   },

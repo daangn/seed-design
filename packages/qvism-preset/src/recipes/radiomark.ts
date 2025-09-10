@@ -126,7 +126,7 @@ const radiomark = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    tone: "neutral",
+    tone: "brand",
     size: "medium",
   },
 });

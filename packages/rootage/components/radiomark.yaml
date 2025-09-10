@@ -52,15 +52,6 @@ data:
         icon:
           color: $color.palette.gray-300
 
-    tone=neutral:
-      enabled,selected:
-        root:
-          color: $color.bg.neutral-inverted
-        icon:
-          color: $color.fg.neutral-inverted
-      enabled,selected,pressed:
-        root:
-          color: $color.bg.neutral-inverted-pressed
     tone=brand:
       enabled,selected:
         root:
@@ -70,6 +61,15 @@ data:
       enabled,selected,pressed:
         root:
           color: $color.bg.brand-solid-pressed
+    tone=neutral:
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
+      enabled,selected,pressed:
+        root:
+          color: $color.bg.neutral-inverted-pressed
 
     size=medium:
       enabled:

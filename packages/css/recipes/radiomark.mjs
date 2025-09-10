@@ -13,7 +13,7 @@ const radiomarkSlotNames = [
 ];
 
 const defaultVariant = {
-  "tone": "neutral",
+  "tone": "brand",
   "size": "medium"
 };
 

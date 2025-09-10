@@ -68,13 +68,6 @@ data:
         label:
           color: $color.fg.disabled
     
-    tone=neutral:
-      enabled:
-        thumb:
-          color: $color.fg.neutral-inverted
-      enabled,selected:
-        control:
-          color: $color.bg.neutral-inverted
     tone=brand:
       enabled:
         thumb:
@@ -82,6 +75,13 @@ data:
       enabled,selected:
         control:
           color: $color.bg.brand-solid
+    tone=neutral:
+      enabled:
+        thumb:
+          color: $color.fg.neutral-inverted
+      enabled,selected:
+        control:
+          color: $color.bg.neutral-inverted
 
     size=32:
       enabled:

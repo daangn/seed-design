@@ -35,21 +35,6 @@ export const vars = {
       }
     }
   },
-  "toneNeutral": {
-    "enabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-inverted)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
-      }
-    },
-    "enabledSelectedPressed": {
-      "root": {
-        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
-      }
-    }
-  },
   "toneBrand": {
     "enabledSelected": {
       "root": {
@@ -62,6 +47,21 @@ export const vars = {
     "enabledSelectedPressed": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "enabledSelectedPressed": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
       }
     }
   },

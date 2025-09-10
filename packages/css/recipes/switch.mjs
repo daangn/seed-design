@@ -21,7 +21,7 @@ const switchSlotNames = [
 ];
 
 const defaultVariant = {
-  "tone": "neutral",
+  "tone": "brand",
   "size": 32
 };
 

@@ -1,6 +1,6 @@
 declare interface SwitchVariant {
   /**
-  * @default "neutral"
+  * @default "brand"
   */
   tone: "neutral" | "brand";
 /**

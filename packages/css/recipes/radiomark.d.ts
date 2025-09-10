@@ -1,6 +1,6 @@
 declare interface RadiomarkVariant {
   /**
-  * @default "neutral"
+  * @default "brand"
   */
   tone: "neutral" | "brand";
 /**
