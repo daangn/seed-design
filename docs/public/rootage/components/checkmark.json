@@ -178,12 +178,6 @@
                   "type": "color",
                   "value": "$color.bg.brand-solid-pressed"
                 }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                }
               }
             }
           }
@@ -225,12 +219,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted-pressed"
-                }
-              },
-              "icon": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral-inverted"
                 }
               }
             }

@@ -53,8 +53,6 @@ data:
       pressed,selected:
         root:
           color: $color.bg.brand-solid-pressed
-        icon:
-          color: $color.palette.static-white
     variant=square,tone=neutral:
       enabled,selected:
         root:
@@ -64,8 +62,6 @@ data:
       pressed,selected:
         root:
           color: $color.bg.neutral-inverted-pressed
-        icon:
-          color: $color.fg.neutral-inverted
 
     variant=ghost:
       enabled:

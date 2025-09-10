@@ -1,6 +1,6 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo } from "../utils/pseudo";
+import { checked, disabled, active, pseudo, not } from "../utils/pseudo";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -26,7 +26,7 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      [pseudo(active)]: {
+      [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
@@ -65,7 +65,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneNeutral.enabledSelected.root.color,
           },
 
-          [pseudo(active, checked)]: {
+          [pseudo(not(disabled), checked, active)]: {
             backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
           },
         },
@@ -81,7 +81,7 @@ const radiomark = defineSlotRecipe({
             backgroundColor: vars.toneBrand.enabledSelected.root.color,
           },
 
-          [pseudo(active, checked)]: {
+          [pseudo(not(disabled), checked, active)]: {
             backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
           },
         },

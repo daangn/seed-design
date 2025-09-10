@@ -13,7 +13,7 @@
     border-radius: var(--seed-radius-full);
     margin-top: var(--radiomark-margin-top, 0);
 }
-.seed-radiomark__root:is(:active, [data-active]) {
+.seed-radiomark__root:not(:is(:disabled, [disabled], [data-disabled])):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-layer-default-pressed);
 }
 .seed-radiomark__root:is(:checked, [data-checked]) {
@@ -40,7 +40,7 @@
 .seed-radiomark__root--tone_neutral:is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-neutral-inverted);
 }
-.seed-radiomark__root--tone_neutral:is(:active, [data-active]):is(:checked, [data-checked]) {
+.seed-radiomark__root--tone_neutral:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-neutral-inverted-pressed);
 }
 .seed-radiomark__icon--tone_neutral:is(:checked, [data-checked]) {
@@ -49,7 +49,7 @@
 .seed-radiomark__root--tone_brand:is(:checked, [data-checked]) {
     background-color: var(--seed-color-bg-brand-solid);
 }
-.seed-radiomark__root--tone_brand:is(:active, [data-active]):is(:checked, [data-checked]) {
+.seed-radiomark__root--tone_brand:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {
     background-color: var(--seed-color-bg-brand-solid-pressed);
 }
 .seed-radiomark__icon--tone_brand:is(:checked, [data-checked]) {

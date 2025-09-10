@@ -38,9 +38,6 @@ export declare const vars: {
     "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-brand-solid-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
       }
     }
   },
@@ -56,9 +53,6 @@ export declare const vars: {
     "pressedSelected": {
       "root": {
         "color": "var(--seed-color-bg-neutral-inverted-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-fg-neutral-inverted)"
       }
     }
   },
