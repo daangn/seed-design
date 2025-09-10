@@ -4,6 +4,10 @@
     "@seed-design/react",
     "@karrotmarket/react-monochrome-icon"
   ],
+  "innerDependencies": [
+    "ui:checkbox",
+    "ui:radio-group"
+  ],
   "registries": [
     {
       "name": "select-box.tsx",

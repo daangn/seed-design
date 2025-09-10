@@ -231,19 +231,19 @@ export declare const vars: {
         "color": "var(--seed-color-bg-warning-solid)"
       },
       "prefixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       },
       "title": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       },
       "description": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       },
       "button": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       },
       "suffixIcon": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       }
     },
     "pressed": {
