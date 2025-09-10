@@ -189,7 +189,7 @@ export declare const vars: {
         "color": "var(--seed-color-bg-warning-solid)"
       },
       "label": {
-        "color": "var(--seed-color-fg-neutral)"
+        "color": "var(--seed-color-palette-static-black-alpha-900)"
       }
     }
   },
