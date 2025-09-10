@@ -191,6 +191,20 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "disabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.disabled"
+                }
+              }
+            }
           }
         ]
       }

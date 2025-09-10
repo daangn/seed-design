@@ -5191,10 +5191,10 @@
   width: calc((100% - var(--seed-dimension-x1) * 2) / var(--segment-count));
   border-radius: var(--seed-radius-full);
   background-color: var(--seed-color-bg-layer-default);
+  box-shadow: 0px 1px 6px 0px #0000000d, inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
   transition: transform var(--seed-duration-d4) var(--seed-timing-function-easing);
   position: absolute;
   inset-inline-start: var(--seed-dimension-x1);
-  box-shadow: 0 1px 6px #0000000d;
 }
 
 .seed-segmented-control__item {
@@ -5229,6 +5229,10 @@
 .seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]) {
   cursor: not-allowed;
   color: var(--seed-color-fg-disabled);
+}
+
+.seed-segmented-control__item:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+  background-color: var(--seed-color-bg-disabled);
 }
 
 .seed-segmented-control__item:not(:is(:disabled, [disabled], [data-disabled])):is(:checked, [data-checked]):is(:active, [data-active]) {

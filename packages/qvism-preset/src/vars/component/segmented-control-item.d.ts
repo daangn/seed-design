@@ -39,6 +39,11 @@ export declare const vars: {
       "label": {
         "color": "var(--seed-color-fg-disabled)"
       }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-disabled)"
+      }
     }
   }
 }

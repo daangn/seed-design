@@ -9,6 +9,8 @@ export const vars = {
       "indicator": {
         "color": "var(--seed-color-bg-layer-default)",
         "cornerRadius": "var(--seed-radius-full)",
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "shadow": "0px 1px 6px 0px #0000000d",
         "transformDuration": "var(--seed-duration-d4)",
         "transformTimingFunction": "var(--seed-timing-function-easing)"

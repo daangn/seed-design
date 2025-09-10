@@ -72,3 +72,6 @@ data:
       disabled:
         label:
           color: $color.fg.disabled
+      disabled,selected:
+        root:
+          color: $color.bg.disabled
