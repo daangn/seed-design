@@ -15,6 +15,6 @@ export const createRadioMarkHandler = (_ctx: ComponentHandlerDeps) =>
         size: handleSizeProp(props.Size.value),
       };
 
-      return createLocalSnippetElement("Radiomark", commonProps);
+      return createLocalSnippetElement("RadioMark", commonProps);
     },
   );

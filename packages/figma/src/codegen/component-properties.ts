@@ -254,6 +254,14 @@ export type PageBannerButtonProperties = InferComponentDefinition<{
   };
 }>;
 
+export type ListItemProperties = InferComponentDefinition<
+  typeof metadata.listItem.componentPropertyDefinitions
+>;
+
+export type ListHeaderProperties = InferComponentDefinition<
+  typeof metadata.listHeader.componentPropertyDefinitions
+>;
+
 export type MannerTempProperties = InferComponentDefinition<
   typeof metadata.mannerTemp.componentPropertyDefinitions
 >;
@@ -268,6 +276,10 @@ export type MultilineTextFieldProperties = InferComponentDefinition<
 
 export type ProgressCircleProperties = InferComponentDefinition<
   typeof metadata.progressCircle.componentPropertyDefinitions
+>;
+
+export type RadioProperties = InferComponentDefinition<
+  typeof metadata.radio.componentPropertyDefinitions
 >;
 
 export type RadioMarkProperties = InferComponentDefinition<

@@ -29,6 +29,7 @@ import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
 import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
+import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
 import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
@@ -76,6 +77,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createMultilineTextFieldHandler,
   createProgressCircleHandler,
   createRadioMarkHandler,
+  createRadioGroupItemHandler,
   createReactionButtonHandler,
   createSegmentedControlHandler,
   createSelectBoxGroupHandler,
