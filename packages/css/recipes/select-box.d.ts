@@ -8,7 +8,7 @@ declare type SelectBoxVariantMap = {
 
 export declare type SelectBoxVariantProps = Partial<SelectBoxVariant>;
 
-export declare type SelectBoxSlotName = "root" | "content" | "label" | "description" | "checkboxControl" | "checkboxIcon" | "radioControl" | "radioIcon";
+export declare type SelectBoxSlotName = "root" | "content" | "label" | "description";
 
 export declare const selectBoxVariantMap: SelectBoxVariantMap;
 

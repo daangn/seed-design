@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const registryType = z.union([z.literal("ui"), z.literal("lib")]);
+export const registryType = z.union([z.literal("ui"), z.literal("lib"), z.literal("breeze")]);
 
 export const registryUIItemSchema = z.object({
   /**

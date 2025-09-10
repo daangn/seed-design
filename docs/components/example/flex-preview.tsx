@@ -9,7 +9,7 @@ export default function FlexPreview() {
         gap="x1_5"
         px="x2"
         py="x2"
-        flexGrow
+        flexGrow={1}
         borderRadius="r2"
       >
         <Flex bg="bg.neutralWeak" px="x4" py="x3" borderRadius="r1">
@@ -25,7 +25,7 @@ export default function FlexPreview() {
         gap="x1_5"
         px="x2"
         py="x2"
-        flexGrow
+        flexGrow={1}
         borderRadius="r2"
       >
         <Flex bg="bg.neutralWeak" px="x4" py="x3" borderRadius="r1">

@@ -1,5 +1,22 @@
 # @seed-design/rootage-artifacts
 
+## 0.1.2
+
+### Patch Changes
+
+- a22b8b9: ChipTabs 컴포넌트 Variant, Size 변경 및 디자인 수정
+
+  - variant `neutralOutline` 추가
+  - variant `brandSolid` deprecated
+  - size(`medium(default)` | `large`) 추가
+
+- 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
+
+  - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
+  - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
+  - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
+  - RadioGroup 컴포넌트를 제공합니다.
+
 ## 0.1.1
 
 ### Patch Changes

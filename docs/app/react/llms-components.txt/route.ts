@@ -9,8 +9,15 @@ export const revalidate = false;
  * Each component can be accessed through its specific endpoint.
  */
 export async function GET() {
-  const componentPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
+  const allPages = reactSource.getPages().filter(shouldGenerateLLMFriendlyText);
 
+  // Separate components
+  const componentPages = allPages.filter(({ slugs }) => {
+    const [firstSlug] = slugs;
+    return firstSlug === "components";
+  });
+
+  // Process components
   const components = componentPages
     .map(({ data, slugs }) => {
       const [_firstSlug, ...restSlugs] = slugs;

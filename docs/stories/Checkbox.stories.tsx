@@ -6,6 +6,7 @@ import { checkboxVariantMap } from "@seed-design/css/recipes/checkbox";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { checkmarkVariantMap } from "@seed-design/css/recipes/checkmark";
 
 const meta = {
   component: Checkbox,
@@ -42,7 +43,13 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={checkboxVariantMap}
+      variantMap={
+        {
+          weight: checkboxVariantMap.weight,
+          ...checkmarkVariantMap, // preserve variant to be in between
+          size: checkboxVariantMap.size,
+        } satisfies typeof checkboxVariantMap & typeof checkmarkVariantMap
+      }
       conditionMap={conditionMap}
       {...args}
     />

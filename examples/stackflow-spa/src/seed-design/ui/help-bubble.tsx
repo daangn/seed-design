@@ -3,6 +3,7 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, HelpBubble as SeedHelpBubble } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
 export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "children"> {
   title: string;

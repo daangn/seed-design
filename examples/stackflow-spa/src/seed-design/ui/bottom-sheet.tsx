@@ -3,6 +3,7 @@
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, BottomSheet as SeedBottomSheet } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
 export interface BottomSheetRootProps extends SeedBottomSheet.RootProps {}
 

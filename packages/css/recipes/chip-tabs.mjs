@@ -29,6 +29,7 @@ const chipTabsSlotNames = [
 ];
 
 const defaultVariant = {
+  "size": "medium",
   "variant": "neutralSolid",
   "contentLayout": "hug",
   "stickyList": false
@@ -37,8 +38,13 @@ const defaultVariant = {
 const compoundVariants = [];
 
 export const chipTabsVariantMap = {
+  "size": [
+    "medium",
+    "large"
+  ],
   "variant": [
     "neutralSolid",
+    "neutralOutline",
     "brandSolid"
   ],
   "contentLayout": [

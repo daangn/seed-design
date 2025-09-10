@@ -43,6 +43,8 @@ export interface ActionableCalloutProps
     SeedCallout.RootProps,
     "children" | "title" | "asChild" | "open" | "defaultOpen" | "onDismiss"
   > {
+  prefixIcon?: React.ReactNode;
+
   title?: React.ReactNode;
 
   description: React.ReactNode;
@@ -54,10 +56,11 @@ export interface ActionableCalloutProps
 export const ActionableCallout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,
   ActionableCalloutProps
->(({ title, description, ...otherProps }, ref) => {
+>(({ prefixIcon, title, description, ...otherProps }, ref) => {
   return (
     <SeedCallout.Root ref={ref} {...otherProps} asChild>
       <button type="button">
+        {prefixIcon && <PrefixIcon svg={prefixIcon} />}
         <SeedCallout.Content>
           {title && <SeedCallout.Title>{title}</SeedCallout.Title>}
           <SeedCallout.Description>{description}</SeedCallout.Description>
@@ -71,6 +74,8 @@ ActionableCallout.displayName = "ActionableCallout";
 
 export interface DismissibleCalloutProps
   extends Omit<SeedCallout.RootProps, "children" | "title" | "asChild"> {
+  prefixIcon?: React.ReactNode;
+
   title?: React.ReactNode;
 
   description: React.ReactNode;
@@ -84,9 +89,10 @@ export interface DismissibleCalloutProps
 export const DismissibleCallout = React.forwardRef<
   React.ElementRef<typeof SeedCallout.Root>,
   DismissibleCalloutProps
->(({ title, description, linkProps, defaultOpen, open, onDismiss, ...otherProps }, ref) => {
+>(({ prefixIcon, title, description, linkProps, ...otherProps }, ref) => {
   return (
     <SeedCallout.Root ref={ref} {...otherProps}>
+      {prefixIcon && <PrefixIcon svg={prefixIcon} />}
       <SeedCallout.Content>
         {title && <SeedCallout.Title>{title}</SeedCallout.Title>}
         <SeedCallout.Description>{description}</SeedCallout.Description>
