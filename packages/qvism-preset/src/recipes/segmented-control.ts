@@ -70,10 +70,7 @@ const segmentedControl = defineSlotRecipe({
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
-      // there's itemVars.base.enabled.**label**.colorDuration & colorTimingFunction but we only consume the ones from root here
-      transitionProperty: "background-color, color",
-      transitionDuration: itemVars.base.enabled.root.colorDuration,
-      transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+      transition: `background-color ${itemVars.base.enabled.root.colorDuration} ${itemVars.base.enabled.root.colorTimingFunction}, color ${itemVars.base.enabled.label.colorDuration} ${itemVars.base.enabled.label.colorTimingFunction}`,
 
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
@@ -85,7 +82,11 @@ const segmentedControl = defineSlotRecipe({
       },
 
       [pseudo(disabled, checked)]: {
+        // this covers the indicator
         backgroundColor: itemVars.base.disabledSelected.root.color,
+
+        // this is the same as the indicator stroke
+        boxShadow: `inset 0 0 0 ${vars.base.enabled.indicator.strokeWidth} ${vars.base.enabled.indicator.strokeColor}`,
       },
 
       [pseudo(not(disabled), checked, active)]: {
