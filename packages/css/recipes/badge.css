@@ -94,7 +94,7 @@
 }
 .seed-badge__root--tone_warning-variant_solid {
     background-color: var(--seed-color-bg-warning-solid);
-    color: var(--seed-color-fg-neutral)
+    color: var(--seed-color-palette-static-black-alpha-900)
 }
 .seed-badge__root--tone_warning-variant_outline {
     box-shadow: inset 0 0 0 1px var(--seed-color-stroke-warning-weak);

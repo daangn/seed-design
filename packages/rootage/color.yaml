@@ -585,11 +585,11 @@ data:
     $color.bg.warning-solid:
       values:
         theme-light: $color.palette.yellow-300
-        theme-dark: $color.palette.yellow-600
+        theme-dark: $color.palette.yellow-800
     $color.bg.warning-solid-pressed:
       values:
         theme-light: $color.palette.yellow-400
-        theme-dark: $color.palette.yellow-700
+        theme-dark: $color.palette.yellow-900
     $color.bg.warning-weak-pressed:
       values:
         theme-light: $color.palette.yellow-200
