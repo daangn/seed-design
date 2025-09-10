@@ -107,6 +107,10 @@ export type CheckboxProperties = InferComponentDefinition<
   typeof metadata.checkbox.componentPropertyDefinitions
 >;
 
+export type CheckmarkProperties = InferComponentDefinition<
+  typeof metadata.checkmark.componentPropertyDefinitions
+>;
+
 export type ChipProperties = InferComponentDefinition<
   typeof metadata.chip.componentPropertyDefinitions
 >;
@@ -264,6 +268,10 @@ export type MultilineTextFieldProperties = InferComponentDefinition<
 
 export type ProgressCircleProperties = InferComponentDefinition<
   typeof metadata.progressCircle.componentPropertyDefinitions
+>;
+
+export type RadioMarkProperties = InferComponentDefinition<
+  typeof metadata.radioMark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
