@@ -4,7 +4,7 @@ export const vars = {
       "root": {
         "padding": "var(--seed-dimension-x1)",
         "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-neutral-weak)"
+        "color": "var(--seed-color-bg-layer-fill)"
       },
       "indicator": {
         "color": "var(--seed-color-bg-layer-default)",

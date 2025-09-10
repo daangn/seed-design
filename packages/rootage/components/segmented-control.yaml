@@ -33,7 +33,7 @@ data:
         root:
           padding: $dimension.x1
           cornerRadius: $radius.full
-          color: $color.bg.neutral-weak
+          color: $color.bg.layer-fill
         indicator:
           color: $color.bg.layer-default
           cornerRadius: $radius.full

@@ -64,7 +64,7 @@
                 },
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-weak"
+                  "value": "$color.bg.layer-fill"
                 }
               },
               "indicator": {

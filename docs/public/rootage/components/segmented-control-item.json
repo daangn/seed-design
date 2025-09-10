@@ -20,11 +20,23 @@
             "paddingX": {
               "type": "dimension"
             },
+            "paddingY": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
             "minWidth": {
               "type": "dimension"
             },
             "color": {
               "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -41,6 +53,12 @@
             },
             "color": {
               "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         }
@@ -67,7 +85,15 @@
                 },
                 "paddingX": {
                   "type": "dimension",
-                  "value": "$dimension.x4"
+                  "value": "$dimension.x6"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
                 },
                 "minWidth": {
                   "type": "dimension",
@@ -75,6 +101,14 @@
                     "value": 86,
                     "unit": "px"
                   }
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "label": {
@@ -93,6 +127,14 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -116,13 +158,23 @@
             ],
             "slots": {
               "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
-                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "selected",
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default-pressed"
                 }
               }
             }

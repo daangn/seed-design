@@ -9,7 +9,6 @@ const segmentedControl = defineSlotRecipe({
     root: {
       display: "grid",
       boxSizing: "border-box",
-      minWidth: "fit-content",
       maxWidth: "100%",
 
       position: "relative",
@@ -54,7 +53,14 @@ const segmentedControl = defineSlotRecipe({
 
       minWidth: itemVars.base.enabled.root.minWidth,
       minHeight: itemVars.base.enabled.root.height,
+
+      gap: itemVars.base.enabled.root.gap,
+
+      // ensures every item has the height of the tallest item (e.g. item with 2+ lines of label)
+      height: "100%",
+
       paddingInline: itemVars.base.enabled.root.paddingX,
+      paddingBlock: itemVars.base.enabled.root.paddingY,
       borderRadius: itemVars.base.enabled.root.cornerRadius,
 
       fontWeight: itemVars.base.enabled.label.fontWeight,
@@ -62,9 +68,15 @@ const segmentedControl = defineSlotRecipe({
       lineHeight: itemVars.base.enabled.label.lineHeight,
       color: itemVars.base.enabled.label.color,
 
+      // there's itemVars.base.enabled.**label**.colorDuration & colorTimingFunction but we only consume the ones from root here
+      transitionProperty: "background-color, color",
+      transitionDuration: itemVars.base.enabled.root.colorDuration,
+      transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
+
+      position: "relative",
+
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
-        fontWeight: itemVars.base.selected.label.fontWeight,
       },
 
       [pseudo(disabled)]: {
@@ -72,7 +84,11 @@ const segmentedControl = defineSlotRecipe({
         color: itemVars.base.disabled.label.color,
       },
 
-      [pseudo(not(checked), active)]: {
+      [pseudo(not(disabled), checked, active)]: {
+        backgroundColor: itemVars.base.selectedPressed.root.color,
+      },
+
+      [pseudo(not(disabled), not(checked), active)]: {
         backgroundColor: itemVars.base.pressed.root.color,
       },
     },
