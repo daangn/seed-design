@@ -5220,7 +5220,6 @@
   transition-duration: var(--seed-duration-d4);
   transition-timing-function: var(--seed-timing-function-easing);
   display: flex;
-  position: relative;
 }
 
 .seed-segmented-control__item:is(:checked, [data-checked]) {

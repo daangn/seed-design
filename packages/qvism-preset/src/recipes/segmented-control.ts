@@ -73,8 +73,6 @@ const segmentedControl = defineSlotRecipe({
       transitionDuration: itemVars.base.enabled.root.colorDuration,
       transitionTimingFunction: itemVars.base.enabled.root.colorTimingFunction,
 
-      position: "relative",
-
       [pseudo(checked)]: {
         color: itemVars.base.selected.label.color,
       },
