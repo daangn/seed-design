@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Flex, HStack, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
+import { HStack, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
 import { NotificationBadgePositioner, NotificationBadge } from "@seed-design/react";
 import * as React from "react";
 
