@@ -434,7 +434,24 @@ export type AppBarRightIconButtonProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
+export type TabsProperties = InferComponentDefinition<
+  typeof metadata.tabs.componentPropertyDefinitions
+>;
+
+export type TabsLineWrapperProperties = InferComponentDefinition<{
+  Size: {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Small"];
+  };
+  Layout: {
+    type: "VARIANT";
+    defaultValue: "Fill";
+    variantOptions: ["Hug", "Fill"];
+  };
+}>;
+
+export type TabsLineTriggerHugProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -446,7 +463,7 @@ export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
   Size: {
     type: "VARIANT";
     defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
+    variantOptions: ["Medium", "Small"];
   };
   State: {
     type: "VARIANT";
@@ -455,19 +472,19 @@ export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsUnderlineFillItemProperties = InferComponentDefinition<{
+export type TabsLineTriggerFillProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
   };
-  "Has Notification#32892:0": {
+  "Has Notification#32904:13": {
     type: "BOOLEAN";
     defaultValue: false;
   };
   Size: {
     type: "VARIANT";
     defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
+    variantOptions: ["Medium", "Small"];
   };
   State: {
     type: "VARIANT";
@@ -476,7 +493,7 @@ export type TabsUnderlineFillItemProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsChipItemProperties = InferComponentDefinition<{
+export type TabsChipWrapperProperties = InferComponentDefinition<{
   Size: {
     type: "VARIANT";
     defaultValue: "Large";
@@ -486,5 +503,28 @@ export type TabsChipItemProperties = InferComponentDefinition<{
     type: "VARIANT";
     defaultValue: "Solid";
     variantOptions: ["Solid", "Outline"];
+  };
+}>;
+
+export type ChipTabsTriggerProperties = InferComponentDefinition<{
+  "\bSize": {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Large"];
+  };
+  Variant: {
+    type: "VARIANT";
+    defaultValue: "Solid";
+    variantOptions: ["Outline", "Solid"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Selected";
+    variantOptions: ["Enabled", "Selected", "Disabled"];
+  };
+  "Has Notification": {
+    type: "VARIANT";
+    defaultValue: "False";
+    variantOptions: ["False", "True"];
   };
 }>;

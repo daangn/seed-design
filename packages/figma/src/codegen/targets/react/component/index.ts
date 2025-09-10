@@ -36,6 +36,7 @@ import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/
 import { createSkeletonHandler } from "./handlers/skeleton";
 import { createSnackbarHandler } from "./handlers/snackbar";
 import { createSwitchHandler } from "./handlers/switch";
+import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
 
@@ -85,6 +86,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,
+  createTabsHandler,
   createTextFieldHandler,
   createToggleButtonHandler,
 ];
