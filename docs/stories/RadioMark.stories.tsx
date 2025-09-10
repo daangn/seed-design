@@ -1,16 +1,39 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Checkbox } from "seed-design/ui/checkbox";
-
-import { checkboxVariantMap } from "@seed-design/css/recipes/checkbox";
+import { RadioMark } from "seed-design/ui/radio-group";
+import {
+  radiomark,
+  radiomarkVariantMap,
+  type RadiomarkVariantProps,
+} from "@seed-design/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { RadioGroup } from "@seed-design/react/primitive";
+
+function CustomRadioGroup(
+  props: RadiomarkVariantProps & {
+    disabled?: boolean;
+    selected?: boolean;
+  },
+) {
+  const [radioMarkVariantProps, { disabled, selected, ..._otherProps }] =
+    radiomark.splitVariantProps(props);
+
+  return (
+    <RadioGroup.Root disabled={disabled} value="foo">
+      <RadioGroup.Item value={selected ? "foo" : "bar"}>
+        <RadioMark {...radioMarkVariantProps} />
+        <RadioGroup.ItemHiddenInput />
+      </RadioGroup.Item>
+    </RadioGroup.Root>
+  );
+}
 
 const meta = {
-  component: Checkbox,
+  component: CustomRadioGroup,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Checkbox>;
+} satisfies Meta<typeof CustomRadioGroup>;
 
 export default meta;
 
@@ -25,16 +48,21 @@ const conditionMap = {
       disabled: true,
     },
   },
+  state: {
+    selected: {
+      selected: true,
+    },
+    "not selected": {
+      selected: false,
+    },
+  },
 };
 
 const CommonStoryTemplate: Story = {
-  args: {
-    label: "Checkbox",
-  },
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={checkboxVariantMap}
+      variantMap={radiomarkVariantMap}
       conditionMap={conditionMap}
       {...args}
     />

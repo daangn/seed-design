@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
 import { radioVariantMap } from "@seed-design/css/recipes/radio";
-import { radiomarkVariantMap } from "@seed-design/css/recipes/radiomark";
 import { VariantTable } from "./components/variant-table";
 import { SeedThemeDecorator } from "./components/decorator";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -45,7 +44,7 @@ const CommonStoryTemplate: Story = {
   render: () => (
     <VariantTable
       Component={RadioGroupWrapper}
-      variantMap={{ ...radioVariantMap, ...radiomarkVariantMap }}
+      variantMap={radioVariantMap}
       conditionMap={conditionMap}
     />
   ),
