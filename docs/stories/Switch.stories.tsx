@@ -21,6 +21,10 @@ const conditionMap = {
     true: { checked: true },
     false: { checked: false },
   },
+  disabled: {
+    false: { disabled: false },
+    true: { disabled: true },
+  },
 };
 
 const CommonStoryTemplate: Story = {
