@@ -59,6 +59,12 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
   }, [emblaApi, api.setContentIndex, onSettle]);
 
   useEffect(() => {
+    emblaApi?.on("reInit", () => {
+      emblaApi?.scrollTo(api.contentIndex, true);
+    });
+  }, [api.contentIndex, emblaApi]);
+
+  useEffect(() => {
     if (!emblaApi) return;
 
     const { dragHandler } = emblaApi.internalEngine();
