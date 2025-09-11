@@ -147,7 +147,6 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
 
     const list = createLocalSnippetElement(tag, commonProps, undefined, { comment });
 
-    // TODO: divider 하나 append
     if (props["Divider#28441:0"].value) {
       return createElement("", {}, [list, createLocalSnippetElement("ListDivider")]);
     }
