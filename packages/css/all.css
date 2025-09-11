@@ -2834,7 +2834,7 @@
 
 .seed-chip__label {
   font-weight: var(--seed-font-weight-medium);
-  padding-inline: var(--seed-dimension-x1_5);
+  margin-inline: var(--seed-dimension-x1_5);
   justify-content: center;
   align-items: center;
   display: inline-flex;

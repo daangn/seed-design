@@ -58,7 +58,7 @@
             "fontWeight": {
               "type": "number"
             },
-            "paddingX": {
+            "marginX": {
               "type": "dimension"
             }
           }
@@ -178,7 +178,7 @@
                   "type": "number",
                   "value": "$font-weight.medium"
                 },
-                "paddingX": {
+                "marginX": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
                 }

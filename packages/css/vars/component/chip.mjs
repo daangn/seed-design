@@ -17,7 +17,7 @@ export const vars = {
       },
       "label": {
         "fontWeight": "var(--seed-font-weight-medium)",
-        "paddingX": "var(--seed-dimension-x1_5)"
+        "marginX": "var(--seed-dimension-x1_5)"
       },
       "icon": {
         "color": "var(--seed-color-fg-neutral)"

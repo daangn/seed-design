@@ -42,7 +42,7 @@ const chip = defineSlotRecipe({
       alignItems: "center",
       justifyContent: "center",
       fontWeight: vars.base.enabled.label.fontWeight,
-      paddingInline: vars.base.enabled.label.paddingX,
+      marginInline: vars.base.enabled.label.marginX,
     },
     prefixIcon: {
       display: "inline-flex",

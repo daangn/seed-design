@@ -39,7 +39,7 @@ data:
             type: dimension
           fontWeight:
             type: number
-          paddingX:
+          marginX:
             type: dimension
       prefixIcon:
         properties:
@@ -82,7 +82,7 @@ data:
           paddingRight: $dimension.x1_5
         label:
           fontWeight: $font-weight.medium
-          paddingX: $dimension.x1_5
+          marginX: $dimension.x1_5
         icon:
           color: $color.fg.neutral
 

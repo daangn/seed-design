@@ -30,7 +30,7 @@
     align-items: center;
     justify-content: center;
     font-weight: var(--seed-font-weight-medium);
-    padding-inline: var(--seed-dimension-x1_5);
+    margin-inline: var(--seed-dimension-x1_5);
 }
 .seed-chip__prefixIcon {
     display: inline-flex;
