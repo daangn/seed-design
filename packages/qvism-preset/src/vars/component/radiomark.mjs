@@ -17,7 +17,8 @@ export const vars = {
     },
     "enabledSelected": {
       "root": {
-        "strokeWidth": "0px"
+        "strokeWidth": "0px",
+        "strokeColor": "#00000000"
       }
     },
     "disabled": {

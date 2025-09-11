@@ -29,11 +29,15 @@ data:
     variant=square:
       enabled:
         root:
-          strokeColor: $color.stroke.neutral-weak
           strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
       pressed:
         root:
           color: $color.bg.layer-default-pressed
+      enabled,selected:
+        root:
+          strokeWidth: 0px
+          strokeColor: "#00000000"
       disabled:
         root:
           color: $color.bg.disabled

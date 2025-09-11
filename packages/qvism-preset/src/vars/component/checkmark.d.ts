@@ -2,13 +2,19 @@ export declare const vars: {
   "variantSquare": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "strokeWidth": "1px"
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-layer-default-pressed)"
+      }
+    },
+    "enabledSelected": {
+      "root": {
+        "strokeWidth": "0px",
+        "strokeColor": "#00000000"
       }
     },
     "disabled": {

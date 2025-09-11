@@ -120,6 +120,10 @@
                     "value": 0,
                     "unit": "px"
                   }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "#00000000"
                 }
               }
             }

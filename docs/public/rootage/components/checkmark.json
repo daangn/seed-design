@@ -75,16 +75,16 @@
             ],
             "slots": {
               "root": {
-                "strokeColor": {
-                  "type": "color",
-                  "value": "$color.stroke.neutral-weak"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
                     "value": 1,
                     "unit": "px"
                   }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-weak"
                 }
               }
             }
@@ -98,6 +98,27 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.layer-default-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "enabled",
+              "selected"
+            ],
+            "slots": {
+              "root": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "#00000000"
                 }
               }
             }

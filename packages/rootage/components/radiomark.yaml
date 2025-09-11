@@ -42,6 +42,7 @@ data:
       enabled,selected:
         root:
           strokeWidth: 0px
+          strokeColor: "#00000000"
       disabled:
         root:
           color: $color.palette.gray-300
