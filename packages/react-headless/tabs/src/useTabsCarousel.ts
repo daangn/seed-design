@@ -58,6 +58,17 @@ const useTabsCarouselState = (props: UseTabsCarouselStateProps) => {
     };
   }, [emblaApi, api.setContentIndex, onSettle]);
 
+  const getContentIndex = useCallbackRef(() => api.contentIndex);
+  useEffect(() => {
+    const reInit = emblaApi?.on("reInit", () => {
+      emblaApi?.scrollTo(getContentIndex(), true);
+    });
+
+    return () => {
+      reInit?.clear();
+    };
+  }, [getContentIndex, emblaApi]);
+
   useEffect(() => {
     if (!emblaApi) return;
 
