@@ -2,7 +2,6 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "cornerRadius": "var(--seed-radius-full)"

@@ -31,7 +31,6 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.layer-default
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
           cornerRadius: $radius.full

@@ -69,10 +69,6 @@
             ],
             "slots": {
               "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {

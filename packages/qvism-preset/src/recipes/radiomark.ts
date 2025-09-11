@@ -17,8 +17,6 @@ const radiomark = defineSlotRecipe({
       justifyContent: "center",
       flex: "none",
 
-      backgroundColor: vars.base.enabled.root.color,
-
       borderWidth: vars.base.enabled.root.strokeWidth,
       borderColor: vars.base.enabled.root.strokeColor,
 
