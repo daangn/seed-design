@@ -90,7 +90,7 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
       .map(([key, value]) => {
         if (typeof value === "string") {
           if (value.includes("\n")) {
-            return `${key}={"${value.replace("\n", "\\n")}"}`;
+            return `${key}={"${value.replaceAll("\n", "\\n")}"}`;
           }
 
           return `${key}="${value}"`;
