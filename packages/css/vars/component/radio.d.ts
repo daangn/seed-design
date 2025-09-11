@@ -14,14 +14,14 @@ export declare const vars: {
       }
     }
   },
-  "weightDefault": {
+  "weightRegular": {
     "enabled": {
       "label": {
         "fontWeight": "var(--seed-font-weight-regular)"
       }
     }
   },
-  "weightStronger": {
+  "weightBold": {
     "enabled": {
       "label": {
         "fontWeight": "var(--seed-font-weight-bold)"
