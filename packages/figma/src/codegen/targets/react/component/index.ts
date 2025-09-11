@@ -39,6 +39,7 @@ import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
+import { createListItemHandler } from "@/codegen/targets/react/component/handlers/list-item";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -71,14 +72,15 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,
   createIdentityPlaceholderHandler,
-  createPageBannerHandler,
+  createListItemHandler,
   createMannerTempBadgeHandler,
   createMannerTempHandler,
   createMenuSheetHandler,
   createMultilineTextFieldHandler,
+  createPageBannerHandler,
   createProgressCircleHandler,
-  createRadioMarkHandler,
   createRadioGroupItemHandler,
+  createRadioMarkHandler,
   createReactionButtonHandler,
   createSegmentedControlHandler,
   createSelectBoxGroupHandler,

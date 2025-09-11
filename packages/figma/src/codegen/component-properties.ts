@@ -254,13 +254,29 @@ export type PageBannerButtonProperties = InferComponentDefinition<{
   };
 }>;
 
+export type ListHeaderProperties = InferComponentDefinition<
+  typeof metadata.listHeader.componentPropertyDefinitions
+>;
+
 export type ListItemProperties = InferComponentDefinition<
   typeof metadata.listItem.componentPropertyDefinitions
 >;
 
-export type ListHeaderProperties = InferComponentDefinition<
-  typeof metadata.listHeader.componentPropertyDefinitions
->;
+export type ListItemPrefixIconProperties = InferComponentDefinition<{
+  "Icon#28452:111": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102336";
+    preferredValues: [{ type: "COMPONENT_SET"; key: "1449adc3a216979ac3e6a4a99183a9e9790b220c" }];
+  };
+}>;
+
+export type ListItemSuffixIconProperties = InferComponentDefinition<{
+  "Icon#28347:9": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:23412";
+    preferredValues: [];
+  };
+}>;
 
 export type MannerTempProperties = InferComponentDefinition<
   typeof metadata.mannerTemp.componentPropertyDefinitions
