@@ -1,4 +1,4 @@
-import type { CheckboxProperties } from "@/codegen/component-properties";
+import type { CheckmarkProperties } from "@/codegen/component-properties";
 import { defineComponentHandler } from "@/codegen/core";
 import * as metadata from "@/entities/data/__generated__/component-sets";
 import { camelCase } from "change-case";
@@ -9,9 +9,9 @@ import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("checkbox");
 
-export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
-  defineComponentHandler<CheckboxProperties>(
-    metadata.checkbox.key,
+export const createCheckmarkHandler = (_ctx: ComponentHandlerDeps) =>
+  defineComponentHandler<CheckmarkProperties>(
+    metadata.checkmark.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")
@@ -19,23 +19,11 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
         .exhaustive();
 
       const commonProps = {
-        label: props["Label#49990:0"].value,
-        weight: camelCase(props.Weight.value),
         tone,
         variant: camelCase(props.Shape.value),
         size: handleSizeProp(props.Size.value),
-        ...(props.Selected.value === "True" && {
-          defaultChecked: true,
-        }),
-        ...(props.Selected.value === "Indeterminate" && {
-          defaultChecked: true,
-          indeterminate: true,
-        }),
-        ...(props.State.value === "Disabled" && {
-          disabled: true,
-        }),
       };
 
-      return createLocalSnippetElement("Checkbox", commonProps);
+      return createLocalSnippetElement("Checkmark", commonProps);
     },
   );

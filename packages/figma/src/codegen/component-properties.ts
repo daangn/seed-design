@@ -107,6 +107,10 @@ export type CheckboxProperties = InferComponentDefinition<
   typeof metadata.checkbox.componentPropertyDefinitions
 >;
 
+export type CheckmarkProperties = InferComponentDefinition<
+  typeof metadata.checkmark.componentPropertyDefinitions
+>;
+
 export type ChipProperties = InferComponentDefinition<
   typeof metadata.chip.componentPropertyDefinitions
 >;
@@ -250,6 +254,30 @@ export type PageBannerButtonProperties = InferComponentDefinition<{
   };
 }>;
 
+export type ListHeaderProperties = InferComponentDefinition<
+  typeof metadata.listHeader.componentPropertyDefinitions
+>;
+
+export type ListItemProperties = InferComponentDefinition<
+  typeof metadata.listItem.componentPropertyDefinitions
+>;
+
+export type ListItemPrefixIconProperties = InferComponentDefinition<{
+  "Icon#28452:111": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "34885:102336";
+    preferredValues: [{ type: "COMPONENT_SET"; key: "1449adc3a216979ac3e6a4a99183a9e9790b220c" }];
+  };
+}>;
+
+export type ListItemSuffixIconProperties = InferComponentDefinition<{
+  "Icon#28347:9": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:23412";
+    preferredValues: [];
+  };
+}>;
+
 export type MannerTempProperties = InferComponentDefinition<
   typeof metadata.mannerTemp.componentPropertyDefinitions
 >;
@@ -264,6 +292,14 @@ export type MultilineTextFieldProperties = InferComponentDefinition<
 
 export type ProgressCircleProperties = InferComponentDefinition<
   typeof metadata.progressCircle.componentPropertyDefinitions
+>;
+
+export type RadioProperties = InferComponentDefinition<
+  typeof metadata.radio.componentPropertyDefinitions
+>;
+
+export type RadioMarkProperties = InferComponentDefinition<
+  typeof metadata.radioMark.componentPropertyDefinitions
 >;
 
 export type ReactionButtonProperties = InferComponentDefinition<
@@ -414,7 +450,24 @@ export type AppBarRightIconButtonProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
+export type TabsProperties = InferComponentDefinition<
+  typeof metadata.tabs.componentPropertyDefinitions
+>;
+
+export type TabsLineWrapperProperties = InferComponentDefinition<{
+  Size: {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Small"];
+  };
+  Layout: {
+    type: "VARIANT";
+    defaultValue: "Fill";
+    variantOptions: ["Hug", "Fill"];
+  };
+}>;
+
+export type TabsLineTriggerHugProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
@@ -426,7 +479,7 @@ export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
   Size: {
     type: "VARIANT";
     defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
+    variantOptions: ["Medium", "Small"];
   };
   State: {
     type: "VARIANT";
@@ -435,19 +488,19 @@ export type TabsUnderlineHugItemProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsUnderlineFillItemProperties = InferComponentDefinition<{
+export type TabsLineTriggerFillProperties = InferComponentDefinition<{
   "Label#4478:2": {
     type: "TEXT";
     defaultValue: "라벨";
   };
-  "Has Notification#32892:0": {
+  "Has Notification#32904:13": {
     type: "BOOLEAN";
     defaultValue: false;
   };
   Size: {
     type: "VARIANT";
     defaultValue: "Small";
-    variantOptions: ["Small", "Medium"];
+    variantOptions: ["Medium", "Small"];
   };
   State: {
     type: "VARIANT";
@@ -456,7 +509,7 @@ export type TabsUnderlineFillItemProperties = InferComponentDefinition<{
   };
 }>;
 
-export type TabsChipItemProperties = InferComponentDefinition<{
+export type TabsChipWrapperProperties = InferComponentDefinition<{
   Size: {
     type: "VARIANT";
     defaultValue: "Large";
@@ -466,5 +519,28 @@ export type TabsChipItemProperties = InferComponentDefinition<{
     type: "VARIANT";
     defaultValue: "Solid";
     variantOptions: ["Solid", "Outline"];
+  };
+}>;
+
+export type ChipTabsTriggerProperties = InferComponentDefinition<{
+  "\bSize": {
+    type: "VARIANT";
+    defaultValue: "Medium";
+    variantOptions: ["Medium", "Large"];
+  };
+  Variant: {
+    type: "VARIANT";
+    defaultValue: "Solid";
+    variantOptions: ["Outline", "Solid"];
+  };
+  State: {
+    type: "VARIANT";
+    defaultValue: "Selected";
+    variantOptions: ["Enabled", "Selected", "Disabled"];
+  };
+  "Has Notification": {
+    type: "VARIANT";
+    defaultValue: "False";
+    variantOptions: ["False", "True"];
   };
 }>;

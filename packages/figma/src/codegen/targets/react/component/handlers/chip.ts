@@ -72,16 +72,19 @@ export const createChipHandler = (ctx: ComponentHandlerDeps) => {
       variant: camelCase(props.Variant.value),
       size: handleSizeProp(props.Size.value),
       layout: props["Label#7185:0"].value ? "withText" : "iconOnly",
+      ...(props.Selected.value === "True" && {
+        defaultChecked: true,
+      }),
       ...(props.State.value === "Disabled" && {
         disabled: true,
       }),
     };
 
     return createLocalSnippetElement(
-      "Chip.Button",
+      "Chip.Toggle",
       commonProps,
       [prefix, label, suffixIcon ? iconSuffixHandler.transform(suffixIcon, traverse) : undefined],
-      { comment: "목적에 따라 Chip.Toggle, Chip.RadioItem 등으로 바꿔 사용하세요." },
+      { comment: "목적에 따라 Chip.Button, Chip.RadioItem 등으로 바꿔 사용하세요." },
     );
   });
 };

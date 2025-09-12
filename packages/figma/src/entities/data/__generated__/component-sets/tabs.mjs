@@ -5,7 +5,7 @@ export const metadata = {
     "Variant": {
       "type": "VARIANT",
       "variantOptions": [
-        "Underline",
+        "Line",
         "Chip"
       ]
     }
