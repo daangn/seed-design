@@ -1,42 +1,18 @@
 import { ariaAttr, buttonProps, dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
-import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getLabelId } from "./dom";
 
 interface UseFieldButtonStateProps {
   values?: string[];
-  defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
-  onClear?: () => void;
 }
 
-function useFieldButtonState({
-  values: __values,
-  defaultValues,
-  onValuesChange,
-  onClear,
-}: UseFieldButtonStateProps) {
-  const [values, setValues] = useControllableState({
-    prop: __values,
-    defaultProp: defaultValues ?? [],
-    onChange: (values) => {
-      onValuesChange?.(values);
-
-      if (values.length === 0) {
-        onClear?.();
-      }
-    },
-  });
-
+function useFieldButtonState({ values = [], onValuesChange = () => {} }: UseFieldButtonStateProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isFocusVisible, setIsFocusVisible] = useState(false);
 
-  const [isLabelRendered, setIsLabelRendered] = useState(false);
-  const labelRef = useCallback((node: HTMLElement | null) => {
-    setIsLabelRendered(!!node);
-  }, []);
   const [isDescriptionRendered, setIsDescriptionRendered] = useState(false);
   const descriptionRef = useCallback((node: HTMLElement | null) => {
     setIsDescriptionRendered(!!node);
@@ -54,17 +30,15 @@ function useFieldButtonState({
     isFocusVisible,
 
     refs: {
-      label: labelRef,
       description: descriptionRef,
       errorMessage: errorMessageRef,
     },
     renderedElements: {
-      label: isLabelRendered,
       description: isDescriptionRendered,
       errorMessage: isErrorMessageRendered,
     },
 
-    setValues,
+    setValues: onValuesChange,
     setIsHovered,
     setIsActive,
     setIsFocused,
@@ -76,19 +50,7 @@ export interface UseFieldButtonProps extends UseFieldButtonStateProps {
   /**
    * @default false
    */
-  required?: boolean;
-  /**
-   * @default false
-   */
   disabled?: boolean;
-  /**
-   * @default false
-   */
-  readOnly?: boolean;
-  /**
-   * @default false
-   */
-  invalid?: boolean;
 
   name?: string;
 }
@@ -97,16 +59,7 @@ export type UseFieldButtonReturn = ReturnType<typeof useFieldButton>;
 
 export function useFieldButton(props: UseFieldButtonProps) {
   const id = useId();
-  const {
-    values: propValues,
-    defaultValues,
-    onValuesChange,
-    disabled = false,
-    invalid = false,
-    readOnly = false,
-    required = false,
-    name,
-  } = props;
+  const { values: propValues, onValuesChange, disabled = false, name } = props;
 
   const {
     values: stateValues,
@@ -121,9 +74,7 @@ export function useFieldButton(props: UseFieldButtonProps) {
     setIsActive,
     setIsFocused,
     setIsFocusVisible,
-  } = useFieldButtonState({ values: propValues, defaultValues, onValuesChange });
-
-  const isUncontrolled = propValues === undefined;
+  } = useFieldButtonState({ values: propValues, onValuesChange });
 
   const ariaDescribedBy =
     [
@@ -138,17 +89,13 @@ export function useFieldButton(props: UseFieldButtonProps) {
     "data-active": dataAttr(isActive),
     "data-focus": dataAttr(isFocused),
     "data-focus-visible": dataAttr(isFocusVisible),
-    "data-readonly": dataAttr(readOnly),
     "data-disabled": dataAttr(disabled),
-    "data-invalid": dataAttr(invalid),
   });
 
   return {
     values: stateValues,
     active: isActive,
     focused: isFocused,
-    invalid,
-    required,
 
     setIsFocused,
     setIsFocusVisible,
@@ -181,11 +128,13 @@ export function useFieldButton(props: UseFieldButtonProps) {
     }),
 
     buttonProps: buttonProps({
-      // TODO: aria property 적절히 들어갈 수 있게 보기
-      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
+      // ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
+      // 이걸 하지 않는 이유: label만으로 button의 맥락을 모두 설명하기 어려움.
+      // label만으로 button을 설명하기보다 button에 aria-label을 다는 것이 적절함
+      // e.g. <FieldButtonLabel>태그</FieldButtonLabel>
+      // '태그'를 FieldButton의 label로 사용하기 어려움 (value, placeholder 관련 정보가 누락됨)
+      // '태그 편집하기, 현재 컴퓨터, 운동화 선택됨' 정도가 적절하고 이건 직접 넣어 줘야 함
       "aria-describedby": ariaDescribedBy,
-      "aria-required": ariaAttr(required),
-      "aria-invalid": ariaAttr(invalid),
 
       disabled,
       "aria-disabled": ariaAttr(disabled),
@@ -208,9 +157,7 @@ export function useFieldButton(props: UseFieldButtonProps) {
       inputProps({
         ...stateProps,
         type: "hidden",
-        ...(isUncontrolled && defaultValues && { defaultValue: value }),
-        ...(!isUncontrolled && { value }),
-        readOnly: true,
+        value,
         name: name || id,
       }),
     ),

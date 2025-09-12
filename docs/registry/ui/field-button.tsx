@@ -16,33 +16,39 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefi
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
+  invalid?: boolean;
 
-  onButtonClick?: React.MouseEventHandler<HTMLButtonElement>;
+  buttonProps?: SeedFieldButton.ButtonProps;
+
+  rootRef?: React.Ref<HTMLDivElement>;
 }
 
 /**
  * @see https://seed-design.io/react/components/field-button
  */
-export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
+export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>(
   (
     {
+      label,
+      indicator,
+
       prefix,
       prefixIcon,
       suffix,
       suffixIcon,
-      label,
-      indicator,
+
       description,
       errorMessage,
-      children,
-
-      required,
-      disabled,
       invalid,
-      readOnly,
+
+      buttonProps,
+
+      rootRef,
+
+      disabled,
       name,
 
-      onButtonClick,
+      children,
 
       ...otherProps
     },
@@ -53,34 +59,16 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
     const renderErrorMessage = errorMessage && invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
-    // label이 없는데 **Button**에 aria-label이 없으면 알려줘야 해
-    // prop을 어떻게 받지? 하..
-    // RootProps를 받아야되는데 label에 꽂아줘야 하는 애들도 있어..
-    // buttonProps를 받아야 하나
-
-    // if (
-    //   !label &&
-    //   !otherProps["aria-labelledby"] &&
-    //   !otherProps["aria-label"] &&
-    //   process.env.NODE_ENV !== "production"
-    // ) {
-    //   console.warn(
-    //     "TextField: aria-labelledby or aria-label should be provided if label is not provided.",
-    //   );
-    // }
-
-    // we are manually assigning the size to SeedFieldButton.Root because the variant props might not always match
+    if (
+      !buttonProps?.["aria-labelledby"] &&
+      !buttonProps?.["aria-label"] &&
+      process.env.NODE_ENV !== "production"
+    ) {
+      console.warn("FieldButton: aria-labelledby or aria-label should be provided to buttonProps.");
+    }
 
     return (
-      <SeedFieldButton.Root
-        required={required}
-        disabled={disabled}
-        invalid={invalid}
-        readOnly={readOnly}
-        name={name}
-        ref={ref}
-        {...otherProps}
-      >
+      <SeedFieldButton.Root disabled={disabled} name={name} ref={rootRef} {...otherProps}>
         {renderHeader && (
           <SeedFieldButton.Header>
             <SeedFieldButton.Label>
@@ -90,7 +78,7 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
           </SeedFieldButton.Header>
         )}
         <SeedFieldButton.Foobar>
-          <SeedFieldButton.Button type="button" onClick={onButtonClick} />
+          <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
           {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
           {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
           {/* TODO: aria-hidden */}
@@ -120,25 +108,16 @@ export const FieldButton = React.forwardRef<HTMLDivElement, FieldButtonProps>(
 );
 FieldButton.displayName = "FieldButton";
 
-export interface FieldButtonValueProps extends SeedFieldButton.ValueProps {
-  placeholder?: React.ReactNode;
-}
+export interface FieldButtonValueProps extends SeedFieldButton.ValueProps {}
 
-export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValueProps>(
-  ({ placeholder, ...otherProps }, ref) => {
-    if (
-      placeholder &&
-      (otherProps.children === null ||
-        otherProps.children === undefined ||
-        otherProps.children === "") // TODO
-    ) {
-      return (
-        <SeedFieldButton.Placeholder ref={ref} {...otherProps}>
-          {placeholder}
-        </SeedFieldButton.Placeholder>
-      );
-    }
+/**
+ * @see https://seed-design.io/react/components/field-button
+ */
+export const FieldButtonValue = SeedFieldButton.Value;
 
-    return <SeedFieldButton.Value ref={ref} {...otherProps} />;
-  },
-);
+export interface FieldButtonPlaceholderProps extends SeedFieldButton.PlaceholderProps {}
+
+/**
+ * @see https://seed-design.io/react/components/field-button
+ */
+export const FieldButtonPlaceholder = SeedFieldButton.Placeholder;

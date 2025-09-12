@@ -6,15 +6,14 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { fieldButton } from "@seed-design/css/recipes/field-button";
+import { useFieldContext } from "@seed-design/react-field";
 
 const { withProvider: withFieldProvider, withContext: withFieldContext } =
   createSlotRecipeContext(field);
 const { withProvider, withContext } = createSlotRecipeContext(fieldButton);
 
 const withFieldButtonStateProps = createWithStateProps([useFieldButtonContext]);
-const withFieldStateProps = createWithStateProps([
-  { useContext: useFieldButtonContext, strict: false },
-]);
+const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -130,10 +130,6 @@
             ],
             "slots": {
               "root": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
-                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -289,7 +285,7 @@
                 },
                 "paddingY": {
                   "type": "dimension",
-                  "value": "$dimension.x2_5"
+                  "value": "$dimension.x3_5"
                 },
                 "color": {
                   "type": "color",

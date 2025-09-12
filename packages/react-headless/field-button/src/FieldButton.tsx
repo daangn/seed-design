@@ -12,48 +12,27 @@ export interface FieldButtonRootProps
     PrimitiveProps,
     HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>((props, ref) => {
-  const {
-    readOnly,
-    disabled,
-    invalid,
-    required,
-    name,
-    values,
-    defaultValues,
-    onValuesChange,
-    onClear,
-    ...otherProps
-  } = props;
+export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
+  ({ disabled, name, values, onValuesChange, ...otherProps }, ref) => {
+    const api = useFieldButton({ disabled, name, values, onValuesChange });
+    const mergedProps = mergeProps(api.rootProps, otherProps);
 
-  const api = useFieldButton({
-    disabled,
-    invalid,
-    required,
-    readOnly,
-    name,
-    values,
-    defaultValues,
-    onValuesChange,
-    onClear,
-  });
-  const mergedProps = mergeProps(api.rootProps, otherProps);
-
-  return (
-    <FieldButtonProvider value={api}>
-      <Primitive.div ref={ref} {...mergedProps} />
-    </FieldButtonProvider>
-  );
-});
+    return (
+      <FieldButtonProvider value={api}>
+        <Primitive.div ref={ref} {...mergedProps} />
+      </FieldButtonProvider>
+    );
+  },
+);
 FieldButtonRoot.displayName = "FieldButtonRoot";
 
 export interface FieldButtonLabelProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonLabel = forwardRef<HTMLDivElement, FieldButtonLabelProps>((props, ref) => {
-  const { refs, labelProps } = useFieldButtonContext();
+  const { labelProps } = useFieldButtonContext();
   const mergedProps = mergeProps(labelProps, props);
 
-  return <Primitive.label ref={composeRefs(refs.label, ref)} {...mergedProps} />;
+  return <Primitive.div ref={ref} {...mergedProps} />;
 });
 FieldButtonLabel.displayName = "FieldButtonLabel";
 
@@ -109,9 +88,9 @@ export const FieldButtonHiddenInputs = forwardRef<HTMLDivElement, FieldButtonHid
 
     return (
       <Primitive.div ref={ref}>
-        {hiddenInputsProps.map((inputProps, index) => {
-          return <Primitive.input key={index} {...inputProps} />;
-        })}
+        {hiddenInputsProps.map((inputProps, index) => (
+          <Primitive.input key={index} {...inputProps} />
+        ))}
       </Primitive.div>
     );
   },

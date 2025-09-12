@@ -83,8 +83,6 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       );
     }
 
-    // we are manually assigning the size to SeedField.Root because the variant props might not always match
-
     return (
       <SeedField.Root
         required={required}
