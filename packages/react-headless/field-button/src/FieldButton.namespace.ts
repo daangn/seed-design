@@ -4,13 +4,11 @@ export {
   FieldButtonDescription as Description,
   FieldButtonErrorMessage as ErrorMessage,
   FieldButtonHiddenInputs as HiddenInputs,
-  FieldButtonLabel as Label,
   FieldButtonRoot as Root,
   type FieldButtonButtonProps as ButtonProps,
   type FieldButtonClearButtonProps as ClearButtonProps,
   type FieldButtonDescriptionProps as DescriptionProps,
   type FieldButtonErrorMessageProps as ErrorMessageProps,
   type FieldButtonHiddenInputsProps as HiddenInputsProps,
-  type FieldButtonLabelProps as LabelProps,
   type FieldButtonRootProps as RootProps,
 } from "./FieldButton";

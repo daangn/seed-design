@@ -122,25 +122,11 @@ export function useFieldButton(props: UseFieldButtonProps) {
       },
     }),
 
-    labelProps: elementProps({
-      ...stateProps,
-      // <button>에 aria-label을 추가하는 것이 expected이기 때문에 label을 중복으로 읽으면 안 됨
-      "aria-hidden": true,
-    }),
-
     buttonProps: buttonProps({
-      // ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
-
-      // 위처럼 하지 않는 이유: label만으로 button의 맥락을 모두 설명하기 어려움.
-      // label만으로 button을 설명하기보다 button에 aria-label을 다는 것이 적절함
-      // e.g. <FieldButtonLabel>태그</FieldButtonLabel>
-      // '태그'를 FieldButton의 label로 사용하기 어려움 (value, placeholder 관련 정보가 누락됨)
-      // '태그 편집하기, 현재 컴퓨터, 운동화 선택됨' 정도가 적절하고 이건 직접 넣어 줘야 함
-
-      "aria-describedby": ariaDescribedBy,
-
       disabled,
       "aria-disabled": ariaAttr(disabled),
+
+      "aria-describedby": ariaDescribedBy,
 
       onBlur() {
         setIsFocused(false);

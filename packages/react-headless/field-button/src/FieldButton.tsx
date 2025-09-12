@@ -26,16 +26,6 @@ export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
 );
 FieldButtonRoot.displayName = "FieldButtonRoot";
 
-export interface FieldButtonLabelProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
-
-export const FieldButtonLabel = forwardRef<HTMLDivElement, FieldButtonLabelProps>((props, ref) => {
-  const { labelProps } = useFieldButtonContext();
-  const mergedProps = mergeProps(labelProps, props);
-
-  return <Primitive.div ref={ref} {...mergedProps} />;
-});
-FieldButtonLabel.displayName = "FieldButtonLabel";
-
 export interface FieldButtonButtonProps
   extends PrimitiveProps,
     ButtonHTMLAttributes<HTMLButtonElement> {}

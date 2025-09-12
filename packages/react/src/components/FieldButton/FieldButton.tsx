@@ -34,10 +34,12 @@ export const FieldButtonHeader = withFieldContext<HTMLDivElement, FieldButtonHea
   "header",
 );
 
-export interface FieldButtonLabelProps extends FieldButton.LabelProps {}
+export interface FieldButtonLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonLabel = withFieldContext<HTMLDivElement, FieldButtonLabelProps>(
-  withFieldStateProps(FieldButton.Label),
+  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
   "label",
 );
 
