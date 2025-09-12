@@ -1,5 +1,18 @@
 # @seed-design/figma
 
+## 0.2.4
+
+### Patch Changes
+
+- afdd1ee: Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.
+
+  - List, Checkmark, RadioMark, Radio, Tabs, ChipTabs 지원
+  - Chip, Divider, HelpBubble, Switch, Checkbox 업데이트
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+  - @seed-design/css@0.2.4
+
 ## 0.2.3
 
 ### Patch Changes
