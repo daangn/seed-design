@@ -14,16 +14,19 @@ import { mergeProps } from "@seed-design/dom-utils";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
 
-const withTextFieldStateProps = createWithStateProps([useTextFieldContext]);
-
 const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
+const withStateProps = createWithStateProps([
+  useTextFieldContext,
+  { useContext: useFieldContext, strict: false },
+]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
 
-export const TextFieldRoot = withFieldStateProps(
-  withProvider<HTMLDivElement, TextFieldRootProps>(TextField.Root, "root"),
+export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
+  withFieldStateProps(TextField.Root),
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +34,7 @@ export const TextFieldRoot = withFieldStateProps(
 export interface TextFieldPrefixIconProps extends InternalIconProps {}
 
 export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIconProps>(
-  withFieldStateProps(withTextFieldStateProps(InternalIcon)),
+  withStateProps(InternalIcon),
   "prefixIcon",
 );
 
@@ -40,14 +43,14 @@ export interface TextFieldPrefixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixTextProps>(
-  withFieldStateProps(withTextFieldStateProps(Primitive.span)),
+  withStateProps(Primitive.span),
   "prefixText",
 );
 
 export interface TextFieldSuffixIconProps extends InternalIconProps {}
 
 export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
-  withFieldStateProps(withTextFieldStateProps(InternalIcon)),
+  withStateProps(InternalIcon),
   "suffixIcon",
 );
 
@@ -56,7 +59,7 @@ export interface TextFieldSuffixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixTextProps>(
-  withFieldStateProps(withTextFieldStateProps(Primitive.span)),
+  withStateProps(Primitive.span),
   "suffixText",
 );
 

@@ -1,7 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { FieldButton as SeedFieldButton } from "@seed-design/react";
+import {
+  FieldButton as SeedFieldButton,
+  Presentational as SeedPresentational,
+} from "@seed-design/react";
 import { visuallyHidden } from "@seed-design/dom-utils";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
@@ -45,9 +48,6 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
 
       rootRef,
 
-      disabled,
-      name,
-
       children,
 
       ...otherProps
@@ -68,7 +68,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
     }
 
     return (
-      <SeedFieldButton.Root disabled={disabled} name={name} ref={rootRef} {...otherProps}>
+      <SeedFieldButton.Root ref={rootRef} {...otherProps}>
         {renderHeader && (
           <SeedFieldButton.Header>
             <SeedFieldButton.Label>
@@ -77,15 +77,16 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
             </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
-        <SeedFieldButton.Foobar>
-          <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
-          {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
-          {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
-          {/* TODO: aria-hidden */}
-          {children}
-          {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
-          {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
-        </SeedFieldButton.Foobar>
+        <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
+        <SeedPresentational asChild>
+          <SeedFieldButton.Display>
+            {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
+            {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
+            {children}
+            {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
+            {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
+          </SeedFieldButton.Display>
+        </SeedPresentational>
         {renderFooter && (
           <SeedFieldButton.Footer>
             {renderDescription && (

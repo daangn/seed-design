@@ -6,21 +6,20 @@ import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { fieldButton } from "@seed-design/css/recipes/field-button";
-import { useFieldContext } from "@seed-design/react-field";
 
 const { withProvider: withFieldProvider, withContext: withFieldContext } =
   createSlotRecipeContext(field);
 const { withProvider, withContext } = createSlotRecipeContext(fieldButton);
 
-const withFieldButtonStateProps = createWithStateProps([useFieldButtonContext]);
-const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
+const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
 
-export const FieldButtonRoot = withFieldStateProps(
-  withFieldProvider<HTMLDivElement, FieldButtonRootProps>(FieldButton.Root, "root"),
+export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
+  FieldButton.Root,
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +29,7 @@ export interface FieldButtonHeaderProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonHeader = withFieldContext<HTMLDivElement, FieldButtonHeaderProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+  withStateProps(Primitive.div),
   "header",
 );
 
@@ -39,7 +38,7 @@ export interface FieldButtonLabelProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonLabel = withFieldContext<HTMLDivElement, FieldButtonLabelProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+  withStateProps(Primitive.div),
   "label",
 );
 
@@ -48,7 +47,7 @@ export interface FieldButtonIndicatorProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonIndicator = withFieldContext<HTMLSpanElement, FieldButtonIndicatorProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.span)),
+  withStateProps(Primitive.span),
   "indicator",
 );
 
@@ -57,7 +56,7 @@ export const FieldButtonIndicator = withFieldContext<HTMLSpanElement, FieldButto
 export interface FieldButtonPrefixIconProps extends InternalIconProps {}
 
 export const FieldButtonPrefixIcon = withContext<SVGSVGElement, FieldButtonPrefixIconProps>(
-  withFieldStateProps(withFieldButtonStateProps(InternalIcon)),
+  withStateProps(InternalIcon),
   "prefixIcon",
 );
 
@@ -66,14 +65,14 @@ export interface FieldButtonPrefixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonPrefixText = withContext<HTMLSpanElement, FieldButtonPrefixTextProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.span)),
+  withStateProps(Primitive.span),
   "prefixText",
 );
 
 export interface FieldButtonSuffixIconProps extends InternalIconProps {}
 
 export const FieldButtonSuffixIcon = withContext<SVGSVGElement, FieldButtonSuffixIconProps>(
-  withFieldStateProps(withFieldButtonStateProps(InternalIcon)),
+  withStateProps(InternalIcon),
   "suffixIcon",
 );
 
@@ -82,7 +81,7 @@ export interface FieldButtonSuffixTextProps
     React.HTMLAttributes<HTMLSpanElement> {}
 
 export const FieldButtonSuffixText = withContext<HTMLSpanElement, FieldButtonSuffixTextProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.span)),
+  withStateProps(Primitive.span),
   "suffixText",
 );
 
@@ -93,7 +92,7 @@ export interface FieldButtonFooterProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonFooter = withFieldContext<HTMLDivElement, FieldButtonFooterProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+  withStateProps(Primitive.div),
   "footer",
 );
 
@@ -102,7 +101,7 @@ export interface FieldButtonDescriptionProps extends FieldButton.DescriptionProp
 export const FieldButtonDescription = withFieldContext<
   HTMLSpanElement,
   FieldButtonDescriptionProps
->(withFieldStateProps(FieldButton.Description), "description");
+>(FieldButton.Description, "description");
 
 export interface FieldButtonErrorContainerProps
   extends PrimitiveProps,
@@ -111,48 +110,46 @@ export interface FieldButtonErrorContainerProps
 export const FieldButtonErrorContainer = withFieldContext<
   HTMLDivElement,
   FieldButtonErrorContainerProps
->(withFieldStateProps(Primitive.div), "errorContainer");
+>(withStateProps(Primitive.div), "errorContainer");
 
 export interface FieldButtonErrorMessageProps extends FieldButton.ErrorMessageProps {}
 
 export const FieldButtonErrorMessage = withFieldContext<
   HTMLSpanElement,
   FieldButtonErrorMessageProps
->(withFieldStateProps(FieldButton.ErrorMessage), "errorMessage");
+>(FieldButton.ErrorMessage, "errorMessage");
 
 export interface FieldButtonErrorIconProps extends InternalIconProps {}
 
 export const FieldButtonErrorIcon = withFieldContext<SVGSVGElement, FieldButtonErrorIconProps>(
-  withFieldStateProps(withFieldButtonStateProps(InternalIcon)),
+  withStateProps(InternalIcon),
   "errorIcon",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonFoobarProps extends React.PropsWithChildren {}
+export interface FieldButtonDisplayProps extends React.PropsWithChildren {}
 
-export const FieldButtonFoobar = withProvider<HTMLDivElement, FieldButtonFoobarProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+export const FieldButtonDisplay = withProvider<HTMLDivElement, FieldButtonDisplayProps>(
+  withStateProps(Primitive.div),
   "root",
 );
 
 export interface FieldButtonHiddenInputsProps extends FieldButton.HiddenInputsProps {}
 
-export const FieldButtonHiddenInputs = withFieldStateProps(
-  withFieldButtonStateProps(FieldButton.HiddenInputs),
-);
+export const FieldButtonHiddenInputs = FieldButton.HiddenInputs;
 
 export interface FieldButtonButtonProps extends FieldButton.ButtonProps {}
 
 export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButtonProps>(
-  withFieldStateProps(withFieldButtonStateProps(FieldButton.Button)),
+  FieldButton.Button,
   "button",
 );
 
 export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProps {}
 
 export const FieldButtonClearButton = withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
-  withFieldStateProps(withFieldButtonStateProps(FieldButton.ClearButton)),
+  FieldButton.ClearButton,
 );
 
 export interface FieldButtonValueProps
@@ -160,7 +157,7 @@ export interface FieldButtonValueProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonValue = withContext<HTMLDivElement, FieldButtonValueProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+  withStateProps(Primitive.div),
   "value",
 );
 
@@ -169,6 +166,6 @@ export interface FieldButtonPlaceholderProps
     React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonPlaceholder = withContext<HTMLDivElement, FieldButtonPlaceholderProps>(
-  withFieldStateProps(withFieldButtonStateProps(Primitive.div)),
+  withStateProps(Primitive.div),
   "placeholder",
 );
