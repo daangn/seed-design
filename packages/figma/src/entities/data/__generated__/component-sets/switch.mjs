@@ -16,8 +16,8 @@ export const metadata = {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "🚫[Deprecated] Brand",
-        "Neutral"
+        "Neutral",
+        "🚫[Deprecated] Brand"
       ]
     },
     "Selected": {
