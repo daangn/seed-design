@@ -1,15 +1,16 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
-import type * as React from "react";
+import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { fieldButton } from "@seed-design/css/recipes/field-button";
+import clsx from "clsx";
 
-const { withProvider: withFieldProvider, withContext: withFieldContext } =
+const { withContext: withFieldContext, ClassNamesProvider: FieldClassNamesProvider } =
   createSlotRecipeContext(field);
-const { withProvider, withContext } = createSlotRecipeContext(fieldButton);
+const { withProvider, withContext, ClassNamesProvider } = createSlotRecipeContext(fieldButton);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
@@ -17,9 +18,28 @@ const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
 
-export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
-  FieldButton.Root,
-  "root",
+export const FieldButtonRoot = React.forwardRef<HTMLDivElement, FieldButtonRootProps>(
+  (props, ref) => {
+    const [fieldVariantProps, __otherProps] = field.splitVariantProps(props);
+    const [fieldButtonVariantProps] = fieldButton.splitVariantProps(props);
+
+    const [, otherProps] = fieldButton.splitVariantProps(__otherProps);
+
+    const fieldClassNames = field(fieldVariantProps);
+    const fieldButtonClassNames = fieldButton(fieldButtonVariantProps);
+
+    return (
+      <FieldClassNamesProvider value={fieldClassNames}>
+        <ClassNamesProvider value={fieldButtonClassNames}>
+          <FieldButton.Root
+            ref={ref}
+            {...otherProps}
+            className={clsx(fieldClassNames.root, props.className)}
+          />
+        </ClassNamesProvider>
+      </FieldClassNamesProvider>
+    );
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
