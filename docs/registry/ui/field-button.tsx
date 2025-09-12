@@ -73,16 +73,18 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
             </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
-        <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
-        <Presentational asChild>
-          <SeedFieldButton.Display>
-            {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
-            {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
-            {children}
-            {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
-            {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
-          </SeedFieldButton.Display>
-        </Presentational>
+        <SeedFieldButton.Positioner>
+          <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
+          <Presentational asChild>
+            <SeedFieldButton.Visual>
+              {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
+              {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
+              {children}
+              {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
+              {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
+            </SeedFieldButton.Visual>
+          </Presentational>
+        </SeedFieldButton.Positioner>
         {renderFooter && (
           <SeedFieldButton.Footer>
             {renderDescription &&

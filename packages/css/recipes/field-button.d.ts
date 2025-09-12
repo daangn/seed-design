@@ -8,7 +8,7 @@ declare type FieldButtonVariantMap = {
 
 export declare type FieldButtonVariantProps = Partial<FieldButtonVariant>;
 
-export declare type FieldButtonSlotName = "root" | "value" | "placeholder" | "button" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
+export declare type FieldButtonSlotName = "positioner" | "root" | "value" | "placeholder" | "button" | "prefixText" | "prefixIcon" | "suffixText" | "suffixIcon";
 
 export declare const fieldButtonVariantMap: FieldButtonVariantMap;
 

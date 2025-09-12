@@ -1,16 +1,15 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
-import * as React from "react";
+import type * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { fieldButton } from "@seed-design/css/recipes/field-button";
-import clsx from "clsx";
 
-const { withContext: withFieldContext, ClassNamesProvider: FieldClassNamesProvider } =
+const { withContext: withFieldContext, withProvider: withFieldProvider } =
   createSlotRecipeContext(field);
-const { withProvider, withContext, ClassNamesProvider } = createSlotRecipeContext(fieldButton);
+const { withProvider, withContext } = createSlotRecipeContext(fieldButton);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
@@ -18,28 +17,9 @@ const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
 
-export const FieldButtonRoot = React.forwardRef<HTMLDivElement, FieldButtonRootProps>(
-  (props, ref) => {
-    const [fieldVariantProps, __otherProps] = field.splitVariantProps(props);
-    const [fieldButtonVariantProps] = fieldButton.splitVariantProps(props);
-
-    const [, otherProps] = fieldButton.splitVariantProps(__otherProps);
-
-    const fieldClassNames = field(fieldVariantProps);
-    const fieldButtonClassNames = fieldButton(fieldButtonVariantProps);
-
-    return (
-      <FieldClassNamesProvider value={fieldClassNames}>
-        <ClassNamesProvider value={fieldButtonClassNames}>
-          <FieldButton.Root
-            ref={ref}
-            {...otherProps}
-            className={clsx(fieldClassNames.root, props.className)}
-          />
-        </ClassNamesProvider>
-      </FieldClassNamesProvider>
-    );
-  },
+export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
+  FieldButton.Root,
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -148,11 +128,11 @@ export const FieldButtonErrorIcon = withFieldContext<SVGSVGElement, FieldButtonE
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonDisplayProps extends React.PropsWithChildren {}
+export interface FieldButtonPositionerProps extends React.PropsWithChildren {}
 
-export const FieldButtonDisplay = withProvider<HTMLDivElement, FieldButtonDisplayProps>(
+export const FieldButtonPositioner = withProvider<HTMLDivElement, FieldButtonPositionerProps>(
   withStateProps(Primitive.div),
-  "root",
+  "positioner",
 );
 
 export interface FieldButtonHiddenInputsProps extends FieldButton.HiddenInputsProps {}
@@ -164,6 +144,15 @@ export interface FieldButtonButtonProps extends FieldButton.ButtonProps {}
 export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButtonProps>(
   FieldButton.Button,
   "button",
+);
+
+export interface FieldButtonVisualProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {}
+
+export const FieldButtonVisual = withContext<HTMLDivElement, FieldButtonVisualProps>(
+  withStateProps(Primitive.div),
+  "root",
 );
 
 export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProps {}

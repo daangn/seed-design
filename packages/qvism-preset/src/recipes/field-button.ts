@@ -5,6 +5,7 @@ import { pseudo, disabled, focus, invalid } from "../utils/pseudo";
 const fieldButton = defineSlotRecipe({
   name: "field-button",
   slots: [
+    "positioner",
     "root",
     "value",
     "placeholder",
@@ -15,6 +16,9 @@ const fieldButton = defineSlotRecipe({
     "suffixIcon",
   ],
   base: {
+    positioner: {
+      position: "relative",
+    },
     root: {
       display: "flex",
       width: "100%",
@@ -31,28 +35,26 @@ const fieldButton = defineSlotRecipe({
       backgroundColor: vars.base.enabled.root.color,
       boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
-      position: "relative",
-
-      [pseudo(invalid)]: {
-        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
+      [pseudo(focus)]: {
+        outline: "none",
       },
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.root.color,
+      },
+
+      [pseudo(invalid)]: {
+        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
       },
     },
     button: {
       position: "absolute",
       inset: 0,
 
-      border: "none",
-      backgroundColor: "transparent",
-
       cursor: "pointer",
 
-      [pseudo(focus)]: {
-        outline: "none",
-      },
+      border: "none",
+      backgroundColor: "transparent",
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
