@@ -3,6 +3,36 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.09.12
+
+[`afdd1ee`](https://github.com/daangn/seed-design/commit/afdd1ee825168fbf76bd5a7b718d982cda36bcc9) Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.
+
+- List, Checkmark, RadioMark, Radio, Tabs, ChipTabs 지원
+- Chip, Divider, HelpBubble, Switch, Checkbox 업데이트
+
+[`8ebe8a5`](https://github.com/daangn/seed-design/commit/8ebe8a57d6ca64ec862e918d9be30dca94ec6643) Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+- tone=neutral variant를 추가합니다.
+- Switch의 thumb 크기를 조정합니다.
+
+Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+[`f61b80d`](https://github.com/daangn/seed-design/commit/f61b80d31f71524d29233b501be609350e5d3528) 다크 모드에서의 색상 대비 보장을 위해 시맨틱 색상을 수정하고 컴포넌트에서의 색상을 변경합니다.
+
+- **$color.bg.warning-solid**: theme-dark에서 $color.palette.yellow-600 → $color.palette.yellow-800
+- **$color.bg.warning-solid-pressed**: theme-dark에서 $color.palette.yellow-700 → $color.palette.yellow-900
+- Badge, Page Banner의 tone=warning, variant=solid variant에서 전경 항목 색상 변경: $color.fg.neutral → $color.palette.static-black-alpha-900
+
+[`ce047f5`](https://github.com/daangn/seed-design/commit/ce047f502d9ccff5cb48e94de47bfa0c5b60d29f) Tabs.Carousel의 reInit 이벤트 시 탭 인덱스가 변경되지 않는 문제를 수정합니다.
+
+### Version Updates
+
+- [@seed-design/css@0.2.4](https://npmjs.com/package/@seed-design/css/v/0.2.4)
+- [@seed-design/figma@0.2.4](https://npmjs.com/package/@seed-design/figma/v/0.2.4)
+- [@seed-design/react@0.2.4](https://npmjs.com/package/@seed-design/react/v/0.2.4)
+- [@seed-design/react-tabs@0.0.9](https://npmjs.com/package/@seed-design/react-tabs/v/0.0.9)
+- [@seed-design/rootage-artifacts@0.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.3)
+
 ## 2025.09.08
 
 [`a22b8b9`](https://github.com/daangn/seed-design/commit/a22b8b9b21e0072220b78c604f17b86c06251b45) ChipTabs 컴포넌트 Variant, Size 변경 및 디자인 수정
