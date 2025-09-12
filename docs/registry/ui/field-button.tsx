@@ -1,8 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { FieldButton as SeedFieldButton, Presentational, VisuallyHidden } from "@seed-design/react";
-import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+import {
+  FieldButton as SeedFieldButton,
+  Presentational,
+  VisuallyHidden,
+  Icon,
+} from "@seed-design/react";
+import {
+  IconExclamationmarkCircleFill,
+  IconXmarkCircleFill,
+} from "@karrotmarket/react-monochrome-icon";
 
 export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix"> {
   label?: React.ReactNode;
@@ -63,6 +71,16 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
       console.warn("FieldButton: aria-labelledby or aria-label should be provided to buttonProps.");
     }
 
+    if (
+      !otherProps.onValuesChange
+      // TODO
+      // && showClearButton
+    ) {
+      console.warn(
+        "FieldButton: FieldButton works without onValuesChange as a display component but it needs onValuesChange to show the clear button.",
+      );
+    }
+
     return (
       <SeedFieldButton.Root ref={rootRef} {...otherProps}>
         {renderHeader && (
@@ -74,7 +92,12 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
           </SeedFieldButton.Header>
         )}
         <SeedFieldButton.Positioner>
+          {/* You may implement your own i18n for clear button label */}
+          <SeedFieldButton.ClearButton aria-label="지우기">
+            <Icon svg={<IconXmarkCircleFill />} />
+          </SeedFieldButton.ClearButton>
           <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
+          {/* TODO: clear button should be inside visual but not aria-hidden */}
           <Presentational asChild>
             <SeedFieldButton.Visual>
               {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}

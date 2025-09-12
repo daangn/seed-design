@@ -4007,6 +4007,14 @@
   flex-shrink: 0;
 }
 
+.seed-field-button__clearButton {
+  --seed-icon-size: 22px;
+  --seed-icon-color: var(--seed-color-fg-neutral-subtle);
+  cursor: pointer;
+  background-color: #0000;
+  border: none;
+}
+
 .seed-floating-action-button__root {
   box-sizing: border-box;
   cursor: pointer;

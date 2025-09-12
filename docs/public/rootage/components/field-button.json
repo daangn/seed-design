@@ -230,6 +230,19 @@
                   "type": "color",
                   "value": "$color.fg.neutral-muted"
                 }
+              },
+              "clearButton": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 22,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
               }
             }
           },

@@ -38,6 +38,10 @@ export const vars = {
       "suffixIcon": {
         "size": "var(--seed-dimension-x5)",
         "color": "var(--seed-color-fg-neutral-muted)"
+      },
+      "clearButton": {
+        "size": "22px",
+        "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
     "invalid": {

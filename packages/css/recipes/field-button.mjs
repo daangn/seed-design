@@ -37,6 +37,10 @@ const fieldButtonSlotNames = [
   [
     "suffixIcon",
     "seed-field-button__suffixIcon"
+  ],
+  [
+    "clearButton",
+    "seed-field-button__clearButton"
   ]
 ];
 

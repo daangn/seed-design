@@ -110,6 +110,10 @@ data:
           size: $dimension.x5
 
           color: $color.fg.neutral-muted
+        
+        clearButton:
+          size: 22px
+          color: $color.fg.neutral-subtle
 
       invalid:
         root:

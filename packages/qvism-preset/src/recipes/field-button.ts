@@ -1,6 +1,7 @@
 import { fieldButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, disabled, focus, invalid } from "../utils/pseudo";
+import { onlyIcon } from "../utils/icon";
 
 const fieldButton = defineSlotRecipe({
   name: "field-button",
@@ -14,6 +15,7 @@ const fieldButton = defineSlotRecipe({
     "prefixIcon",
     "suffixText",
     "suffixIcon",
+    "clearButton",
   ],
   base: {
     positioner: {
@@ -117,6 +119,17 @@ const fieldButton = defineSlotRecipe({
       flexShrink: 0,
 
       color: vars.base.enabled.suffixIcon.color,
+    },
+    clearButton: {
+      ...onlyIcon({
+        size: vars.base.enabled.clearButton.size,
+        color: vars.base.enabled.clearButton.color,
+      }),
+
+      cursor: "pointer",
+
+      border: "none",
+      backgroundColor: "transparent",
     },
   },
   variants: {},

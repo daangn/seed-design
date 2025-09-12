@@ -159,6 +159,7 @@ export interface FieldButtonClearButtonProps extends FieldButton.ClearButtonProp
 
 export const FieldButtonClearButton = withContext<HTMLButtonElement, FieldButtonClearButtonProps>(
   FieldButton.ClearButton,
+  "clearButton",
 );
 
 export interface FieldButtonValueProps
