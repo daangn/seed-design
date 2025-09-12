@@ -178,6 +178,7 @@ export function useField(props: UseFieldProps) {
     errorMessageProps: elementProps({
       ...stateProps,
       id: getErrorMessageId(id),
+      "aria-live": "polite",
     }),
   };
 }
