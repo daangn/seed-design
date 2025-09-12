@@ -13,6 +13,13 @@ export declare const metadata: {
         "32"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "🚫[Deprecated] Brand",
+        "Neutral"
+      ]
+    },
     "Selected": {
       "type": "VARIANT",
       "variantOptions": [
@@ -30,9 +37,9 @@ export declare const metadata: {
     "Label Layout(Figma Only)": {
       "type": "VARIANT",
       "variantOptions": [
-        "None",
-        "Right",
-        "Left"
+        "Label Last",
+        "Label First",
+        "Switch Only"
       ]
     }
   }
