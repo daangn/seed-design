@@ -122,8 +122,6 @@ export const FieldButtonErrorMessage = withFieldContext<
 
 export interface FieldButtonErrorIconProps extends InternalIconProps {}
 
-// TODO: 필요없는 경우, withStateProps는 빼는 게 좋을 것 같음
-
 export const FieldButtonErrorIcon = withFieldContext<SVGSVGElement, FieldButtonErrorIconProps>(
   withFieldStateProps(withFieldButtonStateProps(InternalIcon)),
   "errorIcon",

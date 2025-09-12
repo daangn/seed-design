@@ -3,7 +3,13 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from "react";
+import {
+  forwardRef,
+  Fragment,
+  type ButtonHTMLAttributes,
+  type FragmentProps,
+  type HTMLAttributes,
+} from "react";
 import { useFieldButton, type UseFieldButtonProps } from "./useFieldButton";
 import { FieldButtonProvider, useFieldButtonContext } from "./useFieldButtonContext";
 
@@ -68,23 +74,20 @@ export const FieldButtonErrorMessage = forwardRef<HTMLDivElement, FieldButtonErr
 );
 FieldButtonErrorMessage.displayName = "FieldButtonErrorMessage";
 
-export interface FieldButtonHiddenInputsProps
-  extends PrimitiveProps,
-    HTMLAttributes<HTMLDivElement> {}
+export type FieldButtonHiddenInputsProps = Omit<FragmentProps, "children">;
 
-export const FieldButtonHiddenInputs = forwardRef<HTMLDivElement, FieldButtonHiddenInputsProps>(
-  (_props, ref) => {
-    const { hiddenInputsProps } = useFieldButtonContext();
+export function FieldButtonHiddenInputs(props: FieldButtonHiddenInputsProps) {
+  const { hiddenInputsProps } = useFieldButtonContext();
 
-    return (
-      <Primitive.div ref={ref}>
-        {hiddenInputsProps.map((inputProps, index) => (
-          <Primitive.input key={index} {...inputProps} />
-        ))}
-      </Primitive.div>
-    );
-  },
-);
+  return (
+    <Fragment {...props}>
+      {hiddenInputsProps.map((inputProps, index) => (
+        // TODO: fix index as key
+        <Primitive.input key={index} {...inputProps} />
+      ))}
+    </Fragment>
+  );
+}
 FieldButtonHiddenInputs.displayName = "FieldButtonHiddenInputs";
 
 export interface FieldButtonClearButtonProps
