@@ -6,8 +6,8 @@ import {
   Field as SeedField,
   type UseTextFieldWithGraphemesParams,
   useTextFieldWithGraphemes,
+  VisuallyHidden,
 } from "@seed-design/react";
-import { visuallyHidden } from "@seed-design/dom-utils";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange"> {
@@ -110,11 +110,14 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
         </SeedTextField.Root>
         {renderFooter && (
           <SeedField.Footer>
-            {renderDescription && (
-              <SeedField.Description {...(renderErrorMessage && { style: visuallyHidden })}>
-                {description}
-              </SeedField.Description>
-            )}
+            {renderDescription &&
+              (renderErrorMessage ? (
+                <VisuallyHidden asChild>
+                  <SeedField.Description>{description}</SeedField.Description>
+                </VisuallyHidden>
+              ) : (
+                <SeedField.Description>{description}</SeedField.Description>
+              ))}
             {renderErrorMessage && (
               <SeedField.ErrorContainer>
                 <SeedField.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
