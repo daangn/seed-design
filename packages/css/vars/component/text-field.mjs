@@ -61,9 +61,8 @@ export const vars = {
       "root": {
         "minHeight": "52px",
         "cornerRadius": "var(--seed-radius-r3)",
-        "gap": "var(--seed-dimension-x2_5)",
         "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
+        "paddingY": "var(--seed-dimension-x3_5)",
         "color": "var(--seed-color-bg-layer-fill)",
         "strokeWidth": "1px"
       },

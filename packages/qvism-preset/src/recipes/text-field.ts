@@ -86,7 +86,6 @@ const textField = defineSlotRecipe({
         root: {
           minHeight: vars.variantRounded.enabled.root.minHeight,
           borderRadius: vars.variantRounded.enabled.root.cornerRadius,
-          gap: vars.variantRounded.enabled.root.gap,
           backgroundColor: vars.variantRounded.enabled.root.color,
 
           boxShadow: `inset 0 0 0 ${vars.variantRounded.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,

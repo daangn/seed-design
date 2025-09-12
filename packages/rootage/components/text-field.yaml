@@ -110,9 +110,8 @@ data:
         root:
           minHeight: 52px
           cornerRadius: $radius.r3
-          gap: $dimension.x2_5
           paddingX: $dimension.x4
-          paddingY: $dimension.x2_5
+          paddingY: $dimension.x3_5
 
           color: $color.bg.layer-fill
           strokeWidth: 1px

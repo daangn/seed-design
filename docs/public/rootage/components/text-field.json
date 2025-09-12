@@ -130,6 +130,10 @@
             ],
             "slots": {
               "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
                 "strokeColor": {
                   "type": "color",
                   "value": "$color.stroke.neutral-muted"
@@ -274,10 +278,6 @@
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.r3"
-                },
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
                 },
                 "paddingX": {
                   "type": "dimension",
