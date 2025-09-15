@@ -3,10 +3,6 @@ import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs"
 
 const fieldButtonSlotNames = [
   [
-    "positioner",
-    "seed-field-button__positioner"
-  ],
-  [
     "root",
     "seed-field-button__root"
   ],

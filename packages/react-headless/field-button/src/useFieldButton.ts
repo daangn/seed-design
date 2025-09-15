@@ -123,6 +123,7 @@ export function useFieldButton(props: UseFieldButtonProps) {
     }),
 
     buttonProps: buttonProps({
+      type: "button",
       disabled,
       "aria-disabled": ariaAttr(disabled),
 
@@ -139,6 +140,8 @@ export function useFieldButton(props: UseFieldButtonProps) {
     }),
 
     clearButtonProps: buttonProps({
+      type: "button",
+
       onClick: useCallback(() => setValues([]), [setValues]),
     }),
 

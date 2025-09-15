@@ -6,7 +6,6 @@ import { onlyIcon } from "../utils/icon";
 const fieldButton = defineSlotRecipe({
   name: "field-button",
   slots: [
-    "positioner",
     "root",
     "value",
     "placeholder",
@@ -18,15 +17,16 @@ const fieldButton = defineSlotRecipe({
     "clearButton",
   ],
   base: {
-    positioner: {
-      position: "relative",
-    },
     root: {
       display: "flex",
       width: "100%",
       alignItems: "center",
 
       boxSizing: "border-box",
+
+      position: "relative",
+      // for the clear button
+      zIndex: 0,
 
       minHeight: vars.base.enabled.root.minHeight,
       borderRadius: vars.base.enabled.root.cornerRadius,
@@ -121,15 +121,18 @@ const fieldButton = defineSlotRecipe({
       color: vars.base.enabled.suffixIcon.color,
     },
     clearButton: {
-      ...onlyIcon({
-        size: vars.base.enabled.clearButton.size,
-        color: vars.base.enabled.clearButton.color,
-      }),
-
       cursor: "pointer",
 
       border: "none",
       backgroundColor: "transparent",
+
+      // relies on `position: relative` of root for creating a stacking context
+      zIndex: 1,
+
+      ...onlyIcon({
+        size: vars.base.enabled.clearButton.size,
+        color: vars.base.enabled.clearButton.color,
+      }),
     },
   },
   variants: {},

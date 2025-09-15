@@ -1,18 +1,13 @@
 "use client";
 
 import * as React from "react";
-import {
-  FieldButton as SeedFieldButton,
-  Presentational,
-  VisuallyHidden,
-  Icon,
-} from "@seed-design/react";
+import { FieldButton as SeedFieldButton, VisuallyHidden, Icon } from "@seed-design/react";
 import {
   IconExclamationmarkCircleFill,
   IconXmarkCircleFill,
 } from "@karrotmarket/react-monochrome-icon";
 
-export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix"> {
+export interface FieldButtonProps extends Omit<SeedFieldButton.FieldRootProps, "prefix"> {
   label?: React.ReactNode;
   indicator?: React.ReactNode;
 
@@ -24,6 +19,8 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefi
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   invalid?: boolean;
+
+  showClearButton?: boolean;
 
   buttonProps?: SeedFieldButton.ButtonProps;
 
@@ -48,6 +45,8 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
       errorMessage,
       invalid,
 
+      showClearButton,
+
       buttonProps,
 
       rootRef,
@@ -71,18 +70,14 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
       console.warn("FieldButton: aria-labelledby or aria-label should be provided to buttonProps.");
     }
 
-    if (
-      !otherProps.onValuesChange
-      // TODO
-      // && showClearButton
-    ) {
+    if (!otherProps.onValuesChange && showClearButton) {
       console.warn(
-        "FieldButton: FieldButton works without onValuesChange as a display component but it needs onValuesChange to show the clear button.",
+        "FieldButton: FieldButton without onValuesChange works as a display component, but it needs onValuesChange to work correctly.",
       );
     }
 
     return (
-      <SeedFieldButton.Root ref={rootRef} {...otherProps}>
+      <SeedFieldButton.FieldRoot ref={rootRef} {...otherProps}>
         {renderHeader && (
           <SeedFieldButton.Header>
             <SeedFieldButton.Label>
@@ -91,23 +86,20 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
             </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
-        <SeedFieldButton.Positioner>
-          {/* You may implement your own i18n for clear button label */}
-          <SeedFieldButton.ClearButton aria-label="지우기">
-            <Icon svg={<IconXmarkCircleFill />} />
-          </SeedFieldButton.ClearButton>
-          <SeedFieldButton.Button type="button" ref={ref} {...buttonProps} />
-          {/* TODO: clear button should be inside visual but not aria-hidden */}
-          <Presentational asChild>
-            <SeedFieldButton.Visual>
-              {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
-              {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
-              {children}
-              {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
-              {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
-            </SeedFieldButton.Visual>
-          </Presentational>
-        </SeedFieldButton.Positioner>
+        <SeedFieldButton.Root>
+          <SeedFieldButton.Button ref={ref} {...buttonProps} />
+          {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
+          {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
+          {children}
+          {showClearButton && (
+            // You may implement your own i18n for clear button label
+            <SeedFieldButton.ClearButton aria-label="지우기">
+              <Icon svg={<IconXmarkCircleFill />} />
+            </SeedFieldButton.ClearButton>
+          )}
+          {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
+          {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
+        </SeedFieldButton.Root>
         {renderFooter && (
           <SeedFieldButton.Footer>
             {renderDescription &&
@@ -127,7 +119,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
           </SeedFieldButton.Footer>
         )}
         <SeedFieldButton.HiddenInputs />
-      </SeedFieldButton.Root>
+      </SeedFieldButton.FieldRoot>
     );
   },
 );

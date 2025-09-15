@@ -39,7 +39,6 @@ export * from "./MenuSheet";
 export * from "./NotificationBadge";
 export * from "./PageBanner";
 export * from "./Portal";
-export * from "./Presentational";
 export * from "./ProgressCircle";
 export * from "./PullToRefresh";
 export * from "./RadioGroup";

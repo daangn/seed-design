@@ -1,23 +1,24 @@
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { FieldButton, useFieldButtonContext } from "@seed-design/react-field-button";
-import type * as React from "react";
+import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { fieldButton } from "@seed-design/css/recipes/field-button";
+import clsx from "clsx";
 
 const { withContext: withFieldContext, withProvider: withFieldProvider } =
   createSlotRecipeContext(field);
-const { withProvider, withContext } = createSlotRecipeContext(fieldButton);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(fieldButton);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
+export interface FieldButtonFieldRootProps extends FieldVariantProps, FieldButton.RootProps {}
 
-export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
+export const FieldButtonFieldRoot = withFieldProvider<HTMLDivElement, FieldButtonFieldRootProps>(
   FieldButton.Root,
   "root",
 );
@@ -64,9 +65,21 @@ export interface FieldButtonPrefixTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FieldButtonPrefixText = withContext<HTMLSpanElement, FieldButtonPrefixTextProps>(
-  withStateProps(Primitive.span),
-  "prefixText",
+export const FieldButtonPrefixText = React.forwardRef<HTMLSpanElement, FieldButtonPrefixTextProps>(
+  ({ className, ...props }, ref) => {
+    const { stateProps } = useFieldButtonContext();
+    const { prefixText } = useClassNames();
+
+    return (
+      <Primitive.span
+        className={clsx(prefixText, className)}
+        ref={ref}
+        aria-hidden
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
 );
 
 export interface FieldButtonSuffixIconProps extends InternalIconProps {}
@@ -80,9 +93,21 @@ export interface FieldButtonSuffixTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FieldButtonSuffixText = withContext<HTMLSpanElement, FieldButtonSuffixTextProps>(
-  withStateProps(Primitive.span),
-  "suffixText",
+export const FieldButtonSuffixText = React.forwardRef<HTMLSpanElement, FieldButtonSuffixTextProps>(
+  ({ className, ...props }, ref) => {
+    const { stateProps } = useFieldButtonContext();
+    const { suffixText } = useClassNames();
+
+    return (
+      <Primitive.span
+        className={clsx(suffixText, className)}
+        ref={ref}
+        aria-hidden
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -128,13 +153,6 @@ export const FieldButtonErrorIcon = withFieldContext<SVGSVGElement, FieldButtonE
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonPositionerProps extends React.PropsWithChildren {}
-
-export const FieldButtonPositioner = withProvider<HTMLDivElement, FieldButtonPositionerProps>(
-  withStateProps(Primitive.div),
-  "positioner",
-);
-
 export interface FieldButtonHiddenInputsProps extends FieldButton.HiddenInputsProps {}
 
 export const FieldButtonHiddenInputs = FieldButton.HiddenInputs;
@@ -146,11 +164,11 @@ export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButto
   "button",
 );
 
-export interface FieldButtonVisualProps
+export interface FieldButtonRootProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonVisual = withContext<HTMLDivElement, FieldButtonVisualProps>(
+export const FieldButtonRoot = withProvider<HTMLDivElement, FieldButtonRootProps>(
   withStateProps(Primitive.div),
   "root",
 );
@@ -166,16 +184,40 @@ export interface FieldButtonValueProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonValue = withContext<HTMLDivElement, FieldButtonValueProps>(
-  withStateProps(Primitive.div),
-  "value",
+export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValueProps>(
+  ({ className, ...props }, ref) => {
+    const { stateProps } = useFieldButtonContext();
+    const { value } = useClassNames();
+
+    return (
+      <Primitive.div
+        className={clsx(value, className)}
+        ref={ref}
+        aria-hidden
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
 );
 
 export interface FieldButtonPlaceholderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonPlaceholder = withContext<HTMLDivElement, FieldButtonPlaceholderProps>(
-  withStateProps(Primitive.div),
-  "placeholder",
+export const FieldButtonPlaceholder = React.forwardRef<HTMLDivElement, FieldButtonPlaceholderProps>(
+  ({ className, ...props }, ref) => {
+    const { stateProps } = useFieldButtonContext();
+    const { placeholder } = useClassNames();
+
+    return (
+      <Primitive.div
+        className={clsx(placeholder, className)}
+        ref={ref}
+        aria-hidden
+        {...stateProps}
+        {...props}
+      />
+    );
+  },
 );
