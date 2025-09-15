@@ -39,7 +39,7 @@
         "@fumadocs/mdx-remote": "^1.3.2",
         "@karrotmarket/icon-data": "^0.0.50",
         "@karrotmarket/react-monochrome-icon": "^0.0.34",
-        "@karrotmarket/react-multicolor-icon": "^0.0.27",
+        "@karrotmarket/react-multicolor-icon": "^1.0.0",
         "@orama/orama": "^3.1.3",
         "@portabletext/react": "^4.0.0",
         "@sanity/asset-utils": "^2.2.1",
@@ -311,7 +311,7 @@
       },
       "optionalDependencies": {
         "@karrotmarket/react-monochrome-icon": "^0.0.34",
-        "@karrotmarket/react-multicolor-icon": "^0.0.27",
+        "@karrotmarket/react-multicolor-icon": "^1.0.0",
       },
     },
     "packages/css": {
@@ -1554,7 +1554,7 @@
 
     "@karrotmarket/react-monochrome-icon": ["@karrotmarket/react-monochrome-icon@0.0.34", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-boZv6Songg3v1q5vZSd8Qx2l6bZIpy+Bx9HV6zFDcscHvNo8JskYahfGrGdcCt0DOAjdc6Bni4eJoYsSMHYk8A=="],
 
-    "@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@0.0.27", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-OpN4JHqXloP6JsX9WTHAi427y75Uu7pOErL4fyGwa9Ghw/h73tUoDew7o8UVzZeQKT42nHRHU64gOp5+ns5hOw=="],
+    "@karrotmarket/react-multicolor-icon": ["@karrotmarket/react-multicolor-icon@1.0.0", "", { "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" } }, "sha512-loz2vnYSbXDCYW+8Yppl3LkzIY9+PR0WbzLMGgySGqQGJMonWEjbdYJrNuV2r/v15bu1mNQlxTsEGvivp+C3+g=="],
 
     "@kwsites/file-exists": ["@kwsites/file-exists@1.1.1", "", { "dependencies": { "debug": "^4.1.1" } }, "sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw=="],
 
