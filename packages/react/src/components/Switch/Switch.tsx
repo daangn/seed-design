@@ -27,6 +27,7 @@ export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
     const classNames = switchStyle({
       // TODO: remove this mapping completely
       size: propSize === "small" ? "16" : propSize === "medium" ? "32" : propSize,
+      ...otherProps,
     });
 
     return (

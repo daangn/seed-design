@@ -3,9 +3,9 @@ import { Switch } from "seed-design/ui/switch";
 
 export default function SwitchDisabled() {
   return (
-    <VStack gap="spacingY.componentDefault">
-      <Switch disabled label="라벨" />
-      <Switch checked disabled label="라벨" />
+    <VStack align="center" gap="spacingY.componentDefault">
+      <Switch disabled label="Not Checked" />
+      <Switch checked disabled label="Checked" />
     </VStack>
   );
 }

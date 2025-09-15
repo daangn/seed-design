@@ -1,5 +1,22 @@
 # @seed-design/rootage-artifacts
 
+## 0.1.3
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- f61b80d: 다크 모드에서의 색상 대비 보장을 위해 시맨틱 색상을 수정하고 컴포넌트에서의 색상을 변경합니다.
+
+  - **$color.bg.warning-solid**: theme-dark에서 $color.palette.yellow-600 → $color.palette.yellow-800
+  - **$color.bg.warning-solid-pressed**: theme-dark에서 $color.palette.yellow-700 → $color.palette.yellow-900
+  - Badge, Page Banner의 tone=warning, variant=solid variant에서 전경 항목 색상 변경: $color.fg.neutral → $color.palette.static-black-alpha-900
+
 ## 0.1.2
 
 ### Patch Changes

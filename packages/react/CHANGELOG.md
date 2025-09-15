@@ -1,5 +1,22 @@
 # @seed-design/react
 
+## 0.2.4
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+- Updated dependencies [ce047f5]
+  - @seed-design/css@0.2.4
+  - @seed-design/react-tabs@0.0.9
+
 ## 0.2.3
 
 ### Patch Changes

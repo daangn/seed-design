@@ -21,12 +21,17 @@ const switchSlotNames = [
 ];
 
 const defaultVariant = {
+  "tone": "brand",
   "size": 32
 };
 
 const compoundVariants = [];
 
 export const switchVariantMap = {
+  "tone": [
+    "neutral",
+    "brand"
+  ],
   "size": [
     "16",
     "24",

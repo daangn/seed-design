@@ -12,6 +12,13 @@ export declare const metadata: {
         "Large"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "🚫[Deprecated]Brand",
+        "Neutral"
+      ]
+    },
     "Shape": {
       "type": "VARIANT",
       "variantOptions": [
@@ -22,8 +29,8 @@ export declare const metadata: {
     "Weight": {
       "type": "VARIANT",
       "variantOptions": [
-        "Default",
-        "Stronger"
+        "Bold",
+        "Regular"
       ]
     },
     "Selected": {
