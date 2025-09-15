@@ -37,9 +37,9 @@ data:
         root:
           padding: $dimension.x1
           cornerRadius: $radius.full
-          color: $color.bg.layer-fill
+          color: $color.bg.neutral-weak
         indicator:
-          color: $color.bg.layer-default
+          color: $color.palette.gray-00
           cornerRadius: $radius.full
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak

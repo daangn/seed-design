@@ -70,13 +70,13 @@
                 },
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-fill"
+                  "value": "$color.bg.neutral-weak"
                 }
               },
               "indicator": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.palette.gray-00"
                 },
                 "cornerRadius": {
                   "type": "dimension",

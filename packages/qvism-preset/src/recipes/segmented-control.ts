@@ -54,7 +54,7 @@ const segmentedControl = defineSlotRecipe({
       overflowWrap: "break-word",
 
       minWidth: itemVars.base.enabled.root.minWidth,
-      minHeight: itemVars.base.enabled.root.height,
+      minHeight: itemVars.base.enabled.root.minHeight,
 
       gap: itemVars.base.enabled.root.gap,
 

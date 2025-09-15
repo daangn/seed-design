@@ -75,13 +75,16 @@
             ],
             "slots": {
               "root": {
-                "height": {
+                "minWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 86,
+                    "unit": "px"
+                  }
+                },
+                "minHeight": {
                   "type": "dimension",
                   "value": "$dimension.x8"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
                 },
                 "paddingX": {
                   "type": "dimension",
@@ -91,16 +94,13 @@
                   "type": "dimension",
                   "value": "$dimension.x1_5"
                 },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
-                },
-                "minWidth": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 86,
-                    "unit": "px"
-                  }
                 },
                 "colorDuration": {
                   "type": "duration",
@@ -126,7 +126,7 @@
                 },
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral-muted"
+                  "value": "$color.fg.neutral-subtle"
                 },
                 "colorDuration": {
                   "type": "duration",
@@ -174,7 +174,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default-pressed"
+                  "value": "$color.palette.gray-100"
                 }
               }
             }

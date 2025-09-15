@@ -4,10 +4,10 @@ export const vars = {
       "root": {
         "padding": "var(--seed-dimension-x1)",
         "cornerRadius": "var(--seed-radius-full)",
-        "color": "var(--seed-color-bg-layer-fill)"
+        "color": "var(--seed-color-bg-neutral-weak)"
       },
       "indicator": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "var(--seed-color-palette-gray-00)",
         "cornerRadius": "var(--seed-radius-full)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
