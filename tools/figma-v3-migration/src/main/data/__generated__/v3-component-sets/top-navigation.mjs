@@ -1,18 +1,18 @@
 export const metadata = {
   "name": "🟢 Top Navigation",
-  "key": "c07bfe331cf214375fce9ad47cb6fdb459d1fb1b",
+  "key": "f6d069d65f8ffc8b430fd8f3013910557f36e9da",
   "componentPropertyDefinitions": {
-    "Show Right#18464:0": {
+    "Show Title#33588:82": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "Show Left#18464:5": {
-      "type": "BOOLEAN",
-      "defaultValue": true
-    },
-    "Show Title#28176:5": {
-      "type": "BOOLEAN",
-      "defaultValue": true
+    "OS (Figma Only)": {
+      "type": "VARIANT",
+      "defaultValue": "iOS",
+      "variantOptions": [
+        "iOS",
+        "Android"
+      ]
     },
     "Variant": {
       "type": "VARIANT",
@@ -22,12 +22,25 @@ export const metadata = {
         "Transparent"
       ]
     },
-    "OS": {
+    "Left": {
       "type": "VARIANT",
-      "defaultValue": "iOS",
+      "defaultValue": "Back",
       "variantOptions": [
-        "iOS",
-        "Android"
+        "Back",
+        "Close",
+        "Custom",
+        "None"
+      ]
+    },
+    "Right": {
+      "type": "VARIANT",
+      "defaultValue": "1 Icon Button",
+      "variantOptions": [
+        "1 Icon Button",
+        "2 Icon Button",
+        "3 Icon Button",
+        "Text Button",
+        "None"
       ]
     }
   }

@@ -1,65 +1,33 @@
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
-export const inlineAlertMapping: ComponentMapping<"✅ Inline alert v2", "🟢 Inline Banner"> = {
+export const inlineAlertMapping: ComponentMapping<"✅ Inline alert v2", "🟢 Page Banner"> = {
   oldComponent: "✅ Inline alert v2",
-  newComponent: "🟢 Inline Banner",
-  variantMap: {},
+  newComponent: "🟢 Page Banner",
+  variantMap: {
+    "Variant:Danger": "Tone:Critical",
+    "Variant:Info": "Tone:Informative",
+    "Variant:Normal": "Tone:Neutral",
+    "Variant:Success": "Tone:Positive",
+    "Weight:Standard": "Variant:Weak",
+    "Weight:Strong": "Variant:Solid",
+  },
   calculateProperties(oldProperties, oldComponentStructure) {
-    const newProperties: NewComponentProperties<"🟢 Inline Banner"> = {
+    const newProperties: NewComponentProperties<"🟢 Page Banner"> = {
       "Show Title": "False",
     };
 
-    const labelInStandard = oldComponentStructure?.children?.Container?.children?.Label?.value;
-    const labelInStrong = oldComponentStructure?.children?.Label?.value;
-    if (labelInStandard) {
-      newProperties["Link Label#1547:81"] = labelInStandard as string;
-    } else if (labelInStrong) {
-      newProperties["Link Label#1547:81"] = labelInStrong as string;
-    } else {
-      newProperties["Link Label#1547:81"] = "자세히보기";
-    }
-
     const hasLink = oldProperties.Link.value === "True";
     if (hasLink) {
-      newProperties.Interaction = "Link";
+      newProperties.Interaction = "With Action";
     } else {
-      newProperties.Interaction = "Default";
+      newProperties.Interaction = "Display";
     }
 
     const hasPrefixIcon = oldProperties["Prefix Icon"].value === "True";
     if (hasPrefixIcon) {
-      newProperties["Show Icon#11840:27"] = true;
+      newProperties["Show Prefix Icon#11840:27"] = true;
     } else {
-      newProperties["Show Icon#11840:27"] = false;
-    }
-
-    type Variant = `${typeof oldProperties.Variant.value} ${typeof oldProperties.Weight.value}`;
-    const variant = `${oldProperties.Variant.value} ${oldProperties.Weight.value}` as Variant;
-    switch (variant) {
-      case "Normal Standard":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Normal Strong":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Danger Standard":
-        newProperties.Variant = "Critical Weak";
-        break;
-      case "Danger Strong":
-        newProperties.Variant = "Critical Solid";
-        break;
-      case "Info Standard":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Info Strong":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Success Standard":
-        newProperties.Variant = "Positive Weak";
-        break;
-      case "Success Strong":
-        newProperties.Variant = "Positive Weak";
-        break;
+      newProperties["Show Prefix Icon#11840:27"] = false;
     }
 
     return newProperties;
@@ -68,51 +36,29 @@ export const inlineAlertMapping: ComponentMapping<"✅ Inline alert v2", "🟢 I
 
 export const actionableInlineAlertMapping: ComponentMapping<
   "✅ Actionable Inline alert v2",
-  "🟢 Inline Banner"
+  "🟢 Page Banner"
 > = {
   oldComponent: "✅ Actionable Inline alert v2",
-  newComponent: "🟢 Inline Banner",
-  variantMap: {},
+  newComponent: "🟢 Page Banner",
+  variantMap: {
+    "Variant:Danger": "Tone:Critical",
+    "Variant:Info": "Tone:Informative",
+    "Variant:Normal": "Tone:Neutral",
+    "Variant:Success": "Tone:Positive",
+    "Weight:Standard": "Variant:Weak",
+    "Weight:Strong": "Variant:Solid",
+  },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Inline Banner"> = {
+    const newProperties: NewComponentProperties<"🟢 Page Banner"> = {
       Interaction: "Actionable",
       "Show Title": "False",
     };
 
     const hasPrefixIcon = oldProperties["Prefix Icon"].value === "True";
     if (hasPrefixIcon) {
-      newProperties["Show Icon#11840:27"] = true;
+      newProperties["Show Prefix Icon#11840:27"] = true;
     } else {
-      newProperties["Show Icon#11840:27"] = false;
-    }
-
-    type Variant = `${typeof oldProperties.Variant.value} ${typeof oldProperties.Weight.value}`;
-    const variant = `${oldProperties.Variant.value} ${oldProperties.Weight.value}` as Variant;
-    switch (variant) {
-      case "Normal Standard":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Normal Strong":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Danger Standard":
-        newProperties.Variant = "Critical Weak";
-        break;
-      case "Danger Strong":
-        newProperties.Variant = "Critical Solid";
-        break;
-      case "Info Standard":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Info Strong":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Success Standard":
-        newProperties.Variant = "Positive Weak";
-        break;
-      case "Success Strong":
-        newProperties.Variant = "Positive Weak";
-        break;
+      newProperties["Show Prefix Icon#11840:27"] = false;
     }
 
     return newProperties;
@@ -121,53 +67,29 @@ export const actionableInlineAlertMapping: ComponentMapping<
 
 export const dismissableInlineAlertMapping: ComponentMapping<
   "✅ Dismissable Inline alert v2",
-  "🟢 Inline Banner"
+  "🟢 Page Banner"
 > = {
   oldComponent: "✅ Dismissable Inline alert v2",
-  newComponent: "🟢 Inline Banner",
-  variantMap: {},
+  newComponent: "🟢 Page Banner",
+  variantMap: {
+    "Variant:Danger": "Tone:Critical",
+    "Variant:Info": "Tone:Informative",
+    "Variant:Normal": "Tone:Neutral",
+    "Variant:Success": "Tone:Positive",
+    "Weight:Standard": "Variant:Weak",
+    "Weight:Strong": "Variant:Solid",
+  },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Inline Banner"> = {
+    const newProperties: NewComponentProperties<"🟢 Page Banner"> = {
       Interaction: "Dismissible",
       "Show Title": "False",
     };
 
     const hasPrefixIcon = oldProperties["Prefix Icon"].value === "True";
     if (hasPrefixIcon) {
-      newProperties["Show Icon#11840:27"] = true;
+      newProperties["Show Prefix Icon#11840:27"] = true;
     } else {
-      newProperties["Show Icon#11840:27"] = false;
-    }
-
-    type Variant = `${typeof oldProperties.Variant.value} ${typeof oldProperties.Weight.value}`;
-    const variant = `${oldProperties.Variant.value} ${oldProperties.Weight.value}` as Variant;
-    switch (variant) {
-      case "Normal Standard":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Normal Strong":
-        newProperties.Variant = "Neutral Weak";
-        break;
-      case "Danger Standard":
-        newProperties.Interaction = "Default";
-        newProperties.Variant = "Critical Weak";
-        break;
-      case "Danger Strong":
-        newProperties.Interaction = "Default";
-        newProperties.Variant = "Critical Solid";
-        break;
-      case "Info Standard":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Info Strong":
-        newProperties.Variant = "Informative Weak";
-        break;
-      case "Success Standard":
-        newProperties.Variant = "Positive Weak";
-        break;
-      case "Success Strong":
-        newProperties.Variant = "Positive Weak";
-        break;
+      newProperties["Show Prefix Icon#11840:27"] = false;
     }
 
     return newProperties;

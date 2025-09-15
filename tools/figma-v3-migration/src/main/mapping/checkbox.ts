@@ -22,19 +22,17 @@ export const checkboxCircleMapping: ComponentMapping<"✅ Checkbox_circle v2", "
 
     if (isIndeterminate) {
       if (isDisabled) {
-        newProperties.State = "Indeterminate-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Indeterminate-Pressed";
-      } else {
-        newProperties.State = "Indeterminate";
+        newProperties.State = "Pressed";
       }
     } else if (isSelected) {
       if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Selected";
+        newProperties.State = "Enabled";
       }
     } else if (isPressed || isHovered) {
       if (isDisabled) {
@@ -47,7 +45,7 @@ export const checkboxCircleMapping: ComponentMapping<"✅ Checkbox_circle v2", "
     }
 
     if (oldProperties.Bold.value === "True" && oldProperties.Size.value === "Medium") {
-      newProperties.Weight = "Stronger";
+      newProperties.Weight = "Bold";
       newProperties.Size = "Large";
     }
 
@@ -77,19 +75,19 @@ export const checkboxSquareMapping: ComponentMapping<"✅ Checkbox_square v2", "
 
     if (isIndeterminate) {
       if (isDisabled) {
-        newProperties.State = "Indeterminate-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Indeterminate-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Indeterminate";
+        newProperties.State = "Enabled";
       }
     } else if (isSelected) {
       if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Selected";
+        newProperties.State = "Enabled";
       }
     } else if (isPressed || isHovered) {
       if (isDisabled) {
@@ -102,7 +100,7 @@ export const checkboxSquareMapping: ComponentMapping<"✅ Checkbox_square v2", "
     }
 
     if (oldProperties.Bold.value === "True" && oldProperties.Size.value === "Medium") {
-      newProperties.Weight = "Stronger";
+      newProperties.Weight = "Bold";
       newProperties.Size = "Large";
     }
 
@@ -132,19 +130,19 @@ export const checkboxGhostMapping: ComponentMapping<"✅ Checkbox_ghost v2", "�
 
     if (isIndeterminate) {
       if (isDisabled) {
-        newProperties.State = "Indeterminate-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Indeterminate-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Indeterminate";
+        newProperties.State = "Enabled";
       }
     } else if (isSelected) {
       if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
+        newProperties.State = "Disabled";
       } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Selected";
+        newProperties.State = "Enabled";
       }
     } else if (isPressed || isHovered) {
       if (isDisabled) {

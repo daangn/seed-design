@@ -2,6 +2,10 @@ export declare const metadata: {
   "name": "🟢 Help Bubble",
   "key": "804b327c091278a40d5891939eaed90bb2889659",
   "componentPropertyDefinitions": {
+    "Show Close Button#40538:0": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
     "Show Description#62499:0": {
       "type": "BOOLEAN",
       "defaultValue": true
