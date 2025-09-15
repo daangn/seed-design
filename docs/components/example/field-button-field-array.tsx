@@ -60,11 +60,11 @@ export default function FieldButtonFieldArray() {
         <FieldButton
           label="태그"
           values={fields.map((field) => field.value)}
+          showClearButton={fields.length > 0}
           buttonProps={{
             onClick: () => setIsTagSheetOpen(true),
-            "aria-label": fields.length > 0 
-              ? `태그 ${fields.length}개 선택됨, 클릭하여 편집` 
-              : "태그 선택",
+            "aria-label":
+              fields.length > 0 ? `태그 ${fields.length}개 선택됨, 클릭하여 편집` : "태그 선택",
             "aria-haspopup": "dialog",
           }}
         >
@@ -79,10 +79,10 @@ export default function FieldButtonFieldArray() {
         </Portal>
       </BottomSheetRoot>
       <HStack gap="x2">
-        <ActionButton type="reset" variant="neutralWeak" size="large">
+        <ActionButton type="reset" variant="neutralWeak">
           초기화
         </ActionButton>
-        <ActionButton type="submit" variant="neutralSolid" size="large" flexGrow={1}>
+        <ActionButton type="submit" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>

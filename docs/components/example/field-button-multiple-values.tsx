@@ -49,11 +49,11 @@ export default function FieldButtonMultipleValues() {
             description="여러 태그를 추가할 수 있습니다"
             name="tags"
             values={tags}
+            showClearButton={tags.length > 0}
             buttonProps={{
               onClick: () => setIsTagSheetOpen(true),
-              "aria-label": tags.length > 0 
-                ? `태그 ${tags.length}개 선택됨, 클릭하여 편집`
-                : "태그 선택",
+              "aria-label":
+                tags.length > 0 ? `태그 ${tags.length}개 선택됨, 클릭하여 편집` : "태그 선택",
               "aria-haspopup": "dialog",
             }}
           >
@@ -68,10 +68,10 @@ export default function FieldButtonMultipleValues() {
           </Portal>
         </BottomSheetRoot>
         <HStack gap="x2">
-          <ActionButton type="reset" variant="neutralWeak" size="large">
+          <ActionButton type="reset" variant="neutralWeak">
             초기화
           </ActionButton>
-          <ActionButton type="submit" variant="neutralSolid" size="large" flexGrow={1}>
+          <ActionButton type="submit" flexGrow={1}>
             제출
           </ActionButton>
         </HStack>

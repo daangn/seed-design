@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { HStack, VStack } from "@seed-design/react";
-import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
+import { FieldButton, FieldButtonValue, FieldButtonPlaceholder } from "seed-design/ui/field-button";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetRoot,
@@ -48,14 +48,19 @@ export default function FieldButtonFormBottomSheet() {
         <BottomSheetRoot open={isCategorySheetOpen} onOpenChange={setIsCategorySheetOpen}>
           <FieldButton
             label="카테고리"
-            required
             values={[formData.category]}
             onValuesChange={([value]) => updateFormData("category")(value)}
-            onButtonClick={() => setIsCategorySheetOpen(true)}
+            buttonProps={{
+              onClick: () => setIsCategorySheetOpen(true),
+              "aria-label": "카테고리 선택",
+              "aria-haspopup": "dialog",
+            }}
           >
-            <FieldButtonValue placeholder="카테고리를 선택해주세요">
-              {formData.category}
-            </FieldButtonValue>
+            {formData.category ? (
+              <FieldButtonValue>{formData.category}</FieldButtonValue>
+            ) : (
+              <FieldButtonPlaceholder>카테고리를 선택해주세요</FieldButtonPlaceholder>
+            )}
           </FieldButton>
           <Portal>
             <CategoryInputSheet
@@ -69,17 +74,21 @@ export default function FieldButtonFormBottomSheet() {
         </BottomSheetRoot>
         <FieldButton
           label="상품명"
-          required
           values={[formData.name]}
           onValuesChange={([value]) => updateFormData("name")(value)}
-          onButtonClick={handleNameClick}
+          buttonProps={{
+            onClick: handleNameClick,
+            "aria-label": "상품명 입력",
+          }}
         >
-          <FieldButtonValue placeholder="상품명을 입력해주세요">{formData.name}</FieldButtonValue>
+          {formData.name ? (
+            <FieldButtonValue>{formData.name}</FieldButtonValue>
+          ) : (
+            <FieldButtonPlaceholder>상품명을 입력해주세요</FieldButtonPlaceholder>
+          )}
         </FieldButton>
       </HStack>
-      <ActionButton type="submit" variant="neutralSolid" size="large">
-        제출
-      </ActionButton>
+      <ActionButton type="submit">제출</ActionButton>
     </VStack>
   );
 }

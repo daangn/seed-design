@@ -36,7 +36,80 @@ npx @seed-design/cli@latest add field-button
   name="FieldButtonValueProps"
 />
 
+### `FieldButtonPlaceholder`
+
+<react-type-table
+  path="./registry/ui/field-button.tsx"
+  name="FieldButtonPlaceholderProps"
+/>
+
 ## Examples
+
+### 폼 요소로 활용하기
+
+`FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
+
+<ComponentExample name="field-button-form-control">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/field-button-form-control.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Clear Button 표시하기
+
+`showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
+
+<ComponentExample name="field-button-clear-button">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/field-button-clear-button.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### `FieldButtonValue`와 `FieldButtonPlaceholder` 활용하기
+
+`<FieldButton>` 내부에 `children`으로 넣어 사용할 수 있는 단순한 `<div>` 요소입니다.
+
+스크린 리더는 `FieldButtonValue`와 `FieldButtonPlaceholder`를 읽지 않습니다. `buttonProps["aria-label"]`에 적절한 값을 제공하여 접근성을 확보하세요. 자세한 내용은 [접근 가능하게 만들기](#접근-가능하게-만들기) 섹션을 참고하세요.
+
+<ComponentExample name="field-button-value-placeholder">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/field-button-value-placeholder.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 접근 가능하게 만들기
+
+**Field Button 내부 `button`에 `aria-label` 속성을 제공하여**, 스크린 리더 사용자가 Field Button을 클릭했을 때 어떤 일이 일어날지 예상할 수 있도록 해야 하며, 현재 선택된 값이 있는 경우 그 값이 무엇인지도 알려야 합니다.
+
+```tsx
+<FieldButton
+  label="사용자 이름" // 스크린 리더는 label을 읽습니다.
+  description="본명을 사용하지 않아도 괜찮습니다." // 스크린 리더는 description을 버튼과 함께 읽습니다.
+  buttonProps={{
+    // [!code highlight]
+    // 버튼을 클릭했을 때 어떤 일이 일어날지, 현재 선택된 값이 무엇인지 알려야 합니다.
+    "aria-label": `사용자 이름 선택 화면 열기. 현재 선택된 이름: ${username || "없음"}`, // [!code highlight]
+    onClick: () => setIsUsernamePickerOpen(true),
+  }}
+>
+  {username ? (
+    <FieldButtonValue>{username}</FieldButtonValue> // 스크린 리더는 FieldButtonValue를 읽지 않습니다.
+  ) : (
+    <FieldButtonPlaceholder>김하늘</FieldButtonPlaceholder> // 스크린 리더는 FieldButtonPlaceholder를 읽지 않습니다.
+  )}
+</FieldButton>
+```
+
+Field Button은 [Text Field](/react/components/text-field-input)와 시각적으로 유사하기에, 화면을 볼 수 있는 사용자는 이 요소가 클릭 가능하다는 사실을 쉽게 알 수 있고 어떤 동작이 일어날지도 예측할 수 있으나, `button`에 `aria-label` 속성이 없는 경우 스크린 리더 사용자는 Field Button을 클릭했을 때 어떤 일이 일어날지 파악하기 어렵습니다.
 
 ### State
 

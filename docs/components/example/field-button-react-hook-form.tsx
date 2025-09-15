@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { HStack, VStack } from "@seed-design/react";
 import { useController, useForm } from "react-hook-form";
-import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
+import { FieldButton, FieldButtonValue, FieldButtonPlaceholder } from "seed-design/ui/field-button";
 import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetRoot,
@@ -83,17 +83,23 @@ export default function FieldButtonReactHookForm() {
         <BottomSheetRoot open={isCategorySheetOpen} onOpenChange={setIsCategorySheetOpen}>
           <FieldButton
             label="카테고리"
-            required
             invalid={categoryFieldState.invalid}
             errorMessage={categoryFieldState.error?.message}
+            showClearButton={categoryField.value !== ""}
             values={[categoryField.value]}
             onValuesChange={([value]) => categoryOnChange(value)}
-            onButtonClick={() => setIsCategorySheetOpen(true)}
+            buttonProps={{
+              onClick: () => setIsCategorySheetOpen(true),
+              "aria-label": "카테고리 선택",
+              "aria-haspopup": "dialog",
+            }}
             {...categoryField}
           >
-            <FieldButtonValue placeholder="카테고리를 선택해주세요">
-              {categoryField.value}
-            </FieldButtonValue>
+            {categoryField.value ? (
+              <FieldButtonValue>{categoryField.value}</FieldButtonValue>
+            ) : (
+              <FieldButtonPlaceholder>카테고리를 선택해주세요</FieldButtonPlaceholder>
+            )}
           </FieldButton>
           <Portal>
             <CategoryInputSheet
@@ -107,22 +113,28 @@ export default function FieldButtonReactHookForm() {
         </BottomSheetRoot>
         <FieldButton
           label="상품명"
-          required
           invalid={nameFieldState.invalid}
           errorMessage={nameFieldState.error?.message}
           values={[nameField.value]}
           onValuesChange={([value]) => nameOnChange(value)}
-          onButtonClick={handleNameClick}
+          buttonProps={{
+            onClick: handleNameClick,
+            "aria-label": "상품명 입력",
+          }}
           {...nameField}
         >
-          <FieldButtonValue placeholder="상품명을 입력해주세요">{nameField.value}</FieldButtonValue>
+          {nameField.value ? (
+            <FieldButtonValue>{nameField.value}</FieldButtonValue>
+          ) : (
+            <FieldButtonPlaceholder>상품명을 입력해주세요</FieldButtonPlaceholder>
+          )}
         </FieldButton>
       </HStack>
       <HStack gap="x2">
-        <ActionButton type="reset" variant="neutralWeak" size="large">
+        <ActionButton type="reset" variant="neutralWeak">
           초기화
         </ActionButton>
-        <ActionButton type="submit" variant="neutralSolid" size="large" flexGrow={1}>
+        <ActionButton type="submit" flexGrow={1}>
           제출
         </ActionButton>
       </HStack>

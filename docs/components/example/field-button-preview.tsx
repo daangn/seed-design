@@ -1,15 +1,14 @@
-"use client";
-
-import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
+import { FieldButton } from "seed-design/ui/field-button";
 
 export default function FieldButtonPreview() {
   return (
     <FieldButton
-      label="시작 날짜"
-      description="이 이벤트의 시작 날짜를 선택해 주세요"
-      onButtonClick={() => window.alert("버튼을 클릭했어요")}
-    >
-      <FieldButtonValue placeholder="2025-01-01" />
-    </FieldButton>
+      label="레이블"
+      description="버튼에 대한 설명을 작성해주세요"
+      buttonProps={{
+        onClick: () => window.alert("버튼 클릭됨"),
+        "aria-label": "알림 표시",
+      }}
+    />
   );
 }
