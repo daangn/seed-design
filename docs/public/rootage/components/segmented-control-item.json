@@ -11,7 +11,10 @@
       "slots": {
         "root": {
           "properties": {
-            "height": {
+            "minWidth": {
+              "type": "dimension"
+            },
+            "minHeight": {
               "type": "dimension"
             },
             "cornerRadius": {
@@ -24,9 +27,6 @@
               "type": "dimension"
             },
             "gap": {
-              "type": "dimension"
-            },
-            "minWidth": {
               "type": "dimension"
             },
             "color": {
