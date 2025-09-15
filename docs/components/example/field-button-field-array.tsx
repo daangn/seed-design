@@ -19,7 +19,7 @@ interface ProductFormData {
 }
 
 export default function FieldButtonFieldArray() {
-  const { control, handleSubmit, reset } = useForm<ProductFormData>({
+  const { control, handleSubmit, reset, setValue } = useForm<ProductFormData>({
     defaultValues: { tags: [] },
   });
 
@@ -60,6 +60,12 @@ export default function FieldButtonFieldArray() {
         <FieldButton
           label="태그"
           values={fields.map((field) => field.value)}
+          onValuesChange={(values) =>
+            setValue(
+              "tags",
+              values.map((value) => ({ value })),
+            )
+          }
           showClearButton={fields.length > 0}
           buttonProps={{
             onClick: () => setIsTagSheetOpen(true),

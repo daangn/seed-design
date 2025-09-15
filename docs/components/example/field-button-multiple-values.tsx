@@ -49,6 +49,7 @@ export default function FieldButtonMultipleValues() {
             description="여러 태그를 추가할 수 있습니다"
             name="tags"
             values={tags}
+            onValuesChange={setTags}
             showClearButton={tags.length > 0}
             buttonProps={{
               onClick: () => setIsTagSheetOpen(true),

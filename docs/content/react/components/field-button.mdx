@@ -98,6 +98,7 @@ npx @seed-design/cli@latest add field-button
     // [!code highlight]
     // 버튼을 클릭했을 때 어떤 일이 일어날지, 현재 선택된 값이 무엇인지 알려야 합니다.
     "aria-label": `사용자 이름 선택 화면 열기. 현재 선택된 이름: ${username || "없음"}`, // [!code highlight]
+    "aria-haspopup": "dialog",
     onClick: () => setIsUsernamePickerOpen(true),
   }}
 >
@@ -109,7 +110,7 @@ npx @seed-design/cli@latest add field-button
 </FieldButton>
 ```
 
-Field Button은 [Text Field](/react/components/text-field-input)와 시각적으로 유사하기에, 화면을 볼 수 있는 사용자는 이 요소가 클릭 가능하다는 사실을 쉽게 알 수 있고 어떤 동작이 일어날지도 예측할 수 있으나, `button`에 `aria-label` 속성이 없는 경우 스크린 리더 사용자는 Field Button을 클릭했을 때 어떤 일이 일어날지 파악하기 어렵습니다.
+화면을 볼 수 있는 사용자는 Field Button이 클릭할 수 있는 요소라는 점과, Field Button을 클릭했을 때 일어날 동작을 쉽게 예측할 수 있지만, 스크린 리더 사용자는 `button`에 `aria-label` 속성이 없는 경우 Field Button을 클릭했을 때 어떤 일이 일어날지 파악하기 어렵습니다.
 
 ### State
 

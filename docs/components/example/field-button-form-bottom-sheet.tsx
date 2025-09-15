@@ -49,7 +49,8 @@ export default function FieldButtonFormBottomSheet() {
           <FieldButton
             label="카테고리"
             values={[formData.category]}
-            onValuesChange={([value]) => updateFormData("category")(value)}
+            onValuesChange={([value]) => updateFormData("category")(value ?? "")}
+            showClearButton={formData.category !== ""}
             buttonProps={{
               onClick: () => setIsCategorySheetOpen(true),
               "aria-label": "카테고리 선택",
