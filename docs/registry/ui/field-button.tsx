@@ -18,7 +18,6 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.FieldRootProps, "
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
-  invalid?: boolean;
 
   showClearButton?: boolean;
 
@@ -43,7 +42,6 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
 
       description,
       errorMessage,
-      invalid,
 
       showClearButton,
 
@@ -59,7 +57,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
   ) => {
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && otherProps.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
     if (

@@ -139,10 +139,6 @@
                   "type": "dimension",
                   "value": "$dimension.x2_5"
                 },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-fill"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -152,7 +148,31 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral-muted"
+                  "value": "$color.stroke.neutral-weak"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeColorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeColorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeWidthDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeWidthTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "value": {
@@ -248,6 +268,19 @@
           },
           {
             "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
               "invalid"
             ],
             "slots": {
@@ -261,7 +294,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.fg.critical"
+                  "value": "$color.stroke.critical-solid"
                 }
               }
             }

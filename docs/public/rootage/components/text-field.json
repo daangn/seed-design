@@ -136,7 +136,23 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral-muted"
+                  "value": "$color.stroke.neutral-weak"
+                },
+                "strokeColorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeColorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeWidthDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeWidthTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               },
               "value": {
@@ -185,7 +201,7 @@
               "root": {
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral-solid"
+                  "value": "$color.stroke.neutral-contrast"
                 }
               }
             }
@@ -287,10 +303,6 @@
                   "type": "dimension",
                   "value": "$dimension.x3_5"
                 },
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-fill"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -359,10 +371,6 @@
             ],
             "slots": {
               "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -385,19 +393,6 @@
                     "value": 2,
                     "unit": "px"
                   }
-                }
-              }
-            }
-          },
-          {
-            "states": [
-              "readonly"
-            ],
-            "slots": {
-              "root": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
                 }
               }
             }

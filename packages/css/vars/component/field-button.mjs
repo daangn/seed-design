@@ -7,9 +7,14 @@ export const vars = {
         "gap": "var(--seed-dimension-x2_5)",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x2_5)",
-        "color": "var(--seed-color-bg-layer-fill)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
+        "colorDuration": "var(--seed-duration-d3)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "strokeColorDuration": "var(--seed-duration-d3)",
+        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
+        "strokeWidthDuration": "var(--seed-duration-d3)",
+        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
         "fontSize": "var(--seed-font-size-t5)",
@@ -44,10 +49,15 @@ export const vars = {
         "color": "var(--seed-color-fg-neutral-subtle)"
       }
     },
+    "pressed": {
+      "root": {
+        "color": "var(--seed-color-bg-layer-default-pressed)"
+      }
+    },
     "invalid": {
       "root": {
         "strokeWidth": "2px",
-        "strokeColor": "var(--seed-color-fg-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-solid)"
       }
     },
     "disabled": {

@@ -1,6 +1,6 @@
 import { fieldButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { pseudo, disabled, focus, invalid } from "../utils/pseudo";
+import { pseudo, disabled, active, focus, invalid } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 
 const fieldButton = defineSlotRecipe({
@@ -25,41 +25,45 @@ const fieldButton = defineSlotRecipe({
       boxSizing: "border-box",
 
       position: "relative",
-      // for the clear button
-      zIndex: 0,
+      isolation: "isolate",
 
       minHeight: vars.base.enabled.root.minHeight,
-      borderRadius: vars.base.enabled.root.cornerRadius,
       gap: vars.base.enabled.root.gap,
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
-
-      backgroundColor: vars.base.enabled.root.color,
-      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
-
-      [pseudo(focus)]: {
-        outline: "none",
-      },
-
-      [pseudo(disabled)]: {
-        backgroundColor: vars.base.disabled.root.color,
-      },
-
-      [pseudo(invalid)]: {
-        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
-      },
     },
     button: {
       position: "absolute",
+      zIndex: -1,
+
       inset: 0,
 
       cursor: "pointer",
 
       border: "none",
+      borderRadius: vars.base.enabled.root.cornerRadius,
       backgroundColor: "transparent",
+
+      boxShadow: `inset 0 0 0 ${vars.base.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+
+      // strokeColor transition duration & timing function values are the same as strokeWidth transition values
+      transition: `box-shadow ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}, background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
 
       [pseudo(disabled)]: {
         cursor: "not-allowed",
+        backgroundColor: vars.base.disabled.root.color,
+      },
+
+      [pseudo(active)]: {
+        backgroundColor: vars.base.pressed.root.color,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none",
+      },
+
+      [pseudo(invalid)]: {
+        boxShadow: `inset 0 0 0 ${vars.base.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
       },
     },
     value: {
@@ -73,6 +77,8 @@ const fieldButton = defineSlotRecipe({
       whiteSpace: "nowrap",
 
       flexGrow: 1,
+
+      pointerEvents: "none",
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.value.color,
@@ -90,6 +96,8 @@ const fieldButton = defineSlotRecipe({
 
       flexGrow: 1,
 
+      pointerEvents: "none",
+
       [pseudo(disabled)]: {
         color: vars.base.disabled.placeholder.color,
       },
@@ -99,6 +107,8 @@ const fieldButton = defineSlotRecipe({
       lineHeight: vars.base.enabled.prefixText.lineHeight,
 
       color: vars.base.enabled.prefixText.color,
+
+      pointerEvents: "none",
     },
     prefixIcon: {
       width: vars.base.enabled.prefixIcon.size,
@@ -106,6 +116,8 @@ const fieldButton = defineSlotRecipe({
       flexShrink: 0,
 
       color: vars.base.enabled.prefixIcon.color,
+
+      pointerEvents: "none",
     },
     suffixText: {
       fontSize: vars.base.enabled.suffixText.fontSize,
@@ -119,15 +131,14 @@ const fieldButton = defineSlotRecipe({
       flexShrink: 0,
 
       color: vars.base.enabled.suffixIcon.color,
+
+      pointerEvents: "none",
     },
     clearButton: {
       cursor: "pointer",
 
       border: "none",
       backgroundColor: "transparent",
-
-      // relies on `position: relative` of root for creating a stacking context
-      zIndex: 1,
 
       ...onlyIcon({
         size: vars.base.enabled.clearButton.size,

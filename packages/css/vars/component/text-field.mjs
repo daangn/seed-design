@@ -3,7 +3,11 @@ export const vars = {
     "enabled": {
       "root": {
         "gap": "var(--seed-dimension-x2_5)",
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
+        "strokeColorDuration": "var(--seed-duration-d3)",
+        "strokeColorTimingFunction": "var(--seed-timing-function-easing)",
+        "strokeWidthDuration": "var(--seed-duration-d3)",
+        "strokeWidthTimingFunction": "var(--seed-timing-function-easing)"
       },
       "value": {
         "color": "var(--seed-color-fg-neutral)"
@@ -26,7 +30,7 @@ export const vars = {
     },
     "focused": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-solid)"
+        "strokeColor": "var(--seed-color-stroke-neutral-contrast)"
       }
     },
     "invalid": {
@@ -63,7 +67,6 @@ export const vars = {
         "cornerRadius": "var(--seed-radius-r3)",
         "paddingX": "var(--seed-dimension-x4)",
         "paddingY": "var(--seed-dimension-x3_5)",
-        "color": "var(--seed-color-bg-layer-fill)",
         "strokeWidth": "1px"
       },
       "value": {
@@ -91,18 +94,12 @@ export const vars = {
     },
     "focused": {
       "root": {
-        "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "2px"
       }
     },
     "invalid": {
       "root": {
         "strokeWidth": "2px"
-      }
-    },
-    "readonly": {
-      "root": {
-        "color": "var(--seed-color-bg-layer-default)"
       }
     },
     "disabled": {

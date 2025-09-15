@@ -13,6 +13,9 @@ const textField = defineSlotRecipe({
       overflow: "hidden",
 
       gap: vars.base.enabled.root.gap,
+
+      // strokeColor transition duration & timing function values are the same as strokeWidth transition values
+      transition: `box-shadow ${vars.base.enabled.root.strokeColorDuration} ${vars.base.enabled.root.strokeColorTimingFunction}`,
     },
     value: {
       boxSizing: "border-box",
@@ -86,12 +89,10 @@ const textField = defineSlotRecipe({
         root: {
           minHeight: vars.variantRounded.enabled.root.minHeight,
           borderRadius: vars.variantRounded.enabled.root.cornerRadius,
-          backgroundColor: vars.variantRounded.enabled.root.color,
 
           boxShadow: `inset 0 0 0 ${vars.variantRounded.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
           [pseudo(not(readOnly), focus)]: {
-            backgroundColor: vars.variantRounded.focused.root.color,
             boxShadow: `inset 0 0 0 ${vars.variantRounded.focused.root.strokeWidth} ${vars.base.focused.root.strokeColor}`,
           },
 
@@ -105,10 +106,6 @@ const textField = defineSlotRecipe({
 
           [pseudo(disabled)]: {
             backgroundColor: vars.variantRounded.disabled.root.color,
-          },
-
-          [pseudo(readOnly)]: {
-            backgroundColor: vars.variantRounded.readonly.root.color,
           },
         },
         value: {

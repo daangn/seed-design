@@ -73,7 +73,11 @@ data:
       enabled:
         root:
           gap: $dimension.x2_5
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
+          strokeColorDuration: $duration.d3
+          strokeColorTimingFunction: $timing-function.easing
+          strokeWidthDuration: $duration.d3
+          strokeWidthTimingFunction: $timing-function.easing
         value:
           color: $color.fg.neutral
         placeholder:
@@ -88,7 +92,7 @@ data:
           color: $color.fg.neutral-muted
       focused:
         root:
-          strokeColor: $color.stroke.neutral-solid
+          strokeColor: $color.stroke.neutral-contrast
       invalid:
         root:
           strokeColor: $color.stroke.critical-solid
@@ -112,8 +116,6 @@ data:
           cornerRadius: $radius.r3
           paddingX: $dimension.x4
           paddingY: $dimension.x3_5
-
-          color: $color.bg.layer-fill
           strokeWidth: 1px
         value:
           fontSize: $font-size.t5
@@ -133,14 +135,10 @@ data:
           size: $dimension.x5
       focused:
         root:
-          color: $color.bg.layer-default # TODO: 확인 필요
           strokeWidth: 2px
       invalid:
         root:
           strokeWidth: 2px
-      readonly:
-        root:
-          color: $color.bg.layer-default # TODO: 확인 필요
       disabled:
         root:
           color: $color.bg.disabled

@@ -52,6 +52,11 @@ export interface UseFieldButtonProps extends UseFieldButtonStateProps {
    */
   disabled?: boolean;
 
+  /**
+   * @default false
+   */
+  invalid?: boolean;
+
   name?: string;
 }
 
@@ -59,7 +64,7 @@ export type UseFieldButtonReturn = ReturnType<typeof useFieldButton>;
 
 export function useFieldButton(props: UseFieldButtonProps) {
   const id = useId();
-  const { values: propValues, onValuesChange, disabled = false, name } = props;
+  const { values: propValues, onValuesChange, disabled = false, invalid = false, name } = props;
 
   const {
     values: stateValues,
@@ -90,12 +95,14 @@ export function useFieldButton(props: UseFieldButtonProps) {
     "data-focus": dataAttr(isFocused),
     "data-focus-visible": dataAttr(isFocusVisible),
     "data-disabled": dataAttr(disabled),
+    "data-invalid": dataAttr(invalid),
   });
 
   return {
     values: stateValues,
     active: isActive,
     focused: isFocused,
+    invalid,
 
     setIsFocused,
     setIsFocusVisible,
@@ -110,12 +117,6 @@ export function useFieldButton(props: UseFieldButtonProps) {
       onPointerMove() {
         setIsHovered(true);
       },
-      onPointerDown() {
-        setIsActive(true);
-      },
-      onPointerUp() {
-        setIsActive(false);
-      },
       onPointerLeave() {
         setIsHovered(false);
         setIsActive(false);
@@ -123,11 +124,21 @@ export function useFieldButton(props: UseFieldButtonProps) {
     }),
 
     buttonProps: buttonProps({
+      ...stateProps,
+
       type: "button",
       disabled,
-      "aria-disabled": ariaAttr(disabled),
 
+      "aria-disabled": ariaAttr(disabled),
       "aria-describedby": ariaDescribedBy,
+
+      // note that pointerdown and pointerup are attached to the button, not the root
+      onPointerDown() {
+        setIsActive(true);
+      },
+      onPointerUp() {
+        setIsActive(false);
+      },
 
       onBlur() {
         setIsFocused(false);
@@ -140,6 +151,8 @@ export function useFieldButton(props: UseFieldButtonProps) {
     }),
 
     clearButtonProps: buttonProps({
+      ...stateProps,
+
       type: "button",
 
       onClick: useCallback(() => setValues([]), [setValues]),

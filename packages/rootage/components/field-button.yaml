@@ -75,9 +75,15 @@ data:
           paddingX: $dimension.x4
           paddingY: $dimension.x2_5
 
-          color: $color.bg.layer-fill
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral-muted
+          strokeColor: $color.stroke.neutral-weak
+
+          colorDuration: $duration.d3
+          colorTimingFunction: $timing-function.easing
+          strokeColorDuration: $duration.d3
+          strokeColorTimingFunction: $timing-function.easing
+          strokeWidthDuration: $duration.d3
+          strokeWidthTimingFunction: $timing-function.easing
 
         value:
           fontSize: $font-size.t5
@@ -115,10 +121,14 @@ data:
           size: 22px
           color: $color.fg.neutral-subtle
 
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+
       invalid:
         root:
           strokeWidth: 2px
-          strokeColor: $color.fg.critical # TODO: 시맨틱 추가?
+          strokeColor: $color.stroke.critical-solid
 
       disabled:
         root:

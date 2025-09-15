@@ -4,7 +4,9 @@ import { FieldButton, FieldButtonValue, FieldButtonPlaceholder } from "seed-desi
 import { useState } from "react";
 
 export default function FieldButtonFormControl() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(
+    "Do nostrud duis deserunt occaecat sit ex veniam fugiat commodo voluptate voluptate.",
+  );
 
   return (
     <FieldButton

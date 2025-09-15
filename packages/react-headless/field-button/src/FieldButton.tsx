@@ -19,8 +19,8 @@ export interface FieldButtonRootProps
     HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonRoot = forwardRef<HTMLDivElement, FieldButtonRootProps>(
-  ({ disabled, name, values, onValuesChange, ...otherProps }, ref) => {
-    const api = useFieldButton({ disabled, name, values, onValuesChange });
+  ({ disabled, invalid, name, values, onValuesChange, ...otherProps }, ref) => {
+    const api = useFieldButton({ disabled, invalid, name, values, onValuesChange });
     const mergedProps = mergeProps(api.rootProps, otherProps);
 
     return (

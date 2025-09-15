@@ -4,6 +4,7 @@
     align-items: center;
     overflow: hidden;
     gap: var(--seed-dimension-x2_5);
+    transition: box-shadow var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 .seed-text-field__value {
     box-sizing: border-box;
@@ -56,12 +57,10 @@
 .seed-text-field__root--variant_rounded {
     min-height: 52px;
     border-radius: var(--seed-radius-r3);
-    background-color: var(--seed-color-bg-layer-fill);
-    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 0 0 1px var(--seed-color-stroke-neutral-weak);
 }
 .seed-text-field__root--variant_rounded:not(:is([data-readonly])):is(:focus, [data-focus]) {
-    background-color: var(--seed-color-bg-layer-default);
-    box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-solid);
+    box-shadow: inset 0 0 0 2px var(--seed-color-stroke-neutral-contrast);
 }
 .seed-text-field__root--variant_rounded:is(:invalid, [data-invalid]) {
     box-shadow: inset 0 0 0 2px var(--seed-color-stroke-critical-solid);
@@ -71,9 +70,6 @@
 }
 .seed-text-field__root--variant_rounded:is(:disabled, [disabled], [data-disabled]) {
     background-color: var(--seed-color-bg-disabled);
-}
-.seed-text-field__root--variant_rounded:is([data-readonly]) {
-    background-color: var(--seed-color-bg-layer-default);
 }
 .seed-text-field__value--variant_rounded {
     font-size: var(--seed-font-size-t5);
@@ -120,10 +116,10 @@
 }
 .seed-text-field__root--variant_underline {
     padding-block: var(--seed-dimension-x2);
-    box-shadow: inset 0 calc(1px * -1) 0 0 var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0 calc(1px * -1) 0 0 var(--seed-color-stroke-neutral-weak);
 }
 .seed-text-field__root--variant_underline:not(:is([data-readonly])):is(:focus, [data-focus]) {
-    box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-neutral-solid);
+    box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-neutral-contrast);
 }
 .seed-text-field__root--variant_underline:is(:invalid, [data-invalid]) {
     box-shadow: inset 0 calc(2px * -1) 0 0 var(--seed-color-stroke-critical-solid);
