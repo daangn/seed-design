@@ -2,25 +2,24 @@ export declare const metadata: {
   "name": "🟢 Callout",
   "key": "ec46d38baac3c367c4a5ffa47a2110d51ba0a4fe",
   "componentPropertyDefinitions": {
-    "Icon#12598:210": {
+    "Prefix Icon#35087:0": {
       "type": "INSTANCE_SWAP",
-      "defaultValue": "26621:24224",
-      "preferredValues": [
-        {
-          "type": "COMPONENT_SET",
-          "key": "f2c04b68b0bec4ec9145d832de45947030d3b653"
-        }
-      ]
+      "defaultValue": "26621:23413",
+      "preferredValues": []
     },
-    "Show Icon#12598:229": {
+    "Show Prefix Icon#35087:1": {
       "type": "BOOLEAN",
       "defaultValue": true
     },
+    "Pressed#35087:2": {
+      "type": "BOOLEAN",
+      "defaultValue": false
+    },
     "Interaction": {
       "type": "VARIANT",
-      "defaultValue": "Default",
+      "defaultValue": "Display",
       "variantOptions": [
-        "Default",
+        "Display",
         "Actionable",
         "Dismissible"
       ]
@@ -33,31 +32,23 @@ export declare const metadata: {
         "Informative",
         "Warning",
         "Critical",
-        "magic"
-      ]
-    },
-    "State": {
-      "type": "VARIANT",
-      "defaultValue": "Enabled",
-      "variantOptions": [
-        "Enabled",
-        "Pressed"
+        "Magic"
       ]
     },
     "Show Title": {
       "type": "VARIANT",
       "defaultValue": "False",
       "variantOptions": [
-        "True",
-        "False"
+        "False",
+        "True"
       ]
     },
-    "Show Link Label": {
+    "Show Link Text": {
       "type": "VARIANT",
       "defaultValue": "False",
       "variantOptions": [
-        "True",
-        "False"
+        "False",
+        "True"
       ]
     }
   }

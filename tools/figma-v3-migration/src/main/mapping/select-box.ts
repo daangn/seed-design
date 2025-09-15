@@ -17,9 +17,9 @@ export const selectBoxMapping: ComponentMapping<"✅ Select box v2", "🟢 Selec
 
     if (isSelected) {
       if (isPressed) {
-        newProperties.State = "Selected-Pressed";
+        newProperties.State = "Pressed";
       } else {
-        newProperties.State = "Selected";
+        newProperties.State = "Enabled";
       }
     } else if (isPressed) {
       newProperties.State = "Pressed";

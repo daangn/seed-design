@@ -21,6 +21,10 @@ data:
             type: color
           cornerRadius:
             type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
           shadow:
             type: shadow
           transformDuration:
@@ -35,8 +39,10 @@ data:
           cornerRadius: $radius.full
           color: $color.bg.neutral-weak
         indicator:
-          color: $color.bg.layer-default
+          color: $color.palette.gray-00
           cornerRadius: $radius.full
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
           shadow:
             type: shadow
             value:

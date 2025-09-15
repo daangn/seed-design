@@ -22,14 +22,20 @@ export const metadata = {
         "Radio"
       ]
     },
+    "Selected": {
+      "type": "VARIANT",
+      "defaultValue": "False",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "defaultValue": "Enabled",
       "variantOptions": [
         "Enabled",
-        "Pressed",
-        "Selected",
-        "Selected-Pressed"
+        "Pressed"
       ]
     }
   }
