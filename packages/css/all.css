@@ -4349,13 +4349,12 @@
 
 .seed-manner-temp {
   box-sizing: border-box;
-  justify-content: flex-start;
-  align-items: center;
-  gap: var(--seed-dimension-x1);
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-bold);
-  --seed-suffix-icon-size: var(--seed-dimension-x6);
+  --seed-suffix-icon-size: var(--seed-dimension-x8);
+  justify-content: flex-start;
+  align-items: center;
   display: inline-flex;
 }
 
@@ -4383,6 +4382,22 @@
   color: var(--seed-color-manner-temp-l6-text);
 }
 
+.seed-manner-temp--level_l7 {
+  color: var(--seed-color-manner-temp-l7-text);
+}
+
+.seed-manner-temp--level_l8 {
+  color: var(--seed-color-manner-temp-l8-text);
+}
+
+.seed-manner-temp--level_l9 {
+  color: var(--seed-color-manner-temp-l9-text);
+}
+
+.seed-manner-temp--level_l10 {
+  color: var(--seed-color-manner-temp-l10-text);
+}
+
 .seed-manner-temp-badge {
   box-sizing: border-box;
   text-transform: none;
@@ -4390,7 +4405,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border-radius: var(--seed-radius-full);
-  min-height: 20px;
+  min-height: var(--seed-dimension-x5);
   padding-inline: var(--seed-dimension-x1_5);
   padding-block: var(--seed-dimension-x0_5);
   font-size: var(--seed-font-size-t1);
@@ -4430,6 +4445,26 @@
 .seed-manner-temp-badge--level_l6 {
   background-color: var(--seed-color-manner-temp-l6-bg);
   color: var(--seed-color-manner-temp-l6-text);
+}
+
+.seed-manner-temp-badge--level_l7 {
+  background-color: var(--seed-color-manner-temp-l7-bg);
+  color: var(--seed-color-manner-temp-l7-text);
+}
+
+.seed-manner-temp-badge--level_l8 {
+  background-color: var(--seed-color-manner-temp-l8-bg);
+  color: var(--seed-color-manner-temp-l8-text);
+}
+
+.seed-manner-temp-badge--level_l9 {
+  background-color: var(--seed-color-manner-temp-l9-bg);
+  color: var(--seed-color-manner-temp-l9-text);
+}
+
+.seed-manner-temp-badge--level_l10 {
+  background-color: var(--seed-color-manner-temp-l10-bg);
+  color: var(--seed-color-manner-temp-l10-text);
 }
 
 .seed-menu-sheet__positioner {

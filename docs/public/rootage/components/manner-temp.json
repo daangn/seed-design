@@ -9,13 +9,6 @@
     "name": "Manner Temp",
     "schema": {
       "slots": {
-        "root": {
-          "properties": {
-            "gap": {
-              "type": "dimension"
-            }
-          }
-        },
         "label": {
           "properties": {
             "fontSize": {
@@ -48,7 +41,11 @@
             "l3": {},
             "l4": {},
             "l5": {},
-            "l6": {}
+            "l6": {},
+            "l7": {},
+            "l8": {},
+            "l9": {},
+            "l10": {}
           },
           "defaultValue": "l1"
         }
@@ -63,12 +60,6 @@
               "enabled"
             ],
             "slots": {
-              "root": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x1"
-                }
-              },
               "label": {
                 "fontSize": {
                   "type": "dimension",
@@ -86,7 +77,7 @@
               "emote": {
                 "size": {
                   "type": "dimension",
-                  "value": "$dimension.x6"
+                  "value": "$dimension.x8"
                 }
               }
             }
@@ -207,6 +198,86 @@
                 "color": {
                   "type": "color",
                   "value": "$color.manner-temp.l6.text"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "level": "l7"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.manner-temp.l7.text"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "level": "l8"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.manner-temp.l8.text"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "level": "l9"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.manner-temp.l9.text"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "level": "l10"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "label": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.manner-temp.l10.text"
                 }
               }
             }
