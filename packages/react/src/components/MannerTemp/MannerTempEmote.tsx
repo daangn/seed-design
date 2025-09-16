@@ -2,16 +2,16 @@ import type * as React from "react";
 import { createContext, forwardRef, useContext } from "react";
 
 const assets = {
-  l1: "https://assetstorage.krrt.io/1123529253537884138/b63c9b3c-410c-4cf5-ba83-d787a03c3c57/width_64_height_64.webp",
-  l2: "https://assetstorage.krrt.io/1123529253537884138/8e4bc458-f6d4-41ce-bfa2-17ea34022f5b/width_64_height_64.webp",
-  l3: "https://assetstorage.krrt.io/1123529253537884138/906ff501-edf6-402d-a3a4-a93ce9e04d30/width_64_height_64.webp",
-  l4: "https://assetstorage.krrt.io/1123529253537884138/10753976-b25d-4e4c-84b2-dbbe196dd0d9/width_64_height_64.webp",
-  l5: "https://assetstorage.krrt.io/1123529253537884138/ddfbd296-5089-408c-aa37-919f45074e5e/width_64_height_64.webp",
-  l6: "https://assetstorage.krrt.io/1123529253537884138/bf8f9b4d-c72e-4bf2-a094-460d3ad1b11f/width_64_height_64.webp",
-  l7: "https://assetstorage.krrt.io/1123529253537884138/9906a459-a4e3-4521-a6e5-0cc24c0aa763/width_64_height_64.webp",
-  l8: "https://assetstorage.krrt.io/1123529253537884138/438edadb-d31d-4711-aebd-a72f303fdf49/width_64_height_64.webp",
-  l9: "https://assetstorage.krrt.io/1123529253537884138/61f6c297-11da-4d72-ba90-20cd69c09c22/width_64_height_64.webp",
-  l10: "https://assetstorage.krrt.io/1123529253537884138/6cc410ac-3a55-4542-b49f-53551db74c4d/width_64_height_64.webp",
+  l1: "https://assetstorage.krrt.io/1123529253537884138/b63c9b3c-410c-4cf5-ba83-d787a03c3c57/width_128_height_128.webp",
+  l2: "https://assetstorage.krrt.io/1123529253537884138/8e4bc458-f6d4-41ce-bfa2-17ea34022f5b/width_128_height_128.webp",
+  l3: "https://assetstorage.krrt.io/1123529253537884138/906ff501-edf6-402d-a3a4-a93ce9e04d30/width_128_height_128.webp",
+  l4: "https://assetstorage.krrt.io/1123529253537884138/10753976-b25d-4e4c-84b2-dbbe196dd0d9/width_128_height_128.webp",
+  l5: "https://assetstorage.krrt.io/1123529253537884138/ddfbd296-5089-408c-aa37-919f45074e5e/width_128_height_128.webp",
+  l6: "https://assetstorage.krrt.io/1123529253537884138/bf8f9b4d-c72e-4bf2-a094-460d3ad1b11f/width_128_height_128.webp",
+  l7: "https://assetstorage.krrt.io/1123529253537884138/9906a459-a4e3-4521-a6e5-0cc24c0aa763/width_128_height_128.webp",
+  l8: "https://assetstorage.krrt.io/1123529253537884138/438edadb-d31d-4711-aebd-a72f303fdf49/width_128_height_128.webp",
+  l9: "https://assetstorage.krrt.io/1123529253537884138/61f6c297-11da-4d72-ba90-20cd69c09c22/width_128_height_128.webp",
+  l10: "https://assetstorage.krrt.io/1123529253537884138/6cc410ac-3a55-4542-b49f-53551db74c4d/width_128_height_128.webp",
 };
 
 const l1 = forwardRef<HTMLImageElement, React.HTMLAttributes<HTMLImageElement>>((props, ref) => (
