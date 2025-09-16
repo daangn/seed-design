@@ -1,5 +1,3 @@
-"use client";
-
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";

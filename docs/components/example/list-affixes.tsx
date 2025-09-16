@@ -1,5 +1,3 @@
-"use client";
-
 import {
   IconArrowUpBracketDownLine,
   IconILowercaseSerifCircleLine,
