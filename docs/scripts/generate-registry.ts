@@ -17,7 +17,7 @@ import {
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
 
-type RegistryType = "ui" | "lib" | "bits" | "breeze";
+type RegistryType = "ui" | "lib" | "breeze";
 
 interface GenerateRegistryIndexProps {
   registry: RegistryUI | RegistryLib;
@@ -87,7 +87,6 @@ async function generateRegistry({ registry, type }: GenerateRegistryProps) {
     const parsedPayload = match(type)
       .with("ui", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .with("lib", () => registryLibItemMachineGeneratedSchema.parse(payload))
-      .with("bits", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .with("breeze", () => registryUIItemMachineGeneratedSchema.parse(payload))
       .exhaustive();
 
