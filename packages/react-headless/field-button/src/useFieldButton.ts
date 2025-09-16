@@ -133,6 +133,7 @@ export function useFieldButton(props: UseFieldButtonProps) {
       "aria-describedby": ariaDescribedBy,
 
       // note that pointerdown and pointerup are attached to the button, not the root
+      // this is for preventing setting isActive to true when the clear button is pressed
       onPointerDown() {
         setIsActive(true);
       },
