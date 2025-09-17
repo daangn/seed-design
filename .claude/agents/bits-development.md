@@ -60,7 +60,7 @@ bun dev
 
 ```tsx
 // ActionButton과 HStack 사용
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import { HStack } from "@seed-design/react";
 
 // 랜덤 숫자 생성

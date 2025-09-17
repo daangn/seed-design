@@ -1,4 +1,4 @@
-import type { GeneratedRegistryItem } from "@/registry/schema";
+import type { GeneratedRegistryItem } from "seed-design/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { Heading } from "fumadocs-ui/components/heading";
@@ -35,10 +35,8 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
   const packageManagers = ["npm", "yarn", "pnpm", "bun"];
 
   // 파일 분리
-  const componentFiles =
-    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".tsx")) || [];
-  const styleFiles =
-    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".module.css")) || [];
+  const componentFiles = json?.files?.filter((r) => r.path.endsWith(".tsx")) || [];
+  const styleFiles = json?.files?.filter((r) => r.path.endsWith(".module.css")) || [];
 
   return (
     <ErrorBoundary>
@@ -79,15 +77,15 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
 
             <Step>
               <Heading as="h3">컴포넌트 코드 복사</Heading>
-              {componentFiles.map((registry) => {
-                return <DynamicCodeBlock key={registry.name} lang="tsx" code={registry.content} />;
+              {componentFiles.map(({ path, content }) => {
+                return <DynamicCodeBlock key={path} lang="tsx" code={content} />;
               })}
             </Step>
 
             <Step>
               <Heading as="h3">스타일 복사</Heading>
-              {styleFiles.map((registry) => (
-                <DynamicCodeBlock key={registry.name} lang="css" code={registry.content} />
+              {styleFiles.map(({ path, content }) => (
+                <DynamicCodeBlock key={path} lang="css" code={content} />
               ))}
             </Step>
           </Steps>

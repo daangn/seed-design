@@ -1,4 +1,4 @@
-import type { GeneratedRegistryItem } from "@/registry/schema";
+import type { GeneratedRegistryItem } from "seed-design/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -63,8 +63,8 @@ export async function ManualInstallation(props: ManualInstallationProps) {
 
             <Step>
               <Heading as="h3">아래 코드를 복사 후 붙여넣고 사용하세요</Heading>
-              {json?.registries.map((registry) => {
-                return <DynamicCodeBlock key={registry.name} lang="tsx" code={registry.content} />;
+              {json?.files.map(({ path, content }) => {
+                return <DynamicCodeBlock key={path} lang="tsx" code={content} />;
               })}
             </Step>
           </Steps>
