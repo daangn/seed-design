@@ -38,7 +38,7 @@
     "csv-parse": "^6.0.0",
     "dotenv": "^17.0.0",
     "esbuild": "^0.25.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "optionalDependencies": {
     "@karrotmarket/react-monochrome-icon": "^0.0.34",
