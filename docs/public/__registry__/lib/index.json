@@ -1,5 +1,6 @@
 {
   "id": "lib",
+  "hideFromCLICatalog": true,
   "items": [
     {
       "files": [

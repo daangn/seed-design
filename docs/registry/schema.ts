@@ -17,6 +17,12 @@ export interface RegistryItem {
   description?: string;
 
   /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog?: boolean;
+
+  /**
    * @description Registry Item이 포함하는 파일의 경로. 확장자 포함
    * @example [{ path: "alert-dialog.tsx" }]
    * @example [{ path: "use-dismissible.ts" }, { path: "manner-temp-level.ts" }]
@@ -31,6 +37,13 @@ export interface RegistryItem {
 
 export interface Registry {
   id: string;
+
+  /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog?: boolean;
+
   items: RegistryItem[];
 }
 
@@ -46,6 +59,12 @@ export interface GeneratedRegistryItem {
   id: string;
 
   description?: string;
+
+  /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog?: boolean;
 
   /**
    * @description 컴포넌트 deprecated 여부
@@ -80,6 +99,13 @@ export interface GeneratedRegistryItem {
  */
 export interface GeneratedRegistry {
   id: string;
+
+  /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog?: boolean;
+
   items: Array<{
     /**
      * @description Registry Item ID

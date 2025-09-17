@@ -41,7 +41,26 @@ export const addCommand = (cli: CAC) => {
     .action(async (snippetIds, opts) => {
       p.intro(color.bgCyan("seed-design add"));
 
-      const { all, ...options } = addOptionsSchema.parse({ snippetIds, ...opts });
+      const {
+        success,
+        data: { all, ...options },
+        error,
+      } = addOptionsSchema.safeParse({ snippetIds, ...opts });
+
+      if (!success) {
+        p.log.error(`잘못된 옵션이에요: ${error?.message}`);
+
+        process.exit(1);
+      }
+
+      if (all) {
+        p.log.error(
+          "`--all` 옵션은 더 이상 지원되지 않아요. 대신 `seed-design add-all` 명령어를 사용해주세요.",
+        );
+
+        process.exit(1);
+      }
+
       const cwd = options.cwd;
       const baseUrl = options.baseUrl;
       const config = await getConfig(cwd);
@@ -62,32 +81,28 @@ export const addCommand = (cli: CAC) => {
       const selectedItemKeys: string[] = await (async () => {
         if (options.snippetIds.length > 0) return options.snippetIds;
 
-        if (all) {
-          p.log.error(
-            "`--all` 옵션은 더 이상 지원되지 않아요. 대신 `seed-design add-all` 명령어를 사용해주세요.",
-          );
-
-          process.exit(1);
-        }
-
         const selected = await p.multiselect({
           message: "추가할 스니펫을 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
           options: publicRegistries
-            .sort((a, b) => a.items.length - b.items.length)
+            .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
             .flatMap(({ id: registryId, items }) =>
               items
+                .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
                 .map(({ id, description, deprecated }) => ({
-                  label: `${deprecated ? "(deprecated) " : ""}${id}`,
+                  label: `${deprecated ? "(deprecated) " : ""}${highlight(registryId)}:${id}`,
                   value: `${registryId}:${id}`,
                   hint: description,
-                  deprecated,
-                }))
-                .sort((a, b) => {
-                  if (a.deprecated === b.deprecated) return a.label.localeCompare(b.label);
 
-                  return a.deprecated ? 1 : -1;
-                }),
-            ),
+                  // used for sorting
+                  deprecated,
+                  registryItemCount: items.length,
+                })),
+            )
+            .sort((a, b) => {
+              if (a.deprecated !== b.deprecated) return a.deprecated ? 1 : -1;
+
+              return b.registryItemCount - a.registryItemCount;
+            }),
         });
 
         if (p.isCancel(selected)) {
@@ -145,6 +160,11 @@ export const addCommand = (cli: CAC) => {
         selectedItemKeys: filteredItemKeys,
         publicRegistries,
       });
+
+      p.log.info(
+        `추가할 스니펫: ${highlight(registryItemsToAdd.map((r) => r.items.map((i) => `${r.registryId}:${i.id}`).join(", ")).join(", ") || "없음")}
+설치할 의존성: ${highlight(Array.from(npmDependenciesToAdd).join(", ") || "없음")}`,
+      );
 
       const registryResult = await writeRegistryFiles({
         registryItemsToAdd,

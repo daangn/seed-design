@@ -42,7 +42,18 @@ export const addAllCommand = (cli: CAC) => {
     .action(async (registryIds, opts) => {
       p.intro(color.bgCyan("seed-design add-all"));
 
-      const options = addAllOptionsSchema.parse({ registryIds, ...opts });
+      const {
+        success,
+        data: options,
+        error,
+      } = addAllOptionsSchema.safeParse({ registryIds, ...opts });
+
+      if (!success) {
+        p.log.error(`잘못된 옵션이에요: ${error?.message}`);
+
+        process.exit(1);
+      }
+
       const cwd = options.cwd;
       const baseUrl = options.baseUrl;
       const config = await getConfig(cwd);
@@ -89,11 +100,13 @@ export const addAllCommand = (cli: CAC) => {
 
         const selected = await p.multiselect({
           message: "추가할 레지스트리를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
-          options: publicRegistries.map((registry) => ({
-            label: registry.id,
-            value: registry.id,
-            hint: `${registry.items.length}개 스니펫`,
-          })),
+          options: publicRegistries
+            .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
+            .map((registry) => ({
+              label: registry.id,
+              value: registry.id,
+              hint: `${registry.items.length}개 스니펫`,
+            })),
         });
 
         if (p.isCancel(selected)) {

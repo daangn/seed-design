@@ -34,24 +34,38 @@ export async function writeRegistryFiles({
     });
 
     for (const { id, files } of registryItems) {
-      await Promise.all(
+      const transformedFiles = await Promise.all(
         files.map(async (file) => {
-          let filePath = path.join(registryPath, file.path);
-
           const content = await transform({ filename: file.path, config, raw: file.content });
 
+          let filePath = path.join(registryPath, file.path);
           if (!config.tsx) {
             filePath = filePath.replace(/\.tsx$/, ".jsx");
             filePath = filePath.replace(/\.ts$/, ".js");
           }
 
-          await fs.writeFile(filePath, content);
-
-          const relativePath = path.relative(cwd, filePath);
-
-          registryResult.push({ name: `${registryId}:${id}`, path: relativePath });
+          return {
+            filePath,
+            content,
+            relativePath: path.relative(cwd, filePath),
+            name: `${registryId}:${id}`,
+          };
         }),
       );
+
+      await Promise.all(
+        transformedFiles.map(async ({ filePath, content }) => {
+          await fs.ensureDir(path.dirname(filePath));
+          await fs.writeFile(filePath, content);
+        }),
+      );
+
+      const fileResults = transformedFiles.map(({ name, relativePath }) => ({
+        name,
+        path: relativePath,
+      }));
+
+      registryResult.push(...fileResults);
 
       p.log.success(`${highlight(`${registryId}:${id}`)} 관련 파일 ${files.length}개 추가 완료`);
     }

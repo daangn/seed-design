@@ -14,6 +14,12 @@ export const publicRegistryItemSchema = z.object({
   description: z.string().optional(),
 
   /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog: z.boolean().optional(),
+
+  /**
    * @description 실제 파일의 경로와 내용
    * @example [{ path: "alert-dialog.tsx", content: "import { useState } from 'react'; ..." }]
    */
@@ -48,6 +54,13 @@ export const publicRegistryItemSchema = z.object({
  */
 export const publicRegistrySchema = z.object({
   id: z.string(),
+
+  /**
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
+   */
+  hideFromCLICatalog: z.boolean().optional(),
+
   items: z.array(
     publicRegistryItemSchema
       .omit({ files: true })

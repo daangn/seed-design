@@ -1,13 +1,11 @@
-{
-  "registries": [
-    {
-      "id": "ui"
-    },
-    {
-      "id": "lib"
-    },
-    {
-      "id": "breeze"
-    }
-  ]
-}
+[
+  {
+    "id": "ui"
+  },
+  {
+    "id": "lib"
+  },
+  {
+    "id": "breeze"
+  }
+]
