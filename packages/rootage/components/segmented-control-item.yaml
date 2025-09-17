@@ -9,16 +9,24 @@ data:
     slots:
       root:
         properties:
-          height:
+          minWidth:
+            type: dimension
+          minHeight:
             type: dimension
           cornerRadius:
             type: dimension
           paddingX:
             type: dimension
-          minWidth:
+          paddingY:
+            type: dimension
+          gap:
             type: dimension
           color:
             type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
       label:
         properties:
           fontSize:
@@ -29,26 +37,41 @@ data:
             type: number
           color:
             type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
   definitions:
     base:
       enabled:
         root:
-          height: $dimension.x8
-          cornerRadius: $radius.full
-          paddingX: $dimension.x4
           minWidth: 86px
+          minHeight: $dimension.x8
+          paddingX: $dimension.x6
+          paddingY: $dimension.x1_5
+          cornerRadius: $radius.full
+          gap: $dimension.x1_5
+          colorDuration: $duration.d4
+          colorTimingFunction: $timing-function.easing
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.medium
-          color: $color.fg.neutral-muted
+          color: $color.fg.neutral-subtle
+          colorDuration: $duration.d4
+          colorTimingFunction: $timing-function.easing
       pressed:
         root:
           color: $color.bg.neutral-weak-pressed
       selected:
         label:
-          fontWeight: $font-weight.bold
           color: $color.fg.neutral
+      selected,pressed:
+        root:
+          color: $color.palette.gray-100
       disabled:
         label:
           color: $color.fg.disabled
+      disabled,selected:
+        root:
+          color: $color.bg.disabled

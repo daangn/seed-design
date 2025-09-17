@@ -8,8 +8,8 @@ export const metadata = {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "Neutral",
-        "Neutral Muted"
+        "Neutral Muted",
+        "Neutral Subtle"
       ]
     },
     "Orientation": {

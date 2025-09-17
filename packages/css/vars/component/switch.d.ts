@@ -6,17 +6,11 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-full)"
       },
       "thumb": {
-        "color": "var(--seed-color-palette-static-white)",
         "cornerRadius": "var(--seed-radius-full)"
       },
       "label": {
         "color": "var(--seed-color-fg-neutral)",
         "fontWeight": "var(--seed-font-weight-medium)"
-      }
-    },
-    "enabledSelected": {
-      "control": {
-        "color": "var(--seed-color-bg-brand-solid)"
       }
     },
     "disabled": {
@@ -25,6 +19,30 @@ export declare const vars: {
       },
       "label": {
         "color": "var(--seed-color-fg-disabled)"
+      }
+    }
+  },
+  "toneBrand": {
+    "enabled": {
+      "thumb": {
+        "color": "var(--seed-color-palette-static-white)"
+      }
+    },
+    "enabledSelected": {
+      "control": {
+        "color": "var(--seed-color-bg-brand-solid)"
+      }
+    }
+  },
+  "toneNeutral": {
+    "enabled": {
+      "thumb": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "enabledSelected": {
+      "control": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
       }
     }
   },
@@ -37,12 +55,12 @@ export declare const vars: {
       "control": {
         "height": "32px",
         "width": "52px",
-        "paddingX": "2px",
-        "paddingY": "2px"
+        "paddingX": "3px",
+        "paddingY": "3px"
       },
       "thumb": {
-        "height": "28px",
-        "width": "28px",
+        "height": "26px",
+        "width": "26px",
         "shadow": "0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f"
       },
       "label": {

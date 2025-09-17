@@ -14,6 +14,14 @@ export const metadata = {
         "Large"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "defaultValue": "Neutral",
+      "variantOptions": [
+        "🚫[Deprecated]Brand",
+        "Neutral"
+      ]
+    },
     "Shape": {
       "type": "VARIANT",
       "defaultValue": "Square",
@@ -24,10 +32,19 @@ export const metadata = {
     },
     "Weight": {
       "type": "VARIANT",
-      "defaultValue": "Default",
+      "defaultValue": "Regular",
       "variantOptions": [
-        "Default",
-        "Stronger"
+        "Bold",
+        "Regular"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "defaultValue": "False",
+      "variantOptions": [
+        "True",
+        "False",
+        "Indeterminate"
       ]
     },
     "State": {
@@ -36,13 +53,7 @@ export const metadata = {
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Disabled",
-        "Indeterminate",
-        "Indeterminate-Pressed",
-        "Indeterminate-Disabled"
+        "Disabled"
       ]
     }
   }

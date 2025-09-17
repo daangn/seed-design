@@ -18,7 +18,7 @@ export declare const metadata: {
       "type": "BOOLEAN",
       "defaultValue": true
     },
-    "Show Desciption#25192:0": {
+    "Show Description#25192:0": {
       "type": "BOOLEAN",
       "defaultValue": true
     },

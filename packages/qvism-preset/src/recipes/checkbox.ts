@@ -31,14 +31,14 @@ const checkbox = defineSlotRecipe({
   },
   variants: {
     weight: {
-      default: {
+      regular: {
         label: {
-          fontWeight: vars.weightDefault.enabled.label.fontWeight,
+          fontWeight: vars.weightRegular.enabled.label.fontWeight,
         },
       },
-      stronger: {
+      bold: {
         label: {
-          fontWeight: vars.weightStronger.enabled.label.fontWeight,
+          fontWeight: vars.weightBold.enabled.label.fontWeight,
         },
       },
     },
@@ -69,7 +69,7 @@ const checkbox = defineSlotRecipe({
   },
   defaultVariants: {
     size: "medium",
-    weight: "default",
+    weight: "regular",
   },
 });
 

@@ -14,15 +14,15 @@ const checkboxSlotNames = [
 
 const defaultVariant = {
   "size": "medium",
-  "weight": "default"
+  "weight": "regular"
 };
 
 const compoundVariants = [];
 
 export const checkboxVariantMap = {
   "weight": [
-    "default",
-    "stronger"
+    "regular",
+    "bold"
   ],
   "size": [
     "large",

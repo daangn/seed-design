@@ -1,8 +1,8 @@
 import type { ComponentMapping, NewComponentProperties } from "./types";
 
-export const chipButtonMapping: ComponentMapping<"✅ Chip Button v2", "🟢 Action Chip"> = {
+export const chipButtonMapping: ComponentMapping<"✅ Chip Button v2", "🟢 Chip"> = {
   oldComponent: "✅ Chip Button v2",
-  newComponent: "🟢 Action Chip",
+  newComponent: "🟢 Chip",
   variantMap: {
     "Size:Medium": "Size:Medium",
     "Size:Small": "Size:Small",
@@ -11,10 +11,9 @@ export const chipButtonMapping: ComponentMapping<"✅ Chip Button v2", "🟢 Act
     "State:Pressed": "State:Pressed",
   },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Action Chip"> = {
-      "Show Count#7185:42": oldProperties["Count#53703:0"].value,
-      "Count#7185:21": oldProperties["↳Number#53703:26"].value,
+    const newProperties: NewComponentProperties<"🟢 Chip"> = {
       "Label#7185:0": oldProperties["Label#52810:25"].value,
+      Variant: "Outline Strong",
     };
 
     const prefixIcon = oldProperties["Prefix#28903:0"].value;
@@ -22,20 +21,21 @@ export const chipButtonMapping: ComponentMapping<"✅ Chip Button v2", "🟢 Act
 
     switch (`${prefixIcon} ${suffixIcon}`) {
       case "true true":
-        newProperties.Layout = "Icon Both";
-        newProperties["Prefix Icon#8711:0"] = oldProperties["↳Icon#28915:57"].value;
-        newProperties["Suffix Icon#8711:3"] = oldProperties["↳Icon #28915:0"].value;
+        newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#28915:57"].value;
+        newProperties["Prefix Type"] = "Icon";
+
+        newProperties["Has Suffix#32538:181"] = true;
         break;
       case "true false":
-        newProperties.Layout = "Icon First";
-        newProperties["Prefix Icon#8711:0"] = oldProperties["↳Icon#28915:57"].value;
+        newProperties["Prefix Type"] = "Icon";
+        newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#28915:57"].value;
         break;
       case "false true":
-        newProperties.Layout = "Icon Last";
-        newProperties["Suffix Icon#8711:3"] = oldProperties["↳Icon #28915:0"].value;
+        newProperties["Has Suffix#32538:181"] = true;
         break;
       case "false false":
-        newProperties.Layout = "Text Only";
+        newProperties["Prefix Type"] = "None";
+        newProperties["Has Suffix#32538:181"] = false;
         break;
     }
 
@@ -43,14 +43,20 @@ export const chipButtonMapping: ComponentMapping<"✅ Chip Button v2", "🟢 Act
   },
 };
 
-export const chipFilterMapping: ComponentMapping<"✅ Chip Filter v2", "🟢 Control Chip"> = {
+export const chipFilterMapping: ComponentMapping<"✅ Chip Filter v2", "🟢 Chip"> = {
   oldComponent: "✅ Chip Filter v2",
-  newComponent: "🟢 Control Chip",
-  variantMap: {},
+  newComponent: "🟢 Chip",
+  variantMap: {
+    "Selected:False": "Selected:False",
+    "Selected:True": "Selected:True",
+    "State:Disabled": "State:Disabled",
+    "State:Enabled": "State:Enabled",
+    "State:Pressed": "State:Pressed",
+  },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Control Chip"> = {
+    const newProperties: NewComponentProperties<"🟢 Chip"> = {
       // 원래 없었음
-      "Show Count#7185:42": false,
+      "Has Suffix#32538:181": false,
 
       "Label#7185:0": oldProperties["Label#28900:0"].value,
     };
@@ -59,54 +65,40 @@ export const chipFilterMapping: ComponentMapping<"✅ Chip Filter v2", "🟢 Con
     const suffixIcon = oldProperties["Suffix#28752:0"].value;
 
     if (prefixIcon && suffixIcon) {
-      newProperties.Layout = "Icon Both";
+      newProperties["Prefix Type"] = "Icon";
       newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#52835:0"].value;
-      newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #52835:5"].value;
+
+      newProperties["Has Suffix#32538:181"] = true;
     } else if (prefixIcon && !suffixIcon) {
-      newProperties.Layout = "Icon First";
+      newProperties["Prefix Type"] = "Icon";
       newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#52835:0"].value;
     } else if (!prefixIcon && suffixIcon) {
-      newProperties.Layout = "Icon Last";
-      newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #52835:5"].value;
+      newProperties["Has Suffix#32538:181"] = true;
     } else {
-      newProperties.Layout = "Text Only";
-    }
-
-    const isSelected = oldProperties.Selected.value === "True";
-    const isDisabled = oldProperties.State.value === "Disabled";
-    const isPressed = oldProperties.State.value === "Pressed";
-
-    if (isSelected) {
-      if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
-      } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
-      } else {
-        newProperties.State = "Selected";
-      }
-    } else if (isDisabled) {
-      newProperties.State = "Disabled";
-    } else if (isPressed) {
-      newProperties.State = "Pressed";
-    } else {
-      newProperties.State = "Enabled";
+      newProperties["Prefix Type"] = "None";
+      newProperties["Has Suffix#32538:181"] = false;
     }
 
     return newProperties;
   },
 };
 
-export const chipRadioMapping: ComponentMapping<"✅ Chip Radio v2", "🟢 Control Chip"> = {
+export const chipRadioMapping: ComponentMapping<"✅ Chip Radio v2", "🟢 Chip"> = {
   oldComponent: "✅ Chip Radio v2",
-  newComponent: "🟢 Control Chip",
+  newComponent: "🟢 Chip",
   variantMap: {
     "Size:Medium": "Size:Medium",
     "Size:Small": "Size:Small",
+    "State:Disabled": "State:Disabled",
+    "State:Enabled": "State:Enabled",
+    "State:Pressed": "State:Pressed",
+    "Selected:False": "Selected:False",
+    "Selected:True": "Selected:True",
   },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Control Chip"> = {
+    const newProperties: NewComponentProperties<"🟢 Chip"> = {
       // 원래 없었음
-      "Show Count#7185:42": false,
+      "Has Suffix#32538:181": false,
 
       "Label#7185:0": oldProperties["Label#54090:52"].value,
     };
@@ -116,66 +108,44 @@ export const chipRadioMapping: ComponentMapping<"✅ Chip Radio v2", "🟢 Contr
 
     switch (`${prefixIcon} ${suffixIcon}`) {
       case "true true":
-        newProperties.Layout = "Icon Both";
+        newProperties["Prefix Type"] = "Icon";
         newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#54090:13"].value;
-        newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #54090:39"].value;
+        newProperties["Has Suffix#32538:181"] = true;
+
         break;
       case "true false":
-        newProperties.Layout = "Icon First";
+        newProperties["Prefix Type"] = "Icon";
         newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#54090:13"].value;
         break;
       case "false true":
-        newProperties.Layout = "Icon Last";
-        newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #54090:39"].value;
+        newProperties["Has Suffix#32538:181"] = true;
+
         break;
       case "false false":
-        newProperties.Layout = "Text Only";
+        newProperties["Prefix Type"] = "None";
+        newProperties["Has Suffix#32538:181"] = false;
         break;
-    }
-
-    const isSelected = oldProperties.Selected.value === "True";
-    const isDisabled = oldProperties.State.value === "Disabled";
-    const isPressed = oldProperties.State.value === "Pressed";
-
-    if (isSelected) {
-      if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
-      } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
-      } else {
-        newProperties.State = "Selected";
-      }
-    } else if (isDisabled) {
-      newProperties.State = "Disabled";
-    } else if (isPressed) {
-      newProperties.State = "Pressed";
-    } else {
-      newProperties.State = "Enabled";
     }
 
     return newProperties;
   },
 };
 
-export const chipToggleButtonMapping: ComponentMapping<
-  "✅ Chip Toggle Button v2",
-  "🟢 Control Chip"
-> = {
+export const chipToggleButtonMapping: ComponentMapping<"✅ Chip Toggle Button v2", "🟢 Chip"> = {
   oldComponent: "✅ Chip Toggle Button v2",
-  newComponent: "🟢 Control Chip",
+  newComponent: "🟢 Chip",
   variantMap: {
     "State:Disabled": "State:Disabled",
     "State:Enabled": "State:Enabled",
     "State:Pressed": "State:Pressed",
-    "Selected:True": "State:Selected",
-    "Selected:False": "State:Enabled",
+    "Selected:True": "Selected:True",
+    "Selected:False": "Selected:False",
     "Size:Medium": "Size:Medium",
     "Size:Small": "Size:Small",
   },
   calculateProperties(oldProperties) {
-    const newProperties: NewComponentProperties<"🟢 Control Chip"> = {
-      "Show Count#7185:42": oldProperties["Count#79653:0"].value,
-      "Count#7185:21": oldProperties["↳Number#79653:13"].value,
+    const newProperties: NewComponentProperties<"🟢 Chip"> = {
+      "Has Suffix#32538:181": false,
       "Label#7185:0": oldProperties["Label#52810:0"].value,
     };
 
@@ -184,41 +154,23 @@ export const chipToggleButtonMapping: ComponentMapping<
 
     switch (`${prefixIcon} ${suffixIcon}`) {
       case "true true":
-        newProperties.Layout = "Icon Both";
+        newProperties["Prefix Type"] = "Icon";
         newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#28915:57"].value;
-        newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #28915:0"].value;
+        newProperties["Has Suffix#32538:181"] = true;
+
         break;
       case "true false":
-        newProperties.Layout = "Icon First";
+        newProperties["Prefix Type"] = "Icon";
         newProperties["Prefix Icon#8722:0"] = oldProperties["↳Icon#28915:57"].value;
         break;
       case "false true":
-        newProperties.Layout = "Icon Last";
-        newProperties["Suffix Icon#8722:82"] = oldProperties["↳Icon #28915:0"].value;
+        newProperties["Has Suffix#32538:181"] = true;
+
         break;
       case "false false":
-        newProperties.Layout = "Text Only";
+        newProperties["Prefix Type"] = "None";
+        newProperties["Has Suffix#32538:181"] = false;
         break;
-    }
-
-    const isSelected = oldProperties.Selected.value === "True";
-    const isDisabled = oldProperties.State.value === "Disabled";
-    const isPressed = oldProperties.State.value === "Pressed";
-
-    if (isSelected) {
-      if (isDisabled) {
-        newProperties.State = "Selected-Disabled";
-      } else if (isPressed) {
-        newProperties.State = "Selected-Pressed";
-      } else {
-        newProperties.State = "Selected";
-      }
-    } else if (isDisabled) {
-      newProperties.State = "Disabled";
-    } else if (isPressed) {
-      newProperties.State = "Pressed";
-    } else {
-      newProperties.State = "Enabled";
     }
 
     return newProperties;

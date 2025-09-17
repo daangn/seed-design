@@ -2,16 +2,8 @@ export const vars = {
   "variantSquare": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-weak)",
-        "strokeWidth": "1px"
-      }
-    },
-    "enabledSelected": {
-      "root": {
-        "color": "var(--seed-color-bg-brand-solid)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "strokeWidth": "1px",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },
     "pressed": {
@@ -19,12 +11,10 @@ export const vars = {
         "color": "var(--seed-color-bg-layer-default-pressed)"
       }
     },
-    "pressedSelected": {
+    "enabledSelected": {
       "root": {
-        "color": "var(--seed-color-bg-brand-solid-pressed)"
-      },
-      "icon": {
-        "color": "var(--seed-color-palette-static-white)"
+        "strokeWidth": "0px",
+        "strokeColor": "#00000000"
       }
     },
     "disabled": {
@@ -42,25 +32,45 @@ export const vars = {
       }
     }
   },
+  "variantSquareToneBrand": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-solid)"
+      },
+      "icon": {
+        "color": "var(--seed-color-palette-static-white)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-brand-solid-pressed)"
+      }
+    }
+  },
+  "variantSquareToneNeutral": {
+    "enabledSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted)"
+      },
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-inverted)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-bg-neutral-inverted-pressed)"
+      }
+    }
+  },
   "variantGhost": {
     "enabled": {
       "icon": {
         "color": "var(--seed-color-fg-placeholder)"
       }
     },
-    "enabledSelected": {
-      "icon": {
-        "color": "var(--seed-color-fg-brand)"
-      }
-    },
     "pressed": {
       "root": {
         "color": "var(--seed-color-bg-layer-default-pressed)"
-      }
-    },
-    "pressedSelected": {
-      "root": {
-        "color": "var(--seed-color-palette-carrot-200)"
       }
     },
     "disabled": {
@@ -71,6 +81,30 @@ export const vars = {
     "disabledSelected": {
       "icon": {
         "color": "var(--seed-color-fg-disabled)"
+      }
+    }
+  },
+  "variantGhostToneBrand": {
+    "enabledSelected": {
+      "icon": {
+        "color": "var(--seed-color-fg-brand)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-palette-carrot-200)"
+      }
+    }
+  },
+  "variantGhostToneNeutral": {
+    "enabledSelected": {
+      "icon": {
+        "color": "var(--seed-color-fg-neutral-muted)"
+      }
+    },
+    "pressedSelected": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-200)"
       }
     }
   },

@@ -19,7 +19,7 @@ export const dividerNavMapping: ComponentMapping<"✅ Divider_nav v2", "🟢 Div
   variantMap: {},
   calculateProperties() {
     const newProperties: NewComponentProperties<"🟢 Divider"> = {
-      Tone: "Neutral",
+      Tone: "Neutral Muted",
     };
 
     return newProperties;

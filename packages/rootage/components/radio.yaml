@@ -34,11 +34,11 @@ data:
         label:
           color: $color.fg.disabled
 
-    weight=default:
+    weight=regular:
       enabled:
         label:
           fontWeight: $font-weight.regular
-    weight=stronger:
+    weight=bold:
       enabled:
         label:
           fontWeight: $font-weight.bold

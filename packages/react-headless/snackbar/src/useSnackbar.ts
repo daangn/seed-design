@@ -205,7 +205,6 @@ export function useSnackbar(props: UseSnackbarProps) {
 
       closeButtonProps: buttonProps({
         type: "button",
-        "aria-label": "Dismiss notification", // TODO: i18n
         onClick() {
           events.dismiss();
         },

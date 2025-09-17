@@ -39,10 +39,10 @@
       "variants": {
         "weight": {
           "values": {
-            "default": {},
-            "stronger": {}
+            "regular": {},
+            "bold": {}
           },
-          "defaultValue": "default"
+          "defaultValue": "regular"
         },
         "size": {
           "values": {
@@ -93,7 +93,7 @@
       },
       {
         "variants": {
-          "weight": "default"
+          "weight": "regular"
         },
         "definitions": [
           {
@@ -113,7 +113,7 @@
       },
       {
         "variants": {
-          "weight": "stronger"
+          "weight": "bold"
         },
         "definitions": [
           {

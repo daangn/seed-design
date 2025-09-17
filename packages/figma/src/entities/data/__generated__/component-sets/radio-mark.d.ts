@@ -9,6 +9,13 @@ export declare const metadata: {
         "Large"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "Neutral",
+        "🚫[Deprecated]Brand"
+      ]
+    },
     "Selected": {
       "type": "VARIANT",
       "variantOptions": [

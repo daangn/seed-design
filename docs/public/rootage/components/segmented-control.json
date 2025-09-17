@@ -30,6 +30,12 @@
             "cornerRadius": {
               "type": "dimension"
             },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
             "shadow": {
               "type": "shadow"
             },
@@ -70,11 +76,22 @@
               "indicator": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "$color.palette.gray-00"
                 },
                 "cornerRadius": {
                   "type": "dimension",
                   "value": "$radius.full"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-weak"
                 },
                 "shadow": {
                   "type": "shadow",

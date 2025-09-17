@@ -22,11 +22,17 @@ npx @seed-design/cli@latest add checkbox
 
 ## Props
 
+### `Checkbox`
+
 <react-type-table path="./registry/ui/checkbox.tsx" name="CheckboxProps" />
+
+### `Checkmark`
+
+<react-type-table path="./registry/ui/checkbox.tsx" name="CheckmarkProps" />
 
 ## Examples
 
-### Size
+### Sizes
 
 <ComponentExample name="checkbox-size">
   ```json doc-gen:file
@@ -37,12 +43,25 @@ npx @seed-design/cli@latest add checkbox
   ```
 </ComponentExample>
 
-### Variant
+### Tones and Variants
 
-<ComponentExample name="checkbox-variant">
+#### Brand
+
+<ComponentExample name="checkbox-brand">
   ```json doc-gen:file
   {
-    "file": "./components/example/checkbox-variant.tsx",
+    "file": "./components/example/checkbox-brand.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Neutral
+
+<ComponentExample name="checkbox-neutral">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/checkbox-neutral.tsx",
     "codeblock": true
   }
   ```
@@ -59,23 +78,27 @@ npx @seed-design/cli@latest add checkbox
   ```
 </ComponentExample>
 
-### Weight=stronger
+### Weights
 
-<ComponentExample name="checkbox-stronger">
+<Callout title="Deprecated Props" type="warning">
+  `weight="default"`와 `weight="stronger"`는 더 이상 사용되지 않습니다. 대신 `weight="regular"`와 `weight="bold"`를 사용하세요.
+</Callout>
+
+<ComponentExample name="checkbox-weights">
   ```json doc-gen:file
   {
-    "file": "./components/example/checkbox-stronger.tsx",
+    "file": "./components/example/checkbox-weights.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Long Text
+### Long Label
 
-<ComponentExample name="checkbox-long-text">
+<ComponentExample name="checkbox-long-label">
   ```json doc-gen:file
   {
-    "file": "./components/example/checkbox-long-text.tsx",
+    "file": "./components/example/checkbox-long-label.tsx",
     "codeblock": true
   }
   ```
