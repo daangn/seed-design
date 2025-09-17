@@ -19,10 +19,10 @@ async function main() {
     getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
   });
 
-  const processedRegistries = generator.generate();
+  const { registries, availableRegistries } = generator.generate();
 
   await Promise.all(
-    processedRegistries.map(async ({ index, items }) => {
+    registries.map(async ({ index, items }) => {
       const outPath = path.join(GENERATED_REGISTRY_PATH, index.id);
 
       if (!existsSync(outPath)) {
@@ -40,6 +40,9 @@ async function main() {
       console.log(chalk.gray(`Generated ${index.id} registry...`));
     }),
   );
+
+  const availableRegistriesPath = path.join(GENERATED_REGISTRY_PATH, "index.json");
+  await fs.writeFile(availableRegistriesPath, JSON.stringify(availableRegistries, null, 2), "utf8");
 
   console.log(chalk.green("All Registries Generated !"));
 }

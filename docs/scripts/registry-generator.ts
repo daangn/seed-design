@@ -4,6 +4,7 @@ import type {
   RegistryItem,
   GeneratedRegistry,
   GeneratedRegistryItem,
+  AvailableRegistries,
 } from "../registry/schema.js";
 import packageJson from "../package.json" with { type: "json" };
 import path from "node:path";
@@ -42,23 +43,31 @@ export class RegistryGenerator {
     });
   }
 
-  generate(): { index: GeneratedRegistry; items: GeneratedRegistryItem[] }[] {
-    return this.#registries.map((registry) => {
-      const processedItems = registry.items.map((registryItem) =>
-        this.processRegistryItem({ registryName: registry.id, registryItem }),
-      );
+  generate(): {
+    availableRegistries: AvailableRegistries;
+    registries: { index: GeneratedRegistry; items: GeneratedRegistryItem[] }[];
+  } {
+    return {
+      availableRegistries: {
+        registries: this.#registries.map(({ id }) => ({ id })),
+      },
+      registries: this.#registries.map((registry) => {
+        const processedItems = registry.items.map((registryItem) =>
+          this.processRegistryItem({ registryName: registry.id, registryItem }),
+        );
 
-      return {
-        index: {
-          ...registry,
-          items: processedItems.map(({ files, ...rest }) => ({
-            files: files.map(({ content, ...rest }) => rest),
-            ...rest,
-          })),
-        },
-        items: processedItems,
-      };
-    });
+        return {
+          index: {
+            ...registry,
+            items: processedItems.map(({ files, ...rest }) => ({
+              files: files.map(({ content, ...rest }) => rest),
+              ...rest,
+            })),
+          },
+          items: processedItems,
+        };
+      }),
+    };
   }
 
   private processRegistryItem({

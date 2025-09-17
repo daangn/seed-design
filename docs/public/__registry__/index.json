@@ -1,0 +1,13 @@
+{
+  "registries": [
+    {
+      "id": "ui"
+    },
+    {
+      "id": "lib"
+    },
+    {
+      "id": "breeze"
+    }
+  ]
+}
