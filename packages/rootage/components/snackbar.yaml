@@ -48,6 +48,12 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
+      messageContainer:
+        properties:
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
       message:
         properties:
           color:
@@ -64,6 +70,8 @@ data:
             type: dimension
           color:
             type: color
+          marginRight:
+            type: dimension
       actionButton:
         properties:
           targetPaddingX:
@@ -88,13 +96,12 @@ data:
           offsetDuration: $duration.d4
           offsetTimingFunction: $timing-function.easing
         root:
-          color: $color.bg.neutral-solid
+          color: $color.bg.neutral-inverted
           cornerRadius: $radius.r2
           minHeight: 44px
           maxWidth: 560px
-          paddingX: $dimension.x4
+          paddingX: $dimension.x2_5
           paddingY: $dimension.x2_5
-          gap: $dimension.x2
           enterOpacity: 0
           enterScale: 0.8
           enterDuration: $duration.d3
@@ -103,13 +110,17 @@ data:
           exitScale: 0.8
           exitDuration: $duration.d2
           exitTimingFunction: $timing-function.exit
+        messageContainer:
+          paddingX: $dimension.x1_5
+          gap: $dimension.x2_5
         message:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
           fontWeight: $font-weight.regular
         prefixIcon:
           size: 24px
+          marginRight: $dimension.x0_5
         actionButton:
           targetPaddingX: $dimension.x2
           targetMinHeight: 44px
