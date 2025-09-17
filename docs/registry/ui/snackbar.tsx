@@ -90,12 +90,17 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         )}
         <SeedSnackbar.Content>
           <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
-          <SeedSnackbar.ActionButton onClick={handleAction}>
-            {actionLabel}
-          </SeedSnackbar.ActionButton>
+          {actionLabel && (
+            <>
+              <SeedSnackbar.ActionButton onClick={handleAction}>
+                {actionLabel}
+              </SeedSnackbar.ActionButton>
+
+              {/* You may implement your own i18n for dismiss label */}
+              <SeedSnackbar.HiddenCloseButton>닫기</SeedSnackbar.HiddenCloseButton>
+            </>
+          )}
         </SeedSnackbar.Content>
-        {/* You may implement your own i18n for dismiss label */}
-        <SeedSnackbar.HiddenCloseButton>닫기</SeedSnackbar.HiddenCloseButton>
       </SeedSnackbar.Root>
     );
   },
