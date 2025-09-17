@@ -16,8 +16,6 @@ data:
             type: dimension
           paddingY:
             type: dimension
-          shadow:
-            type: shadow
           enterScale:
             type: number
           enterOpacity:
@@ -86,18 +84,10 @@ data:
     base:
       enabled:
         root:
-          color: $color.bg.neutral-solid
+          color: $color.bg.neutral-inverted
           cornerRadius: $radius.r3
           paddingX: $dimension.x3
           paddingY: $dimension.x2_5
-          shadow:
-            type: shadow
-            value:
-              - color: "#00000029"
-                blur: 24px
-                offsetX: 0px
-                offsetY: 8px
-                spread: 0px
           enterScale: 0.9
           enterOpacity: 0
           enterDuration: $duration.d4
@@ -107,24 +97,24 @@ data:
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.easing
         arrow:
-          color: $color.bg.neutral-solid
+          color: $color.bg.neutral-inverted
           width: 12px
           height: 8px
           cornerRadius: 2px
           gutter: 4px
           padding: 14px
         title:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
           fontSize: $font-size.t3
           fontWeight: $font-weight.bold
           lineHeight: $line-height.t3
         description:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
           fontSize: $font-size.t3
           fontWeight: $font-weight.regular
           lineHeight: $line-height.t3
         closeButton:
-          color: $color.palette.static-white
+          color: $color.fg.neutral-inverted
           fromRight: 12px
           fromTop: 12px
           size: 14px
