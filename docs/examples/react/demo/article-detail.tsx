@@ -1,0 +1,126 @@
+import { CATEGORIES, type Article } from "@/components/example/react/demo/data";
+import type { ActivityComponentType } from "@stackflow/react/future";
+import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarCloseButton,
+  AppBarRight,
+  AppBarLeft,
+} from "@/registry/ui/app-bar";
+import { VStack, HStack, Box } from "@seed-design/react";
+import { Text } from "@seed-design/react";
+import { Badge } from "@seed-design/react";
+import { SegmentedControl, SegmentedControlItem } from "@/registry/ui/segmented-control";
+import { Callout } from "@/registry/ui/callout";
+import { TextField, TextFieldTextarea } from "@/registry/ui/text-field";
+import { ErrorState } from "@/registry/ui/error-state";
+import { ActionButton } from "@/registry/ui/action-button";
+import { Skeleton } from "@seed-design/react";
+import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
+import { ArticleAuthor } from "./components/article-author";
+import { formatDate } from "@/components/example/react/demo/utils/date";
+import { useState } from "react";
+
+import img from "@/public/penguin.webp";
+
+declare module "@stackflow/config" {
+  interface Register {
+    "demo/article-detail": {
+      article: Article;
+    };
+  }
+}
+
+const SEGMENTS = [
+  { value: "popular", label: "인기" },
+  { value: "latest", label: "최근" },
+] as const satisfies { value: string; label: string }[];
+
+const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
+  params: { article },
+}) => {
+  const categoryName = CATEGORIES.find((c) => c.id === article.categoryId)?.name;
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
+  return (
+    <AppScreen layerOffsetTop="none">
+      <AppBar tone="transparent">
+        <AppBarLeft>
+          <AppBarBackButton />
+        </AppBarLeft>
+        <AppBarRight>
+          <AppBarCloseButton />
+        </AppBarRight>
+      </AppBar>
+      <AppScreenContent>
+        <VStack gap="x4">
+          <Box style={{ aspectRatio: "1 / 1", position: "relative" }}>
+            <img
+              src={img.src}
+              alt="penguin"
+              onLoad={() => setIsImageLoading(false)}
+              style={{ position: "absolute", zIndex: 1 }}
+            />
+            {isImageLoading && <Skeleton width="full" height="full" radius="0" />}
+          </Box>
+          <VStack gap="x6" pb="x4">
+            <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault" align="flex-start">
+              {article.isPopular && (
+                <Badge variant="outline" tone="brand" size="large">
+                  인기
+                </Badge>
+              )}
+              <VStack gap="x1">
+                <Text as="h1" textStyle="t7Bold" color="fg.neutral">
+                  {article.title}
+                </Text>
+                <Text
+                  as="p"
+                  textStyle="articleBody"
+                  color="fg.neutralMuted"
+                  style={{ wordBreak: "keep-all" }}
+                >
+                  {article.content}
+                </Text>
+              </VStack>
+              <HStack width="full" align="center">
+                <ArticleAuthor author={article.author} />
+                <Text textStyle="t2Regular" color="fg.neutralMuted">
+                  {categoryName} ⸱ {formatDate(article.createdAt)}
+                </Text>
+              </HStack>
+            </VStack>
+            <VStack px="spacingX.globalGutter" gap="spacingY.componentDefault">
+              <Callout
+                tone="neutral"
+                description="따뜻한 댓글을 남겨주세요."
+                prefixIcon={<IconILowercaseSerifCircleFill />}
+              />
+              <SegmentedControl
+                aria-label="댓글 정렬 방식"
+                defaultValue={SEGMENTS[0].value}
+                style={{ width: "100%" }}
+              >
+                {SEGMENTS.map((tab) => (
+                  <SegmentedControlItem key={tab.value} value={tab.value}>
+                    {tab.label}
+                  </SegmentedControlItem>
+                ))}
+              </SegmentedControl>
+              <Box py="x3">
+                <ErrorState title="댓글 없음" description="댓글이 없습니다." />
+              </Box>
+              <TextField label="댓글" maxGraphemeCount={200}>
+                <TextFieldTextarea placeholder="저는…" />
+              </TextField>
+              <ActionButton>게시</ActionButton>
+            </VStack>
+          </VStack>
+        </VStack>
+      </AppScreenContent>
+    </AppScreen>
+  );
+};
+
+export default DemoArticleDetail;

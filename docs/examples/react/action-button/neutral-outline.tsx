@@ -1,0 +1,5 @@
+import { ActionButton } from "@/registry/ui/action-button";
+
+export default function ActionButtonNeutralOutline() {
+  return <ActionButton variant="neutralOutline">라벨</ActionButton>;
+}

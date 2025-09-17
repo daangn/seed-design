@@ -1,4 +1,4 @@
-import type { GeneratedRegistryItem } from "seed-design/schema";
+import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { Heading } from "fumadocs-ui/components/heading";
