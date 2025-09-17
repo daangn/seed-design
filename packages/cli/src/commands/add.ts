@@ -1,41 +1,31 @@
 import { getConfig } from "@/src/utils/get-config";
-import {
-  fetchRegistryItem,
-  getRegistryLibIndex,
-  getRegistryUIIndex,
-} from "@/src/utils/get-metadata";
-import { transform } from "@/src/utils/transformers";
+import { resolveDependencies } from "@/src/utils/resolve-dependencies";
+import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
+import { writeRegistryFiles } from "@/src/utils/write";
 import * as p from "@clack/prompts";
-import fs from "fs-extra";
 import path from "path";
 import color from "picocolors";
 import { z } from "zod";
 
 import type { CAC } from "cac";
 import { BASE_URL } from "../constants";
-import { addRelativeRegistries } from "../utils/add-relative-registries";
 import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
-import type { RegistryUIMachineGenerated } from "../schema";
 
 const addOptionsSchema = z.object({
-  components: z.array(z.string()).optional(),
+  snippetIds: z.array(z.string()).optional(),
+  /**
+   * @deprecated use `seed-design add-all` instead
+   */
   all: z.boolean(),
-  includeDeprecated: z.boolean().optional(),
   cwd: z.string(),
   baseUrl: z.string().optional(),
-  // yes: z.boolean(),
-  // overwrite: z.boolean(),
-  // path: z.string().optional(),
 });
 
 export const addCommand = (cli: CAC) => {
   cli
-    .command("add [...components]", "add component")
-    .option("-a, --all", "Add all components", {
-      default: false,
-    })
-    .option("--include-deprecated", "Include deprecated components when used with `--all`", {
+    .command("add [...snippet-ids]", "add snippet")
+    .option("-a, --all", "[Deprecated] Add all snippets", {
       default: false,
     })
     .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
@@ -44,47 +34,60 @@ export const addCommand = (cli: CAC) => {
     .option(
       "-u, --baseUrl <baseUrl>",
       "the base url of the registry. defaults to the current directory.",
-      {
-        default: BASE_URL,
-      },
+      { default: BASE_URL },
     )
-    .example("seed-design add action-button")
-    .example("seed-design add alert-dialog")
-    .action(async (components, opts) => {
+    .example("seed-design add ui:action-button")
+    .example("seed-design add ui:alert-dialog")
+    .action(async (snippetIds, opts) => {
       p.intro(color.bgCyan("seed-design add"));
-      const options = addOptionsSchema.parse({
-        components,
-        ...opts,
-      });
+
+      const { all, ...options } = addOptionsSchema.parse({ snippetIds, ...opts });
       const cwd = options.cwd;
       const baseUrl = options.baseUrl;
       const config = await getConfig(cwd);
-      const registryComponentIndex = await getRegistryUIIndex(baseUrl);
-      const libRegistryIndex = await getRegistryLibIndex(baseUrl);
+      const rootPath = path.resolve(cwd, config.path);
 
-      const selectedComponents: string[] = await (async () => {
-        if (options.all) {
-          if (options.includeDeprecated) return registryComponentIndex.map((c) => c.name);
+      const { start, stop } = p.spinner();
 
-          return registryComponentIndex.filter(({ deprecated }) => !deprecated).map((c) => c.name);
+      start("Registry를 가져오고 있어요...");
+
+      const publicRegistries = await Promise.all(
+        (await fetchAvailableRegistries({ baseUrl })).map(async ({ id }) =>
+          fetchRegistry({ baseUrl, registryId: id }),
+        ),
+      );
+
+      stop();
+
+      const selectedItemKeys: string[] = await (async () => {
+        if (options.snippetIds.length > 0) return options.snippetIds;
+
+        if (all) {
+          p.log.error(
+            "`--all` 옵션은 더 이상 지원되지 않아요. 대신 `seed-design add-all` 명령어를 사용해주세요.",
+          );
+
+          process.exit(1);
         }
 
-        if (options.components.length > 0) return options.components;
-
         const selected = await p.multiselect({
-          message: "추가할 컴포넌트를 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
-          options: registryComponentIndex
-            .map(({ name, description, deprecated }) => ({
-              label: `${deprecated ? "(deprecated) " : ""}${name}`,
-              value: name,
-              hint: description,
-              deprecated,
-            }))
-            .sort((a, b) => {
-              if (a.deprecated === b.deprecated) return a.label.localeCompare(b.label);
+          message: "추가할 스니펫을 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
+          options: publicRegistries
+            .sort((a, b) => a.items.length - b.items.length)
+            .flatMap(({ id: registryId, items }) =>
+              items
+                .map(({ id, description, deprecated }) => ({
+                  label: `${deprecated ? "(deprecated) " : ""}${id}`,
+                  value: `${registryId}:${id}`,
+                  hint: description,
+                  deprecated,
+                }))
+                .sort((a, b) => {
+                  if (a.deprecated === b.deprecated) return a.label.localeCompare(b.label);
 
-              return a.deprecated ? 1 : -1;
-            }),
+                  return a.deprecated ? 1 : -1;
+                }),
+            ),
         });
 
         if (p.isCancel(selected)) {
@@ -95,138 +98,81 @@ export const addCommand = (cli: CAC) => {
         return selected;
       })();
 
-      if (!selectedComponents?.length) {
-        p.log.error("컴포넌트를 찾을 수 없어요.");
+      if (!selectedItemKeys?.length) {
+        p.log.error("스니펫을 찾을 수 없어요.");
+
         process.exit(0);
       }
 
-      p.log.message(`선택된 컴포넌트: ${highlight(selectedComponents.join(", "))}`);
+      p.log.message(`선택된 스니펫: ${highlight(selectedItemKeys.join(", "))}`);
 
-      const allRelativeRegistries = addRelativeRegistries({
-        userSelects: selectedComponents,
-        uiRegistryIndex: registryComponentIndex,
-        libRegistryIndex,
-      });
+      const filteredItemKeys: string[] = [];
 
-      const allRegistryItems: RegistryUIMachineGenerated = [];
+      for (const item of selectedItemKeys) {
+        const [registryId, itemId] = item.split(":");
 
-      const { start, stop } = p.spinner();
-      start("Registry를 가져오고 있어요...");
+        if (!registryId || !itemId) {
+          p.log.error(`잘못된 스니펫 형식이에요: "${item}"`);
+          process.exit(1);
+        }
 
-      for (const registry of allRelativeRegistries) {
-        const registryItem = await fetchRegistryItem(registry.name, baseUrl, registry.type);
-        allRegistryItems.push(registryItem);
-      }
+        const foundItem = publicRegistries
+          .find((r) => r.id === registryId)
+          ?.items.find((i) => i.id === itemId);
 
-      stop();
+        if (!foundItem) {
+          p.log.error(`스니펫을 찾을 수 없어요: "${item}"`);
+          process.exit(1);
+        }
 
-      if (allRegistryItems.length) {
-        const filteredRegistryItems = allRegistryItems.filter(
-          (c) => !selectedComponents.includes(c.name),
-        );
-        p.log.message(
-          `추가로 설치될 레지스트리: ${highlight(
-            filteredRegistryItems.map((c) => c.name).join(", "),
-          )}`,
-        );
-      }
-
-      // 선택된 컴포넌트.json 레지스트리 파일 기반으로 컴포넌트를 추가합니다.
-      const registryResult = [];
-      const installResult = {
-        installed: new Set(),
-        filtered: new Set(),
-      };
-      for (const component of allRegistryItems) {
-        if (component.deprecated && !options.includeDeprecated) {
+        if (foundItem.deprecated) {
           const confirm = await p.confirm({
-            message: `${highlight(component.name)}는 deprecated 되었어요. 추가할까요?`,
+            message: `${highlight(foundItem.id)}는 deprecated 되었어요. 추가할까요?`,
             initialValue: false,
           });
 
           if (confirm === false || p.isCancel(confirm)) {
-            p.log.info(`${highlight(component.name)} 컴포넌트는 추가하지 않을게요.`);
+            p.log.info(`${highlight(foundItem.id)} 스니펫은 추가하지 않을게요.`);
 
             continue;
           }
         }
 
-        for (const registry of component.registries) {
-          let targetPath = "";
-          switch (registry.type) {
-            case "ui":
-              targetPath = config.resolvedUIPaths;
-              break;
-            case "lib":
-              targetPath = config.resolvedLibPaths;
-              break;
-            default:
-              break;
-          }
-
-          if (!fs.existsSync(targetPath)) {
-            await fs.mkdir(targetPath, { recursive: true });
-          }
-
-          let filePath = path.resolve(targetPath, registry.name);
-
-          const content = await transform({
-            filename: registry.name,
-            config,
-            raw: registry.content,
-          });
-
-          if (!config.tsx) {
-            filePath = filePath.replace(/\.tsx$/, ".jsx");
-            filePath = filePath.replace(/\.ts$/, ".js");
-          }
-
-          await fs.writeFile(filePath, content);
-          const relativePath = path.relative(cwd, filePath);
-
-          registryResult.push({
-            name: registry.name,
-            path: relativePath,
-          });
-        }
-
-        // Install dependencies.
-        if (component.dependencies?.length) {
-          const result = await installDependencies({ cwd, deps: component.dependencies });
-          installResult.installed = new Set([...installResult.installed, ...result.installed]);
-          installResult.filtered = new Set([...installResult.filtered, ...result.filtered]);
-        }
-
-        // Install devDependencies.
-        if (component.devDependencies?.length) {
-          const result = await installDependencies({
-            cwd,
-            deps: component.devDependencies,
-            dev: true,
-          });
-          installResult.installed = new Set([...installResult.installed, ...result.installed]);
-          installResult.filtered = new Set([...installResult.filtered, ...result.filtered]);
-        }
-
-        p.log.success(`${highlight(component.name)} 관련 파일 추가 완료`);
+        filteredItemKeys.push(item);
       }
 
-      if (installResult.installed.size) {
-        p.log.message(
-          `설치된 의존성: ${highlight(Array.from(installResult.installed).join(", "))}`,
-        );
+      const { registryItemsToAdd, npmDependenciesToAdd } = resolveDependencies({
+        selectedItemKeys: filteredItemKeys,
+        publicRegistries,
+      });
+
+      const registryResult = await writeRegistryFiles({
+        registryItemsToAdd,
+        rootPath,
+        cwd,
+        baseUrl,
+        config,
+      });
+
+      const { installed, filtered } = await installDependencies({
+        cwd,
+        deps: Array.from(npmDependenciesToAdd),
+      });
+
+      if (installed.size) {
+        p.log.message(`설치된 의존성: ${highlight(Array.from(installed).join(", "))}`);
       }
-      if (installResult.filtered.size) {
-        p.log.message(
-          `이미 설치된 의존성: ${highlight(Array.from(installResult.filtered).join(", "))}`,
-        );
+
+      if (filtered.size) {
+        p.log.message(`이미 설치된 의존성: ${highlight(Array.from(filtered).join(", "))}`);
       }
+
       if (registryResult.length) {
         for (const registry of registryResult) {
           p.log.message(`추가된 파일: ${highlight(registry.path)}`);
         }
       }
 
-      p.outro("컴포넌트 추가 완료.");
+      p.outro("스니펫 추가 완료.");
     });
 };

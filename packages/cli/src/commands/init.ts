@@ -4,7 +4,7 @@ import path from "path";
 import color from "picocolors";
 import { z } from "zod";
 
-import type { RawConfig } from "@/src/utils/get-config";
+import type { Config } from "@/src/utils/get-config";
 
 import type { CAC } from "cac";
 
@@ -26,7 +26,7 @@ export const initCommand = (cli: CAC) => {
 
       const options = initOptionsSchema.parse(opts);
       const isYesOption = options.yes;
-      let config: RawConfig = {
+      let config: Config = {
         rsc: false,
         tsx: true,
         path: "./seed-design",
