@@ -1,5 +1,5 @@
-import AnimateNumber from "@/registry/breeze/animate-number/animate-number";
-import { ActionButton } from "@/registry/ui/action-button";
+import AnimateNumber from "seed-design/breeze/animate-number/animate-number";
+import { ActionButton } from "seed-design/ui/action-button";
 import { useState } from "react";
 
 export default function AnimateNumberGradient() {

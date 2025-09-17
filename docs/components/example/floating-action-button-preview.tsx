@@ -1,4 +1,4 @@
-import { FloatingActionButton } from "@/registry/ui/floating-action-button";
+import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 import IconPlusLine from "@karrotmarket/react-monochrome-icon/IconPlusLine";
 
 export default function FloatingActionButtonPreview() {

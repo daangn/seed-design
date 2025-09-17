@@ -1,5 +1,5 @@
 import { HStack, VStack, Icon } from "@seed-design/react";
-import { Chip } from "@/registry/ui/chip";
+import { Chip } from "seed-design/ui/chip";
 import { IconHeartFill } from "@karrotmarket/react-monochrome-icon";
 
 export default function ChipPrefixIcon() {

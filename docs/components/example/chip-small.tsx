@@ -1,5 +1,5 @@
 import { HStack, VStack } from "@seed-design/react";
-import { Chip } from "@/registry/ui/chip";
+import { Chip } from "seed-design/ui/chip";
 
 export default function ChipSmall() {
   return (
