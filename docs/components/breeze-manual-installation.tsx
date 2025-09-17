@@ -1,4 +1,4 @@
-import type { RegistryUIItemMachineGenerated } from "@/registry/schema";
+import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { Heading } from "fumadocs-ui/components/heading";
@@ -17,12 +17,12 @@ interface BreezeManualInstallationProps {
 export async function BreezeManualInstallation(props: BreezeManualInstallationProps) {
   const { name } = props;
 
-  let json: RegistryUIItemMachineGenerated | null = null;
+  let json: GeneratedRegistryItem | null = null;
 
   try {
     json = (await import(`@/public/__registry__/breeze/${name}.json`).then((module) => {
       return module.default;
-    })) as RegistryUIItemMachineGenerated;
+    })) as GeneratedRegistryItem;
   } catch (error) {
     console.error(`Failed to load breeze registry for ${name}:`, error);
     return (

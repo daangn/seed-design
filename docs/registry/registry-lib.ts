@@ -1,8 +1,11 @@
-import type { RegistryLib } from "./schema";
+import type { Registry } from "./schema";
 
-export const registryLib: RegistryLib = [
-  {
-    name: "manner-temp-level",
-    files: ["lib:manner-temp-level.ts"],
-  },
-];
+export const registryLib: Registry = {
+  name: "lib",
+  items: [
+    {
+      name: "manner-temp-level",
+      files: [{ path: "manner-temp-level.ts" }],
+    },
+  ],
+};

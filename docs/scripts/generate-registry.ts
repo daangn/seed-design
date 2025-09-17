@@ -1,116 +1,50 @@
 import chalk from "chalk";
 import { existsSync, promises as fs, readFileSync } from "fs";
 import path from "node:path";
-
-import { match } from "ts-pattern";
-
+import { RegistryGenerator } from "./registry-generator.js";
 import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
 import { registryUI } from "../registry/registry-ui.js";
-import {
-  type RegistryLib,
-  registryLibItemMachineGeneratedSchema,
-  type RegistryUI,
-  registryUIItemMachineGeneratedSchema,
-} from "../registry/schema.js";
 
+const REGISTRY_PATH = path.join(process.cwd(), "registry/src");
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
-const REGISTRY_PATH = path.join(process.cwd(), "registry");
-
-type RegistryType = "ui" | "lib" | "breeze";
-
-interface GenerateRegistryIndexProps {
-  registry: RegistryUI | RegistryLib;
-  type: RegistryType;
-}
-
-async function generateRegistryIndex({ registry, type }: GenerateRegistryIndexProps) {
-  const metadatasJson = JSON.stringify(registry, null, 2);
-  const targetFolder = path.join(GENERATED_REGISTRY_PATH, type);
-  const targetPath = path.join(targetFolder, "index.json");
-
-  if (!existsSync(targetFolder)) {
-    await fs.mkdir(targetFolder, { recursive: true });
-  }
-
-  await fs.writeFile(targetPath, metadatasJson, "utf8");
-}
-
-interface GenerateRegistryProps {
-  registry: RegistryUI | RegistryLib;
-  type: RegistryType;
-}
-
-function generateRegistryFromFile(file: string, _registryType: RegistryType) {
-  const [type, name] = file.split(":");
-
-  // 모든 레지스트리는 registry 폴더에서 읽음
-  const filePath = path.join(REGISTRY_PATH, type, name);
-
-  if (!existsSync(filePath)) {
-    console.log(
-      chalk.red(`[Generate Registry] ${type}:${chalk.bgRed(name)} file file does not exist!`),
-    );
-    return null;
-  }
-
-  const content = readFileSync(filePath, "utf8");
-
-  return {
-    name,
-    type,
-    content,
-  };
-}
-
-async function generateRegistry({ registry, type }: GenerateRegistryProps) {
-  const targetPath = path.join(GENERATED_REGISTRY_PATH, type);
-
-  if (!existsSync(targetPath)) {
-    await fs.mkdir(targetPath, { recursive: true });
-  }
-
-  for (const item of registry) {
-    const fileRegistries =
-      item.files?.map((file) => generateRegistryFromFile(file, type)).filter(Boolean) || [];
-
-    const removeFiles = {
-      ...item,
-      files: undefined,
-    };
-
-    const payload = {
-      ...removeFiles,
-      registries: fileRegistries,
-    };
-
-    const parsedPayload = match(type)
-      .with("ui", () => registryUIItemMachineGeneratedSchema.parse(payload))
-      .with("lib", () => registryLibItemMachineGeneratedSchema.parse(payload))
-      .with("breeze", () => registryUIItemMachineGeneratedSchema.parse(payload))
-      .exhaustive();
-
-    await fs.writeFile(
-      path.join(targetPath, `${item.name}.json`),
-      JSON.stringify(parsedPayload, null, 2),
-      "utf8",
-    );
-  }
-}
 
 async function main() {
-  console.log(chalk.gray("Generate Component Registry..."));
+  console.log(chalk.gray("Generating Component Registry..."));
 
-  await generateRegistryIndex({ registry: registryUI, type: "ui" });
-  await generateRegistry({ registry: registryUI, type: "ui" });
-  await generateRegistryIndex({ registry: registryLib, type: "lib" });
-  await generateRegistry({ registry: registryLib, type: "lib" });
+  const generator = new RegistryGenerator({
+    importAlias: "seed-design",
+    registries: [registryUI, registryLib, registryBreeze],
+    innateDeps: new Set(["react", "react-dom"]),
+    getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
+  });
 
-  console.log(chalk.gray("Generate Breeze Registry..."));
-  await generateRegistryIndex({ registry: registryBreeze, type: "breeze" });
-  await generateRegistry({ registry: registryBreeze, type: "breeze" });
+  const processedRegistries = generator.generate();
+
+  await Promise.all(
+    processedRegistries.map(async ({ index, items }) => {
+      const outPath = path.join(GENERATED_REGISTRY_PATH, index.name);
+
+      if (!existsSync(outPath)) {
+        await fs.mkdir(outPath, { recursive: true });
+      }
+
+      for (const item of items) {
+        const itemPath = path.join(outPath, `${item.name}.json`);
+        await fs.writeFile(itemPath, JSON.stringify(item, null, 2), "utf8");
+      }
+
+      const indexPath = path.join(outPath, "index.json");
+      await fs.writeFile(indexPath, JSON.stringify(index, null, 2), "utf8");
+
+      console.log(chalk.gray(`Generated ${index.name} registry...`));
+    }),
+  );
 
   console.log(chalk.green("All Registries Generated !"));
 }
 
-main();
+main().catch((error) => {
+  console.error(chalk.red("Failed to generate registries:"), error);
+  process.exit(1);
+});

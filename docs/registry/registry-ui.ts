@@ -1,197 +1,151 @@
-import type { RegistryUI } from "./schema";
+import type { Registry } from "./schema";
 
-export const registryUI: RegistryUI = [
-  {
-    name: "app-screen",
-    files: ["ui:app-screen.tsx", "ui:app-bar.tsx"],
-    innerDependencies: ["ui:pull-to-refresh"],
-    dependencies: ["@seed-design/react", "@seed-design/stackflow"],
-  },
-  {
-    name: "error-state",
-    files: ["ui:error-state.tsx"],
-    innerDependencies: ["ui:action-button"],
-    dependencies: ["@seed-design/react"],
-  },
-  {
-    name: "manner-temp",
-    files: ["ui:manner-temp.tsx"],
-    innerDependencies: ["lib:manner-temp-level"],
-    dependencies: ["@seed-design/react"],
-  },
-  {
-    name: "manner-temp-badge",
-    files: ["ui:manner-temp-badge.tsx"],
-    innerDependencies: ["lib:manner-temp-level"],
-    dependencies: ["@seed-design/react"],
-  },
-  {
-    name: "alert-dialog",
-    innerDependencies: ["ui:action-button"],
-    dependencies: ["@seed-design/stackflow"],
-    files: ["ui:alert-dialog.tsx"],
-  },
-  {
-    name: "bottom-sheet",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:bottom-sheet.tsx"],
-  },
-  {
-    name: "action-sheet",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:action-sheet.tsx"],
-    deprecated: true,
-  },
-  {
-    name: "extended-action-sheet",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:extended-action-sheet.tsx"],
-    deprecated: true,
-  },
-  {
-    name: "avatar",
-    innerDependencies: ["ui:identity-placeholder"],
-    dependencies: ["@seed-design/react"],
-    files: ["ui:avatar.tsx"],
-  },
-  {
-    name: "pull-to-refresh",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:progress-circle"],
-    files: ["ui:pull-to-refresh.tsx"],
-  },
-  {
-    name: "loading-indicator",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:progress-circle"],
-    files: ["ui:loading-indicator.tsx"],
-  },
-  {
-    name: "action-button",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:loading-indicator"],
-    files: ["ui:action-button.tsx"],
-  },
-  {
-    name: "toggle-button",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:loading-indicator"],
-    files: ["ui:toggle-button.tsx"],
-  },
-  {
-    name: "reaction-button",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:loading-indicator"],
-    files: ["ui:reaction-button.tsx"],
-  },
-  {
-    name: "callout",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:callout.tsx"],
-  },
-  {
-    name: "control-chip",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:control-chip.tsx"],
-    deprecated: true,
-  },
-  {
-    name: "chip",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:avatar"],
-    files: ["ui:chip.tsx"],
-  },
-  {
-    name: "checkbox",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:checkbox.tsx"],
-  },
-  {
-    name: "identity-placeholder",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:identity-placeholder.tsx"],
-  },
-  {
-    name: "inline-banner",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:inline-banner.tsx"],
-    deprecated: true,
-  },
-  {
-    name: "menu-sheet",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:menu-sheet.tsx"],
-  },
-  {
-    name: "snackbar",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:snackbar.tsx"],
-  },
-  {
-    name: "help-bubble",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:help-bubble.tsx"],
-  },
-  {
-    name: "tabs",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:tabs.tsx"],
-  },
-  {
-    name: "chip-tabs",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:chip-tabs.tsx"],
-  },
-  {
-    name: "page-banner",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:page-banner.tsx"],
-  },
-  {
-    name: "progress-circle",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:progress-circle.tsx"],
-  },
-  {
-    name: "radio-group",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:radio-group.tsx"],
-  },
-  {
-    name: "select-box",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    innerDependencies: ["ui:checkbox", "ui:radio-group"],
-    files: ["ui:select-box.tsx"],
-  },
-  {
-    name: "segmented-control",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:segmented-control.tsx"],
-  },
-  {
-    name: "switch",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:switch.tsx"],
-  },
-  {
-    name: "text-field",
-    dependencies: ["@seed-design/react", "@karrotmarket/react-monochrome-icon"],
-    files: ["ui:text-field.tsx"],
-  },
-  {
-    name: "contextual-floating-button",
-    dependencies: ["@seed-design/react"],
-    innerDependencies: ["ui:loading-indicator"],
-    files: ["ui:contextual-floating-button.tsx"],
-  },
-  {
-    name: "floating-action-button",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:floating-action-button.tsx"],
-  },
-  {
-    name: "list",
-    dependencies: ["@seed-design/react"],
-    files: ["ui:list.tsx"],
-  },
-];
+export const registryUI: Registry = {
+  name: "ui",
+  items: [
+    {
+      name: "app-screen",
+      files: [{ path: "app-screen.tsx" }, { path: "app-bar.tsx" }],
+    },
+    {
+      name: "error-state",
+      files: [{ path: "error-state.tsx" }],
+    },
+    {
+      name: "manner-temp",
+      files: [{ path: "manner-temp.tsx" }],
+    },
+    {
+      name: "manner-temp-badge",
+      files: [{ path: "manner-temp-badge.tsx" }],
+    },
+    {
+      name: "alert-dialog",
+      files: [{ path: "alert-dialog.tsx" }],
+    },
+    {
+      name: "bottom-sheet",
+      files: [{ path: "bottom-sheet.tsx" }],
+    },
+    {
+      name: "action-sheet",
+      files: [{ path: "action-sheet.tsx" }],
+      deprecated: true,
+    },
+    {
+      name: "extended-action-sheet",
+      files: [{ path: "extended-action-sheet.tsx" }],
+      deprecated: true,
+    },
+    {
+      name: "avatar",
+      files: [{ path: "avatar.tsx" }],
+    },
+    {
+      name: "pull-to-refresh",
+      files: [{ path: "pull-to-refresh.tsx" }],
+    },
+    {
+      name: "loading-indicator",
+      files: [{ path: "loading-indicator.tsx" }],
+    },
+    {
+      name: "action-button",
+      files: [{ path: "action-button.tsx" }],
+    },
+    {
+      name: "toggle-button",
+      files: [{ path: "toggle-button.tsx" }],
+    },
+    {
+      name: "reaction-button",
+      files: [{ path: "reaction-button.tsx" }],
+    },
+    {
+      name: "callout",
+      files: [{ path: "callout.tsx" }],
+    },
+    {
+      name: "control-chip",
+      files: [{ path: "control-chip.tsx" }],
+      deprecated: true,
+    },
+    {
+      name: "chip",
+      files: [{ path: "chip.tsx" }],
+    },
+    {
+      name: "checkbox",
+      files: [{ path: "checkbox.tsx" }],
+    },
+    {
+      name: "identity-placeholder",
+      files: [{ path: "identity-placeholder.tsx" }],
+    },
+    {
+      name: "inline-banner",
+      files: [{ path: "inline-banner.tsx" }],
+      deprecated: true,
+    },
+    {
+      name: "menu-sheet",
+      files: [{ path: "menu-sheet.tsx" }],
+    },
+    {
+      name: "snackbar",
+      files: [{ path: "snackbar.tsx" }],
+    },
+    {
+      name: "help-bubble",
+      files: [{ path: "help-bubble.tsx" }],
+    },
+    {
+      name: "tabs",
+      files: [{ path: "tabs.tsx" }],
+    },
+    {
+      name: "chip-tabs",
+      files: [{ path: "chip-tabs.tsx" }],
+    },
+    {
+      name: "page-banner",
+      files: [{ path: "page-banner.tsx" }],
+    },
+    {
+      name: "progress-circle",
+      files: [{ path: "progress-circle.tsx" }],
+    },
+    {
+      name: "radio-group",
+      files: [{ path: "radio-group.tsx" }],
+    },
+    {
+      name: "select-box",
+      files: [{ path: "select-box.tsx" }],
+    },
+    {
+      name: "segmented-control",
+      files: [{ path: "segmented-control.tsx" }],
+    },
+    {
+      name: "switch",
+      files: [{ path: "switch.tsx" }],
+    },
+    {
+      name: "text-field",
+      files: [{ path: "text-field.tsx" }],
+    },
+    {
+      name: "contextual-floating-button",
+      files: [{ path: "contextual-floating-button.tsx" }],
+    },
+    {
+      name: "floating-action-button",
+      files: [{ path: "floating-action-button.tsx" }],
+    },
+    {
+      name: "list",
+      files: [{ path: "list.tsx" }],
+    },
+  ],
+};
