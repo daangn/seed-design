@@ -1,9 +1,8 @@
 {
   "name": "manner-temp-level",
-  "registries": [
+  "files": [
     {
-      "name": "manner-temp-level.ts",
-      "type": "lib",
+      "path": "manner-temp-level.ts",
       "content": "export type MannerTempLevel = \"l1\" | \"l2\" | \"l3\" | \"l4\" | \"l5\" | \"l6\";\n\nconst MANNER_TEMP_BOUNDARIES = [\n  Number.NEGATIVE_INFINITY,\n  30,\n  36.3,\n  37.6,\n  42,\n  52,\n  Number.POSITIVE_INFINITY,\n] as const;\nconst MANNER_TEMP_LEVELS: MannerTempLevel[] = [\"l1\", \"l2\", \"l3\", \"l4\", \"l5\", \"l6\"];\n\nexport function mannerTempToLevel(temperature: number): MannerTempLevel | undefined {\n  for (let i = 0; i < MANNER_TEMP_BOUNDARIES.length - 1; i++) {\n    const lower = MANNER_TEMP_BOUNDARIES[i];\n    const upper = MANNER_TEMP_BOUNDARIES[i + 1];\n\n    if (temperature >= lower && temperature < upper) {\n      return MANNER_TEMP_LEVELS[i];\n    }\n  }\n\n  // Should never happen; boundaries are exhaustive\n  throw new Error(`Invalid manner temperature: ${temperature}`);\n}\n"
     }
   ]

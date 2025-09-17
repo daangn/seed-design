@@ -1,375 +1,507 @@
-[
-  {
-    "name": "app-screen",
-    "files": [
-      "ui:app-screen.tsx",
-      "ui:app-bar.tsx"
-    ],
-    "innerDependencies": [
-      "ui:pull-to-refresh"
-    ],
-    "dependencies": [
-      "@seed-design/react",
-      "@seed-design/stackflow"
-    ]
-  },
-  {
-    "name": "error-state",
-    "files": [
-      "ui:error-state.tsx"
-    ],
-    "innerDependencies": [
-      "ui:action-button"
-    ],
-    "dependencies": [
-      "@seed-design/react"
-    ]
-  },
-  {
-    "name": "manner-temp",
-    "files": [
-      "ui:manner-temp.tsx"
-    ],
-    "innerDependencies": [
-      "lib:manner-temp-level"
-    ],
-    "dependencies": [
-      "@seed-design/react"
-    ]
-  },
-  {
-    "name": "manner-temp-badge",
-    "files": [
-      "ui:manner-temp-badge.tsx"
-    ],
-    "innerDependencies": [
-      "lib:manner-temp-level"
-    ],
-    "dependencies": [
-      "@seed-design/react"
-    ]
-  },
-  {
-    "name": "alert-dialog",
-    "innerDependencies": [
-      "ui:action-button"
-    ],
-    "dependencies": [
-      "@seed-design/stackflow"
-    ],
-    "files": [
-      "ui:alert-dialog.tsx"
-    ]
-  },
-  {
-    "name": "bottom-sheet",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:bottom-sheet.tsx"
-    ]
-  },
-  {
-    "name": "action-sheet",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:action-sheet.tsx"
-    ],
-    "deprecated": true
-  },
-  {
-    "name": "extended-action-sheet",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:extended-action-sheet.tsx"
-    ],
-    "deprecated": true
-  },
-  {
-    "name": "avatar",
-    "innerDependencies": [
-      "ui:identity-placeholder"
-    ],
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:avatar.tsx"
-    ]
-  },
-  {
-    "name": "pull-to-refresh",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:progress-circle"
-    ],
-    "files": [
-      "ui:pull-to-refresh.tsx"
-    ]
-  },
-  {
-    "name": "loading-indicator",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:progress-circle"
-    ],
-    "files": [
-      "ui:loading-indicator.tsx"
-    ]
-  },
-  {
-    "name": "action-button",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:loading-indicator"
-    ],
-    "files": [
-      "ui:action-button.tsx"
-    ]
-  },
-  {
-    "name": "toggle-button",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:loading-indicator"
-    ],
-    "files": [
-      "ui:toggle-button.tsx"
-    ]
-  },
-  {
-    "name": "reaction-button",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:loading-indicator"
-    ],
-    "files": [
-      "ui:reaction-button.tsx"
-    ]
-  },
-  {
-    "name": "callout",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:callout.tsx"
-    ]
-  },
-  {
-    "name": "control-chip",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:control-chip.tsx"
-    ],
-    "deprecated": true
-  },
-  {
-    "name": "chip",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:avatar"
-    ],
-    "files": [
-      "ui:chip.tsx"
-    ]
-  },
-  {
-    "name": "checkbox",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:checkbox.tsx"
-    ]
-  },
-  {
-    "name": "identity-placeholder",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:identity-placeholder.tsx"
-    ]
-  },
-  {
-    "name": "inline-banner",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:inline-banner.tsx"
-    ],
-    "deprecated": true
-  },
-  {
-    "name": "menu-sheet",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:menu-sheet.tsx"
-    ]
-  },
-  {
-    "name": "snackbar",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:snackbar.tsx"
-    ]
-  },
-  {
-    "name": "help-bubble",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:help-bubble.tsx"
-    ]
-  },
-  {
-    "name": "tabs",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:tabs.tsx"
-    ]
-  },
-  {
-    "name": "chip-tabs",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:chip-tabs.tsx"
-    ]
-  },
-  {
-    "name": "page-banner",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:page-banner.tsx"
-    ]
-  },
-  {
-    "name": "progress-circle",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:progress-circle.tsx"
-    ]
-  },
-  {
-    "name": "radio-group",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:radio-group.tsx"
-    ]
-  },
-  {
-    "name": "select-box",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "innerDependencies": [
-      "ui:checkbox",
-      "ui:radio-group"
-    ],
-    "files": [
-      "ui:select-box.tsx"
-    ]
-  },
-  {
-    "name": "segmented-control",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:segmented-control.tsx"
-    ]
-  },
-  {
-    "name": "switch",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:switch.tsx"
-    ]
-  },
-  {
-    "name": "text-field",
-    "dependencies": [
-      "@seed-design/react",
-      "@karrotmarket/react-monochrome-icon"
-    ],
-    "files": [
-      "ui:text-field.tsx"
-    ]
-  },
-  {
-    "name": "contextual-floating-button",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "innerDependencies": [
-      "ui:loading-indicator"
-    ],
-    "files": [
-      "ui:contextual-floating-button.tsx"
-    ]
-  },
-  {
-    "name": "floating-action-button",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:floating-action-button.tsx"
-    ]
-  },
-  {
-    "name": "list",
-    "dependencies": [
-      "@seed-design/react"
-    ],
-    "files": [
-      "ui:list.tsx"
-    ]
-  }
-]
+{
+  "name": "ui",
+  "items": [
+    {
+      "files": [
+        {
+          "path": "app-screen.tsx"
+        },
+        {
+          "path": "app-bar.tsx"
+        }
+      ],
+      "name": "app-screen",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react",
+        "@seed-design/stackflow",
+        "@stackflow/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "pull-to-refresh"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "error-state.tsx"
+        }
+      ],
+      "name": "error-state",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "manner-temp.tsx"
+        }
+      ],
+      "name": "manner-temp",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "lib",
+          "itemNames": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "manner-temp-badge.tsx"
+        }
+      ],
+      "name": "manner-temp-badge",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "lib",
+          "itemNames": [
+            "manner-temp-level"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "alert-dialog.tsx"
+        }
+      ],
+      "name": "alert-dialog",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "bottom-sheet.tsx"
+        }
+      ],
+      "name": "bottom-sheet",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "action-sheet.tsx"
+        }
+      ],
+      "name": "action-sheet",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "extended-action-sheet.tsx"
+        }
+      ],
+      "name": "extended-action-sheet",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "avatar.tsx"
+        }
+      ],
+      "name": "avatar",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "pull-to-refresh.tsx"
+        }
+      ],
+      "name": "pull-to-refresh",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "loading-indicator.tsx"
+        }
+      ],
+      "name": "loading-indicator",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "action-button.tsx"
+        }
+      ],
+      "name": "action-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "toggle-button.tsx"
+        }
+      ],
+      "name": "toggle-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "reaction-button.tsx"
+        }
+      ],
+      "name": "reaction-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "callout.tsx"
+        }
+      ],
+      "name": "callout",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "control-chip.tsx"
+        }
+      ],
+      "name": "control-chip",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "chip.tsx"
+        }
+      ],
+      "name": "chip",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "checkbox.tsx"
+        }
+      ],
+      "name": "checkbox",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "identity-placeholder.tsx"
+        }
+      ],
+      "name": "identity-placeholder",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "inline-banner.tsx"
+        }
+      ],
+      "name": "inline-banner",
+      "deprecated": true,
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "menu-sheet.tsx"
+        }
+      ],
+      "name": "menu-sheet",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "snackbar.tsx"
+        }
+      ],
+      "name": "snackbar",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "help-bubble.tsx"
+        }
+      ],
+      "name": "help-bubble",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "tabs.tsx"
+        }
+      ],
+      "name": "tabs",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "chip-tabs.tsx"
+        }
+      ],
+      "name": "chip-tabs",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "page-banner.tsx"
+        }
+      ],
+      "name": "page-banner",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "progress-circle.tsx"
+        }
+      ],
+      "name": "progress-circle",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "radio-group.tsx"
+        }
+      ],
+      "name": "radio-group",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "select-box.tsx"
+        }
+      ],
+      "name": "select-box",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "checkbox",
+            "radio-group"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "segmented-control.tsx"
+        }
+      ],
+      "name": "segmented-control",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "switch.tsx"
+        }
+      ],
+      "name": "switch",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "text-field.tsx"
+        }
+      ],
+      "name": "text-field",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "contextual-floating-button.tsx"
+        }
+      ],
+      "name": "contextual-floating-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryName": "ui",
+          "itemNames": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "floating-action-button.tsx"
+        }
+      ],
+      "name": "floating-action-button",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "files": [
+        {
+          "path": "list.tsx"
+        }
+      ],
+      "name": "list",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ]
+    }
+  ]
+}

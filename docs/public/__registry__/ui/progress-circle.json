@@ -3,10 +3,9 @@
   "dependencies": [
     "@seed-design/react"
   ],
-  "registries": [
+  "files": [
     {
-      "name": "progress-circle.tsx",
-      "type": "ui",
+      "path": "progress-circle.tsx",
       "content": "\"use client\";\n\nimport { ProgressCircle as SeedProgressCircle } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface ProgressCircleProps extends SeedProgressCircle.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/progress-circle\n */\nexport const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>((props, ref) => {\n  return (\n    <SeedProgressCircle.Root ref={ref} {...props}>\n      <SeedProgressCircle.Track />\n      <SeedProgressCircle.Range />\n    </SeedProgressCircle.Root>\n  );\n});\n\nProgressCircle.displayName = \"ProgressCircle\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"
     }
   ]

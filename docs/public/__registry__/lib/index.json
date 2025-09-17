@@ -1,8 +1,13 @@
-[
-  {
-    "name": "manner-temp-level",
-    "files": [
-      "lib:manner-temp-level.ts"
-    ]
-  }
-]
+{
+  "name": "lib",
+  "items": [
+    {
+      "files": [
+        {
+          "path": "manner-temp-level.ts"
+        }
+      ],
+      "name": "manner-temp-level"
+    }
+  ]
+}
