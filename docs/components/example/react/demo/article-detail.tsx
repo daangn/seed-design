@@ -1,4 +1,4 @@
-import { CATEGORIES, type Article } from "@/components/example/demo/data";
+import { CATEGORIES, type Article } from "@/components/example/react/demo/data";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
@@ -19,7 +19,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 import { Skeleton } from "@seed-design/react";
 import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { ArticleAuthor } from "./components/article-author";
-import { formatDate } from "@/components/example/demo/utils/date";
+import { formatDate } from "@/components/example/react/demo/utils/date";
 import { useState } from "react";
 
 import img from "@/public/penguin.webp";

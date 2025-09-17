@@ -1,6 +1,6 @@
-import { ArticleAuthor } from "@/components/example/demo/components/article-author";
-import { CATEGORIES, type Article } from "@/components/example/demo/data";
-import { formatDate } from "@/components/example/demo/utils/date";
+import { ArticleAuthor } from "@/components/example/react/demo/components/article-author";
+import { CATEGORIES, type Article } from "@/components/example/react/demo/data";
+import { formatDate } from "@/components/example/react/demo/utils/date";
 import { Badge, HStack, Text, VStack } from "@seed-design/react";
 import { useFlow } from "@stackflow/react/future";
 

@@ -5,7 +5,7 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import { TabsRoot, TabsTrigger, TabsList } from "seed-design/ui/tabs";
 import { ErrorState } from "seed-design/ui/error-state";
 import { SnackbarProvider } from "seed-design/ui/snackbar";
-import { Recommendations } from "@/components/example/demo/tabs/recommendations";
+import { Recommendations } from "@/components/example/react/demo/tabs/recommendations";
 
 declare module "@stackflow/config" {
   interface Register {
