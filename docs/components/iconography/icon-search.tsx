@@ -15,7 +15,6 @@ export const IconSearch = () => {
       onValueChange={(values) => setSearch(values.value)}
       value={search}
       autoFocus
-      size="xlarge"
     >
       <TextFieldInput placeholder="person, car, 알파벳, etc..." />
     </TextField>

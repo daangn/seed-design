@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
+import { FieldButton, FieldButtonPlaceholder } from "seed-design/ui/field-button";
 import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
@@ -54,7 +54,7 @@ const CommonStoryTemplate: Story = {
       "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
     errorMessage:
       "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
-    children: <FieldButtonValue placeholder="Placeholder" />,
+    children: <FieldButtonPlaceholder>선택된 값이 없습니다.</FieldButtonPlaceholder>,
   },
   render: (args) => (
     <VariantTable
