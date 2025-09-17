@@ -48,12 +48,10 @@ export class RegistryGenerator {
     registries: { index: GeneratedRegistry; items: GeneratedRegistryItem[] }[];
   } {
     return {
-      availableRegistries: {
-        registries: this.#registries.map(({ id }) => ({ id })),
-      },
+      availableRegistries: this.#registries.map(({ id }) => ({ id })),
       registries: this.#registries.map((registry) => {
         const processedItems = registry.items.map((registryItem) =>
-          this.processRegistryItem({ registryName: registry.id, registryItem }),
+          this.processRegistryItem({ registryId: registry.id, registryItem }),
         );
 
         return {
@@ -71,10 +69,10 @@ export class RegistryGenerator {
   }
 
   private processRegistryItem({
-    registryName,
+    registryId,
     registryItem,
   }: {
-    registryName: Registry["id"];
+    registryId: Registry["id"];
     registryItem: RegistryItem;
   }): GeneratedRegistryItem {
     const { files, ...metadata } = registryItem;
@@ -82,7 +80,7 @@ export class RegistryGenerator {
     const sourceFiles: SourceFile[] = [];
 
     const filesWithContent = files.map(({ path: filePath }) => {
-      const content = this.#getFileContent(path.join(registryName, filePath));
+      const content = this.#getFileContent(path.join(registryId, filePath));
       const sourceFile = this.#project.createSourceFile(filePath, content);
 
       sourceFiles.push(sourceFile);
@@ -92,7 +90,7 @@ export class RegistryGenerator {
 
     const deps = this.resolveDependencies({
       sourceFiles,
-      currentFile: { registryName, itemName: registryItem.id },
+      currentFile: { registryId, itemId: registryItem.id },
     });
 
     for (const file of sourceFiles) {
@@ -107,13 +105,13 @@ export class RegistryGenerator {
   }
 
   private findRegistryItem({
-    registryName,
+    registryId,
     relativePath,
   }: {
-    registryName: string;
+    registryId: string;
     relativePath: string;
   }) {
-    const registry = this.#registries.find((r) => r.id === registryName);
+    const registry = this.#registries.find((r) => r.id === registryId);
     if (!registry) return null;
 
     const pathWithoutExt = path.basename(relativePath, path.extname(relativePath));
@@ -121,7 +119,7 @@ export class RegistryGenerator {
     // see which registry item contains the file
     // e.g a registry item may look like this: { name: "button", files: ["variants/ghost-button.tsx"] }
     // if import { GhostButton } from "seed-design/ui/variants/ghost-button"
-    // with { registryName: "ui", relativePath: "variants/ghost-button" }, find the "button" item
+    // with { registryId: "ui", relativePath: "variants/ghost-button" }, find the "button" item
     for (const item of registry.items) {
       for (const { path: filePath } of item.files) {
         const fileWithoutExt = path.basename(filePath, path.extname(filePath));
@@ -135,7 +133,7 @@ export class RegistryGenerator {
           filePath === `${relativePath}.jsx` ||
           filePath === `${relativePath}.js`
         ) {
-          return { registryName: registry.id, itemName: item.id };
+          return { registryId: registry.id, itemId: item.id };
         }
       }
     }
@@ -148,7 +146,7 @@ export class RegistryGenerator {
     currentFile,
   }: {
     sourceFiles: SourceFile[];
-    currentFile: { registryName: Registry["id"]; itemName: RegistryItem["id"] };
+    currentFile: { registryId: Registry["id"]; itemId: RegistryItem["id"] };
   }): Pick<GeneratedRegistryItem, "dependencies" | "innerDependencies"> {
     const dependencies = new Set<string>();
     const innerDepsMap = new Map<Registry["id"], Set<string>>();
@@ -167,14 +165,14 @@ export class RegistryGenerator {
         }
 
         // registry imports (seed-design/registry-name/file/path)
-        // e.g. "seed-design/ui/button" -> registryName: "ui", relativePath: "button"
-        // e.g. "seed-design/breeze/animate-number/animate-number" -> registryName: "breeze", relativePath: "animate-number/animate-number"
+        // e.g. "seed-design/ui/button" -> registryId: "ui", relativePath: "button"
+        // e.g. "seed-design/breeze/animate-number/animate-number" -> registryId: "breeze", relativePath: "animate-number/animate-number"
         if (moduleSpecifier.startsWith(`${this.#importAlias}/`)) {
           const pathWithoutAlias = moduleSpecifier.slice(`${this.#importAlias}/`.length);
-          const [registryName, ...pathParts] = pathWithoutAlias.split("/");
+          const [registryId, ...pathParts] = pathWithoutAlias.split("/");
           const relativePath = pathParts.join("/");
 
-          const registryItem = this.findRegistryItem({ registryName, relativePath });
+          const registryItem = this.findRegistryItem({ registryId, relativePath });
 
           if (!registryItem) {
             throw new Error(`Could not find registry item for import: "${moduleSpecifier}"`);
@@ -182,17 +180,17 @@ export class RegistryGenerator {
 
           // e.g. import styles from "seed-design/breeze/animate-number/animate-number.module.css" in "breeze/animate-number"
           if (
-            registryItem.registryName === currentFile.registryName &&
-            registryItem.itemName === currentFile.itemName
+            registryItem.registryId === currentFile.registryId &&
+            registryItem.itemId === currentFile.itemId
           ) {
             continue;
           }
 
-          if (!innerDepsMap.has(registryItem.registryName)) {
-            innerDepsMap.set(registryItem.registryName, new Set());
+          if (!innerDepsMap.has(registryItem.registryId)) {
+            innerDepsMap.set(registryItem.registryId, new Set());
           }
 
-          innerDepsMap.get(registryItem.registryName)!.add(registryItem.itemName);
+          innerDepsMap.get(registryItem.registryId)!.add(registryItem.itemId);
 
           continue;
         }

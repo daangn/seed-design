@@ -8,7 +8,7 @@ interface RegistryItemFileWithContent extends RegistryItemFile {
 
 export interface RegistryItem {
   /**
-   * @description Registry Item ID
+   * @description Registry Item 이름
    * @example "chip-tabs"
    * @example "alert-dialog"
    */
@@ -39,7 +39,7 @@ export interface Registry {
  */
 export interface GeneratedRegistryItem {
   /**
-   * @description Registry Item ID
+   * @description Registry Item 이름
    * @example "chip-tabs"
    * @example "alert-dialog"
    */
@@ -117,8 +117,4 @@ export interface GeneratedRegistry {
 /**
  * this should be in sync with `packages/cli/src/schema.ts`
  */
-export interface AvailableRegistries {
-  registries: Array<{
-    id: string;
-  }>;
-}
+export type AvailableRegistries = Array<{ id: Registry["id"] }>;
