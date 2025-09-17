@@ -1,5 +1,5 @@
 {
-  "name": "page-banner",
+  "id": "page-banner",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react"

@@ -1,12 +1,12 @@
 {
-  "name": "loading-indicator",
+  "id": "loading-indicator",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "progress-circle"
       ]
     }

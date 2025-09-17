@@ -1,12 +1,12 @@
 {
-  "name": "error-state",
+  "id": "error-state",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "action-button"
       ]
     }

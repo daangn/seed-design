@@ -1,12 +1,12 @@
 {
-  "name": "contextual-floating-button",
+  "id": "contextual-floating-button",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "loading-indicator"
       ]
     }

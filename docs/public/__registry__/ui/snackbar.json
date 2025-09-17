@@ -1,5 +1,5 @@
 {
-  "name": "snackbar",
+  "id": "snackbar",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react"

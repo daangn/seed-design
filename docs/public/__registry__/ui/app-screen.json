@@ -1,5 +1,5 @@
 {
-  "name": "app-screen",
+  "id": "app-screen",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react",
@@ -8,8 +8,8 @@
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "pull-to-refresh"
       ]
     }

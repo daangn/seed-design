@@ -1,5 +1,5 @@
 {
-  "name": "chip-tabs",
+  "id": "chip-tabs",
   "dependencies": [
     "@seed-design/react"
   ],

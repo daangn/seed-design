@@ -1,5 +1,5 @@
 {
-  "name": "control-chip",
+  "id": "control-chip",
   "deprecated": true,
   "dependencies": [
     "@seed-design/react"

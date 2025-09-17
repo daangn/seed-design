@@ -1,10 +1,10 @@
 import type { Registry } from "./schema";
 
 export const registryBreeze: Registry = {
-  name: "breeze",
+  id: "breeze",
   items: [
     {
-      name: "animate-number",
+      id: "animate-number",
       description: "숫자를 부드럽게 애니메이션하는 컴포넌트",
       files: [
         { path: "animate-number/animate-number.tsx" },

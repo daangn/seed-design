@@ -23,21 +23,21 @@ async function main() {
 
   await Promise.all(
     processedRegistries.map(async ({ index, items }) => {
-      const outPath = path.join(GENERATED_REGISTRY_PATH, index.name);
+      const outPath = path.join(GENERATED_REGISTRY_PATH, index.id);
 
       if (!existsSync(outPath)) {
         await fs.mkdir(outPath, { recursive: true });
       }
 
       for (const item of items) {
-        const itemPath = path.join(outPath, `${item.name}.json`);
+        const itemPath = path.join(outPath, `${item.id}.json`);
         await fs.writeFile(itemPath, JSON.stringify(item, null, 2), "utf8");
       }
 
       const indexPath = path.join(outPath, "index.json");
       await fs.writeFile(indexPath, JSON.stringify(index, null, 2), "utf8");
 
-      console.log(chalk.gray(`Generated ${index.name} registry...`));
+      console.log(chalk.gray(`Generated ${index.id} registry...`));
     }),
   );
 

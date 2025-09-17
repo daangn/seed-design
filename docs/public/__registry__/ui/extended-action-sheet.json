@@ -1,5 +1,5 @@
 {
-  "name": "extended-action-sheet",
+  "id": "extended-action-sheet",
   "deprecated": true,
   "dependencies": [
     "@seed-design/react"

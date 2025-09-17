@@ -1,12 +1,12 @@
 {
-  "name": "manner-temp",
+  "id": "manner-temp",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "lib",
-      "itemNames": [
+      "registryId": "lib",
+      "itemIds": [
         "manner-temp-level"
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "name": "inline-banner",
+  "id": "inline-banner",
   "deprecated": true,
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",

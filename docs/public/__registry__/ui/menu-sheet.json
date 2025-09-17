@@ -1,5 +1,5 @@
 {
-  "name": "menu-sheet",
+  "id": "menu-sheet",
   "dependencies": [
     "@seed-design/react"
   ],

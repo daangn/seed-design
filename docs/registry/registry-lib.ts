@@ -1,10 +1,10 @@
 import type { Registry } from "./schema";
 
 export const registryLib: Registry = {
-  name: "lib",
+  id: "lib",
   items: [
     {
-      name: "manner-temp-level",
+      id: "manner-temp-level",
       files: [{ path: "manner-temp-level.ts" }],
     },
   ],

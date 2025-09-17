@@ -1,5 +1,5 @@
 {
-  "name": "progress-circle",
+  "id": "progress-circle",
   "dependencies": [
     "@seed-design/react"
   ],

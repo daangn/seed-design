@@ -1,12 +1,12 @@
 {
-  "name": "action-button",
+  "id": "action-button",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "loading-indicator"
       ]
     }

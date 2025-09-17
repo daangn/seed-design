@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "id": "ui",
   "items": [
     {
       "files": [
@@ -10,7 +10,7 @@
           "path": "app-bar.tsx"
         }
       ],
-      "name": "app-screen",
+      "id": "app-screen",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react",
@@ -19,8 +19,8 @@
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "pull-to-refresh"
           ]
         }
@@ -32,14 +32,14 @@
           "path": "error-state.tsx"
         }
       ],
-      "name": "error-state",
+      "id": "error-state",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "action-button"
           ]
         }
@@ -51,14 +51,14 @@
           "path": "manner-temp.tsx"
         }
       ],
-      "name": "manner-temp",
+      "id": "manner-temp",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "lib",
-          "itemNames": [
+          "registryId": "lib",
+          "itemIds": [
             "manner-temp-level"
           ]
         }
@@ -70,14 +70,14 @@
           "path": "manner-temp-badge.tsx"
         }
       ],
-      "name": "manner-temp-badge",
+      "id": "manner-temp-badge",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "lib",
-          "itemNames": [
+          "registryId": "lib",
+          "itemIds": [
             "manner-temp-level"
           ]
         }
@@ -89,14 +89,14 @@
           "path": "alert-dialog.tsx"
         }
       ],
-      "name": "alert-dialog",
+      "id": "alert-dialog",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "action-button"
           ]
         }
@@ -108,7 +108,7 @@
           "path": "bottom-sheet.tsx"
         }
       ],
-      "name": "bottom-sheet",
+      "id": "bottom-sheet",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -120,7 +120,7 @@
           "path": "action-sheet.tsx"
         }
       ],
-      "name": "action-sheet",
+      "id": "action-sheet",
       "deprecated": true,
       "dependencies": [
         "@seed-design/react"
@@ -132,7 +132,7 @@
           "path": "extended-action-sheet.tsx"
         }
       ],
-      "name": "extended-action-sheet",
+      "id": "extended-action-sheet",
       "deprecated": true,
       "dependencies": [
         "@seed-design/react"
@@ -144,7 +144,7 @@
           "path": "avatar.tsx"
         }
       ],
-      "name": "avatar",
+      "id": "avatar",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -155,14 +155,14 @@
           "path": "pull-to-refresh.tsx"
         }
       ],
-      "name": "pull-to-refresh",
+      "id": "pull-to-refresh",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "progress-circle"
           ]
         }
@@ -174,14 +174,14 @@
           "path": "loading-indicator.tsx"
         }
       ],
-      "name": "loading-indicator",
+      "id": "loading-indicator",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "progress-circle"
           ]
         }
@@ -193,14 +193,14 @@
           "path": "action-button.tsx"
         }
       ],
-      "name": "action-button",
+      "id": "action-button",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "loading-indicator"
           ]
         }
@@ -212,14 +212,14 @@
           "path": "toggle-button.tsx"
         }
       ],
-      "name": "toggle-button",
+      "id": "toggle-button",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "loading-indicator"
           ]
         }
@@ -231,14 +231,14 @@
           "path": "reaction-button.tsx"
         }
       ],
-      "name": "reaction-button",
+      "id": "reaction-button",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "loading-indicator"
           ]
         }
@@ -250,7 +250,7 @@
           "path": "callout.tsx"
         }
       ],
-      "name": "callout",
+      "id": "callout",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -262,7 +262,7 @@
           "path": "control-chip.tsx"
         }
       ],
-      "name": "control-chip",
+      "id": "control-chip",
       "deprecated": true,
       "dependencies": [
         "@seed-design/react"
@@ -274,7 +274,7 @@
           "path": "chip.tsx"
         }
       ],
-      "name": "chip",
+      "id": "chip",
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"
@@ -286,7 +286,7 @@
           "path": "checkbox.tsx"
         }
       ],
-      "name": "checkbox",
+      "id": "checkbox",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -298,7 +298,7 @@
           "path": "identity-placeholder.tsx"
         }
       ],
-      "name": "identity-placeholder",
+      "id": "identity-placeholder",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -309,7 +309,7 @@
           "path": "inline-banner.tsx"
         }
       ],
-      "name": "inline-banner",
+      "id": "inline-banner",
       "deprecated": true,
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
@@ -322,7 +322,7 @@
           "path": "menu-sheet.tsx"
         }
       ],
-      "name": "menu-sheet",
+      "id": "menu-sheet",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -333,7 +333,7 @@
           "path": "snackbar.tsx"
         }
       ],
-      "name": "snackbar",
+      "id": "snackbar",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -345,7 +345,7 @@
           "path": "help-bubble.tsx"
         }
       ],
-      "name": "help-bubble",
+      "id": "help-bubble",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -357,7 +357,7 @@
           "path": "tabs.tsx"
         }
       ],
-      "name": "tabs",
+      "id": "tabs",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -368,7 +368,7 @@
           "path": "chip-tabs.tsx"
         }
       ],
-      "name": "chip-tabs",
+      "id": "chip-tabs",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -379,7 +379,7 @@
           "path": "page-banner.tsx"
         }
       ],
-      "name": "page-banner",
+      "id": "page-banner",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -391,7 +391,7 @@
           "path": "progress-circle.tsx"
         }
       ],
-      "name": "progress-circle",
+      "id": "progress-circle",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -402,7 +402,7 @@
           "path": "radio-group.tsx"
         }
       ],
-      "name": "radio-group",
+      "id": "radio-group",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -413,14 +413,14 @@
           "path": "select-box.tsx"
         }
       ],
-      "name": "select-box",
+      "id": "select-box",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "checkbox",
             "radio-group"
           ]
@@ -433,7 +433,7 @@
           "path": "segmented-control.tsx"
         }
       ],
-      "name": "segmented-control",
+      "id": "segmented-control",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -444,7 +444,7 @@
           "path": "switch.tsx"
         }
       ],
-      "name": "switch",
+      "id": "switch",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -455,7 +455,7 @@
           "path": "text-field.tsx"
         }
       ],
-      "name": "text-field",
+      "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
@@ -467,14 +467,14 @@
           "path": "contextual-floating-button.tsx"
         }
       ],
-      "name": "contextual-floating-button",
+      "id": "contextual-floating-button",
       "dependencies": [
         "@seed-design/react"
       ],
       "innerDependencies": [
         {
-          "registryName": "ui",
-          "itemNames": [
+          "registryId": "ui",
+          "itemIds": [
             "loading-indicator"
           ]
         }
@@ -486,7 +486,7 @@
           "path": "floating-action-button.tsx"
         }
       ],
-      "name": "floating-action-button",
+      "id": "floating-action-button",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -497,7 +497,7 @@
           "path": "list.tsx"
         }
       ],
-      "name": "list",
+      "id": "list",
       "dependencies": [
         "@seed-design/css",
         "@seed-design/react"

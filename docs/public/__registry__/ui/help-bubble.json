@@ -1,5 +1,5 @@
 {
-  "name": "help-bubble",
+  "id": "help-bubble",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react"

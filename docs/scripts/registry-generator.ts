@@ -45,7 +45,7 @@ export class RegistryGenerator {
   generate(): { index: GeneratedRegistry; items: GeneratedRegistryItem[] }[] {
     return this.#registries.map((registry) => {
       const processedItems = registry.items.map((registryItem) =>
-        this.processRegistryItem({ registryName: registry.name, registryItem }),
+        this.processRegistryItem({ registryName: registry.id, registryItem }),
       );
 
       return {
@@ -65,7 +65,7 @@ export class RegistryGenerator {
     registryName,
     registryItem,
   }: {
-    registryName: Registry["name"];
+    registryName: Registry["id"];
     registryItem: RegistryItem;
   }): GeneratedRegistryItem {
     const { files, ...metadata } = registryItem;
@@ -83,7 +83,7 @@ export class RegistryGenerator {
 
     const deps = this.resolveDependencies({
       sourceFiles,
-      currentFile: { registryName, itemName: registryItem.name },
+      currentFile: { registryName, itemName: registryItem.id },
     });
 
     for (const file of sourceFiles) {
@@ -104,7 +104,7 @@ export class RegistryGenerator {
     registryName: string;
     relativePath: string;
   }) {
-    const registry = this.#registries.find((r) => r.name === registryName);
+    const registry = this.#registries.find((r) => r.id === registryName);
     if (!registry) return null;
 
     const pathWithoutExt = path.basename(relativePath, path.extname(relativePath));
@@ -126,7 +126,7 @@ export class RegistryGenerator {
           filePath === `${relativePath}.jsx` ||
           filePath === `${relativePath}.js`
         ) {
-          return { registryName: registry.name, itemName: item.name };
+          return { registryName: registry.id, itemName: item.id };
         }
       }
     }
@@ -139,10 +139,10 @@ export class RegistryGenerator {
     currentFile,
   }: {
     sourceFiles: SourceFile[];
-    currentFile: { registryName: Registry["name"]; itemName: RegistryItem["name"] };
+    currentFile: { registryName: Registry["id"]; itemName: RegistryItem["id"] };
   }): Pick<GeneratedRegistryItem, "dependencies" | "innerDependencies"> {
     const dependencies = new Set<string>();
-    const innerDepsMap = new Map<Registry["name"], Set<string>>();
+    const innerDepsMap = new Map<Registry["id"], Set<string>>();
 
     for (const sourceFile of sourceFiles) {
       const importDeclarations = sourceFile.getImportDeclarations();
@@ -226,10 +226,10 @@ export class RegistryGenerator {
     if (innerDepsMap.size > 0) {
       innerDependencies = [];
 
-      for (const [registryName, itemsSet] of innerDepsMap) {
+      for (const [registryId, itemsSet] of innerDepsMap) {
         innerDependencies.push({
-          registryName,
-          itemNames: Array.from(itemsSet).sort(),
+          registryId,
+          itemIds: Array.from(itemsSet).sort(),
         });
       }
     }

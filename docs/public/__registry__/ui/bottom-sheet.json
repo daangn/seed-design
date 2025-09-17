@@ -1,5 +1,5 @@
 {
-  "name": "bottom-sheet",
+  "id": "bottom-sheet",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react"

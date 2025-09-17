@@ -1,5 +1,5 @@
 {
-  "name": "lib",
+  "id": "lib",
   "items": [
     {
       "files": [
@@ -7,7 +7,7 @@
           "path": "manner-temp-level.ts"
         }
       ],
-      "name": "manner-temp-level"
+      "id": "manner-temp-level"
     }
   ]
 }

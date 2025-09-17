@@ -1,5 +1,5 @@
 {
-  "name": "floating-action-button",
+  "id": "floating-action-button",
   "dependencies": [
     "@seed-design/react"
   ],

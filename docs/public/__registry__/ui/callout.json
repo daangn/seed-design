@@ -1,5 +1,5 @@
 {
-  "name": "callout",
+  "id": "callout",
   "dependencies": [
     "@karrotmarket/react-monochrome-icon",
     "@seed-design/react"

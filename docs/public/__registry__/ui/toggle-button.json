@@ -1,12 +1,12 @@
 {
-  "name": "toggle-button",
+  "id": "toggle-button",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "loading-indicator"
       ]
     }

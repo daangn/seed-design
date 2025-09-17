@@ -1,5 +1,5 @@
 {
-  "name": "manner-temp-level",
+  "id": "manner-temp-level",
   "files": [
     {
       "path": "manner-temp-level.ts",

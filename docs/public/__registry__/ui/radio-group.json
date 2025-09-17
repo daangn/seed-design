@@ -1,5 +1,5 @@
 {
-  "name": "radio-group",
+  "id": "radio-group",
   "dependencies": [
     "@seed-design/react"
   ],

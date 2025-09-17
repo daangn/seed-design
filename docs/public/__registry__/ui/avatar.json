@@ -1,5 +1,5 @@
 {
-  "name": "avatar",
+  "id": "avatar",
   "dependencies": [
     "@seed-design/react"
   ],

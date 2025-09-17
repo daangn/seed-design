@@ -1,5 +1,5 @@
 {
-  "name": "segmented-control",
+  "id": "segmented-control",
   "dependencies": [
     "@seed-design/react"
   ],

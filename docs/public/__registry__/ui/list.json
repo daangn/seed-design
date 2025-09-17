@@ -1,5 +1,5 @@
 {
-  "name": "list",
+  "id": "list",
   "dependencies": [
     "@seed-design/css",
     "@seed-design/react"

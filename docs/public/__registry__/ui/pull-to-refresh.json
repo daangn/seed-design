@@ -1,12 +1,12 @@
 {
-  "name": "pull-to-refresh",
+  "id": "pull-to-refresh",
   "dependencies": [
     "@seed-design/react"
   ],
   "innerDependencies": [
     {
-      "registryName": "ui",
-      "itemNames": [
+      "registryId": "ui",
+      "itemIds": [
         "progress-circle"
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "name": "identity-placeholder",
+  "id": "identity-placeholder",
   "dependencies": [
     "@seed-design/react"
   ],
