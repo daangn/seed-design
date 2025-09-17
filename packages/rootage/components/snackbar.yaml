@@ -48,7 +48,7 @@ data:
             type: duration
           exitTimingFunction:
             type: cubicBezier
-      messageContainer:
+      content:
         properties:
           paddingX:
             type: dimension
@@ -70,7 +70,7 @@ data:
             type: dimension
           color:
             type: color
-          marginRight:
+          paddingRight:
             type: dimension
       actionButton:
         properties:
@@ -110,7 +110,7 @@ data:
           exitScale: 0.8
           exitDuration: $duration.d2
           exitTimingFunction: $timing-function.exit
-        messageContainer:
+        content:
           paddingX: $dimension.x1_5
           gap: $dimension.x2_5
         message:
@@ -120,7 +120,7 @@ data:
           fontWeight: $font-weight.regular
         prefixIcon:
           size: 24px
-          marginRight: $dimension.x0_5
+          paddingRight: $dimension.x0_5
         actionButton:
           targetPaddingX: $dimension.x2
           targetMinHeight: 44px

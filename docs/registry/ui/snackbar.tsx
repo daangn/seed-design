@@ -77,17 +77,23 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
 
     return (
       <SeedSnackbar.Root ref={ref} variant={variant} {...otherProps}>
-        <SeedSnackbar.PrefixIcon
-          svg={
-            variant === "positive" ? (
-              <IconCheckmarkCircleFill />
-            ) : variant === "critical" ? (
-              <IconExclamationmarkCircleFill />
-            ) : null
-          }
-        />
-        <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
-        <SeedSnackbar.ActionButton onClick={handleAction}>{actionLabel}</SeedSnackbar.ActionButton>
+        {variant !== "default" && (
+          <SeedSnackbar.PrefixIcon
+            svg={
+              variant === "positive" ? (
+                <IconCheckmarkCircleFill />
+              ) : variant === "critical" ? (
+                <IconExclamationmarkCircleFill />
+              ) : null
+            }
+          />
+        )}
+        <SeedSnackbar.Content>
+          <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
+          <SeedSnackbar.ActionButton onClick={handleAction}>
+            {actionLabel}
+          </SeedSnackbar.ActionButton>
+        </SeedSnackbar.Content>
         {/* You may implement your own i18n for dismiss label */}
         <SeedSnackbar.HiddenCloseButton>닫기</SeedSnackbar.HiddenCloseButton>
       </SeedSnackbar.Root>
