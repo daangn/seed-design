@@ -8,7 +8,7 @@ import {
   type MannerTempProps as SeedMannerTempProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { mannerTempToLevel } from "../lib/manner-temp-level";
+import { mannerTempToLevel } from ".seed-design/ui/lib/manner-temp-level";
 
 export interface MannerTempProps extends Omit<SeedMannerTempProps, "children" | "asChild"> {
   /**

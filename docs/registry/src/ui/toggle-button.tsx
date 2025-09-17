@@ -5,7 +5,7 @@ import {
   type ToggleButtonProps as SeedToggleButtonProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { LoadingIndicator } from "./loading-indicator";
+import { LoadingIndicator } from "seed-design/ui/loading-indicator";
 
 export interface ToggleButtonProps extends SeedToggleButtonProps {}
 

@@ -3,7 +3,7 @@
 import { AnimatePresence, useSpring, useTransform } from "motion/react";
 import * as m from "motion/react-m";
 import * as React from "react";
-import styles from "./animate-number.module.css";
+import styles from "seed-design/breeze/animate-number/animate-number.module.css";
 
 // 상수로 정의하여 매번 재생성 방지
 const DIGIT_NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
