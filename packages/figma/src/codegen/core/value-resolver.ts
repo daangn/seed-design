@@ -135,13 +135,17 @@ export function createValueResolver<TColor, TGradient, TDimension, TFontDimensio
       return undefined;
     }
 
-    const inferred = variableService.infer(value, scope);
+    try {
+      const inferred = variableService.infer(value, scope);
 
-    if (!inferred) {
+      if (!inferred) {
+        return undefined;
+      }
+
+      return getVariableName(inferred.key);
+    } catch {
       return undefined;
     }
-
-    return getVariableName(inferred.key);
   }
 
   function processColor(
