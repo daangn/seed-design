@@ -35,7 +35,8 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "sync-entities": "rm -rf src/entities/data/__generated__ && bun figma-extractor src/entities/data/__generated__ component-sets variables variable-collections"
   },
   "dependencies": {
     "@seed-design/css": "0.2.4",
