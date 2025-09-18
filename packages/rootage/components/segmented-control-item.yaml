@@ -46,7 +46,7 @@ data:
       enabled:
         root:
           minWidth: 86px
-          minHeight: $dimension.x8
+          minHeight: 34px
           paddingX: $dimension.x6
           paddingY: $dimension.x1_5
           cornerRadius: $radius.full
@@ -56,7 +56,7 @@ data:
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-          fontWeight: $font-weight.medium
+          fontWeight: $font-weight.bold
           color: $color.fg.neutral-subtle
           colorDuration: $duration.d4
           colorTimingFunction: $timing-function.easing

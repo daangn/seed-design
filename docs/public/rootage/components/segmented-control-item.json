@@ -84,7 +84,10 @@
                 },
                 "minHeight": {
                   "type": "dimension",
-                  "value": "$dimension.x8"
+                  "value": {
+                    "value": 34,
+                    "unit": "px"
+                  }
                 },
                 "paddingX": {
                   "type": "dimension",
@@ -122,7 +125,7 @@
                 },
                 "fontWeight": {
                   "type": "number",
-                  "value": "$font-weight.medium"
+                  "value": "$font-weight.bold"
                 },
                 "color": {
                   "type": "color",

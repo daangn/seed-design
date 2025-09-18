@@ -3,7 +3,7 @@ export declare const vars: {
     "enabled": {
       "root": {
         "minWidth": "86px",
-        "minHeight": "var(--seed-dimension-x8)",
+        "minHeight": "34px",
         "paddingX": "var(--seed-dimension-x6)",
         "paddingY": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-full)",
@@ -14,7 +14,7 @@ export declare const vars: {
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
-        "fontWeight": "var(--seed-font-weight-medium)",
+        "fontWeight": "var(--seed-font-weight-bold)",
         "color": "var(--seed-color-fg-neutral-subtle)",
         "colorDuration": "var(--seed-duration-d4)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"
