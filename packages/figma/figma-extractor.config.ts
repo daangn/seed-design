@@ -29,9 +29,9 @@ const config = createConfig({
         const name = "FIGMA_VARIABLES";
 
         const mjs = utils.toMjs(name, record);
-        const dts = `import type { Variable } from "../../variable.interface";
+        const dts = `import type { Variable } from "../../../variable.interface";
 
-export declare const FIGMA_VARIABLES: Record<string, Variable>
+export declare const FIGMA_VARIABLES: Record<string, Variable>;
 `;
 
         await write(`${pipelineName}/index.mjs`, mjs);
@@ -53,9 +53,9 @@ export declare const FIGMA_VARIABLES: Record<string, Variable>
         const name = "FIGMA_VARIABLE_COLLECTIONS";
 
         const mjs = utils.toMjs(name, record);
-        const dts = `import type { VariableCollection } from "../../variable.interface";
+        const dts = `import type { VariableCollection } from "../../../variable.interface";
 
-export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollection>
+export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollection>;
 `;
 
         await write(`${pipelineName}/index.mjs`, mjs);
