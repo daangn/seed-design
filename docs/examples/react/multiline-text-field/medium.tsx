@@ -1,4 +1,4 @@
-import { TextField, TextFieldTextarea } from "@/registry/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function MultilineTextFieldMedium() {
   return (

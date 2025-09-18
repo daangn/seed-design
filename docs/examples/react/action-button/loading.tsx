@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 
 export default function ActionButtonLoading() {
   const [loading, setLoading] = useState(false);

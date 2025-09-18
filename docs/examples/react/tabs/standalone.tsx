@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TabsList, TabsRoot, TabsTrigger } from "@/registry/ui/tabs";
+import { TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsStandalone() {
   const [activeTab, setActiveTab] = useState("1");

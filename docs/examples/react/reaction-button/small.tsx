@@ -1,6 +1,6 @@
 import { IconFaceSmileCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { Count, PrefixIcon } from "@seed-design/react";
-import { ReactionButton } from "@/registry/ui/reaction-button";
+import { ReactionButton } from "seed-design/ui/reaction-button";
 
 export default function ReactionButtonSmall() {
   return (

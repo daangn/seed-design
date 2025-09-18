@@ -1,4 +1,4 @@
-import { SegmentedControl, SegmentedControlItem } from "@/registry/ui/segmented-control";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 
 export default function SegmentedControlLongLabel() {
   return (

@@ -57,8 +57,8 @@ export class RegistryGenerator {
         return {
           index: {
             ...registry,
-            items: processedItems.map(({ files, ...rest }) => ({
-              files: files.map(({ content, ...rest }) => rest),
+            items: processedItems.map(({ snippets, ...rest }) => ({
+              snippets: snippets.map(({ content, ...rest }) => rest),
               ...rest,
             })),
           },
@@ -75,11 +75,11 @@ export class RegistryGenerator {
     registryId: Registry["id"];
     registryItem: RegistryItem;
   }): GeneratedRegistryItem {
-    const { files, ...metadata } = registryItem;
+    const { snippets, ...metadata } = registryItem;
 
     const sourceFiles: SourceFile[] = [];
 
-    const filesWithContent = files.map(({ path: filePath }) => {
+    const snippetsWithContent = snippets.map(({ path: filePath }) => {
       const content = this.#getFileContent(path.join(registryId, filePath));
       const sourceFile = this.#project.createSourceFile(filePath, content);
 
@@ -100,7 +100,7 @@ export class RegistryGenerator {
     return {
       ...metadata,
       ...deps,
-      files: filesWithContent,
+      snippets: snippetsWithContent,
     };
   }
 
@@ -117,11 +117,11 @@ export class RegistryGenerator {
     const pathWithoutExt = path.basename(relativePath, path.extname(relativePath));
 
     // see which registry item contains the file
-    // e.g a registry item may look like this: { name: "button", files: ["variants/ghost-button.tsx"] }
+    // e.g a registry item may look like this: { name: "button", snippets: ["variants/ghost-button.tsx"] }
     // if import { GhostButton } from "seed-design/ui/variants/ghost-button"
     // with { registryId: "ui", relativePath: "variants/ghost-button" }, find the "button" item
     for (const item of registry.items) {
-      for (const { path: filePath } of item.files) {
+      for (const { path: filePath } of item.snippets) {
         const fileWithoutExt = path.basename(filePath, path.extname(filePath));
 
         // TODO: this can be better I guess

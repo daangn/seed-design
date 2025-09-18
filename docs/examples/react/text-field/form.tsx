@@ -1,7 +1,7 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, useState, type FormEvent } from "react";
-import { ActionButton } from "@/registry/ui/action-button";
-import { TextField, TextFieldInput } from "@/registry/ui/text-field";
+import { ActionButton } from "seed-design/ui/action-button";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 interface FormValues {
   name: string;

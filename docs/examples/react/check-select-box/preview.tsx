@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { CheckSelectBox, CheckSelectBoxGroup } from "@/registry/ui/select-box";
+import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
 export default function CheckSelectBoxPreview() {
   return (

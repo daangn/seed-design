@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { TextField, TextFieldInput } from "@/registry/ui/text-field";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldNumberFormatting() {
   const [value, setValue] = useState("1000");

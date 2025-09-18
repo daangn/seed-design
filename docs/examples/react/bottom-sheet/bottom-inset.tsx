@@ -1,11 +1,11 @@
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   BottomSheetBody,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetRoot,
   BottomSheetTrigger,
-} from "@/registry/ui/bottom-sheet";
+} from "seed-design/ui/bottom-sheet";
 
 const BottomSheetBottomInset = () => {
   return (

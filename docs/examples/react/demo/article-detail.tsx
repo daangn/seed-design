@@ -1,21 +1,21 @@
 import { CATEGORIES, type Article } from "@/components/example/react/demo/data";
 import type { ActivityComponentType } from "@stackflow/react/future";
-import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
   AppBar,
   AppBarBackButton,
   AppBarCloseButton,
   AppBarRight,
   AppBarLeft,
-} from "@/registry/ui/app-bar";
+} from "seed-design/ui/app-bar";
 import { VStack, HStack, Box } from "@seed-design/react";
 import { Text } from "@seed-design/react";
 import { Badge } from "@seed-design/react";
-import { SegmentedControl, SegmentedControlItem } from "@/registry/ui/segmented-control";
-import { Callout } from "@/registry/ui/callout";
-import { TextField, TextFieldTextarea } from "@/registry/ui/text-field";
-import { ErrorState } from "@/registry/ui/error-state";
-import { ActionButton } from "@/registry/ui/action-button";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
+import { Callout } from "seed-design/ui/callout";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
+import { ErrorState } from "seed-design/ui/error-state";
+import { ActionButton } from "seed-design/ui/action-button";
 import { Skeleton } from "@seed-design/react";
 import { IconILowercaseSerifCircleFill } from "@karrotmarket/react-monochrome-icon";
 import { ArticleAuthor } from "./components/article-author";

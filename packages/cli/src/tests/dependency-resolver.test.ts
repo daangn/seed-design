@@ -11,7 +11,7 @@ describe("resolveDependencies", () => {
           {
             id: "button",
             description: "Button component",
-            files: [{ path: "button.tsx" }],
+            snippets: [{ path: "button.tsx" }],
           },
         ],
       },
@@ -44,7 +44,7 @@ describe("resolveDependencies", () => {
           {
             id: "tabs",
             description: "Tabs component",
-            files: [{ path: "tabs.tsx" }],
+            snippets: [{ path: "tabs.tsx" }],
             dependencies: ["@seed-design/react-tabs", "clsx"],
           },
         ],
@@ -69,7 +69,7 @@ describe("resolveDependencies", () => {
           {
             id: "dialog",
             description: "Dialog component",
-            files: [{ path: "dialog.tsx" }],
+            snippets: [{ path: "dialog.tsx" }],
             innerDependencies: [
               {
                 registryId: "breeze",
@@ -85,7 +85,7 @@ describe("resolveDependencies", () => {
           {
             id: "animate-number",
             description: "Animate number utility",
-            files: [{ path: "animate-number.ts" }],
+            snippets: [{ path: "animate-number.ts" }],
             dependencies: ["framer-motion"],
           },
         ],
@@ -139,12 +139,12 @@ describe("resolveDependencies", () => {
           {
             id: "button",
             description: "Button component",
-            files: [{ path: "button.tsx" }],
+            snippets: [{ path: "button.tsx" }],
           },
           {
             id: "chip",
             description: "Chip component",
-            files: [{ path: "chip.tsx" }],
+            snippets: [{ path: "chip.tsx" }],
           },
         ],
       },
@@ -169,7 +169,7 @@ describe("resolveDependencies", () => {
           {
             id: "dialog",
             description: "Dialog component",
-            files: [{ path: "dialog.tsx" }],
+            snippets: [{ path: "dialog.tsx" }],
             innerDependencies: [
               {
                 registryId: "ui",
@@ -180,7 +180,7 @@ describe("resolveDependencies", () => {
           {
             id: "button",
             description: "Button component",
-            files: [{ path: "button.tsx" }],
+            snippets: [{ path: "button.tsx" }],
           },
         ],
       },
@@ -207,7 +207,7 @@ describe("resolveDependencies", () => {
           {
             id: "complex",
             description: "Complex component",
-            files: [{ path: "complex.tsx" }],
+            snippets: [{ path: "complex.tsx" }],
             innerDependencies: [
               {
                 registryId: "ui",
@@ -218,7 +218,7 @@ describe("resolveDependencies", () => {
           {
             id: "dialog",
             description: "Dialog component",
-            files: [{ path: "dialog.tsx" }],
+            snippets: [{ path: "dialog.tsx" }],
             innerDependencies: [
               {
                 registryId: "breeze",
@@ -234,7 +234,7 @@ describe("resolveDependencies", () => {
           {
             id: "animate",
             description: "Animate utility",
-            files: [{ path: "animate.ts" }],
+            snippets: [{ path: "animate.ts" }],
             innerDependencies: [
               {
                 registryId: "lib",
@@ -250,7 +250,7 @@ describe("resolveDependencies", () => {
           {
             id: "utils",
             description: "Utility functions",
-            files: [{ path: "utils.ts" }],
+            snippets: [{ path: "utils.ts" }],
             dependencies: ["lodash"],
           },
         ],
@@ -303,7 +303,7 @@ describe("resolveDependencies", () => {
           {
             id: "broken",
             description: "Broken component",
-            files: [{ path: "broken.tsx" }],
+            snippets: [{ path: "broken.tsx" }],
             innerDependencies: [
               {
                 registryId: "breeze",
@@ -335,13 +335,13 @@ describe("resolveDependencies", () => {
           {
             id: "button",
             description: "Button component",
-            files: [{ path: "button.tsx" }],
+            snippets: [{ path: "button.tsx" }],
             dependencies: ["clsx"],
           },
           {
             id: "chip",
             description: "Chip component",
-            files: [{ path: "chip.tsx" }],
+            snippets: [{ path: "chip.tsx" }],
           },
         ],
       },
@@ -351,7 +351,7 @@ describe("resolveDependencies", () => {
           {
             id: "animate",
             description: "Animate utility",
-            files: [{ path: "animate.ts" }],
+            snippets: [{ path: "animate.ts" }],
             dependencies: ["framer-motion"],
           },
         ],
@@ -386,7 +386,7 @@ describe("resolveDependencies", () => {
           {
             id: "rich",
             description: "Rich component",
-            files: [{ path: "rich.tsx" }],
+            snippets: [{ path: "rich.tsx" }],
             dependencies: ["react-hook-form"],
             innerDependencies: [
               {
@@ -398,13 +398,13 @@ describe("resolveDependencies", () => {
           {
             id: "field",
             description: "Field component",
-            files: [{ path: "field.tsx" }],
+            snippets: [{ path: "field.tsx" }],
             dependencies: ["clsx", "tailwind-merge"],
           },
           {
             id: "label",
             description: "Label component",
-            files: [{ path: "label.tsx" }],
+            snippets: [{ path: "label.tsx" }],
             dependencies: ["clsx"],
           },
         ],

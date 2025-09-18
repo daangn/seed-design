@@ -1,5 +1,5 @@
 import { Badge, Box, Flex, VStack } from "@seed-design/react";
-import { RadioSelectBoxItem, RadioSelectBoxRoot } from "@/registry/ui/select-box";
+import { RadioSelectBoxItem, RadioSelectBoxRoot } from "seed-design/ui/select-box";
 
 export default function RadioSelectBoxCustomizingLabel() {
   return (

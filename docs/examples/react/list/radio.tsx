@@ -1,6 +1,6 @@
 import { RadioGroup } from "@seed-design/react";
-import { List, ListDivider, ListRadioItem } from "@/registry/ui/list";
-import { RadioMark } from "@/registry/ui/radio-group";
+import { List, ListDivider, ListRadioItem } from "seed-design/ui/list";
+import { RadioMark } from "seed-design/ui/radio-group";
 
 export default function ListRadio() {
   return (

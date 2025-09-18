@@ -1,5 +1,5 @@
-import { IdentityPlaceholder } from "@/registry/ui/identity-placeholder";
-import { Avatar, AvatarBadge } from "@/registry/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { Avatar, AvatarBadge } from "seed-design/ui/avatar";
 
 export default function AvatarBadgeFlower() {
   return (

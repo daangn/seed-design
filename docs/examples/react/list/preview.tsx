@@ -1,4 +1,4 @@
-import { List, ListDivider, ListItem } from "@/registry/ui/list";
+import { List, ListDivider, ListItem } from "seed-design/ui/list";
 import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,

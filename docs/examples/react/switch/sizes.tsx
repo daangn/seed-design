@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { Switch } from "@/registry/ui/switch";
+import { Switch } from "seed-design/ui/switch";
 
 export default function SwitchSizes() {
   return (

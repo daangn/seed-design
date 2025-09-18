@@ -1,6 +1,6 @@
 import { HStack, Text, VStack } from "@seed-design/react";
 import { Checkbox } from "@seed-design/react";
-import { Checkmark } from "@/registry/ui/checkbox";
+import { Checkmark } from "seed-design/ui/checkbox";
 
 function CustomCheckbox({ children, ...props }: Checkbox.RootProps) {
   return (

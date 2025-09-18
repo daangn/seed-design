@@ -3,8 +3,8 @@ import {
   ActionSheetItem,
   ActionSheetRoot,
   ActionSheetTrigger,
-} from "@/registry/ui/action-sheet";
-import { ActionButton } from "@/registry/ui/action-button";
+} from "seed-design/ui/action-sheet";
+import { ActionButton } from "seed-design/ui/action-button";
 
 const ActionSheetPreview = () => {
   return (

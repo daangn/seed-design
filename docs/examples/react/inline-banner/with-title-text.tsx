@@ -3,7 +3,7 @@ import {
   ActionableInlineBanner,
   DismissibleInlineBanner,
   InlineBanner,
-} from "@/registry/ui/inline-banner";
+} from "seed-design/ui/inline-banner";
 
 export default function InlineBannerWithTitleText() {
   return (

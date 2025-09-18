@@ -4,7 +4,7 @@ import {
   PullToRefreshRoot,
   PullToRefreshContent,
   PullToRefreshIndicator,
-} from "@/registry/ui/pull-to-refresh";
+} from "seed-design/ui/pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";

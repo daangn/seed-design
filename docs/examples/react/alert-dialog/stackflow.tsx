@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogRoot,
   AlertDialogTitle,
-} from "@/registry/ui/alert-dialog";
+} from "seed-design/ui/alert-dialog";
 
 declare module "@stackflow/config" {
   interface Register {

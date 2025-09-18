@@ -1,8 +1,8 @@
 import { IconPersonCircleLine } from "@karrotmarket/react-monochrome-icon";
 import { Box, Icon, VStack } from "@seed-design/react";
 import { useState } from "react";
-import { List, ListDivider, ListItem } from "@/registry/ui/list";
-import { Switch } from "@/registry/ui/switch";
+import { List, ListDivider, ListItem } from "seed-design/ui/list";
+import { Switch } from "seed-design/ui/switch";
 
 export default function ListHighlighted() {
   const [highlighted, setHighlighted] = useState(true);

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { ActionButton } from "@/registry/ui/action-button";
-import { InlineBanner, type InlineBannerProps } from "@/registry/ui/inline-banner";
+import { ActionButton } from "seed-design/ui/action-button";
+import { InlineBanner, type InlineBannerProps } from "seed-design/ui/inline-banner";
 
 import AppScreen from "@/components/stackflow/ActivityLayout";
 import type { ActivityComponentType } from "@stackflow/react/future";

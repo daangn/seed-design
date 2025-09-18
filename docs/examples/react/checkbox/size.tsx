@@ -1,5 +1,5 @@
 import { HStack, VStack } from "@seed-design/react";
-import { Checkbox } from "@/registry/ui/checkbox";
+import { Checkbox } from "seed-design/ui/checkbox";
 
 export default function CheckboxSize() {
   return (

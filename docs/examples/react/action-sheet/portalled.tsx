@@ -1,11 +1,11 @@
 import { Portal } from "@seed-design/react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   ActionSheetContent,
   ActionSheetItem,
   ActionSheetRoot,
   ActionSheetTrigger,
-} from "@/registry/ui/action-sheet";
+} from "seed-design/ui/action-sheet";
 
 const ActionSheetPortalled = () => {
   return (

@@ -1,5 +1,5 @@
-import { ActionButton } from "@/registry/ui/action-button";
-import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "@/registry/ui/snackbar";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
 
 function Component() {
   const adapter = useSnackbarAdapter();

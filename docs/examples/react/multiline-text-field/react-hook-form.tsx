@@ -1,8 +1,8 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent, type KeyboardEvent } from "react";
 import { useController, useForm } from "react-hook-form";
-import { ActionButton } from "@/registry/ui/action-button";
-import { TextField, TextFieldTextarea } from "@/registry/ui/text-field";
+import { ActionButton } from "seed-design/ui/action-button";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 interface FormValues {
   bio: string;

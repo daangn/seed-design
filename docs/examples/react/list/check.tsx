@@ -1,6 +1,6 @@
 import { Badge, HStack } from "@seed-design/react";
-import { List, ListDivider, ListCheckItem } from "@/registry/ui/list";
-import { Checkmark } from "@/registry/ui/checkbox";
+import { List, ListDivider, ListCheckItem } from "seed-design/ui/list";
+import { Checkmark } from "seed-design/ui/checkbox";
 
 export default function ListCheckbox() {
   return (

@@ -1,7 +1,7 @@
 import { getConfig } from "@/src/utils/get-config";
 import { resolveDependencies } from "@/src/utils/resolve-dependencies";
 import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
-import { writeRegistryFiles } from "@/src/utils/write";
+import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
 import color from "picocolors";
@@ -154,7 +154,7 @@ export const addAllCommand = (cli: CAC) => {
         publicRegistries,
       });
 
-      await writeRegistryFiles({ registryItemsToAdd, rootPath, cwd, baseUrl, config });
+      await writeRegistryItemSnippets({ registryItemsToAdd, rootPath, cwd, baseUrl, config });
 
       const { installed, filtered } = await installDependencies({
         cwd,

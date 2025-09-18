@@ -5,7 +5,7 @@ import {
   type ContextualFloatingButtonProps as SeedContextualFloatingButtonProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { LoadingIndicator } from "@/registry/ui/loading-indicator";
+import { LoadingIndicator } from "seed-design/ui/loading-indicator";
 
 export interface ContextualFloatingButtonProps extends SeedContextualFloatingButtonProps {}
 

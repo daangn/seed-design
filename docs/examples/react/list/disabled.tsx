@@ -4,9 +4,9 @@ import {
   IconSlashCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
 import { Divider, Icon, RadioGroup, VStack } from "@seed-design/react";
-import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "@/registry/ui/list";
-import { Checkmark } from "@/registry/ui/checkbox";
-import { RadioMark } from "@/registry/ui/radio-group";
+import { List, ListButtonItem, ListCheckItem, ListRadioItem } from "seed-design/ui/list";
+import { Checkmark } from "seed-design/ui/checkbox";
+import { RadioMark } from "seed-design/ui/radio-group";
 
 export default function ListDisabled() {
   return (

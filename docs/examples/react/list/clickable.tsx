@@ -7,9 +7,9 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon, Icon } from "@seed-design/react";
 import { useCallback, useState } from "react";
-import { List, ListDivider, ListItem, ListButtonItem, ListLinkItem } from "@/registry/ui/list";
-import { ActionButton } from "@/registry/ui/action-button";
-import { ToggleButton } from "@/registry/ui/toggle-button";
+import { List, ListDivider, ListItem, ListButtonItem, ListLinkItem } from "seed-design/ui/list";
+import { ActionButton } from "seed-design/ui/action-button";
+import { ToggleButton } from "seed-design/ui/toggle-button";
 
 const href = "https://www.daangn.com";
 

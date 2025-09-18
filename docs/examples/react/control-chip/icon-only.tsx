@@ -1,6 +1,6 @@
 import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
-import { ControlChip } from "@/registry/ui/control-chip";
+import { ControlChip } from "seed-design/ui/control-chip";
 
 export default function ControlChipIconOnly() {
   return (

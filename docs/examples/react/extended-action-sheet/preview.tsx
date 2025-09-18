@@ -1,13 +1,13 @@
 import { IconEyeSlashLine } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   ExtendedActionSheetContent,
   ExtendedActionSheetGroup,
   ExtendedActionSheetItem,
   ExtendedActionSheetRoot,
   ExtendedActionSheetTrigger,
-} from "@/registry/ui/extended-action-sheet";
+} from "seed-design/ui/extended-action-sheet";
 
 const ExtendedActionSheetPreview = () => {
   return (

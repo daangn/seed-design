@@ -2,7 +2,7 @@
 
 import { PullToRefresh } from "@seed-design/react";
 import { forwardRef } from "react";
-import { ProgressCircle } from "@/registry/ui/progress-circle";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 export interface PullToRefreshRootProps extends PullToRefresh.RootProps {}
 

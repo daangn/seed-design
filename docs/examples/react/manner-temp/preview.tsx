@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { MannerTemp } from "@/registry/ui/manner-temp";
+import { MannerTemp } from "seed-design/ui/manner-temp";
 
 export default function MannerTempPreview() {
   return (

@@ -4,7 +4,7 @@ import {
   DismissiblePageBanner,
   PageBanner,
   PageBannerButton,
-} from "@/registry/ui/page-banner";
+} from "seed-design/ui/page-banner";
 
 export default function PageBannerNeutral() {
   return (

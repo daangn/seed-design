@@ -1,13 +1,13 @@
 import { VStack } from "@seed-design/react";
 import { ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "@/registry/ui/app-bar";
-import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
+import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 import {
   PullToRefreshContent,
   PullToRefreshIndicator,
   PullToRefreshRoot,
-} from "@/registry/ui/pull-to-refresh";
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/registry/ui/tabs";
+} from "seed-design/ui/pull-to-refresh";
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 declare module "@stackflow/config" {
   interface Register {

@@ -35,8 +35,8 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
   const packageManagers = ["npm", "yarn", "pnpm", "bun"];
 
   // 파일 분리
-  const componentFiles = json?.files?.filter((r) => r.path.endsWith(".tsx")) || [];
-  const styleFiles = json?.files?.filter((r) => r.path.endsWith(".module.css")) || [];
+  const componentSnippets = json?.snippets?.filter((r) => r.path.endsWith(".tsx")) || [];
+  const styleSnippets = json?.snippets?.filter((r) => r.path.endsWith(".module.css")) || [];
 
   return (
     <ErrorBoundary>
@@ -77,14 +77,14 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
 
             <Step>
               <Heading as="h3">컴포넌트 코드 복사</Heading>
-              {componentFiles.map(({ path, content }) => {
+              {componentSnippets.map(({ path, content }) => {
                 return <DynamicCodeBlock key={path} lang="tsx" code={content} />;
               })}
             </Step>
 
             <Step>
               <Heading as="h3">스타일 복사</Heading>
-              {styleFiles.map(({ path, content }) => (
+              {styleSnippets.map(({ path, content }) => (
                 <DynamicCodeBlock key={path} lang="css" code={content} />
               ))}
             </Step>

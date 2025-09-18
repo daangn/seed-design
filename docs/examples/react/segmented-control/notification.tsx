@@ -1,6 +1,6 @@
 import { ActionButton, VStack } from "@seed-design/react";
 import { useState } from "react";
-import { SegmentedControl, SegmentedControlItem } from "@/registry/ui/segmented-control";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 
 export default function SegmentedControlNotification() {
   const [sortBy, setSortBy] = useState("monthly");

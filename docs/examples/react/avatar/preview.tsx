@@ -1,6 +1,6 @@
 import { Flex } from "@seed-design/react";
-import { Avatar, AvatarBadge } from "@/registry/ui/avatar";
-import { IdentityPlaceholder } from "@/registry/ui/identity-placeholder";
+import { Avatar, AvatarBadge } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 
 export default function AvatarPreview() {
   return (

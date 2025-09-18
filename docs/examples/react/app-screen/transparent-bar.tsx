@@ -8,8 +8,8 @@ import {
   AppBarLeft,
   AppBarMain,
   AppBarRight,
-} from "@/registry/ui/app-bar";
-import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
+} from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {

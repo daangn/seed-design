@@ -6,7 +6,7 @@ import { registryBreeze } from "../registry/registry-breeze.js";
 import { registryLib } from "../registry/registry-lib.js";
 import { registryUI } from "../registry/registry-ui.js";
 
-const REGISTRY_PATH = path.join(process.cwd(), "registry/src");
+const REGISTRY_PATH = path.join(process.cwd(), "registry");
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 
 async function main() {

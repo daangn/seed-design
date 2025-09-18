@@ -1,5 +1,5 @@
-import { Avatar } from "@/registry/ui/avatar";
-import { HelpBubbleAnchor } from "@/registry/ui/help-bubble";
+import { Avatar } from "seed-design/ui/avatar";
+import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 export default function HelpBubbleAnchorExample() {
   return (

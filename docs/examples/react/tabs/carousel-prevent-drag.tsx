@@ -1,5 +1,5 @@
 import { Box, Tabs } from "@seed-design/react";
-import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/registry/ui/tabs";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsCarouselPreventDrag() {
   return (

@@ -1,8 +1,8 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
-import { ActionButton } from "@/registry/ui/action-button";
-import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group";
+import { ActionButton } from "seed-design/ui/action-button";
+import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
 const POSSIBLE_COLORS = ["red", "blue", "green"] as const;
 

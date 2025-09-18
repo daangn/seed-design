@@ -1,6 +1,6 @@
 import { IconPlusFill } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon } from "@seed-design/react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 
 export default function ActionButtonPrefixIcon() {
   return (

@@ -1,7 +1,7 @@
 import { VStack } from "@seed-design/react";
-import { ActionButton } from "@/registry/ui/action-button";
-import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "@/registry/ui/snackbar";
-import { SegmentedControl, SegmentedControlItem } from "@/registry/ui/segmented-control";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Snackbar, SnackbarProvider, useSnackbarAdapter } from "seed-design/ui/snackbar";
+import { SegmentedControl, SegmentedControlItem } from "seed-design/ui/segmented-control";
 import { useState } from "react";
 
 function Component() {

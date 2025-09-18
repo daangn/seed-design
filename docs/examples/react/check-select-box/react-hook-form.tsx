@@ -1,8 +1,8 @@
 import { HStack, VStack } from "@seed-design/react";
 import { useCallback, type FormEvent } from "react";
 import { useController, useForm } from "react-hook-form";
-import { ActionButton } from "@/registry/ui/action-button";
-import { CheckSelectBox, CheckSelectBoxGroup } from "@/registry/ui/select-box";
+import { ActionButton } from "seed-design/ui/action-button";
+import { CheckSelectBox, CheckSelectBoxGroup } from "seed-design/ui/select-box";
 
 const POSSIBLE_FRUIT_VALUES = ["apple", "melon", "mango"] as const;
 

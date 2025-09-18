@@ -1,11 +1,11 @@
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   MenuSheetContent,
   MenuSheetGroup,
   MenuSheetItem,
   MenuSheetRoot,
   MenuSheetTrigger,
-} from "@/registry/ui/menu-sheet";
+} from "seed-design/ui/menu-sheet";
 
 const MenuSheetWithoutPrefixIcon = () => {
   return (

@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { RadioGroup, RadioGroupItem } from "@/registry/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "seed-design/ui/radio-group";
 
 export default function RadioGroupPreview() {
   return (

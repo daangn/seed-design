@@ -1,6 +1,6 @@
 import { PrefixIcon, ResponsivePair } from "@seed-design/react";
 import { IconCheckFill } from "@seed-design/react-icon";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -10,7 +10,7 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/registry/ui/alert-dialog";
+} from "seed-design/ui/alert-dialog";
 
 const AlertDialogWrap = () => {
   return (

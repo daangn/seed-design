@@ -1,5 +1,5 @@
 import { RefObject, useRef, useState } from "react";
-import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "@/registry/ui/tabs";
+import { TabsCarousel, TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tabs";
 
 export default function TabsScrollTop() {
   const [currentTab, setCurrentTab] = useState("1");

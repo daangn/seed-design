@@ -7,7 +7,7 @@ import { highlight } from "./color";
 import type { Config } from "@/src/utils/get-config";
 import type { PublicRegistry } from "@/src/schema";
 
-export async function writeRegistryFiles({
+export async function writeRegistryItemSnippets({
   registryItemsToAdd,
   rootPath,
   cwd,
@@ -33,9 +33,9 @@ export async function writeRegistryFiles({
       registryItemIds: items.map((i) => i.id),
     });
 
-    for (const { id, files } of registryItems) {
-      const transformedFiles = await Promise.all(
-        files.map(async (file) => {
+    for (const { id, snippets } of registryItems) {
+      const transformedSnippets = await Promise.all(
+        snippets.map(async (file) => {
           const content = await transform({ filename: file.path, config, raw: file.content });
 
           let filePath = path.join(registryPath, file.path);
@@ -54,20 +54,20 @@ export async function writeRegistryFiles({
       );
 
       await Promise.all(
-        transformedFiles.map(async ({ filePath, content }) => {
+        transformedSnippets.map(async ({ filePath, content }) => {
           await fs.ensureDir(path.dirname(filePath));
           await fs.writeFile(filePath, content);
         }),
       );
 
-      const fileResults = transformedFiles.map(({ name, relativePath }) => ({
+      const snippetResults = transformedSnippets.map(({ name, relativePath }) => ({
         name,
         path: relativePath,
       }));
 
-      registryResult.push(...fileResults);
+      registryResult.push(...snippetResults);
 
-      p.log.success(`${highlight(`${registryId}:${id}`)} 관련 파일 ${files.length}개 추가 완료`);
+      p.log.success(`${highlight(`${registryId}:${id}`)} 관련 파일 ${snippets.length}개 추가 완료`);
     }
   }
 

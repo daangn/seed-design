@@ -1,6 +1,6 @@
 import { ResponsivePair } from "@seed-design/react";
 import { useState } from "react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -9,7 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogRoot,
   AlertDialogTitle,
-} from "@/registry/ui/alert-dialog";
+} from "seed-design/ui/alert-dialog";
 
 const AlertDialogControlled = () => {
   const [open, setOpen] = useState(false);

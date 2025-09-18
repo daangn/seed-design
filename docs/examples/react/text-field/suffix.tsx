@@ -1,6 +1,6 @@
 import { IconWonLine } from "@karrotmarket/react-monochrome-icon";
 import { HStack } from "@seed-design/react";
-import { TextField, TextFieldInput } from "@/registry/ui/text-field";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldSuffix() {
   return (

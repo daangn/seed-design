@@ -6,7 +6,7 @@ export const registryLib: Registry = {
   items: [
     {
       id: "manner-temp-level",
-      files: [{ path: "manner-temp-level.ts" }],
+      snippets: [{ path: "manner-temp-level.ts" }],
     },
   ],
 };

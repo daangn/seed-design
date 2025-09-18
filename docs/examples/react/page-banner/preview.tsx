@@ -1,5 +1,9 @@
 import { VStack } from "@seed-design/react";
-import { ActionablePageBanner, DismissiblePageBanner, PageBanner } from "@/registry/ui/page-banner";
+import {
+  ActionablePageBanner,
+  DismissiblePageBanner,
+  PageBanner,
+} from "seed-design/ui/page-banner";
 
 export default function PageBannerPreview() {
   return (

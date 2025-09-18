@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, TextFieldInput } from "@/registry/ui/text-field";
+import { TextField, TextFieldInput } from "seed-design/ui/text-field";
 
 export default function TextFieldSlicing() {
   const [value, setValue] = useState("");

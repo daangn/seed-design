@@ -1,6 +1,6 @@
 import { IconChevronDownFill } from "@karrotmarket/react-monochrome-icon";
 import { SuffixIcon } from "@seed-design/react";
-import { ControlChip } from "@/registry/ui/control-chip";
+import { ControlChip } from "seed-design/ui/control-chip";
 
 export default function ControlChipSuffixIcon() {
   return (

@@ -1,4 +1,4 @@
-import { InlineBanner } from "@/registry/ui/inline-banner";
+import { InlineBanner } from "seed-design/ui/inline-banner";
 
 export default function InlineBannerWithLinkLabel() {
   return (

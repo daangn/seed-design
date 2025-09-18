@@ -1,20 +1,20 @@
 import { useMemo, useState } from "react";
 import { IconChevronDownFill, IconPenHorizlineFill } from "@karrotmarket/react-monochrome-icon";
 import { Flex, HStack, VStack, Icon } from "@seed-design/react";
-import { Chip } from "@/registry/ui/chip";
+import { Chip } from "seed-design/ui/chip";
 import {
   BottomSheetBody,
   BottomSheetRoot,
   BottomSheetContent,
   BottomSheetFooter,
   BottomSheetTrigger,
-} from "@/registry/ui/bottom-sheet";
-import { ActionButton } from "@/registry/ui/action-button";
-import { FloatingActionButton } from "@/registry/ui/floating-action-button";
-import { Snackbar, useSnackbarAdapter } from "@/registry/ui/snackbar";
+} from "seed-design/ui/bottom-sheet";
+import { ActionButton } from "seed-design/ui/action-button";
+import { FloatingActionButton } from "seed-design/ui/floating-action-button";
+import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
 import { ARTICLES, CATEGORIES, type Category } from "@/components/example/react/demo/data";
 import { ArticleListItem } from "@/components/example/react/demo/components/article-list-item";
-import { List } from "@/registry/ui/list";
+import { List } from "seed-design/ui/list";
 
 const FILTERS = [
   { label: "카테고리", value: "category" },

@@ -1,11 +1,11 @@
 import { Flex, VStack } from "@seed-design/react";
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   Snackbar,
   SnackbarAvoidOverlap,
   SnackbarProvider,
   useSnackbarAdapter,
-} from "@/registry/ui/snackbar";
+} from "seed-design/ui/snackbar";
 
 function Component() {
   const adapter = useSnackbarAdapter();

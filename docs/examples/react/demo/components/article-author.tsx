@@ -1,5 +1,5 @@
-import { Avatar } from "@/registry/ui/avatar";
-import { IdentityPlaceholder } from "@/registry/ui/identity-placeholder";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
 import { Text } from "@seed-design/react";
 import { HStack } from "@seed-design/react";
 

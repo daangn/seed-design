@@ -1,8 +1,8 @@
-interface RegistryItemFile {
+interface RegistryItemSnippet {
   path: string;
 }
 
-interface RegistryItemFileWithContent extends RegistryItemFile {
+interface RegistryItemSnippetWithContent extends RegistryItemSnippet {
   content: string;
 }
 
@@ -27,12 +27,12 @@ export interface RegistryItem {
    * @example [{ path: "alert-dialog.tsx" }]
    * @example [{ path: "use-dismissible.ts" }, { path: "manner-temp-level.ts" }]
    */
-  files: RegistryItemFile[];
+  snippets: RegistryItemSnippet[];
 
   /**
    * @description 컴포넌트 deprecated 여부
    */
-  deprecated?: true;
+  deprecated?: boolean;
 }
 
 export interface Registry {
@@ -69,16 +69,16 @@ export interface GeneratedRegistryItem {
   /**
    * @description 컴포넌트 deprecated 여부
    */
-  deprecated?: true;
+  deprecated?: boolean;
 
   /**
-   * @description files에 명시된 파일에서 의존하는 패키지
+   * @description snippets에 명시된 파일에서 의존하는 패키지
    * @example ["@seed-design/react-tabs"]
    */
   dependencies?: string[];
 
   /**
-   * @description files에 명시된 파일에서 의존하는 다른 Registry Item
+   * @description snippets에 명시된 파일에서 의존하는 다른 Registry Item
    * @example [{ registryId: "breeze", itemIds: ["animate-number"] }]
    */
   innerDependencies?: Array<{
@@ -90,7 +90,7 @@ export interface GeneratedRegistryItem {
    * @description 실제 파일의 경로와 내용
    * @example [{ path: "alert-dialog.tsx", content: "import { useState } from 'react'; ..." }]
    */
-  files: RegistryItemFileWithContent[];
+  snippets: RegistryItemSnippetWithContent[];
 }
 
 /**
@@ -119,16 +119,16 @@ export interface GeneratedRegistry {
     /**
      * @description 컴포넌트 deprecated 여부
      */
-    deprecated?: true;
+    deprecated?: boolean;
 
     /**
-     * @description files에 명시된 파일에서 의존하는 패키지
+     * @description snippets에 명시된 파일에서 의존하는 패키지
      * @example ["@seed-design/react-tabs"]
      */
     dependencies?: string[];
 
     /**
-     * @description files에 명시된 파일에서 의존하는 다른 Registry Item
+     * @description snippets에 명시된 파일에서 의존하는 다른 Registry Item
      * @example [{ registryId: "breeze", itemIds: ["animate-number"] }]
      */
     innerDependencies?: Array<{
@@ -136,7 +136,7 @@ export interface GeneratedRegistry {
       itemIds: string[];
     }>;
 
-    files: RegistryItemFile[];
+    snippets: RegistryItemSnippet[];
   }>;
 }
 

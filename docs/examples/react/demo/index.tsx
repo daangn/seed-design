@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { type ActivityComponentType } from "@stackflow/react/future";
-import { AppBar, AppBarMain } from "@/registry/ui/app-bar";
-import { AppScreen, AppScreenContent } from "@/registry/ui/app-screen";
-import { TabsRoot, TabsTrigger, TabsList } from "@/registry/ui/tabs";
-import { ErrorState } from "@/registry/ui/error-state";
-import { SnackbarProvider } from "@/registry/ui/snackbar";
+import { AppBar, AppBarMain } from "seed-design/ui/app-bar";
+import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
+import { TabsRoot, TabsTrigger, TabsList } from "seed-design/ui/tabs";
+import { ErrorState } from "seed-design/ui/error-state";
+import { SnackbarProvider } from "seed-design/ui/snackbar";
 import { Recommendations } from "@/components/example/react/demo/tabs/recommendations";
 
 declare module "@stackflow/config" {

@@ -1,4 +1,4 @@
-import { ProgressCircle } from "@/registry/ui/progress-circle";
+import { ProgressCircle } from "seed-design/ui/progress-circle";
 
 export default function ProgressCircleBrand() {
   return <ProgressCircle tone="brand" />;

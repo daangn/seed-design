@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToggleButton } from "@/registry/ui/toggle-button";
+import { ToggleButton } from "seed-design/ui/toggle-button";
 
 export default function ToggleButtonBrandSolid() {
   const [pressed, setPressed] = useState(false);

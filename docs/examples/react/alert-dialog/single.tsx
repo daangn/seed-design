@@ -1,4 +1,4 @@
-import { ActionButton } from "@/registry/ui/action-button";
+import { ActionButton } from "seed-design/ui/action-button";
 import {
   AlertDialogAction,
   AlertDialogContent,
@@ -8,7 +8,7 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/registry/ui/alert-dialog";
+} from "seed-design/ui/alert-dialog";
 
 const AlertDialogSingle = () => {
   // You can set z-index dialog with "--layer-index" custom property. useful for stackflow integration.

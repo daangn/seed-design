@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { TextField, TextFieldTextarea } from "@/registry/ui/text-field";
+import { TextField, TextFieldTextarea } from "seed-design/ui/text-field";
 
 export default function MultilineTextFieldFormatting() {
   const [value, setValue] = useState("");

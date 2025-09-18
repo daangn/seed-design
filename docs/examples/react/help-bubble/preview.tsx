@@ -1,5 +1,5 @@
-import { ActionButton } from "@/registry/ui/action-button";
-import { HelpBubbleTrigger } from "@/registry/ui/help-bubble";
+import { ActionButton } from "seed-design/ui/action-button";
+import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
 
 export default function HelpBubblePreview() {
   return (

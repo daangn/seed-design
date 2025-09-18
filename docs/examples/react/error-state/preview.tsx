@@ -1,5 +1,5 @@
 import { VStack } from "@seed-design/react";
-import { ErrorState } from "@/registry/ui/error-state";
+import { ErrorState } from "seed-design/ui/error-state";
 
 export default function ErrorStatePreview() {
   return (

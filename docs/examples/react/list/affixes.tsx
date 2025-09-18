@@ -4,11 +4,11 @@ import {
 } from "@karrotmarket/react-monochrome-icon";
 import { Icon } from "@seed-design/react";
 import { useState } from "react";
-import { ActionButton } from "@/registry/ui/action-button";
-import { Avatar } from "@/registry/ui/avatar";
-import { IdentityPlaceholder } from "@/registry/ui/identity-placeholder";
-import { List, ListDivider, ListItem } from "@/registry/ui/list";
-import { ToggleButton } from "@/registry/ui/toggle-button";
+import { ActionButton } from "seed-design/ui/action-button";
+import { Avatar } from "seed-design/ui/avatar";
+import { IdentityPlaceholder } from "seed-design/ui/identity-placeholder";
+import { List, ListDivider, ListItem } from "seed-design/ui/list";
+import { ToggleButton } from "seed-design/ui/toggle-button";
 
 export default function ListAffixes() {
   const [isToggleButtonPressed, setIsToggleButtonPressed] = useState(false);

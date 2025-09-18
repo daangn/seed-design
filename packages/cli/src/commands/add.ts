@@ -1,7 +1,7 @@
 import { getConfig } from "@/src/utils/get-config";
 import { resolveDependencies } from "@/src/utils/resolve-dependencies";
 import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
-import { writeRegistryFiles } from "@/src/utils/write";
+import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
 import color from "picocolors";
@@ -87,7 +87,7 @@ export const addCommand = (cli: CAC) => {
             .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
             .flatMap(({ id: registryId, items }) =>
               items
-                .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
+                .filter(({ hideFromCLIAdd }) => !hideFromCLIAdd)
                 .map(({ id, description, deprecated }) => ({
                   label: `${deprecated ? "(deprecated) " : ""}${highlight(registryId)}:${id}`,
                   value: `${registryId}:${id}`,
@@ -166,7 +166,7 @@ export const addCommand = (cli: CAC) => {
 설치할 의존성: ${highlight(Array.from(npmDependenciesToAdd).join(", ") || "없음")}`,
       );
 
-      const registryResult = await writeRegistryFiles({
+      const registryResult = await writeRegistryItemSnippets({
         registryItemsToAdd,
         rootPath,
         cwd,
