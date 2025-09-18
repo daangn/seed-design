@@ -1,11 +1,13 @@
 import {
   actionButton,
+  type ActionButtonOverridableVariable,
   type ActionButtonVariantProps,
 } from "@seed-design/css/recipes/action-button";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import clsx from "clsx";
 import * as React from "react";
 import { handleColor, useStyleProps, type StyleProps } from "../../utils/styled";
+import type { WithOverrides } from "../../utils/with-overrides";
 import { IconRequired } from "../Icon/Icon";
 import {
   PendingButtonProvider,
@@ -18,6 +20,7 @@ export interface ActionButtonProps
   extends ActionButtonVariantProps,
     UsePendingButtonProps,
     PrimitiveProps,
+    WithOverrides<ActionButtonOverridableVariable>,
     Pick<StyleProps, "flexGrow" | "bleedX" | "bleedY">,
     React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -37,6 +40,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
       layout = "withText",
       color,
       className,
+      overrides,
       children,
       ...otherProps
     },
@@ -59,7 +63,13 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             ref={ref}
             className={clsx(recipeClassName, className)}
             // NOTE: Should we handle color as a style prop?
-            style={{ ...style, "--seed-box-color": handleColor(color) } as React.CSSProperties}
+            style={
+              {
+                ...style,
+                "--seed-box-color": handleColor(color),
+                ...overrides,
+              } as React.CSSProperties
+            }
             {...api.stateProps}
             {...restProps}
           >
