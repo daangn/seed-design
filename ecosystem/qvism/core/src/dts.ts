@@ -80,15 +80,14 @@ export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantReco
     splitVariantProps: <T extends ${capitalizedName}VariantProps>(
       props: T,
     ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
-  }`;
+  }
+`;
 
   if (!definition.overridableVariables || definition.overridableVariables.length === 0) {
-    return outdent`${base}
-    `;
+    return base;
   }
 
   return outdent`${base}
-  
 export declare type ${capitalizedName}OverridableVariable = ${definition.overridableVariables
     .map(stringLiteralType)
     .join(" | ")};
@@ -127,15 +126,14 @@ export function generateSlotRecipeDts(
     splitVariantProps: <T extends ${capitalizedName}VariantProps>(
       props: T,
     ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
-  }`;
+  }
+`;
 
   if (!definition.overridableVariables || definition.overridableVariables.length === 0) {
-    return outdent`${base}
-    `;
+    return base;
   }
 
-  return outdent`${base}
-  
+  return outdent`${base}  
 export declare type ${capitalizedName}OverridableVariable = ${definition.overridableVariables
     .map(stringLiteralType)
     .join(" | ")};
