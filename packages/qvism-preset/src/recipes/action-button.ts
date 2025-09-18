@@ -4,8 +4,31 @@ import { defineRecipe } from "../utils/define";
 import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 import { active, disabled, focus, loading, pseudo } from "../utils/pseudo";
 
+const OVERRIDABLE_VARIABLES = {
+  root: {
+    enabled: {
+      background: "--seed-action-button-enabled-background",
+    },
+    active: {
+      background: "--seed-action-button-active-background",
+    },
+    disabled: {
+      background: "--seed-action-button-disabled-background",
+    },
+    loading: {
+      background: "--seed-action-button-loading-background",
+    },
+  },
+} as const;
+
 const actionButton = defineRecipe({
   name: "action-button",
+  overridableVariables: [
+    OVERRIDABLE_VARIABLES.root.enabled.background,
+    OVERRIDABLE_VARIABLES.root.active.background,
+    OVERRIDABLE_VARIABLES.root.disabled.background,
+    OVERRIDABLE_VARIABLES.root.loading.background,
+  ],
   base: {
     display: "inline-flex",
     position: "relative",
@@ -61,7 +84,7 @@ const actionButton = defineRecipe({
   variants: {
     variant: {
       brandSolid: {
-        background: vars.variantBrandSolid.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantBrandSolid.enabled.root.color})`,
         color: vars.variantBrandSolid.enabled.label.color,
 
         ...prefixIcon({
@@ -78,10 +101,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantBrandSolid.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantBrandSolid.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantBrandSolid.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantBrandSolid.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantBrandSolid.disabled.root.color})`,
           color: vars.variantBrandSolid.disabled.label.color,
           ...prefixIcon({
             color: vars.variantBrandSolid.disabled.prefixIcon.color,
@@ -94,11 +117,11 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantBrandSolid.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantBrandSolid.loading.root.color})`,
         },
       },
       neutralSolid: {
-        background: vars.variantNeutralSolid.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantNeutralSolid.enabled.root.color})`,
         color: vars.variantNeutralSolid.enabled.label.color,
         ...prefixIcon({
           color: vars.variantNeutralSolid.enabled.prefixIcon.color,
@@ -114,10 +137,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantNeutralSolid.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantNeutralSolid.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantNeutralSolid.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantNeutralSolid.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantNeutralSolid.disabled.root.color})`,
           color: vars.variantNeutralSolid.disabled.label.color,
 
           ...prefixIcon({
@@ -131,11 +154,11 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantNeutralSolid.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantNeutralSolid.loading.root.color})`,
         },
       },
       neutralWeak: {
-        background: vars.variantNeutralWeak.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantNeutralWeak.enabled.root.color})`,
         color: vars.variantNeutralWeak.enabled.label.color,
         ...prefixIcon({
           color: vars.variantNeutralWeak.enabled.prefixIcon.color,
@@ -151,10 +174,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantNeutralWeak.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantNeutralWeak.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantNeutralWeak.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantNeutralWeak.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantNeutralWeak.disabled.root.color})`,
           color: vars.variantNeutralWeak.disabled.label.color,
 
           ...prefixIcon({
@@ -168,11 +191,11 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantNeutralWeak.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantNeutralWeak.loading.root.color})`,
         },
       },
       criticalSolid: {
-        background: vars.variantCriticalSolid.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantCriticalSolid.enabled.root.color})`,
         color: vars.variantCriticalSolid.enabled.label.color,
         ...prefixIcon({
           color: vars.variantCriticalSolid.enabled.prefixIcon.color,
@@ -188,10 +211,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantCriticalSolid.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantCriticalSolid.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantCriticalSolid.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantCriticalSolid.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantCriticalSolid.disabled.root.color})`,
           color: vars.variantCriticalSolid.disabled.label.color,
 
           ...prefixIcon({
@@ -205,12 +228,12 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantCriticalSolid.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantCriticalSolid.loading.root.color})`,
         },
       },
       brandOutline: {
         borderStyle: "solid",
-        background: vars.variantBrandOutline.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantBrandOutline.enabled.root.color})`,
         borderWidth: vars.variantBrandOutline.enabled.root.strokeWidth,
         borderColor: vars.variantBrandOutline.enabled.root.strokeColor,
         color: vars.variantBrandOutline.enabled.label.color,
@@ -228,10 +251,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantBrandOutline.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantBrandOutline.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantBrandOutline.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantBrandOutline.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantBrandOutline.disabled.root.color})`,
           borderColor: vars.variantBrandOutline.disabled.root.strokeColor,
           color: vars.variantBrandOutline.disabled.label.color,
 
@@ -246,12 +269,12 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantBrandOutline.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantBrandOutline.loading.root.color})`,
         },
       },
       neutralOutline: {
         borderStyle: "solid",
-        background: vars.variantNeutralOutline.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantNeutralOutline.enabled.root.color})`,
         borderWidth: vars.variantNeutralOutline.enabled.root.strokeWidth,
         borderColor: vars.variantNeutralOutline.enabled.root.strokeColor,
         color: vars.variantNeutralOutline.enabled.label.color,
@@ -269,10 +292,10 @@ const actionButton = defineRecipe({
         "--range-color": vars.variantNeutralOutline.enabled.progressCircle.rangeColor,
 
         [pseudo(active)]: {
-          background: vars.variantNeutralOutline.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantNeutralOutline.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantNeutralOutline.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantNeutralOutline.disabled.root.color})`,
           borderColor: vars.variantNeutralOutline.disabled.root.strokeColor,
           color: vars.variantNeutralOutline.disabled.label.color,
 
@@ -287,11 +310,11 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantNeutralOutline.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantNeutralOutline.loading.root.color})`,
         },
       },
       ghost: {
-        background: vars.variantGhost.enabled.root.color,
+        background: `var(${OVERRIDABLE_VARIABLES.root.enabled.background}, ${vars.variantGhost.enabled.root.color})`,
         "--seed-box-color": vars.variantGhost.enabled.label.color,
         color: "var(--seed-box-color)",
         ...prefixIcon({
@@ -306,10 +329,10 @@ const actionButton = defineRecipe({
         "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
         "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
         [pseudo(active)]: {
-          background: vars.variantGhost.pressed.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.active.background}, ${vars.variantGhost.pressed.root.color})`,
         },
         [pseudo(disabled)]: {
-          background: vars.variantGhost.disabled.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.disabled.background}, ${vars.variantGhost.disabled.root.color})`,
           color: vars.variantGhost.disabled.label.color,
           ...prefixIcon({
             color: vars.variantGhost.disabled.prefixIcon.color,
@@ -322,7 +345,7 @@ const actionButton = defineRecipe({
           }),
         },
         [pseudo(loading)]: {
-          background: vars.variantGhost.loading.root.color,
+          background: `var(${OVERRIDABLE_VARIABLES.root.loading.background}, ${vars.variantGhost.loading.root.color})`,
         },
       },
     },

@@ -61,7 +61,7 @@ export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantReco
     definition.defaultVariants,
   );
 
-  return outdent`
+  const base = outdent`
   declare interface ${capitalizedName}Variant {
     ${variantInterface}
   }
@@ -80,8 +80,19 @@ export function generateRecipeDts(definition: RecipeDefinition<RecipeVariantReco
     splitVariantProps: <T extends ${capitalizedName}VariantProps>(
       props: T,
     ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
+  }`;
+
+  if (!definition.overridableVariables || definition.overridableVariables.length === 0) {
+    return outdent`${base}
+    `;
   }
-  `;
+
+  return outdent`${base}
+  
+export declare type ${capitalizedName}OverridableVariable = ${definition.overridableVariables
+    .map(stringLiteralType)
+    .join(" | ")};
+`;
 }
 
 export function generateSlotRecipeDts(
@@ -95,7 +106,7 @@ export function generateSlotRecipeDts(
   );
   const slotNameType = definition.slots.map((slot) => `"${slot}"`).join(" | ");
 
-  return outdent`
+  const base = outdent`
   declare interface ${capitalizedName}Variant {
     ${variantInterface}
   }
@@ -116,8 +127,19 @@ export function generateSlotRecipeDts(
     splitVariantProps: <T extends ${capitalizedName}VariantProps>(
       props: T,
     ) => [${capitalizedName}VariantProps, Omit<T, keyof ${capitalizedName}VariantProps>];
+  }`;
+
+  if (!definition.overridableVariables || definition.overridableVariables.length === 0) {
+    return outdent`${base}
+    `;
   }
-  `;
+
+  return outdent`${base}
+  
+export declare type ${capitalizedName}OverridableVariable = ${definition.overridableVariables
+    .map(stringLiteralType)
+    .join(" | ")};
+`;
 }
 
 export function generateDts(definition: RecipeKindDefinition): string {

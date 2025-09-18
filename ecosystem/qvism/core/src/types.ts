@@ -90,6 +90,7 @@ export type RecipeCompoundVariant<T> = T & {
 
 export interface RecipeDefinition<T extends RecipeVariantRecord = RecipeVariantRecord> {
   name: string;
+  overridableVariables?: CssVarKey[];
   base: StyleObject;
   variants: T;
   compoundVariants?: Pretty<RecipeCompoundVariant<RecipeCompoundSelection<T>>>[];
@@ -113,6 +114,7 @@ export interface SlotRecipeDefinition<
   T extends SlotRecipeVariantRecord<S> = SlotRecipeVariantRecord<S>,
 > {
   name: string;
+  overridableVariables?: CssVarKey[];
   slots: S[] | Readonly<S[]>;
   base: SlotRecord<S, StyleObject>;
   variants: T;
