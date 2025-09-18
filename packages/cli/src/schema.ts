@@ -28,7 +28,7 @@ export const publicRegistryItemSchema = z.object({
     .optional(),
 
   /**
-   * @description 실제 파일의 경로와 내용
+   * @description Registry Item이 포함하는 스니펫의 실제 파일 경로와 내용
    * @example [{ path: "alert-dialog.tsx", content: "import { useState } from 'react'; ..." }]
    */
   snippets: z.array(z.object({ path: z.string(), content: z.string() })),

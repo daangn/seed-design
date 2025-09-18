@@ -52,7 +52,8 @@ export function resolveDependencies({
   }
 
   for (const item of selectedItemKeys) {
-    const [registryId, itemId] = item.split(":");
+    const [registryId, ...rest] = item.split(":");
+    const itemId = rest.join(":");
 
     if (!registryId || !itemId) {
       throw new Error(`Invalid snippet format: "${item}"`);

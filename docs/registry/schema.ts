@@ -1,4 +1,7 @@
 interface RegistryItemSnippet {
+  /**
+   * @description 스니펫 파일 경로
+   */
   path: string;
 }
 
@@ -23,7 +26,7 @@ export interface RegistryItem {
   hideFromCLICatalog?: boolean;
 
   /**
-   * @description Registry Item이 포함하는 파일의 경로. 확장자 포함
+   * @description Registry Item이 포함하는 스니펫
    * @example [{ path: "alert-dialog.tsx" }]
    * @example [{ path: "use-dismissible.ts" }, { path: "manner-temp-level.ts" }]
    */
@@ -87,7 +90,7 @@ export interface GeneratedRegistryItem {
   }>;
 
   /**
-   * @description 실제 파일의 경로와 내용
+   * @description Registry Item이 포함하는 스니펫의 실제 파일 경로와 내용
    * @example [{ path: "alert-dialog.tsx", content: "import { useState } from 'react'; ..." }]
    */
   snippets: RegistryItemSnippetWithContent[];

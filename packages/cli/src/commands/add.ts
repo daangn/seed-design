@@ -124,7 +124,8 @@ export const addCommand = (cli: CAC) => {
       const filteredItemKeys: string[] = [];
 
       for (const item of selectedItemKeys) {
-        const [registryId, itemId] = item.split(":");
+        const [registryId, ...rest] = item.split(":");
+        const itemId = rest.join(":");
 
         if (!registryId || !itemId) {
           p.log.error(`잘못된 스니펫 형식이에요: "${item}"`);
