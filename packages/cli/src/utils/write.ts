@@ -20,7 +20,7 @@ export async function writeRegistryItemSnippets({
   baseUrl: string;
   config: Config;
 }) {
-  const registryResult = [];
+  const registryResult: { name: string; path: string }[] = [];
 
   for (const { registryId, items } of registryItemsToAdd) {
     const registryPath = path.join(rootPath, registryId);
@@ -67,9 +67,9 @@ export async function writeRegistryItemSnippets({
 
       registryResult.push(...snippetResults);
 
-      p.log.success(`${highlight(`${registryId}:${id}`)} 관련 파일 ${snippets.length}개 추가 완료`);
+      p.log.success(
+        `${highlight(`${registryId}:${id}`)} 관련 스니펫 다운로드 완료: ${highlight(snippetResults.map((r) => r.path).join(", "))}`,
+      );
     }
   }
-
-  return registryResult;
 }

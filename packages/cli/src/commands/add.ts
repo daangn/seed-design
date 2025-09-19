@@ -13,7 +13,7 @@ import { highlight } from "../utils/color";
 import { installDependencies } from "../utils/install";
 
 const addOptionsSchema = z.object({
-  snippetIds: z.array(z.string()).optional(),
+  itemIds: z.array(z.string()).optional(),
   /**
    * @deprecated use `seed-design add-all` instead
    */
@@ -24,8 +24,8 @@ const addOptionsSchema = z.object({
 
 export const addCommand = (cli: CAC) => {
   cli
-    .command("add [...snippet-ids]", "add snippet")
-    .option("-a, --all", "[Deprecated] Add all snippets", {
+    .command("add [...item-ids]", "add items")
+    .option("-a, --all", "[Deprecated] Add all items", {
       default: false,
     })
     .option("-c, --cwd <cwd>", "the working directory. defaults to the current directory.", {
@@ -38,14 +38,14 @@ export const addCommand = (cli: CAC) => {
     )
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
-    .action(async (snippetIds, opts) => {
+    .action(async (itemIds, opts) => {
       p.intro(color.bgCyan("seed-design add"));
 
       const {
         success,
         data: { all, ...options },
         error,
-      } = addOptionsSchema.safeParse({ snippetIds, ...opts });
+      } = addOptionsSchema.safeParse({ itemIds, ...opts });
 
       if (!success) {
         p.log.error(`잘못된 옵션이에요: ${error?.message}`);
@@ -79,15 +79,16 @@ export const addCommand = (cli: CAC) => {
       stop();
 
       const selectedItemKeys: string[] = await (async () => {
-        if (options.snippetIds.length > 0) return options.snippetIds;
+        if (options.itemIds.length > 0) return options.itemIds;
 
         const selected = await p.multiselect({
-          message: "추가할 스니펫을 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
+          message: "추가할 항목을 선택해주세요 (스페이스 바로 여러 개 선택 가능)",
           options: publicRegistries
             .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
             .flatMap(({ id: registryId, items }) =>
               items
                 .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
+                .sort((a, b) => a.id.localeCompare(b.id))
                 .map(({ id, description, deprecated }) => ({
                   label: `${deprecated ? "(deprecated) " : ""}${highlight(registryId)}:${id}`,
                   value: `${registryId}:${id}`,
@@ -114,12 +115,12 @@ export const addCommand = (cli: CAC) => {
       })();
 
       if (!selectedItemKeys?.length) {
-        p.log.error("스니펫을 찾을 수 없어요.");
+        p.log.error("항목을 찾을 수 없어요.");
 
         process.exit(0);
       }
 
-      p.log.message(`선택된 스니펫: ${highlight(selectedItemKeys.join(", "))}`);
+      p.log.message(`선택된 항목: ${highlight(selectedItemKeys.join(", "))}`);
 
       const filteredItemKeys: string[] = [];
 
@@ -128,7 +129,8 @@ export const addCommand = (cli: CAC) => {
         const itemId = rest.join(":");
 
         if (!registryId || !itemId) {
-          p.log.error(`잘못된 스니펫 형식이에요: "${item}"`);
+          p.log.error(`잘못된 항목이에요: "${item}"`);
+
           process.exit(1);
         }
 
@@ -137,18 +139,19 @@ export const addCommand = (cli: CAC) => {
           ?.items.find((i) => i.id === itemId);
 
         if (!foundItem) {
-          p.log.error(`스니펫을 찾을 수 없어요: "${item}"`);
+          p.log.error(`항목을 찾을 수 없어요: "${item}"`);
+
           process.exit(1);
         }
 
         if (foundItem.deprecated) {
           const confirm = await p.confirm({
-            message: `${highlight(foundItem.id)}는 deprecated 되었어요. 추가할까요?`,
+            message: `${highlight(foundItem.id)}: deprecated 되었어요. 추가할까요?`,
             initialValue: false,
           });
 
           if (confirm === false || p.isCancel(confirm)) {
-            p.log.info(`${highlight(foundItem.id)} 스니펫은 추가하지 않을게요.`);
+            p.log.info(`${highlight(foundItem.id)}: 추가하지 않을게요.`);
 
             continue;
           }
@@ -163,11 +166,12 @@ export const addCommand = (cli: CAC) => {
       });
 
       p.log.info(
-        `추가할 스니펫: ${highlight(registryItemsToAdd.map((r) => r.items.map((i) => `${r.registryId}:${i.id}`).join(", ")).join(", ") || "없음")}
+        `추가할 항목: ${highlight(registryItemsToAdd.map((r) => r.items.map((i) => `${r.registryId}:${i.id}`).join(", ")).join(", ") || "없음")}
+
 설치할 의존성: ${highlight(Array.from(npmDependenciesToAdd).join(", ") || "없음")}`,
       );
 
-      const registryResult = await writeRegistryItemSnippets({
+      await writeRegistryItemSnippets({
         registryItemsToAdd,
         rootPath,
         cwd,
@@ -180,20 +184,20 @@ export const addCommand = (cli: CAC) => {
         deps: Array.from(npmDependenciesToAdd),
       });
 
+      if (installed.size === 0) {
+        p.log.message("모든 의존성이 이미 설치되어 있어요.");
+      }
+
       if (installed.size) {
-        p.log.message(`설치된 의존성: ${highlight(Array.from(installed).join(", "))}`);
-      }
+        p.log.message(`의존성 설치 완료: ${highlight(Array.from(installed).join(", "))}`);
 
-      if (filtered.size) {
-        p.log.message(`이미 설치된 의존성: ${highlight(Array.from(filtered).join(", "))}`);
-      }
-
-      if (registryResult.length) {
-        for (const registry of registryResult) {
-          p.log.message(`추가된 파일: ${highlight(registry.path)}`);
+        if (filtered.size) {
+          p.log.message(
+            `설치하지 않은 의존성 (이미 설치됨): ${highlight(Array.from(filtered).join(", "))}`,
+          );
         }
       }
 
-      p.outro("스니펫 추가 완료.");
+      p.outro("완료했어요.");
     });
 };

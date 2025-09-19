@@ -25,7 +25,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   const depsToInstall = new Set(deps.filter((dep) => !existingDeps[dep]));
   const filteredDeps = new Set(deps.filter((dep) => existingDeps[dep]));
 
-  if (!depsToInstall.size) return { installed: new Set<string>(), filtered: new Set<string>() };
+  if (!depsToInstall.size) return { installed: new Set<string>(), filtered: depsToInstall };
 
   start(color.gray("의존성 설치중..."));
 
@@ -40,7 +40,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
     process.exit(1);
   }
 
-  stop("의존성 설치 완료.");
+  stop();
 
   return {
     installed: depsToInstall,
