@@ -109,8 +109,3 @@ export const ControlChip = Object.assign(
     RadioItem: RadioControlChipItem,
   },
 );
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

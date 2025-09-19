@@ -30,8 +30,3 @@ export const MannerTemp = React.forwardRef<HTMLSpanElement, MannerTempProps>(
   },
 );
 MannerTemp.displayName = "MannerTemp";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

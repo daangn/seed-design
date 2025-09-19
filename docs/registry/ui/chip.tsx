@@ -121,8 +121,3 @@ export const Chip = Object.assign(
     SuffixIcon: ChipSuffixIcon,
   },
 );
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

@@ -68,8 +68,3 @@ export const MenuSheetGroup = SeedMenuSheet.Group;
 export interface MenuSheetItemProps extends SeedMenuSheet.ItemProps {}
 
 export const MenuSheetItem = SeedMenuSheet.Item;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

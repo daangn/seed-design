@@ -32,8 +32,3 @@ export const MannerTempBadge = React.forwardRef<HTMLSpanElement, MannerTempBadge
   },
 );
 MannerTempBadge.displayName = "MannerTempBadge";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */
