@@ -4,7 +4,7 @@ import { ActionButton } from "seed-design/ui/action-button";
 
 export default function ActionButtonIconOnly() {
   return (
-    <ActionButton layout="iconOnly">
+    <ActionButton layout="iconOnly" aria-label="추가">
       <Icon svg={<IconPlusFill />} />
     </ActionButton>
   );

@@ -12,8 +12,8 @@ import {
 import { ActionButton } from "seed-design/ui/action-button";
 import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 import { Snackbar, useSnackbarAdapter } from "seed-design/ui/snackbar";
-import { ARTICLES, CATEGORIES, type Category } from "@/components/example/react/demo/data";
-import { ArticleListItem } from "@/components/example/react/demo/components/article-list-item";
+import { ARTICLES, CATEGORIES, type Category } from "@/examples/react/demo/data";
+import { ArticleListItem } from "@/examples/react/demo/components/article-list-item";
 import { List } from "seed-design/ui/list";
 
 const FILTERS = [

@@ -15,7 +15,7 @@ const ActivitySegmentedControl: ActivityComponentType = () => {
       </AppBar>
       <AppScreenContent>
         <VStack align="center">
-          <SegmentedControl defaultValue="1">
+          <SegmentedControl defaultValue="1" aria-label="Sort options">
             <SegmentedControlItem value="1">가격 높은 순</SegmentedControlItem>
             <SegmentedControlItem value="2">할인율 높은 순</SegmentedControlItem>
             <SegmentedControlItem value="3">인기 많은 순</SegmentedControlItem>

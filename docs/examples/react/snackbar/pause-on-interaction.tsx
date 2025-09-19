@@ -31,6 +31,7 @@ export default function SnackbarPauseOnInteraction() {
         <Component />
       </SnackbarProvider>
       <SegmentedControl
+        aria-label="Pause on interaction"
         value={`${pauseOnInteraction}`}
         onValueChange={(value) => setPauseOnInteraction(value === "true")}
       >
