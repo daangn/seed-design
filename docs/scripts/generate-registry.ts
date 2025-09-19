@@ -30,8 +30,8 @@ ${
 
 ${content}
 /**
- * This is a snippet from Seed Design, helping you get started quickly with the @seed-design/* packages.
- * You can extend the functionality from this snippet if you want.
+ * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
+ * You can extend this snippet however you want.
  */
 `,
   });
