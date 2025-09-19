@@ -4,7 +4,6 @@ import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
-import color from "picocolors";
 import { z } from "zod";
 
 import type { CAC } from "cac";
@@ -39,7 +38,7 @@ export const addCommand = (cli: CAC) => {
     .example("seed-design add ui:action-button")
     .example("seed-design add ui:alert-dialog")
     .action(async (itemIds, opts) => {
-      p.intro(color.bgCyan("seed-design add"));
+      p.intro("seed-design add");
 
       const {
         success,
@@ -76,7 +75,7 @@ export const addCommand = (cli: CAC) => {
         ),
       );
 
-      stop();
+      stop("Registry를 가져왔어요.");
 
       const selectedItemKeys: string[] = await (async () => {
         if (options.itemIds.length > 0) return options.itemIds;
@@ -124,12 +123,14 @@ export const addCommand = (cli: CAC) => {
 
       const filteredItemKeys: string[] = [];
 
-      for (const item of selectedItemKeys) {
-        const [registryId, ...rest] = item.split(":");
+      for (const itemKey of selectedItemKeys) {
+        const [registryId, ...rest] = itemKey.split(":");
         const itemId = rest.join(":");
 
         if (!registryId || !itemId) {
-          p.log.error(`잘못된 항목이에요: "${item}"`);
+          p.log.error(
+            `${highlight(itemKey)}: 항목 이름이 잘못되었어요. ${highlight("ui:action-button")}과 같은 형식으로 입력해보세요.`,
+          );
 
           process.exit(1);
         }
@@ -139,7 +140,7 @@ export const addCommand = (cli: CAC) => {
           ?.items.find((i) => i.id === itemId);
 
         if (!foundItem) {
-          p.log.error(`항목을 찾을 수 없어요: "${item}"`);
+          p.log.error(`${highlight(itemKey)}: 항목을 찾을 수 없어요.`);
 
           process.exit(1);
         }
@@ -157,7 +158,7 @@ export const addCommand = (cli: CAC) => {
           }
         }
 
-        filteredItemKeys.push(item);
+        filteredItemKeys.push(itemKey);
       }
 
       const { registryItemsToAdd, npmDependenciesToAdd } = resolveDependencies({

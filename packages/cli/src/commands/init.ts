@@ -1,7 +1,7 @@
 import * as p from "@clack/prompts";
 import fs from "fs-extra";
 import path from "path";
-import color from "picocolors";
+import { highlight } from "../utils/color";
 import { z } from "zod";
 
 import type { Config } from "@/src/utils/get-config";
@@ -21,8 +21,7 @@ export const initCommand = (cli: CAC) => {
     })
     .option("-y, --yes", "모든 질문에 대해 기본값으로 답변합니다.")
     .action(async (opts) => {
-      const highlight = (text: string) => color.cyan(text);
-      p.intro(color.bgCyan("seed-design.json 파일 생성"));
+      p.intro("seed-design.json 파일 생성");
 
       const options = initOptionsSchema.parse(opts);
       const isYesOption = options.yes;
@@ -73,14 +72,14 @@ export const initCommand = (cli: CAC) => {
         await fs.writeFile(targetPath, `${JSON.stringify(config, null, 2)}\n`, "utf-8");
         const relativePath = path.relative(process.cwd(), targetPath);
         stop(`seed-design.json 파일이 ${highlight(relativePath)}에 생성됐어요.`);
-        p.log.info(color.gray("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
+        p.log.info(highlight("seed-design add {component} 명령어로 컴포넌트를 추가해보세요!"));
         p.log.info(
-          color.gray("seed-design add 명령어로 추가할 수 있는 모든 컴포넌트를 확인해보세요."),
+          highlight("seed-design add 명령어로 추가할 수 있는 모든 컴포넌트를 확인해보세요."),
         );
         p.outro("작업이 완료됐어요.");
       } catch (error) {
         p.log.error(`seed-design.json 파일 생성에 실패했어요. ${error}`);
-        p.outro(color.bgRed("작업이 취소됐어요."));
+        p.outro(highlight("작업이 취소됐어요."));
         process.exit(1);
       }
     });

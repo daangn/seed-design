@@ -4,7 +4,6 @@ import { fetchAvailableRegistries, fetchRegistry } from "@/src/utils/fetch";
 import { writeRegistryItemSnippets } from "@/src/utils/write";
 import * as p from "@clack/prompts";
 import path from "path";
-import color from "picocolors";
 import { z } from "zod";
 
 import type { CAC } from "cac";
@@ -40,7 +39,7 @@ export const addAllCommand = (cli: CAC) => {
     .example("seed-design add-all ui --include-deprecated")
     .example("seed-design add-all ui lib breeze")
     .action(async (registryIds, opts) => {
-      p.intro(color.bgCyan("seed-design add-all"));
+      p.intro("seed-design add-all");
 
       const {
         success,
@@ -69,7 +68,7 @@ export const addAllCommand = (cli: CAC) => {
         ),
       );
 
-      stop();
+      stop("Registry를 가져왔어요.");
 
       const selectedRegistryIds: string[] = await (async () => {
         if (options.all) {
