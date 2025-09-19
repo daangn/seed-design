@@ -1,17 +1,17 @@
 ---
 title: Commands
-description: "@seed-design/cli 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있어요."
+description: "@seed-design/cli 패키지를 사용하여 seed-design을 더 쉽게 사용할 수 있습니다."
 ---
 
 import { File } from "lucide-react";
 
 ## init
 
-`seed-design.json` 파일을 생성하기 위한 명령어에요.
+`seed-design.json` 파일을 생성하기 위한 명령어입니다.
 
 <Card icon={<File />} title="Configuration" href="/react/getting-started/cli/configuration#옵션">
 
-`seed-design.json` 파일에 대해 알아봐요.
+`seed-design.json` 파일에 대해 알아봅니다.
 
 </Card>
 
@@ -56,51 +56,93 @@ Options:
 
 ## add
 
-컴포넌트를 추가하기 위한 명령어에요.
+스니펫을 다운로드받기 위한 명령어입니다.
+
+<Card icon={<File />} title="Snippet" href="/react/components/concepts/snippet">
+
+자주 쓰이는 UI 패턴의 재사용을 돕는 스니펫에 대해 알아봅니다.
+
+</Card>
 
 ```package-install
-npx @seed-design/cli@latest add [...components]
+npx @seed-design/cli@latest add [...item-ids]
 ```
 
-컴포넌트를 입력하지 않고 명령어를 입력하게 되면 받을 수 있는 모든 컴포넌트를 볼 수 있어요.
+`item-ids`를 입력하지 않고 명령어를 입력하면 다운로드받을 수 있는 모든 항목을 인터랙티브하게 선택할 수 있습니다.
 
 ```package-install
 npx @seed-design/cli@latest add
 ```
 
 ```sh copy
-◆  Select all components to add
-│  ◻ action-button
-│  ◻ alert-dialog
-│  ◻ tabs
-│  ◻ callout
-│  ◻ switch
-│  ◻ checkbox
-│  ◻ text-field
+◆  추가할 항목을 선택해주세요 (스페이스 바로 여러 개 선택 가능)
+│  ◻ ui:action-button
+│  ◻ ui:alert-dialog
+│  ◻ ui:callout
+│  ◻ ui:checkbox
+│  ◻ ui:switch
+│  ◻ ui:text-field
+│  ◻ ui:tabs
+│  ◻ (deprecated) ui:old-component
 │  ◻ ...
 └
 ```
 
-혹은 여러 컴포넌트를 입력해서 추가할 수도 있어요.
+여러 항목을 직접 지정해서 추가할 수도 있습니다.
 
 ```package-install
-npx @seed-design/cli@latest add action-button alert-dialog
+npx @seed-design/cli@latest add ui:action-button ui:alert-dialog
 ```
 
 ### 옵션
 
 ```sh copy
 Usage:
-  $ seed-design add [...components]
+  $ seed-design add [...item-ids]
 
 Options:
-  -a, --all                Add all components (default: false)
-  --include-deprecated     Include deprecated components when used with `--all` (default: false)
   -c, --cwd <cwd>          the working directory. defaults to the current directory.
   -u, --baseUrl <baseUrl>  the base url of the registry. defaults to the current directory.
-  -h, --help               Display this message 
-
-Examples:
-seed-design add action-button
-seed-design add alert-dialog
+  -h, --help               Display this message
 ```
+
+## add-all
+
+레지스트리의 모든 항목을 한 번에 다운로드받기 위한 명령어입니다.
+
+```package-install
+npx @seed-design/cli@latest add-all [...registry-ids]
+```
+
+모든 레지스트리의 모든 항목을 추가하려면 `--all` 옵션을 사용하세요.
+
+```package-install
+npx @seed-design/cli@latest add-all --all # 모든 레지스트리의 모든 항목 추가
+```
+
+특정 레지스트리의 모든 항목을 추가할 수도 있습니다.
+
+```package-install
+npx @seed-design/cli@latest add-all breeze # breeze 레지스트리의 모든 항목 추가
+```
+
+deprecated 항목을 포함하려면 `--include-deprecated` 옵션을 사용하세요.
+
+```package-install
+npx @seed-design/cli@latest add-all ui --include-deprecated # ui 레지스트리의 모든 항목 추가 (deprecated 포함)
+```
+
+### 옵션
+
+```sh copy
+Usage:
+  $ seed-design add-all [...registry-ids]
+
+Options:
+  -a, --all                모든 레지스트리의 모든 항목 추가
+  --include-deprecated     deprecated 항목 포함 (--all과 함께 사용 시)
+  -c, --cwd <cwd>          작업 디렉토리. 기본값은 현재 디렉토리.
+  -u, --baseUrl <baseUrl>  레지스트리의 base URL. 기본값은 현재 디렉토리.
+  -h, --help               Display this message
+```
+
