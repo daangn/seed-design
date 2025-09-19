@@ -3,7 +3,7 @@
   "hideFromCLICatalog": true,
   "items": [
     {
-      "files": [
+      "snippets": [
         {
           "path": "manner-temp-level.ts"
         }

@@ -3,7 +3,7 @@
   "dependencies": [
     "@seed-design/react"
   ],
-  "files": [
+  "snippets": [
     {
       "path": "identity-placeholder.tsx",
       "content": "\"use client\";\n\nimport { IdentityPlaceholder as SeedIdentityPlaceholder } from \"@seed-design/react\";\nimport * as React from \"react\";\n\nexport interface IdentityPlaceholderProps extends SeedIdentityPlaceholder.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/identity-placeholder\n */\nexport const IdentityPlaceholder = React.forwardRef<HTMLDivElement, IdentityPlaceholderProps>(\n  (props, ref) => {\n    return (\n      <SeedIdentityPlaceholder.Root {...props} ref={ref}>\n        <SeedIdentityPlaceholder.Image />\n      </SeedIdentityPlaceholder.Root>\n    );\n  },\n);\nIdentityPlaceholder.displayName = \"IdentityPlaceholder\";\n"

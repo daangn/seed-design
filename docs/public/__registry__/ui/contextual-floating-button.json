@@ -11,7 +11,7 @@
       ]
     }
   ],
-  "files": [
+  "snippets": [
     {
       "path": "contextual-floating-button.tsx",
       "content": "\"use client\";\n\nimport {\n  ContextualFloatingButton as SeedContextualFloatingButton,\n  type ContextualFloatingButtonProps as SeedContextualFloatingButtonProps,\n} from \"@seed-design/react\";\nimport * as React from \"react\";\nimport { LoadingIndicator } from \"seed-design/ui/loading-indicator\";\n\nexport interface ContextualFloatingButtonProps extends SeedContextualFloatingButtonProps {}\n\n/**\n * @see https://seed-design.io/react/components/contextual-floating-button\n * If `asChild` is enabled, manual handling of `LoadingIndicator` is required.\n */\nexport const ContextualFloatingButton = React.forwardRef<\n  React.ElementRef<typeof SeedContextualFloatingButton>,\n  ContextualFloatingButtonProps\n>(({ loading = false, children, ...otherProps }, ref) => {\n  return (\n    <SeedContextualFloatingButton ref={ref} loading={loading} {...otherProps}>\n      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}\n    </SeedContextualFloatingButton>\n  );\n});\nContextualFloatingButton.displayName = \"ContextualFloatingButton\";\n\n/**\n * This file is generated snippet from the Seed Design.\n * You can extend the functionality from this snippet if needed.\n */\n"

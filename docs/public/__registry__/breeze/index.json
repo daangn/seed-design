@@ -2,7 +2,7 @@
   "id": "breeze",
   "items": [
     {
-      "files": [
+      "snippets": [
         {
           "path": "animate-number/animate-number.tsx"
         },

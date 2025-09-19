@@ -2,7 +2,7 @@
   "id": "ui",
   "items": [
     {
-      "files": [
+      "snippets": [
         {
           "path": "app-screen.tsx"
         },
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "error-state.tsx"
         }
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "manner-temp.tsx"
         }
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "manner-temp-badge.tsx"
         }
@@ -84,7 +84,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "alert-dialog.tsx"
         }
@@ -103,7 +103,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "bottom-sheet.tsx"
         }
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "action-sheet.tsx"
         }
@@ -127,7 +127,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "extended-action-sheet.tsx"
         }
@@ -139,7 +139,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "avatar.tsx"
         }
@@ -150,7 +150,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "pull-to-refresh.tsx"
         }
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "loading-indicator.tsx"
         }
@@ -188,7 +188,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "action-button.tsx"
         }
@@ -207,7 +207,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "toggle-button.tsx"
         }
@@ -226,7 +226,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "reaction-button.tsx"
         }
@@ -245,7 +245,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "callout.tsx"
         }
@@ -257,7 +257,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "control-chip.tsx"
         }
@@ -269,7 +269,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "chip.tsx"
         }
@@ -281,7 +281,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "checkbox.tsx"
         }
@@ -293,7 +293,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "identity-placeholder.tsx"
         }
@@ -304,7 +304,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "inline-banner.tsx"
         }
@@ -317,7 +317,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "menu-sheet.tsx"
         }
@@ -328,7 +328,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "snackbar.tsx"
         }
@@ -340,7 +340,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "help-bubble.tsx"
         }
@@ -352,7 +352,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "tabs.tsx"
         }
@@ -363,7 +363,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "chip-tabs.tsx"
         }
@@ -374,7 +374,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "page-banner.tsx"
         }
@@ -386,7 +386,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "progress-circle.tsx"
         }
@@ -397,7 +397,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "radio-group.tsx"
         }
@@ -408,7 +408,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "select-box.tsx"
         }
@@ -428,7 +428,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "segmented-control.tsx"
         }
@@ -439,7 +439,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "switch.tsx"
         }
@@ -450,7 +450,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "text-field.tsx"
         }
@@ -462,7 +462,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "contextual-floating-button.tsx"
         }
@@ -481,7 +481,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "floating-action-button.tsx"
         }
@@ -492,7 +492,7 @@
       ]
     },
     {
-      "files": [
+      "snippets": [
         {
           "path": "list.tsx"
         }
