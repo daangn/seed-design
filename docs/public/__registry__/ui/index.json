@@ -4,6 +4,56 @@
     {
       "snippets": [
         {
+          "path": "action-button.tsx"
+        }
+      ],
+      "id": "action-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "action-sheet.tsx"
+        }
+      ],
+      "id": "action-sheet",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "alert-dialog.tsx"
+        }
+      ],
+      "id": "alert-dialog",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "app-screen.tsx"
         },
         {
@@ -29,6 +79,107 @@
     {
       "snippets": [
         {
+          "path": "avatar.tsx"
+        }
+      ],
+      "id": "avatar",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "bottom-sheet.tsx"
+        }
+      ],
+      "id": "bottom-sheet",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "callout.tsx"
+        }
+      ],
+      "id": "callout",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "checkbox.tsx"
+        }
+      ],
+      "id": "checkbox",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "chip.tsx"
+        }
+      ],
+      "id": "chip",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "chip-tabs.tsx"
+        }
+      ],
+      "id": "chip-tabs",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "contextual-floating-button.tsx"
+        }
+      ],
+      "id": "contextual-floating-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "control-chip.tsx"
+        }
+      ],
+      "id": "control-chip",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "error-state.tsx"
         }
       ],
@@ -41,6 +192,96 @@
           "registryId": "ui",
           "itemIds": [
             "action-button"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "extended-action-sheet.tsx"
+        }
+      ],
+      "id": "extended-action-sheet",
+      "deprecated": true,
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "floating-action-button.tsx"
+        }
+      ],
+      "id": "floating-action-button",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "help-bubble.tsx"
+        }
+      ],
+      "id": "help-bubble",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "identity-placeholder.tsx"
+        }
+      ],
+      "id": "identity-placeholder",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "inline-banner.tsx"
+        }
+      ],
+      "id": "inline-banner",
+      "deprecated": true,
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "list.tsx"
+        }
+      ],
+      "id": "list",
+      "dependencies": [
+        "@seed-design/css",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "loading-indicator.tsx"
+        }
+      ],
+      "id": "loading-indicator",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
           ]
         }
       ]
@@ -86,289 +327,10 @@
     {
       "snippets": [
         {
-          "path": "alert-dialog.tsx"
-        }
-      ],
-      "id": "alert-dialog",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "action-button"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "bottom-sheet.tsx"
-        }
-      ],
-      "id": "bottom-sheet",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "action-sheet.tsx"
-        }
-      ],
-      "id": "action-sheet",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "extended-action-sheet.tsx"
-        }
-      ],
-      "id": "extended-action-sheet",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "avatar.tsx"
-        }
-      ],
-      "id": "avatar",
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "pull-to-refresh.tsx"
-        }
-      ],
-      "id": "pull-to-refresh",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "progress-circle"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "loading-indicator.tsx"
-        }
-      ],
-      "id": "loading-indicator",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "progress-circle"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "action-button.tsx"
-        }
-      ],
-      "id": "action-button",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "loading-indicator"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "toggle-button.tsx"
-        }
-      ],
-      "id": "toggle-button",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "loading-indicator"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "reaction-button.tsx"
-        }
-      ],
-      "id": "reaction-button",
-      "dependencies": [
-        "@seed-design/react"
-      ],
-      "innerDependencies": [
-        {
-          "registryId": "ui",
-          "itemIds": [
-            "loading-indicator"
-          ]
-        }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "callout.tsx"
-        }
-      ],
-      "id": "callout",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "control-chip.tsx"
-        }
-      ],
-      "id": "control-chip",
-      "deprecated": true,
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "chip.tsx"
-        }
-      ],
-      "id": "chip",
-      "dependencies": [
-        "@seed-design/css",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "checkbox.tsx"
-        }
-      ],
-      "id": "checkbox",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "identity-placeholder.tsx"
-        }
-      ],
-      "id": "identity-placeholder",
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "inline-banner.tsx"
-        }
-      ],
-      "id": "inline-banner",
-      "deprecated": true,
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
           "path": "menu-sheet.tsx"
         }
       ],
       "id": "menu-sheet",
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "snackbar.tsx"
-        }
-      ],
-      "id": "snackbar",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "help-bubble.tsx"
-        }
-      ],
-      "id": "help-bubble",
-      "dependencies": [
-        "@karrotmarket/react-monochrome-icon",
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "tabs.tsx"
-        }
-      ],
-      "id": "tabs",
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "chip-tabs.tsx"
-        }
-      ],
-      "id": "chip-tabs",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -399,10 +361,59 @@
     {
       "snippets": [
         {
+          "path": "pull-to-refresh.tsx"
+        }
+      ],
+      "id": "pull-to-refresh",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "progress-circle"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "radio-group.tsx"
         }
       ],
       "id": "radio-group",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "reaction-button.tsx"
+        }
+      ],
+      "id": "reaction-button",
+      "dependencies": [
+        "@seed-design/react"
+      ],
+      "innerDependencies": [
+        {
+          "registryId": "ui",
+          "itemIds": [
+            "loading-indicator"
+          ]
+        }
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "segmented-control.tsx"
+        }
+      ],
+      "id": "segmented-control",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -430,11 +441,12 @@
     {
       "snippets": [
         {
-          "path": "segmented-control.tsx"
+          "path": "snackbar.tsx"
         }
       ],
-      "id": "segmented-control",
+      "id": "snackbar",
       "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
         "@seed-design/react"
       ]
     },
@@ -445,6 +457,17 @@
         }
       ],
       "id": "switch",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "tabs.tsx"
+        }
+      ],
+      "id": "tabs",
       "dependencies": [
         "@seed-design/react"
       ]
@@ -464,10 +487,10 @@
     {
       "snippets": [
         {
-          "path": "contextual-floating-button.tsx"
+          "path": "toggle-button.tsx"
         }
       ],
-      "id": "contextual-floating-button",
+      "id": "toggle-button",
       "dependencies": [
         "@seed-design/react"
       ],
@@ -478,29 +501,6 @@
             "loading-indicator"
           ]
         }
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "floating-action-button.tsx"
-        }
-      ],
-      "id": "floating-action-button",
-      "dependencies": [
-        "@seed-design/react"
-      ]
-    },
-    {
-      "snippets": [
-        {
-          "path": "list.tsx"
-        }
-      ],
-      "id": "list",
-      "dependencies": [
-        "@seed-design/css",
-        "@seed-design/react"
       ]
     }
   ]

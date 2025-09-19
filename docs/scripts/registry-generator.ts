@@ -59,11 +59,15 @@ export class RegistryGenerator {
     registries: { index: GeneratedRegistry; items: GeneratedRegistryItem[] }[];
   } {
     return {
-      availableRegistries: this.#registries.map(({ id }) => ({ id })),
+      availableRegistries: this.#registries
+        .map(({ id }) => ({ id }))
+        .sort((a, b) => a.id.localeCompare(b.id)),
       registries: this.#registries.map((registry) => {
-        const processedItems = registry.items.map((registryItem) =>
-          this.processRegistryItem({ registryId: registry.id, registryItem }),
-        );
+        const processedItems = registry.items
+          .map((registryItem) =>
+            this.processRegistryItem({ registryId: registry.id, registryItem }),
+          )
+          .sort((a, b) => a.id.localeCompare(b.id));
 
         return {
           index: {
