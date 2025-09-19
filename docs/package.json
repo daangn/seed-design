@@ -67,7 +67,8 @@
     "sanity": "3.99.0",
     "shiki": "^3.4.2",
     "simple-reveal": "^0.8.0",
-    "styled-components": "6"
+    "styled-components": "6",
+    "ts-morph": "^27.0.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
