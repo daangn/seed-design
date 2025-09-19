@@ -1,7 +1,6 @@
 import { Project, type SourceFile } from "ts-morph";
 import type {
   Registry,
-  RegistryItem,
   GeneratedRegistry,
   GeneratedRegistryItem,
   AvailableRegistries,
@@ -14,8 +13,8 @@ type TransformSnippetContent = (
   content: string,
   context: {
     registryId: Registry["id"];
-    itemId: RegistryItem["id"];
-    snippetMetadata: RegistryItem["snippets"][number];
+    itemId: Registry["items"][number]["id"];
+    snippetMetadata: Registry["items"][number]["snippets"][number];
   },
 ) => string;
 
@@ -85,7 +84,7 @@ export class RegistryGenerator {
     registryItem,
   }: {
     registryId: Registry["id"];
-    registryItem: RegistryItem;
+    registryItem: Registry["items"][number];
   }): GeneratedRegistryItem {
     const { snippets, ...metadata } = registryItem;
 
@@ -164,7 +163,7 @@ export class RegistryGenerator {
     currentFile,
   }: {
     sourceFiles: SourceFile[];
-    currentFile: { registryId: Registry["id"]; itemId: RegistryItem["id"] };
+    currentFile: { registryId: Registry["id"]; itemId: Registry["items"][number]["id"] };
   }): Pick<GeneratedRegistryItem, "dependencies" | "innerDependencies"> {
     const dependencies = new Set<string>();
     const innerDepsMap = new Map<Registry["id"], Set<string>>();

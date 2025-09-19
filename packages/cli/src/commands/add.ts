@@ -87,7 +87,7 @@ export const addCommand = (cli: CAC) => {
             .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
             .flatMap(({ id: registryId, items }) =>
               items
-                .filter(({ hideFromCLIAdd }) => !hideFromCLIAdd)
+                .filter(({ hideFromCLICatalog }) => !hideFromCLICatalog)
                 .map(({ id, description, deprecated }) => ({
                   label: `${deprecated ? "(deprecated) " : ""}${highlight(registryId)}:${id}`,
                   value: `${registryId}:${id}`,
