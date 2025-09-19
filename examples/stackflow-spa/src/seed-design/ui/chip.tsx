@@ -1,5 +1,3 @@
-"use client";
-
 import type { ChipVariantProps } from "@seed-design/css/recipes/chip";
 import { Chip as SeedChip } from "@seed-design/react";
 import type { PrimitiveProps } from "@seed-design/react-primitive";

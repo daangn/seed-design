@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ActionButton as SeedActionButton,
   type ActionButtonProps as SeedActionButtonProps,

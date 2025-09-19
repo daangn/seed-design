@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ControlChip as SeedControlChip,
   type ControlChipBaseProps as SeedControlChipBaseProps,

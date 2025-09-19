@@ -1,5 +1,3 @@
-"use client";
-
 import { Text, VStack } from "@seed-design/react";
 import * as React from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ToggleButton as SeedToggleButton,
   type ToggleButtonProps as SeedToggleButtonProps,

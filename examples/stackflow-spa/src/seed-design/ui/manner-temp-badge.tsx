@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Celcius,
   MannerTempBadge as SeedMannerTempBadge,

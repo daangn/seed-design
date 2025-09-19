@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ContextualFloatingButton as SeedContextualFloatingButton,
   type ContextualFloatingButtonProps as SeedContextualFloatingButtonProps,

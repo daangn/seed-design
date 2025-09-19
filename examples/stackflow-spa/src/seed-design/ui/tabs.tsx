@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Box,
   NotificationBadge,

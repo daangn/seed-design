@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ReactionButton as SeedReactionButton,
   type ReactionButtonProps as SeedReactionButtonProps,

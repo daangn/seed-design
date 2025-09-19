@@ -1,5 +1,3 @@
-"use client";
-
 import { ConsistentWidth, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
 import * as React from "react";
 

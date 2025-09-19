@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar as SeedAvatar } from "@seed-design/react";
 import * as React from "react";
 

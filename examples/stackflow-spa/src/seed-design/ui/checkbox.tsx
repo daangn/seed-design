@@ -1,5 +1,3 @@
-"use client";
-
 import IconCheckmarkFatFill from "@karrotmarket/react-monochrome-icon/IconCheckmarkFatFill";
 import IconMinusFatFill from "@karrotmarket/react-monochrome-icon/IconMinusFatFill";
 import { Checkbox as SeedCheckbox } from "@seed-design/react";

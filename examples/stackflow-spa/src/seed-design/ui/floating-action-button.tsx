@@ -1,5 +1,3 @@
-"use client";
-
 import { FloatingActionButton as SeedFloatingActionButton } from "@seed-design/react";
 import * as React from "react";
 

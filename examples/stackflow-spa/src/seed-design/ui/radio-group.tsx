@@ -1,5 +1,3 @@
-"use client";
-
 import { RadioGroup as SeedRadioGroup } from "@seed-design/react";
 import * as React from "react";
 

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   LoadingIndicator as SeedLoadingIndicator,
   type LoadingIndicatorProps as SeedLoadingIndicatorProps,

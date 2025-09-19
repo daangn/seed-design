@@ -1,5 +1,3 @@
-"use client";
-
 import { MenuSheet as SeedMenuSheet } from "@seed-design/react";
 import { forwardRef } from "react";
 import type * as React from "react";
