@@ -17,6 +17,23 @@ async function main() {
     registries: [registryUI, registryLib, registryBreeze],
     innateDeps: new Set(["react", "react-dom"]),
     getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
+    transformSnippetContent: (content, { itemId, registryId, snippetMetadata }) => `/**
+ * @file ${registryId}:${itemId}
+${
+  snippetMetadata.dependencies
+    ? Object.entries(snippetMetadata.dependencies)
+        .map(([pkg, version]) => ` * @requires ${pkg}@${version}`)
+        .join("\n")
+    : ""
+}
+ **/
+
+${content}
+/**
+ * This is a snippet from Seed Design, helping you get started quickly with the @seed-design/* packages.
+ * You can extend the functionality from this snippet if you want.
+ */
+`,
   });
 
   const { registries, availableRegistries } = generator.generate();

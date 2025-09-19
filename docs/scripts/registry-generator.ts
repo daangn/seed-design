@@ -10,6 +10,14 @@ import packageJson from "../package.json" with { type: "json" };
 import path from "node:path";
 
 type GetFileContent = (filePath: string) => string;
+type TransformSnippetContent = (
+  content: string,
+  context: {
+    registryId: Registry["id"];
+    itemId: RegistryItem["id"];
+    snippetMetadata: RegistryItem["snippets"][number];
+  },
+) => string;
 
 export class RegistryGenerator {
   #project: Project;
@@ -18,22 +26,26 @@ export class RegistryGenerator {
   #importAlias: string;
   #registries: Registry[] = [];
   #getFileContent: GetFileContent;
+  #transformSnippetContent: TransformSnippetContent;
 
   constructor({
     registries,
     importAlias,
     innateDeps,
     getFileContent,
+    transformSnippetContent,
   }: {
     registries: Registry[];
     importAlias: string;
     innateDeps?: Set<string>;
     getFileContent: GetFileContent;
+    transformSnippetContent?: TransformSnippetContent;
   }) {
     this.#registries = registries ?? [];
     this.#importAlias = importAlias;
     this.#innateDeps = innateDeps ?? new Set();
     this.#getFileContent = getFileContent;
+    this.#transformSnippetContent = transformSnippetContent ?? ((content) => content);
 
     this.#installedDeps = new Set(Object.keys(packageJson.dependencies ?? {}));
     this.#project = new Project({
@@ -79,13 +91,19 @@ export class RegistryGenerator {
 
     const sourceFiles: SourceFile[] = [];
 
-    const snippetsWithContent = snippets.map(({ path: filePath }) => {
-      const content = this.#getFileContent(path.join(registryId, filePath));
-      const sourceFile = this.#project.createSourceFile(filePath, content);
+    const snippetsWithContent = snippets.map((snippet) => {
+      const content = this.#getFileContent(path.join(registryId, snippet.path));
+      const transformedContent = this.#transformSnippetContent(content, {
+        registryId,
+        itemId: registryItem.id,
+        snippetMetadata: snippet,
+      });
+
+      const sourceFile = this.#project.createSourceFile(snippet.path, transformedContent);
 
       sourceFiles.push(sourceFile);
 
-      return { path: filePath, content };
+      return { path: snippet.path, content: transformedContent };
     });
 
     const deps = this.resolveDependencies({

@@ -1,4 +1,3 @@
-// @ts-ignore
 import { transformFromAstSync } from "@babel/core";
 import transformTypescript from "@babel/plugin-transform-typescript";
 import * as recast from "recast";

@@ -3,6 +3,12 @@ interface RegistryItemSnippet {
    * @description 스니펫 파일 경로
    */
   path: string;
+  /**
+   * @description 스니펫 파일에서 의존하는 \@seed-design/* 패키지와 버전
+   * @example { "@seed-design/react": "^1.1.0", "@seed-design/css": "^1.1.0" }
+   * @see https://github.com/npm/node-semver#caret-ranges-123-025-004
+   */
+  dependencies?: Record<string, string>;
 }
 
 interface RegistryItemSnippetWithContent extends RegistryItemSnippet {
