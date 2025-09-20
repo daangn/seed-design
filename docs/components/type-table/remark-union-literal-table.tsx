@@ -1,6 +1,6 @@
 import type { Root } from "mdast";
 import type { Transformer } from "unified";
-import { visit } from "unist-util-visit";
+import { visit, SKIP } from "unist-util-visit";
 import { getUnionLiterals } from "./get-union-literals";
 
 export interface RemarkUnionLiteralTableOptions {
@@ -77,7 +77,7 @@ export function remarkUnionLiteralTable({
       }
 
       queue.push(run());
-      return "skip";
+      return SKIP;
     });
 
     await Promise.all(queue);
