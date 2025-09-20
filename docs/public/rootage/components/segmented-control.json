@@ -91,7 +91,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.neutral-weak"
+                  "value": "$color.stroke.neutral-muted"
                 },
                 "shadow": {
                   "type": "shadow",
