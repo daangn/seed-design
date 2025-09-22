@@ -15,11 +15,22 @@ const listHeader = defineRecipe({
 
     fontSize: vars.base.enabled.root.fontSize,
     lineHeight: vars.base.enabled.root.lineHeight,
-    fontWeight: vars.base.enabled.root.fontWeight,
-    color: vars.base.enabled.root.color,
   },
-  variants: {},
-  defaultVariants: {},
+  variants: {
+    variant: {
+      mediumWeak: {
+        fontWeight: vars.variantMediumWeak.enabled.root.fontWeight,
+        color: vars.variantMediumWeak.enabled.root.color,
+      },
+      boldSolid: {
+        fontWeight: vars.variantBoldSolid.enabled.root.fontWeight,
+        color: vars.variantBoldSolid.enabled.root.color,
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "mediumWeak",
+  },
 });
 
 export default listHeader;

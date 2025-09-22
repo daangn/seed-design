@@ -369,7 +369,8 @@
       "@seed-design/react"
     ],
     "files": [
-      "ui:list.tsx"
+      "ui:list.tsx",
+      "ui:list-header.tsx"
     ]
   }
 ]

@@ -28,8 +28,16 @@ data:
         root:
           paddingX: $dimension.spacing-x.global-gutter
           paddingY: $dimension.x2
-          gap: $dimension.x2 # TODO: Figma에 추가 필요
+          gap: $dimension.x2_5
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
+    variant=mediumWeak:
+      enabled:
+        root:
           fontWeight: $font-weight.medium
-          color: $color.fg.neutral-subtle # TODO: variant로 빠져야함
+          color: $color.fg.neutral-subtle
+    variant=boldSolid:
+      enabled:
+        root:
+          fontWeight: $font-weight.bold
+          color: $color.fg.neutral

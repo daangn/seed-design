@@ -192,6 +192,6 @@ export const registryUI: RegistryUI = [
   {
     name: "list",
     dependencies: ["@seed-design/react"],
-    files: ["ui:list.tsx"],
+    files: ["ui:list.tsx", "ui:list-header.tsx"],
   },
 ];

@@ -4,8 +4,6 @@ import {
   List as SeedList,
   Divider as SeedDivider,
   type DividerProps as SeedDividerProps,
-  ListHeader as SeedListHeader,
-  type ListHeaderProps as SeedListHeaderProps,
 } from "@seed-design/react";
 import {
   Checkbox as CheckboxPrimitive,
@@ -14,13 +12,6 @@ import {
 } from "@seed-design/react/primitive";
 import { listItem } from "@seed-design/css/recipes/list-item";
 import * as React from "react";
-
-export interface ListHeaderProps extends SeedListHeaderProps {}
-
-/**
- * @see https://seed-design.io/react/components/list
- */
-export const ListHeader = SeedListHeader;
 
 export interface ListProps extends SeedList.RootProps {}
 

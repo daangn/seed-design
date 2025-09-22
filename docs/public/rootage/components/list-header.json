@@ -35,7 +35,15 @@
           }
         }
       },
-      "variants": {}
+      "variants": {
+        "variant": {
+          "values": {
+            "mediumWeak": {},
+            "boldSolid": {}
+          },
+          "defaultValue": "mediumWeak"
+        }
+      }
     },
     "definitions": [
       {
@@ -57,7 +65,7 @@
                 },
                 "gap": {
                   "type": "dimension",
-                  "value": "$dimension.x2"
+                  "value": "$dimension.x2_5"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -66,7 +74,23 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t4"
-                },
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "mediumWeak"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.medium"
@@ -74,6 +98,30 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-subtle"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "boldSolid"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.bold"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
                 }
               }
             }

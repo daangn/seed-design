@@ -1,11 +1,18 @@
 import './list-header.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
-const defaultVariant = {};
+const defaultVariant = {
+  "variant": "mediumWeak"
+};
 
 const compoundVariants = [];
 
-export const listHeaderVariantMap = {};
+export const listHeaderVariantMap = {
+  "variant": [
+    "mediumWeak",
+    "boldSolid"
+  ]
+};
 
 export const listHeaderVariantKeys = Object.keys(listHeaderVariantMap);
 

@@ -1,5 +1,8 @@
 declare interface ListHeaderVariant {
-  
+  /**
+  * @default "mediumWeak"
+  */
+  variant: "mediumWeak" | "boldSolid";
 }
 
 declare type ListHeaderVariantMap = {

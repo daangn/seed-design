@@ -1,28 +1,15 @@
 import { List, ListDivider, ListItem } from "@/registry/ui/list";
-import { ActionButton } from "seed-design/ui/action-button";
+import { ListHeader } from "@/registry/ui/list-header";
 import {
-  IconChevronRightFill,
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Icon, VStack, ListHeader, SuffixIcon } from "@seed-design/react";
+import { Icon, VStack } from "@seed-design/react";
 
 export default function ListPreview() {
   return (
-    <VStack>
-      <ListHeader>
-        Foobar
-        <ActionButton
-          variant="ghost"
-          size="xsmall"
-          bleedX="asPadding"
-          bleedY="asPadding"
-          color="fg.neutralSubtle"
-        >
-          자세히 보기
-          <SuffixIcon svg={<IconChevronRightFill />} />
-        </ActionButton>
-      </ListHeader>
+    <VStack width="360px">
+      <ListHeader as="h2">리스트 헤더</ListHeader>
       <List width="full">
         <ListItem title="기본 리스트 아이템" />
         <ListDivider />
