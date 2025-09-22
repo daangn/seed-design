@@ -2,7 +2,7 @@
 
 import { Text, VStack } from "@seed-design/react";
 import * as React from "react";
-import { ActionButton, type ActionButtonProps } from "./action-button";
+import { ActionButton, type ActionButtonProps } from "seed-design/ui/action-button";
 
 export interface ErrorStateProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "color"> {
@@ -92,8 +92,3 @@ export const ErrorState = React.forwardRef<HTMLDivElement, ErrorStateProps>((pro
   );
 });
 ErrorState.displayName = "ErrorState";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

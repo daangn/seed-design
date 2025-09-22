@@ -13,7 +13,12 @@ const Component = ({ disabled }: { disabled: boolean }) => {
   const [value, setValue] = useState(values[0]);
 
   return (
-    <SegmentedControl value={value} onValueChange={setValue} disabled={disabled}>
+    <SegmentedControl
+      value={value}
+      onValueChange={setValue}
+      disabled={disabled}
+      aria-label="Segmented Control"
+    >
       {values.map((value) => (
         <SegmentedControlItem key={value} value={value}>
           {value}

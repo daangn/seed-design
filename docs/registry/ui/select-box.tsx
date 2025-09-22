@@ -6,8 +6,8 @@ import {
   RadioGroup as SeedRadioGroup,
   Checkbox as SeedCheckbox,
 } from "@seed-design/react";
-import { RadioMark } from "./radio-group";
-import { Checkmark } from "./checkbox";
+import { RadioMark } from "seed-design/ui/radio-group";
+import { Checkmark } from "seed-design/ui/checkbox";
 import * as React from "react";
 
 export interface RadioSelectBoxRootProps extends SeedRadioSelectBox.RootProps {}
