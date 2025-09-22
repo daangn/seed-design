@@ -28,6 +28,7 @@ export { vars as helpBubble } from "./help-bubble.mjs";
 export { vars as identityPlaceholder } from "./identity-placeholder.mjs";
 export { vars as inlineBanner } from "./inline-banner.mjs";
 export { vars as linkContent } from "./link-content.mjs";
+export { vars as listHeader } from "./list-header.mjs";
 export { vars as listItem } from "./list-item.mjs";
 export { vars as mannerTempBadge } from "./manner-temp-badge.mjs";
 export { vars as mannerTemp } from "./manner-temp.mjs";

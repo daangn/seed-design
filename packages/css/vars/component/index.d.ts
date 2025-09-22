@@ -28,6 +28,7 @@ export { vars as helpBubble } from "./help-bubble";
 export { vars as identityPlaceholder } from "./identity-placeholder";
 export { vars as inlineBanner } from "./inline-banner";
 export { vars as linkContent } from "./link-content";
+export { vars as listHeader } from "./list-header";
 export { vars as listItem } from "./list-item";
 export { vars as mannerTempBadge } from "./manner-temp-badge";
 export { vars as mannerTemp } from "./manner-temp";

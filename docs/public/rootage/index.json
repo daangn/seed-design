@@ -99,6 +99,9 @@
       "path": "/components/link-content.json"
     },
     {
+      "path": "/components/list-header.json"
+    },
+    {
       "path": "/components/list-item.json"
     },
     {
