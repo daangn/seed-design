@@ -1,5 +1,13 @@
 # @seed-design/figma
 
+## 0.2.5
+
+### Patch Changes
+
+- bef65a6: Figma Variable & Variable Collection 정보를 최신화합니다.
+- Updated dependencies [0ca19c0]
+  - @seed-design/css@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

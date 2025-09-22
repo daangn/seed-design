@@ -1,5 +1,14 @@
 # @seed-design/react
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [0ca19c0]
+- Updated dependencies [11f5e76]
+  - @seed-design/css@0.2.5
+  - @seed-design/react-snackbar@0.0.7
+
 ## 0.2.4
 
 ### Patch Changes
