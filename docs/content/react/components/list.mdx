@@ -24,35 +24,63 @@ npx @seed-design/cli@latest add list
 
 ## Props
 
+### `ListHeader`
+
+<react-type-table path="./registry/ui/list.tsx" name="ListHeaderProps" />
+
 ### `List`
 
 [`VStackProps`](/react/components/layout/v-stack#props)와 동일합니다.
 
-### `ListItem`
+### List Items
+
+<Accordions>
+
+<Accordion title="ListItem">
 
 <react-type-table path="./registry/ui/list.tsx" name="ListItemProps" />
 
-### `ListButtonItem`
+</Accordion>
+
+<Accordion title="ListButtonItem">
 
 <react-type-table path="./registry/ui/list.tsx" name="ListButtonItemProps" />
 
-### `ListLinkItem`
+</Accordion>
+
+<Accordion title="ListLinkItem">
 
 <react-type-table path="./registry/ui/list.tsx" name="ListLinkItemProps" />
 
-### `ListCheckItem`
+</Accordion>
+
+<Accordion title="ListSwitchItem">
+
+<react-type-table path="./registry/ui/list.tsx" name="ListSwitchItemProps" />
+
+</Accordion>
+
+<Accordion title="ListCheckItem">
 
 <react-type-table path="./registry/ui/list.tsx" name="ListCheckItemProps" />
 
-### `ListRadioItem`
+</Accordion>
+
+<Accordion title="ListRadioItem">
 
 <react-type-table path="./registry/ui/list.tsx" name="ListRadioItemProps" />
 
-### `ListDivider`
+</Accordion>
+
+<Accordion title="ListDivider">
 
 [`DividerProps`](/react/components/divider#props)와 동일하나, 기본적으로 `<li aria-hidden></li>`로 렌더링됩니다. `List`를 `fieldset` 등으로 바꿔 사용하는 경우 `ListDivider` 역시 적절한 태그로 교체해주세요.
 
 <react-type-table path="./registry/ui/list.tsx" name="ListDividerProps" />
+
+</Accordion>
+
+</Accordions>
 
 ## Examples
 
@@ -80,9 +108,18 @@ npx @seed-design/cli@latest add list
   ```
 </ComponentExample>
 
-### 리스트 항목 전체를 폼 요소로 만들기
+### 리스트 항목에 `input` 요소 포함하기
 
-`ListCheckItem`와 `ListRadioItem`를 사용해서 리스트 항목 전체를 폼 요소로 만들 수 있습니다. [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)와 같은 컨트롤 요소를 `prefix`나 `suffix` 영역에 넣어 사용합니다.
+`ListSwitchItem`, `ListCheckItem`, `ListRadioItem`을 사용해서 리스트 항목에 `input` 요소를 포함할 수 있습니다. 이때, [SwitchControl](/react/components/switch#switchcontrol-활용하기), [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)와 같은 컨트롤 요소를 `prefix`나 `suffix` 영역에 넣어 사용합니다.
+
+<ComponentExample name="list-switch">
+  ```json doc-gen:file
+  {
+    "file": "./components/example/list-switch.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 <ComponentExample name="list-check">
   ```json doc-gen:file
@@ -270,7 +307,7 @@ import { ListButtonItem } from "seed-design/ui/list";
 
 #### `List.Item`에 `asChild` prop을 사용하는 경우
 
-리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)를 넣는 경우 활용할 수 있는 패턴입니다.
+리스트 항목 전체 영역을 `label`로 만들고, `List.Prefix` 또는 `List.Suffix`에 [SwitchControl](/react/components/switch#switchcontrol-활용하기), [Checkmark](/react/components/checkbox#checkmark-활용하기) 또는 [RadioMark](/react/components/radio-group#radiomark-활용하기)를 넣는 경우 활용할 수 있는 패턴입니다.
 
 ```tsx
 import { List as SeedList } from "@seed-design/react";
@@ -293,7 +330,7 @@ import { Checkbox } from "@seed-design/react/primitive";
 </SeedList.Item>
 ```
 
-[Snippet](/react/components/concepts/snippet)으로 제공되는 `ListCheckItem` 및 `ListRadioItem`는 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
+[Snippet](/react/components/concepts/snippet)으로 제공되는 `ListSwitchItem`, `ListCheckItem` 및 `ListRadioItem`는 이 패턴을 쉽게 구현할 수 있도록 돕습니다.
 
 ```tsx
 import { ListCheckItem } from "seed-design/ui/list";

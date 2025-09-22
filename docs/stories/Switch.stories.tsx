@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Switch } from "seed-design/ui/switch";
 
 import { switchVariantMap } from "@seed-design/css/recipes/switch";
+import { switchControlVariantMap } from "@seed-design/css/recipes/switch-control";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -34,7 +35,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={switchVariantMap}
+      variantMap={{ ...switchVariantMap, ...switchControlVariantMap }}
       conditionMap={conditionMap}
       {...args}
     />

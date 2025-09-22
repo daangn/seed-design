@@ -32,7 +32,7 @@ export default function ListClickable() {
         title="ListItem은 클릭할 수 없어요. 눌러보세요."
         detail="우측의 Action Button만 클릭할 수 있어요"
         suffix={
-          <ActionButton size="xsmall" onClick={() => alert("편집 클릭됨")}>
+          <ActionButton variant="neutralWeak" size="xsmall" onClick={() => alert("편집 클릭됨")}>
             편집
           </ActionButton>
         }
@@ -58,7 +58,7 @@ export default function ListClickable() {
         detail="리스트 항목 전체와 우측의 Action Button 각각을 클릭할 수 있어요"
         suffix={
           <>
-            <ActionButton size="xsmall" onClick={onCopyClick}>
+            <ActionButton variant="neutralWeak" size="xsmall" onClick={onCopyClick}>
               <PrefixIcon svg={isCopied ? <IconCheckmarkFill /> : <IconSquare2StackedFill />} />
               {isCopied ? "복사됨" : "URL 복사"}
             </ActionButton>

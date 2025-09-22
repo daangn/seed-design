@@ -11,10 +11,9 @@ import React from "react";
 import clsx from "clsx";
 import { splitMultipleVariantProps } from "@seed-design/css/utils/splitMultipleVariantProps";
 
-const { withContext, ClassNamesProvider, withProvider } = createSlotRecipeContext(switchStyle);
+const { withContext, ClassNamesProvider } = createSlotRecipeContext(switchStyle);
 const {
   withContext: withControlContext,
-  ClassNamesProvider: ControlClassNamesProvider,
   PropsProvider: ControlPropsProvider,
   withProvider: withControlProvider,
 } = createSlotRecipeContext(switchControl);
@@ -29,6 +28,7 @@ type SwitchVariantDeprecatedSizeProps = "small" | "medium";
 
 export interface SwitchRootProps
   extends Omit<SwitchVariantProps, "size">,
+    Omit<SwitchControlVariantProps, "size">,
     SwitchPrimitive.RootProps {
   size?: SwitchVariantProps["size"] | SwitchVariantDeprecatedSizeProps;
 }

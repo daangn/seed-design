@@ -6,7 +6,7 @@ function CustomSwitch({ children, ...props }: Switch.RootProps) {
   return (
     <VStack asChild gap="x2" align="center">
       <Switch.Root {...props}>
-        <SwitchControl tone="brand" />
+        <SwitchControl />
         <Switch.HiddenInput />
         {children}
       </Switch.Root>
