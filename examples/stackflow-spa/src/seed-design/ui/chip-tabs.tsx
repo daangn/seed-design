@@ -1,5 +1,3 @@
-"use client";
-
 import { ChipTabs as SeedChipTabs } from "@seed-design/react";
 
 export interface ChipTabsRootProps extends SeedChipTabs.RootProps {}

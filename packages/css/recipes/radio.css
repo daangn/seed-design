@@ -17,10 +17,10 @@
 .seed-radio__label:is(:disabled, [disabled], [data-disabled]) {
     color: var(--seed-color-fg-disabled);
 }
-.seed-radio__label--weight_default {
+.seed-radio__label--weight_regular {
     font-weight: var(--seed-font-weight-regular);
 }
-.seed-radio__label--weight_stronger {
+.seed-radio__label--weight_bold {
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-radio__root--size_large {

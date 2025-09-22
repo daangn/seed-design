@@ -1,28 +1,31 @@
 export declare const metadata: {
   "name": "🔵 [Template] Chip Group",
-  "key": "d46dc9059bf351928a2d403317ad7db34e70826e",
+  "key": "5b1155aae0f90d1bce6a7499f53a547e88ec3b86",
   "componentPropertyDefinitions": {
-    "Refresh Button#15888:2": {
-      "type": "BOOLEAN",
-      "defaultValue": false
-    },
-    "Type": {
+    "Variant": {
       "type": "VARIANT",
-      "defaultValue": "Filter",
+      "defaultValue": "Solid",
       "variantOptions": [
-        "Filter",
-        "Control",
-        "Action"
+        "Solid",
+        "Outline Strong",
+        "Outline Weak"
       ]
     },
-    "Chip Count": {
+    "Size": {
       "type": "VARIANT",
-      "defaultValue": "Full",
+      "defaultValue": "Large",
       "variantOptions": [
-        "2",
-        "3",
-        "4",
-        "Full"
+        "Large",
+        "Medium",
+        "Small"
+      ]
+    },
+    "Layout": {
+      "type": "VARIANT",
+      "defaultValue": "Scrollable",
+      "variantOptions": [
+        "Scrollable",
+        "Overflow"
       ]
     }
   }

@@ -1,5 +1,9 @@
 declare interface RadiomarkVariant {
   /**
+  * @default "brand"
+  */
+  tone: "neutral" | "brand";
+/**
   * @default "medium"
   */
   size: "large" | "medium";

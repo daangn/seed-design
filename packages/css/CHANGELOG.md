@@ -1,5 +1,50 @@
 # @seed-design/css
 
+## 0.2.5
+
+### Patch Changes
+
+- 0ca19c0: Segmented Control 컴포넌트를 업데이트합니다.
+
+  - Notification Badge를 표시하는 notification prop을 추가합니다.
+  - `SegmentedControlItem`의 `children`을 `string`에서 `ReactNode`로 확대합니다.
+  - 스타일을 업데이트합니다.
+
+## 0.2.4
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- f61b80d: 다크 모드에서의 색상 대비 보장을 위해 시맨틱 색상을 수정하고 컴포넌트에서의 색상을 변경합니다.
+
+  - **$color.bg.warning-solid**: theme-dark에서 $color.palette.yellow-600 → $color.palette.yellow-800
+  - **$color.bg.warning-solid-pressed**: theme-dark에서 $color.palette.yellow-700 → $color.palette.yellow-900
+  - Badge, Page Banner의 tone=warning, variant=solid variant에서 전경 항목 색상 변경: $color.fg.neutral → $color.palette.static-black-alpha-900
+
+## 0.2.3
+
+### Patch Changes
+
+- a22b8b9: ChipTabs 컴포넌트 Variant, Size 변경 및 디자인 수정
+
+  - variant `neutralOutline` 추가
+  - variant `brandSolid` deprecated
+  - size(`medium(default)` | `large`) 추가
+
+- 5836976: text-field의 value slot이 input의 size attribute로 인해 기본적으로 width를 가지는 문제를 해결합니다.
+- 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
+
+  - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
+  - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
+  - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
+  - RadioGroup 컴포넌트를 제공합니다.
+
 ## 0.2.1
 
 ### Patch Changes

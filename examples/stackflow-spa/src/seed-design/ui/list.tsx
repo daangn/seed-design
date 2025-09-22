@@ -1,5 +1,3 @@
-"use client";
-
 import {
   List as SeedList,
   Divider as SeedDivider,

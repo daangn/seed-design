@@ -58,19 +58,31 @@ data:
           color: $color.palette.gray-600
           cornerRadius: $radius.full
         thumb:
-          color: $color.palette.static-white
           cornerRadius: $radius.full
         label:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium
-      enabled,selected:
-        control:
-          color: $color.bg.brand-solid
       disabled:
         control:
           opacity: 0.38
         label:
           color: $color.fg.disabled
+    
+    tone=brand:
+      enabled:
+        thumb:
+          color: $color.palette.static-white
+      enabled,selected:
+        control:
+          color: $color.bg.brand-solid
+    tone=neutral:
+      enabled:
+        thumb:
+          color: $color.fg.neutral-inverted
+      enabled,selected:
+        control:
+          color: $color.bg.neutral-inverted
+
     size=32:
       enabled:
         root:
@@ -79,11 +91,11 @@ data:
         control:
           height: 32px
           width: 52px
-          paddingX: 2px
-          paddingY: 2px
+          paddingX: 3px
+          paddingY: 3px
         thumb:
-          height: 28px
-          width: 28px
+          height: 26px
+          width: 26px
           shadow:
             type: shadow
             value:

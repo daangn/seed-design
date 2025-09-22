@@ -1,5 +1,3 @@
-"use client";
-
 import {
   RadioSelectBox as SeedRadioSelectBox,
   CheckSelectBox as SeedCheckSelectBox,
@@ -48,7 +46,7 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
             <SeedRadioSelectBox.Description>{description}</SeedRadioSelectBox.Description>
           )}
         </SeedRadioSelectBox.Content>
-        <RadioMark size="large" />
+        <RadioMark size="large" tone="brand" />
       </SeedRadioSelectBox.Item>
     );
   },
@@ -79,7 +77,7 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
             <SeedCheckSelectBox.Description>{description}</SeedCheckSelectBox.Description>
           )}
         </SeedCheckSelectBox.Content>
-        <Checkmark size="large" />
+        <Checkmark size="large" tone="brand" />
       </SeedCheckSelectBox.Root>
     );
   },

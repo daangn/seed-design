@@ -14,16 +14,37 @@ export declare const metadata: {
         "Large"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "defaultValue": "Neutral",
+      "variantOptions": [
+        "🚫[Deprecated]Brand",
+        "Neutral"
+      ]
+    },
+    "Weight": {
+      "type": "VARIANT",
+      "defaultValue": "Bold",
+      "variantOptions": [
+        "Regular",
+        "Bold"
+      ]
+    },
+    "Selected": {
+      "type": "VARIANT",
+      "defaultValue": "False",
+      "variantOptions": [
+        "True",
+        "False"
+      ]
+    },
     "State": {
       "type": "VARIANT",
       "defaultValue": "Enabled",
       "variantOptions": [
         "Enabled",
         "Pressed",
-        "Disabled",
-        "Selected",
-        "Selected-Pressed",
-        "Selected-Disabled"
+        "Disabled"
       ]
     }
   }

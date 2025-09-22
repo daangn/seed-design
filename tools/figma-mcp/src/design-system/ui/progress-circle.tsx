@@ -16,8 +16,3 @@ export const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProp
 });
 
 ProgressCircle.displayName = "ProgressCircle";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

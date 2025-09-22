@@ -1,5 +1,47 @@
 # @seed-design/react
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [0ca19c0]
+- Updated dependencies [11f5e76]
+  - @seed-design/css@0.2.5
+  - @seed-design/react-snackbar@0.0.7
+
+## 0.2.4
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+- Updated dependencies [ce047f5]
+  - @seed-design/css@0.2.4
+  - @seed-design/react-tabs@0.0.9
+
+## 0.2.3
+
+### Patch Changes
+
+- 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
+
+  - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
+  - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
+  - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
+  - RadioGroup 컴포넌트를 제공합니다.
+
+- Updated dependencies [a22b8b9]
+- Updated dependencies [5836976]
+- Updated dependencies [12faf5a]
+  - @seed-design/css@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

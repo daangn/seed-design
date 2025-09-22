@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/figma",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -35,10 +35,11 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "bunchee",
-    "lint:publish": "bun publint"
+    "lint:publish": "bun publint",
+    "sync-entities": "rm -rf src/entities/data/__generated__ && bun figma-extractor src/entities/data/__generated__ component-sets variables variable-collections"
   },
   "dependencies": {
-    "@seed-design/css": "0.2.1",
+    "@seed-design/css": "0.2.5",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },
@@ -46,7 +47,7 @@
     "@figma/plugin-typings": "^1.110.0",
     "@figma/rest-api-spec": "^0.33.0",
     "@seed-design/figma-extractor": "^0.0.5",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public"

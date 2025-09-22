@@ -1,5 +1,35 @@
 # @seed-design/figma
 
+## 0.2.5
+
+### Patch Changes
+
+- bef65a6: Figma Variable & Variable Collection 정보를 최신화합니다.
+- Updated dependencies [0ca19c0]
+  - @seed-design/css@0.2.5
+
+## 0.2.4
+
+### Patch Changes
+
+- afdd1ee: Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.
+
+  - List, Checkmark, RadioMark, Radio, Tabs, ChipTabs 지원
+  - Chip, Divider, HelpBubble, Switch, Checkbox 업데이트
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+  - @seed-design/css@0.2.4
+
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [a22b8b9]
+- Updated dependencies [5836976]
+- Updated dependencies [12faf5a]
+  - @seed-design/css@0.2.3
+
 ## 0.2.1
 
 ### Patch Changes

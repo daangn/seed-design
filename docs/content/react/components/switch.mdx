@@ -3,10 +3,10 @@ title: Switch
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="switch-preview">
+<ComponentExample name="react/switch/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-preview.tsx",
+    "file": "examples/react/switch/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add switch
+npx @seed-design/cli@latest add ui:switch
 ```
 
 <ManualInstallation name="switch" />
@@ -26,44 +26,51 @@ npx @seed-design/cli@latest add switch
 
 ## Examples
 
-### Size
-
-#### 32
+### Sizes
 
 <Callout title="Deprecated Props" type="warning">
-  `size="medium"`은 더 이상 사용되지 않습니다. 대신 `size="32"`를 사용하세요.
+  `size="medium"`과 `size="small"`은 더 이상 사용되지 않습니다. 대신 `size="32"`와 `size="16"`을 사용하세요.
 </Callout>
 
-<ComponentExample name="switch-32">
+<ComponentExample name="react/switch/sizes">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-32.tsx",
+    "file": "examples/react/switch/sizes.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### 24
+### Tones
 
-<ComponentExample name="switch-24">
+#### Brand
+
+<ComponentExample name="react/switch/brand">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-24.tsx",
+    "file": "examples/react/switch/brand.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### 16
+#### Neutral
 
-<Callout title="Deprecated Props" type="warning">
-  `size="small"`은 더 이상 사용되지 않습니다. 대신 `size="16"`을 사용하세요.
-</Callout>
-
-<ComponentExample name="switch-16">
+<ComponentExample name="react/switch/neutral">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-16.tsx",
+    "file": "examples/react/switch/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Long Label
+
+<ComponentExample name="react/switch/long-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/switch/long-label.tsx",
     "codeblock": true
   }
   ```
@@ -71,10 +78,10 @@ npx @seed-design/cli@latest add switch
 
 ### Disabled
 
-<ComponentExample name="switch-disabled">
+<ComponentExample name="react/switch/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-disabled.tsx",
+    "file": "examples/react/switch/disabled.tsx",
     "codeblock": true
   }
   ```

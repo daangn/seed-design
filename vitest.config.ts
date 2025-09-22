@@ -33,6 +33,13 @@ export default defineConfig({
           environment: "node",
         },
       },
+      {
+        test: {
+          name: "cli",
+          include: ["./packages/cli/**/*.test.(tsx|ts)"],
+          environment: "node",
+        },
+      },
     ],
   },
 });

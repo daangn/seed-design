@@ -1,6 +1,6 @@
 import { radiomark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, active, pseudo } from "../utils/pseudo";
+import { checked, disabled, active, pseudo, not } from "../utils/pseudo";
 
 const radiomark = defineSlotRecipe({
   name: "radiomark",
@@ -17,8 +17,6 @@ const radiomark = defineSlotRecipe({
       justifyContent: "center",
       flex: "none",
 
-      backgroundColor: vars.base.enabled.root.color,
-
       borderWidth: vars.base.enabled.root.strokeWidth,
       borderColor: vars.base.enabled.root.strokeColor,
 
@@ -26,17 +24,12 @@ const radiomark = defineSlotRecipe({
 
       marginTop: "var(--radiomark-margin-top, 0)", // 수직 위치 보정
 
-      [pseudo(active)]: {
+      [pseudo(not(disabled), active)]: {
         backgroundColor: vars.base.enabledPressed.root.color,
       },
 
       [pseudo(checked)]: {
-        backgroundColor: vars.base.enabledSelected.root.color,
         borderWidth: vars.base.enabledSelected.root.strokeWidth,
-      },
-
-      [pseudo(active, checked)]: {
-        backgroundColor: vars.base.enabledSelectedPressed.root.color,
       },
 
       [pseudo(disabled)]: {
@@ -55,7 +48,6 @@ const radiomark = defineSlotRecipe({
 
       [pseudo(checked)]: {
         display: "block",
-        color: vars.base.enabledSelected.icon.color,
       },
 
       [pseudo(disabled, checked)]: {
@@ -64,6 +56,40 @@ const radiomark = defineSlotRecipe({
     },
   },
   variants: {
+    tone: {
+      neutral: {
+        root: {
+          [pseudo(checked)]: {
+            backgroundColor: vars.toneNeutral.enabledSelected.root.color,
+          },
+
+          [pseudo(not(disabled), checked, active)]: {
+            backgroundColor: vars.toneNeutral.enabledSelectedPressed.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checked)]: {
+            color: vars.toneNeutral.enabledSelected.icon.color,
+          },
+        },
+      },
+      brand: {
+        root: {
+          [pseudo(checked)]: {
+            backgroundColor: vars.toneBrand.enabledSelected.root.color,
+          },
+
+          [pseudo(not(disabled), checked, active)]: {
+            backgroundColor: vars.toneBrand.enabledSelectedPressed.root.color,
+          },
+        },
+        icon: {
+          [pseudo(checked)]: {
+            color: vars.toneBrand.enabledSelected.icon.color,
+          },
+        },
+      },
+    },
     size: {
       large: {
         root: {
@@ -98,6 +124,7 @@ const radiomark = defineSlotRecipe({
     },
   },
   defaultVariants: {
+    tone: "brand",
     size: "medium",
   },
 });

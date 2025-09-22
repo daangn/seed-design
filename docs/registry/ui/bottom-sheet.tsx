@@ -60,7 +60,7 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
           )}
           {children}
           {/* You may implement your own i18n for dismiss label */}
-          <SeedBottomSheet.CloseButton>
+          <SeedBottomSheet.CloseButton aria-label="닫기">
             <Icon svg={<IconXmarkLine />} />
           </SeedBottomSheet.CloseButton>
         </SeedBottomSheet.Content>
@@ -76,8 +76,3 @@ export const BottomSheetBody = SeedBottomSheet.Body;
 export interface BottomSheetFooterProps extends SeedBottomSheet.FooterProps {}
 
 export const BottomSheetFooter = SeedBottomSheet.Footer;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

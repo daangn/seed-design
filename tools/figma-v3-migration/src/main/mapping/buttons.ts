@@ -96,21 +96,23 @@ export const boxToggleButtonMapping: ComponentMapping<
     const isSelected = oldProperties.Selected.value;
     const oldState = oldProperties.State.value;
     if (isSelected === "True") {
+      newProperties.Selected = "True";
       switch (oldState) {
         case "Disabled":
-          newProperties.State = "Disabled-Selected";
+          newProperties.State = "Disabled";
           break;
         case "Enabled":
-          newProperties.State = "Selected";
+          newProperties.State = "Enabled";
           break;
         case "Pressed":
-          newProperties.State = "Selected-Pressed";
+          newProperties.State = "Pressed";
           break;
         case "Loading":
-          newProperties.State = "Selected-Loading";
+          newProperties.State = "Loading";
           break;
       }
     } else {
+      newProperties.Selected = "False";
       switch (oldState) {
         case "Disabled":
           newProperties.State = "Disabled";
@@ -150,21 +152,23 @@ export const capsuleToggleButtonMapping: ComponentMapping<
     const isSelected = oldProperties.Selected.value;
     const oldState = oldProperties.State.value;
     if (isSelected === "True") {
+      newProperties.Selected = "True";
       switch (oldState) {
         case "Disabled":
-          newProperties.State = "Disabled-Selected";
+          newProperties.State = "Disabled";
           break;
         case "Enabled":
-          newProperties.State = "Selected";
+          newProperties.State = "Enabled";
           break;
         case "Pressed":
-          newProperties.State = "Selected-Pressed";
+          newProperties.State = "Pressed";
           break;
         case "Loading":
-          newProperties.State = "Selected-Loading";
+          newProperties.State = "Loading";
           break;
       }
     } else {
+      newProperties.Selected = "False";
       switch (oldState) {
         case "Disabled":
           newProperties.State = "Disabled";

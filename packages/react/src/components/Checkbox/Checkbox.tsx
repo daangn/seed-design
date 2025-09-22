@@ -19,15 +19,36 @@ const withStateProps = createWithStateProps([useCheckboxContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * @deprecated Use `regular` or `bold` instead of `default` or `stronger`
+ */
+type CheckboxVariantDeprecatedWeightProps = "default" | "stronger";
+
 export interface CheckboxRootProps
-  extends CheckboxVariantProps,
+  extends Omit<CheckboxVariantProps, "weight">,
     CheckmarkVariantProps,
-    CheckboxPrimitive.RootProps {}
+    CheckboxPrimitive.RootProps {
+  weight?: CheckboxVariantProps["weight"] | CheckboxVariantDeprecatedWeightProps;
+}
 
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
-    const [checkboxVariantProps, otherProps] = checkbox.splitVariantProps(props);
-    const [checkmarkVariantProps] = checkmark.splitVariantProps(props);
+    const normalizedProps = {
+      ...props,
+      // TODO: replace this mapping completely
+      weight:
+        props.weight === "stronger"
+          ? "bold"
+          : props.weight === "default"
+            ? "regular"
+            : props.weight,
+    };
+
+    const [checkboxVariantProps, __otherProps] = checkbox.splitVariantProps(normalizedProps);
+    const [checkmarkVariantProps] = checkmark.splitVariantProps(normalizedProps);
+
+    const [, otherProps] = checkmark.splitVariantProps(__otherProps);
+
     const classNames = checkbox(checkboxVariantProps);
 
     return (

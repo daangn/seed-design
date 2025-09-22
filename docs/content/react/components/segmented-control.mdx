@@ -3,10 +3,10 @@ title: Segmented Control
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="segmented-control-preview">
+<ComponentExample name="react/segmented-control/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/segmented-control-preview.tsx",
+    "file": "examples/react/segmented-control/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add segmented-control
+npx @seed-design/cli@latest add ui:segmented-control
 ```
 
 <ManualInstallation name="segmented-control" />
@@ -25,7 +25,7 @@ npx @seed-design/cli@latest add segmented-control
 ### `SegmentedControl`
 
 <Callout type="info">
-`value`와 `defaultValue` 중 적어도 하나를 제공해야 해요.
+`value`와 `defaultValue` 중 적어도 하나를 제공해야 합니다.
 </Callout>
 
 <react-type-table
@@ -44,10 +44,21 @@ npx @seed-design/cli@latest add segmented-control
 
 ### Disabled
 
-<ComponentExample name="segmented-control-disabled">
+<ComponentExample name="react/segmented-control/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/segmented-control-disabled.tsx",
+    "file": "examples/react/segmented-control/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Notification
+
+<ComponentExample name="react/segmented-control/notification">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/segmented-control/notification.tsx",
     "codeblock": true
   }
   ```
@@ -55,12 +66,10 @@ npx @seed-design/cli@latest add segmented-control
 
 ### Long Label
 
-Pill 형태의 `SegmentedControlItem` 한 개는 86px의 최소 너비를 가져요. 제공한 옵션 중 이 너비를 초과하는 옵션이 있다면, 가장 긴 옵션의 너비에 모든 옵션의 너비가 맞춰져요.
-
-<ComponentExample name="segmented-control-long-label">
+<ComponentExample name="react/segmented-control/long-label">
   ```json doc-gen:file
   {
-    "file": "./components/example/segmented-control-long-label.tsx",
+    "file": "examples/react/segmented-control/long-label.tsx",
     "codeblock": true
   }
   ```
@@ -68,28 +77,12 @@ Pill 형태의 `SegmentedControlItem` 한 개는 86px의 최소 너비를 가져
 
 ### Fixed Width
 
-`SegmentedControl`의 `style` prop에 `width`를 제공해서 직접 너비를 설정할 수 있어요.
+`SegmentedControl`의 `style` prop에 `width`를 제공해서 직접 너비를 설정할 수 있습니다.
 
-<Callout type="info" title="지정한 너비가 무시되는 경우">
-직접 설정한 너비 안에서 모든 레이블을 overflow 없이 표시할 수 없는 경우, 직접
-지정한 너비 대신 overflow 없이 표시할 수 있는 최소 너비로 자동 조정돼요.
-</Callout>
-
-<ComponentExample name="segmented-control-fixed-width">
+<ComponentExample name="react/segmented-control/fixed-width">
   ```json doc-gen:file
   {
-    "file": "./components/example/segmented-control-fixed-width.tsx",
-    "codeblock": true
-  }
-  ```
-</ComponentExample>
-
-### Long Label & Fixed Width
-
-<ComponentExample name="segmented-control-long-label-fixed-width">
-  ```json doc-gen:file
-  {
-    "file": "./components/example/segmented-control-long-label-fixed-width.tsx",
+    "file": "examples/react/segmented-control/fixed-width.tsx",
     "codeblock": true
   }
   ```

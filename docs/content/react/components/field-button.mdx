@@ -3,10 +3,10 @@ title: Field Button
 description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
 ---
 
-<ComponentExample name="field-button-preview">
+<ComponentExample name="react/field-button/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-preview.tsx",
+    "file": "examples/react/field-button/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add field-button
+npx @seed-design/cli@latest add ui:field-button
 ```
 
 <ManualInstallation name="field-button" />
@@ -49,10 +49,10 @@ npx @seed-design/cli@latest add field-button
 
 `FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
 
-<ComponentExample name="field-button-form-control">
+<ComponentExample name="react/field-button/form-control">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-form-control.tsx",
+    "file": "examples/react/field-button/form-control.tsx",
     "codeblock": true
   }
   ```
@@ -62,10 +62,10 @@ npx @seed-design/cli@latest add field-button
 
 `showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
 
-<ComponentExample name="field-button-clear-button">
+<ComponentExample name="react/field-button/clear-button">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-clear-button.tsx",
+    "file": "examples/react/field-button/clear-button.tsx",
     "codeblock": true
   }
   ```
@@ -77,10 +77,10 @@ npx @seed-design/cli@latest add field-button
 
 스크린 리더는 `FieldButtonValue`와 `FieldButtonPlaceholder`를 읽지 않습니다. `buttonProps["aria-label"]`에 적절한 값을 제공하여 접근성을 확보하세요. 자세한 내용은 [접근 가능하게 만들기](#접근-가능하게-만들기) 섹션을 참고하세요.
 
-<ComponentExample name="field-button-value-placeholder">
+<ComponentExample name="react/field-button/value-placeholder">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-value-placeholder.tsx",
+    "file": "examples/react/field-button/value-placeholder.tsx",
     "codeblock": true
   }
   ```
@@ -116,10 +116,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Enabled
 
-<ComponentExample name="field-button-enabled">
+<ComponentExample name="react/field-button/enabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-enabled.tsx",
+    "file": "examples/react/field-button/enabled.tsx",
     "codeblock": true
   }
   ```
@@ -127,10 +127,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Disabled
 
-<ComponentExample name="field-button-disabled">
+<ComponentExample name="react/field-button/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-disabled.tsx",
+    "file": "examples/react/field-button/disabled.tsx",
     "codeblock": true
   }
   ```
@@ -140,10 +140,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Prefix
 
-<ComponentExample name="field-button-prefix">
+<ComponentExample name="react/field-button/prefix">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-prefix.tsx",
+    "file": "examples/react/field-button/prefix.tsx",
     "codeblock": true
   }
   ```
@@ -151,10 +151,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Suffix
 
-<ComponentExample name="field-button-suffix">
+<ComponentExample name="react/field-button/suffix">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-suffix.tsx",
+    "file": "examples/react/field-button/suffix.tsx",
     "codeblock": true
   }
   ```
@@ -162,10 +162,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Both Affixes
 
-<ComponentExample name="field-button-both-affixes">
+<ComponentExample name="react/field-button/both-affixes">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-both-affixes.tsx",
+    "file": "examples/react/field-button/both-affixes.tsx",
     "codeblock": true
   }
   ```
@@ -173,10 +173,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Indicator
 
-<ComponentExample name="field-button-indicator">
+<ComponentExample name="react/field-button/indicator">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-indicator.tsx",
+    "file": "examples/react/field-button/indicator.tsx",
     "codeblock": true
   }
   ```
@@ -186,10 +186,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Form and Bottom Sheet
 
-<ComponentExample name="field-button-form-bottom-sheet">
+<ComponentExample name="react/field-button/form-bottom-sheet">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-form-bottom-sheet.tsx",
+    "file": "examples/react/field-button/form-bottom-sheet.tsx",
     "codeblock": true
   }
   ```
@@ -197,10 +197,10 @@ npx @seed-design/cli@latest add field-button
 
 #### React Hook Form
 
-<ComponentExample name="field-button-react-hook-form">
+<ComponentExample name="react/field-button/react-hook-form">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-react-hook-form.tsx",
+    "file": "examples/react/field-button/react-hook-form.tsx",
     "codeblock": true
   }
   ```
@@ -208,10 +208,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Multiple Values (React Hook Form (Field Array))
 
-<ComponentExample name="field-button-field-array">
+<ComponentExample name="react/field-button/field-array">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-field-array.tsx",
+    "file": "examples/react/field-button/field-array.tsx",
     "codeblock": true
   }
   ```
@@ -219,10 +219,10 @@ npx @seed-design/cli@latest add field-button
 
 #### Multiple Values (Native `form`)
 
-<ComponentExample name="field-button-multiple-values">
+<ComponentExample name="react/field-button/multiple-values">
   ```json doc-gen:file
   {
-    "file": "./components/example/field-button-multiple-values.tsx",
+    "file": "examples/react/field-button/multiple-values.tsx",
     "codeblock": true
   }
   ```

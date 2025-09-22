@@ -4,13 +4,12 @@ export const switchMapping: ComponentMapping<"✅ Switch v2", "🟢 Switch"> = {
   oldComponent: "✅ Switch v2",
   newComponent: "🟢 Switch",
   variantMap: {
-    "Selected:False": "State:Enabled",
-    "Selected:True": "State:Selected",
+    "Selected:False": "Selected:False",
+    "Selected:True": "Selected:True",
   },
   calculateProperties(oldProperties) {
     const newProperties: NewComponentProperties<"🟢 Switch"> = {
-      Size: "Medium",
-      "Label#15191:2": "",
+      Size: "24",
     };
 
     const isDisabled = oldProperties.Disabled.value === "True";
@@ -19,10 +18,10 @@ export const switchMapping: ComponentMapping<"✅ Switch v2", "🟢 Switch"> = {
     if (isDisabled) {
       newProperties.State = "Disabled";
       if (isSelected) {
-        newProperties.State = "Selected-Disabled";
+        newProperties.State = "Disabled";
       }
     } else if (isSelected) {
-      newProperties.State = "Selected";
+      newProperties.State = "Enabled";
     } else {
       newProperties.State = "Enabled";
     }

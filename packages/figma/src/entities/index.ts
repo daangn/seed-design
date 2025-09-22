@@ -1,8 +1,8 @@
 import { createStaticIconRepository } from "./icon.repository";
 import { FIGMA_ICONS } from "./data/icons";
 import { FIGMA_FILL_STYLES, FIGMA_TEXT_STYLES } from "./data/styles";
-import { FIGMA_VARIABLE_COLLECTIONS } from "./data/variable-collections";
-import { FIGMA_VARIABLES } from "./data/variables";
+import { FIGMA_VARIABLE_COLLECTIONS } from "./data/__generated__/variable-collections";
+import { FIGMA_VARIABLES } from "./data/__generated__/variables";
 import * as FIGMA_COMPONENTS from "./data/__generated__/component-sets";
 import { createStaticStyleRepository } from "./style.repository";
 import { createStaticVariableRepository } from "./variable.repository";
