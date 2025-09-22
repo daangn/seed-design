@@ -3,6 +3,48 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.09.22
+
+[`0ca19c0`](https://github.com/daangn/seed-design/commit/0ca19c062d2a3a1f264f17e8ca75b10fd4768aba) Segmented Control 컴포넌트를 업데이트합니다.
+
+- Notification Badge를 표시하는 notification prop을 추가합니다.
+- `SegmentedControlItem`의 `children`을 `string`에서 `ReactNode`로 확대합니다.
+- 스타일을 업데이트합니다.
+
+[`950c9e1`](https://github.com/daangn/seed-design/commit/950c9e1ab112396e96bd7aa74d31f1bb23b0f683) **`add` 명령어 사용 방식을 변경합니다.**
+
+- 항목 추가
+
+```sh
+seed-design add ui:action-button breeze:animate-number # ui 이외 레지스트리의 항목도 추가할 수 있게 되었습니다.
+```
+
+- 특정 레지스트리에 있는 모든 항목 추가
+
+```sh
+seed-design add-all ui lib breeze
+```
+
+- 모든 레지스트리의 모든 항목 추가
+
+```sh
+seed-design add-all --all
+```
+
+패키지 의존성 및 스니펫 의존성 설치 방식을 최적화합니다.
+
+[`bef65a6`](https://github.com/daangn/seed-design/commit/bef65a6852ed272f9aadf336f89518b8ace77f2e) Figma Variable & Variable Collection 정보를 최신화합니다.
+
+[`11f5e76`](https://github.com/daangn/seed-design/commit/11f5e7699392858e6f02329070186dea08029bcd) Snackbar 헤드리스에서 닫기 버튼에 하드코딩된 `aria-label` 속성을 제거합니다.
+
+### Version Updates
+
+- [@seed-design/cli@1.0.0](https://npmjs.com/package/@seed-design/cli/v/1.0.0)
+- [@seed-design/css@0.2.5](https://npmjs.com/package/@seed-design/css/v/0.2.5)
+- [@seed-design/figma@0.2.5](https://npmjs.com/package/@seed-design/figma/v/0.2.5)
+- [@seed-design/react-snackbar@0.0.7](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.7)
+- [@seed-design/rootage-artifacts@0.1.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.4)
+
 ## 2025.09.12
 
 [`afdd1ee`](https://github.com/daangn/seed-design/commit/afdd1ee825168fbf76bd5a7b718d982cda36bcc9) Figma Codegen을 위한 컴포넌트 핸들러를 업데이트합니다.

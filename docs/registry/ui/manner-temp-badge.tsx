@@ -6,7 +6,7 @@ import {
   type MannerTempBadgeProps as SeedMannerTempBadgeProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { mannerTempToLevel } from "../lib/manner-temp-level";
+import { mannerTempToLevel } from "seed-design/lib/manner-temp-level";
 
 export interface MannerTempBadgeProps
   extends Omit<SeedMannerTempBadgeProps, "children" | "asChild"> {
@@ -32,8 +32,3 @@ export const MannerTempBadge = React.forwardRef<HTMLSpanElement, MannerTempBadge
   },
 );
 MannerTempBadge.displayName = "MannerTempBadge";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

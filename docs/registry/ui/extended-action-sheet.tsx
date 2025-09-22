@@ -100,8 +100,3 @@ export interface ExtendedActionSheetItemProps extends SeedExtendedActionSheet.It
  * @deprecated Use menu-sheet instead.
  */
 export const ExtendedActionSheetItem = SeedExtendedActionSheet.Item;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

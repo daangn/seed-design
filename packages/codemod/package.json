@@ -38,11 +38,11 @@
     "csv-parse": "^6.0.0",
     "dotenv": "^17.0.0",
     "esbuild": "^0.25.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "optionalDependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.34",
-    "@karrotmarket/react-multicolor-icon": "^0.0.27"
+    "@karrotmarket/react-monochrome-icon": "^1.0.0",
+    "@karrotmarket/react-multicolor-icon": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

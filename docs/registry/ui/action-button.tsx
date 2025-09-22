@@ -5,7 +5,7 @@ import {
   type ActionButtonProps as SeedActionButtonProps,
 } from "@seed-design/react";
 import * as React from "react";
-import { LoadingIndicator } from "./loading-indicator";
+import { LoadingIndicator } from "seed-design/ui/loading-indicator";
 
 export interface ActionButtonProps extends SeedActionButtonProps {}
 
@@ -24,8 +24,3 @@ export const ActionButton = React.forwardRef<
   );
 });
 ActionButton.displayName = "ActionButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

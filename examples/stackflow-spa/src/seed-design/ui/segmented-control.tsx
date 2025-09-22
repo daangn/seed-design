@@ -1,5 +1,3 @@
-"use client";
-
 import { ConsistentWidth, SegmentedControl as SeedSegmentedControl } from "@seed-design/react";
 import * as React from "react";
 
@@ -59,8 +57,3 @@ export const SegmentedControlItem = React.forwardRef<HTMLInputElement, Segmented
   },
 );
 SegmentedControlItem.displayName = "SegmentedControlItem";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

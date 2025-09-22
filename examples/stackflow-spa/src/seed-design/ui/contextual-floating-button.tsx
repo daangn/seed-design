@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ContextualFloatingButton as SeedContextualFloatingButton,
   type ContextualFloatingButtonProps as SeedContextualFloatingButtonProps,
@@ -24,8 +22,3 @@ export const ContextualFloatingButton = React.forwardRef<
   );
 });
 ContextualFloatingButton.displayName = "ContextualFloatingButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

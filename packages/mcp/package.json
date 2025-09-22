@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/mcp",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
-    "@seed-design/figma": "0.2.4",
+    "@seed-design/figma": "0.2.5",
     "cac": "^6.7.14",
-    "uuid": "^12.0.0",
+    "uuid": "^13.0.0",
     "ws": "^8.18.1",
     "yargs": "^18.0.0",
     "zod": "^3.24.3"
@@ -34,7 +34,7 @@
     "@types/bun": "^1.2.10",
     "@types/ws": "^8.18.1",
     "@types/yargs": "^17.0.33",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "publishConfig": {
     "access": "public"
