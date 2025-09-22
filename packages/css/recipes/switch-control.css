@@ -1,0 +1,66 @@
+.seed-switch-control__root {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    border-radius: var(--seed-radius-full);
+    background: var(--seed-color-palette-gray-600);
+    margin: var(--switch-control-margin-top, 0) 0;
+    transition: background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms;
+}
+.seed-switch-control__root:is(:disabled, [disabled], [data-disabled]) {
+    opacity: 0.38;
+}
+.seed-switch-control__thumb {
+    border-radius: var(--seed-radius-full);
+    transition: transform 150ms cubic-bezier(0.35, 0, 0.35, 1);
+}
+.seed-switch-control__root--tone_neutral:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-neutral-inverted);
+}
+.seed-switch-control__thumb--tone_neutral {
+    background: var(--seed-color-fg-neutral-inverted);
+}
+.seed-switch-control__root--tone_brand:is(:checked, [data-checked]) {
+    background: var(--seed-color-bg-brand-solid);
+}
+.seed-switch-control__thumb--tone_brand {
+    background: var(--seed-color-palette-static-white);
+}
+.seed-switch-control__root--size_16 {
+    min-inline-size: 26px;
+    min-block-size: 16px;
+    padding: 2px 2px;
+}
+.seed-switch-control__thumb--size_16 {
+    width: 12px;
+    height: 12px;
+}
+.seed-switch-control__thumb--size_16:is(:checked, [data-checked]) {
+    transform: translateX(calc(26px - 16px));
+}
+.seed-switch-control__root--size_24 {
+    min-inline-size: 38px;
+    min-block-size: 24px;
+    padding: 2px 2px;
+}
+.seed-switch-control__thumb--size_24 {
+    width: 20px;
+    height: 20px;
+    box-shadow: 0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f;
+}
+.seed-switch-control__thumb--size_24:is(:checked, [data-checked]) {
+    transform: translateX(calc(38px - 24px));
+}
+.seed-switch-control__root--size_32 {
+    min-inline-size: 52px;
+    min-block-size: 32px;
+    padding: 3px 3px;
+}
+.seed-switch-control__thumb--size_32 {
+    width: 26px;
+    height: 26px;
+    box-shadow: 0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f;
+}
+.seed-switch-control__thumb--size_32:is(:checked, [data-checked]) {
+    transform: translateX(calc(52px - 32px));
+}

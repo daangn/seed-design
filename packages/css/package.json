@@ -48,6 +48,10 @@
       "import": "./theming/index.mjs",
       "require": "./theming/index.cjs"
     },
+    "./utils/*": {
+      "types": "./utils/*.d.ts",
+      "import": "./utils/*.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -55,6 +59,7 @@
     "recipes",
     "vars",
     "theming",
+    "utils",
     "*.css"
   ],
   "devDependencies": {

@@ -153,6 +153,9 @@
       "path": "/components/snackbar.json"
     },
     {
+      "path": "/components/switch-control.json"
+    },
+    {
       "path": "/components/switch.json"
     },
     {

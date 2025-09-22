@@ -1,12 +1,23 @@
 import { Switch as SwitchPrimitive, useSwitchContext } from "@seed-design/react-switch";
 import { switchStyle, type SwitchVariantProps } from "@seed-design/css/recipes/switch";
+import {
+  switchControl,
+  type SwitchControlVariantProps,
+} from "@seed-design/css/recipes/switch-control";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import React from "react";
 import clsx from "clsx";
+import { splitMultipleVariantProps } from "@seed-design/css/utils/splitMultipleVariantProps";
 
-const { withContext, ClassNamesProvider } = createSlotRecipeContext(switchStyle);
+const { withContext, ClassNamesProvider, withProvider } = createSlotRecipeContext(switchStyle);
+const {
+  withContext: withControlContext,
+  ClassNamesProvider: ControlClassNamesProvider,
+  PropsProvider: ControlPropsProvider,
+  withProvider: withControlProvider,
+} = createSlotRecipeContext(switchControl);
 const withStateProps = createWithStateProps([useSwitchContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -23,48 +34,50 @@ export interface SwitchRootProps
 }
 
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
-  ({ size: propSize, className, ...otherProps }, ref) => {
-    const classNames = switchStyle({
-      // TODO: remove this mapping completely
-      size: propSize === "small" ? "16" : propSize === "medium" ? "32" : propSize,
-      ...otherProps,
-    });
+  ({ className, ...props }, ref) => {
+    const [{ switch: switchVariantProps, switchControl: switchControlVariantProps }, otherProps] =
+      splitMultipleVariantProps(
+        {
+          ...props,
+          // TODO: replace this mapping completely
+          size: props.size === "small" ? "16" : props.size === "medium" ? "32" : props.size,
+        },
+        { switchControl, switch: switchStyle },
+      );
+
+    const classNames = switchStyle(switchVariantProps);
 
     return (
-      <ClassNamesProvider value={classNames}>
-        <SwitchPrimitive.Root
-          ref={ref}
-          className={clsx(classNames.root, className)}
-          {...otherProps}
-        />
-      </ClassNamesProvider>
+      <ControlPropsProvider value={switchControlVariantProps}>
+        <ClassNamesProvider value={classNames}>
+          <SwitchPrimitive.Root
+            ref={ref}
+            className={clsx(classNames.root, className)}
+            {...otherProps}
+          />
+        </ClassNamesProvider>
+      </ControlPropsProvider>
     );
   },
 );
-
-// XXX: use when the deprecated size props are removed
-
-// export interface SwitchRootProps extends SwitchVariantProps, SwitchPrimitive.RootProps {}
-
-// export const SwitchRoot = withProvider<HTMLLabelElement, SwitchRootProps>(
-//   SwitchPrimitive.Root,
-//   "root",
-// );
+SwitchRoot.displayName = "SwitchRoot";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface SwitchControlProps extends SwitchPrimitive.ControlProps {}
+export interface SwitchControlProps
+  extends SwitchControlVariantProps,
+    SwitchPrimitive.ControlProps {}
 
-export const SwitchControl = withContext<HTMLDivElement, SwitchControlProps>(
+export const SwitchControl = withControlProvider<HTMLDivElement, SwitchControlProps>(
   SwitchPrimitive.Control,
-  "control",
+  "root",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 export interface SwitchThumbProps extends SwitchPrimitive.ThumbProps {}
 
-export const SwitchThumb = withContext<HTMLDivElement, SwitchThumbProps>(
+export const SwitchThumb = withControlContext<HTMLDivElement, SwitchThumbProps>(
   SwitchPrimitive.Thumb,
   "thumb",
 );
