@@ -10,7 +10,7 @@
     "@create-figma-plugin/build": "^4.0.1",
     "@create-figma-plugin/tsconfig": "^4.0.0",
     "@figma/plugin-typings": "^1.110.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",

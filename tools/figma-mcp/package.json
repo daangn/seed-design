@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@karrotmarket/react-monochrome-icon": "^0.0.34",
+    "@karrotmarket/react-monochrome-icon": "^1.0.0",
     "@seed-design/css": "0.2.4",
     "@seed-design/figma": "0.2.4",
     "@seed-design/migration-index": "0.0.30",
@@ -33,7 +33,7 @@
     "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^5.0.0",
     "concurrently": "^9.1.2",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.31.0",
     "vite": "^7.0.0",
     "vite-plugin-singlefile": "^2.2.0",
