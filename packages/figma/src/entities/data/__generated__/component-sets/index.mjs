@@ -44,6 +44,7 @@ export { metadata as slider } from "./slider.mjs";
 export { metadata as snackbar } from "./snackbar.mjs";
 export { metadata as superscriptChild } from "./superscript-child.mjs";
 export { metadata as switch } from "./switch.mjs";
+export { metadata as switchMark } from "./switch-mark.mjs";
 export { metadata as tabs } from "./tabs.mjs";
 export { metadata as textField } from "./text-field.mjs";
 export { metadata as toggleButton } from "./toggle-button.mjs";

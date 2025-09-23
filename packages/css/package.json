@@ -55,6 +55,7 @@
     "recipes",
     "vars",
     "theming",
+    "utils",
     "*.css"
   ],
   "devDependencies": {

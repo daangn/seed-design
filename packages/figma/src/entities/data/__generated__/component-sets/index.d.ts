@@ -44,6 +44,7 @@ export { metadata as slider } from "./slider";
 export { metadata as snackbar } from "./snackbar";
 export { metadata as superscriptChild } from "./superscript-child";
 export { metadata as switch } from "./switch";
+export { metadata as switchMark } from "./switch-mark";
 export { metadata as tabs } from "./tabs";
 export { metadata as textField } from "./text-field";
 export { metadata as toggleButton } from "./toggle-button";

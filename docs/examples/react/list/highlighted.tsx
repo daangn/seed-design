@@ -8,7 +8,7 @@ export default function ListHighlighted() {
   const [highlighted, setHighlighted] = useState(true);
 
   return (
-    <VStack width="full" gap="x4">
+    <VStack width="360px" gap="x4">
       <List>
         <ListItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
@@ -33,6 +33,7 @@ export default function ListHighlighted() {
       <Box alignSelf="center">
         <Switch
           size="24"
+          tone="neutral"
           label="highlight"
           checked={highlighted}
           onCheckedChange={setHighlighted}
