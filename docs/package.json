@@ -48,7 +48,7 @@
     "fumadocs-docgen": "^3.0.0",
     "fumadocs-mdx": "12.0.0",
     "fumadocs-typescript": "^4.0.5",
-    "fumadocs-ui": "15.7.12",
+    "fumadocs-ui": "15.7.13",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.12",
