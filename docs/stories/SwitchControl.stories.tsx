@@ -1,22 +1,42 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { Switch } from "seed-design/ui/switch";
+import { SwitchControl } from "seed-design/ui/switch";
 
-import { switchVariantMap } from "@seed-design/css/recipes/switch";
+import {
+  switchControl,
+  switchControlVariantMap,
+  type SwitchControlVariantProps,
+} from "@seed-design/css/recipes/switch-control";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { Switch } from "@seed-design/react/primitive";
+
+function CustomSwitch(props: SwitchControlVariantProps & Switch.RootProps) {
+  const [switchControlVariantProps, otherProps] = switchControl.splitVariantProps(props);
+
+  return (
+    <Switch.Root {...otherProps}>
+      <SwitchControl {...switchControlVariantProps} />
+      <Switch.HiddenInput />
+    </Switch.Root>
+  );
+}
 
 const meta = {
-  component: Switch,
+  component: CustomSwitch,
   decorators: [SeedThemeDecorator],
-} satisfies Meta<typeof Switch>;
+} satisfies Meta<typeof CustomSwitch>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
+  checked: {
+    true: { checked: true },
+    false: { checked: false },
+  },
   disabled: {
     false: { disabled: false },
     true: { disabled: true },
@@ -24,13 +44,10 @@ const conditionMap = {
 };
 
 const CommonStoryTemplate: Story = {
-  args: {
-    label: "라벨",
-  },
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={switchVariantMap}
+      variantMap={switchControlVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
