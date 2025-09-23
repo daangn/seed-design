@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { Switch as SeedSwitch } from "@seed-design/react";
 
@@ -26,3 +28,17 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   },
 );
 Switch.displayName = "Switch";
+
+export interface SwitchControlProps extends SeedSwitch.ControlProps {}
+
+/**
+ * @see https://seed-design.io/react/components/switch
+ */
+export const SwitchControl = React.forwardRef<HTMLDivElement, SwitchControlProps>((props, ref) => {
+  return (
+    <SeedSwitch.Control ref={ref} {...props}>
+      <SeedSwitch.Thumb />
+    </SeedSwitch.Control>
+  );
+});
+SwitchControl.displayName = "SwitchControl";
