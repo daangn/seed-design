@@ -102,8 +102,3 @@ export const ActionSheetItem = forwardRef<HTMLButtonElement, ActionSheetItemProp
     );
   },
 );
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

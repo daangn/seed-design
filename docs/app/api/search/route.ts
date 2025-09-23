@@ -1,4 +1,4 @@
-import { reactSource, source } from "@/app/source";
+import { breezeSource, reactSource, source } from "@/app/source";
 import { AdvancedIndex, createSearchAPI } from "fumadocs-core/search/server";
 import { tokenize } from "@/components/search/tokenizer";
 import { TAGS } from "@/app/api/search/constants";
@@ -30,6 +30,18 @@ export const { staticGET: GET } = createSearchAPI("advanced", {
           description: page.data.description,
           structuredData,
           tag: TAGS.react.value,
+          url: page.url,
+        } satisfies AdvancedIndex;
+      }),
+      ...breezeSource.getPages().map(async (page) => {
+        const { structuredData } = await page.data.load();
+
+        return {
+          id: page.url,
+          title: page.data.title,
+          description: page.data.description,
+          structuredData,
+          tag: TAGS.breeze.value,
           url: page.url,
         } satisfies AdvancedIndex;
       }),

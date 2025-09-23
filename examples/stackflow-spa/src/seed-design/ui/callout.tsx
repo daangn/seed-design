@@ -1,5 +1,3 @@
-"use client";
-
 import { PrefixIcon, Callout as SeedCallout, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 

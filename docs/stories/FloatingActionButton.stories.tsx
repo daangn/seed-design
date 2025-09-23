@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { FloatingActionButton } from "@/registry/ui/floating-action-button";
+import { FloatingActionButton } from "seed-design/ui/floating-action-button";
 
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { IconBellFill } from "@karrotmarket/react-monochrome-icon";

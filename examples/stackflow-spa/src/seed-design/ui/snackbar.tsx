@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Snackbar as SeedSnackbar,
   useSnackbarAdapter as useSeedSnackbarAdapter,

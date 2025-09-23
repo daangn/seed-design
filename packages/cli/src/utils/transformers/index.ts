@@ -29,7 +29,8 @@ const project = new Project({
 });
 
 async function createTempSourceFile(filename: string) {
-  const dir = await fs.mkdtemp(path.join(tmpdir(), "seed-deisgn-"));
+  const dir = await fs.mkdtemp(path.join(tmpdir(), "seed-design-"));
+
   return path.join(dir, filename);
 }
 

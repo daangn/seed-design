@@ -1,5 +1,11 @@
 # @seed-design/react-snackbar
 
+## 0.0.7
+
+### Patch Changes
+
+- 11f5e76: Snackbar 헤드리스에서 닫기 버튼에 하드코딩된 `aria-label` 속성을 제거합니다.
+
 ## 0.0.6
 
 ### Patch Changes

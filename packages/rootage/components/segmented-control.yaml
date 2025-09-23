@@ -42,7 +42,7 @@ data:
           color: $color.palette.gray-00
           cornerRadius: $radius.full
           strokeWidth: 1px
-          strokeColor: $color.stroke.neutral-weak
+          strokeColor: $color.stroke.neutral-muted
           shadow:
             type: shadow
             value:
