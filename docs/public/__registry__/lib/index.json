@@ -1,8 +1,14 @@
-[
-  {
-    "name": "manner-temp-level",
-    "files": [
-      "lib:manner-temp-level.ts"
-    ]
-  }
-]
+{
+  "id": "lib",
+  "hideFromCLICatalog": true,
+  "items": [
+    {
+      "snippets": [
+        {
+          "path": "manner-temp-level.ts"
+        }
+      ],
+      "id": "manner-temp-level"
+    }
+  ]
+}

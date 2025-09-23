@@ -1,16 +1,20 @@
 {
-  "name": "alert-dialog",
+  "id": "alert-dialog",
   "dependencies": [
-    "@seed-design/stackflow"
+    "@seed-design/react"
   ],
   "innerDependencies": [
-    "ui:action-button"
-  ],
-  "registries": [
     {
-      "name": "alert-dialog.tsx",
-      "type": "ui",
-      "content": "\"use client\";\n\nimport { Dialog } from \"@seed-design/react\";\nimport { forwardRef } from \"react\";\nimport { ActionButton, type ActionButtonProps } from \"./action-button\";\nimport type * as React from \"react\";\n\nexport interface AlertDialogRootProps extends Dialog.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/alert-dialog\n */\nexport const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {\n  return (\n    <Dialog.Root role=\"alertdialog\" closeOnInteractOutside={false} {...otherProps}>\n      {children}\n    </Dialog.Root>\n  );\n};\nAlertDialogRoot.displayName = \"AlertDialogRoot\";\n\nexport interface AlertDialogContentProps extends Dialog.ContentProps {\n  layerIndex?: number;\n}\n\nexport const AlertDialogContent = forwardRef<HTMLDivElement, AlertDialogContentProps>(\n  ({ children, layerIndex, ...otherProps }, ref) => {\n    return (\n      <Dialog.Positioner style={{ \"--layer-index\": layerIndex } as React.CSSProperties}>\n        <Dialog.Backdrop />\n        <Dialog.Content ref={ref} {...otherProps}>\n          {children}\n        </Dialog.Content>\n      </Dialog.Positioner>\n    );\n  },\n);\n\nexport interface AlertDialogTriggerProps extends Dialog.TriggerProps {}\n\nexport const AlertDialogTrigger = Dialog.Trigger;\n\nexport interface AlertDialogHeaderProps extends Dialog.HeaderProps {}\n\nexport const AlertDialogHeader = Dialog.Header;\n\nexport interface AlertDialogTitleProps extends Dialog.TitleProps {}\n\nexport const AlertDialogTitle = Dialog.Title;\n\nexport interface AlertDialogDescriptionProps extends Dialog.DescriptionProps {}\n\nexport const AlertDialogDescription = Dialog.Description;\n\nexport interface AlertDialogFooterProps extends Dialog.FooterProps {}\n\nexport const AlertDialogFooter = Dialog.Footer;\n\nexport interface AlertDialogActionProps\n  extends Omit<Dialog.ActionProps, \"color\">,\n    ActionButtonProps {}\n\nexport const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(\n  (props, ref) => {\n    return (\n      <Dialog.Action asChild>\n        <ActionButton {...props} ref={ref} />\n      </Dialog.Action>\n    );\n  },\n);\n"
+      "registryId": "ui",
+      "itemIds": [
+        "action-button"
+      ]
+    }
+  ],
+  "snippets": [
+    {
+      "path": "alert-dialog.tsx",
+      "content": "/**\n * @file ui:alert-dialog\n * @requires @seed-design/react@~0.2.4\n * @requires @seed-design/css@~0.2.4\n **/\n\n\"use client\";\n\nimport { Dialog } from \"@seed-design/react\";\nimport { forwardRef } from \"react\";\nimport { ActionButton, type ActionButtonProps } from \"seed-design/ui/action-button\";\nimport type * as React from \"react\";\n\nexport interface AlertDialogRootProps extends Dialog.RootProps {}\n\n/**\n * @see https://seed-design.io/react/components/alert-dialog\n */\nexport const AlertDialogRoot = ({ children, ...otherProps }: AlertDialogRootProps) => {\n  return (\n    <Dialog.Root role=\"alertdialog\" closeOnInteractOutside={false} {...otherProps}>\n      {children}\n    </Dialog.Root>\n  );\n};\nAlertDialogRoot.displayName = \"AlertDialogRoot\";\n\nexport interface AlertDialogContentProps extends Dialog.ContentProps {\n  layerIndex?: number;\n}\n\nexport const AlertDialogContent = forwardRef<HTMLDivElement, AlertDialogContentProps>(\n  ({ children, layerIndex, ...otherProps }, ref) => {\n    return (\n      <Dialog.Positioner style={{ \"--layer-index\": layerIndex } as React.CSSProperties}>\n        <Dialog.Backdrop />\n        <Dialog.Content ref={ref} {...otherProps}>\n          {children}\n        </Dialog.Content>\n      </Dialog.Positioner>\n    );\n  },\n);\n\nexport interface AlertDialogTriggerProps extends Dialog.TriggerProps {}\n\nexport const AlertDialogTrigger = Dialog.Trigger;\n\nexport interface AlertDialogHeaderProps extends Dialog.HeaderProps {}\n\nexport const AlertDialogHeader = Dialog.Header;\n\nexport interface AlertDialogTitleProps extends Dialog.TitleProps {}\n\nexport const AlertDialogTitle = Dialog.Title;\n\nexport interface AlertDialogDescriptionProps extends Dialog.DescriptionProps {}\n\nexport const AlertDialogDescription = Dialog.Description;\n\nexport interface AlertDialogFooterProps extends Dialog.FooterProps {}\n\nexport const AlertDialogFooter = Dialog.Footer;\n\nexport interface AlertDialogActionProps\n  extends Omit<Dialog.ActionProps, \"color\">,\n    ActionButtonProps {}\n\nexport const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(\n  (props, ref) => {\n    return (\n      <Dialog.Action asChild>\n        <ActionButton {...props} ref={ref} />\n      </Dialog.Action>\n    );\n  },\n);\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
     }
   ]
 }

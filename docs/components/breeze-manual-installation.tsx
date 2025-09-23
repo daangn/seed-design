@@ -1,4 +1,4 @@
-import type { RegistryUIItemMachineGenerated } from "@/registry/schema";
+import type { GeneratedRegistryItem } from "@/registry/schema";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { Heading } from "fumadocs-ui/components/heading";
@@ -17,12 +17,12 @@ interface BreezeManualInstallationProps {
 export async function BreezeManualInstallation(props: BreezeManualInstallationProps) {
   const { name } = props;
 
-  let json: RegistryUIItemMachineGenerated | null = null;
+  let json: GeneratedRegistryItem | null = null;
 
   try {
     json = (await import(`@/public/__registry__/breeze/${name}.json`).then((module) => {
       return module.default;
-    })) as RegistryUIItemMachineGenerated;
+    })) as GeneratedRegistryItem;
   } catch (error) {
     console.error(`Failed to load breeze registry for ${name}:`, error);
     return (
@@ -35,10 +35,8 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
   const packageManagers = ["npm", "yarn", "pnpm", "bun"];
 
   // 파일 분리
-  const componentFiles =
-    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".tsx")) || [];
-  const styleFiles =
-    json?.registries?.filter((r) => r.type === "breeze" && r.name.includes(".module.css")) || [];
+  const componentSnippets = json?.snippets?.filter((r) => r.path.endsWith(".tsx")) || [];
+  const styleSnippets = json?.snippets?.filter((r) => r.path.endsWith(".module.css")) || [];
 
   return (
     <ErrorBoundary>
@@ -79,15 +77,15 @@ export async function BreezeManualInstallation(props: BreezeManualInstallationPr
 
             <Step>
               <Heading as="h3">컴포넌트 코드 복사</Heading>
-              {componentFiles.map((registry) => {
-                return <DynamicCodeBlock key={registry.name} lang="tsx" code={registry.content} />;
+              {componentSnippets.map(({ path, content }) => {
+                return <DynamicCodeBlock key={path} lang="tsx" code={content} />;
               })}
             </Step>
 
             <Step>
               <Heading as="h3">스타일 복사</Heading>
-              {styleFiles.map((registry) => (
-                <DynamicCodeBlock key={registry.name} lang="css" code={registry.content} />
+              {styleSnippets.map(({ path, content }) => (
+                <DynamicCodeBlock key={path} lang="css" code={content} />
               ))}
             </Step>
           </Steps>

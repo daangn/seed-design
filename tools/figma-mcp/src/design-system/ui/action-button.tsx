@@ -22,8 +22,3 @@ export const ActionButton = React.forwardRef<
   );
 });
 ActionButton.displayName = "ActionButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

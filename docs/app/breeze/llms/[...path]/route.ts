@@ -46,7 +46,8 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
   const page = breezeSource.getPage(slugsExtensionRemoved);
   if (!page) throw new Error("Page not found");
 
-  const processed = await processContent(page.path, page.data.content || "");
+  const rawContent = await page.data.getText("raw");
+  const processed = await processContent(page.path, rawContent || "");
 
   const response = `# ${page.data.title}
 
