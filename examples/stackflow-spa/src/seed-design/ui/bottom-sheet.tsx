@@ -1,5 +1,3 @@
-"use client";
-
 import IconXmarkLine from "@karrotmarket/react-monochrome-icon/IconXmarkLine";
 import { Icon, BottomSheet as SeedBottomSheet } from "@seed-design/react";
 import { forwardRef } from "react";
@@ -76,8 +74,3 @@ export const BottomSheetBody = SeedBottomSheet.Body;
 export interface BottomSheetFooterProps extends SeedBottomSheet.FooterProps {}
 
 export const BottomSheetFooter = SeedBottomSheet.Footer;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

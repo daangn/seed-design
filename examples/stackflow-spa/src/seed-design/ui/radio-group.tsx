@@ -1,5 +1,3 @@
-"use client";
-
 import { RadioGroup as SeedRadioGroup } from "@seed-design/react";
 import * as React from "react";
 
@@ -61,8 +59,3 @@ export const RadioMark = React.forwardRef<HTMLDivElement, RadioMarkProps>((props
   );
 });
 RadioMark.displayName = "RadioMark";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

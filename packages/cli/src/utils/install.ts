@@ -1,6 +1,5 @@
 import * as p from "@clack/prompts";
 import { execa } from "execa";
-import color from "picocolors";
 import { getPackageManager } from "./get-package-manager";
 import { getPackageInfo } from "./get-package-info";
 
@@ -18,20 +17,16 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
   // 이미 설치된 의존성 필터링
   const existingDeps = {
     ...packageInfo.dependencies,
-    ...packageInfo.devDependencies,
+    // ...packageInfo.devDependencies,
+    // commented out because stated dependencies should be installed as actual dependencies even though they are listed in devDependencies
   };
 
-  const depsToInstall = deps.filter((dep) => !existingDeps[dep]);
-  const filteredDeps = deps.filter((dep) => existingDeps[dep]);
+  const depsToInstall = new Set(deps.filter((dep) => !existingDeps[dep]));
+  const filteredDeps = new Set(deps.filter((dep) => existingDeps[dep]));
 
-  if (!depsToInstall.length) {
-    return {
-      installed: new Set(),
-      filtered: new Set(),
-    };
-  }
+  if (!depsToInstall.size) return { installed: new Set<string>(), filtered: depsToInstall };
 
-  start(color.gray("의존성 설치중..."));
+  start("의존성 설치중...");
 
   const isDev = dev ? "-D" : null;
   const addCommand = packageManager === "npm" ? "install" : "add";
@@ -44,7 +39,7 @@ export async function installDependencies({ cwd, deps, dev = false }: InstallDep
     process.exit(1);
   }
 
-  stop("의존성 설치 완료.");
+  stop("의존성 설치가 완료됐어요.");
 
   return {
     installed: depsToInstall,

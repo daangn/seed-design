@@ -1,5 +1,3 @@
-"use client";
-
 import {
   RadioSelectBox as SeedRadioSelectBox,
   CheckSelectBox as SeedCheckSelectBox,

@@ -1,5 +1,3 @@
-"use client";
-
 import { PrefixIcon, PageBanner as SeedPageBanner, SuffixIcon, Box } from "@seed-design/react";
 import * as React from "react";
 
