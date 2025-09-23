@@ -34,13 +34,11 @@ export interface SwitchControlProps extends SeedSwitch.ControlProps {}
 /**
  * @see https://seed-design.io/react/components/switch
  */
-export const SwitchControl = React.forwardRef<HTMLDivElement, SeedSwitch.ControlProps>(
-  (props, ref) => {
-    return (
-      <SeedSwitch.Control ref={ref} {...props}>
-        <SeedSwitch.Thumb />
-      </SeedSwitch.Control>
-    );
-  },
-);
+export const SwitchControl = React.forwardRef<HTMLDivElement, SwitchControlProps>((props, ref) => {
+  return (
+    <SeedSwitch.Control ref={ref} {...props}>
+      <SeedSwitch.Thumb />
+    </SeedSwitch.Control>
+  );
+});
 SwitchControl.displayName = "SwitchControl";
