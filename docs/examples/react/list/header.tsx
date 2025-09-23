@@ -1,13 +1,11 @@
-import { ActionButton } from "seed-design/ui/action-button";
 import { List, ListButtonItem } from "seed-design/ui/list";
 import { ListHeader } from "seed-design/ui/list-header";
 import {
   IconChevronRightLine,
   IconLockLine,
   IconPersonCircleLine,
-  IconQuestionmarkCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { Divider, Icon, PrefixIcon, VStack } from "@seed-design/react";
+import { Divider, Icon, VStack } from "@seed-design/react";
 
 export default function () {
   return (
@@ -15,16 +13,6 @@ export default function () {
       <VStack>
         <ListHeader as="h2" variant="mediumWeak">
           variant="mediumWeak"
-          <ActionButton
-            variant="ghost"
-            size="xsmall"
-            bleedX="asPadding"
-            bleedY="asPadding"
-            color="fg.neutralSubtle"
-          >
-            <PrefixIcon svg={<IconQuestionmarkCircleLine />} />
-            도움말
-          </ActionButton>
         </ListHeader>
         <List>
           <ListButtonItem
@@ -45,16 +33,6 @@ export default function () {
       <VStack>
         <ListHeader as="h2" variant="boldSolid">
           variant="boldSolid"
-          <ActionButton
-            variant="ghost"
-            size="xsmall"
-            bleedX="asPadding"
-            bleedY="asPadding"
-            color="fg.neutralSubtle"
-          >
-            <PrefixIcon svg={<IconQuestionmarkCircleLine />} />
-            도움말
-          </ActionButton>
         </ListHeader>
         <List>
           <ListButtonItem
