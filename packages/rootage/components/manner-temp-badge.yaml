@@ -32,7 +32,7 @@ data:
     base:
       enabled:
         root:
-          minHeight: 20px
+          minHeight: $dimension.x5
           paddingY: $dimension.x0_5
           paddingX: $dimension.x1_5
           cornerRadius: $radius.full
@@ -76,3 +76,27 @@ data:
           color: $color.manner-temp.l6.bg
         label:
           color: $color.manner-temp.l6.text
+    level=l7:
+      enabled:
+        root:
+          color: $color.manner-temp.l7.bg
+        label:
+          color: $color.manner-temp.l7.text
+    level=l8:
+      enabled:
+        root:
+          color: $color.manner-temp.l8.bg
+        label:
+          color: $color.manner-temp.l8.text
+    level=l9:
+      enabled:
+        root:
+          color: $color.manner-temp.l9.bg
+        label:
+          color: $color.manner-temp.l9.text
+    level=l10:
+      enabled:
+        root:
+          color: $color.manner-temp.l10.bg
+        label:
+          color: $color.manner-temp.l10.text
