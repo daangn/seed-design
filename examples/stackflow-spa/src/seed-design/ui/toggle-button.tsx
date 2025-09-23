@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ToggleButton as SeedToggleButton,
   type ToggleButtonProps as SeedToggleButtonProps,
@@ -24,8 +22,3 @@ export const ToggleButton = React.forwardRef<
   );
 });
 ToggleButton.displayName = "ToggleButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

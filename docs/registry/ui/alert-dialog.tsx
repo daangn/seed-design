@@ -2,7 +2,7 @@
 
 import { Dialog } from "@seed-design/react";
 import { forwardRef } from "react";
-import { ActionButton, type ActionButtonProps } from "./action-button";
+import { ActionButton, type ActionButtonProps } from "seed-design/ui/action-button";
 import type * as React from "react";
 
 export interface AlertDialogRootProps extends Dialog.RootProps {}

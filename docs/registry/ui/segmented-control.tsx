@@ -64,8 +64,3 @@ export const SegmentedControlItem = React.forwardRef<HTMLInputElement, Segmented
   },
 );
 SegmentedControlItem.displayName = "SegmentedControlItem";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */
