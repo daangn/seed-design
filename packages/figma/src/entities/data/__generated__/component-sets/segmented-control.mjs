@@ -9,15 +9,6 @@ export const metadata = {
         "3",
         "4"
       ]
-    },
-    "Selected Item": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "1",
-        "2",
-        "3",
-        "4"
-      ]
     }
   }
 };

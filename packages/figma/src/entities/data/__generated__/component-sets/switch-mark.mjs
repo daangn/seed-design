@@ -1,10 +1,7 @@
-export declare const metadata: {
-  "name": "🟢 Switch",
-  "key": "65e0e7ba1a0c13b42e5fd0ceb17d5f756128dd6b",
+export const metadata = {
+  "name": "🟢 Switch Mark",
+  "key": "bc53f269089e02a1d241e2a21ac7631bfa49834e",
   "componentPropertyDefinitions": {
-    "Label#36578:0": {
-      "type": "TEXT"
-    },
     "Size": {
       "type": "VARIANT",
       "variantOptions": [
@@ -32,14 +29,6 @@ export declare const metadata: {
       "variantOptions": [
         "Enabled",
         "Disabled"
-      ]
-    },
-    "Layout(Figma Only)": {
-      "type": "VARIANT",
-      "variantOptions": [
-        "Label Last",
-        "Label First",
-        "🚫[Switch Mark 사용] Switch Only"
       ]
     }
   }

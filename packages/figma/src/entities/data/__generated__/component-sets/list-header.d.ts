@@ -13,11 +13,11 @@ export declare const metadata: {
         "Custom"
       ]
     },
-    "Title Weight": {
+    "Variant": {
       "type": "VARIANT",
       "variantOptions": [
-        "Medium",
-        "Bold"
+        "Medium Weak",
+        "Bold Solid"
       ]
     }
   }
