@@ -17,6 +17,10 @@ const snackbarSlotNames = [
   [
     "actionButton",
     "seed-snackbar__actionButton"
+  ],
+  [
+    "content",
+    "seed-snackbar__content"
   ]
 ];
 
