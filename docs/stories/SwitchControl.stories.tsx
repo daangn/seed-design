@@ -1,23 +1,23 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { SwitchControl } from "seed-design/ui/switch";
+import { SwitchMark } from "seed-design/ui/switch";
 
 import {
-  switchControl,
-  switchControlVariantMap,
-  type SwitchControlVariantProps,
-} from "@seed-design/css/recipes/switch-control";
+  switchMark,
+  switchMarkVariantMap,
+  type SwitchMarkVariantProps,
+} from "@seed-design/css/recipes/switch-mark";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
 import { Switch } from "@seed-design/react/primitive";
 
-function CustomSwitch(props: SwitchControlVariantProps & Switch.RootProps) {
-  const [switchControlVariantProps, otherProps] = switchControl.splitVariantProps(props);
+function CustomSwitch(props: SwitchMarkVariantProps & Switch.RootProps) {
+  const [switchMarkVariantProps, otherProps] = switchMark.splitVariantProps(props);
 
   return (
     <Switch.Root {...otherProps}>
-      <SwitchControl {...switchControlVariantProps} />
+      <SwitchMark {...switchMarkVariantProps} />
       <Switch.HiddenInput />
     </Switch.Root>
   );
@@ -47,7 +47,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={switchControlVariantMap}
+      variantMap={switchMarkVariantMap}
       conditionMap={conditionMap}
       {...args}
     />

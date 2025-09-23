@@ -29,16 +29,16 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
 );
 Switch.displayName = "Switch";
 
-export interface SwitchControlProps extends SeedSwitch.ControlProps {}
+export interface SwitchMarkProps extends SeedSwitch.ControlProps {}
 
 /**
  * @see https://seed-design.io/react/components/switch
  */
-export const SwitchControl = React.forwardRef<HTMLDivElement, SwitchControlProps>((props, ref) => {
+export const SwitchMark = React.forwardRef<HTMLDivElement, SwitchMarkProps>((props, ref) => {
   return (
     <SeedSwitch.Control ref={ref} {...props}>
       <SeedSwitch.Thumb />
     </SeedSwitch.Control>
   );
 });
-SwitchControl.displayName = "SwitchControl";
+SwitchMark.displayName = "SwitchMark";

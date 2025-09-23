@@ -1,9 +1,9 @@
-import { switchControl as vars } from "../vars/component";
+import { switchMark as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { checked, disabled, pseudo } from "../utils/pseudo";
 
-const switchControlRecipe = defineSlotRecipe({
-  name: "switch-control",
+const switchMarkRecipe = defineSlotRecipe({
+  name: "switch-mark",
   slots: ["root", "thumb"],
   base: {
     root: {
@@ -14,7 +14,7 @@ const switchControlRecipe = defineSlotRecipe({
       borderRadius: vars.base.enabled.root.cornerRadius,
       background: vars.base.enabled.root.color,
 
-      margin: "var(--switch-control-margin-top, 0) 0", // 수직 위치 보정
+      margin: "var(--switch-mark-margin-top, 0) 0", // 수직 위치 보정
 
       transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
 
@@ -107,4 +107,4 @@ const switchControlRecipe = defineSlotRecipe({
   },
 });
 
-export default switchControlRecipe;
+export default switchMarkRecipe;

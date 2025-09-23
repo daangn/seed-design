@@ -11,7 +11,7 @@ import {
   IconILowercaseSerifCircleLine,
   IconPersonCircleLine,
 } from "@karrotmarket/react-monochrome-icon";
-import { SwitchControl } from "../seed-design/ui/switch";
+import { SwitchMark } from "../seed-design/ui/switch";
 
 const positionVariants = [
   { key: "prefix", position: "prefix" },
@@ -97,7 +97,7 @@ const ActivityListSwitchItem: ActivityComponentType = () => {
                           <ListSwitchItem
                             title={key}
                             detail={content.detail}
-                            prefix={<SwitchControl tone={state.tone} />}
+                            prefix={<SwitchMark tone={state.tone} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             suffix={suffix.element}
@@ -130,7 +130,7 @@ const ActivityListSwitchItem: ActivityComponentType = () => {
                           <ListSwitchItem
                             title={key}
                             detail={content.detail}
-                            suffix={<SwitchControl tone={state.tone} />}
+                            suffix={<SwitchMark tone={state.tone} />}
                             defaultChecked={state.defaultChecked}
                             disabled={state.disabled}
                             prefix={prefix.element}

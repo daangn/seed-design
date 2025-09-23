@@ -2,8 +2,8 @@
 # parts: root, thumb
 kind: ComponentSpec
 metadata:
-  id: switch-control
-  name: Switch Control
+  id: switch-mark
+  name: Switch Mark
 data:
   schema:
     slots:

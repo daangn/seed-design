@@ -43,7 +43,7 @@ import reactionButton from "./recipes/reaction-button";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
 import switchRecipe from "./recipes/switch";
-import switchControl from "./recipes/switch-control";
+import switchMark from "./recipes/switch-mark";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textField from "./recipes/text-field";
@@ -99,7 +99,7 @@ export const recipes = {
   snackbar,
   snackbarRegion,
   switch: switchRecipe,
-  switchControl,
+  switchMark,
   tabs,
   text,
   textField,

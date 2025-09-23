@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "switch-control",
-    "name": "Switch Control"
+    "id": "switch-mark",
+    "name": "Switch Mark"
   },
   "data": {
-    "id": "switch-control",
-    "name": "Switch Control",
+    "id": "switch-mark",
+    "name": "Switch Mark",
     "schema": {
       "slots": {
         "root": {
