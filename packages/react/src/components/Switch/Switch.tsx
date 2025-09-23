@@ -6,7 +6,7 @@ import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import React from "react";
 import clsx from "clsx";
-import { splitMultipleVariantProps } from "@seed-design/css/utils/splitMultipleVariantProps";
+import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 
 const { withContext, ClassNamesProvider } = createSlotRecipeContext(switchStyle);
 const {
@@ -33,7 +33,7 @@ export interface SwitchRootProps
 export const SwitchRoot = React.forwardRef<HTMLLabelElement, SwitchRootProps>(
   ({ className, ...props }, ref) => {
     const [{ switch: switchVariantProps, switchMark: switchMarkVariantProps }, otherProps] =
-      splitMultipleVariantProps(
+      splitMultipleVariantsProps(
         {
           ...props,
           // TODO: replace this mapping completely

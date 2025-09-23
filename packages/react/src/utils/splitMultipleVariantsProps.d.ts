@@ -12,13 +12,10 @@ type ExtractAllVariantKeys<R> = {
     : never;
 }[keyof R];
 
-export declare function splitMultipleVariantProps<
+export declare function splitMultipleVariantsProps<
   R extends Record<string, { splitVariantProps: (...args: never[]) => unknown[] }>,
   P,
 >(
   props: P,
   recipesMap: R,
-): [
-  { [K in keyof R]: ExtractVariantProps<R[K]> },
-  Omit<P, ExtractAllVariantKeys<R>>,
-];
+): [{ [K in keyof R]: ExtractVariantProps<R[K]> }, Omit<P, ExtractAllVariantKeys<R>>];

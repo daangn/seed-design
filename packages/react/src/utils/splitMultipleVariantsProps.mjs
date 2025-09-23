@@ -1,4 +1,4 @@
-export function splitMultipleVariantProps(props, recipesMap) {
+export function splitMultipleVariantsProps(props, recipesMap) {
   const multipleVariantsProps = {};
   const extractedKeys = new Set();
 
@@ -17,7 +17,7 @@ export function splitMultipleVariantProps(props, recipesMap) {
 
   for (const propKey in props) {
     if (extractedKeys.has(propKey)) continue;
-    
+
     remainingProps[propKey] = props[propKey];
   }
 

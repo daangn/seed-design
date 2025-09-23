@@ -1,6 +1,6 @@
 import { checkbox, type CheckboxVariantProps } from "@seed-design/css/recipes/checkbox";
 import { checkmark, type CheckmarkVariantProps } from "@seed-design/css/recipes/checkmark";
-import { splitMultipleVariantProps } from "@seed-design/css/utils/splitMultipleVariantProps";
+import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Checkbox as CheckboxPrimitive, useCheckboxContext } from "@seed-design/react-checkbox";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
@@ -35,7 +35,7 @@ export interface CheckboxRootProps
 export const CheckboxRoot = Object.assign(
   forwardRef<HTMLLabelElement, CheckboxRootProps>(({ className, ...props }, ref) => {
     const [{ checkbox: checkboxVariantProps, checkmark: checkmarkVariantProps }, otherProps] =
-      splitMultipleVariantProps(
+      splitMultipleVariantsProps(
         {
           ...props,
           // TODO: replace this mapping completely
