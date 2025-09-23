@@ -324,6 +324,10 @@ export const registryUI: Registry = {
           path: "list.tsx",
           dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
         },
+        {
+          path: "list-header.tsx",
+          dependencies: { "@seed-design/react": "~0.3.0", "@seed-design/css": "~0.3.0" },
+        },
       ],
     },
   ],
