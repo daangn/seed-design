@@ -1,5 +1,20 @@
 # @seed-design/figma
 
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
+  - @seed-design/css@1.0.0
+
 ## 0.2.5
 
 ### Patch Changes

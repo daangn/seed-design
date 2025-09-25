@@ -1,5 +1,17 @@
 # @seed-design/react-checkbox
 
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
 ## 0.0.4
 
 ### Patch Changes
