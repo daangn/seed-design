@@ -1,9 +1,7 @@
 ---
 "@seed-design/figma-extractor": major
-"@seed-design/cli": major
 "@seed-design/codemod": major
 "@seed-design/css": major
-"@seed-design/design-token": major
 "@seed-design/figma": major
 "@seed-design/mcp": major
 "@seed-design/migration-index": major
@@ -26,7 +24,6 @@
 "@seed-design/rootage-artifacts": major
 "@seed-design/rsbuild-plugin": major
 "@seed-design/stackflow": major
-"@seed-design/stylesheet": major
 "@seed-design/tailwind3-plugin": major
 "@seed-design/tailwind4-theme": major
 "@seed-design/dom-utils": major
@@ -34,4 +31,4 @@
 "@seed-design/webpack-plugin": major
 ---
 
-🌱 Seed Design 1.0.0
+🌱 SEED Design 1.0.0을 출시합니다.
