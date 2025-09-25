@@ -21,7 +21,7 @@
   - 신규 10단계 반영
   - 업데이트 가이드
     1. `@seed-design/css@latest @seed-design/react@latest` 설치
-    2. `npx @seed-design/cli@latest add manner-temp manner-temp-badge`로 snippet 최신화
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
     3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
 
 - a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
