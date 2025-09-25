@@ -10,7 +10,7 @@ import { RadioMark } from "seed-design/ui/radio-group";
 
 export default function ListDisabled() {
   return (
-    <VStack width="full">
+    <VStack width="360px">
       <List>
         <ListButtonItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
@@ -22,7 +22,7 @@ export default function ListDisabled() {
         <ListCheckItem
           prefix={<Icon svg={<IconPersonCircleLine />} />}
           title="활성화된 ListCheckItem"
-          suffix={<Checkmark size="large" />}
+          suffix={<Checkmark tone="neutral" size="large" />}
         />
       </List>
       <List asChild>
@@ -30,7 +30,7 @@ export default function ListDisabled() {
           <ListRadioItem
             prefix={<Icon svg={<IconPersonCircleLine />} />}
             title="활성화된 ListRadioItem"
-            suffix={<RadioMark size="large" />}
+            suffix={<RadioMark tone="neutral" size="large" />}
             value="foo"
           />
         </RadioGroup.Root>
@@ -49,7 +49,7 @@ export default function ListDisabled() {
           disabled
           prefix={<Icon svg={<IconSlashCircleLine />} />}
           title="비활성화된 ListCheckItem"
-          suffix={<Checkmark size="large" />}
+          suffix={<Checkmark tone="neutral" size="large" />}
         />
       </List>
       <List asChild>
@@ -58,7 +58,7 @@ export default function ListDisabled() {
             disabled
             prefix={<Icon svg={<IconSlashCircleLine />} />}
             title="비활성화된 ListRadioItem"
-            suffix={<RadioMark size="large" />}
+            suffix={<RadioMark tone="neutral" size="large" />}
             value="foo"
           />
         </RadioGroup.Root>

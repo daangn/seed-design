@@ -22,19 +22,31 @@ const conditionMap = {
       temperature: 12.5,
     },
     l2: {
-      temperature: 36.2,
+      temperature: 30,
     },
     l3: {
-      temperature: 36.5,
+      temperature: 36,
     },
     l4: {
-      temperature: 41.9,
+      temperature: 36.5,
     },
     l5: {
-      temperature: 51.9,
+      temperature: 37,
     },
     l6: {
-      temperature: 52,
+      temperature: 40,
+    },
+    l7: {
+      temperature: 45,
+    },
+    l8: {
+      temperature: 55,
+    },
+    l9: {
+      temperature: 65,
+    },
+    l10: {
+      temperature: 80,
     },
   },
 };

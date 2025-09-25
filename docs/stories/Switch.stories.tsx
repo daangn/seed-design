@@ -17,10 +17,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
-  checked: {
-    true: { checked: true },
-    false: { checked: false },
-  },
   disabled: {
     false: { disabled: false },
     true: { disabled: true },

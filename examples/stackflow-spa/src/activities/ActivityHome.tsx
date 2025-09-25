@@ -3,6 +3,7 @@ import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { List, ListButtonItem } from "../seed-design/ui/list";
+import { ListHeader } from "../seed-design/ui/list-header";
 import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
@@ -134,6 +135,7 @@ const ActivityHome: ActivityComponentType = () => {
             { title: "ListItem", onClick: () => push("ActivityListItem", {}) },
             { title: "ListButtonItem", onClick: () => push("ActivityListButtonItem", {}) },
             { title: "ListLinkItem", onClick: () => push("ActivityListLinkItem", {}) },
+            { title: "ListSwitchItem", onClick: () => push("ActivityListSwitchItem", {}) },
             { title: "ListCheckItem", onClick: () => push("ActivityListCheckItem", {}) },
             { title: "ListRadioItem", onClick: () => push("ActivityListRadioItem", {}) },
           ],
@@ -209,19 +211,21 @@ const ActivityHome: ActivityComponentType = () => {
       >
         <VStack gap="spacingY.componentDefault">
           {navigationSections.map((section, sectionIndex) => (
-            <React.Fragment key={section.title}>
-              <List>
-                <div style={{ color: "blue" }}>{section.title}</div>
-                {section.items.map((item) =>
-                  item.component ? (
-                    <React.Fragment key={item.title}>{item.component}</React.Fragment>
-                  ) : (
-                    <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
-                  ),
-                )}
-              </List>
+            <>
+              <VStack key={section.title}>
+                <ListHeader>{section.title}</ListHeader>
+                <List>
+                  {section.items.map((item) =>
+                    item.component ? (
+                      <React.Fragment key={item.title}>{item.component}</React.Fragment>
+                    ) : (
+                      <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
+                    ),
+                  )}
+                </List>
+              </VStack>
               {sectionIndex < navigationSections.length - 1 && <Divider />}
-            </React.Fragment>
+            </>
           ))}
         </VStack>
       </AppScreenContent>

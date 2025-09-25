@@ -10,8 +10,6 @@ const mannerTemp = defineRecipe({
     alignItems: "center",
     boxSizing: "border-box",
 
-    gap: vars.base.enabled.root.gap,
-
     fontSize: vars.base.enabled.label.fontSize,
     lineHeight: vars.base.enabled.label.lineHeight,
     fontWeight: vars.base.enabled.label.fontWeight,
@@ -39,6 +37,18 @@ const mannerTemp = defineRecipe({
       },
       l6: {
         color: vars.levelL6.enabled.label.color,
+      },
+      l7: {
+        color: vars.levelL7.enabled.label.color,
+      },
+      l8: {
+        color: vars.levelL8.enabled.label.color,
+      },
+      l9: {
+        color: vars.levelL9.enabled.label.color,
+      },
+      l10: {
+        color: vars.levelL10.enabled.label.color,
       },
     },
   },

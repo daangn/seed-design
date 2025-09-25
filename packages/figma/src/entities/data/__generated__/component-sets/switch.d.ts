@@ -34,12 +34,12 @@ export declare const metadata: {
         "Disabled"
       ]
     },
-    "Label Layout(Figma Only)": {
+    "Layout(Figma Only)": {
       "type": "VARIANT",
       "variantOptions": [
         "Label Last",
         "Label First",
-        "Switch Only"
+        "🚫[Switch Mark 사용] Switch Only"
       ]
     }
   }

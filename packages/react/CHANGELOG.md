@@ -1,5 +1,60 @@
 # @seed-design/react
 
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Minor Changes
+
+- 39a96f1: (**BREAKING CHANGE**: Snackbar Snippet을 다시 설치해야합니다) Snackbar 컴포넌트 변경
+  - Snackbar의 배경색이 다크모드에서 흰색으로 변경됩니다.
+  - Prefix 요소유무에 따라 여백이 변경됩니다.
+  - `npx @seed-design/cli@latest add ui:snackbar` 명령어로 설치하세요.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+- a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:switch` 명령어로 설치하세요.
+
+  (**BREAKING CHANGE**: `ListHeader` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) List Header 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
+  - @seed-design/css@1.0.0
+  - @seed-design/react-avatar@1.0.0
+  - @seed-design/react-checkbox@1.0.0
+  - @seed-design/react-dialog@1.0.0
+  - @seed-design/react-popover@1.0.0
+  - @seed-design/react-portal@1.0.0
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/react-progress@1.0.0
+  - @seed-design/react-pull-to-refresh@1.0.0
+  - @seed-design/react-radio-group@1.0.0
+  - @seed-design/react-segmented-control@1.0.0
+  - @seed-design/react-snackbar@1.0.0
+  - @seed-design/react-switch@1.0.0
+  - @seed-design/react-tabs@1.0.0
+  - @seed-design/react-text-field@1.0.0
+  - @seed-design/react-toggle@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
 ## 0.2.5
 
 ### Patch Changes

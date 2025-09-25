@@ -334,6 +334,10 @@ export type SwitchProperties = InferComponentDefinition<
   typeof metadata.switch.componentPropertyDefinitions
 >;
 
+export type SwitchMarkProperties = InferComponentDefinition<
+  typeof metadata.switchMark.componentPropertyDefinitions
+>;
+
 export type ToggleButtonProperties = InferComponentDefinition<
   typeof metadata.toggleButton.componentPropertyDefinitions
 >;

@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root, thumb
+kind: ComponentSpec
+metadata:
+  id: switch-mark
+  name: Switch Mark
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          opacity:
+            type: number
+          height:
+            type: dimension
+          width:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+      thumb:
+        properties:
+          color:
+            type: color
+          cornerRadius:
+            type: dimension
+          height:
+            type: dimension
+          width:
+            type: dimension
+          shadow:
+            type: shadow
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.palette.gray-600
+          cornerRadius: $radius.full
+        thumb:
+          cornerRadius: $radius.full
+      disabled:
+        root:
+          opacity: 0.38
+    
+    tone=brand:
+      enabled:
+        thumb:
+          color: $color.palette.static-white
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+    tone=neutral:
+      enabled:
+        thumb:
+          color: $color.fg.neutral-inverted
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+
+    size=32:
+      enabled:
+        root:
+          height: 32px
+          width: 52px
+          paddingX: 3px
+          paddingY: 3px
+        thumb:
+          height: 26px
+          width: 26px
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 3px
+                blur: 8px
+                spread: 0px
+                color: "#00000026"
+              - offsetX: 0px
+                offsetY: 1px
+                blur: 3px
+                spread: 0px
+                color: "#0000000f"
+    size=24:
+      enabled:
+        root:
+          height: 24px
+          width: 38px
+          paddingX: 2px
+          paddingY: 2px
+        thumb:
+          height: 20px
+          width: 20px
+          shadow:
+            type: shadow
+            value:
+              - offsetX: 0px
+                offsetY: 3px
+                blur: 8px
+                spread: 0px
+                color: "#00000026"
+              - offsetX: 0px
+                offsetY: 1px
+                blur: 3px
+                spread: 0px
+                color: "#0000000f"
+    size=16:
+      enabled:
+        root:
+          height: 16px
+          width: 26px
+          paddingX: 2px
+          paddingY: 2px
+        thumb:
+          height: 12px
+          width: 12px

@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: list-header
+  name: List Header
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          gap:
+            type: dimension
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          paddingX: $dimension.spacing-x.global-gutter
+          paddingY: $dimension.x2
+          gap: $dimension.x2_5
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+    variant=mediumWeak:
+      enabled:
+        root:
+          fontWeight: $font-weight.medium
+          color: $color.fg.neutral-subtle
+    variant=boldSolid:
+      enabled:
+        root:
+          fontWeight: $font-weight.bold
+          color: $color.fg.neutral

@@ -50,6 +50,22 @@ const mannerTempBadge = defineRecipe({
         backgroundColor: vars.levelL6.enabled.root.color,
         color: vars.levelL6.enabled.label.color,
       },
+      l7: {
+        backgroundColor: vars.levelL7.enabled.root.color,
+        color: vars.levelL7.enabled.label.color,
+      },
+      l8: {
+        backgroundColor: vars.levelL8.enabled.root.color,
+        color: vars.levelL8.enabled.label.color,
+      },
+      l9: {
+        backgroundColor: vars.levelL9.enabled.root.color,
+        color: vars.levelL9.enabled.label.color,
+      },
+      l10: {
+        backgroundColor: vars.levelL10.enabled.root.color,
+        color: vars.levelL10.enabled.label.color,
+      },
     },
   },
   defaultVariants: {

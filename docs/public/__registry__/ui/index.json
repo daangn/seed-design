@@ -271,6 +271,9 @@
       "snippets": [
         {
           "path": "list.tsx"
+        },
+        {
+          "path": "list-header.tsx"
         }
       ],
       "id": "list",

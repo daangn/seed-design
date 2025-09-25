@@ -11,6 +11,7 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon } from "../private/Icon";
+import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 
 const { ClassNamesProvider, withContext } = createSlotRecipeContext(radio);
 const {
@@ -35,10 +36,8 @@ export interface RadioGroupItemProps
 
 export const RadioGroupItem = Object.assign(
   forwardRef<HTMLLabelElement, RadioGroupItemProps>(({ className, ...props }, ref) => {
-    const [radioVariantProps, __otherProps] = radio.splitVariantProps(props);
-    const [radiomarkVariantProps] = radiomark.splitVariantProps(props);
-
-    const [, otherProps] = radiomark.splitVariantProps(__otherProps);
+    const [{ radio: radioVariantProps, radiomark: radiomarkVariantProps }, otherProps] =
+      splitMultipleVariantsProps(props, { radio, radiomark });
 
     const classNames = radio(radioVariantProps);
 

@@ -2,7 +2,7 @@ kind: Tokens
 metadata:
   id: color
   name: Color
-  lastUpdated: 25-09-03
+  lastUpdated: 25-09-15
 data:
   collection: color
   tokens:
@@ -656,49 +656,81 @@ data:
         theme-dark: $color.palette.yellow-700
     $color.manner-temp.l1.text:
       values:
-        theme-light: "#62666a"
-        theme-dark: "#b1b5b9"
+        theme-light: "#757b85"
+        theme-dark: "#b8b8b9"
     $color.manner-temp.l2.text:
       values:
-        theme-light: "#2592f7"
-        theme-dark: "#7cbaf4"
+        theme-light: "#ab863f"
+        theme-dark: "#f5db97"
     $color.manner-temp.l3.text:
       values:
-        theme-light: "#0099c8"
-        theme-dark: "#47c3eb"
+        theme-light: "#e08a00"
+        theme-dark: "#fdda65"
     $color.manner-temp.l4.text:
       values:
-        theme-light: "#03a07e"
-        theme-dark: "#33cc94"
+        theme-light: "#f57e00"
+        theme-dark: "#fbbe55"
     $color.manner-temp.l4.bg:
       values:
-        theme-light: "#ebf9f4"
-        theme-dark: "#162822"
+        theme-light: "#fff3e5"
+        theme-dark: "#372301"
     $color.manner-temp.l5.text:
       values:
-        theme-light: "#d28500"
-        theme-dark: "#ffa100"
+        theme-light: "#ff7300"
+        theme-dark: "#faac4b"
     $color.manner-temp.l6.text:
       values:
-        theme-light: "#f06000"
-        theme-dark: "#ff9147"
+        theme-light: "#ff6600"
+        theme-dark: "#fc9855"
     $color.manner-temp.l1.bg:
       values:
-        theme-light: "#eff0f1"
-        theme-dark: "#222226"
+        theme-light: "#f1f2f3"
+        theme-dark: "#292929"
     $color.manner-temp.l2.bg:
       values:
-        theme-light: "#e7f2fc"
-        theme-dark: "#16212b"
+        theme-light: "#f8f4ec"
+        theme-dark: "#332605"
     $color.manner-temp.l3.bg:
       values:
-        theme-light: "#e3f6fc"
-        theme-dark: "#12262c"
+        theme-light: "#fff5e5"
+        theme-dark: "#372b01"
     $color.manner-temp.l5.bg:
       values:
-        theme-light: "#fff5e5"
-        theme-dark: "#2e2312"
+        theme-light: "#fff1e5"
+        theme-dark: "#371f01"
     $color.manner-temp.l6.bg:
       values:
         theme-light: "#fff0e5"
-        theme-dark: "#2e1d12"
+        theme-dark: "#351b03"
+    $color.manner-temp.l7.text:
+      values:
+        theme-light: "#ff5100"
+        theme-dark: "#f97a25"
+    $color.manner-temp.l7.bg:
+      values:
+        theme-light: "#ffefe5"
+        theme-dark: "#371701"
+    $color.manner-temp.l8.text:
+      values:
+        theme-light: "#ff3300"
+        theme-dark: "#fe6a34"
+    $color.manner-temp.l9.text:
+      values:
+        theme-light: "#f30a02"
+        theme-dark: "#fe6a5d"
+    $color.manner-temp.l8.bg:
+      values:
+        theme-light: "#ffeee5"
+        theme-dark: "#380f00"
+    $color.manner-temp.l9.bg:
+      values:
+        theme-light: "#ffeceb"
+        theme-dark: "#380500"
+    $color.manner-temp.l10.text:
+      values:
+        theme-light: "#cb0123"
+        theme-dark: "#fb6f82"
+    $color.manner-temp.l10.bg:
+      values:
+        theme-light: "#ffebee"
+        theme-dark: "#34040a"

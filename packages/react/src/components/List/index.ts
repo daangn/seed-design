@@ -15,4 +15,6 @@ export {
   type ListTitleProps,
 } from "./List";
 
+export { ListHeader, type ListHeaderProps } from "./ListHeader";
+
 export * as List from "./List.namespace";
