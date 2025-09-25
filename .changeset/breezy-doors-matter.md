@@ -31,4 +31,4 @@
 "@seed-design/webpack-plugin": major
 ---
 
-🌱 SEED Design 1.0.0을 출시합니다.
+🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
