@@ -7,8 +7,7 @@
     "directory": "packages/stylesheet"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "exports": {
     "./global.css": "./global.css",

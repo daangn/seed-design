@@ -32,8 +32,7 @@
     "@seed-design/qvism-core": "0.0.0"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "devDependencies": {
     "csstype": "^3.1.3"

@@ -23,8 +23,7 @@
   ],
   "license": "MIT",
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "devDependencies": {
     "tailwindcss": "^4.1.4"

@@ -11,9 +11,6 @@ on:
       - ".changeset/**"
   workflow_dispatch:
 
-permissions:
-  id-token: write
-
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
@@ -25,8 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: read
       pull-requests: write
+      packages: read
+      id-token: write
 
     steps:
       - name: Checkout Repo

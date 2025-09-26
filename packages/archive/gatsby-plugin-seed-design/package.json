@@ -14,8 +14,7 @@
     "seed-design"
   ],
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "author": {
     "name": "Hyeonsu Jung",
