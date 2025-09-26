@@ -78,6 +78,10 @@
                 "size": {
                   "type": "dimension",
                   "value": "$dimension.x8"
+                },
+                "bleedY": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
                 }
               }
             }

@@ -7,7 +7,8 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)"
       },
       "emote": {
-        "size": "var(--seed-dimension-x8)"
+        "size": "var(--seed-dimension-x8)",
+        "bleedY": "var(--seed-dimension-x1)"
       }
     }
   },

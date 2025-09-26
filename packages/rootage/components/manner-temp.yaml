@@ -29,6 +29,7 @@ data:
           fontWeight: $font-weight.bold
         emote:
           size: $dimension.x8
+          bleedY: $dimension.x1
     level=l1:
       enabled:
         label:
