@@ -11,6 +11,9 @@ on:
       - ".changeset/**"
   workflow_dispatch:
 
+permissions:
+  id-token: write
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
@@ -21,7 +24,6 @@ jobs:
     name: Release Seed Design Packages
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: write
       packages: read
       pull-requests: write
