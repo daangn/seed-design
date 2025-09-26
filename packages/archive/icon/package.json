@@ -19,7 +19,8 @@
     "test": "uvu -r tsm tests"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "files": [
     "src"
