@@ -21,6 +21,7 @@ jobs:
     name: Release Seed Design Packages
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: write
       packages: read
       pull-requests: write
@@ -57,7 +58,6 @@ jobs:
           version: bun version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
         if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'
