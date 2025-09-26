@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  PullToRefreshRoot,
-  PullToRefreshContent,
-  PullToRefreshIndicator,
-} from "seed-design/ui/pull-to-refresh";
+import { PullToRefreshRoot, PullToRefreshContent, PullToRefreshIndicator } from "./pull-to-refresh";
 import { AppScreen as SeedAppScreen } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import { forwardRef } from "react";
