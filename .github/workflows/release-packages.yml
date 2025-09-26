@@ -40,7 +40,9 @@ jobs:
           bun-version: latest
 
       - name: Install Dependencies
-        run: bun install --frozen-lockfile
+        run: |
+          npm install -g npm@latest
+          bun install --frozen-lockfile
 
       - name: Generate Changelog
         run: |
