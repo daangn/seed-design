@@ -9,6 +9,9 @@ import { registryUI } from "../registry/registry-ui.js";
 const REGISTRY_PATH = path.join(process.cwd(), "registry");
 const GENERATED_REGISTRY_PATH = path.join(process.cwd(), "public", "__registry__");
 
+// remove leading & trailing newline and add a new ending newline
+const cleanFile = (filePath: string) => `${filePath.replace(/^\n+|\n+$/g, "")}\n`;
+
 async function main() {
   console.log(chalk.gray("Generating Component Registry..."));
 
@@ -17,15 +20,25 @@ async function main() {
     registries: [registryUI, registryLib, registryBreeze],
     innateDeps: new Set(["react", "react-dom"]),
     getFileContent: (filePath) => readFileSync(path.join(REGISTRY_PATH, filePath), "utf8"),
-    transformSnippetContent: (content, { itemId, registryId, snippetMetadata }) => `/**
- * @file ${registryId}:${itemId}
-${
-  snippetMetadata.dependencies
-    ? Object.entries(snippetMetadata.dependencies)
-        .map(([pkg, version]) => ` * @requires ${pkg}@${version}`)
-        .join("\n")
-    : ""
-}
+    transformSnippetContent: (content, { itemId, registryId, snippetMetadata }) => {
+      const extension = path.extname(snippetMetadata.path);
+
+      if (
+        extension !== ".ts" &&
+        extension !== ".tsx" &&
+        extension !== ".js" &&
+        extension !== ".jsx"
+      )
+        return cleanFile(content);
+
+      const dependencies = snippetMetadata.dependencies
+        ? Object.entries(snippetMetadata.dependencies)
+            .map(([pkg, version]) => ` * @requires ${pkg}@${version}`)
+            .join("\n")
+        : "";
+
+      return cleanFile(`/**
+ * @file ${registryId}:${itemId}${dependencies ? `\n${dependencies}` : ""}
  **/
 
 ${content}
@@ -33,7 +46,8 @@ ${content}
  * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.
  * You can extend this snippet however you want.
  */
-`,
+`);
+    },
   });
 
   const { registries, availableRegistries } = generator.generate();

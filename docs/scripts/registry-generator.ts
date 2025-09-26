@@ -111,7 +111,7 @@ export class RegistryGenerator {
 
     const deps = this.resolveDependencies({
       sourceFiles,
-      currentFile: { registryId, itemId: registryItem.id },
+      currentItem: { registryId, itemId: registryItem.id },
     });
 
     for (const file of sourceFiles) {
@@ -164,34 +164,58 @@ export class RegistryGenerator {
 
   private resolveDependencies({
     sourceFiles,
-    currentFile,
+    currentItem,
   }: {
     sourceFiles: SourceFile[];
-    currentFile: { registryId: Registry["id"]; itemId: Registry["items"][number]["id"] };
+    currentItem: { registryId: Registry["id"]; itemId: Registry["items"][number]["id"] };
   }): Pick<GeneratedRegistryItem, "dependencies" | "innerDependencies"> {
     const dependencies = new Set<string>();
     const innerDepsMap = new Map<Registry["id"], Set<string>>();
 
     for (const sourceFile of sourceFiles) {
-      const importDeclarations = sourceFile.getImportDeclarations();
-
-      findDeclaration: for (const declaration of importDeclarations) {
+      findDeclaration: for (const declaration of sourceFile.getImportDeclarations()) {
         const moduleSpecifier = declaration.getModuleSpecifier().getLiteralText();
 
-        // throw relative imports
-        if (moduleSpecifier.startsWith(".")) {
+        // throw alias imports
+        // e.g. import {} from "seed-design/ui/...";
+        if (moduleSpecifier.startsWith(this.#importAlias)) {
           throw new Error(
-            `레지스트리의 파일을 import할 때는 ${this.#importAlias}/registry-name/file/path 형식을 사용해주세요: "${moduleSpecifier}"`,
+            `레지스트리의 파일을 import할 때는 상대 경로를 사용해주세요: "${moduleSpecifier}"`,
           );
         }
 
-        // registry imports (seed-design/registry-name/file/path)
-        // e.g. "seed-design/ui/button" -> registryId: "ui", relativePath: "button"
-        // e.g. "seed-design/breeze/animate-number/animate-number" -> registryId: "breeze", relativePath: "animate-number/animate-number"
-        if (moduleSpecifier.startsWith(`${this.#importAlias}/`)) {
-          const pathWithoutAlias = moduleSpecifier.slice(`${this.#importAlias}/`.length);
-          const [registryId, ...pathParts] = pathWithoutAlias.split("/");
-          const relativePath = pathParts.join("/");
+        // relative imports
+        // e.g. import {} from "./animate-number.module.css";
+        // e.g. import {} from "../lib/manner-temp-level";
+        if (
+          // TODO: do this better with a proper path check using path methods
+          // if we negate .isAbsolute(), npm modules will be considered as relative paths
+          moduleSpecifier.startsWith("./") ||
+          moduleSpecifier.startsWith("../") ||
+          moduleSpecifier === "." ||
+          moduleSpecifier === ".."
+        ) {
+          // /breeze/animate-number/animate-number.tsx
+          const currentMockedPath = path.join(
+            path.sep,
+            currentItem.registryId,
+            sourceFile.getFilePath(),
+          );
+
+          // if moduleSpecifier is "./animate-number.module.css"
+          // resolvedModulePath: /breeze/animate-number/animate-number.module.css
+          const resolvedModulePath = path.resolve(
+            path.join(path.dirname(currentMockedPath), moduleSpecifier),
+          );
+
+          // removes the leading path.sep
+          const mockedResolvedModulePath = resolvedModulePath.replace(
+            new RegExp(`^\\${path.sep}+`),
+            "",
+          );
+
+          const [registryId, ...pathParts] = mockedResolvedModulePath.split(path.sep);
+          const relativePath = pathParts.join(path.sep);
 
           const registryItem = this.findRegistryItem({ registryId, relativePath });
 
@@ -199,11 +223,11 @@ export class RegistryGenerator {
             throw new Error(`Could not find registry item for import: "${moduleSpecifier}"`);
           }
 
-          // e.g. import styles from "seed-design/breeze/animate-number/animate-number.module.css" in "breeze/animate-number"
           if (
-            registryItem.registryId === currentFile.registryId &&
-            registryItem.itemId === currentFile.itemId
+            registryItem.registryId === currentItem.registryId &&
+            registryItem.itemId === currentItem.itemId
           ) {
+            // e.g. import styles from "./animate-number.module.css" in "breeze/animate-number"
             continue;
           }
 
