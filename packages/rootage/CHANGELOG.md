@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.0.1
+
+### Patch Changes
+
+- 1420b68: MannerTemp 컴포넌트가 레이아웃에서 높이를 덜 차지하도록 업데이트합니다.
+
 ## 1.0.0
 
 ### Major Changes
