@@ -22,8 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: read
       pull-requests: write
+      packages: read
+      id-token: write
 
     steps:
       - name: Checkout Repo
@@ -31,6 +32,12 @@ jobs:
         with:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -53,11 +60,10 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun release
+          publish: npm run release
           version: bun version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: 릴리즈 PR이 만들어지거나 업데이트된 경우 해당 PR의 base 브랜치를 체크아웃해요
         if: steps.changesets.outputs.published == 'false' && steps.changesets.outputs.hasChangesets == 'true'

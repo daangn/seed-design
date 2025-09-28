@@ -16,6 +16,8 @@ const mannerTemp = defineRecipe({
 
     ...suffixIcon({
       size: vars.base.enabled.emote.size,
+      marginTop: `calc(${vars.base.enabled.emote.bleedY} * -1)`,
+      marginBottom: `calc(${vars.base.enabled.emote.bleedY} * -1)`,
     }),
   },
   variants: {
