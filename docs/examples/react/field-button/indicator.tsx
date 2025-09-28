@@ -4,7 +4,7 @@ export default function FieldButtonIndicator() {
   return (
     <FieldButton
       label="선택사항"
-      indicator="(옵션)"
+      indicator="선택"
       description="이 필드는 선택사항입니다"
       buttonProps={{
         onClick: () => window.alert("버튼 클릭됨"),

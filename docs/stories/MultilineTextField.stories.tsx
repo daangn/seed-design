@@ -43,10 +43,10 @@ const conditionMap = {
   },
   hasValue: {
     false: {
-      value: "",
+      defaultValue: "",
     },
     true: {
-      value: "Value",
+      defaultValue: "Value",
     },
   },
 };

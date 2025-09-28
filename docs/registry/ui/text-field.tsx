@@ -7,10 +7,12 @@ import {
   type UseTextFieldWithGraphemesParams,
   useTextFieldWithGraphemes,
   VisuallyHidden,
+  PrefixIcon,
 } from "@seed-design/react";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
-export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange"> {
+export interface TextFieldProps
+  extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange" | "asChild"> {
   label?: React.ReactNode;
   indicator?: React.ReactNode;
 
@@ -21,8 +23,10 @@ export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix" |
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
-  hideGraphemeCount?: boolean;
+  hideCharacterCount?: boolean;
   maxGraphemeCount?: number;
+
+  hideRequiredIndicator?: boolean;
 
   onValueChange?: UseTextFieldWithGraphemesParams["onValueChange"];
 }
@@ -41,7 +45,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       indicator,
       description,
       errorMessage,
-      hideGraphemeCount,
+      hideCharacterCount,
       children,
 
       // field props
@@ -50,6 +54,8 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       invalid,
       readOnly,
       name,
+
+      hideRequiredIndicator,
 
       // useTextFieldWithGraphemes params
       value,
@@ -67,9 +73,10 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
     });
 
     const renderHeader = label || indicator;
+    const renderRequiredIndicator = required && !hideRequiredIndicator;
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
-    const renderGraphemeCount = !hideGraphemeCount && maxGraphemeCount !== undefined;
+    const renderGraphemeCount = !hideCharacterCount && maxGraphemeCount !== undefined;
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
 
     if (
@@ -96,7 +103,8 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
           <SeedField.Header>
             <SeedField.Label>
               {label}
-              {indicator && <SeedField.Indicator>{indicator}</SeedField.Indicator>}
+              {renderRequiredIndicator && <SeedField.RequiredIndicator />}
+              {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}
             </SeedField.Label>
             {/* You might want to put your custom element here */}
           </SeedField.Header>
@@ -119,10 +127,10 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
                 <SeedField.Description>{description}</SeedField.Description>
               ))}
             {renderErrorMessage && (
-              <SeedField.ErrorContainer>
-                <SeedField.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
-                <SeedField.ErrorMessage>{errorMessage}</SeedField.ErrorMessage>
-              </SeedField.ErrorContainer>
+              <SeedField.ErrorMessage>
+                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
+                {errorMessage}
+              </SeedField.ErrorMessage>
             )}
             {renderGraphemeCount && <SeedField.CharacterCount {...counterProps} />}
           </SeedField.Footer>

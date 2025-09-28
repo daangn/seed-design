@@ -67,7 +67,6 @@ export default function TextFieldTextareaReactHookForm() {
       <HStack gap="x2">
         <TextField
           label="자기소개"
-          indicator="(필수)"
           description="자기소개를 써주세요"
           invalid={bioFieldState.invalid}
           errorMessage={bioFieldState.error?.message}
@@ -79,7 +78,6 @@ export default function TextFieldTextareaReactHookForm() {
         </TextField>
         <TextField
           label="주소"
-          indicator="(필수)"
           description="주소를 써주세요"
           invalid={addressFieldState.invalid}
           errorMessage={addressFieldState.error?.message}

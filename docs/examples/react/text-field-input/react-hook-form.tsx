@@ -56,7 +56,6 @@ export default function TextFieldInputReactHookForm() {
       <HStack gap="x2">
         <TextField
           label="이름"
-          indicator="(필수)"
           description="이름을 써주세요"
           invalid={nameFieldState.invalid}
           errorMessage={nameFieldState.error?.message}
@@ -68,7 +67,6 @@ export default function TextFieldInputReactHookForm() {
         </TextField>
         <TextField
           label="주소"
-          indicator="(필수)"
           description="주소를 써주세요"
           invalid={addressFieldState.invalid}
           errorMessage={addressFieldState.error?.message}

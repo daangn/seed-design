@@ -83,7 +83,6 @@ export default function TextFieldInputForm() {
       <HStack gap="x2">
         <TextField
           label="이름"
-          indicator="(필수)"
           description="이름을 써주세요"
           required
           value={formValues.name}
@@ -94,7 +93,6 @@ export default function TextFieldInputForm() {
         </TextField>
         <TextField
           label="주소"
-          indicator="(필수)"
           description="주소를 써주세요"
           maxGraphemeCount={30}
           required

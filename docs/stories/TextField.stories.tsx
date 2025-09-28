@@ -44,10 +44,10 @@ const conditionMap = {
   },
   hasValue: {
     false: {
-      value: "",
+      defaultValue: "",
     },
     true: {
-      value: "Value",
+      defaultValue: "Value",
     },
   },
 };
@@ -58,13 +58,13 @@ const CommonStoryTemplate: Story = {
     suffix: "Suffix",
     label:
       "Officia ad consectetur mollit incididunt tempor tempor in mollit exercitation velit veniam laborum.",
-    indicator:
-      "Officia nostrud aute minim consectetur mollit incididunt tempor tempor cupidatat nostrud est.",
+    indicator: "선택",
     description:
       "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
     errorMessage:
       "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
     maxGraphemeCount: 100,
+    required: true,
     children: <TextFieldInput placeholder="Placeholder" />,
   },
   render: (args) => (

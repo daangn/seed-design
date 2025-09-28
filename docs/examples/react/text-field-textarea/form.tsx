@@ -83,7 +83,6 @@ export default function TextFieldTextareaForm() {
       <HStack gap="x2">
         <TextField
           label="자기소개"
-          indicator="(필수)"
           description="자기소개를 써주세요"
           required
           value={formValues.bio}
@@ -94,7 +93,6 @@ export default function TextFieldTextareaForm() {
         </TextField>
         <TextField
           label="주소"
-          indicator="(필수)"
           description="주소를 써주세요"
           maxGraphemeCount={30}
           required
