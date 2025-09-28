@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { FieldButton as SeedFieldButton, VisuallyHidden, Icon } from "@seed-design/react";
+import {
+  FieldButton as SeedFieldButton,
+  VisuallyHidden,
+  Icon,
+  PrefixIcon,
+} from "@seed-design/react";
 import {
   IconExclamationmarkCircleFill,
   IconXmarkCircleFill,
@@ -19,6 +24,7 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.FieldRootProps, "
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
 
+  showRequiredIndicator?: boolean;
   showClearButton?: boolean;
 
   buttonProps?: SeedFieldButton.ButtonProps;
@@ -43,6 +49,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
       description,
       errorMessage,
 
+      showRequiredIndicator,
       showClearButton,
 
       buttonProps,
@@ -80,7 +87,10 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
           <SeedFieldButton.Header>
             <SeedFieldButton.Label>
               {label}
-              {indicator && <SeedFieldButton.Indicator>{indicator}</SeedFieldButton.Indicator>}
+              {showRequiredIndicator && <SeedFieldButton.RequiredIndicator />}
+              {indicator && (
+                <SeedFieldButton.IndicatorText>{indicator}</SeedFieldButton.IndicatorText>
+              )}
             </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
@@ -109,10 +119,10 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
                 <SeedFieldButton.Description>{description}</SeedFieldButton.Description>
               ))}
             {renderErrorMessage && (
-              <SeedFieldButton.ErrorContainer>
-                <SeedFieldButton.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
-                <SeedFieldButton.ErrorMessage>{errorMessage}</SeedFieldButton.ErrorMessage>
-              </SeedFieldButton.ErrorContainer>
+              <SeedFieldButton.ErrorMessage>
+                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
+                {errorMessage}
+              </SeedFieldButton.ErrorMessage>
             )}
           </SeedFieldButton.Footer>
         )}
