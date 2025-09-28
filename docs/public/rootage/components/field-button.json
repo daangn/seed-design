@@ -11,7 +11,7 @@
       "slots": {
         "root": {
           "properties": {
-            "minHeight": {
+            "height": {
               "type": "dimension"
             },
             "cornerRadius": {
@@ -23,17 +23,32 @@
             "paddingX": {
               "type": "dimension"
             },
-            "paddingY": {
-              "type": "dimension"
-            },
-            "color": {
-              "type": "color"
-            },
             "strokeWidth": {
               "type": "dimension"
             },
             "strokeColor": {
               "type": "color"
+            },
+            "color": {
+              "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeColorDuration": {
+              "type": "duration"
+            },
+            "strokeColorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeWidthDuration": {
+              "type": "duration"
+            },
+            "strokeWidthTimingFunction": {
+              "type": "cubicBezier"
             }
           }
         },
@@ -45,6 +60,9 @@
             "lineHeight": {
               "type": "dimension"
             },
+            "fontWeight": {
+              "type": "number"
+            },
             "color": {
               "type": "color"
             }
@@ -52,6 +70,15 @@
         },
         "placeholder": {
           "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
             "color": {
               "type": "color"
             }
@@ -64,6 +91,9 @@
             },
             "lineHeight": {
               "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
             },
             "color": {
               "type": "color"
@@ -88,12 +118,25 @@
             "lineHeight": {
               "type": "dimension"
             },
+            "fontWeight": {
+              "type": "number"
+            },
             "color": {
               "type": "color"
             }
           }
         },
         "suffixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "clearButton": {
           "properties": {
             "size": {
               "type": "dimension"
@@ -116,12 +159,9 @@
             ],
             "slots": {
               "root": {
-                "minHeight": {
+                "height": {
                   "type": "dimension",
-                  "value": {
-                    "value": 52,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x13"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -134,10 +174,6 @@
                 "paddingX": {
                   "type": "dimension",
                   "value": "$dimension.x4"
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": "$dimension.x2_5"
                 },
                 "strokeWidth": {
                   "type": "dimension",
@@ -184,6 +220,10 @@
                   "type": "dimension",
                   "value": "$line-height.t5"
                 },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral"
@@ -198,6 +238,10 @@
                   "type": "dimension",
                   "value": "$line-height.t5"
                 },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.placeholder"
@@ -211,6 +255,10 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
                 },
                 "color": {
                   "type": "color",
@@ -235,6 +283,10 @@
                 "lineHeight": {
                   "type": "dimension",
                   "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
                 },
                 "color": {
                   "type": "color",

@@ -2,11 +2,10 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "minHeight": "52px",
+        "height": "var(--seed-dimension-x13)",
         "cornerRadius": "var(--seed-radius-r3)",
         "gap": "var(--seed-dimension-x2_5)",
         "paddingX": "var(--seed-dimension-x4)",
-        "paddingY": "var(--seed-dimension-x2_5)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)",
         "colorDuration": "var(--seed-duration-d3)",
@@ -19,16 +18,19 @@ export declare const vars: {
       "value": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-neutral)"
       },
       "placeholder": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-placeholder)"
       },
       "prefixText": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "prefixIcon": {
@@ -38,6 +40,7 @@ export declare const vars: {
       "suffixText": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
+        "fontWeight": "var(--seed-font-weight-regular)",
         "color": "var(--seed-color-fg-neutral-muted)"
       },
       "suffixIcon": {

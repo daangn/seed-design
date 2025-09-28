@@ -16,10 +16,6 @@ data:
             type: dimension
           gap:
             type: dimension
-      labelContainer:
-        properties:
-          gap:
-            type: dimension
       label:
         properties:
           color:
@@ -30,11 +26,27 @@ data:
             type: dimension
           fontWeight:
             type: number
-      indicator:
+      indicatorIcon:
         properties:
           color:
             type: color
+          size:
+            type: dimension
           paddingTop:
+            type: dimension
+          paddingLeft:
+            type: dimension
+      indicatorText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          paddingLeft:
             type: dimension
       footer:
         properties:
@@ -52,9 +64,13 @@ data:
             type: dimension
           lineHeight:
             type: dimension
-      errorContainer:
+      descriptionIcon:
         properties:
-          gap:
+          paddingRight:
+            type: dimension
+          color:
+            type: color
+          size:
             type: dimension
       errorMessage:
         properties:
@@ -68,6 +84,8 @@ data:
             type: dimension
       errorIcon:
         properties:
+          paddingRight:
+            type: dimension
           color:
             type: color
           size:
@@ -99,43 +117,50 @@ data:
           gap: $dimension.x2
         header:
           paddingX: $dimension.x0_5
-          gap: $dimension.x3 # 미정
-        labelContainer:
-          gap: $dimension.x0_5
+          gap: $dimension.x2_5
         label:
           color: $color.fg.neutral
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
-        indicator:
-          color: $color.fg.neutral
-          fontSize: $font-size.t5
-          lineHeight: $line-height.t5
+        indicatorIcon:
+          color: $color.fg.critical
+          size: 0.375rem # should be font scaled (6px)
+          paddingTop: 0.25rem # should be font scaled (4px)
+          paddingLeft: 0.125rem # should be font scaled (2px)
+        indicatorText:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t5 # intentional; not a typo
           fontWeight: $font-weight.regular
+          paddingLeft: 0.25rem # should be font scaled (4px)
         footer:
           paddingX: $dimension.x0_5
-          gap: $dimension.x3 # 미정
+          gap: $dimension.x2
         description:
-          color: $color.palette.gray-700 # 시맨틱 검토 필요
+          color: $color.fg.neutral-subtle
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
-        errorContainer:
-          gap: $dimension.x1_5
+        descriptionIcon:
+          paddingRight: $dimension.x1_5
+          color: $color.fg.neutral-subtle
+          size: $dimension.x4
         errorMessage:
           color: $color.fg.critical
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         errorIcon:
+          paddingRight: $dimension.x1_5
           color: $color.fg.critical
           size: $dimension.x4
         characterCount:
-          color: $color.palette.gray-700
+          color: $color.fg.neutral
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
         maxCharacterCount:
-          color: $color.palette.gray-600
+          color: $color.fg.neutral-subtle
           fontWeight: $font-weight.regular
           fontSize: $font-size.t4
           lineHeight: $line-height.t4

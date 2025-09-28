@@ -27,10 +27,9 @@ const fieldButton = defineSlotRecipe({
       position: "relative",
       isolation: "isolate",
 
-      minHeight: vars.base.enabled.root.minHeight,
+      height: vars.base.enabled.root.height,
       gap: vars.base.enabled.root.gap,
       paddingInline: vars.base.enabled.root.paddingX,
-      paddingBlock: vars.base.enabled.root.paddingY,
     },
     button: {
       position: "absolute",
@@ -69,6 +68,7 @@ const fieldButton = defineSlotRecipe({
     value: {
       fontSize: vars.base.enabled.value.fontSize,
       lineHeight: vars.base.enabled.value.lineHeight,
+      fontWeight: vars.base.enabled.value.fontWeight,
 
       color: vars.base.enabled.value.color,
 
@@ -85,8 +85,9 @@ const fieldButton = defineSlotRecipe({
       },
     },
     placeholder: {
-      fontSize: vars.base.enabled.value.fontSize,
-      lineHeight: vars.base.enabled.value.lineHeight,
+      fontSize: vars.base.enabled.placeholder.fontSize,
+      lineHeight: vars.base.enabled.placeholder.lineHeight,
+      fontWeight: vars.base.enabled.placeholder.fontWeight,
 
       color: vars.base.enabled.placeholder.color,
 
@@ -105,6 +106,7 @@ const fieldButton = defineSlotRecipe({
     prefixText: {
       fontSize: vars.base.enabled.prefixText.fontSize,
       lineHeight: vars.base.enabled.prefixText.lineHeight,
+      fontWeight: vars.base.enabled.prefixText.fontWeight,
 
       color: vars.base.enabled.prefixText.color,
 
@@ -122,8 +124,11 @@ const fieldButton = defineSlotRecipe({
     suffixText: {
       fontSize: vars.base.enabled.suffixText.fontSize,
       lineHeight: vars.base.enabled.suffixText.lineHeight,
+      fontWeight: vars.base.enabled.suffixText.fontWeight,
 
       color: vars.base.enabled.suffixText.color,
+
+      pointerEvents: "none",
     },
     suffixIcon: {
       width: vars.base.enabled.suffixIcon.size,

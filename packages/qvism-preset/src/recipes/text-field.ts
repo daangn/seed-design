@@ -30,23 +30,25 @@ const textField = defineSlotRecipe({
 
       color: vars.base.enabled.value.color,
 
+      fontWeight: vars.base.enabled.value.fontWeight,
+
+      paddingInline: 0,
+
       [pseudo(":is(input)")]: {
         // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
-        width: 0,
         // this sets the width to 0 to prevent any overflow and fill the available space of the parent flex container
         // note: this only works with flexGrow: 1
-
-        paddingInline: 0,
+        width: 0,
       },
 
       [pseudo(":is(textarea)")]: {
-        paddingInline: 0,
-
-        minHeight: "90px",
+        minHeight: vars.typeMultiline.enabled.root.minHeight,
+        paddingBlock: vars.typeMultiline.enabled.root.paddingY,
       },
 
       [pseudo("::placeholder")]: {
         color: vars.base.enabled.placeholder.color,
+        fontWeight: vars.base.enabled.placeholder.fontWeight,
       },
 
       [pseudo(disabled)]: {
@@ -67,6 +69,7 @@ const textField = defineSlotRecipe({
     },
     prefixText: {
       color: vars.base.enabled.prefixText.color,
+      fontWeight: vars.base.enabled.prefixText.fontWeight,
     },
     prefixIcon: {
       color: vars.base.enabled.prefixIcon.color,
@@ -74,6 +77,7 @@ const textField = defineSlotRecipe({
     },
     suffixText: {
       color: vars.base.enabled.suffixText.color,
+      fontWeight: vars.base.enabled.suffixText.fontWeight,
     },
     suffixIcon: {
       color: vars.base.enabled.suffixIcon.color,
@@ -111,9 +115,6 @@ const textField = defineSlotRecipe({
         value: {
           fontSize: vars.variantRounded.enabled.value.fontSize,
           lineHeight: vars.variantRounded.enabled.value.lineHeight,
-
-          // We intentionally apply root's paddingY to value for input touch area.
-          paddingBlock: vars.variantRounded.enabled.root.paddingY,
 
           [pseudo(":first-child")]: {
             paddingInlineStart: vars.variantRounded.enabled.root.paddingX,
@@ -163,7 +164,7 @@ const textField = defineSlotRecipe({
       },
       underline: {
         root: {
-          paddingBlock: vars.variantUnderline.enabled.root.paddingY,
+          minHeight: vars.variantUnderline.enabled.root.minHeight,
 
           boxShadow: `inset 0 calc(${vars.variantUnderline.enabled.root.strokeBottomWidth} * -1) 0 0 ${vars.base.enabled.root.strokeColor}`,
 
@@ -182,9 +183,6 @@ const textField = defineSlotRecipe({
         value: {
           fontSize: vars.variantUnderline.enabled.value.fontSize,
           lineHeight: vars.variantUnderline.enabled.value.lineHeight,
-
-          // We intentionally apply root's paddingY to value for input touch area.
-          paddingBlock: vars.variantUnderline.enabled.root.paddingY,
 
           [pseudo("::placeholder")]: {
             fontSize: vars.variantUnderline.enabled.placeholder.fontSize,

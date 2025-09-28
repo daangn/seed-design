@@ -8,66 +8,84 @@ data:
     slots:
       root:
         properties:
+          gap:
+            type: dimension
           minHeight:
             type: dimension
           cornerRadius:
-            type: dimension
-          gap:
             type: dimension
           paddingX:
             type: dimension
           paddingY:
             type: dimension
-          color:
-            type: color
           strokeWidth:
+            type: dimension
+          strokeBottomWidth:
             type: dimension
           strokeColor:
             type: color
+          color:
+            type: color
+          strokeColorDuration:
+            type: duration
+          strokeColorTimingFunction:
+            type: cubicBezier
+          strokeWidthDuration:
+            type: duration
+          strokeWidthTimingFunction:
+            type: cubicBezier
       value:
         properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
-          color:
-            type: color
       placeholder:
         properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
-          color:
-            type: color
       prefixText:
         properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
-          color:
-            type: color
       prefixIcon:
         properties:
-          size:
-            type: dimension
           color:
             type: color
+          size:
+            type: dimension
       suffixText:
         properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
-          color:
-            type: color
       suffixIcon:
         properties:
-          size:
-            type: dimension
           color:
             type: color
+          size:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -80,14 +98,18 @@ data:
           strokeWidthTimingFunction: $timing-function.easing
         value:
           color: $color.fg.neutral
+          fontWeight: $font-weight.regular
         placeholder:
           color: $color.fg.placeholder
+          fontWeight: $font-weight.regular
         prefixText:
           color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
         prefixIcon:
           color: $color.fg.neutral-muted
         suffixText:
           color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
         suffixIcon:
           color: $color.fg.neutral-muted
       focused:
@@ -112,10 +134,9 @@ data:
     variant=rounded:
       enabled:
         root:
-          minHeight: 52px
+          minHeight: $dimension.x13
           cornerRadius: $radius.r3
           paddingX: $dimension.x4
-          paddingY: $dimension.x3_5
           strokeWidth: 1px
         value:
           fontSize: $font-size.t5
@@ -145,7 +166,7 @@ data:
     variant=underline:
       enabled:
         root:
-          paddingY: $dimension.x2
+          minHeight: $dimension.x10
           strokeBottomWidth: 1px
         value:
           fontSize: $font-size.t6
@@ -169,3 +190,8 @@ data:
       invalid:
         root:
           strokeBottomWidth: 2px
+    type=multiline:
+      enabled:
+        root:
+          minHeight: 95px # 확인
+          paddingY: $dimension.x3_5

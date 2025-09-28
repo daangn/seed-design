@@ -8,7 +8,7 @@ data:
     slots:
       root:
         properties:
-          minHeight:
+          height:
             type: dimension
           cornerRadius:
             type: dimension
@@ -16,24 +16,42 @@ data:
             type: dimension
           paddingX:
             type: dimension
-          paddingY:
-            type: dimension
-          color:
-            type: color
           strokeWidth:
             type: dimension
           strokeColor:
             type: color
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          strokeColorDuration:
+            type: duration
+          strokeColorTimingFunction:
+            type: cubicBezier
+          strokeWidthDuration:
+            type: duration
+          strokeWidthTimingFunction:
+            type: cubicBezier
       value:
         properties:
           fontSize:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
           color:
             type: color
       placeholder:
         properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
           color:
             type: color
       prefixText:
@@ -42,6 +60,8 @@ data:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
           color:
             type: color
       prefixIcon:
@@ -56,6 +76,8 @@ data:
             type: dimension
           lineHeight:
             type: dimension
+          fontWeight:
+            type: number
           color:
             type: color
       suffixIcon:
@@ -64,16 +86,20 @@ data:
             type: dimension
           color:
             type: color
-
+      clearButton:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
   definitions:
     base:
       enabled:
         root:
-          minHeight: 52px
+          height: $dimension.x13
           cornerRadius: $radius.r3
           gap: $dimension.x2_5
           paddingX: $dimension.x4
-          paddingY: $dimension.x2_5
 
           strokeWidth: 1px
           strokeColor: $color.stroke.neutral-weak
@@ -88,27 +114,31 @@ data:
         value:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
 
           color: $color.fg.neutral
 
         placeholder:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
           
           color: $color.fg.placeholder
 
-        prefixText: # TODO: 확인 필요함
+        prefixText:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
 
           color: $color.fg.neutral-muted
         prefixIcon:
           size: $dimension.x5
 
           color: $color.fg.neutral-muted
-        suffixText: # TODO: 확인
+        suffixText:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
 
           color: $color.fg.neutral-muted
 

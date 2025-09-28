@@ -15,8 +15,12 @@ const fieldSlotNames = [
     "seed-field__label"
   ],
   [
-    "indicator",
-    "seed-field__indicator"
+    "indicatorText",
+    "seed-field__indicatorText"
+  ],
+  [
+    "indicatorIcon",
+    "seed-field__indicatorIcon"
   ],
   [
     "footer",
@@ -27,16 +31,8 @@ const fieldSlotNames = [
     "seed-field__description"
   ],
   [
-    "errorContainer",
-    "seed-field__errorContainer"
-  ],
-  [
     "errorMessage",
     "seed-field__errorMessage"
-  ],
-  [
-    "errorIcon",
-    "seed-field__errorIcon"
   ],
   [
     "characterCountArea",

@@ -11,7 +11,7 @@ declare type FieldVariantMap = {
 
 export declare type FieldVariantProps = Partial<FieldVariant>;
 
-export declare type FieldSlotName = "root" | "header" | "label" | "indicator" | "footer" | "description" | "errorContainer" | "errorMessage" | "errorIcon" | "characterCountArea" | "characterCount" | "maxCharacterCount";
+export declare type FieldSlotName = "root" | "header" | "label" | "indicatorText" | "indicatorIcon" | "footer" | "description" | "errorMessage" | "characterCountArea" | "characterCount" | "maxCharacterCount";
 
 export declare const fieldVariantMap: FieldVariantMap;
 

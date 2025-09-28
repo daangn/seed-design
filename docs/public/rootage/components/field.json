@@ -26,13 +26,6 @@
             }
           }
         },
-        "labelContainer": {
-          "properties": {
-            "gap": {
-              "type": "dimension"
-            }
-          }
-        },
         "label": {
           "properties": {
             "color": {
@@ -49,12 +42,37 @@
             }
           }
         },
-        "indicator": {
+        "indicatorIcon": {
           "properties": {
             "color": {
               "type": "color"
             },
+            "size": {
+              "type": "dimension"
+            },
             "paddingTop": {
+              "type": "dimension"
+            },
+            "paddingLeft": {
+              "type": "dimension"
+            }
+          }
+        },
+        "indicatorText": {
+          "properties": {
+            "color": {
+              "type": "color"
+            },
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "paddingLeft": {
               "type": "dimension"
             }
           }
@@ -85,9 +103,15 @@
             }
           }
         },
-        "errorContainer": {
+        "descriptionIcon": {
           "properties": {
-            "gap": {
+            "paddingRight": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            },
+            "size": {
               "type": "dimension"
             }
           }
@@ -110,6 +134,9 @@
         },
         "errorIcon": {
           "properties": {
+            "paddingRight": {
+              "type": "dimension"
+            },
             "color": {
               "type": "color"
             },
@@ -183,13 +210,7 @@
                 },
                 "gap": {
                   "type": "dimension",
-                  "value": "$dimension.x3"
-                }
-              },
-              "labelContainer": {
-                "gap": {
-                  "type": "dimension",
-                  "value": "$dimension.x0_5"
+                  "value": "$dimension.x2_5"
                 }
               },
               "label": {
@@ -206,14 +227,41 @@
                   "value": "$line-height.t5"
                 }
               },
-              "indicator": {
+              "indicatorIcon": {
                 "color": {
                   "type": "color",
-                  "value": "$color.fg.neutral"
+                  "value": "$color.fg.critical"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0.375,
+                    "unit": "rem"
+                  }
+                },
+                "paddingTop": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0.25,
+                    "unit": "rem"
+                  }
+                },
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0.125,
+                    "unit": "rem"
+                  }
+                }
+              },
+              "indicatorText": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
                 },
                 "fontSize": {
                   "type": "dimension",
-                  "value": "$font-size.t5"
+                  "value": "$font-size.t4"
                 },
                 "lineHeight": {
                   "type": "dimension",
@@ -222,6 +270,13 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "paddingLeft": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 0.25,
+                    "unit": "rem"
+                  }
                 }
               },
               "footer": {
@@ -231,13 +286,13 @@
                 },
                 "gap": {
                   "type": "dimension",
-                  "value": "$dimension.x3"
+                  "value": "$dimension.x2"
                 }
               },
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.gray-700"
+                  "value": "$color.fg.neutral-subtle"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -252,10 +307,18 @@
                   "value": "$line-height.t4"
                 }
               },
-              "errorContainer": {
-                "gap": {
+              "descriptionIcon": {
+                "paddingRight": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                },
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
                 }
               },
               "errorMessage": {
@@ -277,6 +340,10 @@
                 }
               },
               "errorIcon": {
+                "paddingRight": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
                 "color": {
                   "type": "color",
                   "value": "$color.fg.critical"
@@ -289,7 +356,7 @@
               "characterCount": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.gray-700"
+                  "value": "$color.fg.neutral"
                 },
                 "fontWeight": {
                   "type": "number",
@@ -307,7 +374,7 @@
               "maxCharacterCount": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.gray-600"
+                  "value": "$color.fg.neutral-subtle"
                 },
                 "fontWeight": {
                   "type": "number",

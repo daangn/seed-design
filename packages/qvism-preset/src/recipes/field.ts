@@ -1,6 +1,7 @@
 import { field as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { invalid, not, pseudo } from "../utils/pseudo";
+import { prefixIcon } from "../utils/icon";
 
 const field = defineSlotRecipe({
   name: "field",
@@ -8,12 +9,11 @@ const field = defineSlotRecipe({
     "root",
     "header",
     "label",
-    "indicator",
+    "indicatorText",
+    "indicatorIcon",
     "footer",
     "description",
-    "errorContainer",
     "errorMessage",
-    "errorIcon",
     "characterCountArea",
     "characterCount",
     "maxCharacterCount",
@@ -38,18 +38,32 @@ const field = defineSlotRecipe({
       gap: vars.base.enabled.header.gap,
     },
     label: {
-      display: "flex",
-      gap: vars.base.enabled.labelContainer.gap,
-
       color: vars.base.enabled.label.color,
       fontSize: vars.base.enabled.label.fontSize,
       lineHeight: vars.base.enabled.label.lineHeight,
     },
-    indicator: {
-      color: vars.base.enabled.indicator.color,
-      fontSize: vars.base.enabled.indicator.fontSize,
-      lineHeight: vars.base.enabled.indicator.lineHeight,
-      fontWeight: vars.base.enabled.indicator.fontWeight,
+    indicatorText: {
+      display: "inline-block",
+      verticalAlign: "bottom",
+
+      paddingInlineStart: vars.base.enabled.indicatorText.paddingLeft,
+
+      color: vars.base.enabled.indicatorText.color,
+      fontSize: vars.base.enabled.indicatorText.fontSize,
+      lineHeight: vars.base.enabled.indicatorText.lineHeight,
+      fontWeight: vars.base.enabled.indicatorText.fontWeight,
+    },
+    indicatorIcon: {
+      display: "inline-block",
+      verticalAlign: "top",
+
+      width: vars.base.enabled.indicatorIcon.size,
+      height: vars.base.enabled.indicatorIcon.size,
+
+      marginBlockStart: vars.base.enabled.indicatorIcon.paddingTop,
+      marginInlineStart: vars.base.enabled.indicatorIcon.paddingLeft,
+
+      color: vars.base.enabled.indicatorIcon.color,
     },
     footer: {
       display: "flex",
@@ -60,28 +74,34 @@ const field = defineSlotRecipe({
       gap: vars.base.enabled.footer.gap,
     },
     description: {
+      display: "flex",
+
       color: vars.base.enabled.description.color,
       fontWeight: vars.base.enabled.description.fontWeight,
       fontSize: vars.base.enabled.description.fontSize,
       lineHeight: vars.base.enabled.description.lineHeight,
-    },
-    errorContainer: {
-      display: "flex",
-      gap: vars.base.enabled.errorContainer.gap,
-      alignItems: "center",
+
+      ...prefixIcon({
+        size: vars.base.enabled.descriptionIcon.size,
+        color: vars.base.enabled.descriptionIcon.color,
+        marginRight: vars.base.enabled.descriptionIcon.paddingRight,
+        marginTop: `calc((${vars.base.enabled.description.lineHeight} - ${vars.base.enabled.descriptionIcon.size}) / 2)`,
+      }),
     },
     errorMessage: {
+      display: "flex",
+
       color: vars.base.enabled.errorMessage.color,
       fontWeight: vars.base.enabled.errorMessage.fontWeight,
       fontSize: vars.base.enabled.errorMessage.fontSize,
       lineHeight: vars.base.enabled.errorMessage.lineHeight,
-    },
-    errorIcon: {
-      color: vars.base.enabled.errorIcon.color,
 
-      flex: "none",
-      width: vars.base.enabled.errorIcon.size,
-      height: vars.base.enabled.errorIcon.size,
+      ...prefixIcon({
+        size: vars.base.enabled.errorIcon.size,
+        color: vars.base.enabled.errorIcon.color,
+        marginRight: vars.base.enabled.errorIcon.paddingRight,
+        marginTop: `calc((${vars.base.enabled.errorMessage.lineHeight} - ${vars.base.enabled.errorIcon.size}) / 2)`,
+      }),
     },
     characterCount: {
       color: vars.base.enabled.characterCount.color,
@@ -90,7 +110,6 @@ const field = defineSlotRecipe({
       lineHeight: vars.base.enabled.characterCount.lineHeight,
 
       [pseudo("[data-empty]", not(invalid))]: {
-        // rootage에 스펙 없는 문제 + 스펙인지부터 논의 필요해 보임
         color: vars.base.enabled.maxCharacterCount.color,
       },
 

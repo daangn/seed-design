@@ -5,10 +5,9 @@
     box-sizing: border-box;
     position: relative;
     isolation: isolate;
-    min-height: 52px;
+    height: var(--seed-dimension-x13);
     gap: var(--seed-dimension-x2_5);
     padding-inline: var(--seed-dimension-x4);
-    padding-block: var(--seed-dimension-x2_5);
 }
 .seed-field-button__button {
     position: absolute;
@@ -37,6 +36,7 @@
 .seed-field-button__value {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -50,6 +50,7 @@
 .seed-field-button__placeholder {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-placeholder);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -63,6 +64,7 @@
 .seed-field-button__prefixText {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral-muted);
     pointer-events: none;
 }
@@ -76,7 +78,9 @@
 .seed-field-button__suffixText {
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
+    font-weight: var(--seed-font-weight-regular);
     color: var(--seed-color-fg-neutral-muted);
+    pointer-events: none;
 }
 .seed-field-button__suffixIcon {
     width: var(--seed-dimension-x5);
