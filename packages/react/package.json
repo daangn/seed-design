@@ -57,7 +57,8 @@
     "@seed-design/react-tabs": "1.0.0",
     "@seed-design/react-text-field": "1.0.0",
     "@seed-design/react-toggle": "1.0.0",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "unicode-segmenter": "^0.14.0"
   },
   "peerDependencies": {
     "@seed-design/css": "1.0.1",

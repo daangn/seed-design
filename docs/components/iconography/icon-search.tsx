@@ -16,7 +16,7 @@ export const IconSearch = () => {
       value={search}
       autoFocus
     >
-      <TextFieldInput placeholder="person, car, 알파벳, etc..." />
+      <TextFieldInput aria-label="아이콘 검색" placeholder="person, car, 알파벳, etc..." />
     </TextField>
   );
 };
