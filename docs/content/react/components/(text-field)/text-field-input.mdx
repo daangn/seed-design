@@ -75,6 +75,8 @@ npx @seed-design/cli@latest add ui:text-field
 
 ### Customizable Parts
 
+아이콘만으로 맥락을 전달하려고 할 때 유의하세요. `description` 또는 `label`에 아이콘의 의미를 명확히 설명하는 텍스트를 포함하거나, 아이콘이 스크린 리더에 의해 읽히도록 설정하고 `aria-label`을 제공하세요.
+
 #### Prefix
 
 <ComponentExample name="react/text-field-input/prefix">
@@ -110,7 +112,7 @@ npx @seed-design/cli@latest add ui:text-field
 
 #### Indicator
 
-`required`인 Text Field에 표시되는 asterisk(*)를 숨기려면 `hideRequiredIndicator` prop을 사용하세요.
+`indicator` 또는 `showRequiredIndicator` prop을 사용할 수 있습니다.
 
 <ComponentExample name="react/text-field-input/indicator">
   ```json doc-gen:file

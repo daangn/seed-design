@@ -79,7 +79,16 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
       otherProps,
     );
 
-    // TODO: maybe warn users if fieldContext is present but props are given to TextFieldInput(.Root)
+    if (
+      // if not in field, then must have aria-label or aria-labelledby
+      !fieldContext &&
+      !otherProps["aria-label"] &&
+      !otherProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "TextFieldInput: Please provide `aria-label` or `aria-labelledby` for accessibility, or put `TextFieldInput` inside a `Field` where a `FieldLabel` is provided.",
+      );
+    }
 
     return (
       <TextField.Input ref={ref} {...mergedProps} className={clsx(classNames.value, className)} />
@@ -107,6 +116,17 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
       fieldContext ? fieldContext.inputProps : {},
       otherProps,
     );
+
+    if (
+      // if not in field, then must have aria-label or aria-labelledby
+      !fieldContext &&
+      !otherProps["aria-label"] &&
+      !otherProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "TextFieldTextarea: Please provide `aria-label` or `aria-labelledby` for accessibility, or put `TextFieldTextarea` inside a `Field` where a `FieldLabel` is provided.",
+      );
+    }
 
     // referenced from React Spectrum
     const inputRef = useRef<HTMLTextAreaElement>(null);

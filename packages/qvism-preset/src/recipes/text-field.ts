@@ -26,7 +26,7 @@ const textField = defineSlotRecipe({
       outline: "none",
       resize: "none",
       flexGrow: 1,
-      height: "100%",
+      alignSelf: "stretch",
 
       color: vars.base.enabled.value.color,
 

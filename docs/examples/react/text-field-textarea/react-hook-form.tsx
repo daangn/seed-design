@@ -72,6 +72,7 @@ export default function TextFieldTextareaReactHookForm() {
           errorMessage={bioFieldState.error?.message}
           onValueChange={({ value }) => bioOnChange(value)}
           required
+          showRequiredIndicator
           {...bioField}
         >
           <TextFieldTextarea placeholder="저는…" onKeyDown={onMetaReturn} />
@@ -84,6 +85,7 @@ export default function TextFieldTextareaReactHookForm() {
           maxGraphemeCount={30}
           onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
           required
+          showRequiredIndicator
           {...addressField}
         >
           <TextFieldTextarea placeholder="대한민국" onKeyDown={onMetaReturn} />

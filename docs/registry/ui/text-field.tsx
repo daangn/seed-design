@@ -26,7 +26,7 @@ export interface TextFieldProps
   hideCharacterCount?: boolean;
   maxGraphemeCount?: number;
 
-  hideRequiredIndicator?: boolean;
+  showRequiredIndicator?: boolean;
 
   onValueChange?: UseTextFieldWithGraphemesParams["onValueChange"];
 }
@@ -55,7 +55,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       readOnly,
       name,
 
-      hideRequiredIndicator,
+      showRequiredIndicator,
 
       // useTextFieldWithGraphemes params
       value,
@@ -73,20 +73,14 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
     });
 
     const renderHeader = label || indicator;
-    const renderRequiredIndicator = required && !hideRequiredIndicator;
     const renderDescription = !!description;
     const renderErrorMessage = errorMessage && invalid;
     const renderGraphemeCount = !hideCharacterCount && maxGraphemeCount !== undefined;
     const renderFooter = renderDescription || renderErrorMessage || renderGraphemeCount;
 
-    if (
-      !label &&
-      !otherProps["aria-labelledby"] &&
-      !otherProps["aria-label"] &&
-      process.env.NODE_ENV !== "production"
-    ) {
+    if (process.env.NODE_ENV !== "production" && !label) {
       console.warn(
-        "TextField: aria-labelledby or aria-label should be provided if label is not provided.",
+        "TextField: Provide a `label` prop for better accessibility. Please ignore this warning if you've provided `aria-label` or `aria-labelledby` props to the `TextFieldInput` or `TextFieldTextarea` inside. This warning will not be shown in production builds.",
       );
     }
 
@@ -103,7 +97,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
           <SeedField.Header>
             <SeedField.Label>
               {label}
-              {renderRequiredIndicator && <SeedField.RequiredIndicator />}
+              {showRequiredIndicator && <SeedField.RequiredIndicator />}
               {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}
             </SeedField.Label>
             {/* You might want to put your custom element here */}

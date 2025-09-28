@@ -6344,13 +6344,13 @@
   box-sizing: border-box;
   font: inherit;
   resize: none;
-  height: 100%;
   color: var(--seed-color-fg-neutral);
   font-weight: var(--seed-font-weight-regular);
   background: none;
   border: none;
   outline: none;
   flex-grow: 1;
+  align-self: stretch;
   padding-inline: 0;
 }
 

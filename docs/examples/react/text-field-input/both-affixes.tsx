@@ -6,29 +6,39 @@ export default function TextFieldInputBothAffixes() {
   return (
     <VStack width="full" gap="spacingY.componentDefault">
       <HStack gap="x3">
-        <TextField label="라벨" description="설명을 써주세요" prefix="만" suffix="세">
+        <TextField
+          label="나이"
+          description="오늘 기준, 만 나이를 입력해주세요."
+          prefix="만"
+          suffix="세"
+        >
           <TextFieldInput placeholder="플레이스홀더" />
         </TextField>
         <TextField
-          label="라벨"
-          description="설명을 써주세요"
+          label="금액"
+          description="정산할 금액을 입력해주세요."
           prefixIcon={<IconPlusCircleLine />}
-          suffixIcon={<IconWonLine />}
+          suffixIcon={<IconWonLine aria-label="원" aria-hidden={false} />}
         >
           <TextFieldInput placeholder="플레이스홀더" />
         </TextField>
       </HStack>
       <HStack gap="x3">
-        <TextField variant="underline" description="설명을 써주세요" prefix="만" suffix="세">
-          <TextFieldInput aria-label="라벨" placeholder="플레이스홀더" />
+        <TextField
+          variant="underline"
+          description="오늘 기준, 만 나이를 입력해주세요."
+          prefix="만"
+          suffix="세"
+        >
+          <TextFieldInput aria-label="나이" placeholder="플레이스홀더" />
         </TextField>
         <TextField
           variant="underline"
-          description="설명을 써주세요"
+          description="정산할 금액을 입력해주세요."
           prefixIcon={<IconPlusCircleLine />}
-          suffixIcon={<IconWonLine />}
+          suffixIcon={<IconWonLine aria-label="원" aria-hidden={false} />}
         >
-          <TextFieldInput aria-label="라벨" placeholder="플레이스홀더" />
+          <TextFieldInput aria-label="금액" placeholder="플레이스홀더" />
         </TextField>
       </HStack>
     </VStack>

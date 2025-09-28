@@ -61,6 +61,7 @@ export default function TextFieldInputReactHookForm() {
           errorMessage={nameFieldState.error?.message}
           onValueChange={({ value }) => nameOnChange(value)}
           required
+          showRequiredIndicator
           {...nameField}
         >
           <TextFieldInput placeholder="홍길동" />
@@ -73,6 +74,7 @@ export default function TextFieldInputReactHookForm() {
           maxGraphemeCount={30}
           onValueChange={({ slicedValue }) => addressOnChange(slicedValue)}
           required
+          showRequiredIndicator
           {...addressField}
         >
           <TextFieldInput placeholder="대한민국" />

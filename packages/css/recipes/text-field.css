@@ -14,7 +14,7 @@
     outline: none;
     resize: none;
     flex-grow: 1;
-    height: 100%;
+    align-self: stretch;
     color: var(--seed-color-fg-neutral);
     font-weight: var(--seed-font-weight-regular);
     padding-inline: 0;

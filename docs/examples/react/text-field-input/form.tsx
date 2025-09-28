@@ -85,6 +85,7 @@ export default function TextFieldInputForm() {
           label="이름"
           description="이름을 써주세요"
           required
+          showRequiredIndicator
           value={formValues.name}
           onValueChange={({ value }) => handleNameChange(value)}
           {...(fieldErrors.name && { invalid: true, errorMessage: fieldErrors.name })}
@@ -96,6 +97,7 @@ export default function TextFieldInputForm() {
           description="주소를 써주세요"
           maxGraphemeCount={30}
           required
+          showRequiredIndicator
           value={formValues.address}
           onValueChange={({ slicedValue }) => handleAddressChange(slicedValue)}
           {...(fieldErrors.address && { invalid: true, errorMessage: fieldErrors.address })}

@@ -85,6 +85,7 @@ export default function TextFieldTextareaForm() {
           label="자기소개"
           description="자기소개를 써주세요"
           required
+          showRequiredIndicator
           value={formValues.bio}
           onValueChange={({ value }) => handleNameChange(value)}
           {...(fieldErrors.bio && { invalid: true, errorMessage: fieldErrors.bio })}
@@ -96,6 +97,7 @@ export default function TextFieldTextareaForm() {
           description="주소를 써주세요"
           maxGraphemeCount={30}
           required
+          showRequiredIndicator
           value={formValues.address}
           onValueChange={({ slicedValue }) => handleAddressChange(slicedValue)}
           {...(fieldErrors.address && { invalid: true, errorMessage: fieldErrors.address })}
