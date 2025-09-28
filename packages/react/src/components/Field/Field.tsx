@@ -34,8 +34,8 @@ export interface FieldIndicatorTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldIndicatorText = withContext<HTMLSpanElement, FieldIndicatorTextProps>(
-  withStateProps(Primitive.span),
+export const FieldIndicatorText = withContext<HTMLDivElement, FieldIndicatorTextProps>(
+  withStateProps(Primitive.div),
   "indicatorText",
 );
 

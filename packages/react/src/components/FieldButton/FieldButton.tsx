@@ -48,12 +48,12 @@ export const FieldButtonLabel = withFieldContext<HTMLDivElement, FieldButtonLabe
 
 export interface FieldButtonIndicatorTextProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const FieldButtonIndicatorText = withFieldContext<
-  HTMLSpanElement,
+  HTMLDivElement,
   FieldButtonIndicatorTextProps
->(withStateProps(Primitive.span), "indicatorText");
+>(withStateProps(Primitive.div), "indicatorText");
 
 export interface FieldButtonRequiredIndicatorProps extends React.SVGProps<SVGElement> {}
 
@@ -161,18 +161,12 @@ export const FieldButtonDescription = withFieldContext<
   FieldButtonDescriptionProps
 >(FieldButton.Description, "description");
 
-export interface FieldButtonErrorContainerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
 export interface FieldButtonErrorMessageProps extends FieldButton.ErrorMessageProps {}
 
 export const FieldButtonErrorMessage = withFieldContext<
   HTMLSpanElement,
   FieldButtonErrorMessageProps
 >(FieldButton.ErrorMessage, "errorMessage");
-
-export interface FieldButtonErrorIconProps extends InternalIconProps {}
 
 ////////////////////////////////////////////////////////////////////////////////////
 

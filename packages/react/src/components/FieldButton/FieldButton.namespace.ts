@@ -20,8 +20,6 @@ export {
   type FieldButtonButtonProps as ButtonProps,
   type FieldButtonClearButtonProps as ClearButtonProps,
   type FieldButtonDescriptionProps as DescriptionProps,
-  type FieldButtonErrorContainerProps as ErrorContainerProps,
-  type FieldButtonErrorIconProps as ErrorIconProps,
   type FieldButtonErrorMessageProps as ErrorMessageProps,
   type FieldButtonFieldRootProps as FieldRootProps,
   type FieldButtonFooterProps as FooterProps,
