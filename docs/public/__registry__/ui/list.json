@@ -11,7 +11,7 @@
     },
     {
       "path": "list-header.tsx",
-      "content": "/**\n * @file ui:list\n * @requires @seed-design/react@~0.3.0\n * @requires @seed-design/css@~0.3.0\n **/\n\n\"use client\";\n\nimport {\n  ListHeader as SeedListHeader,\n  type ListHeaderProps as SeedListHeaderProps,\n} from \"@seed-design/react\";\n\nexport interface ListHeaderProps extends SeedListHeaderProps {}\n\n/**\n * @see https://seed-design.io/react/components/list\n */\nexport const ListHeader = SeedListHeader;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
+      "content": "/**\n * @file ui:list\n * @requires @seed-design/react@~1.0.0\n * @requires @seed-design/css@~1.0.0\n **/\n\n\"use client\";\n\nimport {\n  ListHeader as SeedListHeader,\n  type ListHeaderProps as SeedListHeaderProps,\n} from \"@seed-design/react\";\n\nexport interface ListHeaderProps extends SeedListHeaderProps {}\n\n/**\n * @see https://seed-design.io/react/components/list\n */\nexport const ListHeader = SeedListHeader;\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
     }
   ]
 }
