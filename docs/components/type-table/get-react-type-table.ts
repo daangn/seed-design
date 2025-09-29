@@ -74,7 +74,7 @@ export async function getReactTypeTableOutput({
       const sourceFilePath = symbol.getDeclarations()?.[0].getSourceFile().getFilePath();
       const isNodeModules = sourceFilePath?.includes("node_modules");
       if (isNodeModules) {
-        entry.tags = { ...entry.tags, external: sourceFilePath };
+        entry.tags.push({ name: "external", text: sourceFilePath });
       }
     },
   });
@@ -85,7 +85,7 @@ export async function getReactTypeTableOutput({
   return output.map((item) => {
     return {
       ...item,
-      entries: item.entries.filter((entry) => !entry.tags.external),
+      entries: item.entries.filter((entry) => entry.tags.every((tag) => tag.name !== "external")),
     };
   });
 }
