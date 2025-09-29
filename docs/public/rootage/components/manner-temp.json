@@ -9,6 +9,13 @@
     "name": "Manner Temp",
     "schema": {
       "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        },
         "label": {
           "properties": {
             "fontSize": {
@@ -28,6 +35,9 @@
         "emote": {
           "properties": {
             "size": {
+              "type": "dimension"
+            },
+            "bleed": {
               "type": "dimension"
             }
           }
@@ -60,6 +70,12 @@
               "enabled"
             ],
             "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              },
               "label": {
                 "fontSize": {
                   "type": "dimension",
@@ -79,7 +95,7 @@
                   "type": "dimension",
                   "value": "$dimension.x8"
                 },
-                "bleedY": {
+                "bleed": {
                   "type": "dimension",
                   "value": "$dimension.x1"
                 }
