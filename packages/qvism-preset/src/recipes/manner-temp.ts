@@ -8,6 +8,7 @@ const mannerTemp = defineRecipe({
     display: "inline-flex",
     justifyContent: "flex-start",
     alignItems: "center",
+    gap: vars.base.enabled.root.gap,
     boxSizing: "border-box",
 
     fontSize: vars.base.enabled.label.fontSize,
@@ -16,8 +17,10 @@ const mannerTemp = defineRecipe({
 
     ...suffixIcon({
       size: vars.base.enabled.emote.size,
-      marginTop: `calc(${vars.base.enabled.emote.bleedY} * -1)`,
-      marginBottom: `calc(${vars.base.enabled.emote.bleedY} * -1)`,
+      marginLeft: `calc(${vars.base.enabled.emote.bleed} * -1)`,
+      marginRight: `calc(${vars.base.enabled.emote.bleed} * -1)`,
+      marginTop: `calc(${vars.base.enabled.emote.bleed} * -1)`,
+      marginBottom: `calc(${vars.base.enabled.emote.bleed} * -1)`,
     }),
   },
   variants: {

@@ -1,6 +1,9 @@
 export declare const vars: {
   "base": {
     "enabled": {
+      "root": {
+        "gap": "var(--seed-dimension-x1)"
+      },
       "label": {
         "fontSize": "var(--seed-font-size-t5)",
         "lineHeight": "var(--seed-line-height-t5)",
@@ -8,7 +11,7 @@ export declare const vars: {
       },
       "emote": {
         "size": "var(--seed-dimension-x8)",
-        "bleedY": "var(--seed-dimension-x1)"
+        "bleed": "var(--seed-dimension-x1)"
       }
     }
   },
