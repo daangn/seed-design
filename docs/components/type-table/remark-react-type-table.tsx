@@ -42,7 +42,7 @@ async function mapProperty(
 ): Promise<Property> {
   const value = valueToEstree({
     type: entry.type,
-    default: entry.tags.find((tag) => tag.name === "default" || tag.name === "defaultValue")?.text,
+    default: entry.tags.default || entry.tags.defaultValue,
   }) as ObjectExpression;
 
   if (entry.description) {

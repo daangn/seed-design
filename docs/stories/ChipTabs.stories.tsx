@@ -34,6 +34,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const CommonStoryTemplate: Story = {
+  // @ts-ignore
   args: {
     value: "1",
   },
