@@ -2,11 +2,14 @@
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
+    gap: var(--seed-dimension-x1);
     box-sizing: border-box;
     font-size: var(--seed-font-size-t5);
     line-height: var(--seed-line-height-t5);
     font-weight: var(--seed-font-weight-bold);
     --seed-suffix-icon-size: var(--seed-dimension-x8);
+    --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
+    --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
     --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1)
 }
