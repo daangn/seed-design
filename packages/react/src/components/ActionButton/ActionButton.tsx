@@ -12,7 +12,12 @@ import {
   usePendingButton,
   type UsePendingButtonProps,
 } from "../LoadingIndicator/usePendingButton";
-import type { ScopedColorFg, ScopedColorPalette } from "@seed-design/css/vars";
+import {
+  type ScopedColorFg,
+  type ScopedColorPalette,
+  type FontWeight,
+  vars,
+} from "@seed-design/css/vars";
 
 export interface ActionButtonProps
   extends ActionButtonVariantProps,
@@ -26,6 +31,13 @@ export interface ActionButtonProps
    * @default "fg.neutral"
    */
   color?: ScopedColorFg | ScopedColorPalette;
+
+  /**
+   * Weight of the label.
+   * Works only when `variant` is `ghost`.
+   * @default "bold"
+   */
+  fontWeight?: FontWeight;
 }
 
 export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
@@ -36,6 +48,7 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
       loading = false,
       layout = "withText",
       color,
+      fontWeight,
       className,
       children,
       ...otherProps
@@ -59,7 +72,13 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             ref={ref}
             className={clsx(recipeClassName, className)}
             // NOTE: Should we handle color as a style prop?
-            style={{ ...style, "--seed-box-color": handleColor(color) } as React.CSSProperties}
+            style={
+              {
+                ...style,
+                "--seed-box-color": handleColor(color),
+                "--seed-font-weight": handleFontWeight(fontWeight),
+              } as React.CSSProperties
+            }
             {...api.stateProps}
             {...restProps}
           >
@@ -71,3 +90,11 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
   },
 );
 ActionButton.displayName = "ActionButton";
+
+function handleFontWeight(fontWeight: string | undefined) {
+  if (!fontWeight) {
+    return undefined;
+  }
+  // @ts-expect-error
+  return vars.$fontWeight[fontWeight] ?? undefined;
+}
