@@ -8,17 +8,6 @@
     "playwright": {
       "command": "bunx",
       "args": ["@playwright/mcp@latest"]
-    },
-    "seed-docs": {
-      "command": "bun",
-      "args": [
-        "run",
-        "/Users/june.jung/Documents/GitHub/Daangn/seed-design/packages/docs-mcp/bin/stdio.js"
-      ],
-      "cwd": "/Users/june.jung/Documents/GitHub/Daangn/seed-design/packages/docs-mcp",
-      "env": {
-        "NODE_ENV": "development"
-      }
     }
   }
 }
