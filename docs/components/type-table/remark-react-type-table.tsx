@@ -39,6 +39,7 @@ function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute 
 async function mapProperty(
   entry: DocEntry,
   renderMarkdown: typeof renderMarkdownToHast,
+  options?: { parseDescriptionAsMarkdown?: boolean },
 ): Promise<Property> {
   const value = valueToEstree({
     type: entry.type,
@@ -46,10 +47,6 @@ async function mapProperty(
   }) as ObjectExpression;
 
   if (entry.description) {
-    const hast = toEstree(await renderMarkdown(entry.description), {
-      elementAttributeNameCase: "react",
-    }).body[0] as ExpressionStatement;
-
     value.properties.push({
       type: "Property",
       method: false,
@@ -60,7 +57,13 @@ async function mapProperty(
         name: "description",
       },
       kind: "init",
-      value: hast.expression,
+      value: options?.parseDescriptionAsMarkdown
+        ? (
+            toEstree(await renderMarkdown(entry.description), {
+              elementAttributeNameCase: "react",
+            }).body[0] as ExpressionStatement
+          ).expression
+        : { type: "Literal", value: entry.description },
     });
   }
 
@@ -144,7 +147,7 @@ export function remarkReactTypeTable({
 
         const rendered = output.map(async (doc) => {
           const properties = await Promise.all(
-            doc.entries.map((entry) => mapProperty(entry, renderMarkdown)),
+            doc.entries.map((entry) => mapProperty(entry, renderMarkdown, options)),
           );
 
           return {

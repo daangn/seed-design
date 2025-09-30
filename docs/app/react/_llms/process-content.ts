@@ -13,7 +13,10 @@ export async function processContent(path: string, content: string): Promise<str
     .use(remarkMdx)
     .use(remarkInclude)
     .use(remarkGfm)
-    .use(remarkReactTypeTable, { generator: typeTableGenerator })
+    .use(remarkReactTypeTable, {
+      generator: typeTableGenerator,
+      options: { parseDescriptionAsMarkdown: true },
+    })
     .use(remarkDocGen, { generators: [fileGenerator()] })
     .use(remarkNpm, { persist: { id: "package-manager" } })
     .use(remarkStringify)
