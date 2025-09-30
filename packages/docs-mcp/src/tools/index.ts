@@ -20,11 +20,11 @@ const registeredToolCache = new Map<string, Tool>();
 export const initializeTools = async (server: McpServer) => {
   await Promise.all(
     tools.map(async (tool) => {
-      const toolCtx = await tool.ctx?.();
       if (registeredToolCache.has(tool.name)) {
         return;
       }
       registeredToolCache.set(tool.name, tool);
+      const toolCtx = await tool.ctx?.();
       tool.exec(server, {
         name: tool.name,
         description: tool.description,
