@@ -1,7 +1,7 @@
 import { fetchReactComponentList, fetchBreezeComponentList } from "../fetch.js";
-import type { Tool } from "../types.js";
+import type { Tool, ComponentInfo } from "../types.js";
 
-export const listReactComponentsTool: Tool<{ componentList: any[] }> = {
+export const listReactComponentsTool: Tool<{ componentList: ComponentInfo[] }> = {
   name: "list_react_components",
   description:
     "List all available React components in SEED Design. This tool retrieves the names of all available SEED React components.",
@@ -18,7 +18,7 @@ export const listReactComponentsTool: Tool<{ componentList: any[] }> = {
   exec(server, { ctx, name, description }) {
     server.tool(name, description, {}, async () => {
       const components = ctx.componentList;
-      const formatted = components.map((c: any) => `- ${c.title} (${c.name})`).join("\n");
+      const formatted = components.map((c: ComponentInfo) => `- ${c.title} (${c.name})`).join("\n");
 
       return {
         content: [
