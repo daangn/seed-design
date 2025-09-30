@@ -1,4 +1,9 @@
 import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
+import monochrome from "@karrotmarket/icon-data/monochrome.json" with { type: "json" };
+import multicolor from "@karrotmarket/icon-data/multicolor.json" with { type: "json" };
+import { pascalCase } from "change-case";
+import type { IconData } from "./src/entities/icon.interface";
+import type { Style } from "./src/entities/style.interface";
 
 const config = createConfig({
   pipelines: {
@@ -19,6 +24,7 @@ const config = createConfig({
         }),
       }))
       .write(writers.default),
+
     variables: createPipeline()
       .source(sources.variables)
       .filter(({ hiddenFromPublishing }) => !hiddenFromPublishing)
@@ -34,9 +40,12 @@ const config = createConfig({
 export declare const FIGMA_VARIABLES: Record<string, Variable>;
 `;
 
-        await write(`${pipelineName}/index.mjs`, mjs);
-        await write(`${pipelineName}/index.d.ts`, dts);
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
       }),
+
     "variable-collections": createPipeline()
       .source(async ({ api, fileKey }) => {
         const {
@@ -58,8 +67,73 @@ export declare const FIGMA_VARIABLES: Record<string, Variable>;
 export declare const FIGMA_VARIABLE_COLLECTIONS: Record<string, VariableCollection>;
 `;
 
-        await write(`${pipelineName}/index.mjs`, mjs);
-        await write(`${pipelineName}/index.d.ts`, dts);
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
+      }),
+
+    styles: createPipeline()
+      .source(sources.styles)
+      .filter(({ style_type }) => style_type === "TEXT" || style_type === "FILL")
+      .transform(({ style_type, key, name, description }): Style => {
+        return { styleType: style_type, key, name, description, remote: false };
+      })
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .write(async (items, { write, utils, pipelineName }) => {
+        const name = "FIGMA_STYLES";
+
+        const mjs = utils.toMjs(name, items);
+        const dts = `import type { Style } from "../../../style.interface";
+
+export declare const FIGMA_STYLES: Style[];
+`;
+
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
+      }),
+
+    icons: createPipeline()
+      .source(async (_ctx) => {
+        const monochromeEntries: [string, IconData][] = Object.entries(monochrome)
+          .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+          .map(([name, { figma }]) => {
+            const weight = name.split("_").pop();
+            const nameWithoutWeight = name.replace(new RegExp(`_${weight}$`), "");
+
+            if (weight !== "line" && weight !== "fill") {
+              throw new Error(`Unexpected icon name: ${name}`);
+            }
+
+            return [
+              figma.key,
+              { name: nameWithoutWeight, type: "monochrome", weight: pascalCase(weight) },
+            ];
+          });
+
+        const multicolorEntries: [string, IconData][] = Object.entries(multicolor)
+          .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+          .map(([name, { figma }]) => [figma.key, { name, type: "multicolor" }]);
+
+        return [...monochromeEntries, ...multicolorEntries];
+      })
+      .write(async (items, { write, pipelineName, utils }) => {
+        const record = Object.fromEntries(items);
+
+        const name = "FIGMA_ICONS";
+
+        const mjs = utils.toMjs(name, record);
+        const dts = `import type { IconData } from "../../../icon.interface";
+        
+export declare const FIGMA_ICONS: Record<string, IconData>;
+`;
+
+        Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
       }),
   },
 });
