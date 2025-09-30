@@ -15,7 +15,7 @@ export async function processContent(path: string, content: string): Promise<str
     .use(remarkGfm)
     .use(remarkReactTypeTable, {
       generator: typeTableGenerator,
-      options: { parseDescriptionAsMarkdown: true },
+      options: { parseDescriptionAsMarkdown: false },
     })
     .use(remarkDocGen, { generators: [fileGenerator()] })
     .use(remarkNpm, { persist: { id: "package-manager" } })
