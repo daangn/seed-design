@@ -75,8 +75,8 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
             style={
               {
                 ...style,
-                "--seed-box-color": handleColor(color),
-                "--seed-font-weight": handleFontWeight(fontWeight),
+                ...(color && { "--seed-box-color": handleColor(color) }),
+                ...(fontWeight && { "--seed-font-weight": vars.$fontWeight[fontWeight] }),
               } as React.CSSProperties
             }
             {...api.stateProps}
@@ -90,11 +90,3 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
   },
 );
 ActionButton.displayName = "ActionButton";
-
-function handleFontWeight(fontWeight: string | undefined) {
-  if (!fontWeight) {
-    return undefined;
-  }
-  // @ts-expect-error
-  return vars.$fontWeight[fontWeight] ?? undefined;
-}
