@@ -9,7 +9,7 @@ const { createLocalSnippetElement } = createLocalSnippetHelper("switch");
 
 export const createSwitchHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<SwitchProperties>(
-    metadata.switch.key,
+    metadata._switch.key,
     ({ componentProperties: props }) => {
       const tone = match(props.Tone.value)
         .with("Neutral", () => "neutral")

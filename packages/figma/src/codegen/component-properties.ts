@@ -331,7 +331,7 @@ export type SnackbarProperties = InferComponentDefinition<
 >;
 
 export type SwitchProperties = InferComponentDefinition<
-  typeof metadata.switch.componentPropertyDefinitions
+  typeof metadata._switch.componentPropertyDefinitions
 >;
 
 export type SwitchMarkProperties = InferComponentDefinition<

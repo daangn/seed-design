@@ -1,9 +1,16 @@
-import { createConfig, createPipeline, sources, writers } from "@seed-design/figma-extractor";
+import { createConfig, createPipeline, sources } from "@seed-design/figma-extractor";
 import monochrome from "@karrotmarket/icon-data/monochrome.json" with { type: "json" };
 import multicolor from "@karrotmarket/icon-data/multicolor.json" with { type: "json" };
-import { pascalCase } from "change-case";
-import type { IconData } from "./src/entities/icon.interface";
-import type { Style } from "./src/entities/style.interface";
+import { camelCase, pascalCase } from "change-case";
+import type { IconData, Style } from "./src/entities";
+
+function getSafeIdentifierName(name: string) {
+  const reservedWords = ["switch"];
+
+  const transformed = camelCase(name.replace(/[^ -~]/g, "").replace(/ |\//g, " "));
+
+  return reservedWords.includes(transformed) ? `_${transformed}` : transformed;
+}
 
 const config = createConfig({
   pipelines: {
@@ -12,7 +19,7 @@ const config = createConfig({
       .filter(({ name }) => name.startsWith("🔵 ") || name.startsWith("🟢 "))
       .sort((a, b) => a.name.localeCompare(b.name))
       .transform(({ name, key, componentPropertyDefinitions }) => ({
-        name,
+        name: getSafeIdentifierName(name),
         key,
         ...(componentPropertyDefinitions && {
           componentPropertyDefinitions: Object.fromEntries(
@@ -23,7 +30,19 @@ const config = createConfig({
           ),
         }),
       }))
-      .write(writers.default),
+      .write(async (items, { utils, write, pipelineName }) => {
+        const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
+
+        const dts = `import type { ComponentMetadata } from "../../../component.interface";
+
+${items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n")}
+`;
+
+        await Promise.all([
+          write(`${pipelineName}/index.mjs`, mjs),
+          write(`${pipelineName}/index.d.ts`, dts),
+        ]);
+      }),
 
     variables: createPipeline()
       .source(sources.variables)
