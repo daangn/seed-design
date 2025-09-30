@@ -130,7 +130,7 @@ export declare const FIGMA_STYLES: Style[];
 export declare const FIGMA_ICONS: Record<string, IconData>;
 `;
 
-        Promise.all([
+        await Promise.all([
           write(`${pipelineName}/index.mjs`, mjs),
           write(`${pipelineName}/index.d.ts`, dts),
         ]);
