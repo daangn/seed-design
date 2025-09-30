@@ -134,6 +134,19 @@ npx @seed-design/cli@latest add ui:text-field
   ```
 </ComponentExample>
 
+자소 단위로 쪼개진 `value`에 관한 정보를 `onValueChange` 콜백에서 `graphemes`와 `slicedGraphemes`로 제공합니다.
+
+자소 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
+
+<ComponentExample name="react/text-field-input/grapheme-count-controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-input/grapheme-count-controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Use Cases
 
 #### Form
