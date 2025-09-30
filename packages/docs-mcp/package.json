@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/docs-mcp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The official MCP server for SEED Design documentation",
   "repository": {
     "type": "git",
@@ -12,21 +12,37 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "bin",
+    "dist",
     "src"
   ],
   "bin": {
-    "seed-docs-mcp": "./bin/stdio.js"
+    "seed-docs-mcp": "./dist/stdio.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./tools": {
+      "types": "./dist/tools/index.d.ts",
+      "import": "./dist/tools/index.js"
+    },
+    "./stdio": {
+      "import": "./dist/stdio.js"
+    }
   },
   "scripts": {
-    "clean": "rm -rf bin",
+    "clean": "rm -rf dist",
     "build": "bunchee",
-    "dev": "bun ./bin/stdio.js",
+    "dev": "bun ./dist/stdio.js",
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.15.0",
-    "express": "^5.1.0",
     "lru-cache": "^11.0.2",
     "zod": "^3.24.3"
   },

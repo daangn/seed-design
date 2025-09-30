@@ -1,28 +1,28 @@
 # @seed-design/docs-mcp
 
-MCP (Model Context Protocol) server for accessing SEED Design documentation. This server provides LLMs with structured access to SEED Design's React and Figma component documentation, changelogs, and more.
+MCP (Model Context Protocol) tools for accessing SEED Design documentation. This package provides LLMs with structured access to SEED Design's React and Breeze component documentation, changelogs, and more.
 
 ## Installation
 
 ```bash
-npm install -g @seed-design/docs-mcp
+npm install @seed-design/docs-mcp
 # or
-bun add -g @seed-design/docs-mcp
+bun add @seed-design/docs-mcp
 ```
 
 ## Usage
 
-### As a standalone MCP server
+### As a stdio MCP server (CLI)
+
+For use with Claude Desktop or other MCP clients:
 
 ```bash
-# Start the server
-@seed-design/docs-mcp
+# Global installation
+npm install -g @seed-design/docs-mcp
+seed-docs-mcp
 
-# With verbose logging
-@seed-design/docs-mcp --verbose
-
-# With custom cache TTL (in milliseconds)
-@seed-design/docs-mcp --cache-ttl 1800000
+# Or via npx
+npx @seed-design/docs-mcp
 ```
 
 ### Integration with Claude Desktop
@@ -34,7 +34,7 @@ Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/
   "mcpServers": {
     "seed-docs": {
       "command": "npx",
-      "args": ["@seed-design/docs-mcp"]
+      "args": ["-y", "@seed-design/docs-mcp"]
     }
   }
 }
@@ -46,28 +46,34 @@ Or if installed globally:
 {
   "mcpServers": {
     "seed-docs": {
-      "command": "@seed-design/docs-mcp"
+      "command": "seed-docs-mcp"
     }
   }
 }
 ```
 
-In Development
+### Programmatic Usage
 
-```json
-{
-  "mcpServers": {
-    "seed-docs": {
-      "command": "bun",
-      "args": ["run", "/Users/june.jung/Documents/GitHub/Daangn/seed-design/packages/docs-mcp/bin/stdio.js"],
-      "cwd": "/Users/june.jung/Documents/GitHub/Daangn/seed-design/packages/docs-mcp",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    }
-  }
-}
+For building custom MCP servers or integrating into your own applications:
+
+```javascript
+import { server } from '@seed-design/docs-mcp/server';
+import { initializeTools } from '@seed-design/docs-mcp/tools';
+
+// Initialize the tools
+await initializeTools(server);
+
+// Use with your preferred transport
+// Example: stdio, HTTP, SSE, etc.
 ```
+
+## Available Tools
+
+- `list_react_components` - List all available SEED React components
+- `get_react_component` - Get detailed documentation for a specific React component
+- `get_react_changelog` - Get changelog for SEED React package
+- `list_breeze_components` - List all available SEED Breeze utility components
+- `get_breeze_component` - Get detailed documentation for a specific Breeze component
 
 ## Development
 
@@ -75,7 +81,7 @@ In Development
 # Install dependencies
 bun install
 
-# Run in development mode
+# Run in development mode (stdio)
 bun run dev
 
 # Build the package
