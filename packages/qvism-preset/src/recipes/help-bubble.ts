@@ -46,13 +46,11 @@ const helpBubble = defineSlotRecipe({
       width: vars.base.enabled.arrow.width,
       // we're making it square
       height: vars.base.enabled.arrow.width,
-
-      /**
-       * Prevent the arrow position from being calculated differently due to the font-size of the parent element
-       */
-      fontSize: "0",
     },
     arrowTip: {
+      // svg has default display of inline, which makes it be affected by line-height
+      display: "block",
+
       fill: vars.base.enabled.arrow.color,
 
       width: vars.base.enabled.arrow.width,

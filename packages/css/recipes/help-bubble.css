@@ -34,9 +34,9 @@
 .seed-help-bubble__arrow {
     width: 12px;
     height: 12px;
-    font-size: 0;
 }
 .seed-help-bubble__arrowTip {
+    display: block;
     fill: var(--seed-color-bg-neutral-inverted);
     width: 12px;
     height: 8px;
