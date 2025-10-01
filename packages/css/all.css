@@ -3996,13 +3996,17 @@
 }
 
 .seed-help-bubble__closeButton {
+  cursor: pointer;
   color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+  background: none;
+  border: none;
   justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
+  padding: 0;
   display: flex;
   position: absolute;
   top: 3px;

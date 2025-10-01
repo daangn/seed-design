@@ -77,6 +77,10 @@ const helpBubble = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      border: "none",
+      background: "transparent",
+      cursor: "pointer",
+      padding: 0,
 
       top: `calc(${vars.base.enabled.closeButton.fromTop} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,
       right: `calc(${vars.base.enabled.closeButton.fromRight} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,

@@ -60,6 +60,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
     top: calc(12px - 32px / 2 + 14px / 2);
     right: calc(12px - 32px / 2 + 14px / 2);
     color: var(--seed-color-fg-neutral-inverted);
