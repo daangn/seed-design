@@ -1,11 +1,13 @@
 import { Box } from "@seed-design/react";
 import { ActionButton } from "seed-design/ui/action-button";
-import { HelpBubbleTrigger } from "seed-design/ui/help-bubble";
+import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 export default function HelpBubblePreview() {
   return (
-    <div className="grid grid-cols-3 gap-20 p-40">
-      <HelpBubbleTrigger
+    <div
+      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "40px", padding: "60px" }}
+    >
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="top-end"
@@ -13,17 +15,11 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
-        open
-        flip={false}
-        placement="top"
-        title="top"
-        description="est tempor aute"
-      >
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor open flip={false} placement="top" title="top" description="est tempor aute">
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="top-start"
@@ -31,8 +27,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="left-end"
@@ -40,9 +36,9 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
+      </HelpBubbleAnchor>
       <Box />
-      <HelpBubbleTrigger
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="right-end"
@@ -50,8 +46,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="left"
@@ -59,9 +55,9 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
+      </HelpBubbleAnchor>
       <Box />
-      <HelpBubbleTrigger
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="right"
@@ -69,8 +65,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="left-start"
@@ -78,9 +74,9 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
+      </HelpBubbleAnchor>
       <Box />
-      <HelpBubbleTrigger
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="right-start"
@@ -88,8 +84,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="bottom-end"
@@ -97,8 +93,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="bottom"
@@ -106,8 +102,8 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
-      <HelpBubbleTrigger
+      </HelpBubbleAnchor>
+      <HelpBubbleAnchor
         open
         flip={false}
         placement="bottom-start"
@@ -115,7 +111,7 @@ export default function HelpBubblePreview() {
         description="est tempor aute"
       >
         <ActionButton variant="neutralWeak">열기</ActionButton>
-      </HelpBubbleTrigger>
+      </HelpBubbleAnchor>
     </div>
   );
 }
