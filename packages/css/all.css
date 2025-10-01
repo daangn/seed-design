@@ -3984,6 +3984,7 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-bold);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__description {
@@ -3991,6 +3992,7 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-regular);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__closeButton {
