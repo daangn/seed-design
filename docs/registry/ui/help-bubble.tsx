@@ -6,9 +6,9 @@ import { forwardRef } from "react";
 import type * as React from "react";
 
 export interface HelpBubbleTriggerProps extends Omit<SeedHelpBubble.RootProps, "children"> {
-  title: string;
+  title: React.ReactNode;
 
-  description?: string;
+  description?: React.ReactNode;
 
   showCloseButton?: boolean;
 
@@ -44,9 +44,9 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
             <SeedHelpBubble.Arrow>
               <SeedHelpBubble.ArrowTip />
             </SeedHelpBubble.Arrow>
-            <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
+            <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
             {props.description && (
-              <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
+              <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>
             )}
           </SeedHelpBubble.Content>
         </SeedHelpBubble.Positioner>
@@ -56,9 +56,9 @@ export const HelpBubbleTrigger = forwardRef<HTMLButtonElement, HelpBubbleTrigger
 );
 
 export interface HelpBubbleAnchorProps extends Omit<SeedHelpBubble.RootProps, "children"> {
-  title: string;
+  title: React.ReactNode;
 
-  description?: string;
+  description?: React.ReactNode;
 
   showCloseButton?: boolean;
 
@@ -93,9 +93,9 @@ export const HelpBubbleAnchor = forwardRef<HTMLDivElement, HelpBubbleAnchorProps
           <SeedHelpBubble.Arrow>
             <SeedHelpBubble.ArrowTip />
           </SeedHelpBubble.Arrow>
-          <SeedHelpBubble.Title>{props.title}</SeedHelpBubble.Title>
+          <SeedHelpBubble.Title>{title}</SeedHelpBubble.Title>
           {props.description && (
-            <SeedHelpBubble.Description>{props.description}</SeedHelpBubble.Description>
+            <SeedHelpBubble.Description>{description}</SeedHelpBubble.Description>
           )}
         </SeedHelpBubble.Content>
       </SeedHelpBubble.Positioner>
