@@ -3,23 +3,75 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.10.02
+
+HelpBubble의 스타일을 업데이트하고, 신규 기능을 지원합니다. [`0b8a02e`](https://github.com/daangn/seed-design/commit/0b8a02e1511766986a47a971dca51ecaa2745c02)
+
+- arrowTip이 content에서 떨어져 보이던 문제를 수정합니다.
+- title과 description에서 `\n`을 줄바꿈으로 렌더링하도록 수정합니다.
+- `closeOnInteractOutside`를 `false`로 설정하여 Help Bubble 외부와 상호작용 시에도 닫히지 않도록 설정할 수 있습니다. (기본값: `true`)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.0.3](https://npmjs.com/package/@seed-design/css/v/1.0.3)
+
+---
+
+`@seed-design/docs-mcp` 패키지 추가 [`8661d79`](https://github.com/daangn/seed-design/commit/8661d796edd8400d02132c7090e5972f370f0f4b)
+
+Tools:
+- `get_react_component`
+- `get_breeze_component`
+- `get_react_changelog`
+- `list_react_components`
+- `list_breeze_components`
+- `get_react_changelog`
+
+영향받는 패키지
+- 📦 [@seed-design/docs-mcp@0.1.0](https://npmjs.com/package/@seed-design/docs-mcp/v/0.1.0)
+
+---
+
+Callout에 tone=positive variant를 추가합니다. [`6c6099d`](https://github.com/daangn/seed-design/commit/6c6099d0d01f5a8643d8e6580b2ff096acb2870f)
+
+영향받는 패키지
+- 📦 [@seed-design/css@1.0.3](https://npmjs.com/package/@seed-design/css/v/1.0.3)
+- 📦 [@seed-design/rootage-artifacts@1.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.3)
+
+---
+
+Figma Codegen이 Bottom Sheet의 `hideCloseButton` prop을 사용하는 코드를 반환하도록 수정합니다. [`ac1fd00`](https://github.com/daangn/seed-design/commit/ac1fd00d865c94450edc3c010739a12666ef7b9e)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.0.3](https://npmjs.com/package/@seed-design/figma/v/1.0.3)
+
+---
+
+Figma 아이콘 및 스타일 정보를 최신화합니다. [`8b07555`](https://github.com/daangn/seed-design/commit/8b07555547aaa14c549ffb735b5672ef4b0baa9c)
+
+영향받는 패키지
+- 📦 [@seed-design/figma@1.0.3](https://npmjs.com/package/@seed-design/figma/v/1.0.3)
+
+---
+
 ## 2025.09.29
 
 [`6d2e13d`](https://github.com/daangn/seed-design/commit/6d2e13dda9180bae958885db1abf2000dae3f969) MannerTemp 컴포넌트가 레이아웃에서 너비를 덜 차지하도록 업데이트합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@1.0.2](https://npmjs.com/package/@seed-design/css/v/1.0.2)
+- 📦 [@seed-design/rootage-artifacts@1.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.2)
 
-- [@seed-design/css@1.0.2](https://npmjs.com/package/@seed-design/css/v/1.0.2)
-- [@seed-design/rootage-artifacts@1.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.2)
+---
 
 ## 2025.09.26
 
 [`1420b68`](https://github.com/daangn/seed-design/commit/1420b68683c0669539b04208855eb7cf6d1961db) MannerTemp 컴포넌트가 레이아웃에서 높이를 덜 차지하도록 업데이트합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@1.0.1](https://npmjs.com/package/@seed-design/css/v/1.0.1)
+- 📦 [@seed-design/rootage-artifacts@1.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.1)
 
-- [@seed-design/css@1.0.1](https://npmjs.com/package/@seed-design/css/v/1.0.1)
-- [@seed-design/rootage-artifacts@1.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.1)
+---
 
 ## 2025.09.25
 
@@ -49,38 +101,39 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 
 - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/codemod@1.0.0](https://npmjs.com/package/@seed-design/codemod/v/1.0.0)
+- 📦 [@seed-design/css@1.0.0](https://npmjs.com/package/@seed-design/css/v/1.0.0)
+- 📦 [@seed-design/dom-utils@1.0.0](https://npmjs.com/package/@seed-design/dom-utils/v/1.0.0)
+- 📦 [@seed-design/figma@1.0.0](https://npmjs.com/package/@seed-design/figma/v/1.0.0)
+- 📦 [@seed-design/figma-extractor@1.0.0](https://npmjs.com/package/@seed-design/figma-extractor/v/1.0.0)
+- 📦 [@seed-design/mcp@1.0.0](https://npmjs.com/package/@seed-design/mcp/v/1.0.0)
+- 📦 [@seed-design/migration-index@1.0.0](https://npmjs.com/package/@seed-design/migration-index/v/1.0.0)
+- 📦 [@seed-design/react@1.0.0](https://npmjs.com/package/@seed-design/react/v/1.0.0)
+- 📦 [@seed-design/react-avatar@1.0.0](https://npmjs.com/package/@seed-design/react-avatar/v/1.0.0)
+- 📦 [@seed-design/react-checkbox@1.0.0](https://npmjs.com/package/@seed-design/react-checkbox/v/1.0.0)
+- 📦 [@seed-design/react-dialog@1.0.0](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.0)
+- 📦 [@seed-design/react-popover@1.0.0](https://npmjs.com/package/@seed-design/react-popover/v/1.0.0)
+- 📦 [@seed-design/react-portal@1.0.0](https://npmjs.com/package/@seed-design/react-portal/v/1.0.0)
+- 📦 [@seed-design/react-primitive@1.0.0](https://npmjs.com/package/@seed-design/react-primitive/v/1.0.0)
+- 📦 [@seed-design/react-progress@1.0.0](https://npmjs.com/package/@seed-design/react-progress/v/1.0.0)
+- 📦 [@seed-design/react-pull-to-refresh@1.0.0](https://npmjs.com/package/@seed-design/react-pull-to-refresh/v/1.0.0)
+- 📦 [@seed-design/react-radio-group@1.0.0](https://npmjs.com/package/@seed-design/react-radio-group/v/1.0.0)
+- 📦 [@seed-design/react-segmented-control@1.0.0](https://npmjs.com/package/@seed-design/react-segmented-control/v/1.0.0)
+- 📦 [@seed-design/react-snackbar@1.0.0](https://npmjs.com/package/@seed-design/react-snackbar/v/1.0.0)
+- 📦 [@seed-design/react-switch@1.0.0](https://npmjs.com/package/@seed-design/react-switch/v/1.0.0)
+- 📦 [@seed-design/react-tabs@1.0.0](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.0)
+- 📦 [@seed-design/react-text-field@1.0.0](https://npmjs.com/package/@seed-design/react-text-field/v/1.0.0)
+- 📦 [@seed-design/react-toggle@1.0.0](https://npmjs.com/package/@seed-design/react-toggle/v/1.0.0)
+- 📦 [@seed-design/rootage-artifacts@1.0.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.0)
+- 📦 [@seed-design/rsbuild-plugin@1.0.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/1.0.0)
+- 📦 [@seed-design/stackflow@1.0.0](https://npmjs.com/package/@seed-design/stackflow/v/1.0.0)
+- 📦 [@seed-design/tailwind3-plugin@1.0.0](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.0.0)
+- 📦 [@seed-design/tailwind4-theme@1.0.0](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.0.0)
+- 📦 [@seed-design/vite-plugin@1.0.0](https://npmjs.com/package/@seed-design/vite-plugin/v/1.0.0)
+- 📦 [@seed-design/webpack-plugin@1.0.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/1.0.0)
 
-- [@seed-design/codemod@1.0.0](https://npmjs.com/package/@seed-design/codemod/v/1.0.0)
-- [@seed-design/css@1.0.0](https://npmjs.com/package/@seed-design/css/v/1.0.0)
-- [@seed-design/dom-utils@1.0.0](https://npmjs.com/package/@seed-design/dom-utils/v/1.0.0)
-- [@seed-design/figma@1.0.0](https://npmjs.com/package/@seed-design/figma/v/1.0.0)
-- [@seed-design/figma-extractor@1.0.0](https://npmjs.com/package/@seed-design/figma-extractor/v/1.0.0)
-- [@seed-design/mcp@1.0.0](https://npmjs.com/package/@seed-design/mcp/v/1.0.0)
-- [@seed-design/migration-index@1.0.0](https://npmjs.com/package/@seed-design/migration-index/v/1.0.0)
-- [@seed-design/react@1.0.0](https://npmjs.com/package/@seed-design/react/v/1.0.0)
-- [@seed-design/react-avatar@1.0.0](https://npmjs.com/package/@seed-design/react-avatar/v/1.0.0)
-- [@seed-design/react-checkbox@1.0.0](https://npmjs.com/package/@seed-design/react-checkbox/v/1.0.0)
-- [@seed-design/react-dialog@1.0.0](https://npmjs.com/package/@seed-design/react-dialog/v/1.0.0)
-- [@seed-design/react-popover@1.0.0](https://npmjs.com/package/@seed-design/react-popover/v/1.0.0)
-- [@seed-design/react-portal@1.0.0](https://npmjs.com/package/@seed-design/react-portal/v/1.0.0)
-- [@seed-design/react-primitive@1.0.0](https://npmjs.com/package/@seed-design/react-primitive/v/1.0.0)
-- [@seed-design/react-progress@1.0.0](https://npmjs.com/package/@seed-design/react-progress/v/1.0.0)
-- [@seed-design/react-pull-to-refresh@1.0.0](https://npmjs.com/package/@seed-design/react-pull-to-refresh/v/1.0.0)
-- [@seed-design/react-radio-group@1.0.0](https://npmjs.com/package/@seed-design/react-radio-group/v/1.0.0)
-- [@seed-design/react-segmented-control@1.0.0](https://npmjs.com/package/@seed-design/react-segmented-control/v/1.0.0)
-- [@seed-design/react-snackbar@1.0.0](https://npmjs.com/package/@seed-design/react-snackbar/v/1.0.0)
-- [@seed-design/react-switch@1.0.0](https://npmjs.com/package/@seed-design/react-switch/v/1.0.0)
-- [@seed-design/react-tabs@1.0.0](https://npmjs.com/package/@seed-design/react-tabs/v/1.0.0)
-- [@seed-design/react-text-field@1.0.0](https://npmjs.com/package/@seed-design/react-text-field/v/1.0.0)
-- [@seed-design/react-toggle@1.0.0](https://npmjs.com/package/@seed-design/react-toggle/v/1.0.0)
-- [@seed-design/rootage-artifacts@1.0.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.0.0)
-- [@seed-design/rsbuild-plugin@1.0.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/1.0.0)
-- [@seed-design/stackflow@1.0.0](https://npmjs.com/package/@seed-design/stackflow/v/1.0.0)
-- [@seed-design/tailwind3-plugin@1.0.0](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/1.0.0)
-- [@seed-design/tailwind4-theme@1.0.0](https://npmjs.com/package/@seed-design/tailwind4-theme/v/1.0.0)
-- [@seed-design/vite-plugin@1.0.0](https://npmjs.com/package/@seed-design/vite-plugin/v/1.0.0)
-- [@seed-design/webpack-plugin@1.0.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/1.0.0)
+---
 
 ## 2025.09.22
 
@@ -116,13 +169,14 @@ seed-design add-all --all
 
 [`11f5e76`](https://github.com/daangn/seed-design/commit/11f5e7699392858e6f02329070186dea08029bcd) Snackbar 헤드리스에서 닫기 버튼에 하드코딩된 `aria-label` 속성을 제거합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/cli@1.0.0](https://npmjs.com/package/@seed-design/cli/v/1.0.0)
+- 📦 [@seed-design/css@0.2.5](https://npmjs.com/package/@seed-design/css/v/0.2.5)
+- 📦 [@seed-design/figma@0.2.5](https://npmjs.com/package/@seed-design/figma/v/0.2.5)
+- 📦 [@seed-design/react-snackbar@0.0.7](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.7)
+- 📦 [@seed-design/rootage-artifacts@0.1.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.4)
 
-- [@seed-design/cli@1.0.0](https://npmjs.com/package/@seed-design/cli/v/1.0.0)
-- [@seed-design/css@0.2.5](https://npmjs.com/package/@seed-design/css/v/0.2.5)
-- [@seed-design/figma@0.2.5](https://npmjs.com/package/@seed-design/figma/v/0.2.5)
-- [@seed-design/react-snackbar@0.0.7](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.7)
-- [@seed-design/rootage-artifacts@0.1.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.4)
+---
 
 ## 2025.09.12
 
@@ -146,13 +200,14 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 
 [`ce047f5`](https://github.com/daangn/seed-design/commit/ce047f502d9ccff5cb48e94de47bfa0c5b60d29f) Tabs.Carousel의 reInit 이벤트 시 탭 인덱스가 변경되지 않는 문제를 수정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.2.4](https://npmjs.com/package/@seed-design/css/v/0.2.4)
+- 📦 [@seed-design/figma@0.2.4](https://npmjs.com/package/@seed-design/figma/v/0.2.4)
+- 📦 [@seed-design/react@0.2.4](https://npmjs.com/package/@seed-design/react/v/0.2.4)
+- 📦 [@seed-design/react-tabs@0.0.9](https://npmjs.com/package/@seed-design/react-tabs/v/0.0.9)
+- 📦 [@seed-design/rootage-artifacts@0.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.3)
 
-- [@seed-design/css@0.2.4](https://npmjs.com/package/@seed-design/css/v/0.2.4)
-- [@seed-design/figma@0.2.4](https://npmjs.com/package/@seed-design/figma/v/0.2.4)
-- [@seed-design/react@0.2.4](https://npmjs.com/package/@seed-design/react/v/0.2.4)
-- [@seed-design/react-tabs@0.0.9](https://npmjs.com/package/@seed-design/react-tabs/v/0.0.9)
-- [@seed-design/rootage-artifacts@0.1.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.3)
+---
 
 ## 2025.09.08
 
@@ -171,11 +226,12 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
 - RadioGroup 컴포넌트를 제공합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.2.3](https://npmjs.com/package/@seed-design/css/v/0.2.3)
+- 📦 [@seed-design/react@0.2.3](https://npmjs.com/package/@seed-design/react/v/0.2.3)
+- 📦 [@seed-design/rootage-artifacts@0.1.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.2)
 
-- [@seed-design/css@0.2.3](https://npmjs.com/package/@seed-design/css/v/0.2.3)
-- [@seed-design/react@0.2.3](https://npmjs.com/package/@seed-design/react/v/0.2.3)
-- [@seed-design/rootage-artifacts@0.1.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.2)
+---
 
 ## 2025.09.05
 
@@ -186,10 +242,11 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 - `@seed-design/css` v0.2.0에 맞춰 `replace-semantic-stroke-color` transform을 추가합니다.
 - `@seed-design/css/vars`에서 사용한 stroke 토큰을 업데이트하는 마이그레이션 코드모드를 추가합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/codemod@0.0.31](https://npmjs.com/package/@seed-design/codemod/v/0.0.31)
+- 📦 [@seed-design/react@0.2.2](https://npmjs.com/package/@seed-design/react/v/0.2.2)
 
-- [@seed-design/codemod@0.0.31](https://npmjs.com/package/@seed-design/codemod/v/0.0.31)
-- [@seed-design/react@0.2.2](https://npmjs.com/package/@seed-design/react/v/0.2.2)
+---
 
 ## 2025.09.04
 
@@ -200,11 +257,12 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 
 [`c5bed96`](https://github.com/daangn/seed-design/commit/c5bed9674a1c036bd0c84acf9e81ebed72215b79) Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.2.1](https://npmjs.com/package/@seed-design/css/v/0.2.1)
+- 📦 [@seed-design/react@0.2.1](https://npmjs.com/package/@seed-design/react/v/0.2.1)
+- 📦 [@seed-design/rootage-artifacts@0.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.1)
 
-- [@seed-design/css@0.2.1](https://npmjs.com/package/@seed-design/css/v/0.2.1)
-- [@seed-design/react@0.2.1](https://npmjs.com/package/@seed-design/react/v/0.2.1)
-- [@seed-design/rootage-artifacts@0.1.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.1.1)
+---
 
 ## 2025.09.03
 
@@ -246,13 +304,14 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 | $color.stroke.warning-solid     |
 | $color.stroke.critical-solid    |
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.2.0](https://npmjs.com/package/@seed-design/css/v/0.2.0)
+- 📦 [@seed-design/migration-index@0.0.31](https://npmjs.com/package/@seed-design/migration-index/v/0.0.31)
+- 📦 [@seed-design/rootage-artifacts@0.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.2.0)
+- 📦 [@seed-design/tailwind3-plugin@0.2.0](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.2.0)
+- 📦 [@seed-design/tailwind4-theme@0.2.0](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.2.0)
 
-- [@seed-design/css@0.2.0](https://npmjs.com/package/@seed-design/css/v/0.2.0)
-- [@seed-design/migration-index@0.0.31](https://npmjs.com/package/@seed-design/migration-index/v/0.0.31)
-- [@seed-design/rootage-artifacts@0.2.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.2.0)
-- [@seed-design/tailwind3-plugin@0.2.0](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.2.0)
-- [@seed-design/tailwind4-theme@0.2.0](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.2.0)
+---
 
 ## 2025.08.28
 
@@ -280,14 +339,15 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 - Divider를 `li`로 렌더링하여 `ol`, `ul` 내부에서 사용할 수 있습니다.
 - Divider를 `div` 또는 `li`로 렌더링하는 경우에도 `role="separator"`를 지정하여 스크린 리더가 Divider를 읽도록 할 수 있습니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.15](https://npmjs.com/package/@seed-design/css/v/0.1.15)
+- 📦 [@seed-design/react@0.1.15](https://npmjs.com/package/@seed-design/react/v/0.1.15)
+- 📦 [@seed-design/react-snackbar@0.0.6](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.6)
+- 📦 [@seed-design/rootage-artifacts@0.0.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.6)
+- 📦 [@seed-design/tailwind3-plugin@0.1.15](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.15)
+- 📦 [@seed-design/tailwind4-theme@0.1.15](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.15)
 
-- [@seed-design/css@0.1.15](https://npmjs.com/package/@seed-design/css/v/0.1.15)
-- [@seed-design/react@0.1.15](https://npmjs.com/package/@seed-design/react/v/0.1.15)
-- [@seed-design/react-snackbar@0.0.6](https://npmjs.com/package/@seed-design/react-snackbar/v/0.0.6)
-- [@seed-design/rootage-artifacts@0.0.6](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.6)
-- [@seed-design/tailwind3-plugin@0.1.15](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.15)
-- [@seed-design/tailwind4-theme@0.1.15](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.15)
+---
 
 ## 2025.08.22
 
@@ -328,23 +388,25 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 - `$color.bg.brand-weak`
 - `$color.bg.brand-weak-pressed`
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.14](https://npmjs.com/package/@seed-design/css/v/0.1.14)
+- 📦 [@seed-design/figma@0.1.14](https://npmjs.com/package/@seed-design/figma/v/0.1.14)
+- 📦 [@seed-design/react@0.1.14](https://npmjs.com/package/@seed-design/react/v/0.1.14)
+- 📦 [@seed-design/rootage-artifacts@0.0.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.5)
+- 📦 [@seed-design/tailwind3-plugin@0.1.14](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.14)
+- 📦 [@seed-design/tailwind4-theme@0.1.14](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.14)
 
-- [@seed-design/css@0.1.14](https://npmjs.com/package/@seed-design/css/v/0.1.14)
-- [@seed-design/figma@0.1.14](https://npmjs.com/package/@seed-design/figma/v/0.1.14)
-- [@seed-design/react@0.1.14](https://npmjs.com/package/@seed-design/react/v/0.1.14)
-- [@seed-design/rootage-artifacts@0.0.5](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.5)
-- [@seed-design/tailwind3-plugin@0.1.14](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.14)
-- [@seed-design/tailwind4-theme@0.1.14](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.14)
+---
 
 ## 2025.08.20
 
 [`0be9b00`](https://github.com/daangn/seed-design/commit/0be9b00baad2502eb4ea32e641c5c1d8c3f3eb4c) Avatar, Avatar Stack 컴포넌트에 `size=108` variant를 추가합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.13](https://npmjs.com/package/@seed-design/css/v/0.1.13)
+- 📦 [@seed-design/rootage-artifacts@0.0.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.4)
 
-- [@seed-design/css@0.1.13](https://npmjs.com/package/@seed-design/css/v/0.1.13)
-- [@seed-design/rootage-artifacts@0.0.4](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.4)
+---
 
 ## 2025.08.12 #2
 
@@ -352,11 +414,12 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 
 - `placement=left-*` / `placement=right-*`에서 arrow가 content와 떨어져 표시되는 문제를 수정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.12](https://npmjs.com/package/@seed-design/css/v/0.1.12)
+- 📦 [@seed-design/react@0.1.12](https://npmjs.com/package/@seed-design/react/v/0.1.12)
+- 📦 [@seed-design/react-popover@0.0.8](https://npmjs.com/package/@seed-design/react-popover/v/0.0.8)
 
-- [@seed-design/css@0.1.12](https://npmjs.com/package/@seed-design/css/v/0.1.12)
-- [@seed-design/react@0.1.12](https://npmjs.com/package/@seed-design/react/v/0.1.12)
-- [@seed-design/react-popover@0.0.8](https://npmjs.com/package/@seed-design/react-popover/v/0.0.8)
+---
 
 ## 2025.08.12
 
@@ -364,10 +427,11 @@ Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 
 
 Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를 prepend합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/figma@0.1.11](https://npmjs.com/package/@seed-design/figma/v/0.1.11)
+- 📦 [@seed-design/react@0.1.11](https://npmjs.com/package/@seed-design/react/v/0.1.11)
 
-- [@seed-design/figma@0.1.11](https://npmjs.com/package/@seed-design/figma/v/0.1.11)
-- [@seed-design/react@0.1.11](https://npmjs.com/package/@seed-design/react/v/0.1.11)
+---
 
 ## 2025.08.11
 
@@ -379,10 +443,11 @@ Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를
 
 - Instance에 오버라이드한 내용이 있는 경우 주석으로 알립니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.10](https://npmjs.com/package/@seed-design/css/v/0.1.10)
+- 📦 [@seed-design/figma@0.1.10](https://npmjs.com/package/@seed-design/figma/v/0.1.10)
 
-- [@seed-design/css@0.1.10](https://npmjs.com/package/@seed-design/css/v/0.1.10)
-- [@seed-design/figma@0.1.10](https://npmjs.com/package/@seed-design/figma/v/0.1.10)
+---
 
 ## 2025.08.07
 
@@ -407,12 +472,13 @@ Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를
 - `span` 대신 `div`를 렌더링합니다.
 - 기본적으로 grow하도록 만들어 Badge 등 추가 요소를 넣기 쉽게 만듭니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.9](https://npmjs.com/package/@seed-design/css/v/0.1.9)
+- 📦 [@seed-design/figma@0.1.9](https://npmjs.com/package/@seed-design/figma/v/0.1.9)
+- 📦 [@seed-design/react@0.1.9](https://npmjs.com/package/@seed-design/react/v/0.1.9)
+- 📦 [@seed-design/rootage-artifacts@0.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.3)
 
-- [@seed-design/css@0.1.9](https://npmjs.com/package/@seed-design/css/v/0.1.9)
-- [@seed-design/figma@0.1.9](https://npmjs.com/package/@seed-design/figma/v/0.1.9)
-- [@seed-design/react@0.1.9](https://npmjs.com/package/@seed-design/react/v/0.1.9)
-- [@seed-design/rootage-artifacts@0.0.3](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.3)
+---
 
 ## 2025.08.04
 
@@ -429,11 +495,12 @@ Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를
 
 - 사용자가 직접 API 호출부터 파일 저장까지의 파이프라인을 작성할 수 있습니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.8](https://npmjs.com/package/@seed-design/css/v/0.1.8)
+- 📦 [@seed-design/figma@0.1.8](https://npmjs.com/package/@seed-design/figma/v/0.1.8)
+- 📦 [@seed-design/figma-extractor@0.0.5](https://npmjs.com/package/@seed-design/figma-extractor/v/0.0.5)
 
-- [@seed-design/css@0.1.8](https://npmjs.com/package/@seed-design/css/v/0.1.8)
-- [@seed-design/figma@0.1.8](https://npmjs.com/package/@seed-design/figma/v/0.1.8)
-- [@seed-design/figma-extractor@0.0.5](https://npmjs.com/package/@seed-design/figma-extractor/v/0.0.5)
+---
 
 ## 2025.08.01
 
@@ -441,9 +508,10 @@ Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를
 
 - 스크롤바가 요소 끝에 표시되도록 수정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.7](https://npmjs.com/package/@seed-design/css/v/0.1.7)
 
-- [@seed-design/css@0.1.7](https://npmjs.com/package/@seed-design/css/v/0.1.7)
+---
 
 ## 2025.07.31
 
@@ -451,12 +519,13 @@ Figma 레이어가 이미지 Fill을 가지고 있는 경우 `<img />` 요소를
 
 [`3c13ad7`](https://github.com/daangn/seed-design/commit/3c13ad76a32bbf909b44f4ffbca1277d6d0f1d7a) `highlight-magic-pressed` 그라디언트 토큰을 추가합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.6](https://npmjs.com/package/@seed-design/css/v/0.1.6)
+- 📦 [@seed-design/rootage-artifacts@0.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.2)
+- 📦 [@seed-design/tailwind3-plugin@0.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.6)
+- 📦 [@seed-design/tailwind4-theme@0.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.6)
 
-- [@seed-design/css@0.1.6](https://npmjs.com/package/@seed-design/css/v/0.1.6)
-- [@seed-design/rootage-artifacts@0.0.2](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.2)
-- [@seed-design/tailwind3-plugin@0.1.6](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.6)
-- [@seed-design/tailwind4-theme@0.1.6](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.6)
+---
 
 ## 2025.07.29
 
@@ -479,11 +548,12 @@ Chip의 스타일 문제를 수정합니다.
 
 - `Chip.Button`의 `label`이 의도한 글꼴로 표시되도록 수정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.5](https://npmjs.com/package/@seed-design/css/v/0.1.5)
+- 📦 [@seed-design/react@0.1.5](https://npmjs.com/package/@seed-design/react/v/0.1.5)
+- 📦 [@seed-design/rootage-artifacts@0.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.1)
 
-- [@seed-design/css@0.1.5](https://npmjs.com/package/@seed-design/css/v/0.1.5)
-- [@seed-design/react@0.1.5](https://npmjs.com/package/@seed-design/react/v/0.1.5)
-- [@seed-design/rootage-artifacts@0.0.1](https://npmjs.com/package/@seed-design/rootage-artifacts/v/0.0.1)
+---
 
 ## 2025.07.28
 
@@ -497,9 +567,10 @@ seed-design add --all # deprecated snippet 제외
 seed-design add --all --include-deprecated # deprecated snippet 포함
 ```
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/cli@0.0.3](https://npmjs.com/package/@seed-design/cli/v/0.0.3)
 
-- [@seed-design/cli@0.0.3](https://npmjs.com/package/@seed-design/cli/v/0.0.3)
+---
 
 ## 2025.07.23
 
@@ -515,10 +586,11 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 <Box pb="safeArea" paddingBottom="safeArea" />
 ```
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.4](https://npmjs.com/package/@seed-design/css/v/0.1.4)
+- 📦 [@seed-design/react@0.1.4](https://npmjs.com/package/@seed-design/react/v/0.1.4)
 
-- [@seed-design/css@0.1.4](https://npmjs.com/package/@seed-design/css/v/0.1.4)
-- [@seed-design/react@0.1.4](https://npmjs.com/package/@seed-design/react/v/0.1.4)
+---
 
 ## 2025.07.11
 
@@ -539,15 +611,16 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 - 플러그인(webpack, vite, rsbuild)에서 `fontScaling` 옵션을 통해 폰트 스케일링 기능을 활성화할 수 있습니다.
 - `data-seed-font-scaling='enabled'` 일 때, 폰트 크기를 조정합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.3](https://npmjs.com/package/@seed-design/css/v/0.1.3)
+- 📦 [@seed-design/rsbuild-plugin@0.1.3](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.3)
+- 📦 [@seed-design/stackflow@0.1.3](https://npmjs.com/package/@seed-design/stackflow/v/0.1.3)
+- 📦 [@seed-design/tailwind3-plugin@0.1.3](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.3)
+- 📦 [@seed-design/tailwind4-theme@0.1.3](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.3)
+- 📦 [@seed-design/vite-plugin@0.1.3](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.3)
+- 📦 [@seed-design/webpack-plugin@0.1.3](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.3)
 
-- [@seed-design/css@0.1.3](https://npmjs.com/package/@seed-design/css/v/0.1.3)
-- [@seed-design/rsbuild-plugin@0.1.3](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.3)
-- [@seed-design/stackflow@0.1.3](https://npmjs.com/package/@seed-design/stackflow/v/0.1.3)
-- [@seed-design/tailwind3-plugin@0.1.3](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.1.3)
-- [@seed-design/tailwind4-theme@0.1.3](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.1.3)
-- [@seed-design/vite-plugin@0.1.3](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.3)
-- [@seed-design/webpack-plugin@0.1.3](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.3)
+---
 
 ## 2025.07.01
 
@@ -562,16 +635,17 @@ seed-design add --all --include-deprecated # deprecated snippet 포함
 - `<BottomSheet />` 컴포넌트의 description font-size가 t6에서 t5로 변경되었습니다.
 - 기존 보라색 계열 magic 관련 시맨틱 색상들(`fg/magic`, `fg/magic-contrast`, `bg/magic-solid`)이 삭제되었습니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/css@0.1.0](https://npmjs.com/package/@seed-design/css/v/0.1.0)
+- 📦 [@seed-design/figma@0.1.0](https://npmjs.com/package/@seed-design/figma/v/0.1.0)
+- 📦 [@seed-design/mcp@0.1.0](https://npmjs.com/package/@seed-design/mcp/v/0.1.0)
+- 📦 [@seed-design/react@0.1.0](https://npmjs.com/package/@seed-design/react/v/0.1.0)
+- 📦 [@seed-design/rsbuild-plugin@0.1.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.0)
+- 📦 [@seed-design/stackflow@0.1.0](https://npmjs.com/package/@seed-design/stackflow/v/0.1.0)
+- 📦 [@seed-design/vite-plugin@0.1.0](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.0)
+- 📦 [@seed-design/webpack-plugin@0.1.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.0)
 
-- [@seed-design/css@0.1.0](https://npmjs.com/package/@seed-design/css/v/0.1.0)
-- [@seed-design/figma@0.1.0](https://npmjs.com/package/@seed-design/figma/v/0.1.0)
-- [@seed-design/mcp@0.1.0](https://npmjs.com/package/@seed-design/mcp/v/0.1.0)
-- [@seed-design/react@0.1.0](https://npmjs.com/package/@seed-design/react/v/0.1.0)
-- [@seed-design/rsbuild-plugin@0.1.0](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.1.0)
-- [@seed-design/stackflow@0.1.0](https://npmjs.com/package/@seed-design/stackflow/v/0.1.0)
-- [@seed-design/vite-plugin@0.1.0](https://npmjs.com/package/@seed-design/vite-plugin/v/0.1.0)
-- [@seed-design/webpack-plugin@0.1.0](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.1.0)
+---
 
 ## 2025.06.24
 
@@ -586,18 +660,19 @@ Alpha 컬러 업데이트
   - `staticWhiteAlpha200` → `staticWhiteAlpha300`
 - `npx @seed-design/codemod@latest replace-alpha-color` 코드모드를 제공합니다.
 
-### Version Updates
+영향받는 패키지
+- 📦 [@seed-design/codemod@0.0.28](https://npmjs.com/package/@seed-design/codemod/v/0.0.28)
+- 📦 [@seed-design/css@0.0.39](https://npmjs.com/package/@seed-design/css/v/0.0.39)
+- 📦 [@seed-design/figma@0.0.39](https://npmjs.com/package/@seed-design/figma/v/0.0.39)
+- 📦 [@seed-design/mcp@0.0.39](https://npmjs.com/package/@seed-design/mcp/v/0.0.39)
+- 📦 [@seed-design/migration-index@0.0.28](https://npmjs.com/package/@seed-design/migration-index/v/0.0.28)
+- 📦 [@seed-design/react@0.0.39](https://npmjs.com/package/@seed-design/react/v/0.0.39)
+- 📦 [@seed-design/rsbuild-plugin@0.0.39](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.0.39)
+- 📦 [@seed-design/stackflow@0.0.39](https://npmjs.com/package/@seed-design/stackflow/v/0.0.39)
+- 📦 [@seed-design/tailwind3-plugin@0.0.39](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.0.39)
+- 📦 [@seed-design/tailwind4-theme@0.0.39](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.0.39)
+- 📦 [@seed-design/vite-plugin@0.0.39](https://npmjs.com/package/@seed-design/vite-plugin/v/0.0.39)
+- 📦 [@seed-design/webpack-plugin@0.0.39](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.0.39)
 
-- [@seed-design/codemod@0.0.28](https://npmjs.com/package/@seed-design/codemod/v/0.0.28)
-- [@seed-design/css@0.0.39](https://npmjs.com/package/@seed-design/css/v/0.0.39)
-- [@seed-design/figma@0.0.39](https://npmjs.com/package/@seed-design/figma/v/0.0.39)
-- [@seed-design/mcp@0.0.39](https://npmjs.com/package/@seed-design/mcp/v/0.0.39)
-- [@seed-design/migration-index@0.0.28](https://npmjs.com/package/@seed-design/migration-index/v/0.0.28)
-- [@seed-design/react@0.0.39](https://npmjs.com/package/@seed-design/react/v/0.0.39)
-- [@seed-design/rsbuild-plugin@0.0.39](https://npmjs.com/package/@seed-design/rsbuild-plugin/v/0.0.39)
-- [@seed-design/stackflow@0.0.39](https://npmjs.com/package/@seed-design/stackflow/v/0.0.39)
-- [@seed-design/tailwind3-plugin@0.0.39](https://npmjs.com/package/@seed-design/tailwind3-plugin/v/0.0.39)
-- [@seed-design/tailwind4-theme@0.0.39](https://npmjs.com/package/@seed-design/tailwind4-theme/v/0.0.39)
-- [@seed-design/vite-plugin@0.0.39](https://npmjs.com/package/@seed-design/vite-plugin/v/0.0.39)
-- [@seed-design/webpack-plugin@0.0.39](https://npmjs.com/package/@seed-design/webpack-plugin/v/0.0.39)
+---
 
