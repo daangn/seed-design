@@ -16,6 +16,7 @@ export default function HelpBubbleWidth() {
         contentProps={{ style: { width } }}
       >
         <SegmentedControl
+          aria-label="너비"
           value={width}
           onValueChange={(value) => setWidth(value as (typeof WIDTH_OPTIONS)[number])}
         >

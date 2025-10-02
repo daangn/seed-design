@@ -16,7 +16,9 @@ export function ComponentExample(props: ComponentExampleProps) {
   if (!children) {
     return (
       <React.Suspense fallback={null}>
-        <ComponentPreview name={name} />
+        <div className="flex min-h-80">
+          <ComponentPreview name={name} />
+        </div>
       </React.Suspense>
     );
   }
@@ -25,7 +27,9 @@ export function ComponentExample(props: ComponentExampleProps) {
     <ErrorBoundary>
       <Tabs items={["미리보기", "코드"]}>
         <Tab value="미리보기">
-          <ComponentPreview name={name} />
+          <div className="flex min-h-80">
+            <ComponentPreview name={name} />
+          </div>
         </Tab>
         <Tab value="코드">{children}</Tab>
       </Tabs>
