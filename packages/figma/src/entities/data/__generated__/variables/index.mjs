@@ -600,6 +600,35 @@ export const FIGMA_VARIABLES = {
     ],
     "codeSyntax": {}
   },
+  "VariableID:33327:83273": {
+    "name": "bg/magic-weak",
+    "id": "VariableID:33327:83273",
+    "remote": false,
+    "key": "9c88d02839ad4edcd4d8d932e4efef7c738cf1e6",
+    "variableCollectionId": "VariableCollectionId:1:3",
+    "resolvedType": "COLOR",
+    "description": "",
+    "hiddenFromPublishing": false,
+    "valuesByMode": {
+      "1928:7": {
+        "r": 0.9764705896377563,
+        "g": 0.9490196108818054,
+        "b": 0.9333333373069763,
+        "a": 1
+      },
+      "1928:8": {
+        "r": 0.125490203499794,
+        "g": 0.12156862765550613,
+        "b": 0.12156862765550613,
+        "a": 1
+      }
+    },
+    "scopes": [
+      "ALL_SCOPES"
+    ],
+    "codeSyntax": {},
+    "deletedButReferenced": true
+  },
   "VariableID:1:159": {
     "name": "bg/neutral-inverted",
     "id": "VariableID:1:159",

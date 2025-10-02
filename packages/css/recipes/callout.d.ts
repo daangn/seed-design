@@ -2,7 +2,7 @@ declare interface CalloutVariant {
   /**
   * @default "neutral"
   */
-  tone: "neutral" | "informative" | "warning" | "critical" | "magic";
+  tone: "neutral" | "informative" | "positive" | "warning" | "critical" | "magic";
 }
 
 declare type CalloutVariantMap = {

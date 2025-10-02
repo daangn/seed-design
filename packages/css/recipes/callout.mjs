@@ -38,6 +38,7 @@ export const calloutVariantMap = {
   "tone": [
     "neutral",
     "informative",
+    "positive",
     "warning",
     "critical",
     "magic"

@@ -43,7 +43,9 @@ export interface ReactTypeTableProps {
    */
   type?: string;
 
-  options?: GenerateOptions;
+  options?: GenerateOptions & {
+    parseDescriptionAsMarkdown?: boolean;
+  };
 }
 
 export async function getReactTypeTableOutput({
