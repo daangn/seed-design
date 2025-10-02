@@ -86,3 +86,7 @@
   animation-timing-function: var(--seed-timing-function-easing);
   --seed-enter-opacity: 0;
 }
+
+strong {
+  font-weight: 700;
+}
