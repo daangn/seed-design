@@ -223,8 +223,9 @@
         "@karrotmarket/react-monochrome-icon": "^1.0.0",
         "@radix-ui/react-slot": "^1.2.3",
         "@radix-ui/react-use-callback-ref": "^1.1.1",
-        "@seed-design/css": "1.0.2",
-        "@seed-design/react": "1.0.2",
+        "@seed-design/css": "1.0.3",
+        "@seed-design/react": "1.0.3",
+        "@seed-design/react-number-field": "workspace:*",
         "@seed-design/stackflow": "1.0.0",
         "@seed-design/stylesheet": "1.1.1",
         "@stackflow/compat-await-push": "^1.1.13",
@@ -485,6 +486,26 @@
         "@radix-ui/react-focus-scope": "^1.1.4",
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/number-field": {
+      "name": "@seed-design/react-number-field",
+      "version": "1.0.0",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-use-callback-ref": "^1.1.1",
+        "@radix-ui/react-use-controllable-state": "1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
@@ -2114,6 +2135,8 @@
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
 
     "@seed-design/react-icon": ["@seed-design/react-icon@0.7.4", "", { "peerDependencies": { "react": "17.x || 18.x || 19.x" } }, "sha512-jjfKw3mvIYsTlgdxb4pjWTpT+uW8RZns/gcfhOjWuegZEXuZyAy4kPpiNbeNdnbrNoLWTCt8Rtt6UCGr/Zo/EQ=="],
+
+    "@seed-design/react-number-field": ["@seed-design/react-number-field@workspace:packages/react-headless/number-field"],
 
     "@seed-design/react-popover": ["@seed-design/react-popover@workspace:packages/react-headless/popover"],
 
