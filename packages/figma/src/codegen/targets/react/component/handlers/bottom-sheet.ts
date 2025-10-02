@@ -29,7 +29,7 @@ export const createBottomSheetHandler = (_ctx: ComponentHandlerDeps) =>
         description: props["Description#19787:7"].value,
       }),
       ...(props["Show Close Button#19787:11"].value === false && {
-        showCloseButton: false,
+        hideCloseButton: true,
       }),
     };
 
