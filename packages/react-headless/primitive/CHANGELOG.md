@@ -1,5 +1,11 @@
 # @seed-design/react-primitive
 
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
 ## 0.0.3
 
 ### Patch Changes

@@ -7,14 +7,7 @@ export interface IconProps {
   marginLeft?: Property.MarginLeft;
   marginRight?: Property.MarginRight;
   marginTop?: Property.MarginTop;
-
-  // 네 변에 대해 모두 margin 프로퍼티가 지정되어 있는 경우
-  // cssnano 등 최적화 도구가
-  // margin: var(--seed-prefix-icon-margin-top) var(--seed-prefix-icon-margin-right) var(--seed-prefix-icon-margin-bottom) var(--seed-prefix-icon-margin-left);
-  // 로 선언을 합칩니다.
-  // 이때 네 개의 CSS variable 중 하나라도 정의되어 있지 않은 경우 어떤 margin도 적용되지 않으므로
-  // 여기에서 marginBottom을 의도적으로 정의하지 않습니다.
-  // also see: https://github.com/cssnano/cssnano/issues/1472
+  marginBottom?: Property.MarginBottom;
 
   alignSelf?: Property.AlignSelf;
   justifySelf?: Property.JustifySelf;
@@ -41,6 +34,10 @@ export function prefixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-prefix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-prefix-icon-margin-bottom"] = props.marginBottom;
   }
 
   if (props.alignSelf) {
@@ -75,6 +72,10 @@ export function suffixIcon(props: IconProps) {
 
   if (props.marginTop) {
     result["--seed-suffix-icon-margin-top"] = props.marginTop;
+  }
+
+  if (props.marginBottom) {
+    result["--seed-suffix-icon-margin-bottom"] = props.marginBottom;
   }
 
   if (props.alignSelf) {

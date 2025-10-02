@@ -1,16 +1,16 @@
 import { HStack, Text, VStack } from "@seed-design/react";
-import { Checkbox } from "@seed-design/react";
+import { Checkbox } from "@seed-design/react/primitive";
 import { Checkmark } from "seed-design/ui/checkbox";
 
 function CustomCheckbox({ children, ...props }: Checkbox.RootProps) {
   return (
-    <Checkbox.Root {...props}>
-      <VStack gap="x2" align="center">
+    <VStack asChild gap="x2" align="center">
+      <Checkbox.Root {...props}>
         <Checkmark />
         <Checkbox.HiddenInput />
         {children}
-      </VStack>
-    </Checkbox.Root>
+      </Checkbox.Root>
+    </VStack>
   );
 }
 

@@ -10,7 +10,8 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-bold)"
       },
       "emote": {
-        "size": "var(--seed-dimension-x6)"
+        "size": "var(--seed-dimension-x8)",
+        "bleed": "var(--seed-dimension-x1)"
       }
     }
   },
@@ -53,6 +54,34 @@ export const vars = {
     "enabled": {
       "label": {
         "color": "var(--seed-color-manner-temp-l6-text)"
+      }
+    }
+  },
+  "levelL7": {
+    "enabled": {
+      "label": {
+        "color": "var(--seed-color-manner-temp-l7-text)"
+      }
+    }
+  },
+  "levelL8": {
+    "enabled": {
+      "label": {
+        "color": "var(--seed-color-manner-temp-l8-text)"
+      }
+    }
+  },
+  "levelL9": {
+    "enabled": {
+      "label": {
+        "color": "var(--seed-color-manner-temp-l9-text)"
+      }
+    }
+  },
+  "levelL10": {
+    "enabled": {
+      "label": {
+        "color": "var(--seed-color-manner-temp-l10-text)"
       }
     }
   }

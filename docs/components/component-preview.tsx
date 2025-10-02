@@ -22,7 +22,7 @@ export function ComponentPreview(props: ComponentPreviewProps) {
   return (
     <React.Suspense fallback={null}>
       <div
-        className="not-prose example-reset example-enter min-h-[300px] w-full flex flex-col justify-center items-center"
+        className="not-prose example-reset w-full flex flex-col justify-center items-center"
         style={{
           backgroundColor: "var(--seed-color-bg-layer-default)",
         }}
