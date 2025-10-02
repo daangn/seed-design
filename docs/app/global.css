@@ -80,13 +80,6 @@
     "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.example-enter {
-  animation: seed-enter;
-  animation-duration: var(--seed-duration-d2);
-  animation-timing-function: var(--seed-timing-function-easing);
-  --seed-enter-opacity: 0;
-}
-
 strong {
   font-weight: 700;
 }
