@@ -179,6 +179,10 @@ const ActivityHome: ActivityComponentType = () => {
           ],
         },
         {
+          title: "Form Components",
+          items: [{ title: "NumberField", onClick: () => push("ActivityNumberField", {}) }],
+        },
+        {
           title: "Other Components",
           items: [
             { title: "HelpBubble", onClick: () => push("ActivityHelpBubble", {}) },

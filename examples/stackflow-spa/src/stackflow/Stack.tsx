@@ -46,6 +46,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityListSwitchItem: React.lazy(() => import("../activities/ActivityListSwitchItem")),
     ActivityListCheckItem: React.lazy(() => import("../activities/ActivityListCheckItem")),
     ActivityListRadioItem: React.lazy(() => import("../activities/ActivityListRadioItem")),
+    ActivityNumberField: React.lazy(() => import("../activities/ActivityNumberField")),
     ActivityNotFound,
   },
   plugins: [
@@ -87,6 +88,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityListSwitchItem: "/list-item-switch",
         ActivityListCheckItem: "/list-item-check",
         ActivityListRadioItem: "/list-item-radio",
+        ActivityNumberField: "/number-field",
         ActivityNotFound: "/404",
       },
     }),
