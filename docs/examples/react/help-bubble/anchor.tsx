@@ -15,7 +15,7 @@ export default function () {
         description="클릭으로 열고 닫는 동작 없이 위치만 지정합니다."
         placement="right"
         showCloseButton
-        // closeOnInteractOutside={false}
+        closeOnInteractOutside={false}
       >
         <Avatar size="64" src="https://avatars.githubusercontent.com/u/54893898?v=4" fallback="L" />
       </HelpBubbleAnchor>
