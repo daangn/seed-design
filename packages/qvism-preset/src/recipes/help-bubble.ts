@@ -46,13 +46,11 @@ const helpBubble = defineSlotRecipe({
       width: vars.base.enabled.arrow.width,
       // we're making it square
       height: vars.base.enabled.arrow.width,
-
-      /**
-       * Prevent the arrow position from being calculated differently due to the font-size of the parent element
-       */
-      fontSize: "0",
     },
     arrowTip: {
+      // svg has default display of inline, which makes it be affected by line-height
+      display: "block",
+
       fill: vars.base.enabled.arrow.color,
 
       width: vars.base.enabled.arrow.width,
@@ -63,18 +61,26 @@ const helpBubble = defineSlotRecipe({
       fontSize: vars.base.enabled.title.fontSize,
       fontWeight: vars.base.enabled.title.fontWeight,
       lineHeight: vars.base.enabled.title.lineHeight,
+
+      whiteSpace: "pre-wrap",
     },
     description: {
       color: vars.base.enabled.description.color,
       fontSize: vars.base.enabled.description.fontSize,
       fontWeight: vars.base.enabled.description.fontWeight,
       lineHeight: vars.base.enabled.description.lineHeight,
+
+      whiteSpace: "pre-wrap",
     },
     closeButton: {
       position: "absolute",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
+      border: "none",
+      background: "transparent",
+      cursor: "pointer",
+      padding: 0,
 
       top: `calc(${vars.base.enabled.closeButton.fromTop} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,
       right: `calc(${vars.base.enabled.closeButton.fromRight} - ${vars.base.enabled.closeButton.targetSize} / 2 + ${vars.base.enabled.closeButton.size} / 2)`,

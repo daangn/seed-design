@@ -34,7 +34,7 @@ const callout = defineSlotRecipe({
         size: vars.base.enabled.suffixIcon.size,
       }),
 
-      [pseudo(":is(button)")]: {
+      [pseudo(":is(button, a)")]: {
         cursor: "pointer",
       },
     },
@@ -109,7 +109,7 @@ const callout = defineSlotRecipe({
             color: vars.toneNeutral.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button, a)", active)]: {
             backgroundColor: vars.toneNeutral.pressed.root.color,
           },
         },
@@ -134,7 +134,7 @@ const callout = defineSlotRecipe({
             color: vars.toneInformative.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button, a)", active)]: {
             backgroundColor: vars.toneInformative.pressed.root.color,
           },
         },
@@ -148,6 +148,31 @@ const callout = defineSlotRecipe({
           color: vars.toneInformative.enabled.link.color,
         },
       },
+      positive: {
+        root: {
+          backgroundColor: vars.tonePositive.enabled.root.color,
+
+          ...prefixIcon({
+            color: vars.tonePositive.enabled.prefixIcon.color,
+          }),
+          ...suffixIcon({
+            color: vars.tonePositive.enabled.suffixIcon.color,
+          }),
+
+          [pseudo(":is(button, a)", active)]: {
+            backgroundColor: vars.tonePositive.pressed.root.color,
+          },
+        },
+        title: {
+          color: vars.tonePositive.enabled.title.color,
+        },
+        description: {
+          color: vars.tonePositive.enabled.description.color,
+        },
+        link: {
+          color: vars.tonePositive.enabled.link.color,
+        },
+      },
       warning: {
         root: {
           backgroundColor: vars.toneWarning.enabled.root.color,
@@ -159,7 +184,7 @@ const callout = defineSlotRecipe({
             color: vars.toneWarning.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button, a)", active)]: {
             backgroundColor: vars.toneWarning.pressed.root.color,
           },
         },
@@ -184,7 +209,7 @@ const callout = defineSlotRecipe({
             color: vars.toneCritical.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button, a)", active)]: {
             backgroundColor: vars.toneCritical.pressed.root.color,
           },
         },
@@ -209,7 +234,7 @@ const callout = defineSlotRecipe({
             color: vars.toneMagic.enabled.suffixIcon.color,
           }),
 
-          [pseudo(":is(button)", active)]: {
+          [pseudo(":is(button, a)", active)]: {
             backgroundImage: `linear-gradient(88deg, ${vars.toneMagic.pressed.root.color})`,
           },
         },

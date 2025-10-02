@@ -22,6 +22,7 @@ const CommonStoryTemplate: Story = {
     title: "Title",
     description: "Description",
     open: true,
+    showCloseButton: true,
   },
   render: (args) => (
     <VariantTable Component={meta.component} variantMap={helpBubbleVariantMap} {...args} />
