@@ -3984,13 +3984,13 @@
 .seed-help-bubble__arrow {
   width: 12px;
   height: 12px;
-  font-size: 0;
 }
 
 .seed-help-bubble__arrowTip {
   fill: var(--seed-color-bg-neutral-inverted);
   width: 12px;
   height: 8px;
+  display: block;
 }
 
 .seed-help-bubble__title {
@@ -3998,6 +3998,7 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-bold);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__description {
@@ -4005,16 +4006,21 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-regular);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__closeButton {
+  cursor: pointer;
   color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+  background: none;
+  border: none;
   justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
+  padding: 0;
   display: flex;
   position: absolute;
   top: 3px;
