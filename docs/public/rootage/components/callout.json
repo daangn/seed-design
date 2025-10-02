@@ -108,6 +108,7 @@
           "values": {
             "neutral": {},
             "informative": {},
+            "positive": {},
             "warning": {},
             "critical": {},
             "magic": {}
@@ -332,6 +333,69 @@
                 "color": {
                   "type": "color",
                   "value": "$color.bg.informative-weak-pressed"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "tone": "positive"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.positive-weak"
+                }
+              },
+              "prefixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "title": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "description": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "link": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              },
+              "suffixIcon": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.positive-contrast"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.positive-weak-pressed"
                 }
               }
             }
