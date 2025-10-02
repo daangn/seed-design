@@ -1,11 +1,11 @@
-import { Box } from "@seed-design/react";
-import { ActionButton } from "seed-design/ui/action-button";
+import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
+import { Box, Icon } from "@seed-design/react";
 import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 export default function HelpBubblePreview() {
   return (
     <div
-      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "40px", padding: "60px" }}
+      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "80px", padding: "80px" }}
     >
       <HelpBubbleAnchor
         open
@@ -14,10 +14,10 @@ export default function HelpBubblePreview() {
         title="top-end"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor open flip={false} placement="top" title="top" description="est tempor aute">
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -26,7 +26,7 @@ export default function HelpBubblePreview() {
         title="top-start"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -35,7 +35,7 @@ export default function HelpBubblePreview() {
         title="left-end"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <Box />
       <HelpBubbleAnchor
@@ -45,7 +45,7 @@ export default function HelpBubblePreview() {
         title="right-end"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -54,7 +54,7 @@ export default function HelpBubblePreview() {
         title="left"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <Box />
       <HelpBubbleAnchor
@@ -64,7 +64,7 @@ export default function HelpBubblePreview() {
         title="right"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -73,7 +73,7 @@ export default function HelpBubblePreview() {
         title="left-start"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <Box />
       <HelpBubbleAnchor
@@ -83,7 +83,7 @@ export default function HelpBubblePreview() {
         title="right-start"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -92,7 +92,7 @@ export default function HelpBubblePreview() {
         title="bottom-end"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -101,7 +101,7 @@ export default function HelpBubblePreview() {
         title="bottom"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor
         open
@@ -110,7 +110,7 @@ export default function HelpBubblePreview() {
         title="bottom-start"
         description="est tempor aute"
       >
-        <ActionButton variant="neutralWeak">열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
     </div>
   );

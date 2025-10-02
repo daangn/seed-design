@@ -1,10 +1,11 @@
-import { ActionButton } from "seed-design/ui/action-button";
+import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
+import { Icon } from "@seed-design/react";
 import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 
 export default function HelpBubbleTitleOnly() {
   return (
     <HelpBubbleAnchor open title="Title Only">
-      <ActionButton>열기</ActionButton>
+      <Icon svg={<IconSparkle2 />} />
     </HelpBubbleAnchor>
   );
 }

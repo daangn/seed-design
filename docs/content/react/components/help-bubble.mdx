@@ -38,12 +38,44 @@ npx @seed-design/cli@latest add ui:help-bubble
 
 ## Examples
 
+### Trigger
+
+`HelpBubbleTrigger`의 `children`을 클릭하면 Help Bubble이 열리고 닫힙니다.
+
+`children`으로는 `button` 등 포커스 가능한 요소를 넣어야 합니다.
+
+<ComponentExample name="react/help-bubble/trigger">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/trigger.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Anchor
+
+`HelpBubbleAnchor`의 `children`은 Help Bubble이 위치를 잡는 데에만 사용되며 클릭으로 열고 닫는 동작은 없습니다.
+
+`defaultOpen`과 `showCloseButton`을 사용하여 적절하게 열리고 닫히도록 하거나, `open` prop을 controlled하게 사용하여 열리고 닫힌 상태를 직접 관리할 수 있습니다.
 
 <ComponentExample name="react/help-bubble/anchor">
   ```json doc-gen:file
   {
     "file": "examples/react/help-bubble/anchor.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Close On Interact Outside
+
+`closeOnInteractOutside` prop을 `false`로 설정하면 Help Bubble 및 `HelpBubbleTrigger`, `HelpBubbleAnchor` 외부를 클릭해도 Help Bubble이 닫히지 않습니다. 기본값은 `true`입니다.
+
+<ComponentExample name="react/help-bubble/close-on-interact-outside">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/help-bubble/close-on-interact-outside.tsx",
     "codeblock": true
   }
   ```

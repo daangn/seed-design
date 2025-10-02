@@ -1,4 +1,5 @@
-import { ActionButton } from "seed-design/ui/action-button";
+import { IconSparkle2 } from "@karrotmarket/react-multicolor-icon";
+import { Icon } from "@seed-design/react";
 import { HelpBubbleAnchor } from "seed-design/ui/help-bubble";
 import { HStack } from "@seed-design/react";
 
@@ -19,10 +20,10 @@ export default function HelpBubbleLineBreaks() {
           </>
         }
       >
-        <ActionButton>열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
       <HelpBubbleAnchor open title={"Breaking\nlines\nusing\nnewlines"}>
-        <ActionButton>열기</ActionButton>
+        <Icon svg={<IconSparkle2 />} />
       </HelpBubbleAnchor>
     </HStack>
   );
