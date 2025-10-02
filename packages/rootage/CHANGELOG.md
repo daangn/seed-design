@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.0.3
+
+### Patch Changes
+
+- 6c6099d: Callout에 tone=positive variant를 추가합니다.
+
 ## 1.0.2
 
 ### Patch Changes
