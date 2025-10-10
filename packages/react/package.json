@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -43,7 +43,7 @@
     "@seed-design/react-avatar": "1.0.0",
     "@seed-design/react-checkbox": "1.0.0",
     "@seed-design/react-dialog": "1.0.0",
-    "@seed-design/react-popover": "1.0.0",
+    "@seed-design/react-popover": "1.0.1",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-progress": "1.0.0",

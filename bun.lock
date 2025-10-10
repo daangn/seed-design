@@ -50,7 +50,7 @@
         "@sanity/vision": "3.99.0",
         "@seed-design/css": "1.0.3",
         "@seed-design/migration-index": "1.0.0",
-        "@seed-design/react": "1.0.3",
+        "@seed-design/react": "1.0.4",
         "@seed-design/react-icon": "^0.7.4",
         "@seed-design/rootage-core": "0.0.0",
         "@seed-design/stackflow": "1.0.0",
@@ -398,7 +398,7 @@
     },
     "packages/react": {
       "name": "@seed-design/react",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "dependencies": {
         "@radix-ui/react-compose-refs": "^1.1.2",
         "@radix-ui/react-slot": "^1.2.3",
@@ -408,7 +408,7 @@
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.0",
         "@seed-design/react-dialog": "1.0.0",
-        "@seed-design/react-popover": "1.0.0",
+        "@seed-design/react-popover": "1.0.1",
         "@seed-design/react-portal": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
         "@seed-design/react-progress": "1.0.0",
@@ -500,7 +500,7 @@
     },
     "packages/react-headless/popover": {
       "name": "@seed-design/react-popover",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "dependencies": {
         "@floating-ui/react": "^0.27.0",
         "@radix-ui/react-compose-refs": "^1.1.2",
