@@ -272,26 +272,31 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 
     // changeset별 변경사항 (각 changeset의 개별 commit 링크와 함께)
     for (const changeset of entry.changesets) {
-      let changesetContent = changeset.content;
+      const lines = changeset.content.split("\n");
+      const [firstLine, ...restLines] = lines;
 
-      // 각 changeset의 개별 commit 링크를 내용 앞에 추가
+      // 커밋 해시를 첫 줄 끝에 추가
+      let changesetContent = firstLine;
       if (changeset.commitLink) {
-        changesetContent = `${changeset.commitLink} ${changesetContent}`;
+        changesetContent += ` ${changeset.commitLink}`;
       }
 
-      markdown += `${changesetContent}\n\n`;
-    }
-
-    // 패키지 버전 목록
-    const allPackages = entry.changesets.flatMap((cs) => cs.packages);
-    const uniquePackages = Array.from(new Map(allPackages.map((pkg) => [pkg.name, pkg])).values());
-
-    if (uniquePackages.length > 0) {
-      markdown += "### Version Updates\n\n";
-      for (const pkg of uniquePackages.sort((a, b) => a.name.localeCompare(b.name))) {
-        markdown += `- [${pkg.name}@${pkg.version}](https://npmjs.com/package/${pkg.name}/v/${pkg.version})\n`;
+      // 나머지 줄 추가
+      if (restLines.length > 0) {
+        changesetContent += `\n${restLines.join("\n")}`;
       }
-      markdown += "\n";
+
+      markdown += `${changesetContent}\n`;
+
+      // "영향받는 패키지"를 bullet point로 추가
+      if (changeset.packages.length > 0) {
+        markdown += "\n영향받는 패키지\n";
+        for (const pkg of changeset.packages.sort((a, b) => a.name.localeCompare(b.name))) {
+          markdown += `- 📦 [${pkg.name}@${pkg.version}](https://npmjs.com/package/${pkg.name}/v/${pkg.version})\n`;
+        }
+      }
+
+      markdown += "\n---\n\n";
     }
   }
 

@@ -1,5 +1,66 @@
 # @seed-design/rootage-artifacts
 
+## 1.0.3
+
+### Patch Changes
+
+- 6c6099d: Callout에 tone=positive variant를 추가합니다.
+
+## 1.0.2
+
+### Patch Changes
+
+- 6d2e13d: MannerTemp 컴포넌트가 레이아웃에서 너비를 덜 차지하도록 업데이트합니다.
+
+## 1.0.1
+
+### Patch Changes
+
+- 1420b68: MannerTemp 컴포넌트가 레이아웃에서 높이를 덜 차지하도록 업데이트합니다.
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Minor Changes
+
+- 39a96f1: (**BREAKING CHANGE**: Snackbar Snippet을 다시 설치해야합니다) Snackbar 컴포넌트 변경
+  - Snackbar의 배경색이 다크모드에서 흰색으로 변경됩니다.
+  - Prefix 요소유무에 따라 여백이 변경됩니다.
+  - `npx @seed-design/cli@latest add ui:snackbar` 명령어로 설치하세요.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+- 4153ca5: HelpBubble 컴포넌트의 배경색이 다크모드에서 흰색으로 변경됩니다.
+- a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:switch` 명령어로 설치하세요.
+
+  (**BREAKING CHANGE**: `ListHeader` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) List Header 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
+
+## 0.1.4
+
+### Patch Changes
+
+- 0ca19c0: Segmented Control 컴포넌트를 업데이트합니다.
+
+  - Notification Badge를 표시하는 notification prop을 추가합니다.
+  - `SegmentedControlItem`의 `children`을 `string`에서 `ReactNode`로 확대합니다.
+  - 스타일을 업데이트합니다.
+
 ## 0.1.3
 
 ### Patch Changes

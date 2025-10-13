@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar as SeedAvatar } from "@seed-design/react";
 import * as React from "react";
 
@@ -34,8 +32,3 @@ export const AvatarBadge = SeedAvatar.Badge;
 export interface AvatarStackProps extends SeedAvatar.StackProps {}
 
 export const AvatarStack = SeedAvatar.Stack;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

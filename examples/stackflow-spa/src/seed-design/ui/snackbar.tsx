@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Snackbar as SeedSnackbar,
   useSnackbarAdapter as useSeedSnackbarAdapter,
@@ -88,7 +86,8 @@ export const Snackbar = React.forwardRef<HTMLDivElement, SnackbarProps>(
         />
         <SeedSnackbar.Message>{message}</SeedSnackbar.Message>
         <SeedSnackbar.ActionButton onClick={handleAction}>{actionLabel}</SeedSnackbar.ActionButton>
-        <SeedSnackbar.HiddenCloseButton />
+        {/* You may implement your own i18n for dismiss label */}
+        <SeedSnackbar.HiddenCloseButton>닫기</SeedSnackbar.HiddenCloseButton>
       </SeedSnackbar.Root>
     );
   },

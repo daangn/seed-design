@@ -49,8 +49,15 @@ export default defineConfig({
         },
       ],
       [remarkDocGen, { generators: [fileGenerator()] }],
-      [remarkReactTypeTable, { generator: typeTableGenerator }],
-      remarkUnionLiteralTable,
+      [
+        remarkReactTypeTable,
+        {
+          generator: typeTableGenerator,
+          options: {
+            parseDescriptionAsMarkdown: true,
+          },
+        },
+      ],
     ],
     rehypeCodeOptions: {
       lazy: true,

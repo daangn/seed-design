@@ -38,7 +38,9 @@ export async function ReactTypeTable(props: ReactTypeTableProps): Promise<React.
               {
                 type: entry.type,
                 description: await renderMarkdown(entry.description),
-                default: entry.tags.default || entry.tags.defaultValue,
+                default: entry.tags.find(
+                  (tag) => tag.name === "default" || tag.name === "defaultValue",
+                )?.text,
                 required: entry.required,
               },
             ] as const,

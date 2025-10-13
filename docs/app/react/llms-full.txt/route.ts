@@ -17,7 +17,8 @@ export async function GET() {
 
   const results = await Promise.all(
     pages.map(async (page) => {
-      const processed = await processContent(page.path, page.data.content);
+      const rawContent = await page.data.getText("raw");
+      const processed = await processContent(page.path, rawContent || "");
 
       return `file: ${page.path}
 

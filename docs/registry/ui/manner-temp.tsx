@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  Celcius,
+  Celsius,
   MannerTempEmote,
   MannerTemp as SeedMannerTemp,
   SuffixIcon,
@@ -23,15 +23,10 @@ export const MannerTemp = React.forwardRef<HTMLSpanElement, MannerTempProps>(
   ({ temperature, level, ...otherProps }, ref) => {
     return (
       <SeedMannerTemp ref={ref} level={level ?? mannerTempToLevel(temperature)} {...otherProps}>
-        <Celcius value={temperature} />
+        <Celsius value={temperature} />
         <SuffixIcon svg={<MannerTempEmote />} />
       </SeedMannerTemp>
     );
   },
 );
 MannerTemp.displayName = "MannerTemp";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

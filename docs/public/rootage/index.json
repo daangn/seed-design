@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "0.1.3",
+  "version": "1.0.3",
   "resources": [
     {
       "path": "/collections.json"
@@ -99,6 +99,9 @@
       "path": "/components/link-content.json"
     },
     {
+      "path": "/components/list-header.json"
+    },
+    {
       "path": "/components/list-item.json"
     },
     {
@@ -148,6 +151,9 @@
     },
     {
       "path": "/components/snackbar.json"
+    },
+    {
+      "path": "/components/switch-mark.json"
     },
     {
       "path": "/components/switch.json"

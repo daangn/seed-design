@@ -14,7 +14,7 @@ export function StackflowPreview(props: StackflowPreviewProps) {
 
   const activities = React.useMemo(() => {
     const Components = names.map((name) => {
-      const Component = React.lazy(() => import(`./example/${name}.tsx`));
+      const Component = React.lazy(() => import(`../examples/${name}.tsx`));
 
       if (!Component) {
         throw new Error(`Component not found: ${name}`);

@@ -1,7 +1,5 @@
-"use client";
-
 import {
-  Celcius,
+  Celsius,
   MannerTempBadge as SeedMannerTempBadge,
   type MannerTempBadgeProps as SeedMannerTempBadgeProps,
 } from "@seed-design/react";
@@ -26,14 +24,9 @@ export const MannerTempBadge = React.forwardRef<HTMLSpanElement, MannerTempBadge
         level={level ?? mannerTempToLevel(temperature)}
         {...otherProps}
       >
-        <Celcius value={temperature} />
+        <Celsius value={temperature} />
       </SeedMannerTempBadge>
     );
   },
 );
 MannerTempBadge.displayName = "MannerTempBadge";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

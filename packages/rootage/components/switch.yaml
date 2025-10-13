@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=./schema.json
-# parts: root, control, thumb
+# parts: root, label
 kind: ComponentSpec
 metadata:
   id: switch
@@ -13,34 +13,6 @@ data:
             type: dimension
           gap:
             type: dimension
-      control:
-        properties:
-          color:
-            type: color
-          cornerRadius:
-            type: dimension
-          opacity:
-            type: number
-          height:
-            type: dimension
-          width:
-            type: dimension
-          paddingX:
-            type: dimension
-          paddingY:
-            type: dimension
-      thumb:
-        properties:
-          color:
-            type: color
-          cornerRadius:
-            type: dimension
-          height:
-            type: dimension
-          width:
-            type: dimension
-          shadow:
-            type: shadow
       label:
         properties:
           color:
@@ -54,106 +26,34 @@ data:
   definitions:
     base:
       enabled:
-        control:
-          color: $color.palette.gray-600
-          cornerRadius: $radius.full
-        thumb:
-          cornerRadius: $radius.full
         label:
           color: $color.fg.neutral
           fontWeight: $font-weight.medium
       disabled:
-        control:
-          opacity: 0.38
         label:
           color: $color.fg.disabled
     
-    tone=brand:
-      enabled:
-        thumb:
-          color: $color.palette.static-white
-      enabled,selected:
-        control:
-          color: $color.bg.brand-solid
-    tone=neutral:
-      enabled:
-        thumb:
-          color: $color.fg.neutral-inverted
-      enabled,selected:
-        control:
-          color: $color.bg.neutral-inverted
-
     size=32:
       enabled:
         root:
-          height: 32px
+          height: $dimension.x8
           gap: $dimension.x2_5
-        control:
-          height: 32px
-          width: 52px
-          paddingX: 3px
-          paddingY: 3px
-        thumb:
-          height: 26px
-          width: 26px
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 3px
-                blur: 8px
-                spread: 0px
-                color: "#00000026"
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 3px
-                spread: 0px
-                color: "#0000000f"
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
     size=24:
       enabled:
         root:
-          height: 24px
+          height: $dimension.x6
           gap: $dimension.x2
-        control:
-          height: 24px
-          width: 38px
-          paddingX: 2px
-          paddingY: 2px
-        thumb:
-          height: 20px
-          width: 20px
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 3px
-                blur: 8px
-                spread: 0px
-                color: "#00000026"
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 3px
-                spread: 0px
-                color: "#0000000f"
         label:
           fontSize: $font-size.t4
           lineHeight: $line-height.t4
     size=16:
       enabled:
         root:
-          height: 24px
+          height: $dimension.x6
           gap: $dimension.x1_5
-        control:
-          height: 16px
-          width: 26px
-          paddingX: 2px
-          paddingY: 2px
-        thumb:
-          height: 12px
-          width: 12px
         label:
           fontSize: $font-size.t3
           lineHeight: $line-height.t3

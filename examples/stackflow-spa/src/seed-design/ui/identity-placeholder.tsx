@@ -1,5 +1,3 @@
-"use client";
-
 import { IdentityPlaceholder as SeedIdentityPlaceholder } from "@seed-design/react";
 import * as React from "react";
 

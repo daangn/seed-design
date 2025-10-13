@@ -29,10 +29,15 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentPro
   description?: React.ReactNode;
 
   layerIndex?: number;
+
+  /**
+   * @default false
+   */
+  hideCloseButton?: boolean;
 }
 
 export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentProps>(
-  ({ children, title, description, layerIndex, ...otherProps }, ref) => {
+  ({ children, title, description, layerIndex, hideCloseButton = false, ...otherProps }, ref) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -59,10 +64,12 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
             </SeedBottomSheet.Header>
           )}
           {children}
-          {/* You may implement your own i18n for dismiss label */}
-          <SeedBottomSheet.CloseButton aria-label="닫기">
-            <Icon svg={<IconXmarkLine />} />
-          </SeedBottomSheet.CloseButton>
+          {!hideCloseButton && (
+            // You may implement your own i18n for dismiss label
+            <SeedBottomSheet.CloseButton aria-label="닫기">
+              <Icon svg={<IconXmarkLine />} />
+            </SeedBottomSheet.CloseButton>
+          )}
         </SeedBottomSheet.Content>
       </SeedBottomSheet.Positioner>
     );
@@ -76,8 +83,3 @@ export const BottomSheetBody = SeedBottomSheet.Body;
 export interface BottomSheetFooterProps extends SeedBottomSheet.FooterProps {}
 
 export const BottomSheetFooter = SeedBottomSheet.Footer;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

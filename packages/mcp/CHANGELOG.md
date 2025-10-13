@@ -1,5 +1,43 @@
 # @seed-design/mcp
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [ac1fd00]
+- Updated dependencies [8b07555]
+  - @seed-design/figma@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- @seed-design/figma@1.0.2
+
+## 1.0.1
+
+### Patch Changes
+
+- @seed-design/figma@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/figma@1.0.0
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [bef65a6]
+  - @seed-design/figma@0.2.5
+
 ## 0.2.4
 
 ### Patch Changes

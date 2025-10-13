@@ -1,4 +1,5 @@
 import { react, createPluginNormalizer } from "@seed-design/figma";
+import { posthog } from "./posthog";
 
 const pipeline = react.createPipeline({
   shouldInferAutoLayout: true,
@@ -26,7 +27,7 @@ export default function () {
           ];
         }
 
-        return [
+        const code: CodegenResult[] = [
           {
             title: "React",
             language: "TYPESCRIPT",
@@ -38,8 +39,45 @@ export default function () {
             code: generated.imports,
           },
         ];
+
+        posthog.capture({
+          event: "codegen.generate",
+          properties: {
+            code,
+
+            nodeType: node.type,
+            nodeName: node.name,
+            nodeId: node.id,
+
+            fileName: figma.root.name,
+            fileKey: figma.fileKey,
+
+            username: figma.currentUser?.name,
+            userId: figma.currentUser?.id,
+          },
+        });
+
+        return code;
       } catch (error) {
         console.error(error);
+
+        posthog.capture({
+          event: "codegen.error",
+          properties: {
+            error: `${error}`,
+
+            nodeType: node.type,
+            nodeName: node.name,
+            nodeId: node.id,
+
+            fileName: figma.root.name,
+            fileKey: figma.fileKey,
+
+            username: figma.currentUser?.name,
+            userId: figma.currentUser?.id,
+          },
+        });
+
         return [
           {
             title: "React",

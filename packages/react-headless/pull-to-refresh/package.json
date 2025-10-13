@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react-pull-to-refresh",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -29,8 +29,8 @@
   "dependencies": {
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-compose-refs": "^1.1.2",
-    "@seed-design/dom-utils": "0.0.2",
-    "@seed-design/react-primitive": "0.0.3"
+    "@seed-design/dom-utils": "1.0.0",
+    "@seed-design/react-primitive": "1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

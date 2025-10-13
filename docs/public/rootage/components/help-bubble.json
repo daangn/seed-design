@@ -23,9 +23,6 @@
             "paddingY": {
               "type": "dimension"
             },
-            "shadow": {
-              "type": "shadow"
-            },
             "enterScale": {
               "type": "number"
             },
@@ -142,7 +139,7 @@
               "root": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-solid"
+                  "value": "$color.bg.neutral-inverted"
                 },
                 "cornerRadius": {
                   "type": "dimension",
@@ -155,30 +152,6 @@
                 "paddingY": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
-                },
-                "shadow": {
-                  "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#00000029",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 8,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 24,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
                 },
                 "enterScale": {
                   "type": "number",
@@ -216,7 +189,7 @@
               "arrow": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.neutral-solid"
+                  "value": "$color.bg.neutral-inverted"
                 },
                 "width": {
                   "type": "dimension",
@@ -257,7 +230,7 @@
               "title": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -275,7 +248,7 @@
               "description": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 },
                 "fontSize": {
                   "type": "dimension",
@@ -293,7 +266,7 @@
               "closeButton": {
                 "color": {
                   "type": "color",
-                  "value": "$color.palette.static-white"
+                  "value": "$color.fg.neutral-inverted"
                 },
                 "fromRight": {
                   "type": "dimension",

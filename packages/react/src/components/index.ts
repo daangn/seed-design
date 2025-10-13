@@ -6,7 +6,7 @@ export * from "./Badge";
 export * from "./BottomSheet";
 export * from "./Box";
 export * from "./Callout";
-export * from "./Celcius";
+export * from "./Celsius";
 export * from "./Checkbox";
 export * from "./Chip";
 export * from "./ChipTabs";

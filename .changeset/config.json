@@ -17,7 +17,7 @@
     ],
     ["@seed-design/codemod", "@seed-design/migration-index"]
   ],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "dev",
   "updateInternalDependencies": "patch",
   "snapshot": {
