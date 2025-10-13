@@ -5,6 +5,7 @@
   "pages": [
     "index",
     "whats-new",
+    "overview",
     "migration",
     "foundation",
     "components",
