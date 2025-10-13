@@ -350,7 +350,7 @@
       "name": "@seed-design/figma",
       "version": "1.0.3",
       "dependencies": {
-        "@seed-design/css": "1.0.2",
+        "@seed-design/css": "1.0.3",
         "change-case": "^5.4.4",
         "ts-pattern": "^5.7.0",
       },
@@ -854,12 +854,13 @@
       "name": "@seed-design/figma-codegen",
       "version": "0.0.0",
       "dependencies": {
-        "@seed-design/figma": "1.0.2",
+        "@seed-design/figma": "1.0.3",
       },
       "devDependencies": {
         "@create-figma-plugin/build": "^4.0.1",
         "@create-figma-plugin/tsconfig": "^4.0.0",
         "@figma/plugin-typings": "^1.110.0",
+        "dotenv": "^17.2.3",
         "typescript": "^5.9.2",
       },
     },
