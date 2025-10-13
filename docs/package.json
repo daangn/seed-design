@@ -49,8 +49,11 @@
     "fumadocs-mdx": "12.0.1",
     "fumadocs-typescript": "^4.0.9",
     "fumadocs-ui": "15.8.1",
+    "hast-util-to-estree": "^3.1.3",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "lucide-react": "^0.544.0",
+    "mdast": "^3.0.0",
+    "mdast-util-mdx-jsx": "^3.2.0",
     "motion": "^12.23.12",
     "next": "15.5.4",
     "next-sanity": "^9.12.0",
@@ -67,7 +70,9 @@
     "sanity": "3.99.0",
     "shiki": "^3.4.2",
     "simple-reveal": "^0.8.0",
-    "styled-components": "6"
+    "styled-components": "6",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
