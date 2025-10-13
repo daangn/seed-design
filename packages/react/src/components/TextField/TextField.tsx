@@ -2,7 +2,7 @@ import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
 import { useFieldContext } from "@seed-design/react-field";
-import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
+import { textInput, type TextInputVariantProps } from "@seed-design/css/recipes/text-input";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useCallback, useRef } from "react";
@@ -12,7 +12,7 @@ import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textInput);
 
 const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
 const withStateProps = createWithStateProps([
@@ -22,7 +22,7 @@ const withStateProps = createWithStateProps([
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
+export interface TextFieldRootProps extends TextInputVariantProps, TextField.RootProps {}
 
 export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
   withFieldStateProps(TextField.Root),
