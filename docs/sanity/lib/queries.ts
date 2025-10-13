@@ -32,8 +32,8 @@ export const COMPONENT_QUERY = `*[_type == "component" && id == $id][0] {
   iosUrl,
   androidStatus,
   androidUrl,
-  webviewStatus,
-  webviewUrl,
+  reactStatus,
+  reactUrl,
   figmaStatus,
   figmaUrl,
 }`;
@@ -47,8 +47,8 @@ export const ALL_COMPONENTS_QUERY = `*[_type == "component"] | order(name asc) {
   iosUrl,
   androidStatus,
   androidUrl,
-  webviewStatus,
-  webviewUrl,
+  reactStatus,
+  reactUrl,
   figmaStatus,
   figmaUrl,
 }`;

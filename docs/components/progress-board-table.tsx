@@ -1,19 +1,36 @@
 import { client } from "@/sanity/lib/client";
 import { ALL_COMPONENTS_QUERY } from "@/sanity/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity/lib/types";
+import { Badge } from "@seed-design/react";
 import Link from "next/link";
 
-const statusIcons: Record<PlatformStatus, string> = {
-  ready: "✅",
-  "not-ready": "❌",
-  "in-progress": "🚧",
-  deprecated: "⚠️",
+const statusConfig: Record<
+  PlatformStatus,
+  { label: string; tone: "positive" | "warning" | "neutral" }
+> = {
+  ready: { label: "Done", tone: "positive" },
+  "in-progress": { label: "In Progress", tone: "warning" },
+  "not-ready": { label: "Not Ready", tone: "neutral" },
+  deprecated: { label: "Deprecated", tone: "neutral" },
 };
+
+function StatusBadge({ status }: { status: PlatformStatus }) {
+  const { label, tone } = statusConfig?.[status] ?? { label: "Not Ready", tone: "neutral" };
+  return (
+    <Badge size="large" variant="weak" tone={tone}>
+      {label}
+    </Badge>
+  );
+}
+
+function isExternalUrl(url: string): boolean {
+  return url.startsWith("http://") || url.startsWith("https://");
+}
 
 const platformLabels = {
   ios: "iOS",
   android: "Android",
-  webview: "Webview",
+  react: "React",
   figma: "Figma",
 } as const;
 
@@ -27,7 +44,7 @@ export async function ProgressBoardTable() {
   }
 
   // Calculate progress statistics
-  const platforms: PlatformKey[] = ["figma", "webview", "ios", "android"];
+  const platforms: PlatformKey[] = ["figma", "react", "ios", "android"];
   const stats = platforms.reduce(
     (acc, platform) => {
       const total = components.length;
@@ -102,17 +119,27 @@ export async function ProgressBoardTable() {
                   return (
                     <td key={platform} className="px-4 py-3 text-center">
                       {url ? (
-                        <a
-                          href={url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block hover:scale-110 transition-transform"
-                          title={status}
-                        >
-                          {statusIcons[status]}
-                        </a>
+                        isExternalUrl(url) ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block hover:opacity-80 transition-opacity"
+                            title={status}
+                          >
+                            <StatusBadge status={status} />
+                          </a>
+                        ) : (
+                          <Link
+                            href={url}
+                            className="inline-block hover:opacity-80 transition-opacity"
+                            title={status}
+                          >
+                            <StatusBadge status={status} />
+                          </Link>
+                        )
                       ) : (
-                        <span title={status}>{statusIcons[status]}</span>
+                        <StatusBadge status={status} />
                       )}
                     </td>
                   );

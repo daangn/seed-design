@@ -118,7 +118,7 @@ async function importComponents(
         deprecated: false,
         iosStatus: "not-ready",
         androidStatus: "not-ready",
-        webviewStatus: "not-ready",
+        reactStatus: "not-ready",
         figmaStatus: "not-ready",
       };
 

@@ -18,8 +18,8 @@ export interface ComponentData {
   iosUrl?: string;
   androidStatus: PlatformStatus;
   androidUrl?: string;
-  webviewStatus: PlatformStatus;
-  webviewUrl?: string;
+  reactStatus: PlatformStatus;
+  reactUrl?: string;
   figmaStatus: PlatformStatus;
   figmaUrl?: string;
 }

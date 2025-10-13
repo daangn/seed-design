@@ -17,8 +17,8 @@ export default defineType({
       title: "Figma",
     },
     {
-      name: "webview",
-      title: "Webview",
+      name: "react",
+      title: "React",
     },
     {
       name: "ios",
@@ -81,8 +81,9 @@ export default defineType({
     }),
     defineField({
       name: "iosUrl",
-      title: "Repository URL",
-      type: "url",
+      title: "Repository URL or Internal Link",
+      description: "예: https://github.com/... 또는 /react/components/action-button",
+      type: "string",
       group: "ios",
     }),
     defineField({
@@ -102,12 +103,13 @@ export default defineType({
     }),
     defineField({
       name: "androidUrl",
-      title: "Repository URL",
-      type: "url",
+      title: "Repository URL or Internal Link",
+      description: "예: https://github.com/... 또는 /react/components/action-button",
+      type: "string",
       group: "android",
     }),
     defineField({
-      name: "webviewStatus",
+      name: "reactStatus",
       title: "구현 상태",
       type: "string",
       options: {
@@ -119,13 +121,14 @@ export default defineType({
         ],
       },
       initialValue: "not-ready",
-      group: "webview",
+      group: "react",
     }),
     defineField({
-      name: "webviewUrl",
-      title: "Repository URL",
-      type: "url",
-      group: "webview",
+      name: "reactUrl",
+      title: "Repository URL or Internal Link",
+      description: "예: https://github.com/... 또는 /react/components/action-button",
+      type: "string",
+      group: "react",
     }),
     defineField({
       name: "figmaStatus",
@@ -144,8 +147,9 @@ export default defineType({
     }),
     defineField({
       name: "figmaUrl",
-      title: "File URL",
-      type: "url",
+      title: "File URL or Internal Link",
+      description: "예: https://figma.com/... 또는 /react/components/action-button",
+      type: "string",
       group: "figma",
     }),
   ],
