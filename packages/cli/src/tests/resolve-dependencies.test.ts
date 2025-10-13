@@ -29,7 +29,7 @@ describe("resolveDependencies", () => {
         {
           id: "button",
           description: "Button component",
-          files: [{ path: "button.tsx" }],
+          snippets: [{ path: "button.tsx" }],
         },
       ],
     });
@@ -105,7 +105,7 @@ describe("resolveDependencies", () => {
           {
             id: "dialog",
             description: "Dialog component",
-            files: [{ path: "dialog.tsx" }],
+            snippets: [{ path: "dialog.tsx" }],
             innerDependencies: [
               {
                 registryId: "breeze",
@@ -121,7 +121,7 @@ describe("resolveDependencies", () => {
           {
             id: "animate-number",
             description: "Animate number utility",
-            files: [{ path: "animate-number.ts" }],
+            snippets: [{ path: "animate-number.ts" }],
             dependencies: ["framer-motion"],
           },
         ],
