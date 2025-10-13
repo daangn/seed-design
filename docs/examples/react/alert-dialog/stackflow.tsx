@@ -12,11 +12,11 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "alert-dialog-stackflow": unknown;
+    "react/alert-dialog/stackflow": unknown;
   }
 }
 
-const AlertDialogStackflow: ActivityComponentType<"alert-dialog-stackflow"> = () => {
+const AlertDialogStackflow: ActivityComponentType<"react/alert-dialog/stackflow"> = () => {
   const activity = useActivity();
   const { pop } = useFlow();
 
