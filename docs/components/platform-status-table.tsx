@@ -38,7 +38,7 @@ function PlatformCard({
   status: PlatformStatus;
   href?: string;
 }) {
-  const isDisabled = status === "not-ready" || status === "deprecated";
+  const isDisabled = !status || status === "not-ready" || status === "deprecated";
   const { label, tone } = statusConfig?.[status] ?? { label: "Not Ready", tone: "neutral" };
   const isExternal = href ? isExternalUrl(href) : false;
 
