@@ -1,6 +1,13 @@
 import { ComponentIcon } from "@sanity/icons";
 import { defineField, defineType, ALL_FIELDS_GROUP } from "sanity";
 
+const statusOptions = [
+  { title: "✅ 준비됨", value: "ready" },
+  { title: "❌ 준비안됨", value: "not-ready" },
+  { title: "🚧 작업중", value: "in-progress" },
+  { title: "⚠️ 사용중단", value: "deprecated" },
+];
+
 export default defineType({
   name: "component",
   title: "컴포넌트",
@@ -69,12 +76,7 @@ export default defineType({
       title: "구현 상태",
       type: "string",
       options: {
-        list: [
-          { title: "✅ 준비됨", value: "ready" },
-          { title: "❌ 준비안됨", value: "not-ready" },
-          { title: "🚧 작업중", value: "in-progress" },
-          { title: "⚠️ 사용중단", value: "deprecated" },
-        ],
+        list: statusOptions,
       },
       initialValue: "not-ready",
       group: "ios",
@@ -91,12 +93,7 @@ export default defineType({
       title: "구현 상태",
       type: "string",
       options: {
-        list: [
-          { title: "✅ 준비됨", value: "ready" },
-          { title: "❌ 준비안됨", value: "not-ready" },
-          { title: "🚧 작업중", value: "in-progress" },
-          { title: "⚠️ 사용중단", value: "deprecated" },
-        ],
+        list: statusOptions,
       },
       initialValue: "not-ready",
       group: "android",
@@ -113,12 +110,7 @@ export default defineType({
       title: "구현 상태",
       type: "string",
       options: {
-        list: [
-          { title: "✅ 준비됨", value: "ready" },
-          { title: "❌ 준비안됨", value: "not-ready" },
-          { title: "🚧 작업중", value: "in-progress" },
-          { title: "⚠️ 사용중단", value: "deprecated" },
-        ],
+        list: statusOptions,
       },
       initialValue: "not-ready",
       group: "react",
@@ -135,12 +127,7 @@ export default defineType({
       title: "구현 상태",
       type: "string",
       options: {
-        list: [
-          { title: "✅ 준비됨", value: "ready" },
-          { title: "❌ 준비안됨", value: "not-ready" },
-          { title: "🚧 작업중", value: "in-progress" },
-          { title: "⚠️ 사용중단", value: "deprecated" },
-        ],
+        list: statusOptions,
       },
       initialValue: "not-ready",
       group: "figma",
