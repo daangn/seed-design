@@ -1,5 +1,6 @@
 [install]
 version = "1.3.0"
+minimumReleaseAge = 86400 # 1 day
 
 [install.scopes]
 daangn = { url = "https://npm.pkg.github.com", token = "$GITHUB_TOKEN" }
