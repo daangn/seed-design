@@ -1,9 +1,9 @@
-import { textField as vars } from "../vars/component";
+import { textInput as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, focus, disabled, not, readOnly, invalid } from "../utils/pseudo";
 
-const textField = defineSlotRecipe({
-  name: "text-field",
+const textInput = defineSlotRecipe({
+  name: "text-input",
   slots: ["root", "value", "prefixText", "prefixIcon", "suffixText", "suffixIcon"],
   base: {
     root: {
@@ -210,4 +210,4 @@ const textField = defineSlotRecipe({
   },
 });
 
-export default textField;
+export default textInput;

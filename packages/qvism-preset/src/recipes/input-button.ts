@@ -1,10 +1,10 @@
-import { fieldButton as vars } from "../vars/component";
+import { inputButton as vars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
 import { pseudo, disabled, active, focus, invalid } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
 
-const fieldButton = defineSlotRecipe({
-  name: "field-button",
+const inputButton = defineSlotRecipe({
+  name: "input-button",
   slots: [
     "root",
     "value",
@@ -155,4 +155,4 @@ const fieldButton = defineSlotRecipe({
   defaultVariants: {},
 });
 
-export default fieldButton;
+export default inputButton;

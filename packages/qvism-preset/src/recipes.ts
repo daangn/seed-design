@@ -23,12 +23,12 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
-import floatingActionButton from "./recipes/floating-action-button";
 import field from "./recipes/field";
-import fieldButton from "./recipes/field-button";
+import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
+import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
@@ -44,11 +44,11 @@ import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
-import switchRecipe from "./recipes/switch";
 import switchMark from "./recipes/switch-mark";
+import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
-import textField from "./recipes/text-field";
+import textInput from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
 
 export const recipes = {
@@ -76,11 +76,11 @@ export const recipes = {
   extendedFab,
   fab,
   field,
-  fieldButton,
   floatingActionButton,
   helpBubble,
   identityPlaceholder,
   inlineBanner,
+  inputButton,
   linkContent,
   listHeader,
   listItem,
@@ -106,6 +106,6 @@ export const recipes = {
   switchMark,
   tabs,
   text,
-  textField,
+  textInput,
   toggleButton,
 };

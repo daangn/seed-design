@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "text-field",
-    "name": "Text Field"
+    "id": "text-input",
+    "name": "Text Input"
   },
   "data": {
-    "id": "text-field",
-    "name": "Text Field",
+    "id": "text-input",
+    "name": "Text Input",
     "schema": {
       "slots": {
         "root": {

@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=./schema.json
 kind: ComponentSpec
 metadata:
-  id: text-field
-  name: Text Field
+  id: text-input
+  name: Text Input
 data:
   schema:
     slots:

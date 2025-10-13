@@ -1,12 +1,12 @@
 {
   "kind": "ComponentSpec",
   "metadata": {
-    "id": "field-button",
-    "name": "Field Button"
+    "id": "input-button",
+    "name": "Input Button"
   },
   "data": {
-    "id": "field-button",
-    "name": "Field Button",
+    "id": "input-button",
+    "name": "Input Button",
     "schema": {
       "slots": {
         "root": {

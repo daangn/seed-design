@@ -5,7 +5,7 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
-import { fieldButton } from "@seed-design/css/recipes/field-button";
+import { inputButton } from "@seed-design/css/recipes/input-button";
 import clsx from "clsx";
 
 const {
@@ -13,7 +13,7 @@ const {
   withProvider: withFieldProvider,
   useClassNames: useFieldClassNames,
 } = createSlotRecipeContext(field);
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(fieldButton);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(inputButton);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
