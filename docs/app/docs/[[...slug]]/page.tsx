@@ -1,6 +1,6 @@
 import { source } from "@/app/source";
 import { mdxComponents } from "@/components/mdx-components";
-import { getComponentStatus } from "@/components/sanity-utils";
+import { getComponentStatus } from "@/components/rootage";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
