@@ -7,11 +7,9 @@ import {
   shift,
   useFloating,
   type Alignment,
-  type ElementRects,
   type ExtendedRefs,
   type FloatingContext,
   type Middleware,
-  type MiddlewareData,
   type Placement,
   type Rect,
   type ReferenceType,
@@ -147,51 +145,6 @@ export interface UsePositionedFloatingReturn<RT extends ReferenceType = Referenc
   arrowStyles: CSSProperties;
 }
 
-// Helper function to create the return object
-function createPositionedFloatingReturn<RT extends ReferenceType = ReferenceType>(params: {
-  open: boolean;
-  onOpenChange: ((open: boolean) => void) | undefined;
-  refs: ExtendedRefs<RT>;
-  arrowEl: HTMLElement | null;
-  setArrowEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-  arrowTipEl: HTMLElement | null;
-  setArrowTipEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-  middlewareData: MiddlewareData;
-  arrowTipWidth: number;
-  arrowTipHeight: number;
-  isPositioned: boolean;
-  side: Side;
-  alignment: Alignment | undefined;
-  context: FloatingContext<RT>;
-  floatingStyles: CSSProperties;
-  arrowStyles: CSSProperties;
-}): UsePositionedFloatingReturn<RT> {
-  return {
-    open: params.open,
-    onOpenChange: params.onOpenChange,
-    refs: {
-      ...params.refs,
-      arrow: params.arrowEl,
-      setArrow: params.setArrowEl,
-      arrowTip: params.arrowTipEl,
-      setArrowTip: params.setArrowTipEl,
-    },
-    rects: {
-      ...params.middlewareData["rects"],
-      arrowTip: {
-        width: params.arrowTipWidth,
-        height: params.arrowTipHeight,
-      },
-    },
-    isPositioned: params.isPositioned,
-    side: params.side,
-    alignment: params.alignment,
-    context: params.context,
-    floatingStyles: params.floatingStyles,
-    arrowStyles: params.arrowStyles,
-  };
-}
-
 export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
   props: UsePositionedFloatingProps,
 ): UsePositionedFloatingReturn<RT> {
@@ -239,25 +192,30 @@ export function usePositionedFloating<RT extends ReferenceType = ReferenceType>(
   );
 
   return useMemo(
-    () =>
-      createPositionedFloatingReturn({
-        open,
-        onOpenChange,
-        refs,
-        arrowEl,
-        setArrowEl,
-        arrowTipEl,
-        setArrowTipEl,
-        middlewareData,
-        arrowTipWidth,
-        arrowTipHeight,
-        isPositioned,
-        side,
-        alignment,
-        context,
-        floatingStyles,
-        arrowStyles,
-      }),
+    () => ({
+      open,
+      onOpenChange,
+      refs: {
+        ...refs,
+        arrow: arrowEl,
+        setArrow: setArrowEl,
+        arrowTip: arrowTipEl,
+        setArrowTip: setArrowTipEl,
+      },
+      rects: {
+        ...middlewareData["rects"],
+        arrowTip: {
+          width: arrowTipWidth,
+          height: arrowTipHeight,
+        },
+      },
+      isPositioned,
+      side,
+      alignment,
+      context,
+      floatingStyles,
+      arrowStyles,
+    }),
     [
       open,
       onOpenChange,
