@@ -86,6 +86,7 @@
     "ts-morph": "^27.0.2",
     "ts-pattern": "^5.7.0",
     "typescript": "^5.9.2",
+    "unist-util-visit": "^5.0.0",
     "webpack-virtual-modules": "^0.6.0",
     "zod": "^4.0.17"
   }
