@@ -8,11 +8,11 @@ import type { ActivityComponentType } from "@stackflow/react/future";
 
 declare module "@stackflow/config" {
   interface Register {
-    "inline-banner": unknown;
+    "react/inline-banner/activity": unknown;
   }
 }
 
-const InlineBannerActivity: ActivityComponentType<"inline-banner"> = () => {
+const InlineBannerActivity: ActivityComponentType<"react/inline-banner/activity"> = () => {
   const [variant, setVariant] =
     React.useState<Extract<InlineBannerProps["variant"], "neutralWeak" | "criticalSolid">>(
       "criticalSolid",

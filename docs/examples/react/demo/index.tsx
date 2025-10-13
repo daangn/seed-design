@@ -9,7 +9,7 @@ import { Recommendations } from "@/examples/react/demo/tabs/recommendations";
 
 declare module "@stackflow/config" {
   interface Register {
-    "demo/index": unknown;
+    "react/demo/index": unknown;
   }
 }
 
@@ -23,13 +23,13 @@ const TABS = [
 
 type Tab = (typeof TABS)[number]["value"];
 
-const DemoActivity: ActivityComponentType<"demo/index"> = () => {
+const DemoActivity: ActivityComponentType<"react/demo/index"> = () => {
   const [tab, setTab] = useState<Tab>("recommendations");
 
   return (
     <SnackbarProvider>
       <style
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: this is for hiding scrollbar
         dangerouslySetInnerHTML={{
           __html: "::-webkit-scrollbar{display:none}",
         }}

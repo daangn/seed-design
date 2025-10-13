@@ -7,11 +7,11 @@ import type { ActivityComponentType } from "@stackflow/react/future";
 
 declare module "@stackflow/config" {
   interface Register {
-    "chip-tabs-basic": unknown;
+    "react/chip-tabs/basic-activity": unknown;
   }
 }
 
-const ChipTabsBasicActivity: ActivityComponentType<"chip-tabs-basic"> = () => {
+const ChipTabsBasicActivity: ActivityComponentType<"react/chip-tabs/basic-activity"> = () => {
   const [value, setValue] = React.useState("1");
 
   const commonStyle = {

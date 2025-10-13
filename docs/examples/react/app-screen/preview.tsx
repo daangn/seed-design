@@ -13,11 +13,11 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "app-screen-preview": unknown;
+    "react/app-screen/preview": unknown;
   }
 }
 
-const AppScreenPreviewActivity: ActivityComponentType<"app-screen-preview"> = () => {
+const AppScreenPreviewActivity: ActivityComponentType<"react/app-screen/preview"> = () => {
   return (
     <AppScreen theme="cupertino">
       <AppBar>

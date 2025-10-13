@@ -13,11 +13,13 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "app-screen-transparent-bar": unknown;
+    "react/app-screen/transparent-bar": unknown;
   }
 }
 
-const AppScreenTransparentBarActivity: ActivityComponentType<"app-screen-transparent-bar"> = () => {
+const AppScreenTransparentBarActivity: ActivityComponentType<
+  "react/app-screen/transparent-bar"
+> = () => {
   return (
     <AppScreen theme="cupertino" layerOffsetTop="none">
       <AppBar tone="transparent">
