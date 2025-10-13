@@ -46,7 +46,7 @@
     font-weight: var(--seed-font-weight-bold);
 }
 .seed-action-button--variant_brandSolid {
-    background: var(--seed-color-bg-brand-solid);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-brand-solid));
     color: var(--seed-color-palette-static-white);
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
@@ -55,20 +55,20 @@
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_brandSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-brand-solid-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-brand-solid-pressed));
 }
 .seed-action-button--variant_brandSolid:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-disabled));
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_brandSolid[data-loading] {
-    background: var(--seed-color-bg-brand-solid-pressed);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-brand-solid-pressed));
 }
 .seed-action-button--variant_neutralSolid {
-    background: var(--seed-color-bg-neutral-inverted);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-neutral-inverted));
     color: var(--seed-color-fg-neutral-inverted);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral-inverted);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral-inverted);
@@ -77,20 +77,20 @@
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_neutralSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-action-button--variant_neutralSolid:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-disabled));
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_neutralSolid[data-loading] {
-    background: var(--seed-color-bg-neutral-inverted-pressed);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-neutral-inverted-pressed));
 }
 .seed-action-button--variant_neutralWeak {
-    background: var(--seed-color-bg-neutral-weak);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-neutral-weak));
     color: var(--seed-color-fg-neutral);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
@@ -99,20 +99,20 @@
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-action-button--variant_neutralWeak:is(:active, [data-active]) {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-action-button--variant_neutralWeak:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-disabled));
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_neutralWeak[data-loading] {
-    background: var(--seed-color-bg-neutral-weak-pressed);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-neutral-weak-pressed));
 }
 .seed-action-button--variant_criticalSolid {
-    background: var(--seed-color-bg-critical-solid);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-critical-solid));
     color: var(--seed-color-palette-static-white);
     --seed-prefix-icon-color: var(--seed-color-palette-static-white);
     --seed-suffix-icon-color: var(--seed-color-palette-static-white);
@@ -121,21 +121,21 @@
     --range-color: var(--seed-color-palette-static-white);
 }
 .seed-action-button--variant_criticalSolid:is(:active, [data-active]) {
-    background: var(--seed-color-bg-critical-solid-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-critical-solid-pressed));
 }
 .seed-action-button--variant_criticalSolid:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-disabled);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-disabled));
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_criticalSolid[data-loading] {
-    background: var(--seed-color-bg-critical-solid-pressed);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-critical-solid-pressed));
 }
 .seed-action-button--variant_brandOutline {
     border-style: solid;
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-layer-default));
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-brand);
@@ -146,10 +146,10 @@
     --range-color: var(--seed-color-bg-brand-solid);
 }
 .seed-action-button--variant_brandOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-layer-default));
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -157,11 +157,11 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_brandOutline[data-loading] {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-layer-default));
 }
 .seed-action-button--variant_neutralOutline {
     border-style: solid;
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-enabled-background, var(--seed-color-bg-layer-default));
     border-width: 1px;
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
@@ -172,10 +172,10 @@
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-action-button--variant_neutralOutline:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-disabled-background, var(--seed-color-bg-layer-default));
     border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
@@ -183,10 +183,10 @@
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_neutralOutline[data-loading] {
-    background: var(--seed-color-bg-layer-default);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-layer-default));
 }
 .seed-action-button--variant_ghost {
-    background: #ffffff00;
+    background: var(--seed-action-button-enabled-background, #ffffff00);
     --seed-box-color: var(--seed-color-fg-neutral);
     color: var(--seed-box-color);
     --seed-prefix-icon-color: var(--seed-box-color);
@@ -196,17 +196,17 @@
     --range-color: var(--seed-color-fg-neutral);
 }
 .seed-action-button--variant_ghost:is(:active, [data-active]) {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-action-button-active-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-action-button--variant_ghost:is(:disabled, [disabled], [data-disabled]) {
-    background: #ffffff00;
+    background: var(--seed-action-button-disabled-background, #ffffff00);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
     --seed-icon-color: var(--seed-color-fg-disabled);
 }
 .seed-action-button--variant_ghost[data-loading] {
-    background: var(--seed-color-bg-layer-default-pressed);
+    background: var(--seed-action-button-loading-background, var(--seed-color-bg-layer-default-pressed));
 }
 .seed-action-button--size_xsmall {
     height: var(--seed-dimension-x8);

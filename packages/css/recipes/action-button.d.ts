@@ -28,3 +28,4 @@ export declare const actionButton: ((
     props: T,
   ) => [ActionButtonVariantProps, Omit<T, keyof ActionButtonVariantProps>];
 }
+export declare type ActionButtonOverridableVariable = "--seed-action-button-enabled-background" | "--seed-action-button-active-background" | "--seed-action-button-disabled-background" | "--seed-action-button-loading-background";

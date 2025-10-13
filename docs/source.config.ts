@@ -3,6 +3,7 @@ import { remarkNpm } from "fumadocs-core/mdx-plugins";
 import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
 import { typeTableGenerator } from "./components/type-table/generator";
 import { remarkReactTypeTable } from "./components/type-table/remark-react-type-table";
+import { remarkUnionLiteralTable } from "./components/type-table/remark-union-literal-table";
 import z from "zod";
 
 export const docs = defineDocs({

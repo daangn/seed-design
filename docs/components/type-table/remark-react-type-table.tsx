@@ -11,7 +11,7 @@ import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { dirname } from "node:path";
 import { print } from "recast";
 import type { Transformer } from "unified";
-import { visit } from "unist-util-visit";
+import { visit, SKIP } from "unist-util-visit";
 import { getReactTypeTableOutput, type ReactTypeTableProps } from "./get-react-type-table";
 
 function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute {
@@ -182,7 +182,8 @@ export function remarkReactTypeTable({
       }
 
       queue.push(run());
-      return "skip";
+
+      return SKIP;
     });
 
     await Promise.all(queue);
