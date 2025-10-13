@@ -4,11 +4,11 @@
   "icon": "Palette",
   "pages": [
     "index",
-    "overview",
-    "migration",
+    "progress-board",
     "foundation",
     "components",
     "guidelines",
+    "migration",
     "resources"
   ]
 }
