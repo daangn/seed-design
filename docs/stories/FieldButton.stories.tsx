@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { FieldButton, FieldButtonPlaceholder } from "seed-design/ui/field-button";
-import { textFieldVariantMap } from "@seed-design/css/recipes/text-field";
+import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
@@ -59,7 +59,7 @@ const CommonStoryTemplate: Story = {
   render: (args) => (
     <VariantTable
       Component={meta.component}
-      variantMap={textFieldVariantMap}
+      variantMap={inputButtonVariantMap}
       conditionMap={conditionMap}
       {...args}
     />
