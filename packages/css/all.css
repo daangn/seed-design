@@ -2522,7 +2522,7 @@
   display: flex;
 }
 
-.seed-callout__root:is(button) {
+.seed-callout__root:is(button, a) {
   cursor: pointer;
 }
 
@@ -2587,7 +2587,7 @@
   --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 
-.seed-callout__root--tone_neutral:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_neutral:is(button, a):is(:active, [data-active]) {
   background-color: var(--seed-color-bg-neutral-weak-pressed);
 }
 
@@ -2601,12 +2601,26 @@
   --seed-suffix-icon-color: var(--seed-color-fg-informative-contrast);
 }
 
-.seed-callout__root--tone_informative:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_informative:is(button, a):is(:active, [data-active]) {
   background-color: var(--seed-color-bg-informative-weak-pressed);
 }
 
 .seed-callout__title--tone_informative, .seed-callout__description--tone_informative, .seed-callout__link--tone_informative {
   color: var(--seed-color-fg-informative-contrast);
+}
+
+.seed-callout__root--tone_positive {
+  background-color: var(--seed-color-bg-positive-weak);
+  --seed-prefix-icon-color: var(--seed-color-fg-positive-contrast);
+  --seed-suffix-icon-color: var(--seed-color-fg-positive-contrast);
+}
+
+.seed-callout__root--tone_positive:is(button, a):is(:active, [data-active]) {
+  background-color: var(--seed-color-bg-positive-weak-pressed);
+}
+
+.seed-callout__title--tone_positive, .seed-callout__description--tone_positive, .seed-callout__link--tone_positive {
+  color: var(--seed-color-fg-positive-contrast);
 }
 
 .seed-callout__root--tone_warning {
@@ -2615,7 +2629,7 @@
   --seed-suffix-icon-color: var(--seed-color-fg-warning-contrast);
 }
 
-.seed-callout__root--tone_warning:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_warning:is(button, a):is(:active, [data-active]) {
   background-color: var(--seed-color-bg-warning-weak-pressed);
 }
 
@@ -2629,7 +2643,7 @@
   --seed-suffix-icon-color: var(--seed-color-fg-critical-contrast);
 }
 
-.seed-callout__root--tone_critical:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_critical:is(button, a):is(:active, [data-active]) {
   background-color: var(--seed-color-bg-critical-weak-pressed);
 }
 
@@ -2643,7 +2657,7 @@
   --seed-suffix-icon-color: var(--seed-color-fg-neutral);
 }
 
-.seed-callout__root--tone_magic:is(button):is(:active, [data-active]) {
+.seed-callout__root--tone_magic:is(button, a):is(:active, [data-active]) {
   background-image: linear-gradient(88deg, var(--seed-gradient-glow-magic-pressed));
 }
 
@@ -4078,13 +4092,13 @@
 .seed-help-bubble__arrow {
   width: 12px;
   height: 12px;
-  font-size: 0;
 }
 
 .seed-help-bubble__arrowTip {
   fill: var(--seed-color-bg-neutral-inverted);
   width: 12px;
   height: 8px;
+  display: block;
 }
 
 .seed-help-bubble__title {
@@ -4092,6 +4106,7 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-bold);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__description {
@@ -4099,16 +4114,21 @@
   font-size: var(--seed-font-size-t3);
   font-weight: var(--seed-font-weight-regular);
   line-height: var(--seed-line-height-t3);
+  white-space: pre-wrap;
 }
 
 .seed-help-bubble__closeButton {
+  cursor: pointer;
   color: var(--seed-color-fg-neutral-inverted);
   --seed-icon-size: 14px;
   --seed-icon-color: var(--seed-color-fg-neutral-inverted);
+  background: none;
+  border: none;
   justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
+  padding: 0;
   display: flex;
   position: absolute;
   top: 3px;
@@ -4592,15 +4612,18 @@
 }
 
 .seed-manner-temp {
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--seed-dimension-x1);
   box-sizing: border-box;
   font-size: var(--seed-font-size-t5);
   line-height: var(--seed-line-height-t5);
   font-weight: var(--seed-font-weight-bold);
   --seed-suffix-icon-size: var(--seed-dimension-x8);
+  --seed-suffix-icon-margin-left: calc(var(--seed-dimension-x1) * -1);
+  --seed-suffix-icon-margin-right: calc(var(--seed-dimension-x1) * -1);
   --seed-suffix-icon-margin-top: calc(var(--seed-dimension-x1) * -1);
   --seed-suffix-icon-margin-bottom: calc(var(--seed-dimension-x1) * -1);
-  justify-content: flex-start;
-  align-items: center;
   display: inline-flex;
 }
 

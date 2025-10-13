@@ -6,6 +6,10 @@ metadata:
 data:
   schema:
     slots:
+      root:
+        properties:
+          gap:
+            type: dimension
       label:
         properties:
           fontSize:
@@ -20,16 +24,20 @@ data:
         properties:
           size:
             type: dimension
+          bleed:
+            type: dimension
   definitions:
     base:
       enabled:
+        root:
+          gap: $dimension.x1
         label:
           fontSize: $font-size.t5
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
         emote:
           size: $dimension.x8
-          bleedY: $dimension.x1
+          bleed: $dimension.x1
     level=l1:
       enabled:
         label:

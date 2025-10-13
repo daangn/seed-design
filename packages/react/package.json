@@ -1,6 +1,6 @@
 {
   "name": "@seed-design/react",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/daangn/seed-design.git",
@@ -43,9 +43,7 @@
     "@seed-design/react-avatar": "1.0.0",
     "@seed-design/react-checkbox": "1.0.0",
     "@seed-design/react-dialog": "1.0.0",
-    "@seed-design/react-field": "0.0.0",
-    "@seed-design/react-field-button": "0.0.0",
-    "@seed-design/react-popover": "1.0.0",
+    "@seed-design/react-popover": "1.0.1",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
     "@seed-design/react-progress": "1.0.0",
@@ -61,15 +59,17 @@
     "unicode-segmenter": "^0.14.0"
   },
   "peerDependencies": {
-    "@seed-design/css": "1.0.1",
+    "@seed-design/css": "1.0.3",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "1.0.1",
+    "@seed-design/css": "1.0.3",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.0",
     "ajv": "^8.17.1",
-    "globby": "^14.1.0",
+    "globby": "^15.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "vite": "^7.0.0",

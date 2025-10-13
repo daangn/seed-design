@@ -1,5 +1,22 @@
 # @seed-design/figma
 
+## 1.0.3
+
+### Patch Changes
+
+- ac1fd00: Figma Codegen이 Bottom Sheet의 `hideCloseButton` prop을 사용하는 코드를 반환하도록 수정합니다.
+- 8b07555: Figma 아이콘 및 스타일 정보를 최신화합니다.
+- Updated dependencies [0b8a02e]
+- Updated dependencies [6c6099d]
+  - @seed-design/css@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [6d2e13d]
+  - @seed-design/css@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
