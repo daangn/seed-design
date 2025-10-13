@@ -44,6 +44,7 @@
     "change-case": "^5.4.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "estree-util-value-to-estree": "^3.4.0",
     "fumadocs-core": "^15.4.2",
     "fumadocs-docgen": "^3.0.0",
     "fumadocs-mdx": "12.0.1",
