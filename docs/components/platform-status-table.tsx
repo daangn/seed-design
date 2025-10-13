@@ -39,7 +39,7 @@ function PlatformCard({
   href?: string;
 }) {
   const isDisabled = status === "not-ready" || status === "deprecated";
-  const { label, tone } = statusConfig[status];
+  const { label, tone } = statusConfig?.[status] ?? { label: "Not Ready", tone: "neutral" };
   const isExternal = href ? isExternalUrl(href) : false;
 
   const cardContent = (
@@ -87,12 +87,7 @@ function PlatformCard({
 
   if (isExternal) {
     return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={baseClassName}
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer" className={baseClassName}>
         {cardContent}
       </a>
     );
