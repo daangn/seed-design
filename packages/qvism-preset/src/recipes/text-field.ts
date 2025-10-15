@@ -43,7 +43,6 @@ const textField = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
 
-      backgroundColor: vars.base.enabled.field.color,
       borderStyle: "solid",
       borderWidth: vars.base.enabled.field.strokeWidth,
       borderColor: vars.base.enabled.field.strokeColor,
