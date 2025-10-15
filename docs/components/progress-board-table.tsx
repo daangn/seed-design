@@ -22,11 +22,13 @@ function StatusBadge({
   note,
   variant,
   style,
+  showNote = true,
 }: {
   status: PlatformStatus;
   note?: string;
   variant?: "weak" | "solid" | "outline";
   style?: CSSProperties;
+  showNote?: boolean;
 }) {
   const {
     label,
@@ -38,7 +40,7 @@ function StatusBadge({
     variant: variant ?? "weak",
   };
 
-  if (!note) {
+  if (!note || !showNote) {
     return (
       <Badge size="large" variant={variantConfig} tone={tone} style={style}>
         {label}
@@ -166,23 +168,36 @@ export async function ProgressBoardTable() {
                   return (
                     <td key={platform} className="px-4 py-3 text-center">
                       {url ? (
-                        isExternalUrl(url) ? (
-                          <a href={url} target="_blank" rel="noopener noreferrer" title={status}>
-                            <StatusBadge
-                              status={status}
-                              note={note}
-                              style={{ textDecoration: "underline" }}
-                            />
-                          </a>
-                        ) : (
-                          <Link href={url} title={status}>
-                            <StatusBadge
-                              status={status}
-                              note={note}
-                              style={{ textDecoration: "underline" }}
-                            />
-                          </Link>
-                        )
+                        <div className="inline-flex items-center gap-1.5">
+                          {isExternalUrl(url) ? (
+                            <a href={url} target="_blank" rel="noopener noreferrer" title={status}>
+                              <StatusBadge
+                                status={status}
+                                showNote={false}
+                                style={{ textDecoration: "underline" }}
+                              />
+                            </a>
+                          ) : (
+                            <Link href={url} title={status}>
+                              <StatusBadge
+                                status={status}
+                                showNote={false}
+                                style={{ textDecoration: "underline" }}
+                              />
+                            </Link>
+                          )}
+                          {note && (
+                            <HelpBubbleTrigger title={note} placement="top">
+                              <button
+                                type="button"
+                                className="inline-flex items-center text-fd-muted-foreground hover:text-fd-foreground transition-colors"
+                                aria-label="비고 보기"
+                              >
+                                <IconILowercaseSerifCircleLine size={16} />
+                              </button>
+                            </HelpBubbleTrigger>
+                          )}
+                        </div>
                       ) : (
                         <StatusBadge status={status} note={note} />
                       )}
