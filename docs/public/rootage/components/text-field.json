@@ -274,10 +274,6 @@
                 }
               },
               "field": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -407,7 +403,7 @@
               "field": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "#00000000"
                 },
                 "strokeColor": {
                   "type": "color",

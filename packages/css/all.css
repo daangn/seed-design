@@ -6150,7 +6150,6 @@
 }
 
 .seed-text-field__field {
-  background-color: var(--seed-color-bg-layer-default);
   border-style: solid;
   border-width: 1px;
   border-color: var(--seed-color-stroke-neutral-weak);
@@ -6169,7 +6168,7 @@
 }
 
 .seed-text-field__field:is(:invalid, [data-invalid]):is(:focus, [data-focus]) {
-  background-color: var(--seed-color-bg-layer-default);
+  background-color: #0000;
 }
 
 .seed-text-field__field:is(:disabled, [disabled], [data-disabled]), .seed-text-field__field[data-readonly] {
