@@ -5,23 +5,42 @@ import { HelpBubbleTrigger } from "@/registry/ui/help-bubble";
 import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { Badge } from "@seed-design/react";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 const statusConfig: Record<
   PlatformStatus,
-  { label: string; tone: "positive" | "warning" | "neutral" }
+  { label: string; tone: "positive" | "warning" | "neutral"; variant: "weak" | "solid" | "outline" }
 > = {
-  ready: { label: "Done", tone: "positive" },
-  "in-progress": { label: "In Progress", tone: "warning" },
-  "not-ready": { label: "Not Ready", tone: "neutral" },
-  deprecated: { label: "Deprecated", tone: "neutral" },
+  ready: { label: "Done", tone: "positive", variant: "weak" },
+  "in-progress": { label: "In Progress", tone: "warning", variant: "weak" },
+  "not-ready": { label: "Not Ready", tone: "neutral", variant: "weak" },
+  deprecated: { label: "Deprecated", tone: "neutral", variant: "weak" },
 };
 
-function StatusBadge({ status, note }: { status: PlatformStatus; note?: string }) {
-  const { label, tone } = statusConfig?.[status] ?? { label: "Not Ready", tone: "neutral" };
+function StatusBadge({
+  status,
+  note,
+  variant,
+  style,
+}: {
+  status: PlatformStatus;
+  note?: string;
+  variant?: "weak" | "solid" | "outline";
+  style?: CSSProperties;
+}) {
+  const {
+    label,
+    tone,
+    variant: variantConfig,
+  } = statusConfig?.[status] ?? {
+    label: "Not Ready",
+    tone: "neutral",
+    variant: variant ?? "weak",
+  };
 
   if (!note) {
     return (
-      <Badge size="large" variant="weak" tone={tone}>
+      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
         {label}
       </Badge>
     );
@@ -29,7 +48,7 @@ function StatusBadge({ status, note }: { status: PlatformStatus; note?: string }
 
   return (
     <div className="inline-flex items-center gap-1.5">
-      <Badge size="large" variant="weak" tone={tone}>
+      <Badge size="large" variant={variantConfig} tone={tone} style={style}>
         {label}
       </Badge>
       <HelpBubbleTrigger title={note} placement="top">
@@ -148,22 +167,20 @@ export async function ProgressBoardTable() {
                     <td key={platform} className="px-4 py-3 text-center">
                       {url ? (
                         isExternalUrl(url) ? (
-                          <a
-                            href={url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block hover:opacity-80 transition-opacity"
-                            title={status}
-                          >
-                            <StatusBadge status={status} note={note} />
+                          <a href={url} target="_blank" rel="noopener noreferrer" title={status}>
+                            <StatusBadge
+                              status={status}
+                              note={note}
+                              style={{ textDecoration: "underline" }}
+                            />
                           </a>
                         ) : (
-                          <Link
-                            href={url}
-                            className="inline-block hover:opacity-80 transition-opacity"
-                            title={status}
-                          >
-                            <StatusBadge status={status} note={note} />
+                          <Link href={url} title={status}>
+                            <StatusBadge
+                              status={status}
+                              note={note}
+                              style={{ textDecoration: "underline" }}
+                            />
                           </Link>
                         )
                       ) : (
