@@ -22,6 +22,8 @@ import { IconographyMigrationIndex } from "./migration/iconography-migration-ind
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
 import { typeTableGenerator } from "./type-table/generator";
+import { ProgressBoardTable } from "./progress-board-table";
+import { PlatformStatusTable } from "./platform-status-table";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
@@ -57,4 +59,6 @@ export const mdxComponents: MDXComponents = {
   ColorMigrationIndex,
   TypographyMigrationIndex,
   IconographyMigrationIndex,
+  ProgressBoardTable,
+  PlatformStatusTable,
 };
