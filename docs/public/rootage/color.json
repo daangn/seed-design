@@ -3,7 +3,7 @@
   "metadata": {
     "id": "color",
     "name": "Color",
-    "lastUpdated": "25-09-15"
+    "lastUpdated": "25-10-15"
   },
   "data": {
     "collection": "color",
@@ -2136,7 +2136,7 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#f30a02"
+            "value": "#e82c45"
           },
           "theme-dark": {
             "type": "color",
@@ -2160,7 +2160,7 @@
         "values": {
           "theme-light": {
             "type": "color",
-            "value": "#ffeceb"
+            "value": "#fdeded"
           },
           "theme-dark": {
             "type": "color",
