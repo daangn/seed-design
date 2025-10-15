@@ -8,6 +8,13 @@ const statusOptions = [
   { title: "⚠️ 사용중단", value: "deprecated" },
 ];
 
+const platforms = [
+  { key: "figma", title: "Figma", urlLabel: "File URL or Internal Link" },
+  { key: "react", title: "React", urlLabel: "Repository URL or Internal Link" },
+  { key: "ios", title: "iOS", urlLabel: "Repository URL or Internal Link" },
+  { key: "android", title: "Android", urlLabel: "Repository URL or Internal Link" },
+] as const;
+
 export default defineType({
   name: "component",
   title: "컴포넌트",
@@ -19,22 +26,10 @@ export default defineType({
       title: "기본 정보",
       default: true,
     },
-    {
-      name: "figma",
-      title: "Figma",
-    },
-    {
-      name: "react",
-      title: "React",
-    },
-    {
-      name: "ios",
-      title: "iOS",
-    },
-    {
-      name: "android",
-      title: "Android",
-    },
+    ...platforms.map((platform) => ({
+      name: platform.key,
+      title: platform.title,
+    })),
     {
       ...ALL_FIELDS_GROUP,
       hidden: true,
@@ -71,74 +66,33 @@ export default defineType({
       hidden: ({ document }) => !document?.deprecated,
       group: "basic",
     }),
-    defineField({
-      name: "iosStatus",
-      title: "구현 상태",
-      type: "string",
-      options: {
-        list: statusOptions,
-      },
-      initialValue: "not-ready",
-      group: "ios",
-    }),
-    defineField({
-      name: "iosUrl",
-      title: "Repository URL or Internal Link",
-      description: "예: https://github.com/... 또는 /react/components/action-button",
-      type: "string",
-      group: "ios",
-    }),
-    defineField({
-      name: "androidStatus",
-      title: "구현 상태",
-      type: "string",
-      options: {
-        list: statusOptions,
-      },
-      initialValue: "not-ready",
-      group: "android",
-    }),
-    defineField({
-      name: "androidUrl",
-      title: "Repository URL or Internal Link",
-      description: "예: https://github.com/... 또는 /react/components/action-button",
-      type: "string",
-      group: "android",
-    }),
-    defineField({
-      name: "reactStatus",
-      title: "구현 상태",
-      type: "string",
-      options: {
-        list: statusOptions,
-      },
-      initialValue: "not-ready",
-      group: "react",
-    }),
-    defineField({
-      name: "reactUrl",
-      title: "Repository URL or Internal Link",
-      description: "예: https://github.com/... 또는 /react/components/action-button",
-      type: "string",
-      group: "react",
-    }),
-    defineField({
-      name: "figmaStatus",
-      title: "구현 상태",
-      type: "string",
-      options: {
-        list: statusOptions,
-      },
-      initialValue: "not-ready",
-      group: "figma",
-    }),
-    defineField({
-      name: "figmaUrl",
-      title: "File URL or Internal Link",
-      description: "예: https://figma.com/... 또는 /react/components/action-button",
-      type: "string",
-      group: "figma",
-    }),
+    ...platforms.flatMap((platform) => [
+      defineField({
+        name: `${platform.key}Status`,
+        title: "구현 상태",
+        type: "string",
+        options: {
+          list: statusOptions,
+        },
+        initialValue: "not-ready",
+        group: platform.key,
+      }),
+      defineField({
+        name: `${platform.key}Url`,
+        title: platform.urlLabel,
+        description: "예: https://github.com/... 또는 /react/components/action-button",
+        type: "string",
+        group: platform.key,
+      }),
+      defineField({
+        name: `${platform.key}Note`,
+        title: "비고",
+        description: "플랫폼별 추가 정보나 특이사항을 입력하세요",
+        type: "text",
+        rows: 3,
+        group: platform.key,
+      }),
+    ]),
   ],
   preview: {
     select: {

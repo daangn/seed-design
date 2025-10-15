@@ -1,6 +1,8 @@
 import { client } from "@/sanity/lib/client";
 import { ALL_COMPONENTS_QUERY } from "@/sanity/lib/queries";
 import { ComponentData, PlatformStatus } from "@/sanity/lib/types";
+import { HelpBubbleTrigger } from "@/registry/ui/help-bubble";
+import IconILowercaseSerifCircleLine from "@karrotmarket/react-monochrome-icon/IconILowercaseSerifCircleLine";
 import { Badge } from "@seed-design/react";
 import Link from "next/link";
 
@@ -14,12 +16,32 @@ const statusConfig: Record<
   deprecated: { label: "Deprecated", tone: "neutral" },
 };
 
-function StatusBadge({ status }: { status: PlatformStatus }) {
+function StatusBadge({ status, note }: { status: PlatformStatus; note?: string }) {
   const { label, tone } = statusConfig?.[status] ?? { label: "Not Ready", tone: "neutral" };
+
+  if (!note) {
+    return (
+      <Badge size="large" variant="weak" tone={tone}>
+        {label}
+      </Badge>
+    );
+  }
+
   return (
-    <Badge size="large" variant="weak" tone={tone}>
-      {label}
-    </Badge>
+    <div className="inline-flex items-center gap-1.5">
+      <Badge size="large" variant="weak" tone={tone}>
+        {label}
+      </Badge>
+      <HelpBubbleTrigger title={note} placement="top">
+        <button
+          type="button"
+          className="inline-flex items-center text-fd-muted-foreground hover:text-fd-foreground transition-colors"
+          aria-label="비고 보기"
+        >
+          <IconILowercaseSerifCircleLine size={16} />
+        </button>
+      </HelpBubbleTrigger>
+    </div>
   );
 }
 
@@ -117,8 +139,10 @@ export async function ProgressBoardTable() {
                 {platforms.map((platform) => {
                   const statusKey = `${platform}Status` as keyof ComponentData;
                   const urlKey = `${platform}Url` as keyof ComponentData;
+                  const noteKey = `${platform}Note` as keyof ComponentData;
                   const status = component[statusKey] as PlatformStatus;
                   const url = component[urlKey] as string | undefined;
+                  const note = component[noteKey] as string | undefined;
 
                   return (
                     <td key={platform} className="px-4 py-3 text-center">
@@ -131,7 +155,7 @@ export async function ProgressBoardTable() {
                             className="inline-block hover:opacity-80 transition-opacity"
                             title={status}
                           >
-                            <StatusBadge status={status} />
+                            <StatusBadge status={status} note={note} />
                           </a>
                         ) : (
                           <Link
@@ -139,11 +163,11 @@ export async function ProgressBoardTable() {
                             className="inline-block hover:opacity-80 transition-opacity"
                             title={status}
                           >
-                            <StatusBadge status={status} />
+                            <StatusBadge status={status} note={note} />
                           </Link>
                         )
                       ) : (
-                        <StatusBadge status={status} />
+                        <StatusBadge status={status} note={note} />
                       )}
                     </td>
                   );

@@ -16,10 +16,14 @@ export interface ComponentData {
   deprecatedMessage?: string;
   iosStatus: PlatformStatus;
   iosUrl?: string;
+  iosNote?: string;
   androidStatus: PlatformStatus;
   androidUrl?: string;
+  androidNote?: string;
   reactStatus: PlatformStatus;
   reactUrl?: string;
+  reactNote?: string;
   figmaStatus: PlatformStatus;
   figmaUrl?: string;
+  figmaNote?: string;
 }

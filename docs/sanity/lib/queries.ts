@@ -30,12 +30,16 @@ export const COMPONENT_QUERY = `*[_type == "component" && id == $id][0] {
   deprecatedMessage,
   iosStatus,
   iosUrl,
+  iosNote,
   androidStatus,
   androidUrl,
+  androidNote,
   reactStatus,
   reactUrl,
+  reactNote,
   figmaStatus,
   figmaUrl,
+  figmaNote,
 }`;
 
 export const ALL_COMPONENTS_QUERY = `*[_type == "component"] | order(name asc) {
@@ -45,10 +49,14 @@ export const ALL_COMPONENTS_QUERY = `*[_type == "component"] | order(name asc) {
   deprecatedMessage,
   iosStatus,
   iosUrl,
+  iosNote,
   androidStatus,
   androidUrl,
+  androidNote,
   reactStatus,
   reactUrl,
+  reactNote,
   figmaStatus,
   figmaUrl,
+  figmaNote,
 }`;
