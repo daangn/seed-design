@@ -274,7 +274,7 @@ import { Checkbox } from "seed-design/ui/checkbox"; // snippet 제공
 
 ### TextField 업데이트
 
-V2에서는 TextField, MultilineTextField 컴포넌트를 따로 제공했지만, V3에서는 조합형 컴포넌트로 통합되었어요. 자세한 사용법은 [TextField](/react/components/text-field) 및 [MultilineTextField](/react/components/multiline-text-field) 문서를 참고해주세요.
+V2에서는 TextField, MultilineTextField 컴포넌트를 따로 제공했지만, V3에서는 조합형 컴포넌트로 통합되었어요. 자세한 사용법은 [TextField](/react/components/text-field-input) 및 [MultilineTextField](/react/components/text-field-textarea) 문서를 참고해주세요.
 
 ```tsx
 // [!code --]
@@ -283,18 +283,15 @@ import { TextField, MultilineTextField } from "@daangn/sprout-components-text-fi
 import { TextField, TextFieldInput, TextFieldTextarea } from "seed-design/ui/text-field"; // snippet 제공
 ```
 
-- size 재구성
-  - `large` → `xlarge`
-  - `medium` → `large`
-  - `small` → `medium`
+- size 제거, variant 추가
 - `TextFieldInput`: `<input>`
 - `TextFieldTextarea`: `<textarea>`
 - `maxGraphemeCount` prop 추가 (기존 `maxLength` prop을 override하던 동작을 명시적으로 변경)
 
-<ComponentExample name="react/text-field/preview">
+<ComponentExample name="react/text-field-input/preview">
   ```json doc-gen:file
   {
-    "file": "examples/react/text-field/preview.tsx",
+    "file": "examples/react/text-field-input/preview.tsx",
     "codeblock": true
   }
   ```
