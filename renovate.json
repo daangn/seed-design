@@ -8,6 +8,10 @@
       "matchPackageNames": ["tailwindcss"],
       "matchFileNames": ["packages/tailwind3-plugin/**"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@manypkg/get-packages"],
+      "enabled": false
     }
   ]
 }
