@@ -59,3 +59,16 @@ npx @seed-design/cli@latest add ui:pull-to-refresh
   }
   ```
 </ComponentExample>
+
+### Prevent Pull
+
+`PullToRefresh.preventPull` 속성을 사용하여 특정 영역에서 PTR 동작을 방지할 수 있습니다. `user-select: auto;`등을 통해 텍스트 선택이 가능한 영역에서 주로 사용됩니다.
+
+<StackflowExample names={["react/pull-to-refresh/prevent-pull"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/pull-to-refresh/prevent-pull.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
