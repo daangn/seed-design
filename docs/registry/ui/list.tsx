@@ -247,12 +247,12 @@ export interface ListDividerProps extends SeedDividerProps {
   /**
    * @default "li"
    */
-  as?: SeedDividerProps["as"]; // this redeclaration is for JSDoc
+  as?: SeedDividerProps["as"];
 
   /**
    * @default true
    */
-  "aria-hidden"?: SeedDividerProps["aria-hidden"]; // this redeclaration is for JSDoc
+  "aria-hidden"?: SeedDividerProps["aria-hidden"];
 }
 
 /**
