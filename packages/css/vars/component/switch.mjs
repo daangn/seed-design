@@ -8,7 +8,7 @@ export const vars = {
     },
     "disabled": {
       "label": {
-        "color": "var(--seed-color-fg-disabled)"
+        "opacity": "0.58"
       }
     }
   },

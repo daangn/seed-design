@@ -16,7 +16,7 @@
     color: var(--seed-color-fg-neutral);
 }
 .seed-switch__label:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    opacity: 0.58;
 }
 .seed-switch__root--size_16 {
     min-height: var(--seed-dimension-x6);

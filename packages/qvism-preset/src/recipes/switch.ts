@@ -28,7 +28,7 @@ const switchRecipe = defineSlotRecipe({
       color: vars.base.enabled.label.color,
 
       [pseudo(disabled)]: {
-        color: vars.base.disabled.label.color,
+        opacity: vars.base.disabled.label.opacity,
       },
     },
   },
