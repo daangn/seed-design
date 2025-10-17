@@ -42,6 +42,11 @@ export const vars = {
       "thumb": {
         "color": "var(--seed-color-palette-static-black-alpha-700)"
       }
+    },
+    "disabledSelected": {
+      "root": {
+        "color": "var(--seed-color-palette-gray-600)"
+      }
     }
   },
   "size32": {

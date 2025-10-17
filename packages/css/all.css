@@ -5675,6 +5675,10 @@
   background: var(--seed-color-bg-neutral-inverted);
 }
 
+.seed-switch-mark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+  background: var(--seed-color-palette-gray-600);
+}
+
 .seed-switch-mark__thumb--tone_neutral {
   background: var(--seed-color-fg-neutral-inverted);
 }

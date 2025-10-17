@@ -64,6 +64,9 @@ data:
       disabled:
         thumb:
           color: $color.palette.static-black-alpha-700
+      disabled,selected:
+        root:
+          color: $color.palette.gray-600
 
     size=32:
       enabled:

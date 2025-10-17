@@ -35,6 +35,9 @@ const switchMarkRecipe = defineSlotRecipe({
           [pseudo(checked)]: {
             background: vars.toneNeutral.enabledSelected.root.color,
           },
+          [pseudo(disabled, checked)]: {
+            background: vars.toneNeutral.disabledSelected.root.color,
+          },
         },
         thumb: {
           background: vars.toneNeutral.enabled.thumb.color,
