@@ -1,5 +1,12 @@
 # @seed-design/rootage-artifacts
 
+## 1.0.4
+
+### Patch Changes
+
+- f1cf4cd: Text Field와 Multiline Text Field가 기본적으로 배경 색을 갖지 않도록 수정합니다.
+- 3898183: 매너온도 L9 전경 및 배경 색상의 채도를 낮춥니다.
+
 ## 1.0.3
 
 ### Patch Changes
