@@ -61,6 +61,11 @@ data:
       enabled,selected:
         root:
           color: $color.bg.neutral-inverted
+      disabled:
+        root:
+          color: $color.palette.gray-600
+        thumb:
+          color: $color.palette.static-black-alpha-700
 
     size=32:
       enabled:

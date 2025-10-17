@@ -17,6 +17,8 @@ data:
         properties:
           color:
             type: color
+          opacity:
+            type: number
           fontSize:
             type: dimension
           lineHeight:
@@ -31,7 +33,7 @@ data:
           fontWeight: $font-weight.medium
       disabled:
         label:
-          color: $color.fg.disabled
+          opacity: 0.58
     
     size=32:
       enabled:

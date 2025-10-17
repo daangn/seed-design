@@ -24,6 +24,9 @@
             "color": {
               "type": "color"
             },
+            "opacity": {
+              "type": "number"
+            },
             "fontSize": {
               "type": "dimension"
             },
@@ -74,9 +77,9 @@
             ],
             "slots": {
               "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
+                "opacity": {
+                  "type": "number",
+                  "value": 0.58
                 }
               }
             }

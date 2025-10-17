@@ -17,8 +17,14 @@
 .seed-switch-mark__root--tone_neutral:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-inverted);
 }
+.seed-switch-mark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-palette-gray-600);
+}
 .seed-switch-mark__thumb--tone_neutral {
     background: var(--seed-color-fg-neutral-inverted);
+}
+.seed-switch-mark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-palette-static-black-alpha-700);
 }
 .seed-switch-mark__root--tone_brand:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-brand-solid);

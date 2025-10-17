@@ -179,6 +179,25 @@
                 }
               }
             }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-600"
+                }
+              },
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.static-black-alpha-700"
+                }
+              }
+            }
           }
         ]
       },
