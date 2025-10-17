@@ -12,3 +12,14 @@ export const idleBehind =
 export const swipeBackSwiping = "[data-swipe-back-state=swiping] &[data-activity-is-top]:not(#\\#)";
 export const swipeBackSwipingBehind =
   "[data-swipe-back-state=swiping] &:not([data-activity-is-top]):not(#\\#)";
+
+// Transitioning state should use idle animation to smoothly return from swipe position
+export const swipeBackCanceling =
+  "[data-swipe-back-state=canceling] &[data-activity-is-top]:not(#\\#)";
+export const swipeBackCancelingBehind =
+  "[data-swipe-back-state=canceling] &:not([data-activity-is-top]):not(#\\#)";
+
+export const swipeBackCompleting =
+  "[data-swipe-back-state=completing] &[data-activity-is-top]:not(#\\#)";
+export const swipeBackCompletingBehind =
+  "[data-swipe-back-state=completing] &:not([data-activity-is-top]):not(#\\#)";

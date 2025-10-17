@@ -1425,6 +1425,23 @@
   transform: translate3d(0, 0, 0);
 }
 
+[data-swipe-back-state="swiping"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+  transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
+  animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(0, 0, 0);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(100%, 0, 0);
+  animation: none !important;
+}
+
 [data-global-transition-state="enter-active"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
   --seed-enter-translate-x: 0;
   --seed-enter-translate-y: 0;
@@ -1435,7 +1452,8 @@
 }
 
 [data-global-transition-state="exit-active"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   --seed-exit-translate-x: 0;
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
@@ -1444,17 +1462,30 @@
 }
 
 [data-global-transition-state="enter-done"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-  --seed-enter-translate-x: 0;
+  --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * .15);
   --seed-enter-translate-y: 0;
-  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   --seed-enter-scale: 1;
   opacity: 1;
   animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: 1;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
 }
 
 [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
@@ -1469,14 +1500,14 @@
 [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
   --seed-enter-translate-x: 0;
   --seed-enter-translate-y: 0;
-  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  --seed-enter-opacity: calc(var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
   animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
 }
 
 [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  opacity: calc(var(--swipe-back-displacement-ratio, 0));
   --seed-exit-translate-x: 0;
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
@@ -1485,8 +1516,20 @@
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  opacity: calc(var(--swipe-back-displacement-ratio, 0));
   animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  opacity: 1;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
 }
 
 [data-global-transition-state="enter-active"] .seed-app-bar__root--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
@@ -1587,8 +1630,8 @@
 }
 
 [data-global-transition-state="exit-active"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .25), 0, 0);
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   --seed-exit-translate-x: 25%;
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
@@ -1597,9 +1640,9 @@
 }
 
 [data-global-transition-state="enter-done"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-  --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * .25);
+  --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * .15);
   --seed-enter-translate-y: 0;
-  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   --seed-enter-scale: 1;
   opacity: 1;
   animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
@@ -1607,9 +1650,23 @@
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
-  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .25), 0, 0);
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
   animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: 1;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(0, 0, 0);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(25%, 0, 0);
+  animation: none !important;
 }
 
 [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
@@ -1623,9 +1680,9 @@
 }
 
 [data-global-transition-state="exit-active"][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-  --seed-enter-translate-x: calc(-25% + var(--swipe-back-displacement, 0) * .25);
+  --seed-enter-translate-x: calc(-25% + var(--swipe-back-displacement, 0) * .15);
   --seed-enter-translate-y: 0;
-  --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  --seed-enter-opacity: calc(var(--swipe-back-displacement-ratio, 0));
   --seed-enter-scale: 1;
   opacity: 1;
   animation: .35s cubic-bezier(.2, .1, .21, .99) seed-enter;
@@ -1633,8 +1690,8 @@
 }
 
 [data-global-transition-state="enter-done"][data-top-activity-type="full-screen"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-  transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * .25), 0, 0);
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(var(--swipe-back-displacement-ratio, 0));
   --seed-exit-translate-x: -25%;
   --seed-exit-translate-y: 0;
   --seed-exit-opacity: 0;
@@ -1643,9 +1700,23 @@
 }
 
 [data-swipe-back-state="swiping"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
-  transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * .25), 0, 0);
-  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transform: translate3d(calc(-25% + var(--swipe-back-displacement, 0) * .15), 0, 0);
+  opacity: calc(var(--swipe-back-displacement-ratio, 0));
   animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(-25%, 0, 0);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-bar-main__root--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  opacity: 1;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(0, 0, 0);
+  animation: none !important;
 }
 
 .seed-app-bar-main__root--tone_layer, .seed-app-bar-main__title--tone_layer {
@@ -1768,6 +1839,18 @@
   animation: none;
 }
 
+[data-swipe-back-state="canceling"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(0, 0, 0);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(100%, 0, 0);
+  animation: none !important;
+}
+
 [data-global-transition-state="enter-active"][data-top-activity-type="full-screen"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
   --seed-exit-translate-x: -30%;
   --seed-exit-translate-y: 0;
@@ -1800,6 +1883,18 @@
   animation: none;
 }
 
+[data-swipe-back-state="canceling"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(-30%, 0, 0);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-screen__layer--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  transform: translate3d(0, 0, 0);
+  animation: none !important;
+}
+
 [data-global-transition-state="enter-active"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top] {
   --seed-enter-translate-x: 0;
   --seed-enter-translate-y: 0;
@@ -1830,6 +1925,18 @@
 [data-swipe-back-state="swiping"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
   opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
   animation: none;
+}
+
+[data-swipe-back-state="canceling"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
+}
+
+[data-swipe-back-state="completing"] .seed-app-screen__dim--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.2, .1, .21, .99), opacity .35s cubic-bezier(.2, .1, .21, .99);
+  animation: none !important;
 }
 
 .seed-app-screen__root--transitionStyle_fadeFromBottomAndroid {

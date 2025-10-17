@@ -8,6 +8,10 @@ import {
   popBehind,
   push,
   pushBehind,
+  swipeBackCanceling,
+  swipeBackCancelingBehind,
+  swipeBackCompleting,
+  swipeBackCompletingBehind,
   swipeBackSwiping,
   swipeBackSwipingBehind,
 } from "./pseudo";
@@ -83,12 +87,16 @@ export const appBarMain = defineSlotRecipe({
           [pop]: iOSAnimations.title.pop,
           [idle]: iOSAnimations.title.idle,
           [swipeBackSwiping]: iOSAnimations.title.interaction,
+          [swipeBackCanceling]: iOSAnimations.title.cancel,
+          [swipeBackCompleting]: iOSAnimations.title.complete,
 
           // behind
           [pushBehind]: iOSAnimations.titleBehind.push,
           [popBehind]: iOSAnimations.titleBehind.pop,
           [idleBehind]: iOSAnimations.titleBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.titleBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.titleBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.titleBehind.complete,
         },
       },
       fadeFromBottomAndroid: {},
@@ -225,6 +233,9 @@ export const appBar = defineSlotRecipe({
           [`${push}:before`]: iOSAnimations.appBarBackground.push,
           [`${pop}:before`]: iOSAnimations.appBarBackground.pop,
           [`${idle}:before`]: iOSAnimations.appBarBackground.idle,
+          [`${swipeBackSwiping}:before`]: iOSAnimations.appBarBackground.interaction,
+          [`${swipeBackCanceling}:before`]: iOSAnimations.appBarBackground.cancel,
+          [`${swipeBackCompleting}:before`]: iOSAnimations.appBarBackground.complete,
         },
         icon: {
           // top
@@ -232,12 +243,16 @@ export const appBar = defineSlotRecipe({
           [pop]: iOSAnimations.icon.pop,
           [idle]: iOSAnimations.icon.idle,
           [swipeBackSwiping]: iOSAnimations.icon.interaction,
+          [swipeBackCanceling]: iOSAnimations.icon.cancel,
+          [swipeBackCompleting]: iOSAnimations.icon.complete,
 
           // behind
           [pushBehind]: iOSAnimations.iconBehind.push,
           [popBehind]: iOSAnimations.iconBehind.pop,
           [idleBehind]: iOSAnimations.iconBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.iconBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.iconBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.iconBehind.complete,
         },
       },
       fadeFromBottomAndroid: {
