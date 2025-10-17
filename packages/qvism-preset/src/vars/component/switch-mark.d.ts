@@ -39,9 +39,6 @@ export declare const vars: {
       }
     },
     "disabled": {
-      "root": {
-        "color": "var(--seed-color-palette-gray-600)"
-      },
       "thumb": {
         "color": "var(--seed-color-palette-static-black-alpha-700)"
       }
