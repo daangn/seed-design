@@ -1,10 +1,10 @@
-import { Divider, VStack, useSnackbarAdapter } from "@seed-design/react";
+import { Box, Divider, Icon, PullToRefresh, VStack, useSnackbarAdapter } from "@seed-design/react";
 import { receive } from "@stackflow/compat-await-push";
 import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { List, ListButtonItem } from "../seed-design/ui/list";
 import { ListHeader } from "../seed-design/ui/list-header";
-import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "../seed-design/ui/action-button";
@@ -21,6 +21,9 @@ import { Snackbar } from "../seed-design/ui/snackbar";
 import { useStepDialog } from "../seed-design/util/use-step-dialog";
 import { useFlow } from "../stackflow";
 import { menuSheetCallback } from "./ActivityMenuSheet";
+import { Callout } from "../seed-design/ui/callout";
+import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -202,6 +205,11 @@ const ActivityHome: ActivityComponentType = () => {
     <AppScreen>
       <AppBar>
         <AppBarMain title="Home" />
+        <AppBarRight>
+          <AppBarIconButton>
+            <IconBellLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr
@@ -210,23 +218,39 @@ const ActivityHome: ActivityComponentType = () => {
         }}
       >
         <VStack gap="spacingY.componentDefault">
-          {navigationSections.map((section, sectionIndex) => (
-            <>
-              <VStack key={section.title}>
-                <ListHeader>{section.title}</ListHeader>
-                <List>
-                  {section.items.map((item) =>
-                    item.component ? (
-                      <React.Fragment key={item.title}>{item.component}</React.Fragment>
-                    ) : (
-                      <ListButtonItem key={item.title} onClick={item.onClick} title={item.title} />
-                    ),
-                  )}
-                </List>
-              </VStack>
-              {sectionIndex < navigationSections.length - 1 && <Divider />}
-            </>
-          ))}
+          <Box px="spacingX.globalGutter">
+            <Callout
+              tone="critical"
+              prefixIcon={<Icon svg={<IconHandPointUpLine />} />}
+              description="이 영역에서는 Pull to Refresh 동작이 발생하지 않습니다. Exercitation cillum velit
+              aliquip deserunt Lorem. Eiusmod proident duis occaecat consequat veniam do commodo
+              occaecat duis irure ea sunt officia cupidatat."
+              {...PullToRefresh.preventPull}
+            />
+          </Box>
+          <VStack gap="spacingY.componentDefault">
+            {navigationSections.map((section, sectionIndex) => (
+              <>
+                <VStack key={section.title}>
+                  <ListHeader>{section.title}</ListHeader>
+                  <List>
+                    {section.items.map((item) =>
+                      item.component ? (
+                        <React.Fragment key={item.title}>{item.component}</React.Fragment>
+                      ) : (
+                        <ListButtonItem
+                          key={item.title}
+                          onClick={item.onClick}
+                          title={item.title}
+                        />
+                      ),
+                    )}
+                  </List>
+                </VStack>
+                {sectionIndex < navigationSections.length - 1 && <Divider />}
+              </>
+            ))}
+          </VStack>
         </VStack>
       </AppScreenContent>
     </AppScreen>
