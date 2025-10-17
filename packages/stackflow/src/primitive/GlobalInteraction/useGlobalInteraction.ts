@@ -2,7 +2,7 @@ import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 
-export type SwipeBackState = "idle" | "swiping" | "transitioning";
+export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
 
 export type UseGlobalInteractionReturn = ReturnType<typeof useGlobalInteraction>;
 
@@ -88,8 +88,7 @@ export function useGlobalInteraction() {
             displacementRatio: 0,
             velocity: 0,
           });
-          setSwipeBackState("swiping");
-
+          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
           onSwipeStart?.();
         },
         [onSwipeStart],
@@ -106,8 +105,7 @@ export function useGlobalInteraction() {
             displacementRatio,
             velocity,
           });
-          setSwipeBackState("swiping");
-
+          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
           onSwipeMove?.({ displacement, displacementRatio });
         },
         [onSwipeMove],
@@ -121,11 +119,12 @@ export function useGlobalInteraction() {
 
           if (swiped) {
             stackRef.current?.style.setProperty("--swipe-back-target", "100%");
+            setSwipeBackState("completing");
           } else {
             stackRef.current?.style.setProperty("--swipe-back-target", "0");
+            setSwipeBackState("canceling");
           }
 
-          setSwipeBackState("transitioning");
           onSwipeEnd?.({ swiped });
         },
         [onSwipeEnd, displacementRatioThreshold, velocityThreshold],

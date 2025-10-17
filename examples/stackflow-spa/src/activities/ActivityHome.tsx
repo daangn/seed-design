@@ -4,7 +4,7 @@ import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { List, ListButtonItem } from "../seed-design/ui/list";
 import { ListHeader } from "../seed-design/ui/list-header";
-import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
+import { AppBar, AppBarIconButton, AppBarMain, AppBarRight } from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "../seed-design/ui/action-button";
@@ -23,6 +23,7 @@ import { useFlow } from "../stackflow";
 import { menuSheetCallback } from "./ActivityMenuSheet";
 import { Callout } from "../seed-design/ui/callout";
 import { IconHandPointUpLine } from "@karrotmarket/react-monochrome-icon";
+import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -204,13 +205,17 @@ const ActivityHome: ActivityComponentType = () => {
     <AppScreen>
       <AppBar>
         <AppBarMain title="Home" />
+        <AppBarRight>
+          <AppBarIconButton>
+            <IconBellLine />
+          </AppBarIconButton>
+        </AppBarRight>
       </AppBar>
       <AppScreenContent
         ptr
         onPtrRefresh={async () => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }}
-        // asChild
       >
         <VStack gap="spacingY.componentDefault">
           <Box px="spacingX.globalGutter">
