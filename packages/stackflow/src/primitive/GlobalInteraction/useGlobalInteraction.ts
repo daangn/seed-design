@@ -2,7 +2,7 @@ import { useCallbackRef } from "@radix-ui/react-use-callback-ref";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTopActivity } from "../private/useTopActivity";
 
-export type SwipeBackState = "idle" | "swiping" | "transitioning";
+export type SwipeBackState = "idle" | "swiping" | "canceling" | "completing";
 
 export type UseGlobalInteractionReturn = ReturnType<typeof useGlobalInteraction>;
 
@@ -121,11 +121,12 @@ export function useGlobalInteraction() {
 
           if (swiped) {
             stackRef.current?.style.setProperty("--swipe-back-target", "100%");
+            setSwipeBackState("completing");
           } else {
             stackRef.current?.style.setProperty("--swipe-back-target", "0");
+            setSwipeBackState("canceling");
           }
 
-          setSwipeBackState("transitioning");
           onSwipeEnd?.({ swiped });
         },
         [onSwipeEnd, displacementRatioThreshold, velocityThreshold],
@@ -166,6 +167,9 @@ export function useGlobalInteraction() {
     }),
     [swipeBackState, topActivity.transitionState, topActivity.activityType],
   ) as React.HTMLAttributes<HTMLElement>;
+
+  console.log("swipeBackState", swipeBackState);
+  console.log("global-transition-state", topActivity.transitionState);
 
   return useMemo(
     () => ({

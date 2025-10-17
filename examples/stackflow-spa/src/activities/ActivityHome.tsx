@@ -4,7 +4,14 @@ import type { ActivityComponentType } from "@stackflow/react";
 import * as React from "react";
 import { List, ListButtonItem } from "../seed-design/ui/list";
 import { ListHeader } from "../seed-design/ui/list-header";
-import { AppBar, AppBarMain } from "../seed-design/stackflow/AppBar";
+import {
+  AppBar,
+  AppBarBackButton,
+  AppBarIconButton,
+  AppBarLeft,
+  AppBarMain,
+  AppBarRight,
+} from "../seed-design/stackflow/AppBar";
 import { AppScreen, AppScreenContent } from "../seed-design/stackflow/AppScreen";
 import { DialogPushTrigger } from "../seed-design/stackflow/DialogPushTrigger";
 import { ActionButton } from "../seed-design/ui/action-button";
@@ -21,6 +28,7 @@ import { Snackbar } from "../seed-design/ui/snackbar";
 import { useStepDialog } from "../seed-design/util/use-step-dialog";
 import { useFlow } from "../stackflow";
 import { menuSheetCallback } from "./ActivityMenuSheet";
+import { IconBellLine } from "@karrotmarket/react-monochrome-icon";
 
 type NavigationItem =
   | { title: string; onClick: () => void; component?: never }
@@ -201,8 +209,17 @@ const ActivityHome: ActivityComponentType = () => {
   return (
     <AppScreen>
       <AppBar>
+        <AppBarLeft>
+          <AppBarBackButton />
+        </AppBarLeft>
+        <AppBarRight>
+          <AppBarIconButton>
+            <IconBellLine />
+          </AppBarIconButton>
+        </AppBarRight>
         <AppBarMain title="Home" />
       </AppBar>
+
       <AppScreenContent
         ptr
         onPtrRefresh={async () => {
