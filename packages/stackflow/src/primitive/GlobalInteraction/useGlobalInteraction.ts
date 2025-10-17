@@ -88,8 +88,7 @@ export function useGlobalInteraction() {
             displacementRatio: 0,
             velocity: 0,
           });
-          setSwipeBackState("swiping");
-
+          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
           onSwipeStart?.();
         },
         [onSwipeStart],
@@ -106,8 +105,7 @@ export function useGlobalInteraction() {
             displacementRatio,
             velocity,
           });
-          setSwipeBackState("swiping");
-
+          setSwipeBackState((prev) => (prev === "swiping" ? prev : "swiping"));
           onSwipeMove?.({ displacement, displacementRatio });
         },
         [onSwipeMove],
@@ -167,9 +165,6 @@ export function useGlobalInteraction() {
     }),
     [swipeBackState, topActivity.transitionState, topActivity.activityType],
   ) as React.HTMLAttributes<HTMLElement>;
-
-  console.log("swipeBackState", swipeBackState);
-  console.log("global-transition-state", topActivity.transitionState);
 
   return useMemo(
     () => ({
