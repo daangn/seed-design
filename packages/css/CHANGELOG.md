@@ -1,5 +1,13 @@
 # @seed-design/css
 
+## 1.0.5
+
+### Patch Changes
+
+- f1cf4cd: Text Field와 Multiline Text Field가 기본적으로 배경 색을 갖지 않도록 수정합니다.
+- 9b91751: AppScreen에서 스와이프로 pop할 때 AppScreen이 한번 깜빡거리고 닫히는 버그를 수정합니다.
+- 3898183: 매너온도 L9 전경 및 배경 색상의 채도를 낮춥니다.
+
 ## 1.0.3
 
 ### Patch Changes

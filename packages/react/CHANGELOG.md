@@ -1,5 +1,18 @@
 # @seed-design/react
 
+## 1.0.5
+
+### Patch Changes
+
+- 687b261: `PullToRefresh.preventPull`을 활용하여 `PullToRefreshContent` 내부에서 당겨서 새로고침(PTR) 동작을 비활성화할 수 있습니다.
+- a839fd2: 실제 기본값을 표시하도록 JSDoc을 업데이트합니다.
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [687b261]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+  - @seed-design/react-pull-to-refresh@1.0.1
+
 ## 1.0.4
 
 ### Patch Changes
