@@ -10,7 +10,7 @@ declare interface TextVariant {
 /**
   * @default "none"
   */
-  textDecorationLine: "none" | "line-through";
+  textDecorationLine: "none" | "line-through" | "underline";
 }
 
 declare type TextVariantMap = {

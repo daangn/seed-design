@@ -10,16 +10,22 @@ const text = defineRecipe({
   name: "text",
   base: {
     margin: 0,
-    textAlign: "var(--seed-text-align)",
+
     color: "var(--seed-text-color)",
     fontSize: "var(--seed-font-size)",
-    lineHeight: "var(--seed-line-height)",
     fontWeight: "var(--seed-font-weight)",
+    lineHeight: "var(--seed-line-height)",
+    textAlign: "var(--seed-text-align)",
+    userSelect: "var(--seed-user-select)",
+
     "--seed-text-color": "inherit",
     "--seed-font-size": "inherit",
-    "--seed-line-height": "inherit",
     "--seed-font-weight": "inherit",
+    "--seed-line-height": "inherit",
     "--seed-text-align": "inherit",
+    "--seed-user-select": "inherit", // 'auto' is basically how 'inherit' behaves for user-select
+    "--seed-white-space": "inherit",
+
     "--seed-max-lines": "initial",
   },
   variants: {
@@ -38,7 +44,7 @@ const text = defineRecipe({
         overflow: "unset",
         minWidth: "unset",
         textOverflow: "unset",
-        whiteSpace: "unset",
+        whiteSpace: "var(--seed-white-space)",
         WebkitLineClamp: "unset",
       },
       single: {
@@ -66,6 +72,11 @@ const text = defineRecipe({
       // NOTE: We keep kebab-case for textDecorationLine because it's a CSS property.
       "line-through": {
         textDecorationLine: "line-through",
+      },
+      underline: {
+        textDecorationLine: "underline",
+
+        // might want to customize text decoration styles or underline offset later
       },
     },
   },

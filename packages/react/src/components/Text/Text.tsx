@@ -10,6 +10,7 @@ import {
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useMemo } from "react";
+import type * as CSS from "csstype";
 
 function handleColor(color: string | undefined) {
   if (!color) {
@@ -81,7 +82,20 @@ export interface TextProps
   /**
    * The alignment of the text.
    */
-  align?: "left" | "center" | "right";
+  align?: Extract<CSS.Property.TextAlign, "left" | "center" | "right">;
+
+  /**
+   * The user-select behavior of the text.
+   */
+  userSelect?: Extract<CSS.Property.UserSelect, "none" | "text" | "auto">;
+
+  /**
+   * The white-space behavior of the text.
+   */
+  whiteSpace?: Extract<
+    CSS.Property.WhiteSpace,
+    "normal" | "nowrap" | "pre" | "pre-wrap" | "pre-line" | "break-spaces"
+  >;
 }
 
 function mapMaxLines(maxLines: number | undefined): "none" | "single" | "multi" {
@@ -105,6 +119,9 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
       fontWeight,
       maxLines,
       textDecorationLine,
+      align,
+      userSelect,
+      whiteSpace,
       children,
       className,
       style,
@@ -135,7 +152,9 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
             "--seed-font-size": handleFontSize(fontSize),
             "--seed-line-height": handleLineHeight(lineHeight ?? fontSize),
             "--seed-font-weight": handleFontWeight(fontWeight),
-            "--seed-text-align": otherProps.align,
+            "--seed-text-align": align,
+            "--seed-user-select": userSelect,
+            "--seed-white-space": whiteSpace,
             ...style,
           } as React.CSSProperties
         }
