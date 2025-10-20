@@ -17,7 +17,7 @@ function handleColor(color: string | undefined) {
     return undefined;
   }
   const [type, value] = color.split(".");
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$color[type]?.[value] ?? color;
 }
 
@@ -25,7 +25,7 @@ function handleFontWeight(fontWeight: string | undefined) {
   if (!fontWeight) {
     return undefined;
   }
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$fontWeight[fontWeight] ?? undefined;
 }
 
@@ -33,7 +33,7 @@ function handleFontSize(size: string | undefined) {
   if (!size) {
     return undefined;
   }
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$fontSize[size] ?? size;
 }
 
@@ -41,7 +41,7 @@ function handleLineHeight(lineHeight: string | undefined) {
   if (!lineHeight) {
     return undefined;
   }
-  // @ts-ignore
+  // @ts-expect-error
   return vars.$lineHeight[lineHeight] ?? lineHeight;
 }
 
@@ -142,7 +142,7 @@ export const Text = forwardRef<HTMLSpanElement, TextProps>(
 
     return (
       <Comp
-        // @ts-ignore: We might need overloading for ref types, not a big deal for now.
+        // @ts-expect-error: We might need overloading for ref types, not a big deal for now.
         ref={ref}
         className={clsx(textClassName, className)}
         style={
