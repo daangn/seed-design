@@ -82,7 +82,7 @@ export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
     return (
       <SeedAppBar.IconButton
         ref={ref}
-        aria-label="Go Back"
+        aria-label="뒤로"
         type="button"
         onClick={handleOnClick}
         {...otherProps}
@@ -115,7 +115,7 @@ export const AppBarCloseButton = forwardRef<HTMLButtonElement, AppBarIconButtonP
     return (
       <AppBarIconButton
         ref={ref}
-        aria-label="Close"
+        aria-label="닫기"
         type="button"
         onClick={handleOnClick}
         {...otherProps}
