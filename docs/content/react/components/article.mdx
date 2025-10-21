@@ -30,9 +30,11 @@ import { Article } from "@seed-design/react";
 
 ## Examples
 
-### 단어 내부 줄바꿈 동작
+### 단어 내 줄바꿈 동작
 
-[`lang` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/lang)를 통해 추론된 언어에 따라 단어 내부 줄바꿈 동작을 설정합니다.
+[`lang` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/lang)를 통해 추론된 언어에 따라 단어 내 줄바꿈(word-break) 동작을 설정합니다.
+
+한국어 문서/요소에서는 한 어절 안에서 줄바꿈이 발생하지 않도록 하고, 그 외 언어는 표준 규칙을 따릅니다. 컨테이너를 벗어날 정도로 긴 단어 안에서는 줄바꿈이 발생합니다. 일본어에서 문장 부호, [스테가나](https://ko.wikipedia.org/wiki/스테가나) 또는 [반복 부호](https://ko.wikipedia.org/wiki/반복_부호) 직전에서 줄바꿈이 발생하지 않도록 조정됩니다.
 
 <ComponentExample name="react/article/word-break">
   ```json doc-gen:file
@@ -140,4 +142,4 @@ TabsCarousel 컴포넌트에서 제스처를 방지할 영역을 지정하는 �
 
 `<Article />` 컴포넌트는 미리 정의된 `::selection` 스타일을 사용하지만, iOS WebView 환경에서는 이 스타일이 적용되지 않습니다. ([Can I use…](https://caniuse.com/css-selection))
 
-SEED iOS에서는 사용자 선택 영역에 대해 커스텀 색상을 지정하지 않음으로써 네이티브-웹뷰 간 일관된 색상을 표시할 수 있도록 합니다.
+SEED iOS에서는 사용자 선택 영역에 대해 커스텀 색상을 지정하지 않음으로써 네이티브-웹뷰 간 일관된 색상(네이티브 기본값 및 Safari 기본값)을 표시할 수 있도록 합니다.
