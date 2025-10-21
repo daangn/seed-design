@@ -26,7 +26,11 @@ export default function ArticleWordBreak() {
                 단어 내부 줄바꿈 처리를 적절하게 하여 가독성을 높입니다.
                 이렇게매우긴단어를줄바꿈하지않는경우레이아웃문제를일으킬가능성이있습니다.{" "}
               </span>
-              <a href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale">
+              <a
+                href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale
               </a>
             </Text>
@@ -50,7 +54,11 @@ export default function ArticleWordBreak() {
                 There are some long words that need to be broken properly to improve readability.
                 SupercalifragilisticexpialidociousEvenThoughTheSoundOfItIsSomethingQuiteAtrocious{" "}
               </span>
-              <a href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale">
+              <a
+                href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale
               </a>
             </Text>
@@ -74,7 +82,11 @@ export default function ArticleWordBreak() {
                 日本語の禁則処理では、特定の文字の前後で改行を制御します。例えば人々々々と続く場合や、小さい文字ぁぁぁが連続する場合、そして句読点。。。が続く場合の改行位置を確認できます。
                 また長い文章では自動的に適切な位置で改行されますが々ぁ。などの文字の前では改行されないことを確認してください。{" "}
               </span>
-              <a href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale">
+              <a
+                href="https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 https://www.example.com/this-is-a-very-long-url-that-might-cause-layout-issues-if-the-word-break-is-not-handled-properly?utm_source=newsletter&utm_medium=email&utm_campaign=spring_sale
               </a>
             </Text>

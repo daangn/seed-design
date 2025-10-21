@@ -58,7 +58,7 @@ export const Stackflow = ({ activities }: StackflowProps) => {
   return (
     <div
       ref={ref}
-      className={cn("not-prose")}
+      className={cn("not-prose example-reset")}
       style={{
         position: "relative",
         width: "100%",
