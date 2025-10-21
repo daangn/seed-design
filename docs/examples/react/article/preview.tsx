@@ -2,13 +2,14 @@ import { Article, Text, VStack } from "@seed-design/react";
 
 export default function ArticlePreview() {
   return (
-    <VStack asChild gap="x4">
+    <VStack asChild gap="x2" width="400px">
       <Article>
-        <Text as="h1" textStyle="t7Bold">
-          Article 컴포넌트 미리보기
+        <Text as="p" textStyle="articleBody">
+          Article은 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티
+          컴포넌트입니다.
         </Text>
         <Text as="p" textStyle="articleBody">
-          Article 컴포넌트는 기본적으로 article 엘리먼트로 렌더링됩니다.
+          여기를 드래그해서 스타일을 확인해보세요.
         </Text>
       </Article>
     </VStack>
