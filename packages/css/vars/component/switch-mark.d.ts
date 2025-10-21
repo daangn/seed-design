@@ -2,16 +2,34 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
+        "cornerRadius": "var(--seed-radius-full)",
         "color": "var(--seed-color-palette-gray-600)",
-        "cornerRadius": "var(--seed-radius-full)"
+        "colorDuration": "var(--seed-duration-d1)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "colorDelay": "20ms"
       },
       "thumb": {
-        "cornerRadius": "var(--seed-radius-full)"
+        "cornerRadius": "var(--seed-radius-full)",
+        "scale": "0.8",
+        "scaleDuration": "var(--seed-duration-d3)",
+        "scaleTimingFunction": "var(--seed-timing-function-easing)",
+        "translateDuration": "var(--seed-duration-d3)",
+        "translateTimingFunction": "var(--seed-timing-function-easing)",
+        "colorDuration": "var(--seed-duration-d1)",
+        "colorTimingFunction": "var(--seed-timing-function-easing)",
+        "colorDelay": "20ms"
       }
     },
     "disabled": {
       "root": {
-        "opacity": "0.38"
+        "opacity": "0.38",
+        "opacityDuration": "var(--seed-duration-d1)",
+        "opacityTimingFunction": "var(--seed-timing-function-easing)"
+      }
+    },
+    "selected": {
+      "thumb": {
+        "scale": "1"
       }
     }
   },
@@ -59,8 +77,7 @@ export declare const vars: {
       },
       "thumb": {
         "height": "26px",
-        "width": "26px",
-        "shadow": "0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f"
+        "width": "26px"
       }
     }
   },
@@ -74,8 +91,7 @@ export declare const vars: {
       },
       "thumb": {
         "height": "20px",
-        "width": "20px",
-        "shadow": "0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f"
+        "width": "20px"
       }
     }
   },
