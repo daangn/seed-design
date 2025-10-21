@@ -1,6 +1,7 @@
 export * from "./ActionButton";
 export * from "./ActionChip";
 export * from "./ActionSheet";
+export * from "./Article";
 export * from "./Avatar";
 export * from "./Badge";
 export * from "./BottomSheet";

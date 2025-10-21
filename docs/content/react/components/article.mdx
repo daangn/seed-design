@@ -1,0 +1,143 @@
+---
+title: Article
+description: Article
+---
+
+import { Component } from "lucide-react";
+
+<ComponentExample name="react/article/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Usage
+
+```tsx
+import { Article } from "@seed-design/react";
+```
+
+```tsx
+<Article>Article</Article>
+```
+
+## Props
+
+[BoxProps](/react/components/layout/box#props)와 동일합니다.
+
+## Examples
+
+### 단어 내부 줄바꿈 동작
+
+[`lang` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/lang)를 통해 추론된 언어에 따라 단어 내부 줄바꿈 동작을 설정합니다.
+
+<ComponentExample name="react/article/word-break">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/word-break.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### 사용자 선택 가능
+
+`<Article />` 내부 요소는 사용자가 선택(user-select)할 수 있으며, 선택된 부분은 배경 색상을 가집니다.
+
+<ComponentExample name="react/article/selectable">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/selectable.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### 내부 요소 선택 불가능하게 만들기
+
+Text 컴포넌트의 [`userSelect="none"` prop](/react/components/typography/text#user-select)을 사용하여 `<Article />` 내부 요소를 선택 불가능하게 만들 수 있습니다.
+
+<Card title="Text" href="/react/components/typography/text" icon={<Component />}>
+
+Text 컴포넌트에 대해 자세히 알아봅니다.
+
+</Card>
+
+<ComponentExample name="react/article/override-user-select">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/override-user-select.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### 선택 시 `PullToRefresh` 또는 `TabsCarousel` 제스처 방지하기
+
+`<Article />` 내부 요소는 사용자 선택이 가능합니다. 따라서, 드래그 동작을 통해 내부 요소를 선택 시 의도하지 않은 PTR(당겨서 새로고침) 또는 탭 스와이프 제스처가 발생할 수 있습니다.
+
+`PullToRefresh.preventPull` 또는 `Tabs.carouselPreventDrag`를 `<Article />`에 전달하여 Article에서 발생한 이벤트가 제스처를 트리거하지 않도록 할 수 있습니다.
+
+<Cards>
+
+<Card href="/react/components/pull-to-refresh#prevent-pull" title="Prevent Pull">
+
+PullToRefresh 컴포넌트에서 제스처를 방지할 영역을 지정하는 방법에 대해 알아봅니다.
+
+</Card>
+
+<Card href="/react/components/tabs#carousel-prevent-drag" title="Carousel Prevent Drag">
+
+TabsCarousel 컴포넌트에서 제스처를 방지할 영역을 지정하는 방법에 대해 알아봅니다.
+
+</Card>
+
+</Cards>
+
+<StackflowExample names={["react/article/prevent-pull"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/prevent-pull.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+<StackflowExample names={["react/article/prevent-drag"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/prevent-drag.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### `asChild` 또는 `as` prop 사용하기
+
+`<Article />`은 기본적으로 `<article>`로 렌더링되지만, `asChild` 또는 `as` prop을 사용하여 다른 요소로 변경할 수 있습니다.
+
+<Card title="Composition" href="/react/components/concepts/composition#aschild-prop" icon={<Component />}>
+
+`asChild` prop에 대해 자세히 알아봅니다.
+
+</Card>
+
+<ComponentExample name="react/article/as">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/article/as.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Caveats
+
+### `::selection` 스타일 제한 사항
+
+`<Article />` 컴포넌트는 미리 정의된 `::selection` 스타일을 사용하지만, iOS WebView 환경에서는 이 스타일이 적용되지 않습니다. ([Can I use…](https://caniuse.com/css-selection))
+
+SEED iOS에서는 사용자 선택 영역에 대해 커스텀 색상을 지정하지 않음으로써 네이티브-웹뷰 간 일관된 색상을 표시할 수 있도록 합니다.

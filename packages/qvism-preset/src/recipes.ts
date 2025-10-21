@@ -7,6 +7,7 @@ import actionButton from "./recipes/action-button";
 import actionChip from "./recipes/action-chip";
 import actionSheet from "./recipes/action-sheet";
 import actionSheetItem from "./recipes/action-sheet-item";
+import article from "./recipes/article";
 import avatar from "./recipes/avatar";
 import avatarStack from "./recipes/avatar-stack";
 import badge from "./recipes/badge";
@@ -42,8 +43,8 @@ import radiomark from "./recipes/radiomark";
 import reactionButton from "./recipes/reaction-button";
 import segmentedControl from "./recipes/segmented-control";
 import skeleton from "./recipes/skeleton";
-import switchRecipe from "./recipes/switch";
 import switchMark from "./recipes/switch-mark";
+import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textField from "./recipes/text-field";
@@ -57,6 +58,7 @@ export const recipes = {
   appBar,
   appBarMain,
   appScreen,
+  article,
   avatar,
   avatarStack,
   badge,
