@@ -23,7 +23,7 @@ const text = defineRecipe({
     "--seed-font-weight": "inherit",
     "--seed-line-height": "inherit",
     "--seed-text-align": "inherit",
-    "--seed-user-select": "inherit", // 'auto' is basically how 'inherit' behaves for user-select
+    "--seed-user-select": "inherit",
     "--seed-white-space": "inherit",
 
     "--seed-max-lines": "initial",
