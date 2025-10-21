@@ -50,8 +50,8 @@
     margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_cupertino {
-    width: 24px;
-    height: 24px;
+    width: var(--seed-icon-size, 24px);
+    height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__root--theme_android {
     height: calc(56px + var(--seed-safe-area-top));
@@ -69,8 +69,8 @@
     margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_android {
-    width: 24px;
-    height: 24px;
+    width: var(--seed-icon-size, 24px);
+    height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__left--theme_android {
     padding-right: 16px;
@@ -240,13 +240,13 @@
     background-color: var(--seed-color-bg-layer-default);
 }
 .seed-app-bar__icon--tone_layer {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-icon-color, var(--seed-color-fg-neutral));
 }
 .seed-app-bar__root--tone_transparent:before {
     background-color: #00000000;
 }
 .seed-app-bar__icon--tone_transparent {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-icon-color, var(--seed-color-palette-static-white));
 }
 .seed-app-bar__root--divider_true:before {
     box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);

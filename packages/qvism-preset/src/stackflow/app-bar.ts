@@ -200,8 +200,8 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          width: vars.themeCupertino.enabled.icon.size,
-          height: vars.themeCupertino.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
         },
       },
       android: {
@@ -222,8 +222,8 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          width: vars.themeAndroid.enabled.icon.size,
-          height: vars.themeAndroid.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
         },
         left: {
           paddingRight: "16px",
@@ -273,7 +273,7 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: vars.toneLayer.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
@@ -283,7 +283,7 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: vars.toneTransparent.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
         },
       },
     },
