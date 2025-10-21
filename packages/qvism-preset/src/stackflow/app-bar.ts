@@ -40,16 +40,19 @@ export const appBarMain = defineSlotRecipe({
         title: {
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
         },
       },
       withSubtitle: {
         title: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
         },
         subtitle: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
         },
       },
     },

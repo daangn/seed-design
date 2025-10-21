@@ -1585,16 +1585,19 @@
 .seed-app-bar-main__title--layout_titleOnly {
   font-size: var(--seed-font-size-t6-static);
   font-weight: var(--seed-font-weight-bold);
+  line-height: var(--seed-line-height-t6-static);
 }
 
 .seed-app-bar-main__title--layout_withSubtitle {
   font-size: var(--seed-font-size-t5-static);
   font-weight: var(--seed-font-weight-bold);
+  line-height: var(--seed-line-height-t5-static);
 }
 
 .seed-app-bar-main__subtitle--layout_withSubtitle {
   font-size: var(--seed-font-size-t2-static);
   font-weight: var(--seed-font-weight-regular);
+  line-height: var(--seed-line-height-t2-static);
 }
 
 .seed-app-bar-main__root--theme_cupertino {
