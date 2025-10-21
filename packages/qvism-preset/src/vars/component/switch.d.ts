@@ -8,7 +8,9 @@ export declare const vars: {
     },
     "disabled": {
       "label": {
-        "opacity": "0.58"
+        "opacity": "0.58",
+        "opacityDuration": "var(--seed-duration-d1)",
+        "opacityTimingFunction": "var(--seed-timing-function-easing)"
       }
     }
   },

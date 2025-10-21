@@ -27,6 +27,8 @@ const switchRecipe = defineSlotRecipe({
       fontWeight: vars.base.enabled.label.fontWeight,
       color: vars.base.enabled.label.color,
 
+      transition: `opacity ${vars.base.disabled.label.opacityDuration} ${vars.base.disabled.label.opacityTimingFunction}`,
+
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.label.opacity,
       },

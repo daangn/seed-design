@@ -27,6 +27,12 @@
             "opacity": {
               "type": "number"
             },
+            "opacityDuration": {
+              "type": "duration"
+            },
+            "opacityTimingFunction": {
+              "type": "cubicBezier"
+            },
             "fontSize": {
               "type": "dimension"
             },
@@ -80,6 +86,14 @@
                 "opacity": {
                   "type": "number",
                   "value": 0.58
+                },
+                "opacityDuration": {
+                  "type": "duration",
+                  "value": "$duration.d1"
+                },
+                "opacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
