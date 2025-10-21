@@ -30,6 +30,9 @@ const mask: Properties = {
   maskPosition: "0 0, var(--badge-mask-offset) var(--badge-mask-offset)",
   maskRepeat: "no-repeat",
   maskComposite: "subtract",
+
+  transform: "translateZ(0)",
+  willChange: "transform",
 };
 
 const avatar = defineSlotRecipe({

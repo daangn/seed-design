@@ -2071,8 +2071,10 @@
   mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
   mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
   mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
+  will-change: transform;
   position: absolute;
   inset: 0;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
@@ -2089,8 +2091,10 @@
   mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
   mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
   mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
+  will-change: transform;
   display: block;
   overflow: hidden;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
@@ -2112,10 +2116,12 @@
   mask-image: url("data:image/svg+xml;utf8,<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><circle cx=\"16\" cy=\"16\" r=\"16\" fill=\"white\"/></svg>"), var(--svg-mask-uri);
   mask-size: 100% 100%, var(--badge-mask-size) var(--badge-mask-size);
   mask-position: 0 0, var(--badge-mask-offset) var(--badge-mask-offset);
+  will-change: transform;
   justify-content: center;
   align-items: center;
   display: flex;
   overflow: hidden;
+  transform: translateZ(0);
   mask-repeat: no-repeat;
   mask-composite: subtract;
 }
