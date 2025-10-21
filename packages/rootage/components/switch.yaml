@@ -19,6 +19,10 @@ data:
             type: color
           opacity:
             type: number
+          opacityDuration:
+            type: duration
+          opacityTimingFunction:
+            type: cubicBezier
           fontSize:
             type: dimension
           lineHeight:
@@ -34,6 +38,8 @@ data:
       disabled:
         label:
           opacity: 0.58
+          opacityDuration: $duration.d1
+          opacityTimingFunction: $timing-function.easing
     
     size=32:
       enabled:

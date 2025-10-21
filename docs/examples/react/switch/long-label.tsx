@@ -6,69 +6,15 @@ export default function SwitchLongLabel() {
     <VStack gap="spacingY.componentDefault">
       <Switch
         size="32"
-        label="Lorem ipsum dolor sit, amet consectetur adipisicing elit. At a eaque fugiat sint sapiente.
-          Id, hic ex, blanditiis totam animi amet delectus temporibus quae fugiat magnam, quos eaque
-          dolorum a? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus labore unde
-          minus temporibus beatae commodi et nesciunt iure in dignissimos suscipit, alias ab
-          voluptatem facilis tempora numquam. Veritatis, dolorum suscipit! Lorem ipsum dolor sit,
-          amet consectetur adipisicing elit. Explicabo fugiat molestias iusto, ipsum distinctio
-          officia ad id ratione esse ducimus architecto deleniti illum reiciendis rerum, at
-          blanditiis molestiae. Cupiditate, nobis? Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Ab, magni. Aliquid inventore quaerat nemo architecto harum earum quas
-          porro repudiandae explicabo repellat repellendus magni, corporis omnis laborum, velit
-          dicta blanditiis. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis,
-          eveniet quas. Accusamus facere veritatis expedita delectus, asperiores numquam placeat
-          necessitatibus assumenda, nesciunt in dolorem sit provident repellendus, voluptatem earum!
-          Consequatur. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut earum
-          asperiores aliquam magnam est delectus veritatis numquam sint porro tenetur dolores nobis,
-          deleniti voluptas quaerat, quia voluptatum soluta autem perspiciatis? Lorem ipsum dolor
-          sit amet consectetur adipisicing elit. Facilis possimus eaque aliquam maxime? Quidem enim,
-          sed itaque at veritatis nihil officia esse qui provident ipsa adipisci necessitatibus
-          officiis distinctio laborum!"
+        label="Consequat ut veniam aliqua deserunt occaecat enim occaecat veniam et et cillum nulla officia incididunt incididunt. Sint laboris labore occaecat fugiat culpa voluptate ullamco in elit dolore exercitation nulla."
       />
       <Switch
         size="24"
-        label="Lorem ipsum dolor sit, amet consectetur adipisicing elit. At a eaque fugiat sint sapiente.
-          Id, hic ex, blanditiis totam animi amet delectus temporibus quae fugiat magnam, quos eaque
-          dolorum a? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus labore unde
-          minus temporibus beatae commodi et nesciunt iure in dignissimos suscipit, alias ab
-          voluptatem facilis tempora numquam. Veritatis, dolorum suscipit! Lorem ipsum dolor sit,
-          amet consectetur adipisicing elit. Explicabo fugiat molestias iusto, ipsum distinctio
-          officia ad id ratione esse ducimus architecto deleniti illum reiciendis rerum, at
-          blanditiis molestiae. Cupiditate, nobis? Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Ab, magni. Aliquid inventore quaerat nemo architecto harum earum quas
-          porro repudiandae explicabo repellat repellendus magni, corporis omnis laborum, velit
-          dicta blanditiis. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis,
-          eveniet quas. Accusamus facere veritatis expedita delectus, asperiores numquam placeat
-          necessitatibus assumenda, nesciunt in dolorem sit provident repellendus, voluptatem earum!
-          Consequatur. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut earum
-          asperiores aliquam magnam est delectus veritatis numquam sint porro tenetur dolores nobis,
-          deleniti voluptas quaerat, quia voluptatum soluta autem perspiciatis? Lorem ipsum dolor
-          sit amet consectetur adipisicing elit. Facilis possimus eaque aliquam maxime? Quidem enim,
-          sed itaque at veritatis nihil officia esse qui provident ipsa adipisci necessitatibus
-          officiis distinctio laborum!"
+        label="Consequat ut veniam aliqua deserunt occaecat enim occaecat veniam et et cillum nulla officia incididunt incididunt. Sint laboris labore occaecat fugiat culpa voluptate ullamco in elit dolore exercitation nulla."
       />
       <Switch
         size="16"
-        label="Lorem ipsum dolor sit, amet consectetur adipisicing elit. At a eaque fugiat sint sapiente.
-          Id, hic ex, blanditiis totam animi amet delectus temporibus quae fugiat magnam, quos eaque
-          dolorum a? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Possimus labore unde
-          minus temporibus beatae commodi et nesciunt iure in dignissimos suscipit, alias ab
-          voluptatem facilis tempora numquam. Veritatis, dolorum suscipit! Lorem ipsum dolor sit,
-          amet consectetur adipisicing elit. Explicabo fugiat molestias iusto, ipsum distinctio
-          officia ad id ratione esse ducimus architecto deleniti illum reiciendis rerum, at
-          blanditiis molestiae. Cupiditate, nobis? Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Ab, magni. Aliquid inventore quaerat nemo architecto harum earum quas
-          porro repudiandae explicabo repellat repellendus magni, corporis omnis laborum, velit
-          dicta blanditiis. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis,
-          eveniet quas. Accusamus facere veritatis expedita delectus, asperiores numquam placeat
-          necessitatibus assumenda, nesciunt in dolorem sit provident repellendus, voluptatem earum!
-          Consequatur. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut earum
-          asperiores aliquam magnam est delectus veritatis numquam sint porro tenetur dolores nobis,
-          deleniti voluptas quaerat, quia voluptatum soluta autem perspiciatis? Lorem ipsum dolor
-          sit amet consectetur adipisicing elit. Facilis possimus eaque aliquam maxime? Quidem enim,
-          sed itaque at veritatis nihil officia esse qui provident ipsa adipisci necessitatibus
-          officiis distinctio laborum!"
+        label="Consequat ut veniam aliqua deserunt occaecat enim occaecat veniam et et cillum nulla officia incididunt incididunt. Sint laboris labore occaecat fugiat culpa voluptate ullamco in elit dolore exercitation nulla."
       />
     </VStack>
   );
