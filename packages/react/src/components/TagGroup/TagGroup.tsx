@@ -17,11 +17,11 @@ export interface TagGroupRootProps
     TagGroupItemVariantProps,
     PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
-  delimiter?: React.ReactNode;
+  separator?: React.ReactNode;
 }
 
 export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
-  ({ className, children, delimiter = "  ·  ", ...props }, ref) => {
+  ({ className, children, separator = "  ·  ", ...props }, ref) => {
     const [{ tagGroup: tagGroupVariantProps, tagGroupItem: tagGroupItemVariantProps }, otherProps] =
       splitMultipleVariantsProps(props, { tagGroup, tagGroupItem });
     const classNames = tagGroup(tagGroupVariantProps);
@@ -32,8 +32,8 @@ export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
           {Children.map(children, (child, index) => (
             <>
               {index > 0 && (
-                <Primitive.span aria-hidden className={classNames.delimiter}>
-                  {delimiter}
+                <Primitive.span aria-hidden className={classNames.separator}>
+                  {separator}
                 </Primitive.span>
               )}
               {child}

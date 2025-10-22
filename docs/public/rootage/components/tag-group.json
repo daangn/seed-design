@@ -9,7 +9,7 @@
     "name": "Tag Group",
     "schema": {
       "slots": {
-        "delimiter": {
+        "separator": {
           "properties": {
             "color": {
               "type": "color"
@@ -46,7 +46,7 @@
               "enabled"
             ],
             "slots": {
-              "delimiter": {
+              "separator": {
                 "color": {
                   "type": "color",
                   "value": "$color.palette.gray-600"
@@ -70,7 +70,7 @@
               "enabled"
             ],
             "slots": {
-              "delimiter": {
+              "separator": {
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t2"
@@ -94,7 +94,7 @@
               "enabled"
             ],
             "slots": {
-              "delimiter": {
+              "separator": {
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t3"
@@ -118,7 +118,7 @@
               "enabled"
             ],
             "slots": {
-              "delimiter": {
+              "separator": {
                 "fontSize": {
                   "type": "dimension",
                   "value": "$font-size.t4"

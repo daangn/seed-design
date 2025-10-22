@@ -11,7 +11,7 @@ declare type TagGroupVariantMap = {
 
 export declare type TagGroupVariantProps = Partial<TagGroupVariant>;
 
-export declare type TagGroupSlotName = "root" | "delimiter";
+export declare type TagGroupSlotName = "root" | "separator";
 
 export declare const tagGroupVariantMap: TagGroupVariantMap;
 

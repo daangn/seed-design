@@ -4,15 +4,15 @@ import { onlyIcon, prefixIcon, suffixIcon } from "../utils/icon";
 
 export const tagGroup = defineSlotRecipe({
   name: "tag-group",
-  slots: ["root", "delimiter"],
+  slots: ["root", "separator"],
   base: {
     root: {
       display: "inline-flex",
       alignItems: "center",
     },
-    delimiter: {
-      color: vars.base.enabled.delimiter.color,
-      fontWeight: vars.base.enabled.delimiter.fontWeight,
+    separator: {
+      color: vars.base.enabled.separator.color,
+      fontWeight: vars.base.enabled.separator.fontWeight,
 
       whiteSpace: "pre",
 
@@ -22,21 +22,21 @@ export const tagGroup = defineSlotRecipe({
   variants: {
     size: {
       t2: {
-        delimiter: {
-          fontSize: vars.sizeT2.enabled.delimiter.fontSize,
-          lineHeight: vars.sizeT2.enabled.delimiter.lineHeight,
+        separator: {
+          fontSize: vars.sizeT2.enabled.separator.fontSize,
+          lineHeight: vars.sizeT2.enabled.separator.lineHeight,
         },
       },
       t3: {
-        delimiter: {
-          fontSize: vars.sizeT3.enabled.delimiter.fontSize,
-          lineHeight: vars.sizeT3.enabled.delimiter.lineHeight,
+        separator: {
+          fontSize: vars.sizeT3.enabled.separator.fontSize,
+          lineHeight: vars.sizeT3.enabled.separator.lineHeight,
         },
       },
       t4: {
-        delimiter: {
-          fontSize: vars.sizeT4.enabled.delimiter.fontSize,
-          lineHeight: vars.sizeT4.enabled.delimiter.lineHeight,
+        separator: {
+          fontSize: vars.sizeT4.enabled.separator.fontSize,
+          lineHeight: vars.sizeT4.enabled.separator.lineHeight,
         },
       },
     },
@@ -54,12 +54,12 @@ export const tagGroupItem = defineRecipe({
 
     gap: itemVars.base.enabled.root.gap,
 
-    // NOTE: might remove React.Children logic regarding delimiters from react package, once minimum required version satisfies Safari 17.4
+    // NOTE: might remove React.Children logic regarding separators from react package, once minimum required version satisfies Safari 17.4
     // currently this is unusable because VoiceOver reads the content of pseudo elements
     // https://caniuse.com/mdn-css_properties_content_alt_text
 
     // [pseudo(not(":last-child"), "::after")]: {
-    //   content: ['"  ·  " / ""', "  ·  "], // prevents screen readers from reading the delimiter by setting the alt text to an empty string
+    //   content: ['"  ·  " / ""', "  ·  "], // prevents screen readers from reading the separator by setting the alt text to an empty string
     //   whiteSpace: "pre",
     //   color: some color,
     // },
