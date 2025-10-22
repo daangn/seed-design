@@ -21,7 +21,7 @@ export interface TagGroupRootProps
 }
 
 export const TagGroupRoot = forwardRef<HTMLSpanElement, TagGroupRootProps>(
-  ({ className, children, separator = "  ·  ", ...props }, ref) => {
+  ({ className, children, separator = " · ", ...props }, ref) => {
     const [{ tagGroup: tagGroupVariantProps, tagGroupItem: tagGroupItemVariantProps }, otherProps] =
       splitMultipleVariantsProps(props, { tagGroup, tagGroupItem });
     const classNames = tagGroup(tagGroupVariantProps);
