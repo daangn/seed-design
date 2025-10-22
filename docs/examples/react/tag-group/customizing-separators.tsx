@@ -1,6 +1,6 @@
 import { TagGroup, VStack } from "@seed-design/react";
 
-export default function TagGroupCustomizingItem() {
+export default function TagGroupCustomizingSeparators() {
   return (
     <VStack gap="spacingY.componentDefault" align="center">
       <TagGroup.Root separator=" | " size="t4">

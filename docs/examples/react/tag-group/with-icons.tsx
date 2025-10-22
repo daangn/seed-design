@@ -1,7 +1,7 @@
 import { IconLocationpinFill, IconMegaphoneFill } from "@karrotmarket/react-monochrome-icon";
 import { PrefixIcon, SuffixIcon, TagGroup, VStack } from "@seed-design/react";
 
-export default function TagGroupTones() {
+export default function TagGroupWithIcons() {
   return (
     <VStack gap="spacingY.componentDefault" align="center">
       <TagGroup.Root>
