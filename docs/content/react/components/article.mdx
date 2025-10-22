@@ -30,11 +30,11 @@ import { Article } from "@seed-design/react";
 
 ## Examples
 
-### 단어 내 줄바꿈 동작
+### Word Break Behavior
 
 [`lang` global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/lang)를 통해 추론된 언어에 따라 단어 내 줄바꿈(word-break) 동작을 설정합니다.
 
-한국어 문서/요소에서는 한 어절 안에서 줄바꿈이 발생하지 않도록 하고, 그 외 언어는 표준 규칙을 따릅니다. 컨테이너를 벗어날 정도로 긴 단어 안에서는 줄바꿈이 발생합니다. 일본어에서 문장 부호, [스테가나](https://ko.wikipedia.org/wiki/스테가나) 또는 [반복 부호](https://ko.wikipedia.org/wiki/반복_부호) 직전에서 줄바꿈이 발생하지 않도록 조정됩니다.
+한국어 문서/요소에서는 한 어절 안에서 줄바꿈이 발생하지 않도록 하고, 그 외 언어는 표준 규칙을 따릅니다. 컨테이너를 벗어날 정도로 긴 단어 안에서는 줄바꿈이 발생합니다. 일본어에서 문장 부호 직전, [스테가나](https://ko.wikipedia.org/wiki/스테가나) 직전, [반복 부호](https://ko.wikipedia.org/wiki/반복_부호) 직전 등 어색한 위치에서 줄바꿈이 발생하지 않도록 조정됩니다.
 
 <ComponentExample name="react/article/word-break">
   ```json doc-gen:file
@@ -45,7 +45,7 @@ import { Article } from "@seed-design/react";
   ```
 </ComponentExample>
 
-### 사용자 선택 가능
+### User Select Behavior
 
 `<Article />` 내부 요소는 사용자가 선택(user-select)할 수 있으며, 선택된 부분은 배경 색상을 가집니다.
 
@@ -58,7 +58,7 @@ import { Article } from "@seed-design/react";
   ```
 </ComponentExample>
 
-#### 내부 요소 선택 불가능하게 만들기
+#### Disable User Selection
 
 Text 컴포넌트의 [`userSelect="none"` prop](/react/components/typography/text#user-select)을 사용하여 `<Article />` 내부 요소를 선택 불가능하게 만들 수 있습니다.
 
@@ -77,7 +77,7 @@ Text 컴포넌트에 대해 자세히 알아봅니다.
   ```
 </ComponentExample>
 
-#### 선택 시 `PullToRefresh` 또는 `TabsCarousel` 제스처 방지하기
+#### Prevent `PullToRefresh` or `TabsCarousel` Gestures
 
 `<Article />` 내부 요소는 사용자 선택이 가능합니다. 따라서, 드래그 동작을 통해 내부 요소를 선택 시 의도하지 않은 PTR(당겨서 새로고침) 또는 탭 스와이프 제스처가 발생할 수 있습니다.
 
@@ -117,7 +117,7 @@ TabsCarousel 컴포넌트에서 제스처를 방지할 영역을 지정하는 �
   ```
 </StackflowExample>
 
-### `asChild` 또는 `as` prop 사용하기
+### Using `asChild` or `as` prop
 
 `<Article />`은 기본적으로 `<article>`로 렌더링되지만, `asChild` 또는 `as` prop을 사용하여 다른 요소로 변경할 수 있습니다.
 

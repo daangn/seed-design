@@ -5,7 +5,7 @@ export default function ArticleWordBreak() {
     <VStack gap="spacingY.componentDefault" align="center" width="full">
       <VStack
         gap="x3"
-        width="300px"
+        width="600px"
         style={{ resize: "horizontal", overflow: "auto", maxWidth: "100%" }}
       >
         <VStack
