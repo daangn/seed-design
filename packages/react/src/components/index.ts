@@ -49,6 +49,7 @@ export * from "./Snackbar";
 export * from "./Stack";
 export * from "./Switch";
 export * from "./Tabs";
+export * from "./TagGroup";
 export * from "./Text";
 export * from "./TextField";
 export * from "./ToggleButton";

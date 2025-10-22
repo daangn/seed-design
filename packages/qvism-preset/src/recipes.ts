@@ -3,6 +3,7 @@ import { appScreen } from "./stackflow/app-screen";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import { selectBox, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
+import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import actionButton from "./recipes/action-button";
 import actionChip from "./recipes/action-chip";
 import actionSheet from "./recipes/action-sheet";
@@ -101,6 +102,8 @@ export const recipes = {
   switch: switchRecipe,
   switchMark,
   tabs,
+  tagGroup,
+  tagGroupItem,
   text,
   textField,
   toggleButton,
