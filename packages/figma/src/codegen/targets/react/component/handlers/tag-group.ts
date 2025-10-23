@@ -7,9 +7,6 @@ import { camelCase } from "change-case";
 import { match } from "ts-pattern";
 import { findAllInstances } from "@/utils/figma-node";
 
-createSeedReactElement("TagGroup.Root");
-createSeedReactElement("TagGroup.Item");
-
 export const createTagGroupHandler = (ctx: ComponentHandlerDeps) => {
   const itemHandler = createTagGroupItemHandler(ctx);
 
