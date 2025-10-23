@@ -62,7 +62,7 @@ export const Stackflow = ({ activities }: StackflowProps) => {
       width="full"
       justify="center"
       ref={ref}
-      className={cn("not-prose")}
+      className={cn("not-prose example-reset")}
       style={{ margin: "3rem 0", ...style }}
     >
       <Box
