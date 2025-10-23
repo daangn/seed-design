@@ -1,5 +1,22 @@
 # @seed-design/react
 
+## 1.0.6
+
+### Patch Changes
+
+- 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+- f2ddf29: Article 유틸리티 컴포넌트를 추가하고 Text 컴포넌트를 업데이트합니다.
+
+  - Article 컴포넌트는 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕습니다.
+  - Text 컴포넌트에서 textDecorationLine="underline" 및 whiteSpace, userSelect prop을 지원합니다.
+
+- Updated dependencies [6aafce0]
+- Updated dependencies [1902dfa]
+- Updated dependencies [f2ddf29]
+- Updated dependencies [4c33f07]
+- Updated dependencies [3df657f]
+  - @seed-design/css@1.0.6
+
 ## 1.0.5
 
 ### Patch Changes
