@@ -12,6 +12,10 @@
     {
       "matchPackageNames": ["@manypkg/get-packages"],
       "enabled": false
+    },
+    {
+      "matchPackageNames": ["@seed-design/react-icon"],
+      "enabled": false
     }
   ]
 }
