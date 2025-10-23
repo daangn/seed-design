@@ -1,0 +1,12 @@
+.seed-article {
+    user-select: text;
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
+}
+.seed-article:lang(ko) {
+    word-break: keep-all;
+}
+.seed-article::selection {
+    background-color: var(--seed-color-palette-carrot-300);
+}

@@ -4,13 +4,13 @@ export default function TextFontWeights() {
   return (
     <Flex direction="column" gap="x2">
       <Text color="fg.neutral" fontSize="t5" fontWeight="regular">
-        다람쥐 헌 쳇바퀴에 타고파
+        regular
       </Text>
       <Text color="fg.neutral" fontSize="t5" fontWeight="medium">
-        다람쥐 헌 쳇바퀴에 타고파
+        medium
       </Text>
       <Text color="fg.neutral" fontSize="t5" fontWeight="bold">
-        다람쥐 헌 쳇바퀴에 타고파
+        bold
       </Text>
     </Flex>
   );
