@@ -199,6 +199,8 @@ export const appBar = defineSlotRecipe({
             marginRight: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
           },
         },
+        // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
+        // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
           width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
           height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
