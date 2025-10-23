@@ -1,0 +1,44 @@
+.seed-tag-group-tag {
+    display: flex;
+    align-items: center;
+    gap: var(--seed-dimension-x0_5)
+}
+.seed-tag-group-tag--size_t2 {
+    font-size: var(--seed-font-size-t2);
+    line-height: var(--seed-line-height-t2);
+    --seed-prefix-icon-size: var(--seed-dimension-x3);
+    --seed-suffix-icon-size: var(--seed-dimension-x3)
+}
+.seed-tag-group-tag--size_t3 {
+    font-size: var(--seed-font-size-t3);
+    line-height: var(--seed-line-height-t3);
+    --seed-prefix-icon-size: 13px;
+    --seed-suffix-icon-size: 13px
+}
+.seed-tag-group-tag--size_t4 {
+    font-size: var(--seed-font-size-t4);
+    line-height: var(--seed-line-height-t4);
+    --seed-prefix-icon-size: var(--seed-dimension-x3_5);
+    --seed-suffix-icon-size: var(--seed-dimension-x3_5)
+}
+.seed-tag-group-tag--weight_regular {
+    font-weight: var(--seed-font-weight-regular)
+}
+.seed-tag-group-tag--weight_bold {
+    font-weight: var(--seed-font-weight-bold)
+}
+.seed-tag-group-tag--tone_neutralSubtle {
+    color: var(--seed-color-fg-neutral-subtle);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral-subtle);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral-subtle)
+}
+.seed-tag-group-tag--tone_neutral {
+    color: var(--seed-color-fg-neutral);
+    --seed-prefix-icon-color: var(--seed-color-fg-neutral);
+    --seed-suffix-icon-color: var(--seed-color-fg-neutral)
+}
+.seed-tag-group-tag--tone_brand {
+    color: var(--seed-color-fg-brand);
+    --seed-prefix-icon-color: var(--seed-color-fg-brand);
+    --seed-suffix-icon-color: var(--seed-color-fg-brand)
+}

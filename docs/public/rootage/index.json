@@ -165,6 +165,12 @@
       "path": "/components/tablist.json"
     },
     {
+      "path": "/components/tag-group-item.json"
+    },
+    {
+      "path": "/components/tag-group.json"
+    },
+    {
       "path": "/components/text-button.json"
     },
     {
