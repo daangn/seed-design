@@ -9,6 +9,8 @@ export const tagGroup = defineSlotRecipe({
     root: {
       display: "inline-flex",
       alignItems: "center",
+
+      flexWrap: "wrap",
     },
     separator: {
       color: vars.base.enabled.separator.color,

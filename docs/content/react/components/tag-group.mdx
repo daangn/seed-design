@@ -105,12 +105,25 @@ import { TagGroup, TagGroupRoot, TagGroupItem } from '@seed-design/react';
 
 ### Customizing Separators
 
-스크린 리더는 각 태그 항목 사이에 지정된 구분 기호(Separator)를 읽지 않습니다. 의미가 있는 정보를 Separator로 사용하는 것을 피하세요.
+`TagGroupRoot`에 `separator`를 지정하여 구분 기호를 변경할 수 있습니다.
+
+스크린 리더는 각 태그 항목 사이에 지정된 구분 기호를 읽지 않습니다. 의미가 있는(semantic) 정보를 Separator로 사용하는 것을 피하세요.
 
 <ComponentExample name="react/tag-group/customizing-separators">
   ```json doc-gen:file
   {
     "file": "examples/react/tag-group/customizing-separators.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Wrapping Behavior
+
+<ComponentExample name="react/tag-group/wrapping-behavior">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/tag-group/wrapping-behavior.tsx",
     "codeblock": true
   }
   ```

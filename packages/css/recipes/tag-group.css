@@ -1,6 +1,7 @@
 .seed-tag-group__root {
     display: inline-flex;
-    align-items: center
+    align-items: center;
+    flex-wrap: wrap
 }
 .seed-tag-group__separator {
     color: var(--seed-color-palette-gray-600);

@@ -6058,6 +6058,7 @@
 }
 
 .seed-tag-group__root {
+  flex-wrap: wrap;
   align-items: center;
   display: inline-flex;
 }
