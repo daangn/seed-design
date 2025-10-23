@@ -40,16 +40,19 @@ export const appBarMain = defineSlotRecipe({
         title: {
           fontSize: vars.titleLayoutTitleOnly.enabled.title.fontSize,
           fontWeight: vars.titleLayoutTitleOnly.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutTitleOnly.enabled.title.lineHeight,
         },
       },
       withSubtitle: {
         title: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.title.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.title.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.title.lineHeight,
         },
         subtitle: {
           fontSize: vars.titleLayoutWithSubtitle.enabled.subtitle.fontSize,
           fontWeight: vars.titleLayoutWithSubtitle.enabled.subtitle.fontWeight,
+          lineHeight: vars.titleLayoutWithSubtitle.enabled.subtitle.lineHeight,
         },
       },
     },
@@ -196,9 +199,11 @@ export const appBar = defineSlotRecipe({
             marginRight: `calc(-1 * (${vars.themeCupertino.enabled.icon.targetSize} - ${vars.themeCupertino.enabled.icon.size}) / 2)`,
           },
         },
+        // Instead of making another `icon` slot, defining the icon style using ...onlyIcon({}) inside the `iconButton` slot sounds better
+        // if we decide to do so, we should require users to wrap the icon with the <Icon /> component. (currently it's optional)
         icon: {
-          width: vars.themeCupertino.enabled.icon.size,
-          height: vars.themeCupertino.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeCupertino.enabled.icon.size})`,
         },
       },
       android: {
@@ -219,8 +224,8 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          width: vars.themeAndroid.enabled.icon.size,
-          height: vars.themeAndroid.enabled.icon.size,
+          width: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
+          height: `var(--seed-icon-size, ${vars.themeAndroid.enabled.icon.size})`,
         },
         left: {
           paddingRight: "16px",
@@ -270,7 +275,7 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: vars.toneLayer.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneLayer.enabled.icon.color})`,
         },
       },
       transparent: {
@@ -280,7 +285,7 @@ export const appBar = defineSlotRecipe({
           },
         },
         icon: {
-          color: vars.toneTransparent.enabled.icon.color,
+          color: `var(--seed-icon-color, ${vars.toneTransparent.enabled.icon.color})`,
         },
       },
     },
