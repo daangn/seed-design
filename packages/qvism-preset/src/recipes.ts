@@ -50,6 +50,7 @@ import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textField from "./recipes/text-field";
 import toggleButton from "./recipes/toggle-button";
+import slider from "./recipes/slider";
 
 export const recipes = {
   actionButton,
@@ -99,6 +100,7 @@ export const recipes = {
   selectBox,
   selectBoxGroup,
   skeleton,
+  slider,
   snackbar,
   snackbarRegion,
   switch: switchRecipe,

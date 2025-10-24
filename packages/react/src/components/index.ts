@@ -46,6 +46,7 @@ export * from "./ResponsivePair";
 export * from "./SegmentedControl";
 export * from "./SelectBox";
 export * from "./Skeleton";
+export * from "./Slider";
 export * from "./Snackbar";
 export * from "./Stack";
 export * from "./Switch";

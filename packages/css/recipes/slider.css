@@ -1,0 +1,27 @@
+.seed-slider__root {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 24px
+}
+.seed-slider__track {
+    background-color: red;
+    position: relative;
+    flex-grow: 1;
+    height: 4px
+}
+.seed-slider__range {
+    position: absolute;
+    background-color: blue;
+    height: 100%
+}
+.seed-slider__thumb {
+    background-color: green;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%)
+}

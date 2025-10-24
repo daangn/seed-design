@@ -5603,6 +5603,37 @@
   background-image: linear-gradient(90deg, var(--seed-gradient-shimmer-magic));
 }
 
+.seed-slider__root {
+  align-items: center;
+  width: 200px;
+  height: 24px;
+  display: flex;
+  position: relative;
+}
+
+.seed-slider__track {
+  background-color: red;
+  flex-grow: 1;
+  height: 4px;
+  position: relative;
+}
+
+.seed-slider__range {
+  background-color: #00f;
+  height: 100%;
+  position: absolute;
+}
+
+.seed-slider__thumb {
+  background-color: green;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .seed-snackbar__root {
   box-sizing: border-box;
   background: var(--seed-color-bg-neutral-inverted);
