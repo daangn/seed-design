@@ -2021,10 +2021,6 @@
   word-break: keep-all;
 }
 
-.seed-article::selection {
-  background-color: var(--seed-color-palette-carrot-300);
-}
-
 .seed-avatar__root {
   box-sizing: border-box;
   vertical-align: top;
