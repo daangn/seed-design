@@ -1,6 +1,6 @@
 ---
 title: Article
-description: Article은 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.
+description: Article은 일관된 selection 및 줄바꿈 정책을 사용할 수 있게 돕는 유틸리티 컴포넌트입니다.
 ---
 
 import { Component } from "lucide-react";
@@ -47,7 +47,7 @@ import { Article } from "@seed-design/react";
 
 ### User Select Behavior
 
-`<Article />` 내부 요소는 사용자가 선택(user-select)할 수 있으며, 선택된 부분은 배경 색상을 가집니다.
+`<Article />` 내부 요소는 사용자가 선택(user-select)할 수 있습니다.
 
 <ComponentExample name="react/article/selectable">
   ```json doc-gen:file
@@ -135,11 +135,3 @@ TabsCarousel 컴포넌트에서 제스처를 방지할 영역을 지정하는 �
   }
   ```
 </ComponentExample>
-
-## Caveats
-
-### `::selection` 스타일 제한 사항
-
-`<Article />` 컴포넌트는 미리 정의된 `::selection` 스타일을 사용하지만, iOS WebView 환경에서는 이 스타일이 적용되지 않습니다. ([Can I use…](https://caniuse.com/css-selection))
-
-SEED iOS에서는 사용자 선택 영역에 대해 커스텀 색상을 지정하지 않음으로써 네이티브-웹뷰 간 일관된 색상(네이티브 기본값 및 Safari 기본값)을 표시할 수 있도록 합니다.
