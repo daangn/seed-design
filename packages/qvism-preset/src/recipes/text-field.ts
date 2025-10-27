@@ -190,6 +190,10 @@ const textField = defineSlotRecipe({
         header: {
           paddingBottom: vars.sizeXlarge.enabled.header.paddingBottom,
           gap: vars.sizeXlarge.enabled.header.gap,
+
+          // we define lineHeight here because some reset.css sets default line-height
+          // e.g. tailwind preflight sets * { line-height: 1.5 }
+          lineHeight: vars.sizeXlarge.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeXlarge.enabled.label.fontSize,
@@ -255,6 +259,10 @@ const textField = defineSlotRecipe({
           gap: vars.sizeXlarge.enabled.footer.gap,
           paddingTop: vars.sizeXlarge.enabled.footer.paddingTop,
           minHeight: vars.sizeXlarge.enabled.footer.minHeight,
+
+          // we define lineHeight here because some reset.css sets default line-height
+          // e.g. tailwind preflight sets * { line-height: 1.5 }
+          lineHeight: vars.sizeXlarge.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeXlarge.enabled.description.fontSize,
@@ -282,6 +290,8 @@ const textField = defineSlotRecipe({
         header: {
           paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
           gap: vars.sizeLarge.enabled.header.gap,
+
+          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -347,6 +357,8 @@ const textField = defineSlotRecipe({
           gap: vars.sizeLarge.enabled.footer.gap,
           paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
           minHeight: vars.sizeLarge.enabled.footer.minHeight,
+
+          lineHeight: vars.sizeLarge.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeLarge.enabled.description.fontSize,
@@ -373,6 +385,8 @@ const textField = defineSlotRecipe({
       medium: {
         header: {
           paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
+
+          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -438,6 +452,8 @@ const textField = defineSlotRecipe({
           gap: vars.sizeMedium.enabled.footer.gap,
           paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
           minHeight: vars.sizeMedium.enabled.footer.minHeight,
+
+          lineHeight: vars.sizeMedium.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeMedium.enabled.description.fontSize,
