@@ -4,6 +4,7 @@
     font-family: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: unset;
     display: flex;
     align-items: flex-start;
     text-align: start;
@@ -20,6 +21,9 @@
 }
 .seed-page-banner__root:is(button) {
     cursor: pointer;
+}
+.seed-page-banner__root .seed-box {
+    line-height: var(--seed-line-height-t4);
 }
 .seed-page-banner__textContent {
     display: flex;

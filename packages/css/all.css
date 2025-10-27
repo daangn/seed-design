@@ -4881,6 +4881,8 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: inherit;
+  font-size: unset;
   text-align: start;
   width: 100%;
   min-height: var(--seed-dimension-x10);
@@ -4894,12 +4896,15 @@
   --seed-suffix-icon-align-self: center;
   border: none;
   align-items: flex-start;
-  font-family: inherit;
   display: flex;
 }
 
 .seed-page-banner__root:is(button) {
   cursor: pointer;
+}
+
+.seed-page-banner__root .seed-box {
+  line-height: var(--seed-line-height-t4);
 }
 
 .seed-page-banner__textContent {
