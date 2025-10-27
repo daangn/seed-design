@@ -1,5 +1,11 @@
 # @seed-design/rootage-artifacts
 
+## 1.0.6
+
+### Patch Changes
+
+- 15ab93a: List Item 컴포넌트의 상하 여백을 `$dimension.x2_5`에서 `$dimension.x3`로 늘립니다.
+
 ## 1.0.5
 
 ### Patch Changes
