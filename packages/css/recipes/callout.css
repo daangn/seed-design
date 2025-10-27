@@ -21,6 +21,7 @@
 }
 .seed-callout__content {
     margin-inline-end: auto;
+    line-height: var(--seed-line-height-t4);
 }
 .seed-callout__title {
     font-size: var(--seed-font-size-t4);

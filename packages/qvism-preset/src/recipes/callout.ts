@@ -40,6 +40,10 @@ const callout = defineSlotRecipe({
     },
     content: {
       marginInlineEnd: "auto",
+
+      // we define lineHeight here because some reset.css sets default line-height
+      // e.g. tailwind preflight sets * { line-height: 1.5 }
+      lineHeight: vars.base.enabled.description.lineHeight,
     },
     title: {
       fontSize: vars.base.enabled.title.fontSize,

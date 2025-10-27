@@ -129,6 +129,7 @@
 .seed-text-field__header--size_xlarge {
     padding-bottom: var(--seed-dimension-x3);
     gap: var(--seed-dimension-x1_5);
+    line-height: var(--seed-line-height-t5);
 }
 .seed-text-field__label--size_xlarge {
     font-size: var(--seed-font-size-t5);
@@ -188,6 +189,7 @@
     gap: var(--seed-dimension-x3_5);
     padding-top: var(--seed-dimension-x2);
     min-height: 20px;
+    line-height: var(--seed-line-height-t4);
 }
 .seed-text-field__description--size_xlarge {
     font-size: var(--seed-font-size-t4);
@@ -213,6 +215,7 @@
 .seed-text-field__header--size_large {
     padding-bottom: var(--seed-dimension-x3);
     gap: var(--seed-dimension-x1_5);
+    line-height: var(--seed-line-height-t5);
 }
 .seed-text-field__label--size_large {
     font-size: var(--seed-font-size-t5);
@@ -272,6 +275,7 @@
     gap: var(--seed-dimension-x3_5);
     padding-top: var(--seed-dimension-x2);
     min-height: 20px;
+    line-height: var(--seed-line-height-t4);
 }
 .seed-text-field__description--size_large {
     font-size: var(--seed-font-size-t4);
@@ -296,6 +300,7 @@
 }
 .seed-text-field__header--size_medium {
     padding-bottom: var(--seed-dimension-x3);
+    line-height: var(--seed-line-height-t4);
 }
 .seed-text-field__label--size_medium {
     font-size: var(--seed-font-size-t4);
@@ -355,6 +360,7 @@
     gap: var(--seed-dimension-x3_5);
     padding-top: var(--seed-dimension-x2);
     min-height: var(--seed-dimension-x4);
+    line-height: var(--seed-line-height-t2);
 }
 .seed-text-field__description--size_medium {
     font-size: var(--seed-font-size-t2);
