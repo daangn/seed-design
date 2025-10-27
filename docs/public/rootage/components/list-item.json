@@ -135,7 +135,7 @@
               "root": {
                 "paddingY": {
                   "type": "dimension",
-                  "value": "$dimension.x2_5"
+                  "value": "$dimension.x3"
                 },
                 "paddingX": {
                   "type": "dimension",
