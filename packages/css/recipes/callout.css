@@ -4,6 +4,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: inherit;
+    font-size: unset;
     display: flex;
     align-items: center;
     text-align: start;

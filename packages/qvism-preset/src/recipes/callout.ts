@@ -13,6 +13,8 @@ const callout = defineSlotRecipe({
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
       fontFamily: "inherit",
+      // remove line-height difference on actionable callouts (<button>)
+      fontSize: "unset",
 
       display: "flex",
       alignItems: "center",

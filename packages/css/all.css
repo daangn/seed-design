@@ -2628,6 +2628,8 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: inherit;
+  font-size: unset;
   text-align: start;
   width: 100%;
   min-height: 50px;
@@ -2639,7 +2641,6 @@
   --seed-prefix-icon-size: var(--seed-dimension-x4);
   --seed-suffix-icon-size: var(--seed-dimension-x4);
   border: none;
-  font-family: inherit;
   display: flex;
 }
 
