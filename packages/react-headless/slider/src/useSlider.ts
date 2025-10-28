@@ -2,8 +2,10 @@
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback, useRef, useState, useMemo } from "react";
-import { dataAttr, elementProps, inputProps, visuallyHidden } from "@seed-design/dom-utils";
+import { useCallback, useRef, useState, useMemo, type CSSProperties } from "react";
+import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
+import { useSize } from "@radix-ui/react-use-size";
+import { useIsSSR } from "./useIsSSR";
 
 import {
   getClosestValueIndex,
@@ -68,16 +70,24 @@ function useSliderState({
   onValuesChange,
 }: UseSliderStateProps) {
   const valueIndexToChangeRef = useRef<number>(0);
+
+  const thumbRefs = useRef<Set<HTMLElement>>(new Set());
+  const firstThumbSize = useSize([...thumbRefs.current][0] ?? null);
+
   const rootRef = useRef<HTMLElement | null>(null);
   const rectRef = useRef<DOMRect | undefined>(undefined);
-  const dragTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const dragTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerDownPosition = useRef<number>(0);
 
   const [values, setValues] = useControllableState({
     prop: propValues,
     defaultProp: propDefaultValues,
-    onChange: (value) => {
-      onValuesChange?.(value);
+    onChange: (values) => {
+      const thumbs = [...thumbRefs.current];
+      thumbs[valueIndexToChangeRef.current]?.focus();
+
+      onValuesChange?.(values);
     },
   });
 
@@ -135,6 +145,9 @@ function useSliderState({
     [min, max],
   );
 
+  /**
+   * finds the closest thumb to 'value' and updates that thumb
+   */
   const handleSlideStart = useCallback(
     (value: number) => {
       updateValues(value, getClosestValueIndex(values, value));
@@ -142,6 +155,9 @@ function useSliderState({
     [values, updateValues],
   );
 
+  /**
+   * updates the thumb that has been being moved
+   */
   const handleSlideMove = useCallback(
     (value: number) => {
       updateValues(value, valueIndexToChangeRef.current);
@@ -149,6 +165,9 @@ function useSliderState({
     [updateValues],
   );
 
+  /**
+   * when sliding ends, call onValuesCommit if values have changed since start of slide
+   */
   const handleSlideEnd = useCallback(() => {
     const prevValue = valuesBeforeSlideStartRef.current[valueIndexToChangeRef.current];
     const nextValue = values[valueIndexToChangeRef.current];
@@ -157,15 +176,16 @@ function useSliderState({
       onValuesCommit?.(values);
     }
 
-    setIsDragging(false);
-
-    rectRef.current = undefined; // XXX: check
+    rectRef.current = undefined;
   }, [values, onValuesCommit]);
 
   return {
     refs: {
       root: rootRef,
+      thumbs: thumbRefs,
     },
+
+    firstThumbSize,
 
     min,
     max,
@@ -230,12 +250,14 @@ export function useSlider({
   ...props
 }: UseSliderProps) {
   const api = useSliderState(props);
+  const isSSR = useIsSSR();
 
   const stateProps = elementProps({
     "data-hover": dataAttr(api.isHovered),
     "data-active": dataAttr(api.isActive),
     "data-disabled": dataAttr(disabled),
     "data-dragging": dataAttr(api.isDragging),
+    "data-ssr": dataAttr(isSSR),
   });
 
   const rootProps = useMemo(
@@ -259,65 +281,68 @@ export function useSlider({
           if (event.target instanceof HTMLElement === false) return;
 
           event.target.setPointerCapture(event.pointerId);
-          event.preventDefault();
 
-          api.valuesBeforeSlideStartRef.current = api.values;
+          // Prevent browser focus behavior because we focus a thumb manually when values change.
+          event.preventDefault();
 
           api.setIsActive(true);
 
-          // Store position for later use
-          api.pointerDownPosition.current = event.clientX;
+          api.valuesBeforeSlideStartRef.current = api.values;
 
-          // Start timer for drag detection
-          api.dragTimerRef.current = setTimeout(() => {
+          // Touch devices have a delay before focusing so won't focus if touch immediately moves
+          // away from target (sliding). We want thumb to focus regardless.
+          if (api.refs.thumbs.current.has(event.target)) {
+            // target is thumb
+
+            event.target.focus();
+
             api.setIsDragging(true);
-            api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
-          }, dragStartDelayInMilliseconds);
+          } else {
+            // target is track
+
+            // keep where the pointer was down
+            api.pointerDownPosition.current = event.clientX;
+
+            api.dragTimerRef.current = setTimeout(() => {
+              // if held, set to the value where pointer down happened
+
+              api.setIsDragging(true);
+              api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
+            }, dragStartDelayInMilliseconds);
+          }
         },
         onPointerMove: (event) => {
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
+
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
-          // If timer is still pending, clear it and start dragging immediately
-          if (api.dragTimerRef.current && !api.isDragging) {
+          if (api.dragTimerRef.current) {
+            // if we had a drag timer running, clear it
             clearTimeout(api.dragTimerRef.current);
             api.dragTimerRef.current = null;
-            api.setIsDragging(true);
-            api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
           }
 
-          // Only move if dragging has started
-          if (api.isDragging) {
-            api.handleSlideMove(api.getValueFromPointer(event.clientX));
-          }
+          api.setIsDragging(true);
+
+          api.handleSlideMove(api.getValueFromPointer(event.clientX));
         },
         onPointerUp: (event) => {
           if (event.target instanceof HTMLElement === false) return;
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
-          event.target.releasePointerCapture(event.pointerId);
+          api.setIsActive(false);
+          api.setIsDragging(false);
 
-          // Clear timer if still pending
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
             api.dragTimerRef.current = null;
+
+            // update immediately to where pointer was down since slide didn't start
+            api.handleSlideMove(api.getValueFromPointer(event.clientX));
           }
 
-          if (disabled) return;
-
-          // If not dragging, treat as click
-          if (!api.isDragging) {
-            const clickValue = api.getValueFromPointer(event.clientX);
-            api.updateValues(clickValue, getClosestValueIndex(api.values, clickValue), {
-              commit: true,
-            });
-          } else {
-            // Normal drag end
-            api.handleSlideEnd();
-          }
-
-          api.setIsActive(false);
+          api.handleSlideEnd();
         },
         onKeyDown: (event) => {
           if (disabled) return;
@@ -367,6 +392,8 @@ export function useSlider({
               api.updateValues(nextValue, atIndex, { commit: true });
 
               event.preventDefault();
+
+              return;
             }
 
             api.updateValues(currentValue + api.step * multiplier * direction, atIndex, {
@@ -385,14 +412,12 @@ export function useSlider({
       api.getValueFromPointer,
       api.handleSlideEnd,
       api.handleSlideMove,
-      api.handleSlideStart,
       api.max,
       api.min,
       api.allowedValues,
       api.setIsActive,
       api.setIsHovered,
       api.setIsDragging,
-      api.isDragging,
       api.dragTimerRef,
       api.pointerDownPosition,
       api.step,
@@ -400,6 +425,8 @@ export function useSlider({
       api.valueIndexToChangeRef.current,
       api.values,
       api.valuesBeforeSlideStartRef,
+      api.refs.thumbs.current.has,
+      api.handleSlideStart,
     ],
   );
 
@@ -420,15 +447,23 @@ export function useSlider({
     });
   }, [api.values, api.min, api.max, dir, stateProps]);
 
+  const getThumbRef = useCallback(() => {
+    return (thumb: HTMLElement | null) => {
+      if (!thumb) return;
+
+      api.refs.thumbs.current.add(thumb);
+    };
+  }, [api.refs.thumbs.current.add]);
+
   const getThumbProps = useCallback(
-    (index: number, size?: { width: number; height: number }) => {
+    (index: number) => {
       const value = api.values[index];
       if (value === undefined) return elementProps({});
 
       const percent = convertValueToPercentage(value, api.min, api.max);
 
       const thumbInBoundsOffset = getThumbInBoundsOffset(
-        size?.width ?? 0,
+        api.firstThumbSize?.width ?? 0,
         percent,
         dir === "ltr" ? 1 : -1,
       );
@@ -447,6 +482,7 @@ export function useSlider({
         "data-index": `${index}`,
         "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
         "data-disabled": dataAttr(disabled),
+        "data-ssr": dataAttr(isSSR),
 
         tabIndex: disabled ? undefined : 0,
         style: {
@@ -464,47 +500,76 @@ export function useSlider({
       api.max,
       api.valueIndexToChangeRef,
       api.isDragging,
+      api.firstThumbSize,
       disabled,
       getAriaValueText,
       dir,
+      isSSR,
     ],
   );
 
   const getHiddenInputProps = useCallback(
     (index: number) => {
       const value = api.values[index];
+
+      // TODO: check
       const inputName = name ? name + (api.values.length > 1 ? "[]" : "") : undefined;
 
       return inputProps({
-        type: "range",
-        min: api.min,
-        max: api.max,
-        step: api.step,
-        value: value ?? api.min,
+        type: "hidden",
+        value,
         name: inputName,
         form,
         disabled,
-        style: visuallyHidden,
-        onChange: (event) => {
-          api.updateValues(Number.parseFloat(event.target.value), index, { commit: true });
-        },
+        readOnly: true,
       });
     },
-    [api.values, name, form, api.min, api.max, api.step, disabled, api.updateValues],
+    [api.values, name, form, disabled],
   );
 
   const getTickProps = useCallback(
     (value: number) => {
       const percent = convertValueToPercentage(value, api.min, api.max);
 
+      const thumbInBoundsOffset = getThumbInBoundsOffset(
+        api.firstThumbSize?.width ?? 0,
+        percent,
+        dir === "ltr" ? 1 : -1,
+      );
+
       return elementProps({
         ...stateProps,
         style: {
-          [dir === "ltr" ? "--tick-start" : "--tick-end"]: `${percent}%`,
+          [dir === "ltr" ? "--tick-start" : "--tick-end"]:
+            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
         },
       });
     },
-    [api.min, api.max, dir, stateProps],
+    [api.min, api.max, dir, stateProps, api.firstThumbSize?.width],
+  );
+
+  const getMarkerProps = useCallback(
+    (value: number, align?: "start" | "center" | "end") => {
+      const percent = convertValueToPercentage(value, api.min, api.max);
+
+      const thumbInBoundsOffset =
+        value === api.min || value === api.max
+          ? 0
+          : getThumbInBoundsOffset(api.firstThumbSize?.width ?? 0, percent, dir === "ltr" ? 1 : -1);
+
+      return elementProps({
+        ...stateProps,
+        "data-align": align ?? "center",
+
+        "aria-hidden": true,
+
+        style: {
+          [dir === "ltr" ? "--marker-start" : "--marker-end"]:
+            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+        } as CSSProperties,
+      });
+    },
+    [api.min, api.max, dir, stateProps, api.firstThumbSize?.width],
   );
 
   return {
@@ -521,9 +586,11 @@ export function useSlider({
 
     rootProps,
     getRangeProps,
+    getThumbRef,
     getThumbProps,
     getHiddenInputProps,
     getTickProps,
+    getMarkerProps,
 
     // this is used to style the track
     stateProps,

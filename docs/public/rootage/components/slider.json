@@ -88,6 +88,24 @@
                   "type": "color",
                   "value": "$color.bg.neutral-inverted"
                 }
+              },
+              "marker": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t3"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t3"
+                }
               }
             }
           },
@@ -97,6 +115,18 @@
             ],
             "slots": {
               "range": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "thumb": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "marker": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.disabled"

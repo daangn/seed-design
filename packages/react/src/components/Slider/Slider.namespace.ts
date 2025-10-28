@@ -6,6 +6,8 @@ export {
   SliderThumb as Thumb,
   SliderHiddenInput as HiddenInput,
   SliderTick as Tick,
+  SliderMarkers as Markers,
+  SliderMarker as Marker,
   type SliderRootProps as RootProps,
   type SliderControlProps as ControlProps,
   type SliderTrackProps as TrackProps,
@@ -13,4 +15,6 @@ export {
   type SliderThumbProps as ThumbProps,
   type SliderHiddenInputProps as HiddenInputProps,
   type SliderTickProps as TickProps,
+  type SliderMarkersProps as MarkersProps,
+  type SliderMarkerProps as MarkerProps,
 } from "./Slider";

@@ -20,20 +20,22 @@ export interface SliderRootProps
     SliderTickVariantProps,
     Slider.RootProps {}
 
-// export const SliderRoot = withProvider<HTMLDivElement, SliderRootProps>(Slider.Root, "root");
+export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
+  ({ className, ...props }, ref) => {
+    const [{ slider: sliderVariantProps, sliderTick: sliderTickVariantProps }, otherProps] =
+      splitMultipleVariantsProps(props, { slider, sliderTick });
 
-export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>((props, ref) => {
-  const [{ slider: sliderVariantProps, sliderTick: sliderTickVariantProps }, otherProps] =
-    splitMultipleVariantsProps(props, { slider, sliderTick });
+    const classNames = slider(sliderVariantProps);
 
-  return (
-    <TickPropsProvider value={sliderTickVariantProps}>
-      <ClassNamesProvider value={slider(sliderVariantProps)}>
-        <Slider.Root ref={ref} {...sliderVariantProps} {...otherProps} />
-      </ClassNamesProvider>
-    </TickPropsProvider>
-  );
-});
+    return (
+      <TickPropsProvider value={sliderTickVariantProps}>
+        <ClassNamesProvider value={classNames}>
+          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
+        </ClassNamesProvider>
+      </TickPropsProvider>
+    );
+  },
+);
 
 export interface SliderControlProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
@@ -80,3 +82,14 @@ export const SliderTick = forwardRef<HTMLDivElement, SliderTickProps>(
     );
   },
 );
+
+export interface SliderMarkersProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
+
+export const SliderMarkers = withContext<HTMLDivElement, SliderMarkersProps>(
+  withStateProps(Primitive.div),
+  "markers",
+);
+
+export interface SliderMarkerProps extends Slider.MarkerProps {}
+
+export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(Slider.Marker, "marker");

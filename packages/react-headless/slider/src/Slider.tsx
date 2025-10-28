@@ -6,7 +6,6 @@ import * as React from "react";
 import { useSlider, type UseSliderProps } from "./useSlider";
 import { SliderProvider, useSliderContext } from "./useSliderContext";
 import { composeRefs } from "@radix-ui/react-compose-refs";
-import { useSize } from "@radix-ui/react-use-size";
 
 export interface SliderRootProps
   extends UseSliderProps,
@@ -84,11 +83,10 @@ export interface SliderThumbProps extends PrimitiveProps, React.HTMLAttributes<H
 
 export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
   ({ thumbIndex, ...props }, ref) => {
-    const { getThumbProps } = useSliderContext();
+    const { getThumbProps, getThumbRef } = useSliderContext();
 
-    const thumbRef = React.useRef<HTMLDivElement>(null);
-    const thumbSize = useSize(thumbRef.current);
-    const thumbProps = getThumbProps(thumbIndex, thumbSize);
+    const thumbProps = getThumbProps(thumbIndex);
+    const thumbRef = getThumbRef();
 
     return <Primitive.div ref={composeRefs(ref, thumbRef)} {...mergeProps(thumbProps, props)} />;
   },
@@ -124,3 +122,18 @@ export const SliderTick = React.forwardRef<HTMLDivElement, SliderTickProps>(
   },
 );
 SliderTick.displayName = "SliderTick";
+
+export interface SliderMarkerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
+  value: number;
+  align?: "start" | "center" | "end";
+}
+
+export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
+  ({ value, align, ...props }, ref) => {
+    const { getMarkerProps } = useSliderContext();
+    const markerProps = getMarkerProps(value, align);
+
+    return <Primitive.div ref={ref} {...mergeProps(markerProps, props)} />;
+  },
+);
+SliderMarker.displayName = "SliderMarker";

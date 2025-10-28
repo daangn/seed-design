@@ -4,18 +4,18 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { pseudo } from "../utils/pseudo";
+import { disabled, pseudo } from "../utils/pseudo";
 
 const dragging = "[data-dragging]";
 
 const slider = defineSlotRecipe({
   name: "slider",
-  slots: ["root", "track", "control", "range", "thumb", "tick"],
+  slots: ["root", "track", "control", "range", "thumb", "tick", "markers", "marker"],
   base: {
     root: {
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
+      alignItems: "stretch",
 
       width: "100%",
 
@@ -26,7 +26,6 @@ const slider = defineSlotRecipe({
     control: {
       position: "relative",
 
-      width: "100%",
       height: vars.base.enabled.control.height,
 
       display: "flex",
@@ -57,6 +56,10 @@ const slider = defineSlotRecipe({
 
       transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
 
+      [pseudo(disabled)]: {
+        backgroundColor: vars.base.disabled.range.color,
+      },
+
       [pseudo(dragging)]: {
         transition: "none",
       },
@@ -82,6 +85,48 @@ const slider = defineSlotRecipe({
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
       },
+
+      [pseudo(disabled)]: {
+        backgroundColor: thumbVars.base.disabled.root.color,
+      },
+
+      [pseudo("[data-ssr]")]: {
+        display: "none",
+      },
+    },
+    markers: {
+      position: "relative",
+
+      // we set height here because all markers' position is absolute
+      height: vars.base.enabled.marker.lineHeight,
+    },
+    marker: {
+      position: "absolute",
+
+      top: 0,
+      bottom: 0,
+
+      left: "var(--marker-start)",
+      right: "var(--marker-end)",
+
+      color: vars.base.enabled.marker.color,
+      fontWeight: vars.base.enabled.marker.fontWeight,
+      fontSize: vars.base.enabled.marker.fontSize,
+      lineHeight: vars.base.enabled.marker.lineHeight,
+
+      [pseudo(disabled)]: {
+        color: vars.base.disabled.marker.color,
+      },
+
+      [pseudo('[data-align="start"]')]: {
+        transform: "translateX(0)",
+      },
+      [pseudo('[data-align="center"]')]: {
+        transform: "translateX(-50%)",
+      },
+      [pseudo('[data-align="end"]')]: {
+        transform: "translateX(-100%)",
+      },
     },
   },
   variants: {},
@@ -92,12 +137,14 @@ const sliderTick = defineRecipe({
   name: "slider-tick",
   base: {
     position: "absolute",
+
     top: "50%",
     left: "var(--tick-start)",
     right: "var(--tick-end)",
-
     transform: "translate(-50%, -50%)",
+
     height: "100%",
+
     backgroundColor: tickVars.base.enabled.root.color,
   },
   variants: {
