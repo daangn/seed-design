@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: slider
+  name: Slider
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+            # TODO: fill in
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x0_5
+        control:
+          height: 26px
+        track:
+          height: $dimension.x1
+          cornerRadius: $radius.full
+          color: $color.palette.gray-400
+        range:
+          cornerRadius: $radius.full
+          color: $color.fg.neutral # fg 토큰인데 적절할까?
+
+          widthDuration: $duration.d3
+          widthTimingFunction: $timing-function.easing
+        thumb:
+          size: $dimension.x5
+          cornerRadius: $radius.full
+          color: $color.bg.neutral-inverted
+        # popover:
+        # tick:
+        # marker:
+      disabled:
+        range:
+          color: $color.fg.disabled

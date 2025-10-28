@@ -1,10 +1,14 @@
 export {
   SliderRoot as Root,
+  SliderControl as Control,
   SliderTrack as Track,
   SliderRange as Range,
   SliderThumb as Thumb,
+  SliderHiddenInput as HiddenInput,
   type SliderRootProps as RootProps,
+  type SliderControlProps as ControlProps,
   type SliderTrackProps as TrackProps,
   type SliderRangeProps as RangeProps,
   type SliderThumbProps as ThumbProps,
+  type SliderHiddenInputProps as HiddenInputProps,
 } from "./Slider";

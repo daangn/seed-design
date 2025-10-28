@@ -10,3 +10,5 @@ export {
 } from "./Slider";
 
 export * as Slider from "./Slider.namespace";
+
+export { useSliderContext } from "./useSliderContext";

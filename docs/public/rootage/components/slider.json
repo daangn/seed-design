@@ -1,0 +1,111 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "slider",
+    "name": "Slider"
+  },
+  "data": {
+    "id": "slider",
+    "name": "Slider",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "gap": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
+              "control": {
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 26,
+                    "unit": "px"
+                  }
+                }
+              },
+              "track": {
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.palette.gray-400"
+                }
+              },
+              "range": {
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                },
+                "widthDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "widthTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "thumb": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.full"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "range": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

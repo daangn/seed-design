@@ -11,12 +11,20 @@ const sliderSlotNames = [
     "seed-slider__track"
   ],
   [
+    "control",
+    "seed-slider__control"
+  ],
+  [
     "range",
     "seed-slider__range"
   ],
   [
     "thumb",
     "seed-slider__thumb"
+  ],
+  [
+    "marker",
+    "seed-slider__marker"
   ]
 ];
 

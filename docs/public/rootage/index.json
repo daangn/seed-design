@@ -150,6 +150,12 @@
       "path": "/components/skeleton.json"
     },
     {
+      "path": "/components/slider-thumb.json"
+    },
+    {
+      "path": "/components/slider.json"
+    },
+    {
       "path": "/components/snackbar.json"
     },
     {

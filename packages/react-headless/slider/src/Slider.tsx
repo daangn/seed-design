@@ -6,14 +6,15 @@ import * as React from "react";
 import { useSlider, type UseSliderProps } from "./useSlider";
 import { SliderProvider, useSliderContext } from "./useSliderContext";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { useSize } from "@radix-ui/react-use-size";
 
 export interface SliderRootProps
   extends UseSliderProps,
     PrimitiveProps,
     // UseSliderProps takes dir to determine start/end
-    Omit<React.HTMLAttributes<HTMLSpanElement>, "dir"> {}
+    Omit<React.HTMLAttributes<HTMLDivElement>, "dir"> {}
 
-export const SliderRoot = React.forwardRef<HTMLSpanElement, SliderRootProps>(
+export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
   (
     {
       disabled,
@@ -24,6 +25,8 @@ export const SliderRoot = React.forwardRef<HTMLSpanElement, SliderRootProps>(
       max,
       step,
       minStepsBetweenThumbs,
+      multiplierOnPageKey,
+      allowedValues,
       values,
       defaultValues,
       onValuesChange,
@@ -40,6 +43,8 @@ export const SliderRoot = React.forwardRef<HTMLSpanElement, SliderRootProps>(
       max,
       min,
       minStepsBetweenThumbs,
+      multiplierOnPageKey,
+      allowedValues,
       name,
       onValuesChange,
       onValuesCommit,
@@ -49,8 +54,8 @@ export const SliderRoot = React.forwardRef<HTMLSpanElement, SliderRootProps>(
 
     return (
       <SliderProvider value={api}>
-        <Primitive.span
-          ref={composeRefs(ref, api.refs.slider)}
+        <Primitive.div
+          ref={composeRefs(ref, api.refs.root)}
           {...mergeProps(api.rootProps, props)}
         />
       </SliderProvider>
@@ -59,50 +64,29 @@ export const SliderRoot = React.forwardRef<HTMLSpanElement, SliderRootProps>(
 );
 SliderRoot.displayName = "SliderRoot";
 
-export interface SliderRangeProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {}
+export interface SliderRangeProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
-export const SliderRange = React.forwardRef<HTMLSpanElement, SliderRangeProps>((props, ref) => {
+export const SliderRange = React.forwardRef<HTMLDivElement, SliderRangeProps>((props, ref) => {
   const { getRangeProps } = useSliderContext();
   const rangeProps = getRangeProps();
 
-  return <Primitive.span ref={ref} {...mergeProps(rangeProps, props)} />;
+  return <Primitive.div ref={ref} {...mergeProps(rangeProps, props)} />;
 });
 SliderRange.displayName = "SliderRange";
 
-export interface SliderThumbProps extends PrimitiveProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface SliderThumbProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   thumbIndex: number;
 }
 
-export const SliderThumb = React.forwardRef<HTMLSpanElement, SliderThumbProps>(
+export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
   ({ thumbIndex, ...props }, ref) => {
-    const { getThumbProps, getThumbPositionProps, refs } = useSliderContext();
-    const thumbProps = getThumbProps(thumbIndex);
-    const positionProps = getThumbPositionProps(thumbIndex);
+    const { getThumbProps } = useSliderContext();
 
-    // Create a callback ref to add/remove thumb from Set
-    const handleThumbRef = React.useCallback(
-      (node: HTMLSpanElement | null) => {
-        if (node) {
-          refs.thumbs.current.add(node);
-        } else {
-          // Clean up when unmounting - we need to iterate to find and remove
-          refs.thumbs.current.forEach((thumb) => {
-            // Check if this thumb is being unmounted by checking if it's still in DOM
-            if (!document.body.contains(thumb)) {
-              refs.thumbs.current.delete(thumb);
-            }
-          });
-        }
-      },
-      [refs.thumbs],
-    );
+    const thumbRef = React.useRef<HTMLDivElement>(null);
+    const thumbSize = useSize(thumbRef.current);
+    const thumbProps = getThumbProps(thumbIndex, thumbSize);
 
-    return (
-      <Primitive.span
-        ref={composeRefs(ref, handleThumbRef)}
-        {...mergeProps(thumbProps, positionProps, props)}
-      />
-    );
+    return <Primitive.div ref={composeRefs(ref, thumbRef)} {...mergeProps(thumbProps, props)} />;
   },
 );
 SliderThumb.displayName = "SliderThumb";

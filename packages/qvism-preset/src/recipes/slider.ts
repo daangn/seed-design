@@ -1,39 +1,83 @@
-// import { slider as vars } from "../vars/component";
+import { slider as vars, sliderThumb as thumbVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-// import { active, checked, disabled, not, pseudo } from "../utils/pseudo";
+import { pseudo } from "../utils/pseudo";
+
+const dragging = "[data-dragging]";
 
 const slider = defineSlotRecipe({
   name: "slider",
-  slots: ["root", "track", "range", "thumb"],
+  slots: ["root", "track", "control", "range", "thumb", "marker"],
   base: {
     root: {
-      position: "relative",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
-      width: "200px",
-      height: "24px",
+
+      width: "100%",
+
+      gap: vars.base.enabled.root.gap,
 
       // touchAction: "none",
     },
-    track: {
-      backgroundColor: "red",
+    control: {
       position: "relative",
+
+      width: "100%",
+      height: vars.base.enabled.control.height,
+
+      display: "flex",
+      alignItems: "center",
+    },
+    track: {
+      position: "relative",
+
       flexGrow: 1,
-      height: "4px",
+
+      backgroundColor: vars.base.enabled.track.color,
+
+      height: vars.base.enabled.track.height,
+
+      borderRadius: vars.base.enabled.track.cornerRadius,
+      overflow: "hidden",
     },
     range: {
       position: "absolute",
-      backgroundColor: "blue",
+
+      // inset-block: chrome 87~
       height: "100%",
+
+      backgroundColor: vars.base.enabled.range.color,
+
+      left: "var(--range-start)",
+      right: "var(--range-end)",
+
+      transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
+
+      [pseudo(dragging)]: {
+        transition: "none",
+      },
     },
     thumb: {
-      backgroundColor: "green",
-      width: "12px",
-      height: "12px",
-      borderRadius: "50%",
       position: "absolute",
       top: "50%",
-      transform: "translateY(-50%)",
+      left: "var(--thumb-start)",
+      right: "var(--thumb-end)",
+
+      transform: "translate(-50%, -50%)",
+
+      width: thumbVars.base.enabled.root.size,
+      height: thumbVars.base.enabled.root.size,
+      backgroundColor: thumbVars.base.enabled.root.color,
+
+      borderRadius: thumbVars.base.enabled.root.cornerRadius,
+
+      transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}`,
+
+      [pseudo(dragging)]: {
+        transform: `translate(-50%, -50%) scale(${thumbVars.base.pressed.root.scale})`,
+
+        transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+      },
     },
   },
   variants: {},

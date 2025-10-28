@@ -1,11 +1,14 @@
 // This code includes portions derived from radix-ui/primitives (https://github.com/radix-ui/primitives).
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
-import { clamp } from "@radix-ui/number";
+export function clamp(value: number, [min, max]: [number, number]): number {
+  return Math.min(max, Math.max(min, value));
+}
 
 export function getNextSortedValues(prevValues: number[], nextValue: number, atIndex: number) {
   const nextValues = [...prevValues];
   nextValues[atIndex] = nextValue;
+
   return nextValues.sort((a, b) => a - b);
 }
 
@@ -13,6 +16,7 @@ export function convertValueToPercentage(value: number, min: number, max: number
   const maxSteps = max - min;
   const percentPerStep = 100 / maxSteps;
   const percentage = percentPerStep * (value - min);
+
   return clamp(percentage, [0, 100]);
 }
 
@@ -20,12 +24,15 @@ export function convertValueToPercentage(value: number, min: number, max: number
  * Returns a label for each thumb when there are two or more thumbs
  */
 export function getLabel(index: number, totalValues: number) {
+  // TODO: remove and migrate to snippet layer
   if (totalValues > 2) {
     return `Value ${index + 1} of ${totalValues}`;
   }
+
   if (totalValues === 2) {
     return ["Minimum", "Maximum"][index];
   }
+
   return undefined;
 }
 
@@ -39,8 +46,10 @@ export function getLabel(index: number, totalValues: number) {
  */
 export function getClosestValueIndex(values: number[], nextValue: number) {
   if (values.length === 1) return 0;
+
   const distances = values.map((value) => Math.abs(value - nextValue));
   const closestDistance = Math.min(...distances);
+
   return distances.indexOf(closestDistance);
 }
 
@@ -51,7 +60,9 @@ export function getClosestValueIndex(values: number[], nextValue: number) {
 export function getThumbInBoundsOffset(width: number, left: number, direction: number) {
   const halfWidth = width / 2;
   const halfPercent = 50;
+
   const offset = linearScale([0, halfPercent], [0, halfWidth]);
+
   return (halfWidth - offset(left) * direction) * direction;
 }
 
@@ -63,7 +74,7 @@ export function getThumbInBoundsOffset(width: number, left: number, direction: n
  * getStepsBetweenValues([10, 11, 20]);
  */
 function getStepsBetweenValues(values: number[]) {
-  return values.slice(0, -1).map((value, index) => values[index + 1]! - value);
+  return values.slice(0, -1).map((value, index) => values[index + 1] - value);
 }
 
 /**
@@ -79,12 +90,12 @@ function getStepsBetweenValues(values: number[]) {
  * hasMinStepsBetweenValues([1,2,3], 1);
  */
 export function hasMinStepsBetweenValues(values: number[], minStepsBetweenValues: number) {
-  if (minStepsBetweenValues > 0) {
-    const stepsBetweenValues = getStepsBetweenValues(values);
-    const actualMinStepsBetweenValues = Math.min(...stepsBetweenValues);
-    return actualMinStepsBetweenValues >= minStepsBetweenValues;
-  }
-  return true;
+  if (minStepsBetweenValues <= 0) return true;
+
+  const stepsBetweenValues = getStepsBetweenValues(values);
+  const actualMinStepsBetweenValues = Math.min(...stepsBetweenValues);
+
+  return actualMinStepsBetweenValues >= minStepsBetweenValues;
 }
 
 // https://github.com/tmcw-up-for-adoption/simple-linear-scale/blob/master/index.js
@@ -92,6 +103,7 @@ export function linearScale(input: readonly [number, number], output: readonly [
   return (value: number) => {
     if (input[0] === input[1] || output[0] === output[1]) return output[0];
     const ratio = (output[1] - output[0]) / (input[1] - input[0]);
+
     return output[0] + ratio * (value - input[0]);
   };
 }
@@ -102,5 +114,83 @@ export function getDecimalCount(value: number) {
 
 export function roundValue(value: number, decimalCount: number) {
   const rounder = 10 ** decimalCount;
+
   return Math.round(value * rounder) / rounder;
+}
+
+/**
+ * Given a value and an array of allowed values, returns the closest allowed value.
+ * If no allowed values are provided, returns the original value.
+ *
+ * @example
+ * // returns 20
+ * getClosestAllowedValue(23, [10, 20, 30, 40]);
+ *
+ * @example
+ * // returns 30
+ * getClosestAllowedValue(25, [10, 20, 30, 40]);
+ */
+export function getClosestAllowedValue(value: number, allowedValues?: number[]): number {
+  if (!allowedValues || allowedValues.length === 0) return value;
+
+  // Find the closest allowed value
+  let closestValue = allowedValues[0];
+  let minDistance = Math.abs(value - closestValue);
+
+  for (const allowedValue of allowedValues) {
+    const distance = Math.abs(value - allowedValue);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestValue = allowedValue;
+    }
+  }
+
+  return closestValue;
+}
+
+/**
+ * Given a current value, direction, and an array of allowed values, returns the next allowed value in that direction.
+ * If no allowed values are provided or no next value exists, returns null.
+ *
+ * @example
+ * // returns 30
+ * getNextAllowedValue(20, 1, [10, 20, 30, 40]);
+ *
+ * @example
+ * // returns 10
+ * getNextAllowedValue(20, -1, [10, 20, 30, 40]);
+ */
+export function getNextAllowedValue(
+  currentValue: number,
+  direction: 1 | -1,
+  allowedValues?: number[],
+): number | null {
+  if (!allowedValues || allowedValues.length === 0) {
+    return null;
+  }
+
+  // Sort allowed values to ensure correct order
+  const sortedValues = [...allowedValues].sort((a, b) => a - b);
+
+  // Find current value index
+  const currentIndex = sortedValues.indexOf(currentValue);
+
+  // Current value is not in allowed values, find the closest and then move from there
+  if (currentIndex === -1) {
+    const closest = getClosestAllowedValue(currentValue, sortedValues);
+    const closestIndex = sortedValues.indexOf(closest);
+
+    if (direction === 1 && closestIndex < sortedValues.length - 1)
+      return sortedValues[closestIndex + 1];
+
+    if (direction === -1 && closestIndex > 0) return sortedValues[closestIndex - 1];
+
+    return closest;
+  }
+
+  const nextIndex = currentIndex + direction;
+  if (nextIndex >= 0 && nextIndex < sortedValues.length) return sortedValues[nextIndex];
+
+  return null;
 }
