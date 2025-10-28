@@ -31,6 +31,8 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       defaultValues,
       onValuesChange,
       onValuesCommit,
+      getAriaValueText,
+      dragStartDelayInMilliseconds,
       ...props
     },
     ref,
@@ -45,6 +47,8 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       minStepsBetweenThumbs,
       multiplierOnPageKey,
       allowedValues,
+      getAriaValueText,
+      dragStartDelayInMilliseconds,
       name,
       onValuesChange,
       onValuesCommit,
@@ -106,3 +110,17 @@ export const SliderHiddenInput = React.forwardRef<HTMLInputElement, SliderHidden
   },
 );
 SliderHiddenInput.displayName = "SliderHiddenInput";
+
+export interface SliderTickProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
+  value: number;
+}
+
+export const SliderTick = React.forwardRef<HTMLDivElement, SliderTickProps>(
+  ({ value, ...props }, ref) => {
+    const { getTickProps } = useSliderContext();
+    const tickProps = getTickProps(value);
+
+    return <Primitive.div ref={ref} {...mergeProps(tickProps, props)} />;
+  },
+);
+SliderTick.displayName = "SliderTick";

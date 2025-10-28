@@ -46,6 +46,7 @@ export { vars as segmentedControl } from "./segmented-control";
 export { vars as selectBox } from "./select-box";
 export { vars as skeleton } from "./skeleton";
 export { vars as sliderThumb } from "./slider-thumb";
+export { vars as sliderTick } from "./slider-tick";
 export { vars as slider } from "./slider";
 export { vars as snackbar } from "./snackbar";
 export { vars as switchMark } from "./switch-mark";

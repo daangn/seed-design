@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: slider-tick
+  name: Slider Tick
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          width:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.fg.neutral-inverted # fg 토큰인데 적절할까?      
+    variant=thin:
+      enabled:
+        root:
+          width: 1px
+    variant=thick:
+      enabled:
+        root:
+          width: $dimension.x1

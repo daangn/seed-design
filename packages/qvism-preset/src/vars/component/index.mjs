@@ -46,6 +46,7 @@ export { vars as segmentedControl } from "./segmented-control.mjs";
 export { vars as selectBox } from "./select-box.mjs";
 export { vars as skeleton } from "./skeleton.mjs";
 export { vars as sliderThumb } from "./slider-thumb.mjs";
+export { vars as sliderTick } from "./slider-tick.mjs";
 export { vars as slider } from "./slider.mjs";
 export { vars as snackbar } from "./snackbar.mjs";
 export { vars as switchMark } from "./switch-mark.mjs";

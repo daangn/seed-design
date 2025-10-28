@@ -5,10 +5,12 @@ export {
   SliderRange as Range,
   SliderThumb as Thumb,
   SliderHiddenInput as HiddenInput,
+  SliderTick as Tick,
   type SliderRootProps as RootProps,
   type SliderControlProps as ControlProps,
   type SliderTrackProps as TrackProps,
   type SliderRangeProps as RangeProps,
   type SliderThumbProps as ThumbProps,
   type SliderHiddenInputProps as HiddenInputProps,
+  type SliderTickProps as TickProps,
 } from "./Slider";

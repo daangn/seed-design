@@ -5659,6 +5659,24 @@
   transform: translate(-50%, -50%)scale(1.2);
 }
 
+.seed-slider-tick {
+  top: 50%;
+  left: var(--tick-start);
+  right: var(--tick-end);
+  background-color: var(--seed-color-fg-neutral-inverted);
+  height: 100%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.seed-slider-tick--variant_thin {
+  width: 1px;
+}
+
+.seed-slider-tick--variant_thick {
+  width: var(--seed-dimension-x1);
+}
+
 .seed-snackbar__root {
   box-sizing: border-box;
   background: var(--seed-color-bg-neutral-inverted);

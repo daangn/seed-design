@@ -1,12 +1,16 @@
-import { slider as vars, sliderThumb as thumbVars } from "../vars/component";
-import { defineSlotRecipe } from "../utils/define";
+import {
+  slider as vars,
+  sliderThumb as thumbVars,
+  sliderTick as tickVars,
+} from "../vars/component";
+import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
 
 const dragging = "[data-dragging]";
 
 const slider = defineSlotRecipe({
   name: "slider",
-  slots: ["root", "track", "control", "range", "thumb", "marker"],
+  slots: ["root", "track", "control", "range", "thumb", "tick"],
   base: {
     root: {
       display: "flex",
@@ -84,4 +88,31 @@ const slider = defineSlotRecipe({
   defaultVariants: {},
 });
 
-export default slider;
+const sliderTick = defineRecipe({
+  name: "slider-tick",
+  base: {
+    position: "absolute",
+    top: "50%",
+    left: "var(--tick-start)",
+    right: "var(--tick-end)",
+
+    transform: "translate(-50%, -50%)",
+    height: "100%",
+    backgroundColor: tickVars.base.enabled.root.color,
+  },
+  variants: {
+    variant: {
+      thin: {
+        width: tickVars.variantThin.enabled.root.width,
+      },
+      thick: {
+        width: tickVars.variantThick.enabled.root.width,
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "thin",
+  },
+});
+
+export { slider, sliderTick };

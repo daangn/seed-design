@@ -153,6 +153,9 @@
       "path": "/components/slider-thumb.json"
     },
     {
+      "path": "/components/slider-tick.json"
+    },
+    {
       "path": "/components/slider.json"
     },
     {

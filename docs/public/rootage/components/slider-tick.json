@@ -1,0 +1,94 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "slider-tick",
+    "name": "Slider Tick"
+  },
+  "data": {
+    "id": "slider-tick",
+    "name": "Slider Tick",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "width": {
+              "type": "dimension"
+            }
+          }
+        }
+      },
+      "variants": {
+        "variant": {
+          "values": {
+            "thin": {},
+            "thick": {}
+          },
+          "defaultValue": "thin"
+        }
+      }
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "thin"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "variants": {
+          "variant": "thick"
+        },
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "width": {
+                  "type": "dimension",
+                  "value": "$dimension.x1"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

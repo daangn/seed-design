@@ -23,8 +23,8 @@ const sliderSlotNames = [
     "seed-slider__thumb"
   ],
   [
-    "marker",
-    "seed-slider__marker"
+    "tick",
+    "seed-slider__tick"
   ]
 ];
 

@@ -23,7 +23,6 @@ import {
 const PAGE_KEYS = ["PageUp", "PageDown"];
 const ARROW_KEYS = ["ArrowLeft", "ArrowRight"];
 const BACK_KEYS = ["Home", "PageDown", "ArrowLeft"];
-const DRAG_START_DELAY = 200; // ms
 
 interface UseSliderStateProps {
   /**
@@ -211,6 +210,11 @@ export interface UseSliderProps extends UseSliderStateProps {
   multiplierOnPageKey?: number;
 
   getAriaValueText?: (params: { value: number; thumbIndex: number }) => string;
+
+  /**
+   * @default 150
+   */
+  dragStartDelayInMilliseconds?: number;
 }
 
 export type UseSliderReturn = ReturnType<typeof useSlider>;
@@ -222,6 +226,7 @@ export function useSlider({
   dir = "ltr",
   multiplierOnPageKey = 10,
   getAriaValueText,
+  dragStartDelayInMilliseconds = 150,
   ...props
 }: UseSliderProps) {
   const api = useSliderState(props);
@@ -267,7 +272,7 @@ export function useSlider({
           api.dragTimerRef.current = setTimeout(() => {
             api.setIsDragging(true);
             api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
-          }, DRAG_START_DELAY);
+          }, dragStartDelayInMilliseconds);
         },
         onPointerMove: (event) => {
           if (disabled) return;
@@ -376,6 +381,7 @@ export function useSlider({
       stateProps,
       disabled,
       multiplierOnPageKey,
+      dragStartDelayInMilliseconds,
       api.getValueFromPointer,
       api.handleSlideEnd,
       api.handleSlideMove,
@@ -487,6 +493,20 @@ export function useSlider({
     [api.values, name, form, api.min, api.max, api.step, disabled, api.updateValues],
   );
 
+  const getTickProps = useCallback(
+    (value: number) => {
+      const percent = convertValueToPercentage(value, api.min, api.max);
+
+      return elementProps({
+        ...stateProps,
+        style: {
+          [dir === "ltr" ? "--tick-start" : "--tick-end"]: `${percent}%`,
+        },
+      });
+    },
+    [api.min, api.max, dir, stateProps],
+  );
+
   return {
     min: api.min,
     max: api.max,
@@ -503,6 +523,7 @@ export function useSlider({
     getRangeProps,
     getThumbProps,
     getHiddenInputProps,
+    getTickProps,
 
     // this is used to style the track
     stateProps,
