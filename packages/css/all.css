@@ -5662,8 +5662,16 @@
   transform: translate(-50%, -50%)scale(1.2);
 }
 
+.seed-slider__thumb:is(:focus, [data-focus]) {
+  outline: none;
+}
+
 .seed-slider__thumb:is(:disabled, [disabled], [data-disabled]) {
   background-color: var(--seed-color-fg-disabled);
+}
+
+.seed-slider__thumb[data-ssr] {
+  display: none;
 }
 
 .seed-slider__markers {

@@ -4,7 +4,7 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo } from "../utils/pseudo";
+import { disabled, pseudo, focus } from "../utils/pseudo";
 
 const dragging = "[data-dragging]";
 
@@ -84,6 +84,10 @@ const slider = defineSlotRecipe({
         transform: `translate(-50%, -50%) scale(${thumbVars.base.pressed.root.scale})`,
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+      },
+
+      [pseudo(focus)]: {
+        outline: "none", // XXX
       },
 
       [pseudo(disabled)]: {

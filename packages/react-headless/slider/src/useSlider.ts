@@ -303,9 +303,8 @@ export function useSlider({
             // keep where the pointer was down
             api.pointerDownPosition.current = event.clientX;
 
+            // defer drag start to see if it's a slide or a click
             api.dragTimerRef.current = setTimeout(() => {
-              // if held, set to the value where pointer down happened
-
               api.setIsDragging(true);
               api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
             }, dragStartDelayInMilliseconds);
