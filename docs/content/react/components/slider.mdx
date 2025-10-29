@@ -1,0 +1,181 @@
+---
+title: Slider
+description: 사용자가 특정 범위 내에서 값을 선택할 수 있는 입력 컴포넌트입니다. 볼륨, 밝기, 가격 범위 등을 조절하는 데 사용됩니다.
+---
+
+<ComponentExample name="react/slider/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:slider
+```
+
+<ManualInstallation name="slider" />
+
+## Props
+
+### `Slider`
+
+<react-type-table path="./registry/ui/slider.tsx" name="SliderProps" />
+
+## Examples
+
+### Basic
+
+<ComponentExample name="react/slider/basic">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/basic.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Steps
+
+특정 간격으로만 값을 선택할 수 있도록 설정할 수 있습니다.
+
+<ComponentExample name="react/slider/steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/steps.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Ticks
+
+슬라이더 트랙에 눈금을 표시할 수 있습니다.
+
+#### Thin
+
+continuous하다고 느껴질 만큼 step이 충분히 작을 때 주로 사용합니다.
+
+<ComponentExample name="react/slider/ticks-thin">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/ticks-thin.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Thick
+
+discrete하다고 느껴질 만큼 step이 충분히 클 때 주로 사용합니다.
+
+<ComponentExample name="react/slider/ticks-thick">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/ticks-thick.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Markers
+
+슬라이더 아래에 마커를 표시할 수 있습니다.
+
+<ComponentExample name="react/slider/markers">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/markers.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+<ComponentExample name="react/slider/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+<ComponentExample name="react/slider/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Hide Range
+
+`hideRange` prop을 사용하여 기본 range 색상을 숨기고 커스텀 스타일을 적용할 수 있습니다.
+
+<ComponentExample name="react/slider/hide-range">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/hide-range.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Allowed Values
+
+`allowedValues` prop을 사용하여 슬라이더에서 선택할 수 있는 값을 제한할 수 있습니다.
+
+<ComponentExample name="react/slider/allowed-values">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/allowed-values.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+#### `onValuesChange`
+
+#### `onValuesCommit`
+
+### Range
+
+두 개의 thumb를 사용하여 범위를 선택할 수 있습니다.
+
+<ComponentExample name="react/slider/range">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/range.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Minimum Steps Between Thumbs
+
+두 thumb 사이의 최소 간격을 설정할 수 있습니다.
+
+<ComponentExample name="react/slider/range-min-steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/range-min-steps.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+#### `getAriaValueText`
+

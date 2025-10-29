@@ -1,0 +1,11 @@
+import { VStack } from "@seed-design/react";
+import { Slider } from "seed-design/ui/slider";
+
+export default function SliderHideRange() {
+  return (
+    <VStack gap="spacingY.componentDefault" width="full">
+      <Slider min={0} max={100} defaultValues={[60]} hideRange />
+      <Slider min={0} max={100} defaultValues={[20, 80]} hideRange />
+    </VStack>
+  );
+}

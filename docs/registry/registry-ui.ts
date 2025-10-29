@@ -201,6 +201,15 @@ export const registryUI: Registry = {
       ],
     },
     {
+      id: "slider",
+      snippets: [
+        {
+          path: "slider.tsx",
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
+        },
+      ],
+    },
+    {
       id: "snackbar",
       snippets: [
         {

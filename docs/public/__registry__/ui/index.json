@@ -444,6 +444,17 @@
     {
       "snippets": [
         {
+          "path": "slider.tsx"
+        }
+      ],
+      "id": "slider",
+      "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "snackbar.tsx"
         }
       ],
