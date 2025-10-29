@@ -51,8 +51,8 @@ const slider = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.range.color,
 
-      left: "var(--range-start)",
-      right: "var(--range-end)",
+      left: "var(--range-left)",
+      right: "var(--range-right)",
 
       transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
 
@@ -67,8 +67,8 @@ const slider = defineSlotRecipe({
     thumb: {
       position: "absolute",
       top: "50%",
-      left: "var(--thumb-start)",
-      right: "var(--thumb-end)",
+      left: "var(--thumb-left)",
+      right: "var(--thumb-right)",
 
       transform: "translate(-50%, -50%)",
 
@@ -110,8 +110,10 @@ const slider = defineSlotRecipe({
       top: 0,
       bottom: 0,
 
-      left: "var(--marker-start)",
-      right: "var(--marker-end)",
+      left: "var(--marker-left)",
+      right: "var(--marker-right)",
+      transform: "var(--marker-transform)",
+      textAlign: "var(--marker-text-align)",
 
       color: vars.base.enabled.marker.color,
       fontWeight: vars.base.enabled.marker.fontWeight,
@@ -120,16 +122,6 @@ const slider = defineSlotRecipe({
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.marker.color,
-      },
-
-      [pseudo('[data-align="start"]')]: {
-        transform: "translateX(0)",
-      },
-      [pseudo('[data-align="center"]')]: {
-        transform: "translateX(-50%)",
-      },
-      [pseudo('[data-align="end"]')]: {
-        transform: "translateX(-100%)",
       },
     },
   },
@@ -143,9 +135,9 @@ const sliderTick = defineRecipe({
     position: "absolute",
 
     top: "50%",
-    left: "var(--tick-start)",
-    right: "var(--tick-end)",
-    transform: "translate(-50%, -50%)",
+    left: "var(--tick-left)",
+    right: "var(--tick-right)",
+    transform: "var(--tick-transform)",
 
     height: "100%",
 

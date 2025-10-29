@@ -2,6 +2,13 @@ import { Slider } from "seed-design/ui/slider";
 
 export default function SliderTicksThick() {
   return (
-    <Slider min={0} max={100} step={25} defaultValues={[50]} ticks={[25, 50, 75]} variant="thick" />
+    <Slider
+      min={0}
+      max={100}
+      step={10}
+      defaultValues={[50]}
+      ticks={[10, 20, 30, 40, 50, 60, 70, 80, 90]}
+      variant="thick"
+    />
   );
 }

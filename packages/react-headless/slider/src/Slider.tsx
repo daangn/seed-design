@@ -125,13 +125,12 @@ SliderTick.displayName = "SliderTick";
 
 export interface SliderMarkerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {
   value: number;
-  align?: "start" | "center" | "end";
 }
 
 export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
-  ({ value, align, ...props }, ref) => {
+  ({ value, ...props }, ref) => {
     const { getMarkerProps } = useSliderContext();
-    const markerProps = getMarkerProps(value, align);
+    const markerProps = getMarkerProps(value);
 
     return <Primitive.div ref={ref} {...mergeProps(markerProps, props)} />;
   },

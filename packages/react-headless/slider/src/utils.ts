@@ -21,22 +21,6 @@ export function convertValueToPercentage(value: number, min: number, max: number
 }
 
 /**
- * Returns a label for each thumb when there are two or more thumbs
- */
-export function getLabel(index: number, totalValues: number) {
-  // TODO: remove and migrate to snippet layer
-  if (totalValues > 2) {
-    return `Value ${index + 1} of ${totalValues}`;
-  }
-
-  if (totalValues === 2) {
-    return ["Minimum", "Maximum"][index];
-  }
-
-  return undefined;
-}
-
-/**
  * Given a `values` array and a `nextValue`, determine which value in
  * the array is closest to `nextValue` and return its index.
  *

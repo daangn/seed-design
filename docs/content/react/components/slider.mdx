@@ -1,6 +1,6 @@
 ---
 title: Slider
-description: 사용자가 특정 범위 내에서 값을 선택할 수 있는 입력 컴포넌트입니다. 볼륨, 밝기, 가격 범위 등을 조절하는 데 사용됩니다.
+description: 사용자가 특정 범위 내에서 값을 선택할 수 있는 입력 컴포넌트입니다.
 ---
 
 <ComponentExample name="react/slider/preview">
@@ -108,6 +108,8 @@ discrete하다고 느껴질 만큼 step이 충분히 클 때 주로 사용합니
 
 ### Controlled
 
+`values`와 `onValuesChange` props를 사용하여 슬라이더의 상태를 외부에서 제어합니다.
+
 <ComponentExample name="react/slider/controlled">
   ```json doc-gen:file
   {
@@ -132,7 +134,7 @@ discrete하다고 느껴질 만큼 step이 충분히 클 때 주로 사용합니
 
 ### Allowed Values
 
-`allowedValues` prop을 사용하여 슬라이더에서 선택할 수 있는 값을 제한할 수 있습니다.
+`allowedValues` prop을 사용하여 슬라이더에서 선택할 수 있는 값을 제한할 수 있습니다. `allowedValues`가 지정된 경우 `step`은 무시됩니다.
 
 <ComponentExample name="react/slider/allowed-values">
   ```json doc-gen:file
@@ -145,9 +147,19 @@ discrete하다고 느껴질 만큼 step이 충분히 클 때 주로 사용합니
 
 ### Listening to Value Changes
 
-#### `onValuesChange`
+- `onValuesChange`
+  - 슬라이더의 값이 변경될 때마다 호출됩니다. 이 prop을 사용하여 슬라이더의 값을 실시간으로 추적할 수 있습니다.
+- `onValuesCommit`
+  - 슬라이더의 값 변경이 완료되었을 때 호출됩니다. 사용자가 슬라이더 조작을 마치고 손을 뗄 때 값을 확정하는 데 유용합니다.
 
-#### `onValuesCommit`
+<ComponentExample name="react/slider/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Range
 

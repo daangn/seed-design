@@ -12,6 +12,7 @@ export default function SliderAllowedValues() {
       <Slider
         min={0}
         max={30}
+        step={2}
         values={values}
         onValuesChange={setValues}
         allowedValues={ALLOWED_VALUES}

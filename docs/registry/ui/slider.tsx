@@ -40,12 +40,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         </SeedSlider.Control>
         {markers.length > 0 && (
           <SeedSlider.Markers>
-            {markers.map((marker, index) => (
-              <SeedSlider.Marker
-                key={marker.value}
-                value={marker.value}
-                align={index === 0 ? "start" : index === markers.length - 1 ? "end" : "center"}
-              >
+            {markers.map((marker) => (
+              <SeedSlider.Marker key={marker.value} value={marker.value}>
                 {marker.label}
               </SeedSlider.Marker>
             ))}

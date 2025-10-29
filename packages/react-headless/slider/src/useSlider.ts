@@ -2,7 +2,7 @@
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback, useRef, useState, useMemo, type CSSProperties } from "react";
+import { useCallback, useRef, useState, useMemo, type CSSProperties, useId } from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
@@ -11,7 +11,6 @@ import {
   getClosestValueIndex,
   convertValueToPercentage,
   getDecimalCount,
-  getLabel,
   getNextSortedValues,
   getThumbInBoundsOffset,
   hasMinStepsBetweenValues,
@@ -21,10 +20,6 @@ import {
   getNextAllowedValue,
   clamp,
 } from "./utils";
-
-const PAGE_KEYS = ["PageUp", "PageDown"];
-const ARROW_KEYS = ["ArrowLeft", "ArrowRight"];
-const BACK_KEYS = ["Home", "PageDown", "ArrowLeft"];
 
 interface UseSliderStateProps {
   /**
@@ -56,7 +51,14 @@ interface UseSliderStateProps {
   defaultValues?: number[];
   onValuesChange?: (value: number[]) => void;
   onValuesCommit?: (value: number[]) => void;
+
+  /**
+   * @default "ltr"
+   */
+  dir?: "ltr" | "rtl";
 }
+
+export type SliderMarkerAlign = "left" | "center" | "right";
 
 function useSliderState({
   min = 0,
@@ -68,6 +70,7 @@ function useSliderState({
   defaultValues: propDefaultValues = [min],
   onValuesCommit,
   onValuesChange,
+  dir = "ltr",
 }: UseSliderStateProps) {
   const valueIndexToChangeRef = useRef<number>(0);
 
@@ -135,14 +138,15 @@ function useSliderState({
       if (!rect) return min;
 
       const input: [number, number] = [0, rect.width];
-      const output: [number, number] = [min, max];
+      const output: [number, number] = dir === "ltr" ? [min, max] : [max, min];
+
       const valueGetter = linearScale(input, output);
 
       rectRef.current = rect;
 
       return valueGetter(pointerPosition - rect.left);
     },
-    [min, max],
+    [min, max, dir],
   );
 
   /**
@@ -198,6 +202,7 @@ function useSliderState({
     valuesBeforeSlideStartRef,
     dragTimerRef,
     pointerDownPosition,
+    dir,
 
     isHovered,
     setIsHovered,
@@ -220,11 +225,6 @@ export interface UseSliderProps extends UseSliderStateProps {
   form?: string;
 
   /**
-   * @default "ltr"
-   */
-  dir?: "ltr" | "rtl";
-
-  /**
    * @default 10
    */
   multiplierOnPageKey?: number;
@@ -243,7 +243,6 @@ export function useSlider({
   disabled,
   name,
   form,
-  dir = "ltr",
   multiplierOnPageKey = 10,
   getAriaValueText,
   dragStartDelayInMilliseconds = 150,
@@ -251,6 +250,9 @@ export function useSlider({
 }: UseSliderProps) {
   const api = useSliderState(props);
   const isSSR = useIsSSR();
+  const id = useId();
+
+  const isLtr = api.dir === "ltr";
 
   const stateProps = elementProps({
     "data-hover": dataAttr(api.isHovered),
@@ -264,6 +266,7 @@ export function useSlider({
     () =>
       elementProps({
         ...stateProps,
+        dir: api.dir,
         "aria-disabled": disabled,
         onPointerEnter: () => {
           if (disabled) return;
@@ -346,60 +349,151 @@ export function useSlider({
         onKeyDown: (event) => {
           if (disabled) return;
 
+          const atIndex = api.valueIndexToChangeRef.current;
+          const currentValue = api.values[atIndex] ?? api.min;
+
           switch (event.key) {
             case "Home": {
               api.updateValues(api.allowedValues?.[0] ?? api.min, 0, { commit: true });
+
               event.preventDefault();
 
-              return;
+              break;
             }
+
             case "End": {
               api.updateValues(
                 api.allowedValues?.[api.allowedValues.length - 1] ?? api.max,
                 api.values.length - 1,
                 { commit: true },
               );
+
               event.preventDefault();
 
-              return;
+              break;
             }
-          }
 
-          if ([...PAGE_KEYS, ...ARROW_KEYS].includes(event.key)) {
-            const atIndex = api.valueIndexToChangeRef.current;
-            const currentValue = api.values[atIndex] ?? api.min;
+            case "PageUp": {
+              if (api.allowedValues && api.allowedValues.length > 0) {
+                let nextValue = currentValue;
 
-            const direction = BACK_KEYS.includes(event.key) ? -1 : 1;
+                for (let i = 0; i < multiplierOnPageKey; i++) {
+                  const next = getNextAllowedValue(nextValue, 1, api.allowedValues);
+                  if (next === null) break;
 
-            const isSkipKey =
-              PAGE_KEYS.includes(event.key) || (event.shiftKey && ARROW_KEYS.includes(event.key));
+                  nextValue = next;
+                }
 
-            const multiplier = isSkipKey ? multiplierOnPageKey : 1;
+                if (nextValue === currentValue) break;
 
-            if (api.allowedValues && api.allowedValues.length > 0) {
-              let nextValue = currentValue;
+                api.updateValues(nextValue, atIndex, { commit: true });
 
-              for (let i = 0; i < multiplier; i++) {
-                const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
-                if (next === null) break;
+                event.preventDefault();
 
-                nextValue = next;
+                break;
               }
 
-              if (nextValue === currentValue) return;
-
-              api.updateValues(nextValue, atIndex, { commit: true });
+              api.updateValues(currentValue + api.step * multiplierOnPageKey, atIndex, {
+                commit: true,
+              });
 
               event.preventDefault();
 
-              return;
+              break;
+            }
+            case "PageDown": {
+              if (api.allowedValues && api.allowedValues.length > 0) {
+                let nextValue = currentValue;
+
+                for (let i = 0; i < multiplierOnPageKey; i++) {
+                  const next = getNextAllowedValue(nextValue, -1, api.allowedValues);
+                  if (next === null) break;
+
+                  nextValue = next;
+                }
+
+                if (nextValue === currentValue) break;
+
+                api.updateValues(nextValue, atIndex, { commit: true });
+
+                event.preventDefault();
+
+                break;
+              }
+
+              api.updateValues(currentValue + api.step * multiplierOnPageKey * -1, atIndex, {
+                commit: true,
+              });
+
+              event.preventDefault();
+
+              break;
             }
 
-            api.updateValues(currentValue + api.step * multiplier * direction, atIndex, {
-              commit: true,
-            });
+            case "ArrowUp":
+            case "ArrowRight": {
+              const direction = isLtr ? 1 : -1;
+              const multiplier = (event.shiftKey ? multiplierOnPageKey : 1) * direction;
 
-            event.preventDefault();
+              if (api.allowedValues && api.allowedValues.length > 0) {
+                let nextValue = currentValue;
+
+                for (let i = 0; i < multiplier; i++) {
+                  const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
+                  if (next === null) break;
+
+                  nextValue = next;
+                }
+
+                if (nextValue === currentValue) break;
+
+                api.updateValues(nextValue, atIndex, { commit: true });
+
+                event.preventDefault();
+
+                break;
+              }
+
+              api.updateValues(currentValue + api.step * multiplier, atIndex, {
+                commit: true,
+              });
+
+              event.preventDefault();
+
+              break;
+            }
+            case "ArrowLeft":
+            case "ArrowDown": {
+              const direction = isLtr ? -1 : 1;
+              const multiplier = (event.shiftKey ? multiplierOnPageKey : 1) * direction;
+
+              if (api.allowedValues && api.allowedValues.length > 0) {
+                let nextValue = currentValue;
+
+                for (let i = 0; i < multiplier; i++) {
+                  const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
+                  if (next === null) break;
+
+                  nextValue = next;
+                }
+
+                if (nextValue === currentValue) break;
+
+                api.updateValues(nextValue, atIndex, { commit: true });
+
+                event.preventDefault();
+
+                break;
+              }
+
+              api.updateValues(currentValue + api.step * multiplier, atIndex, {
+                commit: true,
+              });
+
+              event.preventDefault();
+
+              break;
+            }
           }
         },
       }),
@@ -426,6 +520,7 @@ export function useSlider({
       api.valuesBeforeSlideStartRef,
       api.refs.thumbs.current.has,
       api.handleSlideStart,
+      isLtr,
     ],
   );
 
@@ -440,11 +535,11 @@ export function useSlider({
     return elementProps({
       ...stateProps,
       style: {
-        [dir === "ltr" ? "--range-start" : "--range-end"]: `${offsetStart}%`,
-        [dir === "ltr" ? "--range-end" : "--range-start"]: `${offsetEnd}%`,
+        [isLtr ? "--range-left" : "--range-right"]: `${offsetStart}%`,
+        [isLtr ? "--range-right" : "--range-left"]: `${offsetEnd}%`,
       },
     });
-  }, [api.values, api.min, api.max, dir, stateProps]);
+  }, [api.values, api.min, api.max, isLtr, stateProps]);
 
   const getThumbRef = useCallback(() => {
     return (thumb: HTMLElement | null) => {
@@ -464,19 +559,21 @@ export function useSlider({
       const thumbInBoundsOffset = getThumbInBoundsOffset(
         api.firstThumbSize?.width ?? 0,
         percent,
-        dir === "ltr" ? 1 : -1,
+        isLtr ? 1 : -1,
       );
 
-      const label = getLabel(index, api.values.length);
-
       return elementProps({
+        // should have aria-label or aria-labelledby
+
         role: "slider",
-        "aria-label": label,
         "aria-valuemin": api.min,
         "aria-valuenow": value,
         "aria-valuemax": api.max,
-        "aria-valuetext": getAriaValueText?.({ value, thumbIndex: index }),
-        "aria-orientation": "horizontal",
+        // "aria-orientation": "horizontal", // this is the default
+
+        ...(getAriaValueText && {
+          "aria-valuetext": getAriaValueText({ value, thumbIndex: index }),
+        }),
 
         "data-index": `${index}`,
         "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
@@ -485,7 +582,7 @@ export function useSlider({
 
         tabIndex: disabled ? undefined : 0,
         style: {
-          [dir === "ltr" ? "--thumb-start" : "--thumb-end"]:
+          [isLtr ? "--thumb-left" : "--thumb-right"]:
             `calc(${percent}% + ${thumbInBoundsOffset}px)`,
         },
         onFocus: () => {
@@ -500,9 +597,9 @@ export function useSlider({
       api.valueIndexToChangeRef,
       api.isDragging,
       api.firstThumbSize,
+      isLtr,
       disabled,
       getAriaValueText,
-      dir,
       isSSR,
     ],
   );
@@ -511,19 +608,16 @@ export function useSlider({
     (index: number) => {
       const value = api.values[index];
 
-      // TODO: check
-      const inputName = name ? name + (api.values.length > 1 ? "[]" : "") : undefined;
-
       return inputProps({
         type: "hidden",
         value,
-        name: inputName,
+        name: id || name,
         form,
         disabled,
         readOnly: true,
       });
     },
-    [api.values, name, form, disabled],
+    [api.values, name, form, disabled, id],
   );
 
   const getTickProps = useCallback(
@@ -533,42 +627,62 @@ export function useSlider({
       const thumbInBoundsOffset = getThumbInBoundsOffset(
         api.firstThumbSize?.width ?? 0,
         percent,
-        dir === "ltr" ? 1 : -1,
+        1,
       );
 
       return elementProps({
         ...stateProps,
         style: {
-          [dir === "ltr" ? "--tick-start" : "--tick-end"]:
-            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-        },
-      });
-    },
-    [api.min, api.max, dir, stateProps, api.firstThumbSize?.width],
-  );
-
-  const getMarkerProps = useCallback(
-    (value: number, align?: "start" | "center" | "end") => {
-      const percent = convertValueToPercentage(value, api.min, api.max);
-
-      const thumbInBoundsOffset =
-        value === api.min || value === api.max
-          ? 0
-          : getThumbInBoundsOffset(api.firstThumbSize?.width ?? 0, percent, dir === "ltr" ? 1 : -1);
-
-      return elementProps({
-        ...stateProps,
-        "data-align": align ?? "center",
-
-        "aria-hidden": true,
-
-        style: {
-          [dir === "ltr" ? "--marker-start" : "--marker-end"]:
-            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+          [isLtr ? "--tick-left" : "--tick-right"]: `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+          "--tick-transform": isLtr ? "translate(-50%, -50%)" : "translate(50%, -50%)",
         } as CSSProperties,
       });
     },
-    [api.min, api.max, dir, stateProps, api.firstThumbSize?.width],
+    [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
+  );
+
+  const getMarkerProps = useCallback(
+    (value: number) => {
+      const percent = convertValueToPercentage(value, api.min, api.max);
+
+      const isEnd = value === api.min ? "start" : value === api.max ? "end" : false;
+
+      const thumbInBoundsOffset =
+        isEnd === "start" || isEnd === "end"
+          ? 0
+          : getThumbInBoundsOffset(api.firstThumbSize?.width ?? 0, percent, 1);
+
+      return elementProps({
+        ...stateProps,
+        "aria-hidden": true,
+
+        style: {
+          [isLtr ? "--marker-left" : "--marker-right"]:
+            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+          "--marker-transform":
+            isEnd === "start"
+              ? "translateX(0%)"
+              : isEnd === "end"
+                ? isLtr
+                  ? "translateX(-100%)"
+                  : "translateX(100%)"
+                : isLtr
+                  ? "translateX(-50%)"
+                  : "translateX(50%)",
+          "--marker-text-align":
+            isEnd === "start"
+              ? isLtr
+                ? "left"
+                : "right"
+              : isEnd === "end"
+                ? isLtr
+                  ? "right"
+                  : "left"
+                : "center",
+        } as CSSProperties,
+      });
+    },
+    [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
   );
 
   return {

@@ -1,9 +1,9 @@
 .seed-slider-tick {
     position: absolute;
     top: 50%;
-    left: var(--tick-start);
-    right: var(--tick-end);
-    transform: translate(-50%, -50%);
+    left: var(--tick-left);
+    right: var(--tick-right);
+    transform: var(--tick-transform);
     height: 100%;
     background-color: var(--seed-color-fg-neutral-inverted)
 }
