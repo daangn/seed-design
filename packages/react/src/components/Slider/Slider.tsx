@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { mergeProps } from "@seed-design/dom-utils";
 import { useFieldContext } from "@seed-design/react-field";
 
-const { withContext, ClassNamesProvider } = createSlotRecipeContext(slider);
+const { withContext, ClassNamesProvider, useClassNames } = createSlotRecipeContext(slider);
 const { PropsProvider: TickPropsProvider, useProps: useTickProps } =
   createRecipeContext(sliderTick);
 
@@ -33,19 +33,10 @@ export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
 
     const classNames = slider(sliderVariantProps);
 
-    const fieldContext = useFieldContext();
-    const { dir: _dir, ...stateProps } = fieldContext.stateProps;
-
-    const mergedProps = mergeProps(
-      stateProps,
-      fieldContext ? fieldContext.inputProps : {},
-      otherProps,
-    );
-
     return (
       <TickPropsProvider value={sliderTickVariantProps}>
         <ClassNamesProvider value={classNames}>
-          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...mergedProps} />
+          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
         </ClassNamesProvider>
       </TickPropsProvider>
     );
@@ -75,8 +66,25 @@ export const SliderRange = withContext<HTMLDivElement, SliderRangeProps>(
 
 export interface SliderThumbProps extends Slider.ThumbProps {}
 
-// intentionally omits withFieldStateProps here because each thumb is styled individually
-export const SliderThumb = withContext<HTMLDivElement, SliderThumbProps>(Slider.Thumb, "thumb");
+export const SliderThumb = forwardRef<HTMLDivElement, Slider.ThumbProps>(
+  ({ thumbIndex, className, ...props }, ref) => {
+    const classNames = useClassNames();
+
+    const fieldContext = useFieldContext({ strict: false });
+
+    // intentionally omits Field stateProps here because each thumb is styled individually
+    const mergedProps = mergeProps(fieldContext?.inputAriaAttributes ?? {}, props);
+
+    return (
+      <Slider.Thumb
+        ref={ref}
+        className={clsx(classNames.thumb, className)}
+        thumbIndex={thumbIndex}
+        {...mergedProps}
+      />
+    );
+  },
+);
 
 export interface SliderHiddenInputProps extends Slider.HiddenInputProps {}
 

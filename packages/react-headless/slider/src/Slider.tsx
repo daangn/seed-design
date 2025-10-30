@@ -33,7 +33,6 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       onValuesChange,
       onValuesCommit,
       readOnly,
-      required,
       step,
       values,
       ...props
@@ -58,7 +57,6 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       onValuesChange,
       onValuesCommit,
       readOnly,
-      required,
       step,
       values,
     });

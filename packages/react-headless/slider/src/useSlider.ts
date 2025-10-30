@@ -223,10 +223,6 @@ export interface UseSliderProps extends UseSliderStateProps {
   /**
    * @default false
    */
-  required?: boolean;
-  /**
-   * @default false
-   */
   disabled?: boolean;
   /**
    * @default false
@@ -257,7 +253,6 @@ export interface UseSliderProps extends UseSliderStateProps {
 export type UseSliderReturn = ReturnType<typeof useSlider>;
 
 export function useSlider({
-  required,
   disabled,
   readOnly,
   invalid,
@@ -292,11 +287,6 @@ export function useSlider({
         ...stateProps,
 
         dir: api.dir,
-
-        ...(readOnly && { "aria-readonly": true }),
-        ...(required && { "aria-required": required }),
-        ...(invalid && { "aria-invalid": true }),
-        ...(disabled && { "aria-disabled": true }),
 
         onPointerLeave: () => {
           api.setIsHovered(false);
@@ -562,9 +552,7 @@ export function useSlider({
       api.refs.thumbs.current.has,
       api.handleSlideStart,
       isLtr,
-      invalid,
       readOnly,
-      required,
       api.refs.thumbs.current,
     ],
   );
@@ -618,6 +606,10 @@ export function useSlider({
         ...(getAriaLabel && { "aria-label": getAriaLabel(index) }),
         ...(getAriaLabelledBy && { "aria-labelledby": getAriaLabelledBy(index) }),
 
+        ...(readOnly && { "aria-readonly": true }),
+        ...(invalid && { "aria-invalid": true }),
+        ...(disabled && { "aria-disabled": true }),
+
         "data-index": `${index}`,
         "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
         "data-disabled": dataAttr(disabled),
@@ -646,6 +638,8 @@ export function useSlider({
       getAriaLabel,
       getAriaLabelledBy,
       isSSR,
+      invalid,
+      readOnly,
     ],
   );
 
@@ -738,7 +732,6 @@ export function useSlider({
 
     disabled,
     invalid,
-    required,
     readOnly,
 
     refs: api.refs,

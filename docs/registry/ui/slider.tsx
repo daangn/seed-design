@@ -43,13 +43,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       markers = [],
       hideRange = false,
 
-      // field props
-      required,
-      disabled,
-      invalid,
-      readOnly,
-      name,
-
       ...props
     },
     ref,
@@ -58,7 +51,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
     const renderHeader = label || indicator;
     const renderDescription = !!description;
-    const renderErrorMessage = errorMessage && invalid;
+    const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
     if (process.env.NODE_ENV !== "production" && !label) {
@@ -68,7 +61,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     }
 
     return (
-      <SeedField.Root required={required} disabled={disabled} invalid={invalid} readOnly={readOnly}>
+      <SeedField.Root
+        name={props.name}
+        disabled={props.disabled}
+        invalid={props.invalid}
+        readOnly={props.readOnly}
+      >
         {renderHeader && (
           <SeedField.Header>
             <SeedField.Label>
@@ -103,7 +101,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
               ))}
             </SeedSlider.Markers>
           )}
-        </SeedSlider.Root>{" "}
+        </SeedSlider.Root>
         {renderFooter && (
           <SeedField.Footer>
             {renderDescription &&

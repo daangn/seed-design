@@ -1,11 +1,5 @@
 import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
-import {
-  useCallback,
-  useId,
-  useState,
-  type InputHTMLAttributes,
-  type TextareaHTMLAttributes,
-} from "react";
+import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
 function useFieldState() {
@@ -158,21 +152,16 @@ export function useField(props: UseFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }) as Pick<
-      InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>,
-      "onChange" | "onBlur" | "onFocus"
-    >,
+    }),
 
-    inputProps: {
+    inputAriaAttributes: elementProps({
       ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
       "aria-describedby": ariaDescribedBy,
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
-      disabled,
-      readOnly,
-      id: getInputId(id),
-      name: props.name || id,
-    } satisfies InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>,
+      "aria-readonly": ariaAttr(readOnly),
+      "aria-disabled": ariaAttr(disabled),
+    }),
 
     descriptionProps: elementProps({
       ...stateProps,

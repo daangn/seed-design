@@ -1,5 +1,4 @@
 import { Divider, VStack } from "@seed-design/react";
-import { useState } from "react";
 import { Slider } from "seed-design/ui/slider";
 
 const markers = [
@@ -12,14 +11,10 @@ const markers = [
 ];
 
 export default function SliderField() {
-  const [isInvalid, setIsInvalid] = useState(false);
-
   return (
     <VStack gap="x8" width="full">
       <Slider
         label="내일 날씨가 좋을 것 같다고 생각한다."
-        required
-        showRequiredIndicator
         min={0}
         max={14}
         defaultValues={[500]}
@@ -33,14 +28,12 @@ export default function SliderField() {
       />
       <Divider />
       <Slider
-        label="슬라이더를 우측으로 이동하면 invalid 상태가 됩니다."
-        invalid={isInvalid}
+        label="Invalid Slider"
         min={0}
         max={1000}
         defaultValues={[500]}
-        onValuesCommit={([value]) => setIsInvalid(value > 600)}
         description="슬라이더에 관한 적절한 설명을 작성해주세요."
-        errorMessage="값이 너무 큽니다."
+        errorMessage="올바르지 않은 값입니다. "
       />
     </VStack>
   );
