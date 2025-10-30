@@ -244,7 +244,9 @@ export interface UseSliderProps extends UseSliderStateProps {
    */
   multiplierOnPageKey?: number;
 
-  getAriaValueText?: (params: { value: number; thumbIndex: number }) => string;
+  getAriaValuetext?: (value: number) => string;
+  getAriaLabel?: (thumbIndex: number) => string;
+  getAriaLabelledBy?: (thumbIndex: number) => string;
 
   /**
    * @default 150
@@ -262,7 +264,9 @@ export function useSlider({
   name,
 
   multiplierOnPageKey = 10,
-  getAriaValueText,
+  getAriaValuetext,
+  getAriaLabel,
+  getAriaLabelledBy,
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -289,10 +293,10 @@ export function useSlider({
 
         dir: api.dir,
 
-        "aria-readonly": readOnly,
-        "aria-required": required,
-        "aria-invalid": invalid,
-        "aria-disabled": disabled,
+        ...(readOnly && { "aria-readonly": true }),
+        ...(required && { "aria-required": required }),
+        ...(invalid && { "aria-invalid": true }),
+        ...(disabled && { "aria-disabled": true }),
 
         onPointerLeave: () => {
           api.setIsHovered(false);
@@ -604,17 +608,15 @@ export function useSlider({
       );
 
       return elementProps({
-        // should have aria-label or aria-labelledby
-
         role: "slider",
         "aria-valuemin": api.min,
         "aria-valuenow": value,
         "aria-valuemax": api.max,
         // "aria-orientation": "horizontal", // this is the default
 
-        ...(getAriaValueText && {
-          "aria-valuetext": getAriaValueText({ value, thumbIndex: index }),
-        }),
+        ...(getAriaValuetext && { "aria-valuetext": getAriaValuetext(value) }),
+        ...(getAriaLabel && { "aria-label": getAriaLabel(index) }),
+        ...(getAriaLabelledBy && { "aria-labelledby": getAriaLabelledBy(index) }),
 
         "data-index": `${index}`,
         "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
@@ -640,7 +642,9 @@ export function useSlider({
       api.firstThumbSize,
       isLtr,
       disabled,
-      getAriaValueText,
+      getAriaValuetext,
+      getAriaLabel,
+      getAriaLabelledBy,
       isSSR,
     ],
   );

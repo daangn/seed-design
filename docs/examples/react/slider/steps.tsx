@@ -15,7 +15,7 @@ export default function SliderSteps() {
         onValuesChange={setValue}
         defaultValues={[50]}
       />
-      <Text textStyle="t5Medium">{JSON.stringify(value)}</Text>
+      <Text>{JSON.stringify(value)}</Text>
     </VStack>
   );
 }

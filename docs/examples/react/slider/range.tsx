@@ -13,6 +13,7 @@ export default function SliderRange() {
         values={priceRange}
         onValuesChange={setPriceRange}
         defaultValues={[20, 80]}
+        getAriaLabel={(thumbIndex) => (thumbIndex === 0 ? "최소값" : "최대값")}
       />
     </VStack>
   );

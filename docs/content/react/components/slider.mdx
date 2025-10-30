@@ -189,9 +189,37 @@ discrete하다고 느껴질 만큼 step이 충분히 클 때 주로 사용합니
 
 ### Accessibility
 
-#### `getAriaValueText`
+#### `getAriaValuetext`
+
+스크린 리더는 기본적으로 각 thumb이 가리키는 숫자 값(value)을 읽습니다. **숫자 값만으로 정보를 충분히 전달할 수 없는 경우 `getAriaValuetext` prop을 사용하여 인간 친화적인 설명을 제공하세요.** 단위를 추가하거나, 값의 의미를 설명하는 문구를 포함할 수 있습니다.
+
+<ComponentExample name="react/slider/get-aria-value-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/get-aria-value-text.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### `getAriaLabel` and `getAriaLabelledBy`
+
+`getAriaLabel` 또는 `getAriaLabelledBy` prop을 사용하여 각 thumb에 대한 설명을 제공하세요. 스크린 리더 사용자가 각 thumb의 용도를 이해하는 데 도움을 줍니다.
+
+**특히, 범위를 선택하는 슬라이더의 경우 각 thumb이 범위에서 어떤 역할을 하는지 설명해야 합니다. (최소-최대, 시작-종료 등)**
+
+<ComponentExample name="react/slider/get-aria-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/get-aria-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
 
 ### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
 
 <ComponentExample name="react/slider/field">
   ```json doc-gen:file

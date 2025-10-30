@@ -15,6 +15,7 @@ export default function SliderMarkers() {
           { value: 75, label: "75°C" },
           { value: 100, label: "100°C" },
         ]}
+        getAriaValuetext={(value) => `${value}°C`}
       />
       <Slider
         min={0}
