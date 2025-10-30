@@ -21,7 +21,7 @@ const slider = defineSlotRecipe({
 
       gap: vars.base.enabled.root.gap,
 
-      // touchAction: "none",
+      touchAction: "none",
     },
     control: {
       position: "relative",

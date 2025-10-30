@@ -4,6 +4,7 @@
     align-items: stretch;
     width: 100%;
     gap: var(--seed-dimension-x0_5);
+    touch-action: none;
 }
 .seed-slider__control {
     position: relative;
