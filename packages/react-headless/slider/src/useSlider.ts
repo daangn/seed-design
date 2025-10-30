@@ -304,12 +304,12 @@ export function useSlider({
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
 
+          api.valuesBeforeSlideStartRef.current = api.values;
+
           event.target.setPointerCapture(event.pointerId);
 
           // Prevent browser focus behavior because we focus a thumb manually when values change.
           event.preventDefault();
-
-          api.valuesBeforeSlideStartRef.current = api.values;
 
           // Touch devices have a delay before focusing so won't focus if touch immediately moves
           // away from target (sliding). We want thumb to focus regardless.
@@ -344,6 +344,7 @@ export function useSlider({
           // defer drag start to see if it's a slide or a click
           api.dragTimerRef.current = setTimeout(() => {
             api.setIsDragging(true);
+
             api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
           }, dragStartDelayInMilliseconds);
         },
@@ -355,13 +356,14 @@ export function useSlider({
 
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
+          api.setIsDragging(true);
+
           if (api.dragTimerRef.current) {
             // if we had a drag timer running, clear it
             clearTimeout(api.dragTimerRef.current);
+
             api.dragTimerRef.current = null;
           }
-
-          api.setIsDragging(true);
 
           api.handleSlideMove(api.getValueFromPointer(event.clientX));
         },
@@ -372,12 +374,14 @@ export function useSlider({
           if (event.target instanceof HTMLElement === false) return;
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
+          event.target.releasePointerCapture(event.pointerId);
+
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
             api.dragTimerRef.current = null;
 
             // update immediately to where pointer was down since slide didn't start
-            api.handleSlideMove(api.getValueFromPointer(event.clientX));
+            api.handleSlideMove(api.getValueFromPointer(api.pointerDownPosition.current));
           }
 
           api.handleSlideEnd();
