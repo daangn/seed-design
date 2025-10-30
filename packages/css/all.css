@@ -5787,6 +5787,7 @@
 }
 
 .seed-slider__marker {
+  width: max-content;
   top: 0;
   bottom: 0;
   left: var(--marker-left);

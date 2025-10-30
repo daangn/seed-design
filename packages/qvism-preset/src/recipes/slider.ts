@@ -110,6 +110,8 @@ const slider = defineSlotRecipe({
       top: 0,
       bottom: 0,
 
+      width: "max-content",
+
       left: "var(--marker-left)",
       right: "var(--marker-right)",
       transform: "var(--marker-transform)",
