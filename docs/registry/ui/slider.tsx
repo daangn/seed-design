@@ -92,6 +92,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             </SeedSlider.Track>
             {values?.map((_, index) => (
               <React.Fragment key={index}>
+                <SeedSlider.Popover thumbIndex={index} />
                 <SeedSlider.Thumb thumbIndex={index} />
                 <SeedSlider.HiddenInput thumbIndex={index} />
               </React.Fragment>

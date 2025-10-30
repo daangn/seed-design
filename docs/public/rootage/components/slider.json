@@ -89,6 +89,107 @@
                   "value": "$color.bg.neutral-inverted"
                 }
               },
+              "popoverRoot": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r1"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x1_5"
+                },
+                "paddingY": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                },
+                "offsetY": {
+                  "type": "dimension",
+                  "value": "$dimension.x3"
+                },
+                "enterScale": {
+                  "type": "number",
+                  "value": 0.9
+                },
+                "enterOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "enterDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "enterTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.enter"
+                },
+                "exitScale": {
+                  "type": "number",
+                  "value": 1
+                },
+                "exitOpacity": {
+                  "type": "number",
+                  "value": 0
+                },
+                "exitDuration": {
+                  "type": "duration",
+                  "value": "$duration.d4"
+                },
+                "exitTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "popoverArrow": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.neutral-inverted"
+                },
+                "width": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "height": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 7,
+                    "unit": "px"
+                  }
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r0_5"
+                },
+                "gutter": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                },
+                "padding": {
+                  "type": "dimension",
+                  "value": "$dimension.x0_5"
+                }
+              },
+              "popoverLabel": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-inverted"
+                },
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t1"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t1"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.medium"
+                }
+              },
               "marker": {
                 "color": {
                   "type": "color",

@@ -28,8 +28,8 @@ export default function SliderField() {
         min={0}
         max={1000}
         defaultValues={[500]}
-        description="슬라이더에 관한 적절한 설명을 작성해주세요."
-        errorMessage="올바르지 않은 값입니다. "
+        invalid
+        errorMessage="올바르지 않은 값입니다."
       />
     </VStack>
   );

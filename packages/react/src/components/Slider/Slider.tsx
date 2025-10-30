@@ -3,7 +3,7 @@ import { sliderTick, type SliderTickVariantProps } from "@seed-design/css/recipe
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Slider, useSliderContext } from "@seed-design/react-slider";
-import { forwardRef, type HTMLAttributes } from "react";
+import { forwardRef, useRef, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
@@ -123,3 +123,50 @@ export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(
   withFieldStateProps(Slider.Marker),
   "marker",
 );
+
+export interface SliderPopoverProps extends PrimitiveProps, Slider.PopoverRootProps {
+  /**
+   * @default 2
+   */
+  tipRadius?: number;
+
+  thumbIndex: number;
+}
+
+export const SliderPopover = forwardRef<HTMLDivElement, SliderPopoverProps>(
+  ({ thumbIndex, tipRadius = 2, className, ...props }, ref) => {
+    const classNames = useClassNames();
+
+    const arrowRef = useRef<HTMLDivElement>(null);
+
+    const width = 10;
+    const height = 7;
+
+    const pathData = `M0,0
+      H${width}
+      L${width / 2 + tipRadius},${height - tipRadius}
+      Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
+      Z`;
+
+    return (
+      <Slider.PopoverRoot
+        thumbIndex={thumbIndex}
+        ref={ref}
+        className={clsx(classNames.popoverRoot, className)}
+        {...props}
+      >
+        <Primitive.div ref={arrowRef} className={classNames.popoverArrow}>
+          <svg
+            aria-hidden="true"
+            viewBox={`0 0 ${width} ${height}`}
+            className={clsx(classNames.popoverArrowTip, className)}
+          >
+            <path stroke="none" d={pathData} />
+          </svg>
+        </Primitive.div>
+        <Slider.PopoverLabel thumbIndex={thumbIndex} />
+      </Slider.PopoverRoot>
+    );
+  },
+);
+SliderPopover.displayName = "SliderPopover";

@@ -24,6 +24,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
+      getPopoverChildren,
       invalid,
       max,
       min,
@@ -48,6 +49,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
+      getPopoverChildren,
       invalid,
       max,
       min,
@@ -142,3 +144,33 @@ export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
   },
 );
 SliderMarker.displayName = "SliderMarker";
+
+export interface SliderPopoverRootProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement> {
+  thumbIndex: number;
+}
+
+export const SliderPopoverRoot = React.forwardRef<HTMLDivElement, SliderPopoverRootProps>(
+  ({ thumbIndex, ...props }, ref) => {
+    const { getPopoverProps } = useSliderContext();
+    const { rootProps } = getPopoverProps(thumbIndex);
+
+    return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
+  },
+);
+
+export interface SliderPopoverLabelProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLSpanElement> {
+  thumbIndex: number;
+}
+
+export const SliderPopoverLabel = React.forwardRef<HTMLSpanElement, SliderPopoverLabelProps>(
+  ({ thumbIndex, ...props }, ref) => {
+    const { getPopoverProps } = useSliderContext();
+    const { labelProps } = getPopoverProps(thumbIndex);
+
+    return <Primitive.span ref={ref} {...mergeProps(labelProps, props)} />;
+  },
+);

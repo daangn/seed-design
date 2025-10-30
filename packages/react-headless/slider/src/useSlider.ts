@@ -245,6 +245,11 @@ export interface UseSliderProps extends UseSliderStateProps {
   getAriaLabelledby?: (thumbIndex: number) => string;
 
   /**
+   * @default (params) => params.value
+   */
+  getPopoverChildren?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
+
+  /**
    * @default 150
    */
   dragStartDelayInMilliseconds?: number;
@@ -262,6 +267,7 @@ export function useSlider({
   getAriaValuetext,
   getAriaLabel,
   getAriaLabelledby,
+  getPopoverChildren = ({ value }) => value,
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -369,10 +375,10 @@ export function useSlider({
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
             api.dragTimerRef.current = null;
-
-            // update immediately to where pointer was down since slide didn't start
-            api.handleSlideMove(api.getValueFromPointer(event.clientX));
           }
+
+          // update immediately to where pointer was down since slide didn't start
+          api.handleSlideMove(api.getValueFromPointer(event.clientX));
 
           api.handleSlideEnd();
         },
@@ -619,7 +625,10 @@ export function useSlider({
         style: {
           [isLtr ? "--thumb-left" : "--thumb-right"]:
             `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-        },
+          // "--thumb-translateX": isLtr
+          //   ? `calc(${api.firstThumbSize?.width ?? 0}px * -0.5 + ${api.refs.root.current?.getBoundingClientRect().width ?? 0}px * ${percent} / 100 + ${thumbInBoundsOffset}px)`
+          //   : "",
+        } as CSSProperties,
         onFocus: () => {
           api.valueIndexToChangeRef.current = index;
         },
@@ -640,6 +649,7 @@ export function useSlider({
       isSSR,
       invalid,
       readOnly,
+      // api.refs.root.current,
     ],
   );
 
@@ -723,6 +733,55 @@ export function useSlider({
     [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
   );
 
+  const getPopoverProps = useCallback(
+    (index: number) => {
+      const value = api.values[index];
+
+      if (value === undefined)
+        return {
+          rootProps: elementProps({}),
+          labelProps: elementProps({}),
+        };
+
+      const percent = convertValueToPercentage(value, api.min, api.max);
+
+      const thumbInBoundsOffset = getThumbInBoundsOffset(
+        api.firstThumbSize?.width ?? 0,
+        percent,
+        isLtr ? 1 : -1,
+      );
+
+      return {
+        rootProps: elementProps({
+          "aria-hidden": true,
+
+          "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
+
+          style: {
+            [isLtr ? "--popover-left" : "--popover-right"]:
+              `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+            // "--thumb-translateX": isLtr
+            //   ? `calc(${api.firstThumbSize?.width ?? 0}px * -0.5 + ${api.refs.root.current?.getBoundingClientRect().width ?? 0}px * ${percent} / 100 + ${thumbInBoundsOffset}px)`
+            //   : "",
+          } as CSSProperties,
+        }),
+        labelProps: elementProps({
+          children: getPopoverChildren({ value, thumbIndex: index }),
+        }),
+      };
+    },
+    [
+      api.values,
+      api.firstThumbSize?.width,
+      api.max,
+      api.min,
+      getPopoverChildren,
+      isLtr,
+      api.isDragging,
+      api.valueIndexToChangeRef.current,
+    ],
+  );
+
   return {
     min: api.min,
     max: api.max,
@@ -745,6 +804,7 @@ export function useSlider({
     getHiddenInputProps,
     getTickProps,
     getMarkerProps,
+    getPopoverProps,
 
     // this is used to style the track
     stateProps,
