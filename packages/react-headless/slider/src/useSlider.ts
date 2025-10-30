@@ -375,10 +375,10 @@ export function useSlider({
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
             api.dragTimerRef.current = null;
-          }
 
-          // update immediately to where pointer was down since slide didn't start
-          api.handleSlideMove(api.getValueFromPointer(event.clientX));
+            // update immediately to where pointer was down since slide didn't start
+            api.handleSlideMove(api.getValueFromPointer(event.clientX));
+          }
 
           api.handleSlideEnd();
         },

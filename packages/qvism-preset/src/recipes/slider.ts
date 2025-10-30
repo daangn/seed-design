@@ -4,7 +4,7 @@ import {
   sliderTick as tickVars,
 } from "../vars/component";
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
-import { disabled, pseudo, focus, not, open, hidden } from "../utils/pseudo";
+import { disabled, pseudo, focus, not, hidden } from "../utils/pseudo";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 
 const dragging = "[data-dragging]";
