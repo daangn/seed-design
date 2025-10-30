@@ -84,6 +84,9 @@
       "path": "/components/fab.json"
     },
     {
+      "path": "/components/field.json"
+    },
+    {
       "path": "/components/floating-action-button.json"
     },
     {

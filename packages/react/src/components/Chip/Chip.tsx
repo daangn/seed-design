@@ -8,9 +8,10 @@ import { useCheckboxContext } from "@seed-design/react-checkbox";
 import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
 
 const { withProvider, withContext } = createSlotRecipeContext(chip);
-const withStateProps = createWithStateProps([useCheckboxContext, useRadioGroupItemContext], {
-  strict: false,
-});
+const withStateProps = createWithStateProps([
+  { useContext: useCheckboxContext, strict: false },
+  { useContext: useRadioGroupItemContext, strict: false },
+]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 

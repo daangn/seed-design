@@ -220,9 +220,24 @@ function useSliderState({
 }
 
 export interface UseSliderProps extends UseSliderStateProps {
+  /**
+   * @default false
+   */
+  required?: boolean;
+  /**
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * @default false
+   */
+  readOnly?: boolean;
+  /**
+   * @default false
+   */
+  invalid?: boolean;
+
   name?: string;
-  form?: string;
 
   /**
    * @default 10
@@ -240,12 +255,16 @@ export interface UseSliderProps extends UseSliderStateProps {
 export type UseSliderReturn = ReturnType<typeof useSlider>;
 
 export function useSlider({
+  required,
   disabled,
+  readOnly,
+  invalid,
   name,
-  form,
+
   multiplierOnPageKey = 10,
   getAriaValueText,
   dragStartDelayInMilliseconds = 150,
+
   ...props
 }: UseSliderProps) {
   const api = useSliderState(props);
@@ -258,6 +277,7 @@ export function useSlider({
     "data-hover": dataAttr(api.isHovered),
     "data-active": dataAttr(api.isActive),
     "data-disabled": dataAttr(disabled),
+    "data-invalid": dataAttr(invalid),
     "data-dragging": dataAttr(api.isDragging),
     "data-ssr": dataAttr(isSSR),
   });
@@ -266,8 +286,14 @@ export function useSlider({
     () =>
       elementProps({
         ...stateProps,
+
         dir: api.dir,
+
+        "aria-readonly": readOnly,
+        "aria-required": required,
+        "aria-invalid": invalid,
         "aria-disabled": disabled,
+
         onPointerEnter: () => {
           if (disabled) return;
 
@@ -502,6 +528,7 @@ export function useSlider({
       disabled,
       multiplierOnPageKey,
       dragStartDelayInMilliseconds,
+      api.dir,
       api.getValueFromPointer,
       api.handleSlideEnd,
       api.handleSlideMove,
@@ -521,6 +548,9 @@ export function useSlider({
       api.refs.thumbs.current.has,
       api.handleSlideStart,
       isLtr,
+      invalid,
+      readOnly,
+      required,
     ],
   );
 
@@ -611,13 +641,12 @@ export function useSlider({
       return inputProps({
         type: "hidden",
         value,
-        name: id || name,
-        form,
+        name: name || id,
         disabled,
         readOnly: true,
       });
     },
-    [api.values, name, form, disabled, id],
+    [api.values, name, disabled, id],
   );
 
   const getTickProps = useCallback(
@@ -691,7 +720,11 @@ export function useSlider({
     step: api.step,
     allowedValues: api.allowedValues,
     values: api.values,
+
     disabled,
+    invalid,
+    required,
+    readOnly,
 
     refs: api.refs,
 

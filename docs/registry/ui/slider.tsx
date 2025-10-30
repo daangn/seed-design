@@ -1,9 +1,21 @@
 "use client";
 
-import { Slider as SeedSlider } from "@seed-design/react";
+import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
+import {
+  Slider as SeedSlider,
+  Field as SeedField,
+  VisuallyHidden,
+  PrefixIcon,
+} from "@seed-design/react";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
+  label?: React.ReactNode;
+  indicator?: React.ReactNode;
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+  showRequiredIndicator?: boolean;
+
   /**
    * @default []
    */
@@ -19,35 +31,99 @@ export interface SliderProps extends SeedSlider.RootProps {
 }
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
-  ({ hideRange = false, ticks = [], markers = [], ...props }, ref) => {
+  (
+    {
+      label,
+      indicator,
+      description,
+      errorMessage,
+      showRequiredIndicator,
+
+      ticks = [],
+      markers = [],
+      hideRange = false,
+
+      // field props
+      required,
+      disabled,
+      invalid,
+      readOnly,
+      name,
+
+      ...props
+    },
+    ref,
+  ) => {
     const values = props.values ?? props.defaultValues;
 
+    const renderHeader = label || indicator;
+    const renderDescription = !!description;
+    const renderErrorMessage = errorMessage && invalid;
+    const renderFooter = renderDescription || renderErrorMessage;
+
+    if (process.env.NODE_ENV !== "production" && !label) {
+      console.warn(
+        "Slider: Provide a `label` prop for better accessibility. Please ignore this warning if you've provided `aria-label` or `aria-labelledby` props to the `Slider.Root` inside. This warning will not be shown in production builds.",
+      );
+    }
+
     return (
-      <SeedSlider.Root ref={ref} {...props}>
-        <SeedSlider.Control>
-          <SeedSlider.Track>
-            {!hideRange && <SeedSlider.Range />}
-            {ticks.map((value) => (
-              <SeedSlider.Tick key={value} value={value} />
-            ))}
-          </SeedSlider.Track>
-          {values?.map((_, index) => (
-            <React.Fragment key={index}>
-              <SeedSlider.Thumb thumbIndex={index} />
-              <SeedSlider.HiddenInput thumbIndex={index} />
-            </React.Fragment>
-          ))}
-        </SeedSlider.Control>
-        {markers.length > 0 && (
-          <SeedSlider.Markers>
-            {markers.map((marker) => (
-              <SeedSlider.Marker key={marker.value} value={marker.value}>
-                {marker.label}
-              </SeedSlider.Marker>
-            ))}
-          </SeedSlider.Markers>
+      <SeedField.Root required={required} disabled={disabled} invalid={invalid} readOnly={readOnly}>
+        {renderHeader && (
+          <SeedField.Header>
+            <SeedField.Label>
+              {label}
+              {showRequiredIndicator && <SeedField.RequiredIndicator />}
+              {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}
+            </SeedField.Label>
+            {/* You might want to put your custom element here */}
+          </SeedField.Header>
         )}
-      </SeedSlider.Root>
+        <SeedSlider.Root ref={ref} {...props}>
+          <SeedSlider.Control>
+            <SeedSlider.Track>
+              {!hideRange && <SeedSlider.Range />}
+              {ticks.map((value) => (
+                <SeedSlider.Tick key={value} value={value} />
+              ))}
+            </SeedSlider.Track>
+            {values?.map((_, index) => (
+              <React.Fragment key={index}>
+                <SeedSlider.Thumb thumbIndex={index} />
+                <SeedSlider.HiddenInput thumbIndex={index} />
+              </React.Fragment>
+            ))}
+          </SeedSlider.Control>
+          {markers.length > 0 && (
+            <SeedSlider.Markers>
+              {markers.map((marker) => (
+                <SeedSlider.Marker key={marker.value} value={marker.value}>
+                  {marker.label}
+                </SeedSlider.Marker>
+              ))}
+            </SeedSlider.Markers>
+          )}
+        </SeedSlider.Root>{" "}
+        {renderFooter && (
+          <SeedField.Footer>
+            {renderDescription &&
+              (renderErrorMessage ? (
+                <VisuallyHidden asChild>
+                  <SeedField.Description>{description}</SeedField.Description>
+                </VisuallyHidden>
+              ) : (
+                <SeedField.Description>{description}</SeedField.Description>
+              ))}
+            {renderErrorMessage && (
+              <SeedField.ErrorMessage>
+                <PrefixIcon svg={<IconExclamationmarkCircleFill />} />
+                {errorMessage}
+              </SeedField.ErrorMessage>
+            )}
+          </SeedField.Footer>
+        )}
+      </SeedField.Root>
     );
   },
 );
+Slider.displayName = "Slider";

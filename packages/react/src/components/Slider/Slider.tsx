@@ -9,11 +9,17 @@ import { createRecipeContext } from "../../utils/createRecipeContext";
 import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import clsx from "clsx";
 import { mergeProps } from "@seed-design/dom-utils";
+import { useFieldContext } from "@seed-design/react-field";
 
 const { withContext, ClassNamesProvider } = createSlotRecipeContext(slider);
 const { PropsProvider: TickPropsProvider, useProps: useTickProps } =
   createRecipeContext(sliderTick);
-const withStateProps = createWithStateProps([useSliderContext]);
+
+const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
+const withStateProps = createWithStateProps([
+  useSliderContext,
+  { useContext: useFieldContext, strict: false },
+]);
 
 export interface SliderRootProps
   extends SliderVariantProps,
@@ -27,10 +33,19 @@ export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
 
     const classNames = slider(sliderVariantProps);
 
+    const fieldContext = useFieldContext();
+    const { dir: _dir, ...stateProps } = fieldContext.stateProps;
+
+    const mergedProps = mergeProps(
+      stateProps,
+      fieldContext ? fieldContext.inputProps : {},
+      otherProps,
+    );
+
     return (
       <TickPropsProvider value={sliderTickVariantProps}>
         <ClassNamesProvider value={classNames}>
-          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
+          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...mergedProps} />
         </ClassNamesProvider>
       </TickPropsProvider>
     );
@@ -53,10 +68,14 @@ export const SliderTrack = withContext<HTMLDivElement, SliderTrackProps>(
 
 export interface SliderRangeProps extends Slider.RangeProps {}
 
-export const SliderRange = withContext<HTMLDivElement, SliderRangeProps>(Slider.Range, "range");
+export const SliderRange = withContext<HTMLDivElement, SliderRangeProps>(
+  withFieldStateProps(Slider.Range),
+  "range",
+);
 
 export interface SliderThumbProps extends Slider.ThumbProps {}
 
+// intentionally omits withFieldStateProps here because each thumb is styled individually
 export const SliderThumb = withContext<HTMLDivElement, SliderThumbProps>(Slider.Thumb, "thumb");
 
 export interface SliderHiddenInputProps extends Slider.HiddenInputProps {}
@@ -92,4 +111,7 @@ export const SliderMarkers = withContext<HTMLDivElement, SliderMarkersProps>(
 
 export interface SliderMarkerProps extends Slider.MarkerProps {}
 
-export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(Slider.Marker, "marker");
+export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(
+  withFieldStateProps(Slider.Marker),
+  "marker",
+);
