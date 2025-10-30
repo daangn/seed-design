@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.headless.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
+}

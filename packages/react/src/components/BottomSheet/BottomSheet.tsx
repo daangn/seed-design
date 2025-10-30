@@ -1,64 +1,59 @@
-import { Dialog as DialogPrimitive, useDialogContext } from "@seed-design/react-dialog";
-import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { bottomSheet, type BottomSheetVariantProps } from "@seed-design/css/recipes/bottom-sheet";
+import { Drawer, useDrawerContext } from "@seed-design/react-drawer";
+import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import clsx from "clsx";
+import type { StyleProps } from "../../utils/styled";
+import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
-import { createWithStateProps } from "../../utils/createWithStateProps";
-import { withStyleProps, type StyleProps } from "../../utils/styled";
+
+const { content, header, positioner, backdrop, title, description, closeButton, body, footer } =
+  bottomSheet();
 
 const { withRootProvider, withContext } = createSlotRecipeContext(bottomSheet);
-const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetRootProps extends BottomSheetVariantProps, DialogPrimitive.RootProps {
-  /**
-   * @default true
-   */
-  lazyMount?: DialogPrimitive.RootProps["lazyMount"];
-  /**
-   * @default true
-   */
-  unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
-}
+export interface BottomSheetRootProps extends BottomSheetVariantProps, Drawer.RootProps {}
 
-export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(DialogPrimitive.Root, {
+export const BottomSheetRoot = withRootProvider<BottomSheetRootProps>(Drawer.Root, {
   defaultProps: {
-    lazyMount: true,
-    unmountOnExit: true,
+    direction: "bottom",
   },
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetTriggerProps extends DialogPrimitive.TriggerProps {}
+export interface BottomSheetTriggerProps extends Drawer.TriggerProps {}
 
-export const BottomSheetTrigger = DialogPrimitive.Trigger;
+export const BottomSheetTrigger = Drawer.Trigger;
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetPositionerProps extends DialogPrimitive.PositionerProps {}
+export interface BottomSheetPositionerProps extends Drawer.PositionerProps {}
 
 export const BottomSheetPositioner = withContext<HTMLDivElement, BottomSheetPositionerProps>(
-  DialogPrimitive.Positioner,
+  Drawer.Positioner,
   "positioner",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetBackdropProps extends DialogPrimitive.BackdropProps {}
+export interface BottomSheetBackdropProps extends Drawer.BackdropProps {}
 
-export const BottomSheetBackdrop = withContext<HTMLDivElement, BottomSheetBackdropProps>(
-  DialogPrimitive.Backdrop,
-  "backdrop",
-);
+export const BottomSheetBackdrop = (props: BottomSheetBackdropProps) => {
+  const { className, ...restProps } = props;
+  return <Drawer.Backdrop className={clsx(backdrop, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetContentProps extends DialogPrimitive.ContentProps {}
+export interface BottomSheetContentProps extends Drawer.ContentProps {}
 
-export const BottomSheetContent = withContext<HTMLDivElement, BottomSheetContentProps>(
-  DialogPrimitive.Content,
-  "content",
+export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentProps>(
+  (props, ref) => {
+    const { className, ...restProps } = props;
+    return <Drawer.Content className={clsx(content, className)} ref={ref} {...restProps} />;
+  },
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -67,28 +62,28 @@ export interface BottomSheetHeaderProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const BottomSheetHeader = withContext<HTMLDivElement, BottomSheetHeaderProps>(
-  withStateProps(Primitive.div),
-  "header",
-);
+export const BottomSheetHeader = (props: BottomSheetHeaderProps) => {
+  const { className, ...restProps } = props;
+  return <Primitive.div className={clsx(header, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetTitleProps extends DialogPrimitive.TitleProps {}
+export interface BottomSheetTitleProps extends Drawer.TitleProps {}
 
-export const BottomSheetTitle = withContext<HTMLHeadingElement, BottomSheetTitleProps>(
-  withStateProps(Primitive.h2),
-  "title",
-);
+export const BottomSheetTitle = (props: BottomSheetTitleProps) => {
+  const { className, ...restProps } = props;
+  return <Drawer.Title className={clsx(title, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetDescriptionProps extends DialogPrimitive.DescriptionProps {}
+export interface BottomSheetDescriptionProps extends Drawer.DescriptionProps {}
 
-export const BottomSheetDescription = withContext<
-  HTMLParagraphElement,
-  BottomSheetDescriptionProps
->(withStateProps(Primitive.p), "description");
+export const BottomSheetDescription = (props: BottomSheetDescriptionProps) => {
+  const { className, ...restProps } = props;
+  return <Drawer.Description className={clsx(description, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -100,10 +95,10 @@ export interface BottomSheetBodyProps
     >,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const BottomSheetBody = withContext<HTMLDivElement, BottomSheetBodyProps>(
-  withStyleProps(withStateProps(Primitive.div)),
-  "body",
-);
+export const BottomSheetBody = (props: BottomSheetBodyProps) => {
+  const { className, ...restProps } = props;
+  return <Primitive.div className={clsx(body, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,18 +106,26 @@ export interface BottomSheetFooterProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const BottomSheetFooter = withContext<HTMLDivElement, BottomSheetFooterProps>(
-  withStateProps(Primitive.div),
-  "footer",
-);
+export const BottomSheetFooter = (props: BottomSheetFooterProps) => {
+  const { className, ...restProps } = props;
+  return <Primitive.div className={clsx(footer, className)} {...restProps} />;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface BottomSheetCloseButtonProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLButtonElement> {}
+export interface BottomSheetCloseButtonProps extends Drawer.CloseButtonProps {}
 
-export const BottomSheetCloseButton = withContext<HTMLButtonElement, BottomSheetCloseButtonProps>(
-  DialogPrimitive.CloseButton,
-  "closeButton",
+export const BottomSheetCloseButton = forwardRef<HTMLButtonElement, BottomSheetCloseButtonProps>(
+  (props, ref) => {
+    const api = useDrawerContext();
+    const { className, ...restProps } = props;
+    return (
+      <Drawer.CloseButton
+        className={clsx(closeButton, className)}
+        {...restProps}
+        ref={ref}
+        onClick={() => api.setIsOpen(false)}
+      />
+    );
+  },
 );

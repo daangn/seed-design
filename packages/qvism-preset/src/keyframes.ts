@@ -60,4 +60,34 @@ export const keyframes = defineKeyframes({
       strokeDashoffset: "calc(var(--circumference) * -1)",
     },
   },
+
+  "fade-in": {
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  },
+
+  "fade-out": {
+    to: {
+      opacity: 0,
+    },
+  },
+
+  "drawer-slide-from-bottom": {
+    from: {
+      transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+    },
+    to: {
+      transform: "translate3d(0, var(--snap-point-height, 0), 0)",
+    },
+  },
+
+  "drawer-slide-to-bottom": {
+    to: {
+      transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+    },
+  },
 });

@@ -13,6 +13,7 @@ import avatar from "./recipes/avatar";
 import avatarStack from "./recipes/avatar-stack";
 import badge from "./recipes/badge";
 import bottomSheet from "./recipes/bottom-sheet";
+import bottomSheetHandle from "./recipes/bottom-sheet-handle";
 import callout from "./recipes/callout";
 import checkbox from "./recipes/checkbox";
 import checkmark from "./recipes/checkmark";
@@ -64,6 +65,7 @@ export const recipes = {
   avatarStack,
   badge,
   bottomSheet,
+  bottomSheetHandle,
   callout,
   checkbox,
   checkmark,

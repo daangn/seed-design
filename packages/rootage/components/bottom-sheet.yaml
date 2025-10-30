@@ -93,10 +93,10 @@ data:
       enabled:
         backdrop:
           color: $color.bg.overlay
-          enterDuration: $duration.d2
+          enterDuration: $duration.d6
           enterTimingFunction: $timing-function.enter
           enterOpacity: 0
-          exitDuration: $duration.d2
+          exitDuration: $duration.d4
           exitTimingFunction: $timing-function.exit
           exitOpacity: 0
         content:

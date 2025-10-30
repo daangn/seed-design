@@ -22,3 +22,8 @@ export {
   type BottomSheetTriggerProps as TriggerProps,
   type BottomSheetCloseButtonProps as CloseButtonProps,
 } from "./BottomSheet";
+
+export {
+  BottomSheetHandle as Handle,
+  type BottomSheetHandleProps as HandleProps,
+} from "../BottomSheetHandle";
