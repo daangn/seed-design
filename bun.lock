@@ -519,7 +519,7 @@
     },
     "packages/react-headless/drawer": {
       "name": "@seed-design/react-drawer",
-      "version": "1.0.0",
+      "version": "0.0.1",
       "dependencies": {
         "@radix-ui/react-dialog": "^1.1.15",
         "@radix-ui/react-use-callback-ref": "^1.1.0",
