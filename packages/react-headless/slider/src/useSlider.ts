@@ -242,7 +242,7 @@ export interface UseSliderProps extends UseSliderStateProps {
 
   getAriaValuetext?: (value: number) => string;
   getAriaLabel?: (thumbIndex: number) => string;
-  getAriaLabelledBy?: (thumbIndex: number) => string;
+  getAriaLabelledby?: (thumbIndex: number) => string;
 
   /**
    * @default 150
@@ -261,7 +261,7 @@ export function useSlider({
   multiplierOnPageKey = 10,
   getAriaValuetext,
   getAriaLabel,
-  getAriaLabelledBy,
+  getAriaLabelledby,
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -604,7 +604,7 @@ export function useSlider({
 
         ...(getAriaValuetext && { "aria-valuetext": getAriaValuetext(value) }),
         ...(getAriaLabel && { "aria-label": getAriaLabel(index) }),
-        ...(getAriaLabelledBy && { "aria-labelledby": getAriaLabelledBy(index) }),
+        ...(getAriaLabelledby && { "aria-labelledby": getAriaLabelledby(index) }),
 
         ...(readOnly && { "aria-readonly": true }),
         ...(invalid && { "aria-invalid": true }),
@@ -636,7 +636,7 @@ export function useSlider({
       disabled,
       getAriaValuetext,
       getAriaLabel,
-      getAriaLabelledBy,
+      getAriaLabelledby,
       isSSR,
       invalid,
       readOnly,

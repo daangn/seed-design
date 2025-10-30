@@ -54,9 +54,14 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const renderErrorMessage = errorMessage && props.invalid;
     const renderFooter = renderDescription || renderErrorMessage;
 
-    if (process.env.NODE_ENV !== "production" && !label) {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      !label &&
+      !props["getAriaLabel"] &&
+      !props["getAriaLabelledby"]
+    ) {
       console.warn(
-        "Slider: Provide a `label` prop for better accessibility. Please ignore this warning if you've provided `aria-label` or `aria-labelledby` props to the `Slider.Root` inside. This warning will not be shown in production builds.",
+        "Slider: For better accessibility, provide a `label` prop or at least one of `getAriaLabel` or `getAriaLabelledby` props to tell the users which thumb is for what. This warning will not be shown in production builds.",
       );
     }
 
