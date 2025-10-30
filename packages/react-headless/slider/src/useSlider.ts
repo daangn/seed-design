@@ -294,18 +294,13 @@ export function useSlider({
         "aria-invalid": invalid,
         "aria-disabled": disabled,
 
-        onPointerEnter: () => {
-          if (disabled) return;
-
-          api.setIsHovered(true);
-        },
         onPointerLeave: () => {
-          if (disabled) return;
-
           api.setIsHovered(false);
           api.setIsActive(false);
         },
         onPointerDown: (event) => {
+          api.setIsActive(true);
+
           if (disabled) return;
           if (event.target instanceof HTMLElement === false) return;
 
@@ -313,8 +308,6 @@ export function useSlider({
 
           // Prevent browser focus behavior because we focus a thumb manually when values change.
           event.preventDefault();
-
-          api.setIsActive(true);
 
           api.valuesBeforeSlideStartRef.current = api.values;
 
@@ -325,22 +318,39 @@ export function useSlider({
 
             event.target.focus();
 
+            if (readOnly) return;
             api.setIsDragging(true);
-          } else {
-            // target is track
 
-            // keep where the pointer was down
-            api.pointerDownPosition.current = event.clientX;
-
-            // defer drag start to see if it's a slide or a click
-            api.dragTimerRef.current = setTimeout(() => {
-              api.setIsDragging(true);
-              api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
-            }, dragStartDelayInMilliseconds);
+            return;
           }
+
+          // target is track
+
+          if (readOnly) {
+            // focus closest thumb
+            const closestIndex = getClosestValueIndex(
+              api.values,
+              api.getValueFromPointer(event.clientX),
+            );
+            const thumbs = [...api.refs.thumbs.current];
+            thumbs[closestIndex]?.focus();
+
+            return;
+          }
+
+          // keep where the pointer was down
+          api.pointerDownPosition.current = event.clientX;
+
+          // defer drag start to see if it's a slide or a click
+          api.dragTimerRef.current = setTimeout(() => {
+            api.setIsDragging(true);
+            api.handleSlideStart(api.getValueFromPointer(api.pointerDownPosition.current));
+          }, dragStartDelayInMilliseconds);
         },
         onPointerMove: (event) => {
-          if (disabled) return;
+          api.setIsHovered(true);
+
+          if (disabled || readOnly) return;
           if (event.target instanceof HTMLElement === false) return;
 
           if (event.target.hasPointerCapture(event.pointerId) === false) return;
@@ -356,11 +366,11 @@ export function useSlider({
           api.handleSlideMove(api.getValueFromPointer(event.clientX));
         },
         onPointerUp: (event) => {
-          if (event.target instanceof HTMLElement === false) return;
-          if (event.target.hasPointerCapture(event.pointerId) === false) return;
-
           api.setIsActive(false);
           api.setIsDragging(false);
+
+          if (event.target instanceof HTMLElement === false) return;
+          if (event.target.hasPointerCapture(event.pointerId) === false) return;
 
           if (api.dragTimerRef.current) {
             clearTimeout(api.dragTimerRef.current);
@@ -373,7 +383,7 @@ export function useSlider({
           api.handleSlideEnd();
         },
         onKeyDown: (event) => {
-          if (disabled) return;
+          if (disabled || readOnly) return;
 
           const atIndex = api.valueIndexToChangeRef.current;
           const currentValue = api.values[atIndex] ?? api.min;
@@ -551,6 +561,7 @@ export function useSlider({
       invalid,
       readOnly,
       required,
+      api.refs.thumbs.current,
     ],
   );
 
@@ -610,7 +621,7 @@ export function useSlider({
         "data-disabled": dataAttr(disabled),
         "data-ssr": dataAttr(isSSR),
 
-        tabIndex: disabled ? undefined : 0,
+        tabIndex: disabled ? undefined : 0, // readonly thumbs should still be focusable
         style: {
           [isLtr ? "--thumb-left" : "--thumb-right"]:
             `calc(${percent}% + ${thumbInBoundsOffset}px)`,
