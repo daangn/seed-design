@@ -22,24 +22,30 @@ import { createErrorStateHandler } from "./handlers/error-state";
 import { createFloatingActionButtonHandler } from "./handlers/floating-action-button";
 import { createHelpBubbleHandler } from "./handlers/help-bubble";
 import { createIdentityPlaceholderHandler } from "./handlers/identity-placeholder";
+import { createListHeaderHandler } from "@/codegen/targets/react/component/handlers/list-header";
+import { createListItemHandler } from "@/codegen/targets/react/component/handlers/list-item";
 import { createMannerTempBadgeHandler } from "./handlers/manner-temp-badge";
 import { createMannerTempHandler } from "./handlers/manner-temp";
 import { createMenuSheetHandler } from "./handlers/menu-sheet";
 import { createMultilineTextFieldHandler } from "./handlers/multiline-text-field";
 import { createPageBannerHandler } from "./handlers/page-banner";
 import { createProgressCircleHandler } from "./handlers/progress-circle";
-import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
 import { createRadioGroupItemHandler } from "@/codegen/targets/react/component/handlers/radio-group";
+import { createRadioMarkHandler } from "@/codegen/targets/react/component/handlers/radio-mark";
 import { createReactionButtonHandler } from "./handlers/reaction-button";
 import { createSegmentedControlHandler } from "./handlers/segmented-control";
 import { createSelectBoxGroupHandler, createSelectBoxHandler } from "./handlers/select-box";
 import { createSkeletonHandler } from "./handlers/skeleton";
 import { createSnackbarHandler } from "./handlers/snackbar";
+import { createSwitchMarkHandler } from "@/codegen/targets/react/component/handlers/switch-mark";
 import { createSwitchHandler } from "./handlers/switch";
 import { createTabsHandler } from "@/codegen/targets/react/component/handlers/tabs";
 import { createTextFieldHandler } from "./handlers/text-field";
 import { createToggleButtonHandler } from "./handlers/toggle-button";
-import { createListItemHandler } from "@/codegen/targets/react/component/handlers/list-item";
+import {
+  createTagGroupHandler,
+  createTagGroupItemHandler,
+} from "@/codegen/targets/react/component/handlers/tag-group";
 
 export type { ComponentHandlerDeps };
 export type UnboundComponentHandler<T extends NormalizedInstanceNode["componentProperties"]> = (
@@ -72,6 +78,7 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createFloatingActionButtonHandler,
   createHelpBubbleHandler,
   createIdentityPlaceholderHandler,
+  createListHeaderHandler,
   createListItemHandler,
   createMannerTempBadgeHandler,
   createMannerTempHandler,
@@ -88,7 +95,10 @@ export const unboundSeedComponentHandlers: Array<UnboundComponentHandler<any>> =
   createSkeletonHandler,
   createSnackbarHandler,
   createSwitchHandler,
+  createSwitchMarkHandler,
   createTabsHandler,
+  createTagGroupHandler,
+  createTagGroupItemHandler,
   createTextFieldHandler,
   createToggleButtonHandler,
 ];

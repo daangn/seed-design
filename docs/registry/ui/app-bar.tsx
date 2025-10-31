@@ -2,7 +2,7 @@
 
 import { IconChevronLeftLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { VStack } from "@seed-design/react";
-import { AppBar as SeedAppBar, type AppBarIconButtonProps } from "@seed-design/stackflow";
+import { AppBar as SeedAppBar } from "@seed-design/stackflow";
 import { useActions, useActivity } from "@stackflow/react";
 import * as React from "react";
 import { forwardRef } from "react";
@@ -55,6 +55,8 @@ export const AppBarMain = forwardRef<HTMLDivElement, AppBarMainProps>(
 );
 AppBarMain.displayName = "AppBarMain";
 
+export interface AppBarIconButtonProps extends SeedAppBar.IconButtonProps {}
+
 export const AppBarIconButton = SeedAppBar.IconButton;
 
 export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonProps>(
@@ -80,7 +82,7 @@ export const AppBarBackButton = forwardRef<HTMLButtonElement, AppBarIconButtonPr
     return (
       <SeedAppBar.IconButton
         ref={ref}
-        aria-label="Go Back"
+        aria-label="뒤로"
         type="button"
         onClick={handleOnClick}
         {...otherProps}
@@ -113,7 +115,7 @@ export const AppBarCloseButton = forwardRef<HTMLButtonElement, AppBarIconButtonP
     return (
       <AppBarIconButton
         ref={ref}
-        aria-label="Close"
+        aria-label="닫기"
         type="button"
         onClick={handleOnClick}
         {...otherProps}

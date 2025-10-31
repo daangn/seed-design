@@ -27,12 +27,11 @@ export const snackbarRegion = defineRecipe({
 
 export const snackbar = defineSlotRecipe({
   name: "snackbar",
-  slots: ["root", "message", "prefixIcon", "actionButton"],
+  slots: ["root", "message", "prefixIcon", "actionButton", "content"],
   base: {
     root: {
       boxSizing: "border-box",
       display: "flex",
-      justifyContent: "space-between",
       alignItems: "center",
 
       width: "100%",
@@ -43,7 +42,6 @@ export const snackbar = defineSlotRecipe({
       paddingInline: vars.base.enabled.root.paddingX,
       paddingBlock: vars.base.enabled.root.paddingY,
       minHeight: vars.base.enabled.root.minHeight,
-      gap: vars.base.enabled.root.gap,
 
       ...enterAnimation({
         timingFunction: vars.base.enabled.root.enterTimingFunction,
@@ -61,8 +59,15 @@ export const snackbar = defineSlotRecipe({
         }),
       },
     },
-    message: {
+    content: {
+      display: "flex",
       flexGrow: 1,
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingInline: vars.base.enabled.content.paddingX,
+      gap: vars.base.enabled.content.gap,
+    },
+    message: {
       margin: 0,
 
       color: vars.base.enabled.message.color,
@@ -74,6 +79,7 @@ export const snackbar = defineSlotRecipe({
       flexShrink: 0,
       width: vars.base.enabled.prefixIcon.size,
       height: vars.base.enabled.prefixIcon.size,
+      paddingRight: vars.base.enabled.prefixIcon.paddingRight,
     },
     actionButton: {
       position: "relative",

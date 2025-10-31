@@ -9,6 +9,10 @@ import {
   popBehind,
   push,
   pushBehind,
+  swipeBackCanceling,
+  swipeBackCancelingBehind,
+  swipeBackCompleting,
+  swipeBackCompletingBehind,
   swipeBackSwiping,
   swipeBackSwipingBehind,
 } from "./pseudo";
@@ -95,18 +99,24 @@ export const appScreen = defineSlotRecipe({
           [pop]: iOSAnimations.layer.pop,
           [idle]: iOSAnimations.layer.idle,
           [swipeBackSwiping]: iOSAnimations.layer.interaction,
+          [swipeBackCanceling]: iOSAnimations.layer.cancel,
+          [swipeBackCompleting]: iOSAnimations.layer.complete,
 
           // behind
           [pushBehind]: iOSAnimations.layerBehind.push,
           [popBehind]: iOSAnimations.layerBehind.pop,
           [idleBehind]: iOSAnimations.layerBehind.idle,
           [swipeBackSwipingBehind]: iOSAnimations.layerBehind.interaction,
+          [swipeBackCancelingBehind]: iOSAnimations.layerBehind.cancel,
+          [swipeBackCompletingBehind]: iOSAnimations.layerBehind.complete,
         },
         dim: {
           [push]: iOSAnimations.dim.push,
           [pop]: iOSAnimations.dim.pop,
           [idle]: iOSAnimations.dim.idle,
           [swipeBackSwiping]: iOSAnimations.dim.interaction,
+          [swipeBackCanceling]: iOSAnimations.dim.cancel,
+          [swipeBackCompleting]: iOSAnimations.dim.complete,
         },
       },
       fadeFromBottomAndroid: {

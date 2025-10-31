@@ -14,7 +14,7 @@ export default function ListAffixes() {
   const [isToggleButtonPressed, setIsToggleButtonPressed] = useState(false);
 
   return (
-    <List width="full" py="x4">
+    <List width="360px">
       <ListItem
         prefix={
           <Avatar
@@ -43,7 +43,11 @@ export default function ListAffixes() {
       <ListItem
         title="Suffix에 Action Button 넣기"
         detail="Veniam non est non ut consequat."
-        suffix={<ActionButton size="xsmall">액션 버튼</ActionButton>}
+        suffix={
+          <ActionButton variant="neutralWeak" size="xsmall">
+            액션 버튼
+          </ActionButton>
+        }
       />
       <ListDivider />
       <ListItem

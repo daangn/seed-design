@@ -8,6 +8,7 @@ import type { RegisteredActivityName } from "@stackflow/config";
 import type { ActivityComponentType } from "@stackflow/react/future";
 import { useEffect, useState } from "react";
 import type * as React from "react";
+import { Box, Flex } from "@seed-design/react";
 
 const usePreventScroll = (ref: React.RefObject<HTMLElement>) => {
   const [isTouchInside, setIsTouchInside] = useState(false);
@@ -56,34 +57,31 @@ export const Stackflow = ({ activities }: StackflowProps) => {
   usePreventScroll(ref);
 
   return (
-    <div
+    <Flex
+      position="relative"
+      width="full"
+      justify="center"
       ref={ref}
-      className={cn("not-prose")}
-      style={{
-        position: "relative",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        margin: "3rem 0",
-        ...style,
-      }}
+      className={cn("not-prose example-reset")}
+      style={{ margin: "3rem 0", ...style }}
     >
-      <div
+      <Box
+        width="full"
+        maxWidth="360px"
+        height="640px"
+        position="relative"
+        borderWidth={1}
+        borderColor="stroke.neutralWeak"
+        borderRadius="r2"
+        overflowX="hidden"
+        overflowY="hidden"
         style={{
-          width: "100%",
-          maxWidth: "360px",
-          height: "640px",
-          position: "relative",
-          borderRadius: ".5rem",
-          overflow: "hidden",
           transform: "translate3d(0, 0, 0)",
           maskImage: "-webkit-radial-gradient(white, black)",
-          boxShadow: "0 .25rem 1rem 0 rgba(0, 0, 0, .1)",
-          border: "1px solid var(--seed-semantic-color-divider-1)",
         }}
       >
         <Stack />
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 };

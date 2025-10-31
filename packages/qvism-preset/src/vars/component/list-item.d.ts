@@ -2,7 +2,7 @@ export declare const vars: {
   "base": {
     "enabled": {
       "root": {
-        "paddingY": "var(--seed-dimension-x2_5)",
+        "paddingY": "var(--seed-dimension-x3)",
         "paddingX": "var(--seed-dimension-spacing-x-global-gutter)",
         "colorDuration": "var(--seed-duration-d3)",
         "colorTimingFunction": "var(--seed-timing-function-easing)"

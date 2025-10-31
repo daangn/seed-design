@@ -1,15 +1,18 @@
 .seed-text {
     margin: 0;
-    text-align: var(--seed-text-align);
     color: var(--seed-text-color);
     font-size: var(--seed-font-size);
-    line-height: var(--seed-line-height);
     font-weight: var(--seed-font-weight);
+    line-height: var(--seed-line-height);
+    text-align: var(--seed-text-align);
+    user-select: var(--seed-user-select);
     --seed-text-color: inherit;
     --seed-font-size: inherit;
-    --seed-line-height: inherit;
     --seed-font-weight: inherit;
+    --seed-line-height: inherit;
     --seed-text-align: inherit;
+    --seed-user-select: inherit;
+    --seed-white-space: inherit;
     --seed-max-lines: initial
 }
 .seed-text--textStyle_screenTitle {
@@ -146,7 +149,7 @@
     overflow: unset;
     min-width: unset;
     text-overflow: unset;
-    white-space: unset;
+    white-space: var(--seed-white-space);
     -webkit-line-clamp: unset
 }
 .seed-text--maxLines_single {
@@ -171,4 +174,7 @@
 }
 .seed-text--textDecorationLine_line-through {
     text-decoration-line: line-through
+}
+.seed-text--textDecorationLine_underline {
+    text-decoration-line: underline
 }

@@ -331,7 +331,11 @@ export type SnackbarProperties = InferComponentDefinition<
 >;
 
 export type SwitchProperties = InferComponentDefinition<
-  typeof metadata.switch.componentPropertyDefinitions
+  typeof metadata._switch.componentPropertyDefinitions
+>;
+
+export type SwitchMarkProperties = InferComponentDefinition<
+  typeof metadata.switchMark.componentPropertyDefinitions
 >;
 
 export type ToggleButtonProperties = InferComponentDefinition<
@@ -523,7 +527,7 @@ export type TabsChipWrapperProperties = InferComponentDefinition<{
 }>;
 
 export type ChipTabsTriggerProperties = InferComponentDefinition<{
-  "\bSize": {
+  Size: {
     type: "VARIANT";
     defaultValue: "Medium";
     variantOptions: ["Medium", "Large"];
@@ -542,5 +546,46 @@ export type ChipTabsTriggerProperties = InferComponentDefinition<{
     type: "VARIANT";
     defaultValue: "False";
     variantOptions: ["False", "True"];
+  };
+}>;
+
+export type TagGroupProperties = InferComponentDefinition<
+  typeof metadata.tagGroup.componentPropertyDefinitions
+>;
+
+export type TagGroupItemProperties = InferComponentDefinition<{
+  "Label#5409:0": {
+    type: "TEXT";
+    defaultValue: "라벨";
+  };
+  "Prefix Icon#47948:0": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "26621:23540";
+    preferredValues: [];
+  };
+  "Suffix Icon#47948:55": {
+    type: "INSTANCE_SWAP";
+    defaultValue: "27053:2268";
+    preferredValues: [];
+  };
+  Size: {
+    type: "VARIANT";
+    defaultValue: "t2(12pt)";
+    variantOptions: ["t2(12pt)", "t3(13pt)", "t4(14pt)"];
+  };
+  Layout: {
+    type: "VARIANT";
+    defaultValue: "Text Only";
+    variantOptions: ["Text Only", "Icon First", "Icon Last"];
+  };
+  Tone: {
+    type: "VARIANT";
+    defaultValue: "Neutral Subtle";
+    variantOptions: ["Neutral Subtle", "Brand", "Neutral"];
+  };
+  Weight: {
+    type: "VARIANT";
+    defaultValue: "Regular";
+    variantOptions: ["Regular", "Bold"];
   };
 }>;

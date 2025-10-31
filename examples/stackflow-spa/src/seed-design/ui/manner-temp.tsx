@@ -1,5 +1,5 @@
 import {
-  Celcius,
+  Celsius,
   MannerTempEmote,
   MannerTemp as SeedMannerTemp,
   SuffixIcon,
@@ -21,7 +21,7 @@ export const MannerTemp = React.forwardRef<HTMLSpanElement, MannerTempProps>(
   ({ temperature, level, ...otherProps }, ref) => {
     return (
       <SeedMannerTemp ref={ref} level={level ?? mannerTempToLevel(temperature)} {...otherProps}>
-        <Celcius value={temperature} />
+        <Celsius value={temperature} />
         <SuffixIcon svg={<MannerTempEmote />} />
       </SeedMannerTemp>
     );

@@ -3,7 +3,12 @@ import { forwardRef } from "react";
 import { ActionButton, type ActionButtonProps } from "./action-button";
 import type * as React from "react";
 
-export interface AlertDialogRootProps extends Dialog.RootProps {}
+export interface AlertDialogRootProps extends Dialog.RootProps {
+  /**
+   * @default false
+   */
+  closeOnInteractOutside?: Dialog.RootProps["closeOnInteractOutside"];
+}
 
 /**
  * @see https://seed-design.io/react/components/alert-dialog

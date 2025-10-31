@@ -1,10 +1,11 @@
 import { switch as vars } from "../vars/component";
+import { switchMark as markVars } from "../vars/component";
 import { defineSlotRecipe } from "../utils/define";
-import { checked, disabled, pseudo } from "../utils/pseudo";
+import { disabled, pseudo } from "../utils/pseudo";
 
 const switchRecipe = defineSlotRecipe({
   name: "switch",
-  slots: ["root", "control", "thumb", "label"],
+  slots: ["root", "label"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -22,77 +23,25 @@ const switchRecipe = defineSlotRecipe({
         cursor: "not-allowed",
       },
     },
-    control: {
-      boxSizing: "border-box",
-      display: "block",
-      position: "relative",
-
-      borderRadius: vars.base.enabled.control.cornerRadius,
-      background: vars.base.enabled.control.color,
-
-      transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
-
-      [pseudo(disabled)]: {
-        opacity: vars.base.disabled.control.opacity,
-      },
-    },
-    thumb: {
-      borderRadius: vars.base.enabled.thumb.cornerRadius,
-
-      transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
-    },
     label: {
       fontWeight: vars.base.enabled.label.fontWeight,
       color: vars.base.enabled.label.color,
 
+      transition: `opacity ${vars.base.disabled.label.opacityDuration} ${vars.base.disabled.label.opacityTimingFunction}`,
+
       [pseudo(disabled)]: {
-        color: vars.base.disabled.label.color,
+        opacity: vars.base.disabled.label.opacity,
       },
     },
   },
   variants: {
-    tone: {
-      neutral: {
-        control: {
-          [pseudo(checked)]: {
-            background: vars.toneNeutral.enabledSelected.control.color,
-          },
-        },
-        thumb: {
-          background: vars.toneNeutral.enabled.thumb.color,
-        },
-      },
-      brand: {
-        control: {
-          [pseudo(checked)]: {
-            background: vars.toneBrand.enabledSelected.control.color,
-          },
-        },
-        thumb: {
-          background: vars.toneBrand.enabled.thumb.color,
-        },
-      },
-    },
     size: {
       32: {
         root: {
           minHeight: vars.size32.enabled.root.height,
           gap: vars.size32.enabled.root.gap,
-        },
-        control: {
-          minInlineSize: vars.size32.enabled.control.width,
-          minBlockSize: vars.size32.enabled.control.height,
-          padding: `${vars.size32.enabled.control.paddingY} ${vars.size32.enabled.control.paddingX}`,
-          margin: `calc((${vars.size32.enabled.root.height} - ${vars.size32.enabled.control.height}) / 2) 0`, // 수직 위치 보정
-        },
-        thumb: {
-          width: vars.size32.enabled.thumb.width,
-          height: vars.size32.enabled.thumb.height,
-          boxShadow: vars.size32.enabled.thumb.shadow,
 
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size32.enabled.control.width} - ${vars.size32.enabled.control.height}))`,
-          },
+          "--switch-mark-margin-top": `calc((${vars.size32.enabled.root.height} - ${markVars.size32.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size32.enabled.label.fontSize,
@@ -104,21 +53,8 @@ const switchRecipe = defineSlotRecipe({
         root: {
           minHeight: vars.size24.enabled.root.height,
           gap: vars.size24.enabled.root.gap,
-        },
-        control: {
-          minInlineSize: vars.size24.enabled.control.width,
-          minBlockSize: vars.size24.enabled.control.height,
-          padding: `${vars.size24.enabled.control.paddingY} ${vars.size24.enabled.control.paddingX}`,
-          margin: `calc((${vars.size24.enabled.root.height} - ${vars.size24.enabled.control.height}) / 2) 0`, // 수직 위치 보정
-        },
-        thumb: {
-          width: vars.size24.enabled.thumb.width,
-          height: vars.size24.enabled.thumb.height,
-          boxShadow: vars.size24.enabled.thumb.shadow,
 
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size24.enabled.control.width} - ${vars.size24.enabled.control.height}))`,
-          },
+          "--switch-mark-margin-top": `calc((${vars.size24.enabled.root.height} - ${markVars.size24.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size24.enabled.label.fontSize,
@@ -130,20 +66,8 @@ const switchRecipe = defineSlotRecipe({
         root: {
           minHeight: vars.size16.enabled.root.height,
           gap: vars.size16.enabled.root.gap,
-        },
-        control: {
-          minInlineSize: vars.size16.enabled.control.width,
-          minBlockSize: vars.size16.enabled.control.height,
-          padding: `${vars.size16.enabled.control.paddingY} ${vars.size16.enabled.control.paddingX}`,
-          margin: `calc((${vars.size16.enabled.root.height} - ${vars.size16.enabled.control.height}) / 2) 0`, // 수직 위치 보정
-        },
-        thumb: {
-          width: vars.size16.enabled.thumb.width,
-          height: vars.size16.enabled.thumb.height,
 
-          [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size16.enabled.control.width} - ${vars.size16.enabled.control.height}))`,
-          },
+          "--switch-mark-margin-top": `calc((${vars.size16.enabled.root.height} - ${markVars.size16.enabled.root.height}) / 2)`, // 수직 위치 보정
         },
         label: {
           fontSize: vars.size16.enabled.label.fontSize,
@@ -154,7 +78,6 @@ const switchRecipe = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    tone: "brand",
     size: 32,
   },
 });

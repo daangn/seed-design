@@ -102,6 +102,10 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
     const disabled = props.State.value === "Disabled";
 
     const tag = (() => {
+      if (suffix?.tag === "SwitchMark") {
+        return "ListSwitchItem";
+      }
+
       if (prefix?.tag === "Checkmark" || suffix?.tag === "Checkmark") {
         return "ListCheckItem";
       }
@@ -131,7 +135,10 @@ export const createListItemHandler = (ctx: ComponentHandlerDeps) =>
       ...(prefix && { prefix }),
       ...(suffix && { suffix }),
       ...(disabled &&
-        (tag === "ListButtonItem" || tag === "ListCheckItem" || tag === "ListRadioItem") && {
+        (tag === "ListButtonItem" ||
+          tag === "ListCheckItem" ||
+          tag === "ListRadioItem" ||
+          tag === "ListSwitchItem") && {
           disabled: true,
         }),
       ...(props.State.value === "Highlighted" && {

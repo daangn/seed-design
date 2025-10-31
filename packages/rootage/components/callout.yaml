@@ -124,6 +124,23 @@ data:
       pressed:
         root:
           color: $color.bg.informative-weak-pressed
+    tone=positive:
+      enabled:
+        root:
+          color: $color.bg.positive-weak
+        prefixIcon:
+          color: $color.fg.positive-contrast
+        title:
+          color: $color.fg.positive-contrast
+        description:
+          color: $color.fg.positive-contrast
+        link:
+          color: $color.fg.positive-contrast
+        suffixIcon:
+          color: $color.fg.positive-contrast
+      pressed:
+        root:
+          color: $color.bg.positive-weak-pressed
     tone=warning:
       enabled:
         root:

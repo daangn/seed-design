@@ -6,6 +6,7 @@ import {
 import {
   Checkbox as CheckboxPrimitive,
   RadioGroup as RadioGroupPrimitive,
+  Switch as SwitchPrimitive,
 } from "@seed-design/react/primitive";
 import { listItem } from "@seed-design/css/recipes/list-item";
 import * as React from "react";
@@ -123,6 +124,45 @@ export const ListLinkItem = React.forwardRef<HTMLAnchorElement, ListLinkItemProp
 );
 ListLinkItem.displayName = "ListLinkItem";
 
+export interface ListSwitchItemProps
+  extends Omit<
+    ListItemBaseProps & SwitchPrimitive.RootProps,
+    "title" | "prefix" | "asChild" | "children"
+  > {
+  title: React.ReactNode;
+  detail?: React.ReactNode;
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+
+  rootRef?: React.Ref<HTMLLabelElement>;
+}
+
+/**
+ * @see https://seed-design.io/react/components/list
+ */
+export const ListSwitchItem = React.forwardRef<HTMLInputElement, ListSwitchItemProps>(
+  ({ title, detail, prefix, suffix, inputProps, alignItems, rootRef, ...props }, ref) => {
+    const [variantProps, otherProps] = listItem.splitVariantProps(props);
+
+    return (
+      <SeedList.Item {...variantProps} alignItems={alignItems} asChild>
+        <SwitchPrimitive.Root ref={rootRef} {...otherProps}>
+          {prefix && <SeedList.Prefix>{prefix}</SeedList.Prefix>}
+          <SeedList.Content>
+            <SeedList.Title>{title}</SeedList.Title>
+            {detail && <SeedList.Detail>{detail}</SeedList.Detail>}
+          </SeedList.Content>
+          {suffix && <SeedList.Suffix>{suffix}</SeedList.Suffix>}
+          <SwitchPrimitive.HiddenInput ref={ref} {...inputProps} />
+        </SwitchPrimitive.Root>
+      </SeedList.Item>
+    );
+  },
+);
+ListSwitchItem.displayName = "ListSwitchItem";
+
 export interface ListCheckItemProps
   extends Omit<
     ListItemBaseProps & CheckboxPrimitive.RootProps,
@@ -137,6 +177,7 @@ export interface ListCheckItemProps
 
   rootRef?: React.Ref<HTMLLabelElement>;
 }
+
 /**
  * @see https://seed-design.io/react/components/list
  */
@@ -204,12 +245,12 @@ export interface ListDividerProps extends SeedDividerProps {
   /**
    * @default "li"
    */
-  as?: SeedDividerProps["as"]; // this redeclaration is for JSDoc
+  as?: SeedDividerProps["as"];
 
   /**
    * @default true
    */
-  "aria-hidden"?: SeedDividerProps["aria-hidden"]; // this redeclaration is for JSDoc
+  "aria-hidden"?: SeedDividerProps["aria-hidden"];
 }
 
 /**

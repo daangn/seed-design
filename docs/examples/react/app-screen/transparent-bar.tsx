@@ -13,16 +13,18 @@ import { AppScreen, AppScreenContent } from "seed-design/ui/app-screen";
 
 declare module "@stackflow/config" {
   interface Register {
-    "app-screen-transparent-bar": unknown;
+    "react/app-screen/transparent-bar": unknown;
   }
 }
 
-const AppScreenTransparentBarActivity: ActivityComponentType<"app-screen-transparent-bar"> = () => {
+const AppScreenTransparentBarActivity: ActivityComponentType<
+  "react/app-screen/transparent-bar"
+> = () => {
   return (
     <AppScreen theme="cupertino" layerOffsetTop="none">
       <AppBar tone="transparent">
         <AppBarLeft>
-          <AppBarCloseButton />
+          <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>
         <AppBarMain>Preview</AppBarMain>
         <AppBarRight>
@@ -32,7 +34,13 @@ const AppScreenTransparentBarActivity: ActivityComponentType<"app-screen-transpa
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Flex height="full" justify="center" align="center" bg="palette.gray500">
+        <Flex
+          height="full"
+          justify="center"
+          align="center"
+          bg="palette.gray800"
+          color="fg.neutralInverted"
+        >
           Preview
         </Flex>
       </AppScreenContent>

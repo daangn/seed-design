@@ -1,12 +1,11 @@
-import type { ChipVariantProps } from "@seed-design/css/recipes/chip";
 import { Chip as SeedChip } from "@seed-design/react";
-import type { PrimitiveProps } from "@seed-design/react-primitive";
 import { Checkbox, RadioGroup } from "@seed-design/react/primitive";
 import { chip } from "@seed-design/css/recipes/chip";
 import * as React from "react";
 
 // Create a base props interface that doesn't include DOM attributes to avoid conflicts
-export interface ChipBaseProps extends PrimitiveProps, ChipVariantProps {}
+export interface ChipBaseProps
+  extends Omit<SeedChip.RootProps, keyof React.ButtonHTMLAttributes<HTMLButtonElement>> {}
 
 export interface ToggleChipProps extends ChipBaseProps, Checkbox.RootProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;

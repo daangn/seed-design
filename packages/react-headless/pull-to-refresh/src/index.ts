@@ -12,4 +12,6 @@ export {
   type UsePullToRefreshContext,
 } from "./usePullToRefreshContext";
 
+export { pullToRefreshPreventPull } from "./dom";
+
 export * as PullToRefresh from "./PullToRefresh.namespace";

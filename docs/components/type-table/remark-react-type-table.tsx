@@ -6,13 +6,17 @@ import { valueToEstree } from "estree-util-value-to-estree";
 import type { DocEntry } from "fumadocs-typescript";
 import { type Generator, renderMarkdownToHast } from "fumadocs-typescript";
 import { toEstree } from "hast-util-to-estree";
-import type { Root } from "mdast";
+import type { remark } from "remark";
+import type { Processor } from "unified";
 import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { dirname } from "node:path";
 import { print } from "recast";
 import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 import { getReactTypeTableOutput, type ReactTypeTableProps } from "./get-react-type-table";
+
+// biome-ignore lint/suspicious/noExplicitAny: this is for removing mdast dependency which is actually deprecated
+export type Root = typeof remark extends Processor<infer R, any, any, any, any> ? R : never;
 
 function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute {
   return {
@@ -39,17 +43,14 @@ function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute 
 async function mapProperty(
   entry: DocEntry,
   renderMarkdown: typeof renderMarkdownToHast,
+  options?: { parseDescriptionAsMarkdown?: boolean },
 ): Promise<Property> {
   const value = valueToEstree({
     type: entry.type,
-    default: entry.tags.default || entry.tags.defaultValue,
+    default: entry.tags.find((tag) => tag.name === "default" || tag.name === "defaultValue")?.text,
   }) as ObjectExpression;
 
   if (entry.description) {
-    const hast = toEstree(await renderMarkdown(entry.description), {
-      elementAttributeNameCase: "react",
-    }).body[0] as ExpressionStatement;
-
     value.properties.push({
       type: "Property",
       method: false,
@@ -60,7 +61,13 @@ async function mapProperty(
         name: "description",
       },
       kind: "init",
-      value: hast.expression,
+      value: options?.parseDescriptionAsMarkdown
+        ? (
+            toEstree(await renderMarkdown(entry.description), {
+              elementAttributeNameCase: "react",
+            }).body[0] as ExpressionStatement
+          ).expression
+        : { type: "Literal", value: entry.description },
     });
   }
 
@@ -144,7 +151,7 @@ export function remarkReactTypeTable({
 
         const rendered = output.map(async (doc) => {
           const properties = await Promise.all(
-            doc.entries.map((entry) => mapProperty(entry, renderMarkdown)),
+            doc.entries.map((entry) => mapProperty(entry, renderMarkdown, options)),
           );
 
           return {

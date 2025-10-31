@@ -24,6 +24,8 @@ data:
         properties:
           size:
             type: dimension
+          bleed:
+            type: dimension
   definitions:
     base:
       enabled:
@@ -34,7 +36,8 @@ data:
           lineHeight: $line-height.t5
           fontWeight: $font-weight.bold
         emote:
-          size: $dimension.x6
+          size: $dimension.x8
+          bleed: $dimension.x1
     level=l1:
       enabled:
         label:
@@ -59,3 +62,19 @@ data:
       enabled:
         label:
           color: $color.manner-temp.l6.text
+    level=l7:
+      enabled:
+        label:
+          color: $color.manner-temp.l7.text
+    level=l8:
+      enabled:
+        label:
+          color: $color.manner-temp.l8.text
+    level=l9:
+      enabled:
+        label:
+          color: $color.manner-temp.l9.text
+    level=l10:
+      enabled:
+        label:
+          color: $color.manner-temp.l10.text

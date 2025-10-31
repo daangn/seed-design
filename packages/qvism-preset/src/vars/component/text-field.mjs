@@ -10,7 +10,6 @@ export const vars = {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "field": {
-        "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
@@ -62,7 +61,7 @@ export const vars = {
     },
     "invalidFocused": {
       "field": {
-        "color": "var(--seed-color-bg-layer-default)",
+        "color": "#00000000",
         "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },

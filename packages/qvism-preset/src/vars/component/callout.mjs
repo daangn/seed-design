@@ -86,6 +86,33 @@ export const vars = {
       }
     }
   },
+  "tonePositive": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-bg-positive-weak)"
+      },
+      "prefixIcon": {
+        "color": "var(--seed-color-fg-positive-contrast)"
+      },
+      "title": {
+        "color": "var(--seed-color-fg-positive-contrast)"
+      },
+      "description": {
+        "color": "var(--seed-color-fg-positive-contrast)"
+      },
+      "link": {
+        "color": "var(--seed-color-fg-positive-contrast)"
+      },
+      "suffixIcon": {
+        "color": "var(--seed-color-fg-positive-contrast)"
+      }
+    },
+    "pressed": {
+      "root": {
+        "color": "var(--seed-color-bg-positive-weak-pressed)"
+      }
+    }
+  },
   "toneWarning": {
     "enabled": {
       "root": {

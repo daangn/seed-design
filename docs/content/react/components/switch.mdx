@@ -1,6 +1,6 @@
 ---
 title: Switch
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 사용자가 개별 옵션을 켜거나 끌 수 있게 해주는 컴포넌트입니다. 일반적으로 특정 설정을 활성화하거나 비활성화하는 데 사용됩니다.
 ---
 
 <ComponentExample name="react/switch/preview">
@@ -22,7 +22,13 @@ npx @seed-design/cli@latest add ui:switch
 
 ## Props
 
+### `Switch`
+
 <react-type-table path="./registry/ui/switch.tsx" name="SwitchProps" />
+
+### `SwitchMark`
+
+<react-type-table path="./registry/ui/switch.tsx" name="SwitchMarkProps" />
 
 ## Examples
 
@@ -82,6 +88,19 @@ npx @seed-design/cli@latest add ui:switch
   ```json doc-gen:file
   {
     "file": "examples/react/switch/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Using `SwitchMark`
+
+`SwitchMark`는 레이블을 제외한 스위치 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+
+<ComponentExample name="react/switch/switch-mark">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/switch/switch-mark.tsx",
     "codeblock": true
   }
   ```
