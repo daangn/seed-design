@@ -34,6 +34,7 @@ const slider = defineSlotRecipe({
 
       gap: vars.base.enabled.root.gap,
 
+      userSelect: "none",
       touchAction: "none",
     },
     control: {

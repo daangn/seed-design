@@ -5713,6 +5713,7 @@
 .seed-slider__root {
   align-items: stretch;
   gap: var(--seed-dimension-x0_5);
+  user-select: none;
   touch-action: none;
   flex-direction: column;
   width: 100%;
