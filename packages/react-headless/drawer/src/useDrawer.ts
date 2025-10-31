@@ -452,7 +452,15 @@ export function useDrawer(props: DialogProps) {
         }
       }, TRANSITIONS.EXIT_DURATION * 1000);
     },
-    [cancelDrag, onClose, snapPoints, setActiveSnapPoint, setIsOpen],
+    [
+      cancelDrag,
+      onClose,
+      snapPoints,
+      setActiveSnapPoint,
+      setIsOpen,
+      fadeFromIndex,
+      activeSnapPointIndex,
+    ],
   );
 
   function resetDrawer() {
@@ -631,19 +639,19 @@ export function useDrawer(props: DialogProps) {
     }
   }, [isOpen]);
 
-useEffect(() => {
-  if (isOpen && snapPoints && fadeFromIndex === 0) {
-    setShouldOverlayAnimate(true);
-    
-    const timeoutId = setTimeout(() => {
+  useEffect(() => {
+    if (isOpen && snapPoints && fadeFromIndex === 0) {
+      setShouldOverlayAnimate(true);
+
+      const timeoutId = setTimeout(() => {
+        setShouldOverlayAnimate(false);
+      }, TRANSITIONS.ENTER_DURATION * 1000);
+
+      return () => clearTimeout(timeoutId);
+    } else {
       setShouldOverlayAnimate(false);
-    }, TRANSITIONS.ENTER_DURATION * 1000);
-    
-    return () => clearTimeout(timeoutId);
-  } else {
-    setShouldOverlayAnimate(false);
-  }
-}, [isOpen, snapPoints, fadeFromIndex]);
+    }
+  }, [isOpen, snapPoints, fadeFromIndex]);
 
   return useMemo(
     () => ({
