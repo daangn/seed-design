@@ -13,7 +13,7 @@ export default function SliderField() {
         label="내일 날씨가 좋을 것 같다고 생각한다."
         min={0}
         max={14}
-        defaultValues={[500]}
+        defaultValues={[7]}
         ticks={[2, 6, 8, 10, 12]}
         markers={markers}
         hideRange

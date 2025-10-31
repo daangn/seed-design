@@ -13,7 +13,6 @@ export default function SliderSteps() {
         step={10}
         values={value}
         onValuesChange={setValue}
-        defaultValues={[50]}
         getAriaLabel={() => "값"}
       />
       <Text>{JSON.stringify(value)}</Text>
