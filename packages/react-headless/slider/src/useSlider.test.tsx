@@ -284,10 +284,7 @@ describe("useSlider", () => {
         { target: root, coords: { clientX: 50, clientY: 5 }, keys: "[/MouseLeft]" },
       ]);
 
-      expect(onValuesCommit).toHaveBeenCalledWith({
-        values: [50],
-        valueIndex: 0,
-      });
+      expect(onValuesCommit).toHaveBeenCalledWith([50]);
     });
 
     it("snaps value to step on click", async () => {
@@ -319,6 +316,40 @@ describe("useSlider", () => {
       ]);
 
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
+    });
+
+    it("should focus closest thumb on track click", async () => {
+      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const thumb1 = getByTestId("slider-thumb-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Click near thumb1
+      await user.pointer([
+        { target: root, coords: { clientX: 75, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+
+      expect(thumb1).toHaveFocus();
+
+      // Click near thumb0
+      await user.pointer([
+        { target: root, coords: { clientX: 25, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+
+      expect(thumb0).toHaveFocus();
     });
   });
 

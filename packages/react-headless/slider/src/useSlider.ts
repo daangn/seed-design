@@ -382,7 +382,10 @@ export function useSlider({
             api.dragTimerRef.current = null;
 
             // update immediately to where pointer was down since slide didn't start
-            api.handleSlideMove(api.getValueFromPointer(api.pointerDownPosition.current));
+            const valueAtPointer = api.getValueFromPointer(api.pointerDownPosition.current);
+            const closestIndex = getClosestValueIndex(api.values, valueAtPointer);
+
+            api.updateValues(valueAtPointer, closestIndex, { commit: true });
           }
 
           api.handleSlideEnd();
