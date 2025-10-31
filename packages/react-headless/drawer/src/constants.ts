@@ -1,3 +1,6 @@
+/**
+ * TODO: move to recipe
+ */
 export const TRANSITIONS = {
   ENTER_DURATION: 0.3, // $duration.d6
   EXIT_DURATION: 0.2, // $duration.d4

@@ -440,6 +440,12 @@ export function useDrawer(props: DialogProps) {
         setIsOpen(false);
       }
 
+      if (fadeFromIndex !== undefined && fadeFromIndex > 0 && activeSnapPointIndex === 0) {
+        set(overlayRef.current, {
+          opacity: "0",
+        });
+      }
+
       setTimeout(() => {
         if (snapPoints) {
           setActiveSnapPoint(snapPoints[0]);
