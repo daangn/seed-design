@@ -43,6 +43,7 @@
     "@seed-design/react-avatar": "1.0.0",
     "@seed-design/react-checkbox": "1.0.0",
     "@seed-design/react-dialog": "1.0.0",
+    "@seed-design/react-drawer": "0.0.1",
     "@seed-design/react-popover": "1.0.1",
     "@seed-design/react-portal": "1.0.0",
     "@seed-design/react-primitive": "1.0.0",
