@@ -481,7 +481,7 @@ export function useSlider({
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
 
-                for (let i = 0; i < multiplier; i++) {
+                for (let i = 0; i < Math.abs(multiplier); i++) {
                   const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
                   if (next === null) break;
 
@@ -495,9 +495,7 @@ export function useSlider({
                 break;
               }
 
-              api.updateValues(currentValue + api.step * multiplier, atIndex, {
-                commit: true,
-              });
+              api.updateValues(currentValue + api.step * multiplier, atIndex, { commit: true });
 
               event.preventDefault();
 
@@ -511,7 +509,7 @@ export function useSlider({
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
 
-                for (let i = 0; i < multiplier; i++) {
+                for (let i = 0; i < Math.abs(multiplier); i++) {
                   const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
                   if (next === null) break;
 
