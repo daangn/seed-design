@@ -124,6 +124,7 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
     closeDrawer,
     closeOnInteractOutside,
     closeOnEscape,
+    dismissible,
   } = useDrawerContext();
   // Needed to use transition instead of animations
   const [delayedSnapPoints, setDelayedSnapPoints] = useState(false);
@@ -262,13 +263,13 @@ export const DrawerContent = forwardRef<HTMLDivElement, DrawerContentProps>((pro
         }
       }}
       onInteractOutside={(e) => {
-        if (closeOnInteractOutside) {
+        if (dismissible && closeOnInteractOutside) {
           closeDrawer();
         }
         props.onInteractOutside?.(e);
       }}
       onEscapeKeyDown={(e) => {
-        if (closeOnEscape) {
+        if (dismissible && closeOnEscape) {
           closeDrawer();
         }
         props.onEscapeKeyDown?.(e);
