@@ -50,6 +50,8 @@ export { vars as switchMark } from "./switch-mark";
 export { vars as switch } from "./switch";
 export { vars as tab } from "./tab";
 export { vars as tablist } from "./tablist";
+export { vars as tagGroupItem } from "./tag-group-item";
+export { vars as tagGroup } from "./tag-group";
 export { vars as textButton } from "./text-button";
 export { vars as textField } from "./text-field";
 export { vars as toggleButton } from "./toggle-button";

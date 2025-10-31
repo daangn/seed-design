@@ -306,6 +306,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t6-static"
                 }
               }
             }
@@ -330,6 +334,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.bold"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5-static"
                 }
               },
               "subtitle": {
@@ -340,6 +348,10 @@
                 "fontWeight": {
                   "type": "number",
                   "value": "$font-weight.regular"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t2-static"
                 }
               }
             }

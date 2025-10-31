@@ -13,6 +13,8 @@ const callout = defineSlotRecipe({
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
       fontFamily: "inherit",
+      // remove line-height difference on actionable callouts (<button>)
+      fontSize: "unset",
 
       display: "flex",
       alignItems: "center",
@@ -40,6 +42,10 @@ const callout = defineSlotRecipe({
     },
     content: {
       marginInlineEnd: "auto",
+
+      // we define lineHeight here because some reset.css sets default line-height
+      // e.g. tailwind preflight sets * { line-height: 1.5 }
+      lineHeight: vars.base.enabled.description.lineHeight,
     },
     title: {
       fontSize: vars.base.enabled.title.fontSize,

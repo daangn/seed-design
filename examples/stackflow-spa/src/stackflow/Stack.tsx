@@ -4,6 +4,7 @@ import { stackflow, type ActivityComponentType, type UseActionsOutputType } from
 import React from "react";
 
 import { seedPlugin } from "@seed-design/stackflow";
+import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
 import { theme } from "./theme";
 
@@ -16,7 +17,7 @@ import { theme } from "./theme";
 
 const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
-    ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
+    ActivityHome,
     ActivityActionButton: React.lazy(() => import("../activities/ActivityActionButton")),
     ActivityChipButton: React.lazy(() => import("../activities/ActivityChipButton")),
     ActivityChipToggle: React.lazy(() => import("../activities/ActivityChipToggle")),
@@ -91,7 +92,7 @@ const { Stack, useFlow, useStepFlow } = stackflow({
       },
     }),
   ],
-  transitionDuration: 270,
+  transitionDuration: theme === "cupertino" ? 350 : 300,
 });
 
 export { Stack };

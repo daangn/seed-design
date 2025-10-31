@@ -33,10 +33,7 @@ const config = createConfig({
       .write(async (items, { utils, write, pipelineName }) => {
         const mjs = items.map((item) => utils.toMjs(item.name, item).trim()).join("\n\n");
 
-        const dts = `import type { ComponentMetadata } from "../../../component.interface";
-
-${items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n")}
-`;
+        const dts = items.map((item) => utils.toDts(item.name, item).trim()).join("\n\n");
 
         await Promise.all([
           write(`${pipelineName}/index.mjs`, mjs),

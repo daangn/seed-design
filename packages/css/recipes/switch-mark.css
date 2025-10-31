@@ -5,20 +5,27 @@
     border-radius: var(--seed-radius-full);
     background: var(--seed-color-palette-gray-600);
     margin: var(--switch-mark-margin-top, 0) 0;
-    transition: background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms;
+    transition: background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms, opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
 }
 .seed-switch-mark__root:is(:disabled, [disabled], [data-disabled]) {
     opacity: 0.38;
 }
 .seed-switch-mark__thumb {
     border-radius: var(--seed-radius-full);
-    transition: transform 150ms cubic-bezier(0.35, 0, 0.35, 1);
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), background-color var(--seed-duration-d1) var(--seed-timing-function-easing) 20ms;
+    transform: scale(0.8);
 }
 .seed-switch-mark__root--tone_neutral:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-neutral-inverted);
 }
+.seed-switch-mark__root--tone_neutral:is(:disabled, [disabled], [data-disabled]):is(:checked, [data-checked]) {
+    background: var(--seed-color-palette-gray-600);
+}
 .seed-switch-mark__thumb--tone_neutral {
     background: var(--seed-color-fg-neutral-inverted);
+}
+.seed-switch-mark__thumb--tone_neutral:is(:disabled, [disabled], [data-disabled]) {
+    background: var(--seed-color-palette-static-black-alpha-700);
 }
 .seed-switch-mark__root--tone_brand:is(:checked, [data-checked]) {
     background: var(--seed-color-bg-brand-solid);
@@ -36,7 +43,7 @@
     height: 12px;
 }
 .seed-switch-mark__thumb--size_16:is(:checked, [data-checked]) {
-    transform: translateX(calc(26px - 16px));
+    transform: scale(1) translateX(calc(26px - 16px));
 }
 .seed-switch-mark__root--size_24 {
     min-inline-size: 38px;
@@ -46,10 +53,9 @@
 .seed-switch-mark__thumb--size_24 {
     width: 20px;
     height: 20px;
-    box-shadow: 0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f;
 }
 .seed-switch-mark__thumb--size_24:is(:checked, [data-checked]) {
-    transform: translateX(calc(38px - 24px));
+    transform: scale(1) translateX(calc(38px - 24px));
 }
 .seed-switch-mark__root--size_32 {
     min-inline-size: 52px;
@@ -59,8 +65,7 @@
 .seed-switch-mark__thumb--size_32 {
     width: 26px;
     height: 26px;
-    box-shadow: 0px 3px 8px 0px #00000026, 0px 1px 3px 0px #0000000f;
 }
 .seed-switch-mark__thumb--size_32:is(:checked, [data-checked]) {
-    transform: translateX(calc(52px - 32px));
+    transform: scale(1) translateX(calc(52px - 32px));
 }

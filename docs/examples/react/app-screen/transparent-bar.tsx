@@ -24,7 +24,7 @@ const AppScreenTransparentBarActivity: ActivityComponentType<
     <AppScreen theme="cupertino" layerOffsetTop="none">
       <AppBar tone="transparent">
         <AppBarLeft>
-          <AppBarCloseButton />
+          <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>
         <AppBarMain>Preview</AppBarMain>
         <AppBarRight>
@@ -34,7 +34,13 @@ const AppScreenTransparentBarActivity: ActivityComponentType<
         </AppBarRight>
       </AppBar>
       <AppScreenContent>
-        <Flex height="full" justify="center" align="center" bg="palette.gray500">
+        <Flex
+          height="full"
+          justify="center"
+          align="center"
+          bg="palette.gray800"
+          color="fg.neutralInverted"
+        >
           Preview
         </Flex>
       </AppScreenContent>
