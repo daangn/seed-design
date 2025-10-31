@@ -140,6 +140,21 @@ export function useField(props: UseFieldProps) {
       htmlFor: getInputId(id),
     }),
 
+    inputProps: inputProps({
+      disabled,
+      readOnly,
+      name: props.name || id,
+      id: getInputId(id),
+    }),
+
+    inputAriaAttributes: elementProps({
+      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
+      "aria-describedby": ariaDescribedBy,
+      "aria-required": ariaAttr(required),
+      "aria-invalid": ariaAttr(invalid),
+      "aria-readonly": ariaAttr(readOnly),
+      "aria-disabled": ariaAttr(disabled),
+    }),
     inputHandlers: inputProps({
       onChange: (event) => {
         setIsFocusVisible(event.target.matches(":focus-visible"));
@@ -152,15 +167,6 @@ export function useField(props: UseFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }),
-
-    inputAriaAttributes: elementProps({
-      ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
-      "aria-describedby": ariaDescribedBy,
-      "aria-required": ariaAttr(required),
-      "aria-invalid": ariaAttr(invalid),
-      "aria-readonly": ariaAttr(readOnly),
-      "aria-disabled": ariaAttr(disabled),
     }),
 
     descriptionProps: elementProps({

@@ -282,6 +282,7 @@ export function useSlider({
     "data-hover": dataAttr(api.isHovered),
     "data-active": dataAttr(api.isActive),
     "data-disabled": dataAttr(disabled),
+    "data-readonly": dataAttr(readOnly),
     "data-invalid": dataAttr(invalid),
     "data-dragging": dataAttr(api.isDragging),
     "data-ssr": dataAttr(isSSR),
@@ -623,9 +624,10 @@ export function useSlider({
         "data-index": `${index}`,
         "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
         "data-disabled": dataAttr(disabled),
+        "data-readonly": dataAttr(readOnly),
         "data-ssr": dataAttr(isSSR),
 
-        tabIndex: disabled ? undefined : 0, // readonly thumbs should still be focusable
+        tabIndex: disabled ? -1 : 0, // readonly thumbs should still be focusable
         style: {
           [isLtr ? "--thumb-left" : "--thumb-right"]:
             `calc(${percent}% + ${thumbInBoundsOffset}px)`,
