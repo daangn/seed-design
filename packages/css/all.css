@@ -5821,7 +5821,7 @@
   width: max-content;
   left: var(--tooltip-left);
   right: var(--tooltip-right);
-  transform: translate(var(--tooltip-translateX), calc(var(--seed-dimension-x3) * -1));
+  transform: translate(50%, calc(var(--seed-dimension-x3) * -1));
   flex-direction: column;
   display: flex;
   position: absolute;
@@ -5832,7 +5832,7 @@
   animation: seed-enter;
   animation-timing-function: var(--seed-timing-function-enter);
   animation-duration: var(--seed-duration-d4);
-  --seed-enter-translate-x: var(--tooltip-translateX);
+  --seed-enter-translate-x: 50%;
   --seed-enter-translate-y: calc((1.2 - 1) * var(--seed-dimension-x5) / -2);
   --seed-enter-opacity: 0;
   --seed-enter-scale: .9;
@@ -5842,7 +5842,7 @@
   animation: seed-exit;
   animation-timing-function: var(--seed-timing-function-easing);
   animation-duration: var(--seed-duration-d4);
-  --seed-exit-translate-x: var(--tooltip-translateX);
+  --seed-exit-translate-x: 50%;
   --seed-exit-translate-y: calc((1.2 - 1) * var(--seed-dimension-x5) / -2);
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;

@@ -60,7 +60,6 @@ const slider = defineSlotRecipe({
     range: {
       position: "absolute",
 
-      // inset-block: chrome 87~
       height: "100%",
 
       backgroundColor: vars.base.enabled.range.color,
@@ -82,8 +81,6 @@ const slider = defineSlotRecipe({
       position: "absolute",
       top: "50%",
 
-      // transform: "translate(var(--thumb-translateX), -50%)",
-
       left: "var(--thumb-left)",
       right: "var(--thumb-right)",
 
@@ -95,12 +92,9 @@ const slider = defineSlotRecipe({
 
       borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
-      // transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
-
       transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}`,
 
       [pseudo(dragging)]: {
-        // transform: `translate(var(--thumb-translateX), -50%) scale(${thumbVars.base.pressed.root.scale})`,
         transform: `translate(-50%, -50%) scale(${thumbVars.base.pressed.root.scale})`,
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
@@ -169,7 +163,7 @@ const slider = defineSlotRecipe({
       right: "var(--tooltip-right)",
       bottom: "100%",
 
-      transform: `translate(var(--tooltip-translateX), calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
+      transform: `translate(50%, calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
 
       [pseudo(dragging)]: {
         ...enterAnimation({
@@ -178,7 +172,7 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.enterDuration,
           timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
 
-          translateX: "var(--tooltip-translateX)",
+          translateX: "50%",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },
@@ -190,7 +184,7 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.exitDuration,
           timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
 
-          translateX: "var(--tooltip-translateX)",
+          translateX: "50%",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },

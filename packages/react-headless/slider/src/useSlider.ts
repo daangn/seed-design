@@ -589,9 +589,6 @@ export function useSlider({
         style: {
           [isLtr ? "--thumb-left" : "--thumb-right"]:
             `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-          // "--thumb-translateX": isLtr
-          //   ? `calc(${api.firstThumbSize?.width ?? 0}px * -0.5 + ${api.refs.root.current?.getBoundingClientRect().width ?? 0}px * ${percent} / 100 + ${thumbInBoundsOffset}px)`
-          //   : "",
         } as CSSProperties,
         onFocus: () => {
           api.valueIndexToChangeRef.current = index;
@@ -613,7 +610,6 @@ export function useSlider({
       isSSR,
       invalid,
       readOnly,
-      // api.refs.root.current,
     ],
   );
 
@@ -712,7 +708,7 @@ export function useSlider({
       const thumbInBoundsOffset = getThumbInBoundsOffset(
         api.firstThumbSize?.width ?? 0,
         percent,
-        isLtr ? 1 : -1,
+        1,
       );
 
       return {
@@ -724,10 +720,6 @@ export function useSlider({
           style: {
             [isLtr ? "--tooltip-left" : "--tooltip-right"]:
               `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-            // "--thumb-translateX": isLtr
-            //   ? `calc(${api.firstThumbSize?.width ?? 0}px * -0.5 + ${api.refs.root.current?.getBoundingClientRect().width ?? 0}px * ${percent} / 100 + ${thumbInBoundsOffset}px)`
-            //   : "",
-            "--tooltip-translateX": isLtr ? "-50%" : "50%",
           } as CSSProperties,
         }),
         labelProps: elementProps({
