@@ -772,6 +772,200 @@ describe("useSlider", () => {
 
       expect(thumb).toHaveAttribute("aria-valuenow", "60");
     });
+
+    it("uses allowedValues on ArrowUp", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} allowedValues={[0, 15, 35, 60, 85, 100]} defaultValues={[15]} />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowUp}");
+
+      expect(thumb).toHaveAttribute("aria-valuenow", "35");
+    });
+
+    it("uses allowedValues on ArrowDown", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} allowedValues={[0, 15, 35, 60, 85, 100]} defaultValues={[60]} />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowDown}");
+
+      expect(thumb).toHaveAttribute("aria-valuenow", "35");
+    });
+
+    it("uses allowedValues on ArrowRight in LTR mode", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 15, 35, 60, 85, 100]}
+          defaultValues={[35]}
+          dir="ltr"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowRight}");
+
+      expect(thumb).toHaveAttribute("aria-valuenow", "60");
+    });
+
+    it("uses allowedValues on ArrowLeft in LTR mode", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 15, 35, 60, 85, 100]}
+          defaultValues={[60]}
+          dir="ltr"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowLeft}");
+
+      expect(thumb).toHaveAttribute("aria-valuenow", "35");
+    });
+
+    it("uses allowedValues on Arrows in LTR mode (moving around)", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={30}
+          allowedValues={[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]}
+          defaultValues={[2, 7]}
+          dir="ltr"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowRight}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "3");
+
+      await user.keyboard("{ArrowLeft}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "2");
+
+      await user.keyboard("{ArrowLeft}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "2");
+
+      await user.keyboard("{ArrowRight}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "3");
+
+      await user.keyboard("{ArrowRight}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "5");
+
+      await user.keyboard("{ArrowRight}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "7");
+
+      await user.keyboard("{Tab}");
+      await user.keyboard("{ArrowRight}");
+
+      const thumb1 = getByTestId("slider-thumb-1");
+
+      expect(thumb1).toHaveAttribute("aria-valuenow", "11");
+
+      await user.keyboard("{ArrowRight}");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "13");
+    });
+
+    it("uses allowedValues in RTL mode", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 15, 35, 60, 85, 100]}
+          defaultValues={[35]}
+          dir="rtl"
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      // ArrowRight should decrement in RTL
+      await user.keyboard("{ArrowRight}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "15");
+
+      // ArrowLeft should increment in RTL
+      await user.keyboard("{ArrowLeft}");
+      expect(thumb).toHaveAttribute("aria-valuenow", "35");
+    });
+
+    it("uses allowedValues with Shift+Arrow", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={1000}
+          allowedValues={[
+            0, 5, 15, 30, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 750, 1000,
+          ]}
+          defaultValues={[15]}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      // Should move by 10 positions in allowedValues with Shift
+      await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
+
+      // From 15 (index 2), moving 10 steps forward goes to 400 (index 12)
+      expect(thumb).toHaveAttribute("aria-valuenow", "400");
+    });
+
+    it("uses allowedValues with Shift+Arrow (custom multiplier)", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={1000}
+          allowedValues={[
+            0, 5, 15, 30, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 750, 1000,
+          ]}
+          defaultValues={[15]}
+          multiplierOnPageKey={5}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      // Should move by 5 positions in allowedValues with Shift (multiplierOnPageKey=5)
+      await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
+
+      // From 15 (index 2), moving 5 steps forward goes to 150 (index 7)
+      expect(thumb).toHaveAttribute("aria-valuenow", "150");
+    });
+
+    it("stops at allowedValues boundaries", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} allowedValues={[0, 25, 50, 75, 90]} defaultValues={[90]} />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{ArrowUp}");
+
+      // Already at max allowed value, should not change
+      expect(thumb).toHaveAttribute("aria-valuenow", "90");
+
+      await user.keyboard("{ArrowDown}");
+
+      // Should move to previous allowed value
+      expect(thumb).toHaveAttribute("aria-valuenow", "75");
+    });
   });
 
   describe("Keyboard Interactions - Special Keys", () => {
@@ -834,6 +1028,156 @@ describe("useSlider", () => {
       await user.keyboard("{PageUp}");
 
       expect(thumb).toHaveAttribute("aria-valuenow", "55");
+    });
+
+    it("uses allowedValues on Home, ignoring min", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} allowedValues={[10, 30, 50, 70, 90]} defaultValues={[50]} />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{Home}");
+
+      // Should jump to first allowed value, not min
+      expect(thumb).toHaveAttribute("aria-valuenow", "10");
+    });
+
+    it("uses allowedValues on End, ignoring max", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} allowedValues={[10, 30, 50, 70, 90]} defaultValues={[50]} />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{End}");
+
+      // Should jump to last allowed value, not max
+      expect(thumb).toHaveAttribute("aria-valuenow", "90");
+    });
+
+    it("uses allowedValues on PageUp", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={1000}
+          allowedValues={[
+            0, 5, 15, 30, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 750, 1000,
+          ]}
+          defaultValues={[15]}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageUp}");
+
+      // Should move 10 positions forward in allowedValues: 15 -> 30 -> 50 -> 75 -> 100 -> 150 -> 200 -> 250 -> 300 -> 350 -> 400
+      expect(thumb).toHaveAttribute("aria-valuenow", "400");
+    });
+
+    it("uses allowedValues on PageDown", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={1000}
+          allowedValues={[
+            0, 5, 15, 30, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 750, 1000,
+          ]}
+          defaultValues={[400]}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageDown}");
+
+      // Should move 10 positions backward in allowedValues: 400 -> 350 -> 300 -> 250 -> 200 -> 150 -> 100 -> 75 -> 50 -> 30 -> 15
+      expect(thumb).toHaveAttribute("aria-valuenow", "15");
+    });
+
+    it("uses allowedValues on PageUp (custom multiplier)", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 5, 10, 20, 35, 55, 80, 100]}
+          defaultValues={[10]}
+          multiplierOnPageKey={3}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageUp}");
+
+      // Should move 3 positions forward in allowedValues: 10 -> 20 -> 35 -> 55
+      expect(thumb).toHaveAttribute("aria-valuenow", "55");
+    });
+
+    it("uses allowedValues on PageDown (custom multiplier)", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 5, 10, 20, 35, 55, 80, 100]}
+          defaultValues={[55]}
+          multiplierOnPageKey={3}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageDown}");
+
+      // Should move 3 positions backward in allowedValues: 55 -> 35 -> 20 -> 10
+      expect(thumb).toHaveAttribute("aria-valuenow", "10");
+    });
+
+    it("clamps allowedValues PageUp at array end", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 20, 40, 60, 80, 100]}
+          defaultValues={[80]}
+          multiplierOnPageKey={5}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageUp}");
+
+      // Should clamp to last allowed value (80 is at index 4, trying to move 5 steps forward clamps to 100)
+      expect(thumb).toHaveAttribute("aria-valuenow", "100");
+    });
+
+    it("clamps allowedValues PageDown at array start", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          allowedValues={[0, 20, 40, 60, 80, 100]}
+          defaultValues={[20]}
+          multiplierOnPageKey={5}
+        />,
+      );
+
+      const thumb = getByTestId("slider-thumb-0");
+      thumb.focus();
+
+      await user.keyboard("{PageDown}");
+
+      // Should clamp to first allowed value (20 is at index 1, trying to move 5 steps backward clamps to 0)
+      expect(thumb).toHaveAttribute("aria-valuenow", "0");
     });
   });
 

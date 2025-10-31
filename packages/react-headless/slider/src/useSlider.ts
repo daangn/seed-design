@@ -431,8 +431,6 @@ export function useSlider({
                   nextValue = next;
                 }
 
-                if (nextValue === currentValue) break;
-
                 api.updateValues(nextValue, atIndex, { commit: true });
 
                 event.preventDefault();
@@ -458,8 +456,6 @@ export function useSlider({
 
                   nextValue = next;
                 }
-
-                if (nextValue === currentValue) break;
 
                 api.updateValues(nextValue, atIndex, { commit: true });
 
@@ -492,8 +488,6 @@ export function useSlider({
                   nextValue = next;
                 }
 
-                if (nextValue === currentValue) break;
-
                 api.updateValues(nextValue, atIndex, { commit: true });
 
                 event.preventDefault();
@@ -523,8 +517,6 @@ export function useSlider({
 
                   nextValue = next;
                 }
-
-                if (nextValue === currentValue) break;
 
                 api.updateValues(nextValue, atIndex, { commit: true });
 
