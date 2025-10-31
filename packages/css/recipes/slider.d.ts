@@ -8,7 +8,7 @@ declare type SliderVariantMap = {
 
 export declare type SliderVariantProps = Partial<SliderVariant>;
 
-export declare type SliderSlotName = "root" | "track" | "control" | "range" | "thumb" | "tick" | "markers" | "marker" | "popoverRoot" | "popoverArrow" | "popoverArrowTip";
+export declare type SliderSlotName = "root" | "track" | "control" | "range" | "thumb" | "tick" | "markers" | "marker" | "tooltipRoot" | "tooltipArrow" | "tooltipArrowTip";
 
 export declare const sliderVariantMap: SliderVariantMap;
 

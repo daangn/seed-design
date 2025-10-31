@@ -24,7 +24,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
-      getPopoverChildren,
+      getTooltipChildren,
       invalid,
       max,
       min,
@@ -49,7 +49,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
-      getPopoverChildren,
+      getTooltipChildren,
       invalid,
       max,
       min,
@@ -145,31 +145,31 @@ export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
 );
 SliderMarker.displayName = "SliderMarker";
 
-export interface SliderPopoverRootProps
+export interface SliderTooltipRootProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {
   thumbIndex: number;
 }
 
-export const SliderPopoverRoot = React.forwardRef<HTMLDivElement, SliderPopoverRootProps>(
+export const SliderTooltipRoot = React.forwardRef<HTMLDivElement, SliderTooltipRootProps>(
   ({ thumbIndex, ...props }, ref) => {
-    const { getPopoverProps } = useSliderContext();
-    const { rootProps } = getPopoverProps(thumbIndex);
+    const { getTooltipProps } = useSliderContext();
+    const { rootProps } = getTooltipProps(thumbIndex);
 
     return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
   },
 );
 
-export interface SliderPopoverLabelProps
+export interface SliderTooltipLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
   thumbIndex: number;
 }
 
-export const SliderPopoverLabel = React.forwardRef<HTMLSpanElement, SliderPopoverLabelProps>(
+export const SliderTooltipLabel = React.forwardRef<HTMLSpanElement, SliderTooltipLabelProps>(
   ({ thumbIndex, ...props }, ref) => {
-    const { getPopoverProps } = useSliderContext();
-    const { labelProps } = getPopoverProps(thumbIndex);
+    const { getTooltipProps } = useSliderContext();
+    const { labelProps } = getTooltipProps(thumbIndex);
 
     return <Primitive.span ref={ref} {...mergeProps(labelProps, props)} />;
   },

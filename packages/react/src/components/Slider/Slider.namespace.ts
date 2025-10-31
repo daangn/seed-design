@@ -8,7 +8,7 @@ export {
   SliderTick as Tick,
   SliderMarkers as Markers,
   SliderMarker as Marker,
-  SliderPopover as Popover,
+  SliderTooltip as Tooltip,
   type SliderRootProps as RootProps,
   type SliderControlProps as ControlProps,
   type SliderTrackProps as TrackProps,
@@ -18,5 +18,5 @@ export {
   type SliderTickProps as TickProps,
   type SliderMarkersProps as MarkersProps,
   type SliderMarkerProps as MarkerProps,
-  type SliderPopoverProps as PopoverProps,
+  type SliderTooltipProps as TooltipProps,
 } from "./Slider";

@@ -35,16 +35,16 @@ const sliderSlotNames = [
     "seed-slider__marker"
   ],
   [
-    "popoverRoot",
-    "seed-slider__popoverRoot"
+    "tooltipRoot",
+    "seed-slider__tooltipRoot"
   ],
   [
-    "popoverArrow",
-    "seed-slider__popoverArrow"
+    "tooltipArrow",
+    "seed-slider__tooltipArrow"
   ],
   [
-    "popoverArrowTip",
-    "seed-slider__popoverArrowTip"
+    "tooltipArrowTip",
+    "seed-slider__tooltipArrowTip"
   ]
 ];
 

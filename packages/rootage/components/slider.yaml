@@ -32,7 +32,7 @@ data:
           size: $dimension.x5
           cornerRadius: $radius.full
           color: $color.bg.neutral-inverted
-        popoverRoot:
+        tooltipRoot:
           color: $color.bg.neutral-inverted
           cornerRadius: $radius.r1
           paddingX: $dimension.x1_5
@@ -46,14 +46,14 @@ data:
           exitOpacity: 0
           exitDuration: $duration.d4
           exitTimingFunction: $timing-function.easing
-        popoverArrow:
+        tooltipArrow:
           color: $color.bg.neutral-inverted
           width: $dimension.x2_5
           height: 7px
           cornerRadius: $radius.r0_5
           gutter: $dimension.x0_5
           padding: $dimension.x0_5
-        popoverLabel:
+        tooltipLabel:
           color: $color.fg.neutral-inverted
           fontSize: $font-size.t1
           lineHeight: $line-height.t1

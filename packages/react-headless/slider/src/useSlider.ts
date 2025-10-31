@@ -298,7 +298,7 @@ export interface UseSliderProps extends UseSliderStateProps {
   /**
    * @default (params) => params.value
    */
-  getPopoverChildren?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
+  getTooltipChildren?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
 
   /**
    * @default 150
@@ -318,7 +318,7 @@ export function useSlider({
   getAriaValuetext,
   getAriaLabel,
   getAriaLabelledby,
-  getPopoverChildren = ({ value }) => value,
+  getTooltipChildren = ({ value }) => value,
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -697,7 +697,7 @@ export function useSlider({
     [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
   );
 
-  const getPopoverProps = useCallback(
+  const getTooltipProps = useCallback(
     (index: number) => {
       const value = api.values[index];
 
@@ -722,15 +722,16 @@ export function useSlider({
           "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
 
           style: {
-            [isLtr ? "--popover-left" : "--popover-right"]:
+            [isLtr ? "--tooltip-left" : "--tooltip-right"]:
               `calc(${percent}% + ${thumbInBoundsOffset}px)`,
             // "--thumb-translateX": isLtr
             //   ? `calc(${api.firstThumbSize?.width ?? 0}px * -0.5 + ${api.refs.root.current?.getBoundingClientRect().width ?? 0}px * ${percent} / 100 + ${thumbInBoundsOffset}px)`
             //   : "",
+            "--tooltip-translateX": isLtr ? "-50%" : "50%",
           } as CSSProperties,
         }),
         labelProps: elementProps({
-          children: getPopoverChildren({ value, thumbIndex: index }),
+          children: getTooltipChildren({ value, thumbIndex: index }),
         }),
       };
     },
@@ -739,7 +740,7 @@ export function useSlider({
       api.firstThumbSize?.width,
       api.max,
       api.min,
-      getPopoverChildren,
+      getTooltipChildren,
       isLtr,
       api.isDragging,
       api.valueIndexToChangeRef.current,
@@ -768,7 +769,7 @@ export function useSlider({
     getHiddenInputProps,
     getTickProps,
     getMarkerProps,
-    getPopoverProps,
+    getTooltipProps,
 
     // this is used to style the track
     stateProps,

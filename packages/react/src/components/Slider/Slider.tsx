@@ -124,7 +124,7 @@ export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(
   "marker",
 );
 
-export interface SliderPopoverProps extends PrimitiveProps, Slider.PopoverRootProps {
+export interface SliderTooltipProps extends PrimitiveProps, Slider.TooltipRootProps {
   /**
    * @default 2
    */
@@ -133,7 +133,7 @@ export interface SliderPopoverProps extends PrimitiveProps, Slider.PopoverRootPr
   thumbIndex: number;
 }
 
-export const SliderPopover = forwardRef<HTMLDivElement, SliderPopoverProps>(
+export const SliderTooltip = forwardRef<HTMLDivElement, SliderTooltipProps>(
   ({ thumbIndex, tipRadius = 2, className, ...props }, ref) => {
     const classNames = useClassNames();
 
@@ -149,24 +149,24 @@ export const SliderPopover = forwardRef<HTMLDivElement, SliderPopoverProps>(
       Z`;
 
     return (
-      <Slider.PopoverRoot
+      <Slider.TooltipRoot
         thumbIndex={thumbIndex}
         ref={ref}
-        className={clsx(classNames.popoverRoot, className)}
+        className={clsx(classNames.tooltipRoot, className)}
         {...props}
       >
-        <Primitive.div ref={arrowRef} className={classNames.popoverArrow}>
+        <Primitive.div ref={arrowRef} className={classNames.tooltipArrow}>
           <svg
             aria-hidden="true"
             viewBox={`0 0 ${width} ${height}`}
-            className={clsx(classNames.popoverArrowTip, className)}
+            className={clsx(classNames.tooltipArrowTip, className)}
           >
             <path stroke="none" d={pathData} />
           </svg>
         </Primitive.div>
-        <Slider.PopoverLabel thumbIndex={thumbIndex} />
-      </Slider.PopoverRoot>
+        <Slider.TooltipLabel thumbIndex={thumbIndex} />
+      </Slider.TooltipRoot>
     );
   },
 );
-SliderPopover.displayName = "SliderPopover";
+SliderTooltip.displayName = "SliderTooltip";

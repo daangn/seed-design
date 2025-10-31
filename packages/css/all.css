@@ -5807,7 +5807,7 @@
   color: var(--seed-color-fg-disabled);
 }
 
-.seed-slider__popoverRoot {
+.seed-slider__tooltipRoot {
   background: var(--seed-color-bg-neutral-inverted);
   padding-inline: var(--seed-dimension-x1_5);
   padding-block: var(--seed-dimension-x0_5);
@@ -5816,42 +5816,44 @@
   font-size: var(--seed-font-size-t1);
   line-height: var(--seed-line-height-t1);
   font-weight: var(--seed-font-weight-medium);
+  white-space: pre-wrap;
+  text-align: center;
   width: max-content;
-  left: var(--popover-left);
-  right: var(--popover-right);
-  transform: translate(-50%, calc(var(--seed-dimension-x3) * -1));
+  left: var(--tooltip-left);
+  right: var(--tooltip-right);
+  transform: translate(var(--tooltip-translateX), calc(var(--seed-dimension-x3) * -1));
   flex-direction: column;
   display: flex;
   position: absolute;
   bottom: 100%;
 }
 
-.seed-slider__popoverRoot[data-dragging] {
+.seed-slider__tooltipRoot[data-dragging] {
   animation: seed-enter;
   animation-timing-function: var(--seed-timing-function-enter);
   animation-duration: var(--seed-duration-d4);
-  --seed-enter-translate-x: -50%;
+  --seed-enter-translate-x: var(--tooltip-translateX);
   --seed-enter-translate-y: calc((1.2 - 1) * var(--seed-dimension-x5) / -2);
   --seed-enter-opacity: 0;
   --seed-enter-scale: .9;
 }
 
-.seed-slider__popoverRoot:not([data-dragging]) {
+.seed-slider__tooltipRoot:not([data-dragging]) {
   animation: seed-exit;
   animation-timing-function: var(--seed-timing-function-easing);
   animation-duration: var(--seed-duration-d4);
-  --seed-exit-translate-x: -50%;
+  --seed-exit-translate-x: var(--tooltip-translateX);
   --seed-exit-translate-y: calc((1.2 - 1) * var(--seed-dimension-x5) / -2);
   --seed-exit-opacity: 0;
   --seed-exit-scale: 1;
   animation-fill-mode: forwards;
 }
 
-.seed-slider__popoverRoot:is(:hidden, [hidden], [data-hidden]) {
+.seed-slider__tooltipRoot:is(:hidden, [hidden], [data-hidden]) {
   display: none !important;
 }
 
-.seed-slider__popoverArrow {
+.seed-slider__tooltipArrow {
   width: var(--seed-dimension-x2_5);
   height: var(--seed-dimension-x2_5);
   position: absolute;
@@ -5860,7 +5862,7 @@
   transform: translateX(-50%);
 }
 
-.seed-slider__popoverArrowTip {
+.seed-slider__tooltipArrowTip {
   fill: var(--seed-color-bg-neutral-inverted);
   width: var(--seed-dimension-x2_5);
   height: 7px;

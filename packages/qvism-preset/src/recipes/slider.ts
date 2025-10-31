@@ -20,9 +20,9 @@ const slider = defineSlotRecipe({
     "tick",
     "markers",
     "marker",
-    "popoverRoot",
-    "popoverArrow",
-    "popoverArrowTip",
+    "tooltipRoot",
+    "tooltipArrow",
+    "tooltipArrowTip",
   ],
   base: {
     root: {
@@ -146,48 +146,51 @@ const slider = defineSlotRecipe({
         color: vars.base.disabled.marker.color,
       },
     },
-    popoverRoot: {
+    tooltipRoot: {
       display: "flex",
       flexDirection: "column",
-      background: vars.base.enabled.popoverRoot.color,
-      paddingInline: vars.base.enabled.popoverRoot.paddingX,
-      paddingBlock: vars.base.enabled.popoverRoot.paddingY,
-      borderRadius: vars.base.enabled.popoverRoot.cornerRadius,
+      background: vars.base.enabled.tooltipRoot.color,
+      paddingInline: vars.base.enabled.tooltipRoot.paddingX,
+      paddingBlock: vars.base.enabled.tooltipRoot.paddingY,
+      borderRadius: vars.base.enabled.tooltipRoot.cornerRadius,
 
-      color: vars.base.enabled.popoverLabel.color,
-      fontSize: vars.base.enabled.popoverLabel.fontSize,
-      lineHeight: vars.base.enabled.popoverLabel.lineHeight,
-      fontWeight: vars.base.enabled.popoverLabel.fontWeight,
+      color: vars.base.enabled.tooltipLabel.color,
+      fontSize: vars.base.enabled.tooltipLabel.fontSize,
+      lineHeight: vars.base.enabled.tooltipLabel.lineHeight,
+      fontWeight: vars.base.enabled.tooltipLabel.fontWeight,
+
+      whiteSpace: "pre-wrap",
+      textAlign: "center",
 
       width: "max-content",
 
       position: "absolute",
-      left: "var(--popover-left)",
-      right: "var(--popover-right)",
+      left: "var(--tooltip-left)",
+      right: "var(--tooltip-right)",
       bottom: "100%",
 
-      transform: `translate(-50%, calc(${vars.base.enabled.popoverRoot.offsetY} * -1))`,
+      transform: `translate(var(--tooltip-translateX), calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
 
       [pseudo(dragging)]: {
         ...enterAnimation({
-          scale: vars.base.enabled.popoverRoot.enterScale,
-          opacity: vars.base.enabled.popoverRoot.enterOpacity,
-          duration: vars.base.enabled.popoverRoot.enterDuration,
-          timingFunction: vars.base.enabled.popoverRoot.enterTimingFunction,
+          scale: vars.base.enabled.tooltipRoot.enterScale,
+          opacity: vars.base.enabled.tooltipRoot.enterOpacity,
+          duration: vars.base.enabled.tooltipRoot.enterDuration,
+          timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
 
-          translateX: "-50%",
+          translateX: "var(--tooltip-translateX)",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },
 
       [pseudo(not(dragging))]: {
         ...exitAnimation({
-          scale: vars.base.enabled.popoverRoot.exitScale,
-          opacity: vars.base.enabled.popoverRoot.exitOpacity,
-          duration: vars.base.enabled.popoverRoot.exitDuration,
-          timingFunction: vars.base.enabled.popoverRoot.exitTimingFunction,
+          scale: vars.base.enabled.tooltipRoot.exitScale,
+          opacity: vars.base.enabled.tooltipRoot.exitOpacity,
+          duration: vars.base.enabled.tooltipRoot.exitDuration,
+          timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
 
-          translateX: "-50%",
+          translateX: "var(--tooltip-translateX)",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },
@@ -196,10 +199,10 @@ const slider = defineSlotRecipe({
         display: "none !important",
       },
     },
-    popoverArrow: {
-      width: vars.base.enabled.popoverArrow.width,
+    tooltipArrow: {
+      width: vars.base.enabled.tooltipArrow.width,
       // we're making it square
-      height: vars.base.enabled.popoverArrow.width,
+      height: vars.base.enabled.tooltipArrow.width,
 
       position: "absolute",
 
@@ -207,14 +210,14 @@ const slider = defineSlotRecipe({
       left: "50%",
       transform: "translateX(-50%)",
     },
-    popoverArrowTip: {
+    tooltipArrowTip: {
       // svg has default display of inline, which makes it be affected by line-height
       display: "block",
 
-      fill: vars.base.enabled.popoverArrow.color,
+      fill: vars.base.enabled.tooltipArrow.color,
 
-      width: vars.base.enabled.popoverArrow.width,
-      height: vars.base.enabled.popoverArrow.height,
+      width: vars.base.enabled.tooltipArrow.width,
+      height: vars.base.enabled.tooltipArrow.height,
     },
   },
   variants: {},

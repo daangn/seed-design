@@ -24,10 +24,15 @@ export interface SliderProps extends SeedSlider.RootProps {
    * @default []
    */
   markers?: ({ value: number; label?: React.ReactNode } | number)[];
+
   /**
    * @default false
    */
   hideRange?: boolean;
+  /**
+   * @default false
+   */
+  hideTooltip?: boolean;
 }
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
@@ -41,7 +46,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
       ticks = [],
       markers = [],
+
       hideRange = false,
+      hideTooltip = false,
 
       ...props
     },
@@ -92,7 +99,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             </SeedSlider.Track>
             {values?.map((_, index) => (
               <React.Fragment key={index}>
-                <SeedSlider.Popover thumbIndex={index} />
+                {!hideTooltip && <SeedSlider.Tooltip thumbIndex={index} />}
                 <SeedSlider.Thumb thumbIndex={index} />
                 <SeedSlider.HiddenInput thumbIndex={index} />
               </React.Fragment>

@@ -16,7 +16,7 @@ export default function SliderMarkers() {
           { value: 100, label: "100°C" },
         ]}
         getAriaValuetext={(value) => `${value}°C`}
-        getPopoverChildren={({ value }) => `${value}°C`}
+        getTooltipChildren={({ value }) => `${value}°C`}
         getAriaLabel={() => "온도"}
       />
       <Slider

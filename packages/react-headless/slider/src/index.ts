@@ -5,16 +5,16 @@ export {
   SliderHiddenInput,
   SliderTick,
   SliderMarker,
-  SliderPopoverRoot,
-  SliderPopoverLabel,
+  SliderTooltipRoot,
+  SliderTooltipLabel,
   type SliderRootProps,
   type SliderThumbProps,
   type SliderRangeProps,
   type SliderHiddenInputProps,
   type SliderTickProps,
   type SliderMarkerProps,
-  type SliderPopoverRootProps,
-  type SliderPopoverLabelProps,
+  type SliderTooltipRootProps,
+  type SliderTooltipLabelProps,
 } from "./Slider";
 
 export * as Slider from "./Slider.namespace";
