@@ -20,6 +20,40 @@ interface SliderProps extends UseSliderProps {
   "data-testid"?: string;
 }
 
+// Thumb component that manages its own ref
+const Thumb = ({
+  api,
+  index,
+  testId,
+}: {
+  api: ReturnType<typeof useSlider>;
+  index: number;
+  testId: string;
+}) => {
+  const thumbRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const node = thumbRef.current;
+    if (node) {
+      api.refs.thumbs.current.add(node);
+    }
+
+    return () => {
+      if (node) {
+        api.refs.thumbs.current.delete(node);
+      }
+    };
+  }, [api.refs.thumbs]);
+
+  return (
+    <Primitive.div
+      ref={thumbRef}
+      {...api.getThumbProps(index)}
+      data-testid={`${testId}-thumb-${index}`}
+    />
+  );
+};
+
 const Slider = (props: SliderProps) => {
   const testId = props["data-testid"] || "slider";
   const api = useSlider(props);
@@ -36,11 +70,7 @@ const Slider = (props: SliderProps) => {
       </Primitive.div>
       {values.map((_, index) => (
         <React.Fragment key={index}>
-          <Primitive.div
-            ref={api.getThumbRef()}
-            {...api.getThumbProps(index)}
-            data-testid={`${testId}-thumb-${index}`}
-          />
+          <Thumb api={api} index={index} testId={testId} />
           <Primitive.input
             {...api.getHiddenInputProps(index)}
             data-testid={`${testId}-hidden-input-${index}`}

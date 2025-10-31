@@ -543,13 +543,6 @@ export function useSlider({
     });
   }, [api.values, api.min, api.max, isLtr, stateProps]);
 
-  const getThumbRef = useCallback(() => {
-    return (thumb: HTMLElement | null) => {
-      if (!thumb) return;
-
-      api.refs.thumbs.current.add(thumb);
-    };
-  }, [api.refs.thumbs.current.add]);
 
   const getThumbProps = useCallback(
     (index: number) => {
@@ -757,7 +750,6 @@ export function useSlider({
 
     rootProps,
     getRangeProps,
-    getThumbRef,
     getThumbProps,
     getHiddenInputProps,
     getTickProps,
