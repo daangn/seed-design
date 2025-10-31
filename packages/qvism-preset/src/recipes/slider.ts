@@ -163,7 +163,7 @@ const slider = defineSlotRecipe({
       right: "var(--tooltip-right)",
       bottom: "100%",
 
-      transform: `translate(50%, calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
+      transform: `translate(var(--tooltip-translateX), calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
 
       [pseudo(dragging)]: {
         ...enterAnimation({
@@ -172,7 +172,7 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.enterDuration,
           timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
 
-          translateX: "50%",
+          translateX: "var(--tooltip-translateX)",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },
@@ -184,7 +184,7 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.exitDuration,
           timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
 
-          translateX: "50%",
+          translateX: "var(--tooltip-translateX)",
           translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
         }),
       },

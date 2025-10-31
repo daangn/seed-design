@@ -720,6 +720,7 @@ export function useSlider({
           style: {
             [isLtr ? "--tooltip-left" : "--tooltip-right"]:
               `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+            "--tooltip-translateX": isLtr ? "-50%" : "50%",
           } as CSSProperties,
         }),
         labelProps: elementProps({
