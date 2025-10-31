@@ -115,7 +115,10 @@ function useSliderState({
       setValues((prevValues) => {
         const nextValues = getNextSortedValues(prevValues, nextValue, atIndex);
 
-        if (hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step) === false) {
+        if (
+          (!allowedValues || allowedValues.length === 0) &&
+          hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step) === false
+        ) {
           return prevValues;
         }
 

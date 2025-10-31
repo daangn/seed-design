@@ -901,6 +901,46 @@ describe("useSlider", () => {
       expect(thumb).toHaveAttribute("aria-valuenow", "50");
     });
 
+    it("should ignore steps and minStepsBetweenThumbs when allowedValues is provided", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider
+          min={0}
+          max={100}
+          step={25}
+          minStepsBetweenThumbs={3} // 75, but should be ignored because of allowedValues
+          allowedValues={[0, 20, 40, 60, 80, 100]}
+          defaultValues={[0]}
+        />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      await user.pointer([
+        { target: root, coords: { clientX: 20, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+
+      await user.pointer([
+        { target: root, coords: { clientX: 40, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+
+      expect(thumb0).toHaveAttribute("aria-valuenow", "40");
+    });
+
     it("enforces minStepsBetweenThumbs", async () => {
       const { user, getByTestId } = setUp(
         <Slider min={0} max={100} step={10} minStepsBetweenThumbs={2} defaultValues={[30, 70]} />,
