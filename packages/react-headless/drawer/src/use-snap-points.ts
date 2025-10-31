@@ -88,7 +88,7 @@ export function useSnapPoints({
         let snapPointAsNumber = 0;
 
         if (isPx) {
-          snapPointAsNumber = parseInt(snapPoint, 10);
+          snapPointAsNumber = Number.parseInt(snapPoint, 10);
         }
 
         if (isVertical(direction)) {
@@ -162,12 +162,13 @@ export function useSnapPoints({
       setActiveSnapPoint(snapPoints?.[Math.max(newSnapPointIndex, 0)]);
     },
     [
-      drawerRef.current,
+      drawerRef,
+      overlayRef,
       snapPoints,
       snapPointsOffset,
-      activeSnapPointIndex,
       fadeFromIndex,
-      overlayRef,
+      direction,
+      onSnapPointChange,
       setActiveSnapPoint,
     ],
   );
@@ -309,7 +310,7 @@ export function useSnapPoints({
     if (fadeFromIndex === 0 && activeSnapPointIndex === 0) {
       let firstSnapPoint = snapPoints[0];
       if (typeof firstSnapPoint === "string") {
-        firstSnapPoint = parseInt(firstSnapPoint, 10);
+        firstSnapPoint = Number.parseInt(firstSnapPoint, 10);
       }
       const snapPointDistance = firstSnapPoint;
       const percentageDragged = absDraggedDistance / Math.abs(snapPointDistance);
