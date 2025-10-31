@@ -1,9 +1,8 @@
 export function isMobileFirefox(): boolean | undefined {
-  const userAgent = navigator.userAgent;
+  if (typeof window === "undefined" || typeof navigator === "undefined") return false;
   return (
-    typeof window !== "undefined" &&
-    ((/Firefox/.test(userAgent) && /Mobile/.test(userAgent)) || // Android Firefox
-      /FxiOS/.test(userAgent)) // iOS Firefox
+    (/Firefox/.test(navigator.userAgent) && /Mobile/.test(navigator.userAgent)) ||
+    /FxiOS/.test(navigator.userAgent)
   );
 }
 
