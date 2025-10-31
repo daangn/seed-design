@@ -4,6 +4,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: inherit;
+    font-size: unset;
     display: flex;
     align-items: center;
     text-align: start;
@@ -21,6 +22,7 @@
 }
 .seed-callout__content {
     margin-inline-end: auto;
+    line-height: var(--seed-line-height-t4);
 }
 .seed-callout__title {
     font-size: var(--seed-font-size-t4);

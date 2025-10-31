@@ -7,6 +7,3 @@
 .seed-article:lang(ko) {
     word-break: keep-all;
 }
-.seed-article::selection {
-    background-color: var(--seed-color-palette-carrot-300);
-}
