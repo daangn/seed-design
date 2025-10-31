@@ -1,5 +1,14 @@
 # @seed-design/css
 
+## 1.0.7
+
+### Patch Changes
+
+- e52d6d1: Article에서 selection 색상에 대한 정의를 제거합니다.
+- 97669bc: Tailwind Preflight 사용 시 Page Banner가 디자인 의도와 다르게 표시되는 문제를 수정합니다.
+- 15ab93a: List Item 컴포넌트의 상하 여백을 `$dimension.x2_5`에서 `$dimension.x3`로 늘립니다.
+- 50366c0: Tailwind Preflight 사용 시 Text Field의 Header/Footer와 Callout이 디자인 의도와 다르게 표시되는 문제를 수정합니다.
+
 ## 1.0.6
 
 ### Patch Changes

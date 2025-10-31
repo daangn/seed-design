@@ -1,6 +1,5 @@
 import { defineRecipe } from "../utils/define";
 import { pseudo } from "../utils/pseudo";
-import { $color } from "../vars/vars";
 
 const article = defineRecipe({
   name: "article",
@@ -19,10 +18,6 @@ const article = defineRecipe({
 
     [pseudo(":lang(ko)")]: {
       wordBreak: "keep-all",
-    },
-
-    [pseudo("::selection")]: {
-      backgroundColor: $color.palette.carrot300,
     },
   },
   variants: {},

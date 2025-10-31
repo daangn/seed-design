@@ -60,7 +60,6 @@ export default defineConfig({
     ],
     rehypeCodeOptions: {
       lazy: true,
-      experimentalJSEngine: true,
       langs: ["ts", "js", "html", "tsx", "mdx"],
       inline: "tailing-curly-colon",
       themes: {
