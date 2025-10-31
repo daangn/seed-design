@@ -159,7 +159,7 @@ export const SliderTooltip = forwardRef<HTMLDivElement, SliderTooltipProps>(
           <svg
             aria-hidden="true"
             viewBox={`0 0 ${width} ${height}`}
-            className={clsx(classNames.tooltipArrowTip, className)}
+            className={classNames.tooltipArrowTip}
           >
             <path stroke="none" d={pathData} />
           </svg>
