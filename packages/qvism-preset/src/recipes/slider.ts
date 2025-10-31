@@ -165,7 +165,11 @@ const slider = defineSlotRecipe({
 
       transform: `translate(var(--tooltip-translateX), calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
 
+      // Hide tooltip by default (before any interaction)
+      opacity: 0,
+
       [pseudo(dragging)]: {
+        opacity: 1,
         ...enterAnimation({
           scale: vars.base.enabled.tooltipRoot.enterScale,
           opacity: vars.base.enabled.tooltipRoot.enterOpacity,

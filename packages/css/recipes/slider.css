@@ -100,8 +100,10 @@
     right: var(--tooltip-right);
     bottom: 100%;
     transform: translate(var(--tooltip-translateX), calc(var(--seed-dimension-x3) * -1));
+    opacity: 0;
 }
 .seed-slider__tooltipRoot[data-dragging] {
+    opacity: 1;
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d4);
