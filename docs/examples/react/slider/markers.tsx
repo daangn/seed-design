@@ -23,12 +23,23 @@ export default function SliderMarkers() {
         min={0}
         max={100}
         defaultValues={[30]}
+        markers={[0, 20, 40, 60, 80, 100]}
+        getAriaLabel={() => "값"}
+      />
+      <Slider
+        min={0}
+        max={100}
+        defaultValues={[30]}
+        ticks={[0, 50, 75, 100]}
+        variant="thick"
         markers={[
-          { value: 0, label: "Minimum" },
-          { value: 50, label: "Normal" },
-          { value: 100, label: "Maximum" },
+          { value: 0, label: "0" },
+          { value: 50, label: "50" },
+          { value: 75, label: "75" },
+          { value: 100, label: "100" },
         ]}
         getAriaLabel={() => "값"}
+        dir="rtl"
       />
     </VStack>
   );

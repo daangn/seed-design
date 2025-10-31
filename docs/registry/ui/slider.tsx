@@ -23,7 +23,7 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default []
    */
-  markers?: { value: number; label: React.ReactNode }[];
+  markers?: ({ value: number; label?: React.ReactNode } | number)[];
   /**
    * @default false
    */
@@ -100,11 +100,17 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           </SeedSlider.Control>
           {markers.length > 0 && (
             <SeedSlider.Markers>
-              {markers.map((marker) => (
-                <SeedSlider.Marker key={marker.value} value={marker.value}>
-                  {marker.label}
-                </SeedSlider.Marker>
-              ))}
+              {markers.map((marker) =>
+                typeof marker === "number" ? (
+                  <SeedSlider.Marker key={marker} value={marker}>
+                    {marker}
+                  </SeedSlider.Marker>
+                ) : (
+                  <SeedSlider.Marker key={marker.value} value={marker.value}>
+                    {marker.label ?? marker.value}
+                  </SeedSlider.Marker>
+                ),
+              )}
             </SeedSlider.Markers>
           )}
         </SeedSlider.Root>
