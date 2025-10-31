@@ -934,14 +934,14 @@ describe("useSlider", () => {
             0, 5, 15, 30, 50, 75, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 750, 1000,
           ]}
           defaultValues={[15]}
-          multiplierOnPageKey={5}
+          jumpMultiplier={5}
         />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
       thumb.focus();
 
-      // Should move by 5 positions in allowedValues with Shift (multiplierOnPageKey=5)
+      // Should move by 5 positions in allowedValues with Shift (jumpMultiplier=5)
       await user.keyboard("{Shift>}{ArrowUp}{/Shift}");
 
       // From 15 (index 2), moving 5 steps forward goes to 150 (index 7)
@@ -993,7 +993,7 @@ describe("useSlider", () => {
 
     it("increments by multiplied step on PageUp", async () => {
       const { user, getByTestId } = setUp(
-        <Slider min={0} max={100} step={1} defaultValues={[50]} multiplierOnPageKey={10} />,
+        <Slider min={0} max={100} step={1} defaultValues={[50]} jumpMultiplier={10} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
@@ -1006,7 +1006,7 @@ describe("useSlider", () => {
 
     it("decrements by multiplied step on PageDown", async () => {
       const { user, getByTestId } = setUp(
-        <Slider min={0} max={100} step={1} defaultValues={[50]} multiplierOnPageKey={10} />,
+        <Slider min={0} max={100} step={1} defaultValues={[50]} jumpMultiplier={10} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
@@ -1017,9 +1017,9 @@ describe("useSlider", () => {
       expect(thumb).toHaveAttribute("aria-valuenow", "40");
     });
 
-    it("uses custom multiplierOnPageKey", async () => {
+    it("uses custom jumpMultiplier", async () => {
       const { user, getByTestId } = setUp(
-        <Slider min={0} max={100} step={1} defaultValues={[50]} multiplierOnPageKey={5} />,
+        <Slider min={0} max={100} step={1} defaultValues={[50]} jumpMultiplier={5} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
@@ -1107,7 +1107,7 @@ describe("useSlider", () => {
           max={100}
           allowedValues={[0, 5, 10, 20, 35, 55, 80, 100]}
           defaultValues={[10]}
-          multiplierOnPageKey={3}
+          jumpMultiplier={3}
         />,
       );
 
@@ -1127,7 +1127,7 @@ describe("useSlider", () => {
           max={100}
           allowedValues={[0, 5, 10, 20, 35, 55, 80, 100]}
           defaultValues={[55]}
-          multiplierOnPageKey={3}
+          jumpMultiplier={3}
         />,
       );
 
@@ -1147,7 +1147,7 @@ describe("useSlider", () => {
           max={100}
           allowedValues={[0, 20, 40, 60, 80, 100]}
           defaultValues={[80]}
-          multiplierOnPageKey={5}
+          jumpMultiplier={5}
         />,
       );
 
@@ -1167,7 +1167,7 @@ describe("useSlider", () => {
           max={100}
           allowedValues={[0, 20, 40, 60, 80, 100]}
           defaultValues={[20]}
-          multiplierOnPageKey={5}
+          jumpMultiplier={5}
         />,
       );
 

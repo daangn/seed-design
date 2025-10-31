@@ -241,7 +241,7 @@ export interface UseSliderProps extends UseSliderStateProps {
   /**
    * @default 10
    */
-  multiplierOnPageKey?: number;
+  jumpMultiplier?: number;
 
   getAriaValuetext?: (value: number) => string;
   getAriaLabel?: (thumbIndex: number) => string;
@@ -266,7 +266,7 @@ export function useSlider({
   invalid,
   name,
 
-  multiplierOnPageKey = 10,
+  jumpMultiplier = 10,
   getAriaValuetext,
   getAriaLabel,
   getAriaLabelledby,
@@ -424,7 +424,7 @@ export function useSlider({
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
 
-                for (let i = 0; i < multiplierOnPageKey; i++) {
+                for (let i = 0; i < jumpMultiplier; i++) {
                   const next = getNextAllowedValue(nextValue, 1, api.allowedValues);
                   if (next === null) break;
 
@@ -438,7 +438,7 @@ export function useSlider({
                 break;
               }
 
-              api.updateValues(currentValue + api.step * multiplierOnPageKey, atIndex, {
+              api.updateValues(currentValue + api.step * jumpMultiplier, atIndex, {
                 commit: true,
               });
 
@@ -450,7 +450,7 @@ export function useSlider({
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
 
-                for (let i = 0; i < multiplierOnPageKey; i++) {
+                for (let i = 0; i < jumpMultiplier; i++) {
                   const next = getNextAllowedValue(nextValue, -1, api.allowedValues);
                   if (next === null) break;
 
@@ -464,7 +464,7 @@ export function useSlider({
                 break;
               }
 
-              api.updateValues(currentValue + api.step * multiplierOnPageKey * -1, atIndex, {
+              api.updateValues(currentValue + api.step * jumpMultiplier * -1, atIndex, {
                 commit: true,
               });
 
@@ -476,7 +476,7 @@ export function useSlider({
             case "ArrowUp":
             case "ArrowRight": {
               const direction = isLtr ? 1 : -1;
-              const multiplier = (event.shiftKey ? multiplierOnPageKey : 1) * direction;
+              const multiplier = (event.shiftKey ? jumpMultiplier : 1) * direction;
 
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
@@ -504,7 +504,7 @@ export function useSlider({
             case "ArrowLeft":
             case "ArrowDown": {
               const direction = isLtr ? -1 : 1;
-              const multiplier = (event.shiftKey ? multiplierOnPageKey : 1) * direction;
+              const multiplier = (event.shiftKey ? jumpMultiplier : 1) * direction;
 
               if (api.allowedValues && api.allowedValues.length > 0) {
                 let nextValue = currentValue;
@@ -537,7 +537,7 @@ export function useSlider({
     [
       stateProps,
       disabled,
-      multiplierOnPageKey,
+      jumpMultiplier,
       dragStartDelayInMilliseconds,
       api.dir,
       api.getValueFromPointer,
