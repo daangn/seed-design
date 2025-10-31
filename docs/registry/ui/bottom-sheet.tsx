@@ -72,17 +72,13 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
             <SeedBottomSheet.Header>
               {title ? (
                 <SeedBottomSheet.Title>{title}</SeedBottomSheet.Title>
-              ): (
+              ) : (
                 <VisuallyHidden asChild>
                   <SeedBottomSheet.Title>{otherProps["aria-label"] || ""}</SeedBottomSheet.Title>
                 </VisuallyHidden>
               )}
-              {description ? (
+              {description && (
                 <SeedBottomSheet.Description>{description}</SeedBottomSheet.Description>
-              ): (
-                <VisuallyHidden asChild>
-                  <SeedBottomSheet.Description>{otherProps["aria-describedby"] || ""}</SeedBottomSheet.Description>
-                </VisuallyHidden>
               )}
             </SeedBottomSheet.Header>
           )}

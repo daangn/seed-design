@@ -296,6 +296,7 @@ export const DrawerCloseButton = forwardRef<HTMLButtonElement, DrawerCloseButton
         ref={ref}
         {...props}
         onClick={(e) => {
+          props.onClick?.(e);
           if (e.defaultPrevented) return;
           api.setIsOpen(false);
         }}
