@@ -42,6 +42,7 @@ export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
     );
   },
 );
+SliderRoot.displayName = "SliderRoot";
 
 export interface SliderControlProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
@@ -85,6 +86,7 @@ export const SliderThumb = forwardRef<HTMLDivElement, Slider.ThumbProps>(
     );
   },
 );
+SliderThumb.displayName = "SliderThumb";
 
 export interface SliderHiddenInputProps extends Slider.HiddenInputProps {}
 
@@ -109,6 +111,7 @@ export const SliderTick = forwardRef<HTMLDivElement, SliderTickProps>(
     );
   },
 );
+SliderTick.displayName = "SliderTick";
 
 export interface SliderMarkersProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 

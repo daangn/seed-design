@@ -168,6 +168,7 @@ export const SliderTooltipRoot = React.forwardRef<HTMLDivElement, SliderTooltipR
     return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
   },
 );
+SliderTooltipRoot.displayName = "SliderTooltipRoot";
 
 export interface SliderTooltipLabelProps
   extends PrimitiveProps,
@@ -183,3 +184,4 @@ export const SliderTooltipLabel = React.forwardRef<HTMLSpanElement, SliderToolti
     return <Primitive.span ref={ref} {...mergeProps(labelProps, props)} />;
   },
 );
+SliderTooltipLabel.displayName = "SliderTooltipLabel";
