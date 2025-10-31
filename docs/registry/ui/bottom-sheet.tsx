@@ -61,7 +61,7 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
       );
     }
 
-    const shouldRenderHeader = showHandle || title || description;
+    const shouldRenderHeader = title || description;
 
     return (
       <SeedBottomSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
