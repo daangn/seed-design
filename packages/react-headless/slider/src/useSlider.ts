@@ -186,6 +186,50 @@ function useSliderState({
     rectRef.current = undefined;
   }, [values, onValuesCommit]);
 
+  /**
+   * Sets the first thumb to the start position (min or first allowedValue)
+   */
+  const setToStart = useCallback(() => {
+    const targetValue = allowedValues?.[0] ?? min;
+    updateValues(targetValue, 0, { commit: true });
+  }, [allowedValues, min, updateValues]);
+
+  /**
+   * Sets the last thumb to the end position (max or last allowedValue)
+   */
+  const setToEnd = useCallback(() => {
+    const targetValue = allowedValues?.[allowedValues.length - 1] ?? max;
+    updateValues(targetValue, values.length - 1, { commit: true });
+  }, [allowedValues, max, values.length, updateValues]);
+
+  /**
+   * Adjusts the value at the given index by step * multiplier * direction
+   * @param atIndex - The index of the value to adjust
+   * @param direction - The direction to move (1 for forward, -1 for backward)
+   * @param multiplier - The multiplier for the step (default: 1)
+   */
+  const adjustValueByStep = useCallback(
+    (atIndex: number, direction: 1 | -1, multiplier = 1) => {
+      const currentValue = values[atIndex] ?? min;
+
+      if (allowedValues && allowedValues.length > 0) {
+        let nextValue = currentValue;
+
+        for (let i = 0; i < Math.abs(multiplier); i++) {
+          const next = getNextAllowedValue(nextValue, direction, allowedValues);
+          if (next === null) break;
+
+          nextValue = next;
+        }
+
+        updateValues(nextValue, atIndex, { commit: true });
+      } else {
+        updateValues(currentValue + step * multiplier * direction, atIndex, { commit: true });
+      }
+    },
+    [values, allowedValues, min, step, updateValues],
+  );
+
   return {
     refs: {
       root: rootRef,
@@ -219,6 +263,10 @@ function useSliderState({
     handleSlideStart,
     handleSlideMove,
     handleSlideEnd,
+
+    setToStart,
+    setToEnd,
+    adjustValueByStep,
   };
 }
 
@@ -397,77 +445,29 @@ export function useSlider({
           if (disabled || readOnly) return;
 
           const atIndex = api.valueIndexToChangeRef.current;
-          const currentValue = api.values[atIndex] ?? api.min;
 
           switch (event.key) {
             case "Home": {
-              api.updateValues(api.allowedValues?.[0] ?? api.min, 0, { commit: true });
-
+              api.setToStart();
               event.preventDefault();
 
               break;
             }
-
             case "End": {
-              api.updateValues(
-                api.allowedValues?.[api.allowedValues.length - 1] ?? api.max,
-                api.values.length - 1,
-                { commit: true },
-              );
-
+              api.setToEnd();
               event.preventDefault();
 
               break;
             }
 
             case "PageUp": {
-              if (api.allowedValues && api.allowedValues.length > 0) {
-                let nextValue = currentValue;
-
-                for (let i = 0; i < jumpMultiplier; i++) {
-                  const next = getNextAllowedValue(nextValue, 1, api.allowedValues);
-                  if (next === null) break;
-
-                  nextValue = next;
-                }
-
-                api.updateValues(nextValue, atIndex, { commit: true });
-
-                event.preventDefault();
-
-                break;
-              }
-
-              api.updateValues(currentValue + api.step * jumpMultiplier, atIndex, {
-                commit: true,
-              });
-
+              api.adjustValueByStep(atIndex, 1, jumpMultiplier);
               event.preventDefault();
 
               break;
             }
             case "PageDown": {
-              if (api.allowedValues && api.allowedValues.length > 0) {
-                let nextValue = currentValue;
-
-                for (let i = 0; i < jumpMultiplier; i++) {
-                  const next = getNextAllowedValue(nextValue, -1, api.allowedValues);
-                  if (next === null) break;
-
-                  nextValue = next;
-                }
-
-                api.updateValues(nextValue, atIndex, { commit: true });
-
-                event.preventDefault();
-
-                break;
-              }
-
-              api.updateValues(currentValue + api.step * jumpMultiplier * -1, atIndex, {
-                commit: true,
-              });
-
+              api.adjustValueByStep(atIndex, -1, jumpMultiplier);
               event.preventDefault();
 
               break;
@@ -476,57 +476,20 @@ export function useSlider({
             case "ArrowUp":
             case "ArrowRight": {
               const direction = isLtr ? 1 : -1;
-              const multiplier = (event.shiftKey ? jumpMultiplier : 1) * direction;
+              const multiplier = event.shiftKey ? jumpMultiplier : 1;
 
-              if (api.allowedValues && api.allowedValues.length > 0) {
-                let nextValue = currentValue;
-
-                for (let i = 0; i < Math.abs(multiplier); i++) {
-                  const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
-                  if (next === null) break;
-
-                  nextValue = next;
-                }
-
-                api.updateValues(nextValue, atIndex, { commit: true });
-
-                event.preventDefault();
-
-                break;
-              }
-
-              api.updateValues(currentValue + api.step * multiplier, atIndex, { commit: true });
-
+              api.adjustValueByStep(atIndex, direction, multiplier);
               event.preventDefault();
 
               break;
             }
+
             case "ArrowLeft":
             case "ArrowDown": {
               const direction = isLtr ? -1 : 1;
-              const multiplier = (event.shiftKey ? jumpMultiplier : 1) * direction;
+              const multiplier = event.shiftKey ? jumpMultiplier : 1;
 
-              if (api.allowedValues && api.allowedValues.length > 0) {
-                let nextValue = currentValue;
-
-                for (let i = 0; i < Math.abs(multiplier); i++) {
-                  const next = getNextAllowedValue(nextValue, direction, api.allowedValues);
-                  if (next === null) break;
-
-                  nextValue = next;
-                }
-
-                api.updateValues(nextValue, atIndex, { commit: true });
-
-                event.preventDefault();
-
-                break;
-              }
-
-              api.updateValues(currentValue + api.step * multiplier, atIndex, {
-                commit: true,
-              });
-
+              api.adjustValueByStep(atIndex, direction, multiplier);
               event.preventDefault();
 
               break;
@@ -543,21 +506,20 @@ export function useSlider({
       api.getValueFromPointer,
       api.handleSlideEnd,
       api.handleSlideMove,
-      api.max,
-      api.min,
-      api.allowedValues,
       api.setIsActive,
       api.setIsHovered,
       api.setIsDragging,
       api.dragTimerRef,
       api.pointerDownPosition,
-      api.step,
       api.updateValues,
       api.valueIndexToChangeRef.current,
       api.values,
       api.valuesBeforeSlideStartRef,
       api.refs.thumbs.current.has,
       api.handleSlideStart,
+      api.setToStart,
+      api.setToEnd,
+      api.adjustValueByStep,
       isLtr,
       readOnly,
       api.refs.thumbs.current,
