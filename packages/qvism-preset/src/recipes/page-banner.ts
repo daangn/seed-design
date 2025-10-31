@@ -17,6 +17,8 @@ const pageBanner = defineSlotRecipe({
       fontFamily: "inherit",
       WebkitFontSmoothing: "antialiased",
       MozOsxFontSmoothing: "grayscale",
+      // remove line-height difference on actionable page banners (<button>)
+      fontSize: "unset",
 
       display: "flex",
       alignItems: "flex-start",
@@ -40,6 +42,13 @@ const pageBanner = defineSlotRecipe({
 
       [pseudo(":is(button)")]: {
         cursor: "pointer",
+      },
+
+      // This is a temporary fix.
+      // In the snippet ui/page-banner.tsx, replace Box with some proper slot with the following styles on next minor release.
+      "& .seed-box": {
+        lineHeight: vars.base.enabled.description.lineHeight,
+        // flexGrow: 1,
       },
     },
     textContent: {
