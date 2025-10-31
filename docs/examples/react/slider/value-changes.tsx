@@ -14,6 +14,7 @@ export default function SliderOnValuesCommit() {
         values={value}
         onValuesChange={setValue}
         onValuesCommit={setCommittedValue}
+        getAriaLabel={() => "값"}
       />
       <HStack gap="x4">
         <Text>Current value: {JSON.stringify(value)}</Text>

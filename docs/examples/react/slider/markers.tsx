@@ -17,6 +17,7 @@ export default function SliderMarkers() {
         ]}
         getAriaValuetext={(value) => `${value}°C`}
         getPopoverChildren={({ value }) => `${value}°C`}
+        getAriaLabel={() => "온도"}
       />
       <Slider
         min={0}
@@ -27,6 +28,7 @@ export default function SliderMarkers() {
           { value: 50, label: "Normal" },
           { value: 100, label: "Maximum" },
         ]}
+        getAriaLabel={() => "값"}
       />
     </VStack>
   );
