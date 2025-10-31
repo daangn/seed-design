@@ -10,7 +10,7 @@ import {
 
 const snapPoints = ["300px", "500px", 1];
 
-const BottomSheetSnapPoints = () => {
+const BottomSheetFadeFromIndex = () => {
   const [snap, setSnap] = useState<number | string | null>(snapPoints[0]);
 
   return (
@@ -44,4 +44,4 @@ const BottomSheetSnapPoints = () => {
   );
 };
 
-export default BottomSheetSnapPoints;
+export default BottomSheetFadeFromIndex;
