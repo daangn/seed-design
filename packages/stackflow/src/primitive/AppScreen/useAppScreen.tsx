@@ -3,11 +3,17 @@ import { useNullableActivity, useZIndexBase } from "@stackflow/react-ui-core";
 import { useMemo } from "react";
 import { type UseSwipeBackProps, useSwipeBack } from "../GlobalInteraction/useSwipeBack";
 
-export interface UseAppScreenProps extends UseSwipeBackProps {}
+export interface UseAppScreenProps extends UseSwipeBackProps {
+  /**
+   * @default "layer"
+   */
+  tone?: "layer" | "transparent";
+}
 
 export type UseAppScreenReturn = ReturnType<typeof useAppScreen>;
 
 export function useAppScreen(props: UseAppScreenProps) {
+  const { tone } = props;
   const activity = useNullableActivity();
 
   const transitionState = activity?.transitionState ?? "enter-done";
@@ -34,6 +40,7 @@ export function useAppScreen(props: UseAppScreenProps) {
 
   return useMemo(
     () => ({
+      tone,
       activity,
       stateProps,
       activityProps: elementProps({
@@ -63,6 +70,6 @@ export function useAppScreen(props: UseAppScreenProps) {
         ...stateProps,
       }),
     }),
-    [activity, zIndexStyle, stateProps, activityProps, edgeProps, layerProps],
+    [activity, zIndexStyle, stateProps, activityProps, edgeProps, layerProps, tone],
   );
 }

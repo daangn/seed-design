@@ -1,11 +1,13 @@
 import { appScreen, type AppScreenVariantProps } from "@seed-design/css/recipes/app-screen";
+import { mergeProps } from "@seed-design/dom-utils";
+import clsx from "clsx";
 import { forwardRef, useMemo } from "react";
-import { AppScreen as AppScreenPrimitive } from "../../primitive";
+import { AppScreen as AppScreenPrimitive, useAppScreenContext } from "../../primitive";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { AppBarPropsProvider } from "../AppBar/AppBar";
-import { mergeProps } from "@seed-design/dom-utils";
 
-const { ClassNamesProvider, PropsProvider, withContext, useProps } = createStyleContext(appScreen);
+const { ClassNamesProvider, PropsProvider, withContext, useProps, useClassNames } =
+  createStyleContext(appScreen);
 
 export const AppScreenPropsProvider = PropsProvider;
 
@@ -29,13 +31,14 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     <ClassNamesProvider value={classNames}>
       <AppBarPropsProvider
         value={useMemo(
-          () => ({ theme: variantProps.theme, transitionStyle }),
-          [variantProps.theme, transitionStyle],
+          () => ({ theme: variantProps.theme, transitionStyle, tone: variantProps.tone }),
+          [variantProps.theme, transitionStyle, variantProps.tone],
         )}
       >
         <AppScreenPrimitive.Root
           ref={ref}
           {...mergeProps({ className: classNames.root }, otherProps)}
+          tone={variantProps.tone}
         />
       </AppBarPropsProvider>
     </ClassNamesProvider>
@@ -57,9 +60,26 @@ export const AppScreenEdge = withContext<HTMLDivElement, AppScreenEdgeProps>(
   "edge",
 );
 
-export interface AppScreenLayerProps extends AppScreenPrimitive.LayerProps {}
+export interface AppScreenLayerProps extends AppScreenPrimitive.LayerProps {
+  /**
+   * @default "layer"
+   */
+  tone?: "layer" | "transparent";
+}
 
-export const AppScreenLayer = withContext<HTMLDivElement, AppScreenLayerProps>(
-  AppScreenPrimitive.Layer,
-  "layer",
-);
+export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
+  const { tone = "layer", className, ...otherProps } = props;
+  const classNames = useClassNames();
+  const { tone: screenTone } = useAppScreenContext();
+  const layerTone = screenTone ?? tone;
+
+  return (
+    <AppScreenPrimitive.Layer
+      ref={ref}
+      {...mergeProps(otherProps, props)}
+      className={clsx(className, classNames.layer)}
+      tone={layerTone}
+    />
+  );
+});
+AppScreenLayer.displayName = "AppScreenLayer";

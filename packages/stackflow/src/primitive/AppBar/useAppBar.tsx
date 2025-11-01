@@ -1,15 +1,17 @@
 import { elementProps } from "@seed-design/dom-utils";
 import { useMemo, useState } from "react";
 import { useAppScreenContext } from "../AppScreen";
+import type { UseAppScreenProps } from "../AppScreen/useAppScreen";
 import { useElementOffset } from "../private/useElementOffset";
 
-// biome-ignore lint/suspicious/noEmptyInterface: intentionally empty for future extension
-export interface UseAppBarProps {}
+export interface UseAppBarProps extends Pick<UseAppScreenProps, "tone"> {}
 
 export type UseAppBarReturn = ReturnType<typeof useAppBar>;
 
-export function useAppBar(_props: UseAppBarProps) {
-  const { stateProps } = useAppScreenContext();
+export function useAppBar(props: UseAppBarProps) {
+  const { tone: appBarTone } = props;
+  const { stateProps, tone: screenTone } = useAppScreenContext();
+  const tone = screenTone ?? appBarTone;
 
   const [root, rootRef] = useState<HTMLElement | null>(null);
   const [left, leftRef] = useState<HTMLElement | null>(null);
@@ -23,6 +25,7 @@ export function useAppBar(_props: UseAppBarProps) {
 
   return useMemo(
     () => ({
+      tone,
       refs: {
         root: rootRef,
         left: leftRef,
@@ -37,6 +40,6 @@ export function useAppBar(_props: UseAppBarProps) {
         } as React.CSSProperties,
       }),
     }),
-    [stateProps, centeredTitlePaddingX],
+    [stateProps, centeredTitlePaddingX, tone],
   );
 }

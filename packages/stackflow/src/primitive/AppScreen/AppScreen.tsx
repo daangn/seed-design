@@ -9,10 +9,16 @@ import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 export interface AppScreenRootProps
   extends PrimitiveProps,
     UseAppScreenProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * @default undefined
+   */
+  tone?: "layer" | "transparent";
+}
 
 export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((props, ref) => {
   const {
+    tone,
     swipeBackDisplacementRatioThreshold,
     swipeBackVelocityThreshold,
     onSwipeBackEnd,
@@ -22,6 +28,7 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
   } = props;
   const innerRef = useRef<HTMLDivElement>(null);
   const api = useAppScreen({
+    tone,
     swipeBackDisplacementRatioThreshold,
     swipeBackVelocityThreshold,
     onSwipeBackEnd,
@@ -62,7 +69,10 @@ export const AppScreenEdge = forwardRef<HTMLDivElement, AppScreenEdgeProps>((pro
 });
 AppScreenEdge.displayName = "AppScreenEdge";
 
-export interface AppScreenLayerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface AppScreenLayerProps
+  extends PrimitiveProps,
+    React.HTMLAttributes<HTMLDivElement>,
+    Pick<UseAppScreenProps, "tone"> {}
 
 export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
   const { layerProps } = useAppScreenContext();
