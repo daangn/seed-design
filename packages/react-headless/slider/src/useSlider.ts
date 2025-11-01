@@ -101,6 +101,7 @@ function useSliderState({
   });
 
   const valuesBeforeSlideStartRef = useRef(values);
+  const uncommittedValuesRef = useRef<number[] | null>(null);
 
   const [isHovered, setIsHovered] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -134,7 +135,13 @@ function useSliderState({
 
         if (!hasChanged) return prevValues;
 
-        if (options?.commit) onValuesCommit?.(nextValues);
+        if (options?.commit) {
+          uncommittedValuesRef.current = null;
+          onValuesCommit?.(nextValues);
+        } else {
+          uncommittedValuesRef.current = nextValues;
+        }
+
         return nextValues;
       });
     },
@@ -177,18 +184,19 @@ function useSliderState({
   );
 
   /**
-   * when sliding ends, call onValuesCommit if values have changed since start of slide
+   * when sliding ends, call onValuesCommit if there are uncommitted changes
    */
   const handleSlideEnd = useCallback(() => {
-    const prevValue = valuesBeforeSlideStartRef.current[valueIndexToChangeRef.current];
-    const nextValue = values[valueIndexToChangeRef.current];
+    if (uncommittedValuesRef.current) {
+      const valuesToCommit = uncommittedValuesRef.current;
 
-    if (nextValue !== prevValue) {
-      onValuesCommit?.(values);
+      uncommittedValuesRef.current = null;
+
+      onValuesCommit?.(valuesToCommit);
     }
 
     rectRef.current = undefined;
-  }, [values, onValuesCommit]);
+  }, [onValuesCommit]);
 
   /**
    * Sets the first thumb to the start position (min or first allowedValue)
