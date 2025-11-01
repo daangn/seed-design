@@ -101,6 +101,9 @@ function useSliderState({
   });
 
   const valuesBeforeSlideStartRef = useRef(values);
+
+  // Track uncommitted values to handle quick touch events on Android Chrome,
+  // where onPointerMove fires (updating values) immediately before onPointerUp (ending slide)
   const uncommittedValuesRef = useRef<number[] | null>(null);
 
   const [isHovered, setIsHovered] = useState(false);
