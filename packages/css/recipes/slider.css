@@ -62,7 +62,7 @@
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
-.seed-slider__thumb::after:is(:disabled, [disabled], [data-disabled]) {
+.seed-slider__thumb:is(:disabled, [disabled], [data-disabled])::after {
     background-color: var(--seed-color-fg-disabled);
 }
 .seed-slider__thumb[data-dragging] {

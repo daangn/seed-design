@@ -5788,7 +5788,7 @@
   position: absolute;
 }
 
-.seed-slider__thumb:after:is() {
+.seed-slider__thumb:is(:disabled, [disabled], [data-disabled]):after {
   background-color: var(--seed-color-fg-disabled);
 }
 

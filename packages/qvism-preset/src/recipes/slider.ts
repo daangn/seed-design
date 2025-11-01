@@ -115,8 +115,10 @@ const slider = defineSlotRecipe({
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+      },
 
-        [pseudo(disabled)]: {
+      [pseudo(disabled)]: {
+        "&::after": {
           backgroundColor: thumbVars.base.disabled.root.color,
         },
       },
