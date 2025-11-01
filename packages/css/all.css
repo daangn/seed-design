@@ -5742,23 +5742,10 @@
 .seed-slider__range {
   background-color: var(--seed-color-fg-neutral);
   height: 100%;
+  left: var(--left);
+  right: var(--right);
+  transition: left var(--seed-duration-d3) var(--seed-timing-function-easing), right var(--seed-duration-d3) var(--seed-timing-function-easing);
   position: absolute;
-}
-
-[data-ssr][data-dir="ltr"] .seed-slider__range {
-  left: calc(var(--range-start-position) * 1%);
-  right: calc((100 - var(--range-start-position)  - var(--range-width)) * 1%);
-}
-
-[data-ssr][data-dir="rtl"] .seed-slider__range {
-  right: calc(var(--range-start-position) * 1%);
-  left: calc((100 - var(--range-start-position)  - var(--range-width)) * 1%);
-}
-
-.seed-slider__range:not([data-ssr]) {
-  transform: translateX(calc(var(--direction) * var(--root-width) * var(--range-start-position) / 100));
-  width: calc(var(--root-width) * var(--range-width) / 100);
-  transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), width var(--seed-duration-d3) var(--seed-timing-function-easing);
 }
 
 .seed-slider__range:is(:disabled, [disabled], [data-disabled]) {

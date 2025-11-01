@@ -64,34 +64,17 @@ const slider = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.range.color,
 
-      // SSR/before measurement: use left/right
-      // inset-inline-*: Chrome 87~ && Safari 14.1~
-      // https://caniuse.com/mdn-css_properties_inset-inline-start
-      "[data-ssr][data-dir='ltr'] &": {
-        left: "calc(var(--range-start-position) * 1%)",
-        right: "calc((100 - var(--range-start-position) - var(--range-width)) * 1%)",
-      },
+      // Always use left/right for range (smoother transition with two thumbs)
+      left: "var(--left)",
+      right: "var(--right)",
 
-      "[data-ssr][data-dir='rtl'] &": {
-        right: "calc(var(--range-start-position) * 1%)",
-        left: "calc((100 - var(--range-start-position) - var(--range-width)) * 1%)",
-      },
-
-      // After measurement: use transform (--root-width is available)
-      [pseudo(not("[data-ssr]"))]: {
-        transform:
-          "translateX(calc(var(--direction) * var(--root-width) * var(--range-start-position) / 100))",
-        width: "calc(var(--root-width) * var(--range-width) / 100)",
-
-        transition: `transform ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, width ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
-      },
+      transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.range.color,
       },
 
       [pseudo(dragging)]: {
-        // Disable both transform and width transitions for immediate updates during drag
         transition: "none",
       },
     },

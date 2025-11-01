@@ -67,8 +67,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     if (
       process.env.NODE_ENV !== "production" &&
       !label &&
-      !props["getAriaLabel"] &&
-      !props["getAriaLabelledby"]
+      !props.getAriaLabel &&
+      !props.getAriaLabelledby
     ) {
       console.warn(
         "Slider: For better accessibility, provide a `label` prop or at least one of `getAriaLabel` or `getAriaLabelledby` props to tell the users which thumb is for what. This warning will not be shown in production builds.",
