@@ -10,6 +10,8 @@ export default function SliderRtl() {
         max={100}
         step={0.5}
         defaultValues={[36.5]}
+        ticks={[36.5]}
+        tickWeight="thick"
         markers={[
           { value: 0, label: "0°C" },
           { value: 36.5, label: "36.5°C" },
@@ -24,6 +26,7 @@ export default function SliderRtl() {
         min={0}
         max={100}
         defaultValues={[30, 50]}
+        ticks={[20, 40, 60, 80]}
         markers={[0, 20, 40, 60, 80, 100]}
         getAriaLabel={() => "값"}
       />

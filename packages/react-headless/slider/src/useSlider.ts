@@ -2,7 +2,15 @@
 // Used under the MIT License: https://opensource.org/licenses/MIT
 
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
-import { useCallback, useRef, useState, useMemo, type CSSProperties, useId } from "react";
+import {
+  useCallback,
+  useRef,
+  useState,
+  useMemo,
+  type CSSProperties,
+  useId,
+  useEffect,
+} from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useSize } from "@radix-ui/react-use-size";
 import { useIsSSR } from "./useIsSSR";
@@ -135,14 +143,12 @@ function useSliderState({
       const rect = rectRef.current ?? rootRef.current?.getBoundingClientRect();
       if (!rect) return min;
 
-      const input: [number, number] = [0, rect.width];
-      const output: [number, number] = dir === "ltr" ? [min, max] : [max, min];
-
-      const valueGetter = linearScale(input, output);
-
       rectRef.current = rect;
 
-      return valueGetter(pointerPosition - rect.left);
+      return linearScale(
+        [0, rect.width],
+        dir === "ltr" ? [min, max] : [max, min],
+      )(pointerPosition - rect.left);
     },
     [min, max, dir],
   );
@@ -224,6 +230,12 @@ function useSliderState({
     },
     [values, allowedValues, min, step, updateValues],
   );
+
+  useEffect(() => {
+    return () => {
+      if (dragTimerRef.current) clearTimeout(dragTimerRef.current);
+    };
+  }, []);
 
   return {
     refs: {
@@ -324,15 +336,19 @@ export function useSlider({
 
   const isLtr = api.dir === "ltr";
 
-  const stateProps = elementProps({
-    "data-hover": dataAttr(api.isHovered),
-    "data-active": dataAttr(api.isActive),
-    "data-disabled": dataAttr(disabled),
-    "data-readonly": dataAttr(readOnly),
-    "data-invalid": dataAttr(invalid),
-    "data-dragging": dataAttr(api.isDragging),
-    "data-ssr": dataAttr(isSSR),
-  });
+  const stateProps = useMemo(
+    () =>
+      elementProps({
+        "data-hover": dataAttr(api.isHovered),
+        "data-active": dataAttr(api.isActive),
+        "data-disabled": dataAttr(disabled),
+        "data-readonly": dataAttr(readOnly),
+        "data-invalid": dataAttr(invalid),
+        "data-dragging": dataAttr(api.isDragging),
+        "data-ssr": dataAttr(isSSR),
+      }),
+    [api.isHovered, api.isActive, api.isDragging, disabled, readOnly, invalid, isSSR],
+  );
 
   const rootProps = useMemo(
     () =>
@@ -512,7 +528,6 @@ export function useSlider({
       api.handleSlideEnd,
       api.handleSlideMove,
       api.handleSlideStart,
-      api.refs.root,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
@@ -526,11 +541,6 @@ export function useSlider({
       jumpMultiplier,
       readOnly,
       stateProps,
-
-      api.dragTimerRef,
-      api.pointerDownPosition,
-      api.valueIndexToChangeRef,
-      api.valuesBeforeSlideStartRef,
     ],
   );
 
@@ -609,14 +619,13 @@ export function useSlider({
       isLtr,
       isSSR,
       readOnly,
-
-      api.valueIndexToChangeRef,
     ],
   );
 
   const getHiddenInputProps = useCallback(
     (index: number) => {
       const value = api.values[index];
+      if (value === undefined) return inputProps({});
 
       return inputProps({
         type: "hidden",
@@ -737,8 +746,6 @@ export function useSlider({
       api.values,
       getTooltipChildren,
       isLtr,
-
-      api.valueIndexToChangeRef,
     ],
   );
 
