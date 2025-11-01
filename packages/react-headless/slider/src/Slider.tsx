@@ -91,10 +91,9 @@ export interface SliderThumbProps extends PrimitiveProps, React.HTMLAttributes<H
 
 export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
   ({ thumbIndex, ...props }, ref) => {
-    const { getThumbProps, refs } = useSliderContext();
+    const { getThumbProps, getThumbRef } = useSliderContext();
 
-    // Only the first thumb needs to be tracked for size measurement
-    const composedRef = thumbIndex === 0 ? composeRefs(ref, refs.firstThumb) : ref;
+    const composedRef = composeRefs(ref, getThumbRef(thumbIndex));
     const thumbProps = getThumbProps(thumbIndex);
 
     return <Primitive.div ref={composedRef} {...mergeProps(thumbProps, props)} />;

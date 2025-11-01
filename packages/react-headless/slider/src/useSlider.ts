@@ -10,6 +10,7 @@ import {
   type CSSProperties,
   useId,
   useEffect,
+  type RefCallback,
 } from "react";
 import { dataAttr, elementProps, inputProps } from "@seed-design/dom-utils";
 import { useSize } from "@radix-ui/react-use-size";
@@ -82,14 +83,14 @@ function useSliderState({
 }: UseSliderStateProps) {
   const valueIndexToChangeRef = useRef<number>(0);
 
-  const firstThumbRef = useRef<HTMLElement | null>(null);
-  const firstThumbSize = useSize(firstThumbRef.current);
-
   const rootRef = useRef<HTMLElement | null>(null);
   const rectRef = useRef<DOMRect | undefined>(undefined);
 
   const dragTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerDownPosition = useRef<number>(0);
+  const thumbRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
+
+  const firstThumbSize = useSize(thumbRefsMap.current.get(0) ?? null);
 
   const [values, setValues] = useControllableState({
     prop: propValues,
@@ -240,7 +241,6 @@ function useSliderState({
   return {
     refs: {
       root: rootRef,
-      firstThumb: firstThumbRef,
     },
 
     firstThumbSize,
@@ -256,6 +256,7 @@ function useSliderState({
     valuesBeforeSlideStartRef,
     dragTimerRef,
     pointerDownPosition,
+    thumbRefsMap,
     dir,
 
     isHovered,
@@ -395,10 +396,7 @@ export function useSlider({
               api.values,
               api.getValueFromPointer(event.clientX),
             );
-            const thumb = api.refs.root.current?.querySelector<HTMLElement>(
-              `[data-index="${closestIndex}"]`,
-            );
-            thumb?.focus();
+            api.thumbRefsMap.current.get(closestIndex)?.focus();
 
             return;
           }
@@ -457,10 +455,7 @@ export function useSlider({
 
             api.updateValues(valueAtPointer, closestIndex, { commit: true });
 
-            const thumb = api.refs.root.current?.querySelector<HTMLElement>(
-              `[data-index="${closestIndex}"]`,
-            );
-            thumb?.focus();
+            api.thumbRefsMap.current.get(closestIndex)?.focus();
           }
 
           api.handleSlideEnd();
@@ -638,6 +633,20 @@ export function useSlider({
     [api.values, name, disabled, id],
   );
 
+  const getThumbRef = useCallback(
+    (index: number): RefCallback<HTMLElement> =>
+      (element) => {
+        if (!element) {
+          api.thumbRefsMap.current.delete(index);
+
+          return;
+        }
+
+        api.thumbRefsMap.current.set(index, element);
+      },
+    [],
+  );
+
   const getTickProps = useCallback(
     (value: number) => {
       const percent = convertValueToPercentage(value, api.min, api.max);
@@ -767,6 +776,7 @@ export function useSlider({
     rootProps,
     getRangeProps,
     getThumbProps,
+    getThumbRef,
     getHiddenInputProps,
     getTickProps,
     getMarkerProps,
