@@ -342,6 +342,92 @@ describe("useSlider", () => {
 
       expect(thumb0).toHaveFocus();
     });
+
+    it("should change the value of the closest thumb on track click", async () => {
+      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+
+      const root = getByTestId("slider-root");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      await user.pointer([
+        { target: root, coords: { clientX: 75, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+      expect(root.querySelector('[aria-valuenow="75"]')).toBeInTheDocument();
+
+      await user.pointer([
+        { target: root, coords: { clientX: 25, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+      expect(root.querySelector('[aria-valuenow="25"]')).toBeInTheDocument();
+    });
+
+    it("should change the value of the closest thumb on track drag", async () => {
+      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const thumb1 = getByTestId("slider-thumb-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      await user.pointer([
+        { target: root, coords: { clientX: 75, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      await user.pointer([{ target: root, coords: { clientX: 70, clientY: 5 } }]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "70");
+
+      await user.pointer([{ target: root, coords: { clientX: 65, clientY: 5 } }]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "65");
+
+      await user.pointer([
+        { target: root, coords: { clientX: 65, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "65");
+
+      await user.pointer([
+        { target: root, coords: { clientX: 10, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+
+      await user.pointer([{ target: root, coords: { clientX: 15, clientY: 5 } }]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "15");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "65");
+
+      await user.pointer([
+        { target: root, coords: { clientX: 20, clientY: 5 }, keys: "[MouseLeft]" },
+      ]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "65");
+
+      await user.pointer([
+        { target: root, coords: { clientX: 20, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+      expect(thumb0).toHaveAttribute("aria-valuenow", "20");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "65");
+    });
   });
 
   describe("Pointer Interactions - Drag Thumb", () => {
