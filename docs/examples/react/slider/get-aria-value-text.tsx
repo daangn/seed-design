@@ -5,7 +5,9 @@ import { Slider } from "seed-design/ui/slider";
 const days = ["일", "월", "화", "수", "목", "금", "토"];
 
 function getHumanReadableDayOfWeek(value: number) {
-  return `${days[value]}요일` || "";
+  if (days[value] === undefined) throw new Error("Invalid day value");
+
+  return `${days[value]}요일`;
 }
 
 export default function SliderGetAriaValuetext() {
