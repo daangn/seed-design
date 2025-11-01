@@ -83,7 +83,7 @@ function useSliderState({
 }: UseSliderStateProps) {
   const valueIndexToChangeRef = useRef<number>(0);
 
-  const rootRef = useRef<HTMLElement | null>(null);
+  const [rootEl, rootRef] = useState<HTMLElement | null>(null);
   const rectRef = useRef<DOMRect | undefined>(undefined);
 
   const dragTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -91,6 +91,7 @@ function useSliderState({
   const thumbRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
 
   const firstThumbSize = useSize(thumbRefsMap.current.get(0) ?? null);
+  const rootSize = useSize(rootEl);
 
   const [values, setValues] = useControllableState({
     prop: propValues,
@@ -141,7 +142,7 @@ function useSliderState({
 
   const getValueFromPointer = useCallback(
     (pointerPosition: number) => {
-      const rect = rectRef.current ?? rootRef.current?.getBoundingClientRect();
+      const rect = rectRef.current ?? rootEl?.getBoundingClientRect();
       if (!rect) return min;
 
       rectRef.current = rect;
@@ -151,7 +152,7 @@ function useSliderState({
         dir === "ltr" ? [min, max] : [max, min],
       )(pointerPosition - rect.left);
     },
-    [min, max, dir],
+    [min, max, dir, rootEl],
   );
 
   /**
@@ -244,6 +245,7 @@ function useSliderState({
     },
 
     firstThumbSize,
+    rootSize,
 
     min,
     max,
@@ -347,8 +349,9 @@ export function useSlider({
         "data-invalid": dataAttr(invalid),
         "data-dragging": dataAttr(api.isDragging),
         "data-ssr": dataAttr(isSSR),
+        "data-dir": api.dir,
       }),
-    [api.isHovered, api.isActive, api.isDragging, disabled, readOnly, invalid, isSSR],
+    [api.dir, api.isHovered, api.isActive, api.isDragging, disabled, readOnly, invalid, isSSR],
   );
 
   const rootProps = useMemo(
@@ -357,6 +360,13 @@ export function useSlider({
         ...stateProps,
 
         dir: api.dir,
+
+        style: {
+          // XXX: might replace with :dir() - Chrome 120~ && Safari 16.4~ and remove data-dir
+          // https://caniuse.com/css-dir-pseudo
+          "--direction": isLtr ? "1" : "-1",
+          ...(api.rootSize && { "--root-width": `${api.rootSize.width}px` }),
+        } as CSSProperties,
 
         onPointerLeave: () => {
           api.setIsHovered(false);
@@ -523,6 +533,7 @@ export function useSlider({
       api.handleSlideEnd,
       api.handleSlideMove,
       api.handleSlideStart,
+      api.rootSize,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
@@ -546,15 +557,16 @@ export function useSlider({
 
     const offsetStart = api.values.length > 1 ? Math.min(...percentages) : 0;
     const offsetEnd = 100 - Math.max(...percentages);
+    const rangeWidth = 100 - offsetEnd - offsetStart;
 
     return elementProps({
       ...stateProps,
       style: {
-        [isLtr ? "--range-left" : "--range-right"]: `${offsetStart}%`,
-        [isLtr ? "--range-right" : "--range-left"]: `${offsetEnd}%`,
-      },
+        "--range-start-position": offsetStart,
+        "--range-width": rangeWidth,
+      } as CSSProperties,
     });
-  }, [api.values, api.min, api.max, isLtr, stateProps]);
+  }, [api.values, api.min, api.max, stateProps]);
 
   const getThumbProps = useCallback(
     (index: number) => {
@@ -592,8 +604,8 @@ export function useSlider({
 
         tabIndex: disabled ? -1 : 0, // readonly thumbs should still be focusable
         style: {
-          [isLtr ? "--thumb-left" : "--thumb-right"]:
-            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
+          "--thumb-position": percent,
+          "--thumb-offset": `${thumbInBoundsOffset}px`,
         } as CSSProperties,
         onFocus: () => {
           api.valueIndexToChangeRef.current = index;
@@ -660,12 +672,12 @@ export function useSlider({
       return elementProps({
         ...stateProps,
         style: {
-          [isLtr ? "--tick-left" : "--tick-right"]: `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-          "--tick-transform": isLtr ? "translate(-50%, -50%)" : "translate(50%, -50%)",
+          "--tick-position": percent,
+          "--tick-offset": `${thumbInBoundsOffset}px`,
         } as CSSProperties,
       });
     },
-    [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
+    [api.min, api.max, stateProps, api.firstThumbSize?.width],
   );
 
   const getMarkerProps = useCallback(
@@ -679,23 +691,16 @@ export function useSlider({
           ? 0
           : getThumbInBoundsOffset(api.firstThumbSize?.width ?? 0, percent, 1);
 
+      const markerAlignOffset = isEnd === "start" ? "0%" : isEnd === "end" ? "-100%" : "-50%";
+
       return elementProps({
         ...stateProps,
         "aria-hidden": true,
 
         style: {
-          [isLtr ? "--marker-left" : "--marker-right"]:
-            `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-          "--marker-transform":
-            isEnd === "start"
-              ? "translateX(0%)"
-              : isEnd === "end"
-                ? isLtr
-                  ? "translateX(-100%)"
-                  : "translateX(100%)"
-                : isLtr
-                  ? "translateX(-50%)"
-                  : "translateX(50%)",
+          "--marker-position": percent,
+          "--marker-offset": `${thumbInBoundsOffset}px`,
+          "--marker-align-offset": markerAlignOffset,
           "--marker-text-align":
             isEnd === "start"
               ? isLtr
@@ -737,9 +742,8 @@ export function useSlider({
           "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
 
           style: {
-            [isLtr ? "--tooltip-left" : "--tooltip-right"]:
-              `calc(${percent}% + ${thumbInBoundsOffset}px)`,
-            "--tooltip-translateX": isLtr ? "-50%" : "50%",
+            "--tooltip-position": percent,
+            "--tooltip-offset": `${thumbInBoundsOffset}px`,
           } as CSSProperties,
         }),
         labelProps: elementProps({
@@ -747,15 +751,7 @@ export function useSlider({
         }),
       };
     },
-    [
-      api.firstThumbSize?.width,
-      api.isDragging,
-      api.max,
-      api.min,
-      api.values,
-      getTooltipChildren,
-      isLtr,
-    ],
+    [api.firstThumbSize?.width, api.isDragging, api.max, api.min, api.values, getTooltipChildren],
   );
 
   return {

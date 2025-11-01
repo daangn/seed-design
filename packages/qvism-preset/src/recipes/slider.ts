@@ -64,16 +64,34 @@ const slider = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.range.color,
 
-      left: "var(--range-left)",
-      right: "var(--range-right)",
+      // SSR/before measurement: use left/right
+      // inset-inline-*: Chrome 87~ && Safari 14.1~
+      // https://caniuse.com/mdn-css_properties_inset-inline-start
+      "[data-ssr][data-dir='ltr'] &": {
+        left: "calc(var(--range-start-position) * 1%)",
+        right: "calc((100 - var(--range-start-position) - var(--range-width)) * 1%)",
+      },
 
-      transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
+      "[data-ssr][data-dir='rtl'] &": {
+        right: "calc(var(--range-start-position) * 1%)",
+        left: "calc((100 - var(--range-start-position) - var(--range-width)) * 1%)",
+      },
+
+      // After measurement: use transform (--root-width is available)
+      [pseudo(not("[data-ssr]"))]: {
+        transform:
+          "translateX(calc(var(--direction) * var(--root-width) * var(--range-start-position) / 100))",
+        width: "calc(var(--root-width) * var(--range-width) / 100)",
+
+        transition: `transform ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, width ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
+      },
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.range.color,
       },
 
       [pseudo(dragging)]: {
+        // Disable both transform and width transitions for immediate updates during drag
         transition: "none",
       },
     },
@@ -81,35 +99,55 @@ const slider = defineSlotRecipe({
       position: "absolute",
       top: "50%",
 
-      left: "var(--thumb-left)",
-      right: "var(--thumb-right)",
-
-      transform: "translate(-50%, -50%)",
-
       width: thumbVars.base.enabled.root.size,
       height: thumbVars.base.enabled.root.size,
-      backgroundColor: thumbVars.base.enabled.root.color,
 
-      borderRadius: thumbVars.base.enabled.root.cornerRadius,
+      // SSR/before measurement: use left/right
+      "[data-ssr][data-dir='ltr'] &": {
+        left: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
+        transform: "translate(-50%, -50%)",
+      },
 
-      transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}, left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}`,
+      "[data-ssr][data-dir='rtl'] &": {
+        right: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
+        transform: "translate(-50%, -50%)",
+      },
 
-      [pseudo(dragging)]: {
-        transform: `translate(-50%, -50%) scale(${thumbVars.base.pressed.root.scale})`,
+      // After measurement: use transform (--root-width is available)
+      [pseudo(not("[data-ssr]"))]: {
+        transform:
+          "translateX(calc(var(--direction) * (var(--root-width) * var(--thumb-position) / 100 + var(--thumb-offset)))) translateX(-50%) translateY(-50%)",
+
+        transition: `transform ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}`,
+      },
+
+      "&::after": {
+        content: '""',
+        position: "absolute",
+
+        width: "100%",
+        height: "100%",
+
+        backgroundColor: thumbVars.base.enabled.root.color,
+        borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+
+        [pseudo(disabled)]: {
+          backgroundColor: thumbVars.base.disabled.root.color,
+        },
+      },
+
+      [pseudo(dragging)]: {
+        transition: "none",
+
+        "&::after": {
+          transform: `scale(${thumbVars.base.pressed.root.scale})`,
+        },
       },
 
       [pseudo(focus)]: {
         outline: "none", // XXX
-      },
-
-      [pseudo(disabled)]: {
-        backgroundColor: thumbVars.base.disabled.root.color,
-      },
-
-      [pseudo("[data-ssr]")]: {
-        display: "none",
       },
     },
     markers: {
@@ -126,15 +164,29 @@ const slider = defineSlotRecipe({
 
       width: "max-content",
 
-      left: "var(--marker-left)",
-      right: "var(--marker-right)",
-      transform: "var(--marker-transform)",
       textAlign: "var(--marker-text-align)",
 
       color: vars.base.enabled.marker.color,
       fontWeight: vars.base.enabled.marker.fontWeight,
       fontSize: vars.base.enabled.marker.fontSize,
       lineHeight: vars.base.enabled.marker.lineHeight,
+
+      // SSR/before measurement: use left/right (percentage-based)
+      "[data-ssr][data-dir='ltr'] &": {
+        left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
+        transform: "translateX(var(--marker-align-offset))",
+      },
+
+      "[data-ssr][data-dir='rtl'] &": {
+        right: "calc(var(--marker-position) * 1% + var(--marker-offset))",
+        transform: "translateX(calc(var(--marker-align-offset) * -1))",
+      },
+
+      // After measurement: use transform (pixel-based)
+      [pseudo(not("[data-ssr]"))]: {
+        transform:
+          "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)))) translateX(calc(var(--direction) * var(--marker-align-offset)))",
+      },
 
       [pseudo(disabled)]: {
         color: vars.base.disabled.marker.color,
@@ -159,11 +211,9 @@ const slider = defineSlotRecipe({
       width: "max-content",
 
       position: "absolute",
-      left: "var(--tooltip-left)",
-      right: "var(--tooltip-right)",
       bottom: "100%",
 
-      transform: `translate(var(--tooltip-translateX), calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
+      transform: `translateX(calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)))) translateX(calc(var(--direction) * -50%)) translateY(calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
 
       // Hide tooltip by default (before any interaction)
       opacity: 0,
@@ -176,8 +226,9 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.enterDuration,
           timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
 
-          translateX: "var(--tooltip-translateX)",
-          translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
+          translateX:
+            "calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)) + var(--direction) * -50%)",
+          translateY: vars.base.enabled.tooltipRoot.offsetY,
         }),
       },
 
@@ -188,8 +239,9 @@ const slider = defineSlotRecipe({
           duration: vars.base.enabled.tooltipRoot.exitDuration,
           timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
 
-          translateX: "var(--tooltip-translateX)",
-          translateY: `calc((${thumbVars.base.pressed.root.scale} - 1) * ${thumbVars.base.enabled.root.size} / -2)`,
+          translateX:
+            "calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)) + var(--direction) * -50%)",
+          translateY: vars.base.enabled.tooltipRoot.offsetY,
         }),
       },
 
@@ -228,13 +280,27 @@ const sliderTick = defineRecipe({
     position: "absolute",
 
     top: "50%",
-    left: "var(--tick-left)",
-    right: "var(--tick-right)",
-    transform: "var(--tick-transform)",
 
     height: "100%",
 
     backgroundColor: tickVars.base.enabled.root.color,
+
+    // SSR/before measurement: use left/right (percentage-based)
+    "[data-ssr][data-dir='ltr'] &": {
+      left: "calc(var(--tick-position) * 1% + var(--tick-offset))",
+      transform: "translate(-50%, -50%)",
+    },
+
+    "[data-ssr][data-dir='rtl'] &": {
+      right: "calc(var(--tick-position) * 1% + var(--tick-offset))",
+      transform: "translate(-50%, -50%)",
+    },
+
+    // After measurement: use transform (pixel-based)
+    ":not([data-ssr]) &": {
+      transform:
+        "translateX(calc(var(--direction) * (var(--root-width) * var(--tick-position) / 100 + var(--tick-offset)))) translateX(-50%) translateY(-50%)",
+    },
   },
   variants: {
     weight: {
