@@ -3,8 +3,14 @@ import { cleanup, render, type RenderResult } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as React from "react";
-import { useSlider, type UseSliderProps } from "./useSlider";
-import { Primitive } from "@seed-design/react-primitive";
+import type { UseSliderProps } from "./useSlider";
+import {
+  SliderRoot,
+  SliderRange,
+  SliderThumb,
+  SliderHiddenInput,
+  type SliderRootProps,
+} from "./Slider";
 
 afterEach(cleanup);
 
@@ -15,69 +21,24 @@ function setUp(jsx: React.ReactElement): { user: UserEvent } & RenderResult {
   };
 }
 
-// Test wrapper component that uses useSlider hook
-interface SliderProps extends UseSliderProps {
+// Test wrapper component using actual Slider components
+interface SliderProps extends Omit<SliderRootProps, "children"> {
   "data-testid"?: string;
 }
 
-// Thumb component that manages its own ref
-const Thumb = ({
-  api,
-  index,
-  testId,
-}: {
-  api: ReturnType<typeof useSlider>;
-  index: number;
-  testId: string;
-}) => {
-  const thumbRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const node = thumbRef.current;
-    if (node) {
-      api.refs.thumbs.current.add(node);
-    }
-
-    return () => {
-      if (node) {
-        api.refs.thumbs.current.delete(node);
-      }
-    };
-  }, [api.refs.thumbs]);
-
+const Slider = ({ "data-testid": testId = "slider", ...props }: SliderProps) => {
   return (
-    <Primitive.div
-      ref={thumbRef}
-      {...api.getThumbProps(index)}
-      data-testid={`${testId}-thumb-${index}`}
-    />
-  );
-};
-
-const Slider = (props: SliderProps) => {
-  const testId = props["data-testid"] || "slider";
-  const api = useSlider(props);
-  const values = api.values;
-
-  return (
-    <Primitive.div
-      ref={api.refs.root as React.RefObject<HTMLDivElement>}
-      {...api.rootProps}
-      data-testid={`${testId}-root`}
-    >
-      <Primitive.div data-testid={`${testId}-track`}>
-        <Primitive.div {...api.getRangeProps()} data-testid={`${testId}-range`} />
-      </Primitive.div>
-      {values.map((_, index) => (
+    <SliderRoot {...props} data-testid={`${testId}-root`}>
+      <div data-testid={`${testId}-track`}>
+        <SliderRange data-testid={`${testId}-range`} />
+      </div>
+      {(props.values || props.defaultValues || [0]).map((_, index) => (
         <React.Fragment key={index}>
-          <Thumb api={api} index={index} testId={testId} />
-          <Primitive.input
-            {...api.getHiddenInputProps(index)}
-            data-testid={`${testId}-hidden-input-${index}`}
-          />
+          <SliderThumb thumbIndex={index} data-testid={`${testId}-thumb-${index}`} />
+          <SliderHiddenInput thumbIndex={index} data-testid={`${testId}-hidden-input-${index}`} />
         </React.Fragment>
       ))}
-    </Primitive.div>
+    </SliderRoot>
   );
 };
 
