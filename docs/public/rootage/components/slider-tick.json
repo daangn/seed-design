@@ -18,7 +18,7 @@
         }
       },
       "variants": {
-        "variant": {
+        "weight": {
           "values": {
             "thin": {},
             "thick": {}
@@ -48,7 +48,7 @@
       },
       {
         "variants": {
-          "variant": "thin"
+          "weight": "thin"
         },
         "definitions": [
           {
@@ -71,7 +71,7 @@
       },
       {
         "variants": {
-          "variant": "thick"
+          "weight": "thick"
         },
         "definitions": [
           {

@@ -19,7 +19,7 @@ export default function SliderGetAriaValuetext() {
         minStepsBetweenThumbs={1}
         markers={days.map((label, value) => ({ label, value }))}
         ticks={days.slice(1, -1).map((_, index) => index + 1)}
-        variant="thick"
+        tickWeight="thick"
         values={values}
         onValuesChange={setValues}
         getAriaLabel={(thumbIndex) => (thumbIndex === 0 ? "시작" : "종료")}

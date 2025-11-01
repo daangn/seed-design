@@ -6,14 +6,12 @@ import { Slider, useSliderContext } from "@seed-design/react-slider";
 import { forwardRef, useRef, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
-import { splitMultipleVariantsProps } from "../../utils/splitMultipleVariantsProps";
 import clsx from "clsx";
 import { mergeProps } from "@seed-design/dom-utils";
 import { useFieldContext } from "@seed-design/react-field";
 
-const { withContext, ClassNamesProvider, useClassNames } = createSlotRecipeContext(slider);
-const { PropsProvider: TickPropsProvider, useProps: useTickProps } =
-  createRecipeContext(sliderTick);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(slider);
+const { withContext: withTickContext } = createRecipeContext(sliderTick);
 
 const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
 const withStateProps = createWithStateProps([
@@ -21,28 +19,9 @@ const withStateProps = createWithStateProps([
   { useContext: useFieldContext, strict: false },
 ]);
 
-export interface SliderRootProps
-  extends SliderVariantProps,
-    SliderTickVariantProps,
-    Slider.RootProps {}
+export interface SliderRootProps extends SliderVariantProps, Slider.RootProps {}
 
-export const SliderRoot = forwardRef<HTMLDivElement, SliderRootProps>(
-  ({ className, ...props }, ref) => {
-    const [{ slider: sliderVariantProps, sliderTick: sliderTickVariantProps }, otherProps] =
-      splitMultipleVariantsProps(props, { slider, sliderTick });
-
-    const classNames = slider(sliderVariantProps);
-
-    return (
-      <TickPropsProvider value={sliderTickVariantProps}>
-        <ClassNamesProvider value={classNames}>
-          <Slider.Root ref={ref} className={clsx(classNames.root, className)} {...otherProps} />
-        </ClassNamesProvider>
-      </TickPropsProvider>
-    );
-  },
-);
-SliderRoot.displayName = "SliderRoot";
+export const SliderRoot = withProvider<HTMLDivElement, SliderRootProps>(Slider.Root, "root");
 
 export interface SliderControlProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 
@@ -94,24 +73,7 @@ export const SliderHiddenInput = Slider.HiddenInput;
 
 export interface SliderTickProps extends SliderTickVariantProps, Slider.TickProps {}
 
-export const SliderTick = forwardRef<HTMLDivElement, SliderTickProps>(
-  ({ value, ...props }, ref) => {
-    const parentVariantProps = useTickProps();
-
-    const [variantProps, { className, ...otherProps }] = sliderTick.splitVariantProps(props);
-    const recipeClassName = sliderTick(mergeProps(parentVariantProps, variantProps));
-
-    return (
-      <Slider.Tick
-        value={value}
-        ref={ref}
-        className={clsx(recipeClassName, className)}
-        {...otherProps}
-      />
-    );
-  },
-);
-SliderTick.displayName = "SliderTick";
+export const SliderTick = withTickContext<HTMLDivElement, SliderTickProps>(Slider.Tick);
 
 export interface SliderMarkersProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
 

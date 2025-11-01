@@ -7,6 +7,7 @@ import {
   VisuallyHidden,
   PrefixIcon,
 } from "@seed-design/react";
+import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
@@ -19,11 +20,12 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default []
    */
-  ticks?: number[];
+  markers?: ({ value: number; label?: React.ReactNode } | number)[];
   /**
    * @default []
    */
-  markers?: ({ value: number; label?: React.ReactNode } | number)[];
+  ticks?: number[];
+  tickWeight?: SliderTickVariantProps["weight"];
 
   /**
    * @default false
@@ -44,8 +46,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       errorMessage,
       showRequiredIndicator,
 
-      ticks = [],
       markers = [],
+      ticks = [],
+      tickWeight,
 
       hideRange = false,
       hideTooltip = false,
@@ -94,7 +97,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <SeedSlider.Track>
               {!hideRange && <SeedSlider.Range />}
               {ticks.map((value) => (
-                <SeedSlider.Tick key={value} value={value} />
+                <SeedSlider.Tick weight={tickWeight} key={value} value={value} />
               ))}
             </SeedSlider.Track>
             {values?.map((_, index) => (

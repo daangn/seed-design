@@ -2,13 +2,13 @@ import './slider-tick.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
 const defaultVariant = {
-  "variant": "thin"
+  "weight": "thin"
 };
 
 const compoundVariants = [];
 
 export const sliderTickVariantMap = {
-  "variant": [
+  "weight": [
     "thin",
     "thick"
   ]

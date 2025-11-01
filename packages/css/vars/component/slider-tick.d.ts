@@ -6,14 +6,14 @@ export declare const vars: {
       }
     }
   },
-  "variantThin": {
+  "weightThin": {
     "enabled": {
       "root": {
         "width": "1px"
       }
     }
   },
-  "variantThick": {
+  "weightThick": {
     "enabled": {
       "root": {
         "width": "var(--seed-dimension-x1)"

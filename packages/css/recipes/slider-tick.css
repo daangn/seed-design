@@ -7,9 +7,9 @@
     height: 100%;
     background-color: var(--seed-color-fg-neutral-inverted)
 }
-.seed-slider-tick--variant_thin {
+.seed-slider-tick--weight_thin {
     width: 1px
 }
-.seed-slider-tick--variant_thick {
+.seed-slider-tick--weight_thick {
     width: var(--seed-dimension-x1)
 }

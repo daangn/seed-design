@@ -237,17 +237,17 @@ const sliderTick = defineRecipe({
     backgroundColor: tickVars.base.enabled.root.color,
   },
   variants: {
-    variant: {
+    weight: {
       thin: {
-        width: tickVars.variantThin.enabled.root.width,
+        width: tickVars.weightThin.enabled.root.width,
       },
       thick: {
-        width: tickVars.variantThick.enabled.root.width,
+        width: tickVars.weightThick.enabled.root.width,
       },
     },
   },
   defaultVariants: {
-    variant: "thin",
+    weight: "thin",
   },
 });
 

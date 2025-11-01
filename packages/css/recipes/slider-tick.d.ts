@@ -2,7 +2,7 @@ declare interface SliderTickVariant {
   /**
   * @default "thin"
   */
-  variant: "thin" | "thick";
+  weight: "thin" | "thick";
 }
 
 declare type SliderTickVariantMap = {

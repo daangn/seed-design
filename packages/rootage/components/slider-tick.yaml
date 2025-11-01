@@ -15,11 +15,11 @@ data:
       enabled:
         root:
           color: $color.fg.neutral-inverted # fg 토큰인데 적절할까?      
-    variant=thin:
+    weight=thin:
       enabled:
         root:
           width: 1px
-    variant=thick:
+    weight=thick:
       enabled:
         root:
           width: $dimension.x1
