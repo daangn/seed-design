@@ -51,9 +51,7 @@ export const SliderThumb = forwardRef<HTMLDivElement, Slider.ThumbProps>(
     const classNames = useClassNames();
 
     const fieldContext = useFieldContext({ strict: false });
-
-    // intentionally omits Field stateProps here because each thumb is styled individually
-    const mergedProps = mergeProps(fieldContext?.inputAriaAttributes ?? {}, props);
+    const mergedProps = mergeProps(fieldContext?.inputAriaAttributes ?? {}, props); // intentionally omits Field stateProps here because each thumb is styled individually
 
     return (
       <Slider.Thumb

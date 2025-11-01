@@ -93,19 +93,11 @@ export const SliderThumb = React.forwardRef<HTMLDivElement, SliderThumbProps>(
   ({ thumbIndex, ...props }, ref) => {
     const { getThumbProps, refs } = useSliderContext();
 
-    const thumbRef = React.useRef<HTMLDivElement>(null);
+    // Only the first thumb needs to be tracked for size measurement
+    const composedRef = thumbIndex === 0 ? composeRefs(ref, refs.firstThumb) : ref;
     const thumbProps = getThumbProps(thumbIndex);
 
-    React.useEffect(() => {
-      const node = thumbRef.current;
-      if (node) refs.thumbs.current.add(node);
-
-      return () => {
-        if (node) refs.thumbs.current.delete(node);
-      };
-    }, [refs.thumbs]);
-
-    return <Primitive.div ref={composeRefs(ref, thumbRef)} {...mergeProps(thumbProps, props)} />;
+    return <Primitive.div ref={composedRef} {...mergeProps(thumbProps, props)} />;
   },
 );
 SliderThumb.displayName = "SliderThumb";
