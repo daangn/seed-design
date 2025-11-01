@@ -4,15 +4,15 @@
     height: 100%;
     background-color: var(--seed-color-fg-neutral-inverted);
 }
-[data-ssr][data-dir='ltr'] .seed-slider-tick {
+.seed-slider-tick[data-ssr][data-dir='ltr'] {
     left: calc(var(--tick-position) * 1% + var(--tick-offset));
     transform: translate(-50%, -50%);
 }
-[data-ssr][data-dir='rtl'] .seed-slider-tick {
+.seed-slider-tick[data-ssr][data-dir='rtl'] {
     right: calc(var(--tick-position) * 1% + var(--tick-offset));
     transform: translate(-50%, -50%);
 }
-:not([data-ssr]) .seed-slider-tick {
+.seed-slider-tick:not([data-ssr]) {
     transform: translateX(calc(var(--direction) * (var(--root-width) * var(--tick-position) / 100 + var(--tick-offset)))) translateX(-50%) translateY(-50%);
 }
 .seed-slider-tick--weight_thin {

@@ -86,12 +86,11 @@ const slider = defineSlotRecipe({
       height: thumbVars.base.enabled.root.size,
 
       // SSR/before measurement: use left/right
-      "[data-ssr][data-dir='ltr'] &": {
+      [pseudo("[data-ssr][data-dir='ltr']")]: {
         left: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
         transform: "translate(-50%, -50%)",
       },
-
-      "[data-ssr][data-dir='rtl'] &": {
+      [pseudo("[data-ssr][data-dir='rtl']")]: {
         right: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
         transform: "translate(-50%, -50%)",
       },
@@ -157,12 +156,11 @@ const slider = defineSlotRecipe({
       lineHeight: vars.base.enabled.marker.lineHeight,
 
       // SSR/before measurement: use left/right (percentage-based)
-      "[data-ssr][data-dir='ltr'] &": {
+      [pseudo("[data-ssr][data-dir='ltr']")]: {
         left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
         transform: "translateX(var(--marker-align-offset))",
       },
-
-      "[data-ssr][data-dir='rtl'] &": {
+      [pseudo("[data-ssr][data-dir='rtl']")]: {
         right: "calc(var(--marker-position) * 1% + var(--marker-offset))",
         transform: "translateX(calc(var(--marker-align-offset) * -1))",
       },
@@ -271,18 +269,17 @@ const sliderTick = defineRecipe({
     backgroundColor: tickVars.base.enabled.root.color,
 
     // SSR/before measurement: use left/right (percentage-based)
-    "[data-ssr][data-dir='ltr'] &": {
+    [pseudo("[data-ssr][data-dir='ltr']")]: {
       left: "calc(var(--tick-position) * 1% + var(--tick-offset))",
       transform: "translate(-50%, -50%)",
     },
-
-    "[data-ssr][data-dir='rtl'] &": {
+    [pseudo("[data-ssr][data-dir='rtl']")]: {
       right: "calc(var(--tick-position) * 1% + var(--tick-offset))",
       transform: "translate(-50%, -50%)",
     },
 
     // After measurement: use transform (pixel-based)
-    ":not([data-ssr]) &": {
+    [pseudo(not("[data-ssr]"))]: {
       transform:
         "translateX(calc(var(--direction) * (var(--root-width) * var(--tick-position) / 100 + var(--tick-offset)))) translateX(-50%) translateY(-50%)",
     },

@@ -76,7 +76,7 @@ function useSliderState({
   allowedValues,
   minStepsBetweenThumbs = 0,
   values: propValues,
-  defaultValues: propDefaultValues = [min],
+  defaultValues: propDefaultValues,
   onValuesCommit,
   onValuesChange,
   dir = "ltr",
@@ -95,7 +95,8 @@ function useSliderState({
 
   const [values, setValues] = useControllableState({
     prop: propValues,
-    defaultProp: propDefaultValues,
+    defaultProp:
+      propDefaultValues && propDefaultValues.length > 0 ? propDefaultValues : [(min + max) / 2],
     onChange: onValuesChange,
   });
 
@@ -348,6 +349,7 @@ export function useSlider({
         "data-readonly": dataAttr(readOnly),
         "data-invalid": dataAttr(invalid),
         "data-dragging": dataAttr(api.isDragging),
+
         "data-ssr": dataAttr(isSSR),
         "data-dir": api.dir,
       }),
@@ -602,6 +604,7 @@ export function useSlider({
         "data-disabled": dataAttr(disabled),
         "data-readonly": dataAttr(readOnly),
         "data-ssr": dataAttr(isSSR),
+        "data-dir": api.dir,
 
         tabIndex: disabled ? -1 : 0, // readonly thumbs should still be focusable
         style: {
