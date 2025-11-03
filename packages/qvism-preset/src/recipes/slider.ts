@@ -7,7 +7,11 @@ import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { disabled, pseudo, focus, not, hidden } from "../utils/pseudo";
 import { enterAnimation, exitAnimation } from "../utils/animation";
 
+import * as duration from "../vars/duration";
+import * as timingFunction from "../vars/timing-function";
+
 const dragging = "[data-dragging]";
+const thumbDragging = "[data-thumb-dragging]";
 
 const slider = defineSlotRecipe({
   name: "slider",
@@ -84,30 +88,29 @@ const slider = defineSlotRecipe({
       width: thumbVars.base.enabled.root.size,
       height: thumbVars.base.enabled.root.size,
 
-      // SSR/before measurement: use left/right
-      [pseudo("[data-ssr][data-dir='ltr']")]: {
-        left: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
-        transform: "translate(-50%, -50%)",
-      },
-      [pseudo("[data-ssr][data-dir='rtl']")]: {
-        right: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
-        transform: "translate(-50%, -50%)",
+      [pseudo("[data-ssr]")]: {
+        opacity: 0,
       },
 
       // After measurement: use transform (--root-width is available)
       [pseudo(not("[data-ssr]"))]: {
+        opacity: 1,
+
         transform:
           "translateX(calc(var(--direction) * (var(--root-width) * var(--thumb-position) / 100 + var(--thumb-offset)))) translateX(-50%) translateY(-50%)",
 
-        transition: `transform ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}`,
+        // opacity is web-only transition so will not be declared in rootage
+        transition: `transform ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
       },
 
       "&::after": {
         content: '""',
         position: "absolute",
 
-        width: "100%",
-        height: "100%",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
 
         backgroundColor: thumbVars.base.enabled.root.color,
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
@@ -123,7 +126,9 @@ const slider = defineSlotRecipe({
 
       [pseudo(dragging)]: {
         transition: "none",
+      },
 
+      [pseudo(thumbDragging)]: {
         "&::after": {
           transform: `scale(${thumbVars.base.pressed.root.scale})`,
         },
@@ -165,7 +170,7 @@ const slider = defineSlotRecipe({
       // Hide tooltip by default (before any interaction)
       opacity: 0,
 
-      [pseudo(dragging)]: {
+      [pseudo(thumbDragging)]: {
         opacity: 1,
         ...enterAnimation({
           scale: vars.base.enabled.tooltipRoot.enterScale,
@@ -179,7 +184,7 @@ const slider = defineSlotRecipe({
         }),
       },
 
-      [pseudo(not(dragging))]: {
+      [pseudo(not(thumbDragging))]: {
         ...exitAnimation({
           scale: vars.base.enabled.tooltipRoot.exitScale,
           opacity: vars.base.enabled.tooltipRoot.exitOpacity,

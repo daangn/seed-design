@@ -76,7 +76,7 @@ describe("useSlider", () => {
 
   describe("Basic Rendering & Initialization", () => {
     it("renders single thumb with default values", () => {
-      const { getByTestId } = setUp(<Slider />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -87,7 +87,7 @@ describe("useSlider", () => {
     });
 
     it("renders multiple thumbs", () => {
-      const { getByTestId } = setUp(<Slider defaultValues={[0, 50, 100]} />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[0, 50, 100]} />);
 
       const thumb0 = getByTestId("slider-thumb-0");
       const thumb1 = getByTestId("slider-thumb-1");
@@ -109,7 +109,7 @@ describe("useSlider", () => {
     });
 
     it("sets disabled state attributes", () => {
-      const { getByTestId } = setUp(<Slider disabled />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} disabled />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -120,7 +120,7 @@ describe("useSlider", () => {
     });
 
     it("sets readonly state attributes", () => {
-      const { getByTestId } = setUp(<Slider readOnly />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} readOnly />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -130,7 +130,7 @@ describe("useSlider", () => {
     });
 
     it("sets invalid state attributes", () => {
-      const { getByTestId } = setUp(<Slider invalid />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} invalid />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -157,7 +157,12 @@ describe("useSlider", () => {
 
     it("uses custom aria-label via getAriaLabel", () => {
       const { getByTestId } = setUp(
-        <Slider defaultValues={[0, 100]} getAriaLabel={(index) => `Thumb ${index + 1}`} />,
+        <Slider
+          min={0}
+          max={100}
+          defaultValues={[0, 100]}
+          getAriaLabel={(index) => `Thumb ${index + 1}`}
+        />,
       );
 
       const thumb0 = getByTestId("slider-thumb-0");
@@ -169,7 +174,12 @@ describe("useSlider", () => {
 
     it("uses custom aria-labelledby via getAriaLabelledby", () => {
       const { getByTestId } = setUp(
-        <Slider defaultValues={[0, 100]} getAriaLabelledby={(index) => `label-${index}`} />,
+        <Slider
+          min={0}
+          max={100}
+          defaultValues={[0, 100]}
+          getAriaLabelledby={(index) => `label-${index}`}
+        />,
       );
 
       const thumb0 = getByTestId("slider-thumb-0");
@@ -181,7 +191,7 @@ describe("useSlider", () => {
 
     it("uses custom aria-valuetext via getAriaValuetext", () => {
       const { getByTestId } = setUp(
-        <Slider defaultValues={[50]} getAriaValuetext={(value) => `${value}%`} />,
+        <Slider min={0} max={100} defaultValues={[50]} getAriaValuetext={(value) => `${value}%`} />,
       );
 
       const thumb = getByTestId("slider-thumb-0");
@@ -190,7 +200,9 @@ describe("useSlider", () => {
     });
 
     it("creates hidden inputs with correct attributes", () => {
-      const { getByTestId } = setUp(<Slider name="volume" defaultValues={[50]} />);
+      const { getByTestId } = setUp(
+        <Slider min={0} max={100} name="volume" defaultValues={[50]} />,
+      );
 
       const hiddenInput = getByTestId("slider-hidden-input-0") as HTMLInputElement;
 
@@ -202,7 +214,7 @@ describe("useSlider", () => {
 
   describe("Pointer Interactions - Click on Track", () => {
     it("sets active state on pointerdown on track", { timeout: 10000 }, async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
 
@@ -310,7 +322,7 @@ describe("useSlider", () => {
     });
 
     it("should focus closest thumb on track click", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[20, 80]} />);
 
       const root = getByTestId("slider-root");
       const thumb0 = getByTestId("slider-thumb-0");
@@ -344,7 +356,7 @@ describe("useSlider", () => {
     });
 
     it("should change the value of the closest thumb on track click", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[20, 80]} />);
 
       const root = getByTestId("slider-root");
 
@@ -372,7 +384,7 @@ describe("useSlider", () => {
     });
 
     it("should change the value of the closest thumb on track drag", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[20, 80]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[20, 80]} />);
 
       const root = getByTestId("slider-root");
       const thumb0 = getByTestId("slider-thumb-0");
@@ -432,7 +444,7 @@ describe("useSlider", () => {
 
   describe("Pointer Interactions - Drag Thumb", () => {
     it("sets active state on pointerdown on thumb", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -445,7 +457,7 @@ describe("useSlider", () => {
     });
 
     it("sets dragging state during drag", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -547,7 +559,7 @@ describe("useSlider", () => {
     });
 
     it("focuses thumb on pointerdown", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
 
@@ -556,6 +568,52 @@ describe("useSlider", () => {
       ]);
 
       expect(thumb).toHaveFocus();
+    });
+
+    it("selects the right thumb after crossing over another", async () => {
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[30, 70]} />);
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const thumb1 = getByTestId("slider-thumb-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      // Drag thumb0 past thumb1
+      await user.pointer([
+        { target: thumb0, coords: { clientX: 30, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+      await user.pointer([{ target: root, coords: { clientX: 80, clientY: 5 } }]);
+      await user.pointer([
+        { target: root, coords: { clientX: 80, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      expect(thumb0).toHaveAttribute("aria-valuenow", "70");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "80");
+
+      const thumb0New = getByTestId("slider-thumb-0");
+      const thumb1New = getByTestId("slider-thumb-1");
+
+      await user.pointer([
+        { target: thumb0New, coords: { clientX: 70, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+      await user.pointer([{ target: root, coords: { clientX: 10, clientY: 5 } }]);
+      await user.pointer([
+        { target: root, coords: { clientX: 10, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      expect(thumb0New).toHaveAttribute("aria-valuenow", "10");
+      expect(thumb1New).toHaveAttribute("aria-valuenow", "80");
     });
   });
 
@@ -641,7 +699,7 @@ describe("useSlider", () => {
 
   describe("Pointer Interactions - State Attributes", () => {
     it("sets data-hover on pointerenter", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
 
@@ -653,7 +711,7 @@ describe("useSlider", () => {
     });
 
     it("removes data-hover on pointerleave", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
 
@@ -665,7 +723,7 @@ describe("useSlider", () => {
     });
 
     it("transitions through states: idle → active → dragging → idle (starting from a thumb)", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[50]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[50]} />);
 
       const root = getByTestId("slider-root");
       const thumb = getByTestId("slider-thumb-0");
@@ -709,7 +767,7 @@ describe("useSlider", () => {
     });
 
     it("transitions through states: idle → active → dragging → idle (starting from the track)", async () => {
-      const { user, getByTestId } = setUp(<Slider defaultValues={[20]} />);
+      const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[20]} />);
 
       const root = getByTestId("slider-root");
 
@@ -1640,7 +1698,7 @@ describe("useSlider", () => {
     });
 
     it("sets aria-disabled attribute", () => {
-      const { getByTestId } = setUp(<Slider disabled defaultValues={[50]} />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} disabled defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
 
@@ -1650,7 +1708,7 @@ describe("useSlider", () => {
 
   describe("ReadOnly State", () => {
     it("allows thumbs to be focusable in readOnly mode", () => {
-      const { getByTestId } = setUp(<Slider readOnly defaultValues={[50]} />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} readOnly defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
 
@@ -1736,7 +1794,7 @@ describe("useSlider", () => {
     });
 
     it("sets aria-readonly attribute", () => {
-      const { getByTestId } = setUp(<Slider readOnly defaultValues={[50]} />);
+      const { getByTestId } = setUp(<Slider min={0} max={100} readOnly defaultValues={[50]} />);
 
       const thumb = getByTestId("slider-thumb-0");
 
@@ -1746,7 +1804,9 @@ describe("useSlider", () => {
 
   describe("Form Integration", () => {
     it("creates hidden inputs with indexed names for multiple thumbs", () => {
-      const { getByTestId } = setUp(<Slider name="range" defaultValues={[25, 75]} />);
+      const { getByTestId } = setUp(
+        <Slider min={0} max={100} name="range" defaultValues={[25, 75]} />,
+      );
 
       const hiddenInput0 = getByTestId("slider-hidden-input-0") as HTMLInputElement;
       const hiddenInput1 = getByTestId("slider-hidden-input-1") as HTMLInputElement;

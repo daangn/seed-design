@@ -9,6 +9,7 @@ import {
 } from "@seed-design/react";
 import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
 import type { SliderMarkerVariantProps } from "@seed-design/css/recipes/slider-marker";
+import { useSliderContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
@@ -119,36 +120,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
               </React.Fragment>
             ))}
           </SeedSlider.Control>
-          {markers.length > 0 && (
-            <SeedSlider.Markers>
-              {markers.map((marker) =>
-                typeof marker === "number" ? (
-                  <SeedSlider.Marker
-                    key={marker}
-                    value={marker}
-                    align={marker === props.min ? "start" : marker === props.max ? "end" : "center"}
-                  >
-                    {marker}
-                  </SeedSlider.Marker>
-                ) : (
-                  <SeedSlider.Marker
-                    key={marker.value}
-                    value={marker.value}
-                    align={
-                      marker.align ??
-                      (marker.value === props.min
-                        ? "start"
-                        : marker.value === props.max
-                          ? "end"
-                          : "center")
-                    }
-                  >
-                    {marker.label ?? marker.value}
-                  </SeedSlider.Marker>
-                ),
-              )}
-            </SeedSlider.Markers>
-          )}
+          {markers.length > 0 && <SliderMarkers markers={markers} />}
         </SeedSlider.Root>
         {renderFooter && (
           <SeedField.Footer>
@@ -173,3 +145,44 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
   },
 );
 Slider.displayName = "Slider";
+
+interface SliderMarkersProps extends React.HTMLAttributes<HTMLDivElement> {
+  markers?: SliderProps["markers"];
+}
+
+const SliderMarkers = React.forwardRef<HTMLDivElement, SliderMarkersProps>(
+  ({ markers = [], ...props }, ref) => {
+    const api = useSliderContext();
+
+    if (markers.length === 0) {
+      return null;
+    }
+
+    return (
+      <SeedSlider.Markers ref={ref} {...props}>
+        {markers.map((marker) =>
+          typeof marker === "number" ? (
+            <SeedSlider.Marker
+              key={marker}
+              value={marker}
+              align={marker === api.min ? "start" : marker === api.max ? "end" : "center"}
+            >
+              {marker}
+            </SeedSlider.Marker>
+          ) : (
+            <SeedSlider.Marker
+              key={marker.value}
+              value={marker.value}
+              align={
+                marker.align ??
+                (marker.value === api.min ? "start" : marker.value === api.max ? "end" : "center")
+              }
+            >
+              {marker.label ?? marker.value}
+            </SeedSlider.Marker>
+          ),
+        )}
+      </SeedSlider.Markers>
+    );
+  },
+);

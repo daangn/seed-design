@@ -31,14 +31,9 @@ import {
 } from "./utils";
 
 interface UseSliderStateProps {
-  /**
-   * @default 0
-   */
-  min?: number;
-  /**
-   * @default 100
-   */
-  max?: number;
+  min: number;
+  max: number;
+
   /**
    * @default 1
    */
@@ -55,7 +50,7 @@ interface UseSliderStateProps {
 
   values?: number[];
   /**
-   * @default [min]
+   * @default [(min + max) / 2]
    */
   defaultValues?: number[];
   onValuesChange?: (value: number[]) => void;
@@ -68,8 +63,8 @@ interface UseSliderStateProps {
 }
 
 function useSliderState({
-  min = 0,
-  max = 100,
+  min,
+  max,
   step = 1,
   allowedValues,
   minStepsBetweenThumbs = 0,
@@ -123,14 +118,14 @@ function useSliderState({
       setValues((prevValues) => {
         const nextValues = getNextSortedValues(prevValues, nextValue, atIndex);
 
+        valueIndexToChangeRef.current = nextValues.indexOf(nextValue);
+
         if (
           (!allowedValues || allowedValues.length === 0) &&
           hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step) === false
         ) {
           return prevValues;
         }
-
-        valueIndexToChangeRef.current = nextValues.indexOf(nextValue);
 
         const hasChanged = nextValues.some((val, index) => val !== prevValues[index]);
 
@@ -403,9 +398,14 @@ export function useSlider({
 
             event.target.focus();
 
-            if (readOnly) return;
-            api.setIsDragging(true);
+            api.valueIndexToChangeRef.current = getClosestValueIndex(
+              api.values,
+              api.getValueFromPointer(event.clientX),
+            );
 
+            if (readOnly) return;
+
+            api.setIsDragging(true);
             return;
           }
 
@@ -594,6 +594,8 @@ export function useSlider({
       );
 
       return elementProps({
+        ...stateProps,
+
         role: "slider",
         "aria-valuemin": api.min,
         "aria-valuenow": value,
@@ -608,12 +610,10 @@ export function useSlider({
         ...(invalid && { "aria-invalid": true }),
         ...(disabled && { "aria-disabled": true }),
 
-        "data-index": `${index}`,
-        "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
-        "data-disabled": dataAttr(disabled),
-        "data-readonly": dataAttr(readOnly),
-        "data-ssr": dataAttr(isSSR),
-        "data-dir": api.dir,
+        "data-thumb-index": `${index}`,
+        "data-thumb-dragging": dataAttr(
+          api.isDragging && api.valueIndexToChangeRef.current === index,
+        ),
 
         tabIndex: disabled ? -1 : 0, // readonly thumbs should still be focusable
         style: {
@@ -739,7 +739,9 @@ export function useSlider({
         rootProps: elementProps({
           "aria-hidden": true,
 
-          "data-dragging": dataAttr(api.isDragging && api.valueIndexToChangeRef.current === index),
+          "data-thumb-dragging": dataAttr(
+            api.isDragging && api.valueIndexToChangeRef.current === index,
+          ),
 
           style: {
             "--tooltip-position": percent,

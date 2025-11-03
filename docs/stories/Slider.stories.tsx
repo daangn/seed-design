@@ -48,6 +48,9 @@ const conditionMap = {
 
 const CommonStoryTemplate: Story = {
   args: {
+    min: 0,
+    max: 100,
+
     label: "슬라이더",
     indicator: "인디케이터",
     description: "Exercitation dolore elit est mollit labore officia.",

@@ -41,23 +41,21 @@
     width: var(--seed-dimension-x5);
     height: var(--seed-dimension-x5);
 }
-.seed-slider__thumb[data-ssr][data-dir='ltr'] {
-    left: calc(var(--thumb-position) * 1% + var(--thumb-offset));
-    transform: translate(-50%, -50%);
-}
-.seed-slider__thumb[data-ssr][data-dir='rtl'] {
-    right: calc(var(--thumb-position) * 1% + var(--thumb-offset));
-    transform: translate(-50%, -50%);
+.seed-slider__thumb[data-ssr] {
+    opacity: 0;
 }
 .seed-slider__thumb:not([data-ssr]) {
+    opacity: 1;
     transform: translateX(calc(var(--direction) * (var(--root-width) * var(--thumb-position) / 100 + var(--thumb-offset)))) translateX(-50%) translateY(-50%);
-    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing);
+    transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing), opacity var(--seed-duration-d2) var(--seed-timing-function-easing);
 }
 .seed-slider__thumb::after {
     content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: var(--seed-color-bg-neutral-inverted);
     border-radius: var(--seed-radius-full);
     transition: transform var(--seed-duration-d3) var(--seed-timing-function-easing);
@@ -68,7 +66,7 @@
 .seed-slider__thumb[data-dragging] {
     transition: none;
 }
-.seed-slider__thumb[data-dragging]::after {
+.seed-slider__thumb[data-thumb-dragging]::after {
     transform: scale(1.2);
 }
 .seed-slider__thumb:is(:focus, [data-focus]) {
@@ -97,7 +95,7 @@
     transform: translateX(calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)))) translateX(calc(var(--direction) * -50%)) translateY(calc(var(--seed-dimension-x3) * -1));
     opacity: 0;
 }
-.seed-slider__tooltipRoot[data-dragging] {
+.seed-slider__tooltipRoot[data-thumb-dragging] {
     opacity: 1;
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
@@ -107,7 +105,7 @@
     --seed-enter-opacity: 0;
     --seed-enter-scale: 0.9;
 }
-.seed-slider__tooltipRoot:not([data-dragging]) {
+.seed-slider__tooltipRoot:not([data-thumb-dragging]) {
     animation: seed-exit;
     animation-timing-function: var(--seed-timing-function-easing);
     animation-duration: var(--seed-duration-d4);
