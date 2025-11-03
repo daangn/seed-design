@@ -1,24 +1,18 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
+import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 import { forwardRef, useRef } from "react";
 import { useAppScreen, type UseAppScreenProps } from "./useAppScreen";
 import { AppScreenProvider, useAppScreenContext } from "./useAppScreenContext";
-import { usePreventTouchDuringTransition } from "@stackflow/react-ui-core";
 
 export interface AppScreenRootProps
   extends PrimitiveProps,
     UseAppScreenProps,
-    React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * @default undefined
-   */
-  tone?: "layer" | "transparent";
-}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((props, ref) => {
   const {
-    tone,
     swipeBackDisplacementRatioThreshold,
     swipeBackVelocityThreshold,
     onSwipeBackEnd,
@@ -28,7 +22,6 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
   } = props;
   const innerRef = useRef<HTMLDivElement>(null);
   const api = useAppScreen({
-    tone,
     swipeBackDisplacementRatioThreshold,
     swipeBackVelocityThreshold,
     onSwipeBackEnd,
@@ -69,10 +62,7 @@ export const AppScreenEdge = forwardRef<HTMLDivElement, AppScreenEdgeProps>((pro
 });
 AppScreenEdge.displayName = "AppScreenEdge";
 
-export interface AppScreenLayerProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement>,
-    Pick<UseAppScreenProps, "tone"> {}
+export interface AppScreenLayerProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppScreenLayer = forwardRef<HTMLDivElement, AppScreenLayerProps>((props, ref) => {
   const { layerProps } = useAppScreenContext();
