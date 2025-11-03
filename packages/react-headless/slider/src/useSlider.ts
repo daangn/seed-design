@@ -137,6 +137,8 @@ function useSliderState({
           uncommittedValuesRef.current = nextValues;
         }
 
+        thumbRefsMap.current.get(valueIndexToChangeRef.current)?.focus();
+
         return nextValues;
       });
     },
@@ -386,7 +388,6 @@ export function useSlider({
           // away from target (sliding). We want thumb to focus regardless.
           if (event.target.getAttribute("role") === "slider") {
             // target is thumb
-
             event.target.focus();
 
             api.valueIndexToChangeRef.current = getClosestValueIndex(
@@ -466,8 +467,6 @@ export function useSlider({
             const closestIndex = getClosestValueIndex(api.values, valueAtPointer);
 
             api.updateValues(valueAtPointer, closestIndex, { commit: true });
-
-            api.thumbRefsMap.current.get(closestIndex)?.focus();
           }
 
           api.handleSlideEnd();
