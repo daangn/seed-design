@@ -1,9 +1,16 @@
 ---
 title: App Screen
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: Stackflow 네비게이션에서 개별 화면을 구성하는 컴포넌트입니다. 모바일 앱과 같은 화면 전환 경험을 제공할 때 사용됩니다.
 ---
 
-<StackflowExample names={["react/app-screen/preview"]} />
+<StackflowExample names={["react/app-screen/preview"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
 
 ## Installation
 
@@ -43,8 +50,30 @@ npx @seed-design/cli@latest add ui:app-screen
 
 <react-type-table path="./registry/ui/app-bar.tsx" name="AppBarRightProps" />
 
+#### `AppBarIconButton`, `AppBarBackButton`, `AppBarCloseButton`
+
+<react-type-table path="./registry/ui/app-bar.tsx" name="AppBarIconButtonProps" />
+
 ## Examples
 
 ### Transparent App Bar
 
-<StackflowExample names={["react/app-screen/transparent-bar"]} />
+<StackflowExample names={["react/app-screen/transparent-bar"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/transparent-bar.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>
+
+### Customizing App Bar
+
+<StackflowExample names={["react/app-screen/app-bar-customization"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/app-screen/app-bar-customization.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>

@@ -1,5 +1,8 @@
 import { createPresence } from "../utils/animation";
 
+const OPACITY_FADE_OUT_MULTIPLIER = 3;
+const TRANSITION_X_FADE_OUT_MULTIPLIER = 0.15;
+
 const TransitionIOS = {
   duration: "350ms",
   timingFunction: "cubic-bezier(0.2, 0.1, 0.21, 0.99)", // approximates iOS spring animation
@@ -40,6 +43,12 @@ export const iOSAnimations = {
     interaction: {
       translateX: "var(--swipe-back-displacement, 0)",
     },
+    cancel: {
+      translateX: "0",
+    },
+    complete: {
+      translateX: "100%",
+    },
     out: {
       translateX: "100%",
     },
@@ -50,6 +59,12 @@ export const iOSAnimations = {
     },
     interaction: {
       translateX: "calc(-30% + var(--swipe-back-displacement, 0) * 0.3)",
+    },
+    cancel: {
+      translateX: "-30%",
+    },
+    complete: {
+      translateX: "0",
     },
     out: {
       translateX: "-30%",
@@ -63,6 +78,12 @@ export const iOSAnimations = {
     interaction: {
       opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
     },
+    cancel: {
+      opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
+    },
+    complete: {
+      opacity: "0",
+    },
     out: {
       opacity: "0",
     },
@@ -73,8 +94,16 @@ export const iOSAnimations = {
       translateX: "0",
     },
     interaction: {
-      opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
-      translateX: "calc(var(--swipe-back-displacement, 0) * 0.25)",
+      opacity: `calc(1 - var(--swipe-back-displacement-ratio, 0) * ${OPACITY_FADE_OUT_MULTIPLIER})`,
+      translateX: `calc(var(--swipe-back-displacement, 0) * ${TRANSITION_X_FADE_OUT_MULTIPLIER})`,
+    },
+    cancel: {
+      opacity: "1",
+      translateX: "0",
+    },
+    complete: {
+      opacity: "0",
+      translateX: "25%",
     },
     out: {
       opacity: "0",
@@ -87,8 +116,16 @@ export const iOSAnimations = {
       translateX: "0",
     },
     interaction: {
-      opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
-      translateX: "calc(-25% + var(--swipe-back-displacement, 0) * 0.25)",
+      opacity: "calc(var(--swipe-back-displacement-ratio, 0))",
+      translateX: `calc(-25% + var(--swipe-back-displacement, 0) * ${TRANSITION_X_FADE_OUT_MULTIPLIER})`,
+    },
+    cancel: {
+      opacity: "0",
+      translateX: "-25%",
+    },
+    complete: {
+      opacity: "1",
+      translateX: "0",
     },
     out: {
       opacity: "0",
@@ -103,6 +140,12 @@ export const iOSAnimations = {
     interaction: {
       translateX: "var(--swipe-back-displacement, 0)",
     },
+    cancel: {
+      translateX: "0",
+    },
+    complete: {
+      translateX: "100%",
+    },
     out: {
       translateX: "100%",
     },
@@ -112,7 +155,14 @@ export const iOSAnimations = {
       opacity: "1",
     },
     interaction: {
-      opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
+      opacity: `calc(1 - var(--swipe-back-displacement-ratio, 0) * ${OPACITY_FADE_OUT_MULTIPLIER})`,
+      translateX: `calc(var(--swipe-back-displacement, 0) * ${TRANSITION_X_FADE_OUT_MULTIPLIER})`,
+    },
+    cancel: {
+      opacity: "1",
+    },
+    complete: {
+      opacity: "0",
     },
     out: {
       opacity: "0",
@@ -123,7 +173,13 @@ export const iOSAnimations = {
       opacity: "1",
     },
     interaction: {
-      opacity: "calc(1 - var(--swipe-back-displacement-ratio, 0))",
+      opacity: "calc(var(--swipe-back-displacement-ratio, 0))",
+    },
+    cancel: {
+      opacity: "0",
+    },
+    complete: {
+      opacity: "1",
     },
     out: {
       opacity: "0",

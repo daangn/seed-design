@@ -3,7 +3,6 @@
     flex-direction: column;
     width: 100%;
     gap: var(--seed-dimension-x2);
-    overflow-x: auto;
 }
 .seed-field__header {
     display: flex;

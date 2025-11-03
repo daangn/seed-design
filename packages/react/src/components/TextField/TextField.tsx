@@ -74,6 +74,8 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
     const fieldContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
+      fieldContext ? fieldContext.stateProps : {},
+      fieldContext ? fieldContext.inputAriaAttributes : {},
       textFieldContext.inputProps,
       fieldContext ? fieldContext.inputProps : {},
       otherProps,
@@ -112,6 +114,8 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
     const fieldContext = useFieldContext({ strict: false });
 
     const mergedProps = mergeProps(
+      fieldContext ? fieldContext.stateProps : {},
+      fieldContext ? fieldContext.inputAriaAttributes : {},
       textFieldContext.inputProps,
       fieldContext ? fieldContext.inputProps : {},
       otherProps,

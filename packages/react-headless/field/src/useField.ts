@@ -1,11 +1,5 @@
 import { ariaAttr, dataAttr, elementProps, inputProps, labelProps } from "@seed-design/dom-utils";
-import {
-  useCallback,
-  useId,
-  useState,
-  type InputHTMLAttributes,
-  type TextareaHTMLAttributes,
-} from "react";
+import { useCallback, useId, useState } from "react";
 import { getDescriptionId, getErrorMessageId, getInputId, getLabelId } from "./dom";
 
 function useFieldState() {
@@ -147,15 +141,21 @@ export function useField(props: UseFieldProps) {
     }),
 
     inputProps: inputProps({
-      ...stateProps,
+      disabled,
+      readOnly,
+      name: props.name || id,
+      id: getInputId(id),
+    }),
+
+    inputAriaAttributes: elementProps({
       ...(renderedElements.label && { "aria-labelledby": getLabelId(id) }),
       "aria-describedby": ariaDescribedBy,
       "aria-required": ariaAttr(required),
       "aria-invalid": ariaAttr(invalid),
-      disabled,
-      readOnly,
-      id: getInputId(id),
-      name: props.name || id,
+      "aria-readonly": ariaAttr(readOnly),
+      "aria-disabled": ariaAttr(disabled),
+    }),
+    inputHandlers: inputProps({
       onChange: (event) => {
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
@@ -167,8 +167,7 @@ export function useField(props: UseFieldProps) {
         setIsFocused(true);
         setIsFocusVisible(event.target.matches(":focus-visible"));
       },
-    }) as InputHTMLAttributes<HTMLInputElement> & // only allow the intersect to make typescript happy when destructuring to input & textarea
-      TextareaHTMLAttributes<HTMLTextAreaElement>,
+    }),
 
     descriptionProps: elementProps({
       ...stateProps,

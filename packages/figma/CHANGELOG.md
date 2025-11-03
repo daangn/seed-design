@@ -1,5 +1,36 @@
 # @seed-design/figma
 
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [e52d6d1]
+- Updated dependencies [97669bc]
+- Updated dependencies [15ab93a]
+- Updated dependencies [50366c0]
+  - @seed-design/css@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+- Updated dependencies [6aafce0]
+- Updated dependencies [1902dfa]
+- Updated dependencies [f2ddf29]
+- Updated dependencies [4c33f07]
+- Updated dependencies [3df657f]
+  - @seed-design/css@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+
 ## 1.0.3
 
 ### Patch Changes

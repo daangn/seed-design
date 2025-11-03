@@ -3,10 +3,12 @@ import { appScreen } from "./stackflow/app-screen";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import { selectBox, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
+import { tagGroup, tagGroupItem } from "./recipes/tag-group";
 import actionButton from "./recipes/action-button";
 import actionChip from "./recipes/action-chip";
 import actionSheet from "./recipes/action-sheet";
 import actionSheetItem from "./recipes/action-sheet-item";
+import article from "./recipes/article";
 import avatar from "./recipes/avatar";
 import avatarStack from "./recipes/avatar-stack";
 import badge from "./recipes/badge";
@@ -50,6 +52,7 @@ import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textInput from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
+import { slider, sliderTick, sliderMarker } from "./recipes/slider";
 
 export const recipes = {
   actionButton,
@@ -59,6 +62,7 @@ export const recipes = {
   appBar,
   appBarMain,
   appScreen,
+  article,
   avatar,
   avatarStack,
   badge,
@@ -100,11 +104,16 @@ export const recipes = {
   selectBox,
   selectBoxGroup,
   skeleton,
+  slider,
+  sliderMarker,
+  sliderTick,
   snackbar,
   snackbarRegion,
   switch: switchRecipe,
   switchMark,
   tabs,
+  tagGroup,
+  tagGroupItem,
   text,
   textInput,
   toggleButton,

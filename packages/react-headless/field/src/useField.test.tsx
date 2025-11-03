@@ -31,18 +31,38 @@ function setUp(jsx: ReactElement) {
 
 const FieldInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   (props, ref) => {
-    const { inputProps } = useFieldContext();
+    const { inputProps, inputAriaAttributes, inputHandlers, stateProps } = useFieldContext();
 
-    return <input ref={ref} data-testid="field-input" {...inputProps} {...props} />;
+    return (
+      <input
+        ref={ref}
+        data-testid="field-input"
+        {...inputProps}
+        {...inputAriaAttributes}
+        {...inputHandlers}
+        {...stateProps}
+        {...props}
+      />
+    );
   },
 );
 FieldInput.displayName = "FieldInput";
 
 const _FieldTextarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement>>(
   (props, ref) => {
-    const { inputProps } = useFieldContext();
+    const { inputProps, inputAriaAttributes, inputHandlers, stateProps } = useFieldContext();
 
-    return <textarea ref={ref} data-testid="field-textarea" {...inputProps} {...props} />;
+    return (
+      <textarea
+        ref={ref}
+        data-testid="field-textarea"
+        {...inputProps}
+        {...inputAriaAttributes}
+        {...inputHandlers}
+        {...stateProps}
+        {...props}
+      />
+    );
   },
 );
 _FieldTextarea.displayName = "FieldTextarea";

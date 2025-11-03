@@ -16,7 +16,7 @@ const switchMarkRecipe = defineSlotRecipe({
 
       margin: "var(--switch-mark-margin-top, 0) 0", // 수직 위치 보정
 
-      transition: "background-color 50ms cubic-bezier(0.35, 0, 0.35, 1) 20ms",
+      transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction} ${vars.base.enabled.root.colorDelay}, opacity ${vars.base.disabled.root.opacityDuration} ${vars.base.disabled.root.opacityTimingFunction}`,
 
       [pseudo(disabled)]: {
         opacity: vars.base.disabled.root.opacity,
@@ -25,7 +25,11 @@ const switchMarkRecipe = defineSlotRecipe({
     thumb: {
       borderRadius: vars.base.enabled.thumb.cornerRadius,
 
-      transition: "transform 150ms cubic-bezier(0.35, 0, 0.35, 1)",
+      // translateDuration & translateTimingFunction are defined in vars but not used
+      transition: `transform ${vars.base.enabled.thumb.scaleDuration} ${vars.base.enabled.thumb.scaleTimingFunction}, background-color ${vars.base.enabled.thumb.colorDuration} ${vars.base.enabled.thumb.colorTimingFunction} ${vars.base.enabled.thumb.colorDelay}`,
+
+      // defining 'scale' / 'translate' and else independently from 'transform' -> requires Chrome 104~ && Safari 14.1~
+      transform: `scale(${vars.base.enabled.thumb.scale})`,
     },
   },
   variants: {
@@ -35,9 +39,16 @@ const switchMarkRecipe = defineSlotRecipe({
           [pseudo(checked)]: {
             background: vars.toneNeutral.enabledSelected.root.color,
           },
+          [pseudo(disabled, checked)]: {
+            background: vars.toneNeutral.disabledSelected.root.color,
+          },
         },
         thumb: {
           background: vars.toneNeutral.enabled.thumb.color,
+
+          [pseudo(disabled)]: {
+            background: vars.toneNeutral.disabled.thumb.color,
+          },
         },
       },
       brand: {
@@ -61,10 +72,9 @@ const switchMarkRecipe = defineSlotRecipe({
         thumb: {
           width: vars.size32.enabled.thumb.width,
           height: vars.size32.enabled.thumb.height,
-          boxShadow: vars.size32.enabled.thumb.shadow,
 
           [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size32.enabled.root.width} - ${vars.size32.enabled.root.height}))`,
           },
         },
       },
@@ -77,10 +87,9 @@ const switchMarkRecipe = defineSlotRecipe({
         thumb: {
           width: vars.size24.enabled.thumb.width,
           height: vars.size24.enabled.thumb.height,
-          boxShadow: vars.size24.enabled.thumb.shadow,
 
           [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size24.enabled.root.width} - ${vars.size24.enabled.root.height}))`,
           },
         },
       },
@@ -95,7 +104,7 @@ const switchMarkRecipe = defineSlotRecipe({
           height: vars.size16.enabled.thumb.height,
 
           [pseudo(checked)]: {
-            transform: `translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
+            transform: `scale(${vars.base.selected.thumb.scale}) translateX(calc(${vars.size16.enabled.root.width} - ${vars.size16.enabled.root.height}))`,
           },
         },
       },

@@ -1,5 +1,15 @@
 # @seed-design/stackflow
 
+## 1.0.5
+
+### Patch Changes
+
+- 9b91751: AppScreen에서 스와이프로 pop할 때 AppScreen이 한번 깜빡거리고 닫히는 버그를 수정합니다.
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+
 ## 1.0.0
 
 ### Major Changes

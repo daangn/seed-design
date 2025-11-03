@@ -235,11 +235,11 @@ export declare const actionButton: {
       "type": "VARIANT",
       "variantOptions": [
         "Neutral Solid",
-        "Neutral Weak",
-        "Neutral Outline",
         "Brand Solid",
+        "Critical Solid",
+        "Neutral Weak",
         "Brand Outline",
-        "Critical Solid"
+        "Neutral Outline"
       ]
     },
     "State": {
@@ -503,9 +503,10 @@ export declare const callout: {
       "variantOptions": [
         "Neutral",
         "Informative",
-        "Warning",
         "Critical",
-        "Magic"
+        "Warning",
+        "Magic",
+        "Positive"
       ]
     },
     "Show Title": {
@@ -1320,8 +1321,8 @@ export declare const radio: {
     "Tone": {
       "type": "VARIANT",
       "variantOptions": [
-        "🚫[Deprecated]Brand",
-        "Neutral"
+        "Neutral",
+        "🚫[Deprecated]Brand"
       ]
     },
     "Weight": {
@@ -1740,6 +1741,30 @@ export declare const tabs: {
       "variantOptions": [
         "Line",
         "Chip"
+      ]
+    }
+  }
+};
+
+export declare const tagGroup: {
+  "name": "tagGroup",
+  "key": "30d4c37f3bc5f292633cf0aba9a0b640d31ec301",
+  "componentPropertyDefinitions": {
+    "Size": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "t2(12pt)",
+        "t3(13pt)",
+        "t4(14pt)"
+      ]
+    },
+    "Tag Count": {
+      "type": "VARIANT",
+      "variantOptions": [
+        "1",
+        "2",
+        "3",
+        "4"
       ]
     }
   }
