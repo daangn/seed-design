@@ -1,4 +1,4 @@
-import { useControllableState } from "./use-controllable-state";
+import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isIOS, isMobileFirefox } from "./browser";
 import {

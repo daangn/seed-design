@@ -1,3 +1,5 @@
+// This code comes from https://github.com/emilkowalski/vaul/blob/main/src/use-position-fixed.ts
+
 import React from "react";
 import { isSafari } from "./browser";
 
