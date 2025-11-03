@@ -45,7 +45,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 ## Examples
 
-### 폼 요소로 활용하기
+### Using as an `input`
 
 `FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
 
@@ -58,7 +58,7 @@ npx @seed-design/cli@latest add ui:field-button
   ```
 </ComponentExample>
 
-#### Clear Button 표시하기
+#### Clear Button
 
 `showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
 
@@ -71,7 +71,7 @@ npx @seed-design/cli@latest add ui:field-button
   ```
 </ComponentExample>
 
-### `FieldButtonValue`와 `FieldButtonPlaceholder` 활용하기
+### `FieldButtonValue` & `FieldButtonPlaceholder`
 
 `<FieldButton>` 내부에 `children`으로 넣어 사용할 수 있는 단순한 `<div>` 요소입니다.
 
@@ -86,9 +86,9 @@ npx @seed-design/cli@latest add ui:field-button
   ```
 </ComponentExample>
 
-### 접근 가능하게 만들기
+### Accessibility
 
-**Field Button 내부 `button`에 `aria-label` 속성을 제공하여**, 스크린 리더 사용자가 Field Button을 클릭했을 때 어떤 일이 일어날지 예상할 수 있도록 해야 하며, 현재 선택된 값이 있는 경우 그 값이 무엇인지도 알려야 합니다.
+**Field Button 내부 `button`에 `aria-label` 속성을 제공하세요.** 스크린 리더 사용자가 Field Button을 클릭했을 때 어떤 일이 일어날지 예상할 수 있도록 해야 하며, 현재 선택된 값이 있는 경우 그 값이 무엇인지도 알려야 합니다.
 
 ```tsx
 <FieldButton

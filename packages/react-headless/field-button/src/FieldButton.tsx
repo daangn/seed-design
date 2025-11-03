@@ -82,7 +82,6 @@ export function FieldButtonHiddenInputs(props: FieldButtonHiddenInputsProps) {
   return (
     <Fragment {...props}>
       {hiddenInputsProps.map((inputProps, index) => (
-        // TODO: fix index as key
         <Primitive.input key={index} {...inputProps} />
       ))}
     </Fragment>

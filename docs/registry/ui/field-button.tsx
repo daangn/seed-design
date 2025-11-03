@@ -77,7 +77,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
 
     if (!otherProps.onValuesChange && showClearButton) {
       console.warn(
-        "FieldButton: FieldButton without onValuesChange works as a display component, but it needs onValuesChange to work correctly.",
+        "FieldButton: FieldButton without onValuesChange works as a display component, but it needs onValuesChange to work correctly with a clear button.",
       );
     }
 
