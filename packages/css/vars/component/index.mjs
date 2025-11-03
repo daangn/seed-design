@@ -23,6 +23,7 @@ export { vars as extendedActionSheetItem } from "./extended-action-sheet-item.mj
 export { vars as extendedActionSheet } from "./extended-action-sheet.mjs";
 export { vars as extendedFab } from "./extended-fab.mjs";
 export { vars as fab } from "./fab.mjs";
+export { vars as field } from "./field.mjs";
 export { vars as floatingActionButton } from "./floating-action-button.mjs";
 export { vars as helpBubble } from "./help-bubble.mjs";
 export { vars as identityPlaceholder } from "./identity-placeholder.mjs";
@@ -45,6 +46,9 @@ export { vars as segmentedControlItem } from "./segmented-control-item.mjs";
 export { vars as segmentedControl } from "./segmented-control.mjs";
 export { vars as selectBox } from "./select-box.mjs";
 export { vars as skeleton } from "./skeleton.mjs";
+export { vars as sliderThumb } from "./slider-thumb.mjs";
+export { vars as sliderTick } from "./slider-tick.mjs";
+export { vars as slider } from "./slider.mjs";
 export { vars as snackbar } from "./snackbar.mjs";
 export { vars as switchMark } from "./switch-mark.mjs";
 export { vars as switch } from "./switch.mjs";

@@ -25,6 +25,7 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
+import field from "./recipes/field";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
@@ -50,6 +51,7 @@ import tabs from "./recipes/tabs";
 import text from "./recipes/text";
 import textField from "./recipes/text-field";
 import toggleButton from "./recipes/toggle-button";
+import { slider, sliderTick, sliderMarker } from "./recipes/slider";
 
 export const recipes = {
   actionButton,
@@ -76,6 +78,7 @@ export const recipes = {
   extendedActionSheetItem,
   extendedFab,
   fab,
+  field,
   floatingActionButton,
   helpBubble,
   identityPlaceholder,
@@ -99,6 +102,9 @@ export const recipes = {
   selectBox,
   selectBoxGroup,
   skeleton,
+  slider,
+  sliderMarker,
+  sliderTick,
   snackbar,
   snackbarRegion,
   switch: switchRecipe,

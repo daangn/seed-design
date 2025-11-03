@@ -1,0 +1,179 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: field
+  name: Field
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+      header:
+        properties:
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
+      label:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+      indicatorIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+          paddingTop:
+            type: dimension
+          paddingLeft:
+            type: dimension
+      indicatorText:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          paddingLeft:
+            type: dimension
+      footer:
+        properties:
+          paddingX:
+            type: dimension
+          gap:
+            type: dimension
+      description:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      descriptionIcon:
+        properties:
+          paddingRight:
+            type: dimension
+          color:
+            type: color
+          size:
+            type: dimension
+      errorMessage:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      errorIcon:
+        properties:
+          paddingRight:
+            type: dimension
+          color:
+            type: color
+          size:
+            type: dimension
+      characterCount:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      maxCharacterCount:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x2
+        header:
+          paddingX: $dimension.x0_5
+          gap: $dimension.x2_5
+        label:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        indicatorIcon:
+          color: $color.fg.critical
+          size: 0.375rem # should be font scaled (6px)
+          paddingTop: 0.25rem # should be font scaled (4px)
+          paddingLeft: 0.125rem # should be font scaled (2px)
+        indicatorText:
+          color: $color.fg.neutral-subtle
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t5 # intentional; not a typo
+          fontWeight: $font-weight.regular
+          paddingLeft: 0.25rem # should be font scaled (4px)
+        footer:
+          paddingX: $dimension.x0_5
+          gap: $dimension.x2
+        description:
+          color: $color.fg.neutral-subtle
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        descriptionIcon:
+          paddingRight: $dimension.x1_5
+          color: $color.fg.neutral-subtle
+          size: $dimension.x4
+        errorMessage:
+          color: $color.fg.critical
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        errorIcon:
+          paddingRight: $dimension.x1_5
+          color: $color.fg.critical
+          size: $dimension.x4
+        characterCount:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+        maxCharacterCount:
+          color: $color.fg.neutral-subtle
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t4
+          lineHeight: $line-height.t4
+      invalid:
+        characterCount:
+          color: $color.fg.critical
+        maxCharacterCount:
+          color: $color.fg.critical
+    weight=medium: # field 전체의 variant가 medium/bold처럼 느껴지진 않아서 고민 (rootage를 쪼개야 하나)
+      enabled:
+        label:
+          fontWeight: $font-weight.medium # checkbox.yaml 보면 또 어색하지 않기도 한데
+    weight=bold:
+      enabled:
+        label:
+          fontWeight: $font-weight.bold
