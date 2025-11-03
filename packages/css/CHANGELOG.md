@@ -1,5 +1,11 @@
 # @seed-design/css
 
+## 2.0.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+
 ## 1.0.7
 
 ### Patch Changes

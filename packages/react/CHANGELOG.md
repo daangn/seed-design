@@ -1,5 +1,18 @@
 # @seed-design/react
 
+## 2.0.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+
+### Patch Changes
+
+- Updated dependencies [a55f584]
+  - @seed-design/react-slider@1.0.0
+  - @seed-design/react-field@1.0.0
+  - @seed-design/css@2.0.0
+
 ## 1.0.7
 
 ### Patch Changes
