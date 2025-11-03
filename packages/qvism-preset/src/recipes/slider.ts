@@ -66,11 +66,18 @@ const slider = defineSlotRecipe({
 
       backgroundColor: vars.base.enabled.range.color,
 
-      // Always use left/right for range (smoother transition with two thumbs)
-      left: "var(--left)",
-      right: "var(--right)",
-
       transition: `left ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}, right ${vars.base.enabled.range.widthDuration} ${vars.base.enabled.range.widthTimingFunction}`,
+      willChange: "left, right",
+
+      [pseudo("[data-dir='ltr']")]: {
+        left: "var(--range-start)",
+        right: "var(--range-end)",
+      },
+
+      [pseudo("[data-dir='rtl']")]: {
+        right: "var(--range-start)",
+        left: "var(--range-end)",
+      },
 
       [pseudo(disabled)]: {
         backgroundColor: vars.base.disabled.range.color,
@@ -91,6 +98,7 @@ const slider = defineSlotRecipe({
 
       // opacity transition is only for web so isn't defined in rootage
       transition: `left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
+      willChange: "left, right, opacity",
 
       [pseudo("[data-ssr]")]: {
         opacity: 0,
@@ -117,6 +125,7 @@ const slider = defineSlotRecipe({
         borderRadius: thumbVars.base.enabled.root.cornerRadius,
 
         transition: `transform ${thumbVars.base.enabled.root.scaleDuration} ${thumbVars.base.enabled.root.scaleTimingFunction}`,
+        willChange: "transform",
       },
 
       [pseudo(disabled)]: {

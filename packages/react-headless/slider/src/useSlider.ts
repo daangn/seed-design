@@ -561,13 +561,11 @@ export function useSlider({
     return elementProps({
       ...stateProps,
       style: {
-        // Always use left/right for range
-        // this is because changing width + transform and attaching transitions looks janky when two thumbs are involved
-        [isLtr ? "left" : "right"]: `${offsetStart}%`,
-        [isLtr ? "right" : "left"]: `${offsetEnd}%`,
+        "--range-start": `${offsetStart}%`,
+        "--range-end": `${offsetEnd}%`,
       } as CSSProperties,
     });
-  }, [api.values, api.min, api.max, isLtr, stateProps]);
+  }, [api.values, api.min, api.max, stateProps]);
 
   const getThumbProps = useCallback(
     (index: number) => {

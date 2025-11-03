@@ -14,7 +14,7 @@ export default function SliderField() {
         min={0}
         max={14}
         defaultValues={[7]}
-        ticks={[2, 6, 8, 10, 12]}
+        ticks={[2, 4, 6, 8, 10, 12]}
         markers={markers}
         hideRange
         description="내일 날씨에 대한 당신의 기대감을 0~14 사이 숫자로 나타내 주세요."
