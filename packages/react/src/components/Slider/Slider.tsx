@@ -7,7 +7,7 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Slider, useSliderContext } from "@seed-design/react-slider";
-import { forwardRef, useRef, type HTMLAttributes } from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import clsx from "clsx";
@@ -91,49 +91,57 @@ export const SliderMarker = withMarkerContext<HTMLDivElement, SliderMarkerProps>
   withFieldStateProps(Slider.Marker),
 );
 
-export interface SliderTooltipProps extends PrimitiveProps, Slider.TooltipRootProps {
+export interface SliderTooltipRootProps extends Slider.TooltipRootProps {}
+
+export const SliderTooltipRoot = withContext<HTMLDivElement, SliderTooltipRootProps>(
+  Slider.TooltipRoot,
+  "tooltipRoot",
+);
+
+export interface SliderTooltipLabelProps extends Slider.TooltipLabelProps {}
+
+export const SliderTooltipLabel = Slider.TooltipLabel;
+
+export interface SliderTooltipArrowProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
+
+export const SliderTooltipArrow = withContext<HTMLDivElement, SliderTooltipArrowProps>(
+  withStateProps(Primitive.div),
+  "tooltipArrow",
+);
+
+export interface SliderTooltipArrowTipProps extends React.SVGProps<SVGSVGElement> {
   /**
+   * radius of the arrow tip
    * @default 2
    */
   tipRadius?: number;
-
-  thumbIndex: number;
 }
 
-export const SliderTooltip = forwardRef<HTMLDivElement, SliderTooltipProps>(
-  ({ thumbIndex, tipRadius = 2, className, ...props }, ref) => {
-    const classNames = useClassNames();
+// TODO: get value from rootage spec
+const ARROW_TIP_WIDTH = 10;
+const ARROW_TIP_HEIGHT = 7;
 
-    const arrowRef = useRef<HTMLDivElement>(null);
-
-    const width = 10;
-    const height = 7;
-
+export const SliderTooltipArrowTip = forwardRef<SVGSVGElement, SliderTooltipArrowTipProps>(
+  ({ tipRadius = 2, className, ...otherProps }, ref) => {
     const pathData = `M0,0
-      H${width}
-      L${width / 2 + tipRadius},${height - tipRadius}
-      Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
+      H${ARROW_TIP_WIDTH}
+      L${ARROW_TIP_WIDTH / 2 + tipRadius},${ARROW_TIP_HEIGHT - tipRadius}
+      Q${ARROW_TIP_WIDTH / 2},${ARROW_TIP_HEIGHT} ${ARROW_TIP_WIDTH / 2 - tipRadius},${ARROW_TIP_HEIGHT - tipRadius}
       Z`;
 
+    const classNames = useClassNames();
+
     return (
-      <Slider.TooltipRoot
-        thumbIndex={thumbIndex}
+      <svg
+        aria-hidden="true"
+        viewBox={`0 0 ${ARROW_TIP_WIDTH} ${ARROW_TIP_HEIGHT}`}
         ref={ref}
-        className={clsx(classNames.tooltipRoot, className)}
-        {...props}
+        className={clsx(classNames.tooltipArrowTip, className)}
+        {...otherProps}
       >
-        <Primitive.div ref={arrowRef} className={classNames.tooltipArrow}>
-          <svg
-            aria-hidden="true"
-            viewBox={`0 0 ${width} ${height}`}
-            className={classNames.tooltipArrowTip}
-          >
-            <path stroke="none" d={pathData} />
-          </svg>
-        </Primitive.div>
-        <Slider.TooltipLabel thumbIndex={thumbIndex} />
-      </Slider.TooltipRoot>
+        <path stroke="none" d={pathData} />
+      </svg>
     );
   },
 );
-SliderTooltip.displayName = "SliderTooltip";
+SliderTooltipArrowTip.displayName = "SliderTooltipArrowTip";

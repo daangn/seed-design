@@ -106,7 +106,14 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             </SeedSlider.Track>
             {values?.map((_, index) => (
               <React.Fragment key={index}>
-                {!hideTooltip && <SeedSlider.Tooltip thumbIndex={index} />}
+                {!hideTooltip && (
+                  <SeedSlider.TooltipRoot thumbIndex={index}>
+                    <SeedSlider.TooltipArrow>
+                      <SeedSlider.TooltipArrowTip />
+                    </SeedSlider.TooltipArrow>
+                    <SeedSlider.TooltipLabel thumbIndex={index} />
+                  </SeedSlider.TooltipRoot>
+                )}
                 <SeedSlider.Thumb thumbIndex={index} />
                 <SeedSlider.HiddenInput thumbIndex={index} />
               </React.Fragment>

@@ -8,7 +8,10 @@ export {
   SliderTick,
   SliderMarkers,
   SliderMarker,
-  SliderTooltip,
+  SliderTooltipRoot,
+  SliderTooltipArrow,
+  SliderTooltipArrowTip,
+  SliderTooltipLabel,
   type SliderRootProps,
   type SliderControlProps,
   type SliderTrackProps,
@@ -18,7 +21,10 @@ export {
   type SliderTickProps,
   type SliderMarkersProps,
   type SliderMarkerProps,
-  type SliderTooltipProps,
+  type SliderTooltipRootProps,
+  type SliderTooltipArrowProps,
+  type SliderTooltipArrowTipProps,
+  type SliderTooltipLabelProps,
 } from "./Slider";
 
 export * as Slider from "./Slider.namespace";
