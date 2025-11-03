@@ -67,8 +67,6 @@ interface UseSliderStateProps {
   dir?: "ltr" | "rtl";
 }
 
-export type SliderMarkerAlign = "left" | "center" | "right";
-
 function useSliderState({
   min = 0,
   max = 100,
@@ -706,8 +704,6 @@ export function useSlider({
           ? 0
           : getThumbInBoundsOffset(api.firstThumbSize?.width ?? 0, percent, 1);
 
-      const markerAlignOffset = isEnd === "start" ? "0%" : isEnd === "end" ? "-100%" : "-50%";
-
       return elementProps({
         ...stateProps,
         "aria-hidden": true,
@@ -715,21 +711,10 @@ export function useSlider({
         style: {
           "--marker-position": percent,
           "--marker-offset": `${thumbInBoundsOffset}px`,
-          "--marker-align-offset": markerAlignOffset,
-          "--marker-text-align":
-            isEnd === "start"
-              ? isLtr
-                ? "left"
-                : "right"
-              : isEnd === "end"
-                ? isLtr
-                  ? "right"
-                  : "left"
-                : "center",
         } as CSSProperties,
       });
     },
-    [api.min, api.max, isLtr, stateProps, api.firstThumbSize?.width],
+    [api.min, api.max, stateProps, api.firstThumbSize?.width],
   );
 
   const getTooltipProps = useCallback(

@@ -19,7 +19,6 @@ const slider = defineSlotRecipe({
     "thumb",
     "tick",
     "markers",
-    "marker",
     "tooltipRoot",
     "tooltipArrow",
     "tooltipArrowTip",
@@ -140,41 +139,6 @@ const slider = defineSlotRecipe({
       // we set height here because all markers' position is absolute
       height: vars.base.enabled.marker.lineHeight,
     },
-    marker: {
-      position: "absolute",
-
-      top: 0,
-      bottom: 0,
-
-      width: "max-content",
-
-      textAlign: "var(--marker-text-align)",
-
-      color: vars.base.enabled.marker.color,
-      fontWeight: vars.base.enabled.marker.fontWeight,
-      fontSize: vars.base.enabled.marker.fontSize,
-      lineHeight: vars.base.enabled.marker.lineHeight,
-
-      // SSR/before measurement: use left/right (percentage-based)
-      [pseudo("[data-ssr][data-dir='ltr']")]: {
-        left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
-        transform: "translateX(var(--marker-align-offset))",
-      },
-      [pseudo("[data-ssr][data-dir='rtl']")]: {
-        right: "calc(var(--marker-position) * 1% + var(--marker-offset))",
-        transform: "translateX(calc(var(--marker-align-offset) * -1))",
-      },
-
-      // After measurement: use transform (pixel-based)
-      [pseudo(not("[data-ssr]"))]: {
-        transform:
-          "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)))) translateX(calc(var(--direction) * var(--marker-align-offset)))",
-      },
-
-      [pseudo(disabled)]: {
-        color: vars.base.disabled.marker.color,
-      },
-    },
     tooltipRoot: {
       display: "flex",
       flexDirection: "column",
@@ -257,6 +221,100 @@ const slider = defineSlotRecipe({
   defaultVariants: {},
 });
 
+const sliderMarker = defineRecipe({
+  name: "slider-marker",
+  base: {
+    position: "absolute",
+
+    top: 0,
+    bottom: 0,
+
+    width: "max-content",
+
+    color: vars.base.enabled.marker.color,
+    fontWeight: vars.base.enabled.marker.fontWeight,
+    fontSize: vars.base.enabled.marker.fontSize,
+    lineHeight: vars.base.enabled.marker.lineHeight,
+
+    // SSR/before measurement: use left/right (percentage-based)
+    [pseudo("[data-ssr][data-dir='ltr']")]: {
+      left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
+    },
+    [pseudo("[data-ssr][data-dir='rtl']")]: {
+      right: "calc(var(--marker-position) * 1% + var(--marker-offset))",
+    },
+
+    [pseudo(disabled)]: {
+      color: vars.base.disabled.marker.color,
+    },
+  },
+  variants: {
+    align: {
+      start: {
+        [pseudo("[data-dir='ltr']")]: {
+          textAlign: "left",
+        },
+        [pseudo("[data-dir='rtl']")]: {
+          textAlign: "right",
+        },
+
+        // SSR/before measurement: works with left/right
+        [pseudo("[data-ssr][data-dir='ltr']")]: {
+          transform: "translateX(0%)",
+        },
+        [pseudo("[data-ssr][data-dir='rtl']")]: {
+          transform: "translateX(0%)",
+        },
+
+        [pseudo(not("[data-ssr]"))]: {
+          transform:
+            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset))))",
+        },
+      },
+      center: {
+        textAlign: "center",
+
+        // SSR/before measurement: works with left/right
+        [pseudo("[data-ssr][data-dir='ltr']")]: {
+          transform: "translateX(-50%)",
+        },
+        [pseudo("[data-ssr][data-dir='rtl']")]: {
+          transform: "translateX(50%)",
+        },
+
+        [pseudo(not("[data-ssr]"))]: {
+          transform:
+            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)) + var(--direction) * -50%))",
+        },
+      },
+      end: {
+        [pseudo("[data-dir='ltr']")]: {
+          textAlign: "right",
+        },
+        [pseudo("[data-dir='rtl']")]: {
+          textAlign: "left",
+        },
+
+        // SSR/before measurement: works with left/right
+        [pseudo("[data-ssr][data-dir='ltr']")]: {
+          transform: "translateX(-100%)",
+        },
+        [pseudo("[data-ssr][data-dir='rtl']")]: {
+          transform: "translateX(100%)",
+        },
+
+        [pseudo(not("[data-ssr]"))]: {
+          transform:
+            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)) + var(--direction) * -100%))",
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    align: "center",
+  },
+});
+
 const sliderTick = defineRecipe({
   name: "slider-tick",
   base: {
@@ -299,4 +357,4 @@ const sliderTick = defineRecipe({
   },
 });
 
-export { slider, sliderTick };
+export { slider, sliderMarker, sliderTick };

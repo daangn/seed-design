@@ -78,31 +78,6 @@
     position: relative;
     height: var(--seed-line-height-t3);
 }
-.seed-slider__marker {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: max-content;
-    text-align: var(--marker-text-align);
-    color: var(--seed-color-fg-neutral-muted);
-    font-weight: var(--seed-font-weight-regular);
-    font-size: var(--seed-font-size-t3);
-    line-height: var(--seed-line-height-t3);
-}
-.seed-slider__marker[data-ssr][data-dir='ltr'] {
-    left: calc(var(--marker-position) * 1% + var(--marker-offset));
-    transform: translateX(var(--marker-align-offset));
-}
-.seed-slider__marker[data-ssr][data-dir='rtl'] {
-    right: calc(var(--marker-position) * 1% + var(--marker-offset));
-    transform: translateX(calc(var(--marker-align-offset) * -1));
-}
-.seed-slider__marker:not([data-ssr]) {
-    transform: translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)))) translateX(calc(var(--direction) * var(--marker-align-offset)));
-}
-.seed-slider__marker:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
-}
 .seed-slider__tooltipRoot {
     display: flex;
     flex-direction: column;

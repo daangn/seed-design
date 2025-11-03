@@ -8,6 +8,7 @@ import {
   PrefixIcon,
 } from "@seed-design/react";
 import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
+import type { SliderMarkerVariantProps } from "@seed-design/css/recipes/slider-marker";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
@@ -20,7 +21,10 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default []
    */
-  markers?: ({ value: number; label?: React.ReactNode } | number)[];
+  markers?: (
+    | { value: number; label?: React.ReactNode; align?: SliderMarkerVariantProps["align"] }
+    | number
+  )[];
   /**
    * @default []
    */
@@ -112,11 +116,26 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             <SeedSlider.Markers>
               {markers.map((marker) =>
                 typeof marker === "number" ? (
-                  <SeedSlider.Marker key={marker} value={marker}>
+                  <SeedSlider.Marker
+                    key={marker}
+                    value={marker}
+                    align={marker === props.min ? "start" : marker === props.max ? "end" : "center"}
+                  >
                     {marker}
                   </SeedSlider.Marker>
                 ) : (
-                  <SeedSlider.Marker key={marker.value} value={marker.value}>
+                  <SeedSlider.Marker
+                    key={marker.value}
+                    value={marker.value}
+                    align={
+                      marker.align ??
+                      (marker.value === props.min
+                        ? "start"
+                        : marker.value === props.max
+                          ? "end"
+                          : "center")
+                    }
+                  >
                     {marker.label ?? marker.value}
                   </SeedSlider.Marker>
                 ),

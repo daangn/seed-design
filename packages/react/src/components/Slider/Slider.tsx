@@ -1,5 +1,9 @@
 import { slider, type SliderVariantProps } from "@seed-design/css/recipes/slider";
 import { sliderTick, type SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
+import {
+  sliderMarker,
+  type SliderMarkerVariantProps,
+} from "@seed-design/css/recipes/slider-marker";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Slider, useSliderContext } from "@seed-design/react-slider";
@@ -12,6 +16,7 @@ import { useFieldContext } from "@seed-design/react-field";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(slider);
 const { withContext: withTickContext } = createRecipeContext(sliderTick);
+const { withContext: withMarkerContext } = createRecipeContext(sliderMarker);
 
 const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
 const withStateProps = createWithStateProps([
@@ -80,11 +85,10 @@ export const SliderMarkers = withContext<HTMLDivElement, SliderMarkersProps>(
   "markers",
 );
 
-export interface SliderMarkerProps extends Slider.MarkerProps {}
+export interface SliderMarkerProps extends SliderMarkerVariantProps, Slider.MarkerProps {}
 
-export const SliderMarker = withContext<HTMLDivElement, SliderMarkerProps>(
+export const SliderMarker = withMarkerContext<HTMLDivElement, SliderMarkerProps>(
   withFieldStateProps(Slider.Marker),
-  "marker",
 );
 
 export interface SliderTooltipProps extends PrimitiveProps, Slider.TooltipRootProps {
