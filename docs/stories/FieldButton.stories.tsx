@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-import { FieldButton, FieldButtonPlaceholder } from "seed-design/ui/field-button";
+import { FieldButton, FieldButtonPlaceholder, FieldButtonValue } from "seed-design/ui/field-button";
 import { inputButtonVariantMap } from "@seed-design/css/recipes/input-button";
 import { SeedThemeDecorator } from "./components/decorator";
 import { VariantTable } from "./components/variant-table";
 import { createStoryWithParameters } from "@/stories/utils/parameters";
+import { IconPaperplaneLine } from "@karrotmarket/react-monochrome-icon";
 
 const meta = {
   component: FieldButton,
@@ -24,14 +25,6 @@ const conditionMap = {
       disabled: true,
     },
   },
-  readOnly: {
-    false: {
-      readOnly: false,
-    },
-    true: {
-      readOnly: true,
-    },
-  },
   invalid: {
     false: {
       invalid: false,
@@ -40,21 +33,25 @@ const conditionMap = {
       invalid: true,
     },
   },
+  children: {
+    placeholder: {
+      children: <FieldButtonPlaceholder>선택된 값이 없습니다.</FieldButtonPlaceholder>,
+    },
+    value: {
+      children: <FieldButtonValue>선택된 값</FieldButtonValue>,
+    },
+  },
 };
 
 const CommonStoryTemplate: Story = {
   args: {
-    // prefixIcon: <IconPaperplaneLine />,
-    // suffix: "Suffix",
-    label:
-      "Officia ad consectetur mollit incididunt tempor tempor in mollit exercitation velit veniam laborum.",
-    indicator:
-      "Officia nostrud aute minim consectetur mollit incididunt tempor tempor cupidatat nostrud est.",
-    description:
-      "Sunt enim deserunt culpa exercitation cupidatat cillum. Eiusmod adipisicing voluptate laboris pariatur cillum sunt aliqua tempor.",
-    errorMessage:
-      "Do occaecat qui nulla sit pariatur. Occaecat est ex sit ad nulla pariatur mollit eu reprehenderit exercitation est commodo officia id Lorem.",
-    children: <FieldButtonPlaceholder>선택된 값이 없습니다.</FieldButtonPlaceholder>,
+    prefixIcon: <IconPaperplaneLine />,
+    suffix: "Suffix",
+    label: "Field Button",
+    indicator: "필수",
+    showRequiredIndicator: true,
+    description: "선택해주세요.",
+    errorMessage: "This is an error message.",
   },
   render: (args) => (
     <VariantTable
