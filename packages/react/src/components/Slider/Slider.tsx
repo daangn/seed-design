@@ -94,25 +94,27 @@ export const SliderMarker = withMarkerContext<HTMLDivElement, SliderMarkerProps>
   withFieldStateProps(Slider.Marker),
 );
 
-export interface SliderTooltipRootProps extends Slider.TooltipRootProps {}
+export interface SliderValueIndicatorRootProps extends Slider.ValueIndicatorRootProps {}
 
-export const SliderTooltipRoot = withContext<HTMLDivElement, SliderTooltipRootProps>(
-  Slider.TooltipRoot,
-  "tooltipRoot",
+export const SliderValueIndicatorRoot = withContext<HTMLDivElement, SliderValueIndicatorRootProps>(
+  Slider.ValueIndicatorRoot,
+  "valueIndicatorRoot",
 );
 
-export interface SliderTooltipLabelProps extends Slider.TooltipLabelProps {}
+export interface SliderValueIndicatorLabelProps extends Slider.ValueIndicatorLabelProps {}
 
-export const SliderTooltipLabel = Slider.TooltipLabel;
+export const SliderValueIndicatorLabel = Slider.ValueIndicatorLabel;
 
-export interface SliderTooltipArrowProps extends PrimitiveProps, HTMLAttributes<HTMLDivElement> {}
+export interface SliderValueIndicatorArrowProps
+  extends PrimitiveProps,
+    HTMLAttributes<HTMLDivElement> {}
 
-export const SliderTooltipArrow = withContext<HTMLDivElement, SliderTooltipArrowProps>(
-  withStateProps(Primitive.div),
-  "tooltipArrow",
-);
+export const SliderValueIndicatorArrow = withContext<
+  HTMLDivElement,
+  SliderValueIndicatorArrowProps
+>(withStateProps(Primitive.div), "valueIndicatorArrow");
 
-export interface SliderTooltipArrowTipProps extends React.SVGProps<SVGSVGElement> {
+export interface SliderValueIndicatorArrowTipProps extends React.SVGProps<SVGSVGElement> {
   /**
    * radius of the arrow tip
    * @default 2
@@ -120,32 +122,33 @@ export interface SliderTooltipArrowTipProps extends React.SVGProps<SVGSVGElement
   tipRadius?: number;
 }
 
-export const SliderTooltipArrowTip = forwardRef<SVGSVGElement, SliderTooltipArrowTipProps>(
-  ({ tipRadius = 2, className, ...otherProps }, ref) => {
-    const [tooltipArrowTip, setTooltipArrowTip] = useState<SVGSVGElement | null>(null);
+export const SliderValueIndicatorArrowTip = forwardRef<
+  SVGSVGElement,
+  SliderValueIndicatorArrowTipProps
+>(({ tipRadius = 2, className, ...otherProps }, ref) => {
+  const [valueIndicatorArrowTip, setValueIndicatorArrowTip] = useState<SVGSVGElement | null>(null);
 
-    const width = tooltipArrowTip?.clientWidth ?? 0;
-    const height = tooltipArrowTip?.clientHeight ?? 0;
+  const width = valueIndicatorArrowTip?.clientWidth ?? 0;
+  const height = valueIndicatorArrowTip?.clientHeight ?? 0;
 
-    const pathData = `M0,0
+  const pathData = `M0,0
       H${width}
       L${width / 2 + tipRadius},${height - tipRadius}
       Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
       Z`;
 
-    const classNames = useClassNames();
+  const classNames = useClassNames();
 
-    return (
-      <svg
-        aria-hidden="true"
-        viewBox={`0 0 ${width} ${height}`}
-        ref={composeRefs(setTooltipArrowTip, ref)}
-        className={clsx(classNames.tooltipArrowTip, className)}
-        {...otherProps}
-      >
-        <path stroke="none" d={pathData} />
-      </svg>
-    );
-  },
-);
-SliderTooltipArrowTip.displayName = "SliderTooltipArrowTip";
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox={`0 0 ${width} ${height}`}
+      ref={composeRefs(setValueIndicatorArrowTip, ref)}
+      className={clsx(classNames.valueIndicatorArrowTip, className)}
+      {...otherProps}
+    >
+      <path stroke="none" d={pathData} />
+    </svg>
+  );
+});
+SliderValueIndicatorArrowTip.displayName = "SliderValueIndicatorArrowTip";

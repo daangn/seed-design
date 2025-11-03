@@ -39,7 +39,7 @@ export interface SliderProps extends SeedSlider.RootProps {
   /**
    * @default false
    */
-  hideTooltip?: boolean;
+  hideValueIndicator?: boolean;
 }
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
@@ -56,7 +56,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       tickWeight,
 
       hideRange = false,
-      hideTooltip = false,
+      hideValueIndicator = false,
 
       ...props
     },
@@ -107,13 +107,13 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             </SeedSlider.Track>
             {values?.map((_, index) => (
               <React.Fragment key={index}>
-                {!hideTooltip && (
-                  <SeedSlider.TooltipRoot thumbIndex={index}>
-                    <SeedSlider.TooltipArrow>
-                      <SeedSlider.TooltipArrowTip />
-                    </SeedSlider.TooltipArrow>
-                    <SeedSlider.TooltipLabel thumbIndex={index} />
-                  </SeedSlider.TooltipRoot>
+                {!hideValueIndicator && (
+                  <SeedSlider.ValueIndicatorRoot thumbIndex={index}>
+                    <SeedSlider.ValueIndicatorArrow>
+                      <SeedSlider.ValueIndicatorArrowTip />
+                    </SeedSlider.ValueIndicatorArrow>
+                    <SeedSlider.ValueIndicatorLabel thumbIndex={index} />
+                  </SeedSlider.ValueIndicatorRoot>
                 )}
                 <SeedSlider.Thumb thumbIndex={index} />
                 <SeedSlider.HiddenInput thumbIndex={index} />

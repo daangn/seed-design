@@ -23,7 +23,7 @@ export declare const vars: {
         "cornerRadius": "var(--seed-radius-full)",
         "color": "var(--seed-color-bg-neutral-inverted)"
       },
-      "tooltipRoot": {
+      "valueIndicatorRoot": {
         "color": "var(--seed-color-bg-neutral-inverted)",
         "cornerRadius": "var(--seed-radius-r1)",
         "paddingX": "var(--seed-dimension-x1_5)",
@@ -38,7 +38,7 @@ export declare const vars: {
         "exitDuration": "var(--seed-duration-d4)",
         "exitTimingFunction": "var(--seed-timing-function-easing)"
       },
-      "tooltipArrow": {
+      "valueIndicatorArrow": {
         "color": "var(--seed-color-bg-neutral-inverted)",
         "width": "var(--seed-dimension-x2_5)",
         "height": "7px",
@@ -46,7 +46,7 @@ export declare const vars: {
         "gutter": "var(--seed-dimension-x0_5)",
         "padding": "var(--seed-dimension-x0_5)"
       },
-      "tooltipLabel": {
+      "valueIndicatorLabel": {
         "color": "var(--seed-color-fg-neutral-inverted)",
         "fontSize": "var(--seed-font-size-t1)",
         "lineHeight": "var(--seed-line-height-t1)",

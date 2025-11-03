@@ -2,13 +2,13 @@ import { Slider } from "seed-design/ui/slider";
 
 const formatter = new Intl.NumberFormat("ko-KR", { style: "decimal" });
 
-export default function SliderCustomTooltipLabel() {
+export default function SliderCustomValueIndicatorLabel() {
   return (
     <Slider
       min={0}
       max={1_000_000}
       defaultValues={[20_000, 500_000]}
-      getTooltipChildren={({ value, thumbIndex }) => (
+      getValueIndicatorLabel={({ value, thumbIndex }) => (
         <>
           thumb {thumbIndex}
           <br />

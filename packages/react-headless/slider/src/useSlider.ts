@@ -311,7 +311,7 @@ export interface UseSliderProps extends UseSliderStateProps {
   /**
    * @default (params) => params.value
    */
-  getTooltipChildren?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
+  getValueIndicatorLabel?: (params: { value: number; thumbIndex: number }) => React.ReactNode;
 
   /**
    * @default 150
@@ -331,7 +331,7 @@ export function useSlider({
   getAriaValuetext,
   getAriaLabel,
   getAriaLabelledby,
-  getTooltipChildren = ({ value }) => value,
+  getValueIndicatorLabel = ({ value }) => value,
   dragStartDelayInMilliseconds = 150,
 
   ...props
@@ -706,7 +706,7 @@ export function useSlider({
     [api.min, api.max, stateProps, api.firstThumbSize?.width],
   );
 
-  const getTooltipProps = useCallback(
+  const getValueIndicatorProps = useCallback(
     (index: number) => {
       const value = api.values[index];
 
@@ -734,16 +734,23 @@ export function useSlider({
           ),
 
           style: {
-            "--tooltip-position": percent,
-            "--tooltip-offset": `${thumbInBoundsOffset}px`,
+            "--indicator-position": percent,
+            "--indicator-offset": `${thumbInBoundsOffset}px`,
           } as CSSProperties,
         }),
         labelProps: elementProps({
-          children: getTooltipChildren({ value, thumbIndex: index }),
+          children: getValueIndicatorLabel({ value, thumbIndex: index }),
         }),
       };
     },
-    [api.firstThumbSize?.width, api.isDragging, api.max, api.min, api.values, getTooltipChildren],
+    [
+      api.firstThumbSize?.width,
+      api.isDragging,
+      api.max,
+      api.min,
+      api.values,
+      getValueIndicatorLabel,
+    ],
   );
 
   return {
@@ -768,7 +775,7 @@ export function useSlider({
     getHiddenInputProps,
     getTickProps,
     getMarkerProps,
-    getTooltipProps,
+    getValueIndicatorProps,
 
     // this is used to style the track
     stateProps,

@@ -167,35 +167,35 @@ discrete하다고 느껴질 만큼 step이 충분히 클 때 또는 tick에만 t
   ```
 </ComponentExample>
 
-### Customizing Tooltip
+### Customizing Value Indicator
 
-#### Tooltip Label
+#### Value Indicator Label
 
-`getTooltipChildren` prop을 사용하여 thumb 위에 표시되는 툴팁의 내용을 커스텀할 수 있습니다.
+`getValueIndicatorLabel` prop을 사용하여 thumb 위에 표시되는 툴팁의 내용을 커스텀할 수 있습니다.
 
 <Callout type="warning" title="주의">
 
-Tooltip은 thumb을 누르고 있을 때만 표시되며 스크린 리더는 Tooltip의 내용을 읽지 않습니다. Tooltip에 의미가 있는 내용을 포함하는 경우, [`getAriaValuetext` prop](#get-aria-value-text)을 함께 사용하는 것을 권장합니다.
+Value Indicator는 thumb을 누르고 있을 때만 표시되며 스크린 리더는 Value Indicator의 내용을 읽지 않습니다. Value Indicator에 의미가 있는 내용을 포함하는 경우, [`getAriaValuetext` prop](#get-aria-value-text)을 함께 사용하는 것을 권장합니다.
 
 </Callout>
 
-<ComponentExample name="react/slider/custom-tooltip-label">
+<ComponentExample name="react/slider/custom-value-indicator-label">
   ```json doc-gen:file
   {
-    "file": "examples/react/slider/custom-tooltip-label.tsx",
+    "file": "examples/react/slider/custom-value-indicator-label.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### Hide Tooltip
+#### Hide Value Indicator
 
-`hideTooltip` prop을 사용하여 thumb 위에 표시되는 툴팁을 숨길 수 있습니다.
+`hideValue Indicator` prop을 사용하여 thumb 위에 표시되는 툴팁을 숨길 수 있습니다.
 
-<ComponentExample name="react/slider/hide-tooltip">
+<ComponentExample name="react/slider/hide-value-indicator">
   ```json doc-gen:file
   {
-    "file": "examples/react/slider/hide-tooltip.tsx",
+    "file": "examples/react/slider/hide-value-indicator.tsx",
     "codeblock": true
   }
   ```

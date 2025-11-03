@@ -89,7 +89,7 @@
                   "value": "$color.bg.neutral-inverted"
                 }
               },
-              "tooltipRoot": {
+              "valueIndicatorRoot": {
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted"
@@ -143,7 +143,7 @@
                   "value": "$timing-function.easing"
                 }
               },
-              "tooltipArrow": {
+              "valueIndicatorArrow": {
                 "color": {
                   "type": "color",
                   "value": "$color.bg.neutral-inverted"
@@ -172,7 +172,7 @@
                   "value": "$dimension.x0_5"
                 }
               },
-              "tooltipLabel": {
+              "valueIndicatorLabel": {
                 "color": {
                   "type": "color",
                   "value": "$color.fg.neutral-inverted"

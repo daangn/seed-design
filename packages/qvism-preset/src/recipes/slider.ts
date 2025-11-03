@@ -22,9 +22,9 @@ const slider = defineSlotRecipe({
     "thumb",
     "tick",
     "markers",
-    "tooltipRoot",
-    "tooltipArrow",
-    "tooltipArrowTip",
+    "valueIndicatorRoot",
+    "valueIndicatorArrow",
+    "valueIndicatorArrowTip",
   ],
   base: {
     root: {
@@ -145,18 +145,18 @@ const slider = defineSlotRecipe({
       // we set height here because all markers' position is absolute
       height: vars.base.enabled.marker.lineHeight,
     },
-    tooltipRoot: {
+    valueIndicatorRoot: {
       display: "flex",
       flexDirection: "column",
-      background: vars.base.enabled.tooltipRoot.color,
-      paddingInline: vars.base.enabled.tooltipRoot.paddingX,
-      paddingBlock: vars.base.enabled.tooltipRoot.paddingY,
-      borderRadius: vars.base.enabled.tooltipRoot.cornerRadius,
+      background: vars.base.enabled.valueIndicatorRoot.color,
+      paddingInline: vars.base.enabled.valueIndicatorRoot.paddingX,
+      paddingBlock: vars.base.enabled.valueIndicatorRoot.paddingY,
+      borderRadius: vars.base.enabled.valueIndicatorRoot.cornerRadius,
 
-      color: vars.base.enabled.tooltipLabel.color,
-      fontSize: vars.base.enabled.tooltipLabel.fontSize,
-      lineHeight: vars.base.enabled.tooltipLabel.lineHeight,
-      fontWeight: vars.base.enabled.tooltipLabel.fontWeight,
+      color: vars.base.enabled.valueIndicatorLabel.color,
+      fontSize: vars.base.enabled.valueIndicatorLabel.fontSize,
+      lineHeight: vars.base.enabled.valueIndicatorLabel.lineHeight,
+      fontWeight: vars.base.enabled.valueIndicatorLabel.fontWeight,
 
       whiteSpace: "pre-wrap",
       textAlign: "center",
@@ -164,17 +164,17 @@ const slider = defineSlotRecipe({
       width: "max-content",
 
       position: "absolute",
-      bottom: `calc(100% + ${vars.base.enabled.tooltipRoot.offsetY})`,
+      bottom: `calc(100% + ${vars.base.enabled.valueIndicatorRoot.offsetY})`,
 
       opacity: 0,
 
       [pseudo("[data-dir='ltr']")]: {
-        left: "calc(var(--tooltip-position) * 1% + var(--tooltip-offset))",
+        left: "calc(var(--indicator-position) * 1% + var(--indicator-offset))",
         transform: "translateX(-50%)",
       },
 
       [pseudo("[data-dir='rtl']")]: {
-        right: "calc(var(--tooltip-position) * 1% + var(--tooltip-offset))",
+        right: "calc(var(--indicator-position) * 1% + var(--indicator-offset))",
         transform: "translateX(50%)",
       },
 
@@ -184,49 +184,49 @@ const slider = defineSlotRecipe({
 
       [pseudo(thumbDragging, "[data-dir='ltr']")]: {
         ...enterAnimation({
-          scale: vars.base.enabled.tooltipRoot.enterScale,
-          opacity: vars.base.enabled.tooltipRoot.enterOpacity,
-          duration: vars.base.enabled.tooltipRoot.enterDuration,
-          timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
+          scale: vars.base.enabled.valueIndicatorRoot.enterScale,
+          opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
+          duration: vars.base.enabled.valueIndicatorRoot.enterDuration,
+          timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "-50%",
-          translateY: vars.base.enabled.tooltipRoot.offsetY,
+          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
         }),
       },
 
       [pseudo(thumbDragging, "[data-dir='rtl']")]: {
         ...enterAnimation({
-          scale: vars.base.enabled.tooltipRoot.enterScale,
-          opacity: vars.base.enabled.tooltipRoot.enterOpacity,
-          duration: vars.base.enabled.tooltipRoot.enterDuration,
-          timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
+          scale: vars.base.enabled.valueIndicatorRoot.enterScale,
+          opacity: vars.base.enabled.valueIndicatorRoot.enterOpacity,
+          duration: vars.base.enabled.valueIndicatorRoot.enterDuration,
+          timingFunction: vars.base.enabled.valueIndicatorRoot.enterTimingFunction,
 
           translateX: "50%",
-          translateY: vars.base.enabled.tooltipRoot.offsetY,
+          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
         }),
       },
 
       [pseudo(not(thumbDragging), "[data-dir='ltr']")]: {
         ...exitAnimation({
-          scale: vars.base.enabled.tooltipRoot.exitScale,
-          opacity: vars.base.enabled.tooltipRoot.exitOpacity,
-          duration: vars.base.enabled.tooltipRoot.exitDuration,
-          timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
+          scale: vars.base.enabled.valueIndicatorRoot.exitScale,
+          opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
+          duration: vars.base.enabled.valueIndicatorRoot.exitDuration,
+          timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "-50%",
-          translateY: vars.base.enabled.tooltipRoot.offsetY,
+          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
         }),
       },
 
       [pseudo(not(thumbDragging), "[data-dir='rtl']")]: {
         ...exitAnimation({
-          scale: vars.base.enabled.tooltipRoot.exitScale,
-          opacity: vars.base.enabled.tooltipRoot.exitOpacity,
-          duration: vars.base.enabled.tooltipRoot.exitDuration,
-          timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
+          scale: vars.base.enabled.valueIndicatorRoot.exitScale,
+          opacity: vars.base.enabled.valueIndicatorRoot.exitOpacity,
+          duration: vars.base.enabled.valueIndicatorRoot.exitDuration,
+          timingFunction: vars.base.enabled.valueIndicatorRoot.exitTimingFunction,
 
           translateX: "50%",
-          translateY: vars.base.enabled.tooltipRoot.offsetY,
+          translateY: vars.base.enabled.valueIndicatorRoot.offsetY,
         }),
       },
 
@@ -234,10 +234,10 @@ const slider = defineSlotRecipe({
         display: "none !important",
       },
     },
-    tooltipArrow: {
-      width: vars.base.enabled.tooltipArrow.width,
+    valueIndicatorArrow: {
+      width: vars.base.enabled.valueIndicatorArrow.width,
       // we're making it square
-      height: vars.base.enabled.tooltipArrow.width,
+      height: vars.base.enabled.valueIndicatorArrow.width,
 
       position: "absolute",
 
@@ -245,14 +245,14 @@ const slider = defineSlotRecipe({
       left: "50%",
       transform: "translateX(-50%)",
     },
-    tooltipArrowTip: {
+    valueIndicatorArrowTip: {
       // svg has default display of inline, which makes it be affected by line-height
       display: "block",
 
-      fill: vars.base.enabled.tooltipArrow.color,
+      fill: vars.base.enabled.valueIndicatorArrow.color,
 
-      width: vars.base.enabled.tooltipArrow.width,
-      height: vars.base.enabled.tooltipArrow.height,
+      width: vars.base.enabled.valueIndicatorArrow.width,
+      height: vars.base.enabled.valueIndicatorArrow.height,
     },
   },
   variants: {},

@@ -31,16 +31,16 @@ const sliderSlotNames = [
     "seed-slider__markers"
   ],
   [
-    "tooltipRoot",
-    "seed-slider__tooltipRoot"
+    "valueIndicatorRoot",
+    "seed-slider__valueIndicatorRoot"
   ],
   [
-    "tooltipArrow",
-    "seed-slider__tooltipArrow"
+    "valueIndicatorArrow",
+    "seed-slider__valueIndicatorArrow"
   ],
   [
-    "tooltipArrowTip",
-    "seed-slider__tooltipArrowTip"
+    "valueIndicatorArrowTip",
+    "seed-slider__valueIndicatorArrowTip"
   ]
 ];
 

@@ -24,7 +24,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
-      getTooltipChildren,
+      getValueIndicatorLabel,
       invalid,
       max,
       min,
@@ -49,7 +49,7 @@ export const SliderRoot = React.forwardRef<HTMLDivElement, SliderRootProps>(
       getAriaLabel,
       getAriaValuetext,
       getAriaLabelledby,
-      getTooltipChildren,
+      getValueIndicatorLabel,
       invalid,
       max,
       min,
@@ -145,34 +145,36 @@ export const SliderMarker = React.forwardRef<HTMLDivElement, SliderMarkerProps>(
 );
 SliderMarker.displayName = "SliderMarker";
 
-export interface SliderTooltipRootProps
+export interface SliderValueIndicatorRootProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {
   thumbIndex: number;
 }
 
-export const SliderTooltipRoot = React.forwardRef<HTMLDivElement, SliderTooltipRootProps>(
-  ({ thumbIndex, ...props }, ref) => {
-    const { getTooltipProps } = useSliderContext();
-    const { rootProps } = getTooltipProps(thumbIndex);
+export const SliderValueIndicatorRoot = React.forwardRef<
+  HTMLDivElement,
+  SliderValueIndicatorRootProps
+>(({ thumbIndex, ...props }, ref) => {
+  const { getValueIndicatorProps } = useSliderContext();
+  const { rootProps } = getValueIndicatorProps(thumbIndex);
 
-    return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
-  },
-);
-SliderTooltipRoot.displayName = "SliderTooltipRoot";
+  return <Primitive.div ref={ref} {...mergeProps(rootProps, props)} />;
+});
+SliderValueIndicatorRoot.displayName = "SliderValueIndicatorRoot";
 
-export interface SliderTooltipLabelProps
+export interface SliderValueIndicatorLabelProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {
   thumbIndex: number;
 }
 
-export const SliderTooltipLabel = React.forwardRef<HTMLSpanElement, SliderTooltipLabelProps>(
-  ({ thumbIndex, ...props }, ref) => {
-    const { getTooltipProps } = useSliderContext();
-    const { labelProps } = getTooltipProps(thumbIndex);
+export const SliderValueIndicatorLabel = React.forwardRef<
+  HTMLSpanElement,
+  SliderValueIndicatorLabelProps
+>(({ thumbIndex, ...props }, ref) => {
+  const { getValueIndicatorProps } = useSliderContext();
+  const { labelProps } = getValueIndicatorProps(thumbIndex);
 
-    return <Primitive.span ref={ref} {...mergeProps(labelProps, props)} />;
-  },
-);
-SliderTooltipLabel.displayName = "SliderTooltipLabel";
+  return <Primitive.span ref={ref} {...mergeProps(labelProps, props)} />;
+});
+SliderValueIndicatorLabel.displayName = "SliderValueIndicatorLabel";

@@ -26,7 +26,7 @@ export default function SliderGetAriaValuetext() {
         onValuesChange={setValues}
         getAriaLabel={(thumbIndex) => (thumbIndex === 0 ? "시작" : "종료")}
         getAriaValuetext={getHumanReadableDayOfWeek}
-        getTooltipChildren={({ value }) => getHumanReadableDayOfWeek(value)}
+        getValueIndicatorLabel={({ value }) => getHumanReadableDayOfWeek(value)}
       />
       <Text>values: {JSON.stringify(values)}</Text>
       <Text>aria-valuetext: {JSON.stringify(values.map(getHumanReadableDayOfWeek))}</Text>
