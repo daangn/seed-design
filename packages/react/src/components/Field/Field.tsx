@@ -5,10 +5,13 @@ import { forwardRef } from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
+import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon } from "../private/Icon";
 import clsx from "clsx";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(field);
+const { withContext: withLabelContext } = createRecipeContext(fieldLabel);
 const withStateProps = createWithStateProps([useFieldContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -26,9 +29,9 @@ export const FieldHeader = withContext<HTMLDivElement, FieldHeaderProps>(
   "header",
 );
 
-export interface FieldLabelProps extends Field.LabelProps {}
+export interface FieldLabelProps extends FieldLabelVariantProps, Field.LabelProps {}
 
-export const FieldLabel = withContext<HTMLLabelElement, FieldLabelProps>(Field.Label, "label");
+export const FieldLabel = withLabelContext<HTMLLabelElement, FieldLabelProps>(Field.Label);
 
 export interface FieldIndicatorTextProps
   extends PrimitiveProps,

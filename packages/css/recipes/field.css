@@ -11,11 +11,6 @@
     padding-inline: var(--seed-dimension-x0_5);
     gap: var(--seed-dimension-x2_5);
 }
-.seed-field__label {
-    color: var(--seed-color-fg-neutral);
-    font-size: var(--seed-font-size-t5);
-    line-height: var(--seed-line-height-t5);
-}
 .seed-field__indicatorText {
     display: inline-block;
     vertical-align: bottom;
@@ -83,10 +78,4 @@
 }
 .seed-field__maxCharacterCount:is(:invalid, [data-invalid]) {
     color: var(--seed-color-fg-critical);
-}
-.seed-field__label--weight_medium {
-    font-weight: var(--seed-font-weight-medium);
-}
-.seed-field__label--weight_bold {
-    font-weight: var(--seed-font-weight-bold);
 }

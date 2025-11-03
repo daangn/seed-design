@@ -3994,12 +3994,6 @@
   display: flex;
 }
 
-.seed-field__label {
-  color: var(--seed-color-fg-neutral);
-  font-size: var(--seed-font-size-t5);
-  line-height: var(--seed-line-height-t5);
-}
-
 .seed-field__indicatorText {
   vertical-align: bottom;
   color: var(--seed-color-fg-neutral-subtle);
@@ -4078,11 +4072,17 @@
   color: var(--seed-color-fg-critical);
 }
 
-.seed-field__label--weight_medium {
+.seed-field-label {
+  color: var(--seed-color-fg-neutral);
+  font-size: var(--seed-font-size-t5);
+  line-height: var(--seed-line-height-t5);
+}
+
+.seed-field-label--weight_medium {
   font-weight: var(--seed-font-weight-medium);
 }
 
-.seed-field__label--weight_bold {
+.seed-field-label--weight_bold {
   font-weight: var(--seed-font-weight-bold);
 }
 

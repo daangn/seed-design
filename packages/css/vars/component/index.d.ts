@@ -23,6 +23,7 @@ export { vars as extendedActionSheetItem } from "./extended-action-sheet-item";
 export { vars as extendedActionSheet } from "./extended-action-sheet";
 export { vars as extendedFab } from "./extended-fab";
 export { vars as fab } from "./fab";
+export { vars as fieldLabel } from "./field-label";
 export { vars as field } from "./field";
 export { vars as floatingActionButton } from "./floating-action-button";
 export { vars as helpBubble } from "./help-bubble";

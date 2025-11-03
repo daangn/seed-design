@@ -11,10 +11,6 @@ const fieldSlotNames = [
     "seed-field__header"
   ],
   [
-    "label",
-    "seed-field__label"
-  ],
-  [
     "indicatorText",
     "seed-field__indicatorText"
   ],
@@ -48,18 +44,11 @@ const fieldSlotNames = [
   ]
 ];
 
-const defaultVariant = {
-  "weight": "medium"
-};
+const defaultVariant = {};
 
 const compoundVariants = [];
 
-export const fieldVariantMap = {
-  "weight": [
-    "medium",
-    "bold"
-  ]
-};
+export const fieldVariantMap = {};
 
 export const fieldVariantKeys = Object.keys(fieldVariantMap);
 

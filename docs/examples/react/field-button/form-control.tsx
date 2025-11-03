@@ -1,5 +1,3 @@
-"use client";
-
 import { VStack, HStack } from "@seed-design/react";
 import { FieldButton, FieldButtonValue } from "seed-design/ui/field-button";
 import { ActionButton } from "seed-design/ui/action-button";

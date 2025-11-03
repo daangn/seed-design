@@ -9,11 +9,17 @@ import {
   VisuallyHidden,
   PrefixIcon,
 } from "@seed-design/react";
+import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon";
 
 export interface TextFieldProps
   extends Omit<SeedTextField.RootProps, "prefix" | "onValueChange" | "asChild"> {
   label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: FieldLabelVariantProps["weight"];
+
   indicator?: React.ReactNode;
 
   prefixIcon?: React.ReactNode;
@@ -23,9 +29,9 @@ export interface TextFieldProps
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
+
   hideCharacterCount?: boolean;
   maxGraphemeCount?: number;
-
   showRequiredIndicator?: boolean;
 
   fieldRef?: React.Ref<HTMLDivElement>;
@@ -44,6 +50,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       suffix,
       suffixIcon,
       label,
+      labelWeight,
       indicator,
       description,
       errorMessage,
@@ -99,7 +106,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       >
         {renderHeader && (
           <SeedField.Header>
-            <SeedField.Label>
+            <SeedField.Label weight={labelWeight}>
               {label}
               {showRequiredIndicator && <SeedField.RequiredIndicator />}
               {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}

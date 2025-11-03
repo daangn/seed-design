@@ -6,6 +6,7 @@ export default function FieldButtonIndicator() {
     <HStack gap="x3" width="full">
       <FieldButton
         label="선택 필드"
+        labelWeight="bold"
         indicator="선택"
         description="이 필드는 선택사항입니다"
         buttonProps={{

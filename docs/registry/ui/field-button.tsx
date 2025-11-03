@@ -7,13 +7,19 @@ import {
   Icon,
   PrefixIcon,
 } from "@seed-design/react";
+import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import {
   IconExclamationmarkCircleFill,
   IconXmarkCircleFill,
 } from "@karrotmarket/react-monochrome-icon";
 
-export interface FieldButtonProps extends Omit<SeedFieldButton.FieldRootProps, "prefix"> {
+export interface FieldButtonProps extends Omit<SeedFieldButton.RootProps, "prefix"> {
   label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: FieldLabelVariantProps["weight"];
+
   indicator?: React.ReactNode;
 
   prefixIcon?: React.ReactNode;
@@ -23,7 +29,6 @@ export interface FieldButtonProps extends Omit<SeedFieldButton.FieldRootProps, "
 
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
-
   showRequiredIndicator?: boolean;
   showClearButton?: boolean;
 
@@ -39,6 +44,8 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
   (
     {
       label,
+      labelWeight,
+
       indicator,
 
       prefix,
@@ -82,10 +89,10 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
     }
 
     return (
-      <SeedFieldButton.FieldRoot ref={rootRef} {...otherProps}>
+      <SeedFieldButton.Root ref={rootRef} {...otherProps}>
         {renderHeader && (
           <SeedFieldButton.Header>
-            <SeedFieldButton.Label>
+            <SeedFieldButton.Label weight={labelWeight}>
               {label}
               {showRequiredIndicator && <SeedFieldButton.RequiredIndicator />}
               {indicator && (
@@ -94,7 +101,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
             </SeedFieldButton.Label>
           </SeedFieldButton.Header>
         )}
-        <SeedFieldButton.Root>
+        <SeedFieldButton.Control>
           <SeedFieldButton.Button ref={ref} {...buttonProps} />
           {prefixIcon && <SeedFieldButton.PrefixIcon svg={prefixIcon} />}
           {prefix && <SeedFieldButton.PrefixText>{prefix}</SeedFieldButton.PrefixText>}
@@ -107,7 +114,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
           )}
           {suffix && <SeedFieldButton.SuffixText>{suffix}</SeedFieldButton.SuffixText>}
           {suffixIcon && <SeedFieldButton.SuffixIcon svg={suffixIcon} />}
-        </SeedFieldButton.Root>
+        </SeedFieldButton.Control>
         {renderFooter && (
           <SeedFieldButton.Footer>
             {renderDescription &&
@@ -129,7 +136,7 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
         {otherProps.values?.map((_, index) => (
           <SeedFieldButton.HiddenInput key={index} valueIndex={index} />
         ))}
-      </SeedFieldButton.FieldRoot>
+      </SeedFieldButton.Root>
     );
   },
 );

@@ -1,5 +1,6 @@
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
+import { field, fieldLabel } from "./recipes/field";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import { selectBox, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -25,7 +26,6 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
-import field from "./recipes/field";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
@@ -80,6 +80,7 @@ export const recipes = {
   extendedFab,
   fab,
   field,
+  fieldLabel,
   floatingActionButton,
   helpBubble,
   identityPlaceholder,

@@ -1,14 +1,13 @@
-import { field as vars } from "../vars/component";
-import { defineSlotRecipe } from "../utils/define";
+import { field as vars, fieldLabel as labelVars } from "../vars/component";
+import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { invalid, not, pseudo } from "../utils/pseudo";
 import { prefixIcon } from "../utils/icon";
 
-const field = defineSlotRecipe({
+export const field = defineSlotRecipe({
   name: "field",
   slots: [
     "root",
     "header",
-    "label",
     "indicatorText",
     "indicatorIcon",
     "footer",
@@ -34,11 +33,6 @@ const field = defineSlotRecipe({
 
       paddingInline: vars.base.enabled.header.paddingX,
       gap: vars.base.enabled.header.gap,
-    },
-    label: {
-      color: vars.base.enabled.label.color,
-      fontSize: vars.base.enabled.label.fontSize,
-      lineHeight: vars.base.enabled.label.lineHeight,
     },
     indicatorText: {
       display: "inline-block",
@@ -126,23 +120,28 @@ const field = defineSlotRecipe({
       },
     },
   },
-  defaultVariants: {
-    weight: "medium",
+  variants: {},
+  defaultVariants: {},
+});
+
+export const fieldLabel = defineRecipe({
+  name: "field-label",
+  base: {
+    color: labelVars.base.enabled.root.color,
+    fontSize: labelVars.base.enabled.root.fontSize,
+    lineHeight: labelVars.base.enabled.root.lineHeight,
   },
   variants: {
     weight: {
       medium: {
-        label: {
-          fontWeight: vars.weightMedium.enabled.label.fontWeight,
-        },
+        fontWeight: labelVars.weightMedium.enabled.root.fontWeight,
       },
       bold: {
-        label: {
-          fontWeight: vars.weightBold.enabled.label.fontWeight,
-        },
+        fontWeight: labelVars.weightBold.enabled.root.fontWeight,
       },
     },
   },
+  defaultVariants: {
+    weight: "medium",
+  },
 });
-
-export default field;

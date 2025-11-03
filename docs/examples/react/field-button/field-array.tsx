@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useCallback } from "react";
 import { Box, HStack, VStack } from "@seed-design/react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -69,8 +67,7 @@ export default function FieldButtonFieldArray() {
           showClearButton={fields.length > 0}
           buttonProps={{
             onClick: () => setIsTagSheetOpen(true),
-            "aria-label":
-              fields.length > 0 ? `태그 ${fields.length}개 선택됨, 클릭하여 편집` : "태그 선택",
+            "aria-label": fields.length > 0 ? `태그 ${fields.length}개 편집` : "태그 선택",
             "aria-haspopup": "dialog",
           }}
         >

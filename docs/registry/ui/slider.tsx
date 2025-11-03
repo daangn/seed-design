@@ -8,13 +8,20 @@ import {
   PrefixIcon,
 } from "@seed-design/react";
 import type { SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
+import type { FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import type { SliderMarkerVariantProps } from "@seed-design/css/recipes/slider-marker";
 import { useSliderContext } from "@seed-design/react/primitive";
 import * as React from "react";
 
 export interface SliderProps extends SeedSlider.RootProps {
   label?: React.ReactNode;
+  /**
+   * @default "medium"
+   */
+  labelWeight?: FieldLabelVariantProps["weight"];
+
   indicator?: React.ReactNode;
+
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
   showRequiredIndicator?: boolean;
@@ -30,6 +37,9 @@ export interface SliderProps extends SeedSlider.RootProps {
    * @default []
    */
   ticks?: number[];
+  /**
+   * @default "thin"
+   */
   tickWeight?: SliderTickVariantProps["weight"];
 
   /**
@@ -48,6 +58,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
   (
     {
       label,
+      labelWeight,
+
       indicator,
       description,
       errorMessage,
@@ -94,7 +106,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       >
         {renderHeader && (
           <SeedField.Header>
-            <SeedField.Label>
+            <SeedField.Label weight={labelWeight}>
               {label}
               {showRequiredIndicator && <SeedField.RequiredIndicator />}
               {indicator && <SeedField.IndicatorText>{indicator}</SeedField.IndicatorText>}

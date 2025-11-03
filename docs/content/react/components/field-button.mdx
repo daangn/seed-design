@@ -45,6 +45,26 @@ npx @seed-design/cli@latest add ui:field-button
 
 ## Examples
 
+### Basic Usage
+
+`FieldButton`은 `TextField`와 유사한 외관을 갖지만, 근본적으로 내부에 `<button>` 요소를 포함하는 컴포넌트입니다. 사용자는 `buttonProps` prop을 통해 버튼의 속성을 제어할 수 있습니다.
+
+- **`buttonProps`**
+  - **`onClick`**: 버튼 클릭 핸들러
+  - **`aria-label`**: 버튼의 접근성 레이블
+- **`children`**
+  - `FieldButtonValue` 또는 `FieldButtonPlaceholder` 등을 사용하여 구성
+  - `FieldButtonValue`와 `FieldButtonPlaceholder`는 스타일 차이만 있을 뿐 기능적으로 동일합니다. 스크린 리더는 두 요소를 읽거나 구분하지 않습니다. **접근성을 위해 `buttonProps["aria-label"]`에 적절한 값을 제공하세요.** 자세한 내용은 [Accessibility](#accessibility) 섹션을 참고하세요.
+
+<ComponentExample name="react/field-button/basic-usage">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/field-button/basic-usage.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
 ### Using as an `input`
 
 `FieldButton`에 `values` prop을 제공하는 경우 폼 제출에 활용할 수 있도록 `<input type="hidden" />`을 함께 렌더링합니다.
@@ -58,7 +78,7 @@ npx @seed-design/cli@latest add ui:field-button
   ```
 </ComponentExample>
 
-#### Clear Button
+### Clear Button
 
 `showClearButton` prop을 `true`로 설정하면 Clear Button이 표시됩니다. `showClearButton`을 `true`로 설정하는 경우 `onValuesChange` prop을 제공해야 합니다.
 
@@ -75,7 +95,7 @@ npx @seed-design/cli@latest add ui:field-button
 
 `<FieldButton>` 내부에 `children`으로 넣어 사용할 수 있는 단순한 `<div>` 요소입니다.
 
-스크린 리더는 `FieldButtonValue`와 `FieldButtonPlaceholder`를 읽지 않습니다. `buttonProps["aria-label"]`에 적절한 값을 제공하여 접근성을 확보하세요. 자세한 내용은 [접근 가능하게 만들기](#접근-가능하게-만들기) 섹션을 참고하세요.
+스크린 리더는 `FieldButtonValue`와 `FieldButtonPlaceholder`를 읽지 않습니다. `buttonProps["aria-label"]`에 적절한 값을 제공하여 접근성을 확보하세요. 자세한 내용은 [Accessibility](#accessibility) 섹션을 참고하세요.
 
 <ComponentExample name="react/field-button/value-placeholder">
   ```json doc-gen:file

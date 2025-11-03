@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useCallback } from "react";
 import { HStack, VStack } from "@seed-design/react";
 import { useController, useForm } from "react-hook-form";

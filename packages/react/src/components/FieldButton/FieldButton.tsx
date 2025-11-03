@@ -4,9 +4,11 @@ import * as React from "react";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { field, type FieldVariantProps } from "@seed-design/css/recipes/field";
+import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipes/field-label";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { inputButton } from "@seed-design/css/recipes/input-button";
 import clsx from "clsx";
+import { createRecipeContext } from "../../utils/createRecipeContext";
 
 const {
   withContext: withFieldContext,
@@ -14,14 +16,15 @@ const {
   useClassNames: useFieldClassNames,
 } = createSlotRecipeContext(field);
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(inputButton);
+const { withContext: withLabelContext } = createRecipeContext(fieldLabel);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonFieldRootProps extends FieldVariantProps, FieldButton.RootProps {}
+export interface FieldButtonRootProps extends FieldVariantProps, FieldButton.RootProps {}
 
-export const FieldButtonFieldRoot = withFieldProvider<HTMLDivElement, FieldButtonFieldRootProps>(
+export const FieldButtonRoot = withFieldProvider<HTMLDivElement, FieldButtonRootProps>(
   FieldButton.Root,
   "root",
 );
@@ -39,11 +42,11 @@ export const FieldButtonHeader = withFieldContext<HTMLDivElement, FieldButtonHea
 
 export interface FieldButtonLabelProps
   extends PrimitiveProps,
+    FieldLabelVariantProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonLabel = withFieldContext<HTMLDivElement, FieldButtonLabelProps>(
+export const FieldButtonLabel = withLabelContext<HTMLDivElement, FieldButtonLabelProps>(
   withStateProps(Primitive.div),
-  "label",
 );
 
 export interface FieldButtonIndicatorTextProps
@@ -184,11 +187,11 @@ export const FieldButtonButton = withContext<HTMLButtonElement, FieldButtonButto
   "button",
 );
 
-export interface FieldButtonRootProps
+export interface FieldButtonControlProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonRoot = withProvider<HTMLDivElement, FieldButtonRootProps>(
+export const FieldButtonControl = withProvider<HTMLDivElement, FieldButtonControlProps>(
   withStateProps(Primitive.div),
   "root",
 );
