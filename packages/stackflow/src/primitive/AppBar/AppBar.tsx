@@ -8,16 +8,11 @@ import { AppBarProvider, useAppBarContext } from "./useAppBarContext";
 export interface AppBarRootProps
   extends PrimitiveProps,
     UseAppBarProps,
-    React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * @default "layer"
-   */
-  tone?: "layer" | "transparent";
-}
+    React.HTMLAttributes<HTMLDivElement> {}
 
 export const AppBarRoot = forwardRef<HTMLDivElement, AppBarRootProps>((props, ref) => {
-  const { tone = "layer", ...otherProps } = props;
-  const api = useAppBar({ tone });
+  const { ...otherProps } = props;
+  const api = useAppBar({});
 
   return (
     <AppBarProvider value={api}>
