@@ -84,7 +84,6 @@ function useSliderState({
   const thumbRefsMap = useRef<Map<number, HTMLElement | null>>(new Map());
 
   const firstThumbSize = useSize(thumbRefsMap.current.get(0) ?? null);
-  const rootSize = useSize(rootEl);
 
   const [values, setValues] = useControllableState({
     prop: propValues,
@@ -250,7 +249,6 @@ function useSliderState({
     },
 
     firstThumbSize,
-    rootSize,
 
     min,
     max,
@@ -366,13 +364,6 @@ export function useSlider({
         ...stateProps,
 
         dir: api.dir,
-
-        style: {
-          // XXX: might replace with :dir() - Chrome 120~ && Safari 16.4~ and remove data-dir
-          // https://caniuse.com/css-dir-pseudo
-          "--direction": isLtr ? "1" : "-1",
-          ...(api.rootSize && { "--root-width": `${api.rootSize.width}px` }),
-        } as CSSProperties,
 
         onPointerLeave: () => {
           api.setIsHovered(false);
@@ -544,7 +535,6 @@ export function useSlider({
       api.handleSlideEnd,
       api.handleSlideMove,
       api.handleSlideStart,
-      api.rootSize,
       api.setIsActive,
       api.setIsDragging,
       api.setIsHovered,
@@ -637,7 +627,6 @@ export function useSlider({
       getAriaValuetext,
       invalid,
       isLtr,
-      isSSR,
       readOnly,
     ],
   );
@@ -737,8 +726,9 @@ export function useSlider({
 
       return {
         rootProps: elementProps({
-          "aria-hidden": true,
+          ...stateProps,
 
+          "aria-hidden": true,
           "data-thumb-dragging": dataAttr(
             api.isDragging && api.valueIndexToChangeRef.current === index,
           ),

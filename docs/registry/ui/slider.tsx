@@ -154,9 +154,7 @@ const SliderMarkers = React.forwardRef<HTMLDivElement, SliderMarkersProps>(
   ({ markers = [], ...props }, ref) => {
     const api = useSliderContext();
 
-    if (markers.length === 0) {
-      return null;
-    }
+    if (markers.length === 0) return null;
 
     return (
       <SeedSlider.Markers ref={ref} {...props}>

@@ -6,7 +6,6 @@ import {
 import { defineRecipe, defineSlotRecipe } from "../utils/define";
 import { disabled, pseudo, focus, not, hidden } from "../utils/pseudo";
 import { enterAnimation, exitAnimation } from "../utils/animation";
-
 import * as duration from "../vars/duration";
 import * as timingFunction from "../vars/timing-function";
 
@@ -88,19 +87,21 @@ const slider = defineSlotRecipe({
       width: thumbVars.base.enabled.root.size,
       height: thumbVars.base.enabled.root.size,
 
+      transform: "translate(-50%, -50%)",
+
+      // opacity transition is only for web so isn't defined in rootage
+      transition: `left ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, right ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
+
       [pseudo("[data-ssr]")]: {
         opacity: 0,
       },
 
-      // After measurement: use transform (--root-width is available)
-      [pseudo(not("[data-ssr]"))]: {
-        opacity: 1,
+      [pseudo("[data-dir='ltr']")]: {
+        left: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
+      },
 
-        transform:
-          "translateX(calc(var(--direction) * (var(--root-width) * var(--thumb-position) / 100 + var(--thumb-offset)))) translateX(-50%) translateY(-50%)",
-
-        // opacity is web-only transition so will not be declared in rootage
-        transition: `transform ${thumbVars.base.enabled.root.translateDuration} ${thumbVars.base.enabled.root.translateTimingFunction}, opacity ${duration.d2} ${timingFunction.easing}`,
+      [pseudo("[data-dir='rtl']")]: {
+        right: "calc(var(--thumb-position) * 1% + var(--thumb-offset))",
       },
 
       "&::after": {
@@ -163,36 +164,68 @@ const slider = defineSlotRecipe({
       width: "max-content",
 
       position: "absolute",
-      bottom: "100%",
+      bottom: `calc(100% + ${vars.base.enabled.tooltipRoot.offsetY})`,
 
-      transform: `translateX(calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)))) translateX(calc(var(--direction) * -50%)) translateY(calc(${vars.base.enabled.tooltipRoot.offsetY} * -1))`,
-
-      // Hide tooltip by default (before any interaction)
       opacity: 0,
+
+      [pseudo("[data-dir='ltr']")]: {
+        left: "calc(var(--tooltip-position) * 1% + var(--tooltip-offset))",
+        transform: "translateX(-50%)",
+      },
+
+      [pseudo("[data-dir='rtl']")]: {
+        right: "calc(var(--tooltip-position) * 1% + var(--tooltip-offset))",
+        transform: "translateX(50%)",
+      },
 
       [pseudo(thumbDragging)]: {
         opacity: 1,
+      },
+
+      [pseudo(thumbDragging, "[data-dir='ltr']")]: {
         ...enterAnimation({
           scale: vars.base.enabled.tooltipRoot.enterScale,
           opacity: vars.base.enabled.tooltipRoot.enterOpacity,
           duration: vars.base.enabled.tooltipRoot.enterDuration,
           timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
 
-          translateX:
-            "calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)) + var(--direction) * -50%)",
+          translateX: "-50%",
           translateY: vars.base.enabled.tooltipRoot.offsetY,
         }),
       },
 
-      [pseudo(not(thumbDragging))]: {
+      [pseudo(thumbDragging, "[data-dir='rtl']")]: {
+        ...enterAnimation({
+          scale: vars.base.enabled.tooltipRoot.enterScale,
+          opacity: vars.base.enabled.tooltipRoot.enterOpacity,
+          duration: vars.base.enabled.tooltipRoot.enterDuration,
+          timingFunction: vars.base.enabled.tooltipRoot.enterTimingFunction,
+
+          translateX: "50%",
+          translateY: vars.base.enabled.tooltipRoot.offsetY,
+        }),
+      },
+
+      [pseudo(not(thumbDragging), "[data-dir='ltr']")]: {
         ...exitAnimation({
           scale: vars.base.enabled.tooltipRoot.exitScale,
           opacity: vars.base.enabled.tooltipRoot.exitOpacity,
           duration: vars.base.enabled.tooltipRoot.exitDuration,
           timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
 
-          translateX:
-            "calc(var(--direction) * (var(--root-width) * var(--tooltip-position) / 100 + var(--tooltip-offset)) + var(--direction) * -50%)",
+          translateX: "-50%",
+          translateY: vars.base.enabled.tooltipRoot.offsetY,
+        }),
+      },
+
+      [pseudo(not(thumbDragging), "[data-dir='rtl']")]: {
+        ...exitAnimation({
+          scale: vars.base.enabled.tooltipRoot.exitScale,
+          opacity: vars.base.enabled.tooltipRoot.exitOpacity,
+          duration: vars.base.enabled.tooltipRoot.exitDuration,
+          timingFunction: vars.base.enabled.tooltipRoot.exitTimingFunction,
+
+          translateX: "50%",
           translateY: vars.base.enabled.tooltipRoot.offsetY,
         }),
       },
@@ -241,11 +274,10 @@ const sliderMarker = defineRecipe({
     fontSize: vars.base.enabled.marker.fontSize,
     lineHeight: vars.base.enabled.marker.lineHeight,
 
-    // SSR/before measurement: use left/right (percentage-based)
-    [pseudo("[data-ssr][data-dir='ltr']")]: {
+    [pseudo("[data-dir='ltr']")]: {
       left: "calc(var(--marker-position) * 1% + var(--marker-offset))",
     },
-    [pseudo("[data-ssr][data-dir='rtl']")]: {
+    [pseudo("[data-dir='rtl']")]: {
       right: "calc(var(--marker-position) * 1% + var(--marker-offset))",
     },
 
@@ -262,55 +294,25 @@ const sliderMarker = defineRecipe({
         [pseudo("[data-dir='rtl']")]: {
           textAlign: "right",
         },
-
-        // SSR/before measurement: works with left/right
-        [pseudo("[data-ssr][data-dir='ltr']")]: {
-          transform: "translateX(0%)",
-        },
-        [pseudo("[data-ssr][data-dir='rtl']")]: {
-          transform: "translateX(0%)",
-        },
-
-        [pseudo(not("[data-ssr]"))]: {
-          transform:
-            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset))))",
-        },
       },
       center: {
         textAlign: "center",
 
-        // SSR/before measurement: works with left/right
-        [pseudo("[data-ssr][data-dir='ltr']")]: {
+        [pseudo("[data-dir='ltr']")]: {
           transform: "translateX(-50%)",
         },
-        [pseudo("[data-ssr][data-dir='rtl']")]: {
+        [pseudo("[data-dir='rtl']")]: {
           transform: "translateX(50%)",
-        },
-
-        [pseudo(not("[data-ssr]"))]: {
-          transform:
-            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)) + var(--direction) * -50%))",
         },
       },
       end: {
         [pseudo("[data-dir='ltr']")]: {
           textAlign: "right",
+          transform: "translateX(-100%)",
         },
         [pseudo("[data-dir='rtl']")]: {
           textAlign: "left",
-        },
-
-        // SSR/before measurement: works with left/right
-        [pseudo("[data-ssr][data-dir='ltr']")]: {
-          transform: "translateX(-100%)",
-        },
-        [pseudo("[data-ssr][data-dir='rtl']")]: {
           transform: "translateX(100%)",
-        },
-
-        [pseudo(not("[data-ssr]"))]: {
-          transform:
-            "translateX(calc(var(--direction) * (var(--root-width) * var(--marker-position) / 100 + var(--marker-offset)) + var(--direction) * -100%))",
         },
       },
     },
@@ -331,20 +333,13 @@ const sliderTick = defineRecipe({
 
     backgroundColor: tickVars.base.enabled.root.color,
 
-    // SSR/before measurement: use left/right (percentage-based)
-    [pseudo("[data-ssr][data-dir='ltr']")]: {
-      left: "calc(var(--tick-position) * 1% + var(--tick-offset))",
-      transform: "translate(-50%, -50%)",
-    },
-    [pseudo("[data-ssr][data-dir='rtl']")]: {
-      right: "calc(var(--tick-position) * 1% + var(--tick-offset))",
-      transform: "translate(-50%, -50%)",
-    },
+    transform: "translate(-50%, -50%)",
 
-    // After measurement: use transform (pixel-based)
-    [pseudo(not("[data-ssr]"))]: {
-      transform:
-        "translateX(calc(var(--direction) * (var(--root-width) * var(--tick-position) / 100 + var(--tick-offset)))) translateX(-50%) translateY(-50%)",
+    [pseudo("[data-dir='ltr']")]: {
+      left: "calc(var(--tick-position) * 1% + var(--tick-offset))",
+    },
+    [pseudo("[data-dir='rtl']")]: {
+      right: "calc(var(--tick-position) * 1% + var(--tick-offset))",
     },
   },
   variants: {
