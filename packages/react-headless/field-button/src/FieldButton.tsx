@@ -3,13 +3,7 @@
 import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
-import {
-  forwardRef,
-  Fragment,
-  type ButtonHTMLAttributes,
-  type FragmentProps,
-  type HTMLAttributes,
-} from "react";
+import React, { forwardRef, type ButtonHTMLAttributes, type HTMLAttributes } from "react";
 import { useFieldButton, type UseFieldButtonProps } from "./useFieldButton";
 import { FieldButtonProvider, useFieldButtonContext } from "./useFieldButtonContext";
 
@@ -74,20 +68,21 @@ export const FieldButtonErrorMessage = forwardRef<HTMLDivElement, FieldButtonErr
 );
 FieldButtonErrorMessage.displayName = "FieldButtonErrorMessage";
 
-export type FieldButtonHiddenInputsProps = Omit<FragmentProps, "children">;
-
-export function FieldButtonHiddenInputs(props: FieldButtonHiddenInputsProps) {
-  const { hiddenInputsProps } = useFieldButtonContext();
-
-  return (
-    <Fragment {...props}>
-      {hiddenInputsProps.map((inputProps, index) => (
-        <Primitive.input key={index} {...inputProps} />
-      ))}
-    </Fragment>
-  );
+export interface FieldButtonHiddenInputProps
+  extends PrimitiveProps,
+    React.InputHTMLAttributes<HTMLInputElement> {
+  valueIndex: number;
 }
-FieldButtonHiddenInputs.displayName = "FieldButtonHiddenInputs";
+
+export const FieldButtonHiddenInput = forwardRef<HTMLInputElement, FieldButtonHiddenInputProps>(
+  ({ valueIndex, ...props }, ref) => {
+    const { getHiddenInputProps } = useFieldButtonContext();
+    const hiddenInputProps = getHiddenInputProps(valueIndex);
+
+    return <Primitive.input ref={ref} {...mergeProps(hiddenInputProps, props)} />;
+  },
+);
+FieldButtonHiddenInput.displayName = "FieldButtonHiddenInput";
 
 export interface FieldButtonClearButtonProps
   extends PrimitiveProps,
@@ -101,3 +96,4 @@ export const FieldButtonClearButton = forwardRef<HTMLButtonElement, FieldButtonC
     return <Primitive.button ref={ref} {...mergedProps} />;
   },
 );
+FieldButtonClearButton.displayName = "FieldButtonClearButton";

@@ -126,7 +126,9 @@ export const FieldButton = React.forwardRef<HTMLButtonElement, FieldButtonProps>
             )}
           </SeedFieldButton.Footer>
         )}
-        <SeedFieldButton.HiddenInputs />
+        {otherProps.values?.map((_, index) => (
+          <SeedFieldButton.HiddenInput key={index} valueIndex={index} />
+        ))}
       </SeedFieldButton.FieldRoot>
     );
   },

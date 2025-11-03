@@ -84,6 +84,7 @@ export const FieldButtonRequiredIndicator = React.forwardRef<
     />
   );
 });
+FieldButtonRequiredIndicator.displayName = "FieldButtonRequiredIndicator";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -114,6 +115,7 @@ export const FieldButtonPrefixText = React.forwardRef<HTMLSpanElement, FieldButt
     );
   },
 );
+FieldButtonPrefixText.displayName = "FieldButtonPrefixText";
 
 export interface FieldButtonSuffixIconProps extends InternalIconProps {}
 
@@ -142,6 +144,7 @@ export const FieldButtonSuffixText = React.forwardRef<HTMLSpanElement, FieldButt
     );
   },
 );
+FieldButtonSuffixText.displayName = "FieldButtonSuffixText";
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -170,9 +173,9 @@ export const FieldButtonErrorMessage = withFieldContext<
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface FieldButtonHiddenInputsProps extends FieldButton.HiddenInputsProps {}
+export interface FieldButtonHiddenInputProps extends FieldButton.HiddenInputProps {}
 
-export const FieldButtonHiddenInputs = FieldButton.HiddenInputs;
+export const FieldButtonHiddenInput = FieldButton.HiddenInput;
 
 export interface FieldButtonButtonProps extends FieldButton.ButtonProps {}
 
@@ -217,6 +220,7 @@ export const FieldButtonValue = React.forwardRef<HTMLDivElement, FieldButtonValu
     );
   },
 );
+FieldButtonValue.displayName = "FieldButtonValue";
 
 export interface FieldButtonPlaceholderProps
   extends PrimitiveProps,
@@ -238,3 +242,4 @@ export const FieldButtonPlaceholder = React.forwardRef<HTMLDivElement, FieldButt
     );
   },
 );
+FieldButtonPlaceholder.displayName = "FieldButtonPlaceholder";

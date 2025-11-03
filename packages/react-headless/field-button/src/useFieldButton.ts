@@ -159,13 +159,21 @@ export function useFieldButton(props: UseFieldButtonProps) {
       onClick: useCallback(() => setValues([]), [setValues]),
     }),
 
-    hiddenInputsProps: stateValues.map((value) =>
-      inputProps({
-        ...stateProps,
-        type: "hidden",
-        value,
-        name: name || id,
-      }),
+    getHiddenInputProps: useCallback(
+      (index: number) => {
+        const value = stateValues[index];
+        if (value === undefined) {
+          return inputProps({});
+        }
+
+        return inputProps({
+          ...stateProps,
+          type: "hidden",
+          value,
+          name: name || id,
+        });
+      },
+      [stateValues, stateProps, name, id],
     ),
 
     descriptionProps: elementProps({

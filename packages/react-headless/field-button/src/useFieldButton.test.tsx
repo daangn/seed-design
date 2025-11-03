@@ -10,7 +10,7 @@ import {
   FieldButtonClearButton,
   FieldButtonDescription,
   FieldButtonErrorMessage,
-  FieldButtonHiddenInputs,
+  FieldButtonHiddenInput,
   FieldButtonRoot,
   type FieldButtonRootProps,
 } from "./FieldButton";
@@ -31,7 +31,9 @@ function FieldButton(props: FieldButtonRootProps) {
       <FieldButtonClearButton>Clear</FieldButtonClearButton>
       <FieldButtonDescription>Description text</FieldButtonDescription>
       <FieldButtonErrorMessage>Error message</FieldButtonErrorMessage>
-      <FieldButtonHiddenInputs />
+      {props.values?.map((_, index) => (
+        <FieldButtonHiddenInput key={index} valueIndex={index} />
+      ))}
     </FieldButtonRoot>
   );
 }
@@ -159,7 +161,9 @@ describe("useFieldButton", () => {
       return (
         <FieldButtonRoot {...props}>
           <FieldButtonButton>Click me</FieldButtonButton>
-          <FieldButtonHiddenInputs />
+          {props.values?.map((_, index) => (
+            <FieldButtonHiddenInput key={index} valueIndex={index} />
+          ))}
         </FieldButtonRoot>
       );
     }
@@ -176,7 +180,9 @@ describe("useFieldButton", () => {
         <FieldButtonRoot {...props}>
           <FieldButtonButton>Click me</FieldButtonButton>
           <FieldButtonDescription>Description text</FieldButtonDescription>
-          <FieldButtonHiddenInputs />
+          {props.values?.map((_, index) => (
+            <FieldButtonHiddenInput key={index} valueIndex={index} />
+          ))}
         </FieldButtonRoot>
       );
     }

@@ -40,6 +40,8 @@ export interface SliderProps extends SeedSlider.RootProps {
    * @default false
    */
   hideValueIndicator?: boolean;
+
+  fieldRef?: React.Ref<HTMLDivElement>;
 }
 
 export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
@@ -57,6 +59,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
       hideRange = false,
       hideValueIndicator = false,
+
+      fieldRef,
 
       ...props
     },
@@ -86,6 +90,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         disabled={props.disabled}
         invalid={props.invalid}
         readOnly={props.readOnly}
+        ref={fieldRef}
       >
         {renderHeader && (
           <SeedField.Header>

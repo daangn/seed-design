@@ -28,6 +28,8 @@ export interface TextFieldProps
 
   showRequiredIndicator?: boolean;
 
+  fieldRef?: React.Ref<HTMLDivElement>;
+
   onValueChange?: UseTextFieldWithGraphemesParams["onValueChange"];
 }
 
@@ -62,6 +64,8 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
       onValueChange,
       maxGraphemeCount,
 
+      fieldRef,
+
       ...otherProps
     },
     ref,
@@ -91,7 +95,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
         invalid={invalid}
         readOnly={readOnly}
         name={name}
-        ref={ref}
+        ref={fieldRef}
       >
         {renderHeader && (
           <SeedField.Header>
@@ -103,7 +107,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(
             {/* You might want to put your custom element here */}
           </SeedField.Header>
         )}
-        <SeedTextField.Root {...otherProps} {...textFieldRootProps}>
+        <SeedTextField.Root ref={ref} {...otherProps} {...textFieldRootProps}>
           {prefixIcon && <SeedTextField.PrefixIcon svg={prefixIcon} />}
           {prefix && <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>}
           {children}
