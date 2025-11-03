@@ -11,11 +11,13 @@ declare type FieldLabelVariantMap = {
 
 export declare type FieldLabelVariantProps = Partial<FieldLabelVariant>;
 
+export declare type FieldLabelSlotName = "root" | "indicatorText" | "indicatorIcon";
+
 export declare const fieldLabelVariantMap: FieldLabelVariantMap;
 
 export declare const fieldLabel: ((
   props?: FieldLabelVariantProps,
-) => string) & {
+) => Record<FieldLabelSlotName, string>) & {
   splitVariantProps: <T extends FieldLabelVariantProps>(
     props: T,
   ) => [FieldLabelVariantProps, Omit<T, keyof FieldLabelVariantProps>];

@@ -1,6 +1,21 @@
 import './field-label.css';
 import { createClassName, mergeVariants, splitVariantProps } from "./shared.mjs";
 
+const fieldLabelSlotNames = [
+  [
+    "root",
+    "seed-field-label__root"
+  ],
+  [
+    "indicatorText",
+    "seed-field-label__indicatorText"
+  ],
+  [
+    "indicatorIcon",
+    "seed-field-label__indicatorIcon"
+  ]
+];
+
 const defaultVariant = {
   "weight": "medium"
 };
@@ -17,10 +32,13 @@ export const fieldLabelVariantMap = {
 export const fieldLabelVariantKeys = Object.keys(fieldLabelVariantMap);
 
 export function fieldLabel(props) {
-  return createClassName(
-    "seed-field-label",
-    mergeVariants(defaultVariant, props),
-    compoundVariants,
+  return Object.fromEntries(
+    fieldLabelSlotNames.map(([slot, className]) => {
+      return [
+        slot,
+        createClassName(className, mergeVariants(defaultVariant, props), compoundVariants),
+      ];
+    }),
   );
 }
 

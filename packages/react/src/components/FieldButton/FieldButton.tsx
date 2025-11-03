@@ -8,15 +8,15 @@ import { fieldLabel, type FieldLabelVariantProps } from "@seed-design/css/recipe
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { inputButton } from "@seed-design/css/recipes/input-button";
 import clsx from "clsx";
-import { createRecipeContext } from "../../utils/createRecipeContext";
 
-const {
-  withContext: withFieldContext,
-  withProvider: withFieldProvider,
-  useClassNames: useFieldClassNames,
-} = createSlotRecipeContext(field);
+const { withContext: withFieldContext, withProvider: withFieldProvider } =
+  createSlotRecipeContext(field);
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(inputButton);
-const { withContext: withLabelContext } = createRecipeContext(fieldLabel);
+const {
+  withProvider: withLabelProvider,
+  withContext: withLabelContext,
+  useClassNames: useLabelClassNames,
+} = createSlotRecipeContext(fieldLabel);
 
 const withStateProps = createWithStateProps([useFieldButtonContext]);
 
@@ -45,18 +45,19 @@ export interface FieldButtonLabelProps
     FieldLabelVariantProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const FieldButtonLabel = withLabelContext<HTMLDivElement, FieldButtonLabelProps>(
+export const FieldButtonLabel = withLabelProvider<HTMLDivElement, FieldButtonLabelProps>(
   withStateProps(Primitive.div),
+  "root",
 );
 
 export interface FieldButtonIndicatorTextProps
   extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
+    React.HTMLAttributes<HTMLSpanElement> {}
 
-export const FieldButtonIndicatorText = withFieldContext<
-  HTMLDivElement,
+export const FieldButtonIndicatorText = withLabelContext<
+  HTMLSpanElement,
   FieldButtonIndicatorTextProps
->(withStateProps(Primitive.div), "indicatorText");
+>(withStateProps(Primitive.span), "indicatorText");
 
 export interface FieldButtonRequiredIndicatorProps extends React.SVGProps<SVGElement> {}
 
@@ -64,7 +65,7 @@ export const FieldButtonRequiredIndicator = React.forwardRef<
   SVGSVGElement,
   FieldButtonRequiredIndicatorProps
 >(({ className, ...props }, ref) => {
-  const { indicatorIcon } = useFieldClassNames();
+  const { indicatorIcon } = useLabelClassNames();
 
   return (
     <InternalIcon

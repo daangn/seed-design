@@ -11,14 +11,6 @@ const fieldSlotNames = [
     "seed-field__header"
   ],
   [
-    "indicatorText",
-    "seed-field__indicatorText"
-  ],
-  [
-    "indicatorIcon",
-    "seed-field__indicatorIcon"
-  ],
-  [
     "footer",
     "seed-field__footer"
   ],
