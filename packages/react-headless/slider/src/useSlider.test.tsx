@@ -1443,6 +1443,47 @@ describe("useSlider", () => {
       expect(thumb0).toHaveAttribute("aria-valuenow", "50");
     });
 
+    it("should properly jump to the value respecting minStepsBetweenThumbs on sliding a thumb", async () => {
+      const { user, getByTestId } = setUp(
+        <Slider min={0} max={100} step={10} minStepsBetweenThumbs={2} defaultValues={[30, 70]} />,
+      );
+
+      const root = getByTestId("slider-root");
+      const thumb0 = getByTestId("slider-thumb-0");
+      const thumb1 = getByTestId("slider-thumb-1");
+
+      vi.spyOn(root, "getBoundingClientRect").mockReturnValue({
+        left: 0,
+        right: 100,
+        width: 100,
+        top: 0,
+        bottom: 10,
+        height: 10,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      });
+
+      expect(thumb0).toHaveAttribute("aria-valuenow", "30");
+      expect(thumb1).toHaveAttribute("aria-valuenow", "70");
+
+      // move thumb0 to 90
+
+      await user.pointer([
+        { target: thumb0, coords: { clientX: 30, clientY: 5 }, keys: "[MouseLeft>]" },
+      ]);
+      await user.pointer([{ target: root, coords: { clientX: 90, clientY: 5 } }]);
+      await user.pointer([
+        { target: root, coords: { clientX: 90, clientY: 5 }, keys: "[/MouseLeft]" },
+      ]);
+
+      const updatedThumb0 = getByTestId("slider-thumb-0");
+      const updatedThumb1 = getByTestId("slider-thumb-1");
+
+      expect(updatedThumb0).toHaveAttribute("aria-valuenow", "70");
+      expect(updatedThumb1).toHaveAttribute("aria-valuenow", "90");
+    });
+
     it("sorts multi-thumb values after updates", async () => {
       const { user, getByTestId } = setUp(<Slider min={0} max={100} defaultValues={[30, 70]} />);
 

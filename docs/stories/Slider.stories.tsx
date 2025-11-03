@@ -41,8 +41,8 @@ const conditionMap = {
     withoutMarkers: { markers: undefined },
   },
   layout: {
-    single: { values: [50] },
-    range: { values: [0, 50] },
+    single: { defaultValues: [50] },
+    range: { defaultValues: [0, 50], minStepsBetweenThumbs: 20 },
   },
 };
 

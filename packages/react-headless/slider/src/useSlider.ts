@@ -117,8 +117,6 @@ function useSliderState({
       setValues((prevValues) => {
         const nextValues = getNextSortedValues(prevValues, nextValue, atIndex);
 
-        valueIndexToChangeRef.current = nextValues.indexOf(nextValue);
-
         if (
           (!allowedValues || allowedValues.length === 0) &&
           hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step) === false
@@ -129,6 +127,8 @@ function useSliderState({
         const hasChanged = nextValues.some((val, index) => val !== prevValues[index]);
 
         if (!hasChanged) return prevValues;
+
+        valueIndexToChangeRef.current = nextValues.indexOf(nextValue);
 
         if (options?.commit) {
           uncommittedValuesRef.current = null;

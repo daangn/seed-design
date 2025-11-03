@@ -18,6 +18,7 @@ export default function SliderGetAriaValuetext() {
       <Slider
         min={0}
         max={days.length - 1}
+        minStepsBetweenThumbs={1}
         markers={days.map((label, value) => ({ label, value }))}
         ticks={days.slice(1, -1).map((_, index) => index + 1)}
         tickWeight="thick"
