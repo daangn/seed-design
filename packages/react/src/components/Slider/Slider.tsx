@@ -1,3 +1,5 @@
+"use client";
+
 import { slider, type SliderVariantProps } from "@seed-design/css/recipes/slider";
 import { sliderTick, type SliderTickVariantProps } from "@seed-design/css/recipes/slider-tick";
 import {
@@ -7,12 +9,13 @@ import {
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { Slider, useSliderContext } from "@seed-design/react-slider";
-import { forwardRef, type HTMLAttributes } from "react";
+import { forwardRef, useState, type HTMLAttributes } from "react";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import clsx from "clsx";
 import { mergeProps } from "@seed-design/dom-utils";
 import { useFieldContext } from "@seed-design/react-field";
+import { composeRefs } from "@radix-ui/react-compose-refs";
 
 const { withProvider, withContext, useClassNames } = createSlotRecipeContext(slider);
 const { withContext: withTickContext } = createRecipeContext(sliderTick);
@@ -117,16 +120,17 @@ export interface SliderTooltipArrowTipProps extends React.SVGProps<SVGSVGElement
   tipRadius?: number;
 }
 
-// TODO: get value from rootage spec
-const ARROW_TIP_WIDTH = 10;
-const ARROW_TIP_HEIGHT = 7;
-
 export const SliderTooltipArrowTip = forwardRef<SVGSVGElement, SliderTooltipArrowTipProps>(
   ({ tipRadius = 2, className, ...otherProps }, ref) => {
+    const [tooltipArrowTip, setTooltipArrowTip] = useState<SVGSVGElement | null>(null);
+
+    const width = tooltipArrowTip?.clientWidth ?? 0;
+    const height = tooltipArrowTip?.clientHeight ?? 0;
+
     const pathData = `M0,0
-      H${ARROW_TIP_WIDTH}
-      L${ARROW_TIP_WIDTH / 2 + tipRadius},${ARROW_TIP_HEIGHT - tipRadius}
-      Q${ARROW_TIP_WIDTH / 2},${ARROW_TIP_HEIGHT} ${ARROW_TIP_WIDTH / 2 - tipRadius},${ARROW_TIP_HEIGHT - tipRadius}
+      H${width}
+      L${width / 2 + tipRadius},${height - tipRadius}
+      Q${width / 2},${height} ${width / 2 - tipRadius},${height - tipRadius}
       Z`;
 
     const classNames = useClassNames();
@@ -134,8 +138,8 @@ export const SliderTooltipArrowTip = forwardRef<SVGSVGElement, SliderTooltipArro
     return (
       <svg
         aria-hidden="true"
-        viewBox={`0 0 ${ARROW_TIP_WIDTH} ${ARROW_TIP_HEIGHT}`}
-        ref={ref}
+        viewBox={`0 0 ${width} ${height}`}
+        ref={composeRefs(setTooltipArrowTip, ref)}
         className={clsx(classNames.tooltipArrowTip, className)}
         {...otherProps}
       >
