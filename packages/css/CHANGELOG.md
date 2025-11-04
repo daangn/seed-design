@@ -1,5 +1,40 @@
 # @seed-design/css
 
+## 1.1.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- 33def2d: (BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다.
+
+  - vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+  - vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+  - `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+### Patch Changes
+
+- d6bb84d: (BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
+
+  - 스타일 업데이트
+  - size 통일 및 variant (underline) 추가
+  - 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+  Field Button 컴포넌트를 추가합니다.
+
+- b131282: AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다.
+
+  - AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+  - AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+- 6af6501: (BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다.
+
+  - Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+  - `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
 ## 1.0.7
 
 ### Patch Changes
