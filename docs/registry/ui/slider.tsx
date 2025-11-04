@@ -137,7 +137,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             ))}
           </SeedSlider.Control>
           {markers.length > 0 && (
-            <SeedSlider.Markers ref={ref} {...props}>
+            <SeedSlider.Markers>
               {markers.map((marker) =>
                 typeof marker === "number" ? (
                   <SeedSlider.Marker
