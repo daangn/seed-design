@@ -68,7 +68,7 @@
 
 - 51a44af: export d.ts
 
-## 1.1.0
+## 2.0.0
 
 ### Major Changes
 
