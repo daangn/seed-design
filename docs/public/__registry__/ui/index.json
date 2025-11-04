@@ -185,6 +185,7 @@
       ],
       "id": "error-state",
       "dependencies": [
+        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
