@@ -1,10 +1,10 @@
 declare interface ToggleButtonVariant {
   /**
-  * @default brandSolid
+  * @default "brandSolid"
   */
   variant: "brandSolid" | "neutralWeak";
 /**
-  * @default small
+  * @default "small"
   */
   size: "xsmall" | "small";
 }

@@ -9,9 +9,9 @@ export const RenderStrategyPropsProvider = RenderStrategyPropsContext.Provider;
 
 export function useRenderStrategyPropsContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false
-  ? UseRenderStrategyPropsContext | null
-  : UseRenderStrategyPropsContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseRenderStrategyPropsContext | null : UseRenderStrategyPropsContext {
   const context = useContext(RenderStrategyPropsContext);
   if (!context && strict) {
     throw new Error(

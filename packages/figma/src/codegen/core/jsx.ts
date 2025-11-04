@@ -90,7 +90,7 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
       .map(([key, value]) => {
         if (typeof value === "string") {
           if (value.includes("\n")) {
-            return `${key}={\"${value.replace("\n", "\\n")}\"}`;
+            return `${key}={"${value.replaceAll("\n", "\\n")}"}`;
           }
 
           return `${key}="${value}"`;
@@ -107,7 +107,17 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
         }
 
         if (isElement(value)) {
-          return `${key}={${recursive(value, depth + 1)}}`;
+          const elementStr = recursive(value, depth + 1);
+
+          const commentMatch = elementStr.match(/\{\/\* (.+?)\*\/\}$/);
+
+          if (commentMatch) {
+            const elementWithoutComment = elementStr.replace(/\{\/\* .+? \*\/\}$/, "");
+
+            return `${key}={${elementWithoutComment}}/* ${commentMatch[1]} */`;
+          }
+
+          return `${key}={${elementStr}}`;
         }
 
         if (typeof value === "object") {
@@ -117,6 +127,8 @@ export function stringifyElement(element: ElementNode, options: { printSource?: 
         if (typeof value === "undefined") {
           return undefined;
         }
+
+        return undefined;
       })
       .filter(exists);
 

@@ -19,54 +19,19 @@
             }
           }
         },
-        "control": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
-            "opacity": {
-              "type": "number"
-            },
-            "height": {
-              "type": "dimension"
-            },
-            "width": {
-              "type": "dimension"
-            },
-            "paddingX": {
-              "type": "dimension"
-            },
-            "paddingY": {
-              "type": "dimension"
-            }
-          }
-        },
-        "thumb": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "cornerRadius": {
-              "type": "dimension"
-            },
-            "height": {
-              "type": "dimension"
-            },
-            "width": {
-              "type": "dimension"
-            },
-            "shadow": {
-              "type": "shadow"
-            }
-          }
-        },
         "label": {
           "properties": {
             "color": {
               "type": "color"
+            },
+            "opacity": {
+              "type": "number"
+            },
+            "opacityDuration": {
+              "type": "duration"
+            },
+            "opacityTimingFunction": {
+              "type": "cubicBezier"
             },
             "fontSize": {
               "type": "dimension"
@@ -100,26 +65,6 @@
               "enabled"
             ],
             "slots": {
-              "control": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.gray-600"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                }
-              },
-              "thumb": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.palette.static-white"
-                },
-                "cornerRadius": {
-                  "type": "dimension",
-                  "value": "$radius.full"
-                }
-              },
               "label": {
                 "color": {
                   "type": "color",
@@ -134,33 +79,21 @@
           },
           {
             "states": [
-              "enabled",
-              "selected"
-            ],
-            "slots": {
-              "control": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.brand-solid"
-                }
-              }
-            }
-          },
-          {
-            "states": [
               "disabled"
             ],
             "slots": {
-              "control": {
+              "label": {
                 "opacity": {
                   "type": "number",
-                  "value": 0.38
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
+                  "value": 0.58
+                },
+                "opacityDuration": {
+                  "type": "duration",
+                  "value": "$duration.d1"
+                },
+                "opacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }
@@ -180,103 +113,11 @@
               "root": {
                 "height": {
                   "type": "dimension",
-                  "value": {
-                    "value": 32,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x8"
                 },
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
-                }
-              },
-              "control": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 32,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 52,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
-              },
-              "thumb": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 28,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 28,
-                    "unit": "px"
-                  }
-                },
-                "shadow": {
-                  "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#00000026",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 3,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 8,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    },
-                    {
-                      "color": "#0000000f",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 1,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 3,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
                 }
               },
               "label": {
@@ -306,103 +147,11 @@
               "root": {
                 "height": {
                   "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x6"
                 },
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x2"
-                }
-              },
-              "control": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 38,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
-              },
-              "thumb": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 20,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 20,
-                    "unit": "px"
-                  }
-                },
-                "shadow": {
-                  "type": "shadow",
-                  "value": [
-                    {
-                      "color": "#00000026",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 3,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 8,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    },
-                    {
-                      "color": "#0000000f",
-                      "offsetX": {
-                        "value": 0,
-                        "unit": "px"
-                      },
-                      "offsetY": {
-                        "value": 1,
-                        "unit": "px"
-                      },
-                      "blur": {
-                        "value": 3,
-                        "unit": "px"
-                      },
-                      "spread": {
-                        "value": 0,
-                        "unit": "px"
-                      }
-                    }
-                  ]
                 }
               },
               "label": {
@@ -432,60 +181,11 @@
               "root": {
                 "height": {
                   "type": "dimension",
-                  "value": {
-                    "value": 24,
-                    "unit": "px"
-                  }
+                  "value": "$dimension.x6"
                 },
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"
-                }
-              },
-              "control": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 16,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 26,
-                    "unit": "px"
-                  }
-                },
-                "paddingX": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                },
-                "paddingY": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 2,
-                    "unit": "px"
-                  }
-                }
-              },
-              "thumb": {
-                "height": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 12,
-                    "unit": "px"
-                  }
-                },
-                "width": {
-                  "type": "dimension",
-                  "value": {
-                    "value": 12,
-                    "unit": "px"
-                  }
                 }
               },
               "label": {

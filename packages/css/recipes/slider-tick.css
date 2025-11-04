@@ -1,0 +1,19 @@
+.seed-slider-tick {
+    position: absolute;
+    top: 50%;
+    height: 100%;
+    background-color: var(--seed-color-fg-neutral-inverted);
+    transform: translate(-50%, -50%);
+}
+.seed-slider-tick[data-dir='ltr'] {
+    left: calc(var(--tick-position) * 1% + var(--tick-offset));
+}
+.seed-slider-tick[data-dir='rtl'] {
+    right: calc(var(--tick-position) * 1% + var(--tick-offset));
+}
+.seed-slider-tick--weight_thin {
+    width: 1px;
+}
+.seed-slider-tick--weight_thick {
+    width: var(--seed-dimension-x1);
+}

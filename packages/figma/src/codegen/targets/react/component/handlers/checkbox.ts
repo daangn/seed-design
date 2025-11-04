@@ -5,6 +5,7 @@ import { camelCase } from "change-case";
 import { createLocalSnippetHelper } from "../../element-factories";
 import type { ComponentHandlerDeps } from "../deps.interface";
 import { handleSizeProp } from "../size";
+import { match } from "ts-pattern";
 
 const { createLocalSnippetElement } = createLocalSnippetHelper("checkbox");
 
@@ -12,9 +13,15 @@ export const createCheckboxHandler = (_ctx: ComponentHandlerDeps) =>
   defineComponentHandler<CheckboxProperties>(
     metadata.checkbox.key,
     ({ componentProperties: props }) => {
+      const tone = match(props.Tone.value)
+        .with("Neutral", () => "neutral")
+        .with("🚫[Deprecated]Brand", () => "brand")
+        .exhaustive();
+
       const commonProps = {
         label: props["Label#49990:0"].value,
         weight: camelCase(props.Weight.value),
+        tone,
         variant: camelCase(props.Shape.value),
         size: handleSizeProp(props.Size.value),
         ...(props.Selected.value === "True" && {

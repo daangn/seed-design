@@ -7,18 +7,23 @@ const radioSlotNames = [
     "seed-radio__root"
   ],
   [
-    "icon",
-    "seed-radio__icon"
+    "label",
+    "seed-radio__label"
   ]
 ];
 
 const defaultVariant = {
-  "size": "medium"
+  "size": "medium",
+  "weight": "regular"
 };
 
 const compoundVariants = [];
 
 export const radioVariantMap = {
+  "weight": [
+    "regular",
+    "bold"
+  ],
   "size": [
     "large",
     "medium"

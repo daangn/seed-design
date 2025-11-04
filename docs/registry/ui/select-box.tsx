@@ -1,10 +1,13 @@
 "use client";
 
-import { IconCheckmarkFatFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import {
-  CheckSelectBox as SeedCheckSelectBox,
   RadioSelectBox as SeedRadioSelectBox,
+  CheckSelectBox as SeedCheckSelectBox,
+  RadioGroup as SeedRadioGroup,
+  Checkbox as SeedCheckbox,
 } from "@seed-design/react";
+import { RadioMark } from "./radio-group";
+import { Checkmark } from "./checkbox";
 import * as React from "react";
 
 export interface RadioSelectBoxRootProps extends SeedRadioSelectBox.RootProps {}
@@ -38,22 +41,14 @@ export const RadioSelectBoxItem = React.forwardRef<HTMLInputElement, RadioSelect
   ({ label, description, inputProps, rootRef, ...otherProps }, ref) => {
     return (
       <SeedRadioSelectBox.Item ref={rootRef} {...otherProps}>
-        <SeedRadioSelectBox.HiddenInput ref={ref} {...inputProps} />
+        <SeedRadioGroup.ItemHiddenInput ref={ref} {...inputProps} />
         <SeedRadioSelectBox.Content>
           <SeedRadioSelectBox.Label>{label}</SeedRadioSelectBox.Label>
           {description && (
             <SeedRadioSelectBox.Description>{description}</SeedRadioSelectBox.Description>
           )}
         </SeedRadioSelectBox.Content>
-        <SeedRadioSelectBox.Control>
-          <SeedRadioSelectBox.Icon
-            svg={
-              <svg aria-hidden viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="12" fill="currentColor" />
-              </svg>
-            }
-          />
-        </SeedRadioSelectBox.Control>
+        <RadioMark size="large" tone="brand" />
       </SeedRadioSelectBox.Item>
     );
   },
@@ -77,16 +72,14 @@ export const CheckSelectBox = React.forwardRef<HTMLInputElement, CheckSelectBoxP
   ({ label, description, inputProps, rootRef, ...otherProps }, ref) => {
     return (
       <SeedCheckSelectBox.Root ref={rootRef} {...otherProps}>
-        <SeedCheckSelectBox.HiddenInput ref={ref} {...inputProps} />
+        <SeedCheckbox.HiddenInput ref={ref} {...inputProps} />
         <SeedCheckSelectBox.Content>
           <SeedCheckSelectBox.Label>{label}</SeedCheckSelectBox.Label>
           {description && (
             <SeedCheckSelectBox.Description>{description}</SeedCheckSelectBox.Description>
           )}
         </SeedCheckSelectBox.Content>
-        <SeedCheckSelectBox.Control>
-          <SeedCheckSelectBox.Icon svg={<IconCheckmarkFatFill />} />
-        </SeedCheckSelectBox.Control>
+        <Checkmark size="large" tone="brand" />
       </SeedCheckSelectBox.Root>
     );
   },

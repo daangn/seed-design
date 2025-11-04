@@ -43,7 +43,6 @@ const textField = defineSlotRecipe({
       display: "flex",
       alignItems: "center",
 
-      backgroundColor: vars.base.enabled.field.color,
       borderStyle: "solid",
       borderWidth: vars.base.enabled.field.strokeWidth,
       borderColor: vars.base.enabled.field.strokeColor,
@@ -105,25 +104,33 @@ const textField = defineSlotRecipe({
       boxSizing: "border-box",
       font: "inherit",
 
+      background: "none",
+      border: "none",
+      outline: "none",
+      resize: "none",
+      height: "100%",
+
+      flexGrow: 1,
+
+      color: vars.base.enabled.value.color,
+
       [pseudo(":is(input)")]: {
         paddingInline: 0,
+
+        // browser sets the default width of inputs based on the 'size' prop of the input (e.g. <input size="20" />)
+        width: 0,
+        // this sets the width to 0 to prevent any overflow and fill the available space of the parent flex container
+        // note: this only works with flexGrow: 1
       },
 
       [pseudo(":is(textarea)")]: {
         paddingInline: 0,
 
         minHeight: "90px",
+
+        // this is safe because textarea won't have any affixes
         width: "100%",
       },
-
-      background: "none",
-      border: "none",
-      outline: "none",
-      resize: "none",
-      flexGrow: 1,
-      height: "100%",
-
-      color: vars.base.enabled.value.color,
 
       [pseudo("::placeholder")]: {
         color: vars.base.enabled.placeholder.color,
@@ -183,6 +190,10 @@ const textField = defineSlotRecipe({
         header: {
           paddingBottom: vars.sizeXlarge.enabled.header.paddingBottom,
           gap: vars.sizeXlarge.enabled.header.gap,
+
+          // we define lineHeight here because some reset.css sets default line-height
+          // e.g. tailwind preflight sets * { line-height: 1.5 }
+          lineHeight: vars.sizeXlarge.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeXlarge.enabled.label.fontSize,
@@ -248,6 +259,10 @@ const textField = defineSlotRecipe({
           gap: vars.sizeXlarge.enabled.footer.gap,
           paddingTop: vars.sizeXlarge.enabled.footer.paddingTop,
           minHeight: vars.sizeXlarge.enabled.footer.minHeight,
+
+          // we define lineHeight here because some reset.css sets default line-height
+          // e.g. tailwind preflight sets * { line-height: 1.5 }
+          lineHeight: vars.sizeXlarge.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeXlarge.enabled.description.fontSize,
@@ -275,6 +290,8 @@ const textField = defineSlotRecipe({
         header: {
           paddingBottom: vars.sizeLarge.enabled.header.paddingBottom,
           gap: vars.sizeLarge.enabled.header.gap,
+
+          lineHeight: vars.sizeLarge.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeLarge.enabled.label.fontSize,
@@ -340,6 +357,8 @@ const textField = defineSlotRecipe({
           gap: vars.sizeLarge.enabled.footer.gap,
           paddingTop: vars.sizeLarge.enabled.footer.paddingTop,
           minHeight: vars.sizeLarge.enabled.footer.minHeight,
+
+          lineHeight: vars.sizeLarge.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeLarge.enabled.description.fontSize,
@@ -366,6 +385,8 @@ const textField = defineSlotRecipe({
       medium: {
         header: {
           paddingBottom: vars.sizeMedium.enabled.header.paddingBottom,
+
+          lineHeight: vars.sizeMedium.enabled.label.lineHeight,
         },
         label: {
           fontSize: vars.sizeMedium.enabled.label.fontSize,
@@ -431,6 +452,8 @@ const textField = defineSlotRecipe({
           gap: vars.sizeMedium.enabled.footer.gap,
           paddingTop: vars.sizeMedium.enabled.footer.paddingTop,
           minHeight: vars.sizeMedium.enabled.footer.minHeight,
+
+          lineHeight: vars.sizeMedium.enabled.description.lineHeight,
         },
         description: {
           fontSize: vars.sizeMedium.enabled.description.fontSize,

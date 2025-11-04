@@ -13,12 +13,12 @@ export interface ControlChipBaseProps extends PrimitiveProps, ControlChipVariant
 
 /**
  * @deprecated ControlChipProps is deprecated. Use Chip.Toggle or Chip.Button instead.
- * 
+ *
  * Migration guide:
  * ```tsx
  * // Before
  * <ControlChip size="medium">Label</ControlChip>
- * 
+ *
  * // After
  * import { Chip } from "@seed-design/react";
  * <Chip.Toggle size="medium" variant="outlineStrong">Label</Chip.Toggle>

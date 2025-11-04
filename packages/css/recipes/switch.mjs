@@ -7,14 +7,6 @@ const switchSlotNames = [
     "seed-switch__root"
   ],
   [
-    "control",
-    "seed-switch__control"
-  ],
-  [
-    "thumb",
-    "seed-switch__thumb"
-  ],
-  [
     "label",
     "seed-switch__label"
   ]

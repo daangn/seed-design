@@ -1,10 +1,14 @@
 declare interface ChipTabsVariant {
   /**
-  * @default neutralSolid
+  * @default "medium"
   */
-  variant: "neutralSolid" | "brandSolid";
+  size: "medium" | "large";
 /**
-  * @default hug
+  * @default "neutralSolid"
+  */
+  variant: "neutralSolid" | "neutralOutline" | "brandSolid";
+/**
+  * @default "hug"
   */
   contentLayout: "fill" | "hug";
 /**

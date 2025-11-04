@@ -2,7 +2,7 @@ export const vars = {
   "base": {
     "enabled": {
       "root": {
-        "minHeight": "20px",
+        "minHeight": "var(--seed-dimension-x5)",
         "paddingY": "var(--seed-dimension-x0_5)",
         "paddingX": "var(--seed-dimension-x1_5)",
         "cornerRadius": "var(--seed-radius-full)"
@@ -71,6 +71,46 @@ export const vars = {
       },
       "label": {
         "color": "var(--seed-color-manner-temp-l6-text)"
+      }
+    }
+  },
+  "levelL7": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-manner-temp-l7-bg)"
+      },
+      "label": {
+        "color": "var(--seed-color-manner-temp-l7-text)"
+      }
+    }
+  },
+  "levelL8": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-manner-temp-l8-bg)"
+      },
+      "label": {
+        "color": "var(--seed-color-manner-temp-l8-text)"
+      }
+    }
+  },
+  "levelL9": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-manner-temp-l9-bg)"
+      },
+      "label": {
+        "color": "var(--seed-color-manner-temp-l9-text)"
+      }
+    }
+  },
+  "levelL10": {
+    "enabled": {
+      "root": {
+        "color": "var(--seed-color-manner-temp-l10-bg)"
+      },
+      "label": {
+        "color": "var(--seed-color-manner-temp-l10-text)"
       }
     }
   }

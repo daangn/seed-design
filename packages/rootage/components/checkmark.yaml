@@ -1,0 +1,126 @@
+# yaml-language-server: $schema=./schema.json
+# parts: root, icon
+kind: ComponentSpec
+metadata:
+  id: checkmark
+  name: Checkmark
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+          strokeColor:
+            type: color
+          strokeWidth:
+            type: dimension
+          cornerRadius:
+            type: dimension
+      icon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    variant=square:
+      enabled:
+        root:
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      enabled,selected:
+        root:
+          strokeWidth: 0px
+          strokeColor: "#00000000"
+      disabled:
+        root:
+          color: $color.bg.disabled
+          strokeColor: $color.stroke.neutral-muted
+        icon:
+          color: $color.fg.disabled
+      disabled,selected:
+        icon:
+          color: $color.fg.disabled
+
+    variant=square,tone=brand:
+      enabled,selected:
+        root:
+          color: $color.bg.brand-solid
+        icon:
+          color: $color.palette.static-white
+      pressed,selected:
+        root:
+          color: $color.bg.brand-solid-pressed
+    variant=square,tone=neutral:
+      enabled,selected:
+        root:
+          color: $color.bg.neutral-inverted
+        icon:
+          color: $color.fg.neutral-inverted
+      pressed,selected:
+        root:
+          color: $color.bg.neutral-inverted-pressed
+
+    variant=ghost:
+      enabled:
+        icon:
+          color: $color.fg.placeholder
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+      disabled:
+        icon:
+          color: $color.fg.disabled
+      disabled,selected:
+        icon:
+          color: $color.fg.disabled
+
+    variant=ghost,tone=brand:
+      enabled,selected:
+        icon:
+          color: $color.fg.brand
+      pressed,selected:
+        root:
+          color: $color.palette.carrot-200
+    variant=ghost,tone=neutral:
+      enabled,selected:
+        icon:
+          color: $color.fg.neutral-muted
+      pressed,selected:
+        root:
+          color: $color.palette.gray-200
+
+    size=medium:
+      enabled:
+        root:
+          size: $dimension.x5
+          cornerRadius: $radius.r1
+
+    size=large:
+      enabled:
+        root:
+          size: $dimension.x6
+          cornerRadius: $radius.r1
+
+    variant=square,size=medium:
+      enabled:
+        icon:
+          size: 12px
+    variant=square,size=large:
+      enabled:
+        icon:
+          size: 14px
+    variant=ghost,size=medium:
+      enabled:
+        icon:
+          size: 14px
+    variant=ghost,size=large:
+      enabled:
+        icon:
+          size: 18px

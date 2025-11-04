@@ -21,7 +21,7 @@ function WatchButton({
   enableClickAnimation = true,
 }: Props) {
   return (
-    (<button
+    <button
       className="-m-1.5 inline-block p-1.5"
       disabled={isWatchArticleInFlight || isUnWatchArticleInFlight}
       onClick={handleClick}
@@ -36,7 +36,7 @@ function WatchButton({
       ) : (
         <IconHeartLine width={size} height={size} color={color} />
       )}
-    </button>)
+    </button>
   );
 }
 

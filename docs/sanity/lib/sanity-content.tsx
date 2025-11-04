@@ -12,7 +12,9 @@ import { Table } from "./table";
 
 export const PortableContent = ({
   content,
-}: { content: PortableTextBlock | PortableTextBlock[] }) => {
+}: {
+  content: PortableTextBlock | PortableTextBlock[];
+}) => {
   return (
     <PortableText
       components={{

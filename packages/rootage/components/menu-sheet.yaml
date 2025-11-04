@@ -128,6 +128,6 @@ data:
           cornerRadius: $radius.r4
         divider:
           strokeBottomWidth: 1px
-          strokeColor: $color.stroke.neutral
+          strokeColor: $color.stroke.neutral-muted
         footer:
           paddingTop: $dimension.x2_5

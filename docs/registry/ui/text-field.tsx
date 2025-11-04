@@ -4,8 +4,7 @@ import * as React from "react";
 import { IconExclamationmarkCircleFill } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
 import { TextField as SeedTextField } from "@seed-design/react";
 
-export interface TextFieldProps
-  extends Omit<SeedTextField.RootProps, "prefix"> {
+export interface TextFieldProps extends Omit<SeedTextField.RootProps, "prefix"> {
   label?: React.ReactNode;
 
   indicator?: React.ReactNode;
@@ -45,12 +44,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     },
     ref,
   ) => {
-    const renderCharacterCount =
-      !hideCharacterCount && otherProps.maxGraphemeCount;
+    const renderCharacterCount = !hideCharacterCount && otherProps.maxGraphemeCount;
     const renderDescription = description && !otherProps.invalid;
     const renderErrorMessage = errorMessage && otherProps.invalid;
-    const renderFooter =
-      renderDescription || renderErrorMessage || renderCharacterCount;
+    const renderFooter = renderDescription || renderErrorMessage || renderCharacterCount;
     const renderHeader = label || indicator;
 
     return (
@@ -63,27 +60,19 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         )}
         <SeedTextField.Field>
           {prefixIcon && <SeedTextField.PrefixIcon svg={prefixIcon} />}
-          {prefix && (
-            <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>
-          )}
+          {prefix && <SeedTextField.PrefixText>{prefix}</SeedTextField.PrefixText>}
           {children}
-          {suffix && (
-            <SeedTextField.SuffixText>{suffix}</SeedTextField.SuffixText>
-          )}
+          {suffix && <SeedTextField.SuffixText>{suffix}</SeedTextField.SuffixText>}
           {suffixIcon && <SeedTextField.SuffixIcon svg={suffixIcon} />}
         </SeedTextField.Field>
         {renderFooter && (
           <SeedTextField.Footer>
             {renderDescription && (
-              <SeedTextField.Description>
-                {description}
-              </SeedTextField.Description>
+              <SeedTextField.Description>{description}</SeedTextField.Description>
             )}
             {renderErrorMessage && (
               <SeedTextField.ErrorMessage>
-                <SeedTextField.ErrorIcon
-                  svg={<IconExclamationmarkCircleFill />}
-                />
+                <SeedTextField.ErrorIcon svg={<IconExclamationmarkCircleFill />} />
                 {errorMessage}
               </SeedTextField.ErrorMessage>
             )}

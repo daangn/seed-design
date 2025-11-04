@@ -274,10 +274,6 @@
                 }
               },
               "field": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.bg.layer-default"
-                },
                 "strokeWidth": {
                   "type": "dimension",
                   "value": {
@@ -287,7 +283,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.field"
+                  "value": "$color.stroke.neutral-weak"
                 }
               },
               "value": {
@@ -376,7 +372,7 @@
               "field": {
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.field-focused"
+                  "value": "$color.stroke.neutral-contrast"
                 }
               }
             }
@@ -393,7 +389,7 @@
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.critical"
+                  "value": "$color.stroke.critical-weak"
                 }
               }
             }
@@ -407,11 +403,11 @@
               "field": {
                 "color": {
                   "type": "color",
-                  "value": "$color.bg.layer-default"
+                  "value": "#00000000"
                 },
                 "strokeColor": {
                   "type": "color",
-                  "value": "$color.stroke.field"
+                  "value": "$color.stroke.neutral-weak"
                 }
               }
             }

@@ -8,9 +8,6 @@ export interface SwitchProps extends SeedSwitch.RootProps {
 
   rootRef?: React.Ref<HTMLLabelElement>;
 
-  /**
-   * label is supported in small size only currently.
-   */
   label?: React.ReactNode;
 }
 
@@ -31,3 +28,17 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
   },
 );
 Switch.displayName = "Switch";
+
+export interface SwitchMarkProps extends SeedSwitch.ControlProps {}
+
+/**
+ * @see https://seed-design.io/react/components/switch
+ */
+export const SwitchMark = React.forwardRef<HTMLDivElement, SwitchMarkProps>((props, ref) => {
+  return (
+    <SeedSwitch.Control ref={ref} {...props}>
+      <SeedSwitch.Thumb />
+    </SeedSwitch.Control>
+  );
+});
+SwitchMark.displayName = "SwitchMark";

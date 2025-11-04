@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: slider
+  name: Slider
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+            # TODO: fill in
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x0_5
+        control:
+          height: 26px
+        track:
+          height: $dimension.x1
+          cornerRadius: $radius.full
+          color: $color.palette.gray-400
+        range:
+          cornerRadius: $radius.full
+          color: $color.fg.neutral # fg 토큰인데 적절할까?
+
+          widthDuration: $duration.d3
+          widthTimingFunction: $timing-function.easing
+        thumb:
+          size: $dimension.x5
+          cornerRadius: $radius.full
+          color: $color.bg.neutral-inverted
+        valueIndicatorRoot:
+          color: $color.bg.neutral-inverted
+          cornerRadius: $radius.r1
+          paddingX: $dimension.x1_5
+          paddingY: $dimension.x0_5
+          offsetY: $dimension.x3
+          enterScale: 0.9
+          enterOpacity: 0
+          enterDuration: $duration.d4
+          enterTimingFunction: $timing-function.enter
+          exitScale: 1
+          exitOpacity: 0
+          exitDuration: $duration.d4
+          exitTimingFunction: $timing-function.easing
+        valueIndicatorArrow:
+          color: $color.bg.neutral-inverted
+          width: $dimension.x2_5
+          height: 7px
+          cornerRadius: $radius.r0_5
+          gutter: $dimension.x0_5
+          padding: $dimension.x0_5
+        valueIndicatorLabel:
+          color: $color.fg.neutral-inverted
+          fontSize: $font-size.t1
+          lineHeight: $line-height.t1
+          fontWeight: $font-weight.medium
+        marker:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
+          fontSize: $font-size.t3
+          lineHeight: $line-height.t3
+      disabled:
+        range:
+          color: $color.fg.disabled
+        thumb:
+          color: $color.fg.disabled
+        marker:
+          color: $color.fg.disabled

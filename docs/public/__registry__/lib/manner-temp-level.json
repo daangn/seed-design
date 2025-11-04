@@ -1,10 +1,9 @@
 {
-  "name": "manner-temp-level",
-  "registries": [
+  "id": "manner-temp-level",
+  "snippets": [
     {
-      "name": "manner-temp-level.ts",
-      "type": "lib",
-      "content": "export type MannerTempLevel = \"l1\" | \"l2\" | \"l3\" | \"l4\" | \"l5\" | \"l6\";\n\nconst MANNER_TEMP_BOUNDARIES = [\n  Number.NEGATIVE_INFINITY,\n  30,\n  36.3,\n  37.6,\n  42,\n  52,\n  Number.POSITIVE_INFINITY,\n] as const;\nconst MANNER_TEMP_LEVELS: MannerTempLevel[] = [\n  \"l1\",\n  \"l2\",\n  \"l3\",\n  \"l4\",\n  \"l5\",\n  \"l6\",\n];\n\nexport function mannerTempToLevel(\n  temperature: number,\n): MannerTempLevel | undefined {\n  for (let i = 0; i < MANNER_TEMP_BOUNDARIES.length - 1; i++) {\n    const lower = MANNER_TEMP_BOUNDARIES[i];\n    const upper = MANNER_TEMP_BOUNDARIES[i + 1];\n\n    if (temperature >= lower && temperature < upper) {\n      return MANNER_TEMP_LEVELS[i];\n    }\n  }\n\n  // Should never happen; boundaries are exhaustive\n  throw new Error(`Invalid manner temperature: ${temperature}`);\n}\n"
+      "path": "manner-temp-level.ts",
+      "content": "/**\n * @file lib:manner-temp-level\n **/\n\nexport type MannerTempLevel = \"l1\" | \"l2\" | \"l3\" | \"l4\" | \"l5\" | \"l6\" | \"l7\" | \"l8\" | \"l9\" | \"l10\";\n\nconst MANNER_TEMP_BOUNDARIES = [\n  Number.NEGATIVE_INFINITY,\n  30,\n  36,\n  36.5,\n  37,\n  40,\n  45,\n  55,\n  65,\n  80,\n  Number.POSITIVE_INFINITY,\n] as const;\nconst MANNER_TEMP_LEVELS: MannerTempLevel[] = [\n  \"l1\",\n  \"l2\",\n  \"l3\",\n  \"l4\",\n  \"l5\",\n  \"l6\",\n  \"l7\",\n  \"l8\",\n  \"l9\",\n  \"l10\",\n];\n\nexport function mannerTempToLevel(temperature: number): MannerTempLevel | undefined {\n  for (let i = 0; i < MANNER_TEMP_BOUNDARIES.length - 1; i++) {\n    const lower = MANNER_TEMP_BOUNDARIES[i];\n    const upper = MANNER_TEMP_BOUNDARIES[i + 1];\n\n    if (temperature >= lower && temperature < upper) {\n      return MANNER_TEMP_LEVELS[i];\n    }\n  }\n\n  // Should never happen; boundaries are exhaustive\n  throw new Error(`Invalid manner temperature: ${temperature}`);\n}\n\n/**\n * This file is a snippet from SEED Design, helping you get started quickly with @seed-design/* packages.\n * You can extend this snippet however you want.\n */\n"
     }
   ]
 }

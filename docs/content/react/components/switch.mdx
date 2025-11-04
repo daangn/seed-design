@@ -1,12 +1,12 @@
 ---
 title: Switch
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 사용자가 개별 옵션을 켜거나 끌 수 있게 해주는 컴포넌트입니다. 일반적으로 특정 설정을 활성화하거나 비활성화하는 데 사용됩니다.
 ---
 
-<ComponentExample name="switch-preview">
+<ComponentExample name="react/switch/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-preview.tsx",
+    "file": "examples/react/switch/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,55 +15,68 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add switch
+npx @seed-design/cli@latest add ui:switch
 ```
 
 <ManualInstallation name="switch" />
 
 ## Props
 
+### `Switch`
+
 <react-type-table path="./registry/ui/switch.tsx" name="SwitchProps" />
+
+### `SwitchMark`
+
+<react-type-table path="./registry/ui/switch.tsx" name="SwitchMarkProps" />
 
 ## Examples
 
-### Size
-
-#### 32
+### Sizes
 
 <Callout title="Deprecated Props" type="warning">
-  `size="medium"`은 더 이상 사용되지 않습니다. 대신 `size="32"`를 사용하세요.
+  `size="medium"`과 `size="small"`은 더 이상 사용되지 않습니다. 대신 `size="32"`와 `size="16"`을 사용하세요.
 </Callout>
 
-<ComponentExample name="switch-32">
+<ComponentExample name="react/switch/sizes">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-32.tsx",
+    "file": "examples/react/switch/sizes.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### 24
+### Tones
 
-<ComponentExample name="switch-24">
+#### Brand
+
+<ComponentExample name="react/switch/brand">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-24.tsx",
+    "file": "examples/react/switch/brand.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-#### 16
+#### Neutral
 
-<Callout title="Deprecated Props" type="warning">
-  `size="small"`은 더 이상 사용되지 않습니다. 대신 `size="16"`을 사용하세요.
-</Callout>
-
-<ComponentExample name="switch-16">
+<ComponentExample name="react/switch/neutral">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-16.tsx",
+    "file": "examples/react/switch/neutral.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Long Label
+
+<ComponentExample name="react/switch/long-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/switch/long-label.tsx",
     "codeblock": true
   }
   ```
@@ -71,10 +84,23 @@ npx @seed-design/cli@latest add switch
 
 ### Disabled
 
-<ComponentExample name="switch-disabled">
+<ComponentExample name="react/switch/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/switch-disabled.tsx",
+    "file": "examples/react/switch/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Using `SwitchMark`
+
+`SwitchMark`는 레이블을 제외한 스위치 컴포넌트로, 커스텀 레이아웃을 위해 사용할 수 있습니다.
+
+<ComponentExample name="react/switch/switch-mark">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/switch/switch-mark.tsx",
     "codeblock": true
   }
   ```

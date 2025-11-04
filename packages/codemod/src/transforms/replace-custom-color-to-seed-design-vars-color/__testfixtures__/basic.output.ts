@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { color, bg, typography, mode } from '@/src/styles/tokens';
+import { color, bg, typography, mode } from "@/src/styles/tokens";
 
 export const container = style({
   backgroundColor: color["bg.layerDefault"],
@@ -36,7 +36,7 @@ export const primary = style({
 export const semanticColors = style({
   backgroundColor: color["bg.brandSolid"],
   color: color["fg.neutral"],
-  borderColor: color["stroke.neutralMuted"],
+  borderColor: color["stroke.neutralSubtle"],
 });
 
 export const scaleColors = style({

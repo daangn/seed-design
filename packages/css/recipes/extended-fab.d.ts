@@ -1,10 +1,10 @@
 declare interface ExtendedFabVariant {
   /**
-  * @default neutralSolid
+  * @default "neutralSolid"
   */
   variant: "neutralSolid" | "layerFloating";
 /**
-  * @default medium
+  * @default "medium"
   */
   size: "small" | "medium";
 }

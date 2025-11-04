@@ -11,11 +11,17 @@ import { usePositionedFloating, type UsePositionedFloatingProps } from "./floati
 
 // TODO: useRole이 임의로 id를 생성하는 문제가 있음. 동작만 참고하고 role="dialog"에 맞게 aria attribute 설정을 직접 해야 함.
 
-export interface UsePopoverProps extends UsePositionedFloatingProps {}
+export interface UsePopoverProps extends UsePositionedFloatingProps {
+  /**
+   * Whether to close the popover when clicking outside of it.
+   * @default true
+   */
+  closeOnInteractOutside?: boolean;
+}
 
 export type UsePopoverReturn = ReturnType<typeof usePopover>;
 
-export function usePopover(props: UsePopoverProps = {}) {
+export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps = {}) {
   const {
     open,
     onOpenChange,
@@ -31,7 +37,9 @@ export function usePopover(props: UsePopoverProps = {}) {
 
   const role = useRole(context);
   const click = useClick(context);
-  const dismiss = useDismiss(context);
+  const dismiss = useDismiss(context, {
+    outsidePress: closeOnInteractOutside ?? true,
+  });
 
   const { status } = useTransitionStatus(context);
   const triggerInteractions = useInteractions([role, click, dismiss]);

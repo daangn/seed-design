@@ -1,6 +1,211 @@
 # @seed-design/react
 
+## 2.0.0
+
+### Minor Changes
+
+- a55f584: Slider 컴포넌트를 추가합니다.
+
+### Patch Changes
+
+- Updated dependencies [a55f584]
+  - @seed-design/react-slider@1.0.0
+  - @seed-design/react-field@1.0.0
+  - @seed-design/css@2.0.0
+
+## 1.0.7
+
+### Patch Changes
+
+- Updated dependencies [e52d6d1]
+- Updated dependencies [97669bc]
+- Updated dependencies [15ab93a]
+- Updated dependencies [50366c0]
+  - @seed-design/css@1.0.7
+
+## 1.0.6
+
+### Patch Changes
+
+- 6aafce0: Tag Group 컴포넌트를 추가합니다. Tag Group은 아이콘 및 텍스트로 이루어진 태그를 구분 기호와 함께 수평 레이아웃으로 표시하는 컴포넌트입니다.
+- f2ddf29: Article 유틸리티 컴포넌트를 추가하고 Text 컴포넌트를 업데이트합니다.
+
+  - Article 컴포넌트는 일관된 selection 스타일 및 줄바꿈 정책을 사용할 수 있게 돕습니다.
+  - Text 컴포넌트에서 textDecorationLine="underline" 및 whiteSpace, userSelect prop을 지원합니다.
+
+- Updated dependencies [6aafce0]
+- Updated dependencies [1902dfa]
+- Updated dependencies [f2ddf29]
+- Updated dependencies [4c33f07]
+- Updated dependencies [3df657f]
+  - @seed-design/css@1.0.6
+
+## 1.0.5
+
+### Patch Changes
+
+- 687b261: `PullToRefresh.preventPull`을 활용하여 `PullToRefreshContent` 내부에서 당겨서 새로고침(PTR) 동작을 비활성화할 수 있습니다.
+- a839fd2: 실제 기본값을 표시하도록 JSDoc을 업데이트합니다.
+- Updated dependencies [f1cf4cd]
+- Updated dependencies [687b261]
+- Updated dependencies [9b91751]
+- Updated dependencies [3898183]
+  - @seed-design/css@1.0.5
+  - @seed-design/react-pull-to-refresh@1.0.1
+
+## 1.0.4
+
+### Patch Changes
+
+- Updated dependencies [b10ff0b]
+  - @seed-design/react-popover@1.0.1
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [0b8a02e]
+- Updated dependencies [6c6099d]
+  - @seed-design/css@1.0.3
+
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [6d2e13d]
+  - @seed-design/css@1.0.2
+
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [1420b68]
+  - @seed-design/css@1.0.1
+
 ## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Minor Changes
+
+- 39a96f1: (**BREAKING CHANGE**: Snackbar Snippet을 다시 설치해야합니다) Snackbar 컴포넌트 변경
+  - Snackbar의 배경색이 다크모드에서 흰색으로 변경됩니다.
+  - Prefix 요소유무에 따라 여백이 변경됩니다.
+  - `npx @seed-design/cli@latest add ui:snackbar` 명령어로 설치하세요.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+- a7d07f0: (**BREAKING CHANGE**: `SwitchMark` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) Switch의 토글 영역만을 정의한 Switch Mark 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:switch` 명령어로 설치하세요.
+
+  (**BREAKING CHANGE**: `ListHeader` 사용을 위해서는 Snippet을 다시 설치해야 합니다.) List Header 컴포넌트를 추가합니다.
+
+  - `npx @seed-design/cli@latest add ui:list` 명령어로 설치하세요.
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
+  - @seed-design/css@1.0.0
+  - @seed-design/react-avatar@1.0.0
+  - @seed-design/react-checkbox@1.0.0
+  - @seed-design/react-dialog@1.0.0
+  - @seed-design/react-popover@1.0.0
+  - @seed-design/react-portal@1.0.0
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/react-progress@1.0.0
+  - @seed-design/react-pull-to-refresh@1.0.0
+  - @seed-design/react-radio-group@1.0.0
+  - @seed-design/react-segmented-control@1.0.0
+  - @seed-design/react-snackbar@1.0.0
+  - @seed-design/react-switch@1.0.0
+  - @seed-design/react-tabs@1.0.0
+  - @seed-design/react-text-field@1.0.0
+  - @seed-design/react-toggle@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [0ca19c0]
+- Updated dependencies [11f5e76]
+  - @seed-design/css@0.2.5
+  - @seed-design/react-snackbar@0.0.7
+
+## 0.2.4
+
+### Patch Changes
+
+- 8ebe8a5: Switch, Checkmark, Radio Mark의 스타일을 업데이트합니다.
+
+  - tone=neutral variant를 추가합니다.
+  - Switch의 thumb 크기를 조정합니다.
+
+  Checkbox와 Radio의 weight variant를 default, stronger에서 regular, bold로 수정합니다.
+
+- Updated dependencies [8ebe8a5]
+- Updated dependencies [f61b80d]
+- Updated dependencies [ce047f5]
+  - @seed-design/css@0.2.4
+  - @seed-design/react-tabs@0.0.9
+
+## 0.2.3
+
+### Patch Changes
+
+- 12faf5a: List 컴포넌트를 추가하고, Checkbox 및 Radio 컴포넌트를 개선합니다.
+
+  - List 컴포넌트를 제공하여, 정보를 구조화된 목록 형태로 표시할 수 있도록 합니다.
+  - Checkbox와 Radio의 컨트롤 영역만을 표시하는 Checkmark와 RadioMark를 제공합니다.
+  - Select Box에서 컨트롤 영역을 Checkmark와 RadioMark로 교체합니다.
+  - RadioGroup 컴포넌트를 제공합니다.
+
+- Updated dependencies [a22b8b9]
+- Updated dependencies [5836976]
+- Updated dependencies [12faf5a]
+  - @seed-design/css@0.2.3
+
+## 0.2.2
+
+### Patch Changes
+
+- 9d93518: Text 컴포넌트의 fontSize, lineHeight, color 속성에 string도 사용 가능하도록 변경했습니다.
+
+## 0.2.1
+
+### Patch Changes
+
+- 35984d0: Chip 컴포넌트를 업데이트합니다.
+
+  - 아이콘에 트랜지션 효과가 적용되지 않던 현상을 수정합니다.
+  - Button, Toggle 등 사용되는 방식에 따라 적절한 data prop을 받도록 수정합니다.
+
+- c5bed96: Divider 컴포넌트가 `$color.stroke.neutral-muted` 색상을 기본값으로 사용하도록 수정합니다.
+- Updated dependencies [35984d0]
+  - @seed-design/css@0.2.1
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
+
+## 0.1.15
 
 ### Patch Changes
 
@@ -19,7 +224,7 @@
 - Updated dependencies [5f2ee39]
 - Updated dependencies [8299ba9]
 - Updated dependencies [3de4cec]
-  - @seed-design/css@1.0.0
+  - @seed-design/css@0.1.15
   - @seed-design/react-snackbar@0.0.6
 
 ## 0.1.14

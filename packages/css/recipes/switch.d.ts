@@ -11,7 +11,7 @@ declare type SwitchVariantMap = {
 
 export declare type SwitchVariantProps = Partial<SwitchVariant>;
 
-export declare type SwitchSlotName = "root" | "control" | "thumb" | "label";
+export declare type SwitchSlotName = "root" | "label";
 
 export declare const switchVariantMap: SwitchVariantMap;
 

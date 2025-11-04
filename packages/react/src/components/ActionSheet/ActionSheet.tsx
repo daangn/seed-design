@@ -19,7 +19,16 @@ const withStateProps = createWithStateProps([useDialogContext]);
 /**
  * @deprecated Use `MenuSheet` instead.
  */
-export interface ActionSheetRootProps extends ActionSheetVariantProps, DialogPrimitive.RootProps {}
+export interface ActionSheetRootProps extends ActionSheetVariantProps, DialogPrimitive.RootProps {
+  /**
+   * @default true
+   */
+  lazyMount?: DialogPrimitive.RootProps["lazyMount"];
+  /**
+   * @default true
+   */
+  unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
+}
 
 /**
  * @deprecated Use `MenuSheet` instead.

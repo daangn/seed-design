@@ -17,20 +17,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const conditionMap = {
-  indeterminate: {
+  disabled: {
     false: {
-      indeterminate: false,
+      disabled: false,
     },
     true: {
-      indeterminate: true,
-    },
-  },
-  checked: {
-    false: {
-      checked: false,
-    },
-    true: {
-      checked: true,
+      disabled: true,
     },
   },
 };

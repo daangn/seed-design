@@ -1,7 +1,7 @@
-import { docs, reactDocs } from "@/.source";
+import { docs, reactDocs, breezeDocs } from "@/.source";
 import { getRootageMetadata } from "@/components/rootage";
 import { IconContainer } from "@/components/ui/icon";
-import type { PageTree } from "fumadocs-core/server";
+import type { Node, Root } from "fumadocs-core/page-tree";
 import { loader } from "fumadocs-core/source";
 
 import { icons } from "lucide-react";
@@ -21,11 +21,11 @@ function getComponentIdFromUrl(url: string): string | null {
 }
 
 async function transformPageTreeWithBadges(
-  tree: PageTree.Root,
+  tree: Root,
   sourceLoader: typeof baseSource,
-): Promise<PageTree.Root> {
+): Promise<Root> {
   try {
-    async function transformNode(node: PageTree.Node): Promise<PageTree.Node> {
+    async function transformNode(node: Node): Promise<Node> {
       if (node.type === "page") {
         const componentId = getComponentIdFromUrl(node.url);
         const page = sourceLoader.getNodePage(node);
@@ -93,13 +93,23 @@ const baseReactSource = loader({
   icon: iconHandler,
 });
 
+const baseBreezeSource = loader({
+  baseUrl: "/breeze",
+  source: breezeDocs.toFumadocsSource(),
+  icon: iconHandler,
+});
+
 // Transform page trees with badges
-async function getTransformedPageTree(): Promise<PageTree.Root> {
+async function getTransformedPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseSource.pageTree, baseSource);
 }
 
-async function getTransformedReactPageTree(): Promise<PageTree.Root> {
+async function getTransformedReactPageTree(): Promise<Root> {
   return await transformPageTreeWithBadges(baseReactSource.pageTree, baseReactSource);
+}
+
+async function getTransformedBreezePageTree(): Promise<Root> {
+  return await transformPageTreeWithBadges(baseBreezeSource.pageTree, baseBreezeSource);
 }
 
 // Export sources with lazy-loaded transformed page trees
@@ -111,4 +121,9 @@ export const source = {
 export const reactSource = {
   ...baseReactSource,
   getTransformedReactPageTree,
+};
+
+export const breezeSource = {
+  ...baseBreezeSource,
+  getTransformedBreezePageTree,
 };

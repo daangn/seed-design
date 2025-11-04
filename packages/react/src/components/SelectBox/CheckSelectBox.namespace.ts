@@ -1,18 +1,12 @@
 export {
   CheckSelectBoxContent as Content,
-  CheckSelectBoxControl as Control,
   CheckSelectBoxDescription as Description,
   CheckSelectBoxGroup as Group,
-  CheckSelectBoxHiddenInput as HiddenInput,
-  CheckSelectBoxIcon as Icon,
   CheckSelectBoxLabel as Label,
   CheckSelectBoxRoot as Root,
   type CheckSelectBoxContentProps as ContentProps,
-  type CheckSelectBoxControlProps as ControlProps,
   type CheckSelectBoxDescriptionProps as DescriptionProps,
   type CheckSelectBoxGroupProps as GroupProps,
-  type CheckSelectBoxHiddenInputProps as HiddenInputProps,
-  type CheckSelectBoxIconProps as IconProps,
   type CheckSelectBoxLabelProps as LabelProps,
   type CheckSelectBoxRootProps as RootProps,
 } from "./CheckSelectBox";

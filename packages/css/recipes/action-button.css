@@ -137,7 +137,7 @@
     border-style: solid;
     background: var(--seed-color-bg-layer-default);
     border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral);
+    border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-brand);
     --seed-prefix-icon-color: var(--seed-color-fg-brand);
     --seed-suffix-icon-color: var(--seed-color-fg-brand);
@@ -150,7 +150,7 @@
 }
 .seed-action-button--variant_brandOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-layer-default);
-    border-color: var(--seed-color-stroke-neutral);
+    border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);
@@ -163,7 +163,7 @@
     border-style: solid;
     background: var(--seed-color-bg-layer-default);
     border-width: 1px;
-    border-color: var(--seed-color-stroke-neutral);
+    border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-neutral);
     --seed-prefix-icon-color: var(--seed-color-fg-neutral);
     --seed-suffix-icon-color: var(--seed-color-fg-neutral);
@@ -176,7 +176,7 @@
 }
 .seed-action-button--variant_neutralOutline:is(:disabled, [disabled], [data-disabled]) {
     background: var(--seed-color-bg-layer-default);
-    border-color: var(--seed-color-stroke-neutral);
+    border-color: var(--seed-color-stroke-neutral-muted);
     color: var(--seed-color-fg-disabled);
     --seed-prefix-icon-color: var(--seed-color-fg-disabled);
     --seed-suffix-icon-color: var(--seed-color-fg-disabled);

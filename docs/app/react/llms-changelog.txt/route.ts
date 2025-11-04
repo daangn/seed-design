@@ -7,7 +7,8 @@ export async function GET() {
   const page = reactSource.getPage(["updates", "changelog"]);
   if (!page) throw new Error("Changelog not found");
 
-  const processed = await processContent(page.path, page.data.content);
+  const rawContent = await page.data.getText("raw");
+  const processed = await processContent(page.path, rawContent || "");
 
   const response = `# SEED Design React - Changelog
 

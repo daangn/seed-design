@@ -1,5 +1,23 @@
 # @seed-design/react-snackbar
 
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
+## 0.0.7
+
+### Patch Changes
+
+- 11f5e76: Snackbar 헤드리스에서 닫기 버튼에 하드코딩된 `aria-label` 속성을 제거합니다.
+
 ## 0.0.6
 
 ### Patch Changes

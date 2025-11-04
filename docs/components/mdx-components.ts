@@ -14,6 +14,7 @@ import { TypeTable } from "fumadocs-ui/components/type-table";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { AtomIcon } from "lucide-react";
 import { MDXComponents } from "mdx/types";
+import { BreezeManualInstallation } from "./breeze-manual-installation";
 import { IconLibrary } from "./iconography/icons";
 import { ColorMigrationIndex } from "./migration/color-migration-index";
 import { V2Icon, V2IconColor, V3Icon } from "./migration/icon";
@@ -21,6 +22,8 @@ import { IconographyMigrationIndex } from "./migration/iconography-migration-ind
 import { TypographyMigrationIndex } from "./migration/typography-migration-index";
 import { ViteIcon, WebpackIcon } from "./tool-icon";
 import { typeTableGenerator } from "./type-table/generator";
+import { ProgressBoardTable } from "./progress-board-table";
+import { PlatformStatusTable } from "./platform-status-table";
 
 const { ReactTypeTable } = createReactTypeTable(typeTableGenerator);
 
@@ -30,6 +33,7 @@ export const mdxComponents: MDXComponents = {
   ComponentExample,
   TokenReference,
   ComponentSpecBlock,
+  BreezeManualInstallation,
   Tab,
   Tabs,
   Step,
@@ -55,4 +59,6 @@ export const mdxComponents: MDXComponents = {
   ColorMigrationIndex,
   TypographyMigrationIndex,
   IconographyMigrationIndex,
+  ProgressBoardTable,
+  PlatformStatusTable,
 };

@@ -1,91 +1,119 @@
-import { z } from "zod";
-
-export const registryType = z.union([z.literal("ui"), z.literal("lib")]);
-
-export const registryUIItemSchema = z.object({
-  /**
-   * @description 레지스트리 이름
-   * @example chip-tabs, alert-dialog
-   */
-  name: z.string(),
-
-  description: z.string().optional(),
+export interface Registry {
+  id: string;
 
   /**
-   * @description 레지스트리 의존성
-   * @example @seed-design/react-tabs
+   * @description add 명령어 실행 시 표시하지 않음
+   * @default false
    */
-  dependencies: z.array(z.string()).optional(),
+  hideFromCLICatalog?: boolean;
 
-  /**
-   * @description 레지스트리 개발 의존성
-   */
-  devDependencies: z.array(z.string()).optional(),
+  items: {
+    /**
+     * @description Registry Item 이름
+     * @example "chip-tabs"
+     * @example "alert-dialog"
+     */
+    id: string;
 
-  /**
-   * @description 레지스트리 내부의 Seed Design 컴포넌트 의존성
-   * * `:`를 기준으로 왼쪽은 {registryType}, 오른쪽은 파일 이름
-   * @example ui:action-button
-   * @example lib:manner-temp-level
-   */
-  innerDependencies: z.array(z.string()).optional(),
+    description?: string;
 
-  /**
-   * @description
-   * 컴포넌트 코드 스니펫 경로, 여러 파일이 될 수 있어서 배열로 정의
-   * `:`를 기준으로 왼쪽은 {registryType}, 오른쪽은 파일 이름
-   * @example ui:alert-dialog.tsx
-   * @example ui:use-dismissible.ts
-   * @example lib:manner-temp-level.ts
-   */
-  files: z.array(z.string()),
+    /**
+     * @description Registry Item deprecated 여부
+     */
+    deprecated?: boolean;
 
-  /**
-   * @description 컴포넌트 deprecated 여부
-   */
-  deprecated: z.literal(true).optional(),
-});
-export const registryUISchema = z.array(registryUIItemSchema);
+    /**
+     * @description add 명령어 실행 시 표시하지 않음
+     * @default false
+     */
+    hideFromCLICatalog?: boolean;
+
+    /**
+     * @description Registry Item이 포함하는 스니펫
+     * @example [{ path: "alert-dialog.tsx" }]
+     * @example [{ path: "use-dismissible.ts" }, { path: "manner-temp-level.ts" }]
+     */
+    snippets: {
+      /**
+       * @description 스니펫 파일 경로
+       */
+      path: string;
+      /**
+       * @description 스니펫 파일에서 의존하는 \@seed-design/* 패키지와 버전. 스니펫 내부에 \@requires로 기록됨
+       * @example { "@seed-design/react": "^1.1.0", "@seed-design/css": "^1.1.0" }
+       * @see https://github.com/npm/node-semver#caret-ranges-123-025-004
+       */
+      dependencies?: Record<string, string>;
+    }[];
+  }[];
+}
 
 /**
- * @description 머신이 생성한 registry component schema
+ * this should be in sync with `packages/cli/src/schema.ts`
  */
-const omittedRegistryUISchema = registryUIItemSchema.omit({
-  files: true,
-});
-export const registryUIItemMachineGeneratedSchema =
-  omittedRegistryUISchema.extend({
-    registries: z.array(
-      z.object({
-        name: z.string(),
-        type: registryType,
-        content: z.string(),
-      }),
-    ),
-  });
-export const registryComponentMachineGeneratedSchema = z.array(
-  registryUIItemMachineGeneratedSchema,
-);
+export interface GeneratedRegistryItem
+  extends Pick<
+    Registry["items"][number],
+    "id" | "description" | "deprecated" | "hideFromCLICatalog"
+  > {
+  /**
+   * @description snippets에 명시된 파일에서 의존하는 패키지. CLI가 실제로 설치함
+   * @example ["@seed-design/react-tabs"]
+   */
+  dependencies?: string[];
 
-// NOTE: 현재는 lib이 ui와 타입이 동일하지만, 따로 가져가야한다면 타입을 변경해야해요.
-export const registryLibItemMachineGeneratedSchema =
-  registryUIItemMachineGeneratedSchema;
+  /**
+   * @description snippets에 명시된 파일에서 의존하는 다른 Registry Item. CLI가 실제로 추가함
+   * @example [{ registryId: "breeze", itemIds: ["animate-number"] }]
+   */
+  innerDependencies?: Array<{
+    registryId: string;
+    itemIds: string[];
+  }>;
 
-// NOTE: 현재는 lib이 ui와 타입이 동일하지만, 따로 가져가야한다면 타입을 변경해야해요.
-export type RegistryLibItem = z.infer<typeof registryUIItemSchema>;
-export type RegistryLib = z.infer<typeof registryUISchema>;
-export type RegistryUIItem = z.infer<typeof registryUIItemSchema>;
-export type RegistryUI = z.infer<typeof registryUISchema>;
+  /**
+   * @description Registry Item이 포함하는 스니펫의 실제 파일 경로와 내용
+   * @example [{ path: "alert-dialog.tsx", content: "import { useState } from 'react'; ..." }]
+   */
+  snippets: {
+    /**
+     * @description 스니펫 파일 경로
+     */
+    path: string;
+    /**
+     * @description 스니펫 파일 내용
+     */
+    content: string;
+  }[];
+}
 
-export type RegistryUIItemMachineGenerated = z.infer<
-  typeof registryUIItemMachineGeneratedSchema
->;
-export type RegistryUIMachineGenerated = z.infer<
-  typeof registryComponentMachineGeneratedSchema
->;
-export type RegistryLibItemMachineGenerated = z.infer<
-  typeof registryLibItemMachineGeneratedSchema
->;
-export type RegistryLibMachineGenerated = z.infer<
-  typeof registryComponentMachineGeneratedSchema
->;
+/**
+ * this should be in sync with `packages/cli/src/schema.ts`
+ */
+
+export interface GeneratedRegistry extends Pick<Registry, "id" | "hideFromCLICatalog"> {
+  items: Array<
+    Pick<
+      GeneratedRegistryItem,
+      | "id"
+      | "description"
+      | "deprecated"
+      | "hideFromCLICatalog"
+      | "dependencies"
+      | "innerDependencies"
+    > & {
+      // excludes actual file content for lighter payload of the registry index.
+      snippets: {
+        /**
+         * @description 스니펫 파일 경로
+         */
+        path: string;
+      }[];
+    }
+  >;
+}
+
+/**
+ * this should be in sync with `packages/cli/src/schema.ts`
+ */
+export type AvailableRegistries = Array<{ id: Registry["id"] }>;

@@ -3,6 +3,7 @@ import { dataAttr, elementProps } from "@seed-design/dom-utils";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { getClientY, isLeftPress, touchEnd, touchMove } from "./normalize-event";
 import { Store } from "./store";
+import { isPullPrevented } from "./dom";
 
 interface UsePullToRefreshStateProps {
   /**
@@ -229,6 +230,8 @@ export function usePullToRefresh(props: UsePullToRefreshProps) {
       [touchMove]: (e: React.TouchEvent | React.PointerEvent) => {
         if (e.defaultPrevented) return;
         if (!isLeftPress(e)) return;
+        if (e.target instanceof HTMLElement && isPullPrevented(e.target)) return;
+
         events.move({ y: getClientY(e), scrollTop: e.currentTarget.scrollTop });
       },
       [touchEnd]: () => {

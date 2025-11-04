@@ -1,16 +1,14 @@
 .seed-snackbar__root {
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     max-width: 560px;
-    background: var(--seed-color-bg-neutral-solid);
+    background: var(--seed-color-bg-neutral-inverted);
     border-radius: var(--seed-radius-r2);
-    padding-inline: var(--seed-dimension-x4);
+    padding-inline: var(--seed-dimension-x2_5);
     padding-block: var(--seed-dimension-x2_5);
     min-height: 44px;
-    gap: var(--seed-dimension-x2);
     animation: seed-enter;
     animation-timing-function: var(--seed-timing-function-enter);
     animation-duration: var(--seed-duration-d3);
@@ -29,10 +27,17 @@
     --seed-exit-opacity: 0;
     --seed-exit-scale: 0.8;
 }
-.seed-snackbar__message {
+.seed-snackbar__content {
+    display: flex;
     flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: var(--seed-dimension-x1_5);
+    gap: var(--seed-dimension-x2_5);
+}
+.seed-snackbar__message {
     margin: 0;
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-color-fg-neutral-inverted);
     font-size: var(--seed-font-size-t4);
     line-height: var(--seed-line-height-t4);
     font-weight: var(--seed-font-weight-regular);
@@ -41,6 +46,7 @@
     flex-shrink: 0;
     width: 24px;
     height: 24px;
+    padding-right: var(--seed-dimension-x0_5);
 }
 .seed-snackbar__actionButton {
     position: relative;

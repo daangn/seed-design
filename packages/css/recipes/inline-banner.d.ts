@@ -1,6 +1,6 @@
 declare interface InlineBannerVariant {
   /**
-  * @default neutralWeak
+  * @default "neutralWeak"
   */
   variant: "neutralWeak" | "positiveWeak" | "informativeWeak" | "warningWeak" | "warningSolid" | "criticalWeak" | "criticalSolid";
 }

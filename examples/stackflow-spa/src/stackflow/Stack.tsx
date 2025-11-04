@@ -4,6 +4,7 @@ import { stackflow, type ActivityComponentType, type UseActionsOutputType } from
 import React from "react";
 
 import { seedPlugin } from "@seed-design/stackflow";
+import ActivityHome from "../activities/ActivityHome";
 import ActivityNotFound from "../activities/ActivityNotFound";
 import { theme } from "./theme";
 
@@ -16,7 +17,7 @@ import { theme } from "./theme";
 
 const { Stack, useFlow, useStepFlow } = stackflow({
   activities: {
-    ActivityHome: React.lazy(() => import("../activities/ActivityHome")),
+    ActivityHome,
     ActivityActionButton: React.lazy(() => import("../activities/ActivityActionButton")),
     ActivityChipButton: React.lazy(() => import("../activities/ActivityChipButton")),
     ActivityChipToggle: React.lazy(() => import("../activities/ActivityChipToggle")),
@@ -40,6 +41,12 @@ const { Stack, useFlow, useStepFlow } = stackflow({
     ActivityMixedVersionTest: React.lazy(() => import("../activities/ActivityMixedVersionTest")),
     ActivityCodegenTest: React.lazy(() => import("../activities/ActivityCodegenTest")),
     ActivityPerfCheck: React.lazy(() => import("../activities/ActivityPerfCheck")),
+    ActivityListItem: React.lazy(() => import("../activities/ActivityListItem")),
+    ActivityListButtonItem: React.lazy(() => import("../activities/ActivityListButtonItem")),
+    ActivityListLinkItem: React.lazy(() => import("../activities/ActivityListLinkItem")),
+    ActivityListSwitchItem: React.lazy(() => import("../activities/ActivityListSwitchItem")),
+    ActivityListCheckItem: React.lazy(() => import("../activities/ActivityListCheckItem")),
+    ActivityListRadioItem: React.lazy(() => import("../activities/ActivityListRadioItem")),
     ActivityNotFound,
   },
   plugins: [
@@ -75,11 +82,17 @@ const { Stack, useFlow, useStepFlow } = stackflow({
         ActivityMixedVersionTest: "/mixed-version-test",
         ActivityCodegenTest: "/codegen-test",
         ActivityPerfCheck: "/perf-check",
+        ActivityListItem: "/list-item",
+        ActivityListButtonItem: "/list-item-button",
+        ActivityListLinkItem: "/list-item-link",
+        ActivityListSwitchItem: "/list-item-switch",
+        ActivityListCheckItem: "/list-item-check",
+        ActivityListRadioItem: "/list-item-radio",
         ActivityNotFound: "/404",
       },
     }),
   ],
-  transitionDuration: 270,
+  transitionDuration: theme === "cupertino" ? 350 : 300,
 });
 
 export { Stack };

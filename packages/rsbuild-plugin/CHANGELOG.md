@@ -1,14 +1,33 @@
 # @seed-design/rsbuild-plugin
 
-## 1.0.0
+## 2.0.0
 
 ### Patch Changes
 
-- Updated dependencies [c51a261]
-- Updated dependencies [5f2ee39]
-- Updated dependencies [8299ba9]
-- Updated dependencies [3de4cec]
+- Updated dependencies [a55f584]
+  - @seed-design/css@2.0.0
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [39a96f1]
+- Updated dependencies [34f92f2]
+- Updated dependencies [e038490]
+- Updated dependencies [4153ca5]
+- Updated dependencies [a7d07f0]
   - @seed-design/css@1.0.0
+
+## 0.2.0
+
+### Patch Changes
+
+- Updated dependencies [8448880]
+  - @seed-design/css@0.2.0
 
 ## 0.1.3
 

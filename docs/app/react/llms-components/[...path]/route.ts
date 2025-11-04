@@ -16,6 +16,11 @@ export const revalidate = false;
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const componentPageSlugs = reactSource
     .getPages()
+    .filter((page) => {
+      // Include both components
+      const [firstSlug] = page.slugs;
+      return firstSlug === "components";
+    })
     .filter(shouldGenerateLLMFriendlyText)
     .map((page) => {
       // Attach .txt extension to the last slug
@@ -44,10 +49,12 @@ export async function GET(_: Request, { params }: { params: Promise<StaticParams
     return slug;
   });
 
+  // Try to find in components
   const page = reactSource.getPage(["components", ...slugsExtensionRemoved]);
   if (!page) throw new Error("Page not found");
 
-  const processed = await processContent(page.path, page.data.content);
+  const rawContent = await page.data.getText("raw");
+  const processed = await processContent(page.path, rawContent || "");
 
   const response = `# ${page.data.title}
 

@@ -58,7 +58,7 @@ export declare const vars: {
   "dividerTrue": {
     "enabled": {
       "root": {
-        "strokeColor": "var(--seed-color-stroke-neutral-muted)",
+        "strokeColor": "var(--seed-color-stroke-neutral-subtle)",
         "strokeWidth": "1px"
       }
     }
@@ -67,7 +67,8 @@ export declare const vars: {
     "enabled": {
       "title": {
         "fontSize": "var(--seed-font-size-t6-static)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-font-weight-bold)",
+        "lineHeight": "var(--seed-line-height-t6-static)"
       }
     }
   },
@@ -75,11 +76,13 @@ export declare const vars: {
     "enabled": {
       "title": {
         "fontSize": "var(--seed-font-size-t5-static)",
-        "fontWeight": "var(--seed-font-weight-bold)"
+        "fontWeight": "var(--seed-font-weight-bold)",
+        "lineHeight": "var(--seed-line-height-t5-static)"
       },
       "subtitle": {
         "fontSize": "var(--seed-font-size-t2-static)",
-        "fontWeight": "var(--seed-font-weight-regular)"
+        "fontWeight": "var(--seed-font-weight-regular)",
+        "lineHeight": "var(--seed-line-height-t2-static)"
       }
     }
   }

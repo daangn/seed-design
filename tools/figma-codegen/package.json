@@ -4,17 +4,18 @@
   "version": "0.0.0",
   "author": "Asher <asher@daangn.com>",
   "dependencies": {
-    "@seed-design/figma": "1.0.0"
+    "@seed-design/figma": "2.0.0"
   },
   "devDependencies": {
     "@create-figma-plugin/build": "^4.0.1",
     "@create-figma-plugin/tsconfig": "^4.0.0",
     "@figma/plugin-typings": "^1.110.0",
-    "typescript": "^5.8.3"
+    "dotenv": "^17.2.3",
+    "typescript": "^5.9.2"
   },
   "scripts": {
     "build": "build-figma-plugin --typecheck --minify",
-    "dev": "build-figma-plugin --typecheck --watch"
+    "dev": "IS_DEV=true build-figma-plugin --typecheck --watch"
   },
   "figma-plugin": {
     "editorType": [
@@ -35,8 +36,11 @@
     "documentAccess": "dynamic-page",
     "networkAccess": {
       "allowedDomains": [
-        "none"
+        "https://us.i.posthog.com"
       ]
-    }
+    },
+    "permissions": [
+      "currentuser"
+    ]
   }
 }

@@ -272,26 +272,32 @@ description: 최신 업데이트와 변경사항을 기록합니다.
 
     // changeset별 변경사항 (각 changeset의 개별 commit 링크와 함께)
     for (const changeset of entry.changesets) {
-      let changesetContent = changeset.content;
+      const lines = changeset.content.split("\n");
+      const [firstLine, ...restLines] = lines;
 
-      // 각 changeset의 개별 commit 링크를 내용 앞에 추가
-      if (changeset.commitLink) {
-        changesetContent = `${changeset.commitLink} ${changesetContent}`;
+      // 커밋 해시를 첫 줄 끝에 추가 (이미 포함되어 있지 않은 경우에만)
+      let changesetContent = firstLine;
+      const hasCommitLink = /\[`[a-f0-9]{7}`\]\(https:\/\/.+?\)/.test(firstLine);
+      if (changeset.commitLink && !hasCommitLink) {
+        changesetContent += ` ${changeset.commitLink}`;
       }
 
-      markdown += `${changesetContent}\n\n`;
-    }
-
-    // 패키지 버전 목록
-    const allPackages = entry.changesets.flatMap((cs) => cs.packages);
-    const uniquePackages = Array.from(new Map(allPackages.map((pkg) => [pkg.name, pkg])).values());
-
-    if (uniquePackages.length > 0) {
-      markdown += "### Version Updates\n\n";
-      for (const pkg of uniquePackages.sort((a, b) => a.name.localeCompare(b.name))) {
-        markdown += `- [${pkg.name}@${pkg.version}](https://npmjs.com/package/${pkg.name}/v/${pkg.version})\n`;
+      // 나머지 줄 추가
+      if (restLines.length > 0) {
+        changesetContent += `\n${restLines.join("\n")}`;
       }
-      markdown += "\n";
+
+      markdown += `${changesetContent}\n`;
+
+      // "영향받는 패키지"를 bullet point로 추가
+      if (changeset.packages.length > 0) {
+        markdown += "\n영향받는 패키지\n";
+        for (const pkg of changeset.packages.sort((a, b) => a.name.localeCompare(b.name))) {
+          markdown += `- 📦 [${pkg.name}@${pkg.version}](https://npmjs.com/package/${pkg.name}/v/${pkg.version})\n`;
+        }
+      }
+
+      markdown += "\n---\n\n";
     }
   }
 
@@ -318,36 +324,39 @@ function extractExistingEntries(
 
     // 새로운 changeset에 포함되지 않은 날짜만 보존
     if (!newDates.has(date)) {
-      // 기존 형식에서 changeset 정보 추출
-      const changesets = [];
+      // --- 로 구분된 changeset들 추출
+      const changesetBlocks = content.split(/\n---\n\n/).filter((block) => block.trim());
 
-      // 업데이트 내용과 패키지 목록 분리
-      const packageListMatch = content.match(/### Version Updates\n\n((?:- .*\n)*)/);
-      const contentBeforePackages = packageListMatch
-        ? content.substring(0, content.indexOf("### Version Updates"))
-        : content;
+      const changesets = changesetBlocks.map((block) => {
+        // 영향받는 패키지 섹션 추출
+        const packageSectionMatch = block.match(/영향받는 패키지\n((?:- 📦 .*\n?)*)/);
+        const packages: Array<{ name: string; version: string }> = [];
 
-      if (packageListMatch) {
-        const packageLines = packageListMatch[1]
-          .split("\n")
-          .filter((line) => line.trim().startsWith("- "));
-        const packages = packageLines
-          .map((line) => {
-            const linkMatch = line.match(/- \[(.+?)@(.+?)\]\(.+?\)/);
+        if (packageSectionMatch) {
+          const packageLines = packageSectionMatch[1].split("\n").filter((line) => line.trim());
+          packageLines.forEach((line) => {
+            const linkMatch = line.match(/- 📦 \[(.+?)@(.+?)\]\(.+?\)/);
             if (linkMatch) {
-              return { name: linkMatch[1], version: linkMatch[2] };
+              packages.push({ name: linkMatch[1], version: linkMatch[2] });
             }
+          });
+        }
 
-            const plainMatch = line.match(/- (.+?)@(.+)/);
-            return plainMatch ? { name: plainMatch[1], version: plainMatch[2] } : null;
-          })
-          .filter((pkg): pkg is { name: string; version: string } => pkg !== null);
+        // 패키지 섹션을 제거한 나머지 컨텐츠
+        const changesetContent = packageSectionMatch
+          ? block.substring(0, block.indexOf("영향받는 패키지")).trim()
+          : block.trim();
 
-        changesets.push({
-          content: contentBeforePackages.trim(),
+        // 커밋 링크 추출 (있는 경우)
+        const commitLinkMatch = changesetContent.match(/\[`([a-f0-9]{7})`\]\((https:\/\/.+?)\)/);
+        const commitLink = commitLinkMatch ? commitLinkMatch[0] : undefined;
+
+        return {
+          content: changesetContent,
           packages,
-        });
-      }
+          commitLink,
+        };
+      });
 
       existingEntries.push({
         date,

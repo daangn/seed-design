@@ -1,7 +1,6 @@
-"use client";
-
 import { MenuSheet as SeedMenuSheet } from "@seed-design/react";
 import { forwardRef } from "react";
+import type * as React from "react";
 
 export interface MenuSheetRootProps extends SeedMenuSheet.RootProps {}
 
@@ -67,8 +66,3 @@ export const MenuSheetGroup = SeedMenuSheet.Group;
 export interface MenuSheetItemProps extends SeedMenuSheet.ItemProps {}
 
 export const MenuSheetItem = SeedMenuSheet.Item;
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

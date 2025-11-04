@@ -20,14 +20,14 @@ export const globalCss = defineGlobalCss({
     // Font scaling variables
     "--seed-font-size-multiplier": "1",
     "--seed-font-size-limit-min": "0.8",
-    "--seed-font-size-limit-max": "1.5",  // Android default 150%
+    "--seed-font-size-limit-max": "1.5", // Android default 150%
     "--seed-line-height-limit-min": "0.8",
-    "--seed-line-height-limit-max": "1.5",  // Android default 150%
+    "--seed-line-height-limit-max": "1.5", // Android default 150%
   },
 
   // iOS platform-specific overrides
   "[data-seed-platform='ios']": {
-    "--seed-font-size-limit-max": "1.35",  // iOS 135% limit
+    "--seed-font-size-limit-max": "1.35", // iOS 135% limit
     "--seed-line-height-limit-max": "1.35",
   },
 
@@ -63,16 +63,10 @@ export const globalCss = defineGlobalCss({
     height: "var(--seed-prefix-icon-size)",
     color: "var(--seed-prefix-icon-color, currentColor)",
 
-    // 네 변에 대해 모두 margin 프로퍼티가 지정되어 있는 경우
-    // cssnano 등 최적화 도구가
-    // margin: var(--seed-prefix-icon-margin-top) var(--seed-prefix-icon-margin-right) var(--seed-prefix-icon-margin-bottom) var(--seed-prefix-icon-margin-left);
-    // 로 선언을 합칩니다.
-    // 이때 네 개의 CSS variable 중 하나라도 정의되어 있지 않은 경우 어떤 margin도 적용되지 않으므로
-    // 여기에서 marginBottom을 의도적으로 정의하지 않습니다.
-    // also see: https://github.com/cssnano/cssnano/issues/1472
-    marginLeft: "var(--seed-prefix-icon-margin-left)",
-    marginRight: "var(--seed-prefix-icon-margin-right)",
-    marginTop: "var(--seed-prefix-icon-margin-top)",
+    marginLeft: "var(--seed-prefix-icon-margin-left, 0)",
+    marginRight: "var(--seed-prefix-icon-margin-right, 0)",
+    marginTop: "var(--seed-prefix-icon-margin-top, 0)",
+    marginBottom: "var(--seed-prefix-icon-margin-bottom, 0)",
 
     alignSelf: "var(--seed-prefix-icon-align-self)",
     justifySelf: "var(--seed-prefix-icon-justify-self)",
@@ -82,16 +76,10 @@ export const globalCss = defineGlobalCss({
     height: "var(--seed-suffix-icon-size)",
     color: "var(--seed-suffix-icon-color, currentColor)",
 
-    // 네 변에 대해 모두 margin 프로퍼티가 지정되어 있는 경우
-    // cssnano 등 최적화 도구가
-    // margin: var(--seed-prefix-icon-margin-top) var(--seed-prefix-icon-margin-right) var(--seed-prefix-icon-margin-bottom) var(--seed-prefix-icon-margin-left);
-    // 로 선언을 합칩니다.
-    // 이때 네 개의 CSS variable 중 하나라도 정의되어 있지 않은 경우 어떤 margin도 적용되지 않으므로
-    // 여기에서 marginBottom을 의도적으로 정의하지 않습니다.
-    // also see: https://github.com/cssnano/cssnano/issues/1472
-    marginLeft: "var(--seed-suffix-icon-margin-left)",
-    marginRight: "var(--seed-suffix-icon-margin-right)",
-    marginTop: "var(--seed-suffix-icon-margin-top)",
+    marginLeft: "var(--seed-suffix-icon-margin-left, 0)",
+    marginRight: "var(--seed-suffix-icon-margin-right, 0)",
+    marginTop: "var(--seed-suffix-icon-margin-top, 0)",
+    marginBottom: "var(--seed-suffix-icon-margin-bottom, 0)",
 
     alignSelf: "var(--seed-suffix-icon-align-self)",
     justifySelf: "var(--seed-suffix-icon-justify-self)",

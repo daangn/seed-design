@@ -2,13 +2,64 @@
 
 ## 1.0.0
 
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- e038490: (**BREAKING CHANGE**: Snippet을 다시 설치해야 합니다.) Manner Temp, Manner Temp Badge 컴포넌트를 업데이트합니다.
+
+  - snippet 내 오타 수정
+  - 신규 10단계 반영
+  - 업데이트 가이드
+    1. `@seed-design/css@latest @seed-design/react@latest` 설치
+    2. `npx @seed-design/cli@latest add ui:manner-temp ui:manner-temp-badge`로 snippet 최신화
+    3. 온도 범위가 변경되었으므로, `<MannerTemp level="l1" />` 혹은 `<MannerTempBadge level="l1" />`과 같이 `level`을 직접 지정하여 사용하고 있는 경우가 있는지 확인
+
+## 0.2.0
+
 ### Minor Changes
 
-- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+- 8448880: 시맨틱 stroke 컬러 토큰을 업데이트합니다.
 
-  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
-  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
-  - global.ts에 폰트 스케일링 변수 통합
+  **이름이 변경되는 stroke 토큰**
+
+  - [Color Role 규칙](https://seed-design.io/docs/foundation/color/color-role)에 맞춰 일관적인 토큰 이름을 유지할 수 있도록 업데이트합니다.
+  - 이름이 변경되는 stroke 토큰을 사용하고 있는 경우, 간단한 Find & Replace 마이그레이션이 필요합니다.
+
+  | 기존                            | 신규                            | 비고                               |
+  | ------------------------------- | ------------------------------- | ---------------------------------- |
+  | **$color.stroke.neutral-muted** | $color.stroke.neutral-subtle    | 가장 먼저 마이그레이션해야 합니다. |
+  | $color.stroke.on-image          | $color.stroke.neutral-subtle    |
+  | $color.stroke.neutral           | **$color.stroke.neutral-muted** |
+  | $color.stroke.field-focused     | $color.stroke.neutral-contrast  |
+  | $color.stroke.control           | $color.stroke.neutral-weak      |
+  | $color.stroke.field             | $color.stroke.neutral-weak      |
+  | $color.stroke.brand             | $color.stroke.brand-weak        |
+  | $color.stroke.positive          | $color.stroke.positive-weak     |
+  | $color.stroke.informative       | $color.stroke.informative-weak  |
+  | $color.stroke.warning           | $color.stroke.warning-weak      |
+  | $color.stroke.critical          | $color.stroke.critical-weak     |
+
+  **색상이 변경되는 stroke 토큰 (마이그레이션 불필요)**
+
+  `$color.stroke.neutral-contrast` (이름 변경 전 `$color.stroke.field-focused`)
+
+  모든 theme mode에서 `$color.palette.gray-800` → `$color.palette.gray-1000`로 변경되었습니다.
+
+  **신규 stroke 토큰 (마이그레이션 불필요)**
+
+  | 신규                            |
+  | ------------------------------- |
+  | $color.stroke.neutral-solid     |
+  | $color.stroke.brand-solid       |
+  | $color.stroke.positive-solid    |
+  | $color.stroke.informative-solid |
+  | $color.stroke.warning-solid     |
+  | $color.stroke.critical-solid    |
+
+## 0.1.15
 
 ### Patch Changes
 
@@ -16,6 +67,12 @@
 
   - `--seed-font-size-t1-static` ~ `--seed-font-size-t10-static`
   - `--seed-line-height-t1-static` ~ `--seed-line-height-t10-static`
+
+- 3de4cec: 플랫폼별 조건부 폰트 스케일링 제한 (iOS: 135%, Android: 150%) 적용
+
+  - CSS 변수 `--seed-{font-size|line-height}-limit-{min|max}` 도입
+  - 빌드 타임 basePx 계산을 런타임 static 토큰 참조로 대체
+  - global.ts에 폰트 스케일링 변수 통합
 
 ## 0.1.14
 

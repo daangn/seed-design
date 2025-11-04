@@ -50,20 +50,16 @@ const tabHugMapping: ComponentMapping<"✅ Tab v2", ".Item / Tab (Hug)"> = {
   },
 };
 
-export const tabsMapping: ComponentMapping<"✅ Tabs v2", "🟢 Tablist"> = {
+export const tabsMapping: ComponentMapping<"✅ Tabs v2", "🟢 Tabs"> = {
   oldComponent: "✅ Tabs v2",
-  newComponent: "🟢 Tablist",
+  newComponent: "🟢 Tabs",
   variantMap: {
-    "Layout:Fill": "Layout:Fill",
-    "Layout:Hug": "Layout:Hug",
-    "Tab Count:2": "Tab Count:2",
-    "Tab Count:3": "Tab Count:3",
-    "Tab Count:4": "Tab Count:4",
-    "Tab Count:max": "Tab Count:5+",
+    "Layout:Fill": "Variant:Line",
+    "Layout:Hug": "Variant:Line",
   },
   calculateProperties() {
-    const newProperties: NewComponentProperties<"🟢 Tablist"> = {
-      Size: "Medium",
+    const newProperties: NewComponentProperties<"🟢 Tabs"> = {
+      Variant: "Line",
     };
 
     return newProperties;

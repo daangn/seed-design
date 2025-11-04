@@ -20,7 +20,16 @@ const withStateProps = createWithStateProps([useDialogContext]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface MenuSheetRootProps extends MenuSheetVariantProps, DialogPrimitive.RootProps {}
+export interface MenuSheetRootProps extends MenuSheetVariantProps, DialogPrimitive.RootProps {
+  /**
+   * @default true
+   */
+  lazyMount?: DialogPrimitive.RootProps["lazyMount"];
+  /**
+   * @default true
+   */
+  unmountOnExit?: DialogPrimitive.RootProps["unmountOnExit"];
+}
 
 export const MenuSheetRoot = withRootProvider<MenuSheetRootProps>(DialogPrimitive.Root, {
   defaultProps: {

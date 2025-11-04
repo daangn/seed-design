@@ -34,7 +34,10 @@ function createCssVarName(tokenGroup: string[], tokenKey: string, prefix?: strin
 }
 
 // 토큰 처리 함수
-function processFoundationTokens(foundationTokens: TokenDeclaration[], options?: { prefix?: string }): TokenCollections {
+function processFoundationTokens(
+  foundationTokens: TokenDeclaration[],
+  options?: { prefix?: string },
+): TokenCollections {
   const collections: TokenCollections = {
     colors: {},
     gradients: {},

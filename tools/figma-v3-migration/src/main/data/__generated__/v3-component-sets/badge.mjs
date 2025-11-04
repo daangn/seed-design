@@ -8,7 +8,7 @@ export const metadata = {
     },
     "Size": {
       "type": "VARIANT",
-      "defaultValue": "Large",
+      "defaultValue": "Medium",
       "variantOptions": [
         "Medium",
         "Large"
@@ -22,16 +22,17 @@ export const metadata = {
         "Brand",
         "Informative",
         "Positive",
-        "Critical"
+        "Critical",
+        "Warning"
       ]
     },
     "Variant": {
       "type": "VARIANT",
       "defaultValue": "Weak",
       "variantOptions": [
-        "Solid",
         "Weak",
-        "Outline"
+        "Outline",
+        "Solid"
       ]
     }
   }

@@ -1,12 +1,12 @@
 ---
 title: Alert Dialog
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 사용자의 주의가 필요한 중요한 정보를 전달하거나 확인을 요청하는 모달 컴포넌트입니다. 삭제 확인과 같은 중요한 의사결정이 필요할 때 사용됩니다.
 ---
 
-<ComponentExample name="alert-dialog-preview">
+<ComponentExample name="react/alert-dialog/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-preview.tsx",
+    "file": "examples/react/alert-dialog/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add alert-dialog
+npx @seed-design/cli@latest add ui:alert-dialog
 ```
 
 <ManualInstallation name="alert-dialog" />
@@ -77,10 +77,10 @@ npx @seed-design/cli@latest add alert-dialog
 
 `<ResponsivePair>` 컴포넌트를 사용해 버튼 컨텐츠가 길어지는 경우 레이아웃을 세로로 접을 수 있습니다.
 
-<ComponentExample name="alert-dialog-wrap">
+<ComponentExample name="react/alert-dialog/wrap">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-wrap.tsx",
+    "file": "examples/react/alert-dialog/wrap.tsx",
     "codeblock": true
   }
   ```
@@ -88,10 +88,10 @@ npx @seed-design/cli@latest add alert-dialog
 
 ### Single Action
 
-<ComponentExample name="alert-dialog-single">
+<ComponentExample name="react/alert-dialog/single">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-single.tsx",
+    "file": "examples/react/alert-dialog/single.tsx",
     "codeblock": true
   }
   ```
@@ -99,10 +99,10 @@ npx @seed-design/cli@latest add alert-dialog
 
 ### Neutral Secondary Action
 
-<ComponentExample name="alert-dialog-neutral">
+<ComponentExample name="react/alert-dialog/neutral">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-neutral.tsx",
+    "file": "examples/react/alert-dialog/neutral.tsx",
     "codeblock": true
   }
   ```
@@ -110,10 +110,10 @@ npx @seed-design/cli@latest add alert-dialog
 
 ### Critical Action
 
-<ComponentExample name="alert-dialog-critical">
+<ComponentExample name="react/alert-dialog/critical">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-critical.tsx",
+    "file": "examples/react/alert-dialog/critical.tsx",
     "codeblock": true
   }
   ```
@@ -123,10 +123,10 @@ npx @seed-design/cli@latest add alert-dialog
 
 Trigger 외의 방식으로 AlertDialog를 열고 닫을 수 있습니다. 이 경우 `open` prop을 사용하여 AlertDialog의 상태를 제어합니다.
 
-<ComponentExample name="alert-dialog-controlled">
+<ComponentExample name="react/alert-dialog/controlled">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-controlled.tsx",
+    "file": "examples/react/alert-dialog/controlled.tsx",
     "codeblock": true
   }
   ```
@@ -136,10 +136,10 @@ Trigger 외의 방식으로 AlertDialog를 열고 닫을 수 있습니다. 이 �
 
 Portal은 기본적으로 `document.body`에 렌더링됩니다.
 
-<ComponentExample name="alert-dialog-portalled">
+<ComponentExample name="react/alert-dialog/portalled">
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-portalled.tsx",
+    "file": "examples/react/alert-dialog/portalled.tsx",
     "codeblock": true
   }
   ```
@@ -147,10 +147,10 @@ Portal은 기본적으로 `document.body`에 렌더링됩니다.
 
 ### Stackflow
 
-<StackflowExample names={["alert-dialog-stackflow"]}>
+<StackflowExample names={["react/alert-dialog/stackflow"]}>
   ```json doc-gen:file
   {
-    "file": "./components/example/alert-dialog-stackflow.tsx",
+    "file": "examples/react/alert-dialog/stackflow.tsx",
     "codeblock": true
   }
   ```

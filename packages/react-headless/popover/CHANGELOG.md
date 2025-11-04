@@ -1,5 +1,23 @@
 # @seed-design/react-popover
 
+## 1.0.1
+
+### Patch Changes
+
+- b10ff0b: closeOnInteractOutside를 false로 설정하여 Help Bubble 외부와 상호작용 시에도 닫히지 않도록 설정할 수 있습니다. (기본값: true)
+
+## 1.0.0
+
+### Major Changes
+
+- 34f92f2: 🌱 SEED Design 패키지의 첫 메이저 버전을 출시합니다.
+
+### Patch Changes
+
+- Updated dependencies [34f92f2]
+  - @seed-design/react-primitive@1.0.0
+  - @seed-design/dom-utils@1.0.0
+
 ## 0.0.8
 
 ### Patch Changes

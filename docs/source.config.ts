@@ -25,6 +25,16 @@ export const reactDocs = defineDocs({
   },
 });
 
+export const breezeDocs = defineDocs({
+  dir: "content/breeze",
+  docs: {
+    async: true,
+    schema: frontmatterSchema.extend({
+      deprecated: z.string().optional(),
+    }),
+  },
+});
+
 export default defineConfig({
   lastModifiedTime: "git",
   mdxOptions: {
@@ -38,11 +48,18 @@ export default defineConfig({
         },
       ],
       [remarkDocGen, { generators: [fileGenerator()] }],
-      [remarkReactTypeTable, { generator: typeTableGenerator }],
+      [
+        remarkReactTypeTable,
+        {
+          generator: typeTableGenerator,
+          options: {
+            parseDescriptionAsMarkdown: true,
+          },
+        },
+      ],
     ],
     rehypeCodeOptions: {
       lazy: true,
-      experimentalJSEngine: true,
       langs: ["ts", "js", "html", "tsx", "mdx"],
       inline: "tailing-curly-colon",
       themes: {

@@ -8,10 +8,7 @@ export interface ProgressCircleProps extends SeedProgressCircle.RootProps {}
 /**
  * @see https://seed-design.io/react/components/progress-circle
  */
-export const ProgressCircle = React.forwardRef<
-  SVGSVGElement,
-  ProgressCircleProps
->((props, ref) => {
+export const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>((props, ref) => {
   return (
     <SeedProgressCircle.Root ref={ref} {...props}>
       <SeedProgressCircle.Track />
@@ -21,8 +18,3 @@ export const ProgressCircle = React.forwardRef<
 });
 
 ProgressCircle.displayName = "ProgressCircle";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

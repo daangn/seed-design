@@ -9,7 +9,9 @@ export const TabsProvider = TabsContext.Provider;
 
 export function useTabsContext<T extends boolean | undefined = true>({
   strict = true,
-}: { strict?: T } = {}): T extends false ? UseTabsContext | null : UseTabsContext {
+}: {
+  strict?: T;
+} = {}): T extends false ? UseTabsContext | null : UseTabsContext {
   const context = useContext(TabsContext);
   if (!context && strict) {
     throw new Error("useTabsContext must be used within a Tabs");

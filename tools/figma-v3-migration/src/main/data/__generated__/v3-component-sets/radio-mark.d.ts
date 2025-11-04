@@ -10,6 +10,14 @@ export declare const metadata: {
         "Large"
       ]
     },
+    "Tone": {
+      "type": "VARIANT",
+      "defaultValue": "Neutral",
+      "variantOptions": [
+        "Neutral",
+        "🚫[Deprecated]Brand"
+      ]
+    },
     "Selected": {
       "type": "VARIANT",
       "defaultValue": "False",
@@ -18,20 +26,13 @@ export declare const metadata: {
         "False"
       ]
     },
-    "Pressed": {
+    "State": {
       "type": "VARIANT",
-      "defaultValue": "False",
+      "defaultValue": "Enabled",
       "variantOptions": [
-        "True",
-        "False"
-      ]
-    },
-    "Disabled": {
-      "type": "VARIANT",
-      "defaultValue": "False",
-      "variantOptions": [
-        "True",
-        "False"
+        "Enabled",
+        "Pressed",
+        "Disabled"
       ]
     }
   }

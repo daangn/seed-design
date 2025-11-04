@@ -1,12 +1,12 @@
 ---
 title: Pull To Refresh
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: 사용자가 화면을 아래로 당겨 콘텐츠를 새로고침할 수 있게 해주는 컴포넌트입니다. 모바일 환경에서 최신 콘텐츠를 불러올 때 사용됩니다.
 ---
 
-<StackflowExample names={["pull-to-refresh-preview"]}>
+<StackflowExample names={["react/pull-to-refresh/preview"]}>
   ```json doc-gen:file
   {
-    "file": "./components/example/pull-to-refresh-preview.tsx",
+    "file": "examples/react/pull-to-refresh/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add pull-to-refresh
+npx @seed-design/cli@latest add ui:pull-to-refresh
 ```
 
 <ManualInstallation name="pull-to-refresh" />
@@ -38,10 +38,10 @@ npx @seed-design/cli@latest add pull-to-refresh
 
 ### PTR in Tabs
 
-<StackflowExample names={["pull-to-refresh-tabs"]}>
+<StackflowExample names={["react/pull-to-refresh/tabs"]}>
   ```json doc-gen:file
   {
-    "file": "./components/example/pull-to-refresh-tabs.tsx",
+    "file": "examples/react/pull-to-refresh/tabs.tsx",
     "codeblock": true
   }
   ```
@@ -51,11 +51,24 @@ npx @seed-design/cli@latest add pull-to-refresh
 
 `disabled` 속성을 사용하여 PTR를 비활성화할 수 있습니다.
 
-<ComponentExample name="pull-to-refresh-disabled">
+<ComponentExample name="react/pull-to-refresh/disabled">
   ```json doc-gen:file
   {
-    "file": "./components/example/pull-to-refresh-disabled.tsx",
+    "file": "examples/react/pull-to-refresh/disabled.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
+
+### Prevent Pull
+
+`PullToRefresh.preventPull` 속성을 사용하여 특정 영역에서 PTR 동작을 방지할 수 있습니다. `user-select: auto;`등을 통해 텍스트 선택이 가능한 영역에서 주로 사용됩니다.
+
+<StackflowExample names={["react/pull-to-refresh/prevent-pull"]}>
+  ```json doc-gen:file
+  {
+    "file": "examples/react/pull-to-refresh/prevent-pull.tsx",
+    "codeblock": true
+  }
+  ```
+</StackflowExample>

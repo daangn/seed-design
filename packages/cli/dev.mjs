@@ -1,6 +1,6 @@
 import { context } from "esbuild";
 
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 context({
   entryPoints: ["./src/index.ts"],

@@ -71,25 +71,25 @@ seed-design이 필요로 하는 폴더나 파일들은 `path`로 지정된 경�
 
 ### rsc
 
-리액트 서버 컴포넌트를 사용할지 여부를 설정해요.
+[React Server Components](https://react.dev/reference/rsc/server-components)를 사용할지 설정해요.
 
 `true`로 설정하면 컴포넌트에 `use client` directive가 추가돼요.
 
 ```json title="seed-design.json"
 {
-  "rsc": true | false (default: false)
+  "rsc": true | false // default: false
 }
 ```
 
 ### tsx
 
-타입스크립트를 사용할지 여부를 설정해요.
+TypeScript를 사용할지 설정해요.
 
-`true`로 설정하면 컴포넌트에 `.tsx` 확장자이고, `false`로 설정하면 `.jsx` 확장자로 생성돼요.
+`true`로 설정하면 `.tsx` 컴포넌트가, `false`로 설정하면 `.jsx` 컴포넌트가 생성돼요.
 
 ```json title="seed-design.json"
 {
-  "tsx": true | false (default: true)
+  "tsx": true | false // default: true
 }
 ```
 

@@ -3,7 +3,7 @@ export const vars = {
     "enabled": {
       "root": {
         "cornerRadius": "var(--seed-radius-full)",
-        "strokeColor": "var(--seed-color-stroke-on-image)"
+        "strokeColor": "var(--seed-color-stroke-neutral-subtle)"
       }
     }
   },

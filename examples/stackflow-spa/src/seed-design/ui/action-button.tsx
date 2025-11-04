@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ActionButton as SeedActionButton,
   type ActionButtonProps as SeedActionButtonProps,
@@ -19,17 +17,8 @@ export const ActionButton = React.forwardRef<
 >(({ loading = false, children, ...otherProps }, ref) => {
   return (
     <SeedActionButton ref={ref} loading={loading} {...otherProps}>
-      {loading && !otherProps.asChild ? (
-        <LoadingIndicator>{children}</LoadingIndicator>
-      ) : (
-        children
-      )}
+      {loading && !otherProps.asChild ? <LoadingIndicator>{children}</LoadingIndicator> : children}
     </SeedActionButton>
   );
 });
 ActionButton.displayName = "ActionButton";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

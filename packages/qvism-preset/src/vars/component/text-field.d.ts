@@ -10,9 +10,8 @@ export declare const vars: {
         "fontWeight": "var(--seed-font-weight-regular)"
       },
       "field": {
-        "color": "var(--seed-color-bg-layer-default)",
         "strokeWidth": "1px",
-        "strokeColor": "var(--seed-color-stroke-field)"
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       },
       "value": {
         "color": "var(--seed-color-fg-neutral)"
@@ -51,19 +50,19 @@ export declare const vars: {
     },
     "focused": {
       "field": {
-        "strokeColor": "var(--seed-color-stroke-field-focused)"
+        "strokeColor": "var(--seed-color-stroke-neutral-contrast)"
       }
     },
     "invalid": {
       "field": {
         "color": "var(--seed-color-bg-critical-weak)",
-        "strokeColor": "var(--seed-color-stroke-critical)"
+        "strokeColor": "var(--seed-color-stroke-critical-weak)"
       }
     },
     "invalidFocused": {
       "field": {
-        "color": "var(--seed-color-bg-layer-default)",
-        "strokeColor": "var(--seed-color-stroke-field)"
+        "color": "#00000000",
+        "strokeColor": "var(--seed-color-stroke-neutral-weak)"
       }
     },
     "readonly": {

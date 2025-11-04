@@ -1,4 +1,4 @@
-import { reactSource, source } from "@/app/source";
+import { reactSource, source, breezeSource } from "@/app/source";
 import clsx from "clsx";
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import { Atom, File } from "lucide-react";
@@ -51,6 +51,16 @@ export const baseOptions: Omit<DocsLayoutProps, "tree"> = {
           </SidebarTabIconContainer>
         ),
       },
+      {
+        title: "Breeze",
+        description: "유용한 UI 유틸리티 컴포넌트",
+        url: "/breeze",
+        icon: (
+          <SidebarTabIconContainer className="[--tab-color:var(--breeze-color)]">
+            <Atom />
+          </SidebarTabIconContainer>
+        ),
+      },
     ],
   },
   nav: {
@@ -84,6 +94,15 @@ export const docsOptions: DocsLayoutProps = {
 export const reactOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: await reactSource.getTransformedReactPageTree(),
+  nav: {
+    ...baseOptions.nav,
+    transparentMode: "none",
+  },
+};
+
+export const breezeOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: await breezeSource.getTransformedBreezePageTree(),
   nav: {
     ...baseOptions.nav,
     transparentMode: "none",

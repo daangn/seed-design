@@ -38,7 +38,9 @@ export async function ReactTypeTable(props: ReactTypeTableProps): Promise<React.
               {
                 type: entry.type,
                 description: await renderMarkdown(entry.description),
-                default: entry.tags.default || entry.tags.defaultValue,
+                default: entry.tags.find(
+                  (tag) => tag.name === "default" || tag.name === "defaultValue",
+                )?.text,
                 required: entry.required,
               },
             ] as const,
@@ -55,7 +57,6 @@ async function renderMarkdown(md: string): Promise<React.ReactElement> {
     Fragment: runtime.Fragment,
     jsx: runtime.jsx as Jsx,
     jsxs: runtime.jsxs as Jsx,
-    // @ts-ignore
     components: { ...defaultMdxComponents, img: undefined },
   }) as React.ReactElement;
 }

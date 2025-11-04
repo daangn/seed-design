@@ -1,7 +1,5 @@
-"use client";
-
 import {
-  Celcius,
+  Celsius,
   MannerTempEmote,
   MannerTemp as SeedMannerTemp,
   SuffixIcon,
@@ -10,8 +8,7 @@ import {
 import * as React from "react";
 import { mannerTempToLevel } from "../lib/manner-temp-level";
 
-export interface MannerTempProps
-  extends Omit<SeedMannerTempProps, "children" | "asChild"> {
+export interface MannerTempProps extends Omit<SeedMannerTempProps, "children" | "asChild"> {
   /**
    * The manner temperature of the MannerTemp component.
    * Level will be calculated based on this value.
@@ -23,20 +20,11 @@ export interface MannerTempProps
 export const MannerTemp = React.forwardRef<HTMLSpanElement, MannerTempProps>(
   ({ temperature, level, ...otherProps }, ref) => {
     return (
-      <SeedMannerTemp
-        ref={ref}
-        level={level ?? mannerTempToLevel(temperature)}
-        {...otherProps}
-      >
-        <Celcius value={temperature} />
+      <SeedMannerTemp ref={ref} level={level ?? mannerTempToLevel(temperature)} {...otherProps}>
+        <Celsius value={temperature} />
         <SuffixIcon svg={<MannerTempEmote />} />
       </SeedMannerTemp>
     );
   },
 );
 MannerTemp.displayName = "MannerTemp";
-
-/**
- * This file is generated snippet from the Seed Design.
- * You can extend the functionality from this snippet if needed.
- */

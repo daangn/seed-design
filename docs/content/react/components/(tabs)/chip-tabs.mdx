@@ -1,12 +1,12 @@
 ---
 title: Chip Tabs
-description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 채널을 찾아주세요."
+description: Chip 형태로 표현된 탭 컴포넌트입니다. 카테고리나 필터를 선택하여 콘텐츠를 전환할 때 사용됩니다.
 ---
 
-<ComponentExample name="chip-tabs-preview">
+<ComponentExample name="react/chip-tabs/preview">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-tabs-preview.tsx",
+    "file": "examples/react/chip-tabs/preview.tsx",
     "codeblock": true
   }
   ```
@@ -15,7 +15,7 @@ description: "이 문서는 정리 중이에요. 문의 내용은 #_design_core 
 ## Installation
 
 ```package-install
-npx @seed-design/cli@latest add chip-tabs
+npx @seed-design/cli@latest add ui:chip-tabs
 ```
 
 <ManualInstallation name="chip-tabs" />
@@ -44,23 +44,71 @@ npx @seed-design/cli@latest add chip-tabs
 
 ## Examples
 
-### Neutral Solid
+### Size=Medium
 
-<ComponentExample name="chip-tabs-variant-neutral-solid">
+<ComponentExample name="react/chip-tabs/size-medium">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-tabs-variant-neutral-solid.tsx",
+    "file": "examples/react/chip-tabs/size-medium.tsx",
     "codeblock": true
   }
   ```
 </ComponentExample>
 
-### Brand Solid
+### Size=Large
 
-<ComponentExample name="chip-tabs-variant-brand-solid">
+<ComponentExample name="react/chip-tabs/size-large">
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-tabs-variant-brand-solid.tsx",
+    "file": "examples/react/chip-tabs/size-large.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Variant=Neutral Solid
+
+<ComponentExample name="react/chip-tabs/variant-neutral-solid">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip-tabs/variant-neutral-solid.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Variant=Neutral Outline
+
+<ComponentExample name="react/chip-tabs/variant-neutral-outline">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip-tabs/variant-neutral-outline.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Variant=Brand Solid (Deprecated)
+
+<Callout type="warn">
+brandSolid는 deprecated 됐습니다. neutralSolid, neutralOutline을 사용해주세요.
+</Callout>
+
+<ComponentExample name="react/chip-tabs/variant-brand-solid">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip-tabs/variant-brand-solid.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Notification
+
+<ComponentExample name="react/chip-tabs/notification">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/chip-tabs/notification.tsx",
     "codeblock": true
   }
   ```
@@ -68,10 +116,10 @@ npx @seed-design/cli@latest add chip-tabs
 
 ### Stackflow
 
-<StackflowExample names={["chip-tabs-basic-activity"]}>
+<StackflowExample names={["react/chip-tabs/basic-activity"]}>
   ```json doc-gen:file
   {
-    "file": "./components/example/chip-tabs-basic-activity.tsx",
+    "file": "examples/react/chip-tabs/basic-activity.tsx",
     "codeblock": true
   }
   ```

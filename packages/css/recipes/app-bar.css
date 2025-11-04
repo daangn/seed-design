@@ -50,8 +50,8 @@
     margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_cupertino {
-    width: 24px;
-    height: 24px;
+    width: var(--seed-icon-size, 24px);
+    height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__root--theme_android {
     height: calc(56px + var(--seed-safe-area-top));
@@ -69,8 +69,8 @@
     margin-right: calc(-1 * (44px - 24px) / 2);
 }
 .seed-app-bar__icon--theme_android {
-    width: 24px;
-    height: 24px;
+    width: var(--seed-icon-size, 24px);
+    height: var(--seed-icon-size, 24px);
 }
 .seed-app-bar__left--theme_android {
     padding-right: 16px;
@@ -106,6 +106,20 @@
     --seed-enter-scale: 1;
     transform: translate3d(0, 0, 0);
 }
+[data-swipe-back-state=swiping] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+    animation: none;
+    transform: translate3d(var(--swipe-back-displacement, 0), 0, 0);
+}
+[data-swipe-back-state=canceling] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+    animation: none !important;
+    transform: translate3d(0, 0, 0);
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
+[data-swipe-back-state=completing] .seed-app-bar__root--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#):before {
+    animation: none !important;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
 [data-global-transition-state=enter-active] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
     animation: seed-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
@@ -117,7 +131,8 @@
     opacity: 1;
 }
 [data-global-transition-state=exit-active] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top] {
-    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.15), 0, 0);
+    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
     animation: seed-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -131,15 +146,26 @@
     animation: seed-enter;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
-    --seed-enter-translate-x: 0;
+    --seed-enter-translate-x: calc(var(--swipe-back-displacement, 0) * 0.15);
     --seed-enter-translate-y: 0;
-    --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
     --seed-enter-scale: 1;
     opacity: 1;
 }
 [data-swipe-back-state=swiping] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
     animation: none;
-    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    transform: translate3d(calc(var(--swipe-back-displacement, 0) * 0.15), 0, 0);
+    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0) * 3);
+}
+[data-swipe-back-state=canceling] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+    animation: none !important;
+    opacity: 1;
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
+[data-swipe-back-state=completing] .seed-app-bar__icon--transitionStyle_slideFromRightIOS[data-activity-is-top]:not(#\#) {
+    animation: none !important;
+    opacity: 0;
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-global-transition-state=enter-active][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
     opacity: 1;
@@ -158,12 +184,12 @@
     animation-duration: 350ms;
     --seed-enter-translate-x: 0;
     --seed-enter-translate-y: 0;
-    --seed-enter-opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    --seed-enter-opacity: calc(var(--swipe-back-displacement-ratio, 0));
     --seed-enter-scale: 1;
     opacity: 1;
 }
 [data-global-transition-state=enter-done][data-top-activity-type="full-screen"] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]) {
-    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    opacity: calc(var(--swipe-back-displacement-ratio, 0));
     animation: seed-exit;
     animation-timing-function: cubic-bezier(0.2, 0.1, 0.21, 0.99);
     animation-duration: 350ms;
@@ -175,7 +201,17 @@
 }
 [data-swipe-back-state=swiping] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
     animation: none;
-    opacity: calc(1 - var(--swipe-back-displacement-ratio, 0));
+    opacity: calc(var(--swipe-back-displacement-ratio, 0));
+}
+[data-swipe-back-state=canceling] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+    animation: none !important;
+    opacity: 0;
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
+}
+[data-swipe-back-state=completing] .seed-app-bar__icon--transitionStyle_slideFromRightIOS:not([data-activity-is-top]):not(#\#) {
+    animation: none !important;
+    opacity: 1;
+    transition: transform 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99), opacity 350ms cubic-bezier(0.2, 0.1, 0.21, 0.99);
 }
 [data-global-transition-state=enter-active] .seed-app-bar__root--transitionStyle_fadeFromBottomAndroid[data-activity-is-top] {
     animation: seed-enter;
@@ -204,14 +240,14 @@
     background-color: var(--seed-color-bg-layer-default);
 }
 .seed-app-bar__icon--tone_layer {
-    color: var(--seed-color-fg-neutral);
+    color: var(--seed-icon-color, var(--seed-color-fg-neutral));
 }
 .seed-app-bar__root--tone_transparent:before {
     background-color: #00000000;
 }
 .seed-app-bar__icon--tone_transparent {
-    color: var(--seed-color-palette-static-white);
+    color: var(--seed-icon-color, var(--seed-color-palette-static-white));
 }
 .seed-app-bar__root--divider_true:before {
-    box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-muted);
+    box-shadow: inset 0px calc(-1 * 1px) 0 var(--seed-color-stroke-neutral-subtle);
 }

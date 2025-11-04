@@ -88,6 +88,8 @@ export function createPresence(
   function getAnimations(props: {
     in: TransformProps;
     interaction?: TransformProps;
+    cancel?: TransformProps;
+    complete?: TransformProps;
     out: TransformProps;
     gravity?: "in" | "out";
   }) {
@@ -111,6 +113,22 @@ export function createPresence(
         ? {
             animation: "none", // remove animation while swiping, so that animation re-run on idle or pop
             ...transform(props.interaction), // while swiping back, set swiping position
+          }
+        : (undefined as never),
+      cancel: props.cancel
+        ? {
+            animation: "none !important",
+            ...transform(props.cancel),
+
+            transition: `transform ${enterConfig.duration} ${enterConfig.timingFunction}, opacity ${enterConfig.duration} ${enterConfig.timingFunction}`,
+          }
+        : (undefined as never),
+      complete: props.complete
+        ? {
+            animation: "none !important",
+            ...transform(props.complete),
+
+            transition: `transform ${exitConfig.duration} ${exitConfig.timingFunction}, opacity ${exitConfig.duration} ${exitConfig.timingFunction}`,
           }
         : (undefined as never),
     };

@@ -6,7 +6,6 @@ import { forwardRef } from "react";
 import { createRecipeContext } from "../../utils/createRecipeContext";
 import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
-import { InternalIcon, type InternalIconProps } from "../private/Icon";
 
 const { withContext: withGroupContext } = createRecipeContext(selectBoxGroup);
 const { withContext, withProvider } = createSlotRecipeContext(selectBox);
@@ -59,21 +58,3 @@ export const CheckSelectBoxDescription = withContext<
   HTMLSpanElement,
   CheckSelectBoxDescriptionProps
 >(withStateProps(Primitive.div), "description");
-
-export interface CheckSelectBoxControlProps extends CheckboxPrimitive.ControlProps {}
-
-export const CheckSelectBoxControl = withContext<HTMLDivElement, CheckSelectBoxControlProps>(
-  CheckboxPrimitive.Control,
-  "checkboxControl",
-);
-
-export interface CheckSelectBoxIconProps extends InternalIconProps {}
-
-export const CheckSelectBoxIcon = withContext<SVGSVGElement, CheckSelectBoxIconProps>(
-  withStateProps(InternalIcon),
-  "checkboxIcon",
-);
-
-export interface CheckSelectBoxHiddenInputProps extends CheckboxPrimitive.HiddenInputProps {}
-
-export const CheckSelectBoxHiddenInput = CheckboxPrimitive.HiddenInput;
