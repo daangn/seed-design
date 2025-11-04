@@ -1,6 +1,6 @@
 # @seed-design/react
 
-## 2.0.0
+## 1.1.0
 
 ### Minor Changes
 
@@ -11,7 +11,7 @@
 - Updated dependencies [a55f584]
   - @seed-design/react-slider@1.0.0
   - @seed-design/react-field@1.0.0
-  - @seed-design/css@2.0.0
+  - @seed-design/css@1.1.0
 
 ## 1.0.7
 
