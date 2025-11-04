@@ -21,8 +21,8 @@ const AppScreenTransparentBarActivity: ActivityComponentType<
   "react/app-screen/transparent-bar"
 > = () => {
   return (
-    <AppScreen theme="cupertino" layerOffsetTop="none">
-      <AppBar tone="transparent">
+    <AppScreen theme="cupertino" layerOffsetTop="none" tone="transparent">
+      <AppBar>
         <AppBarLeft>
           <AppBarCloseButton aria-label="Close" />
         </AppBarLeft>

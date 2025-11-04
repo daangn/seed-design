@@ -1,15 +1,20 @@
 import { appScreen, type AppScreenVariantProps } from "@seed-design/css/recipes/app-screen";
+import { mergeProps } from "@seed-design/dom-utils";
 import { forwardRef, useMemo } from "react";
 import { AppScreen as AppScreenPrimitive } from "../../primitive";
 import { createStyleContext } from "../../utils/createStyleContext";
 import { AppBarPropsProvider } from "../AppBar/AppBar";
-import { mergeProps } from "@seed-design/dom-utils";
 
 const { ClassNamesProvider, PropsProvider, withContext, useProps } = createStyleContext(appScreen);
 
 export const AppScreenPropsProvider = PropsProvider;
 
-export interface AppScreenRootProps extends AppScreenVariantProps, AppScreenPrimitive.RootProps {}
+export interface AppScreenRootProps extends AppScreenVariantProps, AppScreenPrimitive.RootProps {
+  /**
+   * @default "layer"
+   */
+  tone?: "layer" | "transparent";
+}
 
 export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((props, ref) => {
   const contextProps = useProps();
@@ -29,8 +34,8 @@ export const AppScreenRoot = forwardRef<HTMLDivElement, AppScreenRootProps>((pro
     <ClassNamesProvider value={classNames}>
       <AppBarPropsProvider
         value={useMemo(
-          () => ({ theme: variantProps.theme, transitionStyle }),
-          [variantProps.theme, transitionStyle],
+          () => ({ theme: variantProps.theme, transitionStyle, tone: variantProps.tone }),
+          [variantProps.theme, transitionStyle, variantProps.tone],
         )}
       >
         <AppScreenPrimitive.Root
