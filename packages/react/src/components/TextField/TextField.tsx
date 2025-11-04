@@ -1,7 +1,8 @@
 import { useLayoutEffect } from "@radix-ui/react-use-layout-effect";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import { TextField, useTextFieldContext } from "@seed-design/react-text-field";
-import { textField, type TextFieldVariantProps } from "@seed-design/css/recipes/text-field";
+import { useFieldContext } from "@seed-design/react-field";
+import { textInput, type TextInputVariantProps } from "@seed-design/css/recipes/text-input";
 import clsx from "clsx";
 import type * as React from "react";
 import { forwardRef, useCallback, useRef } from "react";
@@ -9,70 +10,23 @@ import { createSlotRecipeContext } from "../../utils/createSlotRecipeContext";
 import { createWithStateProps } from "../../utils/createWithStateProps";
 import { InternalIcon, type InternalIconProps } from "../private/Icon";
 import { composeRefs } from "@radix-ui/react-compose-refs";
+import { mergeProps } from "@seed-design/dom-utils";
 
-const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textField);
-const withStateProps = createWithStateProps([useTextFieldContext]);
+const { withProvider, withContext, useClassNames } = createSlotRecipeContext(textInput);
+
+const withFieldStateProps = createWithStateProps([{ useContext: useFieldContext, strict: false }]);
+const withStateProps = createWithStateProps([
+  useTextFieldContext,
+  { useContext: useFieldContext, strict: false },
+]);
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-export interface TextFieldRootProps extends TextFieldVariantProps, TextField.RootProps {}
+export interface TextFieldRootProps extends TextInputVariantProps, TextField.RootProps {}
 
 export const TextFieldRoot = withProvider<HTMLDivElement, TextFieldRootProps>(
-  TextField.Root,
+  withFieldStateProps(TextField.Root),
   "root",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldHeaderProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldHeader = withContext<HTMLDivElement, TextFieldHeaderProps>(
-  withStateProps(Primitive.div),
-  "header",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldLabelProps extends TextField.LabelProps {}
-
-export const TextFieldLabel = withContext<HTMLLabelElement, TextFieldLabelProps>(
-  TextField.Label,
-  "label",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldIndicatorProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldIndicator = forwardRef<HTMLSpanElement, TextFieldIndicatorProps>(
-  (props, ref) => {
-    const { className, ...otherProps } = props;
-    const classNames = useClassNames();
-
-    return (
-      <>
-        <Primitive.span> </Primitive.span>
-        <Primitive.span
-          ref={ref}
-          className={clsx(classNames.indicator, className)}
-          {...otherProps}
-        />
-      </>
-    );
-  },
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldFieldProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldField = withContext<HTMLDivElement, TextFieldFieldProps>(
-  withStateProps(Primitive.div),
-  "field",
 );
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -84,8 +38,6 @@ export const TextFieldPrefixIcon = withContext<SVGSVGElement, TextFieldPrefixIco
   "prefixIcon",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldPrefixTextProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLSpanElement> {}
@@ -95,16 +47,12 @@ export const TextFieldPrefixText = withContext<HTMLSpanElement, TextFieldPrefixT
   "prefixText",
 );
 
-////////////////////////////////////////////////////////////////////////////////////
-
 export interface TextFieldSuffixIconProps extends InternalIconProps {}
 
 export const TextFieldSuffixIcon = withContext<SVGSVGElement, TextFieldSuffixIconProps>(
   withStateProps(InternalIcon),
   "suffixIcon",
 );
-
-////////////////////////////////////////////////////////////////////////////////////
 
 export interface TextFieldSuffixTextProps
   extends PrimitiveProps,
@@ -119,12 +67,37 @@ export const TextFieldSuffixText = withContext<HTMLSpanElement, TextFieldSuffixT
 
 export interface TextFieldInputProps extends TextField.InputProps {}
 
-export const TextFieldInput = withContext<HTMLInputElement, TextFieldInputProps>(
-  TextField.Input,
-  "value",
-);
+export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
+  ({ className, ...otherProps }, ref) => {
+    const classNames = useClassNames();
+    const textFieldContext = useTextFieldContext();
+    const fieldContext = useFieldContext({ strict: false });
 
-////////////////////////////////////////////////////////////////////////////////////
+    const mergedProps = mergeProps(
+      fieldContext ? fieldContext.stateProps : {},
+      fieldContext ? fieldContext.inputAriaAttributes : {},
+      textFieldContext.inputProps,
+      fieldContext ? fieldContext.inputProps : {},
+      otherProps,
+    );
+
+    if (
+      // if not in field, then must have aria-label or aria-labelledby
+      !fieldContext &&
+      !otherProps["aria-label"] &&
+      !otherProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "TextFieldInput: Please provide `aria-label` or `aria-labelledby` for accessibility, or put `TextFieldInput` inside a `Field` where a `FieldLabel` is provided.",
+      );
+    }
+
+    return (
+      <TextField.Input ref={ref} {...mergedProps} className={clsx(classNames.value, className)} />
+    );
+  },
+);
+TextFieldInput.displayName = "TextFieldInput";
 
 export interface TextFieldTextareaProps extends TextField.TextareaProps {
   /**
@@ -135,10 +108,29 @@ export interface TextFieldTextareaProps extends TextField.TextareaProps {
 }
 
 export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextareaProps>(
-  (props, ref) => {
-    const { className, autoresize = true, ...otherProps } = props;
+  ({ className, autoresize = true, ...otherProps }, ref) => {
     const classNames = useClassNames();
-    const { value } = useTextFieldContext();
+    const textFieldContext = useTextFieldContext();
+    const fieldContext = useFieldContext({ strict: false });
+
+    const mergedProps = mergeProps(
+      fieldContext ? fieldContext.stateProps : {},
+      fieldContext ? fieldContext.inputAriaAttributes : {},
+      textFieldContext.inputProps,
+      fieldContext ? fieldContext.inputProps : {},
+      otherProps,
+    );
+
+    if (
+      // if not in field, then must have aria-label or aria-labelledby
+      !fieldContext &&
+      !otherProps["aria-label"] &&
+      !otherProps["aria-labelledby"]
+    ) {
+      console.warn(
+        "TextFieldTextarea: Please provide `aria-label` or `aria-labelledby` for accessibility, or put `TextFieldTextarea` inside a `Field` where a `FieldLabel` is provided.",
+      );
+    }
 
     // referenced from React Spectrum
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -176,83 +168,15 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
       if (inputRef.current) {
         onHeightChange();
       }
-    }, [onHeightChange, value, inputRef]);
+    }, [onHeightChange, textFieldContext.value, inputRef]);
 
     return (
       <TextField.Textarea
         ref={composeRefs(inputRef, ref)}
-        {...otherProps}
+        {...mergedProps}
         className={clsx(classNames.value, className)}
       />
     );
   },
 );
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldFooterProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldFooter = withContext<HTMLDivElement, TextFieldFooterProps>(
-  withStateProps(Primitive.div),
-  "footer",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldDescriptionProps extends TextField.DescriptionProps {}
-
-export const TextFieldDescription = withContext<HTMLSpanElement, TextFieldDescriptionProps>(
-  TextField.Description,
-  "description",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldErrorMessageProps extends TextField.ErrorMessageProps {}
-
-export const TextFieldErrorMessage = withContext<HTMLSpanElement, TextFieldErrorMessageProps>(
-  TextField.ErrorMessage,
-  "errorMessage",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldErrorIconProps extends InternalIconProps {}
-
-export const TextFieldErrorIcon = withContext<SVGSVGElement, TextFieldErrorIconProps>(
-  withStateProps(InternalIcon),
-  "errorIcon",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldCharacterCountAreaProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLDivElement> {}
-
-export const TextFieldCharacterCountArea = withContext<
-  HTMLDivElement,
-  TextFieldCharacterCountAreaProps
->(withStateProps(Primitive.div), "characterCountArea");
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldCharacterCountProps extends TextField.GraphemeCountProps {}
-
-export const TextFieldCharacterCount = withContext<HTMLDivElement, TextFieldCharacterCountProps>(
-  TextField.GraphemeCount,
-  "characterCount",
-);
-
-////////////////////////////////////////////////////////////////////////////////////
-
-export interface TextFieldMaxCharacterCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldMaxCharacterCount = withContext<
-  HTMLSpanElement,
-  TextFieldMaxCharacterCountProps
->(withStateProps(Primitive.span), "maxCharacterCount");
+TextFieldTextarea.displayName = "TextFieldTextarea";

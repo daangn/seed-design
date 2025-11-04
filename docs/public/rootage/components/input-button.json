@@ -1,0 +1,383 @@
+{
+  "kind": "ComponentSpec",
+  "metadata": {
+    "id": "input-button",
+    "name": "Input Button"
+  },
+  "data": {
+    "id": "input-button",
+    "name": "Input Button",
+    "schema": {
+      "slots": {
+        "root": {
+          "properties": {
+            "height": {
+              "type": "dimension"
+            },
+            "cornerRadius": {
+              "type": "dimension"
+            },
+            "gap": {
+              "type": "dimension"
+            },
+            "paddingX": {
+              "type": "dimension"
+            },
+            "strokeWidth": {
+              "type": "dimension"
+            },
+            "strokeColor": {
+              "type": "color"
+            },
+            "color": {
+              "type": "color"
+            },
+            "colorDuration": {
+              "type": "duration"
+            },
+            "colorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeColorDuration": {
+              "type": "duration"
+            },
+            "strokeColorTimingFunction": {
+              "type": "cubicBezier"
+            },
+            "strokeWidthDuration": {
+              "type": "duration"
+            },
+            "strokeWidthTimingFunction": {
+              "type": "cubicBezier"
+            }
+          }
+        },
+        "value": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "placeholder": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "prefixText": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "prefixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "suffixText": {
+          "properties": {
+            "fontSize": {
+              "type": "dimension"
+            },
+            "lineHeight": {
+              "type": "dimension"
+            },
+            "fontWeight": {
+              "type": "number"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "suffixIcon": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        },
+        "clearButton": {
+          "properties": {
+            "size": {
+              "type": "dimension"
+            },
+            "color": {
+              "type": "color"
+            }
+          }
+        }
+      },
+      "variants": {}
+    },
+    "definitions": [
+      {
+        "variants": {},
+        "definitions": [
+          {
+            "states": [
+              "enabled"
+            ],
+            "slots": {
+              "root": {
+                "height": {
+                  "type": "dimension",
+                  "value": "$dimension.x13"
+                },
+                "cornerRadius": {
+                  "type": "dimension",
+                  "value": "$radius.r3"
+                },
+                "gap": {
+                  "type": "dimension",
+                  "value": "$dimension.x2_5"
+                },
+                "paddingX": {
+                  "type": "dimension",
+                  "value": "$dimension.x4"
+                },
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 1,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.neutral-weak"
+                },
+                "colorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "colorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeColorDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeColorTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                },
+                "strokeWidthDuration": {
+                  "type": "duration",
+                  "value": "$duration.d3"
+                },
+                "strokeWidthTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
+                }
+              },
+              "value": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral"
+                }
+              },
+              "placeholder": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.placeholder"
+                }
+              },
+              "prefixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "prefixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "suffixText": {
+                "fontSize": {
+                  "type": "dimension",
+                  "value": "$font-size.t5"
+                },
+                "lineHeight": {
+                  "type": "dimension",
+                  "value": "$line-height.t5"
+                },
+                "fontWeight": {
+                  "type": "number",
+                  "value": "$font-weight.regular"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "suffixIcon": {
+                "size": {
+                  "type": "dimension",
+                  "value": "$dimension.x5"
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-muted"
+                }
+              },
+              "clearButton": {
+                "size": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 22,
+                    "unit": "px"
+                  }
+                },
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.neutral-subtle"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "pressed"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.layer-default-pressed"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "invalid"
+            ],
+            "slots": {
+              "root": {
+                "strokeWidth": {
+                  "type": "dimension",
+                  "value": {
+                    "value": 2,
+                    "unit": "px"
+                  }
+                },
+                "strokeColor": {
+                  "type": "color",
+                  "value": "$color.stroke.critical-solid"
+                }
+              }
+            }
+          },
+          {
+            "states": [
+              "disabled"
+            ],
+            "slots": {
+              "root": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.bg.disabled"
+                }
+              },
+              "value": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              },
+              "placeholder": {
+                "color": {
+                  "type": "color",
+                  "value": "$color.fg.disabled"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

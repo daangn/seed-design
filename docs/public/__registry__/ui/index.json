@@ -185,6 +185,7 @@
       ],
       "id": "error-state",
       "dependencies": [
+        "@seed-design/css",
         "@seed-design/react"
       ],
       "innerDependencies": [
@@ -205,6 +206,19 @@
       "id": "extended-action-sheet",
       "deprecated": true,
       "dependencies": [
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
+          "path": "field-button.tsx"
+        }
+      ],
+      "id": "field-button",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },
@@ -497,6 +511,7 @@
       "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },

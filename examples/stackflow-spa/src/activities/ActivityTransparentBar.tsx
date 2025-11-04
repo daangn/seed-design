@@ -14,8 +14,8 @@ import img from "../assets/peng.jpeg";
 
 const ActivityTransparentBar: ActivityComponentType = () => {
   return (
-    <AppScreen layerOffsetTop="none">
-      <AppBar tone="transparent">
+    <AppScreen layerOffsetTop="none" tone="transparent">
+      <AppBar>
         <AppBarLeft>
           <AppBarBackButton />
         </AppBarLeft>

@@ -1,11 +1,16 @@
 # @seed-design/rsbuild-plugin
 
-## 1.1.0
+## 2.0.0
 
 ### Patch Changes
 
+- Updated dependencies [d6bb84d]
 - Updated dependencies [a55f584]
-  - @seed-design/css@1.1.0
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@2.0.0
 
 ## 1.0.0
 

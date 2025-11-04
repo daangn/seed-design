@@ -1,11 +1,20 @@
 # @seed-design/figma
 
-## 1.1.0
+## 2.0.0
 
 ### Patch Changes
 
+- 191005f: Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다.
+
+  (BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+- Updated dependencies [d6bb84d]
 - Updated dependencies [a55f584]
-  - @seed-design/css@1.1.0
+- Updated dependencies [191005f]
+- Updated dependencies [b131282]
+- Updated dependencies [6af6501]
+- Updated dependencies [33def2d]
+  - @seed-design/css@2.0.0
 
 ## 1.0.7
 

@@ -15,6 +15,10 @@ declare interface AppScreenVariant {
   * @default "none"
   */
   layerOffsetBottom: "none" | "safeArea";
+/**
+  * @default "layer"
+  */
+  tone: "layer" | "transparent";
 }
 
 declare type AppScreenVariantMap = {

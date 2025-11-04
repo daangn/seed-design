@@ -1,0 +1,169 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: input-button
+  name: Input Button
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          height:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          gap:
+            type: dimension
+          paddingX:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          strokeColorDuration:
+            type: duration
+          strokeColorTimingFunction:
+            type: cubicBezier
+          strokeWidthDuration:
+            type: duration
+          strokeWidthTimingFunction:
+            type: cubicBezier
+      value:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      placeholder:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      prefixText:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      prefixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      suffixText:
+        properties:
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+          color:
+            type: color
+      suffixIcon:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+      clearButton:
+        properties:
+          size:
+            type: dimension
+          color:
+            type: color
+  definitions:
+    base:
+      enabled:
+        root:
+          height: $dimension.x13
+          cornerRadius: $radius.r3
+          gap: $dimension.x2_5
+          paddingX: $dimension.x4
+
+          strokeWidth: 1px
+          strokeColor: $color.stroke.neutral-weak
+
+          colorDuration: $duration.d3
+          colorTimingFunction: $timing-function.easing
+          strokeColorDuration: $duration.d3
+          strokeColorTimingFunction: $timing-function.easing
+          strokeWidthDuration: $duration.d3
+          strokeWidthTimingFunction: $timing-function.easing
+
+        value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+
+          color: $color.fg.neutral
+
+        placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+          
+          color: $color.fg.placeholder
+
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+
+          color: $color.fg.neutral-muted
+        prefixIcon:
+          size: $dimension.x5
+
+          color: $color.fg.neutral-muted
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+          fontWeight: $font-weight.regular
+
+          color: $color.fg.neutral-muted
+
+        suffixIcon:
+          size: $dimension.x5
+
+          color: $color.fg.neutral-muted
+        
+        clearButton:
+          size: 22px
+          color: $color.fg.neutral-subtle
+
+      pressed:
+        root:
+          color: $color.bg.layer-default-pressed
+
+      invalid:
+        root:
+          strokeWidth: 2px
+          strokeColor: $color.stroke.critical-solid
+
+      disabled:
+        root:
+          color: $color.bg.disabled
+        value:
+          color: $color.fg.disabled
+        placeholder:
+          color: $color.fg.disabled
