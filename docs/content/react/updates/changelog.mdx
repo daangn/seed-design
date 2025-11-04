@@ -3,6 +3,97 @@ title: Changelog
 description: 최신 업데이트와 변경사항을 기록합니다.
 ---
 
+## 2025.11.04
+
+(BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+- 스타일 업데이트
+- size 통일 및 variant (underline) 추가
+- 내부적으로 Field 컴포넌트를 사용하도록 변경하여 스타일 일관성 향상
+
+Field Button 컴포넌트를 추가합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/react@2.0.0](https://npmjs.com/package/@seed-design/react/v/2.0.0)
+- 📦 [@seed-design/react-field-button@1.0.0](https://npmjs.com/package/@seed-design/react-field-button/v/1.0.0)
+- 📦 [@seed-design/react-text-field@1.1.0](https://npmjs.com/package/@seed-design/react-text-field/v/1.1.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+Slider 컴포넌트를 추가합니다. [`a55f584`](https://github.com/daangn/seed-design/commit/a55f584860439f373b50328c654d313d7f6dbb57)
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/react@2.0.0](https://npmjs.com/package/@seed-design/react/v/2.0.0)
+- 📦 [@seed-design/react-field@1.0.0](https://npmjs.com/package/@seed-design/react-field/v/1.0.0)
+- 📦 [@seed-design/react-slider@1.0.0](https://npmjs.com/package/@seed-design/react-slider/v/1.0.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+Action Button 컴포넌트를 `variant=ghost`로 사용하는 경우 `fontWeight`를 사용자화할 수 있도록 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+(BREAKING CHANGE: Error State snippet을 다시 설치해야 합니다.) Error State 스니펫에서 Action Button을 활용하도록 업데이트합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/figma@2.0.0](https://npmjs.com/package/@seed-design/figma/v/2.0.0)
+- 📦 [@seed-design/react@2.0.0](https://npmjs.com/package/@seed-design/react/v/2.0.0)
+
+---
+
+AppScreen에 `tone` 속성을 조절해 그라데이션이 들어간 투명한 배경을 사용할 수 있습니다. [`b131282`](https://github.com/daangn/seed-design/commit/b131282c00acb631486135896bcc598989afa15c)
+
+- AppBar에 있던 `tone` 속성을 AppScreen에서도 사용할 수 있도록 이동합니다.
+- AppScreen, AppBar 둘 다 `tone` 속성을 사용할 수 있도록 합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/stackflow@2.0.0](https://npmjs.com/package/@seed-design/stackflow/v/2.0.0)
+
+---
+
+`@seed-design/react-drawer` 1.0.0 [`33def2d`](https://github.com/daangn/seed-design/commit/33def2d31449d484e08e1102a84cc31eb07175c4)
+
+영향받는 패키지
+- 📦 [@seed-design/react-drawer@1.0.0](https://npmjs.com/package/@seed-design/react-drawer/v/1.0.0)
+
+---
+
+(BREAKING CHANGE: PageBanner snippet을 다시 설치해야 합니다.) Page Banner 스니펫을 업데이트합니다. [`6af6501`](https://github.com/daangn/seed-design/commit/6af6501e132c2c1c61f4c56f644a4d29e178ab89)
+
+- Box를 사용하여 스타일링하던 부분을 `PageBanner.Body`로 교체합니다.
+- `PageBanner.TextContent`를 `PageBanner.Content`로 이름 변경합니다.
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/react@2.0.0](https://npmjs.com/package/@seed-design/react/v/2.0.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
+닫힌 HelpBubbleAnchor/HelpBubbleTrigger가 불필요하게 리렌더링되지 않도록 수정합니다. [`0c1ab6a`](https://github.com/daangn/seed-design/commit/0c1ab6abaf964e2d8041bf41ba816df19d19d027)
+
+영향받는 패키지
+- 📦 [@seed-design/react-popover@1.0.2](https://npmjs.com/package/@seed-design/react-popover/v/1.0.2)
+
+---
+
+(BREAKING CHANGE: BottomSheet snippet을 다시 설치해야 합니다.) BottomSheet에 드래그를 통해 닫는 기능을 추가합니다. [`33def2d`](https://github.com/daangn/seed-design/commit/33def2d31449d484e08e1102a84cc31eb07175c4)
+
+- vaul headless 코드 기반으로 seed에 맞게 커스텀하여 구현했습니다.
+- vaul과 동일한 인터페이스를 가지고 있습니다. (snap-points, fade-from-index, etc.)
+- `npx @seed-design/cli@latest add ui:bottom-sheet`로 snippet을 최신화하세요.
+
+영향받는 패키지
+- 📦 [@seed-design/css@2.0.0](https://npmjs.com/package/@seed-design/css/v/2.0.0)
+- 📦 [@seed-design/react@2.0.0](https://npmjs.com/package/@seed-design/react/v/2.0.0)
+- 📦 [@seed-design/rootage-artifacts@1.1.0](https://npmjs.com/package/@seed-design/rootage-artifacts/v/1.1.0)
+
+---
+
 ## 2025.10.27
 
 Article에서 selection 색상에 대한 정의를 제거합니다. [`e52d6d1`](https://github.com/daangn/seed-design/commit/e52d6d161cd466b16966dc1f9bbe02abfb63921d)
