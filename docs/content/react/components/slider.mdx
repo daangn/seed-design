@@ -1,0 +1,282 @@
+---
+title: Slider
+description: 사용자가 특정 범위 내에서 값을 선택할 수 있는 입력 컴포넌트입니다.
+---
+
+<ComponentExample name="react/slider/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:slider
+```
+
+<ManualInstallation name="slider" />
+
+## Props
+
+<react-type-table path="./registry/ui/slider.tsx" name="SliderProps" />
+
+## Examples
+
+### Basic
+
+`min`과 `max`를 설정하여 슬라이더의 값 범위를 지정합니다.
+
+<ComponentExample name="react/slider/basic">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/basic.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Steps
+
+특정 간격으로만 값을 선택할 수 있도록 설정할 수 있습니다.
+
+<ComponentExample name="react/slider/steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/steps.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Allowed Values
+
+`allowedValues` prop을 사용하여 슬라이더에서 선택할 수 있는 값을 제한할 수 있습니다. `allowedValues`가 지정된 경우 `step`과 `minStepsBetweenThumbs`은 무시됩니다.
+
+<ComponentExample name="react/slider/allowed-values">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/allowed-values.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Ticks
+
+슬라이더 트랙에 눈금을 표시할 수 있습니다.
+
+#### Thin
+
+continuous하다고 느껴질 만큼 step이 충분히 작을 때 주로 사용합니다.
+
+<ComponentExample name="react/slider/ticks-thin">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/ticks-thin.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Thick
+
+discrete하다고 느껴질 만큼 step이 충분히 클 때 또는 tick에만 thumb이 위치할 수 있을 때 주로 사용합니다.
+
+<ComponentExample name="react/slider/ticks-thick">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/ticks-thick.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### With Markers
+
+슬라이더 아래에 마커를 표시할 수 있습니다.
+
+<Callout type="warning" title="주의">
+
+스크린 리더는 marker를 읽지 않습니다. 특정 값을 선택했을 때 사용자에게 알려야 하는 경우 [`getAriaValuetext` prop](#get-aria-value-text)을 사용하여 현재 선택된 값을 설명하는 문구를 함께 제공하세요.
+
+</Callout>
+
+<ComponentExample name="react/slider/markers">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/markers.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Controlled
+
+`values`와 `onValuesChange` props를 사용하여 슬라이더의 상태를 외부에서 제어합니다.
+
+<ComponentExample name="react/slider/controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Listening to Value Changes
+
+- `onValuesChange`
+  - 슬라이더의 값이 변경될 때마다 호출됩니다. 이 prop을 사용하여 슬라이더의 값을 실시간으로 추적할 수 있습니다.
+- `onValuesCommit`
+  - 슬라이더의 값 변경이 완료되었을 때 호출됩니다. 사용자가 슬라이더 조작을 마치고 손을 뗄 때 값을 확정하는 데 유용합니다.
+
+<ComponentExample name="react/slider/value-changes">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/value-changes.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Disabled
+
+<ComponentExample name="react/slider/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Hide Range
+
+`hideRange` prop을 사용하여 기본 range 색상을 숨기고 커스텀 스타일을 적용할 수 있습니다.
+
+<ComponentExample name="react/slider/hide-range">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/hide-range.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizing Value Indicator
+
+#### Value Indicator Label
+
+`getValueIndicatorLabel` prop을 사용하여 thumb 위에 표시되는 툴팁의 내용을 커스텀할 수 있습니다.
+
+<Callout type="warning" title="주의">
+
+Value Indicator는 thumb을 누르고 있을 때만 표시되며 스크린 리더는 Value Indicator의 내용을 읽지 않습니다. Value Indicator에 의미가 있는 내용을 포함하는 경우, [`getAriaValuetext` prop](#get-aria-value-text)을 함께 사용하는 것을 권장합니다.
+
+</Callout>
+
+<ComponentExample name="react/slider/custom-value-indicator-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/custom-value-indicator-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Hide Value Indicator
+
+`hideValueIndicator` prop을 사용하여 thumb 위에 표시되는 Value Indicator 툴팁을 숨길 수 있습니다.
+
+<ComponentExample name="react/slider/hide-value-indicator">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/hide-value-indicator.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Range Slider
+
+두 개의 thumb를 사용하여 범위를 선택할 수 있습니다.
+
+<ComponentExample name="react/slider/range">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/range.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Minimum Steps Between Thumbs
+
+두 thumb 사이의 최소 간격을 설정할 수 있습니다.
+
+<ComponentExample name="react/slider/range-min-steps">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/range-min-steps.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Accessibility
+
+#### `getAriaValuetext`
+
+스크린 리더는 기본적으로 각 thumb이 가리키는 숫자 값(value)을 읽습니다. **숫자 값만으로 정보를 충분히 전달할 수 없는 경우 `getAriaValuetext` prop을 사용하여 인간 친화적인 설명을 제공하세요.** 단위를 추가하거나, 값의 의미를 설명하는 문구를 포함할 수 있습니다.
+
+<ComponentExample name="react/slider/get-aria-value-text">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/get-aria-value-text.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### `getAriaLabel` and `getAriaLabelledby`
+
+`getAriaLabel` 또는 `getAriaLabelledby` prop을 사용하여 각 thumb에 대한 설명을 제공하세요. 스크린 리더 사용자가 각 thumb의 용도를 이해하는 데 도움을 줍니다.
+
+**특히, 범위를 선택하는 슬라이더의 경우 각 thumb이 범위에서 어떤 역할을 하는지 설명해야 합니다. (최소-최대, 시작-종료 등)**
+
+<ComponentExample name="react/slider/get-aria-label">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/get-aria-label.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Field Integration
+
+`label`, `description`, `errorMessage` 등의 Field 관련 prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/slider/field">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/field.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### RTL Support
+
+<ComponentExample name="react/slider/rtl">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/slider/rtl.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

@@ -12,10 +12,11 @@ import { useRadioGroupItemContext } from "@seed-design/react-radio-group";
 import { useSwitchContext } from "@seed-design/react-switch";
 
 const { withContext, withProvider } = createSlotRecipeContext(listItem);
-const withStateProps = createWithStateProps(
-  [useCheckboxContext, useRadioGroupItemContext, useSwitchContext],
-  { strict: false },
-);
+const withStateProps = createWithStateProps([
+  { useContext: useCheckboxContext, strict: false },
+  { useContext: useRadioGroupItemContext, strict: false },
+  { useContext: useSwitchContext, strict: false },
+]);
 
 export interface ListRootProps extends VStackProps {}
 

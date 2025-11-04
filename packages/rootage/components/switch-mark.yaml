@@ -9,12 +9,22 @@ data:
     slots:
       root:
         properties:
-          color:
-            type: color
           cornerRadius:
             type: dimension
+          color:
+            type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          colorDelay:
+            type: duration
           opacity:
             type: number
+          opacityDuration:
+            type: duration
+          opacityTimingFunction:
+            type: cubicBezier
           height:
             type: dimension
           width:
@@ -27,25 +37,55 @@ data:
         properties:
           color:
             type: color
+          colorDuration:
+            type: duration
+          colorTimingFunction:
+            type: cubicBezier
+          colorDelay:
+            type: duration
           cornerRadius:
             type: dimension
           height:
             type: dimension
           width:
             type: dimension
-          shadow:
-            type: shadow
+          scale:
+            type: number
+          scaleDuration:
+            type: duration
+          scaleTimingFunction:
+            type: cubicBezier
+          translateDuration:
+            type: duration
+          translateTimingFunction:
+            type: cubicBezier
   definitions:
     base:
       enabled:
         root:
-          color: $color.palette.gray-600
           cornerRadius: $radius.full
+          color: $color.palette.gray-600
+          colorDuration: $duration.d1
+          colorTimingFunction: $timing-function.easing
+          colorDelay: 20ms
         thumb:
           cornerRadius: $radius.full
+          scale: 0.8
+          scaleDuration: $duration.d3
+          scaleTimingFunction: $timing-function.easing
+          translateDuration: $duration.d3
+          translateTimingFunction: $timing-function.easing
+          colorDuration: $duration.d1
+          colorTimingFunction: $timing-function.easing
+          colorDelay: 20ms
       disabled:
         root:
           opacity: 0.38
+          opacityDuration: $duration.d1
+          opacityTimingFunction: $timing-function.easing
+      selected:
+        thumb:
+          scale: 1.0
     
     tone=brand:
       enabled:
@@ -61,6 +101,12 @@ data:
       enabled,selected:
         root:
           color: $color.bg.neutral-inverted
+      disabled:
+        thumb:
+          color: $color.palette.static-black-alpha-700
+      disabled,selected:
+        root:
+          color: $color.palette.gray-600
 
     size=32:
       enabled:
@@ -72,19 +118,6 @@ data:
         thumb:
           height: 26px
           width: 26px
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 3px
-                blur: 8px
-                spread: 0px
-                color: "#00000026"
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 3px
-                spread: 0px
-                color: "#0000000f"
     size=24:
       enabled:
         root:
@@ -95,19 +128,6 @@ data:
         thumb:
           height: 20px
           width: 20px
-          shadow:
-            type: shadow
-            value:
-              - offsetX: 0px
-                offsetY: 3px
-                blur: 8px
-                spread: 0px
-                color: "#00000026"
-              - offsetX: 0px
-                offsetY: 1px
-                blur: 3px
-                spread: 0px
-                color: "#0000000f"
     size=16:
       enabled:
         root:

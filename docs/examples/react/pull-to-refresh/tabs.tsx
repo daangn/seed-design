@@ -11,11 +11,11 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "seed-design/ui/tab
 
 declare module "@stackflow/config" {
   interface Register {
-    "pull-to-refresh-tabs": unknown;
+    "react/pull-to-refresh/tabs": unknown;
   }
 }
 
-const PullToRefreshTabs: ActivityComponentType<"pull-to-refresh-tabs"> = () => {
+const PullToRefreshTabs: ActivityComponentType<"react/pull-to-refresh/tabs"> = () => {
   return (
     <AppScreen>
       <AppBar>

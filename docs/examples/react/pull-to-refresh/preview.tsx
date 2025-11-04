@@ -9,11 +9,11 @@ import {
 
 declare module "@stackflow/config" {
   interface Register {
-    "pull-to-refresh-preview": unknown;
+    "react/pull-to-refresh/preview": unknown;
   }
 }
 
-const PullToRefreshPreview: ActivityComponentType<"pull-to-refresh-preview"> = () => {
+const PullToRefreshPreview: ActivityComponentType<"react/pull-to-refresh/preview"> = () => {
   // AppScreen is imported from @seed-design/stackflow instead of snippet for demo purpose.
   // AppScreen snippet is integrating PullToRefresh, so it's not necessary to use it here.
   return (

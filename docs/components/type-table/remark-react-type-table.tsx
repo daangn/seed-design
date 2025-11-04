@@ -6,13 +6,17 @@ import { valueToEstree } from "estree-util-value-to-estree";
 import type { DocEntry } from "fumadocs-typescript";
 import { type Generator, renderMarkdownToHast } from "fumadocs-typescript";
 import { toEstree } from "hast-util-to-estree";
-import type { Root } from "mdast";
+import type { remark } from "remark";
+import type { Processor } from "unified";
 import type { MdxJsxAttribute, MdxJsxFlowElement } from "mdast-util-mdx-jsx";
 import { dirname } from "node:path";
 import { print } from "recast";
 import type { Transformer } from "unified";
 import { visit } from "unist-util-visit";
 import { getReactTypeTableOutput, type ReactTypeTableProps } from "./get-react-type-table";
+
+// biome-ignore lint/suspicious/noExplicitAny: this is for removing mdast dependency which is actually deprecated
+export type Root = typeof remark extends Processor<infer R, any, any, any, any> ? R : never;
 
 function expressionToAttribute(key: string, value: Expression): MdxJsxAttribute {
   return {
@@ -44,6 +48,7 @@ async function mapProperty(
   const value = valueToEstree({
     type: entry.type,
     default: entry.tags.find((tag) => tag.name === "default" || tag.name === "defaultValue")?.text,
+    required: entry.required,
   }) as ObjectExpression;
 
   if (entry.description) {

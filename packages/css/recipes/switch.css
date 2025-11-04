@@ -14,9 +14,10 @@
 .seed-switch__label {
     font-weight: var(--seed-font-weight-medium);
     color: var(--seed-color-fg-neutral);
+    transition: opacity var(--seed-duration-d1) var(--seed-timing-function-easing);
 }
 .seed-switch__label:is(:disabled, [disabled], [data-disabled]) {
-    color: var(--seed-color-fg-disabled);
+    opacity: 0.58;
 }
 .seed-switch__root--size_16 {
     min-height: var(--seed-dimension-x6);

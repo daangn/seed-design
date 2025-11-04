@@ -1,6 +1,6 @@
 {
   "name": "Rootage",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "resources": [
     {
       "path": "/collections.json"
@@ -84,6 +84,12 @@
       "path": "/components/fab.json"
     },
     {
+      "path": "/components/field-label.json"
+    },
+    {
+      "path": "/components/field.json"
+    },
+    {
       "path": "/components/floating-action-button.json"
     },
     {
@@ -94,6 +100,9 @@
     },
     {
       "path": "/components/inline-banner.json"
+    },
+    {
+      "path": "/components/input-button.json"
     },
     {
       "path": "/components/link-content.json"
@@ -150,6 +159,15 @@
       "path": "/components/skeleton.json"
     },
     {
+      "path": "/components/slider-thumb.json"
+    },
+    {
+      "path": "/components/slider-tick.json"
+    },
+    {
+      "path": "/components/slider.json"
+    },
+    {
       "path": "/components/snackbar.json"
     },
     {
@@ -165,10 +183,16 @@
       "path": "/components/tablist.json"
     },
     {
+      "path": "/components/tag-group-item.json"
+    },
+    {
+      "path": "/components/tag-group.json"
+    },
+    {
       "path": "/components/text-button.json"
     },
     {
-      "path": "/components/text-field.json"
+      "path": "/components/text-input.json"
     },
     {
       "path": "/components/toggle-button.json"

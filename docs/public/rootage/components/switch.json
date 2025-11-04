@@ -24,6 +24,15 @@
             "color": {
               "type": "color"
             },
+            "opacity": {
+              "type": "number"
+            },
+            "opacityDuration": {
+              "type": "duration"
+            },
+            "opacityTimingFunction": {
+              "type": "cubicBezier"
+            },
             "fontSize": {
               "type": "dimension"
             },
@@ -74,9 +83,17 @@
             ],
             "slots": {
               "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.disabled"
+                "opacity": {
+                  "type": "number",
+                  "value": 0.58
+                },
+                "opacityDuration": {
+                  "type": "duration",
+                  "value": "$duration.d1"
+                },
+                "opacityTimingFunction": {
+                  "type": "cubicBezier",
+                  "value": "$timing-function.easing"
                 }
               }
             }

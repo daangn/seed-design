@@ -26,7 +26,7 @@ import img from "@/public/penguin.webp";
 
 declare module "@stackflow/config" {
   interface Register {
-    "demo/article-detail": {
+    "react/demo/article-detail": {
       article: Article;
     };
   }
@@ -37,8 +37,11 @@ const SEGMENTS = [
   { value: "latest", label: "최근" },
 ] as const satisfies { value: string; label: string }[];
 
-const DemoArticleDetail: ActivityComponentType<"demo/article-detail"> = ({
+const DemoArticleDetail: ActivityComponentType<"react/demo/article-detail"> = ({
   params: { article },
+}: {
+  // XXX: this should be inferred
+  params: { article: Article };
 }) => {
   const categoryName = CATEGORIES.find((c) => c.id === article.categoryId)?.name;
   const [isImageLoading, setIsImageLoading] = useState(true);

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: field-label
+  name: Field Label
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          color:
+            type: color
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+          fontWeight:
+            type: number
+  definitions:
+    base:
+      enabled:
+        root:
+          color: $color.fg.neutral
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+    weight=medium:
+      enabled:
+        root:
+          fontWeight: $font-weight.medium
+    weight=bold:
+      enabled:
+        root:
+          fontWeight: $font-weight.bold

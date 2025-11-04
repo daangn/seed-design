@@ -34,27 +34,17 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
           registry-url: "https://registry.npmjs.org"
 
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: "1.2.0"
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
-
-      - name: Generate Changelog
-        run: |
-          if [ -n "$(ls -A .changeset/*.md 2>/dev/null || true)" ]; then
-            bun generate:changelog
-          else
-            echo "No changeset files found, skipping changelog generation"
-          fi
-        env:
-          COMMIT_SHA: ${{ github.sha }}
 
       - name: 릴리즈 Pull Request를 만들거나 패키지를 배포해요
         id: changesets

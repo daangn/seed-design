@@ -14,7 +14,7 @@ export function ArticleListItem(article: ArticleProps) {
   return (
     <VStack
       as="button"
-      onClick={() => push("demo/article-detail", { article })}
+      onClick={() => push("react/demo/article-detail", { article })}
       style={{ textAlign: "start" }}
       gap="x2_5"
       px="spacingX.globalGutter"

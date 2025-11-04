@@ -45,7 +45,8 @@ export const textVariantMap = {
   ],
   "textDecorationLine": [
     "none",
-    "line-through"
+    "line-through",
+    "underline"
   ]
 };
 
