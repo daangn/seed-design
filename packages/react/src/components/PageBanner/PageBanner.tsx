@@ -18,13 +18,20 @@ export const PageBannerRoot = withProvider<HTMLDivElement, PageBannerRootProps>(
   "root",
 );
 
-export interface PageBannerTextContentProps
+export interface PageBannerContentProps
   extends PrimitiveProps,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const PageBannerTextContent = withContext<HTMLDivElement, PageBannerTextContentProps>(
+export const PageBannerContent = withContext<HTMLDivElement, PageBannerContentProps>(
   Primitive.div,
-  "textContent",
+  "content",
+);
+
+export interface PageBannerBodyProps extends PrimitiveProps, React.HTMLAttributes<HTMLDivElement> {}
+
+export const PageBannerBody = withContext<HTMLDivElement, PageBannerBodyProps>(
+  Primitive.div,
+  "body",
 );
 
 export interface PageBannerTitleProps

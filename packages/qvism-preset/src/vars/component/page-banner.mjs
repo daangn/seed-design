@@ -10,7 +10,7 @@ export const vars = {
         "size": "var(--seed-dimension-x4)",
         "marginRight": "var(--seed-dimension-x2)"
       },
-      "textContent": {
+      "content": {
         "gap": "var(--seed-dimension-x1_5)"
       },
       "title": {
