@@ -1,5 +1,3 @@
-"use client";
-
 import {
   ListHeader as SeedListHeader,
   type ListHeaderProps as SeedListHeaderProps,

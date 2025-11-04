@@ -8,6 +8,7 @@ export const IconSegmentedControl = () => {
 
   return (
     <SegmentedControl
+      className="justify-self-center"
       onValueChange={(value) => setIconStyle(value as "monochrome" | "multicolor")}
       defaultValue={iconStyle}
       value={iconStyle}

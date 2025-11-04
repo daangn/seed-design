@@ -38,6 +38,8 @@
     "headless:build": "ultra -r --filter 'packages/react-headless/*' build",
     "headless:test": "bun vitest run --project react-headless --reporter=verbose",
     "headless:test:watch": "vitest dev --project react-headless",
+    "react:test": "bun vitest run --project react --reporter=verbose",
+    "react:test:watch": "vitest dev --project react",
     "clean:lib": "bun --filter '*' clean",
     "clean:modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "generate:codemod-docs": "bun scripts/generate-codemod-docs.ts",
@@ -70,7 +72,7 @@
     "semver": "^7.7.2",
     "typescript": "^5.9.2",
     "ultra-runner": "^3.10.5",
-    "vitest": "^3.1.2",
+    "vitest": "^4.0.5",
     "watchlist": "^0.3.1",
     "wrangler": "^4.13.0"
   }

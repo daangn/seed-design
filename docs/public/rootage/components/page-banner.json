@@ -38,7 +38,7 @@
             }
           }
         },
-        "textContent": {
+        "content": {
           "properties": {
             "gap": {
               "type": "dimension"
@@ -169,7 +169,7 @@
                   "value": "$dimension.x2"
                 }
               },
-              "textContent": {
+              "content": {
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x1_5"

@@ -27,12 +27,9 @@
     "lint:publish": "bun publint"
   },
   "dependencies": {
-    "@radix-ui/react-compose-refs": "^1.1.2",
-    "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-use-controllable-state": "1.2.2",
     "@seed-design/dom-utils": "1.0.0",
-    "@seed-design/react-primitive": "1.0.0",
-    "unicode-segmenter": "^0.14.0"
+    "@seed-design/react-primitive": "1.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.6",

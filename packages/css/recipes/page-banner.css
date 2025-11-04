@@ -22,16 +22,17 @@
 .seed-page-banner__root:is(button) {
     cursor: pointer;
 }
-.seed-page-banner__root .seed-box {
-    line-height: var(--seed-line-height-t4);
-}
-.seed-page-banner__textContent {
+.seed-page-banner__content {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     flex-grow: 1;
     gap: var(--seed-dimension-x1_5);
+}
+.seed-page-banner__body {
+    line-height: var(--seed-line-height-t4);
+    flex-grow: 1;
 }
 .seed-page-banner__title {
     flex-shrink: 0;
