@@ -8,11 +8,6 @@ export const vars = {
         "paddingX": "var(--seed-dimension-x0_5)",
         "gap": "var(--seed-dimension-x2_5)"
       },
-      "label": {
-        "color": "var(--seed-color-fg-neutral)",
-        "fontSize": "var(--seed-font-size-t5)",
-        "lineHeight": "var(--seed-line-height-t5)"
-      },
       "indicatorIcon": {
         "color": "var(--seed-color-fg-critical)",
         "size": "0.375rem",
@@ -71,20 +66,6 @@ export const vars = {
       },
       "maxCharacterCount": {
         "color": "var(--seed-color-fg-critical)"
-      }
-    }
-  },
-  "weightMedium": {
-    "enabled": {
-      "label": {
-        "fontWeight": "var(--seed-font-weight-medium)"
-      }
-    }
-  },
-  "weightBold": {
-    "enabled": {
-      "label": {
-        "fontWeight": "var(--seed-font-weight-bold)"
       }
     }
   }

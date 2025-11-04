@@ -1,0 +1,197 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: text-input
+  name: Text Input
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          gap:
+            type: dimension
+          minHeight:
+            type: dimension
+          cornerRadius:
+            type: dimension
+          paddingX:
+            type: dimension
+          paddingY:
+            type: dimension
+          strokeWidth:
+            type: dimension
+          strokeBottomWidth:
+            type: dimension
+          strokeColor:
+            type: color
+          color:
+            type: color
+          strokeColorDuration:
+            type: duration
+          strokeColorTimingFunction:
+            type: cubicBezier
+          strokeWidthDuration:
+            type: duration
+          strokeWidthTimingFunction:
+            type: cubicBezier
+      value:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      placeholder:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixText:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      prefixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+      suffixText:
+        properties:
+          color:
+            type: color
+          fontWeight:
+            type: number
+          fontSize:
+            type: dimension
+          lineHeight:
+            type: dimension
+      suffixIcon:
+        properties:
+          color:
+            type: color
+          size:
+            type: dimension
+  definitions:
+    base:
+      enabled:
+        root:
+          gap: $dimension.x2_5
+          strokeColor: $color.stroke.neutral-weak
+          strokeColorDuration: $duration.d3
+          strokeColorTimingFunction: $timing-function.easing
+          strokeWidthDuration: $duration.d3
+          strokeWidthTimingFunction: $timing-function.easing
+        value:
+          color: $color.fg.neutral
+          fontWeight: $font-weight.regular
+        placeholder:
+          color: $color.fg.placeholder
+          fontWeight: $font-weight.regular
+        prefixText:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
+        prefixIcon:
+          color: $color.fg.neutral-muted
+        suffixText:
+          color: $color.fg.neutral-muted
+          fontWeight: $font-weight.regular
+        suffixIcon:
+          color: $color.fg.neutral-muted
+      focused:
+        root:
+          strokeColor: $color.stroke.neutral-contrast
+      invalid:
+        root:
+          strokeColor: $color.stroke.critical-solid
+      invalid,focused:
+        root:
+          strokeColor: $color.stroke.critical-solid # being obvious
+      readonly:
+        value:
+          color: $color.fg.neutral-muted
+        placeholder:
+          color: $color.fg.neutral-muted
+      disabled:
+        value:
+          color: $color.fg.disabled
+        placeholder:
+          color: $color.fg.disabled
+    variant=outline:
+      enabled:
+        root:
+          minHeight: $dimension.x13
+          cornerRadius: $radius.r3
+          paddingX: $dimension.x4
+          strokeWidth: 1px
+        value:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        placeholder:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        prefixIcon:
+          size: $dimension.x5
+        suffixText:
+          fontSize: $font-size.t5
+          lineHeight: $line-height.t5
+        suffixIcon:
+          size: $dimension.x5
+      focused:
+        root:
+          strokeWidth: 2px
+      invalid:
+        root:
+          strokeWidth: 2px
+      disabled:
+        root:
+          color: $color.bg.disabled
+    variant=underline:
+      enabled:
+        root:
+          minHeight: $dimension.x10
+          strokeBottomWidth: 1px
+        value:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        placeholder:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        prefixIcon:
+          size: $dimension.x6
+        suffixText:
+          fontSize: $font-size.t6
+          lineHeight: $line-height.t6
+        suffixIcon:
+          size: $dimension.x6
+      focused:
+        root:
+          strokeBottomWidth: 2px
+      invalid:
+        root:
+          strokeBottomWidth: 2px
+    type=multiline:
+      enabled:
+        root:
+          minHeight: 95px
+          paddingY: $dimension.x3_5

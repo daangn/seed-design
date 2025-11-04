@@ -1,6 +1,5 @@
 "use client";
 
-import { composeRefs } from "@radix-ui/react-compose-refs";
 import { mergeProps } from "@seed-design/dom-utils";
 import { Primitive, type PrimitiveProps } from "@seed-design/react-primitive";
 import type * as React from "react";
@@ -11,7 +10,7 @@ import { TextFieldProvider, useTextFieldContext } from "./useTextFieldContext";
 export interface TextFieldRootProps
   extends UseTextFieldProps,
     PrimitiveProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, "value" | "defaultValue"> {}
+    Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue"> {}
 
 export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((props, ref) => {
   const {
@@ -22,7 +21,6 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
     disabled,
     invalid,
     required,
-    maxGraphemeCount,
     name,
     ...otherProps
   } = props;
@@ -35,9 +33,9 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
     invalid,
     required,
     readOnly,
-    maxGraphemeCount,
     name,
   });
+
   const mergedProps = mergeProps(api.rootProps, otherProps);
 
   return (
@@ -48,44 +46,6 @@ export const TextFieldRoot = forwardRef<HTMLDivElement, TextFieldRootProps>((pro
 });
 TextFieldRoot.displayName = "TextFieldRoot";
 
-export interface TextFieldLabelProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLLabelElement> {}
-
-export const TextFieldLabel = forwardRef<HTMLLabelElement, TextFieldLabelProps>((props, ref) => {
-  const { refs, labelProps } = useTextFieldContext();
-  const mergedProps = mergeProps(labelProps, props);
-  return <Primitive.label ref={composeRefs(refs.label, ref)} {...mergedProps} />;
-});
-TextFieldLabel.displayName = "TextFieldLabel";
-
-export interface TextFieldDescriptionProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldDescription = forwardRef<HTMLSpanElement, TextFieldDescriptionProps>(
-  (props, ref) => {
-    const { refs, descriptionProps } = useTextFieldContext();
-    const mergedProps = mergeProps(descriptionProps, props);
-    return <Primitive.span ref={composeRefs(refs.description, ref)} {...mergedProps} />;
-  },
-);
-
-TextFieldDescription.displayName = "TextFieldDescription";
-
-export interface TextFieldErrorMessageProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldErrorMessage = forwardRef<HTMLSpanElement, TextFieldErrorMessageProps>(
-  (props, ref) => {
-    const { refs, errorMessageProps } = useTextFieldContext();
-    const mergedProps = mergeProps(errorMessageProps, props);
-    return <Primitive.span ref={composeRefs(refs.errorMessage, ref)} {...mergedProps} />;
-  },
-);
-TextFieldErrorMessage.displayName = "TextFieldErrorMessage";
-
 export interface TextFieldInputProps
   extends PrimitiveProps,
     React.InputHTMLAttributes<HTMLInputElement> {}
@@ -93,6 +53,7 @@ export interface TextFieldInputProps
 export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>((props, ref) => {
   const { inputProps } = useTextFieldContext();
   const mergedProps = mergeProps(inputProps, props);
+
   return <Primitive.input ref={ref} {...mergedProps} />;
 });
 TextFieldInput.displayName = "TextFieldInput";
@@ -105,24 +66,8 @@ export const TextFieldTextarea = forwardRef<HTMLTextAreaElement, TextFieldTextar
   (props, ref) => {
     const { inputProps } = useTextFieldContext();
     const mergedProps = mergeProps(inputProps, props);
+
     return <Primitive.textarea ref={ref} {...mergedProps} />;
   },
 );
 TextFieldTextarea.displayName = "TextFieldTextarea";
-
-export interface TextFieldGraphemeCountProps
-  extends PrimitiveProps,
-    React.HTMLAttributes<HTMLSpanElement> {}
-
-export const TextFieldGraphemeCount = forwardRef<HTMLSpanElement, TextFieldGraphemeCountProps>(
-  (props, ref) => {
-    const { stateProps, graphemes } = useTextFieldContext();
-    const mergedProps = mergeProps(stateProps, props);
-    return (
-      <Primitive.span ref={ref} {...mergedProps}>
-        {graphemes.length}
-      </Primitive.span>
-    );
-  },
-);
-TextFieldGraphemeCount.displayName = "TextFieldGraphemeCount";

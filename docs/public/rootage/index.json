@@ -84,6 +84,9 @@
       "path": "/components/fab.json"
     },
     {
+      "path": "/components/field-label.json"
+    },
+    {
       "path": "/components/field.json"
     },
     {
@@ -97,6 +100,9 @@
     },
     {
       "path": "/components/inline-banner.json"
+    },
+    {
+      "path": "/components/input-button.json"
     },
     {
       "path": "/components/link-content.json"
@@ -186,7 +192,7 @@
       "path": "/components/text-button.json"
     },
     {
-      "path": "/components/text-field.json"
+      "path": "/components/text-input.json"
     },
     {
       "path": "/components/toggle-button.json"

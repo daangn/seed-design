@@ -211,6 +211,19 @@
     {
       "snippets": [
         {
+          "path": "field-button.tsx"
+        }
+      ],
+      "id": "field-button",
+      "dependencies": [
+        "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
+        "@seed-design/react"
+      ]
+    },
+    {
+      "snippets": [
+        {
           "path": "floating-action-button.tsx"
         }
       ],
@@ -497,6 +510,7 @@
       "id": "text-field",
       "dependencies": [
         "@karrotmarket/react-monochrome-icon",
+        "@seed-design/css",
         "@seed-design/react"
       ]
     },

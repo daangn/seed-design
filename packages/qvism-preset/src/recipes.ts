@@ -1,5 +1,6 @@
 import { appBar, appBarMain } from "./stackflow/app-bar";
 import { appScreen } from "./stackflow/app-screen";
+import { field, fieldLabel } from "./recipes/field";
 import { notificationBadge, notificationBadgePositioner } from "./recipes/notification-badge";
 import { selectBox, selectBoxGroup } from "./recipes/select-box";
 import { snackbar, snackbarRegion } from "./recipes/snackbar";
@@ -25,11 +26,11 @@ import extendedActionSheet from "./recipes/extended-action-sheet";
 import extendedActionSheetItem from "./recipes/extended-action-sheet-item";
 import extendedFab from "./recipes/extended-fab";
 import fab from "./recipes/fab";
-import field from "./recipes/field";
 import floatingActionButton from "./recipes/floating-action-button";
 import helpBubble from "./recipes/help-bubble";
 import identityPlaceholder from "./recipes/identity-placeholder";
 import inlineBanner from "./recipes/inline-banner";
+import inputButton from "./recipes/input-button";
 import linkContent from "./recipes/link-content";
 import listHeader from "./recipes/list-header";
 import listItem from "./recipes/list-item";
@@ -49,7 +50,7 @@ import switchMark from "./recipes/switch-mark";
 import switchRecipe from "./recipes/switch";
 import tabs from "./recipes/tabs";
 import text from "./recipes/text";
-import textField from "./recipes/text-field";
+import textInput from "./recipes/text-input";
 import toggleButton from "./recipes/toggle-button";
 import { slider, sliderTick, sliderMarker } from "./recipes/slider";
 
@@ -79,10 +80,12 @@ export const recipes = {
   extendedFab,
   fab,
   field,
+  fieldLabel,
   floatingActionButton,
   helpBubble,
   identityPlaceholder,
   inlineBanner,
+  inputButton,
   linkContent,
   listHeader,
   listItem,
@@ -113,6 +116,6 @@ export const recipes = {
   tagGroup,
   tagGroupItem,
   text,
-  textField,
+  textInput,
   toggleButton,
 };

@@ -1,0 +1,183 @@
+---
+title: Text Field Textarea
+description: 여러 줄의 긴 텍스트를 입력받고 자동으로 높이를 조절하는 컴포넌트입니다.
+---
+
+<ComponentExample name="react/text-field-textarea/preview">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/preview.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+## Installation
+
+```package-install
+npx @seed-design/cli@latest add ui:text-field
+```
+
+<ManualInstallation name="text-field" />
+
+## Props
+
+### `TextField`
+
+<react-type-table
+  path="./registry/ui/text-field.tsx"
+  name="TextFieldProps"
+/>
+
+### `TextFieldTextarea`
+
+<react-type-table
+  path="./registry/ui/text-field.tsx"
+  name="TextFieldTextareaProps"
+/>
+
+## Examples
+
+### State
+
+#### Enabled
+
+<ComponentExample name="react/text-field-textarea/enabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/enabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+  
+#### Disabled
+
+<ComponentExample name="react/text-field-textarea/disabled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/disabled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Read Only
+
+<ComponentExample name="react/text-field-textarea/read-only">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/read-only.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Sizing
+
+#### Fixed Height
+
+<ComponentExample name="react/text-field-textarea/fixed-height">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/fixed-height.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Auto Height with Constraints
+
+<ComponentExample name="react/text-field-textarea/constraints">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/constraints.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Customizable Parts
+
+#### Indicator
+
+`indicator` 또는 `showRequiredIndicator` prop을 사용할 수 있습니다.
+
+<ComponentExample name="react/text-field-textarea/indicator">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/indicator.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Grapheme Count
+
+<ComponentExample name="react/text-field-textarea/grapheme-count">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/grapheme-count.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+자소 단위로 쪼개진 `value`에 관한 정보를 `onValueChange` 콜백에서 `graphemes`와 `slicedGraphemes`로 제공합니다.
+
+자소 분리는 [unicode-segmenter](https://github.com/cometkim/unicode-segmenter)를 통해 이루어집니다.
+
+<ComponentExample name="react/text-field-textarea/grapheme-count-controlled">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/grapheme-count-controlled.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+### Use Cases
+
+#### Form
+
+<ComponentExample name="react/text-field-textarea/form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### React Hook Form
+
+<ComponentExample name="react/text-field-textarea/react-hook-form">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/react-hook-form.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Formatting
+
+<ComponentExample name="react/text-field-textarea/formatting">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/formatting.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>
+
+#### Slicing
+
+<ComponentExample name="react/text-field-textarea/slicing">
+  ```json doc-gen:file
+  {
+    "file": "examples/react/text-field-textarea/slicing.tsx",
+    "codeblock": true
+  }
+  ```
+</ComponentExample>

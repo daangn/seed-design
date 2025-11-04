@@ -26,22 +26,6 @@
             }
           }
         },
-        "label": {
-          "properties": {
-            "color": {
-              "type": "color"
-            },
-            "fontSize": {
-              "type": "dimension"
-            },
-            "lineHeight": {
-              "type": "dimension"
-            },
-            "fontWeight": {
-              "type": "number"
-            }
-          }
-        },
         "indicatorIcon": {
           "properties": {
             "color": {
@@ -178,15 +162,7 @@
           }
         }
       },
-      "variants": {
-        "weight": {
-          "values": {
-            "medium": {},
-            "bold": {}
-          },
-          "defaultValue": "medium"
-        }
-      }
+      "variants": {}
     },
     "definitions": [
       {
@@ -211,20 +187,6 @@
                 "gap": {
                   "type": "dimension",
                   "value": "$dimension.x2_5"
-                }
-              },
-              "label": {
-                "color": {
-                  "type": "color",
-                  "value": "$color.fg.neutral"
-                },
-                "fontSize": {
-                  "type": "dimension",
-                  "value": "$font-size.t5"
-                },
-                "lineHeight": {
-                  "type": "dimension",
-                  "value": "$line-height.t5"
                 }
               },
               "indicatorIcon": {
@@ -406,46 +368,6 @@
                 "color": {
                   "type": "color",
                   "value": "$color.fg.critical"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "weight": "medium"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.medium"
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
-        "variants": {
-          "weight": "bold"
-        },
-        "definitions": [
-          {
-            "states": [
-              "enabled"
-            ],
-            "slots": {
-              "label": {
-                "fontWeight": {
-                  "type": "number",
-                  "value": "$font-weight.bold"
                 }
               }
             }
