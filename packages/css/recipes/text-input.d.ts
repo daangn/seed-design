@@ -1,8 +1,8 @@
 declare interface TextInputVariant {
   /**
-  * @default "rounded"
+  * @default "outline"
   */
-  variant: "rounded" | "underline";
+  variant: "outline" | "underline";
 }
 
 declare type TextInputVariantMap = {

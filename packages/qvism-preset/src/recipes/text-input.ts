@@ -85,80 +85,80 @@ const textInput = defineSlotRecipe({
     },
   },
   defaultVariants: {
-    variant: "rounded",
+    variant: "outline",
   },
   variants: {
     variant: {
-      rounded: {
+      outline: {
         root: {
-          minHeight: vars.variantRounded.enabled.root.minHeight,
-          borderRadius: vars.variantRounded.enabled.root.cornerRadius,
+          minHeight: vars.variantOutline.enabled.root.minHeight,
+          borderRadius: vars.variantOutline.enabled.root.cornerRadius,
 
-          boxShadow: `inset 0 0 0 ${vars.variantRounded.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
+          boxShadow: `inset 0 0 0 ${vars.variantOutline.enabled.root.strokeWidth} ${vars.base.enabled.root.strokeColor}`,
 
           [pseudo(not(readOnly), focus)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantRounded.focused.root.strokeWidth} ${vars.base.focused.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${vars.variantOutline.focused.root.strokeWidth} ${vars.base.focused.root.strokeColor}`,
           },
 
           [pseudo(invalid)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantRounded.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${vars.variantOutline.invalid.root.strokeWidth} ${vars.base.invalid.root.strokeColor}`,
           },
 
           [pseudo(invalid, focus)]: {
-            boxShadow: `inset 0 0 0 ${vars.variantRounded.invalid.root.strokeWidth} ${vars.base.invalidFocused.root.strokeColor}`,
+            boxShadow: `inset 0 0 0 ${vars.variantOutline.invalid.root.strokeWidth} ${vars.base.invalidFocused.root.strokeColor}`,
           },
 
           [pseudo(disabled)]: {
-            backgroundColor: vars.variantRounded.disabled.root.color,
+            backgroundColor: vars.variantOutline.disabled.root.color,
           },
         },
         value: {
-          fontSize: vars.variantRounded.enabled.value.fontSize,
-          lineHeight: vars.variantRounded.enabled.value.lineHeight,
+          fontSize: vars.variantOutline.enabled.value.fontSize,
+          lineHeight: vars.variantOutline.enabled.value.lineHeight,
 
           [pseudo(":first-child")]: {
-            paddingInlineStart: vars.variantRounded.enabled.root.paddingX,
+            paddingInlineStart: vars.variantOutline.enabled.root.paddingX,
           },
 
           [pseudo(":last-child")]: {
-            paddingInlineEnd: vars.variantRounded.enabled.root.paddingX,
+            paddingInlineEnd: vars.variantOutline.enabled.root.paddingX,
           },
 
           [pseudo("::placeholder")]: {
-            fontSize: vars.variantRounded.enabled.placeholder.fontSize,
-            lineHeight: vars.variantRounded.enabled.placeholder.lineHeight,
+            fontSize: vars.variantOutline.enabled.placeholder.fontSize,
+            lineHeight: vars.variantOutline.enabled.placeholder.lineHeight,
           },
         },
         prefixText: {
-          fontSize: vars.variantRounded.enabled.prefixText.fontSize,
-          lineHeight: vars.variantRounded.enabled.prefixText.lineHeight,
+          fontSize: vars.variantOutline.enabled.prefixText.fontSize,
+          lineHeight: vars.variantOutline.enabled.prefixText.lineHeight,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.variantRounded.enabled.root.paddingX,
+            marginInlineStart: vars.variantOutline.enabled.root.paddingX,
           },
         },
         prefixIcon: {
-          width: vars.variantRounded.enabled.prefixIcon.size,
-          height: vars.variantRounded.enabled.prefixIcon.size,
+          width: vars.variantOutline.enabled.prefixIcon.size,
+          height: vars.variantOutline.enabled.prefixIcon.size,
 
           [pseudo(":first-child")]: {
-            marginInlineStart: vars.variantRounded.enabled.root.paddingX,
+            marginInlineStart: vars.variantOutline.enabled.root.paddingX,
           },
         },
         suffixText: {
-          fontSize: vars.variantRounded.enabled.suffixText.fontSize,
-          lineHeight: vars.variantRounded.enabled.suffixText.lineHeight,
+          fontSize: vars.variantOutline.enabled.suffixText.fontSize,
+          lineHeight: vars.variantOutline.enabled.suffixText.lineHeight,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.variantRounded.enabled.root.paddingX,
+            marginInlineEnd: vars.variantOutline.enabled.root.paddingX,
           },
         },
         suffixIcon: {
-          width: vars.variantRounded.enabled.suffixIcon.size,
-          height: vars.variantRounded.enabled.suffixIcon.size,
+          width: vars.variantOutline.enabled.suffixIcon.size,
+          height: vars.variantOutline.enabled.suffixIcon.size,
 
           [pseudo(":last-child")]: {
-            marginInlineEnd: vars.variantRounded.enabled.root.paddingX,
+            marginInlineEnd: vars.variantOutline.enabled.root.paddingX,
           },
         },
       },

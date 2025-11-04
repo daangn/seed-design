@@ -131,7 +131,7 @@ data:
           color: $color.fg.disabled
         placeholder:
           color: $color.fg.disabled
-    variant=rounded:
+    variant=outline:
       enabled:
         root:
           minHeight: $dimension.x13
@@ -193,5 +193,5 @@ data:
     type=multiline:
       enabled:
         root:
-          minHeight: 95px # 확인
+          minHeight: 95px
           paddingY: $dimension.x3_5

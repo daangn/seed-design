@@ -64,7 +64,7 @@ export const vars = {
       }
     }
   },
-  "variantRounded": {
+  "variantOutline": {
     "enabled": {
       "root": {
         "minHeight": "var(--seed-dimension-x13)",

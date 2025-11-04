@@ -140,10 +140,10 @@
       "variants": {
         "variant": {
           "values": {
-            "rounded": {},
+            "outline": {},
             "underline": {}
           },
-          "defaultValue": "rounded"
+          "defaultValue": "outline"
         },
         "type": {
           "values": {
@@ -324,7 +324,7 @@
       },
       {
         "variants": {
-          "variant": "rounded"
+          "variant": "outline"
         },
         "definitions": [
           {

@@ -29,14 +29,14 @@ const textInputSlotNames = [
 ];
 
 const defaultVariant = {
-  "variant": "rounded"
+  "variant": "outline"
 };
 
 const compoundVariants = [];
 
 export const textInputVariantMap = {
   "variant": [
-    "rounded",
+    "outline",
     "underline"
   ]
 };
