@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=./schema.json
+kind: ComponentSpec
+metadata:
+  id: slider-thumb
+  name: Slider Thumb
+data:
+  schema:
+    slots:
+      root:
+        properties:
+          size:
+            type: dimension
+          # TODO: fill in
+  definitions:
+    base:
+      enabled:
+        root:
+          size: $dimension.x5
+          cornerRadius: $radius.full
+          color: $color.bg.neutral-inverted
+
+          scaleDuration: $duration.d3
+          scaleTimingFunction: $timing-function.easing
+
+          translateDuration: $duration.d3
+          translateTimingFunction: $timing-function.easing
+      disabled:
+        root:
+          color: $color.fg.disabled # fg 토큰인데 적절할까?
+      pressed:
+        root:
+          scale: 1.2

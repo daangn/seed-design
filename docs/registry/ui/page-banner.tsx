@@ -1,6 +1,6 @@
 "use client";
 
-import { PrefixIcon, PageBanner as SeedPageBanner, SuffixIcon, Box } from "@seed-design/react";
+import { PrefixIcon, PageBanner as SeedPageBanner, SuffixIcon } from "@seed-design/react";
 import * as React from "react";
 
 import { IconChevronRightLine, IconXmarkLine } from "@karrotmarket/react-monochrome-icon"; // "@daangn/react-monochrome-icon"과 동일합니다.
@@ -29,13 +29,13 @@ export const PageBanner = React.forwardRef<
   return (
     <SeedPageBanner.Root ref={ref} {...otherProps}>
       {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-      <SeedPageBanner.TextContent>
-        <Box flexGrow>
+      <SeedPageBanner.Content>
+        <SeedPageBanner.Body>
           {title && <SeedPageBanner.Title>{title}</SeedPageBanner.Title>}
           <SeedPageBanner.Description>{description}</SeedPageBanner.Description>
-        </Box>
+        </SeedPageBanner.Body>
         {suffix}
-      </SeedPageBanner.TextContent>
+      </SeedPageBanner.Content>
     </SeedPageBanner.Root>
   );
 });
@@ -68,10 +68,12 @@ export const ActionablePageBanner = React.forwardRef<
     <SeedPageBanner.Root ref={ref} {...otherProps} asChild>
       <button type="button">
         {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-        <Box flexGrow>
-          {title && <SeedPageBanner.Title>{title}</SeedPageBanner.Title>}
-          <SeedPageBanner.Description>{description}</SeedPageBanner.Description>
-        </Box>
+        <SeedPageBanner.Content>
+          <SeedPageBanner.Body>
+            {title && <SeedPageBanner.Title>{title}</SeedPageBanner.Title>}
+            <SeedPageBanner.Description>{description}</SeedPageBanner.Description>
+          </SeedPageBanner.Body>
+        </SeedPageBanner.Content>
         <SuffixIcon svg={<IconChevronRightLine />} />
       </button>
     </SeedPageBanner.Root>
@@ -98,10 +100,12 @@ export const DismissiblePageBanner = React.forwardRef<
   return (
     <SeedPageBanner.Root ref={ref} {...otherProps}>
       {prefixIcon && <PrefixIcon svg={prefixIcon} />}
-      <Box flexGrow>
-        {title && <SeedPageBanner.Title>{title}</SeedPageBanner.Title>}
-        <SeedPageBanner.Description>{description}</SeedPageBanner.Description>
-      </Box>
+      <SeedPageBanner.Content>
+        <SeedPageBanner.Body>
+          {title && <SeedPageBanner.Title>{title}</SeedPageBanner.Title>}
+          <SeedPageBanner.Description>{description}</SeedPageBanner.Description>
+        </SeedPageBanner.Body>
+      </SeedPageBanner.Content>
       {/* You may implement your own i18n for dismiss label */}
       <SeedPageBanner.CloseButton aria-label="닫기">
         <SuffixIcon svg={<IconXmarkLine />} />

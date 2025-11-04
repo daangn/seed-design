@@ -55,14 +55,14 @@ const actionButton = defineRecipe({
     },
 
     transition: `background-color ${vars.base.enabled.root.colorDuration} ${vars.base.enabled.root.colorTimingFunction}`,
-
-    fontWeight: vars.base.enabled.label.fontWeight,
   },
   variants: {
     variant: {
       brandSolid: {
         background: vars.variantBrandSolid.enabled.root.color,
         color: vars.variantBrandSolid.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
 
         ...prefixIcon({
           color: vars.variantBrandSolid.enabled.prefixIcon.color,
@@ -100,6 +100,9 @@ const actionButton = defineRecipe({
       neutralSolid: {
         background: vars.variantNeutralSolid.enabled.root.color,
         color: vars.variantNeutralSolid.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
+
         ...prefixIcon({
           color: vars.variantNeutralSolid.enabled.prefixIcon.color,
         }),
@@ -137,6 +140,9 @@ const actionButton = defineRecipe({
       neutralWeak: {
         background: vars.variantNeutralWeak.enabled.root.color,
         color: vars.variantNeutralWeak.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
+
         ...prefixIcon({
           color: vars.variantNeutralWeak.enabled.prefixIcon.color,
         }),
@@ -174,6 +180,9 @@ const actionButton = defineRecipe({
       criticalSolid: {
         background: vars.variantCriticalSolid.enabled.root.color,
         color: vars.variantCriticalSolid.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
+
         ...prefixIcon({
           color: vars.variantCriticalSolid.enabled.prefixIcon.color,
         }),
@@ -214,6 +223,9 @@ const actionButton = defineRecipe({
         borderWidth: vars.variantBrandOutline.enabled.root.strokeWidth,
         borderColor: vars.variantBrandOutline.enabled.root.strokeColor,
         color: vars.variantBrandOutline.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
+
         ...prefixIcon({
           color: vars.variantBrandOutline.enabled.prefixIcon.color,
         }),
@@ -255,6 +267,9 @@ const actionButton = defineRecipe({
         borderWidth: vars.variantNeutralOutline.enabled.root.strokeWidth,
         borderColor: vars.variantNeutralOutline.enabled.root.strokeColor,
         color: vars.variantNeutralOutline.enabled.label.color,
+
+        fontWeight: vars.base.enabled.label.fontWeight,
+
         ...prefixIcon({
           color: vars.variantNeutralOutline.enabled.prefixIcon.color,
         }),
@@ -292,7 +307,9 @@ const actionButton = defineRecipe({
       },
       ghost: {
         background: vars.variantGhost.enabled.root.color,
+
         "--seed-box-color": vars.variantGhost.enabled.label.color,
+
         color: "var(--seed-box-color)",
         ...prefixIcon({
           color: "var(--seed-box-color)",
@@ -303,6 +320,10 @@ const actionButton = defineRecipe({
         ...onlyIcon({
           color: "var(--seed-box-color)",
         }),
+
+        "--seed-font-weight": vars.base.enabled.label.fontWeight,
+        fontWeight: "var(--seed-font-weight)",
+
         "--track-color": vars.variantGhost.enabled.progressCircle.trackColor,
         "--range-color": vars.variantGhost.enabled.progressCircle.rangeColor,
         [pseudo(active)]: {

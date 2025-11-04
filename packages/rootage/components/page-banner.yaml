@@ -24,7 +24,7 @@ data:
             type: dimension
           color:
             type: color
-      textContent:
+      content:
         properties:
           gap:
             type: dimension
@@ -82,7 +82,7 @@ data:
         prefixIcon:
           size: $dimension.x4
           marginRight: $dimension.x2
-        textContent:
+        content:
           gap: $dimension.x1_5
         title:
           fontSize: $font-size.t4
