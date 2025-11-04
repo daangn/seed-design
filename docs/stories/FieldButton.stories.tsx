@@ -52,6 +52,9 @@ const CommonStoryTemplate: Story = {
     showRequiredIndicator: true,
     description: "선택해주세요.",
     errorMessage: "This is an error message.",
+    buttonProps: {
+      "aria-label": "버튼",
+    },
   },
   render: (args) => (
     <VariantTable

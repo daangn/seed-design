@@ -7,7 +7,8 @@ export default function FieldButtonBasicUsage() {
   return (
     <FieldButton
       label="도시"
-      showClearButton
+      showClearButton={!!selectedCity}
+      values={[selectedCity]}
       onValuesChange={([value]) => setSelectedCity(value)}
       buttonProps={{
         onClick: () => {
