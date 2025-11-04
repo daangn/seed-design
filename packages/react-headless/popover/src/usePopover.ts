@@ -89,7 +89,8 @@ export function usePopover({ closeOnInteractOutside, ...props }: UsePopoverProps
         ...stateProps,
         onClick: (e) => {
           if (e.defaultPrevented) return;
-          onOpenChange(false);
+
+          onOpenChange?.(false);
         },
       }),
     }),
