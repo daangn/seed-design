@@ -6,7 +6,7 @@
 "@seed-design/css": patch
 ---
 
-Text Field 관련 컴포넌트를 업데이트합니다.
+(BREAKING CHANGE: TextField snippet을 다시 설치해야 합니다.) Text Field 관련 컴포넌트를 업데이트합니다.
 
 - 스타일 업데이트
 - size 통일 및 variant (underline) 추가

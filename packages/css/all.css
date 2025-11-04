@@ -5130,17 +5130,18 @@
   cursor: pointer;
 }
 
-.seed-page-banner__root .seed-box {
-  line-height: var(--seed-line-height-t4);
-}
-
-.seed-page-banner__textContent {
+.seed-page-banner__content {
   justify-content: space-between;
   align-items: center;
   gap: var(--seed-dimension-x1_5);
   flex-wrap: wrap;
   flex-grow: 1;
   display: flex;
+}
+
+.seed-page-banner__body {
+  line-height: var(--seed-line-height-t4);
+  flex-grow: 1;
 }
 
 .seed-page-banner__title {

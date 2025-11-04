@@ -9,7 +9,7 @@ const buttonBleedAmount = `(${vars.base.enabled.button.targetHeight} - ${vars.ba
 
 const pageBanner = defineSlotRecipe({
   name: "page-banner",
-  slots: ["root", "textContent", "title", "description", "button", "closeButton"],
+  slots: ["root", "content", "body", "title", "description", "button", "closeButton"],
   base: {
     root: {
       boxSizing: "border-box",
@@ -43,22 +43,20 @@ const pageBanner = defineSlotRecipe({
       [pseudo(":is(button)")]: {
         cursor: "pointer",
       },
-
-      // This is a temporary fix.
-      // In the snippet ui/page-banner.tsx, replace Box with some proper slot with the following styles on next minor release.
-      "& .seed-box": {
-        lineHeight: vars.base.enabled.description.lineHeight,
-        // flexGrow: 1,
-      },
     },
-    textContent: {
+    content: {
       display: "flex",
       flexWrap: "wrap",
       alignItems: "center",
       justifyContent: "space-between",
       flexGrow: 1,
 
-      gap: vars.base.enabled.textContent.gap,
+      gap: vars.base.enabled.content.gap,
+    },
+    body: {
+      lineHeight: vars.base.enabled.description.lineHeight,
+
+      flexGrow: 1,
     },
     title: {
       flexShrink: 0,
