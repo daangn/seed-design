@@ -79,6 +79,8 @@ export const FieldButtonHiddenInput = forwardRef<HTMLInputElement, FieldButtonHi
     const { getHiddenInputProps } = useFieldButtonContext();
     const hiddenInputProps = getHiddenInputProps(valueIndex);
 
+    if (!hiddenInputProps) return null;
+
     return <Primitive.input ref={ref} {...mergeProps(hiddenInputProps, props)} />;
   },
 );

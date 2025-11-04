@@ -149,6 +149,8 @@ describe("useFieldButton", () => {
     const button = getByRole("button", { name: "Click me" });
     const root = container.firstElementChild;
 
+    if (!root) throw new Error("root not found");
+
     fireEvent.pointerDown(button);
     expect(button).toHaveAttribute("data-active");
 
@@ -207,15 +209,17 @@ describe("useFieldButton", () => {
       expect(handleValuesChange).toHaveBeenCalledWith([]);
     });
 
-    it("should not trigger onValuesChange when clear button is clicked while disabled", async () => {
+    it("should hide clear button when disabled", async () => {
       const handleValuesChange = vi.fn();
-      const { getByRole, user } = setUp(
+      const { getByText, user } = setUp(
         <FieldButton disabled values={["value1"]} onValuesChange={handleValuesChange} />,
       );
-      const clearButton = getByRole("button", { name: "Clear" });
+      const clearButton = getByText("Clear");
+
+      expect(clearButton).toHaveAttribute("hidden");
 
       await user.click(clearButton);
-      expect(handleValuesChange).toHaveBeenCalledWith([]);
+      expect(handleValuesChange).not.toHaveBeenCalled();
     });
 
     it("should not have active state when clear button is pressed", () => {
