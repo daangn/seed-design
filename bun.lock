@@ -424,6 +424,7 @@
         "@seed-design/react-avatar": "1.0.0",
         "@seed-design/react-checkbox": "1.0.0",
         "@seed-design/react-dialog": "1.0.0",
+        "@seed-design/react-drawer": "0.0.1",
         "@seed-design/react-field": "0.0.0",
         "@seed-design/react-field-button": "0.0.0",
         "@seed-design/react-popover": "1.0.1",
@@ -506,6 +507,27 @@
         "@radix-ui/react-focus-scope": "^1.1.4",
         "@radix-ui/react-use-controllable-state": "1.2.2",
         "@radix-ui/react-use-layout-effect": "^1.1.1",
+        "@seed-design/dom-utils": "1.0.0",
+        "@seed-design/react-primitive": "1.0.0",
+      },
+      "devDependencies": {
+        "@types/react": "^19.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+      },
+      "peerDependencies": {
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
+      },
+    },
+    "packages/react-headless/drawer": {
+      "name": "@seed-design/react-drawer",
+      "version": "0.0.1",
+      "dependencies": {
+        "@radix-ui/react-compose-refs": "^1.1.2",
+        "@radix-ui/react-dialog": "^1.1.15",
+        "@radix-ui/react-use-callback-ref": "^1.1.0",
+        "@radix-ui/react-use-controllable-state": "^1.2.2",
         "@seed-design/dom-utils": "1.0.0",
         "@seed-design/react-primitive": "1.0.0",
       },
@@ -2192,6 +2214,8 @@
     "@seed-design/react-checkbox": ["@seed-design/react-checkbox@workspace:packages/react-headless/checkbox"],
 
     "@seed-design/react-dialog": ["@seed-design/react-dialog@workspace:packages/react-headless/dialog"],
+
+    "@seed-design/react-drawer": ["@seed-design/react-drawer@workspace:packages/react-headless/drawer"],
 
     "@seed-design/react-field": ["@seed-design/react-field@workspace:packages/react-headless/field"],
 

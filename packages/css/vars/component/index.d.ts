@@ -7,6 +7,7 @@ export { vars as avatarStack } from "./avatar-stack";
 export { vars as avatar } from "./avatar";
 export { vars as badge } from "./badge";
 export { vars as bottomSheetCloseButton } from "./bottom-sheet-close-button";
+export { vars as bottomSheetHandle } from "./bottom-sheet-handle";
 export { vars as bottomSheet } from "./bottom-sheet";
 export { vars as callout } from "./callout";
 export { vars as checkbox } from "./checkbox";

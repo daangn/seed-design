@@ -3,10 +3,10 @@ export declare const vars: {
     "enabled": {
       "backdrop": {
         "color": "var(--seed-color-bg-overlay)",
-        "enterDuration": "var(--seed-duration-d2)",
+        "enterDuration": "var(--seed-duration-d6)",
         "enterTimingFunction": "var(--seed-timing-function-enter)",
         "enterOpacity": "0",
-        "exitDuration": "var(--seed-duration-d2)",
+        "exitDuration": "var(--seed-duration-d4)",
         "exitTimingFunction": "var(--seed-timing-function-exit)",
         "exitOpacity": "0"
       },
