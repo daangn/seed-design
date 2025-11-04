@@ -1,8 +1,7 @@
-import { bottomSheet as vars, bottomSheetCloseButton as closeButtonVars } from "../vars/component";
-import { enterAnimation, exitAnimation } from "../utils/animation";
 import { defineSlotRecipe } from "../utils/define";
-import { not, open, pseudo } from "../utils/pseudo";
 import { onlyIcon } from "../utils/icon";
+import { not, open, pseudo } from "../utils/pseudo";
+import { bottomSheetCloseButton as closeButtonVars, bottomSheet as vars } from "../vars/component";
 
 const bottomSheet = defineSlotRecipe({
   name: "bottom-sheet",
@@ -35,16 +34,36 @@ const bottomSheet = defineSlotRecipe({
       background: vars.base.enabled.backdrop.color,
       zIndex: "calc(var(--sheet-z-index) + var(--layer-index, 0))",
 
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.backdrop.exitTimingFunction,
-        duration: vars.base.enabled.backdrop.exitDuration,
-        opacity: vars.base.enabled.backdrop.exitOpacity,
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.backdrop.enterTimingFunction,
-        duration: vars.base.enabled.backdrop.enterDuration,
-        opacity: vars.base.enabled.backdrop.enterOpacity,
-      }),
+      [pseudo(open, "[data-snap-points='false']")]: {
+        animationName: "fade-in",
+        animationDuration: vars.base.enabled.backdrop.enterDuration,
+        animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+      },
+
+      [pseudo(not(open), "[data-snap-points='false']")]: {
+        animationName: "fade-out",
+        animationDuration: vars.base.enabled.backdrop.exitDuration,
+        animationTimingFunction: vars.base.enabled.backdrop.exitTimingFunction,
+      },
+
+      /** Snap Points - Transition-based fade (JS sets inline opacity) */
+      [pseudo("[data-snap-points='true']")]: {
+        opacity: 0,
+      },
+
+      [pseudo(not(open), "[data-snap-points='true']", not("[data-snap-points-overlay='true']"))]: {
+        opacity: 0,
+      },
+
+      [pseudo(open, "[data-snap-points-overlay='true']")]: {
+        opacity: 1,
+      },
+
+      [pseudo(open, "[data-snap-points='true']", "[data-should-overlay-animate='true']")]: {
+        animationName: "fade-in",
+        animationDuration: vars.base.enabled.backdrop.enterDuration,
+        animationTimingFunction: vars.base.enabled.backdrop.enterTimingFunction,
+      },
     },
     content: {
       position: "relative",
@@ -59,16 +78,54 @@ const bottomSheet = defineSlotRecipe({
       borderTopLeftRadius: vars.base.enabled.content.topCornerRadius,
       borderTopRightRadius: vars.base.enabled.content.topCornerRadius,
 
-      [pseudo(not(open))]: exitAnimation({
-        timingFunction: vars.base.enabled.content.exitTimingFunction,
-        duration: vars.base.enabled.content.exitDuration,
-        translateY: "100%",
-      }),
-      [pseudo(open)]: enterAnimation({
-        timingFunction: vars.base.enabled.content.enterTimingFunction,
-        duration: vars.base.enabled.content.enterDuration,
-        translateY: "100%",
-      }),
+      // Performance and interaction
+      touchAction: "none",
+      willChange: "transform",
+
+      // Base animation properties
+      transition: `transform ${vars.base.enabled.content.enterDuration} ${vars.base.enabled.content.enterTimingFunction}`,
+      animationDuration: vars.base.enabled.content.enterDuration,
+      animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+
+      [pseudo(open, "[data-snap-points='false']")]: {
+        animationName: "drawer-slide-from-bottom",
+        animationDuration: vars.base.enabled.content.enterDuration,
+        animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+      },
+
+      [pseudo(not(open), "[data-snap-points='false']")]: {
+        animationName: "drawer-slide-to-bottom",
+        animationDuration: vars.base.enabled.content.exitDuration,
+        animationTimingFunction: vars.base.enabled.content.exitTimingFunction,
+      },
+
+      /** Snap Points - Initial State (before animation ready) */
+      [pseudo("[data-snap-points='true']")]: {
+        transform: "translate3d(0, var(--initial-transform, 100%), 0)",
+      },
+
+      [pseudo(open, "[data-delayed-snap-points='true']")]: {
+        animationName: "drawer-slide-from-bottom",
+        animationDuration: vars.base.enabled.content.enterDuration,
+        animationTimingFunction: vars.base.enabled.content.enterTimingFunction,
+      },
+
+      /** Snap Points - Delayed State */
+      [pseudo("[data-delayed-snap-points='true']")]: {
+        transform: "translate3d(0, var(--snap-point-height, 0), 0)",
+      },
+
+      /** Expand Content Background */
+      "&::after": {
+        top: "100%",
+        height: "200vh",
+        content: '""',
+        position: "absolute",
+        left: 0,
+        right: 0,
+        background: "inherit",
+        zIndex: -1,
+      },
     },
     header: {
       display: "flex",
@@ -133,6 +190,7 @@ const bottomSheet = defineSlotRecipe({
       background: closeButtonVars.base.enabled.root.color,
       width: closeButtonVars.base.enabled.root.size,
       height: closeButtonVars.base.enabled.root.size,
+      cursor: "pointer",
 
       ...onlyIcon({
         color: closeButtonVars.base.enabled.icon.color,

@@ -66,7 +66,7 @@ export const registryUI: Registry = {
       snippets: [
         {
           path: "bottom-sheet.tsx",
-          dependencies: { "@seed-design/react": "~1.0.0", "@seed-design/css": "~1.0.0" },
+          dependencies: { "@seed-design/react": "~1.1.0", "@seed-design/css": "~1.1.0" },
         },
       ],
     },

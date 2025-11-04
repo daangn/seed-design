@@ -22,12 +22,13 @@ const ActivityBottomSheet: ActivityComponentType = () => {
   return (
     <BottomSheetRoot open={activity.isActive} onOpenChange={handleClose}>
       <BottomSheetContent
+        showHandle={true}
         title="제목"
         description="다람쥐 헌 쳇바퀴에 타고파"
         layerIndex={activity.zIndex * 5}
       >
         <BottomSheetBody alignItems="center" justifyContent="center" height="300px">
-          Content
+          Handle을 드래그하여 시트를 조절할 수 있습니다.
         </BottomSheetBody>
         <BottomSheetFooter>
           <ActionButton onClick={() => pop()} variant="neutralSolid" size="large">

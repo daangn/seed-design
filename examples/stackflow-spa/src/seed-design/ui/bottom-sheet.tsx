@@ -32,10 +32,27 @@ export interface BottomSheetContentProps extends Omit<SeedBottomSheet.ContentPro
    * @default false
    */
   hideCloseButton?: boolean;
+
+  /**
+   * Handle을 표시할지 여부
+   * @default false
+   */
+  showHandle?: boolean;
 }
 
 export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentProps>(
-  ({ children, title, description, layerIndex, hideCloseButton = false, ...otherProps }, ref) => {
+  (
+    {
+      children,
+      title,
+      description,
+      layerIndex,
+      hideCloseButton = false,
+      showHandle = false,
+      ...otherProps
+    },
+    ref,
+  ) => {
     if (
       !title &&
       !otherProps["aria-labelledby"] &&
@@ -47,7 +64,7 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
       );
     }
 
-    const shouldRenderHeader = title || description;
+    const shouldRenderHeader = showHandle || title || description;
 
     return (
       <SeedBottomSheet.Positioner style={{ "--layer-index": layerIndex } as React.CSSProperties}>
@@ -55,6 +72,7 @@ export const BottomSheetContent = forwardRef<HTMLDivElement, BottomSheetContentP
         <SeedBottomSheet.Content ref={ref} {...otherProps}>
           {shouldRenderHeader && (
             <SeedBottomSheet.Header>
+              {showHandle && <SeedBottomSheet.Handle />}
               {title && <SeedBottomSheet.Title>{title}</SeedBottomSheet.Title>}
               {description && (
                 <SeedBottomSheet.Description>{description}</SeedBottomSheet.Description>
