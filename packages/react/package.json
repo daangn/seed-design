@@ -60,12 +60,12 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
-    "@seed-design/css": "2.0.0",
+    "@seed-design/css": "1.1.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@seed-design/css": "2.0.0",
+    "@seed-design/css": "1.1.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^5.0.0",

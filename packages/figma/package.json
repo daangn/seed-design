@@ -39,7 +39,7 @@
     "sync-entities": "rm -rf src/entities/data/__generated__ && bun figma-extractor src/entities/data/__generated__"
   },
   "dependencies": {
-    "@seed-design/css": "2.0.0",
+    "@seed-design/css": "1.1.0",
     "change-case": "^5.4.4",
     "ts-pattern": "^5.7.0"
   },

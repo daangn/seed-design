@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- @seed-design/figma@2.0.0
+- @seed-design/figma@1.1.0
 
 ## 1.0.7
 
